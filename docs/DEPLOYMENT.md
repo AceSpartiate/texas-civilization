@@ -21,6 +21,34 @@ Windows marks every file unpacked from a downloaded zip as having come from the 
 
 A teacher can still do it first, and it is one click: right-click the zip → Properties → tick **Unblock** → OK, then unpack.
 
+## The setup program
+
+`TexasRevolutionSetup.exe` is the same binary as the launcher, carrying the game inside it
+as an embedded zip. Run from a folder with no classroom beside it, it is a setup program;
+run from inside an installation, it is the launcher. That is why the payload it carries is
+the **game and never the launcher**: the setup copies *itself* into place once it has
+unpacked, so .NET is downloaded once rather than twice. A download of 136 MB becomes an
+installation of about 267 MB, the difference being that the installed copy still carries its
+own payload — which is also what lets a teacher copy that one exe onto a memory stick and
+install it on the next machine.
+
+It installs per-user, under `%LOCALAPPDATA%\Programs\TexasRevolution`: no administrator, no
+Program Files, no UAC prompt, and nothing a managed machine is likely to refuse. It registers
+under `HKCU` so it appears in Settings ▸ Apps with a working uninstall entry. Installing over
+an existing copy replaces the files and never touches `data`, so a teacher keeps every class
+they have saved.
+
+**Not signed.** SmartScreen will show *"Windows protected your PC"* on first run, and a
+teacher has to choose **More info ▸ Run anyway**. That is the same class of obstacle as the
+Mark of the Web and it has the same cause: nobody has paid for a certificate. It should be
+expected rather than discovered in front of a room.
+
+```powershell
+.\TexasRevolutionSetup.exe --install "C:\path" --desktop   # silent, with shortcuts
+.\TexasRevolutionSetup.exe --extract "C:\path"             # unpack only, registers nothing
+.\TexasRevolution.exe --uninstall                          # asks about saved classes first
+```
+
 ## The launcher application
 
 `TexasRevolution.exe` is a small WinForms application in the package root. It does not

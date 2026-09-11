@@ -36,4 +36,16 @@
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2210.55" />
   </ItemGroup>
 
+  <!--
+    The game, carried inside the setup file.
+
+    It is built by scripts/package.ps1 just before this project is published, and it holds
+    the game only - never this launcher. Embedding the launcher inside the launcher would
+    put .NET in the download twice; instead the setup copies itself into place. Without the
+    payload this still builds, and the result is the plain launcher for a working copy.
+  -->
+  <ItemGroup Condition="Exists('payload.zip')">
+    <EmbeddedResource Include="payload.zip" LogicalName="TexasRevolution.Launcher.payload.zip" />
+  </ItemGroup>
+
 </Project>

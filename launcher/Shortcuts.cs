@@ -5,9 +5,8 @@ namespace TexasRevolution.Launcher;
 /// </summary>
 /// <remarks>
 /// A folder unpacked to the Desktop is lost the first time somebody tidies the Desktop. The
-/// Start menu is where Windows users look for an application, so an entry goes there without
-/// being asked; a desktop icon is a matter of taste and clutter, so that one is asked for
-/// once and never again.
+/// Start menu is where Windows users look for an application, so an entry goes there; a
+/// desktop icon is a matter of taste and clutter, so that one is asked for.
 ///
 /// Shortcuts are made through WScript.Shell by late binding rather than a COM reference,
 /// which keeps this to one file and no build-time dependency.
@@ -31,26 +30,41 @@ public static class Shortcuts
         catch { return false; }
     }
 
-    public static void RememberInstalled()
+    public static void RememberInstalled() => RememberInstalled(AppPaths.Root);
+
+    public static void RememberInstalled(string target)
     {
         try
         {
             Directory.CreateDirectory(Path.GetDirectoryName(StampFile)!);
-            File.WriteAllText(StampFile, AppPaths.Root);
+            File.WriteAllText(StampFile, target);
         }
         catch { /* a machine that will not let us remember simply asks again */ }
     }
 
-    public static bool Create(bool desktop)
+    public static bool Create(bool desktop) => CreateFor(AppPaths.Root, desktop);
+
+    public static bool CreateFor(string target, bool desktop)
     {
-        var target = Path.Combine(AppPaths.Root, "TexasRevolution.exe");
-        if (!File.Exists(target)) return false;
-        var made = Write(StartMenuPath, target);
-        if (desktop) made &= Write(DesktopPath, target);
+        var exe = Path.Combine(target, "TexasRevolution.exe");
+        if (!File.Exists(exe)) return false;
+        var made = Write(StartMenuPath, exe, target);
+        if (desktop) made &= Write(DesktopPath, exe, target);
+        // An installation that made its own shortcuts should not then ask the launcher to.
+        RememberInstalled(target);
         return made;
     }
 
-    private static bool Write(string linkPath, string target)
+    public static void Remove()
+    {
+        foreach (var link in new[] { StartMenuPath, DesktopPath })
+        {
+            try { if (File.Exists(link)) File.Delete(link); } catch { /* leave it */ }
+        }
+        try { if (File.Exists(StampFile)) File.Delete(StampFile); } catch { /* leave it */ }
+    }
+
+    private static bool Write(string linkPath, string exe, string workingDirectory)
     {
         try
         {
@@ -59,10 +73,10 @@ public static class Shortcuts
             dynamic? shell = Activator.CreateInstance(shellType);
             if (shell is null) return false;
             dynamic link = shell.CreateShortcut(linkPath);
-            link.TargetPath = target;
-            link.WorkingDirectory = AppPaths.Root;
+            link.TargetPath = exe;
+            link.WorkingDirectory = workingDirectory;
             link.Description = "Texas Revolution — a classroom simulation of Gonzales, 1835";
-            link.IconLocation = target + ",0";
+            link.IconLocation = exe + ",0";
             link.Save();
             return true;
         }

@@ -8,18 +8,19 @@ It runs entirely on one teacher's computer over the school's own network. There 
 
 ## For a teacher: install and run
 
-Download the latest package from [Releases](https://github.com/AceSpartiate/texas-civilization/releases). The self-contained one carries its own copy of Node and needs nothing installed; the smaller one uses a Node 22+ that is already there.
+Download **`TexasRevolutionSetup.exe`** from [Releases](https://github.com/AceSpartiate/texas-civilization/releases) and run it.
 
-1. **Unblock the zip before unpacking it.** Right-click it → Properties → tick **Unblock** → OK. Windows marks anything downloaded from the Internet, and that mark stops the launcher's own scripts from running. The launcher clears it for you, but doing it first is one click and saves the question.
-2. Unpack it somewhere ordinary — Desktop or Documents. Do not run it from inside the zip.
-3. Double-click **`TexasRevolution.exe`**. It offers to put a shortcut on the desktop the first time, and adds one to the Start menu either way.
-4. Press **Start the class**. The join address appears on the launcher; **Open class view** puts the teacher's view in its own window, and **Copy the join address** hands you the URL for the board.
-5. Students join at that address with the six-character class code. Five households must join before Start; fewer is possible with a deliberate second press, which is how one person can try it alone.
-6. Press **Stop the class** when you are done. Closing a browser window does **not** stop it.
+1. **Windows will warn you, and it is expected.** The setup is not code-signed — a certificate costs a few hundred dollars a year and this has none — so SmartScreen says *"Windows protected your PC"*. Click **More info**, then **Run anyway**. Nothing about that warning means the file is faulty; it means nobody has paid to vouch for it.
+2. The setup installs for **you only**, under `%LOCALAPPDATA%\Programs\TexasRevolution`. No administrator, no UAC prompt, nothing changed for anyone else who uses the computer. You can choose a different folder, and there is a checkbox for a desktop shortcut; a Start-menu entry is made either way.
+3. It opens by itself when it has finished. Press **Start the class**. The join address appears on the launcher; **Open class view** puts the teacher's view in its own window, and **Copy the join address** hands you the URL for the board.
+4. Students join at that address with the six-character class code. Five households must join before Start; fewer is possible with a deliberate second press, which is how one person can try it alone.
+5. Press **Stop the class** when you are done. Closing a browser window does **not** stop it.
 
-The launcher also tells you which release you have and checks GitHub for a newer one when it opens; updating downloads and installs it with a progress bar and leaves your saved classes alone. It refuses to update while a class is running.
+It appears in **Settings ▸ Apps** like anything else and can be removed there; removing it asks separately whether to keep your saved classes, and keeps them by default.
 
-`Launch.vbs` and `Stop.vbs` still work and do the same thing without the window; the smaller *NeedsNode* package has only those.
+The launcher shows which release you have and checks GitHub for a newer one when it opens; updating downloads and installs it with a progress bar, leaves your saved classes alone, and refuses to run while a class is going.
+
+**Other ways to get it.** `TexasRevolutionSetup.exe --extract <folder>` unpacks without installing anything — for a memory stick, or a machine that will not have software installed on it. `--install <folder> [--desktop]` installs without the window, for a school setting up a room of machines. The smaller **NeedsNode** zip is the game alone for a machine that already has Node 22+, and uses `Launch.vbs` as it always has.
 
 Class data — the save, the private Host URL, logs and archived classes — lives beside the application when that folder is writable, and otherwise under `%LOCALAPPDATA%\TexasRevolution\data`. See [deployment](docs/DEPLOYMENT.md) and [recovery](docs/RECOVERY.md).
 

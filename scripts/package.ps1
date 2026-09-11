@@ -1,14 +1,21 @@
-# Build the two teacher packages.
+# Build what a teacher downloads.
+#
+# Two things come out of this:
+#
+#   TexasRevolutionSetup.exe   the whole thing - a setup program that carries the game and
+#                              becomes the launcher once it has installed it
+#   ...-NeedsNode.zip          the game alone, for a machine that already has Node 22+ and
+#                              somebody who would rather unzip a folder
 #
 # What ships is the game and the things it needs to run: the server, the simulation, the
-# page, the art, the launcher, and the two documents a teacher or a curious colleague has
-# a real use for - how to play, and which parts of this are history and which are invented.
+# page, the art, the launcher scripts, and the three documents a teacher or a curious
+# colleague has a real use for - where to start, how to play, and which parts of this are
+# history and which are invented.
 #
 # What does not ship is the project's memory. The handoff, the architecture notes, the
 # claim-by-claim evidence records, the roadmap and the instructions written for the models
 # that work on this are all how the thing gets built; none of it helps a teacher open a
-# classroom, and several megabytes of it in a download is just noise in front of the door.
-# All of it stays in the repository, which is where it belongs.
+# classroom. All of it stays in the repository, which is where it belongs.
 [CmdletBinding()]
 param(
   [string]$Stamp = (Get-Date -Format 'yyyy-MM-dd'),
@@ -21,28 +28,14 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
-
-# The launcher is a Windows application, built here rather than tracked: sixty-odd
-# megabytes of .NET has no business in a git history. Self-contained on purpose - a school
-# machine may have no runtime and no right to install one - and that is what the size buys.
-$launcherExe = Join-Path $root 'launcher\bin\package\TexasRevolution.exe'
-if (-not $SkipLauncher) {
-  Push-Location (Join-Path $root 'launcher')
-  try {
-    & dotnet publish -c Release -r win-x64 --self-contained true `
-      -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true `
-      -o bin\package -v quiet | Out-Null
-    if ($LASTEXITCODE -ne 0) { throw 'The launcher did not build.' }
-  } finally { Pop-Location }
-  if (-not (Test-Path -LiteralPath $launcherExe)) { throw 'The launcher built but produced no exe.' }
-}
+$launcherDir = Join-Path $root 'launcher'
 $stage = Join-Path $env:TEMP "tr-package-$Stamp"
 if (Test-Path -LiteralPath $stage) { Remove-Item -LiteralPath $stage -Recurse -Force }
 New-Item -ItemType Directory -Force $stage | Out-Null
 $app = Join-Path $stage 'TexasRevolution'
 New-Item -ItemType Directory -Force $app | Out-Null
 
-# Runtime, in the order a class needs it.
+# ---------------------------------------------------------------- the game itself
 $ship = @(
   'server', 'sim', 'public', 'runtime',
   'package.json', 'Launch.vbs', 'Stop.vbs',
@@ -50,17 +43,13 @@ $ship = @(
 )
 foreach ($name in $ship) {
   $source = Join-Path $root $name
-  if (-not (Test-Path -LiteralPath $source)) {
-    if ($name -eq 'runtime') { continue }   # the NeedsNode build has none
-    throw "Missing $name"
-  }
+  if (-not (Test-Path -LiteralPath $source)) { throw "Missing $name" }
   Copy-Item -LiteralPath $source -Destination $app -Recurse -Force
 }
 # The launcher's own scripts, and only those: the browser proofs, the art pipeline and the
-# preflight tooling are development instruments.
+# preflight tooling are development instruments. appinfo.mjs is not optional - stop.ps1 and
+# the launcher both ask it where this machine put the class data rather than guessing.
 New-Item -ItemType Directory -Force (Join-Path $app 'scripts') | Out-Null
-# appinfo.mjs is not optional: stop.ps1 and the launcher both ask it where this machine
-# put the class data, rather than guessing and risking the wrong answer.
 foreach ($name in @('launch.ps1', 'stop.ps1', 'appinfo.mjs')) {
   Copy-Item -LiteralPath (Join-Path $root "scripts\$name") -Destination (Join-Path $app 'scripts') -Force
 }
@@ -72,22 +61,40 @@ foreach ($forbidden in @('data', 'node_modules', 'test-results', '.git', 'tests'
   if (Test-Path -LiteralPath (Join-Path $app $forbidden)) { throw "$forbidden must not ship" }
 }
 
-# Only the full build carries the launcher. The smaller one exists for a machine that
-# already has Node, and putting sixty megabytes of .NET into a forty megabyte package would
-# defeat its whole point; it keeps Launch.vbs, which is what it has always used.
-if (-not $SkipLauncher) { Copy-Item -LiteralPath $launcherExe -Destination $app -Force }
+# ---------------------------------------------------------------- the setup program
+# The payload is the game and never the launcher: the setup copies itself into place once
+# it has unpacked, so .NET is downloaded once rather than twice.
+$payload = Join-Path $launcherDir 'payload.zip'
+$setup = Join-Path $Destination 'TexasRevolutionSetup.exe'
+if (-not $SkipLauncher) {
+  if (Test-Path -LiteralPath $payload) { Remove-Item -LiteralPath $payload -Force }
+  Compress-Archive -Path $app -DestinationPath $payload -CompressionLevel Optimal
+  Push-Location $launcherDir
+  try {
+    & dotnet publish -c Release -r win-x64 --self-contained true `
+      -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true `
+      -o bin\package -v quiet | Out-Null
+    if ($LASTEXITCODE -ne 0) { throw 'The setup program did not build.' }
+  } finally {
+    Pop-Location
+    # Removed straight away: an ordinary `dotnet build` afterwards should produce the plain
+    # launcher for a working copy, not one carrying a stale game inside it.
+    if (Test-Path -LiteralPath $payload) { Remove-Item -LiteralPath $payload -Force }
+  }
+  $built = Join-Path $launcherDir 'bin\package\TexasRevolution.exe'
+  if (-not (Test-Path -LiteralPath $built)) { throw 'The setup program built but produced no exe.' }
+  Copy-Item -LiteralPath $built -Destination $setup -Force
+}
 
-$selfContained = Join-Path $Destination "TexasRevolution-Gonzales-$Stamp.zip"
-if (Test-Path -LiteralPath $selfContained) { Remove-Item -LiteralPath $selfContained -Force }
-Compress-Archive -Path $app -DestinationPath $selfContained -CompressionLevel Optimal
-
+# ---------------------------------------------------------------- the smaller package
+# No runtime and no launcher: for a machine that already has Node, using Launch.vbs as it
+# always has.
 Remove-Item -LiteralPath (Join-Path $app 'runtime') -Recurse -Force
-if (Test-Path -LiteralPath (Join-Path $app 'TexasRevolution.exe')) { Remove-Item -LiteralPath (Join-Path $app 'TexasRevolution.exe') -Force }
 $needsNode = Join-Path $Destination "TexasRevolution-Gonzales-$Stamp-NeedsNode.zip"
 if (Test-Path -LiteralPath $needsNode) { Remove-Item -LiteralPath $needsNode -Force }
 Compress-Archive -Path $app -DestinationPath $needsNode -CompressionLevel Optimal
 
 Remove-Item -LiteralPath $stage -Recurse -Force
-foreach ($zip in @($selfContained, $needsNode)) {
-  '{0}  {1} MB' -f $zip, [math]::Round((Get-Item -LiteralPath $zip).Length / 1MB, 1)
+foreach ($file in @($setup, $needsNode)) {
+  if (Test-Path -LiteralPath $file) { '{0}  {1} MB' -f $file, [math]::Round((Get-Item -LiteralPath $file).Length / 1MB, 1) }
 }
