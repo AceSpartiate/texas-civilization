@@ -383,9 +383,12 @@ function drawFormations(ctx, battle, project, named, tick, figure = 16) {
 export function visibleEntityIds(world, siteId = null) {
   return entitiesOf(world).filter(entity => !siteId || entity.location?.siteId === siteId).map(entity => entity.id);
 }
-// One map, one camera. The student never chooses a place to look at: the view follows
-// their own household, widening when someone travels. The regional and public picture
-// is the Host's projected screen, not a second panel here.
+// One map, one camera. The view follows the student's own household and widens when
+// somebody travels; the regional and public picture is the Host's projected screen, not a
+// second panel here. A student may also pan, zoom, or pick one of their own people to
+// watch, and Follow gives the family frame back. What none of that does is change what
+// they are allowed to see: the camera moves over a projection the server already decided,
+// so looking somewhere is never a way of learning something.
 const MIN_EXTENT = 3.4;
 // See `figure` in cameraFor: the symbolic size of a person, in miles of ground.
 const PERSON_MILES = 0.115;
@@ -403,6 +406,18 @@ const SIZE = {
 // null means the camera follows the family. Dragging or zooming takes manual control
 // until the player presses Follow, so the view is never yanked away mid-gesture.
 let manualView = null;
+/**
+ * One of your own people, kept in the middle of the view.
+ *
+ * The camera otherwise frames the whole household, which is right until the household is
+ * not in one place: once travel takes real time, somebody is in the timber and somebody
+ * is in town and the frame that holds both is a frame in which neither is legible. So a
+ * name in the roster is a place to look. It follows them as they walk, it is cleared by
+ * panning, zooming or pressing Follow, and it is never set by the server - what a student
+ * looks at is theirs, and nothing in the world moves the camera for them.
+ */
+let watchedId = null;
+const stopWatching = () => { watchedId = null; };
 // Zoom limits come from the map itself rather than fixed numbers, so they stay sensible
 // when the world's real extent changes. Zooming out reaches the whole known map; zooming
 // in reaches one homestead.
@@ -486,8 +501,17 @@ function autoView(world, canvas) {
 }
 function cameraFor(world, canvas) {
   const auto = autoView(world, canvas), limits = scaleLimits(world, canvas);
-  const following = !manualView;
-  const raw = following ? auto : manualView;
+  // Watching somebody beats both the automatic frame and a remembered pan, and it reads
+  // their drawn position rather than their last reported one, so the view walks with them
+  // instead of jumping once a tick.
+  const watched = watchedId ? entitiesOf(world).find(entity => entity.id === watchedId) : null;
+  const at = watched?.location
+    ? motionProjection.position(watched, performance.now(), reducedMotion.matches || world.status !== 'running')
+    : null;
+  const following = !manualView && !watched;
+  const raw = at
+    ? { cx: at.x, cy: at.y, scale: clampTo(Math.max(auto.scale, limits.max * .55), limits) }
+    : following ? auto : manualView;
   const scale = clampTo(raw.scale, limits);
   const { cx, cy } = clampCentre(raw.cx, raw.cy, scale, world, canvas);
   return {
@@ -560,6 +584,8 @@ function installMapNavigation() {
     const scale = anchor.spread > 12 && spread() > 12 ? clampTo(anchor.view.scale * spread() / anchor.spread, anchor.view.limits) : anchor.view.scale;
     const moved = centre();
     if (pressedAt) travelled = Math.max(travelled, Math.hypot(moved.x - pressedAt.x, moved.y - pressedAt.y));
+    // Taking hold of the map is taking the camera back.
+    stopWatching();
     manualView = {
       scale,
       cx: anchor.view.cx + (anchor.screen.x - moved.x) / scale,
@@ -587,6 +613,7 @@ function installMapNavigation() {
     const scale = clampTo(view.scale * (event.deltaY < 0 ? 1.15 : 1 / 1.15), view.limits);
     // Keep the point under the cursor still, so zooming feels like a map and not a slideshow.
     const point = localPoint(event);
+    stopWatching();
     manualView = {
       scale,
       cx: view.cx + (point.x - canvas.width / 2) * (1 / view.scale - 1 / scale),
@@ -598,7 +625,7 @@ function installMapNavigation() {
 function applyMapView(action) {
   const snapshot = window.__snapshot; if (!snapshot) return;
   const world = snapshot.world, canvas = $('#world-map');
-  if (action === 'follow') { manualView = null; drawWorld(world); return; }
+  if (action === 'follow') { manualView = null; stopWatching(); drawWorld(world); return; }
   const view = cameraFor(world, canvas);
   if (action === 'in' || action === 'out') {
     manualView = { cx: view.cx, cy: view.cy, scale: clampTo(view.scale * (action === 'in' ? 1.4 : 1 / 1.4), view.limits) };
@@ -1000,7 +1027,13 @@ export function drawWorld(world) {
     : '';
   $('#world-description').textContent = `${settled}${met} ${journey}${meeting}${battleText}`.trim() || 'The world will appear when the class begins.';
   const follow = $('#map-nav [data-view=follow]');
-  if (follow) { follow.dataset.active = String(camera.following); follow.textContent = camera.following ? 'Following' : 'Follow'; }
+  if (follow) {
+    follow.dataset.active = String(camera.following);
+    // Naming who is being watched, because a camera that has stopped following the family
+    // should say why rather than leaving a student to wonder where everyone went.
+    const watched = watchedId ? entities.find(entity => entity.id === watchedId) : null;
+    follow.textContent = camera.following ? 'Following' : watched ? `Watching ${watched.name}` : 'Follow';
+  }
   $('#map-title').textContent = camera.title;
   $('#map-framing').textContent = 'Prototype · fictional families';
   canvas.setAttribute('aria-label', $('#world-description').textContent);
@@ -1676,7 +1709,12 @@ document.addEventListener('click', async event => {
   const pick = event.target.closest('[data-select]');
   if (pick) {
     selectedId = pick.dataset.select; selectionDismissed = false;
-    if (window.__snapshot) { drawWorld(window.__snapshot.world); renderSelection(window.__snapshot.world); renderTutorial(window.__snapshot.world); }
+    // Chosen from the roster rather than off the map, so go and look at them. Somebody
+    // picked off the map is already on screen and moving the camera would only be rude.
+    const world = window.__snapshot?.world;
+    const mine = world && entitiesOf(world).some(entity => entity.id === selectedId);
+    if (mine) { watchedId = selectedId; manualView = null; }
+    if (world) { drawWorld(world); renderSelection(world); renderTutorial(world); }
     return;
   }
   if (event.target.closest('#selection-close')) {
