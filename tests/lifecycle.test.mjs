@@ -147,10 +147,79 @@ test('a live class cannot be discarded, and New Class archives it, clears studen
     assert.equal(host.jar.has(`tr_host_${firstSession}`), false);
     const early = await command(host, 'start');
     assert.equal(early.status, 400);
-    assert.match(early.body.error, /five households/);
+    assert.match(early.body.error, /built for five or more/);
+    assert.equal(app.state.world.status, 'lobby', 'and an empty class is still not running');
 
     const rejoined = client(port);
     assert.equal((await rejoined.call('/api/join', { name: 'Family 1', code: state.sessionCode })).status, 200);
     assert.equal(Object.keys(app.state.clients).length, 1);
   } finally { await app.close(); rmSync(dir, { recursive: true, force: true }); }
+});
+
+test('a teacher can begin with fewer than five, but only on purpose', () => {
+  // Not a test of the HTTP path - `tests/network.test.mjs` owns that - but of the rule
+  // itself, which is that five is a guard with a way through rather than a wall. Without
+  // one, this cannot be tried out on a single machine at all.
+  const dir = mkdtempSync(join(tmpdir(), 'texas-solo-'));
+  return (async () => {
+    const app = createClassroom({ seed: 'solo', playerCount: 5, tickMs: 10000, savePath: join(dir, 'class.json') });
+    try {
+      const port = await app.listen(0, '127.0.0.1');
+      const host = client(port);
+      await host.call('/api/host', { key: app.state.hostKey });
+      const student = client(port);
+      assert.equal((await student.call('/api/join', { name: 'Only family', code: app.state.sessionCode })).status, 200);
+
+      const refused = await command(host, 'start');
+      assert.equal(refused.status, 400);
+      assert.match(refused.body.error, /Only 1 household has joined/, 'and it says how many, rather than a rule number');
+      assert.match(refused.body.error, /Press Start again/, 'and how to go ahead');
+      assert.equal(app.state.world.status, 'lobby', 'one press does not start it');
+
+      const anyway = await command(host, 'start', { anyway: true });
+      assert.equal(anyway.status, 200);
+      assert.equal(app.state.world.status, 'running', 'a deliberate second press does');
+    } finally { await app.close(); rmSync(dir, { recursive: true, force: true }); }
+  })();
+});
+
+test('a family can be set to work before the class begins, and none of it happens early', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'texas-lobby-'));
+  return (async () => {
+    // Ticking fast on purpose: a slow clock would let this test pass whether or not the
+    // lobby is frozen, which is not evidence of anything. At twenty milliseconds a tick,
+    // a lobby that ran would have moved the world several times over by the delay below.
+    const app = createClassroom({ seed: 'lobby', playerCount: 5, tickMs: 20, savePath: join(dir, 'class.json') });
+    try {
+      const port = await app.listen(0, '127.0.0.1');
+      const student = client(port);
+      assert.equal((await student.call('/api/join', { name: 'Early bird', code: app.state.sessionCode })).status, 200);
+      assert.equal(app.state.world.status, 'lobby');
+      const thomas = 'hh-1-thomas';
+
+      const assigned = await command(student, 'chore', { entityId: thomas, chore: 'plant-field' });
+      assert.equal(assigned.status, 200, assigned.body.error);
+      assert.ok(app.state.world.entities[thomas].chore, 'the job is set out');
+
+      // The whole reason the lobby used to be shut: nobody may get ahead by joining early.
+      const before = structuredClone(app.state.world.entities[thomas]);
+      const minute = app.state.world.minute;
+      await delay(200);
+      assert.equal(app.state.world.minute, minute, 'no time passes in a lobby');
+      assert.deepEqual(app.state.world.entities[thomas], before, 'and the work does not advance by a step');
+      assert.equal(app.state.world.households['hh-1'].resources.seed, 2, 'nor is anything spent yet');
+
+      // What reaches another household stays shut: they may not have joined at all.
+      const offered = await command(student, 'offer', { entityId: thomas, toEntityId: 'hh-2-thomas', give: { food: 1 }, ask: { seed: 1 } });
+      assert.equal(offered.status, 400);
+      assert.match(offered.body.error, /neighbours are still arriving/);
+
+      // And it all starts the moment the teacher does.
+      const host = client(port);
+      await host.call('/api/host', { key: app.state.hostKey });
+      assert.equal((await command(host, 'start', { anyway: true })).status, 200);
+      await delay(120);
+      assert.ok(app.state.world.minute > minute, 'and the moment the teacher begins, the clock does too');
+    } finally { await app.close(); rmSync(dir, { recursive: true, force: true }); }
+  })();
 });

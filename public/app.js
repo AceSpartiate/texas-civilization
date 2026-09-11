@@ -38,7 +38,7 @@ function element(tag, content, className) { const el = document.createElement(ta
 // Teacher actions that discard a class or close the server ask twice, in the page
 // itself, so a browser dialog never blocks the projected Host.
 const confirmLabel = { 'new-class': 'Confirm new class', 'stop-server': 'Confirm stop' };
-let confirming = null, confirmTimer = null, authRecheck = false;
+let confirming = null, confirmTimer = null, authRecheck = false, startAnyway = false;
 // The map is public geography that never changes during a class, so it is fetched once
 // and re-attached to each snapshot. A new class rotates the session id and invalidates it.
 let mapCache = null, mapCacheId = null, mapPending = null;
@@ -574,7 +574,7 @@ function installMapNavigation() {
         const hit = entityAt(localPoint(event));
         selectedId = hit;
         selectionDismissed = !hit;
-        if (window.__snapshot) { drawWorld(window.__snapshot.world); renderSelection(window.__snapshot.world); }
+        if (window.__snapshot) { drawWorld(window.__snapshot.world); renderSelection(window.__snapshot.world); renderTutorial(window.__snapshot.world); }
       }
       active.delete(event.pointerId);
       if (!active.size) pressedAt = null;
@@ -1240,6 +1240,10 @@ function renderSelection(world) {
     : chosen.observed ? `${chosen.name} is not one of your family.`
     : `${chosen.name} follows the household's work.`;
   const running = world.status === 'running';
+  // Work can be set out before the teacher begins. Nothing advances until then - the
+  // server does not tick a lobby - so this is a family getting ready rather than a family
+  // getting ahead, and every plan in the class starts on the same minute.
+  const settable = running || world.status === 'lobby';
   for (const button of $('#selection-actions').querySelectorAll('button')) {
     const action = button.dataset.action;
     if (action === 'help' || action === 'stay') {
@@ -1261,9 +1265,11 @@ function renderSelection(world) {
     }
     const destination = button.dataset.destination === 'home' ? homeOf(world) : button.dataset.destination;
     button.hidden = !commands;
-    button.disabled = !running || Boolean(chosen.travel) || (action === 'travel' && chosen.location?.siteId === destination);
+    button.disabled = !settable || Boolean(chosen.travel) || (action === 'travel' && chosen.location?.siteId === destination);
   }
-  renderWork(world, chosen, running);
+  renderWork(world, chosen, settable);
+  // Trading stays shut until the class is running, because the neighbour it is addressed
+  // to may not have joined yet. An offer to an empty chair is not a trade.
   renderTrade(world, chosen, running);
   positionSelection(world, chosen);
 }
@@ -1330,6 +1336,107 @@ function renderKnowledge(world) {
     }));
   }
 }
+/**
+ * The first five minutes, before the teacher has begun.
+ *
+ * A student who joins early used to be able to do nothing whatever, which taught them that
+ * the game is something that happens to them. Now the lobby is where a family gets ready,
+ * and this walks a student through doing it: pick somebody, give them a job, understand
+ * what the job costs. Every step is a real assignment on their own real family, so a
+ * student who finishes the walk-through has not practised - they have started.
+ *
+ * It cannot show a crop growing, because no clock runs until the teacher begins, and it
+ * says so rather than pretending. Skipping is one press and is never asked about again.
+ */
+const TUTORIAL = [
+  {
+    id: 'family',
+    // Somebody is always selected - the panel opens on the principal - so a step that
+    // waited for a selection was a step that had already finished before it was read.
+    // It says what is true instead: this is the panel, and it follows whoever you click.
+    title: 'This is your family',
+    text: 'Four people live here and all four can work. The panel beside them is open on Thomas, who the big decisions belong to later on; click any of the others and it follows them. The ox and the wagon are yours too.',
+    next: 'Go on',
+  },
+  {
+    id: 'work',
+    title: 'Give them something to do',
+    text: 'The panel beside them lists the work they can do today. Plant the field turns the rows and puts in seed, and it is where a year on this land starts. Choose a job for them.',
+    doing: 'Waiting for somebody to be set to work.',
+    done: world => entitiesOf(world).some(person => person.chore),
+  },
+  {
+    id: 'cost',
+    title: 'Everything costs something',
+    text: 'Planting spends two of your seed and wears the hoe a little. A worn hoe can be mended; seed that has run out has to be fetched from Gonzales, and that is a long walk from some homesteads. Nothing here is free, and nothing is hidden from you.',
+    next: 'I see',
+  },
+  {
+    id: 'year',
+    title: 'What the land does',
+    text: 'A planted field ripens on its own, and then somebody has to bring the crop in before it is food. Food feeds the family; seed plants the next field. Hunting in the timber brings food without spending seed, and takes most of a day.',
+    next: 'I see',
+  },
+  {
+    id: 'start',
+    title: 'Nothing moves until your teacher begins',
+    text: 'No time is passing yet. Everything you have set out here starts the moment your teacher presses Start — and so does everybody else\u2019s, at the same minute. You can keep changing your mind until then.',
+    next: 'Ready',
+  },
+];
+// Remembered per family and per browser, so a reload does not ask again and a student who
+// said no is not asked twice. It is a convenience and nothing depends on it: a browser that
+// refuses storage simply gets the offer again, which is a much smaller harm than nagging.
+const tutorialKey = world => `tr_tutorial_${world?.householdId || 'none'}`;
+function tutorialSeen(world) {
+  try { return localStorage.getItem(tutorialKey(world)) === 'done'; } catch { return false; }
+}
+function rememberTutorial(world) {
+  try { localStorage.setItem(tutorialKey(world), 'done'); } catch { /* a private window is allowed to forget */ }
+}
+let tutorialStep = null;
+function renderTutorial(world) {
+  const panel = $('#tutorial');
+  // A rider standing in the yard outranks a lesson in how to hold a hoe, and the two use
+  // the same corner of the screen.
+  const busy = world.role === 'host' || !world.householdId || world.encounter?.status === 'open';
+  if (busy || tutorialStep === 'gone' || (tutorialStep === null && tutorialSeen(world))) { panel.hidden = true; return; }
+  panel.hidden = false;
+  if (tutorialStep === null) {
+    $('#tutorial-step').textContent = world.status === 'lobby' ? 'BEFORE THE CLASS BEGINS' : 'ANY TIME';
+    $('#tutorial-title').textContent = 'New to this?';
+    $('#tutorial-text').textContent = 'A short walk-through sets your family up for the day. It takes about a minute, and what you do in it is real: your family will be at work when the class starts.';
+    $('#tutorial-doing').hidden = true;
+    $('#tutorial-next').textContent = 'Show me how';
+    $('#tutorial-skip').textContent = 'No thanks, let me get on with it';
+    return;
+  }
+  const step = TUTORIAL[tutorialStep];
+  if (!step) { panel.hidden = true; return; }
+  const satisfied = !step.done || step.done(world);
+  $('#tutorial-step').textContent = `STEP ${tutorialStep + 1} OF ${TUTORIAL.length}`;
+  $('#tutorial-title').textContent = step.title;
+  $('#tutorial-text').textContent = step.text;
+  // What the step is waiting for, in the step's own words, and only while it is waiting.
+  $('#tutorial-doing').hidden = satisfied || !step.doing;
+  $('#tutorial-doing').textContent = step.doing || '';
+  $('#tutorial-next').textContent = tutorialStep === TUTORIAL.length - 1 ? 'Finish' : step.next || 'Next';
+  $('#tutorial-next').disabled = !satisfied;
+  $('#tutorial-skip').textContent = 'Skip the rest';
+}
+$('#tutorial-next')?.addEventListener('click', () => {
+  tutorialStep = tutorialStep === null ? 0 : tutorialStep + 1;
+  if (tutorialStep >= TUTORIAL.length) {
+    tutorialStep = 'gone';
+    if (window.__snapshot) rememberTutorial(window.__snapshot.world);
+  }
+  if (window.__snapshot) renderTutorial(window.__snapshot.world);
+});
+$('#tutorial-skip')?.addEventListener('click', () => {
+  tutorialStep = 'gone';
+  if (window.__snapshot) { rememberTutorial(window.__snapshot.world); renderTutorial(window.__snapshot.world); }
+});
+
 // The meeting. Opened by hand and never by the renderer: taking the screen away from a
 // student who is in the middle of giving somebody an order is the one thing
 // LIVING_INFORMATION.md's attention gate forbids outright. So the world puts up an
@@ -1509,7 +1616,7 @@ function render(snapshot) {
   }
   renderJoinLinks(snapshot);
   renderSlice(world);
-  drawWorld(world); renderHousehold(world); renderKnowledge(world); renderEncounter(world);
+  drawWorld(world); renderHousehold(world); renderKnowledge(world); renderEncounter(world); renderTutorial(world);
 }
 function showJoin(message) {
   events?.close(); events = null;
@@ -1569,7 +1676,7 @@ document.addEventListener('click', async event => {
   const pick = event.target.closest('[data-select]');
   if (pick) {
     selectedId = pick.dataset.select; selectionDismissed = false;
-    if (window.__snapshot) { drawWorld(window.__snapshot.world); renderSelection(window.__snapshot.world); }
+    if (window.__snapshot) { drawWorld(window.__snapshot.world); renderSelection(window.__snapshot.world); renderTutorial(window.__snapshot.world); }
     return;
   }
   if (event.target.closest('#selection-close')) {
@@ -1580,6 +1687,7 @@ document.addEventListener('click', async event => {
   const button = event.target.closest('[data-action]'); if (!button || button.disabled) return;
   say('');
   const action = button.dataset.action;
+  if (action !== 'start') startAnyway = false;
   if (confirmLabel[action] && button.dataset.confirming !== 'true') {
     resetConfirm(confirming);
     button.dataset.label = button.dataset.label || button.textContent;
@@ -1592,6 +1700,10 @@ document.addEventListener('click', async event => {
   resetConfirm(button);
   const world = window.__snapshot?.world;
   const input = { id: crypto.randomUUID?.() || `cmd-${Date.now()}-${Math.random().toString(36).slice(2)}`, action };
+  // The five-household rule is a guard, not a wall: the server says so once and means it,
+  // and a second press goes ahead. That is what makes a class of one testable on one
+  // machine without a developer setting nobody in a classroom would ever find.
+  if (action === 'start' && startAnyway) input.anyway = true;
   if (world?.role !== 'host') {
     // A trade names its own actor: the person making the offer is one of mine, while the
     // person selected on the map is the neighbour it is being made to.
@@ -1611,7 +1723,10 @@ document.addEventListener('click', async event => {
     $('#host-notice').hidden = !(result.archived || result.stopping);
     if (result.archived) $('#host-notice').textContent = `New class ready. The previous class was archived as ${result.archived}. Share the new class code; students join again.`;
     if (result.stopping) $('#host-notice').textContent = 'Stopping the classroom server. The class was saved and paused.';
-  } catch (error) { say(error.message); }
+  } catch (error) {
+    if (action === 'start' && /Press Start again/.test(error.message)) startAnyway = true;
+    say(error.message);
+  }
 });
 $('#news-toggle')?.addEventListener('click', () => {
   const list = $('#news-list'), open = list.hidden;

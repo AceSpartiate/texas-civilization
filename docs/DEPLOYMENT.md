@@ -13,6 +13,14 @@ Maturity: **PROTOTYPE**. This document describes the supported deployment direct
 
 The foundation brief allows development to continue without district access. It does not make same-computer testing equivalent to a physical LAN trial. Keep the two remaining deployment checks visible in every readiness decision. Record a FAIL with the observed restriction when a trial fails; do not relabel an unavailable network as a pass.
 
+## A package that came from the Internet
+
+Windows marks every file unpacked from a downloaded zip as having come from the Internet, and PowerShell's `RemoteSigned` policy then refuses to load an unsigned script carrying that mark. The launcher used to fail at exactly that point, before it could write an error file, so the teacher saw a failure with no explanation — the failure mode that looks most like a blocked machine and is not one.
+
+`Launch.vbs` now clears the mark on its own folder before it starts anything, which is the same thing as ticking **Unblock** on the zip by hand. `Bypass` is scoped to that one inline command; the launcher itself still runs under `RemoteSigned`, and an enforced school policy still overrides both. Reproduced with a real `Zone.Identifier` stream before the change (blocked) and after it (loads).
+
+A teacher can still do it first, and it is one click: right-click the zip → Properties → tick **Unblock** → OK, then unpack.
+
 ## Launch and run
 
 The development entry point is `npm start`, which runs `node server/main.mjs` from the repository root. The teacher-facing prototype entry point is `Launch.vbs`, which delegates to `scripts/launch.ps1` without exposing a terminal workflow. The launcher is designed to use `runtime/node.exe` when supplied, otherwise an installed Node runtime.

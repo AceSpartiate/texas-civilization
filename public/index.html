@@ -101,6 +101,21 @@
       <div id="selection-trade"></div>
     </div>
 
+    <!-- The first five minutes, before the teacher has begun. Never modal and never in
+         the way: a student who would rather just start farming says so once and it goes. -->
+    <section id="tutorial" hidden aria-labelledby="tutorial-title">
+      <header>
+        <span class="eyebrow" id="tutorial-step"></span>
+        <h2 id="tutorial-title"></h2>
+      </header>
+      <p id="tutorial-text"></p>
+      <p id="tutorial-doing" hidden></p>
+      <div id="tutorial-buttons">
+        <button id="tutorial-next"></button>
+        <button id="tutorial-skip" class="tutorial-quiet"></button>
+      </div>
+    </section>
+
     <!-- A rider who has stopped is the arrival. The invitation names the person who met
          them and says nothing whatever about the news: opening it is how you find out. -->
     <div id="rider" hidden>

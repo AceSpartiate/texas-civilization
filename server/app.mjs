@@ -293,7 +293,14 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         commit(s => {
           if (identity.role === 'host') {
             if (input.action === 'start' && s.world.status === 'lobby') {
-              if (Object.keys(s.clients).length < 5) throw new Error('At least five households must join before Start.');
+              // Five is the class this scenario is written for, and beginning with fewer is
+              // usually a mistake - a teacher who has not noticed that half the room never
+              // joined. It is not a technical requirement: the world always holds
+              // `playerCount` households and the ones nobody joined simply take no orders.
+              // So this is a guard with a way through rather than a wall, which is also what
+              // makes it possible to try the thing out on one machine.
+              const joined = Object.keys(s.clients).length;
+              if (joined < 5 && !input.anyway) throw new Error(`Only ${joined} household${joined === 1 ? ' has' : 's have'} joined, and this class is built for five or more. Press Start again to begin anyway.`);
               s.world.status = 'running';
             } else if (input.action === 'pause' && s.world.status === 'running') s.world.status = 'paused';
             else if (input.action === 'resume' && s.world.status === 'paused') s.world.status = runtimeFault?.resumeStatus || 'running';
@@ -315,7 +322,10 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
               stopping = true;
             } else throw new Error('Host action unavailable');
           } else {
-            if (s.world.status !== 'running') throw new Error('Wait until the class is running.');
+            // The lobby is not dead time. A family may set its own people to work while
+            // the class fills up, and none of it moves until the teacher starts; which
+            // actions that means is `LOBBY_ACTIONS`, beside the actions themselves.
+            if (!['running', 'lobby'].includes(s.world.status)) throw new Error('Wait until the class is running.');
             applyAction(s.world, identity.householdId, input);
           }
           const ledger = identity.role === 'host' ? s.hostCommands : s.clients[identity.credentialHash].commands;

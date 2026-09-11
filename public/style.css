@@ -212,3 +212,17 @@ button:hover:enabled{background:#60673e}
 }
 .news-transcript{display:block;margin-top:6px;background:#e7e0c7;color:#463d29;border-color:#c0ae84;font-size:12px;min-height:0;padding:6px 9px}
 .news-transcript:hover:enabled{background:#ddd4b6}
+
+/* The walk-through, before the teacher has begun. Same corner as the rider prompt, which
+   cannot be on screen at the same time: a rider outranks a lesson in how to hold a hoe. */
+#tutorial{position:absolute;left:12px;bottom:64px;z-index:8;width:min(23rem,calc(100% - 24px));background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259;border-radius:8px;box-shadow:0 5px 0 #6b583638,0 18px 45px #32291950;padding:12px 14px 13px;color:#3b3427}
+#tutorial h2{font-size:19px;margin:2px 0 0;color:#4b3e28}
+#tutorial p{margin:7px 0 0;font-size:14px;line-height:1.5}
+#tutorial-step{color:#7a6a49}
+#tutorial-doing{color:#6c6046;font-style:italic}
+#tutorial-buttons{display:flex;gap:10px;align-items:center;margin-top:12px}
+#tutorial-next{background:#4b3e28;border-color:#6b5836;min-height:38px;padding:7px 14px;font-size:14px}
+#tutorial-next:hover:enabled{background:#5d4d33}
+.tutorial-quiet{background:none;border:none;color:#6c6046;text-decoration:underline;min-height:0;padding:4px 2px;font-size:13px}
+.tutorial-quiet:hover{background:none;color:#3b3221}
+@media (max-width:760px){#tutorial{left:8px;right:8px;bottom:8px;width:auto}}

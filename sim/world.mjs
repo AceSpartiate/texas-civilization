@@ -241,9 +241,26 @@ export function advanceRelays(world) {
     delete carrier.report;
   }
 }
+/**
+ * What a family may do before the teacher has begun.
+ *
+ * The lobby used to refuse everything, and the reason was a real one: if work actually got
+ * done while the class filled up, a student who joined at two minutes past would have
+ * banked ten minutes of farming over one who arrived at twelve past, and this world is
+ * meant to differ by where a family lives and what it chose, never by who clicked first.
+ *
+ * But that argues for freezing the clock, not the family. `stepWorld` does not run in the
+ * lobby, so nothing assigned here advances by a single minute; it simply starts the
+ * instant the teacher does, for everybody at once. What stays shut is anything that
+ * reaches another household - an offer made to a family that has not joined yet is an
+ * offer made to an empty chair - and the historical choices, which do not exist until the
+ * news that prompts them has arrived.
+ */
+export const LOBBY_ACTIONS = new Set(['chore', 'stop-chore', 'work', 'rest', 'travel']);
 export function applyAction(world, householdId, input) {
   const entity = world.entities[input.entityId];
   const household = world.households[householdId];
+  if (world.status === 'lobby' && !LOBBY_ACTIONS.has(input.action)) throw new Error('Your neighbours are still arriving. You can set your own family to work now; anything between families waits for the class to begin.');
   if (!entity || entity.householdId !== householdId || entity.kind !== 'person') throw new Error('Choose one of your family.');
   if (entity.health.condition === 'dead' || entity.health.condition === 'captured') throw new Error('This person cannot act.');
   // Farm work is open to the whole family; the historical choice is the principal's.

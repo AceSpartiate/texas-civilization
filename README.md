@@ -1,35 +1,46 @@
 # Texas Revolution family simulation
 
-A local, browser-based multiplayer **foundation prototype**. Guide a fictional household through a short Gonzales sequence; keep its people, knowledge, property and memories in one persistent world.
+A local, browser-based classroom simulation for a middle-school history lesson. Each student guides a fictional household living near Gonzales in the autumn of 1835, and learns what their family would have learned — when somebody carrying it actually reached them.
 
-**Start here for development:** [VISION.md](VISION.md) → [HANDOFF.md](HANDOFF.md) → [TECH.md](TECH.md) → [GAME.md](GAME.md). Historical facts and fiction are separated in [HISTORY.md](HISTORY.md).
+It runs entirely on one teacher's computer over the school's own network. There is no account, no cloud service, no Internet dependency and no AI service anywhere in the classroom path.
 
-## Run
+**This is a prototype of one afternoon, not a finished course.** It has never been run with a real class on thirty district devices. Read [docs/GATES.md](docs/GATES.md) before treating it as classroom ready.
 
-Requires Node 22 or later. No runtime dependencies or build step.
+## For a teacher: install and run
+
+Download the latest package from [Releases](https://github.com/AceSpartiate/texas-civilization/releases). The self-contained one carries its own copy of Node and needs nothing installed; the smaller one uses a Node 22+ that is already there.
+
+1. **Unblock the zip before unpacking it.** Right-click it → Properties → tick **Unblock** → OK. Windows marks anything downloaded from the Internet, and that mark stops the launcher's own scripts from running. The launcher now clears it for you, but doing it first is one click and saves the question.
+2. Unpack it somewhere ordinary — Desktop or Documents. Do not run it from inside the zip.
+3. Double-click **`Launch.vbs`**. The Host page opens by itself.
+4. Students join at the LAN address the Host page shows, using the six-character class code. Five households must join before Start; fewer is possible with a deliberate second press, which is how one person can try it alone.
+5. Stop with **Stop Server** on the Host page, or **`Stop.vbs`**. Closing the browser does **not** stop it.
+
+Class data — the save, the private Host URL, logs and archived classes — lives beside the application when that folder is writable, and otherwise under `%LOCALAPPDATA%\TexasRevolution\data`. See [deployment](docs/DEPLOYMENT.md) and [recovery](docs/RECOVERY.md).
+
+A student who stays in the same browser is reconnected automatically. One who does not — a cleared browser, a borrowed laptop, a replaced device — types their **family key**, eight characters shown in their own family journal, and gets their household back on any device, even mid-class. If they have lost that too, the teacher can look it up from the Host page.
+
+## What a student does
+
+Before the teacher begins, the lobby is not dead time: a family can be set to work, and an optional walk-through explains what the work costs. Nothing advances until Start, so nobody gets ahead by joining early — every family's plan begins on the same minute.
+
+Then a household farms, hunts, mends its tools, trades seed and food with the families standing beside it, and deals with the residents of Gonzales. Nobody sees another household's stores, and nobody who is not theirs takes an order.
+
+News reaches them the way news reached people: a rider starts where the event happened, rides the real road, and says it out loud to whichever member of the family they came alongside. On a long road the word changes hands, so a family near the town meets somebody who saw it and a family at the edge of the county meets the fourth person to carry it — older, second-hand, and recorded in their journal as a rumor.
+
+The launched slice lasts about **4 minutes 44 seconds** of compressed time, plus pauses, and stops after Gonzales with the household's story preserved. That is not the intended 45-minute lesson.
+
+## For a developer
+
+Node 22 or later. No dependencies, no build step.
 
 ```powershell
-cd 'C:\Users\zachw\Texas Civilization'
 npm.cmd start
-```
-
-Open the private Host URL printed at startup. Share the student LAN URL and class code displayed inside the Host page. At least five independent student browser profiles/devices must join before Start.
-
-A student who stays in the same browser is reconnected automatically. One who does not — a cleared browser, a borrowed laptop, a replaced device — types their **family key**, eight letters and numbers shown in their own family journal, and gets their household back on any device; it works after the class has started. If they have lost the key too, the teacher can look theirs up from the Host page, one family at a time. See [recovery](docs/RECOVERY.md).
-
-Windows launcher prototype: double-click **Launch.vbs** to start, **Stop.vbs** to stop. The launcher prefers the bundled `runtime/node.exe`, refusing it if it does not match its recorded checksum, and falls back to installed Node. Both VBS entry points have been run through the real double-click path on the development machine; district application-control policy and a signed installer are still outstanding. Class data lives beside the application when that folder is writable, otherwise under `%LOCALAPPDATA%\TexasRevolution\data`. Teacher controls include a graceful **Stop Server** and a **New Class** that archives the finished class. Details: [deployment](docs/DEPLOYMENT.md), [recovery](docs/RECOVERY.md).
-
-Students guide a whole family: everyone can be sent to plant, harvest, hunt or mend, and families standing in the same place can **trade seed and food with each other**. Gonzales has residents to deal with. Nobody sees another household's stores, and nobody who is not theirs takes an order.
-
-The launched slice lasts about **4 minutes 44 seconds**, plus pauses. This is not the complete 45-minute lesson. It stops after Gonzales while preserving the household story. Existing saves resume, and **New Class** on the Host page archives a finished class and opens a fresh lobby.
-
-## Verify
-
-```powershell
 npm.cmd test
-npm.cmd run simulate -- repeatable-seed 15 mixed
 ```
 
-That is **80 automated tests**, requiring no external packages. Browser proofs require separately installed Playwright and Chromium/Chrome; exact setup and commands are in [HANDOFF.md](HANDOFF.md). Tests create isolated temporary classes and leave the normal classroom save alone.
+**141 automated tests**, needing no external packages. Browser proofs need separately installed Playwright and Chromium or Chrome; the exact commands are in [HANDOFF.md](HANDOFF.md). Every test makes an isolated temporary class and leaves the ordinary classroom save alone.
 
-The classroom server has no Internet or AI-service dependency. One independent physical device has now joined over a LAN; five devices, thirty devices and district Wi-Fi remain **NOT YET TESTED**. Read [gate evidence](docs/GATES.md) before treating this as classroom ready.
+Read in this order: [VISION.md](VISION.md) for what this is for, [HANDOFF.md](HANDOFF.md) for the actual state and what is proved, [TECH.md](TECH.md) and [GAME.md](GAME.md) for the architecture and the play, and [HISTORY.md](HISTORY.md) — always — before changing anything historical. Documented fact and invented gameplay are separated there claim by claim, and dated evidence for each piece of work lives in [docs/evidence](docs/evidence).
+
+Those development documents stay in this repository and are deliberately left out of the teacher packages, which carry the game, this file, [GAME.md](GAME.md) and [HISTORY.md](HISTORY.md) and nothing else.
