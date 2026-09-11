@@ -1,0 +1,12 @@
+node_modules/
+data/
+runtime/
+test-results/
+*.log
+
+# Scratch probes left by development sessions.
+*.tmp.mjs
+
+# Preflight records describe this particular machine - hostname, adapters, firewall
+# state, local paths. They are real evidence and they stay on the machine that made them.
+docs/evidence/preflight-*.json

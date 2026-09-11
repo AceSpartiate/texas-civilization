@@ -1,0 +1,126 @@
+{
+  "record": "upriver-march",
+  "date": "2026-09-10",
+  "ownerDirection": "Walk the helping household upriver to the camp, so a family member is actually where the fighting is rather than watching it from eight miles off in town.",
+  "claim": "FIC-GONZ-011",
+  "shape": {
+    "summary": "A second call, put only to a family whose person is standing in Gonzales when the force crosses the river on the night of October 1. Going upriver is a real journey over the ford to Ezekiel Williams's land; what it costs is stated on the control before the choice and resolves from that person's own condition.",
+    "whyASecondCall": "Carrying food to a gathering and walking to where the shooting is are two different acts. The owner clarified on 2026-09-10 that VISION.md section 11 forbids gamey coercion - patriotism meters, shame, repeated coercive requests - and NOT compulsion as such: compulsion is permitted where it is grounded in historical fact. Nothing at Gonzales in this slice is compelled, so the second act is asked about separately. That clarification is recorded in HANDOFF.md and is the governing reading of section 11 for later arcs.",
+    "timeline": "TIMELINE.crossing = 4200 simulation minutes, late on October 1 (HIST-GONZ-003 has the crossing during the night of the 1st). The call shuts at TIMELINE.approach = 4680, dawn on the 2nd. Adding the milestone adds a barrier, so time compression stops there."
+  },
+  "risk": {
+    "rule": "Deterministic, stated, and read from the person's own condition. well -> tired. tired -> minor-injury, recovering after 4320 minutes. minor-injury, dead or captured -> unchanged.",
+    "noRandomness": "There is no die anywhere in this path. The same discipline sim/chores.mjs kept: the outcome is named on the control that spends it, before it is spent. VISION.md permits randomness inside a visible risk; this does not need it, and deriving the cost from the person's state instead makes who a family sent, and how far that person already walked, decide the outcome.",
+    "ceiling": "No wound, capture or death is ever produced. HISTORY.md excludes individual wounds and casualty counts at Gonzales as historical fact until each has its own checked claim, and FIC-GONZ-005 permits only fatigue or a minor condition as fiction. The real engagement is not the place to invent a casualty.",
+    "statedText": [
+      "well: 'Thomas will come back tired.'",
+      "tired: 'Thomas is already tired. Going on will leave Thomas hurt, and mending takes days.'",
+      "already hurt: 'Going on will not mend what Thomas is already carrying.'"
+    ]
+  },
+  "consequences": {
+    "wentAndWasThere": "neighbour relationship +2, condition steps down one, memory 'went upriver to the camp and was there for it', and the outcome learned by Local observation rather than by courier.",
+    "carriedFoodOnly": "neighbour relationship +1, tired, memory unchanged from before this work.",
+    "declinedToGoOn": "stays in Gonzales, keeps the +1 for the food, choice recorded, and the ask never repeats.",
+    "setOutButWasNotThere": "recorded honestly as having seen none of it. See the ceiling note below."
+  },
+  "regressionDiscipline": {
+    "rule": "CLAUDE.md: a new test is not evidence until it has failed.",
+    "newFile": "tests/upriver.test.mjs, 9 tests",
+    "fullSuite": "96 pass, 0 fail",
+    "injectedRegressions": [
+      {
+        "injected": "place the person at the camp instead of calling beginTravel",
+        "caught": true,
+        "by": "going upriver is a journey over the ford, never a placement at the camp"
+      },
+      {
+        "injected": "revert the witness rule to atGonzales only",
+        "caught": true,
+        "by": "a family standing at the camp is sent the battle while it is happening"
+      },
+      {
+        "injected": "MARCH_COST reaching 'wounded'",
+        "caught": true,
+        "by": "the march never kills, captures or severely wounds anybody (2 tests failed)"
+      },
+      {
+        "injected": "drop the 'must be standing in Gonzales' guard",
+        "caught": "after strengthening",
+        "by": "somebody still on the road to Gonzales is not asked to go upriver from it",
+        "note": "The first draft of the eligibility test did NOT catch this - it only covered a family that sent nobody, not one whose person was still walking. A test was added for the walking case and the injection then failed correctly."
+      },
+      {
+        "injected": "read presence from final position instead of the witness stamp",
+        "caught": false,
+        "note": "Honest result. At this map scale the two cannot disagree, so no test can make this fail. The stamp is kept for the minute it records and for when timings change; the unreachable branch it feeds is marked with a ceiling: note in sim/directors.mjs and the test file states plainly what it does and does not prove."
+      }
+    ],
+    "noPreExistingTestChangedState": true
+  },
+  "browserProof": {
+    "date": "2026-09-10",
+    "method": "Live five-household class on an isolated port and save. One real browser student joined through the interface as hh-1; four households joined over HTTP; the Host started the class and was not touched again. Controls were activated through the DOM, the proof method this project already used for household trading, because the browser pane was 280x235 and too small for reliable pointer hit-testing.",
+    "sequence": [
+      "tick 63: '#help-request' reading 'Help · 2 food' activated; request accepted, Thomas travelling to Gonzales",
+      "tick 207: Thomas standing at Gonzales, no march offered yet",
+      "tick 227: march offered. '#go-upriver' read 'Go upriver to the camp · Thomas will come back tired.' and '#stay-in-town' read 'Stay in town with the supplies'. The food call's Help/Stay buttons were hidden.",
+      "tick 236: '#go-upriver' activated. Travel began to williams-camp, distance 9.8 miles, progress 3.0, location.siteId null - a real journey, not a placement.",
+      "tick 265: Thomas standing at Ezekiel Williams's land, condition tired."
+    ],
+    "atTheCamp": {
+      "battlePhase": "resolved",
+      "reconstruction": false,
+      "cameraKind": "home",
+      "cameraScale": 16.3,
+      "canvas": [
+        280,
+        235
+      ],
+      "formations": [
+        {
+          "id": "formation-texian",
+          "screen": [
+            106,
+            204
+          ],
+          "onScreen": true,
+          "milesFromThomas": 0.34
+        },
+        {
+          "id": "formation-mexican",
+          "screen": [
+            94,
+            161
+          ],
+          "onScreen": true,
+          "milesFromThomas": 2.4
+        }
+      ],
+      "note": "reconstruction:false is the point - somebody who was there sees the thing itself, where the Host sees a delayed replay."
+    },
+    "causalChain": [
+      "choice: Thomas will carry food to Gonzales.",
+      "departure: Thomas left for Gonzales.",
+      "arrival: Thomas arrived at Gonzales.",
+      "choice: Thomas will go upriver with them to the camp.",
+      "departure: Thomas left for Ezekiel Williams's land.",
+      "arrival: Thomas arrived at Ezekiel Williams's land.",
+      "consequence: Thomas stood at the camp on Williams's land when it happened, and saw it. The neighbor remembers the assistance. Thomas is tired.",
+      "memory: Thomas went upriver to the camp and was there for it; the family remembers what it cost."
+    ],
+    "knowledge": "The outcome reached this household as 'confirmed, Local observation' rather than by courier, because one of its people was standing there.",
+    "measurementCaveat": "An early attempt in this same session read formations as onScreen:false. That was the proof method, not the product: a stray pointer click had landed on the canvas and put the camera into manual pan (following:false, centred 91 miles away). Activating the Follow control restored the automatic camera and both formations were on screen. Recorded because it is exactly the kind of artefact that could be mistaken for a defect."
+  },
+  "notProved": [
+    "That distance from town changes who gets asked. It does not yet. Every household, including one 24.6 miles out, reaches Gonzales long before the crossing at this map scale and is asked. Making distance bite is still HANDOFF's next task 3.",
+    "That a late answer can miss the fight. It cannot at this scale; the walk from Gonzales to the camp is about 9.8 miles against a 24-tick window.",
+    "Anything about five or thirty physical devices, district Wi-Fi, or a 45-minute lesson.",
+    "That the scene reads as dramatic. A student at the camp now stands 0.34 miles from the formations, but the formations are still representative miniature groups with short phase motion.",
+    "That the hurt branch of the stated risk can be reached. CORRECTION to an earlier reading of this work: it cannot. Nothing makes a person tired before settleHelp, which is the same moment the march cost is applied, so every marcher is 'well' when it lands and becomes 'tired'. 'minor-injury' never occurs in a played class, so the risk text a student sees is always 'will come back tired'. Measured across three full classes with every household helping and marching: the only conditions any person ever held were 'well' and 'tired'. The rung is kept because state carries between arcs and a fatigue system is on the roadmap; it is marked with a ceiling: note in sim/directors.mjs."
+  ],
+  "defectsSeenWhileProving": [
+    "The journal's land section labels every family member with the camera's site rather than each person's own: with Thomas at the camp it read 'At Ezekiel Williams's land: Thomas (rest), Elena (work), Rosa (rest), Mateo (rest)...' while Elena, Rosa and Mateo were at home. This is the screen-reader text equivalent, so it is an accessibility defect, and it predates this work.",
+    "public/motion.js bound the injured pose to conditions 'injured' and 'wounded', which nothing in sim/ ever sets. The only injury the simulation names is 'minor-injury', which was not in that list, so a hurt person was drawn resting or standing. Fixed on 2026-09-10; see docs/evidence/motion-conditions.json."
+  ]
+}

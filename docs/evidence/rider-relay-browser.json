@@ -1,0 +1,39 @@
+{
+  "record": "rider-relay",
+  "date": "2026-09-11",
+  "address": "192.168.4.38",
+  "sameMachine": true,
+  "near": {
+    "id": "hh-4",
+    "miles": 2.56,
+    "opening": "I've come up from Gonzales. There are Mexican soldiers on the far bank of the Guadalupe, across from the town. They have come for the cannon, and the town has told them no.",
+    "observedAgoMinutes": 0,
+    "header": "Rode from Gonzales · 20 min on the road · already 0 min old when they set out",
+    "journal": "A Mexican detachment has reached the Guadalupe opposite Gonzales to reclaim the cannon. Local settlers have refused to return it. — confirmed, Silas Roe, who rode from Gonzales · Received 10.0 hours ago · describes 10.3 hours earlier"
+  },
+  "far": {
+    "id": "hh-3",
+    "miles": 32.3,
+    "opening": "I've come from the fork of the road, and I did not see any of this myself. Perla Zamarripa put it in my hands there, and had it from another rider before that, out of Gonzales. There are Mexican soldiers on the far bank of the Guadalupe, across from the town. They came for the cannon, and the town has told them no.",
+    "toldBy": "Perla Zamarripa",
+    "toldAt": "the fork of the road",
+    "hands": 3,
+    "observedAgoMinutes": 200,
+    "header": "Had it from Perla Zamarripa at the fork of the road · through 3 hands out of Gonzales · 1.0 hours on the road · already 3.3 hours old when they set out",
+    "sawIt": "No. Perla Zamarripa did not either. It was through 3 hands before mine, and I never met whoever it was that saw it. I am telling you what I was told, out of Gonzales.",
+    "journal": "A Mexican detachment has reached the Guadalupe opposite Gonzales to reclaim the cannon. Local settlers have refused to return it. — rumor, Willa Hines, who had it from Perla Zamarripa at the fork of the road, and it had passed through other hands before that · through 3 hands · Received 6.0 hours ago · describes 10.3 hours earlier“Did you see them yourself?” — “No. Perla Zamarripa did not either. It was through 3 hands before mine, and I never met whoever it was that saw it. I am telling you what I was told, out of Gonzales.”"
+  },
+  "preContactSnapshotsChecked": 109,
+  "payloadIsolation": "PASS",
+  "reconnect": "PASS",
+  "transcriptLinesAfterReload": 3,
+  "browserErrors": [],
+  "screenshots": [
+    "test-results/relay-secondhand.png",
+    "test-results/relay-firsthand.png"
+  ],
+  "notProved": [
+    "Anything about independent physical devices, district Wi-Fi or a full 45-minute session.",
+    "That twelve miles is the right leg length, or that the wording of a second-hand account reads well to a student. Neither has been played with a class."
+  ]
+}

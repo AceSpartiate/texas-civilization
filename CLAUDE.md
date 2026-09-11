@@ -1,0 +1,20 @@
+# Continue the foundation
+
+Read these before substantial changes:
+
+1. `VISION.md` — permanent product identity.
+2. `HANDOFF.md` — actual state, evidence, commands, limitations, next tasks.
+3. `TECH.md` and `GAME.md` — implemented architecture and gameplay.
+4. `HISTORY.md` before any historical content change.
+
+The active next phase is Gonzales/core usability and deployment hardening, described in `HANDOFF.md`. `CLAUDE_DEVELOPMENT_ROADMAP.md` is reference for later work, not an instruction to build every arc now.
+
+Protect one authoritative world, stable person IDs, server-filtered knowledge, valid refusal, automatic Host progression and preserved consequences. Run `npm test`. Use the appropriate browser proof when changing transport/projection/interaction. Do not claim physical LAN or district acceptance from same-computer tests. Keep documentation and historical claim IDs current.
+
+Three habits this codebase has had to learn the hard way:
+
+- **A new test is not evidence until it has failed.** Inject the exact regression it guards, watch that test and only that test fail, then remove the injection. Several tests here were written passing against code that did not work.
+- **Do not bump `saveVersion` reflexively.** Bump it when an old save would open a world that is *wrong*. When the missing field has a correct empty value — no offers, no presence — default it and leave every existing class openable. `sim/trade.mjs` is the worked example.
+- **Mark a deliberate simplification with `ceiling:`**, naming the corner it cuts and what would justify undoing it. Grep `ceiling:` to find every one.
+
+`docs/REFERENCE_ARCHITECTURES.md` records which outside projects were studied, what was taken and what was refused. Read the relevant verdict before adopting an idea from one of them, and add a new verdict rather than a survey when a new project is studied.

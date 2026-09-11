@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#4b5133">
+  <title>Texas Revolution • Family stories</title>
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+<form id="join" hidden>
+  <span class="eyebrow">TEXAS · 1835</span>
+  <h1>A family. A home.<br>A changing world.</h1>
+  <label>Your name <input name="name" required maxlength="40" autocomplete="off"></label>
+  <label>Class code <input name="code" required maxlength="6" autocomplete="off" autocapitalize="characters" spellcheck="false"></label>
+  <button>Join</button>
+  <p id="join-error" role="alert"></p>
+  <p class="other-way"><button type="button" id="rejoin-toggle">I already have a family key</button></p>
+</form>
+
+<!-- Recovering a family is its own door, not a variation on joining: it needs no class
+     code and it works after the class has started. -->
+<form id="rejoin" hidden>
+  <span class="eyebrow">TEXAS &middot; 1835</span>
+  <h1>Back to your<br>own family.</h1>
+  <label>Family key <input name="key" required maxlength="11" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="XXXX XXXX"></label>
+  <button>Rejoin my family</button>
+  <p id="rejoin-error" role="alert"></p>
+  <p class="other-way"><button type="button" id="join-toggle">I am joining for the first time</button></p>
+</form>
+
+<div id="game" hidden>
+  <div class="map-stage">
+    <canvas id="world-map" width="960" height="540" role="img" aria-label="Your family and the country around them"></canvas>
+
+    <div id="hud-left" class="hud">
+      <div id="session"></div>
+      <div id="world"></div>
+      <div id="food"></div>
+      <div id="supplies"></div>
+    </div>
+    <div id="hud-right" class="hud">
+      <span id="connection" role="status"></span>
+      <nav id="host-controls" aria-label="Teacher controls" hidden>
+        <button data-action="start">Start</button>
+        <button data-action="pause">Pause</button>
+        <button data-action="resume">Resume</button>
+        <button data-action="end">End Game</button>
+        <button data-action="new-class" class="careful">New Class</button>
+        <button data-action="stop-server" class="careful">Stop Server</button>
+      </nav>
+      <!-- A student who has lost both their browser and their family key is recovered
+           here. One family at a time, never a list, because this screen is sometimes a
+           projector. -->
+      <div id="recover" hidden>
+        <button id="recover-toggle" aria-expanded="false" aria-controls="recover-panel">Recover a student</button>
+        <div id="recover-panel" hidden>
+          <label for="recover-family">Which family?</label>
+          <select id="recover-family"></select>
+          <button id="recover-show">Show this family's key</button>
+          <p id="recover-key" class="family-key" role="status"></p>
+          <p id="recover-note"></p>
+        </div>
+      </div>
+      <div id="join-links" hidden></div>
+    </div>
+
+    <div id="map-tools">
+      <button id="journal-toggle" aria-expanded="false" aria-controls="family-journal" title="Family journal">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5c-3-2-7-2-10-1v15c3-1 7-1 10 1 3-2 7-2 10-1V4c-3-1-7-1-10 1Z"/><path d="M12 5v15M5 8h4M5 11h4M15 8h4M15 11h4"/></svg>
+        <span>Family</span>
+      </button>
+      <nav id="map-nav" aria-label="Map view">
+        <button data-view="follow" title="Follow my family">Follow</button>
+        <button data-view="home" title="Go to my land" aria-label="Go to my land">Land</button>
+        <button data-view="gonzales" title="Go to Gonzales">Gonzales</button>
+        <button data-view="in" title="Zoom in" aria-label="Zoom in">+</button>
+        <button data-view="out" title="Zoom out" aria-label="Zoom out">−</button>
+      </nav>
+    </div>
+
+    <!-- Instructions remain contextual to the chosen person in the shared world. -->
+    <div id="selection" hidden role="dialog" aria-label="Give an instruction">
+      <div id="selection-head"><span id="selection-name"></span><button id="selection-close" aria-label="Close">×</button></div>
+      <p id="selection-state"></p>
+      <p id="selection-task" hidden></p>
+      <div id="selection-actions">
+        <button id="help-request" data-action="help" hidden>Help</button>
+        <button id="stay-request" data-action="stay" hidden>Stay home</button>
+        <button id="go-upriver" data-action="go-upriver" hidden>Go upriver</button>
+        <button id="stay-in-town" data-action="stay-in-town" hidden>Stay in town</button>
+        <button data-action="travel" data-destination="gonzales">Travel to Gonzales</button>
+        <button data-action="travel" data-destination="home">Return home</button>
+        <button data-action="work">Work</button>
+        <button data-action="rest">Rest</button>
+      </div>
+      <div id="selection-work"></div>
+      <!-- Trading only exists where two people are standing together, so its controls
+           live on the person, not in a menu of their own. -->
+      <div id="selection-trade"></div>
+    </div>
+
+    <!-- A rider who has stopped is the arrival. The invitation names the person who met
+         them and says nothing whatever about the news: opening it is how you find out. -->
+    <div id="rider" hidden>
+      <button id="rider-open" aria-haspopup="dialog"><span class="rider-mark" aria-hidden="true">&#9758;</span><span id="rider-invitation"></span></button>
+    </div>
+
+    <!-- The meeting itself. It never takes the camera and never blocks the class: a
+         student can close it, go and see to somebody else, and come back to it. -->
+    <section id="encounter" hidden role="dialog" aria-labelledby="encounter-title">
+      <header id="encounter-head">
+        <div><span class="eyebrow">A MEETING</span><h2 id="encounter-title"></h2></div>
+        <button id="encounter-close" aria-label="Close this for now">&times;</button>
+      </header>
+      <p id="encounter-origin"></p>
+      <ol id="encounter-said"></ol>
+      <div id="encounter-asks"></div>
+      <p id="encounter-note"></p>
+    </section>
+
+    <div id="news" hidden>
+      <button id="news-toggle" aria-expanded="false" aria-controls="news-list"><span class="news-mark" aria-hidden="true">❧</span><span id="news-latest"></span><span class="news-chevron" aria-hidden="true">⌄</span></button>
+      <ul id="news-list" hidden></ul>
+    </div>
+
+    <p id="error" role="alert"></p>
+    <p id="save-fault" role="alert" hidden></p>
+    <p id="lifecycle" role="status" hidden></p>
+    <p id="host-notice" role="status" hidden></p>
+    <div id="map-framing"></div>
+
+    <div id="journal-backdrop" hidden aria-hidden="true"></div>
+    <!-- Closed visually, but existing text equivalents remain available to
+         assistive technology. The visible journal is a secondary, optional view. -->
+    <section id="family-journal" class="journal-sheet" data-open="false" aria-labelledby="journal-title">
+      <header class="journal-heading">
+        <div><span class="eyebrow">OUR HOUSEHOLD</span><h2 id="journal-title">Family journal</h2></div>
+        <button id="journal-close" aria-label="Close family journal" hidden>×</button>
+      </header>
+      <div class="journal-body">
+        <section><h3 id="family-title">Your family</h3><ul id="family"></ul></section>
+        <!-- Reaching a neighbour without the canvas. Offering a trade needs one selected,
+             so this list is an action channel, not a summary. -->
+        <section><h3>Also here</h3><ul id="others"></ul><p id="others-empty"></p></section>
+        <section><h3>Home &amp; belongings</h3><ul id="property"></ul></section>
+        <!-- The key lives here rather than on the map, because it is identity rather
+             than news, and a household is only ever shown its own. -->
+        <section><h3>Your family key</h3><p id="family-key" class="family-key"></p><p id="family-key-note"></p></section>
+        <section><h3>Our remembered story</h3><ol id="event-log"></ol></section>
+      </div>
+    </section>
+  </div>
+
+  <!-- Text equivalents for the permitted projection: the canvas is never the
+       only channel. Family, property and memory live in the optional journal. -->
+  <div class="sr-only">
+    <h2 id="map-title">Your land</h2>
+    <p id="world-description"></p>
+    <h2 id="knowledge-title">What your family has heard</h2>
+    <p id="knowledge-context"></p>
+    <p id="reports-empty"></p>
+    <ul id="reports"></ul>
+    <div id="request" hidden><p id="request-text"></p><p id="request-status"></p></div>
+    <div id="battle-info" hidden><p id="reconstruction-banner" hidden>Delayed educational reconstruction, shown after the news became public</p><p id="battle-caption"></p><p id="battle-phase"></p></div>
+    <p id="host-caption"></p>
+    <p id="action-subject"></p>
+    <p id="action-help"></p>
+  </div>
+</div>
+</body>
+</html>

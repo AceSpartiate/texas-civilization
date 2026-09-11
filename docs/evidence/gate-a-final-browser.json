@@ -1,0 +1,22 @@
+{
+  "gate": "A",
+  "result": "PASS",
+  "date": "2026-09-09T10:04:58.212Z",
+  "browser": "152.0.7977.76",
+  "address": "192.168.4.38",
+  "clients": 5,
+  "updatesPerClient": [
+    111,
+    111,
+    111,
+    111,
+    112
+  ],
+  "sameMachine": true,
+  "independentPhysicalDevices": "NOT YET TESTED",
+  "districtNetwork": "NOT YET TESTED",
+  "refresh": "PASS",
+  "reconnect": "PASS",
+  "pauseResume": "PASS",
+  "errors": []
+}

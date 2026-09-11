@@ -1,0 +1,14 @@
+{
+    "manifestVersion":  1,
+    "application":  "texas-revolution-foundation",
+    "fileName":  "node.exe",
+    "nodeVersion":  "v24.18.1",
+    "sha256":  "ac51903c4c111815d52280b1fdcc8da067cbb37e2fe1a765097b85c3292c8582",
+    "sizeBytes":  92540232,
+    "platform":  "win32",
+    "architecture":  "AMD64",
+    "source":  "https://nodejs.org/dist/v24.18.1/node-v24.18.1-win-x64.zip (SHA256 ec56b84a7551893ab2324ebdfdc4ab974a63b4781162600b68a1293cc3e53765)",
+    "licenseFile":  "LICENSE",
+    "bundledAtUtc":  "2026-09-09T10:40:20.3570791Z",
+    "note":  "Recheck the runtime version and this checksum during release maintenance. Not a signed installer or a district approval."
+}

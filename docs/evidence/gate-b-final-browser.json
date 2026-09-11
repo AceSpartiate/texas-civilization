@@ -1,0 +1,10 @@
+{
+  "gate": "B",
+  "result": "PASS",
+  "date": "2026-09-09T10:04:58.210Z",
+  "principalId": "hh-5-thomas",
+  "browserViews": "home → regional travel → Gonzales",
+  "refreshAtDestination": "PASS",
+  "entityCount": 30,
+  "browserErrors": []
+}

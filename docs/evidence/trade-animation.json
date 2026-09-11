@@ -1,0 +1,19 @@
+{
+  "result": "PASS",
+  "date": "2026-09-10T21:15:28.038Z",
+  "browser": "152.0.7977.76",
+  "animationAndSnapshotsRetainInputNode": true,
+  "draftAndFocusSurvivePauseResume": true,
+  "chosenTradeReachedServer": {
+    "from": "hh-1-elena",
+    "to": "hh-2-elena",
+    "give": {
+      "food": 7
+    },
+    "ask": {
+      "seed": 3
+    }
+  },
+  "workFocusPreserved": true,
+  "errors": []
+}

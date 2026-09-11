@@ -1,0 +1,61 @@
+/* Developer workshop styles stay separate from the map interface and respect the
+   local-only content security policy: no external fonts, images or inline styles. */
+:root { font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; color: #493d2a; background: #e8dfc7; --paper: #f8eed5; --ink: #4b3d29; --olive: #54643d; --line: #cbb98d; }
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; }
+main { max-width: 1320px; margin: 0 auto; padding: 28px 24px 60px; }
+h1 { font: 500 35px/1.2 Georgia, serif; margin: 5px 0 4px; }
+.page-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.eyebrow { font-size: 10px; font-weight: 750; letter-spacing: .16em; color: #756345; }
+.edition { border: 1px solid #a3916c; border-radius: 5px; padding: 5px 10px; font-size: 12px; color: #746346; }
+.lede { color: #746449; max-width: 75ch; margin: 8px 0 16px; }
+.warn { background: #f2e6c5; border-left: 3px solid #a6653d; border-radius: 0 5px 5px 0; padding: 10px 14px; margin: 0 0 23px; font-size: 13px; max-width: 100ch; }
+.workshop-controls { position: sticky; z-index: 5; top: 8px; background: var(--paper); border: 2px solid #6b573a; border-radius: 9px; padding: 14px 16px; box-shadow: 0 3px 0 #4c3e2826, 0 5px 15px #4c3e2812; }
+.filters, .playback, .view-options { display: flex; gap: 14px; flex-wrap: wrap; align-items: end; }
+.playback { border-top: 1px solid var(--line); padding-top: 13px; margin-top: 14px; }
+.view-options { margin-top: 13px; align-items: center; }
+label { display: block; color: #796448; font-size: 11px; font-weight: 650; }
+.filters label { flex: 1 1 150px; }
+.filters .search-label { flex: 2 1 270px; }
+input, button, select { font: inherit; }
+input[type="search"], select, button { display: block; width: 100%; min-height: 44px; margin-top: 4px; border: 1px solid #9d8962; border-radius: 5px; padding: 9px 11px; color: var(--ink); background: #fff7e3; font-size: 13px; }
+button { width: auto; padding-inline: 22px; min-width: 90px; font-weight: 650; cursor: pointer; background: var(--olive); border-color: #36482b; color: #fff4d6; }
+button:hover { background: #3d4f2e; }
+button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid #244759; outline-offset: 3px; }
+input[type="range"] { display: block; height: 28px; margin: 4px 0; width: 100%; accent-color: var(--olive); }
+.playback label { min-width: 125px; flex: 1 1 130px; }
+.playback .timeline { flex: 3 1 300px; }
+output { float: right; font-weight: 500; font-variant-numeric: tabular-nums; color: #4c5436; }
+.view-options > label:first-child { display: flex; align-items: center; gap: 9px; }
+.view-options select { width: auto; margin: 0; }
+.check { display: flex; align-items: center; gap: 8px; min-height: 44px; font-size: 12px; color: #5f553e; }
+input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--olive); }
+.preview-note { margin-left: auto; max-width: 36ch; font-size: 11px; color: #857252; }
+#status { font-size: 12px; color: #756448; margin: 20px 0; }
+h2 { display: flex; justify-content: space-between; gap: 12px; font: 500 22px Georgia, serif; color: #665236; margin: 30px 0 12px; border-bottom: 1px solid #c5b48c; padding-bottom: 8px; }
+h2 span { font: 500 11px system-ui, sans-serif; align-self: center; color: #87724f; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(205px, 1fr)); gap: 13px; }
+figure { margin: 0; background: #faf0d7; border: 1px solid #cbbb92; border-radius: 7px; overflow: hidden; }
+figure canvas { display: block; width: 100%; height: auto; background: #a0aa64; }
+figcaption { padding: 10px 11px 12px; font-size: 11px; line-height: 1.4; }
+figcaption b { display: block; font-size: 12px; font-weight: 650; overflow-wrap: anywhere; }
+figcaption span { display: block; color: #827050; margin-top: 4px; }
+figcaption .frame-readout { color: #567043; min-height: 1.4em; font-variant-numeric: tabular-nums; }
+figure[data-clip] { border-color: #98a078; }
+#catalog-empty { border: 1px dashed #bba67c; padding: 30px 20px; text-align: center; color: #7c6948; border-radius: 7px; }
+@media (max-width: 760px) {
+  main { padding: 18px 12px 40px; }
+  h1 { font-size: 28px; }
+  .edition { display: none; }
+  .workshop-controls { position: static; padding: 12px; }
+  .filters, .playback { gap: 9px; }
+  .filters label { flex-basis: 125px; }
+  .filters .search-label { flex-basis: 100%; }
+  .playback .timeline { flex-basis: 180px; }
+  .playback label { min-width: 100px; flex-basis: 100px; }
+  .view-options { gap: 7px 15px; }
+  .preview-note { margin-left: 0; max-width: none; flex-basis: 100%; }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 9px; }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }

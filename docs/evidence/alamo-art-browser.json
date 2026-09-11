@@ -1,0 +1,15 @@
+{
+  "result": "PASS",
+  "date": "2026-09-10T21:15:24.077Z",
+  "browser": "152.0.7977.76",
+  "rooms": 32,
+  "units": "ft",
+  "joeWalkHideEmergeSpeak": true,
+  "persistentPreviewActorIds": true,
+  "northWallBreach": true,
+  "pauseStable": true,
+  "phoneNoOverflow": true,
+  "classRequests": 0,
+  "externalRequests": 0,
+  "errors": []
+}

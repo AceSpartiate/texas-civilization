@@ -1,0 +1,63 @@
+{
+  "record": "battle-ground",
+  "date": "2026-09-10",
+  "claim": "The Gonzales engagement is staged on the ground HIST-GONZ-008 documents, and a camera entitled to see it actually frames it.",
+  "defectFound": {
+    "summary": "Battle formations were pinned to literal coordinates from the grid map that preceded researched geography. When buildGonzalesRegion replaced it, the whole world moved and the battle did not.",
+    "before": {
+      "source": "sim/directors.mjs:16-17 (initializeDirectors) and moveFormations",
+      "texian": { "x": 141, "y": 65 },
+      "mexican": { "x": 162, "y": 75 },
+      "gonzales": { "x": 2.1, "y": 0.5 },
+      "modelledHomeCountry": { "minX": -55.56, "maxX": 63.56, "minY": -34, "maxY": 33 },
+      "texianMilesFromGonzales": 153.1,
+      "mexicanMilesFromGonzales": 176.4,
+      "consequence": "Every phase resolved, every caption arrived, all 82 tests passed, and nothing was ever drawn. Observed directly: a household standing at Gonzales through the whole exchange saw no formations, and the Host reconstruction afterwards showed an empty town."
+    },
+    "secondHalf": {
+      "source": "public/app.js framingFor()",
+      "summary": "The camera framed only the viewer's own entities, their home and their travel route. It never included world.battle.formations, and the Host 'reconstruction' focus framed the town alone. Correct coordinates alone would still have been drawn off-screen."
+    },
+    "whyTestsMissedIt": "tests/aggregate-identity.test.mjs guards that a formation names nobody and that a person who joins one stays a person. Nothing asserted the battle happened near the battle. Gate D's anchored-battle evidence predates the geography rebuild."
+  },
+  "fix": {
+    "sim": "sim/directors.mjs now exports battleGround(world), deriving the staging from world.map.sites. The Mexican camp is Ezekiel Williams's land (HIST-GONZ-008); the Texians form up 1.15 miles downriver toward the contested ford they crossed (HIST-GONZ-007) and close to 0.34 miles; Castaneda withdraws 2.4 miles further from the ford, away from Gonzales toward Bexar (HIST-GONZ-004). moveFormations re-anchors every tick rather than storing positions.",
+    "client": "public/app.js framingFor() now includes world.battle.formations in the camera framing for both the entitled student and the Host reconstruction.",
+    "saveVersion": "Not moved. Nothing is remembered, only recomputed, so a class saved by the hardcoding build re-anchors on load instead of refusing to open. tests/battle-ground.test.mjs asserts exactly that."
+  },
+  "regressionDiscipline": {
+    "rule": "CLAUDE.md: a new test is not evidence until it has failed.",
+    "method": "The original literal coordinates and the original moveFormations body were reinjected verbatim, the suite was run, and the injection was removed.",
+    "withFix": { "newFile": "5 pass, 0 fail", "fullSuite": "87 pass, 0 fail" },
+    "withRegressionReinjected": {
+      "newFile": "1 pass, 4 fail",
+      "fullSuite": "84 pass, 3 fail",
+      "failing": [
+        "the battle stands on the ground the history gives it, not on coordinates from a map that no longer exists",
+        "a formation is never drawn outside the country the map models",
+        "a household standing at Gonzales is actually sent the battle it is entitled to see",
+        "a class saved against a different map re-anchors instead of drawing the old coordinates"
+      ],
+      "deliberatelyStillPassing": "the fighting is upriver of the town, and Castaneda withdraws away from it - the old coordinates happened to be far from town and happened to retreat the right way. It guards the historical geometry against a future restaging, not this regression, and the test file says so.",
+      "note": "No pre-existing test changed state in either direction. Only the new file reacted."
+    },
+    "firstDraftFailure": "The bounds test was first written against world.map.bounds, which is the province outline spanning -340..400 and contains (141,65). It passed against the injected bug and was worthless. It now checks world.map.homeBounds, the ground the households and sites actually occupy, and fails correctly."
+  },
+  "browserProof": {
+    "date": "2026-09-10",
+    "surface": "Host page, reconstruction focus, live server on an isolated port and save",
+    "class": "five households joined, all five principals chose Help and travelled to Gonzales, sequence run unattended from Start to 'story preserved'",
+    "measurement": "window.__camera and window.__snapshot read from the live page; formation world positions projected through the page's own camera maths against the live canvas rectangle.",
+    "camera": { "kind": "reconstruction", "cx": -0.25, "cy": -4.35, "scale": 17.81, "canvas": [280, 235] },
+    "formations": [
+      { "id": "formation-texian", "world": [-1.87, -6.56], "screen": [111, 78], "onScreen": true, "milesFromGonzales": 8.1 },
+      { "id": "formation-mexican", "world": [-2.6, -9.2], "screen": [98, 31], "onScreen": true, "milesFromGonzales": 10.8 }
+    ],
+    "accessibleText": "Gonzales. Mexican detachment withdraws; Texians retain the cannon. Miniature groups show the opposing formations.",
+    "boundary": "This proves the formations are inside the drawn canvas on the Host. The student-at-Gonzales path is covered by tests/battle-ground.test.mjs at the projection layer, not by a separate browser capture in this record."
+  },
+  "notProved": [
+    "That the engagement reads as dramatic. It is still representative miniature groups and short phase motion, and it now sits eight to eleven miles upriver of the town, so a household in Gonzales sees it at distance rather than at hand. Whether that is right is a design question, not a defect.",
+    "Anything about five or thirty physical devices, district Wi-Fi, or a 45-minute lesson."
+  ]
+}

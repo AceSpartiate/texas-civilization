@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#53633e">
+  <title>Frontier art workshop</title>
+  <link rel="stylesheet" href="/art-catalog.css">
+</head>
+<body>
+<main>
+  <header class="page-heading">
+    <div><span class="eyebrow">TEXAS · 1835</span><h1>Frontier art workshop</h1></div>
+    <span class="edition">frontier-v1</span>
+  </header>
+  <p class="lede">Inspect the shipped sprites and animation clips against their real atlas frames and ground anchors.</p>
+  <p><a href="/alamo-workshop.html">Explore the complete Alamo assembly</a> · <a href="/assets/frontier-v1/manifest.json">Complete art manifest</a></p>
+  <p class="warn">This is an art library, not a list of completed game features. Prepared characters, equipment and places appear here before they exist in the simulation. All artwork loads locally.</p>
+
+  <section class="workshop-controls" aria-label="Art preview controls">
+    <div class="filters">
+      <label class="search-label">Find art<input id="catalog-search" type="search" placeholder="A person, wagon, oak…" autocomplete="off"></label>
+      <label>Show<select id="catalog-kind"><option value="all">Sprites & animations</option><option value="clip">Animations</option><option value="sprite">Sprites</option></select></label>
+      <label>Sheet<select id="catalog-sheet"><option value="all">All sheets</option></select></label>
+      <label>Motion<select id="catalog-motion"><option value="all">All motion</option><option value="frames">Multiple poses</option><option value="none">Still / no transform</option><option value="sway">Sway</option><option value="breathe">Breathe</option><option value="rock">Rock</option><option value="recoil">Recoil</option><option value="drift">Drift</option><option value="pulse">Pulse</option></select></label>
+    </div>
+    <div class="playback">
+      <button id="catalog-play" type="button" aria-pressed="true">Pause</button>
+      <label class="timeline">Preview time <output id="catalog-time-value" for="catalog-time">0.00 s</output><input id="catalog-time" type="range" min="0" max="12000" value="0" step="20"></label>
+      <label>Speed <output id="catalog-speed-value" for="catalog-speed">1×</output><input id="catalog-speed" type="range" min="0.25" max="2" value="1" step="0.25"></label>
+      <label>Size <output id="catalog-size-value" for="catalog-size">100%</output><input id="catalog-size" type="range" min="60" max="140" value="100" step="10"></label>
+    </div>
+    <div class="view-options">
+      <label>Ground<select id="catalog-background"><option value="prairie">Prairie</option><option value="checker">Transparency grid</option><option value="paper">Parchment</option><option value="dark">Dark</option></select></label>
+      <label class="check"><input id="catalog-anchors" type="checkbox">Ground anchors</label>
+      <label class="check"><input id="catalog-reduced" type="checkbox">Reduced motion</label>
+      <span class="preview-note">Scrub to inspect a pose. One-shot clips stop at their last frame.</span>
+    </div>
+  </section>
+
+  <p id="status" role="status">Loading the local library…</p>
+  <p id="catalog-empty" hidden>No art matches these filters.</p>
+  <div id="sheets"></div>
+</main>
+<script type="module" src="/art-catalog.js"></script>
+</body>
+</html>

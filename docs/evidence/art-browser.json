@@ -1,0 +1,20 @@
+{
+  "result": "PASS",
+  "date": "2026-09-10T21:15:04.065Z",
+  "browser": "152.0.7977.76",
+  "catalog": {
+    "sprites": 443,
+    "clips": 169,
+    "sheets": 30,
+    "missingSheets": [],
+    "shown": 169
+  },
+  "actualAnimatedPixels": true,
+  "pauseFreezesPixels": true,
+  "reducedMotionStable": true,
+  "phoneNoOverflow": true,
+  "journalKeyboard": true,
+  "externalRequests": 0,
+  "observedDrawMs": 1.9000000059604645,
+  "errors": []
+}

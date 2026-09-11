@@ -1,0 +1,59 @@
+{
+  "record": "fatigue",
+  "date": "2026-09-10",
+  "ownerDirection": "Give fatigue a second source.",
+  "claim": "FIC-GONZ-012",
+  "why": {
+    "before": "'tired' was set in exactly one place - settleHelp, at the very end of the slice - so nobody was ever tired while it still mattered. Three things depended on that and all three were dead: the hurt rung of the upriver march could not be reached, the injured pose could not be drawn in a played class, and the map's two-to-twenty-five-mile spread of homesteads changed nothing but a travel timer.",
+    "choiceOfSource": "Walking, because it is the one tied to the ground. Making distance from Gonzales cost something real is HANDOFF's next task 3, and this is the first system that consumes it."
+  },
+  "rules": {
+    "accrual": "sim/world.mjs progressTravel adds the miles actually covered to entity.exertion, for a household's own people only. A courier is on a horse and belongs to nobody; a chore's `walk` step moves somebody about their own yard and never goes through beginTravel. So this counts exactly the journeys a student chose to send somebody on: to town, to the timber, to the gathering, up the river.",
+    "threshold": "TIRING_MILES = 20 road miles since last rested. Invented for gameplay; a long day on foot. Nothing presents it as history.",
+    "recovery": "Rest is the only thing that mends it, at REST_MILES_PER_MINUTE = 0.075 - about four and a half miles an hour of sitting still. Working does not mend it, which is what finally gives the Rest verb something to do.",
+    "hysteresis": "RESTED_MILES = 7, so somebody hovering at the threshold does not flicker between states every tick.",
+    "cap": "EXERTION_CAP = 40, so a very long journey cannot become a rest debt nobody can pay off.",
+    "noRandomness": "There is no die anywhere in this. Same discipline as sim/chores.mjs.",
+    "record": "Becoming tired and recovering both write a `condition` event naming the miles, so it is never a silent change during time compression.",
+    "saveVersion": "Not moved. entity.exertion is absent on an older class, which is the correct empty value; validateWorld accepts absent and rejects a present-but-invalid one."
+  },
+  "consequenceForTheMarch": {
+    "problemItCreated": "Fatigue immediately broke the upriver contract. The risk text was computed at offer time from current condition, but the 9.8-mile walk to the camp is itself enough to tire somebody - so a family shown 'will come back tired' was handed a hurt man. Measured before the fix: 3 of 5 households in one class were promised one outcome and given another.",
+    "fix": "The cost is now computed once, when the offer is made, and stored on the offer as `promised` alongside the exact text. settleHelp pays out the stored promise instead of re-reading the condition, and the projection returns the stored text so the button cannot change its price while a student is looking at it.",
+    "verified": "15 households across 3 seeds: promises broken = 0. Near families are offered and given 'tired'; far families are offered and given 'minor-injury'."
+  },
+  "regressionDiscipline": {
+    "rule": "CLAUDE.md: a new test is not evidence until it has failed.",
+    "newFile": "tests/fatigue.test.mjs, 10 tests",
+    "fullSuite": "107 pass, 0 fail",
+    "injectedRegressions": [
+      { "injected": "walking tires nobody, the state before this work", "result": "3 failed" },
+      { "injected": "couriers on horseback accrue exertion too", "result": "1 failed", "message": "courier-1 accrued exertion; only a family's own people walk themselves tired" },
+      { "injected": "working mends fatigue as well as resting", "result": "2 failed" },
+      { "injected": "routine time clears an injury that has not run its course", "result": "1 failed", "message": "routine time erased an injury that had not run its course" },
+      { "injected": "the march re-reads the cost at payout instead of keeping its promise", "result": "1 failed", "message": "the control said \"Thomas will come back tired.\" and the world delivered minor-injury" }
+    ],
+    "noPreExistingTestChangedState": true,
+    "testsCorrectedRatherThanCodeChanged": "tests/upriver.test.mjs assumed a marcher arrives fresh, which stopped being true. It now pins exertion explicitly for the cost-matching case and reads conditions at the moment the errand settles rather than at the end of the class, because resting afterwards genuinely mends tiredness now."
+  },
+  "browserProof": {
+    "date": "2026-09-10",
+    "seed": "liberty, chosen because hh-1's home is a 34.2-mile walk from Gonzales",
+    "method": "Live five-household class, real browser student as hh-1, four households over HTTP, Host started it and was not touched again. Controls activated through the DOM. A watcher was armed to take the upriver call the instant it opened, because the window is 24 ticks and a blind wait had missed it once.",
+    "sequence": [
+      "tick 31: Help taken. Thomas sets out on a 34.2-mile road to Gonzales.",
+      "mid-journey: condition event 'Thomas is tired after 20 miles on the road.' He arrives tired.",
+      "tick 210: the march opens and the button reads 'Go upriver to the camp · Thomas is already tired. Going on will leave Thomas hurt, and mending takes days.' - the heavy cost, because of where this family lives. Taken the same tick.",
+      "tick 246: settled. health = { condition: 'minor-injury', recoversAt: 9240 }.",
+      "tick 263: consequence reads 'Thomas stood at the camp on Williams's land when it happened, and saw it. The neighbor remembers the assistance. Thomas is hurt, and will be days mending.'"
+    ],
+    "drawn": "window.__animationClips contained rust-injured-rest and nothing else for that person - the renderer's own record of a clip it actually drew with non-zero width. The selection panel read 'rest · Ezekiel Williams's land · minor-injury'.",
+    "significance": "This is the first time a person has been hurt, and drawn hurt, in an ordinarily played class. The injured art has been in the library since 2026-09-09 and unreachable until now."
+  },
+  "notProved": [
+    "That twenty miles is the right threshold for a 45-minute lesson. It splits the current map roughly in half, which is what made it worth choosing, but it has not been played with students.",
+    "That the food economy stays balanced. A tired person stops counting as a worker in advanceRoutine, so sending somebody far now costs the household labour as well. That interaction is real and deliberate but untuned.",
+    "Anything about five or thirty physical devices, district Wi-Fi, or a full 45-minute session."
+  ],
+  "seenWhileProving": "For a family 34 miles out with one member at the camp, the following camera pulls wide enough to hold both ends and the figures become very small. That is the camera honestly reporting a family split across the map rather than a fault, but it is the first time the spread has been large enough to notice."
+}

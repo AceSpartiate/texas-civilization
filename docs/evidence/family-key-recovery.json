@@ -1,0 +1,58 @@
+{
+  "record": "Family key recovery and here/away presence, live browser proof",
+  "date": "2026-09-09",
+  "verdict": "PASS",
+  "verdictMeaning": "A browser whose credential had been invalidated recovered its own household by typing its family key, and the Host page distinguished a household that is streaming now from one whose stream has closed. Both were exercised through the real interface on a running server, not only through the automated HTTP tests.",
+  "server": {
+    "command": "PORT=1836 SAVE_PATH=<scratch>/rejoin-proof.json PLAYERS=5 TICK_MS=1000 node server/main.mjs",
+    "note": "An isolated development class on a separate port and save path. The ordinary classroom save was not touched.",
+    "sessionCode": "15F85A"
+  },
+  "recovery": {
+    "household": "hh-5",
+    "familyKeyIssued": "RP82H7NE",
+    "shownInJournalAs": "RP82 H7NE",
+    "howTheCredentialWasLost": "Another device rejoined hh-5 with the same key, which re-keys the household and signs the previous device out. This is the same path a student takes when a cookie is cleared or a device is replaced, without needing a second physical machine.",
+    "browserAfterLoss": "The join screen appeared, offering 'I already have a family key'.",
+    "typedByHand": "rp82 h7ne",
+    "typedByHandNote": "Lower case, with a space. The server normalises case, separators, and the I/L/O transcription slips the Crockford alphabet excludes.",
+    "result": {
+      "householdId": "hh-5",
+      "people": "Thomas, Elena, Rosa, Mateo, Juniper the ox, Family wagon",
+      "gameVisible": true,
+      "errorShown": "",
+      "familyKeyStillShown": "RP82 H7NE"
+    },
+    "householdsAfterRecovery": 5,
+    "householdsAfterRecoveryNote": "Recovering a family created no sixth household."
+  },
+  "presence": {
+    "hostLineWithOneStudentStreaming": "1 here of 5",
+    "hostLineAfterThatStudentNavigatedAway": "0 here · 1 away of 5",
+    "payload": { "here": 0, "away": 1, "joined": 5 },
+    "graceWindowMs": 90000,
+    "studentPayload": "no presence field",
+    "meaning": "A phone that locks its screen drops the SSE stream within seconds. Before this change the Host's count fell and the teacher had no way to tell that from a student who had left."
+  },
+  "automated": {
+    "suite": "tests/rejoin.test.mjs",
+    "tests": 8,
+    "result": "8 pass",
+    "wholeSuite": "61 pass, 0 fail",
+    "regressionsInjectedToProveTheTestsWork": [
+      {
+        "injected": "The already-playing guard was replaced with `if (false)`, so a key read off a neighbour's screen could evict them.",
+        "observed": "'a family that is being played right now cannot be taken over by its key' failed; the other seven passed."
+      },
+      {
+        "injected": "Every family's key was added to the Host payload.",
+        "observed": "'no household is ever told another household's key, and the Host is told none of them' failed; the other seven passed."
+      },
+      {
+        "injected": "AWAY_GRACE_MS was set to 0, collapsing 'away' back into 'gone'.",
+        "observed": "'the Host is told who is here and who is merely away' failed; the other seven passed."
+      }
+    ]
+  },
+  "boundary": "This was one computer driving its own browser. It is not a claim about physical devices, five devices, thirty devices or a district network; those remain NOT YET TESTED, as docs/DEPLOYMENT.md records. A student who has lost both their cookie and their key still cannot be recovered, because no family key appears on the Host page by design."
+}

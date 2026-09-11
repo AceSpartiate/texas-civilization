@@ -1,0 +1,358 @@
+import http from 'node:http';
+import { randomBytes, createHash, createHmac, timingSafeEqual } from 'node:crypto';
+import { readFileSync, realpathSync, statSync } from 'node:fs';
+import { basename, isAbsolute, relative, resolve, sep } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { createWorld, stepWorld, projectWorld, projectMap, applyAction, validateWorld } from '../sim/world.mjs';
+import { choreCatalogue } from '../sim/chores.mjs';
+import { readSave, writeSave, acquireSaveLock, archiveSave } from './storage.mjs';
+
+const token = () => randomBytes(24).toString('hex');
+const hash = value => createHash('sha256').update(value).digest('hex');
+const equal = (a, b) => typeof a === 'string' && typeof b === 'string' && a.length === b.length && timingSafeEqual(Buffer.from(a), Buffer.from(b));
+// Crockford base32. I, L, O and U are absent, so a family key can be read off one screen
+// and typed on another without the 0/O and 1/I confusions, and cannot accidentally spell.
+const KEY_ALPHABET = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
+const KEY_LENGTH = 8;
+const readKey = value => String(value ?? '').toUpperCase().replace(/[^0-9A-Z]/g, '').replace(/[IL]/g, '1').replace(/O/g, '0');
+const cookie = (req, key) => (req.headers.cookie || '').split(';').map(v => v.trim()).find(v => v.startsWith(`${key}=`))?.slice(key.length + 1);
+const json = (res, status, value) => { res.writeHead(status, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }); res.end(JSON.stringify(value)); };
+const files = new Map([
+  ['/', ['../public/index.html', 'text/html']], ['/host', ['../public/index.html', 'text/html']],
+  ['/app.js', ['../public/app.js', 'text/javascript']], ['/style.css', ['../public/style.css', 'text/css']],
+  ['/art.js', ['../public/art.js', 'text/javascript']], ['/interface.js', ['../public/interface.js', 'text/javascript']],
+  ['/motion.js', ['../public/motion.js', 'text/javascript']],
+  ['/alamo-layout.js', ['../public/alamo-layout.js', 'text/javascript']],
+  ['/alamo-workshop.html', ['../public/alamo-workshop.html', 'text/html']],
+  ['/alamo-workshop.js', ['../public/alamo-workshop.js', 'text/javascript']],
+  ['/alamo-workshop.css', ['../public/alamo-workshop.css', 'text/css']],
+  ['/art-catalog.html', ['../public/art-catalog.html', 'text/html']], ['/art-catalog.js', ['../public/art-catalog.js', 'text/javascript']],
+  ['/art-catalog.css', ['../public/art-catalog.css', 'text/css']],
+]);
+const assetsRoot = fileURLToPath(new URL('../public/assets/', import.meta.url));
+const assetTypes = { png: 'image/png', webp: 'image/webp', json: 'application/json; charset=utf-8' };
+const inside = (root, path) => { const child = relative(root, path); return child !== '' && child !== '..' && !child.startsWith(`..${sep}`) && !isAbsolute(child); };
+function serveAsset(req, res, rawPath) {
+  // Atlas names are deliberately ASCII. Reject encoded separators, Windows paths,
+  // dot segments, hidden files, and unsupported types before resolving any file.
+  if (!/^\/assets\/(?:[A-Za-z0-9][A-Za-z0-9_-]*\/)*[A-Za-z0-9][A-Za-z0-9_.-]*\.(png|webp|json)$/.test(rawPath)) return json(res, 404, { error: 'Not found' });
+  try {
+    const root = realpathSync(assetsRoot);
+    const path = realpathSync(resolve(root, ...rawPath.slice('/assets/'.length).split('/')));
+    // Resolve links as well as the lexical path so a link cannot expose a save.
+    if (!inside(root, path) || relative(root, path).split(sep).some(part => part.startsWith('.'))) return json(res, 404, { error: 'Not found' });
+    const info = statSync(path);
+    if (!info.isFile() || info.size > 64 * 1024 * 1024) return json(res, 404, { error: 'Not found' });
+    const content = readFileSync(path), etag = `"${hash(content)}"`;
+    res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate');
+    res.setHeader('ETag', etag);
+    if (req.headers['if-none-match'] === etag) { res.writeHead(304); return res.end(); }
+    const extension = rawPath.slice(rawPath.lastIndexOf('.') + 1);
+    res.writeHead(200, { 'Content-Type': assetTypes[extension], 'Content-Length': content.length });
+    return res.end(content);
+  } catch (error) {
+    if (['ENOENT', 'ENOTDIR', 'EACCES', 'EPERM', 'ELOOP'].includes(error.code)) return json(res, 404, { error: 'Not found' });
+    throw error;
+  }
+}
+async function body(req) {
+  let value = '';
+  for await (const chunk of req) { value += chunk; if (value.length > 8192) throw new Error('Request too large'); }
+  return JSON.parse(value || '{}');
+}
+
+export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tickMs = 200, savePath, joinUrls = [], worldFactory = createWorld, onStopRequested = null, stopDelayMs = 250 } = {}) {
+  if (!Number.isInteger(playerCount) || playerCount < 5 || playerCount > 30) throw new Error('Class size must be 5–30');
+  if (!Number.isInteger(tickMs) || tickMs < 10 || tickMs > 10000) throw new Error('Tick interval must be 10–10000 milliseconds');
+  const lease = acquireSaveLock(savePath);
+  savePath = lease.path;
+  let state;
+  try {
+    state = readSave(savePath) || { saveVersion: 3, revision: 0, hostKey: token(), sessionId: token().slice(0, 12), sessionCode: randomBytes(3).toString('hex').toUpperCase(), clients: {}, hostCommands: [], world: worldFactory(seed, playerCount) };
+    validateWorld(state.world);
+    writeSave(savePath, state);
+  } catch (error) { lease.release(); throw error; }
+  // Cookies are host/path scoped, not port scoped; separate class namespaces prevent
+  // collisions. A new class rotates the session ID, so the names are read per request.
+  const hostCookie = () => `tr_host_${state.sessionId}`, studentCookie = () => `tr_student_${state.sessionId}`;
+  const setCookie = (name, value, maxAge) => `${name}=${value}; HttpOnly; SameSite=Strict; Path=/; Max-Age=${maxAge}`;
+  // Faults and lifecycle notices are transient runtime overlays, explicitly separate from durable state.
+  let runtimeFault = null;
+  let lifecycle = null;
+  let closing = false;
+  const streams = new Set();
+  // A family key is derived, never stored. The same class secret, session and household
+  // always produce the same eight symbols, so recovering a family needs no extra saved
+  // state, and a key from an archived class opens nothing in the next one, because New
+  // Class rotates the session. Forty bits, taken five at a time from an HMAC so that every
+  // symbol is uniform rather than skewed by a modulo.
+  const familyKey = householdId => {
+    const digest = createHmac('sha256', state.hostKey).update(state.sessionId + ':' + householdId).digest();
+    let key = '';
+    for (let index = 0; index < KEY_LENGTH; index++) key += KEY_ALPHABET[digest[index] & 31];
+    return key;
+  };
+  // Presence is about this moment and is deliberately never saved. A phone that locks its
+  // screen drops the stream within seconds, and a teacher must not read that as a student
+  // who left; a household whose stream has closed is *away* until the grace window passes.
+  const AWAY_GRACE_MS = 90000;
+  const lastSeen = new Map();
+  const streaming = () => new Set([...streams].filter(s => s.identity.role === 'student').map(s => s.identity.householdId));
+  const connected = () => streaming().size;
+  function presence() {
+    const here = streaming(), now = Date.now();
+    let away = 0;
+    for (const [householdId, at] of lastSeen) if (!here.has(householdId) && now - at < AWAY_GRACE_MS) away++;
+    return { here: here.size, away, joined: Object.keys(state.clients).length };
+  }
+  // Guessing a key is cheap to attempt, so attempting it becomes expensive. Per address,
+  // in memory, and bounded by the number of devices that can reach a classroom LAN.
+  // ceiling: one counter per remote address, so devices sharing one address share a
+  // cooldown. True on a LAN where each device has its own; per-key counters if a class
+  // ever arrives through a proxy.
+  const REJOIN_TRIES = 5, REJOIN_COOLDOWN_MS = 30000;
+  const rejoinTries = new Map();
+  function identify(req) {
+    const host = cookie(req, hostCookie());
+    if (equal(host, state.hostKey)) return { role: 'host' };
+    const credential = cookie(req, studentCookie());
+    const client = credential && state.clients[hash(credential)];
+    return client ? { role: 'student', ...client, credentialHash: hash(credential) } : null;
+  }
+  function snapshot(identity) {
+    const payload = { revision: state.revision, sessionId: state.sessionId, connected: connected(), fault: runtimeFault && structuredClone(runtimeFault), lifecycle: lifecycle && structuredClone(lifecycle), world: projectWorld(state.world, identity.householdId, identity.role, { includeMap: false }), mapId: state.sessionId };
+    if (identity.role === 'host') Object.assign(payload, { sessionCode: state.sessionCode, joinUrls, canStop: Boolean(onStopRequested), presence: presence() });
+    // A household is told its own key and no other. The Host page deliberately carries
+    // none of them, because a teacher's screen is sometimes a projector.
+    // A teacher can look one up from the Host page, one family at a time, through
+    // /api/families and /api/family-key. That is deliberately not this payload.
+    else if (identity.householdId) payload.familyKey = familyKey(identity.householdId);
+    return payload;
+  }
+  function send(stream) {
+    // Disconnect a slow receiver instead of retaining an unbounded snapshot queue.
+    if (stream.res.writableLength > 1024 * 1024) { stream.res.destroy(); streams.delete(stream); return; }
+    stream.res.write(`id: ${state.revision}\ndata: ${JSON.stringify(snapshot(stream.identity))}\n\n`);
+  }
+  const broadcast = () => { if (!closing) for (const stream of streams) send(stream); };
+  function suspend(code) {
+    const resumeStatus = runtimeFault?.resumeStatus || (state.world.status === 'paused' ? 'running' : state.world.status);
+    state.world.status = 'paused';
+    runtimeFault = {
+      code, unsaved: true, lastSavedRevision: savePath ? state.revision : null, resumeStatus,
+      message: code === 'SAVE_FAILED'
+        ? 'Saving failed. The class is paused in memory; the last successful save is retained. Restore save access, then choose Resume to retry.'
+        : 'The simulation encountered a fault and paused in memory. The last successful save is retained. Ask the developer to inspect the server log before retrying Resume.',
+    };
+    broadcast();
+  }
+  function commit(mutate) {
+    const previous = structuredClone(state);
+    let persisting = false;
+    try { mutate(state); validateWorld(state.world); state.revision++; persisting = true; writeSave(savePath, state); }
+    catch (error) {
+      state = previous;
+      if (persisting) { suspend('SAVE_FAILED'); const unavailable = new Error(runtimeFault.message, { cause: error }); unavailable.status = 503; throw unavailable; }
+      throw error;
+    }
+    runtimeFault = null;
+    broadcast();
+  }
+  // A graceful stop tells the class before the streams end, so a closed browser is
+  // never the only evidence that the teacher stopped the server deliberately.
+  function requestStop() {
+    if (lifecycle) return false;
+    lifecycle = { state: 'stopping', message: 'Your teacher stopped the classroom server. The class was saved and paused; it continues when the server is opened again.' };
+    broadcast();
+    setTimeout(() => { try { onStopRequested?.(); } catch (error) { console.error('Stop request failed:', error.message); } }, stopDelayMs).unref();
+    return true;
+  }
+  const server = http.createServer(async (req, res) => {
+    try {
+      const url = new URL(req.url, `http://${req.headers.host}`);
+      res.setHeader('X-Content-Type-Options', 'nosniff');
+      res.setHeader('Referrer-Policy', 'no-referrer');
+      res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' data:; frame-ancestors 'none'");
+      // Inspect the original request path: URL parsing normalizes ../ and backslashes.
+      const rawPath = req.url.split('?')[0];
+      const assetRequest = rawPath === '/assets' || rawPath.startsWith('/assets/') || rawPath.startsWith('/assets\\') || url.pathname.startsWith('/assets/');
+      if (assetRequest) {
+        if (req.method !== 'GET') return json(res, 404, { error: 'Not found' });
+        return serveAsset(req, res, rawPath);
+      }
+      if (req.method === 'GET' && files.has(url.pathname)) {
+        const [path, mime] = files.get(url.pathname);
+        let content;
+        try { content = readFileSync(fileURLToPath(new URL(path, import.meta.url))); }
+        catch (error) { if (error.code === 'ENOENT') return json(res, 404, { error: 'Not found' }); throw error; }
+        res.writeHead(200, { 'Content-Type': `${mime}; charset=utf-8`, 'Cache-Control': 'no-store' });
+        return res.end(content);
+      }
+      if (req.method === 'GET' && url.pathname === '/health') return json(res, 200, { ok: true, application: 'texas-revolution-foundation', pid: process.pid, launchId: process.env.TEXAS_LAUNCH_ID || null, maturity: 'PROTOTYPE', stopping: Boolean(lifecycle), canStop: Boolean(onStopRequested) });
+      if (req.method === 'POST') {
+        if (req.headers.origin && req.headers.origin !== `http://${req.headers.host}`) return json(res, 403, { error: 'Same-origin requests only' });
+        if (!req.headers['content-type']?.startsWith('application/json')) return json(res, 415, { error: 'JSON required' });
+      }
+      if (req.method === 'POST' && url.pathname === '/api/host') {
+        const input = await body(req);
+        if (!equal(input.key, state.hostKey)) return json(res, 403, { error: 'Host key required. Open Host using the launcher.' });
+        res.setHeader('Set-Cookie', setCookie(hostCookie(), state.hostKey, 604800));
+        return json(res, 200, { ok: true });
+      }
+      if (req.method === 'POST' && url.pathname === '/api/join') {
+        const input = await body(req);
+        const existing = identify(req);
+        if (existing?.role === 'student') return json(res, 200, snapshot(existing));
+        if (state.world.status !== 'lobby') return json(res, 409, { error: 'This class has started. Existing players can reconnect.' });
+        if (input.code !== state.sessionCode) return json(res, 403, { error: 'Check the class code on the Host screen.' });
+        const name = typeof input.name === 'string' ? input.name.trim().slice(0, 40) : '';
+        if (!name) return json(res, 400, { error: 'Choose a display name.' });
+        const count = Object.keys(state.clients).length;
+        if (count >= state.world.playerCount) return json(res, 409, { error: 'Class is full.' });
+        const credential = token();
+        const identity = { name, householdId: `hh-${count + 1}`, commands: [] };
+        commit(s => { s.clients[hash(credential)] = identity; });
+        res.setHeader('Set-Cookie', setCookie(studentCookie(), credential, 604800));
+        return json(res, 200, snapshot({ role: 'student', ...identity }));
+      }
+      // Recovering a family is deliberately not a join. It needs no class code, it works
+      // after Start, and it never creates a household — it moves an existing one to
+      // whichever device is holding that family's key.
+      if (req.method === 'POST' && url.pathname === '/api/rejoin') {
+        const supplied = readKey((await body(req)).key);
+        const address = req.socket.remoteAddress || 'unknown';
+        const now = Date.now();
+        for (const [seen, tries] of rejoinTries) if (now - tries.at >= REJOIN_COOLDOWN_MS) rejoinTries.delete(seen);
+        const attempt = rejoinTries.get(address);
+        if (attempt && attempt.count >= REJOIN_TRIES) return json(res, 429, { error: 'Too many tries. Wait ' + Math.ceil((REJOIN_COOLDOWN_MS - (now - attempt.at)) / 1000) + ' seconds, then try again.' });
+        const found = supplied.length === KEY_LENGTH && Object.entries(state.clients).find(([, client]) => equal(familyKey(client.householdId), supplied));
+        if (!found) {
+          rejoinTries.set(address, { count: (attempt?.count || 0) + 1, at: now });
+          return json(res, 403, { error: 'That family key does not match any family in this class. Check the letters and try again.' });
+        }
+        rejoinTries.delete(address);
+        const [previousHash, client] = found;
+        // A family being played right now is not a family that got locked out. Refusing
+        // here is what stops a key read off a neighbour's screen from evicting them.
+        if (streaming().has(client.householdId)) return json(res, 409, { error: 'Someone is already playing that family. If that is you on another device, close it there first.' });
+        // One credential per household at a time, so the command ledger stays single and
+        // the old device is signed out rather than quietly sharing an identity.
+        const credential = token();
+        commit(s => { const record = s.clients[previousHash]; delete s.clients[previousHash]; s.clients[hash(credential)] = record; });
+        res.setHeader('Set-Cookie', setCookie(studentCookie(), credential, 604800));
+        return json(res, 200, snapshot({ role: 'student', ...state.clients[hash(credential)] }));
+      }
+      const identity = identify(req);
+      if (!identity) return json(res, 401, { error: 'Join this class first.' });
+      if (req.method === 'GET' && url.pathname === '/api/state') return json(res, 200, snapshot(identity));
+      // Who is in this class, by the name they chose. No keys: this is the list a teacher
+      // reads to find the student in front of them, and it is safe to leave on screen.
+      if (req.method === 'GET' && url.pathname === '/api/families') {
+        if (identity.role !== 'host') return json(res, 403, { error: 'Teacher access required.' });
+        return json(res, 200, { families: Object.values(state.clients).map(client => ({ householdId: client.householdId, name: client.name })).sort((a, b) => a.householdId.localeCompare(b.householdId, 'en', { numeric: true })) });
+      }
+      // One family's key, asked for by name, one request at a time. A student who has lost
+      // both their browser and their key is recovered here and nowhere else. It is a
+      // separate request from the list precisely so that reading the list reveals nothing.
+      if (req.method === 'GET' && url.pathname === '/api/family-key') {
+        if (identity.role !== 'host') return json(res, 403, { error: 'Teacher access required.' });
+        const wanted = url.searchParams.get('household');
+        const client = Object.values(state.clients).find(entry => entry.householdId === wanted);
+        if (!client) return json(res, 404, { error: 'No family in this class has that name.' });
+        // ceiling: revealing a key is not recorded anywhere. An audit line belongs here if
+        // a class ever needs to answer who was shown what.
+        return json(res, 200, { householdId: client.householdId, name: client.name, familyKey: familyKey(client.householdId) });
+      }
+      // Static public geography, fetched once per class rather than per tick.
+      if (req.method === 'GET' && url.pathname === '/api/map') return json(res, 200, { mapId: state.sessionId, map: projectMap(state.world) });
+      // The list of work that exists never changes during a class; only who may do it
+      // does, and that rides on the tick. Same reason the map is fetched once.
+      if (req.method === 'GET' && url.pathname === '/api/chores') return json(res, 200, { mapId: state.sessionId, chores: choreCatalogue() });
+      if (req.method === 'GET' && url.pathname === '/api/events') {
+        if ([...streams].filter(s => s.identity.role === identity.role && s.identity.householdId === identity.householdId).length >= 3) return json(res, 429, { error: 'Too many open tabs for this household.' });
+        res.writeHead(200, { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache, no-transform', Connection: 'keep-alive', 'X-Accel-Buffering': 'no' });
+        const stream = { res, identity };
+        streams.add(stream);
+        if (identity.role === 'student') lastSeen.set(identity.householdId, Date.now());
+        broadcast();
+        const heartbeat = setInterval(() => res.write(': keepalive\n\n'), 15000);
+        req.on('close', () => {
+          clearInterval(heartbeat); streams.delete(stream);
+          if (identity.role === 'student') lastSeen.set(identity.householdId, Date.now());
+          broadcast();
+        });
+        return;
+      }
+      if (req.method === 'POST' && url.pathname === '/api/command') {
+        const input = await body(req);
+        if (typeof input.id !== 'string' || !/^[\w-]{8,80}$/.test(input.id)) return json(res, 400, { error: 'Command ID required' });
+        const commands = identity.role === 'host' ? state.hostCommands : state.clients[identity.credentialHash].commands;
+        if (commands.includes(input.id)) return json(res, 200, { ok: true, duplicate: true });
+        let archived = null, rotatedSession = null, stopping = false;
+        const priorSession = state.sessionId;
+        commit(s => {
+          if (identity.role === 'host') {
+            if (input.action === 'start' && s.world.status === 'lobby') {
+              if (Object.keys(s.clients).length < 5) throw new Error('At least five households must join before Start.');
+              s.world.status = 'running';
+            } else if (input.action === 'pause' && s.world.status === 'running') s.world.status = 'paused';
+            else if (input.action === 'resume' && s.world.status === 'paused') s.world.status = runtimeFault?.resumeStatus || 'running';
+            else if (input.action === 'end') s.world.status = 'ended';
+            else if (input.action === 'new-class') {
+              // Never discard a class that is still being played.
+              if (!['lobby', 'ended'].includes(s.world.status)) throw new Error('End the current class before starting a new one.');
+              archived = archiveSave(savePath, s.sessionId);
+              s.sessionId = token().slice(0, 12);
+              s.sessionCode = randomBytes(3).toString('hex').toUpperCase();
+              s.clients = {}; s.hostCommands = [];
+              // Class size is a kept setting; the seed is new so the next class is its own world.
+              s.world = worldFactory(token().slice(0, 16), s.world.playerCount);
+              rotatedSession = s.sessionId;
+            } else if (input.action === 'stop-server') {
+              if (!onStopRequested) throw new Error('This build cannot stop the server from the Host page. Stop it in the developer terminal.');
+              // Checkpoint a real Pause first: a saved running class starts advancing on restart.
+              if (s.world.status === 'running') s.world.status = 'paused';
+              stopping = true;
+            } else throw new Error('Host action unavailable');
+          } else {
+            if (s.world.status !== 'running') throw new Error('Wait until the class is running.');
+            applyAction(s.world, identity.householdId, input);
+          }
+          const ledger = identity.role === 'host' ? s.hostCommands : s.clients[identity.credentialHash].commands;
+          ledger.push(input.id); if (ledger.length > 256) ledger.shift();
+        });
+        if (rotatedSession) {
+          res.setHeader('Set-Cookie', [setCookie(`tr_host_${rotatedSession}`, state.hostKey, 604800), setCookie(`tr_host_${priorSession}`, '', 0)]);
+          // Credentials belong to the archived class. End those streams so a previous
+          // student cannot silently inherit a household in the new one.
+          for (const stream of [...streams]) if (stream.identity.role === 'student') { streams.delete(stream); stream.res.end(); }
+        }
+        if (stopping) requestStop();
+        return json(res, 200, { ok: true, ...(archived && { archived: basename(archived) }), ...(stopping && { stopping: true }) });
+      }
+      json(res, 404, { error: 'Not found' });
+    } catch (error) { if (!res.headersSent) json(res, error.status || 400, { error: error.message }); else res.destroy(); }
+  });
+  const timer = setInterval(() => {
+    if (state.world.status !== 'running') return;
+    try { commit(s => stepWorld(s.world)); }
+    catch (error) { if (!runtimeFault) suspend('SIMULATION_FAILED'); console.error('Simulation paused:', error.cause?.message || error.message); }
+  }, tickMs);
+  return {
+    server,
+    get state() { return structuredClone(state); },
+    get savePath() { return savePath; },
+    snapshot,
+    requestStop,
+    async listen(port = 0, bind = '0.0.0.0') {
+      try { await new Promise((resolve, reject) => { server.once('error', reject); server.listen(port, bind, resolve); }); return server.address().port; }
+      catch (error) { clearInterval(timer); lease.release(); throw error; }
+    },
+    async close() {
+      closing = true; clearInterval(timer);
+      for (const s of streams) s.res.destroy(); streams.clear();
+      try { await new Promise(resolve => { server.close(resolve); server.closeAllConnections(); }); }
+      finally { lease.release(); }
+    },
+  };
+}

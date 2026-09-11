@@ -1,0 +1,132 @@
+# Current game foundation
+
+Maturity: **PROTOTYPE**. This is a short, low-fidelity Gonzales slice for proving the project architecture. It is not a complete Texas Revolution lesson or a classroom-ready game. [VISION.md](VISION.md) remains the design constitution; [HANDOFF.md](HANDOFF.md) records what has actually been verified and what Claude should do next.
+
+**Required next direction (2026-09-10):** [News carried by people](docs/LIVING_INFORMATION.md). Physical messengers meet family members and deliver news through conversations, with geographically different receipt times and opportunities. Regional service, evacuation protection, plausible government involvement and uncertainty during Houston's retreat have explicit production quality gates. The report-list behavior below is the current prototype, not the final experience.
+
+## The student's role
+
+Each student guides one fictional household in a shared world. The present template contains Thomas, Elena, Rosa and Mateo, a home, Juniper the ox, a wagon and food. Every household uses the same placeholder names but has distinct people and persistent IDs. These are fictional families, not researched biographies or representative demographic sampling. [HISTORY.md](HISTORY.md) separates documented historical anchors from the prototype's inventions.
+
+**The whole family can be given work**: any of the four can be sent to plant, harvest, hunt, fetch seed or mend the hoe, and any of them can strike a trade with a neighbour they are standing beside. Each has a fixed aptitude for farming, hunting and handwork, so who is sent changes how fast a job goes and how much it yields.
+
+**Thomas is still the one who answers history.** Travelling, working the yard, resting, and the choice of whether to help are the principal's alone, and that split is deliberate: everyone can be put to work, but the decision the lesson turns on belongs to one named person. Nobody in the family has a personality beyond that.
+
+The family panel shows people, tasks, locations and health; the property panel shows the ox and wagon. The remembered-story panel shows the most recent household events.
+
+There are no points, rankings, patriotism meters or rewards for choosing an approved historical answer. Military participation is not required. This slice's request is civilian help with supplies.
+
+## Starting a class
+
+The teacher opens the Host through the launcher, shares its displayed student address and class code, waits for households to join, then presses **Start**. Students need a browser and may choose a fictional display name. Duplicate display names do not share a family. The configured range is 5–30 households, default 15; Start requires at least five assignments. This is a multiplayer experience, without a normal solo mode.
+
+**A family key gets a household back.** Every family is given one when it joins — eight letters and numbers, shown in its own family journal and nowhere else. If a phone is locked, a browser is cleared, a device dies or a student moves to a borrowed laptop, they choose *I already have a family key*, type it, and get their own family back with its people, its stores and its story intact — no class code, and it works after the class has started. It has to be typed as a person types: lower case is fine, a space in the middle is fine, and the letters that look like digits are read as the digits. A family that somebody is playing right now cannot be taken over by its key, so reading a key off a neighbour's screen achieves nothing while they are still playing. **The Host page shows no family's key**, because a teacher's screen is sometimes a projector — which does mean a student who loses both their browser and their key cannot be put back.
+
+The Host shows how many households are **here** and how many are **away** — away being a family whose connection has just dropped, which is what a phone does the moment its screen locks. It also shows public news. After Start the server automatically progresses history, information, battle phases, public reconstruction and slice completion. Teacher controls are **Pause**, **Resume**, **End Game**, **New Class** and **Stop Server**.
+
+**New Class** and **Stop Server** each ask twice: the first click arms the button, which disarms itself after six seconds, so a stray click on a projected screen changes nothing. **Stop Server** saves and pauses the class, tells every connected student what happened, then closes the hidden server; `Stop.vbs` does the same when the Host window is already closed. **New Class** is refused while a class is running or paused — end it first — and then archives the finished class, issues a new class code, clears student assignments, keeps the class-size setting and returns to a fresh lobby. Previous students are asked to join again with the new code.
+
+A settings screen, choosing a seed or class size from the Host page, restoring an archived class, and a visible indicator that the hidden server is running are not built yet. See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) and [docs/RECOVERY.md](docs/RECOVERY.md) before running a real class.
+
+## A place and a continuous family
+
+**The map is the whole interface.** It fills the screen. There are no side panels: the household's name, the date and its food sit as small chips over the map, news rides on it as a single line that opens, and everything else is a screen-reader text equivalent.
+
+The view opens on the family's own land, about three and a half miles across, so a student can see their cabin, their people, their ox and wagon and their fenced field at once. It follows the family, widening to take in the road and the destination whenever someone travels. The student can drag to pan, pinch or scroll to zoom, jump to their land or to Gonzales, and press Follow to hand the camera back. Zooming out reaches the whole province. Moving the camera is not travel: Thomas remains at his true location however the student looks around.
+
+The world is drawn from an illustrated sprite library: log cabins with shake roofs and stick chimneys, open-grown post oaks and river cottonwood, corn and cotton standing in rows inside a worm-rail fence, the ox and the covered wagon in the yard. Gonzales is a cluster of seven small buildings where the roads meet, because it held about thirty-two structures and no documented street plan.
+
+**The person you direct wears a coat nobody else wears.** Thomas is in rust; the rest of the family, the people of Gonzales and every neighbour are drawn from three other colours, so the one figure a student gives orders to can be picked out of a crowded town at a glance. Their name is also the one label that never disappears as the camera pulls back.
+
+**People are illustrated too, and the world moves.** A person walks with a stepping cycle, swings a hoe, bends to put in seed, carries the crop home and works at mending; the ox walks, the wagon's wheels turn on their axles, and the trees take the wind. Everyone breathes where they stand rather than standing perfectly still, and the loops are offset per person so nobody bobs in unison. A student who has asked for less motion gets a still world instead: the browser's own reduced-motion setting holds every clip on a neutral pose.
+
+People turn as they go: somebody walking north or south is drawn from behind or from the front, not sideways, and somebody hurt sits rather than standing about as though nothing had happened. Hunting/search and town trading now have dedicated short pose cycles. See [docs/ASSETS.md](docs/ASSETS.md).
+
+**Families can trade with each other.** Walk into town, or onto a neighbour's land, and anyone standing there is somebody you can deal with. Choose them, say what your family gives and what it wants back, and the offer goes to them — *Thomas of Family 1 offers 2 seed for 3 food* — to accept or refuse. Both families are told which, so nobody is left waiting on a silence. Seed and food are what change hands; a hoe is not a thing to sell, it is a thing somebody handy has to mend.
+
+Three rules do most of the work. **A trade is said face to face**: it can only be made between two people standing in the same place, and it is over the moment they part. **Nothing is held back** — a family that offers seed and then plants it cannot make the trade good, and it says so plainly. And **nobody ever sees another family's stores**: an offer shows what was put into it and nothing else. Any member of the family can strike a bargain, not only the person a student usually directs, which is the point — the family without a spare pair of hands can ask the neighbour who is actually there.
+
+Because every household is presently a copy of the same four names, a neighbour is always shown with their family — *Thomas of Family 1* — so that two Thomases in the same town are two people.
+
+**Gonzales has people in it.** Marta Ibarra trades seed and stores; Josiah Pike works iron and will set a worn hoe right; Ruth Crandall is usually somewhere on the commons. They go about the town while a student watches. Buying seed is a trade **with one of them**, named in the record afterwards — and if nobody who deals in a thing is standing there, the trip was wasted and says so, rather than quietly producing goods from nobody. All three are invented, and registered as `FIC-GONZ-009`: three people a student can meet is not a claim about how many people lived there, which no source consulted would support.
+
+**You see other people only where your own family is standing.** Walk into town and the residents are there, along with any other student's family member who happens to be in town, and any rider passing through. Standing beside somebody shows who they are, where they are and what they appear to be doing — never their family's stores, their errand, or what a courier is carrying. Nobody who is not yours takes an order.
+
+**There is work to do.** Each family holds a field of corn or cotton, two seed, and one hoe. Planting spends seed and puts a crop in the ground; the crop comes on by itself while the family does other things; bringing it in feeds them. The hoe wears by a fixed amount every time it is used, and the uses left are shown before anyone picks it up, so running it into the ground is a decision a student can see coming rather than a dice roll that happens to them. A worn hoe is mended at home by whoever has the hands for it, or replaced in Gonzales. Seed runs out, and the only way to get more is to send somebody into town — which takes as long as that family's own road takes, because the distances are real.
+
+Every family member can be sent to work, and they are not interchangeable. Each person has a fixed aptitude for farming, hunting and handwork, so the one who mends the hoe best may be the one already away hunting. Only the household's principal answers the historical call; the farm is the whole family's.
+
+**Instructions are given by clicking a person.** Their card opens beside them with what they are doing and what they can be asked to do. When something is waiting for someone — a neighbour at the door — a **`!`** appears over that person's head, and clicking them is how it is answered. Nothing on screen explains this; if it needs explaining it is not finished. A student may also reach every person and control from the keyboard through the hidden roster.
+
+Only the household's principal can be given orders today. Selecting another family member shows what they are doing and offers nothing, which is honest about what is built.
+
+**Travel to Gonzales** sends Thomas down the road. He leaves his land, walks the route the map draws, and arrives at Gonzales as the same person, taking as long as the distance from his own home requires. **Return home** sends him back the same way. **Work** and **Rest** change his assignment when he is not traveling. A travel instruction cannot teleport him home or replace an active journey.
+
+Food changes through a deliberately simple routine based on people present and working at home. Leaving changes the household's labor. The ox and wagon are persistent objects with location/condition references, but the student cannot yet drive, lend or load the wagon. Broader property arrangements and unresolved service are exercised by foundation fixtures, not complete student systems. Rest currently changes a task; it is not a general health-treatment system.
+
+The country is built from researched pattern rather than a grid. One map unit is one mile. The Guadalupe runs past Gonzales with the town on its east bank, the contested ford lies opposite the town, and the battle site sits about seven miles upriver on the far bank. Homesteads are scattered along the road and the water at genuinely different distances: in a fifteen-household class the nearest family is under two road miles from town and the farthest is nearly nineteen, a walk of six hours. **Where a family lives now changes what it can reach and when.** Crossing the river means using the ford, because nothing else crosses the water.
+
+Individual coordinates, the exact course of the drawn roads, and the outlines of fields and timber are invented for gameplay; the pattern behind them is cited in [HISTORY.md](HISTORY.md). Building shapes remain placeholder art, and visible formations are representative groups of miniature people, not exact troop counts, researched uniforms or a precise battlefield reconstruction. The art contract is in [docs/ASSETS.md](docs/ASSETS.md).
+
+## Information arrives unevenly
+
+The server knows objective events before everyone hears about them. Each household has separate reports, and the Host has its own public reports. A family's news panel shows what it received, its source, confidence and age. The model distinguishes when the report arrived from how old the reported observation is.
+
+The first household receives early fictional local news. A family present at Gonzales can observe the situation there. Everyone else is told by a person who rode from where it happened — **delivery requires somebody to be there to hear it**, not a courier reaching a map pin, and an empty cabin is told nothing.
+
+**How far you live decides what kind of news you get, not only how late it is.** A rider carries word about twelve miles and then hands it to somebody going further, at a fork of the road or at the ford. So a family beside Gonzales meets the person who saw the camp and has a confirmed report; a family at the far edge of the county meets the third or fourth person to carry it, who says plainly that they did not see any of this themselves, names who told them and where, and leaves that family holding a rumor. The account is older too: the journal says how long ago it happened, not just when it arrived. A rider also stops for anybody they come alongside who does not already know, so word sometimes reaches you from a rider who was never sent to you at all.
+
+The projected Host cannot disclose private household knowledge or show an unseen battle just because the server already knows its outcome. Students may still discuss information aloud, consistent with the vision. **There is still no student chat**, and no way to send anything to a household you are not standing beside: the only household-to-household interaction is a trade offered face to face, which carries goods and no message.
+
+Visibility is deliberately narrow, and it is narrow by *place* rather than by kind. A student always sees their own people and property, plus an eligible Gonzales battle view; beyond that they see **whoever is standing where one of their own family is standing** — another student's family member, a Gonzales resident, a rider passing through. That shows who somebody is, where they are, what they appear to be doing and their visible condition, and never their household's stores, their skills, their errand, or what a courier is carrying. Nobody who is not yours takes an order. There is one exception, and it is about news rather than about people: **a rider carrying word can be seen some miles off**, coming up the road and riding away again, because watching somebody arrive is half of what an arrival is. Seeing one tells you a rider is there and nothing whatever about what they carry. **Looking at another family's home from a distance still reveals nothing**, and there is no way to see across the county; that is what makes going somewhere worth doing.
+
+## One request, two valid stories
+
+After the household learns about the cannon confrontation, a fictional neighbor asks whether Thomas can carry food to the people gathering near Gonzales. The request is offered once. It closes when the opening battle phase arrives; ignoring it does not make history wait.
+
+| Choice | Current physical action and lasting result |
+| --- | --- |
+| **Help** | Costs two food, records a service commitment, and sends the same Thomas physically to Gonzales. After his help arrival and the historical resolution, the neighbor relationship increases by one, Thomas becomes tired, and consequence/memory events are recorded. His actual location or return journey remains unchanged. |
+| **Stay home** | Available when Thomas is home and not traveling. He keeps working, the household marks itself prepared and sets aside one food. Its choice, consequence and memory are recorded immediately. The request does not recur. |
+
+If Thomas already reached Gonzales before accepting, help is recorded at his existing location. A family lacking two food can still choose to stay. The amounts, gratitude and fatigue are explicit gameplay inventions; they are not measured historical household outcomes or hidden success rolls.
+
+The causal chain is retained in the Event Log: historical situation → received information → personal request → choice → departure/travel/arrival where applicable → consequence → memory. Refusal has its own complete consequence and memory. A returning helper is not teleported back to Gonzales or home when the director settles the result.
+
+## Gonzales and the autonomous Host
+
+The historical anchors are the September 29 confrontation over the cannon and the October 2 clash. The fixed outcome is that the Mexican detachment withdraws and the Texian side retains the cannon. It does not depend on how many players help, remain home or arrive late. See stable claims `HIST-GONZ-001` through `HIST-GONZ-006` in [HISTORY.md](HISTORY.md).
+
+The launched default advances 20 fictional minutes per one-second server tick. The sequence's within-day timing and travel duration are deliberately simplified. Assuming uninterrupted default stepping, the thin slice reaches its preservation stop after approximately **4 minutes 44 seconds**. This is not the intended full game's approximately 45-minute classroom duration.
+
+| Sequence point | Elapsed fictional minutes | Approximate default elapsed runtime |
+| --- | ---: | ---: |
+| First household hears the cannon situation | 600 | 0:30 |
+| Initial news becomes public | 1440 | 1:12 |
+| People gather | 3000 | 2:30 |
+| Texian approach / request closes | 4680 | 3:54 |
+| Brief exchange | 4760 | 3:58 |
+| Mexican withdrawal | 4840 | 4:02 |
+| Historical outcome / eligible help consequence | 4920 | 4:06 |
+| Public outcome / Host reconstruction | 5400 | 4:30 |
+| Slice stops with state preserved | 5680 | 4:44 |
+
+These are prototype pacing values, not documented times of day or performance promises. Pauses and processing delays lengthen runtime. The interface shows a historical date derived from September 29, 1835 plus elapsed fictional minutes; the approach is dated October 2. Report ages still explain how long news took to arrive and how old its observation is.
+
+Households with a member at Gonzales can see the gathering and simple approach, exchange, withdrawal and resolution. The opposing formations consist of actual small drawn people generated from aggregate formation state. There is no tactical army-control game and no gore.
+
+When outcome news later becomes public, the Host automatically changes focus and presents a clearly labeled delayed educational reconstruction using stored battle-phase samples. The teacher does not trigger Gonzales or move the camera through a presentation. This is a minimal public regional view plus reconstruction; a sophisticated Host Director, narration, sound and full debrief remain later work.
+
+## Preserving the story
+
+Refresh or a temporary disconnect returns a browser with its existing credential to the same household and current world. The server checkpoints successful state changes, including travel, knowledge, property, request choices, relationships and memory. A save failure visibly pauses the live class; it does not silently discard a successful-looking consequence. Operational limits and recovery steps are in [docs/RECOVERY.md](docs/RECOVERY.md).
+
+The separate time-compression foundation summarizes routine life while preserving unresolved travel/service, borrowed or absent property, relationships and aging knowledge. Registered important moments and significant help/service arrival interrupt a jump so live play can show them. Compression creates no surprise principal death, capture or severe injury. It is currently a developer/test primitive, not a student button or automatic later-chapter system.
+
+At the end of this slice the game stops advancing and retains the world. Thomas may still be away; the wagon and ox stay where they actually are; memories remain. That stop is a prototype boundary, not a fictional end to the Revolution. There is no inventory reset, automatic return home, final omniscient revelation or polished household epilogue yet.
+
+## What Claude should expand carefully
+
+The next work should deepen the interaction of the existing systems: researched geography and plausible travel, richer local visibility, meaningful noncombat opportunities, representative researched households, balancing and accessible classroom controls. Preserve the household perspective and valid refusal while doing so.
+
+Later historical arcs, mature social/economic simulation, diverse household archetypes, full autonomous pacing over 45 minutes, final art/audio, complete migration/recovery tools, Runaway Scrape payoff and the ending's deterministic epilogues/revelation are not implemented. Independent physical-device LAN and district-network acceptance are also outstanding. Use [TECH.md](TECH.md) for the implementation seams and [HANDOFF.md](HANDOFF.md) for the next concrete tasks and actual test evidence.

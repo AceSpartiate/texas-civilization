@@ -1,0 +1,86 @@
+{
+  "record": "rider-relay",
+  "date": "2026-09-11",
+  "ownerDirection": "News must arrive through people. docs/LIVING_INFORMATION.md, bounded build order step 2: add onward delivery, two distant households, interruption and time-barrier tests. The implementation contract requires that relays preserve source ancestry and observation age, and that one rider can inform successive eligible listeners while a repeated report for the same audience is deduplicated without deleting a genuinely new account or correction.",
+  "claim": "FIC-GONZ-013",
+  "browserRecord": "docs/evidence/rider-relay-browser.json",
+  "whatStep1CouldNotDo": {
+    "before": "Every family met an eyewitness. A household twenty-six miles from Gonzales met somebody who had seen the camp with their own eyes and had simply taken longer to arrive. Distance changed when a family heard and nothing else about what they heard.",
+    "after": "Word is carried as far as one person is going and handed to somebody going further. A family beside the town meets the rider who saw it; a family at the edge of the county meets somebody who was told by somebody who was told, hours older and worth less, and their own journal says so."
+  },
+  "scope": {
+    "converted": "cannon-request, still, and nothing else. A topic is carried in person - and therefore relayed - because somebody authored a conversation for it in sim/encounters.mjs, and by no other mechanism. gonzales-outcome and every fixture topic still ride the whole way in one hand and deliver at the door.",
+    "deferredToStep3": [
+      "Integration with the autonomous director and with opportunity eligibility. The director still dispatches one errand per household on its own schedule; relays happen underneath that, not because of it.",
+      "Converting gonzales-outcome, which is now possible because a relay exists but is a separate authored conversation and a separate proof.",
+      "Regional service, evacuation and government paths."
+    ]
+  },
+  "rules": {
+    "leg": "LEG_MILES = 12, in sim/world.mjs. A rider carries the word to the last place on the route within that reach, never to the family's own gate, and hands it to somebody going further. A route with no such place on it is ridden the whole way - which is why a household 24 miles out on a straight run can still meet somebody who saw it. The road decides, not the mileage alone.",
+    "whereHandsChange": "A fork of the spine road, or the ford. findPath now returns the places a route runs through as well as its points, so a hand-off happens somewhere two people going different ways actually cross.",
+    "ancestry": "report.provenance is everybody who carried it before this rider, oldest first: id, name, where they handed it on, when. originSiteId and the truth's own minute are copied forward unchanged, so the source and the observation age survive any number of hands. Measured live at three hands: origin still Gonzales, account already 3.3 hours old when the last rider set out.",
+    "confidence": "Each hand-off costs one step of confidence - confirmed, then unconfirmed, then rumor - and contradicted does not slide, because a correction stays a correction however far it travels. A student's journal shows the gradient across the class without anybody explaining it.",
+    "timeCost": "None. The part of the arriving rider's tick that would have been wasted is handed across with the word, so a relayed report reaches a family on the same minute an unbroken rider would have reached it. Road distance still decides when a family hears; hands decide what they hear. Without that carry every fork rounded a rider's arrival up to the next whole tick, and the pre-existing monotonic-distance test catches it.",
+    "onwardDelivery": "A rider stops for anybody they come alongside who would learn something, not only the family they were sent to, and then rides on still carrying the errand. Whether somebody would learn something is one predicate - wouldLearn, in sim/knowledge.mjs - used both by the rider deciding whether to speak and by the journal deciding whether to write it down, so the two cannot drift.",
+    "deduplication": "Only a firmer account is news. The same news twice is ridden past; a rumor already held is worth reining in to confirm; a fainter version never overwrites a better one a family already has. That last case is real rather than theoretical now that chains run at different speeds and the bad one sometimes arrives second.",
+    "patience": "Two numbers, because one was wrong. A rider whose errand is done waits PATIENCE_MINUTES = 1200 to be asked something. A rider who still has somewhere to be waits PASSING_MINUTES = 200. Every question resets either, so a student who is actually talking to them keeps them.",
+    "visibility": "A household now sees any rider carrying news within sight of one of its own people, not only the rider coming to it. Watching one pass your field without reining in, and watching the one who just spoke to you ride on towards a neighbour, is how a chain is legible at all. observedBy reduces them exactly as before and what they carry never leaves the server.",
+    "saveVersion": "Not moved, again. provenance, homeSiteId and hands are absent on a class saved before this, which is the correct empty value: such a report reads as first-hand, which is what it was."
+  },
+  "regressionDiscipline": {
+    "rule": "CLAUDE.md: a new test is not evidence until it has failed.",
+    "newTests": 13,
+    "fullSuite": "139 pass, 0 fail",
+    "method": "One injection at a time, the whole suite each time, the file restored before the next.",
+    "injectedRegressions": [
+      { "injected": "the word never changes hands - one rider carries it the whole way, as in step 1", "caught": 7 },
+      { "injected": "a hand-off forgets where the word started", "caught": 2 },
+      { "injected": "a hand-off forgets everybody who carried it before", "caught": 5 },
+      { "injected": "a hand-off costs the word the rest of the tick", "caught": 2 },
+      { "injected": "a rider who was told claims to have seen it", "caught": 1 },
+      { "injected": "word is worth as much at the end of a chain as at the source", "caught": 1 },
+      { "injected": "a fainter account overwrites a firmer one", "caught": 1 },
+      { "injected": "a rider speaks only to the family they were sent to", "caught": 2 },
+      { "injected": "telling somebody on the way discharges the errand", "caught": 4 },
+      { "injected": "a rider who handed the word on keeps delivering it too", "caught": 3 },
+      { "injected": "compressed time runs past a hand-off and leaves the word at the fork", "caught": 1 },
+      { "injected": "a family is told their news changed hands before they are told the news", "caught": 1 },
+      { "injected": "a rider with an errand in hand waits all day to be asked something", "caught": 1 },
+      { "injected": "a conversation follows the listener wherever they go", "caught": 1 },
+      { "injected": "anything already known is deduplicated, corrections included", "caught": 2 },
+      { "injected": "a chain of hands may name places that are not on the map", "caught": 1 }
+    ],
+    "oneGuardWasWeak": "The first version of 'a fainter account does not overwrite a firmer one' passed under both the old rule and the new one, and the injection is what exposed it: the test followed one rider, and that rider handed the word on at a fork long before reaching the family, so the loop ended before anything was said. Rewritten to ride the whole chain out, it fails under the old rule as it should. Two pre-existing gate tests also caught injections here, which is the right kind of noise.",
+    "noPreExistingTestChangedState": true
+  },
+  "foundByMeasuringRatherThanByReading": [
+    {
+      "defect": "A family who never opened the panel held a rider on the road for twenty fictional hours, and every family further down that road waited too.",
+      "cause": "One patience for both kinds of stop. PATIENCE_MINUTES is a number about a classroom's attention, and once a rider stops for anybody they come alongside it became a number about how fast news crosses a county.",
+      "fix": "PASSING_MINUTES: a rider who still has an errand in hand gives it a short stop and rides on. The family is told either way - the opening line is still the receipt.",
+      "howFound": "A test asserting that a relayed family hears no later than a single rider would have brought it. It failed at 1380 minutes against an ideal of 180, and the cause was not the relay at all."
+    },
+    {
+      "defect": "A rider said 'I've come from The road' and 'I had it from Abner Teel at The road'.",
+      "cause": "Every junction on the spine road is a site called \"The road\", which is right on a map and wrong in a sentence - and a hand-off happens at those junctions more than anywhere else.",
+      "fix": "spotName: a place as somebody standing in it would say it. 'the fork of the road', 'the ford', 'Gonzales'.",
+      "howFound": "Reading a transcript out of a fifteen-household run rather than reading the code."
+    },
+    {
+      "defect": "A distant family was told who handed the word to the rider, and never told where the news began.",
+      "cause": "The second-hand opening named the previous carrier and dropped the origin, so the one fact that makes the whole chain mean something was missing from exactly the families furthest from it.",
+      "fix": "The opening carries the source in both versions. 'had it from another rider before that, out of Gonzales.'",
+      "howFound": "Same run, same transcript."
+    }
+  ],
+  "notProved": [
+    "That twelve miles is the right leg length. It is a number about a rider having their own life, it was not derived from anything documented, and it has never been played with students.",
+    "That a hand-off should cost no time. A rider waiting at a fork for somebody going east is more realistic and would break the one thing a student can actually see on the map - that the family further away hears later - so the single-variable claim was kept and the realism was not.",
+    "That two hundred minutes is the right pause for a rider with somewhere to be, or that a student out on the road has any chance of asking a question inside it.",
+    "That the second-hand wording reads well to a fourteen-year-old. It has had a historical review against HISTORY.md's exclusions and no classroom review at all.",
+    "Anything about thirty devices, district Wi-Fi or a full 45-minute session.",
+    "Regional pacing, Performance and staging, and most of Attention and access in docs/LIVING_INFORMATION.md."
+  ],
+  "seenWhileProving": "A fifteen-household class produces the gradient on its own, with nobody tuning it. Measured on seed gonzales/rider with the scenario running its own schedule: three families held a confirmed report from the rider who saw it, six an unconfirmed one at second hand, five a rumor at third or fourth, and one was told directly by the scenario itself. Nothing in the code decides that split. The road does."
+}

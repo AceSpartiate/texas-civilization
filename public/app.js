@@ -1,0 +1,1661 @@
+// Renderers consume the server's permitted projection. They never advance simulation state.
+import { drawSprite, drawClip, clipInfo, hasSprite, loadArt, onArtReady, pickSprite } from '/art.js';
+import { ProjectionMotion, entityClip, travelHeading, travelDirection } from '/motion.js';
+const $ = selector => document.querySelector(selector);
+const say = message => { for (const id of ['#error', '#join-error', '#rejoin-error']) { const el = $(id); if (el) el.textContent = message; } };
+const hostPage = location.pathname === '/host';
+let events;
+let joinPending = false;
+window.__received = [];
+window.__viewEntities = [];
+window.__viewFormations = [];
+window.__camera = null;
+const motionProjection = new ProjectionMotion();
+const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+let animationTime = 0, previousFrame = 0, paintedFrame = 0;
+function animated(ctx, clip, x, y, size, seed = 0, options = {}) {
+  const width = drawClip(ctx, clip, x, y, size, { timeMs: animationTime, seed, reducedMotion: reducedMotion.matches, ...options });
+  if (width) window.__animationClips?.add(clip);
+  return width;
+}
+async function api(path, input) {
+  const response = await fetch(path, input ? { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(input) } : {});
+  const result = await response.json();
+  if (!response.ok) throw new Error(result.error);
+  return result;
+}
+const sitesOf = world => Object.values(world.map?.sites || {});
+const entitiesOf = world => world.entities || [];
+// People who are not yours, seen because one of your family is standing where they are.
+// The server decided this list; the client never widens it. They are kept apart from
+// `entities` deliberately - merging them would make it possible to command one by
+// accident, and the whole point is that they are somebody else's.
+const observedOf = world => world.others || [];
+const homeOf = world => sitesOf(world).find(site => site.id === world.household?.homeSiteId)?.id || `home-${String(world.householdId || '').split('-').at(-1)}`;
+const placeName = (world, id) => world.map?.sites?.[id]?.name || id || 'On the road';
+const timeLabel = minutes => minutes < 60 ? `${Math.floor(minutes)} min` : minutes < 1440 ? `${(minutes / 60).toFixed(1)} hours` : `${(minutes / 1440).toFixed(1)} days`;
+function element(tag, content, className) { const el = document.createElement(tag); el.textContent = content; if (className) el.className = className; return el; }
+// Teacher actions that discard a class or close the server ask twice, in the page
+// itself, so a browser dialog never blocks the projected Host.
+const confirmLabel = { 'new-class': 'Confirm new class', 'stop-server': 'Confirm stop' };
+let confirming = null, confirmTimer = null, authRecheck = false;
+// The map is public geography that never changes during a class, so it is fetched once
+// and re-attached to each snapshot. A new class rotates the session id and invalidates it.
+let mapCache = null, mapCacheId = null, mapPending = null;
+// The map is the interface: a person is chosen by clicking them, and their instructions
+// appear beside them. Nobody selected falls back to the person this household directs.
+let selectedId = null, selectionDismissed = false;
+const EMPTY_MAP = { sites: {}, routes: {}, terrain: [] };
+// The catalogue of work is fixed for a class, so it is fetched once alongside the map.
+// Only whether a given person may do a given chore rides on the tick.
+let choreCache = null, choreCacheId = null, chorePending = null;
+function ensureChores(snapshot) {
+  if (!snapshot.mapId || (choreCache && choreCacheId === snapshot.mapId) || chorePending === snapshot.mapId) return;
+  chorePending = snapshot.mapId;
+  api('/api/chores').then(result => {
+    chorePending = null;
+    if (!result?.chores) return;
+    choreCache = new Map(result.chores.map(chore => [chore.id, chore]));
+    choreCacheId = result.mapId;
+    if (window.__snapshot) render(window.__snapshot);
+  }).catch(() => { chorePending = null; });
+}
+function ensureMap(snapshot) {
+  if (!snapshot.mapId || (mapCache && mapCacheId === snapshot.mapId)) return;
+  if (mapPending === snapshot.mapId) return;
+  mapPending = snapshot.mapId;
+  api('/api/map').then(result => {
+    mapPending = null;
+    if (!result?.map) return;
+    mapCache = result.map; mapCacheId = result.mapId; reliefCaches.clear();
+    if (window.__snapshot) render(window.__snapshot);
+  }).catch(() => { mapPending = null; });
+}
+function resetConfirm(button) {
+  if (!button?.dataset.confirming) return;
+  button.textContent = button.dataset.label || button.textContent;
+  delete button.dataset.confirming;
+  if (confirming === button) { clearTimeout(confirmTimer); confirming = null; }
+}
+function stableOffset(id) {
+  let n = 0; for (const c of id) n = (n * 31 + c.charCodeAt(0)) >>> 0;
+  return { x: (n % 7 - 3) * 12, y: (Math.floor(n / 7) % 4 - 1) * 12 };
+}
+const hashOf = value => { let n = 0; for (const c of String(value)) n = (Math.imul(n, 31) + c.charCodeAt(0)) | 0; return (n >>> 0); };
+// The soft shadow every atlas sprite carries, so a procedurally drawn person stands on
+// the same ground as the illustrated ox beside them instead of floating over it.
+function groundShadow(ctx, x, y, radius) {
+  ctx.fillStyle = 'rgba(52,45,30,.20)';
+  ctx.beginPath(); ctx.ellipse(x, y, radius, radius * .34, 0, 0, Math.PI * 2); ctx.fill();
+}
+// Authored people use a stable cast variant through work, travel and care. The shapes
+// below remain the local fallback while an atlas loads or if it fails.
+//
+// Skin and clothing vary by a hash of the person's own id, never by side, nationality or
+// name. Guessing either from a name would be a claim the simulation never made.
+const SKIN = ['#e0b48c', '#c9915f', '#a76c41', '#7d4d2c', '#f0cba6'];
+const CLOTH = ['#7d6a4c', '#5d6b52', '#8a6a4a', '#6d5a68', '#4f6570'];
+function miniPerson(ctx, x, y, size, entity) {
+  const binding = entity.side ? { id: `${entity.side === 'mexican' ? 'regular' : 'volunteer'}-idle-e` } : entityClip(entity, entity.observed);
+  // A north or south cycle is drawn facing that way already; mirroring it would turn a
+  // person walking away into a person walking away backwards.
+  if (animated(ctx, binding.id, x, y, size, entity.id || entity.side, { paused: binding.frozen, flip: binding.upright ? false : entity.flip })) return;
+  const tint = hashOf(entity.id || entity.name || 'person');
+  const coat = entity.side === 'mexican' ? '#4a6079' : entity.side === 'texian' ? '#7d5f45'
+    // The principal's rust coat marks the one person a student directs, and nobody who is
+    // not theirs ever wears it. This runs only when a sprite was unavailable; the
+    // illustrated path reserves the same colour in visualVariant(), so the mark means the
+    // same thing whether or not the atlases loaded. Keep the two in step.
+    : entity.principal && !entity.observed ? '#a9512d' : CLOTH[tint % CLOTH.length];
+  const skin = SKIN[(tint >> 3) % SKIN.length], hatted = ((tint >> 6) & 3) !== 0;
+  const ink = '#392e20', line = Math.max(.9, size * .045);
+  groundShadow(ctx, x, y, size * .25);
+  ctx.lineWidth = line; ctx.strokeStyle = ink; ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+  const shape = (path, fill) => { ctx.beginPath(); path(); ctx.closePath(); ctx.fillStyle = fill; ctx.fill(); ctx.stroke(); };
+  // Legs, then the coat over them, then arms and head: back to front, so the outlines
+  // never cross each other.
+  ctx.fillStyle = '#4b3d2a';
+  for (const side of [-1, 1]) {
+    ctx.beginPath();
+    ctx.roundRect?.(x + side * size * .13 - size * .06, y - size * .30, size * .12, size * .30, size * .04);
+    if (!ctx.roundRect) ctx.rect(x + side * size * .13 - size * .06, y - size * .30, size * .12, size * .30);
+    ctx.fill(); ctx.stroke();
+  }
+  shape(() => {
+    ctx.moveTo(x - size * .20, y - size * .28); ctx.lineTo(x + size * .20, y - size * .28);
+    ctx.lineTo(x + size * .17, y - size * .66); ctx.lineTo(x - size * .17, y - size * .66);
+  }, coat);
+  ctx.strokeStyle = ink; ctx.lineWidth = Math.max(1.4, size * .085);
+  ctx.beginPath();
+  ctx.moveTo(x - size * .18, y - size * .60); ctx.lineTo(x - size * .27, y - size * .34);
+  ctx.moveTo(x + size * .18, y - size * .60); ctx.lineTo(x + size * .27, y - size * .34);
+  ctx.stroke();
+  ctx.strokeStyle = coat; ctx.lineWidth = Math.max(.8, size * .055); ctx.stroke();
+  ctx.strokeStyle = ink; ctx.lineWidth = line;
+  shape(() => ctx.arc(x, y - size * .78, size * .125, 0, Math.PI * 2), skin);
+  if (hatted) {
+    shape(() => ctx.ellipse(x, y - size * .845, size * .21, size * .062, 0, 0, Math.PI * 2), '#8a7047');
+    shape(() => ctx.ellipse(x, y - size * .90, size * .105, size * .055, 0, 0, Math.PI * 2), '#9c8154');
+  }
+}
+// Juniper is an ox and must stay one; the sprite chosen is stable per animal so the same
+// beast is recognisable from one lesson to the next.
+function miniAnimal(ctx, x, y, size, entity = {}, flip = false) {
+  const heading = entity.travel ? travelHeading(entity) : null;
+  if (entity.travel && animated(ctx, heading ? `ox-walk-${heading}` : 'ox-walk', x, y, size, entity.id, { flip: heading ? false : flip })) return;
+  if (!entity.travel && animated(ctx, 'ox-brown-idle', x, y, size, entity.id, { flip })) return;
+  if (drawSprite(ctx, 'ox-brown', x, y, size, { flip })) return;
+  groundShadow(ctx, x, y, size * .42);
+  ctx.fillStyle = '#815f3e'; ctx.fillRect(x - size * .5, y - size * .62, size, size * .45); ctx.fillRect(x + size * .34, y - size * .88, size * .3, size * .38);
+  ctx.fillStyle = '#534830'; for (const leg of [-.36, .28]) ctx.fillRect(x + size * leg, y - size * .22, size * .13, size * .22);
+}
+function miniWagon(ctx, x, y, size, entity = {}, flip = false) {
+  if (entity.condition === 'sound' && animated(ctx, entity.travel ? 'wagon-travel' : 'wagon-idle', x, y, size, entity.id, { flip: !flip })) return;
+  // A wagon that has come to harm shows it. Nothing here invents that state: it is drawn
+  // only when the projection this student is allowed to see already says so.
+  const sound = !entity.condition || entity.condition === 'sound';
+  if (drawSprite(ctx, sound ? 'wagon-covered' : 'wagon-broken', x, y, size, { flip })) return;
+  groundShadow(ctx, x, y, size * .55);
+  ctx.fillStyle = '#786446'; ctx.fillRect(x - size * .7, y - size * .62, size * 1.4, size * .55);
+  ctx.fillStyle = '#f7edcf'; ctx.beginPath(); ctx.ellipse(x, y - size * .57, size * .65, size * .6, 0, Math.PI, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = '#4b4435'; for (const wheel of [-.47, .47]) { ctx.beginPath(); ctx.arc(x + size * wheel, y - size * .18, size * .22, 0, Math.PI * 2); ctx.fill(); }
+}
+// A DeWitt colony cabin: squared logs, a steep shake roof, a stick-and-mud chimney.
+// No barns, no windmills - those belong to a later century and another country.
+function logCabin(ctx, x, y, size, wide = false) {
+  const w = size * (wide ? 1.35 : 1), body = size * 1.02;
+  ctx.fillStyle = '#8d6a49';
+  ctx.fillRect(x - w, y - body * .68, w * 2, body * .72);
+  // Log courses.
+  ctx.strokeStyle = '#7a5a3e'; ctx.lineWidth = Math.max(.6, size * .055);
+  for (let course = 1; course < 4; course++) {
+    const ly = y - body * .68 + (body * .72 / 4) * course;
+    ctx.beginPath(); ctx.moveTo(x - w, ly); ctx.lineTo(x + w, ly); ctx.stroke();
+  }
+  // Roof.
+  ctx.fillStyle = '#6b5340';
+  ctx.beginPath();
+  ctx.moveTo(x - w * 1.22, y - body * .62); ctx.lineTo(x, y - body * 1.5); ctx.lineTo(x + w * 1.22, y - body * .62);
+  ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = '#59452f'; ctx.lineWidth = Math.max(.5, size * .05); ctx.stroke();
+  // Door and chimney.
+  ctx.fillStyle = '#4a3a2a'; ctx.fillRect(x - size * .17, y - body * .2, size * .34, body * .24);
+  ctx.fillStyle = '#8f8578'; ctx.fillRect(x + w * .78, y - body * 1.18, size * .26, body * .58);
+}
+// A homestead is one cabin. Which cabin is fixed by the site's own id, so a family
+// always comes home to the same house.
+const HOMESTEAD_CABINS = ['cabin-small', 'cabin-wide', 'storehouse', 'cabin-weathered'];
+function miniBuilding(ctx, x, y, size, settlement = false, id = '') {
+  if (!settlement) {
+    if (drawSprite(ctx, pickSprite(HOMESTEAD_CABINS, id), x, y, size)) return;
+    return logCabin(ctx, x, y, size * .62);
+  }
+  // A settlement is a cluster of small buildings, not one large one. Gonzales held about
+  // thirty-two structures in 1836 (HIST-GONZ-011); this is a handful standing for them,
+  // and deliberately never a single oversized "town" building. Drawn back to front so a
+  // near cabin overlaps a far one instead of cutting into it.
+  const spots = [
+    [-.86, -.62, .70, 'shed-open'], [.94, -.56, .72, 'cabin-small'],
+    [-1.95, -.06, .80, 'cabin-wide'], [0, 0, .88, 'trading-house'],
+    [1.88, .04, .78, 'cabin-small'], [-.98, .60, .74, 'storehouse'], [1.04, .66, .76, 'cabin-weathered'],
+  ];
+  for (const [dx, dy, weight, sprite] of spots) {
+    const bx = x + dx * size, by = y + dy * size, scale = size * weight;
+    if (!drawSprite(ctx, sprite, bx, by, scale)) logCabin(ctx, bx, by, scale * .62);
+  }
+}
+// Open-grown post oak: a broad canopy on a short trunk (HIST-GONZ-012). Kept as the
+// fallback for when the nature sheet has not loaded, or has failed to.
+const TIMBER_TREES = ['oak-broad', 'oak-spreading', 'pecan'];
+function postOak(ctx, x, y, size, tint = 0) {
+  if (animated(ctx, `${TIMBER_TREES[((tint % 3) + 3) % 3]}-wind`, x, y, size, tint)) return;
+  if (drawSprite(ctx, TIMBER_TREES[((tint % 3) + 3) % 3], x, y, size)) return;
+  ctx.fillStyle = '#6a4a33';
+  ctx.fillRect(x - size * .09, y - size * .5, size * .18, size * .5);
+  const greens = ['#5f8a48', '#6d9a52', '#57803f'];
+  // A negative tint must not index off the end: an undefined fill silently keeps the trunk colour.
+  ctx.fillStyle = greens[((tint % greens.length) + greens.length) % greens.length];
+  for (const [dx, dy, r] of [[-.42, -1.12, .46], [.4, -1.10, .44], [0, -1.36, .54], [0, -1.0, .48]]) {
+    ctx.beginPath(); ctx.arc(x + dx * size, y + dy * size, r * size, 0, Math.PI * 2); ctx.fill();
+  }
+}
+// Worm-rail fence: the frontier fence, split rails stacked in a zigzag. `fence-rail` was
+// delivered on the equipment sheet and is used whenever a rail would be big enough to read;
+// below that the procedural zigzag draws it, because a sprite scaled to four pixels is a
+// smear. The procedural weight is capped because `size` grows with the zoom, and an
+// uncapped rail becomes a wall across the field.
+function railFence(ctx, points, size) {
+  if (hasSprite('fence-rail') && size > 20) {
+    for (let i = 0; i < points.length; i++) {
+      const a = points[i], b = points[(i + 1) % points.length];
+      const length = Math.hypot(b.x - a.x, b.y - a.y), count = Math.max(1, Math.ceil(length / (size * .7)));
+      for (let n = 0; n < count; n++) {
+        const t = (n + .5) / count;
+        ctx.save(); ctx.translate(a.x + (b.x-a.x)*t, a.y + (b.y-a.y)*t); ctx.rotate(Math.atan2(b.y-a.y,b.x-a.x));
+        drawSprite(ctx,'fence-rail',0,0,size*.28);ctx.restore();
+      }
+    }
+    return;
+  }
+  ctx.strokeStyle = '#8a6c46'; ctx.lineWidth = Math.max(1.2, Math.min(9, size * .09)); ctx.lineJoin = 'round';
+  ctx.beginPath();
+  points.forEach((point, index) => index ? ctx.lineTo(point.x, point.y) : ctx.moveTo(point.x, point.y));
+  ctx.closePath(); ctx.stroke();
+  ctx.strokeStyle = '#b7955f'; ctx.lineWidth = Math.max(.7, Math.min(5, size * .05));
+  ctx.stroke();
+}
+// Where an entity was actually drawn, so a click can find it again.
+const drawnAt = new Map();
+function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
+  // Cosmetic separation only. Overlapping drawings must never imply different true positions.
+  const spread = size / 26;
+  const offset = entity.travel ? { x: 0, y: 0 } : stableOffset(entity.id);
+  const x = point.x + offset.x * spread, y = point.y + offset.y * spread * .8;
+  // Everything is drawn standing on (x, y), so `size` is a height and the click target
+  // is the body above that point, not a circle centred on the feet.
+  const height = size * (entity.kind === 'animal' ? SIZE.ox : entity.kind === 'wagon' ? SIZE.wagon : 1);
+  drawnAt.set(entity.id, { x, y: y - height * .45, size: height });
+  if (marks.selected) {
+    ctx.strokeStyle = marks.observed ? '#cfd6c2' : '#f0d38a';
+    ctx.lineWidth = Math.max(2, size * .11);
+    if (marks.observed) ctx.setLineDash([Math.max(3, size * .18), Math.max(3, size * .18)]);
+    ctx.beginPath(); ctx.ellipse(x, y, height * .42, height * .16, 0, 0, Math.PI * 2); ctx.stroke();
+    ctx.setLineDash([]);
+  }
+  // The sheets all face right, so anyone walking west is mirrored. A rider who has
+  // reined in is turned toward the person they are speaking to instead, which the server
+  // works out from where the two of them actually are.
+  const flip = entity.facing ? entity.facing === 'w' : travelDirection(entity) === 'w';
+  if (entity.kind === 'person') miniPerson(ctx, x, y, size, { ...entity, observed: marks.observed, flip });
+  else if (entity.kind === 'animal') miniAnimal(ctx, x, y, height, entity, flip);
+  else if (entity.kind === 'wagon') miniWagon(ctx, x, y, height, entity, flip);
+  // Something is being asked of this person. The mark is the invitation; clicking is the
+  // answer, so it is collected and drawn last: a cabin roof standing between the camera
+  // and a person must never hide the one thing on screen asking to be pressed.
+  if (marks.mark) marks.mark.list.push({ x, y: y - height, size, glyph: marks.mark.glyph, tone: marks.mark.tone });
+  // The label sits just under the feet whatever the zoom - scaling the offset with the
+  // sprite would fling a name a screen's width below a close-up figure - and it is
+  // handed back rather than drawn, because the ox drawn after this person would
+  // otherwise stand on their name.
+  if (named || entity.principal) {
+    marks.labels?.push({
+      name: entity.name || entity.id, x, y: y + Math.max(13, Math.min(26, size * .22)),
+      font: `${Math.round(Math.max(11, Math.min(16, size * .26)))}px system-ui`,
+    });
+  }
+}
+// Names are read against an illustration now, not a flat wash: dark green on a dark
+// tree canopy is unreadable. A pale halo carries the text over whatever is behind it
+// without putting a box on the map.
+function caption(ctx, text, x, y) {
+  ctx.textAlign = 'center'; ctx.lineJoin = 'round';
+  ctx.strokeStyle = 'rgba(252,249,238,.92)'; ctx.lineWidth = 3.5;
+  ctx.strokeText(text, x, y);
+  ctx.fillStyle = '#26382e'; ctx.fillText(text, x, y);
+}
+function drawTaskMark(ctx, { x, y, size, glyph = '!', tone = '#c2582c' }) {
+  const mark = Math.max(9, Math.min(26, size * .34));
+  const top = y - mark * 1.1, bob = reducedMotion.matches ? 0 : Math.sin(animationTime / 260) * mark * .25;
+  ctx.fillStyle = tone; ctx.strokeStyle = '#fff8e6'; ctx.lineWidth = Math.max(1.5, mark * .22);
+  ctx.beginPath(); ctx.arc(x, top + bob, mark, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#fff8e6'; ctx.font = `bold ${Math.round(mark * (glyph.length > 1 ? 1.05 : 1.5))}px system-ui`;
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText(glyph, x, top + bob + mark * .06);
+  ctx.textBaseline = 'alphabetic';
+}
+// Which person, if any, has something waiting for them.
+const taskFor = (world, entity) => {
+  const request = world.request;
+  if (request?.status !== 'open') return null;
+  // A march names the person it was put to; the food call is still the principal's.
+  const asked = request.actorId || world.household?.principalId;
+  return entity.id === asked ? request : null;
+};
+// How far word has travelled from the person who saw it, said the way a person would say
+// it. Beyond the third hand nobody counts, they just know it has been about.
+const handLabel = hands => hands === 1 ? 'second-hand' : hands === 2 ? 'third-hand' : `through ${hands} hands`;
+// Who, if anybody, is standing with a rider right now. A meeting is the household's, but
+// it belongs to one named person: the one the rider actually stopped for.
+const meetingFor = (world, entity) => {
+  const encounter = world.encounter;
+  return encounter?.status === 'open' && encounter.listenerId === entity.id ? encounter : null;
+};
+export function selectedEntity(world) {
+  const own = entitiesOf(world);
+  return own.find(entity => entity.id === selectedId)
+    || observedOf(world).find(entity => entity.id === selectedId)
+    || own.find(entity => entity.id === world.household?.principalId) || null;
+}
+function entityAt(point) {
+  let best = null, bestDistance = Infinity;
+  for (const [id, spot] of drawnAt) {
+    // Reach must not grow with the sprite, or a zoomed-in ox swallows the clicks meant
+    // for the person standing next to it. It must not shrink below a fingertip either.
+    const reach = Math.max(22, Math.min(64, spot.size * .55));
+    const distance = Math.hypot(spot.x - point.x, spot.y - point.y);
+    if (distance < reach && distance < bestDistance) { best = id; bestDistance = distance; }
+  }
+  return best;
+}
+// Formation soldiers are visual samples of aggregate state, never duplicate person entities.
+let visibleBattlePhase = null, battleAnimationStart = 0;
+function drawFormations(ctx, battle, project, named, tick, figure = 16) {
+  const formations = battle?.formations || [];
+  const phaseKey = battle ? `${battle.phase}:${Boolean(battle.reconstruction)}` : null;
+  if (phaseKey !== visibleBattlePhase) { visibleBattlePhase = phaseKey; battleAnimationStart = animationTime; }
+  const phaseTime = Math.max(0, animationTime - battleAnimationStart);
+  for (const formation of formations) {
+    const center = project(formation), count = Math.min(24, Math.max(0, formation.count || 0));
+    // Capped: `figure` now grows with the zoom, and sampled formation members are a
+    // visual summary of a count, not individuals to be examined close up.
+    const size = Math.max(6, Math.min(30, figure * .8)), spacing = size * 1.35;
+    const identityOffset = stableOffset(formation.id);
+    for (let index = 0; index < count; index++) {
+      const column = index % 6, row = Math.floor(index / 6);
+      const x = center.x + (column - 2.5) * spacing + identityOffset.x * .08;
+      const y = center.y + row * spacing + identityOffset.y * .08;
+      const direction = formation.side === 'texian' ? 1 : -1;
+      const role = formation.side === 'texian' ? 'volunteer' : 'regular';
+      const marching = (battle.phase === 'approach' && formation.side === 'texian') || (battle.phase === 'withdrawal' && formation.side === 'mexican');
+      const clip = battle.phase === 'exchange' ? `${role}-fire-reload` : marching ? `${role}-march` : `${role}-idle-e`;
+      const shotTime = Math.max(0, phaseTime - (index % 6) * 110);
+      const drawn = animated(ctx, clip, x, y, size, `${formation.id}:${index}`, { flip: marching ? false : direction < 0, timeMs: battle.phase === 'exchange' ? shotTime : animationTime });
+      if (!drawn) miniPerson(ctx, x, y, size, { side: formation.side, flip: direction < 0 });
+      // One illustrative discharge per phase, never a frame callback or combat result.
+      if (battle.phase === 'exchange' && shotTime >= 700 && shotTime < 1840) {
+        const smokeTime = shotTime - 700;
+        if (smokeTime < 120) drawSprite(ctx, direction > 0 ? 'muzzle-flash-e' : 'muzzle-flash-w', x + direction * size * .7, y - size * .52, size * .3);
+        animated(ctx,'musket-smoke',x + direction * size*.8,y-size*.5,size*.6,0,{timeMs:smokeTime,alpha:1-smokeTime/1140});
+      }
+    }
+    if (formation.side === 'texian' && count) {
+      const gunX = center.x + spacing * 3.8, gunY = center.y + spacing;
+      const shotTime = phaseTime - 650, firing = battle.phase === 'exchange' && shotTime >= 0;
+      const gunSize = size * 1.65;
+      if (firing && shotTime < 900) animated(ctx,'cannon-iron-e-recoil',gunX,gunY,gunSize,0,{timeMs:shotTime});
+      else drawSprite(ctx,'cannon-iron-e',gunX,gunY,gunSize);
+      if (firing && shotTime < 1300) animated(ctx,'cannon-smoke',gunX+gunSize*.65,gunY-gunSize*.35,gunSize*.9,0,{timeMs:shotTime,alpha:1-shotTime/1300});
+    }
+    if (named) { ctx.fillStyle = '#405543'; ctx.font = '13px system-ui'; ctx.textAlign = 'center'; ctx.fillText(formation.side === 'mexican' ? 'Mexican troops' : 'Texian volunteers', center.x, center.y + Math.ceil(count / 6) * spacing + 12); }
+  }
+  return formations.map(formation => formation.id);
+}
+export function visibleEntityIds(world, siteId = null) {
+  return entitiesOf(world).filter(entity => !siteId || entity.location?.siteId === siteId).map(entity => entity.id);
+}
+// One map, one camera. The student never chooses a place to look at: the view follows
+// their own household, widening when someone travels. The regional and public picture
+// is the Host's projected screen, not a second panel here.
+const MIN_EXTENT = 3.4;
+// See `figure` in cameraFor: the symbolic size of a person, in miles of ground.
+const PERSON_MILES = 0.115;
+// Below this many screen pixels per world mile, a neighbour's homestead is smaller than
+// the label that would sit on it. Fords and other minor names thin out at the same point.
+const HOMESTEAD_LEGIBLE = 11;
+// Every drawn object as a multiple of a person, so the whole scene grows together and
+// an ox never ends up smaller than the family leading it.
+const SIZE = {
+  cabin: 3.3, settlementCabin: 2.5, camp: 2.1,
+  timberTree: 1.95, loneTree: 2.05, sapling: 1.15, scrub: 1.0,
+  tuft: .6, rock: .5, crop: .95,
+  ox: 1.45, wagon: 1.55,
+};
+// null means the camera follows the family. Dragging or zooming takes manual control
+// until the player presses Follow, so the view is never yanked away mid-gesture.
+let manualView = null;
+// Zoom limits come from the map itself rather than fixed numbers, so they stay sensible
+// when the world's real extent changes. Zooming out reaches the whole known map; zooming
+// in reaches one homestead.
+function worldBounds(world) {
+  if (world.map?.bounds) return world.map.bounds;
+  const sites = sitesOf(world);
+  if (!sites.length) return { minX: -10, maxX: 10, minY: -10, maxY: 10 };
+  return {
+    minX: Math.min(...sites.map(s => s.x)) - 3, maxX: Math.max(...sites.map(s => s.x)) + 3,
+    minY: Math.min(...sites.map(s => s.y)) - 3, maxY: Math.max(...sites.map(s => s.y)) + 3,
+  };
+}
+function scaleLimits(world, canvas) {
+  const bounds = worldBounds(world);
+  const width = Math.max(MIN_EXTENT, bounds.maxX - bounds.minX);
+  const height = Math.max(MIN_EXTENT * .56, bounds.maxY - bounds.minY);
+  // Zoomed out reaches the whole mapped country; zoomed in reaches one farm.
+  const cover = Math.max(canvas.width / width, canvas.height / height);
+  return { min: cover, max: Math.max(cover * 30, canvas.width / 1.6) };
+}
+// Keep the visible rectangle inside the mapped country rather than letting a student pan
+// off into ground the world does not model.
+function clampCentre(cx, cy, scale, world, canvas) {
+  const bounds = worldBounds(world);
+  const halfWidth = canvas.width / (2 * scale), halfHeight = canvas.height / (2 * scale);
+  const spanX = bounds.maxX - bounds.minX, spanY = bounds.maxY - bounds.minY;
+  return {
+    cx: spanX <= halfWidth * 2 ? (bounds.minX + bounds.maxX) / 2 : Math.min(bounds.maxX - halfWidth, Math.max(bounds.minX + halfWidth, cx)),
+    cy: spanY <= halfHeight * 2 ? (bounds.minY + bounds.maxY) / 2 : Math.min(bounds.maxY - halfHeight, Math.max(bounds.minY + halfHeight, cy)),
+  };
+}
+const clampTo = (value, limits) => Math.max(limits.min, Math.min(limits.max, value));
+// A battle nobody's camera contains is a battle nobody sees. The server only sends
+// `world.battle` to an audience entitled to it - a household standing at Gonzales, or
+// the Host once the news is public - so wherever it arrives, it belongs in the frame.
+// The fighting stood about seven miles upriver of the ford (HIST-GONZ-008), so framing
+// it alongside the viewer's own people is what pulls the camera out far enough to hold
+// both. Without this the formations are drawn correctly and off-screen.
+const battlePoints = world => (world.battle?.formations || []).map(formation => ({ x: formation.x, y: formation.y }));
+function framingFor(world) {
+  const sites = sitesOf(world), home = world.map?.sites?.[homeOf(world)];
+  const fighting = battlePoints(world);
+  if (world.role === 'host') {
+    const focus = world.host?.focus;
+    if (['gonzales', 'reconstruction'].includes(focus)) {
+      const town = world.map?.sites?.gonzales;
+      const points = [...(town ? [town] : sites), ...fighting];
+      return { kind: focus, title: 'Gonzales', points: points.length ? points : sites };
+    }
+    return { kind: 'region', title: 'The region', points: sites };
+  }
+  const own = entitiesOf(world).filter(entity => entity.location);
+  const points = own.map(entity => entity.location);
+  points.push(...fighting);
+  if (home) points.push(home);
+  const travelling = own.filter(entity => entity.travel);
+  for (const entity of travelling) {
+    const destination = world.map?.sites?.[entity.travel.to];
+    if (destination) points.push(destination);
+    for (const point of world.map?.routes?.[entity.travel.routeId]?.points || []) points.push(point);
+  }
+  if (!points.length) return { kind: 'region', title: 'The region', points: sites };
+  return travelling.length
+    ? { kind: 'journey', title: `${travelling[0].name} is travelling`, points }
+    : { kind: 'home', title: world.household?.name ? `${world.household.name} land` : 'Your land', points };
+}
+function autoView(world, canvas) {
+  const framing = framingFor(world);
+  const points = framing.points.length ? framing.points : [{ x: 0, y: 0 }];
+  let minX = Math.min(...points.map(p => p.x)), maxX = Math.max(...points.map(p => p.x));
+  let minY = Math.min(...points.map(p => p.y)), maxY = Math.max(...points.map(p => p.y));
+  // A lone homestead must still show the ground around it rather than zooming forever.
+  const padX = Math.max((MIN_EXTENT - (maxX - minX)) / 2, (maxX - minX) * .18, .25);
+  const padY = Math.max((MIN_EXTENT * .56 - (maxY - minY)) / 2, (maxY - minY) * .18, .18);
+  minX -= padX; maxX += padX; minY -= padY; maxY += padY;
+  return {
+    ...framing,
+    cx: (minX + maxX) / 2, cy: (minY + maxY) / 2,
+    scale: clampTo(Math.min(canvas.width / (maxX - minX), canvas.height / (maxY - minY)), scaleLimits(world, canvas)),
+  };
+}
+function cameraFor(world, canvas) {
+  const auto = autoView(world, canvas), limits = scaleLimits(world, canvas);
+  const following = !manualView;
+  const raw = following ? auto : manualView;
+  const scale = clampTo(raw.scale, limits);
+  const { cx, cy } = clampCentre(raw.cx, raw.cy, scale, world, canvas);
+  return {
+    ...auto, cx, cy, scale, following, limits,
+    toScreen: p => ({ x: canvas.width / 2 + (p.x - cx) * scale, y: canvas.height / 2 + (p.y - cy) * scale }),
+    toWorld: s => ({ x: cx + (s.x - canvas.width / 2) / scale, y: cy + (s.y - canvas.height / 2) / scale }),
+    // Detail follows the camera instead of a mode switch, so one view serves both scales.
+    // `figure` is how tall a person stands on screen, and every other object is a
+    // multiple of it. It is tied to the world - PERSON_MILES of ground per person - so
+    // that zooming in genuinely enlarges the farm instead of holding every object at a
+    // fixed pin size. The floor keeps people findable at province scale; the ceiling
+    // stops one cabin filling the screen at maximum zoom.
+    //
+    // PERSON_MILES is a symbol size, not a claim about anyone's height. Drawn to scale
+    // a person would be a fraction of a pixel across a homestead, and the cabin would be
+    // smaller still: this map is legible, not measured. Distance, travel time and
+    // adjacency come from the simulation and are never inferred from how big art is.
+    figure: Math.max(7, Math.min(150, scale * PERSON_MILES)),
+    named: scale > 3.2,
+  };
+}
+// Pointer events cover mouse, touch and stylus with one path, so a Chromebook trackpad
+// and a phone get the same panning without a separate touch implementation.
+function fitCanvas() {
+  const canvas = $('#world-map'), rect = canvas.getBoundingClientRect();
+  if (!rect.width || !rect.height) return false;
+  const ratio = Math.min(2, window.devicePixelRatio || 1);
+  const width = Math.round(Math.min(2200, rect.width * ratio)), height = Math.round(Math.min(2200, rect.height * ratio));
+  if (canvas.width === width && canvas.height === height) return false;
+  canvas.width = width; canvas.height = height;
+  return true;
+}
+function installMapNavigation() {
+  const canvas = $('#world-map');
+  fitCanvas();
+  window.addEventListener('resize', () => { if (fitCanvas() && window.__snapshot) { drawWorld(window.__snapshot.world); renderSelection(window.__snapshot.world); } });
+  const active = new Map();
+  let anchor = null;
+  const localPoint = event => {
+    const rect = canvas.getBoundingClientRect();
+    return { x: (event.clientX - rect.left) * canvas.width / rect.width, y: (event.clientY - rect.top) * canvas.height / rect.height };
+  };
+  const currentView = () => {
+    const snapshot = window.__snapshot; if (!snapshot) return null;
+    const camera = cameraFor(snapshot.world, canvas);
+    return { cx: camera.cx, cy: camera.cy, scale: camera.scale, limits: camera.limits };
+  };
+  const centre = () => {
+    const points = [...active.values()];
+    return { x: points.reduce((sum, p) => sum + p.x, 0) / points.length, y: points.reduce((sum, p) => sum + p.y, 0) / points.length };
+  };
+  const spread = () => {
+    const points = [...active.values()];
+    return points.length < 2 ? 0 : Math.hypot(points[0].x - points[1].x, points[0].y - points[1].y);
+  };
+  const beginGesture = () => {
+    const view = currentView(); if (!view) return;
+    anchor = { view, screen: centre(), spread: spread() };
+  };
+  let pressedAt = null, travelled = 0;
+  canvas.addEventListener('pointerdown', event => {
+    canvas.setPointerCapture(event.pointerId);
+    active.set(event.pointerId, localPoint(event));
+    if (active.size === 1) { pressedAt = localPoint(event); travelled = 0; }
+    beginGesture();
+  });
+  canvas.addEventListener('pointermove', event => {
+    if (!active.has(event.pointerId) || !anchor) return;
+    active.set(event.pointerId, localPoint(event));
+    const scale = anchor.spread > 12 && spread() > 12 ? clampTo(anchor.view.scale * spread() / anchor.spread, anchor.view.limits) : anchor.view.scale;
+    const moved = centre();
+    if (pressedAt) travelled = Math.max(travelled, Math.hypot(moved.x - pressedAt.x, moved.y - pressedAt.y));
+    manualView = {
+      scale,
+      cx: anchor.view.cx + (anchor.screen.x - moved.x) / scale,
+      cy: anchor.view.cy + (anchor.screen.y - moved.y) / scale,
+    };
+    if (window.__snapshot) drawWorld(window.__snapshot.world);
+  });
+  for (const type of ['pointerup', 'pointercancel', 'pointerleave']) {
+    canvas.addEventListener(type, event => {
+      // A tap that did not drag is a choice of person, not a pan.
+      if (type === 'pointerup' && pressedAt && travelled < 7 && active.size === 1) {
+        const hit = entityAt(localPoint(event));
+        selectedId = hit;
+        selectionDismissed = !hit;
+        if (window.__snapshot) { drawWorld(window.__snapshot.world); renderSelection(window.__snapshot.world); }
+      }
+      active.delete(event.pointerId);
+      if (!active.size) pressedAt = null;
+      anchor = active.size ? (beginGesture(), anchor) : null;
+    });
+  }
+  canvas.addEventListener('wheel', event => {
+    const view = currentView(); if (!view) return;
+    event.preventDefault();
+    const scale = clampTo(view.scale * (event.deltaY < 0 ? 1.15 : 1 / 1.15), view.limits);
+    // Keep the point under the cursor still, so zooming feels like a map and not a slideshow.
+    const point = localPoint(event);
+    manualView = {
+      scale,
+      cx: view.cx + (point.x - canvas.width / 2) * (1 / view.scale - 1 / scale),
+      cy: view.cy + (point.y - canvas.height / 2) * (1 / view.scale - 1 / scale),
+    };
+    drawWorld(window.__snapshot.world);
+  }, { passive: false });
+}
+function applyMapView(action) {
+  const snapshot = window.__snapshot; if (!snapshot) return;
+  const world = snapshot.world, canvas = $('#world-map');
+  if (action === 'follow') { manualView = null; drawWorld(world); return; }
+  const view = cameraFor(world, canvas);
+  if (action === 'in' || action === 'out') {
+    manualView = { cx: view.cx, cy: view.cy, scale: clampTo(view.scale * (action === 'in' ? 1.4 : 1 / 1.4), view.limits) };
+  } else {
+    const site = world.map?.sites?.[action === 'home' ? homeOf(world) : action];
+    if (!site) return;
+    manualView = { cx: site.x, cy: site.y, scale: clampTo(Math.max(view.scale, view.limits.max * .45), view.limits) };
+  }
+  drawWorld(world);
+}
+// Shaded relief. The land has a height at every point, so valleys and rises read as
+// ground rather than as a flat diagram. Heights are a relative gameplay surface invented
+// for the world; they are not survey elevations and are never shown to a student in feet.
+const reliefCaches = new Map();
+function reliefImage(grid, key) {
+  const signature = `${grid.columns}x${grid.rows}:${grid.minX},${grid.minY}:${grid.low},${grid.high}`;
+  const cached = reliefCaches.get(key);
+  if (cached?.signature === signature) return cached.canvas;
+  const canvas = document.createElement('canvas');
+  canvas.width = grid.columns; canvas.height = grid.rows;
+  const ctx = canvas.getContext('2d'), image = ctx.createImageData(grid.columns, grid.rows);
+  const span = Math.max(1, grid.high - grid.low);
+  const at = (column, row) => grid.values[Math.min(grid.rows - 1, Math.max(0, row)) * grid.columns + Math.min(grid.columns - 1, Math.max(0, column))];
+  for (let row = 0; row < grid.rows; row++) {
+    for (let column = 0; column < grid.columns; column++) {
+      const lift = (at(column, row) - grid.low) / span;
+      // Lit from the north-west, the usual convention for reading relief on a map.
+      const slopeX = (at(column + 1, row) - at(column - 1, row)) / (2 * grid.cellX);
+      const slopeY = (at(column, row + 1) - at(column, row - 1)) / (2 * grid.cellY);
+      const shade = Math.max(0, Math.min(1, 0.5 + (slopeX * 0.7 + slopeY * 0.7) / 260));
+      // Bottomland greener, higher ground drier: a hypsometric tint, not a claim about soil.
+      const tone = 0.62 + shade * 0.5;
+      const index = (row * grid.columns + column) * 4;
+      image.data[index] = Math.round((172 - lift * 26) * tone);
+      image.data[index + 1] = Math.round((204 - lift * 30) * tone);
+      image.data[index + 2] = Math.round((118 - lift * 22) * tone);
+      image.data[index + 3] = 255;
+    }
+  }
+  ctx.putImageData(image, 0, 0);
+  reliefCaches.set(key, { signature, canvas });
+  return canvas;
+}
+function paintRelief(ctx, grid, camera, key) {
+  if (!grid?.values?.length) return false;
+  const topLeft = camera.toScreen({ x: grid.minX, y: grid.minY });
+  const bottomRight = camera.toScreen({ x: grid.minX + grid.cellX * (grid.columns - 1), y: grid.minY + grid.cellY * (grid.rows - 1) });
+  ctx.imageSmoothingEnabled = true;
+  ctx.drawImage(reliefImage(grid, key), topLeft.x, topLeft.y, bottomRight.x - topLeft.x, bottomRight.y - topLeft.y);
+  return true;
+}
+// The province underneath, the home country painted over it. One world, one camera; only
+// the density of what is drawn changes with distance.
+const PROVINCE_COVER = {
+  forest: '#7f9166', savannah: '#a9b681', prairie: '#c0c68f', marsh: '#9fb195',
+  brush: '#b4ac81', plateau: '#c2b891',
+};
+function drawProvince(ctx, world, camera) {
+  const province = world.map?.province;
+  if (!province) return false;
+  const painted = paintRelief(ctx, province.relief, camera, 'province');
+  ctx.globalAlpha = .5;
+  for (const belt of province.belts) {
+    const points = belt.points.map(camera.toScreen);
+    ctx.fillStyle = PROVINCE_COVER[belt.cover] || '#b0bb8c';
+    ctx.beginPath(); points.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); ctx.closePath(); ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+  // The Gulf: everything seaward of the shore line.
+  const shore = province.coast.map(camera.toScreen);
+  ctx.fillStyle = '#8fb0bd';
+  ctx.beginPath(); shore.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
+  ctx.lineTo(shore.at(-1).x, ctx.canvas.height + 40); ctx.lineTo(shore[0].x + 4000, ctx.canvas.height + 40); ctx.closePath(); ctx.fill();
+  const stroke = (points, colour, width, dash = []) => {
+    const screen = points.map(camera.toScreen);
+    ctx.strokeStyle = colour; ctx.lineWidth = width; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.setLineDash(dash);
+    ctx.beginPath(); screen.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); ctx.stroke(); ctx.setLineDash([]);
+  };
+  stroke(province.escarpment, '#9a9070', Math.max(1, camera.scale * .6), [9, 7]);
+  for (const road of province.roads) stroke(road.points, '#b9a97f', Math.max(1, camera.scale * .5), [8, 6]);
+  for (const river of province.rivers) stroke(river.points, '#8fb0bd', Math.max(1.2, river.width * camera.scale * .5));
+  // Settlements are named only when the camera is wide enough for them to mean anything.
+  if (camera.scale < 3.2) {
+    for (const place of province.settlements) {
+      const q = camera.toScreen(place);
+      const size = place.weight === 'major' ? 5 : 3.5;
+      ctx.fillStyle = '#6b4a33'; ctx.beginPath(); ctx.arc(q.x, q.y, size, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#3d4a37'; ctx.font = `${place.weight === 'major' ? 13 : 11}px system-ui`; ctx.textAlign = 'center';
+      ctx.fillText(place.name, q.x, q.y - size - 4);
+    }
+  }
+  return painted;
+}
+// The colony's own shaded relief is a small rectangle laid over the province's. Its edges
+// are square, so once the camera pulls back it stops reading as ground and starts reading
+// as a block of the wrong colour floating in open prairie. Fade it with distance: by the
+// time the whole country is on screen, the province's continuous relief is all that is
+// left, and there is no seam to see.
+export const HOME_RELIEF_GONE = 7, HOME_RELIEF_FULL = 18;
+export const homeReliefOpacity = scale =>
+  Math.max(0, Math.min(1, (scale - HOME_RELIEF_GONE) / (HOME_RELIEF_FULL - HOME_RELIEF_GONE)));
+function drawRelief(ctx, world, camera) {
+  drawProvince(ctx, world, camera);
+  const opacity = homeReliefOpacity(camera.scale);
+  if (opacity <= 0) return false;
+  ctx.save();
+  ctx.globalAlpha *= opacity;
+  const painted = paintRelief(ctx, world.map?.relief, camera, 'home');
+  ctx.restore();
+  return painted;
+}
+// Terrain is map data, not decoration invented by the renderer. An empty terrain list
+// draws nothing; it must never imply ground that the world does not actually model.
+const TERRAIN_STYLE = {
+  river: { stroke: '#8fb0bd', width: 3.2 }, creek: { stroke: '#9dbcc4', width: 1.4 },
+  road: { stroke: '#c3b189', width: 1.8 }, woods: { fill: '#9fb083' }, field: { fill: '#cbcf94' },
+  prairie: { fill: '#d9dcb2' }, town: { fill: '#d3c7a6' },
+};
+// Deterministic scatter inside a polygon, so timber and stubble stay put between frames.
+function scatterInside(points, seed, count) {
+  const xs = points.map(p => p.x), ys = points.map(p => p.y);
+  const minX = Math.min(...xs), maxX = Math.max(...xs), minY = Math.min(...ys), maxY = Math.max(...ys);
+  const inside = (x, y) => {
+    let hit = false;
+    for (let i = 0, j = points.length - 1; i < points.length; j = i++) {
+      if ((points[i].y > y) !== (points[j].y > y) &&
+        x < (points[j].x - points[i].x) * (y - points[i].y) / (points[j].y - points[i].y) + points[i].x) hit = !hit;
+    }
+    return hit;
+  };
+  const out = [];
+  let value = seed >>> 0;
+  const next = () => { value = (Math.imul(value ^ (value >>> 15), 0x2c1b3c6d) + 0x9e3779b9) >>> 0; return value / 4294967296; };
+  for (let attempt = 0; attempt < count * 9 && out.length < count; attempt++) {
+    const x = minX + next() * (maxX - minX), y = minY + next() * (maxY - minY);
+    if (inside(x, y)) out.push({ x, y, tint: out.length });
+  }
+  return out;
+}
+const seedOf = id => { let n = 0; for (const c of String(id)) n = (Math.imul(n, 31) + c.charCodeAt(0)) | 0; return n; };
+// Close in, open country is not a flat wash. Tufts, stones and lone post oaks are keyed
+// to their position in the world, so they sit still while the camera moves over them.
+function groundHash(cx, cy) {
+  let value = Math.imul(cx ^ 0x27d4eb2f, 0x165667b1) ^ Math.imul(cy ^ 0x9e3779b9, 0x85ebca6b);
+  value = Math.imul(value ^ (value >>> 13), 0x2c1b3c6d);
+  return ((value ^ (value >>> 16)) >>> 0) / 4294967296;
+}
+function drawGroundDetail(ctx, world, camera) {
+  if (camera.scale < 34) return;
+  const canvas = ctx.canvas;
+  const topLeft = camera.toWorld({ x: 0, y: 0 }), bottomRight = camera.toWorld({ x: canvas.width, y: canvas.height });
+  const cell = 0.055;
+  const startX = Math.floor(topLeft.x / cell), endX = Math.ceil(bottomRight.x / cell);
+  const startY = Math.floor(topLeft.y / cell), endY = Math.ceil(bottomRight.y / cell);
+  const cells = (endX - startX + 1) * (endY - startY + 1);
+  if (cells > 26000) return;
+  const figure = camera.figure;
+  // There is a ceiling on how many objects one frame can afford. Spending it top to
+  // bottom and stopping when it runs out leaves the lower half of a tall phone screen
+  // as bare paint, so thin the whole viewport evenly instead: fewer objects per acre,
+  // over all of it. `share` then reads the kind out of the roll independently of how
+  // hard it was thinned, or a sparse view would turn every surviving tuft into an oak.
+  const density = Math.min(.105, 400 / Math.max(1, cells));
+  const scattered = [];
+  for (let cy = startY; cy <= endY; cy++) {
+    for (let cx = startX; cx <= endX; cx++) {
+      const roll = groundHash(cx, cy);
+      if (roll > density) continue;
+      const jitter = groundHash(cx + 8191, cy - 5077);
+      // Kind is independent of LOD density: panning or zooming cannot turn a tuft into a tree.
+      scattered.push({ share: groundHash(cx+973,cy-997), seed: cx + cy, point: camera.toScreen({ x: (cx + jitter) * cell, y: (cy + groundHash(cx - 331, cy + 977)) * cell }) });
+    }
+  }
+  // Painted back to front, so a tuft in front of a rock overlaps it rather than being
+  // cut in half by it.
+  scattered.sort((a, b) => a.point.y - b.point.y);
+  for (const { share, seed, point } of scattered) {
+    if (share < .055 && camera.scale > 90) {
+      // A lone open-grown oak standing out of the prairie.
+      postOak(ctx, point.x, point.y, figure * SIZE.loneTree, seed);
+    } else if (share < .095) {
+      if (!drawSprite(ctx, 'rocks', point.x, point.y, figure * SIZE.rock)) {
+        ctx.fillStyle = '#b9b7a4';
+        ctx.beginPath(); ctx.ellipse(point.x, point.y, figure * .17, figure * .12, 0, 0, Math.PI * 2); ctx.fill();
+      }
+    } else if (share < .21) {
+      // Thorny scrub and prickly pear belong to this country as much as the grass does.
+      const bush = share < .17 ? 'scrub' : 'prickly-pear';
+      if (!drawSprite(ctx, bush, point.x, point.y, figure * SIZE.scrub)) {
+        ctx.fillStyle = '#7c8f5c';
+        ctx.beginPath(); ctx.ellipse(point.x, point.y - figure * .12, figure * .26, figure * .2, 0, 0, Math.PI * 2); ctx.fill();
+      }
+    } else if (!drawSprite(ctx, 'grass-tuft', point.x, point.y, figure * SIZE.tuft)) {
+      // A tuft of bunch grass (HIST-GONZ-017).
+      ctx.strokeStyle = share < .5 ? '#93a066' : '#87975d';
+      ctx.lineWidth = Math.max(.7, figure * .07); ctx.lineCap = 'round';
+      ctx.beginPath();
+      for (const lean of [-.22, 0, .22]) {
+        ctx.moveTo(point.x + lean * figure * .3, point.y);
+        ctx.lineTo(point.x + lean * figure * .9, point.y - figure * .26);
+      }
+      ctx.stroke();
+    }
+  }
+}
+function drawTerrain(ctx, world, camera) {
+  const figure = camera.figure;
+  for (const feature of world.map?.terrain || []) {
+    const style = TERRAIN_STYLE[feature.kind]; if (!style) continue;
+    const points = (feature.points || []).map(camera.toScreen); if (points.length < 2) continue;
+    if (!style.fill) {
+      ctx.beginPath(); points.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
+      ctx.strokeStyle = style.stroke; ctx.lineWidth = Math.max(1.5, Math.min(26, style.width * camera.scale * .55));
+      ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke();
+      continue;
+    }
+    ctx.beginPath(); points.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); ctx.closePath();
+    ctx.save();
+    // Timber has no edge you could walk up to and touch. Drawn at full strength its
+    // polygon reads as a ruled wedge of darker paint across the prairie, so the fill is
+    // only a tint and the trees standing in it do the work of saying where the wood is.
+    if (feature.kind === 'woods') ctx.globalAlpha *= camera.scale > 26 ? 0 : .4;
+    // The commons is trodden ground, not a paved square. Same reason, same treatment.
+    else if (feature.kind === 'town') ctx.globalAlpha *= .5;
+    ctx.fillStyle = style.fill; ctx.fill();
+    ctx.restore();
+    if (feature.kind === 'field') {
+      // Corn and cotton in rows, and the split-rail fence that kept stock out of them
+      // (HIST-GONZ-013).
+      const xs = points.map(p => p.x), ys = points.map(p => p.y);
+      const left = Math.min(...xs), right = Math.max(...xs), top = Math.min(...ys), bottom = Math.max(...ys);
+      const spacing = Math.max(4, camera.scale * .045);
+      // What is standing in the field is what the household actually planted. It used to
+      // be picked from the field's id, which looked the same but asserted a crop the
+      // world had never modelled - exactly the thing the terrain rule forbids.
+      const own = world.household?.field && feature.ownerHouseholdId === world.household.id ? world.household.field : null;
+      const crop = own ? `${own.crop}-${own.state === 'ripe' ? 'mature' : 'young'}` : null;
+      const bare = !own || own.state === 'bare';
+      const plants = !bare && hasSprite(crop) && figure * SIZE.crop > 9;
+      if (bare) {
+        // Turned earth. Nothing is growing, and nothing is drawn growing.
+        ctx.fillStyle = 'rgba(150,124,86,.45)'; ctx.fill();
+        ctx.save();ctx.clip();ctx.strokeStyle='rgba(117,85,49,.24)';ctx.lineWidth=Math.max(1,figure*.045);
+        for(let y=top+spacing;y<bottom;y+=Math.max(7,spacing)){ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(right,y);ctx.stroke();}
+        ctx.restore();
+      } else if (spacing > 4.5 && right - left > 12) {
+        ctx.strokeStyle = '#8a9350'; ctx.lineWidth = Math.max(1, spacing * .28);
+        const step = plants ? Math.max(spacing, figure * SIZE.crop * .62) : spacing;
+        for (let rowY = top + step; rowY < bottom - step * .4; rowY += step) {
+          if (!plants) {
+            ctx.beginPath(); ctx.moveTo(left + spacing * .5, rowY); ctx.lineTo(right - spacing * .5, rowY); ctx.stroke();
+            continue;
+          }
+          for (let plantX = left + step * .6; plantX < right - step * .3; plantX += step * .8) {
+            drawSprite(ctx, crop, plantX, rowY, figure * SIZE.crop);
+          }
+        }
+      }
+      if (camera.scale > 40) railFence(ctx, points, figure);
+    } else if (feature.kind === 'woods' && camera.scale > 26) {
+      // Close in, timber resolves into individual trees rather than a green wash. Timber
+      // follows the water here, so a share of it is drawn as river-bottom cottonwood
+      // rather than making every stand the same upland oak (HIST-GONZ-012).
+      const area = Math.abs(points.reduce((sum, p, i) => sum + (p.x * points[(i + 1) % points.length].y - points[(i + 1) % points.length].x * p.y), 0) / 2);
+      const count = Math.min(64, Math.round(area / Math.max(900, figure * figure * 9)));
+      const stand = scatterInside(points, seedOf(feature.id), count).sort((a, b) => a.y - b.y);
+      for (const spot of stand) {
+        if (spot.tint % 5 === 3) { if (drawSprite(ctx, 'cottonwood', spot.x, spot.y, figure * SIZE.timberTree * 1.12)) continue; }
+        else if (spot.tint % 7 === 5) { if (drawSprite(ctx, 'sapling', spot.x, spot.y, figure * SIZE.sapling)) continue; }
+        postOak(ctx, spot.x, spot.y, figure * SIZE.timberTree, spot.tint);
+      }
+    }
+  }
+}
+export function drawWorld(world) {
+  window.__animationClips = new Set();
+  const canvas = $('#world-map'), ctx = canvas.getContext('2d');
+  fitCanvas();
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#9fbe73'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+  const camera = cameraFor(world, canvas);
+  window.__camera = { kind: camera.kind, scale: camera.scale, named: camera.named, cx: camera.cx, cy: camera.cy, following: camera.following };
+  window.__relief = drawRelief(ctx, world, camera);
+  drawGroundDetail(ctx, world, camera);
+  drawTerrain(ctx, world, camera);
+  // Worn dirt, not a drafting line: a soft verge with a packed track down the middle.
+  for (const route of Object.values(world.map?.routes || {})) {
+    const points = (route.points || []).filter(Boolean).map(camera.toScreen); if (points.length < 2) continue;
+    const track = route.kind === 'track' ? .55 : 1;
+    const width = Math.max(2, Math.min(46, camera.scale * .06 * track + camera.figure * .22));
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    ctx.beginPath(); points.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
+    ctx.strokeStyle = '#a8a173'; ctx.lineWidth = width * 1.5; ctx.stroke();
+    ctx.strokeStyle = '#c6b183'; ctx.lineWidth = width; ctx.stroke();
+  }
+  const homeId = homeOf(world);
+  // Buildings and people share one back-to-front order, so a family standing south of
+  // their cabin is in front of it and one standing north is behind it. Sorting the two
+  // separately would put every person on top of every roof in the county.
+  const labels = [];
+  const standing = [];
+  for (const site of sitesOf(world)) {
+    // A road junction is a shape in the network, not a place: it must never draw a building.
+    if (site.kind === 'junction') continue;
+    const q = camera.toScreen(site), settlement = site.kind === 'town' || site.id === 'gonzales';
+    // A colony fifteen miles across is fifty pixels wide at province scale, and sixteen
+    // holdings drawn inside it are one brown smudge with the labels piled on top. Another
+    // family's homestead is drawn only once it would be legible on its own; the student's
+    // own land and the town are always drawn, because those are the two places that mean
+    // anything at that distance. Nothing is hidden that the student could act on: a
+    // neighbour's cabin is scenery, and their people are reached by standing with them.
+    const ownLand = site.id === homeId;
+    if (site.kind === 'homestead' && !ownLand && camera.scale < HOMESTEAD_LEGIBLE) continue;
+    if (settlement || site.kind === 'homestead' || !site.kind) {
+      standing.push({ y: q.y, draw: () => miniBuilding(ctx, q.x, q.y, Math.max(5, camera.figure * (settlement ? SIZE.settlementCabin : SIZE.cabin)), settlement, site.id) });
+    } else if (site.kind === 'ford') {
+      // The crossing is drawn as a break in the bank, not as a building or a bridge.
+      const width = Math.max(6, camera.figure * .9);
+      ctx.strokeStyle = '#cbbb92'; ctx.lineWidth = Math.max(2, Math.min(11, camera.figure * .16)); ctx.setLineDash([Math.max(3, camera.figure * .22), Math.max(3, camera.figure * .22)]);
+      ctx.beginPath(); ctx.moveTo(q.x - width, q.y); ctx.lineTo(q.x + width, q.y); ctx.stroke(); ctx.setLineDash([]);
+    } else if (site.kind === 'camp') {
+      // A camp is shelter, not a house: canvas and brush, nothing that implies a holding.
+      standing.push({ y: q.y, draw: () => {
+        const size = Math.max(5, camera.figure * SIZE.camp);
+        drawSprite(ctx, 'tent', q.x - size * .42, q.y, size * .9);
+        drawSprite(ctx, 'lean-to', q.x + size * .5, q.y + size * .06, size * .78);
+      } });
+    } else if (site.kind === 'woods') {
+      standing.push({ y: q.y, draw: () => {
+        const size = Math.max(4, camera.figure * SIZE.timberTree);
+        if (hasSprite('oak-broad')) {
+          for (const [dx, dy, weight] of [[-.9, -.16, .82], [.85, -.1, .8], [0, .1, 1]]) postOak(ctx, q.x + dx * size, q.y + dy * size, size * weight, seedOf(site.id) + dx * 3);
+          return;
+        }
+        ctx.fillStyle = '#6f8657';
+        for (const spot of [-1, 0, 1]) { ctx.beginPath(); ctx.arc(q.x + spot * size * .5, q.y - size * .3, size * .28, 0, Math.PI * 2); ctx.fill(); }
+      } });
+    }
+    const worthNaming = settlement || ownLand || (camera.scale >= HOMESTEAD_LEGIBLE && (site.kind === 'ford' || (camera.named && site.kind !== 'camp')));
+    // A place name goes above its buildings. Below is where the family stands, and a
+    // homestead's own name landing on top of four people and an ox is unreadable.
+    if (worthNaming) {
+      const roof = site.kind === "ford" ? -10 : camera.figure * (settlement ? SIZE.settlementCabin * 1.5 : SIZE.cabin) + 6;
+      labels.push({ name: site.name, x: q.x, y: q.y - Math.max(12, roof) });
+    }
+  }
+  const entities = entitiesOf(world).filter(entity => entity.location);
+  // Everyone else standing where your family is standing. Drawn plainly, never with a
+  // request mark and never with a selection ring that implies you can order them.
+  const observed = observedOf(world).filter(entity => entity.location);
+  drawnAt.clear();
+  const chosen = selectedEntity(world);
+  const pending = [];
+  // Six names around one cabin is a smear, not information. Below this size - which a
+  // phone at the default framing is - only the principal is named; the rest are reached
+  // by clicking them, and the hidden roster still lists every one of them by name.
+  const roomForNames = camera.named && camera.figure > 34;
+  for (const entity of entities) {
+    const point = camera.toScreen(motionProjection.position(entity, performance.now(), reducedMotion.matches || world.status !== 'running'));
+    // Which way someone is facing comes from where they are actually going, so a mirrored
+    // ox is reporting the journey the server gave it rather than decorating the scene.
+    const destination = entity.travel && world.map?.sites?.[entity.travel.to];
+    // Two different invitations, and they must not look like each other: an orange !
+    // is something being asked of this family, and a quieter ink mark is somebody
+    // standing in front of one of them waiting to be spoken to.
+    const mark = taskFor(world, entity) ? { list: pending } : meetingFor(world, entity) ? { list: pending, glyph: '…', tone: '#41556b' } : null;
+    standing.push({ y: point.y, draw: () => drawEntity(ctx, entity, point, roomForNames, camera.figure, {
+      selected: entity.id === chosen?.id, mark,
+      labels, heading: destination ? destination.x - entity.location.x : 0,
+    }) });
+  }
+  for (const entity of observed) {
+    const point = camera.toScreen(motionProjection.position(entity, performance.now(), reducedMotion.matches || world.status !== 'running'));
+    standing.push({ y: point.y, draw: () => drawEntity(ctx, { ...entity, health: { condition: entity.condition } }, point, roomForNames, camera.figure, {
+      selected: entity.id === chosen?.id, mark: null, labels, observed: true,
+    }) });
+  }
+  standing.sort((a, b) => a.y - b.y);
+  for (const item of standing) item.draw();
+  const placeFont = `${Math.round(Math.max(11, Math.min(16, camera.scale * 1.1)))}px system-ui`;
+  for (const label of labels) { ctx.font = label.font || placeFont; caption(ctx, label.name, label.x, label.y); }
+  for (const mark of pending) drawTaskMark(ctx, mark);
+  window.__viewFormations = drawFormations(ctx, world.battle, camera.toScreen, camera.named, world.tick, camera.figure);
+  canvas.dataset.formationIds = window.__viewFormations.join(' ');
+  window.__viewEntities = entities.map(entity => entity.id);
+  // Presentation evidence, same contract as __viewEntities: who was drawn because they
+  // were seen, kept as a separate list so a proof can tell the two apart.
+  window.__viewObserved = observed.map(entity => entity.id);
+  const travellers = entities.filter(entity => entity.travel);
+  const here = entities.filter(entity => entity.location.siteId).map(entity => `${entity.name} (${entity.task || entity.kind})`);
+  const journey = travellers.map(entity => `${entity.name} is on the road to ${placeName(world, entity.travel.to)}, about ${Math.round((entity.travel.progress || 0) / (entity.travel.distance || 1) * 100)}% of the way.`).join(' ');
+  const settled = here.length ? `At ${placeName(world, entities.find(e => e.location.siteId)?.location.siteId)}: ${here.join(', ')}.` : '';
+  const met = observed.length
+    ? ` Also here: ${observed.map(e => `${e.name}${e.resident ? ' of Gonzales' : ''}`).join(', ')}.`
+    : '';
+  const battleText = window.__viewFormations.length ? ` ${world.battle.caption} Miniature groups show the opposing formations.` : '';
+  const meeting = world.encounter?.status === 'open'
+    ? ` ${entities.find(e => e.id === world.encounter.listenerId)?.name || 'Someone'} has met a rider, who has stopped to speak with them.`
+    : '';
+  $('#world-description').textContent = `${settled}${met} ${journey}${meeting}${battleText}`.trim() || 'The world will appear when the class begins.';
+  const follow = $('#map-nav [data-view=follow]');
+  if (follow) { follow.dataset.active = String(camera.following); follow.textContent = camera.following ? 'Following' : 'Follow'; }
+  $('#map-title').textContent = camera.title;
+  $('#map-framing').textContent = 'Prototype · fictional families';
+  canvas.setAttribute('aria-label', $('#world-description').textContent);
+}
+function renderHousehold(world) {
+  const household = world.household;
+  if (!household) { $('#selection').hidden = true; $('#food').textContent = ''; $('#supplies').textContent = ''; return; }
+  $('#family-title').textContent = household.name || 'Your family';
+  $('#food').textContent = `Food ${Number(household.resources?.food || 0).toFixed(1)}`;
+  // Seed, the field and the hoe are the three things that run out. They sit on the map
+  // as one quiet line, because a student needs to notice them without being told to.
+  const field = household.field, hoe = world.toolCondition?.hoe;
+  const supplies = [`Seed ${Number(household.resources?.seed || 0).toFixed(0)}`];
+  if (field) supplies.push(field.state === 'ripe' ? `${field.crop} ready` : field.state === 'planted' ? `${field.crop} growing` : 'field bare');
+  if (hoe?.state === 'worn') supplies.push('hoe worn out');
+  $('#supplies').textContent = supplies.join(' · ');
+  $('#supplies').dataset.urgent = String(field?.state === 'ripe' || hoe?.state === 'worn');
+  const people = entitiesOf(world).filter(entity => entity.kind === 'person' && (household.members || []).includes(entity.id))
+    .sort((a, b) => Number(b.id === household.principalId) - Number(a.id === household.principalId));
+  // The roster is a text equivalent and a second way in: the canvas is never the only channel.
+  $('#family').replaceChildren(...people.map(entity => {
+    const li = element('li', ''); li.dataset.entityId = entity.id;
+    if (entity.id === household.principalId) li.dataset.principal = 'true';
+    if (taskFor(world, entity)) li.dataset.task = 'available';
+    // The second way in to a conversation, and the one that works without the canvas.
+    const meeting = meetingFor(world, entity);
+    if (meeting) li.dataset.task = 'meeting';
+    const button = element('button', `${entity.name}: ${entity.task || 'resting'}, ${entity.travel ? `on the road to ${placeName(world, entity.travel.to)}` : placeName(world, entity.location?.siteId)}, ${entity.health?.condition || 'well'}${taskFor(world, entity) ? '. Someone is asking for help.' : ''}${meeting ? '. A rider has stopped to speak with them.' : ''}`);
+    button.dataset.select = entity.id;
+    li.append(button); return li;
+  }));
+  // Anyone standing with one of this family. This list is not decoration: selecting a
+  // neighbour is how a trade is offered, and until it existed the only way to reach one
+  // was to click them on the canvas - which broke the rule that the map is never the sole
+  // channel for an action. The server decided who is on it; the client never widens it.
+  const others = observedOf(world);
+  $('#others').replaceChildren(...others.map(entity => {
+    const li = element('li', ''); li.dataset.entityId = entity.id;
+    const who = entity.resident ? 'of Gonzales' : entity.household ? `of ${entity.household}` : 'passing through';
+    const button = element('button', `${entity.name}, ${who}: ${entity.task || 'here'} at ${placeName(world, entity.location?.siteId)}, ${entity.condition || 'well'}`);
+    button.dataset.select = entity.id;
+    li.append(button); return li;
+  }));
+  $('#others-empty').hidden = others.length > 0;
+  $('#others-empty').textContent = 'Nobody outside your family is standing with them.';
+  const property = entitiesOf(world).filter(entity => entity.kind !== 'person' && (entity.householdId === household.id || (household.property || []).includes(entity.id)));
+  $('#property').replaceChildren(...property.map(entity => { const li = element('li', `${entity.name}: ${entity.kind} at ${placeName(world, entity.location?.siteId)}`); li.dataset.entityId = entity.id; return li; }));
+  const memory = world.events || [];
+  $('#event-log').replaceChildren(...memory.slice(-12).reverse().map(event => { const li = element('li', `${event.text || event.type} (${timeLabel(event.minute ?? 0)} into the story)`); li.dataset.eventId = event.id; return li; }));
+  renderSelection(world);
+}
+// Instructions live beside the person they concern, anchored to where they stand.
+// The farm work this person can be sent on. The list, what each costs, and the reason
+// for anything refused all come from the server: the client renders that answer and
+// never works out for itself what is possible.
+// A trade is face to face, so its controls exist only where the two people are: select
+// the neighbour standing beside your family and the offer is there. Nothing here decides
+// what is allowed - an impossible offer is refused by the server, in its own words, and
+// those words are what the student reads.
+const TRADE_GOODS = ['seed', 'food'];
+function goodSelect(id, initial) {
+  const select = element('select');
+  select.id = id;
+  select.append(...TRADE_GOODS.map(good => {
+    const option = element('option', good); option.value = good;
+    if (good === initial) option.selected = true;
+    return option;
+  }));
+  return select;
+}
+function amountInput(id, initial) {
+  const input = document.createElement('input');
+  input.id = id; input.type = 'number'; input.min = '1'; input.max = '20'; input.step = '1'; input.value = String(initial);
+  input.setAttribute('aria-label', id === 'trade-give-amount' ? 'How much to give' : 'How much to ask for');
+  return input;
+}
+function describeGoods(amounts) {
+  return TRADE_GOODS.filter(good => amounts?.[good]).map(good => `${amounts[good]} ${good}`).join(' and ');
+}
+// Authoritative updates can change which controls are available while someone is typing.
+// Keep an unfinished offer and its focus when the same neighbour remains selected.
+function rememberControls(panel) {
+  const values = new Map([...panel.querySelectorAll('input[id],select[id],textarea[id]')].map(control => [control.id, control.value]));
+  const active = document.activeElement;
+  const focus = panel.contains(active) ? { id: active.id, tag: active.tagName, data: { ...active.dataset }, start: active.selectionStart, end: active.selectionEnd } : null;
+  return () => {
+    for (const control of panel.querySelectorAll('input[id],select[id],textarea[id]')) {
+      const value = values.get(control.id);
+      if (value !== undefined && (control.tagName !== 'SELECT' || [...control.options].some(option => option.value === value))) control.value = value;
+    }
+    if (!focus) return;
+    const control = [...panel.querySelectorAll('input,select,textarea,button')].find(candidate => focus.id
+      ? candidate.id === focus.id
+      : candidate.tagName === focus.tag && JSON.stringify({ ...candidate.dataset }) === JSON.stringify(focus.data));
+    if (!control || control.disabled) return;
+    control.focus({ preventScroll: true });
+    if (Number.isInteger(focus.start) && typeof control.setSelectionRange === 'function') control.setSelectionRange(focus.start, focus.end);
+  };
+}
+let renderedTrade = null, renderedWork = null;
+function renderTrade(world, chosen, running) {
+  const panel = $('#selection-trade');
+  const key = JSON.stringify([world.role, world.householdId, running,
+    [chosen.id, chosen.name, chosen.householdId, chosen.household, chosen.observed, chosen.resident, chosen.location?.siteId],
+    (world.offers || []).filter(offer => offer.ourEntityId === chosen.id || offer.theirEntityId === chosen.id),
+    (world.entities || []).filter(entity => entity.kind === 'person').map(entity => [entity.id, entity.name, entity.principal, entity.location?.siteId, Boolean(entity.travel), entity.health?.condition])]);
+  if (renderedTrade?.key === key) return;
+  const restore = renderedTrade?.chosenId === chosen.id ? rememberControls(panel) : () => {};
+  populateTrade(world, chosen, running);
+  restore();
+  renderedTrade = { key, chosenId: chosen.id };
+}
+function populateTrade(world, chosen, running) {
+  const panel = $('#selection-trade');
+  panel.replaceChildren();
+  if (world.role === 'host' || !world.household) return;
+  const offers = world.offers || [];
+  const involved = offers.filter(offer => offer.ourEntityId === chosen.id || offer.theirEntityId === chosen.id);
+
+  for (const offer of involved) {
+    const card = element('div', null, 'trade-pending');
+    const received = offer.direction === 'received';
+    const them = offer.theirHousehold ? `${offer.theirName} of ${offer.theirHousehold}` : offer.theirName;
+    card.append(element('p', received
+      ? `${them} offers ${describeGoods(offer.weGet)} for ${describeGoods(offer.weGive)}.`
+      : `${offer.ourName} has offered ${describeGoods(offer.weGive)} to ${them} for ${describeGoods(offer.weGet)}.`, 'trade-note'));
+    const answer = element('div', null, 'trade-answer');
+    for (const [action, label] of received ? [['accept-offer', 'Accept'], ['decline-offer', 'No thank you']] : [['withdraw-offer', 'Take the offer back']]) {
+      const button = element('button', label);
+      button.dataset.action = action;
+      button.dataset.offerId = offer.id;
+      button.dataset.entityId = offer.ourEntityId;
+      button.disabled = !running;
+      answer.append(button);
+    }
+    card.append(answer);
+    panel.append(card);
+  }
+
+  // Somebody else's person. A resident of Gonzales trades at the counter instead, and a
+  // rider carrying a message is not trading at all.
+  if (!chosen.observed || !chosen.householdId || chosen.resident) return;
+  if (involved.length) return;
+  const here = (world.entities || []).filter(entity => entity.kind === 'person' && !entity.travel
+    && entity.location?.siteId && entity.location.siteId === chosen.location?.siteId
+    && !['dead', 'captured'].includes(entity.health?.condition));
+  if (!here.length) return;
+  const themNamed = chosen.household ? `${chosen.name} of ${chosen.household}` : chosen.name;
+  panel.append(element('p', `Offer ${themNamed} a trade.`, 'trade-note'));
+  const who = element('select'); who.id = 'trade-from'; who.setAttribute('aria-label', 'Which of your family makes the offer');
+  who.append(...here.map(entity => {
+    const option = element('option', entity.name); option.value = entity.id;
+    if (entity.principal) option.selected = true;
+    return option;
+  }));
+  const give = element('div', null, 'trade-line');
+  give.append(element('span', 'We give'), amountInput('trade-give-amount', 2), goodSelect('trade-give-good', 'seed'));
+  const ask = element('div', null, 'trade-line');
+  ask.append(element('span', 'for'), amountInput('trade-ask-amount', 3), goodSelect('trade-ask-good', 'food'));
+  const send = element('button', `Offer it to ${themNamed}`);
+  send.dataset.action = 'offer';
+  send.dataset.toEntityId = chosen.id;
+  send.className = 'trade-offer';
+  send.disabled = !running;
+  const line = element('div', null, 'trade-line');
+  line.append(element('span', 'Asked by'), who);
+  panel.append(line, give, ask, send);
+}
+function renderWork(world, chosen, running) {
+  const panel = $('#selection-work');
+  const key = JSON.stringify([chosen.id, running, chosen.health?.condition, Boolean(chosen.chore),
+    (world.work?.[chosen.id] || []).map(entry => ({ ...choreCache?.get(entry.id), ...entry }))]);
+  if (renderedWork?.key === key) return;
+  const restore = renderedWork?.chosenId === chosen.id ? rememberControls(panel) : () => {};
+  populateWork(world, chosen, running);
+  restore();
+  renderedWork = { key, chosenId: chosen.id };
+}
+function populateWork(world, chosen, running) {
+  const host = $('#selection-work');
+  host.replaceChildren();
+  const permitted = world.work?.[chosen.id];
+  if (!permitted?.length || !choreCache || chosen.health?.condition === 'dead' || chosen.health?.condition === 'captured') return;
+  // Server says who may do what; the catalogue says what each thing is called and costs.
+  const offered = permitted.map(entry => ({ ...choreCache.get(entry.id), ...entry })).filter(entry => entry.name);
+  if (chosen.chore) {
+    const stop = element('button', 'Call off the work');
+    stop.dataset.action = 'stop-chore';
+    stop.className = 'work-stop';
+    stop.disabled = !running;
+    host.append(stop);
+    return;
+  }
+  // A chore that wants a worn tool is not "refused" when the tool is sound, it is simply
+  // not a thing to do. Showing it greyed out would be clutter pretending to be a choice.
+  const shown = offered.filter(entry => entry.can || !/^The hoe is sound/.test(entry.why));
+  if (!shown.length) return;
+  for (const entry of shown) {
+    const button = element('button', '');
+    button.dataset.action = 'chore';
+    button.dataset.chore = entry.id;
+    button.disabled = !running || !entry.can;
+    button.className = 'work-option';
+    button.append(element('span', entry.cost ? `${entry.name} · ${entry.cost}` : entry.name, 'work-name'));
+    // Either why it cannot be done, or what it is - never nothing.
+    button.append(element('span', entry.can ? entry.describe : entry.why, 'work-note'));
+    if (!entry.can) button.title = entry.why;
+    host.append(button);
+  }
+}
+function renderSelection(world) {
+  const panel = $('#selection'), chosen = selectedEntity(world);
+  const household = world.household;
+  if (!chosen || world.role === 'host' || selectionDismissed) { panel.hidden = true; return; }
+  panel.hidden = false;
+  panel.dataset.entityId = chosen.id;
+  const commands = chosen.id === household?.principalId && chosen.principal && !chosen.observed;
+  const task = taskFor(world, chosen);
+  $('#selection-name').textContent = chosen.name;
+  // What someone is doing is the chore's own words when they are on one - "breaking the
+  // rows" says more than "work", and it is the step the server is actually running.
+  if (chosen.observed) {
+    // Somebody else's person, or one of the town's. A student can look at them and learn
+    // who they are; there is nothing here to order, and no control pretends otherwise.
+    $('#selection-state').textContent = chosen.resident
+      ? `of Gonzales · ${chosen.resident === 'seed' ? 'trades seed and stores' : chosen.resident === 'iron' ? 'works iron' : 'about the commons'}`
+      // Every family is a copy of the same four names, so a neighbour is named with theirs.
+      : `${chosen.household ? `of ${chosen.household} · ` : ''}${chosen.task || 'here'} · ${placeName(world, chosen.location?.siteId)} · ${chosen.condition || 'well'}`;
+  } else $('#selection-state').textContent = chosen.chore
+    ? `${chosen.chore.doing} · ${chosen.health?.condition || 'well'}`
+    : chosen.travel
+      ? `On the road to ${placeName(world, chosen.travel.to)} · ${Math.round((chosen.travel.progress || 0) / (chosen.travel.distance || 1) * 100)}%`
+      : `${chosen.task || 'resting'} · ${placeName(world, chosen.location?.siteId)} · ${chosen.health?.condition || 'well'}`;
+  $('#selection-task').hidden = !task;
+  $('#selection-task').textContent = task?.text || '';
+  $('#action-subject').textContent = commands ? `Ask ${chosen.name} to…`
+    : chosen.observed ? `${chosen.name} is not one of your family.`
+    : `${chosen.name} follows the household's work.`;
+  const running = world.status === 'running';
+  for (const button of $('#selection-actions').querySelectorAll('button')) {
+    const action = button.dataset.action;
+    if (action === 'help' || action === 'stay') {
+      button.hidden = !task || task.kind === 'march' || !commands;
+      button.disabled = !running || (action === 'help' && Boolean(chosen.travel));
+      button.textContent = action === 'help' ? 'Help · 2 food' : 'Stay home · keep 1 food';
+      continue;
+    }
+    if (action === 'go-upriver' || action === 'stay-in-town') {
+      // The cost of going sits on the button that spends it, in the person's own terms -
+      // "Thomas is already tired" - rather than in a rules note beside it. Nothing here
+      // explains how to play; it states what this choice will do.
+      button.hidden = !task || task.kind !== 'march' || !commands;
+      button.disabled = !running || Boolean(chosen.travel);
+      button.textContent = action === 'go-upriver'
+        ? ['Go upriver to the camp', task?.risk].filter(Boolean).join(' · ')
+        : 'Stay in town with the supplies';
+      continue;
+    }
+    const destination = button.dataset.destination === 'home' ? homeOf(world) : button.dataset.destination;
+    button.hidden = !commands;
+    button.disabled = !running || Boolean(chosen.travel) || (action === 'travel' && chosen.location?.siteId === destination);
+  }
+  renderWork(world, chosen, running);
+  renderTrade(world, chosen, running);
+  positionSelection(world, chosen);
+}
+function positionSelection(world, chosen = selectedEntity(world)) {
+  const panel = $('#selection');
+  if (panel.hidden || !chosen) return;
+  // Beside the person on a wide screen; docked on a phone, where a floating card would
+  // simply cover the family it is describing.
+  const canvas = $('#world-map'), spot = drawnAt.get(chosen.id);
+  const rect = canvas.getBoundingClientRect();
+  if (rect.width < 760 || !spot) {
+    panel.dataset.docked = 'true';
+    panel.style.left = ''; panel.style.top = '';
+  } else {
+    delete panel.dataset.docked;
+    const scaleX = rect.width / canvas.width, scaleY = rect.height / canvas.height;
+    const right = spot.x * scaleX + 26, flip = right + panel.offsetWidth > rect.width - 8;
+    panel.style.left = `${Math.max(8, flip ? spot.x * scaleX - panel.offsetWidth - 26 : right)}px`;
+    panel.style.top = `${Math.max(8, Math.min(rect.height - panel.offsetHeight - 8, spot.y * scaleY - panel.offsetHeight / 2))}px`;
+  }
+}
+function renderKnowledge(world) {
+  const host = world.role === 'host';
+  $('#knowledge-title').textContent = host ? 'News the community knows' : 'What your family has heard';
+  $('#knowledge-context').textContent = host ? 'These public reports may arrive after nearby families have heard news.' : 'Reports can be delayed or uncertain. Other families may know different things.';
+  const reports = [...(world.reports || [])].reverse();
+  $('#reports-empty').hidden = reports.length > 0;
+  $('#reports-empty').textContent = host ? 'No public reports have arrived yet.' : 'No reports have reached your family yet.';
+  const describe = report => {
+    const receivedAge = Math.max(0, report.ageMinutes ?? (world.minute - report.receivedMinute));
+    const received = receivedAge === 0 ? 'Received just now' : `Received ${timeLabel(receivedAge)} ago`;
+    // How many people carried it. A family that met the man who saw it is told nothing
+    // extra; a family at the end of a chain has that on the face of its own record.
+    const through = report.hands ? ` · ${handLabel(report.hands)}` : '';
+    return `${report.source || 'Unknown source'}${through} · ${received} · describes ${timeLabel(Math.max(0, report.observationAgeMinutes ?? (world.minute - report.observedMinute)))} earlier`;
+  };
+  // Anything a family drew out of a rider by asking is part of what it knows, so it is
+  // kept here rather than disappearing with the rider. This is the journal keeping the
+  // record, which is what the presentation change was allowed to leave alone.
+  const heard = report => (report.details || []).map(detail => element('span', `“${detail.ask}” — “${detail.answer}”`, 'news-detail'));
+  $('#reports').replaceChildren(...reports.map(report => {
+    const item = element('li', `${report.text} — ${report.status}, ${describe(report)}`);
+    item.dataset.topicId = report.topicId; item.dataset.status = report.status;
+    item.append(...heard(report));
+    return item;
+  }));
+  // News rides on the map as a single line that opens into the rest.
+  $('#news').hidden = !reports.length;
+  if (reports.length) {
+    $('#news-latest').textContent = reports[0].text;
+    $('#news-list').replaceChildren(...reports.map(report => {
+      const item = element('li', report.text);
+      item.append(element('span', `${report.status} · ${describe(report)}`, 'news-detail'), ...heard(report));
+      // A rider who has gone can still be read back. Deferred reading is a requirement,
+      // and the family's record of the news is the right place to keep the conversation
+      // that brought it: the meeting is what happened, the report is what is remembered.
+      const encounter = world.encounter;
+      if (encounter && encounter.topicId === report.topicId) {
+        const open = element('button', `Read what ${encounter.carrierName} said`, 'news-transcript');
+        open.dataset.openEncounter = encounter.id;
+        item.append(open);
+      }
+      return item;
+    }));
+  }
+}
+// The meeting. Opened by hand and never by the renderer: taking the screen away from a
+// student who is in the middle of giving somebody an order is the one thing
+// LIVING_INFORMATION.md's attention gate forbids outright. So the world puts up an
+// invitation - a mark over the person, a line in the roster, a prompt on the map - and
+// the student decides when to go and listen.
+let encounterOpen = false, lastEncounterId = null;
+function renderEncounter(world) {
+  const encounter = world.encounter;
+  const live = encounter?.status === 'open';
+  if (encounter && encounter.id !== lastEncounterId) { lastEncounterId = encounter.id; encounterOpen = false; }
+  const listener = entitiesOf(world).find(person => person.id === encounter?.listenerId);
+  const name = listener?.name || 'Someone';
+  $('#rider').hidden = !live || world.role === 'host';
+  // The invitation names who met whom. It must not carry the news: finding that out is
+  // what opening it is for.
+  $('#rider-invitation').textContent = live ? `${name} has met a rider` : '';
+  const panel = $('#encounter');
+  panel.hidden = !encounter || !encounterOpen || world.role === 'host';
+  if (panel.hidden) return;
+  panel.dataset.encounterId = encounter.id;
+  panel.dataset.status = encounter.status;
+  $('#encounter-title').textContent = `${name} and ${encounter.carrierName}`;
+  // Where it came from and how old it is, which is the part a report line could never
+  // carry: this rider left somewhere, at a time, and the thing itself is older still.
+  // Where this came from, and through how many people. The first-hand line is short
+  // because there is nothing between the family and the thing itself; the second-hand one
+  // is longer because that is the point, and a student far from Gonzales should be able to
+  // see at a glance that the person at their gate was told this by somebody else.
+  const chain = encounter.firsthand
+    ? `Rode from ${encounter.origin}`
+    : `Had it from ${encounter.toldBy} at ${encounter.toldAt} · ${handLabel(encounter.hands)} out of ${encounter.origin}`;
+  $('#encounter-origin').textContent = `${chain} · ${timeLabel(encounter.rodeForMinutes)} on the road · already ${timeLabel(encounter.observedAgoMinutes)} old when they set out`;
+  $('#encounter-said').replaceChildren(...encounter.said.map(line => {
+    const item = element('li', line.text);
+    item.dataset.speaker = line.speaker;
+    item.prepend(element('span', line.speaker === 'rider' ? encounter.carrierName : name, 'said-who'));
+    return item;
+  }));
+  $('#encounter-asks').replaceChildren(...encounter.questions.map(question => {
+    const button = element('button', question.ask, 'ask-option');
+    button.dataset.action = 'ask-rider';
+    button.dataset.lineId = question.id;
+    button.dataset.entityId = encounter.listenerId;
+    button.disabled = world.status !== 'running';
+    return button;
+  }));
+  if (live) {
+    const leave = element('button', `Let ${encounter.carrierName} ride on`, 'ask-leave');
+    leave.dataset.action = 'leave-rider';
+    leave.dataset.entityId = encounter.listenerId;
+    leave.disabled = world.status !== 'running';
+    $('#encounter-asks').append(leave);
+  }
+  $('#encounter-note').textContent = live
+    ? 'They will not wait for ever. Closing this does not unhear anything already said.'
+    : encounter.reason === 'unanswered' ? `${encounter.carrierName} would wait no longer and rode on.`
+      : encounter.reason === 'parted' ? `${name} and ${encounter.carrierName} were separated.`
+        : `${name} let ${encounter.carrierName} ride on.`;
+}
+document.addEventListener('click', event => {
+  if (!event.target.closest('#rider-open') && !event.target.closest('[data-open-encounter]')) return;
+  encounterOpen = true;
+  if (window.__snapshot) renderEncounter(window.__snapshot.world);
+});
+$('#encounter-close')?.addEventListener('click', () => {
+  encounterOpen = false;
+  $('#encounter').hidden = true;
+  $('#rider-open')?.focus();
+});
+function renderSlice(world) {
+  const request = world.request;
+  $('#request').hidden = !request || world.role === 'host';
+  if (request) {
+    $('#request').dataset.requestId = request.id;
+    $('#request').dataset.status = request.status;
+    $('#request-text').textContent = request.text;
+    const said = request.kind === 'march'
+      ? { open: 'Your family can choose how to respond.', accepted: 'Your family went upriver with them.', refused: 'Your family stayed in Gonzales.', expired: 'They crossed without an answer.' }
+      : { open: 'Your family can choose how to respond.', accepted: 'Your family chose to help.', refused: 'Your family chose to stay home.', expired: 'This request has passed.' };
+    $('#request-status').textContent = said[request.status] || '';
+  }
+  const battle = world.battle;
+  $('#battle-info').hidden = !battle;
+  $('#battle-info').dataset.phase = battle?.phase || '';
+  $('#battle-caption').textContent = battle?.caption || '';
+  $('#reconstruction-banner').hidden = !battle?.reconstruction;
+  $('#battle-phase').textContent = battle ? { gathering: 'People gather near Gonzales.', approach: 'The formations move into view.', exchange: 'An exchange of fire.', withdrawal: 'The formations move apart.', resolved: 'The encounter has ended.' }[battle.phase] || '' : '';
+  $('#host-caption').textContent = world.host?.caption || '';
+}
+// The teacher's last resort, and the only place a family key leaves its own household.
+// It is closed by default, shows one key, and clears itself, because a Host page is
+// sometimes projected in front of the whole class.
+let revealTimer = null;
+function clearRevealedKey() {
+  clearTimeout(revealTimer); revealTimer = null;
+  $('#recover-key').textContent = '';
+  $('#recover-note').textContent = 'Shown for thirty seconds, one family at a time.';
+}
+$('#recover-toggle')?.addEventListener('click', async () => {
+  const panel = $('#recover-panel'), open = panel.hidden;
+  panel.hidden = !open;
+  $('#recover-toggle').setAttribute('aria-expanded', String(open));
+  clearRevealedKey();
+  if (!open) return;
+  try {
+    const { families } = await api('/api/families');
+    $('#recover-family').replaceChildren(...families.map(family => {
+      const option = element('option', `${family.name} (${family.householdId})`);
+      option.value = family.householdId; return option;
+    }));
+    if (!families.length) $('#recover-note').textContent = 'Nobody has joined this class yet.';
+  } catch (error) { $('#recover-note').textContent = error.message; }
+});
+$('#recover-show')?.addEventListener('click', async () => {
+  const householdId = $('#recover-family').value;
+  if (!householdId) return;
+  try {
+    const family = await api(`/api/family-key?household=${encodeURIComponent(householdId)}`);
+    $('#recover-key').textContent = `${family.familyKey.slice(0, 4)} ${family.familyKey.slice(4)}`;
+    $('#recover-note').textContent = `Read this to ${family.name} only. It clears in thirty seconds.`;
+    clearTimeout(revealTimer);
+    revealTimer = setTimeout(clearRevealedKey, 30000);
+  } catch (error) { $('#recover-key').textContent = ''; $('#recover-note').textContent = error.message; }
+});
+function renderJoinLinks(snapshot) {
+  const host = snapshot.world.role === 'host'; $('#join-links').hidden = !host;
+  if (!host) return;
+  const urls = snapshot.joinUrls || [];
+  $('#join-links').replaceChildren(...urls.map((entry, index) => {
+    const p = element('p', `${index === 0 ? 'Preferred student URL' : 'Alternative'}${entry.label ? ` (${entry.label})` : ''}: `);
+    const a = element('a', entry.url); a.href = entry.url; p.append(a); return p;
+  }));
+}
+function render(snapshot) {
+  if (motionProjection.session !== snapshot.sessionId) { animationTime = 0; visibleBattlePhase = null; battleAnimationStart = 0; }
+  motionProjection.accept(snapshot, performance.now());
+  ensureMap(snapshot); ensureChores(snapshot);
+  snapshot.world.map = mapCacheId === snapshot.mapId ? mapCache : (snapshot.world.map || EMPTY_MAP);
+  $('#save-fault').hidden = !snapshot.fault;
+  $('#save-fault').textContent = snapshot.fault?.message || '';
+  $('#lifecycle').hidden = !snapshot.lifecycle;
+  $('#lifecycle').textContent = snapshot.lifecycle?.message || '';
+  window.__snapshot = snapshot;
+  window.__received.push({ revision: snapshot.revision, tick: snapshot.world.tick });
+  if (window.__received.length > 2000) window.__received.shift();
+  $('#join').hidden = true; $('#rejoin').hidden = true; $('#game').hidden = false;
+  const world = snapshot.world, host = world.role === 'host';
+  // "Connected" alone made a locked phone look like a student who had left. Away is a
+  // household whose stream has closed within the grace window; it is not a count of who
+  // is paying attention, and the Host line says so by naming the two separately.
+  const presence = snapshot.presence;
+  $('#connection').textContent = host
+    ? (presence ? `${presence.here} here${presence.away ? ` · ${presence.away} away` : ''} of ${presence.joined}` : `${snapshot.connected} connected`)
+    : '';
+  $('#session').textContent = host ? `Class code ${snapshot.sessionCode}` : (world.household?.name || world.householdId || '');
+  // The key is shown to its own household only, and in the journal rather than on the
+  // map: it is identity, not news. It is what gets this family back on a borrowed laptop
+  // or a phone that lost its cookie, and it lasts as long as the class does.
+  const key = snapshot.familyKey;
+  $('#family-key').textContent = key ? `${key.slice(0, 4)} ${key.slice(4)}` : '';
+  $('#family-key-note').textContent = key
+    ? 'Write this down. On any device, choose “I already have a family key” and type it to come back to this family.'
+    : '';
+  $('#host-controls').hidden = !host;
+  const statusLabel = world.slice?.complete ? 'story preserved' : { lobby: 'waiting to begin', running: '', paused: 'paused', ended: 'session ended' }[world.status] ?? world.status;
+  $('#world').textContent = [world.historicalDate || timeLabel(world.minute ?? 0), statusLabel].filter(Boolean).join(' · ');
+  const whenAvailable = { start: ['lobby'], pause: ['running'], resume: ['paused'], end: ['running', 'paused'], 'new-class': ['lobby', 'ended'], 'stop-server': ['lobby', 'running', 'paused', 'ended'] };
+  for (const button of $('#host-controls').querySelectorAll('button')) {
+    const allowed = (whenAvailable[button.dataset.action] || []).includes(world.status);
+    // A stop control is only offered when this process can actually stop itself.
+    button.hidden = !allowed || Boolean(snapshot.lifecycle) || (button.dataset.action === 'stop-server' && !snapshot.canStop);
+    if (button.hidden) resetConfirm(button);
+  }
+  if ($('#recover').hidden === host) {
+    $('#recover').hidden = !host;
+    if (!host) { $('#recover-panel').hidden = true; clearRevealedKey(); }
+  }
+  renderJoinLinks(snapshot);
+  renderSlice(world);
+  drawWorld(world); renderHousehold(world); renderKnowledge(world); renderEncounter(world);
+}
+function showJoin(message) {
+  events?.close(); events = null;
+  $('#game').hidden = true; $('#rejoin').hidden = true; $('#join').hidden = hostPage;
+  $('#connection').textContent = hostPage ? 'Host access required' : 'Ready to join';
+  say(message);
+}
+function connect(snapshot) {
+  if (snapshot) render(snapshot);
+  events?.close(); events = new EventSource('/api/events');
+  events.onmessage = event => { render(JSON.parse(event.data)); };
+  events.onerror = () => {
+    $('#connection').textContent = 'Connection interrupted. Reconnecting…';
+    // A new class or a stopped server ends this stream permanently. Ask once, then
+    // say which happened instead of leaving a stale page claiming to be connected.
+    if (authRecheck) return;
+    authRecheck = true;
+    setTimeout(async () => {
+      authRecheck = false;
+      try { connect(await api('/api/state')); }
+      catch {
+        const stopped = window.__snapshot?.lifecycle?.state === 'stopping';
+        showJoin(hostPage ? 'This Host session ended. Reopen the Host page from the launcher.'
+          : stopped ? 'Your teacher stopped the classroom server. Your family\'s story was saved.'
+            : 'You are no longer joined to this class. Use your family key to come back, or ask your teacher for the current class code.');
+      }
+    }, 1500);
+  };
+}
+// Two doors, one at a time. The toggle is a plain button so the pages stay usable with
+// the strict content security policy and without any inline script.
+function showDoor(which) {
+  say('');
+  $('#join').hidden = which !== 'join';
+  $('#rejoin').hidden = which !== 'rejoin';
+  $(which === 'join' ? '#join input[name="name"]' : '#rejoin input[name="key"]')?.focus();
+}
+$('#rejoin-toggle').addEventListener('click', () => showDoor('rejoin'));
+$('#join-toggle').addEventListener('click', () => showDoor('join'));
+$('#rejoin').addEventListener('submit', async event => {
+  event.preventDefault(); if (joinPending) return;
+  joinPending = true; const form = new FormData(event.target), button = event.target.querySelector('button');
+  button.disabled = true; say('');
+  try { connect(await api('/api/rejoin', { key: form.get('key') })); } catch (error) { say(error.message); }
+  finally { joinPending = false; button.disabled = false; }
+});
+$('#join').addEventListener('submit', async event => {
+  event.preventDefault(); if (joinPending) return;
+  joinPending = true; const form = new FormData(event.target), button = event.target.querySelector('button');
+  button.disabled = true; say('');
+  try { connect(await api('/api/join', { name: form.get('name'), code: form.get('code').trim().toUpperCase() })); } catch (error) { say(error.message); }
+  finally { joinPending = false; button.disabled = false; }
+});
+document.addEventListener('click', async event => {
+  const viewButton = event.target.closest('[data-view]');
+  if (viewButton) { applyMapView(viewButton.dataset.view); return; }
+  const pick = event.target.closest('[data-select]');
+  if (pick) {
+    selectedId = pick.dataset.select; selectionDismissed = false;
+    if (window.__snapshot) { drawWorld(window.__snapshot.world); renderSelection(window.__snapshot.world); }
+    return;
+  }
+  if (event.target.closest('#selection-close')) {
+    selectedId = null; selectionDismissed = true;
+    if (window.__snapshot) { drawWorld(window.__snapshot.world); renderSelection(window.__snapshot.world); }
+    return;
+  }
+  const button = event.target.closest('[data-action]'); if (!button || button.disabled) return;
+  say('');
+  const action = button.dataset.action;
+  if (confirmLabel[action] && button.dataset.confirming !== 'true') {
+    resetConfirm(confirming);
+    button.dataset.label = button.dataset.label || button.textContent;
+    button.textContent = confirmLabel[action];
+    button.dataset.confirming = 'true';
+    confirming = button;
+    confirmTimer = setTimeout(() => resetConfirm(button), 6000);
+    return;
+  }
+  resetConfirm(button);
+  const world = window.__snapshot?.world;
+  const input = { id: crypto.randomUUID?.() || `cmd-${Date.now()}-${Math.random().toString(36).slice(2)}`, action };
+  if (world?.role !== 'host') {
+    // A trade names its own actor: the person making the offer is one of mine, while the
+    // person selected on the map is the neighbour it is being made to.
+    input.entityId = button.dataset.entityId || (action === 'offer' ? $('#trade-from')?.value : null) || selectedEntity(world)?.id || world?.household?.principalId;
+    if (button.dataset.offerId) input.offerId = button.dataset.offerId;
+    if (action === 'offer') {
+      input.toEntityId = button.dataset.toEntityId;
+      input.give = { [$('#trade-give-good').value]: Number($('#trade-give-amount').value) };
+      input.ask = { [$('#trade-ask-good').value]: Number($('#trade-ask-amount').value) };
+    }
+    if (button.dataset.destination) input.destination = button.dataset.destination === 'home' ? homeOf(world) : button.dataset.destination;
+    if (button.dataset.chore) input.chore = button.dataset.chore;
+    if (button.dataset.lineId) input.lineId = button.dataset.lineId;
+  }
+  try {
+    const result = await api('/api/command', input);
+    $('#host-notice').hidden = !(result.archived || result.stopping);
+    if (result.archived) $('#host-notice').textContent = `New class ready. The previous class was archived as ${result.archived}. Share the new class code; students join again.`;
+    if (result.stopping) $('#host-notice').textContent = 'Stopping the classroom server. The class was saved and paused.';
+  } catch (error) { say(error.message); }
+});
+$('#news-toggle')?.addEventListener('click', () => {
+  const list = $('#news-list'), open = list.hidden;
+  list.hidden = !open;
+  $('#news-toggle').setAttribute('aria-expanded', String(open));
+});
+installMapNavigation();
+// The family journal is a secondary keyboard route into the same permitted entities.
+function showJournal(open) {
+  const journal = $('#family-journal');
+  if (!journal) return;
+  journal.dataset.open = String(open);
+  $('#journal-toggle').setAttribute('aria-expanded', String(open));
+  $('#journal-close').hidden = !open; $('#journal-backdrop').hidden = !open;
+  if (open) $('#journal-close').focus(); else $('#journal-toggle').focus();
+}
+$('#journal-toggle')?.addEventListener('click', () => showJournal($('#family-journal').dataset.open !== 'true'));
+$('#journal-close')?.addEventListener('click', () => showJournal(false));
+$('#journal-backdrop')?.addEventListener('click', () => showJournal(false));
+document.addEventListener('keydown', event => { if (event.key === 'Escape' && $('#family-journal')?.dataset.open === 'true') showJournal(false); });
+// Twelve display frames per second are enough for the 4–6 frame pose cycles. The
+// authoritative clock remains on the server. Pausing freezes this clock exactly;
+// returning from a hidden tab never catches up unseen animation or simulation work.
+function animateMap(now) {
+  const elapsed = previousFrame ? Math.min(100, now - previousFrame) : 0;
+  previousFrame = now;
+  const world = window.__snapshot?.world;
+  const active = world?.status === 'running' && !document.hidden && !reducedMotion.matches && !$('#game').hidden;
+  if (active) animationTime += elapsed;
+  if (active && now - paintedFrame >= 1000 / 12) {
+    paintedFrame = now;
+    const began = performance.now(); drawWorld(world); positionSelection(world);
+    window.__animation = { timeMs: animationTime, clips: [...window.__animationClips], drawMs: performance.now() - began };
+  }
+  requestAnimationFrame(animateMap);
+}
+requestAnimationFrame(animateMap);
+reducedMotion.addEventListener('change', () => { if (window.__snapshot) drawWorld(window.__snapshot.world); });
+// The map draws immediately with its own shapes, and repaints once when the sprite
+// sheets arrive. Nothing waits on the art: a stalled or missing download costs detail,
+// never a working class.
+onArtReady(() => { if (window.__snapshot) drawWorld(window.__snapshot.world); });
+loadArt();
+try {
+  if (hostPage && location.hash) { await api('/api/host', { key: location.hash.slice(1) }); history.replaceState(null, '', '/host'); }
+  connect(await api('/api/state'));
+} catch (error) { $('#join').hidden = hostPage; $('#connection').textContent = hostPage ? 'Host access required' : 'Ready to join'; if (hostPage) say(error.message); }

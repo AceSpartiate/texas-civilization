@@ -1,0 +1,319 @@
+{
+  "library": "frontier-v1",
+  "generator": "Built-in image_gen.imagegen",
+  "promptFile": "docs/art-prompts.json",
+  "licenseNote": "Generated for this project. No third-party asset pack or historical likeness source was copied. No independent copyright or exclusivity determination is asserted.",
+  "assetSources": [
+    {
+      "sheet": "nature",
+      "promptId": "frontier-v1/nature",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-e4d354ca-1cca-4f74-80f0-57bbd7dacb65.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/nature.png",
+      "postProcessing": "None. Source PNG copied unchanged. Sprite rectangles measured from alpha; source pixels not rewritten.",
+      "review": "Accepted after transparency and measured-frame validation."
+    },
+    {
+      "sheet": "buildings",
+      "promptId": "frontier-v1/buildings",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-1977b990-e56b-4104-bdf6-9fe094654b90.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/buildings.png",
+      "postProcessing": "None. Source PNG copied unchanged. Sprite rectangles measured from alpha; source pixels not rewritten.",
+      "review": "Accepted after transparency and measured-frame validation."
+    },
+    {
+      "sheet": "transport",
+      "promptId": "frontier-v1/transport",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-4684cfed-4989-4b62-b194-b045e916d65c.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/transport.png",
+      "postProcessing": "None. Source PNG copied unchanged. Sprite rectangles measured from alpha; source pixels not rewritten.",
+      "review": "Accepted after transparency and measured-frame validation."
+    },
+    {
+      "sheet": "civilians",
+      "promptId": "frontier-v1/civilians",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-ab9495a0-0476-43ae-9fe5-8e4c3943fd07.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/civilians.png",
+      "postProcessing": "None. Source PNG copied unchanged. Sprite rectangles measured from alpha; source pixels not rewritten.",
+      "review": "Accepted after transparency and measured-frame validation."
+    },
+    {
+      "sheet": "military",
+      "promptId": "frontier-v1/military",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-15fa1d3a-e854-429c-b6a1-5c9528dd9216.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/military.png",
+      "postProcessing": "None. Source PNG copied unchanged. Sprite rectangles measured from alpha; source pixels not rewritten.",
+      "review": "Accepted after transparency and measured-frame validation."
+    },
+    {
+      "sheet": "equipment",
+      "promptId": "frontier-v1/equipment",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-3db0002a-7bec-4fde-bce8-726fcb496c0b.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/equipment.png",
+      "postProcessing": "None. Source PNG copied unchanged. Sprite rectangles measured from alpha; source pixels not rewritten.",
+      "review": "Accepted after transparency and measured-frame validation."
+    },
+    {
+      "sheet": "fortifications",
+      "promptId": "frontier-v1/fortifications",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-89d9e287-85cd-4a1e-8e62-e9f1d98a27df.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/fortifications.png",
+      "postProcessing": "None. Source PNG copied unchanged. Sprite rectangles measured from alpha; source pixels not rewritten.",
+      "review": "Period-inaccurate cell excluded; remaining named frames usable."
+    },
+    {
+      "sheet": "household",
+      "promptId": "frontier-v1/household",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-c9de160f-ccc9-41b9-bf79-afaf2f928c27.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/household.png",
+      "postProcessing": "None. Source PNG copied unchanged. Sprite rectangles measured from alpha; source pixels not rewritten.",
+      "review": "Accepted after transparency and measured-frame validation."
+    },
+    {
+      "sheet": "effects",
+      "promptId": "frontier-v1/effects",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-0aefe15f-3c9d-4438-8350-957d138a0317.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/effects.png",
+      "postProcessing": "None. Source PNG copied unchanged. Sprite rectangles measured from alpha; source pixels not rewritten.",
+      "review": "Accepted after transparency and measured-frame validation."
+    },
+    {
+      "sheet": "people-walk",
+      "promptId": "frontier-v1/people-walk",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-b116b738-a9df-4514-8ef8-e497f1ef342a.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-walk.png",
+      "postProcessing": "None. Source PNG copied unchanged. Sprite rectangles measured from alpha; source pixels not rewritten.",
+      "review": "Accepted after transparency and measured-frame validation."
+    },
+    {
+      "sheet": "people-work",
+      "promptId": "frontier-v1/people-work",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-11cd924e-9ae8-4bd5-b339-dbd2b1d876cc.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-work.png",
+      "postProcessing": "None. Source PNG copied unchanged. Sprite rectangles measured from alpha; source pixels not rewritten.",
+      "review": "Accepted after transparency and measured-frame validation."
+    },
+    {
+      "sheet": "people-carry",
+      "promptId": "frontier-v1/people-carry",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-f37a0d21-d87f-486b-ab90-60e419434e4d.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-carry.png",
+      "postProcessing": "None. Source PNG copied unchanged. Sprite rectangles measured from alpha; source pixels not rewritten.",
+      "review": "Accepted after transparency and measured-frame validation."
+    },
+    {
+      "sheet": "animal-motion",
+      "promptId": "frontier-v1/animal-motion",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-b60cdc87-54ea-4dbb-b06d-f9ae681e312f.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/animal-motion.png",
+      "postProcessing": "None. Source PNG copied unchanged. Sprite rectangles measured from alpha; source pixels not rewritten.",
+      "review": "Accepted after transparency and measured-frame validation."
+    },
+    {
+      "sheet": "military-motion",
+      "promptId": "frontier-v1/military-motion",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-da334e5f-29a1-48fe-ae1e-6dffb7ab27de.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/military-motion.png",
+      "postProcessing": "None. Source PNG copied unchanged. Sprite rectangles measured from alpha; source pixels not rewritten.",
+      "review": "Accepted after transparency and measured-frame validation."
+    },
+    {
+      "sheet": "architecture-extra",
+      "promptId": "frontier-v1/architecture-extra",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-d1995989-fb81-4184-b589-03498cf8acbf.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/architecture-extra.png",
+      "postProcessing": "None. Source PNG copied unchanged. Sprite rectangles measured from alpha; source pixels not rewritten.",
+      "review": "Accepted after transparency and measured-frame validation."
+    },
+    {
+      "sheet": "people-tasks",
+      "promptId": "frontier-v1/people-tasks",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-65fbfc55-39e9-4d4a-ac06-663e6a3da013.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-tasks.png",
+      "postProcessing": "None. Source PNG copied unchanged. Sprite rectangles measured from alpha; source pixels not rewritten.",
+      "review": "Accepted after transparency and measured-frame validation."
+    },
+    {
+      "sheet": "wagon-rig",
+      "promptId": "frontier-v1/wagon-rig",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-e07063a5-9306-4761-8967-56fa32e14471.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/wagon-rig.png",
+      "postProcessing": "None. Source PNG copied unchanged. Sprite rectangles measured from alpha; source pixels not rewritten.",
+      "review": "Accepted after transparency and measured-frame validation."
+    },
+    {
+      "sheet": "people-vertical",
+      "promptId": "frontier-v1/people-vertical",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-6628f03e-f15e-4290-8dc1-3c0d7e401d1e.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-vertical.png",
+      "postProcessing": "None. Source PNG copied unchanged. Sprite rectangles measured from alpha; source pixels not rewritten.",
+      "review": "Accepted after transparency and measured-frame validation."
+    },
+    {
+      "sheet": "animal-vertical",
+      "promptId": "frontier-v1/animal-vertical",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-8c5115ac-c911-4c1d-8e6c-f230972d6975.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/animal-vertical.png",
+      "postProcessing": "None. Source PNG copied unchanged. Sprite rectangles measured from alpha; source pixels not rewritten.",
+      "review": "Accepted after transparency and measured-frame validation."
+    },
+    {
+      "sheet": "military-vertical",
+      "promptId": "frontier-v1/military-vertical",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-49e07c36-c86f-4466-9c9b-905cb717a864.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/military-vertical.png",
+      "postProcessing": "None. Source PNG copied unchanged. Sprite rectangles measured from alpha; source pixels not rewritten.",
+      "review": "Accepted after transparency and measured-frame validation."
+    },
+    {
+      "sheet": "people-care",
+      "promptId": "frontier-v1/people-care",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-327ded2a-bc61-461f-a0b2-d7013d993705.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-care.png",
+      "postProcessing": "None. Source PNG copied unchanged. Sprite rectangles measured from alpha; source pixels not rewritten.",
+      "review": "Accepted after transparency and measured-frame validation."
+    },
+    {
+      "sheet": "military-actions",
+      "promptId": "frontier-v1/military-actions",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-641e3a51-a7e7-4966-a46c-c45cbb46cfef.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/military-actions.png",
+      "postProcessing": "None. Source PNG copied unchanged. Sprite rectangles measured from alpha; source pixels not rewritten.",
+      "review": "Accepted after transparency and measured-frame validation."
+    },
+    {
+      "sheet": "people-search-trade",
+      "promptId": "frontier-v1/people-search-trade",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-82aab5e5-a146-4bd1-a08c-fc0f5cb5751d.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-search-trade.png",
+      "postProcessing": "None. Original PNG retained unchanged; alpha-measured frame rectangles.",
+      "review": "Accepted pending final measured alpha test."
+    },
+    {
+      "sheet": "courier-mounted",
+      "promptId": "frontier-v1/courier-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-65ffe553-fd7b-4363-9833-36c6e759d146.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/courier-mounted.png",
+      "postProcessing": "None. Original PNG retained unchanged; alpha-measured frame rectangles.",
+      "review": "Accepted pending final measured alpha test."
+    },
+    {
+      "sheet": "animal-graze",
+      "promptId": "frontier-v1/animal-graze",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-b9a0015d-ec4d-4fef-813f-cfc61f205753.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/animal-graze.png",
+      "postProcessing": "None. Original PNG retained unchanged; alpha-measured frame rectangles.",
+      "review": "Accepted pending final measured alpha test."
+    },
+    {
+      "sheet": "alamo-modules",
+      "promptId": "frontier-v1/alamo-modules",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-d248f17c-1cf9-4ab3-9a50-d766ecfbe5d3.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/alamo-modules.png",
+      "postProcessing": "None. Original PNG retained unchanged; alpha-measured frame rectangles.",
+      "review": "Accepted pending final measured alpha test."
+    },
+    {
+      "sheet": "alamo-interiors",
+      "promptId": "frontier-v1/alamo-interiors",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-d5bffdb8-d24e-4f61-a9bc-79392b47aecb.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/alamo-interiors.png",
+      "postProcessing": "None. Source PNG copied unchanged; frame rectangles measured.",
+      "review": "Generated after temporary service usage limit reset. Joe appearance is an interpretation, not an attested likeness."
+    },
+    {
+      "sheet": "joe-poses",
+      "promptId": "frontier-v1/joe-poses",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-fcda53b8-64de-47de-b1ae-5557a480791a.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/joe-poses.png",
+      "postProcessing": "None. Source PNG copied unchanged; frame rectangles measured.",
+      "review": "Generated after temporary service usage limit reset. Joe appearance is an interpretation, not an attested likeness."
+    },
+    {
+      "sheet": "alamo-facades",
+      "promptId": "frontier-v1/alamo-facades",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-da88e068-92c7-417d-8338-e5740b5c1df0.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/alamo-facades.png",
+      "postProcessing": "None. Original PNG with measured alpha crops.",
+      "review": "Stylized unfinished 1836 facade, portal ornament and buttressed wall; not an exact elevation."
+    },
+    {
+      "sheet": "courier-encounters",
+      "promptId": "frontier-v1/courier-encounters",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "edit",
+      "prompt": "Create an ORIGINAL transparent RGBA game sprite atlas, exactly 4 columns by 4 rows, 16 separate full-body mounted messenger poses with very generous empty transparent gutters and safe exterior margins. Match the supplied reference's SAME rider and SAME chestnut horse: brown broad-brim hat, ochre shirt, dark teal waistcoat, tan trousers, brown boots, saddle and brown shoulder dispatch bag; chestnut horse black mane/tail and small white forehead marking. Rustic illustrated Texas 1835 miniature game art, earthy dark outlines and restrained shading. Fixed east-facing elevated side/three-quarter view in ALL 16 cells. Keep horse's four hooves planted, saddle and rider proportions and anchor constant across all frames. No walking or grazing. Animate upper-body gestures only; reins stay in the left hand. Row1 four frames: mounted listener, attentive neutral, small head tilt, small nod, return neutral. Row2 four frames: mounted speaking, right hand relaxed, right palm small open gesture, a gentle outward gesture, return near neutral. Row3 four frames: rider takes a folded cream letter from shoulder bag, draws it out, holds it toward someone on the ground on right, arm extended offering letter. Row4 four frames: mounted rider points along road east, first hand rises, points east, holds pointing, hand lowers. DO NOT include any second person, speech bubble, text, panel border, grass, floor or background. Each cell shows the complete horse and rider, no cropping, no overlap between cells. Real transparent alpha, NOT a checkerboard painted in the image. These will be cut into independent timed frames. Preserve reference identity closely and make sequence actions readable.",
+      "alphaCorrectionPrompt": "Fix the attached 16-pose mounted messenger sprite sheet. Preserve all 16 drawings and their 4 by 4 reading order, same identities, gestures and positions. REMOVE the entire gray and white checkerboard background, replacing it with REAL TRANSPARENT ALPHA pixels. The output must be a genuine 8-bit RGBA PNG with alpha=0 in all empty areas including gaps between legs, reins and figures. Do not paint a transparency pattern or flat color. Keep dark outlines, no white/checkered halo. Do not add or alter art. Leave generous transparent margins around each pose. This is a production sprite sheet, not a mockup of one.",
+      "referenceImage": "public/assets/frontier-v1/atlases/courier-mounted.png",
+      "rejectedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-dace71bb-0ada-4686-8c7d-18dcf464e213.png",
+      "rejectionReason": "Opaque RGB with painted checkerboard. Replaced using built-in image generation; no local pixel removal.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-52c003bc-5640-4116-b4e2-48dee47c9e13.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/courier-encounters.png",
+      "postProcessing": "None. Final built-in generated PNG copied unchanged; alpha measured only.",
+      "review": "Four E/W mounted actions: listening, speaking, letter offer, pointing. Horse/rider proportions need final cross-sheet registration; transitions and other facings remain production work."
+    }
+  ],
+  "rejectedAttempts": [
+    "Landscape sheets with opaque brown backgrounds were replaced by genuinely transparent square generations.",
+    "An edit returned baked checkerboard pixels and was not shipped.",
+    "The first military-actions sheet clipped hands/weapons; a clean regeneration replaced it.",
+    "The later rounded Alamo facade remains only in its original source sheet; its cell is excluded from every usable frame and clip."
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "record": "rider-encounter",
+  "date": "2026-09-11",
+  "ownerDirection": "News must arrive through people. docs/LIVING_INFORMATION.md, bounded build order step 1: replace one Gonzales report's presentation with one real rider/family encounter, keeping the current journal as a record. Prove source origin, distance delay, one conversation and reconnect before converting all news.",
+  "claim": "FIC-GONZ-013",
+  "scope": {
+    "converted": "cannon-request, and nothing else. A topic is carried in person because somebody authored a conversation for it in sim/encounters.mjs, and by no other mechanism; gonzales-outcome and every fixture topic still deliver the old way, at the door.",
+    "deferredToStep2": [
+      "Relays and onward delivery - a report passed from one carrier to another with its ancestry intact.",
+      "One rider informing successive eligible listeners from different households.",
+      "Integration with the autonomous director and with opportunity eligibility.",
+      "Interruption and time-barrier tests beyond the single compression barrier proved here."
+    ]
+  },
+  "why": {
+    "before": "The courier machinery was already honest - a real rider on a real road for a real number of minutes - and then it did the one thing the owner objected to: knowledge appeared in a household when the courier's coordinates reached the home site, whether or not a living person was standing there. A family could be off in the timber all afternoon and come home already knowing. News was a line of text that arrived at a place.",
+    "after": "A rider reins in beside a named person and says it out loud. The household knows because somebody was told."
+  },
+  "rules": {
+    "sourceOrigin": "dispatchReport starts the rider at the report's own site (world.truth[topicId].siteId) rather than at Gonzales by default. A topic sited at the camp puts a rider on the road at the camp.",
+    "route": "Unchanged: findPath over the road graph, so the river is crossed at the ford or not at all.",
+    "meeting": "EARSHOT_MILES = 0.45, tested against the stretch of road actually covered since the last look rather than against where the rider ended up - a rider covers 2.6 miles a tick and would otherwise jump clean over a family. The meeting happens at the point of nearest approach, and the rider is put there, so they are drawn slowing to a halt rather than doubling back.",
+    "halting": "travel.halted freezes progress while keeping the journey, because an entity with no travel and no site is an invalid world. progressTravel returns early on a halted traveller.",
+    "barrier": "The Guadalupe. blockedByWater is a segment-intersection test against terrain of kind 'river' only; a creek is a step across. Two people a few hundred yards apart on opposite banks are not in earshot in any sense that matters, because one cannot reach the other without riding to the ford.",
+    "whoIsMet": "Whichever member of the audience household the rider actually came alongside - nearest first, then by id. Measured across a 15-household class, this is usually not the principal, which is the point: the person at the door is the person who heard it.",
+    "receiptPoint": "The opening line. It is spoken the instant the two are in earshot and the household learns then. Failing to open the panel cannot unhear it.",
+    "conversation": "Five optional questions, each adding a qualified detail. Nothing is scored, nothing is a right answer, and asking nothing is a complete way to play. The answers are the only thing that a student can lose by not attending.",
+    "uncertainty": "HISTORY.md forbids stating a troop total at Gonzales, so the rider has none to give and says so. The exclusion is characterisation rather than a gap.",
+    "patience": "PATIENCE_MINUTES = 1200, reset by every question. A rider who is never spoken to rides on and the family keeps the news, minus whatever it did not ask for.",
+    "sight": "SIGHT_MILES = 5, and only for the family the rider is carrying to. It is calibrated in ticks of approach rather than in eyesight; see notProved.",
+    "separation": "Four states are kept apart, as the document requires: the encounter being available, words spoken, household knowledge, and whether a player has read any of it. Only the last is client-side, and it changes nothing.",
+    "saveVersion": "Not moved. world.encounters and nextEncounterId are absent on an older class, which is the correct empty value, and an in-flight courier from such a class carries no `inPerson` mark and still delivers the old way. validateWorld accepts an absent encounter table and rejects a malformed one."
+  },
+  "leakage": {
+    "rule": "The projection carries the questions - those are the listener's own words - and never the answers. An answer that has not been given is nowhere on the wire.",
+    "rider": "observedBy reduces a rider the same way it reduces everybody else and adds one flag, `carrier: true`, meaning a person on a horse. Measured on the live wire, the keys were exactly id, name, kind, householdId, resident, carrier, household, location, travel, task, condition, observed. No report, no topic, no audience.",
+    "others": "Another household's conversation projects as null, and the Host's as null."
+  },
+  "regressionDiscipline": {
+    "rule": "CLAUDE.md: a new test is not evidence until it has failed.",
+    "newFile": "tests/encounters.test.mjs, 19 tests",
+    "extended": "tests/motion-binding.test.mjs now also covers the rider bindings",
+    "fullSuite": "126 pass, 0 fail",
+    "injectedRegressions": [
+      { "injected": "a report is posted through the door of an empty cabin (the state before this work)", "caught": 3 },
+      { "injected": "earshot is tested only where the rider ended up, so a rider jumps over a family", "caught": 2 },
+      { "injected": "the river stops being a barrier to a voice", "caught": 1 },
+      { "injected": "unasked answers are shipped to the client with the questions", "caught": 1 },
+      { "injected": "hearing it said teaches the household nothing until somebody reads the panel", "caught": 9 },
+      { "injected": "the rider rides on through the conversation instead of stopping", "caught": 1 },
+      { "injected": "anybody in the family may answer a rider who stopped for one of them", "caught": 1 },
+      { "injected": "compressed time runs straight past a rider coming alongside a family", "caught": 1 },
+      { "injected": "what a family drew out of a rider by asking is not kept", "caught": 1 },
+      { "injected": "a rider waits for ever rather than riding on", "caught": 1 },
+      { "injected": "every rider is spawned in the town whatever the report is about", "caught": 1 },
+      { "injected": "the rider's account is re-read from the clock instead of frozen at the meeting", "caught": 1 },
+      { "injected": "a rider stops being a rider the moment the errand is discharged", "caught": 1 },
+      { "injected": "the rider holds the speaking pose for the whole conversation", "caught": 1 },
+      { "injected": "an open conversation discharges its own rider's errand, because the family now knows", "caught": 1 },
+      { "injected": "a rider reined in out on the road is not visible to the family they stopped for", "caught": 1 }
+    ],
+    "noPreExistingTestChangedState": true,
+    "oneGuardWasWeak": "The early-discharge reorder was unobservable until the ignored-rider test was made to step two ticks before checking that the errand was still in hand. Before that it passed either way, which is not evidence."
+  },
+  "foundByMeasuringRatherThanByReading": [
+    {
+      "defect": "The rider became visible and reined in on the same tick, so there was no approach at all.",
+      "cause": "SIGHT_MILES was 1.2 and a rider covers 2.6 miles a tick.",
+      "fix": "SIGHT_MILES = 5, which is about two ticks of riding. Honest ceiling recorded below."
+    },
+    {
+      "defect": "A rider three hours off the road announced twenty-two the longer a student read the panel.",
+      "cause": "Provenance was computed from world.minute, and the conversation is itself compressed time passing.",
+      "fix": "Frozen at openedMinute. What somebody says when they arrive does not change afterwards."
+    },
+    {
+      "defect": "The horse vanished under the rider at the end of every conversation and they were redrawn as a settler standing in the yard.",
+      "cause": "`carrier` was read off `report`, which is deleted the moment the errand is discharged.",
+      "fix": "A durable `courier` flag set at dispatch. Handing over a message does not put somebody off their horse."
+    },
+    {
+      "defect": "The rider held the speaking loop for thirty solid ticks while nothing was being said, and the delivered listening frames could not occur at all.",
+      "cause": "`speaking` meant 'the rider spoke last', and a rider always speaks last because they answer.",
+      "fix": "A two-tick window after a line. Waiting to be asked something is listening, which is also the truthful pose."
+    },
+    {
+      "defect": "A rider who reined in out on the road disappeared from the family's own view one tick into the conversation.",
+      "cause": "Visibility needed a report, and the opening line makes the household know, which discharged it.",
+      "fix": "The open meeting itself makes the rider visible, and they stay in sight while they ride away."
+    }
+  ],
+  "browserProof": {
+    "date": "2026-09-11",
+    "seed": "gonzales-rider, six households, chosen because home-6 is 25.8 road miles from Gonzales and home-2 is 3.8",
+    "method": "Live class. Five households joined over HTTP, the sixth was a real browser student over the same server. Host started it and was not touched again. Controls activated through the DOM, which is this repository's own precedent for a browser pane too small for reliable pointer work. Tick 400 ms.",
+    "approachAndPoses": "Recorded from window.__animationClips, the renderer's own record of clips it actually drew with non-zero width, one row per tick: t47 mounted-courier-e riding on the road; t48-49 mounted-courier-speak, halted at home-6, facing east; t50-78 mounted-courier-listen; t79 onward mounted-courier-graze with the conversation closed. All four encounter and travel frames of the delivered sheet are reachable in an ordinarily played class, and none of them was before.",
+    "invitation": "The prompt read exactly \"Elena has met a rider\" and carried none of the news. The panel opened only when it was pressed; the camera was never moved.",
+    "conversation": "Header: \"Rode from Gonzales · 3.3 hours on the road · already 2.7 hours old when they left\". All five questions asked through the real buttons, all five answered, all five kept in the household's record. An unasked answer was never present in window.__snapshot.",
+    "distance": "hh-6 heard at minute 960 from Willa Hines, who rode from Gonzales. hh-2, at a fifth of the distance, heard at minute 640 from a different rider.",
+    "reconnect": "Full page reload. Same household, the report still in the record, and \"Read what Willa Hines said\" reopened the complete eleven-line transcript with the same frozen provenance and all five details. No question buttons, because the rider had gone.",
+    "patienceObserved": "A first run was lost because the conversation timed out while it was being inspected. That is what raised PATIENCE_MINUTES from 600 to 1200, and it is the only reason the number is what it is."
+  },
+  "notProved": [
+    "That the approach can be seen for more than a second. At twenty fictional minutes a tick a rider crosses the county in seconds, so the visible approach is one or two ticks whatever SIGHT_MILES is - and at the default camera framing the rider enters the view about one tick before reining in. Widening sight further does not help, because the camera is the limit, not the radius. Slowing riders down would fix it and would change the whole information model.",
+    "That 1200 minutes is the right patience. It was doubled because a first measured run lost the conversation to a timeout, and it has never been played with students.",
+    "That five questions is the right number, that these are the right five, or that a student reads any of them. The wording has had a historical review against HISTORY.md's exclusions and no classroom review at all.",
+    "That a family which is away all class still hears. A rider waits at the cabin indefinitely and every measured class had somebody at home, but nothing guarantees it and the honest outcome is that such a family does not hear.",
+    "Anything about five or thirty physical devices, district Wi-Fi, or a full 45-minute session.",
+    "Any part of the Regional pacing, Performance and staging, or Attention and access gates in docs/LIVING_INFORMATION.md beyond the single no-camera-hijack rule honoured here."
+  ],
+  "seenWhileProving": "Across a 15-household class the rider met a non-principal in most families. That was not designed for and is the best thing about it: the person who answers the door is the person who heard it, so the student has to act through somebody other than Thomas."
+}

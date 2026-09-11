@@ -1,0 +1,267 @@
+# Claude handoff — Astra foundation
+
+Updated **2026-09-11**. Overall maturity: **PROTOTYPE**. The four foundation gates were developed sequentially and have practical development evidence. This is a working Gonzales foundation, not the complete game or a classroom-ready release.
+
+Read **VISION.md → this file → TECH.md → GAME.md**, then **HISTORY.md** before changing historical content. The full Claude roadmap remains reference; do not start later arcs to compensate for unfinished core quality.
+
+**Latest owner direction: news must arrive through people.** *(Step 1 of its build order shipped 2026-09-11; see the next section.)* Read [docs/LIVING_INFORMATION.md](docs/LIVING_INFORMATION.md) before further information/UI work. Messengers must travel from events or real relays, meet a specific family member in range and deliver news through conversations. Near Gonzales and far Liberty households learn at different times and face different reachable opportunities: early service with lasting Alamo/Goliad consequences, later army participation, evacuation protection, San Jacinto and plausible government work. Houston's uncertain plans should create frustration through incomplete reports, without forced tragedy or a claim that he never communicated. The document supplies architecture, regional pacing, historical constraints and production release gates. **Step 1 of its bounded build order is implemented and proved as of 2026-09-11, for one report only. Steps 2 and 3 - relays, onward delivery, director integration, and the regional service, evacuation and government paths - remain required next work and not implemented gameplay.**
+
+
+**And from 2026-09-11 it changes hands on the way, so distance now decides what a family hears and not only when.** Step 1 left every household meeting an eyewitness; the far ones simply met one later. A rider now carries the word about twelve miles - to a fork of the road or to the ford, never to the family's own gate - and gives it to somebody going further, who gives it on again. What crosses with it is the whole ancestry: where it started, when it was seen, and everybody who has carried it. So a family beside Gonzales meets the rider who saw the camp and holds a **confirmed** report, and a family at the edge of the county meets the fourth person to carry it, who says plainly that they did not see any of this themselves, names who handed it to them and where, and leaves that household holding a **rumor**. Nothing tunes that gradient; the road produces it. A rider also now reins in for **anybody** they come alongside who would learn something, not only the family they were sent to, and rides on afterwards still carrying the errand. Implemented as `advanceRelays` in [sim/world.mjs](sim/world.mjs) with the dialogue and the range rules in [sim/encounters.mjs](sim/encounters.mjs); the design record is [docs/evidence/rider-relay.json](docs/evidence/rider-relay.json) and the live one, two households in one class at one moment, is [docs/evidence/rider-relay-browser.json](docs/evidence/rider-relay-browser.json). **No save version moved** - a report from an older class carries no ancestry, which reads as first-hand, which is what it was.
+
+**A hand-off costs the word no time, on purpose.** The part of the arriving rider's tick that would have been wasted is handed across with the message, so a relayed report reaches a family on the same minute an unbroken rider would have. Road distance therefore still decides *when* a family hears - the pre-existing monotonic-distance test is what holds that, and it fails the moment the carry is removed - while hands decide *what* they hear. The honest cost is that nobody waits at a fork for somebody going east; see the `ceiling:` note on `advanceRelays`.
+
+**Two defects here were found by measuring and one by reading a transcript.** A family who never opened the panel used to hold a rider on the road for twenty fictional hours, and everybody further down that road waited too - because there was one patience for a rider who has arrived and a rider who is passing through, and the number was about a classroom's attention. There are two now. A rider also announced "I've come from The road", because every junction on the spine road is a site called *The road*, which is right on a map and wrong in a sentence; and the second-hand opening named who handed the word over while dropping where it began, which is the one fact that makes a chain mean anything. Sixteen regressions were injected and all sixteen were caught - **one of them only after a test that passed under both the old rule and the new one was rewritten to ride the whole chain out instead of following the first rider.**
+
+**News is now carried by a person, from 2026-09-11.** The first Gonzales report - `cannon-request` - no longer appears in a family's panel because a courier's coordinates reached their home site. A rider starts where the thing happened, rides the road graph, **reins in beside whichever member of the family they actually came alongside**, and says it out loud. That opening line is the receipt: the household knows because somebody was told, and failing to open the panel cannot unhear it. Five optional questions then draw out what the rider saw, when they left, how old their account already was, and what they do not know. Registered as `FIC-GONZ-013`, implemented in [sim/encounters.mjs](sim/encounters.mjs), proved live in [docs/evidence/rider-encounter.json](docs/evidence/rider-encounter.json). **No save version moved** - `world.encounters` is absent on an older class, which is the correct empty value, and an in-flight courier from such a class still delivers the old way. **139 automated tests now pass.**
+
+**This is build-order step 1 of [docs/LIVING_INFORMATION.md](docs/LIVING_INFORMATION.md) and nothing more.** Exactly one topic was converted. A topic is carried in person because somebody authored a conversation for it and by no other mechanism, so `gonzales-outcome` still arrives at the door, and **relays, onward delivery, one rider telling successive households, and integration with the director's opportunity eligibility are all step 2**. The journal keeps the old summary as the family's record, which is what the direction asked for; "Read what Willa Hines said" reopens the whole transcript after the rider has gone.
+
+**What it consumes is the same geography fatigue consumes.** A rider's ride is a real route at a real speed, so a family four road miles from Gonzales heard at minute 640 and a family twenty-six miles out heard at 960, from a different rider, in the same measured class. Receipt is monotonic in road distance across fifteen households. **The river is a barrier to a voice as well as to a wagon**: two people a few hundred yards apart on opposite banks cannot speak, because one cannot reach the other without riding to the ford.
+
+**The rider is drawn as a rider, and the whole encounter sheet is now reachable.** `mounted-courier-*` is a delivered horse-and-rider atlas that nothing used - a courier fell through to the civilian walk cycles, so for months a message arrived on foot in a coloured coat. Measured tick by tick in a played class: `mounted-courier-e` riding up the road, `-speak` while a line is being said, `-listen` while waiting to be asked something, `-graze` once the errand is done. Same class of fault, and same class of fix, as the injured pose on 2026-09-10.
+
+**Five defects in this work were found by measuring it and not by reading it**, and they are listed in the evidence: the approach was invisible because sight was shorter than one tick of riding; a rider's account aged while they stood there saying it, so three hours on the road became twenty-two the longer a student read; the horse vanished at the end of every conversation; the speaking pose was held for thirty ticks while nothing was said, making the delivered listening frames unreachable; and a rider who reined in out on the road disappeared from the family's own view one tick in. Sixteen regressions were injected and all sixteen were caught - **one of them only after a guard that had been passing either way was made to actually test the thing it named.**
+
+**Untuned, deliberately.** A rider waits 1200 fictional minutes to be asked something, reset by every question; that number is about a classroom's attention rather than about horses, it was doubled because a first measured run lost its conversation to a timeout, and it has never been played with students. The five questions have had a historical review against `HISTORY.md`'s exclusions and no classroom review at all. And the visible approach is one or two ticks whatever the sight radius is: at twenty fictional minutes a tick a rider crosses the county in seconds, and the camera, not the radius, is the limit.
+
+**Deployment hardening was completed on 2026-09-09** and is recorded in [docs/GATES.md](docs/GATES.md): bundled checksum-verified runtime, writable class-data folder, graceful stop, New Class, preflight diagnostic, verified double-click launch, and the first independent physical device on a LAN.
+
+**The active direction is now the map-first student interface**, decided by the project owner on 2026-09-09 after playing the prototype on a phone. Their verdict was that the placeholder interface "feels like a quiz in disguise," which is a judgement about its shape rather than its polish. The decision, its constraints and its prerequisites are specified in `CLAUDE_DEVELOPMENT_ROADMAP.md` §1B. Crops, land, woods and hunting were added to the plan the same day in §1D. **Read §1B and §1D before touching the client.** The world model was a prerequisite for that interface and has since been rebuilt on researched geography (`HIST-GONZ-007` through `HIST-GONZ-013`), so the map is now worth looking at. What remains of §1B is contextual interaction: clicking things in the world instead of using a fixed button row.
+
+**Fatigue got a second source on 2026-09-10, and it is the ground.** `progressTravel` now counts the miles a household's own people cover on their own feet; **twenty road miles makes somebody tired**, and **resting is the only thing that mends it** (about four and a half miles an hour; working does nothing). A courier is on a horse and never tires, and a chore's `walk` step moves somebody about their own yard and never counts. Registered as `FIC-GONZ-012`, proved in [docs/evidence/fatigue.json](docs/evidence/fatigue.json). **No save version moved** — `entity.exertion` is absent on an older class, which is the correct empty value. **107 automated tests now pass.**
+
+**This is the first system that consumes the map.** Homesteads sit between about two and twenty-five miles from Gonzales and until now that difference changed only a travel timer. It now changes the state of whoever a family sends: a near family's man arrives fit and is offered *"will come back tired"*, a far family's man arrives worn out and is offered *"already tired… will leave him hurt"*. Measured across 15 households in 3 seeds, the split follows road distance exactly. **It also made the injured pose reachable in a played class for the first time** — previously `minor-injury` could not occur at all.
+
+**It broke the upriver promise before it fixed anything, and that is worth knowing.** The risk text was computed at offer time, but the nine miles up the river are themselves enough to tire somebody, so families shown *"will come back tired"* were handed a hurt man — 3 of 5 in one measured class. **The cost is now frozen when the offer is made** and carried on it; `settleHelp` pays out the stored promise rather than re-reading the condition, and the projection returns the stored text so the button cannot change its price while a student is reading it. Promises broken across 15 households: **0**. A control that states a price must charge exactly that price.
+
+**Untuned, deliberately.** A tired person stops counting as a worker in `advanceRoutine`, so sending somebody far now costs the household labour as well as time. That interaction is real and intended and has never been played with students; twenty miles splits the current map roughly in half, which is why it was chosen, and it is a number to revisit against a real 45-minute lesson.
+
+**The injured pose was bound to conditions the simulation never sets, and was fixed on 2026-09-10.** `public/motion.js` matched `['injured', 'wounded']`; `sim/` has never set either. The only hurt state it names is **`minor-injury`**, so a hurt person fell through the condition branch and was drawn by task instead — the delivered injured art sitting behind a binding that matched nothing, which is the same fault that binding was written to fix. The old test asserted the same two invented names the code used, so test and code agreed with each other and neither agreed with the world. `motion.js` now exports `HURT_CONDITIONS`, `STILL_CONDITIONS` and `ORDINARY_CONDITIONS`, and **`tests/motion-binding.test.mjs` no longer restates the vocabulary** — it scans `sim/` for condition literals and fails if one is unclassified or draws a clip the library lacks. That guard immediately surfaced `lost`, a *wagon* condition; since `entityClip` reads `entity.health?.condition || entity.condition`, the two vocabularies share a code path and a collision is now asserted against. Proved by reinjecting the original binding and three other drift cases, all caught, then live: the same person at the same task drew `rust-rest` when well and `rust-injured-rest` when hurt. See [docs/evidence/motion-conditions.json](docs/evidence/motion-conditions.json). **97 automated tests passed at that point.**
+
+**But `minor-injury` cannot currently happen in a played class.** Nothing makes a person tired before `settleHelp`, which is the same moment the march cost is applied, so every marcher is `well` when it lands and becomes `tired`. Measured across three full classes with every household helping and marching, the only conditions anybody ever held were `well` and `tired`. **The hurt rung of the stated risk is therefore unreachable today** and the text a student reads is always "will come back tired". The rung is kept because state carries between arcs and a fatigue system is on the roadmap; it is marked with a `ceiling:` note in `sim/directors.mjs`. Give fatigue a second source — a long walk, a night out, a day's work — and the ladder starts working on its own.
+
+**The helping household now walks upriver to the camp, from 2026-09-10.** Owner direction, after the battle fix put the engagement eight to eleven miles above the town where the history puts it. A family whose person is *standing in Gonzales* when the force crosses the river on the night of October 1 is asked a **second** question: go on with them as far as Ezekiel Williams's land, or stay in town with the supplies. Going is a real journey — about **9.8 miles** over the ford and up the west bank, routed by `findPath`, with `location.siteId` null the whole way; nobody is ever placed at the camp. Somebody standing there sees the engagement itself (`reconstruction: false`) and learns the outcome by **Local observation** instead of waiting for a courier. Registered as `FIC-GONZ-011`, implemented in [sim/directors.mjs](sim/directors.mjs), proved live in [docs/evidence/upriver-march.json](docs/evidence/upriver-march.json) with both formations on screen **0.34 miles** from the family's own man. **No save version moved** — a class saved before this has no `marches` and no `crossing` barrier, both of which default. **96 automated tests passed at that point.**
+
+**What it costs is stated on the control and contains no randomness.** `Go upriver to the camp · Thomas will come back tired.` is the whole button. Fresh becomes tired; already tired becomes hurt and days mending; hurt, captured or dead is never changed. **No casualty is modelled and none may be** — `HISTORY.md` excludes individual wounds and casualty counts at Gonzales until each has a checked claim, and `FIC-GONZ-005` permits only fatigue or a minor condition. So who a family sent, and how far that person had already walked, decides the outcome — which is the systems-interacting depth `VISION.md` §21 asks for, reached without a die.
+
+**Owner clarification of `VISION.md` §11, 2026-09-10.** §11's "forced military quests" is a ban on *gamey* coercion — patriotism meters, shame, repeated coercive requests, hidden rewards — and **not a blanket ban on compulsion**. The owner's rule is that compulsion must be **grounded in historical fact**. Nothing in this slice is compelled, so the second act is asked about rather than imposed; but do not cite §11 to refuse a documented impressment, militia obligation or requisition in a later arc. Research it, register the claim, then build it. `VISION.md` itself is unchanged and this is the governing reading.
+
+**The battle was being drawn 153 miles from Gonzales, and was fixed on 2026-09-10.** The formations were pinned to literal coordinates — `(141, 65)` and `(162, 75)` — taken from the grid map that preceded researched geography. When `buildGonzalesRegion` replaced it the whole world moved inside `x -2..6.5, y -25..24` and nobody moved the battle with it. Every phase still resolved, every caption still arrived, all 82 tests still passed, and **nothing was ever drawn**: a household standing at Gonzales through the entire exchange saw no formations, and the Host reconstruction showed an empty town. The second half of the defect was in the client — `framingFor()` never included `world.battle.formations`, and the Host's reconstruction focus framed the town alone, so correct coordinates would still have been off-screen. `sim/directors.mjs` now exports `battleGround(world)`, which derives the staging from the map every tick: the Mexican camp is Ezekiel Williams's land (`HIST-GONZ-008`), the Texians form up downriver toward the ford they crossed (`HIST-GONZ-007`) and close, and Castañeda withdraws away from the ford toward Béxar (`HIST-GONZ-004`). **No save version moved**, because nothing is stored — a class saved by the hardcoding build re-anchors on load. Proved by reinjecting the original coordinates verbatim and watching four of the five new tests in `tests/battle-ground.test.mjs` fail with no pre-existing test changing state, then on the live Host page, where both formations read `onScreen: true` at 8.1 and 10.8 miles from Gonzales. See [docs/evidence/battle-ground.json](docs/evidence/battle-ground.json). **87 automated tests passed at that point.** The engagement being eight to eleven miles upriver is historically right and may not be dramatically right; that is an open design question, not a defect.
+
+**Gonzales was given people on 2026-09-09.** Three named residents — invented, and registered as `FIC-GONZ-009` — live in the town, move about it, and are who a student actually trades with; a trip to buy seed from nobody now fails and says so. With them came the first **shared-world observation**: a household sees anyone standing where one of its own people is standing, filtered on the server to who they are, where they are and what they appear to be doing. Another family's stores, skills and errands, and a courier's message, never reach the wire. Nobody who is not yours can be commanded.
+
+**Reaching a neighbour no longer needs a pointer, from 2026-09-09.** The journal roster now lists *Also here* — anyone standing with this household — as `[data-select]` buttons beside the family's own people. Offering a trade requires selecting a neighbour, and until this existed the only way to do that was to click them on the canvas, which broke the contract that the map is never the sole channel for an action. Proved by carrying out a whole trade — travel, selection, form and offer — through DOM activation alone, without one canvas click.
+
+**People turn as they walk, and the hurt are drawn hurt, from 2026-09-09.** `travelHeading()` reads the leg of the route the traveller is actually on and picks the delivered north or south cycle when that leg is more up-and-down than across; a near-level leg keeps the mirrored east/west cycle, and a vertical cycle is never mirrored. Injured and wounded now hold the delivered `injured-rest` pose instead of standing about as though nothing had happened. Capture and death deliberately keep a still upright pose — distinct states, and this project draws no casualty. `tests/motion-binding.test.mjs` guards both.
+
+**Households can trade with each other from 2026-09-09**, which is the interaction the owner asked for by name. An offer is made face to face — two people standing at the same place — names what a family gives and what it wants, and is accepted, declined, withdrawn, or lapses the moment the two part. Any family member may strike a bargain, not only the principal, which is the point: the family with nobody spare can ask the neighbour who is actually there. Seed and food change hands; a tool does not. Nothing is escrowed, so an offer whose goods were spent fails plainly at acceptance. **Neither family ever learns the other's stores.** Registered as `FIC-GONZ-010`, implemented in [sim/trade.mjs](sim/trade.mjs), proved in both directions through the real interface in [docs/evidence/household-trading.json](docs/evidence/household-trading.json). **No save version moved**, because a class saved before trading existed simply had no offers.
+
+**Losing a device stopped meaning losing a family on 2026-09-09.** Every household now has a **family key** — eight symbols, derived from the class secret rather than stored, shown to that household and to nobody else. `POST /api/rejoin` takes only the key: no class code, works after Start, never creates a household. A family somebody is playing right now cannot be taken over by its key, wrong keys are throttled, and the Host initially carried none of them. With it came the distinction between **away and gone**: the Host reads `here` and `away` across a ninety-second grace window, so a phone that locks its screen no longer looks like a student who left. Both came from reading two non-game projects at the owner's request — ponytail and OmniRoute — recorded with their verdicts in [docs/REFERENCE_ARCHITECTURES.md](docs/REFERENCE_ARCHITECTURES.md) §5 and §6. The Host now also supports revealing one selected household key for recovery, rather than listing every key. The live proof is [docs/evidence/family-key-recovery.json](docs/evidence/family-key-recovery.json). **No save version moved**, because the key is derived and presence is never saved.
+
+**Farm work shipped on 2026-09-09.** A chore is now a short list of data steps and one interpreter runs them, so adding work means adding a table entry rather than a branch. A family plants and harvests a field of corn or cotton, hunts in the timber, fetches seed from Gonzales and mends or replaces a worn hoe; every family member can be sent, and each has a fixed aptitude for farming, hunting and handwork. **The whole path contains no randomness**, because `FIC-GONZ-008` requires outcomes to resolve inside a visible risk. The pattern came from Widelands; what was studied, taken and refused across four projects is recorded in [docs/REFERENCE_ARCHITECTURES.md](docs/REFERENCE_ARCHITECTURES.md). **`schemaVersion` and `saveVersion` are now 3**, so a class saved by an older build refuses to load rather than opening a world missing its tools and fields.
+
+**Art delivery, 2026-09-10: 30 transparent PNG atlases, 443 usable sprites and 169 clips**, including 92 pose cycles and four layered rigs. Search/hunting and town-trade poses now bind to the farm, alongside cardinal travel, rest/injury, wagon wheels and bounded visible battle/cannon effects. Mounted courier travel is a separate horse-and-rider asset, now joined by sixteen listening/speaking/letter-offer/pointing frames. All original generated PNGs, exact prompts, provenance, measured anchors, checksums, directions and frame timings are inventoried. Read [docs/ASSETS.md](docs/ASSETS.md), [docs/ANIMATION_REQUIREMENTS.md](docs/ANIMATION_REQUIREMENTS.md) and [docs/ART_MANIFEST.md](docs/ART_MANIFEST.md); preview `/art-catalog.html`.
+
+**The complete Alamo is an independent art/navigation workshop** at `/alamo-workshop.html`: 32 connected spaces, foot-scale geometry, twelve independent destructible north-wall segments, roofless church, removable roofs, furnishings and dedicated Joe walking/hiding/emerging/speaking poses. The owner's 1836 diagram and the Alamo's approximate published plan informed the assembly. Exact partitions and Joe's hiding room are reconstructed; an overnight north-wall collapse is not asserted as verified history. Read [docs/ALAMO_LAYOUT.md](docs/ALAMO_LAYOUT.md) before integrating server, save, knowledge or scenario state.
+
+## What works and what was proved
+
+| Gate | Implemented foundation | Evidence and boundary |
+| --- | --- | --- |
+| A | Authoritative local HTTP/SSE server; session code; five-to-thirty assignments; distinct credentials; refresh/reconnect; pause/resume; seed; checkpointed identity | Five actual Chrome contexts used the physical adapter's LAN address, each received all ticks 1–100. Separate 30-client Node HTTP/SSE test passed. On 2026-09-09 **one genuinely independent phone** joined over the LAN, got its own household and recovered after a disconnection; see [docs/evidence/lan-independent-device.json](docs/evidence/lan-independent-device.json). Five independent devices, thirty devices and district Wi-Fi remain open. |
+| B | Four named people per household, Thomas principal, ox, wagon, home, a road network and Gonzales; one canonical entity registry | Same ID travels home → road → destination, saves mid-trip, reloads and arrives; browser refresh creates no copy. Animal/property/seed and event history persist. One camera renders the projected records at every scale. |
+| C | Objective truth vs per-household reports vs public Host reports; physical courier delivery; report statuses and ages; deterministic routine compression with important-event barriers | Five-browser wire/UI test proves asymmetric knowledge, courier receipt, age, Host separation, mutation isolation and restart. Resolver tests preserve unresolved travel/service, borrowed damaged property, relationships, knowledge and deaths while advancing routine food/minor health. |
+| D | One autonomous Gonzales sequence with a one-time fictional request, Help/Stay choices, travel, gathering, representative formations, anchored battle, consequences and memory | Five-browser test runs from lobby/Start without manual world edits. Refusal, pause during battle, reconnect, delayed Host reconstruction, save/restart consequence, Host reload and narrow layout pass. Headless tests prove causal ancestry, all-refuse/idle outcomes and deterministic inputs. |
+
+**139 automated tests pass.** The intentional save-failure test prints a “Simulation paused” error; that is injected failure evidence, not a failing test. Gate details and dated browser records are in [docs/GATES.md](docs/GATES.md) and [docs/evidence](docs/evidence). Current visual captures are under ignored `test-results/`; recreate them with the browser proofs.
+
+The original four ZIP documents were retained. VISION.md was not rewritten. The Alamo has an unsaved assembly workshop; its historical scenario and Goliad, Runaway Scrape and San Jacinto gameplay are not implemented. Classroom schema/save remain version 3.
+
+## Exact run commands
+
+Node **22+**; tested here with **24.18.1**. No runtime install or build step is required.
+
+```powershell
+cd 'C:\Users\zachw\Texas Civilization'
+npm.cmd start
+```
+
+Open the private Host URL printed by the server (also in `data/host-url.txt`). Students use the LAN URL displayed inside Host and the six-character class code. Do not share the Host credential. At least five households must join before Start. The default is 15 slots, with 5–30 configurable by developers.
+
+For the intended teacher flow, double-click `Launch.vbs`. It invokes `scripts/launch.ps1`, selects `runtime/node.exe` if present or installed Node otherwise, launches the server hidden, verifies its identity and opens Host. **Both `Launch.vbs` and `Stop.vbs` were run through `WScript.exe` on 2026-09-09 and succeeded**, including the default-browser opening. That closes the old VBS gap on this unmanaged computer; district application-control policy is still untested, and no school/system policy was changed.
+
+To stop the hidden server, use **Stop Server** on the Host page or double-click **`Stop.vbs`**. Both save and pause the class first, tell connected students, and let the process exit cleanly. Neither ever force-terminates a process, because that is what leaves a stale save lock. **End Game** and closing a browser still do not stop the server.
+
+**New Class** on the Host page archives the finished class and returns to a fresh lobby with a new code. It refuses to run while a class is running or paused.
+
+The Node runtime is bundled. Rebuild it with:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy RemoteSigned -File scripts/bundle-runtime.ps1 -DownloadVersion v24.18.1 -Force
+```
+
+That verifies the download against nodejs.org's published `SHASUMS256.txt` before accepting it, includes the Node `LICENSE`, and writes `runtime/manifest.json` plus the tracked build record `docs/evidence/runtime-manifest.json`. Omit `-DownloadVersion` to copy the Node on PATH instead, with no network access. The launcher refuses a bundled runtime whose SHA-256 does not match its manifest, and refuses one with no manifest at all. `runtime/` is gitignored; the manifest copy under `docs/evidence/` is the durable record.
+
+Class data — the save, launcher records, logs, the private Host URL and archived classes — lives in `<application folder>\data` whenever that folder is writable, otherwise `%LOCALAPPDATA%\TexasRevolution\data`, or `TEXAS_DATA_DIR` when set. Run `node scripts/appinfo.mjs` to print the resolved folder before following any recovery procedure.
+
+The launched scenario uses **one tick per second, twenty fictional minutes per tick**. The short slice lasts about **4 minutes 44 seconds** plus pauses. It ends on October 2, 1835 with the family state preserved. This is not the target 45-minute full lesson.
+
+Developer settings (new saves only for seed/player count):
+
+```powershell
+$env:SEED = 'gonzales-review'
+$env:PLAYERS = '5'
+$env:TICK_MS = '250'
+$env:SAVE_PATH = 'data/review-class.json'
+npm.cmd start
+```
+
+`PORT` defaults to 1835. Set it only for a deliberate development instance; do not make teachers configure it. A save takes precedence over new seed/player-count settings. To start an additional development class, stop the existing server cleanly and choose a fresh `SAVE_PATH`; never delete a live class save. The launcher intentionally refuses an existing server that it cannot match to its own process record.
+
+For a developer-visible server, prefer `node server/main.mjs` and Ctrl+C for graceful shutdown. **End Game and browser closure do not stop the server**; use Stop Server or `Stop.vbs`. The hidden launcher still has no always-visible running/stopped indicator. See [docs/RECOVERY.md](docs/RECOVERY.md) before dealing with a crash/stale lock.
+
+## Exact verification commands
+
+No external tooling is needed for deterministic/network/storage tests or bot runs:
+
+```powershell
+npm.cmd test
+npm.cmd run simulate -- repeatable-seed 5 mixed
+npm.cmd run simulate -- repeatable-seed 30 stay
+```
+
+Bot strategies: `mixed`, `help`, `stay`, `idle`. The harness returns inputs, world and internal metrics without rendering. These are private developer seams, not a normal solo mode or an HTTP debug API. Evacuation and inherited-consequence balance metrics are explicit future placeholders.
+
+The reproducible browser proofs require Playwright plus Chromium or installed Chrome. For a fresh developer checkout, install test-only tooling separately:
+
+```powershell
+npm.cmd install --no-save --package-lock=false playwright@1.62.1
+npx.cmd playwright install chromium
+$env:PROVE_WORLD = '1'
+npm.cmd run test:browser
+npm.cmd run test:information
+npm.cmd run test:relay
+npm.cmd run test:slice
+```
+
+The exact tooling already used on this workstation is:
+
+```powershell
+$env:PLAYWRIGHT_MODULE = 'C:\Users\zachw\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\node_modules\playwright'
+$env:BROWSER_EXECUTABLE = 'C:\Program Files\Google\Chrome\Application\chrome.exe'
+$env:PROVE_WORLD = '1'
+npm.cmd run test:browser
+npm.cmd run test:information
+npm.cmd run test:relay
+npm.cmd run test:slice
+```
+
+The bundled Playwright observed here is 1.62.1; Chrome was 152.0.7977.76. `TEST_ADDRESS` can override detected LAN address for a specific test. Tests start isolated temporary servers on ephemeral ports and preserve the ordinary classroom save. Browser tests use five isolated contexts; five tabs in one ordinary profile share cookies and are not five students. No remote asset requests occurred during the slice proof.
+
+`test:browser` writes current A/B evidence into `test-results/`; `test:information` and `test:slice` write their JSON records into `docs/evidence/`. Initial acceptance records for A/B are retained separately. To refresh capacity timing evidence explicitly:
+
+```powershell
+$env:WRITE_CAPACITY_EVIDENCE = '1'
+node --test tests/capacity.test.mjs
+Remove-Item Env:WRITE_CAPACITY_EVIDENCE
+```
+
+Timing/payload numbers are observations from local tests, not 30-device or 45-minute performance promises. Test source code and gate evidence are more important than screenshots alone.
+
+The Windows launcher process regression is also preserved:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy RemoteSigned -File scripts/verify-launcher.ps1
+```
+
+It uses an isolated copy below `data/launcher-verification`, opens no browser, and checks startup, log survival, verified reuse, graceful stop releasing the save lock, a safe no-op stop, preference for a checksum-matching bundled runtime, refusal of a tampered runtime, unrelated-port refusal and timeout cleanup — eight PASS lines. It deliberately stops only processes it created. This does not prove district application-policy acceptance.
+
+Before any classroom or physical-device session, record the machine's own report:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy RemoteSigned -File scripts/preflight.ps1 -Tester 'name' -Network 'which network'
+```
+
+It is read-only — it changes no firewall rule, policy or registry value — and writes `docs/evidence/preflight-<timestamp>.json`. It reports Windows and PowerShell versions, execution policy per scope, the `.vbs` association, bundled-runtime checksum verification, the resolved data folder, ranked join candidates and firewall profile state. Reading the firewall *rule* list needs an elevated session; without it the report says so. **Preflight cannot prove that another device can reach this server.** The two-device procedure and its evidence template are in [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+
+## Art verification
+
+With the Playwright/Chrome environment above, run `npm run build:art`, `npm run test:art`, `npm run test:alamo`, `npm run test:trade-animation`, then `node scripts/check-doc-links.mjs`. These use isolated test servers and preserve class data. Browser records live under `docs/evidence`; ignored `test-results` contains reproducible screenshots.
+
+## Files to inspect first
+
+| File | Why it matters |
+| --- | --- |
+| [server/app.mjs](server/app.mjs) | Authority, credentials, household assignment, command validation, idempotency, projection transport, fault pause/retry |
+| [server/storage.mjs](server/storage.mjs) | Single save owner, atomic checkpoint, recovery boundary and class archives |
+| [server/deployment.mjs](server/deployment.mjs) | Writable class-data folder, save path and ranked join candidates; `scripts/appinfo.mjs` publishes the same answer to the PowerShell helpers |
+| [sim/world.mjs](sim/world.mjs) | Canonical entities, deterministic initialization, physical travel, news changing hands on a long road, validation, server-filtered projections |
+| [sim/knowledge.mjs](sim/knowledge.mjs) | Truth/report separation and physical delivery |
+| [sim/time.mjs](sim/time.mjs), [sim/routines.mjs](sim/routines.mjs) | Continuity across compression and interruption before important moments |
+| [sim/directors.mjs](sim/directors.mjs), [sim/gonzales.mjs](sim/gonzales.mjs) | Scenario composition, public/private progression, choice, macro-history and reconstruction |
+| [sim/events.mjs](sim/events.mjs), [sim/headless.mjs](sim/headless.mjs) | Causal memory and deterministic test/balance seams |
+| [public/app.js](public/app.js) | One full-screen map, contextual selection, camera, sprite and fallback drawing, aggregate soldiers |
+| [sim/chores.mjs](sim/chores.mjs) | Farm work as data, skills, tool wear and crop state; the whole file is deliberately free of randomness |
+| [sim/town.mjs](sim/town.mjs) | The people of Gonzales, and `observedBy()` — the rule deciding what one household may see of another |
+| [sim/trade.mjs](sim/trade.mjs) | Offers between households: standing together, what may be swapped, and what each side is told |
+| [sim/encounters.mjs](sim/encounters.mjs) | Riders, the range and river rules for being heard, and every word any of them can say |
+| [public/motion.js](public/motion.js) | Which animation clip an entity is drawn with, and tick-to-tick interpolation between two known positions |
+| [public/art.js](public/art.js) | Sprite library loading and anchored drawing; returns 0 when a sprite is unavailable so callers fall back |
+| [docs/REFERENCE_ARCHITECTURES.md](docs/REFERENCE_ARCHITECTURES.md) | What four existing projects were studied for, what was adopted, and what was refused and why |
+| [docs/ASSETS.md](docs/ASSETS.md) | What the art library holds, what is wired in, what is missing, and the rules the renderer must keep |
+| [tests/gonzales.test.mjs](tests/gonzales.test.mjs) | Whole-loop regression example to preserve when expanding |
+
+`createWorld()` is the small core fixture. `createGonzalesWorld()` composes the slice; `server/main.mjs` explicitly selects it. Do not mistakenly test only the core factory and assume the launched historical sequence is covered.
+
+## Invariants to protect
+
+1. One authoritative world; a principal has one entity ID and one location across every view/save/reconnect. Returning home requires a journey.
+2. Clients receive permitted projections, never full truth with hidden UI elements. Keep seed, other household reports, future director state and credentials off the wire. Host public knowledge is a separate audience.
+3. Characters and durable commitments survive time compression. Register a barrier for any new important event. Routine resolution cannot quietly kill, capture, revive or erase a major injury.
+4. History changes local pressure; it does not grade compliance. Refusal is valid and suppresses this repeated request. Historical macro-outcomes stay independent of player participation.
+5. Host progression is automatic after Start. Keep teacher event-triggering controls out of normal play.
+6. Record actual causal events and preserve them. The internal memory chain includes world event, received information, pressure, choice, departure, travel, arrival, consequence and memory.
+7. Save before acknowledging/broadcasting success. Only one process owns a save; failed persistence must be visible and stop time. Session cookie names include session ID to isolate classes sharing a host.
+8. Detailed principals and aggregate formations are distinct concepts. Render samples must never become alternate copies of player characters.
+
+## Partial features, known limitations and failures
+
+- **Deployment: one independent device has passed; five devices, thirty devices and district Wi-Fi are still NOT YET TESTED.** District validation is mandatory before classroom use. Mandatory checks and the two-device procedure are in [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). Local-address browser tests cannot prove client isolation, firewall or device-policy behaviour.
+- A backgrounded mobile browser tab drops the live stream within seconds and recovers automatically on return, with identity preserved. This is normal mobile behaviour, not a fault. The Host now reports such a household as **away** rather than silently subtracting it from the connected count, but this has still not been tested across a full 45-minute lesson with screen locks.
+- Launcher packaging is still missing a signed executable and a district-approved package. There is no always-visible running/stopped indicator while the server is hidden — the Host page is the only status surface, so a teacher who closes it has no window telling them the class is still running. A hard process kill can still leave a lock; recovery deliberately fails closed until ownership is verified.
+- No settings screen, no way to choose seed or class size from the Host page, and no UI for browsing or restoring an archived class.
+- No save migrations, rotating backups or automatic corrupted-save repair. Existing authenticated clients reconnect after Start; new household joins after Start are rejected. Family keys recover identity across devices, and the Host can now look up one selected household's key for a student who lost theirs. Preserve that individual reveal behavior; never list every family key on a potentially projected page.
+- HTTP is for a trusted LAN. It is not encrypted or approved for public hosting. There is no production rate-limiting/identity service or multi-host storage design.
+- View architecture is proved; shared local visibility is deliberately narrow. A household sees its own people in full, and anyone else **only where one of its own people is standing** — another family's member, a Gonzales resident, a rider passing through — reduced to who they are, where they are and what they appear to be doing. A courier is visible as a rider and never as a message. Nobody who is not yours can be commanded. Visibility across a distance does not exist, which is what keeps the per-tick payload small and trading physical.
+- The map, travel speed, family demographics, economy and within-day battle timing are schematic. Distance now feeds fatigue (`FIC-GONZ-012`), which is the one place it bites. All households reuse the same fictional names. Supporting characters have simple routines, not rich autonomous behavior. Fatigue has two sources and a recovery rule as of 2026-09-10: walking accrues it, resting mends it.
+- One request per family is the thin loop. Story opportunity parity across a whole lesson, extensive noncombat systems, scarce-resource balancing and later inherited crises are unimplemented.
+- Battle visuals are representative miniature groups and short phase motion. There is no tactical combat engine, exact historical roster, full replay, audio or polished narration. Since 2026-09-10 the engagement is staged on Ezekiel Williams’s land where it belongs, which puts it **eight to eleven miles upriver of the town**: a household at Gonzales now sees it, but at a distance, and the camera pulls out to hold both. Whether the scene should instead be brought closer, or the helping household walked upriver to it, is undecided.
+- **Trading is untuned.** No rate is enforced and nothing prevents two students agreeing an absurd exchange; whether that is a defect or a classroom conversation is a design question nobody has answered. Nothing is escrowed at offer time, so an offer can be made and then spent, which fails honestly at acceptance but may read as surprising. A trade is goods only: there is no way to lend a person, a tool or an ox, which is the pressure the design actually wants from a family with nobody handy.
+- **News carried by people is still one report deep.** `cannon-request` arrives through a rider, a chain of riders and a conversation; every other topic, including `gonzales-outcome`, still arrives at the door by the old path in a single hand. The autonomous director knows nothing about any of it - it still dispatches one errand per household on its own schedule, and relays happen underneath that rather than because of it, so no opportunity yet depends on how good a family's information is. Twelve miles is invented and unplayed, and so is the two hundred minutes a passing rider will wait to be asked something. A family with nobody home is not told until somebody comes back, and if nobody ever does they genuinely never hear - that is the honest consequence of the rule and no measured class has hit it.
+- **The town is three people and no more.** They stand in for a settlement of about thirty-two structures, they never leave Gonzales, and nothing they do changes. There is no reason to visit the town except to trade, no news to be had there, and no other household to meet unless one happens to be standing there at the same moment.
+- **Art is broader than gameplay.** All 443 sprites and 169 clips can be inspected in the catalog; Gonzales uses only permitted relevant subjects. Remaining production work includes action facings, mounted transitions/dismounting, gun crews, N/S wagon rigs, boats in motion, assisted movement and final cast registration. Static buildings are intentional. Alamo partitions are reconstructed and furniture does not yet block navigation; its workshop does not save into a class. See the complete manifest for exact coverage rather than obsolete reachability totals.
+- Save/stream processing uses full snapshots and whole-state clones. The Event Log grows without compaction. Profile before long arcs; 30 HTTP/SSE clients passing is not a 30-Chromebook classroom trial.
+- The ending stops this slice; final epilogues, global fog removal, revelation and the later Revolution are not implemented. Previous family consequences are retained for those systems.
+
+One failure was found and corrected in the farm work itself, and it is worth recording because it is the shape of mistake this project's invariants exist to catch: a chore was merely *frozen* while its owner travelled, so a principal who accepted the Gonzales request mid-planting resumed "breaking the rows" on arrival at Gonzales and was then carried home by the chore's own `walk` step **without a journey**. Answering the call now drops the work, and a `walk` step refuses to move anyone who is not standing on their own land. `tests/aggregate-identity.test.mjs` covers both.
+
+Failures found and corrected during foundation work: Windows flushing required a writable file handle; full live-browser shutdown needed active connection cleanup; failed saves formerly left a false running status; multiple servers needed an exclusive save lease; class cookies needed session namespaces; public event records needed JSON-stable nulls; and later help consequences needed to preserve existing serious health conditions. Relevant regressions now pass. There are no remaining known failing automated tests at handoff.
+
+## Next six recommended tasks
+
+Reordered on 2026-09-09 for the map-first decision. Items 1 and 2 are prerequisites for it, not alternatives to it.
+
+1. **Finish what the farm loop and trading started.** One field, one tool and one crop per household means "different skills" still changes only how fast a job goes and how much it yields, not what anyone is uniquely able to do. Add a second tool and a second kind of work before adding more chores. Trading now exists but is **entirely untuned**: no rate is enforced, nothing stops two students agreeing an absurd exchange, and a bot working four family members flat out still accumulates far more food than it can use, though seed does correctly run dry and force the town trip.
+
+2. **Let a student name their own family.** Households and their people must be nameable, and family relationships must exist in the world model and be visible — the first player asked who was the mother and father and got no answer, because the game does not know. This is now also a legibility problem rather than only a flavour one: every household is a copy of the same four names, so trading had to name the *family* to stop "Thomas traded with Thomas" from being the whole message. The template-inheritance pattern noted in [docs/REFERENCE_ARCHITECTURES.md](docs/REFERENCE_ARCHITECTURES.md) is the cheap way to add variety without duplicating a person record per variant.
+
+3. **Put the new geography to work.** The map now varies travel from under two road miles to nearly nineteen, but nothing yet consumes that difference: courier delivery, the help request's feasibility and the request's deadline should all depend on how far a family actually lives from town. Wire distance into information delay and into whether a household can plausibly reach the gathering in time.
+
+4. **Make the battle's aggregate honest.** A formation is a count and a position handed down by the director. 0 A.D. derives a formation's pace from its slowest real member; deriving arrival and pace from the actual travel of the people who actually joined would make the aggregate report the world rather than decorate it. `tests/aggregate-identity.test.mjs` already guards the invariant that must survive any such change: a person who joins a formation stays a person, and a formation names nobody.
+
+5. **Finish deployment and continuity.** Five independent devices on an ordinary LAN, then district-managed devices and Wi-Fi; record PASS/FAIL with the observed restriction. Add a visible running/stopped surface for the hidden server, a signed package, save versioning and migration, and backups. Identity recovery exists as the family key, including a Host lookup for a student who has lost theirs. Test injuries, loans, absences and lifecycle failures across a realistic 45-minute session with screen locks — the family key, the here/away count and trading between neighbours are exactly what that session should be stressing.
+
+6. **Make what a family knows decide what it can do.** Steps 1 and 2 of [docs/LIVING_INFORMATION.md](docs/LIVING_INFORMATION.md) are built and proved for `cannon-request` (`FIC-GONZ-013`): a report is said to a named person by a rider who came from where it happened, and it changes hands on a long road so a distant family's account is older, second-hand and labelled a rumor. **The remainder of step 2 is the director.** Right now an opportunity opens because the clock says so, not because a household was told something, and a family holding a four-hand rumor has exactly the same options as one that met the witness. Wiring encounters into opportunity eligibility is what turns better information into a better position, and it is the first point at which any of this changes what a student can choose. Then convert `gonzales-outcome`, which is now possible because a relay exists and is the report whose whole point is that it reaches far families through other people. Search/trade art is delivered and the encounter sheet is wired; focus new art on the remaining documented mounted gaps - dismount and remount with a persistent horse, and N/S dialogue gestures.
+
+Build strong foundations, not unfinished breadth.

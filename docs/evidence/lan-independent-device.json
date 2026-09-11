@@ -1,0 +1,53 @@
+{
+  "record": "First independent physical device on an ordinary LAN",
+  "date": "2026-09-09",
+  "verdict": "PARTIAL PASS",
+  "verdictMeaning": "One independent physical device reached the server over the LAN, was authenticated, was assigned its own household, and recovered its session after a disconnection. This is not the supported thirty devices, and it is not the district network.",
+  "teacherComputer": {
+    "name": "THE-DARK-TOWER",
+    "os": "Microsoft Windows 11 Pro 10.0.26200.0",
+    "runtime": "bundled runtime/node.exe v24.18.1, SHA256 ac51903c4c111815d52280b1fdcc8da067cbb37e2fe1a765097b85c3292c8582",
+    "startedBy": "scripts/launch.ps1 (Launch.vbs double-click verified separately the same day)",
+    "listener": "0.0.0.0:1835",
+    "advertisedJoinUrl": "http://192.168.4.38:1835/",
+    "interfaceChosen": "Ethernet 4, ranked ahead of NordLynx VPN and two Hyper-V/WSL virtual adapters"
+  },
+  "studentDevice": {
+    "kind": "mobile phone, browser on the device itself",
+    "lanAddress": "192.168.4.114",
+    "browserVersion": "not recorded",
+    "note": "The operator was also running Parsec on the same phone to communicate. The game itself ran in the phone's own browser, evidenced by the remote TCP address."
+  },
+  "observed": [
+    "Join succeeded with the class code; display name 'Mr Taylor' was assigned household hh-1 by the server.",
+    "Get-NetTCPConnection showed an established connection 192.168.4.114 -> 192.168.4.38:1835, proving traffic between two computers rather than loopback.",
+    "No Windows firewall prompt was required; an inbound path was already permitted for this application on this machine.",
+    "Class reached five households and Start was accepted. Authoritative ticks advanced 1 to 102 before a deliberate Pause, then resumed past 126.",
+    "The operator confirmed on the device that the family appeared and that the Gonzales help request was delivered and readable.",
+    "Backgrounding the browser tab, by switching to another app on the phone, ended the SSE connection within seconds. Returning to the tab restored the session and household without rejoining or re-entering the class code."
+  ],
+  "notEstablished": [
+    "Sustained receipt of 100 ordered updates measured on the device itself; tick progression was measured server-side only.",
+    "An explicit page-refresh identity test on the device.",
+    "More than one physically independent device. Four of the five households were joined from the teacher computer to satisfy the five-household Start requirement.",
+    "Any behaviour on a district-managed network or a managed student device.",
+    "Whether an inbound firewall rule would be required on a machine that has never run this application. Reading the rule list needs an elevated session; preflight reports that rather than guessing."
+  ],
+  "findings": [
+    {
+      "id": "LAN-2026-09-09-A",
+      "severity": "expected, needs classroom guidance",
+      "detail": "A mobile browser suspends a backgrounded tab, which ends the server-sent-events stream. Recovery on return is automatic and preserves identity. Students who lock their screen or switch apps will disconnect and reconnect routinely; this must not be treated as a fault, and the classroom guidance should say so."
+    },
+    {
+      "id": "LAN-2026-09-09-B",
+      "severity": "usability defect",
+      "detail": "The operator could not tell which character they were directing. The principal is marked only by an 11px low-contrast 'Your guide' badge beside the name. On a phone this is effectively invisible."
+    }
+  ],
+  "outstanding": [
+    "Five or more independent physical devices on an ordinary LAN: NOT YET TESTED.",
+    "Thirty devices at the supported upper range: NOT YET TESTED.",
+    "Actual district network and managed student devices: NOT YET TESTED, mandatory before classroom use."
+  ]
+}

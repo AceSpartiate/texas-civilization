@@ -1,0 +1,54 @@
+{
+  "status": "PASS",
+  "recordedAtUtc": "2026-09-09T09:39:14.067Z",
+  "command": "node --test tests/capacity.test.mjs",
+  "evidenceKind": "Single-process automated HTTP/SSE transport test on loopback; no browser or independent device involved.",
+  "limits": [
+    "Does not validate a physical LAN or district Wi-Fi.",
+    "Observed timing and bytes are measurements of this run, not throughput or classroom-readiness promises.",
+    "Payload sizes include JSON snapshot bodies only; HTTP/SSE framing and transport overhead are excluded."
+  ],
+  "environment": {
+    "node": "v24.18.1",
+    "platform": "win32",
+    "architecture": "x64"
+  },
+  "configuration": {
+    "seed": "capacity-regression",
+    "playerCount": 30,
+    "requestedTickIntervalMs": 25,
+    "persistentSave": "Temporary local file",
+    "bind": "127.0.0.1",
+    "port": "OS-assigned ephemeral port"
+  },
+  "assertions": {
+    "simultaneousJoins": 30,
+    "distinctCredentials": 30,
+    "distinctHouseholds": 30,
+    "sameDisplayNameAllowed": true,
+    "extraJoinStatus": 409,
+    "refreshIdentityContinuity": true,
+    "rejoinWithoutAllocation": true,
+    "spoofedEntityRejected": true,
+    "spoofedHostControlRejected": true,
+    "openSseStreams": 30,
+    "minimumSequentialTicksPerStream": 12,
+    "pausedTick": 10,
+    "pauseFrozenForAllClients": true,
+    "hostCommandReplayIdempotent": true,
+    "resumeReachedAllClients": true
+  },
+  "observedTimingMs": {
+    "joinBatch": 201.85,
+    "startToTenTicksOnAllClients": 309.9,
+    "pauseObservation": 168.9,
+    "fullScenarioBeforeCleanup": 1037.06
+  },
+  "observedSnapshotPayloadBytes": {
+    "oneTickAcrossAllClients": 227193,
+    "smallestClientAtTickOne": 7551,
+    "largestClientAtTickOne": 7584,
+    "totalAcrossReceivedSnapshots": 6922698,
+    "receivedSnapshotCount": 915
+  }
+}

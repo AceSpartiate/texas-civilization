@@ -1,0 +1,58 @@
+{
+  "record": "Households trading with each other, live browser proof",
+  "date": "2026-09-09",
+  "verdict": "PASS",
+  "verdictMeaning": "Two households standing in Gonzales made offers to each other in both directions through the real interface and the real HTTP API, and both families' stores moved. Neither family's stores appeared in the other's projection.",
+  "server": {
+    "command": "PORT=1839 SAVE_PATH=<scratch>/t.json PLAYERS=5 TICK_MS=1000 node server/main.mjs",
+    "note": "An isolated development class on a separate port and save path. The ordinary classroom save was not touched.",
+    "households": "one real browser (hh-5) and four HTTP clients driven by curl; hh-1 and hh-5 both sent their principal to Gonzales and arrived by road"
+  },
+  "offerReceivedAndAcceptedInTheInterface": {
+    "madeBy": "hh-1 over HTTP: give 2 seed, ask 3 food, to hh-5-thomas",
+    "seenInBrowser": "Thomas offers 2 seed for 3 food.",
+    "controlsShown": ["Accept", "No thank you"],
+    "clicked": "Accept",
+    "storesBefore": { "food": 11.9779, "seed": 2 },
+    "storesAfter": { "food": 8.9786, "seed": 4 },
+    "eventRecorded": "Thomas traded 3 food to Thomas for 2 seed.",
+    "eventNote": "This is the run that showed why the wording had to change: both families are copies of the same four names, so an unqualified message reads 'Thomas traded 3 food to Thomas'. Anybody from another family is now named with their family, in the events and in the interface."
+  },
+  "offerMadeInTheInterfaceAndAcceptedElsewhere": {
+    "selected": "hh-1-thomas on the map, shown as 'Thomas · of Family 1 · rest · Gonzales · well'",
+    "form": "Asked by [Thomas] · We give [1] [seed] · for [4] [food] · Offer it to Thomas of Family 1",
+    "afterOffering": "Thomas has offered 1 seed to Thomas of Family 1 for 4 food. [Take the offer back]",
+    "acceptedBy": "hh-1 over HTTP",
+    "storesBefore": { "food": 15.0126, "seed": 2 },
+    "storesAfter": { "food": 19.0058, "seed": 1 },
+    "eventsRecorded": [
+      "Thomas offered 1 seed to Thomas of Family 1 for 4 food.",
+      "Thomas traded 1 seed to Thomas of Family 1 for 4 food."
+    ],
+    "theOtherSidesView": "hh-1 read the same offer as {\"direction\":\"received\",\"weGive\":{\"food\":4},\"weGet\":{\"seed\":1},\"theirName\":\"Thomas\",\"theirHousehold\":\"Family 5\"} — the same bargain, written from its own side, with no store of hh-5's anywhere in it."
+  },
+  "negativeResults": {
+    "gonzalesResident": "Selecting Ruth Crandall or Josiah Pike shows no trade form at all. A resident trades at the counter, which is a different transaction.",
+    "classNotRunning": "After the slice ended, the Offer control was disabled and the server refused the same request with 'Wait until the class is running.' The disabled control is why the click did nothing; that was checked directly rather than assumed."
+  },
+  "automated": {
+    "suite": "tests/trade.test.mjs",
+    "tests": 11,
+    "wholeSuite": "76 pass, 0 fail",
+    "regressionsInjectedToProveTheTestsWork": [
+      {
+        "injected": "The standing-together check in makeOffer was replaced with `if (false)`, so a trade could be struck across the county.",
+        "observed": "'an offer is said face to face, and it lapses the moment they part' failed; the other nine passed."
+      },
+      {
+        "injected": "The other household's resources were added to the offer projection.",
+        "observed": "'trading reveals what was offered and never what a family has' failed; the other nine passed."
+      },
+      {
+        "injected": "The check that an offer was made to this household was removed.",
+        "observed": "'only the person an offer was made to can answer it' failed; the other nine passed."
+      }
+    ]
+  },
+  "boundary": "One computer, one browser and four HTTP clients. This says nothing about physical devices, five devices, thirty devices or a district network; those remain NOT YET TESTED. Trade balance is untuned: no rate is enforced and nothing stops two students agreeing an absurd exchange, which is a design question rather than a defect."
+}

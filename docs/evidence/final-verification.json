@@ -1,0 +1,20 @@
+{
+  "date": "2026-09-09",
+  "maturity": "PROTOTYPE",
+  "automatedTests": { "command": "npm test", "passed": 19, "failed": 0 },
+  "browserProofs": {
+    "A": "gate-a-final-browser.json",
+    "B": "gate-b-final-browser.json",
+    "C": "gate-c-browser.json",
+    "D": "gate-d-browser.json"
+  },
+  "launcherProcessProof": {
+    "command": "powershell.exe -NoProfile -ExecutionPolicy RemoteSigned -File scripts/verify-launcher.ps1",
+    "result": "PASS",
+    "checks": ["real server startup in a path with spaces", "logging after launcher exit", "repeat launch reuses process/session", "unrelated listener refusal", "startup timeout cleans up only its child"],
+    "vbsAndDefaultBrowserLaunch": "NOT YET TESTED"
+  },
+  "physicalDeviceLan": "NOT YET TESTED",
+  "districtNetwork": "NOT YET TESTED",
+  "scope": "Gonzales foundation only; no later historical arcs"
+}

@@ -1,0 +1,20 @@
+{
+  "name": "texas-revolution-foundation",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node server/main.mjs",
+    "test": "node --test",
+    "build:art": "node scripts/build-atlas-manifest.mjs",
+    "test:art": "node scripts/art-browser-proof.mjs",
+    "test:alamo": "node scripts/alamo-browser-proof.mjs",
+    "test:trade-animation": "node scripts/trade-animation-proof.mjs",
+    "test:browser": "node scripts/browser-proof.mjs",
+    "test:information": "node scripts/information-browser-proof.mjs",
+    "test:relay": "node scripts/relay-browser-proof.mjs",
+    "test:slice": "node scripts/slice-browser-proof.mjs",
+    "simulate": "node scripts/simulate.mjs"
+  }
+}

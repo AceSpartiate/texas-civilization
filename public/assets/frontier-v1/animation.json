@@ -1,0 +1,2807 @@
+{
+  "version": "frontier-v1",
+  "note": "Presentation only: elapsed display time selects these frames; animation never advances simulation state. Authored identifies sequences of distinct source poses, not transforms of one sprite.",
+  "clips": {
+    "mounted-courier-listen": {
+      "frames": [
+        {
+          "sprite": "mounted-courier-listen-1",
+          "duration": 400
+        },
+        {
+          "sprite": "mounted-courier-listen-2",
+          "duration": 400
+        },
+        {
+          "sprite": "mounted-courier-listen-3",
+          "duration": 400
+        },
+        {
+          "sprite": "mounted-courier-listen-4",
+          "duration": 400
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "mounted-courier-speak": {
+      "frames": [
+        {
+          "sprite": "mounted-courier-speak-1",
+          "duration": 400
+        },
+        {
+          "sprite": "mounted-courier-speak-2",
+          "duration": 400
+        },
+        {
+          "sprite": "mounted-courier-speak-3",
+          "duration": 400
+        },
+        {
+          "sprite": "mounted-courier-speak-4",
+          "duration": 400
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "mounted-courier-letter": {
+      "frames": [
+        {
+          "sprite": "mounted-courier-letter-1",
+          "duration": 400
+        },
+        {
+          "sprite": "mounted-courier-letter-2",
+          "duration": 400
+        },
+        {
+          "sprite": "mounted-courier-letter-3",
+          "duration": 400
+        },
+        {
+          "sprite": "mounted-courier-letter-4",
+          "duration": 400
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "mounted-courier-point": {
+      "frames": [
+        {
+          "sprite": "mounted-courier-point-1",
+          "duration": 400
+        },
+        {
+          "sprite": "mounted-courier-point-2",
+          "duration": 400
+        },
+        {
+          "sprite": "mounted-courier-point-3",
+          "duration": 400
+        },
+        {
+          "sprite": "mounted-courier-point-4",
+          "duration": 400
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "joe-walk": {
+      "frames": [
+        {
+          "sprite": "joe-walk-1",
+          "duration": 180
+        },
+        {
+          "sprite": "joe-walk-2",
+          "duration": 180
+        },
+        {
+          "sprite": "joe-walk-3",
+          "duration": 180
+        },
+        {
+          "sprite": "joe-walk-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "joe-walk-n": {
+      "frames": [
+        {
+          "sprite": "joe-walk-n-1",
+          "duration": 220
+        },
+        {
+          "sprite": "joe-walk-n-2",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "joe-walk-s": {
+      "frames": [
+        {
+          "sprite": "joe-walk-s-1",
+          "duration": 220
+        },
+        {
+          "sprite": "joe-walk-s-2",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "joe-hide": {
+      "frames": [
+        {
+          "sprite": "joe-hide-1",
+          "duration": 900
+        },
+        {
+          "sprite": "joe-hide-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "joe-emerge": {
+      "frames": [
+        {
+          "sprite": "joe-hide-2",
+          "duration": 300
+        },
+        {
+          "sprite": "joe-rise",
+          "duration": 400
+        },
+        {
+          "sprite": "joe-cautious",
+          "duration": 700
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "joe-speak": {
+      "frames": [
+        {
+          "sprite": "joe-speak-1",
+          "duration": 750
+        },
+        {
+          "sprite": "joe-speak-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "joe-idle": {
+      "frames": [
+        {
+          "sprite": "joe-idle",
+          "duration": 2400
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "joe-rest": {
+      "frames": [
+        {
+          "sprite": "joe-rest-pose",
+          "duration": 2600
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "alamo-wall-collapse": {
+      "frames": [
+        {
+          "sprite": "alamo-wall-intact",
+          "duration": 250
+        },
+        {
+          "sprite": "alamo-wall-cracked",
+          "duration": 300
+        },
+        {
+          "sprite": "alamo-wall-breach",
+          "duration": 250
+        },
+        {
+          "sprite": "alamo-wall-rubble",
+          "duration": 1000
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "elevation; orient with structure geometry"
+    },
+    "alamo-door-opening": {
+      "frames": [
+        {
+          "sprite": "alamo-door-closed",
+          "duration": 250
+        },
+        {
+          "sprite": "alamo-door-open",
+          "duration": 750
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "elevation; orient with structure geometry"
+    },
+    "alamo-chest-opening": {
+      "frames": [
+        {
+          "sprite": "alamo-chest-closed",
+          "duration": 250
+        },
+        {
+          "sprite": "alamo-chest-open",
+          "duration": 750
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "elevation; orient with structure geometry"
+    },
+    "rust-search": {
+      "frames": [
+        {
+          "sprite": "rust-search-1",
+          "duration": 900
+        },
+        {
+          "sprite": "rust-search-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "rust-trade": {
+      "frames": [
+        {
+          "sprite": "rust-trade-1",
+          "duration": 500
+        },
+        {
+          "sprite": "rust-trade-2",
+          "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "rust-walk-s": {
+      "frames": [
+        {
+          "sprite": "rust-walk-s-1",
+          "duration": 220
+        },
+        {
+          "sprite": "rust-walk-s-2",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "rust-walk-n": {
+      "frames": [
+        {
+          "sprite": "rust-walk-n-1",
+          "duration": 220
+        },
+        {
+          "sprite": "rust-walk-n-2",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "rust-care": {
+      "frames": [
+        {
+          "sprite": "rust-care-1",
+          "duration": 420
+        },
+        {
+          "sprite": "rust-care-2",
+          "duration": 420
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "rust-rest": {
+      "frames": [
+        {
+          "sprite": "rust-rest-pose",
+          "duration": 2500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "rust-injured-rest": {
+      "frames": [
+        {
+          "sprite": "rust-injured-pose",
+          "duration": 3000
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "rust-walk": {
+      "frames": [
+        {
+          "sprite": "rust-walk-1",
+          "duration": 180
+        },
+        {
+          "sprite": "rust-walk-2",
+          "duration": 180
+        },
+        {
+          "sprite": "rust-walk-3",
+          "duration": 180
+        },
+        {
+          "sprite": "rust-walk-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "rust-work": {
+      "frames": [
+        {
+          "sprite": "rust-work-1",
+          "duration": 240
+        },
+        {
+          "sprite": "rust-work-2",
+          "duration": 120
+        },
+        {
+          "sprite": "rust-work-3",
+          "duration": 220
+        },
+        {
+          "sprite": "rust-work-4",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "rust-carry": {
+      "frames": [
+        {
+          "sprite": "rust-carry-1",
+          "duration": 180
+        },
+        {
+          "sprite": "rust-carry-2",
+          "duration": 180
+        },
+        {
+          "sprite": "rust-carry-3",
+          "duration": 180
+        },
+        {
+          "sprite": "rust-carry-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "rust-sow": {
+      "frames": [
+        {
+          "sprite": "rust-sow-1",
+          "duration": 360
+        },
+        {
+          "sprite": "rust-sow-2",
+          "duration": 360
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "rust-repair": {
+      "frames": [
+        {
+          "sprite": "rust-repair-1",
+          "duration": 360
+        },
+        {
+          "sprite": "rust-repair-2",
+          "duration": 360
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "rust-idle-s": {
+      "frames": [
+        {
+          "sprite": "rust-idle-s",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "rust-idle-e": {
+      "frames": [
+        {
+          "sprite": "rust-idle-e",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east"
+    },
+    "rust-idle-w": {
+      "frames": [
+        {
+          "sprite": "rust-idle-w",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "west"
+    },
+    "rust-idle-n": {
+      "frames": [
+        {
+          "sprite": "rust-idle-n",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
+    },
+    "teal-search": {
+      "frames": [
+        {
+          "sprite": "teal-search-1",
+          "duration": 900
+        },
+        {
+          "sprite": "teal-search-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "teal-trade": {
+      "frames": [
+        {
+          "sprite": "teal-trade-1",
+          "duration": 500
+        },
+        {
+          "sprite": "teal-trade-2",
+          "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "teal-walk-s": {
+      "frames": [
+        {
+          "sprite": "teal-walk-s-1",
+          "duration": 220
+        },
+        {
+          "sprite": "teal-walk-s-2",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "teal-walk-n": {
+      "frames": [
+        {
+          "sprite": "teal-walk-n-1",
+          "duration": 220
+        },
+        {
+          "sprite": "teal-walk-n-2",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "teal-care": {
+      "frames": [
+        {
+          "sprite": "teal-care-1",
+          "duration": 420
+        },
+        {
+          "sprite": "teal-care-2",
+          "duration": 420
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "teal-rest": {
+      "frames": [
+        {
+          "sprite": "teal-rest-pose",
+          "duration": 2500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "teal-injured-rest": {
+      "frames": [
+        {
+          "sprite": "teal-injured-pose",
+          "duration": 3000
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "teal-walk": {
+      "frames": [
+        {
+          "sprite": "teal-walk-1",
+          "duration": 180
+        },
+        {
+          "sprite": "teal-walk-2",
+          "duration": 180
+        },
+        {
+          "sprite": "teal-walk-3",
+          "duration": 180
+        },
+        {
+          "sprite": "teal-walk-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "teal-work": {
+      "frames": [
+        {
+          "sprite": "teal-work-1",
+          "duration": 240
+        },
+        {
+          "sprite": "teal-work-2",
+          "duration": 120
+        },
+        {
+          "sprite": "teal-work-3",
+          "duration": 220
+        },
+        {
+          "sprite": "teal-work-4",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "teal-carry": {
+      "frames": [
+        {
+          "sprite": "teal-carry-1",
+          "duration": 180
+        },
+        {
+          "sprite": "teal-carry-2",
+          "duration": 180
+        },
+        {
+          "sprite": "teal-carry-3",
+          "duration": 180
+        },
+        {
+          "sprite": "teal-carry-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "teal-sow": {
+      "frames": [
+        {
+          "sprite": "teal-sow-1",
+          "duration": 360
+        },
+        {
+          "sprite": "teal-sow-2",
+          "duration": 360
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "teal-repair": {
+      "frames": [
+        {
+          "sprite": "teal-repair-1",
+          "duration": 360
+        },
+        {
+          "sprite": "teal-repair-2",
+          "duration": 360
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "teal-idle-s": {
+      "frames": [
+        {
+          "sprite": "teal-idle-s",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "teal-idle-e": {
+      "frames": [
+        {
+          "sprite": "teal-idle-e",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east"
+    },
+    "teal-idle-w": {
+      "frames": [
+        {
+          "sprite": "teal-idle-w",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "west"
+    },
+    "teal-idle-n": {
+      "frames": [
+        {
+          "sprite": "teal-idle-n",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
+    },
+    "elder-search": {
+      "frames": [
+        {
+          "sprite": "elder-search-1",
+          "duration": 900
+        },
+        {
+          "sprite": "elder-search-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "elder-trade": {
+      "frames": [
+        {
+          "sprite": "elder-trade-1",
+          "duration": 500
+        },
+        {
+          "sprite": "elder-trade-2",
+          "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "elder-walk-s": {
+      "frames": [
+        {
+          "sprite": "elder-walk-s-1",
+          "duration": 220
+        },
+        {
+          "sprite": "elder-walk-s-2",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "elder-walk-n": {
+      "frames": [
+        {
+          "sprite": "elder-walk-n-1",
+          "duration": 220
+        },
+        {
+          "sprite": "elder-walk-n-2",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "elder-care": {
+      "frames": [
+        {
+          "sprite": "elder-care-1",
+          "duration": 420
+        },
+        {
+          "sprite": "elder-care-2",
+          "duration": 420
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "elder-rest": {
+      "frames": [
+        {
+          "sprite": "elder-rest-pose",
+          "duration": 2500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "elder-injured-rest": {
+      "frames": [
+        {
+          "sprite": "elder-injured-pose",
+          "duration": 3000
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "elder-walk": {
+      "frames": [
+        {
+          "sprite": "elder-walk-1",
+          "duration": 180
+        },
+        {
+          "sprite": "elder-walk-2",
+          "duration": 180
+        },
+        {
+          "sprite": "elder-walk-3",
+          "duration": 180
+        },
+        {
+          "sprite": "elder-walk-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "elder-work": {
+      "frames": [
+        {
+          "sprite": "elder-work-1",
+          "duration": 240
+        },
+        {
+          "sprite": "elder-work-2",
+          "duration": 120
+        },
+        {
+          "sprite": "elder-work-3",
+          "duration": 220
+        },
+        {
+          "sprite": "elder-work-4",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "elder-carry": {
+      "frames": [
+        {
+          "sprite": "elder-carry-1",
+          "duration": 180
+        },
+        {
+          "sprite": "elder-carry-2",
+          "duration": 180
+        },
+        {
+          "sprite": "elder-carry-3",
+          "duration": 180
+        },
+        {
+          "sprite": "elder-carry-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "elder-sow": {
+      "frames": [
+        {
+          "sprite": "elder-sow-1",
+          "duration": 360
+        },
+        {
+          "sprite": "elder-sow-2",
+          "duration": 360
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "elder-repair": {
+      "frames": [
+        {
+          "sprite": "elder-repair-1",
+          "duration": 360
+        },
+        {
+          "sprite": "elder-repair-2",
+          "duration": 360
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "elder-idle-s": {
+      "frames": [
+        {
+          "sprite": "elder-idle-s",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "elder-idle-e": {
+      "frames": [
+        {
+          "sprite": "elder-idle-e",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east"
+    },
+    "elder-idle-w": {
+      "frames": [
+        {
+          "sprite": "elder-idle-w",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "west"
+    },
+    "elder-idle-n": {
+      "frames": [
+        {
+          "sprite": "elder-idle-n",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
+    },
+    "blue-search": {
+      "frames": [
+        {
+          "sprite": "blue-search-1",
+          "duration": 900
+        },
+        {
+          "sprite": "blue-search-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-trade": {
+      "frames": [
+        {
+          "sprite": "blue-trade-1",
+          "duration": 500
+        },
+        {
+          "sprite": "blue-trade-2",
+          "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-walk-s": {
+      "frames": [
+        {
+          "sprite": "blue-walk-s-1",
+          "duration": 220
+        },
+        {
+          "sprite": "blue-walk-s-2",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "blue-walk-n": {
+      "frames": [
+        {
+          "sprite": "blue-walk-n-1",
+          "duration": 220
+        },
+        {
+          "sprite": "blue-walk-n-2",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "blue-care": {
+      "frames": [
+        {
+          "sprite": "blue-care-1",
+          "duration": 420
+        },
+        {
+          "sprite": "blue-care-2",
+          "duration": 420
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-rest": {
+      "frames": [
+        {
+          "sprite": "blue-rest-pose",
+          "duration": 2500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "blue-injured-rest": {
+      "frames": [
+        {
+          "sprite": "blue-injured-pose",
+          "duration": 3000
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "blue-walk": {
+      "frames": [
+        {
+          "sprite": "blue-walk-1",
+          "duration": 180
+        },
+        {
+          "sprite": "blue-walk-2",
+          "duration": 180
+        },
+        {
+          "sprite": "blue-walk-3",
+          "duration": 180
+        },
+        {
+          "sprite": "blue-walk-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-work": {
+      "frames": [
+        {
+          "sprite": "blue-work-1",
+          "duration": 240
+        },
+        {
+          "sprite": "blue-work-2",
+          "duration": 120
+        },
+        {
+          "sprite": "blue-work-3",
+          "duration": 220
+        },
+        {
+          "sprite": "blue-work-4",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-carry": {
+      "frames": [
+        {
+          "sprite": "blue-carry-1",
+          "duration": 180
+        },
+        {
+          "sprite": "blue-carry-2",
+          "duration": 180
+        },
+        {
+          "sprite": "blue-carry-3",
+          "duration": 180
+        },
+        {
+          "sprite": "blue-carry-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-sow": {
+      "frames": [
+        {
+          "sprite": "blue-sow-1",
+          "duration": 360
+        },
+        {
+          "sprite": "blue-sow-2",
+          "duration": 360
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-repair": {
+      "frames": [
+        {
+          "sprite": "blue-repair-1",
+          "duration": 360
+        },
+        {
+          "sprite": "blue-repair-2",
+          "duration": 360
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-idle-s": {
+      "frames": [
+        {
+          "sprite": "blue-idle-s",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "blue-idle-e": {
+      "frames": [
+        {
+          "sprite": "blue-idle-e",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east"
+    },
+    "blue-idle-w": {
+      "frames": [
+        {
+          "sprite": "blue-idle-w",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "west"
+    },
+    "blue-idle-n": {
+      "frames": [
+        {
+          "sprite": "blue-idle-n",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
+    },
+    "ox-graze": {
+      "frames": [
+        {
+          "sprite": "ox-graze-1",
+          "duration": 800
+        },
+        {
+          "sprite": "ox-graze-2",
+          "duration": 650
+        },
+        {
+          "sprite": "ox-graze-3",
+          "duration": 1500
+        },
+        {
+          "sprite": "ox-graze-4",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ox-walk": {
+      "frames": [
+        {
+          "sprite": "ox-walk-1",
+          "duration": 210
+        },
+        {
+          "sprite": "ox-walk-2",
+          "duration": 210
+        },
+        {
+          "sprite": "ox-walk-3",
+          "duration": 210
+        },
+        {
+          "sprite": "ox-walk-4",
+          "duration": 210
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ox-walk-s": {
+      "frames": [
+        {
+          "sprite": "ox-walk-s-1",
+          "duration": 240
+        },
+        {
+          "sprite": "ox-walk-s-2",
+          "duration": 240
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "ox-walk-n": {
+      "frames": [
+        {
+          "sprite": "ox-walk-n-1",
+          "duration": 240
+        },
+        {
+          "sprite": "ox-walk-n-2",
+          "duration": 240
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "horse-graze": {
+      "frames": [
+        {
+          "sprite": "horse-graze-1",
+          "duration": 800
+        },
+        {
+          "sprite": "horse-graze-2",
+          "duration": 650
+        },
+        {
+          "sprite": "horse-graze-3",
+          "duration": 1500
+        },
+        {
+          "sprite": "horse-graze-4",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "horse-walk": {
+      "frames": [
+        {
+          "sprite": "horse-walk-1",
+          "duration": 210
+        },
+        {
+          "sprite": "horse-walk-2",
+          "duration": 210
+        },
+        {
+          "sprite": "horse-walk-3",
+          "duration": 210
+        },
+        {
+          "sprite": "horse-walk-4",
+          "duration": 210
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "horse-walk-s": {
+      "frames": [
+        {
+          "sprite": "horse-walk-s-1",
+          "duration": 240
+        },
+        {
+          "sprite": "horse-walk-s-2",
+          "duration": 240
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "horse-walk-n": {
+      "frames": [
+        {
+          "sprite": "horse-walk-n-1",
+          "duration": 240
+        },
+        {
+          "sprite": "horse-walk-n-2",
+          "duration": 240
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "cow-graze": {
+      "frames": [
+        {
+          "sprite": "cow-graze-1",
+          "duration": 800
+        },
+        {
+          "sprite": "cow-graze-2",
+          "duration": 650
+        },
+        {
+          "sprite": "cow-graze-3",
+          "duration": 1500
+        },
+        {
+          "sprite": "cow-graze-4",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "cow-walk": {
+      "frames": [
+        {
+          "sprite": "cow-walk-1",
+          "duration": 210
+        },
+        {
+          "sprite": "cow-walk-2",
+          "duration": 210
+        },
+        {
+          "sprite": "cow-walk-3",
+          "duration": 210
+        },
+        {
+          "sprite": "cow-walk-4",
+          "duration": 210
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "cow-walk-s": {
+      "frames": [
+        {
+          "sprite": "cow-walk-s-1",
+          "duration": 240
+        },
+        {
+          "sprite": "cow-walk-s-2",
+          "duration": 240
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "cow-walk-n": {
+      "frames": [
+        {
+          "sprite": "cow-walk-n-1",
+          "duration": 240
+        },
+        {
+          "sprite": "cow-walk-n-2",
+          "duration": 240
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "pig-graze": {
+      "frames": [
+        {
+          "sprite": "pig-graze-1",
+          "duration": 800
+        },
+        {
+          "sprite": "pig-graze-2",
+          "duration": 650
+        },
+        {
+          "sprite": "pig-graze-3",
+          "duration": 1500
+        },
+        {
+          "sprite": "pig-graze-4",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "pig-walk": {
+      "frames": [
+        {
+          "sprite": "pig-walk-1",
+          "duration": 210
+        },
+        {
+          "sprite": "pig-walk-2",
+          "duration": 210
+        },
+        {
+          "sprite": "pig-walk-3",
+          "duration": 210
+        },
+        {
+          "sprite": "pig-walk-4",
+          "duration": 210
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "pig-walk-s": {
+      "frames": [
+        {
+          "sprite": "pig-walk-s-1",
+          "duration": 240
+        },
+        {
+          "sprite": "pig-walk-s-2",
+          "duration": 240
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "pig-walk-n": {
+      "frames": [
+        {
+          "sprite": "pig-walk-n-1",
+          "duration": 240
+        },
+        {
+          "sprite": "pig-walk-n-2",
+          "duration": 240
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "mounted-courier-e": {
+      "frames": [
+        {
+          "sprite": "mounted-courier-e-1",
+          "duration": 230
+        },
+        {
+          "sprite": "mounted-courier-e-2",
+          "duration": 230
+        },
+        {
+          "sprite": "mounted-courier-e-3",
+          "duration": 230
+        },
+        {
+          "sprite": "mounted-courier-e-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "mounted-courier-s": {
+      "frames": [
+        {
+          "sprite": "mounted-courier-s-1",
+          "duration": 230
+        },
+        {
+          "sprite": "mounted-courier-s-2",
+          "duration": 230
+        },
+        {
+          "sprite": "mounted-courier-s-3",
+          "duration": 230
+        },
+        {
+          "sprite": "mounted-courier-s-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "mounted-courier-n": {
+      "frames": [
+        {
+          "sprite": "mounted-courier-n-1",
+          "duration": 230
+        },
+        {
+          "sprite": "mounted-courier-n-2",
+          "duration": 230
+        },
+        {
+          "sprite": "mounted-courier-n-3",
+          "duration": 230
+        },
+        {
+          "sprite": "mounted-courier-n-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "mounted-courier-graze": {
+      "frames": [
+        {
+          "sprite": "mounted-courier-graze-1",
+          "duration": 700
+        },
+        {
+          "sprite": "mounted-courier-graze-2",
+          "duration": 700
+        },
+        {
+          "sprite": "mounted-courier-graze-3",
+          "duration": 700
+        },
+        {
+          "sprite": "mounted-courier-graze-4",
+          "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "volunteer-march-s": {
+      "frames": [
+        {
+          "sprite": "volunteer-march-s-1",
+          "duration": 220
+        },
+        {
+          "sprite": "volunteer-march-s-2",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "volunteer-march-n": {
+      "frames": [
+        {
+          "sprite": "volunteer-march-n-1",
+          "duration": 220
+        },
+        {
+          "sprite": "volunteer-march-n-2",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "volunteer-march": {
+      "frames": [
+        {
+          "sprite": "volunteer-march-1",
+          "duration": 200
+        },
+        {
+          "sprite": "volunteer-march-2",
+          "duration": 200
+        },
+        {
+          "sprite": "volunteer-march-3",
+          "duration": 200
+        },
+        {
+          "sprite": "volunteer-march-4",
+          "duration": 200
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "volunteer-idle-s": {
+      "frames": [
+        {
+          "sprite": "volunteer-s",
+          "duration": 2400
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "volunteer-idle-w": {
+      "frames": [
+        {
+          "sprite": "volunteer-w",
+          "duration": 2400
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "west"
+    },
+    "volunteer-idle-e": {
+      "frames": [
+        {
+          "sprite": "volunteer-e",
+          "duration": 2400
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east"
+    },
+    "volunteer-idle-n": {
+      "frames": [
+        {
+          "sprite": "volunteer-n",
+          "duration": 2400
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
+    },
+    "regular-march-s": {
+      "frames": [
+        {
+          "sprite": "regular-march-s-1",
+          "duration": 220
+        },
+        {
+          "sprite": "regular-march-s-2",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "regular-march-n": {
+      "frames": [
+        {
+          "sprite": "regular-march-n-1",
+          "duration": 220
+        },
+        {
+          "sprite": "regular-march-n-2",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "regular-march": {
+      "frames": [
+        {
+          "sprite": "regular-march-1",
+          "duration": 200
+        },
+        {
+          "sprite": "regular-march-2",
+          "duration": 200
+        },
+        {
+          "sprite": "regular-march-3",
+          "duration": 200
+        },
+        {
+          "sprite": "regular-march-4",
+          "duration": 200
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "regular-idle-s": {
+      "frames": [
+        {
+          "sprite": "regular-s",
+          "duration": 2400
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "regular-idle-w": {
+      "frames": [
+        {
+          "sprite": "regular-w",
+          "duration": 2400
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "west"
+    },
+    "regular-idle-e": {
+      "frames": [
+        {
+          "sprite": "regular-e",
+          "duration": 2400
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east"
+    },
+    "regular-idle-n": {
+      "frames": [
+        {
+          "sprite": "regular-n",
+          "duration": 2400
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
+    },
+    "courier-march-s": {
+      "frames": [
+        {
+          "sprite": "courier-march-s-1",
+          "duration": 220
+        },
+        {
+          "sprite": "courier-march-s-2",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "courier-march-n": {
+      "frames": [
+        {
+          "sprite": "courier-march-n-1",
+          "duration": 220
+        },
+        {
+          "sprite": "courier-march-n-2",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "courier-march": {
+      "frames": [
+        {
+          "sprite": "courier-march-1",
+          "duration": 200
+        },
+        {
+          "sprite": "courier-march-2",
+          "duration": 200
+        },
+        {
+          "sprite": "courier-march-3",
+          "duration": 200
+        },
+        {
+          "sprite": "courier-march-4",
+          "duration": 200
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "courier-idle-s": {
+      "frames": [
+        {
+          "sprite": "courier-s",
+          "duration": 2400
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "courier-idle-w": {
+      "frames": [
+        {
+          "sprite": "courier-w",
+          "duration": 2400
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "west"
+    },
+    "courier-idle-e": {
+      "frames": [
+        {
+          "sprite": "courier-e",
+          "duration": 2400
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east"
+    },
+    "courier-idle-n": {
+      "frames": [
+        {
+          "sprite": "courier-n",
+          "duration": 2400
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
+    },
+    "dragoon-march-s": {
+      "frames": [
+        {
+          "sprite": "dragoon-march-s-1",
+          "duration": 220
+        },
+        {
+          "sprite": "dragoon-march-s-2",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "dragoon-march-n": {
+      "frames": [
+        {
+          "sprite": "dragoon-march-n-1",
+          "duration": 220
+        },
+        {
+          "sprite": "dragoon-march-n-2",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "dragoon-march": {
+      "frames": [
+        {
+          "sprite": "dragoon-march-1",
+          "duration": 200
+        },
+        {
+          "sprite": "dragoon-march-2",
+          "duration": 200
+        },
+        {
+          "sprite": "dragoon-march-3",
+          "duration": 200
+        },
+        {
+          "sprite": "dragoon-march-4",
+          "duration": 200
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "dragoon-idle-s": {
+      "frames": [
+        {
+          "sprite": "dragoon-s",
+          "duration": 2400
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "dragoon-idle-w": {
+      "frames": [
+        {
+          "sprite": "dragoon-w",
+          "duration": 2400
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "west"
+    },
+    "dragoon-idle-e": {
+      "frames": [
+        {
+          "sprite": "dragoon-e",
+          "duration": 2400
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east"
+    },
+    "dragoon-idle-n": {
+      "frames": [
+        {
+          "sprite": "dragoon-n",
+          "duration": 2400
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
+    },
+    "volunteer-fire-reload": {
+      "frames": [
+        {
+          "sprite": "volunteer-aim",
+          "duration": 700
+        },
+        {
+          "sprite": "volunteer-fire",
+          "duration": 120
+        },
+        {
+          "sprite": "volunteer-load",
+          "duration": 750
+        },
+        {
+          "sprite": "volunteer-ramrod",
+          "duration": 900
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "volunteer-surrender": {
+      "frames": [
+        {
+          "sprite": "volunteer-surrender-1",
+          "duration": 400
+        },
+        {
+          "sprite": "volunteer-surrender-2",
+          "duration": 900
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "volunteer-injured-rest": {
+      "frames": [
+        {
+          "sprite": "volunteer-injured",
+          "duration": 2700
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "regular-fire-reload": {
+      "frames": [
+        {
+          "sprite": "regular-aim",
+          "duration": 700
+        },
+        {
+          "sprite": "regular-fire",
+          "duration": 120
+        },
+        {
+          "sprite": "regular-load",
+          "duration": 750
+        },
+        {
+          "sprite": "regular-ramrod",
+          "duration": 900
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "regular-surrender": {
+      "frames": [
+        {
+          "sprite": "regular-surrender-1",
+          "duration": 400
+        },
+        {
+          "sprite": "regular-surrender-2",
+          "duration": 900
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "regular-injured-rest": {
+      "frames": [
+        {
+          "sprite": "regular-injured",
+          "duration": 2700
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "oak-broad-wind": {
+      "frames": [
+        {
+          "sprite": "oak-broad",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "oak-spreading-wind": {
+      "frames": [
+        {
+          "sprite": "oak-spreading",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "cottonwood-wind": {
+      "frames": [
+        {
+          "sprite": "cottonwood",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "pecan-wind": {
+      "frames": [
+        {
+          "sprite": "pecan",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "sapling-wind": {
+      "frames": [
+        {
+          "sprite": "sapling",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "reeds-wind": {
+      "frames": [
+        {
+          "sprite": "reeds",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "scrub-wind": {
+      "frames": [
+        {
+          "sprite": "scrub",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "grass-tuft-wind": {
+      "frames": [
+        {
+          "sprite": "grass-tuft",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "corn-young-wind": {
+      "frames": [
+        {
+          "sprite": "corn-young",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "corn-mature-wind": {
+      "frames": [
+        {
+          "sprite": "corn-mature",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "cotton-young-wind": {
+      "frames": [
+        {
+          "sprite": "cotton-young",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "cotton-mature-wind": {
+      "frames": [
+        {
+          "sprite": "cotton-mature",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "ox-brown-idle": {
+      "frames": [
+        {
+          "sprite": "ox-brown",
+          "duration": 2900
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "ox-cream-idle": {
+      "frames": [
+        {
+          "sprite": "ox-cream",
+          "duration": 2900
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "horse-chestnut-idle": {
+      "frames": [
+        {
+          "sprite": "horse-chestnut",
+          "duration": 2900
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "horse-grey-idle": {
+      "frames": [
+        {
+          "sprite": "horse-grey",
+          "duration": 2900
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "cow-idle": {
+      "frames": [
+        {
+          "sprite": "cow",
+          "duration": 2900
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "pig-idle": {
+      "frames": [
+        {
+          "sprite": "pig",
+          "duration": 2900
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "sheep-idle": {
+      "frames": [
+        {
+          "sprite": "sheep",
+          "duration": 2900
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "chicken-idle": {
+      "frames": [
+        {
+          "sprite": "chicken",
+          "duration": 2900
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "wagon-travel": {
+      "frames": [
+        {
+          "sprite": "wagon-body-covered",
+          "duration": 850
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "rock",
+      "direction": "west; east by mirroring",
+      "technique": "layered body and independently rotating wheels",
+      "bodyOffsetY": -0.18,
+      "parts": [
+        {
+          "sprite": "wagon-wheel",
+          "x": -0.31,
+          "y": -0.17,
+          "height": 0.39,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "turnsPerSecond": 1.1
+        },
+        {
+          "sprite": "wagon-wheel",
+          "x": 0.31,
+          "y": -0.17,
+          "height": 0.39,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "turnsPerSecond": 1.1
+        }
+      ]
+    },
+    "wagon-idle": {
+      "frames": [
+        {
+          "sprite": "wagon-body-covered",
+          "duration": 850
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "none",
+      "direction": "west; east by mirroring",
+      "technique": "layered body and independently rotating wheels",
+      "bodyOffsetY": -0.18,
+      "parts": [
+        {
+          "sprite": "wagon-wheel",
+          "x": -0.31,
+          "y": -0.17,
+          "height": 0.39,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "turnsPerSecond": 0
+        },
+        {
+          "sprite": "wagon-wheel",
+          "x": 0.31,
+          "y": -0.17,
+          "height": 0.39,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "turnsPerSecond": 0
+        }
+      ]
+    },
+    "skiff-float": {
+      "frames": [
+        {
+          "sprite": "skiff",
+          "duration": 3100
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "rock",
+      "direction": "east; west by mirroring"
+    },
+    "ferry-float": {
+      "frames": [
+        {
+          "sprite": "ferry-raft",
+          "duration": 3400
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "rock",
+      "direction": "east; west by mirroring"
+    },
+    "cannon-iron-e-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-iron-e",
+          "duration": 900
+        }
+      ],
+      "loop": false,
+      "authored": false,
+      "motion": "recoil",
+      "direction": "east",
+      "recoilSign": 1
+    },
+    "cannon-iron-w-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-iron-w",
+          "duration": 900
+        }
+      ],
+      "loop": false,
+      "authored": false,
+      "motion": "recoil",
+      "direction": "west",
+      "recoilSign": -1
+    },
+    "cannon-bronze-e-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-bronze-e",
+          "duration": 900
+        }
+      ],
+      "loop": false,
+      "authored": false,
+      "motion": "recoil",
+      "direction": "east",
+      "recoilSign": 1
+    },
+    "cannon-bronze-w-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-bronze-w",
+          "duration": 900
+        }
+      ],
+      "loop": false,
+      "authored": false,
+      "motion": "recoil",
+      "direction": "west",
+      "recoilSign": -1
+    },
+    "musket-smoke": {
+      "frames": [
+        {
+          "sprite": "smoke-small",
+          "duration": 140
+        },
+        {
+          "sprite": "smoke-growing",
+          "duration": 350
+        },
+        {
+          "sprite": "smoke-dispersing",
+          "duration": 650
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "drift",
+      "direction": "not applicable"
+    },
+    "cannon-smoke": {
+      "frames": [
+        {
+          "sprite": "smoke-dense",
+          "duration": 400
+        },
+        {
+          "sprite": "smoke-dispersing",
+          "duration": 900
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "drift",
+      "direction": "east",
+      "recoilSign": 1
+    },
+    "road-dust": {
+      "frames": [
+        {
+          "sprite": "dust-small",
+          "duration": 180
+        },
+        {
+          "sprite": "dust-large",
+          "duration": 420
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "drift",
+      "direction": "not applicable"
+    },
+    "water-motion": {
+      "frames": [
+        {
+          "sprite": "water-ripple",
+          "duration": 1800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "pulse",
+      "direction": "not applicable"
+    },
+    "fire-flicker": {
+      "frames": [
+        {
+          "sprite": "campfire",
+          "duration": 500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "pulse",
+      "direction": "not applicable"
+    },
+    "smoke-rise": {
+      "frames": [
+        {
+          "sprite": "chimney-smoke",
+          "duration": 2100
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "drift",
+      "direction": "not applicable"
+    },
+    "wagon-empty-travel": {
+      "frames": [
+        {
+          "sprite": "wagon-body-empty",
+          "duration": 850
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "rock",
+      "direction": "west; east by mirroring",
+      "technique": "layered body and independently rotating wheels",
+      "bodyOffsetY": -0.18,
+      "parts": [
+        {
+          "sprite": "wagon-wheel",
+          "x": -0.31,
+          "y": -0.17,
+          "height": 0.39,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "turnsPerSecond": 1.1
+        },
+        {
+          "sprite": "wagon-wheel",
+          "x": 0.31,
+          "y": -0.17,
+          "height": 0.39,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "turnsPerSecond": 1.1
+        }
+      ]
+    },
+    "wagon-loaded-travel": {
+      "frames": [
+        {
+          "sprite": "wagon-body-loaded",
+          "duration": 850
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "rock",
+      "direction": "west; east by mirroring",
+      "technique": "layered body and independently rotating wheels",
+      "bodyOffsetY": -0.18,
+      "parts": [
+        {
+          "sprite": "wagon-wheel",
+          "x": -0.31,
+          "y": -0.17,
+          "height": 0.39,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "turnsPerSecond": 1.1
+        },
+        {
+          "sprite": "wagon-wheel",
+          "x": 0.31,
+          "y": -0.17,
+          "height": 0.39,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "turnsPerSecond": 1.1
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "record": "motion-conditions",
+  "date": "2026-09-10",
+  "claim": "Every condition the simulation can put on a person or a piece of property is classified by the renderer and draws a clip the library actually holds.",
+  "defectFound": {
+    "summary": "public/motion.js bound the injured pose to conditions the simulation has never set.",
+    "before": "if (['injured', 'wounded'].includes(condition)) return { id: `${variant}-injured-rest`, ... }",
+    "whatTheSimActuallySets": {
+      "person": ["well", "tired", "minor-injury", "dead", "captured"],
+      "property": ["sound", "lost"],
+      "note": "'minor-injury' is set in sim/directors.mjs and cleared by advanceRoutine once recoversAt passes. Neither 'injured' nor 'wounded' appears anywhere in sim/."
+    },
+    "consequence": "A hurt person fell through the condition branch entirely and was drawn by task instead - rust-rest for somebody the director had put at rest, or an idle pose. The delivered injured-rest art sat behind a binding that matched nothing, which is the same class of fault the binding was originally written to fix.",
+    "whyTheOldTestMissedIt": "tests/motion-binding.test.mjs asserted the pose for 'injured' and 'wounded' - the same two invented names the implementation used. The test and the code agreed with each other and neither agreed with the simulation. Restating a vocabulary in a second place is what allowed the drift."
+  },
+  "fix": {
+    "motion": "public/motion.js now exports HURT_CONDITIONS ('minor-injury', 'injured', 'wounded'), STILL_CONDITIONS ('dead', 'captured') and ORDINARY_CONDITIONS ('well', 'tired'), and the branches read those lists. 'injured' and 'wounded' are retained as accepted names so a future server state does not silently fall through.",
+    "guard": "tests/motion-binding.test.mjs no longer restates the vocabulary. It scans sim/*.mjs for condition literals, adds anything reachable through marchCost(), and requires every one to be classified and to resolve to a clip present in animation.json. A condition added to sim/ without a binding now fails with a message naming the list to add it to.",
+    "collision": "An ox and a wagon carry a `condition` too, and entityClip reads `entity.health?.condition || entity.condition`, so the two vocabularies share one code path. The test asserts no property condition appears in HURT_CONDITIONS or STILL_CONDITIONS - a wagon whose condition was ever named 'wounded' would otherwise be drawn as a hurt person."
+  },
+  "discoveredByTheGuard": "The scan immediately surfaced 'lost', which is a wagon condition rather than a person's. That is why the property vocabulary is now handled explicitly instead of being swept in with the rest.",
+  "regressionDiscipline": {
+    "rule": "CLAUDE.md: a new test is not evidence until it has failed.",
+    "fullSuite": "97 pass, 0 fail",
+    "injectedRegressions": [
+      { "injected": "restore the original binding, ['injured', 'wounded']", "result": "2 of 4 tests failed", "message": "sim/ can put something in condition 'minor-injury' and this test does not classify it" },
+      { "injected": "rename the march outcome to 'exhausted' in sim/, binding untouched", "result": "1 failed", "message": "sim/ can put something in condition 'exhausted' and this test does not classify it" },
+      { "injected": "add the property condition 'lost' to STILL_CONDITIONS", "result": "1 failed", "message": "'lost' is a property condition and also a person's; a wagon would be drawn as a person" },
+      { "injected": "make the hurt branch unreachable so task wins", "result": "1 failed", "message": "minor-injury uses the delivered injured pose" }
+    ],
+    "noPreExistingTestChangedState": true
+  },
+  "browserProof": {
+    "date": "2026-09-10",
+    "method": "Live five-household class, real browser student as hh-1, class paused so no incoming snapshot could overwrite the projection under test. The renderer's own `window.__animationClips` set was used, which records a clip only when `animated()` actually drew it with a non-zero width - so this measures pixels, not intent. The same person and the same task were drawn twice, changing only the condition in the received projection.",
+    "measurement": [
+      { "condition": "well", "task": "rest", "drew": "rust-rest" },
+      { "condition": "minor-injury", "task": "rest", "drew": "rust-injured-rest" }
+    ],
+    "visual": "Thomas drawn hunched at rest beside the cabin, with the selection panel reading 'rest · Family 1 home · minor-injury'.",
+    "whyTheProjectionWasConstructed": "The condition was written into the received projection rather than played into existence, because it cannot currently be played into existence - see the limitation below. The defect was entirely in the renderer's reading of a projection, so a constructed projection is the right level to prove it at, but it is not a played outcome and is not recorded as one.",
+    "falseStart": "A first attempt read no injured clip. The class was still running and a new snapshot arrived every 1200 ms, overwriting the mutation before the redraw. Pausing fixed it. A second attempt read nothing at all: while paused the animation loop does not redraw, so the draw had to be forced with a real viewport change. Both were measurement artefacts, not product faults, and are recorded because either could be mistaken for one."
+  },
+  "limitation": {
+    "minorInjuryIsUnreachableInPlay": "Measured across three full classes with every household helping and marching upriver, the only conditions any person ever held were 'well' and 'tired'. Nothing makes a person tired before settleHelp, which is the same moment the march cost is applied, so every marcher is 'well' when it lands. 'minor-injury' therefore never occurs in a played slice today, and the risk text a student reads is always 'will come back tired'.",
+    "keptAnyway": "State is preserved between arcs, so somebody who ends this slice tired starts the next one tired, and a fatigue system is already on the roadmap. The rung is marked with a ceiling: note in sim/directors.mjs.",
+    "correction": "An earlier note in docs/evidence/upriver-march.json said the upriver work made 'minor-injury' reachable in ordinary play for the first time. That was wrong and has been corrected in that file."
+  },
+  "notProved": [
+    "That a student will ever see this pose in a normal lesson. They will not, until fatigue has another source.",
+    "Anything about the remaining unreachable art. This closes one binding, not the gap recorded in docs/ASSETS.md."
+  ]
+}

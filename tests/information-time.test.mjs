@@ -1,0 +1,76 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { createWorld, dispatchReport, stepWorld, projectWorld, applyAction, validateWorld } from '../sim/world.mjs';
+import { establishTruth, learn, reportsFor } from '../sim/knowledge.mjs';
+import { resolveTimeJump } from '../sim/time.mjs';
+
+test('Gate C: truth stays server-side, households learn unevenly, courier delivery and public knowledge are independent', () => {
+  const world = createWorld('information', 5); world.status = 'running';
+  establishTruth(world, { id: 'private-news', text: 'A SECRET event at the crossing.', siteId: 'gonzales' });
+  learn(world, 'hh-1', 'private-news', { status: 'rumor', source: 'neighbor', text: 'Someone may need help at the crossing.' });
+  const first = projectWorld(world, 'hh-1', 'student');
+  assert.equal(first.seed, undefined, 'clients cannot derive private initialization from the session seed');
+  assert.equal(first.reports[0].status, 'rumor');
+  assert.ok(!JSON.stringify(first).includes('SECRET'));
+  assert.ok(!JSON.stringify(projectWorld(world, 'hh-2', 'student')).includes('private-news'));
+  assert.deepEqual(projectWorld(world, undefined, 'host').reports, []);
+  first.reports[0].status = 'confirmed';
+  assert.equal(reportsFor(world, 'hh-1')[0].status, 'rumor');
+  const courierId = dispatchReport(world, 'private-news', 'hh-2');
+  assert.ok(world.entities[courierId].travel);
+  for (let i = 0; i < 30; i++) stepWorld(world);
+  assert.equal(world.entities[courierId].location.siteId, 'home-2');
+  assert.equal(reportsFor(world, 'hh-2')[0].status, 'confirmed');
+  assert.equal(reportsFor(world, 'hh-1')[0].ageMinutes, 600);
+  assert.deepEqual(reportsFor(world, 'public'), []);
+  learn(world, 'public', 'private-news', { source: 'public report' });
+  assert.equal(reportsFor(world, 'public').length, 1);
+  assert.equal(reportsFor(world, 'hh-1')[0].status, 'rumor');
+  learn(world, 'hh-1', 'private-news', { status: 'confirmed' });
+  learn(world, 'hh-1', 'private-news', { status: 'rumor' });
+  assert.equal(reportsFor(world, 'hh-1')[0].status, 'confirmed');
+});
+test('Gate C: deterministic compression preserves travel, service, absent/borrowed property, health, relationships and aging knowledge', () => {
+  const fixture = () => {
+    const world = createWorld('time', 5); world.status = 'running';
+    applyAction(world, 'hh-1', { action: 'travel', entityId: 'hh-1-thomas', destination: 'gonzales' });
+    world.entities['hh-1-thomas'].travel.speed = .005;
+    world.entities['hh-2-thomas'].task = 'service'; world.entities['hh-2-thomas'].commitments = ['promised-service'];
+    const wagon = world.entities['hh-1-wagon']; wagon.borrowedBy = 'hh-2'; wagon.condition = 'damaged'; wagon.location = { ...world.map.sites.gonzales, siteId: 'gonzales' };
+    world.households['hh-1'].relationships.neighbor = 3;
+    world.entities['hh-3-thomas'].health = { condition: 'dead' };
+    world.entities['hh-4-thomas'].health = { condition: 'minor-injury', recoversAt: 1440 };
+    establishTruth(world, { id: 'old-rumor', text: 'An old report.' }); learn(world, 'hh-1', 'old-rumor', { status: 'unconfirmed' });
+    return world;
+  };
+  const a = fixture(), b = fixture();
+  const wagon = structuredClone(a.entities['hh-1-wagon']); const food = a.households['hh-1'].resources.food;
+  const result = resolveTimeJump(a, 2880); resolveTimeJump(b, 2880);
+  assert.deepEqual(a, b); assert.equal(result.advancedMinutes, 2880);
+  assert.ok(a.entities['hh-1-thomas'].travel); assert.equal(a.entities['hh-1-thomas'].location.siteId, null);
+  assert.equal(a.entities['hh-2-thomas'].task, 'service'); assert.deepEqual(a.entities['hh-2-thomas'].commitments, ['promised-service']);
+  assert.deepEqual(a.entities['hh-1-wagon'], wagon); assert.equal(a.households['hh-1'].relationships.neighbor, 3);
+  assert.equal(a.entities['hh-3-thomas'].health.condition, 'dead'); assert.equal(a.entities['hh-4-thomas'].health.condition, 'well');
+  assert.notEqual(a.households['hh-1'].resources.food, food); assert.equal(reportsFor(a, 'hh-1')[0].ageMinutes, 2880);
+  validateWorld(a);
+});
+test('Gate C: compression stops at important events and never silently resolves major harm', () => {
+  const world = createWorld('barrier', 5); world.status = 'running';
+  world.barriers.push({ id: 'active-event', minute: 60, kind: 'principal-danger' });
+  assert.equal(resolveTimeJump(world, 1440).advancedMinutes, 60);
+  assert.equal(resolveTimeJump(world, 1440).advancedMinutes, 0);
+  assert.ok(Object.values(world.entities).filter(e => e.principal).every(e => e.health.condition === 'well'));
+  world.status = 'paused'; assert.throws(() => resolveTimeJump(world, 20), /running/);
+});
+test('Gate C: significant travel arrival waits for a visible live step', () => {
+  const world = createWorld('arrival', 5); world.status = 'running';
+  applyAction(world, 'hh-1', { action: 'travel', entityId: 'hh-1-thomas', destination: 'gonzales' });
+  world.entities['hh-1-thomas'].travel.purpose = 'help';
+  assert.equal(resolveTimeJump(world, 2880).blockedBy, 'arrival:hh-1-thomas');
+  assert.ok(world.entities['hh-1-thomas'].travel);
+  const events = world.events.length;
+  assert.equal(resolveTimeJump(world, 2880).advancedMinutes, 0);
+  assert.equal(world.events.length, events, 'blocked retry is a no-op');
+  stepWorld(world);
+  assert.equal(world.entities['hh-1-thomas'].location.siteId, 'gonzales');
+});
