@@ -188,7 +188,11 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         res.writeHead(200, { 'Content-Type': `${mime}; charset=utf-8`, 'Cache-Control': 'no-store' });
         return res.end(content);
       }
-      if (req.method === 'GET' && url.pathname === '/health') return json(res, 200, { ok: true, application: 'texas-revolution-foundation', pid: process.pid, launchId: process.env.TEXAS_LAUNCH_ID || null, maturity: 'PROTOTYPE', stopping: Boolean(lifecycle), canStop: Boolean(onStopRequested) });
+      // `joinUrls` is here because the launcher needs it and because it is not a secret:
+      // it is the address a student types, and anybody asking this question has already
+      // reached the server to ask it. The alternative was a second copy of the interface
+      // filtering in the launcher, drifting away from `joinCandidates` over time.
+      if (req.method === 'GET' && url.pathname === '/health') return json(res, 200, { ok: true, application: 'texas-revolution-foundation', pid: process.pid, launchId: process.env.TEXAS_LAUNCH_ID || null, maturity: 'PROTOTYPE', stopping: Boolean(lifecycle), canStop: Boolean(onStopRequested), joinUrls });
       if (req.method === 'POST') {
         if (req.headers.origin && req.headers.origin !== `http://${req.headers.host}`) return json(res, 403, { error: 'Same-origin requests only' });
         if (!req.headers['content-type']?.startsWith('application/json')) return json(res, 415, { error: 'JSON required' });

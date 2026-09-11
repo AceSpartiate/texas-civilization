@@ -10,11 +10,16 @@ It runs entirely on one teacher's computer over the school's own network. There 
 
 Download the latest package from [Releases](https://github.com/AceSpartiate/texas-civilization/releases). The self-contained one carries its own copy of Node and needs nothing installed; the smaller one uses a Node 22+ that is already there.
 
-1. **Unblock the zip before unpacking it.** Right-click it → Properties → tick **Unblock** → OK. Windows marks anything downloaded from the Internet, and that mark stops the launcher's own scripts from running. The launcher now clears it for you, but doing it first is one click and saves the question.
+1. **Unblock the zip before unpacking it.** Right-click it → Properties → tick **Unblock** → OK. Windows marks anything downloaded from the Internet, and that mark stops the launcher's own scripts from running. The launcher clears it for you, but doing it first is one click and saves the question.
 2. Unpack it somewhere ordinary — Desktop or Documents. Do not run it from inside the zip.
-3. Double-click **`Launch.vbs`**. The Host page opens by itself.
-4. Students join at the LAN address the Host page shows, using the six-character class code. Five households must join before Start; fewer is possible with a deliberate second press, which is how one person can try it alone.
-5. Stop with **Stop Server** on the Host page, or **`Stop.vbs`**. Closing the browser does **not** stop it.
+3. Double-click **`TexasRevolution.exe`**. It offers to put a shortcut on the desktop the first time, and adds one to the Start menu either way.
+4. Press **Start the class**. The join address appears on the launcher; **Open class view** puts the teacher's view in its own window, and **Copy the join address** hands you the URL for the board.
+5. Students join at that address with the six-character class code. Five households must join before Start; fewer is possible with a deliberate second press, which is how one person can try it alone.
+6. Press **Stop the class** when you are done. Closing a browser window does **not** stop it.
+
+The launcher also tells you which release you have and checks GitHub for a newer one when it opens; updating downloads and installs it with a progress bar and leaves your saved classes alone. It refuses to update while a class is running.
+
+`Launch.vbs` and `Stop.vbs` still work and do the same thing without the window; the smaller *NeedsNode* package has only those.
 
 Class data — the save, the private Host URL, logs and archived classes — lives beside the application when that folder is writable, and otherwise under `%LOCALAPPDATA%\TexasRevolution\data`. See [deployment](docs/DEPLOYMENT.md) and [recovery](docs/RECOVERY.md).
 

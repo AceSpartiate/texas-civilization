@@ -12,10 +12,30 @@
 [CmdletBinding()]
 param(
   [string]$Stamp = (Get-Date -Format 'yyyy-MM-dd'),
-  [string]$Destination = [Environment]::GetFolderPath('Desktop')
+  [string]$Destination = [Environment]::GetFolderPath('Desktop'),
+  # Stamped into the package so the launcher can tell whether a newer release exists.
+  # Tag against tag, not version arithmetic: releases here are dated, and "is this the one
+  # I installed" is the honest question, which no change of tag format can confuse.
+  [string]$Tag = "v$(Get-Date -Format 'yyyy-MM-dd')",
+  [switch]$SkipLauncher
 )
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
+
+# The launcher is a Windows application, built here rather than tracked: sixty-odd
+# megabytes of .NET has no business in a git history. Self-contained on purpose - a school
+# machine may have no runtime and no right to install one - and that is what the size buys.
+$launcherExe = Join-Path $root 'launcher\bin\package\TexasRevolution.exe'
+if (-not $SkipLauncher) {
+  Push-Location (Join-Path $root 'launcher')
+  try {
+    & dotnet publish -c Release -r win-x64 --self-contained true `
+      -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true `
+      -o bin\package -v quiet | Out-Null
+    if ($LASTEXITCODE -ne 0) { throw 'The launcher did not build.' }
+  } finally { Pop-Location }
+  if (-not (Test-Path -LiteralPath $launcherExe)) { throw 'The launcher built but produced no exe.' }
+}
 $stage = Join-Path $env:TEMP "tr-package-$Stamp"
 if (Test-Path -LiteralPath $stage) { Remove-Item -LiteralPath $stage -Recurse -Force }
 New-Item -ItemType Directory -Force $stage | Out-Null
@@ -39,21 +59,30 @@ foreach ($name in $ship) {
 # The launcher's own scripts, and only those: the browser proofs, the art pipeline and the
 # preflight tooling are development instruments.
 New-Item -ItemType Directory -Force (Join-Path $app 'scripts') | Out-Null
-foreach ($name in @('launch.ps1', 'stop.ps1')) {
+# appinfo.mjs is not optional: stop.ps1 and the launcher both ask it where this machine
+# put the class data, rather than guessing and risking the wrong answer.
+foreach ($name in @('launch.ps1', 'stop.ps1', 'appinfo.mjs')) {
   Copy-Item -LiteralPath (Join-Path $root "scripts\$name") -Destination (Join-Path $app 'scripts') -Force
 }
 if (-not (Test-Path -LiteralPath (Join-Path $app 'runtime\node.exe'))) { throw 'runtime/node.exe missing' }
+Set-Content -LiteralPath (Join-Path $app 'release.txt') -Value $Tag -Encoding utf8 -NoNewline
 
 # `data` is a class's own save area and must never ship with somebody else's class in it.
 foreach ($forbidden in @('data', 'node_modules', 'test-results', '.git', 'tests', 'docs', 'CLAUDE.md', 'HANDOFF.md', 'TECH.md', 'VISION.md')) {
   if (Test-Path -LiteralPath (Join-Path $app $forbidden)) { throw "$forbidden must not ship" }
 }
 
+# Only the full build carries the launcher. The smaller one exists for a machine that
+# already has Node, and putting sixty megabytes of .NET into a forty megabyte package would
+# defeat its whole point; it keeps Launch.vbs, which is what it has always used.
+if (-not $SkipLauncher) { Copy-Item -LiteralPath $launcherExe -Destination $app -Force }
+
 $selfContained = Join-Path $Destination "TexasRevolution-Gonzales-$Stamp.zip"
 if (Test-Path -LiteralPath $selfContained) { Remove-Item -LiteralPath $selfContained -Force }
 Compress-Archive -Path $app -DestinationPath $selfContained -CompressionLevel Optimal
 
 Remove-Item -LiteralPath (Join-Path $app 'runtime') -Recurse -Force
+if (Test-Path -LiteralPath (Join-Path $app 'TexasRevolution.exe')) { Remove-Item -LiteralPath (Join-Path $app 'TexasRevolution.exe') -Force }
 $needsNode = Join-Path $Destination "TexasRevolution-Gonzales-$Stamp-NeedsNode.zip"
 if (Test-Path -LiteralPath $needsNode) { Remove-Item -LiteralPath $needsNode -Force }
 Compress-Archive -Path $app -DestinationPath $needsNode -CompressionLevel Optimal

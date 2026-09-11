@@ -10,3 +10,7 @@ test-results/
 # Preflight records describe this particular machine - hostname, adapters, firewall
 # state, local paths. They are real evidence and they stay on the machine that made them.
 docs/evidence/preflight-*.json
+
+# Launcher build output.
+launcher/bin/
+launcher/obj/

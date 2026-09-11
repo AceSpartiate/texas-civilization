@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    The teacher's launcher.
+
+    It is deliberately a face and not a second implementation. Starting and stopping the
+    classroom server is delicate - the stop has to authenticate with the private Host
+    credential, ask the class to checkpoint and pause, and then wait, because forcing the
+    process leaves a stale save lock that costs a teacher their class. That sequence is
+    already written once in scripts/launch.ps1 and scripts/stop.ps1 and is held by eight
+    PASS lines in scripts/verify-launcher.ps1. This app drives those scripts. A second
+    copy of that protocol in C# would be a second thing to get wrong.
+
+    WebView2 rather than a bundled browser: Windows 11 already has the runtime, so the
+    presentation window costs a few megabytes instead of a hundred and fifty.
+  -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>TexasRevolution.Launcher</RootNamespace>
+    <AssemblyName>TexasRevolution</AssemblyName>
+    <Product>Texas Revolution</Product>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <!-- A teacher drags this window from a laptop panel onto a projector with a different
+         scale factor, and a blurry class view is the whole lesson. WinForms wants this as a
+         project property rather than in the manifest. -->
+    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2210.55" />
+  </ItemGroup>
+
+</Project>

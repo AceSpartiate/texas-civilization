@@ -21,7 +21,37 @@ Windows marks every file unpacked from a downloaded zip as having come from the 
 
 A teacher can still do it first, and it is one click: right-click the zip → Properties → tick **Unblock** → OK, then unpack.
 
-## Launch and run
+## The launcher application
+
+`TexasRevolution.exe` is a small WinForms application in the package root. It does not
+reimplement starting or stopping the classroom: it drives `scripts/launch.ps1` and
+`scripts/stop.ps1`, which already authenticate with the private Host credential, checkpoint
+and pause the class, and wait rather than ending the process. A second copy of that protocol
+would be a second thing to get wrong.
+
+It is self-contained — about 60 MB of .NET inside the exe — so it needs no runtime installed
+and no administrator. That is the whole reason for the size: a school machine may have
+neither. The presentation window is WebView2, which Windows 11 already ships, rather than a
+bundled browser.
+
+**Headless use, for a support person or a script:**
+
+```powershell
+.\TexasRevolution.exe --status
+.\TexasRevolution.exe --start
+.\TexasRevolution.exe --stop
+.\TexasRevolution.exe --check-updates
+```
+
+These call exactly the code the buttons call. One caveat found by measuring: do not capture
+the output of `--start`. The classroom server it leaves running inherits the console handle,
+so a parent that redirects and waits will wait for the whole lesson. Ask `--status` instead.
+
+Updating downloads the release asset, unpacks it, and only then replaces the installed files
+with `robocopy /XD data`, so an interrupted download leaves the working copy untouched and a
+teacher's classes are never in the path. The launcher refuses to update while a class runs.
+
+## A package that came from the Internet
 
 The development entry point is `npm start`, which runs `node server/main.mjs` from the repository root. The teacher-facing prototype entry point is `Launch.vbs`, which delegates to `scripts/launch.ps1` without exposing a terminal workflow. The launcher is designed to use `runtime/node.exe` when supplied, otherwise an installed Node runtime.
 

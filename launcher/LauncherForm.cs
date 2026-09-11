@@ -1,0 +1,243 @@
+using System.Diagnostics;
+
+namespace TexasRevolution.Launcher;
+
+/// <summary>
+/// The teacher's control panel: start the class, show it, hand out the address, stop.
+/// </summary>
+/// <remarks>
+/// Every control here answers a question a teacher actually asked while standing in front of
+/// a room. Is it on. Where do the students type. Put it on the projector. Which version is
+/// this, and is there a newer one. Nothing here configures anything: a seed, a port and a
+/// class size are developer settings and have no business on this window.
+///
+/// <para>The layout is a single stack with an explicit height, because the first version of
+/// this window was thirty pixels too short and quietly clipped the update button off the
+/// bottom - a control that exists and cannot be seen is worse than one that does not.</para>
+/// </remarks>
+public sealed class LauncherForm : Form
+{
+    private readonly ServerControl _server = new();
+    private readonly Updater _updater = new();
+
+    private readonly Label _title = new() { Dock = DockStyle.Top, Height = 30, ForeColor = Color.WhiteSmoke };
+    private readonly Label _release = new() { Dock = DockStyle.Top, Height = 20, ForeColor = Color.FromArgb(150, 168, 150) };
+    private readonly Label _state = new() { Dock = DockStyle.Top, Height = 24, ForeColor = Color.FromArgb(214, 222, 210) };
+    private readonly Label _join = new() { Dock = DockStyle.Top, Height = 26, ForeColor = Color.FromArgb(168, 196, 170) };
+    private readonly Button _power = Primary("Start the class");
+    private readonly Button _showClass = Secondary("Open class view");
+    private readonly Button _openPlayer = Secondary("Open a player window");
+    private readonly Button _copyJoin = Secondary("Copy the join address");
+    private readonly Button _updates = Secondary("Check for updates");
+    private readonly ProgressBar _progress = new() { Dock = DockStyle.Top, Height = 14, Visible = false, Style = ProgressBarStyle.Continuous, Maximum = 100 };
+    private readonly Label _notice = new() { Dock = DockStyle.Fill, ForeColor = Color.FromArgb(214, 190, 140) };
+
+    private readonly System.Windows.Forms.Timer _poll = new() { Interval = 1500 };
+    private ServerStatus _status = ServerStatus.Stopped;
+    private ReleaseInfo? _available;
+    private bool _busy;
+    private TeacherWindow? _classView;
+
+    public LauncherForm()
+    {
+        Text = "Texas Revolution";
+        StartPosition = FormStartPosition.CenterScreen;
+        ClientSize = new Size(460, 452);
+        FormBorderStyle = FormBorderStyle.FixedSingle;
+        MaximizeBox = false;
+        BackColor = Color.FromArgb(38, 48, 42);
+        Padding = new Padding(18, 14, 18, 14);
+        Font = new Font("Segoe UI", 9.5f);
+
+        _title.Text = "Texas Revolution — Gonzales, 1835";
+        _title.Font = new Font("Segoe UI", 13f, FontStyle.Bold);
+        _release.Text = AppPaths.InstalledRelease is { } tag ? $"Release {tag}" : "Working copy (not an installed release)";
+        _join.Font = new Font("Consolas", 10f);
+
+        _power.Click += async (_, _) => await TogglePowerAsync();
+        _showClass.Click += (_, _) => ShowClassView();
+        _openPlayer.Click += (_, _) => OpenPlayerWindow();
+        _copyJoin.Click += (_, _) => CopyJoinAddress();
+        _updates.Click += async (_, _) => await UpdatesClickedAsync();
+
+        // Dock=Top stacks in reverse of the order added, so this list reads bottom-up. The
+        // notice fills whatever is left, which is what keeps a long message from pushing a
+        // button off the window the way the first version of this did.
+        Controls.Add(_notice);
+        foreach (var control in new Control[] { _progress, _updates, _copyJoin, _openPlayer, _showClass, _power, _join, _state, _release, _title })
+            Controls.Add(control);
+
+        _poll.Tick += async (_, _) => await RefreshAsync();
+        Load += async (_, _) =>
+        {
+            await RefreshAsync();
+            _poll.Start();
+            OfferShortcuts();
+            // Asked once, quietly, on the way in. A teacher opening this two minutes before a
+            // lesson should not be interrupted, so a failure here says nothing at all.
+            await LookForUpdateAsync(announce: false);
+        };
+        FormClosing += (_, _) => _poll.Stop();
+    }
+
+    /// <summary>
+    /// Asked once, the first time this copy is opened, and never again.
+    /// </summary>
+    /// <remarks>
+    /// The Start menu entry is made without asking, because that is where Windows
+    /// applications live and it is where a teacher will look. The desktop icon is asked
+    /// for, because somebody else's desktop is not ours to decorate.
+    /// </remarks>
+    private void OfferShortcuts()
+    {
+        if (!Shortcuts.IsFirstRun()) return;
+        var answer = MessageBox.Show(
+            "Put a Texas Revolution shortcut on the desktop?" + Environment.NewLine + Environment.NewLine
+            + "It will be added to the Start menu either way.",
+            "Texas Revolution", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+        Shortcuts.Create(desktop: answer == DialogResult.Yes);
+        Shortcuts.RememberInstalled();
+    }
+
+    private static Button Primary(string text) => new()
+    {
+        Text = text, Dock = DockStyle.Top, Height = 50, FlatStyle = FlatStyle.Flat,
+        BackColor = Color.FromArgb(74, 104, 80), ForeColor = Color.White,
+        Font = new Font("Segoe UI", 11.5f, FontStyle.Bold),
+    };
+
+    private static Button Secondary(string text) => new()
+    {
+        Text = text, Dock = DockStyle.Top, Height = 38, FlatStyle = FlatStyle.Flat,
+        BackColor = Color.FromArgb(54, 66, 58), ForeColor = Color.WhiteSmoke,
+    };
+
+    private void Say(string message) => _notice.Text = message;
+
+    private async Task RefreshAsync()
+    {
+        if (_busy) return;
+        _status = await _server.StatusAsync();
+        var running = _status.Running;
+        _power.Text = running ? "Stop the class" : "Start the class";
+        _power.BackColor = running ? Color.FromArgb(122, 70, 52) : Color.FromArgb(74, 104, 80);
+        _state.Text = running ? (_status.Stopping ? "Stopping…" : "The class is running.") : "Not running.";
+        _join.Text = _status.PrimaryJoinUrl ?? "";
+        foreach (var button in new[] { _showClass, _openPlayer, _copyJoin }) button.Enabled = running;
+    }
+
+    private async Task TogglePowerAsync()
+    {
+        _busy = true;
+        _power.Enabled = false;
+        var starting = !_status.Running;
+        _state.Text = starting ? "Starting…" : "Stopping. The class is being saved…";
+        Say("");
+        var (ok, output) = starting ? await _server.StartAsync() : await _server.StopAsync();
+        _busy = false;
+        _power.Enabled = true;
+        await RefreshAsync();
+        if (!ok) Say(string.IsNullOrWhiteSpace(output) ? "That did not work, and said nothing about why." : output);
+        else if (starting && _status.Running) Say("Students can join at the address above.");
+        else if (starting) Say("It reported success but is not answering yet. Give it a moment, then look again.");
+        else Say("Stopped. The class was saved and continues where it left off.");
+    }
+
+    private void ShowClassView()
+    {
+        if (_status.HostUrl is null) { Say("The class is running but has not written its Host address yet."); return; }
+        if (_classView is { IsDisposed: false }) { _classView.Activate(); return; }
+        _classView = new TeacherWindow(_status.HostUrl);
+        _classView.FormClosed += (_, _) => _classView = null;
+        _classView.Show();
+    }
+
+    private void OpenPlayerWindow()
+    {
+        if (_status.PrimaryJoinUrl is not { } url) { Say("No join address yet."); return; }
+        try { Process.Start(new ProcessStartInfo(url) { UseShellExecute = true }); }
+        catch (Exception error) { Say(error.Message); }
+    }
+
+    private void CopyJoinAddress()
+    {
+        if (_status.PrimaryJoinUrl is not { } url) { Say("No join address yet."); return; }
+        try { Clipboard.SetText(url); Say($"Copied {url}"); }
+        catch { Say($"Could not reach the clipboard. The address is {url}"); }
+    }
+
+    /// <summary>Look, and then - if there is something - offer to install it.</summary>
+    private async Task UpdatesClickedAsync()
+    {
+        if (_available is not null) { await InstallAsync(_available); return; }
+        await LookForUpdateAsync(announce: true);
+        if (_available is not null) await InstallAsync(_available);
+    }
+
+    private async Task LookForUpdateAsync(bool announce)
+    {
+        if (announce) Say("Asking GitHub…");
+        var release = await Updates.LatestAsync();
+        if (release is null)
+        {
+            if (announce) Say("Could not reach GitHub. This copy works offline either way.");
+            return;
+        }
+        switch (Updates.IsNewerThanInstalled(release))
+        {
+            case null:
+                if (announce) Say($"This is a working copy rather than an installed release. The latest published is {release.Tag}.");
+                break;
+            case false:
+                if (announce) Say($"Up to date — {release.Tag}.");
+                break;
+            case true:
+                _available = release;
+                _updates.Text = $"Update to {release.Tag}";
+                _updates.BackColor = Color.FromArgb(96, 84, 46);
+                Say($"A newer build is available: {release.Name}.");
+                break;
+        }
+    }
+
+    private async Task InstallAsync(ReleaseInfo release)
+    {
+        // Never mid-lesson. An update that restarts the launcher under a running class is
+        // the one moment a teacher cannot afford a surprise.
+        if (_status.Running)
+        {
+            Say("Stop the class first. Updating restarts the launcher, and a class should not be interrupted.");
+            return;
+        }
+        if (MessageBox.Show(
+                $"Download and install {release.Name}?" + Environment.NewLine + Environment.NewLine
+                + "Texas Revolution will close and reopen. Your saved classes are not touched.",
+                "Texas Revolution", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) != DialogResult.OK) return;
+
+        _busy = true;
+        foreach (var button in new[] { _power, _updates, _showClass, _openPlayer, _copyJoin }) button.Enabled = false;
+        _progress.Visible = true;
+        _progress.Value = 0;
+        var progress = new Progress<(int Percent, string What)>(step =>
+        {
+            _progress.Value = Math.Clamp(step.Percent, 0, 100);
+            Say(step.What);
+        });
+        try
+        {
+            var payload = await _updater.StageAsync(release, progress, CancellationToken.None);
+            Say("Installing. Texas Revolution will reopen by itself.");
+            Updater.InstallAndRestart(payload);
+            _poll.Stop();
+            Close();
+        }
+        catch (Exception error)
+        {
+            _progress.Visible = false;
+            Say($"The update did not finish, and nothing was replaced. {error.Message}");
+            foreach (var button in new[] { _power, _updates }) button.Enabled = true;
+            _busy = false;
+            await RefreshAsync();
+        }
+    }
+}
