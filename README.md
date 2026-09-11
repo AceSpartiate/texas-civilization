@@ -12,7 +12,7 @@ Download **`TexasRevolutionSetup.exe`** from [Releases](https://github.com/AceSp
 
 1. **Windows will warn you, and it is expected.** The setup is not code-signed — a certificate costs a few hundred dollars a year and this has none — so SmartScreen says *"Windows protected your PC"*. Click **More info**, then **Run anyway**. Nothing about that warning means the file is faulty; it means nobody has paid to vouch for it.
 2. The setup installs for **you only**, under `%LOCALAPPDATA%\Programs\TexasRevolution`. No administrator, no UAC prompt, nothing changed for anyone else who uses the computer. You can choose a different folder, and there is a checkbox for a desktop shortcut; a Start-menu entry is made either way.
-3. It opens by itself when it has finished. Press **Start the class**. The join address appears on the launcher; **Open class view** puts the teacher's view in its own window, and **Copy the join address** hands you the URL for the board.
+3. It opens by itself when it has finished. Press **Start the class**. The launcher then shows the two things you have to hand out — the **class code** in large type and the **join address** below it, each with its own copy button — along with how many households have joined so far. **Open class view** puts the teacher's view in its own window.
 4. Students join at that address with the six-character class code. Five households must join before Start; fewer is possible with a deliberate second press, which is how one person can try it alone.
 5. Press **Stop the class** when you are done. Closing a browser window does **not** stop it.
 

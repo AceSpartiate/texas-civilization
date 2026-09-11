@@ -23,10 +23,12 @@ public sealed class LauncherForm : Form
     private readonly Label _title = new() { Dock = DockStyle.Top, Height = 30, ForeColor = Color.WhiteSmoke };
     private readonly Label _release = new() { Dock = DockStyle.Top, Height = 20, ForeColor = Color.FromArgb(150, 168, 150) };
     private readonly Label _state = new() { Dock = DockStyle.Top, Height = 24, ForeColor = Color.FromArgb(214, 222, 210) };
+    private readonly Label _code = new() { Dock = DockStyle.Top, Height = 34, ForeColor = Color.FromArgb(236, 224, 178) };
     private readonly Label _join = new() { Dock = DockStyle.Top, Height = 26, ForeColor = Color.FromArgb(168, 196, 170) };
     private readonly Button _power = Primary("Start the class");
     private readonly Button _showClass = Secondary("Open class view");
     private readonly Button _openPlayer = Secondary("Open a player window");
+    private readonly Button _copyCode = Secondary("Copy the class code");
     private readonly Button _copyJoin = Secondary("Copy the join address");
     private readonly Button _updates = Secondary("Check for updates");
     private readonly ProgressBar _progress = new() { Dock = DockStyle.Top, Height = 14, Visible = false, Style = ProgressBarStyle.Continuous, Maximum = 100 };
@@ -42,7 +44,7 @@ public sealed class LauncherForm : Form
     {
         Text = "Texas Revolution";
         StartPosition = FormStartPosition.CenterScreen;
-        ClientSize = new Size(460, 452);
+        ClientSize = new Size(460, 540);
         FormBorderStyle = FormBorderStyle.FixedSingle;
         MaximizeBox = false;
         BackColor = Color.FromArgb(38, 48, 42);
@@ -53,18 +55,22 @@ public sealed class LauncherForm : Form
         _title.Font = new Font("Segoe UI", 13f, FontStyle.Bold);
         _release.Text = AppPaths.InstalledRelease is { } tag ? $"Release {tag}" : "Working copy (not an installed release)";
         _join.Font = new Font("Consolas", 10f);
+        // The six characters a student types are the thing a teacher reads out and writes on
+        // the board, so they are the largest thing on this window after the button.
+        _code.Font = new Font("Consolas", 17f, FontStyle.Bold);
 
         _power.Click += async (_, _) => await TogglePowerAsync();
         _showClass.Click += (_, _) => ShowClassView();
         _openPlayer.Click += (_, _) => OpenPlayerWindow();
-        _copyJoin.Click += (_, _) => CopyJoinAddress();
+        _copyCode.Click += (_, _) => CopyToClipboard(_status.ClassCode, "class code");
+        _copyJoin.Click += (_, _) => CopyToClipboard(_status.PrimaryJoinUrl, "join address");
         _updates.Click += async (_, _) => await UpdatesClickedAsync();
 
         // Dock=Top stacks in reverse of the order added, so this list reads bottom-up. The
         // notice fills whatever is left, which is what keeps a long message from pushing a
         // button off the window the way the first version of this did.
         Controls.Add(_notice);
-        foreach (var control in new Control[] { _progress, _updates, _copyJoin, _openPlayer, _showClass, _power, _join, _state, _release, _title })
+        foreach (var control in new Control[] { _progress, _updates, _copyJoin, _copyCode, _openPlayer, _showClass, _power, _join, _code, _state, _release, _title })
             Controls.Add(control);
 
         _poll.Tick += async (_, _) => await RefreshAsync();
@@ -121,9 +127,18 @@ public sealed class LauncherForm : Form
         var running = _status.Running;
         _power.Text = running ? "Stop the class" : "Start the class";
         _power.BackColor = running ? Color.FromArgb(122, 70, 52) : Color.FromArgb(74, 104, 80);
-        _state.Text = running ? (_status.Stopping ? "Stopping…" : "The class is running.") : "Not running.";
-        _join.Text = _status.PrimaryJoinUrl ?? "";
+        _state.Text = running
+            ? _status.Stopping ? "Stopping…"
+                : _status.Joined == 1 ? "The class is running · 1 household joined"
+                : $"The class is running · {_status.Joined} households joined"
+            : "Not running.";
+        // Both of the things a teacher has to hand out, on the face of the window, with a
+        // button each. The first version had only the address and only a copy button for
+        // that, which is how somebody came to press "copy" and not get the code.
+        _code.Text = running ? _status.ClassCode ?? "" : "";
+        _join.Text = running ? _status.PrimaryJoinUrl ?? "" : "Start the class to get a join address.";
         foreach (var button in new[] { _showClass, _openPlayer, _copyJoin }) button.Enabled = running;
+        _copyCode.Enabled = running && !string.IsNullOrEmpty(_status.ClassCode);
     }
 
     private async Task TogglePowerAsync()
@@ -159,11 +174,24 @@ public sealed class LauncherForm : Form
         catch (Exception error) { Say(error.Message); }
     }
 
-    private void CopyJoinAddress()
+    /// <summary>
+    /// Copy, and say what happened either way.
+    /// </summary>
+    /// <remarks>
+    /// The clipboard belongs to whatever else is running, and Windows will refuse when
+    /// another program is holding it. A silent failure there looks exactly like a broken
+    /// button, so the failure path puts the text on screen where it can be read out or
+    /// typed - which is all the teacher wanted the clipboard for.
+    /// </remarks>
+    private void CopyToClipboard(string? value, string what)
     {
-        if (_status.PrimaryJoinUrl is not { } url) { Say("No join address yet."); return; }
-        try { Clipboard.SetText(url); Say($"Copied {url}"); }
-        catch { Say($"Could not reach the clipboard. The address is {url}"); }
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            Say(_status.Running ? $"There is no {what} yet." : $"Start the class first — there is no {what} until it is running.");
+            return;
+        }
+        try { Clipboard.SetText(value); Say($"Copied the {what}: {value}"); }
+        catch { Say($"Windows would not let go of the clipboard. The {what} is {value}"); }
     }
 
     /// <summary>Look, and then - if there is something - offer to install it.</summary>

@@ -62,6 +62,19 @@ and no administrator. That is the whole reason for the size: a school machine ma
 neither. The presentation window is WebView2, which Windows 11 already ships, rather than a
 bundled browser.
 
+The class code and the number of households joined are read by **authenticating as the Host**
+with the credential the running server wrote to its own data folder - not from an open
+endpoint. The code is shown on a projector, but this document is explicit that Host
+information must not become available because somebody guessed a route, and the launcher has
+no more right to widen that than anything else does. It is on the same machine and reads the
+same file the teacher's browser was given; that is the whole of its privilege.
+
+It also recognises one failure and explains it in words: a save lock left behind by a power
+cut or a force-quit. It never clears one. The lock exists to stop two servers writing one
+class, and an application that quietly removed its own safety catch whenever it was
+inconvenient would be no safety catch at all; [recovery](RECOVERY.md) owns that procedure,
+and it checks the owning process and backs the save up first.
+
 **Headless use, for a support person or a script:**
 
 ```powershell
