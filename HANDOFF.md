@@ -80,6 +80,8 @@ The original four ZIP documents were retained. VISION.md was not rewritten. The 
 
 ## Exact run commands
 
+Published at **https://github.com/AceSpartiate/texas-civilization**. Built packages are release assets rather than committed files, because a 74 MB zip does not belong in a git history: [the 11 September 2026 release](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.11) carries the self-contained build and the smaller one for a machine that already has Node. `data/`, `runtime/` and this machine's preflight records are deliberately not published.
+
 Node **22+**; tested here with **24.18.1**. No runtime install or build step is required.
 
 ```powershell
