@@ -62,7 +62,16 @@ try {
     if (Test-Path -LiteralPath $lockPath -PathType Leaf) { throw 'Graceful stop left a stale save lock' }
     if (Test-Path -LiteralPath (Join-Path $appPath 'data\launcher-process.json') -PathType Leaf) { throw 'Graceful stop left stale launcher process metadata' }
     $saved = Get-Content -LiteralPath (Join-Path $appPath 'data\classroom.json') -Raw | ConvertFrom-Json
-    if ($saved.saveVersion -ne 1) { throw 'Graceful stop did not leave a readable checkpoint' }
+    # Read the version the code itself insists on rather than repeating a number here.
+    # Pinned to a literal, this check quietly asserted saveVersion 1 long after the save
+    # format had moved to 3, so the gate failed on a correct checkpoint and said the
+    # checkpoint was unreadable. A gate that has to be hand-edited on every bump is a gate
+    # that will be wrong again.
+    $storage = Get-Content -LiteralPath (Join-Path $repoPath 'server\storage.mjs') -Raw
+    $expected = [regex]::Match($storage, 'save\.saveVersion\s*!==\s*(\d+)')
+    if (-not $expected.Success) { throw 'Could not read the supported save version out of server\storage.mjs' }
+    if ([int]$saved.saveVersion -ne [int]$expected.Groups[1].Value) { throw ("Graceful stop left a checkpoint at save version {0}; this build reads {1}" -f $saved.saveVersion, $expected.Groups[1].Value) }
+    if (-not $saved.world -or -not $saved.world.households) { throw 'Graceful stop left a checkpoint with no households in it' }
     'PASS: graceful stop exits the hidden server, releases the save lock and keeps the checkpoint.'
     $secondStop = Invoke-Stop
     if ($secondStop -ne 0) { throw 'Stopping an already-stopped server should report success, not failure' }
