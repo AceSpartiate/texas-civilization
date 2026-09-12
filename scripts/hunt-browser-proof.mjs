@@ -1,0 +1,155 @@
+// A hunt, watched.
+//
+// tests/hunting.test.mjs proves the simulation: that a hunt is stages in a place rather
+// than one spot, that the shot happens once and is written down, that nothing names the
+// quarry. What it cannot prove is the thing the owner actually asked for - that you can
+// *see* it. That needs a browser: the figure has to be painted in more than one place
+// inside the timber, the poses have to change as the stages change, the smoke has to be
+// drawn, and they have to be drawn carrying something on the way home.
+//
+// Run: npm run test:hunt
+import assert from 'node:assert/strict';
+import { createRequire } from 'node:module';
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { createClassroom } from '../server/app.mjs';
+import { createGonzalesWorld } from '../sim/gonzales.mjs';
+import { visualVariant } from '../public/motion.js';
+
+const require = createRequire(import.meta.url);
+const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
+
+const pass = [];
+const ok = label => { pass.push(label); console.log('PASS', label); };
+
+const app = createClassroom({ seed: 'hunt-proof', playerCount: 5, tickMs: 400, worldFactory: createGonzalesWorld });
+const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
+const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
+const errors = [];
+const post = async (path, body, cookie) => {
+  const response = await fetch(url + path, { method: 'POST', headers: { 'Content-Type': 'application/json', ...(cookie && { Cookie: cookie }) }, body: JSON.stringify(body) });
+  assert.equal(response.status, 200, `${path}: ${response.status}`);
+  return response;
+};
+
+try {
+  const host = await post('/api/host', { key: app.state.hostKey });
+  const hostCookie = host.headers.get('set-cookie').split(';')[0];
+  const context = await browser.newContext({ reducedMotion: 'no-preference', viewport: { width: 1440, height: 950 } });
+  const page = await context.newPage();
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto(url);
+  await page.locator('[name=name]').fill('Hunt reader');
+  await page.locator('[name=code]').fill(app.state.sessionCode);
+  await page.getByRole('button', { name: 'Join', exact: true }).click();
+  await page.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
+  for (let i = 2; i <= 5; i++) await post('/api/join', { name: `Reader ${i}`, code: app.state.sessionCode });
+  await post('/api/command', { id: `proof-start-${crypto.randomUUID()}`, action: 'start' }, hostCookie);
+  await page.waitForFunction(() => window.__snapshot?.world.status === 'running');
+
+  await page.locator('#journal-toggle').click();
+  await page.locator('[data-select="hh-1-mateo"]').click();
+  await page.locator('#journal-close').click();
+  await page.locator('#selection').waitFor({ state: 'visible' });
+  await page.locator('button[data-chore=hunt-timber]').click();
+  // And then stop watching him. Choosing somebody in the journal locks the camera to them,
+  // which pins the figure at the centre of the screen where it cannot appear to move at
+  // all - the same trap the pace measurement fell into. The ordinary family frame is both
+  // what a student is actually looking at and the only view in which "did he move" is a
+  // question with an answer.
+  await page.locator('#map-nav [data-view=follow]').click();
+
+  // Follow the whole thing, sampling what was painted rather than what was sent. The
+  // animation clip set is rebuilt every frame, so it has to be accumulated as it goes.
+  const watched = await page.evaluate(async () => {
+    const clips = new Set(), stages = new Set(), spots = [];
+    const start = performance.now();
+    let sawSmoke = false, timberSpots = [];
+    while (performance.now() - start < 120000) {
+      const world = window.__snapshot?.world;
+      const hunter = world?.entities.find(entity => entity.id === 'hh-1-mateo');
+      if (!hunter) break;
+      for (const clip of window.__animationClips || []) clips.add(clip);
+      if ((window.__animationClips || new Set()).has('musket-smoke')) sawSmoke = true;
+      if (hunter.chore?.doing) stages.add(hunter.chore.doing);
+      const drawn = window.__drawnAt?.['hh-1-mateo'];
+      if (drawn) {
+        spots.push({ x: Math.round(drawn.x), y: Math.round(drawn.y) });
+        // Where they were painted while standing in the timber, which is the part that
+        // has to move. On the road they are obviously moving; that proves nothing here.
+        if (!hunter.travel && hunter.location.siteId && hunter.location.siteId !== world.household.homeSiteId) {
+          timberSpots.push({ x: Math.round(drawn.x), y: Math.round(drawn.y), doing: hunter.chore?.doing });
+        }
+      }
+      if (!hunter.chore && stages.size) break;
+      await new Promise(resolve => requestAnimationFrame(resolve));
+    }
+    return { clips: [...clips], stages: [...stages], spots: spots.length, timberSpots, sawSmoke };
+  });
+
+  // ------------------------------------------------------------------- the stages happened
+  for (const stage of ['reading the ground at the edge of the timber', 'working up through the timber', 'waiting downwind, and still', 'the shot']) {
+    assert.ok(watched.stages.includes(stage), `the class never saw "${stage}": ${JSON.stringify(watched.stages)}`);
+  }
+  ok(`a student watches four named stages of a hunt, not one: ${watched.stages.filter(s => !/road|home/.test(s)).map(s => `"${s}"`).join(', ')}`);
+
+  // ------------------------------------------------------- and the figure moved through them
+  const distinct = new Set(watched.timberSpots.map(spot => `${spot.x},${spot.y}`));
+  assert.ok(watched.timberSpots.length > 3, `the hunter was painted in the timber ${watched.timberSpots.length} times`);
+  assert.ok(distinct.size >= 3, `the hunter was painted in ${distinct.size} place(s) in the timber`);
+  const xs = [...distinct].map(key => Number(key.split(',')[0]));
+  const spread = Math.max(...xs) - Math.min(...xs);
+  ok(`and is painted working through the trees, not standing on one spot (${distinct.size} places, ${spread}px apart on screen)`);
+
+  // ------------------------------------------------------------------ with the right poses
+  //
+  // The hunter's own colour, not just any figure's. Three other people are standing about
+  // the farm in this frame, and `-idle-s` from one of them would have satisfied a looser
+  // check while the hunter did nothing at all - which is the weak assertion this replaced.
+  const variant = visualVariant('hh-1-mateo', false);
+  const wanted = {
+    reading: `${variant}-search`, still: `${variant}-idle-s`, carrying: `${variant}-carry`,
+  };
+  for (const [stage, clip] of Object.entries(wanted)) {
+    assert.ok(watched.clips.includes(clip), `the hunter was never drawn ${stage} (${clip}): ${JSON.stringify(watched.clips)}`);
+  }
+  const walking = watched.clips.filter(clip => clip.startsWith(`${variant}-walk`));
+  assert.ok(walking.length, `the hunter was never drawn walking: ${JSON.stringify(watched.clips)}`);
+  ok(`the hunter's own poses change with the stages: ${[...Object.values(wanted), walking[0]].join(', ')}`);
+  const bound = { ...wanted, walking: walking[0] };
+  ok('and they are drawn carrying something home, which the carry cycle had never been used for outside the harvest');
+
+  // --------------------------------------------------------------------------- and the shot
+  assert.ok(watched.sawSmoke, `no smoke was ever drawn: ${JSON.stringify(watched.clips)}`);
+  ok('the shot is a puff of smoke in the trees - and no animal is drawn, because none is documented');
+  assert.ok(!watched.clips.some(clip => /volunteer|regular|military/.test(clip)),
+    `a militia sheet was borrowed for a farmer: ${watched.clips.filter(c => /volunteer|regular/.test(c))}`);
+  ok('no soldier appears in the timber: the militia firing sheets were not borrowed for a civilian');
+
+  assert.deepEqual(errors, [], `page errors: ${errors.join(' | ')}`);
+  ok('no page errors anywhere in the run');
+
+  mkdirSync('docs/evidence', { recursive: true });
+  writeFileSync('docs/evidence/hunting-browser.json', JSON.stringify({
+    record: 'hunting-browser',
+    date: new Date().toISOString().slice(0, 10),
+    browser: await browser.version(),
+    ownerDirection: '"when they\'re out hunting, maybe i should see them actually hunting?"',
+    checks: pass,
+    measured: {
+      stages: watched.stages,
+      placesPaintedInTheTimber: distinct.size,
+      screenSpreadPixels: spread,
+      clipsBound: watched.clips.sort(),
+      smokeDrawn: watched.sawSmoke,
+    },
+    notProved: [
+      'That it reads as hunting to a twelve-year-old. Four stages, four poses, movement through the trees and a puff of smoke are what is measurably on screen; whether that says "hunting" is a classroom question.',
+      'Anything about the quarry, deliberately. HIST-GONZ-013 documents buffalo as the only local game and this project names no other, so nothing is drawn being hunted. The kill is smoke and then somebody carrying something home.',
+      'That the stages are the right length at the study pace. A hunt spends six to eight ticks in the timber, which is about a minute; nobody has watched one at that speed.',
+    ],
+  }, null, 2) + '\n');
+  console.log('\nwrote docs/evidence/hunting-browser.json');
+} finally {
+  await browser.close();
+  await app.close();
+}

@@ -118,15 +118,30 @@ export const CHORES = {
   'hunt-timber': {
     name: 'Hunt in the timber', skill: 'hunting', where: 'home', hauls: true,
     describe: 'A long trip to the timber and back. The kill is a big one; what comes home is what they can carry.',
+    // A hunt used to be one line - five ticks of standing in one spot with a searching
+    // pose playing - and the owner asked to see somebody actually hunting. So it is the
+    // steps it always was underneath, said out loud: work in from the edge, move up
+    // through the trees, wait still, and take the shot. Every one of them is a real step
+    // the server runs, because the renderer must never invent an action the world did not
+    // take; what the client does with them is choose a pose and a puff of smoke.
+    //
+    // `HIST-GONZ-013` makes buffalo the only documented game for this locality and
+    // `sim/chores.mjs` has always refused to name any other. **Nothing here names or draws
+    // the quarry at all** - the shot is smoke in the trees and then somebody walking home
+    // carrying something. That is not a limitation worked around; it is the honest picture,
+    // and it is why no deer was drawn.
     steps: [
       { travel: 'timber', doing: 'on the road to the timber' },
-      { work: 5, doing: 'hunting in the timber' },
+      { stalk: 'edge', work: 1, doing: 'reading the ground at the edge of the timber' },
+      { stalk: 'deep', work: 1, doing: 'working up through the timber' },
+      { stalk: 'still', work: 2, doing: 'waiting downwind, and still' },
+      { shot: true, doing: 'the shot' },
       // Ten, and a good hunter takes more - but only the wagon can bring that much back.
       // On foot this still yields the five it always did, so a family that changes
       // nothing is no worse off than it was; the wagon is an upside for the family that
       // spends the extra hour on the road, not a tax on the one that does not.
       { produce: { food: 10 } },
-      { travel: 'home', doing: 'walking home from the timber' },
+      { travel: 'home', doing: 'carrying it home from the timber' },
     ],
   },
   'fetch-seed': {
@@ -180,6 +195,28 @@ const yardPoint = (world, household) => {
   const site = world.map.sites[household.homeSiteId];
   return { x: round(site.x - .12), y: round(site.y + .18) };
 };
+
+/**
+ * The three places a hunt passes through inside one stand of timber.
+ *
+ * Offsets from the stand's own point, in miles, so a hunter works inward and then holds
+ * still rather than standing on the spot the road left them. Their canonical site never
+ * changes - they are at the timber throughout, which is what `travel` and `arrival` have
+ * already said - and this only moves them about the place they are standing, exactly as
+ * `walk` moves somebody about their own yard.
+ *
+ * Jittered by the person's own id so two families hunting the same stand are not drawn
+ * standing inside one another.
+ */
+const STALK = { edge: { dx: .13, dy: .21 }, deep: { dx: -.27, dy: -.09 }, still: { dx: .04, dy: -.35 } };
+function stalkPoint(world, entity, where) {
+  const site = world.map.sites[entity.location.siteId], spot = STALK[where];
+  if (!site || !spot) return null;
+  let hash = 2166136261;
+  for (const character of `${entity.id}:${where}`) hash = Math.imul(hash ^ character.charCodeAt(0), 16777619);
+  const jitter = ((hash >>> 0) % 200) / 200 - .5;
+  return { x: round(site.x + spot.dx + jitter * .12), y: round(site.y + spot.dy + jitter * .12) };
+}
 
 /** The nearest stand of timber, so distance to work is the household's own distance. */
 function timberFor(world, household) {
@@ -379,6 +416,31 @@ function advanceChore(world, household, entity, { beginTravel }) {
       // Already standing there: nothing to walk, so fall through to the next step.
       if (!destination || entity.location.siteId === destination) continue;
       beginTravel(world, entity, destination, null, 'chore', state.mode || DEFAULT_MODE);
+      return;
+    }
+    if (step.stalk) {
+      // Only ever moves somebody about the place they are already standing. A person on
+      // the road has no site, and moving them would put them nowhere - which is the same
+      // trap `walk` fell into once, resolved the same way: refuse rather than teleport.
+      if (!entity.location.siteId) return;
+      const point = stalkPoint(world, entity, step.stalk);
+      if (point) entity.location = { x: point.x, y: point.y, siteId: entity.location.siteId };
+      // Deliberately falls through to the `work` on the same step. Moving there and then
+      // spending time there is one stage of a hunt, not two, and giving the move a tick of
+      // its own bought nothing: the work that follows already holds the figure in its new
+      // place for as long as it takes. Keeping them separate made a hunt half again as
+      // long as it had been before any of this was visible.
+    }
+    if (step.shot) {
+      // The one moment of a hunt, and the only thing drawn of it is smoke in the trees.
+      // Recorded because it is a thing that happened in a place at a time: a shot carries,
+      // and the day somebody wants a neighbour to have heard one, this is what they hang
+      // it on. It names no animal, because no animal has been named.
+      record(world, 'hunt', {
+        actorId: entity.id, householdId: household.id,
+        text: `${entity.name} fired in the timber.`,
+      });
+      state.wait = 1;
       return;
     }
     if (step.work) { state.wait = paceFor(step.work, skill); return; }

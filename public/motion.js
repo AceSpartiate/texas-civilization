@@ -105,7 +105,16 @@ export function entityClip(entity, observed = false) {
   }
   // Other households expose only broad task. Never infer their private chore/cargo.
   const doing = observed ? '' : entity.chore?.doing || '';
-  if (/carrying the crop/.test(doing)) return { id: `${variant}-carry` };
+  // Coming back with something, from the field or out of the timber. The carry cycle has
+  // been in the library since the art landed and only the harvest had ever used it.
+  if (/carrying the crop|carrying it home/.test(doing)) return { id: `${variant}-carry` };
+  // A hunt, drawn as the thing it is. Waiting downwind is a person holding still, so the
+  // pose is frozen on purpose: a fidgeting hunter is a hunter who has been seen. The shot
+  // itself changes no pose - the smoke does that work, in public/app.js - because the
+  // library has no civilian firing cycle and dressing a farmer in the militia sheet to
+  // borrow one would put a soldier in the timber.
+  if (/waiting downwind|the shot/.test(doing)) return { id: `${variant}-idle-s`, frozen: true, upright: true };
+  if (/reading the ground/.test(doing)) return { id: `${variant}-search` };
   if (entity.travel || entity.task === 'travel' || /walking|coming in|fetching the hoe/.test(doing)) {
     const heading = travelHeading(entity);
     return heading ? { id: `${variant}-walk-${heading}`, upright: true } : { id: `${variant}-walk` };

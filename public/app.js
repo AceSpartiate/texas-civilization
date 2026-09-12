@@ -265,6 +265,10 @@ function railFence(ctx, points, size, broken = false) {
 }
 // Where an entity was actually drawn, so a click can find it again.
 const drawnAt = new Map();
+// When each shot was first seen by this browser. Display state and nothing else: the
+// server says a shot is happening this tick, and this remembers when the puff started so
+// it plays from its own beginning.
+const shotSince = new Map();
 function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
   // Cosmetic separation only. Overlapping drawings must never imply different true positions.
   const spread = size / 26;
@@ -294,6 +298,16 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
   if (entity.kind === 'person') miniPerson(ctx, x, y, size, { ...entity, observed: marks.observed, flip });
   else if (entity.kind === 'animal') miniAnimal(ctx, x, y, height, entity, flip);
   else if (entity.kind === 'wagon') miniWagon(ctx, x, y, height, entity, flip);
+  // The one moment of a hunt that can be shown. `musket-smoke` runs once - small, growing,
+  // dispersing, just over a second - so it is sampled from when this client first saw the
+  // shot rather than from the shared animation clock, which would catch it already gone.
+  // Nothing else changes: there is no civilian firing pose in the library, and borrowing
+  // the militia one would put a soldier in the timber.
+  if (entity.chore?.doing === 'the shot') {
+    if (!shotSince.has(entity.id)) shotSince.set(entity.id, performance.now());
+    animated(ctx, 'musket-smoke', x + size * .38 * (flip ? -1 : 1), y - size * .56, size * .85, 0,
+      { timeMs: performance.now() - shotSince.get(entity.id) });
+  } else if (shotSince.has(entity.id)) shotSince.delete(entity.id);
   // Something is being asked of this person. The mark is the invitation; clicking is the
   // answer, so it is collected and drawn last: a cabin roof standing between the camera
   // and a person must never hide the one thing on screen asking to be pressed.

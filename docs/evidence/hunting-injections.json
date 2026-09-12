@@ -1,0 +1,86 @@
+[
+  {
+    "injected": "a stage moves them relative to somewhere they are not",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "a hunt is a sequence of places in the timber, not one spot for five ticks"
+    ]
+  },
+  {
+    "injected": "the shot hangs in the air for the rest of the hunt",
+    "caught": 2,
+    "filesFailing": 1,
+    "by": [
+      "the hunt still costs about what it cost, and yields exactly what it yielded",
+      "the shot happens once, is written down, and is gone the tick after"
+    ]
+  },
+  {
+    "injected": "the shot is never written down, so nothing could ever have heard it",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "the shot happens once, is written down, and is gone the tick after"
+    ]
+  },
+  {
+    "injected": "they walk home with nothing to show for it",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "they come home carrying it, and the walk out is not the walk back"
+    ]
+  },
+  {
+    "injected": "two hunters in one stand are drawn inside each other",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "two families hunting one stand of timber do not stand inside each other"
+    ]
+  },
+  {
+    "injected": "the renderer is told a species after all",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "every stage says what is being done, and none of them names an animal"
+    ]
+  },
+  {
+    "injected": "showing the work quietly repriced it",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "the hunt still costs about what it cost, and yields exactly what it yielded"
+    ]
+  },
+  {
+    "injected": "a stage moves somebody and then hurries them on, so no stage is ever held long enough to see",
+    "caught": 3,
+    "filesFailing": 1,
+    "by": [
+      "a hunt is a sequence of places in the timber, not one spot for five ticks",
+      "every stage says what is being done, and none of them names an animal",
+      "the hunt still costs about what it cost, and yields exactly what it yielded"
+    ]
+  },
+  {
+    "injected": "a stage is announced but nobody moves",
+    "caught": 2,
+    "filesFailing": 1,
+    "by": [
+      "a hunt is a sequence of places in the timber, not one spot for five ticks",
+      "two families hunting one stand of timber do not stand inside each other"
+    ]
+  },
+  {
+    "injected": "the stalk swallows the stage instead of falling through to the work in it",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "the hunt still costs about what it cost, and yields exactly what it yielded"
+    ]
+  }
+]

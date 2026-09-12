@@ -54,6 +54,10 @@ Because every household is presently a copy of the same four names, a neighbour 
 
 A short optional walk-through offers itself once, in that lobby. It explains the family, the work, what planting costs and what the land does, and the steps are real: a student who finishes it has their family genuinely set out for the day rather than having practised on a toy. Declining it is one press and it never asks again. It cannot show a crop growing, because nothing grows before the teacher begins, and it says so rather than pretending.
 
+**A hunt is something you watch.** Send somebody to the timber and they work in from the edge, move up through the trees, wait downwind and still, and take the shot — four stages in four places, with the pose changing at each. The shot is a puff of smoke in the trees. Then they walk home carrying it.
+
+**No animal is ever shown or named.** That is not a gap: buffalo is the only game documented for this stretch of country, and this game will not invent a species and present it as natural history. What you see is a person hunting and what they bring back.
+
 **A farm is something a family makes, not something it is given.** You start with a cabin, one patch of broken ground, and no fence.
 
 - **Break new ground.** A long afternoon with the hoe, and the field is bigger for good — up to four times what you came with. A bigger field takes more seed to plant and gives back more when it is brought in. Past three clearings the crop is more than four people can carry, and the ox and wagon have to be standing in the yard to bring it in — so a family that sent the wagon to the timber has a ripe field it cannot harvest.

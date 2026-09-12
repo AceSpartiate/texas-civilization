@@ -1,0 +1,43 @@
+{
+  "record": "hunting",
+  "date": "2026-09-12",
+  "ownerDirection": "\"when they're out hunting, maybe i should see them actually hunting?\"",
+  "whatWasThere": "One step. `{ work: 5, doing: 'hunting in the timber' }` - five ticks of standing on whatever spot the road happened to leave them, with a searching pose playing. Nothing about it looked like hunting, and at the study pace that is nearly a minute of a figure not moving.",
+  "whatItIsNow": {
+    "stages": [
+      "reading the ground at the edge of the timber",
+      "working up through the timber",
+      "waiting downwind, and still",
+      "the shot"
+    ],
+    "howItWorks": "`stalk` steps move a person about the place they are standing - the same relative move `walk` makes about a yard - and each one falls through to the `work` on its own step, so a stage is one thing: go there, and spend time there. The renderer picks a pose from the words the server sent and draws `musket-smoke` on the single tick the shot is showing.",
+    "andHome": "They walk home drawn carrying it. The carry cycle has been in the library since the art landed and only the harvest had ever used it."
+  },
+  "theQuarryIsNeverShown": {
+    "why": "`HIST-GONZ-013` documents buffalo as the only game for this locality, and sim/chores.mjs has never named another. So nothing here names or draws what was hunted: the kill is smoke in the trees and then somebody carrying something home.",
+    "andItIsBetter": "This is not a limitation worked around. A drawn deer would be a claim about the natural history of this stretch of country that nothing supports, and the smoke reads as a hunt without making one. A test asserts that no stage, the chore's name or its description contains any of twelve species names.",
+    "noSoldierEither": "There is no civilian firing pose in the library. `volunteer-aim` and `regular-fire-reload` exist and were not used: dressing a farmer in the militia sheet to borrow a pose would put a soldier in the timber. The pose does not change at the shot and the smoke carries it; the browser proof asserts no militia clip was bound."
+  },
+  "costNeutral": {
+    "claim": "Showing the work did not reprice it.",
+    "before": "paceFor(5, skill) - seven ticks at skill 1, five at skill 2, four at skill 3.",
+    "after": "Four to six ticks in the timber, and exactly the same yield: five food on foot, about ten with the wagon.",
+    "howItGotThere": "The first version gave each stalk a tick of its own before its work step, which made a hunt half again as long as it had been. The injection drill is what found it - 'the stages all run in one tick' was caught by nothing, which said plainly that the tick was buying nothing, because the work step after each stalk already held the figure in its new place. Collapsing move-and-work into one step put the cost back."
+  },
+  "regressionDiscipline": {
+    "rule": "CLAUDE.md: a new test is not evidence until it has failed.",
+    "newFile": "tests/hunting.test.mjs, 7 tests",
+    "fullSuite": "182 pass, 0 fail",
+    "injections": "docs/evidence/hunting-injections.json - 10 injected regressions, every one caught",
+    "twoMissedOnTheFirstPass": "'A hunt is one step again' was a faulty injection - it removed one stage of three, and three stages minus one is still a sequence - and 'showing the work quietly repriced it' was a real gap: on foot the carry cap of five hides any yield change, so doubling the kill was invisible. The test now also hunts with the wagon, where the number shows. The first of the two was re-aimed at the thing that mattered and immediately found that the stalk's own tick was dead weight.",
+    "andOneWeakAssertionInTheProof": "The browser proof first asserted that some `-idle-s` clip was bound during the hunt. Three other people are standing about the farm in the same frame, so one of them idling satisfied it while the hunter did nothing. It now asserts the hunter's own colour: blue-search, blue-idle-s, blue-carry, blue-walk-n."
+  },
+  "browserProof": "docs/evidence/hunting-browser.json - npm run test:hunt. Seven PASS lines in Chrome. The hunter is painted in 17 distinct places inside the timber, 227 screen pixels apart, with their own four poses and a puff of smoke.",
+  "aMeasurementTrapWorthRemembering": "The proof first selected the hunter in the journal, which locks the camera to them - and a camera locked to a figure pins it at the centre of the screen, where it cannot appear to move at all. It measured two places and failed. This is the second time that trap has been hit here; the pace measurement fell into it in exactly the same way.",
+  "aShotIsRecorded": "`{ type: 'hunt' }`, with the person, the household and the minute. Nothing reads it yet. It is written because a shot carries, and the day somebody wants a neighbour to have heard one, a record with no actor and no time could never carry it.",
+  "notProved": [
+    "That it reads as hunting to a twelve-year-old. Four stages, four poses, movement through the trees and a puff of smoke are what is measurably on screen; whether that says \"hunting\" is a classroom question.",
+    "That the stages are the right length at the study pace. Four to six ticks is about a minute in the timber; nobody has watched one at that speed.",
+    "That anybody hears the shot. The event exists and nothing consumes it."
+  ]
+}

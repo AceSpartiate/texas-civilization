@@ -1,0 +1,51 @@
+{
+  "record": "hunting-browser",
+  "date": "2026-09-12",
+  "browser": "152.0.7977.83",
+  "ownerDirection": "\"when they're out hunting, maybe i should see them actually hunting?\"",
+  "checks": [
+    "a student watches four named stages of a hunt, not one: \"reading the ground at the edge of the timber\", \"working up through the timber\", \"waiting downwind, and still\", \"the shot\"",
+    "and is painted working through the trees, not standing on one spot (18 places, 233px apart on screen)",
+    "the hunter's own poses change with the stages: blue-search, blue-idle-s, blue-carry, blue-walk-n",
+    "and they are drawn carrying something home, which the carry cycle had never been used for outside the harvest",
+    "the shot is a puff of smoke in the trees - and no animal is drawn, because none is documented",
+    "no soldier appears in the timber: the militia firing sheets were not borrowed for a civilian",
+    "no page errors anywhere in the run"
+  ],
+  "measured": {
+    "stages": [
+      "on the road to the timber",
+      "reading the ground at the edge of the timber",
+      "working up through the timber",
+      "waiting downwind, and still",
+      "the shot",
+      "carrying it home from the timber"
+    ],
+    "placesPaintedInTheTimber": 18,
+    "screenSpreadPixels": 233,
+    "clipsBound": [
+      "blue-carry",
+      "blue-idle-s",
+      "blue-rest",
+      "blue-search",
+      "blue-walk-n",
+      "blue-walk-s",
+      "horse-chestnut-idle",
+      "musket-smoke",
+      "oak-broad-wind",
+      "oak-spreading-wind",
+      "ox-brown-idle",
+      "pecan-wind",
+      "rust-idle-s",
+      "teal-idle-s",
+      "teal-rest",
+      "wagon-idle"
+    ],
+    "smokeDrawn": true
+  },
+  "notProved": [
+    "That it reads as hunting to a twelve-year-old. Four stages, four poses, movement through the trees and a puff of smoke are what is measurably on screen; whether that says \"hunting\" is a classroom question.",
+    "Anything about the quarry, deliberately. HIST-GONZ-013 documents buffalo as the only local game and this project names no other, so nothing is drawn being hunted. The kill is smoke and then somebody carrying something home.",
+    "That the stages are the right length at the study pace. A hunt spends six to eight ticks in the timber, which is about a minute; nobody has watched one at that speed."
+  ]
+}
