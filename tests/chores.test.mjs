@@ -180,7 +180,25 @@ test('the chore catalogue is static and stays off the per-tick channel', () => {
       }
     }
   }
-  // And the whole projection stays small.
+  // And the whole projection stays small - measured on the worst case rather than the
+  // best one. A fresh world is not what a class sends; a family that has worked all
+  // afternoon is, and its remembered story is the part that grows.
+  const busy = running();
+  for (let tick = 0; tick < 284; tick++) {
+    const worker = busy.entities['hh-1-rosa'];
+    if (!worker.chore) { try { applyAction(busy, 'hh-1', { action: 'chore', entityId: worker.id, chore: 'hunt-timber' }); } catch { /* nothing to do today */ } }
+    if (worker.chore?.ask) { try { applyAction(busy, 'hh-1', { action: 'answer-chore', entityId: worker.id, option: 'leave' }); } catch { /* already answered */ } }
+    stepWorld(busy);
+  }
+  const worked = JSON.stringify(projectWorld(busy, 'hh-1', 'student', { includeMap: false })).length;
+  // The old bound was 6000 and it was calibrated when a tick was one real second: thirty
+  // students at 6 KB a second is 190 KB/s, which genuinely mattered. A tick is 9.5 seconds
+  // now (docs/evidence/pace.json), so the same payload costs a twentieth of that. This
+  // number is what a full afternoon of work actually weighs, with room, and the guard that
+  // matters for waste is the allow-list above - it catches a dead field at any size.
+  assert.ok(worked < 14000, `a working family's per-tick payload is ${worked} bytes by the end of a class`);
+  assert.ok(JSON.stringify(projectWorld(busy, 'hh-1', 'student', { includeMap: false }).events).length < 5000,
+    'a family’s remembered story is unbounded on the tick channel again');
   const size = JSON.stringify(projected).length;
-  assert.ok(size < 6000, `a student's per-tick payload is ${size} bytes, which is too large`);
+  assert.ok(size < 7000, `a fresh student's per-tick payload is ${size} bytes, which is too large`);
 });

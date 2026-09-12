@@ -1,0 +1,107 @@
+[
+  {
+    "injected": "a cotton field comes in as food again, so a family eats its cotton",
+    "caught": 4,
+    "filesFailingAcrossSuite": 1,
+    "by": [
+      "a bale is worth about twice what it weighs in corn, and only once it reaches town",
+      "a class saved before anybody grew cotton still opens, and grows some",
+      "a cotton field comes in as cotton, and a corn field as food",
+      "nobody eats cotton while it sits in the house"
+    ]
+  },
+  {
+    "injected": "a corn field comes in as cotton, so nobody can eat anything",
+    "caught": 1,
+    "filesFailingAcrossSuite": 1,
+    "by": [
+      "a cotton field comes in as cotton, and a corn field as food"
+    ]
+  },
+  {
+    "injected": "nothing says the crop cannot be eaten",
+    "caught": 1,
+    "filesFailingAcrossSuite": 1,
+    "by": [
+      "a cotton field comes in as cotton, and a corn field as food"
+    ]
+  },
+  {
+    "injected": "the store takes the cotton and hands back nothing",
+    "caught": 2,
+    "filesFailingAcrossSuite": 1,
+    "by": [
+      "a bale is worth about twice what it weighs in corn, and only once it reaches town",
+      "the store takes it, at a rate the control states before anybody sets out"
+    ]
+  },
+  {
+    "injected": "the store hands back the food and keeps no cotton",
+    "caught": 2,
+    "filesFailingAcrossSuite": 1,
+    "by": [
+      "the store takes it, at a rate the control states before anybody sets out",
+      "what one person can carry to market is what one person can carry"
+    ]
+  },
+  {
+    "injected": "a bale trades one for one, so cotton is corn with extra steps",
+    "caught": 2,
+    "filesFailingAcrossSuite": 1,
+    "by": [
+      "a bale is worth about twice what it weighs in corn, and only once it reaches town",
+      "the store takes it, at a rate the control states before anybody sets out"
+    ]
+  },
+  {
+    "injected": "a person carries the whole crop to town in their arms",
+    "caught": 1,
+    "filesFailingAcrossSuite": 1,
+    "by": [
+      "what one person can carry to market is what one person can carry"
+    ]
+  },
+  {
+    "injected": "the storekeeper stops buying cotton",
+    "caught": 4,
+    "filesFailingAcrossSuite": 1,
+    "by": [
+      "a bale is worth about twice what it weighs in corn, and only once it reaches town",
+      "the store is one person, and she keeps it",
+      "the store takes it, at a rate the control states before anybody sets out",
+      "what one person can carry to market is what one person can carry"
+    ]
+  },
+  {
+    "injected": "the store says nothing about itself",
+    "caught": 1,
+    "filesFailingAcrossSuite": 1,
+    "by": [
+      "the store is one person, and she keeps it"
+    ]
+  },
+  {
+    "injected": "cotton cannot be traded to a neighbour",
+    "caught": 1,
+    "filesFailingAcrossSuite": 1,
+    "by": [
+      "cotton can be traded to a neighbour, because a wagon is not the only way to town"
+    ]
+  },
+  {
+    "injected": "a family may take cotton to town without having any",
+    "caught": 1,
+    "filesFailingAcrossSuite": 1,
+    "by": [
+      "a family with no cotton is not offered the trip"
+    ]
+  },
+  {
+    "injected": "a family’s remembered story is sent whole on every tick again",
+    "caught": 1,
+    "filesFailingAcrossSuite": 1,
+    "by": [
+      "the chore catalogue is static and stays off the per-tick channel"
+    ]
+  }
+]

@@ -20,10 +20,12 @@ import { facingOf, ridersInSight } from './encounters.mjs';
 
 export const RESIDENTS = [
   {
-    id: 'town-ibarra', name: 'Marta Ibarra', trade: 'seed', deals: ['seed', 'powder'],
+    id: 'town-ibarra', name: 'Marta Ibarra', trade: 'seed', deals: ['seed', 'powder', 'cotton'],
     // Deliberately mixed: DeWitt's colony was in Mexican Texas, and a town there was not
     // uniformly Anglo. This is a fictional person, not a representative of anyone.
-    about: 'trades seed and stores out of a cabin off the commons',
+    // She has always been the general store; now the description says so, and she takes
+    // the cotton as well as selling the seed and the powder.
+    about: 'keeps the general store off the commons: seed, powder and lead, and she buys cotton',
     round: [{ x: -.16, y: -.10 }, { x: -.05, y: .02 }, { x: -.20, y: .06 }],
   },
   {
@@ -53,6 +55,10 @@ export function createTownspeople(world) {
       // always said "seed and stores", and powder is stores.
       householdId: null, depth: 'moderate', principal: false, resident: resident.trade || 'none',
       deals: resident.deals || [resident.trade].filter(Boolean),
+      // What this person is, in their own words. It lives here rather than in the client,
+      // which had its own copy keyed off `resident` - so changing the table changed the
+      // table and nothing a student could see.
+      about: resident.about,
       location: { x: round(town.x + resident.round[0].x), y: round(town.y + resident.round[0].y), siteId: 'gonzales' },
       travel: null, health: { condition: 'well' }, task: 'work',
     };
@@ -119,7 +125,7 @@ export function observedBy(world, householdId) {
   const riders = ridersInSight(world, householdId).filter(rider => !standingWith.includes(rider));
   return [...standingWith, ...riders]
     .map(entity => ({
-      id: entity.id, name: entity.name, kind: 'person',
+      id: entity.id, name: entity.name, kind: 'person', ...(entity.about && { about: entity.about }),
       // Whose family they belong to is visible - that is the point of meeting them - but
       // nothing about that family's private state travels with it.
       householdId: entity.householdId, resident: entity.resident || null,

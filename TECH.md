@@ -34,6 +34,12 @@ A chore is a list of steps — `walk`, `travel`, `work`, `consume`, `produce`, `
 
 Which chores a person may be given, and the reason for any that are refused, are computed on the server and delivered in the projection as `work`. The client renders that answer; it never decides for itself what is possible. That is the fog-of-war rule applied to a control rather than to a fact.
 
+**A cotton field used to come in as food.** `harvest-field` added to `resources.food` whatever the crop was, so half the class ate its cotton — not a balance choice, the game not knowing what it had grown. It now yields `cotton`, which nothing eats, and `sell-cotton` carries it to Gonzales at a fixed rate through the carrying rule every other hauling chore already uses. `HIST-GONZ-022`, `FIC-GONZ-019`.
+
+**No money, on purpose.** Specie was scarce enough on this frontier that barter was ordinary business, so the store trades goods for goods. A test asserts no household and no tradeable good is ever named for a currency — the cheapest way to keep a later change deliberate.
+
+**And the remembered story stopped riding whole on every tick.** A household's event log was projected in full, for the length of a class: the only genuinely unbounded thing on that channel. It is capped at twice what the journal shows. The honest fix is a delta rather than a ceiling, and [§2 of the reference architectures](docs/REFERENCE_ARCHITECTURES.md) already holds BrowserQuest's incremental sync for when visibility broadens — this is the second reason to want it.
+
 **One skill can be trained, and the narrowness is the design.** `practise-shooting` in [sim/chores.mjs](sim/chores.mjs) raises a person's hunting hand by one for an afternoon and two powder, capped at three. Farming and hands stay exactly as they were dealt at founding, because a household without the handy member having to walk into Gonzales is the pressure that makes the town exist — and hunting has never had anything to do with that pressure.
 
 [docs/REFERENCE_ARCHITECTURES.md §8](docs/REFERENCE_ARCHITECTURES.md) refused Total War's veterancy the day before this was built, and the entry is **amended rather than replaced**: veterancy is a free reward for repetition, this is a decision that spends the very resource the skill is for. Three locks hold the ceiling — the control refuses it, the step clamps it, `validateWorld` refuses a world holding a skill outside one to three — and the middle one is marked `ceiling:` because nothing can reach it today.

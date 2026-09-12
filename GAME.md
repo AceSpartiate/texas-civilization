@@ -62,6 +62,10 @@ A short optional walk-through offers itself once, in that lobby. It explains the
 
 **Every decision looks the same, whatever it is about.** A neighbour at the door asking for food, and one of your own people downwind of a shot, arrive as the same kind of thing: a line saying what is being asked, and answers that each say what they would cost — *"Two food out of the store, and the road there and back"*, *"Mateo is tired, and a tired hand misses at this range"*. An answer that is not open to you says why. And if you never answer, the moment passes and your family's record says that is what happened.
 
+**Your field grows one of two things, and they are not the same thing at all.** Corn is what the colony lived on: bring it in and it is food. **Cotton is not food** — bring it in and it sits in the house until somebody carries it to the **general store** at Gonzales, where Marta Ibarra trades **two food for every bale**, and takes as much as whoever went can carry. A cotton field is worth about twice a corn field in the end, and nothing at all until then.
+
+There is no money in any of it. Hard coin was scarce here; a store that takes your cotton and hands back what you need is how business was actually done, and it is one fewer number to keep track of. The same storekeeper sells the seed and the powder, so a family with a crop has a reason to go and something to go with.
+
 **Anybody can be taught to shoot, and it costs.** If the person you want to send has never had the knack, set up a mark behind the cabin and spend an afternoon at it. It takes **two powder out of a house that holds three** — which is most of what you have, and the same powder a hunt would spend. A steadier hand makes the long shot and brings more home, and a hand tops out after two afternoons.
 
 Shooting is the only thing anybody can practise. Nobody gets better at farming or at mending a hoe by trying harder; for those, a family that has nobody handy still has to go into Gonzales or ask a neighbour.

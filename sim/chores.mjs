@@ -81,6 +81,22 @@ export function unsteadyBecause(entity) {
  * the material tie between a family's ordinary work and the fight it may be asked to
  * join: the same barrel of powder feeds the hunt and goes upriver with whoever goes.
  */
+/**
+ * What the store gives for a bale.
+ *
+ * Cotton is the crop a family sells and corn is the crop it eats - `HIST-GONZ-013` and
+ * `HIST-GONZ-022`. So cotton is worth about twice corn in the end, and **only** in the end:
+ * it has to be carried to Gonzales first, an afternoon on the road and only as much as
+ * whoever goes can carry. A family that plants cotton and never takes it to the store has
+ * grown something it cannot eat.
+ *
+ * Two food a bale is invented (`FIC-GONZ-019`). There is no money in it and that is not a
+ * simplification: specie was scarce enough in Mexican Texas that barter was the ordinary
+ * way of doing business, so a store that takes cotton and hands back what a family needs
+ * is nearer the period than a counter full of coin would be.
+ */
+export const COTTON_RATE = 2;
+
 export const SHOT_COST = 1;
 /** What an afternoon at the mark costs, and the ceiling it works towards. `FIC-GONZ-018`. */
 export const PRACTICE_COST = 2;
@@ -271,6 +287,18 @@ export const CHORES = {
       { consume: { powder: PRACTICE_COST } },
       { practise: 'hunting' },
       { walk: 'yard', doing: 'coming in from the mark' },
+    ],
+  },
+  'sell-cotton': {
+    name: 'Take the cotton to the store', skill: 'hands', where: 'home', hauls: true,
+    needs: { cotton: 1 },
+    describe: `Cotton is not food. The store at Gonzales trades ${COTTON_RATE} food for every bale, and takes as much as whoever goes can carry.`,
+    steps: [
+      { travel: 'gonzales', doing: 'on the road to Gonzales with the cotton' },
+      { work: 2, doing: 'at the store' },
+      { trade: 'cotton', doing: 'trading the cotton' },
+      { sell: { good: 'cotton', want: 'food', rate: COTTON_RATE } },
+      { travel: 'home', doing: 'walking home from Gonzales' },
     ],
   },
   'fetch-powder': {
@@ -696,6 +724,22 @@ function advanceChore(world, household, entity, { beginTravel }) {
       }
       continue;
     }
+    if (step.sell) {
+      // As much as this person could carry, which is what they set out with. Deciding it
+      // at the counter rather than at the door comes to the same number and keeps the
+      // carrying rule in one place.
+      const { good, want, rate } = step.sell;
+      const carried = round(Math.min(household.resources[good] ?? 0, carryCapacity(state.mode)));
+      if (carried > 0) {
+        household.resources[good] = round((household.resources[good] ?? 0) - carried);
+        household.resources[want] = round((household.resources[want] ?? 0) + carried * rate);
+        record(world, 'consequence', {
+          actorId: entity.id, householdId: household.id, importance: 2,
+          text: `${entity.name} sold ${carried} ${good} at the store and brought home ${round(carried * rate)} ${want}.`,
+        });
+      }
+      continue;
+    }
     if (step.practise) {
       const was = entity.skills?.[step.practise] ?? 1;
       // ceiling: `choreAvailability` refuses this before the work is ever begun, and
@@ -721,13 +765,23 @@ function advanceChore(world, household, entity, { beginTravel }) {
       // What is standing, less what the stock have had out of it. Both numbers are on the
       // controls that spend the afternoon, so a family that harvests an unfenced field
       // knew before they started what it would cost them.
+      // What the field actually grew. A cotton field used to come in as food, so a family
+      // ate its cotton - which is not a balance choice, it is the game not knowing what
+      // the crop was. Corn is the staple this colony lived on and cotton is what it sold.
+      const crop = household.field?.crop === 'cotton' ? 'cotton' : 'food';
       const grown = yieldFor(standingCrop(household), skill);
       const kept = round(grown * harvestShare(household));
-      household.resources.food = round((household.resources.food ?? 0) + kept);
-      if (kept < grown) {
+      household.resources[crop] = round((household.resources[crop] ?? 0) + kept);
+      // Two things can be true of one harvest: the stock got into it, and it is a crop
+      // nobody can eat. Said in one sentence rather than letting the fence swallow the
+      // more important half - a family that comes home with cotton needs to know what it
+      // is for whether or not the field was fenced.
+      const lost = kept < grown ? ' The rest had gone to stock in an unfenced field.' : '';
+      const inedible = crop === 'cotton' ? ' Nobody can eat it; it has to go to the store.' : '';
+      if (lost || inedible) {
         record(world, 'consequence', {
           actorId: entity.id, householdId: household.id, importance: 2,
-          text: `${entity.name} brought in ${kept} food. The rest had gone to stock in an unfenced field.`,
+          text: `${entity.name} brought in ${kept} ${crop}.${lost}${inedible}`,
         });
       }
       continue;

@@ -113,11 +113,14 @@ test('stock here run loose, so an unfenced crop feeds them first', () => {
   assert.equal(isFenced(fenced.households['hh-1']), true);
   assert.equal(harvestShare(fenced.households['hh-1']), 1, 'rails round the crop and the stock are still in it');
 
+  // Whatever this family actually grows. Half of them grow cotton, and a cotton field has
+  // come in as cotton since the store opened - measuring food would be measuring nothing.
   const brought = world => {
     const household = world.households['hh-1'];
-    const before = household.resources.food;
+    const crop = household.field.crop === 'cotton' ? 'cotton' : 'food';
+    const before = household.resources[crop] ?? 0;
     work(world, 'hh-1', 'hh-1-thomas', 'harvest-field');
-    return household.resources.food - before;
+    return (household.resources[crop] ?? 0) - before;
   };
   const loose = brought(open), safe = brought(fenced);
   assert.ok(safe > loose, `a fenced field brought in ${safe} against ${loose} from an open one`);

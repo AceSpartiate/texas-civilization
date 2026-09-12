@@ -84,6 +84,19 @@ export { WALK_SPEED, RIDER_SPEED, WAGON_SPEED } from './travel.mjs';
  * the tension it exists to create. Invented (`FIC-GONZ-016`).
  */
 export const STARTING_POWDER = 3;
+/**
+ * How much of a family's remembered story rides on each tick.
+ *
+ * Twice what the journal shows, so nothing a student can read is ever missing, and a hard
+ * ceiling on the one part of this channel that would otherwise grow all afternoon. Forty
+ * was the first number tried and was still six kilobytes on a busy family's tick.
+ *
+ * ceiling: an append-only log resent whole is the textbook case for sending only what is
+ * new. BrowserQuest's incremental visible-set sync is already recorded in
+ * docs/REFERENCE_ARCHITECTURES.md §2 as held until visibility broadens, and this is the
+ * second reason to want it. A ceiling is the cheap answer; a delta is the right one.
+ */
+export const PROJECTED_EVENTS = 24;
 // How far one person carries a piece of news before somebody else takes it on.
 //
 // `LIVING_INFORMATION.md`: "A rider must start at the actual source or a modeled relay
@@ -476,7 +489,17 @@ export const projectFamily = (world, householdId) => {
 };
 export function projectWorld(world, householdId, role, { includeMap = true } = {}) {
   const household = world.households[householdId];
-  const visibleEvents = world.events.filter(e => (householdId && e.householdId === householdId) || (role === 'host' && e.visibility === 'public'));
+  // The last few a family can see, not every one it has ever seen.
+  //
+  // This used to be the whole history, resent on every tick for the length of a class, and
+  // it is the only genuinely unbounded thing on this channel - a busy family's log grows
+  // all afternoon and none of it changes. The journal shows twelve and the screen-reader
+  // log the same, so this is the visible record with room to spare. The household's own
+  // event list in `world` is untouched, which is what the epilogue is built from
+  // (VISION.md §20) and what a save carries.
+  const visibleEvents = world.events
+    .filter(e => (householdId && e.householdId === householdId) || (role === 'host' && e.visibility === 'public'))
+    .slice(-PROJECTED_EVENTS);
   const knownIds = new Set(visibleEvents.map(e => e.id));
   const events = visibleEvents.map(e => ({ id: e.id, type: e.type, minute: e.minute, text: e.text, actorId: e.actorId, householdId: e.householdId, causes: e.causes.filter(id => knownIds.has(id)) }));
   const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, location: e.location, travel: e.travel ? { from: e.travel.from, to: e.travel.to, points: e.travel.points, progress: e.travel.progress, distance: e.travel.distance, speed: e.travel.speed, mode: e.travel.mode } : null, health: e.health, task: e.task, skills: e.skills, chore: e.chore?.ask ? { ...e.chore, ask: askProjection(world, household, e) } : e.chore, condition: e.condition, species: e.species, laden: e.laden, borrowedBy: e.borrowedBy }));

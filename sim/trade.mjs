@@ -25,7 +25,10 @@ import { householdName } from './family.mjs';
 // Powder is tradeable for the same reason food and seed are: a family can have one and
 // want another. It is the good most likely to be unevenly spread, because what a family
 // spends it on - hunting, and going upriver - is a choice rather than a routine.
-export const GOODS = ['food', 'seed', 'powder'];
+// Cotton is here because a family that grew it and cannot get to town has something a
+// neighbour with a wagon would happily carry, and a family that needs food today has
+// something to offer for it.
+export const GOODS = ['food', 'seed', 'powder', 'cotton'];
 export const MAX_AMOUNT = 20;
 export const MAX_OPEN_OFFERS = 3;
 

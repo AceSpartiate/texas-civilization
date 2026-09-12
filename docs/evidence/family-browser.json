@@ -12,7 +12,7 @@
     "a family can name itself, and the name reaches the rest of the page",
     "what a student types is cleaned before anybody else reads it: \"<b>Bad</b> 1234 😀\" became \"bBadb\"",
     "and a name with no letters in it is refused, in words",
-    "and it is fetched once: 8 ticks passed and nothing asked again (a tick is 6451 bytes without the map)",
+    "and it is fetched once: 8 ticks passed and nothing asked again (a tick is 6763 bytes without the map)",
     "no page errors anywhere in the run"
   ],
   "measured": {
@@ -42,7 +42,7 @@
         "of": "Son of Alvin and Refugia."
       }
     ],
-    "tickBytes": 6451,
+    "tickBytes": 6763,
     "familyFetchesDuringPlay": 0,
     "ticksWatched": 8
   },

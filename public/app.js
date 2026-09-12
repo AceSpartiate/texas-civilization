@@ -1178,6 +1178,13 @@ function renderHousehold(world) {
   // as one quiet line, because a student needs to notice them without being told to.
   const field = household.field, hoe = world.toolCondition?.hoe;
   const supplies = [`Seed ${Number(household.resources?.seed || 0).toFixed(0)}`];
+  // Powder and cotton are shown only when a family has some. Powder because a house that
+  // has run out needs to know before it sends somebody hunting; cotton because a corn
+  // family never has any and a line reading "Cotton 0" all afternoon is furniture.
+  const powder = Number(household.resources?.powder || 0);
+  supplies.push(`Powder ${powder.toFixed(0)}`);
+  const cotton = Number(household.resources?.cotton || 0);
+  if (cotton > 0) supplies.push(`Cotton ${cotton.toFixed(0)}`);
   if (field) supplies.push(field.state === 'ripe' ? `${field.crop} ready` : field.state === 'planted' ? `${field.crop} growing` : 'field bare');
   if (hoe?.state === 'worn') supplies.push('hoe worn out');
   $('#supplies').textContent = supplies.join(' · ');
@@ -1468,7 +1475,11 @@ function populateWork(world, chosen, running) {
   }
   // A chore that wants a worn tool is not "refused" when the tool is sound, it is simply
   // not a thing to do. Showing it greyed out would be clutter pretending to be a choice.
-  const shown = offered.filter(entry => entry.can || !/^The hoe is sound/.test(entry.why));
+  // Work that is not refused so much as not a thing to do right now. A corn family has no
+  // cotton to take to the store and never will; a greyed-out line saying so all afternoon
+  // is clutter pretending to be a choice, which is the same reason a sound hoe hides the
+  // mending.
+  const shown = offered.filter(entry => entry.can || !/^The hoe is sound|^Not enough cotton/.test(entry.why));
   if (!shown.length) return;
   for (const entry of shown) {
     const button = element('button', '');
@@ -1512,8 +1523,11 @@ function renderSelection(world) {
   if (chosen.observed) {
     // Somebody else's person, or one of the town's. A student can look at them and learn
     // who they are; there is nothing here to order, and no control pretends otherwise.
+    // Their own description, sent with them. This used to be three strings written out
+    // here and keyed off what they trade in, which meant the town could change its mind
+    // about somebody and the page would go on saying the old thing.
     $('#selection-state').textContent = chosen.resident
-      ? `of Gonzales · ${chosen.resident === 'seed' ? 'trades seed and stores' : chosen.resident === 'iron' ? 'works iron' : 'about the commons'}`
+      ? `of Gonzales · ${chosen.about || 'about the commons'}`
       // Every family is a copy of the same four names, so a neighbour is named with theirs.
       : `${chosen.household ? `of ${chosen.household} · ` : ''}${chosen.task || 'here'} · ${placeName(world, chosen.location?.siteId)} · ${chosen.condition || 'well'}`;
   } else $('#selection-state').textContent = chosen.chore
