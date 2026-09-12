@@ -6,6 +6,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createWorld, stepWorld, applyAction, projectWorld, validateWorld } from '../sim/world.mjs';
+import { householdName } from '../sim/family.mjs';
 import { MAX_OPEN_OFFERS, tradePartners } from '../sim/trade.mjs';
 
 const running = (seed = 'trade', count = 5) => { const world = createWorld(seed, count); world.status = 'running'; return world; };
@@ -46,16 +47,20 @@ test('a trade is an offer, an answer, and two stores that actually move', () => 
   assert.equal(received[0].direction, 'received');
   assert.deepEqual(received[0].weGive, { food: 3 }, 'the same offer, from the other side');
   assert.deepEqual(received[0].weGet, { seed: 2 });
-  assert.equal(received[0].theirName, 'Thomas');
+  assert.equal(received[0].theirName, world.entities['hh-1-thomas'].name);
 
   send(world, 'hh-2', { action: 'accept-offer', entityId: 'hh-2-elena', offerId: received[0].id });
   assert.equal(mine.resources.seed, 4); assert.equal(mine.resources.food, 13);
   assert.equal(theirs.resources.seed, 2); assert.equal(theirs.resources.food, 11);
   assert.deepEqual(offersOf(world, 'hh-1'), [], 'an answered offer is closed');
   // Both families remember it, and each remembers it as their own side of the bargain.
-  // Every family is a copy of the same four names, so anybody else is named with theirs.
-  assert.ok(said(world, 'hh-1').some(text => /Thomas traded 2 seed to Elena of Family 2 for 3 food/.test(text)));
-  assert.ok(said(world, 'hh-2').some(text => /Elena traded 3 food to Thomas of Family 1 for 2 seed/.test(text)));
+  // Anybody outside the family is named with their household, so a student knows which of
+  // fifteen families they just dealt with. Read from the world rather than written out:
+  // the names are dealt per class now and a test that spells one is a test about nothing.
+  const us = world.entities['hh-1-thomas'].name, them = world.entities['hh-2-elena'].name;
+  const ourFamily = householdName(world, world.households['hh-1']), theirFamily = householdName(world, world.households['hh-2']);
+  assert.ok(said(world, 'hh-1').some(text => text === `${us} traded 2 seed to ${them} of ${theirFamily} for 3 food.`), said(world, 'hh-1').join(' | '));
+  assert.ok(said(world, 'hh-2').some(text => text === `${them} traded 3 food to ${us} of ${ourFamily} for 2 seed.`), said(world, 'hh-2').join(' | '));
   validateWorld(world);
 });
 
@@ -76,13 +81,14 @@ test('trading reveals what was offered and never what a family has', () => {
   assert.ok(!wire.includes('"resources"') || wire.indexOf('"resources"') === wire.lastIndexOf('"resources"'), 'exactly one household\'s stores are on the wire');
   // Their person is visible, because standing together is what an offer needs, but the
   // record of them carries no household stores at all.
-  const them = mine.others.find(person => person.name === 'Elena');
+  const them = mine.others.find(person => person.id === 'hh-2-elena');
   assert.ok(them, 'the neighbour standing here is visible');
   assert.equal(them.resources, undefined);
   assert.equal(them.skills, undefined);
   assert.equal(them.chore, undefined);
-  assert.equal(mine.offers[0].theirName, 'Elena');
-  assert.equal(mine.offers[0].theirHousehold, 'Family 2', 'named well enough to tell two Elenas apart');
+  assert.equal(mine.offers[0].theirName, world.entities['hh-2-elena'].name);
+  assert.equal(mine.offers[0].theirHousehold, householdName(world, world.households['hh-2']),
+    'named well enough to tell two families apart');
   assert.equal(mine.offers[0].theirResources, undefined);
 });
 
@@ -151,7 +157,7 @@ test('only the person an offer was made to can answer it', () => {
   // ...the family that made it cannot accept its own offer...
   assert.throws(() => send(world, 'hh-1', { action: 'accept-offer', entityId: 'hh-1-thomas', offerId: id }), /not made to your family/);
   // ...and inside the right family it is still the person who was spoken to.
-  assert.throws(() => send(world, 'hh-2', { action: 'accept-offer', entityId: 'hh-2-rosa', offerId: id }), /made to Elena/);
+  assert.throws(() => send(world, 'hh-2', { action: 'accept-offer', entityId: 'hh-2-rosa', offerId: id }), new RegExp(`made to ${world.entities['hh-2-elena'].name}`));
   // Taking it back is the offering family's alone.
   assert.throws(() => send(world, 'hh-2', { action: 'withdraw-offer', entityId: 'hh-2-elena', offerId: id }), /made an offer can take it back/);
   send(world, 'hh-1', { action: 'withdraw-offer', entityId: 'hh-1-thomas', offerId: id });
@@ -165,8 +171,9 @@ test('a refusal is an answer, and both families hear it', () => {
   offer(world, 'hh-1', 'thomas', 'hh-2-elena', { seed: 2 }, { food: 2 });
   const id = offersOf(world, 'hh-2')[0].id;
   send(world, 'hh-2', { action: 'decline-offer', entityId: 'hh-2-elena', offerId: id });
-  assert.ok(said(world, 'hh-2').some(text => /Elena declined the offer from Thomas of Family 1/.test(text)));
-  assert.ok(said(world, 'hh-1').some(text => /declined by Elena of Family 2/.test(text)), 'the family that asked is not left on a silence');
+  const refuser = world.entities['hh-2-elena'].name, asker = world.entities['hh-1-thomas'].name;
+  assert.ok(said(world, 'hh-2').some(text => text.startsWith(`${refuser} declined the offer from ${asker} of `)), said(world, 'hh-2').join(' | '));
+  assert.ok(said(world, 'hh-1').some(text => text.includes(`declined by ${refuser} of `)), 'the family that asked is not left on a silence');
   assert.equal(world.households['hh-1'].resources.seed, world.households['hh-1'].resources.seed, 'nothing moved');
   assert.deepEqual(offersOf(world, 'hh-1'), []);
 });
@@ -242,12 +249,18 @@ test('trading resolves inside a visible bargain, with no randomness anywhere (FI
   }
 });
 
-test('a neighbour is named with their family, because every family shares four names', () => {
+test('a neighbour is named with their family, because a class holds many families', () => {
+  // This test used to read "because every family shares four names", and that is no longer
+  // true: names are dealt across the class so fifteen households are fifteen households.
+  // Naming the family is still right, and now for a better reason - it says *which* of them
+  // you are dealing with rather than disambiguating four repeated names.
   const world = running();
   standTogether(world, 'hh-1-thomas', 'hh-2-thomas');
   const seen = projectWorld(world, 'hh-1', 'student', { includeMap: false }).others.find(person => person.householdId === 'hh-2');
-  assert.equal(seen.name, 'Thomas', 'the same four names really are reused');
-  assert.equal(seen.household, 'Family 2', 'so the family is what tells them apart');
+  assert.equal(seen.name, world.entities['hh-2-thomas'].name);
+  assert.notEqual(seen.name, world.entities['hh-1-thomas'].name, 'two households were dealt the same name');
+  assert.equal(seen.household, householdName(world, world.households['hh-2']), 'and the family says which household it is');
+  assert.match(seen.household, /family/, 'a household nobody has named goes by its own principal');
   // The family name is the world's own fiction, never the name the student typed to join,
   // which lives on the server beside their credential and is not part of the world at all.
   assert.equal(seen.studentName, undefined);

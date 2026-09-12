@@ -1,0 +1,95 @@
+[
+  {
+    "injected": "every household is dealt the same four names again",
+    "caught": 2,
+    "filesFailingAcrossSuite": 1,
+    "by": [
+      "a class is not fifteen copies of one family",
+      "who a family is does not ride on the per-tick channel"
+    ]
+  },
+  {
+    "injected": "a family may hold two people with one name",
+    "caught": 1,
+    "by": [
+      "a class is not fifteen copies of one family"
+    ],
+    "note": "Took three aims. The first struck a walk-on loop a rewrite had already removed. The second put a shared name in two pools and was still caught by nothing, because a collision then needs two decks to land that name at the same index - rare, and so the test was guarding luck. What actually prevents a family holding two of one name is that the pools are disjoint, so that is what is asserted now."
+  },
+  {
+    "injected": "a rename moves the id, so everything hung on it moves too",
+    "caught": 2,
+    "filesFailingAcrossSuite": 1,
+    "by": [
+      "a name a student typed is made safe before anybody else reads it",
+      "a rename changes the name and nothing else about the person"
+    ]
+  },
+  {
+    "injected": "nobody is anybody, because kin is never written at founding",
+    "caught": 1,
+    "filesFailingAcrossSuite": 1,
+    "by": [
+      "the game can say who the mother and the father are"
+    ]
+  },
+  {
+    "injected": "a student may rename the neighbours",
+    "caught": 1,
+    "filesFailingAcrossSuite": 1,
+    "by": [
+      "a family may name its own people and nobody else’s"
+    ],
+    "note": "Missed on the first pass because applyAction refuses somebody else’s person before the writer is ever reached. The test now calls the writer directly, which is the lock that would still be holding if a later caller found another way in."
+  },
+  {
+    "injected": "a name is taken exactly as it was typed",
+    "caught": 1,
+    "filesFailingAcrossSuite": 1,
+    "by": [
+      "a name a student typed is made safe before anybody else reads it"
+    ]
+  },
+  {
+    "injected": "a rename leaves no trace in the family record",
+    "caught": 1,
+    "filesFailingAcrossSuite": 1,
+    "by": [
+      "every rename is written into the family’s own record"
+    ]
+  },
+  {
+    "injected": "renaming somebody to what they are already called fills the record",
+    "caught": 1,
+    "filesFailingAcrossSuite": 1,
+    "by": [
+      "every rename is written into the family’s own record"
+    ]
+  },
+  {
+    "injected": "a family that has named itself is named for its principal anyway",
+    "caught": 3,
+    "filesFailingAcrossSuite": 1,
+    "by": [
+      "a class saved before the game knew who anybody was still opens",
+      "a family may name itself before the class begins",
+      "a family nobody has named is named for its own, and follows when that person is renamed"
+    ]
+  },
+  {
+    "injected": "who a family is goes back onto the per-tick channel",
+    "caught": 1,
+    "filesFailingAcrossSuite": 1,
+    "by": [
+      "who a family is does not ride on the per-tick channel"
+    ]
+  },
+  {
+    "injected": "a class saved before any of this loses its own name",
+    "caught": 1,
+    "filesFailingAcrossSuite": 1,
+    "by": [
+      "a class saved before the game knew who anybody was still opens"
+    ]
+  }
+]

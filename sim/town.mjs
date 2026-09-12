@@ -15,6 +15,7 @@
 // are deliberately NOT used here. A named historical person requires their own checked
 // claim, and putting one behind a trade counter would invent a life for them.
 import { record } from './events.mjs';
+import { householdName } from './family.mjs';
 import { facingOf, ridersInSight } from './encounters.mjs';
 
 export const RESIDENTS = [
@@ -129,7 +130,9 @@ export function observedBy(world, householdId) {
       ...(entity.courier || entity.report ? { carrier: true, ...facingOf(world, entity) } : {}),
       // The family's own fictional name, not the student's. Every household is currently a
       // copy of the same four people, so "Thomas" alone cannot tell two families apart.
-      household: world.households[entity.householdId]?.name || null,
+      // Which family, said the way that family is known - and a household nobody has
+      // named is known by its principal rather than by a row number.
+      household: world.households[entity.householdId] ? householdName(world, world.households[entity.householdId]) : null,
       location: { x: entity.location.x, y: entity.location.y, siteId: entity.location.siteId },
       // Only a rider's route travels, and only to the family it is riding to - so the
       // road on the wire is the road up to that student's own door. It is here so the

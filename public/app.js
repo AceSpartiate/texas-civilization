@@ -62,6 +62,24 @@ function ensureChores(snapshot) {
     if (window.__snapshot) render(window.__snapshot);
   }).catch(() => { chorePending = null; });
 }
+// Who this family is. Fetched once and re-fetched when somebody in it is renamed, on the
+// same contract as the map and the chore catalogue: it changes rarely, so it has no
+// business on a channel that fires every tick. That lesson has now been learned here three
+// times, most recently at about four hundred and fifty bytes a tick.
+let familyCache = null, familyCacheId = null, familyPending = null;
+function ensureFamily(snapshot) {
+  if (!snapshot.mapId || snapshot.world?.role === 'host' || !snapshot.world?.householdId) return;
+  if ((familyCache && familyCacheId === snapshot.mapId) || familyPending === snapshot.mapId) return;
+  familyPending = snapshot.mapId;
+  api('/api/family').then(result => {
+    familyPending = null;
+    if (!result?.family) return;
+    familyCache = result.family; familyCacheId = result.mapId;
+    if (window.__snapshot) render(window.__snapshot);
+  }).catch(() => { familyPending = null; });
+}
+/** After this family renames one of its own, what was fetched is out of date. */
+const forgetFamily = () => { familyCacheId = null; familyCache = familyCache && { ...familyCache }; };
 function ensureMap(snapshot) {
   if (!snapshot.mapId || (mapCache && mapCacheId === snapshot.mapId)) return;
   if (mapPending === snapshot.mapId) return;
@@ -547,7 +565,7 @@ function framingFor(world) {
   if (!points.length) return { kind: 'region', title: 'The region', points: sites };
   return travelling.length
     ? { kind: 'journey', title: `${travelling[0].name} is travelling`, points }
-    : { kind: 'home', title: world.household?.name ? `${world.household.name} land` : 'Your land', points };
+    : { kind: 'home', title: familyCache?.name ? `${familyCache.name} land` : 'Your land', points };
 }
 function autoView(world, canvas) {
   const framing = framingFor(world);
@@ -1058,7 +1076,11 @@ export function drawWorld(world) {
     // homestead's own name landing on top of four people and an ox is unreadable.
     if (worthNaming) {
       const roof = site.kind === "ford" ? -10 : camera.figure * (settlement ? SIZE.settlementCabin * 1.5 : SIZE.cabin) + 6;
-      labels.push({ name: site.name, x: q.x, y: q.y - Math.max(12, roof) });
+      // A family's own place is "Home". The map was generated when every household was
+      // called Family N and it is fetched once a class, so it cannot follow a rename -
+      // but nobody calls their own house by its number, and this is the one label that
+      // was reading as a leftover once families started having names.
+      labels.push({ name: ownLand ? 'Home' : site.name, x: q.x, y: q.y - Math.max(12, roof) });
     }
   }
   const entities = entitiesOf(world).filter(entity => entity.location);
@@ -1149,7 +1171,8 @@ export function drawWorld(world) {
 function renderHousehold(world) {
   const household = world.household;
   if (!household) { $('#selection').hidden = true; $('#food').textContent = ''; $('#supplies').textContent = ''; return; }
-  $('#family-title').textContent = household.name || 'Your family';
+  $('#family-title').textContent = familyCache?.name || 'Your family';
+  renderFamilyBook();
   $('#food').textContent = `Food ${Number(household.resources?.food || 0).toFixed(1)}`;
   // Seed, the field and the hoe are the three things that run out. They sit on the map
   // as one quiet line, because a student needs to notice them without being told to.
@@ -1550,6 +1573,47 @@ function positionSelection(world, chosen = selectedEntity(world)) {
     panel.style.top = `${Math.max(8, Math.min(rect.height - panel.offsetHeight - 8, spot.y * scaleY - panel.offsetHeight / 2))}px`;
   }
 }
+/**
+ * Who we are: every person, what they are to the rest, and a box to rename them in.
+ *
+ * The roles are the world's and do not move - a student renaming somebody does not change
+ * whose child they are - and the names are entirely the student's. Ids never change at all,
+ * which is what lets skills and faces stay put through a rename.
+ */
+function renderFamilyBook() {
+  const host = $('#family-kin'), form = $('#family-name-form');
+  const family = familyCache;
+  if (!family) { host.replaceChildren(); form.hidden = true; return; }
+  form.hidden = false;
+  const nameInput = $('#family-name-input');
+  // Never overwrite what somebody is in the middle of typing.
+  if (document.activeElement !== nameInput) nameInput.value = family.named ? family.name : '';
+  nameInput.placeholder = family.name;
+  $('#family-book-note').textContent = family.named
+    ? 'Names are yours to change. Who is whose is not.'
+    : `Nobody has named this family yet, so it goes by ${family.name}.`;
+  host.replaceChildren(...family.people.map(person => {
+    const item = element('li', '', 'kin-row');
+    item.dataset.entityId = person.id;
+    item.dataset.role = person.role || '';
+    const form_ = element('form', '', 'name-row');
+    form_.dataset.entityId = person.id;
+    const label = element('label', person.role || 'of this family');
+    label.htmlFor = `rename-${person.id}`;
+    const input = element('input');
+    input.id = `rename-${person.id}`;
+    input.name = 'rename';
+    input.maxLength = 24;
+    input.autocomplete = 'off';
+    if (document.activeElement !== input) input.value = person.name;
+    const save = element('button', 'Rename');
+    save.type = 'submit';
+    form_.append(label, input, save);
+    item.append(form_);
+    if (person.of) item.append(element('span', person.of, 'kin-of'));
+    return item;
+  }));
+}
 function renderKnowledge(world) {
   const host = world.role === 'host';
   $('#knowledge-title').textContent = host ? 'News the community knows' : 'What your family has heard';
@@ -1899,7 +1963,7 @@ function renderJoinLinks(snapshot) {
 function render(snapshot) {
   if (motionProjection.session !== snapshot.sessionId) { animationTime = 0; visibleBattlePhase = null; battleAnimationStart = 0; }
   motionProjection.accept(snapshot, performance.now());
-  ensureMap(snapshot); ensureChores(snapshot);
+  ensureMap(snapshot); ensureChores(snapshot); ensureFamily(snapshot);
   snapshot.world.map = mapCacheId === snapshot.mapId ? mapCache : (snapshot.world.map || EMPTY_MAP);
   $('#save-fault').hidden = !snapshot.fault;
   $('#save-fault').textContent = snapshot.fault?.message || '';
@@ -1917,7 +1981,9 @@ function render(snapshot) {
   $('#connection').textContent = host
     ? (presence ? `${presence.here} here${presence.away ? ` · ${presence.away} away` : ''} of ${presence.joined}` : `${snapshot.connected} connected`)
     : '';
-  $('#session').textContent = host ? `Class code ${snapshot.sessionCode}` : (world.household?.name || world.householdId || '');
+  // The family's own name, not the row number it used to carry and not the raw id it fell
+  // back to the moment households stopped being called "Family N".
+  $('#session').textContent = host ? `Class code ${snapshot.sessionCode}` : (familyCache?.name || world.household?.name || '');
   // The key is shown to its own household only, and in the journal rather than on the
   // map: it is identity, not news. It is what gets this family back on a borrowed laptop
   // or a phone that lost its cookie, and it lasts as long as the class does.
@@ -2080,6 +2146,28 @@ document.addEventListener('click', async event => {
 });
 // Choosing how somebody goes changes nothing in the world by itself; it is remembered
 // here and sent with the next order that actually starts a journey.
+/**
+ * A rename, sent on its own.
+ *
+ * Not through the action dispatcher: that reads its whole order off `data-` attributes on
+ * a button, and this one carries a line of text somebody typed. The server sanitises and
+ * has the last word on it; nothing here decides what a name may be.
+ */
+$('#family-book')?.addEventListener('submit', async event => {
+  event.preventDefault();
+  const form = event.target.closest('form');
+  const input = form?.querySelector('input[name=rename]');
+  if (!input) return;
+  const world = window.__snapshot?.world;
+  const order = { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, action: 'rename', name: input.value };
+  if (form.dataset.entityId) order.entityId = form.dataset.entityId;
+  try {
+    await api('/api/command', order);
+    forgetFamily();
+    input.blur();
+    if (window.__snapshot) render(window.__snapshot);
+  } catch (error) { say(error.message); }
+});
 $('#travel-modes')?.addEventListener('click', event => {
   const button = event.target.closest('button[data-mode]');
   if (!button || button.disabled) return;

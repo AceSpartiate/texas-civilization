@@ -177,6 +177,19 @@
           <p id="reports-empty" class="journal-note"></p>
           <ul id="reports"></ul>
         </section>
+        <!-- Who these people are to each other, and what this student calls them. The
+             first person to play this asked who the mother and the father were and the
+             game had no answer; this is it. -->
+        <section id="family-book">
+          <h3>Who we are</h3>
+          <form id="family-name-form" class="name-row">
+            <label for="family-name-input">Our family is called</label>
+            <input id="family-name-input" name="rename" maxlength="24" autocomplete="off">
+            <button type="submit">Rename</button>
+          </form>
+          <ul id="family-kin"></ul>
+          <p id="family-book-note" class="journal-note"></p>
+        </section>
         <section><h3 id="family-title">Your family</h3><ul id="family"></ul></section>
         <!-- Reaching a neighbour without the canvas. Offering a trade needs one selected,
              so this list is an action channel, not a summary. -->

@@ -94,8 +94,9 @@ test('there is one wagon, so the second person to want it is told who has it', (
   beginTravel(world, mateo, 'gonzales', null, 'visit', 'wagon');
   const refused = travelModesFor(world, rosa).find(mode => mode.id === 'wagon');
   assert.equal(refused.can, false);
-  assert.match(refused.why, /Mateo has the ox/);
-  assert.throws(() => beginTravel(world, rosa, 'gonzales', null, 'visit', 'wagon'), /Mateo has the ox/);
+  // Named from the world: who has the ox is a person whose name this class dealt.
+  assert.equal(refused.why, `${mateo.name} has the ox.`);
+  assert.throws(() => beginTravel(world, rosa, 'gonzales', null, 'visit', 'wagon'), new RegExp(`${mateo.name} has the ox`));
   // The horse is a different animal and is still standing in the yard.
   assert.equal(travelModesFor(world, rosa).find(mode => mode.id === 'horse').can, true);
   // And walking is never taken away from anybody.
@@ -302,7 +303,7 @@ test('work that cannot be set out on is refused before it is written down', () =
   beginTravel(world, mateo, 'gonzales', null, 'visit', 'wagon');
   assert.throws(
     () => applyAction(world, 'hh-1', { action: 'chore', entityId: rosa.id, chore: 'hunt-timber', mode: 'wagon' }),
-    /Mateo has the ox/);
+    new RegExp(`${mateo.name} has the ox`));
   assert.equal(rosa.chore, null, 'a refused order left the work written down anyway');
   assert.equal(rosa.task, 'rest', 'and left her set to work she was never sent on');
   // Played on, she must not quietly do the job from the yard.

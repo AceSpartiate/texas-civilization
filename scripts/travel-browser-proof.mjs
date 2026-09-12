@@ -110,7 +110,8 @@ try {
   const shut = page.locator('#travel-modes button[data-mode=wagon]');
   assert.equal(await shut.isDisabled(), true);
   const why = await shut.getAttribute('title');
-  assert.match(why, /Thomas has the ox/, why);
+  const holder = app.state.world.entities['hh-1-thomas'].name;
+  assert.equal(why, `${holder} has the ox.`, why);
   ok(`a second person is told who has it, in words: "${why}"`);
   assert.equal(await page.locator('#travel-modes button[data-mode=foot]').isDisabled(), false);
   ok('and walking is never taken away from anybody');

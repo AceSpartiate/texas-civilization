@@ -59,7 +59,7 @@ test('meeting somebody reveals who they are and nothing about their household', 
   const projected = projectWorld(world, 'hh-1', 'student', { includeMap: false });
   const stranger = projected.others.find(person => person.householdId === 'hh-2');
   assert.ok(stranger, 'the other family\'s man is standing right there and is visible');
-  assert.equal(stranger.name, 'Thomas');
+  assert.equal(stranger.name, world.entities['hh-2-thomas'].name, 'the neighbour is named, and named correctly');
   // What being in the same place shows you: who, where, and what they appear to be doing.
   assert.ok(stranger.location && stranger.task !== undefined && stranger.condition);
   // What it must never show you.

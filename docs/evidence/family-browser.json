@@ -1,0 +1,54 @@
+{
+  "record": "family-browser",
+  "date": "2026-09-12",
+  "browser": "152.0.7977.83",
+  "task": "HANDOFF next task 2: let a student name their own family, and make family relationships exist and be visible.",
+  "started": "The first person to play this asked who the mother and the father were, and the game had no answer.",
+  "checks": [
+    "the book says who everybody is: Alvin (father), Refugia (mother), Delia (daughter), Marcos (son)",
+    "and in sentences — \"Married to Refugia. Father to Delia and Marcos.\"",
+    "renaming reaches the world: Delia is Winnie now",
+    "and the book still knows whose child they are, because a name is not an identity",
+    "a family can name itself, and the name reaches the rest of the page",
+    "what a student types is cleaned before anybody else reads it: \"<b>Bad</b> 1234 😀\" became \"bBadb\"",
+    "and a name with no letters in it is refused, in words",
+    "and it is fetched once: 8 ticks passed and nothing asked again (a tick is 6163 bytes without the map)",
+    "no page errors anywhere in the run"
+  ],
+  "measured": {
+    "people": [
+      {
+        "id": "hh-1-thomas",
+        "role": "father",
+        "name": "Alvin",
+        "of": "Married to Refugia. Father to Delia and Marcos."
+      },
+      {
+        "id": "hh-1-elena",
+        "role": "mother",
+        "name": "Refugia",
+        "of": "Married to Alvin. Mother to Delia and Marcos."
+      },
+      {
+        "id": "hh-1-rosa",
+        "role": "daughter",
+        "name": "Delia",
+        "of": "Daughter of Alvin and Refugia."
+      },
+      {
+        "id": "hh-1-mateo",
+        "role": "son",
+        "name": "Marcos",
+        "of": "Son of Alvin and Refugia."
+      }
+    ],
+    "tickBytes": 6163,
+    "familyFetchesDuringPlay": 0,
+    "ticksWatched": 8
+  },
+  "notProved": [
+    "That a class names anything. The controls are there and work; whether a room of twelve-year-olds uses them is a classroom question.",
+    "Anything about what students type. Names are held to a shape - letters, marks, spaces, name punctuation, one line, twenty-four characters - and every rename is written into the family record so a teacher can see what was changed. No code judges what a name means, and none should pretend to.",
+    "That every household has a different shape. They do not: every family is still two parents and two children, which is marked as a ceiling in sim/family.mjs. Only the names differ."
+  ]
+}

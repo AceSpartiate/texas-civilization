@@ -1,0 +1,45 @@
+{
+  "record": "family",
+  "date": "2026-09-12",
+  "task": "HANDOFF next task 2 — let a student name their own family, and make family relationships exist in the world model and be visible.",
+  "whyItWasOnTheList": "The first person who played this asked who the mother and the father were, and the game had no answer. Four names in a roster, a `relationships: {}` that nothing ever wrote to, and every household in the class a copy of the same four names. VISION.md opens on \"This is my family\"; a family the game cannot describe is a roster.",
+  "theDesign": {
+    "threeThingsKeptApart": "Kin is the world's and never moves - renaming somebody does not change whose child they are. Names are entirely the student's. Ids are neither: they never change at all.",
+    "whyIdsMatter": "`skillsFor` and `visualVariant` are both derived from the id, so a rename must not touch what somebody is good at or what their face looks like. CLAUDE.md's stable-person-IDs invariant and this feature turn out to be the same requirement seen from two sides.",
+    "thePrice": "An id keeps its founding name, so a student's Bartolo may be `hh-3-thomas` underneath. That is odd to read in a log and it is the cost of ids that never lie about identity.",
+    "rolesAreAuthored": "A role is stated by the world, never inferred from a name - this project infers nothing about a person from what they are called. A student may rename anybody to anything and the role stays.",
+    "theDerivedFamilyName": "A household nobody has named goes by its principal - \"Alvin's family\" - which follows him if he is renamed and stops following the moment somebody chooses a name. A class saved when every household was `Family N` keeps that, because a stored name is a name somebody chose."
+  },
+  "dealtNotHashed": {
+    "whatWentWrong": "The first version hashed each household's id into a pool and took the remainder. Measured across fifteen households it gave seven distinct mothers, eight distinct fathers, and a run of four consecutive fathers called Feliciano. A remainder of a hash is not a shuffle, and a class of families sitting next to each other notices.",
+    "theFix": "Each pool is shuffled once, deterministically from the world's seed, and dealt by household index. Fifteen households now get fifteen distinct names in every role; thirty get each name twice, which is what a settlement is like rather than a flaw.",
+    "poolsAreDisjoint": "A family cannot hold two people with one name because the four pools share no name. That is guaranteed by construction rather than by any code path, which is why the test asserts the disjointness rather than walking a sample of households."
+  },
+  "namesAreTypedByChildren": {
+    "whatIsHeld": "Letters, marks, spaces and the punctuation names actually contain; one line; twenty-four characters. Whitespace is collapsed before anything is stripped, because a newline between two names is a space between two names - striking it out first glued \"Mary\\nJane\" into one word, which is a different person.",
+    "whatIsNotHeld": "What a name means. No code can judge that and none here pretends to.",
+    "theHonestMitigation": "Every rename is written into that family's own record, so a teacher who needs to see what a class has been typing can. That is the whole of it, and a teacher should know it before a lesson rather than after."
+  },
+  "offTheTickChannel": "Who a family is is about four hundred and fifty bytes and changes only when somebody renames somebody, so it is fetched from `/api/family` - which answers for the household on the cookie and nothing else - rather than sent every tick. Same contract as `/api/map` and `/api/chores`, and the third time this project has learned the same lesson. The browser proof counts the requests: eight ticks passed and nothing asked again.",
+  "regressionDiscipline": {
+    "rule": "CLAUDE.md: a new test is not evidence until it has failed.",
+    "newFile": "tests/family.test.mjs, 10 tests",
+    "fullSuite": "216 pass, 0 fail",
+    "injections": "docs/evidence/family-injections.json — 11 injected regressions, every one caught",
+    "threeNeededMoreThanOneAim": [
+      "One struck a walk-on loop that a rewrite had already removed.",
+      "'A student may rename the neighbours' was caught by nothing, because `applyAction` refuses somebody else's person before the writer is ever reached. The test now calls the writer directly - the second of two locks, and the one that would still be holding if a later caller found another way in.",
+      "'A family may hold two people with one name' was guarding luck. Putting a shared name in two pools is only visible when two decks land it at the same index, which is rare. What actually prevents it is that the pools are disjoint, so that is what is asserted."
+    ]
+  },
+  "browserProof": "docs/evidence/family-browser.json — npm run test:family. Nine PASS lines in Chrome: the book answers the question in sentences, a rename reaches the world and the map, a family names itself, junk comes back cleaned or refused in words, and who the family is is fetched once across eight ticks.",
+  "twoThingsThisBroke": [
+    "The journal's new name box answered to `[name=name]`, which is the join form's selector that every browser proof fills. Playwright's strict mode caught it on the first run; the rename inputs are `name=\"rename\"` now.",
+    "Eight unit tests and two browser proofs hard-coded \"Thomas\", \"Elena\" or \"Family 2\". They read names out of the world now, which is what a test about naming should always have done."
+  ],
+  "notProved": [
+    "That a class names anything. The controls work; whether a room of twelve-year-olds uses them is a classroom question and the only one that matters.",
+    "That households are genuinely different. Only their names are: every family is still two parents and two children, which is marked as a ceiling in sim/family.mjs. VISION.md §12 asks for more than this and §7 allows four to seven people.",
+    "Anything about what students will type into a name box. The shape is held and every rename is recorded; the rest is a teacher's job."
+  ]
+}

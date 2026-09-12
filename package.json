@@ -20,6 +20,7 @@
     "simulate": "node scripts/simulate.mjs",
     "test:travel": "node scripts/travel-browser-proof.mjs",
     "test:farm": "node scripts/farm-browser-proof.mjs",
-    "test:hunt": "node scripts/hunt-browser-proof.mjs"
+    "test:hunt": "node scripts/hunt-browser-proof.mjs",
+    "test:family": "node scripts/family-browser-proof.mjs"
   }
 }

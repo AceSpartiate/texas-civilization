@@ -73,7 +73,8 @@ try {
     mkdirSync('test-results', { recursive: true });
     await page.screenshot({ path: 'test-results/travel.png', fullPage: true });
     await page.waitForFunction(id => window.__snapshot.world.entities.find(e => e.id === id)?.location.siteId === 'gonzales', principalId);
-    assert.match(await page.locator('#world-description').textContent(), /Thomas/);
+    const principal = app.state.world.entities[app.state.world.households['hh-1'].principalId].name;
+    assert.match(await page.locator('#world-description').textContent(), new RegExp(principal));
     await page.reload();
     await page.waitForFunction(id => window.__snapshot?.world.entities.find(e => e.id === id)?.location.siteId === 'gonzales', principalId);
     assert.equal(await page.evaluate(id => window.__snapshot.world.entities.filter(e => e.id === id).length, principalId), 1);

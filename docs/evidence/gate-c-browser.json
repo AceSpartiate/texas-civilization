@@ -2,7 +2,7 @@
   "gate": "C",
   "area": "Information browser acceptance",
   "result": "PASS",
-  "date": "2026-09-12T13:13:30.654Z",
+  "date": "2026-09-12T16:04:03.236Z",
   "browser": "152.0.7977.83",
   "address": "192.168.4.38",
   "clients": 5,
@@ -25,7 +25,7 @@
   "serverRestartAndIdentity": "PASS",
   "liveBrowserShutdown": "PASS",
   "hostSnapshotsChecked": 47,
-  "recipientPreDeliverySnapshotsChecked": 41,
+  "recipientPreDeliverySnapshotsChecked": 42,
   "browserErrors": [],
   "screenshots": [
     "test-results/information-rumor.png",

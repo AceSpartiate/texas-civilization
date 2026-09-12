@@ -17,6 +17,7 @@
  * what the offering family chose to put in it.
  */
 import { record } from './events.mjs';
+import { householdName } from './family.mjs';
 
 // The two things a household actually keeps. Tools are not traded: a hoe is a wear count
 // rather than a countable stock, and the pressure the design wants from a worn hoe is
@@ -45,9 +46,12 @@ export const describeGoods = amounts => GOODS.filter(good => amounts[good]).map(
  * family is named with their family; your own people never are, because you know them.
  * This goes away on its own once households can be named — see HANDOFF next-task 3.
  */
-const named = (world, entity) => entity
-  ? `${entity.name} of ${world.households[entity.householdId]?.name || 'another family'}`
-  : 'a neighbour';
+// A household that nobody has named is named for its own principal, so this reads
+// "Ramona of Jethro's family" rather than "Ramona of Family 3".
+const named = (world, entity) => {
+  const household = entity && world.households[entity.householdId];
+  return entity ? `${entity.name} of ${household ? householdName(world, household) : 'another family'}` : 'a neighbour';
+};
 
 /** Standing together, right now, at a real place. Travelling is not standing anywhere. */
 export function together(one, other) {
@@ -216,7 +220,10 @@ export function offersFor(world, householdId) {
         // The other family's fictional name, which is not the student's own name and is
         // already implied by the household id in `others`. Without it the interface says
         // "Thomas offers" to a family whose own principal is also called Thomas.
-        theirHousehold: world.households[made ? offer.toHouseholdId : offer.fromHouseholdId]?.name || '',
+        theirHousehold: (() => {
+          const other = world.households[made ? offer.toHouseholdId : offer.fromHouseholdId];
+          return other ? householdName(world, other) : '';
+        })(),
         weGive: made ? { ...offer.give } : { ...offer.ask },
         weGet: made ? { ...offer.ask } : { ...offer.give },
       };

@@ -10,6 +10,8 @@ import { buildGonzalesRegion, findPath, polylineLength } from './geography.mjs';
 import { advanceEncounters, askRider, carriedInPerson, encounterProjection, leaveRider, riderName, spotName } from './encounters.mjs';
 import { DEFAULT_MODE, MODES, modeOf, propertyId, RIDER_SPEED } from './travel.mjs';
 import { CLEARING_MAX, STATES as IMPROVEMENT_STATES, clearedOf, improvementProjection } from './improvements.mjs';
+import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, defaultNames, familyProjection, householdName, kinFor, rename } from './family.mjs';
+export { HOUSEHOLD_SHAPE, ROLES, householdName, sanitiseName } from './family.mjs';
 export { CLEARING_MAX, clearedOf, improvementsOf, ruin } from './improvements.mjs';
 export { MODES, MODE_IDS, DEFAULT_MODE, carryCapacity, modeOf } from './travel.mjs';
 export { record } from './events.mjs';
@@ -31,14 +33,25 @@ export function createWorld(seed = 'gonzales', playerCount = 15) {
     // Corn or cotton, fixed at founding: `HIST-GONZ-013` documents both for this
     // locality and nothing else, so a household grows one of the two and never changes.
     const crop = random() < .5 ? 'corn' : 'cotton';
-    const household = { id: householdId, name: `Family ${i}`, homeSiteId: site.id, members: [], principalId: `${householdId}-thomas`, property: [], resources: { food: 12 + Math.floor(random() * 4), seed: 2, powder: STARTING_POWDER }, tools: { hoe: 0 }, field: { crop, state: 'bare', changedTick: 0 }, relationships: { neighbor: 0 }, commitments: [], memories: [] };
+    // No `name`. A household nobody has named is named for its own principal - "Jethro's
+    // family" - which is a real family rather than a row number, and follows along if a
+    // student renames him. A class saved when every household was `Family N` keeps that,
+    // because a stored name is a name somebody chose. See sim/family.mjs.
+    const household = { id: householdId, homeSiteId: site.id, members: [], principalId: `${householdId}-thomas`, property: [], resources: { food: 12 + Math.floor(random() * 4), seed: 2, powder: STARTING_POWDER }, tools: { hoe: 0 }, field: { crop, state: 'bare', changedTick: 0 }, relationships: { neighbor: 0 }, commitments: [], memories: [] };
     world.households[householdId] = household;
     world.knowledge.households[householdId] = {};
-    for (const [j, name] of ['Thomas', 'Elena', 'Rosa', 'Mateo'].entries()) {
-      const id = `${householdId}-${name.toLowerCase()}`;
+    // Names are dealt across the class so fifteen families are not fifteen copies of one;
+    // kin says who these four are to each other, which is the question the first person to
+    // play this asked and the game could not answer. **Ids keep the founding names** and
+    // never change, because skills and faces are derived from them and a rename must not
+    // move either - so `hh-3-thomas` may be a student's Bartolo. See sim/family.mjs.
+    const names = defaultNames(world.seed, i - 1);
+    const kin = kinFor(householdId);
+    for (const [j, person] of HOUSEHOLD_SHAPE.entries()) {
+      const id = `${householdId}-${person.key}`;
       // Skills are fixed at founding and derived from the person's own id, so the four
       // members of a family differ and a household may simply not contain anyone handy.
-      world.entities[id] = { id, name, kind: 'person', householdId, depth: j === 0 ? 'detailed' : 'moderate', principal: j === 0, location: { x: site.x + j * .06, y: site.y + (j % 2) * .06, siteId: site.id }, travel: null, health: { condition: 'well' }, task: j < 2 ? 'work' : 'rest', skills: skillsFor(id), chore: null, relationships: {}, propertyRefs: [`${householdId}-wagon`], commitments: [] };
+      world.entities[id] = { id, name: names[j], kind: 'person', householdId, depth: j === 0 ? 'detailed' : 'moderate', principal: j === 0, location: { x: site.x + j * .06, y: site.y + (j % 2) * .06, siteId: site.id }, travel: null, health: { condition: 'well' }, task: j < 2 ? 'work' : 'rest', skills: skillsFor(id), chore: null, kin: kin[id], relationships: {}, propertyRefs: [`${householdId}-wagon`], commitments: [] };
       household.members.push(id);
     }
     // The yard is west of the cabin. The cropland runs east and south of it, so property
@@ -380,10 +393,11 @@ export function advanceRelays(world) {
  * offer made to an empty chair - and the historical choices, which do not exist until the
  * news that prompts them has arrived.
  */
-export const LOBBY_ACTIONS = new Set(['chore', 'stop-chore', 'answer-chore', 'work', 'rest', 'travel']);
+export const LOBBY_ACTIONS = new Set(['chore', 'stop-chore', 'answer-chore', 'rename', 'work', 'rest', 'travel']);
 export function applyAction(world, householdId, input) {
   const entity = world.entities[input.entityId];
   const household = world.households[householdId];
+  if (input.action === 'rename' && !input.entityId) { rename(world, household, input); return; }
   // How they go, chosen once and applied to whatever journey this order starts - a trip
   // to town, or the road out to the timber a chore begins with. A command from a class
   // that predates the choice carries no mode and gets the one everybody had then.
@@ -395,6 +409,9 @@ export function applyAction(world, householdId, input) {
   // Farm work is open to the whole family; the historical choice is the principal's.
   // Keeping that split explicit is the point: everyone can be sent to the field, but
   // the decision the lesson turns on still belongs to one named person.
+  // Naming is the household's own, belongs to no one member of it, and is checked before
+  // the "choose one of your family" rule below because renaming the *family* names nobody.
+  if (input.action === 'rename') { rename(world, household, input); return; }
   if (input.action === 'chore') { beginChore(world, household, entity, input.chore, { beginTravel, modeAvailability }, mode); return; }
   // Trading is a household's own business and any member standing there can do it. It is
   // deliberately not the principal's alone: the whole point is that a family without the
@@ -445,6 +462,18 @@ export function applyAction(world, householdId, input) {
 // rather than repeated in every snapshot. Shaded relief alone was three quarters of a
 // student's payload; at thirty clients that is megabytes a second of unchanging ground.
 export const projectMap = world => structuredClone(world.map);
+/**
+ * Who a family is: the answer to the question the first person to play this asked.
+ *
+ * Fetched rather than sent every tick. It is about four hundred and fifty bytes and it
+ * changes only when somebody in the household renames somebody, which is the same shape as
+ * the map and the chore catalogue - and the same lesson this project has now learned three
+ * times: a thing that does not change does not belong on a channel that fires every tick.
+ */
+export const projectFamily = (world, householdId) => {
+  const household = world.households[householdId];
+  return household ? structuredClone(familyProjection(world, household)) : null;
+};
 export function projectWorld(world, householdId, role, { includeMap = true } = {}) {
   const household = world.households[householdId];
   const visibleEvents = world.events.filter(e => (householdId && e.householdId === householdId) || (role === 'host' && e.visibility === 'public'));
@@ -463,6 +492,7 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
   // What the family has made of this land, and what state it is in. The renderer draws
   // the field at the size this says and the fence only when there is one to draw.
   const land = household ? improvementProjection(household) : null;
+
   const travelModes = household ? Object.fromEntries(household.members.map(id => [id, travelModesFor(world, world.entities[id])])) : {};
   const toolCondition = household ? Object.fromEntries(Object.entries(household.tools || {}).map(([tool, wear]) => [tool, { wear, state: toolState(wear) }])) : {};
   const offers = offersFor(world, householdId);
@@ -485,6 +515,15 @@ export function validateWorld(world) {
     // Absent on a class saved before there was any choice about how to go, which is the
     // correct empty value: everybody walked. Present, it must name a way that exists.
     if (entity.travel?.mode !== undefined && !MODES[entity.travel.mode]) throw new Error('Invalid travel mode');
+    // Absent on a class saved before the game knew who anybody was to anybody, which reads
+    // correctly as a household it cannot describe rather than a broken one.
+    if (entity.kin !== undefined) {
+      if (!ROLES.includes(entity.kin.role)) throw new Error('Invalid kin role');
+      for (const relative of [entity.kin.spouse, ...(entity.kin.parents || []), ...(entity.kin.children || [])]) {
+        if (relative && !world.entities[relative]) throw new Error('Kin names somebody who does not exist');
+      }
+    }
+    if (typeof entity.name !== 'string' || !entity.name.trim() || entity.name.length > NAME_LIMIT) throw new Error('Invalid person name');
     // Property is lent to somebody who exists - a person who took it on a journey, or a
     // whole household it is out with. A dangling borrower is how an ox ends up
     // permanently unusable, because nothing will ever hand it back.
@@ -497,6 +536,9 @@ export function validateWorld(world) {
       if (!Number.isFinite(amount) || amount < 0) throw new Error(`Invalid resource ${resource}`);
     }
     if (!household.tools || !Number.isInteger(household.tools.hoe) || household.tools.hoe < 0) throw new Error('Invalid tool condition');
+    // Absent on a class nobody has named, which is the correct empty value and why no save
+    // version moved. Present, it is a name somebody typed and has to stay one.
+    if (household.name !== undefined && (typeof household.name !== 'string' || !household.name.trim() || household.name.length > NAME_LIMIT)) throw new Error('Invalid household name');
     if (!household.field || !['bare', 'planted', 'ripe'].includes(household.field.state) || !['corn', 'cotton'].includes(household.field.crop)) throw new Error('Invalid field state');
     // Absent on a class saved before a family could break new ground, and the empty value
     // is the one every family used to have: the first patch, and no fence. So no save
