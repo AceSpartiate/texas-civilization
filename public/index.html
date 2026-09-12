@@ -95,15 +95,16 @@
       <div id="selection-head"><span id="selection-name"></span><button id="selection-close" aria-label="Close">×</button></div>
       <p id="selection-state"></p>
       <p id="selection-task" hidden></p>
+      <!-- Somebody outside the family is asking this person for something. It is built
+           from what the server sent - the question, and each answer with its own price -
+           and is deliberately the same control a chore's question uses. A student who has
+           learned one has learned the other; see docs/evidence/one-decision-shape.json. -->
+      <div id="selection-call" hidden></div>
       <div id="selection-actions">
-        <button id="help-request" data-action="help" hidden>Help</button>
-        <button id="stay-request" data-action="stay" hidden>Stay home</button>
         <!-- A rider is a person standing in front of one of yours. Listening to them is
              therefore an instruction to that person, on that person's own panel, and not
              a card that appears in the corner of the screen. -->
         <button id="listen-rider" data-open-encounter="now" hidden>Listen</button>
-        <button id="go-upriver" data-action="go-upriver" hidden>Go upriver</button>
-        <button id="stay-in-town" data-action="stay-in-town" hidden>Stay in town</button>
         <button data-action="travel" data-destination="gonzales">Travel to Gonzales</button>
         <button data-action="travel" data-destination="home">Return home</button>
         <button data-action="work">Work</button>

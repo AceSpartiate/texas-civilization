@@ -41,7 +41,10 @@ try {
   await host.getByRole('button', { name: 'Start', exact: true }).click();
   const participant = clients[0].page, refuser = clients[1].page;
   await participant.waitForFunction(() => window.__snapshot.world.request?.status === 'open');
-  await participant.locator('#help-request').click();
+  // The call as a student meets it: a question, and answers that each carry their price.
+  // Kept as evidence because this is the control the hunt rehearses.
+  await participant.screenshot({ path: 'test-results/call-from-gonzales.png' });
+  await participant.locator('#selection-call button[data-action=help]').click();
   await participant.waitForFunction(() => window.__snapshot.world.entities.find(e => e.id === 'hh-1-thomas')?.travel?.progress > 0);
   // A traveller holds no site and is drawn on the road; the camera follows him there.
   assert.equal(await participant.evaluate(() => window.__snapshot.world.entities.find(e => e.id === 'hh-1-thomas').location.siteId), null);
@@ -50,7 +53,7 @@ try {
   mkdirSync('test-results', { recursive: true });
   await participant.screenshot({ path: 'test-results/gonzales-travel.png', fullPage: true });
   await refuser.waitForFunction(() => window.__snapshot.world.request?.status === 'open');
-  await refuser.locator('#stay-request').click();
+  await refuser.locator('#selection-call button[data-action=stay]').click();
   await refuser.waitForFunction(() => window.__snapshot.world.request?.status === 'refused');
   await participant.waitForFunction(() => window.__snapshot.world.entities.find(e => e.id === 'hh-1-thomas')?.location.siteId === 'gonzales');
   await participant.waitForFunction(() => window.__snapshot.world.battle?.phase === 'gathering', null, { timeout: 60000 });

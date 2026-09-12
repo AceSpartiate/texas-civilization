@@ -54,6 +54,8 @@ Because every household is presently a copy of the same four names, a neighbour 
 
 A short optional walk-through offers itself once, in that lobby. It explains the family, the work, what planting costs and what the land does, and the steps are real: a student who finishes it has their family genuinely set out for the day rather than having practised on a toy. Declining it is one press and it never asks again. It cannot show a crop growing, because nothing grows before the teacher begins, and it says so rather than pretending.
 
+**Every decision looks the same, whatever it is about.** A neighbour at the door asking for food, and one of your own people downwind of a shot, arrive as the same kind of thing: a line saying what is being asked, and answers that each say what they would cost — *"Two food out of the store, and the road there and back"*, *"Mateo is tired, and a tired hand misses at this range"*. An answer that is not open to you says why. And if you never answer, the moment passes and your family's record says that is what happened.
+
 **A hunt is something you take part in.** Send somebody to the timber and they work in from the edge, move up through the trees, wait downwind — and then **the work stops and asks you**. They are downwind of something, with a shot, and it is not a close one:
 
 - **Take the shot.** Whether it goes home depends on the person standing there: a tired hand misses at that range, and so does somebody who never had the knack. The button says which of those applies to *them*, before you press it.

@@ -127,12 +127,69 @@ function offerMarch(world) {
     world.marches[household.id] = { id, text, status: 'open', actorId: entity.id, offeredMinute: world.minute, promised, risk: marchRisk(entity.name, entity.health.condition) };
   }
 }
+/**
+ * Whether this family can answer a call this way, and if not, why - in the words the
+ * student will read on the control.
+ *
+ * The same rule the work controls follow, arriving late to the one decision the lesson
+ * turns on. Until now these two answers were offered whatever the family's state and
+ * failed on the press: "Help - 2 food" sat there enabled for a household with one food.
+ *
+ * It is one function rather than two because the throw and the greyed-out button have to
+ * agree. `choreAvailability` learned that the hard way; a control that says a thing is
+ * possible and then refuses it is worse than a control that was never offered.
+ */
+export function callAvailability(world, householdId, entity, action) {
+  const household = world.households[householdId];
+  if (['dead', 'captured'].includes(entity.health.condition)) return { can: false, why: `${entity.name} cannot answer.` };
+  if (action === 'help') {
+    if (entity.travel) return { can: false, why: 'Wait until this person arrives.' };
+    if (household.resources.food < 2) return { can: false, why: 'Helping needs two food. Staying home is also a valid choice.' };
+    return { can: true, why: '' };
+  }
+  if (action === 'stay') {
+    if (entity.location.siteId !== household.homeSiteId) return { can: false, why: 'Return home before choosing to stay and prepare.' };
+    return { can: true, why: '' };
+  }
+  if (action === 'go-upriver') {
+    if (entity.travel) return { can: false, why: 'Wait until this person arrives.' };
+    return { can: true, why: '' };
+  }
+  return { can: true, why: '' };
+}
+
+/**
+ * What each answer to a call would cost, said before it is chosen.
+ *
+ * Shaped deliberately like a chore's question - a line of text and options that each carry
+ * their own price in the person's own words - because it is the same kind of thing and a
+ * student who has learned one should not have to learn the other. See
+ * docs/evidence/one-decision-shape.json.
+ */
+export function requestOptions(world, householdId, request, kind) {
+  const household = world.households[householdId];
+  const entity = world.entities[request.actorId || household.principalId];
+  const offer = (id, label, note) => ({ id, label, note, ...callAvailability(world, householdId, entity, id) });
+  if (kind === 'march') {
+    return [
+      offer('go-upriver', 'Go upriver to the camp', request.risk || `${entity.name} would go on with them.`),
+      offer('stay-in-town', 'Stay in town with the supplies', `The supplies go on without ${entity.name}.`),
+    ];
+  }
+  const tired = entity.health.condition === 'tired' ? ` ${entity.name} is already tired.` : '';
+  return [
+    offer('help', 'Carry the food to Gonzales', `Two food out of the store, and the road there and back.${tired}`),
+    offer('stay', 'Stay home and prepare', `One food set aside, and ${entity.name} stays where the family can use them.`),
+  ];
+}
+
 export function handleMarch(world, householdId, entity, action, { beginTravel, travelRefusal }, mode) {
   const march = world.marches?.[householdId];
   if (!march || march.status !== 'open') throw new Error('Nobody is asking that.');
   if (world.minute >= TIMELINE.approach) throw new Error('They have already gone upriver.');
   if (march.actorId !== entity.id) throw new Error(`${entity.name} was not the one asked.`);
-  if (entity.travel) throw new Error('Wait until this person arrives.');
+  const allowed = callAvailability(world, householdId, entity, action);
+  if (!allowed.can) throw new Error(allowed.why);
   // Refused before a single thing moves. This function records the choice and then sends
   // somebody walking, so a journey that turns out to be impossible after the decision is
   // written down would leave a household that had agreed to go and nobody on the road.
@@ -164,8 +221,8 @@ export function handleChoice(world, householdId, entity, action, { beginTravel, 
   if (world.minute >= TIMELINE.approach) throw new Error('This gathering request has closed.');
   if (entity.travel) throw new Error('Wait until this person arrives.');
   const household = world.households[householdId];
-  if (action === 'help' && household.resources.food < 2) throw new Error('Helping needs two food. Staying home is also a valid choice.');
-  if (action === 'stay' && entity.location.siteId !== household.homeSiteId) throw new Error('Return home before choosing to stay and prepare.');
+  const allowed = callAvailability(world, householdId, entity, action);
+  if (!allowed.can) throw new Error(allowed.why);
   // Same rule as the march: the food is spent and the promise is written down below, so
   // an impossible journey has to be refused before either happens.
   if (action === 'help' && entity.location.siteId !== 'gonzales') {
@@ -290,9 +347,28 @@ export function advanceDirectors(world, movement) {
   offerRequests(world); offerMarch(world);
   once(world, 'gathering', () => setBattlePhase(world, 'gathering'));
   once(world, 'approach', () => {
-    for (const request of Object.values(world.requests)) if (request.status === 'open') request.status = 'expired';
+    // Silence is an answer, and it used to be the only one this game did not write down.
+    // A family that let the neighbour go unanswered has a story, and VISION.md §20 builds
+    // the epilogue out of exactly these. The hunt already says "Nobody answered"; this is
+    // the same rule arriving at the decision that matters more.
+    for (const [householdId, request] of Object.entries(world.requests)) {
+      if (request.status !== 'open') continue;
+      request.status = 'expired';
+      record(world, 'consequence', {
+        householdId, importance: 2, causes: [request.id],
+        text: 'Nobody answered the neighbour at the door. The food went on to Gonzales without this family.',
+      });
+    }
     // An unanswered call is not a refusal. It closed because the force left without them.
-    for (const march of Object.values(world.marches || {})) if (march.status === 'open') march.status = 'expired';
+    for (const [householdId, march] of Object.entries(world.marches || {})) {
+      if (march.status !== 'open') continue;
+      march.status = 'expired';
+      const waiting = world.entities[march.actorId];
+      record(world, 'consequence', {
+        householdId, actorId: march.actorId, importance: 2, causes: [march.id],
+        text: `Nobody answered, and the men crossed the river without ${waiting?.name || 'them'}.`,
+      });
+    }
     setBattlePhase(world, 'approach');
   });
   once(world, 'exchange', () => setBattlePhase(world, 'exchange'));
@@ -344,5 +420,8 @@ export function directorProjection(world, householdId, role) {
     shown.actorId = march.actorId;
     shown.risk = march.risk;
   }
+  // Each answer with its own price, computed here and never guessed at by the client -
+  // the same shape a chore's question takes, so the two read as one kind of decision.
+  if (shown && shown.status === 'open') shown.options = requestOptions(world, householdId, shown, shown.kind);
   return structuredClone({ request: shown, battle, host: role === 'host' ? host : null, slice: { title: 'Gonzales', complete: world.director.complete }, historicalDate: new Date(Date.UTC(1835, 8, 29) + world.minute * 60000).toISOString().slice(0, 10) });
 }

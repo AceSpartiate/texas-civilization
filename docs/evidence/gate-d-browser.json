@@ -1,7 +1,7 @@
 {
   "gate": "D",
   "result": "PASS",
-  "date": "2026-09-12T12:16:49.036Z",
+  "date": "2026-09-12T12:44:30.564Z",
   "browser": "152.0.7977.83",
   "address": "192.168.4.38",
   "clients": 5,
@@ -20,6 +20,6 @@
   "noExternalAssets": "PASS",
   "narrowLayout": "PASS",
   "worldTicks": 284,
-  "eventCount": 97,
+  "eventCount": 101,
   "errors": []
 }

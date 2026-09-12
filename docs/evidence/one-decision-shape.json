@@ -1,0 +1,35 @@
+{
+  "record": "one-decision-shape",
+  "date": "2026-09-12",
+  "ownerQuestion": "\"could we use hunting as a sort of hidden tutorial for participating in battles?\"",
+  "theAnswer": "Yes, but only on one condition, and the condition was not met. A tutorial teaches a shape. Hunting had just been given a good one - a question arrives on a named person, each answer says what it would cost in that person's own words, and silence is also an answer - and the call from Gonzales had none of it: four hard-coded buttons whose price was glued onto a label with a dot, one of which sat there enabled for a household that could not pay it. A student who learned the hunt carried nothing to the decision that matters. So the work was not to add anything to hunting; it was to make the large decision the same control as the small one.",
+  "whatTransfers": [
+    "A decision arrives in the middle of an action and waits for you. The hunt teaches that the game will stop and ask, that the answer is yours, and that it is put to one named person rather than to the household in general.",
+    "Read the person, not the odds. The hunt's outcome comes from whether that person is tired and whether they can do the thing; the march's comes from `marchRisk` reading the same condition. Both are stated before the choice and neither contains a die.",
+    "Preparation upstream decides capability downstream. Ride rather than walk and they arrive steady enough to make the shot; the same fatigue, from the same roads, decides whether going upriver leaves somebody tired or hurt.",
+    "Silence is an answer and it is written down. The hunt already said \"Nobody answered\"; the call and the march now do too, which they never did."
+  ],
+  "whatDoesNotTransfer": [
+    "A hunt has no opponent who acts. Nothing shoots back and nothing changes its mind on its own schedule, so a student who has only hunted has not met an adversary.",
+    "A hunt is one person alone. VISION.md §16 puts a family member inside an aggregate formation that moves without them, and nothing about hunting rehearses being one of many."
+  ],
+  "whyNothingSaysSoOutLoud": "The owner's word was hidden, and it is also the safer design. A game that told a class hunting is practice for shooting at people would draw a line this project has no business drawing - VISION.md §16 asks for dignified people on both sides and §15 forbids reducing the Revolution to a simple narrative. The historical continuity is real and does not need pointing at: the Texians at Gonzales were settlers with their own arms, militia who left their own homes. The transferable lesson is deciding for somebody you care about under a stated cost, not marksmanship.",
+  "whatChanged": {
+    "oneShape": "`requestOptions` in sim/directors.mjs builds a call's answers server-side as `{ id, label, note, can, why }` - the same shape `ASKS` gives a chore's question - and the client renders both through the same costed list. The four hard-coded buttons are gone from public/index.html.",
+    "oneSourceOfTruth": "`callAvailability` is now asked by both the control and the handler, so what a button says is open is exactly what the world will allow. This was a live defect, not a hypothetical: \"Help · 2 food\" sat enabled for a household with one food and failed on the press.",
+    "silenceIsRecorded": "An unanswered call and an unanswered march used to flip to `expired` with no event at all. A family that never came to the door had no story about it, in the log VISION.md §20 builds the epilogue from. Both now record what happened, and the march names who was left standing."
+  },
+  "regressionDiscipline": {
+    "rule": "CLAUDE.md: a new test is not evidence until it has failed.",
+    "newFile": "tests/decisions.test.mjs, 7 tests",
+    "fullSuite": "196 pass, 0 fail",
+    "injections": "docs/evidence/one-decision-injections.json - 9 injected regressions",
+    "oneWasWeak": "'The upriver price is read fresh at the moment of asking' was caught by nothing: comparing the note to the stored risk cannot tell a fresh reading from a stored one while the two would agree anyway. The test now moves the person's condition under the offer and re-reads, which is the only way that defect is visible.",
+    "oneIsUnreachable": "'The lapse is written once a tick instead of once' cannot fail, because the whole expiry block runs inside `once(world, 'approach', ...)` and the milestone is set the first time it fires. Recorded rather than quietly dropped, and the assertion is kept with a ceiling note: the guarantee lives in a different function, and the day this moves out of `once` that assertion is the only thing that would notice."
+  },
+  "notProved": [
+    "That a student actually transfers anything. The two controls are now measurably the same shape; whether a twelve-year-old who has hunted reads the call from Gonzales faster is a classroom question and the only one that matters.",
+    "That hunting comes first. Nothing orders them - a family may meet the neighbour at the door before anybody has been to the timber - so the rehearsal is available rather than guaranteed.",
+    "Anything about the parts that do not transfer. There is still no adversary acting on its own schedule and no experience of being one of many; both belong to the Battle Director, and neither is rehearsed by anything yet."
+  ]
+}

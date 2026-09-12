@@ -1,0 +1,79 @@
+[
+  {
+    "injected": "a call is four bare answers again, with no price on any of them",
+    "caught": 4,
+    "filesFailing": 1,
+    "by": [
+      "a call from outside and a question from inside the work are the same kind of thing",
+      "every answer to a call says what it costs, in that family’s own terms",
+      "the price of going upriver is the one that was quoted, not a fresh reading",
+      "what the control says is open is exactly what the world will allow"
+    ]
+  },
+  {
+    "injected": "the answers lose their notes, so a student is told what they may do and not what it costs",
+    "caught": 3,
+    "filesFailing": 1,
+    "by": [
+      "a call from outside and a question from inside the work are the same kind of thing",
+      "every answer to a call says what it costs, in that family’s own terms",
+      "the price of going upriver is the one that was quoted, not a fresh reading"
+    ]
+  },
+  {
+    "injected": "the control offers what the world will refuse",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "what the control says is open is exactly what the world will allow"
+    ]
+  },
+  {
+    "injected": "the refusal stops agreeing with the control",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "what the control says is open is exactly what the world will allow"
+    ]
+  },
+  {
+    "injected": "a call that lapses goes unrecorded again",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "a call nobody answered is written down, the way an unanswered hunt is"
+    ]
+  },
+  {
+    "injected": "a march that lapses goes unrecorded",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "a march nobody answered is written down, and it names who was left standing"
+    ]
+  },
+  {
+    "injected": "the lapse is written once a tick instead of once",
+    "caught": 0,
+    "filesFailing": 1,
+    "by": [],
+    "note": "Not reachable, and recorded as such rather than quietly dropped. The whole expiry block runs inside `once(world, 'approach', ...)`, which sets a milestone the first time it fires, so the loop's own status guard is defence in depth. The assertion is kept with a ceiling note because the guarantee lives in a different function."
+  },
+  {
+    "injected": "the upriver price is read fresh at the moment of asking",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "the price of going upriver is the one that was quoted, not a fresh reading"
+    ],
+    "note": "Missed on the first pass: comparing the note to the stored risk cannot tell a fresh reading from a stored one while the two would agree anyway. The test now moves the person's condition under the offer and re-reads."
+  },
+  {
+    "injected": "somebody who cannot act at all is still offered the choice",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "callAvailability is the one place either half asks"
+    ]
+  }
+]

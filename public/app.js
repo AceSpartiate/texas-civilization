@@ -1329,6 +1329,32 @@ function populateTrade(world, chosen, running) {
  * rather than sitting selected and refusing: walking is always possible, so the control
  * can never be left in a state that cannot be acted on.
  */
+/**
+ * A call put to one of your family by somebody outside it.
+ *
+ * The same control a chore's question uses, and that is the point of it. These used to be
+ * four hard-coded buttons whose prices were assembled here - "Go upriver to the camp" with
+ * the risk glued on with a dot - which taught a student nothing they could carry to the
+ * next decision. Now both kinds of decision are a line of text and answers that each say
+ * what they would cost, so the small one rehearses the large one without ever saying so.
+ */
+function renderCall(world, chosen, running) {
+  const wrap = $('#selection-call');
+  const request = taskFor(world, chosen);
+  const options = request?.status === 'open' ? request.options : null;
+  if (!options?.length || chosen.observed || world.role === 'host') { wrap.hidden = true; wrap.replaceChildren(); return; }
+  wrap.hidden = false;
+  wrap.replaceChildren(element('p', request.text, 'ask-text'), ...options.map(option => {
+    const button = element('button', '', 'work-option ask-option-work');
+    button.dataset.action = option.id;
+    // Whether this answer is open, and the reason it is not, are the server's to say.
+    button.disabled = !running || !option.can;
+    if (!option.can) button.title = option.why;
+    button.append(element('span', option.label, 'work-name'));
+    button.append(element('span', option.can ? option.note : option.why, 'work-note'));
+    return button;
+  }));
+}
 function renderTravelModes(world, chosen, settable) {
   const wrap = $('#selection-travel'), host = $('#travel-modes');
   const offered = world.travelModes?.[chosen.id];
@@ -1462,8 +1488,11 @@ function renderSelection(world) {
     : chosen.travel
       ? `On the road to ${placeName(world, chosen.travel.to)} · ${Math.round((chosen.travel.progress || 0) / (chosen.travel.distance || 1) * 100)}%`
       : `${chosen.task || 'resting'} · ${placeName(world, chosen.location?.siteId)} · ${chosen.health?.condition || 'well'}`;
-  $('#selection-task').hidden = !task;
-  $('#selection-task').textContent = task?.text || '';
+  // The call panel below carries the question itself. This line is what is left for a
+  // person who has been asked something that is not open to them to answer any more.
+  const calling = task?.status === 'open' && task.options?.length && !chosen.observed && world.role !== 'host';
+  $('#selection-task').hidden = !task || calling;
+  $('#selection-task').textContent = task && !calling ? task.text : '';
   $('#action-subject').textContent = commands ? `Ask ${chosen.name} to…`
     : chosen.observed ? `${chosen.name} is not one of your family.`
     : `${chosen.name} follows the household's work.`;
@@ -1474,24 +1503,7 @@ function renderSelection(world) {
   const settable = running || world.status === 'lobby';
   for (const button of $('#selection-actions').querySelectorAll('button')) {
     const action = button.dataset.action;
-    if (action === 'help' || action === 'stay') {
-      button.hidden = !task || task.kind === 'march' || !commands;
-      button.disabled = !running || (action === 'help' && Boolean(chosen.travel));
-      button.textContent = action === 'help' ? 'Help · 2 food' : 'Stay home · keep 1 food';
-      continue;
-    }
     if (button.id === 'listen-rider') continue;
-    if (action === 'go-upriver' || action === 'stay-in-town') {
-      // The cost of going sits on the button that spends it, in the person's own terms -
-      // "Thomas is already tired" - rather than in a rules note beside it. Nothing here
-      // explains how to play; it states what this choice will do.
-      button.hidden = !task || task.kind !== 'march' || !commands;
-      button.disabled = !running || Boolean(chosen.travel);
-      button.textContent = action === 'go-upriver'
-        ? ['Go upriver to the camp', task?.risk].filter(Boolean).join(' · ')
-        : 'Stay in town with the supplies';
-      continue;
-    }
     const destination = button.dataset.destination === 'home' ? homeOf(world) : button.dataset.destination;
     button.hidden = !commands;
     button.disabled = !settable || Boolean(chosen.travel) || (action === 'travel' && chosen.location?.siteId === destination);
@@ -1502,6 +1514,7 @@ function renderSelection(world) {
   const listen = $('#listen-rider');
   listen.hidden = !waiting || world.role === 'host';
   listen.textContent = waiting ? `Listen to ${world.encounter.carrierName}` : 'Listen';
+  renderCall(world, chosen, running);
   renderTravelModes(world, chosen, settable);
   renderWork(world, chosen, settable);
   // Trading stays shut until the class is running, because the neighbour it is addressed
