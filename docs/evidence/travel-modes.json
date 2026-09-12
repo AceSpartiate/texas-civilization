@@ -1,0 +1,37 @@
+{
+  "record": "travel-modes",
+  "date": "2026-09-11",
+  "ownerDirection": "\"okay, so horse for speed, ox and wagon for heavy?\" - and before that, \"if they're going long distance and want to go faster then they should either ride a horse or take the wagon\".",
+  "whyThisWasPossibleNow": "At the old one-second tick nothing about travel could ever have mattered: a journey to Gonzales finished in fourteen seconds whatever it was made on. The pace change (docs/evidence/pace.json) is what turned distance into time a class can feel, and this is the decision that time pays for.",
+  "design": {
+    "foot": "Three miles an hour. Always available, never blocked, carries 5, and costs the full mile of exertion. This is what keeps the other two from dominating: a family that owns nothing broken can always send somebody.",
+    "horse": "Seven and a half miles an hour and three tenths of the exertion, carrying 7. The value is not only the speed - a household nineteen miles out can now answer a call and still arrive fit, which is what decides whether going upriver risks hurt.",
+    "wagon": "Just under two miles an hour, half the exertion, carrying 20. Slower than the people walking beside it, and the only thing that brings a whole kill home. It does not cross the ford.",
+    "rivalry": "One horse, one ox, one wagon between four people. The mechanism is not a lock: a piece of property is somewhere, and if it is not where you are standing you cannot take it. The ox that walked to Gonzales is in Gonzales until somebody walks there and brings it back.",
+    "capacity": "A cap on what one journey brings home, not a pack to be filled. The hunt in the timber now kills ten rather than five; on foot exactly five still comes home, so the balance a class had yesterday is the floor. The wagon is an upside for the family that spends the extra hour on the road, never a tax on the family that does not."
+  },
+  "historyCare": {
+    "claim": "FIC-GONZ-014",
+    "documented": "HIST-GONZ-013 records \"domestic cows, pigs, and some horses\" near Gonzales in 1828.",
+    "theInventionWorthNaming": "Every household owning a horse. The source says \"some horses\" and does not say how many families had one. Scarcity was the first design and was dropped on purpose: the game has no way yet for a family without a horse to borrow one, and an asymmetry with no remedy is a dead end rather than a pressure. If lending a neighbour an animal is ever built, this should be revisited.",
+    "theFordRule": "Refusing a loaded wagon at the ford is invented. HIST-GONZ-007's implication column requires that a household's side of the river affect travel, and a wagon that crosses freely makes the river no barrier at all for the heaviest thing a family owns."
+  },
+  "notReached": {
+    "theFordInOrdinaryPlay": "The only road a student can currently order that uses the crossing is the march upriver, and the wagon is refused there before anything moves - so in a played class the ford rule turns nobody back yet. It is marked `ceiling:` in sim/world.mjs and kept for the same reason `stillWalking` is kept in sim/directors.mjs: it is the honest behaviour the moment the west bank is reachable."
+  },
+  "regressionDiscipline": {
+    "rule": "CLAUDE.md: a new test is not evidence until it has failed.",
+    "newFile": "tests/travel-modes.test.mjs, 15 tests",
+    "fullSuite": "163 pass, 0 fail",
+    "injections": "docs/evidence/travel-modes-injections.json - 12 injected regressions, every one caught",
+    "oneInjectionCaughtNothingAtFirst": "\"any word at all is accepted as a way of going\" was caught by no test, because an invented mode is refused three separate times - by applyAction, by beginTravel and by beginChore - so breaking any one of them alone changed nothing observable. Chasing that led to the guard that is genuinely load-bearing and was genuinely missing: a mode that is real but *unavailable*. beginChore wrote the work down and then took its first step, so a refusal there left a person holding a chore with no road under it, and the next tick simply moved them on to the second step - hunting in the timber without ever leaving the yard. That is now its own test, and the beginChore guard is keyed on whether a chore travels rather than on whether it hauls, because the return leg runs inside stepWorld where a throw stops the whole class rather than one command."
+  },
+  "browserProof": "docs/evidence/travel-modes-browser.json - npm run test:travel. Ten PASS lines in Chrome: the control exists and is named in words, the hunt states what it will bring home before it is pressed, the ox and wagon are drawn moving with their own cycles, and a second person is told who has the ox.",
+  "saveCompatibility": "No version moved, which is the judgement CLAUDE.md asks for rather than a reflex. A class saved before this opens with no `mode` on its travel records and no horse in its yards. Both absences have correct empty values - everybody walked, and that family has no horse - and every control says so plainly. sim/trade.mjs made the same call for offers.",
+  "notProved": [
+    "That the three ways feel different to a room of twelve-year-olds. They are measurably different; no class has used them.",
+    "That the wagon is worth its extra time at the study pace on a real map. A round trip to the timber runs from about eight ticks for the nearest family to eighty for the furthest, and whether that reads as a decision or as dead air is a balance question a played class has to answer.",
+    "That raising the hunt's kill from five to ten leaves the food economy where it was. On foot the result is identical, which is why it was done that way, but nobody has played a class through with the wagon in it.",
+    "Anything about a family whose horse or wagon is lost or hurt. `condition` is checked and refused, and nothing in the game yet sets it to anything but sound."
+  ]
+}

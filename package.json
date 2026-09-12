@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "start": "node server/main.mjs",
     "test": "node --test",
@@ -15,6 +17,7 @@
     "test:information": "node scripts/information-browser-proof.mjs",
     "test:relay": "node scripts/relay-browser-proof.mjs",
     "test:slice": "node scripts/slice-browser-proof.mjs",
-    "simulate": "node scripts/simulate.mjs"
+    "simulate": "node scripts/simulate.mjs",
+    "test:travel": "node scripts/travel-browser-proof.mjs"
   }
 }

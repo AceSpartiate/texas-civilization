@@ -1,0 +1,42 @@
+{
+  "record": "travel-modes-browser",
+  "date": "2026-09-12",
+  "browser": "152.0.7977.83",
+  "ownerDirection": "\"okay, so horse for speed, ox and wagon for heavy?\"",
+  "checks": [
+    "a student is offered all three ways of going, named in words",
+    "and starts on the one that is always possible",
+    "the hunt says what it will bring home before it is chosen: on foot \"Brings home 5 food of 10; the rest is left behind.\"",
+    "choosing the wagon and pressing Travel sends them with the wagon",
+    "the ox and the wagon are on the road with him, not left standing at home",
+    "the ox and wagon are drawn travelling, not teleported (2.8px and 2.8px of screen movement)",
+    "and are drawn with the walking and rolling cycles the art library has always carried",
+    "a second person is told who has it, in words: \"Thomas has the ox.\"",
+    "and walking is never taken away from anybody",
+    "no page errors anywhere in the run"
+  ],
+  "measured": {
+    "screenPixelsMovedInNineTenthsOfASecond": {
+      "ox": 2.803125000000443,
+      "wagon": 2.803125000000443,
+      "man": 2.803125000000443
+    },
+    "clipsBound": [
+      "blue-rest",
+      "horse-chestnut-idle",
+      "oak-broad-wind",
+      "oak-spreading-wind",
+      "ox-walk",
+      "pecan-wind",
+      "rust-walk",
+      "teal-idle-s",
+      "teal-rest",
+      "wagon-travel"
+    ]
+  },
+  "notProved": [
+    "That the three ways feel different to a class. They are measurably different; no room has used them.",
+    "That the wagon is worth its extra time on a real map at a real pace. That is a balance question and needs a played class.",
+    "Anything about the ford in ordinary play: the only road a student can order that crosses it is the march upriver, which is refused for the wagon before anything moves. The refusal itself is proved in tests/travel-modes.test.mjs."
+  ]
+}

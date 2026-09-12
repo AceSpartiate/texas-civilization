@@ -54,6 +54,14 @@ Because every household is presently a copy of the same four names, a neighbour 
 
 A short optional walk-through offers itself once, in that lobby. It explains the family, the work, what planting costs and what the land does, and the steps are real: a student who finishes it has their family genuinely set out for the day rather than having practised on a toy. Declining it is one press and it never asks again. It cannot show a crop growing, because nothing grows before the teacher begins, and it says so rather than pretending.
 
+**How somebody goes is a decision, and there are three of them.** Every family owns a horse, an ox and a wagon, and a panel on the person you have selected says which way they will set out.
+
+- **On foot.** Three miles an hour. Always possible, never blocked, and it is the legs that pay: walking is the only thing that tires anybody enough to matter.
+- **On the horse.** Near three times the pace and barely tiring, which is what lets a family nineteen miles from Gonzales arrive fit to do something rather than arrive worn out. It carries very little.
+- **With the ox and wagon.** Slower than the people walking beside it, and it brings home four times what a person can carry. It will not go over the ford.
+
+There is one of each between four people, and the thing you take is genuinely away from the farm while you have it: the ox that walked to Gonzales is standing in Gonzales, and the next person who wants it is told who has it and where. A hunt in the timber kills far more than one person can carry; the button says how much will come home before it is pressed, and the family is told plainly what was left behind.
+
 **A class runs at a pace the teacher chooses.** Study, Brisk or Quick on the Host page. The afternoon is identical in all three — the same distances, the same arrivals, the same decisions — and only the number of real minutes spent watching it changes. **Study** is the default and the honest one: a settler walks three miles an hour, and at that pace they cross about their own length of ground each second, which is what walking looks like. It also makes the Gonzales slice fill a class period rather than running out in under five minutes. Quick is the old pace, for a teacher who is behind.
 
 **Click a name in your roster and the camera goes to that person** and stays with them while they walk — useful the moment one of your family is in the timber and another is in town, because the frame that holds both shows neither. **Follow** gives the whole family back. Moving the camera never changes what you are allowed to see; it moves over the same projection either way.

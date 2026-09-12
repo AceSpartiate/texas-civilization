@@ -323,5 +323,14 @@
     "postProcessing": "Trimmed to the emblem, squared with transparent padding, and written as a multi-resolution .ico at 16, 24, 32, 48, 64, 128 and 256 pixels. No recolouring and no redrawing.",
     "whereItAppears": "The executable, and from there Explorer, the taskbar, the Start menu entry and the desktop shortcut, plus the title bar of every window the launcher opens.",
     "note": "Decorative, and not a historical illustration. It is a general Texas emblem: the Alamo it shows is San Antonio in 1836, a different place and a later year than the Gonzales afternoon this prototype simulates. Nothing in the game reads it and it makes no historical claim."
+  },
+  "setupIcon": {
+    "file": "launcher/TexasRevolutionSetup.ico",
+    "source": "launcher/setup-icon-source.png",
+    "origin": "Supplied by the owner, 2026-09-11, with the direction \"this new image should be used for the installer. i like the one we are already using for the fully installed program.\" Generated with ChatGPT and handed over as a PNG with a transparent field.",
+    "postProcessing": "Trimmed to the emblem, squared with transparent padding, and written as a multi-resolution .ico at 16, 24, 32, 48, 64, 128 and 256 pixels. No recolouring and no redrawing. Same script and same treatment as the plain emblem.",
+    "whereItAppears": "The executable itself, and therefore the downloaded setup file as Explorer and the browser show it. It does NOT appear on anything a teacher clicks after installing: the shortcuts, the window title bars and the Add/Remove listing are all pointed at the plain emblem instead.",
+    "whyTwo": "One binary is both the setup program and the installed launcher, so it has one compiled icon resource. The download should look like a setup file and the installed program should not. The compiled resource is therefore the setup emblem and the plain emblem travels as an embedded resource, written beside the installed copy. The installed .exe seen in Explorer is the one place they diverge, because a single-file bundle cannot have its icon rewritten after publishing without breaking the bundle.",
+    "note": "Decorative, and not a historical illustration, on the same terms as the plain emblem. The download arrow and carton are modern interface iconography and make no claim about 1835."
   }
 }

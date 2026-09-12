@@ -24,9 +24,24 @@
     <AssemblyName>TexasRevolution</AssemblyName>
     <Product>Texas Revolution</Product>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <!-- The emblem Explorer, the taskbar, the Start menu and the desktop shortcut read.
-         Built from launcher/icon-source.png; see docs/art-provenance.json. -->
-    <ApplicationIcon>TexasRevolution.ico</ApplicationIcon>
+    <!--
+      One binary does two jobs, and the two jobs want different icons.
+
+      The file a teacher downloads is a setup program, and in a Downloads folder it should
+      look like one - so the icon compiled into the executable is the emblem opened as a
+      box. The installed program is not a setup program and keeps the plain emblem, which
+      it gets from the embedded copy below: every window title bar reads it at runtime,
+      and the Start menu entry, the desktop shortcut and the Add/Remove listing are all
+      pointed at a copy of it written beside the installed executable.
+
+      Both are built from the owner's own artwork; see docs/art-provenance.json.
+
+      The one place the two diverge visibly is the installed .exe seen in Explorer, which
+      keeps the setup icon because a single-file bundle cannot have its icon resource
+      rewritten after publishing without breaking the bundle. Nobody opens that folder in
+      ordinary use; everything a teacher actually clicks carries the plain emblem.
+    -->
+    <ApplicationIcon>TexasRevolutionSetup.ico</ApplicationIcon>
     <!-- A teacher drags this window from a laptop panel onto a projector with a different
          scale factor, and a blurry class view is the whole lesson. WinForms wants this as a
          project property rather than in the manifest. -->
@@ -37,6 +52,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2210.55" />
+  </ItemGroup>
+
+  <!-- The installed program's own emblem, read at runtime by Branding. -->
+  <ItemGroup>
+    <EmbeddedResource Include="TexasRevolution.ico" LogicalName="TexasRevolution.Launcher.emblem.ico" />
   </ItemGroup>
 
   <!--

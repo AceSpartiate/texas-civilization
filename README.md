@@ -16,6 +16,8 @@ Download **`TexasRevolutionSetup.exe`** from [Releases](https://github.com/AceSp
 4. Students join at that address with the six-character class code. Five households must join before Start; fewer is possible with a deliberate second press, which is how one person can try it alone.
 5. Press **Stop the class** when you are done. Closing a browser window does **not** stop it.
 
+Each person can be sent **on foot**, **on the horse**, or **with the ox and wagon**, and the three are genuinely different: speed, how much comes home, and how tired they arrive. There is one of each per family.
+
 The Host page carries a **pace** — Study, Brisk or Quick. The lesson is the same in all three; only how long it takes to watch changes. Study is the default and makes the slice fill a class period.
 
 It appears in **Settings ▸ Apps** like anything else and can be removed there; removing it asks separately whether to keep your saved classes, and keeps them by default.

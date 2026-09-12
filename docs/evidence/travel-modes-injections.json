@@ -1,0 +1,109 @@
+[
+  {
+    "injected": "the ox and wagon stay in the yard while the person walks off with them",
+    "caught": 8,
+    "filesFailing": 1,
+    "by": [
+      "a wagon with something in it knows it, and forgets once it is home",
+      "property left somewhere stays there, and cannot be used from anywhere else",
+      "taking the wagon takes the ox and the wagon, and they come back with you",
+      "the class is told how each of its people may travel, and never left to guess",
+      "the ford turns the wagon back, and lets the rider through",
+      "there is one wagon, so the second person to want it is told who has it",
+      "what a trip brings home is what they can carry home, and the rest is said out loud",
+      "work that cannot be set out on is refused before it is written down"
+    ]
+  },
+  {
+    "injected": "nobody is recorded as having the ox, so two people take it at once",
+    "caught": 3,
+    "filesFailing": 1,
+    "by": [
+      "taking the wagon takes the ox and the wagon, and they come back with you",
+      "there is one wagon, so the second person to want it is told who has it",
+      "work that cannot be set out on is refused before it is written down"
+    ]
+  },
+  {
+    "injected": "the ox can be used from the other side of the county",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "property left somewhere stays there, and cannot be used from anywhere else"
+    ]
+  },
+  {
+    "injected": "riding tires a person exactly as much as walking",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "riding is faster and costs the legs less; the wagon is slower and costs them little too"
+    ]
+  },
+  {
+    "injected": "the wagon is waved across the ford",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "the ford turns the wagon back, and lets the rider through"
+    ]
+  },
+  {
+    "injected": "the march is agreed to before anyone checks the journey can be made",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "the call to go upriver is refused before a single thing moves"
+    ]
+  },
+  {
+    "injected": "a walker carries the whole kill home in their arms",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "what a trip brings home is what they can carry home, and the rest is said out loud"
+    ]
+  },
+  {
+    "injected": "a loaded wagon is drawn empty",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "a wagon with something in it knows it, and forgets once it is home"
+    ]
+  },
+  {
+    "injected": "work is written down first and the road checked afterwards",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "work that cannot be set out on is refused before it is written down"
+    ]
+  },
+  {
+    "injected": "the class is never told which ways are open to whom",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "the class is told how each of its people may travel, and never left to guess"
+    ]
+  },
+  {
+    "injected": "the ox is never handed back, so it is unusable for the rest of the class",
+    "caught": 2,
+    "filesFailing": 1,
+    "by": [
+      "property left somewhere stays there, and cannot be used from anywhere else",
+      "taking the wagon takes the ox and the wagon, and they come back with you"
+    ]
+  },
+  {
+    "injected": "the wagon is quietly as quick as a horse",
+    "caught": 2,
+    "filesFailing": 1,
+    "by": [
+      "riding is faster and costs the legs less; the wagon is slower and costs them little too",
+      "the three ways of going are genuinely different, and none of them is simply best"
+    ]
+  }
+]

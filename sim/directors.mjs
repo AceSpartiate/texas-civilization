@@ -127,12 +127,19 @@ function offerMarch(world) {
     world.marches[household.id] = { id, text, status: 'open', actorId: entity.id, offeredMinute: world.minute, promised, risk: marchRisk(entity.name, entity.health.condition) };
   }
 }
-export function handleMarch(world, householdId, entity, action, { beginTravel }) {
+export function handleMarch(world, householdId, entity, action, { beginTravel, travelRefusal }, mode) {
   const march = world.marches?.[householdId];
   if (!march || march.status !== 'open') throw new Error('Nobody is asking that.');
   if (world.minute >= TIMELINE.approach) throw new Error('They have already gone upriver.');
   if (march.actorId !== entity.id) throw new Error(`${entity.name} was not the one asked.`);
   if (entity.travel) throw new Error('Wait until this person arrives.');
+  // Refused before a single thing moves. This function records the choice and then sends
+  // somebody walking, so a journey that turns out to be impossible after the decision is
+  // written down would leave a household that had agreed to go and nobody on the road.
+  if (action === 'go-upriver') {
+    const why = travelRefusal?.(world, entity, CAMP_SITE, mode);
+    if (why) throw new Error(why);
+  }
   march.status = action === 'go-upriver' ? 'accepted' : 'refused';
   march.choiceId = record(world, 'choice', {
     actorId: entity.id, householdId, decision: action, causes: [march.id], importance: 2,
@@ -144,14 +151,14 @@ export function handleMarch(world, householdId, entity, action, { beginTravel })
     entity.commitments.push({ id: 'gonzales-march', type: 'service', status: 'active', choiceId: march.choiceId });
     // A real journey over the ford and up the west bank. `findPath` routes it; nobody is
     // ever placed at the camp without having walked there.
-    beginTravel(world, entity, CAMP_SITE, march.choiceId, 'help');
+    beginTravel(world, entity, CAMP_SITE, march.choiceId, 'help', mode);
   } else {
     entity.task = 'help';
     const consequence = record(world, 'consequence', { actorId: entity.id, householdId, importance: 2, causes: [march.choiceId], text: `${entity.name} stayed in Gonzales when the others crossed. The family's supplies went on without him.` });
     remember(world, world.households[householdId], entity, consequence, `${entity.name} went as far as Gonzales and no further.`);
   }
 }
-export function handleChoice(world, householdId, entity, action, { beginTravel }) {
+export function handleChoice(world, householdId, entity, action, { beginTravel, travelRefusal }, mode) {
   const request = world.requests?.[householdId];
   if (!request || request.status !== 'open' || !world.knowledge.households[householdId]['cannon-request']) throw new Error('There is no known open request.');
   if (world.minute >= TIMELINE.approach) throw new Error('This gathering request has closed.');
@@ -159,12 +166,18 @@ export function handleChoice(world, householdId, entity, action, { beginTravel }
   const household = world.households[householdId];
   if (action === 'help' && household.resources.food < 2) throw new Error('Helping needs two food. Staying home is also a valid choice.');
   if (action === 'stay' && entity.location.siteId !== household.homeSiteId) throw new Error('Return home before choosing to stay and prepare.');
+  // Same rule as the march: the food is spent and the promise is written down below, so
+  // an impossible journey has to be refused before either happens.
+  if (action === 'help' && entity.location.siteId !== 'gonzales') {
+    const why = travelRefusal?.(world, entity, 'gonzales', mode);
+    if (why) throw new Error(why);
+  }
   request.status = action === 'help' ? 'accepted' : 'refused';
   request.choiceId = record(world, 'choice', { actorId: entity.id, householdId, text: action === 'help' ? `${entity.name} will carry food to Gonzales.` : `${entity.name} will stay home and prepare the household.`, decision: action, causes: [request.id], importance: 2 });
   if (action === 'help') {
     household.resources.food = Math.round((household.resources.food - 2) * 10000) / 10000;
     entity.commitments.push({ id: 'gonzales-supplies', type: 'service', status: 'active', choiceId: request.choiceId });
-    if (entity.location.siteId !== 'gonzales') beginTravel(world, entity, 'gonzales', request.choiceId, 'help');
+    if (entity.location.siteId !== 'gonzales') beginTravel(world, entity, 'gonzales', request.choiceId, 'help', mode);
     else { entity.task = 'help'; record(world, 'arrival', { actorId: entity.id, householdId, destination: 'gonzales', purpose: 'help', text: `${entity.name} offers supplies where he is already present.`, causes: [request.choiceId] }); }
   } else {
     entity.task = 'work'; household.prepared = true; household.resources.food += 1;

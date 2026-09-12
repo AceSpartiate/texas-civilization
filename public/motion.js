@@ -88,10 +88,21 @@ export function entityClip(entity, observed = false) {
   if (STILL_CONDITIONS.includes(condition)) return { id: `${variant}-idle-s`, frozen: true, upright: true };
   if (entity.carrier) return carrierClip(entity);
   if (entity.kind === 'animal') {
+    // A class saved before there were horses has no `species` on anything, and every
+    // animal in it is an ox - so the absent field reads correctly as one.
+    const beast = entity.species === 'horse' ? 'horse' : 'ox';
     const heading = travelHeading(entity);
-    return entity.travel ? { id: heading ? `ox-walk-${heading}` : 'ox-walk', upright: Boolean(heading) } : { id: 'ox-brown-idle' };
+    return entity.travel
+      ? { id: heading ? `${beast}-walk-${heading}` : `${beast}-walk`, upright: Boolean(heading) }
+      : { id: beast === 'horse' ? 'horse-chestnut-idle' : 'ox-brown-idle' };
   }
-  if (entity.kind === 'wagon') return { id: entity.travel && entity.condition === 'sound' ? 'wagon-travel' : 'wagon-idle' };
+  // A wagon coming home from the timber with a kill in it is drawn with something in it.
+  // The library has carried loaded and empty travel cycles since the art landed and
+  // nothing had ever distinguished them, because until now nothing was ever carried.
+  if (entity.kind === 'wagon') {
+    if (!entity.travel || entity.condition !== 'sound') return { id: 'wagon-idle' };
+    return { id: entity.laden ? 'wagon-loaded-travel' : 'wagon-travel' };
+  }
   // Other households expose only broad task. Never infer their private chore/cargo.
   const doing = observed ? '' : entity.chore?.doing || '';
   if (/carrying the crop/.test(doing)) return { id: `${variant}-carry` };

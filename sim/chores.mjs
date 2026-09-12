@@ -20,6 +20,8 @@
 // hunted species is ever named.
 import { record } from './events.mjs';
 import { recordTrade, traderAt } from './town.mjs';
+import { carryCapacity, DEFAULT_MODE, MODES, propertyId } from './travel.mjs';
+export { MODES } from './travel.mjs';
 
 const round = value => Math.round(value * 10000) / 10000;
 
@@ -83,17 +85,21 @@ export const CHORES = {
     ],
   },
   'hunt-timber': {
-    name: 'Hunt in the timber', skill: 'hunting', where: 'home',
-    describe: 'A long trip to the timber and back. Brings in food, costs no seed.',
+    name: 'Hunt in the timber', skill: 'hunting', where: 'home', hauls: true,
+    describe: 'A long trip to the timber and back. The kill is a big one; what comes home is what they can carry.',
     steps: [
       { travel: 'timber', doing: 'on the road to the timber' },
       { work: 5, doing: 'hunting in the timber' },
-      { produce: { food: 5 } },
+      // Ten, and a good hunter takes more - but only the wagon can bring that much back.
+      // On foot this still yields the five it always did, so a family that changes
+      // nothing is no worse off than it was; the wagon is an upside for the family that
+      // spends the extra hour on the road, not a tax on the one that does not.
+      { produce: { food: 10 } },
       { travel: 'home', doing: 'walking home from the timber' },
     ],
   },
   'fetch-seed': {
-    name: 'Fetch seed from Gonzales', skill: 'hands', where: 'home',
+    name: 'Fetch seed from Gonzales', skill: 'hands', where: 'home', hauls: true,
     needs: { food: 3 },
     describe: 'Trade in town for seed. Costs three food, and the road is as long as it is.',
     steps: [
@@ -188,6 +194,15 @@ export function choreAvailability(world, household, entity, choreId) {
  * it moved to /api/map, and it is worth naming as a pattern: static text has no business
  * on a per-tick channel.
  */
+/**
+ * The unchanging half of how somebody may go. Fetched once per class beside the chore
+ * catalogue, for exactly the reason that one exists: static text does not belong on a
+ * per-tick channel.
+ */
+export function modeCatalogue() {
+  return Object.values(MODES).map(mode => ({ id: mode.id, name: mode.name, describe: mode.describe, carry: mode.carry }));
+}
+
 export function choreCatalogue() {
   return Object.entries(CHORES).map(([id, chore]) => ({
     id, name: chore.name, describe: chore.describe, skill: chore.skill,
@@ -203,21 +218,52 @@ export function choreCatalogue() {
 export function choresFor(world, household, entity) {
   return Object.entries(CHORES).map(([id, chore]) => {
     const { can, why } = choreAvailability(world, household, entity, id);
+    // `haul` is what this person's own hands would bring back from this trip, before any
+    // cap. The cap itself is the mode's `carry`, which the projection sends alongside; the
+    // control puts the two together so a student sees what a choice costs before making
+    // it, which is `FIC-GONZ-008`'s rule about visible outcomes applied to a number.
+    const haul = chore.hauls ? haulFor(entity, id) : null;
     return can
-      ? { id, can: true, level: entity.skills?.[chore.skill] ?? 1 }
-      : { id, can: false, why, level: entity.skills?.[chore.skill] ?? 1 };
+      ? { id, can: true, level: entity.skills?.[chore.skill] ?? 1, ...(haul && { haul }) }
+      : { id, can: false, why, level: entity.skills?.[chore.skill] ?? 1, ...(haul && { haul }) };
   });
 }
 
-export function beginChore(world, household, entity, choreId, { beginTravel }) {
+export function beginChore(world, household, entity, choreId, { beginTravel, modeAvailability }, modeId = DEFAULT_MODE) {
   const { can, why } = choreAvailability(world, household, entity, choreId);
   if (!can) throw new Error(why || 'That work is not available.');
-  entity.chore = { id: choreId, step: -1, wait: 0, doing: 'setting out' };
-  entity.task = 'work';
   const chore = CHORES[choreId];
+  // Refused before the work is written down.
+  //
+  // Keyed on whether the chore travels at all, not on whether it hauls. A chore that
+  // travels but carries nothing back - buying a hoe in town - would otherwise keep a mode
+  // nobody had checked, and the return leg runs inside `advanceChores` during a tick. A
+  // journey that turns out to be impossible there throws from inside `stepWorld`, which
+  // does not refuse one student's order: it stops the whole class.
+  if (chore.steps.some(step => step.travel) && modeId !== DEFAULT_MODE) {
+    const mode = modeAvailability?.(world, entity, modeId);
+    if (mode && !mode.can) throw new Error(mode.why);
+  }
+  entity.chore = { id: choreId, step: -1, wait: 0, doing: 'setting out', ...(modeId !== DEFAULT_MODE && { mode: modeId }) };
+  entity.task = 'work';
   record(world, 'assignment', { actorId: entity.id, householdId: household.id, text: `${entity.name} set out: ${chore.name.toLowerCase()}.` });
   advanceChore(world, household, entity, { beginTravel });
   return entity.chore;
+}
+
+/**
+ * How much of a hauling chore's yield this person would actually bring home, said before
+ * they are sent. The whole point of the cap is that it is a decision rather than a
+ * surprise, and a number on the button is what makes it one.
+ */
+export function haulFor(entity, choreId, modeId = DEFAULT_MODE) {
+  const chore = CHORES[choreId];
+  if (!chore?.hauls) return null;
+  const produce = chore.steps.find(step => step.produce)?.produce;
+  if (!produce) return null;
+  const [resource, amount] = Object.entries(produce)[0];
+  const got = yieldFor(amount, entity.skills?.[chore.skill] ?? 1);
+  return { resource, got: round(got), kept: round(Math.min(got, carryCapacity(modeId))) };
 }
 
 /** One step of one person's chore. Called once per tick per working person. */
@@ -258,7 +304,7 @@ function advanceChore(world, household, entity, { beginTravel }) {
         : step.travel === 'timber' ? timberFor(world, household) : step.travel;
       // Already standing there: nothing to walk, so fall through to the next step.
       if (!destination || entity.location.siteId === destination) continue;
-      beginTravel(world, entity, destination, null, 'chore');
+      beginTravel(world, entity, destination, null, 'chore', state.mode || DEFAULT_MODE);
       return;
     }
     if (step.work) { state.wait = paceFor(step.work, skill); return; }
@@ -269,8 +315,29 @@ function advanceChore(world, household, entity, { beginTravel }) {
       continue;
     }
     if (step.produce) {
+      // What a trip brings home is what they can carry home. The kill is the kill; how
+      // much of it reaches the family is the decision they made when they set out, and
+      // it is told plainly rather than quietly subtracted.
+      //
+      // ceiling: the cap is applied per resource rather than as one load shared between
+      // them, which is the same answer while no chore produces two things at once. If one
+      // ever does, this has to become a budget spent in order.
+      const capacity = chore.hauls ? carryCapacity(state.mode) : Infinity;
       for (const [resource, amount] of Object.entries(step.produce)) {
-        household.resources[resource] = round((household.resources[resource] ?? 0) + yieldFor(amount, skill));
+        const got = yieldFor(amount, skill);
+        const kept = round(Math.min(got, capacity));
+        household.resources[resource] = round((household.resources[resource] ?? 0) + kept);
+        if (kept < got) {
+          record(world, 'consequence', {
+            actorId: entity.id, householdId: household.id, importance: 2,
+            text: `${entity.name} could carry ${kept} ${resource} home and left ${round(got - kept)} behind.`,
+          });
+        }
+        // A wagon with something in it is drawn with something in it.
+        if (kept > 0 && chore.hauls && state.mode === 'wagon') {
+          const wagon = world.entities[propertyId(household.id, 'wagon')];
+          if (wagon) wagon.laden = true;
+        }
       }
       continue;
     }
@@ -323,7 +390,7 @@ function finishChore(world, household, entity, chore) {
  * it belongs here and not in a chore: a household that plants and then goes to war still
  * has a crop standing when someone comes back for it.
  */
-export function advanceChores(world, { beginTravel }) {
+export function advanceChores(world, { beginTravel, modeAvailability }) {
   for (const household of Object.values(world.households)) {
     const field = household.field;
     if (field?.state === 'planted' && world.tick - field.changedTick >= RIPEN_TICKS) {
@@ -339,7 +406,7 @@ export function advanceChores(world, { beginTravel }) {
         entity.chore = null;
         continue;
       }
-      advanceChore(world, household, entity, { beginTravel });
+      advanceChore(world, household, entity, { beginTravel, modeAvailability });
     }
   }
 }

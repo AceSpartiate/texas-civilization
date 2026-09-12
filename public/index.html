@@ -105,6 +105,14 @@
         <button data-action="work">Work</button>
         <button data-action="rest">Rest</button>
       </div>
+      <!-- How they go. One choice per person, and it governs whatever journey the next
+           order starts: a trip to town, or the road out that a chore begins with. The
+           reason any way is closed is the server's sentence, never a guess made here. -->
+      <div id="selection-travel" hidden>
+        <span class="travel-eyebrow">GOING BY</span>
+        <div id="travel-modes" role="group" aria-label="How this person travels"></div>
+        <p id="travel-note"></p>
+      </div>
       <div id="selection-work"></div>
       <!-- Trading only exists where two people are standing together, so its controls
            live on the person, not in a menu of their own. -->

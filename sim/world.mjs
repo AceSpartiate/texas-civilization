@@ -8,6 +8,8 @@ import { advanceTown, createTownspeople, observedBy } from './town.mjs';
 import { GOODS, advanceOffers, makeOffer, offersFor, respondToOffer } from './trade.mjs';
 import { buildGonzalesRegion, findPath, polylineLength } from './geography.mjs';
 import { advanceEncounters, askRider, carriedInPerson, encounterProjection, leaveRider, riderName, spotName } from './encounters.mjs';
+import { DEFAULT_MODE, MODES, modeOf, propertyId, RIDER_SPEED } from './travel.mjs';
+export { MODES, MODE_IDS, DEFAULT_MODE, carryCapacity, modeOf } from './travel.mjs';
 export { record } from './events.mjs';
 export function seededRandom(seed) {
   let value = 2166136261;
@@ -40,18 +42,26 @@ export function createWorld(seed = 'gonzales', playerCount = 15) {
     // The yard is west of the cabin. The cropland runs east and south of it, so property
     // left at these coordinates used to stand in the middle of the corn - invisible when
     // a field was a flat green rectangle, and obviously wrong once it grew rows.
-    for (const kind of ['animal', 'wagon']) {
-      const id = `${householdId}-${kind}`;
-      world.entities[id] = { id, name: kind === 'animal' ? 'Juniper the ox' : 'Family wagon', kind, householdId, depth: 'aggregate', location: { x: site.x - (kind === 'animal' ? .17 : .21), y: site.y + (kind === 'animal' ? .1 : .26), siteId: site.id }, travel: null, condition: 'sound', borrowedBy: null };
+    // `species` is what tells the renderer an ox from a horse. A class saved before
+    // there were horses has neither the field nor the animal, and an ox is the right
+    // thing to draw for every animal such a save contains - the absent field has a
+    // correct empty value, so no save version moved. `sim/trade.mjs` is the precedent.
+    for (const beast of [
+      { role: 'ox', kind: 'animal', species: 'ox', name: 'Juniper the ox', dx: -.17, dy: .10 },
+      { role: 'horse', kind: 'animal', species: 'horse', name: 'Bess the mare', dx: -.31, dy: .05 },
+      { role: 'wagon', kind: 'wagon', name: 'Family wagon', dx: -.21, dy: .26 },
+    ]) {
+      const id = propertyId(householdId, beast.role);
+      world.entities[id] = { id, name: beast.name, kind: beast.kind, ...(beast.species && { species: beast.species }), householdId, depth: 'aggregate', location: { x: site.x + beast.dx, y: site.y + beast.dy, siteId: site.id }, travel: null, condition: 'sound', borrowedBy: null };
       household.property.push(id);
     }
-    record(world, 'household-founded', { householdId, text: 'Your family lives here, with food, an ox, and a wagon.' });
+    record(world, 'household-founded', { householdId, text: 'Your family lives here, with food, an ox, a horse, and a wagon.' });
   }
   // The town has people in it. They belong to nobody and are commanded by nobody.
   createTownspeople(world);
   validateWorld(world); return world;
 }
-export const WALK_SPEED = 1, RIDER_SPEED = 2.6;
+export { WALK_SPEED, RIDER_SPEED, WAGON_SPEED } from './travel.mjs';
 // How far one person carries a piece of news before somebody else takes it on.
 //
 // `LIVING_INFORMATION.md`: "A rider must start at the actual source or a modeled relay
@@ -75,7 +85,88 @@ export function pointAt(points, distance) {
   }
   return { ...points.at(-1) };
 }
-export function beginTravel(world, entity, destination, causeId, purpose = 'visit') {
+// The ford is the only way over the Guadalupe (`HIST-GONZ-007`), so a route that uses it
+// is the one journey a wagon is turned back from.
+const usesFord = (world, path) => path.routeIds.some(id => world.map.routes[id]?.kind === 'crossing');
+/** The plain English word for a piece of property, used in every refusal about it. */
+const NOUN = { ox: 'ox', horse: 'horse', wagon: 'wagon' };
+/**
+ * Whether this person can set out this way, and if not, why - in the words the student
+ * will read on the control. This is a permission, so like `choresFor` it is computed on
+ * the server and never inferred by the client.
+ *
+ * `path` is passed in when the caller already has one, because the destination decides
+ * one of these answers and running Dijkstra twice for one button is waste.
+ */
+export function modeAvailability(world, entity, modeId, path = null) {
+  const mode = MODES[modeId];
+  if (!mode) return { can: false, why: 'No such way of going.' };
+  for (const role of mode.needs) {
+    const beast = world.entities[propertyId(entity.householdId, role)];
+    // A class saved before there were horses has no horse, which is a true thing about
+    // that class rather than a broken one, and the control says so plainly.
+    if (!beast) return { can: false, why: `Your family has no ${NOUN[role]}.` };
+    if (beast.borrowedBy && beast.borrowedBy !== entity.id) {
+      // A person took it on a journey, or it is out with another household. Both are
+      // possible states of the field and both are said in the borrower's own name.
+      const borrower = world.entities[beast.borrowedBy] || world.households[beast.borrowedBy];
+      return { can: false, why: `${borrower?.name || 'Somebody'} has the ${NOUN[role]}.` };
+    }
+    if (beast.condition && beast.condition !== 'sound') return { can: false, why: `The ${NOUN[role]} is in no state to go.` };
+    // The whole point of property being rivalrous: it is somewhere, and if it is not
+    // where you are then you cannot take it. Walk to it, or go without it.
+    if (beast.travel || beast.location.siteId !== entity.location.siteId) return { can: false, why: `The ${NOUN[role]} is not here.` };
+  }
+  // ceiling: today the only road a student can order that uses the ford is the march
+  // upriver, and the wagon is refused there before anything moves - so in ordinary play
+  // this line turns nobody back yet. It is kept because the moment the west bank is
+  // reachable it is the whole difference between a river that is a barrier and a river
+  // that is a line on a picture. `stillWalking` in sim/directors.mjs is kept for the same
+  // reason. Remove it only if the ford stops being the only crossing.
+  if (path && !mode.crossesFord && usesFord(world, path)) {
+    return { can: false, why: 'That road crosses at the ford, and the ford is no place for a wagon.' };
+  }
+  return { can: true, why: '' };
+}
+/** Every way this person could set out right now, with the reason for any that are not open. */
+export function travelModesFor(world, entity, destination = null) {
+  if (entity.kind !== 'person' || !entity.householdId) return [];
+  const path = destination && entity.location.siteId ? findPath(world.map, entity.location.siteId, destination) : null;
+  return Object.keys(MODES).map(id => {
+    const { can, why } = modeAvailability(world, entity, id, path);
+    return can ? { id, can: true, carry: MODES[id].carry } : { id, can: false, why, carry: MODES[id].carry };
+  });
+}
+/** The sentence to refuse a journey with, or null if it can be made. Used before any state moves. */
+export function travelRefusal(world, entity, destination, modeId = DEFAULT_MODE) {
+  if (!world.map.sites[destination]) return 'No known route to that destination.';
+  if (!entity.location.siteId) return 'Already traveling.';
+  if (entity.location.siteId === destination) return 'Already there.';
+  const path = findPath(world.map, entity.location.siteId, destination);
+  if (!path) return 'No known route to that destination.';
+  return modeAvailability(world, entity, modeId, path).why || null;
+}
+/**
+ * The ox, the horse and the wagon go where the person takes them.
+ *
+ * They get their own travel record on the same route at the same speed, so they are drawn
+ * moving - the library has had `ox-walk`, `horse-walk` and `wagon-travel` since the art
+ * landed and nothing had ever set travel on a piece of property, so a family's animals
+ * had never once been seen to leave the yard. `borrowedBy` has existed just as long and
+ * was always null. This is what both of them were for.
+ *
+ * `silent` keeps the family's event log about the family: three more arrival lines for
+ * one trip to town would bury the one that matters.
+ */
+function harness(world, entity, mode, path, causeId) {
+  for (const role of mode.needs) {
+    const beast = world.entities[propertyId(entity.householdId, role)];
+    beast.borrowedBy = entity.id;
+    beast.travel = { from: entity.travel.from, to: entity.travel.to, points: path.points, progress: 0, distance: path.distance, speed: mode.speed, mode: mode.id, purpose: 'harness', causeId, silent: true };
+    beast.location = { ...path.points[0], siteId: null };
+  }
+}
+export function beginTravel(world, entity, destination, causeId, purpose = 'visit', modeId = DEFAULT_MODE) {
   if (entity.travel || !entity.location.siteId) throw new Error('Already traveling.');
   if (!world.map.sites[destination]) throw new Error('No known route to that destination.');
   if (entity.location.siteId === destination) throw new Error('Already there.');
@@ -83,9 +174,21 @@ export function beginTravel(world, entity, destination, causeId, purpose = 'visi
   // A path may run through several roads, so reaching the far bank means using the ford.
   const path = findPath(world.map, from, destination);
   if (!path) throw new Error('No known route to that destination.');
-  const departure = record(world, 'departure', { actorId: entity.id, householdId: entity.householdId, text: `${entity.name} left for ${world.map.sites[destination].name}.`, causes: causeId ? [causeId] : [] });
-  entity.travel = { from, to: destination, points: path.points, progress: 0, distance: path.distance, speed: entity.report ? RIDER_SPEED : WALK_SPEED, purpose, causeId: departure };
+  // A courier rides their own horse and owns no household property. This file has always
+  // given them the mounted speed by looking at the report rather than at a mode, and that
+  // stays exactly as it was: relays must never start depending on whether some family
+  // happens to own an animal.
+  const mode = entity.report ? MODES.horse : MODES[modeId];
+  if (!mode) throw new Error('No such way of going.');
+  if (!entity.report) {
+    const { can, why } = modeAvailability(world, entity, mode.id, path);
+    if (!can) throw new Error(why);
+  }
+  const how = entity.report || mode.id === 'foot' ? '' : mode.id === 'horse' ? ', riding' : ', with the ox and wagon';
+  const departure = record(world, 'departure', { actorId: entity.id, householdId: entity.householdId, text: `${entity.name} left for ${world.map.sites[destination].name}${how}.`, causes: causeId ? [causeId] : [] });
+  entity.travel = { from, to: destination, points: path.points, progress: 0, distance: path.distance, speed: entity.report ? RIDER_SPEED : mode.speed, mode: mode.id, purpose, causeId: departure };
   entity.location = { ...path.points[0], siteId: null }; entity.task = 'travel';
+  if (!entity.report) harness(world, entity, mode, path, departure);
 }
 export function progressTravel(world, entity, units = 1) {
   const travel = entity.travel; if (!travel) return;
@@ -101,11 +204,17 @@ export function progressTravel(world, entity, units = 1) {
   // counts exactly the journeys a student chose to send somebody on - to town, to the
   // timber, to the gathering, up the river - which is what makes how far a family lives
   // from Gonzales finally cost something. `advanceRoutine` turns miles into a condition.
+  //
+  // How they go decides how much of it they pay for. A mile in the saddle costs a third
+  // of a mile on foot and a mile beside the wagon half of one, which is most of why the
+  // horse is worth having to a family nineteen miles out - quite apart from the speed,
+  // they arrive fit to do something. A tired principal is the one who risks hurt upriver.
   if (entity.kind === 'person' && entity.householdId && !entity.report) {
-    entity.exertion = Math.min(EXERTION_CAP, Math.round(((entity.exertion || 0) + (travel.progress - wasAt)) * 10000) / 10000);
+    const cost = (travel.progress - wasAt) * modeOf(travel).exertion;
+    entity.exertion = Math.min(EXERTION_CAP, Math.round(((entity.exertion || 0) + cost) * 10000) / 10000);
   }
   entity.location = { ...pointAt(travel.points, travel.progress), siteId: null };
-  if (!travel.loggedProgress) {
+  if (!travel.loggedProgress && !travel.silent) {
     travel.loggedProgress = true;
     travel.progressEventId = record(world, 'travel', { actorId: entity.id, householdId: entity.householdId, text: `${entity.name} is on the road.`, causes: [travel.causeId] });
   }
@@ -115,6 +224,12 @@ export function progressTravel(world, entity, units = 1) {
     if (entity.report) entity.report.overflow = Math.max(0, wasAt + travel.speed * units - travel.distance);
     entity.location = { x: world.map.sites[travel.to].x, y: world.map.sites[travel.to].y, siteId: travel.to };
     entity.task = travel.purpose === 'help' ? 'help' : 'rest'; entity.travel = null;
+    // The journey is over, so the beast belongs to nobody again and may be taken by
+    // whoever is standing where it now is. It does not walk home by itself: a family
+    // that left the wagon at the timber has a wagon at the timber.
+    if (entity.borrowedBy) entity.borrowedBy = null;
+    if (entity.laden && world.households[entity.householdId]?.homeSiteId === travel.to) entity.laden = false;
+    if (travel.silent) return;
     record(world, 'arrival', { actorId: entity.id, householdId: entity.householdId, text: `${entity.name} arrived at ${world.map.sites[travel.to].name}.`, destination: travel.to, purpose: travel.purpose, causes: [travel.progressEventId || travel.causeId] });
   }
 }
@@ -127,7 +242,7 @@ export function stepWorld(world) {
   advanceRelays(world);
   // Chores run after travel resolves, so a person who arrived this tick picks up the
   // next step of their work in the same tick rather than idling for one.
-  advanceChores(world, { beginTravel });
+  advanceChores(world, { beginTravel, modeAvailability });
   advanceTown(world);
   // Offers resolve after everyone has moved, because an offer is a thing said face to
   // face and ends the moment the two people part.
@@ -260,13 +375,18 @@ export const LOBBY_ACTIONS = new Set(['chore', 'stop-chore', 'work', 'rest', 'tr
 export function applyAction(world, householdId, input) {
   const entity = world.entities[input.entityId];
   const household = world.households[householdId];
+  // How they go, chosen once and applied to whatever journey this order starts - a trip
+  // to town, or the road out to the timber a chore begins with. A command from a class
+  // that predates the choice carries no mode and gets the one everybody had then.
+  const mode = input.mode || DEFAULT_MODE;
+  if (!MODES[mode]) throw new Error('No such way of going.');
   if (world.status === 'lobby' && !LOBBY_ACTIONS.has(input.action)) throw new Error('Your neighbours are still arriving. You can set your own family to work now; anything between families waits for the class to begin.');
   if (!entity || entity.householdId !== householdId || entity.kind !== 'person') throw new Error('Choose one of your family.');
   if (entity.health.condition === 'dead' || entity.health.condition === 'captured') throw new Error('This person cannot act.');
   // Farm work is open to the whole family; the historical choice is the principal's.
   // Keeping that split explicit is the point: everyone can be sent to the field, but
   // the decision the lesson turns on still belongs to one named person.
-  if (input.action === 'chore') { beginChore(world, household, entity, input.chore, { beginTravel }); return; }
+  if (input.action === 'chore') { beginChore(world, household, entity, input.chore, { beginTravel, modeAvailability }, mode); return; }
   // Trading is a household's own business and any member standing there can do it. It is
   // deliberately not the principal's alone: the whole point is that a family without the
   // handy member can ask the neighbour who is actually present.
@@ -291,16 +411,16 @@ export function applyAction(world, householdId, input) {
     // Going upriver abandons whatever work was in hand, for the same reason answering
     // the first call does: a chore left merely frozen resumes wherever the journey ends.
     if (entity.chore) abandonChore(world, world.households[householdId], entity);
-    handleMarch(world, householdId, entity, input.action, { beginTravel });
+    handleMarch(world, householdId, entity, input.action, { beginTravel, travelRefusal }, mode);
   }
   else if (['help', 'stay'].includes(input.action)) {
     // Answering the call costs the afternoon's work. Leaving the chore merely frozen
     // meant it resumed wherever the journey ended - hoeing rows at Gonzales, and then
     // walking "back to the yard" straight across the map without travelling.
     if (entity.chore) abandonChore(world, world.households[householdId], entity);
-    handleChoice(world, householdId, entity, input.action, { beginTravel });
+    handleChoice(world, householdId, entity, input.action, { beginTravel, travelRefusal }, mode);
   }
-  else if (input.action === 'travel') beginTravel(world, entity, input.destination);
+  else if (input.action === 'travel') beginTravel(world, entity, input.destination, null, 'visit', mode);
   else if (['work', 'rest'].includes(input.action)) {
     if (entity.travel) throw new Error('Still on the road.');
     if (entity.chore) throw new Error('Call off the work first.');
@@ -317,7 +437,7 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
   const visibleEvents = world.events.filter(e => (householdId && e.householdId === householdId) || (role === 'host' && e.visibility === 'public'));
   const knownIds = new Set(visibleEvents.map(e => e.id));
   const events = visibleEvents.map(e => ({ id: e.id, type: e.type, minute: e.minute, text: e.text, actorId: e.actorId, householdId: e.householdId, causes: e.causes.filter(id => knownIds.has(id)) }));
-  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, location: e.location, travel: e.travel ? { from: e.travel.from, to: e.travel.to, points: e.travel.points, progress: e.travel.progress, distance: e.travel.distance, speed: e.travel.speed } : null, health: e.health, task: e.task, skills: e.skills, chore: e.chore, condition: e.condition, borrowedBy: e.borrowedBy }));
+  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, location: e.location, travel: e.travel ? { from: e.travel.from, to: e.travel.to, points: e.travel.points, progress: e.travel.progress, distance: e.travel.distance, speed: e.travel.speed, mode: e.travel.mode } : null, health: e.health, task: e.task, skills: e.skills, chore: e.chore, condition: e.condition, species: e.species, laden: e.laden, borrowedBy: e.borrowedBy }));
   // What each person could be asked to do, with the reason for anything refused, is
   // computed on the server. The client must never decide for itself what is possible:
   // that is the same rule as fog of war, applied to a control instead of a fact.
@@ -325,10 +445,13 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
   // the server, at the level of detail that being in the same place would give you.
   const others = observedBy(world, householdId);
   const work = household ? Object.fromEntries(household.members.map(id => [id, choresFor(world, household, world.entities[id])])) : {};
+  // Which ways each person could set out, on the same rule as the work: a permission, so
+  // it is decided here and never guessed at by the client.
+  const travelModes = household ? Object.fromEntries(household.members.map(id => [id, travelModesFor(world, world.entities[id])])) : {};
   const toolCondition = household ? Object.fromEntries(Object.entries(household.tools || {}).map(([tool, wear]) => [tool, { wear, state: toolState(wear) }])) : {};
   const offers = offersFor(world, householdId);
   const encounter = encounterProjection(world, householdId, role);
-  return structuredClone({ tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: world.map }), household, entities, others, offers, encounter, events, work, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role) });
+  return structuredClone({ tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: world.map }), household, entities, others, offers, encounter, events, work, travelModes, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role) });
 }
 export function validateWorld(world) {
   if (world.schemaVersion !== 3 || !Number.isInteger(world.tick) || world.tick < 0 || !Number.isFinite(world.minute) || world.minute < 0 || !['lobby', 'running', 'paused', 'ended'].includes(world.status)) throw new Error('Invalid world');
@@ -343,6 +466,13 @@ export function validateWorld(world) {
     // Absent on a class saved before walking tired anybody, which is the correct empty
     // value and why no save version moved. Present, it must be a real distance.
     if (entity.exertion !== undefined && (!Number.isFinite(entity.exertion) || entity.exertion < 0)) throw new Error('Invalid exertion');
+    // Absent on a class saved before there was any choice about how to go, which is the
+    // correct empty value: everybody walked. Present, it must name a way that exists.
+    if (entity.travel?.mode !== undefined && !MODES[entity.travel.mode]) throw new Error('Invalid travel mode');
+    // Property is lent to somebody who exists - a person who took it on a journey, or a
+    // whole household it is out with. A dangling borrower is how an ox ends up
+    // permanently unusable, because nothing will ever hand it back.
+    if (entity.borrowedBy && !world.entities[entity.borrowedBy] && !world.households[entity.borrowedBy]) throw new Error('Property is lent to nobody');
     if (entity.travel && (!Array.isArray(entity.travel.points) || entity.travel.points.length < 2 || !Number.isFinite(entity.travel.progress) || !Number.isFinite(entity.travel.speed) || entity.travel.speed <= 0 || entity.travel.progress < 0 || entity.travel.progress > entity.travel.distance)) throw new Error('Invalid travel');
   }
   for (const household of Object.values(world.households)) {

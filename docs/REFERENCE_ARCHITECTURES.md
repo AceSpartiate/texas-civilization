@@ -190,6 +190,71 @@ That is the implementation shape of this project's hardest invariant — *"detai
 
 ---
 
+---
+
+## 7. Farming and settlement games — studied for travel depth, and one of their lessons was a refusal
+
+Read on the owner's instruction to "research farming games that are similar and include more depth",
+after the complaint that characters moved too fast. The complaint turned out to be about the class
+clock rather than about speed (§`docs/evidence/pace.json`), but the question underneath it — what
+should travel *cost* — is one this genre has answered many times.
+
+### What was taken
+
+**A journey has a mode, and the mode is the trade-off.** The pattern across the genre is that the
+interesting decision is not *whether* to go but *how*: fast and light, or slow and loaded. That is
+now `sim/travel.mjs`. What made it adoptable here is that the three ways a colony family actually
+had are naturally non-dominating — walking is free and always possible, the horse is fast and
+carries nothing, the wagon is slow and carries everything — so no balance had to be invented to stop
+one of them from simply winning.
+
+**Rivalrous property as the source of pressure, rather than a resource counter.** A family has one
+ox, one wagon and one horse between four people, and the thing you take is somewhere else while you
+have it. This is the same shape as Widelands' single-worker-per-building constraint in §3, applied
+to a family's belongings instead of its jobs, and it costs nothing to simulate: the ox is rivalrous
+because it has a location, not because anything holds a lock.
+
+**Capacity as a cap on what a trip brings home, not as an inventory.** The kill is the kill; how much
+of it reaches the family is the decision made when they set out. This keeps the whole system inside
+`FIC-GONZ-008`'s rule that outcomes resolve inside a visible risk — the number is on the button
+before it is pressed, and the shortfall is said out loud afterwards.
+
+### Rejected, deliberately — animal upkeep as a recurring chore
+
+The obvious next step from "the family owns an ox" is a feeding schedule, and it is the thing to
+avoid. Ostriv's animal upkeep is the most consistently complained-about part of an otherwise admired
+game, and the complaint is always the same: it converts a piece of the world the player cares about
+into a recurring alarm. The failure mode is general, and this project has a rule for it already —
+VISION.md §3, *"Do not add complexity merely because a subsystem could be more sophisticated"*, and
+§21, *prefer deeper interaction over another independent subsystem*.
+
+The idea a feeding chore is reaching for — **that an animal is a responsibility and not a stat** —
+is better delivered by the thing already built: the ox is *away from the farm while you are using
+it*. That is one fact, it costs no upkeep loop, and it produces the decision a feeding schedule only
+gestures at. If barns are built, they should hold the same line: a barn is a place animals are,
+which makes where they are legible, not a meter that empties.
+
+### Not taken, and why
+
+| Idea | Verdict |
+| --- | --- |
+| Seasons and a crop calendar | **Refused.** The whole simulated slice is one afternoon. `RIPEN_TICKS` is already a lesson rhythm and says so. |
+| Weather affecting travel and yield | **Refused for now** — VISION.md Tier 3 lists complex weather explicitly. High water at the ford is the one weather-shaped idea worth keeping in view, because it is about the river being a barrier rather than about weather as a system. |
+| Stamina bars, hunger bars, needs meters | **Refused.** Exertion already exists, is measured in miles, and surfaces as a condition in words — "Thomas is tired after 23 miles on the road" — not as a bar. |
+| Tool and equipment tiers | **Refused.** One hoe, sound or worn, is the whole tool model and it is enough to make a household with nobody handy go into town. |
+| Buildable structures placed by the player | **Held.** It is the open question for barns and is a Tier 3 decision, not a Tier 1 one. |
+| Livestock breeding, herd growth, many animal types | **Refused.** VISION.md Tier 3 names "many livestock types". |
+
+### Access limitation
+
+Unlike §§1–4, this section was **not written from a checkout or from source**. These are commercial
+games without public source, and the verdicts above are design judgements about patterns rather than
+claims about any particular implementation. The characterisation of Ostriv's animal upkeep as its
+most-complained-about system comes from general familiarity with public discussion of the game and
+**was not independently surveyed here**; it is recorded because it shaped a decision, and the
+decision stands on VISION.md §3 and §21 regardless of whether that characterisation is exactly right.
+
+
 ## What was actually taken
 
 
@@ -209,6 +274,11 @@ That is the implementation shape of this project's hardest invariant — *"detai
 | The gateway, the compression, the provider routing | OmniRoute | **Rejected** — nothing here calls a model |
 | Interpolating between two server-known positions (never past the last) | Colyseus, narrowed | **Implemented** — `public/motion.js`; §1 corrected |
 | Client-side prediction and input replay | Colyseus | **Still rejected** — a client must not guess ahead of a twenty-minute tick |
+| A journey has a mode, and the mode carries the trade-off | Farming/settlement games | **Implemented** — `sim/travel.mjs` |
+| Rivalrous property: the ox is somewhere, so it is scarce | Farming/settlement games, and Widelands narrowed | **Implemented** — `borrowedBy` and a real location |
+| Capacity as a cap on what a trip brings home | Farming/settlement games | **Implemented** — the `produce` clamp in `sim/chores.mjs` |
+| Animal upkeep as a recurring feeding chore | Ostriv | **Rejected** — "the ox is away while you use it" delivers the idea without the alarm clock |
+| Seasons, weather, needs meters, equipment tiers | Farming/settlement games | **Rejected** — VISION.md Tier 3, and exertion already speaks in words |
 
 ## Access limitations
 

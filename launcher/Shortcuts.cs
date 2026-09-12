@@ -48,8 +48,12 @@ public static class Shortcuts
     {
         var exe = Path.Combine(target, "TexasRevolution.exe");
         if (!File.Exists(exe)) return false;
-        var made = Write(StartMenuPath, exe, target);
-        if (desktop) made &= Write(DesktopPath, exe, target);
+        // The executable itself wears the setup emblem, because it is also the setup
+        // file. What a teacher clicks every morning should not: the shortcuts are pointed
+        // at the plain emblem written beside it.
+        var icon = Branding.WriteEmblemTo(target);
+        var made = Write(StartMenuPath, exe, target, icon);
+        if (desktop) made &= Write(DesktopPath, exe, target, icon);
         // An installation that made its own shortcuts should not then ask the launcher to.
         RememberInstalled(target);
         return made;
@@ -64,7 +68,7 @@ public static class Shortcuts
         try { if (File.Exists(StampFile)) File.Delete(StampFile); } catch { /* leave it */ }
     }
 
-    private static bool Write(string linkPath, string exe, string workingDirectory)
+    private static bool Write(string linkPath, string exe, string workingDirectory, string? iconPath = null)
     {
         try
         {
@@ -76,7 +80,7 @@ public static class Shortcuts
             link.TargetPath = exe;
             link.WorkingDirectory = workingDirectory;
             link.Description = "Texas Revolution — a classroom simulation of Gonzales, 1835";
-            link.IconLocation = exe + ",0";
+            link.IconLocation = iconPath is not null && File.Exists(iconPath) ? iconPath + ",0" : exe + ",0";
             link.Save();
             return true;
         }

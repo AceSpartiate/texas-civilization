@@ -120,7 +120,10 @@ public static class Installer
             key.SetValue("DisplayVersion", ReleaseOf(target) ?? "unreleased");
             key.SetValue("Publisher", "Texas Revolution");
             key.SetValue("InstallLocation", target);
-            key.SetValue("DisplayIcon", exe);
+            // Add/Remove Programs is a list of installed things, so it gets the plain
+            // emblem rather than the setup emblem the executable itself carries.
+            var emblem = Path.Combine(target, Branding.EmblemFileName);
+            key.SetValue("DisplayIcon", File.Exists(emblem) ? emblem : exe);
             key.SetValue("UninstallString", $"\"{exe}\" --uninstall");
             key.SetValue("NoModify", 1, RegistryValueKind.DWord);
             key.SetValue("NoRepair", 1, RegistryValueKind.DWord);

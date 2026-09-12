@@ -48,7 +48,7 @@ let selectedId = null, selectionDismissed = false;
 const EMPTY_MAP = { sites: {}, routes: {}, terrain: [] };
 // The catalogue of work is fixed for a class, so it is fetched once alongside the map.
 // Only whether a given person may do a given chore rides on the tick.
-let choreCache = null, choreCacheId = null, chorePending = null;
+let choreCache = null, choreCacheId = null, chorePending = null, modeCache = null;
 function ensureChores(snapshot) {
   if (!snapshot.mapId || (choreCache && choreCacheId === snapshot.mapId) || chorePending === snapshot.mapId) return;
   chorePending = snapshot.mapId;
@@ -56,6 +56,7 @@ function ensureChores(snapshot) {
     chorePending = null;
     if (!result?.chores) return;
     choreCache = new Map(result.chores.map(chore => [chore.id, chore]));
+    modeCache = new Map((result.modes || []).map(mode => [mode.id, mode]));
     choreCacheId = result.mapId;
     if (window.__snapshot) render(window.__snapshot);
   }).catch(() => { chorePending = null; });
@@ -141,20 +142,22 @@ function miniPerson(ctx, x, y, size, entity) {
 // Juniper is an ox and must stay one; the sprite chosen is stable per animal so the same
 // beast is recognisable from one lesson to the next.
 function miniAnimal(ctx, x, y, size, entity = {}, flip = false) {
+  const beast = entity.species === 'horse' ? 'horse' : 'ox';
   const heading = entity.travel ? travelHeading(entity) : null;
-  if (entity.travel && animated(ctx, heading ? `ox-walk-${heading}` : 'ox-walk', x, y, size, entity.id, { flip: heading ? false : flip })) return;
-  if (!entity.travel && animated(ctx, 'ox-brown-idle', x, y, size, entity.id, { flip })) return;
-  if (drawSprite(ctx, 'ox-brown', x, y, size, { flip })) return;
+  if (entity.travel && animated(ctx, heading ? `${beast}-walk-${heading}` : `${beast}-walk`, x, y, size, entity.id, { flip: heading ? false : flip })) return;
+  if (!entity.travel && animated(ctx, beast === 'horse' ? 'horse-chestnut-idle' : 'ox-brown-idle', x, y, size, entity.id, { flip })) return;
+  if (drawSprite(ctx, beast === 'horse' ? 'horse-chestnut' : 'ox-brown', x, y, size, { flip })) return;
   groundShadow(ctx, x, y, size * .42);
   ctx.fillStyle = '#815f3e'; ctx.fillRect(x - size * .5, y - size * .62, size, size * .45); ctx.fillRect(x + size * .34, y - size * .88, size * .3, size * .38);
   ctx.fillStyle = '#534830'; for (const leg of [-.36, .28]) ctx.fillRect(x + size * leg, y - size * .22, size * .13, size * .22);
 }
 function miniWagon(ctx, x, y, size, entity = {}, flip = false) {
-  if (entity.condition === 'sound' && animated(ctx, entity.travel ? 'wagon-travel' : 'wagon-idle', x, y, size, entity.id, { flip: !flip })) return;
+  const rolling = entity.travel ? (entity.laden ? 'wagon-loaded-travel' : 'wagon-travel') : 'wagon-idle';
+  if (entity.condition === 'sound' && animated(ctx, rolling, x, y, size, entity.id, { flip: !flip })) return;
   // A wagon that has come to harm shows it. Nothing here invents that state: it is drawn
   // only when the projection this student is allowed to see already says so.
   const sound = !entity.condition || entity.condition === 'sound';
-  if (drawSprite(ctx, sound ? 'wagon-covered' : 'wagon-broken', x, y, size, { flip })) return;
+  if (drawSprite(ctx, !sound ? 'wagon-broken' : entity.laden ? 'wagon-loaded' : 'wagon-covered', x, y, size, { flip })) return;
   groundShadow(ctx, x, y, size * .55);
   ctx.fillStyle = '#786446'; ctx.fillRect(x - size * .7, y - size * .62, size * 1.4, size * .55);
   ctx.fillStyle = '#f7edcf'; ctx.beginPath(); ctx.ellipse(x, y - size * .57, size * .65, size * .6, 0, Math.PI, Math.PI * 2); ctx.fill();
@@ -249,11 +252,17 @@ const drawnAt = new Map();
 function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
   // Cosmetic separation only. Overlapping drawings must never imply different true positions.
   const spread = size / 26;
-  const offset = entity.travel ? { x: 0, y: 0 } : stableOffset(entity.id);
+  // On the road a person is drawn exactly where the server says they are. Their ox and
+  // their wagon are at the same point on the same road, so without this they would be
+  // drawn standing inside each other; a hand's width apart reads as a family travelling
+  // together and still never claims a different true position.
+  const offset = entity.travel
+    ? (entity.kind === 'wagon' ? { x: -2.4, y: .5 } : entity.kind === 'animal' ? { x: -1.1, y: .2 } : { x: 0, y: 0 })
+    : stableOffset(entity.id);
   const x = point.x + offset.x * spread, y = point.y + offset.y * spread * .8;
   // Everything is drawn standing on (x, y), so `size` is a height and the click target
   // is the body above that point, not a circle centred on the feet.
-  const height = size * (entity.kind === 'animal' ? SIZE.ox : entity.kind === 'wagon' ? SIZE.wagon : 1);
+  const height = size * (entity.kind === 'animal' ? (entity.species === 'horse' ? SIZE.horse : SIZE.ox) : entity.kind === 'wagon' ? SIZE.wagon : 1);
   drawnAt.set(entity.id, { x, y: y - height * .45, size: height });
   if (marks.selected) {
     ctx.strokeStyle = marks.observed ? '#cfd6c2' : '#f0d38a';
@@ -401,7 +410,7 @@ const SIZE = {
   cabin: 3.3, settlementCabin: 2.5, camp: 2.1,
   timberTree: 1.95, loneTree: 2.05, sapling: 1.15, scrub: 1.0,
   tuft: .6, rock: .5, crop: .95,
-  ox: 1.45, wagon: 1.55,
+  ox: 1.45, horse: 1.5, wagon: 1.55,
 };
 // null means the camera follows the family. Dragging or zooming takes manual control
 // until the player presses Follow, so the view is never yanked away mid-gesture.
@@ -418,6 +427,16 @@ let manualView = null;
  */
 let watchedId = null;
 const stopWatching = () => { watchedId = null; };
+/**
+ * How each person goes, remembered per person rather than for the whole family.
+ *
+ * Rosa taking the wagon to the timber must not put Thomas on it too - there is one wagon,
+ * and a shared setting would silently propose the impossible. Nothing here decides what
+ * is allowed: the server sends every way with the reason for any that are shut, and this
+ * only remembers which of the open ones was last pressed.
+ */
+const travelModeByEntity = new Map();
+const modeFor = id => travelModeByEntity.get(id) || 'foot';
 // Zoom limits come from the map itself rather than fixed numbers, so they stay sensible
 // when the world's real extent changes. Zooming out reaches the whole known map; zooming
 // in reaches one homestead.
@@ -1209,9 +1228,42 @@ function populateTrade(world, chosen, running) {
   line.append(element('span', 'Asked by'), who);
   panel.append(line, give, ask, send);
 }
+/**
+ * Three stamps saying how this person would set out, and the plain reason for any that
+ * are shut - "Mateo has the ox", "The ford is no place for a wagon".
+ *
+ * A way that has become impossible since it was last pressed falls back to going on foot
+ * rather than sitting selected and refusing: walking is always possible, so the control
+ * can never be left in a state that cannot be acted on.
+ */
+function renderTravelModes(world, chosen, settable) {
+  const wrap = $('#selection-travel'), host = $('#travel-modes');
+  const offered = world.travelModes?.[chosen.id];
+  if (!offered?.length || chosen.observed || world.role === 'host') { wrap.hidden = true; return; }
+  wrap.hidden = false;
+  const open = offered.find(entry => entry.id === modeFor(chosen.id) && entry.can);
+  if (!open) travelModeByEntity.delete(chosen.id);
+  const picked = modeFor(chosen.id);
+  host.replaceChildren(...offered.map(entry => {
+    const spec = modeCache?.get(entry.id);
+    const button = element('button', spec?.name || entry.id);
+    button.dataset.mode = entry.id;
+    button.type = 'button';
+    // On the road the choice has already been made; it is shown, not offered.
+    button.disabled = !settable || !entry.can || Boolean(chosen.travel) || Boolean(chosen.chore);
+    button.setAttribute('aria-pressed', String(entry.id === picked));
+    button.title = entry.can ? (spec?.describe || '') : entry.why;
+    return button;
+  }));
+  const chosenSpec = modeCache?.get(picked);
+  const shut = offered.find(entry => entry.id !== picked && !entry.can);
+  $('#travel-note').textContent = chosen.travel
+    ? ''
+    : chosenSpec?.describe || (shut ? shut.why : '');
+}
 function renderWork(world, chosen, running) {
   const panel = $('#selection-work');
-  const key = JSON.stringify([chosen.id, running, chosen.health?.condition, Boolean(chosen.chore),
+  const key = JSON.stringify([chosen.id, running, modeFor(chosen.id), chosen.health?.condition, Boolean(chosen.chore),
     (world.work?.[chosen.id] || []).map(entry => ({ ...choreCache?.get(entry.id), ...entry }))]);
   if (renderedWork?.key === key) return;
   const restore = renderedWork?.chosenId === chosen.id ? rememberControls(panel) : () => {};
@@ -1245,8 +1297,15 @@ function populateWork(world, chosen, running) {
     button.disabled = !running || !entry.can;
     button.className = 'work-option';
     button.append(element('span', entry.cost ? `${entry.name} · ${entry.cost}` : entry.name, 'work-name'));
-    // Either why it cannot be done, or what it is - never nothing.
-    button.append(element('span', entry.can ? entry.describe : entry.why, 'work-note'));
+    // Either why it cannot be done, or what it is - never nothing. For a trip that hauls
+    // something back, what it would actually bring home the way this person is set to
+    // travel, which is the whole visible cost of choosing to walk instead of taking the
+    // wagon. Both numbers come from the server; putting them side by side is formatting.
+    const carry = world.travelModes?.[chosen.id]?.find(mode => mode.id === modeFor(chosen.id))?.carry;
+    const haul = entry.haul && Number.isFinite(carry)
+      ? ` Brings home ${Math.min(entry.haul.got, carry)} ${entry.haul.resource}${entry.haul.got > carry ? ` of ${entry.haul.got}; the rest is left behind.` : '.'}`
+      : '';
+    button.append(element('span', entry.can ? `${entry.describe}${haul}` : entry.why, 'work-note'));
     if (!entry.can) button.title = entry.why;
     host.append(button);
   }
@@ -1307,6 +1366,7 @@ function renderSelection(world) {
     button.hidden = !commands;
     button.disabled = !settable || Boolean(chosen.travel) || (action === 'travel' && chosen.location?.siteId === destination);
   }
+  renderTravelModes(world, chosen, settable);
   renderWork(world, chosen, settable);
   // Trading stays shut until the class is running, because the neighbour it is addressed
   // to may not have joined yet. An offer to an empty chair is not a trade.
@@ -1777,6 +1837,8 @@ document.addEventListener('click', async event => {
     }
     if (button.dataset.destination) input.destination = button.dataset.destination === 'home' ? homeOf(world) : button.dataset.destination;
     if (button.dataset.chore) input.chore = button.dataset.chore;
+    // Every order that can put somebody on a road carries how they mean to go.
+    if (['travel', 'chore', 'help', 'go-upriver'].includes(action) && input.entityId) input.mode = modeFor(input.entityId);
     if (button.dataset.lineId) input.lineId = button.dataset.lineId;
   }
   try {
@@ -1788,6 +1850,17 @@ document.addEventListener('click', async event => {
     if (action === 'start' && /Press Start again/.test(error.message)) startAnyway = true;
     say(error.message);
   }
+});
+// Choosing how somebody goes changes nothing in the world by itself; it is remembered
+// here and sent with the next order that actually starts a journey.
+$('#travel-modes')?.addEventListener('click', event => {
+  const button = event.target.closest('button[data-mode]');
+  if (!button || button.disabled) return;
+  const world = window.__snapshot?.world, chosen = world && selectedEntity(world);
+  if (!chosen) return;
+  travelModeByEntity.set(chosen.id, button.dataset.mode);
+  renderedWork = null;
+  render(window.__snapshot);
 });
 $('#news-toggle')?.addEventListener('click', () => {
   const list = $('#news-list'), open = list.hidden;
