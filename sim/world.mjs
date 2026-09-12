@@ -3,7 +3,7 @@ import { record } from './events.mjs';
 import { reportsFor, deliverReports } from './knowledge.mjs';
 import { advanceRoutine } from './routines.mjs';
 import { advanceDirectors, handleChoice, handleMarch, directorProjection } from './directors.mjs';
-import { abandonChore, advanceChores, answerChore, beginChore, choresFor, skillsFor, toolState } from './chores.mjs';
+import { abandonChore, advanceChores, answerChore, askProjection, beginChore, choresFor, skillsFor, toolState } from './chores.mjs';
 import { advanceTown, createTownspeople, observedBy } from './town.mjs';
 import { GOODS, advanceOffers, makeOffer, offersFor, respondToOffer } from './trade.mjs';
 import { buildGonzalesRegion, findPath, polylineLength } from './geography.mjs';
@@ -31,7 +31,7 @@ export function createWorld(seed = 'gonzales', playerCount = 15) {
     // Corn or cotton, fixed at founding: `HIST-GONZ-013` documents both for this
     // locality and nothing else, so a household grows one of the two and never changes.
     const crop = random() < .5 ? 'corn' : 'cotton';
-    const household = { id: householdId, name: `Family ${i}`, homeSiteId: site.id, members: [], principalId: `${householdId}-thomas`, property: [], resources: { food: 12 + Math.floor(random() * 4), seed: 2 }, tools: { hoe: 0 }, field: { crop, state: 'bare', changedTick: 0 }, relationships: { neighbor: 0 }, commitments: [], memories: [] };
+    const household = { id: householdId, name: `Family ${i}`, homeSiteId: site.id, members: [], principalId: `${householdId}-thomas`, property: [], resources: { food: 12 + Math.floor(random() * 4), seed: 2, powder: STARTING_POWDER }, tools: { hoe: 0 }, field: { crop, state: 'bare', changedTick: 0 }, relationships: { neighbor: 0 }, commitments: [], memories: [] };
     world.households[householdId] = household;
     world.knowledge.households[householdId] = {};
     for (const [j, name] of ['Thomas', 'Elena', 'Rosa', 'Mateo'].entries()) {
@@ -64,6 +64,13 @@ export function createWorld(seed = 'gonzales', playerCount = 15) {
   validateWorld(world); return world;
 }
 export { WALK_SPEED, RIDER_SPEED, WAGON_SPEED } from './travel.mjs';
+/**
+ * What a family has in the house at the founding: three shots.
+ *
+ * Enough for a hunt, a second thought, and something to carry upriver, which is exactly
+ * the tension it exists to create. Invented (`FIC-GONZ-016`).
+ */
+export const STARTING_POWDER = 3;
 // How far one person carries a piece of news before somebody else takes it on.
 //
 // `LIVING_INFORMATION.md`: "A rider must start at the actual source or a modeled relay
@@ -443,7 +450,7 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
   const visibleEvents = world.events.filter(e => (householdId && e.householdId === householdId) || (role === 'host' && e.visibility === 'public'));
   const knownIds = new Set(visibleEvents.map(e => e.id));
   const events = visibleEvents.map(e => ({ id: e.id, type: e.type, minute: e.minute, text: e.text, actorId: e.actorId, householdId: e.householdId, causes: e.causes.filter(id => knownIds.has(id)) }));
-  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, location: e.location, travel: e.travel ? { from: e.travel.from, to: e.travel.to, points: e.travel.points, progress: e.travel.progress, distance: e.travel.distance, speed: e.travel.speed, mode: e.travel.mode } : null, health: e.health, task: e.task, skills: e.skills, chore: e.chore, condition: e.condition, species: e.species, laden: e.laden, borrowedBy: e.borrowedBy }));
+  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, location: e.location, travel: e.travel ? { from: e.travel.from, to: e.travel.to, points: e.travel.points, progress: e.travel.progress, distance: e.travel.distance, speed: e.travel.speed, mode: e.travel.mode } : null, health: e.health, task: e.task, skills: e.skills, chore: e.chore?.ask ? { ...e.chore, ask: askProjection(world, household, e) } : e.chore, condition: e.condition, species: e.species, laden: e.laden, borrowedBy: e.borrowedBy }));
   // What each person could be asked to do, with the reason for anything refused, is
   // computed on the server. The client must never decide for itself what is possible:
   // that is the same rule as fog of war, applied to a control instead of a fact.

@@ -11,22 +11,22 @@
     {
       "option": "take",
       "label": "Take the shot",
-      "note": "it is a long shot, and Mateo has never had the knack of it"
+      "note": "One powder. it is a long shot, and Mateo has never had the knack of it"
     },
     {
       "option": "wait",
       "label": "Wait for it to come closer",
-      "note": "Three more hours, and then the shot is a certainty"
+      "note": "One powder, three more hours, and then the shot is a certainty"
     },
     {
       "option": "leave",
       "label": "Leave it and come home",
-      "note": "Nothing to carry, and the rest of the day is the family’s"
+      "note": "Nothing spent, nothing to carry, and the rest of the day is the family’s"
     }
   ],
   "checks": [
     "the hunt stops and asks: \"Mateo is downwind of something, with a shot to take. It is not a close one.\"",
-    "and every answer says what it would cost before it is pressed — Take the shot (it is a long shot, and Mateo has never had the knack of it); Wait for it to come closer (Three more hours, and then the shot is a certainty); Leave it and come home (Nothing to carry, and the rest of the day is the family’s)",
+    "and every answer says what it would cost before it is pressed — Take the shot (One powder. it is a long shot, and Mateo has never had the knack of it); Wait for it to come closer (One powder, three more hours, and then the shot is a certainty); Leave it and come home (Nothing spent, nothing to carry, and the rest of the day is the family’s)",
     "and the person carries a mark, so a student looking at the map knows the hunt is waiting on them",
     "nothing moves while it waits: three ticks passed and the work had not gone a step further",
     "the family answers, and the hunt goes on",

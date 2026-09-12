@@ -9,7 +9,7 @@
     "the hunt says what it will bring home before it is chosen: on foot \"Brings home 5 food of 10; the rest is left behind.\"",
     "choosing the wagon and pressing Travel sends them with the wagon",
     "the ox and the wagon are on the road with him, not left standing at home",
-    "the ox and wagon are drawn travelling, not teleported (1.1px and 1.1px of screen movement)",
+    "the ox and wagon are drawn travelling, not teleported (3.3px and 3.3px of screen movement)",
     "and are drawn with the walking and rolling cycles the art library has always carried",
     "a second person is told who has it, in words: \"Thomas has the ox.\"",
     "and walking is never taken away from anybody",
@@ -17,9 +17,9 @@
   ],
   "measured": {
     "screenPixelsMovedInNineTenthsOfASecond": {
-      "ox": 1.094801501411607,
-      "wagon": 1.094801501411607,
-      "man": 1.094801501411607
+      "ox": 3.273585789355267,
+      "wagon": 3.273585789355267,
+      "man": 2.871398253397093
     },
     "clipsBound": [
       "blue-rest",

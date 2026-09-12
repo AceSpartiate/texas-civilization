@@ -255,6 +255,83 @@ most-complained-about system comes from general familiarity with public discussi
 decision stands on VISION.md §3 and §21 regardless of whether that characterisation is exactly right.
 
 
+---
+
+## 8. Total War — three quarters of it is the thing VISION.md forbids, and two of its ideas are exactly right
+
+Read on the owner's question: *"maybe there's some things we could use from total war that'd help us with
+hunting, and battles."* The honest shape of the answer is that this is the one studied project whose
+**core loop cannot be adopted at all**, and whose *peripheral* ideas are among the best taken so far.
+
+### The central refusal: the unit is not the object of control
+
+Total War's entire grammar is *select a unit, issue an order*. A unit is the atom; the individuals inside
+it are a rendering of it. VISION.md §2 and §4 put the atom somewhere else entirely — a household, and
+named people who stay recognisable — and §16 says outright: *"Do not build a general-purpose tactical war
+game."* Adopting unit selection would not be a feature here; it would replace the game.
+
+This matters beyond battles. It is the reason a hunt is *one person deciding*, and why the answer to
+"should the student command the militia" is no in every form it will be asked.
+
+### Taken: a shot costs something finite
+
+Total War's missile troops carry ammunition and, when it runs out, have only their hands. That is the one
+mechanic in the game that is about **scarcity a player must plan around rather than tactics**, and it
+transplants perfectly — because here it is not an army's logistics, it is a household's shelf.
+
+Powder and lead is now a household resource. A shot spends one; an empty house is said so on the control
+before the answer is pressed; somebody deciding alone with nothing to fire comes away rather than firing.
+It is bought in town for food and an afternoon, and it can be traded to a neighbour.
+
+**It is also the material tie the owner had been reaching for between hunting and taking part.** The
+volunteers at Gonzales were settlers who brought their own arms (`HIST-GONZ-020`), so the powder that goes
+upriver is the powder in the family's house — the same powder a hunt spends. It changes **nothing** about
+the battle, whose outcome `HIST-GONZ-004` fixes; what it changes is the family afterwards, which is the
+only scale at which this game lets anything turn on a student's choice.
+
+### Taken: a fight ends because a side stops, not because it is destroyed
+
+Total War's most celebrated system is morale — units waver, break, rout, shatter — and the design lesson
+underneath it is that **pre-modern battles ended when one side decided to stop**. That is historically
+right and pedagogically valuable, and it was missing here in a small but real way: the Host's captions
+narrated the phases without ever saying *why* the phase changed, which reads as a script advancing.
+
+Taken as **explanation, not simulation**. The outcome is a documented invariant and no morale model may
+touch it, so what changed is two sentences: the exchange now says neither side is destroyed and both are
+deciding whether to go on, and the withdrawal says the detachment was not beaten down — it broke off.
+A caption is the whole of it, and it is the right size for this idea in this game.
+
+### Already here, and from better sources
+
+| Total War idea | Verdict |
+| --- | --- |
+| Fatigue degrading what a unit can do | **Already implemented, and better integrated.** Here fatigue comes from the roads a family chose and reaches all the way to whether a hunter can make a shot. Total War's is a battlefield timer; ours is a consequence of geography. |
+| Aggregate formations that resolve into individuals | **Already implemented**, taken from 0 A.D. in §4 and guarded by `tests/aggregate-identity.test.mjs`. |
+| A camera that drops to ground level among the people | **Already implemented** — the map is miniature people at every zoom, per VISION.md §4. |
+| Pause and speed control during a battle | **Already implemented** — the Host's Study/Brisk/Quick, which is about a lesson rather than a fight. |
+| A deployment phase: choose before an uncontrollable process runs | **Already the shape of the march.** A family decides whether to go, and then it happens to them. Worth naming rather than building. |
+| An after-action report | **Already specified and better** — VISION.md §20's epilogue is built from the family's own event log, not a casualty table. |
+
+### Refused, deliberately
+
+| Total War idea | Verdict |
+| --- | --- |
+| Flanking, facing, formation shape, high ground | **Refused.** This is the tactical war game §16 forbids by name. |
+| Unit cards and unit selection | **Refused** — see the central refusal above. It would replace the family perspective. |
+| Veterancy: units improve with use | **Refused, and it was tempting.** A hunter who got steadier with practice would make the hunt a *literal* tutorial. But skill here is fixed at founding on purpose — a household that has nobody handy has to go into town or ask a neighbour, which is the pressure that makes the town matter — and veterancy would let a lucky family snowball inside one lesson. VISION.md §7 also warns against overbuilding character depth. |
+| Battlefield line of sight as a per-soldier system | **Held, not refused.** Who sees what is already the game's central idea; applying it *within* a battle — somebody at the camp sees a different fight from somebody who stayed in town — is a real future step and belongs to the Battle Director. |
+| Campaign-map empire management | **Refused.** Students guide households, not governments (VISION.md §2). |
+
+### Access limitation
+
+Like §7, this was **not written from source** — Total War is commercial and closed. The mechanics above
+were checked against the series' own published manual and wiki material through search (the morale ladder
+of *eager / steady / wavering / routing*, the distinction between **broken** and **shattered**, casualties
+and fatigue and flanking as morale inputs, and missile units falling back to melee when ammunition is
+spent). Those are accurate as descriptions of the games; nothing here is a claim about how they are
+implemented, and no code was read.
+
+
 ## What was actually taken
 
 
@@ -279,6 +356,11 @@ decision stands on VISION.md §3 and §21 regardless of whether that characteris
 | Capacity as a cap on what a trip brings home | Farming/settlement games | **Implemented** — the `produce` clamp in `sim/chores.mjs` |
 | Animal upkeep as a recurring feeding chore | Ostriv | **Rejected** — "the ox is away while you use it" delivers the idea without the alarm clock |
 | Seasons, weather, needs meters, equipment tiers | Farming/settlement games | **Rejected** — VISION.md Tier 3, and exertion already speaks in words |
+| A shot costs something finite, and running out changes what you can do | Total War, narrowed to a household | **Implemented** — powder and lead in `sim/chores.mjs`; `HIST-GONZ-020`, `FIC-GONZ-016` |
+| A fight ends because a side stops, not because it is destroyed | Total War's morale, as explanation | **Implemented** — two Host captions; never a model, because the outcome is a documented invariant |
+| The unit as the object of control | Total War | **Rejected outright** — it would replace the family perspective, not extend it |
+| Flanking, facing, formations, high ground | Total War | **Rejected** — VISION.md §16 forbids a general-purpose tactical war game by name |
+| Veterancy: people improve with use | Total War | **Rejected** — skill is fixed at founding so a family without the handy member must ask a neighbour; veterancy would let one snowball inside a lesson |
 
 ## Access limitations
 

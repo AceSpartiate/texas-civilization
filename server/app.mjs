@@ -5,6 +5,7 @@ import { basename, isAbsolute, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createWorld, stepWorld, projectWorld, projectMap, applyAction, validateWorld } from '../sim/world.mjs';
 import { choreCatalogue, modeCatalogue } from '../sim/chores.mjs';
+import { GOODS } from '../sim/trade.mjs';
 import { readSave, writeSave, acquireSaveLock, archiveSave } from './storage.mjs';
 
 const token = () => randomBytes(24).toString('hex');
@@ -306,7 +307,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       if (req.method === 'GET' && url.pathname === '/api/map') return json(res, 200, { mapId: state.sessionId, map: projectMap(state.world) });
       // The list of work that exists never changes during a class; only who may do it
       // does, and that rides on the tick. Same reason the map is fetched once.
-      if (req.method === 'GET' && url.pathname === '/api/chores') return json(res, 200, { mapId: state.sessionId, chores: choreCatalogue(), modes: modeCatalogue() });
+      if (req.method === 'GET' && url.pathname === '/api/chores') return json(res, 200, { mapId: state.sessionId, chores: choreCatalogue(), modes: modeCatalogue(), goods: GOODS });
       if (req.method === 'GET' && url.pathname === '/api/events') {
         if ([...streams].filter(s => s.identity.role === identity.role && s.identity.householdId === identity.householdId).length >= 3) return json(res, 429, { error: 'Too many open tabs for this household.' });
         res.writeHead(200, { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache, no-transform', Connection: 'keep-alive', 'X-Accel-Buffering': 'no' });

@@ -1,0 +1,110 @@
+[
+  {
+    "injected": "a shot costs nothing, so powder is a number nobody spends",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "a family keeps powder in the house, and a shot spends it"
+    ]
+  },
+  {
+    "injected": "an empty house is still offered the shot",
+    "caught": 3,
+    "filesFailing": 1,
+    "by": [
+      "an empty house is told so on the control, and the answer is refused if it arrives anyway",
+      "nobody decides alone to fire a gun they cannot load",
+      "the hunt says whether the house is dry before anybody sets out"
+    ]
+  },
+  {
+    "injected": "waiting stops needing powder, so the cost is one answer away",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "an empty house is told so on the control, and the answer is refused if it arrives anyway"
+    ]
+  },
+  {
+    "injected": "coming away is shut when the house is dry, so the hunt becomes a trap",
+    "caught": 2,
+    "filesFailing": 1,
+    "by": [
+      "an empty house is told so on the control, and the answer is refused if it arrives anyway",
+      "the hunt says whether the house is dry before anybody sets out"
+    ]
+  },
+  {
+    "injected": "the answer is trusted from when it was offered instead of when it arrives",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "an empty house is told so on the control, and the answer is refused if it arrives anyway"
+    ]
+  },
+  {
+    "injected": "somebody deciding alone fires a rifle they cannot load",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "nobody decides alone to fire a gun they cannot load"
+    ]
+  },
+  {
+    "injected": "there is nowhere to buy more",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "there is somewhere to get more, and it costs an afternoon and food"
+    ]
+  },
+  {
+    "injected": "the trader stops dealing in stores",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "there is somewhere to get more, and it costs an afternoon and food"
+    ]
+  },
+  {
+    "injected": "going upriver takes nothing out of the house",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "the powder that goes upriver is the powder that is not in the timber"
+    ]
+  },
+  {
+    "injected": "a family with no powder is shut out of going upriver",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "a family with nothing to send is not stopped from going"
+    ]
+  },
+  {
+    "injected": "powder cannot be traded between neighbours",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "powder can be traded, because a family may have one thing and want another"
+    ]
+  },
+  {
+    "injected": "a class saved before powder existed opens unable to hunt",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "a class saved before a shot cost anything opens with its powder, not without it"
+    ]
+  },
+  {
+    "injected": "the per-tick channel starts carrying numbers nobody reads again",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "the chore catalogue is static and stays off the per-tick channel"
+    ],
+    "note": "Missed twice before it was caught, and neither miss was the code. The first was a real hole: the payload size bound is a ceiling that catches gross growth, not creep, and about ninety bytes went back on the channel unnoticed - the work entry now has an allow-list of keys, so adding one is a decision. The second was the harness: its fallback re-ran the single test file *after* the finally block had already restored the injection, so it measured healthy code and reported zero."
+  }
+]

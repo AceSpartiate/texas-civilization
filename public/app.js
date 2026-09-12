@@ -57,6 +57,7 @@ function ensureChores(snapshot) {
     if (!result?.chores) return;
     choreCache = new Map(result.chores.map(chore => [chore.id, chore]));
     modeCache = new Map((result.modes || []).map(mode => [mode.id, mode]));
+    if (result.goods?.length) TRADE_GOODS = result.goods;
     choreCacheId = result.mapId;
     if (window.__snapshot) render(window.__snapshot);
   }).catch(() => { chorePending = null; });
@@ -1212,7 +1213,11 @@ function renderHousehold(world) {
 // the neighbour standing beside your family and the offer is there. Nothing here decides
 // what is allowed - an impossible offer is refused by the server, in its own words, and
 // those words are what the student reads.
-const TRADE_GOODS = ['seed', 'food'];
+// What can be traded, taken from the catalogue the server sends rather than written out
+// again here. It was written out again here, and the two were already different orders of
+// the same two words - a drift that would have quietly hidden a third good the day one
+// was added. The literal is a fallback for a page that has not fetched the catalogue yet.
+let TRADE_GOODS = ['seed', 'food'];
 function goodSelect(id, initial) {
   const select = element('select');
   select.id = id;
@@ -1410,12 +1415,17 @@ function populateWork(world, chosen, running) {
       const button = element('button', '', 'work-option ask-option-work');
       button.dataset.action = 'answer-chore';
       button.dataset.option = option.id;
-      button.disabled = !running;
+      // `can` is false when the world would refuse this answer now - there is no powder in
+      // the house, say. The price beside it was quoted when the question was asked and does
+      // not move; whether the answer is open is live. Both come from the server.
+      const open = option.can !== false;
+      button.disabled = !running || !open;
+      if (!open) button.title = option.why;
       button.append(element('span', option.label, 'work-name'));
       // What this answer costs, in the person's own terms, before it is pressed. The same
       // rule the march upriver follows: a control that does not say what it will do is
       // worse than no control.
-      button.append(element('span', option.note, 'work-note'));
+      button.append(element('span', open ? option.note : option.why, 'work-note'));
       host.append(button);
     }
     const stop = element('button', 'Call off the work');

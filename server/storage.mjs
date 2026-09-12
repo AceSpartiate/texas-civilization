@@ -1,4 +1,5 @@
 import { mkdirSync, readFileSync, writeFileSync, renameSync, existsSync, openSync, fsyncSync, closeSync, unlinkSync, realpathSync } from 'node:fs';
+import { STARTING_POWDER } from '../sim/world.mjs';
 import { dirname, basename, join, resolve } from 'node:path';
 import { randomBytes } from 'node:crypto';
 
@@ -45,6 +46,15 @@ export function readSave(path) {
   if (!path || !existsSync(path)) return null;
   const save = JSON.parse(readFileSync(path, 'utf8'));
   if (save.saveVersion !== 3) throw new Error(`Unsupported save version ${save.saveVersion}; refusing to reset the class. This class was made by an older build.`);
+  // A class saved before a shot cost anything has no powder on its households, and the
+  // empty value that keeps what was true of them is not "none": those families could
+  // hunt. Filled once here rather than defaulted at every reader, because one absent
+  // number must not mean three in the house to a chore and nothing at all to a trade -
+  // and this is the single door every save comes through. No version moved: the field is
+  // added, nothing is reinterpreted, and a save written back is simply complete.
+  for (const household of Object.values(save.world?.households || {})) {
+    if (household?.resources && household.resources.powder === undefined) household.resources.powder = STARTING_POWDER;
+  }
   return save;
 }
 // Keep the previous class before a deliberate reset. This is an explicit teacher

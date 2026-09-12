@@ -21,7 +21,10 @@ import { record } from './events.mjs';
 // The two things a household actually keeps. Tools are not traded: a hoe is a wear count
 // rather than a countable stock, and the pressure the design wants from a worn hoe is
 // that somebody handy has to mend it, not that it can be bought from next door.
-export const GOODS = ['food', 'seed'];
+// Powder is tradeable for the same reason food and seed are: a family can have one and
+// want another. It is the good most likely to be unevenly spread, because what a family
+// spends it on - hunting, and going upriver - is a choice rather than a routine.
+export const GOODS = ['food', 'seed', 'powder'];
 export const MAX_AMOUNT = 20;
 export const MAX_OPEN_OFFERS = 3;
 

@@ -161,6 +161,25 @@ test('the chore catalogue is static and stays off the per-tick channel', () => {
       assert.ok(typeof entry.can === 'boolean' && entry.id);
     }
   }
+  // Exactly these keys and no others.
+  //
+  // The size bound below is a ceiling and catches gross growth; it cannot see creep. A
+  // field worth about ninety bytes went back onto this channel during the powder work and
+  // nothing noticed, which is how a per-tick payload grows: not in one careless step but
+  // in a dozen small ones nobody had a reason to refuse. So the shape is an allow-list.
+  // Adding a key here is a decision, and the client must actually read it.
+  const allowed = new Set(['id', 'can', 'why', 'cost', 'haul', 'crop']);
+  const haulKeys = new Set(['resource', 'got']);
+  for (const offered of Object.values(projected.work)) {
+    for (const entry of offered) {
+      for (const key of Object.keys(entry)) {
+        assert.ok(allowed.has(key), `"${key}" rides on every work entry every tick; does anything read it?`);
+      }
+      for (const key of Object.keys(entry.haul || {})) {
+        assert.ok(haulKeys.has(key), `haul.${key} rides on the tick channel; the control works it out from got and carry`);
+      }
+    }
+  }
   // And the whole projection stays small.
   const size = JSON.stringify(projected).length;
   assert.ok(size < 6000, `a student's per-tick payload is ${size} bytes, which is too large`);

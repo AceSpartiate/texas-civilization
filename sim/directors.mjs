@@ -1,4 +1,5 @@
 import { record } from './events.mjs';
+import { SHOT_COST } from './chores.mjs';
 import { establishTruth, learn } from './knowledge.mjs';
 import { TIRING_MILES } from './routines.mjs';
 
@@ -12,8 +13,8 @@ export const HISTORICAL_OUTCOME = 'Mexican detachment withdraws; Texians retain 
 const captions = {
   gathering: 'People gather near Gonzales. Supplies and civilian work support them.',
   approach: 'Texian militia advances toward the Mexican camp on the morning of October 2.',
-  exchange: 'A brief clash takes place. The Texians fire the cannon.',
-  withdrawal: 'The Mexican detachment withdraws toward Béxar.',
+  exchange: 'A brief clash takes place. The Texians fire the cannon. Neither side is destroyed; both are deciding whether to go on.',
+  withdrawal: 'The Mexican detachment breaks off and withdraws toward Béxar. They were not beaten down - they were ordered not to force a fight, and they stopped.',
   resolved: HISTORICAL_OUTCOME,
 };
 // Where the clash actually stood, read off the map rather than written down here.
@@ -171,8 +172,15 @@ export function requestOptions(world, householdId, request, kind) {
   const entity = world.entities[request.actorId || household.principalId];
   const offer = (id, label, note) => ({ id, label, note, ...callAvailability(world, householdId, entity, id) });
   if (kind === 'march') {
+    // What they take with them, said on the control. The volunteers at Gonzales were
+    // settlers who brought their own arms (`HIST-GONZ-020`), so the powder that goes
+    // upriver is the powder in this family's house - the same powder a hunt spends.
+    // The rule, not a running count. A number read off the store the moment the control
+    // is drawn would change under a student while they read it - which is the same defect
+    // the stored `risk` exists to prevent. What actually went is recorded afterwards.
+    const taking = ` ${entity.name} takes up to ${MARCH_POWDER} powder out of the house.`;
     return [
-      offer('go-upriver', 'Go upriver to the camp', request.risk || `${entity.name} would go on with them.`),
+      offer('go-upriver', 'Go upriver to the camp', `${request.risk || `${entity.name} would go on with them.`}${taking}`),
       offer('stay-in-town', 'Stay in town with the supplies', `The supplies go on without ${entity.name}.`),
     ];
   }
@@ -182,6 +190,18 @@ export function requestOptions(world, householdId, request, kind) {
     offer('stay', 'Stay home and prepare', `One food set aside, and ${entity.name} stays where the family can use them.`),
   ];
 }
+
+/**
+ * What somebody going upriver carries out of the house.
+ *
+ * Two, or whatever is left. Invented like every other number here (`FIC-GONZ-016`), and
+ * the point of it is not the fight - `HIST-GONZ-004` fixes that outcome and nothing a
+ * family does may touch it. The point is afterwards: a household that sent its powder up
+ * the river has none for the timber, and buying more costs food and an afternoon. The
+ * consequence is the family's, which is the only scale at which this game lets anything
+ * turn on what a student chose.
+ */
+export const MARCH_POWDER = 2;
 
 export function handleMarch(world, householdId, entity, action, { beginTravel, travelRefusal }, mode) {
   const march = world.marches?.[householdId];
@@ -206,6 +226,15 @@ export function handleMarch(world, householdId, entity, action, { beginTravel, t
   });
   if (action === 'go-upriver') {
     entity.commitments.push({ id: 'gonzales-march', type: 'service', status: 'active', choiceId: march.choiceId });
+    const household = world.households[householdId];
+    const carried = Math.min(MARCH_POWDER, household.resources.powder ?? 0);
+    if (carried > 0) {
+      household.resources.powder = Math.round((household.resources.powder - carried) * 10000) / 10000;
+      record(world, 'property', {
+        actorId: entity.id, householdId, importance: 2, causes: [march.choiceId],
+        text: `${entity.name} took ${carried} powder up the river. There is ${household.resources.powder} left in the house.`,
+      });
+    }
     // A real journey over the ford and up the west bank. `findPath` routes it; nobody is
     // ever placed at the camp without having walked there.
     beginTravel(world, entity, CAMP_SITE, march.choiceId, 'help', mode);

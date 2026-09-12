@@ -34,6 +34,12 @@ A chore is a list of steps — `walk`, `travel`, `work`, `consume`, `produce`, `
 
 Which chores a person may be given, and the reason for any that are refused, are computed on the server and delivered in the projection as `work`. The client renders that answer; it never decides for itself what is possible. That is the fog-of-war rule applied to a control rather than to a fact.
 
+**Powder is the one resource two different systems spend.** A shot in `sim/chores.mjs` takes one; going upriver in `sim/directors.mjs` takes up to two out of the same house. It is deliberately the smallest possible new thing — one number on `household.resources`, one chore that buys it, one entry in `GOODS` — because what earns its place is not the resource but the tie: the powder a family spends hunting is the powder that is not there when somebody is asked to go.
+
+It touches no outcome it must not. `HIST-GONZ-004` fixes the battle and nothing here moves it; a household with none may still go and carry supplies, which is what the request actually asks. What changes is the family afterwards.
+
+A class saved before any of this has no powder on its households, and the empty value that keeps what was true of them is the **full** house rather than none — those families could hunt. It is filled in `readSave`, the one door every save comes through, so one absent number cannot mean three to a chore and nothing to a trade. No save version moved. See [docs/REFERENCE_ARCHITECTURES.md §8](docs/REFERENCE_ARCHITECTURES.md).
+
 **Every decision is one control.** A call from a neighbour and a question from inside a chore are the same thing to a student, so they are now the same thing on screen: a line of text, and answers that each carry their own price and their own reason for being shut. `requestOptions` in [sim/directors.mjs](sim/directors.mjs) builds a call's answers in exactly the shape `ASKS` gives a chore's, and one renderer draws both. The four hard-coded decision buttons are gone.
 
 `callAvailability` is asked by the control **and** by the handler, which is the half that matters: what a button says is open is what the world will allow. That was a live defect rather than a hypothesis — "Help · 2 food" sat there enabled for a household with one food and failed on the press. `choreAvailability` learned this first; this is the same lesson arriving at the decision the lesson turns on.

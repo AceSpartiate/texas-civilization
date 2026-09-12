@@ -19,7 +19,7 @@ import { facingOf, ridersInSight } from './encounters.mjs';
 
 export const RESIDENTS = [
   {
-    id: 'town-ibarra', name: 'Marta Ibarra', trade: 'seed',
+    id: 'town-ibarra', name: 'Marta Ibarra', trade: 'seed', deals: ['seed', 'powder'],
     // Deliberately mixed: DeWitt's colony was in Mexican Texas, and a town there was not
     // uniformly Anglo. This is a fictional person, not a representative of anyone.
     about: 'trades seed and stores out of a cabin off the commons',
@@ -47,7 +47,11 @@ export function createTownspeople(world) {
     world.entities[resident.id] = {
       id: resident.id, name: resident.name, kind: 'person',
       // No household: they are not anybody's family, and no student commands them.
+      // `resident` is what this person is known for and is what the student is shown;
+      // `deals` is everything they will actually trade in. Marta's own description has
+      // always said "seed and stores", and powder is stores.
       householdId: null, depth: 'moderate', principal: false, resident: resident.trade || 'none',
+      deals: resident.deals || [resident.trade].filter(Boolean),
       location: { x: round(town.x + resident.round[0].x), y: round(town.y + resident.round[0].y), siteId: 'gonzales' },
       travel: null, health: { condition: 'well' }, task: 'work',
     };
@@ -74,8 +78,11 @@ export function advanceTown(world) {
 
 /** Whoever is standing at this site and deals in this trade, or null. */
 export function traderAt(world, siteId, trade) {
+  // A class saved before anybody dealt in more than one thing has no `deals`, and the
+  // correct reading of that is the one trade they were known for - so no save moved.
   return Object.values(world.entities).find(entity =>
-    entity.resident === trade && entity.location?.siteId === siteId && entity.health?.condition === 'well') || null;
+    (entity.deals ? entity.deals.includes(trade) : entity.resident === trade)
+    && entity.location?.siteId === siteId && entity.health?.condition === 'well') || null;
 }
 
 export function recordTrade(world, householdId, entity, trader, what) {

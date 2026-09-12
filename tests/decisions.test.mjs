@@ -146,7 +146,10 @@ test('the price of going upriver is the one that was quoted, not a fresh reading
   assert.ok(march);
   const quoted = march.options.find(option => option.id === 'go-upriver').note;
   assert.ok(quoted && quoted.length > 10);
-  assert.equal(quoted, world.marches['hh-1'].risk, 'the control is reading the risk fresh instead of the one on the offer');
+  assert.ok(quoted.startsWith(world.marches['hh-1'].risk), 'the control is reading the risk fresh instead of the one on the offer');
+  // What they carry is stated as the rule rather than as a count, so it cannot move under
+  // a student either: the record afterwards says how much actually went.
+  assert.match(quoted, /powder/);
   // And it holds when the person's state moves under it, which is the only way a fresh
   // reading is visible at all: comparing the note to the stored risk cannot tell them
   // apart while the two would agree anyway.

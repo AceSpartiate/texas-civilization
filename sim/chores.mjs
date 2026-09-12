@@ -74,6 +74,40 @@ export function unsteadyBecause(entity) {
 }
 
 /**
+ * What a shot spends.
+ *
+ * Powder and lead, counted together as the one thing a muzzle-loader needs to be fired -
+ * "as long as a man had lead, powder, and caps, he could shoot". `HIST-GONZ-020`. It is
+ * the material tie between a family's ordinary work and the fight it may be asked to
+ * join: the same barrel of powder feeds the hunt and goes upriver with whoever goes.
+ */
+export const SHOT_COST = 1;
+export const dryHouse = household => (household.resources?.powder ?? 0) < SHOT_COST;
+
+/**
+ * Whether an answer is open to this family right now, and why not.
+ *
+ * Split from the note on purpose, and the split matters. The **price** on an answer is
+ * quoted once and frozen, so it cannot change under a student who is reading it - the
+ * march learned that first. Whether the answer is **open** is live, because a sibling may
+ * have come home with powder in the meantime, and offering an answer the world would
+ * refuse is the defect `callAvailability` exists to prevent.
+ */
+export function askAvailability(world, household, entity, optionId) {
+  if (['take', 'wait'].includes(optionId) && dryHouse(household)) {
+    return { can: false, why: 'There is no powder and lead in the house.' };
+  }
+  return { can: true, why: '' };
+}
+
+/** A question as the family should see it: the quoted prices, and what is open right now. */
+export function askProjection(world, household, entity) {
+  const ask = entity.chore?.ask;
+  if (!ask) return null;
+  return { ...ask, options: ask.options.map(option => ({ ...option, ...askAvailability(world, household, entity, option.id) })) };
+}
+
+/**
  * The one decision inside a hunt.
  *
  * A student used to press Hunt and receive food some minutes later, which is a dispatch
@@ -89,9 +123,9 @@ export const ASKS = {
     fallback: 'take',
     text: entity => `${entity.name} is downwind of something, with a shot to take. It is not a close one.`,
     options: entity => [
-      { id: 'take', label: 'Take the shot', note: unsteadyBecause(entity) || `${entity.name} is steady, and it is within reach` },
-      { id: 'wait', label: 'Wait for it to come closer', note: 'Three more hours, and then the shot is a certainty' },
-      { id: 'leave', label: 'Leave it and come home', note: 'Nothing to carry, and the rest of the day is the family\u2019s' },
+      { id: 'take', label: 'Take the shot', note: `One powder. ${unsteadyBecause(entity) || `${entity.name} is steady, and it is within reach`}` },
+      { id: 'wait', label: 'Wait for it to come closer', note: 'One powder, three more hours, and then the shot is a certainty' },
+      { id: 'leave', label: 'Leave it and come home', note: 'Nothing spent, nothing to carry, and the rest of the day is the family\u2019s' },
     ],
   },
 };
@@ -205,6 +239,19 @@ export const CHORES = {
       { when: ['take', 'wait'], strike: { food: 10 } },
       { when: ['carrying'], travel: 'home', doing: 'carrying it home from the timber' },
       { when: ['empty'], travel: 'home', doing: 'coming home from the timber with nothing' },
+    ],
+  },
+  'fetch-powder': {
+    name: 'Buy powder and lead in Gonzales', skill: 'hands', where: 'home', hauls: true,
+    needs: { food: 2 },
+    describe: 'Trade in town for powder and lead. A shot spends one, and whoever goes upriver takes what is in the house with them.',
+    steps: [
+      { travel: 'gonzales', doing: 'on the road to Gonzales' },
+      { work: 2, doing: 'looking for the trader' },
+      { trade: 'powder', doing: 'trading for powder and lead' },
+      { consume: { food: 2 } },
+      { produce: { powder: 3 } },
+      { travel: 'home', doing: 'walking home from Gonzales' },
     ],
   },
   'fetch-seed': {
@@ -391,15 +438,22 @@ export function choresFor(world, household, entity) {
     // cap. The cap itself is the mode's `carry`, which the projection sends alongside; the
     // control puts the two together so a student sees what a choice costs before making
     // it, which is `FIC-GONZ-008`'s rule about visible outcomes applied to a number.
-    const haul = chore.hauls ? haulFor(entity, id) : null;
+    // What this person's own hands would bring back, before any cap. `kept` is left off
+    // deliberately: the control works it out from this and the mode's `carry`, which the
+    // projection already sends, and a second copy of a number nobody reads is exactly the
+    // freight this channel is not for.
+    const full = chore.hauls ? haulFor(entity, id) : null;
+    const haul = full && { resource: full.resource, got: full.got };
     // What this one actually costs this family today, and what the field would give back.
     const cost = Object.entries(needsOf(household, chore)).map(([resource, amount]) => `${amount} ${resource}`).join(', ');
     const crop = chore.wantsWagon
       ? { grown: round(yieldFor(standingCrop(household), entity.skills?.[chore.skill] ?? 1)), share: harvestShare(household) }
       : null;
+    // `level` used to ride here for every chore for every person and was read by nothing
+    // at all - thirty-six copies a tick of a number with no reader.
     return can
-      ? { id, can: true, level: entity.skills?.[chore.skill] ?? 1, ...(cost && { cost }), ...(haul && { haul }), ...(crop && { crop }) }
-      : { id, can: false, why, level: entity.skills?.[chore.skill] ?? 1, ...(cost && { cost }), ...(haul && { haul }), ...(crop && { crop }) };
+      ? { id, can: true, ...(cost && { cost }), ...(haul && { haul }), ...(crop && { crop }) }
+      : { id, can: false, why, ...(cost && { cost }), ...(haul && { haul }), ...(crop && { crop }) };
   });
 }
 
@@ -431,6 +485,11 @@ export function answerChore(world, household, entity, option) {
   const ask = entity.chore?.ask;
   if (!ask) throw new Error('Nobody is waiting on an answer.');
   if (!ask.options.some(candidate => candidate.id === option)) throw new Error('That is not one of the answers.');
+  // Asked again at the moment it is answered rather than trusted from when it was offered:
+  // a household's powder can change while somebody stands in a wood, and a control that
+  // says a thing is possible must not be refused on the press.
+  const allowed = askAvailability(world, household, entity, option);
+  if (!allowed.can) throw new Error(allowed.why);
   return settleAsk(world, household, entity, option, false);
 }
 
@@ -487,7 +546,10 @@ function advanceChore(world, household, entity, { beginTravel }) {
   // is a question in name only.
   if (state.ask) {
     if (world.minute - state.ask.openedMinute < ASK_PATIENCE) return;
-    settleAsk(world, household, entity, state.ask.fallback, true);
+    // Deciding alone still cannot do the impossible. A person with nothing to fire comes
+    // away, which is what they would actually do.
+    const alone = askAvailability(world, household, entity, state.ask.fallback).can ? state.ask.fallback : 'leave';
+    settleAsk(world, household, entity, alone, true);
   }
   // Spend a tick of the current step, and only move on once it is actually paid for.
   // Returning here whenever the counter was non-zero would cost one extra tick per step,
@@ -578,6 +640,7 @@ function advanceChore(world, household, entity, { beginTravel }) {
       // Recorded because it is a thing that happened in a place at a time: a shot carries,
       // and the day somebody wants a neighbour to have heard one, this is what they hang
       // it on. It names no animal, because no animal has been named.
+      household.resources.powder = round(Math.max(0, (household.resources.powder ?? 0) - SHOT_COST));
       record(world, 'hunt', {
         actorId: entity.id, householdId: household.id,
         text: `${entity.name} fired in the timber.`,
@@ -663,7 +726,7 @@ function advanceChore(world, household, entity, { beginTravel }) {
         return abandonChore(world, household, entity, chore);
       }
       state.tradedWith = trader.name;
-      recordTrade(world, household.id, entity, trader, step.trade === 'iron' ? 'a hoe' : step.trade);
+      recordTrade(world, household.id, entity, trader, step.trade === 'iron' ? 'a hoe' : step.trade === 'powder' ? 'powder and lead' : step.trade);
       continue;
     }
     if (step.mend) { household.tools[step.mend] = 0; continue; }
