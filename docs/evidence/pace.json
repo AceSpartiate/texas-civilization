@@ -1,0 +1,44 @@
+{
+  "record": "pace",
+  "date": "2026-09-11",
+  "ownerDirection": "\"the characters are moving way too fast. they should be moving at realistic speeds.\"",
+  "finding": {
+    "theSpeedsWereAlreadyRight": "WALK_SPEED is one mile per twenty-minute tick, which is 3.0 mph. RIDER_SPEED is 2.6, which is 7.8 mph. Both are correct for 1835 and neither was changed.",
+    "whatWasWrong": "One real second per tick. At twenty fictional minutes a second - 1200x real time - a walking figure crossed 8.7 of its own drawn body lengths every second, against 0.78 for a person walking at three miles an hour. The figure was eleven times too fast for its own size. The gait animation was already correct at 2.8 steps a second, which is exactly why it looked wrong: the legs stepped at life speed while the body took a nineteen-hundred-foot stride.",
+    "zoomCouldNotHaveFixedIt": "Screen speed is scale multiplied by miles per second, and the drawn height of a person is also proportional to scale, so the scale cancels. No camera framing and no sprite size could have changed the ratio. Only real seconds per tick could.",
+    "theHappyAccident": "The tick that makes the gait honest (about 9.5 seconds) is the same tick that makes the existing Gonzales slice fill a 45-minute class period. The slice had been running in 4 minutes 44 seconds against a stated 45-minute lesson, so the fix for the complaint and the fix for the lesson length are one number."
+  },
+  "change": {
+    "paces": "PACES = { study: 9500, brisk: 4000, quick: 1000 }, offered to the teacher as Study, Brisk and Quick. Study is the default. Quick is the old pace, kept because every measurement taken before today was taken at it.",
+    "whatDoesNotChange": "Nothing under sim/ reads the pace. A tick is twenty fictional minutes, a settler walks three miles an hour, and every distance, arrival and decision is identical at all three. Only the number of real minutes a class spends watching the same fictional afternoon changes.",
+    "notSaved": "The pace is deliberately outside the world and outside the save. A class reopened tomorrow opens at the pace the build ships with.",
+    "interpolation": "public/motion.js spread one tick's movement across at most one second. That was invisible while a tick was a second and became a bug the moment a class could be slowed: a traveller glided for a second and then stood frozen for the remaining eight and a half. The snapshot now carries tickMs and the renderer paces itself by it."
+  },
+  "measured": {
+    "method": "A real browser, one household, one person walking to Gonzales, sampling the position each figure was actually DRAWN at rather than the position last sent - the projection only moves once a tick while the figure is drawn every frame between. window.__drawnAt was added for this, on the same contract as window.__viewEntities and window.__animationClips: presentation evidence, read by proofs and by nothing in the application.",
+    "bodyLengthsPerSecond": { "quick": 8.82, "brisk": 1.65, "study": 0.56, "aRealWalker": 0.78 },
+    "note": "The 8.82 figure was taken from the projection, which is exact. The study and brisk figures were taken from drawn frames and are approximate: headless Chrome renders at a few frames a second, so they carry sampling noise. They are reported to show the band, not to three decimal places.",
+    "smoothnessNotProved": "Whether the walk looks smooth rather than stepped could not be measured headlessly - the browser's own frame rate dominated the result. The interpolation is instead proved directly in tests/pace.test.mjs, which drives ProjectionMotion at 1000, 4000 and 9500 ms and asserts the traveller is a quarter of the way along at a quarter of the way through the tick, and still moving at nine tenths."
+  },
+  "regressionDiscipline": {
+    "rule": "CLAUDE.md: a new test is not evidence until it has failed.",
+    "newFile": "tests/pace.test.mjs, 7 tests",
+    "fullSuite": "148 pass, 0 fail",
+    "injectedRegressions": [
+      { "injected": "the pace ladder loses its slow end, so a walk is a sprint again", "caught": 1 },
+      { "injected": "changing the pace forgets to rebuild the interval", "caught": 1 },
+      { "injected": "any string is accepted as a pace", "caught": 1 },
+      { "injected": "the class is never told how long a tick lasts", "caught": 1 },
+      { "injected": "a student may change the pace", "caught": 1 },
+      { "injected": "the shipped default goes back to the pace that caused the complaint", "caught": 1 },
+      { "injected": "the renderer clamps a tick of walking to one second again", "caught": 1 }
+    ],
+    "oneGuardWasMissing": "The sixth injection - the shipped entry point defaulting back to the one-second tick - was caught by nothing on the first pass. Every other test passed happily while the thing a teacher actually opens went back to the pace that caused the complaint. server/main.mjs cannot be imported, because loading it starts a real server, so the guard reads the file and asserts the fallback names PACES.study. The first attempt to inject that regression was also faulty - it replaced the phrase in a comment rather than in the code - and reported a false pass until it was aimed properly."
+  },
+  "notProved": [
+    "That 9.5 seconds is the right pace for a real room. It is the pace at which the arithmetic works; no class has watched it.",
+    "That a 45-minute slice holds a group of twelve-year-olds. Filling the period was never the hard part of filling the period.",
+    "That the walk looks right to a person. The ratio is now within the band a real walker occupies; whether it reads as walking on a projector is a classroom question.",
+    "Anything about the rest of the pace's consequences: at 9.5 seconds a tick, every wait in the scenario is 9.5 times longer in real time, including a rider's patience and every chore. Those numbers were tuned against a one-second tick and have not been retuned."
+  ]
+}

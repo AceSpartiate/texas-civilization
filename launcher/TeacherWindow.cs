@@ -25,6 +25,7 @@ public sealed class TeacherWindow : Form
     public TeacherWindow(string hostUrl)
     {
         Text = "Texas Revolution — class view";
+        Branding.Apply(this);
         StartPosition = FormStartPosition.CenterScreen;
         Width = 1280;
         Height = 800;

@@ -315,5 +315,13 @@
     "An edit returned baked checkerboard pixels and was not shipped.",
     "The first military-actions sheet clipped hands/weapons; a clean regeneration replaced it.",
     "The later rounded Alamo facade remains only in its original source sheet; its cell is excluded from every usable frame and clip."
-  ]
+  ],
+  "applicationIcon": {
+    "file": "launcher/TexasRevolution.ico",
+    "source": "launcher/icon-source.png",
+    "origin": "Supplied by the owner, 2026-09-11. Generated with ChatGPT and handed over as a PNG with a transparent field.",
+    "postProcessing": "Trimmed to the emblem, squared with transparent padding, and written as a multi-resolution .ico at 16, 24, 32, 48, 64, 128 and 256 pixels. No recolouring and no redrawing.",
+    "whereItAppears": "The executable, and from there Explorer, the taskbar, the Start menu entry and the desktop shortcut, plus the title bar of every window the launcher opens.",
+    "note": "Decorative, and not a historical illustration. It is a general Texas emblem: the Alamo it shows is San Antonio in 1836, a different place and a later year than the Gonzales afternoon this prototype simulates. Nothing in the game reads it and it makes no historical claim."
+  }
 }

@@ -61,9 +61,41 @@ async function body(req) {
   return JSON.parse(value || '{}');
 }
 
+/**
+ * How fast a class watches its own afternoon.
+ *
+ * Three named paces rather than a number, because "milliseconds per tick" is not a thing a
+ * teacher should have to think about. The fictional clock is identical in all three - the
+ * same day, the same distances, the same arrivals - and only the number of real minutes
+ * spent watching it changes.
+ *
+ * `study` is the default and is the honest one: at 9.5 seconds a tick a walking figure
+ * covers about nine tenths of its own body length each second, which is what walking looks
+ * like, and the Gonzales slice fills a 45-minute period. `brisk` and `quick` exist for a
+ * teacher who is behind, and `quick` is the old pace, kept because it is what every
+ * measurement before today was taken at.
+ */
+export const PACES = Object.freeze({ study: 9500, brisk: 4000, quick: 1000 });
+
 export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tickMs = 200, savePath, joinUrls = [], worldFactory = createWorld, onStopRequested = null, stopDelayMs = 250 } = {}) {
   if (!Number.isInteger(playerCount) || playerCount < 5 || playerCount > 30) throw new Error('Class size must be 5–30');
   if (!Number.isInteger(tickMs) || tickMs < 10 || tickMs > 10000) throw new Error('Tick interval must be 10–10000 milliseconds');
+  /**
+   * How many real milliseconds one tick takes.
+   *
+   * This is the only lever on how fast the world *looks*, and it is separate from how fast
+   * the world *is*: a tick is always twenty fictional minutes and a person always walks
+   * three miles an hour, whatever this is set to. Nothing under `sim/` reads it. Changing
+   * it changes no outcome, no arrival, no distance and no decision - only the number of
+   * real seconds a student spends watching the same fictional hour.
+   *
+   * At 1000 ms a walking figure crossed 8.7 of its own body lengths every second, against
+   * 0.78 for a person walking at three miles an hour. The legs were stepping at life speed
+   * while the body took a nineteen-hundred-foot stride, which is what "moving too fast"
+   * actually was. Zoom could never have fixed it: screen speed is scale times miles per
+   * second, so the scale cancels.
+   */
+  let pace = tickMs;
   const lease = acquireSaveLock(savePath);
   savePath = lease.path;
   let state;
@@ -120,7 +152,10 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     return client ? { role: 'student', ...client, credentialHash: hash(credential) } : null;
   }
   function snapshot(identity) {
-    const payload = { revision: state.revision, sessionId: state.sessionId, connected: connected(), fault: runtimeFault && structuredClone(runtimeFault), lifecycle: lifecycle && structuredClone(lifecycle), world: projectWorld(state.world, identity.householdId, identity.role, { includeMap: false }), mapId: state.sessionId };
+    // `tickMs` rides along because the renderer has to know how long a tick lasts to
+    // spread one tick's movement across it. Without it the client guesses one second and a
+    // slower class walks for a second and then stands still for the rest of the tick.
+    const payload = { revision: state.revision, sessionId: state.sessionId, connected: connected(), tickMs: pace, fault: runtimeFault && structuredClone(runtimeFault), lifecycle: lifecycle && structuredClone(lifecycle), world: projectWorld(state.world, identity.householdId, identity.role, { includeMap: false }), mapId: state.sessionId };
     if (identity.role === 'host') Object.assign(payload, { sessionCode: state.sessionCode, joinUrls, canStop: Boolean(onStopRequested), presence: presence() });
     // A household is told its own key and no other. The Host page deliberately carries
     // none of them, because a teacher's screen is sometimes a projector.
@@ -292,7 +327,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         if (typeof input.id !== 'string' || !/^[\w-]{8,80}$/.test(input.id)) return json(res, 400, { error: 'Command ID required' });
         const commands = identity.role === 'host' ? state.hostCommands : state.clients[identity.credentialHash].commands;
         if (commands.includes(input.id)) return json(res, 200, { ok: true, duplicate: true });
-        let archived = null, rotatedSession = null, stopping = false;
+        let archived = null, rotatedSession = null, stopping = false, wantedPace = null;
         const priorSession = state.sessionId;
         commit(s => {
           if (identity.role === 'host') {
@@ -306,6 +341,12 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
               const joined = Object.keys(s.clients).length;
               if (joined < 5 && !input.anyway) throw new Error(`Only ${joined} household${joined === 1 ? ' has' : 's have'} joined, and this class is built for five or more. Press Start again to begin anyway.`);
               s.world.status = 'running';
+            } else if (input.action === 'pace') {
+              // Not a world change: the pace is how fast the class watches, not what it
+              // watches, so it is deliberately outside `commit`'s world and outside the save.
+              // A class reopened tomorrow opens at the pace the build ships with.
+              wantedPace = PACES[input.pace] || null;
+              if (!wantedPace) throw new Error('Unknown pace');
             } else if (input.action === 'pause' && s.world.status === 'running') s.world.status = 'paused';
             else if (input.action === 'resume' && s.world.status === 'paused') s.world.status = runtimeFault?.resumeStatus || 'running';
             else if (input.action === 'end') s.world.status = 'ended';
@@ -341,23 +382,40 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
           // student cannot silently inherit a household in the new one.
           for (const stream of [...streams]) if (stream.identity.role === 'student') { streams.delete(stream); stream.res.end(); }
         }
+        if (wantedPace) setPace(wantedPace);
         if (stopping) requestStop();
         return json(res, 200, { ok: true, ...(archived && { archived: basename(archived) }), ...(stopping && { stopping: true }) });
       }
       json(res, 404, { error: 'Not found' });
     } catch (error) { if (!res.headersSent) json(res, error.status || 400, { error: error.message }); else res.destroy(); }
   });
-  const timer = setInterval(() => {
+  function tick() {
     if (state.world.status !== 'running') return;
     try { commit(s => stepWorld(s.world)); }
     catch (error) { if (!runtimeFault) suspend('SIMULATION_FAILED'); console.error('Simulation paused:', error.cause?.message || error.message); }
-  }, tickMs);
+  }
+  let timer = setInterval(tick, pace);
+  /**
+   * Change the pace of a running class.
+   *
+   * A teacher who is behind can speed the afternoon up and one who wants the class to watch
+   * somebody walk can slow it down, and neither changes what happens. The interval is
+   * rebuilt rather than adjusted because `setInterval` has no way to change its own period.
+   */
+  function setPace(milliseconds) {
+    if (!Number.isInteger(milliseconds) || milliseconds < 10 || milliseconds > 10000) throw new Error('Pace must be 10–10000 milliseconds');
+    pace = milliseconds;
+    clearInterval(timer);
+    timer = setInterval(tick, pace);
+  }
   return {
     server,
     get state() { return structuredClone(state); },
     get savePath() { return savePath; },
     snapshot,
     requestStop,
+    setPace,
+    get pace() { return pace; },
     async listen(port = 0, bind = '0.0.0.0') {
       try { await new Promise((resolve, reject) => { server.once('error', reject); server.listen(port, bind, resolve); }); return server.address().port; }
       catch (error) { clearInterval(timer); lease.release(); throw error; }

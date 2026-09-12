@@ -43,6 +43,7 @@ public sealed class LauncherForm : Form
     public LauncherForm()
     {
         Text = "Texas Revolution";
+        Branding.Apply(this);
         StartPosition = FormStartPosition.CenterScreen;
         ClientSize = new Size(460, 540);
         FormBorderStyle = FormBorderStyle.FixedSingle;

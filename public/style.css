@@ -226,3 +226,9 @@ button:hover:enabled{background:#60673e}
 .tutorial-quiet{background:none;border:none;color:#6c6046;text-decoration:underline;min-height:0;padding:4px 2px;font-size:13px}
 .tutorial-quiet:hover{background:none;color:#3b3221}
 @media (max-width:760px){#tutorial{left:8px;right:8px;bottom:8px;width:auto}}
+
+/* The pace ladder, under the teacher's other controls and quieter than them: it changes
+   how long the lesson takes to watch, never what happens in it. */
+#host-pace{display:flex;gap:6px;justify-content:flex-end;margin-top:6px}
+#host-pace button{background:rgba(255,252,242,.9);color:var(--ink);border-color:#8fa392;min-height:30px;padding:4px 12px;font-size:13px}
+#host-pace button[data-active=true]{background:var(--ink);color:#fff;border-color:var(--ink)}

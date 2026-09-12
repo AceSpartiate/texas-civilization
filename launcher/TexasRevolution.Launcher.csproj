@@ -24,6 +24,9 @@
     <AssemblyName>TexasRevolution</AssemblyName>
     <Product>Texas Revolution</Product>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <!-- The emblem Explorer, the taskbar, the Start menu and the desktop shortcut read.
+         Built from launcher/icon-source.png; see docs/art-provenance.json. -->
+    <ApplicationIcon>TexasRevolution.ico</ApplicationIcon>
     <!-- A teacher drags this window from a laptop panel onto a projector with a different
          scale factor, and a blurry class view is the whole lesson. WinForms wants this as a
          project property rather than in the manifest. -->

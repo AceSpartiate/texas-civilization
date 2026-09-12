@@ -1,6 +1,6 @@
 import { join } from 'node:path';
 import { writeFileSync, readFileSync, rmSync } from 'node:fs';
-import { createClassroom } from './app.mjs';
+import { createClassroom, PACES } from './app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { resolveDataDir, resolveSavePath, joinCandidates } from './deployment.mjs';
 
@@ -22,7 +22,10 @@ async function shutdown(reason) {
 }
 const app = createClassroom({
   seed: process.env.SEED || 'gonzales-1835', playerCount: Number(process.env.PLAYERS || 15),
-  tickMs: Number(process.env.TICK_MS || 1000), savePath, joinUrls, worldFactory: createGonzalesWorld,
+  // A settler walks three miles an hour whatever this is; this decides only how many
+  // real minutes a class spends watching that. `PACES.study` makes the walk look like a
+  // walk and the slice fill a class period; TICK_MS still overrides it for development.
+  tickMs: Number(process.env.TICK_MS || PACES.study), savePath, joinUrls, worldFactory: createGonzalesWorld,
   onStopRequested: () => shutdown('Host requested a graceful stop'),
 });
 await app.listen(port);

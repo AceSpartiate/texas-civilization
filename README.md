@@ -16,6 +16,8 @@ Download **`TexasRevolutionSetup.exe`** from [Releases](https://github.com/AceSp
 4. Students join at that address with the six-character class code. Five households must join before Start; fewer is possible with a deliberate second press, which is how one person can try it alone.
 5. Press **Stop the class** when you are done. Closing a browser window does **not** stop it.
 
+The Host page carries a **pace** — Study, Brisk or Quick. The lesson is the same in all three; only how long it takes to watch changes. Study is the default and makes the slice fill a class period.
+
 It appears in **Settings ▸ Apps** like anything else and can be removed there; removing it asks separately whether to keep your saved classes, and keeps them by default.
 
 The launcher shows which release you have and checks GitHub for a newer one when it opens; updating downloads and installs it with a progress bar, leaves your saved classes alone, and refuses to run while a class is going.
@@ -45,7 +47,7 @@ npm.cmd start
 npm.cmd test
 ```
 
-**141 automated tests**, needing no external packages. Browser proofs need separately installed Playwright and Chromium or Chrome; the exact commands are in [HANDOFF.md](HANDOFF.md). Every test makes an isolated temporary class and leaves the ordinary classroom save alone.
+**148 automated tests**, needing no external packages. Browser proofs need separately installed Playwright and Chromium or Chrome; the exact commands are in [HANDOFF.md](HANDOFF.md). Every test makes an isolated temporary class and leaves the ordinary classroom save alone.
 
 Read in this order: [VISION.md](VISION.md) for what this is for, [HANDOFF.md](HANDOFF.md) for the actual state and what is proved, [TECH.md](TECH.md) and [GAME.md](GAME.md) for the architecture and the play, and [HISTORY.md](HISTORY.md) — always — before changing anything historical. Documented fact and invented gameplay are separated there claim by claim, and dated evidence for each piece of work lives in [docs/evidence](docs/evidence).
 

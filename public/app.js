@@ -1011,6 +1011,13 @@ export function drawWorld(world) {
   window.__viewFormations = drawFormations(ctx, world.battle, camera.toScreen, camera.named, world.tick, camera.figure);
   canvas.dataset.formationIds = window.__viewFormations.join(' ');
   window.__viewEntities = entities.map(entity => entity.id);
+  // Where each figure was actually drawn this frame, and how tall it was drawn, in screen
+  // pixels. The same contract as `__viewEntities` and `__animationClips`: presentation
+  // evidence, read by proofs and by nothing in the application. It exists because the one
+  // question worth asking about motion - how fast does a person cross the screen relative
+  // to their own size - cannot be answered from the projection, which only moves once a
+  // tick while the figure is drawn every frame between.
+  window.__drawnAt = Object.fromEntries([...drawnAt].map(([id, spot]) => [id, { x: spot.x, y: spot.y, size: spot.size }]));
   // Presentation evidence, same contract as __viewEntities: who was drawn because they
   // were seen, kept as a separate list so a proof can tell the two apart.
   window.__viewObserved = observed.map(entity => entity.id);
@@ -1634,6 +1641,13 @@ function render(snapshot) {
     ? 'Write this down. On any device, choose “I already have a family key” and type it to come back to this family.'
     : '';
   $('#host-controls').hidden = !host;
+  $('#host-pace').hidden = !host;
+  // Named paces rather than a number, because milliseconds a tick is not a thing a teacher
+  // should have to hold in their head.
+  const paces = { study: 9500, brisk: 4000, quick: 1000 };
+  for (const button of $('#host-pace').querySelectorAll('button')) {
+    button.dataset.active = String(paces[button.dataset.pace] === snapshot.tickMs);
+  }
   const statusLabel = world.slice?.complete ? 'story preserved' : { lobby: 'waiting to begin', running: '', paused: 'paused', ended: 'session ended' }[world.status] ?? world.status;
   $('#world').textContent = [world.historicalDate || timeLabel(world.minute ?? 0), statusLabel].filter(Boolean).join(' · ');
   const whenAvailable = { start: ['lobby'], pause: ['running'], resume: ['paused'], end: ['running', 'paused'], 'new-class': ['lobby', 'ended'], 'stop-server': ['lobby', 'running', 'paused', 'ended'] };
@@ -1706,6 +1720,15 @@ $('#join').addEventListener('submit', async event => {
 document.addEventListener('click', async event => {
   const viewButton = event.target.closest('[data-view]');
   if (viewButton) { applyMapView(viewButton.dataset.view); return; }
+  // How fast the class watches. Sent like any other Host command, and deliberately not a
+  // world change: a class reopened tomorrow opens at the pace the build ships with.
+  const paceButton = event.target.closest('[data-pace]');
+  if (paceButton) {
+    say('');
+    try { await api('/api/command', { id: crypto.randomUUID?.() || `cmd-${Date.now()}`, action: 'pace', pace: paceButton.dataset.pace }); }
+    catch (error) { say(error.message); }
+    return;
+  }
   const pick = event.target.closest('[data-select]');
   if (pick) {
     selectedId = pick.dataset.select; selectionDismissed = false;

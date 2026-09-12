@@ -27,6 +27,7 @@ public sealed class InstallerForm : Form
     public InstallerForm()
     {
         Text = "Install Texas Revolution";
+        Branding.Apply(this);
         StartPosition = FormStartPosition.CenterScreen;
         ClientSize = new Size(520, 420);
         FormBorderStyle = FormBorderStyle.FixedSingle;

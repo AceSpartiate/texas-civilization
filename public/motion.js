@@ -123,7 +123,13 @@ export class ProjectionMotion {
     if (snapshot.sessionId === this.session && world.tick === this.tick && snapshot.revision === this.revision) return;
     const ordinaryTime = !Number.isFinite(world.minute) || !Number.isFinite(this.minute) || world.minute - this.minute === 20;
     const sequential = snapshot.sessionId === this.session && world.tick === this.tick + 1 && world.status === 'running' && ordinaryTime;
-    const duration = Math.max(80, Math.min(1000, now - this.receivedAt));
+    // One tick's movement is spread across one tick's worth of real time. The ceiling
+    // used to be a flat second, which was invisible while a tick *was* a second and became
+    // a bug the moment a class could be slowed down: a traveller glided for one second and
+    // then stood frozen for the remaining eight and a half. Measured from the arrivals
+    // themselves, and bounded by what the server says a tick costs.
+    const cadence = Number.isFinite(snapshot.tickMs) ? snapshot.tickMs : 1000;
+    const duration = Math.max(80, Math.min(cadence * 1.5, now - this.receivedAt));
     const next = new Map();
     for (const entity of [...(world.entities || []), ...(world.others || [])]) {
       if (!entity.location) continue;
