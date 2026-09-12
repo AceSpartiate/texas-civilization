@@ -310,6 +310,8 @@ Do not use:
 - repeated coercive requests
 - hidden rewards for compliance
 
+*Amended 2026-09-12:* hidden **glory** for taking part in major historical events is an owner-approved exception (§20). It rewards participation of every kind, not obedience to a request, and no director may read it to decide what to ask of a family.
+
 Pressure should emerge from geography, local needs, family opinions, neighbors, political beliefs, relationships, danger, economics, and visible community behavior.
 
 The Historical Pressure Director should ask:
@@ -533,11 +535,22 @@ Then the game removes fog of war and reveals:
 - player journeys
 - information delays
 
-The Host should also surface a few noncompetitive discussion hooks showing how different households experienced different information and pressures.
-
-No rankings.
+The Host should also surface a few discussion hooks showing how different households experienced different information and pressures.
 
 No "best patriot."
+
+### Amendment, 2026-09-12 — money, glory and a winner
+
+*By the owner:* "i do want money. players should have to trade or spend money. winning the game at the end will be through a combination of who has the most money, multiplied by glory. glory will be attained by participating in major historical events. glory will be a hidden stat that players don't see. it's revealed at the end of the game."
+
+This replaces the earlier rule **"No rankings."** The game now has a winner:
+
+- Each household's final outcome is **money × (1 + glory)**.
+- **Money** is visible throughout and must be used — traded or spent.
+- **Glory** is hidden from every student and from the Host until the ending. It is earned by taking part in major historical events of **every kind**, with fighting weighted above supporting. A casualty never earns extra.
+- At the ending each family sees its own money, its own glory and what earned each. The Host shows every family's numbers and **names the winner**, alongside the discussion hooks above.
+
+What still binds: no virtue labels ("best patriot", "bravest", "most loyal"), §8's rule that a family that sends nobody to battle must still have a compelling story — and must be able to win — and §11's rules against patriotism meters and repeated requests. Full specification and gates: `docs/MONEY_AND_GLORY.md`.
 
 ---
 

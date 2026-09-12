@@ -1,0 +1,300 @@
+# Money, glory, and the end of the game
+
+**Status: decided and specified, not built.** Nothing in this document exists in the code as
+of 2026-09-12. The owner has made every design decision it needs (§6); it is written to be
+executed later, by somebody who was not here for the conversation, and it should be read in
+full before any of it is started.
+
+**Where it sits in the plan.** Steps 1–2 (§7) belong to Macro-Phase 1D, economy. Steps 3–5
+belong to 3A, epilogue and revelation, but step 3 — glory, hidden — should land as soon as
+the Gonzales slice can end, so that every event built after it writes glory as it is built
+rather than being retrofitted. Balance is 3E.
+
+---
+
+## 1. What the owner asked for
+
+> "i do want money. players should have to trade or spend money. winning the game at the
+> end will be through a combination of who has the most money, multiplied by glory. glory
+> will be attained by participating in major historical events. glory will be a hidden stat
+> that players don't see. it's revealed at the end of the game."
+>
+> — 2026-09-12
+
+Three things, and they are separable. **Money** is a resource and a medium of exchange.
+**Glory** is a hidden measure of how far a household took part in what happened. **The
+ending** multiplies them and names a winner.
+
+---
+
+## 2. This amends VISION.md, and the amendment is recorded there
+
+`VISION.md` §20 said "No rankings. No 'best patriot.'", and §11 forbids "hidden rewards for
+compliance". A hidden stat earned by taking part in historical events, multiplied into a
+score that decides who wins, is both of those by the letter. **The owner changed the
+constitution on 2026-09-12**, and the amendment is written into §20 and noted in §11 of
+`VISION.md` itself, dated and attributed. `CLAUDE_DEVELOPMENT_ROADMAP.md` 1D, 3A and 3E, the
+`HIST-GONZ-022` implication in `HISTORY.md`, `GAME.md`, `TECH.md` and `HANDOFF.md` were
+updated the same day. If any of those still forbids this, the amendment was lost — stop and
+ask.
+
+### What the old rules were protecting, and how this design keeps it
+
+The two rules existed to stop one specific failure: a class learning that *the right answer
+was to join the fight*, and a child who kept their family home being shown, at the end, that
+they lost. That is also bad history — most families did not fight, §8 says "a family that
+sends nobody to battle should still be capable of a compelling story", and the Runaway Scrape
+depends on it being true.
+
+Three decisions below keep that failure out while delivering exactly what was asked:
+
+1. **Glory comes from participation of every kind**, weighted so that fighting counts for
+   more than supporting (§4). A family that never fired a shot still earns glory.
+2. **Glory multiplies money and cannot erase it**: `money × (1 + glory)` (§5). A family that
+   stayed home and prospered finishes with a real number.
+3. **Fighting costs money.** Every day somebody is at the camp or the battle is a day they are
+   not working the farm, and powder spent on the fight is powder not sold or hunted with. The
+   two halves of the formula pull against each other, which is the design working: there is
+   no dominant answer, only different families.
+
+---
+
+## 3. Money
+
+### What it is
+
+**Reales.** Mexican silver, eight to the peso, issued by the republic since 1824 and
+circulating in Texas alongside older Spanish colonial coin, United States notes and privately
+issued paper. A household deals in reales; a peso is a sum a household rarely sees whole.
+
+Research this properly before writing a price list. The sourcing above is from general
+numismatic and frontier-economy material read through search and is **not** from TSHA, TSLAC,
+the GLO or a primary source. It needs a `HIST-GONZ-*` claim of its own, and the honest
+classification is likely STRONGLY SUPPORTED rather than DOCUMENTED.
+
+### Money is scarce, and players have to use it
+
+`HIST-GONZ-022` records that hard coin was scarce enough on this frontier that **barter was the
+ordinary way of doing business**, and that small denominations were the scarcest. The owner
+also said players "should have to trade or spend money". Both hold at once:
+
+- **Money is necessary for something real.** At least one purchase a family will want — a new
+  hoe, or powder and shot beyond a small ration — is priced in coin at the store, so money is a
+  medium a family must deal in, not decoration.
+- **Barter does not disappear.** The store still takes cotton for food, and neighbours still
+  trade seed for powder. The daily farm loop — plant, harvest, eat, trade with a neighbour,
+  answer the call — never requires a coin.
+- **Spending is a real cost, because money is half the ending.** A family choosing to buy
+  powder is choosing against its final number. That tension is the mechanic.
+- **Prices should feel dear.** Round to whole reales; a resource that needs decimals produces
+  "you have 3.7 reales" in front of a twelve-year-old.
+
+### Where it comes from, and what it is for
+
+| Source | Note |
+| --- | --- |
+| Selling cotton at the store for coin instead of food | The main one. A choice at the counter: food now, or coin. |
+| Selling surplus food | A family with more than it eats has something the town wants. |
+| Trading with a neighbour | Coin is one of the `GOODS`, so it changes hands face to face like anything else. |
+| Work for somebody else | Held. It needs wages, employers and a labour model, and none exist. |
+
+| Sink | Note |
+| --- | --- |
+| Powder, seed, a new hoe | Some priced in coin only, some in coin *or* goods (see above). |
+| Hiring a neighbour's wagon | Only once lending exists. |
+| Later chapters | The Runaway Scrape is the obvious one: coin is what a fleeing family can carry. |
+
+### What counts as "money" at the end
+
+**Default: coin on hand when the class ends.** Goods, crops, land and livestock do not count.
+That is the owner's word — "who has the most money" — and it gives the ending a decision of its
+own: a family can sell its stores for coin before the end, and in the later chapters a family
+fleeing with coin is better placed than one fleeing with a barn full of corn, which is true.
+The alternative, net worth at the store's prices, is gentler on a family that bartered
+everything; **change this only on the owner's say-so.**
+
+### Implementation notes
+
+- `household.resources.money` — absent reads as none, which is correct for every class saved
+  before this. **No save version moves**; `sim/trade.mjs` and the powder work are the worked
+  examples.
+- Add it to `GOODS` in `sim/trade.mjs` so neighbours can trade in it.
+- It is **not** hidden. It shows in the supplies line beside food, seed, powder and cotton.
+- **Retire the tripwire deliberately.** `tests/store.test.mjs` asserts *"there is no money in
+  it"* — no household resource and no tradeable good named for a currency — precisely so this
+  change could not happen by accident. Step 1 replaces that test with one asserting money is
+  whole reales and barter still works. The comments that say money was declined, in
+  `sim/chores.mjs` (the store rate) and at the top of `tests/store.test.mjs`, change with it.
+
+---
+
+## 4. Glory
+
+### What it is
+
+A whole number per household counting how far that family took part in major historical
+events. It is **not** a score for virtue, patriotism or obedience, and nothing in the interface
+may call it any of those.
+
+### It must be genuinely hidden until the end
+
+This is the part most likely to be got wrong, and it is testable.
+
+- **It never appears in `projectWorld` for a student before the ending** — not as a number, a
+  label, a rank, a "your family is doing well" hint, or by inference from an event's wording.
+- **The Host does not show it before the ending either.** The Host is projected in front of the
+  class and reflects public knowledge (`VISION.md` §18).
+- **Events that cause glory are visible; the counting is not.** A family knows it carried food
+  to Gonzales. No event, choice label or cost line may say that something "was worth
+  something", and no answer may be labelled by the glory it would earn.
+- **Nothing reads glory to decide what to offer.** The directors write it and never consult it.
+  §11's question stays "What pressures exist in this place right now?", never "Has this student
+  participated enough?" — a director that offered more to a family with less glory would be
+  exactly that question.
+- Copy the existing wire-isolation tests: `tests/trade.test.mjs` and
+  `scripts/relay-browser-proof.mjs` assert a thing the server knows never reaches a client by
+  searching the serialised payload. Plant a distinctive glory value and assert it appears in
+  **no** student or Host payload at any tick across a whole played slice, then assert it does
+  appear once the ending is reached.
+
+### How it is earned — every kind of participation, fighting weighted highest
+
+**Owner decision, 2026-09-12: both, weighted.** Every kind of taking part counts, and taking part
+in the fighting counts for more than supporting it. Every number below is invented and becomes a
+`FIC-GONZ-*` claim when built; the tiers are the decision, the values are a starting point for 3E.
+
+| Tier | Earned by | Suggested weight | Already modelled? |
+| --- | --- | --- | --- |
+| Support | Answering the call and carrying food or powder to Gonzales | 1 | Yes — `handleChoice` in `sim/directors.mjs` |
+| Support | Carrying word onward that reached another family | 1 | Yes — the relay chain in `sim/world.mjs` |
+| Support | Helping a neighbour who asked; sheltering or feeding another household | 1 | Partly — trading exists; asking and sheltering need later work |
+| Present | Being where a documented event happened when it happened | 2 | Yes — `witnessing()` in `sim/directors.mjs` |
+| Present | Going upriver to the camp | 2 | Yes — `handleMarch` |
+| Fighting | A family member taking part in a battle | 3 | Partly — the march reaches the camp; the battle's aggregate does not yet name who fought (HANDOFF next-task 4) |
+
+Rules that apply to every row:
+
+- **Only major historical events earn glory**, meaning events registered as `HIST-GONZ-*` (and
+  later arcs' equivalents). Farm work, hunting and ordinary trade never do.
+- **Weight by what it cost the family, as well as by tier.** A household nineteen miles out that
+  walked its food in did more than one two miles out, and the code already knows both distances.
+- **A casualty never adds glory.** A family member hurt, captured or lost earns the household
+  exactly what their participation earned and nothing more. The ending presents that with
+  dignity and never as a reward for a death.
+- **Once per person per event.** Sending the same person back and forth does not farm glory.
+- **Weights must not make fighting the dominant strategy.** The balance gate in §8 is the check.
+
+### Where it lives
+
+`household.glory`, a whole number, absent reads as zero. Written only by the directors, never by
+anything a student triggers directly. Record each award in the household's own event log with
+its cause, flagged so the projection strips it until the ending — that record is what the reveal
+explains.
+
+---
+
+## 5. The ending
+
+### The formula
+
+**Owner decision, 2026-09-12:**
+
+```
+final = money × (1 + glory)
+```
+
+A household with no glory keeps its money. A household with no money finishes at zero whatever
+its glory — which is the owner's "most money" at work, and why the ending must show both numbers.
+
+### What each family sees
+
+At the end the fog lifts (`VISION.md` §20) and each family sees, for the first time:
+
+1. **Its own money and its own glory, with what earned each** — drawn from that household's own
+   event log, the same log the epilogue is built from.
+2. **Its final number**, with the multiplication shown, never a bare total.
+
+### What the Host shows — a named winner
+
+**Owner decision, 2026-09-12: the Host names a winner.**
+
+- Every family's money, glory and final number, **listed in household order** — the three
+  numbers are visible for everyone, but the screen is not a sorted leaderboard.
+- **The family with the highest final number is named as the winner.** A tie names every family
+  that shares it.
+- Beside it, §20's discussion hooks: *why* these families ended up so differently — who heard
+  news first, who lived far out, who stayed to farm and who went. The numbers are the way into
+  that conversation, not the end of it.
+- **Name the winner, never a virtue.** "Family 7 finished first" is a fact. "Most patriotic",
+  "bravest" or "best patriot" is a judgement, and the last is the phrase the constitution still
+  forbids by name.
+
+---
+
+## 6. Decisions, all made
+
+| Question | Owner's answer, 2026-09-12 |
+| --- | --- |
+| Is there money? | Yes. Players have to trade or spend it. |
+| How is the winner decided? | Most money, multiplied by glory. |
+| Is glory visible? | No. Hidden from players until the end, then revealed. |
+| What earns glory? | Participating in major historical events — **every kind, with fighting weighted above supporting**. |
+| A family with no glory? | **`money × (1 + glory)`** — glory multiplies money and cannot erase it. |
+| How is the result shown? | **The Host names a winner**, showing every family's money, glory and final number. |
+| What counts as money at the end? | Not asked. Default is coin on hand (§3); change only on the owner's say-so. |
+
+---
+
+## 7. Build order
+
+Bounded steps, each shippable and provable alone, in order. This mirrors
+`docs/LIVING_INFORMATION.md`: each step is worth having even if the next never happens.
+
+1. **Money as a resource.** `household.resources.money`, in `GOODS`, in the supplies line,
+   tradeable between neighbours. Nothing earns or spends it yet. Replace the no-money tripwire
+   in `tests/store.test.mjs`. Prove: save compatibility, no version bump, and a class that never
+   sees a coin plays exactly as before.
+2. **The store deals in coin.** Selling cotton or surplus offers food *or* reales; some purchases
+   take coin only, others coin or goods. Register the currency `HIST-GONZ-*` claim and the prices
+   as a `FIC-GONZ-*` claim. Prove: a family can farm, eat, trade and answer the call without coin,
+   and a family with coin has something only coin buys.
+3. **Glory, hidden.** The awards, the directors that write them, the causes in the event log, and
+   the isolation test — **before anything reveals it**. Prove: a planted glory value appears in no
+   student or Host payload across a played slice, and no director reads it.
+4. **The ending, per family.** The reveal, both numbers, the multiplication, the per-household
+   causes. Prove: a household that stayed home and sold its cotton finishes with a non-zero number
+   and an epilogue that reads as a story.
+5. **The Host's closing view.** Every family's three numbers, the named winner, ties, and the
+   discussion hooks. Prove: no virtue word appears anywhere on it.
+
+---
+
+## 8. Gates
+
+Nothing here is finished until all of these hold.
+
+| Gate | What it means |
+| --- | --- |
+| Hidden means hidden | A planted glory value appears in no student and no Host payload at any tick before the ending, asserted by searching the serialised wire the way trade and relay isolation already are, and does appear once the ending is reached. |
+| Nothing reads glory | No director or opportunity rule consults `household.glory`. |
+| Money is used | At least one thing a family will want is bought only with coin. |
+| Barter survives | A family that never touches coin can still plant, harvest, hunt, trade, answer the call and reach the end. |
+| No annihilation | A household with zero glory finishes with its money intact (`money × 1`). |
+| No dominant strategy | In 3E's headless runs at 5–30 players, a household that sends nobody to fight can finish first, and so can one that fights. If either never wins, the weights are wrong. |
+| Casualties earn nothing extra | A family member hurt, captured or lost adds no glory beyond their participation. |
+| No virtue labels | Nothing in the interface, the epilogue or the Host view names a family good, loyal, brave or patriotic. |
+| Save compatibility | A class saved before any of this opens, and no save version moves. Absent money reads as none; absent glory reads as zero. |
+| Claims registered | Every weight, price and earning rule carries a `FIC-GONZ-*` id, and the currency a `HIST-GONZ-*` id with honest sourcing. |
+
+---
+
+## 9. What this must never become
+
+- **A patriotism meter.** `VISION.md` §11 still forbids it, and this is the mechanic most likely to
+  turn into one by accident.
+- **A reason to repeat a request a family already refused.** §11: "a refusal should normally reduce
+  repeated identical requests."
+- **A number that leaks mid-class.** The value of hiding it is the reveal; a leak turns the afternoon
+  into a scoreboard chase and changes every decision a student makes.
+- **A replacement for the epilogue.** §20's epilogue is a story selected from causal threads. The
+  numbers sit beside it.

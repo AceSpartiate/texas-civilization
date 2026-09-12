@@ -162,7 +162,9 @@ Avoid overbuilding character AI.
 
 **Trade between households arrived on 2026-09-09** (`FIC-GONZ-010`, `sim/trade.mjs`). An offer is made face to face between two people standing in the same place, names what a family gives and what it wants, and is accepted, declined, withdrawn, or lapses when the two part. Any family member may strike it. Neither family ever learns the other's stores. Seed and food change hands; tools do not.
 
-**Still missing, and deliberately so:** money, medicine, and livestock as a resource. There is one field, one tool and one crop, so aptitude changes only pace and yield, not what a person is uniquely able to do. Nothing can be lent — not a person, a tool or an ox — which is the pressure this section actually wants from a family with nobody handy. Balance is untuned: seed correctly runs dry and forces the town trip, but food accumulates when every family member works flat out, and no trade rate is enforced.
+**Money is wanted, as of 2026-09-12.** The owner reversed the earlier decision to leave it out: money must be traded or spent, and coin on hand is half of how the game is won. Specified, with its build order and gates, in [docs/MONEY_AND_GLORY.md](docs/MONEY_AND_GLORY.md) — steps 1 and 2 of that document belong to this section. Not built.
+
+**Still missing:** medicine, and livestock as a resource. There is one field, one tool and one crop, so aptitude changes only pace and yield, not what a person is uniquely able to do. Nothing can be lent — not a person, a tool or an ox — which is the pressure this section actually wants from a family with nobody handy. Balance is untuned: seed correctly runs dry and forces the town trip, but food accumulates when every family member works flat out, and no trade rate is enforced.
 
 **The anti-optimisation rule still binds.** No system here may reward a correct build order. Widelands' Economy object — automatic supply/demand matching over a road network — was studied and explicitly refused for that reason; see [docs/REFERENCE_ARCHITECTURES.md](docs/REFERENCE_ARCHITECTURES.md).
 
@@ -190,7 +192,7 @@ Improve physical representation:
 
 **It should feel like a farming life.** The owner's stated target on 2026-09-09: a student should be half-convinced this is a farming simulator — we are low on seed, so send someone to town; a tool broke, so repair it, replace it, or ask a neighbour. That daily work is what makes the Revolution land on someone with a farm to lose.
 
-What it must not become is an optimisation game. There is no score, no efficiency rating, and no correct build. Every system here exists to create things students later care about losing, protecting, abandoning, or using — and to give them reasons to need each other.
+What it must not become is an optimisation game. There is no efficiency rating and no correct build. *(Amended 2026-09-12: the game now ends with a winner, `money × (1 + glory)`, per `VISION.md` §20. That outcome is revealed only at the end and must not turn the afternoon into a build order — `docs/MONEY_AND_GLORY.md` §8 requires that no strategy dominates.)* Every system here exists to create things students later care about losing, protecting, abandoning, or using — and to give them reasons to need each other.
 
 ### Crops and land
 
@@ -426,9 +428,11 @@ After Revelation, automatically surface a small number of noncompetitive discuss
 - some families faced military danger while others faced refugee/logistical crises
 - two households made opposite decisions under different circumstances
 
-Do not rank students.
+Do not identify a "best patriot," or label any family with a virtue.
 
-Do not identify a "best patriot."
+### Money, glory and the winner *(owner direction, 2026-09-12)*
+
+Revelation also reveals each household's hidden **glory**, its **money**, what earned each, and its final outcome **money × (1 + glory)**. The Host shows every family's numbers in household order and **names the winner**, beside the debrief hooks above. This supersedes the earlier "Do not rank students." Build steps 3–5 of [docs/MONEY_AND_GLORY.md](docs/MONEY_AND_GLORY.md) here — but land step 3 (glory, hidden, with its wire-isolation test) as soon as the Gonzales slice can end, so each later arc writes glory as it is built.
 
 ## 3B. Historical household expansion
 
@@ -533,6 +537,7 @@ Track:
 - resource inflation
 - overcommitment to combat
 - trivial avoidance strategies
+- which households win on `money × (1 + glory)`: a household that sends nobody to fight must be able to finish first, and so must one that fights (`docs/MONEY_AND_GLORY.md` §8)
 
 Tune difficulty without arbitrary punishment.
 

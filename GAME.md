@@ -14,7 +14,7 @@ Each student guides one fictional household in a shared world. The present templ
 
 The family panel shows people, tasks, locations and health; the property panel shows the ox and wagon. The remembered-story panel shows the most recent household events.
 
-There are no points, rankings, patriotism meters or rewards for choosing an approved historical answer. Military participation is not required. This slice's request is civilian help with supplies.
+Nothing is scored during play: no points, patriotism meters or rewards for choosing an approved historical answer. An end-of-class outcome that names a winning family is planned and not built. Military participation is not required. This slice's request is civilian help with supplies.
 
 ## Starting a class
 
@@ -64,7 +64,7 @@ A short optional walk-through offers itself once, in that lobby. It explains the
 
 **Your field grows one of two things, and they are not the same thing at all.** Corn is what the colony lived on: bring it in and it is food. **Cotton is not food** — bring it in and it sits in the house until somebody carries it to the **general store** at Gonzales, where Marta Ibarra trades **two food for every bale**, and takes as much as whoever went can carry. A cotton field is worth about twice a corn field in the end, and nothing at all until then.
 
-There is no money in any of it. Hard coin was scarce here; a store that takes your cotton and hands back what you need is how business was actually done, and it is one fewer number to keep track of. The same storekeeper sells the seed and the powder, so a family with a crop has a reason to go and something to go with.
+There is no money in it yet. Hard coin was scarce here, and a store that takes your cotton and hands back what you need is how business was mostly done. Coin is planned as a second way to buy and sell alongside barter, not a replacement for it. The same storekeeper sells the seed and the powder, so a family with a crop has a reason to go and something to go with.
 
 **Anybody can be taught to shoot, and it costs.** If the person you want to send has never had the knack, set up a mark behind the cabin and spend an afternoon at it. It takes **two powder out of a house that holds three** — which is most of what you have, and the same powder a hunt would spend. A steadier hand makes the long shot and brings more home, and a hand tops out after two afternoons.
 

@@ -6,6 +6,7 @@ Read these before substantial changes:
 2. `HANDOFF.md` — actual state, evidence, commands, limitations, next tasks.
 3. `TECH.md` and `GAME.md` — implemented architecture and gameplay.
 4. `HISTORY.md` before any historical content change.
+5. `docs/MONEY_AND_GLORY.md` before any economy, director or ending work — money, hidden glory and the winner are owner-decided (2026-09-12) and amend `VISION.md` §20.
 
 The active next phase is Gonzales/core usability and deployment hardening, described in `HANDOFF.md`. `CLAUDE_DEVELOPMENT_ROADMAP.md` is reference for later work, not an instruction to build every arc now.
 
