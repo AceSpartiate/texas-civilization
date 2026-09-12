@@ -281,7 +281,7 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
   // Something is being asked of this person. The mark is the invitation; clicking is the
   // answer, so it is collected and drawn last: a cabin roof standing between the camera
   // and a person must never hide the one thing on screen asking to be pressed.
-  if (marks.mark) marks.mark.list.push({ x, y: y - height, size, glyph: marks.mark.glyph, tone: marks.mark.tone });
+  if (marks.mark) marks.mark.list.push({ id: entity.id, kind: marks.mark.kind || 'task', x, y: y - height, size, glyph: marks.mark.glyph, tone: marks.mark.tone });
   // The label sits just under the feet whatever the zoom - scaling the offset with the
   // sprite would fling a name a screen's width below a close-up figure - and it is
   // handed back rather than drawn, because the ox drawn after this person would
@@ -437,6 +437,15 @@ const stopWatching = () => { watchedId = null; };
  */
 const travelModeByEntity = new Map();
 const modeFor = id => travelModeByEntity.get(id) || 'foot';
+// Which pieces of news this browser has already put in front of this student. Per viewer
+// and deliberately not on the server: it describes a person looking at a screen, not
+// anything a household knows. Cleared by opening the book, which is where it is read.
+const readReports = new Set(), unreadReports = new Set();
+function markReportsRead(reports) {
+  for (const report of reports) { readReports.add(report.topicId); unreadReports.delete(report.topicId); }
+  const mark = $('#journal-unread');
+  if (mark) mark.hidden = true;
+}
 // Zoom limits come from the map itself rather than fixed numbers, so they stay sensible
 // when the world's real extent changes. Zooming out reaches the whole known map; zooming
 // in reaches one homestead.
@@ -492,6 +501,12 @@ function framingFor(world) {
   const points = own.map(entity => entity.location);
   points.push(...fighting);
   if (home) points.push(home);
+  // Somebody has reined in to speak with one of this family. He is not one of theirs, so
+  // nothing else would put him in the frame - and the whole replacement for the old news
+  // bar is that a student sees the arrival rather than reads a headline about it.
+  const meeting = world.encounter?.status === 'open'
+    && (world.others || []).find(other => other.id === world.encounter.carrierId);
+  if (meeting?.location) points.push(meeting.location);
   const travelling = own.filter(entity => entity.travel);
   for (const entity of travelling) {
     const destination = world.map?.sites?.[entity.travel.to];
@@ -1010,7 +1025,7 @@ export function drawWorld(world) {
     // Two different invitations, and they must not look like each other: an orange !
     // is something being asked of this family, and a quieter ink mark is somebody
     // standing in front of one of them waiting to be spoken to.
-    const mark = taskFor(world, entity) ? { list: pending } : meetingFor(world, entity) ? { list: pending, glyph: '…', tone: '#41556b' } : null;
+    const mark = taskFor(world, entity) ? { list: pending, kind: 'task' } : meetingFor(world, entity) ? { list: pending, kind: 'meeting', glyph: '…', tone: '#41556b' } : null;
     standing.push({ y: point.y, draw: () => drawEntity(ctx, entity, point, roomForNames, camera.figure, {
       selected: entity.id === chosen?.id, mark,
       labels, heading: destination ? destination.x - entity.location.x : 0,
@@ -1027,6 +1042,12 @@ export function drawWorld(world) {
   const placeFont = `${Math.round(Math.max(11, Math.min(16, camera.scale * 1.1)))}px system-ui`;
   for (const label of labels) { ctx.font = label.font || placeFont; caption(ctx, label.name, label.x, label.y); }
   for (const mark of pending) drawTaskMark(ctx, mark);
+  // Who was marked as having somebody waiting on them, and why. Presentation evidence on
+  // the same contract as `__viewEntities` and `__drawnAt`: read by proofs and by nothing
+  // in the application. It exists because the invitation to listen to a rider is now a
+  // mark over a person in the world rather than a card in the corner of the screen, and
+  // "is the invitation actually there" is not a question a projection can answer.
+  window.__viewMarks = pending.map(mark => ({ id: mark.id, kind: mark.kind }));
   window.__viewFormations = drawFormations(ctx, world.battle, camera.toScreen, camera.named, world.tick, camera.figure);
   canvas.dataset.formationIds = window.__viewFormations.join(' ');
   window.__viewEntities = entities.map(entity => entity.id);
@@ -1351,6 +1372,7 @@ function renderSelection(world) {
       button.textContent = action === 'help' ? 'Help · 2 food' : 'Stay home · keep 1 food';
       continue;
     }
+    if (button.id === 'listen-rider') continue;
     if (action === 'go-upriver' || action === 'stay-in-town') {
       // The cost of going sits on the button that spends it, in the person's own terms -
       // "Thomas is already tired" - rather than in a rules note beside it. Nothing here
@@ -1366,6 +1388,12 @@ function renderSelection(world) {
     button.hidden = !commands;
     button.disabled = !settable || Boolean(chosen.travel) || (action === 'travel' && chosen.location?.siteId === destination);
   }
+  // Somebody is standing in front of this person waiting to be spoken to. The button is
+  // theirs and nobody else's: a rider stopped one named person, and that is who can listen.
+  const waiting = world.encounter?.status === 'open' && world.encounter.listenerId === chosen.id;
+  const listen = $('#listen-rider');
+  listen.hidden = !waiting || world.role === 'host';
+  listen.textContent = waiting ? `Listen to ${world.encounter.carrierName}` : 'Listen';
   renderTravelModes(world, chosen, settable);
   renderWork(world, chosen, settable);
   // Trading stays shut until the class is running, because the neighbour it is addressed
@@ -1394,10 +1422,8 @@ function positionSelection(world, chosen = selectedEntity(world)) {
 function renderKnowledge(world) {
   const host = world.role === 'host';
   $('#knowledge-title').textContent = host ? 'News the community knows' : 'What your family has heard';
-  $('#knowledge-context').textContent = host ? 'These public reports may arrive after nearby families have heard news.' : 'Reports can be delayed or uncertain. Other families may know different things.';
+  $('#knowledge-context').textContent = host ? 'These public reports may arrive after nearby families have heard news.' : 'Word can be old, uncertain, or wrong. Other families have heard other things.';
   const reports = [...(world.reports || [])].reverse();
-  $('#reports-empty').hidden = reports.length > 0;
-  $('#reports-empty').textContent = host ? 'No public reports have arrived yet.' : 'No reports have reached your family yet.';
   const describe = report => {
     const receivedAge = Math.max(0, report.ageMinutes ?? (world.minute - report.receivedMinute));
     const received = receivedAge === 0 ? 'Received just now' : `Received ${timeLabel(receivedAge)} ago`;
@@ -1409,32 +1435,45 @@ function renderKnowledge(world) {
   // Anything a family drew out of a rider by asking is part of what it knows, so it is
   // kept here rather than disappearing with the rider. This is the journal keeping the
   // record, which is what the presentation change was allowed to leave alone.
-  const heard = report => (report.details || []).map(detail => element('span', `“${detail.ask}” — “${detail.answer}”`, 'news-detail'));
+  const heard = report => (report.details || []).map(detail => element('span', `“${detail.ask}” — “${detail.answer}”`, 'report-detail'));
+  renderReportList(world, reports, describe, heard);
+  // A quiet mark on the book rather than a card over the world. Which reports this
+  // browser has already shown is a per-viewer convenience and belongs nowhere near the
+  // server: another student at another desk has their own family and their own book.
+  for (const report of reports) if (!readReports.has(report.topicId)) unreadReports.add(report.topicId);
+  if ($('#family-journal')?.dataset.open === 'true') markReportsRead(reports);
+  $('#journal-unread').hidden = unreadReports.size === 0;
+}
+/**
+ * What a family has been told, written into the book the family keeps.
+ *
+ * This used to be a bar across the bottom of the map carrying the latest headline, and it
+ * was the wrong shape twice over. It made news a notification - a thing the interface
+ * announces - when VISION.md's whole claim is that information arrives through people and
+ * is incomplete; and it duplicated the rider who was already standing at the gate saying
+ * the same thing. What is left is the two honest halves: the arrival is a person, drawn in
+ * the world with a mark over whoever he stopped, and the record is this.
+ */
+function renderReportList(world, reports, describe, heard) {
+  const host = world.role === 'host';
+  $('#reports-empty').hidden = reports.length > 0;
+  $('#reports-empty').textContent = host ? 'No public reports have arrived yet.' : 'No word has reached your family yet.';
   $('#reports').replaceChildren(...reports.map(report => {
     const item = element('li', `${report.text} — ${report.status}, ${describe(report)}`);
     item.dataset.topicId = report.topicId; item.dataset.status = report.status;
+    if (unreadReports.has(report.topicId)) item.dataset.unread = 'true';
     item.append(...heard(report));
+    // A rider who has ridden on can still be read back. Deferred reading is a requirement,
+    // and the family's own record is the right place to keep the conversation that brought
+    // it: the meeting is what happened, the report is what is remembered.
+    const encounter = world.encounter;
+    if (encounter && encounter.topicId === report.topicId) {
+      const open = element('button', `Read what ${encounter.carrierName} said`, 'report-transcript');
+      open.dataset.openEncounter = encounter.id;
+      item.append(open);
+    }
     return item;
   }));
-  // News rides on the map as a single line that opens into the rest.
-  $('#news').hidden = !reports.length;
-  if (reports.length) {
-    $('#news-latest').textContent = reports[0].text;
-    $('#news-list').replaceChildren(...reports.map(report => {
-      const item = element('li', report.text);
-      item.append(element('span', `${report.status} · ${describe(report)}`, 'news-detail'), ...heard(report));
-      // A rider who has gone can still be read back. Deferred reading is a requirement,
-      // and the family's record of the news is the right place to keep the conversation
-      // that brought it: the meeting is what happened, the report is what is remembered.
-      const encounter = world.encounter;
-      if (encounter && encounter.topicId === report.topicId) {
-        const open = element('button', `Read what ${encounter.carrierName} said`, 'news-transcript');
-        open.dataset.openEncounter = encounter.id;
-        item.append(open);
-      }
-      return item;
-    }));
-  }
 }
 /**
  * The first five minutes, before the teacher has begun.
@@ -1543,16 +1582,39 @@ $('#tutorial-skip')?.addEventListener('click', () => {
 // invitation - a mark over the person, a line in the roster, a prompt on the map - and
 // the student decides when to go and listen.
 let encounterOpen = false, lastEncounterId = null;
+/**
+ * A conversation happens a line at a time.
+ *
+ * Every word here is the server's - this only decides *when* each line appears, which is
+ * presentation and nothing else. Handing a student the whole exchange at once made a
+ * meeting read as a document that had already happened; taking turns makes it read as two
+ * people talking, which is what it is, and it gives the rider on the map time to be drawn
+ * speaking (`speaking` is already a short window after each line, in sim/encounters.mjs).
+ *
+ * Three rules keep it honest. Nothing is ever withheld that the family has not heard - the
+ * lines are already theirs the moment the server wrote them, and the journal has all of
+ * them whatever this is doing. A conversation is paced once and never replayed: closing
+ * the panel and opening it again shows what was already read, not the scene over. And
+ * `prefers-reduced-motion` turns the whole thing off, because a line that arrives on its
+ * own schedule is motion.
+ */
+let sayFor = null, sayCount = 0, sayAt = 0, sayTimer = null;
+// Long enough to read the line before the next one lands, short enough that nobody waits
+// on the interface. Measured from the line just shown, not from a fixed beat: a one-word
+// answer should not sit for as long as a paragraph.
+const speakingBeat = line => Math.max(450, Math.min(2200, 260 + (line?.text?.length || 0) * 11));
 function renderEncounter(world) {
   const encounter = world.encounter;
   const live = encounter?.status === 'open';
   if (encounter && encounter.id !== lastEncounterId) { lastEncounterId = encounter.id; encounterOpen = false; }
   const listener = entitiesOf(world).find(person => person.id === encounter?.listenerId);
   const name = listener?.name || 'Someone';
-  $('#rider').hidden = !live || world.role === 'host';
-  // The invitation names who met whom. It must not carry the news: finding that out is
-  // what opening it is for.
-  $('#rider-invitation').textContent = live ? `${name} has met a rider` : '';
+  // The arrival is a rider drawn at the gate with a mark over the person he stopped, and
+  // a Listen button on that person's own panel. Nothing floats over the map about it.
+  // This line is the same thing said for a screen reader, which cannot see either - and,
+  // like the mark, it names who met whom and nothing at all about the news: finding that
+  // out is what listening is for.
+  $('#arrival').textContent = live && world.role !== 'host' ? `${name} has met a rider. Choose ${name} and listen.` : '';
   const panel = $('#encounter');
   panel.hidden = !encounter || !encounterOpen || world.role === 'host';
   if (panel.hidden) return;
@@ -1569,12 +1631,43 @@ function renderEncounter(world) {
     ? `Rode from ${encounter.origin}`
     : `Had it from ${encounter.toldBy} at ${encounter.toldAt} · ${handLabel(encounter.hands)} out of ${encounter.origin}`;
   $('#encounter-origin').textContent = `${chain} · ${timeLabel(encounter.rodeForMinutes)} on the road · already ${timeLabel(encounter.observedAgoMinutes)} old when they set out`;
-  $('#encounter-said').replaceChildren(...encounter.said.map(line => {
+  // How much of the conversation has been said out loud so far.
+  const lines = encounter.said;
+  if (sayFor !== encounter.id) { sayFor = encounter.id; sayCount = 0; sayAt = 0; }
+  const now = performance.now();
+  if (reducedMotion.matches) { sayCount = lines.length; sayAt = 0; }
+  else {
+    // The first line is there the moment the panel opens - the rider has already spoken,
+    // and making a student wait to be greeted is the interface talking about itself.
+    if (sayCount === 0 && lines.length) { sayCount = 1; sayAt = 0; }
+    while (sayCount < lines.length && sayAt && now >= sayAt) { sayCount++; sayAt = 0; }
+    if (sayCount < lines.length && !sayAt) sayAt = now + speakingBeat(lines[sayCount - 1]);
+  }
+  const shown = lines.slice(0, sayCount);
+  const speakingNow = sayCount < lines.length ? lines[sayCount] : null;
+  const who = line => line.speaker === 'rider' ? encounter.carrierName : name;
+  $('#encounter-said').replaceChildren(...shown.map(line => {
     const item = element('li', line.text);
     item.dataset.speaker = line.speaker;
-    item.prepend(element('span', line.speaker === 'rider' ? encounter.carrierName : name, 'said-who'));
+    item.prepend(element('span', who(line), 'said-who'));
     return item;
-  }));
+  }), ...(speakingNow ? [(() => {
+    // Somebody is about to say something. Named, so it is plainly a person taking their
+    // turn rather than the interface loading.
+    const item = element('li', '');
+    item.dataset.speaker = speakingNow.speaker;
+    item.dataset.pending = 'true';
+    item.prepend(element('span', who(speakingNow), 'said-who'));
+    item.append(element('span', '', 'said-pending'));
+    return item;
+  })()] : []));
+  clearTimeout(sayTimer);
+  if (speakingNow) sayTimer = setTimeout(() => { if (window.__snapshot) renderEncounter(window.__snapshot.world); }, Math.max(30, sayAt - now));
+  // Presentation evidence, same contract as `__viewEntities`: how much of the exchange is
+  // on screen against how much the family has been told. A proof needs to be able to see
+  // that those converge, and that nothing is held back for ever.
+  window.__conversation = { id: encounter.id, revealed: shown.length, total: lines.length };
+  $('#encounter-asks').hidden = Boolean(speakingNow);
   $('#encounter-asks').replaceChildren(...encounter.questions.map(question => {
     const button = element('button', question.ask, 'ask-option');
     button.dataset.action = 'ask-rider';
@@ -1597,14 +1690,16 @@ function renderEncounter(world) {
         : `${name} let ${encounter.carrierName} ride on.`;
 }
 document.addEventListener('click', event => {
-  if (!event.target.closest('#rider-open') && !event.target.closest('[data-open-encounter]')) return;
+  if (!event.target.closest('[data-open-encounter]')) return;
   encounterOpen = true;
   if (window.__snapshot) renderEncounter(window.__snapshot.world);
 });
 $('#encounter-close')?.addEventListener('click', () => {
   encounterOpen = false;
   $('#encounter').hidden = true;
-  $('#rider-open')?.focus();
+  // Back to the control that opened it, which is on the person who was spoken to.
+  const listen = $('#listen-rider');
+  (listen && !listen.hidden ? listen : $('#journal-toggle'))?.focus();
 });
 function renderSlice(world) {
   const request = world.request;
@@ -1862,11 +1957,6 @@ $('#travel-modes')?.addEventListener('click', event => {
   renderedWork = null;
   render(window.__snapshot);
 });
-$('#news-toggle')?.addEventListener('click', () => {
-  const list = $('#news-list'), open = list.hidden;
-  list.hidden = !open;
-  $('#news-toggle').setAttribute('aria-expanded', String(open));
-});
 installMapNavigation();
 // The family journal is a secondary keyboard route into the same permitted entities.
 function showJournal(open) {
@@ -1877,7 +1967,11 @@ function showJournal(open) {
   $('#journal-close').hidden = !open; $('#journal-backdrop').hidden = !open;
   if (open) $('#journal-close').focus(); else $('#journal-toggle').focus();
 }
-$('#journal-toggle')?.addEventListener('click', () => showJournal($('#family-journal').dataset.open !== 'true'));
+$('#journal-toggle')?.addEventListener('click', () => {
+  const opening = $('#family-journal').dataset.open !== 'true';
+  if (opening) markReportsRead(window.__snapshot?.world.reports || []);
+  showJournal(opening);
+});
 $('#journal-close')?.addEventListener('click', () => showJournal(false));
 $('#journal-backdrop')?.addEventListener('click', () => showJournal(false));
 document.addEventListener('keydown', event => { if (event.key === 'Escape' && $('#family-journal')?.dataset.open === 'true') showJournal(false); });

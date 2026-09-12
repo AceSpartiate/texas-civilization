@@ -136,9 +136,58 @@ try {
   record.payloadIsolation = 'PASS';
 
   // --- what the student actually reads --------------------------------------------------
+  //
+  // Through the person, because that is now the only way in. A rider is somebody standing
+  // in front of one named member of this family, so listening to him is an instruction on
+  // that person's own panel - there is no card in the corner of the screen any more.
+  const listenTo = async browserPage => {
+    const listenerId = await browserPage.evaluate(() => window.__snapshot.world.encounter.listenerId);
+    await browserPage.locator('#journal-toggle').click();
+    await browserPage.locator(`[data-select="${listenerId}"]`).click();
+    await browserPage.locator('#journal-close').click();
+    await browserPage.locator('#listen-rider').click();
+    await browserPage.waitForSelector('#encounter:not([hidden])');
+  };
+  // And the record, which is a page of the family's own book rather than a bar over the map.
+  const readBack = async browserPage => {
+    await browserPage.locator('#journal-toggle').click();
+    // The book itself, with the family's record in it, kept as evidence: this is what
+    // replaced the bar across the bottom of the map.
+    mkdirSync('test-results', { recursive: true });
+    await browserPage.screenshot({ path: 'test-results/family-journal.png' });
+    await browserPage.getByRole('button', { name: /^Read what / }).click();
+    await browserPage.waitForSelector('#encounter:not([hidden])');
+  };
   const page = pages[far.id];
-  await page.locator('#rider-open').click();
-  await page.waitForSelector('#encounter:not([hidden])');
+  // Before anything is opened: the invitation is in the world, not in a corner of the
+  // screen. The rider is drawn at the gate and the person he stopped carries a mark. If
+  // either of those were untrue the replacement for the old news bar would be a feature
+  // with no way in, and every assertion below would still pass.
+  const invitation = await page.evaluate(() => ({
+    carrier: window.__snapshot.world.encounter.carrierId,
+    listener: window.__snapshot.world.encounter.listenerId,
+    observed: window.__viewObserved || [],
+    drawn: Object.keys(window.__drawnAt || {}),
+    marks: window.__viewMarks || [],
+  }));
+  assert.ok(invitation.observed.includes(invitation.carrier), 'the rider was not drawn at all');
+  assert.ok(invitation.drawn.includes(invitation.carrier), 'the rider was not painted this frame');
+  assert.ok(invitation.marks.some(mark => mark.id === invitation.listener && mark.kind === 'meeting'),
+    `nobody was marked as having a rider waiting: ${JSON.stringify(invitation.marks)}`);
+  // And it belongs to one named person. A rider stopped somebody in particular, and the
+  // whole rule the encounter system turns on is that the person who was at the door is the
+  // person who heard it - so the control must not be offered on their sister. The server
+  // refuses it either way; a button that lies about who was spoken to is still a lie.
+  const sibling = await page.evaluate(listener => window.__snapshot.world.entities
+    .find(e => e.kind === 'person' && e.id !== listener)?.id, invitation.listener);
+  await page.locator('#journal-toggle').click();
+  await page.locator(`[data-select="${sibling}"]`).click();
+  await page.locator('#journal-close').click();
+  await page.locator('#selection').waitFor({ state: 'visible' });
+  assert.equal(await page.locator('#listen-rider').isVisible(), false,
+    'the invitation to listen was offered on somebody the rider never spoke to');
+  record.invitationIsInTheWorld = 'PASS';
+  await listenTo(page);
   record.far.header = (await page.locator('#encounter-origin').textContent()).trim();
   assert.ok(record.far.header.includes(`Had it from ${farMet.toldBy}`), 'the header names who told them');
   assert.ok(record.far.header.includes(farMet.toldAt), 'and where');
@@ -148,9 +197,7 @@ try {
   // may well have ridden on - and a conversation that has ended is still readable, which
   // is the other half of what this proves.
   const nearPage = pages[near.id];
-  await nearPage.locator('#news-toggle').click();
-  await nearPage.getByRole('button', { name: /^Read what / }).click();
-  await nearPage.waitForSelector('#encounter:not([hidden])');
+  await readBack(nearPage);
   record.near.header = (await nearPage.locator('#encounter-origin').textContent()).trim();
   assert.match(record.near.header, /^Rode from Gonzales/, 'the family who met the witness is told plainly where they rode from');
   assert.ok(!/second-hand|third-hand|hands/.test(record.near.header), 'and nothing about hands, because there were none');
@@ -179,17 +226,44 @@ try {
   // --- and it is still readable after the rider has gone and the page has reloaded ------
   await page.reload();
   await page.waitForFunction(() => window.__snapshot?.world.householdId);
-  // The news line on the map opens into the family's own record, and the record is where
-  // a rider who has gone is still readable.
-  await page.locator('#news-toggle').click();
-  await page.getByRole('button', { name: /^Read what / }).click();
-  await page.waitForSelector('#encounter:not([hidden])');
+  // The family's own book is where a rider who has gone is still readable.
+  await readBack(page);
   const afterReload = (await page.locator('#encounter-origin').textContent()).trim();
   assert.equal(afterReload, record.far.header, 'the provenance is the same after a reload as it was when it was said');
+  // A conversation now arrives a line at a time, so wait for the two of them to finish
+  // before counting. What is being proved here is that a rider who has ridden on is still
+  // readable after a reload, not how fast the lines land.
+  await page.waitForFunction(() => window.__conversation?.revealed === window.__conversation?.total);
   const lines = await page.locator('#encounter-said li').count();
   assert.ok(lines >= 3, `the whole conversation is still there (${lines} lines)`);
   record.reconnect = 'PASS';
   record.transcriptLinesAfterReload = lines;
+
+  // --- and it plays out as a conversation rather than a document ------------------------
+  //
+  // Headless Chrome asks for reduced motion, and this honours that by putting the whole
+  // exchange up at once - correct behaviour, and the wrong thing to measure. A student who
+  // has not asked for reduced motion watches the two of them take turns.
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.reload();
+  await page.waitForFunction(() => window.__snapshot?.world.householdId);
+  await readBack(page);
+  const paced = await page.evaluate(async () => {
+    const first = { ...window.__conversation };
+    const pendingAtFirst = document.querySelectorAll('#encounter-said li[data-pending]').length;
+    const asksHidden = document.querySelector('#encounter-asks').hidden;
+    await new Promise(resolve => setTimeout(resolve, 9000));
+    return { first, pendingAtFirst, asksHidden, last: { ...window.__conversation },
+             lines: document.querySelectorAll('#encounter-said li:not([data-pending])').length,
+             asksHiddenAfter: document.querySelector('#encounter-asks').hidden };
+  });
+  assert.ok(paced.first.revealed < paced.first.total,
+    `the whole exchange was on screen at once (${paced.first.revealed} of ${paced.first.total})`);
+  assert.equal(paced.pendingAtFirst, 1, 'nobody was shown as taking their turn');
+  assert.equal(paced.asksHidden, true, 'the family was offered questions while the rider was still talking');
+  assert.equal(paced.last.revealed, paced.last.total, 'a line was held back for ever');
+  assert.equal(paced.asksHiddenAfter, false, 'the questions never came back');
+  record.conversation = { revealedAtFirst: paced.first.revealed, ofTotal: paced.first.total, settledAt: paced.last.revealed };
 
   assert.deepEqual(errors, [], 'no browser errors');
   record.browserErrors = errors;

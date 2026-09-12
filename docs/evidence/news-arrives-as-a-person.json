@@ -1,0 +1,58 @@
+{
+  "record": "news-arrives-as-a-person",
+  "date": "2026-09-11",
+  "ownerDirection": [
+    "\"i don't like the popups at the bottom of the game that let us know a major event is unfolding. we need a better system. something that matches with our overall vision.\"",
+    "\"when the rider arrives, shouldn't it play out more like a conversation?\""
+  ],
+  "whatWasThere": "Two cards stacked in the bottom-left corner of the map. One was a headline bar carrying the latest report; the other was a button saying a rider had stopped. Both were notifications about something that was already happening in the world.",
+  "whyItWasWrong": {
+    "itDuplicated": "The rider was already drawn at the gate and the person he stopped already carried a mark over their head. The card said the same thing again, in the corner, in words.",
+    "itMadeNewsAThingTheInterfaceAnnounces": "VISION.md §4 asks that people and objects resolve into a visible physical world rather than abstract counters, and §10 that information arrive through couriers, travellers and neighbours. A headline bar is the opposite shape: it is the game telling you, rather than somebody telling you.",
+    "andTheRecordWasInvisible": "The family's own list of what it had heard existed only in the screen-reader-only block. A sighted student's only route to it was the headline bar, so removing the bar without moving the record would have taken the record away."
+  },
+  "whatItIsNow": {
+    "arrival": "A rider drawn reining in at the farm, and a mark over the one person he stopped. The camera includes him in its frame, because he is not one of this family and nothing else would put him in it.",
+    "theWayIn": "A Listen button on that person's own panel, beside their other instructions - because that is what it is: an instruction to one named member of this family. It is never offered on anybody else, which matters, since the whole rule the encounter system turns on is that the person who was at the door is the person who heard it.",
+    "theRecord": "The first page of the family journal, visible rather than screen-reader-only, with the provenance, anything the family drew out by asking, and a button to read the whole conversation back after the rider has gone.",
+    "theSignal": "A small mark on the book, cleared by opening it. Per-viewer and client-side: it describes somebody looking at a screen, not anything a household knows.",
+    "screenReaders": "One status line - \"Elena has met a rider. Choose Elena and listen.\" - which is the same information the mark and the drawn rider carry, for a reader that cannot see either. Like the mark, it names who met whom and nothing whatever about the news."
+  },
+  "conversationPacing": {
+    "change": "The exchange arrives a line at a time rather than all at once, with the speaker named while their line is pending, and the family's questions held back until the rider has finished talking.",
+    "everyWordIsTheServers": "This decides only *when* each line appears. The lines, the questions and the answers are all the server's and are already the family's the moment they are written - the journal has every one of them whatever the panel is doing.",
+    "attentionGate": "docs/LIVING_INFORMATION.md requires that text carry no forced reading timer. This is not one: nothing is ever removed, nothing scrolls away, no line becomes unreadable, the panel is never taken from a student who is in the middle of something, and the longest a question waits is about two seconds. prefers-reduced-motion turns the whole thing off and puts the exchange up at once.",
+    "notReplayed": "A conversation is paced once. Closing the panel and opening it again shows what was already read rather than playing the scene over."
+  },
+  "presentationSeams": {
+    "added": ["window.__viewMarks", "window.__conversation"],
+    "contract": "The same one as window.__viewEntities, window.__drawnAt and window.__animationClips: read by proofs and by nothing in the application. They exist because 'is the invitation actually in the world' and 'does the exchange arrive a line at a time' are not questions a projection can answer."
+  },
+  "regressionDiscipline": {
+    "rule": "CLAUDE.md: a new test is not evidence until it has failed.",
+    "provedIn": "scripts/relay-browser-proof.mjs, in Chrome",
+    "injections": [
+      { "injected": "the person a rider stopped carries no mark, so nothing in the world invites a student in", "caught": true },
+      { "injected": "the rider is never drawn, so the arrival happens off screen", "caught": true },
+      { "injected": "the Listen button is offered on everybody, so it stops meaning that this person was spoken to", "caught": "only after the assertion was written - see below" },
+      { "injected": "the whole exchange is put up at once, so a meeting reads as a document", "caught": true },
+      { "injected": "the family is offered questions while the rider is still talking", "caught": true },
+      { "injected": "a line is held back for ever, so the conversation never finishes", "caught": true },
+      { "injected": "nobody is shown taking their turn, so the pause reads as the page having stopped", "caught": true }
+    ],
+    "oneInjectionWasMissed": "Nothing checked that the Listen button belonged to the person the rider actually stopped: offering it on every member of the family passed the whole proof. The server refuses the command either way, so this was never a security hole - but a control that lies about who was spoken to is still a lie, and it undoes the one idea the encounter system exists to teach. The proof now selects a sibling and asserts the button is not there.",
+    "andOneSyntaxError": "The first version of the conversation pacing declared a `revealTimer` that already existed further down public/app.js. That is a parse error, so *every* student page failed to load - and no unit test could have seen it, because nothing under tests/ loads the client. The browser proof caught it on the first run, which is what browser proofs are for.",
+    "fullSuite": "163 unit tests pass; test:browser, test:information, test:slice, test:relay and test:travel all pass with no browser errors."
+  },
+  "measured": {
+    "conversationRevealedOnOpening": 1,
+    "ofTotalLines": 3,
+    "settledAt": 3,
+    "beat": "450ms to 2200ms, taken from the length of the line just shown - a one-word answer does not sit as long as a paragraph."
+  },
+  "notProved": [
+    "That a twelve-year-old notices a rider arriving without a card telling them so. The mark is drawn above everything else and the camera frames him, and the journal carries a mark until the book is opened; whether that is enough attention in a real room is a classroom question.",
+    "That the pacing reads as a conversation rather than as a slow interface. It is measurably turn-taking; nobody has watched it who did not write it.",
+    "Anything about simultaneous arrivals. LIVING_INFORMATION.md's attention gate asks that they queue, and only one rider has ever met one family at a time in any test."
+  ]
+}

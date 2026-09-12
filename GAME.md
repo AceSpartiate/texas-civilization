@@ -54,6 +54,10 @@ Because every household is presently a copy of the same four names, a neighbour 
 
 A short optional walk-through offers itself once, in that lobby. It explains the family, the work, what planting costs and what the land does, and the steps are real: a student who finishes it has their family genuinely set out for the day rather than having practised on a toy. Declining it is one press and it never asks again. It cannot show a crop growing, because nothing grows before the teacher begins, and it says so rather than pretending.
 
+**News arrives as a person, and nothing announces it.** A rider reins in at your farm and stops one member of your family — the one he happened to find. You see him: he is drawn there, on his horse, and the person he stopped carries a mark over their head. Click that person and their panel offers **Listen**, beside their other instructions, because that is what listening is. Nobody else in the family can take that conversation; the rider spoke to who he spoke to.
+
+The exchange plays out a line at a time. You can ask him things — where he came from, whether he saw it himself, how many of them there were — and a rider who was only told says so, names who told him, and will not guess. Everything said is written into the first page of your **family journal**, with how far the word travelled and how old it already was, and the whole conversation can be read back after he has ridden on.
+
 **How somebody goes is a decision, and there are three of them.** Every family owns a horse, an ox and a wagon, and a panel on the person you have selected says which way they will set out.
 
 - **On foot.** Three miles an hour. Always possible, never blocked, and it is the legs that pay: walking is the only thing that tires anybody enough to matter.
