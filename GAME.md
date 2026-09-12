@@ -54,6 +54,13 @@ Because every household is presently a copy of the same four names, a neighbour 
 
 A short optional walk-through offers itself once, in that lobby. It explains the family, the work, what planting costs and what the land does, and the steps are real: a student who finishes it has their family genuinely set out for the day rather than having practised on a toy. Declining it is one press and it never asks again. It cannot show a crop growing, because nothing grows before the teacher begins, and it says so rather than pretending.
 
+**A farm is something a family makes, not something it is given.** You start with a cabin, one patch of broken ground, and no fence.
+
+- **Break new ground.** A long afternoon with the hoe, and the field is bigger for good — up to four times what you came with. A bigger field takes more seed to plant and gives back more when it is brought in. Past three clearings the crop is more than four people can carry, and the ox and wagon have to be standing in the yard to bring it in — so a family that sent the wagon to the timber has a ripe field it cannot harvest.
+- **Fence the field.** Stock here run loose and are not fed; they get into whatever is not fenced. Until the rails are up, a third of every harvest goes to them. The number is on both buttons before either is pressed.
+
+Clearing early is worth it and clearing late is not, because a crop still has to ripen. That is the decision: an afternoon now against a harvest that may not come in before the day ends.
+
 **News arrives as a person, and nothing announces it.** A rider reins in at your farm and stops one member of your family — the one he happened to find. You see him: he is drawn there, on his horse, and the person he stopped carries a mark over their head. Click that person and their panel offers **Listen**, beside their other instructions, because that is what listening is. Nobody else in the family can take that conversation; the rider spoke to who he spoke to.
 
 The exchange plays out a line at a time. You can ask him things — where he came from, whether he saw it himself, how many of them there were — and a rider who was only told says so, names who told him, and will not guess. Everything said is written into the first page of your **family journal**, with how far the word travelled and how old it already was, and the whole conversation can be read back after he has ridden on.

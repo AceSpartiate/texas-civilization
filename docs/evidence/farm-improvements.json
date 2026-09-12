@@ -1,0 +1,34 @@
+{
+  "record": "farm-improvements",
+  "date": "2026-09-11",
+  "ownerDirection": "\"players should be able to expand their farms. develop a system for this that takes into account the overall vision for the game. implement when ready. they'll need to be destructible (runaway scrape).\"",
+  "design": {
+    "whatAFamilyMakes": "Three things stand on a household's land and every one of them has a state: the cabin, the broken ground, and the fence. Two of them are made by hand during a class.",
+    "breakNewGround": "A long afternoon with the hoe. Ground can be broken four times and no more. A bigger field swallows more seed at planting and gives back more when it is brought in, and past three clearings the crop is more than four people can carry and wants the wagon.",
+    "fenceTheField": "Split rails and lay them round the crop. Until they are up, a third of the harvest goes to stock.",
+    "whyThoseTwo": "They are the two decisions the existing systems already had shapes for. Clearing spends the one thing a forty-five minute class is short of - an afternoon of somebody's labour - against a harvest that only arrives if it was started early. Fencing spends a shorter afternoon against a flat, stated loss. Neither adds a subsystem; both make the chore table, the seed economy, the travel modes and the field on the map bear on one another, which is VISION.md §21."
+  },
+  "theInteractionWorthNaming": "Past three clearings the harvest cannot be brought in without the ox and the wagon standing in the yard - and since this morning, taking the wagon somewhere means it is somewhere else. A family that expanded its field and then sent the wagon to the timber has a ripe crop it cannot bring in. Neither half was built for the other; the rivalry came from the travel modes and the threshold from the field, and they meet on their own. That is the kind of depth VISION.md §21 asks for rather than another independent system.",
+  "historyCare": {
+    "claims": ["HIST-GONZ-018", "HIST-GONZ-019", "FIC-GONZ-015"],
+    "whatTheResearchChanged": "Two things, and one of them was a plan being dropped. DeWitt Colony stock 'were allowed to range freely and flourished without feed on the land' - which is both why a fence is something a family builds (what was fenced was the crop, not the beast) and why there is no feeding chore and should not be one. The owner had left animal-care chores as an open question and the design research had already argued against them as the classic tedium trap; the documented practice settles it on better grounds than taste.",
+    "andWhyNothingBurnsYet": "HIST-GONZ-019 anchors the destruction to the Runaway Scrape: Houston reached Gonzales on 11 March 1836 and ordered every inhabitant out, and families returned to homes that no longer existed. No destruction of homesteads around Gonzales on 2 October 1835 is documented here, so none is invented. `ruin()` exists, is proved directly, and is called by nothing - and one of the tests plays a whole class through and asserts that it stays that way.",
+    "notABarn": "public/app.js has said since the art landed that a DeWitt colony homestead has 'no barns, no windmills - those belong to a later century and another country'. Nothing here adds one. The validation test asserts a world cannot even claim a windmill."
+  },
+  "saveCompatibility": "No version moved. A class saved before this has no `improvements` and no `field.cleared`, and both absences are the state every family used to be in: a cabin standing, one patch of ground, and no fence. sim/trade.mjs is the precedent CLAUDE.md points at for that judgement.",
+  "regressionDiscipline": {
+    "rule": "CLAUDE.md: a new test is not evidence until it has failed.",
+    "newFile": "tests/improvements.test.mjs, 12 tests",
+    "fullSuite": "175 pass, 0 fail",
+    "injections": "docs/evidence/improvements-injections.json - 12 injected regressions",
+    "oneWasMissed": "\"Ruining what is already ruined says it happened again\" was caught by nothing. The test asserted that a second ruin returns an empty list, which stayed true - what the injection changed was that the event was recorded anyway. A Runaway Scrape passing a household twice would have announced a loss that did not happen, into the very record the epilogue is built from. The test now counts events either side.",
+    "andOneInjectionIsTheGuardItself": "\"A class may quietly start burning homesteads at Gonzales\" was injected into stepWorld and caught, which is the point: the absence of destruction in this slice is a historical position, and a director that started taking property would be a claim nobody reviewed."
+  },
+  "browserProof": "docs/evidence/farm-improvements-browser.json - npm run test:farm. Six PASS lines in Chrome, including the one only a browser can answer: after an afternoon of clearing the field is drawn 2.00x the area it was. The map is fetched once a class and never changes, so a field that grows has to be drawn from the household - window.__fieldRect was added on the same contract as window.__drawnAt to make that measurable.",
+  "notProved": [
+    "Anything about destruction in a played class. Nothing calls ruin(), so cabin-ruin and fence-broken have never been drawn in a browser. Both sprites exist in the shipped library.",
+    "That clearing is worth its afternoon at the study pace. Ten ticks is about a minute and a half of a lesson against a harvest eighteen ticks after planting; whether a class spends it is a balance question no room has answered.",
+    "That a student reads the fence warning before losing a third of a crop. The number is on both controls and in the journal; nobody has watched a class read them.",
+    "That four is the right ceiling on clearing. It is the number at which a field fills the labor of ground the map draws for it, which is a drawing constraint rather than an argument."
+  ]
+}

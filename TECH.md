@@ -34,6 +34,12 @@ A chore is a list of steps — `walk`, `travel`, `work`, `consume`, `produce`, `
 
 Which chores a person may be given, and the reason for any that are refused, are computed on the server and delivered in the projection as `work`. The client renders that answer; it never decides for itself what is possible. That is the fog-of-war rule applied to a control rather than to a fact.
 
+**A homestead has state, and all of it can be taken away.** [sim/improvements.mjs](sim/improvements.mjs) holds three things a family has on its land — the cabin, the broken ground, the fence — and every one of them has a state including `ruined`. The ruin path is written, tested and **called by nothing**: `HIST-GONZ-019` anchors it to the Runaway Scrape, and no destruction of homesteads around Gonzales in October 1835 is documented, so none is invented. One test plays a whole class through and asserts that nothing took anybody's property, because a director that quietly started doing so would be a historical claim nobody reviewed.
+
+The field is the interesting one for the renderer. `/api/map` is fetched once a class and never changes, so a field that grows cannot grow in the terrain: the polygon on the map is the whole labor of ground a household holds, and the client draws the share of it the household has actually broken. `window.__fieldRect` was added on the usual seam contract so a proof can measure that it really did grow.
+
+No save version moved: a class saved before this has no `improvements` and no `field.cleared`, and both absences are the state every family used to be in.
+
 **News has no interface of its own.** There was a headline bar and a rider card stacked in the corner of the map; both are gone. The arrival is the rider drawn at the gate plus a mark over the person he stopped, the way in is a **Listen** button on that person's own panel, and the record is the first page of the family journal. Nothing here is new simulation — the rider, the mark and the transcript all already existed — and that was the problem: the cards were a second telling of something the world was already showing.
 
 Two presentation seams were added on the usual contract (read by proofs, by nothing in the application): `window.__viewMarks` says who was marked and why, and `window.__conversation` says how much of an exchange is on screen against how much the family has been told. Both exist because "is the invitation actually in the world" and "does it arrive a line at a time" cannot be answered from a projection.

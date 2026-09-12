@@ -18,6 +18,7 @@
     "test:relay": "node scripts/relay-browser-proof.mjs",
     "test:slice": "node scripts/slice-browser-proof.mjs",
     "simulate": "node scripts/simulate.mjs",
-    "test:travel": "node scripts/travel-browser-proof.mjs"
+    "test:travel": "node scripts/travel-browser-proof.mjs",
+    "test:farm": "node scripts/farm-browser-proof.mjs"
   }
 }

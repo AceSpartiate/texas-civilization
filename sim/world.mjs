@@ -9,6 +9,8 @@ import { GOODS, advanceOffers, makeOffer, offersFor, respondToOffer } from './tr
 import { buildGonzalesRegion, findPath, polylineLength } from './geography.mjs';
 import { advanceEncounters, askRider, carriedInPerson, encounterProjection, leaveRider, riderName, spotName } from './encounters.mjs';
 import { DEFAULT_MODE, MODES, modeOf, propertyId, RIDER_SPEED } from './travel.mjs';
+import { CLEARING_MAX, STATES as IMPROVEMENT_STATES, clearedOf, improvementProjection } from './improvements.mjs';
+export { CLEARING_MAX, clearedOf, improvementsOf, ruin } from './improvements.mjs';
 export { MODES, MODE_IDS, DEFAULT_MODE, carryCapacity, modeOf } from './travel.mjs';
 export { record } from './events.mjs';
 export function seededRandom(seed) {
@@ -447,11 +449,14 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
   const work = household ? Object.fromEntries(household.members.map(id => [id, choresFor(world, household, world.entities[id])])) : {};
   // Which ways each person could set out, on the same rule as the work: a permission, so
   // it is decided here and never guessed at by the client.
+  // What the family has made of this land, and what state it is in. The renderer draws
+  // the field at the size this says and the fence only when there is one to draw.
+  const land = household ? improvementProjection(household) : null;
   const travelModes = household ? Object.fromEntries(household.members.map(id => [id, travelModesFor(world, world.entities[id])])) : {};
   const toolCondition = household ? Object.fromEntries(Object.entries(household.tools || {}).map(([tool, wear]) => [tool, { wear, state: toolState(wear) }])) : {};
   const offers = offersFor(world, householdId);
   const encounter = encounterProjection(world, householdId, role);
-  return structuredClone({ tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: world.map }), household, entities, others, offers, encounter, events, work, travelModes, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role) });
+  return structuredClone({ tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: world.map }), household, entities, others, offers, encounter, events, work, travelModes, land, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role) });
 }
 export function validateWorld(world) {
   if (world.schemaVersion !== 3 || !Number.isInteger(world.tick) || world.tick < 0 || !Number.isFinite(world.minute) || world.minute < 0 || !['lobby', 'running', 'paused', 'ended'].includes(world.status)) throw new Error('Invalid world');
@@ -482,6 +487,13 @@ export function validateWorld(world) {
     }
     if (!household.tools || !Number.isInteger(household.tools.hoe) || household.tools.hoe < 0) throw new Error('Invalid tool condition');
     if (!household.field || !['bare', 'planted', 'ripe'].includes(household.field.state) || !['corn', 'cotton'].includes(household.field.crop)) throw new Error('Invalid field state');
+    // Absent on a class saved before a family could break new ground, and the empty value
+    // is the one every family used to have: the first patch, and no fence. So no save
+    // version moved. Present, both have to mean something.
+    if (household.field.cleared !== undefined && (!Number.isInteger(household.field.cleared) || household.field.cleared < 1 || household.field.cleared > CLEARING_MAX)) throw new Error('Invalid cleared ground');
+    for (const [kind, state] of Object.entries(household.improvements || {})) {
+      if (!['cabin', 'fence'].includes(kind) || !IMPROVEMENT_STATES.includes(state)) throw new Error(`Invalid improvement ${kind}`);
+    }
   }
   // Offers are optional state, so a class saved before trading existed validates as one
   // with no offers rather than as a broken world.

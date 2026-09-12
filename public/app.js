@@ -188,8 +188,12 @@ function logCabin(ctx, x, y, size, wide = false) {
 // A homestead is one cabin. Which cabin is fixed by the site's own id, so a family
 // always comes home to the same house.
 const HOMESTEAD_CABINS = ['cabin-small', 'cabin-wide', 'storehouse', 'cabin-weathered'];
-function miniBuilding(ctx, x, y, size, settlement = false, id = '') {
+function miniBuilding(ctx, x, y, size, settlement = false, id = '', ruined = false) {
   if (!settlement) {
+    // Nothing in the Gonzales afternoon burns a homestead, and this project invents no
+    // such event. The state exists because the chapter it belongs to is documented, and
+    // a family coming back to this ought to see it rather than read about it.
+    if (ruined && drawSprite(ctx, 'cabin-ruin', x, y, size)) return;
     if (drawSprite(ctx, pickSprite(HOMESTEAD_CABINS, id), x, y, size)) return;
     return logCabin(ctx, x, y, size * .62);
   }
@@ -227,7 +231,19 @@ function postOak(ctx, x, y, size, tint = 0) {
 // below that the procedural zigzag draws it, because a sprite scaled to four pixels is a
 // smear. The procedural weight is capped because `size` grows with the zoom, and an
 // uncapped rail becomes a wall across the field.
-function railFence(ctx, points, size) {
+function railFence(ctx, points, size, broken = false) {
+  if (broken && hasSprite('fence-broken') && size > 20) {
+    for (let i = 0; i < points.length; i++) {
+      const a = points[i], b = points[(i + 1) % points.length];
+      const length = Math.hypot(b.x - a.x, b.y - a.y), count = Math.max(1, Math.ceil(length / (size * 1.4)));
+      for (let n = 0; n < count; n++) {
+        const t = (n + .5) / count;
+        ctx.save(); ctx.translate(a.x + (b.x - a.x) * t, a.y + (b.y - a.y) * t); ctx.rotate(Math.atan2(b.y - a.y, b.x - a.x));
+        drawSprite(ctx, 'fence-broken', 0, 0, size * .28); ctx.restore();
+      }
+    }
+    return;
+  }
   if (hasSprite('fence-rail') && size > 20) {
     for (let i = 0; i < points.length; i++) {
       const a = points[i], b = points[(i + 1) % points.length];
@@ -869,7 +885,7 @@ function drawTerrain(ctx, world, camera) {
   const figure = camera.figure;
   for (const feature of world.map?.terrain || []) {
     const style = TERRAIN_STYLE[feature.kind]; if (!style) continue;
-    const points = (feature.points || []).map(camera.toScreen); if (points.length < 2) continue;
+    let points = (feature.points || []).map(camera.toScreen); if (points.length < 2) continue;
     if (!style.fill) {
       ctx.beginPath(); points.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
       ctx.strokeStyle = style.stroke; ctx.lineWidth = Math.max(1.5, Math.min(26, style.width * camera.scale * .55));
@@ -889,8 +905,21 @@ function drawTerrain(ctx, world, camera) {
     if (feature.kind === 'field') {
       // Corn and cotton in rows, and the split-rail fence that kept stock out of them
       // (HIST-GONZ-013).
+      // A field is as big as the family has made it. The polygon on the map is the whole
+      // labor of ground a household holds; what is drawn worked is the share of it that
+      // has actually been broken, growing out of the corner nearest the cabin. The map
+      // itself never changes - it is fetched once a class - so the size has to come from
+      // the household, which is authoritative and arrives every tick.
       const xs = points.map(p => p.x), ys = points.map(p => p.y);
-      const left = Math.min(...xs), right = Math.max(...xs), top = Math.min(...ys), bottom = Math.max(...ys);
+      const edgeLeft = Math.min(...xs), edgeRight = Math.max(...xs);
+      const edgeTop = Math.min(...ys), edgeBottom = Math.max(...ys);
+      const ownLand = world.household && feature.ownerHouseholdId === world.household.id ? world.household : null;
+      const worked = Math.sqrt((ownLand ? (world.land?.cleared ?? 1) : 1) / (world.land?.clearingMax ?? 4));
+      const left = edgeLeft, top = edgeTop;
+      const right = edgeLeft + (edgeRight - edgeLeft) * worked;
+      const bottom = edgeTop + (edgeBottom - edgeTop) * worked;
+      points = [{ x: left, y: top }, { x: right, y: top }, { x: right, y: bottom }, { x: left, y: bottom }];
+      ctx.beginPath(); points.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); ctx.closePath();
       const spacing = Math.max(4, camera.scale * .045);
       // What is standing in the field is what the household actually planted. It used to
       // be picked from the field's id, which looked the same but asserted a crop the
@@ -918,7 +947,17 @@ function drawTerrain(ctx, world, camera) {
           }
         }
       }
-      if (camera.scale > 40) railFence(ctx, points, figure);
+      // The rail fence used to be drawn round every field unconditionally, which was a
+      // picture of something the world had never modelled. A family starts without one,
+      // splits rails to raise it, and until they do the stock are in the crop.
+      const fence = feature.ownerHouseholdId === world.household?.id ? world.land?.fence : 'sound';
+      if (camera.scale > 40 && fence && fence !== 'none') railFence(ctx, points, figure, fence === 'ruined');
+      // How big this family's field was actually drawn, and what was round it. Same
+      // contract as `window.__drawnAt`: presentation evidence, read by proofs and by
+      // nothing in the application. A field that grows is the only visible sign that an
+      // afternoon of clearing happened, and "did it grow" is not a question the
+      // projection can answer - the map polygon never changes.
+      if (ownLand) window.__fieldRect = { x: left, y: top, width: right - left, height: bottom - top, fence, cleared: world.land?.cleared ?? 1 };
     } else if (feature.kind === 'woods' && camera.scale > 26) {
       // Close in, timber resolves into individual trees rather than a green wash. Timber
       // follows the water here, so a share of it is drawn as river-bottom cottonwood
@@ -974,7 +1013,8 @@ export function drawWorld(world) {
     const ownLand = site.id === homeId;
     if (site.kind === 'homestead' && !ownLand && camera.scale < HOMESTEAD_LEGIBLE) continue;
     if (settlement || site.kind === 'homestead' || !site.kind) {
-      standing.push({ y: q.y, draw: () => miniBuilding(ctx, q.x, q.y, Math.max(5, camera.figure * (settlement ? SIZE.settlementCabin : SIZE.cabin)), settlement, site.id) });
+      const burnt = !settlement && site.ownerHouseholdId === world.household?.id && world.land?.cabin === 'ruined';
+      standing.push({ y: q.y, draw: () => miniBuilding(ctx, q.x, q.y, Math.max(5, camera.figure * (settlement ? SIZE.settlementCabin : SIZE.cabin)), settlement, site.id, burnt) });
     } else if (site.kind === 'ford') {
       // The crossing is drawn as a break in the bank, not as a building or a bridge.
       const width = Math.max(6, camera.figure * .9);
@@ -1127,7 +1167,19 @@ function renderHousehold(world) {
   $('#others-empty').hidden = others.length > 0;
   $('#others-empty').textContent = 'Nobody outside your family is standing with them.';
   const property = entitiesOf(world).filter(entity => entity.kind !== 'person' && (entity.householdId === household.id || (household.property || []).includes(entity.id)));
-  $('#property').replaceChildren(...property.map(entity => { const li = element('li', `${entity.name}: ${entity.kind} at ${placeName(world, entity.location?.siteId)}`); li.dataset.entityId = entity.id; return li; }));
+  // The land is the first thing on the list of what this family has, because it is the
+  // thing they can change and the thing they would have to leave.
+  const land = world.land;
+  const ground = land ? [(() => {
+    const li = element('li', land.cabin === 'ruined'
+      ? `Their land: the cabin is gone. Ground broken ${land.cleared} of a possible ${land.clearingMax}.`
+      : `Their land: ground broken ${land.cleared} of a possible ${land.clearingMax}${land.fence === 'sound' ? ', the field fenced' : land.fence === 'ruined' ? ', the fence pulled down' : ', no fence round the crop'}.`);
+    li.dataset.land = 'true';
+    li.dataset.cleared = String(land.cleared);
+    li.dataset.fence = land.fence;
+    return li;
+  })()] : [];
+  $('#property').replaceChildren(...ground, ...property.map(entity => { const li = element('li', `${entity.name}: ${entity.kind} at ${placeName(world, entity.location?.siteId)}`); li.dataset.entityId = entity.id; return li; }));
   const memory = world.events || [];
   $('#event-log').replaceChildren(...memory.slice(-12).reverse().map(event => { const li = element('li', `${event.text || event.type} (${timeLabel(event.minute ?? 0)} into the story)`); li.dataset.eventId = event.id; return li; }));
   renderSelection(world);
@@ -1284,7 +1336,7 @@ function renderTravelModes(world, chosen, settable) {
 }
 function renderWork(world, chosen, running) {
   const panel = $('#selection-work');
-  const key = JSON.stringify([chosen.id, running, modeFor(chosen.id), chosen.health?.condition, Boolean(chosen.chore),
+  const key = JSON.stringify([chosen.id, running, modeFor(chosen.id), world.land, chosen.health?.condition, Boolean(chosen.chore),
     (world.work?.[chosen.id] || []).map(entry => ({ ...choreCache?.get(entry.id), ...entry }))]);
   if (renderedWork?.key === key) return;
   const restore = renderedWork?.chosenId === chosen.id ? rememberControls(panel) : () => {};
@@ -1326,7 +1378,15 @@ function populateWork(world, chosen, running) {
     const haul = entry.haul && Number.isFinite(carry)
       ? ` Brings home ${Math.min(entry.haul.got, carry)} ${entry.haul.resource}${entry.haul.got > carry ? ` of ${entry.haul.got}; the rest is left behind.` : '.'}`
       : '';
-    button.append(element('span', entry.can ? `${entry.describe}${haul}` : entry.why, 'work-note'));
+    // A standing crop, and what the stock will have had out of it if nobody fenced the
+    // field. Both numbers come from the server; saying them before the work is chosen is
+    // the same rule the tool's remaining uses follow - a cost you can see coming.
+    const crop = entry.crop
+      ? entry.crop.share < 1
+        ? ` About ${Math.round(entry.crop.grown * entry.crop.share)} food of ${Math.round(entry.crop.grown)} standing; the rest has gone to stock in an unfenced field.`
+        : ` About ${Math.round(entry.crop.grown)} food standing.`
+      : '';
+    button.append(element('span', entry.can ? `${entry.describe}${haul}${crop}` : entry.why, 'work-note'));
     if (!entry.can) button.title = entry.why;
     host.append(button);
   }

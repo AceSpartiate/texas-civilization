@@ -1,0 +1,100 @@
+[
+  {
+    "injected": "breaking ground makes no more ground",
+    "caught": 3,
+    "filesFailing": 1,
+    "by": [
+      "breaking new ground costs an afternoon and makes the field bigger for good",
+      "the class is told what is standing on its land, and never left to guess",
+      "what a family made can be taken from it, and the labor is still there afterwards"
+    ]
+  },
+  {
+    "injected": "there is no limit, so a family clears for ever",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "there is a limit to the ground, and none of it can be broken round a standing crop"
+    ]
+  },
+  {
+    "injected": "ground can be broken through a standing crop",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "there is a limit to the ground, and none of it can be broken round a standing crop"
+    ]
+  },
+  {
+    "injected": "a bigger field is planted for the price of a small one",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "a bigger field swallows more seed, and the control says so before it is chosen"
+    ]
+  },
+  {
+    "injected": "an unfenced crop loses nothing, so the fence is decoration again",
+    "caught": 2,
+    "filesFailing": 1,
+    "by": [
+      "stock here run loose, so an unfenced crop feeds them first",
+      "the class is told what is standing on its land, and never left to guess"
+    ]
+  },
+  {
+    "injected": "no amount of crop ever wants the wagon",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "past a certain amount of ground the crop wants the wagon, and the wagon can be elsewhere"
+    ]
+  },
+  {
+    "injected": "a bigger field gives back no more than a small one",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "a bigger field is worth having: more ground standing means more food in the door"
+    ]
+  },
+  {
+    "injected": "ruin leaves the cleared ground, so nothing is really lost",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "what a family made can be taken from it, and the labor is still there afterwards"
+    ]
+  },
+  {
+    "injected": "ruining what is already ruined says it happened again",
+    "caught": 0,
+    "filesFailing": 1,
+    "by": []
+  },
+  {
+    "injected": "the class is never told what is standing on its land",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "the class is told what is standing on its land, and never left to guess"
+    ]
+  },
+  {
+    "injected": "a world may claim any improvement it likes",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "a world cannot claim ground or a fence that does not exist"
+    ]
+  },
+  {
+    "injected": "a class may quietly start burning homesteads at Gonzales",
+    "caught": 2,
+    "filesFailing": 1,
+    "by": [
+      "breaking new ground costs an afternoon and makes the field bigger for good",
+      "nothing in the Gonzales afternoon takes anybody’s property"
+    ]
+  }
+]

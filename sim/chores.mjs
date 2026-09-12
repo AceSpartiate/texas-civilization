@@ -21,6 +21,10 @@
 import { record } from './events.mjs';
 import { recordTrade, traderAt } from './town.mjs';
 import { carryCapacity, DEFAULT_MODE, MODES, propertyId } from './travel.mjs';
+import {
+  CLEARING_MAX, SEED_PER_CLEARING, UNFENCED_LOSS, clearGround, clearedOf, harvestShare,
+  improvementsOf, isFenced, needsWagonToHarvest, raiseFence, standingCrop,
+} from './improvements.mjs';
 export { MODES } from './travel.mjs';
 
 const round = value => Math.round(value * 10000) / 10000;
@@ -59,12 +63,14 @@ const yieldFor = (amount, skill) => round(amount * (skill === 3 ? 1.4 : skill ==
 export const CHORES = {
   'plant-field': {
     name: 'Plant the field', skill: 'farming', tool: 'hoe', where: 'home',
-    needs: { seed: 2 }, field: 'bare',
-    describe: 'Turn the rows and put in seed. Costs two seed.',
+    // Two seed for the first patch and two more for every time the ground has been
+    // broken since: a family that clears more has more to put in, and more to find.
+    needsPerClearing: { seed: SEED_PER_CLEARING }, field: 'bare',
+    describe: 'Turn the rows and put in seed.',
     steps: [
       { walk: 'field', doing: 'walking out to the field' },
       { work: 4, doing: 'breaking the rows' },
-      { consume: { seed: 2 } },
+      { consumePerClearing: { seed: SEED_PER_CLEARING } },
       { work: 3, doing: 'putting in seed' },
       { field: 'planted' },
       { wear: 'hoe' },
@@ -73,15 +79,40 @@ export const CHORES = {
   },
   'harvest-field': {
     name: 'Bring in the crop', skill: 'farming', tool: 'hoe', where: 'home',
-    field: 'ripe',
+    field: 'ripe', wantsWagon: true,
     describe: 'The field is ready. Cut it and carry it in.',
     steps: [
       { walk: 'field', doing: 'walking out to the field' },
       { work: 6, doing: 'cutting the crop' },
-      { produce: { food: 6 } },
+      { produceCrop: true },
       { field: 'bare' },
       { wear: 'hoe' },
       { walk: 'yard', doing: 'carrying the crop in' },
+    ],
+  },
+  'clear-ground': {
+    name: 'Break new ground', skill: 'farming', tool: 'hoe', where: 'home',
+    field: 'bare',
+    describe: 'Cut the brush back and turn ground nobody has worked. A long afternoon, and the field is bigger for good.',
+    steps: [
+      { walk: 'field', doing: 'walking out to the edge of the field' },
+      { work: 10, doing: 'breaking new ground' },
+      { clear: 1 },
+      { wear: 'hoe' },
+      { walk: 'yard', doing: 'coming in from the field' },
+    ],
+  },
+  'build-fence': {
+    name: 'Fence the field', skill: 'hands', where: 'home',
+    describe: 'Split rails and lay them round the crop. Stock here run loose, and an unfenced field feeds them first.',
+    steps: [
+      // ceiling: rails are split with an axe and a maul, and this household owns one hoe.
+      // The tool model is deliberately one tool; a second one is next-task 1 in HANDOFF.md,
+      // and this chore should wear it when there is one.
+      { walk: 'field', doing: 'walking out to the field' },
+      { work: 8, doing: 'splitting rails' },
+      { raise: 'fence' },
+      { walk: 'yard', doing: 'coming in from the field' },
     ],
   },
   'hunt-timber': {
@@ -175,12 +206,47 @@ export function choreAvailability(world, household, entity, choreId) {
   if (chore.field && (household.field?.state ?? 'bare') !== chore.field) {
     return { can: false, why: chore.field === 'ripe' ? 'The field is not ready.' : 'The field is already planted.' };
   }
+  if (choreId === 'clear-ground' && clearedOf(household) >= CLEARING_MAX) {
+    return { can: false, why: 'There is no more ground here worth breaking.' };
+  }
+  if (choreId === 'build-fence' && isFenced(household)) return { can: false, why: 'The field is already fenced.' };
+  // Past a certain amount of ground the crop is simply more than four people can carry
+  // in by hand. The ox and the wagon have to be standing here - which, now that taking
+  // them somewhere means they are somewhere else, is a thing a family can get wrong.
+  if (chore.wantsWagon && needsWagonToHarvest(household) && !wagonAtHome(world, household)) {
+    return { can: false, why: 'This much crop wants the wagon, and the wagon is not here.' };
+  }
   if (chore.needsTool && toolState(household.tools?.hoe ?? 0) !== chore.needsTool) return { can: false, why: 'The hoe is sound.' };
   if (chore.tool && toolState(household.tools?.[chore.tool] ?? 0) === 'worn') return { can: false, why: 'The hoe is worn out and wants mending.' };
-  for (const [resource, amount] of Object.entries(chore.needs || {})) {
+  for (const [resource, amount] of Object.entries(needsOf(household, chore))) {
     if ((household.resources[resource] ?? 0) < amount) return { can: false, why: `Not enough ${resource}.` };
   }
   return { can: true, why: '' };
+}
+
+/**
+ * What this chore costs this household right now. Fixed for most; for planting it grows
+ * with the ground, because a bigger field swallows more seed.
+ */
+export function needsOf(household, chore) {
+  const perClearing = Object.fromEntries(Object.entries(chore.needsPerClearing || {})
+    .map(([resource, amount]) => [resource, amount * clearedOf(household)]));
+  return { ...chore.needs, ...perClearing };
+}
+
+/**
+ * Whether this household's wagon is standing on its own land and fit to use.
+ *
+ * Three lines of `modeAvailability` restated rather than imported: that function lives in
+ * sim/world.mjs, which imports this file, and this file is handed `beginTravel` as a
+ * parameter for exactly that reason. Keeping the arrow from existing is worth the
+ * repetition - and this asks a narrower question, about one place rather than any place.
+ */
+function wagonAtHome(world, household) {
+  const wagon = world.entities?.[propertyId(household.id, 'wagon')];
+  const ox = world.entities?.[propertyId(household.id, 'ox')];
+  return [wagon, ox].every(beast =>
+    beast && !beast.travel && beast.location.siteId === household.homeSiteId && (!beast.condition || beast.condition === 'sound'));
 }
 
 /** Every chore this person could be sent on, with the reason for any that are refused. */
@@ -208,6 +274,9 @@ export function choreCatalogue() {
     id, name: chore.name, describe: chore.describe, skill: chore.skill,
     // Stated up front, so spending the last seed is a visible decision.
     cost: Object.entries(chore.needs || {}).map(([resource, amount]) => `${amount} ${resource}`).join(', '),
+    // A cost that grows with the ground cannot be stated once for the whole class; the
+    // per-tick permission carries the real number for this household.
+    scales: Boolean(chore.needsPerClearing),
   }));
 }
 
@@ -223,9 +292,14 @@ export function choresFor(world, household, entity) {
     // control puts the two together so a student sees what a choice costs before making
     // it, which is `FIC-GONZ-008`'s rule about visible outcomes applied to a number.
     const haul = chore.hauls ? haulFor(entity, id) : null;
+    // What this one actually costs this family today, and what the field would give back.
+    const cost = Object.entries(needsOf(household, chore)).map(([resource, amount]) => `${amount} ${resource}`).join(', ');
+    const crop = chore.wantsWagon
+      ? { grown: round(yieldFor(standingCrop(household), entity.skills?.[chore.skill] ?? 1)), share: harvestShare(household) }
+      : null;
     return can
-      ? { id, can: true, level: entity.skills?.[chore.skill] ?? 1, ...(haul && { haul }) }
-      : { id, can: false, why, level: entity.skills?.[chore.skill] ?? 1, ...(haul && { haul }) };
+      ? { id, can: true, level: entity.skills?.[chore.skill] ?? 1, ...(cost && { cost }), ...(haul && { haul }), ...(crop && { crop }) }
+      : { id, can: false, why, level: entity.skills?.[chore.skill] ?? 1, ...(cost && { cost }), ...(haul && { haul }), ...(crop && { crop }) };
   });
 }
 
@@ -311,6 +385,29 @@ function advanceChore(world, household, entity, { beginTravel }) {
     if (step.consume) {
       for (const [resource, amount] of Object.entries(step.consume)) {
         household.resources[resource] = round(Math.max(0, (household.resources[resource] ?? 0) - amount));
+      }
+      continue;
+    }
+    if (step.consumePerClearing) {
+      for (const [resource, amount] of Object.entries(step.consumePerClearing)) {
+        household.resources[resource] = round(Math.max(0, (household.resources[resource] ?? 0) - amount * clearedOf(household)));
+      }
+      continue;
+    }
+    if (step.clear) { clearGround(world, household, entity); continue; }
+    if (step.raise === 'fence') { raiseFence(world, household, entity); continue; }
+    if (step.produceCrop) {
+      // What is standing, less what the stock have had out of it. Both numbers are on the
+      // controls that spend the afternoon, so a family that harvests an unfenced field
+      // knew before they started what it would cost them.
+      const grown = yieldFor(standingCrop(household), skill);
+      const kept = round(grown * harvestShare(household));
+      household.resources.food = round((household.resources.food ?? 0) + kept);
+      if (kept < grown) {
+        record(world, 'consequence', {
+          actorId: entity.id, householdId: household.id, importance: 2,
+          text: `${entity.name} brought in ${kept} food. The rest had gone to stock in an unfenced field.`,
+        });
       }
       continue;
     }

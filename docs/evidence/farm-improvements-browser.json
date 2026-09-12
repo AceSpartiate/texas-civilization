@@ -1,0 +1,47 @@
+{
+  "record": "farm-improvements-browser",
+  "date": "2026-09-12",
+  "browser": "152.0.7977.83",
+  "ownerDirection": "\"players should be able to expand their farms... they'll need to be destructible (runaway scrape).\"",
+  "checks": [
+    "a family is offered \"Break new ground\" and \"Fence the field\", and the fence says why it matters",
+    "the price of planting is on the button: \"Plant the field · 2 seed\"",
+    "an afternoon of clearing is visible on the ground: the field is drawn 2.00x the area it was",
+    "rails round the crop are drawn only once a family has split them",
+    "the land is the first thing in the list of what the family has: \"Their land: ground broken 2 of a possible 4, the field fenced.\"",
+    "no page errors anywhere in the run"
+  ],
+  "measured": {
+    "fieldBefore": {
+      "x": 799.2,
+      "y": 544.3000000000003,
+      "width": 131.17500000000007,
+      "height": 131.17499999999984,
+      "fence": "none",
+      "cleared": 1
+    },
+    "fieldAfter": {
+      "x": 858.6000000000001,
+      "y": 455.20000000000044,
+      "width": 185.50946404429078,
+      "height": 185.5094640442906,
+      "fence": "none",
+      "cleared": 2
+    },
+    "drawnAreaRatio": 2,
+    "fenced": "sound",
+    "land": {
+      "cabin": "sound",
+      "fence": "sound",
+      "cleared": 2,
+      "clearingMax": 4,
+      "harvestShare": 1,
+      "needsWagon": false
+    }
+  },
+  "notProved": [
+    "Anything about destruction in a browser. Nothing in the Gonzales afternoon ruins a homestead and this project invents no such event; the transition is proved directly in tests/improvements.test.mjs and is drawn from cabin-ruin and fence-broken, which no played class has yet shown.",
+    "That clearing is worth its afternoon at the study pace in a real class. Ten ticks of work is about a minute and a half of a lesson; whether a student spends it is a classroom question.",
+    "That a student understands the fence before losing a third of a crop to it. The number is on both controls; nobody has watched a class read them."
+  ]
+}
