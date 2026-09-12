@@ -126,6 +126,17 @@
 
     <!-- The first five minutes, before the teacher has begun. Never modal and never in
          the way: a student who would rather just start farming says so once and it goes. -->
+    <!-- The die a family is rolled with (docs/FAMILY_CREATION.md). What the number means
+         is deliberately written nowhere a student can read it. -->
+    <section id="family-roll" hidden aria-labelledby="family-roll-title">
+      <span class="eyebrow">BEFORE THE CLASS BEGINS</span>
+      <h2 id="family-roll-title">Roll for your family</h2>
+      <p id="family-roll-text">Roll the die to find out who your family is.</p>
+      <div id="family-die" class="family-die" aria-hidden="true">⚀</div>
+      <p id="family-roll-result" role="status"></p>
+      <button type="button" id="roll-family">Roll the die</button>
+    </section>
+
     <section id="tutorial" hidden aria-labelledby="tutorial-title">
       <header>
         <span class="eyebrow" id="tutorial-step"></span>

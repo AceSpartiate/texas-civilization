@@ -209,6 +209,8 @@ A character has one persistent identity and one true location.
 
 Households may contain roughly 4–7 visible named people.
 
+*Amended 2026-09-12 by the owner:* a student rolls a die when joining and **the roll is the family's size** — one parent for 1–3, two parents for 4–6, the rest children — so a household holds **one to six** people. Each person also carries hidden strength, health and housework, different on average between men and women and dealt per person. See `docs/FAMILY_CREATION.md`.
+
 Not every person requires equal simulation depth.
 
 A smaller group of principal characters may receive deeper personality, relationships, travel, danger, and memory.
@@ -459,6 +461,8 @@ Do not build a general-purpose tactical war game.
 Large formations may be simulated in aggregate while visually resolving into miniature people.
 
 Individually preserve player characters, important historical figures where needed, and select meaningful NPCs.
+
+*Amended 2026-09-12 by the owner:* a family may send a parent or a child aged 16 or over into a battle, and **the risk is hidden** — no warning, resolved from that person's hidden strength and health, and very likely fatal for somebody weak or frail. This is an owner-approved exception to showing understood risks before a choice (`FIC-GONZ-008`). It applies only to battles where people died, never to Gonzales. No gore; glory never rewards a death; nothing pressures a family to send anybody (§11). See `docs/FAMILY_CREATION.md` §5.
 
 ---
 

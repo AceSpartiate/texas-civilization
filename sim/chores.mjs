@@ -18,6 +18,7 @@
 // `HIST-GONZ-013` documents corn and cotton for this locality and buffalo as the only
 // documented local game. So a household grows corn or cotton and nothing else, and no
 // hunted species is ever named.
+import { tooYoung, tooYoungWhy } from './family.mjs';
 import { record } from './events.mjs';
 import { recordTrade, traderAt } from './town.mjs';
 import { carryCapacity, DEFAULT_MODE, MODES, propertyId } from './travel.mjs';
@@ -406,6 +407,7 @@ export function choreAvailability(world, household, entity, choreId) {
   if (!chore) return { can: false, why: 'No such work.' };
   if (entity.kind !== 'person' || entity.householdId !== household.id) return { can: false, why: 'Not one of your family.' };
   if (entity.health.condition === 'dead' || entity.health.condition === 'captured') return { can: false, why: 'This person cannot work.' };
+  if (tooYoung(entity)) return { can: false, why: tooYoungWhy(entity) };
   if (entity.chore) return { can: false, why: `${entity.name} is already ${entity.chore.doing}.` };
   if (entity.travel) return { can: false, why: `${entity.name} is on the road.` };
   if (entity.task === 'help') return { can: false, why: `${entity.name} is away helping.` };

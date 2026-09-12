@@ -11,6 +11,9 @@ import { runScenario } from '../sim/headless.mjs';
 import { resolveTimeJump } from '../sim/time.mjs';
 import { readSave, writeSave } from '../server/storage.mjs';
 const advance = (world, minute) => { while (world.minute < minute && world.status === 'running') stepWorld(world); };
+// The word leaves Gonzales at the notice and reaches each family down its own road, so a
+// test that needs a family to have been asked waits for it to have heard.
+const toldBy = (world, householdId) => { while (!world.knowledge.households[householdId]['cannon-request']) stepWorld(world); };
 function ancestry(world, eventId, visited = new Set()) {
   if (visited.has(eventId)) return visited;
   visited.add(eventId);
@@ -55,8 +58,12 @@ test('Gate D: requests require household knowledge; historical truth and battle 
   const world = createGonzalesWorld('fog', 5); world.status = 'running';
   assert.throws(() => applyAction(world, 'hh-1', { action: 'help', entityId: 'hh-1-thomas' }), /known open request/);
   advance(world, TIMELINE.notice);
+  assert.equal(projectWorld(world, 'hh-1', 'student').request, null, 'the thing has happened and nobody has told this family yet');
+  toldBy(world, 'hh-1');
   assert.ok(projectWorld(world, 'hh-1', 'student').request);
-  assert.equal(projectWorld(world, 'hh-2', 'student').request, null);
+  const unaware = Object.keys(world.households).find(id => !world.knowledge.households[id]['cannon-request']);
+  assert.ok(unaware, 'the class still has a family the word has not reached');
+  assert.equal(projectWorld(world, unaware, 'student').request, null);
   applyAction(world, 'hh-1', { action: 'help', entityId: 'hh-1-thomas' });
   advance(world, TIMELINE.exchange);
   assert.equal(projectWorld(world, 'hh-1', 'student').battle.phase, 'exchange');
@@ -86,7 +93,7 @@ test('Gate D: deterministic bot inputs, frozen pause, and timeline barriers pres
 });
 test('Gate D: duplicate response is rejected; coming home requires a real return journey', () => {
   const world = createGonzalesWorld('return', 5); world.status = 'running';
-  advance(world, TIMELINE.notice);
+  advance(world, TIMELINE.notice); toldBy(world, 'hh-1');
   applyAction(world, 'hh-1', { action: 'help', entityId: 'hh-1-thomas' });
   assert.throws(() => applyAction(world, 'hh-1', { action: 'help', entityId: 'hh-1-thomas' }), /open request/);
   advance(world, TIMELINE.resolved);
@@ -101,7 +108,7 @@ test('Gate D: duplicate response is rejected; coming home requires a real return
 test('Gate D: later consequences never revive or erase an injured/captured principal', () => {
   for (const condition of ['dead', 'captured', 'severe-injury', 'minor-injury']) {
     const world = createGonzalesWorld('condition', 5); world.status = 'running';
-    advance(world, TIMELINE.notice);
+    advance(world, TIMELINE.notice); toldBy(world, 'hh-1');
     applyAction(world, 'hh-1', { action: 'help', entityId: 'hh-1-thomas' });
     advance(world, 1500);
     world.entities['hh-1-thomas'].health = { condition };

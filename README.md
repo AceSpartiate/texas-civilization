@@ -34,7 +34,7 @@ A student who stays in the same browser is reconnected automatically. One who do
 
 ## What a student does
 
-Before the teacher begins, the lobby is not dead time: a family can be set to work, and an optional walk-through explains what the work costs. Nothing advances until Start, so nobody gets ahead by joining early — every family's plan begins on the same minute.
+Before the teacher begins, the lobby is not dead time: a student first **rolls a die for their family** — who is in it and how old they are — and can then set it to work, and an optional walk-through explains what the work costs. Nothing advances until Start, so nobody gets ahead by joining early — every family's plan begins on the same minute.
 
 Then a household farms, hunts, mends its tools, trades seed and food with the families standing beside it, and deals with the residents of Gonzales. Nobody sees another household's stores, and nobody who is not theirs takes an order.
 
@@ -51,7 +51,7 @@ npm.cmd start
 npm.cmd test
 ```
 
-**233 automated tests**, needing no external packages. Browser proofs need separately installed Playwright and Chromium or Chrome; the exact commands are in [HANDOFF.md](HANDOFF.md). Every test makes an isolated temporary class and leaves the ordinary classroom save alone.
+**247 automated tests**, needing no external packages. Browser proofs need separately installed Playwright and Chromium or Chrome; the exact commands are in [HANDOFF.md](HANDOFF.md). Every test makes an isolated temporary class and leaves the ordinary classroom save alone.
 
 Read in this order: [VISION.md](VISION.md) for what this is for, [HANDOFF.md](HANDOFF.md) for the actual state and what is proved, [TECH.md](TECH.md) and [GAME.md](GAME.md) for the architecture and the play, and [HISTORY.md](HISTORY.md) — always — before changing anything historical. Documented fact and invented gameplay are separated there claim by claim, and dated evidence for each piece of work lives in [docs/evidence](docs/evidence).
 

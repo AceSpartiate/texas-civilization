@@ -1,0 +1,42 @@
+{
+  "record": "Rolling a family: docs/FAMILY_CREATION.md step 1",
+  "date": "2026-09-12",
+  "verdict": "PASS",
+  "verdictMeaning": "A student who joins rolls one die in the lobby and the number becomes their family: one parent for 1-3, two for 4-6, the rest children, with ages that make sense and hidden strength, health and housework that differ on average by sex and overlap between people. The hidden stats reach no client. A child under ten cannot be sent anywhere. A family that joined and never rolled is rolled for at Start. Registered as FIC-GONZ-021. Proved headless, by injected regression, and live in a browser.",
+  "ownerDirection": "2026-09-12, quoted in docs/FAMILY_CREATION.md section 1, with four answers: the roll is the family size; hidden and very likely fatal; average by sex and dealt per person; parents and children 16+ may fight.",
+  "defaultsChosenWithoutAsking": [
+    "A lone parent is a man or a woman with equal chance.",
+    "The principal is the father when there is one, otherwise the lone parent.",
+    "A child under ten cannot be given work, sent on a road or asked a call.",
+    "Rolling is refused once anything is in the family's record besides its founding.",
+    "Households nobody joined keep the founding two parents and two children."
+  ],
+  "liveBrowserProof": {
+    "server": "PORT=1847 TEXAS_DATA_DIR=<scratch> SEED=dice PLAYERS=5 TICK_MS=400 node server/main.mjs - an isolated class",
+    "observed": [
+      "After joining: the 'Roll for your family' panel was shown, the walk-through was held back, the family book said 'Roll the die to find out who your family is.' and listed nobody.",
+      "The person card for the founding principal was open behind the dice with work controls. That would have let a student spend the roll by setting work first, so the card is now hidden until the family is rolled; after the fix it was hidden.",
+      "Activating 'Roll the die': 'Rolling...' with the die tumbling, then 'You rolled a 5.' and 'Meet your family'.",
+      "'Meet your family' opened the journal: 'father, 39 | Trinidad | Married to Dorotea. Father to Mateo and Marcela and Soledad.', 'mother, 32 | Dorotea', 'son, 14 | Mateo', 'daughter, 4 | Marcela', 'daughter, 0 | Soledad'. Members hh-1-parent-1 ... hh-1-child-3. The record reads 'Your family rolled a 5.'",
+      "The student's snapshot and /api/family together contained no 'traits', 'strength' or 'housework'."
+    ],
+    "polish": "A newborn is now labelled 'under a year' rather than '0'."
+  },
+  "automated": {
+    "suite": "tests/family-roll.test.mjs",
+    "tests": 7,
+    "wholeSuite": "247 pass, 0 fail",
+    "regressionsInjected": [
+      { "injected": "a roll of 4 makes a lone parent", "failed": ["the number rolled is the size of the family, parents first"] },
+      { "injected": "young parents are not made older", "failed": ["every family could exist...", "the number rolled is the size of the family...", "capacity: 30 HTTP households..."], "note": "The ages test first missed this: too few age slots silently produced fewer children, which broke no age rule. It now asserts the child count too, and was re-run to confirm." },
+      { "injected": "children may share an age", "failed": ["every family could exist..."] },
+      { "injected": "women dealt the same means as men", "failed": ["the hidden stats differ on average between men and women, and people overlap"] },
+      { "injected": "no spread, a fixed bonus by sex", "failed": ["the hidden stats differ on average between men and women, and people overlap"] },
+      { "injected": "the family book carries the hidden stats", "failed": ["the hidden stats reach no payload..."] },
+      { "injected": "rolling allowed after the family has a record", "failed": ["a family is rolled once, and before anything happens to it"], "note": "A first injection, allowing a roll after work was set, caught nothing: setting work already writes to the family's record, so that check was redundant and was removed." },
+      { "injected": "a small child can be given work", "failed": ["a child under ten is not sent anywhere, and the controls say so"] }
+    ],
+    "testsChanged": "tests/capacity.test.mjs reads principal ids after Start, because Start now rolls every joined family."
+  },
+  "boundary": "Step 1 only. Every person is still drawn as the same adult figure - there is no child or distinguishable man or woman in the art, so a rolled infant is drawn as an adult (step 2, needs Astra). The hidden stats are dealt and stored and change nothing yet (step 3). Who answers a call is still the principal (step 4). Lethal risk in battle is not built and cannot be until a battle where people died exists (step 5)."
+}

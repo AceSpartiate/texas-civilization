@@ -33,7 +33,8 @@ function play(seed, { march = 'go-upriver', households = null, onTick = null } =
     for (const id of ids) {
       const request = view(world, id).request;
       if (request?.status === 'open' && request.kind !== 'march' && !helped.has(id)) {
-        try { applyAction(world, id, { action: 'help', entityId: world.households[id].principalId }); helped.add(id); } catch { /* not yet known */ }
+        // A family with only a rumor goes to see first, and is asked properly once it is in town.
+        try { applyAction(world, id, { action: request.kind === 'rumor' ? 'go-see' : 'help', entityId: world.households[id].principalId }); if (request.kind !== 'rumor') helped.add(id); } catch { /* not yet known */ }
       }
       if (request?.kind === 'march' && request.status === 'open' && !answered.has(id) && march) {
         answered.set(id, { tick, risk: request.risk, actorId: request.actorId });
@@ -54,7 +55,7 @@ test('the call to go upriver is only put to a family whose person is actually st
     stepWorld(world);
     const offered = view(world, 'hh-2').request;
     if (offered?.status === 'open' && offered.kind !== 'march' && !sent) {
-      try { applyAction(world, 'hh-2', { action: 'help', entityId: world.households['hh-2'].principalId }); sent = true; } catch { /* not yet known */ }
+      try { applyAction(world, 'hh-2', { action: offered.kind === 'rumor' ? 'go-see' : 'help', entityId: world.households['hh-2'].principalId }); if (offered.kind !== 'rumor') sent = true; } catch { /* not yet known */ }
     }
     if (world.minute >= TIMELINE.crossing) {
       assert.equal(world.marches['hh-1'], undefined, 'a family that sent nobody was asked to march anyway');

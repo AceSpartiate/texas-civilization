@@ -1512,7 +1512,9 @@ function populateWork(world, chosen, running) {
 function renderSelection(world) {
   const panel = $('#selection'), chosen = selectedEntity(world);
   const household = world.household;
-  if (!chosen || world.role === 'host' || selectionDismissed) { panel.hidden = true; return; }
+  // Nobody to give orders to until the die is rolled: setting one of the founding four to
+  // work would use up the family's roll on people it is about to replace.
+  if (!chosen || world.role === 'host' || selectionDismissed || familyCache?.canRoll || rollState === 'rolling') { panel.hidden = true; return; }
   panel.hidden = false;
   panel.dataset.entityId = chosen.id;
   const commands = chosen.id === household?.principalId && chosen.principal && !chosen.observed;
@@ -1598,6 +1600,9 @@ function renderFamilyBook() {
   const host = $('#family-kin'), form = $('#family-name-form');
   const family = familyCache;
   if (!family) { host.replaceChildren(); form.hidden = true; return; }
+  // Nobody to name until the die is rolled: renaming first would be naming people the roll
+  // is about to replace, so the server refuses it and the book does not offer it.
+  if (family.canRoll) { host.replaceChildren(); form.hidden = true; $('#family-book-note').textContent = 'Roll the die to find out who your family is.'; return; }
   form.hidden = false;
   const nameInput = $('#family-name-input');
   // Never overwrite what somebody is in the middle of typing.
@@ -1612,7 +1617,8 @@ function renderFamilyBook() {
     item.dataset.role = person.role || '';
     const form_ = element('form', '', 'name-row');
     form_.dataset.entityId = person.id;
-    const label = element('label', person.role || 'of this family');
+    const age = !Number.isFinite(person.age) ? '' : person.age === 0 ? ', under a year' : `, ${person.age}`;
+    const label = element('label', `${person.role || 'of this family'}${age}`);
     label.htmlFor = `rename-${person.id}`;
     const input = element('input');
     input.id = `rename-${person.id}`;
@@ -1743,11 +1749,73 @@ function rememberTutorial(world) {
   try { localStorage.setItem(tutorialKey(world), 'done'); } catch { /* a private window is allowed to forget */ }
 }
 let tutorialStep = null;
+/**
+ * Rolling for a family. The number comes from the server; the tumbling is only the dice
+ * being thrown, and it stops on whatever the server says. The rule turning the number into
+ * people is the server's and is not explained here or anywhere a student reads.
+ */
+const DIE_FACES = ['\u2680', '\u2681', '\u2682', '\u2683', '\u2684', '\u2685'];
+let rollState = 'idle', tumble = null, rollStarted = 0;
+function stopTumble() { clearInterval(tumble); tumble = null; $('#family-die')?.classList.remove('rolling'); }
+function renderFamilyRoll(world) {
+  const panel = $('#family-roll');
+  if (!panel) return;
+  const family = familyCache;
+  if (world.role === 'host' || !world.householdId || !family) { panel.hidden = true; return; }
+  if (rollState === 'rolling' && family.roll && Date.now() - rollStarted >= 900) {
+    stopTumble();
+    rollState = 'rolled';
+  }
+  if ((rollState === 'idle' && !family.canRoll) || rollState === 'done') { panel.hidden = true; return; }
+  panel.hidden = false;
+  const die = $('#family-die'), button = $('#roll-family');
+  if (rollState === 'rolled') {
+    die.textContent = DIE_FACES[family.roll - 1];
+    $('#family-roll-result').textContent = `You rolled a ${family.roll}.`;
+    button.textContent = 'Meet your family';
+    button.disabled = false;
+  } else {
+    $('#family-roll-result').textContent = rollState === 'rolling' ? 'Rolling\u2026' : '';
+    button.textContent = 'Roll the die';
+    button.disabled = rollState === 'rolling';
+  }
+}
+$('#roll-family')?.addEventListener('click', async () => {
+  if (rollState === 'rolled') {
+    rollState = 'done';
+    $('#family-roll').hidden = true;
+    const toggle = $('#journal-toggle');
+    if (toggle && $('#family-journal')?.dataset.open !== 'true') toggle.click();
+    if (window.__snapshot) render(window.__snapshot);
+    return;
+  }
+  if (rollState !== 'idle') return;
+  rollState = 'rolling'; rollStarted = Date.now();
+  const die = $('#family-die');
+  if (!reducedMotion.matches) {
+    die.classList.add('rolling');
+    tumble = setInterval(() => { die.textContent = DIE_FACES[Math.floor(Math.random() * 6)]; }, 90);
+  } else die.textContent = '?';
+  if (window.__snapshot) renderFamilyRoll(window.__snapshot.world);
+  try {
+    await api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, action: 'roll-family' });
+    forgetFamily();
+    // Let the dice tumble for a moment even when the server answers at once.
+    setTimeout(() => { if (window.__snapshot) render(window.__snapshot); }, 950);
+    if (window.__snapshot) render(window.__snapshot);
+  } catch (error) {
+    stopTumble(); rollState = 'idle';
+    say(error.message);
+    if (window.__snapshot) renderFamilyRoll(window.__snapshot.world);
+  }
+});
 function renderTutorial(world) {
   const panel = $('#tutorial');
   // A rider standing in the yard outranks a lesson in how to hold a hoe, and the two use
   // the same corner of the screen.
-  const busy = world.role === 'host' || !world.householdId || world.encounter?.status === 'open';
+  // The die comes first: the walk-through sets people to work, and a family that has been
+  // set to work can no longer be rolled.
+  const busy = world.role === 'host' || !world.householdId || world.encounter?.status === 'open' || familyCache?.canRoll || ['rolling', 'rolled'].includes(rollState);
   if (busy || tutorialStep === 'gone' || (tutorialStep === null && tutorialSeen(world))) { panel.hidden = true; return; }
   panel.hidden = false;
   if (tutorialStep === null) {
@@ -1919,6 +1987,8 @@ function renderSlice(world) {
     $('#request-text').textContent = request.text;
     const said = request.kind === 'march'
       ? { open: 'Your family can choose how to respond.', accepted: 'Your family went upriver with them.', refused: 'Your family stayed in Gonzales.', expired: 'They crossed without an answer.' }
+      : request.kind === 'rumor'
+      ? { open: 'Your family can choose how to respond.', accepted: 'Your family went to see for itself.', refused: 'Your family stayed home.', expired: 'Nobody went to find out.' }
       : { open: 'Your family can choose how to respond.', accepted: 'Your family chose to help.', refused: 'Your family chose to stay home.', expired: 'This request has passed.' };
     $('#request-status').textContent = said[request.status] || '';
   }
@@ -2029,7 +2099,7 @@ function render(snapshot) {
   }
   renderJoinLinks(snapshot);
   renderSlice(world);
-  drawWorld(world); renderHousehold(world); renderKnowledge(world); renderEncounter(world); renderTutorial(world);
+  drawWorld(world); renderHousehold(world); renderKnowledge(world); renderEncounter(world); renderFamilyRoll(world); renderTutorial(world);
 }
 function showJoin(message) {
   events?.close(); events = null;
@@ -2145,7 +2215,7 @@ document.addEventListener('click', async event => {
     if (button.dataset.chore) input.chore = button.dataset.chore;
     if (button.dataset.option) input.option = button.dataset.option;
     // Every order that can put somebody on a road carries how they mean to go.
-    if (['travel', 'chore', 'help', 'go-upriver'].includes(action) && input.entityId) input.mode = modeFor(input.entityId);
+    if (['travel', 'chore', 'help', 'go-upriver', 'go-see'].includes(action) && input.entityId) input.mode = modeFor(input.entityId);
     if (button.dataset.lineId) input.lineId = button.dataset.lineId;
   }
   try {

@@ -103,15 +103,18 @@ test('routine time never resolves a serious condition, and a chore does not outl
 test('answering the historical call drops the work; it never resumes in the wrong place', () => {
   const world = createGonzalesWorld('interrupted-work', 5);
   world.status = 'running';
-  const thomas = world.entities['hh-1-thomas'];
-
+  // Whichever family the neighbour actually knocks on at home: a family that only has a
+  // rumor is asked something else (FIC-GONZ-020), and this test is about the work.
+  let thomas = null;
   let offered = false;
   for (let tick = 0; tick < 900 && !offered; tick++) {
     stepWorld(world);
-    if (world.requests?.['hh-1']?.status === 'open') {
-      applyAction(world, 'hh-1', { action: 'chore', entityId: thomas.id, chore: 'plant-field' });
+    const [id] = Object.entries(world.requests || {}).find(([, request]) => request.status === 'open' && request.where === 'home') || [];
+    if (id) {
+      thomas = world.entities[world.households[id].principalId];
+      applyAction(world, id, { action: 'chore', entityId: thomas.id, chore: 'plant-field' });
       assert.ok(thomas.chore, 'he is in the middle of planting when the neighbour knocks');
-      applyAction(world, 'hh-1', { action: 'help', entityId: thomas.id });
+      applyAction(world, id, { action: 'help', entityId: thomas.id });
       offered = true;
     }
   }

@@ -2,6 +2,7 @@ import { record } from './events.mjs';
 import { SHOT_COST } from './chores.mjs';
 import { establishTruth, learn } from './knowledge.mjs';
 import { TIRING_MILES } from './routines.mjs';
+import { tooYoung, tooYoungWhy } from './family.mjs';
 
 // Date is anchored; these within-day times, pacing, and formation positions are schematic.
 // `crossing` is the night of October 1, when the force went over to the west bank and
@@ -50,6 +51,7 @@ export function initializeDirectors(world) {
   ] }, frames: [] };
   world.requests = {};
   world.marches = {};
+  world.rumors = {};
   for (const [id, minute] of Object.entries(TIMELINE)) world.barriers.push({ id: `gonzales:${id}`, minute, kind: 'historical-scene', resolved: false });
 }
 function once(world, key, action) {
@@ -94,16 +96,61 @@ export function marchRisk(name, condition) {
   if (condition === 'tired') return `${name} is already tired. Going on will leave ${name} hurt, and mending takes days.`;
   return `Going on will not mend what ${name} is already carrying.`;
 }
+/**
+ * Whether what a family has heard is firm enough for somebody to ask something of it.
+ *
+ * `FIC-GONZ-020`. A neighbour carrying food to Gonzales knocks on the door of a family that
+ * heard it from somebody who saw it, or from somebody who had it straight from them. Nobody
+ * knocks on a rumor. A family whose word came third-hand or worse is asked a different
+ * question - its own, and not a neighbour's: does somebody go and see? That is the first
+ * point at which how a family heard decides what it can do, rather than only what its
+ * journal says.
+ */
+export const firmEnough = report => Boolean(report) && report.status !== 'rumor';
+const handsSaid = hands => hands === 2 ? 'third-hand' : `through ${hands} pairs of hands`;
+
 function offerRequests(world) {
+  if (!world.rumors) world.rumors = {};
   for (const household of Object.values(world.households)) {
     const report = world.knowledge.households[household.id]['cannon-request'];
     if (!report || world.requests[household.id] || world.minute >= TIMELINE.approach) continue;
+    const entity = world.entities[household.principalId];
+    if (!firmEnough(report)) {
+      offerRumor(world, household, entity, report);
+      continue;
+    }
+    const rumor = world.rumors[household.id];
+    // A family that heard the rumor and chose to stay home has answered. Firmer word
+    // arriving later does not bring a neighbour to the door to ask again: VISION.md §11,
+    // a refusal reduces repeated requests.
+    if (rumor?.status === 'refused') continue;
+    // Firmer word has arrived - a second rider, or the family's own eyes in Gonzales - and
+    // the question of whether to go and find out has answered itself.
+    if (rumor?.status === 'open') rumor.status = 'overtaken';
     // A neighbour speaking, not a rules panel. What each choice costs belongs on the
-    // controls; a request that has to explain itself is a badly designed request.
-    const text = 'A neighbour is at the door. They are carrying food to the people gathering near Gonzales, and ask whether Thomas can help take it.';
-    const id = record(world, 'pressure', { householdId: household.id, text, classification: 'FICTIONAL FOR GAMEPLAY', causes: [report.eventId], importance: 2 });
-    world.requests[household.id] = { id, text, status: 'open', offeredMinute: world.minute };
+    // controls; a request that has to explain itself is a badly designed request. It names
+    // the family's own person: households name their people now, and every one of them
+    // used to be asked about somebody called Thomas.
+    const inTown = entity.location.siteId === 'gonzales';
+    const text = inTown
+      ? `People in Gonzales are gathering food for the men here, and ask whether ${entity.name} can give some of your family's.`
+      : `A neighbour is at the door. They are carrying food to the people gathering near Gonzales, and ask whether ${entity.name} can help take it.`;
+    const id = record(world, 'pressure', { householdId: household.id, actorId: entity.id, text, classification: 'FICTIONAL FOR GAMEPLAY', causes: [report.eventId], importance: 2 });
+    world.requests[household.id] = { id, text, status: 'open', offeredMinute: world.minute, where: inTown ? 'town' : 'home' };
   }
+}
+/**
+ * A rumor, put to the family as a question of its own.
+ *
+ * Asked once. It says only what the rumor itself said and how far it came, which is
+ * everything the family has; the options are to go and see, or to stay home and prepare.
+ * It never tells the family the rumor is true - finding that out is what going is for.
+ */
+function offerRumor(world, household, entity, report) {
+  if (world.rumors[household.id]) return;
+  const text = `The word that reached your family came ${handsSaid(report.hands ?? 2)}, and nobody who passed it on saw any of it. Does ${entity.name} go to Gonzales to see?`;
+  const id = record(world, 'pressure', { householdId: household.id, actorId: entity.id, text, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-020', causes: [report.eventId], importance: 2 });
+  world.rumors[household.id] = { id, text, status: 'open', actorId: entity.id, offeredMinute: world.minute };
 }
 // The second call, and the one that puts a family member where the fighting is. It is
 // only ever put to a household whose person actually stood in Gonzales when the force
@@ -143,16 +190,17 @@ function offerMarch(world) {
 export function callAvailability(world, householdId, entity, action) {
   const household = world.households[householdId];
   if (['dead', 'captured'].includes(entity.health.condition)) return { can: false, why: `${entity.name} cannot answer.` };
+  if (tooYoung(entity)) return { can: false, why: tooYoungWhy(entity) };
   if (action === 'help') {
     if (entity.travel) return { can: false, why: 'Wait until this person arrives.' };
     if (household.resources.food < 2) return { can: false, why: 'Helping needs two food. Staying home is also a valid choice.' };
     return { can: true, why: '' };
   }
-  if (action === 'stay') {
+  if (action === 'stay' || action === 'stay-home') {
     if (entity.location.siteId !== household.homeSiteId) return { can: false, why: 'Return home before choosing to stay and prepare.' };
     return { can: true, why: '' };
   }
-  if (action === 'go-upriver') {
+  if (action === 'go-upriver' || action === 'go-see') {
     if (entity.travel) return { can: false, why: 'Wait until this person arrives.' };
     return { can: true, why: '' };
   }
@@ -185,9 +233,17 @@ export function requestOptions(world, householdId, request, kind) {
     ];
   }
   const tired = entity.health.condition === 'tired' ? ` ${entity.name} is already tired.` : '';
+  const prepare = `One food set aside, and ${entity.name} stays where the family can use them.`;
+  if (kind === 'rumor') {
+    return [
+      offer('go-see', 'Go to Gonzales and see', `Nothing spent and nothing promised. ${entity.name} walks to town and finds out.${tired}`),
+      offer('stay-home', 'Stay home and prepare', prepare),
+    ];
+  }
+  const inTown = entity.location.siteId === 'gonzales';
   return [
-    offer('help', 'Carry the food to Gonzales', `Two food out of the store, and the road there and back.${tired}`),
-    offer('stay', 'Stay home and prepare', `One food set aside, and ${entity.name} stays where the family can use them.`),
+    offer('help', inTown ? 'Give food here in Gonzales' : 'Carry the food to Gonzales', inTown ? `Two food out of the family's store. ${entity.name} is already here.` : `Two food out of the store, and the road there and back.${tired}`),
+    offer('stay', 'Stay home and prepare', prepare),
   ];
 }
 
@@ -259,7 +315,8 @@ export function handleChoice(world, householdId, entity, action, { beginTravel, 
     if (why) throw new Error(why);
   }
   request.status = action === 'help' ? 'accepted' : 'refused';
-  request.choiceId = record(world, 'choice', { actorId: entity.id, householdId, text: action === 'help' ? `${entity.name} will carry food to Gonzales.` : `${entity.name} will stay home and prepare the household.`, decision: action, causes: [request.id], importance: 2 });
+  const inTown = entity.location.siteId === 'gonzales';
+  request.choiceId = record(world, 'choice', { actorId: entity.id, householdId, text: action === 'help' ? (inTown ? `${entity.name} will give food here in Gonzales.` : `${entity.name} will carry food to Gonzales.`) : `${entity.name} will stay home and prepare the household.`, decision: action, causes: [request.id], importance: 2 });
   if (action === 'help') {
     household.resources.food = Math.round((household.resources.food - 2) * 10000) / 10000;
     entity.commitments.push({ id: 'gonzales-supplies', type: 'service', status: 'active', choiceId: request.choiceId });
@@ -268,8 +325,44 @@ export function handleChoice(world, householdId, entity, action, { beginTravel, 
   } else {
     entity.task = 'work'; household.prepared = true; household.resources.food += 1;
     const consequence = record(world, 'consequence', { actorId: entity.id, householdId, text: `${entity.name} stayed home and set aside one food. The family kept its labor and transportation nearby.`, causes: [request.choiceId], importance: 2 });
-    remember(world, household, entity, consequence, 'Your family kept Thomas home and prepared supplies.');
+    remember(world, household, entity, consequence, `Your family kept ${entity.name} home and prepared supplies.`);
   }
+}
+/**
+ * Answering a rumor: go and see, or stay home and prepare.
+ *
+ * Going promises nothing and spends nothing. It is an ordinary walk to town, and what makes
+ * it matter is what is waiting there: somebody standing in Gonzales sees it for themselves
+ * (`witnessing`), the family's word becomes firm, and the call a neighbour would have
+ * brought to the door is put to them in town instead. Staying is the same preparation the
+ * neighbour's call offers, and it is only ever paid once.
+ */
+export function handleRumor(world, householdId, entity, action, { beginTravel, travelRefusal }, mode) {
+  const rumor = world.rumors?.[householdId];
+  if (!rumor || rumor.status !== 'open') throw new Error('Nobody is asking that.');
+  if (world.minute >= TIMELINE.approach) throw new Error('It is too late to go and see.');
+  if (rumor.actorId !== entity.id) throw new Error(`${entity.name} was not the one asked.`);
+  const allowed = callAvailability(world, householdId, entity, action);
+  if (!allowed.can) throw new Error(allowed.why);
+  if (action === 'go-see' && entity.location.siteId !== 'gonzales') {
+    const why = travelRefusal?.(world, entity, 'gonzales', mode);
+    if (why) throw new Error(why);
+  }
+  const household = world.households[householdId];
+  rumor.status = action === 'go-see' ? 'accepted' : 'refused';
+  rumor.choiceId = record(world, 'choice', {
+    actorId: entity.id, householdId, decision: action, causes: [rumor.id], importance: 2, claimId: 'FIC-GONZ-020',
+    text: action === 'go-see' ? `${entity.name} will go to Gonzales to see whether it is true.` : `${entity.name} will stay home on a rumor and prepare the household.`,
+  });
+  if (action === 'go-see') {
+    if (entity.location.siteId !== 'gonzales') beginTravel(world, entity, 'gonzales', rumor.choiceId, 'visit', mode);
+    return;
+  }
+  // The same preparation the neighbour's call offers, and paid only once: a family that
+  // stayed home on the rumor is never asked the neighbour's call afterwards.
+  entity.task = 'work'; household.prepared = true; household.resources.food += 1;
+  const consequence = record(world, 'consequence', { actorId: entity.id, householdId, importance: 2, causes: [rumor.choiceId], text: `${entity.name} stayed home and set aside one food rather than go after a rumor.` });
+  remember(world, household, entity, consequence, `Your family heard a rumor and kept ${entity.name} home.`);
 }
 function remember(world, household, entity, cause, text) {
   const id = record(world, 'memory', { actorId: entity.id, householdId: household.id, text, causes: [cause], importance: 3 });
@@ -360,13 +453,18 @@ export function advanceDirectors(world, movement) {
   if (!world.director || world.director.complete) return;
   once(world, 'notice', () => {
     establishTruth(world, { id: 'cannon-request', text: 'A Mexican detachment has reached the Guadalupe opposite Gonzales to reclaim the cannon. Local settlers have refused to return it.', siteId: 'gonzales', classification: 'DOCUMENTED', claimId: 'HIST-GONZ-002' });
-    learn(world, 'hh-1', 'cannon-request', { source: 'Nearby neighbor (fictional report)' });
     world.director.phase = 'news';
   });
   if (world.truth['cannon-request']) {
-    for (const [index, household] of Object.values(world.households).entries()) {
+    for (const household of Object.values(world.households)) {
       if (witnessing(world, household.id)) learn(world, household.id, 'cannon-request', { source: 'Local observation' });
-      if (index > 0 && !world.director.dispatches[household.id] && world.minute >= TIMELINE.notice + (index - 1) * 40) {
+      // Word leaves Gonzales for every family at once, so the road is the only thing that
+      // decides when each one hears. It used to leave forty minutes apart in household
+      // order, and the first household was simply told on the spot by a neighbour who did
+      // not exist - which put a family twenty-seven miles out ahead of one five miles out,
+      // and a family four miles out seven hours behind one five miles out, for no reason
+      // anybody could see on the map.
+      if (!world.director.dispatches[household.id]) {
         movement.dispatchReport(world, 'cannon-request', household.id);
         world.director.dispatches[household.id] = true;
       }
@@ -385,7 +483,21 @@ export function advanceDirectors(world, movement) {
       request.status = 'expired';
       record(world, 'consequence', {
         householdId, importance: 2, causes: [request.id],
-        text: 'Nobody answered the neighbour at the door. The food went on to Gonzales without this family.',
+        text: request.where === 'town'
+          ? 'Nobody answered the people gathering food in Gonzales. It went on without this family.'
+          : 'Nobody answered the neighbour at the door. The food went on to Gonzales without this family.',
+      });
+    }
+    // A rumor nobody went after. The family never learned more than it was told, and its
+    // record says so rather than saying nothing.
+    for (const [householdId, rumor] of Object.entries(world.rumors || {})) {
+      if (rumor.status !== 'open') continue;
+      rumor.status = 'expired';
+      record(world, 'consequence', {
+        householdId, actorId: rumor.actorId, importance: 2, causes: [rumor.id], claimId: 'FIC-GONZ-020',
+        // Says nothing about what happened at Gonzales: a family that never went does not
+        // know, and a consequence line is still a thing the family reads.
+        text: 'Nobody from this family went to Gonzales to find out whether the rumor was true.',
       });
     }
     // An unanswered call is not a refusal. It closed because the force left without them.
@@ -441,8 +553,10 @@ export function directorProjection(world, householdId, role) {
   // The upriver call takes the panel while it is open, because it is the one in front
   // of the family right now. The food call stays in the event log either way.
   const march = householdId && world.marches?.[householdId];
-  const request = (march && march.status === 'open' ? march : null) || (householdId && world.requests[householdId]);
-  const shown = request ? { id: request.id, text: request.text, status: request.status, kind: request === march ? 'march' : 'supplies' } : null;
+  // A rumor's question shows until firmer word turns it into the ordinary call.
+  const rumor = householdId && world.rumors?.[householdId];
+  const request = (march && march.status === 'open' ? march : null) || (householdId && world.requests[householdId]) || (rumor && rumor.status !== 'overtaken' ? rumor : null);
+  const shown = request ? { id: request.id, text: request.text, status: request.status, kind: request === march ? 'march' : request === rumor ? 'rumor' : 'supplies' } : null;
   if (shown && shown.kind === 'march' && march.status === 'open') {
     // The stored text, not a fresh reading: the button must not quietly change its price
     // while a student is looking at it.

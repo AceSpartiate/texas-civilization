@@ -1,0 +1,59 @@
+{
+  "record": "What a family knows decides what it can do: nobody knocks on a rumor",
+  "date": "2026-09-12",
+  "verdict": "PASS",
+  "verdictMeaning": "How a family heard the first news of the slice now changes what it is offered. A family whose word came from the eyewitness, or from somebody who had it straight from them, is asked the neighbour's food call at the door. A family holding only a rumor (two or more hand-offs) is asked instead whether to go to Gonzales and see; going there makes its word firm and the call is put to it in town. Registered as FIC-GONZ-020. Proved headless, by injected regression, and live in a browser.",
+  "ownerDirection": "HANDOFF next task 'Make what a family knows decide what it can do', started 2026-09-12. Owner chose 'Go and see first' over 'asked, but warned' and 'firm news opens more'.",
+  "defectsFoundWhileMeasuring": [
+    {
+      "defect": "Every neighbour's call asked about 'Thomas', whatever the family had named its principal.",
+      "measured": "A 5-household class: principals Jethro, Asa, Elias, Ezra and Thomas were all asked 'whether Thomas can help take it'.",
+      "fixed": "The call, the rumor question and the memory text name the family's own person."
+    },
+    {
+      "defect": "The word left Gonzales on a clock, not when it happened.",
+      "measured": "15 households, seed 'gonzales'. hh-1, 27.0 road miles out, was told at the notice minute (600) by a 'Nearby neighbor' who did not exist, with a confirmed report. Other riders left 40 minutes apart in household order, so hh-13 at 4.2 miles heard at minute 1080 while hh-3 at 5.0 miles heard at 680.",
+      "fixed": "Every family's rider leaves at the minute it happened. After the fix hh-13 hears at 640 and hh-1 hears at 820, third-hand, as a rumor."
+    },
+    {
+      "defect": "With every rider leaving at once, a far family's rider was earlier in the entity list, took the conversation with a nearer family whose own rider arrived the same tick, and waited 200 minutes to be asked something.",
+      "measured": "Seed 'distance', 15 households: hh-1 (21.6 miles) heard at 380 minutes while hh-14 (26.1 miles) heard at 200. Caught by two existing encounter tests.",
+      "fixed": "advanceEncounters takes two passes: a rider first stops only for the family it was sent to, then for anybody. hh-1 then heard at 180."
+    }
+  ],
+  "distributionAfter": {
+    "fifteenHouseholds": { "confirmed": 5, "unconfirmed": 6, "rumor": 4, "rumorFamilies": "hh-1 27.0mi, hh-7 26.9mi, hh-8 32.5mi, hh-14 28.2mi" },
+    "thirtyHouseholds": { "confirmed": 8, "unconfirmed": 13, "rumor": 9 },
+    "note": "Rumor families are the far ones. They are not shut out of anything: the call is open until the approach on the 2nd, and every rumor family heard by minute 860 of a window that closes at 4680."
+  },
+  "liveBrowserProof": {
+    "server": "PORT=1846 TEXAS_DATA_DIR=<scratch> SEED=gonzales PLAYERS=15 TICK_MS=250 node server/main.mjs - an isolated class; the ordinary classroom save and host-url.txt were not touched",
+    "joinedAs": "hh-1 (Jethro), started from the Host API with one household",
+    "observed": [
+      "Selection card for Jethro: 'The word that reached your family came third-hand, and nobody who passed it on saw any of it. Does Jethro go to Gonzales to see?' with 'Go to Gonzales and see - Nothing spent and nothing promised. Jethro walks to town and finds out.' and 'Stay home and prepare - One food set aside, and Jethro stays where the family can use them.'",
+      "Activating 'Go to Gonzales and see' through the DOM: status became 'Your family went to see for itself.'",
+      "Jethro walked to town ('Jethro is tired after 20 miles on the road.', 'Jethro arrived at Gonzales.'), and the family's report became confirmed from 'Local observation'.",
+      "The card became 'People in Gonzales are gathering food for the men here, and ask whether Jethro can give some of your family's.' with 'Give food here in Gonzales' enabled and 'Stay home and prepare' disabled with 'Return home before choosing to stay and prepare.'",
+      "Activating 'Give food here in Gonzales': request accepted, food 12.8 to 10.77, 'Jethro offers supplies where he is already present.'"
+    ],
+    "foundAndFixed": "The choice record said 'Jethro will carry food to Gonzales.' for somebody already standing in it; it now says 'will give food here in Gonzales'."
+  },
+  "automated": {
+    "suite": "tests/knowledge-decides.test.mjs",
+    "tests": 7,
+    "wholeSuite": "240 pass, 0 fail",
+    "regressionsInjected": [
+      { "injected": "hh-1 told on the spot by a neighbour at the notice", "failed": ["the word leaves Gonzales for every family at the same minute...", "a whole class of riders meets a whole class of families...", "Gate D: requests require household knowledge..."] },
+      { "injected": "riders dispatched 40 minutes apart in household order", "failed": ["the word leaves Gonzales for every family at the same minute...", "the neighbour at the door asks about the family's own person...", "a whole class of riders meets a whole class of families...", "Gate D: refusal and inactivity..."] },
+      { "injected": "the call asks about Thomas", "failed": ["the neighbour at the door asks about the family's own person..."] },
+      { "injected": "a rumor counts as firm enough to be asked", "failed": ["all five rumor tests in tests/knowledge-decides.test.mjs"] },
+      { "injected": "going to see starts no journey", "failed": ["going to see makes the word firm, and the call is put to them in town", "six upriver, powder, fatigue and decisions tests whose fixture families only had a rumor"] },
+      { "injected": "firmer word leaves the rumor question open", "failed": ["firmer word from somebody else turns the rumor into the ordinary call at the door"] },
+      { "injected": "a family that stayed home on a rumor is asked the neighbour's call later", "failed": ["staying home on a rumor is an answer..."] },
+      { "injected": "a lapsed rumor is not written down", "failed": ["a rumor nobody went after is written down once..."] },
+      { "injected": "passing riders may take a family's gate before its own rider", "failed": ["how far a family lives from Gonzales is how long it waits to hear", "changing hands costs the word no time..."] }
+    ],
+    "testsChanged": "Existing tests that assumed hh-1 was told at minute 600 now wait for the family to hear, and fixtures that answer the call by policy answer a rumor by going to see. tests/encounters.test.mjs's briefed() holds the director's riders so a test still controls exactly who rides. The whole-class encounter count is 15, not 14."
+  },
+  "boundary": "One computer, one browser. The rule covers the one converted report, cannon-request; gonzales-outcome is still delivered the old way. A rumor is never false in this slice, so going to see always confirms it. No classroom has played it."
+}

@@ -32,8 +32,17 @@ export function runScenario({ seed = 'gonzales-1835', playerCount = 5, strategy 
   while (world.status === 'running' && world.tick < maxTicks) {
     stepWorld(world);
     for (const [index, household] of Object.values(world.households).entries()) {
-      if (strategy === 'idle' || world.requests[household.id]?.status !== 'open') continue;
-      const action = strategy === 'mixed' ? index % 2 === 0 ? 'help' : 'stay' : strategy;
+      if (strategy === 'idle') continue;
+      const willHelp = strategy === 'help' || (strategy === 'mixed' && index % 2 === 0);
+      // A family that only has a rumor is asked whether to go and see (`FIC-GONZ-020`). A
+      // bot that would help goes; a bot that would stay, stays.
+      if (world.rumors?.[household.id]?.status === 'open') {
+        const input = { tick: world.tick, householdId: household.id, entityId: household.principalId, action: willHelp ? 'go-see' : 'stay-home' };
+        applyAction(world, household.id, input); inputs.push(input);
+        continue;
+      }
+      if (world.requests[household.id]?.status !== 'open') continue;
+      const action = willHelp ? 'help' : 'stay';
       const input = { tick: world.tick, householdId: household.id, entityId: household.principalId, action };
       applyAction(world, household.id, input); inputs.push(input);
     }

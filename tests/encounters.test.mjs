@@ -22,9 +22,13 @@ const TOPIC = 'cannon-request';
 const advance = (world, ticks) => { for (let i = 0; i < ticks; i++) stepWorld(world); };
 // The scenario's own first news. Everything here hangs off the one topic that has been
 // converted; the point of step 1 is that it is one.
+// The director puts a rider on the road to every family the moment the word exists, so a
+// test that wants to say exactly who rides holds all of them back first. A test about the
+// director's own riders builds its class with `createGonzalesWorld` instead.
 function briefed(seed = 'rider', players = 5) {
   const world = createGonzalesWorld(seed, players);
   world.status = 'running';
+  for (const id of Object.keys(world.households)) world.director.dispatches[id] = true;
   while (!world.truth[TOPIC]) stepWorld(world);
   return world;
 }
@@ -352,7 +356,9 @@ test('a whole class of riders meets a whole class of families, and every word is
   const heard = Object.keys(world.households).filter(id => knows(world, id));
   assert.equal(heard.length, 15, 'nobody was left without the news');
   const met = Object.values(world.encounters);
-  assert.equal(met.length, 14, 'fourteen riders met fourteen families; hh-1 hears from a neighbour');
+  // Every family, the first included. hh-1 used to be told on the spot by a neighbour who
+  // did not exist, whatever road it lived at the end of.
+  assert.equal(met.length, 15, 'fifteen riders met fifteen families');
   const listeners = new Set(met.map(e => e.listenerId));
   assert.ok([...listeners].some(id => !id.endsWith('-thomas')), 'the rider meets whoever is there, not always the principal');
   for (const encounter of met) {

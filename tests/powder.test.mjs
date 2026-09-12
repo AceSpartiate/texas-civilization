@@ -118,7 +118,7 @@ test('the powder that goes upriver is the powder that is not in the timber', () 
     stepWorld(world);
     const request = view(world, 'hh-1').request;
     if (request?.status === 'open' && request.kind !== 'march') {
-      try { applyAction(world, 'hh-1', { action: 'help', entityId: world.households['hh-1'].principalId }); } catch { /* not yet known */ }
+      try { applyAction(world, 'hh-1', { action: request.kind === 'rumor' ? 'go-see' : 'help', entityId: world.households['hh-1'].principalId }); } catch { /* not yet known */ }
     }
     if (request?.kind === 'march' && request.status === 'open') asked = request;
   }
@@ -144,7 +144,7 @@ test('a family with nothing to send is not stopped from going', () => {
     stepWorld(world);
     const request = view(world, 'hh-1').request;
     if (request?.status === 'open' && request.kind !== 'march') {
-      try { applyAction(world, 'hh-1', { action: 'help', entityId: world.households['hh-1'].principalId }); } catch { /* not yet known */ }
+      try { applyAction(world, 'hh-1', { action: request.kind === 'rumor' ? 'go-see' : 'help', entityId: world.households['hh-1'].principalId }); } catch { /* not yet known */ }
     }
     if (request?.kind === 'march' && request.status === 'open') asked = request;
   }

@@ -2,7 +2,7 @@
 import { record } from './events.mjs';
 import { reportsFor, deliverReports } from './knowledge.mjs';
 import { advanceRoutine } from './routines.mjs';
-import { advanceDirectors, handleChoice, handleMarch, directorProjection } from './directors.mjs';
+import { advanceDirectors, handleChoice, handleMarch, handleRumor, directorProjection } from './directors.mjs';
 import { abandonChore, advanceChores, answerChore, askProjection, beginChore, choresFor, skillsFor, SKILL_CAP, toolState } from './chores.mjs';
 import { advanceTown, createTownspeople, observedBy } from './town.mjs';
 import { GOODS, advanceOffers, makeOffer, offersFor, respondToOffer } from './trade.mjs';
@@ -10,7 +10,7 @@ import { buildGonzalesRegion, findPath, polylineLength } from './geography.mjs';
 import { advanceEncounters, askRider, carriedInPerson, encounterProjection, leaveRider, riderName, spotName } from './encounters.mjs';
 import { DEFAULT_MODE, MODES, modeOf, propertyId, RIDER_SPEED } from './travel.mjs';
 import { CLEARING_MAX, STATES as IMPROVEMENT_STATES, clearedOf, improvementProjection } from './improvements.mjs';
-import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, defaultNames, familyProjection, householdName, kinFor, rename } from './family.mjs';
+import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, defaultNames, familyProjection, familyRoll, householdName, kinFor, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
 export { HOUSEHOLD_SHAPE, ROLES, householdName, sanitiseName } from './family.mjs';
 export { CLEARING_MAX, clearedOf, improvementsOf, ruin } from './improvements.mjs';
 export { MODES, MODE_IDS, DEFAULT_MODE, carryCapacity, modeOf } from './travel.mjs';
@@ -49,10 +49,7 @@ export function createWorld(seed = 'gonzales', playerCount = 15) {
     const kin = kinFor(householdId);
     for (const [j, person] of HOUSEHOLD_SHAPE.entries()) {
       const id = `${householdId}-${person.key}`;
-      // Skills are fixed at founding and derived from the person's own id, so the four
-      // members of a family differ and a household may simply not contain anyone handy.
-      world.entities[id] = { id, name: names[j], kind: 'person', householdId, depth: j === 0 ? 'detailed' : 'moderate', principal: j === 0, location: { x: site.x + j * .06, y: site.y + (j % 2) * .06, siteId: site.id }, travel: null, health: { condition: 'well' }, task: j < 2 ? 'work' : 'rest', skills: skillsFor(id), chore: null, kin: kin[id], relationships: {}, propertyRefs: [`${householdId}-wagon`], commitments: [] };
-      household.members.push(id);
+      addPerson(world, household, site, j, { id, name: names[j], kin: kin[id], adult: j < 2 });
     }
     // The yard is west of the cabin. The cropland runs east and south of it, so property
     // left at these coordinates used to stand in the middle of the corn - invisible when
@@ -75,6 +72,48 @@ export function createWorld(seed = 'gonzales', playerCount = 15) {
   // The town has people in it. They belong to nobody and are commanded by nobody.
   createTownspeople(world);
   validateWorld(world); return world;
+}
+/**
+ * One person into a household, standing in the yard. The first person added is the principal.
+ *
+ * Skills are fixed at founding and derived from the person's own id, so the members of a
+ * family differ and a household may simply not contain anyone handy. `sex`, `age` and the
+ * hidden `traits` exist only on a rolled family (`docs/FAMILY_CREATION.md`); a household
+ * nobody rolled, and every class saved before rolling existed, simply has none.
+ */
+function addPerson(world, household, site, j, { id, name, kin, adult, sex, age, traits }) {
+  world.entities[id] = {
+    id, name, kind: 'person', householdId: household.id, depth: j === 0 ? 'detailed' : 'moderate', principal: j === 0,
+    location: { x: site.x + j * .06, y: site.y + (j % 2) * .06, siteId: site.id }, travel: null, health: { condition: 'well' },
+    task: adult ? 'work' : 'rest', skills: skillsFor(id), chore: null, kin, relationships: {}, propertyRefs: [`${household.id}-wagon`], commitments: [],
+    ...(sex && { sex }), ...(Number.isFinite(age) && { age }), ...(traits && { traits }),
+  };
+  household.members.push(id);
+}
+/**
+ * The die, rolled, and the family it makes put in place of the default one.
+ *
+ * `FIC-GONZ-021`. Refused unless nothing has yet happened to this family (`rollRefusal`).
+ * The founding four are removed outright rather than kept as strangers: nothing refers to
+ * them yet, which is exactly what the refusal guarantees.
+ */
+export function rollFamily(world, household) {
+  const why = rollRefusal(world, household);
+  if (why) throw new Error(why);
+  const index = Number(household.id.slice(3)) - 1;
+  const roll = familyRoll(world.seed, household.id);
+  const site = world.map.sites[household.homeSiteId];
+  for (const id of household.members) delete world.entities[id];
+  household.members = [];
+  rolledPeople(world.seed, household.id, index, roll).forEach((person, j) => {
+    addPerson(world, household, site, j, { ...person, adult: person.age >= 16 });
+  });
+  household.principalId = household.members[0];
+  household.roll = roll;
+  // The number, and nothing about what it means: the owner's direction is that the rule is
+  // never explained.
+  record(world, 'family-rolled', { householdId: household.id, text: `Your family rolled a ${roll}.`, importance: 2, claimId: 'FIC-GONZ-021' });
+  return roll;
 }
 export { WALK_SPEED, RIDER_SPEED, WAGON_SPEED } from './travel.mjs';
 /**
@@ -136,6 +175,7 @@ const NOUN = { ox: 'ox', horse: 'horse', wagon: 'wagon' };
 export function modeAvailability(world, entity, modeId, path = null) {
   const mode = MODES[modeId];
   if (!mode) return { can: false, why: 'No such way of going.' };
+  if (tooYoung(entity)) return { can: false, why: tooYoungWhy(entity) };
   for (const role of mode.needs) {
     const beast = world.entities[propertyId(entity.householdId, role)];
     // A class saved before there were horses has no horse, which is a true thing about
@@ -406,11 +446,12 @@ export function advanceRelays(world) {
  * offer made to an empty chair - and the historical choices, which do not exist until the
  * news that prompts them has arrived.
  */
-export const LOBBY_ACTIONS = new Set(['chore', 'stop-chore', 'answer-chore', 'rename', 'work', 'rest', 'travel']);
+export const LOBBY_ACTIONS = new Set(['roll-family', 'chore', 'stop-chore', 'answer-chore', 'rename', 'work', 'rest', 'travel']);
 export function applyAction(world, householdId, input) {
   const entity = world.entities[input.entityId];
   const household = world.households[householdId];
   if (input.action === 'rename' && !input.entityId) { rename(world, household, input); return; }
+  if (input.action === 'roll-family') { rollFamily(world, household); return; }
   // How they go, chosen once and applied to whatever journey this order starts - a trip
   // to town, or the road out to the timber a chore begins with. A command from a class
   // that predates the choice carries no mode and gets the one everybody had then.
@@ -419,6 +460,9 @@ export function applyAction(world, householdId, input) {
   if (world.status === 'lobby' && !LOBBY_ACTIONS.has(input.action)) throw new Error('Your neighbours are still arriving. You can set your own family to work now; anything between families waits for the class to begin.');
   if (!entity || entity.householdId !== householdId || entity.kind !== 'person') throw new Error('Choose one of your family.');
   if (entity.health.condition === 'dead' || entity.health.condition === 'captured') throw new Error('This person cannot act.');
+  // A child under ten is not sent anywhere (`docs/FAMILY_CREATION.md` §3): not to work, not
+  // on a road, not to answer for the family. They can still be named, rest, and be spoken to.
+  if (tooYoung(entity) && !['rename', 'rest', 'ask-rider', 'leave-rider'].includes(input.action)) throw new Error(tooYoungWhy(entity));
   // Farm work is open to the whole family; the historical choice is the principal's.
   // Keeping that split explicit is the point: everyone can be sent to the field, but
   // the decision the lesson turns on still belongs to one named person.
@@ -455,6 +499,12 @@ export function applyAction(world, householdId, input) {
     // the first call does: a chore left merely frozen resumes wherever the journey ends.
     if (entity.chore) abandonChore(world, world.households[householdId], entity);
     handleMarch(world, householdId, entity, input.action, { beginTravel, travelRefusal }, mode);
+  }
+  else if (['go-see', 'stay-home'].includes(input.action)) {
+    // A rumor's question, answered the same way the neighbour's call is: going costs the
+    // afternoon's work for the same reason.
+    if (entity.chore) abandonChore(world, world.households[householdId], entity);
+    handleRumor(world, householdId, entity, input.action, { beginTravel, travelRefusal }, mode);
   }
   else if (['help', 'stay'].includes(input.action)) {
     // Answering the call costs the afternoon's work. Leaving the chore merely frozen
@@ -547,6 +597,14 @@ export function validateWorld(world) {
       }
     }
     if (typeof entity.name !== 'string' || !entity.name.trim() || entity.name.length > NAME_LIMIT) throw new Error('Invalid person name');
+    // Present only on a rolled family. Absent reads as the founding household, which had no
+    // stated ages and no hidden stats, and is why no save version moved.
+    if (entity.sex !== undefined && !['male', 'female'].includes(entity.sex)) throw new Error('Invalid sex');
+    if (entity.age !== undefined && (!Number.isInteger(entity.age) || entity.age < 0 || entity.age > 80)) throw new Error('Invalid age');
+    for (const [trait, value] of Object.entries(entity.traits || {})) {
+      const range = TRAIT_RANGE[trait];
+      if (!range || !Number.isInteger(value) || value < range[0] || value > range[1]) throw new Error(`Invalid hidden ${trait}`);
+    }
     // Skills were dealt at founding and one of them can now be practised up, so the range
     // has to be held here rather than trusted to the dealer.
     for (const [skill, level] of Object.entries(entity.skills || {})) {
@@ -560,6 +618,7 @@ export function validateWorld(world) {
   }
   for (const household of Object.values(world.households)) {
     if (!world.entities[household.principalId] || [...household.members, ...household.property].some(id => !world.entities[id])) throw new Error('Dangling household reference');
+    if (household.roll !== undefined && (!Number.isInteger(household.roll) || household.roll < 1 || household.roll > 6 || household.members.length !== household.roll)) throw new Error('A rolled family must be the size it rolled');
     for (const [resource, amount] of Object.entries(household.resources)) {
       if (!Number.isFinite(amount) || amount < 0) throw new Error(`Invalid resource ${resource}`);
     }

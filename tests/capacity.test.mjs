@@ -123,8 +123,12 @@ test('capacity: 30 HTTP households retain isolated identity and receive ordered 
     const ticksStartedAt = performance.now();
     assert.equal((await call('/api/command', { id: 'capacity-host-start', action: 'start' }, host.cookie)).status, 200);
 
-    const ownPrincipal = clients[0].body.world.household.principalId;
-    const otherPrincipal = clients[1].body.world.household.principalId;
+    // Read after Start: a family that joined and never rolled is rolled for when the class
+    // begins (docs/FAMILY_CREATION.md), which gives it new people with new ids.
+    const principalOf = client => app.state.world.households[client.body.world.householdId].principalId;
+    const ownPrincipal = principalOf(clients[0]);
+    const otherPrincipal = principalOf(clients[1]);
+    assert.ok(app.state.world.households[clients[1].body.world.householdId].roll, 'a family that joined was rolled for at Start');
     const spoofTravel = await call('/api/command', {
       id: 'capacity-spoof-travel', action: 'travel', entityId: otherPrincipal, destination: 'gonzales',
       householdId: clients[1].body.world.householdId, role: 'host',

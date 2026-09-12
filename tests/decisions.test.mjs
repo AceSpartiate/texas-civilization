@@ -30,7 +30,8 @@ function untilCall(world, householdId, { accept = false } = {}) {
     const request = view(world, householdId).request;
     if (request?.status === 'open') {
       if (!accept || request.kind === 'march') return request;
-      applyAction(world, householdId, { action: 'help', entityId: world.households[householdId].principalId });
+      // A rumor is answered by going to see; the call proper is put in town.
+      applyAction(world, householdId, { action: request.kind === 'rumor' ? 'go-see' : 'help', entityId: world.households[householdId].principalId });
     }
   }
   return null;

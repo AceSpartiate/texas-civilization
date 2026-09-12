@@ -3,7 +3,8 @@ import { randomBytes, createHash, createHmac, timingSafeEqual } from 'node:crypt
 import { readFileSync, realpathSync, statSync } from 'node:fs';
 import { basename, isAbsolute, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { createWorld, stepWorld, projectWorld, projectMap, applyAction, validateWorld, projectFamily } from '../sim/world.mjs';
+import { createWorld, stepWorld, projectWorld, projectMap, applyAction, validateWorld, projectFamily, rollFamily } from '../sim/world.mjs';
+import { rollRefusal } from '../sim/family.mjs';
 import { choreCatalogue, modeCatalogue } from '../sim/chores.mjs';
 import { GOODS } from '../sim/trade.mjs';
 import { readSave, writeSave, acquireSaveLock, archiveSave } from './storage.mjs';
@@ -347,6 +348,13 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
               // makes it possible to try the thing out on one machine.
               const joined = Object.keys(s.clients).length;
               if (joined < 5 && !input.anyway) throw new Error(`Only ${joined} household${joined === 1 ? ' has' : 's have'} joined, and this class is built for five or more. Press Start again to begin anyway.`);
+              // A student who joined and never rolled is rolled for, so every family somebody
+              // is actually playing is a rolled one (docs/FAMILY_CREATION.md). One that has
+              // already been named or set to work keeps the family it was working with.
+              for (const client of Object.values(s.clients)) {
+                const household = s.world.households[client.householdId];
+                if (household && rollRefusal(s.world, household) === null) rollFamily(s.world, household);
+              }
               s.world.status = 'running';
             } else if (input.action === 'pace') {
               // Not a world change: the pace is how fast the class watches, not what it

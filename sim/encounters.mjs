@@ -382,7 +382,15 @@ export function advanceEncounters(world) {
     if (world.minute - encounter.lastSpokenMinute >= (errand ? PASSING_MINUTES : PATIENCE_MINUTES)) finish(world, encounter, 'unanswered');
   }
   const opened = [];
-  for (const carrier of Object.values(world.entities)) {
+  // Two passes. On the first a rider may only stop for the family they were sent to; on the
+  // second, for anybody. When two riders come alongside one family in the same tick, the one
+  // sent to them is the one who speaks, and the other rides on past a family that now knows.
+  //
+  // Found by measuring, once every family's rider left Gonzales at the same minute: the
+  // rider carrying a far family's word was simply earlier in the entity list, took the
+  // conversation with a nearer family whose own rider was arriving that very tick, and then
+  // stood waiting to be asked something while the far family's news sat on the road.
+  for (const ownOnly of [true, false]) for (const carrier of Object.values(world.entities)) {
     const report = carrier.report;
     if (!report?.inPerson || !world.households[report.audience]) continue;
     // A rider in the middle of saying something is not also starting somewhere else, and
@@ -402,6 +410,7 @@ export function advanceEncounters(world) {
     const stretch = carrier.travel && !carrier.travel.halted ? carrier.travel.progress - Math.min(carrier.travel.scannedProgress || 0, carrier.travel.progress) : 0;
     let best = null;
     for (const household of Object.values(world.households)) {
+      if (ownOnly && household.id !== report.audience) continue;
       // One family listens to one person at a time.
       if (openFor(world, household.id)) continue;
       if (!wouldLearn(world, household.id, report.topicId, report.status)) continue;
@@ -417,7 +426,8 @@ export function advanceEncounters(world) {
         if (!best || near.distance < best.near.distance || (near.distance === best.near.distance && id < best.person.id)) best = { near, person, householdId: household.id };
       }
     }
-    if (!best) { if (carrier.travel) carrier.travel.scannedProgress = carrier.travel.progress; continue; }
+    // The stretch is only marked as looked at once both passes have looked at it.
+    if (!best) { if (!ownOnly && carrier.travel) carrier.travel.scannedProgress = carrier.travel.progress; continue; }
     if (carrier.travel && Number.isFinite(best.near.progress)) {
       // Stop where they actually came alongside, not where the tick would have carried
       // them. Never past what was already scanned, so a rider only ever slows down.

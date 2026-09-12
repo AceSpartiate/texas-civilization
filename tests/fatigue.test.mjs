@@ -169,7 +169,7 @@ test('which risk the upriver control states is decided by the walk, and it is ke
       if (world.minute >= TIMELINE.resolved && settled === null) settled = principal(world, 'hh-1').health.condition;
       const request = projectWorld(world, 'hh-1', 'student', { includeMap: false }).request;
       if (request?.status === 'open' && request.kind !== 'march' && !helped.has('hh-1')) {
-        try { applyAction(world, 'hh-1', { action: 'help', entityId: principal(world, 'hh-1').id }); helped.add('hh-1'); } catch { /* not yet known */ }
+        try { applyAction(world, 'hh-1', { action: request.kind === 'rumor' ? 'go-see' : 'help', entityId: principal(world, 'hh-1').id }); if (request.kind !== 'rumor') helped.add('hh-1'); } catch { /* not yet known */ }
       }
       if (request?.kind === 'march' && request.status === 'open' && stated === null) {
         stated = request.risk;
