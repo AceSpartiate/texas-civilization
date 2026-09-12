@@ -1079,7 +1079,13 @@ export function drawWorld(world) {
     // Two different invitations, and they must not look like each other: an orange !
     // is something being asked of this family, and a quieter ink mark is somebody
     // standing in front of one of them waiting to be spoken to.
-    const mark = taskFor(world, entity) ? { list: pending, kind: 'task' } : meetingFor(world, entity) ? { list: pending, kind: 'meeting', glyph: '…', tone: '#41556b' } : null;
+    // Three invitations and they must not look alike: an orange ! is something being
+    // asked of this family by somebody outside it, a quiet ink mark is a person standing
+    // in front of one of them, and a ? is one of their own waiting on an answer.
+    const mark = taskFor(world, entity) ? { list: pending, kind: 'task' }
+      : meetingFor(world, entity) ? { list: pending, kind: 'meeting', glyph: '…', tone: '#41556b' }
+      : entity.chore?.ask ? { list: pending, kind: 'asking', glyph: '?', tone: '#7a4726' }
+      : null;
     standing.push({ y: point.y, draw: () => drawEntity(ctx, entity, point, roomForNames, camera.figure, {
       selected: entity.id === chosen?.id, mark,
       labels, heading: destination ? destination.x - entity.location.x : 0,
@@ -1162,7 +1168,7 @@ function renderHousehold(world) {
     // The second way in to a conversation, and the one that works without the canvas.
     const meeting = meetingFor(world, entity);
     if (meeting) li.dataset.task = 'meeting';
-    const button = element('button', `${entity.name}: ${entity.task || 'resting'}, ${entity.travel ? `on the road to ${placeName(world, entity.travel.to)}` : placeName(world, entity.location?.siteId)}, ${entity.health?.condition || 'well'}${taskFor(world, entity) ? '. Someone is asking for help.' : ''}${meeting ? '. A rider has stopped to speak with them.' : ''}`);
+    const button = element('button', `${entity.name}: ${entity.task || 'resting'}, ${entity.travel ? `on the road to ${placeName(world, entity.travel.to)}` : placeName(world, entity.location?.siteId)}, ${entity.health?.condition || 'well'}${taskFor(world, entity) ? '. Someone is asking for help.' : ''}${meeting ? '. A rider has stopped to speak with them.' : ''}${entity.chore?.ask ? '. Waiting on your word.' : ''}`);
     button.dataset.select = entity.id;
     li.append(button); return li;
   }));
@@ -1326,7 +1332,10 @@ function populateTrade(world, chosen, running) {
 function renderTravelModes(world, chosen, settable) {
   const wrap = $('#selection-travel'), host = $('#travel-modes');
   const offered = world.travelModes?.[chosen.id];
-  if (!offered?.length || chosen.observed || world.role === 'host') { wrap.hidden = true; return; }
+  // And not while somebody is standing in a wood waiting to be answered. How they would
+  // set out on the next journey is not an answer to the question in front of them, and a
+  // greyed-out row of it above the question is clutter at the one moment that matters.
+  if (!offered?.length || chosen.observed || world.role === 'host' || chosen.chore?.ask) { wrap.hidden = true; return; }
   wrap.hidden = false;
   const open = offered.find(entry => entry.id === modeFor(chosen.id) && entry.can);
   if (!open) travelModeByEntity.delete(chosen.id);
@@ -1350,7 +1359,7 @@ function renderTravelModes(world, chosen, settable) {
 }
 function renderWork(world, chosen, running) {
   const panel = $('#selection-work');
-  const key = JSON.stringify([chosen.id, running, modeFor(chosen.id), world.land, chosen.health?.condition, Boolean(chosen.chore),
+  const key = JSON.stringify([chosen.id, running, modeFor(chosen.id), world.land, chosen.health?.condition, Boolean(chosen.chore), chosen.chore?.ask?.openedMinute ?? null,
     (world.work?.[chosen.id] || []).map(entry => ({ ...choreCache?.get(entry.id), ...entry }))]);
   if (renderedWork?.key === key) return;
   const restore = renderedWork?.chosenId === chosen.id ? rememberControls(panel) : () => {};
@@ -1365,6 +1374,31 @@ function populateWork(world, chosen, running) {
   if (!permitted?.length || !choreCache || chosen.health?.condition === 'dead' || chosen.health?.condition === 'captured') return;
   // Server says who may do what; the catalogue says what each thing is called and costs.
   const offered = permitted.map(entry => ({ ...choreCache.get(entry.id), ...entry })).filter(entry => entry.name);
+  // Work that has stopped to ask something. It takes the whole panel, because a question
+  // put to somebody standing in a wood is the only thing worth saying about them while
+  // they are standing there - and because the list of other jobs is not an answer to it.
+  if (chosen.chore?.ask) {
+    const ask = chosen.chore.ask;
+    host.append(element('p', ask.text, 'ask-text'));
+    for (const option of ask.options) {
+      const button = element('button', '', 'work-option ask-option-work');
+      button.dataset.action = 'answer-chore';
+      button.dataset.option = option.id;
+      button.disabled = !running;
+      button.append(element('span', option.label, 'work-name'));
+      // What this answer costs, in the person's own terms, before it is pressed. The same
+      // rule the march upriver follows: a control that does not say what it will do is
+      // worse than no control.
+      button.append(element('span', option.note, 'work-note'));
+      host.append(button);
+    }
+    const stop = element('button', 'Call off the work');
+    stop.dataset.action = 'stop-chore';
+    stop.className = 'work-stop';
+    stop.disabled = !running;
+    host.append(stop);
+    return;
+  }
   if (chosen.chore) {
     const stop = element('button', 'Call off the work');
     stop.dataset.action = 'stop-chore';
@@ -2006,6 +2040,7 @@ document.addEventListener('click', async event => {
     }
     if (button.dataset.destination) input.destination = button.dataset.destination === 'home' ? homeOf(world) : button.dataset.destination;
     if (button.dataset.chore) input.chore = button.dataset.chore;
+    if (button.dataset.option) input.option = button.dataset.option;
     // Every order that can put somebody on a road carries how they mean to go.
     if (['travel', 'chore', 'help', 'go-upriver'].includes(action) && input.entityId) input.mode = modeFor(input.entityId);
     if (button.dataset.lineId) input.lineId = button.dataset.lineId;

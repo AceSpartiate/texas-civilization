@@ -54,6 +54,16 @@ Because every household is presently a copy of the same four names, a neighbour 
 
 A short optional walk-through offers itself once, in that lobby. It explains the family, the work, what planting costs and what the land does, and the steps are real: a student who finishes it has their family genuinely set out for the day rather than having practised on a toy. Declining it is one press and it never asks again. It cannot show a crop growing, because nothing grows before the teacher begins, and it says so rather than pretending.
 
+**A hunt is something you take part in.** Send somebody to the timber and they work in from the edge, move up through the trees, wait downwind — and then **the work stops and asks you**. They are downwind of something, with a shot, and it is not a close one:
+
+- **Take the shot.** Whether it goes home depends on the person standing there: a tired hand misses at that range, and so does somebody who never had the knack. The button says which of those applies to *them*, before you press it.
+- **Wait for it to come closer.** Three more hours, and then it is a certainty — but those are three hours of an afternoon your family may need elsewhere.
+- **Leave it and come home.** Nothing to carry, and the rest of the day is yours.
+
+Nobody stands there for ever. If you are busy with something else for two hours, they decide alone, and your family's record says that is what happened.
+
+**How you sent them decides what they can do when they get there.** A long walk to a far stand arrives somebody tired; the horse barely tires them at all. That is the same fatigue the road has always cost — it is just that now it reaches all the way to whether they can shoot straight.
+
 **A hunt is something you watch.** Send somebody to the timber and they work in from the edge, move up through the trees, wait downwind and still, and take the shot — four stages in four places, with the pose changing at each. The shot is a puff of smoke in the trees. Then they walk home carrying it.
 
 **No animal is ever shown or named.** That is not a gap: buffalo is the only game documented for this stretch of country, and this game will not invent a species and present it as natural history. What you see is a person hunting and what they bring back.

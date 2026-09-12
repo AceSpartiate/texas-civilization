@@ -198,7 +198,13 @@ test('what a trip brings home is what they can carry home, and the rest is said 
     const household = played.households['hh-1'];
     const before = household.resources.food;
     applyAction(played, 'hh-1', { action: 'chore', entityId: person_.id, chore: 'hunt-timber', mode });
-    for (let tick = 0; tick < 600 && person_.chore; tick++) stepWorld(played);
+    for (let tick = 0; tick < 600 && person_.chore; tick++) {
+      // A hunt stops and asks now. Answering "wait" closes the range, so the shot is a
+      // certainty and what is measured here is the carrying cap and nothing else - which
+      // is what this test is about. Whether the shot connects has its own file.
+      if (person_.chore?.ask) applyAction(played, 'hh-1', { action: 'answer-chore', entityId: person_.id, option: 'wait' });
+      stepWorld(played);
+    }
     return { gained: household.resources.food - before, world: played };
   };
   const walked = took('foot'), hauled = took('wagon');
@@ -216,6 +222,7 @@ test('a wagon with something in it knows it, and forgets once it is home', () =>
   applyAction(world, 'hh-1', { action: 'chore', entityId: mateo.id, chore: 'hunt-timber', mode: 'wagon' });
   let everLaden = false;
   for (let tick = 0; tick < 600 && mateo.chore; tick++) {
+    if (mateo.chore?.ask) applyAction(world, 'hh-1', { action: 'answer-chore', entityId: mateo.id, option: 'wait' });
     stepWorld(world);
     everLaden ||= Boolean(wagon.laden);
   }

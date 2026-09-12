@@ -1,13 +1,18 @@
 {
   "record": "hunting",
   "date": "2026-09-12",
-  "ownerDirection": "\"when they're out hunting, maybe i should see them actually hunting?\"",
+  "ownerDirection": [
+    "\"when they're out hunting, maybe i should see them actually hunting?\"",
+    "\"polish hunting. it needs to be more than just [tell character to hunt and boom they do].\""
+  ],
   "whatWasThere": "One step. `{ work: 5, doing: 'hunting in the timber' }` - five ticks of standing on whatever spot the road happened to leave them, with a searching pose playing. Nothing about it looked like hunting, and at the study pace that is nearly a minute of a figure not moving.",
   "whatItIsNow": {
     "stages": [
       "reading the ground at the edge of the timber",
       "working up through the timber",
       "waiting downwind, and still",
+      "downwind, with the shot there to take  (the work stops here and asks)",
+      "letting it come closer  (only if the family said wait)",
       "the shot"
     ],
     "howItWorks": "`stalk` steps move a person about the place they are standing - the same relative move `walk` makes about a yard - and each one falls through to the `work` on its own step, so a stage is one thing: go there, and spend time there. The renderer picks a pose from the words the server sent and draws `musket-smoke` on the single tick the shot is showing.",
@@ -26,18 +31,34 @@
   },
   "regressionDiscipline": {
     "rule": "CLAUDE.md: a new test is not evidence until it has failed.",
-    "newFile": "tests/hunting.test.mjs, 7 tests",
-    "fullSuite": "182 pass, 0 fail",
+    "newFile": "tests/hunting.test.mjs, 14 tests",
+    "fullSuite": "189 pass, 0 fail",
     "injections": "docs/evidence/hunting-injections.json - 10 injected regressions, every one caught",
     "twoMissedOnTheFirstPass": "'A hunt is one step again' was a faulty injection - it removed one stage of three, and three stages minus one is still a sequence - and 'showing the work quietly repriced it' was a real gap: on foot the carry cap of five hides any yield change, so doubling the kill was invisible. The test now also hunts with the wagon, where the number shows. The first of the two was re-aimed at the thing that mattered and immediately found that the stalk's own tick was dead weight.",
-    "andOneWeakAssertionInTheProof": "The browser proof first asserted that some `-idle-s` clip was bound during the hunt. Three other people are standing about the farm in the same frame, so one of them idling satisfied it while the hunter did nothing. It now asserts the hunter's own colour: blue-search, blue-idle-s, blue-carry, blue-walk-n."
+    "andOneWeakAssertionInTheProof": "The browser proof first asserted that some `-idle-s` clip was bound during the hunt. Three other people are standing about the farm in the same frame, so one of them idling satisfied it while the hunter did nothing. It now asserts the hunter's own colour: blue-search, blue-idle-s, blue-carry, blue-walk-n.",
+    "decisionInjections": "docs/evidence/hunt-decision-injections.json - 11 injected regressions, every one caught",
+    "oneMissedTwice": "'Waiting costs no time at all' was caught by nothing, because the three answers were each played on their own seed - three different maps, three different roads, tick counts that were never comparable. The travel-mode cost test made exactly this mistake a day earlier and passed by luck until a third assertion caught it. Same fix both times: one seed."
   },
-  "browserProof": "docs/evidence/hunting-browser.json - npm run test:hunt. Seven PASS lines in Chrome. The hunter is painted in 17 distinct places inside the timber, 227 screen pixels apart, with their own four poses and a puff of smoke.",
+  "browserProof": "docs/evidence/hunting-browser.json - npm run test:hunt. Twelve PASS lines in Chrome: the question and its three costed answers, a mark on the person so the map says the hunt is waiting, the work not advancing a step while it waits, and then the hunt going on - painted in 18 distinct places inside the timber, 232 screen pixels apart, with the hunter’s own four poses and a puff of smoke.",
   "aMeasurementTrapWorthRemembering": "The proof first selected the hunter in the journal, which locks the camera to them - and a camera locked to a figure pins it at the centre of the screen, where it cannot appear to move at all. It measured two places and failed. This is the second time that trap has been hit here; the pace measurement fell into it in exactly the same way.",
   "aShotIsRecorded": "`{ type: 'hunt' }`, with the person, the household and the minute. Nothing reads it yet. It is written because a shot carries, and the day somebody wants a neighbour to have heard one, a record with no actor and no time could never carry it.",
   "notProved": [
     "That it reads as hunting to a twelve-year-old. Four stages, four poses, movement through the trees and a puff of smoke are what is measurably on screen; whether that says \"hunting\" is a classroom question.",
     "That the stages are the right length at the study pace. Four to six ticks is about a minute in the timber; nobody has watched one at that speed.",
-    "That anybody hears the shot. The event exists and nothing consumes it."
-  ]
+    "That anybody hears the shot. The event exists and nothing consumes it.",
+    "That three answers is the right number, or that a student reads the notes on them before pressing. Every cost is stated; nobody has watched a class choose."
+  ],
+  "theDecision": {
+    "whatWasStillWrong": "Even with four visible stages it was a dispatch order: press Hunt, walk away, receive food. The student was never present for the only moment that mattered.",
+    "theQuestion": "The work stops with somebody downwind and a long shot, and waits for the family.",
+    "answers": {
+      "take": "Connects if that person is steady - not tired, and hunting skill of two or more. Otherwise it goes wide, the afternoon is gone, and the family is told exactly why.",
+      "wait": "Three more hours and the range is closed, so anybody connects. Three hours is the price, and an afternoon has other calls on it.",
+      "leave": "Nothing carried, and the rest of the day is the family's. The honest answer when something at home has just become more urgent."
+    },
+    "noDie": "FIC-GONZ-008 requires outcomes inside a visible risk and never hidden punitive RNG. `steadyHand` is the entire rule and contains no randomness; both halves of it are on the control before it is pressed, in the person's own words - \"Mateo is tired, and a tired hand misses at this range\".",
+    "patience": "Two fictional hours, then the person decides alone and the record says so. \"We chose to take the shot\" and \"nobody was listening\" are different stories about the same family, and the epilogue is built from exactly these.",
+    "theChain": "Fatigue comes from the road, the road's cost comes from the travel mode, and a tired hand misses. How a family travelled decides whether it can shoot straight - and no part of that is new. VISION.md §21 asks for interaction rather than another subsystem; this is four existing things touching.",
+    "general": "`{ ask: 'shot' }` is a chore step and the interpreter knows nothing about hunting. Any chore can ask; later steps carry `when: [...]` and run only for the answer they belong to."
+  }
 }

@@ -3,7 +3,7 @@ import { record } from './events.mjs';
 import { reportsFor, deliverReports } from './knowledge.mjs';
 import { advanceRoutine } from './routines.mjs';
 import { advanceDirectors, handleChoice, handleMarch, directorProjection } from './directors.mjs';
-import { abandonChore, advanceChores, beginChore, choresFor, skillsFor, toolState } from './chores.mjs';
+import { abandonChore, advanceChores, answerChore, beginChore, choresFor, skillsFor, toolState } from './chores.mjs';
 import { advanceTown, createTownspeople, observedBy } from './town.mjs';
 import { GOODS, advanceOffers, makeOffer, offersFor, respondToOffer } from './trade.mjs';
 import { buildGonzalesRegion, findPath, polylineLength } from './geography.mjs';
@@ -373,7 +373,7 @@ export function advanceRelays(world) {
  * offer made to an empty chair - and the historical choices, which do not exist until the
  * news that prompts them has arrived.
  */
-export const LOBBY_ACTIONS = new Set(['chore', 'stop-chore', 'work', 'rest', 'travel']);
+export const LOBBY_ACTIONS = new Set(['chore', 'stop-chore', 'answer-chore', 'work', 'rest', 'travel']);
 export function applyAction(world, householdId, input) {
   const entity = world.entities[input.entityId];
   const household = world.households[householdId];
@@ -402,6 +402,10 @@ export function applyAction(world, householdId, input) {
   // delivering to a household: the person who was at the door is the person who heard it.
   if (input.action === 'ask-rider') { askRider(world, householdId, entity, input.lineId); return; }
   if (input.action === 'leave-rider') { leaveRider(world, householdId, entity); return; }
+  // Work can stop and ask something. The answer belongs to whoever is doing the work,
+  // not to the principal: it is a question about what this person in this wood should do
+  // next, and the family member standing there is the one it was put to.
+  if (input.action === 'answer-chore') { answerChore(world, household, entity, input.option); return; }
   if (input.action === 'stop-chore') {
     if (!entity.chore) throw new Error('Nothing to call off.');
     entity.chore = null; entity.task = 'rest';

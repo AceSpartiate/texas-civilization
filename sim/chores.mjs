@@ -38,6 +38,64 @@ export const TOOL_LIFE = 5;
 
 export const SKILLS = ['farming', 'hunting', 'hands'];
 
+/**
+ * How long somebody downwind will hold before they decide for themselves.
+ *
+ * Two fictional hours. A hunt that waited for ever on a student who had gone to look at
+ * something else would be a chore that silently stopped being work, and a class where one
+ * person simply never comes home. A rider's patience works the same way and for the same
+ * reason (`PASSING_MINUTES` in sim/encounters.mjs).
+ */
+export const ASK_PATIENCE = 120;
+
+/**
+ * Whether this person could make a long shot right now.
+ *
+ * The whole outcome of a hunt turns on this and **there is no die in it**. `FIC-GONZ-008`
+ * requires outcomes to resolve inside a visible risk rather than by hidden punitive RNG,
+ * and this file has always honoured that by containing no randomness at all. So a shot
+ * connects or it does not for two reasons a student can read before choosing: whether the
+ * person is tired, and whether hunting is a thing they can actually do.
+ *
+ * Both are already visible. Fatigue is shown in words on the person - "Mateo is tired
+ * after 23 miles on the road" - and skill sits on every work control. And fatigue is where
+ * this reaches back into everything else: walking to a far stand tires somebody and riding
+ * barely does, so **how a family travelled decides whether it can shoot straight**. That is
+ * the chain VISION.md §21 asks for, made out of parts that already existed.
+ */
+export const steadyHand = entity =>
+  entity.health?.condition !== 'tired' && (entity.skills?.hunting ?? 1) >= 2;
+
+/** Why a long shot would go wide, in the person's own terms, or null if it would not. */
+export function unsteadyBecause(entity) {
+  if (entity.health?.condition === 'tired') return `${entity.name} is tired, and a tired hand misses at this range`;
+  if ((entity.skills?.hunting ?? 1) < 2) return `it is a long shot, and ${entity.name} has never had the knack of it`;
+  return null;
+}
+
+/**
+ * The one decision inside a hunt.
+ *
+ * A student used to press Hunt and receive food some minutes later, which is a dispatch
+ * order and not a hunt. Now the work stops with somebody downwind and asks, and the three
+ * answers are genuinely different: a shot that depends on who was sent and how they got
+ * there, three more hours for a certainty, or cutting the afternoon short because
+ * something at home matters more. Every cost is on its own control before it is pressed,
+ * which is the same rule the march upriver follows.
+ */
+export const ASKS = {
+  shot: {
+    doing: 'downwind, with the shot there to take',
+    fallback: 'take',
+    text: entity => `${entity.name} is downwind of something, with a shot to take. It is not a close one.`,
+    options: entity => [
+      { id: 'take', label: 'Take the shot', note: unsteadyBecause(entity) || `${entity.name} is steady, and it is within reach` },
+      { id: 'wait', label: 'Wait for it to come closer', note: 'Three more hours, and then the shot is a certainty' },
+      { id: 'leave', label: 'Leave it and come home', note: 'Nothing to carry, and the rest of the day is the family\u2019s' },
+    ],
+  },
+};
+
 // Skill is fixed per person at founding and never changes. Values are 1 to 3, and the
 // spread is deliberately uneven: a household that has nobody who can mend a hoe has to
 // go into town or ask a neighbour, which is the pressure that makes the town matter.
@@ -134,14 +192,19 @@ export const CHORES = {
       { travel: 'timber', doing: 'on the road to the timber' },
       { stalk: 'edge', work: 1, doing: 'reading the ground at the edge of the timber' },
       { stalk: 'deep', work: 1, doing: 'working up through the timber' },
-      { stalk: 'still', work: 2, doing: 'waiting downwind, and still' },
-      { shot: true, doing: 'the shot' },
+      { stalk: 'still', work: 1, doing: 'waiting downwind, and still' },
+      // And here the work stops and asks. Everything after this depends on the answer,
+      // which is why the steps below carry the answers they belong to.
+      { ask: 'shot' },
+      { when: ['wait'], work: 3, doing: 'letting it come closer' },
+      { when: ['take', 'wait'], shot: true, doing: 'the shot' },
       // Ten, and a good hunter takes more - but only the wagon can bring that much back.
       // On foot this still yields the five it always did, so a family that changes
       // nothing is no worse off than it was; the wagon is an upside for the family that
       // spends the extra hour on the road, not a tax on the one that does not.
-      { produce: { food: 10 } },
-      { travel: 'home', doing: 'carrying it home from the timber' },
+      { when: ['take', 'wait'], strike: { food: 10 } },
+      { when: ['carrying'], travel: 'home', doing: 'carrying it home from the timber' },
+      { when: ['empty'], travel: 'home', doing: 'coming home from the timber with nothing' },
     ],
   },
   'fetch-seed': {
@@ -340,6 +403,37 @@ export function choresFor(world, household, entity) {
   });
 }
 
+/**
+ * The family answers, or the moment passes without them.
+ *
+ * A chore that asks must never become a chore that waits for ever: a student who has gone
+ * to look at a neighbour's trouble would otherwise come back to somebody standing in a
+ * wood until the class ended. So the answer is theirs for two hours and then the person
+ * decides for themselves - and the record says which of those happened, because "we chose
+ * to take the shot" and "nobody was listening" are different stories about the same family.
+ */
+function settleAsk(world, household, entity, option, byDefault) {
+  const state = entity.chore, ask = state.ask;
+  const chosen = ask.options.find(candidate => candidate.id === option);
+  state.ask = null;
+  state.flags = [...(state.flags || []), option, ...(option === 'leave' ? ['empty'] : [])];
+  record(world, 'choice', {
+    actorId: entity.id, householdId: household.id, decision: option, importance: 2,
+    text: byDefault
+      ? `Nobody answered. ${entity.name} decided alone: ${chosen.label.toLowerCase()}.`
+      : `${entity.name} will ${chosen.label.toLowerCase()}.`,
+  });
+  return option;
+}
+
+/** One of your family, answering something they were asked in the middle of their work. */
+export function answerChore(world, household, entity, option) {
+  const ask = entity.chore?.ask;
+  if (!ask) throw new Error('Nobody is waiting on an answer.');
+  if (!ask.options.some(candidate => candidate.id === option)) throw new Error('That is not one of the answers.');
+  return settleAsk(world, household, entity, option, false);
+}
+
 export function beginChore(world, household, entity, choreId, { beginTravel, modeAvailability }, modeId = DEFAULT_MODE) {
   const { can, why } = choreAvailability(world, household, entity, choreId);
   if (!can) throw new Error(why || 'That work is not available.');
@@ -370,7 +464,11 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
 export function haulFor(entity, choreId, modeId = DEFAULT_MODE) {
   const chore = CHORES[choreId];
   if (!chore?.hauls) return null;
-  const produce = chore.steps.find(step => step.produce)?.produce;
+  // `strike` is a produce that had to hit something first; what it would yield is the
+  // same number and belongs on the control just the same. Reading only `produce` here is
+  // how the hunt's own haul note silently became null the day the shot could miss.
+  const yielding = chore.steps.find(step => step.produce || step.strike);
+  const produce = yielding?.produce || yielding?.strike;
   if (!produce) return null;
   const [resource, amount] = Object.entries(produce)[0];
   const got = yieldFor(amount, entity.skills?.[chore.skill] ?? 1);
@@ -384,6 +482,13 @@ function advanceChore(world, household, entity, { beginTravel }) {
   // A travel step owns the person until the road is behind them.
   if (entity.travel) return;
   const state = entity.chore;
+  // Waiting on the family. Nothing moves, nothing is spent, and the step is not advanced
+  // past - without this the question would be asked and answered by the next tick, which
+  // is a question in name only.
+  if (state.ask) {
+    if (world.minute - state.ask.openedMinute < ASK_PATIENCE) return;
+    settleAsk(world, household, entity, state.ask.fallback, true);
+  }
   // Spend a tick of the current step, and only move on once it is actually paid for.
   // Returning here whenever the counter was non-zero would cost one extra tick per step,
   // so a four-tick job would quietly take five.
@@ -393,8 +498,12 @@ function advanceChore(world, household, entity, { beginTravel }) {
   }
   while (true) {
     state.step++;
-    const step = chore.steps[state.step];
+    // `let`, because a shot that connects hands itself on to the ordinary produce rule
+    // rather than restating the carrying cap in a second place.
+    let step = chore.steps[state.step];
     if (!step) return finishChore(world, household, entity, chore);
+    // A step that belongs to an answer nobody gave is not this hunt's step.
+    if (step.when && !step.when.some(flag => (state.flags || []).includes(flag))) continue;
     if (step.doing) state.doing = step.doing;
     if (step.walk) {
       // Inside the homestead. The person's canonical site is unchanged - they are still
@@ -417,6 +526,39 @@ function advanceChore(world, household, entity, { beginTravel }) {
       if (!destination || entity.location.siteId === destination) continue;
       beginTravel(world, entity, destination, null, 'chore', state.mode || DEFAULT_MODE);
       return;
+    }
+    if (step.ask) {
+      // The work stops here and waits for the family. Nothing is decided and nothing is
+      // spent; the person stands where they are until somebody answers or their own
+      // patience runs out.
+      const ask = ASKS[step.ask];
+      state.doing = ask.doing;
+      state.ask = {
+        id: step.ask, openedMinute: world.minute, fallback: ask.fallback,
+        text: ask.text(entity), options: ask.options(entity),
+      };
+      record(world, 'pressure', {
+        actorId: entity.id, householdId: household.id, importance: 2,
+        text: `${ask.text(entity)} ${entity.name} is waiting on the family's word.`,
+      });
+      return;
+    }
+    if (step.strike) {
+      // Whether the shot went home, decided by the person and the range and nothing else.
+      // Waiting closed the range, so somebody who waited connects whatever their state.
+      const close = (state.flags || []).includes('wait');
+      if (!close && !steadyHand(entity)) {
+        state.flags = [...(state.flags || []), 'empty'];
+        record(world, 'consequence', {
+          actorId: entity.id, householdId: household.id, importance: 2,
+          text: `${entity.name} fired and missed \u2014 ${unsteadyBecause(entity)}. The afternoon is gone.`,
+        });
+        continue;
+      }
+      state.flags = [...(state.flags || []), 'carrying'];
+      // Falls through to the ordinary produce rule, carrying cap and all, so what comes
+      // home is decided in one place for every chore that hauls rather than two.
+      step = { produce: step.strike };
     }
     if (step.stalk) {
       // Only ever moves somebody about the place they are already standing. A person on

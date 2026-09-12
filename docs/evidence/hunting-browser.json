@@ -2,10 +2,36 @@
   "record": "hunting-browser",
   "date": "2026-09-12",
   "browser": "152.0.7977.83",
-  "ownerDirection": "\"when they're out hunting, maybe i should see them actually hunting?\"",
+  "ownerDirection": [
+    "\"when they're out hunting, maybe i should see them actually hunting?\"",
+    "\"polish hunting. it needs to be more than just [tell character to hunt and boom they do].\""
+  ],
+  "theQuestion": "Mateo is downwind of something, with a shot to take. It is not a close one.",
+  "theAnswers": [
+    {
+      "option": "take",
+      "label": "Take the shot",
+      "note": "it is a long shot, and Mateo has never had the knack of it"
+    },
+    {
+      "option": "wait",
+      "label": "Wait for it to come closer",
+      "note": "Three more hours, and then the shot is a certainty"
+    },
+    {
+      "option": "leave",
+      "label": "Leave it and come home",
+      "note": "Nothing to carry, and the rest of the day is the family’s"
+    }
+  ],
   "checks": [
-    "a student watches four named stages of a hunt, not one: \"reading the ground at the edge of the timber\", \"working up through the timber\", \"waiting downwind, and still\", \"the shot\"",
-    "and is painted working through the trees, not standing on one spot (18 places, 233px apart on screen)",
+    "the hunt stops and asks: \"Mateo is downwind of something, with a shot to take. It is not a close one.\"",
+    "and every answer says what it would cost before it is pressed — Take the shot (it is a long shot, and Mateo has never had the knack of it); Wait for it to come closer (Three more hours, and then the shot is a certainty); Leave it and come home (Nothing to carry, and the rest of the day is the family’s)",
+    "and the person carries a mark, so a student looking at the map knows the hunt is waiting on them",
+    "nothing moves while it waits: three ticks passed and the work had not gone a step further",
+    "the family answers, and the hunt goes on",
+    "a student watches four named stages of a hunt, not one: \"reading the ground at the edge of the timber\", \"working up through the timber\", \"waiting downwind, and still\", \"downwind, with the shot there to take\", \"letting it come closer\", \"the shot\"",
+    "and is painted working through the trees, not standing on one spot (17 places, 232px apart on screen)",
     "the hunter's own poses change with the stages: blue-search, blue-idle-s, blue-carry, blue-walk-n",
     "and they are drawn carrying something home, which the carry cycle had never been used for outside the harvest",
     "the shot is a puff of smoke in the trees - and no animal is drawn, because none is documented",
@@ -18,11 +44,13 @@
       "reading the ground at the edge of the timber",
       "working up through the timber",
       "waiting downwind, and still",
+      "downwind, with the shot there to take",
+      "letting it come closer",
       "the shot",
       "carrying it home from the timber"
     ],
-    "placesPaintedInTheTimber": 18,
-    "screenSpreadPixels": 233,
+    "placesPaintedInTheTimber": 17,
+    "screenSpreadPixels": 232,
     "clipsBound": [
       "blue-carry",
       "blue-idle-s",
@@ -31,6 +59,8 @@
       "blue-walk-n",
       "blue-walk-s",
       "horse-chestnut-idle",
+      "mounted-courier-e",
+      "mounted-courier-n",
       "musket-smoke",
       "oak-broad-wind",
       "oak-spreading-wind",

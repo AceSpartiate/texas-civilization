@@ -59,32 +59,66 @@ try {
   await page.locator('#map-nav [data-view=follow]').click();
 
   // Follow the whole thing, sampling what was painted rather than what was sent. The
-  // animation clip set is rebuilt every frame, so it has to be accumulated as it goes.
-  const watched = await page.evaluate(async () => {
-    const clips = new Set(), stages = new Set(), spots = [];
+  // animation clip set is rebuilt every frame, so it has to be accumulated as it goes, and
+  // the hunt now stops in the middle to ask - so this runs in two halves with the family's
+  // answer between them, exactly as a class would.
+  const follow = (untilAsk) => page.evaluate(async (stopAtAsk) => {
+    window.__huntWatch = window.__huntWatch || { clips: [], stages: [], timberSpots: [], sawSmoke: false, marks: [] };
+    const seen = window.__huntWatch;
+    const clips = new Set(seen.clips), stages = new Set(seen.stages);
     const start = performance.now();
-    let sawSmoke = false, timberSpots = [];
-    while (performance.now() - start < 120000) {
+    while (performance.now() - start < 90000) {
       const world = window.__snapshot?.world;
       const hunter = world?.entities.find(entity => entity.id === 'hh-1-mateo');
       if (!hunter) break;
       for (const clip of window.__animationClips || []) clips.add(clip);
-      if ((window.__animationClips || new Set()).has('musket-smoke')) sawSmoke = true;
+      if ((window.__animationClips || new Set()).has('musket-smoke')) seen.sawSmoke = true;
       if (hunter.chore?.doing) stages.add(hunter.chore.doing);
-      const drawn = window.__drawnAt?.['hh-1-mateo'];
-      if (drawn) {
-        spots.push({ x: Math.round(drawn.x), y: Math.round(drawn.y) });
-        // Where they were painted while standing in the timber, which is the part that
-        // has to move. On the road they are obviously moving; that proves nothing here.
-        if (!hunter.travel && hunter.location.siteId && hunter.location.siteId !== world.household.homeSiteId) {
-          timberSpots.push({ x: Math.round(drawn.x), y: Math.round(drawn.y), doing: hunter.chore?.doing });
-        }
+      for (const mark of window.__viewMarks || []) {
+        if (mark.id === 'hh-1-mateo' && !seen.marks.includes(mark.kind)) seen.marks.push(mark.kind);
       }
-      if (!hunter.chore && stages.size) break;
+      const drawn = window.__drawnAt?.['hh-1-mateo'];
+      // Where they were painted while standing in the timber, which is the part that has
+      // to move. On the road they are obviously moving; that proves nothing here.
+      if (drawn && !hunter.travel && hunter.location.siteId && hunter.location.siteId !== world.household.homeSiteId) {
+        seen.timberSpots.push({ x: Math.round(drawn.x), y: Math.round(drawn.y), doing: hunter.chore?.doing });
+      }
+      if (stopAtAsk && hunter.chore?.ask) break;
+      if (!stopAtAsk && !hunter.chore && stages.size) break;
       await new Promise(resolve => requestAnimationFrame(resolve));
     }
-    return { clips: [...clips], stages: [...stages], spots: spots.length, timberSpots, sawSmoke };
-  });
+    seen.clips = [...clips]; seen.stages = [...stages];
+    return { ...seen, asking: Boolean(window.__snapshot?.world.entities.find(e => e.id === 'hh-1-mateo')?.chore?.ask) };
+  }, untilAsk);
+
+  // ------------------------------------------------------ the work stops and asks the family
+  const atAsk = await follow(true);
+  assert.ok(atAsk.asking, 'the hunt ran to the end without ever asking the family anything');
+  const question = (await page.locator('#selection-work .ask-text').textContent()).trim();
+  const options = await page.locator('#selection-work button[data-action=answer-chore]').evaluateAll(buttons =>
+    buttons.map(button => ({ option: button.dataset.option, label: button.querySelector('.work-name')?.textContent, note: button.querySelector('.work-note')?.textContent })));
+  assert.equal(options.length, 3, `the family was offered ${options.length} answers`);
+  assert.deepEqual(options.map(entry => entry.option), ['take', 'wait', 'leave']);
+  for (const entry of options) assert.ok(entry.note && entry.note.length > 8, `"${entry.option}" says nothing about what it would do`);
+  ok(`the hunt stops and asks: "${question}"`);
+  ok(`and every answer says what it would cost before it is pressed \u2014 ${options.map(entry => `${entry.label} (${entry.note})`).join('; ')}`);
+  assert.ok(atAsk.marks.includes('asking'), `nothing on the map said the hunt was waiting: ${JSON.stringify(atAsk.marks)}`);
+  ok('and the person carries a mark, so a student looking at the map knows the hunt is waiting on them');
+  mkdirSync('test-results', { recursive: true });
+  await page.screenshot({ path: 'test-results/hunt-decision.png' });
+
+  // The work must not go on past a question nobody has answered.
+  const held = await page.evaluate(() => window.__snapshot.world.entities.find(e => e.id === 'hh-1-mateo').chore.step);
+  await page.waitForTimeout(1200);
+  const stillHeld = await page.evaluate(() => window.__snapshot.world.entities.find(e => e.id === 'hh-1-mateo').chore?.step);
+  assert.equal(stillHeld, held, 'the work carried on past a question nobody had answered');
+  ok('nothing moves while it waits: three ticks passed and the work had not gone a step further');
+
+  await page.locator('#selection-work button[data-option=wait]').click();
+  await page.waitForFunction(() => !window.__snapshot.world.entities.find(e => e.id === 'hh-1-mateo')?.chore?.ask);
+  ok('the family answers, and the hunt goes on');
+
+  const watched = await follow(false);
 
   // ------------------------------------------------------------------- the stages happened
   for (const stage of ['reading the ground at the edge of the timber', 'working up through the timber', 'waiting downwind, and still', 'the shot']) {
@@ -133,7 +167,12 @@ try {
     record: 'hunting-browser',
     date: new Date().toISOString().slice(0, 10),
     browser: await browser.version(),
-    ownerDirection: '"when they\'re out hunting, maybe i should see them actually hunting?"',
+    ownerDirection: [
+      '"when they\'re out hunting, maybe i should see them actually hunting?"',
+      '"polish hunting. it needs to be more than just [tell character to hunt and boom they do]."',
+    ],
+    theQuestion: question,
+    theAnswers: options,
     checks: pass,
     measured: {
       stages: watched.stages,

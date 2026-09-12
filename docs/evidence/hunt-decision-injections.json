@@ -1,0 +1,105 @@
+[
+  {
+    "injected": "the hunt never stops to ask anything, so it is a dispatch order again",
+    "caught": 10,
+    "filesFailing": 1,
+    "by": [
+      "an answer nobody was offered is refused, and so is answering for another family",
+      "every stage says what is being done, and none of them names an animal",
+      "nobody stands in a wood for ever waiting on a student who has gone elsewhere",
+      "the hunt still costs about what it cost, and yields exactly what it yielded",
+      "the shot happens once, is written down, and is gone the tick after",
+      "the three answers are three different afternoons",
+      "the work stops and asks, and nothing moves until the family answers",
+      "they come home carrying it, and the walk out is not the walk back",
+      "waiting closes the range, so even a poor hand comes home with something",
+      "whether the shot connects comes from the person, and is said before it is taken"
+    ]
+  },
+  {
+    "injected": "the question is asked and answered by the next tick, which is no question at all",
+    "caught": 2,
+    "filesFailing": 1,
+    "by": [
+      "nobody stands in a wood for ever waiting on a student who has gone elsewhere",
+      "the work stops and asks, and nothing moves until the family answers"
+    ]
+  },
+  {
+    "injected": "a person downwind waits for ever on a student who has gone elsewhere",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "nobody stands in a wood for ever waiting on a student who has gone elsewhere"
+    ]
+  },
+  {
+    "injected": "any word at all is accepted as an answer",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "an answer nobody was offered is refused, and so is answering for another family"
+    ]
+  },
+  {
+    "injected": "the shot always goes home, whoever took it and however tired they are",
+    "caught": 2,
+    "filesFailing": 1,
+    "by": [
+      "how a family travelled decides whether it can shoot straight",
+      "whether the shot connects comes from the person, and is said before it is taken"
+    ]
+  },
+  {
+    "injected": "being tired stops mattering, so the road no longer decides the shot",
+    "caught": 2,
+    "filesFailing": 1,
+    "by": [
+      "how a family travelled decides whether it can shoot straight",
+      "whether the shot connects comes from the person, and is said before it is taken"
+    ]
+  },
+  {
+    "injected": "waiting does not close the range, so waiting buys nothing",
+    "caught": 3,
+    "filesFailing": 1,
+    "by": [
+      "the hunt still costs about what it cost, and yields exactly what it yielded",
+      "they come home carrying it, and the walk out is not the walk back",
+      "waiting closes the range, so even a poor hand comes home with something"
+    ]
+  },
+  {
+    "injected": "waiting costs no time at all",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "the three answers are three different afternoons"
+    ],
+    "note": "Missed on the first pass because the three answers were each played on their own seed, which is three different maps and three different roads. One seed for all three."
+  },
+  {
+    "injected": "somebody who was told to come away fires anyway",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "the three answers are three different afternoons"
+    ]
+  },
+  {
+    "injected": "a missed shot is never mentioned to the family",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "whether the shot connects comes from the person, and is said before it is taken"
+    ]
+  },
+  {
+    "injected": "deciding alone reads as the family having chosen it",
+    "caught": 1,
+    "filesFailing": 1,
+    "by": [
+      "nobody stands in a wood for ever waiting on a student who has gone elsewhere"
+    ]
+  }
+]

@@ -13,7 +13,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, stepWorld, validateWorld } from '../sim/world.mjs';
-import { CHORES } from '../sim/chores.mjs';
+import { CHORES, steadyHand, unsteadyBecause } from '../sim/chores.mjs';
 
 const running = (seed = 'hunt', count = 5) => {
   const world = createGonzalesWorld(seed, count);
@@ -25,24 +25,32 @@ const running = (seed = 'hunt', count = 5) => {
  * Send somebody hunting and watch every tick of it: where they were, what they were
  * doing, and whether the world was still coherent.
  */
-function hunt(seed, entityId = 'hh-1-mateo', householdId = 'hh-1', mode) {
+function hunt(seed, { entityId = 'hh-1-mateo', householdId = 'hh-1', mode, answer = 'wait' } = {}) {
   const world = running(seed);
   const entity = world.entities[entityId];
   applyAction(world, householdId, { action: 'chore', entityId, chore: 'hunt-timber', ...(mode && { mode }) });
   const frames = [];
+  let asked = null;
   for (let tick = 0; tick < 400 && entity.chore; tick++) {
     frames.push({
       tick: world.tick, siteId: entity.location.siteId, x: entity.location.x, y: entity.location.y,
-      doing: entity.chore?.doing, travelling: Boolean(entity.travel),
+      doing: entity.chore?.doing, travelling: Boolean(entity.travel), asking: Boolean(entity.chore?.ask),
     });
+    // A hunt stops and asks. `answer: null` leaves it unanswered, which is how the
+    // person's own patience gets tested.
+    if (entity.chore?.ask) {
+      asked = asked || structuredClone(entity.chore.ask);
+      if (answer) applyAction(world, householdId, { action: 'answer-chore', entityId, option: answer });
+    }
     stepWorld(world);
     // Every single tick, not only at the end: a stage that put somebody nowhere, or at a
     // place and on a road at once, is exactly what validateWorld refuses.
     validateWorld(world);
   }
   assert.equal(entity.chore, null, 'the hunt never finished');
-  return { world, entity, frames };
+  return { world, entity, frames, asked };
 }
+const foodOf = world => world.households['hh-1'].resources.food;
 
 test('a hunt is a sequence of places in the timber, not one spot for five ticks', () => {
   const { world, frames } = hunt('stages');
@@ -138,7 +146,12 @@ test('the hunt still costs about what it cost, and yields exactly what it yielde
   const hauled = running('cost-wagon');
   const before = hauled.households['hh-1'].resources.food;
   applyAction(hauled, 'hh-1', { action: 'chore', entityId: 'hh-1-mateo', chore: 'hunt-timber', mode: 'wagon' });
-  for (let tick = 0; tick < 400 && hauled.entities['hh-1-mateo'].chore; tick++) stepWorld(hauled);
+  for (let tick = 0; tick < 400 && hauled.entities['hh-1-mateo'].chore; tick++) {
+    // Answered "wait", so the shot is a certainty and the number being measured is the
+    // yield rather than whether this particular person could make the shot.
+    if (hauled.entities['hh-1-mateo'].chore?.ask) applyAction(hauled, 'hh-1', { action: 'answer-chore', entityId: 'hh-1-mateo', option: 'wait' });
+    stepWorld(hauled);
+  }
   const gained = hauled.households['hh-1'].resources.food - before;
   assert.ok(gained > 9 && gained < 15.5, `a hunt with the wagon brought home ${gained.toFixed(1)} food`);
 });
@@ -154,5 +167,187 @@ test('a stalk only ever moves somebody about the place they are standing', () =>
       assert.ok(frame.travelling ? frame.siteId === null : Boolean(frame.siteId),
         `at tick ${frame.tick} a hunter was ${frame.travelling ? 'on the road and at a site' : 'nowhere'}`);
     }
+  }
+});
+
+// ---------------------------------------------------------------------------------------
+// The decision inside the hunt.
+//
+// The owner: "it needs to be more than just [tell character to hunt and boom they do]."
+// So the work stops with somebody downwind and asks, and the three answers are genuinely
+// different. What none of them is, is a die: `FIC-GONZ-008` requires outcomes to resolve
+// inside a visible risk, so whether a shot connects comes from the person - are they
+// tired, do they have the knack - and both are on the control before it is pressed.
+
+/** Somebody in this world whose hunting hand is worth what the test needs. */
+function hunterWith(world, wanted) {
+  for (const household of Object.values(world.households)) {
+    for (const id of household.members) {
+      const person_ = world.entities[id];
+      if (wanted(person_)) return { person: person_, householdId: household.id };
+    }
+  }
+  return null;
+}
+
+test('the work stops and asks, and nothing moves until the family answers', () => {
+  const world = running('asks');
+  const mateo = world.entities['hh-1-mateo'];
+  applyAction(world, 'hh-1', { action: 'chore', entityId: mateo.id, chore: 'hunt-timber' });
+  for (let tick = 0; tick < 200 && !mateo.chore?.ask; tick++) stepWorld(world);
+  const ask = mateo.chore?.ask;
+  assert.ok(ask, 'a hunt ran to the end without ever asking anything');
+  assert.equal(ask.id, 'shot');
+  assert.equal(ask.options.length, 3, 'a question with fewer than three answers is barely a question');
+  assert.deepEqual(ask.options.map(option => option.id), ['take', 'wait', 'leave']);
+  for (const option of ask.options) {
+    assert.ok(option.label && option.note, `"${option.id}" says nothing about what it would do`);
+  }
+  // Standing still and spending nothing, while the world goes on around them.
+  const held = { step: mateo.chore.step, x: mateo.location.x, doing: mateo.chore.doing };
+  for (let tick = 0; tick < 3; tick++) stepWorld(world);
+  assert.equal(mateo.chore.step, held.step, 'the work went on past a question nobody had answered');
+  assert.equal(mateo.location.x, held.x);
+  assert.equal(mateo.chore.doing, held.doing);
+  assert.ok(mateo.chore.ask, 'the question closed itself');
+  assert.ok(world.events.some(event => /waiting on the family/.test(event.text)));
+});
+
+test('the three answers are three different afternoons', () => {
+  // One seed for all three, or they are three different maps with three different roads
+  // and the tick counts are not comparable. This is the second time that has bitten here:
+  // the travel-mode cost test made exactly the same mistake and passed by luck.
+  const play = answer => {
+    const { world, frames } = hunt('answers', { answer });
+    return { ticks: frames.length, world };
+  };
+  const took = play('take'), waited = play('wait'), left = play('leave');
+  // Waiting costs real time: three more hours in the timber, and everything that happens
+  // at home in them happens without the person standing in a wood.
+  assert.ok(waited.ticks > took.ticks, `waiting took ${waited.ticks} ticks against ${took.ticks} for taking the shot`);
+  assert.ok(left.ticks < waited.ticks, 'coming away should be the short afternoon');
+  assert.ok(left.world.events.some(event => /leave it and come home/i.test(event.text)));
+  assert.ok(!left.world.events.some(event => /fired in the timber/.test(event.text)), 'they came away and fired anyway');
+  assert.ok(waited.world.events.some(event => /fired in the timber/.test(event.text)));
+});
+
+test('whether the shot connects comes from the person, and is said before it is taken', () => {
+  const world = running('steady');
+  const steady = hunterWith(world, person_ => (person_.skills?.hunting ?? 1) >= 2);
+  const poor = hunterWith(world, person_ => (person_.skills?.hunting ?? 1) < 2);
+  assert.ok(steady && poor, 'this world has nobody to tell apart');
+  assert.equal(steadyHand(steady.person), true);
+  assert.equal(steadyHand(poor.person), false);
+  assert.equal(unsteadyBecause(steady.person), null);
+  assert.match(unsteadyBecause(poor.person), /never had the knack/);
+  // Tired beats a good hand: the road decides this too, not only who was born to it.
+  steady.person.health = { condition: 'tired' };
+  assert.equal(steadyHand(steady.person), false);
+  assert.match(unsteadyBecause(steady.person), /tired, and a tired hand misses/);
+  steady.person.health = { condition: 'well' };
+
+  // Played out: the same answer, two different people, two different afternoons.
+  //
+  // On horseback, deliberately. Walking to a far stand arrives somebody tired, and a tired
+  // good hand misses exactly like a poor fresh one - which is the chain working, and the
+  // wrong variable for a test about the knack. Riding holds fatigue still so the only
+  // thing left changing between these two people is whether they can shoot.
+  const shoot = who => {
+    const played = running('steady');
+    const person_ = played.entities[who.person.id];
+    const before = played.households[who.householdId].resources.food;
+    applyAction(played, who.householdId, { action: 'chore', entityId: person_.id, chore: 'hunt-timber', mode: 'horse' });
+    let steadyAtShot = null;
+    for (let tick = 0; tick < 400 && person_.chore; tick++) {
+      if (person_.chore?.ask) {
+        steadyAtShot = steadyHand(person_);
+        applyAction(played, who.householdId, { action: 'answer-chore', entityId: person_.id, option: 'take' });
+      }
+      stepWorld(played);
+    }
+    return { gained: played.households[who.householdId].resources.food - before, world: played, steadyAtShot };
+  };
+  const hit = shoot(steady), missed = shoot(poor);
+  assert.equal(hit.steadyAtShot, true, 'the good hand did not arrive steady, so this proves nothing about the knack');
+  assert.equal(missed.steadyAtShot, false);
+  assert.ok(hit.gained > missed.gained, `the steady hand brought home ${hit.gained.toFixed(1)} and the poor one ${missed.gained.toFixed(1)}`);
+  assert.ok(missed.world.events.some(event => /fired and missed/.test(event.text)),
+    'a family lost the afternoon to a missed shot and was never told');
+  assert.ok(!hit.world.events.some(event => /fired and missed/.test(event.text)));
+});
+
+test('waiting closes the range, so even a poor hand comes home with something', () => {
+  const world = running('steady');
+  const poor = hunterWith(world, person_ => (person_.skills?.hunting ?? 1) < 2);
+  const person_ = world.entities[poor.person.id];
+  const before = world.households[poor.householdId].resources.food;
+  applyAction(world, poor.householdId, { action: 'chore', entityId: person_.id, chore: 'hunt-timber' });
+  for (let tick = 0; tick < 400 && person_.chore; tick++) {
+    if (person_.chore?.ask) applyAction(world, poor.householdId, { action: 'answer-chore', entityId: person_.id, option: 'wait' });
+    stepWorld(world);
+  }
+  assert.ok(world.households[poor.householdId].resources.food > before,
+    'waiting for a close shot still came home with nothing');
+  assert.ok(!world.events.some(event => /fired and missed/.test(event.text)));
+});
+
+test('nobody stands in a wood for ever waiting on a student who has gone elsewhere', () => {
+  const { world, frames, asked } = hunt('patience', { answer: null });
+  assert.ok(asked, 'the hunt never asked');
+  const waiting = frames.filter(frame => frame.asking).length;
+  assert.ok(waiting >= 5, `the question stood for ${waiting} ticks before it settled itself`);
+  assert.ok(waiting <= 9, `the question stood for ${waiting} ticks, which is nobody's patience`);
+  assert.ok(world.events.some(event => /Nobody answered/.test(event.text)),
+    'somebody decided alone and the family record does not say so');
+  // "We chose this" and "nobody was listening" are two different stories about the same
+  // family, and the epilogue is built out of exactly these.
+  const decided = world.events.find(event => /Nobody answered/.test(event.text));
+  assert.equal(decided.type, 'choice');
+  assert.equal(decided.decision, 'take');
+});
+
+test('an answer nobody was offered is refused, and so is answering for another family', () => {
+  const world = running('refusals');
+  const mateo = world.entities['hh-1-mateo'];
+  applyAction(world, 'hh-1', { action: 'chore', entityId: mateo.id, chore: 'hunt-timber' });
+  for (let tick = 0; tick < 200 && !mateo.chore?.ask; tick++) stepWorld(world);
+  assert.ok(mateo.chore?.ask);
+  assert.throws(() => applyAction(world, 'hh-1', { action: 'answer-chore', entityId: mateo.id, option: 'shoot-it-twice' }),
+    /not one of the answers/);
+  assert.ok(mateo.chore.ask, 'a refused answer closed the question anyway');
+  assert.throws(() => applyAction(world, 'hh-2', { action: 'answer-chore', entityId: mateo.id, option: 'take' }),
+    /Choose one of your family/);
+  assert.throws(() => applyAction(world, 'hh-1', { action: 'answer-chore', entityId: 'hh-1-rosa', option: 'take' }),
+    /Nobody is waiting on an answer/);
+});
+
+test('how a family travelled decides whether it can shoot straight', () => {
+  // The chain this was built for, end to end: a long walk tires somebody, riding barely
+  // does, and a tired hand misses a long shot. Nothing in it is new - the exertion, the
+  // modes and the tiring threshold all already existed - which is the whole point.
+  const chosen = hunterWith(running('chain'), person_ => (person_.skills?.hunting ?? 1) >= 2);
+  const ride = mode => {
+    const world = running('chain');
+    const person_ = world.entities[chosen.person.id];
+    applyAction(world, chosen.householdId, { action: 'chore', entityId: person_.id, chore: 'hunt-timber', mode });
+    let condition = 'well';
+    for (let tick = 0; tick < 400 && person_.chore; tick++) {
+      if (person_.chore?.ask) {
+        condition = person_.health.condition;
+        applyAction(world, chosen.householdId, { action: 'answer-chore', entityId: person_.id, option: 'take' });
+      }
+      stepWorld(world);
+    }
+    return { condition, exertion: person_.exertion ?? 0 };
+  };
+  const walked = ride('foot'), rode = ride('horse');
+  assert.ok(rode.exertion < walked.exertion, `riding cost ${rode.exertion} against ${walked.exertion} walking`);
+  assert.ok(rode.exertion < walked.exertion * .5, 'riding should cost a fraction of walking, not a shade less');
+  // The whole chain in one assertion: the road decides the state, and the state decides
+  // the shot. Only worth asserting where the walk is long enough to actually tire anybody.
+  if (walked.condition === 'tired') {
+    assert.notEqual(rode.condition, 'tired', 'riding to the same stand tired them just as much');
+    assert.equal(steadyHand({ health: { condition: walked.condition }, skills: { hunting: 3 } }), false);
+    assert.equal(steadyHand({ health: { condition: rode.condition }, skills: { hunting: 3 } }), true);
   }
 });
