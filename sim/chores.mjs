@@ -82,6 +82,9 @@ export function unsteadyBecause(entity) {
  * join: the same barrel of powder feeds the hunt and goes upriver with whoever goes.
  */
 export const SHOT_COST = 1;
+/** What an afternoon at the mark costs, and the ceiling it works towards. `FIC-GONZ-018`. */
+export const PRACTICE_COST = 2;
+export const SKILL_CAP = 3;
 export const dryHouse = household => (household.resources?.powder ?? 0) < SHOT_COST;
 
 /**
@@ -130,9 +133,26 @@ export const ASKS = {
   },
 };
 
-// Skill is fixed per person at founding and never changes. Values are 1 to 3, and the
-// spread is deliberately uneven: a household that has nobody who can mend a hoe has to
-// go into town or ask a neighbour, which is the pressure that makes the town matter.
+// What each person is good at when the world is built. Values are 1 to 3, and the spread
+// is deliberately uneven: a household that has nobody who can mend a hoe has to go into
+// town or ask a neighbour, which is the pressure that makes the town matter.
+//
+// **Farming and hands stay exactly as they were dealt, for the whole life of a class.** If
+// they could be trained up, that pressure would evaporate and the town would stop
+// mattering, which is the argument that kept every skill fixed until now.
+//
+// **Hunting is the one that can be practised**, and it is a narrow exception with a reason.
+// A family may spend an afternoon at the mark and two powder to raise it by one. That is
+// not the same thing as getting better by doing what you were already doing - the cost is
+// deliberate, visible, and paid in the very thing the skill is for, so the choice is
+// "spend the powder now to shoot better later" rather than a reward for repetition. It
+// removes no pressure: hunting skill has never had anything to do with the hoe, the town
+// or the neighbours. And `HIST-GONZ-021` is the reason it is expensive rather than free -
+// powder on this frontier was scarce and costly enough that rifles were built around
+// conserving it, so practice was a thing a family decided to afford.
+//
+// `docs/REFERENCE_ARCHITECTURES.md` §8 refused Total War's veterancy on 2026-09-12 and
+// this is the amendment to that verdict, with the distinction written out there.
 export function skillsFor(id) {
   // Each skill is hashed from the id *and its own name*, then avalanched. Deriving all
   // three from one hash by shifting different bits out of it looks independent and is
@@ -239,6 +259,18 @@ export const CHORES = {
       { when: ['take', 'wait'], strike: { food: 10 } },
       { when: ['carrying'], travel: 'home', doing: 'carrying it home from the timber' },
       { when: ['empty'], travel: 'home', doing: 'coming home from the timber with nothing' },
+    ],
+  },
+  'practise-shooting': {
+    name: 'Practise at the mark', skill: 'hunting', where: 'home',
+    needs: { powder: PRACTICE_COST },
+    describe: 'An afternoon at a mark set up behind the cabin, and two powder gone. A steadier hand makes the long shot and brings more home.',
+    steps: [
+      { walk: 'field', doing: 'setting up a mark behind the cabin' },
+      { work: 5, doing: 'shooting at the mark' },
+      { consume: { powder: PRACTICE_COST } },
+      { practise: 'hunting' },
+      { walk: 'yard', doing: 'coming in from the mark' },
     ],
   },
   'fetch-powder': {
@@ -357,6 +389,9 @@ export function choreAvailability(world, household, entity, choreId) {
     return { can: false, why: 'There is no more ground here worth breaking.' };
   }
   if (choreId === 'build-fence' && isFenced(household)) return { can: false, why: 'The field is already fenced.' };
+  if (choreId === 'practise-shooting' && (entity.skills?.hunting ?? 1) >= SKILL_CAP) {
+    return { can: false, why: `${entity.name} already shoots as well as anyone on this land.` };
+  }
   // Past a certain amount of ground the crop is simply more than four people can carry
   // in by hand. The ox and the wagon have to be standing here - which, now that taking
   // them somewhere means they are somewhere else, is a thing a family can get wrong.
@@ -658,6 +693,25 @@ function advanceChore(world, household, entity, { beginTravel }) {
     if (step.consumePerClearing) {
       for (const [resource, amount] of Object.entries(step.consumePerClearing)) {
         household.resources[resource] = round(Math.max(0, (household.resources[resource] ?? 0) - amount * clearedOf(household)));
+      }
+      continue;
+    }
+    if (step.practise) {
+      const was = entity.skills?.[step.practise] ?? 1;
+      // ceiling: `choreAvailability` refuses this before the work is ever begun, and
+      // `validateWorld` refuses a world holding a skill outside one to three, so no
+      // injection can make this clamp fire today - it is the middle of three locks. It is
+      // kept because it is the only one that would still hold if a chore ever carried two
+      // `practise` steps, which is exactly the shape of a plausible mistake: adding a
+      // second one is a one-line edit and nothing else in the file would notice.
+      if (was < SKILL_CAP) {
+        entity.skills = { ...entity.skills, [step.practise]: was + 1 };
+        record(world, 'memory', {
+          actorId: entity.id, householdId: household.id, importance: 2,
+          text: was + 1 >= SKILL_CAP
+            ? `${entity.name} spent the afternoon at the mark. Nobody on this land shoots better.`
+            : `${entity.name} spent the afternoon at the mark, and a long shot is not beyond them now.`,
+        });
       }
       continue;
     }

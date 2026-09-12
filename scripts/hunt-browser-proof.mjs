@@ -50,6 +50,11 @@ try {
   await page.locator('[data-select="hh-1-mateo"]').click();
   await page.locator('#journal-close').click();
   await page.locator('#selection').waitFor({ state: 'visible' });
+  // Before anybody sets out: a hand that has never had the knack can be taught one, and
+  // the price of the lesson is on the button.
+  const mark = await page.locator('button[data-chore=practise-shooting] .work-name').textContent();
+  assert.match(mark, /2 powder/, `the mark does not state its price: "${mark}"`);
+  ok(`a poor shot can be taught: "${mark}"`);
   await page.locator('button[data-chore=hunt-timber]').click();
   // And then stop watching him. Choosing somebody in the journal locks the camera to them,
   // which pins the figure at the centre of the screen where it cannot appear to move at

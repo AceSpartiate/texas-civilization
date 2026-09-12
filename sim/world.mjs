@@ -3,7 +3,7 @@ import { record } from './events.mjs';
 import { reportsFor, deliverReports } from './knowledge.mjs';
 import { advanceRoutine } from './routines.mjs';
 import { advanceDirectors, handleChoice, handleMarch, directorProjection } from './directors.mjs';
-import { abandonChore, advanceChores, answerChore, askProjection, beginChore, choresFor, skillsFor, toolState } from './chores.mjs';
+import { abandonChore, advanceChores, answerChore, askProjection, beginChore, choresFor, skillsFor, SKILL_CAP, toolState } from './chores.mjs';
 import { advanceTown, createTownspeople, observedBy } from './town.mjs';
 import { GOODS, advanceOffers, makeOffer, offersFor, respondToOffer } from './trade.mjs';
 import { buildGonzalesRegion, findPath, polylineLength } from './geography.mjs';
@@ -524,6 +524,11 @@ export function validateWorld(world) {
       }
     }
     if (typeof entity.name !== 'string' || !entity.name.trim() || entity.name.length > NAME_LIMIT) throw new Error('Invalid person name');
+    // Skills were dealt at founding and one of them can now be practised up, so the range
+    // has to be held here rather than trusted to the dealer.
+    for (const [skill, level] of Object.entries(entity.skills || {})) {
+      if (!Number.isInteger(level) || level < 1 || level > SKILL_CAP) throw new Error(`Invalid ${skill} skill`);
+    }
     // Property is lent to somebody who exists - a person who took it on a journey, or a
     // whole household it is out with. A dangling borrower is how an ox ends up
     // permanently unusable, because nothing will ever hand it back.

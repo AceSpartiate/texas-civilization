@@ -1,0 +1,77 @@
+[
+  {
+    "injected": "an afternoon at the mark teaches nothing",
+    "caught": 4,
+    "filesFailingAcrossSuite": 1,
+    "by": [
+      "a hand that has been practised stays practised",
+      "an afternoon at the mark buys one step of a steadier hand, and is paid for in powder",
+      "it changes what that person can actually do, which is the whole point",
+      "there is a ceiling, it is said in words, and two people cannot walk past it together"
+    ]
+  },
+  {
+    "injected": "practice is free, so a family can shoot all day for nothing",
+    "caught": 1,
+    "filesFailingAcrossSuite": 1,
+    "by": [
+      "an afternoon at the mark buys one step of a steadier hand, and is paid for in powder"
+    ]
+  },
+  {
+    "injected": "practice costs no powder to begin, so an empty house may still do it",
+    "caught": 1,
+    "filesFailingAcrossSuite": 1,
+    "by": [
+      "a family with no powder cannot practise, and is told so on the control"
+    ]
+  },
+  {
+    "injected": "there is no ceiling on the control, so the best shot keeps practising",
+    "caught": 1,
+    "filesFailingAcrossSuite": 1,
+    "by": [
+      "there is a ceiling, it is said in words, and two people cannot walk past it together"
+    ]
+  },
+  {
+    "injected": "the step walks past the ceiling even when the control holds",
+    "caught": 0,
+    "filesFailingAcrossSuite": 1,
+    "by": [],
+    "note": "Not reachable, and recorded rather than quietly dropped. It is the middle of three locks: `choreAvailability` refuses the work before it begins and `validateWorld` refuses a world holding a skill outside one to three, so nothing can get a person to the clamp with a skill already at the cap. Kept because it is the only lock that would still hold if a chore ever carried two `practise` steps - a one-line mistake nothing else in the file would notice, and one this drill injected separately, where it was caught."
+  },
+  {
+    "injected": "the mark trains the hands as well, so nobody need go into town",
+    "caught": 1,
+    "filesFailingAcrossSuite": 1,
+    "by": [
+      "only shooting can be practised, because only shooting costs nothing to leave alone"
+    ]
+  },
+  {
+    "injected": "practice raises everybody in the household at once",
+    "caught": 1,
+    "filesFailingAcrossSuite": 1,
+    "by": [
+      "an afternoon at the mark buys one step of a steadier hand, and is paid for in powder"
+    ]
+  },
+  {
+    "injected": "nothing is said about it in the family record",
+    "caught": 2,
+    "filesFailingAcrossSuite": 1,
+    "by": [
+      "an afternoon at the mark buys one step of a steadier hand, and is paid for in powder",
+      "it changes what that person can actually do, which is the whole point"
+    ]
+  },
+  {
+    "injected": "a world may claim a skill of any size at all",
+    "caught": 1,
+    "filesFailingAcrossSuite": 1,
+    "by": [
+      "a skill that is not between one and three is not a skill"
+    ]
+  }
+]

@@ -25,13 +25,14 @@
     }
   ],
   "checks": [
+    "a poor shot can be taught: \"Practise at the mark · 2 powder\"",
     "the hunt stops and asks: \"Jasper is downwind of something, with a shot to take. It is not a close one.\"",
     "and every answer says what it would cost before it is pressed — Take the shot (One powder. it is a long shot, and Jasper has never had the knack of it); Wait for it to come closer (One powder, three more hours, and then the shot is a certainty); Leave it and come home (Nothing spent, nothing to carry, and the rest of the day is the family’s)",
     "and the person carries a mark, so a student looking at the map knows the hunt is waiting on them",
     "nothing moves while it waits: three ticks passed and the work had not gone a step further",
     "the family answers, and the hunt goes on",
     "a student watches four named stages of a hunt, not one: \"reading the ground at the edge of the timber\", \"working up through the timber\", \"waiting downwind, and still\", \"downwind, with the shot there to take\", \"letting it come closer\", \"the shot\"",
-    "and is painted working through the trees, not standing on one spot (16 places, 227px apart on screen)",
+    "and is painted working through the trees, not standing on one spot (18 places, 233px apart on screen)",
     "the hunter's own poses change with the stages: blue-search, blue-idle-s, blue-carry, blue-walk-n",
     "and they are drawn carrying something home, which the carry cycle had never been used for outside the harvest",
     "the shot is a puff of smoke in the trees - and no animal is drawn, because none is documented",
@@ -49,8 +50,8 @@
       "the shot",
       "carrying it home from the timber"
     ],
-    "placesPaintedInTheTimber": 16,
-    "screenSpreadPixels": 227,
+    "placesPaintedInTheTimber": 18,
+    "screenSpreadPixels": 233,
     "clipsBound": [
       "blue-carry",
       "blue-idle-s",
