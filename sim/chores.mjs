@@ -18,7 +18,7 @@
 // `HIST-GONZ-013` documents corn and cotton for this locality and buffalo as the only
 // documented local game. So a household grows corn or cotton and nothing else, and no
 // hunted species is ever named.
-import { tooYoung, tooYoungWhy } from './family.mjs';
+import { heavyWorkPace, tooYoung, tooYoungWhy } from './family.mjs';
 import { record } from './events.mjs';
 import { recordTrade, traderAt } from './town.mjs';
 import { carryCapacity, DEFAULT_MODE, MODES, propertyId } from './travel.mjs';
@@ -186,12 +186,12 @@ export function skillsFor(id) {
 }
 
 // A better hand works faster, never instantly, and never below one tick.
-const paceFor = (ticks, skill) => Math.max(1, Math.round(ticks * (skill === 3 ? .7 : skill === 2 ? 1 : 1.35)));
+const paceFor = (ticks, skill, strength = 1) => Math.max(1, Math.round(ticks * (skill === 3 ? .7 : skill === 2 ? 1 : 1.35) * strength));
 const yieldFor = (amount, skill) => round(amount * (skill === 3 ? 1.4 : skill === 2 ? 1.15 : 1));
 
 export const CHORES = {
   'plant-field': {
-    name: 'Plant the field', skill: 'farming', tool: 'hoe', where: 'home',
+    name: 'Plant the field', skill: 'farming', tool: 'hoe', where: 'home', heavy: true,
     // Two seed for the first patch and two more for every time the ground has been
     // broken since: a family that clears more has more to put in, and more to find.
     needsPerClearing: { seed: SEED_PER_CLEARING }, field: 'bare',
@@ -207,7 +207,7 @@ export const CHORES = {
     ],
   },
   'harvest-field': {
-    name: 'Bring in the crop', skill: 'farming', tool: 'hoe', where: 'home',
+    name: 'Bring in the crop', skill: 'farming', tool: 'hoe', where: 'home', heavy: true,
     field: 'ripe', wantsWagon: true,
     describe: 'The field is ready. Cut it and carry it in.',
     steps: [
@@ -220,7 +220,7 @@ export const CHORES = {
     ],
   },
   'clear-ground': {
-    name: 'Break new ground', skill: 'farming', tool: 'hoe', where: 'home',
+    name: 'Break new ground', skill: 'farming', tool: 'hoe', where: 'home', heavy: true,
     field: 'bare',
     describe: 'Cut the brush back and turn ground nobody has worked. A long afternoon, and the field is bigger for good.',
     steps: [
@@ -232,7 +232,7 @@ export const CHORES = {
     ],
   },
   'build-fence': {
-    name: 'Fence the field', skill: 'hands', where: 'home',
+    name: 'Fence the field', skill: 'hands', where: 'home', heavy: true,
     describe: 'Split rails and lay them round the crop. Stock here run loose, and an unfenced field feeds them first.',
     steps: [
       // ceiling: rails are split with an axe and a maul, and this household owns one hoe.
@@ -713,7 +713,8 @@ function advanceChore(world, household, entity, { beginTravel }) {
       state.wait = 1;
       return;
     }
-    if (step.work) { state.wait = paceFor(step.work, skill); return; }
+    // Heavy work goes at the pace of the person's hidden strength as well as their skill.
+    if (step.work) { state.wait = paceFor(step.work, skill, chore.heavy ? heavyWorkPace(entity) : 1); return; }
     if (step.consume) {
       for (const [resource, amount] of Object.entries(step.consume)) {
         household.resources[resource] = round(Math.max(0, (household.resources[resource] ?? 0) - amount));

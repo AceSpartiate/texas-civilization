@@ -275,6 +275,50 @@ export const SENT_FROM_AGE = 10;
 /** Old enough to be sent to fight. Boys of sixteen and seventeen did serve in 1835. */
 export const FIGHTS_FROM_AGE = 16;
 export const tooYoung = entity => Number.isFinite(entity?.age) && entity.age < SENT_FROM_AGE;
+/**
+ * Who may answer a call for the family - carry its food, go and see, go upriver.
+ *
+ * Owner direction, 2026-09-12: any parent, and any child of sixteen or over. A household the
+ * game knows no ages for is the founding four, whose children have no stated age; only its
+ * parents answer. A person the game cannot describe at all answers only if they are the
+ * principal, which is what every call used to be.
+ */
+export function canAnswerCalls(entity) {
+  if (!entity || entity.kind !== 'person') return false;
+  const role = entity.kin?.role;
+  if (role === 'father' || role === 'mother') return true;
+  if (Number.isFinite(entity.age)) return entity.age >= FIGHTS_FROM_AGE;
+  return Boolean(entity.principal);
+}
+export const cannotAnswerWhy = entity => `${entity.name} is too young to answer for the family.`;
+
+/**
+ * How much longer the family's food lasts for the best housekeeper at home.
+ *
+ * Step 3 of docs/FAMILY_CREATION.md. Nothing for a housekeeping of three or less, rising to
+ * a quarter at ten. Only somebody actually at home keeps the house, so a family that sends
+ * its housekeeper to Gonzales eats through its store faster while they are gone - which is
+ * the whole of what "less likely to be sent to battle" means in play: nobody is stopped from
+ * going, and the family feels it. Invented (`FIC-GONZ-021`), and hidden: no control states it.
+ */
+export const HOUSEKEEPING_FLOOR = 3, HOUSEKEEPING_STEP = 0.035, HOUSEKEEPING_MOST = 0.25;
+export function housekeepingSaving(people) {
+  const best = Math.max(0, ...people.map(person => person.traits?.housework ?? 0));
+  return Math.min(HOUSEKEEPING_MOST, Math.max(0, (best - HOUSEKEEPING_FLOOR) * HOUSEKEEPING_STEP));
+}
+/**
+ * How long heavy work takes this person, as a multiple of what it would otherwise take.
+ *
+ * Breaking ground, cutting a crop and splitting rails. A strength of about five is the old
+ * pace; the strongest take three quarters as long and the weakest a quarter as long again.
+ * Somebody with no hidden strength - the founding four - works at exactly the old pace.
+ * Invented (`FIC-GONZ-021`), and hidden.
+ */
+export function heavyWorkPace(entity) {
+  const strength = entity?.traits?.strength;
+  if (!Number.isFinite(strength)) return 1;
+  return Math.min(1.25, Math.max(0.75, 1.25 - (strength - 1) * 0.055));
+}
 export const tooYoungWhy = entity => `${entity.name} is too young to be sent.`;
 
 /** What a household is called. Absent means nobody has named it, so it is named for its own. */

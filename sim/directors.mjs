@@ -2,7 +2,7 @@ import { record } from './events.mjs';
 import { SHOT_COST } from './chores.mjs';
 import { establishTruth, learn } from './knowledge.mjs';
 import { TIRING_MILES } from './routines.mjs';
-import { tooYoung, tooYoungWhy } from './family.mjs';
+import { canAnswerCalls, cannotAnswerWhy, tooYoung, tooYoungWhy } from './family.mjs';
 
 // Date is anchored; these within-day times, pacing, and formation positions are schematic.
 // `crossing` is the night of October 1, when the force went over to the west bank and
@@ -114,9 +114,8 @@ function offerRequests(world) {
   for (const household of Object.values(world.households)) {
     const report = world.knowledge.households[household.id]['cannon-request'];
     if (!report || world.requests[household.id] || world.minute >= TIMELINE.approach) continue;
-    const entity = world.entities[household.principalId];
     if (!firmEnough(report)) {
-      offerRumor(world, household, entity, report);
+      offerRumor(world, household, report);
       continue;
     }
     const rumor = world.rumors[household.id];
@@ -129,13 +128,13 @@ function offerRequests(world) {
     if (rumor?.status === 'open') rumor.status = 'overtaken';
     // A neighbour speaking, not a rules panel. What each choice costs belongs on the
     // controls; a request that has to explain itself is a badly designed request. It names
-    // the family's own person: households name their people now, and every one of them
-    // used to be asked about somebody called Thomas.
-    const inTown = entity.location.siteId === 'gonzales';
+    // nobody: the family decides who answers it (docs/FAMILY_CREATION.md step 4), and it
+    // used to name the principal - and before that, somebody called Thomas.
+    const inTown = household.members.some(id => world.entities[id].location.siteId === 'gonzales' && canAnswerCalls(world.entities[id]));
     const text = inTown
-      ? `People in Gonzales are gathering food for the men here, and ask whether ${entity.name} can give some of your family's.`
-      : `A neighbour is at the door. They are carrying food to the people gathering near Gonzales, and ask whether ${entity.name} can help take it.`;
-    const id = record(world, 'pressure', { householdId: household.id, actorId: entity.id, text, classification: 'FICTIONAL FOR GAMEPLAY', causes: [report.eventId], importance: 2 });
+      ? "People in Gonzales are gathering food for the men here, and ask whether your family can give some of its own."
+      : 'A neighbour is at the door. They are carrying food to the people gathering near Gonzales, and ask whether somebody from your family can help take it.';
+    const id = record(world, 'pressure', { householdId: household.id, text, classification: 'FICTIONAL FOR GAMEPLAY', causes: [report.eventId], importance: 2 });
     world.requests[household.id] = { id, text, status: 'open', offeredMinute: world.minute, where: inTown ? 'town' : 'home' };
   }
 }
@@ -146,11 +145,11 @@ function offerRequests(world) {
  * everything the family has; the options are to go and see, or to stay home and prepare.
  * It never tells the family the rumor is true - finding that out is what going is for.
  */
-function offerRumor(world, household, entity, report) {
+function offerRumor(world, household, report) {
   if (world.rumors[household.id]) return;
-  const text = `The word that reached your family came ${handsSaid(report.hands ?? 2)}, and nobody who passed it on saw any of it. Does ${entity.name} go to Gonzales to see?`;
-  const id = record(world, 'pressure', { householdId: household.id, actorId: entity.id, text, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-020', causes: [report.eventId], importance: 2 });
-  world.rumors[household.id] = { id, text, status: 'open', actorId: entity.id, offeredMinute: world.minute };
+  const text = `The word that reached your family came ${handsSaid(report.hands ?? 2)}, and nobody who passed it on saw any of it. Does somebody go to Gonzales to see?`;
+  const id = record(world, 'pressure', { householdId: household.id, text, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-020', causes: [report.eventId], importance: 2 });
+  world.rumors[household.id] = { id, text, status: 'open', offeredMinute: world.minute };
 }
 // The second call, and the one that puts a family member where the fighting is. It is
 // only ever put to a household whose person actually stood in Gonzales when the force
@@ -162,7 +161,10 @@ function offerMarch(world) {
   for (const household of Object.values(world.households)) {
     const request = world.requests[household.id];
     if (!request || request.status !== 'accepted' || world.marches[household.id]) continue;
-    const entity = world.entities[household.principalId];
+    // Whoever the family sent with the food, which since the family chooses may be anybody
+    // old enough - a mother included. A class saved before that has no actor, and it was
+    // the principal.
+    const entity = world.entities[request.actorId || household.principalId];
     if (entity.location.siteId !== 'gonzales') continue;
     if (['dead', 'captured'].includes(entity.health.condition)) continue;
     const text = `The men who took the cannon are crossing the river tonight and going upriver after the Mexican camp. They ask whether ${entity.name} will come as far as the camp with the supplies.`;
@@ -191,6 +193,7 @@ export function callAvailability(world, householdId, entity, action) {
   const household = world.households[householdId];
   if (['dead', 'captured'].includes(entity.health.condition)) return { can: false, why: `${entity.name} cannot answer.` };
   if (tooYoung(entity)) return { can: false, why: tooYoungWhy(entity) };
+  if (!canAnswerCalls(entity)) return { can: false, why: cannotAnswerWhy(entity) };
   if (action === 'help') {
     if (entity.travel) return { can: false, why: 'Wait until this person arrives.' };
     if (household.resources.food < 2) return { can: false, why: 'Helping needs two food. Staying home is also a valid choice.' };
@@ -215,9 +218,9 @@ export function callAvailability(world, householdId, entity, action) {
  * student who has learned one should not have to learn the other. See
  * docs/evidence/one-decision-shape.json.
  */
-export function requestOptions(world, householdId, request, kind) {
+export function requestOptions(world, householdId, request, kind, who = null) {
   const household = world.households[householdId];
-  const entity = world.entities[request.actorId || household.principalId];
+  const entity = who || world.entities[request.actorId || household.principalId];
   const offer = (id, label, note) => ({ id, label, note, ...callAvailability(world, householdId, entity, id) });
   if (kind === 'march') {
     // What they take with them, said on the control. The volunteers at Gonzales were
@@ -315,13 +318,14 @@ export function handleChoice(world, householdId, entity, action, { beginTravel, 
     if (why) throw new Error(why);
   }
   request.status = action === 'help' ? 'accepted' : 'refused';
+  request.actorId = entity.id;
   const inTown = entity.location.siteId === 'gonzales';
   request.choiceId = record(world, 'choice', { actorId: entity.id, householdId, text: action === 'help' ? (inTown ? `${entity.name} will give food here in Gonzales.` : `${entity.name} will carry food to Gonzales.`) : `${entity.name} will stay home and prepare the household.`, decision: action, causes: [request.id], importance: 2 });
   if (action === 'help') {
     household.resources.food = Math.round((household.resources.food - 2) * 10000) / 10000;
     entity.commitments.push({ id: 'gonzales-supplies', type: 'service', status: 'active', choiceId: request.choiceId });
     if (entity.location.siteId !== 'gonzales') beginTravel(world, entity, 'gonzales', request.choiceId, 'help', mode);
-    else { entity.task = 'help'; record(world, 'arrival', { actorId: entity.id, householdId, destination: 'gonzales', purpose: 'help', text: `${entity.name} offers supplies where he is already present.`, causes: [request.choiceId] }); }
+    else { entity.task = 'help'; record(world, 'arrival', { actorId: entity.id, householdId, destination: 'gonzales', purpose: 'help', text: `${entity.name} offers supplies where they already are.`, causes: [request.choiceId] }); }
   } else {
     entity.task = 'work'; household.prepared = true; household.resources.food += 1;
     const consequence = record(world, 'consequence', { actorId: entity.id, householdId, text: `${entity.name} stayed home and set aside one food. The family kept its labor and transportation nearby.`, causes: [request.choiceId], importance: 2 });
@@ -341,7 +345,6 @@ export function handleRumor(world, householdId, entity, action, { beginTravel, t
   const rumor = world.rumors?.[householdId];
   if (!rumor || rumor.status !== 'open') throw new Error('Nobody is asking that.');
   if (world.minute >= TIMELINE.approach) throw new Error('It is too late to go and see.');
-  if (rumor.actorId !== entity.id) throw new Error(`${entity.name} was not the one asked.`);
   const allowed = callAvailability(world, householdId, entity, action);
   if (!allowed.can) throw new Error(allowed.why);
   if (action === 'go-see' && entity.location.siteId !== 'gonzales') {
@@ -350,6 +353,7 @@ export function handleRumor(world, householdId, entity, action, { beginTravel, t
   }
   const household = world.households[householdId];
   rumor.status = action === 'go-see' ? 'accepted' : 'refused';
+  rumor.actorId = entity.id;
   rumor.choiceId = record(world, 'choice', {
     actorId: entity.id, householdId, decision: action, causes: [rumor.id], importance: 2, claimId: 'FIC-GONZ-020',
     text: action === 'go-see' ? `${entity.name} will go to Gonzales to see whether it is true.` : `${entity.name} will stay home on a rumor and prepare the household.`,
@@ -371,7 +375,7 @@ function remember(world, household, entity, cause, text) {
 function settleHelp(world) {
   for (const [householdId, request] of Object.entries(world.requests)) {
     if (request.status !== 'accepted' || request.consequenceId) continue;
-    const household = world.households[householdId], entity = world.entities[household.principalId];
+    const household = world.households[householdId], entity = world.entities[request.actorId || household.principalId];
     const arrival = world.events.find(e => e.type === 'arrival' && e.actorId === entity.id && e.purpose === 'help' && e.minute >= request.offeredMinute);
     if (!arrival || world.minute < TIMELINE.resolved) continue;
     const outcome = world.truth['gonzales-outcome'];
@@ -565,6 +569,14 @@ export function directorProjection(world, householdId, role) {
   }
   // Each answer with its own price, computed here and never guessed at by the client -
   // the same shape a chore's question takes, so the two read as one kind of decision.
-  if (shown && shown.status === 'open') shown.options = requestOptions(world, householdId, shown, shown.kind);
+  if (shown && shown.status === 'open') {
+    // Everybody who could answer, each with their own prices - a food call is the family's to
+    // give to whichever parent or grown child it chooses, and the march is put to the one
+    // who carried the food. `options` stays as the principal's, or the march's person's.
+    const household = world.households[householdId];
+    const people = shown.kind === 'march' ? [march.actorId] : household.members.filter(id => canAnswerCalls(world.entities[id]));
+    shown.answerers = Object.fromEntries(people.map(id => [id, requestOptions(world, householdId, shown, shown.kind, world.entities[id])]));
+    shown.options = shown.answerers[shown.actorId || household.principalId] || Object.values(shown.answerers)[0] || [];
+  }
   return structuredClone({ request: shown, battle, host: role === 'host' ? host : null, slice: { title: 'Gonzales', complete: world.director.complete }, historicalDate: new Date(Date.UTC(1835, 8, 29) + world.minute * 60000).toISOString().slice(0, 10) });
 }

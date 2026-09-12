@@ -61,7 +61,7 @@ test('the word leaves Gonzales for every family at the same minute, and nobody h
   }
 });
 
-test('the neighbour at the door asks about the family’s own person, by the name the family gave them', () => {
+test('no call names somebody the family does not have', () => {
   const world = running('named-call', 5);
   for (const household of Object.values(world.households)) {
     applyAction(world, household.id, { action: 'rename', entityId: household.principalId, name: 'Bartolo' });
@@ -69,10 +69,9 @@ test('the neighbour at the door asks about the family’s own person, by the nam
   untilEveryoneHeard(world);
   const asked = Object.values(world.requests).concat(Object.values(world.rumors));
   assert.ok(asked.length === 5, 'every family was asked something');
-  for (const call of asked) {
-    assert.match(call.text, /Bartolo/, `"${call.text}" does not name the family's own person`);
-    assert.doesNotMatch(call.text, /Thomas/);
-  }
+  // Every call used to ask about somebody called Thomas. Since the family chooses who
+  // answers, a call names nobody at all - and never a name the family renamed away.
+  for (const call of asked) assert.doesNotMatch(call.text, /Thomas|Bartolo|Elena|Rosa|Mateo/, call.text);
 });
 
 test('nobody knocks on a rumor: a family with only a third-hand account is asked whether to go and see', () => {
@@ -115,7 +114,7 @@ test('going to see makes the word firm, and the call is put to them in town', ()
   assert.equal(call.where, 'town');
   const shown = view(world, householdId).request;
   assert.equal(shown.kind, 'supplies');
-  assert.match(shown.text, new RegExp(`People in Gonzales .* ${person.name}`));
+  assert.match(shown.text, /People in Gonzales .* your family/);
   const give = shown.options.find(option => option.id === 'help');
   assert.equal(give.can, true);
   assert.match(give.label, /here in Gonzales/);

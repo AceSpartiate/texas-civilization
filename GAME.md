@@ -10,7 +10,7 @@ Each student guides one fictional household in a shared world: its people, a hom
 
 **The whole family can be given work**: anybody ten or older can be sent to plant, harvest, hunt, fetch seed or mend the hoe, and any of them can strike a trade with a neighbour they are standing beside. Each has a fixed aptitude for farming, hunting and handwork, so who is sent changes how fast a job goes and how much it yields.
 
-**The principal still answers history** — the father, or a lone parent. Travelling, working the yard, resting, and the choice of whether to help are the principal's alone, and that split is deliberate: everyone can be put to work, but the decision the lesson turns on belongs to one named person. Nobody in the family has a personality beyond that.
+**Any parent, or a child of sixteen or older, can answer history.** A request for help shows on each of them and the family picks who goes; whoever carries the food is the one asked whether to go on upriver. Travelling on an ordinary errand, working the yard and resting are still the principal's orders to give. Nobody in the family has a personality beyond that.
 
 The family panel shows people, tasks, locations and health; the property panel shows the ox and wagon. The remembered-story panel shows the most recent household events.
 

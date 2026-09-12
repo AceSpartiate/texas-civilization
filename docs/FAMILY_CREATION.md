@@ -1,6 +1,6 @@
 # Rolling a family
 
-**Status: decided; step 1 built 2026-09-12** ([evidence](evidence/family-roll.json)). Steps 2–5 are not built; §6 says what each needs. Read this in full before
+**Status: decided; steps 1, 3 and 4 built 2026-09-12** ([roll](evidence/family-roll.json), [effects and who answers](evidence/family-effects.json)). Step 2 needs art and step 5 needs a battle where people died; §6 says what each needs. Read this in full before
 changing `sim/family.mjs`, the join flow, chores that depend on who does them, or anything that
 decides who can be sent to fight.
 
@@ -120,8 +120,8 @@ housework effect produces: a family that needs its housekeeper at home has a rea
 ## 5. Who can be sent to fight, and what it costs
 
 - **Parents, and children aged 16 or over.** A younger child cannot be sent, and the control says so.
-- **The student chooses who goes.** Today the upriver call is put only to the principal; that
-  changes in step 4 so the family names the person.
+- **The student chooses who goes.** The food call is answered by any parent or child of sixteen or more, and
+  the upriver march is put to whoever carried the food (step 4, built).
 - **The risk is hidden and very likely fatal for somebody weak or frail** (owner's decision). There
   is no warning on the control and no number anywhere. The outcome is resolved from that person's
   hidden `strength` and `health` with a seeded roll: very likely death for somebody low in both,
@@ -161,9 +161,9 @@ Each step is shippable and provable alone.
 2. **Children drawn as children.** Needs art: the renderer has one adult figure and no way to tell
    men, women or children apart. **Ask Astra** for child walk/idle/work cycles and distinguishable
    adult men and women, in the existing variants.
-3. **Stats take effect at home.** Housework stretches food; strength speeds heavy work. Balanced so
+3. ~~**Stats take effect at home.**~~ **Done 2026-09-12:** the best housekeeper at home cuts what the family eats by up to a quarter; strength scales heavy work from three quarters to one and a quarter of its time. Housework stretches food; strength speeds heavy work. Balanced so
    a household of one can still survive the afternoon.
-4. **The family chooses who answers a call.** Any parent or child 16+, for the food call and the
+4. ~~**The family chooses who answers a call.**~~ **Done 2026-09-12:** the food call and the rumor question show on every parent and child of sixteen or more, and the march is put to whoever carried the food. Any parent or child 16+, for the food call and the
    upriver march.
 5. **Lethal risk in battle.** Hidden, seeded, from `strength` and `health`. Blocked until a battle
    where people died exists.

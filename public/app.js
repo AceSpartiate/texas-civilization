@@ -365,7 +365,9 @@ function drawTaskMark(ctx, { x, y, size, glyph = '!', tone = '#c2582c' }) {
 const taskFor = (world, entity) => {
   const request = world.request;
   if (request?.status !== 'open') return null;
-  // A march names the person it was put to; the food call is still the principal's.
+  // Everybody who could answer it, each with their own prices. A class served by an older
+  // server has no `answerers`, and there the call was the principal's or the march's person's.
+  if (request.answerers) return request.answerers[entity.id] ? { ...request, options: request.answerers[entity.id] } : null;
   const asked = request.actorId || world.household?.principalId;
   return entity.id === asked ? request : null;
 };

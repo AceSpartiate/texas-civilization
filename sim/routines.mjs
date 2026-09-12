@@ -1,5 +1,6 @@
 // Routine time cannot create death/capture/severe injury or settle loans/service.
 import { record } from './events.mjs';
+import { housekeepingSaving } from './family.mjs';
 
 // Fatigue, and the only thing that mends it.
 //
@@ -27,7 +28,9 @@ export function advanceRoutine(world, minutes) {
     // Someone on a chore is paid by the chore's own yield. Counting them here as well
     // would pay a family twice for the same afternoon's work.
     const workers = present.filter(e => e.task === 'work' && !e.chore && e.health.condition === 'well').length;
-    household.resources.food = Math.max(0, Math.round((household.resources.food + (workers - present.length * .35) * days) * 10000) / 10000);
+    // The best housekeeper at home makes what the family eats go further (FIC-GONZ-021).
+    const eaten = present.length * .35 * (1 - housekeepingSaving(present));
+    household.resources.food = Math.max(0, Math.round((household.resources.food + (workers - eaten) * days) * 10000) / 10000);
   }
   for (const entity of Object.values(world.entities)) {
     if (entity.health?.condition === 'minor-injury' && Number.isFinite(entity.health.recoversAt) && entity.health.recoversAt <= world.minute) entity.health = { condition: 'well' };

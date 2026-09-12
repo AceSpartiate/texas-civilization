@@ -1,0 +1,39 @@
+{
+  "record": "What a rolled family's hidden stats do, and who answers for the family: docs/FAMILY_CREATION.md steps 3 and 4",
+  "date": "2026-09-12",
+  "verdict": "PASS",
+  "verdictMeaning": "The best housekeeper at home makes the family's food last longer, and the saving leaves with them when they go. Strength sets the pace of heavy work - planting, harvesting, breaking ground, splitting rails - and of nothing else. A call is answered by whichever parent or child of sixteen or more the family sends, and the upriver march is put to whoever carried the food. Families nobody rolled keep their old numbers exactly. Proved headless, by injected regression, and live in a browser.",
+  "numbers": {
+    "housekeeping": "Food eaten at home is multiplied by (1 - saving); saving = (best housework at home - 3) x 0.035, from 0 up to 0.25. Four people resting for a day eat 1.4 food with nobody keeping house; with a housekeeping of 10 at home, about 1.06.",
+    "heavyWork": "Work ticks on a heavy chore are multiplied by 1.25 - (strength - 1) x 0.055, clamped 0.75 to 1.25. Somebody with no hidden strength works at x1.",
+    "whoAnswers": "canAnswerCalls: any person whose kin role is father or mother; otherwise a stated age of 16 or more; a person with neither answers only if they are the principal.",
+    "claim": "FIC-GONZ-021, every number invented"
+  },
+  "liveBrowserProof": {
+    "server": "PORT=1848 TEXAS_DATA_DIR=<scratch> SEED=dice PLAYERS=5 TICK_MS=300 node server/main.mjs - an isolated class",
+    "observed": [
+      "Rolled a 5: Trinidad (father, 39), Dorotea (mother, 32), Mateo (son, 14), Marcela (4), Soledad (under a year).",
+      "The food call read 'A neighbour is at the door. They are carrying food to the people gathering near Gonzales, and ask whether somebody from your family can help take it.' Its answerers were hh-1-parent-1 and hh-1-parent-2 only.",
+      "Selecting Mateo, 14, through the family roster: no call on his card. Selecting Dorotea: 'Carry the food to Gonzales' and 'Stay home and prepare - One food set aside, and Dorotea stays where the family can use them.'",
+      "Activating 'Carry the food to Gonzales' on Dorotea's card: 'Dorotea will carry food to Gonzales.', 'Dorotea left for Gonzales.'; Trinidad did not move.",
+      "At minute 4280 the march read 'They ask whether Dorotea will come as far as the camp with the supplies.', answerers [hh-1-parent-2]; Trinidad's card carried no call, and Dorotea's stated her own risk: 'Dorotea is already tired. Going on will leave Dorotea hurt, and mending takes days.'"
+    ]
+  },
+  "automated": {
+    "suite": "tests/family-effects.test.mjs",
+    "tests": 4,
+    "wholeSuite": "251 pass, 0 fail",
+    "regressionsInjected": [
+      { "injected": "housework does nothing", "failed": ["the best housekeeper at home makes the food last longer, and only while they are at home"] },
+      { "injected": "a housekeeper away from home still keeps the house", "failed": ["the best housekeeper at home makes the food last longer, and only while they are at home"] },
+      { "injected": "strength ignored", "failed": ["strength sets the pace of heavy work, and of nothing else"] },
+      { "injected": "strength paces every chore", "failed": ["strength sets the pace of heavy work, and of nothing else"] },
+      { "injected": "only the principal answers", "failed": ["the family chooses who carries the food, and the march is put to whoever did", "a rumor is answered by whoever the family sends to see", "the whole family can be sent to work; only a parent or a grown child answers the historical call"] },
+      { "injected": "a child of twelve may answer", "failed": ["the family chooses who carries the food, and the march is put to whoever did"] },
+      { "injected": "the march is put to the principal", "failed": ["the family chooses who carries the food, and the march is put to whoever did"] },
+      { "injected": "the errand settles on the principal", "failed": ["the family chooses who carries the food, and the march is put to whoever did"] }
+    ],
+    "testsChanged": "tests/chores.test.mjs now asserts a parent or grown child answers, not the principal alone. tests/knowledge-decides.test.mjs: calls name nobody now, so the rename test asserts no call names somebody the family does not have, and the in-town call says 'your family'."
+  },
+  "boundary": "The effects are small and untuned; no class has played them. Nothing states them on a control, by the owner's direction. People are still drawn as one adult figure. Lethal risk in battle (step 5) is not built and cannot be until a battle where people died exists; Gonzales still kills nobody."
+}

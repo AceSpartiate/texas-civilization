@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createWorld, stepWorld, applyAction, projectWorld, validateWorld } from '../sim/world.mjs';
 import { CHORES, RIPEN_TICKS, TOOL_LIFE, choreCatalogue, skillsFor, toolState } from '../sim/chores.mjs';
+import { callAvailability } from '../sim/directors.mjs';
 
 const running = (seed = 'chores', count = 5) => { const world = createWorld(seed, count); world.status = 'running'; return world; };
 const send = (world, householdId, who, chore) => applyAction(world, householdId, { action: 'chore', entityId: `${householdId}-${who}`, chore });
@@ -68,12 +69,16 @@ test('a worn tool is a visible schedule, never a hidden roll (FIC-GONZ-008)', ()
   assert.equal(toolState(household.tools.hoe), 'sound');
 });
 
-test('the whole family can be sent to work; only the principal answers the historical call', () => {
+test('the whole family can be sent to work; only a parent or a grown child answers the historical call', () => {
   const world = running();
   // Rosa is not the principal and was previously offered nothing at all.
   send(world, 'hh-1', 'rosa', 'plant-field');
   assert.ok(world.entities['hh-1-rosa'].chore);
-  assert.throws(() => applyAction(world, 'hh-1', { action: 'help', entityId: 'hh-1-rosa' }), /principal/);
+  // A call is answered by a parent or a child of sixteen or more (docs/FAMILY_CREATION.md
+  // step 4). The founding four state no ages, so their children never answer - and their
+  // mother now may, where once only the father could.
+  assert.match(callAvailability(world, 'hh-1', world.entities['hh-1-mateo'], 'help').why, /too young to answer/);
+  assert.equal(callAvailability(world, 'hh-1', world.entities['hh-1-elena'], 'help').can, true);
   // And nobody may reach into another family. The entity id has to be spelled out here:
   // asking household hh-2 to command "its own rosa" is a legitimate order, not a breach.
   assert.throws(() => applyAction(world, 'hh-2', { action: 'chore', entityId: 'hh-1-rosa', chore: 'plant-field' }), /your family/);

@@ -493,7 +493,11 @@ export function applyAction(world, householdId, input) {
     record(world, 'assignment', { actorId: entity.id, householdId, text: `${entity.name} left off the work.` });
     return;
   }
-  if (!entity.principal) throw new Error('Only your principal can be asked that.');
+  // The historical calls are answered by whichever parent or grown child the family sends
+  // (docs/FAMILY_CREATION.md step 4). Each handler checks who may answer; travelling, the
+  // yard and resting stay the principal's.
+  const answering = ['go-upriver', 'stay-in-town', 'go-see', 'stay-home', 'help', 'stay'].includes(input.action);
+  if (!answering && !entity.principal) throw new Error('Only your principal can be asked that.');
   if (['go-upriver', 'stay-in-town'].includes(input.action)) {
     // Going upriver abandons whatever work was in hand, for the same reason answering
     // the first call does: a chore left merely frozen resumes wherever the journey ends.
