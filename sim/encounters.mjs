@@ -145,6 +145,58 @@ export const CONVERSATIONS = {
   },
 };
 
+/**
+ * How the fight at the camp ended, carried the same way. Converted 2026-09-12.
+ *
+ * Kernel: `HIST-GONZ-004` - a brief engagement, and Castañeda's force withdrew toward Béxar
+ * without the cannon - and `HIST-GONZ-008` for where it happened. S1 describes an ordered
+ * withdrawal, so the riders say "in good order" and never "ran" or "routed". Every exclusion
+ * in HISTORY.md shapes an answer here: nobody in the chain gives a count of men or of the
+ * dead, names a wound, says how many times the cannon was fired, or repeats what was said
+ * between the two sides. The cannon "did not go with them" rather than "is ours": riders are
+ * not a unified bloc (`HIST-GONZ-006`), and the fact is the same either way.
+ */
+CONVERSATIONS['gonzales-outcome'] = {
+  opening: ({ origin, firsthand, toldBy, toldAt, tellerSaw }) => firsthand
+    ? `I've come down from ${origin}. There was a fight at the Mexican camp, and it was short. The soldiers have gone back up the road toward Béxar, and the cannon did not go with them.`
+    : `I've come from ${toldAt}, and I did not see any of this myself. ${toldBy} put it in my hands there${tellerSaw ? `, straight from ${origin}` : `, and had it from another rider before that, out of ${origin}`}. There was a fight at the Mexican camp, and it was short. The soldiers have gone back toward Béxar, and the cannon did not go with them.`,
+  lines: [
+    {
+      id: 'anyone-killed', ask: 'Was anybody killed?',
+      // HISTORY.md: no casualty counts and no individual wounds. So nobody has one - and
+      // nobody says "nobody was killed" either, because omitting casualties is not a claim
+      // that nobody was harmed.
+      answer: ({ firsthand, toldBy }) => firsthand
+        ? 'I could not tell you. I was not near enough to count anybody, and I will not repeat what men say over a fire.'
+        : `${toldBy} would not say, and I will not guess. People on this road tell it every way.`,
+    },
+    {
+      id: 'where-gone', ask: 'Where did the soldiers go?',
+      answer: ({ firsthand }) => firsthand
+        ? 'Back up the road toward Béxar. They went in good order, not running.'
+        : 'Back toward Béxar, is what I was told. Whether anybody watched them all the way out, I cannot say.',
+    },
+    {
+      id: 'when-left', ask: 'When did you leave?',
+      answer: ({ departedAgo, observedAgo, firsthand, toldBy, toldAt }) => firsthand
+        ? `${departedAgo} on the road to get here, and it was ${observedAgo} over when I set out.`
+        : `${departedAgo} since ${toldBy} gave me the word at ${toldAt}, and it was already ${observedAgo} old then.`,
+    },
+    {
+      id: 'saw-it', ask: 'Did you see it yourself?',
+      answer: ({ firsthand, toldBy, hands, origin }) => firsthand
+        ? 'I was with the men at the camp. I heard the cannon and I saw the soldiers go. What passed between the two sides before it, I did not hear.'
+        : `No. ${toldBy} did${hands === 1 ? ', and told me so' : ` not either. It came through ${hands} hands before mine`}. I am telling you what I was told, out of ${origin}.`,
+    },
+    {
+      id: 'over', ask: 'Is it over, then?',
+      answer: ({ firsthand }) => firsthand
+        ? 'That fight is. Nobody I stood with thought the matter was settled for good.'
+        : 'That fight is. What comes of it, nobody on this road can tell you.',
+    },
+  ],
+};
+
 export const carriedInPerson = topicId => Boolean(CONVERSATIONS[topicId]);
 
 const isPerson = entity => entity.kind === 'person';

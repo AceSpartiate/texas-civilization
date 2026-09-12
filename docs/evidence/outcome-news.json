@@ -1,0 +1,78 @@
+{
+  "record": "The upriver call asked on what a family was told, and how the fight ended carried by riders",
+  "date": "2026-09-12",
+  "verdict": "PASS",
+  "verdictMeaning": "The night crossing is now news (HIST-GONZ-003) learned by being in Gonzales, and the upriver call is asked on it: in the present tense to somebody in town when the force goes over, and as 'crossed the river N hours ago ... follow them' to somebody who reaches town later. The outcome of the fight - the last report still posted through a door - is now said by riders who start at the camp on Ezekiel Williams's land and hand it on down the roads, with dialogue held inside HISTORY.md's exclusions. Proved headless, by injected regression, and live in a browser.",
+  "honestBoundary": "In this slice being in Gonzales and being told of the crossing happen together, so the visible change to the upriver call is its wording and the journal record, not who is asked. Nobody rides the crossing out to farms, because nobody at home could act on it before dawn.",
+  "measured": {
+    "seed": "gonzales",
+    "fifteenHouseholds": "All 15 heard how the fight ended before the slice closed, 760 minutes after it. 15 conversations, 0 old-way deliveries. Nearest family (2.8 miles) heard 100 minutes after, second-hand; farthest (32.5 miles) 340 minutes after, through three hands. Nobody heard it first-hand: the camp is across the ford and upriver, so the first rider hands it on before any farm.",
+    "thirtyHouseholds": "All 30 heard; 30 conversations; 0 old-way deliveries."
+  },
+  "defectFound": {
+    "defect": "A family's journal read 'Ned Falk, who had it from Ned Falk'. There are eight rider names and the second converted report puts dozens more riders on the road, so a hand-off could go to a rider with the same name as one who already carried it.",
+    "fixed": "sendRider skips any name already in the report's provenance.",
+    "ceiling": "Two riders on different errands may still share a name."
+  },
+  "liveBrowserProof": {
+    "server": "PORT=1850 TEXAS_DATA_DIR=<scratch> SEED=outcome PLAYERS=5 TICK_MS=150, slowed to Brisk after the battle resolved; an isolated class",
+    "observed": [
+      "'Emeterio has met a rider. Choose Emeterio and listen.'",
+      "Panel: 'Emeterio and Willa Hines - Had it from Ada Swinney at the fork of the road · third-hand out of Ezekiel Williams's land'.",
+      "Willa Hines: 'I've come from the fork of the road, and I did not see any of this myself. Ada Swinney put it in my hands there, and had it from another rider before that, out of Ezekiel Williams's land. There was a fight at the Mexican camp, and it was short. The soldiers have gone back toward Béxar, and the cannon did not go with them.'",
+      "Asked through the panel, 'Was anybody killed?': 'Ada Swinney would not say, and I will not guess. People on this road tell it every way.' Written into the family's report as a detail.",
+      "The family's report of the outcome: rumor, from 'Willa Hines, who had it from Ada Swinney at the fork of the road, and it had passed through other hands before that'."
+    ],
+    "note": "A first attempt at TICK_MS=150 reached the end of the slice before a question could be asked; the question button was correctly disabled once the class had ended."
+  },
+  "automated": {
+    "suite": "tests/outcome-news.test.mjs",
+    "tests": 4,
+    "wholeSuite": "255 pass, 0 fail",
+    "regressionsInjected": [
+      {
+        "injected": "the upriver call opens on the clock with the present-tense text",
+        "failed": [
+          "the upriver call is asked because the family was told of the crossing, and it says when"
+        ]
+      },
+      {
+        "injected": "nobody in town is told of the crossing",
+        "failed": [
+          "the new crossing test and fourteen upriver, powder, fatigue and decisions tests, because nobody is then asked to go upriver at all"
+        ]
+      },
+      {
+        "injected": "the outcome conversation removed, so it is posted through the door",
+        "failed": [
+          "how the fight ended is said to each family by a rider who came down from the camp",
+          "what a rider says about the fight stays inside what HISTORY.md allows"
+        ]
+      },
+      {
+        "injected": "the outcome starts in town rather than at the camp",
+        "failed": [
+          "how the fight ended is said to each family by a rider who came down from the camp"
+        ]
+      },
+      {
+        "injected": "a rider says 'Two of theirs were killed, and one of ours was hurt.'",
+        "failed": [
+          "what a rider says about the fight stays inside what HISTORY.md allows"
+        ]
+      },
+      {
+        "injected": "a rider says the soldiers 'fled'",
+        "failed": [
+          "what a rider says about the fight stays inside what HISTORY.md allows"
+        ]
+      },
+      {
+        "injected": "a hand-off may reuse a name already in the chain",
+        "failed": [
+          "word is never handed on to somebody with the same name as a rider who already carried it"
+        ]
+      }
+    ]
+  }
+}

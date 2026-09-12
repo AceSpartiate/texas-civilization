@@ -370,7 +370,14 @@ function sendRider(world, { topicId, audience, status, originSiteId, fromSiteId,
   // `courier` outlives the errand, and `report` does not. Handing over a message does not
   // put somebody off their horse: keyed on the report instead, a rider who had just
   // finished speaking was redrawn as a settler on foot, standing in the yard.
-  const entity = { id, name: inPerson ? riderName(number) : `Rider ${number}`, kind: 'person', householdId: null, depth: 'moderate', principal: false, courier: true, location: { x: from.x, y: from.y, siteId: fromSiteId }, task: 'rest', health: { condition: 'well' }, travel: null, report: { topicId, audience, destination: leg ? leg.id : homeSiteId, homeSiteId, status, originSiteId, departedMinute: world.minute, ...(inPerson && { inPerson: true, provenance }) } };
+  // Never somebody who already carried this word. There are eight rider names and a class
+  // puts dozens of riders on the road, so a hand-off could otherwise read "Ned Falk, who had
+  // it from Ned Falk" - which was measured, the first time a second report was converted.
+  // ceiling: two different riders on two different errands may still share a name. A longer
+  // list is the fix if a class ever takes one rider for another.
+  let named = number;
+  while (inPerson && (provenance || []).some(hop => hop.name === riderName(named))) named++;
+  const entity = { id, name: inPerson ? riderName(named) : `Rider ${number}`, kind: 'person', householdId: null, depth: 'moderate', principal: false, courier: true, location: { x: from.x, y: from.y, siteId: fromSiteId }, task: 'rest', health: { condition: 'well' }, travel: null, report: { topicId, audience, destination: leg ? leg.id : homeSiteId, homeSiteId, status, originSiteId, departedMinute: world.minute, ...(inPerson && { inPerson: true, provenance }) } };
   world.entities[id] = entity;
   beginTravel(world, entity, entity.report.destination, causeId, 'report');
   return entity;

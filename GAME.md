@@ -99,6 +99,8 @@ Clearing early is worth it and clearing late is not, because a crop still has to
 
 The exchange plays out a line at a time. You can ask him things — where he came from, whether he saw it himself, how many of them there were — and a rider who was only told says so, names who told him, and will not guess. Everything said is written into the first page of your **family journal**, with how far the word travelled and how old it already was, and the whole conversation can be read back after he has ridden on.
 
+**The call to go upriver comes from what you were told in town.** Somebody of yours standing in Gonzales when the men cross the river hears it happening and is asked whether to come; somebody who gets there hours later is told how long ago the men left, and asked whether to follow.
+
 **How somebody goes is a decision, and there are three of them.** Every family owns a horse, an ox and a wagon, and a panel on the person you have selected says which way they will set out.
 
 - **On foot.** Three miles an hour. Always possible, never blocked, and it is the legs that pay: walking is the only thing that tires anybody enough to matter.
@@ -133,7 +135,7 @@ Individual coordinates, the exact course of the drawn roads, and the outlines of
 
 The server knows objective events before everyone hears about them. Each household has separate reports, and the Host has its own public reports. A family's news panel shows what it received, its source, confidence and age. The model distinguishes when the report arrived from how old the reported observation is.
 
-The first household receives early fictional local news. A family present at Gonzales can observe the situation there. Everyone else is told by a person who rode from where it happened — **delivery requires somebody to be there to hear it**, not a courier reaching a map pin, and an empty cabin is told nothing.
+A family present at Gonzales can observe the situation there. Everyone else is told by a person who rode from where it happened — the cannon news from the town, and how the fight ended from the camp upriver — **delivery requires somebody to be there to hear it**, not a courier reaching a map pin, and an empty cabin is told nothing.
 
 **How far you live decides what kind of news you get, not only how late it is.** A rider carries word about twelve miles and then hands it to somebody going further, at a fork of the road or at the ford. So a family beside Gonzales meets the person who saw the camp and has a confirmed report; a family at the far edge of the county meets the third or fourth person to carry it, who says plainly that they did not see any of this themselves, names who told them and where, and leaves that family holding a rumor. The account is older too: the journal says how long ago it happened, not just when it arrived. A rider also stops for anybody they come alongside who does not already know, so word sometimes reaches you from a rider who was never sent to you at all.
 

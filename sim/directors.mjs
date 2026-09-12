@@ -63,6 +63,14 @@ function once(world, key, action) {
   if (barrier) barrier.resolved = true;
 }
 export const CAMP_SITE = 'williams-camp';
+/**
+ * The night crossing, as news. `HIST-GONZ-003`: the Texian force crossed to the west bank on
+ * the night of October 1 and marched upriver. It is learned only by being in Gonzales or at
+ * the camp - nobody rides out to farms with it, because nobody at home could act on it
+ * before dawn - and it is what the upriver call is asked on the strength of.
+ */
+export const CROSSING = 'force-crossing';
+const hoursAgo = minutes => { const whole = Math.round(minutes / 60); return whole <= 1 ? 'an hour' : `${whole} hours`; };
 function presentAt(world, householdId, siteId) {
   return world.households[householdId].members.some(id => world.entities[id].location.siteId === siteId);
 }
@@ -167,8 +175,18 @@ function offerMarch(world) {
     const entity = world.entities[request.actorId || household.principalId];
     if (entity.location.siteId !== 'gonzales') continue;
     if (['dead', 'captured'].includes(entity.health.condition)) continue;
-    const text = `The men who took the cannon are crossing the river tonight and going upriver after the Mexican camp. They ask whether ${entity.name} will come as far as the camp with the supplies.`;
-    const id = record(world, 'pressure', { householdId: household.id, actorId: entity.id, text, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-011', causes: [request.choiceId], importance: 2 });
+    // Asked because the family was told, and told the way it was told. Somebody standing in
+    // Gonzales when the force went over hears it going; somebody who reaches town after it
+    // has gone is told by the people still there, and the offer says how long ago. It used
+    // to open on the clock with "are crossing the river tonight" for anybody in town until
+    // dawn, which was false for everybody who arrived after the crossing.
+    const told = world.knowledge.households[household.id][CROSSING];
+    if (!told) continue;
+    const late = told.receivedMinute - told.observedMinute;
+    const text = late < 60
+      ? `The men who took the cannon are crossing the river tonight and going upriver after the Mexican camp. They ask whether ${entity.name} will come as far as the camp with the supplies.`
+      : `The men who took the cannon crossed the river ${hoursAgo(late)} ago and went upriver after the Mexican camp. People still in town ask whether ${entity.name} will follow them as far as the camp with the supplies.`;
+    const id = record(world, 'pressure', { householdId: household.id, actorId: entity.id, text, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-011', causes: [request.choiceId, told.eventId], importance: 2 });
     // The cost is settled here, once, and carried on the offer. It is NOT recomputed when
     // the march is paid out, because the nine miles up the river are themselves enough to
     // tire somebody: read it again at the end and a family shown "will come back tired"
@@ -475,6 +493,12 @@ export function advanceDirectors(world, movement) {
     }
   }
   once(world, 'publicNotice', () => learn(world, 'public', 'cannon-request', { source: 'Public report (reconstructed timing)' }));
+  once(world, 'crossing', () => establishTruth(world, { id: CROSSING, text: 'The Texian force crossed the Guadalupe in the night and went upriver after the Mexican camp.', siteId: 'gonzales', classification: 'DOCUMENTED', claimId: 'HIST-GONZ-003' }));
+  if (world.truth[CROSSING] && world.minute < TIMELINE.approach) {
+    for (const household of Object.values(world.households)) {
+      if (witnessing(world, household.id)) learn(world, household.id, CROSSING, { source: 'Told in Gonzales' });
+    }
+  }
   offerRequests(world); offerMarch(world);
   once(world, 'gathering', () => setBattlePhase(world, 'gathering'));
   once(world, 'approach', () => {
@@ -528,7 +552,7 @@ export function advanceDirectors(world, movement) {
   once(world, 'withdrawal', () => setBattlePhase(world, 'withdrawal'));
   once(world, 'resolved', () => {
     setBattlePhase(world, 'resolved');
-    const truth = establishTruth(world, { id: 'gonzales-outcome', text: HISTORICAL_OUTCOME, siteId: 'gonzales', classification: 'DOCUMENTED', claimId: 'HIST-GONZ-004', causes: [world.director.lastBattleEventId] });
+    const truth = establishTruth(world, { id: 'gonzales-outcome', text: HISTORICAL_OUTCOME, siteId: CAMP_SITE, classification: 'DOCUMENTED', claimId: 'HIST-GONZ-004', causes: [world.director.lastBattleEventId] });
     for (const household of Object.values(world.households)) {
       if (witnessing(world, household.id)) learn(world, household.id, truth.id, { source: 'Local observation' });
       else movement.dispatchReport(world, truth.id, household.id);
