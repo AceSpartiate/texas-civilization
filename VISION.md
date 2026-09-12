@@ -550,7 +550,7 @@ This replaces the earlier rule **"No rankings."** The game now has a winner:
 - **Glory** is hidden from every student and from the Host until the ending. It is earned by taking part in major historical events of **every kind**, with fighting weighted above supporting. A casualty never earns extra.
 - At the ending each family sees its own money, its own glory and what earned each. The Host shows every family's numbers and **names the winner**, alongside the discussion hooks above.
 
-What still binds: no virtue labels ("best patriot", "bravest", "most loyal"), §8's rule that a family that sends nobody to battle must still have a compelling story — and must be able to win — and §11's rules against patriotism meters and repeated requests. Full specification and gates: `docs/MONEY_AND_GLORY.md`.
+What still binds: no virtue labels ("best patriot", "bravest", "most loyal"), §8's rule that a family that sends nobody to battle must still have a compelling story — and must be able to win, though winning without fighting should be difficult — and §11's rules against patriotism meters and repeated requests. Full specification and gates: `docs/MONEY_AND_GLORY.md`.
 
 ---
 

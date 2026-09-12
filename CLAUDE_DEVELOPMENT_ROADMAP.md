@@ -537,7 +537,7 @@ Track:
 - resource inflation
 - overcommitment to combat
 - trivial avoidance strategies
-- which households win on `money × (1 + glory)`: a household that sends nobody to fight must be able to finish first, and so must one that fights (`docs/MONEY_AND_GLORY.md` §8)
+- which households win on `money × (1 + glory)`: a household that sends nobody to fight must be able to finish first, but should do so well below its share of the class — winning without fighting is meant to be difficult, not impossible (`docs/MONEY_AND_GLORY.md` §8)
 
 Tune difficulty without arbitrary punishment.
 

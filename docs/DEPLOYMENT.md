@@ -92,6 +92,26 @@ Updating downloads the release asset, unpacks it, and only then replaces the ins
 with `robocopy /XD data`, so an interrupted download leaves the working copy untouched and a
 teacher's classes are never in the path. The launcher refuses to update while a class runs.
 
+**Publishing a release that installed launchers will take.** The launcher asks GitHub for the
+latest release, compares its tag with the installed `release.txt`, and downloads the release's
+`.zip` whose name does **not** contain `NeedsNode` (`launcher/Updates.cs`). So a release needs:
+
+1. `scripts/package.ps1 -Stamp yyyy-MM-dd -Tag vyyyy.MM.dd -Destination <existing folder>` — the
+   tag passed here is what gets stamped into `release.txt`, so it must equal the release tag.
+2. All three outputs attached: `TexasRevolutionSetup.exe`, `TexasRevolution-Gonzales-<stamp>.zip`
+   (the update archive) and the `-NeedsNode.zip`.
+3. The release marked latest. Only the latest release is ever offered.
+
+A release without the update archive is invisible to every installed copy: the check reports a
+newer release and then "That release has no downloadable build attached." The release of
+2026-09-11 went out exactly that way; v2026.09.12 was the first to carry it.
+
+ceiling: the update archive carries the game and never `TexasRevolution.exe`, so updating
+leaves the launcher itself at whatever version was installed. A change to `launcher/` reaches a
+machine only when its teacher runs a newer `TexasRevolutionSetup.exe` over the top. Ship the
+launcher in the archive (and have `install.cmd` swap it after exit) once a launcher change is one
+a teacher cannot do without.
+
 ## A package that came from the Internet
 
 The development entry point is `npm start`, which runs `node server/main.mjs` from the repository root. The teacher-facing prototype entry point is `Launch.vbs`, which delegates to `scripts/launch.ps1` without exposing a terminal workflow. The launcher is designed to use `runtime/node.exe` when supplied, otherwise an installed Node runtime.

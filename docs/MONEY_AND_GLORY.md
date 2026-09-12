@@ -54,8 +54,9 @@ Three decisions below keep that failure out while delivering exactly what was as
    stayed home and prospered finishes with a real number.
 3. **Fighting costs money.** Every day somebody is at the camp or the battle is a day they are
    not working the farm, and powder spent on the fight is powder not sold or hunted with. The
-   two halves of the formula pull against each other, which is the design working: there is
-   no dominant answer, only different families.
+   two halves of the formula pull against each other. **Owner decision, 2026-09-12: a family
+   that never fights can win, but it should be difficult.** Fighting is meant to be the
+   stronger road to first place; staying home is a harder one, and it must stay a road.
 
 ---
 
@@ -182,7 +183,8 @@ Rules that apply to every row:
   exactly what their participation earned and nothing more. The ending presents that with
   dignity and never as a reward for a death.
 - **Once per person per event.** Sending the same person back and forth does not farm glory.
-- **Weights must not make fighting the dominant strategy.** The balance gate in §8 is the check.
+- **Fighting should be the stronger strategy, never the only one.** A family that never fights
+  winning should be difficult, not impossible. The balance gate in §8 is the check.
 
 ### Where it lives
 
@@ -241,6 +243,7 @@ At the end the fog lifts (`VISION.md` §20) and each family sees, for the first 
 | What earns glory? | Participating in major historical events — **every kind, with fighting weighted above supporting**. |
 | A family with no glory? | **`money × (1 + glory)`** — glory multiplies money and cannot erase it. |
 | How is the result shown? | **The Host names a winner**, showing every family's money, glory and final number. |
+| Can a family that never fights win? | **Yes, but it should be difficult.** |
 | What counts as money at the end? | Not asked. Default is coin on hand (§3); change only on the owner's say-so. |
 
 ---
@@ -280,7 +283,7 @@ Nothing here is finished until all of these hold.
 | Money is used | At least one thing a family will want is bought only with coin. |
 | Barter survives | A family that never touches coin can still plant, harvest, hunt, trade, answer the call and reach the end. |
 | No annihilation | A household with zero glory finishes with its money intact (`money × 1`). |
-| No dominant strategy | In 3E's headless runs at 5–30 players, a household that sends nobody to fight can finish first, and so can one that fights. If either never wins, the weights are wrong. |
+| Winning without fighting is hard, not impossible | In 3E's headless runs at 5–30 players, households that send nobody to fight win **some** runs, and **well below their share of the class**; households that fight win more often than their share. If non-fighting households never win, or win as often as fighting ones, the weights are wrong. |
 | Casualties earn nothing extra | A family member hurt, captured or lost adds no glory beyond their participation. |
 | No virtue labels | Nothing in the interface, the epilogue or the Host view names a family good, loyal, brave or patriotic. |
 | Save compatibility | A class saved before any of this opens, and no save version moves. Absent money reads as none; absent glory reads as zero. |

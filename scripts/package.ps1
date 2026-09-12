@@ -1,9 +1,11 @@
 # Build what a teacher downloads.
 #
-# Two things come out of this:
+# Three things come out of this, and a release attaches all three:
 #
 #   TexasRevolutionSetup.exe   the whole thing - a setup program that carries the game and
 #                              becomes the launcher once it has installed it
+#   ...-Gonzales-<stamp>.zip   the game with its runtime and no launcher: what an installed
+#                              launcher downloads when it updates
 #   ...-NeedsNode.zip          the game alone, for a machine that already has Node 22+ and
 #                              somebody who would rather unzip a folder
 #
@@ -61,14 +63,24 @@ foreach ($forbidden in @('data', 'node_modules', 'test-results', '.git', 'tests'
   if (Test-Path -LiteralPath (Join-Path $app $forbidden)) { throw "$forbidden must not ship" }
 }
 
+# ---------------------------------------------------------------- the update archive
+# What an installed launcher downloads when it updates (launcher/Updater.cs): the game with
+# its runtime, one TexasRevolution folder, no launcher. The launcher picks it out as the
+# release's .zip whose name does not contain NeedsNode, so both halves of that name matter.
+# The installer commit stopped producing it, and the release of 2026-09-11 went out without
+# one - which left every installed copy unable to update. Attach it to every release.
+$update = Join-Path $Destination "TexasRevolution-Gonzales-$Stamp.zip"
+if (Test-Path -LiteralPath $update) { Remove-Item -LiteralPath $update -Force }
+Compress-Archive -Path $app -DestinationPath $update -CompressionLevel Optimal
+
 # ---------------------------------------------------------------- the setup program
 # The payload is the game and never the launcher: the setup copies itself into place once
-# it has unpacked, so .NET is downloaded once rather than twice.
+# it has unpacked, so .NET is downloaded once rather than twice. It is the update archive.
 $payload = Join-Path $launcherDir 'payload.zip'
 $setup = Join-Path $Destination 'TexasRevolutionSetup.exe'
 if (-not $SkipLauncher) {
   if (Test-Path -LiteralPath $payload) { Remove-Item -LiteralPath $payload -Force }
-  Compress-Archive -Path $app -DestinationPath $payload -CompressionLevel Optimal
+  Copy-Item -LiteralPath $update -Destination $payload -Force
   Push-Location $launcherDir
   try {
     & dotnet publish -c Release -r win-x64 --self-contained true `
@@ -95,6 +107,6 @@ if (Test-Path -LiteralPath $needsNode) { Remove-Item -LiteralPath $needsNode -Fo
 Compress-Archive -Path $app -DestinationPath $needsNode -CompressionLevel Optimal
 
 Remove-Item -LiteralPath $stage -Recurse -Force
-foreach ($file in @($setup, $needsNode)) {
+foreach ($file in @($setup, $update, $needsNode)) {
   if (Test-Path -LiteralPath $file) { '{0}  {1} MB' -f $file, [math]::Round((Get-Item -LiteralPath $file).Length / 1MB, 1) }
 }
