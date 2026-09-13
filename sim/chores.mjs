@@ -344,9 +344,9 @@ export const CHORES = {
   'practise-shooting': {
     name: 'Practise at the mark', skill: 'hunting', where: 'home',
     needs: { powder: PRACTICE_COST },
-    describe: 'An afternoon at a mark set up behind the cabin, and two powder gone. A steadier hand makes the long shot and brings more home.',
+    describe: 'An afternoon at a mark set up at the edge of the yard, and two powder gone. A steadier hand makes the long shot and brings more home.',
     steps: [
-      { walk: 'field', doing: 'setting up a mark behind the cabin' },
+      { walk: 'field', doing: 'setting up a mark at the edge of the yard' },
       { work: 5, doing: 'shooting at the mark' },
       { consume: { powder: PRACTICE_COST } },
       { practise: 'hunting' },

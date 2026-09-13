@@ -10,7 +10,7 @@
 // the lesson and `FIC-GONZ-014` registers it.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createGonzalesWorld } from '../sim/gonzales.mjs';
+import { createSettledWorld } from './support/settled.mjs';
 import {
   applyAction, beginTravel, createWorld, modeAvailability, projectWorld, stepWorld,
   travelModesFor, travelRefusal, validateWorld,
@@ -20,7 +20,7 @@ import { CHORES, haulFor } from '../sim/chores.mjs';
 import { TIMELINE } from '../sim/directors.mjs';
 
 const running = (seed = 'modes', count = 5) => {
-  const world = createGonzalesWorld(seed, count);
+  const world = createSettledWorld(seed, count);
   world.status = 'running';
   return world;
 };

@@ -11,12 +11,12 @@
 // something, and that is the honest picture rather than a limitation worked round.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createGonzalesWorld } from '../sim/gonzales.mjs';
+import { createSettledWorld } from './support/settled.mjs';
 import { applyAction, stepWorld, validateWorld } from '../sim/world.mjs';
 import { CHORES, steadyHand, unsteadyBecause } from '../sim/chores.mjs';
 
 const running = (seed = 'hunt', count = 5) => {
-  const world = createGonzalesWorld(seed, count);
+  const world = createSettledWorld(seed, count);
   world.status = 'running';
   return world;
 };

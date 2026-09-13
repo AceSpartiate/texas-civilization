@@ -43,6 +43,8 @@ test('the peaceful hours are for the farm and the neighbours', () => {
   const world = createGonzalesWorld('peace-farm', 5);
   world.status = 'running';
   const household = world.households['hh-1'];
+  // The family comes in off the road first (docs/SETTLING_IN.md step 2), and still has the hours.
+  while (household.arriving) stepWorld(world);
   applyAction(world, household.id, { action: 'chore', entityId: household.members[1], chore: 'plant-field' });
   while (world.entities[household.members[1]].chore) stepWorld(world);
   assert.equal(household.field.state, 'planted');

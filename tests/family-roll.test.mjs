@@ -8,6 +8,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
+import { settle } from './support/settled.mjs';
 import { applyAction, stepWorld, projectWorld, projectFamily, validateWorld, rollFamily, travelModesFor } from '../sim/world.mjs';
 import { choresFor } from '../sim/chores.mjs';
 import { observedBy } from '../sim/town.mjs';
@@ -95,6 +96,7 @@ test('the hidden stats differ on average between men and women, and people overl
 test('the hidden stats reach no payload: not the family’s own, not a neighbour’s, not the Host’s', () => {
   const world = lobby('hidden', 5);
   for (const household of Object.values(world.households)) rollFamily(world, household);
+  settle(world);
   // A value nothing else in a payload could be, so finding it means a leak.
   for (const entity of Object.values(world.entities)) if (entity.traits) entity.traits = { strength: 9187, health: 9281, housework: 9373 };
   world.status = 'running';
@@ -116,7 +118,8 @@ test('the hidden stats reach no payload: not the family’s own, not a neighbour
 });
 
 test('a family is rolled once, and before anything happens to it', () => {
-  const world = lobby('once', 5);
+  // Settled, because a family still on the road in cannot be set to work at all.
+  const world = settle(lobby('once', 5));
   const [first, second, third, fourth] = Object.values(world.households);
   assert.equal(projectFamily(world, first.id).canRoll, true);
   assert.equal(projectFamily(world, first.id).roll, null);

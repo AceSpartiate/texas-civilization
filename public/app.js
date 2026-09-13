@@ -232,6 +232,18 @@ function miniBuilding(ctx, x, y, size, settlement = false, id = '', ruined = fal
     if (!drawSprite(ctx, sprite, bx, by, scale)) logCabin(ctx, bx, by, scale * .62);
   }
 }
+// A family camped on its land by the wagon, before there is a house (docs/SETTLING_IN.md step 2).
+// Not a stand-in: the library's road-camp kit - the fire, the pot, a bedroll and the bundles
+// taken off the wagon - is exactly this. The wagon itself is drawn where it actually is, as
+// property, so it is never painted in here: a family that took it to the timber has no wagon
+// in its camp.
+function homesteadCamp(ctx, x, y, size, id = '') {
+  const seed = seedOf(id);
+  if (!animated(ctx, 'fire-flicker', x + size * .12, y + size * .08, size * .34, seed)) drawSprite(ctx, 'campfire', x + size * .12, y + size * .08, size * .34);
+  drawSprite(ctx, 'cooking-pot', x + size * .34, y + size * .12, size * .2);
+  drawSprite(ctx, 'bedroll', x - size * .28, y + size * .2, size * .34);
+  drawSprite(ctx, 'packed-belongings', x - size * .06, y - size * .12, size * .36);
+}
 // Open-grown post oak: a broad canopy on a short trunk (HIST-GONZ-012). Kept as the
 // fallback for when the nature sheet has not loaded, or has failed to.
 const TIMBER_TREES = ['oak-broad', 'oak-spreading', 'pecan'];
@@ -1051,7 +1063,11 @@ export function drawWorld(world) {
     if (site.kind === 'homestead' && !ownLand && camera.scale < HOMESTEAD_LEGIBLE) continue;
     if (settlement || site.kind === 'homestead' || !site.kind) {
       const burnt = !settlement && site.ownerHouseholdId === world.household?.id && world.land?.cabin === 'ruined';
-      standing.push({ y: q.y, draw: () => miniBuilding(ctx, q.x, q.y, Math.max(5, camera.figure * (settlement ? SIZE.settlementCabin : SIZE.cabin)), settlement, site.id, burnt) });
+      // No house yet: the family's own land says so, and in a class that began with the families
+      // arriving nobody else has built one either (`arrivalClass`, and its ceiling, in sim/world.mjs).
+      const camped = !settlement && !burnt && (ownLand && world.land ? world.land.shelter === 'camp' : Boolean(world.arrivalClass));
+      const size = Math.max(5, camera.figure * (settlement ? SIZE.settlementCabin : SIZE.cabin));
+      standing.push({ y: q.y, draw: () => camped ? homesteadCamp(ctx, q.x, q.y, size, site.id) : miniBuilding(ctx, q.x, q.y, size, settlement, site.id, burnt) });
     } else if (site.kind === 'ford') {
       // The crossing is drawn as a break in the bank, not as a building or a bridge.
       const width = Math.max(6, camera.figure * .9);
@@ -1229,12 +1245,17 @@ function renderHousehold(world) {
   // thing they can change and the thing they would have to leave.
   const land = world.land;
   const ground = land ? [(() => {
-    const li = element('li', land.cabin === 'ruined'
+    // What the camp costs is said in numbers, from the server's own (FIC-GONZ-008).
+    const camp = land.camp ? ` There is no house yet, so they camp by the wagon: rest there mends ${Math.round(land.camp.restShare * 100)} parts in 100 of what it would under a roof, and ${Math.round(land.camp.spoilagePerDay * 100)} parts in 100 of the food spoil each day.` : '';
+    const li = element('li', land.arriving
+      ? `Their land: they are still on the road in with the wagon.${camp}`
+      : land.cabin === 'ruined'
       ? `Their land: the cabin is gone. Ground broken ${land.cleared} of a possible ${land.clearingMax}.`
-      : `Their land: ground broken ${land.cleared} of a possible ${land.clearingMax}${land.fence === 'sound' ? ', the field fenced' : land.fence === 'ruined' ? ', the fence pulled down' : ', no fence round the crop'}.`);
+      : `Their land: ground broken ${land.cleared} of a possible ${land.clearingMax}${land.fence === 'sound' ? ', the field fenced' : land.fence === 'ruined' ? ', the fence pulled down' : ', no fence round the crop'}.${camp}`);
     li.dataset.land = 'true';
     li.dataset.cleared = String(land.cleared);
     li.dataset.fence = land.fence;
+    li.dataset.shelter = land.shelter || 'house';
     return li;
   })()] : [];
   $('#property').replaceChildren(...ground, ...property.map(entity => { const li = element('li', `${entity.name}: ${entity.kind} at ${placeName(world, entity.location?.siteId)}`); li.dataset.entityId = entity.id; return li; }));
@@ -1717,6 +1738,7 @@ const TUTORIAL = [
     // It says what is true instead: this is the panel, and it follows whoever you click.
     title: 'This is your family',
     text: 'Four people live here and all four can work. The panel beside them is open on Thomas, who the big decisions belong to later on; click any of the others and it follows them. The ox and the wagon are yours too.',
+    arriving: 'Your family is on the road in with the wagon, the ox and the horse. When your teacher begins they drive onto their own land, where there is no house yet, and camp by the wagon. The panel beside them follows whoever you click.',
     next: 'Go on',
   },
   {
@@ -1725,6 +1747,9 @@ const TUTORIAL = [
     text: 'The panel beside them lists the work they can do today. Plant the field turns the rows and puts in seed, and it is where a year on this land starts. Choose a job for them.',
     doing: 'Waiting for somebody to be set to work.',
     done: world => entitiesOf(world).some(person => person.chore),
+    // Nobody can start work on the road, so a family still coming in is told what to do once it
+    // is there instead of being left waiting on a step it cannot finish.
+    arriving: 'The panel beside them lists the work they can do. None of it can start on the road: once they are on their land, choose a job for one of them. Plant the field turns the rows and puts in seed, and it is where a year on this land starts.',
   },
   {
     id: 'cost',
@@ -1742,6 +1767,7 @@ const TUTORIAL = [
     id: 'start',
     title: 'Nothing moves until your teacher begins',
     text: 'No time is passing yet. Everything you have set out here starts the moment your teacher presses Start — and so does everybody else\u2019s, at the same minute. You can keep changing your mind until then.',
+    arriving: 'No time is passing yet. The moment your teacher presses Start, every family\u2019s wagon starts in along its own track, all at the same minute, and nothing but the farm and the neighbours will need you for the first day.',
     next: 'Ready',
   },
 ];
@@ -1828,7 +1854,9 @@ function renderTutorial(world) {
   if (tutorialStep === null) {
     $('#tutorial-step').textContent = world.status === 'lobby' ? 'BEFORE THE CLASS BEGINS' : 'ANY TIME';
     $('#tutorial-title').textContent = 'New to this?';
-    $('#tutorial-text').textContent = 'A short walk-through sets your family up for the day. It takes about a minute, and what you do in it is real: your family will be at work when the class starts.';
+    $('#tutorial-text').textContent = world.land?.arriving
+      ? 'A short walk-through shows you your family and what they can do once they are on their land. It takes about a minute.'
+      : 'A short walk-through sets your family up for the day. It takes about a minute, and what you do in it is real: your family will be at work when the class starts.';
     $('#tutorial-doing').hidden = true;
     $('#tutorial-next').textContent = 'Show me how';
     $('#tutorial-skip').textContent = 'No thanks, let me get on with it';
@@ -1836,10 +1864,11 @@ function renderTutorial(world) {
   }
   const step = TUTORIAL[tutorialStep];
   if (!step) { panel.hidden = true; return; }
-  const satisfied = !step.done || step.done(world);
+  const onTheRoad = Boolean(world.land?.arriving && step.arriving);
+  const satisfied = onTheRoad || !step.done || step.done(world);
   $('#tutorial-step').textContent = `STEP ${tutorialStep + 1} OF ${TUTORIAL.length}`;
   $('#tutorial-title').textContent = step.title;
-  $('#tutorial-text').textContent = step.text;
+  $('#tutorial-text').textContent = onTheRoad ? step.arriving : step.text;
   // What the step is waiting for, in the step's own words, and only while it is waiting.
   $('#tutorial-doing').hidden = satisfied || !step.doing;
   $('#tutorial-doing').textContent = step.doing || '';

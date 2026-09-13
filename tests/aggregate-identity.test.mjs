@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createGonzalesWorld } from '../sim/gonzales.mjs';
+import { createSettledWorld } from './support/settled.mjs';
 import { stepWorld, applyAction, projectWorld } from '../sim/world.mjs';
 
 // A formation is a count and a position. A family member is a person with an id, a
@@ -21,7 +21,7 @@ function runToBattle(world, limit = 900) {
 }
 
 test('a person who joins the gathering stays a person, and the formation stays a count', () => {
-  const world = createGonzalesWorld('aggregate', 5);
+  const world = createSettledWorld('aggregate', 5);
   world.status = 'running';
   // Accept the request as soon as it opens, so a real named person is at Gonzales.
   let thomas = world.entities['hh-1-thomas'];
@@ -58,7 +58,7 @@ test('a person who joins the gathering stays a person, and the formation stays a
 });
 
 test('a household at the battle sees formations without seeing anyone else', () => {
-  const world = createGonzalesWorld('aggregate-view', 5);
+  const world = createSettledWorld('aggregate-view', 5);
   world.status = 'running';
   for (let tick = 0; tick < 900 && world.director.battle.phase === 'waiting'; tick++) {
     stepWorld(world);
@@ -88,7 +88,7 @@ test('a household at the battle sees formations without seeing anyone else', () 
 });
 
 test('routine time never resolves a serious condition, and a chore does not outlive one', () => {
-  const world = createGonzalesWorld('aggregate-harm', 5);
+  const world = createSettledWorld('aggregate-harm', 5);
   world.status = 'running';
   const rosa = world.entities['hh-1-rosa'];
   applyAction(world, 'hh-1', { action: 'chore', entityId: rosa.id, chore: 'plant-field' });
@@ -101,7 +101,7 @@ test('routine time never resolves a serious condition, and a chore does not outl
 });
 
 test('answering the historical call drops the work; it never resumes in the wrong place', () => {
-  const world = createGonzalesWorld('interrupted-work', 5);
+  const world = createSettledWorld('interrupted-work', 5);
   world.status = 'running';
   // Whichever family the neighbour actually knocks on at home: a family that only has a
   // rumor is asked something else (FIC-GONZ-020), and this test is about the work.
@@ -130,7 +130,7 @@ test('answering the historical call drops the work; it never resumes in the wron
 });
 
 test('a chore abandons itself rather than teleporting someone home', () => {
-  const world = createGonzalesWorld('stranded-work', 5);
+  const world = createSettledWorld('stranded-work', 5);
   world.status = 'running';
   const rosa = world.entities['hh-1-rosa'];
   applyAction(world, 'hh-1', { action: 'chore', entityId: rosa.id, chore: 'plant-field' });
@@ -152,7 +152,7 @@ test('the principal wears a colour nobody else can wear, illustrated or not', as
   const { PRINCIPAL_VARIANT, VARIANTS, visualVariant, entityClip } = await import('../public/motion.js');
   assert.ok(!VARIANTS.includes(PRINCIPAL_VARIANT), 'the principal\'s colour is not in the pool anybody else draws from');
 
-  const world = createGonzalesWorld('principal-mark', 5);
+  const world = createSettledWorld('principal-mark', 5);
   const projected = projectWorld(world, 'hh-1', 'student', { includeMap: false });
   const family = projected.entities.filter(entity => entity.kind === 'person');
   const principal = family.find(entity => entity.principal);

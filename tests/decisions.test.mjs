@@ -12,12 +12,12 @@
 // at people would be drawing a line this project has no business drawing.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createGonzalesWorld } from '../sim/gonzales.mjs';
+import { createSettledWorld } from './support/settled.mjs';
 import { applyAction, projectWorld, stepWorld } from '../sim/world.mjs';
 import { TIMELINE, callAvailability } from '../sim/directors.mjs';
 
 const running = (seed = 'decisions', count = 5) => {
-  const world = createGonzalesWorld(seed, count);
+  const world = createSettledWorld(seed, count);
   world.status = 'running';
   return world;
 };

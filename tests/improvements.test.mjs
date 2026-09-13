@@ -8,7 +8,7 @@
 // be modelled that way from the first save that contains it.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createGonzalesWorld } from '../sim/gonzales.mjs';
+import { createSettledWorld } from './support/settled.mjs';
 import { applyAction, beginTravel, createWorld, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
 import {
   CLEARING_MAX, SEED_PER_CLEARING, UNFENCED_LOSS, clearedOf, harvestShare, improvementsOf,
@@ -17,7 +17,7 @@ import {
 import { CHORES, choreAvailability } from '../sim/chores.mjs';
 
 const running = (seed = 'land', count = 5) => {
-  const world = createGonzalesWorld(seed, count);
+  const world = createSettledWorld(seed, count);
   world.status = 'running';
   return world;
 };
@@ -216,7 +216,7 @@ test('nothing in the Gonzales afternoon takes anybody’s property', () => {
 test('the class is told what is standing on its land, and never left to guess', () => {
   const world = running('projection');
   const view = () => projectWorld(world, 'hh-1', 'student', { includeMap: false }).land;
-  assert.deepEqual(view(), { cabin: 'sound', fence: 'none', cleared: 1, clearingMax: CLEARING_MAX, harvestShare: 1 - UNFENCED_LOSS, needsWagon: false });
+  assert.deepEqual(view(), { cabin: 'sound', fence: 'none', cleared: 1, clearingMax: CLEARING_MAX, harvestShare: 1 - UNFENCED_LOSS, needsWagon: false, shelter: 'house' });
   work(world, 'hh-1', 'hh-1-thomas', 'clear-ground');
   work(world, 'hh-1', 'hh-1-thomas', 'build-fence');
   assert.equal(view().cleared, 2, 'the renderer draws the field at this size and nothing else');

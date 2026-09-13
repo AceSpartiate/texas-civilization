@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createGonzalesWorld } from '../sim/gonzales.mjs';
+import { createSettledWorld } from './support/settled.mjs';
 import { stepWorld, applyAction, beginTravel, projectWorld, EXERTION_CAP } from '../sim/world.mjs';
 import { advanceRoutine, TIRING_MILES, RESTED_MILES, REST_MILES_PER_MINUTE } from '../sim/routines.mjs';
 import { TIMELINE } from '../sim/directors.mjs';
@@ -24,7 +24,7 @@ const milesToTown = (world, id) => {
 };
 
 test('walking is what tires somebody, and it is counted in real miles', () => {
-  const world = createGonzalesWorld('fatigue-walk', 5);
+  const world = createSettledWorld('fatigue-walk', 5);
   world.status = 'running';
   const thomas = principal(world, 'hh-1');
   assert.equal(thomas.exertion || 0, 0, 'nobody starts the class already worn out');
@@ -47,7 +47,7 @@ test('walking is what tires somebody, and it is counted in real miles', () => {
 });
 
 test('a chore in the yard is not a journey and does not wear anybody out', () => {
-  const world = createGonzalesWorld('fatigue-chore', 5);
+  const world = createSettledWorld('fatigue-chore', 5);
   world.status = 'running';
   const elena = world.entities['hh-1-elena'];
   applyAction(world, 'hh-1', { action: 'chore', entityId: elena.id, chore: 'plant-field' });
@@ -59,7 +59,7 @@ test('a chore in the yard is not a journey and does not wear anybody out', () =>
 });
 
 test('twenty miles makes somebody tired, and the record says why', () => {
-  const world = createGonzalesWorld('fatigue-threshold', 5);
+  const world = createSettledWorld('fatigue-threshold', 5);
   world.status = 'running';
   const thomas = principal(world, 'hh-1');
 
@@ -77,7 +77,7 @@ test('twenty miles makes somebody tired, and the record says why', () => {
 });
 
 test('rest mends it and work does not, which is what the Rest verb is for', () => {
-  const world = createGonzalesWorld('fatigue-rest', 5);
+  const world = createSettledWorld('fatigue-rest', 5);
   world.status = 'running';
   const thomas = principal(world, 'hh-1');
   thomas.exertion = TIRING_MILES + 4;
@@ -106,7 +106,7 @@ test('rest mends it and work does not, which is what the Rest verb is for', () =
 });
 
 test('nobody outside a family ever tires: not a courier on a horse, not the town', () => {
-  const world = createGonzalesWorld('fatigue-others', 5);
+  const world = createSettledWorld('fatigue-others', 5);
   world.status = 'running';
   for (let tick = 0; tick < 300 && !world.director.complete; tick++) stepWorld(world);
   const outsiders = Object.values(world.entities).filter(e => e.kind === 'person' && !e.householdId);
@@ -131,7 +131,7 @@ test('how far a family lives from town now decides the state of who it sends', (
   // the wrong distance and would fail on a seed where the farthest home is simply close.
   const outcomes = [];
   for (const seed of ['geo-a', 'geo-b', 'geo-c', 'geo-d']) {
-    const world = createGonzalesWorld(seed, 5);
+    const world = createSettledWorld(seed, 5);
     world.status = 'running';
     const roads = new Map();
     for (const id of Object.keys(world.households)) {
@@ -161,7 +161,7 @@ test('which risk the upriver control states is decided by the walk, and it is ke
   // quietly turn a promised 'tired' into a delivered injury.
   const outcomes = [];
   for (const seed of ['promise-a', 'promise-b', 'promise-c']) {
-    const world = createGonzalesWorld(seed, 5);
+    const world = createSettledWorld(seed, 5);
     world.status = 'running';
     const helped = new Set(); let stated = null, settled = null;
     for (let tick = 0; tick < 400 && !world.director.complete; tick++) {
@@ -187,7 +187,7 @@ test('which risk the upriver control states is decided by the walk, and it is ke
 test('routine time may tire somebody and may never do worse', () => {
   // Invariant 3: routine resolution cannot quietly kill, capture, revive or erase a major
   // injury. Fatigue runs inside advanceRoutine, so it is the thing most able to break it.
-  const world = createGonzalesWorld('fatigue-invariant', 5);
+  const world = createSettledWorld('fatigue-invariant', 5);
   world.status = 'running';
   const [a, b, c] = world.households['hh-1'].members.map(id => world.entities[id]);
   a.health = { condition: 'dead' }; b.health = { condition: 'captured' };
@@ -205,7 +205,7 @@ test('routine time may tire somebody and may never do worse', () => {
 });
 
 test('a very long journey cannot become a rest debt nobody can pay off', () => {
-  const world = createGonzalesWorld('fatigue-cap', 5);
+  const world = createSettledWorld('fatigue-cap', 5);
   world.status = 'running';
   const thomas = principal(world, 'hh-1');
   thomas.exertion = EXERTION_CAP - 1;
@@ -221,7 +221,7 @@ test('a very long journey cannot become a rest debt nobody can pay off', () => {
 
 test('a class saved before walking tired anybody still runs', () => {
   // No save version moved, so the missing field has to default rather than refuse.
-  const world = createGonzalesWorld('fatigue-oldsave', 5);
+  const world = createSettledWorld('fatigue-oldsave', 5);
   world.status = 'running';
   for (const entity of Object.values(world.entities)) delete entity.exertion;
   const thomas = principal(world, 'hh-1');

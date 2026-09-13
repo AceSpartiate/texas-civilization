@@ -17,12 +17,12 @@
 // what keeps a household without the handy member walking into Gonzales.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createGonzalesWorld } from '../sim/gonzales.mjs';
+import { createSettledWorld } from './support/settled.mjs';
 import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
 import { CHORES, PRACTICE_COST, SKILL_CAP, choreAvailability, skillsFor, steadyHand } from '../sim/chores.mjs';
 
 const running = (seed = 'practice', count = 5) => {
-  const built = createGonzalesWorld(seed, count);
+  const built = createSettledWorld(seed, count);
   built.status = 'running';
   return built;
 };

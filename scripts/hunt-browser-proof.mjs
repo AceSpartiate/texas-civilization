@@ -12,7 +12,9 @@ import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { createClassroom } from '../server/app.mjs';
-import { createGonzalesWorld } from '../sim/gonzales.mjs';
+import { createSettledWorld } from '../tests/support/settled.mjs';
+// A settled class: these families are at home under a roof, as every class began before arrivals
+// (docs/SETTLING_IN.md step 2). This proves the work, not the arrival - tests/arrival.test.mjs does that.
 import { visualVariant } from '../public/motion.js';
 
 const require = createRequire(import.meta.url);
@@ -21,7 +23,7 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const pass = [];
 const ok = label => { pass.push(label); console.log('PASS', label); };
 
-const app = createClassroom({ seed: 'hunt-proof', playerCount: 5, tickMs: 400, worldFactory: createGonzalesWorld });
+const app = createClassroom({ seed: 'hunt-proof', playerCount: 5, tickMs: 400, worldFactory: createSettledWorld });
 const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
 const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
 const errors = [];

@@ -1,6 +1,6 @@
 # Settling in: arriving, building a home, and a peaceful beginning
 
-**Status: decided; step 1 (the peaceful opening and the clock) built 2026-09-12** ([evidence](evidence/peaceful-opening.json)); steps 2–8 are next (owner, 2026-09-12). Read this in full
+**Status: decided; step 1 (the peaceful opening and the clock) built 2026-09-12** ([evidence](evidence/peaceful-opening.json)); **step 2 (arrival and the camp) built 2026-09-13** ([evidence](evidence/arrival.json)); steps 3–8 are next (owner, 2026-09-12). Read this in full
 before changing the class start, the lobby, house or furniture state, or the director's timeline.
 
 ---
@@ -97,6 +97,14 @@ would mean a second clock. So:
   rest mends fatigue more slowly and stores left out spoil a little. Nothing worse — this is peace.
 - **Arrival is a real journey.** Every family's people, ox, horse and wagon start on the road and travel
   to their land at the ordinary speeds; nobody is placed at a homestead.
+- **As built (step 2, `sim/settling.mjs`).** Each family starts at the fork where its own track leaves the
+  road and travels in together at the wagon's pace — 0.8 to 13.2 miles, 2 to 21 ticks, all long before the
+  notice at tick 84. It stands about its yard and goes back to what it was doing, and one line records the
+  arrival. The camp: rest at the family's own land mends at **two-thirds** the rate, and **3 in 100** of the
+  food spoils a day; both numbers are on the family's land line. The camp is drawn from the library's
+  road-camp kit (fire, pot, bedroll, bundles), so it needs no stand-in. **Until step 4, a class started on
+  this build camps all game.** A family still on the road cannot be set to work, so in the lobby the
+  walk-through describes the work instead of waiting for it.
 
 ---
 
@@ -181,9 +189,9 @@ choice made inside a visible risk. The hidden stats stay hidden; the house's own
 
 Each step is shippable and provable alone.
 
-1. ~~**The clock offset and the peaceful opening.**~~ **Done 2026-09-12.** `director.startMinute`, the date, and a test that nothing
-   historical can happen before the notice while chores and trades run.
-2. **Arrival.** Wagons and families start on the road and travel in; the camp by the wagon as first shelter.
+1. ~~**The clock offset and the peaceful opening.**~~ **Done 2026-09-12.** `director.arrival` and `momentOf`, the date, and a test that
+   nothing historical can happen before the notice while chores and trades run.
+2. ~~**Arrival.**~~ **Done 2026-09-13.** Wagons and families start on the road and travel in; the camp by the wagon as first shelter.
 3. **The wagon load.** Choosing in the lobby, default at Start, items becoming stores and a family inventory.
 4. **Houses.** The four layouts with needs, benefits and problems, built as chores, with stand-in art.
 5. **The house-raising.** Neighbours standing on the land helping raise the walls.

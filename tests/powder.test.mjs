@@ -16,7 +16,7 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { createGonzalesWorld } from '../sim/gonzales.mjs';
+import { createSettledWorld } from './support/settled.mjs';
 import { applyAction, createWorld, projectWorld, stepWorld, validateWorld, STARTING_POWDER } from '../sim/world.mjs';
 import { CHORES, SHOT_COST, askAvailability, choreAvailability, dryHouse } from '../sim/chores.mjs';
 import { MARCH_POWDER, TIMELINE } from '../sim/directors.mjs';
@@ -24,7 +24,7 @@ import { GOODS } from '../sim/trade.mjs';
 import { readSave } from '../server/storage.mjs';
 
 const running = (seed = 'powder', count = 5) => {
-  const world = createGonzalesWorld(seed, count);
+  const world = createSettledWorld(seed, count);
   world.status = 'running';
   return world;
 };

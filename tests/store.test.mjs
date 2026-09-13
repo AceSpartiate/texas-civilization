@@ -15,7 +15,7 @@
 // done, and the store would rather trade than pay out coin. See tests/money.test.mjs.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createGonzalesWorld } from '../sim/gonzales.mjs';
+import { createSettledWorld } from './support/settled.mjs';
 import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
 import { COTTON_RATE, CHORES, choreAvailability } from '../sim/chores.mjs';
 import { MODES } from '../sim/travel.mjs';
@@ -23,7 +23,7 @@ import { GOODS } from '../sim/trade.mjs';
 import { traderAt } from '../sim/town.mjs';
 
 const running = (seed = 'store', count = 5) => {
-  const built = createGonzalesWorld(seed, count);
+  const built = createSettledWorld(seed, count);
   built.status = 'running';
   return built;
 };

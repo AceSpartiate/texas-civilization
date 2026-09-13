@@ -100,7 +100,10 @@ test('the static map is fetched once, not repeated in every snapshot', async () 
     // student's payload and over a megabyte a second across a class of thirty.
     assert.equal(snapshot.world.map, undefined, 'the map must not ride along in snapshots');
     assert.equal(snapshot.mapId, app.state.sessionId);
-    assert.ok(JSON.stringify(snapshot).length < 8192, `snapshot grew to ${JSON.stringify(snapshot).length} bytes`);
+    // A new class's first snapshot is the heaviest a fresh family sends: everybody is on the road
+    // in (docs/SETTLING_IN.md step 2), so every person carries a journey and a refusal for each
+    // piece of work. About 9.2 KB, and gone once they arrive. The map alone is about 58 KB.
+    assert.ok(JSON.stringify(snapshot).length < 10240, `snapshot grew to ${JSON.stringify(snapshot).length} bytes`);
 
     const map = await (await fetch(`http://127.0.0.1:${port}/api/map`, { headers: { Cookie: cookie } })).json();
     assert.equal(map.mapId, snapshot.mapId);

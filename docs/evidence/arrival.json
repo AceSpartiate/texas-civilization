@@ -1,0 +1,98 @@
+{
+  "record": "Arrival by wagon, and the camp: step 2 of docs/SETTLING_IN.md",
+  "date": "2026-09-13",
+  "verdict": "PASS",
+  "verdictMeaning": "A new class begins with every family - its people, ox, horse and wagon - at the fork where its own track leaves the road, on the road in at the wagon's pace (0.65 miles a tick). Nobody and nothing is placed at a homestead. The family arrives together, stands about its yard as a family always has, goes back to what it was doing, and its record says so once. There is no house: the family camps by the wagon, where rest mends at two-thirds the rate and 3 in 100 of the food spoils a day, and its land line says both numbers. A family rolled in the lobby goes on the road beside its wagon. A class saved before arrivals is housed, camps nowhere, and plays as it did; no save version moved.",
+  "implementation": "sim/settling.mjs: beginArrivals (called by createGonzalesWorld, only for a class with director.arrival) sets improvements.cabin to 'none', puts every member and piece of property on a journey with purpose 'arrive', silent, carrying settle {x, y, task}, and corrects the founding line in place. progressTravel ends a journey at settle's spot and task when it has one. advanceArrivals runs after travel each tick and records one 'arrival' event per family. routines.mjs reads housed(): rest at the family's own land mends at CAMP_REST_SHARE, and food is multiplied by 1 - CAMP_SPOILAGE_PER_DAY x days. The land projection gains shelter, arriving and camp; the tick gains arrivalClass.",
+  "timings": "Tracks from fork to homestead measured 0.8 to 13.2 miles across seeds for 5, 15 and 30 families: 2 to 21 ticks, 40 minutes to 7 hours of the family's time, 19 seconds to 3.3 real minutes at the Study pace. The notice is at tick 84.",
+  "art": "No stand-in. The camp is drawn from the library's road-camp kit - campfire (animated by fire-flicker), cooking-pot, bedroll, packed-belongings - and the wagon is drawn where it actually is, as property.",
+  "liveBrowserProof": {
+    "server": "PORT=1856 TEXAS_DATA_DIR=<scratch> SEED=arrive PLAYERS=5 TICK_MS=1200; an isolated class; the student joined at 127.0.0.1 because the pane held a Host cookie for localhost",
+    "observed": [
+      "Lobby, before rolling: '1835-09-28 · waiting to begin'; the family's wagon and people drawn at their fork on the road; camps (fire, bundles, bedroll) drawn at the student's own land and at two neighbours' homesteads, and no cabins.",
+      "Rolled a 5: all five people, the ox, the mare and the wagon on the road to home-2 at progress 0, people's task 'travel'.",
+      "Land line on the road: 'Their land: they are still on the road in with the wagon. There is no house yet, so they camp by the wagon: rest there mends 67 parts in 100 of what it would under a roof, and 3 parts in 100 of the food spoil each day.'",
+      "Walk-through on the road: all five steps readable, none disabled or waiting; step 2 says work cannot start on the road instead of waiting for a chore.",
+      "Started as Host. Minute 160: 'The family has reached its own land. There is no house yet, so they camp by the wagon.' Amos and Rhoda at work, the three children resting, all at home-2; the camp drawn beside the wagon and ox with fire-flicker playing; the selection panel offered Plant the field."
+    ]
+  },
+  "automated": {
+    "suite": "tests/arrival.test.mjs",
+    "tests": 6,
+    "wholeSuite": "280 pass, 0 fail",
+    "testsChanged": "Farming, hunting, powder, practice, store, money, fatigue, travel-mode, improvement and aggregate tests now build their class with tests/support/settled.mjs, which finishes every arrival on the spot and stands a cabin - the world they were written for. decisions and family-effects likewise; family-roll settles two fixtures; the peaceful-opening farm test waits for the real arrival. The fresh-snapshot size bounds in geography and family tests rose from 8192 and 7000 to 10240 bytes: a family on the road carries a journey and a refusal for every job, about 9.1 KB, until it arrives.",
+    "regressionsInjected": [
+      {
+        "injected": "families start at home again",
+        "failed": [
+          "nobody is placed...",
+          "a family on the road in can do nothing but come in...",
+          "a family rolled in the lobby..."
+        ]
+      },
+      {
+        "injected": "the family walks in at a walking pace",
+        "failed": [
+          "nobody is placed...",
+          "a family on the road in can do nothing but come in..."
+        ]
+      },
+      {
+        "injected": "everybody lands on the site point",
+        "failed": [
+          "a family on the road in can do nothing but come in..."
+        ]
+      },
+      {
+        "injected": "nobody goes back to work after arriving",
+        "failed": [
+          "a family on the road in can do nothing but come in..."
+        ]
+      },
+      {
+        "injected": "the arrival is never written down",
+        "failed": [
+          "a family on the road in can do nothing but come in..."
+        ]
+      },
+      {
+        "injected": "a rolled family is put at the homestead",
+        "failed": [
+          "a family rolled in the lobby..."
+        ]
+      },
+      {
+        "injected": "the camp mends as well as a roof",
+        "failed": [
+          "the camp costs a little..."
+        ]
+      },
+      {
+        "injected": "nothing spoils at the camp",
+        "failed": [
+          "the camp costs a little..."
+        ]
+      },
+      {
+        "injected": "every resting place is a camp",
+        "failed": [
+          "the camp costs a little..."
+        ]
+      },
+      {
+        "injected": "an old class has no house either",
+        "failed": [
+          "a class saved before arrivals is housed..."
+        ]
+      },
+      {
+        "injected": "every class is an arrival class on the map",
+        "failed": [
+          "a class saved before arrivals is housed..."
+        ]
+      }
+    ]
+  },
+  "notRun": "The Playwright proofs (farm, hunt, travel, slice) were switched to the settled fixture and syntax-checked but not run: Playwright is not installed on this machine.",
+  "boundary": "Until step 4 no family can build a house, so a class started on this build camps all game. Neighbours' homesteads are drawn as camps because the class began with arrivals (arrivalClass), not because anybody saw them - a ceiling that step 4 must replace. Only food spoils; only the family's own land is a camp; there is no night."
+}

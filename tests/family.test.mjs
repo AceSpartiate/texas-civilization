@@ -175,7 +175,9 @@ test('who a family is does not ride on the per-tick channel', () => {
   // The number this file cares about is that `family` and `kin` are absent, not the total -
   // tests/chores.test.mjs owns the payload bound and measures it on a family that has
   // worked all afternoon rather than on a fresh one.
-  assert.ok(JSON.stringify(tick).length < 7000);
+  // Measured while the family is still on the road in, which is what a fresh class sends first:
+  // about 9.1 KB (tests/geography.test.mjs says why).
+  assert.ok(JSON.stringify(tick).length < 10240);
   const fetched = projectFamily(built, 'hh-1');
   assert.equal(fetched.people.length, 4);
   assert.ok(fetched.name);

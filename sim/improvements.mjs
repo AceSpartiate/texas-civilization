@@ -1,13 +1,15 @@
 // What a family has made of its land, and what can be taken from it.
 //
-// A homestead is not a fixed backdrop. A household starts with a cabin and a patch of
+// A homestead is not a fixed backdrop. A household starts with a patch of
 // broken ground, and the afternoon it spends clearing more of its own labor is an
 // afternoon it does not spend planting, hunting, or carrying food into Gonzales. That is
 // the whole decision: the field a family ends with is the one it chose to make room for.
 //
 // Three things are modelled, and every one of them can be ruined.
 //
-//   cabin    Stands from the founding. Nothing builds it and nothing here pulls it down.
+//   cabin    Stood from the founding in every class saved before arrivals. A new class begins
+//            with none (`sim/settling.mjs`) and camps by the wagon; building one is
+//            docs/SETTLING_IN.md step 4. Nothing here pulls one down.
 //   field    Broken ground, counted in how many times it has been cleared.
 //   fence    Split rails round the crop. A family starts without one.
 //

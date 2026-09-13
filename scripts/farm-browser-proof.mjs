@@ -13,7 +13,7 @@ import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { createClassroom } from '../server/app.mjs';
-import { createGonzalesWorld } from '../sim/gonzales.mjs';
+import { createSettledWorld } from '../tests/support/settled.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -24,7 +24,9 @@ const ok = label => { pass.push(label); console.log('PASS', label); };
 // A quick tick, because breaking ground is deliberately a long job and this is not a test
 // of how long it takes - tests/improvements.test.mjs already counts the ticks.
 const app = createClassroom({ seed: 'farm-proof', playerCount: 5, tickMs: 60, worldFactory(seed, count) {
-  const world = createGonzalesWorld(seed, count);
+  // A settled class: these families are at home under a roof, as every class began before arrivals
+  // (docs/SETTLING_IN.md step 2). This proves the work, not the arrival - tests/arrival.test.mjs does that.
+  const world = createSettledWorld(seed, count);
   // Enough seed that nothing here is refused for poverty; the cost itself is asserted below.
   world.households['hh-1'].resources.seed = 24;
   return world;

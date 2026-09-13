@@ -10,6 +10,7 @@ import { buildGonzalesRegion, findPath, polylineLength } from './geography.mjs';
 import { advanceEncounters, askRider, carriedInPerson, encounterProjection, leaveRider, riderName, spotName } from './encounters.mjs';
 import { DEFAULT_MODE, MODES, modeOf, propertyId, RIDER_SPEED } from './travel.mjs';
 import { CLEARING_MAX, STATES as IMPROVEMENT_STATES, clearedOf, improvementProjection } from './improvements.mjs';
+import { advanceArrivals, putOnTheRoad, shelterProjection } from './settling.mjs';
 import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, ageBand, defaultNames, familyProjection, familyRoll, householdName, kinFor, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
 export { HOUSEHOLD_SHAPE, ROLES, householdName, sanitiseName } from './family.mjs';
 export { CLEARING_MAX, clearedOf, improvementsOf, ruin } from './improvements.mjs';
@@ -110,6 +111,8 @@ export function rollFamily(world, household) {
   });
   household.principalId = household.members[0];
   household.roll = roll;
+  // A family rolled while it is still on the road in goes on the road beside its wagon.
+  if (household.arriving) putOnTheRoad(world, household);
   // The number, and nothing about what it means: the owner's direction is that the rule is
   // never explained.
   record(world, 'family-rolled', { householdId: household.id, text: `Your family rolled a ${roll}.`, importance: 2, claimId: 'FIC-GONZ-021' });
@@ -308,8 +311,12 @@ export function progressTravel(world, entity, units = 1) {
     // Ground this tick would have covered past the end of the road. It matters to nobody
     // except a report that is about to change hands, and it goes with the word.
     if (entity.report) entity.report.overflow = Math.max(0, wasAt + travel.speed * units - travel.distance);
-    entity.location = { x: world.map.sites[travel.to].x, y: world.map.sites[travel.to].y, siteId: travel.to };
-    entity.task = travel.purpose === 'help' ? 'help' : 'rest'; entity.travel = null;
+    // A journey that knows where in the place its traveller stands and what they do there -
+    // today only the family's arrival on its land (sim/settling.mjs) - ends there. Every other
+    // journey ends on the place's own point, at rest.
+    const spot = Number.isFinite(travel.settle?.x) ? travel.settle : world.map.sites[travel.to];
+    entity.location = { x: spot.x, y: spot.y, siteId: travel.to };
+    entity.task = travel.purpose === 'help' ? 'help' : travel.settle?.task || 'rest'; entity.travel = null;
     // The journey is over, so the beast belongs to nobody again and may be taken by
     // whoever is standing where it now is. It does not walk home by itself: a family
     // that left the wagon at the timber has a wagon at the timber.
@@ -323,6 +330,8 @@ export function stepWorld(world) {
   if (world.status !== 'running') return;
   world.tick++; world.minute += 20;
   for (const entity of Object.values(world.entities)) progressTravel(world, entity);
+  // A family whose last wagon wheel came in off the road this tick has arrived.
+  advanceArrivals(world);
   // A rider who has just finished their leg gives the word on in the same tick, so news
   // does not sit at a fork of the road for twenty minutes waiting for the simulation.
   advanceRelays(world);
@@ -475,7 +484,7 @@ export function applyAction(world, householdId, input) {
   // that predates the choice carries no mode and gets the one everybody had then.
   const mode = input.mode || DEFAULT_MODE;
   if (!MODES[mode]) throw new Error('No such way of going.');
-  if (world.status === 'lobby' && !LOBBY_ACTIONS.has(input.action)) throw new Error('Your neighbours are still arriving. You can set your own family to work now; anything between families waits for the class to begin.');
+  if (world.status === 'lobby' && !LOBBY_ACTIONS.has(input.action)) throw new Error('Your neighbours are still arriving. You can see to your own family now; anything between families waits for the class to begin.');
   if (!entity || entity.householdId !== householdId || entity.kind !== 'person') throw new Error('Choose one of your family.');
   if (entity.health.condition === 'dead' || entity.health.condition === 'captured') throw new Error('This person cannot act.');
   // A child under ten is not sent anywhere (`docs/FAMILY_CREATION.md` §3): not to work, not
@@ -589,13 +598,18 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
   // it is decided here and never guessed at by the client.
   // What the family has made of this land, and what state it is in. The renderer draws
   // the field at the size this says and the fence only when there is one to draw.
-  const land = household ? improvementProjection(household) : null;
+  const land = household ? { ...improvementProjection(household), ...shelterProjection(household) } : null;
 
   const travelModes = household ? Object.fromEntries(household.members.map(id => [id, travelModesFor(world, world.entities[id])])) : {};
   const toolCondition = household ? Object.fromEntries(Object.entries(household.tools || {}).map(([tool, wear]) => [tool, { wear, state: toolState(wear) }])) : {};
   const offers = offersFor(world, householdId);
   const encounter = encounterProjection(world, householdId, role);
-  return structuredClone({ tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: world.map }), household, entities, others, offers, encounter, events, work, travelModes, land, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role) });
+  return structuredClone({ tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: world.map }), household, entities, others, offers, encounter, events, work, travelModes, land, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role),
+    // Whether this class began with the families arriving. The map draws every homestead as a
+    // camp in such a class, because nobody in it has built a house.
+    // ceiling: true only until houses can be built (docs/SETTLING_IN.md step 4). Then a
+    // neighbour's land must be drawn as it was last seen, not as the class began.
+    ...(world.director?.arrival && { arrivalClass: true }) });
 }
 export function validateWorld(world) {
   if (world.schemaVersion !== 3 || !Number.isInteger(world.tick) || world.tick < 0 || !Number.isFinite(world.minute) || world.minute < 0 || !['lobby', 'running', 'paused', 'ended'].includes(world.status)) throw new Error('Invalid world');
@@ -654,6 +668,8 @@ export function validateWorld(world) {
     if (!household.tools || !Number.isInteger(household.tools.hoe) || household.tools.hoe < 0) throw new Error('Invalid tool condition');
     // Absent on a class nobody has named, which is the correct empty value and why no save
     // version moved. Present, it is a name somebody typed and has to stay one.
+    // Present only while a new class's family is still on the road in (sim/settling.mjs).
+    if (household.arriving !== undefined && household.arriving !== true) throw new Error('Invalid arrival marker');
     if (household.name !== undefined && (typeof household.name !== 'string' || !household.name.trim() || household.name.length > NAME_LIMIT)) throw new Error('Invalid household name');
     if (!household.field || !['bare', 'planted', 'ripe'].includes(household.field.state) || !['corn', 'cotton'].includes(household.field.crop)) throw new Error('Invalid field state');
     // Absent on a class saved before a family could break new ground, and the empty value

@@ -9,6 +9,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
+import { createSettledWorld } from './support/settled.mjs';
 import { applyAction, stepWorld, projectWorld, validateWorld } from '../sim/world.mjs';
 import { advanceRoutine } from '../sim/routines.mjs';
 import { TIMELINE } from '../sim/directors.mjs';
@@ -19,7 +20,7 @@ const view = (world, householdId) => projectWorld(world, householdId, 'student',
 const person = (world, key) => world.entities[`hh-1-${key}`];
 /** The founding family of hh-1, everyone resting at home, with hidden stats set by hand. */
 function family(housework = {}, seed = 'effects') {
-  const world = createGonzalesWorld(seed, 5);
+  const world = createSettledWorld(seed, 5);
   for (const key of ['thomas', 'elena', 'rosa', 'mateo']) {
     const entity = person(world, key);
     entity.task = 'rest';
@@ -50,7 +51,7 @@ test('the best housekeeper at home makes the food last longer, and only while th
   assert.equal(eatenInADay(away), eatenInADay(awayPlain), 'a housekeeper who is not at home still kept the house');
 
   // The founding family nobody rolled has no hidden stats and eats exactly as before.
-  const unrolled = createGonzalesWorld('effects', 5);
+  const unrolled = createSettledWorld('effects', 5);
   for (const key of ['thomas', 'elena', 'rosa', 'mateo']) person(unrolled, key).task = 'rest';
   assert.equal(eatenInADay(unrolled), 1.4);
 });

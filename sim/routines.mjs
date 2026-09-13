@@ -1,6 +1,7 @@
 // Routine time cannot create death/capture/severe injury or settle loans/service.
 import { record } from './events.mjs';
 import { housekeepingSaving } from './family.mjs';
+import { CAMP_REST_SHARE, CAMP_SPOILAGE_PER_DAY, housed } from './settling.mjs';
 
 // Fatigue, and the only thing that mends it.
 //
@@ -30,7 +31,10 @@ export function advanceRoutine(world, minutes) {
     const workers = present.filter(e => e.task === 'work' && !e.chore && e.health.condition === 'well').length;
     // The best housekeeper at home makes what the family eats go further (FIC-GONZ-021).
     const eaten = present.length * .35 * (1 - housekeepingSaving(present));
-    household.resources.food = Math.max(0, Math.round((household.resources.food + (workers - eaten) * days) * 10000) / 10000);
+    const fed = Math.max(0, household.resources.food + (workers - eaten) * days);
+    // With no roof over the stores a little of them spoils (sim/settling.mjs, FIC-GONZ-024).
+    const kept = housed(household) ? fed : fed * (1 - CAMP_SPOILAGE_PER_DAY * days);
+    household.resources.food = Math.round(kept * 10000) / 10000;
   }
   for (const entity of Object.values(world.entities)) {
     if (entity.health?.condition === 'minor-injury' && Number.isFinite(entity.health.recoversAt) && entity.health.recoversAt <= world.minute) entity.health = { condition: 'well' };
@@ -43,7 +47,13 @@ function restAndTire(world, entity, minutes) {
   const exertion = entity.exertion || 0;
   // Sitting still is the only thing that mends it, and somebody on the road is not.
   if (entity.task === 'rest' && !entity.travel && exertion > 0) {
-    entity.exertion = Math.max(0, Math.round((exertion - REST_MILES_PER_MINUTE * minutes) * 10000) / 10000);
+    // Lying out by the wagon on their own land mends less than a roof does (sim/settling.mjs).
+    // ceiling: only a family's own land has a shelter. Resting in town or at the timber mends
+    // at the ordinary rate, because nothing yet says what shelter is there.
+    const household = world.households[entity.householdId];
+    const camping = entity.location.siteId === household?.homeSiteId && !housed(household);
+    const mended = REST_MILES_PER_MINUTE * minutes * (camping ? CAMP_REST_SHARE : 1);
+    entity.exertion = Math.max(0, Math.round((exertion - mended) * 10000) / 10000);
   }
   const condition = entity.health?.condition;
   // Routine time may make somebody tired and may mend it. It may never touch a death, a
