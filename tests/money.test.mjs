@@ -160,3 +160,55 @@ test('a family that never touches a coin still farms, hunts and buys what it nee
   assert.equal(household.resources.money, 0);
   assert.ok(household.resources.seed > 2, 'seed bought with food');
 });
+
+test('the store has only so much coin to pay out, and coin paid in goes back into it', () => {
+  // The owner chose a limited purse: coin was scarce enough that a storekeeper had little of it
+  // (`HIST-GONZ-023`), and a family finds out at the counter rather than before it sets out.
+  const world = running('purse');
+  const marta = world.entities['town-ibarra'];
+  assert.equal(marta.purse, 2 * world.playerCount, 'the store starts with two reales a family');
+  marta.purse = 2;
+  const [first, second, third] = Object.values(world.households);
+  first.resources.cotton = 5;
+  const seller = toCounter(world, first.id, first.members[1], 'sell-cotton');
+  applyAction(world, first.id, { action: 'answer-chore', entityId: seller.id, option: 'coin' });
+  finish(world, seller);
+  assert.equal(first.resources.money, 2, 'paid for two bales, all the coin there was');
+  assert.equal(first.resources.cotton, 3, 'and the other three came home');
+  assert.equal(marta.purse, 0);
+  assert.ok(world.events.some(event => /had coin for only 2 cotton/.test(event.text)));
+
+  // The next family to ask for coin is told there is none - at the counter, not before.
+  second.resources.cotton = 2;
+  const next = toCounter(world, second.id, second.members[1], 'sell-cotton');
+  const coin = view(world, second.id).entities.find(e => e.id === next.id).chore.ask.options.find(option => option.id === 'coin');
+  assert.equal(coin.can, false);
+  assert.match(coin.why, /no coin left/);
+  applyAction(world, second.id, { action: 'answer-chore', entityId: next.id, option: 'food' });
+  finish(world, next);
+
+  // Coin a family pays in is in the purse, and can be paid out again.
+  third.resources.money = 1;
+  third.resources.food = 0;
+  const buyer = toCounter(world, third.id, third.members[1], 'fetch-seed');
+  applyAction(world, third.id, { action: 'answer-chore', entityId: buyer.id, option: 'coin' });
+  finish(world, buyer);
+  assert.equal(marta.purse, 1, 'the real paid for seed went into the purse');
+
+  // Nobody sees the purse: it is the store's business.
+  for (const householdId of Object.keys(world.households)) assert.doesNotMatch(JSON.stringify(view(world, householdId)), /"purse"/);
+  assert.doesNotMatch(JSON.stringify(projectWorld(world, undefined, 'host', { includeMap: false })), /"purse"/);
+  validateWorld(world);
+
+  // A class saved before the purse opens with one, filled when it is first needed and not before.
+  const old = running('old-purse');
+  const oldFamily = Object.values(old.households)[0];
+  oldFamily.resources.cotton = 2;
+  const atCounter = toCounter(old, oldFamily.id, oldFamily.members[1], 'sell-cotton');
+  delete old.entities['town-ibarra'].purse;
+  validateWorld(old);
+  // Drawing the counter reads the purse; it must not also fill it in.
+  const drawn = view(old, oldFamily.id).entities.find(e => e.id === atCounter.id).chore.ask.options.find(option => option.id === 'coin');
+  assert.equal(drawn.can, true, 'a class saved before the purse still has coin to pay out');
+  assert.equal(old.entities['town-ibarra'].purse, undefined, 'drawing a screen changed the world');
+});

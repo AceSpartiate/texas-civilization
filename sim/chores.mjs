@@ -20,7 +20,7 @@
 // hunted species is ever named.
 import { heavyWorkPace, tooYoung, tooYoungWhy } from './family.mjs';
 import { record } from './events.mjs';
-import { recordTrade, traderAt } from './town.mjs';
+import { purseHeld, purseOf, recordTrade, traderAt } from './town.mjs';
 import { carryCapacity, DEFAULT_MODE, MODES, propertyId } from './travel.mjs';
 import {
   CLEARING_MAX, SEED_PER_CLEARING, UNFENCED_LOSS, clearGround, clearedOf, harvestShare,
@@ -130,8 +130,9 @@ export function askAvailability(world, household, entity, optionId) {
   if (['take', 'wait'].includes(optionId) && dryHouse(household)) {
     return { can: false, why: 'There is no powder and lead in the house.' };
   }
-  const needs = ASKS[entity.chore?.ask?.id]?.requires?.[optionId];
-  if (needs && !needs.test(household)) return { can: false, why: needs.why };
+  for (const needs of [].concat(ASKS[entity.chore?.ask?.id]?.requires?.[optionId] || [])) {
+    if (!needs.test(household, world, entity)) return { can: false, why: needs.why };
+  }
   return { can: true, why: '' };
 }
 
@@ -165,7 +166,12 @@ export const ASKS = {
       { id: 'coin', label: 'Take coin for it', note: `${reales(COIN.cottonBale)} a bale, whole bales only` },
       { id: 'leave', label: 'Keep the cotton', note: 'Carry it home again' },
     ],
-    requires: { coin: { test: household => (household.resources.cotton ?? 0) >= 1, why: 'The store pays coin only for a whole bale.' } },
+    requires: {
+      coin: [
+        { test: household => (household.resources.cotton ?? 0) >= 1, why: 'The store pays coin only for a whole bale.' },
+        { test: (household, world, entity) => purseHeld(world, world.entities[entity.chore?.traderId]) >= COIN.cottonBale, why: 'The store has no coin left to pay out.' },
+      ],
+    },
   },
   'powder-counter': {
     doing: 'at the counter',
@@ -801,6 +807,9 @@ function advanceChore(world, household, entity, { beginTravel }) {
     if (step.consume) {
       for (const [resource, amount] of Object.entries(step.consume)) {
         household.resources[resource] = round(Math.max(0, (household.resources[resource] ?? 0) - amount));
+        // Coin paid at a counter is in the trader's purse now, and can be paid out again.
+        const trader = resource === 'money' && world.entities[state.traderId];
+        if (trader) trader.purse = purseOf(world, trader) + amount;
       }
       continue;
     }
@@ -818,8 +827,19 @@ function advanceChore(world, household, entity, { beginTravel }) {
       const carried = round(Math.min(household.resources[good] ?? 0, carryCapacity(state.mode)));
       // Coin is paid only for whole bundles - a whole bale, three food - so what is sold for
       // coin is the whole bundles carried, and anything left over stays in the house.
-      const sold = per ? Math.floor(carried / per) * per : carried;
-      const got = per ? (sold / per) * gives : round(carried * rate);
+      // Coin is paid out of the storekeeper's purse, and no more than it holds.
+      const trader = want === 'money' ? world.entities[state.traderId] : null;
+      const bundles = per ? Math.floor(carried / per) : 0;
+      const affordable = trader ? Math.min(bundles, Math.floor(purseOf(world, trader) / gives)) : bundles;
+      const sold = per ? affordable * per : carried;
+      const got = per ? affordable * gives : round(carried * rate);
+      if (trader) trader.purse -= got;
+      if (trader && affordable < bundles) {
+        record(world, 'consequence', {
+          actorId: entity.id, householdId: household.id, importance: 2,
+          text: `${trader.name} had coin for only ${affordable === 0 ? 'none of it' : `${affordable * per} ${good}`}, and the rest came home again.`,
+        });
+      }
       if (sold > 0) {
         household.resources[good] = round((household.resources[good] ?? 0) - sold);
         household.resources[want] = round((household.resources[want] ?? 0) + got);
@@ -827,7 +847,7 @@ function advanceChore(world, household, entity, { beginTravel }) {
           actorId: entity.id, householdId: household.id, importance: 2,
           text: `${entity.name} sold ${sold} ${good} at the store and brought home ${got} ${resourceName(want, got)}.`,
         });
-      } else if (per) {
+      } else if (per && bundles === 0) {
         record(world, 'consequence', {
           actorId: entity.id, householdId: household.id, importance: 2,
           text: `${entity.name} had less than the store would pay coin for, and brought it home again.`,
@@ -929,6 +949,7 @@ function advanceChore(world, household, entity, { beginTravel }) {
         return abandonChore(world, household, entity, chore);
       }
       state.tradedWith = trader.name;
+      state.traderId = trader.id;
       // Selling food is dealing for coin, not for food; the record said 'traded ... for food' until measured live.
       recordTrade(world, household.id, entity, trader, step.trade === 'iron' ? 'a hoe' : step.trade === 'powder' ? 'powder and lead' : step.trade === 'food' ? 'coin' : step.trade);
       continue;

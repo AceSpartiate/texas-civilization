@@ -1,0 +1,206 @@
+# Settling in: arriving, building a home, and a peaceful beginning
+
+**Status: decided and specified, not built. Build next** (owner, 2026-09-12). Read this in full
+before changing the class start, the lobby, house or furniture state, or the director's timeline.
+
+---
+
+## 1. What the owner asked for
+
+> "the first 10 minutes of a play session should be peaceful. that way players feel like it's a
+> farming simulation. players should arrive at their farm in their wagons. they should have to build
+> their cabins, and decorate them with what they brought with them. they should be able to construct
+> or buy furniture (carpenter in nearest town). they should choose from various period correct house
+> layouts and construction methods. different houses should provide different benefits and problems.
+> later we'll introduce weather, as well as a day and night cycle."
+>
+> "players should also get to choose what the parent(s) of their family look like. the children
+> should be automated based on the parental choices."
+>
+> — 2026-09-12
+
+| Question | Owner's answer, 2026-09-12 |
+| --- | --- |
+| How does a peaceful opening fit before the Gonzales news? | **Families are late arrivals in September 1835** (see §2 for why not DeWitt colonists). |
+| Who builds the cabin? | **The family, with neighbouring families able to come and help** — a house-raising. |
+| What is in the wagon? | **Students choose what to load**, within the wagon's space. |
+| When? | **Spec now, build next**, before the end-of-game reveal. |
+| Weather and day/night | **Later.** This document says where they will plug in and builds neither. |
+
+---
+
+## 2. History, and what must be registered
+
+A correction was made while specifying this, and it is recorded so it is not remade.
+**DeWitt's colony recorded no new arrivals after April 1, 1831**, because of the Law of April 6, 1830
+([TSHA, *DeWitt's Colony*](https://www.tshaonline.org/handbook/entries/dewitts-colony)). A family
+cannot be shown arriving in 1835 as a recorded DeWitt colonist. But **Congress repealed the anti-immigration
+articles in May 1834; all contracts were automatically restored and extended for four years to compensate
+for the previous suspension** ([TSHA, *Mexican Colonization Laws*](https://www.tshaonline.org/handbook/entries/mexican-colonization-laws),
+Barker, rev. 2020). Whether that revived DeWitt's own contract, and how many immigrants came in 1834–35,
+were **not verified** here: a search summary attributed a resumed influx and an Almonte estimate of about
+20,000 Anglo settlers to TSHA, and neither was read on the page. Check both before registering them.
+
+So the families are **late settlers who came to Texas after the repeal, travelling together, and
+settling near Gonzales without a DeWitt title** — on land bought, rented or simply taken up. That is
+plausible and not documented at Gonzales, and it must be registered that way.
+
+| Claim to register | Classification | Source |
+| --- | --- | --- |
+| `HIST-GONZ-024` Immigration from the United States was barred by the Law of April 6, 1830; DeWitt's colony recorded no arrivals after April 1, 1831; Congress repealed the anti-immigration articles in May 1834 and restored and extended contracts for four years | DOCUMENTED | TSHA *DeWitt's Colony* (Roell, rev. 2020); *Mexican Colonization Laws* (Barker, rev. 2020) |
+| `HIST-GONZ-025` Log houses in Texas were built of round logs (the crudest, on outbuildings and earliest cabins) or logs hewn flat with ax and adze; the single-pen house, one room about sixteen feet square with an exterior gable chimney, was most common; the double-pen dog-run house had two pens and an open breezeway that shaded and caught the breeze; gaps between logs were chinked and plastered | DOCUMENTED, **with a period caveat**: the dog-run entry calls it common in Texas at the *middle* of the nineteenth century and in use on the frontier from Alabama to Ontario, so an 1835 dog-run is plausible for Lower South settlers rather than typical | [TSHA, *Log Architecture*](https://www.tshaonline.org/handbook/entries/log-architecture) (Jordan, 1995); [*Dog-Run Houses*](https://www.tshaonline.org/handbook/entries/dog-run-houses) |
+| `HIST-GONZ-026` The jacal: corner posts set in the ground, walls of posts and sticks filled with mud or rubble and plastered, a thatched roof replaced every three or four years, about eight to ten feet by twenty to twenty-five, usually one room, a dirt or lime floor; a Texas-Mexican tradition | DOCUMENTED | [TSHA, *Texas-Mexican Vernacular Architecture*](https://www.tshaonline.org/handbook/entries/texas-mexican-vernacular-architecture) (Graham, 1996) |
+| `FIC-GONZ-024` The families as one party of late settlers arriving together on September 28, 1835; every building time, material amount, tool requirement, effect, price and furniture item | FICTIONAL FOR GAMEPLAY | — |
+
+**Research still needed before building the details it covers:** stick-and-mud against stone chimneys,
+clapboard and shake roofs, puncheon floors, house-raising customs and how long one took, what a
+settler family of 1835 carried in a wagon, and whether a carpenter worked in Gonzales in 1835 (32
+structures by 1836 is documented; a named carpenter is not — the carpenter is a fictional resident on
+the terms `FIC-GONZ-009` set for Marta Ibarra). None of these details may be presented as fact until
+it has a claim.
+
+---
+
+## 3. The peaceful opening, and the clock
+
+**The simulation tick stays twenty minutes.** At the Study pace a tick is 9.5 real seconds, so ten real
+minutes is about a day of the family's time — not the weeks a mid-September arrival would need, which
+would mean a second clock. So:
+
+- **The class starts at dawn on September 28, 1835** — about six o'clock — with every family's wagon on
+  the road into its own land. The first news of the cannon is still the morning of September 29
+  (`HIST-GONZ-002`), about **28 in-game hours in, which is about 13 real minutes at Study pace**, 6 at
+  Brisk and under 2 at Quick. The peaceful opening is a Study-pace promise, and the Host's pace control
+  should say so.
+- **Nothing historical happens before the notice.** No rider, no request, no pressure event, no rumor.
+  Chores, trades between neighbours, building and furnishing all run.
+- **Implemented as an offset, not new constants.** `world.director.startMinute` (1800 for a new class)
+  is added to every `TIMELINE` minute and to the date shown. A class saved before this has no offset,
+  reads as 0, and keeps its timeline exactly — **no save version moves**.
+- **Night.** There is no day/night cycle yet. Building through the night of the 28th is allowed for now
+  and marked `ceiling:`; the day/night cycle, when it comes, is what makes a family stop at dark.
+
+---
+
+## 4. Arrival, and the wagon
+
+- **Loading happens in the lobby, after the roll.** The student sees the wagon's space and a list of
+  things a family might bring, each taking some of it, and chooses. Anything not loaded is not in the
+  game. Students who join late and never load are loaded with a sensible default at Start.
+- **The list** (every number `FIC-GONZ-024`, every item subject to §2's research): tools that building
+  needs (felling axe, broadaxe for hewing, froe for splitting shakes, auger for pegs), seed, food,
+  powder and lead, and household goods — bedding, an iron pot, a chest, a spinning wheel, a clock, a
+  looking glass, crockery, a rocking chair. Tools decide which houses a family can build (§5); goods
+  furnish and decorate the house (§6); food, seed and powder become the starting stores.
+- **The wagon is the family's first shelter.** Until a house has a roof, the family camps by the wagon:
+  rest mends fatigue more slowly and stores left out spoil a little. Nothing worse — this is peace.
+- **Arrival is a real journey.** Every family's people, ox, horse and wagon start on the road and travel
+  to their land at the ordinary speeds; nobody is placed at a homestead.
+
+---
+
+## 5. Houses: layouts, construction methods, benefits and problems
+
+A family chooses **a layout** and **a construction method**. Every effect below must act through a system
+that already exists, so that a house matters in play today and weather and night can reach it later.
+
+| House | What it is | Needs | Benefits | Problems |
+| --- | --- | --- | --- | --- |
+| **Round-log single-pen** | One room of unhewn logs, bark on | Felling axe; the most logs of rough quality | Fastest log house to raise; fewest tools | Gaps chink badly: rest mends more slowly, stores keep worse. *Weather later: draughty in cold* |
+| **Hewn-log single-pen** | One room of logs flattened with broadaxe and adze | Felling axe **and** broadaxe; a strong hand | Tight walls: rest mends better, stores keep longer, lasts | Slow: hewing is heavy work (strength matters) |
+| **Dog-run (double-pen)** | Two pens under one roof with an open breezeway | Twice the logs and labour; best raised with neighbours | Two rooms: a family of five or six is not crowded; the breezeway is a cool place to work. *Weather later: coolest in heat* | The most work by far; hard to finish before the news without help |
+| **Jacal** | Posts set in the ground, walls of sticks and mud, a thatched roof | Posts, mud and grass; few tools | Quick, and needs no broadaxe; mud walls keep heat out. *Weather later: comfortable in heat* | Thatch must be renewed (a recurring chore); a small single room; fire takes thatch |
+
+**Construction method choices within a layout** (research-dependent, §2): chimney — stick-and-mud (quick,
+can catch fire) or stone (slow, needs stone hauled); roof — split shakes (needs a froe) or thatch; floor —
+dirt or puncheon (split logs, more work, drier). Each carries a benefit and a problem on the same terms.
+
+**Hooks into systems that exist now:**
+
+| Effect | System |
+| --- | --- |
+| Rest mends fatigue faster or slower | `REST_MILES_PER_MINUTE` in `sim/routines.mjs`, per house |
+| Food keeps better or worse | the routine food line, alongside `housekeepingSaving` |
+| Crowding in a small house | the rolled family's size (`docs/FAMILY_CREATION.md`) |
+| Building speed | heavy work paced by hidden strength, skilled work by `hands` |
+| Recurring upkeep (thatch) | a chore like `mend-hoe` |
+| Hidden later effects | weather and night read the same house record when they exist |
+
+A student sees what a house needs and what it is good and bad at before choosing — `FIC-GONZ-008`, a
+choice made inside a visible risk. The hidden stats stay hidden; the house's own traits do not.
+
+---
+
+## 6. Building, the house-raising, furniture and decoration
+
+- **Building is chores, as data** (`sim/chores.mjs`): fell and haul logs from the timber (the wagon and ox
+  matter), notch or hew, raise the walls, roof, chimney, chink, floor. Each stage is a step list, paced by
+  strength for heavy work and `hands` for skilled work, and consumes what the wagon brought.
+- **A house-raising.** Raising the walls is the stage neighbours can join: a family whose people are
+  standing on another family's land while it is being raised can **help raise**, which speeds that stage
+  and is recorded in both families' stories. It uses the same standing-together rule as trading
+  (`sim/trade.mjs`). Helping is never required, and a family can raise its walls alone, slowly.
+- **Furniture** — a table, benches, a bedstead, shelves, a cradle: **made at home** from timber, with the
+  tools brought and a good `hands` skill, or **bought from the carpenter in Gonzales** for coin or goods at
+  a counter, in the same shape as the store (`docs/MONEY_AND_GLORY.md`). A money sink, and a reason to go
+  to town in the peaceful hours.
+- **Furniture has effects** on the same hooks as houses: a bedstead helps rest, shelves help food keep, a
+  cradle lets a parent with an infant work. Small, stated on the control, invented.
+- **Decoration** is placing what the family brought and made in its house. It needs **an interior view**:
+  a panel showing the house's rooms, where the student places items. It is the family's own, visible to
+  them and — like everything else — to a neighbour only if a neighbour is standing there. Placement is for
+  the student's attachment first; only furniture's stated effects change anything.
+- **Art:** house exteriors per type and stage, interiors, furniture and brought goods. **Stand-ins first**
+  (`CLAUDE.md`, `docs/ART_REQUESTS.md`): the `cabin-small`, `cabin-wide` and weathered cabin sprites and the
+  Alamo interior pieces (cot, table, stool, chest, pot, water jar, bucket, firewood) already exist; request
+  the rest.
+
+---
+
+## 7. What the parents look like, and the children after them
+
+- **After the roll, the student chooses each parent's appearance**: skin tone from a range, hair colour,
+  and a clothing colour; a hat or beard for a man, a bonnet or pinned hair for a woman.
+- **Children are generated from the parents**, deterministically from the seed: skin tone within the range
+  between the parents (or the lone parent's), hair colour from one parent, clothing from the family's
+  colours. A student may not set a child's appearance directly — the owner's direction.
+- **Appearance never changes anything else.** No stat, price, request, trade or treatment reads it. This is
+  a rule, tested the way glory's blindness is: the same class with different appearances plays out the same.
+  VISION.md §15 and HISTORY.md's representation rules apply: DeWitt's colony and its neighbours were not a
+  single people, and nothing about a person may be inferred from how they look.
+- **Art:** the current figures are baked colour PNGs, so appearance needs **layered people sheets** — body
+  and skin, hair, beard or bonnet, clothing as separate aligned layers, or palette-swappable regions — for
+  the whole cast including the requested children. That is a new request to Astra.
+- **Stand-in:** the choices are stored and shown in the family book as words ("dark hair, rust shirt"), and
+  the figure is still chosen by sex and age; marked `stand-in:` and listed in `docs/ART_REQUESTS.md`.
+
+---
+
+## 8. Build order
+
+Each step is shippable and provable alone.
+
+1. **The clock offset and the peaceful opening.** `director.startMinute`, the date, and a test that nothing
+   historical can happen before the notice while chores and trades run.
+2. **Arrival.** Wagons and families start on the road and travel in; the camp by the wagon as first shelter.
+3. **The wagon load.** Choosing in the lobby, default at Start, items becoming stores and a family inventory.
+4. **Houses.** The four layouts with needs, benefits and problems, built as chores, with stand-in art.
+5. **The house-raising.** Neighbours standing on the land helping raise the walls.
+6. **Furniture and the carpenter.** Made at home or bought in Gonzales; effects on the same hooks.
+7. **The interior view and decoration.**
+8. **Parent appearance and inherited children**, with the stand-in and the art request.
+
+Weather and the day/night cycle come after this document and plug into §5's hooks.
+
+## 9. Gates
+
+| Gate | What it means |
+| --- | --- |
+| Peace is real | No rider, request, rumor or pressure event exists before the notice, in a whole class of any size. |
+| Old classes open | A class saved before this has no offset, no house and no inventory, and plays as it did. No save version moves. |
+| Nobody placed | Every family arrives by travelling; no person, animal or wagon appears at a homestead. |
+| Visible trade-offs | Every house, method and furniture item states what it needs and what it is good and bad at before it is chosen. |
+| Appearance is inert | A class with different appearances plays out identically. |
+| Help is optional | A family can raise its own walls, slower, and nobody is pressed to help. |
+| Claims registered | `HIST-GONZ-024` to `026` sourced as in §2; every number and the late-arrival premise under `FIC-GONZ-024`. |
+| Stand-ins listed | Every missing piece of art has a request and a listed stand-in. |

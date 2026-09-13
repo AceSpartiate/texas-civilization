@@ -1,0 +1,61 @@
+{
+  "record": "Glory, hidden: step 3 of docs/MONEY_AND_GLORY.md",
+  "date": "2026-09-12",
+  "verdict": "PASS",
+  "verdictMeaning": "Taking part in a documented event earns a family glory, counted from world.participation: supplied 1, present 2, fought 3, multiplied once more for every 15 road miles the family lived from where it happened, once per person per event, and never more for a casualty. Glory lives at world.glory - not on the household, which is projected to its student whole - and every award is a sealed event in the family's record with its causes, dropped from every projection. A planted glory value reached no student, family-book or Host payload at any tick; and a class played with a planted glory came out identical to the same class without it, so nothing in the game reads glory.",
+  "specDeviation": "docs/MONEY_AND_GLORY.md said household.glory. A household is projected to its own student whole, so that would have been on the wire on the first tick; it is world.glory instead, and the spec is amended to say so.",
+  "liveBrowserProof": {
+    "server": "PORT=1854 TEXAS_DATA_DIR=<scratch> SEED=battle PLAYERS=5 TICK_MS=100; an isolated class played to its end",
+    "observed": [
+      "The browser's family answered 'go-see' at minute 800, 'help' at 1320 and 'go-upriver' at 4220, and the slice ended at 5680.",
+      "190 SSE snapshots received by the student's page across the class, plus /api/state and /api/family at the end: none contained 'glory', 'sealed', 'awards' or 'participation'.",
+      "The server's save: glory { hh-1: total 4, award 'gonzales:hh-1-parent-1' role present, 25.4 road miles, 4 points }, participation { hh-1-parent-1: present at minute 4680 }, and the sealed event 'Ramón: present at gonzales (HIST-GONZ-004), 25 road miles from home - 4.'"
+    ]
+  },
+  "automated": {
+    "suite": "tests/glory.test.mjs",
+    "tests": 4,
+    "wholeSuite": "270 pass, 0 fail",
+    "regressionsInjected": [
+      {
+        "injected": "a director skips a family whose glory is over 100",
+        "failed": [
+          "nothing in the game reads glory: the same class with different glory plays out the same"
+        ]
+      },
+      {
+        "injected": "glory events recorded as private rather than sealed",
+        "failed": [
+          "glory reaches no screen in the class...",
+          "taking part earns glory..."
+        ]
+      },
+      {
+        "injected": "glory also written onto the household",
+        "failed": [
+          "glory reaches no screen in the class...",
+          "nothing in the game reads glory..."
+        ]
+      },
+      {
+        "injected": "present weighted the same as supplied",
+        "failed": [
+          "taking part earns glory..."
+        ]
+      },
+      {
+        "injected": "distance ignored",
+        "failed": [
+          "taking part earns glory..."
+        ]
+      },
+      {
+        "injected": "the same part paid twice",
+        "failed": [
+          "glory is counted once per person per event, and a casualty earns nothing extra"
+        ]
+      }
+    ]
+  },
+  "boundary": "Nothing reveals glory yet; the ending (steps 4-5) is not built. The weights are invented and untuned, and the balance gate - that a family that never fights can win, with difficulty - needs 3E's headless runs. Glory is readable by anybody who opens the save file."
+}

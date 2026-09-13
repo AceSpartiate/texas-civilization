@@ -570,6 +570,9 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
   // event list in `world` is untouched, which is what the epilogue is built from
   // (VISION.md §20) and what a save carries.
   const visibleEvents = world.events
+    // A sealed event - glory, today - belongs to the family's story and is revealed only at
+    // the end of the game. It is dropped before the slice, so it cannot even displace a line.
+    .filter(e => e.visibility !== 'sealed')
     .filter(e => (householdId && e.householdId === householdId) || (role === 'host' && e.visibility === 'public'))
     .slice(-PROJECTED_EVENTS);
   const knownIds = new Set(visibleEvents.map(e => e.id));
@@ -621,6 +624,7 @@ export function validateWorld(world) {
     if (typeof entity.name !== 'string' || !entity.name.trim() || entity.name.length > NAME_LIMIT) throw new Error('Invalid person name');
     // Present only on a rolled family. Absent reads as the founding household, which had no
     // stated ages and no hidden stats, and is why no save version moved.
+    if (entity.purse !== undefined && (!Number.isInteger(entity.purse) || entity.purse < 0)) throw new Error('A purse holds whole reales');
     if (entity.sex !== undefined && !['male', 'female'].includes(entity.sex)) throw new Error('Invalid sex');
     if (entity.age !== undefined && (!Number.isInteger(entity.age) || entity.age < 0 || entity.age > 80)) throw new Error('Invalid age');
     for (const [trait, value] of Object.entries(entity.traits || {})) {
@@ -695,6 +699,13 @@ export function validateWorld(world) {
   const events = new Set(world.events.map(e => e.id));
   if (events.size !== world.events.length || world.events.some(e => e.causes.some(id => !events.has(id)))) throw new Error('Invalid event graph');
   if (world.nextEventId !== world.events.length + 1) throw new Error('Event sequence would duplicate an ID');
+  // Glory (sim/glory.mjs) is optional state: a class saved before it existed has none. When it
+  // is there, a family's total is exactly the sum of its awards, in whole points.
+  for (const [householdId, ledger] of Object.entries(world.glory || {})) {
+    if (!world.households[householdId]) throw new Error('Glory for a household that does not exist');
+    const sum = Object.values(ledger.awards || {}).reduce((total, award) => total + award.points, 0);
+    if (!Number.isInteger(ledger.total) || ledger.total !== sum) throw new Error('Glory does not add up');
+  }
   for (const [audience, reports] of Object.entries({ ...world.knowledge.households, public: world.knowledge.public })) {
     if (audience !== 'public' && !world.households[audience]) throw new Error('Unknown knowledge audience');
     for (const [topicId, report] of Object.entries(reports)) {

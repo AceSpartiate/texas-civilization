@@ -1,7 +1,7 @@
 # Money, glory, and the end of the game
 
-**Status: decided; money (steps 1 and 2) built 2026-09-12** ([evidence](evidence/money.json)). Glory and
-the ending (steps 3–5) are not built. The owner has made every design decision it needs (§6); read
+**Status: decided; money (steps 1–2) and hidden glory (step 3) built 2026-09-12** ([money](evidence/money.json),
+[glory](evidence/glory-hidden.json)). The ending (steps 4–5) is not built. The owner has made every design decision it needs (§6); read
 it in full before starting any of the rest.
 
 **Where it sits in the plan.** Steps 1–2 (§7) belong to Macro-Phase 1D, economy. Steps 3–5
@@ -72,7 +72,9 @@ counter a whole bale of cotton fetches 2 food or 1 real, and 3 food fetch 1 real
 food or 1 real and seed 3 food or 1 real; a new hoe is **coin only**, 2 reales. The counter asks
 how to pay or be paid, in the same shape as every other decision; nobody answering pays the first
 way the family can. The store would rather barter than pay out coin, which is the scarcity showing
-in the prices.
+in the prices. **The store's purse is limited** (owner's choice, 2026-09-12): Marta Ibarra holds 2 reales
+a family, pays out no more than she holds — what she cannot pay for comes home again — and coin paid
+to her goes back into the purse. A family finds out she is short at the counter, not before.
 
 ### Money is scarce, and players have to use it
 
@@ -104,6 +106,7 @@ also said players "should have to trade or spend money". Both hold at once:
 | --- | --- |
 | Powder, seed, a new hoe | Some priced in coin only, some in coin *or* goods (see above). |
 | Hiring a neighbour's wagon | Only once lending exists. |
+| A new horse | Owner, 2026-09-12: a horse taken into a battle where people died can die, and the family goes without or buys another. Needs a horse for sale in town and a price (`FIC-GONZ-022`), and the battle itself; see `docs/FAMILY_CREATION.md` §5. |
 | Later chapters | The Runaway Scrape is the obvious one: coin is what a fleeing family can carry. |
 
 ### What counts as "money" at the end
@@ -189,8 +192,11 @@ Rules that apply to every row:
 
 ### Where it lives
 
-`household.glory`, a whole number, absent reads as zero. Written only by the directors, never by
-anything a student triggers directly. Record each award in the household's own event log with
+**As built: `world.glory[householdId]`, not `household.glory`** — a household is projected to its own
+student whole, so a field on it would have been on the wire. A whole number, absent reads as zero,
+written only by `sim/glory.mjs` from `world.participation`, never by anything a student triggers
+directly. Weights as built: supplied 1, present 2, fought 3, times one more for every 15 road miles
+from where it happened (`FIC-GONZ-023`). Record each award in the household's own event log with
 its cause, flagged so the projection strips it until the ending — that record is what the reveal
 explains.
 
@@ -262,7 +268,7 @@ Bounded steps, each shippable and provable alone, in order. This mirrors
    take coin only, others coin or goods. Register the currency `HIST-GONZ-*` claim and the prices
    as a `FIC-GONZ-*` claim. Prove: a family can farm, eat, trade and answer the call without coin,
    and a family with coin has something only coin buys.
-3. **Glory, hidden.** The awards, the directors that write them, the causes in the event log, and
+3. ~~**Glory, hidden.**~~ **Done 2026-09-12.** The awards, the directors that write them, the causes in the event log, and
    the isolation test — **before anything reveals it**. Prove: a planted glory value appears in no
    student or Host payload across a played slice, and no director reads it.
 4. **The ending, per family.** The reveal, both numbers, the multiplication, the per-household

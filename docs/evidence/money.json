@@ -21,7 +21,6 @@
     "prices": "FIC-GONZ-022, every number invented. The store would rather barter than pay out coin: selling for coin fetches less than selling for food, and coin buys more at the counter than food does, because coin is the scarce thing.",
     "counter": "Paying and being paid are a question at the counter (ASKS cotton-counter, powder-counter, seed-counter) in the same shape as the hunt's question, rather than extra chores. Nobody answering pays the first way the family can afford, food then coin; a sale nobody answers is taken in food, as it always was.",
     "ceilings": [
-      "The store pays out coin without limit; a store purse would model Almonte's scarcity more directly than prices do.",
       "A class saved before this has Marta Ibarra dealing in no food, so selling food there says nobody at Gonzales deals in it."
     ]
   },
@@ -89,5 +88,32 @@
       }
     ]
   },
-  "boundary": "Money is visible and spendable; nothing yet reads it at the end of a class. Glory and the ending (steps 3-5) are not built. Prices are untuned and no class has played them."
+  "boundary": "Money is visible and spendable; nothing yet reads it at the end of a class. Glory and the ending (steps 3-5) are not built. Prices are untuned and no class has played them.",
+  "limitedPurse": {
+    "date": "2026-09-12",
+    "ownerDirection": "'i prefer the limited purse' - the ceiling noted when money shipped, that the store paid out coin without limit.",
+    "built": "Marta Ibarra holds a purse of 2 reales per family in the class (FIC-GONZ-022). Coin paid out for cotton or food comes from it and never exceeds it; whatever the store cannot pay for comes home again, and the family's record says so. Coin a family pays at the counter goes into it. The counter's coin answer for cotton is closed with 'The store has no coin left to pay out.' A class saved before the purse fills it in on first use - in a step, never while a screen is drawn. The purse is on no payload.",
+    "test": "tests/money.test.mjs 'the store has only so much coin to pay out, and coin paid in goes back into it'",
+    "regressionsInjected": [
+      {
+        "injected": "a bottomless purse",
+        "failed": [
+          "the store has only so much coin to pay out..."
+        ]
+      },
+      {
+        "injected": "coin paid in is lost",
+        "failed": [
+          "the store has only so much coin to pay out..."
+        ]
+      },
+      {
+        "injected": "drawing the counter fills in an old purse",
+        "failed": [
+          "the store has only so much coin to pay out..."
+        ],
+        "note": "A first run caught nothing: the old-save check drew a screen with nobody at the counter, so the purse was never read. The check now stands somebody at the counter first."
+      }
+    ]
+  }
 }

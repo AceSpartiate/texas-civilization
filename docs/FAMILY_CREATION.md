@@ -148,8 +148,18 @@ on 2026-09-12**, and `VISION.md` §16 carries the amendment. What still binds:
 - **The epilogue tells it with dignity.** A family that lost a mother in a battle has that in its
   story, not as a punishment for a wrong answer.
 - **It is the family's choice.** Nothing forces or nags a family to send anybody (§11).
+- **A horse can die too** (owner, 2026-09-12). A horse taken into such a battle faces the same hidden,
+  very likely fatal risk. A family that loses one goes without — slower on the road, less carried — or
+  buys another in town, for coin (`docs/MONEY_AND_GLORY.md` §3). At Gonzales, as with people, nothing
+  happens to it.
 
 ---
+
+## 5a. What the parents look like (owner, 2026-09-12)
+
+> "players sbould also get to choose what the parent(s) of their family look like. the children should be automated based on the parental choices."
+
+Specified with the settling-in chapter, in [SETTLING_IN.md](SETTLING_IN.md) §7: the student chooses each parent's skin tone, hair colour, clothing colour and a hat, beard, bonnet or pinned hair; children are generated from the parents; appearance changes nothing else and is tested to; it needs layered people art, with a stand-in until then.
 
 ## 6. Build order
 

@@ -2,6 +2,7 @@ import { record } from './events.mjs';
 import { SHOT_COST } from './chores.mjs';
 import { establishTruth, learn } from './knowledge.mjs';
 import { TIRING_MILES } from './routines.mjs';
+import { awardGlory } from './glory.mjs';
 import { canAnswerCalls, cannotAnswerWhy, tooYoung, tooYoungWhy } from './family.mjs';
 
 // Date is anchored; these within-day times, pacing, and formation positions are schematic.
@@ -437,6 +438,9 @@ function settleHelp(world) {
     if (!world.participation) world.participation = {};
     if (!world.participation.gonzales) world.participation.gonzales = {};
     world.participation.gonzales[entity.id] = { householdId, role: reachedCamp ? 'present' : 'supplied', minute: reachedCamp ? march.witnessed : arrival.minute };
+    // And what that part is worth, sealed until the end of the game (sim/glory.mjs). Written
+    // here, from the record just made, and read by nothing in this file or any other director.
+    awardGlory(world, { event: 'gonzales', claimId: 'HIST-GONZ-004', personId: entity.id, householdId, role: world.participation.gonzales[entity.id].role, fromSiteId: 'gonzales', causes: [arrival.id, ...(march?.choiceId ? [march.choiceId] : [])] });
     for (const commitment of entity.commitments) if (['gonzales-supplies', 'gonzales-march'].includes(commitment.id)) commitment.status = reachedCamp || commitment.id === 'gonzales-supplies' ? 'fulfilled' : 'unresolved';
     if (!entity.travel && entity.task === 'help') entity.task = 'rest';
 

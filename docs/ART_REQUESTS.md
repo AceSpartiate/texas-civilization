@@ -20,6 +20,8 @@ does not have:
 | --- | --- | --- | --- |
 | A person is drawn as the nearest figure by sex and age: a woman or girl as `teal`, a boy as `blue`, a man as `elder`; the principal in `rust` whoever they are, including a mother | `castVariant` in `public/motion.js` | Request 2026-09-12, priority 2 — the second cast | `rust-woman` for a mother who is principal, `indigo` and `teal` for women, `ochre` and `elder` for men, `blue-girl` and `blue` for adolescents |
 | A child is a grown figure drawn smaller: 90% at 10–17, 70% at 5–9, 55% at 2–4, 45% for an infant | `figureScale` in `public/motion.js`, applied in `miniPerson` | Request 2026-09-12, priority 1 — children | `girl`, `boy`, `smallchild` and the infant basket. **Keep the scaling**: the delivered sheets are drawn to fill their cells and need it too |
+| *(Planned, with [SETTLING_IN.md](SETTLING_IN.md) step 8)* A parent's chosen appearance is stored and described in words; the figure is still chosen by sex and age | the family book | Request below — layered people art | Layered or palette-swappable sheets for the whole cast |
+| *(Planned, with [SETTLING_IN.md](SETTLING_IN.md) steps 4–7)* Houses, interiors and furniture drawn from `cabin-small`, `cabin-wide`, the weathered cabin and the Alamo interior pieces | the map and the interior view | Request below — houses and furnishings | Per-type house exteriors by stage, cabin interiors, furniture and brought goods |
 | A rider talks from the saddle, facing east or west whatever side the listener is on | `carrierClip` in `public/motion.js` | Request 2026-09-12, priorities 3 and 4 | `courier-dismount` and `courier-encounters-vertical` |
 
 ---
@@ -28,6 +30,26 @@ Open requests, newest first. Each one says why it is needed, what exactly to del
 into the existing pipeline, and how it will be checked. When a request is delivered, mark it
 **Delivered** with the date and move the details into [ART_MANIFEST.md](ART_MANIFEST.md) by running
 `npm run build:art`; do not delete it from here.
+
+---
+
+## Request 2026-09-12 (second) — settling in: houses, interiors, furnishings, and people whose looks can be chosen
+
+**Status: open, outline.** Specified in [SETTLING_IN.md](SETTLING_IN.md); the exact sheets are to be written
+into this request when that chapter's build reaches them, in the contract format of the request below.
+
+- **Layered people.** Students now choose what parents look like (skin tone, hair colour, clothing colour,
+  hat, beard, bonnet or pinned hair), and children take after their parents. Baked-colour figures cannot
+  show that. Needed: the cast — adults, adolescents and the requested children — drawn as aligned layers
+  (body and skin, hair, facial hair or head covering, clothing), or with clean flat colour regions a
+  renderer can swap, across idle, walk, vertical and task sheets.
+- **Houses.** Round-log single-pen, hewn-log single-pen, dog-run and jacal, each at the stages of
+  building (site, first courses, walls up, roofed, finished) and with the method variants (stick-and-mud
+  or stone chimney; shakes or thatch).
+- **Interiors.** A single-pen interior, a dog-run's two pens and breezeway, and a jacal interior, drawn as
+  rooms a student can place furniture in.
+- **Furniture and brought goods.** Table, benches, bedstead, shelves, cradle; bedding, iron pot, chest,
+  spinning wheel, clock, looking glass, crockery, rocking chair; a wagon camp.
 
 ---
 

@@ -18,6 +18,23 @@ import { record } from './events.mjs';
 import { householdName, ageBand } from './family.mjs';
 import { facingOf, ridersInSight } from './encounters.mjs';
 
+/**
+ * How much coin the Gonzales store holds at the start of a class, per family in it.
+ *
+ * The owner chose a limited purse, and it is the scarcity `HIST-GONZ-023` documents made
+ * directly visible: not ten transactions in a hundred used specie, so a storekeeper had little
+ * coin to pay out. Two reales a family is invented (`FIC-GONZ-022`). Coin a family pays in
+ * goes back into the purse; nothing else refills it.
+ */
+export const STORE_PURSE_PER_FAMILY = 2;
+/** The coin a trader holds, without changing anything - safe to call while building a projection. */
+export const purseHeld = (world, trader) => !trader ? 0 : Number.isInteger(trader.purse) ? trader.purse : STORE_PURSE_PER_FAMILY * (world.playerCount || 15);
+/** The coin a trader holds, set on first use for a class saved before there was a purse. Only for steps that change it. */
+export function purseOf(world, trader) {
+  if (!trader) return 0;
+  if (!Number.isInteger(trader.purse)) trader.purse = STORE_PURSE_PER_FAMILY * (world.playerCount || 15);
+  return trader.purse;
+}
 export const RESIDENTS = [
   {
     id: 'town-ibarra', name: 'Marta Ibarra', trade: 'seed', deals: ['seed', 'powder', 'cotton', 'food'],
@@ -55,6 +72,9 @@ export function createTownspeople(world) {
       // always said "seed and stores", and powder is stores.
       householdId: null, depth: 'moderate', principal: false, resident: resident.trade || 'none',
       deals: resident.deals || [resident.trade].filter(Boolean),
+      // Coin the storekeeper can pay out (docs/MONEY_AND_GLORY.md, owner's choice of a limited
+      // purse). Only somebody who buys goods for coin needs one.
+      ...((resident.deals || []).includes('cotton') && { purse: STORE_PURSE_PER_FAMILY * (world.playerCount || 15) }),
       // What this person is, in their own words. It lives here rather than in the client,
       // which had its own copy keyed off `resident` - so changing the table changed the
       // table and nothing a student could see.
