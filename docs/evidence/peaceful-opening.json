@@ -1,0 +1,51 @@
+{
+  "record": "The peaceful opening: step 1 of docs/SETTLING_IN.md",
+  "date": "2026-09-12",
+  "verdict": "PASS",
+  "verdictMeaning": "A new class starts at dawn on September 28, 1835 (FIC-GONZ-024). Every moment of the Gonzales timeline is 1080 minutes later on its clock, so the first news of the cannon still comes at ten o'clock on September 29 (HIST-GONZ-002): 28 in-game hours and 13.3 real minutes at the Study pace. Nothing historical happens before it, while chores and trades run. A class saved before this has no arrival marker and keeps exactly the timeline it was playing; no save version moved.",
+  "implementation": "TIMELINE is now FROM_MIDNIGHT_SEPT_29 + ARRIVAL_MINUTES. Every director comparison goes through momentOf(world, key), which subtracts ARRIVAL_MINUTES for a class without director.arrival. historicalDate starts from dawn on the 28th for a new class and midnight on the 29th for an old one.",
+  "specCorrection": "docs/SETTLING_IN.md first said an offset of 1800 minutes; dawn on the 28th to midnight on the 29th is 18 hours, 1080 minutes. Corrected.",
+  "liveBrowserProof": {
+    "server": "PORT=1855 TEXAS_DATA_DIR=<scratch> SEED=peace PLAYERS=5 TICK_MS=150; an isolated class",
+    "observed": [
+      "In the lobby after rolling: '1835-09-28 · waiting to begin'.",
+      "Sampled while running: minute 200, 580 and 980 all '1835-09-28'; minute 1380 and 1780 '1835-09-29'.",
+      "The browser family's first report, rider and question arrived together at minute 1960 - the notice at 1680 plus the ride to a far family - as a rumor question: at the Study pace, 15.5 real minutes into the class."
+    ]
+  },
+  "automated": {
+    "suite": "tests/peaceful-opening.test.mjs",
+    "tests": 3,
+    "wholeSuite": "274 pass, 0 fail",
+    "testsChanged": "tests/fatigue.test.mjs and tests/town.test.mjs loop longer because the slice starts 54 ticks earlier; tests/gonzales.test.mjs derives the battle date from dawn on the 28th.",
+    "regressionsInjected": [
+      {
+        "injected": "new classes start at midnight on the 29th again",
+        "failed": [
+          "a class starts at dawn on September 28...",
+          "nine timing-dependent Gate D, upriver, fatigue, battle and crossing tests"
+        ]
+      },
+      {
+        "injected": "old saves shifted too",
+        "failed": [
+          "a class saved before arrivals keeps exactly the timeline it was playing"
+        ]
+      },
+      {
+        "injected": "the date shown ignores the arrival",
+        "failed": [
+          "a class starts at dawn on September 28...",
+          "Gate D: requests require household knowledge..."
+        ]
+      },
+      {
+        "injected": "arrival only twelve hours earlier",
+        "failed": [
+          "a class starts at dawn on September 28..."
+        ]
+      }
+    ]
+  },
+  "boundary": "The peace is a Study-pace promise: about 5.6 real minutes at Brisk and 1.4 at Quick. Nobody arrives yet - families still start at their cabins; the wagon arrival is step 2. There is no night: work goes on through the night of the 28th."
+}

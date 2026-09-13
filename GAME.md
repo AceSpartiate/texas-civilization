@@ -62,6 +62,8 @@ A short optional walk-through offers itself once, in that lobby. It explains the
 
 **Children are drawn smaller than grown people, and mothers and daughters as women.** The art for children does not exist yet, so for now a child is a smaller copy of a grown figure; a family's principal wears the rust coat whether that is a father or a mother.
 
+**The first hours are peaceful.** A class begins at dawn on September 28, 1835, and nothing is known of any trouble until the next morning — the time to set your family to work, trade with the neighbours and get to know the land. At the Study pace that is about thirteen minutes.
+
 **You roll for your family.** When you join, you roll a die, and the roll decides who is in your family: how many parents and how many children, and how old each of them is. The family book shows everybody, what they are to each other and their ages. A child under ten is too young to be sent anywhere.
 
 **How you heard decides what you are asked.** A family that heard the news from somebody who saw it, or from somebody who had it straight from them, gets a neighbour at the door asking for food. A family far enough out that the word came third-hand gets no knock: nobody asks for food on a rumor. Instead the family decides whether to send somebody to Gonzales to see for themselves — which costs nothing — or to stay home and prepare. Whoever goes sees it's true when they get there, and is asked in town.

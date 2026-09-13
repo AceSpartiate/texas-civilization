@@ -40,7 +40,7 @@ Then a household farms, hunts, mends its tools, trades seed and food with the fa
 
 News reaches them the way news reached people: a rider starts where the event happened, rides the real road, and says it out loud to whichever member of the family they came alongside. On a long road the word changes hands, so a family near the town meets somebody who saw it and a family at the edge of the county meets the fourth person to carry it — older, second-hand, and recorded in their journal as a rumor.
 
-The launched slice lasts about **4 minutes 44 seconds** of compressed time, plus pauses, and stops after Gonzales with the household's story preserved. That is not the intended 45-minute lesson.
+At the default Study pace the slice lasts about **54 minutes**, plus pauses: about 13 peaceful minutes from the families' arrival on September 28 before the first news, then Gonzales. It stops after the fight with each household's story preserved. Brisk and Quick show the same afternoon in less time.
 
 ## For a developer
 
@@ -51,7 +51,7 @@ npm.cmd start
 npm.cmd test
 ```
 
-**271 automated tests**, needing no external packages. Browser proofs need separately installed Playwright and Chromium or Chrome; the exact commands are in [HANDOFF.md](HANDOFF.md). Every test makes an isolated temporary class and leaves the ordinary classroom save alone.
+**274 automated tests**, needing no external packages. Browser proofs need separately installed Playwright and Chromium or Chrome; the exact commands are in [HANDOFF.md](HANDOFF.md). Every test makes an isolated temporary class and leaves the ordinary classroom save alone.
 
 Read in this order: [VISION.md](VISION.md) for what this is for, [HANDOFF.md](HANDOFF.md) for the actual state and what is proved, [TECH.md](TECH.md) and [GAME.md](GAME.md) for the architecture and the play, and [HISTORY.md](HISTORY.md) — always — before changing anything historical. Documented fact and invented gameplay are separated there claim by claim, and dated evidence for each piece of work lives in [docs/evidence](docs/evidence).
 

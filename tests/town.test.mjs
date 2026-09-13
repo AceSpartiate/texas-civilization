@@ -138,7 +138,7 @@ test('seeing a courier tells you a rider passed, never what they carry', () => {
   // record a report refers to is created.
   const world = createGonzalesWorld('courier-sight', 5);
   world.status = 'running';
-  for (let tick = 0; tick < 60 && !world.truth['cannon-request']; tick++) stepWorld(world);
+  for (let tick = 0; tick < 120 && !world.truth['cannon-request']; tick++) stepWorld(world);
   assert.ok(world.truth['cannon-request'], 'the scenario produced something to carry');
   // A rider is dispatched to somebody else, and stands in town while our man is there.
   const courierId = dispatchReport(world, 'cannon-request', 'hh-3');

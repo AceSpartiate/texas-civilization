@@ -10,7 +10,27 @@ import { canAnswerCalls, cannotAnswerWhy, tooYoung, tooYoungWhy } from './family
 // started upriver (HIST-GONZ-003). It is when a household that carried food to town is
 // asked whether its person goes on with them. 4200 minutes from midnight on the 29th is
 // late on the 1st; `approach` at 4680 is dawn on the 2nd, and the call shuts then.
-export const TIMELINE = Object.freeze({ notice: 600, publicNotice: 1440, gathering: 3000, crossing: 4200, approach: 4680, exchange: 4760, withdrawal: 4840, resolved: 4920, publicOutcome: 5400, finish: 5680 });
+const FROM_MIDNIGHT_SEPT_29 = Object.freeze({ notice: 600, publicNotice: 1440, gathering: 3000, crossing: 4200, approach: 4680, exchange: 4760, withdrawal: 4840, resolved: 4920, publicOutcome: 5400, finish: 5680 });
+/**
+ * The families arrive at dawn on September 28, eighteen hours before midnight.
+ *
+ * docs/SETTLING_IN.md: the first real minutes of a class are peaceful - families arrive by
+ * wagon and make their homes - and the first news of the cannon still comes on the morning of
+ * the 29th (`HIST-GONZ-002`). So a class now starts at dawn on the 28th and every moment of the
+ * timeline is eighteen hours later on its clock: about thirteen real minutes of peace at the
+ * Study pace. The dates of history do not move; only where the class starts watching.
+ */
+export const ARRIVAL_MINUTES = 1080;
+export const TIMELINE = Object.freeze(Object.fromEntries(Object.entries(FROM_MIDNIGHT_SEPT_29).map(([key, minute]) => [key, minute + ARRIVAL_MINUTES])));
+/**
+ * When a moment falls on this class's own clock.
+ *
+ * A class saved before arrivals started at midnight on the 29th, has no `director.arrival`,
+ * and keeps exactly the timeline it was playing - no save version moves.
+ */
+export const momentOf = (world, key) => TIMELINE[key] - (world.director?.arrival ? 0 : ARRIVAL_MINUTES);
+/** The calendar date at minute zero of this class's clock. */
+const startOf = world => world.director?.arrival ? Date.UTC(1835, 8, 28, 6) : Date.UTC(1835, 8, 29);
 export const HISTORICAL_OUTCOME = 'Mexican detachment withdraws; Texians retain the cannon.';
 const captions = {
   gathering: 'People gather near Gonzales. Supplies and civilian work support them.',
@@ -46,7 +66,7 @@ export function battleGround(world) {
 }
 export function initializeDirectors(world) {
   const ground = battleGround(world);
-  world.director = { milestones: {}, dispatches: {}, complete: false, phase: 'home', battle: { phase: 'waiting', formations: [
+  world.director = { arrival: true, milestones: {}, dispatches: {}, complete: false, phase: 'home', battle: { phase: 'waiting', formations: [
     { id: 'formation-texian', side: 'texian', x: ground.texianStart.x, y: ground.texianStart.y, count: 12 },
     { id: 'formation-mexican', side: 'mexican', x: ground.mexican.x, y: ground.mexican.y, count: 12 },
   ] }, frames: [] };
@@ -56,7 +76,7 @@ export function initializeDirectors(world) {
   for (const [id, minute] of Object.entries(TIMELINE)) world.barriers.push({ id: `gonzales:${id}`, minute, kind: 'historical-scene', resolved: false });
 }
 function once(world, key, action) {
-  if (world.director.milestones[key] || world.minute < TIMELINE[key]) return;
+  if (world.director.milestones[key] || world.minute < momentOf(world, key)) return;
   action(); world.director.milestones[key] = true;
   // A class saved before this milestone existed has no barrier for it. There is nothing
   // to resolve in that case, which is the correct empty value, so no save version moves.
@@ -122,7 +142,7 @@ function offerRequests(world) {
   if (!world.rumors) world.rumors = {};
   for (const household of Object.values(world.households)) {
     const report = world.knowledge.households[household.id]['cannon-request'];
-    if (!report || world.requests[household.id] || world.minute >= TIMELINE.approach) continue;
+    if (!report || world.requests[household.id] || world.minute >= momentOf(world, 'approach')) continue;
     if (!firmEnough(report)) {
       offerRumor(world, household, report);
       continue;
@@ -166,7 +186,7 @@ function offerRumor(world, household, report) {
 // different acts, and the game asks separately about the second.
 function offerMarch(world) {
   if (!world.marches) world.marches = {};
-  if (world.minute < TIMELINE.crossing || world.minute >= TIMELINE.approach) return;
+  if (world.minute < momentOf(world, 'crossing') || world.minute >= momentOf(world, 'approach')) return;
   for (const household of Object.values(world.households)) {
     const request = world.requests[household.id];
     if (!request || request.status !== 'accepted' || world.marches[household.id]) continue;
@@ -284,7 +304,7 @@ export const MARCH_POWDER = 2;
 export function handleMarch(world, householdId, entity, action, { beginTravel, travelRefusal }, mode) {
   const march = world.marches?.[householdId];
   if (!march || march.status !== 'open') throw new Error('Nobody is asking that.');
-  if (world.minute >= TIMELINE.approach) throw new Error('They have already gone upriver.');
+  if (world.minute >= momentOf(world, 'approach')) throw new Error('They have already gone upriver.');
   if (march.actorId !== entity.id) throw new Error(`${entity.name} was not the one asked.`);
   const allowed = callAvailability(world, householdId, entity, action);
   if (!allowed.can) throw new Error(allowed.why);
@@ -325,7 +345,7 @@ export function handleMarch(world, householdId, entity, action, { beginTravel, t
 export function handleChoice(world, householdId, entity, action, { beginTravel, travelRefusal }, mode) {
   const request = world.requests?.[householdId];
   if (!request || request.status !== 'open' || !world.knowledge.households[householdId]['cannon-request']) throw new Error('There is no known open request.');
-  if (world.minute >= TIMELINE.approach) throw new Error('This gathering request has closed.');
+  if (world.minute >= momentOf(world, 'approach')) throw new Error('This gathering request has closed.');
   if (entity.travel) throw new Error('Wait until this person arrives.');
   const household = world.households[householdId];
   const allowed = callAvailability(world, householdId, entity, action);
@@ -363,7 +383,7 @@ export function handleChoice(world, householdId, entity, action, { beginTravel, 
 export function handleRumor(world, householdId, entity, action, { beginTravel, travelRefusal }, mode) {
   const rumor = world.rumors?.[householdId];
   if (!rumor || rumor.status !== 'open') throw new Error('Nobody is asking that.');
-  if (world.minute >= TIMELINE.approach) throw new Error('It is too late to go and see.');
+  if (world.minute >= momentOf(world, 'approach')) throw new Error('It is too late to go and see.');
   const allowed = callAvailability(world, householdId, entity, action);
   if (!allowed.can) throw new Error(allowed.why);
   if (action === 'go-see' && entity.location.siteId !== 'gonzales') {
@@ -396,7 +416,7 @@ function settleHelp(world) {
     if (request.status !== 'accepted' || request.consequenceId) continue;
     const household = world.households[householdId], entity = world.entities[request.actorId || household.principalId];
     const arrival = world.events.find(e => e.type === 'arrival' && e.actorId === entity.id && e.purpose === 'help' && e.minute >= request.offeredMinute);
-    if (!arrival || world.minute < TIMELINE.resolved) continue;
+    if (!arrival || world.minute < momentOf(world, 'resolved')) continue;
     const outcome = world.truth['gonzales-outcome'];
     const march = world.marches?.[householdId];
     // Three different people end up here: one who carried food to town, one who went on
@@ -474,9 +494,9 @@ function moveFormations(world) {
   // written against a different map opens with its formations back where the fighting
   // is rather than wherever its old coordinates pointed.
   place(texian, ground.texianStart); place(mexican, ground.mexican);
-  if (battle.phase === 'approach') place(texian, between(ground.texianStart, ground.texianClosed, Math.min(1, (world.minute - TIMELINE.approach) / 80)));
+  if (battle.phase === 'approach') place(texian, between(ground.texianStart, ground.texianClosed, Math.min(1, (world.minute - momentOf(world, 'approach')) / 80)));
   if (battle.phase === 'exchange') place(texian, ground.texianClosed);
-  if (battle.phase === 'withdrawal') { place(texian, ground.texianClosed); place(mexican, between(ground.mexican, ground.mexicanGone, Math.min(1, (world.minute - TIMELINE.withdrawal) / 80))); }
+  if (battle.phase === 'withdrawal') { place(texian, ground.texianClosed); place(mexican, between(ground.mexican, ground.mexicanGone, Math.min(1, (world.minute - momentOf(world, 'withdrawal')) / 80))); }
   if (battle.phase === 'resolved') { place(texian, ground.texianClosed); place(mexican, ground.mexicanGone); }
   if (['approach', 'exchange', 'withdrawal', 'resolved'].includes(battle.phase)) {
     const last = world.director.frames.at(-1);
@@ -544,7 +564,7 @@ export function advanceDirectors(world, movement) {
   }
   once(world, 'publicNotice', () => learn(world, 'public', 'cannon-request', { source: 'Public report (reconstructed timing)' }));
   once(world, 'crossing', () => establishTruth(world, { id: CROSSING, text: 'The Texian force crossed the Guadalupe in the night and went upriver after the Mexican camp.', siteId: 'gonzales', classification: 'DOCUMENTED', claimId: 'HIST-GONZ-003' }));
-  if (world.truth[CROSSING] && world.minute < TIMELINE.approach) {
+  if (world.truth[CROSSING] && world.minute < momentOf(world, 'approach')) {
     for (const household of Object.values(world.households)) {
       if (witnessing(world, household.id)) learn(world, household.id, CROSSING, { source: 'Told in Gonzales' });
     }
@@ -652,5 +672,5 @@ export function directorProjection(world, householdId, role) {
     shown.answerers = Object.fromEntries(people.map(id => [id, requestOptions(world, householdId, shown, shown.kind, world.entities[id])]));
     shown.options = shown.answerers[shown.actorId || household.principalId] || Object.values(shown.answerers)[0] || [];
   }
-  return structuredClone({ request: shown, battle, host: role === 'host' ? host : null, slice: { title: 'Gonzales', complete: world.director.complete }, historicalDate: new Date(Date.UTC(1835, 8, 29) + world.minute * 60000).toISOString().slice(0, 10) });
+  return structuredClone({ request: shown, battle, host: role === 'host' ? host : null, slice: { title: 'Gonzales', complete: world.director.complete }, historicalDate: new Date(startOf(world) + world.minute * 60000).toISOString().slice(0, 10) });
 }

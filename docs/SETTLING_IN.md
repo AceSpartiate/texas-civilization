@@ -1,6 +1,6 @@
 # Settling in: arriving, building a home, and a peaceful beginning
 
-**Status: decided and specified, not built. Build next** (owner, 2026-09-12). Read this in full
+**Status: decided; step 1 (the peaceful opening and the clock) built 2026-09-12** ([evidence](evidence/peaceful-opening.json)); steps 2–8 are next (owner, 2026-09-12). Read this in full
 before changing the class start, the lobby, house or furniture state, or the director's timeline.
 
 ---
@@ -74,9 +74,10 @@ would mean a second clock. So:
   should say so.
 - **Nothing historical happens before the notice.** No rider, no request, no pressure event, no rumor.
   Chores, trades between neighbours, building and furnishing all run.
-- **Implemented as an offset, not new constants.** `world.director.startMinute` (1800 for a new class)
-  is added to every `TIMELINE` minute and to the date shown. A class saved before this has no offset,
-  reads as 0, and keeps its timeline exactly — **no save version moves**.
+- **As built: a marker, not new constants.** Every `TIMELINE` moment is 1080 minutes (dawn on the 28th to
+  midnight on the 29th) later, a new class carries `director.arrival`, and `momentOf(world, key)` subtracts
+  the 1080 minutes for a class without it. The date shown starts from dawn on the 28th for a new class. A class
+  saved before this keeps its timeline exactly — **no save version moves**.
 - **Night.** There is no day/night cycle yet. Building through the night of the 28th is allowed for now
   and marked `ceiling:`; the day/night cycle, when it comes, is what makes a family stop at dark.
 
@@ -180,7 +181,7 @@ choice made inside a visible risk. The hidden stats stay hidden; the house's own
 
 Each step is shippable and provable alone.
 
-1. **The clock offset and the peaceful opening.** `director.startMinute`, the date, and a test that nothing
+1. ~~**The clock offset and the peaceful opening.**~~ **Done 2026-09-12.** `director.startMinute`, the date, and a test that nothing
    historical can happen before the notice while chores and trades run.
 2. **Arrival.** Wagons and families start on the road and travel in; the camp by the wagon as first shelter.
 3. **The wagon load.** Choosing in the lobby, default at Start, items becoming stores and a family inventory.

@@ -33,7 +33,8 @@ test('Gate D: one autonomous causal chain, physical identity, date/outcome and p
   for (const type of ['world-event', 'information', 'pressure', 'choice', 'departure', 'travel', 'arrival', 'battle-phase', 'consequence', 'memory']) assert.ok(chain.includes(type), `missing causal ancestor ${type}`);
   const approach = world.events.find(e => e.type === 'battle-phase' && e.phase === 'approach');
   assert.equal(approach.minute, TIMELINE.approach);
-  assert.equal(new Date(Date.UTC(1835, 8, 29) + approach.minute * 60000).toISOString().slice(0, 10), '1835-10-02');
+  // Minute zero is dawn on September 28, when the families arrive (docs/SETTLING_IN.md).
+  assert.equal(new Date(Date.UTC(1835, 8, 28, 6) + approach.minute * 60000).toISOString().slice(0, 10), '1835-10-02');
   assert.match(approach.text, /Texian militia advances/);
   const dir = mkdtempSync(join(tmpdir(), 'texas-consequence-'));
   try {

@@ -226,7 +226,8 @@ test('a class saved before walking tired anybody still runs', () => {
   for (const entity of Object.values(world.entities)) delete entity.exertion;
   const thomas = principal(world, 'hh-1');
   beginTravel(world, thomas, 'gonzales');
-  for (let tick = 0; tick < 300 && !world.director.complete; tick++) stepWorld(world);
+  // A class now starts at dawn on the 28th (docs/SETTLING_IN.md), so the slice runs longer.
+  for (let tick = 0; tick < 400 && !world.director.complete; tick++) stepWorld(world);
   assert.ok(Number.isFinite(thomas.exertion), 'the missing field was not defaulted on use');
   assert.equal(world.director.complete, true, 'the class failed to finish');
 });
