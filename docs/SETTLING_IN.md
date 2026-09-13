@@ -1,6 +1,6 @@
 # Settling in: arriving, building a home, and a peaceful beginning
 
-**Status: decided; step 1 (the peaceful opening and the clock) built 2026-09-12** ([evidence](evidence/peaceful-opening.json)); **step 2 (arrival and the camp) built 2026-09-13** ([evidence](evidence/arrival.json)); steps 3–8 are next (owner, 2026-09-12). Read this in full
+**Status: decided; step 1 (the peaceful opening and the clock) built 2026-09-12** ([evidence](evidence/peaceful-opening.json)); **step 2 (arrival and the camp) built 2026-09-13** ([evidence](evidence/arrival.json)); **step 3 (the wagon load) built 2026-09-13** ([evidence](evidence/wagon-load.json)); steps 4–8 are next (owner, 2026-09-12). Read this in full
 before changing the class start, the lobby, house or furniture state, or the director's timeline.
 
 ---
@@ -52,12 +52,41 @@ plausible and not documented at Gonzales, and it must be registered that way.
 | `HIST-GONZ-026` The jacal: corner posts set in the ground, walls of posts and sticks filled with mud or rubble and plastered, a thatched roof replaced every three or four years, about eight to ten feet by twenty to twenty-five, usually one room, a dirt or lime floor; a Texas-Mexican tradition | DOCUMENTED | [TSHA, *Texas-Mexican Vernacular Architecture*](https://www.tshaonline.org/handbook/entries/texas-mexican-vernacular-architecture) (Graham, 1996) |
 | `FIC-GONZ-024` The families as one party of late settlers arriving together on September 28, 1835; every building time, material amount, tool requirement, effect, price and furniture item | FICTIONAL FOR GAMEPLAY | — |
 
-**Research still needed before building the details it covers:** stick-and-mud against stone chimneys,
-clapboard and shake roofs, puncheon floors, house-raising customs and how long one took, what a
-settler family of 1835 carried in a wagon, and whether a carpenter worked in Gonzales in 1835 (32
+**Research still needed before building the details it covers:** a first-hand account of a house-raising, and whether a carpenter worked in Gonzales in 1835 (32
 structures by 1836 is documented; a named carpenter is not — the carpenter is a fictional resident on
 the terms `FIC-GONZ-009` set for Marta Ibarra). None of these details may be presented as fact until
 it has a claim.
+
+**Researched 2026-09-13: what a settler family carried** (`HIST-GONZ-027`, `HIST-GONZ-028`). Read on the page in Holley
+(1833), Woodman (1835), Smithwick (1900), Harris (1900-01, in transcription) and TSHA *Folk Arts and Crafts*. Clapboard
+roofs and puncheon floors are now supported too. What it says about the wagon list in §4:
+
+| On the list | Verdict |
+| --- | --- |
+| Provisions, seed | Documented: provisions for the first six months, "every kind of seed". |
+| Powder and lead | Supported: a good rifle; "good guns, and powder and shot"; lead melted in a pot for bullets. |
+| Felling axe, broadaxe, auger | Documented: axes, and a box of tools with augers and "a broad axe". |
+| Froe | **Inferred, not documented**: clapboard roofs are documented; the froe that rives them is not named. |
+| Bedding, iron pot | Documented: pillows, bed linen, bedding; two pots for boiling. |
+| Chest | Supported: a family's big chest packed with bedding and clothes (Harris, 1836). |
+| Spinning wheel | Supported: "brought, bought, or made" — and some were left behind for want of anything to spin. |
+| Clock, looking glass, rocking chair, crockery | **No source found.** Holley: "nothing for show, but all for use"; the one table described was set with wooden platters and gourd cups. |
+| Not on the list, and documented | The **hoe** and plough, saws, spades, chains, rope, a tent or sail cloth "until the house is built", mosquito bars, common clothing, chairs and a bureau brought in pieces, a few books. |
+
+Caveats: both guides promoted settlement and wrote for emigrants landing by sea, and Woodman copies Holley's
+implements answer, so those are one source. Nothing was written about Gonzales. Every space and amount stays
+`FIC-GONZ-024`. The tent "until the house is built" and Holley's newly arrived families "obliged to camp out" also
+support step 2's camp as a period practice.
+
+**Researched 2026-09-13: houses** (`HIST-GONZ-029` to `035`; a research subagent's report, every quotation re-checked
+on the page by the reviewer). Stick-and-mud ("cat and clay") and stone chimneys are both supported, and a stick-and-mud
+chimney catching fire is a recorded event (1836). Roofs were clapboards weighted with logs; an 1834 DeWitt shingle
+contract names a **drawing knife** — **still no froe**. Dirt floors were usual and puncheon floors the rough step up. A
+one-room log house with a chimney took **a settler and one helper about a week** (1823). **No first-hand account of a
+house-raising was found**, so §6's raising stays invented. **The dog-run is earlier than §2 feared**: Austin's own
+house at San Felipe was a double log cabin with a central passage by about 1828. The jacal is documented for South and
+West Texas, not Gonzales, so a Gonzales family's jacal is invented. **No carpenter is named at Gonzales**, so the carpenter
+is fictional on `FIC-GONZ-009`'s terms; Andrew Kent, a real colonist with carpenter's tools, must not be used.
 
 ---
 
@@ -91,7 +120,9 @@ would mean a second clock. So:
 - **The list** (every number `FIC-GONZ-024`, every item subject to §2's research): tools that building
   needs (felling axe, broadaxe for hewing, froe for splitting shakes, auger for pegs), seed, food,
   powder and lead, and household goods — bedding, an iron pot, a chest, a spinning wheel, a clock, a
-  looking glass, crockery, a rocking chair. Tools decide which houses a family can build (§5); goods
+  looking glass, crockery, a rocking chair. *(Owner, 2026-09-13, after the research in §2: the clock, looking glass,
+  rocking chair and crockery, which no source supports, are replaced by books, mosquito bars, tinware and chairs in
+  pieces, and the hoe is added to the list.)* Tools decide which houses a family can build (§5); goods
   furnish and decorate the house (§6); food, seed and powder become the starting stores.
 - **The wagon is the family's first shelter.** Until a house has a roof, the family camps by the wagon:
   rest mends fatigue more slowly and stores left out spoil a little. Nothing worse — this is peace.
@@ -105,6 +136,21 @@ would mean a second clock. So:
   road-camp kit (fire, pot, bedroll, bundles), so it needs no stand-in. **Until step 4, a class started on
   this build camps all game.** A family still on the road cannot be set to work, so in the lobby the
   walk-through describes the work instead of waiting for it.
+- **As built (step 3, `sim/wagon.mjs`).** The wagon holds **16**. The list is sixteen things, each stating its space
+  and what it does on the control: barrels of meal (1 space, 4 food, up to 8), sacks of seed (1, 1 seed, up to 6),
+  powder and lead (1, one shot, up to 6) — one store, because a shot already spends both — a hoe (1), a felling axe
+  (2), broadaxe, froe and auger (1 each), and bedding (2), an iron pot (1), a chest (3), a spinning wheel (3), a few
+  books (1), mosquito bars (1), tinware (1) and chairs in pieces (2), one of each at most. The
+  family's food, seed and powder, its tool keys and its `belongings` are **recomputed from the whole load on every
+  change**, so taking a thing out takes it away. The pack screen opens after the roll and before the walk-through;
+  a refusal is the server's sentence; packing writes nothing into the story (an event would lock the roll) and the
+  arrival line names what came in. **The default is packed when the household is created, not at Start** — the
+  same family gets the same default, with no hook in a Start transition that `sim/headless.mjs` never passes
+  through: 3 or 4 barrels, 2 seed, 3 powder, a hoe, a felling axe, bedding and a pot, 14 or 15 of 16. Its one random draw
+  sits where the founding food draw did, so every seed makes the same land, crops, town and people. **The hoe is
+  on the list like any tool**: a family that leaves it behind cannot plant, bring in the crop or break ground ("There is
+  no hoe in the house."), cannot mend what it has not got, and can buy one in Gonzales. Tools are owned and not yet read until step 4; belongings
+  are a list until steps 6–7. A class saved before has no load, keeps its stores and cannot be repacked.
 
 ---
 
@@ -192,7 +238,7 @@ Each step is shippable and provable alone.
 1. ~~**The clock offset and the peaceful opening.**~~ **Done 2026-09-12.** `director.arrival` and `momentOf`, the date, and a test that
    nothing historical can happen before the notice while chores and trades run.
 2. ~~**Arrival.**~~ **Done 2026-09-13.** Wagons and families start on the road and travel in; the camp by the wagon as first shelter.
-3. **The wagon load.** Choosing in the lobby, default at Start, items becoming stores and a family inventory.
+3. ~~**The wagon load.**~~ **Done 2026-09-13.** Choosing in the lobby, the default, items becoming stores, tools and belongings.
 4. **Houses.** The four layouts with needs, benefits and problems, built as chores, with stand-in art.
 5. **The house-raising.** Neighbours standing on the land helping raise the walls.
 6. **Furniture and the carpenter.** Made at home or bought in Gonzales; effects on the same hooks.

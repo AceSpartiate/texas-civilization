@@ -19,6 +19,8 @@ export function settle(world) {
       entity.location = { x: travel.settle.x, y: travel.settle.y, siteId: travel.to };
       if (entity.kind === 'person') entity.task = travel.settle.task;
       entity.travel = null;
+      // Unloaded at the land, as `progressTravel` does for a wagon that drives in.
+      if (entity.laden) entity.laden = false;
     }
     delete household.arriving;
     household.improvements = { ...household.improvements, cabin: 'sound' };

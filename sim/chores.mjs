@@ -511,7 +511,16 @@ export function choreAvailability(world, household, entity, choreId) {
   if (chore.wantsWagon && needsWagonToHarvest(household) && !wagonAtHome(world, household)) {
     return { can: false, why: 'This much crop wants the wagon, and the wagon is not here.' };
   }
-  if (chore.needsTool && toolState(household.tools?.hoe ?? 0) !== chore.needsTool) return { can: false, why: 'The hoe is sound.' };
+  // A missing hoe used to read as a sound one. Now planting, harvest and breaking ground want it
+  // in the house before they will start; mending wants it there to mend, but buying one is
+  // exactly how a family without a hoe gets one, so that is not refused for want of a hoe.
+  if (chore.tool && household.tools?.[chore.tool] === undefined) return { can: false, why: 'There is no hoe in the house.' };
+  if (chore.needsTool) {
+    const wear = household.tools?.hoe;
+    if (wear === undefined) {
+      if (choreId === 'mend-hoe') return { can: false, why: 'There is no hoe in the house to mend.' };
+    } else if (toolState(wear) !== chore.needsTool) return { can: false, why: 'The hoe is sound.' };
+  }
   if (chore.tool && toolState(household.tools?.[chore.tool] ?? 0) === 'worn') return { can: false, why: 'The hoe is worn out and wants mending.' };
   for (const [resource, amount] of Object.entries(needsOf(household, chore))) {
     if ((household.resources[resource] ?? 0) < amount) return { can: false, why: resource === 'money' ? `It costs ${reales(amount)}, and there is not that much coin in the house.` : `Not enough ${resource}.` };

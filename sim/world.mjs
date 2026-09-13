@@ -11,6 +11,7 @@ import { advanceEncounters, askRider, carriedInPerson, encounterProjection, leav
 import { DEFAULT_MODE, MODES, modeOf, propertyId, RIDER_SPEED } from './travel.mjs';
 import { CLEARING_MAX, STATES as IMPROVEMENT_STATES, clearedOf, improvementProjection } from './improvements.mjs';
 import { advanceArrivals, putOnTheRoad, shelterProjection } from './settling.mjs';
+import { defaultLoad, householdFromLoad, loadInvalid, setLoad, wagonProjection } from './wagon.mjs';
 import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, ageBand, defaultNames, familyProjection, familyRoll, householdName, kinFor, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
 export { HOUSEHOLD_SHAPE, ROLES, householdName, sanitiseName } from './family.mjs';
 export { CLEARING_MAX, clearedOf, improvementsOf, ruin } from './improvements.mjs';
@@ -34,11 +35,15 @@ export function createWorld(seed = 'gonzales', playerCount = 15) {
     // Corn or cotton, fixed at founding: `HIST-GONZ-013` documents both for this
     // locality and nothing else, so a household grows one of the two and never changes.
     const crop = random() < .5 ? 'corn' : 'cotton';
+    // The wagon, packed with the sensible default, and the stores, tools and belongings that
+    // follow from it (docs/SETTLING_IN.md step 3, sim/wagon.mjs). A student may repack it in the
+    // lobby; one who never does has this. Its one draw is the one the founding food used to take.
+    const load = defaultLoad(random);
     // No `name`. A household nobody has named is named for its own principal - "Jethro's
     // family" - which is a real family rather than a row number, and follows along if a
     // student renames him. A class saved when every household was `Family N` keeps that,
     // because a stored name is a name somebody chose. See sim/family.mjs.
-    const household = { id: householdId, homeSiteId: site.id, members: [], principalId: `${householdId}-thomas`, property: [], resources: { food: 12 + Math.floor(random() * 4), seed: 2, powder: STARTING_POWDER, money: 0 }, tools: { hoe: 0 }, field: { crop, state: 'bare', changedTick: 0 }, relationships: { neighbor: 0 }, commitments: [], memories: [] };
+    const household = { id: householdId, homeSiteId: site.id, members: [], principalId: `${householdId}-thomas`, property: [], ...householdFromLoad(load), field: { crop, state: 'bare', changedTick: 0 }, relationships: { neighbor: 0 }, commitments: [], memories: [] };
     world.households[householdId] = household;
     world.knowledge.households[householdId] = {};
     // Names are dealt across the class so fifteen families are not fifteen copies of one;
@@ -119,13 +124,8 @@ export function rollFamily(world, household) {
   return roll;
 }
 export { WALK_SPEED, RIDER_SPEED, WAGON_SPEED } from './travel.mjs';
-/**
- * What a family has in the house at the founding: three shots.
- *
- * Enough for a hunt, a second thought, and something to carry upriver, which is exactly
- * the tension it exists to create. Invented (`FIC-GONZ-016`).
- */
-export const STARTING_POWDER = 3;
+// Three shots at the founding (`FIC-GONZ-016`); now what the default wagon load packs.
+export { STARTING_POWDER } from './wagon.mjs';
 /**
  * How much of a family's remembered story rides on each tick.
  *
@@ -473,12 +473,14 @@ export function advanceRelays(world) {
  * offer made to an empty chair - and the historical choices, which do not exist until the
  * news that prompts them has arrived.
  */
-export const LOBBY_ACTIONS = new Set(['roll-family', 'chore', 'stop-chore', 'answer-chore', 'rename', 'work', 'rest', 'travel']);
+export const LOBBY_ACTIONS = new Set(['roll-family', 'load-wagon', 'chore', 'stop-chore', 'answer-chore', 'rename', 'work', 'rest', 'travel']);
 export function applyAction(world, householdId, input) {
   const entity = world.entities[input.entityId];
   const household = world.households[householdId];
   if (input.action === 'rename' && !input.entityId) { rename(world, household, input); return; }
   if (input.action === 'roll-family') { rollFamily(world, household); return; }
+  // Packing the wagon is the household's, like the roll, and names nobody in it.
+  if (input.action === 'load-wagon') { setLoad(world, household, input.item, input.amount); return; }
   // How they go, chosen once and applied to whatever journey this order starts - a trip
   // to town, or the road out to the timber a chore begins with. A command from a class
   // that predates the choice carries no mode and gets the one everybody had then.
@@ -599,12 +601,14 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
   // What the family has made of this land, and what state it is in. The renderer draws
   // the field at the size this says and the fence only when there is one to draw.
   const land = household ? { ...improvementProjection(household), ...shelterProjection(household) } : null;
+  // What is in the wagon, and whether it can still be repacked. The catalogue comes once, from /api/chores.
+  const wagon = household ? wagonProjection(world, household) : null;
 
   const travelModes = household ? Object.fromEntries(household.members.map(id => [id, travelModesFor(world, world.entities[id])])) : {};
   const toolCondition = household ? Object.fromEntries(Object.entries(household.tools || {}).map(([tool, wear]) => [tool, { wear, state: toolState(wear) }])) : {};
   const offers = offersFor(world, householdId);
   const encounter = encounterProjection(world, householdId, role);
-  return structuredClone({ tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: world.map }), household, entities, others, offers, encounter, events, work, travelModes, land, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role),
+  return structuredClone({ tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: world.map }), household, entities, others, offers, encounter, events, work, travelModes, land, wagon, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role),
     // Whether this class began with the families arriving. The map draws every homestead as a
     // camp in such a class, because nobody in it has built a house.
     // ceiling: true only until houses can be built (docs/SETTLING_IN.md step 4). Then a
@@ -665,7 +669,16 @@ export function validateWorld(world) {
     for (const [resource, amount] of Object.entries(household.resources)) {
       if (!Number.isFinite(amount) || amount < 0) throw new Error(`Invalid resource ${resource}`);
     }
-    if (!household.tools || !Number.isInteger(household.tools.hoe) || household.tools.hoe < 0) throw new Error('Invalid tool condition');
+    if (!household.tools) throw new Error('Invalid tool condition');
+    // A class saved before the wagon was packed by choice always had a hoe, and still must: it
+    // is not on that household's load to say otherwise. A household with a load may have left it
+    // behind, and sim/chores.mjs is where that is felt.
+    if (household.load === undefined && (!Number.isInteger(household.tools.hoe) || household.tools.hoe < 0)) throw new Error('Invalid tool condition');
+    for (const wear of Object.values(household.tools)) if (!Number.isInteger(wear) || wear < 0) throw new Error('Invalid tool condition');
+    // Absent on a class saved before the wagon was packed by choice (sim/wagon.mjs), which is the
+    // correct empty value: it has what it was founded with. So no save version moved.
+    const badLoad = loadInvalid(household);
+    if (badLoad) throw new Error(badLoad);
     // Absent on a class nobody has named, which is the correct empty value and why no save
     // version moved. Present, it is a name somebody typed and has to stay one.
     // Present only while a new class's family is still on the road in (sim/settling.mjs).

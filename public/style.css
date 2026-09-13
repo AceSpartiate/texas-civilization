@@ -268,3 +268,24 @@ button:hover:enabled{background:#60673e}
 .family-die.rolling{animation:family-die-tumble .18s linear infinite}
 @keyframes family-die-tumble{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 #roll-family{margin-top:10px}
+
+/* Packing the wagon: the same paper as the roll and the walk-through, on the left above the
+   walk-through's corner, and scrolling inside itself so it never pushes the map away. */
+#wagon-load{position:absolute;left:12px;top:64px;z-index:8;width:min(25rem,calc(100% - 24px));max-height:calc(100% - 150px);overflow:auto;background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259;border-radius:8px;box-shadow:0 5px 0 #6b583638,0 18px 45px #32291950;padding:12px 14px 13px;color:#3b3427}
+#wagon-load h2{font-size:19px;margin:2px 0 0;color:#4b3e28}
+#wagon-load p{margin:6px 0 0;font-size:14px;line-height:1.45}
+#wagon-room{font-weight:650;color:#4b3e28}
+#wagon-items{list-style:none;margin:8px 0 0;padding:0}
+#wagon-items li{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center;padding:7px 0;border-top:1px solid #d3c299}
+#wagon-items li[data-loaded=true] .wagon-name{font-weight:650}
+.wagon-name{font-size:14px;color:#3b3427}
+.wagon-describe{grid-column:1;font-size:12px;color:#6c6046;line-height:1.35}
+.wagon-controls{grid-row:1 / span 2;grid-column:2;display:flex;align-items:center;gap:4px}
+.wagon-controls button{min-height:32px;min-width:32px;padding:3px 8px;font-size:13px;background:#f3ead2;color:#3f3524;border-color:#b09a6d}
+.wagon-controls button[aria-pressed=true]{background:#7a4726;border-color:#5d3419;color:#fdf0dd}
+.wagon-controls button:disabled{opacity:.45;cursor:not-allowed}
+.wagon-count{min-width:1.6em;text-align:center;font-weight:650}
+#wagon-note{color:#8a3b22;min-height:1.2em}
+#wagon-done{margin-top:8px;background:#4b3e28;border-color:#6b5836}
+#wagon-open{position:absolute;left:12px;top:64px;z-index:8;min-height:34px;padding:5px 12px;font-size:13px;background:#4b3e28;border-color:#6b5836}
+@media (max-width:760px){#wagon-load{left:8px;right:8px;width:auto;top:56px}}

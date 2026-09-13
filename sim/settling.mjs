@@ -19,6 +19,7 @@ import { record } from './events.mjs';
 import { findPath } from './geography.mjs';
 import { improvementsOf, setImprovement } from './improvements.mjs';
 import { WAGON_SPEED } from './travel.mjs';
+import { loadSentence } from './wagon.mjs';
 
 /**
  * How much of the usual rest a person gets lying out by the wagon at their own land.
@@ -81,6 +82,9 @@ export function beginArrivals(world) {
   for (const household of Object.values(world.households)) {
     setImprovement(world, household, 'cabin', 'none');
     putOnTheRoad(world, household);
+    // The wagon comes in with what the family packed (sim/wagon.mjs), and is unloaded at the land.
+    const wagon = world.entities[`${household.id}-wagon`];
+    if (wagon && household.load?.length) wagon.laden = true;
     // The founding line was written for a family that already lived here. Nothing has happened
     // in this class yet, so it is corrected in place rather than contradicted by a second one.
     const founding = world.events.find(event => event.type === 'household-founded' && event.householdId === household.id);
@@ -107,9 +111,11 @@ export function advanceArrivals(world) {
     delete household.arriving;
     record(world, 'arrival', {
       householdId: household.id, importance: 2, destination: household.homeSiteId, purpose: 'arrive', claimId: 'FIC-GONZ-024',
-      text: housed(household)
-        ? 'The family has reached its own land.'
-        : 'The family has reached its own land. There is no house yet, so they camp by the wagon.',
+      // What the wagon brought is said once, here, and not every time it was repacked in the lobby.
+      text: [
+        housed(household) ? 'The family has reached its own land.' : 'The family has reached its own land. There is no house yet, so they camp by the wagon.',
+        ...(household.load ? [loadSentence(household.load)] : []),
+      ].join(' '),
     });
   }
 }

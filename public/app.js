@@ -49,6 +49,8 @@ const EMPTY_MAP = { sites: {}, routes: {}, terrain: [] };
 // The catalogue of work is fixed for a class, so it is fetched once alongside the map.
 // Only whether a given person may do a given chore rides on the tick.
 let choreCache = null, choreCacheId = null, chorePending = null, modeCache = null;
+// What a family can pack, and the wagon's space: fixed for a class, so it comes with the chores.
+let wagonCatalogue = null;
 function ensureChores(snapshot) {
   if (!snapshot.mapId || (choreCache && choreCacheId === snapshot.mapId) || chorePending === snapshot.mapId) return;
   chorePending = snapshot.mapId;
@@ -58,6 +60,7 @@ function ensureChores(snapshot) {
     choreCache = new Map(result.chores.map(chore => [chore.id, chore]));
     modeCache = new Map((result.modes || []).map(mode => [mode.id, mode]));
     if (result.goods?.length) TRADE_GOODS = result.goods;
+    wagonCatalogue = result.wagon || null;
     choreCacheId = result.mapId;
     if (window.__snapshot) render(window.__snapshot);
   }).catch(() => { chorePending = null; });
@@ -1210,6 +1213,7 @@ function renderHousehold(world) {
   supplies.push(coin === 1 ? '1 real' : `${coin} reales`);
   if (field) supplies.push(field.state === 'ripe' ? `${field.crop} ready` : field.state === 'planted' ? `${field.crop} growing` : 'field bare');
   if (hoe?.state === 'worn') supplies.push('hoe worn out');
+  if (household.load && household.tools?.hoe === undefined) supplies.push('no hoe');
   $('#supplies').textContent = supplies.join(' · ');
   $('#supplies').dataset.urgent = String(field?.state === 'ripe' || hoe?.state === 'worn');
   const people = entitiesOf(world).filter(entity => entity.kind === 'person' && (household.members || []).includes(entity.id))
@@ -1258,7 +1262,13 @@ function renderHousehold(world) {
     li.dataset.shelter = land.shelter || 'house';
     return li;
   })()] : [];
-  $('#property').replaceChildren(...ground, ...property.map(entity => { const li = element('li', `${entity.name}: ${entity.kind} at ${placeName(world, entity.location?.siteId)}`); li.dataset.entityId = entity.id; return li; }));
+  // What the wagon brought that is not a store: the tools and the belongings, named from the
+  // catalogue. The stores are on the supplies line already.
+  const names = new Map((wagonCatalogue?.items || []).map(item => [item.id, item.name.toLowerCase()]));
+  const brought = household.load ? [...Object.keys(household.tools || {}), ...(household.belongings || [])].map(id => names.get(id) || id) : [];
+  const cargo = household.load ? [element('li', brought.length ? `Brought in the wagon: ${brought.join(', ')}.` : 'Brought in the wagon: no tools and no belongings, only stores.')] : [];
+  if (cargo[0]) cargo[0].dataset.brought = 'true';
+  $('#property').replaceChildren(...ground, ...cargo, ...property.map(entity => { const li = element('li', `${entity.name}: ${entity.kind} at ${placeName(world, entity.location?.siteId)}`); li.dataset.entityId = entity.id; return li; }));
   const memory = world.events || [];
   $('#event-log').replaceChildren(...memory.slice(-12).reverse().map(event => { const li = element('li', `${event.text || event.type} (${timeLabel(event.minute ?? 0)} into the story)`); li.dataset.eventId = event.id; return li; }));
   renderSelection(world);
@@ -1842,13 +1852,88 @@ $('#roll-family')?.addEventListener('click', async () => {
     if (window.__snapshot) renderFamilyRoll(window.__snapshot.world);
   }
 });
+/**
+ * Packing the wagon (docs/SETTLING_IN.md step 3).
+ *
+ * Comes after the die and before the walk-through: who the family is decides what it needs, and
+ * the walk-through sets people to work with what was packed. Everything on it is the server's -
+ * the list and each thing's space and words from the catalogue, what is loaded from the family's
+ * own household, whether it can still be changed from `world.wagon` - and a change the server
+ * refuses is shown in the server's own sentence. The panel is rebuilt only when what it shows has
+ * changed, so a tick arriving does not take the keyboard focus off the button a student is on.
+ */
+let wagonPacking = true, wagonOpen = false, wagonPending = false, wagonShown = '';
+function renderWagonLoad(world) {
+  const panel = $('#wagon-load'), reopen = $('#wagon-open');
+  if (!panel) return;
+  const wagon = world.wagon, household = world.household, catalogue = wagonCatalogue;
+  const available = Boolean(wagon && catalogue && household?.load && world.role !== 'host' && !familyCache?.canRoll && !['rolling', 'rolled'].includes(rollState));
+  wagonOpen = available && wagonPacking;
+  panel.hidden = !wagonOpen;
+  reopen.hidden = !available || wagonPacking;
+  if (!available) return;
+  reopen.textContent = `Repack the wagon (${wagon.used} of ${catalogue.space})`;
+  if (!wagonPacking) return;
+  const shape = JSON.stringify([household.load, wagon]);
+  if (shape === wagonShown) return;
+  wagonShown = shape;
+  $('#wagon-room').textContent = `${wagon.used} of ${catalogue.space} space filled, ${catalogue.space - wagon.used} left.`;
+  if (!wagon.can) $('#wagon-note').textContent = wagon.why;
+  const focused = document.activeElement?.closest?.('#wagon-items button')?.dataset.focusKey;
+  const loaded = new Map(household.load.map(entry => [entry.id, entry.amount]));
+  // Not shut while a change is on its way: a disabled button cannot keep the keyboard focus, and
+  // the click handler already ignores a second press until the first is answered.
+  const shut = !wagon.can;
+  const control = (label, item, amount, key, extra = {}) => {
+    const button = element('button', label);
+    button.type = 'button';
+    Object.assign(button.dataset, { item, amount: String(amount), focusKey: key });
+    for (const [name, value] of Object.entries(extra)) button.setAttribute(name, value);
+    button.disabled = shut || extra.disabled === 'true';
+    return button;
+  };
+  $('#wagon-items').replaceChildren(...catalogue.items.map(item => {
+    const count = loaded.get(item.id) || 0;
+    const li = element('li', ''); li.dataset.item = item.id; li.dataset.loaded = String(count > 0);
+    const space = item.space === 1 ? '1 space' : `${item.space} space`;
+    li.append(element('span', `${item.name} · ${space}${item.most > 1 ? ' each' : ''}`, 'wagon-name'));
+    const controls = element('span', '', 'wagon-controls');
+    if (item.most > 1) {
+      controls.append(
+        control('−', item.id, count - 1, `${item.id}-less`, { 'aria-label': `One less: ${item.name}`, ...(count === 0 && { disabled: 'true' }) }),
+        element('span', String(count), 'wagon-count'),
+        control('+', item.id, count + 1, `${item.id}-more`, { 'aria-label': `One more: ${item.name}`, ...(count >= item.most && { disabled: 'true' }) }),
+      );
+    } else {
+      controls.append(control(count ? 'Loaded' : 'Load', item.id, count ? 0 : 1, `${item.id}-toggle`, { 'aria-pressed': String(Boolean(count)), 'aria-label': `${item.name}: ${count ? 'loaded, press to take it out' : 'not loaded, press to load it'}` }));
+    }
+    li.append(controls, element('span', item.describe, 'wagon-describe'));
+    return li;
+  }));
+  if (focused) $(`#wagon-items button[data-focus-key="${focused}"]`)?.focus();
+}
+$('#wagon-items')?.addEventListener('click', async event => {
+  const button = event.target.closest('button[data-item]');
+  if (!button || button.disabled || wagonPending) return;
+  wagonPending = true; $('#wagon-note').textContent = '';
+  try {
+    await api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, action: 'load-wagon', item: button.dataset.item, amount: Number(button.dataset.amount) });
+  } catch (error) {
+    $('#wagon-note').textContent = error.message;
+  } finally {
+    wagonPending = false;
+    if (window.__snapshot) render(window.__snapshot);
+  }
+});
+$('#wagon-done')?.addEventListener('click', () => { wagonPacking = false; if (window.__snapshot) render(window.__snapshot); $('#wagon-open')?.focus(); });
+$('#wagon-open')?.addEventListener('click', () => { wagonPacking = true; wagonShown = ''; if (window.__snapshot) render(window.__snapshot); $('#wagon-done')?.focus(); });
 function renderTutorial(world) {
   const panel = $('#tutorial');
   // A rider standing in the yard outranks a lesson in how to hold a hoe, and the two use
   // the same corner of the screen.
   // The die comes first: the walk-through sets people to work, and a family that has been
   // set to work can no longer be rolled.
-  const busy = world.role === 'host' || !world.householdId || world.encounter?.status === 'open' || familyCache?.canRoll || ['rolling', 'rolled'].includes(rollState);
+  const busy = world.role === 'host' || !world.householdId || world.encounter?.status === 'open' || familyCache?.canRoll || ['rolling', 'rolled'].includes(rollState) || wagonOpen;
   if (busy || tutorialStep === 'gone' || (tutorialStep === null && tutorialSeen(world))) { panel.hidden = true; return; }
   panel.hidden = false;
   if (tutorialStep === null) {
@@ -2135,7 +2220,7 @@ function render(snapshot) {
   }
   renderJoinLinks(snapshot);
   renderSlice(world);
-  drawWorld(world); renderHousehold(world); renderKnowledge(world); renderEncounter(world); renderFamilyRoll(world); renderTutorial(world);
+  drawWorld(world); renderHousehold(world); renderKnowledge(world); renderEncounter(world); renderFamilyRoll(world); renderWagonLoad(world); renderTutorial(world);
 }
 function showJoin(message) {
   events?.close(); events = null;

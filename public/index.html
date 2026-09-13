@@ -137,6 +137,22 @@
       <button type="button" id="roll-family">Roll the die</button>
     </section>
 
+    <!-- Packing the wagon (docs/SETTLING_IN.md step 3). What is on the list, what each thing
+         takes and what it does come from the server's catalogue; whether a change is allowed is
+         the server's answer, and its sentence is what the student reads when it is not. -->
+    <section id="wagon-load" hidden aria-labelledby="wagon-load-title">
+      <header>
+        <span class="eyebrow">BEFORE THE CLASS BEGINS</span>
+        <h2 id="wagon-load-title">Pack the wagon</h2>
+      </header>
+      <p id="wagon-load-text">What you load is what your family has. Anything left out is not coming.</p>
+      <p id="wagon-room" role="status"></p>
+      <ul id="wagon-items"></ul>
+      <p id="wagon-note" role="alert"></p>
+      <button type="button" id="wagon-done">Done packing</button>
+    </section>
+    <button type="button" id="wagon-open" hidden>Repack the wagon</button>
+
     <section id="tutorial" hidden aria-labelledby="tutorial-title">
       <header>
         <span class="eyebrow" id="tutorial-step"></span>

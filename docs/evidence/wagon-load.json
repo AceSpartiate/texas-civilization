@@ -1,0 +1,67 @@
+{
+  "record": "The wagon load: step 3 of docs/SETTLING_IN.md",
+  "date": "2026-09-13",
+  "verdict": "PASS",
+  "verdictMeaning": "In the lobby, after the roll, a student packs the family's wagon from a list of sixteen things, each stating its space and what it does before it is chosen. The wagon holds 16. What the family has is derived from what is packed: stores (food, seed, powder) become household.resources, tools become household.tools keys at no wear, and household goods become household.belongings. Anything not loaded is not in the game; taking a thing out takes it away. A family that never opens the screen has a sensible default (3 or 4 barrels of meal, 2 seed, 3 powder, a hoe, a felling axe, bedding, an iron pot: 14 or 15 of 16). A change the wagon cannot take is refused in the server's sentence and changes nothing. Packing ends when the class starts. The wagon rides in loaded and is unloaded at the land, and the arrival line names what came. A class saved before this has no load, keeps its founding stores, cannot be repacked, and plays as it did; no save version moved.",
+  "implementation": "sim/wagon.mjs: WAGON_SPACE, WAGON_ITEMS (id, kind stores|tool|good, name, space, most, grants, describe), defaultLoad (one RNG draw, in the slot the founding-food draw used), householdFromLoad, loadRefusal, setLoad (recomputes resources, tools and belongings from the whole load; writes no event), loadSentence, wagonProjection (lobby only: used, can, why), loadInvalid (validation), wagonCatalogue. STARTING_POWDER moved here and is re-exported by sim/world.mjs. sim/world.mjs: createWorld packs the default; applyAction handles 'load-wagon' {item, amount} beside 'roll-family'; the tick gains 'wagon'; validateWorld checks every tool's wear and calls loadInvalid. sim/settling.mjs: beginArrivals marks a packed wagon laden; advanceArrivals appends loadSentence to the arrival line. server/app.mjs: /api/chores carries wagon: { space, items }. public/: #wagon-load panel and #wagon-open button (index.html, style.css); renderWagonLoad in app.js, shown after the roll and before the walk-through, rebuilt only when what it shows changes; the family book gains 'Brought in the wagon'.",
+  "design": {
+    "defaultAtCreationNotStart": "The owner's words were a default 'at Start' for students who never load. Packing the default when the household is created gives exactly those students exactly that default, and needs no hook in the Start transition, which sim/headless.mjs bypasses entirely.",
+    "noEventPerChange": "Packing writes nothing into the family's story. rollRefusal refuses the roll once a family has any event beyond its founding, so an event per change would have made packing before rolling lock the die. The load is said once, on arrival.",
+    "seedsUnchanged": "Map, crops, town and people hashed for seeds gonzales-1835, chores and abc at 15 families were byte-identical before and after. Only founding food moves: 12-15 before, 12 or 16 now.",
+    "hoeOnTheList": "Owner decision 2026-09-13, after research (HIST-GONZ-027): the hoe is loaded like any tool. A household with a load may have no hoe; plant, harvest and break ground refuse 'There is no hoe in the house.', mend-hoe refuses 'There is no hoe in the house to mend.', replace-hoe stays open. validateWorld still requires a hoe of a household with no load (a class saved before this).",
+    "listResearched": "Owner decision 2026-09-13: clock, looking glass, rocking chair and crockery (no source) replaced by books, mosquito bars, tinware and chairs in pieces; froe and spinning-wheel descriptions narrowed. See HIST-GONZ-027 and HIST-GONZ-028."
+  },
+  "art": "No new art and no stand-in. The loaded wagon on the road is the library's existing wagon-loaded and wagon-loaded-travel sprites, which the renderer already drew for a laden wagon. The pack screen is text and buttons.",
+  "liveBrowserProof": {
+    "server": "PORT=8741 TEXAS_DATA_DIR=<scratch> SEED=wagon-proof PLAYERS=5; an isolated class; host authenticated by curl at localhost, the student joined in the browser pane at 127.0.0.1",
+    "observed": [
+      "Lobby, before rolling: 'Food 16.0', 'Seed 2 · Powder 3'; the family wagon drawn loaded on the road in; the roll panel showing and the pack screen not.",
+      "After the roll: 'Pack the wagon', '14 of 16 space filled, 2 left.', barrels 4, seed 2, powder 3, felling axe/bedding/iron pot 'Loaded', every other item 'Load' with its space and words.",
+      "Chest pressed with 2 left: 'There is no room. That needs 3 more, and the wagon has 2 left of 16.' and still 14 of 16.",
+      "One barrel out, then chest: 'Food 12.0', '16 of 16 space filled, 0 left.', chest aria-pressed true, keyboard focus still on the chest button, walk-through held back while packing.",
+      "Done packing: panel hidden, 'Repack the wagon (16 of 16)' focused, walk-through offered.",
+      "Host Start (anyway) at Quick pace: status running, tick projection wagon null, pack screen and button hidden.",
+      "Arrival line: 'The family has reached its own land. There is no house yet, so they camp by the wagon. They unload what they brought: 3 × barrel of meal and salt meat, 2 × sack of seed, 3 × powder and lead, felling axe, bedding, iron pot and chest.' Family book: 'Brought in the wagon: felling axe, bedding, iron pot, chest.' Tools {hoe, axe}; belongings [bedding, pot, chest]."
+    ],
+    "foundAndFixed": "The first pass disabled every pack button while a change was on its way, and a disabled button cannot keep focus, so a keyboard student lost their place on every press. Buttons now stay enabled and a second press is ignored until the first is answered; re-proved above."
+  },
+  "automated": {
+    "suite": "tests/wagon-load.test.mjs",
+    "tests": 11,
+    "wholeSuite": "291 pass, 0 fail at first build; 293 after the list revision",
+    "injectedRegressions": [
+      "stores added up instead of recomputed -> 'anything not loaded is not in the game', 'what the family has follows the load both ways'",
+      "a tool taken out stays in the house -> the same two",
+      "no limit of one on a one-off thing -> 'the wagon refuses what it cannot take'",
+      "no room check -> 'the wagon refuses what it cannot take', 'a student packs the wagon over the wire'",
+      "packing allowed after Start -> 'the wagon is packed in the lobby only'",
+      "packing writes an event -> 'the wagon is packed in the lobby only' (the roll is refused)",
+      "an old class can be repacked -> 'a class saved before the wagon was packed plays as it did'",
+      "wagon projection rides on a running class -> 'the wagon is packed in the lobby only'",
+      "descriptions ride on the tick -> 'the load screen is told what the server allows'",
+      "the wagon is not laden on the road in -> 'the wagon comes in loaded' (this guard was missing on the first pass; the assertion was added and then watched fail)",
+      "the arrival does not say what came -> 'the wagon comes in loaded'",
+      "validation ignores an overloaded wagon -> 'a load that does not fit or does not exist is refused by validation'",
+      "default packs no axe -> 'a family that never loads has a sensible default', 'the wagon refuses what it cannot take'",
+      "catalogue missing from /api/chores -> 'a student packs the wagon over the wire'"
+    ],
+    "notGuarded": "Removing 'load-wagon' from LOBBY_ACTIONS changes nothing: like 'roll-family' it is handled before the lobby gate, so the entry is a listing. No test pretends otherwise.",
+    "testsChanged": "tests/support/settled.mjs clears laden when it finishes an arrival by hand, as progressTravel does. tests/chores.test.mjs's 7000-byte fresh-payload bound caught the first projection, which repeated the load household already carries and sent a refusal to running classes; the projection was cut to lobby-only {used, can, why}."
+  },
+  "notRun": "The Playwright proofs were not run: Playwright is not installed on this machine. Same computer only; nothing here is evidence about a LAN or a district network.",
+  "boundary": "Which items are on the list follows HIST-GONZ-027/028; every space and amount is invented under FIC-GONZ-024, and no description states what people did. The froe is an inference, not documented. Tools are owned and not yet read (step 4). Belongings are a list and nothing more until steps 6 and 7. The wagon's 16 spaces are a different number from travel.mjs's carry of 20, which counts a day's haul.",
+  "listRevision": {
+    "date": "2026-09-13",
+    "madeBy": "A local Qwen3.8-Flash model was run first as a headless Claude Code subagent (qwen3.8-flash-local through ~/llm/qwen-router). It made three reads and no edits in about 25 minutes: a separate benchmark (~/llm/bench/slot-restore-run.ps1) restarted the router and llama-server four times, and each restart discarded its roughly 33-53K-token prompt. It was stopped, the working tree was verified byte-identical to a snapshot, and a Sonnet subagent applied the same written brief.",
+    "automated": "tests/wagon-load.test.mjs now 13 tests; whole suite 293 pass, 0 fail.",
+    "injectedRegressions": [
+      "a missing hoe reads as sound for field work -> 'a family that leaves the hoe behind cannot work the field'",
+      "mending a hoe that is not there allowed -> the same",
+      "buying a hoe refused when there is none -> the same",
+      "an old class may lack a hoe -> 'validateWorld requires a hoe only for a household with no load'",
+      "hoe dropped from the default -> 'a family that never loads has a sensible default'",
+      "hoe kept when unloaded (the old special case) -> 'anything not loaded is not in the game' and both hoe tests"
+    ],
+    "liveCheck": "PORT=8742 isolated class, same computer: the pack screen listed the sixteen items in order with the hoe loaded and '15 of 16 space filled, 1 left.'; unloading the hoe gave '14 of 16' and the supplies line '... field bare · no hoe', tools {axe}; reloading it restored the supplies line and 'Brought in the wagon: hoe, felling axe, bedding, iron pot.'"
+  }
+}
