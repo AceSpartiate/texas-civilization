@@ -10,7 +10,7 @@ import { buildGonzalesRegion, findPath, polylineLength } from './geography.mjs';
 import { advanceEncounters, askRider, carriedInPerson, encounterProjection, leaveRider, riderName, spotName } from './encounters.mjs';
 import { DEFAULT_MODE, MODES, modeOf, propertyId, RIDER_SPEED } from './travel.mjs';
 import { CLEARING_MAX, STATES as IMPROVEMENT_STATES, clearedOf, improvementProjection } from './improvements.mjs';
-import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, defaultNames, familyProjection, familyRoll, householdName, kinFor, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
+import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, ageBand, defaultNames, familyProjection, familyRoll, householdName, kinFor, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
 export { HOUSEHOLD_SHAPE, ROLES, householdName, sanitiseName } from './family.mjs';
 export { CLEARING_MAX, clearedOf, improvementsOf, ruin } from './improvements.mjs';
 export { MODES, MODE_IDS, DEFAULT_MODE, carryCapacity, modeOf } from './travel.mjs';
@@ -37,7 +37,7 @@ export function createWorld(seed = 'gonzales', playerCount = 15) {
     // family" - which is a real family rather than a row number, and follows along if a
     // student renames him. A class saved when every household was `Family N` keeps that,
     // because a stored name is a name somebody chose. See sim/family.mjs.
-    const household = { id: householdId, homeSiteId: site.id, members: [], principalId: `${householdId}-thomas`, property: [], resources: { food: 12 + Math.floor(random() * 4), seed: 2, powder: STARTING_POWDER }, tools: { hoe: 0 }, field: { crop, state: 'bare', changedTick: 0 }, relationships: { neighbor: 0 }, commitments: [], memories: [] };
+    const household = { id: householdId, homeSiteId: site.id, members: [], principalId: `${householdId}-thomas`, property: [], resources: { food: 12 + Math.floor(random() * 4), seed: 2, powder: STARTING_POWDER, money: 0 }, tools: { hoe: 0 }, field: { crop, state: 'bare', changedTick: 0 }, relationships: { neighbor: 0 }, commitments: [], memories: [] };
     world.households[householdId] = household;
     world.knowledge.households[householdId] = {};
     // Names are dealt across the class so fifteen families are not fifteen copies of one;
@@ -241,6 +241,8 @@ function harness(world, entity, mode, path, causeId) {
     beast.location = { ...path.points[0], siteId: null };
   }
 }
+/** Further from a place's point than this, somebody is standing somewhere else in it. */
+export const STANDING_APART_MILES = 0.25;
 export function beginTravel(world, entity, destination, causeId, purpose = 'visit', modeId = DEFAULT_MODE) {
   if (entity.travel || !entity.location.siteId) throw new Error('Already traveling.');
   if (!world.map.sites[destination]) throw new Error('No known route to that destination.');
@@ -261,8 +263,17 @@ export function beginTravel(world, entity, destination, causeId, purpose = 'visi
   }
   const how = entity.report || mode.id === 'foot' ? '' : mode.id === 'horse' ? ', riding' : ', with the ox and wagon';
   const departure = record(world, 'departure', { actorId: entity.id, householdId: entity.householdId, text: `${entity.name} left for ${world.map.sites[destination].name}${how}.`, causes: causeId ? [causeId] : [] });
-  entity.travel = { from, to: destination, points: path.points, progress: 0, distance: path.distance, speed: entity.report ? RIDER_SPEED : mode.speed, mode: mode.id, purpose, causeId: departure };
-  entity.location = { ...path.points[0], siteId: null }; entity.task = 'travel';
+  // A journey starts where the person is standing. Somebody who stood with the Texian force
+  // is a third of a mile from the camp's point, and starting their road at the point drew
+  // them jumping there as they set off. A family in its own yard stands a few hundred feet
+  // from the cabin's point and always has; that is drawing, not distance, and it is left
+  // alone so nobody's walk home grows by the width of a yard.
+  const here = entity.location, start = path.points[0];
+  const gap = Math.hypot(here.x - start.x, here.y - start.y);
+  const points = gap > STANDING_APART_MILES ? [{ x: here.x, y: here.y }, ...path.points] : path.points;
+  const distance = gap > STANDING_APART_MILES ? path.distance + gap : path.distance;
+  entity.travel = { from, to: destination, points, progress: 0, distance, speed: entity.report ? RIDER_SPEED : mode.speed, mode: mode.id, purpose, causeId: departure };
+  entity.location = { ...points[0], siteId: null }; entity.task = 'travel';
   if (!entity.report) harness(world, entity, mode, path, departure);
 }
 export function progressTravel(world, entity, units = 1) {
@@ -563,7 +574,7 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
     .slice(-PROJECTED_EVENTS);
   const knownIds = new Set(visibleEvents.map(e => e.id));
   const events = visibleEvents.map(e => ({ id: e.id, type: e.type, minute: e.minute, text: e.text, actorId: e.actorId, householdId: e.householdId, causes: e.causes.filter(id => knownIds.has(id)) }));
-  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, location: e.location, travel: e.travel ? { from: e.travel.from, to: e.travel.to, points: e.travel.points, progress: e.travel.progress, distance: e.travel.distance, speed: e.travel.speed, mode: e.travel.mode } : null, health: e.health, task: e.task, skills: e.skills, chore: e.chore?.ask ? { ...e.chore, ask: askProjection(world, household, e) } : e.chore, condition: e.condition, species: e.species, laden: e.laden, borrowedBy: e.borrowedBy }));
+  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.sex && { sex: e.sex }), ...(Number.isFinite(e.age) && { age: e.age, band: ageBand(e.age) }), location: e.location, travel: e.travel ? { from: e.travel.from, to: e.travel.to, points: e.travel.points, progress: e.travel.progress, distance: e.travel.distance, speed: e.travel.speed, mode: e.travel.mode } : null, health: e.health, task: e.task, skills: e.skills, chore: e.chore?.ask ? { ...e.chore, ask: askProjection(world, household, e) } : e.chore, condition: e.condition, species: e.species, laden: e.laden, borrowedBy: e.borrowedBy }));
   // What each person could be asked to do, with the reason for anything refused, is
   // computed on the server. The client must never decide for itself what is possible:
   // that is the same rule as fog of war, applied to a control instead of a fact.
@@ -630,6 +641,9 @@ export function validateWorld(world) {
   for (const household of Object.values(world.households)) {
     if (!world.entities[household.principalId] || [...household.members, ...household.property].some(id => !world.entities[id])) throw new Error('Dangling household reference');
     if (household.roll !== undefined && (!Number.isInteger(household.roll) || household.roll < 1 || household.roll > 6 || household.members.length !== household.roll)) throw new Error('A rolled family must be the size it rolled');
+    // Coin is counted in whole reales. A class saved before there was coin has none, which is
+    // the correct empty value, so no save version moved.
+    if (household.resources.money !== undefined && !Number.isInteger(household.resources.money)) throw new Error('Coin is counted in whole reales');
     for (const [resource, amount] of Object.entries(household.resources)) {
       if (!Number.isFinite(amount) || amount < 0) throw new Error(`Invalid resource ${resource}`);
     }

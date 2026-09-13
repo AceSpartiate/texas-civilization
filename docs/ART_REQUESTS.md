@@ -1,0 +1,183 @@
+# Art requests for Astra
+
+## Standard practice for missing art
+
+Owner's direction, 2026-09-12, and a standing rule in `CLAUDE.md`. When the game needs art the library
+does not have:
+
+1. **Request it here**, in the format below — why, exactly what, how it plugs in, how it is checked.
+2. **Ship a stand-in** from art that already exists: the nearest figure, scaled, reused or recoloured
+   by the renderer. Never block the feature on the art, and never leave it drawn wrongly without saying so.
+3. **Mark it in code** with a `stand-in:` comment that names the request, the way `ceiling:` marks a
+   deliberate simplification. Grep `stand-in:` to find every one.
+4. **List it under *Stand-ins in use*** below, with what replaces it.
+5. **On delivery**, swap the stand-in for the real art, delete its row, and keep any rule the stand-in
+   established that the real art still needs.
+
+## Stand-ins in use
+
+| Stand-in | Where | Standing in for | Replace with |
+| --- | --- | --- | --- |
+| A person is drawn as the nearest figure by sex and age: a woman or girl as `teal`, a boy as `blue`, a man as `elder`; the principal in `rust` whoever they are, including a mother | `castVariant` in `public/motion.js` | Request 2026-09-12, priority 2 — the second cast | `rust-woman` for a mother who is principal, `indigo` and `teal` for women, `ochre` and `elder` for men, `blue-girl` and `blue` for adolescents |
+| A child is a grown figure drawn smaller: 90% at 10–17, 70% at 5–9, 55% at 2–4, 45% for an infant | `figureScale` in `public/motion.js`, applied in `miniPerson` | Request 2026-09-12, priority 1 — children | `girl`, `boy`, `smallchild` and the infant basket. **Keep the scaling**: the delivered sheets are drawn to fill their cells and need it too |
+| A rider talks from the saddle, facing east or west whatever side the listener is on | `carrierClip` in `public/motion.js` | Request 2026-09-12, priorities 3 and 4 | `courier-dismount` and `courier-encounters-vertical` |
+
+---
+
+Open requests, newest first. Each one says why it is needed, what exactly to deliver, how it plugs
+into the existing pipeline, and how it will be checked. When a request is delivered, mark it
+**Delivered** with the date and move the details into [ART_MANIFEST.md](ART_MANIFEST.md) by running
+`npm run build:art`; do not delete it from here.
+
+---
+
+## Request 2026-09-12 — families that look like who they are, and a rider who gets down
+
+**Status: open.** Requested by Claude on the owner's list of next work.
+
+### Why
+
+Two things the game now does are drawn wrongly because the art does not exist.
+
+1. **Rolled families** ([FAMILY_CREATION.md](FAMILY_CREATION.md)). A family is one to six people, with
+   a sex and an age each, and a lone parent may be a mother. The library has one cast of four —
+   `rust` (a man in a frontier hat), `teal` (a woman in a blouse and apron), `elder` (a grey-bearded
+   man) and `blue` (an adolescent) — and **no children at all**. So a four-year-old and a baby are
+   drawn as grown figures, and a lone mother who is her family's principal has to wear `rust`, the
+   principal's mark, which is a man's outfit.
+2. **News carried by people** ([LIVING_INFORMATION.md](LIVING_INFORMATION.md)). Riders now carry both
+   reports in the slice and stop to talk. A rider can only be drawn mounted and facing east or west,
+   so a conversation with somebody north or south of the road is drawn sideways, and "never hide a
+   teleport with a conversation panel" means a rider cannot get down to talk at all.
+
+### The delivery contract — the same as every existing people sheet
+
+- **Format:** square **1254 × 1254** transparent RGBA PNG, **4 columns × 4 rows**, one full figure per
+  cell, generous empty gutters, real alpha (no painted checkerboard), no text, borders, ground
+  patches or shadows. A sheet may leave its last row empty; say so in the delivery note.
+- **Style:** match `civilians`, `people-walk` and `people-vertical` exactly — the preamble in
+  [art-prompts.json](art-prompts.json) for those sheets ("warm outlined storybook farm-game art,
+  hand-drawn dark brown contour, moss/rust/cream/ochre palette, simple flat shading, slight elevated
+  north-up view"). Same line weight, same camera, same proportions. Texas 1835 everyday clothes; not
+  soldiers; no weapons.
+- **Identity:** the same person keeps the same face, colours and clothing in every cell of every
+  sheet they appear on. Identity drift between sheets is the most common failure in this library.
+- **Feet:** constant foot baseline within a row; the figure centred in its cell.
+- **Scale:** **draw every figure to fill its cell the way an adult does**, children included. The
+  builder normalises each people row to one logical height, so a child drawn small on the sheet
+  would still come out adult-sized; the renderer will shrink children by age instead. Keep a
+  child's *proportions* a child's — larger head to body, shorter limbs.
+- **Pipeline:** put the PNG in `public/assets/frontier-v1/atlases/`, add the sheet and its frame ids
+  to `SHEETS` in `scripts/build-atlas-manifest.mjs` (use the `people-` or `courier-` prefix so row
+  heights are measured), define the clips in the builder next to the existing ones, record the
+  prompt in [art-prompts.json](art-prompts.json) and the source in
+  [art-provenance.json](art-provenance.json), then run `npm run build:art` and `npm test`.
+  `npm run test:art` checks real browser pixels if Playwright is installed.
+- **Clip names** follow the existing pattern `<variant>-<action>[-<facing>]`: `idle-s/-e/-w/-n`,
+  `walk` (east, mirrored for west), `walk-s`, `walk-n`, `work`, `carry`, `sow`, `repair`,
+  `search`, `trade`, `care`, `rest`, `injured-rest`. New variant names are given below.
+
+### What to draw, in priority order
+
+Deliver in this order; each group is useful on its own.
+
+#### Priority 1 — children (three sheets)
+
+Three new identities. Period detail: in the 1830s small children of either sex commonly wore a
+simple gown, so the smallest child is not dressed as a boy or a girl.
+
+| Variant | Who | Clothing |
+| --- | --- | --- |
+| `girl` | a girl of about 5–9 | faded rose calico dress, cream pinafore, bare feet or small brown shoes, dark braid |
+| `boy` | a boy of about 5–9 | undyed linen shirt, brown trousers held by one suspender, bare feet, straw-coloured hair, no hat |
+| `smallchild` | a child of about 2–4 | plain cream gown to the shins, bare feet, short hair |
+
+| Sheet | Rows | Columns |
+| --- | --- | --- |
+| `people-children-idle` | 1 `girl`, 2 `boy`, 3 `smallchild`, 4 the infant (below) | idle facing south, west, east, north. Row 4: a swaddled infant lying in a small woven basket — awake, asleep, basket seen from the west, basket from the east |
+| `people-children-walk` | 1 `girl`, 2 `boy`, 3 `smallchild`, 4 empty | a four-frame walk loop facing screen-right, walking in place: left foot forward; passing; right foot forward; passing with the other leg raised. The small child toddles — shorter steps, arms out a little |
+| `people-children-vertical` | 1 `girl`, 2 `boy`, 3 `smallchild`, 4 empty | walking toward the camera left leg forward; toward the camera right leg forward; away left leg forward; away right leg forward. Clear front and back views, not side views |
+
+Also, on `people-children-idle` or a fourth sheet if it will not fit: `girl`, `boy` and `smallchild`
+**sitting at rest** and **lying hurt** (the equivalents of `rest` and `injured-rest`). Children under
+ten are never sent to work, so no work, carry, sow or repair poses are needed.
+
+#### Priority 2 — a second cast, so men and women look like themselves (three sheets first, then five)
+
+Four new identities that sit beside the existing four.
+
+| Variant | Who | Clothing |
+| --- | --- | --- |
+| `rust-woman` | an adult woman who is her family's principal | **the principal's rust colour** as a rust-red short gown or blouse, tan skirt, cream apron, brown shoes, tan sunbonnet. It must read as the same mark as `rust` at a glance |
+| `indigo` | an adult woman | indigo-blue dress, cream kerchief at the neck, brown shoes, dark hair pinned up, no hat |
+| `ochre` | an adult man, younger than `elder`, clean-shaven | ochre shirt, dark brown waistcoat, grey trousers, brown boots, no hat, short dark hair |
+| `blue-girl` | an adolescent girl of about 10–17 | muted blue dress to the ankle, cream apron, brown shoes, hair in one braid |
+
+First deliver the three sheets that every person on the map uses, laid out exactly like the
+existing ones with these four identities as rows 1–4:
+
+| Sheet | Matches |
+| --- | --- |
+| `people-cast2-idle` | `civilians` — idle south, west, east, north |
+| `people-cast2-walk` | `people-walk` — four-frame walk facing screen-right |
+| `people-cast2-vertical` | `people-vertical` — toward-camera left/right, away left/right |
+
+Then the task sheets, again row for row as the existing ones: `people-cast2-work` (as
+`people-work`), `people-cast2-carry` (as `people-carry`), `people-cast2-tasks` (as `people-tasks`:
+sow and repair), `people-cast2-care` (as `people-care`), `people-cast2-search-trade` (as
+`people-search-trade`). Each identity also needs `rest` and `injured-rest` wherever the existing
+cast has them.
+
+#### Priority 3 — the rider gets down (one sheet)
+
+Same rider and same chestnut horse as `courier-mounted` and `courier-encounters`: brown broad-brim
+hat, ochre shirt, dark teal waistcoat, tan trousers, brown boots, brown shoulder dispatch bag; the
+horse with black mane and tail and a small white forehead mark. Fixed east-facing elevated
+side/three-quarter view in all cells.
+
+| Sheet | Row | Four frames |
+| --- | --- | --- |
+| `courier-dismount` | 1 Dismount | reins gathered, weight shifts left; right leg swings over; stepping down, left foot still in the stirrup; standing beside the horse, reins in hand |
+| | 2 Remount | foot to the stirrup, hand on the saddle; rising; leg swinging over; seated, reins gathered |
+| | 3 On foot beside the horse, talking | listening, reins loose in the left hand; small nod; speaking, right palm open; small gesture outward |
+| | 4 The horse waiting, no rider | standing tethered at rest; head lowered; head raised, ears forward; tail swish |
+
+#### Priority 4 — talking toward and away from the viewer (two sheets)
+
+Riders stop beside people on every side of a road, so a conversation needs to face south and north
+as well as east.
+
+| Sheet | Rows (four frames each) |
+| --- | --- |
+| `courier-encounters-vertical` | 1 mounted rider **listening, facing the camera** (south): neutral, head tilt, nod, neutral. 2 mounted rider **speaking, facing south**: relaxed, open palm, small outward gesture, near neutral. 3 **listening, facing away** (north): neutral, head turn, nod, neutral. 4 **speaking, facing north**: relaxed, raised hand, gesture, lowering |
+| `people-dialogue` | the **existing** cast `rust`, `teal`, `elder`, `blue` as rows 1–4, each: speaking east frame 1 (hand raised a little); speaking east frame 2 (open palm); listening facing south (hands together, head slightly forward); listening facing north (seen from behind, head slightly tilted) |
+
+When the second cast exists, a matching `people-cast2-dialogue` follows the same layout.
+
+### What Claude will do on delivery
+
+The stand-ins above are already in place, so delivery means replacing them:
+
+
+- Bind children by age: `smallchild` under 5, `girl`/`boy` 5–9, the adolescents 10–17; an infant
+  under 2 is drawn as the basket beside whoever of the family is at home.
+- Draw children smaller by age: a small child at about 55% of adult height, a child of 5–9 at about
+  70%, an adolescent at about 90%.
+- Choose each person's figure from their sex and age instead of a hash of their id, keeping the
+  principal in rust — `rust` or `rust-woman`. The founding four, who have no stated sex or age,
+  keep today's choice.
+- Use `courier-dismount` and the vertical dialogue sheets in encounters, so a rider halts, gets down,
+  turns to face the listener, and remounts with the same horse.
+- Add clip-binding tests that every new clip name a binding can produce exists in the shipped
+  library, as `tests/motion-binding.test.mjs` does for the current cast.
+
+### How it will be checked
+
+- `npm test`: measured bounds, alpha and anchors, every sheet's inventory entry, reproducible
+  manifest generation, and the clip-binding tests above.
+- The art catalog (`/art-catalog.html`): every new frame on light and dark backgrounds, animation
+  played and scrubbed.
+- In the running class: a rolled family of six at household scale and on a narrow phone — a mother,
+  a father, children of different ages and a baby, each readable as who they are; a lone mother
+  picked out as the principal at a glance; a rider stopping north and south of a road.
+- Identity: the same person looks like the same person across idle, walk, vertical and task sheets.

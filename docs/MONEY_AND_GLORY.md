@@ -1,9 +1,8 @@
 # Money, glory, and the end of the game
 
-**Status: decided and specified, not built.** Nothing in this document exists in the code as
-of 2026-09-12. The owner has made every design decision it needs (§6); it is written to be
-executed later, by somebody who was not here for the conversation, and it should be read in
-full before any of it is started.
+**Status: decided; money (steps 1 and 2) built 2026-09-12** ([evidence](evidence/money.json)). Glory and
+the ending (steps 3–5) are not built. The owner has made every design decision it needs (§6); read
+it in full before starting any of the rest.
 
 **Where it sits in the plan.** Steps 1–2 (§7) belong to Macro-Phase 1D, economy. Steps 3–5
 belong to 3A, epilogue and revelation, but step 3 — glory, hidden — should land as soon as
@@ -64,14 +63,16 @@ Three decisions below keep that failure out while delivering exactly what was as
 
 ### What it is
 
-**Reales.** Mexican silver, eight to the peso, issued by the republic since 1824 and
-circulating in Texas alongside older Spanish colonial coin, United States notes and privately
-issued paper. A household deals in reales; a peso is a sum a household rarely sees whole.
+**Reales.** `HIST-GONZ-023`, DOCUMENTED from TSHA: coin was so scarce in Mexican Texas that Juan
+Almonte reported in 1834 not ten transactions in a hundred used it, and the coin that circulated
+included Spanish eight-real pieces, cut for change. A household deals in whole reales.
 
-Research this properly before writing a price list. The sourcing above is from general
-numismatic and frontier-economy material read through search and is **not** from TSHA, TSLAC,
-the GLO or a primary source. It needs a `HIST-GONZ-*` claim of its own, and the honest
-classification is likely STRONGLY SUPPORTED rather than DOCUMENTED.
+**As built (prices are `FIC-GONZ-022`, invented):** every family starts with none. At the store
+counter a whole bale of cotton fetches 2 food or 1 real, and 3 food fetch 1 real; powder costs 2
+food or 1 real and seed 3 food or 1 real; a new hoe is **coin only**, 2 reales. The counter asks
+how to pay or be paid, in the same shape as every other decision; nobody answering pays the first
+way the family can. The store would rather barter than pay out coin, which is the scarcity showing
+in the prices.
 
 ### Money is scarce, and players have to use it
 
@@ -171,7 +172,7 @@ in the fighting counts for more than supporting it. Every number below is invent
 | Support | Helping a neighbour who asked; sheltering or feeding another household | 1 | Partly — trading exists; asking and sheltering need later work |
 | Present | Being where a documented event happened when it happened | 2 | Yes — `witnessing()` in `sim/directors.mjs` |
 | Present | Going upriver to the camp | 2 | Yes — `handleMarch` |
-| Fighting | A family member taking part in a battle | 3 | Partly — the march reaches the camp; the battle's aggregate does not yet name who fought (HANDOFF next-task 4) |
+| Fighting | A family member taking part in a battle | 3 | Partly — `world.participation.gonzales` records `supplied` and `present` per person (2026-09-12); nobody fights at Gonzales, so `fought` waits for a later battle |
 
 Rules that apply to every row:
 
@@ -253,11 +254,11 @@ At the end the fog lifts (`VISION.md` §20) and each family sees, for the first 
 Bounded steps, each shippable and provable alone, in order. This mirrors
 `docs/LIVING_INFORMATION.md`: each step is worth having even if the next never happens.
 
-1. **Money as a resource.** `household.resources.money`, in `GOODS`, in the supplies line,
+1. ~~**Money as a resource.**~~ **Done 2026-09-12.** `household.resources.money`, in `GOODS`, in the supplies line,
    tradeable between neighbours. Nothing earns or spends it yet. Replace the no-money tripwire
    in `tests/store.test.mjs`. Prove: save compatibility, no version bump, and a class that never
    sees a coin plays exactly as before.
-2. **The store deals in coin.** Selling cotton or surplus offers food *or* reales; some purchases
+2. ~~**The store deals in coin.**~~ **Done 2026-09-12**, with the prices above. Selling cotton or surplus offers food *or* reales; some purchases
    take coin only, others coin or goods. Register the currency `HIST-GONZ-*` claim and the prices
    as a `FIC-GONZ-*` claim. Prove: a family can farm, eat, trade and answer the call without coin,
    and a family with coin has something only coin buys.

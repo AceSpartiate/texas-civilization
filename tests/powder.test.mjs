@@ -93,10 +93,11 @@ test('nobody decides alone to fire a gun they cannot load', () => {
   assert.equal(world.households['hh-1'].resources.powder, 0);
 });
 
-test('there is somewhere to get more, and it costs an afternoon and food', () => {
+test('there is somewhere to get more, and it costs an afternoon and food or coin', () => {
   const chore = CHORES['fetch-powder'];
   assert.ok(chore, 'a family can run out and never buy any');
-  assert.ok(chore.needs.food >= 1, 'powder should cost something a family would rather eat');
+  // Paid in food or in coin at the counter; nobody answering pays in food, as it always was.
+  assert.ok(chore.needsAny.some(price => price.food >= 1), 'powder should cost something a family would rather eat');
   const world = running('buy');
   const household = world.households['hh-1'], rosa = world.entities['hh-1-rosa'];
   household.resources.powder = 0;

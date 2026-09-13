@@ -28,7 +28,9 @@ import { householdName } from './family.mjs';
 // Cotton is here because a family that grew it and cannot get to town has something a
 // neighbour with a wagon would happily carry, and a family that needs food today has
 // something to offer for it.
-export const GOODS = ['food', 'seed', 'powder', 'cotton'];
+export const GOODS = ['food', 'seed', 'powder', 'cotton', 'money'];
+/** Coin is counted in reales (`HIST-GONZ-023`), and always said that way rather than as "money". */
+export const goodName = (good, amount) => good === 'money' ? (amount === 1 ? 'real' : 'reales') : good;
 export const MAX_AMOUNT = 20;
 export const MAX_OPEN_OFFERS = 3;
 
@@ -41,7 +43,7 @@ function ensure(world) {
   return world;
 }
 const round2 = value => Math.round(value * 100) / 100;
-export const describeGoods = amounts => GOODS.filter(good => amounts[good]).map(good => `${amounts[good]} ${good}`).join(' and ');
+export const describeGoods = amounts => GOODS.filter(good => amounts[good]).map(good => `${amounts[good]} ${goodName(good, amounts[good])}`).join(' and ');
 
 /**
  * Every household in a class is currently a copy of the same four names, so "Thomas
@@ -66,7 +68,7 @@ function readAmounts(input, side) {
   for (const good of GOODS) {
     const raw = input?.[good];
     if (raw === undefined || raw === null || raw === 0) continue;
-    if (!Number.isInteger(raw) || raw < 1 || raw > MAX_AMOUNT) throw new Error(`Trade whole food or seed, one to ${MAX_AMOUNT} at a time.`);
+    if (!Number.isInteger(raw) || raw < 1 || raw > MAX_AMOUNT) throw new Error(`Trade whole amounts, one to ${MAX_AMOUNT} at a time.`);
     amounts[good] = raw;
   }
   if (!Object.keys(amounts).length) throw new Error(side === 'give' ? 'Say what your family is giving.' : 'Say what your family is asking for.');

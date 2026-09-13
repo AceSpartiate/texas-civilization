@@ -60,6 +60,8 @@ A short optional walk-through offers itself once, in that lobby. It explains the
 
 **Powder and lead is the one thing the farm and the fight both spend.** Your family keeps some in the house. A shot in the timber spends one. Whoever goes upriver with the militia takes what is there with them — the volunteers at Gonzales were settlers who brought their own arms, and so is your family. Run out and you can still farm, still trade, still go; you cannot shoot. More costs food and an afternoon in town, or a neighbour who has some and wants something you have.
 
+**Children are drawn smaller than grown people, and mothers and daughters as women.** The art for children does not exist yet, so for now a child is a smaller copy of a grown figure; a family's principal wears the rust coat whether that is a father or a mother.
+
 **You roll for your family.** When you join, you roll a die, and the roll decides who is in your family: how many parents and how many children, and how old each of them is. The family book shows everybody, what they are to each other and their ages. A child under ten is too young to be sent anywhere.
 
 **How you heard decides what you are asked.** A family that heard the news from somebody who saw it, or from somebody who had it straight from them, gets a neighbour at the door asking for food. A family far enough out that the word came third-hand gets no knock: nobody asks for food on a rumor. Instead the family decides whether to send somebody to Gonzales to see for themselves — which costs nothing — or to stay home and prepare. Whoever goes sees it's true when they get there, and is asked in town.
@@ -68,7 +70,7 @@ A short optional walk-through offers itself once, in that lobby. It explains the
 
 **Your field grows one of two things, and they are not the same thing at all.** Corn is what the colony lived on: bring it in and it is food. **Cotton is not food** — bring it in and it sits in the house until somebody carries it to the **general store** at Gonzales, where Marta Ibarra trades **two food for every bale**, and takes as much as whoever went can carry. A cotton field is worth about twice a corn field in the end, and nothing at all until then.
 
-There is no money in it yet. Hard coin was scarce here, and a store that takes your cotton and hands back what you need is how business was mostly done. Coin is planned as a second way to buy and sell alongside barter, not a replacement for it. The same storekeeper sells the seed and the powder, so a family with a crop has a reason to go and something to go with.
+**Coin is scarce, and the store would rather barter.** Your family starts with no coin at all — money really was that scarce here. At the counter the storekeeper asks how you want to be paid or to pay: a bale of cotton fetches two food or one real, three food fetch a real, and powder and seed can be paid for in food or in coin. A new hoe from the smith costs two reales and nothing else will do; mending the old one at home costs nothing. Coin counts for something at the end of the game. The same storekeeper sells the seed and the powder, so a family with a crop has a reason to go and something to go with.
 
 **Anybody can be taught to shoot, and it costs.** If the person you want to send has never had the knack, set up a mark behind the cabin and spend an afternoon at it. It takes **two powder out of a house that holds three** — which is most of what you have, and the same powder a hunt would spend. A steadier hand makes the long shot and brings more home, and a hand tops out after two afternoons.
 
@@ -98,6 +100,8 @@ Clearing early is worth it and clearing late is not, because a crop still has to
 **News arrives as a person, and nothing announces it.** A rider reins in at your farm and stops one member of your family — the one he happened to find. You see him: he is drawn there, on his horse, and the person he stopped carries a mark over their head. Click that person and their panel offers **Listen**, beside their other instructions, because that is what listening is. Nobody else in the family can take that conversation; the rider spoke to who he spoke to.
 
 The exchange plays out a line at a time. You can ask him things — where he came from, whether he saw it himself, how many of them there were — and a rider who was only told says so, names who told him, and will not guess. Everything said is written into the first page of your **family journal**, with how far the word travelled and how old it already was, and the whole conversation can be read back after he has ridden on.
+
+**Whoever goes upriver stands with the Texian volunteers.** When the fight comes, your family member is drawn with the men they came with, not among the Mexican tents, and when it is over they walk home from where they stood.
 
 **The call to go upriver comes from what you were told in town.** Somebody of yours standing in Gonzales when the men cross the river hears it happening and is asked whether to come; somebody who gets there hours later is told how long ago the men left, and asked whether to follow.
 

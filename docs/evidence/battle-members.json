@@ -1,0 +1,57 @@
+{
+  "record": "Who took part in the fight at Gonzales, and where they stood",
+  "date": "2026-09-12",
+  "verdict": "PASS",
+  "verdictMeaning": "A family member who went upriver now stands with the Texian force for the whole of the battle rather than on the camp's map point, which is where the Mexican detachment is drawn. They remain one person under their own id at the camp; the formation still carries only a count and a position and names nobody. Setting off afterwards, their road starts where they stand. The server records privately, per person, who took part and how - 'supplied' for food that reached town, 'present' for standing at the camp while it happened - which is the record glory will be counted from. Proved headless, by injected regression, and live in a browser.",
+  "defectFound": "williams-camp is the point battleGround places the Mexican detachment on, so a person who went upriver was drawn standing among the Mexican soldiers for the whole fight.",
+  "deliberatelyNotDone": "0 A.D. moves a formation at its slowest member's pace. Here the timing of the clash is HIST-GONZ-003 and the outcome HIST-GONZ-004, and neither may depend on who turned up, so the people who joined move with the force rather than the force with them. docs/REFERENCE_ARCHITECTURES.md section 4 is amended to say so.",
+  "participationRoles": "At Gonzales only 'supplied' and 'present'. Nobody from a household fought: the upriver call is to come with the supplies (FIC-GONZ-011). A 'fought' role belongs to later battles.",
+  "liveBrowserProof": {
+    "server": "PORT=1851 TEXAS_DATA_DIR=<scratch> SEED=battle PLAYERS=5 TICK_MS=120; an isolated class, paused automatically at minute 4840",
+    "observed": [
+      "Rolled a 5; the family was a rumor family: 'go-see' at minute 860, 'help' in town at 1380, 'go-upriver' at 4200, all through the student's own session.",
+      "Paused in the withdrawal phase: Ramón at site williams-camp, 0.08 miles from the Texian formation and 0.40 miles from the Mexican formation. Formation keys: id, side, x, y, count.",
+      "Screenshot: Ramón in the principal's rust coat standing at the side of the 'Texian volunteers' column, clear of the tents and the 'Mexican troops'.",
+      "The family journal's first report: 'The Texian force crossed the Guadalupe in the night and went upriver after the Mexican camp. - confirmed, Told in Gonzales.'"
+    ]
+  },
+  "automated": {
+    "suite": "tests/battle-members.test.mjs",
+    "tests": 3,
+    "wholeSuite": "258 pass, 0 fail",
+    "regressionsInjected": [
+      {
+        "injected": "members left on the camp's point",
+        "failed": [
+          "somebody who went upriver stands with the Texian force, not in the Mexican camp",
+          "when they set off home, the road starts where they are standing"
+        ]
+      },
+      {
+        "injected": "members placed with the Mexican formation",
+        "failed": [
+          "somebody who went upriver stands with the Texian force, not in the Mexican camp"
+        ]
+      },
+      {
+        "injected": "a journey starts at the place's point",
+        "failed": [
+          "when they set off home, the road starts where they are standing"
+        ]
+      },
+      {
+        "injected": "'present' recorded as 'supplied'",
+        "failed": [
+          "the battle records who took part and how, and tells no client"
+        ]
+      },
+      {
+        "injected": "the participation record added to the student projection",
+        "failed": [
+          "the battle records who took part and how, and tells no client"
+        ]
+      }
+    ]
+  },
+  "boundary": "A journey starts from where somebody stands only when that is more than a quarter mile from the place's point, so the yard offsets of a family at home do not lengthen anybody's walk. The participation record is written and read by nothing yet; glory is not built."
+}

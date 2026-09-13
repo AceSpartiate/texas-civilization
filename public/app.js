@@ -1,6 +1,6 @@
 // Renderers consume the server's permitted projection. They never advance simulation state.
 import { drawSprite, drawClip, clipInfo, hasSprite, loadArt, onArtReady, pickSprite } from '/art.js';
-import { ProjectionMotion, entityClip, travelHeading, travelDirection } from '/motion.js';
+import { ProjectionMotion, entityClip, travelHeading, travelDirection, figureScale } from '/motion.js';
 const $ = selector => document.querySelector(selector);
 const say = message => { for (const id of ['#error', '#join-error', '#rejoin-error']) { const el = $(id); if (el) el.textContent = message; } };
 const hostPage = location.pathname === '/host';
@@ -116,6 +116,8 @@ function groundShadow(ctx, x, y, radius) {
 const SKIN = ['#e0b48c', '#c9915f', '#a76c41', '#7d4d2c', '#f0cba6'];
 const CLOTH = ['#7d6a4c', '#5d6b52', '#8a6a4a', '#6d5a68', '#4f6570'];
 function miniPerson(ctx, x, y, size, entity) {
+  // A child is drawn smaller than a grown person (stand-in until child art exists; the scale stays).
+  if (!entity.side) size *= figureScale(entity);
   const binding = entity.side ? { id: `${entity.side === 'mexican' ? 'regular' : 'volunteer'}-idle-e` } : entityClip(entity, entity.observed);
   // A north or south cycle is drawn facing that way already; mirroring it would turn a
   // person walking away into a person walking away backwards.
@@ -1187,6 +1189,9 @@ function renderHousehold(world) {
   supplies.push(`Powder ${powder.toFixed(0)}`);
   const cotton = Number(household.resources?.cotton || 0);
   if (cotton > 0) supplies.push(`Cotton ${cotton.toFixed(0)}`);
+  // Coin is always shown, including none: it is scarce, and it is half of how a family ends.
+  const coin = Number(household.resources?.money || 0);
+  supplies.push(coin === 1 ? '1 real' : `${coin} reales`);
   if (field) supplies.push(field.state === 'ripe' ? `${field.crop} ready` : field.state === 'planted' ? `${field.crop} growing` : 'field bare');
   if (hoe?.state === 'worn') supplies.push('hoe worn out');
   $('#supplies').textContent = supplies.join(' · ');
@@ -1254,7 +1259,7 @@ function goodSelect(id, initial) {
   const select = element('select');
   select.id = id;
   select.append(...TRADE_GOODS.map(good => {
-    const option = element('option', good); option.value = good;
+    const option = element('option', good === 'money' ? 'reales' : good); option.value = good;
     if (good === initial) option.selected = true;
     return option;
   }));
@@ -1267,7 +1272,7 @@ function amountInput(id, initial) {
   return input;
 }
 function describeGoods(amounts) {
-  return TRADE_GOODS.filter(good => amounts?.[good]).map(good => `${amounts[good]} ${good}`).join(' and ');
+  return TRADE_GOODS.filter(good => amounts?.[good]).map(good => `${amounts[good]} ${good === 'money' ? (amounts[good] === 1 ? 'real' : 'reales') : good}`).join(' and ');
 }
 // Authoritative updates can change which controls are available while someone is typing.
 // Keep an unfinished offer and its focus when the same neighbour remains selected.

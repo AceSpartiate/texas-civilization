@@ -13,10 +13,11 @@ The active next phase is Gonzales/core usability and deployment hardening, descr
 
 Protect one authoritative world, stable person IDs, server-filtered knowledge, valid refusal, automatic Host progression and preserved consequences. Run `npm test`. Use the appropriate browser proof when changing transport/projection/interaction. Do not claim physical LAN or district acceptance from same-computer tests. Keep documentation and historical claim IDs current.
 
-Three habits this codebase has had to learn the hard way:
+Four habits this codebase has had to learn the hard way:
 
 - **A new test is not evidence until it has failed.** Inject the exact regression it guards, watch that test and only that test fail, then remove the injection. Several tests here were written passing against code that did not work.
 - **Do not bump `saveVersion` reflexively.** Bump it when an old save would open a world that is *wrong*. When the missing field has a correct empty value — no offers, no presence — default it and leave every existing class openable. `sim/trade.mjs` is the worked example.
+- **Missing art never blocks work and is never left silently wrong.** Owner's standing practice (2026-09-12): (1) write the request into `docs/ART_REQUESTS.md` in its contract format; (2) ship a **stand-in** drawn from art the library already has — the nearest figure, scaled or reused — marked in code with `stand-in:` naming the request; (3) list it under *Stand-ins in use* in that file with what replaces it. Grep `stand-in:` to find every one. When the art lands, replace the stand-in, delete its row, and keep any rule it proved (like drawing children smaller).
 - **Mark a deliberate simplification with `ceiling:`**, naming the corner it cuts and what would justify undoing it. Grep `ceiling:` to find every one.
 
 `docs/REFERENCE_ARCHITECTURES.md` records which outside projects were studied, what was taken and what was refused. Read the relevant verdict before adopting an idea from one of them, and add a new verdict rather than a survey when a new project is studied.

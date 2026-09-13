@@ -1,6 +1,8 @@
 # Texas Revolution Family Simulation
 ## Astra Foundation Brief
 
+> **Astra: open art requests are waiting (2026-09-12).** Read [docs/ART_REQUESTS.md](docs/ART_REQUESTS.md) before anything else — children, a second civilian cast, rider dismount/remount and north/south dialogue facings, with exact sheet layouts and the delivery contract. The game is drawing temporary stand-ins until they arrive.
+
 Read `VISION.md` before beginning.
 
 Your purpose is to create a technically strong foundation that Claude Code can expand aggressively afterward.

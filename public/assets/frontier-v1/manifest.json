@@ -25062,6 +25062,12 @@
       "remaining": "N/S work/dialogue action poses, turns, climbing, swimming, assisted walking/stretcher pairs, individual civilian riding/dismounting and final mounted cross-sheet registration. Dedicated mounted courier and dragoon travel already exist."
     },
     {
+      "id": "family-cast",
+      "scope": "Families and riders",
+      "delivered": "One cast of four: a man (rust, reserved for the principal), a woman (teal), an elder man and an adolescent; no children.",
+      "remaining": "Requested 2026-09-12 in docs/ART_REQUESTS.md: children (girl, boy, small child, an infant in a basket), a second cast (a woman in the principal rust, a second woman, a younger man, an adolescent girl), the rider dismounting, remounting and talking on foot beside a tethered horse, and N/S dialogue facings for riders and the existing cast."
+    },
+    {
       "id": "animals",
       "scope": "Animals",
       "delivered": "Ox/chestnut horse/cow/pig cardinal walking and four-pose grazing; alternate animals have idle breathing only.",

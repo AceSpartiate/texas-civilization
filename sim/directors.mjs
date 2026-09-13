@@ -429,6 +429,14 @@ function settleHelp(world) {
     // Whoever did this errand has a day's walking in them, and has to rest it off.
     if (['tired', 'minor-injury'].includes(after)) entity.exertion = Math.max(entity.exertion || 0, TIRING_MILES);
 
+    // Who took part in what happened, and how. Never projected - it is the record glory will
+    // be counted from (docs/MONEY_AND_GLORY.md §4), and it is written here, once, from what
+    // the world actually did: carrying food that reached town is `supplied`, standing at
+    // the camp while it happened is `present`. Nobody from a household fought at Gonzales:
+    // the call was to come with the supplies (FIC-GONZ-011), so there is no `fought` here.
+    if (!world.participation) world.participation = {};
+    if (!world.participation.gonzales) world.participation.gonzales = {};
+    world.participation.gonzales[entity.id] = { householdId, role: reachedCamp ? 'present' : 'supplied', minute: reachedCamp ? march.witnessed : arrival.minute };
     for (const commitment of entity.commitments) if (['gonzales-supplies', 'gonzales-march'].includes(commitment.id)) commitment.status = reachedCamp || commitment.id === 'gonzales-supplies' ? 'fulfilled' : 'unresolved';
     if (!entity.travel && entity.task === 'help') entity.task = 'rest';
 
@@ -470,6 +478,44 @@ function moveFormations(world) {
     const last = world.director.frames.at(-1);
     if (!last || last.phase !== battle.phase) world.director.frames.push(structuredClone({ ...battle, minute: world.minute, caption: captions[battle.phase] }));
   }
+}
+/**
+ * Somebody who went upriver stands with the Texian force, not in the Mexican camp.
+ *
+ * Found by reading the map: `williams-camp` is the point `battleGround` puts the Mexican
+ * detachment on, so a family member who arrived at the camp was drawn standing among the
+ * soldiers they had come to face. 0 A.D.'s rule is the fix (docs/REFERENCE_ARCHITECTURES.md
+ * §4): a member of a formation keeps its own identity and state, and the formation takes
+ * over only where it stands. So a person here is still one entity, under their own id, at
+ * the camp - only their position follows the Texian formation, a few yards behind its front,
+ * in a slot decided by their id so the same class always stands the same way. The formation
+ * still carries a count and a position and names nobody.
+ *
+ * What is deliberately not borrowed: 0 A.D. moves a formation at its slowest member's pace.
+ * Here the timing of the clash is `HIST-GONZ-003` and must never depend on who turned up,
+ * so the people who joined move with the force rather than the force with them.
+ */
+export function formationMembers(world) {
+  return Object.values(world.marches || {})
+    .filter(march => march.status === 'accepted')
+    .map(march => world.entities[march.actorId])
+    .filter(person => person && !person.travel && person.location.siteId === CAMP_SITE && !['dead', 'captured'].includes(person.health.condition))
+    .sort((a, b) => (a.id < b.id ? -1 : 1));
+}
+function standWithTheForce(world) {
+  if (world.director.battle.phase === 'waiting') return;
+  const [texian] = world.director.battle.formations;
+  const ground = battleGround(world);
+  const dx = ground.texianStart.x - ground.mexican.x, dy = ground.texianStart.y - ground.mexican.y, span = Math.hypot(dx, dy) || 1;
+  const back = { x: dx / span, y: dy / span }, side = { x: -back.y, y: back.x };
+  formationMembers(world).forEach((person, slot) => {
+    const row = Math.floor(slot / 4), column = (slot % 4) - 1.5;
+    person.location = {
+      x: texian.x + back.x * (0.06 + row * 0.035) + side.x * column * 0.035,
+      y: texian.y + back.y * (0.06 + row * 0.035) + side.y * column * 0.035,
+      siteId: CAMP_SITE,
+    };
+  });
 }
 export function advanceDirectors(world, movement) {
   if (!world.director || world.director.complete) return;
@@ -558,7 +604,7 @@ export function advanceDirectors(world, movement) {
       else movement.dispatchReport(world, truth.id, household.id);
     }
   });
-  settleHelp(world); moveFormations(world);
+  settleHelp(world); moveFormations(world); standWithTheForce(world);
   once(world, 'publicOutcome', () => learn(world, 'public', 'gonzales-outcome', { source: 'Public report (reconstructed timing)' }));
   once(world, 'finish', () => {
     world.director.complete = true; world.director.phase = 'preserved'; world.status = 'ended';

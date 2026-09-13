@@ -122,7 +122,7 @@ minSpeed = Math.min(minSpeed, cmpUnitMotion.GetWalkSpeed());
 minSpeed *= this.GetSpeedMultiplier();
 ```
 
-A formation moves at its **slowest member's** pace — capped by its worst real constituent rather than carrying an invented aggregate stat. **Not yet implemented**; our formation position and count come from the director. Deriving pace or arrival from the real travel of the people who actually joined would make the aggregate honest.
+A formation moves at its **slowest member's** pace — capped by its worst real constituent rather than carrying an invented aggregate stat. **Verdict amended 2026-09-12: rejected for historical battles.** The timing of Gonzales is `HIST-GONZ-003` and its outcome `HIST-GONZ-004`, and neither may depend on who turned up, so a formation's pace cannot be derived from the players who joined it. What was taken instead is the other half of the pattern: the people who joined move *with* the formation (`formationMembers` and `standWithTheForce` in `sim/directors.mjs`), and the server records who took part. A fictional engagement with no fixed timing could still use the slowest-member rule.
 
 **Membership in an aggregate must not replace individual identity.** When a unit joins a formation, 0 A.D. wraps its `UnitAI` in a `FORMATIONMEMBER` state that delegates most substates straight back to `INDIVIDUAL.*` (`"IDLE": "INDIVIDUAL.IDLE"`). The soldier keeps thinking for itself; the formation intercepts only movement orders, and on leaving falls back to `INDIVIDUAL.IDLE` cleanly.
 

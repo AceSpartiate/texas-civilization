@@ -1,0 +1,93 @@
+{
+  "record": "Money, steps 1 and 2: coin a family holds and trades, and a store that deals in it",
+  "date": "2026-09-12",
+  "verdict": "PASS",
+  "verdictMeaning": "Coin is a household resource counted in whole reales, starting at none, shown in the supplies line, and tradeable face to face. At the Gonzales store a counter question asks how to be paid or how to pay: cotton for 2 food or 1 real a whole bale, powder for 2 food or 1 real, seed for 3 food or 1 real; surplus food sells 3 for 1 real; a new hoe is coin only at 2 reales. A family that never touches coin can still farm, hunt and buy seed and powder with food, and mend its hoe at home. No save version moved. Proved headless, by injected regression, and live in a browser.",
+  "sourcing": {
+    "claim": "HIST-GONZ-023, DOCUMENTED",
+    "sources": [
+      {
+        "url": "https://www.tshaonline.org/handbook/entries/mexican-texas",
+        "what": "Arnoldo De León, revised by Jesús F. de la Teja, 'Mexican Texas', Handbook of Texas, revised 2023-08-25: Juan Almonte in 1834, 'Money is very scarce in Texas' and 'out of every hundred transactions made not ten involve specie'; 'barter was the popular way of conducting business'."
+      },
+      {
+        "url": "https://www.tshaonline.org/handbook/entries/trade-tokens",
+        "what": "William E. Fowler, 'Trade Tokens', Handbook of Texas, 1995: 'the continuing circulation of the Spanish eight-real coins in use during the prerepublic period', and smaller denominations cut from them, the eighth called a 'bit'."
+      }
+    ],
+    "note": "This also firms up the weakest part of HIST-GONZ-022, whose specie point had come from general histories read through search."
+  },
+  "design": {
+    "prices": "FIC-GONZ-022, every number invented. The store would rather barter than pay out coin: selling for coin fetches less than selling for food, and coin buys more at the counter than food does, because coin is the scarce thing.",
+    "counter": "Paying and being paid are a question at the counter (ASKS cotton-counter, powder-counter, seed-counter) in the same shape as the hunt's question, rather than extra chores. Nobody answering pays the first way the family can afford, food then coin; a sale nobody answers is taken in food, as it always was.",
+    "ceilings": [
+      "The store pays out coin without limit; a store purse would model Almonte's scarcity more directly than prices do.",
+      "A class saved before this has Marta Ibarra dealing in no food, so selling food there says nobody at Gonzales deals in it."
+    ]
+  },
+  "liveBrowserProof": {
+    "server": "PORT=1853 TEXAS_DATA_DIR=<scratch> SEED=dice PLAYERS=5 TICK_MS=250; an isolated class",
+    "observed": [
+      "After rolling: supplies line 'Seed 2 · Powder 3 · 0 reales · field bare'.",
+      "Dorotea's card offered 'Sell food at the store for coin · 3 food - The store pays coin for food it can sell on: 1 real for every 3 food, whole reales only, and as much as whoever goes can carry.' Activated through the DOM: 'Dorotea sold 3 food at the store and brought home 1 real.' Supplies: '1 real'.",
+      "The record read 'Dorotea traded with Marta Ibarra at Gonzales for food.' for a food sale - found here and fixed to say 'for coin'.",
+      "Trinidad's 'Fetch seed' stopped at the counter: 'Trinidad can pay for seed in food or in coin.' with 'Pay in food | 3 food for 2 seed', 'Pay in coin | 1 real for 2 seed', 'Buy nothing | Nothing spent'. Activating 'Pay in coin': 'Trinidad will pay in coin.'; coin 1 to 0; seed 2 to 4.8; supplies 'Seed 5 · Powder 3 · 0 reales'."
+    ]
+  },
+  "automated": {
+    "suite": "tests/money.test.mjs",
+    "tests": 6,
+    "wholeSuite": "266 pass, 0 fail",
+    "tripwire": "tests/store.test.mjs 'there is no money in it' was retired deliberately into 'coin is one thing among several, counted whole, and every family starts without any'.",
+    "regressionsInjected": [
+      {
+        "injected": "coin not in GOODS",
+        "failed": [
+          "coin is whole reales, changes hands face to face, and a class saved before it opens",
+          "coin is one thing among several, counted whole, and every family starts without any"
+        ]
+      },
+      {
+        "injected": "fractional coin allowed",
+        "failed": [
+          "coin is whole reales, changes hands face to face, and a class saved before it opens"
+        ]
+      },
+      {
+        "injected": "coin paid for part of a bale or part of three food",
+        "failed": [
+          "cotton is sold at the counter for food or for coin, and coin only for whole bales",
+          "food can be sold for coin, in whole reales, and what is left over stays in the house"
+        ]
+      },
+      {
+        "injected": "a hoe for food again",
+        "failed": [
+          "a new hoe is coin only, and mending the old one at home still costs none"
+        ]
+      },
+      {
+        "injected": "nobody answering at the seed counter never pays coin",
+        "failed": [
+          "powder and seed can be paid for in food or coin, and nobody answering pays whichever the family can"
+        ]
+      },
+      {
+        "injected": "powder needs coin only",
+        "failed": [
+          "powder and seed can be paid for in food or coin...",
+          "a family that never touches a coin still farms, hunts and buys what it needs with food",
+          "there is somewhere to get more, and it costs an afternoon and food or coin"
+        ]
+      },
+      {
+        "injected": "'pay in coin' left open with no coin in the house",
+        "failed": [
+          "a family that never touches a coin still farms, hunts and buys what it needs with food"
+        ],
+        "note": "A first run caught nothing; the test was extended to assert the coin answer is closed and refused, because an open one would hand over goods for nothing."
+      }
+    ]
+  },
+  "boundary": "Money is visible and spendable; nothing yet reads it at the end of a class. Glory and the ending (steps 3-5) are not built. Prices are untuned and no class has played them."
+}

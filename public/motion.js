@@ -15,6 +15,32 @@ export function visualVariant(id, principal = false) {
   return VARIANTS[hash % VARIANTS.length];
 }
 /**
+ * Which figure somebody is drawn as, from who they are.
+ *
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-12, priorities 1 and 2. The library has one
+ * cast - `rust` a man, `teal` a woman, `elder` an older man, `blue` an adolescent - and no
+ * children, so a person is drawn as the nearest figure it has: a woman or girl as `teal`, a
+ * boy as `blue`, a man as `elder`, the principal in `rust` whoever they are. Replace with
+ * `rust-woman`, `indigo`, `ochre`, `blue-girl`, `girl`, `boy` and `smallchild` when
+ * they are delivered. Somebody with no stated sex - the founding four, the town, a class saved
+ * before rolling - keeps the old choice by id, which is what they have always looked like.
+ */
+export function castVariant(entity, observed = false) {
+  if (entity.principal && !observed) return PRINCIPAL_VARIANT;
+  if (entity.sex === 'female') return 'teal';
+  if (entity.sex === 'male') return ['adult', undefined, null].includes(entity.band) ? 'elder' : 'blue';
+  return visualVariant(entity.id);
+}
+/**
+ * How big somebody is drawn, as a fraction of a grown person.
+ *
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-12, priority 1. Until there is child art a
+ * child is a grown figure drawn smaller; the delivered sheets are drawn to fill their cells
+ * and will need exactly this scaling too, so it stays when the stand-in goes.
+ */
+export const FIGURE_SCALE = Object.freeze({ adult: 1, youth: 0.9, child: 0.7, small: 0.55, infant: 0.45 });
+export const figureScale = entity => FIGURE_SCALE[entity?.band] ?? 1;
+/**
  * Which way somebody is facing, taken from the leg of the route they are actually on.
  * Returns 'n', 's' or null: north and south have their own drawn cycles, while east and
  * west share one and are mirrored by the caller. The projection already carries the route
@@ -66,6 +92,10 @@ export const ORDINARY_CONDITIONS = ['well', 'tired'];
  * `speaking` and `facing` are only ever set by the server while a meeting is actually
  * open, and neither says one word about what is being carried.
  */
+// stand-in: docs/ART_REQUESTS.md, request 2026-09-12, priorities 3 and 4. A rider talks from the
+// saddle facing east or west whichever side the listener is on, because there is no dismount,
+// tether or north/south dialogue art yet. Replace with courier-dismount and
+// courier-encounters-vertical when they are delivered.
 export function carrierClip(entity) {
   if (entity.speaking) return { id: 'mounted-courier-speak' };
   if (entity.facing) return { id: 'mounted-courier-listen' };
@@ -79,7 +109,7 @@ export function carrierClip(entity) {
 export function entityClip(entity, observed = false) {
   // Somebody else's principal is not this student's principal: an observed person never
   // wears the mark, whatever their own household may call them.
-  const variant = visualVariant(entity.id, Boolean(entity.principal) && !observed);
+  const variant = castVariant(entity, observed);
   const condition = entity.health?.condition || entity.condition;
   // Somebody hurt is drawn hurt, and a condition outranks whatever they were doing.
   if (HURT_CONDITIONS.includes(condition)) return { id: `${variant}-injured-rest`, frozen: true, upright: true };

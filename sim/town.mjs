@@ -15,12 +15,12 @@
 // are deliberately NOT used here. A named historical person requires their own checked
 // claim, and putting one behind a trade counter would invent a life for them.
 import { record } from './events.mjs';
-import { householdName } from './family.mjs';
+import { householdName, ageBand } from './family.mjs';
 import { facingOf, ridersInSight } from './encounters.mjs';
 
 export const RESIDENTS = [
   {
-    id: 'town-ibarra', name: 'Marta Ibarra', trade: 'seed', deals: ['seed', 'powder', 'cotton'],
+    id: 'town-ibarra', name: 'Marta Ibarra', trade: 'seed', deals: ['seed', 'powder', 'cotton', 'food'],
     // Deliberately mixed: DeWitt's colony was in Mexican Texas, and a town there was not
     // uniformly Anglo. This is a fictional person, not a representative of anyone.
     // She has always been the general store; now the description says so, and she takes
@@ -126,6 +126,8 @@ export function observedBy(world, householdId) {
   return [...standingWith, ...riders]
     .map(entity => ({
       id: entity.id, name: entity.name, kind: 'person', ...(entity.about && { about: entity.about }),
+      // What a glance tells you: a man or a woman, and roughly how old. Never the exact age.
+      ...(entity.sex && { sex: entity.sex }), ...(Number.isFinite(entity.age) && { band: ageBand(entity.age) }),
       // Whose family they belong to is visible - that is the point of meeting them - but
       // nothing about that family's private state travels with it.
       householdId: entity.householdId, resident: entity.resident || null,

@@ -270,6 +270,16 @@ export function rollRefusal(world, household) {
   return untouched ? null : 'A family is rolled before anybody in it is named or set to work.';
 }
 
+/**
+ * How old somebody looks, in the bands a glance can tell apart. Sent to a client instead of an
+ * exact age for anybody outside the family - standing near a neighbour's child tells you it is
+ * a small child, not that it is three. Absent for somebody with no stated age.
+ */
+export function ageBand(age) {
+  if (!Number.isFinite(age)) return null;
+  return age < 2 ? 'infant' : age < 5 ? 'small' : age < 10 ? 'child' : age < 18 ? 'youth' : 'adult';
+}
+
 /** Old enough to be sent anywhere at all: given work, sent on a road, or asked a call. */
 export const SENT_FROM_AGE = 10;
 /** Old enough to be sent to fight. Boys of sixteen and seventeen did serve in 1835. */

@@ -182,3 +182,25 @@ test('the family book says what a rolled family is, and an unrolled class is unc
   }
   validateWorld(old);
 });
+
+test('a family sees its own people’s ages; a neighbour sees only a man or a woman and roughly how old', () => {
+  const world = lobby('glance', 5);
+  for (const household of Object.values(world.households)) rollFamily(world, household);
+  world.status = 'running';
+  for (const household of Object.values(world.households)) {
+    for (const id of household.members) world.entities[id].location = { ...world.map.sites.gonzales, siteId: 'gonzales' };
+  }
+  const mine = projectWorld(world, 'hh-1', 'student', { includeMap: false });
+  for (const entity of mine.entities.filter(e => e.kind === 'person')) {
+    assert.ok(['male', 'female'].includes(entity.sex));
+    assert.ok(Number.isFinite(entity.age), 'the family knows how old its own people are');
+    assert.ok(['infant', 'small', 'child', 'youth', 'adult'].includes(entity.band));
+  }
+  const seen = observedBy(world, 'hh-1').filter(person => person.householdId && person.householdId !== 'hh-1');
+  assert.ok(seen.length > 0, 'the fixture puts neighbours in view');
+  for (const person of seen) {
+    assert.ok(['male', 'female'].includes(person.sex));
+    assert.ok(['infant', 'small', 'child', 'youth', 'adult'].includes(person.band));
+    assert.equal(person.age, undefined, 'a glance does not tell you a neighbour’s child is exactly three');
+  }
+});

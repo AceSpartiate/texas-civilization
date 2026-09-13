@@ -158,9 +158,9 @@ Each step is shippable and provable alone.
 1. ~~**The roll and the family it makes.**~~ **Done 2026-09-12.** Dice in the lobby; composition, sexes, ages, names and kin
    from the roll; hidden stats dealt and asserted absent from every payload; the under-ten rule; the
    family book shows roles and ages. Unjoined households and old saves keep the default shape.
-2. **Children drawn as children.** Needs art: the renderer has one adult figure and no way to tell
-   men, women or children apart. **Ask Astra** for child walk/idle/work cycles and distinguishable
-   adult men and women, in the existing variants.
+2. **Children drawn as children.** *Stand-in in place 2026-09-12:* figures are chosen by sex and age from the existing cast and children are drawn smaller by age (see [ART_REQUESTS.md](ART_REQUESTS.md) *Stand-ins in use*). Needs art: the renderer has one adult figure and no way to tell
+   men, women or children apart. **Requested from Astra 2026-09-12** in [ART_REQUESTS.md](ART_REQUESTS.md): children, a second cast
+   with a woman in the principal's rust, and what Claude wires on delivery.
 3. ~~**Stats take effect at home.**~~ **Done 2026-09-12:** the best housekeeper at home cuts what the family eats by up to a quarter; strength scales heavy work from three quarters to one and a quarter of its time. Housework stretches food; strength speeds heavy work. Balanced so
    a household of one can still survive the afternoon.
 4. ~~**The family chooses who answers a call.**~~ **Done 2026-09-12:** the food call and the rumor question show on every parent and child of sixteen or more, and the march is put to whoever carried the food. Any parent or child 16+, for the food call and the

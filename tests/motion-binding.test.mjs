@@ -157,3 +157,37 @@ test('the ox turns with the road as well, and every clip these bindings name exi
   assert.ok([...named].some(id => id.startsWith(PRINCIPAL_VARIANT)), 'including the principal in every pose');
   assert.ok([...named].some(id => id.endsWith('-walk-n')) && [...named].some(id => id.endsWith('-walk-s')), 'and both vertical cycles');
 });
+
+test('until the art exists, a person is drawn as the nearest figure the library has, and a child smaller', async () => {
+  // stand-in: docs/ART_REQUESTS.md, request 2026-09-12. When the requested cast is delivered this
+  // test changes with it; the rules it guards - the principal keeps the mark, a child is drawn
+  // smaller, every binding names a clip that exists - do not.
+  const { castVariant, figureScale, FIGURE_SCALE } = await import('../public/motion.js');
+  // An id whose hash would not already give the right figure, so the choice is seen to come from who they are.
+  const id = 'hh-1-parent-2';
+  assert.equal(visualVariant(id), 'blue', 'the fixture id must hash to neither teal nor elder');
+  const someone = extra => ({ id, kind: 'person', health: { condition: 'well' }, task: 'rest', ...extra });
+  assert.equal(castVariant(someone({ principal: true, sex: 'female', band: 'adult' })), PRINCIPAL_VARIANT, 'a mother who is the principal keeps the mark');
+  assert.equal(castVariant(someone({ principal: true, sex: 'female', band: 'adult' }), true), 'teal', 'and another family’s principal never wears it');
+  assert.equal(castVariant(someone({ sex: 'female', band: 'adult' })), 'teal');
+  assert.equal(castVariant(someone({ sex: 'female', band: 'small' })), 'teal');
+  assert.equal(castVariant(someone({ sex: 'male', band: 'adult' })), 'elder');
+  assert.equal(castVariant(someone({ sex: 'male', band: 'youth' })), 'blue');
+  assert.equal(castVariant(someone({ sex: 'male', band: 'child' })), 'blue');
+  // Nobody with no stated sex changes how they look.
+  assert.equal(castVariant(someone({ id: 'hh-1-elena' })), visualVariant('hh-1-elena'));
+
+  const order = ['adult', 'youth', 'child', 'small', 'infant'].map(band => figureScale({ band }));
+  for (let i = 1; i < order.length; i++) assert.ok(order[i] < order[i - 1], `a younger band is not drawn smaller: ${order}`);
+  assert.equal(figureScale({ band: 'adult' }), 1);
+  assert.equal(figureScale({}), 1, 'somebody with no age is drawn full size');
+  assert.ok(FIGURE_SCALE.infant < 0.5 && FIGURE_SCALE.youth < 1);
+
+  // Every clip a rolled family can produce is one the library holds.
+  for (const sex of ['male', 'female']) for (const band of ['adult', 'youth', 'child', 'small', 'infant']) for (const principal of [false, true]) {
+    for (const extra of [{}, { travel: road([{ x: 0, y: 0 }, { x: 0, y: 9 }]) }, { health: { condition: 'minor-injury' } }]) {
+      const id = entityClip(someone({ sex, band, principal, ...extra })).id;
+      assert.ok(clips[id], `${sex}/${band}${principal ? '/principal' : ''} draws ${id}, which the library does not hold`);
+    }
+  }
+});

@@ -91,12 +91,25 @@ export function unsteadyBecause(entity) {
  * whoever goes can carry. A family that plants cotton and never takes it to the store has
  * grown something it cannot eat.
  *
- * Two food a bale is invented (`FIC-GONZ-019`). There is no money in it and that is not a
- * simplification: specie was scarce enough in Mexican Texas that barter was the ordinary
- * way of doing business, so a store that takes cotton and hands back what a family needs
- * is nearer the period than a counter full of coin would be.
+ * Two food a bale is invented (`FIC-GONZ-019`). Food is still the first thing the store
+ * offers: coin was scarce enough in Mexican Texas that barter was the ordinary way of doing
+ * business (`HIST-GONZ-023`), so the counter will pay coin too, but less of it - see `COIN`.
  */
 export const COTTON_RATE = 2;
+/**
+ * Coin at the Gonzales store. Every number is invented (`FIC-GONZ-022`).
+ *
+ * The shape is documented (`HIST-GONZ-023`): coin was so scarce in Mexican Texas that not ten
+ * transactions in a hundred used it, and barter was how business was done. So the store
+ * would rather trade than pay out coin, and it shows in the prices - a bale fetches two food
+ * or one real, and three food fetch one real - while the same coin buys more at the counter
+ * than food does, because it is the scarce thing. A new hoe is iron that came a long way, and
+ * the smith wants coin for it; mending the old one at home still costs none.
+ */
+export const COIN = Object.freeze({ cottonBale: 1, foodPerReal: 3, powder: 1, seed: 1, hoe: 2 });
+export const reales = amount => amount === 1 ? '1 real' : `${amount} reales`;
+/** A resource as a student reads it. */
+export const resourceName = (resource, amount) => resource === 'money' ? (amount === 1 ? 'real' : 'reales') : resource;
 
 export const SHOT_COST = 1;
 /** What an afternoon at the mark costs, and the ceiling it works towards. `FIC-GONZ-018`. */
@@ -117,6 +130,8 @@ export function askAvailability(world, household, entity, optionId) {
   if (['take', 'wait'].includes(optionId) && dryHouse(household)) {
     return { can: false, why: 'There is no powder and lead in the house.' };
   }
+  const needs = ASKS[entity.chore?.ask?.id]?.requires?.[optionId];
+  if (needs && !needs.test(household)) return { can: false, why: needs.why };
   return { can: true, why: '' };
 }
 
@@ -138,6 +153,48 @@ export function askProjection(world, household, entity) {
  * which is the same rule the march upriver follows.
  */
 export const ASKS = {
+  // The store counter. Paying, or being paid, is a choice made at the counter rather than a
+  // second chore on the list, in the one shape every decision in this game takes. Nobody
+  // answering means the old way: goods for goods.
+  'cotton-counter': {
+    doing: 'at the counter with the cotton',
+    fallback: 'food',
+    text: entity => `The storekeeper will take ${entity.name}'s cotton for food or for coin, and would rather it were food.`,
+    options: () => [
+      { id: 'food', label: 'Take food for it', note: `${COTTON_RATE} food a bale` },
+      { id: 'coin', label: 'Take coin for it', note: `${reales(COIN.cottonBale)} a bale, whole bales only` },
+      { id: 'leave', label: 'Keep the cotton', note: 'Carry it home again' },
+    ],
+    requires: { coin: { test: household => (household.resources.cotton ?? 0) >= 1, why: 'The store pays coin only for a whole bale.' } },
+  },
+  'powder-counter': {
+    doing: 'at the counter',
+    fallback: ['food', 'coin'],
+    text: entity => `${entity.name} can pay for powder and lead in food or in coin.`,
+    options: () => [
+      { id: 'food', label: 'Pay in food', note: '2 food for 3 powder' },
+      { id: 'coin', label: 'Pay in coin', note: `${reales(COIN.powder)} for 3 powder` },
+      { id: 'leave', label: 'Buy nothing', note: 'Nothing spent' },
+    ],
+    requires: {
+      food: { test: household => (household.resources.food ?? 0) >= 2, why: 'There is not enough food to pay with.' },
+      coin: { test: household => (household.resources.money ?? 0) >= COIN.powder, why: 'There is no coin in the house.' },
+    },
+  },
+  'seed-counter': {
+    doing: 'at the counter',
+    fallback: ['food', 'coin'],
+    text: entity => `${entity.name} can pay for seed in food or in coin.`,
+    options: () => [
+      { id: 'food', label: 'Pay in food', note: '3 food for 2 seed' },
+      { id: 'coin', label: 'Pay in coin', note: `${reales(COIN.seed)} for 2 seed` },
+      { id: 'leave', label: 'Buy nothing', note: 'Nothing spent' },
+    ],
+    requires: {
+      food: { test: household => (household.resources.food ?? 0) >= 3, why: 'There is not enough food to pay with.' },
+      coin: { test: household => (household.resources.money ?? 0) >= COIN.seed, why: 'There is no coin in the house.' },
+    },
+  },
   shot: {
     doing: 'downwind, with the shot there to take',
     fallback: 'take',
@@ -293,38 +350,56 @@ export const CHORES = {
   'sell-cotton': {
     name: 'Take the cotton to the store', skill: 'hands', where: 'home', hauls: true,
     needs: { cotton: 1 },
-    describe: `Cotton is not food. The store at Gonzales trades ${COTTON_RATE} food for every bale, and takes as much as whoever goes can carry.`,
+    describe: `Cotton is not food. The store at Gonzales trades ${COTTON_RATE} food for every bale, or ${reales(COIN.cottonBale)} for a whole one, and takes as much as whoever goes can carry.`,
     steps: [
       { travel: 'gonzales', doing: 'on the road to Gonzales with the cotton' },
       { work: 2, doing: 'at the store' },
       { trade: 'cotton', doing: 'trading the cotton' },
-      { sell: { good: 'cotton', want: 'food', rate: COTTON_RATE } },
+      { ask: 'cotton-counter' },
+      { when: ['food'], sell: { good: 'cotton', want: 'food', rate: COTTON_RATE } },
+      { when: ['coin'], sell: { good: 'cotton', want: 'money', per: 1, gives: COIN.cottonBale } },
       { travel: 'home', doing: 'walking home from Gonzales' },
     ],
   },
   'fetch-powder': {
     name: 'Buy powder and lead in Gonzales', skill: 'hands', where: 'home', hauls: true,
-    needs: { food: 2 },
-    describe: 'Trade in town for powder and lead. A shot spends one, and whoever goes upriver takes what is in the house with them.',
+    needsAny: [{ food: 2 }, { money: COIN.powder }],
+    describe: `Trade in town for powder and lead, paying 2 food or ${reales(COIN.powder)}. A shot spends one, and whoever goes upriver takes what is in the house with them.`,
     steps: [
       { travel: 'gonzales', doing: 'on the road to Gonzales' },
       { work: 2, doing: 'looking for the trader' },
       { trade: 'powder', doing: 'trading for powder and lead' },
-      { consume: { food: 2 } },
-      { produce: { powder: 3 } },
+      { ask: 'powder-counter' },
+      { when: ['food'], consume: { food: 2 } },
+      { when: ['coin'], consume: { money: COIN.powder } },
+      { when: ['food', 'coin'], produce: { powder: 3 } },
       { travel: 'home', doing: 'walking home from Gonzales' },
     ],
   },
   'fetch-seed': {
     name: 'Fetch seed from Gonzales', skill: 'hands', where: 'home', hauls: true,
-    needs: { food: 3 },
-    describe: 'Trade in town for seed. Costs three food, and the road is as long as it is.',
+    needsAny: [{ food: 3 }, { money: COIN.seed }],
+    describe: `Trade in town for seed, paying 3 food or ${reales(COIN.seed)}. The road is as long as it is.`,
     steps: [
       { travel: 'gonzales', doing: 'on the road to Gonzales' },
       { work: 2, doing: 'looking for the seed trader' },
       { trade: 'seed', doing: 'trading for seed' },
-      { consume: { food: 3 } },
-      { produce: { seed: 2 } },
+      { ask: 'seed-counter' },
+      { when: ['food'], consume: { food: 3 } },
+      { when: ['coin'], consume: { money: COIN.seed } },
+      { when: ['food', 'coin'], produce: { seed: 2 } },
+      { travel: 'home', doing: 'walking home from Gonzales' },
+    ],
+  },
+  'sell-food': {
+    name: 'Sell food at the store for coin', skill: 'hands', where: 'home', hauls: true,
+    needs: { food: COIN.foodPerReal },
+    describe: `The store pays coin for food it can sell on: ${reales(1)} for every ${COIN.foodPerReal} food, whole reales only, and as much as whoever goes can carry.`,
+    steps: [
+      { travel: 'gonzales', doing: 'on the road to Gonzales with food to sell' },
+      { work: 2, doing: 'at the store' },
+      { trade: 'food', doing: 'selling food' },
+      { sell: { good: 'food', want: 'money', per: COIN.foodPerReal, gives: 1 } },
       { travel: 'home', doing: 'walking home from Gonzales' },
     ],
   },
@@ -340,13 +415,13 @@ export const CHORES = {
   },
   'replace-hoe': {
     name: 'Buy a hoe in Gonzales', skill: 'hands', where: 'home',
-    needs: { food: 3 }, needsTool: 'worn',
-    describe: 'Trade in town for a sound hoe. Costs three food.',
+    needs: { money: COIN.hoe }, needsTool: 'worn',
+    describe: `Buy a sound hoe from the smith in town. Iron comes a long way, and the smith wants coin for it: ${reales(COIN.hoe)}.`,
     steps: [
       { travel: 'gonzales', doing: 'on the road to Gonzales' },
       { work: 2, doing: 'looking for the smith' },
-      { trade: 'iron', doing: 'trading for a hoe' },
-      { consume: { food: 3 } },
+      { trade: 'iron', doing: 'buying a hoe' },
+      { consume: { money: COIN.hoe } },
       { mend: 'hoe' },
       { travel: 'home', doing: 'walking home from Gonzales' },
     ],
@@ -354,6 +429,8 @@ export const CHORES = {
 };
 
 export const toolState = wear => wear >= TOOL_LIFE ? 'worn' : 'sound';
+/** A price as a student reads it: "2 food", "1 real", "2 food, 1 seed". */
+const costWords = set => Object.entries(set).map(([resource, amount]) => resource === 'money' ? reales(amount) : `${amount} ${resource}`).join(', ');
 
 /** The field a household works, as a point, so a person can stand in their own crop. */
 function fieldPoint(world, household) {
@@ -431,7 +508,11 @@ export function choreAvailability(world, household, entity, choreId) {
   if (chore.needsTool && toolState(household.tools?.hoe ?? 0) !== chore.needsTool) return { can: false, why: 'The hoe is sound.' };
   if (chore.tool && toolState(household.tools?.[chore.tool] ?? 0) === 'worn') return { can: false, why: 'The hoe is worn out and wants mending.' };
   for (const [resource, amount] of Object.entries(needsOf(household, chore))) {
-    if ((household.resources[resource] ?? 0) < amount) return { can: false, why: `Not enough ${resource}.` };
+    if ((household.resources[resource] ?? 0) < amount) return { can: false, why: resource === 'money' ? `It costs ${reales(amount)}, and there is not that much coin in the house.` : `Not enough ${resource}.` };
+  }
+  // Paid for one way or another at the counter: enough of any one of them will do.
+  if (chore.needsAny && !chore.needsAny.some(set => Object.entries(set).every(([resource, amount]) => (household.resources[resource] ?? 0) >= amount))) {
+    return { can: false, why: `It costs ${chore.needsAny.map(costWords).join(' or ')}.` };
   }
   return { can: true, why: '' };
 }
@@ -510,7 +591,7 @@ export function choresFor(world, household, entity) {
     const full = chore.hauls ? haulFor(entity, id) : null;
     const haul = full && { resource: full.resource, got: full.got };
     // What this one actually costs this family today, and what the field would give back.
-    const cost = Object.entries(needsOf(household, chore)).map(([resource, amount]) => `${amount} ${resource}`).join(', ');
+    const cost = chore.needsAny ? chore.needsAny.map(costWords).join(' or ') : costWords(needsOf(household, chore));
     const crop = chore.wantsWagon
       ? { grown: round(yieldFor(standingCrop(household), entity.skills?.[chore.skill] ?? 1)), share: harvestShare(household) }
       : null;
@@ -613,7 +694,9 @@ function advanceChore(world, household, entity, { beginTravel }) {
     if (world.minute - state.ask.openedMinute < ASK_PATIENCE) return;
     // Deciding alone still cannot do the impossible. A person with nothing to fire comes
     // away, which is what they would actually do.
-    const alone = askAvailability(world, household, entity, state.ask.fallback).can ? state.ask.fallback : 'leave';
+    // A counter nobody answered pays the first way the family can: food, as it always was,
+    // and coin if there is not the food. A class saved with a single fallback reads the same.
+    const alone = [].concat(state.ask.fallback).find(option => askAvailability(world, household, entity, option).can) || 'leave';
     settleAsk(world, household, entity, alone, true);
   }
   // Spend a tick of the current step, and only move on once it is actually paid for.
@@ -731,14 +814,23 @@ function advanceChore(world, household, entity, { beginTravel }) {
       // As much as this person could carry, which is what they set out with. Deciding it
       // at the counter rather than at the door comes to the same number and keeps the
       // carrying rule in one place.
-      const { good, want, rate } = step.sell;
+      const { good, want, rate, per, gives } = step.sell;
       const carried = round(Math.min(household.resources[good] ?? 0, carryCapacity(state.mode)));
-      if (carried > 0) {
-        household.resources[good] = round((household.resources[good] ?? 0) - carried);
-        household.resources[want] = round((household.resources[want] ?? 0) + carried * rate);
+      // Coin is paid only for whole bundles - a whole bale, three food - so what is sold for
+      // coin is the whole bundles carried, and anything left over stays in the house.
+      const sold = per ? Math.floor(carried / per) * per : carried;
+      const got = per ? (sold / per) * gives : round(carried * rate);
+      if (sold > 0) {
+        household.resources[good] = round((household.resources[good] ?? 0) - sold);
+        household.resources[want] = round((household.resources[want] ?? 0) + got);
         record(world, 'consequence', {
           actorId: entity.id, householdId: household.id, importance: 2,
-          text: `${entity.name} sold ${carried} ${good} at the store and brought home ${round(carried * rate)} ${want}.`,
+          text: `${entity.name} sold ${sold} ${good} at the store and brought home ${got} ${resourceName(want, got)}.`,
+        });
+      } else if (per) {
+        record(world, 'consequence', {
+          actorId: entity.id, householdId: household.id, importance: 2,
+          text: `${entity.name} had less than the store would pay coin for, and brought it home again.`,
         });
       }
       continue;
@@ -837,7 +929,8 @@ function advanceChore(world, household, entity, { beginTravel }) {
         return abandonChore(world, household, entity, chore);
       }
       state.tradedWith = trader.name;
-      recordTrade(world, household.id, entity, trader, step.trade === 'iron' ? 'a hoe' : step.trade === 'powder' ? 'powder and lead' : step.trade);
+      // Selling food is dealing for coin, not for food; the record said 'traded ... for food' until measured live.
+      recordTrade(world, household.id, entity, trader, step.trade === 'iron' ? 'a hoe' : step.trade === 'powder' ? 'powder and lead' : step.trade === 'food' ? 'coin' : step.trade);
       continue;
     }
     if (step.mend) { household.tools[step.mend] = 0; continue; }

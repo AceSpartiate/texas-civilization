@@ -9,10 +9,10 @@
 // locality, and `HIST-GONZ-022` is what they were each for: corn was the staple the colony
 // lived on, cotton was ginned and shipped.
 //
-// The other idea is money, and it is the one thing here that was **not** built. Specie was
-// scarce enough in Mexican Texas that barter was the ordinary way of doing business, so a
-// store that takes a family's cotton and hands back what it needs is nearer the period
-// than a counter full of coin - and one fewer number for a twelve-year-old to track.
+// The other idea was money, and it was deliberately not built that day. The owner asked for
+// it later the same day (docs/MONEY_AND_GLORY.md), and it came in on the terms this file
+// always argued for: coin is scarce (`HIST-GONZ-023`), barter is still how most business is
+// done, and the store would rather trade than pay out coin. See tests/money.test.mjs.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
@@ -178,15 +178,15 @@ test('a class saved before anybody grew cotton still opens, and grows some', () 
   validateWorld(world);
 });
 
-test('there is no money in it, and that is the design rather than an omission', () => {
-  // Specie was scarce enough in Mexican Texas that barter was the ordinary way of doing
-  // business. A store that takes cotton and hands back food is nearer the period than a
-  // counter full of coin, and it is one fewer number for a class to carry.
-  assert.ok(!GOODS.some(good => /coin|money|peso|dollar|cash/i.test(good)), `GOODS holds ${GOODS.join(', ')}`);
+// This was a tripwire: "there is no money in it", asserting no household and no good was ever
+// named for a currency, so that money could not arrive by accident. It arrived on purpose
+// (docs/MONEY_AND_GLORY.md, step 1), and the tripwire is retired into what it now guards.
+test('coin is one thing among several, counted whole, and every family starts without any', () => {
+  assert.ok(GOODS.includes('money'), 'coin cannot change hands between neighbours');
+  assert.equal(GOODS.filter(good => /coin|money|peso|dollar|cash|real/i.test(good)).length, 1, `GOODS holds ${GOODS.join(', ')}`);
   const world = running('crops');
   for (const household of Object.values(world.households)) {
-    for (const held of Object.keys(household.resources)) {
-      assert.ok(!/coin|money|peso|dollar|cash/i.test(held), `a household holds ${held}`);
-    }
+    assert.equal(household.resources.money, 0, 'coin is scarce: nobody starts with any');
+    assert.ok(household.resources.food > 0, 'and barter goods are what a family starts with');
   }
 });
