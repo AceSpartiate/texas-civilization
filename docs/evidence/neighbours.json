@@ -1,0 +1,43 @@
+{
+  "record": "Automatic neighbours: build step 3 of docs/COLONIES.md",
+  "date": "2026-09-14",
+  "verdict": "PASS",
+  "verdictMeaning": "In every new class, families nobody joins build, farm, hunt, mend, fence, fetch seed and sell cotton through the same actions a student sends, decided from their own student projection; they take fair trades and refuse unfair ones with a reason in both stories; their walls can be helped with; a joined family is never touched; glory changes nothing they do; classes made before are unchanged.",
+  "foundWhileBuilding": [
+    "A family short of food sent all four people to the timber, repeatedly, with no powder: it never built or planted in 900 ticks. Hunts now need powder and one hunter at a time.",
+    "A live class sent a whole family to town for seed and three people to sell cotton. Every one-person errand is capped at one person.",
+    "Unplayed families first never hunted at all: the director asked for a chore named hunt; the chore is hunt-timber."
+  ],
+  "measured": {
+    "costPerTick": "about 1 ms for fifteen families",
+    "housesAfter360Ticks": "15 of 15 on either map in a probe with nobody playing"
+  },
+  "liveServerProof": {
+    "note": "Same computer only. PORT=8755 SEED=npc-proof PLAYERS=5 on the default (Gonzales) map; one student joined over HTTP; host set Quick pace and started. Read from the save at tick 154. Not a browser proof: nothing a student sees changed except the neighbours' own behaviour.",
+    "observed": [
+      "world.neighbours true; hh-1 played true: house null, field bare, people working and resting as a student left them.",
+      "hh-2 to hh-5 played false: each a round-log house at 40 of 40 hours of work; hh-2 mending and harvesting, hh-3 fetching seed (all four at once - found, and capped), hh-4 planting and fetching seed, hh-5 field planted and selling cotton (three at once - capped).",
+      "Their stories: 'Trinidad set out: hunt in the timber.', 'Drusilla set out: plant the field.'"
+    ]
+  },
+  "automated": {
+    "suite": "tests/neighbours.test.mjs",
+    "tests": 6,
+    "wholeSuite": "339 pass, 0 fail",
+    "injectedRegressions": [
+      "played families run too -> never-run test",
+      "it never builds -> living test, never-run test, raising test",
+      "every trade taken -> trade test",
+      "seed given away before planting -> trade test",
+      "the last shot given away -> trade test",
+      "a refusal says nothing -> trade test",
+      "everybody hunts -> living test and never-run test",
+      "a whole family on one errand -> living test",
+      "reads glory -> glory test",
+      "joining does not mark the family -> HTTP join test",
+      "acts for the wrong family -> raising test",
+      "NOT CAUGHT: the world.neighbours check removed from advanceNeighbours alone, because automatic() checks it too; removing both is what would turn neighbours on in old classes."
+    ]
+  },
+  "notBuilt": "Unasked help at a student's raising, neighbours making offers, a Host control to hand a family to the director, answering the war, exclusion from the ending (the ending is not built)."
+}

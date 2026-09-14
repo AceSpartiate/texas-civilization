@@ -131,7 +131,7 @@ export function makeOffer(world, householdId, entity, input) {
  * be the one acting, so the ordinary "choose one of your family" guard in `applyAction`
  * is the same guard that stops one family answering for another.
  */
-export function respondToOffer(world, householdId, entity, action, offerId) {
+export function respondToOffer(world, householdId, entity, action, offerId, reason = null) {
   ensure(world);
   const offer = world.offers[offerId];
   if (!offer) throw new Error('That offer is no longer open.');
@@ -149,10 +149,12 @@ export function respondToOffer(world, householdId, entity, action, offerId) {
 
   if (action === 'decline-offer') {
     delete world.offers[offerId];
+    // A refusal may say why, in the family's own words (an automatic neighbour always does: docs/COLONIES.md §5.9).
+    const why = typeof reason === 'string' && reason.trim() ? ` "${reason.trim().slice(0, 120)}"` : '';
     // Both families learn the answer. A refusal is information, and the family that asked
     // must not be left waiting on a silence it cannot tell from a lapse.
-    record(world, 'consequence', { actorId: to.id, householdId, text: `${to.name} declined the offer from ${named(world, from)}.` });
-    record(world, 'consequence', { actorId: from.id, householdId: offer.fromHouseholdId, text: `${from.name}'s offer was declined by ${named(world, to)}.` });
+    record(world, 'consequence', { actorId: to.id, householdId, text: `${to.name} declined the offer from ${named(world, from)}.${why}` });
+    record(world, 'consequence', { actorId: from.id, householdId: offer.fromHouseholdId, text: `${from.name}'s offer was declined by ${named(world, to)}.${why}` });
     return;
   }
 

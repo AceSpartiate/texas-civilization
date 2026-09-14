@@ -1,3 +1,4 @@
+import { markPlayed } from '../sim/neighbours.mjs';
 import http from 'node:http';
 import { randomBytes, createHash, createHmac, timingSafeEqual } from 'node:crypto';
 import { readFileSync, realpathSync, statSync } from 'node:fs';
@@ -254,7 +255,8 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         if (count >= state.world.playerCount) return json(res, 409, { error: 'Class is full.' });
         const credential = token();
         const identity = { name, householdId: `hh-${count + 1}`, commands: [] };
-        commit(s => { s.clients[hash(credential)] = identity; });
+        // A family a student joins is theirs for good: the neighbour director never runs it again (sim/neighbours.mjs).
+        commit(s => { s.clients[hash(credential)] = identity; markPlayed(s.world, identity.householdId); });
         res.setHeader('Set-Cookie', setCookie(studentCookie(), credential, 604800));
         return json(res, 200, snapshot({ role: 'student', ...identity }));
       }

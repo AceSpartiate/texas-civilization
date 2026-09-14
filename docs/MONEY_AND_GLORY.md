@@ -212,6 +212,8 @@ The balance gate (§8) must be re-run once `fought` exists, because this makes s
 likely fatal (`docs/FAMILY_CREATION.md` §5) and costly. It is hidden like every other award, and a woman's
 survival is decided by her hidden stats exactly as a man's is; the penalty never changes the odds.
 
+**Automatic neighbours are never ranked** (owner, 2026-09-14, `docs/COLONIES.md` §5.9): when the ending is built it ranks only families with `household.played`; an automatic family's money and glory are counted but it is never named winner or placed in a ranking.
+
 ### Where it lives
 
 **As built: `world.glory[householdId]`, not `household.glory`** — a household is projected to its own

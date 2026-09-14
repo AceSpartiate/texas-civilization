@@ -1,5 +1,6 @@
 // Pure deterministic simulation; credentials and renderer state never belong here.
 import { buildColoniesRegion } from './colonies-region.mjs';
+import { advanceNeighbours } from './neighbours.mjs';
 import { record } from './events.mjs';
 import { reportsFor, deliverReports } from './knowledge.mjs';
 import { advanceRoutine } from './routines.mjs';
@@ -25,7 +26,7 @@ export function seededRandom(seed) {
   for (const char of String(seed)) value = Math.imul(value ^ char.charCodeAt(0), 16777619);
   return () => { value ^= value << 13; value ^= value >>> 17; value ^= value << 5; return (value >>> 0) / 4294967296; };
 }
-export function createWorld(seed = 'gonzales', playerCount = 15, { map = 'gonzales' } = {}) {
+export function createWorld(seed = 'gonzales', playerCount = 15, { map = 'gonzales', neighbours = false } = {}) {
   if (!Number.isInteger(playerCount) || playerCount < 5 || playerCount > 30) throw new Error('Class size must be 5–30');
   const random = seededRandom(seed);
   const world = { schemaVersion: 3, seed: String(seed), playerCount, tick: 0, minute: 0, status: 'lobby', entities: {}, households: {}, map: { sites: {}, routes: {}, terrain: [] }, events: [], nextEventId: 1, nextCourierId: 1, truth: {}, knowledge: { households: {}, public: {} }, barriers: [], offers: {}, nextOfferId: 1, encounters: {}, nextEncounterId: 1 };
@@ -35,6 +36,9 @@ export function createWorld(seed = 'gonzales', playerCount = 15, { map = 'gonzal
   const region = map === 'colonies' ? buildColoniesRegion(random, playerCount) : buildGonzalesRegion(random, playerCount);
   world.map.sites = region.sites; world.map.routes = region.routes; world.map.terrain = region.terrain; world.map.relief = region.relief; world.map.bounds = region.bounds; world.map.homeBounds = region.homeBounds; world.map.province = region.province;
   if (region.source) world.map.source = region.source;
+  // Families nobody plays live their own lives in a class made with this on (sim/neighbours.mjs, docs/COLONIES.md §5.9).
+  // Absent on every class made before, which keep their unplayed families idle, so no save version moved.
+  if (neighbours) world.neighbours = true;
   for (let i = 1; i <= playerCount; i++) {
     const householdId = `hh-${i}`;
     const site = world.map.sites[`home-${i}`];
@@ -361,6 +365,8 @@ export function stepWorld(world) {
   advanceEncounters(world);
   advanceRoutine(world, 20); deliverReports(world);
   advanceDirectors(world, { beginTravel, dispatchReport });
+  // Families nobody plays decide last, from what the tick has left them able to see, through the actions a student sends.
+  advanceNeighbours(world, { project: id => projectWorld(world, id, 'student', { includeMap: false }), apply: (id, input) => applyAction(world, id, input) });
 }
 /**
  * Where this rider stops and somebody else takes the word on.
@@ -521,7 +527,7 @@ export function applyAction(world, householdId, input) {
   // handy member can ask the neighbour who is actually present.
   if (input.action === 'offer') { makeOffer(world, householdId, entity, input); return; }
   if (['accept-offer', 'decline-offer', 'withdraw-offer'].includes(input.action)) {
-    respondToOffer(world, householdId, entity, input.action, input.offerId);
+    respondToOffer(world, householdId, entity, input.action, input.offerId, input.reason);
     return;
   }
   // Talking to a rider belongs to whoever the rider actually met, which is very often not
@@ -703,6 +709,7 @@ export function validateWorld(world) {
     // version moved. Present, it is a name somebody typed and has to stay one.
     // Present only while a new class's family is still on the road in (sim/settling.mjs).
     if (household.arriving !== undefined && household.arriving !== true) throw new Error('Invalid arrival marker');
+    if (household.played !== undefined && household.played !== true) throw new Error('Invalid played marker');
     if (household.settlementId !== undefined && world.map.sites[household.settlementId]?.kind !== 'town') throw new Error('A family belongs to a settlement that is not there');
     if (household.name !== undefined && (typeof household.name !== 'string' || !household.name.trim() || household.name.length > NAME_LIMIT)) throw new Error('Invalid household name');
     if (!household.field || !['bare', 'planted', 'ripe'].includes(household.field.state) || !['corn', 'cotton'].includes(household.field.crop)) throw new Error('Invalid field state');

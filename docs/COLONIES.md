@@ -1,6 +1,6 @@
 # Families across the colonies
 
-**Status: decided, researched and specified 2026-09-14 (§5); every owner question answered (§7); build step 1 (places and roads) built 2026-09-14** ([evidence](evidence/colonies-map.json)); **build step 2 (families dealt to the colonies) built 2026-09-14** ([evidence](evidence/colonies-deal.json)). New classes still use the Gonzales map by default until step 5 (owner, 2026-09-14); `MAP=colonies` uses this one. Read this before changing where
+**Status: decided, researched and specified 2026-09-14 (§5); every owner question answered (§7); build step 1 (places and roads) built 2026-09-14** ([evidence](evidence/colonies-map.json)); **build step 2 (families dealt to the colonies) built 2026-09-14** ([evidence](evidence/colonies-deal.json)); **build step 3 (automatic neighbours: farming, building, trading, house-raisings) built 2026-09-14** ([evidence](evidence/neighbours.json)). New classes still use the Gonzales map by default until step 5 (owner, 2026-09-14); `MAP=colonies` uses this one. Read this before changing where
 families start, the arrival, how news travels between settlements, or what a family far from Gonzales can do. It
 amends `FIC-GONZ-024` (one party arriving together) and builds on the real terrain of `docs/LAND_GRANTS.md` §8.
 
@@ -347,7 +347,7 @@ Each step ends with tests that failed first, a browser proof where it touches wh
    routed over terrain, crossings. Map drawing of the real rivers, relief and roads. No families yet.
 2. ~~**Families dealt to the colonies.**~~ **Done 2026-09-14** (§6b). Dealing, anchors, grants, lanes, arrival at each family's own land, neighbours by
    settlement. New classes use it; old saves untouched.
-2a. **Automatic neighbours: farming, building, trading and house-raisings** (§5.9), so every class after step 2 has living
+2a. ~~**Automatic neighbours: farming, building, trading and house-raisings**~~ **Done 2026-09-14** (§6c) (§5.9), so every class after step 2 has living
    neighbours. Their answer to the war comes with steps 4 and 5.
 3. **Movement by ground and the house site** (`docs/LAND_GRANTS.md` §8.3 steps 3–4).
 4. **News by riders over real distance**, calibrated to `HIST-TEX-006`, and the settlement-specific calls.
@@ -401,6 +401,24 @@ Each step ends with tests that failed first, a browser proof where it touches wh
   road never cuts across a river.
 - `ceiling:` the saved map is 280–370 KB: creeks under five miles and creeks' timber are left off it. The relief of a class spread
   across the colonies is sampled coarsely. The Gonzales calls and the news still assume Gonzales (step 5).
+
+### 6c. As built: step 3
+
+- **`sim/neighbours.mjs`**, called at the end of every tick: each unplayed family thinks every third tick (staggered), from its own
+  student projection, through `applyAction`. It chooses a house its tools allow (hewn log, round log, jacal), then builds, harvests,
+  plants, mends, fences, fetches seed when there is none to plant and sells cotton; it hunts only when short of food and only
+  with powder; one person at a time on each one-person errand. It answers hunts' questions, and weighs every offer made to it:
+  fair ones taken, unfair ones and ones it cannot spare refused **with a reason in both families' stories** (`decline-offer` now
+  carries one). About 1 ms a tick for a class of fifteen.
+- **Whose family:** `household.played` is set when a student joins; the director never touches that family again.
+  `world.neighbours` is set on every new class the server makes (the Gonzales map too), and absent on every class and save made
+  before, which keep their unplayed families idle.
+- **Found while building:** a family short of food sent all four people to the timber with no powder, came home with nothing,
+  and never built; and a live class sent a whole family to town for seed. Both are capped and tested.
+- `ceiling:` not yet built from §5.9 — a neighbour coming **unasked** to help a student's raising (it cannot know the walls are
+  going up without somebody seeing them; that waits for the news of step 5), a neighbour **making** offers of its own, a Host
+  control to hand a student's abandoned family to the director, and answering the war (steps 5–6). Automatic families are not
+  yet excluded from the ending's rankings because the ending is not built; `played` is what will exclude them.
 
 ## 7. Questions for the owner — all answered 2026-09-14
 

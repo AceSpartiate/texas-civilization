@@ -26,7 +26,8 @@ const app = createClassroom({
   // real minutes a class spends watching that. `PACES.study` makes the walk look like a
   // walk and the slice fill a class period; TICK_MS still overrides it for development.
   tickMs: Number(process.env.TICK_MS || PACES.study), savePath, joinUrls, // MAP=colonies starts classes on the real land of the colonies (docs/COLONIES.md); unset, the invented Gonzales country.
-  worldFactory: (seed, playerCount) => createGonzalesWorld(seed, playerCount, { map: process.env.MAP || 'gonzales' }),
+  // Every new class has automatic neighbours for the families nobody joins (owner, 2026-09-14; docs/COLONIES.md §5.9).
+  worldFactory: (seed, playerCount) => createGonzalesWorld(seed, playerCount, { map: process.env.MAP || 'gonzales', neighbours: true }),
   onStopRequested: () => shutdown('Host requested a graceful stop'),
 });
 await app.listen(port);
