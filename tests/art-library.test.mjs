@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { buildManifest, decodeRgba, root, SHEETS } from '../scripts/build-atlas-manifest.mjs';
+import { pending } from '../scripts/art-deliveries/index.mjs';
 
 const manifest = JSON.parse(readFileSync(root + 'atlas.json', 'utf8'));
 const expected = Object.values(SHEETS).flat().filter(Boolean);
@@ -12,7 +13,9 @@ const expected = Object.values(SHEETS).flat().filter(Boolean);
 // slice of the wrong picture, or half of the right one. Re-measuring the atlases and
 // comparing is the only check that catches it.
 test('atlas.json still describes the art that is actually shipped', () => {
-  assert.deepEqual(readdirSync(root + 'atlases').filter(name => /\.png$/i.test(name)).sort(), Object.values(manifest.sheets).map(sheet => sheet.image.split('/').at(-1)).sort(), 'every runtime PNG must be inventoried');
+  // A picture from a batch still waiting for the rest of its delivery (its provenance, say) sits on disk unregistered and unused.
+  const waiting = new Set(pending.map(entry => `${entry.sheet}.png`));
+  assert.deepEqual(readdirSync(root + 'atlases').filter(name => /\.png$/i.test(name) && !waiting.has(name)).sort(), Object.values(manifest.sheets).map(sheet => sheet.image.split('/').at(-1)).sort(), 'every runtime PNG must be inventoried');
   assert.deepEqual(buildManifest(), manifest, 'atlas.json is stale - rerun node scripts/build-atlas-manifest.mjs');
   assert.deepEqual(Object.keys(manifest.frames), expected, 'frame names and reading order must match the generation prompts');
 });

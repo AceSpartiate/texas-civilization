@@ -14,12 +14,14 @@ import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { inflateSync } from 'node:zlib';
 import { writeRegistry } from './art-registry.mjs';
+import { SHEETS as DELIVERED_SHEETS, ANIMATION_CLIPS as DELIVERED_CLIPS } from './art-deliveries/index.mjs';
 
 export const root = fileURLToPath(new URL('../public/assets/frontier-v1/', import.meta.url));
 
 // Reading order of each sheet, from docs/art-prompts.json. The prompt fixes the order;
 // this file fixes the names the game uses for them.
 export const SHEETS = {
+  ...DELIVERED_SHEETS,
   'courier-encounters': ['listen','speak','letter','point'].flatMap(action=>[1,2,3,4].map(n=>`mounted-courier-${action}-${n}`)),
   'alamo-facades': ['alamo-church-front-1836','alamo-church-front-inside','alamo-church-front-cracked','alamo-church-buttress-wall'],
   'alamo-interiors': ['alamo-cot-blanket','alamo-cot-empty','alamo-table','alamo-stool','alamo-chest-closed','alamo-chest-open','alamo-straw-pallet','alamo-crates','alamo-pot','alamo-water-jar','alamo-bucket','alamo-firewood','alamo-roof-panel','alamo-floor-limestone','alamo-floor-earth','alamo-stones'],
@@ -71,7 +73,7 @@ const MAX_TRIM_FRACTION = 0.0025;
 
 // Authored frame sequences are registered only after their sheets have passed review.
 // A single sprite with presentation motion must explicitly say authored: false.
-export const ANIMATION_CLIPS = {};
+export const ANIMATION_CLIPS = { ...DELIVERED_CLIPS };
 const poseClip = (name, sprites, durations = 180, loop = true, motion = 'none') => {
   ANIMATION_CLIPS[name] = { frames: sprites.map((sprite, i) => ({ sprite, duration: Array.isArray(durations) ? durations[i] : durations })), loop, authored: sprites.length > 1, motion, direction: 'east; west by mirroring' };
 };
@@ -264,7 +266,7 @@ for (const [sheet, names] of Object.entries(SHEETS)) {
       group.maxX = Math.max(group.maxX, region.maxX); group.maxY = Math.max(group.maxY, region.maxY);
     }
   }
-  if (grouped.size !== names.length) throw new Error(`${sheet}: sprites do not occupy ${names.length} reading-order cells (found ${grouped.size})`);
+  for(const [index,name] of names.entries())if(name&&!grouped.has(index))throw new Error(`${sheet}: missing required reading-order cell ${index+1} (${name})`);
   const placed = [...grouped.entries()].sort(([a], [b]) => a - b).map(([, group]) => {
     if (group.area < SPRITE_AREA) throw new Error(`${sheet}: cell ${group.row + 1},${group.col + 1} contains only ${group.area} visible pixels`);
     return { ...group, sourceBounds: [group.minX, group.minY, group.maxX - group.minX + 1, group.maxY - group.minY + 1],
@@ -290,10 +292,11 @@ for (const [sheet, names] of Object.entries(SHEETS)) {
     layout: { rows, columns, method: 'Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.',
       measuredRows: Array.from({ length: rows }, (_, row) => {
         const rowFrames = placed.filter(frame => frame.row === row);
-        return { row: row + 1, yRange: [Math.min(...rowFrames.map(frame => frame.minY)), Math.max(...rowFrames.map(frame => frame.maxY)) + 1],
+        return { row: row + 1, yRange: rowFrames.length ? [Math.min(...rowFrames.map(frame => frame.minY)), Math.max(...rowFrames.map(frame => frame.maxY)) + 1] : [],
           columns: rowFrames.map(frame => [frame.minX, frame.maxX + 1]) };
       }) } };
-  placed.forEach((frame, index) => {
+  placed.forEach(frame => {
+    const index=frame.row*columns+frame.col;
     if (!names[index]) return; // Period-inaccurate first fortification is intentionally not a usable frame.
     const members = new Set(frame.members);
     let retainedPixels = 0;
@@ -307,6 +310,7 @@ for (const [sheet, names] of Object.entries(SHEETS)) {
       ...(/^(people-|animal-|military-|courier-)/.test(sheet) ? { logicalHeight: Math.max(...placed.filter(p => p.row === frame.row).map(p => p.maxY - p.minY + 1)) } : {}),
       ...(sheet==='wagon-rig' && names[index]!=='wagon-wheel' ? {logicalHeight:placed[0].maxY-placed[0].minY+1} : {}),
       ...(sheet==='joe-poses' ? {logicalHeight:Math.max(...placed.map(p=>p.maxY-p.minY+1))} : {}),
+      ...(sheet==='houses-settling' ? {logicalHeight:Math.max(...placed.filter(p=>p.row===frame.row).map(p=>p.maxY-p.minY+1))} : {}),
       ...(sheet==='alamo-modules' && frame.row===0 ? {logicalHeight:Math.max(...placed.filter(p=>p.row===0).map(p=>p.maxY-p.minY+1))} : {}),
       label: names[index].replaceAll('-', ' '), kind: sheet,
       row: frame.row + 1, column: frame.col + 1,
