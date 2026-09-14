@@ -1,6 +1,6 @@
 # Families across the colonies
 
-**Status: decided 2026-09-14; research under way (§3a); nothing built.** Read this before changing where
+**Status: decided and researched 2026-09-14 (§3a); the detailed specification is next; nothing built.** Read this before changing where
 families start, the arrival, how news travels between settlements, or what a family far from Gonzales can do. It
 amends `FIC-GONZ-024` (one party arriving together) and builds on the real terrain of `docs/LAND_GRANTS.md` §8.
 
@@ -19,6 +19,8 @@ amends `FIC-GONZ-024` (one party arriving together) and builds on the real terra
 | The one party arriving together (`FIC-GONZ-024`) | **Each family arrives at its own land**, separately, at dawn on September 28, 1835, in its own colony. The peaceful opening and building stay the same everywhere; only the shared party is dropped. |
 | How word of the fight at Gonzales reaches a family far away | **Riders along the real roads.** The existing courier model over real distance: word passes settlement to settlement at a rider's pace, so distance decides when a family hears. |
 | What a family far from Gonzales can do | **Join the army that gathered after.** Volunteers converged on Gonzales in the days after October 2 and marched on Bexar; a distant family can send somebody to join it. This stretches the class timeline past October 2. |
+| How families are divided among settlements (2026-09-14, after research) | **In proportion to 1834 population** (`HIST-TEX-011`): more families near San Felipe and Columbia, fewer near Gonzales and Victoria; a small settlement often gets nobody. |
+| Families near Béxar, Goliad and Nacogdoches, which were not empresario colonies (2026-09-14) | **Only the empresario colonies are starts.** Béxar, Goliad and Nacogdoches stay on the map as places, not where families begin, so the late-settler, title-pending premise holds for every family. |
 
 ## 2. What these commit the design to
 
@@ -110,9 +112,19 @@ judged for sending one is not documented, so the penalty's size is a game rule.
 | Nashville on the Brazos | Nashville (historical) (2033973) | 30.82578, -96.65288 | Robertson's colony; not in HIST-TEX-003, so its 1835 existence needs its own claim before use |
 
   San Patricio (27.9544619, -97.7719419) and Copano lie south of 28°N, outside the game area; Copano Village today is not the 1835 landing.
-- **Families per settlement** in 1835, for how many families the seed deals to each.
-- **The premise outside DeWitt's colony** (research item 6): whether "late settlers with a grant marked out and title
-  pending" holds in Austin's colony and the others, whose contracts and land offices differed (not yet researched).
+- ~~**Families per settlement.**~~ **Found 2026-09-14** (`HIST-TEX-011`): Almonte's 1834 counts by municipality — Béxar
+  2,400, Goliad 700, Victoria 300; San Felipe 2,500, Columbia 2,100, Matagorda 1,400, Mina 1,100, Gonzales 900; Nacogdoches
+  3,500, San Augustine 2,500, Liberty 1,000 (Johnsburg, on the Red River, and San Patricio are outside the area). They
+  are for whole jurisdictions and 1834, and include enslaved people. **Decided:** families are dealt in proportion to
+  these, among the colony settlements only. Gaps for the specification: Washington was inside San Felipe's municipality in
+  1834, Brazoria and Velasco inside Columbia's, and Refugio (Power and Hewetson) and Robertson's colony have no 1834 figure.
+- ~~**The premise outside DeWitt's colony.**~~ **Found 2026-09-14** (`HIST-TEX-012`): titles were still being issued in
+  1834–35 in Robertson's colony (from October 1834), De León's (over a hundred by July 1835) and the Burnet–Vehlein–Zavala
+  grants, immigration continued through 1835, and every colonial land office was closed because of the Revolution
+  (October 27 or November 13, 1835 — the sources differ). **So "a grant marked out, title pending" fits a newcomer in
+  those colonies better than in DeWitt's**, whose contract ran out in 1831: the office that would have finished the title
+  shut weeks after the family arrived. Béxar, Goliad and Nacogdoches were not empresario colonies, and a family placed
+  near them needs its own premise.
 - **Riders' pace** is already a game number; the dated chain above is what it should reproduce.
 
 ## 4. Build order (provisional)
