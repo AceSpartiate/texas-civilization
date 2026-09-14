@@ -348,6 +348,13 @@ test('a family asks the server about its own land only, and every browser is tol
     assert.ok(Object.values(homes.routes).some(route => route.to === household.homeSiteId && route.points.length >= 2), 'with its lane');
     assert.ok(homes.fields.some(field => field.ownerHouseholdId === householdId), 'and its field');
     assert.equal((await ask(point.x, point.y)).why, 'The house site is chosen.');
+    // A family's hunting ground is drawn from the homes as well (sim/chores.mjs `huntingGround`), once somebody goes to it.
+    const hunter = household.members.find(id => world.entities[id].principal);
+    for (let wait = 0; wait < 500 && app.state.world.entities[hunter].travel; wait++) await new Promise(resolve => setTimeout(resolve, 10));
+    assert.equal((await fetch(`${base}/api/command`, { method: 'POST', headers: { cookie, 'Content-Type': 'application/json' }, body: JSON.stringify({ id: 'hunt-ground-0001', action: 'chore', entityId: hunter, chore: 'hunt-timber' }) })).status, 200);
+    for (let wait = 0; wait < 500 && !app.state.world.map.sites[`hunt-${householdId}`]; wait++) await new Promise(resolve => setTimeout(resolve, 10));
+    const hunting = await (await fetch(`${base}/api/map/homes`, { headers: { cookie } })).json();
+    assert.equal(hunting.sites[`hunt-${householdId}`]?.hunting, true, 'the hunting ground reaches the browser');
   } finally {
     await app.close();
     rmSync(dir, { recursive: true, force: true });

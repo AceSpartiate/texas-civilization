@@ -13,7 +13,10 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createSettledWorld } from './support/settled.mjs';
 import { applyAction, stepWorld, validateWorld } from '../sim/world.mjs';
-import { CHORES, steadyHand, unsteadyBecause } from '../sim/chores.mjs';
+import { CHORES, HUNT_STEP, huntingGround, steadyHand, unsteadyBecause } from '../sim/chores.mjs';
+import { createGonzalesWorld } from '../sim/gonzales.mjs';
+import { groundAt } from '../sim/fields.mjs';
+import { findWay } from '../sim/ways.mjs';
 
 const running = (seed = 'hunt', count = 5) => {
   const world = createSettledWorld(seed, count);
@@ -51,6 +54,86 @@ function hunt(seed, { entityId = 'hh-1-mateo', householdId = 'hh-1', mode, answe
   return { world, entity, frames, asked };
 }
 const foodOf = world => world.households['hh-1'].resources.food;
+
+test('a family hunts the cover nearest its own house, not a named stand miles off, and how near depends on its country', () => {
+  // Found in play 2026-09-14: every family on the invented map was sent to one of two stands of timber up to fifteen miles
+  // away, when most farms had timber on the place. Where the game was is where the cover is.
+  for (const world of [running('ground-near', 15), createGonzalesWorld('ground-near-real', 15, { map: 'colonies' })]) {
+    const miles = [];
+    for (const household of Object.values(world.households)) {
+      const ground = huntingGround(world, household), home = world.map.sites[household.homeSiteId];
+      assert.ok(ground, `${household.id} has somewhere to hunt`);
+      assert.equal(ground.ownerHouseholdId, household.id);
+      // Every way of going gets there, the wagon too: a house in the timber has its own few hundred yards of it.
+      for (const mode of ['foot', 'horse', 'wagon']) assert.ok(findWay(world, household.homeSiteId, ground.id, mode), `${household.id} cannot reach its ground ${mode}`);
+      const d = Math.hypot(ground.x - home.x, ground.y - home.y);
+      miles.push(d);
+      // Just beyond the place, the way it faces, is timber or brush...
+      const inside = { x: ground.x + ground.toward.x * HUNT_STEP, y: ground.y + ground.toward.y * HUNT_STEP };
+      assert.notEqual(groundAt(world, inside), 'prairie', `${household.id}'s ground is not at any cover`);
+      // ...nothing on a finer ring nearer the house is, short of the step it was looked for at...
+      for (let r = 1 / 16; r < d - HUNT_STEP * 1.5; r += 1 / 16) {
+        for (let k = 0; k < 64; k++) {
+          const point = { x: home.x + Math.cos(k * Math.PI / 32) * r, y: home.y + Math.sin(k * Math.PI / 32) * r };
+          assert.equal(groundAt(world, point), 'prairie', `${household.id} rode ${d.toFixed(2)} miles past cover ${r.toFixed(2)} off`);
+        }
+      }
+      // ...and no named stand of timber is nearer than it.
+      for (const stand of Object.values(world.map.sites).filter(site => site.kind === 'woods' && !site.hunting)) {
+        assert.ok(d <= Math.hypot(stand.x - home.x, stand.y - home.y) + HUNT_STEP, `${household.id} hunts past ${stand.name}`);
+      }
+    }
+    if (world.map.source !== 'texas-colonies-map') {
+      // Bottomland families hunt near the door; prairie families a long way out.
+      assert.ok(Math.min(...miles) < .5 && Math.max(...miles) > 2, `the invented country's families hunt from ${Math.min(...miles).toFixed(2)} to ${Math.max(...miles).toFixed(2)} miles out`);
+    }
+  }
+});
+
+test('a hunt goes to the family ground, in the words of its cover, and the ground moves with the house', () => {
+  const { world, frames } = hunt('own-ground');
+  assert.ok(frames.some(frame => frame.siteId === 'hunt-hh-1' && !frame.travelling), 'they hunted their own ground');
+  assert.ok(!frames.some(frame => ['upper-timber', 'lower-timber'].includes(frame.siteId)), 'not a named stand');
+  const ground = world.map.sites['hunt-hh-1'];
+  assert.match(ground.name, /^The (timber|brush)/);
+  // Brush country is said as brush.
+  const brushy = running('own-ground-brush');
+  huntingGround(brushy, brushy.households['hh-1']).cover = 'brush';
+  applyAction(brushy, 'hh-1', { action: 'chore', entityId: 'hh-1-mateo', chore: 'hunt-timber' });
+  const said = new Set();
+  for (let tick = 0; tick < 60 && brushy.entities['hh-1-mateo'].chore; tick++) {
+    said.add(brushy.entities['hh-1-mateo'].chore.doing);
+    if (brushy.entities['hh-1-mateo'].chore.ask) applyAction(brushy, 'hh-1', { action: 'answer-chore', entityId: 'hh-1-mateo', option: 'wait' });
+    stepWorld(brushy);
+  }
+  assert.ok([...said].some(text => /the brush/.test(text)) && ![...said].some(text => /the timber/.test(text)), [...said].join(' / '));
+  assert.ok(brushy.events.some(event => /fired in the brush/.test(event.text)));
+  // The house moves (the real land's family chooses where it stands): the ground is found again from there, and every
+  // browser is told the map changed.
+  const household = world.households['hh-1'], home = world.map.sites[household.homeSiteId], before = { ...ground };
+  const revision = world.map.revision || 0;
+  home.x += 6;
+  const moved = huntingGround(world, household);
+  assert.notDeepEqual({ x: moved.x, y: moved.y }, { x: before.x, y: before.y });
+  assert.equal(moved.fromX, home.x);
+  assert.ok(world.map.revision > revision);
+  assert.equal(huntingGround(world, household), moved, 'and found once, not every time it is asked');
+});
+
+test('a hunt already in a named stand when the class was saved finishes there, and comes home', () => {
+  const world = running('old-stand');
+  const mateo = world.entities['hh-1-mateo'];
+  // As a class saved before: the hunt had reached the lower timber and was reading the ground.
+  mateo.location = { x: world.map.sites['lower-timber'].x, y: world.map.sites['lower-timber'].y, siteId: 'lower-timber' };
+  mateo.chore = { id: 'hunt-timber', step: 0, wait: 0, doing: 'on the road to the timber' };
+  for (let tick = 0; tick < 400 && mateo.chore; tick++) {
+    if (mateo.chore.ask) applyAction(world, 'hh-1', { action: 'answer-chore', entityId: mateo.id, option: 'wait' });
+    stepWorld(world);
+    validateWorld(world);
+  }
+  assert.equal(mateo.chore, null);
+  assert.equal(mateo.location.siteId, 'home-1');
+});
 
 test('a hunt is a sequence of places in the timber, not one spot for five ticks', () => {
   const { world, frames } = hunt('stages');
@@ -325,9 +408,13 @@ test('how a family travelled decides whether it can shoot straight', () => {
   // The chain this was built for, end to end: a long walk tires somebody, riding barely
   // does, and a tired hand misses a long shot. Nothing in it is new - the exertion, the
   // modes and the tiring threshold all already existed - which is the whole point.
-  const chosen = hunterWith(running('chain'), person_ => (person_.skills?.hunting ?? 1) >= 2);
+  // A family whose timber is a long way off: a family on a timbered creek hunts at its door and nobody tires getting there.
+  const far = world => household => { const ground = huntingGround(world, household), home = world.map.sites[household.homeSiteId]; return Math.hypot(ground.x - home.x, ground.y - home.y) > 2; };
+  const probe = running('chain', 15);
+  const chosen = hunterWith(probe, person_ => (person_.skills?.hunting ?? 1) >= 2 && far(probe)(probe.households[person_.householdId]));
+  assert.ok(chosen, 'a hunter with timber more than two miles off');
   const ride = mode => {
-    const world = running('chain');
+    const world = running('chain', 15);
     const person_ = world.entities[chosen.person.id];
     applyAction(world, chosen.householdId, { action: 'chore', entityId: person_.id, chore: 'hunt-timber', mode });
     let condition = 'well';

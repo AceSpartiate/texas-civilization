@@ -25,7 +25,10 @@ import { carryCapacity, DEFAULT_MODE, MODES, propertyId } from './travel.mjs';
 import {
   SEED_PER_PLOT, clearSpell, clearedOf, harvestShare, needsWagonToHarvest, raiseFence, standingCrop,
 } from './improvements.mjs';
-import { plotsOf } from './fields.mjs';
+import { groundAt, plotsOf } from './fields.mjs';
+import { landAround, onRealLand } from './ground.mjs';
+import { distanceToPolyline } from './terrain.mjs';
+import { OVERLAND_REACH } from './ways.mjs';
 import { moreFields, plotWorkRefusal, stakePlot, stroll, strollTarget } from './survey.mjs';
 import { choosing, cutLaneSpell, digWell, lanePoint, laneRefusal, laneState, waterBurden, wellRefusal, wellTicks } from './homesite.mjs';
 import { SPELL_TICKS, buildRefusal, buildSpell, helpRefusal, hostOf, houseBuilt, houseSettled, raising, recordHelpBegun, recordHelpDone, stageOf } from './houses.mjs';
@@ -373,7 +376,7 @@ export const CHORES = {
   },
   'hunt-timber': {
     name: 'Hunt in the timber', skill: 'hunting', where: 'home', hauls: true,
-    describe: 'A long trip to the timber and back. The kill is a big one; what comes home is what they can carry.',
+    describe: 'Out to the nearest timber or brush and back: close by where the land is timbered, a long way across the prairie where it is not. The kill is a big one; what comes home is what they can carry.',
     // A hunt used to be one line - five ticks of standing in one spot with a searching
     // pose playing - and the owner asked to see somebody actually hunting. So it is the
     // steps it always was underneath, said out loud: work in from the edge, move up
@@ -387,9 +390,9 @@ export const CHORES = {
     // carrying something. That is not a limitation worked around; it is the honest picture,
     // and it is why no deer was drawn.
     steps: [
-      { travel: 'timber', doing: 'on the road to the timber' },
-      { stalk: 'edge', work: 1, doing: 'reading the ground at the edge of the timber' },
-      { stalk: 'deep', work: 1, doing: 'working up through the timber' },
+      { travel: 'timber', doing: 'on the road to {cover}' },
+      { stalk: 'edge', work: 1, doing: 'reading the ground at the edge of {cover}' },
+      { stalk: 'deep', work: 1, doing: 'working up through {cover}' },
       { stalk: 'still', work: 1, doing: 'waiting downwind, and still' },
       // And here the work stops and asks. Everything after this depends on the answer,
       // which is why the steps below carry the answers they belong to.
@@ -401,8 +404,8 @@ export const CHORES = {
       // nothing is no worse off than it was; the wagon is an upside for the family that
       // spends the extra hour on the road, not a tax on the one that does not.
       { when: ['take', 'wait'], strike: { food: 10 } },
-      { when: ['carrying'], travel: 'home', doing: 'carrying it home from the timber' },
-      { when: ['empty'], travel: 'home', doing: 'coming home from the timber with nothing' },
+      { when: ['carrying'], travel: 'home', doing: 'carrying it home from {cover}' },
+      { when: ['empty'], travel: 'home', doing: 'coming home from {cover} with nothing' },
     ],
   },
   'practise-shooting': {
@@ -533,6 +536,12 @@ function stalkPoint(world, entity, where) {
   let hash = 2166136261;
   for (const character of `${entity.id}:${where}`) hash = Math.imul(hash ^ character.charCodeAt(0), 16777619);
   const jitter = ((hash >>> 0) % 200) / 200 - .5;
+  // A family's own hunting ground stands at the edge of its cover (`huntingGround`), so the stages go in, away from the
+  // house: along `toward`, the way the cover lies, and a little to one side.
+  if (site.toward) {
+    const along = { edge: .03, deep: .1, still: .16 }[where], aside = spot.dx + jitter * .05;
+    return { x: round(site.x + site.toward.x * along - site.toward.y * aside), y: round(site.y + site.toward.y * along + site.toward.x * aside) };
+  }
   return { x: round(site.x + spot.dx + jitter * .05), y: round(site.y + spot.dy + jitter * .05) };
 }
 
@@ -542,10 +551,68 @@ function stalkPoint(world, entity, where) {
  */
 export const townOf = household => household.settlementId || 'gonzales';
 
-/** The nearest stand of timber, so distance to work is the household's own distance. */
-function timberFor(world, household) {
+/**
+ * Where a family hunts: the edge of the timber or brush nearest its house (FIC-GONZ-030).
+ *
+ * Found in play 2026-09-14: every family hunted one of two named stands of timber, fifteen miles off on the invented map,
+ * when most farms had timber on the place. Where game was is where the cover was, and that is the land's own: timber
+ * along the water, brush on broken ground (sim/ground.mjs, sim/fields.mjs `groundAt`). So a family on a timbered creek
+ * hunts a few hundred yards from its door, and a family out on the prairie rides miles for it - which is the region of
+ * Texas it lives in, and nothing else.
+ *
+ * Found by walking out from the house along thirty-two bearings an eighth of a mile at a time, as far as anybody strikes
+ * out across country (sim/ways.mjs `OVERLAND_REACH`). A big river is never between: timber lines its near bank first. The place is kept as a site of the
+ * family's own, `hunt-<household>`, standing on the open ground at the edge so the wagon can come up to it; it moves when
+ * the house does. Null when there is no cover within reach - a family then hunts the nearest named stand, as before.
+ */
+export const HUNT_BEARINGS = 32;
+export const HUNT_STEP = 0.125;
+export function huntingGround(world, household) {
   const home = world.map.sites[household.homeSiteId];
-  const stands = Object.values(world.map.sites).filter(site => site.kind === 'woods');
+  if (!home) return null;
+  const id = `hunt-${household.id}`, existing = world.map.sites[id];
+  if (existing && existing.fromX === home.x && existing.fromY === home.y) return existing;
+  let best = null;
+  for (let bearing = 0; bearing < HUNT_BEARINGS; bearing++) {
+    const angle = (bearing / HUNT_BEARINGS) * Math.PI * 2, toward = { x: Math.cos(angle), y: Math.sin(angle) };
+    for (let r = HUNT_STEP; r <= OVERLAND_REACH && (!best || r < best.r); r += HUNT_STEP) {
+      const point = { x: home.x + toward.x * r, y: home.y + toward.y * r };
+      const ground = groundAt(world, point);
+      if (ground === 'prairie') continue;
+      // The open ground just short of it, where a hunter comes up to the edge; the cover itself if the house stands in it.
+      const edge = r > HUNT_STEP ? { x: home.x + toward.x * (r - HUNT_STEP / 2), y: home.y + toward.y * (r - HUNT_STEP / 2) } : point;
+      best = { r, edge, ground, toward };
+      break;
+    }
+  }
+  if (!best) return null;
+  const round3 = value => Math.round(value * 1000) / 1000;
+  const site = {
+    id, name: groundName(world, best.edge, best.ground), kind: 'woods', hunting: true, ownerHouseholdId: household.id,
+    x: round3(best.edge.x), y: round3(best.edge.y), cover: best.ground === 'brush' ? 'brush' : 'timber',
+    toward: { x: round3(best.toward.x), y: round3(best.toward.y) }, fromX: home.x, fromY: home.y,
+  };
+  world.map.sites[id] = site;
+  world.map.revision = (world.map.revision || 0) + 1;
+  return site;
+}
+/** "The timber on Kerr Creek", "the brush": the family's hunting ground in the words of the water it stands by. */
+function groundName(world, point, ground) {
+  if (ground === 'brush') return 'The brush';
+  let water = null;
+  if (onRealLand(world)) water = landAround({ minX: point.x - 2, minY: point.y - 2, maxX: point.x + 2, maxY: point.y + 2 }).nearestWater(point, info => Boolean(info.name), 1.5);
+  else water = (world.map.terrain || []).filter(course => (course.kind === 'river' || course.kind === 'creek') && course.name && distanceToPolyline(point, course.points) < 1.5)[0];
+  return water?.name ? `The timber on ${/River$/.test(water.name) ? 'the ' : ''}${water.name}` : 'The timber';
+}
+/** The word for where a family's hunter is: its own ground's cover, or the timber of an old stand. */
+const coverWord = (world, household) => world.map.sites[`hunt-${household.id}`]?.cover === 'brush' ? 'the brush' : 'the timber';
+
+/** Where the family hunts: its own ground (`huntingGround`), or the nearest named stand of timber when it has none in reach. */
+function timberFor(world, household) {
+  const own = huntingGround(world, household);
+  if (own) return own.id;
+  const home = world.map.sites[household.homeSiteId];
+  const stands = Object.values(world.map.sites).filter(site => site.kind === 'woods' && !site.hunting);
   if (!stands.length) return null;
   return stands.reduce((best, site) => Math.hypot(site.x - home.x, site.y - home.y) < Math.hypot(best.x - home.x, best.y - home.y) ? site : best).id;
 }
@@ -840,7 +907,7 @@ function advanceChore(world, household, entity, { beginTravel }) {
     if (!step) return finishChore(world, household, entity, chore);
     // A step that belongs to an answer nobody gave is not this hunt's step.
     if (step.when && !step.when.some(flag => (state.flags || []).includes(flag))) continue;
-    if (step.doing) state.doing = step.doing.replace('{town}', world.map.sites[townOf(household)]?.name || 'town');
+    if (step.doing) state.doing = step.doing.replace('{town}', world.map.sites[townOf(household)]?.name || 'town').replace('{cover}', coverWord(world, household));
     if (step.walk) {
       // Inside the homestead. The person's canonical site is unchanged - they are still
       // at home - but they stand where the work is.
@@ -918,7 +985,7 @@ function advanceChore(world, household, entity, { beginTravel }) {
       household.resources.powder = round(Math.max(0, (household.resources.powder ?? 0) - SHOT_COST));
       record(world, 'hunt', {
         actorId: entity.id, householdId: household.id,
-        text: `${entity.name} fired in the timber.`,
+        text: `${entity.name} fired in ${coverWord(world, household)}.`,
       });
       state.wait = 1;
       return;

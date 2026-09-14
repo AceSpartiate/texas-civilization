@@ -100,6 +100,8 @@ A short optional walk-through offers itself once, in that lobby. It explains the
 
 Shooting is the only thing anybody can practise. Nobody gets better at farming or at mending a hoe by trying harder; for those, a family that has nobody handy still has to go into Gonzales or ask a neighbour.
 
+**Your family hunts its own timber.** There are no hunting grounds set aside: a hunter goes to the timber or brush nearest your house, which is a few hundred yards off for a family on a wooded creek and miles across the prairie for a family out in the open, so the country you were dealt decides how far a hunt is. The place is named for its water, *the timber on Kerr Creek*.
+
 **A hunt is something you take part in.** Send somebody to the timber and they work in from the edge, move up through the trees, wait downwind — and then **the work stops and asks you**. They are downwind of something, with a shot, and it is not a close one:
 
 - **Take the shot.** Whether it goes home depends on the person standing there: a tired hand misses at that range, and so does somebody who never had the knack. The button says which of those applies to *them*, before you press it.

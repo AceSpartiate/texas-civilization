@@ -1675,7 +1675,8 @@ function renderTravelModes(world, chosen, settable) {
   wrap.hidden = false;
   const open = offered.find(entry => entry.id === modeFor(chosen.id) && entry.can);
   if (!open) travelModeByEntity.delete(chosen.id);
-  const picked = modeFor(chosen.id);
+  // Somebody already on the way is shown going the way they went, whatever this browser last had pressed.
+  const picked = chosen.travel?.mode || modeFor(chosen.id);
   host.replaceChildren(...offered.map(entry => {
     const spec = modeCache?.get(entry.id);
     const button = element('button', spec?.name || entry.id);

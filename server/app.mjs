@@ -319,7 +319,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       // them and their fields. A few kilobytes, fetched when `mapRevision` moves, instead of the whole map again.
       if (req.method === 'GET' && url.pathname === '/api/map/homes') {
         const map = state.world.map;
-        const sites = Object.fromEntries(Object.entries(map.sites).filter(([, site]) => site.kind === 'homestead'));
+        const sites = Object.fromEntries(Object.entries(map.sites).filter(([, site]) => site.kind === 'homestead' || site.hunting));
         const routes = Object.fromEntries(Object.entries(map.routes).filter(([, route]) => sites[route.to]));
         return json(res, 200, { mapId: state.sessionId, revision: map.revision || 0, sites: structuredClone(sites), routes: structuredClone(routes), fields: structuredClone(map.terrain.filter(feature => feature.kind === 'field')) });
       }

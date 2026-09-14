@@ -27,8 +27,10 @@ export const OVERLAND_REACH = 8;
  * climbs and creeks: finding the way, the tall grass, the gullies the road was laid to miss (FIC-GONZ-029).
  */
 export const OFF_ROAD = Object.freeze({ foot: 1.15, horse: 1.2, wagon: 1.6 });
-/** The share of a stretch in timber and brush beyond which a wagon cannot go across country at all (FIC-GONZ-029). */
+/** The share of a stretch in timber and brush beyond which a wagon cannot go across country at all (FIC-GONZ-029)... */
 export const WAGON_COVER = 0.1;
+/** ...unless it is no longer than this, in miles: a wagon can be got a few hundred yards through anything. */
+export const WAGON_SHORT = 0.25;
 /** On the invented map, timber stands this far either side of its water, as its map draws it (sim/fields.mjs `groundAt`). */
 const INVENTED_TIMBER = 1.15;
 
@@ -72,7 +74,7 @@ export function overland(world, a, b, modeId) {
   if (length === 0) return { cost: 0, ground: null, factor: 1 };
   const ground = groundAcross(world, a, b);
   if (!ground) return null;
-  if (modeId === 'wagon' && ground[1] + ground[2] > WAGON_COVER) return null;
+  if (modeId === 'wagon' && length > WAGON_SHORT && ground[1] + ground[2] > WAGON_COVER) return null;
   const factor = round(segmentPace(length, ground, modeId) * (OFF_ROAD[modeId] || OFF_ROAD.foot));
   return { cost: length * factor, ground, factor };
 }

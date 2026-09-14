@@ -9,7 +9,7 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { beginTravel, stepWorld, travelModesFor, travelRefusal, validateWorld } from '../sim/world.mjs';
 import { findPath } from '../sim/geography.mjs';
 import { landAround, segmentPace } from '../sim/ground.mjs';
-import { OFF_ROAD, WAGON_COVER, findWay, groundAcross } from '../sim/ways.mjs';
+import { OFF_ROAD, WAGON_COVER, WAGON_SHORT, findWay, groundAcross } from '../sim/ways.mjs';
 import { MODES, propertyId } from '../sim/travel.mjs';
 
 const distance = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
@@ -113,7 +113,7 @@ test('the wagon leaves the road only over open ground, so a lane through timber 
         const wagon = findWay(world, household.homeSiteId, place, 'wagon'), foot = findWay(world, household.homeSiteId, place, 'foot');
         for (const [a, b] of acrossStretches(world, wagon)) {
           const ground = groundAcross(world, a, b);
-          assert.ok(ground[1] + ground[2] <= WAGON_COVER, `the wagon from ${household.homeSiteId} crosses ${ground[1] + ground[2]} timber and brush off the road`);
+          assert.ok(distance(a, b) <= WAGON_SHORT || ground[1] + ground[2] <= WAGON_COVER, `the wagon from ${household.homeSiteId} crosses ${ground[1] + ground[2]} timber and brush off the road`);
         }
         if (JSON.stringify(wagon.points) !== JSON.stringify(foot.points)) differs++;
       }
