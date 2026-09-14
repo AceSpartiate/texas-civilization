@@ -10,6 +10,7 @@ Read these before substantial changes:
 6. `docs/FAMILY_CREATION.md` before touching `sim/family.mjs`, the join flow, or who can be sent to fight — the rolled family and its hidden stats are owner-decided (2026-09-12) and amend `VISION.md` §7 and §16.
 7. `docs/MONEY_AND_GLORY.md` before any economy, director or ending work — money, hidden glory and the winner are owner-decided (2026-09-12) and amend `VISION.md` §20.
 8. `docs/LAND_GRANTS.md` before touching a family's land, the field, clearing, fencing or the stock a family brings — land grants and Survey are owner-decided (2026-09-13) and replace the four-clearings rule.
+9. `docs/COLONIES.md` before changing where families start, the arrival, news between settlements, or the timeline past October 2 — families spread across the settled colonies are owner-decided (2026-09-14) and amend `FIC-GONZ-024`.
 
 The active next phase is Gonzales/core usability and deployment hardening, described in `HANDOFF.md`. `CLAUDE_DEVELOPMENT_ROADMAP.md` is reference for later work, not an instruction to build every arc now.
 
