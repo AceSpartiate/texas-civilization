@@ -86,8 +86,30 @@ and Gonzales–Bexar roads remain not found.
 judged for sending one is not documented, so the penalty's size is a game rule.
 
 **Still open:**
-- **Settlement positions.** The USGS place-name service no longer answers queries; the gazetteer's downloadable
-  national file would give every settlement's official coordinates. To be asked for.
+- ~~**Settlement positions.**~~ **Found 2026-09-14** (`HIST-TEX-010`), from the USGS Geographic Names file for Texas
+  (`DomesticNames_TX_Text.zip`, 1.86 MB, downloaded with approval, kept in scratch):
+
+| 1835 settlement | GNIS place (feature ID) | Latitude, longitude | Note |
+| --- | --- | --- | --- |
+| Gonzales | Gonzales (1336672) | 29.50163, -97.45249 |  |
+| San Felipe de Austin | San Felipe (1346329) | 29.79301, -96.10079 | the present town beside the old townsite |
+| Washington | Washington (1349512) | 30.32521, -96.15663 | the locality at Washington-on-the-Brazos |
+| Mina | Bastrop (1330128) | 30.11049, -97.31527 | Mina was the 1835 name |
+| Brazoria | Brazoria (1352845) | 29.04441, -95.56911 | GNIS also lists Old Brazoria (1364399), 29.0555255, -95.5652235 |
+| Velasco | Velasco (1381075) | 28.96191, -95.36050 |  |
+| Columbia | East Columbia (1356596) | 29.14136, -95.61578 | Columbia of 1835 is nearer East Columbia on the Brazos; West Columbia (1371096) is 29.1438582, -95.6452249 — which one stands for 1835 Columbia is to be checked |
+| Matagorda | Matagorda (1362277) | 28.69082, -95.96746 |  |
+| Harrisburg | Harrisburg (1337404) | 29.71828, -95.27966 | now within Houston |
+| Anahuac | Anahuac (1329510) | 29.77300, -94.68270 |  |
+| Liberty | Liberty (1339866) | 30.05799, -94.79548 |  |
+| Nacogdoches | Nacogdoches (1363573) | 31.60351, -94.65549 |  |
+| Victoria | Victoria (1370631) | 28.80527, -97.00360 |  |
+| Goliad | Goliad (1358133) | 28.66833, -97.38833 | the presidio La Bahía stands across the San Antonio River from the present town |
+| Refugio | Refugio (1345013) | 28.30528, -97.27527 |  |
+| Bexar | San Antonio (1380951) | 29.42412, -98.49363 |  |
+| Nashville on the Brazos | Nashville (historical) (2033973) | 30.82578, -96.65288 | Robertson's colony; not in HIST-TEX-003, so its 1835 existence needs its own claim before use |
+
+  San Patricio (27.9544619, -97.7719419) and Copano lie south of 28°N, outside the game area; Copano Village today is not the 1835 landing.
 - **Families per settlement** in 1835, for how many families the seed deals to each.
 - **The premise outside DeWitt's colony** (research item 6): whether "late settlers with a grant marked out and title
   pending" holds in Austin's colony and the others, whose contracts and land offices differed (not yet researched).
