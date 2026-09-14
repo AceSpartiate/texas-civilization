@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 40,
-    "sprites": 583,
-    "clips": 250,
-    "poseCycles": 113,
+    "sheets": 41,
+    "sprites": 599,
+    "clips": 254,
+    "poseCycles": 117,
     "rigs": 4
   },
   "entrypoints": {
@@ -26,6 +26,130 @@
     "authority": "Rendering never changes world state. No frame callbacks cause outcomes. Purge concealed actors; snap across time jumps. Buildings stay still."
   },
   "sheets": {
+    "people-cast2-work": {
+      "image": "atlases/people-cast2-work.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1279315,
+      "sha256": "c4ad80fb88812e221522faac3ced57362b49ddb6c42691a1ef8fb57d67ac53ff",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.65661,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              16,
+              322
+            ],
+            "columns": [
+              [
+                58,
+                292
+              ],
+              [
+                388,
+                640
+              ],
+              [
+                678,
+                912
+              ],
+              [
+                984,
+                1215
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              323,
+              642
+            ],
+            "columns": [
+              [
+                79,
+                286
+              ],
+              [
+                387,
+                640
+              ],
+              [
+                677,
+                914
+              ],
+              [
+                986,
+                1214
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              640,
+              955
+            ],
+            "columns": [
+              [
+                60,
+                288
+              ],
+              [
+                397,
+                637
+              ],
+              [
+                688,
+                913
+              ],
+              [
+                998,
+                1217
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              956,
+              1235
+            ],
+            "columns": [
+              [
+                81,
+                277
+              ],
+              [
+                418,
+                639
+              ],
+              [
+                696,
+                910
+              ],
+              [
+                1011,
+                1219
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "people-cast2-idle": {
       "image": "atlases/people-cast2-idle.png",
       "width": 1254,
@@ -4679,6 +4803,566 @@
     }
   },
   "assets": {
+    "rust-woman-work-1": {
+      "sheet": "people-cast2-work",
+      "x": 58,
+      "y": 16,
+      "w": 234,
+      "h": 306,
+      "anchorX": 0.6603,
+      "anchorY": 0.951,
+      "logicalHeight": 306,
+      "label": "rust woman work 1",
+      "kind": "people-cast2-work",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          60,
+          18,
+          230,
+          302
+        ],
+        "visiblePixels": 35743,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-work.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-work"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-work"
+    },
+    "rust-woman-work-2": {
+      "sheet": "people-cast2-work",
+      "x": 388,
+      "y": 23,
+      "w": 252,
+      "h": 298,
+      "anchorX": 0.5337,
+      "anchorY": 0.9295,
+      "logicalHeight": 306,
+      "label": "rust woman work 2",
+      "kind": "people-cast2-work",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          390,
+          25,
+          248,
+          294
+        ],
+        "visiblePixels": 33820,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-work.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-work"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-work"
+    },
+    "rust-woman-work-3": {
+      "sheet": "people-cast2-work",
+      "x": 678,
+      "y": 62,
+      "w": 234,
+      "h": 259,
+      "anchorX": 0.5406,
+      "anchorY": 0.9344,
+      "logicalHeight": 306,
+      "label": "rust woman work 3",
+      "kind": "people-cast2-work",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          680,
+          64,
+          230,
+          255
+        ],
+        "visiblePixels": 31525,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-work.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-work"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-work"
+    },
+    "rust-woman-work-4": {
+      "sheet": "people-cast2-work",
+      "x": 984,
+      "y": 18,
+      "w": 231,
+      "h": 304,
+      "anchorX": 0.5368,
+      "anchorY": 0.9309,
+      "logicalHeight": 306,
+      "label": "rust woman work 4",
+      "kind": "people-cast2-work",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          986,
+          20,
+          227,
+          300
+        ],
+        "visiblePixels": 32178,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-work.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-work"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-work"
+    },
+    "indigo-work-1": {
+      "sheet": "people-cast2-work",
+      "x": 79,
+      "y": 323,
+      "w": 207,
+      "h": 317,
+      "anchorX": 0.6304,
+      "anchorY": 0.9558,
+      "logicalHeight": 317,
+      "label": "indigo work 1",
+      "kind": "people-cast2-work",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          81,
+          325,
+          203,
+          314
+        ],
+        "visiblePixels": 35122,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-work.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-work"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-work"
+    },
+    "indigo-work-2": {
+      "sheet": "people-cast2-work",
+      "x": 387,
+      "y": 341,
+      "w": 253,
+      "h": 300,
+      "anchorX": 0.5316,
+      "anchorY": 0.93,
+      "logicalHeight": 317,
+      "label": "indigo work 2",
+      "kind": "people-cast2-work",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          389,
+          343,
+          249,
+          296
+        ],
+        "visiblePixels": 34316,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-work.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-work"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-work"
+    },
+    "indigo-work-3": {
+      "sheet": "people-cast2-work",
+      "x": 677,
+      "y": 389,
+      "w": 237,
+      "h": 253,
+      "anchorX": 0.5422,
+      "anchorY": 0.9289,
+      "logicalHeight": 317,
+      "label": "indigo work 3",
+      "kind": "people-cast2-work",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          679,
+          391,
+          233,
+          249
+        ],
+        "visiblePixels": 31517,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-work.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-work"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-work"
+    },
+    "indigo-work-4": {
+      "sheet": "people-cast2-work",
+      "x": 986,
+      "y": 344,
+      "w": 228,
+      "h": 297,
+      "anchorX": 0.5373,
+      "anchorY": 0.9327,
+      "logicalHeight": 317,
+      "label": "indigo work 4",
+      "kind": "people-cast2-work",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          988,
+          346,
+          224,
+          293
+        ],
+        "visiblePixels": 32734,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-work.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-work"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-work"
+    },
+    "ochre-work-1": {
+      "sheet": "people-cast2-work",
+      "x": 60,
+      "y": 640,
+      "w": 228,
+      "h": 315,
+      "anchorX": 0.6382,
+      "anchorY": 0.9397,
+      "logicalHeight": 315,
+      "label": "ochre work 1",
+      "kind": "people-cast2-work",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          62,
+          642,
+          224,
+          311
+        ],
+        "visiblePixels": 30881,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-work.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-work"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-work"
+    },
+    "ochre-work-2": {
+      "sheet": "people-cast2-work",
+      "x": 397,
+      "y": 658,
+      "w": 240,
+      "h": 296,
+      "anchorX": 0.4958,
+      "anchorY": 0.9324,
+      "logicalHeight": 315,
+      "label": "ochre work 2",
+      "kind": "people-cast2-work",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          399,
+          660,
+          236,
+          292
+        ],
+        "visiblePixels": 28212,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-work.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-work"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-work"
+    },
+    "ochre-work-3": {
+      "sheet": "people-cast2-work",
+      "x": 688,
+      "y": 690,
+      "w": 225,
+      "h": 265,
+      "anchorX": 0.4978,
+      "anchorY": 0.9283,
+      "logicalHeight": 315,
+      "label": "ochre work 3",
+      "kind": "people-cast2-work",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          690,
+          692,
+          221,
+          261
+        ],
+        "visiblePixels": 28162,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-work.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-work"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-work"
+    },
+    "ochre-work-4": {
+      "sheet": "people-cast2-work",
+      "x": 998,
+      "y": 652,
+      "w": 219,
+      "h": 303,
+      "anchorX": 0.5046,
+      "anchorY": 0.9406,
+      "logicalHeight": 315,
+      "label": "ochre work 4",
+      "kind": "people-cast2-work",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1000,
+          654,
+          215,
+          299
+        ],
+        "visiblePixels": 29024,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-work.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-work"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-work"
+    },
+    "blue-girl-work-1": {
+      "sheet": "people-cast2-work",
+      "x": 81,
+      "y": 956,
+      "w": 196,
+      "h": 279,
+      "anchorX": 0.6582,
+      "anchorY": 0.9391,
+      "logicalHeight": 279,
+      "label": "blue girl work 1",
+      "kind": "people-cast2-work",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          83,
+          958,
+          192,
+          275
+        ],
+        "visiblePixels": 25994,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-work.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-work"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-work"
+    },
+    "blue-girl-work-2": {
+      "sheet": "people-cast2-work",
+      "x": 418,
+      "y": 980,
+      "w": 221,
+      "h": 255,
+      "anchorX": 0.5113,
+      "anchorY": 0.9294,
+      "logicalHeight": 279,
+      "label": "blue girl work 2",
+      "kind": "people-cast2-work",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          420,
+          982,
+          217,
+          251
+        ],
+        "visiblePixels": 24182,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-work.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-work"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-work"
+    },
+    "blue-girl-work-3": {
+      "sheet": "people-cast2-work",
+      "x": 696,
+      "y": 1014,
+      "w": 214,
+      "h": 221,
+      "anchorX": 0.521,
+      "anchorY": 0.9321,
+      "logicalHeight": 279,
+      "label": "blue girl work 3",
+      "kind": "people-cast2-work",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          698,
+          1016,
+          210,
+          217
+        ],
+        "visiblePixels": 22063,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-work.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-work"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-work"
+    },
+    "blue-girl-work-4": {
+      "sheet": "people-cast2-work",
+      "x": 1011,
+      "y": 981,
+      "w": 208,
+      "h": 253,
+      "anchorX": 0.5168,
+      "anchorY": 0.9289,
+      "logicalHeight": 279,
+      "label": "blue girl work 4",
+      "kind": "people-cast2-work",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1013,
+          983,
+          204,
+          249
+        ],
+        "visiblePixels": 23727,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-work.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-work"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-work"
+    },
     "rust-woman-idle-s": {
       "sheet": "people-cast2-idle",
       "x": 173,
@@ -24886,6 +25570,102 @@
     }
   },
   "clips": {
+    "rust-woman-work": {
+      "frames": [
+        {
+          "sprite": "rust-woman-work-1",
+          "duration": 240
+        },
+        {
+          "sprite": "rust-woman-work-2",
+          "duration": 120
+        },
+        {
+          "sprite": "rust-woman-work-3",
+          "duration": 220
+        },
+        {
+          "sprite": "rust-woman-work-4",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "indigo-work": {
+      "frames": [
+        {
+          "sprite": "indigo-work-1",
+          "duration": 240
+        },
+        {
+          "sprite": "indigo-work-2",
+          "duration": 120
+        },
+        {
+          "sprite": "indigo-work-3",
+          "duration": 220
+        },
+        {
+          "sprite": "indigo-work-4",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ochre-work": {
+      "frames": [
+        {
+          "sprite": "ochre-work-1",
+          "duration": 240
+        },
+        {
+          "sprite": "ochre-work-2",
+          "duration": 120
+        },
+        {
+          "sprite": "ochre-work-3",
+          "duration": 220
+        },
+        {
+          "sprite": "ochre-work-4",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-girl-work": {
+      "frames": [
+        {
+          "sprite": "blue-girl-work-1",
+          "duration": 240
+        },
+        {
+          "sprite": "blue-girl-work-2",
+          "duration": 120
+        },
+        {
+          "sprite": "blue-girl-work-3",
+          "duration": 220
+        },
+        {
+          "sprite": "blue-girl-work-4",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "rust-woman-idle-s": {
       "frames": [
         {
@@ -29051,6 +29831,2012 @@
     }
   ],
   "assemblies": {
+    "bexar": {
+      "id": "bexar-1836-reconstruction",
+      "units": "ft",
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 4000,
+        "height": 3400
+      },
+      "plazas": [
+        {
+          "id": "plaza-armas",
+          "label": "Plaza de Armas",
+          "x": 720,
+          "y": 1840,
+          "width": 340,
+          "height": 350
+        },
+        {
+          "id": "plaza-islas",
+          "label": "Plaza de las Islas",
+          "x": 1240,
+          "y": 1840,
+          "width": 360,
+          "height": 350
+        },
+        {
+          "id": "plaza-valero",
+          "label": "Plaza de Valero",
+          "x": 2630,
+          "y": 1140,
+          "width": 310,
+          "height": 250
+        }
+      ],
+      "river": {
+        "id": "san-antonio-river",
+        "label": "San Antonio River",
+        "widthFeet": 64,
+        "points": [
+          {
+            "x": 2010,
+            "y": 0
+          },
+          {
+            "x": 1900,
+            "y": 280
+          },
+          {
+            "x": 2050,
+            "y": 540
+          },
+          {
+            "x": 1900,
+            "y": 780
+          },
+          {
+            "x": 2040,
+            "y": 1000
+          },
+          {
+            "x": 2220,
+            "y": 1160
+          },
+          {
+            "x": 2230,
+            "y": 1420
+          },
+          {
+            "x": 2030,
+            "y": 1530
+          },
+          {
+            "x": 1900,
+            "y": 1740
+          },
+          {
+            "x": 1990,
+            "y": 1970
+          },
+          {
+            "x": 2290,
+            "y": 2170
+          },
+          {
+            "x": 2510,
+            "y": 2150
+          },
+          {
+            "x": 2730,
+            "y": 2310
+          },
+          {
+            "x": 2780,
+            "y": 2580
+          },
+          {
+            "x": 2590,
+            "y": 2760
+          },
+          {
+            "x": 2300,
+            "y": 2700
+          },
+          {
+            "x": 2170,
+            "y": 2480
+          },
+          {
+            "x": 1980,
+            "y": 2540
+          },
+          {
+            "x": 1940,
+            "y": 2800
+          },
+          {
+            "x": 2080,
+            "y": 3120
+          },
+          {
+            "x": 2040,
+            "y": 3400
+          }
+        ]
+      },
+      "roads": [
+        {
+          "id": "plaza-north-lane",
+          "widthFeet": 42,
+          "points": [
+            {
+              "x": 350,
+              "y": 1780
+            },
+            {
+              "x": 1750,
+              "y": 1780
+            },
+            {
+              "x": 2030,
+              "y": 1530
+            }
+          ]
+        },
+        {
+          "id": "plaza-south-lane",
+          "widthFeet": 42,
+          "points": [
+            {
+              "x": 350,
+              "y": 2250
+            },
+            {
+              "x": 1700,
+              "y": 2250
+            }
+          ]
+        },
+        {
+          "id": "west-road",
+          "widthFeet": 36,
+          "points": [
+            {
+              "x": 0,
+              "y": 2040
+            },
+            {
+              "x": 720,
+              "y": 2040
+            }
+          ]
+        },
+        {
+          "id": "north-road",
+          "widthFeet": 36,
+          "points": [
+            {
+              "x": 570,
+              "y": 600
+            },
+            {
+              "x": 570,
+              "y": 2760
+            }
+          ]
+        },
+        {
+          "id": "south-road",
+          "widthFeet": 36,
+          "points": [
+            {
+              "x": 1420,
+              "y": 2190
+            },
+            {
+              "x": 1420,
+              "y": 3400
+            }
+          ]
+        },
+        {
+          "id": "east-town-lane",
+          "widthFeet": 32,
+          "points": [
+            {
+              "x": 1720,
+              "y": 1410
+            },
+            {
+              "x": 1720,
+              "y": 2740
+            }
+          ]
+        },
+        {
+          "id": "valero-crossing-road",
+          "widthFeet": 36,
+          "points": [
+            {
+              "x": 1600,
+              "y": 2015
+            },
+            {
+              "x": 1790,
+              "y": 1660
+            },
+            {
+              "x": 2030,
+              "y": 1530
+            },
+            {
+              "x": 2420,
+              "y": 1480
+            },
+            {
+              "x": 2780,
+              "y": 1300
+            },
+            {
+              "x": 2750,
+              "y": 1087
+            }
+          ]
+        },
+        {
+          "id": "alameda",
+          "widthFeet": 46,
+          "points": [
+            {
+              "x": 2780,
+              "y": 1300
+            },
+            {
+              "x": 3200,
+              "y": 1480
+            },
+            {
+              "x": 3990,
+              "y": 1480
+            }
+          ]
+        },
+        {
+          "id": "villita-lane",
+          "widthFeet": 30,
+          "points": [
+            {
+              "x": 2420,
+              "y": 1480
+            },
+            {
+              "x": 2530,
+              "y": 1760
+            },
+            {
+              "x": 3010,
+              "y": 1980
+            },
+            {
+              "x": 3340,
+              "y": 2440
+            }
+          ]
+        }
+      ],
+      "buildings": [
+        {
+          "id": "san-fernando",
+          "sprite": "chapel",
+          "x": 1150,
+          "y": 2020,
+          "heightFeet": 105,
+          "label": "San Fernando Church",
+          "reconstruction": true
+        },
+        {
+          "id": "governors-palace",
+          "sprite": "adobe-flat",
+          "x": 650,
+          "y": 1980,
+          "heightFeet": 80,
+          "label": "Governor’s Palace",
+          "reconstruction": true
+        },
+        {
+          "id": "town-hall",
+          "sprite": "trading-house",
+          "x": 905,
+          "y": 2285,
+          "heightFeet": 82,
+          "label": "Civic buildings · reconstructed",
+          "reconstruction": true
+        },
+        {
+          "id": "plaza-armas-north-1",
+          "sprite": "adobe-tile",
+          "x": 740,
+          "y": 1770,
+          "heightFeet": 63,
+          "reconstruction": true
+        },
+        {
+          "id": "plaza-armas-north-2",
+          "sprite": "adobe-flat",
+          "x": 815,
+          "y": 1770,
+          "heightFeet": 69,
+          "reconstruction": true
+        },
+        {
+          "id": "plaza-armas-north-3",
+          "sprite": "adobe-flat",
+          "x": 890,
+          "y": 1770,
+          "heightFeet": 57,
+          "reconstruction": true
+        },
+        {
+          "id": "plaza-armas-north-4",
+          "sprite": "trading-house",
+          "x": 965,
+          "y": 1770,
+          "heightFeet": 63,
+          "reconstruction": true
+        },
+        {
+          "id": "plaza-armas-north-5",
+          "sprite": "adobe-flat",
+          "x": 1040,
+          "y": 1770,
+          "heightFeet": 69,
+          "reconstruction": true
+        },
+        {
+          "id": "plaza-armas-south-6",
+          "sprite": "adobe-tile",
+          "x": 740,
+          "y": 2310,
+          "heightFeet": 57,
+          "reconstruction": true
+        },
+        {
+          "id": "plaza-armas-south-7",
+          "sprite": "adobe-flat",
+          "x": 815,
+          "y": 2310,
+          "heightFeet": 63,
+          "reconstruction": true
+        },
+        {
+          "id": "plaza-armas-south-8",
+          "sprite": "adobe-flat",
+          "x": 890,
+          "y": 2310,
+          "heightFeet": 69,
+          "reconstruction": true
+        },
+        {
+          "id": "plaza-armas-south-9",
+          "sprite": "trading-house",
+          "x": 965,
+          "y": 2310,
+          "heightFeet": 57,
+          "reconstruction": true
+        },
+        {
+          "id": "plaza-armas-south-10",
+          "sprite": "adobe-flat",
+          "x": 1040,
+          "y": 2310,
+          "heightFeet": 63,
+          "reconstruction": true
+        },
+        {
+          "id": "plaza-islas-north-11",
+          "sprite": "adobe-tile",
+          "x": 1260,
+          "y": 1770,
+          "heightFeet": 69,
+          "reconstruction": true
+        },
+        {
+          "id": "plaza-islas-north-12",
+          "sprite": "adobe-flat",
+          "x": 1335,
+          "y": 1770,
+          "heightFeet": 57,
+          "reconstruction": true
+        },
+        {
+          "id": "plaza-islas-north-13",
+          "sprite": "adobe-flat",
+          "x": 1410,
+          "y": 1770,
+          "heightFeet": 63,
+          "reconstruction": true
+        },
+        {
+          "id": "plaza-islas-north-14",
+          "sprite": "trading-house",
+          "x": 1485,
+          "y": 1770,
+          "heightFeet": 69,
+          "reconstruction": true
+        },
+        {
+          "id": "plaza-islas-north-15",
+          "sprite": "adobe-flat",
+          "x": 1560,
+          "y": 1770,
+          "heightFeet": 57,
+          "reconstruction": true
+        },
+        {
+          "id": "plaza-islas-south-16",
+          "sprite": "adobe-tile",
+          "x": 1260,
+          "y": 2310,
+          "heightFeet": 63,
+          "reconstruction": true
+        },
+        {
+          "id": "plaza-islas-south-17",
+          "sprite": "adobe-flat",
+          "x": 1335,
+          "y": 2310,
+          "heightFeet": 69,
+          "reconstruction": true
+        },
+        {
+          "id": "plaza-islas-south-18",
+          "sprite": "adobe-flat",
+          "x": 1410,
+          "y": 2310,
+          "heightFeet": 57,
+          "reconstruction": true
+        },
+        {
+          "id": "plaza-islas-south-19",
+          "sprite": "trading-house",
+          "x": 1485,
+          "y": 2310,
+          "heightFeet": 63,
+          "reconstruction": true
+        },
+        {
+          "id": "plaza-islas-south-20",
+          "sprite": "adobe-flat",
+          "x": 1560,
+          "y": 2310,
+          "heightFeet": 69,
+          "reconstruction": true
+        },
+        {
+          "id": "western-lane-21",
+          "sprite": "adobe-tile",
+          "x": 430,
+          "y": 1280,
+          "heightFeet": 57,
+          "reconstruction": true
+        },
+        {
+          "id": "western-lane-22",
+          "sprite": "adobe-flat",
+          "x": 430,
+          "y": 1405,
+          "heightFeet": 63,
+          "reconstruction": true
+        },
+        {
+          "id": "western-lane-23",
+          "sprite": "adobe-flat",
+          "x": 430,
+          "y": 1530,
+          "heightFeet": 69,
+          "reconstruction": true
+        },
+        {
+          "id": "western-lane-24",
+          "sprite": "trading-house",
+          "x": 430,
+          "y": 1655,
+          "heightFeet": 57,
+          "reconstruction": true
+        },
+        {
+          "id": "western-lane-25",
+          "sprite": "adobe-flat",
+          "x": 430,
+          "y": 1780,
+          "heightFeet": 63,
+          "reconstruction": true
+        },
+        {
+          "id": "western-lane-26",
+          "sprite": "adobe-tile",
+          "x": 430,
+          "y": 1905,
+          "heightFeet": 69,
+          "reconstruction": true
+        },
+        {
+          "id": "western-lane-27",
+          "sprite": "adobe-flat",
+          "x": 430,
+          "y": 2030,
+          "heightFeet": 57,
+          "reconstruction": true
+        },
+        {
+          "id": "western-lane-28",
+          "sprite": "adobe-flat",
+          "x": 430,
+          "y": 2155,
+          "heightFeet": 63,
+          "reconstruction": true
+        },
+        {
+          "id": "western-lane-29",
+          "sprite": "trading-house",
+          "x": 430,
+          "y": 2280,
+          "heightFeet": 69,
+          "reconstruction": true
+        },
+        {
+          "id": "western-lane-30",
+          "sprite": "adobe-flat",
+          "x": 430,
+          "y": 2405,
+          "heightFeet": 57,
+          "reconstruction": true
+        },
+        {
+          "id": "outer-west-31",
+          "sprite": "adobe-tile",
+          "x": 255,
+          "y": 1450,
+          "heightFeet": 63,
+          "reconstruction": true
+        },
+        {
+          "id": "outer-west-32",
+          "sprite": "adobe-flat",
+          "x": 255,
+          "y": 1590,
+          "heightFeet": 69,
+          "reconstruction": true
+        },
+        {
+          "id": "outer-west-33",
+          "sprite": "adobe-flat",
+          "x": 255,
+          "y": 1730,
+          "heightFeet": 57,
+          "reconstruction": true
+        },
+        {
+          "id": "outer-west-34",
+          "sprite": "trading-house",
+          "x": 255,
+          "y": 1870,
+          "heightFeet": 63,
+          "reconstruction": true
+        },
+        {
+          "id": "outer-west-35",
+          "sprite": "adobe-flat",
+          "x": 255,
+          "y": 2010,
+          "heightFeet": 69,
+          "reconstruction": true
+        },
+        {
+          "id": "outer-west-36",
+          "sprite": "adobe-tile",
+          "x": 255,
+          "y": 2150,
+          "heightFeet": 57,
+          "reconstruction": true
+        },
+        {
+          "id": "outer-west-37",
+          "sprite": "adobe-flat",
+          "x": 255,
+          "y": 2290,
+          "heightFeet": 63,
+          "reconstruction": true
+        },
+        {
+          "id": "eastern-lane-38",
+          "sprite": "adobe-flat",
+          "x": 1660,
+          "y": 1570,
+          "heightFeet": 69,
+          "reconstruction": true
+        },
+        {
+          "id": "eastern-lane-39",
+          "sprite": "trading-house",
+          "x": 1660,
+          "y": 1715,
+          "heightFeet": 57,
+          "reconstruction": true
+        },
+        {
+          "id": "eastern-lane-40",
+          "sprite": "adobe-flat",
+          "x": 1660,
+          "y": 1860,
+          "heightFeet": 63,
+          "reconstruction": true
+        },
+        {
+          "id": "eastern-lane-41",
+          "sprite": "adobe-tile",
+          "x": 1660,
+          "y": 2005,
+          "heightFeet": 69,
+          "reconstruction": true
+        },
+        {
+          "id": "eastern-lane-42",
+          "sprite": "adobe-flat",
+          "x": 1660,
+          "y": 2150,
+          "heightFeet": 57,
+          "reconstruction": true
+        },
+        {
+          "id": "eastern-lane-43",
+          "sprite": "adobe-flat",
+          "x": 1660,
+          "y": 2295,
+          "heightFeet": 63,
+          "reconstruction": true
+        },
+        {
+          "id": "eastern-lane-44",
+          "sprite": "trading-house",
+          "x": 1660,
+          "y": 2440,
+          "heightFeet": 69,
+          "reconstruction": true
+        },
+        {
+          "id": "north-neighbourhood-45",
+          "sprite": "adobe-flat",
+          "x": 760,
+          "y": 1430,
+          "heightFeet": 57,
+          "reconstruction": true
+        },
+        {
+          "id": "north-neighbourhood-46",
+          "sprite": "adobe-tile",
+          "x": 945,
+          "y": 1430,
+          "heightFeet": 63,
+          "reconstruction": true
+        },
+        {
+          "id": "north-neighbourhood-47",
+          "sprite": "adobe-flat",
+          "x": 1130,
+          "y": 1430,
+          "heightFeet": 69,
+          "reconstruction": true
+        },
+        {
+          "id": "north-neighbourhood-48",
+          "sprite": "adobe-flat",
+          "x": 1315,
+          "y": 1430,
+          "heightFeet": 57,
+          "reconstruction": true
+        },
+        {
+          "id": "north-neighbourhood-49",
+          "sprite": "trading-house",
+          "x": 1500,
+          "y": 1430,
+          "heightFeet": 63,
+          "reconstruction": true
+        },
+        {
+          "id": "north-neighbourhood-50",
+          "sprite": "adobe-flat",
+          "x": 760,
+          "y": 1600,
+          "heightFeet": 69,
+          "reconstruction": true
+        },
+        {
+          "id": "north-neighbourhood-51",
+          "sprite": "adobe-tile",
+          "x": 945,
+          "y": 1600,
+          "heightFeet": 57,
+          "reconstruction": true
+        },
+        {
+          "id": "north-neighbourhood-52",
+          "sprite": "adobe-flat",
+          "x": 1130,
+          "y": 1600,
+          "heightFeet": 63,
+          "reconstruction": true
+        },
+        {
+          "id": "north-neighbourhood-53",
+          "sprite": "adobe-flat",
+          "x": 1315,
+          "y": 1600,
+          "heightFeet": 69,
+          "reconstruction": true
+        },
+        {
+          "id": "north-neighbourhood-54",
+          "sprite": "trading-house",
+          "x": 1500,
+          "y": 1600,
+          "heightFeet": 57,
+          "reconstruction": true
+        },
+        {
+          "id": "south-neighbourhood-55",
+          "sprite": "adobe-flat",
+          "x": 770,
+          "y": 2570,
+          "heightFeet": 63,
+          "reconstruction": true
+        },
+        {
+          "id": "south-neighbourhood-56",
+          "sprite": "adobe-tile",
+          "x": 950,
+          "y": 2570,
+          "heightFeet": 69,
+          "reconstruction": true
+        },
+        {
+          "id": "south-neighbourhood-57",
+          "sprite": "adobe-flat",
+          "x": 1130,
+          "y": 2570,
+          "heightFeet": 57,
+          "reconstruction": true
+        },
+        {
+          "id": "south-neighbourhood-58",
+          "sprite": "adobe-flat",
+          "x": 1310,
+          "y": 2570,
+          "heightFeet": 63,
+          "reconstruction": true
+        },
+        {
+          "id": "south-neighbourhood-59",
+          "sprite": "trading-house",
+          "x": 1490,
+          "y": 2570,
+          "heightFeet": 69,
+          "reconstruction": true
+        },
+        {
+          "id": "south-neighbourhood-60",
+          "sprite": "adobe-flat",
+          "x": 770,
+          "y": 2780,
+          "heightFeet": 57,
+          "reconstruction": true
+        },
+        {
+          "id": "south-neighbourhood-61",
+          "sprite": "adobe-tile",
+          "x": 950,
+          "y": 2780,
+          "heightFeet": 63,
+          "reconstruction": true
+        },
+        {
+          "id": "south-neighbourhood-62",
+          "sprite": "adobe-flat",
+          "x": 1130,
+          "y": 2780,
+          "heightFeet": 69,
+          "reconstruction": true
+        },
+        {
+          "id": "south-neighbourhood-63",
+          "sprite": "adobe-flat",
+          "x": 1310,
+          "y": 2780,
+          "heightFeet": 57,
+          "reconstruction": true
+        },
+        {
+          "id": "south-neighbourhood-64",
+          "sprite": "trading-house",
+          "x": 1490,
+          "y": 2780,
+          "heightFeet": 63,
+          "reconstruction": true
+        },
+        {
+          "id": "valero-houses-65",
+          "sprite": "adobe-flat",
+          "x": 2490,
+          "y": 1240,
+          "heightFeet": 69,
+          "reconstruction": true
+        },
+        {
+          "id": "valero-houses-66",
+          "sprite": "adobe-tile",
+          "x": 2520,
+          "y": 1390,
+          "heightFeet": 57,
+          "reconstruction": true
+        },
+        {
+          "id": "valero-houses-67",
+          "sprite": "adobe-flat",
+          "x": 3000,
+          "y": 1260,
+          "heightFeet": 63,
+          "reconstruction": true
+        },
+        {
+          "id": "valero-houses-68",
+          "sprite": "adobe-flat",
+          "x": 3100,
+          "y": 1370,
+          "heightFeet": 69,
+          "reconstruction": true
+        },
+        {
+          "id": "la-villita-69",
+          "sprite": "trading-house",
+          "x": 2530,
+          "y": 1590,
+          "heightFeet": 57,
+          "reconstruction": true
+        },
+        {
+          "id": "la-villita-70",
+          "sprite": "adobe-flat",
+          "x": 2720,
+          "y": 1700,
+          "heightFeet": 63,
+          "reconstruction": true
+        },
+        {
+          "id": "la-villita-71",
+          "sprite": "adobe-tile",
+          "x": 2900,
+          "y": 1800,
+          "heightFeet": 69,
+          "reconstruction": true
+        },
+        {
+          "id": "la-villita-72",
+          "sprite": "adobe-flat",
+          "x": 3100,
+          "y": 1890,
+          "heightFeet": 57,
+          "reconstruction": true
+        },
+        {
+          "id": "la-villita-73",
+          "sprite": "adobe-flat",
+          "x": 3060,
+          "y": 2130,
+          "heightFeet": 63,
+          "reconstruction": true
+        },
+        {
+          "id": "la-villita-74",
+          "sprite": "trading-house",
+          "x": 3210,
+          "y": 2180,
+          "heightFeet": 69,
+          "reconstruction": true
+        },
+        {
+          "id": "la-villita-75",
+          "sprite": "adobe-flat",
+          "x": 3280,
+          "y": 2380,
+          "heightFeet": 57,
+          "reconstruction": true
+        },
+        {
+          "id": "villita-jacal-1",
+          "sprite": "house-jacal",
+          "x": 3260,
+          "y": 2560,
+          "heightFeet": 57,
+          "reconstruction": true
+        },
+        {
+          "id": "villita-jacal-2",
+          "sprite": "house-jacal",
+          "x": 3470,
+          "y": 2460,
+          "heightFeet": 61,
+          "reconstruction": true
+        }
+      ],
+      "props": [
+        {
+          "id": "bank-tree-1-0--1",
+          "sprite": "cottonwood",
+          "x": 2070.7101194752277,
+          "y": 64.25218979383948,
+          "heightFeet": 45
+        },
+        {
+          "id": "bank-tree-1-0-1",
+          "sprite": "cottonwood",
+          "x": 1921.7898805247723,
+          "y": 5.747810206160516,
+          "heightFeet": 45
+        },
+        {
+          "id": "bank-tree-1-1--1",
+          "sprite": "cottonwood",
+          "x": 2057.171391876833,
+          "y": 139.7369753801844,
+          "heightFeet": 50
+        },
+        {
+          "id": "bank-tree-1-1-1",
+          "sprite": "cottonwood",
+          "x": 1880.328608123167,
+          "y": 70.26302461981561,
+          "heightFeet": 50
+        },
+        {
+          "id": "bank-tree-1-2--1",
+          "sprite": "pecan",
+          "x": 2001.7488470736225,
+          "y": 198.76740420749456,
+          "heightFeet": 55
+        },
+        {
+          "id": "bank-tree-1-2-1",
+          "sprite": "pecan",
+          "x": 1880.7511529263775,
+          "y": 151.23259579250544,
+          "heightFeet": 55
+        },
+        {
+          "id": "bank-tree-1-3--1",
+          "sprite": "cottonwood",
+          "x": 1988.2101194752277,
+          "y": 274.2521897938395,
+          "heightFeet": 40
+        },
+        {
+          "id": "bank-tree-1-3-1",
+          "sprite": "cottonwood",
+          "x": 1839.2898805247723,
+          "y": 215.74781020616052,
+          "heightFeet": 40
+        },
+        {
+          "id": "bank-tree-2-0--1",
+          "sprite": "cottonwood",
+          "x": 2001.037630674617,
+          "y": 265.02636691849017,
+          "heightFeet": 50
+        },
+        {
+          "id": "bank-tree-2-0-1",
+          "sprite": "cottonwood",
+          "x": 1836.462369325383,
+          "y": 359.97363308150983,
+          "heightFeet": 50
+        },
+        {
+          "id": "bank-tree-2-1--1",
+          "sprite": "pecan",
+          "x": 2012.552063093159,
+          "y": 345.0180405231775,
+          "heightFeet": 55
+        },
+        {
+          "id": "bank-tree-2-1-1",
+          "sprite": "pecan",
+          "x": 1899.947936906841,
+          "y": 409.9819594768225,
+          "heightFeet": 55
+        },
+        {
+          "id": "bank-tree-2-2--1",
+          "sprite": "cottonwood",
+          "x": 2063.044846883888,
+          "y": 402.52220372083383,
+          "heightFeet": 40
+        },
+        {
+          "id": "bank-tree-2-2-1",
+          "sprite": "cottonwood",
+          "x": 1924.455153116112,
+          "y": 482.47779627916617,
+          "heightFeet": 40
+        },
+        {
+          "id": "bank-tree-2-3--1",
+          "sprite": "cottonwood",
+          "x": 2113.537630674617,
+          "y": 460.02636691849017,
+          "heightFeet": 45
+        },
+        {
+          "id": "bank-tree-2-3-1",
+          "sprite": "cottonwood",
+          "x": 1948.962369325383,
+          "y": 554.9736330815099,
+          "heightFeet": 45
+        },
+        {
+          "id": "bank-tree-3-0--1",
+          "sprite": "pecan",
+          "x": 2080.119889760331,
+          "y": 614.4499311002068,
+          "heightFeet": 55
+        },
+        {
+          "id": "bank-tree-3-0-1",
+          "sprite": "pecan",
+          "x": 1969.8801102396692,
+          "y": 545.5500688997932,
+          "heightFeet": 55
+        },
+        {
+          "id": "bank-tree-3-1--1",
+          "sprite": "cottonwood",
+          "x": 2042.839864320407,
+          "y": 702.3999152002544,
+          "heightFeet": 40
+        },
+        {
+          "id": "bank-tree-3-1-1",
+          "sprite": "cottonwood",
+          "x": 1907.160135679593,
+          "y": 617.6000847997456,
+          "heightFeet": 40
+        },
+        {
+          "id": "bank-tree-3-2--1",
+          "sprite": "cottonwood",
+          "x": 2005.5598388804833,
+          "y": 790.3498993003021,
+          "heightFeet": 45
+        },
+        {
+          "id": "bank-tree-3-2-1",
+          "sprite": "cottonwood",
+          "x": 1844.4401611195167,
+          "y": 689.6501006996979,
+          "heightFeet": 45
+        },
+        {
+          "id": "bank-tree-4-0--1",
+          "sprite": "cottonwood",
+          "x": 1990.826252351902,
+          "y": 773.7166272912139,
+          "heightFeet": 40
+        },
+        {
+          "id": "bank-tree-4-0-1",
+          "sprite": "cottonwood",
+          "x": 1855.8404143147645,
+          "y": 859.6167060421194,
+          "heightFeet": 40
+        },
+        {
+          "id": "bank-tree-4-1--1",
+          "sprite": "cottonwood",
+          "x": 2050.1478413345503,
+          "y": 838.9968282416498,
+          "heightFeet": 45
+        },
+        {
+          "id": "bank-tree-4-1-1",
+          "sprite": "cottonwood",
+          "x": 1889.8521586654497,
+          "y": 941.0031717583502,
+          "heightFeet": 45
+        },
+        {
+          "id": "bank-tree-4-2--1",
+          "sprite": "pecan",
+          "x": 2071.5046633692536,
+          "y": 928.436426340778,
+          "heightFeet": 50
+        },
+        {
+          "id": "bank-tree-4-2-1",
+          "sprite": "pecan",
+          "x": 1961.8286699640798,
+          "y": 998.2302403258888,
+          "heightFeet": 50
+        },
+        {
+          "id": "bank-tree-5-0--1",
+          "sprite": "cottonwood",
+          "x": 2133.114564688842,
+          "y": 955.662781391719,
+          "heightFeet": 45
+        },
+        {
+          "id": "bank-tree-5-0-1",
+          "sprite": "cottonwood",
+          "x": 2006.8854353111576,
+          "y": 1097.6705519416143,
+          "heightFeet": 45
+        },
+        {
+          "id": "bank-tree-5-1--1",
+          "sprite": "pecan",
+          "x": 2173.183649523945,
+          "y": 1031.418394285562,
+          "heightFeet": 50
+        },
+        {
+          "id": "bank-tree-5-1-1",
+          "sprite": "pecan",
+          "x": 2086.816350476055,
+          "y": 1128.581605714438,
+          "heightFeet": 50
+        },
+        {
+          "id": "bank-tree-5-2--1",
+          "sprite": "cottonwood",
+          "x": 2243.149107106394,
+          "y": 1073.5405878386405,
+          "heightFeet": 55
+        },
+        {
+          "id": "bank-tree-5-2-1",
+          "sprite": "cottonwood",
+          "x": 2136.850892893606,
+          "y": 1193.126078828026,
+          "heightFeet": 55
+        },
+        {
+          "id": "bank-tree-6-0--1",
+          "sprite": "pecan",
+          "x": 2286.6186430177017,
+          "y": 1200.835180396755,
+          "heightFeet": 50
+        },
+        {
+          "id": "bank-tree-6-0-1",
+          "sprite": "pecan",
+          "x": 2156.7146903156313,
+          "y": 1205.8314862699115,
+          "heightFeet": 50
+        },
+        {
+          "id": "bank-tree-6-1--1",
+          "sprite": "cottonwood",
+          "x": 2304.940893970505,
+          "y": 1286.9253502319036,
+          "heightFeet": 55
+        },
+        {
+          "id": "bank-tree-6-1-1",
+          "sprite": "cottonwood",
+          "x": 2145.059106029495,
+          "y": 1293.0746497680964,
+          "heightFeet": 55
+        },
+        {
+          "id": "bank-tree-6-2--1",
+          "sprite": "cottonwood",
+          "x": 2323.2631449233086,
+          "y": 1373.0155200670524,
+          "heightFeet": 40
+        },
+        {
+          "id": "bank-tree-6-2-1",
+          "sprite": "cottonwood",
+          "x": 2133.4035217433584,
+          "y": 1380.317813266281,
+          "heightFeet": 40
+        },
+        {
+          "id": "bank-tree-7-0-1",
+          "sprite": "cottonwood",
+          "x": 2158.113166684894,
+          "y": 1368.2360606392015,
+          "heightFeet": 55
+        },
+        {
+          "id": "bank-tree-7-1-1",
+          "sprite": "cottonwood",
+          "x": 2084.217718771645,
+          "y": 1391.7594886757186,
+          "heightFeet": 40
+        },
+        {
+          "id": "bank-tree-7-2-1",
+          "sprite": "pecan",
+          "x": 2032.0086145981434,
+          "y": 1454.7126326026846,
+          "heightFeet": 45
+        },
+        {
+          "id": "bank-tree-8-0--1",
+          "sprite": "cottonwood",
+          "x": 2089.10852226868,
+          "y": 1615.003688388548,
+          "heightFeet": 40
+        },
+        {
+          "id": "bank-tree-8-1--1",
+          "sprite": "pecan",
+          "x": 2020.267234534711,
+          "y": 1669.2130499500593,
+          "heightFeet": 45
+        },
+        {
+          "id": "bank-tree-8-2--1",
+          "sprite": "cottonwood",
+          "x": 1989.6878784016958,
+          "y": 1747.1083691693036,
+          "heightFeet": 50
+        },
+        {
+          "id": "bank-tree-9-0--1",
+          "sprite": "pecan",
+          "x": 1975.530780680874,
+          "y": 1754.6473756756,
+          "heightFeet": 45
+        },
+        {
+          "id": "bank-tree-9-0-1",
+          "sprite": "pecan",
+          "x": 1854.469219319126,
+          "y": 1802.0192909910666,
+          "heightFeet": 45
+        },
+        {
+          "id": "bank-tree-9-1--1",
+          "sprite": "cottonwood",
+          "x": 2019.4994223764602,
+          "y": 1825.848052113559,
+          "heightFeet": 50
+        },
+        {
+          "id": "bank-tree-9-1-1",
+          "sprite": "cottonwood",
+          "x": 1870.5005776235398,
+          "y": 1884.151947886441,
+          "heightFeet": 50
+        },
+        {
+          "id": "bank-tree-9-2--1",
+          "sprite": "cottonwood",
+          "x": 2063.4680640720467,
+          "y": 1897.048728551518,
+          "heightFeet": 55
+        },
+        {
+          "id": "bank-tree-9-2-1",
+          "sprite": "cottonwood",
+          "x": 1886.5319359279533,
+          "y": 1966.2846047818155,
+          "heightFeet": 55
+        },
+        {
+          "id": "bank-tree-10-0--1",
+          "sprite": "cottonwood",
+          "x": 2071.8760156980184,
+          "y": 1928.4359764529725,
+          "heightFeet": 50
+        },
+        {
+          "id": "bank-tree-10-0-1",
+          "sprite": "cottonwood",
+          "x": 1983.1239843019816,
+          "y": 2061.5640235470273,
+          "heightFeet": 50
+        },
+        {
+          "id": "bank-tree-10-1--1",
+          "sprite": "cottonwood",
+          "x": 2155.196518641397,
+          "y": 1965.9552220379048,
+          "heightFeet": 55
+        },
+        {
+          "id": "bank-tree-10-1-1",
+          "sprite": "cottonwood",
+          "x": 2049.803481358603,
+          "y": 2124.044777962095,
+          "heightFeet": 55
+        },
+        {
+          "id": "bank-tree-10-2--1",
+          "sprite": "pecan",
+          "x": 2213.55551275464,
+          "y": 2040.91673086804,
+          "heightFeet": 40
+        },
+        {
+          "id": "bank-tree-10-2-1",
+          "sprite": "pecan",
+          "x": 2141.44448724536,
+          "y": 2149.0832691319597,
+          "heightFeet": 40
+        },
+        {
+          "id": "bank-tree-10-3--1",
+          "sprite": "cottonwood",
+          "x": 2296.8760156980184,
+          "y": 2078.4359764529727,
+          "heightFeet": 45
+        },
+        {
+          "id": "bank-tree-10-3-1",
+          "sprite": "cottonwood",
+          "x": 2208.1239843019816,
+          "y": 2211.5640235470273,
+          "heightFeet": 45
+        },
+        {
+          "id": "bank-tree-11-0--1",
+          "sprite": "cottonwood",
+          "x": 2318.065770792627,
+          "y": 2072.056812052235,
+          "heightFeet": 55
+        },
+        {
+          "id": "bank-tree-11-0-1",
+          "sprite": "cottonwood",
+          "x": 2335.267562540706,
+          "y": 2261.276521281098,
+          "heightFeet": 55
+        },
+        {
+          "id": "bank-tree-11-1--1",
+          "sprite": "pecan",
+          "x": 2394.1151765072364,
+          "y": 2095.2669415795995,
+          "heightFeet": 40
+        },
+        {
+          "id": "bank-tree-11-1-1",
+          "sprite": "pecan",
+          "x": 2405.8848234927636,
+          "y": 2224.7330584204005,
+          "heightFeet": 40
+        },
+        {
+          "id": "bank-tree-11-2--1",
+          "sprite": "cottonwood",
+          "x": 2466.090473649932,
+          "y": 2073.6618768159174,
+          "heightFeet": 45
+        },
+        {
+          "id": "bank-tree-11-2-1",
+          "sprite": "cottonwood",
+          "x": 2480.576193016735,
+          "y": 2233.0047898507496,
+          "heightFeet": 45
+        },
+        {
+          "id": "bank-tree-12-0--1",
+          "sprite": "pecan",
+          "x": 2584.8978270155444,
+          "y": 2124.0988211869594,
+          "heightFeet": 40
+        },
+        {
+          "id": "bank-tree-12-0-1",
+          "sprite": "pecan",
+          "x": 2508.4355063177886,
+          "y": 2229.2345121463736,
+          "heightFeet": 40
+        },
+        {
+          "id": "bank-tree-12-1--1",
+          "sprite": "cottonwood",
+          "x": 2667.0537358140036,
+          "y": 2165.301113255745,
+          "heightFeet": 45
+        },
+        {
+          "id": "bank-tree-12-1-1",
+          "sprite": "cottonwood",
+          "x": 2572.9462641859964,
+          "y": 2294.698886744255,
+          "heightFeet": 45
+        },
+        {
+          "id": "bank-tree-12-2--1",
+          "sprite": "cottonwood",
+          "x": 2749.209644612463,
+          "y": 2206.5034053245304,
+          "heightFeet": 50
+        },
+        {
+          "id": "bank-tree-12-2-1",
+          "sprite": "cottonwood",
+          "x": 2637.457022054204,
+          "y": 2360.1632613421366,
+          "heightFeet": 50
+        },
+        {
+          "id": "bank-tree-13-0--1",
+          "sprite": "cottonwood",
+          "x": 2816.9958937320903,
+          "y": 2340.4328591854155,
+          "heightFeet": 45
+        },
+        {
+          "id": "bank-tree-13-0-1",
+          "sprite": "cottonwood",
+          "x": 2659.6707729345767,
+          "y": 2369.5671408145845,
+          "heightFeet": 45
+        },
+        {
+          "id": "bank-tree-13-1--1",
+          "sprite": "cottonwood",
+          "x": 2848.4117904735235,
+          "y": 2427.7015202826806,
+          "heightFeet": 50
+        },
+        {
+          "id": "bank-tree-13-1-1",
+          "sprite": "cottonwood",
+          "x": 2661.5882095264765,
+          "y": 2462.2984797173194,
+          "heightFeet": 50
+        },
+        {
+          "id": "bank-tree-13-2--1",
+          "sprite": "pecan",
+          "x": 2835.5799969906566,
+          "y": 2523.16419808815,
+          "heightFeet": 55
+        },
+        {
+          "id": "bank-tree-13-2-1",
+          "sprite": "pecan",
+          "x": 2707.7533363426764,
+          "y": 2546.83580191185,
+          "heightFeet": 55
+        },
+        {
+          "id": "bank-tree-14-0--1",
+          "sprite": "cottonwood",
+          "x": 2813.6690748848578,
+          "y": 2678.9655049710536,
+          "heightFeet": 50
+        },
+        {
+          "id": "bank-tree-14-0-1",
+          "sprite": "cottonwood",
+          "x": 2682.997591781809,
+          "y": 2541.0344950289464,
+          "heightFeet": 50
+        },
+        {
+          "id": "bank-tree-14-1--1",
+          "sprite": "pecan",
+          "x": 2729.703402114201,
+          "y": 2717.186924453879,
+          "heightFeet": 55
+        },
+        {
+          "id": "bank-tree-14-1-1",
+          "sprite": "pecan",
+          "x": 2640.296597885799,
+          "y": 2622.813075546121,
+          "heightFeet": 55
+        },
+        {
+          "id": "bank-tree-14-2--1",
+          "sprite": "cottonwood",
+          "x": 2676.6862384995293,
+          "y": 2788.076214712466,
+          "heightFeet": 40
+        },
+        {
+          "id": "bank-tree-14-2-1",
+          "sprite": "cottonwood",
+          "x": 2566.6470948338037,
+          "y": 2671.923785287534,
+          "heightFeet": 40
+        },
+        {
+          "id": "bank-tree-15-0--1",
+          "sprite": "pecan",
+          "x": 2528.4973024043297,
+          "y": 2813.6519272679616,
+          "heightFeet": 55
+        },
+        {
+          "id": "bank-tree-15-0-1",
+          "sprite": "pecan",
+          "x": 2554.8360309290033,
+          "y": 2686.3480727320384,
+          "heightFeet": 55
+        },
+        {
+          "id": "bank-tree-15-1--1",
+          "sprite": "cottonwood",
+          "x": 2428.7915516771236,
+          "y": 2808.340833560568,
+          "heightFeet": 40
+        },
+        {
+          "id": "bank-tree-15-1-1",
+          "sprite": "cottonwood",
+          "x": 2461.2084483228764,
+          "y": 2651.659166439432,
+          "heightFeet": 40
+        },
+        {
+          "id": "bank-tree-15-2--1",
+          "sprite": "cottonwood",
+          "x": 2329.085800949918,
+          "y": 2803.0297398531748,
+          "heightFeet": 45
+        },
+        {
+          "id": "bank-tree-15-2-1",
+          "sprite": "cottonwood",
+          "x": 2367.580865716749,
+          "y": 2616.9702601468252,
+          "heightFeet": 45
+        },
+        {
+          "id": "bank-tree-16-0--1",
+          "sprite": "cottonwood",
+          "x": 2209.4592110761882,
+          "y": 2704.0316783034646,
+          "heightFeet": 40
+        },
+        {
+          "id": "bank-tree-16-0-1",
+          "sprite": "cottonwood",
+          "x": 2347.2074555904787,
+          "y": 2622.6349883632024,
+          "heightFeet": 40
+        },
+        {
+          "id": "bank-tree-16-1--1",
+          "sprite": "cottonwood",
+          "x": 2153.21197981964,
+          "y": 2638.3292846520308,
+          "heightFeet": 45
+        },
+        {
+          "id": "bank-tree-16-1-1",
+          "sprite": "cottonwood",
+          "x": 2316.78802018036,
+          "y": 2541.6707153479692,
+          "heightFeet": 45
+        },
+        {
+          "id": "bank-tree-16-2--1",
+          "sprite": "pecan",
+          "x": 2135.706442332736,
+          "y": 2549.7340719548984,
+          "heightFeet": 50
+        },
+        {
+          "id": "bank-tree-16-2-1",
+          "sprite": "pecan",
+          "x": 2247.626891000597,
+          "y": 2483.5992613784347,
+          "heightFeet": 50
+        },
+        {
+          "id": "bank-tree-17-0--1",
+          "sprite": "cottonwood",
+          "x": 2151.1074799540243,
+          "y": 2585.5903531877434,
+          "heightFeet": 45
+        },
+        {
+          "id": "bank-tree-17-0-1",
+          "sprite": "cottonwood",
+          "x": 2093.8925200459757,
+          "y": 2404.4096468122566,
+          "heightFeet": 45
+        },
+        {
+          "id": "bank-tree-17-1--1",
+          "sprite": "pecan",
+          "x": 2047.0735389159113,
+          "y": 2586.982873233719,
+          "heightFeet": 50
+        },
+        {
+          "id": "bank-tree-17-1-1",
+          "sprite": "pecan",
+          "x": 2007.9264610840887,
+          "y": 2463.017126766281,
+          "heightFeet": 50
+        },
+        {
+          "id": "bank-tree-18-0--1",
+          "sprite": "pecan",
+          "x": 2037.5774936806233,
+          "y": 2593.2170503098396,
+          "heightFeet": 50
+        },
+        {
+          "id": "bank-tree-18-0-1",
+          "sprite": "pecan",
+          "x": 1909.0891729860432,
+          "y": 2573.4496163568274,
+          "heightFeet": 50
+        },
+        {
+          "id": "bank-tree-18-1--1",
+          "sprite": "cottonwood",
+          "x": 2039.0697358120494,
+          "y": 2682.1645747403154,
+          "heightFeet": 55
+        },
+        {
+          "id": "bank-tree-18-1-1",
+          "sprite": "cottonwood",
+          "x": 1880.9302641879506,
+          "y": 2657.8354252596846,
+          "heightFeet": 55
+        },
+        {
+          "id": "bank-tree-18-2--1",
+          "sprite": "cottonwood",
+          "x": 2040.5619779434753,
+          "y": 2771.1120991707908,
+          "heightFeet": 40
+        },
+        {
+          "id": "bank-tree-18-2-1",
+          "sprite": "cottonwood",
+          "x": 1852.7713553898582,
+          "y": 2742.2212341625423,
+          "heightFeet": 40
+        },
+        {
+          "id": "bank-tree-19-0--1",
+          "sprite": "cottonwood",
+          "x": 2030.7925867921751,
+          "y": 2807.9344932784234,
+          "heightFeet": 55
+        },
+        {
+          "id": "bank-tree-19-0-1",
+          "sprite": "cottonwood",
+          "x": 1884.2074132078249,
+          "y": 2872.0655067215766,
+          "heightFeet": 55
+        },
+        {
+          "id": "bank-tree-19-1--1",
+          "sprite": "cottonwood",
+          "x": 2079.534946815708,
+          "y": 2881.9222107681276,
+          "heightFeet": 40
+        },
+        {
+          "id": "bank-tree-19-1-1",
+          "sprite": "cottonwood",
+          "x": 1905.465053184292,
+          "y": 2958.0777892318724,
+          "heightFeet": 40
+        },
+        {
+          "id": "bank-tree-19-2--1",
+          "sprite": "pecan",
+          "x": 2087.0502267686425,
+          "y": 2973.946775788719,
+          "heightFeet": 45
+        },
+        {
+          "id": "bank-tree-19-2-1",
+          "sprite": "pecan",
+          "x": 1967.9497732313578,
+          "y": 3026.053224211281,
+          "heightFeet": 45
+        },
+        {
+          "id": "bank-tree-19-3--1",
+          "sprite": "cottonwood",
+          "x": 2135.792586792175,
+          "y": 3047.9344932784234,
+          "heightFeet": 50
+        },
+        {
+          "id": "bank-tree-19-3-1",
+          "sprite": "cottonwood",
+          "x": 1989.2074132078249,
+          "y": 3112.0655067215766,
+          "heightFeet": 50
+        },
+        {
+          "id": "bank-tree-20-0--1",
+          "sprite": "cottonwood",
+          "x": 2167.3785352311443,
+          "y": 3180.101695509211,
+          "heightFeet": 40
+        },
+        {
+          "id": "bank-tree-20-0-1",
+          "sprite": "cottonwood",
+          "x": 1979.2881314355227,
+          "y": 3153.231637824122,
+          "heightFeet": 40
+        },
+        {
+          "id": "bank-tree-20-1--1",
+          "sprite": "pecan",
+          "x": 2124.346717087976,
+          "y": 3269.1923881554253,
+          "heightFeet": 45
+        },
+        {
+          "id": "bank-tree-20-1-1",
+          "sprite": "pecan",
+          "x": 1995.6532829120242,
+          "y": 3250.8076118445747,
+          "heightFeet": 45
+        },
+        {
+          "id": "bank-tree-20-2--1",
+          "sprite": "cottonwood",
+          "x": 2125.86262615956,
+          "y": 3364.6470418323183,
+          "heightFeet": 50
+        },
+        {
+          "id": "bank-tree-20-2-1",
+          "sprite": "cottonwood",
+          "x": 1967.4707071737735,
+          "y": 3342.0196248343486,
+          "heightFeet": 50
+        },
+        {
+          "id": "alameda-tree-0--1",
+          "sprite": "cottonwood",
+          "x": 3220,
+          "y": 1405,
+          "heightFeet": 46
+        },
+        {
+          "id": "alameda-tree-0-1",
+          "sprite": "cottonwood",
+          "x": 3220,
+          "y": 1555,
+          "heightFeet": 46
+        },
+        {
+          "id": "alameda-tree-1--1",
+          "sprite": "cottonwood",
+          "x": 3282,
+          "y": 1405,
+          "heightFeet": 46
+        },
+        {
+          "id": "alameda-tree-1-1",
+          "sprite": "cottonwood",
+          "x": 3282,
+          "y": 1555,
+          "heightFeet": 46
+        },
+        {
+          "id": "alameda-tree-2--1",
+          "sprite": "cottonwood",
+          "x": 3344,
+          "y": 1405,
+          "heightFeet": 46
+        },
+        {
+          "id": "alameda-tree-2-1",
+          "sprite": "cottonwood",
+          "x": 3344,
+          "y": 1555,
+          "heightFeet": 46
+        },
+        {
+          "id": "alameda-tree-3--1",
+          "sprite": "cottonwood",
+          "x": 3406,
+          "y": 1405,
+          "heightFeet": 46
+        },
+        {
+          "id": "alameda-tree-3-1",
+          "sprite": "cottonwood",
+          "x": 3406,
+          "y": 1555,
+          "heightFeet": 46
+        },
+        {
+          "id": "alameda-tree-4--1",
+          "sprite": "cottonwood",
+          "x": 3468,
+          "y": 1405,
+          "heightFeet": 46
+        },
+        {
+          "id": "alameda-tree-4-1",
+          "sprite": "cottonwood",
+          "x": 3468,
+          "y": 1555,
+          "heightFeet": 46
+        },
+        {
+          "id": "alameda-tree-5--1",
+          "sprite": "cottonwood",
+          "x": 3530,
+          "y": 1405,
+          "heightFeet": 46
+        },
+        {
+          "id": "alameda-tree-5-1",
+          "sprite": "cottonwood",
+          "x": 3530,
+          "y": 1555,
+          "heightFeet": 46
+        },
+        {
+          "id": "alameda-tree-6--1",
+          "sprite": "cottonwood",
+          "x": 3592,
+          "y": 1405,
+          "heightFeet": 46
+        },
+        {
+          "id": "alameda-tree-6-1",
+          "sprite": "cottonwood",
+          "x": 3592,
+          "y": 1555,
+          "heightFeet": 46
+        },
+        {
+          "id": "alameda-tree-7--1",
+          "sprite": "cottonwood",
+          "x": 3654,
+          "y": 1405,
+          "heightFeet": 46
+        },
+        {
+          "id": "alameda-tree-7-1",
+          "sprite": "cottonwood",
+          "x": 3654,
+          "y": 1555,
+          "heightFeet": 46
+        },
+        {
+          "id": "alameda-tree-8--1",
+          "sprite": "cottonwood",
+          "x": 3716,
+          "y": 1405,
+          "heightFeet": 46
+        },
+        {
+          "id": "alameda-tree-8-1",
+          "sprite": "cottonwood",
+          "x": 3716,
+          "y": 1555,
+          "heightFeet": 46
+        },
+        {
+          "id": "alameda-tree-9--1",
+          "sprite": "cottonwood",
+          "x": 3778,
+          "y": 1405,
+          "heightFeet": 46
+        },
+        {
+          "id": "alameda-tree-9-1",
+          "sprite": "cottonwood",
+          "x": 3778,
+          "y": 1555,
+          "heightFeet": 46
+        },
+        {
+          "id": "alameda-tree-10--1",
+          "sprite": "cottonwood",
+          "x": 3840,
+          "y": 1405,
+          "heightFeet": 46
+        },
+        {
+          "id": "alameda-tree-10-1",
+          "sprite": "cottonwood",
+          "x": 3840,
+          "y": 1555,
+          "heightFeet": 46
+        },
+        {
+          "id": "alameda-tree-11--1",
+          "sprite": "cottonwood",
+          "x": 3902,
+          "y": 1405,
+          "heightFeet": 46
+        },
+        {
+          "id": "alameda-tree-11-1",
+          "sprite": "cottonwood",
+          "x": 3902,
+          "y": 1555,
+          "heightFeet": 46
+        }
+      ],
+      "alamo": {
+        "x": 2650,
+        "y": 550,
+        "rotation": 0,
+        "assembly": "alamo"
+      },
+      "crossings": [
+        {
+          "id": "valero-crossing",
+          "x": 2030,
+          "y": 1530,
+          "label": "River crossing · reconstructed"
+        }
+      ],
+      "annotations": [
+        {
+          "x": 890,
+          "y": 2010,
+          "label": "PLAZA DE ARMAS"
+        },
+        {
+          "x": 1420,
+          "y": 2010,
+          "label": "PLAZA DE LAS ISLAS"
+        },
+        {
+          "x": 1150,
+          "y": 2090,
+          "label": "SAN FERNANDO"
+        },
+        {
+          "x": 2790,
+          "y": 1280,
+          "label": "PLAZA DE VALERO"
+        },
+        {
+          "x": 2830,
+          "y": 470,
+          "label": "THE ALAMO"
+        },
+        {
+          "x": 3500,
+          "y": 1380,
+          "label": "ALAMEDA"
+        },
+        {
+          "x": 3120,
+          "y": 2300,
+          "label": "LA VILLITA"
+        }
+      ],
+      "sources": [
+        {
+          "title": "User-supplied San Antonio de Bexar 1836 panorama, George Nelson, GLO map 83600",
+          "url": "https://historictexasmaps.com/collection/search-results/83600-san-antonio-de-bexar-1836-general-map-collection"
+        },
+        {
+          "title": "User-supplied aerial Alamo reconstruction",
+          "file": "Screenshot 2026-09-14 162509.png"
+        }
+      ],
+      "note": "Illustrated reconstruction from the supplied references. Streets, river course, building count, dimensions and plots are interpretive, not surveyed 1836 geography. Generic existing artwork stands in for named civic architecture. No historical household occupancy or battle state is inferred.",
+      "layout": "/bexar-layout.js",
+      "preview": "/alamo-workshop.html"
+    },
     "alamo": {
       "layout": "/alamo-layout.js",
       "preview": "/alamo-workshop.html",
@@ -29071,7 +31857,7 @@
           "x": 5,
           "y": 42,
           "width": 25,
-          "height": 38,
+          "height": 45,
           "reconstruction": true
         },
         {
@@ -29080,7 +31866,7 @@
           "x": 5,
           "y": 87,
           "width": 25,
-          "height": 38,
+          "height": 45,
           "reconstruction": true
         },
         {
@@ -29089,7 +31875,7 @@
           "x": 5,
           "y": 132,
           "width": 25,
-          "height": 38,
+          "height": 45,
           "reconstruction": true
         },
         {
@@ -29098,7 +31884,7 @@
           "x": 5,
           "y": 177,
           "width": 25,
-          "height": 38,
+          "height": 45,
           "reconstruction": true
         },
         {
@@ -29107,7 +31893,7 @@
           "x": 5,
           "y": 222,
           "width": 25,
-          "height": 38,
+          "height": 45,
           "reconstruction": true
         },
         {
@@ -29116,7 +31902,7 @@
           "x": 5,
           "y": 267,
           "width": 25,
-          "height": 38,
+          "height": 45,
           "reconstruction": true
         },
         {
@@ -29125,7 +31911,7 @@
           "x": 5,
           "y": 312,
           "width": 25,
-          "height": 38,
+          "height": 45,
           "reconstruction": true
         },
         {
@@ -29134,7 +31920,7 @@
           "x": 5,
           "y": 357,
           "width": 25,
-          "height": 38,
+          "height": 45,
           "reconstruction": true
         },
         {
@@ -29143,7 +31929,7 @@
           "x": 5,
           "y": 402,
           "width": 25,
-          "height": 38,
+          "height": 45,
           "reconstruction": true
         },
         {
@@ -29645,7 +32431,7 @@
           },
           "b": {
             "x": 30,
-            "y": 80
+            "y": 87
           },
           "thickness": 2.5,
           "heightFeet": 10,
@@ -29656,11 +32442,11 @@
           "id": "west-room-1-s",
           "a": {
             "x": 30,
-            "y": 80
+            "y": 87
           },
           "b": {
             "x": 5,
-            "y": 80
+            "y": 87
           },
           "thickness": 2.5,
           "heightFeet": 10,
@@ -29671,7 +32457,7 @@
           "id": "west-room-1-w",
           "a": {
             "x": 5,
-            "y": 80
+            "y": 87
           },
           "b": {
             "x": 5,
@@ -29705,7 +32491,7 @@
           },
           "b": {
             "x": 30,
-            "y": 125
+            "y": 132
           },
           "thickness": 2.5,
           "heightFeet": 10,
@@ -29716,11 +32502,11 @@
           "id": "west-room-2-s",
           "a": {
             "x": 30,
-            "y": 125
+            "y": 132
           },
           "b": {
             "x": 5,
-            "y": 125
+            "y": 132
           },
           "thickness": 2.5,
           "heightFeet": 10,
@@ -29731,7 +32517,7 @@
           "id": "west-room-2-w",
           "a": {
             "x": 5,
-            "y": 125
+            "y": 132
           },
           "b": {
             "x": 5,
@@ -29765,7 +32551,7 @@
           },
           "b": {
             "x": 30,
-            "y": 170
+            "y": 177
           },
           "thickness": 2.5,
           "heightFeet": 10,
@@ -29776,11 +32562,11 @@
           "id": "west-room-3-s",
           "a": {
             "x": 30,
-            "y": 170
+            "y": 177
           },
           "b": {
             "x": 5,
-            "y": 170
+            "y": 177
           },
           "thickness": 2.5,
           "heightFeet": 10,
@@ -29791,7 +32577,7 @@
           "id": "west-room-3-w",
           "a": {
             "x": 5,
-            "y": 170
+            "y": 177
           },
           "b": {
             "x": 5,
@@ -29825,7 +32611,7 @@
           },
           "b": {
             "x": 30,
-            "y": 215
+            "y": 222
           },
           "thickness": 2.5,
           "heightFeet": 10,
@@ -29836,11 +32622,11 @@
           "id": "west-room-4-s",
           "a": {
             "x": 30,
-            "y": 215
+            "y": 222
           },
           "b": {
             "x": 5,
-            "y": 215
+            "y": 222
           },
           "thickness": 2.5,
           "heightFeet": 10,
@@ -29851,7 +32637,7 @@
           "id": "west-room-4-w",
           "a": {
             "x": 5,
-            "y": 215
+            "y": 222
           },
           "b": {
             "x": 5,
@@ -29885,7 +32671,7 @@
           },
           "b": {
             "x": 30,
-            "y": 260
+            "y": 267
           },
           "thickness": 2.5,
           "heightFeet": 10,
@@ -29896,11 +32682,11 @@
           "id": "west-room-5-s",
           "a": {
             "x": 30,
-            "y": 260
+            "y": 267
           },
           "b": {
             "x": 5,
-            "y": 260
+            "y": 267
           },
           "thickness": 2.5,
           "heightFeet": 10,
@@ -29911,7 +32697,7 @@
           "id": "west-room-5-w",
           "a": {
             "x": 5,
-            "y": 260
+            "y": 267
           },
           "b": {
             "x": 5,
@@ -29945,7 +32731,7 @@
           },
           "b": {
             "x": 30,
-            "y": 305
+            "y": 312
           },
           "thickness": 2.5,
           "heightFeet": 10,
@@ -29956,11 +32742,11 @@
           "id": "west-room-6-s",
           "a": {
             "x": 30,
-            "y": 305
+            "y": 312
           },
           "b": {
             "x": 5,
-            "y": 305
+            "y": 312
           },
           "thickness": 2.5,
           "heightFeet": 10,
@@ -29971,7 +32757,7 @@
           "id": "west-room-6-w",
           "a": {
             "x": 5,
-            "y": 305
+            "y": 312
           },
           "b": {
             "x": 5,
@@ -30005,7 +32791,7 @@
           },
           "b": {
             "x": 30,
-            "y": 350
+            "y": 357
           },
           "thickness": 2.5,
           "heightFeet": 10,
@@ -30016,11 +32802,11 @@
           "id": "west-room-7-s",
           "a": {
             "x": 30,
-            "y": 350
+            "y": 357
           },
           "b": {
             "x": 5,
-            "y": 350
+            "y": 357
           },
           "thickness": 2.5,
           "heightFeet": 10,
@@ -30031,7 +32817,7 @@
           "id": "west-room-7-w",
           "a": {
             "x": 5,
-            "y": 350
+            "y": 357
           },
           "b": {
             "x": 5,
@@ -30065,7 +32851,7 @@
           },
           "b": {
             "x": 30,
-            "y": 395
+            "y": 402
           },
           "thickness": 2.5,
           "heightFeet": 10,
@@ -30076,11 +32862,11 @@
           "id": "west-room-8-s",
           "a": {
             "x": 30,
-            "y": 395
+            "y": 402
           },
           "b": {
             "x": 5,
-            "y": 395
+            "y": 402
           },
           "thickness": 2.5,
           "heightFeet": 10,
@@ -30091,7 +32877,7 @@
           "id": "west-room-8-w",
           "a": {
             "x": 5,
-            "y": 395
+            "y": 402
           },
           "b": {
             "x": 5,
@@ -30125,7 +32911,7 @@
           },
           "b": {
             "x": 30,
-            "y": 440
+            "y": 447
           },
           "thickness": 2.5,
           "heightFeet": 10,
@@ -30136,11 +32922,11 @@
           "id": "west-room-9-s",
           "a": {
             "x": 30,
-            "y": 440
+            "y": 447
           },
           "b": {
             "x": 5,
-            "y": 440
+            "y": 447
           },
           "thickness": 2.5,
           "heightFeet": 10,
@@ -30151,7 +32937,7 @@
           "id": "west-room-9-w",
           "a": {
             "x": 5,
-            "y": 440
+            "y": 447
           },
           "b": {
             "x": 5,
@@ -31556,7 +34342,7 @@
           "id": "west-room-1-door",
           "roomId": "west-room-1",
           "x": 27,
-          "y": 58,
+          "y": 61.5,
           "width": 6,
           "height": 6
         },
@@ -31564,7 +34350,7 @@
           "id": "west-room-2-door",
           "roomId": "west-room-2",
           "x": 27,
-          "y": 103,
+          "y": 106.5,
           "width": 6,
           "height": 6
         },
@@ -31572,7 +34358,7 @@
           "id": "west-room-3-door",
           "roomId": "west-room-3",
           "x": 27,
-          "y": 148,
+          "y": 151.5,
           "width": 6,
           "height": 6
         },
@@ -31580,7 +34366,7 @@
           "id": "west-room-4-door",
           "roomId": "west-room-4",
           "x": 27,
-          "y": 193,
+          "y": 196.5,
           "width": 6,
           "height": 6
         },
@@ -31588,7 +34374,7 @@
           "id": "west-room-5-door",
           "roomId": "west-room-5",
           "x": 27,
-          "y": 238,
+          "y": 241.5,
           "width": 6,
           "height": 6
         },
@@ -31596,7 +34382,7 @@
           "id": "west-room-6-door",
           "roomId": "west-room-6",
           "x": 27,
-          "y": 283,
+          "y": 286.5,
           "width": 6,
           "height": 6
         },
@@ -31604,7 +34390,7 @@
           "id": "west-room-7-door",
           "roomId": "west-room-7",
           "x": 27,
-          "y": 328,
+          "y": 331.5,
           "width": 6,
           "height": 6
         },
@@ -31612,7 +34398,7 @@
           "id": "west-room-8-door",
           "roomId": "west-room-8",
           "x": 27,
-          "y": 373,
+          "y": 376.5,
           "width": 6,
           "height": 6
         },
@@ -31620,7 +34406,7 @@
           "id": "west-room-9-door",
           "roomId": "west-room-9",
           "x": 27,
-          "y": 418,
+          "y": 421.5,
           "width": 6,
           "height": 6
         },
@@ -31851,7 +34637,7 @@
           "x": 5,
           "y": 42,
           "width": 25,
-          "height": 38
+          "height": 45
         },
         {
           "id": "west-room-2-roof",
@@ -31859,7 +34645,7 @@
           "x": 5,
           "y": 87,
           "width": 25,
-          "height": 38
+          "height": 45
         },
         {
           "id": "west-room-3-roof",
@@ -31867,7 +34653,7 @@
           "x": 5,
           "y": 132,
           "width": 25,
-          "height": 38
+          "height": 45
         },
         {
           "id": "west-room-4-roof",
@@ -31875,7 +34661,7 @@
           "x": 5,
           "y": 177,
           "width": 25,
-          "height": 38
+          "height": 45
         },
         {
           "id": "west-room-5-roof",
@@ -31883,7 +34669,7 @@
           "x": 5,
           "y": 222,
           "width": 25,
-          "height": 38
+          "height": 45
         },
         {
           "id": "west-room-6-roof",
@@ -31891,7 +34677,7 @@
           "x": 5,
           "y": 267,
           "width": 25,
-          "height": 38
+          "height": 45
         },
         {
           "id": "west-room-7-roof",
@@ -31899,7 +34685,7 @@
           "x": 5,
           "y": 312,
           "width": 25,
-          "height": 38
+          "height": 45
         },
         {
           "id": "west-room-8-roof",
@@ -31907,7 +34693,7 @@
           "x": 5,
           "y": 357,
           "width": 25,
-          "height": 38
+          "height": 45
         },
         {
           "id": "west-room-9-roof",
@@ -31915,7 +34701,7 @@
           "x": 5,
           "y": 402,
           "width": 25,
-          "height": 38
+          "height": 45
         },
         {
           "id": "north-quarter-roof",
@@ -32193,7 +34979,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 41,
+    "sourceCount": 42,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

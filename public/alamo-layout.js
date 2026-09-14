@@ -24,7 +24,7 @@ wall('east-south',{x:211,y:381.12},{x:200,y:westLength});
 wall('palisade-south',{x:200,y:westLength},{x:291,y:418},{material:'timber',thickness:1.5,heightFeet:8});
 // West ranges and north quarters: room subdivisions are navigable placeholders,
 // not an assertion of exact occupancy or a surviving floor plan.
-for(let i=0;i<9;i++)room(`west-room-${i+1}`,i===0?'Travis / Joe quarters · reconstructed':i===1?'Officers’ quarters':`West range · room ${i+1}`,5,42+i*45,25,38,'e');
+for(let i=0;i<9;i++)room(`west-room-${i+1}`,i===0?'Travis / Joe quarters · reconstructed':i===1?'Officers’ quarters':`West range · room ${i+1}`,5,42+i*45,25,45,'e');
 room('north-quarter','North range · artillery quarters',50,32,55,24,'s');
 room('north-store','North range · stores',117,40,54,24,'s');
 const longLength=191+1/12+3/8/12, longWidth=19+11/12;

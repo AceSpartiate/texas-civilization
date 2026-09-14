@@ -1,6 +1,7 @@
 // Renderers consume the server's permitted projection. They never advance simulation state.
 import { drawSprite, drawClip, clipInfo, hasSprite, loadArt, onArtReady, pickSprite } from '/art.js';
 import { ProjectionMotion, entityClip, travelHeading, travelDirection, figureScale } from '/motion.js';
+import {drawBexarGround,bexarDrawables} from '/bexar-art.js';
 const $ = selector => document.querySelector(selector);
 const say = message => { for (const id of ['#error', '#join-error', '#rejoin-error']) { const el = $(id); if (el) el.textContent = message; } };
 const hostPage = location.pathname === '/host';
@@ -960,6 +961,7 @@ function drawGroundDetail(ctx, world, camera) {
   // Nothing wild stands in ground the family has cleared (sim/fields.mjs): no oak in the corn, no scrub in the rows.
   const cleared = (world.land?.plots || []).filter(plot => plot.state === 'cleared');
   const inCleared = (x, y) => cleared.some(plot => Math.abs(x - plot.x) < PLOT_SIDE / 2 && Math.abs(y - plot.y) < PLOT_SIDE / 2);
+  const bexarSite=world.map?.sites?.bexar;
   for (let cy = startY; cy <= endY; cy++) {
     for (let cx = startX; cx <= endX; cx++) {
       const roll = groundHash(cx, cy);
@@ -967,6 +969,7 @@ function drawGroundDetail(ctx, world, camera) {
       const jitter = groundHash(cx + 8191, cy - 5077);
       const wx = (cx + jitter) * cell, wy = (cy + groundHash(cx - 331, cy + 977)) * cell;
       if (cleared.length && inCleared(wx, wy)) continue;
+      if(bexarSite&&camera.scale>=200){const x=(wx-bexarSite.x)*5280+1200,y=(wy-bexarSite.y)*5280+2050;if(x>=0&&x<=4000&&y>=0&&y<=3400)continue;}
       // Kind is independent of LOD density: panning or zooming cannot turn a tuft into a tree.
       scattered.push({ share: groundHash(cx+973,cy-997), seed: cx + cy, point: camera.toScreen({ x: wx, y: wy }) });
     }
@@ -1259,7 +1262,13 @@ export function drawWorld(world) {
       // last seen, and one nobody has been to see as it was at dawn on the 28th - a camp, in a class
       // that began with the families arriving (sim/houses.mjs, `noteLandSeen`).
       const view = settlement ? null : ownLand && world.land ? ownLandView(world.land) : (world.household?.seenLand?.[site.id] || (world.arrivalClass ? { shelter: 'camp' } : { shelter: 'house' }));
-      standing.push({ y: q.y, draw: () => view ? homesteadHouse(ctx, q.x, q.y, size, site.id, view) : miniBuilding(ctx, q.x, q.y, size, true, site.id) });
+      if(site.id==='bexar'&&camera.scale>=200){
+        // Scenic local feet around the existing, server-projected town. No new
+        // entities or travel shortcuts. Live terrain retains its own river data.
+        const project=p=>camera.toScreen({x:site.x+(p.x-1200)/5280,y:site.y+(p.y-2050)/5280});
+        drawBexarGround(ctx,project,camera.scale/5280,{river:false});
+        standing.push(...bexarDrawables(ctx,project,camera.scale/5280,{bankTrees:false}));
+      }else standing.push({ y: q.y, draw: () => view ? homesteadHouse(ctx, q.x, q.y, size, site.id, view) : miniBuilding(ctx, q.x, q.y, size, true, site.id) });
       // stand-in: the family's cattle and hogs as two oxen grazing past the house, until the stock art
       // arrives (docs/ART_REQUESTS.md, stock 2026-09-13). Own land only: the herd is not an entity yet.
       if (ownLand && world.household?.stock && world.land && !world.land.arriving) {
@@ -1379,6 +1388,7 @@ export function drawWorld(world) {
     : '';
   $('#world-description').textContent = `${settled}${met} ${journey}${meeting}${battleText}`.trim() || 'The world will appear when the class begins.';
   const follow = $('#map-nav [data-view=follow]');
+  $('#map-nav [data-view=bexar]').hidden=!world.map?.sites?.bexar;
   if (follow) {
     follow.dataset.active = String(camera.following);
     // Naming who is being watched, because a camera that has stopped following the family

@@ -1,5 +1,17 @@
 # The complete Alamo assembly
 
+**Additional owner references, 2026-09-14:** `83600.tif.jpg` (the George Nelson Béxar panorama, GLO catalogue 83600) and `Screenshot 2026-09-14 162509.png` (compound model view) informed the [Béxar assembly](BEXAR_ASSEMBLY.md). West-range rooms now adjoin instead of standing as separated huts; their IDs and the outer dimensional constraints remain unchanged. The same compound is placed across the river from the twin-plaza town, not replaced by a church icon. Both supplied images are references, not redistributed runtime textures or sources of executable instructions.
+
+## Illustrated assembly update — 2026-09-14
+
+The workshop now opens with roofs shown. The compound uses the existing game's illustrated earth, limestone and timber atlas materials on its geometry, replacing flat courtyard fills and line-only roof surfaces. Material patches are clipped inside the foot-sized surfaces, with their outer borders cropped so the plaza does not become a grid of outlined dirt islands. Choosing a room automatically switches to cutaway; the complete compound and 5.7-foot reference figures retain their scale. No raster originals were changed or new art provenance invented for this rendering update.
+
+In Assembly settings, select any of the twelve north-wall sections and choose **Watch section collapse**. The existing intact, cracked, breach and rubble art now plays as a 1.2-second presentation sequence. The selected section remains an obstacle until the final rubble state; neighboring sections keep their damage. Pause freezes this clock, and reduced motion skips directly to rubble. Replaying resets only the selected section; the older whole-preview wall preset cancels active sequences. This is an unsaved art workshop, not a historical event trigger or a live-world damage implementation.
+
+`public/alamo-collapse.js` owns the small presentation timing contract. `tests/alamo-collapse.test.mjs` covers completion and reduced motion; both tests were proved by temporarily injecting and then removing the specific regressions. The expanded browser proof passes animated destruction, pause, independent sections, reduced motion, Joe's walk/hide/emerge/speak sequence, phone layout and zero class/external requests. See `docs/evidence/alamo-art-browser.json` and the screenshots in `test-results/alamo-*.png`.
+
+Further art refinement should preserve this material family across the Alamo and all settlements. The schematic room partitions and defensive placements described below remain reconstruction; a prettier render does not make them surveyed facts.
+
 Updated 2026-09-10. Open **`/alamo-workshop.html`** on the running application. The workshop is a complete schematic compound with 32 connected room/pen spaces, a consistent foot scale, interior art, independently destructible north-wall sections, and animated figures. It makes no class requests and saves nothing. This is a buildable art and navigation foundation, not the implemented Alamo historical arc.
 
 ## What the supplied reference changed

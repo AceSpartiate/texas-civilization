@@ -2,6 +2,102 @@
   "version": "frontier-v1",
   "note": "Presentation only: elapsed display time selects these frames; animation never advances simulation state. Authored identifies sequences of distinct source poses, not transforms of one sprite.",
   "clips": {
+    "rust-woman-work": {
+      "frames": [
+        {
+          "sprite": "rust-woman-work-1",
+          "duration": 240
+        },
+        {
+          "sprite": "rust-woman-work-2",
+          "duration": 120
+        },
+        {
+          "sprite": "rust-woman-work-3",
+          "duration": 220
+        },
+        {
+          "sprite": "rust-woman-work-4",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "indigo-work": {
+      "frames": [
+        {
+          "sprite": "indigo-work-1",
+          "duration": 240
+        },
+        {
+          "sprite": "indigo-work-2",
+          "duration": 120
+        },
+        {
+          "sprite": "indigo-work-3",
+          "duration": 220
+        },
+        {
+          "sprite": "indigo-work-4",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ochre-work": {
+      "frames": [
+        {
+          "sprite": "ochre-work-1",
+          "duration": 240
+        },
+        {
+          "sprite": "ochre-work-2",
+          "duration": 120
+        },
+        {
+          "sprite": "ochre-work-3",
+          "duration": 220
+        },
+        {
+          "sprite": "ochre-work-4",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-girl-work": {
+      "frames": [
+        {
+          "sprite": "blue-girl-work-1",
+          "duration": 240
+        },
+        {
+          "sprite": "blue-girl-work-2",
+          "duration": 120
+        },
+        {
+          "sprite": "blue-girl-work-3",
+          "duration": 220
+        },
+        {
+          "sprite": "blue-girl-work-4",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "rust-woman-idle-s": {
       "frames": [
         {

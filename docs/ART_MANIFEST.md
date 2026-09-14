@@ -1,15 +1,18 @@
 # Complete art manifest
 
-Generated from the shipped library: **583 usable sprites, 40 PNG atlases, 250 clips** (113 pose cycles; 4 layered rigs).
+Generated from the shipped library: **599 usable sprites, 41 PNG atlases, 254 clips** (117 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
 These are reusable prototype pieces, not completed later scenarios. Static buildings/props are intentional. Pending action coverage is explicit below. Open `/art-catalog.html` to play, scrub, pause and inspect every frame on different backgrounds.
 
+Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.md) share the same compound geometry. The machine-readable manifest includes every town building, tree, plaza, road and its Alamo transform.
+
 ## Atlas inventory
 
 | Atlas | Frames | Size | PNG bytes |
 | --- | ---: | --- | ---: |
+| people-cast2-work | 16 | 1254 × 1254 | 1279315 |
 | people-cast2-idle | 16 | 1254 × 1254 | 1103935 |
 | people-children-idle | 16 | 1254 × 1254 | 1351105 |
 | people-children-walk | 12 | 1254 × 1254 | 1127437 |
@@ -55,6 +58,22 @@ These are reusable prototype pieces, not completed later scenarios. Static build
 
 | Sprite ID | Atlas | Animation clips |
 | --- | --- | --- |
+| rust-woman-work-1 | people-cast2-work | rust-woman-work |
+| rust-woman-work-2 | people-cast2-work | rust-woman-work |
+| rust-woman-work-3 | people-cast2-work | rust-woman-work |
+| rust-woman-work-4 | people-cast2-work | rust-woman-work |
+| indigo-work-1 | people-cast2-work | indigo-work |
+| indigo-work-2 | people-cast2-work | indigo-work |
+| indigo-work-3 | people-cast2-work | indigo-work |
+| indigo-work-4 | people-cast2-work | indigo-work |
+| ochre-work-1 | people-cast2-work | ochre-work |
+| ochre-work-2 | people-cast2-work | ochre-work |
+| ochre-work-3 | people-cast2-work | ochre-work |
+| ochre-work-4 | people-cast2-work | ochre-work |
+| blue-girl-work-1 | people-cast2-work | blue-girl-work |
+| blue-girl-work-2 | people-cast2-work | blue-girl-work |
+| blue-girl-work-3 | people-cast2-work | blue-girl-work |
+| blue-girl-work-4 | people-cast2-work | blue-girl-work |
 | rust-woman-idle-s | people-cast2-idle | rust-woman-idle-s |
 | rust-woman-idle-e | people-cast2-idle | rust-woman-idle-e |
 | rust-woman-idle-w | people-cast2-idle | rust-woman-idle-w |
@@ -643,6 +662,10 @@ These are reusable prototype pieces, not completed later scenarios. Static build
 
 | Clip | Method | Frames | Duration (ms) | Loop | Direction |
 | --- | --- | ---: | ---: | --- | --- |
+| rust-woman-work | Pose cycle | 4 | 800 | yes | east; west by mirroring |
+| indigo-work | Pose cycle | 4 | 800 | yes | east; west by mirroring |
+| ochre-work | Pose cycle | 4 | 800 | yes | east; west by mirroring |
+| blue-girl-work | Pose cycle | 4 | 800 | yes | east; west by mirroring |
 | rust-woman-idle-s | breathe | 1 | 2200 | yes | south |
 | rust-woman-idle-w | breathe | 1 | 2200 | yes | west |
 | rust-woman-idle-e | breathe | 1 | 2200 | yes | east |

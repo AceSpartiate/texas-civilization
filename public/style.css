@@ -153,7 +153,7 @@ button:hover:enabled{background:#60673e}
 #journal-backdrop{position:absolute;inset:0;z-index:20;background:#29251b30}
 @media(max-width:760px){
   #map-tools{left:8px;right:8px;bottom:8px;gap:5px;justify-content:space-between}
-  #map-nav{flex:1;flex-wrap:nowrap;gap:4px;justify-content:flex-end}
+  #map-nav{flex:1;flex-wrap:wrap;gap:4px;justify-content:flex-end;min-width:0}
   #map-nav button{padding:5px 7px;flex:0 1 auto;font-size:12px}
   #map-nav button[data-view=in],#map-nav button[data-view=out]{flex:0 0 37px}
   #journal-toggle{padding:7px;font-size:12px}.icon{width:17px}

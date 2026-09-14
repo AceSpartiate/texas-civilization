@@ -1,6 +1,7 @@
 // Complete, reproducible art inventory, including unanimated state pieces and gaps.
 import { readFileSync, writeFileSync } from 'node:fs';
 import { ALAMO_LAYOUT } from '../public/alamo-layout.js';
+import { BEXAR_LAYOUT } from '../public/bexar-layout.js';
 const base = new URL('../public/assets/frontier-v1/', import.meta.url);
 const docs = new URL('../docs/', import.meta.url);
 export const LOCATION_KITS = {
@@ -43,7 +44,7 @@ export function buildRegistry(atlas, animation) {
     entrypoints:{atlas:'atlas.json',animation:'animation.json',catalog:'/art-catalog.html',guide:'docs/ASSETS.md',provenance:'docs/art-provenance.json',prompts:'docs/art-prompts.json'},
     coordinateContract:{rectangles:'Source pixels; never assume equal grid slicing.',anchor:'Fractional ground contact within measured rectangle.',logicalHeight:'Requested height is scaled by logicalHeight when present, otherwise h.',directions:'North-up world: +x east, +y south. Action cycles face east and may mirror west unless direction says otherwise.',units:'Frame duration and display clock are milliseconds. Rigs use drawing-height-relative positions and turns/second.',authority:'Rendering never changes world state. No frame callbacks cause outcomes. Purge concealed actors; snap across time jumps. Buildings stay still.'},
     sheets:atlas.sheets, assets, clips, locationKits, excludedFrames:atlas.excludedFrames,
-    assemblies:{alamo:{layout:'/alamo-layout.js',preview:'/alamo-workshop.html',units:'ft',referenceHeightFeet:ALAMO_LAYOUT.referenceHeightFeet,dimensions:ALAMO_LAYOUT.dimensions,rooms:ALAMO_LAYOUT.rooms,walls:ALAMO_LAYOUT.walls,doors:ALAMO_LAYOUT.doors,roofs:ALAMO_LAYOUT.roofs,props:ALAMO_LAYOUT.props,note:ALAMO_LAYOUT.note}},
+    assemblies:{bexar:{...BEXAR_LAYOUT,alamo:{x:BEXAR_LAYOUT.alamo.x,y:BEXAR_LAYOUT.alamo.y,rotation:0,assembly:'alamo'},layout:'/bexar-layout.js',preview:'/alamo-workshop.html'},alamo:{layout:'/alamo-layout.js',preview:'/alamo-workshop.html',units:'ft',referenceHeightFeet:ALAMO_LAYOUT.referenceHeightFeet,dimensions:ALAMO_LAYOUT.dimensions,rooms:ALAMO_LAYOUT.rooms,walls:ALAMO_LAYOUT.walls,doors:ALAMO_LAYOUT.doors,roofs:ALAMO_LAYOUT.roofs,props:ALAMO_LAYOUT.props,note:ALAMO_LAYOUT.note}},
     codeArtwork:[{id:'terrain',source:'public/app.js',type:'canvas geometry',purpose:'Prairie, relief, river, creek, dirt roads, field polygons and fallbacks follow map geometry; not baked into atlases.'},{id:'interface',source:'public/style.css',type:'CSS',purpose:'Parchment/wood/olive/rust panels, contextual card, family journal and responsive touch controls; no external font or UI image dependency.'}],
     remainingWork:FUTURE_WORK,
     provenance:{tool:'Built-in image_gen.imagegen',sourceCount:sources.length,originalPNGsUnmodified:true,referenceImagesRedistributed:false,details:'docs/art-provenance.json'},
@@ -55,6 +56,7 @@ export function writeRegistry(atlas, animation) {
   const lines=['# Complete art manifest','',`Generated from the shipped library: **${registry.counts.sprites} usable sprites, ${registry.counts.sheets} PNG atlases, ${registry.counts.clips} clips** (${registry.counts.poseCycles} pose cycles; ${registry.counts.rigs} layered rigs).`, '',
     'Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.', '',
     'These are reusable prototype pieces, not completed later scenarios. Static buildings/props are intentional. Pending action coverage is explicit below. Open `/art-catalog.html` to play, scrub, pause and inspect every frame on different backgrounds.','',
+    'Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.md) share the same compound geometry. The machine-readable manifest includes every town building, tree, plaza, road and its Alamo transform.','',
     '## Atlas inventory','', '| Atlas | Frames | Size | PNG bytes |', '| --- | ---: | --- | ---: |'];
   for(const [id,sheet] of Object.entries(registry.sheets)) lines.push(`| ${id} | ${Object.values(registry.assets).filter(a=>a.sheet===id).length} | ${sheet.width} × ${sheet.height} | ${sheet.bytes} |`);
   lines.push('','## Every usable piece','','| Sprite ID | Atlas | Animation clips |','| --- | --- | --- |');

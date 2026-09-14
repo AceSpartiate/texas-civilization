@@ -532,6 +532,20 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/home-interiors.png",
       "postProcessing": "None. Original PNG copied unchanged; alpha measured only.",
       "review": "Schematic cutaway room plates. Independent furniture placement and navigation need geometry. Generic fireplace finish does not choose an exterior construction method."
+    },
+    {
+      "sheet": "people-cast2-work",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a09f7b-6a62-7370-b596-a9fc91f4b0d4/exec-ac612f32-1bd2-41ac-91e0-f6fd9a9e62f9.png"
+      ],
+      "status": "accepted",
+      "tool": "built-in image_gen.imagegen",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-24c75451-862f-40f5-80c4-78b56b3f57f1.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-cast2-work.png",
+      "promptId": "frontier-v1/people-cast2-work",
+      "postProcessing": "None. Original PNG copied unchanged on acceptance.",
+      "review": "Four distinct hoe phases per identity; genuine RGBA. Gameplay binding awaits complete identity action sets."
     }
   ],
   "rejectedAttempts": [

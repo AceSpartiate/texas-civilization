@@ -18,6 +18,7 @@ does not have:
 
 | Stand-in | Where | Standing in for | Replace with |
 | --- | --- | --- | --- |
+| Generic `chapel` and `adobe-flat` silhouettes represent San Fernando and the Governor's Palace | `public/bexar-layout.js` | Request 2026-09-14 — Béxar civic architecture | Researched 1836 civic façades in the existing illustrated style |
 | A person is drawn as the nearest figure by sex and age: a woman or girl as `teal`, a boy as `blue`, a man as `elder`; the principal in `rust` whoever they are, including a mother | `castVariant` in `public/motion.js` | Request 2026-09-12, priority 2 — the second cast | `rust-woman` for a mother who is principal, `indigo` and `teal` for women, `ochre` and `elder` for men, `blue-girl` and `blue` for adolescents |
 | A child walking north or south, working, carrying, sowing or repairing is a grown figure drawn smaller (90% at 10–17, 70% at 5–9, 55% at 2–4, 45% an infant). Idle, east walk, rest and injured-rest use the delivered `girl`, `boy`, `smallchild` and `infant` (2026-09-14) | `CHILD_POSES` and `entityClip` in `public/motion.js` | Request 2026-09-12, priority 1 — children | The children's remaining poses. **Keep the scaling**: the delivered sheets fill their cells and need it |
 | *(Planned, with [SETTLING_IN.md](SETTLING_IN.md) step 8)* A parent's chosen appearance is stored and described in words; the figure is still chosen by sex and age | the family book | Request below — layered people art | Layered or palette-swappable sheets for the whole cast |
@@ -33,6 +34,17 @@ Open requests, newest first. Each one says why it is needed, what exactly to del
 into the existing pipeline, and how it will be checked. When a request is delivered, mark it
 **Delivered** with the date and move the details into [ART_MANIFEST.md](ART_MANIFEST.md) by running
 `npm run build:art`; do not delete it from here.
+
+---
+
+## Request 2026-09-14 — Béxar civic architecture
+
+**Status: open; premade stand-ins in use.** The owner's San Antonio panorama guides the town composition; it does not establish detailed architectural elevations.
+
+- **Why.** Named San Fernando and Governor's Palace landmarks should become recognizable without borrowing later façades or changing the game's art style.
+- **What.** Research the 1836 appearance before production, then deliver `bexar-san-fernando-1836` and `bexar-governors-palace-1836`: warm outlined elevated three-quarter illustrated façades, transparent background, matched to existing `chapel`/`adobe-flat` scale and ground anchors. Preserve uncertainty explicitly where evidence is insufficient. Supply roofs separately if interiors are later required; the initial exterior is intentionally static.
+- **How it plugs in.** Replace the two named sprite IDs in `public/bexar-layout.js`, preserve stable placement IDs and the Alamo coordinate transform, and register source, prompt, alpha bounds and anchors through the normal art build. No new scene or world entities are implied.
+- **Check.** Compare the researched period reference and rendered town close-up; reject later architectural additions, painted transparency, mismatched perspective and doorways too small for the established person scale.
 
 ---
 
@@ -105,7 +117,7 @@ into this request when that chapter's build reaches them, in the contract format
 
 ## Request 2026-09-12 — families that look like who they are, and a rider who gets down
 
-**Status: partly delivered.** 2026-09-14: children's idle, east walk, rest and injured-rest (`people-children-idle`, `-walk`, `-care`), in use; the rider's vertical dialogue (`courier-encounters-vertical`), in use; the dismount, remount, on-foot and waiting-horse sheet (`courier-dismount`), registered and not yet bound; speaking and listening poses for the first cast (`people-dialogue`), registered and not yet bound; the second cast's idle sheet (`people-cast2-idle`), registered, waiting for its other sheets before the cast stand-in changes. Still open: the children's vertical walks and task poses, and the rest of the second cast. Requested by Claude on the owner's list of next work.
+**Status: partly delivered.** 2026-09-14: children's idle, east walk, rest and injured-rest (`people-children-idle`, `-walk`, `-care`), in use; the rider's vertical dialogue (`courier-encounters-vertical`), in use; the dismount, remount, on-foot and waiting-horse sheet (`courier-dismount`), registered and not yet bound; speaking and listening poses for the first cast (`people-dialogue`), registered and not yet bound; the second cast's idle and work sheets (`people-cast2-idle`), and people-cast2-work, registered, waiting for its other sheets before the cast stand-in changes. See [delivery details](ART_DELIVERY_2026-09-14.md). Still open: the children's vertical walks and task poses, and the rest of the second cast. Requested by Claude on the owner's list of next work.
 
 ### Why
 

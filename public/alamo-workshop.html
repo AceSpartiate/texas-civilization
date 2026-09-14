@@ -15,22 +15,25 @@
     <h1>The Alamo compound</h1>
     <p>Assembly study · separate from the live classroom world</p>
   </header>
-  <div class="workshop-badges"><span id="scale-readout">Real feet · people 5.7 ft</span><span id="preview-state">Cutaway rooms · north wall intact</span></div>
+  <div class="workshop-badges"><span id="scale-readout">Real feet · people 5.7 ft</span><span id="preview-state">Roofs shown · north wall intact</span></div>
   <p id="workshop-status" role="status">Loading the compound assembly…</p>
 
   <div id="workshop-tools">
     <nav class="camera-tools" aria-label="Assembly view">
       <button id="fit-compound" type="button">Whole compound</button>
+      <button id="fit-bexar" type="button">San Antonio de Béxar</button>
       <label class="room-label"><span>Look inside</span><select id="room-focus"><option value="">Choose a room</option></select></label>
       <button id="zoom-in" type="button" aria-label="Zoom in">+</button>
       <button id="zoom-out" type="button" aria-label="Zoom out">−</button>
-      <label><span>Roofs</span><select id="roof-mode"><option value="cutaway">Cutaway rooms</option><option value="roofs">Roofs shown</option><option value="plan">Ground plan</option></select></label>
+      <label><span>Roofs</span><select id="roof-mode"><option value="cutaway">Cutaway rooms</option><option value="roofs" selected>Roofs shown</option><option value="plan">Ground plan</option></select></label>
       <button id="preview-play" type="button" aria-pressed="true">Pause</button>
       <details id="assembly-settings">
         <summary>Assembly settings</summary>
         <div class="settings-sheet">
           <h2>Preview settings</h2>
           <label>North wall<select id="north-wall"><option value="intact">Intact</option><option value="damaged">Damaged</option><option value="breached">Breached</option></select></label>
+          <label>Section to study<select id="collapse-section"></select></label>
+          <button id="collapse-wall" type="button">Watch section collapse</button>
           <label class="check"><input id="show-labels" type="checkbox" checked>Place labels</label>
           <label class="check"><input id="show-grid" type="checkbox">10-foot grid</label>
           <label class="check"><input id="large-figures" type="checkbox">Enlarge people ×2 for inspection</label>

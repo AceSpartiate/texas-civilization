@@ -10,7 +10,22 @@ try{
 const page=await browser.newPage({viewport:{width:1440,height:1000}});page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push(r.url()));
 await page.goto(url+'/alamo-workshop.html');await page.waitForFunction(()=>window.__alamo?.ready);await page.screenshot({path:'test-results/alamo-compound.png'});
 assert.equal(await page.evaluate(()=>window.__alamo.rooms),32);
+await page.locator('#fit-bexar').click();await page.screenshot({path:'test-results/bexar-town.png'});
+assert.equal(await page.locator('#roof-mode').inputValue(),'roofs');
+await page.locator('#fit-compound').click();
 await page.locator('#room-focus').selectOption('church-nave');await page.screenshot({path:'test-results/alamo-church.png'});
+await page.locator('#assembly-settings summary').click();await page.locator('#collapse-section').selectOption('north-4');
+await page.locator('#collapse-wall').click();await page.locator('#preview-play').click();
+const frozen=await page.evaluate(()=>window.__alamo.timeMs);await page.waitForTimeout(250);
+assert.equal(await page.evaluate(()=>window.__alamo.timeMs),frozen,'collapse uses the paused preview clock');
+assert.equal(await page.evaluate(()=>window.__alamo.wallStates['north-4']),100,'passage stays closed during collapse');
+await page.locator('#preview-play').click();await page.waitForFunction(()=>window.__alamo.collapsePoses['north-4']==='alamo-wall-breach');
+await page.screenshot({path:'test-results/alamo-wall-breaking.png'});
+await page.waitForFunction(()=>window.__alamo.wallStates['north-4']===0);
+assert.equal(await page.evaluate(()=>window.__alamo.wallStates['north-5']),100,'adjacent section stays intact');
+await page.locator('#reduced-motion').check();await page.locator('#collapse-section').selectOption('north-5');await page.locator('#collapse-wall').click();
+assert.equal(await page.evaluate(()=>window.__alamo.wallStates['north-5']),0,'reduced motion immediately shows rubble');
+await page.locator('#reduced-motion').uncheck();await page.locator('#north-wall').selectOption('intact');await page.locator('#assembly-settings summary').click();
 await page.locator('#joe-study').click();await page.waitForFunction(()=>window.__alamo.actors.find(a=>a.id==='joe-study').hiding,{},{timeout:30000});
 await page.screenshot({path:'test-results/alamo-joe-room.png'});
 await page.getByRole('button',{name:'Study emergence',exact:true}).click();await page.waitForFunction(()=>window.__alamo.actors.find(a=>a.id==='joe-study').gesture==='speak',{},{timeout:15000});
@@ -23,6 +38,6 @@ assert.equal(await page.evaluate(()=>window.__alamo.wallStates['north-4']),0);aw
 await page.locator('#roof-mode').selectOption('roofs');await page.screenshot({path:'test-results/alamo-roofs.png'});
 await page.setViewportSize({width:390,height:844});await page.locator('#fit-compound').click();await page.screenshot({path:'test-results/alamo-phone.png'});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
 assert.deepEqual(errors,[]);assert.equal(requests.some(r=>r.includes('/api/')),false,'art workshop never queries or mutates class data');assert.equal(requests.some(r=>!r.startsWith(url)),false);
-const result={result:'PASS',date:new Date().toISOString(),browser:await browser.version(),rooms:32,units:'ft',joeWalkHideEmergeSpeak:true,persistentPreviewActorIds:true,northWallBreach:true,pauseStable:true,phoneNoOverflow:true,classRequests:0,externalRequests:0,errors};
+const result={result:'PASS',date:new Date().toISOString(),browser:await browser.version(),rooms:32,units:'ft',joeWalkHideEmergeSpeak:true,persistentPreviewActorIds:true,northWallBreach:true,animatedCollapse:true,collapsePause:true,independentSections:true,reducedMotionRubble:true,pauseStable:true,phoneNoOverflow:true,classRequests:0,externalRequests:0,errors};
 writeFileSync('docs/evidence/alamo-art-browser.json',JSON.stringify(result,null,2)+'\n');console.log(result);
 }finally{await browser.close();await app.close();}
