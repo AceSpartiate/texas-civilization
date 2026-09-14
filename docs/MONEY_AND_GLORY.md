@@ -190,6 +190,28 @@ Rules that apply to every row:
 - **Fighting should be the stronger strategy, never the only one.** A family that never fights
   winning should be difficult, not impossible. The balance gate in §8 is the check.
 
+### A woman sent to fight — owner decision, 2026-09-14, not yet built
+
+> "if a family sends a woman to battle, they should receive - glory. it wouldn't have been socially or culturally
+> acceptable. if the woman dies, they should receive 2x - glory. if the woman survives battle however, they should
+> receive full normal glory without any - points. glory is a hidden stat until the end of the game anyways."
+>
+> — 2026-09-14
+
+| Question | Owner's answer, 2026-09-14 |
+| --- | --- |
+| How big is the penalty? | **What her part would have earned**: her part's weight times the distance multiplier, negative. |
+| If she dies | **Twice that, negative.** |
+| If she comes through a battle alive | **Her normal award, and no penalty.** |
+| Which parts count | **Only fighting** (`fought`). Carrying supplies, being present and going to the camp earn ordinary glory for anybody. Nobody fights at Gonzales, so this first applies in the battles after October 2 (`docs/COLONIES.md`). |
+| Her fate unresolved when the class ends | **The penalty stands.** Only coming through a battle alive clears it. |
+| History | **Researched and registered as a claim**, and the reveal words it as the period's judgement of the family, never as the woman having done wrong: *"In 1835, sending a woman to fight was held against a family."* |
+
+This amends one rule above: **a casualty never adds glory** still holds — a death here only ever takes more away.
+The balance gate (§8) must be re-run once `fought` exists, because this makes sending a mother to fight both very
+likely fatal (`docs/FAMILY_CREATION.md` §5) and costly. It is hidden like every other award, and a woman's
+survival is decided by her hidden stats exactly as a man's is; the penalty never changes the odds.
+
 ### Where it lives
 
 **As built: `world.glory[householdId]`, not `household.glory`** — a household is projected to its own
