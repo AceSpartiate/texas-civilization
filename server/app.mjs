@@ -324,11 +324,12 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       // own holding, only while it is choosing: the refusal says so otherwise.
       // ceiling: laying the lane runs on the server's one thread, a tenth of a second or so for a long one. A class of
       // thirty choosing at once is a few seconds of it spread over the first minutes; a worker is the way out if that shows.
-      // What ten acres surveyed here would be, on the family's own land only (sim/survey.mjs).
+      // What ten acres surveyed here would be, or the plot here to clear or fence (`job`), on the family's own land only
+      // (sim/survey.mjs).
       if (req.method === 'GET' && url.pathname === '/api/plot') {
         if (!identity.householdId) return json(res, 403, { error: 'Only a family surveys its land.' });
         const household = state.world.households[identity.householdId];
-        return json(res, 200, { mapId: state.sessionId, facts: plotFacts(state.world, household, { x: Number(url.searchParams.get('x')), y: Number(url.searchParams.get('y')) }) });
+        return json(res, 200, { mapId: state.sessionId, facts: plotFacts(state.world, household, { x: Number(url.searchParams.get('x')), y: Number(url.searchParams.get('y')) }, url.searchParams.get('job')) });
       }
       if (req.method === 'GET' && url.pathname === '/api/site') {
         if (!identity.householdId) return json(res, 403, { error: 'Only a family chooses where its house stands.' });

@@ -1,12 +1,10 @@
 // A farm that grows, in a real browser.
 //
-// tests/improvements.test.mjs proves the simulation: that breaking ground costs an
-// afternoon, that a bigger field swallows more seed and gives back more, that stock get
-// into an unfenced crop, and that all of it can be taken away again. None of that reaches
-// a student unless the work is offered in words, the cost is on the button before it is
-// pressed, and - the part only a browser can answer - the field is actually drawn bigger
-// afterwards. The map is fetched once a class and never changes, so a field that grows has
-// to be drawn from the household, and "did it grow" cannot be asked of the projection.
+// tests/improvements.test.mjs and tests/clearing.test.mjs prove the simulation: that clearing a staked plot costs days of
+// work, that the field is the cleared plots and a bigger one swallows more seed and gives back more, that stock get into an
+// unfenced plot, and that all of it can be taken away again. None of that reaches a student unless the work is offered in
+// words, the plot is chosen on the map and described before anybody is sent, and - the part only a browser can answer - the
+// plot is drawn as field afterwards, with rails round the one that was fenced (docs/LAND_GRANTS.md §5).
 //
 // Run: npm run test:farm
 import assert from 'node:assert/strict';
@@ -21,7 +19,7 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const pass = [];
 const ok = label => { pass.push(label); console.log('PASS', label); };
 
-// A quick tick, because breaking ground is deliberately a long job and this is not a test
+// A quick tick, because clearing is deliberately a long job and this is not a test
 // of how long it takes - tests/improvements.test.mjs already counts the ticks.
 const app = createClassroom({ seed: 'farm-proof', playerCount: 5, tickMs: 60, worldFactory(seed, count) {
   // A settled class: these families are at home under a roof, as every class began before arrivals
@@ -29,6 +27,15 @@ const app = createClassroom({ seed: 'farm-proof', playerCount: 5, tickMs: 60, wo
   const world = createSettledWorld(seed, count);
   // Enough seed that nothing here is refused for poverty; the cost itself is asserted below.
   world.households['hh-1'].resources.seed = 24;
+  // Ten acres of prairie already staked a fifth of a mile from the first patch: surveying is proved in its own right
+  // (tests/survey.test.mjs, docs/evidence/survey.json); this proves clearing and fencing what a family has staked.
+  const field = world.map.terrain.find(feature => feature.kind === 'field' && feature.ownerHouseholdId === 'hh-1');
+  const corner = { x: Math.min(...field.points.map(p => p.x)), y: Math.min(...field.points.map(p => p.y)) };
+  const side = Math.sqrt(10 / 640);
+  world.households['hh-1'].plots = [
+    { id: 'plot-1', x: +(corner.x + side / 2).toFixed(3), y: +(corner.y + side / 2).toFixed(3), ground: 'prairie', state: 'cleared' },
+    { id: 'plot-2', x: +(corner.x + side / 2).toFixed(3), y: +(corner.y + side / 2 + 0.2).toFixed(3), ground: 'prairie', state: 'staked' },
+  ];
   return world;
 } });
 const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
@@ -73,59 +80,71 @@ try {
   // --------------------------------------------------------- the work is offered in words
   const offered = await page.locator('#selection-work button.work-option').evaluateAll(buttons =>
     buttons.map(button => ({ id: button.dataset.chore, name: button.querySelector('.work-name')?.textContent, note: button.querySelector('.work-note')?.textContent })));
-  const clearing = offered.find(entry => entry.id === 'clear-ground');
-  const fencing = offered.find(entry => entry.id === 'build-fence');
-  assert.ok(clearing, `no way to break new ground: ${JSON.stringify(offered.map(o => o.id))}`);
-  assert.ok(fencing, 'no way to fence the field');
+  const clearing = offered.find(entry => entry.id === 'clear-plot');
+  const fencing = offered.find(entry => entry.id === 'fence-plot');
+  assert.ok(clearing, `no way to clear the staked plot: ${JSON.stringify(offered.map(o => o.id))}`);
+  assert.ok(fencing, 'no way to fence a plot');
   assert.match(fencing.note, /stock/i, `the fence does not say what it is for: "${fencing.note}"`);
-  ok(`a family is offered "${clearing.name}" and "${fencing.name}", and the fence says why it matters`);
+  assert.match(clearing.note, /timber thirty/i, `clearing does not say what it costs: "${clearing.note}"`);
+  ok(`a family is offered "${clearing.name}" and "${fencing.name}", and each says what it is for`);
 
   const planting = offered.find(entry => entry.id === 'plant-field');
   assert.match(planting.name, /2 seed/, `planting does not state its price: "${planting.name}"`);
   ok(`the price of planting is on the button: "${planting.name}"`);
 
-  // ------------------------------------------------------------ and the field grows for it
-  const fieldNow = () => page.evaluate(() => ({ ...window.__fieldRect }));
-  const before = await fieldNow();
-  assert.ok(before.width > 0 && before.height > 0, 'the field was never drawn at all');
-  assert.equal(before.fence, 'none', 'a family started with a fence it never built');
-  assert.equal(before.cleared, 1);
+  // A tap on the map at the middle of a plot as it is drawn: canvas pixels to page pixels, as the map's own pointer does.
+  const tapPlot = async id => {
+    const at = await page.evaluate(plotId => {
+      const plot = window.__plotsDrawn.find(drawn => drawn.id === plotId), canvas = document.querySelector('#world-map'), rect = canvas.getBoundingClientRect();
+      const x = plot.corners.reduce((sum, p) => sum + p.x, 0) / 4, y = plot.corners.reduce((sum, p) => sum + p.y, 0) / 4;
+      return { x: rect.left + x * rect.width / canvas.width, y: rect.top + y * rect.height / canvas.height };
+    }, id);
+    await page.mouse.click(at.x, at.y);
+    await page.waitForFunction(() => document.querySelector('#survey-send') && !document.querySelector('#survey-send').hidden, null, { timeout: 10000 });
+  };
 
-  await page.locator('button[data-chore=clear-ground]').click();
-  await page.waitForFunction(() => window.__snapshot.world.land.cleared === 2, null, { timeout: 60000 });
+  // ------------------------------------------------------------ and the field grows for it
+  const plotsNow = () => page.evaluate(() => window.__plotsDrawn.map(plot => ({ id: plot.id, state: plot.state, fence: plot.fence, cleared: plot.cleared })));
+  const before = await plotsNow();
+  assert.deepEqual(before.map(plot => plot.state), ['cleared', 'staked'], `the plots were not drawn as they stand: ${JSON.stringify(before)}`);
+  assert.equal(before[0].fence, 'none', 'a family started with a fence it never built');
+
+  await page.locator('button[data-chore=clear-plot]').click();
+  await tapPlot('plot-2');
+  const words = await page.locator('#survey-text').textContent();
+  assert.match(words, /Ten acres of prairie .*staked\. 10 spells of clearing, with the hoe\./, `the plot was not described before clearing: "${words}"`);
+  await page.locator('#survey-send').click();
+  await page.waitForFunction(() => window.__snapshot.world.land.cleared === 2, null, { timeout: 120000 });
   await page.waitForTimeout(300);
-  const after = await fieldNow();
-  const grew = (after.width * after.height) / (before.width * before.height);
-  assert.ok(grew > 1.4, `the field was drawn ${grew.toFixed(2)} times its old area after an afternoon of clearing`);
-  ok(`an afternoon of clearing is visible on the ground: the field is drawn ${grew.toFixed(2)}x the area it was`);
+  const after = await plotsNow();
+  assert.deepEqual(after.map(plot => plot.state), ['cleared', 'cleared'], 'the plot was cleared and still drawn staked');
+  ok(`ten acres chosen on the map and cleared are drawn as field: "${words}"`);
 
   // ------------------------------------------------------------------- and the rails go up
   await choose('hh-1-thomas');
-  await page.locator('button[data-chore=build-fence]').click();
-  await page.waitForFunction(() => window.__snapshot.world.land.fence === 'sound', null, { timeout: 60000 });
+  await page.locator('button[data-chore=fence-plot]').click();
+  await tapPlot('plot-2');
+  await page.locator('#survey-send').click();
+  await page.waitForFunction(() => window.__snapshot.world.land.fenced === 1, null, { timeout: 60000 });
   await page.waitForTimeout(300);
-  const fenced = await fieldNow();
-  assert.equal(fenced.fence, 'sound', 'the rails went up and nothing was drawn round the field');
-  ok('rails round the crop are drawn only once a family has split them');
+  const fenced = await plotsNow();
+  assert.deepEqual(fenced.map(plot => plot.fence), ['none', 'sound'], 'the rails went round the wrong plot, or nothing was drawn');
+  ok('rails are drawn round the plot a family fenced, and only that one');
 
-  // --------------------------------------------- and the harvest says what is standing in it
+  // --------------------------------------------- and the land line says what the field is
   await post('/api/command', { id: `proof-pause-${crypto.randomUUID()}`, action: 'pause' }, hostCookie);
   await page.waitForFunction(() => window.__snapshot.world.status === 'paused');
-  const ripened = await page.evaluate(async () => {
-    const response = await fetch('/api/state');
-    return (await response.json()).world.land;
-  });
-  record.land = ripened;
+  record.land = await page.evaluate(async () => (await (await fetch('/api/state')).json()).world.land);
 
   const belongings = await page.evaluate(() => {
     document.querySelector('#journal-toggle').click();
     const line = document.querySelector('#property li[data-land]');
-    return line ? { text: line.textContent, cleared: line.dataset.cleared, fence: line.dataset.fence } : null;
+    return line ? { text: line.textContent, cleared: line.dataset.cleared, fenced: line.dataset.fenced } : null;
   });
   assert.ok(belongings, 'the family journal does not list the land among what the family has');
   assert.equal(belongings.cleared, '2');
-  assert.equal(belongings.fence, 'sound');
-  assert.match(belongings.text, /ground broken 2 of a possible 4/);
+  assert.equal(belongings.fenced, '1');
+  assert.match(belongings.text, /20 acres cleared in 2 plots, 1 fenced/);
   ok(`the land is the first thing in the list of what the family has: "${belongings.text}"`);
 
   mkdirSync('test-results', { recursive: true });
@@ -137,13 +156,13 @@ try {
     record: 'farm-improvements-browser',
     date: new Date().toISOString().slice(0, 10),
     browser: await browser.version(),
-    ownerDirection: '"players should be able to expand their farms... they\'ll need to be destructible (runaway scrape)."',
+    ownerDirection: '"players should be able to clear any piece of land on their land ... and create more plots through an action called Survey." (2026-09-13)',
     checks: pass,
-    measured: { fieldBefore: before, fieldAfter: after, drawnAreaRatio: Number(grew.toFixed(2)), fenced: fenced.fence, ...record },
+    measured: { plotsBefore: before, plotsAfter: after, fenced, ...record },
     notProved: [
-      'Anything about destruction in a browser. Nothing in the Gonzales afternoon ruins a homestead and this project invents no such event; the transition is proved directly in tests/improvements.test.mjs and is drawn from cabin-ruin and fence-broken, which no played class has yet shown.',
-      'That clearing is worth its afternoon at the study pace in a real class. Ten ticks of work is about a minute and a half of a lesson; whether a student spends it is a classroom question.',
-      'That a student understands the fence before losing a third of a crop to it. The number is on both controls; nobody has watched a class read them.',
+      'Anything about destruction in a browser. Nothing in the Gonzales afternoon ruins a homestead and this project invents no such event; the transition is proved directly in tests/improvements.test.mjs and tests/clearing.test.mjs.',
+      'That clearing is worth its days of work at the study pace in a real class. Ten spells of prairie is about thirty ticks; whether a student spends them is a classroom question.',
+      'That a student understands the fence before losing a third of a plot to it. The number is on both controls; nobody has watched a class read them.',
     ],
   };
   mkdirSync('docs/evidence', { recursive: true });

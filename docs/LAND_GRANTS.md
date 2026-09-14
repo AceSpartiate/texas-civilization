@@ -1,6 +1,6 @@
 # Land grants, Survey, and clearing your own ground
 
-**Status: decided 2026-09-13; step 1 (the grant) built 2026-09-13** ([evidence](evidence/grants.json)). **Terrain, water and the house site were decided the same evening and specified 2026-09-14 (§8); they come before Survey. Movement by ground, the house site, the lane and wells were built 2026-09-14 (§8.4, [evidence](evidence/ground-and-site.json)).** Read this in full before changing a family's land, the field,
+**Status: decided 2026-09-13; step 1 (the grant) built 2026-09-13** ([evidence](evidence/grants.json)). **Terrain, water and the house site were decided the same evening and specified 2026-09-14 (§8); they come before Survey. Movement by ground, the house site, the lane and wells were built 2026-09-14 (§8.4, [evidence](evidence/ground-and-site.json)). Survey (§4.1) and clearing and the field (§5.1, [evidence](evidence/clearing.json)) were built 2026-09-14.** Read this in full before changing a family's land, the field,
 clearing, fencing, the stock a family brings, or the lobby choices that decide any of them. It replaces the
 "break new ground up to four times" rule of `sim/improvements.mjs` (`FIC-GONZ-015`).
 
@@ -106,9 +106,9 @@ Built on both maps, in `sim/survey.mjs`; tests `tests/survey.test.mjs`, evidence
 - **Found in the browser proof** and fixed: setting the house exactly on the surveyor's mark made a journey of no length the
   server refused (the family now simply stays); the person's panel covered the land to tap (it is put away when survey
   starts); water refusals for creeks the map does not draw.
-- `ceiling:` staked plots do nothing yet — §5 clears them into the field; the ground named for a plot on the real land counts
-  timber along creeks the map does not draw, so ten acres can be called timber where the map shows grass; neighbours do not
-  survey (they will need to when plots become the field); the stake art is a stand-in.
+- *Superseded by §5.1:* staked plots do nothing yet — §5 clears them into the field. `ceiling:` the ground named for a plot on the real land counts
+  timber along creeks the map does not draw, so ten acres can be called timber where the map shows grass; neighbours did not
+  survey until §5.1; the stake art is a stand-in.
 
 ## 5. Clearing, and the field
 
@@ -126,6 +126,51 @@ Built on both maps, in `sim/survey.mjs`; tests `tests/survey.test.mjs`, evidence
 - **Ruin** (`HIST-GONZ-019`, nothing in Gonzales calls it) returns every plot to staked-and-uncleared and takes the
   rails, as the old field returned to its first patch.
 
+### 5.1 As built (2026-09-14)
+
+Built on both maps, in `sim/fields.mjs` (the plots as the field), `sim/improvements.mjs` (clearing, rails, ruin) and
+`sim/survey.mjs` (choosing the plot); tests `tests/clearing.test.mjs` and `tests/improvements.test.mjs`.
+
+- **Clear a staked plot** (`clear-plot`) and **Fence a cleared plot** (`fence-plot`) replace *Break new ground* and *Fence the
+  field*. Both are chosen like Survey: the person's work list opens the same panel ("Which plot Feliciano clears"), a tap on
+  one of the family's plots asks the server (`GET /api/plot?x&y&job=`) and gets its words — *"Ten acres of timber a quarter
+  mile south-west of the house, staked. 30 spells of clearing, felling timber with the axe."* — or why not, and *Clear it* /
+  *Fence it* sends `clear-plot` / `fence-plot { entityId, x, y }`; the server finds the plot under the point and checks again.
+  Each is on the work list only when there is something to do it to (a staked plot; a cleared plot without rails), as the
+  well and the lane are, and neither is in the lobby.
+- **Clearing** walks out to the plot, works it in spells of `SPELL_TICKS` — prairie 10, brush 20, timber 30 — by as many of the
+  family as are set to it, and when the last spell goes in everybody on that plot leaves off and walks in. Called home, the
+  spells done stay on the plot (`plot.work`) and whoever is sent back finishes the rest. Timber wants the felling axe and
+  wears nothing (as the house and lane); prairie and brush want a sound hoe and wear it once, when the plot is cleared.
+  Refused: not one of the family's plots; already cleared; no axe for timber; no hoe, or a worn one; the lobby; before the
+  house site. *"Temperance finished clearing ten acres of timber a quarter mile south-west of the house. The field is 20 acres now."*
+- **Fencing** walks out and splits rails for eight ticks round one cleared plot. Refused on staked ground, on a fenced plot,
+  and while somebody else is already fencing it.
+- **The field is the cleared plots.** Planting costs two seed a cleared plot, walks out to each cleared plot in turn (nearest
+  first) and back, and marks each one sown; harvest walks the round again and brings in five a sown plot, the wagon wanted
+  from three. **A plot cleared while the crop grows is not in it** (`plot.sown`): found while designing, because one crop state
+  for the whole field would otherwise harvest ground nobody planted. The stock take a third of what grows on each unfenced
+  plot only (`harvestShare` is 1 − ⅓ × unfenced share of what is sown). A family with more cleared ground than seed for all
+  of it cannot plant until it has the seed, and is told so (`ceiling:` below).
+- **Drawn** on the family's own map plot by plot: a cleared plot as field — turned earth, or the crop in rows where it was
+  sown — with the rail fence round it only if it was fenced; a staked plot as the square with corner posts, the spells done
+  shown as turned earth growing from its middle; no wild scrub or oak scattered in cleared ground. A neighbour's field is still
+  drawn as the first patch of the old block, fenced. The land line: *"20 acres cleared in 2 plots, 1 fenced; one more plot
+  staked out to clear."* `stand-in:` cleared timber is drawn as the same turned earth as prairie until the stump art lands.
+- **Ruin** returns every plot to staked, takes the clearing done, the seed and the rails; *fence* alone turns every standing
+  fence to `ruined`, which *Fence a cleared plot* sets back up (*"set the rails back up"*).
+- **Families nobody plays** (`sim/neighbours.mjs`, `FIC-GONZ-028`) fence an unfenced plot while a crop stands, clear the nearest
+  staked plot, and stake ten acres near the house (a fifth to half a mile out, eight ways round) while they have fewer than
+  three plots; they fetch seed for the whole field.
+- **Old saves** (§6): a class whose plots were never written reads its old `field.cleared` patches as that many cleared plots
+  in the corner of its field block nearest the house, fenced if its old fence was, sown if its crop is in; nothing is stored
+  until a plot changes (staking, clearing, fencing, ruin), so every class saved before opens as it was and no save version
+  moved. Somebody saved in the middle of *Break new ground* or *Fence the field* leaves off the work, and the story says so.
+  `CLEARING_MAX` survives only as `OLD_PATCHES`, the bound on an old save's `field.cleared`.
+- `ceiling:` one crop for the whole field and planting all-or-nothing — per-plot planting (and a partial planting when seed is
+  short) when crops differ; a neighbour's cleared plots are not drawn (what they have cleared is known only by going to look);
+  the rails want no axe or maul; plots cannot be pulled up or moved; automatic families keep three plots.
+
 ## 6. Old saves
 
 No `saveVersion` bump: every missing field has a correct value.
@@ -141,10 +186,10 @@ No `saveVersion` bump: every missing field has a correct value.
 1. ~~**The grant.**~~ **Done 2026-09-13.** The lobby stock choice and its wagon cost; placement at Start; `household.grant`; the boundary
    on the family map; the book line; old-save default; claims `HIST-GONZ-036`–`040` and `FIC-GONZ-025`.
 2. ~~**Survey.**~~ **Done 2026-09-14** (§4.1). Placement mode, the `survey-plot` action with its refusals, the chore, plots drawn staked.
-3. **Clearing and the field.** `clear-plot` by ground, the field as cleared plots, per-plot fences, ruin, old-save
-   plots; retire `clear-ground` and `CLEARING_MAX`.
+3. ~~**Clearing and the field.**~~ **Done 2026-09-14** (§5.1). `clear-plot` by ground, the field as cleared plots, per-plot fences, ruin, old-save
+   plots; `clear-ground` and `build-fence` retired, `CLEARING_MAX` kept only as the old-save bound.
 4. **Art.** Staked plot, cleared plot on prairie and on timber (stumps), grant boundary markers — requested in
-   `docs/ART_REQUESTS.md`, with stand-ins from the field and fence art until they land.
+   `docs/ART_REQUESTS.md` (2026-09-13 for the stake, 2026-09-14 for cleared ground), with stand-ins from the field and fence art until they land.
 
 ---
 

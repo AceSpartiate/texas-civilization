@@ -23,6 +23,7 @@ does not have:
 | *(Planned, with [SETTLING_IN.md](SETTLING_IN.md) step 8)* A parent's chosen appearance is stored and described in words; the figure is still chosen by sex and age | the family book | Request below — layered people art | Layered or palette-swappable sheets for the whole cast |
 | *(Planned, with [SETTLING_IN.md](SETTLING_IN.md) steps 6–7)* Interiors and furniture drawn from the Alamo interior pieces | the interior view | Request below — interiors and furnishings | Cabin interiors, furniture and brought goods |
 | A family that drove stock in has its cattle and hogs drawn as two `ox-brown` oxen grazing east of the house, on its own land only | the herd in the site loop of `drawWorld`, `public/app.js` | Request 2026-09-13 — stock and the grant (the 2026-09-14 `animal-stock` sheet is **held**, see the request) | `cattle-longhorn` and `hog` idle and grazing figures |
+| Cleared ground is turned earth and rows whatever it was: ten acres cleared out of timber look like ten acres broken from prairie | `fieldPatch` and `drawPlots` in `public/app.js` | Request 2026-09-14 — cleared ground | `stumps` scattered over cleared timber ground, and `clearing-brush` piles on ground being cleared |
 | A staked plot is a survey-chain square with a small post drawn at each corner | `drawPlots` in `public/app.js` | Request 2026-09-13 — stock and the grant (the surveyor's stake and corner marker) | A surveyor's stake and a corner marker |
 | A rider never gets down to talk: they speak from the saddle, turned east, west, north or south toward the listener (the vertical dialogue delivered 2026-09-14 is in use) | `carrierClip` in `public/motion.js` | Request 2026-09-12, priority 3 | `courier-dismount` (delivered 2026-09-14, registered, not yet bound: it needs the encounter to know when a rider has got down and where the horse stands) |
 
@@ -32,6 +33,23 @@ Open requests, newest first. Each one says why it is needed, what exactly to del
 into the existing pipeline, and how it will be checked. When a request is delivered, mark it
 **Delivered** with the date and move the details into [ART_MANIFEST.md](ART_MANIFEST.md) by running
 `npm run build:art`; do not delete it from here.
+
+---
+
+## Request 2026-09-14 — cleared ground
+
+**Status: open.** Specified in [LAND_GRANTS.md](LAND_GRANTS.md) §5 and §7 step 4.
+
+- **Why.** A family now clears ten-acre plots out of prairie, brush or timber (`HIST-GONZ-039`: timber three times the work).
+  Ground cleared from timber was full of stumps for years; drawn as the same turned earth as prairie, the harder clearing
+  leaves no mark on the land.
+- **What.** In the frontier-v1 style, at the scale of `scrub` and `rocks`: `stump` (two or three variants, a felled post oak
+  and a cottonwood stump), and `clearing-brush` (a pile of cut brush and a smouldering brush pile), for ground being cleared.
+- **How it plugs in.** Single sprites on a transparent sheet, anchored at the base, listed in `ART_MANIFEST.md` by
+  `npm run build:art`. `drawPlots` scatters stumps over a cleared plot whose `ground` is `timber`, keyed to its position like the
+  ground scatter, and brush piles over the part of a staked plot already worked (`plot.work`).
+- **Check.** A cleared timber plot and a cleared prairie plot side by side read differently at the closest zoom; the crop rows
+  still read over the stumps; nothing is drawn on a neighbour's field.
 
 ---
 

@@ -116,10 +116,15 @@ test('only shooting can be practised, because only shooting costs nothing to lea
   const world = running('fixed');
   const household = world.households['hh-1'];
   household.resources.powder = 20; household.resources.seed = 20; household.resources.food = 40;
-  for (const chore of ['plant-field', 'mend-hoe', 'clear-ground', 'build-fence']) {
+  for (const chore of ['plant-field', 'mend-hoe']) {
     const can = choreAvailability(world, household, world.entities['hh-1-thomas'], chore);
     if (can.can) work(world, 'hh-1', 'hh-1-thomas', chore);
   }
+  // Fencing is sent to a plot on the map: the family's first patch.
+  const [patch] = projectWorld(world, 'hh-1', 'student').land.plots;
+  applyAction(world, 'hh-1', { action: 'fence-plot', entityId: 'hh-1-thomas', x: patch.x, y: patch.y });
+  for (let tick = 0; tick < 100 && world.entities['hh-1-thomas'].chore; tick++) stepWorld(world);
+  assert.equal(patch.fence, undefined); assert.equal(world.households['hh-1'].plots[0].fence, 'sound', 'the rails went up');
   const founding = skillsFor('hh-1-thomas');
   assert.equal(world.entities['hh-1-thomas'].skills.farming, founding.farming, 'farming was trained by doing it');
   assert.equal(world.entities['hh-1-thomas'].skills.hands, founding.hands, 'hands were trained by doing it');

@@ -67,27 +67,28 @@ test('a family surveys ten acres where it chose: the person walks out over its o
     assert.ok(Math.hypot(far.x - home.x, far.y - home.y) > 1.2, "the place is further than a tick's walk");
     assert.ok(farthest >= Math.hypot(far.x - home.x, far.y - home.y) - 0.01, 'and went all the way out to the place');
     assert.ok(Math.hypot(surveyor.location.x - yard.x, surveyor.location.y - yard.y) < 0.1, 'and came back to the yard');
-    assert.equal(household.plots.length, 1);
-    const [plot] = household.plots;
+    const plot = household.plots.find(candidate => candidate.state === 'staked');
+    assert.deepEqual(household.plots.map(candidate => candidate.state), ['cleared', 'staked'], 'one plot staked, and the first patch the family came with kept');
     assert.deepEqual({ x: plot.x, y: plot.y, state: plot.state }, { x: far.x, y: far.y, state: 'staked' });
     assert.equal(plot.ground, facts.ground, 'the ground is what the family was told');
     assert.ok(storyOf(world, household.id).includes(`${surveyor.name} staked out ${facts.words.charAt(0).toLowerCase()}${facts.words.slice(1)}`), `the story says what and where: ${facts.words}`);
-    assert.deepEqual(projectWorld(world, household.id, 'student').land.plots, household.plots, 'the family sees its plots');
+    assert.deepEqual(projectWorld(world, household.id, 'student').land.plots.map(({ spells, ...seen }) => seen), household.plots, 'the family sees its plots');
+    assert.equal(projectWorld(world, household.id, 'student').land.plots.find(seen => seen.state === 'staked').spells, facts.spells, 'and the clearing a staked one wants');
     const saved = JSON.parse(JSON.stringify(world));
     validateWorld(saved);
     assert.deepEqual(saved, JSON.parse(JSON.stringify(world)));
   }
 });
 
-test("the server refuses a plot off the family's land, over its line, on staked ground, the yard, the field or the water, and says why", () => {
+test("the server refuses a plot off the family's land, over its line, on staked ground, the yard, cleared ground or the water, and says why", () => {
   const world = settled('survey-refuse', 'gonzales');
   const household = world.households['hh-1'];
   const bounds = holdingOf(world, household).bounds, home = world.map.sites[household.homeSiteId];
   assert.equal(plotRefusal(world, household, { x: bounds.maxX + 1, y: bounds.minY }), 'That is not your land.');
   assert.equal(plotRefusal(world, household, { x: bounds.minX + PLOT_SIDE / 4, y: (bounds.minY + bounds.maxY) / 2 }), 'Ten acres there would run over the line of your land.');
   assert.equal(plotRefusal(world, household, { x: home.x + 0.02, y: home.y - 0.02 }), 'That would take in the house yard.');
-  const field = world.map.terrain.find(feature => feature.kind === 'field' && feature.ownerHouseholdId === household.id);
-  assert.equal(plotRefusal(world, household, { x: (field.points[0].x + field.points[2].x) / 2, y: (field.points[0].y + field.points[2].y) / 2 }), 'That is ground the field already has.');
+  const [patch] = projectWorld(world, household.id, 'student').land.plots;
+  assert.equal(plotRefusal(world, household, { x: patch.x + PLOT_SIDE / 3, y: patch.y }), 'That runs over ground the family has already cleared.', 'nor the ground already cleared');
   assert.equal(plotRefusal(world, household, { x: 'here', y: 1 }), 'Choose a place on your land to survey.');
   const [first, second] = openGround(world, household);
   const one = world.entities[household.members[0]], two = world.entities[household.members[1]];
@@ -108,7 +109,7 @@ test("the server refuses a plot off the family's land, over its line, on staked 
   validateWorld(world);
 });
 
-test('no survey from the lobby or before the house site is chosen, and a class saved before Survey has no plots', () => {
+test('no survey from the lobby or before the house site is chosen, and a class saved before Survey stores no plots but sees its field as one', () => {
   const lobby = createGonzalesWorld('survey-lobby', 5);
   const household = lobby.households['hh-1'];
   const home = lobby.map.sites[household.homeSiteId];
@@ -120,7 +121,9 @@ test('no survey from the lobby or before the house site is chosen, and a class s
   assert.throws(() => applyAction(choosing, 'hh-1', { action: 'survey-plot', entityId: choosing.households['hh-1'].members[0], x: mark.x + 0.2, y: mark.y }), /Choose where the house will stand first/);
   const old = createWorld('survey-old', 5);
   assert.equal(old.households['hh-1'].plots, undefined);
-  assert.equal(projectWorld(old, 'hh-1', 'student').land.plots, undefined);
+  const [patch, ...more] = projectWorld(old, 'hh-1', 'student').land.plots;
+  assert.deepEqual({ id: patch.id, state: patch.state, more: more.length }, { id: 'plot-1', state: 'cleared', more: 0 }, 'its first patch, read as a cleared plot and written nowhere');
+  assert.equal(old.households['hh-1'].plots, undefined);
   validateWorld(old);
 });
 

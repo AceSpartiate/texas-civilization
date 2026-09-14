@@ -1,0 +1,25 @@
+{
+  "record": "Clearing and the field: docs/LAND_GRANTS.md §5, build step 3",
+  "date": "2026-09-14",
+  "verdict": "PASS",
+  "verdictMeaning": "A student chooses one of the family's staked plots on the map and sends people to clear it a spell at a time, prairie 10, brush 20, timber 30 with the axe; the work stays when they are called home and everybody stops together when it is cleared; a cleared plot is fenced on its own; the field is the cleared plots, sown and walked to plot by plot, a plot cleared mid-season is not harvested, and the stock take their share only of unfenced plots; ruin returns every plot to staked; automatic families stake, clear and fence; old classes open with their old field as plots and no save version moved.",
+  "browserProof": {
+    "note": "Same computer only. MAP=gonzales PORT=8757 SEED=clearing-proof-1, one student family and four automatic, isolated data folder, the in-app browser, host pace set to quick. Not LAN acceptance.",
+    "observed": [
+      "After arrival, Feliciano surveyed 'Ten acres of timber a quarter mile south-west of the house. Clearing it would be 30 spells of work.' and the plot was staked; the first patch showed as a cleared plot beside the house.",
+      "'Clear a staked plot' opened 'Which plot Feliciano clears'. A tap on the cleared first patch read 'Ten acres of prairie beside the house, cleared, with no fence. That ground is already cleared.' with no send button; a tap on the staked plot read 'Ten acres of timber a quarter mile south-west of the house, staked. 30 spells of clearing, felling timber with the axe.' and outlined it.",
+      "'Clear it' sent Feliciano out, 'felling timber on the clearing'; at 4 of 30 spells the plot showed a small square of turned earth in its middle (__plotsDrawn cleared 0.13). Temperance was sent to the same plot; when it cleared both walked in, the story read 'Temperance finished clearing ten acres of timber a quarter mile south-west of the house. The field is 20 acres now.', the hoe was not worn.",
+      "The timber plot was drawn as field, the oak that stood in it gone. Before a fix in this proof, cleared plots were drawn faint and prairie scatter (an oak, scrub) was drawn standing in them.",
+      "'Fence a cleared plot' on Temperance, a tap on the first patch, 'Fence it': 'Temperance split rails and fenced the ten acres beside the house. The stock are out of that crop now.'; the rail fence drawn round that plot only; land.harvestShare 0.8333; the land line 'Their land: 20 acres cleared in 2 plots, 1 fenced.'",
+      "'Plant the field · 4 seed' was refused with two seed in the house, as it should be; planting and harvest by plot are proved in the tests, not in this browser run."
+    ]
+  },
+  "automated": {
+    "suites": ["tests/clearing.test.mjs (7)", "tests/improvements.test.mjs (rewritten for plots, 12)", "tests/survey.test.mjs (updated: staking keeps the first patch, cleared ground refused, an old class sees its field as a plot)"],
+    "wholeSuite": "370 pass, 0 fail",
+    "injectedRegressions": ["timber cleared as fast as prairie", "timber cleared without the axe", "others go on clearing a cleared plot", "felling timber wears the hoe", "planting sows nothing", "a plot cleared while the crop grows is in it", "one unfenced plot loses the whole field", "fields are no walk", "ruin leaves the plots cleared", "staking wipes the first patch", "retired work runs on", "clearing work may be anything", "neighbours never clear", "neighbours stake without end", "two fence one plot", "an old fence is forgotten", "the server ignores the job", "sent back, the clearing starts over", "cleared ground may be surveyed"],
+    "allCaught": true
+  },
+  "notRun": "scripts/farm-browser-proof.mjs (npm run test:farm) was rewritten for plots but not run: Playwright is not installed on this machine.",
+  "notBuilt": "Per-plot crops and partial planting when seed is short; a neighbour's cleared plots drawn when seen; stump and brush-pile art (requested 2026-09-14, stand-in in use); pulling up stakes."
+}

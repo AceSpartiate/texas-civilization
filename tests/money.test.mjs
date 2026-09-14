@@ -148,7 +148,7 @@ test('a family that never touches a coin still farms, hunts and buys what it nee
   const household = Object.values(world.households)[0];
   const person = world.entities[household.members[1]];
   const open = choresFor(world, household, person).filter(chore => chore.can).map(chore => chore.id);
-  for (const id of ['plant-field', 'hunt-timber', 'fetch-seed', 'fetch-powder', 'build-fence']) assert.ok(open.includes(id), `${id} needs coin`);
+  for (const id of ['plant-field', 'hunt-timber', 'fetch-seed', 'fetch-powder', 'fence-plot']) assert.ok(open.includes(id), `${id} needs coin`);
   const buyer = toCounter(world, household.id, person.id, 'fetch-seed');
   // Paying in coin that is not in the house would be seed for nothing: the answer is closed, and refused if pressed.
   const coin = view(world, household.id).entities.find(e => e.id === buyer.id).chore.ask.options.find(option => option.id === 'coin');

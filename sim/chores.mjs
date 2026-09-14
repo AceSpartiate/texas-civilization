@@ -23,10 +23,10 @@ import { record } from './events.mjs';
 import { purseHeld, purseOf, recordTrade, traderAt } from './town.mjs';
 import { carryCapacity, DEFAULT_MODE, MODES, propertyId } from './travel.mjs';
 import {
-  CLEARING_MAX, SEED_PER_CLEARING, UNFENCED_LOSS, clearGround, clearedOf, harvestShare,
-  improvementsOf, isFenced, needsWagonToHarvest, raiseFence, standingCrop,
+  SEED_PER_PLOT, clearSpell, clearedOf, harvestShare, needsWagonToHarvest, raiseFence, standingCrop,
 } from './improvements.mjs';
-import { stakePlot, stroll, strollTarget } from './survey.mjs';
+import { plotsOf } from './fields.mjs';
+import { moreFields, plotWorkRefusal, stakePlot, stroll, strollTarget } from './survey.mjs';
 import { choosing, cutLaneSpell, digWell, lanePoint, laneRefusal, laneState, waterBurden, wellRefusal, wellTicks } from './homesite.mjs';
 import { SPELL_TICKS, buildRefusal, buildSpell, helpRefusal, hostOf, houseBuilt, houseSettled, raising, recordHelpBegun, recordHelpDone, stageOf } from './houses.mjs';
 export { MODES } from './travel.mjs';
@@ -291,58 +291,60 @@ export const CHORES = {
       { dig: 'well' },
     ],
   },
+  // The field is every cleared plot, wherever the family staked them (docs/LAND_GRANTS.md §5): planting and harvest walk
+  // out to each in turn and back, so ten acres a mile off cost the walk there that ten acres by the house do not.
   'plant-field': {
     name: 'Plant the field', skill: 'farming', tool: 'hoe', where: 'home', heavy: true,
-    // Two seed for the first patch and two more for every time the ground has been
-    // broken since: a family that clears more has more to put in, and more to find.
-    needsPerClearing: { seed: SEED_PER_CLEARING }, field: 'bare',
-    describe: 'Turn the rows and put in seed.',
+    // Two seed for every cleared plot: a family that clears more has more to put in, and more to find.
+    needsPerPlot: { seed: SEED_PER_PLOT }, field: 'bare',
+    describe: 'Walk out to every cleared plot, turn the rows and put in seed.',
     steps: [
-      { walk: 'field', doing: 'walking out to the field' },
+      { stroll: 'fields', doing: 'walking out to the fields' },
       { work: 4, doing: 'breaking the rows' },
-      { consumePerClearing: { seed: SEED_PER_CLEARING } },
+      { consumePerPlot: { seed: SEED_PER_PLOT } },
       { work: 3, doing: 'putting in seed' },
       { field: 'planted' },
       { wear: 'hoe' },
-      { walk: 'yard', doing: 'coming in from the field' },
+      { stroll: 'yard', doing: 'coming in from the fields' },
     ],
   },
   'harvest-field': {
     name: 'Bring in the crop', skill: 'farming', tool: 'hoe', where: 'home', heavy: true,
     field: 'ripe', wantsWagon: true,
-    describe: 'The field is ready. Cut it and carry it in.',
+    describe: 'The crop is ready. Walk out to every planted plot, cut it and carry it in.',
     steps: [
-      { walk: 'field', doing: 'walking out to the field' },
+      { stroll: 'fields', doing: 'walking out to the fields' },
       { work: 6, doing: 'cutting the crop' },
       { produceCrop: true },
       { field: 'bare' },
       { wear: 'hoe' },
-      { walk: 'yard', doing: 'carrying the crop in' },
+      { stroll: 'yard', doing: 'carrying the crop in' },
     ],
   },
-  'clear-ground': {
-    name: 'Break new ground', skill: 'farming', tool: 'hoe', where: 'home', heavy: true,
-    field: 'bare',
-    describe: 'Cut the brush back and turn ground nobody has worked. A long afternoon, and the field is bigger for good.',
+  // Clearing a staked plot (docs/LAND_GRANTS.md §5): the student chooses the plot on the map. Worked in spells like the
+  // house, by as many of the family as are set to it, until the ground is cleared or they are called home; the work done
+  // stays on the plot. Prairie ten spells, brush twenty, timber thirty and the felling axe (HIST-GONZ-039, FIC-GONZ-025).
+  'clear-plot': {
+    name: 'Clear a staked plot', skill: 'farming', where: 'home', heavy: true, plotWork: true,
+    describe: 'Walk out to ten acres the family staked, and grub, cut and break them for planting. Prairie is ten spells of work, brush twenty, timber thirty and wants the felling axe. Choose the plot on the map.',
     steps: [
-      { walk: 'field', doing: 'walking out to the edge of the field' },
-      { work: 10, doing: 'breaking new ground' },
-      { clear: 1 },
-      { wear: 'hoe' },
-      { walk: 'yard', doing: 'coming in from the field' },
+      { stroll: 'plot', doing: 'walking out to the ground being cleared' },
+      { clearWork: true, work: SPELL_TICKS },
+      { clearSpell: true },
+      { wear: 'plot' },
+      { stroll: 'yard', doing: 'coming in from the clearing' },
     ],
   },
-  'build-fence': {
-    name: 'Fence the field', skill: 'hands', where: 'home', heavy: true,
-    describe: 'Split rails and lay them round the crop. Stock here run loose, and an unfenced field feeds them first.',
+  'fence-plot': {
+    name: 'Fence a cleared plot', skill: 'hands', where: 'home', heavy: true, plotWork: true,
+    describe: 'Split rails and lay them round ten cleared acres. Stock here run loose, and an unfenced plot feeds them first. Choose the plot on the map.',
     steps: [
-      // ceiling: rails are split with an axe and a maul, and this household owns one hoe.
-      // The tool model is deliberately one tool; a second one is next-task 1 in HANDOFF.md,
-      // and this chore should wear it when there is one.
-      { walk: 'field', doing: 'walking out to the field' },
+      // ceiling: rails are split with an axe and a maul, and nothing here asks for either or wears them; the house and
+      // the lane read the felling axe, and this should when tools wear by the job.
+      { stroll: 'plot', doing: 'walking out to the plot' },
       { work: 8, doing: 'splitting rails' },
       { raise: 'fence' },
-      { walk: 'yard', doing: 'coming in from the field' },
+      { stroll: 'yard', doing: 'coming in from the plot' },
     ],
   },
   // The house (docs/SETTLING_IN.md step 4, sim/houses.mjs). One chore for the whole of it, which
@@ -565,17 +567,18 @@ export function choreAvailability(world, household, entity, choreId) {
   if (chore.where === 'home' && entity.location.siteId !== household.homeSiteId) return { can: false, why: `${entity.name} is not at home.` };
   if (chore.helps) { const why = helpRefusal(world, entity); if (why) return { can: false, why }; }
   // On the real land the house, the field and the well wait for the family to say where the house stands (sim/homesite.mjs).
-  if ((chore.onSite || chore.house || chore.field || choreId === 'build-fence' || choreId === 'clear-ground') && choosing(household)) return { can: false, why: 'Choose where the house will stand first.' };
+  if ((chore.onSite || chore.house || chore.field || chore.plotWork) && choosing(household)) return { can: false, why: 'Choose where the house will stand first.' };
   if (chore.well) { const why = wellRefusal(household); if (why) return { can: false, why }; }
   if (chore.survey && world.status === 'lobby') return { can: false, why: 'The family surveys its land once the class has begun.' };
   if (chore.lane) { const why = laneRefusal(world, household); if (why) return { can: false, why }; }
   if (chore.field && (household.field?.state ?? 'bare') !== chore.field) {
     return { can: false, why: chore.field === 'ripe' ? 'The field is not ready.' : 'The field is already planted.' };
   }
-  if (choreId === 'clear-ground' && clearedOf(household) >= CLEARING_MAX) {
-    return { can: false, why: 'There is no more ground here worth breaking.' };
-  }
-  if (choreId === 'build-fence' && isFenced(household)) return { can: false, why: 'The field is already fenced.' };
+  // Which plot is chosen on the map; here, only whether there is any plot this work could be sent to.
+  if (chore.plotWork && world.status === 'lobby') return { can: false, why: 'The family works its land once the class has begun.' };
+  if (choreId === 'clear-plot' && !plotsOf(world, household).some(plot => plot.state === 'staked')) return { can: false, why: 'There is no staked ground to clear. Survey ten acres first.' };
+  if (choreId === 'fence-plot' && !plotsOf(world, household).some(plot => plot.state === 'cleared' && plot.fence !== 'sound')) return { can: false, why: 'Every cleared plot is fenced.' };
+  if (chore.field === 'bare' && !clearedOf(household)) return { can: false, why: 'There is no cleared ground to plant. Clear a staked plot first.' };
   if (chore.house) { const why = buildRefusal(household); if (why) return { can: false, why }; }
   if (choreId === 'practise-shooting' && (entity.skills?.hunting ?? 1) >= SKILL_CAP) {
     return { can: false, why: `${entity.name} already shoots as well as anyone on this land.` };
@@ -612,9 +615,9 @@ export function choreAvailability(world, household, entity, choreId) {
  * with the ground, because a bigger field swallows more seed.
  */
 export function needsOf(household, chore) {
-  const perClearing = Object.fromEntries(Object.entries(chore.needsPerClearing || {})
+  const perPlot = Object.fromEntries(Object.entries(chore.needsPerPlot || {})
     .map(([resource, amount]) => [resource, amount * clearedOf(household)]));
-  return { ...chore.needs, ...perClearing };
+  return { ...chore.needs, ...perPlot };
 }
 
 /**
@@ -659,7 +662,7 @@ export function choreCatalogue() {
     cost: Object.entries(chore.needs || {}).map(([resource, amount]) => `${amount} ${resource}`).join(', '),
     // A cost that grows with the ground cannot be stated once for the whole class; the
     // per-tick permission carries the real number for this household.
-    scales: Boolean(chore.needsPerClearing),
+    scales: Boolean(chore.needsPerPlot),
   }));
 }
 
@@ -677,9 +680,13 @@ export function choresFor(world, household, entity) {
   const wantsWell = Boolean(household.site?.needsWell && !household.well);
   // Nor a lane to cut where the family has none, or has cut it.
   const wantsLane = Boolean(laneState(world, household)?.left > 0);
-  return Object.entries(CHORES).filter(([, chore]) => !(chore.house && settled) && !(chore.helps && !visiting) && !(chore.well && !wantsWell) && !(chore.lane && !wantsLane)
-    // Nor survey before the class has begun, which would be a refusal for every person on every lobby tick.
-    && !(chore.survey && world.status === 'lobby')).map(([id, chore]) => {
+  // Nor ground to clear where nothing is staked, or rails to split where every cleared plot has them.
+  const plots = plotsOf(world, household);
+  const wants = { 'clear-plot': plots.some(plot => plot.state === 'staked'), 'fence-plot': plots.some(plot => plot.state === 'cleared' && plot.fence !== 'sound') };
+  return Object.entries(CHORES).filter(([id, chore]) => !(chore.house && settled) && !(chore.helps && !visiting) && !(chore.well && !wantsWell) && !(chore.lane && !wantsLane)
+    && !(chore.plotWork && !wants[id])
+    // Nor survey or plot work before the class has begun, which would be a refusal for every person on every lobby tick.
+    && !((chore.survey || chore.plotWork) && world.status === 'lobby')).map(([id, chore]) => {
     const { can, why } = choreAvailability(world, household, entity, id);
     // `haul` is what this person's own hands would bring back from this trip, before any
     // cap. The cap itself is the mode's `carry`, which the projection sends alongside; the
@@ -741,9 +748,16 @@ export function answerChore(world, household, entity, option) {
 }
 
 export function beginChore(world, household, entity, choreId, { beginTravel, modeAvailability }, modeId = DEFAULT_MODE, extra = {}) {
+  const chore = CHORES[choreId];
+  // Clearing and fencing need the plot, sent the same way, and are refused for that plot first: the plot chosen is what the refusal is about.
+  if (chore.plotWork) {
+    const plot = plotsOf(world, household).find(candidate => candidate.id === extra.plotId);
+    const why = plotWorkRefusal(world, household, choreId, plot || null, { entity });
+    if (why) throw new Error(why);
+    extra = { plot: { x: plot.x, y: plot.y }, plotId: plot.id };
+  }
   const { can, why } = choreAvailability(world, household, entity, choreId);
   if (!can) throw new Error(why || 'That work is not available.');
-  const chore = CHORES[choreId];
   // Survey needs the place; it is sent as its own order with the place in it (sim/survey.mjs).
   if (chore.survey && !extra.plot) throw new Error('Choose a place on your land to survey.');
   // Refused before the work is written down.
@@ -757,7 +771,7 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
     const mode = modeAvailability?.(world, entity, modeId);
     if (mode && !mode.can) throw new Error(mode.why);
   }
-  entity.chore = { id: choreId, step: -1, wait: 0, doing: 'setting out', ...(modeId !== DEFAULT_MODE && { mode: modeId }), ...(extra.plot && { plot: { x: extra.plot.x, y: extra.plot.y } }) };
+  entity.chore = { id: choreId, step: -1, wait: 0, doing: 'setting out', ...(modeId !== DEFAULT_MODE && { mode: modeId }), ...(extra.plot && { plot: { x: extra.plot.x, y: extra.plot.y } }), ...(extra.plotId && { plotId: extra.plotId }) };
   entity.task = 'work';
   if (chore.helps) {
     const host = hostOf(world, entity);
@@ -911,6 +925,10 @@ function advanceChore(world, household, entity, { beginTravel }) {
     }
     // Said in the words of whatever part of the house the family has got to.
     if (step.houseWork) state.doing = chore.helps ? `helping raise the walls` : stageOf(household);
+    if (step.clearWork) {
+      const plot = plotsOf(world, household).find(candidate => candidate.id === state.plotId);
+      state.doing = plot?.ground === 'timber' ? 'felling timber on the clearing' : plot?.ground === 'brush' ? 'grubbing out brush' : 'breaking prairie sod';
+    }
     // Heavy work goes at the pace of the person's hidden strength as well as their skill.
     // Heavy work at home goes slower still while the family carries its water from far off (sim/homesite.mjs).
     if (step.work) {
@@ -928,8 +946,8 @@ function advanceChore(world, household, entity, { beginTravel }) {
       }
       continue;
     }
-    if (step.consumePerClearing) {
-      for (const [resource, amount] of Object.entries(step.consumePerClearing)) {
+    if (step.consumePerPlot) {
+      for (const [resource, amount] of Object.entries(step.consumePerPlot)) {
         household.resources[resource] = round(Math.max(0, (household.resources[resource] ?? 0) - amount * clearedOf(household)));
       }
       continue;
@@ -989,7 +1007,17 @@ function advanceChore(world, household, entity, { beginTravel }) {
       }
       continue;
     }
-    if (step.clear) { clearGround(world, household, entity); continue; }
+    if (step.clearSpell) {
+      // Another spell, unless that cleared the plot (or somebody else's spell already had, or it was taken back to
+      // staked while they walked out). Then everybody clearing it leaves off at once and comes in, as on the house.
+      if (!clearSpell(world, household, entity, state.plotId)) { state.step = chore.steps.findIndex(candidate => candidate.clearWork) - 1; continue; }
+      const homeward = chore.steps.findIndex(candidate => candidate.stroll === 'yard') - 1;
+      for (const id of household.members) {
+        const worker = world.entities[id];
+        if (worker && worker !== entity && worker.chore?.id === 'clear-plot' && worker.chore.plotId === state.plotId) Object.assign(worker.chore, { step: homeward, wait: 0, doing: 'coming in from the clearing' });
+      }
+      continue;
+    }
     if (step.build && chore.helps) {
       // The spell goes into the neighbour's house. If it was the spell that finished their walls, the
       // helper stops; if, improbably, it finished the house, that family's own builders stop too.
@@ -1010,14 +1038,19 @@ function advanceChore(world, household, entity, { beginTravel }) {
       }
       return;
     }
-    if (step.raise === 'fence') { raiseFence(world, household, entity); continue; }
+    if (step.raise === 'fence') { raiseFence(world, household, entity, state.plotId); continue; }
     if (step.dig === 'well') { digWell(world, household, entity); continue; }
     if (step.stake) { stakePlot(world, household, entity); continue; }
     if (step.stroll) {
       // About the family's own land on foot, a tick's walk at a time; never a journey, and never off the land.
       if (entity.location.siteId !== household.homeSiteId) return abandonChore(world, household, entity, chore);
       const target = strollTarget(world, household, entity, step.stroll);
-      if (!target || stroll(world, household, entity, target)) continue;
+      if (!target) continue;
+      if (stroll(world, household, entity, target)) {
+        // A round of the fields goes on to the next plot until it has reached them all.
+        if (step.stroll !== 'fields' || !moreFields(world, household, entity)) continue;
+        state.visited = (state.visited || 0) + 1;
+      }
       state.step--;
       return;
     }
@@ -1086,7 +1119,19 @@ function advanceChore(world, household, entity, { beginTravel }) {
     }
     if (step.field) {
       household.field = { ...household.field, state: step.field, changedTick: world.tick };
+      // The seed went into the plots cleared now, and a plot cleared while it grows is not in crop. Written only where
+      // the plots are: a class's old field counts as sown whenever its crop is in (sim/fields.mjs).
+      if (household.plots) for (const plot of household.plots) {
+        if (step.field === 'planted' && plot.state === 'cleared') plot.sown = true;
+        if (step.field === 'bare') delete plot.sown;
+      }
       continue;
+    }
+    if (step.wear === 'plot') {
+      // Grubbing prairie and brush wears the hoe; felling timber is the axe's work, and nothing wears the axe yet.
+      const plot = plotsOf(world, household).find(candidate => candidate.id === state.plotId);
+      if (!plot || plot.ground === 'timber' || household.tools?.hoe === undefined) continue;
+      step = { wear: 'hoe' };
     }
     if (step.wear) {
       household.tools[step.wear] = (household.tools[step.wear] ?? 0) + 1;
@@ -1160,6 +1205,9 @@ export function advanceChores(world, { beginTravel, modeAvailability }) {
         entity.chore = null;
         continue;
       }
+      // Work that no longer exists - breaking new ground and fencing the whole field, retired when the field became
+      // plots (docs/LAND_GRANTS.md §5) - is left off in a class saved in the middle of it, and said so.
+      if (!CHORES[entity.chore.id]) { abandonChore(world, household, entity, null); continue; }
       advanceChore(world, household, entity, { beginTravel, modeAvailability });
     }
   }

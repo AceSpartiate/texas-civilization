@@ -14,6 +14,7 @@
 // Every threshold and valuation below is invented (`FIC-GONZ-028`).
 import { tooYoung } from './family.mjs';
 import { siteFacts } from './ground.mjs';
+import { overlaps, squareOf } from './fields.mjs';
 
 /** Decisions are spread over ticks: each family thinks every third tick, not all of them on the same one. */
 export const THINK_EVERY = 3;
@@ -22,7 +23,9 @@ export const TRADE_VALUE = Object.freeze({ food: 1, cotton: 1, seed: 2, powder: 
 /** Food per person the family keeps back before it will trade food away or stop hunting. */
 export const FOOD_KEPT_PER_PERSON = 3;
 /** Work one person does alone; a family never puts two of its people on the same one at once. */
-export const ONE_AT_A_TIME = Object.freeze(['hunt-timber', 'fetch-seed', 'fetch-powder', 'sell-cotton', 'sell-food', 'mend-hoe', 'replace-hoe', 'build-fence', 'dig-well']);
+export const ONE_AT_A_TIME = Object.freeze(['hunt-timber', 'fetch-seed', 'fetch-powder', 'sell-cotton', 'sell-food', 'mend-hoe', 'replace-hoe', 'fence-plot', 'survey-plot', 'dig-well']);
+/** Plots a family nobody plays keeps, its first patch among them: enough to feed it, and a harvest it can carry in. */
+export const NEIGHBOUR_PLOTS = 3;
 /** The house it chooses, best first, where its tools allow. */
 const HOUSE_PREFERENCE = ['hewn-log', 'round-log', 'jacal'];
 
@@ -100,6 +103,12 @@ export function thinkFor(world, household, { project, act }) {
   const doing = id => people.filter(person => person.chore?.id === id).length;
   const busy = new Set(ONE_AT_A_TIME.filter(id => doing(id) > 0));
   const hunters = doing('hunt-timber');
+  // Its plots, as its own land line shows them, and the house they are walked to from.
+  const plots = land.plots || [];
+  const home = world.map.sites[view.household.homeSiteId];
+  const nearest = list => list.sort((a, b) => Math.hypot(a.x - home.x, a.y - home.y) - Math.hypot(b.x - home.x, b.y - home.y))[0];
+  const staked = nearest(plots.filter(plot => plot.state === 'staked'));
+  const unfenced = nearest(plots.filter(plot => plot.state === 'cleared' && plot.fence !== 'sound'));
   for (const person of idle) {
     // Somebody away from home with nothing to do there comes home.
     if (person.location?.siteId !== view.household.homeSiteId) { attempt({ action: 'travel', entityId: person.id, destination: view.household.homeSiteId }); continue; }
@@ -111,14 +120,40 @@ export function thinkFor(world, household, { project, act }) {
       // a farm needs: seed when there is none to plant, cotton to the store once there is some.
       food < people.length * FOOD_KEPT_PER_PERSON && hunters === 0 && (resources.powder || 0) >= 1 && 'hunt-timber',
       'harvest-field', 'plant-field', 'build-house', 'dig-well', 'mend-hoe', 'cut-lane',
-      view.household.field?.state === 'planted' && 'build-fence',
-      view.household.field?.state === 'bare' && (resources.seed || 0) < 2 && 'fetch-seed',
+      view.household.field?.state === 'planted' && unfenced && 'fence-plot',
+      view.household.field?.state === 'bare' && (resources.seed || 0) < 2 * Math.max(1, land.cleared || 0) && 'fetch-seed',
       (resources.cotton || 0) >= 1 && 'sell-cotton',
+      // Then more ground, a plot at a time: clear what is staked, and stake more while it has fewer than it keeps.
+      staked && 'clear-plot',
+      !staked && plots.length < NEIGHBOUR_PLOTS && 'survey-plot',
     ].filter(Boolean);
     const chore = plan.find(id => !busy.has(id) && can(id));
-    if (chore && attempt({ action: 'chore', entityId: person.id, chore }) && ONE_AT_A_TIME.includes(chore)) busy.add(chore);
+    if (!chore) continue;
+    // Clearing, fencing and survey are sent to a place on the family's own land, as a student sends them.
+    const sent = chore === 'survey-plot' ? surveyPlaces(home, land.grant?.bounds, plots).some(point => attempt({ action: 'survey-plot', entityId: person.id, ...point }))
+      : chore === 'clear-plot' ? attempt({ action: 'clear-plot', entityId: person.id, x: staked.x, y: staked.y })
+      : chore === 'fence-plot' ? attempt({ action: 'fence-plot', entityId: person.id, x: unfenced.x, y: unfenced.y })
+      : attempt({ action: 'chore', entityId: person.id, chore });
+    if (sent && ONE_AT_A_TIME.includes(chore)) busy.add(chore);
   }
   return tried;
+}
+
+/**
+ * Where a family nobody plays would stake its next ten acres, best first: close round the house, a quarter mile out and
+ * then further, clear of its own plots and inside its land. The server still decides; the first it accepts is taken.
+ */
+export function surveyPlaces(home, bounds, plots) {
+  const places = [];
+  for (const miles of [0.2, 0.3, 0.45]) for (let turn = 0; turn < 8; turn++) {
+    const angle = turn * Math.PI / 4;
+    const point = { x: +(home.x + Math.cos(angle) * miles).toFixed(3), y: +(home.y + Math.sin(angle) * miles).toFixed(3) };
+    const square = squareOf(point);
+    if (bounds && (square.minX < bounds.minX || square.maxX > bounds.maxX || square.minY < bounds.minY || square.maxY > bounds.maxY)) continue;
+    if (plots.some(plot => overlaps(squareOf(plot), square))) continue;
+    places.push(point);
+  }
+  return places.slice(0, 8);
 }
 
 /** How finely a family looks over its holding for a house site: this many places a side. */

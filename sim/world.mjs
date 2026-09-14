@@ -12,7 +12,8 @@ import { buildGonzalesRegion, findPath, polylineLength } from './geography.mjs';
 import { advanceEncounters, askRider, carriedInPerson, encounterProjection, leaveRider, riderName, spotName } from './encounters.mjs';
 import { DEFAULT_MODE, MODES, modeOf, moveOnGround, propertyId, RIDER_SPEED } from './travel.mjs';
 import { paceOf } from './ground.mjs';
-import { CLEARING_MAX, STATES as IMPROVEMENT_STATES, clearedOf, improvementProjection } from './improvements.mjs';
+import { STATES as IMPROVEMENT_STATES, improvementProjection } from './improvements.mjs';
+import { OLD_PATCHES, plotAt } from './fields.mjs';
 import { advanceArrivals, putOnTheRoad, shelterProjection } from './settling.mjs';
 import { defaultLoad, householdFromLoad, loadInvalid, setLoad, wagonProjection } from './wagon.mjs';
 import { houseInvalid, houseProjection, noteLandSeen, planHouse, recordHelpDone } from './houses.mjs';
@@ -21,7 +22,7 @@ import { chooseSite, siteInvalid, siteProjection } from './homesite.mjs';
 import { plotProjection, plotRefusal, plotsInvalid } from './survey.mjs';
 import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, ageBand, defaultNames, familyProjection, familyRoll, householdName, kinFor, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
 export { HOUSEHOLD_SHAPE, ROLES, householdName, sanitiseName } from './family.mjs';
-export { CLEARING_MAX, clearedOf, improvementsOf, ruin } from './improvements.mjs';
+export { clearedOf, improvementsOf, ruin } from './improvements.mjs';
 export { MODES, MODE_IDS, DEFAULT_MODE, carryCapacity, modeOf } from './travel.mjs';
 export { record } from './events.mjs';
 export function seededRandom(seed) {
@@ -502,7 +503,7 @@ export function advanceRelays(world) {
  * offer made to an empty chair - and the historical choices, which do not exist until the
  * news that prompts them has arrived.
  */
-export const LOBBY_ACTIONS = new Set(['survey-plot', 'roll-family', 'load-wagon', 'bring-stock', 'plan-house', 'chore', 'stop-chore', 'answer-chore', 'rename', 'work', 'rest', 'travel']);
+export const LOBBY_ACTIONS = new Set(['survey-plot', 'clear-plot', 'fence-plot','roll-family', 'load-wagon', 'bring-stock', 'plan-house', 'chore', 'stop-chore', 'answer-chore', 'rename', 'work', 'rest', 'travel']);
 export function applyAction(world, householdId, input) {
   const entity = world.entities[input.entityId];
   const household = world.households[householdId];
@@ -540,6 +541,12 @@ export function applyAction(world, householdId, input) {
     const why = plotRefusal(world, household, plot);
     if (why) throw new Error(why);
     beginChore(world, household, entity, 'survey-plot', { beginTravel, modeAvailability }, DEFAULT_MODE, { plot });
+    return;
+  }
+  // Clearing or fencing one of the family's plots, chosen on the map by a point inside it (sim/fields.mjs).
+  if (input.action === 'clear-plot' || input.action === 'fence-plot') {
+    const plot = plotAt(world, household, { x: Number(input.x), y: Number(input.y) });
+    beginChore(world, household, entity, input.action, { beginTravel, modeAvailability }, DEFAULT_MODE, { plotId: plot?.id });
     return;
   }
   // Trading is a household's own business and any member standing there can do it. It is
@@ -645,7 +652,7 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
   // it is decided here and never guessed at by the client.
   // What the family has made of this land, and what state it is in. The renderer draws
   // the field at the size this says and the fence only when there is one to draw.
-  const land = household ? { ...improvementProjection(household), ...shelterProjection(household), ...houseProjection(world, household), ...grantProjection(world, household), ...siteProjection(world, household), ...plotProjection(household) } : null;
+  const land = household ? { ...improvementProjection(household), ...shelterProjection(household), ...houseProjection(world, household), ...grantProjection(world, household), ...siteProjection(world, household), ...plotProjection(world, household) } : null;
   // What is in the wagon, and whether it can still be repacked. The catalogue comes once, from /api/chores.
   const wagon = household ? wagonProjection(world, household) : null;
 
@@ -737,8 +744,9 @@ export function validateWorld(world) {
     if (!household.field || !['bare', 'planted', 'ripe'].includes(household.field.state) || !['corn', 'cotton'].includes(household.field.crop)) throw new Error('Invalid field state');
     // Absent on a class saved before a family could break new ground, and the empty value
     // is the one every family used to have: the first patch, and no fence. So no save
-    // version moved. Present, both have to mean something.
-    if (household.field.cleared !== undefined && (!Number.isInteger(household.field.cleared) || household.field.cleared < 1 || household.field.cleared > CLEARING_MAX)) throw new Error('Invalid cleared ground');
+    // version moved. Present, both have to mean something. A class whose field has become plots
+    // (sim/fields.mjs) no longer reads it, and it is left as it was.
+    if (household.field.cleared !== undefined && (!Number.isInteger(household.field.cleared) || household.field.cleared < 1 || household.field.cleared > OLD_PATCHES)) throw new Error('Invalid cleared ground');
     for (const [kind, state] of Object.entries(household.improvements || {})) {
       if (!['cabin', 'fence'].includes(kind) || !IMPROVEMENT_STATES.includes(state)) throw new Error(`Invalid improvement ${kind}`);
     }

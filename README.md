@@ -16,7 +16,7 @@ Download **`TexasRevolutionSetup.exe`** from [Releases](https://github.com/AceSp
 4. Students join at that address with the six-character class code. Five households must join before Start; fewer is possible with a deliberate second press, which is how one person can try it alone.
 5. Press **Stop the class** when you are done. Closing a browser window does **not** stop it.
 
-A family starts with a cabin, one patch of broken ground and no fence, and can **break new ground** and **fence the field** during a class. Everything it makes can be ruined; nothing in the Gonzales slice ruins anything.
+A family starts with a cabin, one patch of broken ground and no fence, and can **survey** ten-acre plots anywhere on its land, **clear** them into its field and **fence** them one at a time during a class. Everything it makes can be ruined; nothing in the Gonzales slice ruins anything.
 
 Each person can be sent **on foot**, **on the horse**, or **with the ox and wagon**, and the three are genuinely different: speed, how much comes home, and how tired they arrive. There is one of each per family.
 
@@ -51,7 +51,7 @@ npm.cmd start
 npm.cmd test
 ```
 
-**363 automated tests**, needing no external packages. Browser proofs need separately installed Playwright and Chromium or Chrome; the exact commands are in [HANDOFF.md](HANDOFF.md). Every test makes an isolated temporary class and leaves the ordinary classroom save alone.
+**370 automated tests**, needing no external packages. Browser proofs need separately installed Playwright and Chromium or Chrome; the exact commands are in [HANDOFF.md](HANDOFF.md). Every test makes an isolated temporary class and leaves the ordinary classroom save alone.
 
 Read in this order: [VISION.md](VISION.md) for what this is for, [HANDOFF.md](HANDOFF.md) for the actual state and what is proved, [TECH.md](TECH.md) and [GAME.md](GAME.md) for the architecture and the play, and [HISTORY.md](HISTORY.md) — always — before changing anything historical. Documented fact and invented gameplay are separated there claim by claim, and dated evidence for each piece of work lives in [docs/evidence](docs/evidence).
 

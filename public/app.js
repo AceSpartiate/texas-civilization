@@ -949,13 +949,18 @@ function drawGroundDetail(ctx, world, camera) {
   // hard it was thinned, or a sparse view would turn every surviving tuft into an oak.
   const density = Math.min(.105, 400 / Math.max(1, cells));
   const scattered = [];
+  // Nothing wild stands in ground the family has cleared (sim/fields.mjs): no oak in the corn, no scrub in the rows.
+  const cleared = (world.land?.plots || []).filter(plot => plot.state === 'cleared');
+  const inCleared = (x, y) => cleared.some(plot => Math.abs(x - plot.x) < PLOT_SIDE / 2 && Math.abs(y - plot.y) < PLOT_SIDE / 2);
   for (let cy = startY; cy <= endY; cy++) {
     for (let cx = startX; cx <= endX; cx++) {
       const roll = groundHash(cx, cy);
       if (roll > density) continue;
       const jitter = groundHash(cx + 8191, cy - 5077);
+      const wx = (cx + jitter) * cell, wy = (cy + groundHash(cx - 331, cy + 977)) * cell;
+      if (cleared.length && inCleared(wx, wy)) continue;
       // Kind is independent of LOD density: panning or zooming cannot turn a tuft into a tree.
-      scattered.push({ share: groundHash(cx+973,cy-997), seed: cx + cy, point: camera.toScreen({ x: (cx + jitter) * cell, y: (cy + groundHash(cx - 331, cy + 977)) * cell }) });
+      scattered.push({ share: groundHash(cx+973,cy-997), seed: cx + cy, point: camera.toScreen({ x: wx, y: wy }) });
     }
   }
   // Painted back to front, so a tuft in front of a rock overlaps it rather than being
@@ -994,6 +999,8 @@ function drawTerrain(ctx, world, camera) {
   const figure = camera.figure;
   for (const feature of world.map?.terrain || []) {
     const style = TERRAIN_STYLE[feature.kind]; if (!style) continue;
+    // The family's own field is the plots it has cleared, drawn where they are (drawPlots), not the block on the map.
+    if (feature.kind === 'field' && world.land?.plots && feature.ownerHouseholdId === world.household?.id) continue;
     let points = (feature.points || []).map(camera.toScreen); if (points.length < 2) continue;
     if (!style.fill) {
       ctx.beginPath(); points.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
@@ -1016,61 +1023,14 @@ function drawTerrain(ctx, world, camera) {
     ctx.fillStyle = style.fill; ctx.fill();
     ctx.restore();
     if (feature.kind === 'field') {
-      // Corn and cotton in rows, and the split-rail fence that kept stock out of them
-      // (HIST-GONZ-013).
-      // A field is as big as the family has made it. The polygon on the map is the forty acres
-      // a household can break beside its house; what is drawn worked is the share of it that
-      // has actually been broken, growing out of the corner nearest the cabin. The map
-      // itself never changes - it is fetched once a class - so the size has to come from
-      // the household, which is authoritative and arrives every tick.
+      // A neighbour's field, as a family passing sees one: the first ten acres of the block beside the house, fenced.
+      // The family's own field is its plots, drawn plot by plot in `drawPlots` (docs/LAND_GRANTS.md §5), and skipped above.
+      // ceiling: what a neighbour has cleared is not known to anybody who has not been to look (`seenLand`), so every
+      // neighbour's field reads as its first patch; drawing seen plots is the way out.
       const xs = points.map(p => p.x), ys = points.map(p => p.y);
-      const edgeLeft = Math.min(...xs), edgeRight = Math.max(...xs);
-      const edgeTop = Math.min(...ys), edgeBottom = Math.max(...ys);
-      const ownLand = world.household && feature.ownerHouseholdId === world.household.id ? world.household : null;
-      const worked = Math.sqrt((ownLand ? (world.land?.cleared ?? 1) : 1) / (world.land?.clearingMax ?? 4));
-      const left = edgeLeft, top = edgeTop;
-      const right = edgeLeft + (edgeRight - edgeLeft) * worked;
-      const bottom = edgeTop + (edgeBottom - edgeTop) * worked;
-      points = [{ x: left, y: top }, { x: right, y: top }, { x: right, y: bottom }, { x: left, y: bottom }];
-      ctx.beginPath(); points.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); ctx.closePath();
-      const spacing = Math.max(4, camera.scale * .045);
-      // What is standing in the field is what the household actually planted. It used to
-      // be picked from the field's id, which looked the same but asserted a crop the
-      // world had never modelled - exactly the thing the terrain rule forbids.
-      const own = world.household?.field && feature.ownerHouseholdId === world.household.id ? world.household.field : null;
-      const crop = own ? `${own.crop}-${own.state === 'ripe' ? 'mature' : 'young'}` : null;
-      const bare = !own || own.state === 'bare';
-      const plants = !bare && hasSprite(crop) && figure * SIZE.crop > 9;
-      if (bare) {
-        // Turned earth. Nothing is growing, and nothing is drawn growing.
-        ctx.fillStyle = 'rgba(150,124,86,.45)'; ctx.fill();
-        ctx.save();ctx.clip();ctx.strokeStyle='rgba(117,85,49,.24)';ctx.lineWidth=Math.max(1,figure*.045);
-        for(let y=top+spacing;y<bottom;y+=Math.max(7,spacing)){ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(right,y);ctx.stroke();}
-        ctx.restore();
-      } else if (spacing > 4.5 && right - left > 12) {
-        ctx.strokeStyle = '#8a9350'; ctx.lineWidth = Math.max(1, spacing * .28);
-        const step = plants ? Math.max(spacing, figure * SIZE.crop * .62) : spacing;
-        for (let rowY = top + step; rowY < bottom - step * .4; rowY += step) {
-          if (!plants) {
-            ctx.beginPath(); ctx.moveTo(left + spacing * .5, rowY); ctx.lineTo(right - spacing * .5, rowY); ctx.stroke();
-            continue;
-          }
-          for (let plantX = left + step * .6; plantX < right - step * .3; plantX += step * .8) {
-            drawSprite(ctx, crop, plantX, rowY, figure * SIZE.crop);
-          }
-        }
-      }
-      // The rail fence used to be drawn round every field unconditionally, which was a
-      // picture of something the world had never modelled. A family starts without one,
-      // splits rails to raise it, and until they do the stock are in the crop.
-      const fence = feature.ownerHouseholdId === world.household?.id ? world.land?.fence : 'sound';
-      if (camera.scale > 40 && fence && fence !== 'none') railFence(ctx, points, figure, fence === 'ruined');
-      // How big this family's field was actually drawn, and what was round it. Same
-      // contract as `window.__drawnAt`: presentation evidence, read by proofs and by
-      // nothing in the application. A field that grows is the only visible sign that an
-      // afternoon of clearing happened, and "did it grow" is not a question the
-      // projection can answer - the map polygon never changes.
-      if (ownLand) window.__fieldRect = { x: left, y: top, width: right - left, height: bottom - top, fence, cleared: world.land?.cleared ?? 1 };
+      const left = Math.min(...xs), top = Math.min(...ys);
+      const right = left + (Math.max(...xs) - left) * .5, bottom = top + (Math.max(...ys) - top) * .5;
+      fieldPatch(ctx, camera, { left, top, right, bottom }, null, 'sound');
     } else if (feature.kind === 'woods' && camera.scale > 26) {
       // Close in, timber resolves into individual trees rather than a green wash. Timber
       // follows the water here, so a share of it is drawn as river-bottom cottonwood
@@ -1091,17 +1051,61 @@ function drawTerrain(ctx, world, camera) {
  * neighbour's grant is theirs to know. Marked with a dashed line of survey-chain brown, because no
  * fence or marker stands on it yet.
  */
-/** Ten acres, a side in miles (sim/survey.mjs `PLOT_SIDE`). */
+/** Ten acres, a side in miles (sim/fields.mjs `PLOT_SIDE`). */
 const PLOT_SIDE = Math.sqrt(10 / 640);
 /**
- * The family's staked plots, the ground somebody is on the way to survey, and the place being looked at, on its own map.
+ * Broken ground on the screen: turned earth when nothing grows, corn or cotton in rows when something does, and the rail
+ * fence that kept stock out of it when there is one (HIST-GONZ-013, HIST-GONZ-018). `growing` is the household's field
+ * ({ crop, state }) when a crop stands on this ground, or null.
+ */
+function fieldPatch(ctx, camera, { left, top, right, bottom }, growing, fence) {
+  const figure = camera.figure;
+  const points = [{ x: left, y: top }, { x: right, y: top }, { x: right, y: bottom }, { x: left, y: bottom }];
+  ctx.save();
+  ctx.beginPath(); points.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); ctx.closePath();
+  // Broken ground first, as the map's own field colour, so a plot reads as field at any zoom.
+  ctx.fillStyle = TERRAIN_STYLE.field.fill; ctx.fill();
+  const spacing = Math.max(4, camera.scale * .045);
+  // What is standing is what the household actually planted, never a crop picked for the look of it.
+  const crop = growing ? `${growing.crop}-${growing.state === 'ripe' ? 'mature' : 'young'}` : null;
+  const plants = growing && hasSprite(crop) && figure * SIZE.crop > 9;
+  if (!growing) {
+    // Turned earth. Nothing is growing, and nothing is drawn growing.
+    ctx.fillStyle = 'rgba(150,124,86,.45)'; ctx.fill();
+    ctx.save(); ctx.clip(); ctx.strokeStyle = 'rgba(117,85,49,.24)'; ctx.lineWidth = Math.max(1, figure * .045);
+    for (let y = top + spacing; y < bottom; y += Math.max(7, spacing)) { ctx.beginPath(); ctx.moveTo(left, y); ctx.lineTo(right, y); ctx.stroke(); }
+    ctx.restore();
+  } else if (spacing > 4.5 && right - left > 12) {
+    ctx.fillStyle = 'rgba(150,124,86,.3)'; ctx.fill();
+    ctx.strokeStyle = '#8a9350'; ctx.lineWidth = Math.max(1, spacing * .28);
+    const step = plants ? Math.max(spacing, figure * SIZE.crop * .62) : spacing;
+    for (let rowY = top + step; rowY < bottom - step * .4; rowY += step) {
+      if (!plants) { ctx.beginPath(); ctx.moveTo(left + spacing * .5, rowY); ctx.lineTo(right - spacing * .5, rowY); ctx.stroke(); continue; }
+      for (let plantX = left + step * .6; plantX < right - step * .3; plantX += step * .8) drawSprite(ctx, crop, plantX, rowY, figure * SIZE.crop);
+    }
+  } else { ctx.fillStyle = 'rgba(138,147,80,.45)'; ctx.fill(); }
+  ctx.restore();
+  // A family starts without a fence, splits rails to raise one round a plot, and until they do the stock are in its crop.
+  if (camera.scale > 40 && fence && fence !== 'none') railFence(ctx, points, figure, fence === 'ruined');
+  return points;
+}
+/**
+ * The family's plots on its own map (docs/LAND_GRANTS.md §4-5): cleared ones as field, with the crop on those that were
+ * sown and rails round those that are fenced; staked ones as a square with posts, the clearing done so far turned earth
+ * in its middle; the ground somebody is on the way to survey; and the place being looked at.
  *
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-13 (stock and the grant) asks for a surveyor's stake and a corner marker.
- * Until they come a staked plot is a line of survey-chain brown with a small post drawn at each corner.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-13 (stock and the grant) asks for a surveyor's stake and a corner marker,
+ * and request 2026-09-14 (cleared ground) for stumps and brush piles. Until they come a staked plot is a line of
+ * survey-chain brown with a small post at each corner, and cleared timber is drawn as the same turned earth as prairie.
  */
 function drawPlots(ctx, world, camera) {
+  const rectOf = point => {
+    const a = camera.toScreen({ x: point.x - PLOT_SIDE / 2, y: point.y - PLOT_SIDE / 2 }), b = camera.toScreen({ x: point.x + PLOT_SIDE / 2, y: point.y + PLOT_SIDE / 2 });
+    return { left: Math.min(a.x, b.x), top: Math.min(a.y, b.y), right: Math.max(a.x, b.x), bottom: Math.max(a.y, b.y) };
+  };
   const square = (point, style) => {
-    const corners = [[-1, -1], [1, -1], [1, 1], [-1, 1]].map(([sx, sy]) => camera.toScreen({ x: point.x + sx * PLOT_SIDE / 2, y: point.y + sy * PLOT_SIDE / 2 }));
+    const { left, top, right, bottom } = rectOf(point);
+    const corners = [{ x: left, y: top }, { x: right, y: top }, { x: right, y: bottom }, { x: left, y: bottom }];
     ctx.save();
     ctx.beginPath(); corners.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); ctx.closePath();
     if (style.fill) { ctx.fillStyle = style.fill; ctx.fill(); }
@@ -1116,9 +1120,30 @@ function drawPlots(ctx, world, camera) {
     return corners;
   };
   const drawn = [];
-  for (const plot of world.land?.plots || []) drawn.push({ id: plot.id, state: plot.state, corners: square(plot, { stroke: '#6b4f2a', fill: 'rgba(107,79,42,.08)', posts: true }) });
-  for (const person of entitiesOf(world)) if (person.chore?.plot) square(person.chore.plot, { stroke: 'rgba(107,79,42,.7)', dash: [5, 4] });
-  if (plotPick && surveyLooking()) square(plotPick.point, { stroke: plotPick.facts?.can ? '#b5452f' : '#8a8171', fill: plotPick.facts?.can ? 'rgba(181,69,47,.12)' : 'rgba(138,129,113,.12)', dash: [6, 4] });
+  const field = world.household?.field;
+  for (const plot of world.land?.plots || []) {
+    if (plot.state === 'cleared') {
+      const growing = plot.sown && field && field.state !== 'bare' ? field : null;
+      const corners = fieldPatch(ctx, camera, rectOf(plot), growing, plot.fence);
+      drawn.push({ id: plot.id, state: plot.state, ground: plot.ground, sown: Boolean(growing), fence: plot.fence || 'none', corners });
+      continue;
+    }
+    // Staked: the clearing done so far, as a square of turned earth growing from the middle.
+    const share = plot.work && plot.spells ? Math.min(1, plot.work / plot.spells) : 0;
+    const corners = square(plot, { stroke: '#6b4f2a', fill: 'rgba(107,79,42,.08)', posts: true });
+    if (share > 0) {
+      const inner = Math.sqrt(share) * PLOT_SIDE / 2;
+      const a = camera.toScreen({ x: plot.x - inner, y: plot.y - inner }), b = camera.toScreen({ x: plot.x + inner, y: plot.y + inner });
+      ctx.save(); ctx.fillStyle = 'rgba(150,124,86,.5)'; ctx.fillRect(Math.min(a.x, b.x), Math.min(a.y, b.y), Math.abs(b.x - a.x), Math.abs(b.y - a.y)); ctx.restore();
+    }
+    drawn.push({ id: plot.id, state: plot.state, ground: plot.ground, work: plot.work || 0, spells: plot.spells, cleared: share, corners });
+  }
+  for (const person of entitiesOf(world)) if (person.chore?.id === 'survey-plot' && person.chore.plot) square(person.chore.plot, { stroke: 'rgba(107,79,42,.7)', dash: [5, 4] });
+  if (plotPick && surveyLooking()) {
+    // Surveying looks at new ground; clearing and fencing at the plot under the tap, outlined where the server found it.
+    const target = plotJob === 'survey-plot' ? plotPick.point : (world.land?.plots || []).find(plot => plot.id === plotPick.facts?.plotId);
+    if (target) square(target, { stroke: plotPick.facts?.can ? '#b5452f' : '#8a8171', fill: plotPick.facts?.can ? 'rgba(181,69,47,.12)' : 'rgba(138,129,113,.12)', dash: [6, 4] });
+  }
   window.__plotsDrawn = drawn;
 }
 /** A polyline cut in two at a distance along it, in world miles: the part before and the part after. */
@@ -1161,7 +1186,7 @@ function drawHolding(ctx, world, camera) {
   ctx.strokeStyle = 'rgba(255,248,226,.75)'; ctx.lineWidth += 2; ctx.stroke();
   ctx.strokeStyle = '#6b4f2a'; ctx.lineWidth -= 2; ctx.stroke();
   ctx.restore();
-  // Presentation evidence for proofs, on the same contract as `window.__fieldRect`.
+  // Presentation evidence for proofs, on the same contract as `window.__plotsDrawn`.
   window.__holdingRect = { kind: holding.kind, acres: holding.acres, corners };
 }
 export function drawWorld(world) {
@@ -1431,14 +1456,17 @@ function renderHousehold(world) {
   const ground = land ? [(() => {
     // What the camp costs is said in numbers, from the server's own (FIC-GONZ-008).
     const camp = (land.camp ? ` There is no house yet, so they camp by the wagon: rest there mends ${Math.round(land.camp.restShare * 100)} parts in 100 of what it would under a roof, and ${Math.round(land.camp.spoilagePerDay * 100)} parts in 100 of the food spoil each day.` : '') + houseWords;
+    // The field in plots, from the server's own count (sim/fields.mjs): cleared, fenced, and staked waiting to be cleared.
+    const plots = land.plots || [], staked = plots.filter(plot => plot.state === 'staked').length;
+    const fieldWords = `${land.cleared ? `${land.cleared * 10} acres cleared in ${land.cleared === 1 ? 'one plot' : `${land.cleared} plots`}, ${land.fenced === land.cleared ? (land.cleared === 1 ? 'fenced' : 'all fenced') : land.fenced ? `${land.fenced} fenced` : 'no fence round any of it'}` : 'no ground cleared'}${staked ? `; ${staked === 1 ? 'one more plot' : `${staked} more plots`} staked out to clear` : ''}.`;
     const li = element('li', land.arriving
       ? `Their land: they are still on the road in with the wagon.${camp}`
       : land.cabin === 'ruined'
-      ? `Their land: the cabin is gone. Ground broken ${land.cleared} of a possible ${land.clearingMax}.`
-      : `Their land: ground broken ${land.cleared} of a possible ${land.clearingMax}${land.fence === 'sound' ? ', the field fenced' : land.fence === 'ruined' ? ', the fence pulled down' : ', no fence round the crop'}.${camp}`);
+      ? `Their land: the cabin is gone. ${fieldWords}`
+      : `Their land: ${fieldWords}${camp}`);
     li.dataset.land = 'true';
     li.dataset.cleared = String(land.cleared);
-    li.dataset.fence = land.fence;
+    li.dataset.fenced = String(land.fenced ?? 0);
     li.dataset.shelter = land.shelter || 'house';
     return li;
   })()] : [];
@@ -1710,10 +1738,12 @@ function populateWork(world, chosen, running) {
   if (!shown.length) return;
   for (const entry of shown) {
     const button = element('button', '');
-    // Survey is sent with a place on the map, so its button starts choosing the place instead of the work (sim/survey.mjs).
-    button.dataset.action = entry.id === 'survey-plot' ? 'survey-start' : 'chore';
-    if (entry.id === 'survey-plot') button.dataset.entityId = chosen.id;
-    else button.dataset.chore = entry.id;
+    // Survey, clearing and fencing are sent with a place on the map, so their buttons start choosing the place instead of
+    // the work (sim/survey.mjs).
+    const onMap = ['survey-plot', 'clear-plot', 'fence-plot'].includes(entry.id);
+    button.dataset.action = onMap ? 'survey-start' : 'chore';
+    if (onMap) button.dataset.entityId = chosen.id;
+    button.dataset.chore = entry.id;
     button.disabled = !running || !entry.can;
     button.className = 'work-option';
     button.append(element('span', entry.cost ? `${entry.name} · ${entry.cost}` : entry.name, 'work-name'));
@@ -2248,16 +2278,23 @@ async function lookAtSite(point) {
   } catch (error) { $('#site-note').textContent = error.message; }
   finally { siteLookPending = false; if (window.__snapshot) render(window.__snapshot); }
 }
-// Survey (sim/survey.mjs): the student picks one of the family, taps a place on the family's land, is told what ten acres
-// there would be, and sends them. The server decides, both when looking and when sent.
-let surveyFor = null, plotPick = null, plotLookPending = false, plotSendPending = false;
+// Survey, clearing and fencing (sim/survey.mjs, docs/LAND_GRANTS.md §4-5): the student picks one of the family and the
+// work, taps a place on the family's land - new ground to survey, or one of its plots to clear or fence - is told what it
+// is, and sends them. The server decides, both when looking and when sent.
+let surveyFor = null, plotJob = 'survey-plot', plotPick = null, plotLookPending = false, plotSendPending = false;
+const PLOT_JOB_WORDS = {
+  'survey-plot': { title: name => `Where ${name} surveys`, hint: 'Tap a place on your land, inside the dashed line, to look at ten acres there.', send: 'Survey it' },
+  'clear-plot': { title: name => `Which plot ${name} clears`, hint: 'Tap one of your staked plots to look at the clearing it wants.', send: 'Clear it' },
+  'fence-plot': { title: name => `Which plot ${name} fences`, hint: 'Tap one of your cleared plots to rail it in.', send: 'Fence it' },
+};
 const surveyLooking = () => Boolean(surveyFor && window.__snapshot?.world?.entities?.some(entity => entity.id === surveyFor));
 async function lookAtPlot(point) {
   if (plotLookPending) return;
   plotLookPending = true; plotPick = { point, facts: null }; $('#survey-note').textContent = '';
   if (window.__snapshot) render(window.__snapshot);
   try {
-    const result = await api(`/api/plot?x=${point.x.toFixed(3)}&y=${point.y.toFixed(3)}`);
+    const job = plotJob === 'survey-plot' ? '' : `&job=${plotJob}`;
+    const result = await api(`/api/plot?x=${point.x.toFixed(3)}&y=${point.y.toFixed(3)}${job}`);
     if (plotPick?.point === point) plotPick.facts = result.facts;
   } catch (error) { $('#survey-note').textContent = error.message; }
   finally { plotLookPending = false; if (window.__snapshot) render(window.__snapshot); }
@@ -2268,10 +2305,14 @@ function renderSurvey(world) {
   const person = surveyLooking() && world.entities.find(entity => entity.id === surveyFor);
   panel.hidden = !person || world.role === 'host';
   if (panel.hidden) { if (!person) { surveyFor = null; plotPick = null; } return; }
-  const facts = plotPick?.facts;
-  $('#survey-title').textContent = `Where ${person.name} surveys`;
-  $('#survey-text').textContent = !plotPick ? 'Tap a place on your land, inside the dashed line, to look at ten acres there.'
-    : !facts ? 'Looking the ground over…' : facts.can ? facts.words : facts.why;
+  const facts = plotPick?.facts, words = PLOT_JOB_WORDS[plotJob];
+  $('#survey-eyebrow').textContent = plotJob === 'survey-plot' ? 'SURVEY' : plotJob === 'clear-plot' ? 'CLEARING' : 'FENCING';
+  $('#survey-title').textContent = words.title(person.name);
+  // Survey's facts say what the clearing would be; a plot's words already carry it. A refusal still names the plot.
+  const surveyWork = plotJob === 'survey-plot' && facts?.spells ? ` Clearing it would be ${facts.spells} spells of work.` : '';
+  $('#survey-text').textContent = !plotPick ? words.hint
+    : !facts ? 'Looking the ground over…' : facts.can ? `${facts.words}${surveyWork}` : [facts.words, facts.why].filter(Boolean).join(' ');
+  $('#survey-send').textContent = words.send;
   $('#survey-send').hidden = !facts?.can;
   $('#survey-send').disabled = plotSendPending;
 }
@@ -2279,7 +2320,7 @@ $('#survey-send')?.addEventListener('click', async () => {
   if (!plotPick?.facts?.can || plotSendPending) return;
   plotSendPending = true; $('#survey-note').textContent = '';
   try {
-    await api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, action: 'survey-plot', entityId: surveyFor, x: +plotPick.point.x.toFixed(3), y: +plotPick.point.y.toFixed(3) });
+    await api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, action: plotJob, entityId: surveyFor, x: +plotPick.point.x.toFixed(3), y: +plotPick.point.y.toFixed(3) });
     surveyFor = null; plotPick = null;
   } catch (error) { $('#survey-note').textContent = error.message; }
   finally { plotSendPending = false; if (window.__snapshot) render(window.__snapshot); }
@@ -2692,7 +2733,7 @@ document.addEventListener('click', async event => {
   say('');
   const action = button.dataset.action;
   // The person's panel is put away so the land is there to tap; the survey panel names who is going.
-  if (action === 'survey-start') { surveyFor = button.dataset.entityId; plotPick = null; selectedId = null; selectionDismissed = true; if (window.__snapshot) render(window.__snapshot); return; }
+  if (action === 'survey-start') { surveyFor = button.dataset.entityId; plotJob = button.dataset.chore; plotPick = null; selectedId = null; selectionDismissed = true; if (window.__snapshot) render(window.__snapshot); return; }
   if (action !== 'start') startAnyway = false;
   if (confirmLabel[action] && button.dataset.confirming !== 'true') {
     resetConfirm(confirming);

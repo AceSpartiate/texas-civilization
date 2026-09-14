@@ -54,7 +54,7 @@ test("on the real land the wagon stops at the surveyor's mark, and nothing is bu
   const land = projectWorld(world, 'hh-1', 'student').land;
   assert.equal(land.choosingSite.can, true, 'the family is told it can choose');
   const principal = world.entities[household.principalId];
-  for (const chore of ['plant-field', 'build-fence', 'clear-ground']) {
+  for (const chore of ['plant-field', 'fence-plot', 'clear-plot']) {
     assert.deepEqual(choreAvailability(world, household, principal, chore), { can: false, why: 'Choose where the house will stand first.' }, `${chore} waits`);
   }
   applyAction(world, 'hh-1', { action: 'plan-house', layout: 'jacal' });

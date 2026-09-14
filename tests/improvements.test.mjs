@@ -6,14 +6,18 @@
 // homesteads around Gonzales on 2 October 1835 and this project invents none. What is
 // built now is the state and the transition, because property that can be ruined has to
 // be modelled that way from the first save that contains it.
+//
+// Since 2026-09-14 the field is the plots a family has cleared (docs/LAND_GRANTS.md §5); tests/clearing.test.mjs has
+// the plots themselves, and this file what the field they make is worth and what can be taken from it.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createSettledWorld } from './support/settled.mjs';
 import { applyAction, beginTravel, createWorld, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
 import {
-  CLEARING_MAX, SEED_PER_CLEARING, UNFENCED_LOSS, clearedOf, harvestShare, improvementsOf,
+  SEED_PER_PLOT, UNFENCED_LOSS, clearedOf, harvestShare, improvementsOf,
   isFenced, needsWagonToHarvest, ruin, standingCrop,
 } from '../sim/improvements.mjs';
+import { OLD_PATCHES, plotsOf } from '../sim/fields.mjs';
 import { CHORES, choreAvailability } from '../sim/chores.mjs';
 
 const running = (seed = 'land', count = 5) => {
@@ -28,15 +32,39 @@ function work(world, householdId, entityId, chore, mode) {
   for (let tick = 0; tick < 400 && world.entities[entityId].chore; tick++) stepWorld(world);
   assert.equal(world.entities[entityId].chore, null, `${chore} never finished`);
 }
-const ripe = household => { household.field = { ...household.field, state: 'ripe', changedTick: 0 }; };
+/** Send somebody to one of the family's plots on the map, as the student does, and run it to the end. */
+function plotWork(world, householdId, entityId, action, plot) {
+  applyAction(world, householdId, { action, entityId, x: plot.x, y: plot.y });
+  for (let tick = 0; tick < 400 && world.entities[entityId].chore; tick++) stepWorld(world);
+  assert.equal(world.entities[entityId].chore, null, `${action} never finished`);
+}
+/** Rails round every cleared plot. */
+function fenceAll(world, householdId, entityId) {
+  for (const plot of plotsOf(world, world.households[householdId]).filter(candidate => candidate.state === 'cleared' && candidate.fence !== 'sound')) {
+    plotWork(world, householdId, entityId, 'fence-plot', plot);
+  }
+}
+/** Ten acres of prairie staked beside the family's plots and cleared, as a family would: the field is one plot bigger. */
+function clearAnother(world, householdId, entityId) {
+  const household = world.households[householdId];
+  const plots = plotsOf(world, household).map(plot => ({ ...plot }));
+  const next = { id: `plot-${plots.length + 1}`, x: plots[0].x, y: +(plots[0].y + 0.2 * plots.length).toFixed(3), ground: 'prairie', state: 'staked' };
+  household.plots = [...plots, next];
+  plotWork(world, householdId, entityId, 'clear-plot', next);
+  return household.plots.find(plot => plot.id === next.id);
+}
+/** The crop in and ready, as if it had been planted: every cleared plot sown. */
+const ripe = household => {
+  household.field = { ...household.field, state: 'ripe', changedTick: 0 };
+  for (const plot of household.plots || []) if (plot.state === 'cleared') plot.sown = true;
+};
 
 test('a family starts with a cabin, one patch of broken ground and no fence at all', () => {
   const world = running('start');
   for (const household of Object.values(world.households)) {
     assert.equal(clearedOf(household), 1, 'they have broken ground once and no more');
     assert.equal(improvementsOf(household).cabin, 'sound');
-    assert.equal(improvementsOf(household).fence, 'none', 'a fence is something a family makes, not something it is given');
-    assert.equal(isFenced(household), false);
+    assert.equal(isFenced(household), false, 'a fence is something a family makes, not something it is given');
   }
   // And a class saved before any of this reads exactly the same way, which is why no save
   // version moved. CLAUDE.md asks for that judgement rather than the reflex; sim/trade.mjs
@@ -51,31 +79,27 @@ test('a family starts with a cabin, one patch of broken ground and no fence at a
   assert.equal(improvementsOf(old.households['hh-1']).fence, 'none');
 });
 
-test('breaking new ground costs an afternoon and makes the field bigger for good', () => {
+test('clearing a staked plot costs days of work and makes the field bigger for good', () => {
   const world = running('clearing');
   const household = world.households['hh-1'], thomas = person(world, 'hh-1', 'thomas');
   const before = world.tick;
-  work(world, 'hh-1', thomas.id, 'clear-ground');
-  assert.equal(clearedOf(household), 2, 'the ground was broken and the field is no bigger');
-  assert.ok(world.tick - before >= 10, `breaking ground took ${world.tick - before} ticks, which is not an afternoon`);
-  assert.ok(world.events.some(event => /broke new ground/.test(event.text)), 'nothing in the family record says they did it');
+  clearAnother(world, 'hh-1', thomas.id);
+  assert.equal(clearedOf(household), 2, 'the ground was cleared and the field is no bigger');
+  assert.ok(world.tick - before >= 30, `clearing ten acres of prairie took ${world.tick - before} ticks`);
+  assert.ok(world.events.some(event => /finished clearing ten acres of prairie/.test(event.text)), 'nothing in the family record says they did it');
   // It is permanent: nothing gives it back except ruin.
   for (let tick = 0; tick < 40; tick++) stepWorld(world);
   assert.equal(clearedOf(household), 2);
 });
 
-test('there is a limit to the ground, and none of it can be broken round a standing crop', () => {
+test('there is no ground to clear until some is staked, and cleared ground is not cleared twice', () => {
   const world = running('limits');
   const household = world.households['hh-1'], thomas = person(world, 'hh-1', 'thomas');
-  household.field = { ...household.field, cleared: CLEARING_MAX };
-  const full = choreAvailability(world, household, thomas, 'clear-ground');
-  assert.equal(full.can, false);
-  assert.match(full.why, /no more ground/);
-
-  household.field = { ...household.field, cleared: 1, state: 'planted', changedTick: 0 };
-  const standing = choreAvailability(world, household, thomas, 'clear-ground');
-  assert.equal(standing.can, false, 'they broke new ground through their own planted crop');
-  assert.match(standing.why, /already planted/);
+  const none = choreAvailability(world, household, thomas, 'clear-plot');
+  assert.equal(none.can, false);
+  assert.match(none.why, /no staked ground to clear/);
+  const [patch] = plotsOf(world, household);
+  assert.throws(() => applyAction(world, 'hh-1', { action: 'clear-plot', entityId: thomas.id, x: patch.x, y: patch.y }), /already cleared/);
 });
 
 test('a bigger field swallows more seed, and the control says so before it is chosen', () => {
@@ -84,13 +108,13 @@ test('a bigger field swallows more seed, and the control says so before it is ch
   household.resources.seed = 20;
   const costOf = () => projectWorld(world, 'hh-1', 'student', { includeMap: false })
     .work[thomas.id].find(entry => entry.id === 'plant-field').cost;
-  assert.equal(costOf(), `${SEED_PER_CLEARING} seed`);
+  assert.equal(costOf(), `${SEED_PER_PLOT} seed`);
   household.field = { ...household.field, cleared: 3 };
-  assert.equal(costOf(), `${SEED_PER_CLEARING * 3} seed`, 'the family was quoted the price of a field they no longer have');
+  assert.equal(costOf(), `${SEED_PER_PLOT * 3} seed`, 'the family was quoted the price of a field they no longer have');
 
   const before = household.resources.seed;
   work(world, 'hh-1', thomas.id, 'plant-field');
-  assert.equal(before - household.resources.seed, SEED_PER_CLEARING * 3, 'three times the ground took one patch worth of seed');
+  assert.equal(before - household.resources.seed, SEED_PER_PLOT * 3, 'three times the ground took one patch worth of seed');
   assert.equal(household.field.state, 'planted');
 
   // And a family that cannot pay is told, rather than quietly planting a smaller field.
@@ -109,7 +133,7 @@ test('stock here run loose, so an unfenced crop feeds them first', () => {
   assert.equal(harvestShare(open.households['hh-1']), 1 - UNFENCED_LOSS);
 
   // The same field, the same hands, the only difference being rails round it.
-  work(fenced, 'hh-1', 'hh-1-thomas', 'build-fence');
+  fenceAll(fenced, 'hh-1', 'hh-1-thomas');
   assert.equal(isFenced(fenced.households['hh-1']), true);
   assert.equal(harvestShare(fenced.households['hh-1']), 1, 'rails round the crop and the stock are still in it');
 
@@ -153,9 +177,9 @@ test('past a certain amount of ground the crop wants the wagon, and the wagon ca
 
 test('a bigger field is worth having: more ground standing means more food in the door', () => {
   const small = running('yield'), large = running('yield');
-  large.households['hh-1'].field = { ...large.households['hh-1'].field, cleared: CLEARING_MAX };
+  large.households['hh-1'].field = { ...large.households['hh-1'].field, cleared: OLD_PATCHES };
   for (const world of [small, large]) {
-    work(world, 'hh-1', 'hh-1-thomas', 'build-fence');
+    fenceAll(world, 'hh-1', 'hh-1-thomas');
     ripe(world.households['hh-1']);
   }
   assert.ok(standingCrop(large.households['hh-1']) > standingCrop(small.households['hh-1']));
@@ -168,11 +192,11 @@ test('a bigger field is worth having: more ground standing means more food in th
   assert.ok(lots > little * 2, `four times the ground brought in ${lots} against ${little}`);
 });
 
-test('what a family made can be taken from it, and the labor is still there afterwards', () => {
+test('what a family made can be taken from it, and the land and its stakes are still there afterwards', () => {
   const world = running('ruin');
   const household = world.households['hh-1'];
-  work(world, 'hh-1', 'hh-1-thomas', 'clear-ground');
-  work(world, 'hh-1', 'hh-1-thomas', 'build-fence');
+  clearAnother(world, 'hh-1', 'hh-1-thomas');
+  fenceAll(world, 'hh-1', 'hh-1-thomas');
   household.field = { ...household.field, state: 'ripe', changedTick: world.tick };
   assert.equal(clearedOf(household), 2);
   assert.equal(isFenced(household), true);
@@ -180,10 +204,10 @@ test('what a family made can be taken from it, and the labor is still there afte
   const taken = ruin(world, household, ['cabin', 'fence', 'field'], { text: 'The place was burnt.' });
   assert.deepEqual(taken.sort(), ['cabin', 'fence', 'field']);
   assert.equal(improvementsOf(household).cabin, 'ruined');
-  assert.equal(improvementsOf(household).fence, 'ruined');
   assert.equal(isFenced(household), false, 'a pulled-down fence keeps nothing out');
   assert.equal(household.field.state, 'bare', 'the standing crop went with it');
-  assert.equal(clearedOf(household), 1, 'and the work of clearing went with it');
+  assert.equal(clearedOf(household), 0, 'and the work of clearing went with it');
+  assert.deepEqual(household.plots.map(plot => plot.state), ['staked', 'staked'], 'but the stakes are still in the ground');
   assert.ok(world.events.some(event => event.text === 'The place was burnt.'));
   validateWorld(world);
 
@@ -194,8 +218,11 @@ test('what a family made can be taken from it, and the labor is still there afte
   assert.deepEqual(ruin(world, household, ['cabin', 'fence', 'field']), []);
   assert.equal(world.events.length, before, 'the family was told it lost everything a second time');
   // And a family can make it again, which is the whole point of it being labor.
-  work(world, 'hh-1', 'hh-1-thomas', 'build-fence');
-  assert.equal(isFenced(household), true);
+  household.tools.axe = 0;
+  plotWork(world, 'hh-1', 'hh-1-thomas', 'clear-plot', household.plots[1]);
+  household.plots[1].fence = 'ruined';
+  plotWork(world, 'hh-1', 'hh-1-thomas', 'fence-plot', household.plots[1]);
+  assert.equal(household.plots[1].fence, 'sound');
   assert.ok(world.events.some(event => /set the rails back up/.test(event.text)));
 });
 
@@ -206,9 +233,8 @@ test('nothing in the Gonzales afternoon takes anybody’s property', () => {
   const world = running('whole-afternoon');
   for (let tick = 0; tick < 300 && !world.director.complete; tick++) stepWorld(world);
   for (const household of Object.values(world.households)) {
-    const standing = improvementsOf(household);
-    assert.equal(standing.cabin, 'sound', `${household.id} lost its cabin to something in the slice`);
-    assert.notEqual(standing.fence, 'ruined');
+    assert.equal(improvementsOf(household).cabin, 'sound', `${household.id} lost its cabin to something in the slice`);
+    assert.ok(!(household.plots || []).some(plot => plot.fence === 'ruined'));
   }
   assert.ok(!world.events.some(event => /What the family made of this place is gone/.test(event.text)));
 });
@@ -217,13 +243,14 @@ test('the class is told what is standing on its land, and never left to guess', 
   const world = running('projection');
   const view = () => projectWorld(world, 'hh-1', 'student', { includeMap: false }).land;
   // The grant is its own concern (tests/grants.test.mjs); everything else on the land line is this.
-  const { grant, ...rest } = view();
+  const { grant, plots, ...rest } = view();
   assert.equal(grant.kind, 'labor');
-  assert.deepEqual(rest, { cabin: 'sound', fence: 'none', cleared: 1, clearingMax: CLEARING_MAX, harvestShare: 1 - UNFENCED_LOSS, needsWagon: false, shelter: 'house' });
-  work(world, 'hh-1', 'hh-1-thomas', 'clear-ground');
-  work(world, 'hh-1', 'hh-1-thomas', 'build-fence');
+  assert.deepEqual(rest, { cabin: 'sound', cleared: 1, fenced: 0, harvestShare: 1 - UNFENCED_LOSS, needsWagon: false, shelter: 'house' });
+  assert.deepEqual(plots.map(plot => plot.state), ['cleared'], 'the first patch, as a plot');
+  clearAnother(world, 'hh-1', 'hh-1-thomas');
+  fenceAll(world, 'hh-1', 'hh-1-thomas');
   assert.equal(view().cleared, 2, 'the renderer draws the field at this size and nothing else');
-  assert.equal(view().fence, 'sound', 'and draws a fence only when this says there is one');
+  assert.deepEqual(view().plots.map(plot => plot.fence), ['sound', 'sound'], 'and draws a fence only where this says there is one');
   assert.equal(view().harvestShare, 1);
   // Another family's land is none of this household's business.
   assert.notEqual(projectWorld(world, 'hh-2', 'student', { includeMap: false }).land.cleared, 2);
@@ -232,7 +259,7 @@ test('the class is told what is standing on its land, and never left to guess', 
 test('a world cannot claim ground or a fence that does not exist', () => {
   const world = running('validation');
   const household = world.households['hh-1'];
-  household.field = { ...household.field, cleared: CLEARING_MAX + 1 };
+  household.field = { ...household.field, cleared: OLD_PATCHES + 1 };
   assert.throws(() => validateWorld(world), /cleared ground/);
   household.field = { ...household.field, cleared: 1 };
   household.improvements = { fence: 'splendid' };
@@ -243,12 +270,12 @@ test('a world cannot claim ground or a fence that does not exist', () => {
   validateWorld(world);
 });
 
-test('the two new jobs are ordinary work and cost what they say', () => {
-  for (const id of ['clear-ground', 'build-fence']) {
+test('the two plot jobs are ordinary work and say what they are for', () => {
+  for (const id of ['clear-plot', 'fence-plot']) {
     const chore = CHORES[id];
     assert.ok(chore, `${id} is not a chore`);
     assert.equal(chore.where, 'home', 'both are work on a family’s own land');
-    assert.ok(chore.steps.some(step => step.work >= 8), `${id} is not an afternoon's work`);
+    assert.ok(chore.steps.some(step => step.work >= 3), `${id} is no work at all`);
     assert.ok(!chore.steps.some(step => step.travel), 'neither goes anywhere, so neither needs a mode');
     assert.ok(chore.describe.length > 40, `${id} does not say what it is for`);
   }
