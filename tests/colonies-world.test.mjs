@@ -1,7 +1,7 @@
 // A class on the real map: docs/COLONIES.md §5.2, build step 1.
 //
-// A world made with `{ map: 'colonies' }` has the real places, roads and rivers, keeps the families near
-// Gonzales for now (step 2 deals them across the colonies), plays the Gonzales chapter through to its
+// A world made with `{ map: 'colonies' }` has the real places, roads and rivers, deals its families across the colonies
+// (tests/colonies-deal.test.mjs), plays the Gonzales chapter through to its
 // documented end, and survives save and reload. A world made without it is the invented map, unchanged.
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -31,14 +31,14 @@ test('a class on the real map has the real places and roads, and a class without
   assert.ok(!invented.map.sites.liberty, 'the invented map has no Liberty');
 });
 
-test('every family on the real map lives near Gonzales, reaches it by road, and its track wades no big river', () => {
+test('every family on the real map reaches its own settlement by road, and its track wades no big river', () => {
   for (const players of [5, 30]) {
     const world = colonies(`colonies-homes-${players}`, players);
     const rivers = world.map.terrain.filter(feature => feature.kind === 'river' && BARRIER_RIVERS.includes(feature.name));
     for (const household of Object.values(world.households)) {
       const home = world.map.sites[household.homeSiteId];
-      const path = findPath(world.map, home.id, 'gonzales');
-      assert.ok(path && path.distance < 60, `${home.id} is ${path?.distance.toFixed(1)} road miles from Gonzales`);
+      const path = findPath(world.map, home.id, household.settlementId);
+      assert.ok(path && path.distance < 30, `${home.id} is ${path?.distance.toFixed(1)} road miles from ${household.settlementId}`);
       const track = Object.values(world.map.routes).find(route => route.kind === 'track' && route.to === home.id);
       assert.ok(track, `${home.id} has a track to the road`);
       for (const river of rivers) {
@@ -61,7 +61,7 @@ test('the Gonzales chapter plays to its documented end on the real map', () => {
 test('a family can ride from its land by the ford to Castañeda\'s camp on the real roads', () => {
   const world = colonies('colonies-camp', 5);
   world.status = 'running';
-  const household = world.households['hh-1'];
+  const household = Object.values(world.households).find(each => each.settlementId === 'gonzales');
   for (let tick = 0; tick < 60 && household.arriving; tick++) stepWorld(world);
   const rider = world.entities[household.principalId];
   applyAction(world, household.id, { action: 'travel', entityId: rider.id, destination: 'williams-camp', mode: 'horse' });

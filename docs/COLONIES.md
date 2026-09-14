@@ -1,6 +1,6 @@
 # Families across the colonies
 
-**Status: decided, researched and specified 2026-09-14 (§5); every owner question answered (§7); build step 1 (places and roads) built 2026-09-14** ([evidence](evidence/colonies-map.json)). Read this before changing where
+**Status: decided, researched and specified 2026-09-14 (§5); every owner question answered (§7); build step 1 (places and roads) built 2026-09-14** ([evidence](evidence/colonies-map.json)); **build step 2 (families dealt to the colonies) built 2026-09-14** ([evidence](evidence/colonies-deal.json)). New classes still use the Gonzales map by default until step 5 (owner, 2026-09-14); `MAP=colonies` uses this one. Read this before changing where
 families start, the arrival, how news travels between settlements, or what a family far from Gonzales can do. It
 amends `FIC-GONZ-024` (one party arriving together) and builds on the real terrain of `docs/LAND_GRANTS.md` §8.
 
@@ -345,7 +345,7 @@ Each step ends with tests that failed first, a browser proof where it touches wh
 
 1. ~~**Places and roads on the real map.**~~ **Done 2026-09-14** (§6a). Settlement sites, Gonzales's ford and camp on the real Guadalupe, the road graph
    routed over terrain, crossings. Map drawing of the real rivers, relief and roads. No families yet.
-2. **Families dealt to the colonies.** Dealing, anchors, grants, lanes, arrival at each family's own land, neighbours by
+2. ~~**Families dealt to the colonies.**~~ **Done 2026-09-14** (§6b). Dealing, anchors, grants, lanes, arrival at each family's own land, neighbours by
    settlement. New classes use it; old saves untouched.
 2a. **Automatic neighbours: farming, building, trading and house-raisings** (§5.9), so every class after step 2 has living
    neighbours. Their answer to the war comes with steps 4 and 5.
@@ -380,6 +380,27 @@ Each step ends with tests that failed first, a browser proof where it touches wh
   together like a flood.
 - `ceiling:` the saved map is about 360 KB (the invented one is 58 KB); creeks under three miles are left off it. The
   province drawn when zoomed out is still the invented one. Families are not yet dealt across the colonies.
+
+### 6b. As built: step 2
+
+- **Owner decisions made while building it (2026-09-14):** a store at every settlement families live near; and new classes keep the
+  Gonzales map by default until step 5, when the news and the war calls fit families wherever they live, so no class plays a
+  half-built war.
+- **Dealing** is `dealCounts` in `sim/colonies-map.mjs` and matches §5.1's table; which family goes where is shuffled by the seed.
+- **Land** (`sim/colonies-region.mjs`): 2–12 miles from the settlement, within half a mile of a named watercourse, off the big
+  rivers, level enough, clear of every town, league-sized elbow room first, and **within 30 road miles of its own settlement** —
+  added after a Liberty family was given land across the Trinity whose nearest road took it 228 miles to Liberty. Over 60 worlds
+  of 5–30 families the longest way to a family's own town is 26 road miles.
+- **Its settlement** is `household.settlementId` (and `settlementId` on the homestead site). Town errands go there (`townOf` in
+  `sim/chores.mjs`), and their names and words now say "in town"; the arrival says *"turned off the road near Liberty"*.
+  Neighbours are the nearest homesteads in the "Go to" list, which puts a family's own settlement first.
+- **Stores** (`sim/town.mjs` `STOREKEEPERS`): one invented storekeeper at every other settlement with families, purse two reales a
+  family near it; Gonzales's store purse is likewise for its own families on this map.
+- **Timber**: two stands six river miles up and down the settlement's own river from every start; a stand set down across a meander
+  is moved to where the way to it ends (a track to Liberty's lower timber waded the Trinity until then), and simplifying a routed
+  road never cuts across a river.
+- `ceiling:` the saved map is 280–370 KB: creeks under five miles and creeks' timber are left off it. The relief of a class spread
+  across the colonies is sampled coarsely. The Gonzales calls and the news still assume Gonzales (step 5).
 
 ## 7. Questions for the owner — all answered 2026-09-14
 

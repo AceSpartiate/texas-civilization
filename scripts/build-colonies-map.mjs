@@ -252,6 +252,33 @@ for (const place of Object.values(places)) {
   }
 }
 
+// Two stands of timber near every other start, as Gonzales has: on the nearest named watercourse, about six miles up
+// and down it from where it passes closest to the settlement (FIC-GONZ-008; timber follows the water, HIST-GONZ-012).
+for (const start of Object.values(places).filter(place => place.start && place.id !== 'gonzales')) {
+  let nearest = null;
+  // The settlement's own river when it is within three miles (Mina on the Colorado, Liberty on the Trinity), before a
+  // nearer branch or bayou.
+  const big = new Set([...BARRIERS, ...SLOW_WATER.filter(n => /River/.test(n))]);
+  for (const pass of [course => big.has(course.name), course => course.name && course.flow !== 'ephemeral']) {
+    if (nearest && nearest.d <= 3) break;
+    nearest = null;
+  for (const course of terrain.courses) {
+    if (!pass(course)) continue;
+    for (const point of course.points) {
+      const d = distance(point, start);
+      if (!nearest || d < nearest.d) nearest = { d, name: course.name, point };
+    }
+  }
+  }
+  if (!nearest || nearest.d > 6) throw new Error(`${start.id} has no named watercourse within six miles for its timber`);
+  for (const [suffix, name, upstream] of [['upper-timber', 'The upper timber', true], ['lower-timber', 'The lower timber', false]]) {
+    const { point, travelled } = walkRiver(nearest.name, nearest.point, 6, upstream);
+    const toTown = { x: start.x - point.x, y: start.y - point.y }, length = Math.hypot(toTown.x, toTown.y) || 1;
+    const stand = { x: point.x + toTown.x / length * 0.3, y: point.y + toTown.y / length * 0.3 };
+    places[`${start.id}-${suffix}`] = { id: `${start.id}-${suffix}`, name: `${name} on the ${nearest.name}`, kind: 'woods', x: round(stand.x), y: round(stand.y), claimId: 'FIC-GONZ-008', settlementId: start.id, riverMiles: round(travelled) };
+  }
+}
+
 // Open each crossing across its river: the cells of the barrier within 0.6 miles of the crossing point.
 const crossingPoints = {};
 for (const [river, ids] of Object.entries(CROSSINGS)) {
@@ -343,7 +370,17 @@ function route(fromPoint, toPoint) {
   return cells.map(centreOf);
 }
 
-function simplify(points, tolerance) {
+/** Whether a straight line stays off every barrier cell (a crossing's opened cells are not barriers). */
+function clearLine(a, b) {
+  let clear = true;
+  rasterise([a, b], index => { if (water[index] === BLOCKED || water[index] === SEA) clear = false; });
+  return clear;
+}
+/**
+ * Douglas-Peucker on a routed path, except that a point is never dropped if the shortcut would cross a river or the
+ * sea: the route went round a bend for a reason, and a straight simplification can cut the bend and wade the river.
+ */
+function simplify(points, tolerance, keepOffWater = true) {
   if (points.length <= 2) return points;
   const keep = new Uint8Array(points.length); keep[0] = keep[points.length - 1] = 1;
   const stack = [[0, points.length - 1]];
@@ -355,7 +392,7 @@ function simplify(points, tolerance) {
       const d = Math.abs(dy * points[i].x - dx * points[i].y + B.x * A.y - B.y * A.x) / length;
       if (d > worst) { worst = d; index = i; }
     }
-    if (worst > tolerance && index > 0) { keep[index] = 1; stack.push([a, index], [index, b]); }
+    if (index > 0 && (worst > tolerance || (keepOffWater && !clearLine(A, B)))) { keep[index] = 1; stack.push([a, index], [index, b]); }
   }
   return points.filter((_, i) => keep[i]);
 }
@@ -373,9 +410,14 @@ for (const [from, to, name] of ROADS) {
 roads.push({ id: 'road-gonzales-ford', from: 'gonzales', to: 'ford', name: 'The crossing', kind: 'crossing', points: [places.gonzales, places.ford].map(p => ({ x: p.x, y: p.y })), miles: round(distance(places.gonzales, places.ford)) });
 const bank = simplify(route(places.ford, places['williams-camp']), 0.03).map(p => ({ x: round(p.x), y: round(p.y) }));
 roads.push({ id: 'road-ford-williams-camp', from: 'ford', to: 'williams-camp', name: 'Along the bank', kind: 'bank', points: [places.ford, ...bank.slice(1, -1), places['williams-camp']].map(p => ({ x: p.x, y: p.y })), miles: 0 });
-for (const id of ['upper-timber', 'lower-timber']) {
-  const trail = simplify(route(places.gonzales, places[id]), 0.03).map(p => ({ x: round(p.x), y: round(p.y) }));
-  roads.push({ id: `road-gonzales-${id}`, from: 'gonzales', to: id, name: 'A track to the timber', kind: 'track', points: [places.gonzales, ...trail.slice(1, -1), places[id]].map(p => ({ x: p.x, y: p.y })), miles: 0 });
+for (const stand of Object.values(places).filter(place => place.kind === 'woods')) {
+  const town = places[stand.settlementId || 'gonzales'];
+  const cells = route(town, stand);
+  // A stand set down just across a meander is moved to where the way to it actually ends, on the town's side.
+  const end = cells.at(-1);
+  if (distance(end, stand) > 0.01) { stand.x = round(end.x); stand.y = round(end.y); }
+  const trail = simplify(cells, 0.03).map(p => ({ x: round(p.x), y: round(p.y) }));
+  roads.push({ id: `road-${town.id}-${stand.id}`, from: town.id, to: stand.id, name: 'A track to the timber', kind: 'track', points: [town, ...trail.slice(1, -1), stand].map(p => ({ x: p.x, y: p.y })), miles: 0 });
 }
 for (const road of roads) if (!road.miles) road.miles = round(road.points.slice(1).reduce((sum, p, i) => sum + distance(p, road.points[i]), 0));
 
@@ -424,7 +466,7 @@ for (const course of joinReaches(terrain.courses)) {
   const river = RIVERS.has(course.name);
   if (!river && !(course.flow === 'perennial' || course.flow === 'intermittent')) continue;
   if (!river && !course.points.some(p => starts.some(s => distance(p, s) < 14))) continue;
-  const points = simplify(course.points, river ? 0.05 : 0.04).map(p => ({ x: round(p.x), y: round(p.y) }));
+  const points = simplify(course.points, river ? 0.05 : 0.04, false).map(p => ({ x: round(p.x), y: round(p.y) }));
   if (points.length < 2) continue;
   drawn.push({ name: course.name, kind: river ? 'river' : 'creek', points });
 }

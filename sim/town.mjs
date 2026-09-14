@@ -59,10 +59,42 @@ export const RESIDENTS = [
 
 const round = value => { const fixed = +value.toFixed(2); return fixed === 0 ? 0 : fixed; };
 
+/**
+ * A storekeeper for every other settlement families live near, on the real map (docs/COLONIES.md, owner 2026-09-14:
+ * a store at each settlement). Invented people, registered as FIC-GONZ-009 like Marta Ibarra, with invented names;
+ * no real merchant of any of these towns is used, for the reason the Gonzales residents give above. Each sells seed,
+ * powder and ironware, and buys cotton and food, from a purse sized to the families near it.
+ */
+export const STOREKEEPERS = Object.freeze({
+  'san-felipe': { name: 'Hiram Stovall', pronoun: 'he', round: [{ x: -.14, y: -.08 }, { x: -.04, y: .03 }, { x: -.18, y: .07 }] },
+  columbia: { name: 'Adelaide Vance', pronoun: 'she', round: [{ x: .12, y: -.10 }, { x: .02, y: .02 }, { x: .16, y: .05 }] },
+  matagorda: { name: 'Lucius Farrow', pronoun: 'he', round: [{ x: -.10, y: .12 }, { x: .02, y: .06 }, { x: -.16, y: .02 }] },
+  mina: { name: 'Tomasa Villegas', pronoun: 'she', round: [{ x: .10, y: .10 }, { x: -.02, y: .04 }, { x: .14, y: -.02 }] },
+  liberty: { name: 'Amos Whitcomb', pronoun: 'he', round: [{ x: -.12, y: -.12 }, { x: 0, y: -.02 }, { x: -.16, y: .04 }] },
+  victoria: { name: 'Inés Cárdenas', pronoun: 'she', round: [{ x: .14, y: -.06 }, { x: .04, y: .04 }, { x: .18, y: .08 }] },
+});
+
 /** Put the residents in the town. Called once, when the world is built. */
 export function createTownspeople(world) {
+  // On the real map, a store in every other settlement a family lives near, with a purse for the families near it.
+  const near = Object.values(world.map.sites).filter(site => site.kind === 'homestead' && site.settlementId);
+  for (const [settlementId, keeper] of Object.entries(STOREKEEPERS)) {
+    const families = near.filter(site => site.settlementId === settlementId).length;
+    const place = world.map.sites[settlementId];
+    if (!families || !place) continue;
+    const id = `town-store-${settlementId}`;
+    world.entities[id] = {
+      id, name: keeper.name, kind: 'person', householdId: null, depth: 'moderate', principal: false, resident: 'seed',
+      deals: ['seed', 'powder', 'cotton', 'food', 'iron'], purse: STORE_PURSE_PER_FAMILY * families, townSiteId: settlementId,
+      about: `keeps the store at ${place.name}: seed, powder and lead, ironware, and ${keeper.pronoun} buys cotton`,
+      location: { x: round(place.x + keeper.round[0].x), y: round(place.y + keeper.round[0].y), siteId: settlementId },
+      travel: null, health: { condition: 'well' }, task: 'work',
+    };
+  }
   const town = world.map.sites.gonzales;
   if (!town) return;
+  // On the real map Gonzales's store holds coin for the families near Gonzales, not the whole class.
+  const gonzalesFamilies = near.length ? near.filter(site => site.settlementId === 'gonzales').length : (world.playerCount || 15);
   for (const resident of RESIDENTS) {
     world.entities[resident.id] = {
       id: resident.id, name: resident.name, kind: 'person',
@@ -74,7 +106,7 @@ export function createTownspeople(world) {
       deals: resident.deals || [resident.trade].filter(Boolean),
       // Coin the storekeeper can pay out (docs/MONEY_AND_GLORY.md, owner's choice of a limited
       // purse). Only somebody who buys goods for coin needs one.
-      ...((resident.deals || []).includes('cotton') && { purse: STORE_PURSE_PER_FAMILY * (world.playerCount || 15) }),
+      ...((resident.deals || []).includes('cotton') && { purse: STORE_PURSE_PER_FAMILY * gonzalesFamilies }),
       // What this person is, in their own words. It lives here rather than in the client,
       // which had its own copy keyed off `resident` - so changing the table changed the
       // table and nothing a student could see.
@@ -92,6 +124,13 @@ export function createTownspeople(world) {
  * moving between places. Nobody here is simulated beyond where they are standing.
  */
 export function advanceTown(world) {
+  // The storekeepers of the other settlements keep to their own counters.
+  for (const [settlementId, keeper] of Object.entries(STOREKEEPERS)) {
+    const entity = world.entities[`town-store-${settlementId}`], place = world.map.sites[settlementId];
+    if (!entity || entity.travel || !place) continue;
+    const spot = keeper.round[Math.floor(world.tick / 3 + entity.id.length) % keeper.round.length];
+    entity.location = { x: round(place.x + spot.x), y: round(place.y + spot.y), siteId: settlementId };
+  }
   const town = world.map.sites.gonzales;
   if (!town) return;
   for (const resident of RESIDENTS) {
@@ -115,7 +154,7 @@ export function traderAt(world, siteId, trade) {
 export function recordTrade(world, householdId, entity, trader, what) {
   record(world, 'consequence', {
     actorId: entity.id, householdId,
-    text: `${entity.name} traded with ${trader.name} at Gonzales for ${what}.`,
+    text: `${entity.name} traded with ${trader.name} at ${world.map.sites[trader.location?.siteId]?.name || 'Gonzales'} for ${what}.`,
   });
 }
 

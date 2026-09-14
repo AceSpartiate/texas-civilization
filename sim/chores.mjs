@@ -381,45 +381,45 @@ export const CHORES = {
   'sell-cotton': {
     name: 'Take the cotton to the store', skill: 'hands', where: 'home', hauls: true,
     needs: { cotton: 1 },
-    describe: `Cotton is not food. The store at Gonzales trades ${COTTON_RATE} food for every bale, or ${reales(COIN.cottonBale)} for a whole one, and takes as much as whoever goes can carry.`,
+    describe: `Cotton is not food. The store in town trades ${COTTON_RATE} food for every bale, or ${reales(COIN.cottonBale)} for a whole one, and takes as much as whoever goes can carry.`,
     steps: [
-      { travel: 'gonzales', doing: 'on the road to Gonzales with the cotton' },
+      { travel: 'town', doing: 'on the road to {town} with the cotton' },
       { work: 2, doing: 'at the store' },
       { trade: 'cotton', doing: 'trading the cotton' },
       { ask: 'cotton-counter' },
       { when: ['food'], sell: { good: 'cotton', want: 'food', rate: COTTON_RATE } },
       { when: ['coin'], sell: { good: 'cotton', want: 'money', per: 1, gives: COIN.cottonBale } },
-      { travel: 'home', doing: 'walking home from Gonzales' },
+      { travel: 'home', doing: 'walking home from {town}' },
     ],
   },
   'fetch-powder': {
-    name: 'Buy powder and lead in Gonzales', skill: 'hands', where: 'home', hauls: true,
+    name: 'Buy powder and lead in town', skill: 'hands', where: 'home', hauls: true,
     needsAny: [{ food: 2 }, { money: COIN.powder }],
     describe: `Trade in town for powder and lead, paying 2 food or ${reales(COIN.powder)}. A shot spends one, and whoever goes upriver takes what is in the house with them.`,
     steps: [
-      { travel: 'gonzales', doing: 'on the road to Gonzales' },
+      { travel: 'town', doing: 'on the road to {town}' },
       { work: 2, doing: 'looking for the trader' },
       { trade: 'powder', doing: 'trading for powder and lead' },
       { ask: 'powder-counter' },
       { when: ['food'], consume: { food: 2 } },
       { when: ['coin'], consume: { money: COIN.powder } },
       { when: ['food', 'coin'], produce: { powder: 3 } },
-      { travel: 'home', doing: 'walking home from Gonzales' },
+      { travel: 'home', doing: 'walking home from {town}' },
     ],
   },
   'fetch-seed': {
-    name: 'Fetch seed from Gonzales', skill: 'hands', where: 'home', hauls: true,
+    name: 'Fetch seed from town', skill: 'hands', where: 'home', hauls: true,
     needsAny: [{ food: 3 }, { money: COIN.seed }],
     describe: `Trade in town for seed, paying 3 food or ${reales(COIN.seed)}. The road is as long as it is.`,
     steps: [
-      { travel: 'gonzales', doing: 'on the road to Gonzales' },
+      { travel: 'town', doing: 'on the road to {town}' },
       { work: 2, doing: 'looking for the seed trader' },
       { trade: 'seed', doing: 'trading for seed' },
       { ask: 'seed-counter' },
       { when: ['food'], consume: { food: 3 } },
       { when: ['coin'], consume: { money: COIN.seed } },
       { when: ['food', 'coin'], produce: { seed: 2 } },
-      { travel: 'home', doing: 'walking home from Gonzales' },
+      { travel: 'home', doing: 'walking home from {town}' },
     ],
   },
   'sell-food': {
@@ -427,11 +427,11 @@ export const CHORES = {
     needs: { food: COIN.foodPerReal },
     describe: `The store pays coin for food it can sell on: ${reales(1)} for every ${COIN.foodPerReal} food, whole reales only, and as much as whoever goes can carry.`,
     steps: [
-      { travel: 'gonzales', doing: 'on the road to Gonzales with food to sell' },
+      { travel: 'town', doing: 'on the road to {town} with food to sell' },
       { work: 2, doing: 'at the store' },
       { trade: 'food', doing: 'selling food' },
       { sell: { good: 'food', want: 'money', per: COIN.foodPerReal, gives: 1 } },
-      { travel: 'home', doing: 'walking home from Gonzales' },
+      { travel: 'home', doing: 'walking home from {town}' },
     ],
   },
   'mend-hoe': {
@@ -445,16 +445,16 @@ export const CHORES = {
     ],
   },
   'replace-hoe': {
-    name: 'Buy a hoe in Gonzales', skill: 'hands', where: 'home',
+    name: 'Buy a hoe in town', skill: 'hands', where: 'home',
     needs: { money: COIN.hoe }, needsTool: 'worn',
     describe: `Buy a sound hoe from the smith in town. Iron comes a long way, and the smith wants coin for it: ${reales(COIN.hoe)}.`,
     steps: [
-      { travel: 'gonzales', doing: 'on the road to Gonzales' },
+      { travel: 'town', doing: 'on the road to {town}' },
       { work: 2, doing: 'looking for the smith' },
       { trade: 'iron', doing: 'buying a hoe' },
       { consume: { money: COIN.hoe } },
       { mend: 'hoe' },
-      { travel: 'home', doing: 'walking home from Gonzales' },
+      { travel: 'home', doing: 'walking home from {town}' },
     ],
   },
 };
@@ -496,6 +496,12 @@ function stalkPoint(world, entity, where) {
   const jitter = ((hash >>> 0) % 200) / 200 - .5;
   return { x: round(site.x + spot.dx + jitter * .12), y: round(site.y + spot.dy + jitter * .12) };
 }
+
+/**
+ * The town a family trades in: the settlement it was dealt to on the real map (docs/COLONIES.md), and Gonzales on the
+ * invented map, where it always was.
+ */
+export const townOf = household => household.settlementId || 'gonzales';
 
 /** The nearest stand of timber, so distance to work is the household's own distance. */
 function timberFor(world, household) {
@@ -770,7 +776,7 @@ function advanceChore(world, household, entity, { beginTravel }) {
     if (!step) return finishChore(world, household, entity, chore);
     // A step that belongs to an answer nobody gave is not this hunt's step.
     if (step.when && !step.when.some(flag => (state.flags || []).includes(flag))) continue;
-    if (step.doing) state.doing = step.doing;
+    if (step.doing) state.doing = step.doing.replace('{town}', world.map.sites[townOf(household)]?.name || 'town');
     if (step.walk) {
       // Inside the homestead. The person's canonical site is unchanged - they are still
       // at home - but they stand where the work is.
@@ -787,7 +793,8 @@ function advanceChore(world, household, entity, { beginTravel }) {
     }
     if (step.travel) {
       const destination = step.travel === 'home' ? household.homeSiteId
-        : step.travel === 'timber' ? timberFor(world, household) : step.travel;
+        : step.travel === 'timber' ? timberFor(world, household)
+        : step.travel === 'town' ? townOf(household) : step.travel;
       // Already standing there: nothing to walk, so fall through to the next step.
       if (!destination || entity.location.siteId === destination) continue;
       beginTravel(world, entity, destination, null, 'chore', state.mode || DEFAULT_MODE);

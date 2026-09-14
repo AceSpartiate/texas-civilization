@@ -91,7 +91,7 @@ export function beginArrivals(world) {
     const founding = world.events.find(event => event.type === 'household-founded' && event.householdId === household.id);
     if (founding) Object.assign(founding, {
       claimId: 'FIC-GONZ-024',
-      text: 'Dawn on September 28, 1835. Your family has turned off the road with the wagon, the ox and the horse, towards land of its own.',
+      text: `Dawn on September 28, 1835. Your family has turned off the road${household.settlementId ? ` near ${world.map.sites[household.settlementId].name}` : ''} with the wagon, the ox and the horse, towards land of its own.`,
     });
   }
 }

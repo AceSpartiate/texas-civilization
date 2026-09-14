@@ -49,7 +49,9 @@ export function createWorld(seed = 'gonzales', playerCount = 15, { map = 'gonzal
     // family" - which is a real family rather than a row number, and follows along if a
     // student renames him. A class saved when every household was `Family N` keeps that,
     // because a stored name is a name somebody chose. See sim/family.mjs.
-    const household = { id: householdId, homeSiteId: site.id, members: [], principalId: `${householdId}-thomas`, property: [], ...householdFromLoad(load), field: { crop, state: 'bare', changedTick: 0 }, relationships: { neighbor: 0 }, commitments: [], memories: [] };
+    // On the real map a family belongs to the settlement it was dealt to (docs/COLONIES.md §5.1): its town for trade and its
+    // neighbours. Absent on the invented map, where every family's town is Gonzales.
+    const household = { id: householdId, homeSiteId: site.id, ...(site.settlementId && { settlementId: site.settlementId }), members: [], principalId: `${householdId}-thomas`, property: [], ...householdFromLoad(load), field: { crop, state: 'bare', changedTick: 0 }, relationships: { neighbor: 0 }, commitments: [], memories: [] };
     world.households[householdId] = household;
     world.knowledge.households[householdId] = {};
     // Names are dealt across the class so fifteen families are not fifteen copies of one;
@@ -701,6 +703,7 @@ export function validateWorld(world) {
     // version moved. Present, it is a name somebody typed and has to stay one.
     // Present only while a new class's family is still on the road in (sim/settling.mjs).
     if (household.arriving !== undefined && household.arriving !== true) throw new Error('Invalid arrival marker');
+    if (household.settlementId !== undefined && world.map.sites[household.settlementId]?.kind !== 'town') throw new Error('A family belongs to a settlement that is not there');
     if (household.name !== undefined && (typeof household.name !== 'string' || !household.name.trim() || household.name.length > NAME_LIMIT)) throw new Error('Invalid household name');
     if (!household.field || !['bare', 'planted', 'ripe'].includes(household.field.state) || !['corn', 'cotton'].includes(household.field.crop)) throw new Error('Invalid field state');
     // Absent on a class saved before a family could break new ground, and the empty value

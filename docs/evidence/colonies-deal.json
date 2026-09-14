@@ -1,0 +1,48 @@
+{
+  "record": "Families dealt to the colonies: build step 2 of docs/COLONIES.md",
+  "date": "2026-09-14",
+  "verdict": "PASS",
+  "verdictMeaning": "On the colonies map a class's families are dealt one to Gonzales, one to Liberty and the rest by 1834 population; each has land a few miles from its settlement by a named watercourse and within 30 road miles of it; each trades at a store in its own town; each arrives near its own settlement. The invented Gonzales map, still the default, is unchanged.",
+  "ownerDecisions": [
+    "2026-09-14: a store at each settlement.",
+    "2026-09-14: new classes keep the Gonzales map by default until step 5."
+  ],
+  "measured": {
+    "worlds": "60 of 60 built (5, 10, 15, 20, 30 families x 12 seeds), slowest 241 ms",
+    "longestRoadToOwnTown": 25.9,
+    "savedMapBytes": "284,000 at 5 families to 367,000 at 30"
+  },
+  "foundWhileBuilding": [
+    "A Liberty family was given land across the Trinity: its nearest reachable road took it 228 miles to Liberty. Land now needs a way to its own town within 30 road miles.",
+    "The first timber stands for Mina and Liberty went on Gills Branch and Big Bayou, nearer than the Colorado and the Trinity; the settlement's own river within three miles is preferred.",
+    "A track to Liberty's lower timber waded the Trinity: the stand sat across a meander. Stands now move to where their route ends, and a routed road is never simplified across a river.",
+    "A first map kept every creek and its timber round each settlement: 820 KB saved. Creeks under five miles and creeks' timber are left off (ceiling)."
+  ],
+  "liveBrowserProof": {
+    "note": "Same computer only. MAP=colonies PORT=8754 SEED=deal-proof PLAYERS=15. Households: hh-1 gonzales, hh-2 matagorda, hh-3 liberty and others. A student joined as hh-1 in the browser; hh-2 and hh-3 joined over HTTP, and the browser took over hh-3 with its family key through /api/rejoin.",
+    "observed": [
+      "hh-1: settlementId gonzales; founding 'Dawn on September 28, 1835. Your family has turned off the road near Gonzales with the wagon, the ox and the horse, towards land of its own.'; Go to list 'Family 11 home · 8.7 miles', 'Family 4 home · 27.8 miles', 'Family 14 home · 37.4 miles'.",
+      "hh-3: settlementId liberty; founding '... turned off the road near Liberty ...'; land 9.0 miles from Liberty; Go to list 'Family 8 home · 5.1 miles' (the other Liberty family), then 66.0, 68.1, 68.9 miles; errands 'Take the cotton to the store', 'Buy powder and lead in town', 'Fetch seed from town', 'Sell food at the store for coin', 'Buy a hoe in town'.",
+      "Map round Liberty (canvas enlarged off-screen and cropped into the 280 x 235 pane): the Trinity meandering past, the homestead and its field, roads either side."
+    ]
+  },
+  "automated": {
+    "suite": "tests/colonies-deal.test.mjs",
+    "tests": 4,
+    "wholeSuite": "333 pass, 0 fail",
+    "injectedRegressions": [
+      "no seats -> dealing test (and the ride-to-the-camp test, which needs a Gonzales family)",
+      "every settlement weighed alike -> dealing test",
+      "land sampled 14-24 miles out -> world creation fails, every colonies test fails",
+      "land anywhere, not by water -> land test",
+      "no limit on the road to town -> own-settlement test in tests/colonies-world.test.mjs",
+      "errands still to Gonzales -> store test",
+      "no stores in the other settlements -> store test",
+      "the store's purse for the whole class -> store test",
+      "the arrival does not say where -> arrival test",
+      "any settlement accepted by validation -> arrival test",
+      "NOT CAUGHT: the 2-12 mile rule removed from the fit check alone, because the sampling ring already enforces it; removing both is caught (the \"land sampled far out\" injection)."
+    ]
+  },
+  "notRun": "Playwright: not installed here. No LAN or district claim."
+}
