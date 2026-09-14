@@ -1,6 +1,6 @@
 # Families across the colonies
 
-**Status: decided, researched and specified 2026-09-14 (§5); every owner question answered (§7); nothing built.** Read this before changing where
+**Status: decided, researched and specified 2026-09-14 (§5); every owner question answered (§7); build step 1 (places and roads) built 2026-09-14** ([evidence](evidence/colonies-map.json)). Read this before changing where
 families start, the arrival, how news travels between settlements, or what a family far from Gonzales can do. It
 amends `FIC-GONZ-024` (one party arriving together) and builds on the real terrain of `docs/LAND_GRANTS.md` §8.
 
@@ -343,7 +343,7 @@ of the same settlement (fifteen seats two at Gonzales) to trade with and help.
 
 Each step ends with tests that failed first, a browser proof where it touches what a student sees, docs and claims.
 
-1. **Places and roads on the real map.** Settlement sites, Gonzales's ford and camp on the real Guadalupe, the road graph
+1. ~~**Places and roads on the real map.**~~ **Done 2026-09-14** (§6a). Settlement sites, Gonzales's ford and camp on the real Guadalupe, the road graph
    routed over terrain, crossings. Map drawing of the real rivers, relief and roads. No families yet.
 2. **Families dealt to the colonies.** Dealing, anchors, grants, lanes, arrival at each family's own land, neighbours by
    settlement. New classes use it; old saves untouched.
@@ -359,6 +359,27 @@ Each step ends with tests that failed first, a browser proof where it touches wh
 7. Then `docs/LAND_GRANTS.md` §4–5: Survey and clearing.
 
 ---
+
+### 6a. As built: step 1
+
+- **`scripts/build-colonies-map.mjs`** (about 8 seconds) writes `public/terrain/colonies-map.json.gz`: 23 places, 26 roads and 418
+  watercourses joined from their reaches. Roads are A* over the eighth-of-a-mile grid, costed by slope, slowed by lesser
+  water, and barred from the Guadalupe, Colorado, Brazos, Trinity and San Antonio except at their crossings. The build had to
+  learn four things about the data, each now handled and commented: a river's line breaks at a modern dam (loose ends within a
+  mile are joined), a river entering from beyond the map starts just inside its edge (carried to the edge), bays are in the
+  elevation at sea level (under 30 cm is water for roads, under a metre for telling the banks apart, and cleared round a
+  coastal town), and the Colorado at Matagorda is two channels (crossings open 0.6 miles).
+- **Measured:** Gonzales to Béxar 68.7 road miles; Gonzales to the Colorado crossing 49.8, and on to San Felipe 50.5; the camp
+  7.1 river miles above the ford, on Béxar's side; the confluence 1.3 miles from the town.
+- **`sim/colonies-region.mjs`** makes a world's map from it with `createWorld(seed, n, { map: 'colonies' })` (server: `MAP=colonies`):
+  the places and roads, the rivers and longer creeks of the home country with their timber, relief from the real grid, and —
+  for now — families along the real Guadalupe and San Marcos near Gonzales, each on a straight track to the nearest road it can
+  reach without crossing a big river. `map.source` marks such a world; worlds without the option are the invented map,
+  unchanged, and remain the default until step 2.
+- **Drawing:** on the real map rivers are drawn near their true width, since at the invented map's width the real meanders ran
+  together like a flood.
+- `ceiling:` the saved map is about 360 KB (the invented one is 58 KB); creeks under three miles are left off it. The
+  province drawn when zoomed out is still the invented one. Families are not yet dealt across the colonies.
 
 ## 7. Questions for the owner — all answered 2026-09-14
 

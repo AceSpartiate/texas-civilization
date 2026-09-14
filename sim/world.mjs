@@ -1,4 +1,5 @@
 // Pure deterministic simulation; credentials and renderer state never belong here.
+import { buildColoniesRegion } from './colonies-region.mjs';
 import { record } from './events.mjs';
 import { reportsFor, deliverReports } from './knowledge.mjs';
 import { advanceRoutine } from './routines.mjs';
@@ -24,13 +25,16 @@ export function seededRandom(seed) {
   for (const char of String(seed)) value = Math.imul(value ^ char.charCodeAt(0), 16777619);
   return () => { value ^= value << 13; value ^= value >>> 17; value ^= value << 5; return (value >>> 0) / 4294967296; };
 }
-export function createWorld(seed = 'gonzales', playerCount = 15) {
+export function createWorld(seed = 'gonzales', playerCount = 15, { map = 'gonzales' } = {}) {
   if (!Number.isInteger(playerCount) || playerCount < 5 || playerCount > 30) throw new Error('Class size must be 5–30');
   const random = seededRandom(seed);
   const world = { schemaVersion: 3, seed: String(seed), playerCount, tick: 0, minute: 0, status: 'lobby', entities: {}, households: {}, map: { sites: {}, routes: {}, terrain: [] }, events: [], nextEventId: 1, nextCourierId: 1, truth: {}, knowledge: { households: {}, public: {} }, barriers: [], offers: {}, nextOfferId: 1, encounters: {}, nextEncounterId: 1 };
   // Geography is researched pattern with invented coordinates; see sim/geography.mjs.
-  const region = buildGonzalesRegion(random, playerCount);
+  // A class on the real land of the colonies (docs/COLONIES.md) or on the invented Gonzales country every class had before.
+  if (!['gonzales', 'colonies'].includes(map)) throw new Error('Unknown map');
+  const region = map === 'colonies' ? buildColoniesRegion(random, playerCount) : buildGonzalesRegion(random, playerCount);
   world.map.sites = region.sites; world.map.routes = region.routes; world.map.terrain = region.terrain; world.map.relief = region.relief; world.map.bounds = region.bounds; world.map.homeBounds = region.homeBounds; world.map.province = region.province;
+  if (region.source) world.map.source = region.source;
   for (let i = 1; i <= playerCount; i++) {
     const householdId = `hh-${i}`;
     const site = world.map.sites[`home-${i}`];

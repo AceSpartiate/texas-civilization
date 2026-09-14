@@ -66,7 +66,7 @@ function buildWaters(origin) {
 // one stratum per household so families spread along the whole valley instead of clumping
 // by chance, then jittered and rejected for spacing so the pattern stays irregular. A grid
 // would be both wrong and immediately obvious to a student.
-function scatterHomesteads(random, count, courses, bounds) {
+export function scatterHomesteads(random, count, courses, bounds, accept = () => true) {
   const lengths = courses.map(course => polylineLength(course.points));
   const frontage = lengths.reduce((sum, length) => sum + length, 0);
   const locate = travelled => {
@@ -87,6 +87,7 @@ function scatterHomesteads(random, count, courses, bounds) {
         const candidate = { x: anchor.x + eastward * (0.7 + random() * 4.6), y: anchor.y + (random() - 0.5) * 3.2 };
         if (candidate.x < bounds.minX || candidate.x > bounds.maxX || candidate.y < bounds.minY || candidate.y > bounds.maxY) continue;
         if (placed.some(other => distance(other, candidate) < separation)) continue;
+        if (!accept(candidate)) continue;
         placed.push(candidate); break;
       }
     }

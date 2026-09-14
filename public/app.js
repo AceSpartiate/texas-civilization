@@ -964,7 +964,11 @@ function drawTerrain(ctx, world, camera) {
     let points = (feature.points || []).map(camera.toScreen); if (points.length < 2) continue;
     if (!style.fill) {
       ctx.beginPath(); points.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
-      ctx.strokeStyle = style.stroke; ctx.lineWidth = Math.max(1.5, Math.min(26, style.width * camera.scale * .55));
+      // On the real land (docs/COLONIES.md) a river's course is its true meandering course, and drawn at the invented
+      // map's width every bend runs into the next like a flood. There it is drawn near its true width: about eighty
+      // metres for a river and a few metres for a creek, never thinner than a readable line.
+      const trueWidth = world.map?.source ? Math.max(feature.kind === 'river' ? 2.2 : 1.1, (feature.kind === 'river' ? 0.05 : 0.012) * camera.scale) : null;
+      ctx.strokeStyle = style.stroke; ctx.lineWidth = trueWidth ?? Math.max(1.5, Math.min(26, style.width * camera.scale * .55));
       ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke();
       continue;
     }

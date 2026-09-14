@@ -1,0 +1,60 @@
+{
+  "record": "Places and roads on the real map: build step 1 of docs/COLONIES.md",
+  "date": "2026-09-14",
+  "verdict": "PASS",
+  "verdictMeaning": "The settlements, Gonzales's ford and Castañeda's camp, and 26 roads stand on the real terrain; no road crosses a big river except at a crossing on it; every town is reachable from Gonzales by road; a class made on this map places its families near Gonzales, plays the Gonzales chapter to its documented end, and survives save and reload. Classes made without the option are unchanged.",
+  "build": {
+    "command": "node --max-old-space-size=8192 scripts/build-colonies-map.mjs",
+    "seconds": 8,
+    "output": "public/terrain/colonies-map.json.gz: 23 places, 26 roads, 418 watercourses, 0.52 MB JSON",
+    "measured": {
+      "Gonzales-Bexar road miles": 68.7,
+      "Gonzales-Colorado crossing": 49.8,
+      "Colorado crossing-San Felipe": 50.5,
+      "camp river miles above ford": 7.09,
+      "confluence to town miles": 1.33
+    },
+    "dataLessons": [
+      "A river's line breaks at modern dams (Guadalupe at New Braunfels, Colorado at Austin): the bank check first found Gonzales on Béxar's side. Loose ends within a mile are joined.",
+      "A river entering from beyond the map starts half a mile inside its edge: carried to the edge.",
+      "The elevation has bays at sea level, not as no-data: the land could be walked round the Guadalupe's mouth across San Antonio Bay. Under a metre is water for the bank check; under 30 cm for roads, which otherwise could not reach the low coastal prairie; the sea is cleared round coastal towns such as Velasco.",
+      "The Colorado at Matagorda is drawn as two channels half a mile apart: the road to Victoria went 162 miles round by Columbus until crossings opened 0.6 miles.",
+      "NHD heights at an eighth of a mile cannot tell upstream from downstream; the walk to the camp follows the flowlines' own digitising direction."
+    ]
+  },
+  "roadsAddedOnEvidence": [
+    "Matagorda to Victoria through the Lavaca country: without it Matagorda was 198 road miles from Gonzales for 105 as the crow flies; Matagorda's volunteers were sent west to Kerr's on the Lavaca (HIST-TEX-006).",
+    "Mina to Gonzales: without it Mina was 183 road miles for 43; Colorado men fought at Gonzales (HIST-TEX-007)."
+  ],
+  "worlds": "Colonies worlds built for 5, 10, 15, 20 and 30 families over 20 seeds each: 100 of 100, 3.6 s in all. A first version failed where a house stood in a bend of the Guadalupe with no road reachable without crossing it, and where rounding moved a house across a bend; placement now refuses such spots at the stored position.",
+  "liveBrowserProof": {
+    "note": "Same computer only. MAP=colonies PORT=8753 SEED=colonies-proof PLAYERS=5; one student in the browser pane. The pane was 280 x 235, so the map canvas was enlarged off-screen and its crops shown filling the pane for screenshots.",
+    "observed": [
+      "The page loaded the class with map.source texas-colonies-map and 32 sites, and no fault.",
+      "At about 200 pixels a mile: the real meandering Guadalupe and San Marcos, roads, the town and homesteads drawn.",
+      "Zoomed out (about 73 pixels a mile): the rivers first drew as broad blue bands, the meanders running together; fixed to near true width on the real map, after which thin meandering rivers with timber along them and the roads between settlements drew.",
+      "A later close-up capture did not refresh and is not relied on."
+    ]
+  },
+  "automated": {
+    "suites": {
+      "tests/colonies-map.test.mjs": 4,
+      "tests/colonies-world.test.mjs": 5
+    },
+    "wholeSuite": "327 pass, 2 fail (the art inventory, on an untracked people-cast2-idle.png delivered to disk during the session; not this change)",
+    "injectedRegressions": [
+      "roads wade the big rivers -> crossing test",
+      "the ford on the San Marcos -> crossing test and ford/camp test",
+      "the camp on the town's own bank -> ford/camp test",
+      "the camp three miles upriver -> ford/camp test",
+      "Liberty a mile off its coordinates -> coordinates test (a twelve-mile shift was stopped earlier by the build's own guard)",
+      "no road from Mina to Gonzales -> reachability test",
+      "the map option ignored -> real-places test and homes test",
+      "tracks that wade the rivers -> homes test",
+      "rivers saved as creeks -> real-places test",
+      "families anywhere in the colonies -> homes test and save test",
+      "no road to the camp -> the ride-to-the-camp test (the chapter test passed without it: the bots never march upriver, so the ride test was added)"
+    ]
+  },
+  "notRun": "Playwright: not installed here. No LAN or district claim."
+}

@@ -25,9 +25,9 @@ export function extractMetrics(world) {
   };
 }
 // Private developer harness: no bots or omniscient inspection endpoints on the classroom server.
-export function runScenario({ seed = 'gonzales-1835', playerCount = 5, strategy = 'mixed', maxTicks = 1000 } = {}) {
+export function runScenario({ seed = 'gonzales-1835', playerCount = 5, strategy = 'mixed', maxTicks = 1000, map = 'gonzales' } = {}) {
   if (!['mixed', 'help', 'stay', 'idle'].includes(strategy)) throw new Error('Unknown bot strategy');
-  const world = createGonzalesWorld(seed, playerCount); world.status = 'running';
+  const world = createGonzalesWorld(seed, playerCount, { map }); world.status = 'running';
   const inputs = [];
   while (world.status === 'running' && world.tick < maxTicks) {
     stepWorld(world);
