@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **443 usable sprites, 30 PNG atlases, 169 clips** (92 pose cycles; 4 layered rigs).
+Generated from the shipped library: **583 usable sprites, 40 PNG atlases, 250 clips** (113 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -10,6 +10,16 @@ These are reusable prototype pieces, not completed later scenarios. Static build
 
 | Atlas | Frames | Size | PNG bytes |
 | --- | ---: | --- | ---: |
+| people-cast2-idle | 16 | 1254 × 1254 | 1103935 |
+| people-children-idle | 16 | 1254 × 1254 | 1351105 |
+| people-children-walk | 12 | 1254 × 1254 | 1127437 |
+| people-children-care | 12 | 1254 × 1254 | 1425070 |
+| courier-dismount | 16 | 1254 × 1254 | 1219584 |
+| courier-encounters-vertical | 16 | 1254 × 1254 | 1034014 |
+| people-dialogue | 16 | 1254 × 1254 | 1237850 |
+| houses-settling | 16 | 1254 × 1254 | 1507240 |
+| home-furnishings | 16 | 1254 × 1254 | 1795581 |
+| home-interiors | 4 | 1254 × 1254 | 1850877 |
 | courier-encounters | 16 | 1254 × 1254 | 1697901 |
 | alamo-facades | 4 | 1254 × 1254 | 1715808 |
 | alamo-interiors | 16 | 1254 × 1254 | 1988444 |
@@ -45,6 +55,146 @@ These are reusable prototype pieces, not completed later scenarios. Static build
 
 | Sprite ID | Atlas | Animation clips |
 | --- | --- | --- |
+| rust-woman-idle-s | people-cast2-idle | rust-woman-idle-s |
+| rust-woman-idle-e | people-cast2-idle | rust-woman-idle-e |
+| rust-woman-idle-w | people-cast2-idle | rust-woman-idle-w |
+| rust-woman-idle-n | people-cast2-idle | rust-woman-idle-n |
+| indigo-idle-s | people-cast2-idle | indigo-idle-s |
+| indigo-idle-e | people-cast2-idle | indigo-idle-e |
+| indigo-idle-w | people-cast2-idle | indigo-idle-w |
+| indigo-idle-n | people-cast2-idle | indigo-idle-n |
+| ochre-idle-s | people-cast2-idle | ochre-idle-s |
+| ochre-idle-e | people-cast2-idle | ochre-idle-e |
+| ochre-idle-w | people-cast2-idle | ochre-idle-w |
+| ochre-idle-n | people-cast2-idle | ochre-idle-n |
+| blue-girl-idle-s | people-cast2-idle | blue-girl-idle-s |
+| blue-girl-idle-e | people-cast2-idle | blue-girl-idle-e |
+| blue-girl-idle-w | people-cast2-idle | blue-girl-idle-w |
+| blue-girl-idle-n | people-cast2-idle | blue-girl-idle-n |
+| girl-idle-s | people-children-idle | girl-idle-s |
+| girl-idle-e | people-children-idle | girl-idle-e |
+| girl-idle-w | people-children-idle | girl-idle-w |
+| girl-idle-n | people-children-idle | girl-idle-n |
+| boy-idle-s | people-children-idle | boy-idle-s |
+| boy-idle-e | people-children-idle | boy-idle-e |
+| boy-idle-w | people-children-idle | boy-idle-w |
+| boy-idle-n | people-children-idle | boy-idle-n |
+| smallchild-idle-s | people-children-idle | smallchild-idle-s |
+| smallchild-idle-e | people-children-idle | smallchild-idle-e |
+| smallchild-idle-w | people-children-idle | smallchild-idle-w |
+| smallchild-idle-n | people-children-idle | smallchild-idle-n |
+| infant-awake | people-children-idle | infant-idle-s |
+| infant-asleep | people-children-idle | infant-rest |
+| infant-idle-w | people-children-idle | infant-idle-w |
+| infant-idle-e | people-children-idle | infant-idle-e |
+| girl-walk-1 | people-children-walk | girl-walk |
+| girl-walk-2 | people-children-walk | girl-walk |
+| girl-walk-3 | people-children-walk | girl-walk |
+| girl-walk-4 | people-children-walk | girl-walk |
+| boy-walk-1 | people-children-walk | boy-walk |
+| boy-walk-2 | people-children-walk | boy-walk |
+| boy-walk-3 | people-children-walk | boy-walk |
+| boy-walk-4 | people-children-walk | boy-walk |
+| smallchild-walk-1 | people-children-walk | smallchild-walk |
+| smallchild-walk-2 | people-children-walk | smallchild-walk |
+| smallchild-walk-3 | people-children-walk | smallchild-walk |
+| smallchild-walk-4 | people-children-walk | smallchild-walk |
+| girl-rest-s-pose | people-children-care | girl-rest, girl-rest-s |
+| girl-rest-e-pose | people-children-care | girl-rest-e |
+| girl-injured-s-pose | people-children-care | girl-injured-rest, girl-injured-rest-s |
+| girl-injured-e-pose | people-children-care | girl-injured-rest-e |
+| boy-rest-s-pose | people-children-care | boy-rest, boy-rest-s |
+| boy-rest-e-pose | people-children-care | boy-rest-e |
+| boy-injured-s-pose | people-children-care | boy-injured-rest, boy-injured-rest-s |
+| boy-injured-e-pose | people-children-care | boy-injured-rest-e |
+| smallchild-rest-s-pose | people-children-care | smallchild-rest, smallchild-rest-s |
+| smallchild-rest-e-pose | people-children-care | smallchild-rest-e |
+| smallchild-injured-s-pose | people-children-care | smallchild-injured-rest, smallchild-injured-rest-s |
+| smallchild-injured-e-pose | people-children-care | smallchild-injured-rest-e |
+| courier-dismount-1 | courier-dismount | courier-dismount |
+| courier-dismount-2 | courier-dismount | courier-dismount |
+| courier-dismount-3 | courier-dismount | courier-dismount |
+| courier-dismount-4 | courier-dismount | courier-dismount |
+| courier-remount-1 | courier-dismount | courier-remount |
+| courier-remount-2 | courier-dismount | courier-remount |
+| courier-remount-3 | courier-dismount | courier-remount |
+| courier-remount-4 | courier-dismount | courier-remount |
+| courier-onfoot-1 | courier-dismount | courier-onfoot-listen, courier-onfoot-idle |
+| courier-onfoot-2 | courier-dismount | courier-onfoot-listen |
+| courier-onfoot-3 | courier-dismount | courier-onfoot-speak |
+| courier-onfoot-4 | courier-dismount | courier-onfoot-speak |
+| courier-horse-wait-1 | courier-dismount | courier-horse-wait |
+| courier-horse-wait-2 | courier-dismount | courier-horse-wait |
+| courier-horse-wait-3 | courier-dismount | courier-horse-wait |
+| courier-horse-wait-4 | courier-dismount | courier-horse-wait |
+| mounted-courier-listen-s-1 | courier-encounters-vertical | mounted-courier-listen-s |
+| mounted-courier-listen-s-2 | courier-encounters-vertical | mounted-courier-listen-s |
+| mounted-courier-listen-s-3 | courier-encounters-vertical | mounted-courier-listen-s |
+| mounted-courier-listen-s-4 | courier-encounters-vertical | mounted-courier-listen-s |
+| mounted-courier-speak-s-1 | courier-encounters-vertical | mounted-courier-speak-s |
+| mounted-courier-speak-s-2 | courier-encounters-vertical | mounted-courier-speak-s |
+| mounted-courier-speak-s-3 | courier-encounters-vertical | mounted-courier-speak-s |
+| mounted-courier-speak-s-4 | courier-encounters-vertical | mounted-courier-speak-s |
+| mounted-courier-listen-n-1 | courier-encounters-vertical | mounted-courier-listen-n |
+| mounted-courier-listen-n-2 | courier-encounters-vertical | mounted-courier-listen-n |
+| mounted-courier-listen-n-3 | courier-encounters-vertical | mounted-courier-listen-n |
+| mounted-courier-listen-n-4 | courier-encounters-vertical | mounted-courier-listen-n |
+| mounted-courier-speak-n-1 | courier-encounters-vertical | mounted-courier-speak-n |
+| mounted-courier-speak-n-2 | courier-encounters-vertical | mounted-courier-speak-n |
+| mounted-courier-speak-n-3 | courier-encounters-vertical | mounted-courier-speak-n |
+| mounted-courier-speak-n-4 | courier-encounters-vertical | mounted-courier-speak-n |
+| rust-speak-e-1 | people-dialogue | rust-speak-e, rust-speak |
+| rust-speak-e-2 | people-dialogue | rust-speak-e, rust-speak |
+| rust-listen-s-pose | people-dialogue | rust-listen-s |
+| rust-listen-n-pose | people-dialogue | rust-listen-n |
+| teal-speak-e-1 | people-dialogue | teal-speak-e, teal-speak |
+| teal-speak-e-2 | people-dialogue | teal-speak-e, teal-speak |
+| teal-listen-s-pose | people-dialogue | teal-listen-s |
+| teal-listen-n-pose | people-dialogue | teal-listen-n |
+| elder-speak-e-1 | people-dialogue | elder-speak-e, elder-speak |
+| elder-speak-e-2 | people-dialogue | elder-speak-e, elder-speak |
+| elder-listen-s-pose | people-dialogue | elder-listen-s |
+| elder-listen-n-pose | people-dialogue | elder-listen-n |
+| blue-speak-e-1 | people-dialogue | blue-speak-e, blue-speak |
+| blue-speak-e-2 | people-dialogue | blue-speak-e, blue-speak |
+| blue-listen-s-pose | people-dialogue | blue-listen-s |
+| blue-listen-n-pose | people-dialogue | blue-listen-n |
+| house-round-log-site | houses-settling | State artwork; no motion required |
+| house-round-log-walls | houses-settling | State artwork; no motion required |
+| house-round-log-roofing | houses-settling | State artwork; no motion required |
+| house-round-log | houses-settling | State artwork; no motion required |
+| house-hewn-log-site | houses-settling | State artwork; no motion required |
+| house-hewn-log-walls | houses-settling | State artwork; no motion required |
+| house-hewn-log-roofing | houses-settling | State artwork; no motion required |
+| house-hewn-log | houses-settling | State artwork; no motion required |
+| house-dog-run-site | houses-settling | State artwork; no motion required |
+| house-dog-run-walls | houses-settling | State artwork; no motion required |
+| house-dog-run-roofing | houses-settling | State artwork; no motion required |
+| house-dog-run | houses-settling | State artwork; no motion required |
+| house-jacal-site | houses-settling | State artwork; no motion required |
+| house-jacal-walls | houses-settling | State artwork; no motion required |
+| house-jacal-roofing | houses-settling | State artwork; no motion required |
+| house-jacal | houses-settling | State artwork; no motion required |
+| home-table | home-furnishings | State artwork; no motion required |
+| home-bench | home-furnishings | State artwork; no motion required |
+| home-bedstead | home-furnishings | State artwork; no motion required |
+| home-shelves | home-furnishings | State artwork; no motion required |
+| home-cradle | home-furnishings | home-cradle-rock |
+| home-bedding | home-furnishings | State artwork; no motion required |
+| home-iron-pot | home-furnishings | State artwork; no motion required |
+| home-chest | home-furnishings | home-chest-opening |
+| home-spinning-wheel | home-furnishings | State artwork; no motion required |
+| home-books | home-furnishings | State artwork; no motion required |
+| home-mosquito-bars | home-furnishings | State artwork; no motion required |
+| home-tinware | home-furnishings | State artwork; no motion required |
+| home-chair-packed | home-furnishings | State artwork; no motion required |
+| home-chair | home-furnishings | State artwork; no motion required |
+| home-chest-open | home-furnishings | home-chest-opening |
+| home-stool | home-furnishings | State artwork; no motion required |
+| interior-round-log | home-interiors | State artwork; no motion required |
+| interior-hewn-log | home-interiors | State artwork; no motion required |
+| interior-dog-run | home-interiors | State artwork; no motion required |
+| interior-jacal | home-interiors | State artwork; no motion required |
 | mounted-courier-listen-1 | courier-encounters | mounted-courier-listen |
 | mounted-courier-listen-2 | courier-encounters | mounted-courier-listen |
 | mounted-courier-listen-3 | courier-encounters | mounted-courier-listen |
@@ -493,6 +643,87 @@ These are reusable prototype pieces, not completed later scenarios. Static build
 
 | Clip | Method | Frames | Duration (ms) | Loop | Direction |
 | --- | --- | ---: | ---: | --- | --- |
+| rust-woman-idle-s | breathe | 1 | 2200 | yes | south |
+| rust-woman-idle-w | breathe | 1 | 2200 | yes | west |
+| rust-woman-idle-e | breathe | 1 | 2200 | yes | east |
+| rust-woman-idle-n | breathe | 1 | 2200 | yes | north |
+| indigo-idle-s | breathe | 1 | 2200 | yes | south |
+| indigo-idle-w | breathe | 1 | 2200 | yes | west |
+| indigo-idle-e | breathe | 1 | 2200 | yes | east |
+| indigo-idle-n | breathe | 1 | 2200 | yes | north |
+| ochre-idle-s | breathe | 1 | 2200 | yes | south |
+| ochre-idle-w | breathe | 1 | 2200 | yes | west |
+| ochre-idle-e | breathe | 1 | 2200 | yes | east |
+| ochre-idle-n | breathe | 1 | 2200 | yes | north |
+| blue-girl-idle-s | breathe | 1 | 2200 | yes | south |
+| blue-girl-idle-w | breathe | 1 | 2200 | yes | west |
+| blue-girl-idle-e | breathe | 1 | 2200 | yes | east |
+| blue-girl-idle-n | breathe | 1 | 2200 | yes | north |
+| girl-idle-s | breathe | 1 | 2200 | yes | south |
+| girl-idle-e | breathe | 1 | 2200 | yes | east |
+| girl-idle-w | breathe | 1 | 2200 | yes | west |
+| girl-idle-n | breathe | 1 | 2200 | yes | north |
+| girl-walk | Pose cycle | 4 | 720 | yes | east; west by mirroring |
+| girl-rest | breathe | 1 | 2500 | yes | south |
+| girl-rest-s | breathe | 1 | 2500 | yes | south |
+| girl-rest-e | breathe | 1 | 2500 | yes | east; west by mirroring |
+| girl-injured-rest | breathe | 1 | 3000 | yes | south |
+| girl-injured-rest-s | breathe | 1 | 3000 | yes | south |
+| girl-injured-rest-e | breathe | 1 | 3000 | yes | east; west by mirroring |
+| boy-idle-s | breathe | 1 | 2200 | yes | south |
+| boy-idle-e | breathe | 1 | 2200 | yes | east |
+| boy-idle-w | breathe | 1 | 2200 | yes | west |
+| boy-idle-n | breathe | 1 | 2200 | yes | north |
+| boy-walk | Pose cycle | 4 | 720 | yes | east; west by mirroring |
+| boy-rest | breathe | 1 | 2500 | yes | south |
+| boy-rest-s | breathe | 1 | 2500 | yes | south |
+| boy-rest-e | breathe | 1 | 2500 | yes | east; west by mirroring |
+| boy-injured-rest | breathe | 1 | 3000 | yes | south |
+| boy-injured-rest-s | breathe | 1 | 3000 | yes | south |
+| boy-injured-rest-e | breathe | 1 | 3000 | yes | east; west by mirroring |
+| smallchild-idle-s | breathe | 1 | 2200 | yes | south |
+| smallchild-idle-e | breathe | 1 | 2200 | yes | east |
+| smallchild-idle-w | breathe | 1 | 2200 | yes | west |
+| smallchild-idle-n | breathe | 1 | 2200 | yes | north |
+| smallchild-walk | Pose cycle | 4 | 720 | yes | east; west by mirroring |
+| smallchild-rest | breathe | 1 | 2500 | yes | south |
+| smallchild-rest-s | breathe | 1 | 2500 | yes | south |
+| smallchild-rest-e | breathe | 1 | 2500 | yes | east; west by mirroring |
+| smallchild-injured-rest | breathe | 1 | 3000 | yes | south |
+| smallchild-injured-rest-s | breathe | 1 | 3000 | yes | south |
+| smallchild-injured-rest-e | breathe | 1 | 3000 | yes | east; west by mirroring |
+| infant-idle-s | breathe | 1 | 3000 | yes | south |
+| infant-rest | breathe | 1 | 3000 | yes | south |
+| infant-idle-w | breathe | 1 | 3000 | yes | west |
+| infant-idle-e | breathe | 1 | 3000 | yes | east |
+| courier-dismount | Pose cycle | 4 | 2050 | one-shot | east; west by mirroring |
+| courier-remount | Pose cycle | 4 | 2050 | one-shot | east; west by mirroring |
+| courier-onfoot-listen | Pose cycle | 3 | 2050 | yes | east; west by mirroring |
+| courier-onfoot-speak | Pose cycle | 2 | 1350 | yes | east; west by mirroring |
+| courier-onfoot-idle | breathe | 1 | 2200 | yes | east; west by mirroring |
+| courier-horse-wait | Pose cycle | 4 | 3800 | yes | east; west by mirroring |
+| mounted-courier-listen-s | Pose cycle | 4 | 2500 | yes | south |
+| mounted-courier-speak-s | Pose cycle | 4 | 2500 | yes | south |
+| mounted-courier-listen-n | Pose cycle | 4 | 2500 | yes | north |
+| mounted-courier-speak-n | Pose cycle | 4 | 2500 | yes | north |
+| rust-speak-e | Pose cycle | 2 | 1400 | yes | east; west by mirroring |
+| rust-speak | Pose cycle | 2 | 1400 | yes | east; west by mirroring |
+| rust-listen-s | breathe | 1 | 2200 | yes | south |
+| rust-listen-n | breathe | 1 | 2200 | yes | north |
+| teal-speak-e | Pose cycle | 2 | 1400 | yes | east; west by mirroring |
+| teal-speak | Pose cycle | 2 | 1400 | yes | east; west by mirroring |
+| teal-listen-s | breathe | 1 | 2200 | yes | south |
+| teal-listen-n | breathe | 1 | 2200 | yes | north |
+| elder-speak-e | Pose cycle | 2 | 1400 | yes | east; west by mirroring |
+| elder-speak | Pose cycle | 2 | 1400 | yes | east; west by mirroring |
+| elder-listen-s | breathe | 1 | 2200 | yes | south |
+| elder-listen-n | breathe | 1 | 2200 | yes | north |
+| blue-speak-e | Pose cycle | 2 | 1400 | yes | east; west by mirroring |
+| blue-speak | Pose cycle | 2 | 1400 | yes | east; west by mirroring |
+| blue-listen-s | breathe | 1 | 2200 | yes | south |
+| blue-listen-n | breathe | 1 | 2200 | yes | north |
+| home-chest-opening | Pose cycle | 2 | 1000 | one-shot | east; west by mirroring |
+| home-cradle-rock | rock | 1 | 2000 | yes | east; west by mirroring |
 | mounted-courier-listen | Pose cycle | 4 | 1600 | yes | east; west by mirroring |
 | mounted-courier-speak | Pose cycle | 4 | 1600 | yes | east; west by mirroring |
 | mounted-courier-letter | Pose cycle | 4 | 1600 | one-shot | east; west by mirroring |

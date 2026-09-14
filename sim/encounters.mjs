@@ -612,7 +612,10 @@ export function facingOf(world, carrier) {
   if (!listener) return null;
   const said = encounter.said.at(-1);
   return {
-    facing: listener.location.x < carrier.location.x ? 'w' : 'e',
+    // Turned toward the listener: north or south when they are mostly above or below, since there is art for it.
+    facing: Math.abs(listener.location.y - carrier.location.y) > Math.abs(listener.location.x - carrier.location.x) * 1.2
+      ? (listener.location.y < carrier.location.y ? 'n' : 's')
+      : listener.location.x < carrier.location.x ? 'w' : 'e',
     speaking: said?.speaker === 'rider' && world.minute - said.minute < SPEAKING_MINUTES,
   };
 }

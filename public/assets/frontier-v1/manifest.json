@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 30,
-    "sprites": 443,
-    "clips": 169,
-    "poseCycles": 92,
+    "sheets": 40,
+    "sprites": 583,
+    "clips": 250,
+    "poseCycles": 113,
     "rigs": 4
   },
   "entrypoints": {
@@ -26,6 +26,1135 @@
     "authority": "Rendering never changes world state. No frame callbacks cause outcomes. Purge concealed actors; snap across time jumps. Buildings stay still."
   },
   "sheets": {
+    "people-cast2-idle": {
+      "image": "atlases/people-cast2-idle.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1103935,
+      "sha256": "4649072de2069692c45986b7968b8a7bb05cb079088cd0873c6deb4389c80749",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.680406,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              9,
+              335
+            ],
+            "columns": [
+              [
+                173,
+                336
+              ],
+              [
+                442,
+                584
+              ],
+              [
+                693,
+                829
+              ],
+              [
+                924,
+                1086
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              341,
+              669
+            ],
+            "columns": [
+              [
+                171,
+                341
+              ],
+              [
+                437,
+                588
+              ],
+              [
+                684,
+                835
+              ],
+              [
+                924,
+                1088
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              673,
+              993
+            ],
+            "columns": [
+              [
+                175,
+                334
+              ],
+              [
+                463,
+                569
+              ],
+              [
+                700,
+                809
+              ],
+              [
+                924,
+                1087
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              995,
+              1249
+            ],
+            "columns": [
+              [
+                190,
+                319
+              ],
+              [
+                455,
+                570
+              ],
+              [
+                698,
+                814
+              ],
+              [
+                941,
+                1069
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "people-children-idle": {
+      "image": "atlases/people-children-idle.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1351105,
+      "sha256": "65cb7b24dd2dffb7fdc85c7bc208f062dcc6415214acdbeef8f1ba74d8de4fdf",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.648835,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              10,
+              358
+            ],
+            "columns": [
+              [
+                127,
+                292
+              ],
+              [
+                440,
+                582
+              ],
+              [
+                700,
+                840
+              ],
+              [
+                990,
+                1156
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              366,
+              724
+            ],
+            "columns": [
+              [
+                125,
+                286
+              ],
+              [
+                447,
+                580
+              ],
+              [
+                705,
+                828
+              ],
+              [
+                998,
+                1155
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              734,
+              1033
+            ],
+            "columns": [
+              [
+                136,
+                276
+              ],
+              [
+                441,
+                573
+              ],
+              [
+                706,
+                831
+              ],
+              [
+                1002,
+                1140
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              1040,
+              1237
+            ],
+            "columns": [
+              [
+                117,
+                289
+              ],
+              [
+                413,
+                585
+              ],
+              [
+                649,
+                903
+              ],
+              [
+                951,
+                1200
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "people-children-walk": {
+      "image": "atlases/people-children-walk.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1127437,
+      "sha256": "1c9411db4dae238c94794e5a00f723bd86d293b0ab559eb792c4c89e4bc345d3",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.716227,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              18,
+              362
+            ],
+            "columns": [
+              [
+                128,
+                317
+              ],
+              [
+                426,
+                604
+              ],
+              [
+                694,
+                881
+              ],
+              [
+                991,
+                1173
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              374,
+              719
+            ],
+            "columns": [
+              [
+                130,
+                317
+              ],
+              [
+                441,
+                605
+              ],
+              [
+                701,
+                884
+              ],
+              [
+                1005,
+                1178
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              735,
+              1021
+            ],
+            "columns": [
+              [
+                135,
+                324
+              ],
+              [
+                437,
+                598
+              ],
+              [
+                713,
+                878
+              ],
+              [
+                1003,
+                1182
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [],
+            "columns": []
+          }
+        ]
+      }
+    },
+    "people-children-care": {
+      "image": "atlases/people-children-care.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1425070,
+      "sha256": "3c9c16468d838e0ba99b83afae6ebbca93e26bb56df9dc9c7b332f425a75a4c1",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.627158,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              63,
+              406
+            ],
+            "columns": [
+              [
+                25,
+                270
+              ],
+              [
+                348,
+                584
+              ],
+              [
+                627,
+                861
+              ],
+              [
+                911,
+                1242
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              446,
+              803
+            ],
+            "columns": [
+              [
+                31,
+                265
+              ],
+              [
+                364,
+                600
+              ],
+              [
+                657,
+                851
+              ],
+              [
+                928,
+                1242
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              842,
+              1163
+            ],
+            "columns": [
+              [
+                39,
+                260
+              ],
+              [
+                362,
+                550
+              ],
+              [
+                631,
+                861
+              ],
+              [
+                950,
+                1243
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "courier-dismount": {
+      "image": "atlases/courier-dismount.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1219584,
+      "sha256": "bc96d14c13fa740242352b12e8ffc0091be85076a24a146030546a5c49e2296d",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.677142,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              52,
+              299
+            ],
+            "columns": [
+              [
+                39,
+                301
+              ],
+              [
+                353,
+                617
+              ],
+              [
+                657,
+                918
+              ],
+              [
+                970,
+                1228
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              366,
+              609
+            ],
+            "columns": [
+              [
+                36,
+                302
+              ],
+              [
+                350,
+                620
+              ],
+              [
+                655,
+                926
+              ],
+              [
+                968,
+                1233
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              706,
+              922
+            ],
+            "columns": [
+              [
+                38,
+                304
+              ],
+              [
+                352,
+                619
+              ],
+              [
+                655,
+                923
+              ],
+              [
+                968,
+                1231
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              992,
+              1194
+            ],
+            "columns": [
+              [
+                37,
+                300
+              ],
+              [
+                351,
+                610
+              ],
+              [
+                656,
+                917
+              ],
+              [
+                952,
+                1231
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "courier-encounters-vertical": {
+      "image": "atlases/courier-encounters-vertical.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1034014,
+      "sha256": "01543aa1aecba37321b323d8df036c3350e239f70a0ade392bf99c60de347e66",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.725278,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              15,
+              313
+            ],
+            "columns": [
+              [
+                129,
+                269
+              ],
+              [
+                426,
+                566
+              ],
+              [
+                725,
+                863
+              ],
+              [
+                1016,
+                1154
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              324,
+              624
+            ],
+            "columns": [
+              [
+                128,
+                269
+              ],
+              [
+                426,
+                565
+              ],
+              [
+                724,
+                886
+              ],
+              [
+                1014,
+                1154
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              638,
+              928
+            ],
+            "columns": [
+              [
+                130,
+                271
+              ],
+              [
+                425,
+                566
+              ],
+              [
+                722,
+                865
+              ],
+              [
+                1012,
+                1157
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              942,
+              1235
+            ],
+            "columns": [
+              [
+                129,
+                269
+              ],
+              [
+                426,
+                567
+              ],
+              [
+                721,
+                888
+              ],
+              [
+                1013,
+                1158
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "people-dialogue": {
+      "image": "atlases/people-dialogue.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1237850,
+      "sha256": "5f25a17862d4d8ee845c64a77fc9acf4d921ec7c0e17842080468eb285ce4d03",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.663723,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              8,
+              328
+            ],
+            "columns": [
+              [
+                161,
+                334
+              ],
+              [
+                424,
+                616
+              ],
+              [
+                698,
+                853
+              ],
+              [
+                984,
+                1128
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              333,
+              646
+            ],
+            "columns": [
+              [
+                142,
+                322
+              ],
+              [
+                412,
+                614
+              ],
+              [
+                687,
+                859
+              ],
+              [
+                979,
+                1140
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              645,
+              964
+            ],
+            "columns": [
+              [
+                156,
+                333
+              ],
+              [
+                429,
+                623
+              ],
+              [
+                697,
+                846
+              ],
+              [
+                980,
+                1134
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              962,
+              1250
+            ],
+            "columns": [
+              [
+                164,
+                318
+              ],
+              [
+                442,
+                605
+              ],
+              [
+                712,
+                836
+              ],
+              [
+                993,
+                1121
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "houses-settling": {
+      "image": "atlases/houses-settling.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1507240,
+      "sha256": "580be32e8c382849496c06e4fb410c7636d9560f9f51020d39e532e7958df655",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.589369,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              119,
+              359
+            ],
+            "columns": [
+              [
+                23,
+                289
+              ],
+              [
+                333,
+                616
+              ],
+              [
+                636,
+                927
+              ],
+              [
+                951,
+                1236
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              409,
+              657
+            ],
+            "columns": [
+              [
+                24,
+                294
+              ],
+              [
+                331,
+                613
+              ],
+              [
+                636,
+                925
+              ],
+              [
+                952,
+                1236
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              711,
+              917
+            ],
+            "columns": [
+              [
+                18,
+                317
+              ],
+              [
+                326,
+                616
+              ],
+              [
+                623,
+                930
+              ],
+              [
+                934,
+                1245
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              1033,
+              1199
+            ],
+            "columns": [
+              [
+                25,
+                299
+              ],
+              [
+                330,
+                613
+              ],
+              [
+                641,
+                922
+              ],
+              [
+                953,
+                1232
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "home-furnishings": {
+      "image": "atlases/home-furnishings.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1795581,
+      "sha256": "aaab5a195b4fc687cff8bb9371f8ab446971baafdcb8da99ff60cbef68b631aa",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.558518,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              24,
+              303
+            ],
+            "columns": [
+              [
+                12,
+                319
+              ],
+              [
+                338,
+                613
+              ],
+              [
+                643,
+                942
+              ],
+              [
+                990,
+                1230
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              339,
+              597
+            ],
+            "columns": [
+              [
+                17,
+                311
+              ],
+              [
+                330,
+                625
+              ],
+              [
+                674,
+                889
+              ],
+              [
+                944,
+                1239
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              632,
+              917
+            ],
+            "columns": [
+              [
+                40,
+                294
+              ],
+              [
+                344,
+                609
+              ],
+              [
+                643,
+                919
+              ],
+              [
+                953,
+                1218
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              925,
+              1232
+            ],
+            "columns": [
+              [
+                23,
+                297
+              ],
+              [
+                369,
+                571
+              ],
+              [
+                643,
+                928
+              ],
+              [
+                974,
+                1218
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "home-interiors": {
+      "image": "atlases/home-interiors.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1850877,
+      "sha256": "397cd12903fb85817925016c03c43289e556260722d56281589252057fb5a3b2",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.520365,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              73,
+              567
+            ],
+            "columns": [
+              [
+                30,
+                597
+              ],
+              [
+                668,
+                1229
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              658,
+              1190
+            ],
+            "columns": [
+              [
+                23,
+                773
+              ],
+              [
+                807,
+                1233
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "courier-encounters": {
       "image": "atlases/courier-encounters.png",
       "width": 1254,
@@ -3550,6 +4679,4836 @@
     }
   },
   "assets": {
+    "rust-woman-idle-s": {
+      "sheet": "people-cast2-idle",
+      "x": 173,
+      "y": 11,
+      "w": 163,
+      "h": 324,
+      "anchorX": 0.4969,
+      "anchorY": 0.9568,
+      "logicalHeight": 326,
+      "label": "rust woman idle s",
+      "kind": "people-cast2-idle",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          175,
+          13,
+          159,
+          320
+        ],
+        "visiblePixels": 36176,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-idle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "rust-woman-idle-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-idle"
+    },
+    "rust-woman-idle-e": {
+      "sheet": "people-cast2-idle",
+      "x": 442,
+      "y": 15,
+      "w": 142,
+      "h": 320,
+      "anchorX": 0.5528,
+      "anchorY": 0.9469,
+      "logicalHeight": 326,
+      "label": "rust woman idle e",
+      "kind": "people-cast2-idle",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          444,
+          17,
+          138,
+          316
+        ],
+        "visiblePixels": 27644,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-idle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "rust-woman-idle-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-idle"
+    },
+    "rust-woman-idle-w": {
+      "sheet": "people-cast2-idle",
+      "x": 693,
+      "y": 17,
+      "w": 136,
+      "h": 318,
+      "anchorX": 0.4118,
+      "anchorY": 0.9371,
+      "logicalHeight": 326,
+      "label": "rust woman idle w",
+      "kind": "people-cast2-idle",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          695,
+          19,
+          132,
+          314
+        ],
+        "visiblePixels": 27187,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-idle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "rust-woman-idle-w"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-idle"
+    },
+    "rust-woman-idle-n": {
+      "sheet": "people-cast2-idle",
+      "x": 924,
+      "y": 9,
+      "w": 162,
+      "h": 326,
+      "anchorX": 0.5031,
+      "anchorY": 0.9448,
+      "logicalHeight": 326,
+      "label": "rust woman idle n",
+      "kind": "people-cast2-idle",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          926,
+          11,
+          158,
+          322
+        ],
+        "visiblePixels": 35726,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-idle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "rust-woman-idle-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-idle"
+    },
+    "indigo-idle-s": {
+      "sheet": "people-cast2-idle",
+      "x": 171,
+      "y": 341,
+      "w": 170,
+      "h": 328,
+      "anchorX": 0.4941,
+      "anchorY": 0.9543,
+      "logicalHeight": 328,
+      "label": "indigo idle s",
+      "kind": "people-cast2-idle",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          173,
+          343,
+          166,
+          324
+        ],
+        "visiblePixels": 37528,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-idle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "indigo-idle-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-idle"
+    },
+    "indigo-idle-e": {
+      "sheet": "people-cast2-idle",
+      "x": 437,
+      "y": 343,
+      "w": 151,
+      "h": 325,
+      "anchorX": 0.5331,
+      "anchorY": 0.96,
+      "logicalHeight": 328,
+      "label": "indigo idle e",
+      "kind": "people-cast2-idle",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          439,
+          345,
+          147,
+          321
+        ],
+        "visiblePixels": 30002,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-idle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "indigo-idle-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-idle"
+    },
+    "indigo-idle-w": {
+      "sheet": "people-cast2-idle",
+      "x": 684,
+      "y": 343,
+      "w": 151,
+      "h": 325,
+      "anchorX": 0.4669,
+      "anchorY": 0.9508,
+      "logicalHeight": 328,
+      "label": "indigo idle w",
+      "kind": "people-cast2-idle",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          686,
+          345,
+          147,
+          321
+        ],
+        "visiblePixels": 29851,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-idle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "indigo-idle-w"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-idle"
+    },
+    "indigo-idle-n": {
+      "sheet": "people-cast2-idle",
+      "x": 924,
+      "y": 343,
+      "w": 164,
+      "h": 325,
+      "anchorX": 0.497,
+      "anchorY": 0.9508,
+      "logicalHeight": 328,
+      "label": "indigo idle n",
+      "kind": "people-cast2-idle",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          926,
+          345,
+          160,
+          321
+        ],
+        "visiblePixels": 35988,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-idle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "indigo-idle-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-idle"
+    },
+    "ochre-idle-s": {
+      "sheet": "people-cast2-idle",
+      "x": 175,
+      "y": 673,
+      "w": 159,
+      "h": 320,
+      "anchorX": 0.4874,
+      "anchorY": 0.9594,
+      "logicalHeight": 320,
+      "label": "ochre idle s",
+      "kind": "people-cast2-idle",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          177,
+          675,
+          155,
+          316
+        ],
+        "visiblePixels": 31346,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-idle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "ochre-idle-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-idle"
+    },
+    "ochre-idle-e": {
+      "sheet": "people-cast2-idle",
+      "x": 463,
+      "y": 673,
+      "w": 106,
+      "h": 320,
+      "anchorX": 0.5283,
+      "anchorY": 0.9281,
+      "logicalHeight": 320,
+      "label": "ochre idle e",
+      "kind": "people-cast2-idle",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          465,
+          675,
+          102,
+          316
+        ],
+        "visiblePixels": 22245,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-idle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "ochre-idle-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-idle"
+    },
+    "ochre-idle-w": {
+      "sheet": "people-cast2-idle",
+      "x": 700,
+      "y": 674,
+      "w": 109,
+      "h": 319,
+      "anchorX": 0.4404,
+      "anchorY": 0.9342,
+      "logicalHeight": 320,
+      "label": "ochre idle w",
+      "kind": "people-cast2-idle",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          702,
+          676,
+          105,
+          315
+        ],
+        "visiblePixels": 22265,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-idle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "ochre-idle-w"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-idle"
+    },
+    "ochre-idle-n": {
+      "sheet": "people-cast2-idle",
+      "x": 924,
+      "y": 674,
+      "w": 163,
+      "h": 319,
+      "anchorX": 0.4939,
+      "anchorY": 0.9404,
+      "logicalHeight": 320,
+      "label": "ochre idle n",
+      "kind": "people-cast2-idle",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          926,
+          676,
+          159,
+          315
+        ],
+        "visiblePixels": 31280,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-idle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "ochre-idle-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-idle"
+    },
+    "blue-girl-idle-s": {
+      "sheet": "people-cast2-idle",
+      "x": 190,
+      "y": 995,
+      "w": 129,
+      "h": 254,
+      "anchorX": 0.5,
+      "anchorY": 0.9567,
+      "logicalHeight": 254,
+      "label": "blue girl idle s",
+      "kind": "people-cast2-idle",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          192,
+          997,
+          125,
+          250
+        ],
+        "visiblePixels": 23440,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-idle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "blue-girl-idle-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-idle"
+    },
+    "blue-girl-idle-e": {
+      "sheet": "people-cast2-idle",
+      "x": 455,
+      "y": 996,
+      "w": 115,
+      "h": 253,
+      "anchorX": 0.5391,
+      "anchorY": 0.9407,
+      "logicalHeight": 254,
+      "label": "blue girl idle e",
+      "kind": "people-cast2-idle",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          457,
+          998,
+          111,
+          249
+        ],
+        "visiblePixels": 19254,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-idle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "blue-girl-idle-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-idle"
+    },
+    "blue-girl-idle-w": {
+      "sheet": "people-cast2-idle",
+      "x": 698,
+      "y": 996,
+      "w": 116,
+      "h": 253,
+      "anchorX": 0.4483,
+      "anchorY": 0.9368,
+      "logicalHeight": 254,
+      "label": "blue girl idle w",
+      "kind": "people-cast2-idle",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          700,
+          998,
+          112,
+          249
+        ],
+        "visiblePixels": 19226,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-idle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "blue-girl-idle-w"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-idle"
+    },
+    "blue-girl-idle-n": {
+      "sheet": "people-cast2-idle",
+      "x": 941,
+      "y": 995,
+      "w": 128,
+      "h": 254,
+      "anchorX": 0.4961,
+      "anchorY": 0.9409,
+      "logicalHeight": 254,
+      "label": "blue girl idle n",
+      "kind": "people-cast2-idle",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          943,
+          997,
+          124,
+          250
+        ],
+        "visiblePixels": 22798,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-idle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "blue-girl-idle-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-idle"
+    },
+    "girl-idle-s": {
+      "sheet": "people-children-idle",
+      "x": 127,
+      "y": 13,
+      "w": 165,
+      "h": 345,
+      "anchorX": 0.497,
+      "anchorY": 0.9536,
+      "logicalHeight": 348,
+      "label": "girl idle s",
+      "kind": "people-children-idle",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          129,
+          15,
+          161,
+          341
+        ],
+        "visiblePixels": 40812,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-idle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "girl-idle-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-idle"
+    },
+    "girl-idle-e": {
+      "sheet": "people-children-idle",
+      "x": 440,
+      "y": 13,
+      "w": 142,
+      "h": 345,
+      "anchorX": 0.5458,
+      "anchorY": 0.9304,
+      "logicalHeight": 348,
+      "label": "girl idle e",
+      "kind": "people-children-idle",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          442,
+          15,
+          138,
+          341
+        ],
+        "visiblePixels": 34106,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-idle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "girl-idle-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-idle"
+    },
+    "girl-idle-w": {
+      "sheet": "people-children-idle",
+      "x": 700,
+      "y": 13,
+      "w": 140,
+      "h": 344,
+      "anchorX": 0.4464,
+      "anchorY": 0.939,
+      "logicalHeight": 348,
+      "label": "girl idle w",
+      "kind": "people-children-idle",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          702,
+          15,
+          136,
+          340
+        ],
+        "visiblePixels": 33921,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-idle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "girl-idle-w"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-idle"
+    },
+    "girl-idle-n": {
+      "sheet": "people-children-idle",
+      "x": 990,
+      "y": 10,
+      "w": 166,
+      "h": 348,
+      "anchorX": 0.5,
+      "anchorY": 0.9339,
+      "logicalHeight": 348,
+      "label": "girl idle n",
+      "kind": "people-children-idle",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          992,
+          12,
+          162,
+          344
+        ],
+        "visiblePixels": 40142,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-idle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "girl-idle-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-idle"
+    },
+    "boy-idle-s": {
+      "sheet": "people-children-idle",
+      "x": 125,
+      "y": 366,
+      "w": 161,
+      "h": 357,
+      "anchorX": 0.5031,
+      "anchorY": 0.958,
+      "logicalHeight": 358,
+      "label": "boy idle s",
+      "kind": "people-children-idle",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          127,
+          368,
+          157,
+          353
+        ],
+        "visiblePixels": 37445,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-idle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "boy-idle-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-idle"
+    },
+    "boy-idle-e": {
+      "sheet": "people-children-idle",
+      "x": 447,
+      "y": 366,
+      "w": 133,
+      "h": 358,
+      "anchorX": 0.5113,
+      "anchorY": 0.9274,
+      "logicalHeight": 358,
+      "label": "boy idle e",
+      "kind": "people-children-idle",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          449,
+          368,
+          129,
+          354
+        ],
+        "visiblePixels": 26827,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-idle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "boy-idle-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-idle"
+    },
+    "boy-idle-w": {
+      "sheet": "people-children-idle",
+      "x": 705,
+      "y": 367,
+      "w": 123,
+      "h": 357,
+      "anchorX": 0.4715,
+      "anchorY": 0.93,
+      "logicalHeight": 358,
+      "label": "boy idle w",
+      "kind": "people-children-idle",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          707,
+          369,
+          119,
+          353
+        ],
+        "visiblePixels": 26329,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-idle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "boy-idle-w"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-idle"
+    },
+    "boy-idle-n": {
+      "sheet": "people-children-idle",
+      "x": 998,
+      "y": 366,
+      "w": 157,
+      "h": 357,
+      "anchorX": 0.4873,
+      "anchorY": 0.9496,
+      "logicalHeight": 358,
+      "label": "boy idle n",
+      "kind": "people-children-idle",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1000,
+          368,
+          153,
+          353
+        ],
+        "visiblePixels": 37150,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-idle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "boy-idle-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-idle"
+    },
+    "smallchild-idle-s": {
+      "sheet": "people-children-idle",
+      "x": 136,
+      "y": 734,
+      "w": 140,
+      "h": 299,
+      "anchorX": 0.4964,
+      "anchorY": 0.9599,
+      "logicalHeight": 299,
+      "label": "smallchild idle s",
+      "kind": "people-children-idle",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          138,
+          736,
+          136,
+          295
+        ],
+        "visiblePixels": 30106,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-idle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "smallchild-idle-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-idle"
+    },
+    "smallchild-idle-e": {
+      "sheet": "people-children-idle",
+      "x": 441,
+      "y": 735,
+      "w": 132,
+      "h": 298,
+      "anchorX": 0.5265,
+      "anchorY": 0.9295,
+      "logicalHeight": 299,
+      "label": "smallchild idle e",
+      "kind": "people-children-idle",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          443,
+          737,
+          128,
+          294
+        ],
+        "visiblePixels": 25244,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-idle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "smallchild-idle-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-idle"
+    },
+    "smallchild-idle-w": {
+      "sheet": "people-children-idle",
+      "x": 706,
+      "y": 736,
+      "w": 125,
+      "h": 296,
+      "anchorX": 0.476,
+      "anchorY": 0.9392,
+      "logicalHeight": 299,
+      "label": "smallchild idle w",
+      "kind": "people-children-idle",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          708,
+          738,
+          121,
+          292
+        ],
+        "visiblePixels": 24709,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-idle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "smallchild-idle-w"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-idle"
+    },
+    "smallchild-idle-n": {
+      "sheet": "people-children-idle",
+      "x": 1002,
+      "y": 734,
+      "w": 138,
+      "h": 299,
+      "anchorX": 0.5036,
+      "anchorY": 0.9398,
+      "logicalHeight": 299,
+      "label": "smallchild idle n",
+      "kind": "people-children-idle",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1004,
+          736,
+          134,
+          295
+        ],
+        "visiblePixels": 29652,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-idle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "smallchild-idle-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-idle"
+    },
+    "infant-awake": {
+      "sheet": "people-children-idle",
+      "x": 117,
+      "y": 1040,
+      "w": 172,
+      "h": 197,
+      "anchorX": 0.4913,
+      "anchorY": 0.9289,
+      "logicalHeight": 197,
+      "label": "infant awake",
+      "kind": "people-children-idle",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          119,
+          1042,
+          168,
+          193
+        ],
+        "visiblePixels": 23854,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-idle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "infant-idle-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-idle"
+    },
+    "infant-asleep": {
+      "sheet": "people-children-idle",
+      "x": 413,
+      "y": 1040,
+      "w": 172,
+      "h": 197,
+      "anchorX": 0.4884,
+      "anchorY": 0.9289,
+      "logicalHeight": 197,
+      "label": "infant asleep",
+      "kind": "people-children-idle",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          415,
+          1042,
+          168,
+          193
+        ],
+        "visiblePixels": 23834,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-idle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "infant-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-idle"
+    },
+    "infant-idle-w": {
+      "sheet": "people-children-idle",
+      "x": 649,
+      "y": 1077,
+      "w": 254,
+      "h": 143,
+      "anchorX": 0.4941,
+      "anchorY": 0.9231,
+      "logicalHeight": 197,
+      "label": "infant idle w",
+      "kind": "people-children-idle",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          651,
+          1079,
+          250,
+          139
+        ],
+        "visiblePixels": 24797,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-idle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "infant-idle-w"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-idle"
+    },
+    "infant-idle-e": {
+      "sheet": "people-children-idle",
+      "x": 951,
+      "y": 1077,
+      "w": 249,
+      "h": 143,
+      "anchorX": 0.4839,
+      "anchorY": 0.9231,
+      "logicalHeight": 197,
+      "label": "infant idle e",
+      "kind": "people-children-idle",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          953,
+          1079,
+          245,
+          139
+        ],
+        "visiblePixels": 24294,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-idle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "infant-idle-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-idle"
+    },
+    "girl-walk-1": {
+      "sheet": "people-children-walk",
+      "x": 128,
+      "y": 18,
+      "w": 189,
+      "h": 341,
+      "anchorX": 0.5238,
+      "anchorY": 0.9296,
+      "logicalHeight": 341,
+      "label": "girl walk 1",
+      "kind": "people-children-walk",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          130,
+          20,
+          185,
+          337
+        ],
+        "visiblePixels": 39249,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "girl-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-walk"
+    },
+    "girl-walk-2": {
+      "sheet": "people-children-walk",
+      "x": 426,
+      "y": 19,
+      "w": 178,
+      "h": 341,
+      "anchorX": 0.4438,
+      "anchorY": 0.9355,
+      "logicalHeight": 341,
+      "label": "girl walk 2",
+      "kind": "people-children-walk",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          428,
+          21,
+          174,
+          337
+        ],
+        "visiblePixels": 36616,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "girl-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-walk"
+    },
+    "girl-walk-3": {
+      "sheet": "people-children-walk",
+      "x": 694,
+      "y": 22,
+      "w": 187,
+      "h": 339,
+      "anchorX": 0.5107,
+      "anchorY": 0.9292,
+      "logicalHeight": 341,
+      "label": "girl walk 3",
+      "kind": "people-children-walk",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          696,
+          24,
+          183,
+          335
+        ],
+        "visiblePixels": 38719,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "girl-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-walk"
+    },
+    "girl-walk-4": {
+      "sheet": "people-children-walk",
+      "x": 991,
+      "y": 22,
+      "w": 182,
+      "h": 340,
+      "anchorX": 0.4725,
+      "anchorY": 0.9294,
+      "logicalHeight": 341,
+      "label": "girl walk 4",
+      "kind": "people-children-walk",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          993,
+          24,
+          178,
+          336
+        ],
+        "visiblePixels": 37389,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "girl-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-walk"
+    },
+    "boy-walk-1": {
+      "sheet": "people-children-walk",
+      "x": 130,
+      "y": 375,
+      "w": 187,
+      "h": 343,
+      "anchorX": 0.5267,
+      "anchorY": 0.9271,
+      "logicalHeight": 345,
+      "label": "boy walk 1",
+      "kind": "people-children-walk",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          132,
+          377,
+          183,
+          339
+        ],
+        "visiblePixels": 35175,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "boy-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-walk"
+    },
+    "boy-walk-2": {
+      "sheet": "people-children-walk",
+      "x": 441,
+      "y": 375,
+      "w": 164,
+      "h": 343,
+      "anchorX": 0.5122,
+      "anchorY": 0.9271,
+      "logicalHeight": 345,
+      "label": "boy walk 2",
+      "kind": "people-children-walk",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          443,
+          377,
+          160,
+          339
+        ],
+        "visiblePixels": 32075,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "boy-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-walk"
+    },
+    "boy-walk-3": {
+      "sheet": "people-children-walk",
+      "x": 701,
+      "y": 374,
+      "w": 183,
+      "h": 345,
+      "anchorX": 0.4973,
+      "anchorY": 0.9275,
+      "logicalHeight": 345,
+      "label": "boy walk 3",
+      "kind": "people-children-walk",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          703,
+          376,
+          179,
+          341
+        ],
+        "visiblePixels": 34467,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "boy-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-walk"
+    },
+    "boy-walk-4": {
+      "sheet": "people-children-walk",
+      "x": 1005,
+      "y": 375,
+      "w": 173,
+      "h": 344,
+      "anchorX": 0.4509,
+      "anchorY": 0.9331,
+      "logicalHeight": 345,
+      "label": "boy walk 4",
+      "kind": "people-children-walk",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1007,
+          377,
+          169,
+          340
+        ],
+        "visiblePixels": 32118,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "boy-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-walk"
+    },
+    "smallchild-walk-1": {
+      "sheet": "people-children-walk",
+      "x": 135,
+      "y": 735,
+      "w": 189,
+      "h": 284,
+      "anchorX": 0.5026,
+      "anchorY": 0.9296,
+      "logicalHeight": 285,
+      "label": "smallchild walk 1",
+      "kind": "people-children-walk",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          137,
+          737,
+          185,
+          280
+        ],
+        "visiblePixels": 30359,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "smallchild-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-walk"
+    },
+    "smallchild-walk-2": {
+      "sheet": "people-children-walk",
+      "x": 437,
+      "y": 736,
+      "w": 161,
+      "h": 285,
+      "anchorX": 0.4441,
+      "anchorY": 0.9298,
+      "logicalHeight": 285,
+      "label": "smallchild walk 2",
+      "kind": "people-children-walk",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          439,
+          738,
+          157,
+          281
+        ],
+        "visiblePixels": 27498,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "smallchild-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-walk"
+    },
+    "smallchild-walk-3": {
+      "sheet": "people-children-walk",
+      "x": 713,
+      "y": 736,
+      "w": 165,
+      "h": 285,
+      "anchorX": 0.4667,
+      "anchorY": 0.9298,
+      "logicalHeight": 285,
+      "label": "smallchild walk 3",
+      "kind": "people-children-walk",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          715,
+          738,
+          161,
+          281
+        ],
+        "visiblePixels": 28363,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "smallchild-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-walk"
+    },
+    "smallchild-walk-4": {
+      "sheet": "people-children-walk",
+      "x": 1003,
+      "y": 737,
+      "w": 179,
+      "h": 284,
+      "anchorX": 0.4581,
+      "anchorY": 0.9331,
+      "logicalHeight": 285,
+      "label": "smallchild walk 4",
+      "kind": "people-children-walk",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1005,
+          739,
+          175,
+          280
+        ],
+        "visiblePixels": 29554,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "smallchild-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-walk"
+    },
+    "girl-rest-s-pose": {
+      "sheet": "people-children-care",
+      "x": 25,
+      "y": 63,
+      "w": 245,
+      "h": 339,
+      "anchorX": 0.5,
+      "anchorY": 0.9292,
+      "logicalHeight": 339,
+      "label": "girl rest s pose",
+      "kind": "people-children-care",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          27,
+          65,
+          241,
+          335
+        ],
+        "visiblePixels": 51082,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-care.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "girl-rest",
+        "girl-rest-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-care"
+    },
+    "girl-rest-e-pose": {
+      "sheet": "people-children-care",
+      "x": 348,
+      "y": 71,
+      "w": 236,
+      "h": 321,
+      "anchorX": 0.4809,
+      "anchorY": 0.9283,
+      "logicalHeight": 339,
+      "label": "girl rest e pose",
+      "kind": "people-children-care",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          350,
+          73,
+          232,
+          317
+        ],
+        "visiblePixels": 46431,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-care.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "girl-rest-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-care"
+    },
+    "girl-injured-s-pose": {
+      "sheet": "people-children-care",
+      "x": 627,
+      "y": 97,
+      "w": 234,
+      "h": 309,
+      "anchorX": 0.4551,
+      "anchorY": 0.9288,
+      "logicalHeight": 339,
+      "label": "girl injured s pose",
+      "kind": "people-children-care",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          629,
+          99,
+          230,
+          305
+        ],
+        "visiblePixels": 46225,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-care.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "girl-injured-rest",
+        "girl-injured-rest-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-care"
+    },
+    "girl-injured-e-pose": {
+      "sheet": "people-children-care",
+      "x": 911,
+      "y": 121,
+      "w": 331,
+      "h": 276,
+      "anchorX": 0.3218,
+      "anchorY": 0.9275,
+      "logicalHeight": 339,
+      "label": "girl injured e pose",
+      "kind": "people-children-care",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          913,
+          123,
+          327,
+          272
+        ],
+        "visiblePixels": 48051,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-care.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "girl-injured-rest-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-care"
+    },
+    "boy-rest-s-pose": {
+      "sheet": "people-children-care",
+      "x": 31,
+      "y": 446,
+      "w": 234,
+      "h": 339,
+      "anchorX": 0.4679,
+      "anchorY": 0.9292,
+      "logicalHeight": 342,
+      "label": "boy rest s pose",
+      "kind": "people-children-care",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          33,
+          448,
+          230,
+          335
+        ],
+        "visiblePixels": 49090,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-care.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "boy-rest",
+        "boy-rest-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-care"
+    },
+    "boy-rest-e-pose": {
+      "sheet": "people-children-care",
+      "x": 364,
+      "y": 446,
+      "w": 236,
+      "h": 336,
+      "anchorX": 0.5742,
+      "anchorY": 0.9286,
+      "logicalHeight": 342,
+      "label": "boy rest e pose",
+      "kind": "people-children-care",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          366,
+          448,
+          232,
+          332
+        ],
+        "visiblePixels": 45817,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-care.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "boy-rest-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-care"
+    },
+    "boy-injured-s-pose": {
+      "sheet": "people-children-care",
+      "x": 657,
+      "y": 461,
+      "w": 194,
+      "h": 342,
+      "anchorX": 0.4381,
+      "anchorY": 0.9298,
+      "logicalHeight": 342,
+      "label": "boy injured s pose",
+      "kind": "people-children-care",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          659,
+          463,
+          190,
+          338
+        ],
+        "visiblePixels": 45781,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-care.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "boy-injured-rest",
+        "boy-injured-rest-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-care"
+    },
+    "boy-injured-e-pose": {
+      "sheet": "people-children-care",
+      "x": 928,
+      "y": 500,
+      "w": 314,
+      "h": 292,
+      "anchorX": 0.0764,
+      "anchorY": 0.9281,
+      "logicalHeight": 342,
+      "label": "boy injured e pose",
+      "kind": "people-children-care",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          930,
+          502,
+          310,
+          288
+        ],
+        "visiblePixels": 40929,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-care.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "boy-injured-rest-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-care"
+    },
+    "smallchild-rest-s-pose": {
+      "sheet": "people-children-care",
+      "x": 39,
+      "y": 842,
+      "w": 221,
+      "h": 305,
+      "anchorX": 0.4932,
+      "anchorY": 0.9279,
+      "logicalHeight": 305,
+      "label": "smallchild rest s pose",
+      "kind": "people-children-care",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          41,
+          844,
+          217,
+          301
+        ],
+        "visiblePixels": 43819,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-care.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "smallchild-rest",
+        "smallchild-rest-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-care"
+    },
+    "smallchild-rest-e-pose": {
+      "sheet": "people-children-care",
+      "x": 362,
+      "y": 847,
+      "w": 188,
+      "h": 301,
+      "anchorX": 0.5612,
+      "anchorY": 0.9269,
+      "logicalHeight": 305,
+      "label": "smallchild rest e pose",
+      "kind": "people-children-care",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          364,
+          849,
+          184,
+          297
+        ],
+        "visiblePixels": 39266,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-care.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "smallchild-rest-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-care"
+    },
+    "smallchild-injured-s-pose": {
+      "sheet": "people-children-care",
+      "x": 631,
+      "y": 877,
+      "w": 230,
+      "h": 286,
+      "anchorX": 0.4674,
+      "anchorY": 0.9266,
+      "logicalHeight": 305,
+      "label": "smallchild injured s pose",
+      "kind": "people-children-care",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          633,
+          879,
+          226,
+          282
+        ],
+        "visiblePixels": 41661,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-care.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "smallchild-injured-rest",
+        "smallchild-injured-rest-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-care"
+    },
+    "smallchild-injured-e-pose": {
+      "sheet": "people-children-care",
+      "x": 950,
+      "y": 913,
+      "w": 293,
+      "h": 246,
+      "anchorX": 0.1638,
+      "anchorY": 0.9268,
+      "logicalHeight": 305,
+      "label": "smallchild injured e pose",
+      "kind": "people-children-care",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          952,
+          915,
+          289,
+          242
+        ],
+        "visiblePixels": 38825,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-care.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "smallchild-injured-rest-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-care"
+    },
+    "courier-dismount-1": {
+      "sheet": "courier-dismount",
+      "x": 39,
+      "y": 52,
+      "w": 262,
+      "h": 239,
+      "anchorX": 0.4485,
+      "anchorY": 0.954,
+      "logicalHeight": 239,
+      "label": "courier dismount 1",
+      "kind": "courier-dismount",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          41,
+          54,
+          258,
+          235
+        ],
+        "visiblePixels": 27641,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/courier-dismount.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "courier-dismount"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/courier-dismount"
+    },
+    "courier-dismount-2": {
+      "sheet": "courier-dismount",
+      "x": 353,
+      "y": 55,
+      "w": 264,
+      "h": 236,
+      "anchorX": 0.4508,
+      "anchorY": 0.9619,
+      "logicalHeight": 239,
+      "label": "courier dismount 2",
+      "kind": "courier-dismount",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          355,
+          57,
+          260,
+          232
+        ],
+        "visiblePixels": 29251,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/courier-dismount.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "courier-dismount"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/courier-dismount"
+    },
+    "courier-dismount-3": {
+      "sheet": "courier-dismount",
+      "x": 657,
+      "y": 88,
+      "w": 261,
+      "h": 203,
+      "anchorX": 0.4502,
+      "anchorY": 0.9557,
+      "logicalHeight": 239,
+      "label": "courier dismount 3",
+      "kind": "courier-dismount",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          659,
+          90,
+          257,
+          199
+        ],
+        "visiblePixels": 27350,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/courier-dismount.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "courier-dismount"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/courier-dismount"
+    },
+    "courier-dismount-4": {
+      "sheet": "courier-dismount",
+      "x": 970,
+      "y": 98,
+      "w": 258,
+      "h": 201,
+      "anchorX": 0.4593,
+      "anchorY": 0.9254,
+      "logicalHeight": 239,
+      "label": "courier dismount 4",
+      "kind": "courier-dismount",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          972,
+          100,
+          254,
+          197
+        ],
+        "visiblePixels": 27798,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/courier-dismount.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "courier-dismount"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/courier-dismount"
+    },
+    "courier-remount-1": {
+      "sheet": "courier-dismount",
+      "x": 36,
+      "y": 406,
+      "w": 266,
+      "h": 203,
+      "anchorX": 0.4492,
+      "anchorY": 0.9409,
+      "logicalHeight": 242,
+      "label": "courier remount 1",
+      "kind": "courier-dismount",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          38,
+          408,
+          262,
+          199
+        ],
+        "visiblePixels": 28368,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/courier-dismount.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "courier-remount"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/courier-dismount"
+    },
+    "courier-remount-2": {
+      "sheet": "courier-dismount",
+      "x": 350,
+      "y": 366,
+      "w": 270,
+      "h": 242,
+      "anchorX": 0.45,
+      "anchorY": 0.9545,
+      "logicalHeight": 242,
+      "label": "courier remount 2",
+      "kind": "courier-dismount",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          352,
+          368,
+          266,
+          238
+        ],
+        "visiblePixels": 29556,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/courier-dismount.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "courier-remount"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/courier-dismount"
+    },
+    "courier-remount-3": {
+      "sheet": "courier-dismount",
+      "x": 655,
+      "y": 376,
+      "w": 271,
+      "h": 233,
+      "anchorX": 0.4465,
+      "anchorY": 0.9485,
+      "logicalHeight": 242,
+      "label": "courier remount 3",
+      "kind": "courier-dismount",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          657,
+          378,
+          267,
+          229
+        ],
+        "visiblePixels": 30662,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/courier-dismount.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "courier-remount"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/courier-dismount"
+    },
+    "courier-remount-4": {
+      "sheet": "courier-dismount",
+      "x": 968,
+      "y": 366,
+      "w": 265,
+      "h": 242,
+      "anchorX": 0.4547,
+      "anchorY": 0.9504,
+      "logicalHeight": 242,
+      "label": "courier remount 4",
+      "kind": "courier-dismount",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          970,
+          368,
+          261,
+          238
+        ],
+        "visiblePixels": 28153,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/courier-dismount.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "courier-remount"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/courier-dismount"
+    },
+    "courier-onfoot-1": {
+      "sheet": "courier-dismount",
+      "x": 38,
+      "y": 706,
+      "w": 266,
+      "h": 214,
+      "anchorX": 0.4455,
+      "anchorY": 0.9299,
+      "logicalHeight": 214,
+      "label": "courier onfoot 1",
+      "kind": "courier-dismount",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          40,
+          708,
+          262,
+          210
+        ],
+        "visiblePixels": 29570,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/courier-dismount.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle",
+        "procedural-motion"
+      ],
+      "clips": [
+        "courier-onfoot-listen",
+        "courier-onfoot-idle"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/courier-dismount"
+    },
+    "courier-onfoot-2": {
+      "sheet": "courier-dismount",
+      "x": 352,
+      "y": 715,
+      "w": 267,
+      "h": 205,
+      "anchorX": 0.4476,
+      "anchorY": 0.9366,
+      "logicalHeight": 214,
+      "label": "courier onfoot 2",
+      "kind": "courier-dismount",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          354,
+          717,
+          263,
+          201
+        ],
+        "visiblePixels": 29618,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/courier-dismount.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "courier-onfoot-listen"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/courier-dismount"
+    },
+    "courier-onfoot-3": {
+      "sheet": "courier-dismount",
+      "x": 655,
+      "y": 709,
+      "w": 268,
+      "h": 212,
+      "anchorX": 0.4478,
+      "anchorY": 0.9387,
+      "logicalHeight": 214,
+      "label": "courier onfoot 3",
+      "kind": "courier-dismount",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          657,
+          711,
+          264,
+          208
+        ],
+        "visiblePixels": 29673,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/courier-dismount.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "courier-onfoot-speak"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/courier-dismount"
+    },
+    "courier-onfoot-4": {
+      "sheet": "courier-dismount",
+      "x": 968,
+      "y": 711,
+      "w": 263,
+      "h": 211,
+      "anchorX": 0.4506,
+      "anchorY": 0.9289,
+      "logicalHeight": 214,
+      "label": "courier onfoot 4",
+      "kind": "courier-dismount",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          970,
+          713,
+          259,
+          207
+        ],
+        "visiblePixels": 29144,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/courier-dismount.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "courier-onfoot-speak"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/courier-dismount"
+    },
+    "courier-horse-wait-1": {
+      "sheet": "courier-dismount",
+      "x": 37,
+      "y": 996,
+      "w": 263,
+      "h": 198,
+      "anchorX": 0.4468,
+      "anchorY": 0.9394,
+      "logicalHeight": 200,
+      "label": "courier horse wait 1",
+      "kind": "courier-dismount",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          39,
+          998,
+          259,
+          194
+        ],
+        "visiblePixels": 25007,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/courier-dismount.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "courier-horse-wait"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/courier-dismount"
+    },
+    "courier-horse-wait-2": {
+      "sheet": "courier-dismount",
+      "x": 351,
+      "y": 1018,
+      "w": 259,
+      "h": 175,
+      "anchorX": 0.4556,
+      "anchorY": 0.9429,
+      "logicalHeight": 200,
+      "label": "courier horse wait 2",
+      "kind": "courier-dismount",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          353,
+          1020,
+          255,
+          171
+        ],
+        "visiblePixels": 25760,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/courier-dismount.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "courier-horse-wait"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/courier-dismount"
+    },
+    "courier-horse-wait-3": {
+      "sheet": "courier-dismount",
+      "x": 656,
+      "y": 992,
+      "w": 261,
+      "h": 200,
+      "anchorX": 0.454,
+      "anchorY": 0.945,
+      "logicalHeight": 200,
+      "label": "courier horse wait 3",
+      "kind": "courier-dismount",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          658,
+          994,
+          257,
+          196
+        ],
+        "visiblePixels": 24650,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/courier-dismount.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "courier-horse-wait"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/courier-dismount"
+    },
+    "courier-horse-wait-4": {
+      "sheet": "courier-dismount",
+      "x": 952,
+      "y": 997,
+      "w": 279,
+      "h": 197,
+      "anchorX": 0.4857,
+      "anchorY": 0.9442,
+      "logicalHeight": 200,
+      "label": "courier horse wait 4",
+      "kind": "courier-dismount",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          954,
+          999,
+          275,
+          193
+        ],
+        "visiblePixels": 25274,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/courier-dismount.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "courier-horse-wait"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/courier-dismount"
+    },
+    "mounted-courier-listen-s-1": {
+      "sheet": "courier-encounters-vertical",
+      "x": 129,
+      "y": 15,
+      "w": 140,
+      "h": 297,
+      "anchorX": 0.4857,
+      "anchorY": 0.963,
+      "logicalHeight": 297,
+      "label": "mounted courier listen s 1",
+      "kind": "courier-encounters-vertical",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          131,
+          17,
+          136,
+          293
+        ],
+        "visiblePixels": 22806,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/courier-encounters-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mounted-courier-listen-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/courier-encounters-vertical"
+    },
+    "mounted-courier-listen-s-2": {
+      "sheet": "courier-encounters-vertical",
+      "x": 426,
+      "y": 19,
+      "w": 140,
+      "h": 294,
+      "anchorX": 0.4929,
+      "anchorY": 0.9626,
+      "logicalHeight": 297,
+      "label": "mounted courier listen s 2",
+      "kind": "courier-encounters-vertical",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          428,
+          21,
+          136,
+          290
+        ],
+        "visiblePixels": 22747,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/courier-encounters-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mounted-courier-listen-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/courier-encounters-vertical"
+    },
+    "mounted-courier-listen-s-3": {
+      "sheet": "courier-encounters-vertical",
+      "x": 725,
+      "y": 27,
+      "w": 138,
+      "h": 285,
+      "anchorX": 0.4819,
+      "anchorY": 0.9544,
+      "logicalHeight": 297,
+      "label": "mounted courier listen s 3",
+      "kind": "courier-encounters-vertical",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          727,
+          29,
+          134,
+          281
+        ],
+        "visiblePixels": 21850,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/courier-encounters-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mounted-courier-listen-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/courier-encounters-vertical"
+    },
+    "mounted-courier-listen-s-4": {
+      "sheet": "courier-encounters-vertical",
+      "x": 1016,
+      "y": 15,
+      "w": 138,
+      "h": 297,
+      "anchorX": 0.4928,
+      "anchorY": 0.963,
+      "logicalHeight": 297,
+      "label": "mounted courier listen s 4",
+      "kind": "courier-encounters-vertical",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1018,
+          17,
+          134,
+          293
+        ],
+        "visiblePixels": 22422,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/courier-encounters-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mounted-courier-listen-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/courier-encounters-vertical"
+    },
+    "mounted-courier-speak-s-1": {
+      "sheet": "courier-encounters-vertical",
+      "x": 128,
+      "y": 324,
+      "w": 141,
+      "h": 300,
+      "anchorX": 0.4894,
+      "anchorY": 0.9667,
+      "logicalHeight": 300,
+      "label": "mounted courier speak s 1",
+      "kind": "courier-encounters-vertical",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          130,
+          326,
+          137,
+          296
+        ],
+        "visiblePixels": 23015,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/courier-encounters-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mounted-courier-speak-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/courier-encounters-vertical"
+    },
+    "mounted-courier-speak-s-2": {
+      "sheet": "courier-encounters-vertical",
+      "x": 426,
+      "y": 324,
+      "w": 139,
+      "h": 300,
+      "anchorX": 0.4928,
+      "anchorY": 0.9533,
+      "logicalHeight": 300,
+      "label": "mounted courier speak s 2",
+      "kind": "courier-encounters-vertical",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          428,
+          326,
+          135,
+          296
+        ],
+        "visiblePixels": 23540,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/courier-encounters-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mounted-courier-speak-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/courier-encounters-vertical"
+    },
+    "mounted-courier-speak-s-3": {
+      "sheet": "courier-encounters-vertical",
+      "x": 724,
+      "y": 327,
+      "w": 162,
+      "h": 296,
+      "anchorX": 0.4228,
+      "anchorY": 0.9493,
+      "logicalHeight": 300,
+      "label": "mounted courier speak s 3",
+      "kind": "courier-encounters-vertical",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          726,
+          329,
+          158,
+          292
+        ],
+        "visiblePixels": 23730,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/courier-encounters-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mounted-courier-speak-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/courier-encounters-vertical"
+    },
+    "mounted-courier-speak-s-4": {
+      "sheet": "courier-encounters-vertical",
+      "x": 1014,
+      "y": 324,
+      "w": 140,
+      "h": 299,
+      "anchorX": 0.4929,
+      "anchorY": 0.9599,
+      "logicalHeight": 300,
+      "label": "mounted courier speak s 4",
+      "kind": "courier-encounters-vertical",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1016,
+          326,
+          136,
+          295
+        ],
+        "visiblePixels": 23010,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/courier-encounters-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mounted-courier-speak-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/courier-encounters-vertical"
+    },
+    "mounted-courier-listen-n-1": {
+      "sheet": "courier-encounters-vertical",
+      "x": 130,
+      "y": 641,
+      "w": 141,
+      "h": 287,
+      "anchorX": 0.4574,
+      "anchorY": 0.9477,
+      "logicalHeight": 290,
+      "label": "mounted courier listen n 1",
+      "kind": "courier-encounters-vertical",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          132,
+          643,
+          137,
+          283
+        ],
+        "visiblePixels": 22505,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/courier-encounters-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mounted-courier-listen-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/courier-encounters-vertical"
+    },
+    "mounted-courier-listen-n-2": {
+      "sheet": "courier-encounters-vertical",
+      "x": 425,
+      "y": 638,
+      "w": 141,
+      "h": 290,
+      "anchorX": 0.4858,
+      "anchorY": 0.9448,
+      "logicalHeight": 290,
+      "label": "mounted courier listen n 2",
+      "kind": "courier-encounters-vertical",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          427,
+          640,
+          137,
+          286
+        ],
+        "visiblePixels": 23148,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/courier-encounters-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mounted-courier-listen-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/courier-encounters-vertical"
+    },
+    "mounted-courier-listen-n-3": {
+      "sheet": "courier-encounters-vertical",
+      "x": 722,
+      "y": 639,
+      "w": 143,
+      "h": 289,
+      "anchorX": 0.4755,
+      "anchorY": 0.955,
+      "logicalHeight": 290,
+      "label": "mounted courier listen n 3",
+      "kind": "courier-encounters-vertical",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          724,
+          641,
+          139,
+          285
+        ],
+        "visiblePixels": 23116,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/courier-encounters-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mounted-courier-listen-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/courier-encounters-vertical"
+    },
+    "mounted-courier-listen-n-4": {
+      "sheet": "courier-encounters-vertical",
+      "x": 1012,
+      "y": 640,
+      "w": 145,
+      "h": 288,
+      "anchorX": 0.4586,
+      "anchorY": 0.9514,
+      "logicalHeight": 290,
+      "label": "mounted courier listen n 4",
+      "kind": "courier-encounters-vertical",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1014,
+          642,
+          141,
+          284
+        ],
+        "visiblePixels": 23015,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/courier-encounters-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mounted-courier-listen-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/courier-encounters-vertical"
+    },
+    "mounted-courier-speak-n-1": {
+      "sheet": "courier-encounters-vertical",
+      "x": 129,
+      "y": 942,
+      "w": 140,
+      "h": 293,
+      "anchorX": 0.475,
+      "anchorY": 0.959,
+      "logicalHeight": 293,
+      "label": "mounted courier speak n 1",
+      "kind": "courier-encounters-vertical",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          131,
+          944,
+          136,
+          289
+        ],
+        "visiblePixels": 22938,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/courier-encounters-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mounted-courier-speak-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/courier-encounters-vertical"
+    },
+    "mounted-courier-speak-n-2": {
+      "sheet": "courier-encounters-vertical",
+      "x": 426,
+      "y": 946,
+      "w": 141,
+      "h": 289,
+      "anchorX": 0.4823,
+      "anchorY": 0.955,
+      "logicalHeight": 293,
+      "label": "mounted courier speak n 2",
+      "kind": "courier-encounters-vertical",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          428,
+          948,
+          137,
+          285
+        ],
+        "visiblePixels": 23790,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/courier-encounters-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mounted-courier-speak-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/courier-encounters-vertical"
+    },
+    "mounted-courier-speak-n-3": {
+      "sheet": "courier-encounters-vertical",
+      "x": 721,
+      "y": 944,
+      "w": 167,
+      "h": 291,
+      "anchorX": 0.4132,
+      "anchorY": 0.9553,
+      "logicalHeight": 293,
+      "label": "mounted courier speak n 3",
+      "kind": "courier-encounters-vertical",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          723,
+          946,
+          163,
+          287
+        ],
+        "visiblePixels": 24273,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/courier-encounters-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mounted-courier-speak-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/courier-encounters-vertical"
+    },
+    "mounted-courier-speak-n-4": {
+      "sheet": "courier-encounters-vertical",
+      "x": 1013,
+      "y": 943,
+      "w": 145,
+      "h": 292,
+      "anchorX": 0.4793,
+      "anchorY": 0.9486,
+      "logicalHeight": 293,
+      "label": "mounted courier speak n 4",
+      "kind": "courier-encounters-vertical",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1015,
+          945,
+          141,
+          288
+        ],
+        "visiblePixels": 23434,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/courier-encounters-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mounted-courier-speak-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/courier-encounters-vertical"
+    },
+    "rust-speak-e-1": {
+      "sheet": "people-dialogue",
+      "x": 161,
+      "y": 9,
+      "w": 173,
+      "h": 318,
+      "anchorX": 0.4017,
+      "anchorY": 0.956,
+      "logicalHeight": 319,
+      "label": "rust speak e 1",
+      "kind": "people-dialogue",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          163,
+          11,
+          169,
+          314
+        ],
+        "visiblePixels": 30762,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-dialogue.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-speak-e",
+        "rust-speak"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-dialogue"
+    },
+    "rust-speak-e-2": {
+      "sheet": "people-dialogue",
+      "x": 424,
+      "y": 10,
+      "w": 192,
+      "h": 318,
+      "anchorX": 0.3958,
+      "anchorY": 0.9277,
+      "logicalHeight": 319,
+      "label": "rust speak e 2",
+      "kind": "people-dialogue",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          426,
+          12,
+          188,
+          314
+        ],
+        "visiblePixels": 30289,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-dialogue.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-speak-e",
+        "rust-speak"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-dialogue"
+    },
+    "rust-listen-s-pose": {
+      "sheet": "people-dialogue",
+      "x": 698,
+      "y": 8,
+      "w": 155,
+      "h": 317,
+      "anchorX": 0.4935,
+      "anchorY": 0.9558,
+      "logicalHeight": 319,
+      "label": "rust listen s pose",
+      "kind": "people-dialogue",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          700,
+          10,
+          151,
+          313
+        ],
+        "visiblePixels": 30011,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-dialogue.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "rust-listen-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-dialogue"
+    },
+    "rust-listen-n-pose": {
+      "sheet": "people-dialogue",
+      "x": 984,
+      "y": 9,
+      "w": 144,
+      "h": 319,
+      "anchorX": 0.4931,
+      "anchorY": 0.9342,
+      "logicalHeight": 319,
+      "label": "rust listen n pose",
+      "kind": "people-dialogue",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          986,
+          11,
+          140,
+          315
+        ],
+        "visiblePixels": 29499,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-dialogue.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "rust-listen-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-dialogue"
+    },
+    "teal-speak-e-1": {
+      "sheet": "people-dialogue",
+      "x": 142,
+      "y": 333,
+      "w": 180,
+      "h": 313,
+      "anchorX": 0.5194,
+      "anchorY": 0.9425,
+      "logicalHeight": 313,
+      "label": "teal speak e 1",
+      "kind": "people-dialogue",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          144,
+          335,
+          176,
+          310
+        ],
+        "visiblePixels": 34521,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-dialogue.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-speak-e",
+        "teal-speak"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-dialogue"
+    },
+    "teal-speak-e-2": {
+      "sheet": "people-dialogue",
+      "x": 412,
+      "y": 334,
+      "w": 202,
+      "h": 311,
+      "anchorX": 0.4381,
+      "anchorY": 0.9582,
+      "logicalHeight": 313,
+      "label": "teal speak e 2",
+      "kind": "people-dialogue",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          414,
+          336,
+          198,
+          308
+        ],
+        "visiblePixels": 33461,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-dialogue.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-speak-e",
+        "teal-speak"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-dialogue"
+    },
+    "teal-listen-s-pose": {
+      "sheet": "people-dialogue",
+      "x": 687,
+      "y": 333,
+      "w": 172,
+      "h": 312,
+      "anchorX": 0.4942,
+      "anchorY": 0.9487,
+      "logicalHeight": 313,
+      "label": "teal listen s pose",
+      "kind": "people-dialogue",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          689,
+          335,
+          168,
+          308
+        ],
+        "visiblePixels": 34225,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-dialogue.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "teal-listen-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-dialogue"
+    },
+    "teal-listen-n-pose": {
+      "sheet": "people-dialogue",
+      "x": 979,
+      "y": 335,
+      "w": 161,
+      "h": 309,
+      "anchorX": 0.4907,
+      "anchorY": 0.9482,
+      "logicalHeight": 313,
+      "label": "teal listen n pose",
+      "kind": "people-dialogue",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          981,
+          337,
+          157,
+          305
+        ],
+        "visiblePixels": 31802,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-dialogue.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "teal-listen-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-dialogue"
+    },
+    "elder-speak-e-1": {
+      "sheet": "people-dialogue",
+      "x": 156,
+      "y": 646,
+      "w": 177,
+      "h": 318,
+      "anchorX": 0.435,
+      "anchorY": 0.9434,
+      "logicalHeight": 319,
+      "label": "elder speak e 1",
+      "kind": "people-dialogue",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          158,
+          648,
+          173,
+          316
+        ],
+        "visiblePixels": 31940,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-dialogue.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-speak-e",
+        "elder-speak"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-dialogue"
+    },
+    "elder-speak-e-2": {
+      "sheet": "people-dialogue",
+      "x": 429,
+      "y": 645,
+      "w": 194,
+      "h": 319,
+      "anchorX": 0.3763,
+      "anchorY": 0.9279,
+      "logicalHeight": 319,
+      "label": "elder speak e 2",
+      "kind": "people-dialogue",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          431,
+          647,
+          190,
+          315
+        ],
+        "visiblePixels": 31245,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-dialogue.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-speak-e",
+        "elder-speak"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-dialogue"
+    },
+    "elder-listen-s-pose": {
+      "sheet": "people-dialogue",
+      "x": 697,
+      "y": 647,
+      "w": 149,
+      "h": 315,
+      "anchorX": 0.5034,
+      "anchorY": 0.9619,
+      "logicalHeight": 319,
+      "label": "elder listen s pose",
+      "kind": "people-dialogue",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          699,
+          649,
+          145,
+          312
+        ],
+        "visiblePixels": 31819,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-dialogue.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "elder-listen-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-dialogue"
+    },
+    "elder-listen-n-pose": {
+      "sheet": "people-dialogue",
+      "x": 980,
+      "y": 649,
+      "w": 154,
+      "h": 312,
+      "anchorX": 0.5032,
+      "anchorY": 0.9295,
+      "logicalHeight": 319,
+      "label": "elder listen n pose",
+      "kind": "people-dialogue",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          982,
+          651,
+          150,
+          308
+        ],
+        "visiblePixels": 31075,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-dialogue.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "elder-listen-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-dialogue"
+    },
+    "blue-speak-e-1": {
+      "sheet": "people-dialogue",
+      "x": 164,
+      "y": 964,
+      "w": 154,
+      "h": 286,
+      "anchorX": 0.4253,
+      "anchorY": 0.9441,
+      "logicalHeight": 287,
+      "label": "blue speak e 1",
+      "kind": "people-dialogue",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          166,
+          964,
+          150,
+          284
+        ],
+        "visiblePixels": 24757,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-dialogue.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-speak-e",
+        "blue-speak"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-dialogue"
+    },
+    "blue-speak-e-2": {
+      "sheet": "people-dialogue",
+      "x": 442,
+      "y": 964,
+      "w": 163,
+      "h": 286,
+      "anchorX": 0.4018,
+      "anchorY": 0.9371,
+      "logicalHeight": 287,
+      "label": "blue speak e 2",
+      "kind": "people-dialogue",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          444,
+          966,
+          159,
+          282
+        ],
+        "visiblePixels": 23587,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-dialogue.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-speak-e",
+        "blue-speak"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-dialogue"
+    },
+    "blue-listen-s-pose": {
+      "sheet": "people-dialogue",
+      "x": 712,
+      "y": 962,
+      "w": 124,
+      "h": 287,
+      "anchorX": 0.496,
+      "anchorY": 0.9512,
+      "logicalHeight": 287,
+      "label": "blue listen s pose",
+      "kind": "people-dialogue",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          714,
+          963,
+          120,
+          284
+        ],
+        "visiblePixels": 23573,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-dialogue.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "blue-listen-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-dialogue"
+    },
+    "blue-listen-n-pose": {
+      "sheet": "people-dialogue",
+      "x": 993,
+      "y": 963,
+      "w": 128,
+      "h": 285,
+      "anchorX": 0.4961,
+      "anchorY": 0.9298,
+      "logicalHeight": 287,
+      "label": "blue listen n pose",
+      "kind": "people-dialogue",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          995,
+          965,
+          124,
+          281
+        ],
+        "visiblePixels": 23072,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-dialogue.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "blue-listen-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-dialogue"
+    },
+    "house-round-log-site": {
+      "sheet": "houses-settling",
+      "x": 23,
+      "y": 259,
+      "w": 266,
+      "h": 100,
+      "anchorX": 0.4887,
+      "anchorY": 0.93,
+      "logicalHeight": 240,
+      "label": "house round log site",
+      "kind": "houses-settling",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          25,
+          261,
+          262,
+          96
+        ],
+        "visiblePixels": 19633,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/houses-settling.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/houses-settling"
+    },
+    "house-round-log-walls": {
+      "sheet": "houses-settling",
+      "x": 333,
+      "y": 216,
+      "w": 283,
+      "h": 143,
+      "anchorX": 0.4859,
+      "anchorY": 0.9231,
+      "logicalHeight": 240,
+      "label": "house round log walls",
+      "kind": "houses-settling",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          335,
+          218,
+          279,
+          139
+        ],
+        "visiblePixels": 32265,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/houses-settling.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/houses-settling"
+    },
+    "house-round-log-roofing": {
+      "sheet": "houses-settling",
+      "x": 636,
+      "y": 120,
+      "w": 291,
+      "h": 239,
+      "anchorX": 0.4966,
+      "anchorY": 0.9289,
+      "logicalHeight": 240,
+      "label": "house round log roofing",
+      "kind": "houses-settling",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          638,
+          122,
+          287,
+          235
+        ],
+        "visiblePixels": 51598,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/houses-settling.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/houses-settling"
+    },
+    "house-round-log": {
+      "sheet": "houses-settling",
+      "x": 951,
+      "y": 119,
+      "w": 285,
+      "h": 240,
+      "anchorX": 0.5018,
+      "anchorY": 0.9292,
+      "logicalHeight": 240,
+      "label": "house round log",
+      "kind": "houses-settling",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          953,
+          121,
+          281,
+          236
+        ],
+        "visiblePixels": 51207,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/houses-settling.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/houses-settling"
+    },
+    "house-hewn-log-site": {
+      "sheet": "houses-settling",
+      "x": 24,
+      "y": 553,
+      "w": 270,
+      "h": 102,
+      "anchorX": 0.4981,
+      "anchorY": 0.9216,
+      "logicalHeight": 247,
+      "label": "house hewn log site",
+      "kind": "houses-settling",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          26,
+          555,
+          266,
+          98
+        ],
+        "visiblePixels": 19591,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/houses-settling.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/houses-settling"
+    },
+    "house-hewn-log-walls": {
+      "sheet": "houses-settling",
+      "x": 331,
+      "y": 519,
+      "w": 282,
+      "h": 138,
+      "anchorX": 0.4858,
+      "anchorY": 0.9275,
+      "logicalHeight": 247,
+      "label": "house hewn log walls",
+      "kind": "houses-settling",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          333,
+          521,
+          278,
+          134
+        ],
+        "visiblePixels": 31153,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/houses-settling.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/houses-settling"
+    },
+    "house-hewn-log-roofing": {
+      "sheet": "houses-settling",
+      "x": 636,
+      "y": 411,
+      "w": 289,
+      "h": 246,
+      "anchorX": 0.4948,
+      "anchorY": 0.9268,
+      "logicalHeight": 247,
+      "label": "house hewn log roofing",
+      "kind": "houses-settling",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          638,
+          413,
+          285,
+          242
+        ],
+        "visiblePixels": 53804,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/houses-settling.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/houses-settling"
+    },
+    "house-hewn-log": {
+      "sheet": "houses-settling",
+      "x": 952,
+      "y": 409,
+      "w": 284,
+      "h": 247,
+      "anchorX": 0.4982,
+      "anchorY": 0.9271,
+      "logicalHeight": 247,
+      "label": "house hewn log",
+      "kind": "houses-settling",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          954,
+          411,
+          280,
+          243
+        ],
+        "visiblePixels": 53424,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/houses-settling.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/houses-settling"
+    },
+    "house-dog-run-site": {
+      "sheet": "houses-settling",
+      "x": 18,
+      "y": 818,
+      "w": 299,
+      "h": 99,
+      "anchorX": 0.4983,
+      "anchorY": 0.9293,
+      "logicalHeight": 205,
+      "label": "house dog run site",
+      "kind": "houses-settling",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          20,
+          820,
+          295,
+          95
+        ],
+        "visiblePixels": 22811,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/houses-settling.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/houses-settling"
+    },
+    "house-dog-run-walls": {
+      "sheet": "houses-settling",
+      "x": 326,
+      "y": 792,
+      "w": 290,
+      "h": 124,
+      "anchorX": 0.4948,
+      "anchorY": 0.9274,
+      "logicalHeight": 205,
+      "label": "house dog run walls",
+      "kind": "houses-settling",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          328,
+          794,
+          286,
+          120
+        ],
+        "visiblePixels": 27900,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/houses-settling.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/houses-settling"
+    },
+    "house-dog-run-roofing": {
+      "sheet": "houses-settling",
+      "x": 623,
+      "y": 711,
+      "w": 307,
+      "h": 205,
+      "anchorX": 0.5016,
+      "anchorY": 0.9268,
+      "logicalHeight": 205,
+      "label": "house dog run roofing",
+      "kind": "houses-settling",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          625,
+          713,
+          303,
+          201
+        ],
+        "visiblePixels": 48571,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/houses-settling.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/houses-settling"
+    },
+    "house-dog-run": {
+      "sheet": "houses-settling",
+      "x": 934,
+      "y": 712,
+      "w": 311,
+      "h": 204,
+      "anchorX": 0.4984,
+      "anchorY": 0.9265,
+      "logicalHeight": 205,
+      "label": "house dog run",
+      "kind": "houses-settling",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          936,
+          714,
+          307,
+          200
+        ],
+        "visiblePixels": 49507,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/houses-settling.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/houses-settling"
+    },
+    "house-jacal-site": {
+      "sheet": "houses-settling",
+      "x": 25,
+      "y": 1076,
+      "w": 274,
+      "h": 121,
+      "anchorX": 0.5,
+      "anchorY": 0.9256,
+      "logicalHeight": 166,
+      "label": "house jacal site",
+      "kind": "houses-settling",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          27,
+          1078,
+          270,
+          117
+        ],
+        "visiblePixels": 19797,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/houses-settling.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/houses-settling"
+    },
+    "house-jacal-walls": {
+      "sheet": "houses-settling",
+      "x": 330,
+      "y": 1073,
+      "w": 283,
+      "h": 125,
+      "anchorX": 0.5,
+      "anchorY": 0.928,
+      "logicalHeight": 166,
+      "label": "house jacal walls",
+      "kind": "houses-settling",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          332,
+          1075,
+          279,
+          121
+        ],
+        "visiblePixels": 27647,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/houses-settling.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/houses-settling"
+    },
+    "house-jacal-roofing": {
+      "sheet": "houses-settling",
+      "x": 641,
+      "y": 1033,
+      "w": 281,
+      "h": 166,
+      "anchorX": 0.4947,
+      "anchorY": 0.9277,
+      "logicalHeight": 166,
+      "label": "house jacal roofing",
+      "kind": "houses-settling",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          643,
+          1035,
+          277,
+          162
+        ],
+        "visiblePixels": 37457,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/houses-settling.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/houses-settling"
+    },
+    "house-jacal": {
+      "sheet": "houses-settling",
+      "x": 953,
+      "y": 1035,
+      "w": 279,
+      "h": 163,
+      "anchorX": 0.4982,
+      "anchorY": 0.9264,
+      "logicalHeight": 166,
+      "label": "house jacal",
+      "kind": "houses-settling",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          955,
+          1037,
+          275,
+          159
+        ],
+        "visiblePixels": 38216,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/houses-settling.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/houses-settling"
+    },
+    "home-table": {
+      "sheet": "home-furnishings",
+      "x": 12,
+      "y": 89,
+      "w": 307,
+      "h": 201,
+      "anchorX": 0.2752,
+      "anchorY": 0.9254,
+      "label": "home table",
+      "kind": "home-furnishings",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          14,
+          91,
+          303,
+          197
+        ],
+        "visiblePixels": 31385,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/home-furnishings.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/home-furnishings"
+    },
+    "home-bench": {
+      "sheet": "home-furnishings",
+      "x": 338,
+      "y": 125,
+      "w": 275,
+      "h": 163,
+      "anchorX": 0.2309,
+      "anchorY": 0.9264,
+      "label": "home bench",
+      "kind": "home-furnishings",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          340,
+          127,
+          271,
+          159
+        ],
+        "visiblePixels": 19843,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/home-furnishings.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/home-furnishings"
+    },
+    "home-bedstead": {
+      "sheet": "home-furnishings",
+      "x": 643,
+      "y": 60,
+      "w": 299,
+      "h": 239,
+      "anchorX": 0.5301,
+      "anchorY": 0.9289,
+      "label": "home bedstead",
+      "kind": "home-furnishings",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          645,
+          62,
+          295,
+          235
+        ],
+        "visiblePixels": 35423,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/home-furnishings.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/home-furnishings"
+    },
+    "home-shelves": {
+      "sheet": "home-furnishings",
+      "x": 990,
+      "y": 24,
+      "w": 240,
+      "h": 279,
+      "anchorX": 0.8583,
+      "anchorY": 0.9283,
+      "label": "home shelves",
+      "kind": "home-furnishings",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          992,
+          26,
+          236,
+          275
+        ],
+        "visiblePixels": 36404,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/home-furnishings.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/home-furnishings"
+    },
+    "home-cradle": {
+      "sheet": "home-furnishings",
+      "x": 17,
+      "y": 356,
+      "w": 294,
+      "h": 233,
+      "anchorX": 0.3622,
+      "anchorY": 0.927,
+      "label": "home cradle",
+      "kind": "home-furnishings",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          19,
+          358,
+          290,
+          229
+        ],
+        "visiblePixels": 38593,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/home-furnishings.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "home-cradle-rock"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/home-furnishings"
+    },
+    "home-bedding": {
+      "sheet": "home-furnishings",
+      "x": 330,
+      "y": 390,
+      "w": 295,
+      "h": 182,
+      "anchorX": 0.6271,
+      "anchorY": 0.9286,
+      "label": "home bedding",
+      "kind": "home-furnishings",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          332,
+          392,
+          291,
+          178
+        ],
+        "visiblePixels": 37081,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/home-furnishings.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/home-furnishings"
+    },
+    "home-iron-pot": {
+      "sheet": "home-furnishings",
+      "x": 674,
+      "y": 339,
+      "w": 215,
+      "h": 249,
+      "anchorX": 0.4977,
+      "anchorY": 0.9558,
+      "label": "home iron pot",
+      "kind": "home-furnishings",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          676,
+          341,
+          211,
+          245
+        ],
+        "visiblePixels": 30669,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/home-furnishings.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/home-furnishings"
+    },
+    "home-chest": {
+      "sheet": "home-furnishings",
+      "x": 944,
+      "y": 360,
+      "w": 295,
+      "h": 237,
+      "anchorX": 0.7153,
+      "anchorY": 0.9283,
+      "label": "home chest",
+      "kind": "home-furnishings",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          946,
+          362,
+          291,
+          233
+        ],
+        "visiblePixels": 54212,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/home-furnishings.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "home-chest-opening"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/home-furnishings"
+    },
+    "home-spinning-wheel": {
+      "sheet": "home-furnishings",
+      "x": 40,
+      "y": 632,
+      "w": 254,
+      "h": 285,
+      "anchorX": 0.3209,
+      "anchorY": 0.9298,
+      "label": "home spinning wheel",
+      "kind": "home-furnishings",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          42,
+          634,
+          250,
+          281
+        ],
+        "visiblePixels": 38184,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/home-furnishings.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/home-furnishings"
+    },
+    "home-books": {
+      "sheet": "home-furnishings",
+      "x": 344,
+      "y": 687,
+      "w": 265,
+      "h": 212,
+      "anchorX": 0.6736,
+      "anchorY": 0.9292,
+      "label": "home books",
+      "kind": "home-furnishings",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          346,
+          689,
+          261,
+          208
+        ],
+        "visiblePixels": 44083,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/home-furnishings.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/home-furnishings"
+    },
+    "home-mosquito-bars": {
+      "sheet": "home-furnishings",
+      "x": 643,
+      "y": 648,
+      "w": 276,
+      "h": 268,
+      "anchorX": 0.5507,
+      "anchorY": 0.9291,
+      "label": "home mosquito bars",
+      "kind": "home-furnishings",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          645,
+          650,
+          272,
+          264
+        ],
+        "visiblePixels": 35919,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/home-furnishings.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/home-furnishings"
+    },
+    "home-tinware": {
+      "sheet": "home-furnishings",
+      "x": 953,
+      "y": 671,
+      "w": 265,
+      "h": 223,
+      "anchorX": 0.5623,
+      "anchorY": 0.9283,
+      "label": "home tinware",
+      "kind": "home-furnishings",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          955,
+          673,
+          261,
+          219
+        ],
+        "visiblePixels": 30623,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/home-furnishings.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/home-furnishings"
+    },
+    "home-chair-packed": {
+      "sheet": "home-furnishings",
+      "x": 23,
+      "y": 993,
+      "w": 274,
+      "h": 232,
+      "anchorX": 0.688,
+      "anchorY": 0.9267,
+      "label": "home chair packed",
+      "kind": "home-furnishings",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          25,
+          995,
+          270,
+          228
+        ],
+        "visiblePixels": 47581,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/home-furnishings.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/home-furnishings"
+    },
+    "home-chair": {
+      "sheet": "home-furnishings",
+      "x": 369,
+      "y": 925,
+      "w": 202,
+      "h": 304,
+      "anchorX": 0.6361,
+      "anchorY": 0.9276,
+      "label": "home chair",
+      "kind": "home-furnishings",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          371,
+          927,
+          198,
+          300
+        ],
+        "visiblePixels": 29561,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/home-furnishings.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/home-furnishings"
+    },
+    "home-chest-open": {
+      "sheet": "home-furnishings",
+      "x": 643,
+      "y": 946,
+      "w": 285,
+      "h": 286,
+      "anchorX": 0.6579,
+      "anchorY": 0.9266,
+      "label": "home chest open",
+      "kind": "home-furnishings",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          645,
+          948,
+          281,
+          282
+        ],
+        "visiblePixels": 61121,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/home-furnishings.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "home-chest-opening"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/home-furnishings"
+    },
+    "home-stool": {
+      "sheet": "home-furnishings",
+      "x": 974,
+      "y": 1010,
+      "w": 244,
+      "h": 211,
+      "anchorX": 0.6516,
+      "anchorY": 0.9289,
+      "label": "home stool",
+      "kind": "home-furnishings",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          976,
+          1012,
+          240,
+          207
+        ],
+        "visiblePixels": 27541,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/home-furnishings.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/home-furnishings"
+    },
+    "interior-round-log": {
+      "sheet": "home-interiors",
+      "x": 30,
+      "y": 73,
+      "w": 567,
+      "h": 494,
+      "anchorX": 0.657,
+      "anchorY": 0.9291,
+      "label": "interior round log",
+      "kind": "home-interiors",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          32,
+          75,
+          563,
+          490
+        ],
+        "visiblePixels": 199099,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/home-interiors.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/home-interiors"
+    },
+    "interior-hewn-log": {
+      "sheet": "home-interiors",
+      "x": 668,
+      "y": 73,
+      "w": 561,
+      "h": 494,
+      "anchorX": 0.6283,
+      "anchorY": 0.9291,
+      "label": "interior hewn log",
+      "kind": "home-interiors",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          670,
+          75,
+          557,
+          490
+        ],
+        "visiblePixels": 196809,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/home-interiors.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/home-interiors"
+    },
+    "interior-dog-run": {
+      "sheet": "home-interiors",
+      "x": 23,
+      "y": 735,
+      "w": 750,
+      "h": 331,
+      "anchorX": 0.5,
+      "anchorY": 0.9275,
+      "label": "interior dog run",
+      "kind": "home-interiors",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          25,
+          737,
+          746,
+          327
+        ],
+        "visiblePixels": 190107,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/home-interiors.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/home-interiors"
+    },
+    "interior-jacal": {
+      "sheet": "home-interiors",
+      "x": 807,
+      "y": 658,
+      "w": 426,
+      "h": 532,
+      "anchorX": 0.5469,
+      "anchorY": 0.9286,
+      "label": "interior jacal",
+      "kind": "home-interiors",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          809,
+          660,
+          422,
+          528
+        ],
+        "visiblePixels": 140499,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/home-interiors.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/home-interiors"
+    },
     "mounted-courier-listen-1": {
       "sheet": "courier-encounters",
       "x": 19,
@@ -18927,6 +24886,1146 @@
     }
   },
   "clips": {
+    "rust-woman-idle-s": {
+      "frames": [
+        {
+          "sprite": "rust-woman-idle-s",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "rust-woman-idle-w": {
+      "frames": [
+        {
+          "sprite": "rust-woman-idle-w",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "west"
+    },
+    "rust-woman-idle-e": {
+      "frames": [
+        {
+          "sprite": "rust-woman-idle-e",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east"
+    },
+    "rust-woman-idle-n": {
+      "frames": [
+        {
+          "sprite": "rust-woman-idle-n",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
+    },
+    "indigo-idle-s": {
+      "frames": [
+        {
+          "sprite": "indigo-idle-s",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "indigo-idle-w": {
+      "frames": [
+        {
+          "sprite": "indigo-idle-w",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "west"
+    },
+    "indigo-idle-e": {
+      "frames": [
+        {
+          "sprite": "indigo-idle-e",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east"
+    },
+    "indigo-idle-n": {
+      "frames": [
+        {
+          "sprite": "indigo-idle-n",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
+    },
+    "ochre-idle-s": {
+      "frames": [
+        {
+          "sprite": "ochre-idle-s",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "ochre-idle-w": {
+      "frames": [
+        {
+          "sprite": "ochre-idle-w",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "west"
+    },
+    "ochre-idle-e": {
+      "frames": [
+        {
+          "sprite": "ochre-idle-e",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east"
+    },
+    "ochre-idle-n": {
+      "frames": [
+        {
+          "sprite": "ochre-idle-n",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
+    },
+    "blue-girl-idle-s": {
+      "frames": [
+        {
+          "sprite": "blue-girl-idle-s",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "blue-girl-idle-w": {
+      "frames": [
+        {
+          "sprite": "blue-girl-idle-w",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "west"
+    },
+    "blue-girl-idle-e": {
+      "frames": [
+        {
+          "sprite": "blue-girl-idle-e",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east"
+    },
+    "blue-girl-idle-n": {
+      "frames": [
+        {
+          "sprite": "blue-girl-idle-n",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
+    },
+    "girl-idle-s": {
+      "frames": [
+        {
+          "sprite": "girl-idle-s",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "girl-idle-e": {
+      "frames": [
+        {
+          "sprite": "girl-idle-e",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east"
+    },
+    "girl-idle-w": {
+      "frames": [
+        {
+          "sprite": "girl-idle-w",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "west"
+    },
+    "girl-idle-n": {
+      "frames": [
+        {
+          "sprite": "girl-idle-n",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
+    },
+    "girl-walk": {
+      "frames": [
+        {
+          "sprite": "girl-walk-1",
+          "duration": 180
+        },
+        {
+          "sprite": "girl-walk-2",
+          "duration": 180
+        },
+        {
+          "sprite": "girl-walk-3",
+          "duration": 180
+        },
+        {
+          "sprite": "girl-walk-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "girl-rest": {
+      "frames": [
+        {
+          "sprite": "girl-rest-s-pose",
+          "duration": 2500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "girl-rest-s": {
+      "frames": [
+        {
+          "sprite": "girl-rest-s-pose",
+          "duration": 2500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "girl-rest-e": {
+      "frames": [
+        {
+          "sprite": "girl-rest-e-pose",
+          "duration": 2500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "girl-injured-rest": {
+      "frames": [
+        {
+          "sprite": "girl-injured-s-pose",
+          "duration": 3000
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "girl-injured-rest-s": {
+      "frames": [
+        {
+          "sprite": "girl-injured-s-pose",
+          "duration": 3000
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "girl-injured-rest-e": {
+      "frames": [
+        {
+          "sprite": "girl-injured-e-pose",
+          "duration": 3000
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "boy-idle-s": {
+      "frames": [
+        {
+          "sprite": "boy-idle-s",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "boy-idle-e": {
+      "frames": [
+        {
+          "sprite": "boy-idle-e",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east"
+    },
+    "boy-idle-w": {
+      "frames": [
+        {
+          "sprite": "boy-idle-w",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "west"
+    },
+    "boy-idle-n": {
+      "frames": [
+        {
+          "sprite": "boy-idle-n",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
+    },
+    "boy-walk": {
+      "frames": [
+        {
+          "sprite": "boy-walk-1",
+          "duration": 180
+        },
+        {
+          "sprite": "boy-walk-2",
+          "duration": 180
+        },
+        {
+          "sprite": "boy-walk-3",
+          "duration": 180
+        },
+        {
+          "sprite": "boy-walk-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "boy-rest": {
+      "frames": [
+        {
+          "sprite": "boy-rest-s-pose",
+          "duration": 2500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "boy-rest-s": {
+      "frames": [
+        {
+          "sprite": "boy-rest-s-pose",
+          "duration": 2500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "boy-rest-e": {
+      "frames": [
+        {
+          "sprite": "boy-rest-e-pose",
+          "duration": 2500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "boy-injured-rest": {
+      "frames": [
+        {
+          "sprite": "boy-injured-s-pose",
+          "duration": 3000
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "boy-injured-rest-s": {
+      "frames": [
+        {
+          "sprite": "boy-injured-s-pose",
+          "duration": 3000
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "boy-injured-rest-e": {
+      "frames": [
+        {
+          "sprite": "boy-injured-e-pose",
+          "duration": 3000
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "smallchild-idle-s": {
+      "frames": [
+        {
+          "sprite": "smallchild-idle-s",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "smallchild-idle-e": {
+      "frames": [
+        {
+          "sprite": "smallchild-idle-e",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east"
+    },
+    "smallchild-idle-w": {
+      "frames": [
+        {
+          "sprite": "smallchild-idle-w",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "west"
+    },
+    "smallchild-idle-n": {
+      "frames": [
+        {
+          "sprite": "smallchild-idle-n",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
+    },
+    "smallchild-walk": {
+      "frames": [
+        {
+          "sprite": "smallchild-walk-1",
+          "duration": 180
+        },
+        {
+          "sprite": "smallchild-walk-2",
+          "duration": 180
+        },
+        {
+          "sprite": "smallchild-walk-3",
+          "duration": 180
+        },
+        {
+          "sprite": "smallchild-walk-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "smallchild-rest": {
+      "frames": [
+        {
+          "sprite": "smallchild-rest-s-pose",
+          "duration": 2500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "smallchild-rest-s": {
+      "frames": [
+        {
+          "sprite": "smallchild-rest-s-pose",
+          "duration": 2500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "smallchild-rest-e": {
+      "frames": [
+        {
+          "sprite": "smallchild-rest-e-pose",
+          "duration": 2500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "smallchild-injured-rest": {
+      "frames": [
+        {
+          "sprite": "smallchild-injured-s-pose",
+          "duration": 3000
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "smallchild-injured-rest-s": {
+      "frames": [
+        {
+          "sprite": "smallchild-injured-s-pose",
+          "duration": 3000
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "smallchild-injured-rest-e": {
+      "frames": [
+        {
+          "sprite": "smallchild-injured-e-pose",
+          "duration": 3000
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "infant-idle-s": {
+      "frames": [
+        {
+          "sprite": "infant-awake",
+          "duration": 3000
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "infant-rest": {
+      "frames": [
+        {
+          "sprite": "infant-asleep",
+          "duration": 3000
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "infant-idle-w": {
+      "frames": [
+        {
+          "sprite": "infant-idle-w",
+          "duration": 3000
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "west"
+    },
+    "infant-idle-e": {
+      "frames": [
+        {
+          "sprite": "infant-idle-e",
+          "duration": 3000
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east"
+    },
+    "courier-dismount": {
+      "frames": [
+        {
+          "sprite": "courier-dismount-1",
+          "duration": 450
+        },
+        {
+          "sprite": "courier-dismount-2",
+          "duration": 450
+        },
+        {
+          "sprite": "courier-dismount-3",
+          "duration": 500
+        },
+        {
+          "sprite": "courier-dismount-4",
+          "duration": 650
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "courier-remount": {
+      "frames": [
+        {
+          "sprite": "courier-remount-1",
+          "duration": 450
+        },
+        {
+          "sprite": "courier-remount-2",
+          "duration": 450
+        },
+        {
+          "sprite": "courier-remount-3",
+          "duration": 500
+        },
+        {
+          "sprite": "courier-remount-4",
+          "duration": 650
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "courier-onfoot-listen": {
+      "frames": [
+        {
+          "sprite": "courier-onfoot-1",
+          "duration": 850
+        },
+        {
+          "sprite": "courier-onfoot-2",
+          "duration": 450
+        },
+        {
+          "sprite": "courier-onfoot-1",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "courier-onfoot-speak": {
+      "frames": [
+        {
+          "sprite": "courier-onfoot-3",
+          "duration": 650
+        },
+        {
+          "sprite": "courier-onfoot-4",
+          "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "courier-onfoot-idle": {
+      "frames": [
+        {
+          "sprite": "courier-onfoot-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "courier-horse-wait": {
+      "frames": [
+        {
+          "sprite": "courier-horse-wait-1",
+          "duration": 1200
+        },
+        {
+          "sprite": "courier-horse-wait-2",
+          "duration": 1000
+        },
+        {
+          "sprite": "courier-horse-wait-3",
+          "duration": 900
+        },
+        {
+          "sprite": "courier-horse-wait-4",
+          "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "mounted-courier-listen-s": {
+      "frames": [
+        {
+          "sprite": "mounted-courier-listen-s-1",
+          "duration": 650
+        },
+        {
+          "sprite": "mounted-courier-listen-s-2",
+          "duration": 550
+        },
+        {
+          "sprite": "mounted-courier-listen-s-3",
+          "duration": 600
+        },
+        {
+          "sprite": "mounted-courier-listen-s-4",
+          "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "mounted-courier-speak-s": {
+      "frames": [
+        {
+          "sprite": "mounted-courier-speak-s-1",
+          "duration": 650
+        },
+        {
+          "sprite": "mounted-courier-speak-s-2",
+          "duration": 550
+        },
+        {
+          "sprite": "mounted-courier-speak-s-3",
+          "duration": 600
+        },
+        {
+          "sprite": "mounted-courier-speak-s-4",
+          "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "mounted-courier-listen-n": {
+      "frames": [
+        {
+          "sprite": "mounted-courier-listen-n-1",
+          "duration": 650
+        },
+        {
+          "sprite": "mounted-courier-listen-n-2",
+          "duration": 550
+        },
+        {
+          "sprite": "mounted-courier-listen-n-3",
+          "duration": 600
+        },
+        {
+          "sprite": "mounted-courier-listen-n-4",
+          "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "mounted-courier-speak-n": {
+      "frames": [
+        {
+          "sprite": "mounted-courier-speak-n-1",
+          "duration": 650
+        },
+        {
+          "sprite": "mounted-courier-speak-n-2",
+          "duration": 550
+        },
+        {
+          "sprite": "mounted-courier-speak-n-3",
+          "duration": 600
+        },
+        {
+          "sprite": "mounted-courier-speak-n-4",
+          "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "rust-speak-e": {
+      "frames": [
+        {
+          "sprite": "rust-speak-e-1",
+          "duration": 650
+        },
+        {
+          "sprite": "rust-speak-e-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "rust-speak": {
+      "frames": [
+        {
+          "sprite": "rust-speak-e-1",
+          "duration": 650
+        },
+        {
+          "sprite": "rust-speak-e-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "rust-listen-s": {
+      "frames": [
+        {
+          "sprite": "rust-listen-s-pose",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "rust-listen-n": {
+      "frames": [
+        {
+          "sprite": "rust-listen-n-pose",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
+    },
+    "teal-speak-e": {
+      "frames": [
+        {
+          "sprite": "teal-speak-e-1",
+          "duration": 650
+        },
+        {
+          "sprite": "teal-speak-e-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "teal-speak": {
+      "frames": [
+        {
+          "sprite": "teal-speak-e-1",
+          "duration": 650
+        },
+        {
+          "sprite": "teal-speak-e-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "teal-listen-s": {
+      "frames": [
+        {
+          "sprite": "teal-listen-s-pose",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "teal-listen-n": {
+      "frames": [
+        {
+          "sprite": "teal-listen-n-pose",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
+    },
+    "elder-speak-e": {
+      "frames": [
+        {
+          "sprite": "elder-speak-e-1",
+          "duration": 650
+        },
+        {
+          "sprite": "elder-speak-e-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "elder-speak": {
+      "frames": [
+        {
+          "sprite": "elder-speak-e-1",
+          "duration": 650
+        },
+        {
+          "sprite": "elder-speak-e-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "elder-listen-s": {
+      "frames": [
+        {
+          "sprite": "elder-listen-s-pose",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "elder-listen-n": {
+      "frames": [
+        {
+          "sprite": "elder-listen-n-pose",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
+    },
+    "blue-speak-e": {
+      "frames": [
+        {
+          "sprite": "blue-speak-e-1",
+          "duration": 650
+        },
+        {
+          "sprite": "blue-speak-e-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-speak": {
+      "frames": [
+        {
+          "sprite": "blue-speak-e-1",
+          "duration": 650
+        },
+        {
+          "sprite": "blue-speak-e-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-listen-s": {
+      "frames": [
+        {
+          "sprite": "blue-listen-s-pose",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "blue-listen-n": {
+      "frames": [
+        {
+          "sprite": "blue-listen-n-pose",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
+    },
+    "home-chest-opening": {
+      "frames": [
+        {
+          "sprite": "home-chest",
+          "duration": 500
+        },
+        {
+          "sprite": "home-chest-open",
+          "duration": 500
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "home-cradle-rock": {
+      "frames": [
+        {
+          "sprite": "home-cradle",
+          "duration": 2000
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "rock",
+      "direction": "east; west by mirroring"
+    },
     "mounted-courier-listen": {
       "frames": [
         {
@@ -25094,7 +32193,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 30,
+    "sourceCount": 41,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

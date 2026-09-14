@@ -19,12 +19,11 @@ does not have:
 | Stand-in | Where | Standing in for | Replace with |
 | --- | --- | --- | --- |
 | A person is drawn as the nearest figure by sex and age: a woman or girl as `teal`, a boy as `blue`, a man as `elder`; the principal in `rust` whoever they are, including a mother | `castVariant` in `public/motion.js` | Request 2026-09-12, priority 2 — the second cast | `rust-woman` for a mother who is principal, `indigo` and `teal` for women, `ochre` and `elder` for men, `blue-girl` and `blue` for adolescents |
-| A child is a grown figure drawn smaller: 90% at 10–17, 70% at 5–9, 55% at 2–4, 45% for an infant | `figureScale` in `public/motion.js`, applied in `miniPerson` | Request 2026-09-12, priority 1 — children | `girl`, `boy`, `smallchild` and the infant basket. **Keep the scaling**: the delivered sheets are drawn to fill their cells and need it too |
+| A child walking north or south, working, carrying, sowing or repairing is a grown figure drawn smaller (90% at 10–17, 70% at 5–9, 55% at 2–4, 45% an infant). Idle, east walk, rest and injured-rest use the delivered `girl`, `boy`, `smallchild` and `infant` (2026-09-14) | `CHILD_POSES` and `entityClip` in `public/motion.js` | Request 2026-09-12, priority 1 — children | The children's remaining poses. **Keep the scaling**: the delivered sheets fill their cells and need it |
 | *(Planned, with [SETTLING_IN.md](SETTLING_IN.md) step 8)* A parent's chosen appearance is stored and described in words; the figure is still chosen by sex and age | the family book | Request below — layered people art | Layered or palette-swappable sheets for the whole cast |
-| A finished house is drawn as the nearest cabin the library has: round-log as `cabin-weathered`, hewn-log as `cabin-small`, dog-run as `cabin-wide`, jacal as `shed-open` at 80%. A house going up is the family's camp with two `log-fallen` beside it, whatever its stage | `HOUSE_STAND_INS` and `homesteadHouse` in `public/app.js` | Request below — houses (2026-09-13 exteriors) | `house-round-log`, `house-hewn-log`, `house-dog-run`, `house-jacal`, each with `-site`, `-walls` and `-roofing` stages |
 | *(Planned, with [SETTLING_IN.md](SETTLING_IN.md) steps 6–7)* Interiors and furniture drawn from the Alamo interior pieces | the interior view | Request below — interiors and furnishings | Cabin interiors, furniture and brought goods |
-| A family that drove stock in has its cattle and hogs drawn as two `ox-brown` oxen grazing east of the house, on its own land only | the herd in the site loop of `drawWorld`, `public/app.js` | Request 2026-09-13 — stock and the grant | `cattle-longhorn` and `hog` idle and grazing figures |
-| A rider talks from the saddle, facing east or west whatever side the listener is on | `carrierClip` in `public/motion.js` | Request 2026-09-12, priorities 3 and 4 | `courier-dismount` and `courier-encounters-vertical` |
+| A family that drove stock in has its cattle and hogs drawn as two `ox-brown` oxen grazing east of the house, on its own land only | the herd in the site loop of `drawWorld`, `public/app.js` | Request 2026-09-13 — stock and the grant (the 2026-09-14 `animal-stock` sheet is **held**, see the request) | `cattle-longhorn` and `hog` idle and grazing figures |
+| A rider never gets down to talk: they speak from the saddle, turned east, west, north or south toward the listener (the vertical dialogue delivered 2026-09-14 is in use) | `carrierClip` in `public/motion.js` | Request 2026-09-12, priority 3 | `courier-dismount` (delivered 2026-09-14, registered, not yet bound: it needs the encounter to know when a rider has got down and where the horse stands) |
 
 ---
 
@@ -37,7 +36,7 @@ into the existing pipeline, and how it will be checked. When a request is delive
 
 ## Request 2026-09-13 — stock and the grant
 
-**Status: open.** Specified in [LAND_GRANTS.md](LAND_GRANTS.md) §3.
+**Status: delivered 2026-09-14, held for correction.** Astra's `animal-stock` sheet (three longhorn coats and a hog, four poses each) arrived with its provenance, but the red longhorn's horns reach into the neighbouring cell: the manifest build would have to clip 0.38% of that figure, over its 0.25% limit. It is held in `HELD` in `scripts/art-deliveries/index.mjs` rather than the limit loosened. **Asked for again:** the same sheet with every horn and tail inside its own cell, and generous gutters. The stand-in oxen stay until it lands. The original request: Specified in [LAND_GRANTS.md](LAND_GRANTS.md) §3.
 
 - **Why.** A family now chooses in the lobby whether it drives cattle and hogs in behind the wagon, which decides how
   much land it holds (`HIST-GONZ-036`). The herd is drawn with oxen until it has figures of its own.
@@ -53,7 +52,7 @@ into the existing pipeline, and how it will be checked. When a request is delive
 
 ## Request 2026-09-12 (second) — settling in: houses, interiors, furnishings, and people whose looks can be chosen
 
-**Status: open, outline.** Specified in [SETTLING_IN.md](SETTLING_IN.md); the exact sheets are to be written
+**Status: houses delivered and in use 2026-09-14** (`houses-settling`: the four houses and their `-site`, `-walls` and `-roofing` stages, drawn by the stage the server reports). **Interiors and furnishings delivered 2026-09-14** (`home-interiors`, `home-furnishings`), registered for the interior view, which is not built. Layered people still open. Specified in [SETTLING_IN.md](SETTLING_IN.md); the exact sheets are to be written
 into this request when that chapter's build reaches them, in the contract format of the request below.
 
 - **Layered people.** Students now choose what parents look like (skin tone, hair colour, clothing colour,
@@ -87,7 +86,7 @@ into this request when that chapter's build reaches them, in the contract format
 
 ## Request 2026-09-12 — families that look like who they are, and a rider who gets down
 
-**Status: open.** Requested by Claude on the owner's list of next work.
+**Status: partly delivered.** 2026-09-14: children's idle, east walk, rest and injured-rest (`people-children-idle`, `-walk`, `-care`), in use; the rider's vertical dialogue (`courier-encounters-vertical`), in use; the dismount, remount, on-foot and waiting-horse sheet (`courier-dismount`), registered and not yet bound; speaking and listening poses for the first cast (`people-dialogue`), registered and not yet bound; the second cast's idle sheet (`people-cast2-idle`), registered, waiting for its other sheets before the cast stand-in changes. Still open: the children's vertical walks and task poses, and the rest of the second cast. Requested by Claude on the owner's list of next work.
 
 ### Why
 

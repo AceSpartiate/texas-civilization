@@ -92,13 +92,15 @@ export const ORDINARY_CONDITIONS = ['well', 'tired'];
  * `speaking` and `facing` are only ever set by the server while a meeting is actually
  * open, and neither says one word about what is being carried.
  */
-// stand-in: docs/ART_REQUESTS.md, request 2026-09-12, priorities 3 and 4. A rider talks from the
-// saddle facing east or west whichever side the listener is on, because there is no dismount,
-// tether or north/south dialogue art yet. Replace with courier-dismount and
-// courier-encounters-vertical when they are delivered.
+// A rider talks from the saddle turned toward the listener: east or west (the east sheet mirrored), and since Astra's
+// courier-encounters-vertical sheet (2026-09-14) north or south when the listener is above or below them on the map.
+// stand-in: docs/ART_REQUESTS.md, request 2026-09-12, priority 3. The rider still never gets down: the delivered
+// courier-dismount sheet (dismount, remount, on foot, the horse waiting) needs an encounter that knows when a rider
+// has got down and where the horse is, and is registered but not yet bound.
 export function carrierClip(entity) {
-  if (entity.speaking) return { id: 'mounted-courier-speak' };
-  if (entity.facing) return { id: 'mounted-courier-listen' };
+  const vertical = entity.facing === 'n' || entity.facing === 's';
+  if (entity.speaking) return vertical ? { id: `mounted-courier-speak-${entity.facing}`, upright: true } : { id: 'mounted-courier-speak' };
+  if (entity.facing) return vertical ? { id: `mounted-courier-listen-${entity.facing}`, upright: true } : { id: 'mounted-courier-listen' };
   if (entity.travel) {
     const heading = travelHeading(entity);
     // No west sheet: east is mirrored, and a vertical cycle is never mirrored.
@@ -106,7 +108,34 @@ export function carrierClip(entity) {
   }
   return { id: 'mounted-courier-graze', upright: true };
 }
+/**
+ * The children's figures Astra delivered (2026-09-14): a girl and a boy of about five to nine, a small child, and an
+ * infant, with the poses the sheets hold. A child is drawn as their own figure wherever it has the pose, and as the
+ * nearest grown figure scaled down (`figureScale`, which stays) wherever it does not yet.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-12, priority 1 - a child walking north or south, working or carrying
+ * is still a grown figure drawn small, until those poses are delivered.
+ */
+export const CHILD_POSES = Object.freeze({
+  girl: ['idle-s', 'idle-e', 'idle-w', 'idle-n', 'walk', 'rest', 'rest-s', 'rest-e', 'injured-rest', 'injured-rest-s', 'injured-rest-e'],
+  boy: ['idle-s', 'idle-e', 'idle-w', 'idle-n', 'walk', 'rest', 'rest-s', 'rest-e', 'injured-rest', 'injured-rest-s', 'injured-rest-e'],
+  smallchild: ['idle-s', 'idle-e', 'idle-w', 'idle-n', 'walk', 'rest', 'rest-s', 'rest-e', 'injured-rest', 'injured-rest-s', 'injured-rest-e'],
+  infant: ['idle-s', 'idle-e', 'idle-w', 'rest'],
+});
+/** Which child's figure somebody is, or null for anyone the children's sheets do not draw. */
+export function childFigure(entity) {
+  if (entity.band === 'infant') return 'infant';
+  if (entity.band === 'small') return 'smallchild';
+  if (entity.band === 'child') return entity.sex === 'female' ? 'girl' : entity.sex === 'male' ? 'boy' : null;
+  return null;
+}
 export function entityClip(entity, observed = false) {
+  const clip = grownClip(entity, observed);
+  const young = entity.kind === 'person' && !entity.carrier && childFigure(entity);
+  if (!young) return clip;
+  const pose = clip.id.slice(castVariant(entity, observed).length + 1);
+  return CHILD_POSES[young].includes(pose) ? { ...clip, id: `${young}-${pose}` } : clip;
+}
+function grownClip(entity, observed) {
   // Somebody else's principal is not this student's principal: an observed person never
   // wears the mark, whatever their own household may call them.
   const variant = castVariant(entity, observed);

@@ -235,3 +235,15 @@ test('a student chooses a house over the wire, and reads the houses once', async
     assert.match(refused.body.error, /broadaxe/);
   } finally { await app.close(); rmSync(dir, { recursive: true, force: true }); }
 });
+
+test('a house going up is drawn at its stage: its site, its walls, its roof, and finished', async () => {
+  const { phaseOf, landView, HOUSES, RAISING_FROM, RAISING_TO } = await import('../sim/houses.mjs');
+  const household = { improvements: { cabin: 'none' }, house: { layout: 'round-log', work: 0 } };
+  const at = share => { household.house.work = Math.round(HOUSES['round-log'].work * share); return phaseOf(household); };
+  assert.equal(at(RAISING_FROM - 0.05), 'site');
+  assert.equal(at((RAISING_FROM + RAISING_TO) / 2), 'walls');
+  assert.equal(at(RAISING_TO + 0.05), 'roofing');
+  assert.equal(at(1), 'finished');
+  household.house.work = Math.round(HOUSES['round-log'].work * 0.6);
+  assert.deepEqual(landView(household), { shelter: 'building', layout: 'round-log', phase: 'walls' }, 'and a neighbour who sees it remembers the stage');
+});

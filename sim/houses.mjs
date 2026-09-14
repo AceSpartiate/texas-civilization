@@ -94,6 +94,14 @@ export const houseBuilt = household => Boolean(household.house) && household.hou
  * that several people can put in at once, and splitting it into stages anybody had to finish in
  * order would make two people working together wait on each other.
  */
+/** How far up a house going up is, as the stage its picture shows: the site laid out, the walls rising, the roof going on. */
+export function phaseOf(household) {
+  const plan = houseOf(household);
+  if (!plan) return null;
+  const share = plan.work / HOUSES[plan.layout].work;
+  return share >= 1 ? 'finished' : share < RAISING_FROM ? 'site' : share < RAISING_TO ? 'walls' : 'roofing';
+}
+
 export function stageOf(household) {
   const plan = houseOf(household);
   if (!plan) return null;
@@ -289,7 +297,7 @@ export function houseProjection(world, household) {
   const choosing = !houseBuilt(household) && !(plan && plan.work > 0) && !(!plan && improvementsOf(household).cabin === 'sound');
   const shelter = shelterOf(world, household);
   return {
-    ...(plan && { house: { layout: plan.layout, work: plan.work, total: HOUSES[plan.layout].work, stage: stageOf(household) } }),
+    ...(plan && { house: { layout: plan.layout, work: plan.work, total: HOUSES[plan.layout].work, stage: stageOf(household), phase: phaseOf(household) } }),
     // What the finished house does for the family, in numbers, on its own land line (`FIC-GONZ-008`).
     ...(shelter.layout && { home: { restShare: shelter.restShare, spoilagePerDay: shelter.spoilagePerDay, ...(shelter.crowded && { crowded: true }) } }),
     ...(choosing && { choices: HOUSE_IDS.map(id => { const why = planRefusal(world, household, id); return why ? { id, can: false, why } : { id, can: true }; }) }),
@@ -325,7 +333,8 @@ export function landView(household) {
   const cabin = improvementsOf(household).cabin;
   if (cabin === 'ruined') return { shelter: 'ruined' };
   if (cabin === 'sound') return plan ? { shelter: 'house', layout: plan.layout } : { shelter: 'house' };
-  if (plan && plan.work > 0) return { shelter: 'building', layout: plan.layout };
+  // Seen going up, it is remembered at the stage it had reached. A class saved before stages has none, and is drawn at its site.
+  if (plan && plan.work > 0) return { shelter: 'building', layout: plan.layout, phase: phaseOf(household) };
   return { shelter: 'camp' };
 }
 
@@ -337,7 +346,7 @@ export function houseInvalid(world, household) {
     if (household.house.work >= choice.work && improvementsOf(household).cabin === 'none') return 'A finished house with no roof';
   }
   for (const [siteId, view] of Object.entries(household.seenLand || {})) {
-    if (!world.map.sites[siteId] || !['camp', 'building', 'house', 'ruined'].includes(view?.shelter) || (view.layout !== undefined && !HOUSES[view.layout]) || !Number.isFinite(view.minute)) return 'Invalid remembered land';
+    if (!world.map.sites[siteId] || !['camp', 'building', 'house', 'ruined'].includes(view?.shelter) || (view.layout !== undefined && !HOUSES[view.layout]) || (view.phase !== undefined && !['site', 'walls', 'roofing', 'finished'].includes(view.phase)) || !Number.isFinite(view.minute)) return 'Invalid remembered land';
   }
   return null;
 }

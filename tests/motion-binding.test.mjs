@@ -191,3 +191,27 @@ test('until the art exists, a person is drawn as the nearest figure the library 
     }
   }
 });
+
+test("Astra's second delivery is drawn: children in their own figures where the pose exists, riders turned north or south, houses by stage", async () => {
+  const { CHILD_POSES, childFigure } = await import('../public/motion.js');
+  const { HOUSE_IDS } = await import('../sim/houses.mjs');
+  const atlas = JSON.parse(readFileSync(fileURLToPath(new URL('../public/assets/frontier-v1/atlas.json', import.meta.url)), 'utf8'));
+  const frames = atlas.frames || atlas.sprites;
+  const child = extra => person({ id: 'hh-1-child-3', task: 'rest', ...extra });
+  assert.equal(entityClip(child({ sex: 'female', band: 'child' })).id, 'girl-rest', 'a girl resting is the girl');
+  assert.equal(entityClip(child({ sex: 'male', band: 'child', task: 'work' })).id, 'boy-idle-s', 'a boy standing about is the boy');
+  assert.equal(entityClip(child({ sex: 'female', band: 'small', health: { condition: 'minor-injury' } })).id, 'smallchild-injured-rest');
+  assert.equal(entityClip(child({ sex: 'male', band: 'infant' })).id, 'infant-rest');
+  assert.equal(entityClip(child({ sex: 'female', band: 'child', travel: road([{ x: 0, y: 0 }, { x: 9, y: 0 }]) })).id, 'girl-walk', 'walking east is her own walk');
+  assert.equal(entityClip(child({ sex: 'female', band: 'child', travel: road([{ x: 0, y: 0 }, { x: 0, y: 9 }]) })).id, 'teal-walk-s', 'walking south is still a grown figure drawn small, until that pose comes');
+  assert.equal(childFigure({ band: 'youth', sex: 'female' }), null, 'an adolescent is not drawn as a child');
+  for (const [figure, poses] of Object.entries(CHILD_POSES)) for (const pose of poses) assert.ok(clips[`${figure}-${pose}`], `${figure}-${pose} is in the library`);
+
+  const rider = extra => ({ id: 'courier-1', kind: 'person', carrier: true, health: { condition: 'well' }, task: 'rest', ...extra });
+  for (const facing of ['n', 's']) {
+    assert.deepEqual(entityClip(rider({ facing })), { id: `mounted-courier-listen-${facing}`, upright: true }, `listening to somebody to the ${facing}`);
+    assert.deepEqual(entityClip(rider({ facing, speaking: true })), { id: `mounted-courier-speak-${facing}`, upright: true });
+    assert.ok(clips[`mounted-courier-listen-${facing}`] && clips[`mounted-courier-speak-${facing}`]);
+  }
+  for (const layout of HOUSE_IDS) for (const stage of ['', '-site', '-walls', '-roofing']) assert.ok(frames[`house-${layout}${stage}`], `house-${layout}${stage} is on the atlas`);
+});

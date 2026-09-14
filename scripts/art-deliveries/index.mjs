@@ -6,6 +6,12 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 // recorded, and nobody but the artist can write that record. Nothing here ever breaks the build or the tests for
 // art that is merely not here yet; pending says what is waiting and why.
 const ATLASES = new URL('../../public/assets/frontier-v1/atlases/', import.meta.url);
+// A delivered sheet held back after review, with why: its picture and provenance are here, but the manifest build's
+// checks refuse it, and loosening a check for one sheet is not the fix. Held sheets wait like a missing picture does,
+// and the stand-in they would replace stays in use. Remove the entry when the corrected sheet lands.
+export const HELD = Object.freeze({
+  'animal-stock': "layout review: the red longhorn's horns reach into the next cell, and splitting them clips 0.38% of the figure (the build allows 0.25%). Held 2026-09-14; asked for again in docs/ART_REQUESTS.md.",
+});
 const recorded = new Set(JSON.parse(readFileSync(new URL('../../docs/art-provenance.json', import.meta.url), 'utf8')).assetSources.map(entry => entry.sheet));
 export const SHEETS = {}, ANIMATION_CLIPS = {}, promptEntries = [], provenanceEntries = [], notes = [], pending = [];
 for (const name of readdirSync(new URL('.', import.meta.url)).filter(name=>name.endsWith('.mjs')&&name!=='index.mjs').sort()) {
@@ -15,7 +21,7 @@ for (const name of readdirSync(new URL('.', import.meta.url)).filter(name=>name.
     if (Object.hasOwn(SHEETS,id)) throw new Error(`Duplicate delivery SHEETS: ${id}`);
     const picture = existsSync(new URL(`${id}.png`, ATLASES));
     const origin = recorded.has(id) || (delivery.provenanceEntries || []).some(entry => entry.sheet === id);
-    if (!picture || !origin) { pending.push({ sheet: id, waitingFor: [!picture && 'picture', !origin && 'provenance'].filter(Boolean) }); continue; }
+    if (!picture || !origin || HELD[id]) { pending.push({ sheet: id, waitingFor: [!picture && 'picture', !origin && 'provenance', HELD[id] && HELD[id]].filter(Boolean) }); continue; }
     SHEETS[id]=value;
     for (const sprite of value) if (sprite) sprites.add(sprite);
   }

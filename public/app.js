@@ -140,7 +140,7 @@ function groundShadow(ctx, x, y, radius) {
 const SKIN = ['#e0b48c', '#c9915f', '#a76c41', '#7d4d2c', '#f0cba6'];
 const CLOTH = ['#7d6a4c', '#5d6b52', '#8a6a4a', '#6d5a68', '#4f6570'];
 function miniPerson(ctx, x, y, size, entity) {
-  // A child is drawn smaller than a grown person (stand-in until child art exists; the scale stays).
+  // A child is drawn smaller than a grown person, in their own figure or a grown one (public/motion.js `entityClip`).
   if (!entity.side) size *= figureScale(entity);
   const binding = entity.side ? { id: `${entity.side === 'mexican' ? 'regular' : 'volunteer'}-idle-e` } : entityClip(entity, entity.observed);
   // A north or south cycle is drawn facing that way already; mirroring it would turn a
@@ -262,24 +262,23 @@ function miniBuilding(ctx, x, y, size, settlement = false, id = '', ruined = fal
 // property, so it is never painted in here: a family that took it to the timber has no wagon
 // in its camp.
 /**
- * A house on a homestead, by what kind it is (docs/SETTLING_IN.md step 4).
+ * A house on a homestead, by what kind it is and how far up it is (docs/SETTLING_IN.md step 4).
  *
- * stand-in: the four houses are drawn from the cabins the library already has - a round-log cabin as
- * the weathered cabin, a hewn-log cabin as the small cabin, a dog-run as the wide cabin, and a jacal
- * as the open shed - and a house going up as the family's camp with felled logs beside it. Requested
- * in docs/ART_REQUESTS.md (houses, 2026-09-12 second request) as per-type exteriors by stage.
+ * Astra's houses-settling sheet (delivered 2026-09-14): each of the four houses finished, and going up as its site, its
+ * walls and its roof. While a house is going up the family still camps beside it. The old cabins are kept only as what
+ * is drawn if the sheet has not loaded.
  */
-const HOUSE_STAND_INS = { 'round-log': 'cabin-weathered', 'hewn-log': 'cabin-small', 'dog-run': 'cabin-wide', jacal: 'shed-open' };
+const HOUSE_FALLBACK = { 'round-log': 'cabin-weathered', 'hewn-log': 'cabin-small', 'dog-run': 'cabin-wide', jacal: 'shed-open' };
 function homesteadHouse(ctx, x, y, size, id, view) {
   if (view.shelter === 'camp') return homesteadCamp(ctx, x, y, size, id);
   if (view.shelter === 'building') {
-    homesteadCamp(ctx, x - size * .3, y + size * .1, size * .8, id);
-    // stand-in: logs felled for a house, until the construction-stage art arrives.
+    homesteadCamp(ctx, x - size * .55, y + size * .18, size * .7, id);
+    if (view.layout && drawSprite(ctx, `house-${view.layout}-${view.phase || 'site'}`, x + size * .12, y, size)) return;
     drawSprite(ctx, 'log-fallen', x + size * .38, y - size * .08, size * .5);
     drawSprite(ctx, 'log-fallen', x + size * .46, y + size * .08, size * .46);
     return;
   }
-  if (view.shelter === 'house' && view.layout && drawSprite(ctx, HOUSE_STAND_INS[view.layout], x, y, size * (view.layout === 'jacal' ? .8 : 1))) return;
+  if (view.shelter === 'house' && view.layout && (drawSprite(ctx, `house-${view.layout}`, x, y, size) || drawSprite(ctx, HOUSE_FALLBACK[view.layout], x, y, size * (view.layout === 'jacal' ? .8 : 1)))) return;
   return miniBuilding(ctx, x, y, size, false, id, view.shelter === 'ruined');
 }
 function homesteadCamp(ctx, x, y, size, id = '') {
@@ -2148,7 +2147,7 @@ $('#wagon-open')?.addEventListener('click', () => { wagonPacking = true; wagonSh
  */
 let housePlanOpen = false, housePending = false, houseShown = '';
 const ownLandView = land => land.cabin === 'ruined' ? { shelter: 'ruined' }
-  : land.shelter === 'camp' ? (land.house?.work > 0 ? { shelter: 'building', layout: land.house.layout } : { shelter: 'camp' })
+  : land.shelter === 'camp' ? (land.house?.work > 0 ? { shelter: 'building', layout: land.house.layout, phase: land.house.phase } : { shelter: 'camp' })
   : { shelter: 'house', ...(land.house && { layout: land.house.layout }) };
 const TOOL_WORDS = { axe: 'a felling axe', broadaxe: 'a broadaxe' };
 /** A share as a student reads it: "1 part", "1.5 parts", "115 parts". */

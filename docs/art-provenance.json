@@ -308,6 +308,230 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/courier-encounters.png",
       "postProcessing": "None. Final built-in generated PNG copied unchanged; alpha measured only.",
       "review": "Four E/W mounted actions: listening, speaking, letter offer, pointing. Horse/rider proportions need final cross-sheet registration; transitions and other facings remain production work."
+    },
+    {
+      "sheet": "people-cast2-idle",
+      "promptId": "frontier-v1/people-cast2-idle",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + edit",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a09f7b-6a62-7370-b596-a9fc91f4b0d4/exec-ac612f32-1bd2-41ac-91e0-f6fd9a9e62f9.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-cast2-idle.png",
+      "postProcessing": "None. Accepted original PNG copied unchanged. Rejected generation originals retained. Read-only RGBA decoding; no source pixels rewritten.",
+      "review": "Accepted idle after visual review and read-only decodeRgba: 1254 x 1254, RGBA 8-bit, 1,069,949 fully transparent pixels. Sixteen full figures. Actual order S,E,W,N is reflected in frame IDs.",
+      "reference": "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/civilians.png",
+      "generationHistory": [
+        {
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a09f7b-6a62-7370-b596-a9fc91f4b0d4/exec-c5813895-8ff6-4091-aea7-759ef9007b5a.png",
+          "reference": "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/civilians.png",
+          "result": "Rejected: RGB opaque checkerboard."
+        },
+        {
+          "prompt": "Edit the reference sprite sheet. Remove the entire opaque gray-and-white checkerboard from all empty spaces, including enclosed gaps, replacing it with REAL transparent alpha (alpha zero). Output an RGBA PNG with actual transparency, 1254 by 1254. Do not paint a new checkerboard or a solid background. Preserve every character pixel, identity, clothing, pose, dimensions, layout and scale. Nothing else changes. The result is sixteen isolated full figures on true clear transparency.",
+          "reference": "C:/Users/zachw/.codex/generated_images/01a09f7b-6a62-7370-b596-a9fc91f4b0d4/exec-c5813895-8ff6-4091-aea7-759ef9007b5a.png",
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a09f7b-6a62-7370-b596-a9fc91f4b0d4/exec-5b979863-c301-4a9e-b5ac-d2b51394fb5f.png",
+          "result": "Rejected: opaque RGB checkerboard remained."
+        },
+        {
+          "prompt": "Cut out all sixteen people from image 1 and deliver their sprite sheet with a transparent background. Retain exact image dimensions and the exact appearance and placement of all sixteen people. Remove ALL gray and white squares between people. Blank spaces must be genuinely transparent, not illustrated. Output PNG with RGBA alpha transparency. This is a background removal task only.",
+          "reference": "C:/Users/zachw/.codex/generated_images/01a09f7b-6a62-7370-b596-a9fc91f4b0d4/exec-5b979863-c301-4a9e-b5ac-d2b51394fb5f.png",
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a09f7b-6a62-7370-b596-a9fc91f4b0d4/exec-ac612f32-1bd2-41ac-91e0-f6fd9a9e62f9.png",
+          "result": "Accepted RGBA transparency."
+        }
+      ]
+    },
+    {
+      "sheet": "people-children-idle",
+      "promptId": "frontier-v1/people-children-idle",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a09f7b-282b-7ea1-a38a-d98437d3a6b3/exec-7968abc7-d53d-4fc5-b448-7e7684b4191f.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-children-idle.png",
+      "referenceImages": [
+        "public/assets/frontier-v1/atlases/civilians.png"
+      ],
+      "attempts": [
+        {
+          "mode": "generate",
+          "prompt": "Use case: historical-scene. Asset type: production game sprite atlas people-children-idle, Texas 1835. Reference image 1 is style reference only: match its warm outlined storybook farm-game art, hand-drawn dark brown contour, simple flat shading, muted moss/rust/cream/ochre palette and slight elevated north-up view. Create a NEW square 1254 x 1254 PNG with genuine transparent RGBA background. Strict FOUR equal columns by FOUR equal rows, sixteen isolated sprites with generous transparent gutters. No background color, checkerboard, ground patches, shadows, text or gridlines. Full figures centered with constant foot baseline per row, safe margins. Children fill their cells like adults in reference but have CHILD proportions, larger heads, short limbs; game scales them down. Preserve each identity in every pose. Rows 1-3 columns are precisely SOUTH/front, WEST/screen-left, EAST/screen-right, NORTH/back, all neutral standing. Row1 same girl age 7: warm medium skin, dark brown hair in one braid, faded rose calico dress, cream pinafore, small brown shoes. Row2 same boy age 7: light warm skin, straw blond short hair, undyed linen shirt, brown trousers held by exactly ONE suspender, bare feet, no hat. Row3 same gender-neutral child age 3: warm medium skin, short brown hair, plain cream gown to shins, bare feet. Row4 a swaddled infant in a small woven brown basket, 4 poses: awake front view, asleep front view, basket viewed from WEST, basket viewed from EAST. Infant cream swaddle, no adult. No weapons or soldiers. Keep every sprite within its individual equal cell. Transparency must be genuine alpha, never drawn checkerboard.",
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a09f7b-282b-7ea1-a38a-d98437d3a6b3/exec-8ad93faa-c494-4923-8176-a0c7e9a3f63f.png",
+          "review": "Rejected: opaque RGB painted checkerboard."
+        },
+        {
+          "mode": "edit",
+          "prompt": "Use case: background-extraction. Edit this sprite sheet. Remove ALL checkerboard background and make those pixels genuinely transparent alpha. Output transparent RGBA PNG, preserving the existing sixteen sprites, their outlines and colors and exact poses and positions. Keep 1254 x 1254 dimensions and all characters/baskets unchanged. No new background, no painted checkerboard, no shadows, no replacements; only extract these sixteen sprites from the opaque checkerboard to genuine alpha transparency.",
+          "referencedImagePaths": [
+            "C:/Users/zachw/.codex/generated_images/01a09f7b-282b-7ea1-a38a-d98437d3a6b3/exec-8ad93faa-c494-4923-8176-a0c7e9a3f63f.png"
+          ],
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a09f7b-282b-7ea1-a38a-d98437d3a6b3/exec-7968abc7-d53d-4fc5-b448-7e7684b4191f.png",
+          "review": "RGBA 1254x1254, 64.8835% fully transparent. Sixteen figures inspected. Actual idle columns south/east/west/north are mapped to match image. Rows have unequal physical heights; smallchild still needs renderer age scale. Accepted after built-in alpha extraction."
+        }
+      ],
+      "postProcessing": "None. Built-in generator output copied unchanged; original source preserved.",
+      "review": "RGBA 1254x1254, 64.8835% fully transparent. Sixteen figures inspected. Actual idle columns south/east/west/north are mapped to match image. Rows have unequal physical heights; smallchild still needs renderer age scale. Accepted after built-in alpha extraction."
+    },
+    {
+      "sheet": "people-children-walk",
+      "promptId": "frontier-v1/people-children-walk",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a09f7b-282b-7ea1-a38a-d98437d3a6b3/exec-c72a1afc-ac2f-4278-860f-5f2ea6dac360.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-children-walk.png",
+      "referenceImages": [
+        "C:/Users/zachw/.codex/generated_images/01a09f7b-282b-7ea1-a38a-d98437d3a6b3/exec-7968abc7-d53d-4fc5-b448-7e7684b4191f.png"
+      ],
+      "attempts": [
+        {
+          "mode": "generate",
+          "prompt": "Use case: historical-scene. Create new production sprite animation sheet people-children-walk. Input image is IDENTITY and STYLE reference for first three rows; keep precisely these children's faces, hair, clothing, skin tones, child proportions and dark brown outlined warm storybook flat shading. Square 1254 x 1254 transparent RGBA PNG, genuine alpha; NO checkerboard, color backdrop, shadows, ground, text, lines. Strict FOUR equal columns by FOUR equal rows with generous empty gutters. EXACTLY 12 sprites in rows 1-3; ENTIRE bottom quarter/row4 is EMPTY transparent. Each full child fills equal cell like reference adults, same feet baseline in each row. All face SCREEN RIGHT (east), walking in place. Columns1-4 four-frame walk cycle: left foot forward; passing with one leg raised; right foot forward; passing with opposite leg raised. Distinct alternating legs and counter-swing arms, locked outfit. Row1 girl age7 warm medium skin dark single braid faded rose calico dress cream pinafore small brown shoes. Row2 boy age7 light warm skin straw blond hair undyed linen shirt brown trousers exactly ONE suspender bare feet. Row3 gender-neutral child age3 warm medium skin short brown hair plain cream shin-length gown bare feet, toddler's shorter steps and arms slightly out. No infant, no props, no work poses. Draw children with larger heads and shorter limbs but fill the cells; renderer applies age scaling. Transparent background must be actual alpha channel.",
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a09f7b-282b-7ea1-a38a-d98437d3a6b3/exec-179fe6b6-ae1c-4877-8a68-f324b44d2205.png",
+          "review": "Rejected: opaque RGB painted checkerboard."
+        },
+        {
+          "mode": "edit",
+          "prompt": "Use case: background-extraction. Remove every grey checkerboard square from this 12-sprite children's walking sheet, replace the entire background with genuine fully transparent alpha. Output RGBA PNG 1254 x 1254. Preserve all twelve sprite poses, positions, colors, fine dark outlines and costume details exactly. Bottom area must be completely transparent empty space. Only remove background. Do not replace it with a checkerboard, color or texture. Keep all art unchanged.",
+          "referencedImagePaths": [
+            "C:/Users/zachw/.codex/generated_images/01a09f7b-282b-7ea1-a38a-d98437d3a6b3/exec-179fe6b6-ae1c-4877-8a68-f324b44d2205.png"
+          ],
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a09f7b-282b-7ea1-a38a-d98437d3a6b3/exec-c72a1afc-ac2f-4278-860f-5f2ea6dac360.png",
+          "review": "RGBA 1254x1254, 71.6227% fully transparent. Twelve east-facing steps inspected. Fourth logical row empty. Silhouette changes are modest between frames 1/3 and 2/4; body/costume identity retained. Accepted after built-in alpha extraction."
+        }
+      ],
+      "postProcessing": "None. Built-in generator output copied unchanged; original source preserved.",
+      "review": "RGBA 1254x1254, 71.6227% fully transparent. Twelve east-facing steps inspected. Fourth logical row empty. Silhouette changes are modest between frames 1/3 and 2/4; body/costume identity retained. Accepted after built-in alpha extraction."
+    },
+    {
+      "sheet": "people-children-care",
+      "promptId": "frontier-v1/people-children-care",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a09f7b-282b-7ea1-a38a-d98437d3a6b3/exec-a2483a80-eda1-4ba6-90cf-f59f4472f681.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-children-care.png",
+      "referenceImages": [
+        "C:/Users/zachw/.codex/generated_images/01a09f7b-282b-7ea1-a38a-d98437d3a6b3/exec-7968abc7-d53d-4fc5-b448-7e7684b4191f.png"
+      ],
+      "postProcessing": "None. Built-in generator output copied unchanged; original source preserved.",
+      "review": "RGBA 1254x1254, 62.7158% fully transparent. Twelve rest/injured poses inspected. Actual sheet has three physical rows rather than requested fourth empty row; registered as 3x4. Boy resting poses also have ankle bandage. Source copied unchanged."
+    },
+    {
+      "sheet": "courier-dismount",
+      "promptId": "frontier-v1/courier-dismount",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate, then background-extraction edit",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a09f7b-b073-70e2-8813-9794a8e87095/exec-378717c9-51fb-4541-ade6-cb06677b196f.png",
+      "initialGeneratedSourcePath": "C:/Users/zachw/.codex/generated_images/01a09f7b-b073-70e2-8813-9794a8e87095/exec-ca3d9092-c500-4705-b00b-709ba18d96a8.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/courier-dismount.png",
+      "postProcessing": "None outside built-in imagegen. Accepted RGBA PNG copied unchanged; source pixels not rewritten.",
+      "review": "Accepted after genuine RGBA and full-pose review, following two background-extraction edits and one imagegen spacing correction.",
+      "rejectedAttempts": [
+        {
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a09f7b-b073-70e2-8813-9794a8e87095/exec-ca3d9092-c500-4705-b00b-709ba18d96a8.png",
+          "reason": "RGB with painted checkerboard; preserved at original generation path."
+        },
+        {
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a09f7b-b073-70e2-8813-9794a8e87095/exec-b5174d27-5b34-4867-8b86-ad9b00822c23.png",
+          "reason": "84 visible pixels of tail overlapped neighboring frame; 0.251% exceeded measurement tolerance."
+        },
+        {
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a09f7b-b073-70e2-8813-9794a8e87095/exec-20b69f31-2a51-4663-ac5c-699ed0094cb9.png",
+          "reason": "RGB checkerboard after spacing correction; fixed by final built-in background extraction."
+        }
+      ],
+      "references": [
+        "public/assets/frontier-v1/atlases/courier-mounted.png",
+        "public/assets/frontier-v1/atlases/courier-encounters.png"
+      ]
+    },
+    {
+      "sheet": "courier-encounters-vertical",
+      "promptId": "frontier-v1/courier-encounters-vertical",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate, then background-extraction edit",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a09f7b-b073-70e2-8813-9794a8e87095/exec-f771b8a0-b89d-4cba-af0e-7de62171f284.png",
+      "initialGeneratedSourcePath": "C:/Users/zachw/.codex/generated_images/01a09f7b-b073-70e2-8813-9794a8e87095/exec-d6916f4a-0357-4c22-9713-b0f278040a65.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/courier-encounters-vertical.png",
+      "postProcessing": "None outside built-in imagegen. Accepted RGBA PNG copied unchanged; source pixels not rewritten.",
+      "review": "Accepted after genuine RGBA transparency and full-pose visual inspection. Initial generation rejected for painted checkerboard, corrected through one imagegen background-extraction edit.",
+      "rejectedAttempts": [
+        {
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a09f7b-b073-70e2-8813-9794a8e87095/exec-d6916f4a-0357-4c22-9713-b0f278040a65.png",
+          "reason": "RGB with painted checkerboard; preserved at original generation path."
+        }
+      ],
+      "references": [
+        "public/assets/frontier-v1/atlases/courier-mounted.png",
+        "public/assets/frontier-v1/atlases/courier-encounters.png"
+      ]
+    },
+    {
+      "sheet": "people-dialogue",
+      "promptId": "frontier-v1/people-dialogue",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate, then background-extraction edit",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a09f7b-b073-70e2-8813-9794a8e87095/exec-df8224fb-8a82-4147-9cda-c5b4de9dd26e.png",
+      "initialGeneratedSourcePath": "C:/Users/zachw/.codex/generated_images/01a09f7b-b073-70e2-8813-9794a8e87095/exec-9f6559af-2aeb-4284-8860-2c6b93baba8a.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-dialogue.png",
+      "postProcessing": "None outside built-in imagegen. Accepted RGBA PNG copied unchanged; source pixels not rewritten.",
+      "review": "Accepted after genuine RGBA transparency and full-pose visual inspection. Initial generation rejected for painted checkerboard, corrected through one imagegen background-extraction edit.",
+      "rejectedAttempts": [
+        {
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a09f7b-b073-70e2-8813-9794a8e87095/exec-9f6559af-2aeb-4284-8860-2c6b93baba8a.png",
+          "reason": "RGB with painted checkerboard; preserved at original generation path."
+        }
+      ],
+      "references": [
+        "public/assets/frontier-v1/atlases/civilians.png"
+      ]
+    },
+    {
+      "sheet": "houses-settling",
+      "promptId": "frontier-v1/houses-settling",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate with alpha-extraction edits",
+      "prompt": "Use case historical-scene. Produce a production game sprite atlas, square1254x1254, exactly4columns x4rows, sixteen separate sprites with generous transparent gutters, REAL transparent RGBA alpha (never painted checkerboard), no labels, borders, people or backgrounds. Style reference attached: match warm outlined frontier-v1 miniature buildings, dark earthy outlines, weathered wood/ochre mud, simple illustrative shading. Same slightly elevated front-and-right-side view. EVERY ROW depicts ONE specific house through construction, same world footprint, doorway position and baseline in all4cells. Column1 cleared construction footprint with stacked appropriate timber/posts, no house; column2 half-height walls with door gap; column3 full walls plus rafters partly covered by roof; column4 finished house. Keep house footprint size and perspective identical across the row; do NOT enlarge early low stages to fill their cells. Four rows: 1 single-pen ROUND unhewn bark-on logs, saddle-notched corners, chinked gaps, one door and tiny window, exterior stick-and-mud chimney at RIGHT gable, split clapboard roof with long weight poles across it; 2 single-pen HEWN flat squared logs, tight corners, same kind of stick-and-mud chimney and weight-pole clapboard roof, visibly more finished; 3 DOG-RUN two separate log pens under a single long roof, a clearly OPEN wide roofed central breezeway, chimney at EACH outer gable, each pen has door opening toward front, NEVER close the central passage with a wall or door; 4 JACAL narrow rectangular hut about10feetby20feet, upright earth-set posts and stick walls daubed in mud with some sticks showing, pitched straw THATCH roof, one little door and window, no log courses, no chimney. Show the four rows at coherent model scale with dog-run broader than singlepen and jacal narrow. No stone chimneys, brick, porch railings, modern shingleuniformity, European fantasy, grass islands or decorative furniture. Complete objects inside cells and at least12px clearance from all cell edges. These sprites will be individually cut and used at construction thresholds.",
+      "correctionPrompts": [
+        "Edit this production sixteen-sprite atlas ONLY to remove the entire gray/white checkerboard and replace it with genuinely transparent alpha pixels. Preserve all sixteen drawings, 4x4 reading order, dimensions, colours, materials, perspectives and positions exactly. Remove checkerboard inside gaps too. Output an actual 8-bit RGBA transparent PNG, not a picture of checkerboard, no opaque matte, no halo. Do not rearrange or redraw the houses. Retain the source ground footprints under each building as part of the sprite; only erase background.",
+        "Make the background transparent. Remove every gray and white checkerboard square. Keep all sixteen house drawings unchanged. Return a transparent PNG with no background."
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3ad98537-aea1-4c7a-8f10-87fb808e9706.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/houses-settling.png",
+      "postProcessing": "None. Original PNG copied unchanged; alpha measured only.",
+      "review": "Four layouts through site/walls/roofing/finished. Earlier painted checkerboards rejected. Source stages retain row reference height."
+    },
+    {
+      "sheet": "animal-stock",
+      "promptId": "frontier-v1/animal-stock",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Historical-scene production game sprite atlas1254x1254, exactly4columns4rows, sixteen isolated figures. Genuine RGBA transparent background with no checkerboard or solid background, no scenery/text/labels/ground/shadows. Warm outlined rustic illustrated farm-game art, dark earthy brown contours, small readable shading, slight elevated sideview facingEAST. Each row SAME individual animal four grounded poses at identical size and baseline. Row1 Texas longhorn cattle reddish-brown coat with pale underbelly and long outwardcurving horns: neutral idle headup, lower headhalfway, grazing muzzle down, grazing slightneckshift. Row2 same longhorn type dark brown/white piebaldcoat: same4poses. Row3 same longhorntype duncreamcoat: same4poses. Row4 lean darkcharcoal/brown earlyfrontier hog with bristledback, long snout, narrowbody, small ears (not pink modern pig): neutralidle, loweringsnout, rootinggroundsnoutleft, rootinggroundsnoutright. Hooves planted across allposes; no sliding no growth. Each completefigure fitsinside its equalcell with generous20pxgutters; horns/tailsnotcroppedoroverlap. Appropriate 1835 Texas livestock illustrations, not claimof documented individual breed pedigree. No ox yoke or cart. Cohesive gameassets not photoreal.",
+      "correctionPrompts": [],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7701e17e-d425-41de-972d-b340bbd19e0b.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/animal-stock.png",
+      "postProcessing": "None. Original PNG copied unchanged; alpha measured only.",
+      "review": "Three longhorn coats and lean bristled hog. Generic period livestock; idle and grazing/rooting key poses."
+    },
+    {
+      "sheet": "home-furnishings",
+      "promptId": "frontier-v1/home-furnishings",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Historical-scene. Original production sprite atlas for Texas1835 illustrated family game. Warm earthy outlined storybook farm-game style, dark brown contours, ochre weathered wood and cream cloth, slight elevated front-right view, upperleft lighting, recognizable miniature silhouettes, no photoreal. Square1254x1254 exactly4columns4rows, each separate fullobject centered in equalcell with20pxemptygutters, TRUE TRANSPARENT RGBA background, NO checkered pattern, text, borders, floor patches, ground shadows, people, weapons or modern machines. Reading order: row1 rustic plank table; low backless wooden bench; plain rope-bottom wooden bedstead with cream straw mattress; rough wooden wall shelving unit with three shelves. Row2 wooden rocking CRADLE for infant with curved runners and cream cloth inside, no infant; rolled bedding and pillow; black iron cooking pot with bail; big plain closed pine chest with iron hinges. Row3 simple flax spinning wheel on wooden frame with separate visible large wheel and treadle; small stack of worn leatherbound books with no legible titles; folded cream mosquito net with hanging cord; grouped plain tin cup/plate/small kettle. Row4 wooden chair in pieces tied in a bundle for wagon transport; assembled plain ladderback chair; open version of row2 closed chest with same proportions and lid open; low wooden stool. Basic functional period objects with restrained detail, no ornamental Victorian furniture, clock, mirror, rocking adultchair, china crockery. The atlas is modular furnishing artwork, no composed room background. Make each item clearly separate, upright with base centered at85percentcellheight.",
+      "correctionPrompts": [],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-050933fd-b122-4c25-8e90-12ed91d8d485.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/home-furnishings.png",
+      "postProcessing": "None. Original PNG copied unchanged; alpha measured only.",
+      "review": "Uses updated SETTLING_IN goods (books, mosquito bars, tinware, packed chair), not superseded clock/mirror/china. No furniture gameplay implied."
+    },
+    {
+      "sheet": "home-interiors",
+      "promptId": "frontier-v1/home-interiors",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Create a 1254x1254 transparent game art atlas with exactly four separated cutaway house interiors in a 2x2 grid. Warm outlined rustic Texas1835 farm-game art, earthy brown log walls, ochre dirt floors, slight elevated front-right view, match the frontier-v1 buildings. True transparent alpha outside each room, no checkerboard, labels, furniture, people or shadows outside the room. Top left single-pen round-log cabin, square room, dirt floor, back and left walls visible with tinywindow and plainfireplace; front/right walls cut to low sills. Top right single-pen hewn-log cabin, square room with flat hewnlog back/leftwalls, dirt floor, tinywindow and plainfireplace, front/right cut to low sills. Bottom left dog-run house two separate square log rooms flanking an OPEN roofless central breezeway, all unfurnished, low cutaway frontwalls, fireplaces at outerends. Bottom right narrow rectangular jacal interior with upright stick-and-mud walls, dirtfloor, tinywindow, nofireplace; back/left walls visible and front/rightlow. No roofs. Each complete room fits its quadrant with generous empty40pxgutters. Keep empty floor space legible for placing separate furniture and moving gamecharacters. These are schematic interior art components, not exactsiteplans.",
+      "correctionPrompts": [],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-96090d44-331e-4a7c-a71d-3cbbfcbf1a41.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/home-interiors.png",
+      "postProcessing": "None. Original PNG copied unchanged; alpha measured only.",
+      "review": "Schematic cutaway room plates. Independent furniture placement and navigation need geometry. Generic fireplace finish does not choose an exterior construction method."
     }
   ],
   "rejectedAttempts": [

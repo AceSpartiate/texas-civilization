@@ -760,3 +760,12 @@ test('a chain that cannot be walked back is not provenance', () => {
   relayed.provenance = 'a man told me';
   assert.throws(() => validateWorld(world), /provenance/);
 });
+
+test('a rider is turned toward the listener, north or south when they are above or below', async () => {
+  const { facingOf } = await import('../sim/encounters.mjs');
+  const at = (listener, carrier = { x: 0, y: 0 }) => facingOf({ minute: 0, encounters: { e1: { carrierId: 'r', listenerId: 'l', status: 'open', said: [] } }, entities: { r: { id: 'r', location: carrier }, l: { id: 'l', location: listener } } }, { id: 'r', location: carrier }).facing;
+  assert.equal(at({ x: 0.01, y: -0.2 }), 'n', 'somebody up the map');
+  assert.equal(at({ x: -0.02, y: 0.3 }), 's', 'somebody down it');
+  assert.equal(at({ x: -0.3, y: 0.05 }), 'w');
+  assert.equal(at({ x: 0.3, y: 0.1 }), 'e');
+});
