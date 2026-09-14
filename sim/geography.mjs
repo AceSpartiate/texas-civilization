@@ -208,7 +208,7 @@ export function buildGonzalesRegion(random, playerCount, { origin = { x: 0, y: 0
  * A route's going, with what a family has cut out of its lane taken away (sim/homesite.mjs): the lane is cut from its far end
  * - the house - so the stretches nearest the house lose their timber and brush first, part of a stretch in proportion.
  */
-function cutGround(route) {
+export function cutGround(route) {
   if (!(route.cut > 0)) return route.ground;
   const lengths = route.points.slice(1).map((b, i) => Math.hypot(b.x - route.points[i].x, b.y - route.points[i].y));
   let fromHouse = 0;

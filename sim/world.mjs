@@ -12,6 +12,7 @@ import { buildGonzalesRegion, findPath, polylineLength } from './geography.mjs';
 import { advanceEncounters, askRider, carriedInPerson, encounterProjection, leaveRider, riderName, spotName } from './encounters.mjs';
 import { DEFAULT_MODE, MODES, modeOf, moveOnGround, propertyId, RIDER_SPEED } from './travel.mjs';
 import { paceOf } from './ground.mjs';
+import { findWay } from './ways.mjs';
 import { STATES as IMPROVEMENT_STATES, improvementProjection } from './improvements.mjs';
 import { OLD_PATCHES, plotAt } from './fields.mjs';
 import { advanceArrivals, putOnTheRoad, shelterProjection } from './settling.mjs';
@@ -232,8 +233,9 @@ export function modeAvailability(world, entity, modeId, path = null) {
 /** Every way this person could set out right now, with the reason for any that are not open. */
 export function travelModesFor(world, entity, destination = null) {
   if (entity.kind !== 'person' || !entity.householdId) return [];
-  const path = destination && entity.location.siteId ? findPath(world.map, entity.location.siteId, destination) : null;
   return Object.keys(MODES).map(id => {
+    // Each way of going takes its own way there (sim/ways.mjs): the wagon keeps to the road where the others cut across.
+    const path = destination && entity.location.siteId ? findWay(world, entity.location.siteId, destination, id) : null;
     const { can, why } = modeAvailability(world, entity, id, path);
     return can ? { id, can: true, carry: MODES[id].carry } : { id, can: false, why, carry: MODES[id].carry };
   });
@@ -243,7 +245,8 @@ export function travelRefusal(world, entity, destination, modeId = DEFAULT_MODE)
   if (!world.map.sites[destination]) return 'No known route to that destination.';
   if (!entity.location.siteId) return 'Already traveling.';
   if (entity.location.siteId === destination) return 'Already there.';
-  const path = findPath(world.map, entity.location.siteId, destination);
+  if (!MODES[modeId]) return 'No such way of going.';
+  const path = findWay(world, entity.location.siteId, destination, modeId);
   if (!path) return 'No known route to that destination.';
   return modeAvailability(world, entity, modeId, path).why || null;
 }
@@ -263,7 +266,7 @@ function harness(world, entity, mode, path, causeId) {
   for (const role of mode.needs) {
     const beast = world.entities[propertyId(entity.householdId, role)];
     beast.borrowedBy = entity.id;
-    const pace = paceOf(path.points, path.ground, mode.id);
+    const pace = path.pace || paceOf(path.points, path.ground, mode.id);
     beast.travel = { from: entity.travel.from, to: entity.travel.to, points: path.points, progress: 0, distance: path.distance, speed: mode.speed, mode: mode.id, purpose: 'harness', causeId, silent: true, ...(pace.length && { pace }) };
     beast.location = { ...path.points[0], siteId: null };
   }
@@ -275,9 +278,6 @@ export function beginTravel(world, entity, destination, causeId, purpose = 'visi
   if (!world.map.sites[destination]) throw new Error('No known route to that destination.');
   if (entity.location.siteId === destination) throw new Error('Already there.');
   const from = entity.location.siteId;
-  // A path may run through several roads, so reaching the far bank means using the ford.
-  const path = findPath(world.map, from, destination);
-  if (!path) throw new Error('No known route to that destination.');
   // A courier rides their own horse and owns no household property. This file has always
   // given them the mounted speed by looking at the report rather than at a mode, and that
   // stays exactly as it was: relays must never start depending on whether some family
@@ -286,6 +286,11 @@ export function beginTravel(world, entity, destination, causeId, purpose = 'visi
   const riding = Boolean(entity.report || entity.express);
   const mode = riding ? MODES.horse : MODES[modeId];
   if (!mode) throw new Error('No such way of going.');
+  // A rider carrying word keeps to the roads, where word is carried and met (sim/geography.mjs `findPath`). Anybody else
+  // goes the quickest way they can for how they are going: by the road, across country, or across country to the road
+  // (sim/ways.mjs). A path may run through several roads, so reaching the far bank still means using the ford.
+  const path = riding ? findPath(world.map, from, destination) : findWay(world, from, destination, mode.id);
+  if (!path) throw new Error('No known route to that destination.');
   if (!riding) {
     const { can, why } = modeAvailability(world, entity, mode.id, path);
     if (!can) throw new Error(why);
@@ -302,7 +307,9 @@ export function beginTravel(world, entity, destination, causeId, purpose = 'visi
   const points = gap > STANDING_APART_MILES ? [{ x: here.x, y: here.y }, ...path.points] : path.points;
   const distance = gap > STANDING_APART_MILES ? path.distance + gap : path.distance;
   // The going over the lanes and tracks of the real land (sim/ground.mjs); the step in from where somebody stood is open ground.
-  const pace = paceOf(points, path.ground && (gap > STANDING_APART_MILES ? [null, ...path.ground] : path.ground), mode.id);
+  const apart = gap > STANDING_APART_MILES;
+  const pace = path.pace ? path.pace.map(([segment, factor]) => [segment + (apart ? 1 : 0), factor])
+    : paceOf(points, path.ground && (apart ? [null, ...path.ground] : path.ground), mode.id);
   entity.travel = { from, to: destination, points, progress: 0, distance, speed: riding ? RIDER_SPEED : mode.speed, mode: mode.id, purpose, causeId: departure, ...(pace.length && { pace }) };
   entity.location = { ...points[0], siteId: null }; entity.task = 'travel';
   if (!riding) harness(world, entity, mode, path, departure);

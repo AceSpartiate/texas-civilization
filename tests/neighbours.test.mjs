@@ -65,7 +65,10 @@ test('a family nobody plays rides its horse on a journey when the horse is at ha
       if (entity.travel.mode !== 'horse') {
         const horse = world.entities[`${entity.householdId}-horse`];
         const free = horse && !horse.borrowedBy && !horse.travel && horse.location.siteId === entity.travel.from && (!horse.condition || horse.condition === 'sound');
-        assert.ok(!free || entity.travel.purpose === 'arrive', `${entity.name} walked to ${entity.travel.to} with the horse standing free at tick ${world.tick}`);
+        // Setting out from home, where the family decides how to go. Coming back, a chore keeps the way it went out: somebody
+        // who walked to town walks home, even if another of the family has since ridden in.
+        const fromHome = entity.travel.from === world.households[entity.householdId].homeSiteId;
+        assert.ok(!free || !fromHome || entity.travel.purpose === 'arrive', `${entity.name} walked to ${entity.travel.to} with the horse standing free at tick ${world.tick}`);
       }
     }
   }

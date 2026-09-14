@@ -72,7 +72,7 @@ A short optional walk-through offers itself once, in that lobby. It explains the
 
 **Whoever goes on the horse rides it**, drawn in the saddle, and a family nobody plays rides its horse to town or to hunt whenever the horse is home, walking only when somebody else has it.
 
-**The ground slows you.** Off the roads, climbing, timber, brush and creeks all make a journey longer, on foot, on horseback and most of all with the wagon. The roads are the easy going.
+**The ground slows you, and people go the quickest way.** Off the roads, climbing, timber, brush and creeks all make a journey longer, on foot, on horseback and most of all with the wagon. Somebody walking or riding cuts straight across open country when that is quicker than going round by the road, and keeps to the road where the road is quicker: through the timber bottoms, and over a big river, which is crossed only where a road crosses it. The wagon leaves the road only over open ground, so a lane cut through your timber is what lets it out.
 
 **Your neighbours live their own lives.** Families nobody in the class is playing still farm, build their houses, hunt and go to town. Stand with one of them to trade: they take a fair offer and turn down an unfair one, and tell you why. You can help raise their walls, as they are built.
 
