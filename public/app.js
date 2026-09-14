@@ -51,6 +51,8 @@ const EMPTY_MAP = { sites: {}, routes: {}, terrain: [] };
 let choreCache = null, choreCacheId = null, chorePending = null, modeCache = null;
 // What a family can pack, and the wagon's space: fixed for a class, so it comes with the chores.
 let wagonCatalogue = null;
+// The houses a family can choose, and what each needs and does: fixed too, and fetched the same way.
+let houseCatalogue = null;
 function ensureChores(snapshot) {
   if (!snapshot.mapId || (choreCache && choreCacheId === snapshot.mapId) || chorePending === snapshot.mapId) return;
   chorePending = snapshot.mapId;
@@ -61,6 +63,7 @@ function ensureChores(snapshot) {
     modeCache = new Map((result.modes || []).map(mode => [mode.id, mode]));
     if (result.goods?.length) TRADE_GOODS = result.goods;
     wagonCatalogue = result.wagon || null;
+    houseCatalogue = result.houses ? new Map(result.houses.map(house => [house.id, house])) : null;
     choreCacheId = result.mapId;
     if (window.__snapshot) render(window.__snapshot);
   }).catch(() => { chorePending = null; });
@@ -240,6 +243,27 @@ function miniBuilding(ctx, x, y, size, settlement = false, id = '', ruined = fal
 // taken off the wagon - is exactly this. The wagon itself is drawn where it actually is, as
 // property, so it is never painted in here: a family that took it to the timber has no wagon
 // in its camp.
+/**
+ * A house on a homestead, by what kind it is (docs/SETTLING_IN.md step 4).
+ *
+ * stand-in: the four houses are drawn from the cabins the library already has - a round-log cabin as
+ * the weathered cabin, a hewn-log cabin as the small cabin, a dog-run as the wide cabin, and a jacal
+ * as the open shed - and a house going up as the family's camp with felled logs beside it. Requested
+ * in docs/ART_REQUESTS.md (houses, 2026-09-12 second request) as per-type exteriors by stage.
+ */
+const HOUSE_STAND_INS = { 'round-log': 'cabin-weathered', 'hewn-log': 'cabin-small', 'dog-run': 'cabin-wide', jacal: 'shed-open' };
+function homesteadHouse(ctx, x, y, size, id, view) {
+  if (view.shelter === 'camp') return homesteadCamp(ctx, x, y, size, id);
+  if (view.shelter === 'building') {
+    homesteadCamp(ctx, x - size * .3, y + size * .1, size * .8, id);
+    // stand-in: logs felled for a house, until the construction-stage art arrives.
+    drawSprite(ctx, 'log-fallen', x + size * .38, y - size * .08, size * .5);
+    drawSprite(ctx, 'log-fallen', x + size * .46, y + size * .08, size * .46);
+    return;
+  }
+  if (view.shelter === 'house' && view.layout && drawSprite(ctx, HOUSE_STAND_INS[view.layout], x, y, size * (view.layout === 'jacal' ? .8 : 1))) return;
+  return miniBuilding(ctx, x, y, size, false, id, view.shelter === 'ruined');
+}
 function homesteadCamp(ctx, x, y, size, id = '') {
   const seed = seedOf(id);
   if (!animated(ctx, 'fire-flicker', x + size * .12, y + size * .08, size * .34, seed)) drawSprite(ctx, 'campfire', x + size * .12, y + size * .08, size * .34);
@@ -1065,12 +1089,12 @@ export function drawWorld(world) {
     const ownLand = site.id === homeId;
     if (site.kind === 'homestead' && !ownLand && camera.scale < HOMESTEAD_LEGIBLE) continue;
     if (settlement || site.kind === 'homestead' || !site.kind) {
-      const burnt = !settlement && site.ownerHouseholdId === world.household?.id && world.land?.cabin === 'ruined';
-      // No house yet: the family's own land says so, and in a class that began with the families
-      // arriving nobody else has built one either (`arrivalClass`, and its ceiling, in sim/world.mjs).
-      const camped = !settlement && !burnt && (ownLand && world.land ? world.land.shelter === 'camp' : Boolean(world.arrivalClass));
       const size = Math.max(5, camera.figure * (settlement ? SIZE.settlementCabin : SIZE.cabin));
-      standing.push({ y: q.y, draw: () => camped ? homesteadCamp(ctx, q.x, q.y, size, site.id) : miniBuilding(ctx, q.x, q.y, size, settlement, site.id, burnt) });
+      // What is on this land, as this family knows it: its own as it is, a neighbour's as it was
+      // last seen, and one nobody has been to see as it was at dawn on the 28th - a camp, in a class
+      // that began with the families arriving (sim/houses.mjs, `noteLandSeen`).
+      const view = settlement ? null : ownLand && world.land ? ownLandView(world.land) : (world.household?.seenLand?.[site.id] || (world.arrivalClass ? { shelter: 'camp' } : { shelter: 'house' }));
+      standing.push({ y: q.y, draw: () => view ? homesteadHouse(ctx, q.x, q.y, size, site.id, view) : miniBuilding(ctx, q.x, q.y, size, true, site.id) });
     } else if (site.kind === 'ford') {
       // The crossing is drawn as a break in the bank, not as a building or a bridge.
       const width = Math.max(6, camera.figure * .9);
@@ -1248,9 +1272,19 @@ function renderHousehold(world) {
   // The land is the first thing on the list of what this family has, because it is the
   // thing they can change and the thing they would have to leave.
   const land = world.land;
+  const houseName = id => (houseCatalogue?.get(id)?.name || 'house').toLowerCase();
+  const inHundred = share => partsIn100(share);
+  // The house, in the server's numbers (sim/houses.mjs, FIC-GONZ-008): going up, or lived in and what it does.
+  const houseWords = !land ? '' : land.home
+    ? ` They live in a ${houseName(land.house.layout)}: rest there mends ${inHundred(land.home.restShare)} in 100 of the usual, and ${inHundred(land.home.spoilagePerDay)} in 100 of the food spoil each day.${land.home.crowded ? ' It is crowded: more of the family sleep in it than it holds, and they rest the worse for it.' : ''}`
+    : land.house
+    ? land.house.work > 0
+      ? ` They are building a ${houseName(land.house.layout)}: ${land.house.stage}, ${land.house.work} of ${land.house.total} hours of work done.`
+      : ` They mean to build a ${houseName(land.house.layout)}, and nobody has started on it.`
+    : '';
   const ground = land ? [(() => {
     // What the camp costs is said in numbers, from the server's own (FIC-GONZ-008).
-    const camp = land.camp ? ` There is no house yet, so they camp by the wagon: rest there mends ${Math.round(land.camp.restShare * 100)} parts in 100 of what it would under a roof, and ${Math.round(land.camp.spoilagePerDay * 100)} parts in 100 of the food spoil each day.` : '';
+    const camp = (land.camp ? ` There is no house yet, so they camp by the wagon: rest there mends ${Math.round(land.camp.restShare * 100)} parts in 100 of what it would under a roof, and ${Math.round(land.camp.spoilagePerDay * 100)} parts in 100 of the food spoil each day.` : '') + houseWords;
     const li = element('li', land.arriving
       ? `Their land: they are still on the road in with the wagon.${camp}`
       : land.cabin === 'ruined'
@@ -1927,13 +1961,78 @@ $('#wagon-items')?.addEventListener('click', async event => {
 });
 $('#wagon-done')?.addEventListener('click', () => { wagonPacking = false; if (window.__snapshot) render(window.__snapshot); $('#wagon-open')?.focus(); });
 $('#wagon-open')?.addEventListener('click', () => { wagonPacking = true; wagonShown = ''; if (window.__snapshot) render(window.__snapshot); $('#wagon-done')?.focus(); });
+/**
+ * Choosing the house (docs/SETTLING_IN.md step 4).
+ *
+ * Opened by the family, never pushed at them: a button beside the wagon's, for as long as the house
+ * can still be chosen. Each house shows what it needs, how much work it is, what it holds, and its
+ * two numbers and its good and bad - all from the catalogue - and whether the family can choose it
+ * now, from the server. Rebuilt only when what it shows has changed, so the focus stays put.
+ */
+let housePlanOpen = false, housePending = false, houseShown = '';
+const ownLandView = land => land.cabin === 'ruined' ? { shelter: 'ruined' }
+  : land.shelter === 'camp' ? (land.house?.work > 0 ? { shelter: 'building', layout: land.house.layout } : { shelter: 'camp' })
+  : { shelter: 'house', ...(land.house && { layout: land.house.layout }) };
+const TOOL_WORDS = { axe: 'a felling axe', broadaxe: 'a broadaxe' };
+/** A share as a student reads it: "1 part", "1.5 parts", "115 parts". */
+function partsIn100(share) {
+  const parts = Math.round(share * 1000) / 10;
+  return `${Number.isInteger(parts) ? parts : parts.toFixed(1)} ${parts === 1 ? 'part' : 'parts'}`;
+}
+function renderHousePlan(world) {
+  const panel = $('#house-plan'), open = $('#house-open');
+  if (!panel) return;
+  const choices = world.land?.choices;
+  const available = Boolean(choices && houseCatalogue && world.role !== 'host' && !familyCache?.canRoll && !['rolling', 'rolled'].includes(rollState) && !wagonOpen);
+  panel.hidden = !(available && housePlanOpen);
+  open.hidden = !available || housePlanOpen;
+  if (!available) return;
+  const chosen = world.land.house?.layout;
+  open.textContent = chosen ? `House: ${houseCatalogue.get(chosen)?.name || chosen}` : 'Choose a house';
+  if (!housePlanOpen) return;
+  const shape = JSON.stringify([choices, chosen]);
+  if (shape === houseShown) return;
+  houseShown = shape;
+  const focused = document.activeElement?.closest?.('#house-options button')?.dataset.layout;
+  $('#house-options').replaceChildren(...choices.map(choice => {
+    const house = houseCatalogue.get(choice.id);
+    const li = element('li', ''); li.dataset.layout = choice.id; li.dataset.chosen = String(chosen === choice.id);
+    li.append(element('p', house.name, 'house-name'), element('p', house.describe, 'house-line'));
+    li.append(element('p', `Needs ${house.needs.length ? house.needs.map(tool => TOOL_WORDS[tool] || tool).join(' and ') : 'no axe at all'}. About ${house.hours} hours of one person's work, and fewer with more hands. Holds ${house.room} before it is crowded.`, 'house-line'));
+    li.append(element('p', `Rest in it mends ${partsIn100(house.restShare)} in 100 of the usual; ${house.spoilagePerDay ? `${partsIn100(house.spoilagePerDay)} in 100 of the food spoil a day` : 'the food keeps'}.`, 'house-line'));
+    li.append(element('p', house.good, 'house-line house-good'), element('p', house.bad, 'house-line house-bad'));
+    const button = element('button', chosen === choice.id ? 'Chosen' : 'Build this');
+    button.type = 'button'; button.dataset.layout = choice.id;
+    button.setAttribute('aria-pressed', String(chosen === choice.id));
+    button.disabled = !choice.can;
+    li.append(button);
+    if (!choice.can) li.append(element('p', choice.why, 'house-line house-bad'));
+    return li;
+  }));
+  if (focused) $(`#house-options button[data-layout="${focused}"]`)?.focus();
+}
+$('#house-options')?.addEventListener('click', async event => {
+  const button = event.target.closest('button[data-layout]');
+  if (!button || button.disabled || housePending) return;
+  housePending = true; $('#house-note').textContent = '';
+  try {
+    await api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, action: 'plan-house', layout: button.dataset.layout });
+  } catch (error) {
+    $('#house-note').textContent = error.message;
+  } finally {
+    housePending = false;
+    if (window.__snapshot) render(window.__snapshot);
+  }
+});
+$('#house-open')?.addEventListener('click', () => { housePlanOpen = true; houseShown = ''; if (window.__snapshot) render(window.__snapshot); $('#house-close')?.focus(); });
+$('#house-close')?.addEventListener('click', () => { housePlanOpen = false; if (window.__snapshot) render(window.__snapshot); $('#house-open')?.focus(); });
 function renderTutorial(world) {
   const panel = $('#tutorial');
   // A rider standing in the yard outranks a lesson in how to hold a hoe, and the two use
   // the same corner of the screen.
   // The die comes first: the walk-through sets people to work, and a family that has been
   // set to work can no longer be rolled.
-  const busy = world.role === 'host' || !world.householdId || world.encounter?.status === 'open' || familyCache?.canRoll || ['rolling', 'rolled'].includes(rollState) || wagonOpen;
+  const busy = world.role === 'host' || !world.householdId || world.encounter?.status === 'open' || familyCache?.canRoll || ['rolling', 'rolled'].includes(rollState) || wagonOpen || housePlanOpen;
   if (busy || tutorialStep === 'gone' || (tutorialStep === null && tutorialSeen(world))) { panel.hidden = true; return; }
   panel.hidden = false;
   if (tutorialStep === null) {
@@ -2220,7 +2319,7 @@ function render(snapshot) {
   }
   renderJoinLinks(snapshot);
   renderSlice(world);
-  drawWorld(world); renderHousehold(world); renderKnowledge(world); renderEncounter(world); renderFamilyRoll(world); renderWagonLoad(world); renderTutorial(world);
+  drawWorld(world); renderHousehold(world); renderKnowledge(world); renderEncounter(world); renderFamilyRoll(world); renderWagonLoad(world); renderHousePlan(world); renderTutorial(world);
 }
 function showJoin(message) {
   events?.close(); events = null;

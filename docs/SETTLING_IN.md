@@ -1,6 +1,6 @@
 # Settling in: arriving, building a home, and a peaceful beginning
 
-**Status: decided; step 1 (the peaceful opening and the clock) built 2026-09-12** ([evidence](evidence/peaceful-opening.json)); **step 2 (arrival and the camp) built 2026-09-13** ([evidence](evidence/arrival.json)); **step 3 (the wagon load) built 2026-09-13** ([evidence](evidence/wagon-load.json)); steps 4–8 are next (owner, 2026-09-12). Read this in full
+**Status: decided; step 1 (the peaceful opening and the clock) built 2026-09-12** ([evidence](evidence/peaceful-opening.json)); **step 2 (arrival and the camp) built 2026-09-13** ([evidence](evidence/arrival.json)); **step 3 (the wagon load) built 2026-09-13** ([evidence](evidence/wagon-load.json)); **step 4 (houses) built 2026-09-13** ([evidence](evidence/houses.json)); steps 5–8 are next (owner, 2026-09-12). Read this in full
 before changing the class start, the lobby, house or furniture state, or the director's timeline.
 
 ---
@@ -166,6 +166,29 @@ that already exists, so that a house matters in play today and weather and night
 | **Dog-run (double-pen)** | Two pens under one roof with an open breezeway | Twice the logs and labour; best raised with neighbours | Two rooms: a family of five or six is not crowded; the breezeway is a cool place to work. *Weather later: coolest in heat* | The most work by far; hard to finish before the news without help |
 | **Jacal** | Posts set in the ground, walls of sticks and mud, a thatched roof | Posts, mud and grass; few tools | Quick, and needs no broadaxe; mud walls keep heat out. *Weather later: comfortable in heat* | Thatch must be renewed (a recurring chore); a small single room; fire takes thatch |
 
+**As built (step 4, `sim/houses.mjs`).** A family chooses one of the four houses (`plan-house`), in the lobby or on
+its land, and may change its mind until the first work goes in. Each states what it needs, how many hours of one
+person's work it is, how many it holds, and its two numbers, before it is chosen. Building is one chore, **Work on
+the house**, that anybody old enough can be set to, several at once; it keeps going until the house stands, paced by
+hands skill and hidden strength, and says which part of the house it has reached. When it stands, everybody on it
+stops, the family moves in (`improvements.cabin` sound) and one line says so. The numbers (`FIC-GONZ-024`):
+
+| House | Needs | Work (hours for one person) | Holds | Rest mends | Food spoils a day |
+| --- | --- | --- | --- | --- | --- |
+| Jacal | nothing | 24 | 3 | 90 in 100 | 1 in 100 |
+| Round-log | felling axe | 40 | 4 | 85 in 100 | 1.5 in 100 |
+| Hewn-log | felling axe and broadaxe | 64 | 4 | 115 in 100 | none |
+| Dog-run | felling axe | 120 | 8 | 100 in 100 | 0.5 in 100 |
+
+More sleepers than it holds rest at **80 in 100** of that. The camp before a house is two-thirds and 3 in 100. A
+default family of four working on nothing else raises a round-log cabin in about eight hours of the family's time
+and a dog-run by about tick 80, just before the notice at 84 — which is §5's "hard to finish before the news without
+help". `ceiling:` a house goes up in hours, not the week `HIST-GONZ-032` records, because a class lasts under two
+days. A neighbour's land is drawn **as it was last seen** (`household.seenLand`), and as a camp if nobody has been.
+A class saved before this has the cabin it always had, at the ordinary rate and nothing spoiling, and no house to
+choose; no save version moved. **Not built yet:** the method choices below, and the jacal's thatch renewal (`ceiling:`
+— three or four years, and a class lasts two days).
+
 **Construction method choices within a layout** (research-dependent, §2): chimney — stick-and-mud (quick,
 can catch fire) or stone (slow, needs stone hauled); roof — split shakes (needs a froe) or thatch; floor —
 dirt or puncheon (split logs, more work, drier). Each carries a benefit and a problem on the same terms.
@@ -239,7 +262,7 @@ Each step is shippable and provable alone.
    nothing historical can happen before the notice while chores and trades run.
 2. ~~**Arrival.**~~ **Done 2026-09-13.** Wagons and families start on the road and travel in; the camp by the wagon as first shelter.
 3. ~~**The wagon load.**~~ **Done 2026-09-13.** Choosing in the lobby, the default, items becoming stores, tools and belongings.
-4. **Houses.** The four layouts with needs, benefits and problems, built as chores, with stand-in art.
+4. ~~**Houses.**~~ **Done 2026-09-13.** The four layouts with needs, benefits and problems, built as chores, with stand-in art.
 5. **The house-raising.** Neighbours standing on the land helping raise the walls.
 6. **Furniture and the carpenter.** Made at home or bought in Gonzales; effects on the same hooks.
 7. **The interior view and decoration.**

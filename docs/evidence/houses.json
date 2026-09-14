@@ -1,0 +1,86 @@
+{
+  "record": "Houses: step 4 of docs/SETTLING_IN.md",
+  "date": "2026-09-13",
+  "verdict": "PASS",
+  "verdictMeaning": "A family chooses a jacal, a round-log cabin, a hewn-log cabin or a dog-run, sees what each needs, the hours of work, how many it holds, how rest mends and how food keeps in it before choosing, and can change its mind until work begins. Anybody old enough can be set to one chore, Work on the house, which keeps going until the house stands; several people work at once and more hands finish sooner. When it stands, everybody on it stops, the family has a roof, and the house acts through rest at home and food spoiling, with crowding for a family bigger than it holds. A neighbour's land is known as it was last seen. A class saved before this keeps its cabin at the ordinary rate and nothing spoiling; no save version moved.",
+  "implementation": "sim/houses.mjs (HOUSES, planRefusal/planHouse, buildRefusal/buildSpell, stageOf, shelterOf, houseProjection, noteLandSeen/landView, houseInvalid, houseCatalogue); sim/chores.mjs (build-house chore, houseWork/build steps, all workers finished on the last spell, house work omitted for a settled family); sim/routines.mjs reads shelterOf; sim/world.mjs (plan-house action and LOBBY_ACTIONS, noteLandSeen after arrivals, land projection, validation); server/app.mjs (/api/chores houses); public/ (#house-plan panel and #house-open button, land line, homesteadHouse stand-ins, neighbour land from seenLand); tests/chores.test.mjs accounts for the omitted house chore.",
+  "numbers": {
+    "jacal": {
+      "needs": [],
+      "hours": 24,
+      "room": 3,
+      "rest": 0.9,
+      "spoil": 0.01
+    },
+    "round-log": {
+      "needs": [
+        "axe"
+      ],
+      "hours": 40,
+      "room": 4,
+      "rest": 0.85,
+      "spoil": 0.015
+    },
+    "hewn-log": {
+      "needs": [
+        "axe",
+        "broadaxe"
+      ],
+      "hours": 64,
+      "room": 4,
+      "rest": 1.15,
+      "spoil": 0
+    },
+    "dog-run": {
+      "needs": [
+        "axe"
+      ],
+      "hours": 120,
+      "room": 8,
+      "rest": 1,
+      "spoil": 0.005
+    },
+    "crowdedShare": 0.8,
+    "claim": "FIC-GONZ-024"
+  },
+  "timings": "Default family of four, all set to work on arrival (seeds house-a/b/c): jacal 15 ticks, round-log 25, hewn-log 39, dog-run 71 - the dog-run finishing at tick 80 against the notice at 84. A lone parent (proof below) took about 220 ticks for a round-log cabin.",
+  "history": "Layouts HIST-GONZ-025; dog-run before 1840 HIST-GONZ-035; jacal HIST-GONZ-026 with HIST-GONZ-033 (not documented at Gonzales); a week for a bare cabin HIST-GONZ-032, compressed to hours as a ceiling.",
+  "art": "Stand-ins, listed in docs/ART_REQUESTS.md: round-log as cabin-weathered, hewn-log as cabin-small, dog-run as cabin-wide, jacal as shed-open, a house going up as the camp with two log-fallen. The exterior request (four houses, three stages each) is written out in that file.",
+  "liveBrowserProof": {
+    "server": "PORT=8743 TEXAS_DATA_DIR=<scratch> SEED=house-proof PLAYERS=5; host by curl at localhost, student in the browser pane at 127.0.0.1; same computer only",
+    "observed": [
+      "Lobby, after rolling a 1 (Dorotea, 23) and closing the wagon: 'Choose a house' button; the panel lists the four houses with needs, hours, room, rest and spoilage, good and bad. Hewn-log disabled with 'It wants a broadaxe, and there is none in the house.'",
+      "Build this on the round-log cabin: marked chosen, aria-pressed true, land.house {layout round-log, work 0, total 40}.",
+      "Host Start at Quick pace. After arrival, the selection panel offered 'Work on the house' (enabled, with its description); pressed, Dorotea was 'felling and hauling logs' and the land line read '... They are building a round-log cabin: felling and hauling logs, 1 of 40 hours of work done.' The Choose a house button was gone once work had begun.",
+      "At tick 240: 'The round-log cabin is finished. The family sleeps under its own roof tonight.' and 'Dorotea finished: work on the house.'; chore null; land.home {restShare 0.85, spoilagePerDay 0.015}; the land line 'They live in a round-log cabin: rest there mends 85 parts in 100 of the usual, and 1.5 parts in 100 of the food spoil each day.'; Work on the house no longer on her list; the map drew a cabin on her land. Console: one 401, from before joining."
+    ],
+    "foundAndFixed": "'1 parts in 100' on the jacal's line; now 'part'/'parts' by count."
+  },
+  "automated": {
+    "suite": "tests/houses.test.mjs",
+    "tests": 9,
+    "wholeSuite": "302 pass, 0 fail",
+    "foundByTests": [
+      "People mid-spell kept \"thatching the roof\" a tick after another finished the house; every worker now stops on the last spell.",
+      "The per-tick payload budget (tests/chores.test.mjs) caught a house refusal sent to every person in every family that already had a roof; the chore is omitted for such a family."
+    ],
+    "injectedRegressions": [
+      "plan ignores missing tools -> chosen-and-refused test, over-the-wire test",
+      "choosing a house writes an event -> chosen-and-refused test (the roll)",
+      "layout can change after work began -> builds-together test",
+      "work allowed with no house chosen -> builds-together test",
+      "others keep working after the house is done -> builds-together test",
+      "one spell and stop -> builds-together, more-hands and neighbour tests",
+      "crowding ignored -> effects test",
+      "rest ignores the shelter -> effects test",
+      "neighbours never seen -> neighbour test",
+      "an old class may plan a second house -> old-class test",
+      "validation allows work past the end -> validation test (it passed at first, because the case also had no roof; the case was isolated and then failed)",
+      "houses missing from /api/chores -> over-the-wire test",
+      "house words ride on the tick -> chosen-and-refused test",
+      "a dog-run is quick -> every-house test and more-hands test"
+    ]
+  },
+  "notRun": "Playwright proofs: not installed here. No LAN or district claim.",
+  "boundary": "Not built: chimney, roof and floor method choices; the house-raising (step 5); thatch renewal; night stopping work. Tools are needed, not worn. Houses take hours, not a week. The neighbour view updates only when somebody stands on the land."
+}

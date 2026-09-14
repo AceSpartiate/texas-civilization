@@ -21,7 +21,8 @@ does not have:
 | A person is drawn as the nearest figure by sex and age: a woman or girl as `teal`, a boy as `blue`, a man as `elder`; the principal in `rust` whoever they are, including a mother | `castVariant` in `public/motion.js` | Request 2026-09-12, priority 2 — the second cast | `rust-woman` for a mother who is principal, `indigo` and `teal` for women, `ochre` and `elder` for men, `blue-girl` and `blue` for adolescents |
 | A child is a grown figure drawn smaller: 90% at 10–17, 70% at 5–9, 55% at 2–4, 45% for an infant | `figureScale` in `public/motion.js`, applied in `miniPerson` | Request 2026-09-12, priority 1 — children | `girl`, `boy`, `smallchild` and the infant basket. **Keep the scaling**: the delivered sheets are drawn to fill their cells and need it too |
 | *(Planned, with [SETTLING_IN.md](SETTLING_IN.md) step 8)* A parent's chosen appearance is stored and described in words; the figure is still chosen by sex and age | the family book | Request below — layered people art | Layered or palette-swappable sheets for the whole cast |
-| *(Planned, with [SETTLING_IN.md](SETTLING_IN.md) steps 4–7)* Houses, interiors and furniture drawn from `cabin-small`, `cabin-wide`, the weathered cabin and the Alamo interior pieces | the map and the interior view | Request below — houses and furnishings | Per-type house exteriors by stage, cabin interiors, furniture and brought goods |
+| A finished house is drawn as the nearest cabin the library has: round-log as `cabin-weathered`, hewn-log as `cabin-small`, dog-run as `cabin-wide`, jacal as `shed-open` at 80%. A house going up is the family's camp with two `log-fallen` beside it, whatever its stage | `HOUSE_STAND_INS` and `homesteadHouse` in `public/app.js` | Request below — houses (2026-09-13 exteriors) | `house-round-log`, `house-hewn-log`, `house-dog-run`, `house-jacal`, each with `-site`, `-walls` and `-roofing` stages |
+| *(Planned, with [SETTLING_IN.md](SETTLING_IN.md) steps 6–7)* Interiors and furniture drawn from the Alamo interior pieces | the interior view | Request below — interiors and furnishings | Cabin interiors, furniture and brought goods |
 | A rider talks from the saddle, facing east or west whatever side the listener is on | `carrierClip` in `public/motion.js` | Request 2026-09-12, priorities 3 and 4 | `courier-dismount` and `courier-encounters-vertical` |
 
 ---
@@ -43,9 +44,23 @@ into this request when that chapter's build reaches them, in the contract format
   show that. Needed: the cast — adults, adolescents and the requested children — drawn as aligned layers
   (body and skin, hair, facial hair or head covering, clothing), or with clean flat colour regions a
   renderer can swap, across idle, walk, vertical and task sheets.
-- **Houses.** Round-log single-pen, hewn-log single-pen, dog-run and jacal, each at the stages of
-  building (site, first courses, walls up, roofed, finished) and with the method variants (stick-and-mud
-  or stone chimney; shakes or thatch).
+- **Houses — exteriors, written out 2026-09-13 for step 4, which is built and drawing stand-ins.** Needed for
+  the map, at homestead scale, in the frontier-v1 style and the same projection and footprint as `cabin-small`
+  (the renderer draws them at the size it draws a cabin now, anchored at the base centre):
+  - `house-round-log`: one pen of unhewn logs with the bark on, saddle-notched corners, gaps chinked, a
+    clapboard roof held by weight poles, a stick-and-mud chimney at one gable end (`HIST-GONZ-025`, `029`, `030`).
+  - `house-hewn-log`: the same single pen with logs hewn flat and tight, squared corners.
+  - `house-dog-run`: two log pens under one roof with an open passage between them and a chimney at each end —
+    Austin's house at San Felipe is the documented model (`HIST-GONZ-035`).
+  - `house-jacal`: posts set upright in the ground, walls of sticks daubed with mud, a thatched roof, one small
+    room, eight to ten feet by twenty (`HIST-GONZ-026`).
+  - For each, three construction stages drawn over the family's camp: `-site` (felled logs or cut posts
+    stacked, a cleared footprint), `-walls` (walls half raised), `-roofing` (walls up, roof frame part-covered).
+    The game picks them at 0–40%, 40–80% and 80–100% of the house's work.
+  - **Not needed yet:** method variants (stone chimney, thatch on a log house, puncheon floor). Those wait for
+    the construction-method choices, which are not built.
+  - **Replaces:** the stand-ins listed above. Check: every house and stage draws, and the family figures stand
+    in front of and behind it correctly in the back-to-front sort.
 - **Interiors.** A single-pen interior, a dog-run's two pens and breezeway, and a jacal interior, drawn as
   rooms a student can place furniture in.
 - **Furniture and brought goods.** Table, benches, bedstead, shelves, cradle; bedding, iron pot, chest,

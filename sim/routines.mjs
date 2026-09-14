@@ -1,7 +1,7 @@
 // Routine time cannot create death/capture/severe injury or settle loans/service.
 import { record } from './events.mjs';
 import { housekeepingSaving } from './family.mjs';
-import { CAMP_REST_SHARE, CAMP_SPOILAGE_PER_DAY, housed } from './settling.mjs';
+import { shelterOf } from './houses.mjs';
 
 // Fatigue, and the only thing that mends it.
 //
@@ -32,8 +32,10 @@ export function advanceRoutine(world, minutes) {
     // The best housekeeper at home makes what the family eats go further (FIC-GONZ-021).
     const eaten = present.length * .35 * (1 - housekeepingSaving(present));
     const fed = Math.max(0, household.resources.food + (workers - eaten) * days);
-    // With no roof over the stores a little of them spoils (sim/settling.mjs, FIC-GONZ-024).
-    const kept = housed(household) ? fed : fed * (1 - CAMP_SPOILAGE_PER_DAY * days);
+    // A little of the food spoils in a camp or a draughty house; nothing in a tight one, or in the
+    // cabin every class saved before houses always had (sim/houses.mjs, FIC-GONZ-024).
+    const spoiling = shelterOf(world, household).spoilagePerDay;
+    const kept = spoiling ? fed * (1 - spoiling * days) : fed;
     household.resources.food = Math.round(kept * 10000) / 10000;
   }
   for (const entity of Object.values(world.entities)) {
@@ -47,12 +49,13 @@ function restAndTire(world, entity, minutes) {
   const exertion = entity.exertion || 0;
   // Sitting still is the only thing that mends it, and somebody on the road is not.
   if (entity.task === 'rest' && !entity.travel && exertion > 0) {
-    // Lying out by the wagon on their own land mends less than a roof does (sim/settling.mjs).
+    // Rest at home mends as well as the family's shelter lets it: less by the wagon or in a draughty
+    // or crowded house, more in a tight one (sim/houses.mjs, sim/settling.mjs).
     // ceiling: only a family's own land has a shelter. Resting in town or at the timber mends
     // at the ordinary rate, because nothing yet says what shelter is there.
     const household = world.households[entity.householdId];
-    const camping = entity.location.siteId === household?.homeSiteId && !housed(household);
-    const mended = REST_MILES_PER_MINUTE * minutes * (camping ? CAMP_REST_SHARE : 1);
+    const atHome = household && entity.location.siteId === household.homeSiteId;
+    const mended = REST_MILES_PER_MINUTE * minutes * (atHome ? shelterOf(world, household).restShare : 1);
     entity.exertion = Math.max(0, Math.round((exertion - mended) * 10000) / 10000);
   }
   const condition = entity.health?.condition;

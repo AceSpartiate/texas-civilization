@@ -135,7 +135,9 @@ test('what a person may be asked to do is decided on the server, with a reason',
   const world = running();
   const projected = projectWorld(world, 'hh-1', 'student', { includeMap: false });
   const offered = projected.work['hh-1-thomas'];
-  assert.equal(offered.length, Object.keys(CHORES).length, 'every chore is accounted for, refused or not');
+  // Every chore is on the list, refused or not - except house work for a family that already has a
+  // roof, which is not refused but simply not there (sim/houses.mjs, `houseSettled`).
+  assert.equal(offered.length, Object.keys(CHORES).filter(id => !CHORES[id].house).length, 'every chore is accounted for, refused or not');
   for (const entry of offered) {
     assert.ok(typeof entry.can === 'boolean');
     if (!entry.can) assert.ok(entry.why.length > 0, `${entry.id} says why it is refused`);

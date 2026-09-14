@@ -153,6 +153,21 @@
     </section>
     <button type="button" id="wagon-open" hidden>Repack the wagon</button>
 
+    <!-- Choosing the house (docs/SETTLING_IN.md step 4). What each house needs and what it is good
+         and bad at come from the server's catalogue; whether it can be chosen now, and why not, from
+         the family's own land line on the tick. -->
+    <section id="house-plan" hidden aria-labelledby="house-plan-title">
+      <header>
+        <span class="eyebrow">YOUR LAND</span>
+        <h2 id="house-plan-title">Choose a house</h2>
+      </header>
+      <p>The family builds it together once they are on their land. It can be changed until the first work goes into it.</p>
+      <ul id="house-options"></ul>
+      <p id="house-note" role="alert"></p>
+      <button type="button" id="house-close">Close</button>
+    </section>
+    <button type="button" id="house-open" hidden>Choose a house</button>
+
     <section id="tutorial" hidden aria-labelledby="tutorial-title">
       <header>
         <span class="eyebrow" id="tutorial-step"></span>

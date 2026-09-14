@@ -26,6 +26,7 @@ import {
   CLEARING_MAX, SEED_PER_CLEARING, UNFENCED_LOSS, clearGround, clearedOf, harvestShare,
   improvementsOf, isFenced, needsWagonToHarvest, raiseFence, standingCrop,
 } from './improvements.mjs';
+import { SPELL_TICKS, buildRefusal, buildSpell, houseBuilt, houseSettled, stageOf } from './houses.mjs';
 export { MODES } from './travel.mjs';
 
 const round = value => Math.round(value * 10000) / 10000;
@@ -307,6 +308,19 @@ export const CHORES = {
       { walk: 'yard', doing: 'coming in from the field' },
     ],
   },
+  // The house (docs/SETTLING_IN.md step 4, sim/houses.mjs). One chore for the whole of it, which
+  // keeps going spell after spell until the house stands or the person is called off: a house is
+  // one amount of work that the family puts in together, and a student who had to send somebody
+  // back to it every hour would be clicking, not building.
+  'build-house': {
+    name: 'Work on the house', skill: 'hands', where: 'home', heavy: true, house: true,
+    describe: 'Put in work on the house the family has chosen. They keep at it until the house stands or they are called off, and anybody else set to it works alongside.',
+    steps: [
+      { walk: 'yard', doing: 'going over to where the house is going up' },
+      { houseWork: true, work: SPELL_TICKS },
+      { build: true },
+    ],
+  },
   'hunt-timber': {
     name: 'Hunt in the timber', skill: 'hunting', where: 'home', hauls: true,
     describe: 'A long trip to the timber and back. The kill is a big one; what comes home is what they can carry.',
@@ -502,6 +516,7 @@ export function choreAvailability(world, household, entity, choreId) {
     return { can: false, why: 'There is no more ground here worth breaking.' };
   }
   if (choreId === 'build-fence' && isFenced(household)) return { can: false, why: 'The field is already fenced.' };
+  if (chore.house) { const why = buildRefusal(household); if (why) return { can: false, why }; }
   if (choreId === 'practise-shooting' && (entity.skills?.hunting ?? 1) >= SKILL_CAP) {
     return { can: false, why: `${entity.name} already shoots as well as anyone on this land.` };
   }
@@ -593,7 +608,10 @@ export function choreCatalogue() {
  * not. This is a permission, so it stays on the server and is recomputed every tick.
  */
 export function choresFor(world, household, entity) {
-  return Object.entries(CHORES).map(([id, chore]) => {
+  // A family with a roof over it has no house to work on, and a refusal saying so to every person on
+  // every tick would be freight: this channel's size budget caught it (tests/chores.test.mjs).
+  const settled = houseSettled(household);
+  return Object.entries(CHORES).filter(([, chore]) => !(chore.house && settled)).map(([id, chore]) => {
     const { can, why } = choreAvailability(world, household, entity, id);
     // `haul` is what this person's own hands would bring back from this trip, before any
     // cap. The cap itself is the mode's `carry`, which the projection sends alongside; the
@@ -702,6 +720,8 @@ function advanceChore(world, household, entity, { beginTravel }) {
   // A travel step owns the person until the road is behind them.
   if (entity.travel) return;
   const state = entity.chore;
+  // Somebody working beside them finished the house: nobody goes on thatching a roof that is on.
+  if (chore.house && houseBuilt(household)) return finishChore(world, household, entity, chore);
   // Waiting on the family. Nothing moves, nothing is spent, and the step is not advanced
   // past - without this the question would be asked and answered by the next tick, which
   // is a question in name only.
@@ -811,6 +831,8 @@ function advanceChore(world, household, entity, { beginTravel }) {
       state.wait = 1;
       return;
     }
+    // Said in the words of whatever part of the house the family has got to.
+    if (step.houseWork) state.doing = stageOf(household);
     // Heavy work goes at the pace of the person's hidden strength as well as their skill.
     if (step.work) { state.wait = paceFor(step.work, skill, chore.heavy ? heavyWorkPace(entity) : 1); return; }
     if (step.consume) {
@@ -884,6 +906,16 @@ function advanceChore(world, household, entity, { beginTravel }) {
       continue;
     }
     if (step.clear) { clearGround(world, household, entity); continue; }
+    if (step.build) {
+      // Another spell, unless that was the last one. Then everybody on the house stops at once, this
+      // person and whoever was working beside them - not a tick later, still thatching a finished roof.
+      if (!buildSpell(world, household, entity)) { state.step = chore.steps.findIndex(candidate => candidate.houseWork) - 1; continue; }
+      for (const id of household.members) {
+        const worker = world.entities[id];
+        if (worker && CHORES[worker.chore?.id]?.house) finishChore(world, household, worker, CHORES[worker.chore.id]);
+      }
+      return;
+    }
     if (step.raise === 'fence') { raiseFence(world, household, entity); continue; }
     if (step.produceCrop) {
       // What is standing, less what the stock have had out of it. Both numbers are on the
