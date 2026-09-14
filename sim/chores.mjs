@@ -26,7 +26,7 @@ import {
   CLEARING_MAX, SEED_PER_CLEARING, UNFENCED_LOSS, clearGround, clearedOf, harvestShare,
   improvementsOf, isFenced, needsWagonToHarvest, raiseFence, standingCrop,
 } from './improvements.mjs';
-import { choosing, digWell, waterBurden, wellRefusal, wellTicks } from './homesite.mjs';
+import { choosing, cutLaneSpell, digWell, lanePoint, laneRefusal, laneState, waterBurden, wellRefusal, wellTicks } from './homesite.mjs';
 import { SPELL_TICKS, buildRefusal, buildSpell, helpRefusal, hostOf, houseBuilt, houseSettled, raising, recordHelpBegun, recordHelpDone, stageOf } from './houses.mjs';
 export { MODES } from './travel.mjs';
 
@@ -255,6 +255,18 @@ const paceFor = (ticks, skill, strength = 1) => Math.max(1, Math.round(ticks * (
 const yieldFor = (amount, skill) => round(amount * (skill === 3 ? 1.4 : skill === 2 ? 1.15 : 1));
 
 export const CHORES = {
+  // The lane to the road (sim/homesite.mjs, owner 2026-09-14): marked when the site is chosen, and cut by the family, a spell
+  // at a time from the house outward, until it reaches the road. Many hands may work at it, like the house.
+  'cut-lane': {
+    name: 'Cut the lane to the road', skill: 'hands', where: 'home', heavy: true, onSite: true, lane: true,
+    describe: 'Clear a way for the wagon from the house to the road: brush and timber out of it, a stretch at a time. Until it is cut, going along it is as slow as the country it crosses.',
+    steps: [
+      { walk: 'lane', doing: 'walking out to where the lane is being cut' },
+      { work: 3, doing: 'cutting the lane' },
+      { cutLane: 3 },
+      { walk: 'yard', doing: 'coming back up the lane' },
+    ],
+  },
   // A well, for a house set too far from running water to carry it (sim/homesite.mjs, docs/LAND_GRANTS.md §8.2). Offered only
   // where one is wanted. Its length is the family's own: deeper the higher the house stands above the water.
   'dig-well': {
@@ -484,7 +496,7 @@ function fieldPoint(world, household) {
 }
 const yardPoint = (world, household) => {
   const site = world.map.sites[household.homeSiteId];
-  return { x: round(site.x - .12), y: round(site.y + .18) };
+  return { x: round(site.x - .025), y: round(site.y + .035) };
 };
 
 /**
@@ -499,14 +511,14 @@ const yardPoint = (world, household) => {
  * Jittered by the person's own id so two families hunting the same stand are not drawn
  * standing inside one another.
  */
-const STALK = { edge: { dx: .13, dy: .21 }, deep: { dx: -.27, dy: -.09 }, still: { dx: .04, dy: -.35 } };
+const STALK = { edge: { dx: .05, dy: .08 }, deep: { dx: -.1, dy: -.035 }, still: { dx: .015, dy: -.13 } };
 function stalkPoint(world, entity, where) {
   const site = world.map.sites[entity.location.siteId], spot = STALK[where];
   if (!site || !spot) return null;
   let hash = 2166136261;
   for (const character of `${entity.id}:${where}`) hash = Math.imul(hash ^ character.charCodeAt(0), 16777619);
   const jitter = ((hash >>> 0) % 200) / 200 - .5;
-  return { x: round(site.x + spot.dx + jitter * .12), y: round(site.y + spot.dy + jitter * .12) };
+  return { x: round(site.x + spot.dx + jitter * .05), y: round(site.y + spot.dy + jitter * .05) };
 }
 
 /**
@@ -542,6 +554,7 @@ export function choreAvailability(world, household, entity, choreId) {
   // On the real land the house, the field and the well wait for the family to say where the house stands (sim/homesite.mjs).
   if ((chore.onSite || chore.house || chore.field || choreId === 'build-fence' || choreId === 'clear-ground') && choosing(household)) return { can: false, why: 'Choose where the house will stand first.' };
   if (chore.well) { const why = wellRefusal(household); if (why) return { can: false, why }; }
+  if (chore.lane) { const why = laneRefusal(world, household); if (why) return { can: false, why }; }
   if (chore.field && (household.field?.state ?? 'bare') !== chore.field) {
     return { can: false, why: chore.field === 'ripe' ? 'The field is not ready.' : 'The field is already planted.' };
   }
@@ -648,7 +661,9 @@ export function choresFor(world, household, entity) {
   const visiting = Boolean(hostOf(world, entity));
   // Nor a well to dig where nobody needs one.
   const wantsWell = Boolean(household.site?.needsWell && !household.well);
-  return Object.entries(CHORES).filter(([, chore]) => !(chore.house && settled) && !(chore.helps && !visiting) && !(chore.well && !wantsWell)).map(([id, chore]) => {
+  // Nor a lane to cut where the family has none, or has cut it.
+  const wantsLane = Boolean(laneState(world, household)?.left > 0);
+  return Object.entries(CHORES).filter(([, chore]) => !(chore.house && settled) && !(chore.helps && !visiting) && !(chore.well && !wantsWell) && !(chore.lane && !wantsLane)).map(([id, chore]) => {
     const { can, why } = choreAvailability(world, household, entity, id);
     // `haul` is what this person's own hands would bring back from this trip, before any
     // cap. The cap itself is the mode's `carry`, which the projection sends alongside; the
@@ -803,7 +818,7 @@ function advanceChore(world, household, entity, { beginTravel }) {
       // somewhere else would carry them home across the map for nothing: exactly the
       // teleport the world's "returning home requires a journey" rule forbids.
       if (entity.location.siteId !== household.homeSiteId) return abandonChore(world, household, entity, chore);
-      const point = step.walk === 'field' ? fieldPoint(world, household) : yardPoint(world, household);
+      const point = step.walk === 'field' ? fieldPoint(world, household) : step.walk === 'lane' ? (lanePoint(world, household) || yardPoint(world, household)) : yardPoint(world, household);
       if (point) entity.location = { x: point.x, y: point.y, siteId: household.homeSiteId };
       state.wait = 1;
       return;
@@ -979,6 +994,17 @@ function advanceChore(world, household, entity, { beginTravel }) {
     }
     if (step.raise === 'fence') { raiseFence(world, household, entity); continue; }
     if (step.dig === 'well') { digWell(world, household, entity); continue; }
+    if (step.cutLane) {
+      // Another stretch, unless that reached the road. Then everybody cutting leaves off at once, as on the house, and
+      // comes back up the lane: not a tick later, still swinging an axe at a lane that is cut.
+      if (!cutLaneSpell(world, household, entity, step.cutLane)) { state.step = chore.steps.findIndex(candidate => candidate.walk === 'lane') - 1; continue; }
+      const homeward = chore.steps.findIndex(candidate => candidate.walk === 'yard') - 1;
+      for (const id of household.members) {
+        const worker = world.entities[id];
+        if (worker && worker !== entity && CHORES[worker.chore?.id]?.lane) Object.assign(worker.chore, { step: homeward, wait: 0, doing: 'coming back up the lane' });
+      }
+      continue;
+    }
     if (step.produceCrop) {
       // What is standing, less what the stock have had out of it. Both numbers are on the
       // controls that spend the afternoon, so a family that harvests an unfenced field

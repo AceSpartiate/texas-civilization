@@ -193,8 +193,8 @@ export function buildColoniesRegion(random, playerCount) {
     const lane = layLane(join, home) || [join, { x: home.x, y: home.y }];
     routes[`route-${joinId}-${home.id}`] = { id: `route-${joinId}-${home.id}`, from: joinId, to: home.id, kind: 'track', points: lane };
     terrain.push({ id: `field-${index + 1}`, kind: 'field', ownerHouseholdId: `hh-${index + 1}`, points: [
-      { x: round(home.x + 0.16), y: round(home.y + 0.14) }, { x: round(home.x + 0.69), y: round(home.y + 0.14) },
-      { x: round(home.x + 0.69), y: round(home.y + 0.67) }, { x: round(home.x + 0.16), y: round(home.y + 0.67) },
+      { x: round(home.x + 0.04), y: round(home.y + 0.03) }, { x: round(home.x + 0.29), y: round(home.y + 0.03) },
+      { x: round(home.x + 0.29), y: round(home.y + 0.28) }, { x: round(home.x + 0.04), y: round(home.y + 0.28) },
     ] });
     homesteads.push(home);
   });

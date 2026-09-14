@@ -37,7 +37,7 @@ export const WELL_BELOW_WATER_METRES = 3;
 const round = (value, places = 2) => { const fixed = +value.toFixed(places); return fixed === 0 ? 0 : fixed; };
 
 /** The track in to this family's home: the lane from the road. */
-const laneOf = (world, household) => Object.values(world.map.routes).find(route => route.to === household.homeSiteId);
+export const laneOf = (world, household) => Object.values(world.map.routes).find(route => route.to === household.homeSiteId);
 
 /** The family has reached its land and not yet said where the house goes. */
 export const choosing = household => household.choosingSite === true;
@@ -84,6 +84,8 @@ export function chooseSite(world, household, point) {
   const route = laneOf(world, household);
   route.points = lane;
   route.ground = groundAlong(lane);
+  // Marked out, not cut: the family cuts it (owner, 2026-09-14), from the house outward.
+  route.cut = 0;
   home.x = x; home.y = y;
   // The field is laid out beside the house, as it was beside the mark.
   const field = world.map.terrain.find(feature => feature.kind === 'field' && feature.ownerHouseholdId === household.id);
@@ -156,11 +158,85 @@ export function digWell(world, household, entity) {
   record(world, 'improvement', { actorId: entity.id, householdId: household.id, importance: 2, claimId: 'FIC-GONZ-026', text: `${entity.name} struck water. The family has a well, and carries water no further than the yard.` });
 }
 
+// ---------------------------------------------------------------- cutting the lane
+//
+// The owner (2026-09-14): the family cuts its own lane, as work. The route is marked when the site is chosen; until it is
+// cut, going over it is as slow as the open country it crosses - its timber and brush count in full (sim/ground.mjs). Cut
+// from the house outward, a stretch a spell, and a cut stretch has had its timber and brush taken out of the way, though
+// its climbs and its creeks are still there. Every number FIC-GONZ-026.
+
+/** Ticks of one person's work to cut a mile of lane, by what it runs through (FIC-GONZ-026). */
+export const LANE_TICKS_PER_MILE = Object.freeze({ open: 6, timber: 60, brush: 30 });
+/** However far the cutting has got, the person doing it is drawn no further than this from the house. */
+const WORKED_IN_SIGHT_MILES = 0.35;
+
+const segmentsOf = points => points.slice(1).map((b, i) => Math.hypot(b.x - points[i].x, b.y - points[i].y));
+
+/** The family's own lane, how long it is and how much of it is cut; null where there is none to cut. */
+export function laneState(world, household) {
+  if (!household?.site) return null;
+  const route = laneOf(world, household);
+  if (!route?.ground || !Number.isFinite(route.cut)) return null;
+  const miles = polylineLength(route.points);
+  return { route, miles: round(miles), cut: round(Math.min(miles, route.cut)), left: round(Math.max(0, miles - route.cut)) };
+}
+
+/** What lies at the uncut end of the lane, as shares of timber and brush over the stretch being cut. */
+function frontGround(route) {
+  const lengths = segmentsOf(route.points), total = lengths.reduce((sum, length) => sum + length, 0);
+  let fromHouse = 0;
+  for (let i = lengths.length - 1; i >= 0; i--) {
+    fromHouse += lengths[i];
+    if (fromHouse > route.cut) return route.ground[i];
+  }
+  return route.ground[0] || [0, 0, 0, 0, 0];
+}
+
+/** Why the family cannot cut its lane, or null. */
+export function laneRefusal(world, household) {
+  if (choosing(household)) return 'Choose where the house will stand first.';
+  const lane = laneState(world, household);
+  if (!lane) return 'There is no lane of your own to cut.';
+  if (lane.left <= 0) return 'The lane is cut.';
+  const timberAhead = lane.route.ground.some(([, timber]) => timber > 0);
+  if (timberAhead && household.tools?.axe === undefined) return 'The lane runs through timber, and there is no felling axe in the house.';
+  return null;
+}
+
+/** One spell of cutting. Returns true once the whole lane is cut. */
+export function cutLaneSpell(world, household, entity, ticks) {
+  const lane = laneState(world, household);
+  if (!lane || lane.left <= 0) return true;
+  const [, timber, brush] = frontGround(lane.route);
+  const perMile = LANE_TICKS_PER_MILE.open + timber * (LANE_TICKS_PER_MILE.timber - LANE_TICKS_PER_MILE.open) + brush * (LANE_TICKS_PER_MILE.brush - LANE_TICKS_PER_MILE.open);
+  lane.route.cut = round(Math.min(lane.miles, lane.route.cut + ticks / perMile), 4);
+  if (lane.route.cut < lane.miles) return false;
+  record(world, 'improvement', { actorId: entity.id, householdId: household.id, importance: 2, claimId: 'FIC-GONZ-026', text: `The lane is cut all the way to the road, ${lane.miles} miles of it. A wagon can come and go without fighting the brush.` });
+  return true;
+}
+
+/** Where along the lane the cutting has got to, for drawing the person at work: never further out than in sight of the house. */
+export function lanePoint(world, household) {
+  const lane = laneState(world, household);
+  if (!lane) return null;
+  const points = lane.route.points, lengths = segmentsOf(points);
+  let wanted = Math.min(lane.cut, WORKED_IN_SIGHT_MILES);
+  for (let i = lengths.length - 1; i >= 0; i--) {
+    if (wanted <= lengths[i]) {
+      const f = lengths[i] ? wanted / lengths[i] : 0, a = points[i + 1], b = points[i];
+      return { x: round(a.x + (b.x - a.x) * f), y: round(a.y + (b.y - a.y) * f) };
+    }
+    wanted -= lengths[i];
+  }
+  return { ...points[0] };
+}
+
 /** For the family's own land line: whether it is choosing, what its site is, and what water costs it. */
 export function siteProjection(world, household) {
   if (choosing(household)) return { choosingSite: { can: !chooseRefusal(world, household), ...(chooseRefusal(world, household) && { why: chooseRefusal(world, household) }), mark: household.mark || { x: world.map.sites[household.homeSiteId].x, y: world.map.sites[household.homeSiteId].y } } };
   if (!household.site) return {};
-  return { site: { ...household.site, ...(household.well && { well: true }), burden: waterBurden(household) } };
+  const lane = laneState(world, household);
+  return { site: { ...household.site, ...(household.well && { well: true }), burden: waterBurden(household) }, ...(lane && { lane: { miles: lane.miles, cut: lane.cut } }) };
 }
 
 /** A stored site is a real one where the house is; the markers are `true` or absent. */

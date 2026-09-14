@@ -510,7 +510,14 @@ export function visibleEntityIds(world, siteId = null) {
 // so looking somewhere is never a way of learning something.
 const MIN_EXTENT = 3.4;
 // See `figure` in cameraFor: the symbolic size of a person, in miles of ground.
-const PERSON_MILES = 0.115;
+//
+// It was 0.115 - a person drawn six hundred feet tall - and a labor of 177 acres, half a mile a side, read as five people
+// wide at every zoom, so a family's land looked like a yard (owner, 2026-09-14: "it's not communicating how large the land
+// tracts were"). A sixth of that, and the camera zooms far enough in to keep a person readable, makes a labor about
+// thirty people across and a league a hundred and fifty. Still a symbol: a real person would be a hundredth of this.
+const PERSON_MILES = 0.019;
+// How tall a person may be drawn at the closest zoom, in screen pixels: the camera must be able to get this close.
+const CLOSEST_FIGURE = 90;
 // Below this many screen pixels per world mile, a neighbour's homestead is smaller than
 // the label that would sit on it. Fords and other minor names thin out at the same point.
 const HOMESTEAD_LEGIBLE = 11;
@@ -574,7 +581,7 @@ function scaleLimits(world, canvas) {
   const height = Math.max(MIN_EXTENT * .56, bounds.maxY - bounds.minY);
   // Zoomed out reaches the whole mapped country; zoomed in reaches one farm.
   const cover = Math.max(canvas.width / width, canvas.height / height);
-  return { min: cover, max: Math.max(cover * 30, canvas.width / 1.6) };
+  return { min: cover, max: Math.max(cover * 30, canvas.width / 1.6, CLOSEST_FIGURE / PERSON_MILES) };
 }
 // Keep the visible rectangle inside the mapped country rather than letting a student pan
 // off into ground the world does not model.
@@ -925,7 +932,11 @@ function drawGroundDetail(ctx, world, camera) {
   if (camera.scale < 34) return;
   const canvas = ctx.canvas;
   const topLeft = camera.toWorld({ x: 0, y: 0 }), bottomRight = camera.toWorld({ x: canvas.width, y: canvas.height });
-  const cell = 0.055;
+  // A tuft or a tree every few rods close up, and coarser as the view widens, so a frame never has more cells to roll
+  // than it can afford. It was a fixed 0.055 miles, sized for figures six times as big, and close up the land went bare.
+  const viewMiles = Math.max(bottomRight.x - topLeft.x, bottomRight.y - topLeft.y);
+  // In doublings, so the scatter holds still while zooming within a band and only thins at the band's edge.
+  const cell = 0.01 * 2 ** Math.max(0, Math.ceil(Math.log2(viewMiles / 150 / 0.01)));
   const startX = Math.floor(topLeft.x / cell), endX = Math.ceil(bottomRight.x / cell);
   const startY = Math.floor(topLeft.y / cell), endY = Math.ceil(bottomRight.y / cell);
   const cells = (endX - startX + 1) * (endY - startY + 1);
@@ -1007,8 +1018,8 @@ function drawTerrain(ctx, world, camera) {
     if (feature.kind === 'field') {
       // Corn and cotton in rows, and the split-rail fence that kept stock out of them
       // (HIST-GONZ-013).
-      // A field is as big as the family has made it. The polygon on the map is the whole
-      // labor of ground a household holds; what is drawn worked is the share of it that
+      // A field is as big as the family has made it. The polygon on the map is the forty acres
+      // a household can break beside its house; what is drawn worked is the share of it that
       // has actually been broken, growing out of the corner nearest the cabin. The map
       // itself never changes - it is fetched once a class - so the size has to come from
       // the household, which is authoritative and arrives every tick.
@@ -1080,6 +1091,20 @@ function drawTerrain(ctx, world, camera) {
  * neighbour's grant is theirs to know. Marked with a dashed line of survey-chain brown, because no
  * fence or marker stands on it yet.
  */
+/** A polyline cut in two at a distance along it, in world miles: the part before and the part after. */
+function splitAlong(points, miles) {
+  const before = [{ ...points[0] }];
+  for (let i = 1; i < points.length; i++) {
+    const a = points[i - 1], b = points[i], length = Math.hypot(b.x - a.x, b.y - a.y);
+    if (miles <= length) {
+      const f = length ? miles / length : 0, at = { x: a.x + (b.x - a.x) * f, y: a.y + (b.y - a.y) * f };
+      before.push(at);
+      return [before, [at, ...points.slice(i).map(p => ({ ...p }))]];
+    }
+    miles -= length; before.push({ ...b });
+  }
+  return [before, []];
+}
 /** The place the family is looking over for its house, as a stake on its own land. */
 function drawSitePick(ctx, world, camera) {
   if (!world.land?.choosingSite || !sitePick) { window.__sitePick = null; return; }
@@ -1125,12 +1150,27 @@ export function drawWorld(world) {
   for (const route of Object.values(world.map?.routes || {})) {
     const points = (route.points || []).filter(Boolean).map(camera.toScreen); if (points.length < 2) continue;
     const track = route.kind === 'track' ? .55 : 1;
-    const width = Math.max(2, Math.min(46, camera.scale * .06 * track + camera.figure * .22));
+    // A cart road is a few rods wide; drawn at a sixteenth of a mile it was wider than the house beside it.
+    const width = Math.max(2, Math.min(46, camera.scale * .012 * track + camera.figure * .22));
     ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-    ctx.beginPath(); points.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
-    ctx.strokeStyle = '#a8a173'; ctx.lineWidth = width * 1.5; ctx.stroke();
-    ctx.strokeStyle = '#c6b183'; ctx.lineWidth = width; ctx.stroke();
+    // The family's own lane, marked but not all cut (sim/homesite.mjs): the uncut stretch is a line of stakes through the
+    // grass, and the cut stretch from the house outward is track. Only its own: how far a neighbour has cut is theirs.
+    const lane = route.to === world.household?.homeSiteId && world.land?.lane;
+    const uncutMiles = lane ? Math.max(0, lane.miles - lane.cut) : 0;
+    const [marked, worn] = uncutMiles > 0 ? splitAlong(route.points, uncutMiles).map(part => part.map(camera.toScreen)) : [[], points];
+    if (marked.length > 1) {
+      ctx.save(); ctx.setLineDash([Math.max(3, width * .5), Math.max(4, width * .9)]);
+      ctx.beginPath(); marked.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
+      ctx.strokeStyle = 'rgba(107,79,42,.7)'; ctx.lineWidth = Math.max(1.5, width * .3); ctx.stroke();
+      ctx.restore();
+    }
+    if (worn.length > 1) {
+      ctx.beginPath(); worn.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
+      ctx.strokeStyle = '#a8a173'; ctx.lineWidth = width * 1.5; ctx.stroke();
+      ctx.strokeStyle = '#c6b183'; ctx.lineWidth = width; ctx.stroke();
+    }
   }
+  window.__laneDrawn = world.land?.lane ? { miles: world.land.lane.miles, cut: world.land.lane.cut } : null;
   const homeId = homeOf(world);
   // Buildings and people share one back-to-front order, so a family standing south of
   // their cabin is in front of it and one standing north is behind it. Sorting the two

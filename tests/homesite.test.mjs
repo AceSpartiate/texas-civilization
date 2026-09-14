@@ -15,7 +15,10 @@ import { choreAvailability, choresFor } from '../sim/chores.mjs';
 import { holdingOf } from '../sim/grants.mjs';
 import { houseBuilt } from '../sim/houses.mjs';
 import { siteFacts } from '../sim/ground.mjs';
-import { chooseRefusal, siteFactsFor, waterBurden, wellTicks } from '../sim/homesite.mjs';
+import { chooseRefusal, LANE_TICKS_PER_MILE, laneRefusal, laneState, siteFactsFor, waterBurden, wellTicks } from '../sim/homesite.mjs';
+import { findPath } from '../sim/geography.mjs';
+import { paceOf } from '../sim/ground.mjs';
+import { groundLeft } from '../sim/travel.mjs';
 import { realTerrain } from '../sim/terrain-data.mjs';
 import { createClassroom } from '../server/app.mjs';
 
@@ -226,6 +229,79 @@ test('water carried from far off slows the heavy work until a well is dug, and a
   assert.ok(!choresFor(wet, wetHousehold, wet.entities[wetHousehold.principalId]).some(chore => chore.id === 'dig-well'), 'and is offered no well');
   const deeper = { site: { needsWell: true, aboveFeet: 40, waterMiles: 1 } }, shallower = { site: { needsWell: true, aboveFeet: 5, waterMiles: 1 } };
   assert.ok(wellTicks(deeper) > wellTicks(shallower), 'a house higher above the water digs deeper');
+});
+
+test('the lane is marked, not cut: the family cuts it from the house outward, and a cut lane is quicker going for the wagon', () => {
+  const world = arrived('site-lane', 5);
+  // A family whose chosen lane runs through some timber, so the cutting has something to take out.
+  let household = null;
+  for (const each of Object.values(world.households)) {
+    const places = placesOn(holdingOf(world, each).bounds).map(entry => entry.point);
+    for (const point of places) {
+      const trial = structuredClone(world);
+      try { applyAction(trial, each.id, { action: 'choose-site', x: point.x, y: point.y }); } catch { continue; }
+      const lane = laneState(trial, trial.households[each.id]);
+      if (lane.route.ground.some(([, timber]) => timber > 0.3) && lane.miles > 1) { applyAction(world, each.id, { action: 'choose-site', x: point.x, y: point.y }); household = world.households[each.id]; break; }
+    }
+    if (household) break;
+  }
+  assert.ok(household, 'some family can set its house where the lane crosses timber');
+  for (let tick = 0; tick < 100 && household.arriving; tick++) stepWorld(world);
+  const lane = laneState(world, household);
+  assert.equal(lane.cut, 0, 'marked, not cut');
+  assert.deepEqual(projectWorld(world, household.id, 'student').land.lane, { miles: lane.miles, cut: 0 }, 'and the family is told so');
+  const going = () => { const path = findPath(world.map, lane.route.from, household.homeSiteId); return groundLeft({ points: path.points, pace: paceOf(path.points, path.ground, 'wagon'), distance: path.distance, progress: 0 }); };
+  const uncut = going();
+
+  const axe = household.tools.axe;
+  delete household.tools.axe;
+  assert.equal(laneRefusal(world, household), 'The lane runs through timber, and there is no felling axe in the house.');
+  household.tools.axe = axe ?? 0;
+  const [first, second] = household.members.map(id => world.entities[id]).filter(person => choresFor(world, household, person).some(chore => chore.id === 'cut-lane' && chore.can));
+  assert.ok(first && second, 'two of the family can be set to it');
+  applyAction(world, household.id, { action: 'chore', entityId: first.id, chore: 'cut-lane' });
+  // A tick apart, so when the lane reaches the road one of them is in the middle of a spell.
+  stepWorld(world);
+  applyAction(world, household.id, { action: 'chore', entityId: second.id, chore: 'cut-lane' });
+  for (let tick = 0; tick < 12; tick++) stepWorld(world);
+  const part = laneState(world, household).cut;
+  assert.ok(part > 0 && part < lane.miles, `a stretch is cut and not the whole (${part} of ${lane.miles} miles)`);
+  assert.ok(going() < uncut, 'and the wagon already goes quicker over what is cut');
+  let ticks = 12;
+  while (laneState(world, household).left > 0 && ticks < 3000) { stepWorld(world); ticks++; }
+  assert.equal(laneState(world, household).cut, lane.miles, 'the lane reaches the road');
+  const fastest = lane.miles * LANE_TICKS_PER_MILE.open / 2 / 3;
+  assert.ok(ticks > fastest, `and it was long work through timber (${ticks} ticks)`);
+  assert.ok(going() < uncut * 0.97, `the whole lane is quicker going (${uncut.toFixed(2)} to ${going().toFixed(2)} miles of open road)`);
+  assert.ok(going() >= lane.miles * 0.99, 'though a cut lane still has its climbs and creeks');
+  assert.match(storyOf(world, household.id).join(' '), /The lane is cut all the way to the road/);
+  const cutters = household.members.filter(id => world.entities[id].chore?.id === 'cut-lane');
+  assert.equal(cutters.length, 2, 'both were still on it when it reached the road');
+  assert.ok(cutters.every(id => /coming back up the lane/.test(world.entities[id].chore.doing)), 'and both leave off at once');
+  for (let tick = 0; tick < 3; tick++) stepWorld(world);
+  assert.ok(!household.members.some(id => world.entities[id].chore?.id === 'cut-lane'), 'and is done');
+  const home = world.map.sites[household.homeSiteId];
+  assert.ok([first, second].every(person => Math.hypot(person.location.x - home.x, person.location.y - home.y) < 0.1), 'back in the yard, not standing out on the lane');
+  assert.ok(!choresFor(world, household, first).some(chore => chore.id === 'cut-lane'), 'and it is not offered again');
+  validateWorld(world);
+});
+
+test("a new family's yard is a few rods across and its first field is ten acres beside the house, on either map", () => {
+  for (const map of ['gonzales', 'colonies']) {
+    const world = createGonzalesWorld(`yard-${map}`, 5, { map });
+    for (const household of Object.values(world.households)) {
+      const home = world.map.sites[household.homeSiteId];
+      for (const id of [...household.members, ...household.property]) {
+        const entity = world.entities[id], at = entity.travel?.settle || entity.location;
+        assert.ok(Math.hypot(at.x - home.x, at.y - home.y) < 0.1, `${id} stands within a few rods of the house on the ${map} map`);
+      }
+      const field = world.map.terrain.find(feature => feature.kind === 'field' && feature.ownerHouseholdId === household.id);
+      const xs = field.points.map(point => point.x), ys = field.points.map(point => point.y);
+      const acres = (Math.max(...xs) - Math.min(...xs)) * (Math.max(...ys) - Math.min(...ys)) * 640;
+      assert.ok(Math.abs(acres / 4 - 10) < 1, `the first patch is ten acres (${(acres / 4).toFixed(1)}) on the ${map} map`);
+      assert.ok(Math.min(...xs) - home.x < 0.1 && Math.min(...ys) - home.y < 0.1, 'and it lies beside the house');
+    }
+  }
 });
 
 test('families nobody plays choose a site out of the bottom and near water, and build on it', () => {

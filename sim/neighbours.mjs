@@ -110,7 +110,7 @@ export function thinkFor(world, household, { project, act }) {
       // Food first when the family is short, then the crop, the house, the tools, the fence, and the trips to town
       // a farm needs: seed when there is none to plant, cotton to the store once there is some.
       food < people.length * FOOD_KEPT_PER_PERSON && hunters === 0 && (resources.powder || 0) >= 1 && 'hunt-timber',
-      'harvest-field', 'plant-field', 'build-house', 'dig-well', 'mend-hoe',
+      'harvest-field', 'plant-field', 'build-house', 'dig-well', 'mend-hoe', 'cut-lane',
       view.household.field?.state === 'planted' && 'build-fence',
       view.household.field?.state === 'bare' && (resources.seed || 0) < 2 && 'fetch-seed',
       (resources.cotton || 0) >= 1 && 'sell-cotton',

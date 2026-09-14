@@ -441,6 +441,9 @@ Each step ends with tests that failed first, a browser proof where it touches wh
   plays chose every site and built every house within 360 ticks, the slowest tick 142 ms, when the sites were chosen.
 - **Owner raised while this was built (2026-09-14):** children had real work on a farm, and this game gives them almost none.
   Not built; to be researched and brought back as questions (`docs/FAMILY_CREATION.md` §3 holds the current rule).
+- **Owner decisions the same day** (`docs/LAND_GRANTS.md` §8.5): figures drawn at a sixth of their old size so the land reads at its
+  size, the stock rule kept, and **the lane cut by the family as work** — built: the yard drawn a few rods across, the field
+  forty acres, `cut-lane` from the house outward.
 - `ceiling:` the roads carry no going; a site's facts are asked of the server one place at a time, and laying a long lane takes
   a tenth of a second or so on the server's thread; creeks are counted as crossed by name, so one creek wandering across a
   stretch twice is one crossing; USGS's perennial streams describe the present, not 1835; no flood happens yet.

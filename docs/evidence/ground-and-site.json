@@ -55,5 +55,33 @@
       "the homes patch leaves out lanes -> HTTP test"
     ]
   },
-  "notBuilt": "Roads carry no going; no flood happens; a lane is laid for the family rather than cut by it; fields, clearing and survey anywhere on the holding (docs/LAND_GRANTS.md §4–5)."
+  "notBuilt": "Roads carry no going; no flood happens; a lane is laid for the family rather than cut by it; fields, clearing and survey anywhere on the holding (docs/LAND_GRANTS.md §4–5).",
+  "landAtTrueSize": {
+    "owner": "2026-09-14: 'The player's land seems too small... It's not communicating how large the land tracts were.' Decided: much smaller figures; keep the stock rule; the family cuts the lane as work.",
+    "found": "PERSON_MILES was 0.115 (a person drawn about 600 feet tall) against a labor 0.53 miles a side; the ox stood 0.17-0.31 miles from the house; the field polygon was a whole labor.",
+    "built": [
+      "PERSON_MILES 0.019 and a closest zoom of a 90-pixel person",
+      "ground detail every few rods close up, thinned in doublings",
+      "the yard within a few rods; the field forty acres, first patch ten",
+      "cut-lane: 6/30/60 ticks a mile of open/brush/timber, axe in timber, cut stretches lose timber and brush from the going, everybody leaves off together and walks back up the lane"
+    ],
+    "browserProof": [
+      "A fresh five-family colonies class: zoomed in, the labor read as open country dotted with trees and brush, the camp compact by the house, the field a small patch beside it.",
+      "Two of the family cut a 2.42-mile lane over open ground in about fifteen ticks at Quick pace; with the projection set to a quarter mile cut, the rest of the lane drew as a dashed line of stakes.",
+      "Found and fixed in the proof: the cutter was left standing out on the lane when it was done."
+    ],
+    "injectedRegressions": [
+      "cutting takes nothing out of the going",
+      "a spell cuts nothing",
+      "timber cut as fast as prairie",
+      "no axe wanted for timber",
+      "a chosen lane never marked",
+      "others keep cutting a finished lane (caught after the two cutters were started a tick apart)",
+      "the cutter stays out on the lane",
+      "a cut lane still offered",
+      "the yard a quarter mile across again",
+      "the field a labor again"
+    ],
+    "tests": "tests/homesite.test.mjs gained the lane-cutting and yard-size tests; 354 tests, 352 pass, the two art-inventory failures unchanged"
+  }
 }

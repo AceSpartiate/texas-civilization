@@ -255,3 +255,37 @@ Built as `docs/COLONIES.md` §6 item 3; tests `tests/ground.test.mjs` and `tests
   *Dig a well*: 6 ticks and 2 a metre, the depth the height above the nearest water and 3 metres more (`HIST-GONZ-041` for a
   moderate depth; every number `FIC-GONZ-026`). Offered only where one is wanted.
 - **Old saves and the invented map**: no `choosingSite`, no `ground`, no `pace` — unchanged; no save version moved.
+
+### 8.5 The land at its true size, and the lane cut by the family — decided 2026-09-14
+
+> "The player's land seems too small. The icons are taking up a lot of space. It's not communicating how large the land
+> tracts were. Players should have a lot of space to choose from. This would open up choosing where to put their various
+> fields (they don't all have to be next to one another), building a path to the closest road from their land, clearing
+> spaces, digging wells, etc."
+>
+> — the owner, 2026-09-14, on seeing the house site built
+
+| Question | Owner's answer, 2026-09-14 |
+| --- | --- |
+| How should the map show how big the land is? | **Much smaller figures**, and a camera that zooms far enough in to keep them readable. |
+| Should every family get more land? | **No — keep the stock rule** (a labor without stock, a league and a labor with). |
+| Who makes the lane to the road? | **The family cuts it as work.** The route is marked when the site is chosen; until it is cut, going over it is as slow as the country it crosses. |
+
+**Found:** a person was drawn 0.115 miles tall — about six hundred feet — against a labor 0.53 miles a side, so every holding
+read as five people wide at every zoom; the yard put the ox a fifth of a mile from the house and the field was a whole labor.
+**Built the same day:**
+
+- **Drawing** (`public/app.js`): a person 0.019 miles, the closest zoom reaching a person 90 pixels tall; the grass, brush and
+  trees scattered a few rods apart close up and thinned in doublings as the view widens; a cart road a few rods wide.
+- **The yard** (`sim/world.mjs`, `sim/chores.mjs`): family, ox, horse and wagon within a few rods of the house; a hunter's
+  steps in the timber a tenth of a mile or so. Classes saved before keep where their people stood.
+- **The field** (`sim/geography.mjs`, `sim/colonies-region.mjs`): forty acres beside the house, the first patch ten — the
+  plot size §4 already gives Survey. It is still one block at a fixed place (`ceiling:` it can lie across a creek); §4–5's
+  plots anywhere on the holding are what the owner's "they don't all have to be next to one another" asks for, and remain
+  the next land step.
+- **Cutting the lane** (`sim/homesite.mjs` `cut-lane`): a marked lane is cut from the house outward, a spell at a time, by as
+  many of the family as are set to it; six ticks of one person's work a mile of open ground, thirty of brush, sixty of timber,
+  a felling axe wanted where it runs through timber (every number `FIC-GONZ-026`). A cut stretch loses its timber and brush
+  from the going; its climbs and creeks stay. The uncut stretch is drawn as a line of stakes, the cut one as track. Neighbours
+  cut theirs. `ceiling:` whoever is cutting is drawn no further than a third of a mile down the lane from the house, however far
+  the cutting has got; the lane's route is chosen for the family, and a student drawing their own is the way out if wanted.

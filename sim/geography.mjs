@@ -174,11 +174,12 @@ export function buildGonzalesRegion(random, playerCount, { origin = { x: 0, y: 0
     const home = site(`home-${index + 1}`, `Family ${index + 1} home`, 'homestead', place, { ownerHouseholdId: `hh-${index + 1}` });
     const nearest = junctions.reduce((best, node) => distance(node, home) < distance(best, home) ? node : best, junctions[0]);
     road(nearest.id, home.id, [nearest, home], 'track');
-    // A labor of cropland is 177.1 acres: about 0.53 miles square, a small patch inside a
-    // holding many times its size.
+    // The ground a family can break for its crop: a quarter mile square, forty acres, beside the house. The first patch is a
+    // quarter of it - ten acres - and every clearing adds as much (sim/improvements.mjs). It was a whole labor, which with the
+    // figures drawn at their old size filled the holding (owner, 2026-09-14). The size is FIC-GONZ-015.
     terrain.push({ id: `field-${index + 1}`, kind: 'field', ownerHouseholdId: `hh-${index + 1}`, points: [
-      { x: home.x + 0.16, y: home.y + 0.14 }, { x: home.x + 0.69, y: home.y + 0.14 },
-      { x: home.x + 0.69, y: home.y + 0.67 }, { x: home.x + 0.16, y: home.y + 0.67 },
+      { x: home.x + 0.04, y: home.y + 0.03 }, { x: home.x + 0.29, y: home.y + 0.03 },
+      { x: home.x + 0.29, y: home.y + 0.28 }, { x: home.x + 0.04, y: home.y + 0.28 },
     ] });
     homesteads.push(home);
   });
@@ -201,6 +202,25 @@ export function buildGonzalesRegion(random, playerCount, { origin = { x: 0, y: 0
   // reaches from the whole of Texas down to a single field without changing worlds.
   const province = buildProvince();
   return { sites, routes, terrain, homesteads, relief: reliefGrid, homeBounds: reliefBounds, bounds: province.bounds, province };
+}
+
+/**
+ * A route's going, with what a family has cut out of its lane taken away (sim/homesite.mjs): the lane is cut from its far end
+ * - the house - so the stretches nearest the house lose their timber and brush first, part of a stretch in proportion.
+ */
+function cutGround(route) {
+  if (!(route.cut > 0)) return route.ground;
+  const lengths = route.points.slice(1).map((b, i) => Math.hypot(b.x - route.points[i].x, b.y - route.points[i].y));
+  let fromHouse = 0;
+  const ground = [...route.ground];
+  for (let i = lengths.length - 1; i >= 0; i--) {
+    const cutHere = Math.max(0, Math.min(lengths[i], route.cut - fromHouse));
+    fromHouse += lengths[i];
+    if (!cutHere || !ground[i]) continue;
+    const left = lengths[i] ? 1 - cutHere / lengths[i] : 0;
+    ground[i] = [ground[i][0], ground[i][1] * left, ground[i][2] * left, ground[i][3], ground[i][4]];
+  }
+  return ground;
 }
 
 // The road network is a graph, so crossing the river means going by the ford rather than
@@ -236,7 +256,7 @@ export function findPath(map, fromSiteId, toSiteId) {
   const ground = [];
   for (const leg of legs) {
     const ordered = leg.forward ? leg.route.points : [...leg.route.points].reverse();
-    const along = leg.route.ground && (leg.forward ? leg.route.ground : [...leg.route.ground].reverse().map(g => [-g[0], g[1], g[2], g[3], g[4]]));
+    const along = leg.route.ground && (leg.forward ? cutGround(leg.route) : [...cutGround(leg.route)].reverse().map(g => [-g[0], g[1], g[2], g[3], g[4]]));
     ordered.forEach((point, index) => {
       if (points.length && points.at(-1).x === point.x && points.at(-1).y === point.y) return;
       if (points.length) ground.push(index > 0 ? along?.[index - 1] ?? null : null);

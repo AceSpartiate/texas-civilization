@@ -79,9 +79,11 @@ export function createWorld(seed = 'gonzales', playerCount = 15, { map = 'gonzal
     // thing to draw for every animal such a save contains - the absent field has a
     // correct empty value, so no save version moved. `sim/trade.mjs` is the precedent.
     for (const beast of [
-      { role: 'ox', kind: 'animal', species: 'ox', name: 'Juniper the ox', dx: -.17, dy: .10 },
-      { role: 'horse', kind: 'animal', species: 'horse', name: 'Bess the mare', dx: -.31, dy: .05 },
-      { role: 'wagon', kind: 'wagon', name: 'Family wagon', dx: -.21, dy: .26 },
+      // A few rods from the house, not a quarter mile: the yard was drawn round figures six times the size they are now
+      // (public/app.js `PERSON_MILES`), and the ox stood in the next field.
+      { role: 'ox', kind: 'animal', species: 'ox', name: 'Juniper the ox', dx: -.035, dy: .02 },
+      { role: 'horse', kind: 'animal', species: 'horse', name: 'Bess the mare', dx: -.06, dy: .01 },
+      { role: 'wagon', kind: 'wagon', name: 'Family wagon', dx: -.045, dy: .05 },
     ]) {
       const id = propertyId(householdId, beast.role);
       world.entities[id] = { id, name: beast.name, kind: beast.kind, ...(beast.species && { species: beast.species }), householdId, depth: 'aggregate', location: { x: site.x + beast.dx, y: site.y + beast.dy, siteId: site.id }, travel: null, condition: 'sound', borrowedBy: null };
@@ -107,7 +109,7 @@ export function createWorld(seed = 'gonzales', playerCount = 15, { map = 'gonzal
 function addPerson(world, household, site, j, { id, name, kin, adult, sex, age, traits }) {
   world.entities[id] = {
     id, name, kind: 'person', householdId: household.id, depth: j === 0 ? 'detailed' : 'moderate', principal: j === 0,
-    location: { x: site.x + j * .06, y: site.y + (j % 2) * .06, siteId: site.id }, travel: null, health: { condition: 'well' },
+    location: { x: site.x + j * .012, y: site.y + (j % 2) * .012, siteId: site.id }, travel: null, health: { condition: 'well' },
     task: adult ? 'work' : 'rest', skills: skillsFor(id), chore: null, kin, relationships: {}, propertyRefs: [`${household.id}-wagon`], commitments: [],
     ...(sex && { sex }), ...(Number.isFinite(age) && { age }), ...(traits && { traits }),
   };
