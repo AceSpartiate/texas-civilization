@@ -1,0 +1,113 @@
+{
+  "record": "The real terrain of the settled colonies: build step 1 of docs/LAND_GRANTS.md §8",
+  "date": "2026-09-14",
+  "verdict": "PASS",
+  "verdictMeaning": "The game has an elevation grid and the watercourses of the settled colonies of 1835 (94-99°W, 28-32°N) at an eighth of a mile, built from USGS data by a script with no dependencies, and checked against the published heights of nine towns, the fall of the land to the coast, the Guadalupe running downhill, and the confluence of the San Marcos and the Guadalupe. Nothing in the game reads it yet.",
+  "ownerDecisions": [
+    "2026-09-13: real elevation and water rather than invented terrain; downloads approved.",
+    "2026-09-14: \"we're going to need data like this for the whole game area. players are not all starting in the gonzales area.\" Game area chosen: the settled colonies, 94-99°W and 28-32°N; detail: fine everywhere. Stream download (1.23 GB) approved separately after its size was stated."
+  ],
+  "sources": {
+    "licence": "U.S. Geological Survey, The National Map: public domain.",
+    "elevation": {
+      "product": "3DEP seamless 1 arc-second GeoTIFF (current release; the n30w098 tile is dated 2021-11-03)",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/current/<tile>/USGS_1_<tile>.tif",
+      "tiles": {
+        "n29w096": 11046473,
+        "n29w097": 34867342,
+        "n29w098": 56253487,
+        "n29w099": 55755966,
+        "n30w095": 25009669,
+        "n30w096": 57304441,
+        "n30w097": 55919368,
+        "n30w098": 56750132,
+        "n30w099": 55144264,
+        "n31w095": 60465838,
+        "n31w096": 56196025,
+        "n31w097": 56897356,
+        "n31w098": 55290513,
+        "n31w099": 54655786,
+        "n32w095": 58355337,
+        "n32w096": 58948697,
+        "n32w097": 55155632,
+        "n32w098": 54487347,
+        "n32w099": 54032055
+      },
+      "totalBytes": 972535728,
+      "notPublished": "n29w095 (28-29°N, 94-95°W) is open Gulf; USGS has no tile for it."
+    },
+    "hydrography": {
+      "product": "National Hydrography Dataset, Best Resolution, HU4 shapefiles; only NHDFlowline is read",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Hydrography/NHD/HU4/Shape/NHD_H_<hu4>_HU4_Shape.zip",
+      "units": {
+        "1201": [
+          "Sabine",
+          157835938
+        ],
+        "1202": [
+          "Neches",
+          149943141
+        ],
+        "1203": [
+          "Trinity",
+          169198506
+        ],
+        "1204": [
+          "Galveston Bay-San Jacinto",
+          148204230
+        ],
+        "1206": [
+          "Middle Brazos",
+          126077361
+        ],
+        "1207": [
+          "Lower Brazos",
+          124146942
+        ],
+        "1209": [
+          "Lower Colorado-San Bernard Coastal",
+          146807757
+        ],
+        "1210": [
+          "Central Texas Coastal",
+          103343728
+        ],
+        "1211": [
+          "Nueces-Southwestern Texas Coastal",
+          108841495
+        ]
+      }
+    },
+    "kept": "Raw downloads stay out of the repository (about 2.2 GB)."
+  },
+  "build": {
+    "command": "node --max-old-space-size=8192 scripts/build-terrain.mjs <dem-dir> <nhd-dir>",
+    "seconds": 64,
+    "readers": "scripts/terrain/geotiff.mjs (classic TIFF, float32, LZW, floating-point predictor, tiled) and scripts/terrain/shapefile.mjs (points and polylines, dBASE).",
+    "readerCheck": "Before the build, the GeoTIFF reader gave 87.7 m at Gonzales (published 292 ft, 89 m) and 161.2 m at Seguin (published 520 ft, 158 m).",
+    "transformations": [
+      "Origin: where the San Marcos meets the Guadalupe in the flowlines, 29.49095°N 97.47092°W. Coordinates are miles east (x) and south (y) of it.",
+      "Projection: equirectangular about the origin latitude (ceiling: up to 2.5% east-west scale error at 28° and 32°).",
+      "Elevation: each eighth-of-a-mile cell is the mean of the 1 arc-second samples in it; stored as Uint16 decimetres, 65535 for no land. Grid 2424 x 2208; 5,052,878 land cells; -8.2 m to 672.6 m (below zero stored as zero).",
+      "Watercourses: StreamRiver flowlines (FType 460) with their USGS flow class, and ArtificialPath (558) only where named (a river through a modern reservoir). Dropped: canals, ditches, pipelines, underground conduits, connectors, coastline, unnamed paths through ponds, anything named canal, ditch, outfall or diversion (which also drops the Bexar mission acequias: ceiling), and unnamed non-perennial lines under 1 km. Simplified to 0.01 mile; 162,177 lines, 1,443,872 points, 3,362 names.",
+      "Waterbodies (lakes, ponds, reservoirs) are not read at all: the data cannot tell a natural pond from a stock tank, and HIST-GONZ-041 records the country as clear of lakes."
+    ],
+    "output": {
+      "public/terrain/colonies-elevation.bin.gz": 6840000,
+      "public/terrain/colonies-water.json.gz": 6890000
+    }
+  },
+  "automated": {
+    "suite": "tests/terrain-data.test.mjs",
+    "tests": 4,
+    "checks": "Heights of Gonzales, San Antonio, Goliad, Victoria, Bastrop, Austin, Columbus, Nacogdoches and Seguin within a stated slack of their published elevations; inland higher than the coast and open Gulf with no height; both rivers through the origin and Gonzales just north-east of it; the rivers of the colonies present by name, no canal or ditch, the Guadalupe falling downstream.",
+    "injectedRegressions": [
+      "rows read from the south -> heights test and coast test",
+      "east-west scale wrong -> heights test",
+      "no-data read as sea level -> coast test",
+      "watercourses lose their names -> origin test and rivers test"
+    ],
+    "firstFailure": "The rivers test failed on the first build: 38 named canals and ditches (the Devers Canal system, Spindletop Ditch, the Espada and San Juan acequias) were filed as streams. The build now drops them."
+  },
+  "notYet": "Nothing in the game reads the terrain yet (build step 2). Whether a creek ran all year in 1835, and every movement and water rule, is FIC-GONZ-026."
+}

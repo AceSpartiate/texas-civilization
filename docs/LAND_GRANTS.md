@@ -1,6 +1,6 @@
 # Land grants, Survey, and clearing your own ground
 
-**Status: decided 2026-09-13; step 1 (the grant) built 2026-09-13** ([evidence](evidence/grants.json)). **Terrain, water and the house site were decided the same evening (§8) and come before Survey.** Read this in full before changing a family's land, the field,
+**Status: decided 2026-09-13; step 1 (the grant) built 2026-09-13** ([evidence](evidence/grants.json)). **Terrain, water and the house site were decided the same evening and specified 2026-09-14 (§8); they come before Survey.** Read this in full before changing a family's land, the field,
 clearing, fencing, the stock a family brings, or the lobby choices that decide any of them. It replaces the
 "break new ground up to four times" rule of `sim/improvements.mjs` (`FIC-GONZ-015`).
 
@@ -122,7 +122,7 @@ No `saveVersion` bump: every missing field has a correct value.
 
 ---
 
-## 8. Terrain, water and the house site — decided 2026-09-13, to be specified
+## 8. Terrain, water and the house site — decided 2026-09-13, specified 2026-09-14
 
 > "there should be realistic topography so where a player puts their house and fields matters. realistic rivers,
 > lakes ponds, if none, then they should need to dig a well. topography should speed or slow movement too."
@@ -140,7 +140,7 @@ No `saveVersion` bump: every missing field has a correct value.
 | When does a family choose where its house stands? | **On arrival.** The wagon stops at the grant and the family's first act is choosing the site. |
 | What is built next? | **Terrain first**: terrain, water, wells, movement and the house site, then Survey and clearing on top. |
 
-What these commit the design to, before the detailed specification is written:
+What these commit the design to:
 
 - **The land is the real land.** The invented relief of `sim/terrain.mjs` (`FIC-GONZ-002`) is replaced by real
   elevation, and the rivers and creeks follow their real courses. The fords, the battle site and Gonzales itself are
@@ -156,7 +156,80 @@ What these commit the design to, before the detailed specification is written:
 - **The Runaway Scrape.** Terrain and water are where that chapter's hardships will come from (`HIST-GONZ-019`).
   Nothing is built for it now; the terrain must not make it harder to add.
 
-**Research before the specification:** the data (USGS elevation and hydrography for the Gonzales area: which
-products, what resolution, their licence and size); springs, ponds and oxbow lakes near Gonzales in the 1830s, since
-reservoirs built later are not 1835 water; how settlers there got water and dug wells; how fast people, horses and ox
-wagons crossed that country; river conditions in the Runaway Scrape.
+### 8.1 What the research found (2026-09-14)
+
+**The data, downloaded with the owner's approval** (public domain, U.S. Geological Survey, The National Map):
+
+| File | What | Size |
+| --- | --- | --- |
+| `USGS_1_n30w098.tif` | 3DEP elevation, 1 arc-second (about 30 m), 29–30°N 97–98°W: a 3612×3612 grid of 32-bit floats, LZW-compressed with the floating-point predictor, in 512-pixel tiles | 56.75 MB |
+| `NHD_H_12100202_HU8_Shape.zip` | National Hydrography Dataset, Middle Guadalupe: flowlines, waterbodies, points | 17.67 MB |
+| `NHD_H_12100203_HU8_Shape.zip` | The same, San Marcos | 11.60 MB |
+
+The raw files are kept out of the repository. The game ships a derived grid and stream lines made from them by a
+build script that uses only Node's standard library, with the source, date and every transformation recorded.
+
+**The game area — decided 2026-09-14.** The owner: *"we're going to need data like this for the whole game area. players are not all starting in the gonzales area."* Chosen: **the settled colonies of 1835, 94–99°W and 28–32°N** (Bexar and Goliad east to Nacogdoches), **at the same fine detail everywhere**. Downloaded with approval: 19 elevation tiles (973 MB; the twentieth is open Gulf and not published) and nine NHD basins (1.23 GB). **Built 2026-09-14** ([evidence](evidence/terrain-data.json)): an eighth-of-a-mile grid 303 by 276 miles and 162,177 watercourse lines, 13.7 MB compressed. **Where families start across that area, and how the news of Gonzales reaches families who do not live near it, is a game-design change of its own and is not yet specified.**
+
+*Superseded by the paragraph above:* **the tile is about 60 miles by 69 around Gonzales** (the town is about 33 miles from its west edge, 27 from its
+east, 34 from its north and 35 from its south). The generated home country today reaches about 55 miles either side,
+so new classes' families live inside the tile. That still covers the Guadalupe from above the confluence to below
+Cuero, which is the DeWitt colony country.
+
+**Water within 25 miles of Gonzales, in the data:** the Guadalupe and the San Marcos; more than a hundred named creeks
+and branches (Kerr, Tinsley, Peach, Sandies, Plum, Five Mile among them) and sloughs along the river bottoms; **one**
+mapped spring; and about 13,000 small "lakes and ponds" plus 320 reservoirs. The reservoirs are dams — Lake Wood and
+Lake Gonzales on the Guadalupe date from 1931 — and nearly all of the small ponds are stock tanks and farm dams. **None of
+those were 1835 water**, and the data cannot tell a natural pond from a dug one, so every waterbody is left out except
+river channels. `ceiling:` natural oxbow lakes along the bottoms go with them; a study of the river's old channels
+would put them back.
+
+**Wells.** Holley (1833, p. 56), of the level country of Austin's colony between the San Jacinto and the Guadalupe:
+it is "entirely clear of all marsh, lakes, and overflow"; water is abundant in the rivers and creeks, "while
+excellent water for domestic purposes may be obtained from wells, at a moderate depth, in every part of this
+territory". A promoter's account of the country just below Gonzales, not a measurement, and it names no depth. No
+first-hand account of a DeWitt colonist digging a well was found. Register as `HIST-GONZ-041`.
+
+**The Runaway Scrape.** TSHA's entry records cold, rain, hunger and disease on the retreat that began when Houston
+ordered Gonzales abandoned (`HIST-GONZ-019`); secondary accounts describe the Colorado and Brazos in flood and knee-deep
+mud, which is east of this map. Nothing is built for it now.
+
+**Not found yet:** how fast people, horses and ox wagons crossed this country off the roads, and whether the 1835
+creeks ran all year. Both stay invented (`FIC-GONZ-026`) until sourced.
+
+### 8.2 Design
+
+- **One real country for every new class.** Elevation, the rivers and the creeks come from the data; homesteads are
+  still scattered by the seed along the real watercourses, and grants are laid out round them as now. **A class saved
+  before keeps the invented country it was played on**, because its families' houses stand in it — no save version
+  moves. Which one a world uses is on its map (`map.terrain`).
+- **Places re-placed on the real rivers.** Gonzales, the ford opposite it (`HIST-GONZ-007`), the forks of the rivers
+  (`HIST-GONZ-015`), the camp at the battle site upriver (`HIST-GONZ-008`) and the roads. Each claim is re-read against
+  the real ground; a distance that no longer holds is corrected in `HISTORY.md`, not bent to fit.
+- **Ground cover as the 1835 rule, on the real land.** Timber along the real watercourses and in the bottoms, post
+  oak savannah on the uplands, brush on steep broken ground (`HIST-GONZ-012`). Modern land cover is not used.
+- **Movement follows the ground** (`FIC-GONZ-026` for every number): going is slower uphill, in timber and brush, and
+  across a creek; the river is crossed only at the ford, as now. Roads are the easy going. A trip's time comes from the
+  ground along its path, so a route that climbs out of a creek valley takes longer than a flat one of the same length.
+- **The house site, on arrival.** The wagon stops where the track meets the family's grant, and the first thing the
+  family does is choose where the house stands, anywhere on its own holding. Before choosing, the site shows its
+  ground, its height above the nearest water, how far it is to water that runs all year, how far to timber, and how
+  long the lane to the road will be. The server refuses water, the grant's edge and too-steep ground. Then the lane is
+  laid from the road to the house along the easiest ground, and everything that comes to the family — riders with news,
+  neighbours, a trader — comes up that lane.
+- **Water at the house.** A family fetches water from the nearest running water. Too far (`FIC-GONZ-026`) and the
+  family's work suffers until it digs a well: a long chore whose length rises with the site's height above the water
+  (`HIST-GONZ-041` for wells at a moderate depth; the depths and times invented).
+- **Floods are information, not yet an event.** A site low in the river bottom is marked as the ground that floods.
+  `ceiling:` no flood happens in the Gonzales chapter; the Runaway Scrape is where high water belongs.
+
+### 8.3 Build order
+
+1. ~~**The data.**~~ **Done 2026-09-14.** `scripts/build-terrain.mjs` reads the GeoTIFF and the shapefiles and writes the game's terrain asset:
+   an elevation grid, the named watercourses with whether they run all year, and nothing that is a dam or a pond.
+   Provenance in `docs/evidence/`. Tested against known points (the confluence, the town, the river's fall).
+2. **The real country in new classes.** `sim/geography.mjs` builds from the asset: rivers, creeks, relief, cover, the
+   re-placed sites and roads, homesteads and grants. Old saves untouched. Browser proof of the map.
+3. **Movement by ground.** Path costs from slope, cover and crossings; lanes routed by them.
+4. **The house site and water.** Choosing the site on arrival, the lane, water distance and the well.
+5. Then §7's Survey, clearing and art.
