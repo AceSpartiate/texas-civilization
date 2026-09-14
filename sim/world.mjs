@@ -20,7 +20,7 @@ import { houseInvalid, houseProjection, noteLandSeen, planHouse, recordHelpDone 
 import { grantInvalid, grantProjection, layOutGrants, setStock } from './grants.mjs';
 import { chooseSite, siteInvalid, siteProjection } from './homesite.mjs';
 import { plotProjection, plotRefusal, plotsInvalid } from './survey.mjs';
-import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, ageBand, defaultNames, familyProjection, familyRoll, householdName, kinFor, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
+import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, ageBand, defaultNames, familyProjection, familyRoll, FAMILY_DIE, compositionFor, householdName, kinFor, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
 export { HOUSEHOLD_SHAPE, ROLES, householdName, sanitiseName } from './family.mjs';
 export { clearedOf, improvementsOf, ruin } from './improvements.mjs';
 export { MODES, MODE_IDS, DEFAULT_MODE, carryCapacity, modeOf } from './travel.mjs';
@@ -137,6 +137,7 @@ export function rollFamily(world, household) {
   });
   household.principalId = household.members[0];
   household.roll = roll;
+  household.die = FAMILY_DIE;
   // A family rolled while it is still on the road in goes on the road beside its wagon.
   if (household.arriving) putOnTheRoad(world, household);
   // The number, and nothing about what it means: the owner's direction is that the rule is
@@ -717,7 +718,15 @@ export function validateWorld(world) {
   }
   for (const household of Object.values(world.households)) {
     if (!world.entities[household.principalId] || [...household.members, ...household.property].some(id => !world.entities[id])) throw new Error('Dangling household reference');
-    if (household.roll !== undefined && (!Number.isInteger(household.roll) || household.roll < 1 || household.roll > 6 || household.members.length !== household.roll)) throw new Error('A rolled family must be the size it rolled');
+    // A twenty-sided roll (`die` 20, since 2026-09-14) makes the family its face says; a class rolled before on six sides has
+    // no `die`, and there the number was the size. Absent roll: a household nobody rolled.
+    if (household.die !== undefined && household.die !== FAMILY_DIE) throw new Error('Invalid family die');
+    if (household.roll !== undefined) {
+      const die = household.die ?? 6;
+      let size = null;
+      try { const { parents, children } = compositionFor(household.roll, die); size = parents + children; } catch { size = null; }
+      if (size === null || household.members.length !== size) throw new Error('A rolled family must be the size it rolled');
+    }
     // Coin is counted in whole reales. A class saved before there was coin has none, which is
     // the correct empty value, so no save version moved.
     if (household.resources.money !== undefined && !Number.isInteger(household.resources.money)) throw new Error('Coin is counted in whole reales');

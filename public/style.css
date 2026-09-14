@@ -264,7 +264,7 @@ button:hover:enabled{background:#60673e}
 #family-roll{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:9;width:min(20rem,calc(100% - 24px));background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259;border-radius:8px;box-shadow:0 5px 0 #6b583638,0 18px 45px #32291950;padding:14px 16px;color:#3b3427;text-align:center}
 #family-roll h2{font-size:20px;margin:2px 0 0;color:#4b3e28}
 #family-roll p{margin:7px 0 0;font-size:14px;line-height:1.5}
-.family-die{font-size:72px;line-height:1.1;margin:6px 0 0;color:#4b3e28}
+.family-die{width:92px;height:102px;margin:10px auto 0;display:grid;place-items:center;font:700 32px/1 Georgia,'Times New Roman',serif;color:#fff7e3;background:radial-gradient(circle at 50% 58%,#8a6a3d 0 34%,#6b4f2a 35%);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
 .family-die.rolling{animation:family-die-tumble .18s linear infinite}
 @keyframes family-die-tumble{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 #roll-family{margin-top:10px}

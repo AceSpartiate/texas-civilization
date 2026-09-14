@@ -25,7 +25,7 @@ The owner then answered four questions the same day:
 
 | Question | Owner's answer |
 | --- | --- |
-| How does the roll work? | **The number rolled is the family's size.** One six-sided die. |
+| How does the roll work? | ~~**The number rolled is the family's size.** One six-sided die.~~ **Amended 2026-09-14** (below). |
 | Sending somebody badly suited to fight | **Hidden, and very likely fatal** — no warning, and not quite certain. |
 | The hidden stats | **Different on average by sex, and dealt per person**, so an occasional mother is a good shot and an occasional father poor at housework. |
 | Who can be sent to fight | **Parents, and children aged 16 or over.** |
@@ -34,7 +34,39 @@ The owner then answered four questions the same day:
 
 ## 2. The roll
 
-One die, rolled on the server when the student asks to roll, shown to them as dice.
+**Amended by the owner, 2026-09-14:** *"when rolling for a family, it should be a 20 sided die."* Asked what the twenty faces
+decide, the owner chose **bigger frontier families** and **fewer lone parents**:
+
+| Roll (d20) | Parents | Children |
+| --- | --- | --- |
+| 1 | 1 | 0 |
+| 2 | 1 | 1 |
+| 3 | 1 | 2 |
+| 4 | 1 | 3 |
+| 5 | 1 | 4 |
+| 6 | 2 | 0 |
+| 7–8 | 2 | 1 |
+| 9–10 | 2 | 2 |
+| 11–13 | 2 | 3 |
+| 14–15 | 2 | 4 |
+| 16–17 | 2 | 5 |
+| 18 | 2 | 6 |
+| 19 | 2 | 7 |
+| 20 | 2 | 8 |
+
+- A lone parent on a quarter of rolls, both parents on three quarters; a family of one to ten. Two parents have 3.6 children
+  on average, three to five most often.
+- **What it is set against:** a white American woman bore about 6.55 children in 1830 and 6.14 in 1840 over her life, and
+  about 217 in 1,000 white infants died in their first year (1850) — Haines, *Fertility and Mortality in the United States*,
+  EH.net, Table 1. Parents here are 20 to 45 and their families still growing, so three to five living children is ordinary
+  and seven or eight a large family. The table itself is invented (`FIC-GONZ-021`); no count of Texas colonists' children by
+  family was found.
+- **Consequences that follow without new rules:** a large family eats more, packs the same wagon, and is crowded in any house
+  but the dog-run (which holds eight), so nine or ten are crowded everywhere.
+- A roll on the server, shown as a twenty-sided die with its number. `household.die` is 20; a class rolled before has none, and
+  its number is read on the six-sided table below, so it opens as it was and no save version moved.
+
+*The six-sided table, 2026-09-12 to 2026-09-14, kept for classes rolled then:*
 
 | Roll | Parents | Children |
 | --- | --- | --- |
@@ -62,7 +94,7 @@ One die, rolled on the server when the student asks to roll, shown to them as di
 - **Households nobody joins keep the default shape**, two parents and two children, as does every
   class saved before this existed. No save version moves.
 
-`VISION.md` §7 said a household holds "roughly 4–7" people. A roll of 1 is a household of one.
+`VISION.md` §7 said a household holds "roughly 4–7" people. A roll of 1 is a household of one, and since 2026-09-14 a roll of 20 a household of ten.
 **The owner's roll amends §7**, and the amendment is recorded there.
 
 ---
@@ -182,7 +214,7 @@ Each step is shippable and provable alone.
 
 | Gate | What it means |
 | --- | --- |
-| The roll is the size | Every roll 1–6 produces exactly the parents and children in §2, and the rule appears nowhere a student can read it. |
+| The roll decides the family | Every roll 1–20 produces exactly the parents and children in §2 (and a class rolled on six sides still reads its old table), and the rule appears nowhere a student can read it. |
 | Families that could exist | No child is older than a mother could have borne; no two children share an age; no parent is under 18. Checked over every seed a test can afford. |
 | Hidden means hidden | A planted `strength`, `health` and `housework` appear in no student and no Host payload at any tick. |
 | Averages differ, people overlap | Over a large sample, men average higher strength and health and women higher housework, **and** some woman is stronger than some man and some man keeps a better house than some woman. |

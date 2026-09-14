@@ -209,7 +209,7 @@ A character has one persistent identity and one true location.
 
 Households may contain roughly 4–7 visible named people.
 
-*Amended 2026-09-12 by the owner:* a student rolls a die when joining and **the roll is the family's size** — one parent for 1–3, two parents for 4–6, the rest children — so a household holds **one to six** people. Each person also carries hidden strength, health and housework, different on average between men and women and dealt per person. See `docs/FAMILY_CREATION.md`.
+*Amended 2026-09-12 by the owner:* a student rolls a die when joining and **the roll is the family's size** — one parent for 1–3, two parents for 4–6, the rest children — so a household holds **one to six** people. *Amended again 2026-09-14:* the die has twenty sides and its face decides the family from a table the game never shows — a lone parent on 1–5, both parents on 6–20, up to eight children — so a household holds **one to ten** people. Each person also carries hidden strength, health and housework, different on average between men and women and dealt per person. See `docs/FAMILY_CREATION.md`.
 
 Not every person requires equal simulation depth.
 

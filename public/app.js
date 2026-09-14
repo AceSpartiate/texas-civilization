@@ -2054,7 +2054,8 @@ let tutorialStep = null;
  * being thrown, and it stops on whatever the server says. The rule turning the number into
  * people is the server's and is not explained here or anywhere a student reads.
  */
-const DIE_FACES = ['\u2680', '\u2681', '\u2682', '\u2683', '\u2684', '\u2685'];
+// A twenty-sided die (owner, 2026-09-14): drawn as its outline with the face's number, since no font has twenty faces.
+const DIE_SIDES = 20;
 let rollState = 'idle', tumble = null, rollStarted = 0;
 function stopTumble() { clearInterval(tumble); tumble = null; $('#family-die')?.classList.remove('rolling'); }
 function renderFamilyRoll(world) {
@@ -2070,7 +2071,7 @@ function renderFamilyRoll(world) {
   panel.hidden = false;
   const die = $('#family-die'), button = $('#roll-family');
   if (rollState === 'rolled') {
-    die.textContent = DIE_FACES[family.roll - 1];
+    die.textContent = String(family.roll);
     $('#family-roll-result').textContent = `You rolled a ${family.roll}.`;
     button.textContent = 'Meet your family';
     button.disabled = false;
@@ -2094,7 +2095,7 @@ $('#roll-family')?.addEventListener('click', async () => {
   const die = $('#family-die');
   if (!reducedMotion.matches) {
     die.classList.add('rolling');
-    tumble = setInterval(() => { die.textContent = DIE_FACES[Math.floor(Math.random() * 6)]; }, 90);
+    tumble = setInterval(() => { die.textContent = String(1 + Math.floor(Math.random() * DIE_SIDES)); }, 90);
   } else die.textContent = '?';
   if (window.__snapshot) renderFamilyRoll(window.__snapshot.world);
   try {

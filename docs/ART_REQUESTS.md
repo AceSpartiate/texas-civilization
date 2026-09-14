@@ -111,7 +111,7 @@ into this request when that chapter's build reaches them, in the contract format
 
 Two things the game now does are drawn wrongly because the art does not exist.
 
-1. **Rolled families** ([FAMILY_CREATION.md](FAMILY_CREATION.md)). A family is one to six people, with
+1. **Rolled families** ([FAMILY_CREATION.md](FAMILY_CREATION.md)). A family is one to ten people (one to six before the twenty-sided die, 2026-09-14), with
    a sex and an age each, and a lone parent may be a mother. The library has one cast of four —
    `rust` (a man in a frontier hat), `teal` (a woman in a blouse and apron), `elder` (a grey-bearded
    man) and `blue` (an adolescent) — and **no children at all**. So a four-year-old and a baby are

@@ -131,7 +131,7 @@ export function kinFor(householdId) {
 // ---------------------------------------------------------------- the rolled family
 //
 // Owner direction, 2026-09-12, specified in docs/FAMILY_CREATION.md: a student rolls one
-// die when joining and the number is the family's size. Everything below is invented and
+// die when joining, and the face decides the family (a twenty-sided die since 2026-09-14; the size itself before). Everything below is invented and
 // registered as `FIC-GONZ-021`. It is all derived from the world's seed and the household,
 // so a saved class reloads to the same family and a replay is exact, and nothing a student
 // can see predicts it.
@@ -140,16 +140,35 @@ const unit = text => hashOf(text) / 4294967296;
 /** A roughly normal draw from three uniform ones: mean 0, spread about 1, never past 3. */
 const bell = text => (unit(`${text}:a`) + unit(`${text}:b`) + unit(`${text}:c`) - 1.5) / 0.5;
 
-/** The die. One to six. */
-export const familyRoll = (seed, householdId) => 1 + (hashOf(`${seed}:${householdId}:family-roll`) % 6);
+/** The die: twenty-sided since 2026-09-14 (owner). A class rolled before on a six-sided die keeps `household.die` absent. */
+export const FAMILY_DIE = 20;
+export const familyRoll = (seed, householdId) => 1 + (hashOf(`${seed}:${householdId}:family-roll`) % FAMILY_DIE);
+
+/**
+ * What each face of the twenty-sided die makes, as [parents, children] (owner, 2026-09-14: bigger frontier families, and
+ * fewer lone parents). One to five a lone parent with none to four children; six to twenty both parents with none to
+ * eight, three to five most often. Set against the record that a white American woman bore about 6.5 children in 1830 and
+ * 6.1 in 1840, a fifth of them dying in their first year, so a family still growing has three to five living and a large one
+ * seven or eight (Haines, EH.net). The table itself is `FIC-GONZ-021`.
+ */
+export const FAMILY_FACES = Object.freeze([
+  [1, 0], [1, 1], [1, 2], [1, 3], [1, 4],
+  [2, 0], [2, 1], [2, 1], [2, 2], [2, 2], [2, 3], [2, 3], [2, 3], [2, 4], [2, 4], [2, 5], [2, 5], [2, 6], [2, 7], [2, 8],
+]);
 
 /**
  * What a roll makes. **Never explained in the game** - the owner's direction is that a
- * student sees the dice and then the family, and works out the rest or does not.
+ * student sees the dice and then the family, and works out the rest or does not. `die` is 6 only for a class rolled before
+ * 2026-09-14, where the number was the family's size: three or less one parent, four or more two.
  */
-export function compositionFor(roll) {
-  if (!Number.isInteger(roll) || roll < 1 || roll > 6) throw new Error('A die shows one to six.');
-  return roll <= 3 ? { parents: 1, children: roll - 1 } : { parents: 2, children: roll - 2 };
+export function compositionFor(roll, die = FAMILY_DIE) {
+  if (die === 6) {
+    if (!Number.isInteger(roll) || roll < 1 || roll > 6) throw new Error('A die shows one to six.');
+    return roll <= 3 ? { parents: 1, children: roll - 1 } : { parents: 2, children: roll - 2 };
+  }
+  if (!Number.isInteger(roll) || roll < 1 || roll > FAMILY_DIE) throw new Error('A die shows one to twenty.');
+  const [parents, children] = FAMILY_FACES[roll - 1];
+  return { parents, children };
 }
 
 /**

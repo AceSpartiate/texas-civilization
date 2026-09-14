@@ -1,10 +1,10 @@
 // Rolling a family: docs/FAMILY_CREATION.md, step 1.
 //
-// A student rolls one die and the number is the size of the family - one parent for 1 to 3,
-// two for 4 to 6, the rest children. Every person gets a visible age that makes sense with
-// the parents' and three hidden stats whose averages differ between men and women and whose
-// ranges overlap. None of the hidden stats may reach any client, and a child under ten is
-// not sent anywhere. Each test here is one gate from that document.
+// A student rolls one twenty-sided die (owner, 2026-09-14) and its face decides the family - one parent on 1 to 5, two on
+// 6 to 20, with none to eight children - from a table the game never explains. A class rolled before on six sides, where the
+// number was the size, still opens. Every person gets a visible age that makes sense with the parents' and three hidden
+// stats whose averages differ between men and women and whose ranges overlap. None of the hidden stats may reach any client,
+// and a child under ten is not sent anywhere. Each test here is one gate from that document.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
@@ -14,31 +14,44 @@ import { choresFor } from '../sim/chores.mjs';
 import { observedBy } from '../sim/town.mjs';
 import {
   ADULT_AT, CHILD_MAX_AGE, MOTHER_AT_BIRTH, SENT_FROM_AGE,
-  compositionFor, dealTraits, familyRoll, rolledPeople,
+  FAMILY_DIE, FAMILY_FACES, compositionFor, dealTraits, familyRoll, rolledPeople,
 } from '../sim/family.mjs';
 
-const SIZES = { 1: [1, 0], 2: [1, 1], 3: [1, 2], 4: [2, 2], 5: [2, 3], 6: [2, 4] };
+/** The owner's table, 2026-09-14: [parents, children] for faces 1 to 20. */
+const FACES = [[1, 0], [1, 1], [1, 2], [1, 3], [1, 4], [2, 0], [2, 1], [2, 1], [2, 2], [2, 2], [2, 3], [2, 3], [2, 3], [2, 4], [2, 4], [2, 5], [2, 5], [2, 6], [2, 7], [2, 8]];
+const SIZES = Object.fromEntries(FACES.map((face, index) => [index + 1, face]));
+const sizeOf = roll => SIZES[roll][0] + SIZES[roll][1];
 const isParent = person => person.role === 'father' || person.role === 'mother';
 const lobby = (seed = 'roll', players = 5) => createGonzalesWorld(seed, players);
 
-test('the number rolled is the size of the family, parents first', () => {
+test('a twenty-sided die decides the family: a lone parent on five faces, both on fifteen, up to eight children', () => {
+  assert.equal(FAMILY_DIE, 20);
+  assert.deepEqual(FAMILY_FACES, FACES);
+  assert.equal(FACES.filter(([parents]) => parents === 1).length, 5, 'a lone parent on a quarter of rolls');
+  assert.equal(Math.max(...FACES.map(([, children]) => children)), 8);
   for (const [roll, [parents, children]] of Object.entries(SIZES)) {
     assert.deepEqual(compositionFor(Number(roll)), { parents, children }, `a roll of ${roll}`);
     for (let n = 0; n < 40; n++) {
       const people = rolledPeople(`size-${n}`, `hh-${1 + (n % 30)}`, n % 30, Number(roll));
-      assert.equal(people.length, Number(roll));
+      assert.equal(people.length, sizeOf(roll));
       assert.equal(people.filter(isParent).length, parents);
       assert.ok(people.slice(0, parents).every(isParent), 'parents come first, so the principal is a parent');
       if (parents === 2) assert.deepEqual(people.slice(0, 2).map(person => person.role), ['father', 'mother']);
     }
   }
-  assert.throws(() => compositionFor(7));
+  assert.throws(() => compositionFor(21));
+  assert.throws(() => compositionFor(0));
+  // A class rolled on six sides before 2026-09-14: the number was the size.
+  assert.deepEqual(compositionFor(3, 6), { parents: 1, children: 2 });
+  assert.deepEqual(compositionFor(6, 6), { parents: 2, children: 4 });
+  assert.throws(() => compositionFor(7, 6));
 
   const world = lobby('size-world', 15);
   for (const household of Object.values(world.households)) {
     const roll = rollFamily(world, household);
     assert.equal(roll, familyRoll(world.seed, household.id), 'the roll is the seed’s, so a reload is the same family');
-    assert.equal(household.members.length, roll);
+    assert.equal(household.members.length, sizeOf(roll));
+    assert.equal(household.die, 20);
     assert.equal(household.principalId, household.members[0]);
     assert.equal(world.entities[household.principalId].principal, true);
     assert.equal(household.members.filter(id => world.entities[id].principal).length, 1);
@@ -47,13 +60,24 @@ test('the number rolled is the size of the family, parents first', () => {
   // Every roll turns up somewhere in a large enough class of classes.
   const seen = new Set();
   for (let n = 0; n < 60; n++) seen.add(familyRoll(`faces-${n}`, 'hh-1'));
-  assert.equal(seen.size, 6, `a fair-looking die shows every face: ${[...seen].sort()}`);
+  for (let n = 60; n < 400; n++) seen.add(familyRoll(`faces-${n}`, 'hh-1'));
+  assert.equal(seen.size, 20, `a fair-looking die shows every face: ${[...seen].sort((a, b) => a - b)}`);
+  // A class saved with a six-sided roll opens as it was, its number read as the size. Only a six tells the two dice apart
+  // (faces one to five make families of one to five either way), so the old class here rolled a six: six people.
+  const old = lobby('six-sided', 5);
+  const rolled = Object.values(old.households).find(household => { rollFamily(old, household); return household.members.length === 6; });
+  assert.ok(rolled, 'a family of six to stand in for a six-sided six');
+  delete rolled.die;
+  rolled.roll = 6;
+  validateWorld(old);
+  rolled.die = 20;
+  assert.throws(() => validateWorld(old), /rolled family/i, 'the same six read on twenty sides is two parents alone, not this family');
 });
 
 test('every family could exist: children fit their mother, and no two share an age', () => {
   let checked = 0, lone = { male: 0, female: 0 };
   for (let n = 0; n < 400; n++) {
-    const roll = 1 + (n % 6);
+    const roll = 1 + (n % 20);
     const people = rolledPeople(`ages-${n}`, `hh-${1 + (n % 30)}`, n % 30, roll);
     const parents = people.filter(isParent), children = people.filter(person => !isParent(person));
     // All of them: a young couple rolled a large family is made older, never given fewer children.
@@ -165,7 +189,7 @@ test('the family book says what a rolled family is, and an unrolled class is unc
   for (let n = 0; n < 60 && !lone; n++) {
     world = lobby(`book-${n}`, 5);
     for (const household of Object.values(world.households)) rollFamily(world, household);
-    lone = Object.values(world.households).find(household => household.roll <= 3);
+    lone = Object.values(world.households).find(household => compositionFor(household.roll, household.die ?? 6).parents === 1);
   }
   assert.ok(lone, 'no class produced a lone parent');
   const book = projectFamily(world, lone.id);
