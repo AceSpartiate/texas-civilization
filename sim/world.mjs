@@ -12,7 +12,7 @@ import { DEFAULT_MODE, MODES, modeOf, propertyId, RIDER_SPEED } from './travel.m
 import { CLEARING_MAX, STATES as IMPROVEMENT_STATES, clearedOf, improvementProjection } from './improvements.mjs';
 import { advanceArrivals, putOnTheRoad, shelterProjection } from './settling.mjs';
 import { defaultLoad, householdFromLoad, loadInvalid, setLoad, wagonProjection } from './wagon.mjs';
-import { houseInvalid, houseProjection, noteLandSeen, planHouse } from './houses.mjs';
+import { houseInvalid, houseProjection, noteLandSeen, planHouse, recordHelpDone } from './houses.mjs';
 import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, ageBand, defaultNames, familyProjection, familyRoll, householdName, kinFor, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
 export { HOUSEHOLD_SHAPE, ROLES, householdName, sanitiseName } from './family.mjs';
 export { CLEARING_MAX, clearedOf, improvementsOf, ruin } from './improvements.mjs';
@@ -523,6 +523,8 @@ export function applyAction(world, householdId, input) {
   if (input.action === 'answer-chore') { answerChore(world, household, entity, input.option); return; }
   if (input.action === 'stop-chore') {
     if (!entity.chore) throw new Error('Nothing to call off.');
+    // Called home from a neighbour's raising: what they put in is still owed to both stories.
+    if (entity.chore.hostHouseholdId && entity.chore.spells > 0) recordHelpDone(world, household, entity, world.households[entity.chore.hostHouseholdId], entity.chore.spells);
     entity.chore = null; entity.task = 'rest';
     record(world, 'assignment', { actorId: entity.id, householdId, text: `${entity.name} left off the work.` });
     return;
@@ -662,6 +664,8 @@ export function validateWorld(world) {
     // whole household it is out with. A dangling borrower is how an ox ends up
     // permanently unusable, because nothing will ever hand it back.
     if (entity.borrowedBy && !world.entities[entity.borrowedBy] && !world.households[entity.borrowedBy]) throw new Error('Property is lent to nobody');
+    // Somebody helping raise a neighbour's walls is helping a family that exists (sim/houses.mjs).
+    if (entity.chore?.hostHouseholdId !== undefined && (!world.households[entity.chore.hostHouseholdId] || entity.chore.hostHouseholdId === entity.householdId)) throw new Error('Helping a family that is not there');
     if (entity.travel && (!Array.isArray(entity.travel.points) || entity.travel.points.length < 2 || !Number.isFinite(entity.travel.progress) || !Number.isFinite(entity.travel.speed) || entity.travel.speed <= 0 || entity.travel.progress < 0 || entity.travel.progress > entity.travel.distance)) throw new Error('Invalid travel');
   }
   for (const household of Object.values(world.households)) {

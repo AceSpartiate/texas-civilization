@@ -1,6 +1,6 @@
 # Settling in: arriving, building a home, and a peaceful beginning
 
-**Status: decided; step 1 (the peaceful opening and the clock) built 2026-09-12** ([evidence](evidence/peaceful-opening.json)); **step 2 (arrival and the camp) built 2026-09-13** ([evidence](evidence/arrival.json)); **step 3 (the wagon load) built 2026-09-13** ([evidence](evidence/wagon-load.json)); **step 4 (houses) built 2026-09-13** ([evidence](evidence/houses.json)); steps 5–8 are next (owner, 2026-09-12). Read this in full
+**Status: decided; step 1 (the peaceful opening and the clock) built 2026-09-12** ([evidence](evidence/peaceful-opening.json)); **step 2 (arrival and the camp) built 2026-09-13** ([evidence](evidence/arrival.json)); **step 3 (the wagon load) built 2026-09-13** ([evidence](evidence/wagon-load.json)); **step 4 (houses) built 2026-09-13** ([evidence](evidence/houses.json)); **step 5 (the house-raising) built 2026-09-13** ([evidence](evidence/raising.json)); steps 6–8 are next (owner, 2026-09-12). Read this in full
 before changing the class start, the lobby, house or furniture state, or the director's timeline.
 
 ---
@@ -218,6 +218,14 @@ choice made inside a visible risk. The hidden stats stay hidden; the house's own
   standing on another family's land while it is being raised can **help raise**, which speeds that stage
   and is recorded in both families' stories. It uses the same standing-together rule as trading
   (`sim/trade.mjs`). Helping is never required, and a family can raise its walls alone, slowly.
+- **As built (step 5).** The walls stage is **40 to 80 per cent** of a house's work. A family's principal can set out
+  for a neighbour's homestead from the person panel ("Go to", nearest first), and anybody from another family standing
+  there while the walls are going up is offered **Help raise the walls** (`help-raise`, where `neighbour`). Every spell
+  they put in goes into that family's house; they stop the moment the walls are up, and anybody who arrives too late
+  or is called home is said to have done so. Both families' stories record the neighbour coming and the hours they
+  put in (`raising` events). Nothing asks, presses or reminds anybody to help, and the lobby does not allow it. No
+  glory is awarded (`ceiling:`: glory is for the events of 1835). No first-hand account of a raising was found
+  (`HIST-GONZ-032`), so all of it is `FIC-GONZ-024`.
 - **Furniture** — a table, benches, a bedstead, shelves, a cradle: **made at home** from timber, with the
   tools brought and a good `hands` skill, or **bought from the carpenter in Gonzales** for coin or goods at
   a counter, in the same shape as the store (`docs/MONEY_AND_GLORY.md`). A money sink, and a reason to go
@@ -263,7 +271,7 @@ Each step is shippable and provable alone.
 2. ~~**Arrival.**~~ **Done 2026-09-13.** Wagons and families start on the road and travel in; the camp by the wagon as first shelter.
 3. ~~**The wagon load.**~~ **Done 2026-09-13.** Choosing in the lobby, the default, items becoming stores, tools and belongings.
 4. ~~**Houses.**~~ **Done 2026-09-13.** The four layouts with needs, benefits and problems, built as chores, with stand-in art.
-5. **The house-raising.** Neighbours standing on the land helping raise the walls.
+5. ~~**The house-raising.**~~ **Done 2026-09-13.** Neighbours standing on the land helping raise the walls.
 6. **Furniture and the carpenter.** Made at home or bought in Gonzales; effects on the same hooks.
 7. **The interior view and decoration.**
 8. **Parent appearance and inherited children**, with the stand-in and the art request.

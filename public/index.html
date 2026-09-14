@@ -107,6 +107,12 @@
         <button id="listen-rider" data-open-encounter="now" hidden>Listen</button>
         <button data-action="travel" data-destination="gonzales">Travel to Gonzales</button>
         <button data-action="travel" data-destination="home">Return home</button>
+        <!-- A neighbour's land, nearest first. The only way to stand with a family at home is to go
+             there - to trade, or to help raise their walls (docs/SETTLING_IN.md step 5). -->
+        <span id="visit-row">
+          <select id="visit-select" aria-label="A neighbour's homestead"></select>
+          <button data-action="travel" data-destination="" id="visit-go">Go there</button>
+        </span>
         <button data-action="work">Work</button>
         <button data-action="rest">Rest</button>
       </div>

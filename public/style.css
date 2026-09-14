@@ -306,5 +306,7 @@ button:hover:enabled{background:#60673e}
 #house-options button:disabled{opacity:.5;cursor:not-allowed}
 #house-note{color:#8a3b22;min-height:1.2em}
 #house-close{margin-top:6px;background:#4b3e28;border-color:#6b5836}
+#visit-row{display:inline-flex;gap:4px;align-items:center;flex-wrap:wrap}
+#visit-select{font:inherit;font-size:12px;max-width:12rem;min-height:32px;border-radius:5px;border:1px solid #b09a6d;background:#fbf5e4;color:#3f3524}
 #house-open{position:absolute;left:12px;top:104px;z-index:8;min-height:34px;padding:5px 12px;font-size:13px;background:#4b3e28;border-color:#6b5836}
 @media (max-width:760px){#house-plan{left:8px;right:8px;width:auto;top:56px}}

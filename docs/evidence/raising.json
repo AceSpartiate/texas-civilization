@@ -1,0 +1,49 @@
+{
+  "record": "The house-raising: step 5 of docs/SETTLING_IN.md",
+  "date": "2026-09-13",
+  "verdict": "PASS",
+  "verdictMeaning": "Somebody from another family standing on a homestead while its walls are going up (40-80% of the house's work) can help raise them. Their spells go into that family's house, they stop when the walls are up, and both families' stories record who came and how many hours they put in - including a neighbour who came too late or was called home. Nobody is asked, pressed or rewarded with glory; a family alone still raises its walls. A principal can travel to any neighbour's homestead from the person panel, which was not possible before.",
+  "implementation": "sim/houses.mjs (RAISING_FROM/TO, hostOf, helpRefusal, raising, recordHelpBegun, recordHelpDone); sim/chores.mjs (help-raise chore, helper build step into the host house, finishHelping, offered only on a neighbour's land); sim/world.mjs (stop-chore records a helper's hours; validation of hostHouseholdId); public/ (#visit-row select and Go there button); tests/chores.test.mjs accounts for the omitted helper chore.",
+  "history": "No first-hand Texas account of a house-raising was found (HIST-GONZ-032); FIC-GONZ-024 throughout.",
+  "liveBrowserProof": {
+    "note": "Same computer only. Family A driven over the API, family B in the browser pane.",
+    "firstRun": {
+      "server": "PORT=8744 SEED=raise-proof, Quick pace",
+      "observed": [
+        "B's principal Sarah: the Go to list read 'Family 3 home · 12.6 miles', 'Family 5 home · 13.2 miles', 'Family 4 home · 26.1 miles', 'Family 1 home · 31.7 miles'; Go there put her on the road to home-1 and she arrived at tick ~75; her seenLand recorded home-1 as a round-log cabin building.",
+        "Help raise the walls was offered and enabled; pressed at tick ~82, but A's lone builder had just put the walls up. Sarah's story said she 'left off help raise the walls before putting any work in' and A's said only that she came."
+      ],
+      "found": "A neighbour arriving too late was silent in the host's story and unexplained in her own. Both now say the walls were up before she could put any work in; tested and injection-proved."
+    },
+    "secondRun": {
+      "server": "PORT=8745 SEED=raise-proof-2, Brisk pace; A rolled a family of five and chose a dog-run, four of them building",
+      "observed": [
+        "B's principal Caleb: Go to 'Family 1 home · 22.0 miles'; arrived at tick 48 with A's dog-run at 70 of 120, 'raising the walls'.",
+        "Help raise the walls pressed: Caleb 'helping raise the walls', spells 1 by tick 52, the panel offering 'Call off the work'.",
+        "At tick 60 A's house was 96 of 120, 'putting on the roof'. A's story: 'Caleb of Caleb's family came to help raise the walls.' / 'Caleb of Caleb's family put 5 hours into raising the walls, and they are up.' B's story: 'Caleb went to help Anselmo's family raise the walls of their dog-run house.' / 'Caleb put 5 hours into raising Anselmo's family's walls, and saw them up.' Caleb's chore null; Help raise the walls now refused: 'The walls of Anselmo's family's house are up.'"
+      ]
+    },
+    "ownerDecision": "Watching the first run, the owner asked for walking at half speed; told it was Quick pace (1 s a tick, 9.5 times the classroom's Study pace), the owner chose to keep the speeds."
+  },
+  "automated": {
+    "suite": "tests/raising.test.mjs",
+    "tests": 7,
+    "wholeSuite": "309 pass, 0 fail",
+    "injectedRegressions": [
+      "help allowed off a neighbour's land -> offered-only test",
+      "help allowed before the walls -> offered-only test",
+      "help allowed in the lobby -> offered-only test",
+      "help offered everywhere -> offered-only test",
+      "helper builds nothing for the host -> speeds-the-walls and both-stories tests",
+      "helper does not stop at walls up -> both-stories test (passed at first because a second lock stops the helper a tick later; the test now checks the same tick and that no spell went past the walls)",
+      "no record when help begins -> both-stories test",
+      "no record when help ends -> both-stories test",
+      "called home forgets the hours -> called-home test",
+      "neighbours are pressed to help -> never-asked test (passed at first because the scene started past the moment the walls became ready; it now starts from the first log)",
+      "validation ignores a missing host -> save-and-reload test",
+      "a too-late neighbour says nothing -> too-late test"
+    ]
+  },
+  "notRun": "Playwright: not installed here. No LAN or district claim.",
+  "boundary": "Help is for the walls only. Neighbours are named in the Go to list by the map's generated names (ceiling). No glory for helping. No invitation or request to help exists, deliberately."
+}

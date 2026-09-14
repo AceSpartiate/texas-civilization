@@ -28,6 +28,7 @@
 // ceiling: nothing wears or spends a building tool. A felling axe is needed, not used up; the
 // tool model wears only the hoe (`TOOL_LIFE` in sim/chores.mjs).
 import { record } from './events.mjs';
+import { householdName } from './family.mjs';
 import { improvementsOf, setImprovement } from './improvements.mjs';
 import { CAMP_REST_SHARE, CAMP_SPOILAGE_PER_DAY } from './settling.mjs';
 
@@ -98,10 +99,98 @@ export function stageOf(household) {
   if (!plan) return null;
   const share = plan.work / HOUSES[plan.layout].work;
   if (share >= 1) return 'finished';
-  if (plan.layout === 'jacal') return share < 0.4 ? 'cutting and setting the posts' : share < 0.8 ? 'weaving the walls and daubing them with mud' : 'thatching the roof';
-  if (share < 0.4) return plan.layout === 'hewn-log' ? 'felling logs and hewing them flat' : 'felling and hauling logs';
-  if (share < 0.8) return 'raising the walls';
+  if (plan.layout === 'jacal') return share < RAISING_FROM ? 'cutting and setting the posts' : share < RAISING_TO ? 'weaving the walls and daubing them with mud' : 'thatching the roof';
+  if (share < RAISING_FROM) return plan.layout === 'hewn-log' ? 'felling logs and hewing them flat' : 'felling and hauling logs';
+  if (share < RAISING_TO) return 'raising the walls';
   return 'putting on the roof';
+}
+
+// ---- The house-raising (docs/SETTLING_IN.md §6, step 5) --------------------------------------------
+//
+// Raising the walls is the part of a house neighbours can join. Somebody from another family who is
+// standing on the land while its walls are going up can help raise them, and every spell they put in
+// is a spell off the family's own work. Both families' stories say so. Nobody is asked, pressed or
+// reminded to help, and a family that raises its walls alone gets there more slowly - the gate
+// "Help is optional" in §9.
+//
+// No first-hand account of a house-raising in the Texas colonies was found (`HIST-GONZ-032`): the
+// custom is plausible for settlers from the Lower South and invented here (`FIC-GONZ-024`), and so is
+// every part of how it works.
+// ceiling: helping earns no glory. Glory is for the part a family took in the events of 1835
+// (`docs/MONEY_AND_GLORY.md`, owner-decided), and neighbourliness is not one of them.
+// ceiling: help is only for the walls. Felling, hewing and roofing stay the family's own work, as
+// §6 has it; a neighbour arriving early or late is told which part of the house it has reached.
+
+/** The share of a house's work where the walls start going up, and where they are up. */
+export const RAISING_FROM = 0.4;
+export const RAISING_TO = 0.8;
+
+/** The family whose homestead this person is standing on, if it is not their own. Travelling is standing nowhere. */
+export function hostOf(world, entity) {
+  if (!entity?.location?.siteId || entity.travel) return null;
+  const host = Object.values(world.households).find(household => household.homeSiteId === entity.location.siteId);
+  return host && host.id !== entity.householdId ? host : null;
+}
+
+/** Why this person cannot help raise the walls where they are standing, or null if they can. */
+export function helpRefusal(world, entity) {
+  const host = hostOf(world, entity);
+  if (!host) return `${entity.name} is not on a neighbour's land.`;
+  if (world.status !== 'running') return 'Neighbours help one another once the class has begun.';
+  const plan = houseOf(host);
+  const family = householdName(world, host);
+  if (!plan) return `${family} have not begun a house.`;
+  if (houseBuilt(host)) return `${family}'s house is built.`;
+  const share = plan.work / HOUSES[plan.layout].work;
+  if (share < RAISING_FROM) return `${family} are still ${stageOf(host)}; the walls are not ready to raise.`;
+  if (share >= RAISING_TO) return `The walls of ${family}'s house are up.`;
+  return null;
+}
+
+/** Whether a house is still at the stage a neighbour can help with. */
+export const raising = household => Boolean(houseOf(household)) && !houseBuilt(household)
+  && household.house.work / HOUSES[household.house.layout].work >= RAISING_FROM
+  && household.house.work / HOUSES[household.house.layout].work < RAISING_TO;
+
+/** One neighbour has come to help: said in both families' stories. */
+export function recordHelpBegun(world, helperHousehold, entity, host) {
+  record(world, 'raising', {
+    actorId: entity.id, householdId: helperHousehold.id, importance: 2, claimId: 'FIC-GONZ-024',
+    text: `${entity.name} went to help ${householdName(world, host)} raise the walls of their ${HOUSES[host.house.layout].name.toLowerCase()}.`,
+  });
+  record(world, 'raising', {
+    householdId: host.id, importance: 2, claimId: 'FIC-GONZ-024',
+    text: `${entity.name} of ${householdName(world, helperHousehold)} came to help raise the walls.`,
+  });
+}
+
+/** A neighbour's help is over: what they put in, said in both families' stories. */
+export function recordHelpDone(world, helperHousehold, entity, host, spells) {
+  if (!host) return;
+  // Came, and found the walls already up - the family raised them itself in the meantime. Both stories
+  // say so, so neither is left with a neighbour who arrived and then vanished from it.
+  if (spells < 1) {
+    if (raising(host)) return;
+    record(world, 'raising', {
+      actorId: entity.id, householdId: helperHousehold.id, importance: 2, claimId: 'FIC-GONZ-024',
+      text: `The walls of ${householdName(world, host)}'s house were up before ${entity.name} could put any work in.`,
+    });
+    record(world, 'raising', {
+      householdId: host.id, importance: 2, claimId: 'FIC-GONZ-024',
+      text: `The walls were up before ${entity.name} of ${householdName(world, helperHousehold)} could put any work in.`,
+    });
+    return;
+  }
+  const hours = spells * SPELL_TICKS * 20 / 60;
+  const done = !raising(host);
+  record(world, 'raising', {
+    actorId: entity.id, householdId: helperHousehold.id, importance: 2, claimId: 'FIC-GONZ-024',
+    text: `${entity.name} put ${hours} ${hours === 1 ? 'hour' : 'hours'} into raising ${householdName(world, host)}'s walls${done ? ', and saw them up' : ''}.`,
+  });
+  record(world, 'raising', {
+    householdId: host.id, importance: 2, claimId: 'FIC-GONZ-024',
+    text: `${entity.name} of ${householdName(world, helperHousehold)} put ${hours} ${hours === 1 ? 'hour' : 'hours'} into raising the walls${done ? ', and they are up' : ''}.`,
+  });
 }
 
 /** Whether the family may choose this house now, and why not. */

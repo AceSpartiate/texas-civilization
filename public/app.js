@@ -1581,6 +1581,33 @@ function populateWork(world, chosen, running) {
     host.append(button);
   }
 }
+/**
+ * The neighbours' homesteads this person could set out for, nearest to where they stand first.
+ *
+ * Named as the map names them. ceiling: that is the name the map was generated with ("Family 2 home"),
+ * not the family's own name, which only a meeting tells you (`observedBy`); a list of every family's
+ * chosen name sent to everybody would be knowing who lives where without ever having been.
+ */
+function renderVisits(world, chosen, commands) {
+  const select = $('#visit-select'), go = $('#visit-go');
+  if (!select || !go) return;
+  const row = $('#visit-row');
+  const from = chosen.location?.siteId ? world.map?.sites?.[chosen.location.siteId] : chosen.location;
+  const homes = sitesOf(world).filter(site => site.kind === 'homestead' && site.id !== homeOf(world));
+  row.hidden = !commands || !homes.length || !from;
+  if (row.hidden) return;
+  const miles = site => Math.hypot(site.x - from.x, site.y - from.y);
+  const ordered = homes.sort((a, b) => miles(a) - miles(b));
+  const shape = ordered.map(site => `${site.id}:${miles(site).toFixed(1)}`).join('|');
+  if (select.dataset.shape !== shape) {
+    const kept = select.value;
+    select.replaceChildren(...ordered.map(site => { const option = element('option', `${site.name} · ${miles(site).toFixed(1)} miles`); option.value = site.id; return option; }));
+    if (ordered.some(site => site.id === kept)) select.value = kept;
+    select.dataset.shape = shape;
+  }
+  go.dataset.destination = select.value;
+}
+$('#visit-select')?.addEventListener('change', () => { if (window.__snapshot) renderSelection(window.__snapshot.world); });
 function renderSelection(world) {
   const panel = $('#selection'), chosen = selectedEntity(world);
   const household = world.household;
@@ -1622,12 +1649,13 @@ function renderSelection(world) {
   // server does not tick a lobby - so this is a family getting ready rather than a family
   // getting ahead, and every plan in the class starts on the same minute.
   const settable = running || world.status === 'lobby';
+  renderVisits(world, chosen, commands);
   for (const button of $('#selection-actions').querySelectorAll('button')) {
     const action = button.dataset.action;
     if (button.id === 'listen-rider') continue;
     const destination = button.dataset.destination === 'home' ? homeOf(world) : button.dataset.destination;
     button.hidden = !commands;
-    button.disabled = !settable || Boolean(chosen.travel) || (action === 'travel' && chosen.location?.siteId === destination);
+    button.disabled = !settable || Boolean(chosen.travel) || (action === 'travel' && (!destination || chosen.location?.siteId === destination));
   }
   // Somebody is standing in front of this person waiting to be spoken to. The button is
   // theirs and nobody else's: a rider stopped one named person, and that is who can listen.

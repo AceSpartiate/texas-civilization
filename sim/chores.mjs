@@ -26,7 +26,7 @@ import {
   CLEARING_MAX, SEED_PER_CLEARING, UNFENCED_LOSS, clearGround, clearedOf, harvestShare,
   improvementsOf, isFenced, needsWagonToHarvest, raiseFence, standingCrop,
 } from './improvements.mjs';
-import { SPELL_TICKS, buildRefusal, buildSpell, houseBuilt, houseSettled, stageOf } from './houses.mjs';
+import { SPELL_TICKS, buildRefusal, buildSpell, helpRefusal, hostOf, houseBuilt, houseSettled, raising, recordHelpBegun, recordHelpDone, stageOf } from './houses.mjs';
 export { MODES } from './travel.mjs';
 
 const round = value => Math.round(value * 10000) / 10000;
@@ -321,6 +321,17 @@ export const CHORES = {
       { build: true },
     ],
   },
+  // A house-raising (docs/SETTLING_IN.md §6, step 5, sim/houses.mjs). Done on somebody else's land:
+  // the person is standing there already, so there is no walk, and every spell they put in goes into
+  // that family's house. They stop when the walls are up.
+  'help-raise': {
+    name: 'Help raise the walls', skill: 'hands', where: 'neighbour', heavy: true, helps: true,
+    describe: 'Put in work raising the walls of the house going up on this land. Every hour of it is an hour off that family’s own, and both families will remember it.',
+    steps: [
+      { houseWork: true, work: SPELL_TICKS },
+      { build: true },
+    ],
+  },
   'hunt-timber': {
     name: 'Hunt in the timber', skill: 'hunting', where: 'home', hauls: true,
     describe: 'A long trip to the timber and back. The kill is a big one; what comes home is what they can carry.',
@@ -509,6 +520,7 @@ export function choreAvailability(world, household, entity, choreId) {
   if (entity.travel) return { can: false, why: `${entity.name} is on the road.` };
   if (entity.task === 'help') return { can: false, why: `${entity.name} is away helping.` };
   if (chore.where === 'home' && entity.location.siteId !== household.homeSiteId) return { can: false, why: `${entity.name} is not at home.` };
+  if (chore.helps) { const why = helpRefusal(world, entity); if (why) return { can: false, why }; }
   if (chore.field && (household.field?.state ?? 'bare') !== chore.field) {
     return { can: false, why: chore.field === 'ripe' ? 'The field is not ready.' : 'The field is already planted.' };
   }
@@ -611,7 +623,9 @@ export function choresFor(world, household, entity) {
   // A family with a roof over it has no house to work on, and a refusal saying so to every person on
   // every tick would be freight: this channel's size budget caught it (tests/chores.test.mjs).
   const settled = houseSettled(household);
-  return Object.entries(CHORES).filter(([, chore]) => !(chore.house && settled)).map(([id, chore]) => {
+  // And helping raise walls is only a thing to do standing on a neighbour's land.
+  const visiting = Boolean(hostOf(world, entity));
+  return Object.entries(CHORES).filter(([, chore]) => !(chore.house && settled) && !(chore.helps && !visiting)).map(([id, chore]) => {
     const { can, why } = choreAvailability(world, household, entity, id);
     // `haul` is what this person's own hands would bring back from this trip, before any
     // cap. The cap itself is the mode's `carry`, which the projection sends alongside; the
@@ -689,7 +703,11 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
   }
   entity.chore = { id: choreId, step: -1, wait: 0, doing: 'setting out', ...(modeId !== DEFAULT_MODE && { mode: modeId }) };
   entity.task = 'work';
-  record(world, 'assignment', { actorId: entity.id, householdId: household.id, text: `${entity.name} set out: ${chore.name.toLowerCase()}.` });
+  if (chore.helps) {
+    const host = hostOf(world, entity);
+    Object.assign(entity.chore, { hostHouseholdId: host.id, spells: 0 });
+    recordHelpBegun(world, household, entity, host);
+  } else record(world, 'assignment', { actorId: entity.id, householdId: household.id, text: `${entity.name} set out: ${chore.name.toLowerCase()}.` });
   advanceChore(world, household, entity, { beginTravel });
   return entity.chore;
 }
@@ -722,6 +740,9 @@ function advanceChore(world, household, entity, { beginTravel }) {
   const state = entity.chore;
   // Somebody working beside them finished the house: nobody goes on thatching a roof that is on.
   if (chore.house && houseBuilt(household)) return finishChore(world, household, entity, chore);
+  // A neighbour stops when the walls are up, or when they are no longer standing on that land.
+  const host = chore.helps ? world.households[state.hostHouseholdId] : null;
+  if (chore.helps && (!host || hostOf(world, entity) !== host || !raising(host))) return finishHelping(world, household, entity, chore);
   // Waiting on the family. Nothing moves, nothing is spent, and the step is not advanced
   // past - without this the question would be asked and answered by the next tick, which
   // is a question in name only.
@@ -832,7 +853,7 @@ function advanceChore(world, household, entity, { beginTravel }) {
       return;
     }
     // Said in the words of whatever part of the house the family has got to.
-    if (step.houseWork) state.doing = stageOf(household);
+    if (step.houseWork) state.doing = chore.helps ? `helping raise the walls` : stageOf(household);
     // Heavy work goes at the pace of the person's hidden strength as well as their skill.
     if (step.work) { state.wait = paceFor(step.work, skill, chore.heavy ? heavyWorkPace(entity) : 1); return; }
     if (step.consume) {
@@ -906,6 +927,16 @@ function advanceChore(world, household, entity, { beginTravel }) {
       continue;
     }
     if (step.clear) { clearGround(world, household, entity); continue; }
+    if (step.build && chore.helps) {
+      // The spell goes into the neighbour's house. If it was the spell that finished their walls, the
+      // helper stops; if, improbably, it finished the house, that family's own builders stop too.
+      const finished = buildSpell(world, host, entity);
+      state.spells = (state.spells || 0) + 1;
+      if (finished) for (const id of host.members) { const worker = world.entities[id]; if (worker && CHORES[worker.chore?.id]?.house) finishChore(world, host, worker, CHORES[worker.chore.id]); }
+      if (finished || !raising(host)) return finishHelping(world, household, entity, chore);
+      state.step = chore.steps.findIndex(candidate => candidate.houseWork) - 1;
+      continue;
+    }
     if (step.build) {
       // Another spell, unless that was the last one. Then everybody on the house stops at once, this
       // person and whoever was working beside them - not a tick later, still thatching a finished roof.
@@ -1008,6 +1039,15 @@ export function abandonChore(world, household, entity, chore = CHORES[entity.cho
   entity.chore = null;
   if (entity.task === 'work') entity.task = 'rest';
   record(world, 'consequence', { actorId: entity.id, householdId: household.id, text: `${entity.name} left off ${chore ? chore.name.toLowerCase() : 'the work'} unfinished.` });
+}
+/** A neighbour's help ends, and what they put in is said in both stories rather than a bare "finished". */
+function finishHelping(world, household, entity, chore) {
+  const host = world.households[entity.chore?.hostHouseholdId];
+  const spells = entity.chore?.spells || 0;
+  entity.chore = null;
+  entity.task = 'rest';
+  if (spells > 0 || (host && !raising(host))) recordHelpDone(world, household, entity, host, spells);
+  else record(world, 'consequence', { actorId: entity.id, householdId: household.id, text: `${entity.name} left off ${chore.name.toLowerCase()} before putting any work in.` });
 }
 function finishChore(world, household, entity, chore) {
   entity.chore = null;
