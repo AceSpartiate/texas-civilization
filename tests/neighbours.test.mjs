@@ -51,6 +51,34 @@ test('a family nobody plays builds its house, plants and brings in its crop, and
   assert.equal(Object.values(world.entities).filter(entity => entity.health?.condition === 'dead').length, 0, 'and nobody died of it');
 });
 
+test('a family nobody plays rides its horse on a journey when the horse is at hand, and walks when it is not', () => {
+  // Found in play 2026-09-14: nobody ever got on a horse. Every neighbour walked to town with the horse in the yard.
+  const world = lively('neighbours-ride', 5);
+  const ridden = new Set(), walked = new Set(), seen = new Set();
+  for (let tick = 0; tick < 700; tick++) {
+    stepWorld(world);
+    for (const entity of Object.values(world.entities)) {
+      if (entity.kind !== 'person' || !entity.travel || world.households[entity.householdId]?.played) continue;
+      (entity.travel.mode === 'horse' ? ridden : walked).add(entity.householdId);
+      if (seen.has(entity.travel.causeId)) continue;
+      seen.add(entity.travel.causeId);
+      if (entity.travel.mode !== 'horse') {
+        const horse = world.entities[`${entity.householdId}-horse`];
+        const free = horse && !horse.borrowedBy && !horse.travel && horse.location.siteId === entity.travel.from && (!horse.condition || horse.condition === 'sound');
+        assert.ok(!free || entity.travel.purpose === 'arrive', `${entity.name} walked to ${entity.travel.to} with the horse standing free at tick ${world.tick}`);
+      }
+    }
+  }
+  assert.ok(ridden.size >= 3, `families rode: ${[...ridden]}`);
+  // And somebody left in town with the horse beside them rides it home.
+  const town = lively('neighbours-ride-home', 5), household = town.households['hh-2'];
+  const person = town.entities[household.members.find(id => town.entities[id].principal)], horse = town.entities['hh-2-horse'];
+  run(town, 150);
+  for (const each of [person, horse]) Object.assign(each, { travel: null, chore: null, borrowedBy: null, task: 'rest', location: { x: town.map.sites.gonzales.x, y: town.map.sites.gonzales.y, siteId: 'gonzales' } });
+  thinkFor(town, household, { project: id => projectWorld(town, id, 'student', { includeMap: false }), act: input => applyAction(town, 'hh-2', input) });
+  assert.equal(person.travel?.mode, 'horse', 'rides home');
+});
+
 test("a student's family is never run, and a class made without neighbours leaves every family to its students", () => {
   const world = lively('neighbours-played', 5);
   markPlayed(world, 'hh-1');

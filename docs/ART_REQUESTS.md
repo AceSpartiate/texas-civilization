@@ -26,6 +26,7 @@ does not have:
 | A family that drove stock in has its cattle and hogs drawn as two `ox-brown` oxen grazing east of the house, on its own land only | the herd in the site loop of `drawWorld`, `public/app.js` | Request 2026-09-13 — stock and the grant (the 2026-09-14 `animal-stock` sheet is **held**, see the request) | `cattle-longhorn` and `hog` idle and grazing figures |
 | Cleared ground is turned earth and rows whatever it was: ten acres cleared out of timber look like ten acres broken from prairie | `fieldPatch` and `drawPlots` in `public/app.js` | Request 2026-09-14 — cleared ground | `stumps` scattered over cleared timber ground, and `clearing-brush` piles on ground being cleared |
 | A staked plot is a survey-chain square with a small post drawn at each corner | `drawPlots` in `public/app.js` | Request 2026-09-13 — stock and the grant (the surveyor's stake and corner marker) | A surveyor's stake and a corner marker |
+| Anybody of a family riding the family horse is drawn as the courier rider (`mounted-courier-*`), whoever they are; the horse under them is not drawn again | `inTheSaddle` and `underARider` in `public/motion.js` | Request 2026-09-14 — family members on horseback | Each cast figure mounted on the family's chestnut, walking in four directions |
 | A rider never gets down to talk: they speak from the saddle, turned east, west, north or south toward the listener (the vertical dialogue delivered 2026-09-14 is in use) | `carrierClip` in `public/motion.js` | Request 2026-09-12, priority 3 | `courier-dismount` (delivered 2026-09-14, registered, not yet bound: it needs the encounter to know when a rider has got down and where the horse stands) |
 
 ---
@@ -36,6 +37,22 @@ into the existing pipeline, and how it will be checked. When a request is delive
 `npm run build:art`; do not delete it from here.
 
 ---
+
+## Request 2026-09-14 — family members on horseback
+
+**Status: open; the courier rider stands in.** Found in play: a person sent on the horse was drawn walking with the horse
+beside them. They are now drawn in the saddle, but every rider is the same brown-hatted courier.
+
+- **Why.** A mother riding to the store, a son riding to hunt and the principal riding to Gonzales should each be seen as
+  themselves on the family's horse, and the principal's rust coat must stay the student's mark even mounted.
+- **What.** For each first- and second-cast adult figure (`rust`, `teal`, `blue`, `elder`, `rust-woman`, `indigo`,
+  `ochre`) and the adolescent `blue-girl`: mounted on the same chestnut horse as `courier-mounted`, a walk cycle facing east
+  (mirrored for west), north (away) and south (toward the camera), four frames each, same cell size and ground anchor as
+  `mounted-courier-e`/`-n`/`-s`. Women ride astride or sidesaddle as the period evidence for Texas settlers supports; say which.
+- **How it plugs in.** `inTheSaddle` in `public/motion.js` returns `${variant}-ride-${heading}` in place of the courier clip,
+  registered through `npm run build:art`; `underARider` keeps the horse from being drawn twice.
+- **Check.** Each figure recognisably the same person as their walk cycle, horse scale identical to the courier's, feet
+  alternating, no painted transparency, and the principal's rust coat visible from all three sides.
 
 ## Request 2026-09-14 — Béxar civic architecture
 

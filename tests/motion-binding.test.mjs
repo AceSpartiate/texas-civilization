@@ -8,7 +8,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { entityClip, travelHeading, visualVariant, PRINCIPAL_VARIANT, HURT_CONDITIONS, STILL_CONDITIONS, ORDINARY_CONDITIONS } from '../public/motion.js';
+import { entityClip, inTheSaddle, underARider, travelHeading, visualVariant, PRINCIPAL_VARIANT, HURT_CONDITIONS, STILL_CONDITIONS, ORDINARY_CONDITIONS } from '../public/motion.js';
 import { marchCost } from '../sim/directors.mjs';
 
 const clips = JSON.parse(readFileSync(fileURLToPath(new URL('../public/assets/frontier-v1/animation.json', import.meta.url)), 'utf8')).clips;
@@ -156,6 +156,25 @@ test('the ox turns with the road as well, and every clip these bindings name exi
   for (const id of named) assert.ok(clips[id], `${id} is a clip the library actually holds`);
   assert.ok([...named].some(id => id.startsWith(PRINCIPAL_VARIANT)), 'including the principal in every pose');
   assert.ok([...named].some(id => id.endsWith('-walk-n')) && [...named].some(id => id.endsWith('-walk-s')), 'and both vertical cycles');
+});
+
+test('somebody sent on the family horse is drawn riding it, and the horse is not drawn again beside them', () => {
+  // Found in play 2026-09-14: a person sent "on the horse" walked, with the horse walking along next to them.
+  const south = road([{ x: 0, y: 0 }, { x: 0, y: 9 }]), east = road([{ x: 0, y: 0 }, { x: 9, y: 0 }]);
+  const riding = person({ task: 'travel', travel: { ...south, mode: 'horse' } });
+  assert.equal(inTheSaddle(riding), true);
+  assert.equal(entityClip(riding).id, 'mounted-courier-s');
+  assert.equal(entityClip(person({ task: 'travel', travel: { ...east, mode: 'horse' } })).id, 'mounted-courier-e');
+  assert.equal(entityClip(person({ task: 'travel', band: 'child', sex: 'female', age: 12, travel: { ...east, mode: 'horse' } })).id, 'mounted-courier-e', 'a girl riding is not drawn walking in her own figure');
+  for (const mode of ['foot', 'wagon', undefined]) {
+    assert.ok(!entityClip(person({ task: 'travel', travel: { ...south, mode } })).id.startsWith('mounted'), `on ${mode} nobody is in the saddle`);
+  }
+  const horse = extra => ({ id: 'hh-1-horse', kind: 'animal', species: 'horse', ...extra });
+  assert.equal(underARider(horse({ travel: { ...south, mode: 'horse' } })), true);
+  assert.equal(underARider(horse({ travel: null })), false, 'a horse in the yard is drawn');
+  assert.equal(underARider({ id: 'hh-1-animal', kind: 'animal', travel: { ...south, mode: 'wagon' } }), false, 'the ox is drawn pulling');
+  // Somebody hurt on the way is drawn hurt, as anywhere.
+  assert.ok(entityClip(person({ health: { condition: 'wounded' }, travel: { ...south, mode: 'horse' } })).id.endsWith('injured-rest'));
 });
 
 test('until the art exists, a person is drawn as the nearest figure the library has, and a child smaller', async () => {

@@ -70,6 +70,8 @@ A short optional walk-through offers itself once, in that lobby. It explains the
 
 **Your land is big.** Zoom in on it: a labor of 177 acres is about thirty people across, and a league and a labor more than a hundred and fifty.
 
+**Whoever goes on the horse rides it**, drawn in the saddle, and a family nobody plays rides its horse to town or to hunt whenever the horse is home, walking only when somebody else has it.
+
 **The ground slows you.** Off the roads, climbing, timber, brush and creeks all make a journey longer, on foot, on horseback and most of all with the wagon. The roads are the easy going.
 
 **Your neighbours live their own lives.** Families nobody in the class is playing still farm, build their houses, hunt and go to town. Stand with one of them to trade: they take a fair offer and turn down an unfair one, and tell you why. You can help raise their walls, as they are built.

@@ -97,6 +97,15 @@ export const ORDINARY_CONDITIONS = ['well', 'tired'];
 // stand-in: docs/ART_REQUESTS.md, request 2026-09-12, priority 3. The rider still never gets down: the delivered
 // courier-dismount sheet (dismount, remount, on foot, the horse waiting) needs an encounter that knows when a rider
 // has got down and where the horse is, and is registered but not yet bound.
+/**
+ * Somebody of a family going on the family's horse is drawn in the saddle, and the horse under them is not drawn a second
+ * time trotting alongside. Both read the journey the server gave: a horse only ever travels harnessed (sim/world.mjs
+ * `harness`), so a horse on a journey made on horseback is being ridden.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-14 - family members on horseback. Whoever rides is drawn as the courier
+ * rider, until the cast has mounted figures of its own.
+ */
+export const inTheSaddle = entity => entity.kind === 'person' && !entity.carrier && entity.travel?.mode === 'horse';
+export const underARider = entity => entity.kind === 'animal' && entity.species === 'horse' && entity.travel?.mode === 'horse';
 export function carrierClip(entity) {
   const vertical = entity.facing === 'n' || entity.facing === 's';
   if (entity.speaking) return vertical ? { id: `mounted-courier-speak-${entity.facing}`, upright: true } : { id: 'mounted-courier-speak' };
@@ -146,6 +155,10 @@ function grownClip(entity, observed) {
   // this project never chose.
   if (STILL_CONDITIONS.includes(condition)) return { id: `${variant}-idle-s`, frozen: true, upright: true };
   if (entity.carrier) return carrierClip(entity);
+  if (inTheSaddle(entity)) {
+    const heading = travelHeading(entity);
+    return heading ? { id: `mounted-courier-${heading}`, upright: true } : { id: 'mounted-courier-e' };
+  }
   if (entity.kind === 'animal') {
     // A class saved before there were horses has no `species` on anything, and every
     // animal in it is an ox - so the absent field reads correctly as one.

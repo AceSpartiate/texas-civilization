@@ -15,6 +15,7 @@
 import { tooYoung } from './family.mjs';
 import { siteFacts } from './ground.mjs';
 import { overlaps, squareOf } from './fields.mjs';
+import { CHORES } from './chores.mjs';
 
 /** Decisions are spread over ticks: each family thinks every third tick, not all of them on the same one. */
 export const THINK_EVERY = 3;
@@ -62,6 +63,9 @@ export function thinkFor(world, household, { project, act }) {
   const view = project(household.id);
   const tried = [];
   const attempt = input => { try { act(input); tried.push(input); return true; } catch { return false; } };
+  // A journey is ridden when the horse is at hand, and walked when it is not: a family with a horse in the yard did not
+  // walk nine miles to the store (found in play 2026-09-14). The server refuses the horse when somebody else has it.
+  const ride = input => attempt({ ...input, mode: 'horse' }) || attempt(input);
   // Its own people, as its own projection shows them.
   const people = (view.entities || []).filter(entity => entity.kind === 'person' && entity.householdId === household.id);
   const available = work => (view.work?.[work.person] || []).find(entry => entry.id === work.chore && entry.can);
@@ -111,7 +115,7 @@ export function thinkFor(world, household, { project, act }) {
   const unfenced = nearest(plots.filter(plot => plot.state === 'cleared' && plot.fence !== 'sound'));
   for (const person of idle) {
     // Somebody away from home with nothing to do there comes home.
-    if (person.location?.siteId !== view.household.homeSiteId) { attempt({ action: 'travel', entityId: person.id, destination: view.household.homeSiteId }); continue; }
+    if (person.location?.siteId !== view.household.homeSiteId) { ride({ action: 'travel', entityId: person.id, destination: view.household.homeSiteId }); continue; }
     const can = chore => Boolean(available({ person: person.id, chore }));
     const food = view.household.resources.food || 0;
     const resources = view.household.resources;
@@ -133,6 +137,7 @@ export function thinkFor(world, household, { project, act }) {
     const sent = chore === 'survey-plot' ? surveyPlaces(home, land.grant?.bounds, plots).some(point => attempt({ action: 'survey-plot', entityId: person.id, ...point }))
       : chore === 'clear-plot' ? attempt({ action: 'clear-plot', entityId: person.id, x: staked.x, y: staked.y })
       : chore === 'fence-plot' ? attempt({ action: 'fence-plot', entityId: person.id, x: unfenced.x, y: unfenced.y })
+      : CHORES[chore]?.steps.some(step => step.travel) ? ride({ action: 'chore', entityId: person.id, chore })
       : attempt({ action: 'chore', entityId: person.id, chore });
     if (sent && ONE_AT_A_TIME.includes(chore)) busy.add(chore);
   }

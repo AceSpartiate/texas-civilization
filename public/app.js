@@ -1,6 +1,6 @@
 // Renderers consume the server's permitted projection. They never advance simulation state.
 import { drawSprite, drawClip, clipInfo, hasSprite, loadArt, onArtReady, pickSprite } from '/art.js';
-import { ProjectionMotion, entityClip, travelHeading, travelDirection, figureScale } from '/motion.js';
+import { ProjectionMotion, entityClip, travelHeading, travelDirection, figureScale, underARider } from '/motion.js';
 import {drawBexarGround,bexarDrawables} from '/bexar-art.js';
 const $ = selector => document.querySelector(selector);
 const say = message => { for (const id of ['#error', '#join-error', '#rejoin-error']) { const el = $(id); if (el) el.textContent = message; } };
@@ -353,6 +353,8 @@ const drawnAt = new Map();
 // it plays from its own beginning.
 const shotSince = new Map();
 function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
+  // The horse is under its rider, drawn with them (public/motion.js `inTheSaddle`).
+  if (underARider(entity)) return;
   // Cosmetic separation only. Overlapping drawings must never imply different true positions.
   const spread = size / 26;
   // On the road a person is drawn exactly where the server says they are. Their ox and
