@@ -20,6 +20,6 @@
     "injectedRegressions": ["timber cleared as fast as prairie", "timber cleared without the axe", "others go on clearing a cleared plot", "felling timber wears the hoe", "planting sows nothing", "a plot cleared while the crop grows is in it", "one unfenced plot loses the whole field", "fields are no walk", "ruin leaves the plots cleared", "staking wipes the first patch", "retired work runs on", "clearing work may be anything", "neighbours never clear", "neighbours stake without end", "two fence one plot", "an old fence is forgotten", "the server ignores the job", "sent back, the clearing starts over", "cleared ground may be surveyed"],
     "allCaught": true
   },
-  "notRun": "scripts/farm-browser-proof.mjs (npm run test:farm) was rewritten for plots but not run: Playwright is not installed on this machine.",
+  "playwright": "scripts/farm-browser-proof.mjs (npm run test:farm) rewritten for plots and run 2026-09-14 with the workstation Playwright and installed Chrome: 6 checks PASS, docs/evidence/farm-improvements-browser.json. It had been failing since families began to be rolled at Start, and found two client bugs, both fixed: a family rolled by the server at Start kept the unrolled family in the page (no work panel until reload), and the zoom and Land buttons did nothing while a person was being watched.",
   "notBuilt": "Per-plot crops and partial planting when seed is short; a neighbour's cleared plots drawn when seen; stump and brush-pile art (requested 2026-09-14, stand-in in use); pulling up stakes."
 }

@@ -74,11 +74,16 @@ function ensureChores(snapshot) {
 // same contract as the map and the chore catalogue: it changes rarely, so it has no
 // business on a channel that fires every tick. That lesson has now been learned here three
 // times, most recently at about four hundred and fifty bytes a tick.
-let familyCache = null, familyCacheId = null, familyPending = null;
+// And re-fetched when who is in the household changes. A family that has not rolled when the host presses Start is rolled
+// by the server (docs/FAMILY_CREATION.md); the page kept the unrolled family it fetched in the lobby, so it went on asking
+// for a roll and never opened anybody's work panel until it was reloaded (found by scripts/farm-browser-proof.mjs, 2026-09-14).
+let familyCache = null, familyCacheId = null, familyPending = null, familyMembers = null;
 function ensureFamily(snapshot) {
   if (!snapshot.mapId || snapshot.world?.role === 'host' || !snapshot.world?.householdId) return;
+  const members = (snapshot.world.household?.members || []).join(',');
+  if (familyCache && familyMembers !== members) familyCacheId = null;
   if ((familyCache && familyCacheId === snapshot.mapId) || familyPending === snapshot.mapId) return;
-  familyPending = snapshot.mapId;
+  familyPending = snapshot.mapId; familyMembers = members;
   api('/api/family').then(result => {
     familyPending = null;
     if (!result?.family) return;
@@ -782,6 +787,9 @@ function applyMapView(action) {
   const world = snapshot.world, canvas = $('#world-map');
   if (action === 'follow') { manualView = null; stopWatching(); drawWorld(world); return; }
   const view = cameraFor(world, canvas);
+  // Zooming or going somewhere leaves off watching, as the wheel and a drag do: watching beats a manual view in
+  // `cameraFor`, so while somebody was watched these buttons changed nothing at all (found 2026-09-14).
+  stopWatching();
   if (action === 'in' || action === 'out') {
     manualView = { cx: view.cx, cy: view.cy, scale: clampTo(view.scale * (action === 'in' ? 1.4 : 1 / 1.4), view.limits) };
   } else {

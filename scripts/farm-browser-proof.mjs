@@ -19,9 +19,11 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const pass = [];
 const ok = label => { pass.push(label); console.log('PASS', label); };
 
-// A quick tick, because clearing is deliberately a long job and this is not a test
-// of how long it takes - tests/improvements.test.mjs already counts the ticks.
-const app = createClassroom({ seed: 'farm-proof', playerCount: 5, tickMs: 60, worldFactory(seed, count) {
+// A quick tick, because clearing is deliberately a long job and this is not a test of how long it takes -
+// tests/clearing.test.mjs already counts the spells. Not so quick that the story ends while plots are being chosen on the
+// map: at sixty milliseconds the class reached its end (about three hundred ticks) before the first tap, and an ended class
+// draws nothing new and refuses every button (found 2026-09-14). Three hundred milliseconds leaves room.
+const app = createClassroom({ seed: 'farm-proof', playerCount: 5, tickMs: 300, worldFactory(seed, count) {
   // A settled class: these families are at home under a roof, as every class began before arrivals
   // (docs/SETTLING_IN.md step 2). This proves the work, not the arrival - tests/arrival.test.mjs does that.
   const world = createSettledWorld(seed, count);
@@ -62,10 +64,19 @@ try {
   for (let i = 2; i <= 5; i++) await post('/api/join', { name: `Reader ${i}`, code: app.state.sessionCode });
   await post('/api/command', { id: `proof-start-${crypto.randomUUID()}`, action: 'start' }, hostCookie);
   await page.waitForFunction(() => window.__snapshot?.world.status === 'running');
+  // Whoever the family turned out to be: a household that never rolled is rolled at Start (docs/FAMILY_CREATION.md), so
+  // the founding family's Thomas this script once chose is gone by now.
+  const principal = await page.evaluate(() => window.__snapshot.world.household.principalId);
 
+  // Lists and work buttons are redrawn on every tick, sixty milliseconds apart here, so a button found is often replaced
+  // before a pointer click lands on it. Pressed in the page instead, on the element as it stands, once it can be pressed.
+  const press = async selector => {
+    await page.waitForFunction(found => { const button = document.querySelector(found); return button && !button.disabled; }, selector, { timeout: 30000 });
+    await page.evaluate(found => document.querySelector(found).click(), selector);
+  };
   const choose = async id => {
     await page.locator('#journal-toggle').click();
-    await page.locator(`[data-select="${id}"]`).click();
+    await press(`[data-select="${id}"]`);
     await page.locator('#journal-close').click();
     await page.locator('#selection').waitFor({ state: 'visible' });
   };
@@ -75,7 +86,7 @@ try {
   // afternoon and disabled every button - a slow, silent way to fail for the wrong reason.
   await page.locator('#map-nav [data-view=home]').click();
   for (let zoom = 0; zoom < 5; zoom++) await page.locator('#map-nav [data-view=in]').click();
-  await choose('hh-1-thomas');
+  await choose(principal);
 
   // --------------------------------------------------------- the work is offered in words
   const offered = await page.locator('#selection-work button.work-option').evaluateAll(buttons =>
@@ -93,14 +104,26 @@ try {
   ok(`the price of planting is on the button: "${planting.name}"`);
 
   // A tap on the map at the middle of a plot as it is drawn: canvas pixels to page pixels, as the map's own pointer does.
+  // The camera follows whoever was chosen, close in; the land view and a step out bring the plot on to the screen first.
   const tapPlot = async id => {
+    await page.locator('#map-nav [data-view=home]').click();
+    for (let step = 0; step < 6; step++) {
+      const onScreen = await page.evaluate(plotId => {
+        const plot = window.__plotsDrawn?.find(drawn => drawn.id === plotId), canvas = document.querySelector('#world-map');
+        return Boolean(plot) && plot.corners.every(p => p.x > 40 && p.y > 160 && p.x < canvas.width - 40 && p.y < canvas.height - 160);
+      }, id);
+      if (onScreen) break;
+      await page.locator('#map-nav [data-view=out]').click();
+      await page.waitForTimeout(250);
+    }
     const at = await page.evaluate(plotId => {
       const plot = window.__plotsDrawn.find(drawn => drawn.id === plotId), canvas = document.querySelector('#world-map'), rect = canvas.getBoundingClientRect();
       const x = plot.corners.reduce((sum, p) => sum + p.x, 0) / 4, y = plot.corners.reduce((sum, p) => sum + p.y, 0) / 4;
       return { x: rect.left + x * rect.width / canvas.width, y: rect.top + y * rect.height / canvas.height };
     }, id);
     await page.mouse.click(at.x, at.y);
-    await page.waitForFunction(() => document.querySelector('#survey-send') && !document.querySelector('#survey-send').hidden, null, { timeout: 10000 });
+    await page.waitForFunction(() => document.querySelector('#survey-send') && !document.querySelector('#survey-send').hidden, null, { timeout: 10000 })
+      .catch(async error => { throw new Error(`tapping ${id} at ${JSON.stringify(at)} in a ${JSON.stringify(await page.evaluate(() => document.querySelector('#world-map').getBoundingClientRect()))} map showed: ${await page.locator('#survey-text').textContent()} (${error.message}); page: ${JSON.stringify(await page.evaluate(() => ({ canvas: [document.querySelector('#world-map').width, document.querySelector('#world-map').height], drawn: window.__plotsDrawn, status: window.__snapshot.world.status, tick: window.__snapshot.world.tick, holding: window.__holdingRect })))}`); });
   };
 
   // ------------------------------------------------------------ and the field grows for it
@@ -109,7 +132,7 @@ try {
   assert.deepEqual(before.map(plot => plot.state), ['cleared', 'staked'], `the plots were not drawn as they stand: ${JSON.stringify(before)}`);
   assert.equal(before[0].fence, 'none', 'a family started with a fence it never built');
 
-  await page.locator('button[data-chore=clear-plot]').click();
+  await press('button[data-chore=clear-plot]');
   await tapPlot('plot-2');
   const words = await page.locator('#survey-text').textContent();
   assert.match(words, /Ten acres of prairie .*staked\. 10 spells of clearing, with the hoe\./, `the plot was not described before clearing: "${words}"`);
@@ -121,8 +144,8 @@ try {
   ok(`ten acres chosen on the map and cleared are drawn as field: "${words}"`);
 
   // ------------------------------------------------------------------- and the rails go up
-  await choose('hh-1-thomas');
-  await page.locator('button[data-chore=fence-plot]').click();
+  await choose(principal);
+  await press('button[data-chore=fence-plot]');
   await tapPlot('plot-2');
   await page.locator('#survey-send').click();
   await page.waitForFunction(() => window.__snapshot.world.land.fenced === 1, null, { timeout: 60000 });
