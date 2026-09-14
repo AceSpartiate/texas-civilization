@@ -21,6 +21,7 @@ amends `FIC-GONZ-024` (one party arriving together) and builds on the real terra
 | What a family far from Gonzales can do | **Join the army that gathered after.** Volunteers converged on Gonzales in the days after October 2 and marched on Bexar; a distant family can send somebody to join it. This stretches the class timeline past October 2. |
 | How families are divided among settlements (2026-09-14, after research) | **In proportion to 1834 population** (`HIST-TEX-011`): more families near San Felipe and Columbia, fewer near Gonzales and Victoria; a small settlement often gets nobody. |
 | Families near Béxar, Goliad and Nacogdoches, which were not empresario colonies (2026-09-14) | **Only the empresario colonies are starts.** Béxar, Goliad and Nacogdoches stay on the map as places, not where families begin, so the late-settler, title-pending premise holds for every family. |
+| Liberty (2026-09-14) | **Used.** The owner is from Liberty. It is a start like the colony settlements (`HIST-TEX-013`): in the Galveston Bay and Texas Land Company grant, its settlers' titles contested in 1831 and promised in 1835, and its volunteers under Andrew Briscoe marched to Concepción and Béxar. |
 
 ## 2. What these commit the design to
 
