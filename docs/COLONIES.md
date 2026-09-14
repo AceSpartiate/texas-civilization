@@ -349,7 +349,7 @@ Each step ends with tests that failed first, a browser proof where it touches wh
    settlement. New classes use it; old saves untouched.
 2a. ~~**Automatic neighbours: farming, building, trading and house-raisings**~~ **Done 2026-09-14** (§6c) (§5.9), so every class after step 2 has living
    neighbours. Their answer to the war comes with steps 4 and 5.
-3. **Movement by ground and the house site** (`docs/LAND_GRANTS.md` §8.3 steps 3–4).
+3. ~~**Movement by ground and the house site**~~ **Done 2026-09-14** (§6d) (`docs/LAND_GRANTS.md` §8.3 steps 3–4).
 4. **News by riders over real distance**, calibrated to `HIST-TEX-006`, and the settlement-specific calls.
 5. **The gathering and the march**, through the October 11–12 departure: volunteers, joining, the army formation.
 6. **Beyond** (Concepción, the Grass Fight, Béxar), each battle researched first; the glory rule for women built with
@@ -419,6 +419,31 @@ Each step ends with tests that failed first, a browser proof where it touches wh
   going up without somebody seeing them; that waits for the news of step 5), a neighbour **making** offers of its own, a Host
   control to hand a student's abandoned family to the director, and answering the war (steps 5–6). Automatic families are not
   yet excluded from the ending's rankings because the ending is not built; `played` is what will exclude them.
+
+### 6d. As built: the going and the house site
+
+- **The going** (`sim/ground.mjs`): every lane, timber track and the bank upriver carries what lies along each stretch — rise,
+  share in timber, share in brush, creeks and lesser rivers crossed — read from the real heights and the USGS streams. A journey
+  over it takes longer by Tobler's hiking function for the slope (a wagon never quicker downhill and feeling a climb twice over),
+  by timber and brush, and by each crossing, differently on foot, on the horse and with the wagon. **The roads carry none** and
+  are the easy going. Lanes are laid by a wagon's-going search over an eighth-of-a-mile grid and never cross a big river.
+- **The house site** (`sim/homesite.mjs`): the wagon comes in to the surveyor's mark and the family chooses where the house
+  stands anywhere on its holding, told the ground, the height above the nearest water, how far to water that runs all year,
+  how far to timber, whether it is river bottom that floods, and how long the lane will be. The house, the field, fencing and
+  clearing wait for it. Choosing lays the lane from the road, moves the home and field, and brings the wagon over; anybody on
+  the way home walks on to the new site. **Riders and neighbours come up that lane like any other route**, so a house set back
+  hears later with no rule about news at all.
+- **Water:** further than a quarter mile from water that runs all year, the heavy work at home goes slower — up to half as long
+  again — until the family digs a well, whose length grows with the height above the water.
+- **Measured** at the surveyor's marks of 120 families in four classes of thirty: 27 in 100 already within carrying distance of
+  running water, half within 0.4 miles, one in ten with none within three miles (Liberty's families most often), and 28 in 100 on
+  river bottom — so the choice has two sides. A class of thirty is made in about a second and a half; a class of fifteen nobody
+  plays chose every site and built every house within 360 ticks, the slowest tick 142 ms, when the sites were chosen.
+- **Owner raised while this was built (2026-09-14):** children had real work on a farm, and this game gives them almost none.
+  Not built; to be researched and brought back as questions (`docs/FAMILY_CREATION.md` §3 holds the current rule).
+- `ceiling:` the roads carry no going; a site's facts are asked of the server one place at a time, and laying a long lane takes
+  a tenth of a second or so on the server's thread; creeks are counted as crossed by name, so one creek wandering across a
+  stretch twice is one crossing; USGS's perennial streams describe the present, not 1835; no flood happens yet.
 
 ## 7. Questions for the owner — all answered 2026-09-14
 

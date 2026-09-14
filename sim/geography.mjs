@@ -232,9 +232,16 @@ export function findPath(map, fromSiteId, toSiteId) {
   const legs = [];
   for (let node = toSiteId; best.get(node).via; node = best.get(node).via.from) legs.unshift(best.get(node).via.edge);
   const points = [];
+  // What lies along each segment, where a route carries it (sim/ground.mjs): only lanes and tracks on the real land do.
+  const ground = [];
   for (const leg of legs) {
     const ordered = leg.forward ? leg.route.points : [...leg.route.points].reverse();
-    for (const point of ordered) if (!points.length || points.at(-1).x !== point.x || points.at(-1).y !== point.y) points.push({ ...point });
+    const along = leg.route.ground && (leg.forward ? leg.route.ground : [...leg.route.ground].reverse().map(g => [-g[0], g[1], g[2], g[3], g[4]]));
+    ordered.forEach((point, index) => {
+      if (points.length && points.at(-1).x === point.x && points.at(-1).y === point.y) return;
+      if (points.length) ground.push(index > 0 ? along?.[index - 1] ?? null : null);
+      points.push({ ...point });
+    });
   }
   // The places this route runs through, and how far along each one sits. A journey is not
   // only a line: it passes the ford, a fork of the road, somebody's gate. News changing
@@ -244,5 +251,5 @@ export function findPath(map, fromSiteId, toSiteId) {
     const previous = nodes.at(-1).id;
     nodes.push({ id: leg.route.from === previous ? leg.route.to : leg.route.from, at: nodes.at(-1).at + polylineLength(leg.route.points) });
   }
-  return { points, distance: polylineLength(points), routeIds: legs.map(leg => leg.route.id), nodes };
+  return { points, distance: polylineLength(points), routeIds: legs.map(leg => leg.route.id), nodes, ...(ground.some(Boolean) && { ground }) };
 }

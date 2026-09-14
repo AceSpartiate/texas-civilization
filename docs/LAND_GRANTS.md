@@ -1,6 +1,6 @@
 # Land grants, Survey, and clearing your own ground
 
-**Status: decided 2026-09-13; step 1 (the grant) built 2026-09-13** ([evidence](evidence/grants.json)). **Terrain, water and the house site were decided the same evening and specified 2026-09-14 (§8); they come before Survey.** Read this in full before changing a family's land, the field,
+**Status: decided 2026-09-13; step 1 (the grant) built 2026-09-13** ([evidence](evidence/grants.json)). **Terrain, water and the house site were decided the same evening and specified 2026-09-14 (§8); they come before Survey. Movement by ground, the house site, the lane and wells were built 2026-09-14 (§8.4, [evidence](evidence/ground-and-site.json)).** Read this in full before changing a family's land, the field,
 clearing, fencing, the stock a family brings, or the lobby choices that decide any of them. It replaces the
 "break new ground up to four times" rule of `sim/improvements.mjs` (`FIC-GONZ-015`).
 
@@ -230,6 +230,28 @@ creeks ran all year. Both stay invented (`FIC-GONZ-026`) until sourced.
    Provenance in `docs/evidence/`. Tested against known points (the confluence, the town, the river's fall).
 2. **The real country in new classes.** `sim/geography.mjs` builds from the asset: rivers, creeks, relief, cover, the
    re-placed sites and roads, homesteads and grants. Old saves untouched. Browser proof of the map.
-3. **Movement by ground.** Path costs from slope, cover and crossings; lanes routed by them.
-4. **The house site and water.** Choosing the site on arrival, the lane, water distance and the well.
+3. ~~**Movement by ground.**~~ **Done 2026-09-14** (§8.4). Path costs from slope, cover and crossings; lanes routed by them.
+4. ~~**The house site and water.**~~ **Done 2026-09-14** (§8.4). Choosing the site on arrival, the lane, water distance and the well.
 5. Then §7's Survey, clearing and art.
+
+### 8.4 As built: the going, the house site and water (2026-09-14)
+
+Built as `docs/COLONIES.md` §6 item 3; tests `tests/ground.test.mjs` and `tests/homesite.test.mjs`.
+
+- **One change from §8.2, made while building:** the wagon stops at the **surveyor's mark** — the point the grant was laid out
+  round, where the track from the road already ended — rather than where the track meets the edge of the holding. The edge of a
+  family's holding depends on the stock it chooses in the lobby, after the class and its tracks are made, so a gate on it would
+  have moved each time the stock choice did. The family still chooses on arrival and anywhere on what it holds.
+- **The going** (`sim/ground.mjs`, `FIC-GONZ-026`). Cover on the real land by §8.2's rule: timber within 0.9 miles of a river
+  and 0.2 of a creek, brush on ground steeper than 8 in 100, open prairie and savannah between. A mile of timber is 1.3 on foot,
+  1.5 on the horse, 2 with the wagon; brush 1.6, 1.8, 2.5; a creek costs a tenth of a mile on foot, a twentieth on the horse and
+  0.4 with the wagon, a lesser river 0.3, 0.2 and a mile. Slope by Tobler's hiking function (1993), borrowed as a modern rule,
+  not an 1835 one; the wagon's is squared and never below level. Stored per stretch of every lane and track
+  (`route.ground`), turned into a journey's `travel.pace`; a journey without it moves exactly as before.
+- **The site** (`sim/homesite.mjs`). Refused: off the holding (*"That is not your land."*), within 0.05 miles of its line, in the
+  water, steeper than 8 in 100, or where no wagon can be brought. Its facts are said before choosing and again in the story.
+  A labor stays round the surveyor's mark (`household.mark`), so moving the house never moves the land held.
+- **Water.** Running water further than a quarter mile: heavy work at home takes 1 + 0.6 × (miles − ¼) as long, at most 1.5.
+  *Dig a well*: 6 ticks and 2 a metre, the depth the height above the nearest water and 3 metres more (`HIST-GONZ-041` for a
+  moderate depth; every number `FIC-GONZ-026`). Offered only where one is wanted.
+- **Old saves and the invented map**: no `choosingSite`, no `ground`, no `pace` — unchanged; no save version moved.

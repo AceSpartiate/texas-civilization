@@ -312,5 +312,11 @@ button:hover:enabled{background:#60673e}
 #house-close{margin-top:6px;background:#4b3e28;border-color:#6b5836}
 #visit-row{display:inline-flex;gap:4px;align-items:center;flex-wrap:wrap}
 #visit-select{font:inherit;font-size:12px;max-width:12rem;min-height:32px;border-radius:5px;border:1px solid #b09a6d;background:#fbf5e4;color:#3f3524}
+#site-choose{position:absolute;left:12px;top:64px;z-index:8;width:min(24rem,calc(100% - 24px));background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259;border-radius:8px;box-shadow:0 5px 0 #6b583638,0 18px 45px #32291950;padding:12px 14px 13px;color:#3b3427}
+#site-choose h2{font-size:19px;margin:2px 0 0;color:#4b3e28}
+#site-choose p{margin:6px 0 0;font-size:14px;line-height:1.45}
+#site-note:empty{display:none}
+#site-build{margin-top:9px}
+@media (max-width:760px){#site-choose{left:8px;right:8px;width:auto;top:56px}}
 #house-open{position:absolute;left:12px;top:104px;z-index:8;min-height:34px;padding:5px 12px;font-size:13px;background:#4b3e28;border-color:#6b5836}
 @media (max-width:760px){#house-plan{left:8px;right:8px;width:auto;top:56px}}

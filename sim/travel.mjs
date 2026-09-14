@@ -68,6 +68,44 @@ export const MODE_IDS = Object.keys(MODES);
  */
 export const modeOf = travel => MODES[travel?.mode] || MODES[DEFAULT_MODE];
 
+/**
+ * Going over ground that is not level open road (sim/ground.mjs): `pace` lists `[segment, factor]` for each segment of the
+ * journey's points that takes `factor` times as long as open road. A journey with none - every road, every journey on the
+ * invented map and in every class saved before - moves exactly as it always did.
+ *
+ * `budget` is the ground this tick is worth on open road (speed × ticks). Returns where the traveller has got to and what
+ * of the budget was left over past the end.
+ */
+export function moveOnGround(points, pace, distance, progress, budget) {
+  // Open road all the way: the arithmetic every journey had before, to the last bit.
+  if (!pace?.length) return { progress: Math.min(distance, progress + budget), left: Math.max(0, progress + budget - distance) };
+  const slow = new Map(pace || []);
+  let start = 0;
+  for (let i = 1; i < points.length; i++) {
+    const end = start + Math.hypot(points[i].x - points[i - 1].x, points[i].y - points[i - 1].y);
+    if (progress < end) {
+      const factor = slow.get(i - 1) || 1, room = (end - progress) * factor;
+      if (budget < room) return { progress: Math.min(distance, progress + budget / factor), left: 0 };
+      budget -= room; progress = end;
+    }
+    start = end;
+  }
+  return { progress: distance, left: budget };
+}
+
+/** What is left of a journey, in miles of open road: what the ticks still to come are spent on. */
+export function groundLeft(travel) {
+  if (!travel.pace?.length) return travel.distance - travel.progress;
+  const slow = new Map(travel.pace);
+  let start = 0, left = 0;
+  for (let i = 1; i < travel.points.length; i++) {
+    const end = start + Math.hypot(travel.points[i].x - travel.points[i - 1].x, travel.points[i].y - travel.points[i - 1].y);
+    if (travel.progress < end) left += (end - Math.max(start, travel.progress)) * (slow.get(i - 1) || 1);
+    start = end;
+  }
+  return left;
+}
+
 /** What this person can bring home from where they are, given how they got there. */
 export const carryCapacity = mode => (MODES[mode] || MODES[DEFAULT_MODE]).carry;
 

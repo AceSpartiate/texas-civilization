@@ -137,8 +137,9 @@ test('what a person may be asked to do is decided on the server, with a reason',
   const offered = projected.work['hh-1-thomas'];
   // Every chore is on the list, refused or not - except house work for a family that already has a
   // roof, and helping raise a neighbour's walls for somebody not on a neighbour's land, which are not
-  // refused but simply not there (sim/houses.mjs, `houseSettled` and `hostOf`).
-  assert.equal(offered.length, Object.keys(CHORES).filter(id => !CHORES[id].house && !CHORES[id].helps).length, 'every chore is accounted for, refused or not');
+  // refused but simply not there (sim/houses.mjs, `houseSettled` and `hostOf`) - and a well, for a family whose water is close
+  // or that has one (sim/homesite.mjs); this family is on the invented map, where nobody needs one.
+  assert.equal(offered.length, Object.keys(CHORES).filter(id => !CHORES[id].house && !CHORES[id].helps && !CHORES[id].well).length, 'every chore is accounted for, refused or not');
   for (const entry of offered) {
     assert.ok(typeof entry.can === 'boolean');
     if (!entry.can) assert.ok(entry.why.length > 0, `${entry.id} says why it is refused`);

@@ -8,6 +8,7 @@ import { createWorld, stepWorld, projectWorld, projectMap, applyAction, validate
 import { rollRefusal } from '../sim/family.mjs';
 import { choreCatalogue, modeCatalogue } from '../sim/chores.mjs';
 import { GOODS } from '../sim/trade.mjs';
+import { siteFactsFor } from '../sim/homesite.mjs';
 import { wagonCatalogue } from '../sim/wagon.mjs';
 import { houseCatalogue } from '../sim/houses.mjs';
 import { readSave, writeSave, acquireSaveLock, archiveSave } from './storage.mjs';
@@ -160,7 +161,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     // `tickMs` rides along because the renderer has to know how long a tick lasts to
     // spread one tick's movement across it. Without it the client guesses one second and a
     // slower class walks for a second and then stands still for the rest of the tick.
-    const payload = { revision: state.revision, sessionId: state.sessionId, connected: connected(), tickMs: pace, fault: runtimeFault && structuredClone(runtimeFault), lifecycle: lifecycle && structuredClone(lifecycle), world: projectWorld(state.world, identity.householdId, identity.role, { includeMap: false }), mapId: state.sessionId };
+    const payload = { revision: state.revision, sessionId: state.sessionId, connected: connected(), tickMs: pace, fault: runtimeFault && structuredClone(runtimeFault), lifecycle: lifecycle && structuredClone(lifecycle), world: projectWorld(state.world, identity.householdId, identity.role, { includeMap: false }), mapId: state.sessionId, ...(state.world.map.revision && { mapRevision: state.world.map.revision }) };
     if (identity.role === 'host') Object.assign(payload, { sessionCode: state.sessionCode, joinUrls, canStop: Boolean(onStopRequested), presence: presence() });
     // A household is told its own key and no other. The Host page deliberately carries
     // none of them, because a teacher's screen is sometimes a projector.
@@ -310,6 +311,24 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       }
       // Static public geography, fetched once per class rather than per tick.
       if (req.method === 'GET' && url.pathname === '/api/map') return json(res, 200, { mapId: state.sessionId, map: projectMap(state.world) });
+      // The part of the map a family choosing its house site changes (sim/homesite.mjs): the homesteads, the lanes in to
+      // them and their fields. A few kilobytes, fetched when `mapRevision` moves, instead of the whole map again.
+      if (req.method === 'GET' && url.pathname === '/api/map/homes') {
+        const map = state.world.map;
+        const sites = Object.fromEntries(Object.entries(map.sites).filter(([, site]) => site.kind === 'homestead'));
+        const routes = Object.fromEntries(Object.entries(map.routes).filter(([, route]) => sites[route.to]));
+        return json(res, 200, { mapId: state.sessionId, revision: map.revision || 0, sites: structuredClone(sites), routes: structuredClone(routes), fields: structuredClone(map.terrain.filter(feature => feature.kind === 'field')) });
+      }
+      // What a spot on the family's own land is like to set the house on, and the lane it would have. Only the family's
+      // own holding, only while it is choosing: the refusal says so otherwise.
+      // ceiling: laying the lane runs on the server's one thread, a tenth of a second or so for a long one. A class of
+      // thirty choosing at once is a few seconds of it spread over the first minutes; a worker is the way out if that shows.
+      if (req.method === 'GET' && url.pathname === '/api/site') {
+        if (!identity.householdId) return json(res, 403, { error: 'Only a family chooses where its house stands.' });
+        const household = state.world.households[identity.householdId];
+        const facts = siteFactsFor(state.world, household, { x: Number(url.searchParams.get('x')), y: Number(url.searchParams.get('y')) });
+        return json(res, 200, { mapId: state.sessionId, facts });
+      }
       // The list of work that exists never changes during a class; only who may do it
       // does, and that rides on the tick. Same reason the map is fetched once.
       if (req.method === 'GET' && url.pathname === '/api/chores') return json(res, 200, { mapId: state.sessionId, chores: choreCatalogue(), modes: modeCatalogue(), goods: GOODS, wagon: wagonCatalogue(), houses: houseCatalogue() });

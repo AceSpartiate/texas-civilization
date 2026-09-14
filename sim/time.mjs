@@ -3,13 +3,14 @@ import { advanceRoutine } from './routines.mjs';
 import { deliverReports } from './knowledge.mjs';
 import { advanceEncounters } from './encounters.mjs';
 import { advanceRelays, progressTravel, validateWorld } from './world.mjs';
+import { groundLeft } from './travel.mjs';
 
 export function resolveTimeJump(world, requestedMinutes) {
   if (!Number.isInteger(requestedMinutes) || requestedMinutes < 0 || requestedMinutes > 60 * 24 * 60) throw new Error('Time jump must be whole minutes, at most 60 days.');
   if (world.status !== 'running') throw new Error('Time compression requires a running world.');
   const from = world.minute;
   const limit = from + requestedMinutes;
-  const arrivals = Object.values(world.entities).filter(e => e.principal && e.travel && ['help', 'service'].includes(e.travel.purpose)).map(e => ({ id: `arrival:${e.id}`, minute: from + Math.max(0, Math.ceil((e.travel.distance - e.travel.progress) / e.travel.speed) - 1) * 20 }));
+  const arrivals = Object.values(world.entities).filter(e => e.principal && e.travel && ['help', 'service'].includes(e.travel.purpose)).map(e => ({ id: `arrival:${e.id}`, minute: from + Math.max(0, Math.ceil(groundLeft(e.travel) / e.travel.speed) - 1) * 20 }));
   const barrier = [...world.barriers.filter(b => !b.resolved), ...arrivals].filter(b => b.minute >= from && b.minute <= limit).sort((a, b) => a.minute - b.minute || a.id.localeCompare(b.id))[0];
   // Somebody already standing with a rider is pending meaningful contact, and compressed
   // time may not run past a conversation that has not finished.

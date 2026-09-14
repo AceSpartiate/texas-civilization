@@ -180,6 +180,18 @@
     </section>
     <button type="button" id="house-open" hidden>Choose a house</button>
 
+    <!-- Where the house stands, on the real land (docs/LAND_GRANTS.md §8.2, sim/homesite.mjs). What a place is like, and
+         whether the house can go there, come from the server for the place the student taps. -->
+    <section id="site-choose" hidden aria-labelledby="site-choose-title" aria-live="polite">
+      <header>
+        <span class="eyebrow">YOUR LAND</span>
+        <h2 id="site-choose-title">Where the house stands</h2>
+      </header>
+      <p id="site-text"></p>
+      <p id="site-note" role="alert"></p>
+      <button type="button" id="site-build" hidden>Set the house here</button>
+    </section>
+
     <section id="tutorial" hidden aria-labelledby="tutorial-title">
       <header>
         <span class="eyebrow" id="tutorial-step"></span>

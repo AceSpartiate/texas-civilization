@@ -42,6 +42,8 @@ let confirming = null, confirmTimer = null, authRecheck = false, startAnyway = f
 // The map is public geography that never changes during a class, so it is fetched once
 // and re-attached to each snapshot. A new class rotates the session id and invalidates it.
 let mapCache = null, mapCacheId = null, mapPending = null;
+// Which change to the homesteads the cached map has (sim/homesite.mjs): a family choosing its house site moves its home and lane.
+let mapRevision = 0, homesPending = null;
 // The map is the interface: a person is chosen by clicking them, and their instructions
 // appear beside them. Nobody selected falls back to the person this household directs.
 let selectedId = null, selectionDismissed = false;
@@ -93,9 +95,25 @@ function ensureMap(snapshot) {
   api('/api/map').then(result => {
     mapPending = null;
     if (!result?.map) return;
-    mapCache = result.map; mapCacheId = result.mapId; reliefCaches.clear();
+    mapCache = result.map; mapCacheId = result.mapId; mapRevision = result.map.revision || 0; reliefCaches.clear();
     if (window.__snapshot) render(window.__snapshot);
   }).catch(() => { mapPending = null; });
+}
+/** A family has set its house somewhere new: fetch just the homesteads, their lanes and fields, not the whole map. */
+function ensureHomes(snapshot) {
+  const wanted = snapshot.mapRevision || 0;
+  if (!mapCache || mapCacheId !== snapshot.mapId || wanted <= mapRevision || homesPending === wanted) return;
+  homesPending = wanted;
+  api('/api/map/homes').then(result => {
+    homesPending = null;
+    if (!result || result.mapId !== mapCacheId || result.revision <= mapRevision) return;
+    Object.assign(mapCache.sites, result.sites);
+    Object.assign(mapCache.routes, result.routes);
+    const fields = new Map(result.fields.map(field => [field.id, field]));
+    mapCache.terrain = mapCache.terrain.map(feature => fields.get(feature.id) || feature);
+    mapCache.revision = mapRevision = result.revision;
+    if (window.__snapshot) render(window.__snapshot);
+  }).catch(() => { homesPending = null; });
 }
 function resetConfirm(button) {
   if (!button?.dataset.confirming) return;
@@ -722,7 +740,11 @@ function installMapNavigation() {
   for (const type of ['pointerup', 'pointercancel', 'pointerleave']) {
     canvas.addEventListener(type, event => {
       // A tap that did not drag is a choice of person, not a pan.
-      if (type === 'pointerup' && pressedAt && travelled < 7 && active.size === 1) {
+      if (type === 'pointerup' && pressedAt && travelled < 7 && active.size === 1 && siteLooking()) {
+        // Looking over the family's own land for a house site: a tap is a place, not a person.
+        const view = currentView(), at = localPoint(event);
+        if (view) lookAtSite({ x: view.cx + (at.x - canvas.width / 2) / view.scale, y: view.cy + (at.y - canvas.height / 2) / view.scale });
+      } else if (type === 'pointerup' && pressedAt && travelled < 7 && active.size === 1) {
         const hit = entityAt(localPoint(event));
         selectedId = hit;
         selectionDismissed = !hit;
@@ -1058,6 +1080,19 @@ function drawTerrain(ctx, world, camera) {
  * neighbour's grant is theirs to know. Marked with a dashed line of survey-chain brown, because no
  * fence or marker stands on it yet.
  */
+/** The place the family is looking over for its house, as a stake on its own land. */
+function drawSitePick(ctx, world, camera) {
+  if (!world.land?.choosingSite || !sitePick) { window.__sitePick = null; return; }
+  const at = camera.toScreen(sitePick.point), size = Math.max(8, Math.min(22, camera.figure * .45));
+  ctx.save();
+  ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(255,248,226,.9)';
+  ctx.beginPath(); ctx.moveTo(at.x, at.y); ctx.lineTo(at.x, at.y - size * 1.6); ctx.stroke();
+  ctx.lineWidth = 2; ctx.strokeStyle = '#4b3e28'; ctx.stroke();
+  ctx.fillStyle = sitePick.facts?.can ? '#b5452f' : '#8a8171';
+  ctx.beginPath(); ctx.moveTo(at.x, at.y - size * 1.6); ctx.lineTo(at.x + size, at.y - size * 1.3); ctx.lineTo(at.x, at.y - size); ctx.closePath(); ctx.fill();
+  ctx.restore();
+  window.__sitePick = { x: at.x, y: at.y, can: Boolean(sitePick.facts?.can) };
+}
 function drawHolding(ctx, world, camera) {
   const holding = world.land?.grant;
   if (!holding) { window.__holdingRect = null; return; }
@@ -1225,6 +1260,8 @@ export function drawWorld(world) {
   // Presentation evidence, same contract as __viewEntities: who was drawn because they
   // were seen, kept as a separate list so a proof can tell the two apart.
   window.__viewObserved = observed.map(entity => entity.id);
+  // The stake goes in over everything else on the ground, so the place being looked at is never hidden under a road or a cow.
+  drawSitePick(ctx, world, camera);
   const travellers = entities.filter(entity => entity.travel);
   const here = entities.filter(entity => entity.location.siteId).map(entity => `${entity.name} (${entity.task || entity.kind})`);
   const journey = travellers.map(entity => `${entity.name} is on the road to ${placeName(world, entity.travel.to)}, about ${Math.round((entity.travel.progress || 0) / (entity.travel.distance || 1) * 100)}% of the way.`).join(' ');
@@ -1272,6 +1309,10 @@ function renderHousehold(world) {
   if (field) supplies.push(field.state === 'ripe' ? `${field.crop} ready` : field.state === 'planted' ? `${field.crop} growing` : 'field bare');
   if (hoe?.state === 'worn') supplies.push('hoe worn out');
   if (household.load && household.tools?.hoe === undefined) supplies.push('no hoe');
+  // Water, where it is carried from far off (sim/homesite.mjs): said while it slows the family, and gone once there is a well.
+  const site = world.land?.site;
+  if (site?.needsWell && !site.well) supplies.push(site.water ? `water carried ${site.waterMiles} mi` : 'no running water near');
+  if (site?.well) supplies.push('well');
   $('#supplies').textContent = supplies.join(' · ');
   $('#supplies').dataset.urgent = String(field?.state === 'ripe' || hoe?.state === 'worn');
   const people = entitiesOf(world).filter(entity => entity.kind === 'person' && (household.members || []).includes(entity.id))
@@ -2120,6 +2161,44 @@ $('#house-options')?.addEventListener('click', async event => {
     if (window.__snapshot) render(window.__snapshot);
   }
 });
+// Where the house stands (sim/homesite.mjs). The family taps its own land, the server says what the place is like and
+// lays the lane it would have, and the family sets the house there or looks somewhere else. The server decides.
+let sitePick = null, siteLookPending = false, siteSetPending = false;
+const siteLooking = () => Boolean(window.__snapshot?.world?.land?.choosingSite?.can);
+async function lookAtSite(point) {
+  if (siteLookPending) return;
+  siteLookPending = true; sitePick = { point, facts: null }; $('#site-note').textContent = '';
+  if (window.__snapshot) render(window.__snapshot);
+  try {
+    const result = await api(`/api/site?x=${point.x.toFixed(3)}&y=${point.y.toFixed(3)}`);
+    if (sitePick?.point === point) sitePick.facts = result.facts;
+  } catch (error) { $('#site-note').textContent = error.message; }
+  finally { siteLookPending = false; if (window.__snapshot) render(window.__snapshot); }
+}
+function renderSite(world) {
+  const panel = $('#site-choose');
+  if (!panel) return;
+  const choosing = world.land?.choosingSite;
+  panel.hidden = !choosing || world.role === 'host';
+  if (panel.hidden) { sitePick = null; return; }
+  $('#house-open').hidden = true;
+  const facts = sitePick?.facts;
+  $('#site-text').textContent = !choosing.can ? choosing.why
+    : !sitePick ? 'Tap a place on your land, inside the dashed line, to look it over.'
+    : !facts ? 'Looking the place over…'
+    : facts.can ? facts.words : facts.why;
+  $('#site-build').hidden = !facts?.can;
+  $('#site-build').disabled = siteSetPending;
+}
+$('#site-build')?.addEventListener('click', async () => {
+  if (!sitePick?.facts?.can || siteSetPending) return;
+  siteSetPending = true; $('#site-note').textContent = '';
+  try {
+    await api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, action: 'choose-site', x: +sitePick.point.x.toFixed(3), y: +sitePick.point.y.toFixed(3) });
+    sitePick = null;
+  } catch (error) { $('#site-note').textContent = error.message; }
+  finally { siteSetPending = false; if (window.__snapshot) render(window.__snapshot); }
+});
 $('#house-open')?.addEventListener('click', () => { housePlanOpen = true; houseShown = ''; if (window.__snapshot) render(window.__snapshot); $('#house-close')?.focus(); });
 $('#house-close')?.addEventListener('click', () => { housePlanOpen = false; if (window.__snapshot) render(window.__snapshot); $('#house-open')?.focus(); });
 function renderTutorial(world) {
@@ -2128,7 +2207,9 @@ function renderTutorial(world) {
   // the same corner of the screen.
   // The die comes first: the walk-through sets people to work, and a family that has been
   // set to work can no longer be rolled.
-  const busy = world.role === 'host' || !world.householdId || world.encounter?.status === 'open' || familyCache?.canRoll || ['rolling', 'rolled'].includes(rollState) || wagonOpen || housePlanOpen;
+  const busy = world.role === 'host' || !world.householdId || world.encounter?.status === 'open' || familyCache?.canRoll || ['rolling', 'rolled'].includes(rollState) || wagonOpen || housePlanOpen
+    // The house site comes before the walk-through's work: it waits until the family has said where the house stands.
+    || Boolean(world.land?.choosingSite);
   if (busy || tutorialStep === 'gone' || (tutorialStep === null && tutorialSeen(world))) { panel.hidden = true; return; }
   panel.hidden = false;
   if (tutorialStep === null) {
@@ -2363,7 +2444,7 @@ function renderJoinLinks(snapshot) {
 function render(snapshot) {
   if (motionProjection.session !== snapshot.sessionId) { animationTime = 0; visibleBattlePhase = null; battleAnimationStart = 0; }
   motionProjection.accept(snapshot, performance.now());
-  ensureMap(snapshot); ensureChores(snapshot); ensureFamily(snapshot);
+  ensureMap(snapshot); ensureHomes(snapshot); ensureChores(snapshot); ensureFamily(snapshot);
   snapshot.world.map = mapCacheId === snapshot.mapId ? mapCache : (snapshot.world.map || EMPTY_MAP);
   $('#save-fault').hidden = !snapshot.fault;
   $('#save-fault').textContent = snapshot.fault?.message || '';
@@ -2415,7 +2496,7 @@ function render(snapshot) {
   }
   renderJoinLinks(snapshot);
   renderSlice(world);
-  drawWorld(world); renderHousehold(world); renderKnowledge(world); renderEncounter(world); renderFamilyRoll(world); renderWagonLoad(world); renderHousePlan(world); renderTutorial(world);
+  drawWorld(world); renderHousehold(world); renderKnowledge(world); renderEncounter(world); renderFamilyRoll(world); renderWagonLoad(world); renderHousePlan(world); renderSite(world); renderTutorial(world);
 }
 function showJoin(message) {
   events?.close(); events = null;

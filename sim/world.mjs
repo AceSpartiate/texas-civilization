@@ -10,12 +10,14 @@ import { advanceTown, createTownspeople, observedBy } from './town.mjs';
 import { GOODS, advanceOffers, makeOffer, offersFor, respondToOffer } from './trade.mjs';
 import { buildGonzalesRegion, findPath, polylineLength } from './geography.mjs';
 import { advanceEncounters, askRider, carriedInPerson, encounterProjection, leaveRider, riderName, spotName } from './encounters.mjs';
-import { DEFAULT_MODE, MODES, modeOf, propertyId, RIDER_SPEED } from './travel.mjs';
+import { DEFAULT_MODE, MODES, modeOf, moveOnGround, propertyId, RIDER_SPEED } from './travel.mjs';
+import { paceOf } from './ground.mjs';
 import { CLEARING_MAX, STATES as IMPROVEMENT_STATES, clearedOf, improvementProjection } from './improvements.mjs';
 import { advanceArrivals, putOnTheRoad, shelterProjection } from './settling.mjs';
 import { defaultLoad, householdFromLoad, loadInvalid, setLoad, wagonProjection } from './wagon.mjs';
 import { houseInvalid, houseProjection, noteLandSeen, planHouse, recordHelpDone } from './houses.mjs';
 import { grantInvalid, grantProjection, layOutGrants, setStock } from './grants.mjs';
+import { chooseSite, siteInvalid, siteProjection } from './homesite.mjs';
 import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, ageBand, defaultNames, familyProjection, familyRoll, householdName, kinFor, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
 export { HOUSEHOLD_SHAPE, ROLES, householdName, sanitiseName } from './family.mjs';
 export { CLEARING_MAX, clearedOf, improvementsOf, ruin } from './improvements.mjs';
@@ -255,7 +257,8 @@ function harness(world, entity, mode, path, causeId) {
   for (const role of mode.needs) {
     const beast = world.entities[propertyId(entity.householdId, role)];
     beast.borrowedBy = entity.id;
-    beast.travel = { from: entity.travel.from, to: entity.travel.to, points: path.points, progress: 0, distance: path.distance, speed: mode.speed, mode: mode.id, purpose: 'harness', causeId, silent: true };
+    const pace = paceOf(path.points, path.ground, mode.id);
+    beast.travel = { from: entity.travel.from, to: entity.travel.to, points: path.points, progress: 0, distance: path.distance, speed: mode.speed, mode: mode.id, purpose: 'harness', causeId, silent: true, ...(pace.length && { pace }) };
     beast.location = { ...path.points[0], siteId: null };
   }
 }
@@ -290,7 +293,9 @@ export function beginTravel(world, entity, destination, causeId, purpose = 'visi
   const gap = Math.hypot(here.x - start.x, here.y - start.y);
   const points = gap > STANDING_APART_MILES ? [{ x: here.x, y: here.y }, ...path.points] : path.points;
   const distance = gap > STANDING_APART_MILES ? path.distance + gap : path.distance;
-  entity.travel = { from, to: destination, points, progress: 0, distance, speed: entity.report ? RIDER_SPEED : mode.speed, mode: mode.id, purpose, causeId: departure };
+  // The going over the lanes and tracks of the real land (sim/ground.mjs); the step in from where somebody stood is open ground.
+  const pace = paceOf(points, path.ground && (gap > STANDING_APART_MILES ? [null, ...path.ground] : path.ground), mode.id);
+  entity.travel = { from, to: destination, points, progress: 0, distance, speed: entity.report ? RIDER_SPEED : mode.speed, mode: mode.id, purpose, causeId: departure, ...(pace.length && { pace }) };
   entity.location = { ...points[0], siteId: null }; entity.task = 'travel';
   if (!entity.report) harness(world, entity, mode, path, departure);
 }
@@ -301,7 +306,9 @@ export function progressTravel(world, entity, units = 1) {
   // instead would put an entity nowhere, which `validateWorld` rightly refuses.
   if (travel.halted) return;
   const wasAt = travel.progress;
-  travel.progress = Math.min(travel.distance, travel.progress + travel.speed * units);
+  // Slower over hard ground where the journey has any (sim/ground.mjs); what is left past the end goes on with a relayed word.
+  const moved = moveOnGround(travel.points, travel.pace, travel.distance, travel.progress, travel.speed * units);
+  travel.progress = moved.progress;
   // Ground covered on somebody's own feet is what tires them out, and it is the only
   // thing that does. A courier is on a horse and is nobody's family; a chore's `walk`
   // step moves a person about their own yard and never comes through here. So this
@@ -325,7 +332,7 @@ export function progressTravel(world, entity, units = 1) {
   if (travel.progress === travel.distance) {
     // Ground this tick would have covered past the end of the road. It matters to nobody
     // except a report that is about to change hands, and it goes with the word.
-    if (entity.report) entity.report.overflow = Math.max(0, wasAt + travel.speed * units - travel.distance);
+    if (entity.report) entity.report.overflow = moved.left;
     // A journey that knows where in the place its traveller stands and what they do there -
     // today only the family's arrival on its land (sim/settling.mjs) - ends there. Every other
     // journey ends on the place's own point, at rest.
@@ -504,6 +511,8 @@ export function applyAction(world, householdId, input) {
   if (input.action === 'bring-stock') { setStock(world, household, input.stock); return; }
   // So is choosing the house, which can be changed until the first spell of work goes into it.
   if (input.action === 'plan-house') { planHouse(world, household, input.layout); return; }
+  // And where it stands, on the real land, once the wagon is in (sim/homesite.mjs). It refuses in the lobby itself.
+  if (input.action === 'choose-site') { chooseSite(world, household, { x: input.x, y: input.y }); return; }
   // How they go, chosen once and applied to whatever journey this order starts - a trip
   // to town, or the road out to the timber a chore begins with. A command from a class
   // that predates the choice carries no mode and gets the one everybody had then.
@@ -625,7 +634,7 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
   // it is decided here and never guessed at by the client.
   // What the family has made of this land, and what state it is in. The renderer draws
   // the field at the size this says and the fence only when there is one to draw.
-  const land = household ? { ...improvementProjection(household), ...shelterProjection(household), ...houseProjection(world, household), ...grantProjection(world, household) } : null;
+  const land = household ? { ...improvementProjection(household), ...shelterProjection(household), ...houseProjection(world, household), ...grantProjection(world, household), ...siteProjection(world, household) } : null;
   // What is in the wagon, and whether it can still be repacked. The catalogue comes once, from /api/chores.
   const wagon = household ? wagonProjection(world, household) : null;
 
@@ -685,6 +694,8 @@ export function validateWorld(world) {
     // Somebody helping raise a neighbour's walls is helping a family that exists (sim/houses.mjs).
     if (entity.chore?.hostHouseholdId !== undefined && (!world.households[entity.chore.hostHouseholdId] || entity.chore.hostHouseholdId === entity.householdId)) throw new Error('Helping a family that is not there');
     if (entity.travel && (!Array.isArray(entity.travel.points) || entity.travel.points.length < 2 || !Number.isFinite(entity.travel.progress) || !Number.isFinite(entity.travel.speed) || entity.travel.speed <= 0 || entity.travel.progress < 0 || entity.travel.progress > entity.travel.distance)) throw new Error('Invalid travel');
+    // Absent on every journey over open road and every class saved before the going (sim/ground.mjs), which travels as it did.
+    if (entity.travel?.pace !== undefined && (!Array.isArray(entity.travel.pace) || entity.travel.pace.some(run => !Array.isArray(run) || !Number.isInteger(run[0]) || run[0] < 0 || run[0] >= entity.travel.points.length - 1 || !Number.isFinite(run[1]) || run[1] <= 0))) throw new Error('Invalid going');
   }
   for (const household of Object.values(world.households)) {
     if (!world.entities[household.principalId] || [...household.members, ...household.property].some(id => !world.entities[id])) throw new Error('Dangling household reference');
@@ -703,7 +714,7 @@ export function validateWorld(world) {
     for (const wear of Object.values(household.tools)) if (!Number.isInteger(wear) || wear < 0) throw new Error('Invalid tool condition');
     // Absent on a class saved before the wagon was packed by choice (sim/wagon.mjs), which is the
     // correct empty value: it has what it was founded with. So no save version moved.
-    const badLoad = loadInvalid(household) || houseInvalid(world, household) || grantInvalid(world, household);
+    const badLoad = loadInvalid(household) || houseInvalid(world, household) || grantInvalid(world, household) || siteInvalid(world, household);
     if (badLoad) throw new Error(badLoad);
     // Absent on a class nobody has named, which is the correct empty value and why no save
     // version moved. Present, it is a name somebody typed and has to stay one.

@@ -15,6 +15,7 @@
 import { LEAGUE_MILES, findPath, polylineLength } from './geography.mjs';
 import { coloniesMap, BARRIER_RIVERS, dealCounts } from './colonies-map.mjs';
 import { realTerrain } from './terrain-data.mjs';
+import { groundAlong, layLane } from './ground.mjs';
 import { sampleReliefGrid } from './terrain.mjs';
 import { buildProvince } from './texas.mjs';
 
@@ -187,13 +188,20 @@ export function buildColoniesRegion(random, playerCount) {
       sites[joinId] = { id: joinId, name: 'The road', kind: 'junction', x: best.point.x, y: best.point.y };
       splitAt(best.routeId, best.vertex, joinId);
     }
-    routes[`route-${joinId}-${home.id}`] = { id: `route-${joinId}-${home.id}`, from: joinId, to: home.id, kind: 'track', points: [{ x: sites[joinId].x, y: sites[joinId].y }, { x: home.x, y: home.y }] };
+    // The lane in from the road over the easiest ground for a wagon (sim/ground.mjs); straight only if the land offers no way round.
+    const join = { x: sites[joinId].x, y: sites[joinId].y };
+    const lane = layLane(join, home) || [join, { x: home.x, y: home.y }];
+    routes[`route-${joinId}-${home.id}`] = { id: `route-${joinId}-${home.id}`, from: joinId, to: home.id, kind: 'track', points: lane };
     terrain.push({ id: `field-${index + 1}`, kind: 'field', ownerHouseholdId: `hh-${index + 1}`, points: [
       { x: round(home.x + 0.16), y: round(home.y + 0.14) }, { x: round(home.x + 0.69), y: round(home.y + 0.14) },
       { x: round(home.x + 0.69), y: round(home.y + 0.67) }, { x: round(home.x + 0.16), y: round(home.y + 0.67) },
     ] });
     homesteads.push(home);
   });
+
+  // The going off the roads: what lies along every lane, timber track and the bank upriver (sim/ground.mjs). The roads are the easy going.
+  // ceiling: a road carries no going, so its climbs and creeks cost nothing; the roads were routed round the worst of both.
+  for (const route of Object.values(routes)) if (['track', 'bank'].includes(route.kind)) route.ground = groundAlong(route.points);
 
   // The watercourses round every settlement with families, and round Gonzales where the story is: the rivers block sight
   // and earshot (`blockedByWater`), the creeks and timber are what the country looks like. A course leaving and re-entering

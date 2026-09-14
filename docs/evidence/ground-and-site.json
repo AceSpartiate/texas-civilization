@@ -1,0 +1,59 @@
+{
+  "record": "The going on the real land, the house site, lanes and wells: docs/COLONIES.md §6 item 3, docs/LAND_GRANTS.md §8.3 steps 3–4",
+  "date": "2026-09-14",
+  "verdict": "PASS",
+  "verdictMeaning": "On the real land, every lane and track carries its going and journeys over it take longer by slope, cover and crossings, differently by mode; lanes never cross a big river; families choose their house site on arrival from facts the server gives, anywhere on their holding, with refusals in sentences; choosing relays the lane, moves the home and field and brings the wagon over; a house set back is reached later; water carried from far off slows heavy work until a well is dug; neighbours choose too; the invented map and old saves are unchanged.",
+  "designChange": "The wagon stops at the surveyor's mark rather than where the track meets the holding's edge, because the edge depends on the stock chosen in the lobby after the tracks are made (docs/LAND_GRANTS.md §8.4).",
+  "measured": {
+    "waterAtMarks": "120 families in four classes of thirty: 33 within a quarter mile of running water, 70 within half a mile, median 0.4 miles, 12 with none within three miles, 33 on river bottom. Liberty families median 0.96 miles; Columbia 0.31.",
+    "worldCreation": "about 0.7 s for five or fifteen families, 1.5 s for thirty; saved map 281–364 KB with lanes and their going",
+    "neighbours": "fifteen families nobody plays: 15 sites chosen, 15 houses built, 2 wells dug where 2 were needed within 360 ticks; slowest tick 142 ms (the ticks sites were chosen on)",
+    "laneSearch": "about 50–300 ms for a lane of three to ten miles, including indexing the water near it the first time"
+  },
+  "browserProof": {
+    "note": "Same computer only. MAP=colonies PORT=8757 SEED=site-proof PLAYERS=5, TICK_MS=1000, isolated TEXAS_DATA_DIR; one student joined in the in-app browser, the host started over HTTP. Not a LAN or district acceptance.",
+    "observed": [
+      "After arrival the panel 'Where the house stands' said: 'Tap a place on your land, inside the dashed line, to look it over.' The walk-through waited.",
+      "A tap on the line: 'That is on the line of your land. Set the house back from it.' A tap outside: 'That is not your land.'",
+      "Four taps inside the labor gave different places: 'in the timber, 14 feet above Deadman Creek. Water that runs all year is close by at Deadman Creek. The lane to the road will be 3.4 miles.' and 'on open ground, 7 feet above a branch. Water that runs all year is 0.4 miles off at a branch: too far to carry, until there is a well. The timber is 0.2 miles off. The lane to the road will be 4.7 miles.'",
+      "Set the house here on the second: the story read the choice and then 'The wagon is drawn up where the house will stand, and the family makes camp beside it.'; the site stake and lane were redrawn; the family stood at the new site; the supplies line read 'Seed 2 · Powder 3 · 0 reales · field bare · water carried 0.4 mi'.",
+      "The browser fetched /api/map once (281 KB) and /api/map/homes (3 KB) for the change; mapRevision was 5 because the four automatic families had chosen too.",
+      "At tick 250 the save showed hh-2 to hh-5 with sites (lanes 0.39 to 5.78 miles), hh-4 and hh-5 with wells, all four round-log houses sound. No server errors."
+    ],
+    "foundAndFixed": [
+      "The stake was drawn under roads and figures; it is drawn last.",
+      "The walk-through opened over the site panel; it waits until the site is chosen."
+    ]
+  },
+  "automated": {
+    "suites": [
+      "tests/ground.test.mjs (5)",
+      "tests/homesite.test.mjs (8)"
+    ],
+    "wholeSuite": "352 tests, 350 pass; the 2 failing are tests/art-library.test.mjs inventory checks broken by art files delivered during this work and not yet registered",
+    "injectedRegressions": [
+      "a climb costs nothing -> pace test",
+      "the wagon feels a hill no more than a walker -> pace test",
+      "a creek costs nothing -> pace test",
+      "a lane may cross a big river -> NOT CAUGHT at first (no dealt lane faces one); caught after adding a lane across the Guadalupe to the lanes test",
+      "a house outside its land / on steep ground / in the water -> refusal test",
+      "the lanes carry no going -> lanes and walk tests",
+      "lanes are straight lines -> lanes test",
+      "the going does not turn round -> walk test",
+      "a journey ignores its going -> NOT CAUGHT at first (the walker was a horseman on a short lane); caught after walking the hardest lane on foot",
+      "open road by segment arithmetic -> exact-arithmetic test",
+      "the invented country chooses sites -> invented-country test",
+      "building before a site is chosen -> waiting test",
+      "the lane is not relaid -> choosing and set-back tests",
+      "the field stays at the mark -> choosing test",
+      "the labor moves with the house -> choosing test",
+      "browsers are not told -> choosing and HTTP tests",
+      "somebody homeward appears at the new site -> homeward test",
+      "carrying water costs nothing / the well never dug / a well offered to all -> water test",
+      "neighbours never choose -> neighbours test",
+      "drawing the wagon over is a second arrival -> choosing test",
+      "the homes patch leaves out lanes -> HTTP test"
+    ]
+  },
+  "notBuilt": "Roads carry no going; no flood happens; a lane is laid for the family rather than cut by it; fields, clearing and survey anywhere on the holding (docs/LAND_GRANTS.md §4–5)."
+}

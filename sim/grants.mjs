@@ -103,12 +103,14 @@ export function grantOf(world, household) {
  * What this family holds: its kind, acres and bounds.
  *
  * With stock, the whole grant, whose acres are a league and a labor unless the class was so crowded
- * it was squeezed (and then it says its true acres). Without, a labor round the house, inside the grant.
+ * it was squeezed (and then it says its true acres). Without, a labor round the house, inside the grant - round the
+ * surveyor's mark the house first stood at, where a family on the real land has chosen a site of its own.
  */
 export function holdingOf(world, household) {
   const grant = grantOf(world, household);
   if (household.stock) return { kind: 'league-and-labor', acres: grantAcres(grant), bounds: grant };
-  const home = world.map.sites[household.homeSiteId];
+  // Round the surveyor's mark once the family has set its house elsewhere on it (sim/homesite.mjs), so the labor stays put.
+  const home = household.mark || world.map.sites[household.homeSiteId];
   const half = LABOR_SIDE / 2;
   const clamp = (value, min, max) => Math.min(Math.max(value, min + half), max - half);
   const x = clamp(home.x, grant.minX, grant.maxX), y = clamp(home.y, grant.minY, grant.maxY);

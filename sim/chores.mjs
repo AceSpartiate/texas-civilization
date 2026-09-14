@@ -26,6 +26,7 @@ import {
   CLEARING_MAX, SEED_PER_CLEARING, UNFENCED_LOSS, clearGround, clearedOf, harvestShare,
   improvementsOf, isFenced, needsWagonToHarvest, raiseFence, standingCrop,
 } from './improvements.mjs';
+import { choosing, digWell, waterBurden, wellRefusal, wellTicks } from './homesite.mjs';
 import { SPELL_TICKS, buildRefusal, buildSpell, helpRefusal, hostOf, houseBuilt, houseSettled, raising, recordHelpBegun, recordHelpDone, stageOf } from './houses.mjs';
 export { MODES } from './travel.mjs';
 
@@ -254,6 +255,17 @@ const paceFor = (ticks, skill, strength = 1) => Math.max(1, Math.round(ticks * (
 const yieldFor = (amount, skill) => round(amount * (skill === 3 ? 1.4 : skill === 2 ? 1.15 : 1));
 
 export const CHORES = {
+  // A well, for a house set too far from running water to carry it (sim/homesite.mjs, docs/LAND_GRANTS.md §8.2). Offered only
+  // where one is wanted. Its length is the family's own: deeper the higher the house stands above the water.
+  'dig-well': {
+    name: 'Dig a well', skill: 'hands', where: 'home', heavy: true, onSite: true, well: true,
+    describe: 'Dig down by the house until there is water. Long, hard work, and deeper the higher the house stands; after it, nobody carries water from the creek.',
+    steps: [
+      { walk: 'yard', doing: 'marking out the well by the house' },
+      { work: 'well', doing: 'digging the well' },
+      { dig: 'well' },
+    ],
+  },
   'plant-field': {
     name: 'Plant the field', skill: 'farming', tool: 'hoe', where: 'home', heavy: true,
     // Two seed for the first patch and two more for every time the ground has been
@@ -527,6 +539,9 @@ export function choreAvailability(world, household, entity, choreId) {
   if (entity.task === 'help') return { can: false, why: `${entity.name} is away helping.` };
   if (chore.where === 'home' && entity.location.siteId !== household.homeSiteId) return { can: false, why: `${entity.name} is not at home.` };
   if (chore.helps) { const why = helpRefusal(world, entity); if (why) return { can: false, why }; }
+  // On the real land the house, the field and the well wait for the family to say where the house stands (sim/homesite.mjs).
+  if ((chore.onSite || chore.house || chore.field || choreId === 'build-fence' || choreId === 'clear-ground') && choosing(household)) return { can: false, why: 'Choose where the house will stand first.' };
+  if (chore.well) { const why = wellRefusal(household); if (why) return { can: false, why }; }
   if (chore.field && (household.field?.state ?? 'bare') !== chore.field) {
     return { can: false, why: chore.field === 'ripe' ? 'The field is not ready.' : 'The field is already planted.' };
   }
@@ -631,7 +646,9 @@ export function choresFor(world, household, entity) {
   const settled = houseSettled(household);
   // And helping raise walls is only a thing to do standing on a neighbour's land.
   const visiting = Boolean(hostOf(world, entity));
-  return Object.entries(CHORES).filter(([, chore]) => !(chore.house && settled) && !(chore.helps && !visiting)).map(([id, chore]) => {
+  // Nor a well to dig where nobody needs one.
+  const wantsWell = Boolean(household.site?.needsWell && !household.well);
+  return Object.entries(CHORES).filter(([, chore]) => !(chore.house && settled) && !(chore.helps && !visiting) && !(chore.well && !wantsWell)).map(([id, chore]) => {
     const { can, why } = choreAvailability(world, household, entity, id);
     // `haul` is what this person's own hands would bring back from this trip, before any
     // cap. The cap itself is the mode's `carry`, which the projection sends alongside; the
@@ -862,7 +879,13 @@ function advanceChore(world, household, entity, { beginTravel }) {
     // Said in the words of whatever part of the house the family has got to.
     if (step.houseWork) state.doing = chore.helps ? `helping raise the walls` : stageOf(household);
     // Heavy work goes at the pace of the person's hidden strength as well as their skill.
-    if (step.work) { state.wait = paceFor(step.work, skill, chore.heavy ? heavyWorkPace(entity) : 1); return; }
+    // Heavy work at home goes slower still while the family carries its water from far off (sim/homesite.mjs).
+    if (step.work) {
+      const ticks = step.work === 'well' ? wellTicks(household) : step.work;
+      const burden = chore.heavy && chore.where === 'home' ? waterBurden(household) : 1;
+      state.wait = paceFor(ticks, skill, (chore.heavy ? heavyWorkPace(entity) : 1) * burden);
+      return;
+    }
     if (step.consume) {
       for (const [resource, amount] of Object.entries(step.consume)) {
         household.resources[resource] = round(Math.max(0, (household.resources[resource] ?? 0) - amount));
@@ -955,6 +978,7 @@ function advanceChore(world, household, entity, { beginTravel }) {
       return;
     }
     if (step.raise === 'fence') { raiseFence(world, household, entity); continue; }
+    if (step.dig === 'well') { digWell(world, household, entity); continue; }
     if (step.produceCrop) {
       // What is standing, less what the stock have had out of it. Both numbers are on the
       // controls that spend the afternoon, so a family that harvests an unfenced field

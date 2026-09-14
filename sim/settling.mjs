@@ -20,6 +20,7 @@ import { record } from './events.mjs';
 import { findPath } from './geography.mjs';
 import { improvementsOf, setImprovement } from './improvements.mjs';
 import { WAGON_SPEED } from './travel.mjs';
+import { onRealLand, paceOf } from './ground.mjs';
 import { loadSentence } from './wagon.mjs';
 
 /**
@@ -62,11 +63,12 @@ export function putOnTheRoad(world, household) {
   const fork = forkOf(world, household);
   const path = fork && findPath(world.map, fork, household.homeSiteId);
   if (!path) throw new Error(`No track in to ${household.homeSiteId}`);
+  const pace = paceOf(path.points, path.ground, 'wagon');
   for (const id of [...household.members, ...household.property]) {
     const entity = world.entities[id];
     if (entity.travel?.purpose === 'arrive') continue;
     const settle = { x: entity.location.x, y: entity.location.y, ...(entity.kind === 'person' && { task: entity.task }) };
-    entity.travel = { from: fork, to: household.homeSiteId, points: path.points.map(point => ({ ...point })), progress: 0, distance: path.distance, speed: WAGON_SPEED, mode: 'wagon', purpose: 'arrive', silent: true, settle };
+    entity.travel = { from: fork, to: household.homeSiteId, points: path.points.map(point => ({ ...point })), progress: 0, distance: path.distance, speed: WAGON_SPEED, mode: 'wagon', purpose: 'arrive', silent: true, settle, ...(pace.length && { pace: pace.map(run => [...run]) }) };
     entity.location = { ...path.points[0], siteId: null };
     if (entity.kind === 'person') entity.task = 'travel';
   }
@@ -83,6 +85,8 @@ export function beginArrivals(world) {
   for (const household of Object.values(world.households)) {
     setImprovement(world, household, 'cabin', 'none');
     putOnTheRoad(world, household);
+    // On the real land the wagon comes in to the surveyor's mark and the family chooses where the house goes (sim/homesite.mjs).
+    if (onRealLand(world)) household.choosingSite = true;
     // The wagon comes in with what the family packed (sim/wagon.mjs), and is unloaded at the land.
     const wagon = world.entities[`${household.id}-wagon`];
     if (wagon && household.load?.length) wagon.laden = true;
@@ -110,6 +114,12 @@ export function advanceArrivals(world) {
   for (const household of Object.values(world.households)) {
     if (!household.arriving || stillArriving(world, household)) continue;
     delete household.arriving;
+    // The wagon drawn over to the site the family chose: said once, and not as a second arrival on the land.
+    if (household.site && world.events.some(event => event.type === 'site-chosen' && event.householdId === household.id)
+      && !world.events.some(event => event.type === 'arrival' && event.householdId === household.id && event.purpose === 'site')) {
+      record(world, 'arrival', { householdId: household.id, importance: 2, destination: household.homeSiteId, purpose: 'site', claimId: 'FIC-GONZ-026', text: housed(household) ? 'The wagon is drawn up at the house.' : 'The wagon is drawn up where the house will stand, and the family makes camp beside it.' });
+      continue;
+    }
     record(world, 'arrival', {
       householdId: household.id, importance: 2, destination: household.homeSiteId, purpose: 'arrive', claimId: 'FIC-GONZ-024',
       // What the wagon brought is said once, here, and not every time it was repacked in the lobby.
@@ -118,6 +128,7 @@ export function advanceArrivals(world) {
         ...(household.load ? [loadSentence(household.load)] : []),
         ...(household.stock ? ['The cattle and hogs come in behind the wagon.'] : []),
         holdingWords(holdingOf(world, household)),
+        ...(household.choosingSite ? ["The wagon stands at the surveyor's mark. Choose where the house will stand."] : []),
       ].join(' '),
     });
   }

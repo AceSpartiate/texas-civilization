@@ -13,6 +13,7 @@
 //
 // Every threshold and valuation below is invented (`FIC-GONZ-028`).
 import { tooYoung } from './family.mjs';
+import { siteFacts } from './ground.mjs';
 
 /** Decisions are spread over ticks: each family thinks every third tick, not all of them on the same one. */
 export const THINK_EVERY = 3;
@@ -21,7 +22,7 @@ export const TRADE_VALUE = Object.freeze({ food: 1, cotton: 1, seed: 2, powder: 
 /** Food per person the family keeps back before it will trade food away or stop hunting. */
 export const FOOD_KEPT_PER_PERSON = 3;
 /** Work one person does alone; a family never puts two of its people on the same one at once. */
-export const ONE_AT_A_TIME = Object.freeze(['hunt-timber', 'fetch-seed', 'fetch-powder', 'sell-cotton', 'sell-food', 'mend-hoe', 'replace-hoe', 'build-fence']);
+export const ONE_AT_A_TIME = Object.freeze(['hunt-timber', 'fetch-seed', 'fetch-powder', 'sell-cotton', 'sell-food', 'mend-hoe', 'replace-hoe', 'build-fence', 'dig-well']);
 /** The house it chooses, best first, where its tools allow. */
 const HOUSE_PREFERENCE = ['hewn-log', 'round-log', 'jacal'];
 
@@ -79,8 +80,13 @@ export function thinkFor(world, household, { project, act }) {
     if (option) attempt({ action: 'answer-chore', entityId: person.id, option: option.id });
   }
 
-  // The house: choose one the tools allow, then put hands to it.
+  // On the real land, where the house stands comes first (sim/homesite.mjs): looked over as a student would look it over.
   const land = view.land || {};
+  if (land.choosingSite?.can) {
+    const spot = pickSite(land.grant.bounds, land.choosingSite.mark);
+    for (const point of spot) if (attempt({ action: 'choose-site', x: point.x, y: point.y })) break;
+  }
+  // The house: choose one the tools allow, then put hands to it.
   if (land.choices && !land.house) {
     const choice = HOUSE_PREFERENCE.find(id => land.choices.some(c => c.id === id && c.can));
     if (choice) attempt({ action: 'plan-house', layout: choice });
@@ -104,7 +110,7 @@ export function thinkFor(world, household, { project, act }) {
       // Food first when the family is short, then the crop, the house, the tools, the fence, and the trips to town
       // a farm needs: seed when there is none to plant, cotton to the store once there is some.
       food < people.length * FOOD_KEPT_PER_PERSON && hunters === 0 && (resources.powder || 0) >= 1 && 'hunt-timber',
-      'harvest-field', 'plant-field', 'build-house', 'mend-hoe',
+      'harvest-field', 'plant-field', 'build-house', 'dig-well', 'mend-hoe',
       view.household.field?.state === 'planted' && 'build-fence',
       view.household.field?.state === 'bare' && (resources.seed || 0) < 2 && 'fetch-seed',
       (resources.cotton || 0) >= 1 && 'sell-cotton',
@@ -113,6 +119,23 @@ export function thinkFor(world, household, { project, act }) {
     if (chore && attempt({ action: 'chore', entityId: person.id, chore }) && ONE_AT_A_TIME.includes(chore)) busy.add(chore);
   }
   return tried;
+}
+
+/** How finely a family looks over its holding for a house site: this many places a side. */
+export const SITE_LOOKS = 5;
+/**
+ * Where a family nobody plays would set its house, best first: out of the river bottom, close enough to running water
+ * to carry it if it can, and then as near that water as it can be; the surveyor's mark when nothing better is found.
+ */
+export function pickSite(bounds, mark) {
+  const looked = [];
+  for (let i = 0; i < SITE_LOOKS; i++) for (let j = 0; j < SITE_LOOKS; j++) {
+    const point = { x: bounds.minX + (bounds.maxX - bounds.minX) * (i + 0.5) / SITE_LOOKS, y: bounds.minY + (bounds.maxY - bounds.minY) * (j + 0.5) / SITE_LOOKS };
+    const facts = siteFacts(point, bounds);
+    if (facts.can) looked.push({ point, facts });
+  }
+  const score = ({ facts }) => (facts.bottom ? 10 : 0) + (facts.needsWell ? 5 : 0) + (facts.waterMiles ?? 3);
+  return [...looked.sort((a, b) => score(a) - score(b)).map(entry => entry.point), mark];
 }
 
 /** Every automatic family whose turn it is. Called once a tick, after the directors. */
