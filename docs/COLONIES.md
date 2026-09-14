@@ -27,6 +27,7 @@ amends `FIC-GONZ-024` (one party arriving together) and builds on the real terra
 | Victoria (2026-09-14) | **Left to the numbers**: a start only in classes of 25 or more. |
 | How long a class is, now the story runs to December (2026-09-14) | **About 50 minutes.** *"compress so the game fits a 50 minute class. 1st 10 minutes are straight farming, then the war begins. players shouldn't feel like it's compressed time, but it'll have to be."* (§5.7) |
 | Playing alone (2026-09-14) | **Solo in a normal world**: a student who stays after a tutorial plays a normal class alone, its other families unplayed (§5.8). |
+| Unplayed families (2026-09-14) | The owner asked: *"players should be able to trade and help npc neighbors correct? so solo play should feel normal correct?"* They could not: an unplayed family takes no orders, so it never answers a trade and never raises a house to help with. Decided: **every family without a student is an automatic neighbour, in every class**; it **farms and builds its house, trades fairly, holds and helps at house-raisings, and answers the war** as families historically did; and it is **never ranked** at the end (§5.9). |
 
 ## 2. What these commit the design to
 
@@ -298,6 +299,46 @@ Polish, not a new mode:
 - `VISION.md` says "There is no normal solo mode" and gives a range of 5–30. This amends it narrowly: the class is still a
   class of five or more; one student may play it alone. Recorded in `VISION.md` when built.
 
+### 5.9 Automatic neighbours
+
+Every family nobody is playing is run by **a neighbour director** (`sim/neighbours.mjs`), in every class, so a class of
+thirty with twelve students and a student playing alone are the same game.
+
+**How it acts — the rules that keep it honest:**
+- **Through the same actions a student sends.** It calls `applyAction` for its own household and is refused exactly as a
+  student would be. It has no powers a family lacks, and it never edits the world directly.
+- **On what that family knows.** It reads only its own household and its own knowledge projection — the server-filtered
+  view a student would get — never the truth, another family's stores, or any hidden stat of its own.
+- **Never glory.** It does not read `world.glory` or anything derived from it (`VISION.md` §11, as for every director).
+- **Deterministic.** Its choices come from the seed and the world, so a class replays the same; any chance it takes is
+  one a student would see stated on the same control (`FIC-GONZ-008`).
+- **It cannot change a documented outcome**, any more than a student can.
+- **It yields to a student.** A family a student joins mid-lobby stops being automatic at once, and one whose student
+  leaves does not take over until the Host says so (a teacher may be waiting for that student to rejoin).
+
+**What it does** (every number `FIC-GONZ-028`):
+- **Farms and builds.** Picks a house its load can build (preferring what the tools allow), sets its people to build it,
+  plants, harvests, mends and hunts on a simple household routine, and keeps enough food.
+- **Trades fairly.** Answers a face-to-face offer from what it has and needs: accepts when it gives no more than it gets
+  by a stated rule of fair value, refuses otherwise, and says why in the family's own words (*"We can't spare seed before
+  planting."*). Now and then it offers a trade of its own to somebody standing with it when it is short.
+- **Helps and is helped.** Its house goes up like anybody's, so a student can help raise its walls; and when a nearby
+  played family's walls are going up, it sometimes sends somebody unasked. Both are recorded in both stories, as now.
+- **Answers the war.** Takes the calls its settlement gets (§5.4) in about the proportions families did: most stay home,
+  some carry supplies, a few send a man to the army. The proportions are `FIC-GONZ-028` until a source gives them; the
+  letters show hundreds turning out from colonies of thousands (`HIST-TEX-006`, `HIST-TEX-007`). It never sends a woman
+  to fight.
+
+**What it is not:**
+- **Never ranked.** Its money and glory are counted like anybody's, but it is left out of the winner and every ranking
+  (`docs/MONEY_AND_GLORY.md` §5 is amended when built). The ending names it only in the story of what happened.
+- **Not a rival.** It does not compete for scarce things on purpose, race students to the store, or hoard.
+- **Not a crowd.** It runs on the tick like everything else and must keep the per-tick payload and step time inside their
+  existing budgets at thirty families.
+
+**Playing alone** (§5.8) now means a world of fifteen families by default, so a lone student near Gonzales has neighbours
+of the same settlement (fifteen seats two at Gonzales) to trade with and help.
+
 ## 6. Build order
 
 Each step ends with tests that failed first, a browser proof where it touches what a student sees, docs and claims.
@@ -306,6 +347,8 @@ Each step ends with tests that failed first, a browser proof where it touches wh
    routed over terrain, crossings. Map drawing of the real rivers, relief and roads. No families yet.
 2. **Families dealt to the colonies.** Dealing, anchors, grants, lanes, arrival at each family's own land, neighbours by
    settlement. New classes use it; old saves untouched.
+2a. **Automatic neighbours: farming, building, trading and house-raisings** (§5.9), so every class after step 2 has living
+   neighbours. Their answer to the war comes with steps 4 and 5.
 3. **Movement by ground and the house site** (`docs/LAND_GRANTS.md` §8.3 steps 3–4).
 4. **News by riders over real distance**, calibrated to `HIST-TEX-006`, and the settlement-specific calls.
 5. **The gathering and the march**, through the October 11–12 departure: volunteers, joining, the army formation.
