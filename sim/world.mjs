@@ -13,6 +13,7 @@ import { CLEARING_MAX, STATES as IMPROVEMENT_STATES, clearedOf, improvementProje
 import { advanceArrivals, putOnTheRoad, shelterProjection } from './settling.mjs';
 import { defaultLoad, householdFromLoad, loadInvalid, setLoad, wagonProjection } from './wagon.mjs';
 import { houseInvalid, houseProjection, noteLandSeen, planHouse, recordHelpDone } from './houses.mjs';
+import { grantInvalid, grantProjection, layOutGrants, setStock } from './grants.mjs';
 import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, ageBand, defaultNames, familyProjection, familyRoll, householdName, kinFor, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
 export { HOUSEHOLD_SHAPE, ROLES, householdName, sanitiseName } from './family.mjs';
 export { CLEARING_MAX, clearedOf, improvementsOf, ruin } from './improvements.mjs';
@@ -76,6 +77,9 @@ export function createWorld(seed = 'gonzales', playerCount = 15) {
     }
     record(world, 'household-founded', { householdId, text: 'Your family lives here, with food, an ox, a horse, and a wagon.' });
   }
+  // The land marked out for every family, fixed from the start (sim/grants.mjs, docs/LAND_GRANTS.md).
+  const grants = layOutGrants(world.map.sites);
+  for (const household of Object.values(world.households)) household.grant = grants[household.homeSiteId];
   // The town has people in it. They belong to nobody and are commanded by nobody.
   createTownspeople(world);
   validateWorld(world); return world;
@@ -476,7 +480,7 @@ export function advanceRelays(world) {
  * offer made to an empty chair - and the historical choices, which do not exist until the
  * news that prompts them has arrived.
  */
-export const LOBBY_ACTIONS = new Set(['roll-family', 'load-wagon', 'plan-house', 'chore', 'stop-chore', 'answer-chore', 'rename', 'work', 'rest', 'travel']);
+export const LOBBY_ACTIONS = new Set(['roll-family', 'load-wagon', 'bring-stock', 'plan-house', 'chore', 'stop-chore', 'answer-chore', 'rename', 'work', 'rest', 'travel']);
 export function applyAction(world, householdId, input) {
   const entity = world.entities[input.entityId];
   const household = world.households[householdId];
@@ -484,6 +488,8 @@ export function applyAction(world, householdId, input) {
   if (input.action === 'roll-family') { rollFamily(world, household); return; }
   // Packing the wagon is the household's, like the roll, and names nobody in it.
   if (input.action === 'load-wagon') { setLoad(world, household, input.item, input.amount); return; }
+  // So is whether stock is driven in behind it, which decides how much land the family holds (sim/grants.mjs).
+  if (input.action === 'bring-stock') { setStock(world, household, input.stock); return; }
   // So is choosing the house, which can be changed until the first spell of work goes into it.
   if (input.action === 'plan-house') { planHouse(world, household, input.layout); return; }
   // How they go, chosen once and applied to whatever journey this order starts - a trip
@@ -607,7 +613,7 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
   // it is decided here and never guessed at by the client.
   // What the family has made of this land, and what state it is in. The renderer draws
   // the field at the size this says and the fence only when there is one to draw.
-  const land = household ? { ...improvementProjection(household), ...shelterProjection(household), ...houseProjection(world, household) } : null;
+  const land = household ? { ...improvementProjection(household), ...shelterProjection(household), ...houseProjection(world, household), ...grantProjection(world, household) } : null;
   // What is in the wagon, and whether it can still be repacked. The catalogue comes once, from /api/chores.
   const wagon = household ? wagonProjection(world, household) : null;
 
@@ -685,7 +691,7 @@ export function validateWorld(world) {
     for (const wear of Object.values(household.tools)) if (!Number.isInteger(wear) || wear < 0) throw new Error('Invalid tool condition');
     // Absent on a class saved before the wagon was packed by choice (sim/wagon.mjs), which is the
     // correct empty value: it has what it was founded with. So no save version moved.
-    const badLoad = loadInvalid(household) || houseInvalid(world, household);
+    const badLoad = loadInvalid(household) || houseInvalid(world, household) || grantInvalid(world, household);
     if (badLoad) throw new Error(badLoad);
     // Absent on a class nobody has named, which is the correct empty value and why no save
     // version moved. Present, it is a name somebody typed and has to stay one.

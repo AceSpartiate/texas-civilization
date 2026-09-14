@@ -1,0 +1,42 @@
+{
+  "record": "Land grants: step 1 of docs/LAND_GRANTS.md",
+  "date": "2026-09-13",
+  "verdict": "PASS",
+  "verdictMeaning": "Every family holds land marked out for it: a labor (177 acres) without stock, a league and a labor (4,606 acres) with it, chosen in the lobby at a cost of two wagon spaces. Grants are laid out when the world is made, never move, and never overlap one another or another family's house. The family is told what it holds, and that no title has been issued, when it reaches its land and in its book, and its map draws the boundary.",
+  "implementation": "sim/grants.mjs (layOutGrants, grantOf, holdingOf, holdingWords, stockRefusal, setStock, grantProjection, grantInvalid); sim/wagon.mjs (STOCK_SPACE, wagonSpaceFor, space on the lobby projection); sim/world.mjs (grants stored at creation, bring-stock lobby action, land projection, validation); sim/settling.mjs (arrival sentences); public/ (#wagon-stock, drawHolding, book line, herd stand-in).",
+  "history": "HIST-GONZ-036 (grant quantities, 1825 law), HIST-GONZ-037 (why an 1835 grant is invented); FIC-GONZ-025 for the grants being marked out with titles pending, placement, shape and the stock cost.",
+  "measured": "Grant layout over 100 worlds (20 seeds each of 5, 10, 15, 20 and 30 families): no grant squeezed below a league and a labor among 2,000 families. The squeeze fallback is exercised by a hand-built block of nine houses 0.9 miles apart.",
+  "liveBrowserProof": {
+    "note": "Same computer only. One student in the browser pane, PORT=8752 SEED=grant-proof, Brisk pace. The pane was 280x235 pixels and screenshots at an emulated size were unreadable, so the page was driven through its controls and read through its DOM and canvas.",
+    "observed": [
+      "Wagon panel after rolling: '15 of 16 space filled, 1 left.'; 'No stock. The family holds a labor of land, 177 acres.' (checked); 'Drive cattle and hogs in. The family holds a league and a labor, 4,606 acres, and the herd's keep takes 2 spaces of the wagon.'",
+      "Choosing stock with 15 loaded: refused, 'Driving stock leaves the wagon 14 spaces, and it is loaded with 15. Take something out first.', and the radio stayed on No stock.",
+      "One barrel out, stock chosen: 'Repack the wagon (14 of 14)', '14 of 14 space filled, 0 left.', window.__holdingRect kind league-and-labor, 4,606 acres.",
+      "A first run showed 4,605 acres on the panel and 4,606 in the arrival: the stored edges shave a fraction of an acre. Fixed (grantAcres) before this run.",
+      "Host Start at tick 0; at tick 6 the arrival read: '... The cattle and hogs come in behind the wagon. A league and a labor of land, 4,606 acres, is marked out for the family. No title has been issued.' The book line read the same; the stock choice was no longer sent.",
+      "Boundary on the canvas at the land view zoomed out twice: sampling the left edge of the grant, 135 of 206 rows showed the boundary brown within 2 pixels (a dashed line), and 2 of 206 did 25 pixels inside it."
+    ],
+    "notSeen": "The two-oxen herd stand-in was not seen in a readable image."
+  },
+  "automated": {
+    "suite": "tests/grants.test.mjs",
+    "tests": 7,
+    "wholeSuite": "316 pass, 0 fail",
+    "injectedRegressions": [
+      "grants overlap -> layout test and squeeze test",
+      "grants ignore other houses -> squeeze test",
+      "a squeezed grant ignores its neighbours -> squeeze test",
+      "stock costs no wagon space -> stock test",
+      "stock never refused for want of room -> stock test",
+      "stock changeable after Start -> stock test",
+      "every family holds a league -> sizes, arrival, old-save tests and the improvements projection test",
+      "arrival says nothing of the land -> arrival test",
+      "validation accepts a grant that misses its house -> old-save test",
+      "an old save has no land -> old-save test",
+      "the stock choice rides every tick -> stock test, the payload budget test and the improvements projection test",
+      "a labor not round its house -> layout test (passed at first, because at five families every grant is centred on its house; the layout test now checks every family's labor in classes up to 30)"
+    ]
+  },
+  "notRun": "Playwright: not installed here. No LAN or district claim.",
+  "boundary": "Stock do nothing but decide the land and cost wagon space (ceiling). The field is still the four-clearings field until Survey and clearing (steps after terrain). A neighbour's grant is not shown."
+}

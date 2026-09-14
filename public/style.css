@@ -286,6 +286,10 @@ button:hover:enabled{background:#60673e}
 .wagon-controls button:disabled{opacity:.45;cursor:not-allowed}
 .wagon-count{min-width:1.6em;text-align:center;font-weight:650}
 #wagon-note{color:#8a3b22;min-height:1.2em}
+#wagon-stock{margin:8px 0 0;padding:6px 8px 8px;border:1px solid #d3c299;border-radius:6px}
+#wagon-stock legend{font-weight:650;font-size:14px;padding:0 4px}
+#wagon-stock label{display:flex;gap:6px;align-items:flex-start;font-size:14px;line-height:1.4;margin-top:4px}
+#wagon-stock input{margin-top:3px}
 #wagon-done{margin-top:8px;background:#4b3e28;border-color:#6b5836}
 #wagon-open{position:absolute;left:12px;top:64px;z-index:8;min-height:34px;padding:5px 12px;font-size:13px;background:#4b3e28;border-color:#6b5836}
 @media (max-width:760px){#wagon-load{left:8px;right:8px;width:auto;top:56px}}

@@ -15,6 +15,7 @@
 // A class saved before arrivals has no `arriving` marker and no `improvements.cabin`, which
 // reads as the cabin that always stood (`improvementsOf`). It is housed, it camps nowhere,
 // and it plays as it did - no save version moved.
+import { holdingOf, holdingWords } from './grants.mjs';
 import { record } from './events.mjs';
 import { findPath } from './geography.mjs';
 import { improvementsOf, setImprovement } from './improvements.mjs';
@@ -115,6 +116,8 @@ export function advanceArrivals(world) {
       text: [
         housed(household) ? 'The family has reached its own land.' : 'The family has reached its own land. There is no house yet, so they camp by the wagon.',
         ...(household.load ? [loadSentence(household.load)] : []),
+        ...(household.stock ? ['The cattle and hogs come in behind the wagon.'] : []),
+        holdingWords(holdingOf(world, household)),
       ].join(' '),
     });
   }

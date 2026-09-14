@@ -216,7 +216,10 @@ test('nothing in the Gonzales afternoon takes anybody’s property', () => {
 test('the class is told what is standing on its land, and never left to guess', () => {
   const world = running('projection');
   const view = () => projectWorld(world, 'hh-1', 'student', { includeMap: false }).land;
-  assert.deepEqual(view(), { cabin: 'sound', fence: 'none', cleared: 1, clearingMax: CLEARING_MAX, harvestShare: 1 - UNFENCED_LOSS, needsWagon: false, shelter: 'house' });
+  // The grant is its own concern (tests/grants.test.mjs); everything else on the land line is this.
+  const { grant, ...rest } = view();
+  assert.equal(grant.kind, 'labor');
+  assert.deepEqual(rest, { cabin: 'sound', fence: 'none', cleared: 1, clearingMax: CLEARING_MAX, harvestShare: 1 - UNFENCED_LOSS, needsWagon: false, shelter: 'house' });
   work(world, 'hh-1', 'hh-1-thomas', 'clear-ground');
   work(world, 'hh-1', 'hh-1-thomas', 'build-fence');
   assert.equal(view().cleared, 2, 'the renderer draws the field at this size and nothing else');

@@ -1,6 +1,6 @@
 # Land grants, Survey, and clearing your own ground
 
-**Status: decided 2026-09-13; not yet built.** Read this in full before changing a family's land, the field,
+**Status: decided 2026-09-13; step 1 (the grant) built 2026-09-13** ([evidence](evidence/grants.json)). **Terrain, water and the house site were decided the same evening (§8) and come before Survey.** Read this in full before changing a family's land, the field,
 clearing, fencing, the stock a family brings, or the lobby choices that decide any of them. It replaces the
 "break new ground up to four times" rule of `sim/improvements.mjs` (`FIC-GONZ-015`).
 
@@ -48,23 +48,26 @@ clearing time except the timber-to-prairie ratio; what bringing stock costs.
   - **A league and a labor** — 4,605.5 acres, about 2.68 miles a side — for a family that brings cattle and hogs.
   - The labor more for early settlers does not apply: these families came in 1835. A single man's quarter is not
     modelled because no family rolls as a single man.
-- **Chosen in the lobby.** The wagon-load panel gains a line, *Driving stock: yes / no*, with the grant each
-  answer brings stated beside it. It is not wagon space; the stock walk. A family whose load was packed before
+- **Chosen in the lobby.** The wagon-load panel has two choices, *No stock* and *Drive cattle and hogs in*, each
+  stating the acres it brings and the wagon space it costs (`bring-stock`). A family whose load was packed before
   there was any choosing (an old save, or a family auto-rolled at Start) brings none.
 - **What stock costs** (`FIC-GONZ-025`): a family driving stock arrives with fewer provisions — the wagon has
   two spaces fewer — because the herd is fed on the road. Stock do nothing else yet. `ceiling:` no herding,
   increase, sale or slaughter; the wandering-stock loss in an unfenced field stays as it is for everyone.
-- **Fixed at Start.** When the class begins, every family's grant is laid out and does not move for the rest of
-  the class. Its bounds are stored on the household (`household.grant = { kind, acres, bounds }`).
+- **Fixed from the start.** *As built:* every family's grant is laid out when the world is made, at the size a
+  stock-raising family holds, and never moves (`household.grant` is its bounds). A family without stock holds a
+  labor round its house inside it. So the stock choice changes how much a family holds and never where anybody's
+  land is, grants can be drawn in the lobby, and no hook in the Start transition is needed. The layout reads only
+  the map and takes no draw from the world's random stream.
 - **Placement.** Colonists took river frontage and ran their land back from it; the map already places homes
-  that way. A grant is a rectangle of its true area containing the home. Stock-raisers' grants are placed first,
-  each trying, in order: a square centred on the home; the square shifted toward open country; a 1:2 long lot in
-  each of four orientations. The first that overlaps no grant already placed wins. Measured on this map, homes in
+  that way. A grant is a rectangle of its true area containing the home. *As built*, grants are laid out in household order, each taking the place nearest centred on its house - a square or a 1:2 long lot
+  either way, the house anywhere from a tenth to half way across - that overlaps no grant already laid out and comes
+  within 0.35 miles of no other house (so every family keeps at least a labor). Measured on this map, homes in
   a class of 30 can be as close as 2.25 miles, less than a league's side, so this matters.
   `ceiling:` if nothing fits, the grant is the largest square centred on the home that overlaps nothing, and the
-  family's book states its true acres. Proper metes-and-bounds survey along the river is the way out.
+  family's book states its true acres. Measured: no grant was squeezed among 2,000 families in 100 worlds of 5 to 30. Proper metes-and-bounds survey along the river is the way out.
 - **Seen.** The family's own map draws its grant boundary. Its book says: *"A labor of land, 177 acres, marked out
-  for the family. No title has been issued."* (or *a league and a labor, 4,605 acres*). A neighbour's grant is not
+  for the family. No title has been issued."* (or *a league and a labor of land, 4,606 acres*). A neighbour's grant is not
   shown — land another family holds is theirs to know, and `seenLand` already covers what can be seen by going there.
 
 ## 4. Survey
@@ -107,10 +110,53 @@ No `saveVersion` bump: every missing field has a correct value.
 
 ## 7. Build order
 
-1. **The grant.** The lobby stock choice and its wagon cost; placement at Start; `household.grant`; the boundary
+*Superseded by §8's order: terrain and the house site come between steps 1 and 2.*
+
+1. ~~**The grant.**~~ **Done 2026-09-13.** The lobby stock choice and its wagon cost; placement at Start; `household.grant`; the boundary
    on the family map; the book line; old-save default; claims `HIST-GONZ-036`–`040` and `FIC-GONZ-025`.
 2. **Survey.** Placement mode, the `survey-plot` action with its refusals, the chore, plots drawn staked.
 3. **Clearing and the field.** `clear-plot` by ground, the field as cleared plots, per-plot fences, ruin, old-save
    plots; retire `clear-ground` and `CLEARING_MAX`.
 4. **Art.** Staked plot, cleared plot on prairie and on timber (stumps), grant boundary markers — requested in
    `docs/ART_REQUESTS.md`, with stand-ins from the field and fence art until they land.
+
+---
+
+## 8. Terrain, water and the house site — decided 2026-09-13, to be specified
+
+> "there should be realistic topography so where a player puts their house and fields matters. realistic rivers,
+> lakes ponds, if none, then they should need to dig a well. topography should speed or slow movement too."
+>
+> "it'll also play a natural role in the runaway scrape"
+>
+> "if they choose to put their house further back in their property, that might influence communication because
+> it'd mean a longer way towards the road from their farm."
+>
+> — 2026-09-13
+
+| Question | Owner's answer, 2026-09-13 |
+| --- | --- |
+| Real Gonzales country, or invented but true to its kind? | **Real elevation and water**, from USGS elevation and stream data for the Gonzales area, reduced to a small grid shipped with the game. The download is asked for first. |
+| When does a family choose where its house stands? | **On arrival.** The wagon stops at the grant and the family's first act is choosing the site. |
+| What is built next? | **Terrain first**: terrain, water, wells, movement and the house site, then Survey and clearing on top. |
+
+What these commit the design to, before the detailed specification is written:
+
+- **The land is the real land.** The invented relief of `sim/terrain.mjs` (`FIC-GONZ-002`) is replaced by real
+  elevation, and the rivers and creeks follow their real courses. The fords, the battle site and Gonzales itself are
+  re-placed onto the real rivers, and every claim that places them (`HIST-GONZ-007`, `008`, `015`) is re-checked
+  against the real geography rather than kept as coordinates.
+- **Where the house stands matters.** Near water is less carrying and nearer the floods; up on higher ground is drier
+  and a longer walk for water; near timber is near logs and fuel. A site with no river, creek, spring or pond close
+  enough means **digging a well**.
+- **Movement follows the ground.** Slope, timber, brush and creek crossings slow people, horses and the wagon.
+- **The lane to the road.** A house set back on the grant has a longer track to the road, and riders with news and
+  neighbours coming to call take longer to reach it (owner's point); the courier model already follows the track, so
+  the delay should come from the geography rather than a rule.
+- **The Runaway Scrape.** Terrain and water are where that chapter's hardships will come from (`HIST-GONZ-019`).
+  Nothing is built for it now; the terrain must not make it harder to add.
+
+**Research before the specification:** the data (USGS elevation and hydrography for the Gonzales area: which
+products, what resolution, their licence and size); springs, ponds and oxbow lakes near Gonzales in the 1830s, since
+reservoirs built later are not 1835 water; how settlers there got water and dug wells; how fast people, horses and ox
+wagons crossed that country; river conditions in the Runaway Scrape.

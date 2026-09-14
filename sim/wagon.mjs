@@ -38,6 +38,16 @@
 export const WAGON_SPACE = 16;
 
 /**
+ * How much of that driving stock in costs: the herd is fed on the road (docs/LAND_GRANTS.md,
+ * `FIC-GONZ-025`). Whether a family drives stock is `household.stock`, set in `sim/grants.mjs`.
+ * ceiling: stock do nothing else yet - no herding, increase, sale or slaughter. The loose-stock
+ * loss in an unfenced field stays the same for every family.
+ */
+export const STOCK_SPACE = 2;
+/** The room this family's wagon has, given what it drives in. */
+export const wagonSpaceFor = household => WAGON_SPACE - (household?.stock === true ? STOCK_SPACE : 0);
+
+/**
  * What a family has in the house at the founding: three shots.
  *
  * Enough for a hunt, a second thought, and something to carry upriver, which is exactly the
@@ -149,7 +159,8 @@ export function loadRefusal(world, household, itemId, amount) {
   if (amount > entry.most) return entry.most === 1 ? `A family brings one ${entry.name.toLowerCase()} at most.` : `The wagon takes ${entry.most} of those at most.`;
   const current = household.load.find(loaded => loaded.id === itemId)?.amount ?? 0;
   const after = spaceOf(household.load) + entry.space * (amount - current);
-  if (after > WAGON_SPACE) return `There is no room. That needs ${entry.space * (amount - current)} more, and the wagon has ${WAGON_SPACE - spaceOf(household.load)} left of ${WAGON_SPACE}.`;
+  const room = wagonSpaceFor(household);
+  if (after > room) return `There is no room. That needs ${entry.space * (amount - current)} more, and the wagon has ${room - spaceOf(household.load)} left of ${room}${household.stock ? ' with the stock to feed' : ''}.`;
   return null;
 }
 
@@ -200,7 +211,7 @@ export function loadSentence(load) {
 export function wagonProjection(world, household) {
   if (!household?.load || world.status !== 'lobby') return null;
   const why = loadRefusal(world, household);
-  return { used: spaceOf(household.load), can: !why, ...(why && { why }) };
+  return { used: spaceOf(household.load), space: wagonSpaceFor(household), can: !why, ...(why && { why }) };
 }
 
 /** A household's load record is well formed and fits the wagon. Absent is a class saved before step 3. */
@@ -213,7 +224,7 @@ export function loadInvalid(household) {
     if (!known || seen.has(entry.id) || !Number.isInteger(entry.amount) || entry.amount < 1 || entry.amount > known.most) return 'Invalid wagon load';
     seen.add(entry.id);
   }
-  if (spaceOf(household.load) > WAGON_SPACE) return 'The wagon is loaded past its space';
+  if (spaceOf(household.load) > wagonSpaceFor(household)) return 'The wagon is loaded past its space';
   // Belongings are held as a list of their own rather than read off the load, because furniture
   // (step 6) will add to them once the wagon is long unloaded. Every one must still be a real thing.
   if (!Array.isArray(household.belongings) || household.belongings.some(id => ITEMS.get(id)?.kind !== 'good')) return 'Invalid belongings';

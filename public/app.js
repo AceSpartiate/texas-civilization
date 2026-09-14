@@ -1049,6 +1049,27 @@ function drawTerrain(ctx, world, camera) {
     }
   }
 }
+/**
+ * The land the family holds, as a boundary on its own map (docs/LAND_GRANTS.md). Only its own: a
+ * neighbour's grant is theirs to know. Marked with a dashed line of survey-chain brown, because no
+ * fence or marker stands on it yet.
+ */
+function drawHolding(ctx, world, camera) {
+  const holding = world.land?.grant;
+  if (!holding) { window.__holdingRect = null; return; }
+  const { minX, minY, maxX, maxY } = holding.bounds;
+  const corners = [{ x: minX, y: minY }, { x: maxX, y: minY }, { x: maxX, y: maxY }, { x: minX, y: maxY }].map(camera.toScreen);
+  ctx.save();
+  ctx.beginPath(); corners.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); ctx.closePath();
+  const dash = Math.max(4, Math.min(16, camera.figure * .35));
+  ctx.setLineDash([dash, dash * .7]);
+  ctx.lineWidth = Math.max(1.5, Math.min(4, camera.figure * .06));
+  ctx.strokeStyle = 'rgba(255,248,226,.75)'; ctx.lineWidth += 2; ctx.stroke();
+  ctx.strokeStyle = '#6b4f2a'; ctx.lineWidth -= 2; ctx.stroke();
+  ctx.restore();
+  // Presentation evidence for proofs, on the same contract as `window.__fieldRect`.
+  window.__holdingRect = { kind: holding.kind, acres: holding.acres, corners };
+}
 export function drawWorld(world) {
   window.__animationClips = new Set();
   const canvas = $('#world-map'), ctx = canvas.getContext('2d');
@@ -1060,6 +1081,7 @@ export function drawWorld(world) {
   window.__relief = drawRelief(ctx, world, camera);
   drawGroundDetail(ctx, world, camera);
   drawTerrain(ctx, world, camera);
+  drawHolding(ctx, world, camera);
   // Worn dirt, not a drafting line: a soft verge with a packed track down the middle.
   for (const route of Object.values(world.map?.routes || {})) {
     const points = (route.points || []).filter(Boolean).map(camera.toScreen); if (points.length < 2) continue;
@@ -1095,6 +1117,14 @@ export function drawWorld(world) {
       // that began with the families arriving (sim/houses.mjs, `noteLandSeen`).
       const view = settlement ? null : ownLand && world.land ? ownLandView(world.land) : (world.household?.seenLand?.[site.id] || (world.arrivalClass ? { shelter: 'camp' } : { shelter: 'house' }));
       standing.push({ y: q.y, draw: () => view ? homesteadHouse(ctx, q.x, q.y, size, site.id, view) : miniBuilding(ctx, q.x, q.y, size, true, site.id) });
+      // stand-in: the family's cattle and hogs as two oxen grazing past the house, until the stock art
+      // arrives (docs/ART_REQUESTS.md, stock 2026-09-13). Own land only: the herd is not an entity yet.
+      if (ownLand && world.household?.stock && world.land && !world.land.arriving) {
+        for (const [dx, dy, flip] of [[1.25, .35, false], [1.7, .55, true]]) {
+          const x = q.x + size * dx, y = q.y + size * dy;
+          standing.push({ y, draw: () => drawSprite(ctx, 'ox-brown', x, y, size * .55, { flip }) });
+        }
+      }
     } else if (site.kind === 'ford') {
       // The crossing is drawn as a break in the bank, not as a building or a bridge.
       const width = Math.max(6, camera.figure * .9);
@@ -1296,6 +1326,15 @@ function renderHousehold(world) {
     li.dataset.shelter = land.shelter || 'house';
     return li;
   })()] : [];
+  // The land marked out for them, in the same words the story used when they reached it.
+  if (land?.grant) {
+    const holding = land.grant;
+    const li = element('li', holding.kind === 'labor'
+      ? `A labor of land, ${holding.acres} acres, is marked out for the family. No title has been issued.`
+      : `A league and a labor of land, ${holding.acres.toLocaleString('en-US')} acres, is marked out for the family. No title has been issued.`);
+    li.dataset.grant = holding.kind;
+    ground.push(li);
+  }
   // What the wagon brought that is not a store: the tools and the belongings, named from the
   // catalogue. The stores are on the supplies line already.
   const names = new Map((wagonCatalogue?.items || []).map(item => [item.id, item.name.toLowerCase()]));
@@ -1934,12 +1973,24 @@ function renderWagonLoad(world) {
   panel.hidden = !wagonOpen;
   reopen.hidden = !available || wagonPacking;
   if (!available) return;
-  reopen.textContent = `Repack the wagon (${wagon.used} of ${catalogue.space})`;
+  const space = wagon.space ?? catalogue.space;
+  reopen.textContent = `Repack the wagon (${wagon.used} of ${space})`;
   if (!wagonPacking) return;
-  const shape = JSON.stringify([household.load, wagon]);
+  const choice = world.land?.stockChoice;
+  const shape = JSON.stringify([household.load, wagon, choice, household.stock]);
   if (shape === wagonShown) return;
   wagonShown = shape;
-  $('#wagon-room').textContent = `${wagon.used} of ${catalogue.space} space filled, ${catalogue.space - wagon.used} left.`;
+  $('#wagon-room').textContent = `${wagon.used} of ${space} space filled, ${space - wagon.used} left.`;
+  // Driving stock in: what each answer brings, in acres and wagon space, before it is chosen (FIC-GONZ-008).
+  $('#wagon-stock').hidden = !choice;
+  if (choice) {
+    $('#stock-no-text').textContent = `No stock. The family holds a labor of land, ${choice.laborAcres} acres.`;
+    $('#stock-yes-text').textContent = `Drive cattle and hogs in. The family holds a league and a labor, ${choice.stockAcres.toLocaleString('en-US')} acres, and the herd's keep takes ${choice.space} spaces of the wagon.`;
+    for (const radio of document.querySelectorAll('#wagon-stock input')) {
+      radio.checked = (radio.value === 'yes') === Boolean(household.stock);
+      radio.disabled = !choice.can;
+    }
+  }
   if (!wagon.can) $('#wagon-note').textContent = wagon.why;
   const focused = document.activeElement?.closest?.('#wagon-items button')?.dataset.focusKey;
   const loaded = new Map(household.load.map(entry => [entry.id, entry.amount]));
@@ -1984,6 +2035,19 @@ $('#wagon-items')?.addEventListener('click', async event => {
     $('#wagon-note').textContent = error.message;
   } finally {
     wagonPending = false;
+    if (window.__snapshot) render(window.__snapshot);
+  }
+});
+$('#wagon-stock')?.addEventListener('change', async event => {
+  const radio = event.target.closest('input[name="wagon-stock"]');
+  if (!radio || wagonPending) return;
+  wagonPending = true; $('#wagon-note').textContent = '';
+  try {
+    await api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, action: 'bring-stock', stock: radio.value === 'yes' });
+  } catch (error) {
+    $('#wagon-note').textContent = error.message;
+  } finally {
+    wagonPending = false; wagonShown = '';
     if (window.__snapshot) render(window.__snapshot);
   }
 });

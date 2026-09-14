@@ -101,7 +101,7 @@ test('the wagon is packed in the lobby only, and packing it does not stop the ro
 test('the load screen is told what the server allows, and the list says what each thing does before it is chosen', () => {
   const world = lobby();
   const wagon = view(world).wagon;
-  assert.deepEqual(wagon, { used: spaceOf(world.households['hh-1'].load), can: true });
+  assert.deepEqual(wagon, { used: spaceOf(world.households['hh-1'].load), space: WAGON_SPACE, can: true });
   // FIC-GONZ-008: a trade-off is stated on the control before it is chosen.
   for (const item of WAGON_ITEMS) {
     assert.ok(item.name && item.describe && Number.isInteger(item.space) && item.space > 0 && Number.isInteger(item.most) && item.most >= 1, `${item.id} states its space and what it is`);

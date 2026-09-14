@@ -23,6 +23,7 @@ does not have:
 | *(Planned, with [SETTLING_IN.md](SETTLING_IN.md) step 8)* A parent's chosen appearance is stored and described in words; the figure is still chosen by sex and age | the family book | Request below — layered people art | Layered or palette-swappable sheets for the whole cast |
 | A finished house is drawn as the nearest cabin the library has: round-log as `cabin-weathered`, hewn-log as `cabin-small`, dog-run as `cabin-wide`, jacal as `shed-open` at 80%. A house going up is the family's camp with two `log-fallen` beside it, whatever its stage | `HOUSE_STAND_INS` and `homesteadHouse` in `public/app.js` | Request below — houses (2026-09-13 exteriors) | `house-round-log`, `house-hewn-log`, `house-dog-run`, `house-jacal`, each with `-site`, `-walls` and `-roofing` stages |
 | *(Planned, with [SETTLING_IN.md](SETTLING_IN.md) steps 6–7)* Interiors and furniture drawn from the Alamo interior pieces | the interior view | Request below — interiors and furnishings | Cabin interiors, furniture and brought goods |
+| A family that drove stock in has its cattle and hogs drawn as two `ox-brown` oxen grazing east of the house, on its own land only | the herd in the site loop of `drawWorld`, `public/app.js` | Request 2026-09-13 — stock and the grant | `cattle-longhorn` and `hog` idle and grazing figures |
 | A rider talks from the saddle, facing east or west whatever side the listener is on | `carrierClip` in `public/motion.js` | Request 2026-09-12, priorities 3 and 4 | `courier-dismount` and `courier-encounters-vertical` |
 
 ---
@@ -31,6 +32,22 @@ Open requests, newest first. Each one says why it is needed, what exactly to del
 into the existing pipeline, and how it will be checked. When a request is delivered, mark it
 **Delivered** with the date and move the details into [ART_MANIFEST.md](ART_MANIFEST.md) by running
 `npm run build:art`; do not delete it from here.
+
+---
+
+## Request 2026-09-13 — stock and the grant
+
+**Status: open.** Specified in [LAND_GRANTS.md](LAND_GRANTS.md) §3.
+
+- **Why.** A family now chooses in the lobby whether it drives cattle and hogs in behind the wagon, which decides how
+  much land it holds (`HIST-GONZ-036`). The herd is drawn with oxen until it has figures of its own.
+- **What.** In the frontier-v1 style and projection of `ox-brown`: `cattle-longhorn` (idle, grazing; two or three
+  coat variants) and `hog` (idle, rooting), at the scale the ox is drawn. Later, with Survey: a surveyor's stake and a
+  corner marker (a blazed post or a stone mound), for staked plots and grant corners.
+- **How it plugs in.** The same sheet contract as the ox: frames on a transparent sheet, anchored at the feet, listed in
+  `ART_MANIFEST.md` by `npm run build:art`. The renderer draws them where it draws the two stand-in oxen now.
+- **Check.** A stock family's yard shows cattle and hogs, a family without stock shows none, and they sort in front of
+  and behind the house correctly.
 
 ---
 

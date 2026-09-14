@@ -153,6 +153,12 @@
       </header>
       <p id="wagon-load-text">What you load is what your family has. Anything left out is not coming.</p>
       <p id="wagon-room" role="status"></p>
+      <!-- Whether the family drives stock in, which decides how much land it holds (docs/LAND_GRANTS.md). -->
+      <fieldset id="wagon-stock" hidden>
+        <legend>Stock, and the land it brings</legend>
+        <label><input type="radio" name="wagon-stock" value="no"> <span id="stock-no-text"></span></label>
+        <label><input type="radio" name="wagon-stock" value="yes"> <span id="stock-yes-text"></span></label>
+      </fieldset>
       <ul id="wagon-items"></ul>
       <p id="wagon-note" role="alert"></p>
       <button type="button" id="wagon-done">Done packing</button>
