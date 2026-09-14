@@ -26,6 +26,7 @@ import {
   CLEARING_MAX, SEED_PER_CLEARING, UNFENCED_LOSS, clearGround, clearedOf, harvestShare,
   improvementsOf, isFenced, needsWagonToHarvest, raiseFence, standingCrop,
 } from './improvements.mjs';
+import { stakePlot, stroll, strollTarget } from './survey.mjs';
 import { choosing, cutLaneSpell, digWell, lanePoint, laneRefusal, laneState, waterBurden, wellRefusal, wellTicks } from './homesite.mjs';
 import { SPELL_TICKS, buildRefusal, buildSpell, helpRefusal, hostOf, houseBuilt, houseSettled, raising, recordHelpBegun, recordHelpDone, stageOf } from './houses.mjs';
 export { MODES } from './travel.mjs';
@@ -255,6 +256,18 @@ const paceFor = (ticks, skill, strength = 1) => Math.max(1, Math.round(ticks * (
 const yieldFor = (amount, skill) => round(amount * (skill === 3 ? 1.4 : skill === 2 ? 1.15 : 1));
 
 export const CHORES = {
+  // Survey (docs/LAND_GRANTS.md §4, sim/survey.mjs): ten acres staked out where the student chose on the family's own land.
+  // The person walks out over the family's own ground, paces and stakes it, and walks back; they never leave home.
+  'survey-plot': {
+    name: 'Survey ten acres', skill: 'farming', where: 'home', onSite: true, survey: true,
+    describe: 'Walk out to a place on your own land, pace out ten acres and drive the stakes. Choose the place on the map first.',
+    steps: [
+      { stroll: 'plot', doing: 'walking out to the ground being surveyed' },
+      { work: 2, doing: 'pacing out and staking ten acres' },
+      { stake: true },
+      { stroll: 'yard', doing: 'walking back to the house' },
+    ],
+  },
   // The lane to the road (sim/homesite.mjs, owner 2026-09-14): marked when the site is chosen, and cut by the family, a spell
   // at a time from the house outward, until it reaches the road. Many hands may work at it, like the house.
   'cut-lane': {
@@ -554,6 +567,7 @@ export function choreAvailability(world, household, entity, choreId) {
   // On the real land the house, the field and the well wait for the family to say where the house stands (sim/homesite.mjs).
   if ((chore.onSite || chore.house || chore.field || choreId === 'build-fence' || choreId === 'clear-ground') && choosing(household)) return { can: false, why: 'Choose where the house will stand first.' };
   if (chore.well) { const why = wellRefusal(household); if (why) return { can: false, why }; }
+  if (chore.survey && world.status === 'lobby') return { can: false, why: 'The family surveys its land once the class has begun.' };
   if (chore.lane) { const why = laneRefusal(world, household); if (why) return { can: false, why }; }
   if (chore.field && (household.field?.state ?? 'bare') !== chore.field) {
     return { can: false, why: chore.field === 'ripe' ? 'The field is not ready.' : 'The field is already planted.' };
@@ -663,7 +677,9 @@ export function choresFor(world, household, entity) {
   const wantsWell = Boolean(household.site?.needsWell && !household.well);
   // Nor a lane to cut where the family has none, or has cut it.
   const wantsLane = Boolean(laneState(world, household)?.left > 0);
-  return Object.entries(CHORES).filter(([, chore]) => !(chore.house && settled) && !(chore.helps && !visiting) && !(chore.well && !wantsWell) && !(chore.lane && !wantsLane)).map(([id, chore]) => {
+  return Object.entries(CHORES).filter(([, chore]) => !(chore.house && settled) && !(chore.helps && !visiting) && !(chore.well && !wantsWell) && !(chore.lane && !wantsLane)
+    // Nor survey before the class has begun, which would be a refusal for every person on every lobby tick.
+    && !(chore.survey && world.status === 'lobby')).map(([id, chore]) => {
     const { can, why } = choreAvailability(world, household, entity, id);
     // `haul` is what this person's own hands would bring back from this trip, before any
     // cap. The cap itself is the mode's `carry`, which the projection sends alongside; the
@@ -724,10 +740,12 @@ export function answerChore(world, household, entity, option) {
   return settleAsk(world, household, entity, option, false);
 }
 
-export function beginChore(world, household, entity, choreId, { beginTravel, modeAvailability }, modeId = DEFAULT_MODE) {
+export function beginChore(world, household, entity, choreId, { beginTravel, modeAvailability }, modeId = DEFAULT_MODE, extra = {}) {
   const { can, why } = choreAvailability(world, household, entity, choreId);
   if (!can) throw new Error(why || 'That work is not available.');
   const chore = CHORES[choreId];
+  // Survey needs the place; it is sent as its own order with the place in it (sim/survey.mjs).
+  if (chore.survey && !extra.plot) throw new Error('Choose a place on your land to survey.');
   // Refused before the work is written down.
   //
   // Keyed on whether the chore travels at all, not on whether it hauls. A chore that
@@ -739,7 +757,7 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
     const mode = modeAvailability?.(world, entity, modeId);
     if (mode && !mode.can) throw new Error(mode.why);
   }
-  entity.chore = { id: choreId, step: -1, wait: 0, doing: 'setting out', ...(modeId !== DEFAULT_MODE && { mode: modeId }) };
+  entity.chore = { id: choreId, step: -1, wait: 0, doing: 'setting out', ...(modeId !== DEFAULT_MODE && { mode: modeId }), ...(extra.plot && { plot: { x: extra.plot.x, y: extra.plot.y } }) };
   entity.task = 'work';
   if (chore.helps) {
     const host = hostOf(world, entity);
@@ -994,6 +1012,15 @@ function advanceChore(world, household, entity, { beginTravel }) {
     }
     if (step.raise === 'fence') { raiseFence(world, household, entity); continue; }
     if (step.dig === 'well') { digWell(world, household, entity); continue; }
+    if (step.stake) { stakePlot(world, household, entity); continue; }
+    if (step.stroll) {
+      // About the family's own land on foot, a tick's walk at a time; never a journey, and never off the land.
+      if (entity.location.siteId !== household.homeSiteId) return abandonChore(world, household, entity, chore);
+      const target = strollTarget(world, household, entity, step.stroll);
+      if (!target || stroll(world, household, entity, target)) continue;
+      state.step--;
+      return;
+    }
     if (step.cutLane) {
       // Another stretch, unless that reached the road. Then everybody cutting leaves off at once, as on the house, and
       // comes back up the lane: not a tick later, still swinging an axe at a lane that is cut.

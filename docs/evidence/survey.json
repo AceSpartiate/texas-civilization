@@ -1,0 +1,38 @@
+{
+  "record": "Survey: docs/LAND_GRANTS.md §4, build step 2",
+  "date": "2026-09-14",
+  "verdict": "PASS",
+  "verdictMeaning": "A student picks a person and a place on the family's own land; the server says what ten acres there would be or refuses in a sentence; sent, the person walks out over their own land a tick at a time, stakes ten acres and walks back; the plot is stored, projected, drawn and in the story; on both maps; old saves validate.",
+  "browserProof": {
+    "note": "Same computer only. MAP=colonies PORT=8757 SEED=art-proof-4, five families, isolated data folder, the in-app browser. Not LAN acceptance.",
+    "observed": [
+      "Hollis's work list offered 'Survey ten acres'; choosing it opened 'Where Hollis surveys' and put the person panel away.",
+      "The first tap, before the fix, read 'That runs into the water.' with no water drawn there; then 'That runs into Deadman Creek.' for a creek under five miles the map leaves off. Both fixed: only the class map's own water refuses.",
+      "After the fix the same tap read 'Ten acres of timber a quarter mile south-west of the house.' with a red dashed square; 'Survey it' drew Hollis walking out to a dashed square, and six seconds later the plot was a brown staked square, Hollis back in the yard, and the story read 'Hollis staked out ten acres of timber a quarter mile south-west of the house.'",
+      "Also found: choosing the house site exactly on the surveyor's mark returned 'Invalid travel' from the server (a journey of no length). Fixed and tested."
+    ]
+  },
+  "automated": {
+    "suites": [
+      "tests/survey.test.mjs (5)",
+      "tests/homesite.test.mjs: a house set down on the surveyor's mark itself moves nobody"
+    ],
+    "wholeSuite": "363 pass, 0 fail",
+    "injectedRegressions": [
+      "a plot anywhere, even off the land",
+      "plots may overlap",
+      "two people may survey the same ground",
+      "the yard may be surveyed",
+      "the field may be surveyed",
+      "the water may be surveyed (re-injected after the water check changed)",
+      "the person teleports out (NOT CAUGHT until the test surveyed more than a mile out on a league)",
+      "stakes never go in",
+      "survey refusals skipped at the order",
+      "survey sent without a place",
+      "the words say nothing of where",
+      "survey before the house site",
+      "a house on the mark sent on a journey of no length (the test failed before the fix)"
+    ]
+  },
+  "notBuilt": "Clearing staked plots and the field as cleared plots (§5); neighbours surveying; stake art (stand-in); cover along undrawn creeks is named timber."
+}

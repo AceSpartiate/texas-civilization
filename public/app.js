@@ -746,10 +746,11 @@ function installMapNavigation() {
   for (const type of ['pointerup', 'pointercancel', 'pointerleave']) {
     canvas.addEventListener(type, event => {
       // A tap that did not drag is a choice of person, not a pan.
-      if (type === 'pointerup' && pressedAt && travelled < 7 && active.size === 1 && siteLooking()) {
-        // Looking over the family's own land for a house site: a tap is a place, not a person.
+      if (type === 'pointerup' && pressedAt && travelled < 7 && active.size === 1 && (siteLooking() || surveyLooking())) {
+        // Looking over the family's own land for a house site or ten acres to survey: a tap is a place, not a person.
         const view = currentView(), at = localPoint(event);
-        if (view) lookAtSite({ x: view.cx + (at.x - canvas.width / 2) / view.scale, y: view.cy + (at.y - canvas.height / 2) / view.scale });
+        const place = view && { x: view.cx + (at.x - canvas.width / 2) / view.scale, y: view.cy + (at.y - canvas.height / 2) / view.scale };
+        if (place) (siteLooking() ? lookAtSite : lookAtPlot)(place);
       } else if (type === 'pointerup' && pressedAt && travelled < 7 && active.size === 1) {
         const hit = entityAt(localPoint(event));
         selectedId = hit;
@@ -1090,6 +1091,36 @@ function drawTerrain(ctx, world, camera) {
  * neighbour's grant is theirs to know. Marked with a dashed line of survey-chain brown, because no
  * fence or marker stands on it yet.
  */
+/** Ten acres, a side in miles (sim/survey.mjs `PLOT_SIDE`). */
+const PLOT_SIDE = Math.sqrt(10 / 640);
+/**
+ * The family's staked plots, the ground somebody is on the way to survey, and the place being looked at, on its own map.
+ *
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-13 (stock and the grant) asks for a surveyor's stake and a corner marker.
+ * Until they come a staked plot is a line of survey-chain brown with a small post drawn at each corner.
+ */
+function drawPlots(ctx, world, camera) {
+  const square = (point, style) => {
+    const corners = [[-1, -1], [1, -1], [1, 1], [-1, 1]].map(([sx, sy]) => camera.toScreen({ x: point.x + sx * PLOT_SIDE / 2, y: point.y + sy * PLOT_SIDE / 2 }));
+    ctx.save();
+    ctx.beginPath(); corners.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); ctx.closePath();
+    if (style.fill) { ctx.fillStyle = style.fill; ctx.fill(); }
+    ctx.setLineDash(style.dash || []);
+    ctx.lineWidth = Math.max(1.2, Math.min(3, camera.figure * .05)); ctx.strokeStyle = style.stroke; ctx.stroke();
+    if (style.posts) {
+      const post = Math.max(2, Math.min(9, camera.figure * .22));
+      ctx.setLineDash([]); ctx.fillStyle = '#5a3f22';
+      for (const p of corners) ctx.fillRect(p.x - post * .18, p.y - post, post * .36, post);
+    }
+    ctx.restore();
+    return corners;
+  };
+  const drawn = [];
+  for (const plot of world.land?.plots || []) drawn.push({ id: plot.id, state: plot.state, corners: square(plot, { stroke: '#6b4f2a', fill: 'rgba(107,79,42,.08)', posts: true }) });
+  for (const person of entitiesOf(world)) if (person.chore?.plot) square(person.chore.plot, { stroke: 'rgba(107,79,42,.7)', dash: [5, 4] });
+  if (plotPick && surveyLooking()) square(plotPick.point, { stroke: plotPick.facts?.can ? '#b5452f' : '#8a8171', fill: plotPick.facts?.can ? 'rgba(181,69,47,.12)' : 'rgba(138,129,113,.12)', dash: [6, 4] });
+  window.__plotsDrawn = drawn;
+}
 /** A polyline cut in two at a distance along it, in world miles: the part before and the part after. */
 function splitAlong(points, miles) {
   const before = [{ ...points[0] }];
@@ -1145,6 +1176,7 @@ export function drawWorld(world) {
   drawGroundDetail(ctx, world, camera);
   drawTerrain(ctx, world, camera);
   drawHolding(ctx, world, camera);
+  drawPlots(ctx, world, camera);
   // Worn dirt, not a drafting line: a soft verge with a packed track down the middle.
   for (const route of Object.values(world.map?.routes || {})) {
     const points = (route.points || []).filter(Boolean).map(camera.toScreen); if (points.length < 2) continue;
@@ -1678,8 +1710,10 @@ function populateWork(world, chosen, running) {
   if (!shown.length) return;
   for (const entry of shown) {
     const button = element('button', '');
-    button.dataset.action = 'chore';
-    button.dataset.chore = entry.id;
+    // Survey is sent with a place on the map, so its button starts choosing the place instead of the work (sim/survey.mjs).
+    button.dataset.action = entry.id === 'survey-plot' ? 'survey-start' : 'chore';
+    if (entry.id === 'survey-plot') button.dataset.entityId = chosen.id;
+    else button.dataset.chore = entry.id;
     button.disabled = !running || !entry.can;
     button.className = 'work-option';
     button.append(element('span', entry.cost ? `${entry.name} · ${entry.cost}` : entry.name, 'work-name'));
@@ -2214,6 +2248,43 @@ async function lookAtSite(point) {
   } catch (error) { $('#site-note').textContent = error.message; }
   finally { siteLookPending = false; if (window.__snapshot) render(window.__snapshot); }
 }
+// Survey (sim/survey.mjs): the student picks one of the family, taps a place on the family's land, is told what ten acres
+// there would be, and sends them. The server decides, both when looking and when sent.
+let surveyFor = null, plotPick = null, plotLookPending = false, plotSendPending = false;
+const surveyLooking = () => Boolean(surveyFor && window.__snapshot?.world?.entities?.some(entity => entity.id === surveyFor));
+async function lookAtPlot(point) {
+  if (plotLookPending) return;
+  plotLookPending = true; plotPick = { point, facts: null }; $('#survey-note').textContent = '';
+  if (window.__snapshot) render(window.__snapshot);
+  try {
+    const result = await api(`/api/plot?x=${point.x.toFixed(3)}&y=${point.y.toFixed(3)}`);
+    if (plotPick?.point === point) plotPick.facts = result.facts;
+  } catch (error) { $('#survey-note').textContent = error.message; }
+  finally { plotLookPending = false; if (window.__snapshot) render(window.__snapshot); }
+}
+function renderSurvey(world) {
+  const panel = $('#survey-choose');
+  if (!panel) return;
+  const person = surveyLooking() && world.entities.find(entity => entity.id === surveyFor);
+  panel.hidden = !person || world.role === 'host';
+  if (panel.hidden) { if (!person) { surveyFor = null; plotPick = null; } return; }
+  const facts = plotPick?.facts;
+  $('#survey-title').textContent = `Where ${person.name} surveys`;
+  $('#survey-text').textContent = !plotPick ? 'Tap a place on your land, inside the dashed line, to look at ten acres there.'
+    : !facts ? 'Looking the ground over…' : facts.can ? facts.words : facts.why;
+  $('#survey-send').hidden = !facts?.can;
+  $('#survey-send').disabled = plotSendPending;
+}
+$('#survey-send')?.addEventListener('click', async () => {
+  if (!plotPick?.facts?.can || plotSendPending) return;
+  plotSendPending = true; $('#survey-note').textContent = '';
+  try {
+    await api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, action: 'survey-plot', entityId: surveyFor, x: +plotPick.point.x.toFixed(3), y: +plotPick.point.y.toFixed(3) });
+    surveyFor = null; plotPick = null;
+  } catch (error) { $('#survey-note').textContent = error.message; }
+  finally { plotSendPending = false; if (window.__snapshot) render(window.__snapshot); }
+});
+$('#survey-cancel')?.addEventListener('click', () => { surveyFor = null; plotPick = null; if (window.__snapshot) render(window.__snapshot); });
 function renderSite(world) {
   const panel = $('#site-choose');
   if (!panel) return;
@@ -2535,7 +2606,7 @@ function render(snapshot) {
   }
   renderJoinLinks(snapshot);
   renderSlice(world);
-  drawWorld(world); renderHousehold(world); renderKnowledge(world); renderEncounter(world); renderFamilyRoll(world); renderWagonLoad(world); renderHousePlan(world); renderSite(world); renderTutorial(world);
+  drawWorld(world); renderHousehold(world); renderKnowledge(world); renderEncounter(world); renderFamilyRoll(world); renderWagonLoad(world); renderHousePlan(world); renderSite(world); renderSurvey(world); renderTutorial(world);
 }
 function showJoin(message) {
   events?.close(); events = null;
@@ -2620,6 +2691,8 @@ document.addEventListener('click', async event => {
   const button = event.target.closest('[data-action]'); if (!button || button.disabled) return;
   say('');
   const action = button.dataset.action;
+  // The person's panel is put away so the land is there to tap; the survey panel names who is going.
+  if (action === 'survey-start') { surveyFor = button.dataset.entityId; plotPick = null; selectedId = null; selectionDismissed = true; if (window.__snapshot) render(window.__snapshot); return; }
   if (action !== 'start') startAnyway = false;
   if (confirmLabel[action] && button.dataset.confirming !== 'true') {
     resetConfirm(confirming);

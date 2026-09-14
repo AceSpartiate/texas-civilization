@@ -182,6 +182,18 @@
 
     <!-- Where the house stands, on the real land (docs/LAND_GRANTS.md §8.2, sim/homesite.mjs). What a place is like, and
          whether the house can go there, come from the server for the place the student taps. -->
+    <!-- Survey (docs/LAND_GRANTS.md §4, sim/survey.mjs): ten acres on the family's own land, looked at before anybody is sent. -->
+    <section id="survey-choose" hidden aria-labelledby="survey-title" aria-live="polite">
+      <header>
+        <span class="eyebrow">SURVEY</span>
+        <h2 id="survey-title">Where to survey</h2>
+      </header>
+      <p id="survey-text"></p>
+      <p id="survey-note" role="alert"></p>
+      <button type="button" id="survey-send" hidden>Survey it</button>
+      <button type="button" id="survey-cancel">Not now</button>
+    </section>
+
     <section id="site-choose" hidden aria-labelledby="site-choose-title" aria-live="polite">
       <header>
         <span class="eyebrow">YOUR LAND</span>

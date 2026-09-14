@@ -353,3 +353,16 @@ test('a family asks the server about its own land only, and every browser is tol
     rmSync(dir, { recursive: true, force: true });
   }
 });
+
+test("a house set down on the surveyor's mark itself moves nobody, and the class goes on", () => {
+  const world = arrived('site-on-mark', 5);
+  const household = world.households['hh-1'];
+  const mark = { ...world.map.sites[household.homeSiteId] };
+  const before = household.members.map(id => ({ ...world.entities[id].location }));
+  applyAction(world, 'hh-1', { action: 'choose-site', x: mark.x, y: mark.y });
+  validateWorld(world);
+  assert.equal(household.arriving, undefined, 'there is nobody to bring over');
+  assert.deepEqual(household.members.map(id => world.entities[id].location), before, 'and everybody stays where they stand');
+  stepWorld(world);
+  validateWorld(world);
+});

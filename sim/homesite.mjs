@@ -98,14 +98,19 @@ export function chooseSite(world, household, point) {
   world.map.revision = (world.map.revision || 0) + 1;
 
   // Over to the site with the wagon, at the wagon's pace, by the easiest ground from the mark.
-  const over = layLane(mark, { x, y }) || [mark, { x, y }];
+  const overLane = layLane(mark, { x, y });
+  const over = overLane?.length >= 2 ? overLane : [mark, { x, y }];
   const overGround = groundAlong(over);
   const overMiles = polylineLength(over);
+  // A house set down on the mark itself moves nobody: there is no way over to walk (found in the browser proof, 2026-09-14,
+  // where a journey of no length was refused as invalid).
+  const nowhere = overMiles < 0.005;
   const causeId = record(world, 'site-chosen', { householdId: household.id, importance: 2, claimId: 'FIC-GONZ-026', text: `The family has chosen where the house will stand. ${words}` });
   let moving = false;
   for (const id of [...household.members, ...household.property]) {
     const entity = world.entities[id];
     if (!entity) continue;
+    if (nowhere) continue;
     if (!entity.travel && entity.location.siteId === household.homeSiteId) {
       // Whatever was in hand at the mark is left: the family is moving its camp.
       if (entity.chore) { entity.chore = null; }

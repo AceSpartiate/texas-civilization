@@ -84,6 +84,32 @@ clearing time except the timber-to-prairie ratio; what bringing stock costs.
 - There is no limit on plots but the grant. `ceiling:` a staked plot can't be abandoned or moved; add *Pull up the
   stakes* if players need it.
 
+### 4.1 As built (2026-09-14)
+
+Built on both maps, in `sim/survey.mjs`; tests `tests/survey.test.mjs`, evidence [survey.json](evidence/survey.json).
+
+- **Choosing the place.** A person's work list offers *Survey ten acres*; choosing it opens a panel ("Where Hollis surveys"),
+  and a tap on the map asks the server (`GET /api/plot`) what ten acres there would be: *"Ten acres of timber a quarter
+  mile south-west of the house."*, or why not. *Survey it* sends `survey-plot { entityId, x, y }`; the server checks again.
+- **Refusals**, each a sentence: not your land; would run over the line of your land; runs over ground already staked;
+  somebody is already surveying there; would take in the house yard (within 0.04 miles of the house); ground the field
+  already has (the old forty-acre field block, until §5 turns the field into plots); runs into a river or creek, **named, and
+  only water the class's own map draws** — the first version used every branch in the USGS data and refused ground that
+  looked dry on the map; before the class has begun; before the house site is chosen. Survey is never sent without a place.
+- **The walk.** The person walks out over the family's own land a tick at a time at walking pace, slower through timber
+  and brush on the real land, never leaving home; paces and stakes the ground (two ticks); walks back to the yard. If the
+  ground was taken while they walked, the story says so and nothing is staked.
+- **The plot** is `household.plots[]` `{ id, x, y, ground, state: 'staked' }`, ten acres centred on the place, projected on the
+  family's land line and drawn on its own map as a survey-chain square with a post at each corner (`stand-in:` for the
+  surveyor's stake and corner marker requested 2026-09-13). The story: *"Hollis staked out ten acres of timber a quarter mile
+  south-west of the house."* No limit but the land. A class saved before Survey has no `plots` and validates.
+- **Found in the browser proof** and fixed: setting the house exactly on the surveyor's mark made a journey of no length the
+  server refused (the family now simply stays); the person's panel covered the land to tap (it is put away when survey
+  starts); water refusals for creeks the map does not draw.
+- `ceiling:` staked plots do nothing yet — §5 clears them into the field; the ground named for a plot on the real land counts
+  timber along creeks the map does not draw, so ten acres can be called timber where the map shows grass; neighbours do not
+  survey (they will need to when plots become the field); the stake art is a stand-in.
+
 ## 5. Clearing, and the field
 
 - **Clear this plot** replaces *Break new ground*. It is offered for a staked plot, walks to it, works it in
@@ -114,7 +140,7 @@ No `saveVersion` bump: every missing field has a correct value.
 
 1. ~~**The grant.**~~ **Done 2026-09-13.** The lobby stock choice and its wagon cost; placement at Start; `household.grant`; the boundary
    on the family map; the book line; old-save default; claims `HIST-GONZ-036`–`040` and `FIC-GONZ-025`.
-2. **Survey.** Placement mode, the `survey-plot` action with its refusals, the chore, plots drawn staked.
+2. ~~**Survey.**~~ **Done 2026-09-14** (§4.1). Placement mode, the `survey-plot` action with its refusals, the chore, plots drawn staked.
 3. **Clearing and the field.** `clear-plot` by ground, the field as cleared plots, per-plot fences, ruin, old-save
    plots; retire `clear-ground` and `CLEARING_MAX`.
 4. **Art.** Staked plot, cleared plot on prairie and on timber (stumps), grant boundary markers — requested in
