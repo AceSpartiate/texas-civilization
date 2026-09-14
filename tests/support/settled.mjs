@@ -30,3 +30,14 @@ export function settle(world) {
 }
 
 export const createSettledWorld = (seed, count) => settle(createGonzalesWorld(seed, count));
+
+/**
+ * For the browser proofs that follow the founding family (Thomas, Elena, Rosa, Mateo) through travel, a hunt, a trade or
+ * the slice: each family is named before Start, with the name it already shows. The server rolls a new family at Start for
+ * every student who joined and left the family untouched (docs/FAMILY_CREATION.md), and keeps one that has been named or set
+ * to work; without this the people these proofs follow were gone before the first click (found 2026-09-14).
+ */
+export function keepFoundingFamilies(world) {
+  for (const household of Object.values(world.households)) household.name ??= `${world.entities[household.principalId].name}'s family`;
+  return world;
+}

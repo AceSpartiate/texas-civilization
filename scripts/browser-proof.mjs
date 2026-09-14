@@ -64,8 +64,9 @@ try {
     await page.locator(`#family-journal [data-select="${principalId}"]`).click();
     await page.locator('#journal-close').click();
     await page.getByRole('button', { name: 'Travel to Gonzales', exact: true }).click();
-    await page.waitForFunction(id => { const trip = window.__snapshot.world.entities.find(e => e.id === id)?.travel; return trip && trip.progress > 0 && trip.progress < trip.distance; }, principalId);
-    assert.equal(await page.evaluate(id => window.__snapshot.world.entities.find(e => e.id === id).location.siteId, principalId), null);
+    // Read in the same moment the trip is seen under way: at a quick tick the traveller could reach Gonzales between two reads.
+    const underWay = await (await page.waitForFunction(id => { const person = window.__snapshot.world.entities.find(e => e.id === id), trip = person?.travel; return trip && trip.progress > 0 && trip.progress < trip.distance && { siteId: person.location.siteId }; }, principalId)).jsonValue();
+    assert.equal(underWay.siteId, null);
     // Travelling widens the one map to follow the journey instead of hiding the traveller.
     assert.equal(await page.evaluate(() => window.__camera.kind), 'journey');
     assert.ok((await page.evaluate(() => window.__viewEntities)).includes(principalId));
@@ -73,8 +74,10 @@ try {
     mkdirSync('test-results', { recursive: true });
     await page.screenshot({ path: 'test-results/travel.png', fullPage: true });
     await page.waitForFunction(id => window.__snapshot.world.entities.find(e => e.id === id)?.location.siteId === 'gonzales', principalId);
-    const principal = app.state.world.entities[app.state.world.households['hh-1'].principalId].name;
-    assert.match(await page.locator('#world-description').textContent(), new RegExp(principal));
+    // The page's own principal, whoever they are: five students join at once, so the first page is not always hh-1, and a
+    // family is rolled at Start. The description is redrawn as the traveller arrives, so it is waited for, not read once.
+    const principal = app.state.world.entities[principalId].name;
+    await page.waitForFunction(name => document.querySelector('#world-description')?.textContent.includes(name), principal, { timeout: 15000 });
     await page.reload();
     await page.waitForFunction(id => window.__snapshot?.world.entities.find(e => e.id === id)?.location.siteId === 'gonzales', principalId);
     assert.equal(await page.evaluate(id => window.__snapshot.world.entities.filter(e => e.id === id).length, principalId), 1);

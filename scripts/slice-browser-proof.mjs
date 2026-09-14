@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import { mkdtempSync, rmSync, mkdirSync, writeFileSync, readFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
 import { createClassroom } from '../server/app.mjs';
-import { createSettledWorld } from '../tests/support/settled.mjs';
+import { createSettledWorld, keepFoundingFamilies } from '../tests/support/settled.mjs';
 // A settled class: these families are at home under a roof, as every class began before arrivals
 // (docs/SETTLING_IN.md step 2). This proves the work, not the arrival - tests/arrival.test.mjs does that.
 import { HISTORICAL_OUTCOME } from '../sim/directors.mjs';
@@ -15,7 +15,7 @@ const address = process.env.TEST_ADDRESS || physical || '127.0.0.1';
 const directory = mkdtempSync(join(tmpdir(), 'texas-slice-'));
 const savePath = join(directory, 'class.json');
 // Four exchange ticks must leave time for a real accessible Pause click.
-let app = createClassroom({ seed: 'browser-gonzales', playerCount: 5, tickMs: 200, savePath, worldFactory: createSettledWorld });
+let app = createClassroom({ seed: 'browser-gonzales', playerCount: 5, tickMs: 200, savePath, worldFactory: (seed, count) => keepFoundingFamilies(createSettledWorld(seed, count)) });
 const port = await app.listen(), url = `http://${address}:${port}`;
 const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
 const errors = [], externalRequests = [];

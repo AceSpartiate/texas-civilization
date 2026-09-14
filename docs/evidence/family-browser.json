@@ -1,54 +1,79 @@
 {
   "record": "family-browser",
-  "date": "2026-09-12",
+  "date": "2026-09-14",
   "browser": "152.0.7977.83",
   "task": "HANDOFF next task 2: let a student name their own family, and make family relationships exist and be visible.",
   "started": "The first person to play this asked who the mother and the father were, and the game had no answer.",
   "checks": [
-    "the book says who everybody is: Alvin (father), Refugia (mother), Delia (daughter), Marcos (son)",
-    "and in sentences — \"Married to Refugia. Father to Delia and Marcos.\"",
+    "the die is rolled in the page, and the family is the server's: \"You rolled an 18.\", 8 people",
+    "the book says who everybody is: Alvin (father), Refugia (mother), Marcos (son), Levi (son), Delia (daughter), Jasper (son), Rufino (son), Petra (daughter)",
+    "and in sentences — \"Married to Refugia. Father to Marcos, Levi, Delia, Jasper, Rufino and Petra.\"",
     "renaming reaches the world: Delia is Winnie now",
     "and the book still knows whose child they are, because a name is not an identity",
     "a family can name itself, and the name reaches the rest of the page",
     "what a student types is cleaned before anybody else reads it: \"<b>Bad</b> 1234 😀\" became \"bBadb\"",
     "and a name with no letters in it is refused, in words",
-    "and it is fetched once: 8 ticks passed and nothing asked again (a tick is 6763 bytes without the map)",
+    "and it is fetched once: 8 ticks passed and nothing asked again (a tick is 17364 bytes without the map)",
     "no page errors anywhere in the run"
   ],
   "measured": {
     "people": [
       {
-        "id": "hh-1-thomas",
+        "id": "hh-1-parent-1",
         "role": "father",
         "name": "Alvin",
-        "of": "Married to Refugia. Father to Delia and Marcos."
+        "of": "Married to Refugia. Father to Marcos, Levi, Delia, Jasper, Rufino and Petra."
       },
       {
-        "id": "hh-1-elena",
+        "id": "hh-1-parent-2",
         "role": "mother",
         "name": "Refugia",
-        "of": "Married to Alvin. Mother to Delia and Marcos."
+        "of": "Married to Alvin. Mother to Marcos, Levi, Delia, Jasper, Rufino and Petra."
       },
       {
-        "id": "hh-1-rosa",
+        "id": "hh-1-child-1",
+        "role": "son",
+        "name": "Marcos",
+        "of": "Son of Alvin and Refugia."
+      },
+      {
+        "id": "hh-1-child-2",
+        "role": "son",
+        "name": "Levi",
+        "of": "Son of Alvin and Refugia."
+      },
+      {
+        "id": "hh-1-child-3",
         "role": "daughter",
         "name": "Delia",
         "of": "Daughter of Alvin and Refugia."
       },
       {
-        "id": "hh-1-mateo",
+        "id": "hh-1-child-4",
         "role": "son",
-        "name": "Marcos",
+        "name": "Jasper",
         "of": "Son of Alvin and Refugia."
+      },
+      {
+        "id": "hh-1-child-5",
+        "role": "son",
+        "name": "Rufino",
+        "of": "Son of Alvin and Refugia."
+      },
+      {
+        "id": "hh-1-child-6",
+        "role": "daughter",
+        "name": "Petra",
+        "of": "Daughter of Alvin and Refugia."
       }
     ],
-    "tickBytes": 6763,
+    "tickBytes": 17364,
     "familyFetchesDuringPlay": 0,
     "ticksWatched": 8
   },
   "notProved": [
     "That a class names anything. The controls are there and work; whether a room of twelve-year-olds uses them is a classroom question.",
     "Anything about what students type. Names are held to a shape - letters, marks, spaces, name punctuation, one line, twenty-four characters - and every rename is written into the family record so a teacher can see what was changed. No code judges what a name means, and none should pretend to.",
-    "That every household has a different shape. They do not: every family is still two parents and two children, which is marked as a ceiling in sim/family.mjs. Only the names differ."
+    "Every face of the die in a browser. This run rolls the seed it is given; tests/family-roll.test.mjs checks all twenty faces."
   ]
 }

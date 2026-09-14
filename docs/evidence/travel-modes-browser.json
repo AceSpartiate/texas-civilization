@@ -1,6 +1,6 @@
 {
   "record": "travel-modes-browser",
-  "date": "2026-09-12",
+  "date": "2026-09-14",
   "browser": "152.0.7977.83",
   "ownerDirection": "\"okay, so horse for speed, ox and wagon for heavy?\"",
   "checks": [
@@ -9,7 +9,7 @@
     "the hunt says what it will bring home before it is chosen: on foot \"Brings home 5 food of 10; the rest is left behind.\"",
     "choosing the wagon and pressing Travel sends them with the wagon",
     "the ox and the wagon are on the road with him, not left standing at home",
-    "the ox and wagon are drawn travelling, not teleported (1.3px and 1.3px of screen movement)",
+    "the ox and wagon are drawn travelling, not teleported (2.5px and 2.5px of screen movement)",
     "and are drawn with the walking and rolling cycles the art library has always carried",
     "a second person is told who has it, in words: \"Alvin has the ox.\"",
     "and walking is never taken away from anybody",
@@ -17,12 +17,13 @@
   ],
   "measured": {
     "screenPixelsMovedInNineTenthsOfASecond": {
-      "ox": 1.2762792542948236,
-      "wagon": 1.2762792542948236,
-      "man": 1.2762792542948236
+      "ox": 2.4960961502481704,
+      "wagon": 2.4960961502481704,
+      "man": 2.4960961502481704
     },
     "clipsBound": [
       "blue-rest",
+      "fire-flicker",
       "horse-chestnut-idle",
       "oak-broad-wind",
       "oak-spreading-wind",

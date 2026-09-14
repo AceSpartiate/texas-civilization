@@ -47,23 +47,37 @@ try {
   await page.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
   for (let i = 2; i <= 5; i++) await post('/api/join', { name: `Reader ${i}`, code: app.state.sessionCode });
 
-  // ------------------------------------------------------- the book answers the question
-  await page.locator('#journal-toggle').click();
+  // ---------------------------------------------------------------------- the die first
+  // A family has to be rolled before its book says who anybody is (docs/FAMILY_CREATION.md): before that the book asks for
+  // the roll. Rolled here as a student does, on the twenty-sided die, and the book opens on "Meet your family".
+  await page.locator('#roll-family').click();
+  await page.waitForFunction(() => document.querySelector('#roll-family')?.textContent === 'Meet your family', null, { timeout: 15000 });
+  const rolled = await page.locator('#family-roll-result').textContent();
+  assert.match(rolled, /^You rolled an? (\d|1\d|20)\.$/);
+  await page.locator('#roll-family').click();
   await page.locator('#family-book').waitFor({ state: 'visible' });
+  const family = await page.evaluate(async () => (await (await fetch('/api/family')).json()).family);
+  ok(`the die is rolled in the page, and the family is the server's: "${rolled}", ${family.people.length} people`);
+
+  // ------------------------------------------------------- the book answers the question
   const rows = await page.locator('#family-kin .kin-row').evaluateAll(items => items.map(item => ({
     id: item.dataset.entityId,
-    role: item.querySelector('label')?.textContent,
+    // The label carries the age as well ("son, 7") since rolled families have ages; the role is the row's own.
+    role: item.dataset.role,
     name: item.querySelector('input')?.value,
     of: item.querySelector('.kin-of')?.textContent,
   })));
-  assert.equal(rows.length, 4, `the book lists ${rows.length} people`);
-  assert.deepEqual(rows.map(row => row.role), ['father', 'mother', 'daughter', 'son']);
+  assert.equal(rows.length, family.people.length, `the book lists ${rows.length} people`);
+  const parents = rows.filter(row => ['father', 'mother'].includes(row.role)).length;
+  assert.ok(parents >= 1 && rows.slice(0, parents).every(row => ['father', 'mother'].includes(row.role)), 'parents first');
+  assert.ok(rows.slice(parents).every(row => ['son', 'daughter'].includes(row.role)), 'then the children');
+  assert.ok(rows.some(row => row.role === 'daughter') && rows.some(row => row.role === 'son'), 'this seed rolls a daughter and a son, which the rename below needs');
   for (const row of rows) assert.ok(row.of && row.of.length > 10, `${row.role} does not say who they are to anybody`);
-  assert.equal(new Set(rows.map(row => row.name)).size, 4, 'a family with two people of one name');
+  assert.equal(new Set(rows.map(row => row.name)).size, rows.length, 'a family with two people of one name');
   ok(`the book says who everybody is: ${rows.map(row => `${row.name} (${row.role})`).join(', ')}`);
   ok(`and in sentences — "${rows[0].of}"`);
 
-  const before = rows[2];
+  const before = rows.find(row => row.role === 'daughter');
   mkdirSync('test-results', { recursive: true });
   await page.screenshot({ path: 'test-results/family-book.png' });
 
@@ -80,8 +94,9 @@ try {
   assert.match(after, /Daughter of /, after);
   ok('and the book still knows whose child they are, because a name is not an identity');
   // Their brother's line names her too, which is the whole point of re-fetching it.
-  const sibling = await page.locator('#family-kin .kin-row[data-role=son] .kin-of').textContent();
-  assert.ok(!sibling.includes(before.name), `the son is still described as ${before.name}'s brother`);
+  // Every son's line, since a rolled family can have several.
+  const siblings = await page.locator('#family-kin .kin-row[data-role=son] .kin-of').allTextContents();
+  assert.ok(siblings.length && siblings.every(line => !line.includes(before.name)), `a son is still described as ${before.name}'s brother`);
 
   // ------------------------------------------------------------ and names the family too
   await page.locator('#family-name-input').fill('  The Elm Creek place  ');
@@ -132,7 +147,7 @@ try {
     notProved: [
       'That a class names anything. The controls are there and work; whether a room of twelve-year-olds uses them is a classroom question.',
       'Anything about what students type. Names are held to a shape - letters, marks, spaces, name punctuation, one line, twenty-four characters - and every rename is written into the family record so a teacher can see what was changed. No code judges what a name means, and none should pretend to.',
-      'That every household has a different shape. They do not: every family is still two parents and two children, which is marked as a ceiling in sim/family.mjs. Only the names differ.',
+      'Every face of the die in a browser. This run rolls the seed it is given; tests/family-roll.test.mjs checks all twenty faces.',
     ],
   }, null, 2) + '\n');
   console.log('\nwrote docs/evidence/family-browser.json');

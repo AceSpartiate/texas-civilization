@@ -3,7 +3,7 @@ import { createRequire } from 'node:module';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { createClassroom } from '../server/app.mjs';
 import { createWorld } from '../sim/world.mjs';
-
+import { keepFoundingFamilies } from '../tests/support/settled.mjs';
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const app = createClassroom({ seed: 'trade-animation-proof', playerCount: 5, tickMs: 250, worldFactory(seed, count) {
@@ -11,7 +11,7 @@ const app = createClassroom({ seed: 'trade-animation-proof', playerCount: 5, tic
   world.entities['hh-2-elena'].location = { x: home.x + .35, y: home.y + .12, siteId: home.id };
   world.households['hh-1'].resources.food = 30;
   world.households['hh-1'].resources.seed = 12;
-  return world;
+  return keepFoundingFamilies(world);
 } });
 const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
 const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });

@@ -1881,7 +1881,11 @@ function positionSelection(world, chosen = selectedEntity(world)) {
     const scaleX = rect.width / canvas.width, scaleY = rect.height / canvas.height;
     const right = spot.x * scaleX + 26, flip = right + panel.offsetWidth > rect.width - 8;
     panel.style.left = `${Math.max(8, flip ? spot.x * scaleX - panel.offsetWidth - 26 : right)}px`;
-    panel.style.top = `${Math.max(8, Math.min(rect.height - panel.offsetHeight - 8, spot.y * scaleY - panel.offsetHeight / 2))}px`;
+    // Never down over the row of buttons along the bottom: clamped to the canvas alone, a person standing low on a wide
+    // screen put this card over Family, Follow and Land, and the journal could not be opened (found 2026-09-14).
+    const controls = ['#journal-toggle', '#map-nav'].map(selector => $(selector)?.getBoundingClientRect()).filter(box => box?.height);
+    const floor = Math.min(rect.height, ...controls.map(box => box.top - rect.top));
+    panel.style.top = `${Math.max(8, Math.min(floor - panel.offsetHeight - 8, spot.y * scaleY - panel.offsetHeight / 2))}px`;
   }
 }
 /**
@@ -2072,7 +2076,8 @@ function renderFamilyRoll(world) {
   const die = $('#family-die'), button = $('#roll-family');
   if (rollState === 'rolled') {
     die.textContent = String(family.roll);
-    $('#family-roll-result').textContent = `You rolled a ${family.roll}.`;
+    // "an 8", "an 11", "an 18": said as they sound, since a twenty-sided die reaches them (sim/family.mjs `rolledWords`).
+    $('#family-roll-result').textContent = `You rolled ${[8, 11, 18].includes(family.roll) ? 'an' : 'a'} ${family.roll}.`;
     button.textContent = 'Meet your family';
     button.disabled = false;
   } else {

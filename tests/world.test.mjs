@@ -54,3 +54,12 @@ test('Gate B: reproducible initialization, one authority and cross-household com
   world.entities['hh-1-thomas'].id = 'imposter';
   assert.throws(() => validateWorld(world), /entity ID/);
 });
+
+test('an event with nobody to name is saved exactly as it is held: a reloaded class is the class that was saved', async () => {
+  const { record } = await import('../sim/world.mjs');
+  const world = createWorld('undefined-actor', 5);
+  // A rumor nobody carried has no actor, and its expiry is recorded with `actorId: rumor.actorId` (sim/directors.mjs).
+  record(world, 'consequence', { householdId: 'hh-1', actorId: undefined, text: 'Nobody from this family went to Gonzales.' });
+  assert.equal('actorId' in world.events.at(-1), false);
+  assert.deepEqual(JSON.parse(JSON.stringify(world)), world);
+});

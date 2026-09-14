@@ -142,6 +142,10 @@ const bell = text => (unit(`${text}:a`) + unit(`${text}:b`) + unit(`${text}:c`) 
 
 /** The die: twenty-sided since 2026-09-14 (owner). A class rolled before on a six-sided die keeps `household.die` absent. */
 export const FAMILY_DIE = 20;
+/** A roll as it is said: "a 6", but "an 8", "an 11", "an 18". */
+/** Names in a sentence: "Marcos", "Marcos and Levi", "Marcos, Levi and Delia" - a family of eight children read "and" seven times. */
+export const listWords = names => names.length < 3 ? names.join(' and ') : `${names.slice(0, -1).join(', ')} and ${names.at(-1)}`;
+export const rolledWords = roll => `${[8, 11, 18].includes(roll) ? 'an' : 'a'} ${roll}`;
 export const familyRoll = (seed, householdId) => 1 + (hashOf(`${seed}:${householdId}:family-roll`) % FAMILY_DIE);
 
 /**
@@ -447,7 +451,7 @@ export function familyProjection(world, household) {
       const widowed = parent && !kin.spouse && Number.isFinite(entity?.age) ? 'Widowed. ' : '';
       const of = !kin.role ? null
         : children.length
-          ? `${kin.spouse ? `Married to ${nameOf(kin.spouse)}. ` : widowed}${Role} to ${children.join(' and ')}.`
+          ? `${kin.spouse ? `Married to ${nameOf(kin.spouse)}. ` : widowed}${Role} to ${listWords(children)}.`
           : parents.length ? `${Role} of ${parents.join(' and ')}.`
           : widowed ? 'Widowed, with no children.' : null;
       // Age is visible; the hidden stats are not, and are deliberately not read here at all.

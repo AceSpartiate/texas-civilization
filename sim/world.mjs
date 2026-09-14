@@ -20,7 +20,7 @@ import { houseInvalid, houseProjection, noteLandSeen, planHouse, recordHelpDone 
 import { grantInvalid, grantProjection, layOutGrants, setStock } from './grants.mjs';
 import { chooseSite, siteInvalid, siteProjection } from './homesite.mjs';
 import { plotProjection, plotRefusal, plotsInvalid } from './survey.mjs';
-import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, ageBand, defaultNames, familyProjection, familyRoll, FAMILY_DIE, compositionFor, householdName, kinFor, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
+import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, ageBand, defaultNames, familyProjection, familyRoll, FAMILY_DIE, compositionFor, rolledWords, householdName, kinFor, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
 export { HOUSEHOLD_SHAPE, ROLES, householdName, sanitiseName } from './family.mjs';
 export { clearedOf, improvementsOf, ruin } from './improvements.mjs';
 export { MODES, MODE_IDS, DEFAULT_MODE, carryCapacity, modeOf } from './travel.mjs';
@@ -142,7 +142,7 @@ export function rollFamily(world, household) {
   if (household.arriving) putOnTheRoad(world, household);
   // The number, and nothing about what it means: the owner's direction is that the rule is
   // never explained.
-  record(world, 'family-rolled', { householdId: household.id, text: `Your family rolled a ${roll}.`, importance: 2, claimId: 'FIC-GONZ-021' });
+  record(world, 'family-rolled', { householdId: household.id, text: `Your family rolled ${rolledWords(roll)}.`, importance: 2, claimId: 'FIC-GONZ-021' });
   return roll;
 }
 export { WALK_SPEED, RIDER_SPEED, WAGON_SPEED } from './travel.mjs';

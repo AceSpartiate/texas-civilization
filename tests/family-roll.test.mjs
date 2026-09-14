@@ -14,7 +14,7 @@ import { choresFor } from '../sim/chores.mjs';
 import { observedBy } from '../sim/town.mjs';
 import {
   ADULT_AT, CHILD_MAX_AGE, MOTHER_AT_BIRTH, SENT_FROM_AGE,
-  FAMILY_DIE, FAMILY_FACES, compositionFor, dealTraits, familyRoll, rolledPeople,
+  FAMILY_DIE, FAMILY_FACES, compositionFor, listWords, rolledWords, dealTraits, familyRoll, rolledPeople,
 } from '../sim/family.mjs';
 
 /** The owner's table, 2026-09-14: [parents, children] for faces 1 to 20. */
@@ -39,6 +39,8 @@ test('a twenty-sided die decides the family: a lone parent on five faces, both o
       if (parents === 2) assert.deepEqual(people.slice(0, 2).map(person => person.role), ['father', 'mother']);
     }
   }
+  assert.deepEqual([['Marcos'], ['Marcos', 'Levi'], ['Marcos', 'Levi', 'Delia', 'Petra']].map(listWords), ['Marcos', 'Marcos and Levi', 'Marcos, Levi, Delia and Petra'], 'a long family is listed, not strung together');
+  assert.deepEqual([6, 8, 11, 18, 20].map(rolledWords), ['a 6', 'an 8', 'an 11', 'an 18', 'a 20'], 'a roll is said as it sounds');
   assert.throws(() => compositionFor(21));
   assert.throws(() => compositionFor(0));
   // A class rolled on six sides before 2026-09-14: the number was the size.
