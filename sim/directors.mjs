@@ -4,6 +4,20 @@ import { establishTruth, learn } from './knowledge.mjs';
 import { TIRING_MILES } from './routines.mjs';
 import { awardGlory } from './glory.mjs';
 import { canAnswerCalls, cannotAnswerWhy, tooYoung, tooYoungWhy } from './family.mjs';
+import { distantHouseholds, expressLeaves, startExpress } from './expresses.mjs';
+
+/**
+ * A family that lives near another settlement on the real map (docs/COLONIES.md §5.4). It hears by express, and the
+ * Gonzales calls - a neighbour carrying food to the town, a rumor worth riding in to check - are not its calls.
+ * ceiling: until build step 4's settlement calls it is asked nothing; it only hears.
+ */
+const distant = household => Boolean(household.settlementId && household.settlementId !== 'gonzales');
+/**
+ * How long past the Gonzales finish a real-map class runs, at most, so the furthest families hear how the fight ended.
+ * Three days; tests/news.test.mjs measures the last family hearing well inside it. ceiling: until the two clocks of §5.7
+ * compress the days after the fight, this makes a real-map class longer than a lesson.
+ */
+export const EXPRESS_GRACE_MINUTES = 4320;
 
 // Date is anchored; these within-day times, pacing, and formation positions are schematic.
 // `crossing` is the night of October 1, when the force went over to the west bank and
@@ -143,6 +157,7 @@ function offerRequests(world) {
   for (const household of Object.values(world.households)) {
     const report = world.knowledge.households[household.id]['cannon-request'];
     if (!report || world.requests[household.id] || world.minute >= momentOf(world, 'approach')) continue;
+    if (distant(household)) continue;
     if (!firmEnough(report)) {
       offerRumor(world, household, report);
       continue;
@@ -556,11 +571,15 @@ export function advanceDirectors(world, movement) {
       // not exist - which put a family twenty-seven miles out ahead of one five miles out,
       // and a family four miles out seven hours behind one five miles out, for no reason
       // anybody could see on the map.
-      if (!world.director.dispatches[household.id]) {
+      if (!world.director.dispatches[household.id] && !distant(household)) {
         movement.dispatchReport(world, 'cannon-request', household.id);
         world.director.dispatches[household.id] = true;
       }
     }
+  }
+  // The letters for the other settlements, when they were written (sim/expresses.mjs).
+  for (const topicId of ['cannon-request', 'gonzales-outcome']) {
+    if (world.truth[topicId] && world.minute >= expressLeaves(world, topicId, ARRIVAL_MINUTES)) startExpress(world, topicId, movement);
   }
   once(world, 'publicNotice', () => learn(world, 'public', 'cannon-request', { source: 'Public report (reconstructed timing)' }));
   once(world, 'crossing', () => establishTruth(world, { id: CROSSING, text: 'The Texian force crossed the Guadalupe in the night and went upriver after the Mexican camp.', siteId: 'gonzales', classification: 'DOCUMENTED', claimId: 'HIST-GONZ-003' }));
@@ -625,11 +644,14 @@ export function advanceDirectors(world, movement) {
     const truth = establishTruth(world, { id: 'gonzales-outcome', text: HISTORICAL_OUTCOME, siteId: CAMP_SITE, classification: 'DOCUMENTED', claimId: 'HIST-GONZ-004', causes: [world.director.lastBattleEventId] });
     for (const household of Object.values(world.households)) {
       if (witnessing(world, household.id)) learn(world, household.id, truth.id, { source: 'Local observation' });
-      else movement.dispatchReport(world, truth.id, household.id);
+      else if (!distant(household)) movement.dispatchReport(world, truth.id, household.id);
     }
   });
   settleHelp(world); moveFormations(world); standWithTheForce(world);
   once(world, 'publicOutcome', () => learn(world, 'public', 'gonzales-outcome', { source: 'Public report (reconstructed timing)' }));
+  // On the real map the class waits, a few days at most, until the furthest family has heard how it ended.
+  const waiting = distantHouseholds(world).some(household => !world.knowledge.households[household.id]?.['gonzales-outcome']);
+  if (waiting && world.minute < momentOf(world, 'finish') + EXPRESS_GRACE_MINUTES) return;
   once(world, 'finish', () => {
     world.director.complete = true; world.director.phase = 'preserved'; world.status = 'ended';
     record(world, 'slice-preserved', { visibility: 'public', text: 'The Gonzales prototype stops here. Families, absences, property, and memories are saved for the next arc. The Revolution continues beyond this slice.' });

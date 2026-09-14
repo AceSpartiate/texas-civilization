@@ -350,7 +350,7 @@ Each step ends with tests that failed first, a browser proof where it touches wh
 2a. ~~**Automatic neighbours: farming, building, trading and house-raisings**~~ **Done 2026-09-14** (§6c) (§5.9), so every class after step 2 has living
    neighbours. Their answer to the war comes with steps 4 and 5.
 3. ~~**Movement by ground and the house site**~~ **Done 2026-09-14** (§6d) (`docs/LAND_GRANTS.md` §8.3 steps 3–4).
-4. **News by riders over real distance**, calibrated to `HIST-TEX-006`, and the settlement-specific calls.
+4. **News by riders over real distance**, calibrated to `HIST-TEX-006`, and the settlement-specific calls. **Part 1, the expresses, done 2026-09-14** (§6e); part 2 the settlement calls and part 3 the two clocks (6a) to come.
 5. **The gathering and the march**, through the October 11–12 departure: volunteers, joining, the army formation.
 6. **Beyond** (Concepción, the Grass Fight, Béxar), each battle researched first; the glory rule for women built with
    the first `fought`.
@@ -419,6 +419,34 @@ Each step ends with tests that failed first, a browser proof where it touches wh
   going up without somebody seeing them; that waits for the news of step 5), a neighbour **making** offers of its own, a Host
   control to hand a student's abandoned family to the director, and answering the war (steps 5–6). Automatic families are not
   yet excluded from the ending's rankings because the ending is not built; `played` is what will exclude them.
+
+### 6e. As built: step 4 part 1, the expresses (2026-09-14)
+
+- **`sim/expresses.mjs`.** On the real map, when the letters say word left Gonzales — the call for help at 8 am on September 30,
+  the fight at 2 pm on October 2 (`EXPRESS_LEAVES`; the dates from the letters, the hours invented) — an express rider sets out
+  on each road towards the settlements the class's families live near, stopping at every settlement and crossing on the way
+  (`expressRoutes`, laid once). At each stop the word waits **six hours** (`RELAY_MINUTES`: read, copied, a fresh rider found),
+  then goes on by a fresh rider on each road onward and out to the families of that settlement by the ordinary in-person
+  riders, who carry the express riders in their ancestry: *"I've come from San Felipe de Austin, and I did not see any of this
+  myself. Silas Roe put it in my hands there, and had it from another rider before that, out of Gonzales."* A family of
+  Gonzales is told as before, by riders straight out of the town. The invented Gonzales map has no other settlements and is
+  untouched.
+- **Calibrated, and tested against the letters** (`tests/news.test.mjs`, `HIST-TEX-006`): the call for help reaches the
+  Colorado crossing at La Grange (Moore's) at 2:40 pm on September 30 and San Felipe at 3:20 am on October 1 (the letters: by
+  October 1); the fight reaches San Felipe at 9:20 am on October 3 (the letters: October 2–3); Liberty hears after San Felipe,
+  the call early on October 2 and the fight on October 4. A family hears a few hours after its settlement reads the express.
+  Moore's had the news on September 28, before this game's own story at Gonzales begins on the 29th (`HIST-GONZ-002`), so the
+  Colorado is a day and a half late; nothing earlier than the story can be sent.
+- **A distant family is asked none of the Gonzales calls** — no neighbour carrying food to Gonzales, no rumor to ride in and
+  check — until part 2 gives it its own settlement's call. `ceiling:` it only hears.
+- **The class runs on** past the Gonzales finish until the furthest family has heard how the fight ended, three days at most
+  (`EXPRESS_GRACE_MINUTES`): a class of fifteen or thirty on the real map now ends about 6 pm on October 4, some 470 ticks.
+  `ceiling:` until the two clocks compress the days after the fight (§5.7), that is longer than a lesson.
+- **Browser-checked on the same computer** (MAP=colonies, SEED=news-proof-2, 250 ms ticks): a San Felipe family's child met
+  Willa Hines on October 1 with the call, told second-hand out of Gonzales by way of San Felipe, and on October 3 Tobias Crow
+  with the fight, "had it from Concepción Mora at San Felipe de Austin".
+- **Old saves:** no `expresses` and no rider carrying one; a real-map class saved before opens and plays as it did until its
+  letters leave. No save version moved. Thirteen injected regressions, all caught (one drill first written as a no-op, replaced).
 
 ### 6d. As built: the going and the house site
 

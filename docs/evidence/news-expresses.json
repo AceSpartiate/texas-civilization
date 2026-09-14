@@ -1,0 +1,54 @@
+{
+  "record": "News by riders over real distance: docs/COLONIES.md build step 4, part 1 (the expresses)",
+  "date": "2026-09-14",
+  "verdict": "PASS",
+  "measured": {
+    "note": "Two real-map classes of thirty (news-measure, news-measure-2), identical express times in both; clock starts dawn Sept 28.",
+    "callForHelp": {
+      "leftGonzales": "Sep 30 08:00",
+      "mina": "Sep 30 14:20",
+      "laGrangeCrossing": "Sep 30 14:40",
+      "victoria": "Sep 30 16:00",
+      "sanFelipe": "Oct 1 03:20",
+      "matagorda": "Oct 1 06:40",
+      "harrisburg": "Oct 1 16:20",
+      "columbia": "Oct 1 16:40",
+      "liberty": "Oct 2 03:40"
+    },
+    "fight": {
+      "leftGonzales": "Oct 2 14:00",
+      "sanFelipe": "Oct 3 09:20",
+      "liberty": "Oct 4 09:40"
+    },
+    "familiesHeard": "A settlement's families 6 to 8 hours after its express arrived; Gonzales families Sept 29 10:40-12:20 as before. Class ended Oct 4 18:20 (469 ticks, 190-270 ms for the whole run).",
+    "againstTheLetters": "HIST-TEX-006: San Felipe had the call by Oct 1 (game: Oct 1 03:20) and the fight Oct 2-3 (game: Oct 3 09:20). Moore's on the Colorado had the news Sept 28, before the game's story begins (game: Sept 30 14:40)."
+  },
+  "browserProof": {
+    "note": "Same computer only. MAP=colonies SEED=news-proof-2 TICK_MS=250, the in-app browser, the student's family near San Felipe. Not LAN acceptance.",
+    "observed": [
+      "Oct 1: the family's child met Willa Hines: \"I've come from San Felipe de Austin, and I did not see any of this myself. Silas Roe put it in my hands there, and had it from another rider before that, out of Gonzales.\" The family's report: unconfirmed, source \"Willa Hines, who had it from Silas Roe at San Felipe de Austin, and it had passed through other hands before that\".",
+      "Oct 3: the child met Tobias Crow with the fight, the meeting panel opened by choosing the child and Listen: \"Had it from Concepción Mora at San Felipe de Austin ... out of Gonzales · 1.0 hours on the road\"."
+    ]
+  },
+  "automated": {
+    "suite": "tests/news.test.mjs (5)",
+    "wholeSuite": "378 pass, 0 fail",
+    "injectedRegressions": [
+      "no wait at a stop",
+      "a day at every stop",
+      "the letters leave with the news",
+      "distant families told straight from Gonzales",
+      "the fight never goes out by express",
+      "the families of a settlement never sent to",
+      "the word goes no further than the first stop",
+      "local riders forget the express",
+      "distant families asked the Gonzales calls",
+      "the class ends before the far families hear",
+      "the express rides on the Gonzales map",
+      "expresses never validated",
+      "express riders walk"
+    ],
+    "allCaught": true
+  },
+  "notBuilt": "Part 2, what each settlement asked of its families (turn out, march for Gonzales); part 3, the two clocks that compress the days after the fight into a lesson."
+}

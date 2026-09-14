@@ -20,6 +20,7 @@ import { houseInvalid, houseProjection, noteLandSeen, planHouse, recordHelpDone 
 import { grantInvalid, grantProjection, layOutGrants, setStock } from './grants.mjs';
 import { chooseSite, siteInvalid, siteProjection } from './homesite.mjs';
 import { plotProjection, plotRefusal, plotsInvalid } from './survey.mjs';
+import { advanceExpresses, expressesInvalid } from './expresses.mjs';
 import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, ageBand, defaultNames, familyProjection, familyRoll, FAMILY_DIE, compositionFor, rolledWords, householdName, kinFor, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
 export { HOUSEHOLD_SHAPE, ROLES, householdName, sanitiseName } from './family.mjs';
 export { clearedOf, improvementsOf, ruin } from './improvements.mjs';
@@ -281,13 +282,15 @@ export function beginTravel(world, entity, destination, causeId, purpose = 'visi
   // given them the mounted speed by looking at the report rather than at a mode, and that
   // stays exactly as it was: relays must never start depending on whether some family
   // happens to own an animal.
-  const mode = entity.report ? MODES.horse : MODES[modeId];
+  // An express rider between settlements (sim/expresses.mjs) rides the same way, for the same reason.
+  const riding = Boolean(entity.report || entity.express);
+  const mode = riding ? MODES.horse : MODES[modeId];
   if (!mode) throw new Error('No such way of going.');
-  if (!entity.report) {
+  if (!riding) {
     const { can, why } = modeAvailability(world, entity, mode.id, path);
     if (!can) throw new Error(why);
   }
-  const how = entity.report || mode.id === 'foot' ? '' : mode.id === 'horse' ? ', riding' : ', with the ox and wagon';
+  const how = riding || mode.id === 'foot' ? '' : mode.id === 'horse' ? ', riding' : ', with the ox and wagon';
   const departure = record(world, 'departure', { actorId: entity.id, householdId: entity.householdId, text: `${entity.name} left for ${world.map.sites[destination].name}${how}.`, causes: causeId ? [causeId] : [] });
   // A journey starts where the person is standing. Somebody who stood with the Texian force
   // is a third of a mile from the camp's point, and starting their road at the point drew
@@ -300,9 +303,9 @@ export function beginTravel(world, entity, destination, causeId, purpose = 'visi
   const distance = gap > STANDING_APART_MILES ? path.distance + gap : path.distance;
   // The going over the lanes and tracks of the real land (sim/ground.mjs); the step in from where somebody stood is open ground.
   const pace = paceOf(points, path.ground && (gap > STANDING_APART_MILES ? [null, ...path.ground] : path.ground), mode.id);
-  entity.travel = { from, to: destination, points, progress: 0, distance, speed: entity.report ? RIDER_SPEED : mode.speed, mode: mode.id, purpose, causeId: departure, ...(pace.length && { pace }) };
+  entity.travel = { from, to: destination, points, progress: 0, distance, speed: riding ? RIDER_SPEED : mode.speed, mode: mode.id, purpose, causeId: departure, ...(pace.length && { pace }) };
   entity.location = { ...points[0], siteId: null }; entity.task = 'travel';
-  if (!entity.report) harness(world, entity, mode, path, departure);
+  if (!riding) harness(world, entity, mode, path, departure);
 }
 export function progressTravel(world, entity, units = 1) {
   const travel = entity.travel; if (!travel) return;
@@ -364,6 +367,8 @@ export function stepWorld(world) {
   // A rider who has just finished their leg gives the word on in the same tick, so news
   // does not sit at a fork of the road for twenty minutes waiting for the simulation.
   advanceRelays(world);
+  // Expresses between the settlements of the real map arrive, wait while the word is read, and send it on (sim/expresses.mjs).
+  advanceExpresses(world, { beginTravel, relayReport });
   // Chores run after travel resolves, so a person who arrived this tick picks up the
   // next step of their work in the same tick rather than idling for one.
   advanceChores(world, { beginTravel, modeAvailability });
@@ -432,6 +437,13 @@ function sendRider(world, { topicId, audience, status, originSiteId, fromSiteId,
   world.entities[id] = entity;
   beginTravel(world, entity, entity.report.destination, causeId, 'report');
   return entity;
+}
+/**
+ * A rider of a settlement carrying word that came to it by express out to one of its families (sim/expresses.mjs): the same
+ * rider, in person, with the express riders in its ancestry, so the family is told where it came from and how.
+ */
+export function relayReport(world, { topicId, householdId, fromSiteId, originSiteId, status, provenance, causeId }) {
+  return sendRider(world, { topicId, audience: householdId, status, originSiteId, fromSiteId, provenance, causeId });
 }
 export function dispatchReport(world, topicId, householdId, status = 'confirmed') {
   const truth = world.truth[topicId];
@@ -792,6 +804,8 @@ export function validateWorld(world) {
       }
     }
   }
+  const badExpress = expressesInvalid(world);
+  if (badExpress) throw new Error(badExpress);
   const events = new Set(world.events.map(e => e.id));
   if (events.size !== world.events.length || world.events.some(e => e.causes.some(id => !events.has(id)))) throw new Error('Invalid event graph');
   if (world.nextEventId !== world.events.length + 1) throw new Error('Event sequence would duplicate an ID');
