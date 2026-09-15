@@ -43,6 +43,8 @@ export function createWorld(seed = 'gonzales', playerCount = 15, { map = 'gonzal
   const region = map === 'colonies' ? buildColoniesRegion(random, playerCount) : buildGonzalesRegion(random, playerCount);
   world.map.sites = region.sites; world.map.routes = region.routes; world.map.terrain = region.terrain; world.map.relief = region.relief; world.map.bounds = region.bounds; world.map.homeBounds = region.homeBounds; world.map.province = region.province;
   if (region.source) world.map.source = region.source;
+  // The woods of the real land (sim/woods.mjs, docs/WOODS_AND_BUILDING.md §4). Absent on every class made before, which keeps timber by the water.
+  if (region.woods) world.map.woods = region.woods;
   // Families nobody plays live their own lives in a class made with this on (sim/neighbours.mjs, docs/COLONIES.md §5.9).
   // Absent on every class made before, which keep their unplayed families idle, so no save version moved.
   if (neighbours) world.neighbours = true;

@@ -15,6 +15,7 @@
 import { cutGround, polylineLength } from './geography.mjs';
 import { groundAlong, landAround, onRealLand, segmentPace } from './ground.mjs';
 import { distanceToPolyline } from './terrain.mjs';
+import { woodsRule } from './woods.mjs';
 
 /**
  * How far from where they are anybody strikes out across country to a road or a place, in miles.
@@ -49,7 +50,7 @@ export function groundAcross(world, a, b) {
   if (onRealLand(world)) {
     const land = landAround();
     if (land.crossings(a, b).barrier) return null;
-    return groundAlong([a, b], land)[0];
+    return groundAlong([a, b], land, woodsRule(world))[0];
   }
   const water = (world.map.terrain || []).filter(feature => feature.kind === 'river' || feature.kind === 'creek');
   let creeks = 0;

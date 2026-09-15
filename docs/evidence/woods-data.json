@@ -1,0 +1,53 @@
+{
+  "record": "The woods of the real land: docs/WOODS_AND_BUILDING.md build step 1",
+  "date": "2026-09-15",
+  "verdict": "PASS",
+  "sources": {
+    "vegetation": {
+      "what": "LANDFIRE LF2016_BPS (Biophysical Settings, LF 2.0.0), USGS/USDA, public domain",
+      "how": "LANDFIRE Product Service v2 (https://lfps.usgs.gov/api/job/submit), Layer_List=LF2016_BPS, Area_of_Interest=-99 28 -94 32, Output_Projection=4326, Resample_Resolution=240; job 7ff74f95-8da6-4b11-8be0-735cd5e4ca4b, succeeded 2026-09-15 05:49 UTC in 18.6 s. The service requires an email address; the owner agreed to give theirs.",
+      "file": "2,120 x 1,706 cells, 16-bit, LZW, 0.00236 degrees a cell, with its .vat.dbf attribute table (74 values, 49 settings in the box). 1.01 MB zipped. Not kept in the repository."
+    },
+    "ecoregions": {
+      "what": "U.S. EPA Level IV Ecoregions of Texas, tx_eco_l4 (2011), public domain",
+      "how": "https://dmap-prod-oms-edc.s3.us-east-1.amazonaws.com/ORD/Ecoregions/tx/tx_eco_l4.zip, 4.2 MB, USGS Albers Equal Area (NAD83). Not kept in the repository."
+    },
+    "models": "LANDFIRE BpS model descriptions from https://research.fs.usda.gov/sites/default/files/feis/bps/: read 15190, 14730, 14740, 13710, 13580, 14340; downloaded and not yet read 13830, 13900, 14220, 13380.",
+    "travellers": "Mary Austin Holley, Texas (Lexington, 1836), pp. 16-21, 47-51, archive.org/details/texas00holl (HIST-TEX-016)."
+  },
+  "build": "node scripts/build-woods.mjs <bps.tif> <bps.tif.vat.dbf> <tx_eco_l4-dir>: 3 s; public/terrain/colonies-woods.bin.gz 629,313 bytes, colonies-woods.json.gz 8,748 bytes; 57 ecoregions.",
+  "measured": {
+    "standShares": "prairie 27.4, post-oak 12.3, bottomland 9.2, creek 4.7, pine 10.7, live-oak 0.5, hill-savanna 11.0, brush 6.4, marsh 0.9, water 4.4, off the data 12.5 per cent of the cells",
+    "places": "Bastrop (-97.23, 30.12) pine, ecoregion 33e Bastrop Lost Pines; Brazos bottom (-95.6, 29.1) bottomland, 34c; San Felipe (-96.1, 29.8) prairie; west of Bexar (-98.84, 29.28) brush; Matagorda Bay water.",
+    "savanna": "A 2.5-mile square of post oak savanna west of Seguin: open mature and closed patches within 5 and 4 points of the model's 58 and 18 per cent; 12 to 30 per cent timber.",
+    "density": "Closed mature bottomland patches hold 30 trees an acre within 3 (LANDFIRE 14730: canopy trees 15-30 an acre).",
+    "speed": "A 30-family real-land class with neighbours, 465 ticks: 9.7 s with the woods, 12.9 s under the old rule; 40 acres of the Lost Pines listed (756 trees) in 3 ms."
+  },
+  "alignment": "The stand grid drawn at half a mile with the real rivers over it: the floodplains follow the Brazos, Colorado, Guadalupe and Trinity, the Lost Pines lie by the Colorado at Bastrop, the pines fill the north-east, the thornscrub the south-west. Checked by eye on the same computer.",
+  "automated": {
+    "suite": "tests/woods.test.mjs (5)",
+    "wholeSuite": "405 pass, 0 fail",
+    "injectedRegressions": [
+      "one class a stand",
+      "no creek strip",
+      "no coastal live oak",
+      "no eastern pine",
+      "density doubled",
+      "mesquite gives logs",
+      "old saves read the woods",
+      "savanna all timber",
+      "cover ignores the woods",
+      "woods not recorded",
+      "field ground ignores the woods",
+      "tracks on the old going",
+      "site timber by the water",
+      "site ground by the water",
+      "family site by the water"
+    ],
+    "caught": 15,
+    "equivalent": [
+      "tree read at its own point: a patch is always read at its centre, so the change does nothing"
+    ]
+  },
+  "notBuilt": "Trees drawn (step 2); hunting on the family's land (3); felling and logs (4); the house plot (5); raising by stages (6)."
+}

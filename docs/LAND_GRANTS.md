@@ -313,6 +313,7 @@ Built as `docs/COLONIES.md` §6 item 3; tests `tests/ground.test.mjs` and `tests
   round, where the track from the road already ended — rather than where the track meets the edge of the holding. The edge of a
   family's holding depends on the stock it chooses in the lobby, after the class and its tracks are made, so a gate on it would
   have moved each time the stock choice did. The family still chooses on arrival and anywhere on what it holds.
+- **Amended 2026-09-15** ([docs/WOODS_AND_BUILDING.md](WOODS_AND_BUILDING.md) §4): a class made since reads timber and mesquite brush from the woods, patch by patch; the rule below is kept for classes made before.
 - **The going** (`sim/ground.mjs`, `FIC-GONZ-026`). Cover on the real land by §8.2's rule: timber within 0.9 miles of a river
   and 0.2 of a creek, brush on ground steeper than 8 in 100, open prairie and savannah between. A mile of timber is 1.3 on foot,
   1.5 on the horse, 2 with the wagon; brush 1.6, 1.8, 2.5; a creek costs a tenth of a mile on foot, a twentieth on the horse and

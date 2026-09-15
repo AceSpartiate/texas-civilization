@@ -22,6 +22,7 @@ import { polylineLength } from './geography.mjs';
 import { groundAlong, layLane, paceOf, siteFacts, siteWords, WATER_CARRY_MILES } from './ground.mjs';
 import { holdingOf } from './grants.mjs';
 import { WAGON_SPEED } from './travel.mjs';
+import { woodsRule } from './woods.mjs';
 
 /** How much longer the heavy work of a place goes, per mile past carrying distance that water is fetched from (FIC-GONZ-026). */
 export const WATER_BURDEN_PER_MILE = 0.6;
@@ -62,10 +63,11 @@ export function siteFactsFor(world, household, point) {
 function examine(world, household, point) {
   const why = chooseRefusal(world, household);
   if (why) return { facts: { can: false, why } };
-  const facts = siteFacts(point, holdingOf(world, household).bounds);
+  const rule = woodsRule(world);
+  const facts = siteFacts(point, holdingOf(world, household).bounds, rule);
   if (!facts.can) return { facts };
   const road = world.map.sites[laneOf(world, household)?.from];
-  const lane = road && layLane(road, point);
+  const lane = road && layLane(road, point, rule);
   if (!lane) return { facts: { ...facts, can: false, why: 'No wagon can be brought to that spot.' } };
   const laneMiles = round(polylineLength(lane));
   return { facts: { ...facts, laneMiles, words: siteWords(facts, laneMiles) }, lane };
@@ -83,7 +85,7 @@ export function chooseSite(world, household, point) {
   const mark = { x: home.x, y: home.y };
   const route = laneOf(world, household);
   route.points = lane;
-  route.ground = groundAlong(lane);
+  route.ground = groundAlong(lane, null, woodsRule(world));
   // Marked out, not cut: the family cuts it (owner, 2026-09-14), from the house outward.
   route.cut = 0;
   home.x = x; home.y = y;
@@ -98,9 +100,9 @@ export function chooseSite(world, household, point) {
   world.map.revision = (world.map.revision || 0) + 1;
 
   // Over to the site with the wagon, at the wagon's pace, by the easiest ground from the mark.
-  const overLane = layLane(mark, { x, y });
+  const overLane = layLane(mark, { x, y }, woodsRule(world));
   const over = overLane?.length >= 2 ? overLane : [mark, { x, y }];
-  const overGround = groundAlong(over);
+  const overGround = groundAlong(over, null, woodsRule(world));
   const overMiles = polylineLength(over);
   // A house set down on the mark itself moves nobody: there is no way over to walk (found in the browser proof, 2026-09-14,
   // where a journey of no length was refused as invalid).

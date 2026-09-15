@@ -123,3 +123,50 @@ export function openElevation(path) {
     },
   };
 }
+
+/**
+ * Open a class map: the LANDFIRE Product Service's one band of 16-bit integers, tiled, LZW with no
+ * predictor or the horizontal one (2), in geographic coordinates. For scripts/build-woods.mjs.
+ * Returns `at(lon, lat)`, the class at a point, or null off the raster or on its no-data value.
+ */
+export function openClasses(path) {
+  const buffer = readFileSync(path);
+  const { tags, le } = readTags(buffer);
+  const width = tags[256][0], height = tags[257][0];
+  if (tags[258][0] !== 16 || (tags[277]?.[0] ?? 1) !== 1) throw new Error(`${path}: expected one band of 16-bit integers`);
+  if (tags[259][0] !== 5) throw new Error(`${path}: expected LZW compression`);
+  const predictor = tags[317]?.[0] ?? 1;
+  if (![1, 2].includes(predictor)) throw new Error(`${path}: unexpected predictor ${predictor}`);
+  const signed = (tags[339]?.[0] ?? 1) === 2;
+  const tileWidth = tags[322]?.[0], tileHeight = tags[323]?.[0];
+  if (!tileWidth || !tileHeight) throw new Error(`${path}: expected a tiled TIFF`);
+  const offsets = tags[324], counts = tags[325];
+  const [scaleX, scaleY] = tags[33550];
+  const [, , , tieLon, tieLat] = tags[33922];
+  const noData = tags[42113] !== undefined ? Number(tags[42113]) : null;
+  const across = Math.ceil(width / tileWidth);
+  const decoded = new Map();
+  const tile = index => {
+    if (decoded.has(index)) return decoded.get(index);
+    const raw = lzwDecode(buffer.subarray(offsets[index], offsets[index] + counts[index]), tileWidth * tileHeight * 2);
+    const view = new DataView(raw.buffer, raw.byteOffset, raw.byteLength);
+    const values = new Int32Array(tileWidth * tileHeight);
+    for (let i = 0; i < values.length; i++) values[i] = signed ? view.getInt16(i * 2, le) : view.getUint16(i * 2, le);
+    if (predictor === 2) for (let y = 0; y < tileHeight; y++) for (let x = 1; x < tileWidth; x++) {
+      const i = y * tileWidth + x, sum = values[i] + values[i - 1];
+      values[i] = signed ? (sum << 16) >> 16 : sum & 0xffff;
+    }
+    decoded.set(index, values);
+    return values;
+  };
+  return {
+    width, height,
+    at(lon, lat) {
+      // Pixel-is-area: the tie point is the outer corner of the first pixel.
+      const column = Math.floor((lon - tieLon) / scaleX), row = Math.floor((tieLat - lat) / scaleY);
+      if (column < 0 || row < 0 || column >= width || row >= height) return null;
+      const value = tile(Math.floor(row / tileHeight) * across + Math.floor(column / tileWidth))[(row % tileHeight) * tileWidth + (column % tileWidth)];
+      return noData !== null && value === noData ? null : value;
+    },
+  };
+}

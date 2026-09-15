@@ -10,6 +10,7 @@
 // class saved before this opens as it was and no save version moved.
 import { distanceToPolyline } from './terrain.mjs';
 import { landAround, onRealLand } from './ground.mjs';
+import { woodsRule } from './woods.mjs';
 
 export const PLOT_ACRES = 10;
 /** About an eighth of a mile a side. */
@@ -27,7 +28,7 @@ export const overlaps = (a, b) => a.minX < b.maxX && b.minX < a.maxX && a.minY <
 /** What ground a place is: timber, brush or prairie, from the map the class is played on. */
 export function groundAt(world, point) {
   if (onRealLand(world)) {
-    const cover = landAround({ minX: point.x - 2, minY: point.y - 2, maxX: point.x + 2, maxY: point.y + 2 }).coverAt(point);
+    const cover = landAround({ minX: point.x - 2, minY: point.y - 2, maxX: point.x + 2, maxY: point.y + 2 }).coverAt(point, woodsRule(world));
     return cover === 'open' ? 'prairie' : cover;
   }
   // The invented country: timber along the water (HIST-GONZ-012), as its map draws it; open prairie between.

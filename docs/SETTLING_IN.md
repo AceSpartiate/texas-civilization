@@ -156,6 +156,8 @@ would mean a second clock. So:
 
 ## 5. Houses: layouts, construction methods, benefits and problems
 
+**Amended 2026-09-15** ([docs/WOODS_AND_BUILDING.md](WOODS_AND_BUILDING.md) §6): the owner decided a house is felled from the family's own land and raised piece by piece from a period plan or pieces placed on a grid. Until that is built, this section is what plays.
+
 A family chooses **a layout** and **a construction method**. Every effect below must act through a system
 that already exists, so that a house matters in play today and weather and night can reach it later.
 

@@ -10,6 +10,7 @@
 // hill, how far is too far to carry water, and every refusal's threshold.
 import { realTerrain } from './terrain-data.mjs';
 import { BARRIER_RIVERS } from './colonies-map.mjs';
+import { patchAt, patchCover, timberMilesFrom } from './woods.mjs';
 
 const METRES_PER_MILE = 1609.344;
 const FEET_PER_METRE = 3.28084;
@@ -21,7 +22,11 @@ export const onRealLand = world => world?.map?.source === 'texas-colonies-map';
 
 /** How far apart the ground along a route is read, in miles. */
 export const SAMPLE_MILES = 1 / 16;
-/** Timber stands along the rivers this far out, and along a running creek this far (HIST-GONZ-012; the widths FIC-GONZ-026). */
+/**
+ * Timber stands along the rivers this far out, and along a running creek this far (HIST-GONZ-012; the widths FIC-GONZ-026):
+ * the rule of a class on the real land saved before the woods grid (`rule` 'rivers'). A class made since reads its timber
+ * from the woods (sim/woods.mjs, `rule` 'landfire').
+ */
 export const TIMBER_FROM_RIVER = 0.9;
 export const TIMBER_FROM_CREEK = 0.2;
 /** Ground steeper than this, rise over run, is broken and grown up in brush (FIC-GONZ-026). */
@@ -164,14 +169,23 @@ export function landAround(box) { // eslint-disable-line no-unused-vars
     const dy = terrain.heightAt(point.x, point.y + step) - terrain.heightAt(point.x, point.y - step);
     return Math.hypot(dx, dy) / run;
   };
-  /** Timber along the water, brush on broken ground, open prairie and post oak savannah between (HIST-GONZ-012). */
-  const coverAt = point => {
+  /**
+   * What covers a point: `timber`, `brush` or `open`. Under the woods (`rule` 'landfire', docs/WOODS_AND_BUILDING.md §4.1)
+   * a patch of ten or more log-sized trees an acre is timber and mesquite is brush; under the old rule timber is along the
+   * water (HIST-GONZ-012). Either way steep open ground is broken and grown up in brush.
+   */
+  const nearCreek = (point, miles) => Boolean(nearestWater(point, info => info.kind === 'creek', miles));
+  const coverAt = (point, rule = 'rivers') => {
+    if (rule === 'landfire') {
+      const cover = patchCover(patchAt(point, { rule, nearCreek }));
+      return cover === 'open' && grade(point) > BRUSH_GRADE ? 'brush' : cover;
+    }
     const river = nearestWater(point, info => info.kind !== 'creek', TIMBER_FROM_RIVER);
     if (river) return 'timber';
     if (nearestWater(point, info => info.kind === 'creek', TIMBER_FROM_CREEK)) return 'timber';
     return grade(point) > BRUSH_GRADE ? 'brush' : 'open';
   };
-  land = { heightAt: terrain.heightAt, nearestWater, crossings, grade, coverAt };
+  land = { heightAt: terrain.heightAt, nearestWater, crossings, grade, coverAt, nearCreek };
   return land;
 }
 
@@ -186,7 +200,7 @@ const boxAround = (points, pad) => ({
  * What lies along each segment of a route, forward: `[rise in metres, share of it in timber, share in brush, creeks
  * crossed, lesser rivers crossed]`. Stored on the route, so a journey's going is worked out from the saved map alone.
  */
-export function groundAlong(points, land = null) {
+export function groundAlong(points, land = null, rule = 'rivers') {
   if (points.length < 2) return [];
   land ||= landAround(boxAround(points, 1));
   return points.slice(1).map((b, index) => {
@@ -194,7 +208,7 @@ export function groundAlong(points, land = null) {
     const samples = Math.max(1, Math.round(length / SAMPLE_MILES));
     let timber = 0, brush = 0;
     for (let s = 0; s < samples; s++) {
-      const f = (s + 0.5) / samples, cover = land.coverAt({ x: a.x + (b.x - a.x) * f, y: a.y + (b.y - a.y) * f });
+      const f = (s + 0.5) / samples, cover = land.coverAt({ x: a.x + (b.x - a.x) * f, y: a.y + (b.y - a.y) * f }, rule);
       if (cover === 'timber') timber++; else if (cover === 'brush') brush++;
     }
     const ha = land.heightAt(a.x, a.y), hb = land.heightAt(b.x, b.y);
@@ -243,7 +257,7 @@ const LANE_ROOM = 1.5;
  * big river, never through water. Costed as the wagon's going (`segmentPace`), so a lane goes round a hill or a thicket
  * when going round is quicker, and fords a creek where it has to.
  */
-export function layLane(from, to) {
+export function layLane(from, to, rule = 'rivers') {
   const land = landAround(boxAround([from, to], LANE_ROOM + 1));
   const box = boxAround([from, to], LANE_ROOM);
   const columns = Math.ceil((box.maxX - box.minX) / LANE_STEP) + 1, rows = Math.ceil((box.maxY - box.minY) / LANE_STEP) + 1;
@@ -251,7 +265,7 @@ export function layLane(from, to) {
   const WET = 'wet';
   const read = (x, y) => {
     const height = land.heightAt(x, y);
-    return { x, y, height, cover: Number.isFinite(height) && height >= 0.3 ? land.coverAt({ x, y }) : WET };
+    return { x, y, height, cover: Number.isFinite(height) && height >= 0.3 ? land.coverAt({ x, y }, rule) : WET };
   };
   const nodes = new Array(columns * rows);
   const nodeAt = i => nodes[i] || (nodes[i] = read(box.minX + (i % columns) * LANE_STEP, box.minY + Math.floor(i / columns) * LANE_STEP));
@@ -347,7 +361,7 @@ const nameOf = water => water.name || (water.kind === 'creek' ? 'a branch' : 'th
  * choosing: the ground, how high above the nearest water, how far to water that runs all year, how far to timber,
  * whether it is bottom land that floods. `bounds` is the family's holding; `why` is the refusal, in a sentence.
  */
-export function siteFacts(point, bounds) {
+export function siteFacts(point, bounds, rule = 'rivers') {
   if (!Number.isFinite(point?.x) || !Number.isFinite(point?.y)) return { can: false, why: 'Choose a place on the map.' };
   if (point.x < bounds.minX || point.x > bounds.maxX || point.y < bounds.minY || point.y > bounds.maxY) return { can: false, why: 'That is not your land.' };
   const land = landAround(boxAround([point], 3));
@@ -359,9 +373,11 @@ export function siteFacts(point, bounds) {
   const creekTimber = land.nearestWater(point, info => info.kind === 'creek');
   const aboveFeet = nearest ? Math.max(0, Math.round((height - land.heightAt(nearest.at.x, nearest.at.y)) * FEET_PER_METRE)) : null;
   const riverFeet = river ? (height - land.heightAt(river.at.x, river.at.y)) * FEET_PER_METRE : Infinity;
-  const timberMiles = Math.max(0, Math.min(river ? river.distance - TIMBER_FROM_RIVER : Infinity, creekTimber ? creekTimber.distance - TIMBER_FROM_CREEK : Infinity));
+  const timberMiles = rule === 'landfire'
+    ? timberMilesFrom(point, { rule, nearCreek: land.nearCreek }) ?? Infinity
+    : Math.max(0, Math.min(river ? river.distance - TIMBER_FROM_RIVER : Infinity, creekTimber ? creekTimber.distance - TIMBER_FROM_CREEK : Infinity));
   const facts = {
-    ground: land.coverAt(point),
+    ground: land.coverAt(point, rule),
     ...(nearest && { nearest: nameOf(nearest), aboveFeet }),
     ...(running ? { water: nameOf(running), waterMiles: round(running.distance) } : { water: null, waterMiles: null }),
     timberMiles: Number.isFinite(timberMiles) ? round(timberMiles) : null,

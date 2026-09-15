@@ -17,6 +17,7 @@ import { coloniesMap, BARRIER_RIVERS, dealCounts } from './colonies-map.mjs';
 import { realTerrain } from './terrain-data.mjs';
 import { groundAlong, layLane } from './ground.mjs';
 import { sampleReliefGrid } from './terrain.mjs';
+import { WOODS_SOURCE } from './woods.mjs';
 import { buildProvince } from './texas.mjs';
 
 const round = value => { const fixed = +value.toFixed(2); return fixed === 0 ? 0 : fixed; };
@@ -190,7 +191,7 @@ export function buildColoniesRegion(random, playerCount) {
     }
     // The lane in from the road over the easiest ground for a wagon (sim/ground.mjs); straight only if the land offers no way round.
     const join = { x: sites[joinId].x, y: sites[joinId].y };
-    const lane = layLane(join, home) || [join, { x: home.x, y: home.y }];
+    const lane = layLane(join, home, 'landfire') || [join, { x: home.x, y: home.y }];
     routes[`route-${joinId}-${home.id}`] = { id: `route-${joinId}-${home.id}`, from: joinId, to: home.id, kind: 'track', points: lane };
     terrain.push({ id: `field-${index + 1}`, kind: 'field', ownerHouseholdId: `hh-${index + 1}`, points: [
       { x: round(home.x + 0.04), y: round(home.y + 0.03) }, { x: round(home.x + 0.29), y: round(home.y + 0.03) },
@@ -201,7 +202,7 @@ export function buildColoniesRegion(random, playerCount) {
 
   // The going off the roads: what lies along every lane, timber track and the bank upriver (sim/ground.mjs). The roads are the easy going.
   // ceiling: a road carries no going, so its climbs and creeks cost nothing; the roads were routed round the worst of both.
-  for (const route of Object.values(routes)) if (['track', 'bank'].includes(route.kind)) route.ground = groundAlong(route.points);
+  for (const route of Object.values(routes)) if (['track', 'bank'].includes(route.kind)) route.ground = groundAlong(route.points, null, 'landfire');
 
   // The watercourses round every settlement with families, and round Gonzales where the story is: the rivers block sight
   // and earshot (`blockedByWater`), the creeks and timber are what the country looks like. A course leaving and re-entering
@@ -256,5 +257,5 @@ export function buildColoniesRegion(random, playerCount) {
   // The Gulf has no height; the relief drawing reads it as the lowest ground there is.
   const relief = sampleReliefGrid({ heightAt: (x, y) => { const h = land.heightAt(x, y); return Number.isFinite(h) ? h : 0; } }, padded, 88);
   const province = buildProvince();
-  return { sites, routes, terrain, homesteads, relief, homeBounds: padded, bounds: province.bounds, province, source: built.kind };
+  return { sites, routes, terrain, homesteads, relief, homeBounds: padded, bounds: province.bounds, province, source: built.kind, woods: WOODS_SOURCE };
 }
