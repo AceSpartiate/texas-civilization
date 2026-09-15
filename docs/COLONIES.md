@@ -226,6 +226,28 @@ its own land on the same dawn, not one party.
   (`HIST-TEX-006`: Washington "turning out", Harrisburg men "on by to-morrow", volunteers rendezvousing at Kerr's on the
   Lavaca).
 
+### 5.4a What each settlement asked (research, 2026-09-14, `HIST-TEX-014`)
+
+Read in the letters of *The Austin Papers* vol. III, September 25 to October 11, 1835. The calls were not one call:
+
+| Settlement | What its people were asked | And what happened |
+| --- | --- | --- |
+| San Felipe, Washington (the Austin jurisdiction) | Turn out and march to Gonzales, "every citizen who is yet at home" (Oct 3, again Oct 8) | Companies marched from Sept 29; Washington "turning out" Oct 1 |
+| The Colorado (Moore's, La Grange) | Muster at once | "mustering as fast as they can" Sept 29; its men were at Gonzales for the fight |
+| Matagorda, Caney, Bay Prairie | Volunteers to gather at James Kerr's on the Lavaca | The town "too few, to enable us to spare many"; its powder held for Austin |
+| Columbia, Brazoria, the lower Brazos | Gather at Kerr's | Turned back by news from Matagorda; by Oct 6 afraid of a landing and a slave rising, unarmed, asking whether any more should go |
+| Harrisburg | Come on to San Felipe, then Gonzales; each man to judge for himself | Expected "on by to-morrow or next day" (Oct 3) |
+| Nacogdoches, San Augustine | Join the army; money for guns | 2,100 dollars subscribed; about seventy to a hundred rode Oct 10 |
+| Gonzales | Neighbours to come; bring powder and lead; provisions found there | Eighteen men Sept 29, a hundred and fifty Sept 30, about three hundred by Oct 4 |
+| Liberty, the Trinity | An express sent Oct 3–4 | No answer in these letters (Briscoe's company, `HIST-TEX-013`, is the later record) |
+| Mina (Bastrop), Victoria | Not in these letters | Victoria men were in Collinsworth's company that took Goliad Oct 9–10 |
+
+What this means for the build (proposed, not decided): a distant family's call names its settlement's own place and ask —
+march to Gonzales from the Austin and Colorado settlements; gather at Kerr's on the Lavaca from Matagorda and the Brazos
+coast, where staying to guard the coast is an honourable answer the letters themselves give; ride with the eastern
+companies from Nacogdoches; and everywhere the same shortage, "more men than guns", so powder and a rifle are part of
+what a family sends. Liberty and Mina have no documented call in these letters and would get the general circular.
+
 ### 5.5 After October 2: the gathering and the march
 
 - **Milestones** on the timeline, each from a claim (`HIST-TEX-007`): volunteers gathering at Gonzales (October 3–11);
