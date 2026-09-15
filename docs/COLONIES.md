@@ -240,7 +240,7 @@ Read in the letters of *The Austin Papers* vol. III, September 25 to October 11,
 | Nacogdoches, San Augustine | Join the army; money for guns | 2,100 dollars subscribed; about seventy to a hundred rode Oct 10 |
 | Gonzales | Neighbours to come; bring powder and lead; provisions found there | Eighteen men Sept 29, a hundred and fifty Sept 30, about three hundred by Oct 4 |
 | Liberty, the Trinity | An express sent Oct 3–4 | No answer in these letters (Briscoe's company, `HIST-TEX-013`, is the later record) |
-| Mina (Bastrop), Victoria | Not in these letters | Victoria men were in Collinsworth's company that took Goliad Oct 9–10 |
+| Mina (Bastrop), Victoria | No call from Victoria in these letters; Mina not mentioned | J. Antonio Padilla joined Collinsworth's company at Victoria, which took Goliad the night of Oct 9 (pp. 164, 169) |
 
 What this means for the build (proposed, not decided): a distant family's call names its settlement's own place and ask —
 march to Gonzales from the Austin and Colorado settlements; gather at Kerr's on the Lavaca from Matagorda and the Brazos
