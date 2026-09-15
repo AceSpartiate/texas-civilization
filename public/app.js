@@ -2625,6 +2625,8 @@ function renderSlice(world) {
     $('#request-text').textContent = request.text;
     const said = request.kind === 'march'
       ? { open: 'Your family can choose how to respond.', accepted: 'Your family went upriver with them.', refused: 'Your family stayed in Gonzales.', expired: 'They crossed without an answer.' }
+      : request.kind === 'call'
+      ? { open: 'Your family can choose how to respond.', accepted: 'Somebody from your family went with the volunteers.', refused: 'Your family stayed home.', expired: 'Nobody from your family answered.' }
       : request.kind === 'rumor'
       ? { open: 'Your family can choose how to respond.', accepted: 'Your family went to see for itself.', refused: 'Your family stayed home.', expired: 'Nobody went to find out.' }
       : { open: 'Your family can choose how to respond.', accepted: 'Your family chose to help.', refused: 'Your family chose to stay home.', expired: 'This request has passed.' };

@@ -1,0 +1,41 @@
+{
+  "record": "Each settlement's call: docs/COLONIES.md build step 4, part 2",
+  "date": "2026-09-14",
+  "verdict": "PASS",
+  "research": "HIST-TEX-014 from The Austin Papers vol. III, pp. 137-172 (letters of September 25 to October 11, 1835), read in the Internet Archive text.",
+  "measured": {
+    "askedAbout": "San Felipe and Columbia families about 1 am October 2 (minute 5440 on a class clock from dawn September 28).",
+    "ride": "A Columbia volunteer rode for Victoria at minute 5440 and arrived at 6400, about sixteen hours.",
+    "neighbours": "Class of 30, seed calls-neighbours: every Matagorda (4) and Columbia (6) family stayed; San Felipe 6 of 8, Mina 3 of 3, Liberty 2 of 4, Victoria 1 of 1 sent a man, and all arrived.",
+    "speed": "Real map, 30 neighbours, 467 ticks: 134.8 s before the land index change, 11.3 s after (15 neighbours 14.8 s to 4.2 s)."
+  },
+  "browserProof": {
+    "note": "Same computer only, headless Chrome, MAP colonies. Not LAN acceptance.",
+    "observed": [
+      "A Columbia family (hh-1, seed call-look) saw \"Volunteers from Columbia and the lower Brazos are to gather at James Kerr's on the Lavaca and go on from there. Does somebody from your family go?\" in the chosen person's panel, with \"Go: ride for Victoria\" (since relabelled \"Go: ride west to join them, toward Victoria\") and \"Stay and keep the coast\", each with its price. No page errors."
+    ]
+  },
+  "automated": {
+    "suite": "tests/calls.test.mjs (6)",
+    "wholeSuite": "400 pass, 0 fail",
+    "injectedRegressions": [
+      "calls never offered",
+      "Gonzales families asked too",
+      "asked before the word came",
+      "the coast sent to Gonzales",
+      "no powder taken",
+      "arrival never said",
+      "silence never written",
+      "children sent",
+      "the coast stay is plain",
+      "answer after the end",
+      "calls never validated",
+      "neighbours leave the coast",
+      "neighbours call volunteers home",
+      "neighbours never turn out",
+      "call not shown"
+    ],
+    "allCaught": true
+  },
+  "notBuilt": "Part 3, the two clocks; step 5, the gathering and the march a volunteer waits for."
+}

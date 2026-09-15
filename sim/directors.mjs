@@ -5,6 +5,7 @@ import { TIRING_MILES } from './routines.mjs';
 import { awardGlory } from './glory.mjs';
 import { canAnswerCalls, cannotAnswerWhy, tooYoung, tooYoungWhy } from './family.mjs';
 import { distantHouseholds, expressLeaves, startExpress } from './expresses.mjs';
+import { callOptions, expireCalls, offerCalls, settleCalls } from './calls.mjs';
 
 /**
  * A family that lives near another settlement on the real map (docs/COLONIES.md §5.4). It hears by express, and the
@@ -589,6 +590,8 @@ export function advanceDirectors(world, movement) {
     }
   }
   offerRequests(world); offerMarch(world);
+  // A family far from Gonzales is asked its own settlement's call instead (sim/calls.mjs).
+  offerCalls(world);
   once(world, 'gathering', () => setBattlePhase(world, 'gathering'));
   once(world, 'approach', () => {
     // Silence is an answer, and it used to be the only one this game did not write down.
@@ -647,12 +650,13 @@ export function advanceDirectors(world, movement) {
       else if (!distant(household)) movement.dispatchReport(world, truth.id, household.id);
     }
   });
-  settleHelp(world); moveFormations(world); standWithTheForce(world);
+  settleHelp(world); settleCalls(world); moveFormations(world); standWithTheForce(world);
   once(world, 'publicOutcome', () => learn(world, 'public', 'gonzales-outcome', { source: 'Public report (reconstructed timing)' }));
   // On the real map the class waits, a few days at most, until the furthest family has heard how it ended.
   const waiting = distantHouseholds(world).some(household => !world.knowledge.households[household.id]?.['gonzales-outcome']);
   if (waiting && world.minute < momentOf(world, 'finish') + EXPRESS_GRACE_MINUTES) return;
   once(world, 'finish', () => {
+    expireCalls(world);
     world.director.complete = true; world.director.phase = 'preserved'; world.status = 'ended';
     record(world, 'slice-preserved', { visibility: 'public', text: 'The Gonzales prototype stops here. Families, absences, property, and memories are saved for the next arc. The Revolution continues beyond this slice.' });
   });
@@ -675,8 +679,10 @@ export function directorProjection(world, householdId, role) {
   const march = householdId && world.marches?.[householdId];
   // A rumor's question shows until firmer word turns it into the ordinary call.
   const rumor = householdId && world.rumors?.[householdId];
-  const request = (march && march.status === 'open' ? march : null) || (householdId && world.requests[householdId]) || (rumor && rumor.status !== 'overtaken' ? rumor : null);
-  const shown = request ? { id: request.id, text: request.text, status: request.status, kind: request === march ? 'march' : request === rumor ? 'rumor' : 'supplies' } : null;
+  // A family far from Gonzales is only ever asked its settlement's call (sim/calls.mjs).
+  const call = householdId && world.calls?.[householdId];
+  const request = (march && march.status === 'open' ? march : null) || call || (householdId && world.requests[householdId]) || (rumor && rumor.status !== 'overtaken' ? rumor : null);
+  const shown = request ? { id: request.id, text: request.text, status: request.status, kind: request === march ? 'march' : request === call ? 'call' : request === rumor ? 'rumor' : 'supplies' } : null;
   if (shown && shown.kind === 'march' && march.status === 'open') {
     // The stored text, not a fresh reading: the button must not quietly change its price
     // while a student is looking at it.
@@ -691,7 +697,7 @@ export function directorProjection(world, householdId, role) {
     // who carried the food. `options` stays as the principal's, or the march's person's.
     const household = world.households[householdId];
     const people = shown.kind === 'march' ? [march.actorId] : household.members.filter(id => canAnswerCalls(world.entities[id]));
-    shown.answerers = Object.fromEntries(people.map(id => [id, requestOptions(world, householdId, shown, shown.kind, world.entities[id])]));
+    shown.answerers = Object.fromEntries(people.map(id => [id, shown.kind === 'call' ? callOptions(world, householdId, call, world.entities[id]) : requestOptions(world, householdId, shown, shown.kind, world.entities[id])]));
     shown.options = shown.answerers[shown.actorId || household.principalId] || Object.values(shown.answerers)[0] || [];
   }
   return structuredClone({ request: shown, battle, host: role === 'host' ? host : null, slice: { title: 'Gonzales', complete: world.director.complete }, historicalDate: new Date(startOf(world) + world.minute * 60000).toISOString().slice(0, 10) });

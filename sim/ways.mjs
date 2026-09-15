@@ -47,9 +47,9 @@ const crosses = (a, b, p, q) => {
  */
 export function groundAcross(world, a, b) {
   if (onRealLand(world)) {
-    const land = landAround({ minX: Math.min(a.x, b.x) - 1, minY: Math.min(a.y, b.y) - 1, maxX: Math.max(a.x, b.x) + 1, maxY: Math.max(a.y, b.y) + 1 });
+    const land = landAround();
     if (land.crossings(a, b).barrier) return null;
-    return groundAlong([a, b])[0];
+    return groundAlong([a, b], land)[0];
   }
   const water = (world.map.terrain || []).filter(feature => feature.kind === 'river' || feature.kind === 'creek');
   let creeks = 0;

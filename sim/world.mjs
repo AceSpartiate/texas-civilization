@@ -22,6 +22,7 @@ import { grantInvalid, grantProjection, layOutGrants, setStock } from './grants.
 import { chooseSite, siteInvalid, siteProjection } from './homesite.mjs';
 import { plotProjection, plotRefusal, plotsInvalid } from './survey.mjs';
 import { advanceExpresses, expressesInvalid } from './expresses.mjs';
+import { callsInvalid, handleCall } from './calls.mjs';
 import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, ageBand, defaultNames, familyProjection, familyRoll, FAMILY_DIE, compositionFor, rolledWords, householdName, kinFor, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
 export { HOUSEHOLD_SHAPE, ROLES, householdName, sanitiseName } from './family.mjs';
 export { clearedOf, improvementsOf, ruin } from './improvements.mjs';
@@ -597,7 +598,7 @@ export function applyAction(world, householdId, input) {
   // The historical calls are answered by whichever parent or grown child the family sends
   // (docs/FAMILY_CREATION.md step 4). Each handler checks who may answer; travelling, the
   // yard and resting stay the principal's.
-  const answering = ['go-upriver', 'stay-in-town', 'go-see', 'stay-home', 'help', 'stay'].includes(input.action);
+  const answering = ['go-upriver', 'stay-in-town', 'go-see', 'stay-home', 'help', 'stay', 'turn-out', 'stay-put'].includes(input.action);
   if (!answering && !entity.principal) throw new Error('Only your principal can be asked that.');
   if (['go-upriver', 'stay-in-town'].includes(input.action)) {
     // Going upriver abandons whatever work was in hand, for the same reason answering
@@ -610,6 +611,11 @@ export function applyAction(world, householdId, input) {
     // afternoon's work for the same reason.
     if (entity.chore) abandonChore(world, world.households[householdId], entity);
     handleRumor(world, householdId, entity, input.action, { beginTravel, travelRefusal }, mode);
+  }
+  else if (['turn-out', 'stay-put'].includes(input.action)) {
+    // A far settlement's call (sim/calls.mjs): turning out costs the afternoon's work, as every call does.
+    if (input.action === 'turn-out' && entity.chore) abandonChore(world, world.households[householdId], entity);
+    handleCall(world, householdId, entity, input.action, { beginTravel, travelRefusal }, mode);
   }
   else if (['help', 'stay'].includes(input.action)) {
     // Answering the call costs the afternoon's work. Leaving the chore merely frozen
@@ -813,6 +819,8 @@ export function validateWorld(world) {
   }
   const badExpress = expressesInvalid(world);
   if (badExpress) throw new Error(badExpress);
+  const badCall = callsInvalid(world);
+  if (badCall) throw new Error(badCall);
   const events = new Set(world.events.map(e => e.id));
   if (events.size !== world.events.length || world.events.some(e => e.causes.some(id => !events.has(id)))) throw new Error('Invalid event graph');
   if (world.nextEventId !== world.events.length + 1) throw new Error('Event sequence would duplicate an ID');

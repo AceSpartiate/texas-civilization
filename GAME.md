@@ -100,6 +100,8 @@ A short optional walk-through offers itself once, in that lobby. It explains the
 
 Shooting is the only thing anybody can practise. Nobody gets better at farming or at mending a hoe by trying harder; for those, a family that has nobody handy still has to go into Gonzales or ask a neighbour.
 
+**Far from Gonzales, your own settlement calls.** On the real map, when the express brings the news to your door, your settlement asks what it asked in 1835: San Felipe to turn out and march for Gonzales, Matagorda and Columbia to gather at Kerr's on the Lavaca, the Trinity and the Colorado to join the men gathering. Send somebody sixteen or older with the family's rifle and powder, or keep them home; on the coast, keeping the coast is its own answer. Whoever goes rides to the gathering and waits there.
+
 **There is a deer.** Out in the timber, a deer stands ahead of whoever is hunting while they wait downwind, and comes closer if you tell them to wait for it; it is gone once the shot is taken or they turn for home. Deer are what the settlers of the colonies hunted.
 
 **Anybody on a horse is drawn the size of a horse with somebody riding it.**

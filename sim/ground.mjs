@@ -53,34 +53,42 @@ export function slopePace(grade, mode) {
 
 // ---------------------------------------------------------------- the land round a place
 
-const TILE = 4;
+/** The land is indexed in square blocks this many miles a side, each built once, the first time anything looks there. */
+const BLOCK = 16;
 const BUCKET = 0.25;
-const cache = new Map();
-/**
- * The watercourses of the real land in and round a box, indexed so "how far is water" and "does this cross a creek" are
- * cheap. Kept per four-mile tile block and shared by every class in the process.
- * ceiling: the last sixty-four blocks are kept. A class of thirty families touches far fewer.
- */
-export function landAround(box) {
-  const key = [Math.floor(box.minX / TILE), Math.floor(box.minY / TILE), Math.ceil(box.maxX / TILE), Math.ceil(box.maxY / TILE)].join(',');
-  if (cache.has(key)) return cache.get(key);
-  const [tx0, ty0, tx1, ty1] = key.split(',').map(Number);
-  const bounds = { minX: tx0 * TILE - 1, minY: ty0 * TILE - 1, maxX: tx1 * TILE + 1, maxY: ty1 * TILE + 1 };
-  const terrain = realTerrain();
-  const buckets = new Map();
-  const bucketKey = (bx, by) => bx * 100003 + by;
+const blocks = new Map();
+let courseInfo = null;
+/** What each course is, and the box round it, worked out once for the whole map. */
+function coursesOf(terrain) {
+  if (courseInfo) return courseInfo;
+  courseInfo = [];
   for (const course of terrain.courses) {
     // Water that runs, or ran within the season: USGS's perennial and intermittent streams, and the few it cannot say.
     if (course.flow === 'ephemeral') continue;
     const river = /River$/.test(course.name || '');
     const kind = BARRIER_RIVERS.includes(course.name) ? 'barrier' : river ? 'river' : 'creek';
-    const info = { name: course.name, kind, perennial: course.flow === 'perennial' };
-    for (let i = 1; i < course.points.length; i++) {
-      const a = course.points[i - 1], b = course.points[i];
-      if (Math.max(a.x, b.x) < bounds.minX || Math.min(a.x, b.x) > bounds.maxX || Math.max(a.y, b.y) < bounds.minY || Math.min(a.y, b.y) > bounds.maxY) continue;
-      const segment = { a, b, info };
-      for (let bx = Math.floor(Math.min(a.x, b.x) / BUCKET); bx <= Math.floor(Math.max(a.x, b.x) / BUCKET); bx++) {
-        for (let by = Math.floor(Math.min(a.y, b.y) / BUCKET); by <= Math.floor(Math.max(a.y, b.y) / BUCKET); by++) {
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    for (const point of course.points) { minX = Math.min(minX, point.x); maxX = Math.max(maxX, point.x); minY = Math.min(minY, point.y); maxY = Math.max(maxY, point.y); }
+    courseInfo.push({ course, info: { name: course.name, kind, perennial: course.flow === 'perennial' }, minX, minY, maxX, maxY, segments: null });
+  }
+  return courseInfo;
+}
+const bucketKey = (bx, by) => bx * 100003 + by;
+/** One block's buckets: every stretch of running water that touches the block, filed by the quarter mile it lies in. */
+function blockAt(terrain, ix, iy) {
+  const key = ix * 100003 + iy;
+  if (blocks.has(key)) return blocks.get(key);
+  const minX = ix * BLOCK, minY = iy * BLOCK, maxX = minX + BLOCK, maxY = minY + BLOCK;
+  const buckets = new Map();
+  for (const entry of coursesOf(terrain)) {
+    if (entry.maxX < minX || entry.minX > maxX || entry.maxY < minY || entry.minY > maxY) continue;
+    // One object per stretch for the whole map, so a stretch filed in two blocks is still one stretch.
+    entry.segments ||= entry.course.points.slice(1).map((b, i) => ({ a: entry.course.points[i], b, info: entry.info }));
+    for (const segment of entry.segments) {
+      const { a, b } = segment;
+      if (Math.max(a.x, b.x) < minX || Math.min(a.x, b.x) > maxX || Math.max(a.y, b.y) < minY || Math.min(a.y, b.y) > maxY) continue;
+      for (let bx = Math.max(Math.floor(minX / BUCKET), Math.floor(Math.min(a.x, b.x) / BUCKET)); bx <= Math.min(Math.floor(maxX / BUCKET) - 1, Math.floor(Math.max(a.x, b.x) / BUCKET)); bx++) {
+        for (let by = Math.max(Math.floor(minY / BUCKET), Math.floor(Math.min(a.y, b.y) / BUCKET)); by <= Math.min(Math.floor(maxY / BUCKET) - 1, Math.floor(Math.max(a.y, b.y) / BUCKET)); by++) {
           const k = bucketKey(bx, by);
           if (!buckets.has(k)) buckets.set(k, []);
           buckets.get(k).push(segment);
@@ -88,10 +96,28 @@ export function landAround(box) {
       }
     }
   }
+  blocks.set(key, buckets);
+  return buckets;
+}
+let land = null;
+/**
+ * The watercourses of the real land, indexed so "how far is water" and "does this cross a creek" are cheap. One index for
+ * the whole map, built a block at a time as places are looked at and shared by every class in the process.
+ *
+ * It was built afresh for each box asked about and kept for the last sixty-four boxes, and a box fitted to each line or
+ * point was nearly always a new one: a real-map class of thirty neighbours spent most of every tick rebuilding indices from
+ * a million and a half points (found 2026-09-14). `box` is no longer needed and is accepted so every caller stays as it was.
+ * ceiling: blocks are never let go. The colonies map is some two hundred blocks; a map many times larger would want them
+ * dropped when unused.
+ */
+export function landAround(box) { // eslint-disable-line no-unused-vars
+  if (land) return land;
+  const terrain = realTerrain();
   const segmentsNear = (point, reach) => {
     const found = new Set();
     for (let bx = Math.floor((point.x - reach) / BUCKET); bx <= Math.floor((point.x + reach) / BUCKET); bx++) {
       for (let by = Math.floor((point.y - reach) / BUCKET); by <= Math.floor((point.y + reach) / BUCKET); by++) {
+        const buckets = blockAt(terrain, Math.floor(bx * BUCKET / BLOCK), Math.floor(by * BUCKET / BLOCK));
         for (const segment of buckets.get(bucketKey(bx, by)) || []) found.add(segment);
       }
     }
@@ -145,9 +171,7 @@ export function landAround(box) {
     if (nearestWater(point, info => info.kind === 'creek', TIMBER_FROM_CREEK)) return 'timber';
     return grade(point) > BRUSH_GRADE ? 'brush' : 'open';
   };
-  const land = { heightAt: terrain.heightAt, nearestWater, crossings, grade, coverAt, bounds };
-  cache.set(key, land);
-  if (cache.size > 64) cache.delete(cache.keys().next().value);
+  land = { heightAt: terrain.heightAt, nearestWater, crossings, grade, coverAt };
   return land;
 }
 
@@ -162,9 +186,9 @@ const boxAround = (points, pad) => ({
  * What lies along each segment of a route, forward: `[rise in metres, share of it in timber, share in brush, creeks
  * crossed, lesser rivers crossed]`. Stored on the route, so a journey's going is worked out from the saved map alone.
  */
-export function groundAlong(points) {
+export function groundAlong(points, land = null) {
   if (points.length < 2) return [];
-  const land = landAround(boxAround(points, 1));
+  land ||= landAround(boxAround(points, 1));
   return points.slice(1).map((b, index) => {
     const a = points[index], length = distance(a, b);
     const samples = Math.max(1, Math.round(length / SAMPLE_MILES));

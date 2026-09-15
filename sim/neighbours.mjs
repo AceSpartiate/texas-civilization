@@ -87,6 +87,20 @@ export function thinkFor(world, household, { project, act }) {
     if (option) attempt({ action: 'answer-chore', entityId: person.id, option: option.id });
   }
 
+  // Its settlement's call, when the word reaches it (sim/calls.mjs), answered as the letters say the settlements answered
+  // (`HIST-TEX-014`): away from the coast a family with a second grown hand sends one of its men, and keeps the rest home;
+  // on the coast, where the committees asked whether any more men should leave, and in a family with only one grown hand to
+  // spare, it stays. No die: the family and its settlement decide.
+  const call = view.request?.kind === 'call' && view.request.status === 'open' ? view.request : null;
+  if (call) {
+    const answerers = Object.entries(call.answerers || {}).map(([id, options]) => ({ person: people.find(p => p.id === id), options }));
+    const goes = answer => answer.options.find(option => option.id === 'turn-out')?.can;
+    const coast = ['matagorda', 'columbia'].includes(view.household.settlementId);
+    const volunteer = !coast && answerers.length >= 2 && (answerers.find(a => goes(a) && a.person?.sex === 'male' && !a.person.principal) || answerers.find(a => goes(a) && a.person?.principal && a.person.sex !== 'female'));
+    if (volunteer) ride({ action: 'turn-out', entityId: volunteer.person.id });
+    else if (answerers[0]) attempt({ action: 'stay-put', entityId: answerers[0].person.id });
+  }
+
   // On the real land, where the house stands comes first (sim/homesite.mjs): looked over as a student would look it over.
   const land = view.land || {};
   if (land.choosingSite?.can) {
@@ -115,6 +129,8 @@ export function thinkFor(world, household, { project, act }) {
   const unfenced = nearest(plots.filter(plot => plot.state === 'cleared' && plot.fence !== 'sound'));
   for (const person of idle) {
     // Somebody away from home with nothing to do there comes home.
+    // Somebody who went with the volunteers, or to help at Gonzales, is where the family sent them (task 'help'), and stays.
+    if (person.task === 'help') continue;
     if (person.location?.siteId !== view.household.homeSiteId) { ride({ action: 'travel', entityId: person.id, destination: view.household.homeSiteId }); continue; }
     const can = chore => Boolean(available({ person: person.id, chore }));
     const food = view.household.resources.food || 0;

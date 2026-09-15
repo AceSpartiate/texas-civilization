@@ -372,7 +372,7 @@ Each step ends with tests that failed first, a browser proof where it touches wh
 2a. ~~**Automatic neighbours: farming, building, trading and house-raisings**~~ **Done 2026-09-14** (§6c) (§5.9), so every class after step 2 has living
    neighbours. Their answer to the war comes with steps 4 and 5.
 3. ~~**Movement by ground and the house site**~~ **Done 2026-09-14** (§6d) (`docs/LAND_GRANTS.md` §8.3 steps 3–4).
-4. **News by riders over real distance**, calibrated to `HIST-TEX-006`, and the settlement-specific calls. **Part 1, the expresses, done 2026-09-14** (§6e); part 2 the settlement calls and part 3 the two clocks (6a) to come.
+4. **News by riders over real distance**, calibrated to `HIST-TEX-006`, and the settlement-specific calls. **Part 1, the expresses, done 2026-09-14** (§6e); **part 2, the settlement calls, done 2026-09-14** (§6f); part 3 the two clocks (6a) to come.
 5. **The gathering and the march**, through the October 11–12 departure: volunteers, joining, the army formation.
 6. **Beyond** (Concepción, the Grass Fight, Béxar), each battle researched first; the glory rule for women built with
    the first `fought`.
@@ -441,6 +441,37 @@ Each step ends with tests that failed first, a browser proof where it touches wh
   going up without somebody seeing them; that waits for the news of step 5), a neighbour **making** offers of its own, a Host
   control to hand a student's abandoned family to the director, and answering the war (steps 5–6). Automatic families are not
   yet excluded from the ending's rankings because the ending is not built; `played` is what will exclude them.
+
+### 6f. As built: step 4 part 2, each settlement's call (2026-09-14)
+
+- **`sim/calls.mjs`.** When the express has brought the call for help to a family far from Gonzales, its settlement's own
+  call is put to it once (`SETTLEMENT_CALLS`, the research in §5.4a, `HIST-TEX-014`): San Felipe's committee asks the men
+  to turn out, "the District of Washington is already turning out"; up the Colorado the settlements are mustering (Mina);
+  Matagorda and Columbia are to gather at James Kerr's on the Lavaca; the Trinity (Liberty) and Victoria have the general
+  word. The wording is `FIC-GONZ-031`.
+- **Two answers, each with its price on the control**, put to any parent or child of sixteen or over: *Go* - the family's
+  rifle and up to two powder go with them, and they are away until called home - or *Stay home*, which on the coast is
+  *Stay and keep the coast*, the answer the letters from Columbia themselves raise. Going rides (or walks, or drives) the
+  quickest way to the gathering place (`sim/ways.mjs`), and on arriving the family's story says where they are, in words:
+  *"Jethro reached Victoria, on the road the volunteers from Matagorda and the Lavaca are gathering on."* They wait there
+  (task `help`, commitment `volunteer`) for step 5's gathering and march. A call nobody answered closes when the class
+  ends, and says so.
+- **Neighbours answer as the settlements did** (`FIC-GONZ-028`): on the coast they stay; inland, a family with a second
+  person who can answer sends one of its men and keeps the rest home; no die. A volunteer they send is not called home by
+  their own routine.
+- **Measured** (15 and 30 families, real map): San Felipe and Columbia families are asked about 1 am on October 2; a
+  Columbia man who went rode the eighty-odd miles to Victoria in about sixteen hours. In a class of thirty neighbours every
+  coast family stayed and eleven inland families sent a man, all of whom arrived.
+- `ceiling:` James Kerr's on the Lavaca is not a place on the real map, so the coast's volunteers ride for Victoria, where
+  the Matagorda and Lavaca companies went (pp. 164, 169, 174); a documented Kerr's is the way out. `ceiling:` a volunteer
+  from a near settlement can reach Gonzales before the fight and is not offered the upriver march, which remains the
+  Gonzales families' own; step 5 decides what a volunteer at Gonzales does. `ceiling:` one call a family, at the first
+  word; the circulars of October 3 and 8 do not ask again.
+- **Speed, found on the way.** A real-map class of thirty neighbours took some 290 ms a tick, nearly all of it rebuilding the
+  land's water index (`sim/ground.mjs` `landAround`) for a fresh box on every line across country and every point. The
+  index is now built once per sixteen-mile block and shared: the same class takes about 24 ms a tick.
+- **Old saves:** no `calls`, and nothing changes until a far family's word arrives. No save version moved. Tests:
+  `tests/calls.test.mjs` (6); fifteen injected regressions, all caught.
 
 ### 6e. As built: step 4 part 1, the expresses (2026-09-14)
 
