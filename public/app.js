@@ -1238,7 +1238,12 @@ function drawPlots(ctx, world, camera) {
   if (plotPick && surveyLooking()) {
     // Surveying looks at new ground; clearing and fencing at the plot under the tap, outlined where the server found it.
     const target = plotJob === 'survey-plot' ? plotPick.point : (world.land?.plots || []).find(plot => plot.id === plotPick.facts?.plotId);
-    if (target) square(target, { stroke: plotPick.facts?.can ? '#b5452f' : '#8a8171', fill: plotPick.facts?.can ? 'rgba(181,69,47,.12)' : 'rgba(138,129,113,.12)', dash: [6, 4] });
+    // A hunt is a place, not ten acres: a ring where the hunter will go.
+    if (plotJob === 'hunt-land') {
+      const at = camera.toScreen(plotPick.point), radius = Math.max(6, Math.min(40, camera.scale * 0.03));
+      ctx.save(); ctx.setLineDash([6, 4]); ctx.lineWidth = 2; ctx.strokeStyle = plotPick.facts?.can ? '#b5452f' : '#8a8171';
+      ctx.beginPath(); ctx.arc(at.x, at.y, radius, 0, Math.PI * 2); ctx.stroke(); ctx.restore();
+    } else if (target) square(target, { stroke: plotPick.facts?.can ? '#b5452f' : '#8a8171', fill: plotPick.facts?.can ? 'rgba(181,69,47,.12)' : 'rgba(138,129,113,.12)', dash: [6, 4] });
   }
   window.__plotsDrawn = drawn;
 }
@@ -1802,7 +1807,9 @@ function populateWork(world, chosen, running) {
   const permitted = world.work?.[chosen.id];
   if (!permitted?.length || !choreCache || chosen.health?.condition === 'dead' || chosen.health?.condition === 'captured') return;
   // Server says who may do what; the catalogue says what each thing is called and costs.
-  const offered = permitted.map(entry => ({ ...choreCache.get(entry.id), ...entry })).filter(entry => entry.name);
+  // A refusal the hunt on the family's land shares with the hunt in the timber is sent once (sim/chores.mjs `choresFor`).
+  const sharedWhy = entry => entry.id === 'hunt-land' && !entry.can && !entry.why ? { why: permitted.find(other => other.id === 'hunt-timber')?.why } : {};
+  const offered = permitted.map(entry => ({ ...choreCache.get(entry.id), ...entry, ...sharedWhy(entry) })).filter(entry => entry.name);
   // Work that has stopped to ask something. It takes the whole panel, because a question
   // put to somebody standing in a wood is the only thing worth saying about them while
   // they are standing there - and because the list of other jobs is not an answer to it.
@@ -1853,7 +1860,7 @@ function populateWork(world, chosen, running) {
     const button = element('button', '');
     // Survey, clearing and fencing are sent with a place on the map, so their buttons start choosing the place instead of
     // the work (sim/survey.mjs).
-    const onMap = ['survey-plot', 'clear-plot', 'fence-plot'].includes(entry.id);
+    const onMap = ['survey-plot', 'clear-plot', 'fence-plot', 'hunt-land'].includes(entry.id);
     button.dataset.action = onMap ? 'survey-start' : 'chore';
     if (onMap) button.dataset.entityId = chosen.id;
     button.dataset.chore = entry.id;
@@ -2405,6 +2412,7 @@ const PLOT_JOB_WORDS = {
   'survey-plot': { title: name => `Where ${name} surveys`, hint: 'Tap a place on your land, inside the dashed line, to look at ten acres there.', send: 'Survey it' },
   'clear-plot': { title: name => `Which plot ${name} clears`, hint: 'Tap one of your staked plots to look at the clearing it wants.', send: 'Clear it' },
   'fence-plot': { title: name => `Which plot ${name} fences`, hint: 'Tap one of your cleared plots to rail it in.', send: 'Fence it' },
+  'hunt-land': { title: name => `Where ${name} hunts`, hint: 'Tap a place on your land, inside the dashed line, to see what game there is there.', send: 'Hunt there' },
 };
 const surveyLooking = () => Boolean(surveyFor && window.__snapshot?.world?.entities?.some(entity => entity.id === surveyFor));
 async function lookAtPlot(point) {
@@ -2425,7 +2433,7 @@ function renderSurvey(world) {
   panel.hidden = !person || world.role === 'host';
   if (panel.hidden) { if (!person) { surveyFor = null; plotPick = null; } return; }
   const facts = plotPick?.facts, words = PLOT_JOB_WORDS[plotJob];
-  $('#survey-eyebrow').textContent = plotJob === 'survey-plot' ? 'SURVEY' : plotJob === 'clear-plot' ? 'CLEARING' : 'FENCING';
+  $('#survey-eyebrow').textContent = plotJob === 'survey-plot' ? 'SURVEY' : plotJob === 'clear-plot' ? 'CLEARING' : plotJob === 'hunt-land' ? 'HUNTING' : 'FENCING';
   $('#survey-title').textContent = words.title(person.name);
   // Survey's facts say what the clearing would be; a plot's words already carry it. A refusal still names the plot.
   const surveyWork = plotJob === 'survey-plot' && facts?.spells ? ` Clearing it would be ${facts.spells} spells of work.` : '';

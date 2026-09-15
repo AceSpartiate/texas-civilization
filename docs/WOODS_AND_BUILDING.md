@@ -1,6 +1,6 @@
 # The woods on a family's land, hunting it, felling it, and building a house from it
 
-**Status: decided 2026-09-15; step 1, the woods, and step 2, the trees drawn, built 2026-09-15 (§4.4, §4.5, [evidence](evidence/woods-data.json), [browser](evidence/woods-browser.json)).** Read this in full before changing where timber stands, what a
+**Status: decided 2026-09-15; steps 1 to 3 - the woods, the trees drawn, hunting on the family's land - built 2026-09-15 (§4.4, §4.5, §5.1; [evidence](evidence/woods-data.json), [browser](evidence/woods-browser.json), [hunting](evidence/hunt-land.json)).** Read this in full before changing where timber stands, what a
 hunt finds, felling, logs, or how a house is planned and raised. It amends `docs/SETTLING_IN.md` §5–6 (a house is
 no longer one of four fixed layouts raised as one bar of work) and `docs/LAND_GRANTS.md` §8.4 (timber is no longer
 "within 0.9 miles of a river and 0.2 of a creek" everywhere).
@@ -151,6 +151,16 @@ cottonwood `cottonwood`, pine and cedar the nearest tree tinted, mesquite `scrub
 - **Refused:** off the family's land; open water; before the house site; the lobby. Neighbours hunt their own land the
   same way, choosing the best stand within a mile of the house.
 
+### 5.1 As built: step 3 (2026-09-15)
+
+- **`sim/hunting.mjs`.** `huntingPlace(world, point)` reads the stand and cover there (the woods patch on a class whose woods come from the land; creek timber, brush or prairie by `groundAt` on any other), whether it is at an edge of timber (a patch either way whose cover differs), and its game: the stand's game (§4.1), a fifth more at an edge, most 1. `huntFacts` says it in words - *"Creek timber, at the edge of the timber, a quarter mile south-west of the house. Good ground for deer: the wait should not be long."* - or refuses: off the family's land, in the water, in the lobby, before the house site.
+- **The chore.** `hunt-land`, *Hunt on our land*, the same stages as `hunt-timber`, sent by its own order with the place (`action: 'hunt-land', x, y`), always on foot. Its two journeys are walks about the family's own land (never the road, never off the place); the stalk stays within a few rods of the place chosen; the deer is placed ahead of the hunter the way from the house; the words say the stand (*"working up through the post oak savanna"*, *"fired in the creek timber"*). **The ground decides the wait, not whether a deer comes:** waiting still takes one tick on the best ground and up to five on the poorest (`stillTicks`), and nothing is left to chance. The old hunt in the timber stays beside it.
+- **The page.** *Hunt on our land* opens the same panel as Survey: tap a place inside the dashed line, read what is there, *Hunt there*. The place is ringed. The server's `/api/plot?job=hunt-land` answers.
+- **Neighbours** on a class whose woods come from the land hunt their own land: the best ground for game within a mile of the house (`huntPlaces`), the nearer of two as good. On any other class they go to the timber as before.
+- **On the channel:** the new chore carries no carry number (on foot, its description says so) and a refusal it shares with the hunt in the timber is sent once; the page reads it there. The lobby is not offered it.
+- `ceiling:` on foot only, so a hunt on the family's land brings home what one person carries; taking the wagon out over the family's own land is the way out. `ceiling:` how good the ground is decides only how long the wait is; how many deer a stand holds, and a hunted place growing poorer, are not modelled.
+- **Browser** (same computer only, not LAN): *Hunt on our land* on Zadok's panel, the panel *"Where Zadok hunts"*, a tap a sixth of a mile east of the house read *"Prairie beside the house. Open ground that game seldom crosses: the longest wait."*, *Hunt there* sent him walking out, waiting still seven ticks with a deer drawn at the family's line. No page errors. Tests: `tests/hunt-land.test.mjs` (5); twenty-one injected regressions, twenty caught; the twenty-first set the mode inside the chore, which the order already does, and the line was taken out.
+
 ---
 
 ## 6. Felling, logs and the house
@@ -235,7 +245,7 @@ version moves.
    patch class, trees in a box), `coverAt` reading it on the real map; claims `HIST-TEX-016`, `FIC-GONZ-032`;
    evidence of stands near each settlement.
 2. ~~**Trees drawn.**~~ **Done 2026-09-15** (§4.5). `/api/woods`, trees and stumps close up, stand-ins, art requests.
-3. **Hunting on our land.** The tap, the facts, the stand deciding the hunt, neighbours' choice.
+3. ~~**Hunting on our land.**~~ **Done 2026-09-15** (§5.1). The tap, the facts, the stand deciding the hunt, neighbours' choice.
 4. **Felling and hauling.** *Fell trees*, stumps, logs, the log pile, the ox and wagon hauling, felling clearing a plot.
 5. **The house plot.** Pieces, rules, plans as presets, effects through `shelterOf`; `HIST-TEX-017`, `FIC-GONZ-033`.
 6. **Raising by stages.** Sills, courses, roof, chinking, two-person courses, logs consumed, the raising per course,

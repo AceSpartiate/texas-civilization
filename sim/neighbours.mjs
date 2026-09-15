@@ -16,6 +16,8 @@ import { tooYoung } from './family.mjs';
 import { siteFacts } from './ground.mjs';
 import { overlaps, squareOf } from './fields.mjs';
 import { CHORES } from './chores.mjs';
+import { huntingPlace } from './hunting.mjs';
+import { woodsRule } from './woods.mjs';
 
 /** Decisions are spread over ticks: each family thinks every third tick, not all of them on the same one. */
 export const THINK_EVERY = 3;
@@ -24,7 +26,7 @@ export const TRADE_VALUE = Object.freeze({ food: 1, cotton: 1, seed: 2, powder: 
 /** Food per person the family keeps back before it will trade food away or stop hunting. */
 export const FOOD_KEPT_PER_PERSON = 3;
 /** Work one person does alone; a family never puts two of its people on the same one at once. */
-export const ONE_AT_A_TIME = Object.freeze(['hunt-timber', 'fetch-seed', 'fetch-powder', 'sell-cotton', 'sell-food', 'mend-hoe', 'replace-hoe', 'fence-plot', 'survey-plot', 'dig-well']);
+export const ONE_AT_A_TIME = Object.freeze(['hunt-timber', 'hunt-land', 'fetch-seed', 'fetch-powder', 'sell-cotton', 'sell-food', 'mend-hoe', 'replace-hoe', 'fence-plot', 'survey-plot', 'dig-well']);
 /** Plots a family nobody plays keeps, its first patch among them: enough to feed it, and a harvest it can carry in. */
 export const NEIGHBOUR_PLOTS = 3;
 /** The house it chooses, best first, where its tools allow. */
@@ -120,7 +122,9 @@ export function thinkFor(world, household, { project, act }) {
   // for seed (both found 2026-09-14). The house, the planting and the harvest are the work many hands help with.
   const doing = id => people.filter(person => person.chore?.id === id).length;
   const busy = new Set(ONE_AT_A_TIME.filter(id => doing(id) > 0));
-  const hunters = doing('hunt-timber');
+  const hunters = doing('hunt-timber') + doing('hunt-land');
+  // A class whose woods come from the land hunts its own land (sim/hunting.mjs); every other class goes to the timber as it did.
+  const huntChore = woodsRule(world) === 'landfire' ? 'hunt-land' : 'hunt-timber';
   // Its plots, as its own land line shows them, and the house they are walked to from.
   const plots = land.plots || [];
   const home = world.map.sites[view.household.homeSiteId];
@@ -138,7 +142,7 @@ export function thinkFor(world, household, { project, act }) {
     const plan = [
       // Food first when the family is short, then the crop, the house, the tools, the fence, and the trips to town
       // a farm needs: seed when there is none to plant, cotton to the store once there is some.
-      food < people.length * FOOD_KEPT_PER_PERSON && hunters === 0 && (resources.powder || 0) >= 1 && 'hunt-timber',
+      food < people.length * FOOD_KEPT_PER_PERSON && hunters === 0 && (resources.powder || 0) >= 1 && huntChore,
       'harvest-field', 'plant-field', 'build-house', 'dig-well', 'mend-hoe', 'cut-lane',
       view.household.field?.state === 'planted' && unfenced && 'fence-plot',
       view.household.field?.state === 'bare' && (resources.seed || 0) < 2 * Math.max(1, land.cleared || 0) && 'fetch-seed',
@@ -150,7 +154,8 @@ export function thinkFor(world, household, { project, act }) {
     const chore = plan.find(id => !busy.has(id) && can(id));
     if (!chore) continue;
     // Clearing, fencing and survey are sent to a place on the family's own land, as a student sends them.
-    const sent = chore === 'survey-plot' ? surveyPlaces(home, land.grant?.bounds, plots).some(point => attempt({ action: 'survey-plot', entityId: person.id, ...point }))
+    const sent = chore === 'hunt-land' ? huntPlaces(world, home, land.grant?.bounds).some(point => attempt({ action: 'hunt-land', entityId: person.id, ...point }))
+      : chore === 'survey-plot' ? surveyPlaces(home, land.grant?.bounds, plots).some(point => attempt({ action: 'survey-plot', entityId: person.id, ...point }))
       : chore === 'clear-plot' ? attempt({ action: 'clear-plot', entityId: person.id, x: staked.x, y: staked.y })
       : chore === 'fence-plot' ? attempt({ action: 'fence-plot', entityId: person.id, x: unfenced.x, y: unfenced.y })
       : CHORES[chore]?.steps.some(step => step.travel) ? ride({ action: 'chore', entityId: person.id, chore })
@@ -175,6 +180,22 @@ export function surveyPlaces(home, bounds, plots) {
     places.push(point);
   }
   return places.slice(0, 8);
+}
+
+/**
+ * Where a family nobody plays would hunt its own land, best first: the best ground for game within a mile of the house, the
+ * nearer of two as good. Read as a student reads it, from what the ground is; the server still decides.
+ */
+export const HUNT_LOOK_MILES = 1;
+export function huntPlaces(world, home, bounds) {
+  const places = [];
+  for (const miles of [0.25, 0.5, 0.75, HUNT_LOOK_MILES]) for (let turn = 0; turn < 8; turn++) {
+    const angle = turn * Math.PI / 4;
+    const point = { x: +(home.x + Math.cos(angle) * miles).toFixed(3), y: +(home.y + Math.sin(angle) * miles).toFixed(3) };
+    if (bounds && (point.x < bounds.minX || point.x > bounds.maxX || point.y < bounds.minY || point.y > bounds.maxY)) continue;
+    places.push({ point, miles, game: huntingPlace(world, point).game });
+  }
+  return places.sort((a, b) => b.game - a.game || a.miles - b.miles).slice(0, 6).map(entry => entry.point);
 }
 
 /** How finely a family looks over its holding for a house site: this many places a side. */

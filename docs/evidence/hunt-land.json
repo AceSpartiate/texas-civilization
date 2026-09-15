@@ -1,0 +1,28 @@
+{
+  "record": "Hunting on the family's own land: docs/WOODS_AND_BUILDING.md build step 3",
+  "date": "2026-09-15",
+  "verdict": "PASS",
+  "measured": {
+    "facts": "A colonies family (seed hunt-look) with its house set in the middle of its labor: a quarter mile east and beside the house prairie, game 0.2, 'the longest wait'; a quarter mile south-west creek timber at the edge, game 1, 'Good ground for deer'; north-east prairie beside timber, game 0.4.",
+    "hunt": "Hollis sent to the prairie a fifth of a mile east: walked out on the family's land in one tick, waited still seven ticks (five of work at his pace), was asked, waited for the deer to come closer, fired, brought 5 food home of 10 and walked in; 'Hollis fired in the prairie' after the fix below.",
+    "fixedOnTheWay": "The first run stalked the hunter 0.16 miles on from the place, over the family's line, and wrote 'fired in the timber' on the prairie; the stalk is now a quarter as far round a chosen place and the words are the place's own. A new chore entry on every person's tick put a fresh class 135 bytes over the 10 KB channel bound (tests/family.test.mjs); it now carries no carry number and a refusal it shares with the hunt in the timber is sent once."
+  },
+  "browserProof": {
+    "note": "Same computer only: headless Chrome through the workstation Playwright, a settled five-family class. Not LAN or district acceptance.",
+    "observed": [
+      "Zadok's work panel offered 'Hunt on our land' with its description; pressing it opened 'Where Zadok hunts' with the hint to tap inside the dashed line.",
+      "A tap a sixth of a mile east of the house read 'Prairie beside the house. Open ground that game seldom crosses: the longest wait.' and showed 'Hunt there'.",
+      "Hunt there: Zadok's chore was hunt-land, waiting downwind and still, ground game 0.2 'the prairie', a deer placed east of him; the screenshot showed him on the family's land with the deer at the dashed line. No page errors.",
+      "Two further taps, 0.9 miles out and 0.15 west, did not change the panel: the view was following the chosen person and the first was off the screen; not investigated further."
+    ]
+  },
+  "automated": {
+    "suite": "tests/hunt-land.test.mjs (5)",
+    "wholeSuite": "413 pass, 0 fail",
+    "injectedRegressions": 21,
+    "caught": 20,
+    "removed": [
+      "hunt by wagon: the order already sends it on foot, so the line inside the chore did nothing and was taken out"
+    ]
+  }
+}

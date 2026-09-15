@@ -31,6 +31,7 @@ import { distanceToPolyline } from './terrain.mjs';
 import { OVERLAND_REACH } from './ways.mjs';
 import { moreFields, plotWorkRefusal, stakePlot, stroll, strollTarget } from './survey.mjs';
 import { choosing, cutLaneSpell, digWell, lanePoint, laneRefusal, laneState, waterBurden, wellRefusal, wellTicks } from './homesite.mjs';
+import { huntingPlace, huntRefusal, placeWord, stillTicks } from './hunting.mjs';
 import { SPELL_TICKS, buildRefusal, buildSpell, helpRefusal, hostOf, houseBuilt, houseSettled, raising, recordHelpBegun, recordHelpDone, stageOf } from './houses.mjs';
 export { MODES } from './travel.mjs';
 
@@ -500,6 +501,14 @@ export const CHORES = {
     ],
   },
 };
+// Hunting on the family's own land (docs/WOODS_AND_BUILDING.md §5, sim/hunting.mjs): the hunt's own stages, at a place the
+// student chose inside the family's line. Its `travel` steps are walks about the land (`advanceChore`), and how good the
+// ground is decides how long the hunter waits still.
+CHORES['hunt-land'] = {
+  name: 'Hunt on our land', skill: 'hunting', where: 'home', hauls: true, huntLand: true,
+  describe: 'On foot to a place on the family\'s own land that you choose, and home again. Timber by the water is the best ground for deer and open prairie the poorest; the edge of the timber is better than the middle. What comes home is what they can carry.',
+  steps: CHORES['hunt-timber'].steps,
+};
 
 export const toolState = wear => wear >= TOOL_LIFE ? 'worn' : 'sound';
 /** A price as a student reads it: "2 food", "1 real", "2 food, 1 seed". */
@@ -531,7 +540,8 @@ const yardPoint = (world, household) => {
  */
 const STALK = { edge: { dx: .05, dy: .08 }, deep: { dx: -.1, dy: -.035 }, still: { dx: .015, dy: -.13 } };
 function stalkPoint(world, entity, where) {
-  const site = world.map.sites[entity.location.siteId], spot = STALK[where];
+  const ground = entity.chore?.ground;
+  const site = ground ? { ...ground } : world.map.sites[entity.location.siteId], spot = STALK[where];
   if (!site || !spot) return null;
   let hash = 2166136261;
   for (const character of `${entity.id}:${where}`) hash = Math.imul(hash ^ character.charCodeAt(0), 16777619);
@@ -539,7 +549,9 @@ function stalkPoint(world, entity, where) {
   // A family's own hunting ground stands at the edge of its cover (`huntingGround`), so the stages go in, away from the
   // house: along `toward`, the way the cover lies, and a little to one side.
   if (site.toward) {
-    const along = { edge: .03, deep: .1, still: .16 }[where], aside = spot.dx + jitter * .05;
+    // On the family's own land the place was chosen: the stages stay close round it, so nobody stalks off over the line.
+    const near = ground ? .25 : 1;
+    const along = { edge: .03, deep: .1, still: .16 }[where] * near, aside = (spot.dx + jitter * .05) * near;
     return { x: round(site.x + site.toward.x * along - site.toward.y * aside), y: round(site.y + site.toward.y * along + site.toward.x * aside) };
   }
   return { x: round(site.x + spot.dx + jitter * .05), y: round(site.y + spot.dy + jitter * .05) };
@@ -552,7 +564,7 @@ function stalkPoint(world, entity, where) {
  */
 const QUARRY_MILES = Object.freeze({ far: 0.065, near: 0.035 });
 function quarryPoint(world, entity, range) {
-  const site = world.map.sites[entity.location.siteId];
+  const site = entity.chore?.ground || world.map.sites[entity.location.siteId];
   const toward = site?.toward || { x: 0, y: -1 };
   const miles = QUARRY_MILES[range] ?? QUARRY_MILES.far;
   return { kind: 'deer', x: round(entity.location.x + toward.x * miles), y: round(entity.location.y + toward.y * miles) };
@@ -657,6 +669,7 @@ export function choreAvailability(world, household, entity, choreId) {
   if ((chore.onSite || chore.house || chore.field || chore.plotWork) && choosing(household)) return { can: false, why: 'Choose where the house will stand first.' };
   if (chore.well) { const why = wellRefusal(household); if (why) return { can: false, why }; }
   if (chore.survey && world.status === 'lobby') return { can: false, why: 'The family surveys its land once the class has begun.' };
+  if (chore.huntLand && world.status === 'lobby') return { can: false, why: 'The family hunts its land once the class has begun.' };
   if (chore.lane) { const why = laneRefusal(world, household); if (why) return { can: false, why }; }
   if (chore.field && (household.field?.state ?? 'bare') !== chore.field) {
     return { can: false, why: chore.field === 'ripe' ? 'The field is not ready.' : 'The field is already planted.' };
@@ -770,10 +783,10 @@ export function choresFor(world, household, entity) {
   // Nor ground to clear where nothing is staked, or rails to split where every cleared plot has them.
   const plots = plotsOf(world, household);
   const wants = { 'clear-plot': plots.some(plot => plot.state === 'staked'), 'fence-plot': plots.some(plot => plot.state === 'cleared' && plot.fence !== 'sound') };
-  return Object.entries(CHORES).filter(([id, chore]) => !(chore.house && settled) && !(chore.helps && !visiting) && !(chore.well && !wantsWell) && !(chore.lane && !wantsLane)
+  const list = Object.entries(CHORES).filter(([id, chore]) => !(chore.house && settled) && !(chore.helps && !visiting) && !(chore.well && !wantsWell) && !(chore.lane && !wantsLane)
     && !(chore.plotWork && !wants[id])
     // Nor survey or plot work before the class has begun, which would be a refusal for every person on every lobby tick.
-    && !((chore.survey || chore.plotWork) && world.status === 'lobby')).map(([id, chore]) => {
+    && !((chore.survey || chore.plotWork || chore.huntLand) && world.status === 'lobby')).map(([id, chore]) => {
     const { can, why } = choreAvailability(world, household, entity, id);
     // `haul` is what this person's own hands would bring back from this trip, before any
     // cap. The cap itself is the mode's `carry`, which the projection sends alongside; the
@@ -783,7 +796,9 @@ export function choresFor(world, household, entity) {
     // deliberately: the control works it out from this and the mode's `carry`, which the
     // projection already sends, and a second copy of a number nobody reads is exactly the
     // freight this channel is not for.
-    const full = chore.hauls ? haulFor(entity, id) : null;
+    // The hunt on the family's own land goes on foot, so the mode's carry on the control would be wrong for it: its
+    // description says what comes home instead, and the channel is spared the number (tests/family.test.mjs).
+    const full = chore.hauls && !chore.huntLand ? haulFor(entity, id) : null;
     const haul = full && { resource: full.resource, got: full.got };
     // What this one actually costs this family today, and what the field would give back.
     const cost = chore.needsAny ? chore.needsAny.map(costWords).join(' or ') : costWords(needsOf(household, chore));
@@ -796,6 +811,10 @@ export function choresFor(world, household, entity) {
       ? { id, can: true, ...(cost && { cost }), ...(haul && { haul }), ...(crop && { crop }) }
       : { id, can: false, why, ...(cost && { cost }), ...(haul && { haul }), ...(crop && { crop }) };
   });
+  // A hunt on the family's land refused for the same reason as the hunt in the timber says so once: the page reads it there.
+  const timber = list.find(entry => entry.id === 'hunt-timber'), land = list.find(entry => entry.id === 'hunt-land');
+  if (land && !land.can && timber && land.why === timber.why) delete land.why;
+  return list;
 }
 
 /**
@@ -847,6 +866,14 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
   if (!can) throw new Error(why || 'That work is not available.');
   // Survey needs the place; it is sent as its own order with the place in it (sim/survey.mjs).
   if (chore.survey && !extra.plot) throw new Error('Choose a place on your land to survey.');
+  // So does hunting the family's own land (sim/hunting.mjs), sent on foot by its own order (sim/world.mjs).
+  if (chore.huntLand) {
+    const why = huntRefusal(world, household, extra.ground);
+    if (why) throw new Error(why);
+    const home = world.map.sites[household.homeSiteId], place = huntingPlace(world, extra.ground);
+    const dx = extra.ground.x - home.x, dy = extra.ground.y - home.y, far = Math.hypot(dx, dy);
+    extra = { ground: { x: round(extra.ground.x), y: round(extra.ground.y), game: place.game, cover: placeWord(place), toward: far > 0.001 ? { x: round(dx / far), y: round(dy / far) } : { x: 0, y: -1 } } };
+  }
   // Refused before the work is written down.
   //
   // Keyed on whether the chore travels at all, not on whether it hauls. A chore that
@@ -858,7 +885,7 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
     const mode = modeAvailability?.(world, entity, modeId);
     if (mode && !mode.can) throw new Error(mode.why);
   }
-  entity.chore = { id: choreId, step: -1, wait: 0, doing: 'setting out', ...(modeId !== DEFAULT_MODE && { mode: modeId }), ...(extra.plot && { plot: { x: extra.plot.x, y: extra.plot.y } }), ...(extra.plotId && { plotId: extra.plotId }) };
+  entity.chore = { id: choreId, step: -1, wait: 0, doing: 'setting out', ...(modeId !== DEFAULT_MODE && { mode: modeId }), ...(extra.plot && { plot: { x: extra.plot.x, y: extra.plot.y } }), ...(extra.plotId && { plotId: extra.plotId }), ...(extra.ground && { ground: extra.ground }) };
   entity.task = 'work';
   if (chore.helps) {
     const host = hostOf(world, entity);
@@ -927,7 +954,7 @@ function advanceChore(world, household, entity, { beginTravel }) {
     if (!step) return finishChore(world, household, entity, chore);
     // A step that belongs to an answer nobody gave is not this hunt's step.
     if (step.when && !step.when.some(flag => (state.flags || []).includes(flag))) continue;
-    if (step.doing) state.doing = step.doing.replace('{town}', world.map.sites[townOf(household)]?.name || 'town').replace('{cover}', coverWord(world, household));
+    if (step.doing) state.doing = step.doing.replace('{town}', world.map.sites[townOf(household)]?.name || 'town').replace('{cover}', state.ground?.cover || coverWord(world, household));
     if (step.walk) {
       // Inside the homestead. The person's canonical site is unchanged - they are still
       // at home - but they stand where the work is.
@@ -941,6 +968,13 @@ function advanceChore(world, household, entity, { beginTravel }) {
       if (point) entity.location = { x: point.x, y: point.y, siteId: household.homeSiteId };
       state.wait = 1;
       return;
+    }
+    if (step.travel && state.ground) {
+      delete state.quarry;
+      if (entity.location.siteId !== household.homeSiteId) return abandonChore(world, household, entity, chore);
+      const target = step.travel === 'home' ? strollTarget(world, household, entity, 'yard') : state.ground;
+      if (!stroll(world, household, entity, target)) { state.step--; return; }
+      continue;
     }
     if (step.travel) {
       // Whatever was hunted is carried now, or was never taken.
@@ -1008,7 +1042,7 @@ function advanceChore(world, household, entity, { beginTravel }) {
       household.resources.powder = round(Math.max(0, (household.resources.powder ?? 0) - SHOT_COST));
       record(world, 'hunt', {
         actorId: entity.id, householdId: household.id,
-        text: `${entity.name} fired in ${coverWord(world, household)}.`,
+        text: `${entity.name} fired in ${state.ground?.cover || coverWord(world, household)}.`,
       });
       state.wait = 1;
       return;
@@ -1022,7 +1056,7 @@ function advanceChore(world, household, entity, { beginTravel }) {
     // Heavy work goes at the pace of the person's hidden strength as well as their skill.
     // Heavy work at home goes slower still while the family carries its water from far off (sim/homesite.mjs).
     if (step.work) {
-      const ticks = step.work === 'well' ? wellTicks(household) : step.work;
+      const ticks = step.work === 'well' ? wellTicks(household) : step.stalk === 'still' && state.ground ? stillTicks(state.ground.game, step.work) : step.work;
       const burden = chore.heavy && chore.where === 'home' ? waterBurden(household) : 1;
       state.wait = paceFor(ticks, skill, (chore.heavy ? heavyWorkPace(entity) : 1) * burden);
       return;
