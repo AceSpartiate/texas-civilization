@@ -32,6 +32,8 @@ import { OVERLAND_REACH } from './ways.mjs';
 import { moreFields, plotWorkRefusal, stakePlot, stroll, strollTarget } from './survey.mjs';
 import { choosing, cutLaneSpell, digWell, lanePoint, laneRefusal, laneState, waterBurden, wellRefusal, wellTicks } from './homesite.mjs';
 import { huntingPlace, huntRefusal, placeWord, stillTicks } from './hunting.mjs';
+import { fellRefusal, fellTicks, fellTree, logsLying, nextTree, recordFelling, stackLogs, takeUpLogs } from './felling.mjs';
+import { KINDS, woodsRule } from './woods.mjs';
 import { SPELL_TICKS, buildRefusal, buildSpell, helpRefusal, hostOf, houseBuilt, houseSettled, raising, recordHelpBegun, recordHelpDone, stageOf } from './houses.mjs';
 export { MODES } from './travel.mjs';
 
@@ -504,6 +506,25 @@ export const CHORES = {
 // Hunting on the family's own land (docs/WOODS_AND_BUILDING.md §5, sim/hunting.mjs): the hunt's own stages, at a place the
 // student chose inside the family's line. Its `travel` steps are walks about the land (`advanceChore`), and how good the
 // ground is decides how long the hunter waits still.
+// Felling the family's own trees and hauling the logs to the house (docs/WOODS_AND_BUILDING.md §6.1, sim/felling.mjs).
+CHORES['fell-trees'] = {
+  name: 'Fell trees', skill: 'hands', where: 'home', heavy: true, fells: true,
+  describe: 'Out with the felling axe to a place in timber on the family\'s own land that you choose. The trees within a few rods come down one by one, straight wall timber first, and their logs lie where they fell until they are hauled to the house.',
+  steps: [
+    { stroll: 'ground', doing: 'walking out to the timber with the axe' },
+    { fell: true, doing: 'felling' },
+    { saidFelling: true },
+    { stroll: 'yard', doing: 'walking in from the felling' },
+  ],
+};
+CHORES['haul-logs'] = {
+  name: 'Haul logs to the house', skill: 'hands', where: 'home', heavy: true, hauling: true,
+  describe: 'Bring the logs that lie where they were felled to the house, one on the shoulder a trip, or a load of six dragged behind the ox when the ox is at home.',
+  steps: [
+    { haul: true, doing: 'hauling logs' },
+    { stroll: 'yard', doing: 'coming in from the hauling' },
+  ],
+};
 CHORES['hunt-land'] = {
   name: 'Hunt on our land', skill: 'hunting', where: 'home', hauls: true, huntLand: true,
   describe: 'On foot to a place on the family\'s own land that you choose, and home again. Timber by the water is the best ground for deer and open prairie the poorest; the edge of the timber is better than the middle. What comes home is what they can carry.',
@@ -670,6 +691,8 @@ export function choreAvailability(world, household, entity, choreId) {
   if (chore.well) { const why = wellRefusal(household); if (why) return { can: false, why }; }
   if (chore.survey && world.status === 'lobby') return { can: false, why: 'The family surveys its land once the class has begun.' };
   if (chore.huntLand && world.status === 'lobby') return { can: false, why: 'The family hunts its land once the class has begun.' };
+  if (chore.fells && household.tools?.axe === undefined) return { can: false, why: 'Felling wants an axe, and there is none in the house.' };
+  if (chore.hauling && !logsLying(world, household).length) return { can: false, why: 'No felled logs lie out to haul.' };
   if (chore.lane) { const why = laneRefusal(world, household); if (why) return { can: false, why }; }
   if (chore.field && (household.field?.state ?? 'bare') !== chore.field) {
     return { can: false, why: chore.field === 'ripe' ? 'The field is not ready.' : 'The field is already planted.' };
@@ -783,10 +806,14 @@ export function choresFor(world, household, entity) {
   // Nor ground to clear where nothing is staked, or rails to split where every cleared plot has them.
   const plots = plotsOf(world, household);
   const wants = { 'clear-plot': plots.some(plot => plot.state === 'staked'), 'fence-plot': plots.some(plot => plot.state === 'cleared' && plot.fence !== 'sound') };
+  // Nor felling where the trees are not counted one by one, nor hauling with nothing lying out (sim/felling.mjs).
+  const counted = woodsRule(world) === 'landfire';
+  const lying = counted && logsLying(world, household).length > 0;
   const list = Object.entries(CHORES).filter(([id, chore]) => !(chore.house && settled) && !(chore.helps && !visiting) && !(chore.well && !wantsWell) && !(chore.lane && !wantsLane)
     && !(chore.plotWork && !wants[id])
+    && !(chore.fells && !counted) && !(chore.hauling && !lying)
     // Nor survey or plot work before the class has begun, which would be a refusal for every person on every lobby tick.
-    && !((chore.survey || chore.plotWork || chore.huntLand) && world.status === 'lobby')).map(([id, chore]) => {
+    && !((chore.survey || chore.plotWork || chore.huntLand || chore.fells) && world.status === 'lobby')).map(([id, chore]) => {
     const { can, why } = choreAvailability(world, household, entity, id);
     // `haul` is what this person's own hands would bring back from this trip, before any
     // cap. The cap itself is the mode's `carry`, which the projection sends alongside; the
@@ -866,6 +893,12 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
   if (!can) throw new Error(why || 'That work is not available.');
   // Survey needs the place; it is sent as its own order with the place in it (sim/survey.mjs).
   if (chore.survey && !extra.plot) throw new Error('Choose a place on your land to survey.');
+  // Felling needs the place too, and is refused for that place first (sim/felling.mjs).
+  if (chore.fells) {
+    const why = fellRefusal(world, household, extra.ground);
+    if (why) throw new Error(why);
+    extra = { ground: { x: round(extra.ground.x), y: round(extra.ground.y) } };
+  }
   // So does hunting the family's own land (sim/hunting.mjs), sent on foot by its own order (sim/world.mjs).
   if (chore.huntLand) {
     const why = huntRefusal(world, household, extra.ground);
@@ -1175,6 +1208,43 @@ function advanceChore(world, household, entity, { beginTravel }) {
         if (step.stroll !== 'fields' || !moreFields(world, household, entity)) continue;
         state.visited = (state.visited || 0) + 1;
       }
+      state.step--;
+      return;
+    }
+    if (step.fell) {
+      // One tree at a time, until none is left in reach. A tree whose work is paid for comes down first.
+      if (entity.location.siteId !== household.homeSiteId) return abandonChore(world, household, entity, chore);
+      if (state.felling) { fellTree(world, household, entity, state.felling); delete state.felling; }
+      const tree = nextTree(world, household, entity);
+      if (!tree) continue;
+      if (!stroll(world, household, entity, { x: tree.x, y: tree.y })) { state.step--; return; }
+      state.felling = tree.id;
+      state.doing = `felling ${/^[aeiou]/.test(KINDS[tree.kind].name) ? 'an' : 'a'} ${KINDS[tree.kind].name}`;
+      state.wait = paceFor(fellTicks(tree), skill, heavyWorkPace(entity) * waterBurden(household));
+      state.step--;
+      return;
+    }
+    if (step.saidFelling) { recordFelling(world, household, entity); continue; }
+    if (step.haul) {
+      // Out to the nearest logs, take up a load, bring it to the house; again until none lie out.
+      if (entity.location.siteId !== household.homeSiteId) return abandonChore(world, household, entity, chore);
+      if (state.load) {
+        if (!stroll(world, household, entity, strollTarget(world, household, entity, 'yard'))) { state.step--; return; }
+        stackLogs(household, state.load);
+        state.hauled = (state.hauled || 0) + state.load.n;
+        delete state.load;
+        state.step--;
+        return;
+      }
+      const lying = logsLying(world, household)[0];
+      if (!lying) {
+        if (state.hauled) record(world, 'improvement', { actorId: entity.id, householdId: household.id, importance: 2, claimId: 'FIC-GONZ-032', text: `${entity.name} hauled ${state.hauled} ${state.hauled === 1 ? 'log' : 'logs'} to the house.` });
+        continue;
+      }
+      if (!stroll(world, household, entity, { x: lying.x, y: lying.y })) { state.step--; return; }
+      state.load = takeUpLogs(world, household, entity);
+      state.doing = state.load.n > 1 ? `dragging ${state.load.n} logs behind the ox` : 'carrying a log to the house';
+      state.wait = 1;
       state.step--;
       return;
     }

@@ -50,5 +50,11 @@ export function woodsTile(world, level, tx, ty) {
   }
   // Tiles are whole numbers of lattice cells and a tree stands inside its cell, so no tree lies on a tile's edge.
   const trees = treesIn({ minX, minY, maxX: minX + size, maxY: minY + size }, options) || [];
-  return { level, tx, ty, size, trees: trees.map(tree => [tree.x, tree.y, KIND_IDS.indexOf(tree.kind), SIZES.indexOf(tree.size)]) };
+  // Felled trees are stumps, with the logs still lying beside each (sim/felling.mjs).
+  const felled = world.woods?.felled || {};
+  return {
+    level, tx, ty, size,
+    trees: trees.filter(tree => !felled[tree.id]).map(tree => [tree.x, tree.y, KIND_IDS.indexOf(tree.kind), SIZES.indexOf(tree.size)]),
+    stumps: trees.filter(tree => felled[tree.id]).map(tree => [tree.x, tree.y, KIND_IDS.indexOf(tree.kind), felled[tree.id].left]),
+  };
 }

@@ -23,6 +23,7 @@ import { chooseSite, siteInvalid, siteProjection } from './homesite.mjs';
 import { plotProjection, plotRefusal, plotsInvalid } from './survey.mjs';
 import { advanceExpresses, expressesInvalid } from './expresses.mjs';
 import { callsInvalid, handleCall } from './calls.mjs';
+import { fellingInvalid, logsProjection, recordFelling } from './felling.mjs';
 import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, ageBand, defaultNames, familyProjection, familyRoll, FAMILY_DIE, compositionFor, rolledWords, householdName, kinFor, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
 export { HOUSEHOLD_SHAPE, ROLES, householdName, sanitiseName } from './family.mjs';
 export { clearedOf, improvementsOf, ruin } from './improvements.mjs';
@@ -526,7 +527,7 @@ export function advanceRelays(world) {
  * offer made to an empty chair - and the historical choices, which do not exist until the
  * news that prompts them has arrived.
  */
-export const LOBBY_ACTIONS = new Set(['survey-plot', 'hunt-land', 'clear-plot', 'fence-plot','roll-family', 'load-wagon', 'bring-stock', 'plan-house', 'chore', 'stop-chore', 'answer-chore', 'rename', 'work', 'rest', 'travel']);
+export const LOBBY_ACTIONS = new Set(['survey-plot', 'hunt-land', 'fell-trees', 'clear-plot', 'fence-plot','roll-family', 'load-wagon', 'bring-stock', 'plan-house', 'chore', 'stop-chore', 'answer-chore', 'rename', 'work', 'rest', 'travel']);
 export function applyAction(world, householdId, input) {
   const entity = world.entities[input.entityId];
   const household = world.households[householdId];
@@ -566,6 +567,11 @@ export function applyAction(world, householdId, input) {
     beginChore(world, household, entity, 'survey-plot', { beginTravel, modeAvailability }, DEFAULT_MODE, { plot });
     return;
   }
+  // Felling at a place on the family's own land, chosen on the map (sim/felling.mjs).
+  if (input.action === 'fell-trees') {
+    beginChore(world, household, entity, 'fell-trees', { beginTravel, modeAvailability }, DEFAULT_MODE, { ground: { x: Number(input.x), y: Number(input.y) } });
+    return;
+  }
   // Hunting a place on the family's own land, chosen on the map (sim/hunting.mjs). The server decides whether it can be.
   if (input.action === 'hunt-land') {
     beginChore(world, household, entity, 'hunt-land', { beginTravel, modeAvailability }, DEFAULT_MODE, { ground: { x: Number(input.x), y: Number(input.y) } });
@@ -598,6 +604,8 @@ export function applyAction(world, householdId, input) {
     if (!entity.chore) throw new Error('Nothing to call off.');
     // Called home from a neighbour's raising: what they put in is still owed to both stories.
     if (entity.chore.hostHouseholdId && entity.chore.spells > 0) recordHelpDone(world, household, entity, world.households[entity.chore.hostHouseholdId], entity.chore.spells);
+    // Called in from the felling: the trees already down are still said, and where their logs lie (sim/felling.mjs).
+    if (entity.chore.id === 'fell-trees') recordFelling(world, household, entity);
     entity.chore = null; entity.task = 'rest';
     record(world, 'assignment', { actorId: entity.id, householdId, text: `${entity.name} left off the work.` });
     return;
@@ -685,7 +693,7 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
   // it is decided here and never guessed at by the client.
   // What the family has made of this land, and what state it is in. The renderer draws
   // the field at the size this says and the fence only when there is one to draw.
-  const land = household ? { ...improvementProjection(household), ...shelterProjection(household), ...houseProjection(world, household), ...grantProjection(world, household), ...siteProjection(world, household), ...plotProjection(world, household) } : null;
+  const land = household ? { ...improvementProjection(household), ...shelterProjection(household), ...houseProjection(world, household), ...grantProjection(world, household), ...siteProjection(world, household), ...plotProjection(world, household), ...logsProjection(world, household) } : null;
   // What is in the wagon, and whether it can still be repacked. The catalogue comes once, from /api/chores.
   const wagon = household ? wagonProjection(world, household) : null;
 
@@ -745,7 +753,8 @@ export function validateWorld(world) {
     // Somebody helping raise a neighbour's walls is helping a family that exists (sim/houses.mjs).
     if (entity.chore?.hostHouseholdId !== undefined && (!world.households[entity.chore.hostHouseholdId] || entity.chore.hostHouseholdId === entity.householdId)) throw new Error('Helping a family that is not there');
     // A hunt on the family's own land knows where it is and how good the ground is (sim/hunting.mjs). Absent on every other chore.
-    const hunted = entity.chore?.ground;
+    const hunted = entity.chore?.id === 'hunt-land' ? entity.chore.ground : undefined;
+    if (entity.chore?.id === 'fell-trees' && (!Number.isFinite(entity.chore.ground?.x) || !Number.isFinite(entity.chore.ground?.y))) throw new Error('Invalid felling place');
     if (hunted !== undefined && (!Number.isFinite(hunted?.x) || !Number.isFinite(hunted.y) || !(hunted.game >= 0 && hunted.game <= 1) || typeof hunted.cover !== 'string' || !Number.isFinite(hunted.toward?.x) || !Number.isFinite(hunted.toward?.y))) throw new Error('Invalid hunting place');
     if (entity.travel && (!Array.isArray(entity.travel.points) || entity.travel.points.length < 2 || !Number.isFinite(entity.travel.progress) || !Number.isFinite(entity.travel.speed) || entity.travel.speed <= 0 || entity.travel.progress < 0 || entity.travel.progress > entity.travel.distance)) throw new Error('Invalid travel');
     // Absent on every journey over open road and every class saved before the going (sim/ground.mjs), which travels as it did.
@@ -831,6 +840,8 @@ export function validateWorld(world) {
   if (badExpress) throw new Error(badExpress);
   const badCall = callsInvalid(world);
   if (badCall) throw new Error(badCall);
+  const badFelling = fellingInvalid(world);
+  if (badFelling) throw new Error(badFelling);
   const events = new Set(world.events.map(e => e.id));
   if (events.size !== world.events.length || world.events.some(e => e.causes.some(id => !events.has(id)))) throw new Error('Invalid event graph');
   if (world.nextEventId !== world.events.length + 1) throw new Error('Event sequence would duplicate an ID');

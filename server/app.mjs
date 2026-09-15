@@ -14,6 +14,7 @@ import { wagonCatalogue } from '../sim/wagon.mjs';
 import { houseCatalogue } from '../sim/houses.mjs';
 import { woodsCatalogue, woodsTile } from '../sim/woods-view.mjs';
 import { huntFacts } from '../sim/hunting.mjs';
+import { fellFacts } from '../sim/felling.mjs';
 import { readSave, writeSave, acquireSaveLock, archiveSave } from './storage.mjs';
 
 const token = () => randomBytes(24).toString('hex');
@@ -168,7 +169,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     // `tickMs` rides along because the renderer has to know how long a tick lasts to
     // spread one tick's movement across it. Without it the client guesses one second and a
     // slower class walks for a second and then stands still for the rest of the tick.
-    const payload = { revision: state.revision, sessionId: state.sessionId, connected: connected(), tickMs: pace, fault: runtimeFault && structuredClone(runtimeFault), lifecycle: lifecycle && structuredClone(lifecycle), world: projectWorld(state.world, identity.householdId, identity.role, { includeMap: false }), mapId: state.sessionId, ...(state.world.map.revision && { mapRevision: state.world.map.revision }) };
+    const payload = { revision: state.revision, sessionId: state.sessionId, connected: connected(), tickMs: pace, fault: runtimeFault && structuredClone(runtimeFault), lifecycle: lifecycle && structuredClone(lifecycle), world: projectWorld(state.world, identity.householdId, identity.role, { includeMap: false }), mapId: state.sessionId, ...(state.world.map.revision && { mapRevision: state.world.map.revision }), ...(state.world.woods?.revision && { woodsRevision: state.world.woods.revision }) };
     if (identity.role === 'host') Object.assign(payload, { sessionCode: state.sessionCode, joinUrls, canStop: Boolean(onStopRequested), presence: presence() });
     // A household is told its own key and no other. The Host page deliberately carries
     // none of them, because a teacher's screen is sometimes a projector.
@@ -337,7 +338,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         const household = state.world.households[identity.householdId];
         const point = { x: Number(url.searchParams.get('x')), y: Number(url.searchParams.get('y')) }, job = url.searchParams.get('job');
         // Or what a hunt there would find (sim/hunting.mjs).
-        return json(res, 200, { mapId: state.sessionId, facts: job === 'hunt-land' ? huntFacts(state.world, household, point) : plotFacts(state.world, household, point, job) });
+        return json(res, 200, { mapId: state.sessionId, facts: job === 'hunt-land' ? huntFacts(state.world, household, point) : job === 'fell-trees' ? fellFacts(state.world, household, point) : plotFacts(state.world, household, point, job) });
       }
       // One tile of the woods (sim/woods-view.mjs): the land itself, the same for everybody, so no family is needed to ask.
       if (req.method === 'GET' && url.pathname === '/api/woods') {

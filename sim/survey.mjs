@@ -157,6 +157,7 @@ function fieldRound(world, household) {
 /** Where a person walking about their own land is headed, this step: a plot, the next of the fields, or the yard. */
 export function strollTarget(world, household, entity, towards) {
   if (towards === 'plot') return entity.chore?.plot || null;
+  if (towards === 'ground') return entity.chore?.ground || null;
   if (towards === 'fields') {
     const next = fieldRound(world, household)[entity.chore?.visited || 0];
     return next ? { x: next.x, y: next.y } : null;

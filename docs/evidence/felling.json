@@ -1,0 +1,27 @@
+{
+  "record": "Felling the family's own trees and hauling the logs home: docs/WOODS_AND_BUILDING.md build step 4",
+  "date": "2026-09-15",
+  "verdict": "PASS",
+  "measured": {
+    "felling": "Seed fell-look, Cipriano at creek timber half a mile south of the house (163 trees in reach, 336 logs, 175 wall): 25 trees and 47 logs in 60 ticks before he was called in.",
+    "hauling": "The same 47 logs hauled with the ox at home: a load of six a trip once loads were gathered from every lying tree within reach of the nearest (the first build took one tree's logs a trip, two or three, and was changed); all on the pile in about ten trips."
+  },
+  "browserProof": {
+    "note": "Same computer only: headless Chrome through the workstation Playwright, a five-family colonies class started by the host, the house sited by a command from the page. Not LAN or district acceptance.",
+    "observed": [
+      "Cipriano's work panel offered 'Fell trees'; the panel read 'Where Cipriano fells'; a tap on creek timber a quarter mile south-east of the house read '200 trees in reach, 258 logs, 123 of them straight enough for walls. elm, hackberry, pecan.' with 'Fell there'.",
+      "Twenty seconds after 'Fell there': chore fell-trees 'felling a walnut', 56 trees and 73 logs down, the supplies line 'logs 0 at the house, 73 lying out', woods revision 56, 22 stumps drawn in the family view.",
+      "Watching him three zooms in: a felled patch of stumps with logs beside them, open among the standing timber; 67 stumps drawn. They were first drawn at half a person and could not be seen; now a person tall. No page errors."
+    ]
+  },
+  "automated": {
+    "suite": "tests/felling.test.mjs (6), tests/chores.test.mjs (the chore list)",
+    "wholeSuite": "419 pass, 0 fail",
+    "injectedRegressions": 30,
+    "caught": 28,
+    "notReproduced": [
+      "two fellers reaching for one tree: side by side in the test they still chose different trees; the guard is kept",
+      "refetching every tile on a change: at the close zoom tested only close-up tiles are in view"
+    ]
+  }
+}

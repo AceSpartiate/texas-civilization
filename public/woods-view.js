@@ -21,10 +21,16 @@ const SHADE_VIEW_MILES = 90;
 /** Whether this class's map draws its woods from the land. */
 export const woodsShown = world => world?.map?.woods === 'landfire-2016';
 
-function reset(mapId) {
-  if (mapId === classId) return;
-  classId = mapId; tiles.clear(); pending.clear();
+/** Which change to the woods the tiles were fetched at: a tree felled or logs hauled makes the close-up tiles stale. */
+let revision = 0;
+function reset(mapId, woodsRevision = 0) {
+  if (mapId !== classId) { classId = mapId; tiles.clear(); pending.clear(); revision = woodsRevision; return; }
+  if (woodsRevision === revision) return;
+  revision = woodsRevision;
+  // Only the trees change; the patches and the shade are the land's. A stale tile is kept on screen until its fresh one comes.
+  for (const key of tiles.keys()) if (key.startsWith('trees:')) stale.add(key);
 }
+const stale = new Set();
 
 /** The tile keys a box of the map needs at a level. */
 function keysFor(level, size, box) {
@@ -37,13 +43,13 @@ function keysFor(level, size, box) {
 
 function fetchTiles(level, size, box, onLoad) {
   for (const { key, tx, ty } of keysFor(level, size, box)) {
-    if (tiles.has(key) || pending.has(key)) continue;
+    if ((tiles.has(key) && !stale.has(key)) || pending.has(key)) continue;
     if (pending.size >= IN_FLIGHT) return;
     pending.add(key);
     const asked = classId;
     fetch(`/api/woods?level=${level}&tx=${tx}&ty=${ty}`)
       .then(response => response.ok ? response.json() : null)
-      .then(result => { if (asked !== classId) return; pending.delete(key); tiles.set(key, result?.tile || { empty: true }); onLoad(); })
+      .then(result => { if (asked !== classId) return; pending.delete(key); stale.delete(key); tiles.set(key, result?.tile || { empty: true }); onLoad(); })
       .catch(() => { if (asked === classId) pending.delete(key); });
   }
 }
@@ -56,9 +62,9 @@ function viewOf(camera, canvas, margin = 0) {
 }
 
 /** Ask for whatever tiles the view needs now. `catalogue` is `/api/chores`' `woods`; `onLoad` redraws. */
-export function ensureWoods(world, camera, canvas, mapId, catalogue, onLoad) {
+export function ensureWoods(world, camera, canvas, mapId, catalogue, onLoad, woodsRevision = 0) {
   if (!woodsShown(world) || !catalogue || !mapId) return;
-  reset(mapId);
+  reset(mapId, woodsRevision);
   const view = viewOf(camera, canvas, 0.15);
   if (view.area <= TREE_VIEW_SQUARE_MILES) fetchTiles('trees', catalogue.tiles.trees, view, onLoad);
   else if (view.wide <= PATCH_VIEW_MILES) fetchTiles('patches', catalogue.tiles.patches, view, onLoad);
@@ -120,6 +126,17 @@ export function drawWoodsCover(ctx, camera, canvas, catalogue) {
   ctx.globalAlpha = 0.55; ctx.fillStyle = '#5d7a3c'; ctx.fill(paths.t, 'nonzero');
   ctx.globalAlpha = 0.35; ctx.fillStyle = '#9a9460'; ctx.fill(paths.b, 'nonzero');
   ctx.restore();
+}
+
+/** Every stump in view, with the logs still lying at it, as `{ x, y, kind, left }`. */
+export function stumpsVisible(camera, canvas, catalogue) {
+  const view = viewOf(camera, canvas, 0.05), found = [];
+  for (const { key } of keysFor('trees', catalogue.tiles.trees, view)) {
+    for (const [x, y, kind, left] of tiles.get(key)?.stumps || []) {
+      if (x >= view.minX && x <= view.maxX && y >= view.minY && y <= view.maxY) found.push({ x, y, kind: catalogue.kinds[kind], left });
+    }
+  }
+  return found;
 }
 
 /** Draw the shade of timber for the view, zoomed out: each mile a green wash as strong as its share of timber. */

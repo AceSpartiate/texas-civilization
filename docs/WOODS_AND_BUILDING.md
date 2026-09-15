@@ -1,6 +1,6 @@
 # The woods on a family's land, hunting it, felling it, and building a house from it
 
-**Status: decided 2026-09-15; steps 1 to 3 - the woods, the trees drawn, hunting on the family's land - built 2026-09-15 (§4.4, §4.5, §5.1; [evidence](evidence/woods-data.json), [browser](evidence/woods-browser.json), [hunting](evidence/hunt-land.json)).** Read this in full before changing where timber stands, what a
+**Status: decided 2026-09-15; steps 1 to 4 - the woods, the trees drawn, hunting on the family's land, felling and hauling - built 2026-09-15 (§4.4, §4.5, §5.1, §6.1.1; [evidence](evidence/woods-data.json), [browser](evidence/woods-browser.json), [hunting](evidence/hunt-land.json), [felling](evidence/felling.json)).** Read this in full before changing where timber stands, what a
 hunt finds, felling, logs, or how a house is planned and raised. It amends `docs/SETTLING_IN.md` §5–6 (a house is
 no longer one of four fixed layouts raised as one bar of work) and `docs/LAND_GRANTS.md` §8.4 (timber is no longer
 "within 0.9 miles of a river and 0.2 of a creek" everywhere).
@@ -177,6 +177,15 @@ cottonwood `cottonwood`, pine and cedar the nearest tree tinted, mesquite `scrub
   **log pile** (`household.logs`, by kind: wall logs, sill logs, poor logs).
 - Felling on a staked plot is also clearing it: a plot whose trees are all felled needs only the grubbing left.
 
+### 6.1.1 As built: step 4 (2026-09-15)
+
+- **`sim/felling.mjs`.** *Fell trees* (`fell-trees`, sent with a place like the hunt): refused where the trees are not counted one by one (every class but a new real-land one), in the lobby, before the house site, off the family's land, in the water, with no felling axe, or with no timber standing within reach. The family is told what stands: *"Creek timber a quarter mile south-east of the house: 200 trees in reach, 258 logs, 123 of them straight enough for walls. elm, hackberry, pecan."* The person walks out and fells the trees within **260 feet** (`FELL_REACH`) one at a time, wall timber first, then sill, then poor, nearest first; a pole takes one tick, a log tree two, a large tree three, times the kind's effort (cottonwood 0.6, live oak 1.5) at their pace and strength; two people at one place never take the same tree. Each felled tree is stored once, `world.woods.felled[t:column:row] = { by, minute, kind, use, logs, left }`, and the woods drop it; the story says once how many came down and how many logs lie, also when the feller is called in.
+- **Hauling** (`haul-logs`, offered only while the family has logs lying out): to the nearest lying logs, a load of six from there and any others within reach behind the ox when the ox is at home and free, or one on the shoulder, to the house and onto the family's log pile (`household.logs = { wall, sill, poor }`), again until none lie out.
+- **Seen.** The land line has `logs: { wall, sill, poor, lying }`; the supplies line says *"logs 47 at the house, 12 lying out"*. The trees tile leaves felled trees out and lists `stumps` with the logs still at each; `/api/state` carries `woodsRevision`, and a change makes the page fetch the close-up tiles again, keeping the old ones on screen until the new come. Close up a stump is drawn where each tree stood and a log beside it while any lie there; beside the house a log for every ten on the pile, up to four. `stand-in:` stumps are `stump-post-oak` or `stump-cottonwood`, logs and the pile `log-fallen` (requested 2026-09-15).
+- **Old saves:** no `woods` record and no log pile; nothing is offered where the trees are not counted; no save version moved.
+- `ceiling:` a tree is felled in one to three ticks, not the hour or more it took. `ceiling:` the ox is not drawn with the hauler nor lent for the trip. `ceiling:` felling does not open a patch for the going or clearing, and clearing a timber plot fells nothing into logs.
+- **Browser** (same computer only, not LAN): a colonies family's principal, *Fell trees*, a tap on creek timber read the words above, *Fell there*; twenty seconds later the supplies line read *"logs 0 at the house, 73 lying out"*, the woods revision was 56 and 22 stumps were drawn; watching him, a felled patch of stumps and logs showed in the timber (the stumps were first drawn too small to see, and were made a person's height). No page errors. Tests: `tests/felling.test.mjs` (6) and the chore list test in `tests/chores.test.mjs`; thirty injected regressions, twenty-eight caught; the two not (two fellers reaching for the same tree, and refetching every tile rather than the close-up ones) did not happen in the scenes tested, and the guard against the first is kept.
+
 ### 6.2 The house plot and its pieces
 
 The house plot is a grid of **8-foot cells**, 8 wide and 6 deep, round the house site. The family places pieces on it:
@@ -246,7 +255,7 @@ version moves.
    evidence of stands near each settlement.
 2. ~~**Trees drawn.**~~ **Done 2026-09-15** (§4.5). `/api/woods`, trees and stumps close up, stand-ins, art requests.
 3. ~~**Hunting on our land.**~~ **Done 2026-09-15** (§5.1). The tap, the facts, the stand deciding the hunt, neighbours' choice.
-4. **Felling and hauling.** *Fell trees*, stumps, logs, the log pile, the ox and wagon hauling, felling clearing a plot.
+4. ~~**Felling and hauling.**~~ **Done 2026-09-15** (§6.1.1). *Fell trees*, stumps, logs, the log pile, the ox and wagon hauling, felling clearing a plot.
 5. **The house plot.** Pieces, rules, plans as presets, effects through `shelterOf`; `HIST-TEX-017`, `FIC-GONZ-033`.
 6. **Raising by stages.** Sills, courses, roof, chinking, two-person courses, logs consumed, the raising per course,
    neighbours building from plans; drawn per piece.

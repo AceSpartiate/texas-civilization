@@ -2,7 +2,7 @@
 import { drawSprite, drawClip, clipInfo, hasSprite, loadArt, onArtReady, pickSprite } from '/art.js';
 import { ProjectionMotion, entityClip, travelHeading, travelDirection, figureScale, underARider, mounted, MOUNTED_HEIGHT } from '/motion.js';
 import {drawBexarGround,bexarDrawables} from '/bexar-art.js';
-import { drawWoodsCover, ensureWoods, timberAt, treesInView, treesVisible, woodsShown } from '/woods-view.js';
+import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesInView, treesVisible, woodsShown } from '/woods-view.js';
 const $ = selector => document.querySelector(selector);
 const say = message => { for (const id of ['#error', '#join-error', '#rejoin-error']) { const el = $(id); if (el) el.textContent = message; } };
 const hostPage = location.pathname === '/host';
@@ -561,7 +561,7 @@ const HOMESTEAD_LEGIBLE = 11;
 const TREE_SIZES = [0.55, 0.7, 0.85];
 const SIZE = {
   cabin: 3.3, settlementCabin: 2.5, camp: 2.1,
-  timberTree: 1.95, loneTree: 2.05, sapling: 1.15, scrub: 1.0,
+  timberTree: 1.95, loneTree: 2.05, sapling: 1.15, scrub: 1.0, stump: 1.0, logPile: 1.2,
   tuft: .6, rock: .5, crop: .95,
   ox: 1.45, horse: 1.5, wagon: 1.55, deer: 1.1,
 };
@@ -1056,6 +1056,16 @@ function drawGroundDetail(ctx, world, camera) {
       // cottonwood, cedar as the sapling, mesquite as scrub. Request 2026-09-15 - the trees of the colonies.
       scattered.push({ tree: tree.kind.picture, height, point, seed: Math.round(tree.x * 1e5) });
     }
+    // What the family has felled: a stump, and a log lying beside it while any are left to haul (sim/felling.mjs).
+    // stand-in: pine, pecan and every other kind's stump is the post oak's or the cottonwood's, and a felled log is
+    // `log-fallen`. Request 2026-09-15 - the trees of the colonies.
+    const stumps = stumpsVisible(camera, canvas, woodsCatalogue);
+    for (const stump of stumps) {
+      const point = camera.toScreen(stump), soft = ['cottonwood', 'sycamore', 'loblolly', 'shortleaf'].includes(stump.kind.id);
+      scattered.push({ tree: soft ? 'stump-cottonwood' : 'stump-post-oak', height: figure * SIZE.stump, point, seed: 0 });
+      if (stump.left > 0) scattered.push({ tree: 'log-fallen', height: figure * SIZE.stump * .8, point: { x: point.x + figure * .35, y: point.y + figure * .08 }, seed: 0 });
+    }
+    window.__stumpsDrawn = stumps.length;
     scattered.sort((a, b) => a.point.y - b.point.y);
   }
   for (const { share, seed, timber, point, tree, height } of scattered) {
@@ -1239,8 +1249,9 @@ function drawPlots(ctx, world, camera) {
     // Surveying looks at new ground; clearing and fencing at the plot under the tap, outlined where the server found it.
     const target = plotJob === 'survey-plot' ? plotPick.point : (world.land?.plots || []).find(plot => plot.id === plotPick.facts?.plotId);
     // A hunt is a place, not ten acres: a ring where the hunter will go.
-    if (plotJob === 'hunt-land') {
-      const at = camera.toScreen(plotPick.point), radius = Math.max(6, Math.min(40, camera.scale * 0.03));
+    if (plotJob === 'hunt-land' || plotJob === 'fell-trees') {
+      // Felling takes the trees within a few rods of the place (sim/felling.mjs `FELL_REACH`), and the ring is that far.
+      const at = camera.toScreen(plotPick.point), radius = plotJob === 'fell-trees' ? Math.max(6, camera.scale * 0.05) : Math.max(6, Math.min(40, camera.scale * 0.03));
       ctx.save(); ctx.setLineDash([6, 4]); ctx.lineWidth = 2; ctx.strokeStyle = plotPick.facts?.can ? '#b5452f' : '#8a8171';
       ctx.beginPath(); ctx.arc(at.x, at.y, radius, 0, Math.PI * 2); ctx.stroke(); ctx.restore();
     } else if (target) square(target, { stroke: plotPick.facts?.can ? '#b5452f' : '#8a8171', fill: plotPick.facts?.can ? 'rgba(181,69,47,.12)' : 'rgba(138,129,113,.12)', dash: [6, 4] });
@@ -1299,7 +1310,7 @@ export function drawWorld(world) {
   const camera = cameraFor(world, canvas);
   window.__camera = { kind: camera.kind, scale: camera.scale, named: camera.named, cx: camera.cx, cy: camera.cy, following: camera.following };
   window.__relief = drawRelief(ctx, world, camera);
-  ensureWoods(world, camera, canvas, window.__snapshot?.mapId, woodsCatalogue, redrawForWoods);
+  ensureWoods(world, camera, canvas, window.__snapshot?.mapId, woodsCatalogue, redrawForWoods, window.__snapshot?.woodsRevision || 0);
   if (woodsShown(world) && woodsCatalogue) drawWoodsCover(ctx, camera, canvas, woodsCatalogue);
   drawGroundDetail(ctx, world, camera);
   drawTerrain(ctx, world, camera);
@@ -1361,6 +1372,14 @@ export function drawWorld(world) {
         drawBexarGround(ctx,project,camera.scale/5280,{river:false});
         standing.push(...bexarDrawables(ctx,project,camera.scale/5280,{bankTrees:false}));
       }else standing.push({ y: q.y, draw: () => view ? homesteadHouse(ctx, q.x, q.y, size, site.id, view) : miniBuilding(ctx, q.x, q.y, size, true, site.id) });
+      // The family's log pile beside the house, a log drawn for every ten or part of ten, up to four (sim/felling.mjs).
+      // stand-in: a pile is `log-fallen` laid side by side until a log pile is drawn. Request 2026-09-15 - the trees of the colonies.
+      const piled = ownLand && world.land?.logs ? world.land.logs.wall + world.land.logs.sill + world.land.logs.poor : 0;
+      for (let i = 0; i < Math.min(4, Math.ceil(piled / 10)); i++) {
+        const x = q.x - size * (.9 + i * .06), y = q.y + size * (.28 + i * .07);
+        standing.push({ y, draw: () => drawSprite(ctx, 'log-fallen', x, y, camera.figure * SIZE.logPile) });
+      }
+      if (ownLand) window.__logPileDrawn = Math.min(4, Math.ceil(piled / 10));
       // stand-in: the family's cattle and hogs as two oxen grazing past the house, until the stock art
       // arrives (docs/ART_REQUESTS.md, stock 2026-09-13). Own land only: the herd is not an entity yet.
       if (ownLand && world.household?.stock && world.land && !world.land.arriving) {
@@ -1526,6 +1545,12 @@ function renderHousehold(world) {
   const site = world.land?.site;
   if (site?.needsWell && !site.well) supplies.push(site.water ? `water carried ${site.waterMiles} mi` : 'no running water near');
   if (site?.well) supplies.push('well');
+  // Logs: at the house, and still lying where they were felled (sim/felling.mjs). Said once there are any.
+  const logs = world.land?.logs;
+  if (logs) {
+    const piled = logs.wall + logs.sill + logs.poor;
+    supplies.push(`logs ${piled} at the house${logs.lying ? `, ${logs.lying} lying out` : ''}`);
+  }
   $('#supplies').textContent = supplies.join(' · ');
   $('#supplies').dataset.urgent = String(field?.state === 'ripe' || hoe?.state === 'worn');
   const people = entitiesOf(world).filter(entity => entity.kind === 'person' && (household.members || []).includes(entity.id))
@@ -1860,7 +1885,7 @@ function populateWork(world, chosen, running) {
     const button = element('button', '');
     // Survey, clearing and fencing are sent with a place on the map, so their buttons start choosing the place instead of
     // the work (sim/survey.mjs).
-    const onMap = ['survey-plot', 'clear-plot', 'fence-plot', 'hunt-land'].includes(entry.id);
+    const onMap = ['survey-plot', 'clear-plot', 'fence-plot', 'hunt-land', 'fell-trees'].includes(entry.id);
     button.dataset.action = onMap ? 'survey-start' : 'chore';
     if (onMap) button.dataset.entityId = chosen.id;
     button.dataset.chore = entry.id;
@@ -2412,6 +2437,7 @@ const PLOT_JOB_WORDS = {
   'survey-plot': { title: name => `Where ${name} surveys`, hint: 'Tap a place on your land, inside the dashed line, to look at ten acres there.', send: 'Survey it' },
   'clear-plot': { title: name => `Which plot ${name} clears`, hint: 'Tap one of your staked plots to look at the clearing it wants.', send: 'Clear it' },
   'fence-plot': { title: name => `Which plot ${name} fences`, hint: 'Tap one of your cleared plots to rail it in.', send: 'Fence it' },
+  'fell-trees': { title: name => `Where ${name} fells`, hint: 'Tap timber on your land, inside the dashed line, to see what stands there to fell.', send: 'Fell there' },
   'hunt-land': { title: name => `Where ${name} hunts`, hint: 'Tap a place on your land, inside the dashed line, to see what game there is there.', send: 'Hunt there' },
 };
 const surveyLooking = () => Boolean(surveyFor && window.__snapshot?.world?.entities?.some(entity => entity.id === surveyFor));
@@ -2433,7 +2459,7 @@ function renderSurvey(world) {
   panel.hidden = !person || world.role === 'host';
   if (panel.hidden) { if (!person) { surveyFor = null; plotPick = null; } return; }
   const facts = plotPick?.facts, words = PLOT_JOB_WORDS[plotJob];
-  $('#survey-eyebrow').textContent = plotJob === 'survey-plot' ? 'SURVEY' : plotJob === 'clear-plot' ? 'CLEARING' : plotJob === 'hunt-land' ? 'HUNTING' : 'FENCING';
+  $('#survey-eyebrow').textContent = plotJob === 'survey-plot' ? 'SURVEY' : plotJob === 'clear-plot' ? 'CLEARING' : plotJob === 'hunt-land' ? 'HUNTING' : plotJob === 'fell-trees' ? 'FELLING' : 'FENCING';
   $('#survey-title').textContent = words.title(person.name);
   // Survey's facts say what the clearing would be; a plot's words already carry it. A refusal still names the plot.
   const surveyWork = plotJob === 'survey-plot' && facts?.spells ? ` Clearing it would be ${facts.spells} spells of work.` : '';
