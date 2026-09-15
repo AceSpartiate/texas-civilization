@@ -1,6 +1,6 @@
 // Renderers consume the server's permitted projection. They never advance simulation state.
 import { drawSprite, drawClip, clipInfo, hasSprite, loadArt, onArtReady, pickSprite } from '/art.js';
-import { ProjectionMotion, entityClip, travelHeading, travelDirection, figureScale, underARider } from '/motion.js';
+import { ProjectionMotion, entityClip, travelHeading, travelDirection, figureScale, underARider, mounted, MOUNTED_HEIGHT } from '/motion.js';
 import {drawBexarGround,bexarDrawables} from '/bexar-art.js';
 const $ = selector => document.querySelector(selector);
 const say = message => { for (const id of ['#error', '#join-error', '#rejoin-error']) { const el = $(id); if (el) el.textContent = message; } };
@@ -202,6 +202,21 @@ function miniAnimal(ctx, x, y, size, entity = {}, flip = false) {
   ctx.fillStyle = '#815f3e'; ctx.fillRect(x - size * .5, y - size * .62, size, size * .45); ctx.fillRect(x + size * .34, y - size * .88, size * .3, size * .38);
   ctx.fillStyle = '#534830'; for (const leg of [-.36, .28]) ctx.fillRect(x + size * leg, y - size * .22, size * .13, size * .22);
 }
+// stand-in: docs/ART_REQUESTS.md, request 2026-09-14 - game. A deer drawn as a plain shape where the server says one
+// stands (sim/chores.mjs `quarryPoint`), until the illustrated deer lands.
+function miniDeer(ctx, x, y, size, { flip = false } = {}) {
+  ctx.save();
+  ctx.translate(x, y); if (flip) ctx.scale(-1, 1);
+  groundShadow(ctx, 0, 0, size * .38);
+  ctx.fillStyle = '#9a6b3f'; ctx.strokeStyle = '#3d2c1c'; ctx.lineWidth = Math.max(.8, size * .03);
+  for (const leg of [-.26, -.16, .18, .27]) { ctx.beginPath(); ctx.moveTo(size * leg, -size * .42); ctx.lineTo(size * leg, 0); ctx.stroke(); }
+  ctx.beginPath(); ctx.ellipse(0, -size * .5, size * .34, size * .13, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(size * .24, -size * .56); ctx.lineTo(size * .36, -size * .84); ctx.lineTo(size * .44, -size * .8); ctx.lineTo(size * .34, -size * .52); ctx.closePath(); ctx.fill(); ctx.stroke();
+  ctx.beginPath(); ctx.ellipse(size * .44, -size * .86, size * .1, size * .06, -.3, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#f2ead8'; ctx.beginPath(); ctx.ellipse(-size * .34, -size * .56, size * .05, size * .04, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(size * .38, -size * .92); ctx.lineTo(size * .34, -size * 1.02); ctx.moveTo(size * .44, -size * .92); ctx.lineTo(size * .46, -size * 1.02); ctx.stroke();
+  ctx.restore();
+}
 function miniWagon(ctx, x, y, size, entity = {}, flip = false) {
   const rolling = entity.travel ? (entity.laden ? 'wagon-loaded-travel' : 'wagon-travel') : 'wagon-idle';
   if (entity.condition === 'sound' && animated(ctx, rolling, x, y, size, entity.id, { flip: !flip })) return;
@@ -298,6 +313,9 @@ function homesteadCamp(ctx, x, y, size, id = '') {
 // fallback for when the nature sheet has not loaded, or has failed to.
 const TIMBER_TREES = ['oak-broad', 'oak-spreading', 'pecan'];
 function postOak(ctx, x, y, size, tint = 0) {
+  // A whole number: a woods site passes a fractional tint, which indexed no tree and no green, and its stand was drawn as
+  // three brown discs (found 2026-09-14).
+  tint = Math.round(tint);
   if (animated(ctx, `${TIMBER_TREES[((tint % 3) + 3) % 3]}-wind`, x, y, size, tint)) return;
   if (drawSprite(ctx, TIMBER_TREES[((tint % 3) + 3) % 3], x, y, size)) return;
   ctx.fillStyle = '#6a4a33';
@@ -367,7 +385,9 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
   const x = point.x + offset.x * spread, y = point.y + offset.y * spread * .8;
   // Everything is drawn standing on (x, y), so `size` is a height and the click target
   // is the body above that point, not a circle centred on the feet.
-  const height = size * (entity.kind === 'animal' ? (entity.species === 'horse' ? SIZE.horse : SIZE.ox) : entity.kind === 'wagon' ? SIZE.wagon : 1);
+  // Somebody on a horse is drawn the height of a horse with a rider on it: at a person's height the horse under them was a
+  // toy, smaller than the family's own horse standing in the yard (found in play 2026-09-14).
+  const height = size * (entity.kind === 'animal' ? (entity.species === 'horse' ? SIZE.horse : SIZE.ox) : entity.kind === 'wagon' ? SIZE.wagon : mounted(entity) ? MOUNTED_HEIGHT : 1);
   drawnAt.set(entity.id, { x, y: y - height * .45, size: height });
   if (marks.selected) {
     ctx.strokeStyle = marks.observed ? '#cfd6c2' : '#f0d38a';
@@ -380,7 +400,7 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
   // reined in is turned toward the person they are speaking to instead, which the server
   // works out from where the two of them actually are.
   const flip = entity.facing ? entity.facing === 'w' : travelDirection(entity) === 'w';
-  if (entity.kind === 'person') miniPerson(ctx, x, y, size, { ...entity, observed: marks.observed, flip });
+  if (entity.kind === 'person') miniPerson(ctx, x, y, mounted(entity) ? height : size, { ...entity, observed: marks.observed, flip });
   else if (entity.kind === 'animal') miniAnimal(ctx, x, y, height, entity, flip);
   else if (entity.kind === 'wagon') miniWagon(ctx, x, y, height, entity, flip);
   // The one moment of a hunt that can be shown. `musket-smoke` runs once - small, growing,
@@ -534,7 +554,7 @@ const SIZE = {
   cabin: 3.3, settlementCabin: 2.5, camp: 2.1,
   timberTree: 1.95, loneTree: 2.05, sapling: 1.15, scrub: 1.0,
   tuft: .6, rock: .5, crop: .95,
-  ox: 1.45, horse: 1.5, wagon: 1.55,
+  ox: 1.45, horse: 1.5, wagon: 1.55, deer: 1.1,
 };
 // null means the camera follows the family. Dragging or zooming takes manual control
 // until the player presses Follow, so the view is never yanked away mid-gesture.
@@ -939,6 +959,26 @@ function groundHash(cx, cy) {
   value = Math.imul(value ^ (value >>> 13), 0x2c1b3c6d);
   return ((value ^ (value >>> 16)) >>> 0) / 4294967296;
 }
+/** sim/fields.mjs `groundAt` on the invented map: timber stands this far from its water. Keep the two in step. */
+const INVENTED_TIMBER_MILES = 1.15;
+function distanceToLine(p, points) {
+  let best = Infinity;
+  for (let i = 1; i < points.length; i++) {
+    const a = points[i - 1], b = points[i], dx = b.x - a.x, dy = b.y - a.y, length = dx * dx + dy * dy;
+    const t = length ? Math.max(0, Math.min(1, ((p.x - a.x) * dx + (p.y - a.y) * dy) / length)) : 0;
+    best = Math.min(best, Math.hypot(p.x - (a.x + dx * t), p.y - (a.y + dy * t)));
+  }
+  return best;
+}
+/** Whether a point lies inside a polygon (ray casting). */
+function insidePolygon(x, y, points) {
+  let inside = false;
+  for (let i = 0, j = points.length - 1; i < points.length; j = i++) {
+    const a = points[i], b = points[j];
+    if ((a.y > y) !== (b.y > y) && x < (b.x - a.x) * (y - a.y) / (b.y - a.y) + a.x) inside = !inside;
+  }
+  return inside;
+}
 function drawGroundDetail(ctx, world, camera) {
   if (camera.scale < 34) return;
   const canvas = ctx.canvas;
@@ -964,6 +1004,20 @@ function drawGroundDetail(ctx, world, camera) {
   const cleared = (world.land?.plots || []).filter(plot => plot.state === 'cleared');
   const inCleared = (x, y) => cleared.some(plot => Math.abs(x - plot.x) < PLOT_SIDE / 2 && Math.abs(y - plot.y) < PLOT_SIDE / 2);
   const bexarSite=world.map?.sites?.bexar;
+  // Timber stands where the map says the woods are (sim/geography.mjs, sim/colonies-region.mjs), and close up it is the trees
+  // that say so: the woods tint is gone at this zoom, and a hunter sent into the timber was drawn out on open grass (found in
+  // play 2026-09-14). ceiling: the real land's timber along the smaller creeks (sim/ground.mjs `coverAt`) has no polygon
+  // and is drawn as prairie; drawing cover from the land itself is the way out.
+  const woods = (world.map?.terrain || []).filter(feature => feature.kind === 'woods').map(feature => {
+    const xs = feature.points.map(p => p.x), ys = feature.points.map(p => p.y);
+    return { points: feature.points, minX: Math.min(...xs), maxX: Math.max(...xs), minY: Math.min(...ys), maxY: Math.max(...ys) };
+  });
+  // On the invented map the simulation's own rule (sim/fields.mjs `groundAt`): within 1.15 miles of a river or creek, so the
+  // hunter who goes into the timber is drawn among trees. The real land draws its woods polygons.
+  const water = world.map?.source ? [] : (world.map?.terrain || []).filter(feature => feature.kind === 'river' || feature.kind === 'creek');
+  const inWoods = water.length
+    ? (x, y) => water.some(course => distanceToLine({ x, y }, course.points) < INVENTED_TIMBER_MILES)
+    : (x, y) => woods.some(w => x >= w.minX && x <= w.maxX && y >= w.minY && y <= w.maxY && insidePolygon(x, y, w.points));
   for (let cy = startY; cy <= endY; cy++) {
     for (let cx = startX; cx <= endX; cx++) {
       const roll = groundHash(cx, cy);
@@ -973,14 +1027,16 @@ function drawGroundDetail(ctx, world, camera) {
       if (cleared.length && inCleared(wx, wy)) continue;
       if(bexarSite&&camera.scale>=200){const x=(wx-bexarSite.x)*5280+1200,y=(wy-bexarSite.y)*5280+2050;if(x>=0&&x<=4000&&y>=0&&y<=3400)continue;}
       // Kind is independent of LOD density: panning or zooming cannot turn a tuft into a tree.
-      scattered.push({ share: groundHash(cx+973,cy-997), seed: cx + cy, point: camera.toScreen({ x: wx, y: wy }) });
+      scattered.push({ share: groundHash(cx+973,cy-997), seed: cx + cy, timber: (water.length > 0 || woods.length > 0) && inWoods(wx, wy), point: camera.toScreen({ x: wx, y: wy }) });
     }
   }
   // Painted back to front, so a tuft in front of a rock overlaps it rather than being
   // cut in half by it.
   scattered.sort((a, b) => a.point.y - b.point.y);
-  for (const { share, seed, point } of scattered) {
-    if (share < .055 && camera.scale > 90) {
+  for (const { share, seed, timber, point } of scattered) {
+    if (timber && share < .5) {
+      postOak(ctx, point.x, point.y, figure * SIZE.timberTree, seed);
+    } else if (share < .055 && camera.scale > 90) {
       // A lone open-grown oak standing out of the prairie.
       postOak(ctx, point.x, point.y, figure * SIZE.loneTree, seed);
     } else if (share < .095) {
@@ -1340,6 +1396,13 @@ export function drawWorld(world) {
       : meetingFor(world, entity) ? { list: pending, kind: 'meeting', glyph: '…', tone: '#41556b' }
       : entity.chore?.ask ? { list: pending, kind: 'asking', glyph: '?', tone: '#7a4726' }
       : null;
+    // The deer this person is hunting, where the server put it (sim/chores.mjs `quarryPoint`), facing the way it stands.
+    const quarry = entity.chore?.quarry;
+    if (quarry) {
+      const spot = camera.toScreen(quarry);
+      standing.push({ y: spot.y, draw: () => miniDeer(ctx, spot.x, spot.y, camera.figure * SIZE.deer, { flip: spot.x < point.x }) });
+      window.__quarryDrawn = { id: entity.id, x: spot.x, y: spot.y };
+    }
     standing.push({ y: point.y, draw: () => drawEntity(ctx, entity, point, roomForNames, camera.figure, {
       selected: entity.id === chosen?.id, mark,
       labels, heading: destination ? destination.x - entity.location.x : 0,

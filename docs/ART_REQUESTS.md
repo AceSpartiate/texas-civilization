@@ -26,6 +26,7 @@ does not have:
 | A family that drove stock in has its cattle and hogs drawn as two `ox-brown` oxen grazing east of the house, on its own land only | the herd in the site loop of `drawWorld`, `public/app.js` | Request 2026-09-13 — stock and the grant (the 2026-09-14 `animal-stock` sheet is **held**, see the request) | `cattle-longhorn` and `hog` idle and grazing figures |
 | Cleared ground is turned earth and rows whatever it was: ten acres cleared out of timber look like ten acres broken from prairie | `fieldPatch` and `drawPlots` in `public/app.js` | Request 2026-09-14 — cleared ground | `stumps` scattered over cleared timber ground, and `clearing-brush` piles on ground being cleared |
 | A staked plot is a survey-chain square with a small post drawn at each corner | `drawPlots` in `public/app.js` | Request 2026-09-13 — stock and the grant (the surveyor's stake and corner marker) | A surveyor's stake and a corner marker |
+| A deer being hunted is a plain procedural shape (brown body, stick legs, white tail, small antlers) standing where the server placed it | `miniDeer` in `public/app.js` | Request 2026-09-14 — game | `deer-idle`, `deer-alert` and `deer-bound` in the illustrated style |
 | Anybody of a family riding the family horse is drawn as the courier rider (`mounted-courier-*`), whoever they are; the horse under them is not drawn again | `inTheSaddle` and `underARider` in `public/motion.js` | Request 2026-09-14 — family members on horseback | Each cast figure mounted on the family's chestnut, walking in four directions |
 | A rider never gets down to talk: they speak from the saddle, turned east, west, north or south toward the listener (the vertical dialogue delivered 2026-09-14 is in use) | `carrierClip` in `public/motion.js` | Request 2026-09-12, priority 3 | `courier-dismount` (delivered 2026-09-14, registered, not yet bound: it needs the encounter to know when a rider has got down and where the horse stands) |
 
@@ -37,6 +38,19 @@ into the existing pipeline, and how it will be checked. When a request is delive
 `npm run build:art`; do not delete it from here.
 
 ---
+
+## Request 2026-09-14 — game
+
+**Status: open; a drawn shape stands in.** Found in play: "when hunting i don't see an animal". A hunt now places a deer
+(`HIST-TEX-015`) ahead of the hunter in the timber, nearer if they wait for it.
+
+- **Why.** The hunt's one decision - take the long shot or wait - means little when nothing is there to shoot at.
+- **What.** A white-tailed deer, `deer-idle` (four frames, grazing and lifting the head), `deer-alert` (head up, ears
+  forward, still) and `deer-bound` (four frames, running away), east-facing (mirrored for west), transparent, anchored at the
+  hooves, sized to stand about as tall at the shoulder as a person's waist beside the existing people. No blood, no carcass.
+- **How it plugs in.** `miniDeer` in `public/app.js` draws the clip for `chore.quarry`; `alert` while the hunter waits on the
+  family's word, `bound` for the tick of a missed shot if that state is ever projected.
+- **Check.** Scale against `rust-idle-s` and `horse-chestnut`, alternating legs in the run, no painted transparency.
 
 ## Request 2026-09-14 — family members on horseback
 

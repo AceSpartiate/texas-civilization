@@ -8,7 +8,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { entityClip, inTheSaddle, underARider, travelHeading, visualVariant, PRINCIPAL_VARIANT, HURT_CONDITIONS, STILL_CONDITIONS, ORDINARY_CONDITIONS } from '../public/motion.js';
+import { entityClip, inTheSaddle, underARider, mounted, MOUNTED_HEIGHT, travelHeading, visualVariant, PRINCIPAL_VARIANT, HURT_CONDITIONS, STILL_CONDITIONS, ORDINARY_CONDITIONS } from '../public/motion.js';
 import { marchCost } from '../sim/directors.mjs';
 
 const clips = JSON.parse(readFileSync(fileURLToPath(new URL('../public/assets/frontier-v1/animation.json', import.meta.url)), 'utf8')).clips;
@@ -173,6 +173,11 @@ test('somebody sent on the family horse is drawn riding it, and the horse is not
   assert.equal(underARider(horse({ travel: { ...south, mode: 'horse' } })), true);
   assert.equal(underARider(horse({ travel: null })), false, 'a horse in the yard is drawn');
   assert.equal(underARider({ id: 'hh-1-animal', kind: 'animal', travel: { ...south, mode: 'wagon' } }), false, 'the ox is drawn pulling');
+  // Drawn the size of a horse with somebody on it, never a person's height: that made the horse a toy (found in play).
+  assert.ok(MOUNTED_HEIGHT >= 1.5, 'a rider is at least as tall as the family horse standing');
+  assert.equal(mounted(riding), true);
+  assert.equal(mounted({ id: 'courier-1', kind: 'person', carrier: true }), true, 'and so is every courier');
+  assert.equal(mounted(person({ task: 'travel', travel: { ...south, mode: 'foot' } })), false);
   // Somebody hurt on the way is drawn hurt, as anywhere.
   assert.ok(entityClip(person({ health: { condition: 'wounded' }, travel: { ...south, mode: 'horse' } })).id.endsWith('injured-rest'));
 });

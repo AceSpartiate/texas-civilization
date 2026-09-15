@@ -105,6 +105,9 @@ export const ORDINARY_CONDITIONS = ['well', 'tired'];
  * rider, until the cast has mounted figures of its own.
  */
 export const inTheSaddle = entity => entity.kind === 'person' && !entity.carrier && entity.travel?.mode === 'horse';
+/** How tall a rider and horse are drawn, as a person is 1: the horse at its own size with somebody sitting up on it. */
+export const MOUNTED_HEIGHT = 1.8;
+export const mounted = entity => entity.kind === 'person' && (entity.carrier || inTheSaddle(entity));
 export const underARider = entity => entity.kind === 'animal' && entity.species === 'horse' && entity.travel?.mode === 'horse';
 export function carrierClip(entity) {
   const vertical = entity.facing === 'n' || entity.facing === 's';

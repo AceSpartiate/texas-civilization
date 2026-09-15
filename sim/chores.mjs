@@ -210,7 +210,7 @@ export const ASKS = {
   shot: {
     doing: 'downwind, with the shot there to take',
     fallback: 'take',
-    text: entity => `${entity.name} is downwind of something, with a shot to take. It is not a close one.`,
+    text: entity => `${entity.name} is downwind of a deer, with a shot to take. It is not a close one.`,
     options: entity => [
       { id: 'take', label: 'Take the shot', note: `One powder. ${unsteadyBecause(entity) || `${entity.name} is steady, and it is within reach`}` },
       { id: 'wait', label: 'Wait for it to come closer', note: 'One powder, three more hours, and then the shot is a certainty' },
@@ -393,11 +393,11 @@ export const CHORES = {
       { travel: 'timber', doing: 'on the road to {cover}' },
       { stalk: 'edge', work: 1, doing: 'reading the ground at the edge of {cover}' },
       { stalk: 'deep', work: 1, doing: 'working up through {cover}' },
-      { stalk: 'still', work: 1, doing: 'waiting downwind, and still' },
+      { stalk: 'still', quarry: 'far', work: 1, doing: 'waiting downwind, and still' },
       // And here the work stops and asks. Everything after this depends on the answer,
       // which is why the steps below carry the answers they belong to.
       { ask: 'shot' },
-      { when: ['wait'], work: 3, doing: 'letting it come closer' },
+      { when: ['wait'], quarry: 'near', work: 3, doing: 'letting it come closer' },
       { when: ['take', 'wait'], shot: true, doing: 'the shot' },
       // Ten, and a good hunter takes more - but only the wagon can bring that much back.
       // On foot this still yields the five it always did, so a family that changes
@@ -546,6 +546,19 @@ function stalkPoint(world, entity, where) {
 }
 
 /**
+ * Where the deer stands (`HIST-TEX-015`): ahead of the hunter, the way into the cover, far enough that it is not a close
+ * shot, or half as far once they have waited. The server places it, so the renderer never invents where an animal is.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-14 - game. The client draws it as a simple shape until the art lands.
+ */
+const QUARRY_MILES = Object.freeze({ far: 0.065, near: 0.035 });
+function quarryPoint(world, entity, range) {
+  const site = world.map.sites[entity.location.siteId];
+  const toward = site?.toward || { x: 0, y: -1 };
+  const miles = QUARRY_MILES[range] ?? QUARRY_MILES.far;
+  return { kind: 'deer', x: round(entity.location.x + toward.x * miles), y: round(entity.location.y + toward.y * miles) };
+}
+
+/**
  * The town a family trades in: the settlement it was dealt to on the real map (docs/COLONIES.md), and Gonzales on the
  * invented map, where it always was.
  */
@@ -567,6 +580,8 @@ export const townOf = household => household.settlementId || 'gonzales';
  */
 export const HUNT_BEARINGS = 32;
 export const HUNT_STEP = 0.125;
+/** How far into the cover a bearing is read, in steps, to choose the one that leads deepest in. */
+const HUNT_DEPTH_STEPS = 4;
 export function huntingGround(world, household) {
   const home = world.map.sites[household.homeSiteId];
   if (!home) return null;
@@ -575,13 +590,18 @@ export function huntingGround(world, household) {
   let best = null;
   for (let bearing = 0; bearing < HUNT_BEARINGS; bearing++) {
     const angle = (bearing / HUNT_BEARINGS) * Math.PI * 2, toward = { x: Math.cos(angle), y: Math.sin(angle) };
-    for (let r = HUNT_STEP; r <= OVERLAND_REACH && (!best || r < best.r); r += HUNT_STEP) {
+    for (let r = HUNT_STEP; r <= OVERLAND_REACH && (!best || r <= best.r); r += HUNT_STEP) {
       const point = { x: home.x + toward.x * r, y: home.y + toward.y * r };
       const ground = groundAt(world, point);
       if (ground === 'prairie') continue;
+      // Of the bearings that reach cover soonest, the one that goes deepest into it: a house standing in the timber faces
+      // into the timber, not out of it onto the prairie a few rods off (found in play 2026-09-14).
+      let depth = 0;
+      while (depth < HUNT_DEPTH_STEPS && groundAt(world, { x: home.x + toward.x * (r + (depth + 1) * HUNT_STEP), y: home.y + toward.y * (r + (depth + 1) * HUNT_STEP) }) !== 'prairie') depth++;
+      if (best && (r > best.r || (r === best.r && depth <= best.depth))) break;
       // The open ground just short of it, where a hunter comes up to the edge; the cover itself if the house stands in it.
       const edge = r > HUNT_STEP ? { x: home.x + toward.x * (r - HUNT_STEP / 2), y: home.y + toward.y * (r - HUNT_STEP / 2) } : point;
-      best = { r, edge, ground, toward };
+      best = { r, depth, edge, ground, toward };
       break;
     }
   }
@@ -923,6 +943,8 @@ function advanceChore(world, household, entity, { beginTravel }) {
       return;
     }
     if (step.travel) {
+      // Whatever was hunted is carried now, or was never taken.
+      delete state.quarry;
       const destination = step.travel === 'home' ? household.homeSiteId
         : step.travel === 'timber' ? timberFor(world, household)
         : step.travel === 'town' ? townOf(household) : step.travel;
@@ -977,6 +999,7 @@ function advanceChore(world, household, entity, { beginTravel }) {
       // place for as long as it takes. Keeping them separate made a hunt half again as
       // long as it had been before any of this was visible.
     }
+    if (step.quarry) state.quarry = quarryPoint(world, entity, step.quarry);
     if (step.shot) {
       // The one moment of a hunt, and the only thing drawn of it is smoke in the trees.
       // Recorded because it is a thing that happened in a place at a time: a shot carries,

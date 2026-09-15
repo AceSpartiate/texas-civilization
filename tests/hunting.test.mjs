@@ -5,15 +5,15 @@
 // playing - and nothing about it looked like hunting. It is now the stages it always was
 // underneath: in from the edge, up through the trees, still and downwind, and the shot.
 //
-// The constraint that shaped it is `HIST-GONZ-013`: buffalo is the only documented game
-// for this locality, and sim/chores.mjs has never named another. So **nothing here names
-// or draws the quarry**. The shot is smoke in the trees and somebody walking home carrying
-// something, and that is the honest picture rather than a limitation worked round.
+// The constraint that shaped it was `HIST-GONZ-013`: buffalo is the only game documented at
+// Gonzales, so for a while nothing named or drew the quarry. Then the owner asked to see an
+// animal (2026-09-14), and the colonies' own record of settlers hunting deer (`HIST-TEX-015`)
+// was found: the hunt names and draws a deer, and nothing else.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createSettledWorld } from './support/settled.mjs';
 import { applyAction, stepWorld, validateWorld } from '../sim/world.mjs';
-import { CHORES, HUNT_STEP, huntingGround, steadyHand, unsteadyBecause } from '../sim/chores.mjs';
+import { ASKS, CHORES, HUNT_STEP, huntingGround, steadyHand, unsteadyBecause } from '../sim/chores.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { groundAt } from '../sim/fields.mjs';
 import { findWay } from '../sim/ways.mjs';
@@ -163,13 +163,47 @@ test('every stage says what is being done, and none of them names an animal', ()
   for (const stage of ['reading the ground at the edge of the timber', 'working up through the timber', 'waiting downwind, and still', 'the shot']) {
     assert.ok(said.includes(stage), `no stage said "${stage}": ${JSON.stringify(said)}`);
   }
-  // HISTORY.md's exclusion, enforced rather than remembered. Buffalo is the only game
-  // documented for this locality and this project names no other; the quarry is never
-  // named at all, here or anywhere else in the chore.
-  const everything = [...said, CHORES['hunt-timber'].describe, CHORES['hunt-timber'].name].join(' ').toLowerCase();
-  for (const creature of ['deer', 'buck', 'doe', 'buffalo', 'bison', 'turkey', 'boar', 'hog', 'rabbit', 'bear', 'elk', 'antelope']) {
+  // HISTORY.md's exclusion, enforced rather than remembered. The deer the settlers of the colonies hunted is documented
+  // (`HIST-TEX-015`, found 2026-09-14) and is the one animal a hunt names; nothing else is.
+  const everything = [...said, CHORES['hunt-timber'].describe, CHORES['hunt-timber'].name, ASKS.shot.text({ name: 'Mateo' })].join(' ').toLowerCase();
+  assert.match(everything, /\bdeer\b/, 'the hunter is after a deer, and says so');
+  for (const creature of ['buck', 'doe', 'buffalo', 'bison', 'turkey', 'boar', 'hog', 'rabbit', 'bear', 'elk', 'antelope']) {
     assert.ok(!everything.includes(creature), `the hunt names a ${creature}`);
   }
+});
+
+test('the deer is there to be seen: ahead of the hunter while they wait, closer if they wait, and gone with the shot', () => {
+  // Found in play 2026-09-14: "when hunting i don't see an animal". The server says where it stands, so the renderer never
+  // invents one; it is ahead of the hunter into the cover, and nowhere once they are on the road.
+  const watch = (seed, answer, entityId = 'hh-1-mateo') => {
+    const world = running(seed);
+    const entity = world.entities[entityId];
+    applyAction(world, 'hh-1', { action: 'chore', entityId, chore: 'hunt-timber' });
+    const seen = [];
+    for (let tick = 0; tick < 400 && entity.chore; tick++) {
+      if (entity.chore.ask) applyAction(world, 'hh-1', { action: 'answer-chore', entityId, option: answer });
+      stepWorld(world);
+      const quarry = entity.chore?.quarry;
+      if (entity.travel) assert.equal(quarry, undefined, 'a deer follows somebody on the road');
+      const toward = world.map.sites[entity.location.siteId]?.toward;
+      if (quarry) seen.push({ ...quarry, miles: Math.hypot(quarry.x - entity.location.x, quarry.y - entity.location.y), ahead: toward && ((quarry.x - entity.location.x) * toward.x + (quarry.y - entity.location.y) * toward.y) });
+      validateWorld(world);
+    }
+    return { world, seen };
+  };
+  const waited = watch('deer-wait', 'wait');
+  assert.ok(waited.seen.length >= 2, 'the deer was never there to see');
+  assert.ok(waited.seen.every(q => q.kind === 'deer'));
+  const standing = waited.seen;
+  assert.ok(standing[0].miles > 0.05, `it is not a close shot: ${standing[0].miles.toFixed(3)} miles`);
+  assert.ok(standing.at(-1).miles < 0.05, 'waiting brought it closer');
+  // Ahead of the hunter, the way into the family's own cover.
+  const ground = waited.world.map.sites['hunt-hh-1'];
+  assert.ok(ground.toward);
+  assert.ok(waited.seen.every(q => q.ahead > 0), 'the deer stands ahead, into the cover, not behind the hunter in the open');
+  // Leaving it: the deer is not left standing on the map once they turn for home.
+  const left = watch('deer-leave', 'leave');
+  assert.ok(left.seen.length >= 1, 'it was there before they left it');
 });
 
 test('the shot happens once, is written down, and is gone the tick after', () => {
