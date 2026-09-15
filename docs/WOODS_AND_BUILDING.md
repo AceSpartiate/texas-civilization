@@ -1,6 +1,6 @@
 # The woods on a family's land, hunting it, felling it, and building a house from it
 
-**Status: decided 2026-09-15; steps 1 to 4 - the woods, the trees drawn, hunting on the family's land, felling and hauling - built 2026-09-15 (§4.4, §4.5, §5.1, §6.1.1; [evidence](evidence/woods-data.json), [browser](evidence/woods-browser.json), [hunting](evidence/hunt-land.json), [felling](evidence/felling.json)).** Read this in full before changing where timber stands, what a
+**Status: house plot and staged construction completed 2026-09-15 (§8.1); steps 1 to 4 - the woods, the trees drawn, hunting on the family's land, felling and hauling - built 2026-09-15 (§4.4, §4.5, §5.1, §6.1.1; [evidence](evidence/woods-data.json), [browser](evidence/woods-browser.json), [hunting](evidence/hunt-land.json), [felling](evidence/felling.json)).** Read this in full before changing where timber stands, what a
 hunt finds, felling, logs, or how a house is planned and raised. It amends `docs/SETTLING_IN.md` §5–6 (a house is
 no longer one of four fixed layouts raised as one bar of work) and `docs/LAND_GRANTS.md` §8.4 (timber is no longer
 "within 0.9 miles of a river and 0.2 of a creek" everywhere).
@@ -256,6 +256,17 @@ version moves.
 2. ~~**Trees drawn.**~~ **Done 2026-09-15** (§4.5). `/api/woods`, trees and stumps close up, stand-ins, art requests.
 3. ~~**Hunting on our land.**~~ **Done 2026-09-15** (§5.1). The tap, the facts, the stand deciding the hunt, neighbours' choice.
 4. ~~**Felling and hauling.**~~ **Done 2026-09-15** (§6.1.1). *Fell trees*, stumps, logs, the log pile, the ox and wagon hauling, felling clearing a plot.
-5. **The house plot.** Pieces, rules, plans as presets, effects through `shelterOf`; `HIST-TEX-017`, `FIC-GONZ-033`.
-6. **Raising by stages.** Sills, courses, roof, chinking, two-person courses, logs consumed, the raising per course,
-   neighbours building from plans; drawn per piece.
+5. **Built 2026-09-15: the house plot.** Pieces, placement rules, five presets and free placement, effects through `shelterOf`; `HIST-TEX-017`, `FIC-GONZ-033`.
+6. **Built 2026-09-15 with presentation ceilings: raising by stages.** Sills, courses, roof, chinking, two-person courses, logs consumed, neighbouring helpers and automatic families; drawn per piece using stand-ins. See actual scope below.
+
+### 8.1 Completed house update, 2026-09-15
+
+The new landfire classes plan on the eight-by-six grid. Each piece shows its needs and effect before placement. Students can start with a round-log, hewn-log, dog-run, saddlebag or jacal plan, add pieces, and remove only unstarted pieces without stranding attached additions. A loft or floor is added using its explicit button inside a pen. The server validates every command; the client never grants logs or construction progress. Legacy houses keep their old layout/work record.
+
+Stages consume logs once on starting, preserve partial work when interrupted, stop with a reason when the pile is short, and let a finished pen provide shelter before remaining additions finish. Upper courses slow a lone worker to one third; neighbouring helpers count. Automatic households fell, haul and build, or choose a jacal where usable timber is insufficient. Fixed during completion: a helper's story crashed on the new house shape; interior additions had no reachable placement control; the longer supplies line overflowed a phone.
+
+The earlier table is the design proposal. **Shipped tuning** in `sim/houseplot.mjs` is: round pen 50 sound logs/30 spells (four sills, forty wall-course logs, six roof logs); hewn pen 50/40; jacal 0/14; passage 4/4; stick chimney 0/4; stone chimney 0/10; double chimney 0/7; shed 10 any/7; porch 4 any/4; loft 4 wall/3; floor 6 wall/4. One ordinary spell is one game hour; lone upper courses take longer. All these counts remain invented, not historical measurements.
+
+**Ceilings:** stone availability is not enforced because there is no rock layer; porch/weather/fire effects remain future work. Pens are built before their attached additions; door/window cutting and rafters/clapboards are not separate jobs. Ten wall courses are simulated but share one walls-stage sprite, rather than ten distinct drawn courses. Floor/loft benefits and progress are listed in the panel, with no room interior view. Modular replacement art is requested in `ART_REQUESTS.md`; the renderer and supplied art are not finished production building visuals.
+
+**Evidence:** `tests/house-plot.test.mjs` passes seven tests. `scripts/house-plot-regression-proof.mjs` substitutes seven exact regressions through isolated Node loaders; each selected test fails, without editing production files ([record](evidence/house-plot-regressions.json)). The student browser proof `scripts/house-plot-browser-proof.mjs` passed on the same computer ([record](evidence/house-plot-browser.json)), covering plans, interior additions/removal, refusal, phone layout and construction/shelter through the live server.

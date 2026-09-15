@@ -25,6 +25,8 @@ export function resolveTimeJump(world, requestedMinutes) {
     const minutes = Math.min(20, remaining);
     world.minute += minutes;
     for (const entity of Object.values(world.entities)) progressTravel(world, entity, minutes / 20);
+    // Somebody a rider came by is met before the word changes hands at a fork, as in `stepWorld`.
+    const passed = advanceEncounters(world);
     // Word keeps changing hands through compressed time. Without this a rider who reached
     // a fork during a jump would stand there holding it until the class ticked live again,
     // and the family at the far end of the chain would never be told at all.
@@ -32,7 +34,7 @@ export function resolveTimeJump(world, requestedMinutes) {
     advanceRoutine(world, minutes); deliverReports(world); remaining -= minutes;
     // A rider coming alongside a family is the moment the jump was skipping over, so the
     // jump stops there rather than carrying the class past a conversation it never saw.
-    const met = advanceEncounters(world);
+    const met = [...passed, ...advanceEncounters(world)];
     if (met.length) { blockedBy = `encounter:${met[0].id}`; break; }
   }
   const elapsed = world.minute - from;

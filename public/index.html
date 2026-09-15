@@ -179,6 +179,21 @@
       <p id="house-note" role="alert"></p>
       <button type="button" id="house-close">Close</button>
     </section>
+    <!-- The house plot (public/house-plot.js, docs/WOODS_AND_BUILDING.md §6.2): a family on the real land plans its house
+         piece by piece. What every piece needs and does comes from the server's catalogue; where it may go, from the server. -->
+    <section id="house-plot" hidden aria-labelledby="house-plot-title">
+      <header>
+        <span class="eyebrow">YOUR LAND</span>
+        <h2 id="house-plot-title">The house plot</h2>
+      </header>
+      <div id="plot-summary"></div>
+      <div id="plot-plans" class="plot-plans"></div>
+      <p id="plot-hint" class="house-line"></p>
+      <div id="plot-grid" class="plot-grid"></div>
+      <p id="plot-note" role="alert"></p>
+      <ul id="plot-palette" class="plot-palette"></ul>
+      <button type="button" id="plot-close">Close</button>
+    </section>
     <button type="button" id="house-open" hidden>Choose a house</button>
 
     <!-- Where the house stands, on the real land (docs/LAND_GRANTS.md §8.2, sim/homesite.mjs). What a place is like, and

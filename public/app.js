@@ -2,6 +2,10 @@
 import { drawSprite, drawClip, clipInfo, hasSprite, loadArt, onArtReady, pickSprite } from '/art.js';
 import { ProjectionMotion, entityClip, travelHeading, travelDirection, figureScale, underARider, mounted, MOUNTED_HEIGHT } from '/motion.js';
 import {drawBexarGround,bexarDrawables} from '/bexar-art.js';
+import {plotArt} from '/field-art.js';
+import {drawGonzalesGround,gonzalesDrawables,GONZALES_ART_BOUNDS} from '/gonzales-art.js';
+import {drawWater,drawRoad,drawCrossing,crossingAngle} from '/landscape-art.js';
+import { drawHousePlot, plotted, renderHousePlot } from '/house-plot.js';
 import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesInView, treesVisible, woodsShown } from '/woods-view.js';
 const $ = selector => document.querySelector(selector);
 const say = message => { for (const id of ['#error', '#join-error', '#rejoin-error']) { const el = $(id); if (el) el.textContent = message; } };
@@ -59,6 +63,8 @@ let wagonCatalogue = null;
 let houseCatalogue = null;
 // The kinds of tree and the woods' tile sizes (sim/woods-view.mjs): fixed too.
 let woodsCatalogue = null;
+// The house plot's pieces and plans (sim/houseplot.mjs): fixed too.
+let plotCatalogue = null;
 // A woods tile arriving redraws the map once, on the next frame, however many arrive together.
 let woodsRedraw = false;
 const redrawForWoods = () => { if (woodsRedraw) return; woodsRedraw = true; requestAnimationFrame(() => { woodsRedraw = false; if (window.__snapshot) drawWorld(window.__snapshot.world); }); };
@@ -74,6 +80,7 @@ function ensureChores(snapshot) {
     wagonCatalogue = result.wagon || null;
     houseCatalogue = result.houses ? new Map(result.houses.map(house => [house.id, house])) : null;
     woodsCatalogue = result.woods || null;
+    plotCatalogue = result.plot || null;
     choreCacheId = result.mapId;
     if (window.__snapshot) render(window.__snapshot);
   }).catch(() => { chorePending = null; });
@@ -827,7 +834,7 @@ function applyMapView(action) {
   } else {
     const site = world.map?.sites?.[action === 'home' ? homeOf(world) : action];
     if (!site) return;
-    manualView = { cx: site.x, cy: site.y, scale: clampTo(Math.max(view.scale, view.limits.max * .45), view.limits) };
+    manualView = { cx: site.x, cy: site.y, scale: clampTo(action==='gonzales'?Math.min(canvas.width/.86,canvas.height/.80):Math.max(view.scale, view.limits.max * .45), view.limits) };
   }
   drawWorld(world);
 }
@@ -1013,6 +1020,7 @@ function drawGroundDetail(ctx, world, camera) {
   const cleared = (world.land?.plots || []).filter(plot => plot.state === 'cleared');
   const inCleared = (x, y) => cleared.some(plot => Math.abs(x - plot.x) < PLOT_SIDE / 2 && Math.abs(y - plot.y) < PLOT_SIDE / 2);
   const bexarSite=world.map?.sites?.bexar;
+  const gonzalesSite=world.map?.sites?.gonzales;
   // Timber stands where the map says the woods are (sim/geography.mjs, sim/colonies-region.mjs), and close up it is the trees
   // that say so: the woods tint is gone at this zoom, and a hunter sent into the timber was drawn out on open grass (found in
   // play 2026-09-14). ceiling: the real land's timber along the smaller creeks (sim/ground.mjs `coverAt`) has no polygon
@@ -1041,6 +1049,7 @@ function drawGroundDetail(ctx, world, camera) {
       const wx = (cx + jitter) * cell, wy = (cy + groundHash(cx - 331, cy + 977)) * cell;
       if (cleared.length && inCleared(wx, wy)) continue;
       if(bexarSite&&camera.scale>=200){const x=(wx-bexarSite.x)*5280+1200,y=(wy-bexarSite.y)*5280+2050;if(x>=0&&x<=4000&&y>=0&&y<=3400)continue;}
+      if(gonzalesSite&&camera.scale>=200){const x=wx-gonzalesSite.x,y=wy-gonzalesSite.y,b=GONZALES_ART_BOUNDS;if(x>b.left&&x<b.right&&y>b.top&&y<b.bottom)continue;}
       // Kind is independent of LOD density: panning or zooming cannot turn a tuft into a tree.
       scattered.push({ share: groundHash(cx+973,cy-997), seed: cx + cy, timber: !realTrees && (landWoods || water.length > 0 || woods.length > 0) && inWoods(wx, wy), point: camera.toScreen({ x: wx, y: wy }) });
     }
@@ -1104,6 +1113,7 @@ function drawGroundDetail(ctx, world, camera) {
 function drawTerrain(ctx, world, camera) {
   const figure = camera.figure;
   for (const feature of world.map?.terrain || []) {
+    if(feature.id==='town-commons'&&camera.scale>=200)continue; // Detailed Gonzales yards replace the old rectangular wash.
     const style = TERRAIN_STYLE[feature.kind]; if (!style) continue;
     // The family's own field is the plots it has cleared, drawn where they are (drawPlots), not the block on the map.
     if (feature.kind === 'field' && world.land?.plots && feature.ownerHouseholdId === world.household?.id) continue;
@@ -1114,8 +1124,7 @@ function drawTerrain(ctx, world, camera) {
       // map's width every bend runs into the next like a flood. There it is drawn near its true width: about eighty
       // metres for a river and a few metres for a creek, never thinner than a readable line.
       const trueWidth = world.map?.source ? Math.max(feature.kind === 'river' ? 2.2 : 1.1, (feature.kind === 'river' ? 0.05 : 0.012) * camera.scale) : null;
-      ctx.strokeStyle = style.stroke; ctx.lineWidth = trueWidth ?? Math.max(1.5, Math.min(26, style.width * camera.scale * .55));
-      ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke();
+      drawWater(ctx,points,trueWidth ?? Math.max(1.5, Math.min(26, style.width * camera.scale * .55)));
       continue;
     }
     ctx.beginPath(); points.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); ctx.closePath();
@@ -1200,9 +1209,8 @@ function fieldPatch(ctx, camera, { left, top, right, bottom }, growing, fence) {
  * sown and rails round those that are fenced; staked ones as a square with posts, the clearing done so far turned earth
  * in its middle; the ground somebody is on the way to survey; and the place being looked at.
  *
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-13 (stock and the grant) asks for a surveyor's stake and a corner marker,
- * and request 2026-09-14 (cleared ground) for stumps and brush piles. Until they come a staked plot is a line of
- * survey-chain brown with a small post at each corner, and cleared timber is drawn as the same turned earth as prairie.
+ * Delivered clearing art reads only the family's projected plots. Smoke is not
+ * inferred from work progress; its animation is reserved for a known burning state.
  */
 function drawPlots(ctx, world, camera) {
   const rectOf = point => {
@@ -1220,7 +1228,7 @@ function drawPlots(ctx, world, camera) {
     if (style.posts) {
       const post = Math.max(2, Math.min(9, camera.figure * .22));
       ctx.setLineDash([]); ctx.fillStyle = '#5a3f22';
-      for (const p of corners) ctx.fillRect(p.x - post * .18, p.y - post, post * .36, post);
+      for (const [i,p] of corners.entries())drawSprite(ctx,i===0?'survey-stone-corner':'survey-stake',p.x,p.y,Math.max(6,post*1.8));
     }
     ctx.restore();
     return corners;
@@ -1257,6 +1265,11 @@ function drawPlots(ctx, world, camera) {
     } else if (target) square(target, { stroke: plotPick.facts?.can ? '#b5452f' : '#8a8171', fill: plotPick.facts?.can ? 'rgba(181,69,47,.12)' : 'rgba(138,129,113,.12)', dash: [6, 4] });
   }
   window.__plotsDrawn = drawn;
+  const decorations=[];
+  for(const plot of world.land?.plots||[]){const r=rectOf(plot),size=Math.min(camera.figure*.25,(r.right-r.left)*.1);if(size<3)continue;
+    for(const piece of plotArt(plot)){const x=r.left+(r.right-r.left)*piece.x,y=r.top+(r.bottom-r.top)*piece.y;drawSprite(ctx,piece.sprite,x,y,size);decorations.push({plotId:plot.id,sprite:piece.sprite,x,y});}
+  }
+  window.__plotArtDrawn=decorations;
 }
 /** A polyline cut in two at a distance along it, in world miles: the part before and the part after. */
 function splitAlong(points, miles) {
@@ -1335,9 +1348,7 @@ export function drawWorld(world) {
       ctx.restore();
     }
     if (worn.length > 1) {
-      ctx.beginPath(); worn.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
-      ctx.strokeStyle = '#a8a173'; ctx.lineWidth = width * 1.5; ctx.stroke();
-      ctx.strokeStyle = '#c6b183'; ctx.lineWidth = width; ctx.stroke();
+      drawRoad(ctx,worn,width);
     }
   }
   window.__laneDrawn = world.land?.lane ? { miles: world.land.lane.miles, cut: world.land.lane.cut } : null;
@@ -1365,12 +1376,17 @@ export function drawWorld(world) {
       // last seen, and one nobody has been to see as it was at dawn on the 28th - a camp, in a class
       // that began with the families arriving (sim/houses.mjs, `noteLandSeen`).
       const view = settlement ? null : ownLand && world.land ? ownLandView(world.land) : (world.household?.seenLand?.[site.id] || (world.arrivalClass ? { shelter: 'camp' } : { shelter: 'house' }));
-      if(site.id==='bexar'&&camera.scale>=200){
+      if(site.id==='gonzales'&&camera.scale>=200){
+        const project=p=>camera.toScreen({x:site.x+p.x,y:site.y+p.y});drawGonzalesGround(ctx,project,camera.scale);standing.push(...gonzalesDrawables(ctx,project,camera.scale));
+      }else if(site.id==='bexar'&&camera.scale>=200){
         // Scenic local feet around the existing, server-projected town. No new
         // entities or travel shortcuts. Live terrain retains its own river data.
         const project=p=>camera.toScreen({x:site.x+(p.x-1200)/5280,y:site.y+(p.y-2050)/5280});
         drawBexarGround(ctx,project,camera.scale/5280,{river:false});
         standing.push(...bexarDrawables(ctx,project,camera.scale/5280,{bankTrees:false}));
+      }else if (ownLand && world.land?.house?.pieces && plotCatalogue) {
+        // The family's house plot, piece by piece at its stage (public/house-plot.js); the camp beside it until a pen stands.
+        standing.push({ y: q.y, draw: () => { if (world.land.shelter === 'camp') homesteadCamp(ctx, q.x - size * .9, q.y + size * .35, size * .7, site.id); window.__plotPiecesDrawn = drawHousePlot(ctx, q.x, q.y, size, world.land, plotCatalogue, drawSprite); } });
       }else standing.push({ y: q.y, draw: () => view ? homesteadHouse(ctx, q.x, q.y, size, site.id, view) : miniBuilding(ctx, q.x, q.y, size, true, site.id) });
       // The family's log pile beside the house, a log drawn for every ten or part of ten, up to four (sim/felling.mjs).
       // stand-in: a pile is `log-fallen` laid side by side until a log pile is drawn. Request 2026-09-15 - the trees of the colonies.
@@ -1380,19 +1396,17 @@ export function drawWorld(world) {
         standing.push({ y, draw: () => drawSprite(ctx, 'log-fallen', x, y, camera.figure * SIZE.logPile) });
       }
       if (ownLand) window.__logPileDrawn = Math.min(4, Math.ceil(piled / 10));
-      // stand-in: the family's cattle and hogs as two oxen grazing past the house, until the stock art
-      // arrives (docs/ART_REQUESTS.md, stock 2026-09-13). Own land only: the herd is not an entity yet.
+      // Own land only: these grazing animals illustrate the projected stock choice; the herd is not an entity yet.
       if (ownLand && world.household?.stock && world.land && !world.land.arriving) {
-        for (const [dx, dy, flip] of [[1.25, .35, false], [1.7, .55, true]]) {
+        const coat = ['red', 'pied', 'dun'][Array.from(site.id).reduce((sum, letter) => sum + letter.charCodeAt(0), 0) % 3];
+        for (const [dx, dy, flip, clip, scale] of [[1.25, .35, false, `cattle-longhorn-${coat}-graze`, .55], [1.7, .55, true, 'hog-root', .3]]) {
           const x = q.x + size * dx, y = q.y + size * dy;
-          standing.push({ y, draw: () => drawSprite(ctx, 'ox-brown', x, y, size * .55, { flip }) });
+          standing.push({ y, draw: () => animated(ctx, clip, x, y, size * scale, `${site.id}:${clip}`, { flip }) });
         }
       }
-    } else if (site.kind === 'ford') {
-      // The crossing is drawn as a break in the bank, not as a building or a bridge.
-      const width = Math.max(6, camera.figure * .9);
-      ctx.strokeStyle = '#cbbb92'; ctx.lineWidth = Math.max(2, Math.min(11, camera.figure * .16)); ctx.setLineDash([Math.max(3, camera.figure * .22), Math.max(3, camera.figure * .22)]);
-      ctx.beginPath(); ctx.moveTo(q.x - width, q.y); ctx.lineTo(q.x + width, q.y); ctx.stroke(); ctx.setLineDash([]);
+    } else if (site.kind === 'ford'||site.kind==='bridge') {
+      const length=Math.max(12,world.map?.source?camera.scale*.065:camera.figure*1.8);
+      drawCrossing(ctx,q.x,q.y,length,crossingAngle(site,world.map?.terrain||[],camera.toScreen),site.kind==='bridge');
     } else if (site.kind === 'camp') {
       // A camp is shelter, not a house: canvas and brush, nothing that implies a holding.
       standing.push({ y: q.y, draw: () => {
@@ -2373,6 +2387,16 @@ function partsIn100(share) {
 function renderHousePlan(world) {
   const panel = $('#house-plan'), open = $('#house-open');
   if (!panel) return;
+  // A family that plans its house piece by piece has the house plot instead (public/house-plot.js), open while it builds.
+  if (plotted(world, plotCatalogue)) {
+    panel.hidden = true;
+    const available = !familyCache?.canRoll && !['rolling', 'rolled'].includes(rollState) && !wagonOpen;
+    open.hidden = !available || housePlanOpen;
+    open.textContent = world.land.house ? 'House plot' : 'Plan a house';
+    renderHousePlot(world, plotCatalogue, { open: available && housePlanOpen, send: command => api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, ...command }), rerender: () => window.__snapshot && render(window.__snapshot) });
+    return;
+  }
+  renderHousePlot(world, plotCatalogue || { pieces: [], plans: [] }, { open: false });
   const choices = world.land?.choices;
   const available = Boolean(choices && houseCatalogue && world.role !== 'host' && !familyCache?.canRoll && !['rolling', 'rolled'].includes(rollState) && !wagonOpen);
   panel.hidden = !(available && housePlanOpen);
@@ -2504,6 +2528,7 @@ $('#site-build')?.addEventListener('click', async () => {
   finally { siteSetPending = false; if (window.__snapshot) render(window.__snapshot); }
 });
 $('#house-open')?.addEventListener('click', () => { housePlanOpen = true; houseShown = ''; if (window.__snapshot) render(window.__snapshot); $('#house-close')?.focus(); });
+$('#plot-close')?.addEventListener('click', () => { housePlanOpen = false; if (window.__snapshot) render(window.__snapshot); $('#house-open')?.focus(); });
 $('#house-close')?.addEventListener('click', () => { housePlanOpen = false; if (window.__snapshot) render(window.__snapshot); $('#house-open')?.focus(); });
 function renderTutorial(world) {
   const panel = $('#tutorial');

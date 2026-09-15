@@ -1,4 +1,5 @@
 import {drawSprite} from '/art.js';
+import {drawRoad,drawWater} from '/landscape-art.js';
 import {BEXAR_LAYOUT as town,alamoToBexar} from '/bexar-layout.js';
 
 const corners=r=>[{x:r.x,y:r.y},{x:r.x+r.width,y:r.y},{x:r.x+r.width,y:r.y+r.height},{x:r.x,y:r.y+r.height}];
@@ -6,8 +7,8 @@ function polygon(ctx,points,fill,stroke){ctx.beginPath();points.forEach((p,i)=>i
 // Shared scenery renderer: no people, hidden events, clock or second simulation.
 export function drawBexarGround(ctx,project,pixelsPerFoot,{river=true}={}){
   const line=(points,color,width)=>{ctx.beginPath();points.map(project).forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.strokeStyle=color;ctx.lineWidth=Math.max(1,width*pixelsPerFoot);ctx.lineJoin='round';ctx.lineCap='round';ctx.stroke();};
-  if(river){line(town.river.points,'#b5b184',town.river.widthFeet+35);line(town.river.points,'#739fa2',town.river.widthFeet);line(town.river.points,'#9abeb6',town.river.widthFeet*.45);}
-  for(const road of town.roads)line(road.points,'#c5af7d',road.widthFeet);
+  if(river)drawWater(ctx,town.river.points.map(project),Math.max(1,town.river.widthFeet*pixelsPerFoot));
+  for(const road of town.roads)drawRoad(ctx,road.points.map(project),Math.max(1,road.widthFeet*pixelsPerFoot));
   for(const plaza of town.plazas)polygon(ctx,corners(plaza).map(project),'#ccb985','#a59063');
 }
 export function bexarDrawables(ctx,project,pixelsPerFoot,{alamo=true,bankTrees=true}={}){

@@ -18,14 +18,12 @@ does not have:
 
 | Stand-in | Where | Standing in for | Replace with |
 | --- | --- | --- | --- |
+| Whole-house stage sprites scaled into pens; procedural passage/chimneys; `lean-to` shed and `shed-open` porch | `drawHousePlot` in `public/house-plot.js` | Request 2026-09-15 — the house plot's pieces | Modular pen courses, roof, chimney, passage, shed, porch and interior layers |
 | Generic `chapel` and `adobe-flat` silhouettes represent San Fernando and the Governor's Palace | `public/bexar-layout.js` | Request 2026-09-14 — Béxar civic architecture | Researched 1836 civic façades in the existing illustrated style |
 | A person is drawn as the nearest figure by sex and age: a woman or girl as `teal`, a boy as `blue`, a man as `elder`; the principal in `rust` whoever they are, including a mother | `castVariant` in `public/motion.js` | Request 2026-09-12, priority 2 — the second cast | `rust-woman` for a mother who is principal, `indigo` and `teal` for women, `ochre` and `elder` for men, `blue-girl` and `blue` for adolescents |
 | A child walking north or south, working, carrying, sowing or repairing is a grown figure drawn smaller (90% at 10–17, 70% at 5–9, 55% at 2–4, 45% an infant). Idle, east walk, rest and injured-rest use the delivered `girl`, `boy`, `smallchild` and `infant` (2026-09-14) | `CHILD_POSES` and `entityClip` in `public/motion.js` | Request 2026-09-12, priority 1 — children | The children's remaining poses. **Keep the scaling**: the delivered sheets fill their cells and need it |
 | *(Planned, with [SETTLING_IN.md](SETTLING_IN.md) step 8)* A parent's chosen appearance is stored and described in words; the figure is still chosen by sex and age | the family book | Request below — layered people art | Layered or palette-swappable sheets for the whole cast |
 | *(Planned, with [SETTLING_IN.md](SETTLING_IN.md) steps 6–7)* Interiors and furniture drawn from the Alamo interior pieces | the interior view | Request below — interiors and furnishings | Cabin interiors, furniture and brought goods |
-| A family that drove stock in has its cattle and hogs drawn as two `ox-brown` oxen grazing east of the house, on its own land only | the herd in the site loop of `drawWorld`, `public/app.js` | Request 2026-09-13 — stock and the grant (the 2026-09-14 `animal-stock` sheet is **held**, see the request) | `cattle-longhorn` and `hog` idle and grazing figures |
-| Cleared ground is turned earth and rows whatever it was: ten acres cleared out of timber look like ten acres broken from prairie | `fieldPatch` and `drawPlots` in `public/app.js` | Request 2026-09-14 — cleared ground | `stumps` scattered over cleared timber ground, and `clearing-brush` piles on ground being cleared |
-| A staked plot is a survey-chain square with a small post drawn at each corner | `drawPlots` in `public/app.js` | Request 2026-09-13 — stock and the grant (the surveyor's stake and corner marker) | A surveyor's stake and a corner marker |
 | Every kind of tree is drawn with the nearest tree the library has: post oak, blackjack, water oak, elm and hackberry as `oak-broad`; live oak as `oak-spreading`; pecan, hickory, walnut and ash as `pecan`; loblolly and shortleaf pine, cottonwood and sycamore as `cottonwood`; cedar as `sapling`; mesquite as `scrub` | `KINDS` picture in `sim/woods.mjs`, drawn by `drawGroundDetail` in `public/app.js` | Request 2026-09-15 — the trees of the colonies | `pine-loblolly`, `cedar`, `mesquite`, `live-oak`, `elm`, `post-oak` and `blackjack` in the illustrated style, at three sizes |
 | A deer being hunted is a plain procedural shape (brown body, stick legs, white tail, small antlers) standing where the server placed it | `miniDeer` in `public/app.js` | Request 2026-09-14 — game | `deer-idle`, `deer-alert` and `deer-bound` in the illustrated style |
 | Anybody of a family riding the family horse is drawn as the courier rider (`mounted-courier-*`), whoever they are; the horse under them is not drawn again | `inTheSaddle` and `underARider` in `public/motion.js` | Request 2026-09-14 — family members on horseback | Each cast figure mounted on the family's chestnut, walking in four directions |
@@ -39,6 +37,15 @@ into the existing pipeline, and how it will be checked. When a request is delive
 `npm run build:art`; do not delete it from here.
 
 ---
+
+## Request 2026-09-15 — the house plot's pieces
+
+**Status: open; stage sprites stand in.** The house plot now places and builds pieces on an eight-foot grid.
+
+- **Why:** a pen currently repeats a whole-house silhouette, so additions cannot read as one coherent building.
+- **What:** round/hewn 16-foot pen sills and ten stackable wall courses, door/window faces, separate rafters/clapboard roof and chinking overlays; jacal post/wattle/thatch stages; an eight-foot passage roof; stick-and-mud, stone and double chimneys; 16-by-8-foot shed and porch; floor and loft overlays. Match existing illustrated art. Supply grounded anchors, footprints and occlusion masks, with transparent PNGs and manifest entries. Roof and wall layers must support cutaways; construction stages must be independently addressable rather than baked into a single image.
+- **Integration:** `public/house-plot.js` consumes the server's piece type, grid position and stage. Art must never decide construction completion, collision, logs or shelter. Keep unstarted pieces as plan presentation only.
+- **Acceptance:** five presets and a free-built arrangement join without seams or duplicate roofs; course progression stays anchored; interior additions remain legible; missing/final stages and alpha/cell boundaries pass the art checks. These are construction state layers; no autonomous construction animation should advance authoritative progress.
 
 ## Request 2026-09-15 — the trees of the colonies
 
@@ -103,7 +110,7 @@ beside them. They are now drawn in the saddle, but every rider is the same brown
 
 ## Request 2026-09-14 — cleared ground
 
-**Status: open.** Specified in [LAND_GRANTS.md](LAND_GRANTS.md) §5 and §7 step 4.
+**Status: delivered and in use 2026-09-14.** `land-clearing` supplies four stump variants, cut-brush and ash states, four survey/corner markers and a four-pose smoulder cycle. Own timber plots now keep stumps; worked brush/timber plots show dry brush within the cleared portion. Smoke is catalogued but not inferred from work. See [delivery and checks](ART_DELIVERY_2026-09-14-FIELDS.md). Specified in [LAND_GRANTS.md](LAND_GRANTS.md) §5 and §7 step 4.
 
 - **Why.** A family now clears ten-acre plots out of prairie, brush or timber (`HIST-GONZ-039`: timber three times the work).
   Ground cleared from timber was full of stumps for years; drawn as the same turned earth as prairie, the harder clearing
@@ -120,7 +127,7 @@ beside them. They are now drawn in the saddle, but every rider is the same brown
 
 ## Request 2026-09-13 — stock and the grant
 
-**Status: delivered 2026-09-14, held for correction.** Astra's `animal-stock` sheet (three longhorn coats and a hog, four poses each) arrived with its provenance, but the red longhorn's horns reach into the neighbouring cell: the manifest build would have to clip 0.38% of that figure, over its 0.25% limit. It is held in `HELD` in `scripts/art-deliveries/index.mjs` rather than the limit loosened. **Asked for again:** the same sheet with every horn and tail inside its own cell, and generous gutters. The stand-in oxen stay until it lands. The original request: Specified in [LAND_GRANTS.md](LAND_GRANTS.md) §3.
+**Status: delivered and in use 2026-09-14.** The corrected `animal-stock` sheet passes alpha and spacing review with zero overlap trimmed. Three longhorn coats and a rooting hog replace the ox stand-ins, preserving own-land visibility and depth sorting. Survey stakes and corner markers are delivered in `land-clearing`; plot corners use the new stone marker and stake. Original request: [LAND_GRANTS.md](LAND_GRANTS.md) §3.
 
 - **Why.** A family now chooses in the lobby whether it drives cattle and hogs in behind the wagon, which decides how
   much land it holds (`HIST-GONZ-036`). The herd is drawn with oxen until it has figures of its own.
@@ -170,7 +177,7 @@ into this request when that chapter's build reaches them, in the contract format
 
 ## Request 2026-09-12 — families that look like who they are, and a rider who gets down
 
-**Status: partly delivered.** 2026-09-14: children's idle, east walk, rest and injured-rest (`people-children-idle`, `-walk`, `-care`), in use; the rider's vertical dialogue (`courier-encounters-vertical`), in use; the dismount, remount, on-foot and waiting-horse sheet (`courier-dismount`), registered and not yet bound; speaking and listening poses for the first cast (`people-dialogue`), registered and not yet bound; the second cast's idle and work sheets (`people-cast2-idle`), and people-cast2-work, registered, waiting for its other sheets before the cast stand-in changes. See [delivery details](ART_DELIVERY_2026-09-14.md). Still open: the children's vertical walks and task poses, and the rest of the second cast. Requested by Claude on the owner's list of next work.
+**Status: partly delivered.** 2026-09-14: children's idle, east walk, rest and injured-rest (`people-children-idle`, `-walk`, `-care`), in use; the rider's vertical dialogue (`courier-encounters-vertical`), in use; the dismount, remount, on-foot and waiting-horse sheet (`courier-dismount`), registered and not yet bound; speaking and listening poses for the first cast (`people-dialogue`), registered and not yet bound; the second cast's idle, work, care and search/trade sheets, registered, waiting for walking, carrying, sow/repair and dialogue before the cast stand-in changes. See [delivery details](ART_DELIVERY_2026-09-14.md). Still open: the children's vertical walks and task poses, and the rest of the second cast. Requested by Claude on the owner's list of next work.
 
 ### Why
 

@@ -1,12 +1,12 @@
 {
   "record": "hunting-browser",
-  "date": "2026-09-14",
+  "date": "2026-09-15",
   "browser": "152.0.7977.83",
   "ownerDirection": [
     "\"when they're out hunting, maybe i should see them actually hunting?\"",
     "\"polish hunting. it needs to be more than just [tell character to hunt and boom they do].\""
   ],
-  "theQuestion": "Jasper is downwind of something, with a shot to take. It is not a close one.",
+  "theQuestion": "Jasper is downwind of a deer, with a shot to take. It is not a close one.",
   "theAnswers": [
     {
       "option": "take",
@@ -26,7 +26,7 @@
   ],
   "checks": [
     "a poor shot can be taught: \"Practise at the mark · 2 powder\"",
-    "the hunt stops and asks: \"Jasper is downwind of something, with a shot to take. It is not a close one.\"",
+    "the hunt stops and asks: \"Jasper is downwind of a deer, with a shot to take. It is not a close one.\"",
     "and every answer says what it would cost before it is pressed — Take the shot (One powder. it is a long shot, and Jasper has never had the knack of it); Wait for it to come closer (One powder, three more hours, and then the shot is a certainty); Leave it and come home (Nothing spent, nothing to carry, and the rest of the day is the family’s)",
     "and the person carries a mark, so a student looking at the map knows the hunt is waiting on them",
     "nothing moves while it waits: three ticks passed and the work had not gone a step further",

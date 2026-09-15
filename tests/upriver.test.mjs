@@ -219,7 +219,8 @@ test('being there is recorded while it is happening, with the minute it happened
 test('a class saved before the march existed still runs and is simply never asked', () => {
   // No save version moves for this, so the guarantee is that the missing field defaults
   // rather than refusing the class. Same rule sim/trade.mjs set for offers.
-  const world = createGonzalesWorld('upriver-oldsave', 5);
+  // A class where hh-1 hears the word firm enough to be called on, not third-hand as a rumor.
+  const world = createGonzalesWorld('upriver-oldsave-1', 5);
   world.status = 'running';
   delete world.marches;
   world.barriers = world.barriers.filter(barrier => barrier.id !== 'gonzales:crossing');
@@ -228,6 +229,7 @@ test('a class saved before the march existed still runs and is simply never aske
     stepWorld(world);
     const request = view(world, 'hh-1').request;
     if (request?.status === 'open' && request.kind !== 'march' && !helped) {
+      assert.equal(request.kind, 'supplies', 'hh-1 was asked about a rumor, not called on');
       try { applyAction(world, 'hh-1', { action: 'help', entityId: world.households['hh-1'].principalId }); helped = true; } catch { /* not yet known */ }
     }
   }

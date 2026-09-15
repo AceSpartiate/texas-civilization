@@ -2,6 +2,294 @@
   "version": "frontier-v1",
   "note": "Presentation only: elapsed display time selects these frames; animation never advances simulation state. Authored identifies sequences of distinct source poses, not transforms of one sprite.",
   "clips": {
+    "rust-woman-rest": {
+      "frames": [
+        {
+          "sprite": "rust-woman-rest-pose",
+          "duration": 2500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "rust-woman-injured-rest": {
+      "frames": [
+        {
+          "sprite": "rust-woman-injured-pose",
+          "duration": 3000
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "rust-woman-care": {
+      "frames": [
+        {
+          "sprite": "rust-woman-care-1",
+          "duration": 420
+        },
+        {
+          "sprite": "rust-woman-care-2",
+          "duration": 420
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "rust-woman-search": {
+      "frames": [
+        {
+          "sprite": "rust-woman-search-1",
+          "duration": 900
+        },
+        {
+          "sprite": "rust-woman-search-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "rust-woman-trade": {
+      "frames": [
+        {
+          "sprite": "rust-woman-trade-1",
+          "duration": 500
+        },
+        {
+          "sprite": "rust-woman-trade-2",
+          "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "indigo-rest": {
+      "frames": [
+        {
+          "sprite": "indigo-rest-pose",
+          "duration": 2500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "indigo-injured-rest": {
+      "frames": [
+        {
+          "sprite": "indigo-injured-pose",
+          "duration": 3000
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "indigo-care": {
+      "frames": [
+        {
+          "sprite": "indigo-care-1",
+          "duration": 420
+        },
+        {
+          "sprite": "indigo-care-2",
+          "duration": 420
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "indigo-search": {
+      "frames": [
+        {
+          "sprite": "indigo-search-1",
+          "duration": 900
+        },
+        {
+          "sprite": "indigo-search-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "indigo-trade": {
+      "frames": [
+        {
+          "sprite": "indigo-trade-1",
+          "duration": 500
+        },
+        {
+          "sprite": "indigo-trade-2",
+          "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ochre-rest": {
+      "frames": [
+        {
+          "sprite": "ochre-rest-pose",
+          "duration": 2500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "ochre-injured-rest": {
+      "frames": [
+        {
+          "sprite": "ochre-injured-pose",
+          "duration": 3000
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "ochre-care": {
+      "frames": [
+        {
+          "sprite": "ochre-care-1",
+          "duration": 420
+        },
+        {
+          "sprite": "ochre-care-2",
+          "duration": 420
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ochre-search": {
+      "frames": [
+        {
+          "sprite": "ochre-search-1",
+          "duration": 900
+        },
+        {
+          "sprite": "ochre-search-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ochre-trade": {
+      "frames": [
+        {
+          "sprite": "ochre-trade-1",
+          "duration": 500
+        },
+        {
+          "sprite": "ochre-trade-2",
+          "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-girl-rest": {
+      "frames": [
+        {
+          "sprite": "blue-girl-rest-pose",
+          "duration": 2500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "blue-girl-injured-rest": {
+      "frames": [
+        {
+          "sprite": "blue-girl-injured-pose",
+          "duration": 3000
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "blue-girl-care": {
+      "frames": [
+        {
+          "sprite": "blue-girl-care-1",
+          "duration": 420
+        },
+        {
+          "sprite": "blue-girl-care-2",
+          "duration": 420
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-girl-search": {
+      "frames": [
+        {
+          "sprite": "blue-girl-search-1",
+          "duration": 900
+        },
+        {
+          "sprite": "blue-girl-search-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-girl-trade": {
+      "frames": [
+        {
+          "sprite": "blue-girl-trade-1",
+          "duration": 500
+        },
+        {
+          "sprite": "blue-girl-trade-2",
+          "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "rust-woman-work": {
       "frames": [
         {
@@ -770,6 +1058,30 @@
       "motion": "breathe",
       "direction": "east"
     },
+    "clearing-smoulder": {
+      "frames": [
+        {
+          "sprite": "clearing-smoulder-1",
+          "duration": 500
+        },
+        {
+          "sprite": "clearing-smoulder-2",
+          "duration": 500
+        },
+        {
+          "sprite": "clearing-smoulder-3",
+          "duration": 500
+        },
+        {
+          "sprite": "clearing-smoulder-4",
+          "duration": 500
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "stationary"
+    },
     "courier-dismount": {
       "frames": [
         {
@@ -1209,6 +1521,182 @@
       "authored": false,
       "motion": "breathe",
       "direction": "north"
+    },
+    "cattle-longhorn-red-idle": {
+      "frames": [
+        {
+          "sprite": "cattle-longhorn-red-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "cattle-longhorn-red-graze": {
+      "frames": [
+        {
+          "sprite": "cattle-longhorn-red-1",
+          "duration": 850
+        },
+        {
+          "sprite": "cattle-longhorn-red-2",
+          "duration": 850
+        },
+        {
+          "sprite": "cattle-longhorn-red-3",
+          "duration": 850
+        },
+        {
+          "sprite": "cattle-longhorn-red-4",
+          "duration": 850
+        },
+        {
+          "sprite": "cattle-longhorn-red-3",
+          "duration": 850
+        },
+        {
+          "sprite": "cattle-longhorn-red-2",
+          "duration": 850
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "cattle-longhorn-pied-idle": {
+      "frames": [
+        {
+          "sprite": "cattle-longhorn-pied-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "cattle-longhorn-pied-graze": {
+      "frames": [
+        {
+          "sprite": "cattle-longhorn-pied-1",
+          "duration": 850
+        },
+        {
+          "sprite": "cattle-longhorn-pied-2",
+          "duration": 850
+        },
+        {
+          "sprite": "cattle-longhorn-pied-3",
+          "duration": 850
+        },
+        {
+          "sprite": "cattle-longhorn-pied-4",
+          "duration": 850
+        },
+        {
+          "sprite": "cattle-longhorn-pied-3",
+          "duration": 850
+        },
+        {
+          "sprite": "cattle-longhorn-pied-2",
+          "duration": 850
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "cattle-longhorn-dun-idle": {
+      "frames": [
+        {
+          "sprite": "cattle-longhorn-dun-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "cattle-longhorn-dun-graze": {
+      "frames": [
+        {
+          "sprite": "cattle-longhorn-dun-1",
+          "duration": 850
+        },
+        {
+          "sprite": "cattle-longhorn-dun-2",
+          "duration": 850
+        },
+        {
+          "sprite": "cattle-longhorn-dun-3",
+          "duration": 850
+        },
+        {
+          "sprite": "cattle-longhorn-dun-4",
+          "duration": 850
+        },
+        {
+          "sprite": "cattle-longhorn-dun-3",
+          "duration": 850
+        },
+        {
+          "sprite": "cattle-longhorn-dun-2",
+          "duration": 850
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "hog-idle": {
+      "frames": [
+        {
+          "sprite": "hog-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east; west by mirroring"
+    },
+    "hog-root": {
+      "frames": [
+        {
+          "sprite": "hog-1",
+          "duration": 850
+        },
+        {
+          "sprite": "hog-2",
+          "duration": 850
+        },
+        {
+          "sprite": "hog-3",
+          "duration": 850
+        },
+        {
+          "sprite": "hog-4",
+          "duration": 850
+        },
+        {
+          "sprite": "hog-3",
+          "duration": 850
+        },
+        {
+          "sprite": "hog-2",
+          "duration": 850
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
     },
     "home-chest-opening": {
       "frames": [

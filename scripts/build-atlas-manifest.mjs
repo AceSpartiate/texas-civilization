@@ -311,6 +311,7 @@ for (const [sheet, names] of Object.entries(SHEETS)) {
       ...(sheet==='wagon-rig' && names[index]!=='wagon-wheel' ? {logicalHeight:placed[0].maxY-placed[0].minY+1} : {}),
       ...(sheet==='joe-poses' ? {logicalHeight:Math.max(...placed.map(p=>p.maxY-p.minY+1))} : {}),
       ...(sheet==='houses-settling' ? {logicalHeight:Math.max(...placed.filter(p=>p.row===frame.row).map(p=>p.maxY-p.minY+1))} : {}),
+      ...(sheet==='land-clearing'&&frame.row===2 ? {logicalHeight:Math.max(...placed.filter(p=>p.row===2).map(p=>p.maxY-p.minY+1))} : {}),
       ...(sheet==='alamo-modules' && frame.row===0 ? {logicalHeight:Math.max(...placed.filter(p=>p.row===0).map(p=>p.maxY-p.minY+1))} : {}),
       label: names[index].replaceAll('-', ' '), kind: sheet,
       row: frame.row + 1, column: frame.col + 1,

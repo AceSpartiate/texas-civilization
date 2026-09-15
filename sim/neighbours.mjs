@@ -17,7 +17,10 @@ import { siteFacts } from './ground.mjs';
 import { overlaps, squareOf } from './fields.mjs';
 import { CHORES } from './chores.mjs';
 import { huntingPlace } from './hunting.mjs';
-import { woodsRule } from './woods.mjs';
+import { fellFacts, logsLying } from './felling.mjs';
+import { logsShort } from './houseplot.mjs';
+import { treesIn, woodsRule } from './woods.mjs';
+import { landAround } from './ground.mjs';
 
 /** Decisions are spread over ticks: each family thinks every third tick, not all of them on the same one. */
 export const THINK_EVERY = 3;
@@ -26,7 +29,7 @@ export const TRADE_VALUE = Object.freeze({ food: 1, cotton: 1, seed: 2, powder: 
 /** Food per person the family keeps back before it will trade food away or stop hunting. */
 export const FOOD_KEPT_PER_PERSON = 3;
 /** Work one person does alone; a family never puts two of its people on the same one at once. */
-export const ONE_AT_A_TIME = Object.freeze(['hunt-timber', 'hunt-land', 'fetch-seed', 'fetch-powder', 'sell-cotton', 'sell-food', 'mend-hoe', 'replace-hoe', 'fence-plot', 'survey-plot', 'dig-well']);
+export const ONE_AT_A_TIME = Object.freeze(['hunt-timber', 'hunt-land', 'haul-logs', 'fetch-seed', 'fetch-powder', 'sell-cotton', 'sell-food', 'mend-hoe', 'replace-hoe', 'fence-plot', 'survey-plot', 'dig-well']);
 /** Plots a family nobody plays keeps, its first patch among them: enough to feed it, and a harvest it can carry in. */
 export const NEIGHBOUR_PLOTS = 3;
 /** The house it chooses, best first, where its tools allow. */
@@ -110,9 +113,14 @@ export function thinkFor(world, household, { project, act }) {
     for (const point of spot) if (attempt({ action: 'choose-site', x: point.x, y: point.y })) break;
   }
   // The house: choose one the tools allow, then put hands to it.
-  if (land.choices && !land.house) {
-    const choice = HOUSE_PREFERENCE.find(id => land.choices.some(c => c.id === id && c.can));
-    if (choice) attempt({ action: 'plan-house', layout: choice });
+  const homeSite = world.map.sites[view.household.homeSiteId];
+  // Looked for once, when the house is first planned: a family without the sound logs for a log cabin standing on its land
+  // within a mile builds a jacal, which wants none.
+  const treeless = land.plot && land.choices && !land.house && homeSite && !land.choosingSite && soundLogsNear(world, homeSite, land.grant?.bounds) < CABIN_LOGS;
+  // Not before the site is chosen: what stands near the house is what stands near where it will be.
+  if (land.choices && !land.house && !land.choosingSite) {
+    const choice = treeless ? 'jacal' : HOUSE_PREFERENCE.find(id => land.choices.some(c => c.id === id && c.can));
+    if (choice && land.house?.plan !== choice) attempt({ action: 'plan-house', layout: choice });
   }
 
   const idle = people.filter(person => !tooYoung(person) && !person.chore && !person.travel
@@ -130,6 +138,12 @@ export function thinkFor(world, household, { project, act }) {
   const home = world.map.sites[view.household.homeSiteId];
   const nearest = list => list.sort((a, b) => Math.hypot(a.x - home.x, a.y - home.y) - Math.hypot(b.x - home.x, b.y - home.y))[0];
   const staked = nearest(plots.filter(plot => plot.state === 'staked'));
+  // A house of pieces is built from the family's own logs (sim/houseplot.mjs, sim/felling.mjs): felled until there are enough
+  // at the house and lying out for what the plan still wants, and hauled in.
+  const lying = land.plot ? logsLying(world, world.households[view.household.id]) : [];
+  const got = use => (land.logs?.[use] || 0) + lying.filter(entry => entry.use === use).reduce((sum, entry) => sum + entry.left, 0);
+  const moreLogs = Boolean(land.plot && land.planned && logsShort({ wall: got('wall'), sill: got('sill'), poor: got('poor') }, land.planned.logs));
+  if (!moreLogs) for (const person of people) if (person.chore?.id === 'fell-trees') attempt({ action: 'stop-chore', entityId: person.id });
   const unfenced = nearest(plots.filter(plot => plot.state === 'cleared' && plot.fence !== 'sound'));
   for (const person of idle) {
     // Somebody away from home with nothing to do there comes home.
@@ -143,7 +157,10 @@ export function thinkFor(world, household, { project, act }) {
       // Food first when the family is short, then the crop, the house, the tools, the fence, and the trips to town
       // a farm needs: seed when there is none to plant, cotton to the store once there is some.
       food < people.length * FOOD_KEPT_PER_PERSON && hunters === 0 && (resources.powder || 0) >= 1 && huntChore,
-      'harvest-field', 'plant-field', 'build-house', 'dig-well', 'mend-hoe', 'cut-lane',
+      'harvest-field', 'plant-field', 'build-house',
+      land.logs?.lying > 0 && 'haul-logs',
+      moreLogs && 'fell-trees',
+      'dig-well', 'mend-hoe', 'cut-lane',
       view.household.field?.state === 'planted' && unfenced && 'fence-plot',
       view.household.field?.state === 'bare' && (resources.seed || 0) < 2 * Math.max(1, land.cleared || 0) && 'fetch-seed',
       (resources.cotton || 0) >= 1 && 'sell-cotton',
@@ -154,7 +171,8 @@ export function thinkFor(world, household, { project, act }) {
     const chore = plan.find(id => !busy.has(id) && can(id));
     if (!chore) continue;
     // Clearing, fencing and survey are sent to a place on the family's own land, as a student sends them.
-    const sent = chore === 'hunt-land' ? huntPlaces(world, home, land.grant?.bounds).some(point => attempt({ action: 'hunt-land', entityId: person.id, ...point }))
+    const sent = chore === 'fell-trees' ? fellPlaces(world, view.household, home, land.grant?.bounds).some(point => attempt({ action: 'fell-trees', entityId: person.id, ...point }))
+      : chore === 'hunt-land' ? huntPlaces(world, home, land.grant?.bounds).some(point => attempt({ action: 'hunt-land', entityId: person.id, ...point }))
       : chore === 'survey-plot' ? surveyPlaces(home, land.grant?.bounds, plots).some(point => attempt({ action: 'survey-plot', entityId: person.id, ...point }))
       : chore === 'clear-plot' ? attempt({ action: 'clear-plot', entityId: person.id, x: staked.x, y: staked.y })
       : chore === 'fence-plot' ? attempt({ action: 'fence-plot', entityId: person.id, x: unfenced.x, y: unfenced.y })
@@ -187,6 +205,37 @@ export function surveyPlaces(home, bounds, plots) {
  * nearer of two as good. Read as a student reads it, from what the ground is; the server still decides.
  */
 export const HUNT_LOOK_MILES = 1;
+/**
+ * Where a family nobody plays would fell for its house, nearest first: the nearest standing trees on its own land that give
+ * sound logs, looked for in growing squares round the house out to a mile. The server still decides.
+ */
+/** The sound logs a round-log cabin wants, pen and all: a family with fewer standing near builds a jacal. */
+const CABIN_LOGS = 50;
+/**
+ * The standing trees that give sound logs on the family's own land within a mile of the house, nearest the house first.
+ * Read a quarter mile at a time, so a square of thick timber is never too many trees to list.
+ */
+function soundTrees(world, home, bounds) {
+  const felled = world.woods?.felled || {};
+  const box = {
+    minX: Math.max(bounds?.minX ?? -Infinity, home.x - HUNT_LOOK_MILES), maxX: Math.min(bounds?.maxX ?? Infinity, home.x + HUNT_LOOK_MILES),
+    minY: Math.max(bounds?.minY ?? -Infinity, home.y - HUNT_LOOK_MILES), maxY: Math.min(bounds?.maxY ?? Infinity, home.y + HUNT_LOOK_MILES),
+  };
+  const options = { rule: 'landfire', nearCreek: landAround().nearCreek };
+  const found = [];
+  for (let x = box.minX; x < box.maxX; x += 0.25) for (let y = box.minY; y < box.maxY; y += 0.25) {
+    for (const tree of treesIn({ minX: x, minY: y, maxX: Math.min(box.maxX, x + 0.25), maxY: Math.min(box.maxY, y + 0.25) }, options) || []) {
+      if (['wall', 'sill'].includes(tree.use) && tree.logs > 0 && !felled[tree.id] && Math.hypot(tree.x - home.x, tree.y - home.y) <= HUNT_LOOK_MILES) found.push(tree);
+    }
+  }
+  return found.sort((a, b) => Math.hypot(a.x - home.x, a.y - home.y) - Math.hypot(b.x - home.x, b.y - home.y));
+}
+/** How many sound logs stand on the family's land within a mile of the house. */
+export const soundLogsNear = (world, home, bounds) => soundTrees(world, home, bounds).reduce((sum, tree) => sum + tree.logs, 0);
+/** Where a family nobody plays would fell for its house: at the nearest standing sound trees on its land. The server still decides. */
+export function fellPlaces(world, household, home, bounds) {
+  return soundTrees(world, home, bounds).slice(0, 4).map(tree => ({ x: tree.x, y: tree.y })).filter(point => fellFacts(world, world.households[household.id], point).can);
+}
 export function huntPlaces(world, home, bounds) {
   const places = [];
   for (const miles of [0.25, 0.5, 0.75, HUNT_LOOK_MILES]) for (let turn = 0; turn < 8; turn++) {

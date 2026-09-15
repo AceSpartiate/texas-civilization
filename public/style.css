@@ -118,6 +118,7 @@ button:disabled{opacity:.4;cursor:default}
 .work-stop{width:100%;background:#7c6a4e;border-color:#6a5940}
 .work-stop:hover:enabled{background:#6a5940}
 #supplies[data-urgent=true]{background:#7a4726;color:#fdf0dd}
+#supplies{max-width:100%;white-space:normal;overflow-wrap:anywhere}
 
 /* Warm ink, aged paper and wood; the world keeps the full screen. */
 :root{--ink:#4b5133;--paper:#f7eed5;--line:#c9b78e;--shade:rgba(57,49,33,.91);color:#3e3928;background:#666f3f}
@@ -326,3 +327,20 @@ button:hover:enabled{background:#60673e}
 @media (max-width:760px){#site-choose{left:8px;right:8px;width:auto;top:56px}}
 #house-open{position:absolute;left:12px;top:104px;z-index:8;min-height:34px;padding:5px 12px;font-size:13px;background:#4b3e28;border-color:#6b5836}
 @media (max-width:760px){#house-plan{left:8px;right:8px;width:auto;top:56px}}
+/* The house plot (public/house-plot.js). */
+#house-plot{position:absolute;left:12px;top:64px;z-index:8;width:min(34rem,calc(100% - 24px));max-height:calc(100% - 150px);overflow:auto;background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259;border-radius:8px;box-shadow:0 5px 0 #6b583638,0 18px 45px #32291950;padding:12px 14px 13px;color:#3b3427}
+#house-plot h2{font-size:19px;margin:2px 0 0;color:#4b3e28}
+.plot-plans{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.plot-plans button,.plot-palette button,#plot-close{min-height:32px;padding:4px 10px;font-size:13px;background:#f3ead2;color:#3f3524;border-color:#b09a6d}
+.plot-plans button[aria-pressed=true],.plot-palette button[aria-pressed=true]{background:#7a4726;border-color:#5d3419;color:#fdf0dd}
+.plot-grid{display:grid;grid-template-columns:repeat(var(--columns,8),1fr);grid-template-rows:repeat(var(--rows,6),minmax(34px,1fr));gap:2px;margin-top:8px;background:#d9c9a2;border:1px solid #b09a6d;border-radius:4px;padding:2px}
+.plot-cell{min-height:34px;padding:0;background:#efe3c3;border:1px dashed #c9b68a;border-radius:2px}
+.plot-cell:not(:disabled):hover{background:#e4d0a3}
+.plot-piece{position:relative;display:flex;flex-direction:column;gap:2px;padding:3px 4px;overflow:hidden;background:#b28b5ecc;border:1px solid #6b4a2c;border-radius:3px;font-size:11px;line-height:1.2;color:#2e2415;pointer-events:none}
+.plot-piece.plot-pen{background:#9c7447dd;color:#fbf1dc}
+.plot-piece-name{font-weight:650}
+.plot-remove{pointer-events:auto;margin-top:auto;min-height:24px;padding:1px 4px;font-size:10.5px;background:#f3ead2;color:#3f3524;border-color:#b09a6d}
+.plot-palette{list-style:none;margin:8px 0 0;padding:0}
+.plot-palette li{padding:7px 0;border-top:1px solid #d3c299}
+#plot-note{color:#7a3b22;font-size:13px;margin:6px 0 0}
+@media (max-width:760px){#house-plot{left:8px;right:8px;width:auto;top:56px}}

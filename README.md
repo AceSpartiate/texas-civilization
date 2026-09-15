@@ -1,6 +1,6 @@
 # Texas Revolution family simulation
 
-A local, browser-based classroom simulation for a middle-school history lesson. Each student guides a fictional household living near Gonzales in the autumn of 1835, and learns what their family would have learned — when somebody carrying it actually reached them.
+A local, browser-based classroom simulation for a middle-school history lesson. Each student guides a fictional household in the settled colonies of Texas in the autumn of 1835, and learns what their family would have learned — when somebody carrying it actually reached them.
 
 It runs entirely on one teacher's computer over the school's own network. There is no account, no cloud service, no Internet dependency and no AI service anywhere in the classroom path.
 
@@ -16,7 +16,7 @@ Download **`TexasRevolutionSetup.exe`** from [Releases](https://github.com/AceSp
 4. Students join at that address with the six-character class code. Five households must join before Start; fewer is possible with a deliberate second press, which is how one person can try it alone.
 5. Press **Stop the class** when you are done. Closing a browser window does **not** stop it.
 
-A family starts with a cabin, one patch of broken ground and no fence, and can **survey** ten-acre plots anywhere on its land, **clear** them into its field and **fence** them one at a time during a class. Everything it makes can be ruined; nothing in the Gonzales slice ruins anything.
+A new family arrives by wagon, chooses its house site and camps while it builds. It can **survey** ten-acre plots on its land, **clear** them into fields and **fence** them one at a time. On the real-land map it can hunt its own woods, fell trees and haul the logs home. Previously saved classes retain their existing homes and land.
 
 Each person can be sent **on foot**, **on the horse**, or **with the ox and wagon**, and the three are genuinely different: speed, how much comes home, and how tired they arrive. There is one of each per family.
 

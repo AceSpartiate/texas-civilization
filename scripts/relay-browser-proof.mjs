@@ -43,7 +43,9 @@ const physical = Object.entries(networkInterfaces()).filter(([name]) => !/vpn|no
 const address = process.env.TEST_ADDRESS || physical || '127.0.0.1';
 const dir = mkdtempSync(join(tmpdir(), 'texas-relay-browser-'));
 const savePath = join(dir, 'class.json');
-const app = createClassroom({ seed: process.env.SEED || 'gonzales-relay', playerCount: 5, tickMs: 150, savePath, worldFactory: fixture });
+// A class with a family on a straight track near town and one past two forks (the default class had none near town once
+// every family lived on the east bank, 2026-09-14).
+const app = createClassroom({ seed: process.env.SEED || 'gonzales-relay-2', playerCount: 5, tickMs: 150, savePath, worldFactory: fixture });
 let browser;
 const errors = [];
 const snapshot = page => page.evaluate(() => structuredClone(window.__snapshot));

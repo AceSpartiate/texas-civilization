@@ -31,6 +31,18 @@ import { record } from './events.mjs';
 import { householdName } from './family.mjs';
 import { improvementsOf, setImprovement } from './improvements.mjs';
 import { CAMP_REST_SHARE, CAMP_SPOILAGE_PER_DAY } from './settling.mjs';
+import {
+  PIECES, PLANS, PLAN_IDS, nextStage, pieceDone, pieceWords, placeRefusal, planPieces, plotBuildRefusal, plotBuildSpell,
+  plotInvalid, plotLayout, plotNeeds, plotPhase, plotRaising, plotShelter,
+} from './houseplot.mjs';
+import { woodsRule } from './woods.mjs';
+
+/**
+ * Whether this family's house is planned piece by piece on the house plot (sim/houseplot.mjs, docs/WOODS_AND_BUILDING.md
+ * §6): a class that counts its trees one by one. Every other house is one of the four below, raised as one bar of work.
+ */
+export const pieced = household => Array.isArray(household?.house?.pieces);
+const plotted = world => woodsRule(world) === 'landfire';
 
 /**
  * The houses a family can choose.
@@ -84,8 +96,9 @@ export const houseCatalogue = () => Object.values(HOUSES).map(choice => ({ ...ch
 export const houseOf = household => household.house ?? null;
 /** Whether this family has a roof and nothing left to build: a finished house, or the cabin a class saved before step 4 always had. */
 export const houseSettled = household => houseBuilt(household) || (!household.house && improvementsOf(household).cabin === 'sound');
+/** A house of pieces is built when every piece stands; a family lives in it once one pen does. */
 /** Whether this family's chosen house is finished. */
-export const houseBuilt = household => Boolean(household.house) && household.house.work >= HOUSES[household.house.layout].work;
+export const houseBuilt = household => pieced(household) ? household.house.pieces.length > 0 && household.house.pieces.every(pieceDone) : Boolean(household.house) && household.house.work >= HOUSES[household.house.layout].work;
 
 /**
  * What the family is doing on the house at this point in it, for the person's own line.
@@ -98,6 +111,7 @@ export const houseBuilt = household => Boolean(household.house) && household.hou
 export function phaseOf(household) {
   const plan = houseOf(household);
   if (!plan) return null;
+  if (pieced(household)) return plotPhase(plan.pieces);
   const share = plan.work / HOUSES[plan.layout].work;
   return share >= 1 ? 'finished' : share < RAISING_FROM ? 'site' : share < RAISING_TO ? 'walls' : 'roofing';
 }
@@ -105,6 +119,11 @@ export function phaseOf(household) {
 export function stageOf(household) {
   const plan = houseOf(household);
   if (!plan) return null;
+  if (pieced(household)) {
+    if (houseBuilt(household)) return 'finished';
+    const next = nextStage(plan.pieces);
+    return next ? `${next.stage.doing} on ${pieceWords(plan.pieces, next.piece)}` : 'waiting on the pens';
+  }
   const share = plan.work / HOUSES[plan.layout].work;
   if (share >= 1) return 'finished';
   if (plan.layout === 'jacal') return share < RAISING_FROM ? 'cutting and setting the posts' : share < RAISING_TO ? 'weaving the walls and daubing them with mud' : 'thatching the roof';
@@ -149,6 +168,7 @@ export function helpRefusal(world, entity) {
   const family = householdName(world, host);
   if (!plan) return `${family} have not begun a house.`;
   if (houseBuilt(host)) return `${family}'s house is built.`;
+  if (pieced(host)) return plotRaising(plan.pieces) ? null : `${family} are ${stageOf(host)}; no walls are going up.`;
   const share = plan.work / HOUSES[plan.layout].work;
   if (share < RAISING_FROM) return `${family} are still ${stageOf(host)}; the walls are not ready to raise.`;
   if (share >= RAISING_TO) return `The walls of ${family}'s house are up.`;
@@ -156,7 +176,7 @@ export function helpRefusal(world, entity) {
 }
 
 /** Whether a house is still at the stage a neighbour can help with. */
-export const raising = household => Boolean(houseOf(household)) && !houseBuilt(household)
+export const raising = household => pieced(household) ? !houseBuilt(household) && plotRaising(household.house.pieces) : Boolean(houseOf(household)) && !houseBuilt(household)
   && household.house.work / HOUSES[household.house.layout].work >= RAISING_FROM
   && household.house.work / HOUSES[household.house.layout].work < RAISING_TO;
 
@@ -164,7 +184,7 @@ export const raising = household => Boolean(houseOf(household)) && !houseBuilt(h
 export function recordHelpBegun(world, helperHousehold, entity, host) {
   record(world, 'raising', {
     actorId: entity.id, householdId: helperHousehold.id, importance: 2, claimId: 'FIC-GONZ-024',
-    text: `${entity.name} went to help ${householdName(world, host)} raise the walls of their ${HOUSES[host.house.layout].name.toLowerCase()}.`,
+    text: `${entity.name} went to help ${householdName(world, host)} raise the walls of their ${pieced(host) ? 'house' : HOUSES[host.house.layout].name.toLowerCase()}.`,
   });
   record(world, 'raising', {
     householdId: host.id, importance: 2, claimId: 'FIC-GONZ-024',
@@ -203,6 +223,16 @@ export function recordHelpDone(world, helperHousehold, entity, host, spells) {
 
 /** Whether the family may choose this house now, and why not. */
 export function planRefusal(world, household, layout) {
+  if (plotted(world) && !household.house?.layout) {
+    if (!PLANS[layout]) return 'That is not a kind of house anybody here builds.';
+    if (!['lobby', 'running'].includes(world.status)) return 'Nothing can be planned while the class is stopped.';
+    if (pieced(household) && household.house.pieces.some(p => p.stage > 0 || p.progress > 0)) return 'Work on the house has begun; add or take away pieces instead.';
+    if (!household.house && improvementsOf(household).cabin === 'sound') return 'The family already has a roof over it.';
+    const tools = new Set(PLANS[layout].pieces.flatMap(([type]) => PIECES[type].needs));
+    const missing = [...tools].filter(tool => household.tools?.[tool] === undefined);
+    if (missing.length) return `It wants ${missing.map(tool => tool === 'axe' ? 'a felling axe' : `a ${tool}`).join(' and ')}, and there is none in the house.`;
+    return null;
+  }
   const choice = HOUSES[layout];
   if (!choice) return 'That is not a kind of house anybody here builds.';
   if (!['lobby', 'running'].includes(world.status)) return 'Nothing can be planned while the class is stopped.';
@@ -226,7 +256,35 @@ export function planRefusal(world, household, layout) {
 export function planHouse(world, household, layout) {
   const why = planRefusal(world, household, layout);
   if (why) throw new Error(why);
-  household.house = { layout, work: houseOf(household)?.work ?? 0 };
+  household.house = plotted(world) && !household.house?.layout ? { plan: layout, pieces: planPieces(layout) } : { layout, work: houseOf(household)?.work ?? 0 };
+  return household.house;
+}
+
+/** Why this piece cannot be placed, or null: only on a plot, while the class runs or waits, and where the plot allows. */
+export function pieceRefusal(world, household, input) {
+  if (!plotted(world) || household.house?.layout) return 'This family chooses its house whole.';
+  if (!['lobby', 'running'].includes(world.status)) return 'Nothing can be planned while the class is stopped.';
+  if (!household.house && improvementsOf(household).cabin === 'sound') return 'The family already has a roof over it.';
+  if (input.action === 'remove-piece') {
+    const p = (household.house?.pieces || [])[input.index];
+    if (!p) return 'There is no such piece on the plot.';
+    if (p.stage > 0 || p.progress > 0) return `Work on ${pieceWords(household.house.pieces, p)} has begun.`;
+    const rest = household.house.pieces.filter(each => each !== p);
+    if (rest.some(each => !PIECES[each.type].pen && placeRefusal(rest.filter(other => other !== each), each))) return `Other pieces stand against ${pieceWords(household.house.pieces, p)}; take them away first.`;
+    return null;
+  }
+  const p = { type: input.piece, x: Number(input.x), y: Number(input.y) };
+  return placeRefusal(household.house?.pieces || [], p);
+}
+
+/** Place a piece on the house plot, or take an unstarted one away. Writes nothing in the story, like choosing a plan. */
+export function editPlot(world, household, input) {
+  const why = pieceRefusal(world, household, input);
+  if (why) throw new Error(why);
+  household.house ||= { plan: 'own', pieces: [] };
+  if (input.action === 'remove-piece') household.house.pieces.splice(input.index, 1);
+  else household.house.pieces.push({ type: input.piece, x: Number(input.x), y: Number(input.y), stage: 0, progress: 0 });
+  household.house.plan = 'own';
   return household.house;
 }
 
@@ -234,6 +292,7 @@ export function planHouse(world, household, layout) {
 export function buildRefusal(household) {
   const plan = houseOf(household);
   if (!plan) return 'Choose a house to build first.';
+  if (pieced(household)) return plotBuildRefusal(household);
   if (houseBuilt(household)) return 'The house is built.';
   const missing = HOUSES[plan.layout].needs.filter(tool => household.tools?.[tool] === undefined);
   if (missing.length) return `The ${HOUSES[plan.layout].name.toLowerCase()} wants ${missing.map(tool => tool === 'axe' ? 'a felling axe' : `a ${tool}`).join(' and ')}.`;
@@ -248,6 +307,7 @@ export function buildRefusal(household) {
 export function buildSpell(world, household, entity) {
   const plan = houseOf(household);
   if (!plan || houseBuilt(household)) return true;
+  if (pieced(household)) return plotBuildSpell(world, household, entity, handsOn(world, household));
   plan.work += 1;
   if (!houseBuilt(household)) return false;
   setImprovement(world, household, 'cabin', 'sound');
@@ -257,6 +317,9 @@ export function buildSpell(world, household, entity) {
   });
   return true;
 }
+
+/** How many people are at work on this family's house now: its own, and neighbours helping raise it. */
+export const handsOn = (world, household) => Object.values(world.entities).filter(person => person.chore && ((person.householdId === household.id && person.chore.id === 'build-house') || person.chore.hostHouseholdId === household.id)).length;
 
 /** How many of this family are alive and would be sleeping at home, for crowding. */
 const sleepers = (world, household) => household.members.filter(id => {
@@ -276,7 +339,13 @@ const sleepers = (world, household) => household.members.filter(id => {
 export function shelterOf(world, household) {
   const standing = improvementsOf(household).cabin === 'sound';
   if (standing && !household.house) return { kind: 'house', restShare: 1, spoilagePerDay: 0 };
-  if (standing && houseBuilt(household)) {
+  // A house of pieces: what its finished pens and the pieces about them give (sim/houseplot.mjs).
+  const built = standing && pieced(household) ? plotShelter(household.house.pieces) : null;
+  if (built) {
+    const crowded = sleepers(world, household) > built.room;
+    return { kind: 'house', layout: plotLayout(household.house.pieces), restShare: crowded ? Math.round(built.restShare * CROWDED_SHARE * 10000) / 10000 : built.restShare, spoilagePerDay: built.spoilagePerDay, ...(crowded && { crowded: true }) };
+  }
+  if (standing && !pieced(household) && houseBuilt(household)) {
     const choice = HOUSES[household.house.layout];
     const crowded = sleepers(world, household) > choice.room;
     return { kind: 'house', layout: choice.id, restShare: crowded ? choice.restShare * CROWDED_SHARE : choice.restShare, spoilagePerDay: choice.spoilagePerDay, ...(crowded && { crowded: true }) };
@@ -294,8 +363,21 @@ export function shelterOf(world, household) {
  */
 export function houseProjection(world, household) {
   const plan = houseOf(household);
-  const choosing = !houseBuilt(household) && !(plan && plan.work > 0) && !(!plan && improvementsOf(household).cabin === 'sound');
   const shelter = shelterOf(world, household);
+  if (pieced(household) || (plotted(world) && !plan?.layout)) {
+    const pieces = plan?.pieces || [];
+    const begun = pieces.some(p => p.stage > 0 || p.progress > 0);
+    const planned = plotShelter(pieces, { built: false });
+    return {
+      plot: true,
+      ...(plan && { house: { plan: plan.plan, pieces: pieces.map(p => [p.type, p.x, p.y, p.stage, p.progress]), stage: stageOf(household), phase: phaseOf(household), ...(!houseBuilt(household) && { why: buildRefusal(household) }) } }),
+      ...(shelter.layout && { home: { restShare: shelter.restShare, spoilagePerDay: shelter.spoilagePerDay, ...(shelter.crowded && { crowded: true }) } }),
+      // What the whole plan would do and still wants, so the plot says it while it is being laid out and built.
+      ...(pieces.length && { planned: { ...(planned || {}), ...plotNeeds(pieces) } }),
+      ...(!begun && !(!plan && improvementsOf(household).cabin === 'sound') && { choices: PLAN_IDS.map(id => { const why = planRefusal(world, household, id); return why ? { id, can: false, why } : { id, can: true }; }) }),
+    };
+  }
+  const choosing = !houseBuilt(household) && !(plan && plan.work > 0) && !(!plan && improvementsOf(household).cabin === 'sound');
   return {
     ...(plan && { house: { layout: plan.layout, work: plan.work, total: HOUSES[plan.layout].work, stage: stageOf(household), phase: phaseOf(household) } }),
     // What the finished house does for the family, in numbers, on its own land line (`FIC-GONZ-008`).
@@ -332,6 +414,11 @@ export function landView(household) {
   const plan = houseOf(household);
   const cabin = improvementsOf(household).cabin;
   if (cabin === 'ruined') return { shelter: 'ruined' };
+  if (pieced(household)) {
+    const layout = plotLayout(plan.pieces);
+    if (cabin === 'sound') return { shelter: 'house', layout };
+    return plan.pieces.some(p => p.stage > 0 || p.progress > 0) ? { shelter: 'building', layout, phase: plotPhase(plan.pieces) } : { shelter: 'camp' };
+  }
   if (cabin === 'sound') return plan ? { shelter: 'house', layout: plan.layout } : { shelter: 'house' };
   // Seen going up, it is remembered at the stage it had reached. A class saved before stages has none, and is drawn at its site.
   if (plan && plan.work > 0) return { shelter: 'building', layout: plan.layout, phase: phaseOf(household) };
@@ -340,7 +427,11 @@ export function landView(household) {
 
 /** The house record, and what this household has seen of others, are well formed. */
 export function houseInvalid(world, household) {
-  if (household.house !== undefined) {
+  if (pieced(household)) {
+    const why = plotInvalid(household.house);
+    if (why) return why;
+    if (household.house.pieces.some(p => PIECES[p.type].pen && pieceDone(p)) && improvementsOf(household).cabin === 'none') return 'A finished house with no roof';
+  } else if (household.house !== undefined) {
     const choice = HOUSES[household.house?.layout];
     if (!choice || !Number.isInteger(household.house.work) || household.house.work < 0 || household.house.work > choice.work) return 'Invalid house';
     if (household.house.work >= choice.work && improvementsOf(household).cabin === 'none') return 'A finished house with no roof';

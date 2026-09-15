@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **599 usable sprites, 41 PNG atlases, 254 clips** (117 pose cycles; 4 layered rigs).
+Generated from the shipped library: **663 usable sprites, 45 PNG atlases, 283 clips** (134 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -12,15 +12,19 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 
 | Atlas | Frames | Size | PNG bytes |
 | --- | ---: | --- | ---: |
+| people-cast2-care | 16 | 1254 × 1254 | 1382974 |
+| people-cast2-search-trade | 16 | 1254 × 1254 | 1289372 |
 | people-cast2-work | 16 | 1254 × 1254 | 1279315 |
 | people-cast2-idle | 16 | 1254 × 1254 | 1103935 |
 | people-children-idle | 16 | 1254 × 1254 | 1351105 |
 | people-children-walk | 12 | 1254 × 1254 | 1127437 |
 | people-children-care | 12 | 1254 × 1254 | 1425070 |
+| land-clearing | 16 | 1254 × 1254 | 904975 |
 | courier-dismount | 16 | 1254 × 1254 | 1219584 |
 | courier-encounters-vertical | 16 | 1254 × 1254 | 1034014 |
 | people-dialogue | 16 | 1254 × 1254 | 1237850 |
 | houses-settling | 16 | 1254 × 1254 | 1507240 |
+| animal-stock | 16 | 1254 × 1254 | 946031 |
 | home-furnishings | 16 | 1254 × 1254 | 1795581 |
 | home-interiors | 4 | 1254 × 1254 | 1850877 |
 | courier-encounters | 16 | 1254 × 1254 | 1697901 |
@@ -58,6 +62,38 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 
 | Sprite ID | Atlas | Animation clips |
 | --- | --- | --- |
+| rust-woman-rest-pose | people-cast2-care | rust-woman-rest |
+| rust-woman-injured-pose | people-cast2-care | rust-woman-injured-rest |
+| rust-woman-care-1 | people-cast2-care | rust-woman-care |
+| rust-woman-care-2 | people-cast2-care | rust-woman-care |
+| indigo-rest-pose | people-cast2-care | indigo-rest |
+| indigo-injured-pose | people-cast2-care | indigo-injured-rest |
+| indigo-care-1 | people-cast2-care | indigo-care |
+| indigo-care-2 | people-cast2-care | indigo-care |
+| ochre-rest-pose | people-cast2-care | ochre-rest |
+| ochre-injured-pose | people-cast2-care | ochre-injured-rest |
+| ochre-care-1 | people-cast2-care | ochre-care |
+| ochre-care-2 | people-cast2-care | ochre-care |
+| blue-girl-rest-pose | people-cast2-care | blue-girl-rest |
+| blue-girl-injured-pose | people-cast2-care | blue-girl-injured-rest |
+| blue-girl-care-1 | people-cast2-care | blue-girl-care |
+| blue-girl-care-2 | people-cast2-care | blue-girl-care |
+| rust-woman-search-1 | people-cast2-search-trade | rust-woman-search |
+| rust-woman-search-2 | people-cast2-search-trade | rust-woman-search |
+| rust-woman-trade-1 | people-cast2-search-trade | rust-woman-trade |
+| rust-woman-trade-2 | people-cast2-search-trade | rust-woman-trade |
+| indigo-search-1 | people-cast2-search-trade | indigo-search |
+| indigo-search-2 | people-cast2-search-trade | indigo-search |
+| indigo-trade-1 | people-cast2-search-trade | indigo-trade |
+| indigo-trade-2 | people-cast2-search-trade | indigo-trade |
+| ochre-search-1 | people-cast2-search-trade | ochre-search |
+| ochre-search-2 | people-cast2-search-trade | ochre-search |
+| ochre-trade-1 | people-cast2-search-trade | ochre-trade |
+| ochre-trade-2 | people-cast2-search-trade | ochre-trade |
+| blue-girl-search-1 | people-cast2-search-trade | blue-girl-search |
+| blue-girl-search-2 | people-cast2-search-trade | blue-girl-search |
+| blue-girl-trade-1 | people-cast2-search-trade | blue-girl-trade |
+| blue-girl-trade-2 | people-cast2-search-trade | blue-girl-trade |
 | rust-woman-work-1 | people-cast2-work | rust-woman-work |
 | rust-woman-work-2 | people-cast2-work | rust-woman-work |
 | rust-woman-work-3 | people-cast2-work | rust-woman-work |
@@ -130,6 +166,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | smallchild-rest-e-pose | people-children-care | smallchild-rest-e |
 | smallchild-injured-s-pose | people-children-care | smallchild-injured-rest, smallchild-injured-rest-s |
 | smallchild-injured-e-pose | people-children-care | smallchild-injured-rest-e |
+| stump-post-oak | land-clearing | State artwork; no motion required |
+| stump-hollow-oak | land-clearing | State artwork; no motion required |
+| stump-cottonwood | land-clearing | State artwork; no motion required |
+| stump-cottonwood-small | land-clearing | State artwork; no motion required |
+| survey-stake | land-clearing | State artwork; no motion required |
+| survey-blazed-post | land-clearing | State artwork; no motion required |
+| survey-stone-corner | land-clearing | State artwork; no motion required |
+| survey-tied-stake | land-clearing | State artwork; no motion required |
+| clearing-smoulder-1 | land-clearing | clearing-smoulder |
+| clearing-smoulder-2 | land-clearing | clearing-smoulder |
+| clearing-smoulder-3 | land-clearing | clearing-smoulder |
+| clearing-smoulder-4 | land-clearing | clearing-smoulder |
+| clearing-brush-green | land-clearing | State artwork; no motion required |
+| clearing-brush-dry | land-clearing | State artwork; no motion required |
+| clearing-ash | land-clearing | State artwork; no motion required |
+| clearing-branches | land-clearing | State artwork; no motion required |
 | courier-dismount-1 | courier-dismount | courier-dismount |
 | courier-dismount-2 | courier-dismount | courier-dismount |
 | courier-dismount-3 | courier-dismount | courier-dismount |
@@ -194,6 +246,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | house-jacal-walls | houses-settling | State artwork; no motion required |
 | house-jacal-roofing | houses-settling | State artwork; no motion required |
 | house-jacal | houses-settling | State artwork; no motion required |
+| cattle-longhorn-red-1 | animal-stock | cattle-longhorn-red-idle, cattle-longhorn-red-graze |
+| cattle-longhorn-red-2 | animal-stock | cattle-longhorn-red-graze |
+| cattle-longhorn-red-3 | animal-stock | cattle-longhorn-red-graze |
+| cattle-longhorn-red-4 | animal-stock | cattle-longhorn-red-graze |
+| cattle-longhorn-pied-1 | animal-stock | cattle-longhorn-pied-idle, cattle-longhorn-pied-graze |
+| cattle-longhorn-pied-2 | animal-stock | cattle-longhorn-pied-graze |
+| cattle-longhorn-pied-3 | animal-stock | cattle-longhorn-pied-graze |
+| cattle-longhorn-pied-4 | animal-stock | cattle-longhorn-pied-graze |
+| cattle-longhorn-dun-1 | animal-stock | cattle-longhorn-dun-idle, cattle-longhorn-dun-graze |
+| cattle-longhorn-dun-2 | animal-stock | cattle-longhorn-dun-graze |
+| cattle-longhorn-dun-3 | animal-stock | cattle-longhorn-dun-graze |
+| cattle-longhorn-dun-4 | animal-stock | cattle-longhorn-dun-graze |
+| hog-1 | animal-stock | hog-idle, hog-root |
+| hog-2 | animal-stock | hog-root |
+| hog-3 | animal-stock | hog-root |
+| hog-4 | animal-stock | hog-root |
 | home-table | home-furnishings | State artwork; no motion required |
 | home-bench | home-furnishings | State artwork; no motion required |
 | home-bedstead | home-furnishings | State artwork; no motion required |
@@ -662,6 +730,26 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 
 | Clip | Method | Frames | Duration (ms) | Loop | Direction |
 | --- | --- | ---: | ---: | --- | --- |
+| rust-woman-rest | breathe | 1 | 2500 | yes | east; west by mirroring |
+| rust-woman-injured-rest | breathe | 1 | 3000 | yes | east; west by mirroring |
+| rust-woman-care | Pose cycle | 2 | 840 | yes | east; west by mirroring |
+| rust-woman-search | Pose cycle | 2 | 1800 | yes | east; west by mirroring |
+| rust-woman-trade | Pose cycle | 2 | 1200 | yes | east; west by mirroring |
+| indigo-rest | breathe | 1 | 2500 | yes | east; west by mirroring |
+| indigo-injured-rest | breathe | 1 | 3000 | yes | east; west by mirroring |
+| indigo-care | Pose cycle | 2 | 840 | yes | east; west by mirroring |
+| indigo-search | Pose cycle | 2 | 1800 | yes | east; west by mirroring |
+| indigo-trade | Pose cycle | 2 | 1200 | yes | east; west by mirroring |
+| ochre-rest | breathe | 1 | 2500 | yes | east; west by mirroring |
+| ochre-injured-rest | breathe | 1 | 3000 | yes | east; west by mirroring |
+| ochre-care | Pose cycle | 2 | 840 | yes | east; west by mirroring |
+| ochre-search | Pose cycle | 2 | 1800 | yes | east; west by mirroring |
+| ochre-trade | Pose cycle | 2 | 1200 | yes | east; west by mirroring |
+| blue-girl-rest | breathe | 1 | 2500 | yes | east; west by mirroring |
+| blue-girl-injured-rest | breathe | 1 | 3000 | yes | east; west by mirroring |
+| blue-girl-care | Pose cycle | 2 | 840 | yes | east; west by mirroring |
+| blue-girl-search | Pose cycle | 2 | 1800 | yes | east; west by mirroring |
+| blue-girl-trade | Pose cycle | 2 | 1200 | yes | east; west by mirroring |
 | rust-woman-work | Pose cycle | 4 | 800 | yes | east; west by mirroring |
 | indigo-work | Pose cycle | 4 | 800 | yes | east; west by mirroring |
 | ochre-work | Pose cycle | 4 | 800 | yes | east; west by mirroring |
@@ -719,6 +807,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | infant-rest | breathe | 1 | 3000 | yes | south |
 | infant-idle-w | breathe | 1 | 3000 | yes | west |
 | infant-idle-e | breathe | 1 | 3000 | yes | east |
+| clearing-smoulder | Pose cycle | 4 | 2000 | yes | stationary |
 | courier-dismount | Pose cycle | 4 | 2050 | one-shot | east; west by mirroring |
 | courier-remount | Pose cycle | 4 | 2050 | one-shot | east; west by mirroring |
 | courier-onfoot-listen | Pose cycle | 3 | 2050 | yes | east; west by mirroring |
@@ -745,6 +834,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | blue-speak | Pose cycle | 2 | 1400 | yes | east; west by mirroring |
 | blue-listen-s | breathe | 1 | 2200 | yes | south |
 | blue-listen-n | breathe | 1 | 2200 | yes | north |
+| cattle-longhorn-red-idle | breathe | 1 | 2200 | yes | east; west by mirroring |
+| cattle-longhorn-red-graze | Pose cycle | 6 | 5100 | yes | east; west by mirroring |
+| cattle-longhorn-pied-idle | breathe | 1 | 2200 | yes | east; west by mirroring |
+| cattle-longhorn-pied-graze | Pose cycle | 6 | 5100 | yes | east; west by mirroring |
+| cattle-longhorn-dun-idle | breathe | 1 | 2200 | yes | east; west by mirroring |
+| cattle-longhorn-dun-graze | Pose cycle | 6 | 5100 | yes | east; west by mirroring |
+| hog-idle | breathe | 1 | 2200 | yes | east; west by mirroring |
+| hog-root | Pose cycle | 6 | 5100 | yes | east; west by mirroring |
 | home-chest-opening | Pose cycle | 2 | 1000 | one-shot | east; west by mirroring |
 | home-cradle-rock | rock | 1 | 2000 | yes | east; west by mirroring |
 | mounted-courier-listen | Pose cycle | 4 | 1600 | yes | east; west by mirroring |

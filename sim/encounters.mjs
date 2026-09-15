@@ -268,7 +268,11 @@ export function nearestAlong(points, from, to, target) {
 
 /** Where, if anywhere, this carrier came within speaking distance of this person. */
 function approachTo(world, carrier, person) {
-  const travel = carrier.travel;
+  const here = carrier.location;
+  // Come to the end of the leg this tick: the family standing at the place is met there, and anybody on the stretch just
+  // ridden is looked for along it, as for a rider still on the road.
+  if (!carrier.travel && here.siteId && here.siteId === person.location.siteId) return { distance: 0, point: { x: here.x, y: here.y } };
+  const travel = carrier.travel || carrier.report?.lastLeg;
   if (travel && !travel.halted) {
     const from = Math.min(travel.scannedProgress || 0, travel.progress);
     const near = nearestAlong(travel.points, from, travel.progress, person.location);
@@ -277,7 +281,6 @@ function approachTo(world, carrier, person) {
     return near;
   }
   // Standing still: at the cabin door, or already halted at somebody's shoulder.
-  const here = carrier.location;
   if (here.siteId && here.siteId === person.location.siteId) return { distance: 0, point: { x: here.x, y: here.y } };
   const distance = between(here, person.location);
   if (distance > EARSHOT_MILES || blockedByWater(world, here, person.location)) return null;
@@ -459,7 +462,8 @@ export function advanceEncounters(world) {
     // is the same rule that ended the errand above - one rule, in `sim/knowledge.mjs`, so
     // a rider deciding whether to speak and the journal deciding whether to write it down
     // can never disagree.
-    const stretch = carrier.travel && !carrier.travel.halted ? carrier.travel.progress - Math.min(carrier.travel.scannedProgress || 0, carrier.travel.progress) : 0;
+    const moving = carrier.travel || report.lastLeg;
+    const stretch = moving && !moving.halted ? moving.progress - Math.min(moving.scannedProgress || 0, moving.progress) : 0;
     let best = null;
     for (const household of Object.values(world.households)) {
       if (ownOnly && household.id !== report.audience) continue;
@@ -479,7 +483,19 @@ export function advanceEncounters(world) {
       }
     }
     // The stretch is only marked as looked at once both passes have looked at it.
-    if (!best) { if (!ownOnly && carrier.travel) carrier.travel.scannedProgress = carrier.travel.progress; continue; }
+    if (!best) {
+      if (!ownOnly && carrier.travel) carrier.travel.scannedProgress = carrier.travel.progress;
+      if (!ownOnly) delete report.lastLeg;
+      continue;
+    }
+    // Met short of the place the leg ended at: back on that road where they came alongside, halted, to finish the ride
+    // after. Met at the place itself, they are simply there.
+    const leg = report.lastLeg;
+    delete report.lastLeg;
+    if (!carrier.travel && leg && Number.isFinite(best.near.progress) && best.near.progress < leg.distance - 1e-9) {
+      carrier.travel = { ...leg };
+      carrier.task = 'travel';
+    }
     if (carrier.travel && Number.isFinite(best.near.progress)) {
       // Stop where they actually came alongside, not where the tick would have carried
       // them. Never past what was already scanned, so a rider only ever slows down.
@@ -490,6 +506,9 @@ export function advanceEncounters(world) {
     }
     opened.push(begin(world, carrier, best.person, best.near.point, best.householdId));
   }
+  // A leg nobody was looked for along (a rider mid-conversation, or carrying word for a family gone from the class) is not
+  // kept for a later tick to search with people who have moved since.
+  for (const entity of Object.values(world.entities)) if (entity.report?.lastLeg) delete entity.report.lastLeg;
   return opened;
 }
 

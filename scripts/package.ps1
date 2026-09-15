@@ -29,9 +29,12 @@ param(
   [switch]$SkipLauncher
 )
 $ErrorActionPreference = 'Stop'
+if ($Stamp -notmatch '^[A-Za-z0-9][A-Za-z0-9._-]*$') { throw 'Stamp must be a plain release identifier, not a path.' }
 $root = Split-Path -Parent $PSScriptRoot
 $launcherDir = Join-Path $root 'launcher'
-$stage = Join-Path $env:TEMP "tr-package-$Stamp"
+$tempRoot = [IO.Path]::GetFullPath($env:TEMP).TrimEnd('\')
+$stage = [IO.Path]::GetFullPath((Join-Path $tempRoot "tr-package-$Stamp"))
+if (-not $stage.StartsWith($tempRoot + '\', [StringComparison]::OrdinalIgnoreCase)) { throw 'Package staging escaped the temporary directory.' }
 if (Test-Path -LiteralPath $stage) { Remove-Item -LiteralPath $stage -Recurse -Force }
 New-Item -ItemType Directory -Force $stage | Out-Null
 $app = Join-Path $stage 'TexasRevolution'

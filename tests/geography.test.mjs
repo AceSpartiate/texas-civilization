@@ -44,14 +44,50 @@ test('the river is a real barrier: the far bank is reachable only through the fo
   assert.ok(camp.x < ford.x, "Williams's land must lie on the west bank");
 
   // HIST-GONZ-008: the camp sat about seven miles upriver of the contested ford.
-  const upriver = polylineLength(river.points.filter(point => point.y <= ford.y && point.y >= camp.y - 1));
-  assert.ok(upriver > 4 && upriver < 10, `battle site should be roughly seven miles upriver, measured ${upriver.toFixed(1)}`);
+  // Measured along the river, between the points of it nearest the ford and the camp.
+  const alongRiver = point => {
+    let best = { gap: Infinity, at: 0 }, travelled = 0;
+    river.points.slice(1).forEach((b, i) => {
+      const a = river.points[i], length = Math.hypot(b.x - a.x, b.y - a.y);
+      const f = Math.max(0, Math.min(1, ((point.x - a.x) * (b.x - a.x) + (point.y - a.y) * (b.y - a.y)) / (length * length)));
+      const gap = Math.hypot(a.x + (b.x - a.x) * f - point.x, a.y + (b.y - a.y) * f - point.y);
+      if (gap < best.gap) best = { gap, at: travelled + length * f };
+      travelled += length;
+    });
+    return best.at;
+  };
+  const upriver = alongRiver(ford) - alongRiver(camp);
+  assert.ok(upriver > 6 && upriver < 8, `battle site should be roughly seven miles upriver, measured ${upriver.toFixed(1)}`);
   assert.ok(camp.y < ford.y, 'upriver is north of the ford');
 
   for (const home of homesteads(world)) {
     const path = findPath(world.map, home.id, 'williams-camp');
     assert.ok(path, `${home.id} cannot reach the far bank at all`);
-    assert.ok(path.routeIds.some(id => id.includes('ford')), `${home.id} reached the west bank without using the ford`);
+    assert.ok(path.routeIds.some(id => world.map.routes[id].kind === 'crossing'), `${home.id} reached the west bank without using the ford`);
+  }
+});
+
+// Found 2026-09-14: families' tracks ran straight over the Guadalupe to the road, and the bank road from the ford crossed
+// the Guadalupe and the San Marcos again, so a family reached Williams's land without the ford and its wagon was not
+// refused (sim/world.mjs refuses the wagon only a path through the crossing).
+test('no track or bank road crosses a river: the crossing is the one way over, and it crosses the Guadalupe once', () => {
+  const crosses = (a, b, p, q) => {
+    const side = (u, v, w) => Math.sign((v.x - u.x) * (w.y - u.y) - (v.y - u.y) * (w.x - u.x));
+    return side(a, b, p) !== side(a, b, q) && side(p, q, a) !== side(p, q, b);
+  };
+  const over = (route, river) => route.points.slice(1).reduce((n, b, i) => n + river.points.slice(1).filter((q, j) => crosses(route.points[i], b, river.points[j], q)).length, 0);
+  for (const [seed, count] of [['ways-river', 15], ['gonzales-1835', 15], ['range', 5], ['range', 30], ['full-class', 30]]) {
+    const world = createGonzalesWorld(seed, count);
+    const rivers = world.map.terrain.filter(feature => feature.kind === 'river');
+    for (const route of Object.values(world.map.routes)) {
+      for (const river of rivers) {
+        const expected = route.kind === 'crossing' && river.id === 'guadalupe' ? 1 : 0;
+        assert.equal(over(route, river), expected, `${seed}/${count}: ${route.id} (${route.kind}) crosses the ${river.name} ${over(route, river)} times`);
+      }
+    }
+    for (const home of homesteads(world)) {
+      assert.ok(findPath(world.map, home.id, 'williams-camp').routeIds.some(id => world.map.routes[id].kind === 'crossing'), `${seed}/${count}: ${home.id} reaches Williams's land without the crossing`);
+    }
   }
 });
 

@@ -34,13 +34,14 @@ export const promptEntries=[
     "sheet": "animal-stock",
     "promptId": "frontier-v1/animal-stock",
     "tool": "built-in image_gen.imagegen",
-    "mode": "generate",
+    "mode": "generate with spacing correction edit",
     "prompt": "Historical-scene production game sprite atlas1254x1254, exactly4columns4rows, sixteen isolated figures. Genuine RGBA transparent background with no checkerboard or solid background, no scenery/text/labels/ground/shadows. Warm outlined rustic illustrated farm-game art, dark earthy brown contours, small readable shading, slight elevated sideview facingEAST. Each row SAME individual animal four grounded poses at identical size and baseline. Row1 Texas longhorn cattle reddish-brown coat with pale underbelly and long outwardcurving horns: neutral idle headup, lower headhalfway, grazing muzzle down, grazing slightneckshift. Row2 same longhorn type dark brown/white piebaldcoat: same4poses. Row3 same longhorntype duncreamcoat: same4poses. Row4 lean darkcharcoal/brown earlyfrontier hog with bristledback, long snout, narrowbody, small ears (not pink modern pig): neutralidle, loweringsnout, rootinggroundsnoutleft, rootinggroundsnoutright. Hooves planted across allposes; no sliding no growth. Each completefigure fitsinside its equalcell with generous20pxgutters; horns/tailsnotcroppedoroverlap. Appropriate 1835 Texas livestock illustrations, not claimof documented individual breed pedigree. No ox yoke or cart. Cohesive gameassets not photoreal.",
-    "correctionPrompts": [],
-    "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7701e17e-d425-41de-972d-b340bbd19e0b.png",
+    "correctionPrompts": ["Edit this 4x4 sprite atlas only for safe spacing. Keep all sixteen complete animals and poses in the same order. Shrink each entire animal uniformly to 80% of its current size, centered in its own cell. All horns, tails and hooves must be fully inside their individual cell with at least 24 pixels of transparent margin. Preserve warm outlined art, colors, three longhorn coats and hog, all four grazing poses, exact square canvas and genuinely transparent RGBA background. No checkerboard. No new poses or text."],
+    "correctionReferencePaths": ["C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7701e17e-d425-41de-972d-b340bbd19e0b.png"],
+    "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9542aa4a-4af2-4082-8377-633139f54ec4.png",
     "runtimeFile": "public/assets/frontier-v1/atlases/animal-stock.png",
     "postProcessing": "None. Original PNG copied unchanged; alpha measured only.",
-    "review": "Three longhorn coats and lean bristled hog. Generic period livestock; idle and grazing/rooting key poses."
+    "review": "Three longhorn coats and lean bristled hog. Generic period livestock; idle and grazing/rooting key poses. Corrected spacing passes all sixteen frame bounds with zero trimmed pixels, 76.5106% fully transparent pixels and transparent corners. Prior source withheld for horn overlap."
   },
   {
     "sheet": "home-furnishings",

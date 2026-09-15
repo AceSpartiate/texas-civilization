@@ -56,14 +56,15 @@ test('somebody on foot or horseback cuts across open country when that is quicke
   }
 });
 
-// ceiling: on the invented map some families' own tracks already cross the Guadalupe (sim/geography.mjs), so a family
-// there may reach the west bank without the ford; what is tested is that nobody swims a river across country.
+// On the invented map no track or bank road crosses a river (tests/geography.test.mjs), so a way to the west bank that
+// swims nothing goes by the ford.
 test('a big river is crossed only where a road crosses it, on the invented map and on the real land', () => {
   const invented = createSettledWorld('ways-river', 15);
   const rivers = invented.map.terrain.filter(feature => feature.kind === 'river');
   for (const household of Object.values(invented.households)) {
     for (const mode of ['foot', 'horse']) {
       const way = findWay(invented, household.homeSiteId, 'williams-camp', mode);
+      assert.ok(way.routeIds.some(id => invented.map.routes[id].kind === 'crossing'), `${household.homeSiteId} ${mode} reaches Williams's land without the ford`);
       for (const [a, b] of acrossStretches(invented, way)) {
         for (const river of rivers) assert.ok(!river.points.slice(1).some((q, i) => crosses(a, b, river.points[i], q)), `${household.homeSiteId} ${mode} swims the ${river.name}`);
       }

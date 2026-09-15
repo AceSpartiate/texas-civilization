@@ -12,6 +12,7 @@ import { siteFactsFor } from '../sim/homesite.mjs';
 import { plotFacts } from '../sim/survey.mjs';
 import { wagonCatalogue } from '../sim/wagon.mjs';
 import { houseCatalogue } from '../sim/houses.mjs';
+import { plotCatalogue } from '../sim/houseplot.mjs';
 import { woodsCatalogue, woodsTile } from '../sim/woods-view.mjs';
 import { huntFacts } from '../sim/hunting.mjs';
 import { fellFacts } from '../sim/felling.mjs';
@@ -36,7 +37,11 @@ const files = new Map([
   ['/alamo-collapse.js', ['../public/alamo-collapse.js', 'text/javascript']],
   ['/bexar-layout.js', ['../public/bexar-layout.js', 'text/javascript']],
   ['/bexar-art.js', ['../public/bexar-art.js', 'text/javascript']],
+  ['/field-art.js', ['../public/field-art.js', 'text/javascript']],
+  ['/gonzales-art.js', ['../public/gonzales-art.js', 'text/javascript']],
+  ['/landscape-art.js', ['../public/landscape-art.js', 'text/javascript']],
   ['/woods-view.js', ['../public/woods-view.js', 'text/javascript']],
+  ['/house-plot.js', ['../public/house-plot.js', 'text/javascript']],
   ['/alamo-workshop.html', ['../public/alamo-workshop.html', 'text/html']],
   ['/alamo-workshop.js', ['../public/alamo-workshop.js', 'text/javascript']],
   ['/alamo-workshop.css', ['../public/alamo-workshop.css', 'text/css']],
@@ -354,7 +359,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       }
       // The list of work that exists never changes during a class; only who may do it
       // does, and that rides on the tick. Same reason the map is fetched once.
-      if (req.method === 'GET' && url.pathname === '/api/chores') return json(res, 200, { mapId: state.sessionId, chores: choreCatalogue(), modes: modeCatalogue(), goods: GOODS, wagon: wagonCatalogue(), houses: houseCatalogue(), woods: woodsCatalogue() });
+      if (req.method === 'GET' && url.pathname === '/api/chores') return json(res, 200, { mapId: state.sessionId, chores: choreCatalogue(), modes: modeCatalogue(), goods: GOODS, wagon: wagonCatalogue(), houses: houseCatalogue(), plot: plotCatalogue(), woods: woodsCatalogue() });
       // Who this family is. Theirs and nobody else's, so it is read from the identity on
       // the cookie rather than from anything the request could ask for.
       if (req.method === 'GET' && url.pathname === '/api/family') {

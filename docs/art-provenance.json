@@ -501,13 +501,18 @@
       "sheet": "animal-stock",
       "promptId": "frontier-v1/animal-stock",
       "tool": "built-in image_gen.imagegen",
-      "mode": "generate",
+      "mode": "generate with spacing correction edit",
       "prompt": "Historical-scene production game sprite atlas1254x1254, exactly4columns4rows, sixteen isolated figures. Genuine RGBA transparent background with no checkerboard or solid background, no scenery/text/labels/ground/shadows. Warm outlined rustic illustrated farm-game art, dark earthy brown contours, small readable shading, slight elevated sideview facingEAST. Each row SAME individual animal four grounded poses at identical size and baseline. Row1 Texas longhorn cattle reddish-brown coat with pale underbelly and long outwardcurving horns: neutral idle headup, lower headhalfway, grazing muzzle down, grazing slightneckshift. Row2 same longhorn type dark brown/white piebaldcoat: same4poses. Row3 same longhorntype duncreamcoat: same4poses. Row4 lean darkcharcoal/brown earlyfrontier hog with bristledback, long snout, narrowbody, small ears (not pink modern pig): neutralidle, loweringsnout, rootinggroundsnoutleft, rootinggroundsnoutright. Hooves planted across allposes; no sliding no growth. Each completefigure fitsinside its equalcell with generous20pxgutters; horns/tailsnotcroppedoroverlap. Appropriate 1835 Texas livestock illustrations, not claimof documented individual breed pedigree. No ox yoke or cart. Cohesive gameassets not photoreal.",
-      "correctionPrompts": [],
-      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7701e17e-d425-41de-972d-b340bbd19e0b.png",
+      "correctionPrompts": [
+        "Edit this 4x4 sprite atlas only for safe spacing. Keep all sixteen complete animals and poses in the same order. Shrink each entire animal uniformly to 80% of its current size, centered in its own cell. All horns, tails and hooves must be fully inside their individual cell with at least 24 pixels of transparent margin. Preserve warm outlined art, colors, three longhorn coats and hog, all four grazing poses, exact square canvas and genuinely transparent RGBA background. No checkerboard. No new poses or text."
+      ],
+      "correctionReferencePaths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7701e17e-d425-41de-972d-b340bbd19e0b.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9542aa4a-4af2-4082-8377-633139f54ec4.png",
       "runtimeFile": "public/assets/frontier-v1/atlases/animal-stock.png",
       "postProcessing": "None. Original PNG copied unchanged; alpha measured only.",
-      "review": "Three longhorn coats and lean bristled hog. Generic period livestock; idle and grazing/rooting key poses."
+      "review": "Three longhorn coats and lean bristled hog. Generic period livestock; idle and grazing/rooting key poses. Corrected spacing passes all sixteen frame bounds with zero trimmed pixels, 76.5106% fully transparent pixels and transparent corners. Prior source withheld for horn overlap."
     },
     {
       "sheet": "home-furnishings",
@@ -546,6 +551,49 @@
       "promptId": "frontier-v1/people-cast2-work",
       "postProcessing": "None. Original PNG copied unchanged on acceptance.",
       "review": "Four distinct hoe phases per identity; genuine RGBA. Gameplay binding awaits complete identity action sets."
+    },
+    {
+      "sheet": "land-clearing",
+      "promptId": "frontier-v1/land-clearing",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate and spacing edit",
+      "reference": "public/assets/frontier-v1/atlases/nature.png",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-9092d594-d0f1-498c-9bdd-c8583fc44889.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/land-clearing.png",
+      "postProcessing": "None. Generated original copied unchanged.",
+      "generationHistory": [
+        {
+          "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-4bd2cf77-a32c-4662-8d31-7fa84eefccdf.png",
+          "review": "Superseded by spacing correction."
+        }
+      ],
+      "review": "Sixteen isolated clearing and survey pieces. Four authored smoke poses; timber stumps and dry brush are static state art."
+    },
+    {
+      "sheet": "people-cast2-care",
+      "promptId": "frontier-v1/people-cast2-care",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a09f7b-6a62-7370-b596-a9fc91f4b0d4/exec-ac612f32-1bd2-41ac-91e0-f6fd9a9e62f9.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a09f7b-6a62-7370-b596-a9fc91f4b0d4/exec-b088a733-57c6-4857-8d08-268a7208bae1.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-cast2-care.png",
+      "postProcessing": "None. Original PNG copied unchanged; source originals preserved. Only read-only alpha measurement.",
+      "review": "Accepted after visual review and read-only RGBA validation. Sixteen complete identity-consistent figures, distinct action poses, no painted backdrop."
+    },
+    {
+      "sheet": "people-cast2-search-trade",
+      "promptId": "frontier-v1/people-cast2-search-trade",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a09f7b-6a62-7370-b596-a9fc91f4b0d4/exec-ac612f32-1bd2-41ac-91e0-f6fd9a9e62f9.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a09f7b-6a62-7370-b596-a9fc91f4b0d4/exec-d0bdc366-aa04-469e-bbd4-785076bd1c9f.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-cast2-search-trade.png",
+      "postProcessing": "None. Original PNG copied unchanged; source originals preserved. Only read-only alpha measurement.",
+      "review": "Accepted after visual review and read-only RGBA validation. Sixteen complete identity-consistent figures, distinct action poses, no painted backdrop."
     }
   ],
   "rejectedAttempts": [

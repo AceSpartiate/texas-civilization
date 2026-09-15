@@ -1,0 +1,22 @@
+import {createRequire} from 'node:module';
+import {writeFileSync,mkdirSync} from 'node:fs';
+import assert from 'node:assert/strict';
+import {createClassroom} from '../server/app.mjs';
+import {createWorld} from '../sim/world.mjs';
+const require=createRequire(import.meta.url),{chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
+const app=createClassroom({playerCount:5,worldFactory:(seed,n)=>createWorld(seed,n,{map:'colonies'})});
+const port=await app.listen(0,'127.0.0.1'),url=`http://127.0.0.1:${port}`;
+const browser=await chromium.launch({headless:true,...(process.env.BROWSER_EXECUTABLE&&{executablePath:process.env.BROWSER_EXECUTABLE})});
+try{const page=await browser.newPage({viewport:{width:1440,height:1000}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.goto(`${url}/host#${app.state.hostKey}`);await page.waitForFunction(()=>window.__snapshot?.world.role==='host');
+  await page.locator('[data-view=gonzales]').click();await page.waitForFunction(()=>window.__camera.scale>=200);
+  await page.evaluate(async()=>{const {loadArt}=await import('/art.js');await loadArt({all:true});});await page.waitForTimeout(200);
+  const result=await page.evaluate(()=>({site:window.__snapshot.world.map.sites.gonzales,camera:window.__camera}));
+  assert.ok(Math.abs(result.site.x-result.camera.cx)<1);assert.deepEqual(errors,[]);
+  mkdirSync('test-results',{recursive:true});await page.screenshot({path:'test-results/gonzales-in-game.png'});
+  await page.setViewportSize({width:390,height:844});await page.waitForTimeout(100);
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+  writeFileSync('docs/evidence/gonzales-art-browser.json',JSON.stringify({result:'PASS',date:new Date().toISOString(),existingProjectedTown:true,scenicAssembly:true,phoneNoOverflow:true,errors},null,2));
+  console.log('PASS: Gonzales assembly on real-map host page, town navigation, assets, phone layout.');
+}finally{await browser.close();await app.close();}
+

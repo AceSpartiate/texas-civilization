@@ -71,7 +71,9 @@ test('how far a family lives from Gonzales is how long it waits to hear', () => 
   for (const { id } of sent) if (!knows(world, id) && !carrierTo(world, id)) soloDispatch(world, id);
   const departed = world.minute;
   advance(world, 60);
-  const heard = sent.filter(s => knows(world, s.id) && knows(world, s.id).receivedMinute > departed)
+  // Told at their own door: somebody out on the road meets the rider sooner, which is the next test's business.
+  const toldAtHome = id => Object.values(world.encounters).some(e => e.householdId === id && e.place.siteId === world.households[id].homeSiteId);
+  const heard = sent.filter(s => knows(world, s.id) && knows(world, s.id).receivedMinute > departed && toldAtHome(s.id))
     .map(s => ({ ...s, waited: knows(world, s.id).receivedMinute - departed }))
     .sort((a, b) => a.distance - b.distance);
   assert.ok(heard.length >= 10, `${heard.length} households heard through a rider`);
@@ -110,7 +112,10 @@ test('news is told to a person, and an empty cabin is told nothing', () => {
 });
 
 test('a rider met on the road is met on the road, by whoever is on it', () => {
-  const world = briefed('road');
+  const world = briefed('road-35');
+  // A family on a track straight from town, so the one rider rides the whole road and no fork hands the word on mid-way.
+  const road = findPath(world.map, 'gonzales', 'home-4');
+  assert.ok(road.nodes.length === 2 && road.distance > 4, 'hh-4 lives more than a morning walk out, with no fork on the way');
   const walker = world.entities['hh-4-mateo'];
   beginTravel(world, walker, 'gonzales', null, 'visit');
   advance(world, 3);
@@ -576,7 +581,7 @@ test('a rider tells whoever they come alongside, and still rides on to the famil
   // One rider in the whole class, so the person who tells the bystander and the person
   // who reaches the gate can be compared. Otherwise another family's rider gets there
   // first - which is the same feature working, and would prove nothing here.
-  const world = createGonzalesWorld('onward', 5);
+  const world = createGonzalesWorld('onward-23', 5);
   world.status = 'running';
   for (const id of Object.keys(world.households)) world.director.dispatches[id] = true;
   while (!world.truth[TOPIC]) stepWorld(world);
@@ -589,6 +594,7 @@ test('a rider tells whoever they come alongside, and still rides on to the famil
   for (let i = 0; i < 40 && carrierTo(world, sent)?.report.destination !== world.households[sent].homeSiteId; i++) stepWorld(world);
   const rider = carrierTo(world, sent);
   assert.equal(rider.report.destination, rider.report.homeSiteId, 'this is the last leg of the ride');
+  assert.ok(rider.travel.distance - rider.travel.progress > rider.travel.speed * 1.5, 'with road enough left for somebody to stand on before the gate');
   // Somebody from another family, standing on the road the rider is about to ride down.
   const spot = pointAlong(rider.travel.points, rider.travel.progress + rider.travel.speed * 0.6);
   const bystander = world.entities[`${other}-rosa`];
@@ -609,8 +615,40 @@ test('a rider tells whoever they come alongside, and still rides on to the famil
   assert.equal(errand.carrierId, rider.id, 'the same rider, the same word, further down the same road');
 });
 
+// Found 2026-09-14: a rider who reached the fork where the word changes hands was never looked at over the stretch ridden
+// that tick. The leg was over, the word went on with the next rider, and somebody standing on that stretch was ridden past.
+test('a rider coming to the fork where the word changes hands still stops for somebody on the last of the road', () => {
+  const world = briefed('road');
+  const legs = findPath(world.map, 'gonzales', 'home-4').nodes.map(node => node.id);
+  assert.ok(legs.includes('road-2'), 'hh-4 lives past a fork of the road');
+  const first = world.entities[soloDispatch(world, 'hh-4')];
+  assert.equal(first.report.destination, 'road-2', 'and the first rider hands the word on there');
+  // Up to the tick in which the rider will reach the fork.
+  while (first.travel.distance - first.travel.progress > first.travel.speed) stepWorld(world);
+  const left = first.travel.distance - first.travel.progress;
+  assert.ok(left > 1, `the last stretch is long enough to stand on (${left.toFixed(2)} miles)`);
+  // Somebody from the family, standing on that stretch, well out of earshot of the fork itself.
+  const spot = pointAlong(first.travel.points, first.travel.progress + left / 2);
+  const mateo = world.entities['hh-4-mateo'];
+  const home = world.households['hh-4'].homeSiteId;
+  mateo.travel = { from: home, to: home, points: [{ x: spot.x, y: spot.y }, { x: spot.x, y: spot.y }], progress: 0, distance: 0, speed: 1, purpose: 'visit', causeId: null, halted: true };
+  mateo.location = { x: spot.x, y: spot.y, siteId: null };
+  stepWorld(world);
+  const met = openFor(world, 'hh-4');
+  assert.ok(met, 'the rider rode past him to the fork');
+  assert.equal(met.listenerId, mateo.id);
+  assert.equal(met.carrierId, first.id, 'told by the rider who came by him, not the next one');
+  assert.equal(met.place.siteId, null, 'on the road, where he stood');
+  assert.ok(first.travel?.halted, 'the rider reined in beside him, short of the fork');
+  assert.ok(!world.events.some(event => event.type === 'relay' && event.actorId === first.id), 'and had not already given the word away');
+  validateWorld(world);
+});
+
 test('a family that already knows is ridden past, and a firmer account is not', () => {
-  const world = briefed('dedup');
+  const world = briefed('dedup-2');
+  // No fork between town and the family: an account handed on at one arrives unconfirmed, and is no firmer than a rumor's
+  // correction needs.
+  assert.equal(findPath(world.map, 'gonzales', 'home-2').nodes.length, 2, 'hh-2 lives on a track straight from town');
   // Something half-heard from somewhere. A rider carrying the confirmed account still has
   // something worth stopping for, which is the correction the document asks not to lose.
   learn(world, 'hh-2', TOPIC, { status: 'rumor', source: 'Something somebody said' });
@@ -695,7 +733,7 @@ test('a rider who has given the word on does not also deliver it', () => {
 });
 
 test('a rider with somewhere still to be does not stand about all day, and one who has arrived will', () => {
-  const world = createGonzalesWorld('waiting', 5);
+  const world = createGonzalesWorld('waiting-13', 5);
   world.status = 'running';
   for (const id of Object.keys(world.households)) world.director.dispatches[id] = true;
   while (!world.truth[TOPIC]) stepWorld(world);
@@ -703,6 +741,7 @@ test('a rider with somewhere still to be does not stand about all day, and one w
   dispatchReport(world, TOPIC, sent);
   for (let i = 0; i < 40 && carrierTo(world, sent)?.report.destination !== world.households[sent].homeSiteId; i++) stepWorld(world);
   const rider = carrierTo(world, sent);
+  assert.ok(rider.travel.distance - rider.travel.progress > rider.travel.speed * 1.5, 'with road enough left for somebody to stand on before the gate');
   const spot = pointAlong(rider.travel.points, rider.travel.progress + rider.travel.speed * 0.6);
   const bystander = world.entities[`${other}-rosa`];
   const home = world.households[other].homeSiteId;

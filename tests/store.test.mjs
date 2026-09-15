@@ -21,6 +21,7 @@ import { COTTON_RATE, CHORES, choreAvailability } from '../sim/chores.mjs';
 import { MODES } from '../sim/travel.mjs';
 import { GOODS } from '../sim/trade.mjs';
 import { traderAt } from '../sim/town.mjs';
+import { findPath } from '../sim/geography.mjs';
 
 const running = (seed = 'store', count = 5) => {
   const built = createSettledWorld(seed, count);
@@ -92,8 +93,10 @@ test('the store takes it, at a rate the control states before anybody sets out',
 test('a bale is worth about twice what it weighs in corn, and only once it reaches town', () => {
   // The whole shape of a cash crop: more at the end, and nothing at all until then.
   assert.ok(COTTON_RATE > 1, 'cotton that trades one for one is corn with extra steps');
-  const world = running('crops');
+  const world = running('crops-9');
   const cotton = growing(world, 'cotton'), corn = growing(world, 'corn');
+  // A cotton family near town, so what it eats on a long road in is not what is weighed here.
+  assert.ok(findPath(world.map, 'gonzales', cotton.homeSiteId).distance < 5, 'the cotton family lives a short drive from the store');
   for (const household of [cotton, corn]) ripen(household);
 
   const cornFood = (() => {

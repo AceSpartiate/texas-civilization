@@ -17,7 +17,7 @@ import { STATES as IMPROVEMENT_STATES, improvementProjection } from './improveme
 import { OLD_PATCHES, plotAt } from './fields.mjs';
 import { advanceArrivals, putOnTheRoad, shelterProjection } from './settling.mjs';
 import { defaultLoad, householdFromLoad, loadInvalid, setLoad, wagonProjection } from './wagon.mjs';
-import { houseInvalid, houseProjection, noteLandSeen, planHouse, recordHelpDone } from './houses.mjs';
+import { editPlot, houseInvalid, houseProjection, noteLandSeen, planHouse, recordHelpDone } from './houses.mjs';
 import { grantInvalid, grantProjection, layOutGrants, setStock } from './grants.mjs';
 import { chooseSite, siteInvalid, siteProjection } from './homesite.mjs';
 import { plotProjection, plotRefusal, plotsInvalid } from './survey.mjs';
@@ -352,6 +352,9 @@ export function progressTravel(world, entity, units = 1) {
     // Ground this tick would have covered past the end of the road. It matters to nobody
     // except a report that is about to change hands, and it goes with the word.
     if (entity.report) entity.report.overflow = moved.left;
+    // The stretch ridden this tick has not been looked at for anybody standing on it yet (sim/encounters.mjs). The leg is
+    // kept until it has, and is gone again by the end of the tick.
+    if (entity.report?.inPerson) entity.report.lastLeg = { ...travel };
     // A journey that knows where in the place its traveller stands and what they do there -
     // today only the family's arrival on its land (sim/settling.mjs) - ends there. Every other
     // journey ends on the place's own point, at rest.
@@ -375,6 +378,9 @@ export function stepWorld(world) {
   advanceArrivals(world);
   // What each family's people can see of the homesteads they are standing on (sim/houses.mjs).
   noteLandSeen(world);
+  // Anybody a rider came by on the road this tick is met before the word changes hands at a fork: a rider who has given
+  // it away has nothing left to say to the man they just rode past.
+  advanceEncounters(world);
   // A rider who has just finished their leg gives the word on in the same tick, so news
   // does not sit at a fork of the road for twenty minutes waiting for the simulation.
   advanceRelays(world);
@@ -527,7 +533,7 @@ export function advanceRelays(world) {
  * offer made to an empty chair - and the historical choices, which do not exist until the
  * news that prompts them has arrived.
  */
-export const LOBBY_ACTIONS = new Set(['survey-plot', 'hunt-land', 'fell-trees', 'clear-plot', 'fence-plot','roll-family', 'load-wagon', 'bring-stock', 'plan-house', 'chore', 'stop-chore', 'answer-chore', 'rename', 'work', 'rest', 'travel']);
+export const LOBBY_ACTIONS = new Set(['survey-plot', 'hunt-land', 'fell-trees', 'place-piece', 'remove-piece', 'clear-plot', 'fence-plot','roll-family', 'load-wagon', 'bring-stock', 'plan-house', 'chore', 'stop-chore', 'answer-chore', 'rename', 'work', 'rest', 'travel']);
 export function applyAction(world, householdId, input) {
   const entity = world.entities[input.entityId];
   const household = world.households[householdId];
@@ -539,6 +545,8 @@ export function applyAction(world, householdId, input) {
   if (input.action === 'bring-stock') { setStock(world, household, input.stock); return; }
   // So is choosing the house, which can be changed until the first spell of work goes into it.
   if (input.action === 'plan-house') { planHouse(world, household, input.layout); return; }
+  // A piece placed on the house plot or an unstarted one taken away (sim/houseplot.mjs).
+  if (input.action === 'place-piece' || input.action === 'remove-piece') { editPlot(world, household, input); return; }
   // And where it stands, on the real land, once the wagon is in (sim/homesite.mjs). It refuses in the lobby itself.
   if (input.action === 'choose-site') { chooseSite(world, household, { x: input.x, y: input.y }); return; }
   // How they go, chosen once and applied to whatever journey this order starts - a trip

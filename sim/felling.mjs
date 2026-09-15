@@ -72,8 +72,9 @@ export function fellFacts(world, household, point) {
   const kinds = [...new Set(trees.map(tree => KINDS[tree.kind].name))].slice(0, 3);
   const stand = STANDS[patchAt(point, options()).stand]?.name || 'timber';
   const wall = trees.filter(tree => tree.use === 'wall').reduce((sum, tree) => sum + tree.logs, 0);
+  const sound = wall + trees.filter(tree => tree.use === 'sill').reduce((sum, tree) => sum + tree.logs, 0);
   return {
-    can: true, trees: trees.length, logs, wall,
+    can: true, trees: trees.length, logs, wall, sound,
     words: `${stand.charAt(0).toUpperCase()}${stand.slice(1)} ${whereFromHouse(world, household, point)}: ${trees.length} ${trees.length === 1 ? 'tree' : 'trees'} in reach, ${logs} logs, ${wall} of them straight enough for walls. ${kinds.join(', ')}.`,
   };
 }

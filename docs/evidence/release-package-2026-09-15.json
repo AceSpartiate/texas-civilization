@@ -1,0 +1,21 @@
+{
+  "result": "PASS",
+  "date": "2026-09-15T13:11:21.658Z",
+  "tag": "v2026.09.15.1",
+  "comparedFiles": 120,
+  "routes": [
+    "/",
+    "/app.js",
+    "/house-plot.js",
+    "/landscape-art.js",
+    "/gonzales-art.js",
+    "/bexar-art.js",
+    "/woods-view.js",
+    "/field-art.js",
+    "/assets/frontier-v1/manifest.json",
+    "/assets/frontier-v1/atlases/people-cast2-care.png",
+    "/assets/frontier-v1/atlases/land-clearing.png"
+  ],
+  "packagedRuntime": "v24.18.1",
+  "classDataExcluded": true
+}

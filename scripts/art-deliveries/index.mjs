@@ -10,7 +10,6 @@ const ATLASES = new URL('../../public/assets/frontier-v1/atlases/', import.meta.
 // checks refuse it, and loosening a check for one sheet is not the fix. Held sheets wait like a missing picture does,
 // and the stand-in they would replace stays in use. Remove the entry when the corrected sheet lands.
 export const HELD = Object.freeze({
-  'animal-stock': "layout review: the red longhorn's horns reach into the next cell, and splitting them clips 0.38% of the figure (the build allows 0.25%). Held 2026-09-14; asked for again in docs/ART_REQUESTS.md.",
 });
 const recorded = new Set(JSON.parse(readFileSync(new URL('../../docs/art-provenance.json', import.meta.url), 'utf8')).assetSources.map(entry => entry.sheet));
 export const SHEETS = {}, ANIMATION_CLIPS = {}, promptEntries = [], provenanceEntries = [], notes = [], pending = [];

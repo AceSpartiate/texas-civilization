@@ -81,9 +81,10 @@ test('what the control says is open is exactly what the world will allow', () =>
   // The drift this guards is not hypothetical: "Help - 2 food" used to sit there enabled
   // for a household with one food and fail on the press. The button and the refusal now
   // come from one function, and this is the test that keeps them there.
+  // Each class is one where hh-1 hears the word firm enough to be called, not third-hand as a rumor (sim/directors.mjs).
   const cases = [
     ['thin', world => { world.households['hh-1'].resources.food = 1; }, 'help', /two food/i],
-    ['away', world => {
+    ['away-1', world => {
       const principal = world.entities[world.households['hh-1'].principalId];
       applyAction(world, 'hh-1', { action: 'travel', entityId: principal.id, destination: 'gonzales' });
     }, 'help', /until this person arrives/i],
@@ -92,6 +93,7 @@ test('what the control says is open is exactly what the world will allow', () =>
     const world = running(`allow-${label}`);
     const call = untilCall(world, 'hh-1');
     assert.ok(call, `${label}: nobody was called on`);
+    assert.equal(call.kind, 'supplies', `${label}: hh-1 was asked about a rumor, not called on`);
     arrange(world);
     const after = view(world, 'hh-1').request.options.find(entry => entry.id === option);
     assert.equal(after.can, false, `${label}: the control still offers "${option}"`);

@@ -16,6 +16,10 @@ import { createRelief, sampleReliefGrid } from './terrain.mjs';
 import { buildProvince } from './texas.mjs';
 
 const distance = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+const segmentsCross = (a, b, p, q) => {
+  const side = (u, v, w) => Math.sign((v.x - u.x) * (w.y - u.y) - (v.y - u.y) * (w.x - u.x));
+  return side(a, b, p) !== side(a, b, q) && side(p, q, a) !== side(p, q, b);
+};
 export const polylineLength = points => points.slice(1).reduce((sum, p, i) => sum + distance(p, points[i]), 0);
 
 // A league is 4,428.4 acres: 6.92 square miles, about 2.63 miles on a side. Neighbours
@@ -114,11 +118,17 @@ export function buildGonzalesRegion(random, playerCount, { origin = { x: 0, y: 0
   for (const course of waters) terrain.push({ id: course.id, kind: course.kind, ...(course.name && { name: course.name }), points: course.points });
 
   const town = { x: origin.x + 2.1, y: origin.y + 0.5 };
-  const ford = { x: origin.x + 0.05, y: origin.y + 0.35 };
+  // The ford is on the Guadalupe just above the forks, its site a few yards over on the west bank, so the crossing from the
+  // town carries the one passage of the river and the bank road runs up between the two rivers without crossing either.
+  // Below the forks, the far bank would be south of the San Marcos and Williams's land beyond a second river.
+  const aboveForks = polylineLength(river.points.slice(0, 5));
+  const fordOnRiver = pointAlong(river.points, aboveForks - 0.6);
+  const ford = { x: fordOnRiver.x - 0.04, y: fordOnRiver.y };
   site('gonzales', 'Gonzales', 'town', town);
   // Named "the ford" because no proper name is documented; see HISTORY.md exclusions.
   site('ford', 'The ford', 'ford', ford);
-  const camp = pointAlong(river.points, Math.max(0, polylineLength(river.points.slice(0, 5)) - 7));
+  // About seven miles upriver of the ford (HIST-GONZ-008).
+  const camp = pointAlong(river.points, Math.max(0, aboveForks - 0.6 - 7));
   site('williams-camp', "Ezekiel Williams's land", 'camp', { x: camp.x - 1.3, y: camp.y });
   site('confluence', 'The forks of the rivers', 'confluence', { x: origin.x, y: origin.y });
 
@@ -168,11 +178,27 @@ export function buildGonzalesRegion(random, playerCount, { origin = { x: 0, y: 0
     minX: origin.x - 9, maxX: origin.x + 17,
     minY: origin.y - 27, maxY: origin.y + 26,
   };
-  const places = scatterHomesteads(random, playerCount, waters, bounds);
+  // Every family is on the east bank with the town, and its track to the road crosses no river: the ford is the only way
+  // over (HIST-GONZ-007). A track straight to the road from the far bank would be a second crossing nobody made.
+  // ceiling: the San Marcos gives no frontage on this map (HIST-GONZ-015 offers it), because its banks are all across the
+  // Guadalupe; a west-bank family would need its own road by the ford, and its wagon could never reach town.
+  // ceiling: reads the bank off the river's x at the point's y, which holds only while the drawn Guadalupe runs steadily
+  // north to south; a course that doubles back would need a proper side-of-polyline test.
+  const eastOfGuadalupe = point => {
+    const [first, last] = [river.points[0], river.points.at(-1)];
+    const y = Math.min(last.y, Math.max(first.y, point.y));
+    const i = Math.max(1, river.points.findIndex(p => p.y >= y));
+    const a = river.points[i - 1], b = river.points[i];
+    return point.x > a.x + (b.x - a.x) * ((y - a.y) / ((b.y - a.y) || 1));
+  };
+  const nearestJunction = point => junctions.reduce((best, node) => distance(node, point) < distance(best, point) ? node : best, junctions[0]);
+  const acrossNoRiver = (a, b) => [river, sanMarcos].every(course => !course.points.slice(1).some((q, i) => segmentsCross(a, b, course.points[i], q)));
+  const places = scatterHomesteads(random, playerCount, [river, ...creeks], bounds,
+    candidate => eastOfGuadalupe(candidate) && acrossNoRiver(candidate, nearestJunction(candidate)));
   const homesteads = [];
   places.forEach((place, index) => {
     const home = site(`home-${index + 1}`, `Family ${index + 1} home`, 'homestead', place, { ownerHouseholdId: `hh-${index + 1}` });
-    const nearest = junctions.reduce((best, node) => distance(node, home) < distance(best, home) ? node : best, junctions[0]);
+    const nearest = nearestJunction(home);
     road(nearest.id, home.id, [nearest, home], 'track');
     // The ground a family can break for its crop: a quarter mile square, forty acres, beside the house. The first patch is a
     // quarter of it - ten acres - and every clearing adds as much (sim/improvements.mjs). It was a whole labor, which with the
