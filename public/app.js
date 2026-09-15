@@ -2,6 +2,7 @@
 import { drawSprite, drawClip, clipInfo, hasSprite, loadArt, onArtReady, pickSprite } from '/art.js';
 import { ProjectionMotion, entityClip, travelHeading, travelDirection, figureScale, underARider, mounted, MOUNTED_HEIGHT } from '/motion.js';
 import {drawBexarGround,bexarDrawables} from '/bexar-art.js';
+import { drawWoodsCover, ensureWoods, timberAt, treesInView, treesVisible, woodsShown } from '/woods-view.js';
 const $ = selector => document.querySelector(selector);
 const say = message => { for (const id of ['#error', '#join-error', '#rejoin-error']) { const el = $(id); if (el) el.textContent = message; } };
 const hostPage = location.pathname === '/host';
@@ -56,6 +57,11 @@ let choreCache = null, choreCacheId = null, chorePending = null, modeCache = nul
 let wagonCatalogue = null;
 // The houses a family can choose, and what each needs and does: fixed too, and fetched the same way.
 let houseCatalogue = null;
+// The kinds of tree and the woods' tile sizes (sim/woods-view.mjs): fixed too.
+let woodsCatalogue = null;
+// A woods tile arriving redraws the map once, on the next frame, however many arrive together.
+let woodsRedraw = false;
+const redrawForWoods = () => { if (woodsRedraw) return; woodsRedraw = true; requestAnimationFrame(() => { woodsRedraw = false; if (window.__snapshot) drawWorld(window.__snapshot.world); }); };
 function ensureChores(snapshot) {
   if (!snapshot.mapId || (choreCache && choreCacheId === snapshot.mapId) || chorePending === snapshot.mapId) return;
   chorePending = snapshot.mapId;
@@ -67,6 +73,7 @@ function ensureChores(snapshot) {
     if (result.goods?.length) TRADE_GOODS = result.goods;
     wagonCatalogue = result.wagon || null;
     houseCatalogue = result.houses ? new Map(result.houses.map(house => [house.id, house])) : null;
+    woodsCatalogue = result.woods || null;
     choreCacheId = result.mapId;
     if (window.__snapshot) render(window.__snapshot);
   }).catch(() => { chorePending = null; });
@@ -550,6 +557,8 @@ const CLOSEST_FIGURE = 90;
 const HOMESTEAD_LEGIBLE = 11;
 // Every drawn object as a multiple of a person, so the whole scene grows together and
 // an ox never ends up smaller than the family leading it.
+/** A pole, a log tree and a large tree, as shares of a timber tree's drawn height (sim/woods.mjs `SIZES`). */
+const TREE_SIZES = [0.55, 0.7, 0.85];
 const SIZE = {
   cabin: 3.3, settlementCabin: 2.5, camp: 2.1,
   timberTree: 1.95, loneTree: 2.05, sapling: 1.15, scrub: 1.0,
@@ -1015,7 +1024,13 @@ function drawGroundDetail(ctx, world, camera) {
   // On the invented map the simulation's own rule (sim/fields.mjs `groundAt`): within 1.15 miles of a river or creek, so the
   // hunter who goes into the timber is drawn among trees. The real land draws its woods polygons.
   const water = world.map?.source ? [] : (world.map?.terrain || []).filter(feature => feature.kind === 'river' || feature.kind === 'creek');
-  const inWoods = water.length
+  // A class whose woods come from the land (public/woods-view.js): timber is its patches, and close up every tree is drawn
+  // where it stands instead of scattered ones, so no lone oak stands in open prairie the simulation has none in.
+  const landWoods = woodsShown(world) && woodsCatalogue;
+  const realTrees = landWoods && treesInView(camera, canvas);
+  const inWoods = landWoods
+    ? (x, y) => timberAt(x, y, woodsCatalogue.tiles.patches) === true
+    : water.length
     ? (x, y) => water.some(course => distanceToLine({ x, y }, course.points) < INVENTED_TIMBER_MILES)
     : (x, y) => woods.some(w => x >= w.minX && x <= w.maxX && y >= w.minY && y <= w.maxY && insidePolygon(x, y, w.points));
   for (let cy = startY; cy <= endY; cy++) {
@@ -1027,16 +1042,28 @@ function drawGroundDetail(ctx, world, camera) {
       if (cleared.length && inCleared(wx, wy)) continue;
       if(bexarSite&&camera.scale>=200){const x=(wx-bexarSite.x)*5280+1200,y=(wy-bexarSite.y)*5280+2050;if(x>=0&&x<=4000&&y>=0&&y<=3400)continue;}
       // Kind is independent of LOD density: panning or zooming cannot turn a tuft into a tree.
-      scattered.push({ share: groundHash(cx+973,cy-997), seed: cx + cy, timber: (water.length > 0 || woods.length > 0) && inWoods(wx, wy), point: camera.toScreen({ x: wx, y: wy }) });
+      scattered.push({ share: groundHash(cx+973,cy-997), seed: cx + cy, timber: !realTrees && (landWoods || water.length > 0 || woods.length > 0) && inWoods(wx, wy), point: camera.toScreen({ x: wx, y: wy }) });
     }
   }
   // Painted back to front, so a tuft in front of a rock overlaps it rather than being
   // cut in half by it.
   scattered.sort((a, b) => a.point.y - b.point.y);
-  for (const { share, seed, timber, point } of scattered) {
-    if (timber && share < .5) {
+  if (realTrees) {
+    for (const tree of treesVisible(camera, canvas, woodsCatalogue)) {
+      if (cleared.length && inCleared(tree.x, tree.y)) continue;
+      const point = camera.toScreen(tree), height = figure * SIZE.timberTree * TREE_SIZES[tree.size];
+      // stand-in: every kind is drawn with the nearest tree the library has (`KINDS` picture in sim/woods.mjs): pine as the
+      // cottonwood, cedar as the sapling, mesquite as scrub. Request 2026-09-15 - the trees of the colonies.
+      scattered.push({ tree: tree.kind.picture, height, point, seed: Math.round(tree.x * 1e5) });
+    }
+    scattered.sort((a, b) => a.point.y - b.point.y);
+  }
+  for (const { share, seed, timber, point, tree, height } of scattered) {
+    if (tree) {
+      if (!drawSprite(ctx, tree, point.x, point.y, height)) postOak(ctx, point.x, point.y, height, seed);
+    } else if (timber && share < .5) {
       postOak(ctx, point.x, point.y, figure * SIZE.timberTree, seed);
-    } else if (share < .055 && camera.scale > 90) {
+    } else if (share < .055 && camera.scale > 90 && !landWoods) {
       // A lone open-grown oak standing out of the prairie.
       postOak(ctx, point.x, point.y, figure * SIZE.loneTree, seed);
     } else if (share < .095) {
@@ -1086,7 +1113,7 @@ function drawTerrain(ctx, world, camera) {
     // Timber has no edge you could walk up to and touch. Drawn at full strength its
     // polygon reads as a ruled wedge of darker paint across the prairie, so the fill is
     // only a tint and the trees standing in it do the work of saying where the wood is.
-    if (feature.kind === 'woods') ctx.globalAlpha *= camera.scale > 26 ? 0 : .4;
+    if (feature.kind === 'woods') ctx.globalAlpha *= camera.scale > 26 || woodsShown(world) ? 0 : .4;
     // The commons is trodden ground, not a paved square. Same reason, same treatment.
     else if (feature.kind === 'town') ctx.globalAlpha *= .5;
     ctx.fillStyle = style.fill; ctx.fill();
@@ -1100,7 +1127,7 @@ function drawTerrain(ctx, world, camera) {
       const left = Math.min(...xs), top = Math.min(...ys);
       const right = left + (Math.max(...xs) - left) * .5, bottom = top + (Math.max(...ys) - top) * .5;
       fieldPatch(ctx, camera, { left, top, right, bottom }, null, 'sound');
-    } else if (feature.kind === 'woods' && camera.scale > 26) {
+    } else if (feature.kind === 'woods' && camera.scale > 26 && !woodsShown(world)) {
       // Close in, timber resolves into individual trees rather than a green wash. Timber
       // follows the water here, so a share of it is drawn as river-bottom cottonwood
       // rather than making every stand the same upland oak (HIST-GONZ-012).
@@ -1267,6 +1294,8 @@ export function drawWorld(world) {
   const camera = cameraFor(world, canvas);
   window.__camera = { kind: camera.kind, scale: camera.scale, named: camera.named, cx: camera.cx, cy: camera.cy, following: camera.following };
   window.__relief = drawRelief(ctx, world, camera);
+  ensureWoods(world, camera, canvas, window.__snapshot?.mapId, woodsCatalogue, redrawForWoods);
+  if (woodsShown(world) && woodsCatalogue) drawWoodsCover(ctx, camera, canvas, woodsCatalogue);
   drawGroundDetail(ctx, world, camera);
   drawTerrain(ctx, world, camera);
   drawHolding(ctx, world, camera);

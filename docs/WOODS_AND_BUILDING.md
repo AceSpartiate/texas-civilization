@@ -1,6 +1,6 @@
 # The woods on a family's land, hunting it, felling it, and building a house from it
 
-**Status: decided 2026-09-15; step 1, the woods, built 2026-09-15 (§4.4, [evidence](evidence/woods-data.json)).** Read this in full before changing where timber stands, what a
+**Status: decided 2026-09-15; step 1, the woods, and step 2, the trees drawn, built 2026-09-15 (§4.4, §4.5, [evidence](evidence/woods-data.json), [browser](evidence/woods-browser.json)).** Read this in full before changing where timber stands, what a
 hunt finds, felling, logs, or how a house is planned and raised. It amends `docs/SETTLING_IN.md` §5–6 (a house is
 no longer one of four fixed layouts raised as one bar of work) and `docs/LAND_GRANTS.md` §8.4 (timber is no longer
 "within 0.9 miles of a river and 0.2 of a creek" everywhere).
@@ -127,8 +127,16 @@ cottonwood `cottonwood`, pine and cedar the nearest tree tinted, mesquite `scrub
 - **The grid.** `scripts/build-woods.mjs` files LANDFIRE's forty-nine settings in the colonies box into the stands of §4.1 and writes them on the elevation grid (0.63 MB), with the ecoregions on a one-mile grid. Over the whole box: prairie 27 in 100 of the cells, post oak 12, pine 11, hill country 11, bottomland 9, brush 6, creek 5, water 4, marsh 1, live oak under 1, off the data 13. Drawn over the real rivers the floodplains lie on them (checked by eye, 2026-09-15).
 - **At the settlements.** Gonzales itself stands in blackland prairie (the grid), its creeks in creek timber; Mina (Bastrop) in floodplain beside the Lost Pines; San Felipe, Victoria, Matagorda and Liberty on coastal prairie, with Liberty's creeks in the eastern pine country; Columbia's Brazos bottom is closed bottomland with live oak.
 - **In use.** A class made on the real land records `map.woods: 'landfire-2016'`; its lanes, tracks, fields, survey, clearing, house site facts (the ground and the miles to timber) and the going across country read timber from the patches. A class made before reads timber by the water as it did. The invented map is unchanged.
-- **Not yet:** trees drawn (step 2); the woods polygons a new real-land map still carries are the old bands along the rivers, drawn only when zoomed out. `ceiling:` until step 2 they disagree with the patches.
+- The woods polygons a new real-land map still carries are the old bands along the rivers; since step 2 they are not drawn on such a class.
 - **Measured:** a thirty-family real-land class with neighbours played 465 ticks in 9.7 s (the old rule: 12.9 s); forty acres of the Lost Pines hold 756 trees and are listed in 3 ms. Tests: `tests/woods.test.mjs` (5); sixteen injected regressions, fifteen caught; the sixteenth (a tree reading its patch at its own point) is the same behaviour, since a patch is always read at its centre.
+
+### 4.5 As built: step 2, the trees drawn (2026-09-15)
+
+- **Tiles** (`sim/woods-view.mjs`, `GET /api/woods?level&tx&ty`, anybody in the class): `shade`, eight miles of one-mile cells, each the share of timber 0-9; `patches`, a mile of its 256 patches as `t`, `b` or `o`; `trees`, a quarter mile of every tree as `[x, y, kind, size]`. Each is worked out from the woods in a millisecond or two and is a few hundred bytes to a few tens of kilobytes. A class that does not read its woods gets a 404. The kinds and tile sizes come once with `/api/chores` (`woods`).
+- **The page** (`public/woods-view.js`): close up, when the view covers no more than 0.4 square miles, every tree in view is drawn where it stands, back to front, at a pole's, a log tree's or a large tree's height; at middle distance, out to twelve miles across, timber patches are a canopy wash and brush a paler one under the scattered ground detail, whose trees stand only in timber; further out, to ninety miles, the shade of timber a mile at a time. The old woods bands along the rivers are not drawn on such a class, and no lone oak stands in prairie the woods have none in. Each tile is fetched once, six at a time, and a new class starts afresh.
+- `stand-in:` every kind is drawn as the nearest tree the library has (pine as the cottonwood, cedar as the sapling, mesquite as scrub); requested 2026-09-15 in `docs/ART_REQUESTS.md`.
+- `ceiling:` a tree is drawn at the map's symbol size, over a person tall, while it stands at its true spacing, so a closed stand is a solid canopy and savanna of six trees an acre reads a little closer than it is; drawing trees to the ground's scale is the way out if it misleads. `ceiling:` trees are painted with the ground, under people, beasts and houses, so nobody walks behind one; a family's camp in the timber stands among the trees it has not yet felled (step 4).
+- **Browser** (same computer only, headless Chrome, not LAN): a San Felipe family in the Brazos bottom saw closed timber with gaps round the house and the patches and shade out to twenty-seven miles; a Liberty family in pine woods; a Gonzales family on post oak savanna saw open grass with scattered oaks, thickets and creek timber. No page errors. Tests: `tests/woods-view.test.mjs` (3); fifteen injected regressions, thirteen caught; the other two (a tile's far edge, `- 1e-9`) are the same behaviour, since no tree stands on a tile's edge, and the offset was taken out.
 
 ---
 
@@ -226,7 +234,7 @@ version moves.
 1. ~~**The woods grid.**~~ **Done 2026-09-15** (§4.4). `scripts/build-woods.mjs`, `public/terrain/colonies-woods.bin.gz`, `sim/woods.mjs` (stand,
    patch class, trees in a box), `coverAt` reading it on the real map; claims `HIST-TEX-016`, `FIC-GONZ-032`;
    evidence of stands near each settlement.
-2. **Trees drawn.** `/api/woods`, trees and stumps close up, stand-ins, art requests.
+2. ~~**Trees drawn.**~~ **Done 2026-09-15** (§4.5). `/api/woods`, trees and stumps close up, stand-ins, art requests.
 3. **Hunting on our land.** The tap, the facts, the stand deciding the hunt, neighbours' choice.
 4. **Felling and hauling.** *Fell trees*, stumps, logs, the log pile, the ox and wagon hauling, felling clearing a plot.
 5. **The house plot.** Pieces, rules, plans as presets, effects through `shelterOf`; `HIST-TEX-017`, `FIC-GONZ-033`.

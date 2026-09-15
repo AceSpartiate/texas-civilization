@@ -1,0 +1,21 @@
+{
+  "record": "The trees drawn: docs/WOODS_AND_BUILDING.md build step 2",
+  "date": "2026-09-15",
+  "verdict": "PASS",
+  "note": "Same computer only: headless Chrome through the workstation Playwright, a five-family colonies class served by createClassroom on 127.0.0.1. Not LAN or district acceptance. Screenshots read by eye; not kept.",
+  "observed": [
+    "Seed woods-look, hh-1 a San Felipe family in the Brazos bottom: at 0.68 and 0.30 miles across, closed bottomland timber drawn tree by tree round the house, wagon, ox and horse, with grassy gaps; 32 /api/woods tile requests, all 200.",
+    "The same family zooming out to 27 miles across: at 1.3 miles the timber patches as a canopy wash with scattered trees in them and open grass between; at 7 miles the bottomland along the Brazos as a patch mosaic; at 27 miles the shade of timber a mile at a time; 194 tile requests, all 200. The first look drew middle distance as sparse trees on grass and nothing further out; the canopy wash and the shade beyond twelve miles were added, and the overlapping patch edges that showed as seams were filled as one path.",
+    "Seed woods-look-15, a Liberty family in pine woods: closed pine drawn with the cottonwood stand-in, clearings between.",
+    "Seed woods-look-42, a Gonzales family on post oak savanna: open grass with scattered oaks east of the house, thickets and creek timber west, prickly pear and tufts in the open. Trees were first drawn at 0.72-1.1 of a timber tree and read as forest; drawn at 0.55-0.85 the savanna reads open.",
+    "No page errors in any run."
+  ],
+  "automated": {
+    "suite": "tests/woods-view.test.mjs (3)",
+    "injectedRegressions": 15,
+    "caught": 13,
+    "equivalent": [
+      "tree tiles overlap: no tree stands on a tile edge, so the offset did nothing and was removed"
+    ]
+  }
+}

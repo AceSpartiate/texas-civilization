@@ -26,6 +26,7 @@ does not have:
 | A family that drove stock in has its cattle and hogs drawn as two `ox-brown` oxen grazing east of the house, on its own land only | the herd in the site loop of `drawWorld`, `public/app.js` | Request 2026-09-13 — stock and the grant (the 2026-09-14 `animal-stock` sheet is **held**, see the request) | `cattle-longhorn` and `hog` idle and grazing figures |
 | Cleared ground is turned earth and rows whatever it was: ten acres cleared out of timber look like ten acres broken from prairie | `fieldPatch` and `drawPlots` in `public/app.js` | Request 2026-09-14 — cleared ground | `stumps` scattered over cleared timber ground, and `clearing-brush` piles on ground being cleared |
 | A staked plot is a survey-chain square with a small post drawn at each corner | `drawPlots` in `public/app.js` | Request 2026-09-13 — stock and the grant (the surveyor's stake and corner marker) | A surveyor's stake and a corner marker |
+| Every kind of tree is drawn with the nearest tree the library has: post oak, blackjack, water oak, elm and hackberry as `oak-broad`; live oak as `oak-spreading`; pecan, hickory, walnut and ash as `pecan`; loblolly and shortleaf pine, cottonwood and sycamore as `cottonwood`; cedar as `sapling`; mesquite as `scrub` | `KINDS` picture in `sim/woods.mjs`, drawn by `drawGroundDetail` in `public/app.js` | Request 2026-09-15 — the trees of the colonies | `pine-loblolly`, `cedar`, `mesquite`, `live-oak`, `elm`, `post-oak` and `blackjack` in the illustrated style, at three sizes |
 | A deer being hunted is a plain procedural shape (brown body, stick legs, white tail, small antlers) standing where the server placed it | `miniDeer` in `public/app.js` | Request 2026-09-14 — game | `deer-idle`, `deer-alert` and `deer-bound` in the illustrated style |
 | Anybody of a family riding the family horse is drawn as the courier rider (`mounted-courier-*`), whoever they are; the horse under them is not drawn again | `inTheSaddle` and `underARider` in `public/motion.js` | Request 2026-09-14 — family members on horseback | Each cast figure mounted on the family's chestnut, walking in four directions |
 | A rider never gets down to talk: they speak from the saddle, turned east, west, north or south toward the listener (the vertical dialogue delivered 2026-09-14 is in use) | `carrierClip` in `public/motion.js` | Request 2026-09-12, priority 3 | `courier-dismount` (delivered 2026-09-14, registered, not yet bound: it needs the encounter to know when a rider has got down and where the horse stands) |
@@ -38,6 +39,27 @@ into the existing pipeline, and how it will be checked. When a request is delive
 `npm run build:art`; do not delete it from here.
 
 ---
+
+## Request 2026-09-15 — the trees of the colonies
+
+**Status: open; the nearest trees stand in.** The owner asked for realistic woods (docs/WOODS_AND_BUILDING.md §4). The map now
+draws every tree where it stands on the real land, of its kind: loblolly pine round Bastrop and in the east, live oak in the
+coastal bottoms, post oak and blackjack on the savanna, pecan, elm and hackberry by the water, cedar in the hills, mesquite
+west of the Guadalupe. The library has four broad trees, a sapling and scrub, so a pine is drawn as a cottonwood.
+
+- **Why.** A student standing in the Lost Pines sees broadleaf trees; one in the thornscrub sees bushes where the mesquite is
+  a small tree. The kind of tree is what tells a family what its timber is good for (felling, step 4).
+- **What.** Transparent, anchored at the foot of the trunk, seen from the game's three-quarter view, in the style of
+  `oak-broad` and `cottonwood`, each at three sizes (`-pole`, `-log`, `-large`: a young straight tree, a
+  mature one, an old wide one): `pine-loblolly` (tall, straight, a high crown of long needles), `cedar` (Ashe juniper,
+  a dark bushy cone, often many-stemmed), `mesquite` (low, open, crooked, feathery), `live-oak` (low and very wide,
+  dark evergreen), `post-oak` (a rounded crown of lobed leaves, stout crooked limbs), `blackjack` (smaller, darker,
+  rougher than post oak), `elm` (vase-shaped). Stumps for pine and pecan to go with `stump-post-oak` and
+  `stump-cottonwood`, and a felled log lying on the ground, for step 4.
+- **How it plugs in.** `KINDS` in `sim/woods.mjs` names each kind's picture; the page draws `picture` at the tree's size
+  (`TREE_SIZES` in `public/app.js`). Registering the frames and changing the names is the whole swap.
+- **Check.** Beside `oak-broad` at the same size the crowns are comparable in width, so a closed stand still reads closed and
+  savanna still reads open; a pine is plainly a pine at the size the map draws a tree close up.
 
 ## Request 2026-09-14 — game
 

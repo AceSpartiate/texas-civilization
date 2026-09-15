@@ -12,6 +12,7 @@ import { siteFactsFor } from '../sim/homesite.mjs';
 import { plotFacts } from '../sim/survey.mjs';
 import { wagonCatalogue } from '../sim/wagon.mjs';
 import { houseCatalogue } from '../sim/houses.mjs';
+import { woodsCatalogue, woodsTile } from '../sim/woods-view.mjs';
 import { readSave, writeSave, acquireSaveLock, archiveSave } from './storage.mjs';
 
 const token = () => randomBytes(24).toString('hex');
@@ -33,6 +34,7 @@ const files = new Map([
   ['/alamo-collapse.js', ['../public/alamo-collapse.js', 'text/javascript']],
   ['/bexar-layout.js', ['../public/bexar-layout.js', 'text/javascript']],
   ['/bexar-art.js', ['../public/bexar-art.js', 'text/javascript']],
+  ['/woods-view.js', ['../public/woods-view.js', 'text/javascript']],
   ['/alamo-workshop.html', ['../public/alamo-workshop.html', 'text/html']],
   ['/alamo-workshop.js', ['../public/alamo-workshop.js', 'text/javascript']],
   ['/alamo-workshop.css', ['../public/alamo-workshop.css', 'text/css']],
@@ -334,6 +336,12 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         const household = state.world.households[identity.householdId];
         return json(res, 200, { mapId: state.sessionId, facts: plotFacts(state.world, household, { x: Number(url.searchParams.get('x')), y: Number(url.searchParams.get('y')) }, url.searchParams.get('job')) });
       }
+      // One tile of the woods (sim/woods-view.mjs): the land itself, the same for everybody, so no family is needed to ask.
+      if (req.method === 'GET' && url.pathname === '/api/woods') {
+        const tile = woodsTile(state.world, url.searchParams.get('level'), Number(url.searchParams.get('tx')), Number(url.searchParams.get('ty')));
+        if (!tile) return json(res, 404, { error: 'This class has no woods to show there.' });
+        return json(res, 200, { mapId: state.sessionId, tile });
+      }
       if (req.method === 'GET' && url.pathname === '/api/site') {
         if (!identity.householdId) return json(res, 403, { error: 'Only a family chooses where its house stands.' });
         const household = state.world.households[identity.householdId];
@@ -342,7 +350,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       }
       // The list of work that exists never changes during a class; only who may do it
       // does, and that rides on the tick. Same reason the map is fetched once.
-      if (req.method === 'GET' && url.pathname === '/api/chores') return json(res, 200, { mapId: state.sessionId, chores: choreCatalogue(), modes: modeCatalogue(), goods: GOODS, wagon: wagonCatalogue(), houses: houseCatalogue() });
+      if (req.method === 'GET' && url.pathname === '/api/chores') return json(res, 200, { mapId: state.sessionId, chores: choreCatalogue(), modes: modeCatalogue(), goods: GOODS, wagon: wagonCatalogue(), houses: houseCatalogue(), woods: woodsCatalogue() });
       // Who this family is. Theirs and nobody else's, so it is read from the identity on
       // the cookie rather than from anything the request could ask for.
       if (req.method === 'GET' && url.pathname === '/api/family') {
