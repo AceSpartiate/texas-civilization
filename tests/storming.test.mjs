@@ -4,9 +4,10 @@
 // On December 4 the army is ordered into winter quarters: families nobody plays send men home at about the documented rate,
 // and a played family is asked on its volunteer's card. That afternoon Milam calls for men and each volunteer still in camp
 // is asked whether they go in; on December 8 those still at the camp are asked whether they go in with the companies sent
-// from it. At the white flag, those who went in fought and the camp was present: about 1.7 in 100 killed and 8 in 100
-// wounded, weighted by hidden strength and health, the reserve unhurt, never more than one death - a later death from a
-// wound included. Wounds come in three grades; worse than slight keeps somebody lying at Béxar. Word comes by rider, wrong
+// from it. At the white flag, those who went in fought and the camp was present: 2 in 100 killed and 8 in 100 wounded
+// (the record's 1.7 and 7-9, rounded), each rolled on their own and weighted by hidden strength and health, the reserve
+// unhurt, and no limit on how many a class loses - a later death from a dangerous wound rolled on its own too (owner's
+// correction, 2026-09-16). Wounds come in three grades; worse than slight keeps somebody lying at Béxar. Word comes by rider, wrong
 // first, then the victory with each family's own person's part. The class ends on the evening of December 15.
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -137,12 +138,16 @@ function crowdedStorming(seed, { strength, health, sex, all = true } = {}) {
   return { world, people, result: fightStorming(world, null) };
 }
 
-test('the storming kills about 1.7 and wounds about 8 in 100 of those who went in, never more than one killed, and nobody at the camp', () => {
-  let fighters = 0, killed = 0, wounded = 0, frailDeaths = 0, hardyDeaths = 0;
+test('the storming kills 2 and wounds 8 in 100 of those who went in, each rolled on their own, a crowd can lose several, and nobody at the camp', () => {
+  // The record, rounded as the owner allows: about 5 killed and 21 wounded of ~300 (1.7%, 7-9%). docs/battle-research/bexar-storming.md §8.
+  assert.equal(STORMING_DEATH_RISK, 0.02);
+  assert.equal(STORMING_WOUND_RISK, 0.08);
+  let fighters = 0, killed = 0, wounded = 0, frailDeaths = 0, hardyDeaths = 0, most = 0;
   const grades = { slight: 0, severe: 0, dangerous: 0 };
   for (let n = 0; n < 40; n++) {
-    const half = crowdedStorming(`storming-half-${n}`, { all: false });
-    assert.ok(half.result.killed.length <= 1, `${half.result.killed.length} killed in one fight`);
+    // Strength 10 and health 2 is exactly middling (frailty 1), so those who go in should fall at the record's own rate.
+    const half = crowdedStorming(`storming-half-${n}`, { all: false, strength: 10, health: 2 });
+    most = Math.max(most, half.result.killed.length);
     assert.ok(half.result.present.length > 0, 'nobody held the camp');
     for (const id of half.result.present) {
       assert.equal(half.world.entities[id].health?.condition ?? 'well', 'well', 'somebody at the camp was hurt');
@@ -150,21 +155,23 @@ test('the storming kills about 1.7 and wounds about 8 in 100 of those who went i
     }
     fighters += half.result.fought.length; killed += half.result.killed.length; wounded += half.result.wounded.length;
     for (const id of half.result.wounded) grades[half.world.entities[id].health.grade]++;
-    frailDeaths += crowdedStorming(`storming-frail-${n}`, { strength: 1, health: 2 }).result.killed.length;
+    const frail = crowdedStorming(`storming-frail-${n}`, { strength: 1, health: 2 }).result.killed.length;
+    frailDeaths += frail; most = Math.max(most, frail);
     hardyDeaths += crowdedStorming(`storming-hardy-${n}`, { strength: 10, health: 18 }).result.killed.length;
     validateWorld(half.world);
   }
-  assert.ok(killed > 0, 'nobody was ever killed, so the bound was never tested');
-  assert.ok(frailDeaths > hardyDeaths, `the frail died ${frailDeaths} times and the hardy ${hardyDeaths}`);
-  const woundRate = wounded / fighters;
-  assert.ok(woundRate > STORMING_WOUND_RISK * 0.5 && woundRate < STORMING_WOUND_RISK * 1.6, `wounded ${woundRate.toFixed(3)} of those who went in`);
-  assert.ok(STORMING_DEATH_RISK > 0.012 && STORMING_DEATH_RISK < 0.025);
+  assert.ok(most > 1, `no storming of a large crowd ever lost more than ${most}: a limit is being kept`);
+  const killRate = killed / fighters, woundRate = wounded / fighters;
+  assert.ok(fighters > 1500, `only ${fighters} went in`);
+  assert.ok(killRate > 0.013 && killRate < 0.027, `killed ${(100 * killRate).toFixed(2)} in 100 of ${fighters} who went in`);
+  assert.ok(woundRate > 0.065 && woundRate < 0.095, `wounded ${(100 * woundRate).toFixed(2)} in 100 of ${fighters} who went in`);
+  assert.ok(frailDeaths > 1.8 * hardyDeaths, `the frail died ${frailDeaths} times and the hardy ${hardyDeaths}`);
   assert.ok(grades.severe > grades.slight && grades.dangerous > grades.slight, `grades ${JSON.stringify(grades)}`);
 });
 
-test('a wound worse than slight keeps somebody lying at Béxar, unable to travel, until it mends; a dangerous one can mark them or kill them later, within the one death', () => {
-  let checkedLying = false, checkedMark = false, checkedLater = false, checkedCap = false;
-  for (let n = 0; n < 200 && !(checkedLying && checkedMark && checkedLater && checkedCap); n++) {
+test('a wound worse than slight keeps somebody lying at Béxar, unable to travel, until it mends; a dangerous one can mark them or kill them later, each rolled on its own', () => {
+  let checkedLying = false, checkedMark = false, checkedOnTop = false, checkedSeveral = false, dangerous = 0, laterDeaths = 0;
+  for (let n = 0; n < 200 && !(checkedLying && checkedMark && checkedOnTop && checkedSeveral && n >= 60); n++) {
     const { world, result } = crowdedStorming(`storming-wounds-${n}`);
     for (const id of result.wounded) {
       const person = world.entities[id], { grade } = person.health;
@@ -177,11 +184,20 @@ test('a wound worse than slight keeps somebody lying at Béxar, unable to travel
       checkedLying = true;
       if (person.marks?.length) { assert.equal(grade, 'dangerous', 'a wound that is not dangerous left a lasting mark'); checkedMark = true; }
     }
+    dangerous += result.wounded.filter(id => world.entities[id].health.grade === 'dangerous').length;
     const later = [...world.army.storming.later], before = result.killed.length;
+    assert.ok(later.every(id => world.entities[id].health.grade === 'dangerous'), 'a wound that is not dangerous killed later');
     const died = dieOfWounds(world);
-    if (before) { assert.deepEqual(died, [], 'a death from a wound came on top of a death in the fight'); if (later.length) checkedCap = true; }
-    else if (later.length) { assert.equal(died.length, 1, 'more than one died of wounds, or none did'); assert.equal(world.entities[died[0]].health.condition, 'dead'); checkedLater = true; }
-    assert.ok(world.army.storming.killed.length <= 1);
+    // Every later death rolled comes, whatever the fight already cost the class.
+    assert.deepEqual(died, later, 'a later death rolled did not come');
+    for (const id of died) assert.equal(world.entities[id].health.condition, 'dead');
+    assert.equal(world.army.storming.killed.length, before + died.length);
+    laterDeaths += died.length;
+    if (before && died.length) checkedOnTop = true;
+    if (died.length > 1) checkedSeveral = true;
   }
-  assert.ok(checkedLying && checkedMark && checkedLater && checkedCap, `lying ${checkedLying}, mark ${checkedMark}, later ${checkedLater}, cap ${checkedCap}`);
+  assert.ok(checkedLying && checkedMark && checkedOnTop && checkedSeveral, `lying ${checkedLying}, mark ${checkedMark}, a later death on top of one in the fight ${checkedOnTop}, several later deaths in one class ${checkedSeveral}`);
+  // About 15 in 100 dangerous wounds (the record: about 3 of 23 wounds fatal, bexar-storming.md §8).
+  const laterRate = laterDeaths / dangerous;
+  assert.ok(laterRate > 0.09 && laterRate < 0.21, `${laterDeaths} of ${dangerous} dangerous wounds killed later`);
 });

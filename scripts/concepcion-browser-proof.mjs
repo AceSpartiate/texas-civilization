@@ -1,6 +1,6 @@
 // Concepción, watched: docs/COLONIES.md §6i, build step 6.
 //
-// tests/concepcion.test.mjs proves the halts, the question, who fought and the bound on the dead. This proves what a student
+// tests/concepcion.test.mjs proves the halts, the question, who fought and the rates of the dead and wounded. This proves what a student
 // sees: the army named at its camp; on October 22 the question on their volunteer's own card, with nothing on it about what
 // either answer risks; the answer taken by the server; and after the 28th, what happened to their person in their family's
 // story and the camp at Concepción.

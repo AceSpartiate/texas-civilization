@@ -219,6 +219,11 @@ The balance gate (§8) must be re-run once `fought` exists, because this makes s
 likely fatal (`docs/FAMILY_CREATION.md` §5) and costly. It is hidden like every other award, and a woman's
 survival is decided by her hidden stats exactly as a man's is; the penalty never changes the odds.
 
+**No limit on deaths (owner's correction, 2026-09-16, `docs/COLONIES.md` §7d).** A battle's deaths are rolled for each fighter
+on their own at the battle's recorded rate, with no cap of one a class, so several families in one class can have a woman's
+award taken away twice over from the same battle, and a family that sent two women can have it happen to both. Nothing about glory depends on
+how many others died: each award is the family's own.
+
 **Two more parts, from the siege (owner, 2026-09-16, `docs/COLONIES.md` §7b).** A volunteer who says they would go in when
 Austin orders Béxar stormed on November 21 earns their family a `willing` award, weighted like being present (2), though the
 storm never came. A volunteer who runs home from the Grass Fight has the fight's award taken away (the ordinary award, turned

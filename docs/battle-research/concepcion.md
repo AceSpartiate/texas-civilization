@@ -323,6 +323,10 @@ present nor fought.
 
 ## 6. Death and wound rates
 
+> **Superseded in part, 2026-09-16.** The "at most one death per class" reading below was withdrawn by the owner: each
+> fighter is rolled on their own at the record's rate, rounded to 1 killed and 2 wounded in 100, with no limit
+> (`docs/COLONIES.md` §7d). The rates themselves stand.
+
 | Group | Engaged | Killed | Wounded | Rate (computed here) |
 | --- | --- | --- | --- | --- |
 | The detachment at Concepción | 90–92 | 1 (Andrews, died that day) | 0 (Bowie) to 1–2 (Smithwick, TSHA, Bryan) | **killed 1.1%**; wounded 0–2.2%; any hit 1.1–3.3% |

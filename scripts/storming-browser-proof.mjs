@@ -1,6 +1,6 @@
 // The storming of Béxar, watched: docs/COLONIES.md §6l, build step 6.
 //
-// tests/storming.test.mjs proves the questions, the bounds on the dead and wounded, the grades of wound and when word comes
+// tests/storming.test.mjs proves the questions, the rates of the dead and wounded, the grades of wound and when word comes
 // home. This proves what a student sees: on December 4 the winter-quarters question and then Milam's call on the volunteer's
 // own card, with nothing about the risk; the wrong express in the family's reports; the victory after it, with the terms as
 // signed and the Mexican losses as a range; and what happened to their own person. It also shows a wound's lasting mark on the

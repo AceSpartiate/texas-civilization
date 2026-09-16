@@ -576,6 +576,10 @@ exaggeration, if shown at all. No Mexican return was read.
 
 ## 8. Death and wound rates, and what a serious wound means
 
+> **Superseded in part, 2026-09-16.** "Never more than one killed in a class", and a later death counting against it,
+> were withdrawn by the owner: each who went in is rolled on their own at the record's rate, rounded to 2 killed and 8
+> wounded in 100, and each dangerous wound's later death on its own, with no limit (`docs/COLONIES.md` §7d).
+
 ### 8.1 The rates (all computed here)
 
 | Group | Engaged | Killed | Wounded (not fatal) | Rate |
