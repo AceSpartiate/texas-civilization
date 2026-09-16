@@ -92,6 +92,10 @@ test('the battle records who took part and how, and tells no client', () => {
   assert.ok(Object.values(record).every(entry => entry.role !== 'fought'));
 
   const leak = /"participation"|"supplied"|"present"/;
+  // Read as the class stood before its end: once it has ended the ending reveals every family's
+  // part on purpose (sim/ending.mjs, docs/MONEY_AND_GLORY.md step 4), and tests/ending.test.mjs
+  // proves the reveal waits for it.
+  world.status = 'paused';
   assert.doesNotMatch(JSON.stringify(projectWorld(world, undefined, 'host', { includeMap: false })), leak, 'the Host');
   for (const householdId of Object.keys(world.households)) {
     assert.doesNotMatch(JSON.stringify(view(world, householdId)), leak, householdId);

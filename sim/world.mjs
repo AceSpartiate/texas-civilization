@@ -25,6 +25,7 @@ import { plotProjection, plotRefusal, plotsInvalid } from './survey.mjs';
 import { advanceExpresses, expressesInvalid } from './expresses.mjs';
 import { callsInvalid, handleCall } from './calls.mjs';
 import { armyInvalid, armyProjection, callHome, callHomeRefusal } from './army.mjs';
+import { endingProjection } from './ending.mjs';
 import { fellingInvalid, logsProjection, recordFelling } from './felling.mjs';
 import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, ageBand, defaultNames, familyProjection, familyRoll, FAMILY_DIE, compositionFor, rolledWords, householdName, kinFor, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
 export { HOUSEHOLD_SHAPE, ROLES, householdName, sanitiseName } from './family.mjs';
@@ -750,6 +751,9 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
   return structuredClone({ tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: world.map }), household, entities, others, offers, encounter, events, work, travelModes, land, wagon, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role),
     // The army, once there is one: where it is, how many went, and which of them are this family's (sim/army.mjs).
     ...(world.army && householdId ? { army: armyProjection(world, householdId) } : {}),
+    // The end of the game, and only once it has ended: each family's coin and glory revealed, and the
+    // Host's closing view (sim/ending.mjs, docs/MONEY_AND_GLORY.md steps 4-5).
+    ...endingProjection(world, householdId, role),
     // Whether this class began with the families arriving, which is what a family knows of a
     // neighbour's land it has not been to see: at dawn on the 28th nobody had a house. Land it has
     // seen since is in `household.seenLand`, as it stood then (sim/houses.mjs, `noteLandSeen`).

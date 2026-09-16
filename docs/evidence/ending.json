@@ -1,0 +1,51 @@
+{
+  "record": "The end of the game: each family's coin, glory and final number, and the Host's closing view",
+  "date": "2026-09-16",
+  "verdict": "PASS",
+  "verdictMeaning": "When a class ends - the slice finishing or the teacher ending it - each family is sent its own coin, glory, coin × (1 + glory) written out (no coin counted as one real, owner 2026-09-16), what earned each and a few lines of its story, and the Host is sent every family's three numbers in household order with the family that finished first named. Nothing of the ending is on any student or Host wire while the class runs or is paused. The balance gate is NOT claimed: see limitations.",
+  "spec": "docs/MONEY_AND_GLORY.md steps 4 and 5, §7.1; claim FIC-GONZ-035",
+  "tests": {
+    "file": "tests/ending.test.mjs",
+    "count": 7,
+    "suite": "456 pass, 0 fail",
+    "changedDeliberately": "tests/battle-members.test.mjs checked a finished class for the words 'present' and 'supplied'; the ending now reveals each family's part on purpose, so that check reads the class as it stood before its end (status paused).",
+    "injectedRegressions": [
+      "the ending sent while the class runs -> caught by four tests",
+      "a paused class reveals it -> caught by the planted-glory test",
+      "final = money × glory, so glory of nothing erases coin -> caught by three tests",
+      "an automatic neighbour ranked -> caught by the ranking test",
+      "a tie names only one family -> caught by the ranking test",
+      "the Host view sorted as a leaderboard -> caught by the household-order check",
+      "a family sent the Host view -> caught by two tests",
+      "the stayed-home line missing from the story -> caught by the stayed-home test",
+      "the multiplication replaced by a bare total -> caught",
+      "coin from a sale not tagged -> caught by the coin account test",
+      "coin paid in town not tagged -> caught by the coin account test",
+      "a trade's coin counted the wrong way round -> caught by the coin account test",
+      "a virtue word in a discussion question -> caught by the virtue test",
+      "awards revealed without their words -> caught",
+      "no floor under coin -> caught by the one-real test",
+      "a floor that adds a real to everybody -> caught by four tests",
+      "the counted real not said on the page -> caught by two tests"
+    ]
+  },
+  "browserProof": "docs/evidence/ending-browser.json (npm run test:ending, 8 checks, same computer only)",
+  "measured": {
+    "browserClass": "Five families on the colonies map; hh-1's volunteer in the army, 5 reales placed in hh-2 in process. Before the amendment hh-1 finished 0 and hh-2 first at 5; after it hh-1 finished first at 17 (0 reales, counted as 1 real × (1 + 16 glory)).",
+    "unplayedClasses": "Three thirty-family classes on the colonies map with nobody playing (seeds m1, m2, m3), run to their end at tick 262: no family ended with any coin or any glory, so every final number is now 1."
+  },
+  "limitations": [
+    "The balance gate (MONEY_AND_GLORY §8: families that never fight win some runs, well below their share) cannot be run: automatic families neither sell for coin nor answer the call, so headless runs have nothing to compare.",
+    "With no coin counted as one real, a family that never fights needs more than a few reales to overtake one that did; whether that leaves winning without fighting hard rather than impossible is the balance gate, which cannot be run until automatic families earn coin and glory.",
+    "ceiling: the discussion questions are fixed text, not drawn from what this class did.",
+    "ceiling: on a student's screen the tutorial card and the person's controls can still show behind the ending; they do nothing once the class has ended.",
+    "A class saved before this has no coin tags on its old events, so its coin account shows fewer lines; the number is still the coin in the house. No save version moved.",
+    "Same-computer browser proof only; no LAN or district claim."
+  ],
+  "ownerAmendment": {
+    "date": "2026-09-16",
+    "words": "families with zero coin should be treated as if they have one coin so glory has something to multiply.",
+    "why": "As first built, the volunteer family in the browser class finished 0 reales × (1 + 16 glory) = 0 and the only family holding coin finished first at 5.",
+    "after": "The same class: 0 reales, counted as 1 real × (1 + 16 glory) = 17, finishing first above the family holding 5."
+  }
+}

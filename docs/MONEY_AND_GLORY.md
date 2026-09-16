@@ -1,7 +1,7 @@
 # Money, glory, and the end of the game
 
 **Status: decided; money (steps 1–2) and hidden glory (step 3) built 2026-09-12** ([money](evidence/money.json),
-[glory](evidence/glory-hidden.json)). The ending (steps 4–5) is not built. The owner has made every design decision it needs (§6); read
+[glory](evidence/glory-hidden.json)). The ending (steps 4–5) built 2026-09-16 ([tests and drills](evidence/ending.json), [browser](evidence/ending-browser.json)); see §7.1. **The balance gate in §8 cannot be measured yet** — §7.1 says why. The owner has made every design decision it needs (§6); read
 it in full before starting any of the rest.
 
 **Where it sits in the plan.** Steps 1–2 (§7) belong to Macro-Phase 1D, economy. Steps 3–5
@@ -49,7 +49,7 @@ Three decisions below keep that failure out while delivering exactly what was as
 
 1. **Glory comes from participation of every kind**, weighted so that fighting counts for
    more than supporting (§4). A family that never fired a shot still earns glory.
-2. **Glory multiplies money and cannot erase it**: `money × (1 + glory)` (§5). A family that
+2. **Glory multiplies money and cannot erase it**: `max(money, 1) × (1 + glory)` (§5; the floor of one real is the owner's amendment of 2026-09-16). A family that
    stayed home and prospered finishes with a real number.
 3. **Fighting costs money.** Every day somebody is at the camp or the battle is a day they are
    not working the farm, and powder spent on the fight is powder not sold or hunted with. The
@@ -233,11 +233,16 @@ explains.
 **Owner decision, 2026-09-12:**
 
 ```
-final = money × (1 + glory)
+final = max(money, 1) × (1 + glory)
 ```
 
-A household with no glory keeps its money. A household with no money finishes at zero whatever
-its glory — which is the owner's "most money" at work, and why the ending must show both numbers.
+A household with no glory keeps its money.
+
+**Amended by the owner, 2026-09-16:**
+
+> "families with zero coin should be treated as if they have one coin so glory has something to multiply."
+
+The formula as first written finished a household with no money at zero whatever its glory. Built, that was the common case: a family that sent its man to the army and sold nothing finished at 0, and a class where nobody sold for coin tied every family at 0 (§7.1). Now a household with no coin is counted as holding one real, so its glory multiplies something. The floor lifts nobody who holds a real or more, and the ending says the real was counted rather than implying the family had it.
 
 ### What each family sees
 
@@ -273,6 +278,7 @@ At the end the fog lifts (`VISION.md` §20) and each family sees, for the first 
 | Is glory visible? | No. Hidden from players until the end, then revealed. |
 | What earns glory? | Participating in major historical events — **every kind, with fighting weighted above supporting**. |
 | A family with no glory? | **`money × (1 + glory)`** — glory multiplies money and cannot erase it. |
+| A family with no coin? | **Counted as holding one real** (owner, 2026-09-16), so glory has something to multiply. |
 | How is the result shown? | **The Host names a winner**, showing every family's money, glory and final number. |
 | Can a family that never fights win? | **Yes, but it should be difficult.** |
 | What counts as money at the end? | Not asked. Default is coin on hand (§3); change only on the owner's say-so. |
@@ -295,11 +301,31 @@ Bounded steps, each shippable and provable alone, in order. This mirrors
 3. ~~**Glory, hidden.**~~ **Done 2026-09-12.** The awards, the directors that write them, the causes in the event log, and
    the isolation test — **before anything reveals it**. Prove: a planted glory value appears in no
    student or Host payload across a played slice, and no director reads it.
-4. **The ending, per family.** The reveal, both numbers, the multiplication, the per-household
+4. ~~**The ending, per family.**~~ **Done 2026-09-16** (§7.1). The reveal, both numbers, the multiplication, the per-household
    causes. Prove: a household that stayed home and sold its cotton finishes with a non-zero number
    and an epilogue that reads as a story.
-5. **The Host's closing view.** Every family's three numbers, the named winner, ties, and the
+5. ~~**The Host's closing view.**~~ **Done 2026-09-16** (§7.1). Every family's three numbers, the named winner, ties, and the
    discussion hooks. Prove: no virtue word appears anywhere on it.
+
+---
+
+### 7.1 As built: the ending (2026-09-16)
+
+`sim/ending.mjs` and `public/ending.js`; claim `FIC-GONZ-035`. Tests `tests/ending.test.mjs` (six, fourteen injected regressions each caught), browser proof `npm run test:ending`.
+
+**When.** The ending exists when `world.status` is `'ended'` — the slice preserving itself, or the teacher ending the session — and not a moment before. `endingProjection` is the one gate: before it `projectWorld` carries no `ending` key at all, and a paused class has not ended. Glory stays sealed everywhere else: the sealed award events are still dropped from the log, and the ending carries the awards in words instead.
+
+**A family sees** its coin, its glory and its final number; the multiplication written out (`5 reales × (1 + 16 glory) = 85`, or with no coin `0 reales, counted as 1 real × (1 + 16 glory) = 17`); a short story — how many road miles it lived from Gonzales, the day word of the cannon reached it, and, if nobody went, that they stayed with the land; every sale, payment and trade that moved coin, dated, with the amount; and every award, dated, as a sentence (*Cipriano was there for the army made at Gonzales, 115 road miles from home.*). It sees nobody else's numbers. It can close the ending to look at the map and open it again.
+
+**The Host sees** every family in household order — never sorted — with road miles from Gonzales, the day it heard, who went, coin, glory and final number; the family that finished first named in a sentence, and highlighted; *Final number = coin × (1 + glory). A family with no coin is counted as having 1 real.*; and four questions for the class. A tie names every family level on the highest number. A family nobody played is shown with its numbers and marked, and is never named first (owner, 2026-09-14).
+
+**Where coin went.** Every event that moves coin now carries `coin` (a signed whole number): a sale at the store, a payment in town (a new event, *X paid 2 reales in town.*, since paying had no line of its own), and each side of a trade. Nothing projected changes shape; the field is read only by the ending. A class saved before this has untagged events and shows fewer lines, never a wrong number: the number is the coin in the house.
+
+**No virtue words.** The test and the browser proof search every string on both screens for good, better, best, brave, loyal, patriot, hero, virtue, honour, worthy, courage, coward, deserve, right and wrong.
+
+**What it found, and what changed.** As first built, the browser proof's one family holding coin finished first at 5 and every family that sent somebody to the army finished at **0**, whatever its glory. Reported to the owner, who amended the formula the same day: no coin counts as one real (§5). The same class now finishes the volunteer's family first, `0 reales, counted as 1 real × (1 + 16 glory) = 17`, above the family holding 5 reales. Measured on three thirty-family classes with nobody playing: **no family ends with any coin or any glory at all**, because automatic neighbours neither sell for coin nor answer the call, so every family now finishes at 1. **The balance gate (§8, *winning without fighting is hard, not impossible*) still cannot be run until automatic families can earn both.** With the floor, it is now the other half of that gate that wants watching: a family that never fights needs more than a few reales to overtake one that did.
+
+`ceiling:` the discussion questions are fixed text, not drawn from what this class did. `ceiling:` the tutorial card and the person's controls can still show behind the ending on a student's screen; they do nothing once the class has ended.
 
 ---
 

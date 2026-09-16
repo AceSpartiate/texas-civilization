@@ -234,6 +234,18 @@
       </div>
     </section>
 
+    <!-- The end of the game (public/ending.js): a family's own coin, glory and final number, or
+         on the Host every family's and the family that finished first. Sent only once the class
+         has ended. -->
+    <section id="ending" hidden role="dialog" aria-labelledby="ending-eyebrow">
+      <header id="ending-head">
+        <span class="eyebrow" id="ending-eyebrow">THE END OF THE STORY</span>
+        <button id="ending-close" aria-label="Close, to look at the map">&times;</button>
+      </header>
+      <div id="ending-body"></div>
+    </section>
+    <button id="ending-open" hidden>How it ended</button>
+
     <!-- The meeting itself. It never takes the camera and never blocks the class: a
          student can close it, go and see to somebody else, and come back to it. -->
     <section id="encounter" hidden role="dialog" aria-labelledby="encounter-title">

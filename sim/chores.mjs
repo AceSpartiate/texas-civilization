@@ -1108,6 +1108,10 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
         // Coin paid at a counter is in the trader's purse now, and can be paid out again.
         const trader = resource === 'money' && world.entities[state.traderId];
         if (trader) trader.purse = purseOf(world, trader) + amount;
+        // Said, and tagged with the coin it cost, because the ending tells a family where its coin went.
+        if (resource === 'money' && amount > 0) {
+          record(world, 'consequence', { actorId: entity.id, householdId: household.id, coin: -amount, text: `${entity.name} paid ${amount} ${resourceName('money', amount)} in town.` });
+        }
       }
       continue;
     }
@@ -1143,6 +1147,7 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
         household.resources[want] = round((household.resources[want] ?? 0) + got);
         record(world, 'consequence', {
           actorId: entity.id, householdId: household.id, importance: 2,
+          ...(want === 'money' && { coin: got }),
           text: `${entity.name} sold ${sold} ${good} at the store and brought home ${got} ${resourceName(want, got)}.`,
         });
       } else if (per && bundles === 0) {

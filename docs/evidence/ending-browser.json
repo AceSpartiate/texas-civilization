@@ -1,0 +1,52 @@
+{
+  "record": "The end of the game, in a browser: docs/MONEY_AND_GLORY.md steps 4 and 5",
+  "date": "2026-09-16",
+  "verdict": "PASS",
+  "note": "Same computer only. A real class on the colonies map, played in process to three days before it ends, with hh-1's volunteer in the army and 5 reales placed in hh-2's house in process; then served live, a student joined as hh-1 and the Host page watched the last ticks and the ending arrive. No LAN or district claim.",
+  "checks": [
+    "while the class runs neither page has an ending or a glory",
+    "the class ended on its own, with both pages watching",
+    "the family sees its own reckoning: 0 reales, counted as 1 real × (1 + 16 glory) = 17",
+    "the family can close it to look at the map, and open it again",
+    "the Host names the family that finished first: hh-1 at 17",
+    "no word on either page names a virtue",
+    "at phone width the page does not scroll sideways",
+    "no page errors"
+  ],
+  "observed": {
+    "family": {
+      "name": "Cipriano's family",
+      "money": 0,
+      "glory": 16,
+      "final": 17,
+      "sum": "0 reales, counted as 1 real × (1 + 16 glory) = 17",
+      "story": [
+        "The family lived 115 road miles from Gonzales.",
+        "Word that soldiers had come for the cannon reached them on October 2."
+      ],
+      "awards": [
+        "Cipriano was there for the army made at Gonzales, 115 road miles from home."
+      ]
+    },
+    "familyText": "THE END OF THE STORY\n×\nCipriano's family\nCOIN IN THE HOUSE\n0 reales\nGLORY\n16\nFINAL NUMBER\n17\n\n0 reales, counted as 1 real × (1 + 16 glory) = 17\n\nOur story\n\nThe family lived 115 road miles from Gonzales.\n\nWord that soldiers had come for the cannon reached them on October 2.\n\nWhere the coin came from and went\n\nNothing was bought or sold for coin.\n\nWhat earned glory\nOctober 11: Cipriano was there for the army made at Gonzales, 115 road miles from home. (16)",
+    "host": {
+      "winners": [
+        "hh-1"
+      ],
+      "best": 17,
+      "families": [
+        "Cipriano's family: 0 × (1 + 16) = 17",
+        "Elias's family: 5 × (1 + 0) = 5",
+        "Asa's family: 0 × (1 + 0) = 1",
+        "Barnabas's family: 0 × (1 + 0) = 1",
+        "Ezra's family: 0 × (1 + 0) = 1"
+      ]
+    },
+    "hostText": "THE END OF THE STORY\n×\nHow the families finished\n\nCipriano's family finished first, with a final number of 17.\n\nFamily\tRoad miles from Gonzales\tHeard of the cannon\tWho went\tCoin\tGlory\tFinal\nCipriano's family\t115\tOctober 2\tCipriano\t0 reales\t16\t17\nElias's family\t169\tOctober 2\tnobody\t5 reales\t0\t5\nAsa's family\t133\tOctober 1\tnobody\t0 reales\t0\t1\nBarnabas's family\t7\tSeptember 29\tnobody\t0 reales\t0\t1\nEzra's family\t202\tOctober 2\tnobody\t0 reales\t0\t1\n\nFinal number = coin × (1 + glory). A family with no coin is counted as having 1 real.\n\nFor the class\nWhich families heard the news first, and did hearing first change what they did?\nHow did living far from Gonzales change what a family could do?\nWhat did a family give up at home when somebody went, and what did staying home cost?\nWhy do the families with the most coin and the families with the most glory not always match?"
+  },
+  "screenshots": [
+    "docs/evidence/ending-family.png",
+    "docs/evidence/ending-host.png",
+    "docs/evidence/ending-host-phone.png"
+  ]
+}

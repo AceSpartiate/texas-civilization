@@ -74,6 +74,8 @@ export const TIMELINE = Object.freeze(Object.fromEntries(Object.entries(FROM_MID
 export const momentOf = (world, key) => TIMELINE[key] - (world.director?.arrival ? 0 : ARRIVAL_MINUTES);
 /** The calendar date at minute zero of this class's clock. */
 const startOf = world => world.director?.arrival ? Date.UTC(1835, 8, 28, 6) : Date.UTC(1835, 8, 29);
+/** The calendar moment a minute of this class's clock falls on. */
+export const dateOf = (world, minute) => new Date(startOf(world) + minute * 60000);
 export const HISTORICAL_OUTCOME = 'Mexican detachment withdraws; Texians retain the cannon.';
 const captions = {
   gathering: 'People gather near Gonzales. Supplies and civilian work support them.',

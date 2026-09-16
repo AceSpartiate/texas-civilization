@@ -344,3 +344,23 @@ button:hover:enabled{background:#60673e}
 .plot-palette li{padding:7px 0;border-top:1px solid #d3c299}
 #plot-note{color:#7a3b22;font-size:13px;margin:6px 0 0}
 @media (max-width:760px){#house-plot{left:8px;right:8px;width:auto;top:56px}}
+/* The end of the game (public/ending.js). */
+#ending{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:30;width:min(760px,calc(100% - 32px));max-height:min(86vh,860px);overflow-y:auto;background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259;border-radius:8px;box-shadow:0 5px 0 #6b583638,0 18px 45px #32291950;padding:14px 18px 18px;color:#3b3221}
+#ending-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #c5b286;padding-bottom:6px}
+#ending-close{background:none;border:none;color:#756342;font-size:24px;min-height:0;padding:0 4px}
+#ending-close:hover{background:none;color:#3b3221}
+#ending .ending-title{font-size:22px;margin:8px 0 6px;color:#4b3e28}
+#ending h3{font-size:15px;margin:14px 0 4px;color:#5a4a2e}
+#ending p,#ending li{line-height:1.45;margin:3px 0}
+.ending-numbers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:8px 0}
+.ending-numbers dt{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#84714c}
+.ending-numbers dd{margin:0;font-size:26px;font-weight:600}
+.ending-sum{font-family:ui-monospace,Consolas,monospace;font-size:13px;color:#5a4a2e}
+.ending-winner{font-size:17px;font-weight:600;margin:6px 0 10px}
+.ending-table-wrap{overflow-x:auto}
+.ending-table{border-collapse:collapse;width:100%;font-size:13px}
+.ending-table th,.ending-table td{border-bottom:1px solid #d6c59d;padding:5px 6px;text-align:left;vertical-align:top}
+.ending-table th{font-size:11px;letter-spacing:.05em;color:#84714c}
+.ending-table tr[data-first="true"] td{background:#ecd9a8;font-weight:600}
+#ending-open{position:absolute;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:29}
+@media(max-width:760px){#ending{padding:12px}.ending-numbers dd{font-size:21px}}

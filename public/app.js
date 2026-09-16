@@ -7,6 +7,7 @@ import {drawGonzalesGround,gonzalesDrawables,GONZALES_ART_BOUNDS} from '/gonzale
 import {drawWater,drawRoad,drawCrossing,crossingAngle} from '/landscape-art.js';
 import { drawHousePlot, plotted, renderHousePlot } from '/house-plot.js';
 import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesInView, treesVisible, woodsShown } from '/woods-view.js';
+import { bindEnding, renderEnding } from '/ending.js';
 const $ = selector => document.querySelector(selector);
 const say = message => { for (const id of ['#error', '#join-error', '#rejoin-error']) { const el = $(id); if (el) el.textContent = message; } };
 const hostPage = location.pathname === '/host';
@@ -2750,6 +2751,7 @@ document.addEventListener('click', event => {
   encounterOpen = true;
   if (window.__snapshot) renderEncounter(window.__snapshot.world);
 });
+bindEnding();
 $('#encounter-close')?.addEventListener('click', () => {
   encounterOpen = false;
   $('#encounter').hidden = true;
@@ -2901,6 +2903,7 @@ function render(snapshot) {
   }
   renderJoinLinks(snapshot);
   renderSlice(world);
+  renderEnding(world);
   drawWorld(world); renderHousehold(world); renderKnowledge(world); renderEncounter(world); renderFamilyRoll(world); renderWagonLoad(world); renderHousePlan(world); renderSite(world); renderSurvey(world); renderTutorial(world);
 }
 function showJoin(message) {

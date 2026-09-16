@@ -179,8 +179,10 @@ export function respondToOffer(world, householdId, entity, action, offerId, reas
   move(taker, giver, offer.ask);
   delete world.offers[offerId];
   const given = describeGoods(offer.give), asked = describeGoods(offer.ask);
-  record(world, 'consequence', { actorId: to.id, householdId, text: `${to.name} traded ${asked} to ${named(world, from)} for ${given}.` });
-  record(world, 'consequence', { actorId: from.id, householdId: offer.fromHouseholdId, text: `${from.name} traded ${given} to ${named(world, to)} for ${asked}.` });
+  // Coin that changed hands is tagged on each side's record, for the ending's account of where it came from.
+  const coinIn = (offer.give.money ?? 0) - (offer.ask.money ?? 0);
+  record(world, 'consequence', { actorId: to.id, householdId, ...(coinIn && { coin: coinIn }), text: `${to.name} traded ${asked} to ${named(world, from)} for ${given}.` });
+  record(world, 'consequence', { actorId: from.id, householdId: offer.fromHouseholdId, ...(coinIn && { coin: -coinIn }), text: `${from.name} traded ${given} to ${named(world, to)} for ${asked}.` });
 }
 
 /**

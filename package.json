@@ -22,6 +22,7 @@
     "test:farm": "node scripts/farm-browser-proof.mjs",
     "test:hunt": "node scripts/hunt-browser-proof.mjs",
     "test:family": "node scripts/family-browser-proof.mjs",
-    "test:army": "node scripts/army-browser-proof.mjs"
+    "test:army": "node scripts/army-browser-proof.mjs",
+    "test:ending": "node scripts/ending-browser-proof.mjs"
   }
 }
