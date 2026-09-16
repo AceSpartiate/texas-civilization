@@ -64,7 +64,7 @@
       },
       "plotsDrawn": 2,
       "holdings": 1,
-      "snapshotBytes": 45270,
+      "snapshotBytes": 46916,
       "description": "The whole class: 111 people, 4 figures in view, 13 people on the road."
     },
     "closestScale": {
@@ -85,8 +85,8 @@
         "kind": "region",
         "scale": 1357.1428571428573,
         "named": true,
-        "cx": 82.56,
-        "cy": -20.8,
+        "cx": 82.6463,
+        "cy": -20.7848,
         "following": false
       },
       "shops": 10,
