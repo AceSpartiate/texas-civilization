@@ -92,9 +92,9 @@ test('a call and an army question are "!"s on whoever may answer them, and nothi
   assert.deepEqual(needsOf({ entities: [entity], army: { ours: [{ id: 'a', detachment: 'open' }] } }, 'a').map(need => need.kind), ['army']);
   // Nothing about what an answer risks, which the owner hid (docs/COLONIES.md §7a).
   assert.doesNotMatch(needsOf({ entities: [entity], army: army('open') }, 'a')[0].text, /kill|die|death|danger|risk|wound/i);
-  // The most pressing first: a rider who will not wait, then the army, a call, work asking, an offer.
+  // The most pressing first: a rider who will not wait, then the army, Travis asking for riders, a call, work asking, an offer.
   const everything = {
-    entities: [{ ...entity, chore: { ask: { id: 'shot' } } }], request: call, army: army('open'),
+    entities: [{ ...entity, chore: { ask: { id: 'shot' } }, service: { kind: 'garrison', status: 'serving', besieged: true, courier: 'open' } }], request: call, army: army('open'),
     encounter: { status: 'open', listenerId: 'a', carrierName: 'Ben' }, offers: [{ direction: 'received', ourEntityId: 'a', theirName: 'Cy' }],
   };
   assert.deepEqual(needsOf(everything, 'a').map(need => need.kind), NEED_KINDS);

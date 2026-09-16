@@ -40,7 +40,7 @@ const HOUSE_PREFERENCE = ['hewn-log', 'round-log', 'jacal'];
  * as the record shows"; 78 in 100 of those serving that winter were newcomers from the United States, `HIST-TEX-047`). The
  * regular army takes two in five of those who enlist; the numbers are this game's own (`FIC-GONZ-044`).
  */
-export const WINTER_SHARES = Object.freeze({ enlist: 0.1, regular: 0.04, garrison: 0.1, matamoros: 0.02, vote: 0.9 });
+export const WINTER_SHARES = Object.freeze({ enlist: 0.1, regular: 0.04, garrison: 0.1, matamoros: 0.02, vote: 0.9, relief: 0.1 });
 
 /** A share in [0, 1) that is always the same for this class, this person and this question: FNV-1a over the three. */
 export function shareOf(world, personId, question) {
@@ -134,7 +134,9 @@ export function thinkFor(world, household, { project, act }) {
       : share < WINTER_SHARES.enlist ? 'enlist-auxiliary'
       : share < WINTER_SHARES.enlist + WINTER_SHARES.garrison ? 'join-garrison'
       : share < WINTER_SHARES.enlist + WINTER_SHARES.garrison + WINTER_SHARES.matamoros ? 'join-matamoros' : null;
-    if (chore && offer(chore)) ride({ action: 'chore', entityId: person.id, chore });
+    if (chore && offer(chore)) { ride({ action: 'chore', entityId: person.id, chore }); continue; }
+    // Travis's letter (sim/alamo.mjs): about one grown hand in ten of a family that has heard it rides to Gonzales to go in.
+    if (offer('join-relief') && shareOf(world, person.id, 'relief') < WINTER_SHARES.relief) ride({ action: 'chore', entityId: person.id, chore: 'join-relief' });
   }
 
   // On the real land, where the house stands comes first (sim/homesite.mjs): looked over as a student would look it over.

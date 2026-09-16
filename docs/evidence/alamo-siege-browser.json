@@ -1,0 +1,20 @@
+{
+  "record": "The siege of the Alamo, in a browser: docs/COLONIES.md §7f, build step 9",
+  "date": "2026-09-16",
+  "verdict": "PASS",
+  "note": "Same computer only. A real class on the colonies map with rolled families, played in process through the first period and into the winter, hh-1's father set in the garrison at Béxar in process, and run to just after February 23; then served live: a student saw the row shut, pressed the \"!\" on the day riders went out, and offered to ride. No LAN or district claim.",
+  "checks": [
+    "Vicente's row gives no order and says why: \"Vicente is shut in the Alamo.\"",
+    "the \"!\" opens the card at Travis's question: \"Vicente is shut in the Alamo with the garrison. Travis wants riders to carry his letters out through the Mexican lines. He will choose among those who offer. Offer to ride out with the letters Stay inside the walls\"",
+    "offering to ride out is taken by the server, and the \"!\" goes",
+    "at phone width the page does not scroll sideways",
+    "no page errors"
+  ],
+  "observed": {
+    "row": "Vicente is shut in the Alamo.",
+    "card": "Vicente is shut in the Alamo with the garrison. Travis wants riders to carry his letters out through the Mexican lines. He will choose among those who offer. Offer to ride out with the letters Stay inside the walls"
+  },
+  "screenshots": [
+    "docs/evidence/alamo-siege-courier.png"
+  ]
+}

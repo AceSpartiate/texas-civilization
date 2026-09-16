@@ -33,6 +33,10 @@ export const SERVICE = Object.freeze({
   garrison: { siteId: 'bexar', acres: 0, bound: false, name: 'the garrison at Béxar', claimId: 'HIST-TEX-051', event: 'garrison' },
   // ceiling: Johnson and Grant were at San Patricio, which is not on the map; Refugio is where Houston met their men.
   matamoros: { siteId: 'refugio', acres: 0, bound: false, name: 'the Matamoros expedition', claimId: 'HIST-TEX-049', event: 'matamoros' },
+  // The Alamo (sim/alamo.mjs): the men waiting at Gonzales to ride in with Kimbell and Martin, and those who got away from the
+  // southern fights to Fannin at Goliad.
+  relief: { siteId: 'gonzales', acres: 0, bound: false, name: 'the men going in from Gonzales', claimId: 'HIST-TEX-057', event: 'alamo' },
+  fannin: { siteId: 'goliad', acres: 0, bound: false, name: 'Fannin\'s command at Goliad', claimId: 'HIST-TEX-059', event: 'goliad' },
 });
 
 /** Land counts at the end at one real for every twenty acres, added after glory multiplies the coin (owner, 2026-09-16). */
@@ -42,8 +46,15 @@ export const VOTING_AGE = 21;
 
 /** The chores of the winter, by what their last step does. */
 export const WINTER_CHORES = Object.freeze({
-  'enlist-regular': 'regular', 'enlist-auxiliary': 'auxiliary', 'join-garrison': 'garrison', 'join-matamoros': 'matamoros', 'go-vote': 'vote',
+  'enlist-regular': 'regular', 'enlist-auxiliary': 'auxiliary', 'join-garrison': 'garrison', 'join-matamoros': 'matamoros', 'go-vote': 'vote', 'join-relief': 'relief',
 });
+
+const passed = (world, key) => Boolean(world.director?.milestones?.[key]);
+/** Whether each kind can still be joined (owner, §7f): the garrison closes when the siege begins, going south on February 27, the relief when it rides. */
+const stillOpen = (world, household, kind) => kind === 'garrison' ? !passed(world, 'alamo-siege')
+  : kind === 'matamoros' ? !passed(world, 'san-patricio')
+  : kind === 'relief' ? Boolean(world.knowledge?.households?.[household.id]?.['alamo-siege']) && !passed(world, 'relief-leaves')
+  : true;
 
 const GONE = ['dead', 'captured'];
 /**
@@ -67,7 +78,7 @@ export const pollsOpen = world => world.period === 2 && Boolean(world.director?.
 export function winterOffered(world, household, entity, choreId) {
   if (!winterOpen(world)) return false;
   if (WINTER_CHORES[choreId] === 'vote') return pollsOpen(world) && mayVote(entity) && !entity.voted;
-  return true;
+  return stillOpen(world, household, WINTER_CHORES[choreId]);
 }
 
 /** Why this person cannot be sent on this winter chore now, or null. */
@@ -82,6 +93,7 @@ export function winterRefusal(world, household, entity, choreId) {
     if (entity.voted) return `${entity.name} has voted.`;
     return null;
   }
+  if (!stillOpen(world, household, kind)) return { garrison: 'Béxar is under siege. Only the men going in from Gonzales can reach the garrison now.', matamoros: 'Nobody is going south to Matamoros now.', relief: 'The men from Gonzales have ridden for the Alamo.' }[kind] || 'That is not a choice now.';
   // Who may go is who may answer a call: a parent, or a son or daughter of sixteen or more (docs/FAMILY_CREATION.md step 4).
   if (!canAnswerCalls(entity)) return cannotAnswerWhy(entity);
   if (['regular', 'auxiliary'].includes(kind) && entity.deserted) return `${entity.name} deserted the army and cannot enlist again.`;
@@ -92,6 +104,11 @@ export function winterRefusal(world, household, entity, choreId) {
 export function joinService(world, household, entity, kind) {
   const terms = SERVICE[kind];
   if (!terms || GONE.includes(entity.health?.condition)) return null;
+  // Arrived after the way was shut (sim/alamo.mjs): the chore's `shut-out` step takes them home again.
+  if (!stillOpen(world, household, kind)) {
+    if (entity.chore) entity.chore.flags = [...(entity.chore.flags || []), 'shut-out'];
+    return record(world, 'consequence', { actorId: entity.id, householdId: household.id, importance: 2, text: kind === 'garrison' ? `${entity.name} reached Béxar too late: the Mexican army is in the town and the Alamo is shut.` : kind === 'relief' ? `${entity.name} reached Gonzales after the men for the Alamo had ridden.` : `${entity.name} found the volunteers gone from ${place(world, terms.siteId)}.` });
+  }
   entity.service = { kind, status: 'serving', since: world.minute, siteId: terms.siteId, ...(terms.acres && { acres: terms.acres }) };
   const eventId = record(world, 'army', {
     actorId: entity.id, householdId: household.id, importance: 3, classification: 'DOCUMENTED', claimId: terms.claimId,
@@ -121,6 +138,8 @@ export function castVote(world, household, entity) {
 /** Why somebody cannot be sent for, or null. */
 export function recallRefusal(entity) {
   if (!serving(entity)) return `${entity.name} is not away with anybody to be sent for.`;
+  if (entity.service.besieged) return `${entity.name} is shut in the Alamo, and nobody can be sent for through the Mexican lines.`;
+  if (entity.service.riding) return `${entity.name} has ridden for the Alamo with the Gonzales men.`;
   if (GONE.includes(entity.health?.condition)) return `${entity.name} cannot come home.`;
   if (entity.travel) return `${entity.name} is on the road.`;
   return null;
@@ -161,15 +180,19 @@ export function landPromised(world, household) {
 }
 
 /** What somebody serving may still be asked: nothing that is not about being sent for, named, or spoken to. */
-export const SERVING_ACTIONS = Object.freeze(['winter-recall', 'rename', 'set-main', 'ask-rider', 'leave-rider', 'army-answer']);
-export const servingWhy = (world, entity) => `${entity.name} is with ${SERVICE[entity.service.kind].name} at ${place(world, entity.service.siteId)}, and can only be sent for.`;
+export const SERVING_ACTIONS = Object.freeze(['winter-recall', 'alamo-courier', 'rename', 'set-main', 'ask-rider', 'leave-rider', 'army-answer']);
+export const servingWhy = (world, entity) => entity.service.besieged
+  ? `${entity.name} is shut in the Alamo with the garrison.`
+  : `${entity.name} is with ${SERVICE[entity.service.kind].name} at ${place(world, entity.service.siteId)}, and can only be sent for.`;
 
 /** A saved service that cannot be, or null. */
 export function winterInvalid(world) {
   for (const entity of Object.values(world.entities)) {
     const service = entity.service;
     if (service === undefined) continue;
-    if (!service || !SERVICE[service.kind] || !['serving', 'released', 'deserted'].includes(service.status)) return 'Invalid service';
+    if (!service || !SERVICE[service.kind] || !['serving', 'released', 'deserted', 'fell', 'captured'].includes(service.status)) return 'Invalid service';
+    if (service.courier !== undefined && !['open', 'volunteered', 'stays', 'passed', 'sent'].includes(service.courier)) return 'Invalid courier answer';
+    if (service.fate !== undefined && !['fell', 'spared', 'killed', 'captured', 'escaped'].includes(service.fate)) return 'Invalid fate';
     if (service.acres !== undefined && (!Number.isInteger(service.acres) || service.acres < 0)) return 'Invalid acres promised';
   }
   return null;

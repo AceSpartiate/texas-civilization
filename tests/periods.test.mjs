@@ -110,7 +110,7 @@ test('the second period plays its own moments, none of 1835 again, and ends with
   assert.equal(world.director.phase, 'campaign', 'the winter news did not move the calendar on');
   until(world, () => world.director.complete);
   assert.equal(world.status, 'ended');
-  assert.ok(world.minute >= momentOf(world, 'winter-end'));
+  assert.ok(world.minute >= momentOf(world, 'alamo-end'));
   assert.equal(preserved(), before + 1, 'the end of 1835 fired again in the winter');
   const host = view(world, undefined, 'host').ending.host;
   assert.equal(host.interim, false, 'the end of the second period was only interim');

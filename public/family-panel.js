@@ -43,6 +43,7 @@ export const PANEL_SUMMARIES = Object.freeze({
   'join-garrison': 'Go to Béxar and join the men holding the town and the Alamo.',
   'join-matamoros': 'Go south to Refugio and join the volunteers bound for Matamoros.',
   'go-vote': 'Go into town and vote for the delegates to the convention.',
+  'join-relief': 'Ride to Gonzales to go in to the Alamo with the men gathering there.',
   'winter-recall': 'Send for them to leave where they serve and come home.',
   'travel-gonzales': 'Go into the town of Gonzales and stay there until sent somewhere else.',
   'travel-home': 'Come back to the family’s own land.',
@@ -96,6 +97,7 @@ export const PANEL_ICONS = Object.freeze({
   'join-garrison': { glyph: 'fort' },
   'join-matamoros': { glyph: 'south' },
   'go-vote': { glyph: 'ballot' },
+  'join-relief': { glyph: 'fort' },
   'winter-recall': { sprite: 'cabin-small' },
   'travel-gonzales': { sprite: 'trading-house' },
   'travel-home': { sprite: 'cabin-small' },
@@ -177,9 +179,10 @@ export function panelActions({ entity, offered = [], catalogue = new Map(), main
   if (!entity || ['dead', 'captured'].includes(entity.health?.condition)) return [];
   // Somebody with the army, the garrison or the expedition (sim/winter.mjs) has one order and no other: sending for them.
   if (entity.service?.status === 'serving') {
+    const shut = entity.service.besieged ? `${entity.name || 'They'} is shut in the Alamo.` : entity.service.riding ? `${entity.name || 'They'} has ridden for the Alamo.` : '';
     return [{ key: 'winter-recall', kind: 'order', name: ORDER_NAMES['winter-recall'], summary: PANEL_SUMMARIES['winter-recall'],
       note: entity.service.kind === 'regular' ? 'A regular who leaves has deserted, and loses glory.' : entity.service.acres ? 'The promise of land is lost.' : '',
-      why: '', can: settable && !entity.travel, active: false }];
+      why: shut, can: settable && !entity.travel && !shut, active: false }];
   }
   const active = activeKey(entity, { homeId, main, homesteads });
   // A refusal the land hunt shares with the timber hunt is sent once, on the timber hunt (sim/chores.mjs `choresFor`).
@@ -277,7 +280,7 @@ export function meetingFor(world, entity) {
 }
 
 /** Which card section answers each need, in the order a need is shown when a person has more than one. */
-export const NEED_KINDS = Object.freeze(['rider', 'army', 'call', 'asking', 'offer']);
+export const NEED_KINDS = Object.freeze(['rider', 'army', 'courier', 'call', 'asking', 'offer']);
 
 /**
  * What this person is waiting on the student for, most pressing first: a rider standing with them (who will not wait for
@@ -296,6 +299,8 @@ export function needsOf(world, entityId) {
   if (ours && (ours.detachment === 'open' || (ours.questions || []).some(question => question.answer === 'open'))) {
     needs.push({ kind: 'army', text: `The army is asking ${name} something.` });
   }
+  // Inside the Alamo, asked whether they will carry Travis's letters out (sim/alamo.mjs).
+  if (entity.service?.courier === 'open') needs.push({ kind: 'courier', text: `Travis is asking whether ${name} will ride out with his letters.` });
   if (requestFor(world, entity)?.options?.length) needs.push({ kind: 'call', text: `${name} can answer what the family is being asked.` });
   if (entity.chore?.ask) needs.push({ kind: 'asking', text: `${name}’s work has stopped to ask something.` });
   for (const offer of world.offers || []) {

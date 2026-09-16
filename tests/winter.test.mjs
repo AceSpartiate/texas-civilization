@@ -206,5 +206,10 @@ test('families nobody plays take the winter choices rarely, as the record shows,
   assert.ok(voters.every(person => shareOf(world, person.id, 'vote') < WINTER_SHARES.vote), 'a man whose share stays home voted');
   assert.ok(voters.length >= Math.floor(men.length * 0.5), `too few voted: ${voters.length} of ${men.length}`);
   assert.ok(Object.values(world.entities).every(person => !person.voted || mayVote(person)), 'somebody voted who may not');
+  // Travis's letter (sim/alamo.mjs): about one grown hand in ten of those who heard it rides to Gonzales to go in, if they are free
+  // in the day or two before the men ride; nobody else does.
+  until(world, () => world.director.milestones['relief-enters'], 9000);
+  const relief = Object.values(world.entities).filter(person => person.service?.kind === 'relief' || person.service?.relief);
+  for (const person of relief) assert.ok(shareOf(world, person.id, 'relief') < WINTER_SHARES.relief, `${person.name} rode with the relief though their share stays home`);
   validateWorld(world);
 });

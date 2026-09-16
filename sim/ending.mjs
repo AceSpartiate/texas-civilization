@@ -54,6 +54,9 @@ const EVENT_NAMES = Object.freeze({
   enlistment: 'the army of Texas, for land',
   desertion: 'the army of Texas, for land,',
   election: 'the election of February 1, 1836',
+  alamo: 'the siege of the Alamo',
+  'san-patricio': 'the fight at San Patricio',
+  'agua-dulce': 'the fight at Agua Dulce Creek',
 });
 const PART_WORDS = Object.freeze({
   supplied: 'carried supplies for',

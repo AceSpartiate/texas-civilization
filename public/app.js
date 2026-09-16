@@ -2136,7 +2136,7 @@ function renderTravelModes(world, chosen, settable) {
 }
 function renderWork(world, chosen, running) {
   const panel = $('#selection-work');
-  const key = JSON.stringify([chosen.id, running, chosen.service?.status ?? null, Boolean(chosen.travel), modeFor(chosen.id), world.land, chosen.health?.condition, Boolean(chosen.chore), chosen.chore?.ask?.openedMinute ?? null,
+  const key = JSON.stringify([chosen.id, running, chosen.service?.status ?? null, chosen.service?.besieged ?? null, chosen.service?.riding ?? null, chosen.service?.courier ?? null, Boolean(chosen.travel), modeFor(chosen.id), world.land, chosen.health?.condition, Boolean(chosen.chore), chosen.chore?.ask?.openedMinute ?? null,
     (world.work?.[chosen.id] || []).map(entry => ({ ...choreCache?.get(entry.id), ...entry }))]);
   if (renderedWork?.key === key) return;
   const restore = renderedWork?.chosenId === chosen.id ? rememberControls(panel) : () => {};
@@ -2181,8 +2181,20 @@ function populateWork(world, chosen, running) {
   // them, asked twice because a regular who leaves has deserted and an auxiliary loses the land.
   if (chosen.service?.status === 'serving') {
     const where = world.map?.sites?.[chosen.service.siteId]?.name || chosen.service.siteId;
-    const what = { regular: 'the regular army', 'auxiliary-war': 'the auxiliary volunteers, for the war', 'auxiliary-year': 'the auxiliary volunteers, for a year', garrison: 'the garrison', matamoros: 'the Matamoros expedition' }[chosen.service.kind];
-    host.append(element('p', `${chosen.name} is with ${what} at ${where}${chosen.service.acres ? `, on the promise of ${chosen.service.acres} acres` : ''}.`, 'ask-text'));
+    const what = { regular: 'the regular army', 'auxiliary-war': 'the auxiliary volunteers, for the war', 'auxiliary-year': 'the auxiliary volunteers, for a year', garrison: 'the garrison', matamoros: 'the Matamoros expedition', relief: 'the men going in to the Alamo', fannin: 'Fannin\'s command' }[chosen.service.kind];
+    host.append(element('p', chosen.service.besieged ? `${chosen.name} is shut in the Alamo with the garrison.` : chosen.service.riding ? `${chosen.name} has ridden for the Alamo with the Gonzales men.` : `${chosen.name} is with ${what} at ${where}${chosen.service.acres ? `, on the promise of ${chosen.service.acres} acres` : ''}.`, 'ask-text'));
+    // Travis asking for riders (sim/alamo.mjs): volunteering is no promise of being chosen.
+    if (chosen.service.courier === 'open') {
+      host.append(element('p', 'Travis wants riders to carry his letters out through the Mexican lines. He will choose among those who offer.', 'work-note'));
+      for (const [answer, label] of [['volunteer', 'Offer to ride out with the letters'], ['stay', 'Stay inside the walls']]) {
+        const button = element('button', '', 'work-option ask-option-work');
+        button.dataset.action = 'alamo-courier'; button.dataset.question = 'courier'; button.dataset.answer = answer; button.dataset.entityId = chosen.id;
+        button.disabled = !running;
+        button.append(element('span', label, 'work-name'));
+        host.append(button);
+      }
+    }
+    if (chosen.service.besieged || chosen.service.riding) return;
     const recall = element('button', 'Send for them to come home', 'work-stop');
     recall.dataset.action = 'winter-recall';
     recall.dataset.entityId = chosen.id;
@@ -2321,7 +2333,7 @@ function goToPerson(id) {
   if (world) { drawWorld(world); renderFamilyPanel(world); renderSelection(world); renderTutorial(world); }
 }
 /** Where on the card each need is answered. A rider has a panel of their own. */
-const NEED_SECTIONS = { army: '#selection-army', call: '#selection-call', asking: '#selection-work', offer: '#selection-trade' };
+const NEED_SECTIONS = { army: '#selection-army', courier: '#selection-work', call: '#selection-call', asking: '#selection-work', offer: '#selection-trade' };
 /**
  * The "!" on a row: go to the person and open what is waiting on them - the rider's conversation, or their card at the
  * question with its answers - and put the keyboard on the first answer. Nothing is decided here: the answers are the card's

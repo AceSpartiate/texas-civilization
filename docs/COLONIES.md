@@ -383,7 +383,9 @@ Each step ends with tests that failed first, a browser proof where it touches wh
    (a) Two periods: the first ends after Béxar with interim standings and is continued, not archived; the gap is skipped
    gently; the second opens about January 25, 1836. (b) The winter's choices: enlisting for land, the Béxar garrison, the
    February 1 vote, Matamoros; one person, one place. (c) Families nobody plays, at the record's rarity.
-9. **The Alamo**, researched first as the 1835 battles were; then Goliad, the Runaway Scrape and San Jacinto.
+9. **The Alamo** (§7f; research [alamo.md](battle-research/alamo.md)): the siege from February 23, couriers, the Gonzales relief,
+   the fall on March 6, San Patricio and Agua Dulce, word of the fall disbelieved and confirmed; the second period ends on the
+   night of March 13 when Gonzales is burned. Then Goliad, the Runaway Scrape and San Jacinto.
 
 ---
 
@@ -792,6 +794,44 @@ Decided by the owner by multiple choice (§7e). Research [winter-1835-36.md](bat
 - Tests `tests/winter.test.mjs` (8, proven by 23 injections), `tests/money.test.mjs` (the purse and cotton),
   `tests/family-panel.test.mjs` (the serving row); browser `npm run test:winter` ([evidence](evidence/winter-browser.json)).
 
+### 6o. As built: step 9, the Alamo, San Patricio and Agua Dulce (2026-09-16)
+
+Decided by the owner by multiple choice (§7f). Research [alamo.md](battle-research/alamo.md); `HIST-TEX-054` to `-061`, `FIC-GONZ-045`.
+`sim/alamo.mjs`, driven by `advanceAlamo` in `sim/directors.mjs`. The second period now ends on the night of March 13.
+
+- **The siege** (`alamo-siege`, 2:30 p.m. February 23): whoever of a family is standing at Béxar - the garrison, or somebody lying
+  there wounded - is shut in (`service.besieged`). They cannot be sent for (*"shut in the Alamo, and nobody can be sent for through
+  the Mexican lines"*); their row says so in place of icons; *Join the garrison at Béxar* is no longer offered, and somebody still
+  on the road arrives too late and turns home (`shut-out`).
+- **Couriers**: on February 24, 25, March 3 and March 5 (asked from six in the morning, gone in the evening, on the hourly
+  calendar) a played person inside is asked once whether they will carry Travis's letters out - a "!" on their row
+  (`courier` need), answered on the card (action `alamo-courier`). Of those who offer, about one in four (`COURIER_CHOSEN`,
+  a hashed share) is chosen, is released, rides for Gonzales and earns `present` at the siege; the others stay. Nobody
+  answering stays. Families nobody plays are not asked (`ceiling:`).
+- **The relief**: Travis's letter reaches Gonzales's families on February 25 and the other settlements on the 26th. Any family
+  that has heard it may send a grown member on *Ride to Gonzales to go in to the Alamo* (`join-relief`); whoever is at
+  Gonzales at 2 p.m. on the 27th rides for Béxar (`riding`, and cannot be sent for) and is inside before dawn on March 1;
+  anybody arriving after turns home. Families nobody plays send about one grown hand in ten, if free (`WINTER_SHARES.relief`).
+- **The fall** (`alamo-assault`, 5 a.m. March 6): every man inside falls and every woman is spared (`service.fate`); the men earn
+  `fought`, the women `present`. **Nothing of it is on a family's screen until the word comes**: the spared are let go on
+  March 8 and start home; at Gonzales a rumour on the evening of the 11th (Houston thinks the riders spies), confirmed on the
+  morning of the 13th, when a Gonzales family's dead are dead and it is told; elsewhere the word comes that evening
+  (`unconfirmed`, from a rider from Gonzales). `ceiling:` the world knows at once; the families nearest learn first.
+- **The south**: on February 27 nobody more goes south, and those there are split by a hashed share between Johnson's party
+  (34 in 60) and Grant's. San Patricio (3 a.m. February 27) and Agua Dulce (the morning of March 2) roll each for killed
+  (weighted by hidden strength and health), captured or escaped, at the record's shares (`SOUTH_RATES`: 8, 13 and 6 of 27;
+  14, 6 and 6 of 26); all earn `fought`. The escaped go at once to Fannin at Goliad (a `fannin` service, which can be sent
+  for); the killed and captured become so on the family's screen with the rumour of each fight (March 3, March 7), the captured
+  held as prisoners (`captured`). `ceiling:` Refugio stands in for San Patricio and both fights, which are not on the map.
+- **News** besides: Fannin turned back (February 29), the declaration of independence and Houston named commander (March 4).
+- **The end** (`alamo-end`, 11 p.m. March 13): Houston has burned Gonzales and is falling back; the final reckoning.
+- **Stored** on `entity.service`: `besieged`, `riding`, `relief`, `courier` (open, volunteered, stays, passed, sent), `fate`,
+  `party`, `told`, `escapedFrom`; statuses `fell` and `captured`; kinds `relief` and `fannin`. The projection sends only
+  `besieged`, `riding` and an open `courier` - never a fate. Validated; no save version moved.
+- Tests `tests/alamo.test.mjs` (6, proven by 23 injections), `tests/winter.test.mjs` (families nobody plays and the relief),
+  `tests/family-commands.test.mjs` (the courier "!"); browser `npm run test:alamo-siege`
+  ([evidence](evidence/alamo-siege-browser.json)).
+
 ## 7. Questions for the owner — all answered 2026-09-14
 
 1. **How long is a class?** About fifty minutes: ten of farming, then the war, compressed without feeling compressed (§5.7).
@@ -893,3 +933,17 @@ Put to the owner by multiple choice after build step 6, before any research, and
 | Where must somebody be to vote on February 1? | **In the settlement's own town**: a trip, and nobody away at Béxar or Matamoros votes. |
 | Who may vote? | **Men of 21 and over**, as in 1836. |
 | Can an auxiliary volunteer be sent for? | **Yes, and the land is forfeit.** Only the regular army is bound. |
+
+### 7f. The Alamo, San Patricio and Agua Dulce — answered 2026-09-16
+
+Put to the owner by multiple choice after [alamo.md](battle-research/alamo.md), before building:
+
+| Question | Owner's answer |
+| --- | --- |
+| A family member in the garrison when Santa Anna arrives (Feb 23) | **Trapped, and may ride out as a courier.** The family cannot send for them once the siege begins. On the days Travis sent riders out, a played person inside may volunteer once to carry a letter out; couriers were chosen, so about 1 volunteer in 4 is sent, rides out to Gonzales, and survives. |
+| Who can send somebody with the relief from Gonzales (32 men, entered March 1, all died)? | **Anyone who reaches Gonzales**: every family that has heard Travis's letter may send a grown member, and whoever is in Gonzales by 2 p.m. on February 27 rides with Kimbell and Martin and enters the Alamo on March 1. Families nearest Gonzales can; far ones realistically cannot. |
+| What happens inside on March 6? | **The men die; the women are spared.** Every man who joined the garrison or rode in with the relief is killed, as all the defenders were; a woman who joined is spared with the noncombatants, as every woman inside was, and comes home later with Susanna Dickinson. |
+| How does word of the fall reach families? | **Disbelieved, then confirmed**: a rumour reaches Gonzales on March 11 (Houston took the riders for spies), confirmed on the 13th by Susanna Dickinson; other settlements hear by rider over the following days; a family's own person's fate comes with the confirmation. |
+| A family member who went south with the Matamoros men | **The record's rates, split between the two parties**: rolled at San Patricio (February 27) or Agua Dulce (March 2) for killed, captured or escaped; the captured are prisoners at Matamoros until the war ends; the escaped make their way to Goliad and Fannin. |
+| Where does the second period end? | **March 13, Gonzales burned**: word confirmed, Houston burns Gonzales, the Runaway Scrape begins, and the class ends that night. Goliad, the Scrape and San Jacinto come next. |
+| Can families still enlist, garrison or go south once the siege begins? | **The garrison closes; the others stay open**: nobody new reaches the garrison except with the relief from Gonzales; enlisting at San Felipe stays open; going south closes on February 27. |

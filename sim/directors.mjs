@@ -6,6 +6,7 @@ import { awardGlory } from './glory.mjs';
 import { canAnswerCalls, cannotAnswerWhy, tooYoung, tooYoungWhy } from './family.mjs';
 import { distantHouseholds, expressLeaves, startExpress } from './expresses.mjs';
 import { callOptions, expireCalls, offerCalls, settleCalls } from './calls.mjs';
+import { ALAMO_WORD, COURIER_DAYS, askCouriers, beginSiege, fightSouth, gonzalesFamilies, otherFamilies, reliefEnters, reliefRides, sendCouriers, splitSouth, stormAlamo, survivorsLeave, tellFall, tellSouth, word } from './alamo.mjs';
 import { advanceArmy, closeDetachment, closeQuestion, countermandStorm, dieOfWounds, disbandArmy, fightConcepcion, fightGrass, fightStorming, formArmy, goForClothing, marchOut, moveCamp, openDetachment, openQuestion, questionOpen, recordPresent, returnFromClothing, tellGrassFight, tellStorming } from './army.mjs';
 
 /**
@@ -85,7 +86,20 @@ const FROM_MIDNIGHT_SEPT_29 = Object.freeze({
   // on the hourly calendar so the day lasts long enough to go. Travis's arrival (February 3) and Crockett's (the 8th) are
   // heard about five days after; the rumour that Santa Anna is over the Rio Grande about the 18th (`HIST-TEX-053`).
   'winter-opens': 170280, 'winter-news': 171720, 'election-opens': 179280, 'election-close': 181440,
-  'travis-news': 181440 + 5 * 1440 + 360, 'crockett-news': 181440 + 10 * 1440 + 360, 'santa-anna-rumour': 181440 + 15 * 1440 + 360, 'winter-end': 212040,
+  'travis-news': 181440 + 5 * 1440 + 360, 'crockett-news': 181440 + 10 * 1440 + 360, 'santa-anna-rumour': 181440 + 15 * 1440 + 360,
+  // The Alamo (docs/COLONIES.md §7f, sim/alamo.mjs; `HIST-TEX-054` to `-060`). February 23, 1836 is 211680 (1836 is a leap year,
+  // so March 1 is 221760). The Mexican army at Béxar about half past two on the 23rd; Travis's letter at Gonzales the 25th and in
+  // the other settlements the 26th; the days riders went out (asked from six in the morning, gone in the evening) the 24th, 25th,
+  // March 3 and 5; San Patricio at three on the 27th and the Gonzales men away at two that afternoon; word Fannin turned back the
+  // 29th; the relief inside before dawn March 1; Agua Dulce the morning of March 2 (its hour is not in the record); word of San
+  // Patricio the 3rd and of the declaration the 4th; the storming about five on the 6th; the spared let go the 8th; word of Agua
+  // Dulce the 7th; the rumour of the fall at Gonzales the evening of the 11th, confirmed the morning of the 13th and carried on that
+  // evening; Gonzales burned and the period over that night.
+  'alamo-siege': 212550, 'courier-1-opens': 213480, 'courier-1': 214080, 'courier-2-opens': 214920, 'travis-gonzales': 215280, 'courier-2': 215760,
+  'travis-colonies': 216720, 'san-patricio': 217620, 'relief-leaves': 218280, 'fannin-back': 220800, 'relief-enters': 222000,
+  'agua-dulce': 223560, 'courier-3-opens': 225000, 'san-patricio-news': 225360, 'courier-3': 225840, 'declaration-news': 226800,
+  'courier-4-opens': 228240, 'courier-4': 229080, 'alamo-assault': 229260, 'agua-dulce-news': 231120, 'survivors-leave': 232200,
+  'fall-rumour': 237240, 'fall-confirmed': 239520, 'fall-colonies': 240240, 'alamo-end': 240420,
 });
 /**
  * The families arrive at dawn on September 28, eighteen hours before midnight.
@@ -841,7 +855,7 @@ function advanceStorming(world, movement, { due, said }) {
  * The second period (sim/periods.mjs): the winter of 1835-36. It is played only once the Host has continued the class, and
  * everything before it was settled in the first period, so none of the 1835 milestones fire again.
  */
-function advanceWinter(world) {
+function advanceWinter(world, movement = {}) {
   const said = (claimId, text) => record(world, 'milestone', { visibility: 'public', importance: 3, classification: 'DOCUMENTED', claimId, text });
   once(world, 'winter-news', () => {
     world.director.phase = 'campaign';
@@ -861,11 +875,39 @@ function advanceWinter(world) {
   once(world, 'travis-news', () => sendWord(world, 'winter-travis', { truth: 'William Barret Travis has come to Béxar with about thirty horsemen, and Bowie means to hold the place.', claimId: 'HIST-TEX-051', source: 'Word from Béxar' }));
   once(world, 'crockett-news', () => sendWord(world, 'winter-crockett', { truth: 'David Crockett of Tennessee has reached Béxar with a few volunteers. Colonel Neill has gone home to his sick family, and Travis and Bowie command together.', claimId: 'HIST-TEX-051', source: 'Word from Béxar' }));
   once(world, 'santa-anna-rumour', () => sendWord(world, 'winter-santa-anna', { truth: 'It is said Santa Anna himself has crossed the Rio Grande with a great army, through snow, and is marching on Béxar.', status: 'rumor', claimId: 'HIST-TEX-053', source: 'A rumour from the west' }));
-  once(world, 'winter-end', () => {
+  advanceAlamo(world, said, movement);
+}
+
+/**
+ * The Alamo, San Patricio and Agua Dulce (sim/alamo.mjs, docs/COLONIES.md §7f): the second period's last three weeks.
+ */
+function advanceAlamo(world, said, { beginTravel } = {}) {
+  const alamo = { beginTravel: beginTravel || (() => {}) };
+  once(world, 'alamo-siege', () => beginSiege(world, said('HIST-TEX-054', 'The Mexican army has come into Béxar. The garrison has gone into the Alamo, and a red flag flies from the church of San Fernando.')));
+  COURIER_DAYS.forEach(day => {
+    once(world, `${day}-opens`, () => { if (askCouriers(world)) world.director.phase = 'news'; });
+    once(world, day, () => { sendCouriers(world, day, alamo); world.director.phase = 'campaign'; });
+  });
+  once(world, 'travis-gonzales', () => word(world, 'alamo-siege', gonzalesFamilies(world), { truth: ALAMO_WORD.siege, claimId: 'HIST-TEX-055', source: 'Travis\'s letter, brought to Gonzales by Albert Martin' }));
+  once(world, 'travis-colonies', () => word(world, 'alamo-siege', otherFamilies(world), { truth: ALAMO_WORD.siege, claimId: 'HIST-TEX-055', source: 'Travis\'s letter, carried on from Gonzales' }));
+  once(world, 'san-patricio', () => { splitSouth(world); fightSouth(world, 'san-patricio', alamo); });
+  once(world, 'relief-leaves', () => reliefRides(world, alamo));
+  once(world, 'fannin-back', () => word(world, 'fannin-back', Object.values(world.households), { truth: ALAMO_WORD.fannin, claimId: 'HIST-TEX-056', source: 'Word from Goliad' }));
+  once(world, 'relief-enters', () => reliefEnters(world));
+  once(world, 'agua-dulce', () => fightSouth(world, 'agua-dulce', alamo));
+  once(world, 'san-patricio-news', () => { word(world, 'san-patricio', Object.values(world.households), { truth: ALAMO_WORD.sanPatricio, status: 'rumor', claimId: 'HIST-TEX-059', source: 'A rumour from the south' }); tellSouth(world, 'san-patricio'); });
+  once(world, 'declaration-news', () => word(world, 'declaration', Object.values(world.households), { truth: ALAMO_WORD.declaration, claimId: 'HIST-TEX-061', source: 'Word from Washington' }));
+  once(world, 'alamo-assault', () => stormAlamo(world, record(world, 'milestone', { visibility: 'sealed', importance: 3, classification: 'DOCUMENTED', claimId: 'HIST-TEX-058', text: 'The Alamo was stormed at dawn.' })));
+  once(world, 'agua-dulce-news', () => { word(world, 'agua-dulce', Object.values(world.households), { truth: ALAMO_WORD.aguaDulce, status: 'rumor', claimId: 'HIST-TEX-059', source: 'A rumour from the south' }); tellSouth(world, 'agua-dulce'); });
+  once(world, 'survivors-leave', () => survivorsLeave(world, alamo));
+  once(world, 'fall-rumour', () => word(world, 'alamo-fall', gonzalesFamilies(world), { truth: ALAMO_WORD.fall, text: ALAMO_WORD.fallRumour, status: 'rumor', claimId: 'HIST-TEX-060', source: 'Two riders from Béxar, at Gonzales' }));
+  once(world, 'fall-confirmed', () => { word(world, 'alamo-fall', gonzalesFamilies(world), { truth: ALAMO_WORD.fall, claimId: 'HIST-TEX-060', source: 'Mrs. Dickinson, come in to Gonzales' }); tellFall(world, gonzalesFamilies(world)); });
+  once(world, 'fall-colonies', () => { word(world, 'alamo-fall', otherFamilies(world), { truth: ALAMO_WORD.fall, status: 'unconfirmed', claimId: 'HIST-TEX-060', source: 'A rider from Gonzales' }); tellFall(world, otherFamilies(world)); });
+  once(world, 'alamo-end', () => {
     world.director.complete = true; world.director.phase = 'preserved'; world.status = 'ended';
     record(world, 'slice-preserved', {
-      visibility: 'public', classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-044',
-      text: 'It is February 23, 1836. Santa Anna’s army has reached Béxar. This class stops here; the Alamo is still to come.',
+      visibility: 'public', classification: 'DOCUMENTED', claimId: 'HIST-TEX-060',
+      text: 'It is the night of March 13, 1836. General Houston has burned Gonzales and is falling back to the Colorado, and the families are leaving with him. This class stops here; Goliad, the flight and San Jacinto are still to come.',
     });
   });
 }
@@ -880,7 +922,7 @@ const BEXAR_VICTORY = 'Word has come that Béxar has fallen. For four days the v
 export function advanceDirectors(world, movement) {
   if (!world.director || world.director.complete) return;
   // The second period has its own moments; the first period's were all settled before the winter (sim/periods.mjs).
-  if (world.period === 2) { advanceWinter(world); return; }
+  if (world.period === 2) { advanceWinter(world, movement); return; }
   once(world, 'notice', () => {
     establishTruth(world, { id: 'cannon-request', text: 'A Mexican detachment has reached the Guadalupe opposite Gonzales to reclaim the cannon. Local settlers have refused to return it.', siteId: 'gonzales', classification: 'DOCUMENTED', claimId: 'HIST-GONZ-002' });
     world.director.phase = 'news';

@@ -569,6 +569,18 @@ export const CHORES = {
       { travel: 'bexar', doing: 'on the road to Béxar' },
       { work: 1, doing: 'reporting to the garrison' },
       { winter: 'garrison' },
+      { when: ['shut-out'], travel: 'home', doing: 'turning back for home' },
+    ],
+  },
+  // The relief (sim/alamo.mjs, docs/COLONIES.md §7f): to Gonzales, to ride in with Kimbell and Martin on February 27.
+  'join-relief': {
+    name: 'Ride to Gonzales to go in to the Alamo', skill: 'hands', where: 'home', winter: true,
+    describe: 'Travis has written that he is besieged. Men are gathering at Gonzales to ride through the Mexican lines into the Alamo; whoever is there by the afternoon of February 27 goes with them.',
+    steps: [
+      { travel: 'gonzales', doing: 'on the road to Gonzales' },
+      { work: 1, doing: 'with the men gathering at Gonzales' },
+      { winter: 'relief' },
+      { when: ['shut-out'], travel: 'home', doing: 'turning back for home' },
     ],
   },
   'join-matamoros': {
@@ -578,6 +590,7 @@ export const CHORES = {
       { travel: 'refugio', doing: 'on the road south to Refugio' },
       { work: 1, doing: 'finding the volunteers' },
       { winter: 'matamoros' },
+      { when: ['shut-out'], travel: 'home', doing: 'turning back for home' },
     ],
   },
   'go-vote': {
