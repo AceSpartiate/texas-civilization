@@ -139,6 +139,8 @@ button:hover:enabled{background:#60673e}
 #map-tools{position:absolute;right:14px;bottom:14px;display:flex;align-items:flex-end;gap:8px}
 #map-nav{position:static;flex-direction:row;gap:5px}
 #map-nav button{min-width:0;background:#f6ecd6;color:#4b5133}
+/* The Host's list of every family's land and every town. */
+#host-goto{max-width:12rem;min-width:0;background:#f6ecd6;color:#4b5133;border:1px solid #8fa392;border-radius:6px;padding:5px 6px;font-size:13px}
 #journal-toggle{display:flex;align-items:center;gap:7px;background:#51462f;color:#fff2d2;border-color:#b7a279}
 .icon{width:20px;height:20px;flex:none}.eyebrow{font-size:10px;letter-spacing:.14em;color:#84714c}
 #family-journal[data-open=false]{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}

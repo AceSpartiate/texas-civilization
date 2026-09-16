@@ -40,6 +40,14 @@ const entitiesOf = world => world.entities || [];
 // `entities` deliberately - merging them would make it possible to command one by
 // accident, and the whole point is that they are somebody else's.
 const observedOf = world => world.others || [];
+// The Host has no fog (owner, 2026-09-16): its `others` is everybody in the class and `overview.lands` every family's land as it
+// truly stands (sim/overview.mjs). A student's map draws its own land and a neighbour's as last seen; the Host's draws them all.
+const hostView = world => world?.role === 'host';
+const landsOf = world => Object.entries(world.overview?.lands || {}).map(([householdId, land]) => ({ householdId, ...land }));
+/** Each piece of land the map draws as known: the family's own for a student, every family's for the Host. */
+const knownLands = world => hostView(world)
+  ? landsOf(world).map(land => ({ ...land, field: land.field || null }))
+  : world.land ? [{ householdId: world.householdId, homeSiteId: world.household?.homeSiteId, plots: world.land.plots, field: world.household?.field || null }] : [];
 const homeOf = world => sitesOf(world).find(site => site.id === world.household?.homeSiteId)?.id || `home-${String(world.householdId || '').split('-').at(-1)}`;
 const placeName = (world, id) => world.map?.sites?.[id]?.name || id || 'On the road';
 const timeLabel = minutes => minutes < 60 ? `${Math.floor(minutes)} min` : minutes < 1440 ? `${(minutes / 60).toFixed(1)} hours` : `${(minutes / 1440).toFixed(1)} days`;
@@ -828,7 +836,7 @@ function installMapNavigation() {
     drawWorld(window.__snapshot.world);
   }, { passive: false });
 }
-function applyMapView(action) {
+function applyMapView(action, { street = false } = {}) {
   const snapshot = window.__snapshot; if (!snapshot) return;
   const world = snapshot.world, canvas = $('#world-map');
   if (action === 'follow') { manualView = null; stopWatching(); drawWorld(world); return; }
@@ -841,6 +849,8 @@ function applyMapView(action) {
   } else {
     const site = world.map?.sites?.[action === 'home' ? homeOf(world) : action];
     if (!site) return;
+    // A town the Host goes to is framed to its street of shops, about six tenths of a mile across (sim/shops.mjs).
+    if (street && action !== 'gonzales') { manualView = { cx: site.x, cy: site.y, scale: clampTo(Math.min(canvas.width / .75, canvas.height / .7), view.limits) }; drawWorld(world); return; }
     manualView = { cx: site.x, cy: site.y, scale: clampTo(action==='gonzales'?Math.min(canvas.width/.86,canvas.height/.80):Math.max(view.scale, view.limits.max * .45), view.limits) };
   }
   drawWorld(world);
@@ -1024,7 +1034,10 @@ function drawGroundDetail(ctx, world, camera) {
   const density = Math.min(.105, 400 / Math.max(1, cells));
   const scattered = [];
   // Nothing wild stands in ground the family has cleared (sim/fields.mjs): no oak in the corn, no scrub in the rows.
-  const cleared = (world.land?.plots || []).filter(plot => plot.state === 'cleared');
+  // Only plots near the view are checked, so the Host's thirty families cost no more per tree than one family's land does.
+  const near = PLOT_SIDE * 2;
+  const cleared = knownLands(world).flatMap(land => land.plots || []).filter(plot => plot.state === 'cleared'
+    && (!hostView(world) || (plot.x > topLeft.x - near && plot.x < bottomRight.x + near && plot.y > topLeft.y - near && plot.y < bottomRight.y + near)));
   const inCleared = (x, y) => cleared.some(plot => Math.abs(x - plot.x) < PLOT_SIDE / 2 && Math.abs(y - plot.y) < PLOT_SIDE / 2);
   const bexarSite=world.map?.sites?.bexar;
   const gonzalesSite=world.map?.sites?.gonzales;
@@ -1142,6 +1155,8 @@ function drawTerrain(ctx, world, camera) {
     const style = TERRAIN_STYLE[feature.kind]; if (!style) continue;
     // The family's own field is the plots it has cleared, drawn where they are (drawPlots), not the block on the map.
     if (feature.kind === 'field' && world.land?.plots && feature.ownerHouseholdId === world.household?.id) continue;
+    // And on the Host's map every family's field is its plots.
+    if (feature.kind === 'field' && world.overview?.lands?.[feature.ownerHouseholdId]?.plots) continue;
     let points = (feature.points || []).map(camera.toScreen); if (points.length < 2) continue;
     if (!style.fill) {
       ctx.beginPath(); points.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
@@ -1266,12 +1281,16 @@ function drawPlots(ctx, world, camera) {
     return corners;
   };
   const drawn = [];
-  const field = world.household?.field;
-  for (const plot of world.land?.plots || []) {
+  // A student's own plots; on the Host's map, every family's (`knownLands`). Tagged with the family only for the Host.
+  const host = hostView(world);
+  const onScreen = ({ left, top, right, bottom }) => right >= 0 && bottom >= 0 && left <= ctx.canvas.width && top <= ctx.canvas.height;
+  for (const { householdId, plots, field } of knownLands(world)) for (const plot of plots || []) {
+    if (host && !onScreen(rectOf(plot))) continue;
+    const whose = host ? { householdId } : {};
     if (plot.state === 'cleared') {
       const growing = plot.sown && field && field.state !== 'bare' ? field : null;
       const corners = fieldPatch(ctx, camera, rectOf(plot), growing, plot.fence);
-      drawn.push({ id: plot.id, state: plot.state, ground: plot.ground, sown: Boolean(growing), fence: plot.fence || 'none', corners });
+      drawn.push({ id: plot.id, ...whose, state: plot.state, ground: plot.ground, sown: Boolean(growing), fence: plot.fence || 'none', corners });
       continue;
     }
     // Staked: the clearing done so far, as a square of turned earth growing from the middle.
@@ -1282,9 +1301,9 @@ function drawPlots(ctx, world, camera) {
       const a = camera.toScreen({ x: plot.x - inner, y: plot.y - inner }), b = camera.toScreen({ x: plot.x + inner, y: plot.y + inner });
       ctx.save(); ctx.fillStyle = 'rgba(150,124,86,.5)'; ctx.fillRect(Math.min(a.x, b.x), Math.min(a.y, b.y), Math.abs(b.x - a.x), Math.abs(b.y - a.y)); ctx.restore();
     }
-    drawn.push({ id: plot.id, state: plot.state, ground: plot.ground, work: plot.work || 0, spells: plot.spells, cleared: share, corners });
+    drawn.push({ id: plot.id, ...whose, state: plot.state, ground: plot.ground, work: plot.work || 0, spells: plot.spells, cleared: share, corners });
   }
-  for (const person of entitiesOf(world)) if (person.chore?.id === 'survey-plot' && person.chore.plot) square(person.chore.plot, { stroke: 'rgba(107,79,42,.7)', dash: [5, 4] });
+  for (const person of host ? observedOf(world) : entitiesOf(world)) if (person.chore?.id === 'survey-plot' && person.chore.plot) square(person.chore.plot, { stroke: 'rgba(107,79,42,.7)', dash: [5, 4] });
   if (plotPick && surveyLooking()) {
     // Surveying looks at new ground; clearing and fencing at the plot under the tap, outlined where the server found it.
     const target = plotJob === 'survey-plot' ? plotPick.point : (world.land?.plots || []).find(plot => plot.id === plotPick.facts?.plotId);
@@ -1298,7 +1317,7 @@ function drawPlots(ctx, world, camera) {
   }
   window.__plotsDrawn = drawn;
   const decorations=[];
-  for(const plot of world.land?.plots||[]){const r=rectOf(plot),size=Math.min(camera.figure*.25,(r.right-r.left)*.1);if(size<3)continue;
+  for(const plot of knownLands(world).flatMap(land=>land.plots||[])){const r=rectOf(plot),size=Math.min(camera.figure*.25,(r.right-r.left)*.1);if(size<3||(host&&!onScreen(r)))continue;
     for(const piece of plotArt(plot)){const x=r.left+(r.right-r.left)*piece.x,y=r.top+(r.bottom-r.top)*piece.y;drawSprite(ctx,piece.sprite,x,y,size);decorations.push({plotId:plot.id,sprite:piece.sprite,x,y});}
   }
   window.__plotArtDrawn=decorations;
@@ -1331,6 +1350,24 @@ function drawSitePick(ctx, world, camera) {
   window.__sitePick = { x: at.x, y: at.y, can: Boolean(sitePick.facts?.can) };
 }
 function drawHolding(ctx, world, camera) {
+  // The Host sees every family's line, thinner, and names none of them here: the family's name is over its house.
+  if (hostView(world)) {
+    let drawn = 0;
+    for (const land of landsOf(world)) {
+      if (!land.grant) continue;
+      const { minX, minY, maxX, maxY } = land.grant;
+      const corners = [{ x: minX, y: minY }, { x: maxX, y: minY }, { x: maxX, y: maxY }, { x: minX, y: maxY }].map(camera.toScreen);
+      if (corners[1].x < 0 || corners[2].y < 0 || corners[0].x > ctx.canvas.width || corners[0].y > ctx.canvas.height) continue;
+      ctx.save();
+      ctx.beginPath(); corners.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); ctx.closePath();
+      const dash = Math.max(4, Math.min(16, camera.figure * .35));
+      ctx.setLineDash([dash, dash * .7]); ctx.lineWidth = Math.max(1, Math.min(3, camera.figure * .045)); ctx.strokeStyle = 'rgba(107,79,42,.8)'; ctx.stroke();
+      ctx.restore();
+      drawn++;
+    }
+    window.__holdingRect = null; window.__holdingsDrawn = drawn;
+    return;
+  }
   const holding = world.land?.grant;
   if (!holding) { window.__holdingRect = null; return; }
   const { minX, minY, maxX, maxY } = holding.bounds;
@@ -1361,6 +1398,9 @@ export function drawWorld(world) {
   drawTerrain(ctx, world, camera);
   drawHolding(ctx, world, camera);
   drawPlots(ctx, world, camera);
+  const host = hostView(world);
+  // Every family's land by its house, for the Host's map (empty for a student).
+  const landBySite = new Map(landsOf(world).map(land => [land.homeSiteId, land]));
   // Worn dirt, not a drafting line: a soft verge with a packed track down the middle.
   for (const route of Object.values(world.map?.routes || {})) {
     const points = (route.points || []).filter(Boolean).map(camera.toScreen); if (points.length < 2) continue;
@@ -1370,7 +1410,7 @@ export function drawWorld(world) {
     ctx.lineCap = 'round'; ctx.lineJoin = 'round';
     // The family's own lane, marked but not all cut (sim/homesite.mjs): the uncut stretch is a line of stakes through the
     // grass, and the cut stretch from the house outward is track. Only its own: how far a neighbour has cut is theirs.
-    const lane = route.to === world.household?.homeSiteId && world.land?.lane;
+    const lane = hostView(world) ? landBySite.get(route.to)?.lane : route.to === world.household?.homeSiteId && world.land?.lane;
     const uncutMiles = lane ? Math.max(0, lane.miles - lane.cut) : 0;
     const [marked, worn] = uncutMiles > 0 ? splitAlong(route.points, uncutMiles).map(part => part.map(camera.toScreen)) : [[], points];
     if (marked.length > 1) {
@@ -1390,6 +1430,9 @@ export function drawWorld(world) {
   // separately would put every person on top of every roof in the county.
   const labels = [];
   const standing = [];
+  // Presentation evidence for proofs, on the same contract as `__plotsDrawn`: each family's land the Host's map drew, as drawn.
+  const hostLandsDrawn = {};
+  window.__hostLandsDrawn = hostLandsDrawn;
   for (const site of sitesOf(world)) {
     // A road junction is a shape in the network, not a place: it must never draw a building.
     if (site.kind === 'junction') continue;
@@ -1407,7 +1450,10 @@ export function drawWorld(world) {
       // What is on this land, as this family knows it: its own as it is, a neighbour's as it was
       // last seen, and one nobody has been to see as it was at dawn on the 28th - a camp, in a class
       // that began with the families arriving (sim/houses.mjs, `noteLandSeen`).
-      const view = settlement ? null : ownLand && world.land ? ownLandView(world.land) : (world.household?.seenLand?.[site.id] || (world.arrivalClass ? { shelter: 'camp' } : { shelter: 'house' }));
+      // On the Host's map, every family's land as it truly stands (sim/overview.mjs), nothing remembered or assumed.
+      const theirs = host && !settlement ? landBySite.get(site.id) : null;
+      const view = settlement ? null : theirs ? theirs.view : ownLand && world.land ? ownLandView(world.land) : (world.household?.seenLand?.[site.id] || (world.arrivalClass ? { shelter: 'camp' } : { shelter: 'house' }));
+      if (theirs) hostLandsDrawn[site.id] = { householdId: theirs.householdId, ...view };
       if(site.id==='gonzales'&&camera.scale>=200){
         const project=p=>camera.toScreen({x:site.x+p.x,y:site.y+p.y});drawGonzalesGround(ctx,project,camera.scale);standing.push(...gonzalesDrawables(ctx,project,camera.scale,Object.fromEntries((world.map?.shops?.gonzales||[]).filter(shop=>shop.building).map(shop=>[shop.building,shop.label]))));
         window.__shopsDrawn={gonzales:(world.map?.shops?.gonzales||[]).length};
@@ -1420,6 +1466,9 @@ export function drawWorld(world) {
       }else if (ownLand && world.land?.house?.pieces && plotCatalogue) {
         // The family's house plot, piece by piece at its stage (public/house-plot.js); the camp beside it until a pen stands.
         standing.push({ y: q.y, draw: () => { if (world.land.shelter === 'camp') homesteadCamp(ctx, q.x - size * .9, q.y + size * .35, size * .7, site.id); window.__plotPiecesDrawn = drawHousePlot(ctx, q.x, q.y, size, world.land, plotCatalogue, drawSprite); } });
+      }else if (theirs?.pieces && plotCatalogue) {
+        // The same house plot, for any family, on the Host's map.
+        standing.push({ y: q.y, draw: () => { if (theirs.view.shelter !== 'house') homesteadCamp(ctx, q.x - size * .9, q.y + size * .35, size * .7, site.id); hostLandsDrawn[site.id].pieces = drawHousePlot(ctx, q.x, q.y, size, { house: { pieces: theirs.pieces } }, plotCatalogue, drawSprite); } });
       }else standing.push({ y: q.y, draw: () => view ? homesteadHouse(ctx, q.x, q.y, size, site.id, view) : miniBuilding(ctx, q.x, q.y, size, true, site.id) });
       // A new town's shops, each keeper's own building at its place (sim/shops.mjs, docs/TOWNS.md). Drawn for anybody, as
       // a town's buildings are; who is standing in them is still only seen by somebody who is there.
@@ -1436,14 +1485,14 @@ export function drawWorld(world) {
       }
       // The family's log pile beside the house, a log drawn for every ten or part of ten, up to four (sim/felling.mjs).
       // stand-in: a pile is `log-fallen` laid side by side until a log pile is drawn. Request 2026-09-15 - the trees of the colonies.
-      const piled = ownLand && world.land?.logs ? world.land.logs.wall + world.land.logs.sill + world.land.logs.poor : 0;
+      const piled = theirs ? theirs.logs || 0 : ownLand && world.land?.logs ? world.land.logs.wall + world.land.logs.sill + world.land.logs.poor : 0;
       for (let i = 0; i < Math.min(4, Math.ceil(piled / 10)); i++) {
         const x = q.x - size * (.9 + i * .06), y = q.y + size * (.28 + i * .07);
         standing.push({ y, draw: () => drawSprite(ctx, 'log-fallen', x, y, camera.figure * SIZE.logPile) });
       }
       if (ownLand) window.__logPileDrawn = Math.min(4, Math.ceil(piled / 10));
       // Own land only: these grazing animals illustrate the projected stock choice; the herd is not an entity yet.
-      if (ownLand && world.household?.stock && world.land && !world.land.arriving) {
+      if (theirs ? theirs.stock && !theirs.arriving : ownLand && world.household?.stock && world.land && !world.land.arriving) {
         const coat = ['red', 'pied', 'dun'][Array.from(site.id).reduce((sum, letter) => sum + letter.charCodeAt(0), 0) % 3];
         for (const [dx, dy, flip, clip, scale] of [[1.25, .35, false, `cattle-longhorn-${coat}-graze`, .55], [1.7, .55, true, 'hog-root', .3]]) {
           const x = q.x + size * dx, y = q.y + size * dy;
@@ -1480,7 +1529,7 @@ export function drawWorld(world) {
       // called Family N and it is fetched once a class, so it cannot follow a rename -
       // but nobody calls their own house by its number, and this is the one label that
       // was reading as a leftover once families started having names.
-      labels.push({ name: ownLand ? 'Home' : site.name, x: q.x, y: q.y - Math.max(12, roof) });
+      labels.push({ name: ownLand ? 'Home' : (host && landBySite.get(site.id)?.name) || site.name, x: q.x, y: q.y - Math.max(12, roof) });
     }
   }
   const entities = entitiesOf(world).filter(entity => entity.location);
@@ -1523,11 +1572,20 @@ export function drawWorld(world) {
       labels, heading: destination ? destination.x - entity.location.x : 0,
     }) });
   }
+  const margin = camera.figure * 4, shownObserved = [];
   for (const entity of observed) {
     const point = camera.toScreen(motionProjection.position(entity, performance.now(), reducedMotion.matches || world.status !== 'running'));
+    // The Host's whole class: only who is on screen is drawn, and each as they truly are - at their own work, the principal
+    // in their own coat, the deer they are hunting beside them - because the teacher is not somebody glimpsing a stranger.
+    if (host && (point.x < -margin || point.y < -margin || point.x > canvas.width + margin || point.y > canvas.height + margin)) continue;
+    if (host && entity.chore?.quarry) {
+      const spot = camera.toScreen(entity.chore.quarry);
+      standing.push({ y: spot.y, draw: () => miniDeer(ctx, spot.x, spot.y, camera.figure * SIZE.deer, { flip: spot.x < point.x, seed: entity.id }) });
+    }
     standing.push({ y: point.y, draw: () => drawEntity(ctx, { ...entity, health: { condition: entity.condition } }, point, roomForNames, camera.figure, {
-      selected: entity.id === chosen?.id, mark: null, labels, observed: true,
+      selected: entity.id === chosen?.id, mark: null, labels, observed: !host,
     }) });
+    shownObserved.push(entity.id);
   }
   standing.sort((a, b) => a.y - b.y);
   for (const item of standing) item.draw();
@@ -1552,7 +1610,8 @@ export function drawWorld(world) {
   window.__drawnAt = Object.fromEntries([...drawnAt].map(([id, spot]) => [id, { x: spot.x, y: spot.y, size: spot.size }]));
   // Presentation evidence, same contract as __viewEntities: who was drawn because they
   // were seen, kept as a separate list so a proof can tell the two apart.
-  window.__viewObserved = observed.map(entity => entity.id);
+  // On the Host's map, the ones inside the view.
+  window.__viewObserved = shownObserved;
   // The stake goes in over everything else on the ground, so the place being looked at is never hidden under a road or a cow.
   drawSitePick(ctx, world, camera);
   const travellers = entities.filter(entity => entity.travel);
@@ -1566,7 +1625,9 @@ export function drawWorld(world) {
   const meeting = world.encounter?.status === 'open'
     ? ` ${entities.find(e => e.id === world.encounter.listenerId)?.name || 'Someone'} has met a rider, who has stopped to speak with them.`
     : '';
-  $('#world-description').textContent = `${settled}${met} ${journey}${meeting}${battleText}`.trim() || 'The world will appear when the class begins.';
+  // The Host's whole class is hundreds of names; what is on the screen is said as a count instead.
+  const hostText = host ? `The whole class: ${observed.filter(e => e.kind === 'person').length} people, ${shownObserved.length} figures in view, ${observed.filter(e => e.kind === 'person' && e.travel).length} people on the road.` : '';
+  $('#world-description').textContent = host ? `${hostText}${battleText}` : `${settled}${met} ${journey}${meeting}${battleText}`.trim() || 'The world will appear when the class begins.';
   const follow = $('#map-nav [data-view=follow]');
   $('#map-nav [data-view=bexar]').hidden=!world.map?.sites?.bexar;
   if (follow) {
@@ -1574,15 +1635,53 @@ export function drawWorld(world) {
     // Naming who is being watched, because a camera that has stopped following the family
     // should say why rather than leaving a student to wonder where everyone went.
     const watched = watchedId ? entities.find(entity => entity.id === watchedId) : null;
-    follow.textContent = camera.following ? 'Following' : watched ? `Watching ${watched.name}` : 'Follow';
+    follow.textContent = host ? (camera.following ? 'Whole class' : 'Show whole class') : camera.following ? 'Following' : watched ? `Watching ${watched.name}` : 'Follow';
   }
+  renderHostGoto(world, landBySite);
   $('#map-title').textContent = camera.title;
   $('#map-framing').textContent = 'Prototype · fictional families';
   canvas.setAttribute('aria-label', $('#world-description').textContent);
 }
+/**
+ * Where the teacher can go: every family's land and every town, from one list on the Host's map. A student has Land and
+ * Gonzales for the two places that are theirs; the Host has no land and the whole class to look at (owner, 2026-09-16).
+ */
+function renderHostGoto(world, landBySite) {
+  const select = $('#host-goto'), land = $('#map-nav [data-view=home]');
+  if (!select) return;
+  const host = hostView(world);
+  select.hidden = !host;
+  if (land) land.hidden = host;
+  if (!host) return;
+  const number = id => Number(String(id).split('-').at(-1)) || 0;
+  const families = [...landBySite.values()].sort((a, b) => number(a.householdId) - number(b.householdId))
+    .map(land => ({ value: land.homeSiteId, label: land.name }));
+  const towns = sitesOf(world).filter(site => site.kind === 'town' || site.id === 'gonzales').sort((a, b) => a.name.localeCompare(b.name))
+    .map(site => ({ value: site.id, label: site.name }));
+  const shape = JSON.stringify([families, towns]);
+  if (select.dataset.shape === shape) return;
+  select.dataset.shape = shape;
+  const group = (label, entries) => {
+    const node = document.createElement('optgroup'); node.label = label;
+    node.append(...entries.map(entry => { const option = element('option', entry.label); option.value = entry.value; return option; }));
+    return node;
+  };
+  const prompt = element('option', 'Go to…'); prompt.value = '';
+  select.replaceChildren(prompt, group('Families', families), group('Towns', towns));
+}
+$('#host-goto')?.addEventListener('change', event => {
+  const siteId = event.target.value;
+  event.target.value = '';
+  const site = window.__snapshot?.world.map?.sites?.[siteId];
+  if (site) applyMapView(siteId, { street: site.kind === 'town' });
+});
 function renderHousehold(world) {
   const household = world.household;
-  if (!household) { $('#selection').hidden = true; $('#family-panel').hidden = true; hidePanelTip(); $('#food').textContent = ''; $('#supplies').textContent = ''; return; }
+  if (!household) {
+    // The Host's look at somebody stays open and follows them tick by tick (read only, `renderSelection`).
+    if (hostView(world)) renderSelection(world); else $('#selection').hidden = true;
+    $('#family-panel').hidden = true; hidePanelTip(); $('#food').textContent = ''; $('#supplies').textContent = ''; return;
+  }
   $('#family-title').textContent = familyCache?.name || 'Your family';
   renderFamilyBook();
   $('#food').textContent = `Food ${Number(household.resources?.food || 0).toFixed(1)}`;
@@ -2164,7 +2263,8 @@ function renderSelection(world) {
   const household = world.household;
   // Nobody to give orders to until the die is rolled: setting one of the founding four to
   // work would use up the family's roll on people it is about to replace.
-  if (!chosen || world.role === 'host' || selectionDismissed || familyCache?.canRoll || rollState === 'rolling') { panel.hidden = true; return; }
+  // The Host may look at anybody in the class, read only: every person on its map is `observed`, so no control below is offered.
+  if (!chosen || (world.role === 'host' && !chosen.observed) || selectionDismissed || familyCache?.canRoll || rollState === 'rolling') { panel.hidden = true; return; }
   panel.hidden = false;
   panel.dataset.entityId = chosen.id;
   const commands = chosen.id === household?.principalId && chosen.principal && !chosen.observed;
@@ -2172,7 +2272,16 @@ function renderSelection(world) {
   $('#selection-name').textContent = chosen.name;
   // What someone is doing is the chore's own words when they are on one - "breaking the
   // rows" says more than "work", and it is the step the server is actually running.
-  if (chosen.observed) {
+  if (hostView(world)) {
+    // The teacher's look at anybody: whose they are, what they are doing in the chore's own words, where, and how they are.
+    const lands = world.overview?.lands || {}, family = lands[chosen.householdId]?.name;
+    const doing = chosen.chore?.doing || (chosen.travel ? `on the road to ${placeName(world, chosen.travel.to)}` : chosen.task || 'here');
+    // A homestead is named for the family on it, not for the row it was made as ("Family 9 home").
+    const siteId = chosen.location?.siteId, owner = siteId && Object.values(lands).find(land => land.homeSiteId === siteId);
+    const where = !siteId ? null : owner ? (owner.name === family ? 'at home' : `on the land of ${owner.name}`) : `at ${placeName(world, siteId)}`;
+    $('#selection-state').textContent = [chosen.resident ? chosen.about : family && `of ${family}`, chosen.carrier && 'a rider', doing, chosen.withArmy && 'with the army',
+      where, chosen.condition || 'well'].filter(Boolean).join(' · ');
+  } else if (chosen.observed) {
     // Somebody else's person, or one of the town's. A student can look at them and learn
     // who they are; there is nothing here to order, and no control pretends otherwise.
     // Their own description, sent with them. This used to be three strings written out
@@ -2193,6 +2302,7 @@ function renderSelection(world) {
   $('#selection-task').hidden = !task || calling;
   $('#selection-task').textContent = task && !calling ? task.text : '';
   $('#action-subject').textContent = commands ? `Ask ${chosen.name} to…`
+    : hostView(world) ? 'The teacher watches; only the family gives orders.'
     : chosen.observed ? `${chosen.name} is not one of your family.`
     : `${chosen.name} follows the household's work.`;
   const running = world.status === 'running';
@@ -3027,6 +3137,8 @@ function renderJoinLinks(snapshot) {
 function render(snapshot) {
   if (motionProjection.session !== snapshot.sessionId) { animationTime = 0; visibleBattlePhase = null; battleAnimationStart = 0; }
   motionProjection.accept(snapshot, performance.now());
+  // Everybody on the Host's map is somebody the teacher looks at and never orders: marked here rather than sent on every one.
+  if (snapshot.world?.role === 'host') for (const entity of snapshot.world.others || []) entity.observed = true;
   ensureMap(snapshot); ensureHomes(snapshot); ensureChores(snapshot); ensureFamily(snapshot);
   snapshot.world.map = mapCacheId === snapshot.mapId ? mapCache : (snapshot.world.map || EMPTY_MAP);
   $('#save-fault').hidden = !snapshot.fault;
