@@ -37,6 +37,7 @@
     "test:towns": "node scripts/towns-browser-proof.mjs",
     "test:storming": "node scripts/storming-browser-proof.mjs",
     "test:interior": "node scripts/interior-browser-proof.mjs",
-    "test:solo": "node scripts/solo-browser-proof.mjs"
+    "test:solo": "node scripts/solo-browser-proof.mjs",
+    "test:family-commands": "node scripts/family-commands-browser-proof.mjs"
   }
 }
