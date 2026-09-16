@@ -1,5 +1,5 @@
 {
-  "record": "The towns of the colonies, drawn in a browser: docs/TOWNS.md §9",
+  "record": "The towns of the colonies, drawn in a browser: docs/TOWNS.md §5b",
   "date": "2026-09-16",
   "verdict": "PASS",
   "note": "Same computer only. A 30-family class on the colonies map, served live; the Host page went to each drawn town from its Go to list. No LAN or district claim.",
@@ -10,6 +10,14 @@
     "Matagorda: 46 buildings drawn at 1357 px a mile; 4 keepers' buildings named; 4 people drawn there",
     "Columbia: 18 buildings drawn at 1357 px a mile; 9 keepers' buildings named; 9 people drawn there",
     "Liberty: 11 buildings drawn at 1357 px a mile; 4 keepers' buildings named; 4 people drawn there",
+    "Washington: 23 buildings drawn at 1357 px a mile; 0 keepers' buildings named; 0 people drawn there",
+    "Brazoria: 48 buildings drawn at 1357 px a mile; 0 keepers' buildings named; 0 people drawn there",
+    "Velasco: 7 buildings drawn at 1357 px a mile; 0 keepers' buildings named; 0 people drawn there",
+    "Harrisburg: 26 buildings drawn at 1357 px a mile; 0 keepers' buildings named; 0 people drawn there",
+    "Anahuac: 21 buildings drawn at 1357 px a mile; 0 keepers' buildings named; 0 people drawn there",
+    "Nacogdoches: 50 buildings drawn at 1357 px a mile; 0 keepers' buildings named; 0 people drawn there",
+    "Refugio: 27 buildings drawn at 1357 px a mile; 0 keepers' buildings named; 0 people drawn there",
+    "Goliad: 52 buildings drawn at 1357 px a mile; 0 keepers' buildings named; 0 people drawn there",
     "no page errors"
   ],
   "observed": {
@@ -229,6 +237,54 @@
         }
       ],
       "keepersDrawn": 4
+    },
+    "washington": {
+      "drawn": 23,
+      "scale": 1357.1428571428573,
+      "shops": [],
+      "keepersDrawn": 0
+    },
+    "brazoria": {
+      "drawn": 48,
+      "scale": 1357.1428571428573,
+      "shops": [],
+      "keepersDrawn": 0
+    },
+    "velasco": {
+      "drawn": 7,
+      "scale": 1357.1428571428573,
+      "shops": [],
+      "keepersDrawn": 0
+    },
+    "harrisburg": {
+      "drawn": 26,
+      "scale": 1357.1428571428573,
+      "shops": [],
+      "keepersDrawn": 0
+    },
+    "anahuac": {
+      "drawn": 21,
+      "scale": 1357.1428571428573,
+      "shops": [],
+      "keepersDrawn": 0
+    },
+    "nacogdoches": {
+      "drawn": 50,
+      "scale": 1357.1428571428573,
+      "shops": [],
+      "keepersDrawn": 0
+    },
+    "refugio": {
+      "drawn": 27,
+      "scale": 1357.1428571428573,
+      "shops": [],
+      "keepersDrawn": 0
+    },
+    "goliad": {
+      "drawn": 52,
+      "scale": 1357.1428571428573,
+      "shops": [],
+      "keepersDrawn": 0
     }
   },
   "screenshots": [
@@ -243,6 +299,22 @@
     "docs/evidence/town-columbia.png",
     "docs/evidence/town-columbia-close.png",
     "docs/evidence/town-liberty.png",
-    "docs/evidence/town-liberty-close.png"
+    "docs/evidence/town-liberty-close.png",
+    "docs/evidence/town-washington.png",
+    "docs/evidence/town-washington-close.png",
+    "docs/evidence/town-brazoria.png",
+    "docs/evidence/town-brazoria-close.png",
+    "docs/evidence/town-velasco.png",
+    "docs/evidence/town-velasco-close.png",
+    "docs/evidence/town-harrisburg.png",
+    "docs/evidence/town-harrisburg-close.png",
+    "docs/evidence/town-anahuac.png",
+    "docs/evidence/town-anahuac-close.png",
+    "docs/evidence/town-nacogdoches.png",
+    "docs/evidence/town-nacogdoches-close.png",
+    "docs/evidence/town-refugio.png",
+    "docs/evidence/town-refugio-close.png",
+    "docs/evidence/town-goliad.png",
+    "docs/evidence/town-goliad-close.png"
   ]
 }

@@ -41,6 +41,10 @@ test('the five towns the research moved stand at their 1835 sites, and Liberty h
     assert.ok(distance(map.places[id], milesFrom(terrain, officialLon, officialLat)) > 0.3, `${id} is still at the later town`);
     assert.equal(map.places[id].claimId, 'HIST-TEX-025');
   }
+  // HIST-TEX-046: Brazoria at Old Town, Market × Main, on the bank; the official point is the modern town inland.
+  assert.ok(distance(map.places.brazoria, milesFrom(terrain, -95.56016, 29.05593)) < 0.01, 'Brazoria is not at Old Town');
+  assert.ok(distance(map.places.brazoria, milesFrom(terrain, -95.5691126, 29.0444147)) > 0.5, 'Brazoria is still at the modern town');
+  assert.equal(map.places.brazoria.claimId, 'HIST-TEX-046');
   // The Atascosito road crossed the Trinity about three miles north of Liberty, not at the town.
   const crossing = map.places['atascosito-crossing'];
   const off = distance(crossing, map.places.liberty);

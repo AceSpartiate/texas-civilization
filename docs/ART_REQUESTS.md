@@ -176,6 +176,12 @@ south-facing like the other buildings, with a ground-contact shadow and no paint
 6. **A frontier log stockade** — a free-standing square of set vertical logs with a gate, enclosing a cabin (Mina). Stand-in:
    `palisade` pieces run in a square with a `gate` and `house-hewn-log` inside.
 7. **A small hewn-log court room, 22 feet square** — Liberty's Casa Consistorial. Stand-in: `cabin-small`.
+8. **A circular log-and-sand fort**, ninety feet across, two rows of posts with sand between, a mound with a gun in the middle,
+   gapped and derelict — Fort Velasco. Stand-in: `palisade` and `alamo-palisade-broken` pieces in a ring, `cannon-iron-e`.
+9. **A steam sawmill on a bayou** — a long plank shed, a boiler house with a stack and smoke, a log deck and stacks of sawn
+   pine — the Harrisburg Steam Mills. Stand-in: `timber-hall` and `storehouse`.
+10. **A two-storey stone house with a gallery and an outside stair** — the Stone House at Nacogdoches, 70 × 23 ft. Stand-in:
+    `stone-tile-house`.
 
 - **How it plugs in.** Each building's `sprite` in `sim/town-layouts.mjs`; the stockade replaces the palisade pieces with one
   building. **Check** in `npm run test:towns`, whose close screenshots show each town.

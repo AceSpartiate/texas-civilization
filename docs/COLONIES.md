@@ -650,7 +650,9 @@ and **Lynchburg** stands on a mail road Harrisburg - Lynchburg - Liberty. Brazor
 No. 4). 37 places and 42 roads. `ceiling:` Hunter's, the mail route's stop between San Felipe and Harrisburg, has no
 position in anything read and is not placed; the mail road crosses the Trinity at the Atascosito crossing because its own
 crossing is not known. Only a class made after the rebuild uses the new map; a saved class keeps the map it was dealt on.
-One seeded test (`tests/felling.test.mjs`) needed a new seed because a family's land fell differently.
+One seeded test (`tests/felling.test.mjs`) needed a new seed because a family's land fell differently. **Also moved, the same
+day, when the town was drawn:** Brazoria to Old Town, Market × Main on the bank, from the modern town a mile inland
+(`HIST-TEX-046`).
 
 ### 6k. As built: step 6, the siege and the Grass Fight (2026-09-16)
 

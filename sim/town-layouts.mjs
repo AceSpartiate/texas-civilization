@@ -49,7 +49,7 @@ function dwellings(prefix, { origin, module, block, lots = 2, centre, count, ski
     }
   }
   spots.sort((a, b) => a.d - b.d || a.x - b.x || a.y - b.y);
-  return spots.slice(0, count).map((spot, i) => ({ id: `${prefix}-${i + 1}`, sprite: sprites[(i * 3 + spot.x) % sprites.length], x: spot.x, y: spot.y, height: height - (i % 3) * 2, filler: true }));
+  return spots.slice(0, count).map((spot, i) => ({ id: `${prefix}-${i + 1}`, sprite: sprites[((i * 3 + spot.x) % sprites.length + sprites.length) % sprites.length], x: spot.x, y: spot.y, height: height - (i % 3) * 2, filler: true }));
 }
 const grid = (xs, ys, width) => [
   ...xs.map(([name, x]) => ({ name, width, points: [{ x, y: ys[0][1] }, { x, y: ys.at(-1)[1] }] })),
@@ -259,4 +259,282 @@ const LIBERTY = {
   buildings: LIB_NAMED,
 };
 
-export const TOWN_LAYOUTS = Object.freeze({ 'san-felipe': SAN_FELIPE, victoria: VICTORIA, mina: MINA, matagorda: MATAGORDA, columbia: COLUMBIA, liberty: LIBERTY });
+
+// ============================================================================================== the other eight places
+// The places on the map families are not dealt to, drawn from the same research (2026-09-16). Several are fortified or
+// ruined, so a layout may also carry `walls`: a line of wall pieces (`sprite`, every `spacing` feet, `height`, and a
+// `breach` sprite every `breachEvery` pieces where the research says the wall is broken), drawn by public/town-art.js.
+// A building marked `onWater` (a ferry, a skiff, a wharf) stands at the water's edge on purpose, and is not held clear of it.
+
+/** Houses strung along a road, alternately either side of it and set back, from its start: a town that is a street. */
+function alongRoad(prefix, points, { count, setback = 70, spacing = 120, start = 0, sprites = DWELLINGS, height = 18 }) {
+  const out = [];
+  let walked = 0, placed = 0, target = start;
+  for (let i = 1; i < points.length && placed < count; i++) {
+    const a = points[i - 1], b = points[i], span = Math.hypot(b.x - a.x, b.y - a.y) || 1;
+    const ux = (b.x - a.x) / span, uy = (b.y - a.y) / span;
+    while (target <= walked + span && placed < count) {
+      const t = target - walked, side = placed % 2 ? 1 : -1;
+      out.push({ id: `${prefix}-${placed + 1}`, sprite: sprites[placed % sprites.length], x: Math.round(a.x + ux * t - uy * setback * side), y: Math.round(a.y + uy * t + ux * setback * side), height: height - (placed % 3) * 2, filler: true });
+      placed++; target += spacing;
+    }
+    walked += span;
+  }
+  return out;
+}
+/** Houses scattered round a centre on the golden angle, thinning outward, skipping any excluded rectangle. Repeatable. */
+function scatter(prefix, { centre, radius, count, sprites = DWELLINGS, height = 16, exclude = [], within = () => true }) {
+  const out = [];
+  for (let i = 0; out.length < count && i < count * 6; i++) {
+    const r = radius * Math.sqrt((i + .5) / (count * 1.6)), a = i * 2.39996;
+    const x = Math.round(centre.x + r * Math.cos(a)), y = Math.round(centre.y + r * Math.sin(a));
+    if (exclude.some(e => x > e.x - 30 && x < e.x + e.width + 30 && y > e.y - 30 && y < e.y + e.height + 30) || !within(x, y)) continue;
+    out.push({ id: `${prefix}-${out.length + 1}`, sprite: sprites[out.length % sprites.length], x, y, height: height - (out.length % 3) * 2, filler: true });
+  }
+  return out;
+}
+const ring = (centre, radius, pieces) => Array.from({ length: pieces + 1 }, (_, i) => ({ x: Math.round(centre.x + radius * Math.cos(i / pieces * 2 * Math.PI)), y: Math.round(centre.y + radius * Math.sin(i / pieces * 2 * Math.PI)) }));
+const faint = streets => streets.map(street => ({ ...street, faint: true }));
+
+// ---------------------------------------------------------------------------------------------- Washington
+// docs/town-research/washington.md §8: one street and a handful of buildings, a staked grid with nothing in it (the lots
+// were not sold until January 1836), and the ferry on its bench below the bluff. Ferry Street's bearing and the corner
+// are measured; the frame's anchor is the map's own point, measured in the research at u −236, v 161.
+const WASH_FERRY = [{ x: -250, y: 0 }, { x: 0, y: 0 }, { x: 700, y: 0 }, { x: 1050, y: 0 }, { x: 1300, y: 0 }, { x: 1500, y: 0 }];
+const WASHINGTON = {
+  name: 'Washington', research: 'docs/town-research/washington.md', bearing: 26.7, anchor: { x: -236, y: 161 },
+  streets: [
+    { name: 'Ferry Street', width: 80, points: WASH_FERRY },
+    { name: 'Main Street', width: 60, points: [{ x: 0, y: -680 }, { x: 0, y: 680 }] },
+    ...faint([340, 680, -340].map(v => ({ name: '', width: 60, points: [{ x: -680, y: v }, { x: 340, y: v }] }))),
+    ...faint([-340, -680, 340].map(u => ({ name: '', width: 60, points: [{ x: u, y: -340 }, { x: u, y: 680 }] }))),
+  ],
+  squares: [],
+  buildings: [
+    // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the buildings the towns' research found. A two-storey frame, unfinished.
+    { id: 'wash-frame-unfinished', sprite: 'frame-hall', x: 40, y: -50, height: 28, label: 'Byars & Mercer’s frame' },
+    { id: 'wash-byars-smithy', sprite: 'timber-shop', x: 90, y: 90, height: 16, label: 'Byars’s smithy' },
+    { id: 'wash-morris-cabin', sprite: 'house-round-log', x: 300, y: 80, height: 16 },
+    { id: 'wash-kenney-house', sprite: 'house-hewn-log', x: -280, y: 120, height: 18 },
+    { id: 'wash-robinson-ferry-house', sprite: 'trading-house', x: 1250, y: -120, height: 18, label: 'Robinson’s, at the crossing' },
+    { id: 'wash-pecan', sprite: 'pecan', x: 1139, y: 106, height: 40 },
+    { id: 'wash-ferry', sprite: 'ferry-raft', x: 1470, y: 0, height: 8, onWater: true, label: 'The ferry' },
+    ...[[-340, -340], [340, -340], [-340, 340], [340, 340], [-680, 340], [-340, 680], [340, 680], [-680, -340]].map(([x, y], i) => ({ id: `wash-stake-${i + 1}`, sprite: i % 2 ? 'survey-stake' : 'survey-blazed-post', x, y, height: 5 })),
+    ...alongRoad('wash-house', [{ x: 100, y: 0 }, { x: 650, y: 0 }], { count: 8, spacing: 75, setback: 75 }),
+  ],
+};
+
+// ---------------------------------------------------------------------------------------------- Brazoria
+// docs/town-research/brazoria.md §7: a grid lying square along the Brazos, a short dense frontage on Main Street either
+// side of Market, and the back of the grid in stumps and garden. The origin, Market × Main, is measured, and the map's
+// point is set on it (HIST-TEX-046).
+const BRZ_X = [['Walnut Street', -1148], ['Chestnut Street', -882], ['Star Street', -591], ['China Street', -325], ['Market Street', 0], ['Liberty Street', 541], ['Cherry Street', 935]];
+const BRZ_Y = [['Main Street', 0], ['Pearl Street', 282], ['Austin Street', 561], ['Camp Street', 840], ['Travis Street', 1119], ['Marion Street', 1391], ['Velasco Street', 1670]];
+const BRZ_NAMED = [
+  { id: 'brz-mills-store', sprite: 'trading-house', x: 30, y: -40, height: 26, label: 'The Mills brothers’ store' },
+  { id: 'brz-long-boarding-house', sprite: 'house-dog-run', x: -190, y: 16, height: 24, label: 'Jane Long’s boarding house' },
+  { id: 'brz-long-outbuilding', sprite: 'storehouse', x: -190, y: 120, height: 12 },
+  { id: 'brz-hotel', sprite: 'frame-hall', x: 300, y: 20, height: 28, label: 'The Brazoria Hotel' },
+  { id: 'brz-printing-office', sprite: 'cabin-small', x: -40, y: 300, height: 18, label: 'The Texas Republican' },
+  { id: 'brz-andrews-store', sprite: 'trading-house', x: 160, y: 300, height: 22, label: 'Andrews’s store' },
+  { id: 'brz-bennett-sharp-store', sprite: 'trading-house', x: -330, y: 290, height: 22 },
+  { id: 'brz-manson-store', sprite: 'timber-shop', x: 480, y: 290, height: 20 },
+  { id: 'brz-warehouse-1', sprite: 'storehouse', x: -280, y: -20, height: 22 },
+  { id: 'brz-warehouse-2', sprite: 'storehouse', x: 560, y: -20, height: 20 },
+  { id: 'brz-doctor-1', sprite: 'cabin-small', x: -520, y: 40, height: 16 },
+  { id: 'brz-doctor-2', sprite: 'cabin-small', x: 700, y: 330, height: 16 },
+  { id: 'brz-courthouse', sprite: 'timber-hall', x: 270, y: 560, height: 24, label: 'The municipal building' },
+  { id: 'brz-masonic-oak', sprite: 'live-oak-large', x: -2201, y: 2188, height: 50, label: 'The Masonic Oak' },
+];
+const BRAZORIA = {
+  name: 'Brazoria', research: 'docs/town-research/brazoria.md', bearing: 133.7, anchor: { x: 0, y: 0 },
+  // Main Street runs 130 ft from the top of a 22-ft cut bank, and the Mills store was built out over the water (research §7.4):
+  // this town stands nearer its river than any other, so it is held only 100 ft clear of the river's centreline.
+  riverClearance: 100,
+  streets: grid(BRZ_X, BRZ_Y, 55.6).map(street => ['Main Street', 'Market Street', 'Pearl Street'].includes(street.name) ? street : { ...street, faint: true }),
+  squares: [],
+  buildings: withFill(BRZ_NAMED, { prefix: 'brz-house', origin: { x: -1148, y: 0 }, module: 278, block: 222, lots: 2, centre: { x: 0, y: 150 }, count: 34, rows: [0, 4], columns: [0, 8], sprites: ['house-dog-run', 'house-hewn-log', 'house-round-log', 'cabin-wide', 'cabin-weathered'] }),
+};
+
+// ---------------------------------------------------------------------------------------------- Velasco
+// docs/town-research/velasco.md §8: six buildings in two fenced enclosures, measured off Harkort's drawing, and the 1832
+// circular fort derelict with a new gun on its mound. The origin is Monument Square, the map's point.
+// stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - a circular log-and-sand fort. Palisade pieces in a ring, gapped.
+const VELASCO = {
+  name: 'Velasco', research: 'docs/town-research/velasco.md', bearing: 130.8, anchor: { x: 0, y: 0 },
+  streets: [],
+  squares: [],
+  walls: [
+    { name: 'Fort Velasco', points: ring({ x: -420, y: -180 }, 45, 20), sprite: 'palisade', breach: 'alamo-palisade-broken', breachEvery: 3, spacing: 14, height: 8 },
+    { name: 'The enclosures', points: [{ x: -900, y: -560 }, { x: -500, y: -560 }, { x: -500, y: -230 }, { x: -900, y: -230 }, { x: -900, y: -560 }], sprite: 'fence-rail', spacing: 40, height: 5 },
+    { name: '', points: [{ x: -700, y: -560 }, { x: -700, y: -230 }], sprite: 'fence-rail', spacing: 40, height: 5 },
+  ],
+  buildings: [
+    { id: 'vel-fort-gun', sprite: 'cannon-iron-e', x: -420, y: -180, height: 7, label: 'Fort Velasco' },
+    { id: 'vel-brown-hoskins', sprite: 'frame-hall', x: -760, y: -430, height: 28, label: 'Brown & Hoskins’ tavern' },
+    { id: 'vel-custom-house', sprite: 'trading-house', x: -620, y: -300, height: 18, label: 'The custom house' },
+    { id: 'vel-pilot-house', sprite: 'cabin-wide', x: -560, y: -520, height: 16, label: 'The pilot’s house' },
+    { id: 'vel-clokey', sprite: 'timber-shop', x: -880, y: -360, height: 18 },
+    { id: 'vel-house-1', sprite: 'cabin-small', x: -700, y: -540, height: 15, filler: true },
+    { id: 'vel-house-2', sprite: 'cabin-weathered', x: -840, y: -260, height: 15, filler: true },
+  ],
+};
+
+// ---------------------------------------------------------------------------------------------- Harrisburg
+// docs/town-research/harrisburg.md §8: a measured grid drawn as survey lines, about twenty houses, and the steam mills on
+// the bayou, the largest thing in the place. The origin, Broadway × Cypress, is the map's point.
+const HARRISBURG = {
+  name: 'Harrisburg', research: 'docs/town-research/harrisburg.md', bearing: 88.8, anchor: { x: 0, y: 0 },
+  streets: [
+    { name: 'Broadway', width: 124, points: [{ x: 0, y: -1300 }, { x: 0, y: 400 }] },
+    ...faint([['Medina', -421], ['Colorado', -821], ['Frio', 424]].map(([name, x]) => ({ name, width: 80, points: [{ x, y: -1300 }, { x, y: 400 }] }))),
+    ...faint([['Market', -1210], ['Sycamore', -800], ['Walnut', -400], ['Cypress', 0], ['Elm', 396]].map(([name, y]) => ({ name, width: 80, points: [{ x: -1400, y }, { x: 500, y }] }))),
+  ],
+  squares: [],
+  buildings: [
+    // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the buildings the towns' research found. The steam sawmill.
+    { id: 'hbg-mill', sprite: 'timber-hall', x: 620, y: -500, height: 24, label: 'Harrisburg Steam Mills' },
+    { id: 'hbg-mill-boiler', sprite: 'storehouse', x: 700, y: -470, height: 14 },
+    { id: 'hbg-mill-logs', sprite: 'pine-loblolly-log', x: 560, y: -560, height: 6 },
+    { id: 'hbg-harris-house', sprite: 'house-dog-run', x: 220, y: -600, height: 20, label: 'The Harris house' },
+    { id: 'hbg-dch-store', sprite: 'trading-house', x: 300, y: -1000, height: 18, label: 'D. C. Harris’s store' },
+    { id: 'hbg-warehouse', sprite: 'storehouse', x: 560, y: -980, height: 18 },
+    { id: 'hbg-moore', sprite: 'frame-hall', x: -380, y: -700, height: 22, label: 'John W. Moore’s house' },
+    { id: 'hbg-frame-1', sprite: 'frame-hall', x: 480, y: -700, height: 18 },
+    { id: 'hbg-frame-2', sprite: 'timber-shop', x: 420, y: -640, height: 18 },
+    { id: 'hbg-cannon-1', sprite: 'cannon-iron-e', x: 520, y: -430, height: 6, label: 'Guns waiting to go west' },
+    { id: 'hbg-cannon-2', sprite: 'cannon-iron-e', x: 545, y: -420, height: 6 },
+    { id: 'hbg-cannon-3', sprite: 'cannon-iron-e', x: 570, y: -410, height: 6 },
+    ...dwellings('hbg-log', { origin: { x: -1221, y: -1610 }, module: 400, block: 320, lots: 2, centre: { x: 100, y: -700 }, count: 14, rows: [0, 5], columns: [0, 4], sprites: ['house-round-log', 'cabin-small', 'cabin-weathered', 'house-hewn-log'], height: 16, taken: [{ x: 220, y: -600 }, { x: 300, y: -1000 }, { x: -380, y: -700 }, { x: 480, y: -700 }, { x: 420, y: -640 }] }),
+  ],
+};
+
+// ---------------------------------------------------------------------------------------------- Anahuac
+// docs/town-research/anahuac.md §8: the 1831 brick fort a robbed ruin on the bluff, empty; a scatter of fifteen houses and
+// shops a mile north on the terrace, some empty. North-up; the origin is the 1976 fort marker, and the map's point stands
+// at x 1642, y −6287 in it (measured).
+const ANAHUAC = {
+  name: 'Anahuac', research: 'docs/town-research/anahuac.md', bearing: 90, anchor: { x: 1642, y: -6287 },
+  streets: [
+    { name: 'The track to Turtle Bayou', width: 12, faint: true, points: [{ x: 1100, y: -4000 }, { x: 1400, y: -6800 }] },
+    { name: 'The path to the fort', width: 8, faint: true, points: [{ x: 700, y: -1500 }, { x: -100, y: -100 }] },
+  ],
+  squares: [],
+  buildings: [
+    { id: 'anh-fort', sprite: 'brick-fort-ruin', x: -160, y: 0, height: 14, label: 'Fort Anahuac (ruin)' },
+    { id: 'anh-fort-davis', sprite: 'brick-bastion', x: -205, y: 40, height: 8 },
+    { id: 'anh-fort-barracks', sprite: 'brick-barracks-ruin', x: -168, y: -12, height: 10 },
+    { id: 'anh-fort-breach', sprite: 'brick-breach', x: -125, y: 20, height: 6 },
+    { id: 'anh-willcox-store', sprite: 'trading-house', x: 900, y: -3600, height: 18, label: 'Willcox’s store' },
+    { id: 'anh-briscoe-store', sprite: 'trading-house', x: 620, y: -3000, height: 18, label: 'Briscoe’s store' },
+    { id: 'anh-custom-office', sprite: 'storehouse', x: 560, y: -2650, height: 16, label: 'The collector’s office (empty)' },
+    { id: 'anh-calaboose', sprite: 'cabin-small', x: 760, y: -2700, height: 12, label: 'The calaboose' },
+    { id: 'anh-freeman-house', sprite: 'house-round-log', x: 1300, y: -4200, height: 14 },
+    { id: 'anh-labadie', sprite: 'cabin-wide', x: 650, y: -2000, height: 15 },
+    { id: 'anh-skiff', sprite: 'skiff', x: 300, y: -3000, height: 4, onWater: true },
+    ...scatter('anh-house', { centre: { x: 1100, y: -3400 }, radius: 1700, count: 8, sprites: ['house-round-log', 'cabin-small', 'house-hewn-log'], height: 16, within: (x, y) => x > 600 && x < 1700 && y < -1500 && y > -5200 }),
+    ...scatter('anh-empty', { centre: { x: 1200, y: -2600 }, radius: 1200, count: 4, sprites: ['cabin-weathered', 'cabin-ruin'], height: 14, within: (x, y) => x > 600 && x < 1700 && y < -1500 }),
+  ],
+};
+
+// ---------------------------------------------------------------------------------------------- Nacogdoches
+// docs/town-research/nacogdoches.md §9: the Camino Real along the ridge, the irregular Plaza Principal turned thirty
+// degrees, the Stone House, and a town that fills Main Street for a third of a mile and thins down the slopes - old houses
+// of upright logs and mud, white frame houses among them, log cabins on the outskirts. North-up; the origin is Main × North
+// Fredonia, and the map's point stands at x −343, y −224 (measured).
+const NAC_CAMINO = [{ x: -1180, y: -730 }, { x: -1090, y: -720 }, { x: -750, y: -530 }, { x: -499, y: -373 }, { x: -259, y: -151 }, { x: -56, y: -13 }, { x: 0, y: 0 }, { x: 324, y: 126 }, { x: 627, y: 239 }, { x: 1224, y: 474 }, { x: 1720, y: 670 }, { x: 2040, y: 800 }];
+const NAC_PILAR = [{ x: -634, y: -52 }, { x: -352, y: 54 }, { x: -108, y: 164 }, { x: 249, y: 309 }, { x: 560, y: 440 }, { x: 1148, y: 693 }];
+const NACOGDOCHES = {
+  name: 'Nacogdoches', research: 'docs/town-research/nacogdoches.md', bearing: 90, anchor: { x: -343, y: -224 },
+  streets: [
+    { name: 'El Camino Real', width: 40, points: NAC_CAMINO },
+    { name: 'La Calle del Norte', width: 30, points: [{ x: -499, y: -373 }, { x: -430, y: -550 }, { x: -363, y: -737 }, { x: -260, y: -1070 }, { x: -170, y: -1380 }] },
+    { name: 'Calle del Pilar', width: 30, points: NAC_PILAR },
+    { name: '', width: 30, points: [{ x: -56, y: -13 }, { x: -108, y: 164 }, { x: -300, y: 610 }] },
+    { name: '', width: 30, points: [{ x: -259, y: -151 }, { x: -352, y: 54 }, { x: -460, y: 280 }] },
+    { name: '', width: 30, faint: true, points: [{ x: 0, y: 0 }, { x: 207, y: -554 }, { x: 320, y: -860 }] },
+    { name: 'To Liberty', width: 25, faint: true, points: [{ x: -634, y: -52 }, { x: -870, y: 470 }, { x: -1090, y: 920 }] },
+  ],
+  squares: [
+    { label: 'Plaza Principal', points: [{ x: -259, y: -151 }, { x: -56, y: -13 }, { x: -108, y: 164 }, { x: -352, y: 54 }] },
+    { label: 'Church plaza', points: [{ x: -640, y: -470 }, { x: -470, y: -420 }, { x: -500, y: -250 }, { x: -660, y: -300 }] },
+  ],
+  buildings: [
+    // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the buildings the towns' research found. The two-storey Stone House.
+    { id: 'nac-stone-house', sprite: 'stone-tile-house', x: -60, y: -60, height: 20, label: 'The Stone House' },
+    { id: 'nac-red-house', sprite: 'adobe-flat', x: -470, y: -60, height: 16, label: 'The Red House' },
+    { id: 'nac-church-ruin', sprite: 'roofless-church-shell', x: -560, y: -380, height: 18, label: 'The old church' },
+    { id: 'nac-sterne', sprite: 'timber-hall', x: 1186, y: 872, height: 22, label: 'Sterne’s house' },
+    { id: 'nac-durst', sprite: 'house-dog-run', x: -184, y: -1069, height: 18, label: 'Durst’s house' },
+    { id: 'nac-smithy', sprite: 'shed-open', x: 100, y: 260, height: 12, label: 'A smithy' },
+    ...alongRoad('nac-store', [{ x: -420, y: -300 }, { x: -56, y: -13 }, { x: 627, y: 239 }], { count: 6, spacing: 190, setback: 55, sprites: ['trading-house', 'timber-shop', 'trading-house'], height: 18 }),
+    ...alongRoad('nac-frame', [{ x: 700, y: 270 }, { x: 1224, y: 474 }, { x: 1600, y: 620 }], { count: 8, spacing: 130, setback: 70, sprites: ['timber-hall', 'house-dog-run'], height: 18 }),
+    // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - jacales in variety. Houses of upright logs and mud.
+    ...alongRoad('nac-palisade', NAC_PILAR, { count: 12, spacing: 150, setback: 60, sprites: ['house-jacal'], height: 14 }),
+    ...alongRoad('nac-old', [{ x: -1090, y: -720 }, { x: -750, y: -530 }, { x: -499, y: -373 }], { count: 8, spacing: 90, setback: 60, sprites: ['house-jacal', 'adobe-flat'], height: 14 }),
+    ...scatter('nac-log', { centre: { x: 200, y: 100 }, radius: 1400, count: 10, sprites: ['cabin-small', 'house-hewn-log'], height: 14, within: (x, y) => Math.hypot(x - 200, y - 100) > 800 }),
+  ],
+};
+
+// ---------------------------------------------------------------------------------------------- Refugio
+// docs/town-research/refugio.md §9: the 1834 plat's survey lines on open prairie round an empty plaza, the mission church
+// a ruin in its walled churchyard, and about two dozen huts near the church. The origin, the plaza's centre, is the map's
+// point (HIST-TEX-025).
+const REF_LINES = [-1458.33, -1041.67, -625, -208.33, 208.33, 625, 1041.67, 1458.33];
+const REFUGIO_PLAZA = { label: 'Plaza de la Constitución', x: -166.67, y: -166.67, width: 333.33, height: 333.33 };
+const REFUGIO = {
+  name: 'Refugio', research: 'docs/town-research/refugio.md', bearing: 99.6, anchor: { x: 0, y: 0 },
+  streets: faint(REF_LINES.flatMap(v => [
+    { name: '', width: 83.33, points: [{ x: -1500, y: v }, { x: 1500, y: v }] },
+    { name: '', width: 83.33, points: [{ x: v, y: -1500 }, { x: v, y: 1500 }] },
+  ])),
+  squares: [REFUGIO_PLAZA],
+  walls: [
+    { name: 'The churchyard', points: [{ x: -753, y: 1066 }, { x: -770, y: 1066 }, { x: -770, y: 916 }, { x: -720, y: 916 }, { x: -720, y: 1066 }, { x: -737, y: 1066 }], sprite: 'wall-straight', spacing: 16, height: 6 },
+  ],
+  buildings: [
+    { id: 'ref-plaza-rock', sprite: 'survey-stone-corner', x: 0, y: 0, height: 4 },
+    { id: 'ref-mission-church', sprite: 'roofless-church-shell', x: -745, y: 898, height: 24, label: 'Mission church (ruinous)' },
+    { id: 'ref-sabina-brown', sprite: 'house-jacal', x: -500, y: -333, height: 14, filler: true },
+    { id: 'ref-westover', sprite: 'house-jacal', x: -257, y: -757, height: 14, filler: true },
+    { id: 'ref-scott', sprite: 'house-jacal', x: -560, y: 760, height: 14, filler: true },
+    { id: 'ref-power-town-house', sprite: 'house-jacal', x: -620, y: 1900, height: 15, label: 'Colonel Power’s town house' },
+    { id: 'ref-quirk', sprite: 'cabin-small', x: -300, y: 540, height: 16 },
+    ...scatter('ref-hut', { centre: { x: -700, y: 700 }, radius: 1000, count: 20, sprites: ['adobe-flat', 'house-jacal', 'adobe-flat', 'house-jacal', 'adobe-tile'], height: 14, exclude: [REFUGIO_PLAZA, { x: -800, y: 880, width: 110, height: 190 }] }),
+  ],
+};
+
+// ---------------------------------------------------------------------------------------------- Goliad
+// docs/town-research/goliad.md §9: the presidio La Bahía as it stood the night of 9-10 October 1835 - limestone walls with
+// breaches, the chapel sound, the officers' quarters and barracks - and the town a scatter of stone houses and jacales
+// against its south and west walls, no grid and no plaza; the mission across the river a ruin being quarried. The frame
+// is the fort's; the map's point, at the presidio, stands about x 50, y 205 in it (the interpretive markers).
+const GOLIAD = {
+  name: 'Goliad', research: 'docs/town-research/goliad.md', bearing: 96, anchor: { x: 50, y: 205 },
+  streets: [
+    { name: 'The road from Refugio', width: 30, faint: true, points: [{ x: 200, y: 358 }, { x: 400, y: 520 }, { x: 900, y: 700 }, { x: 1800, y: 1100 }] },
+    { name: 'The road from Victoria, by the ford', width: 30, faint: true, points: [{ x: 200, y: 20 }, { x: 60, y: -400 }, { x: -130, y: -680 }] },
+  ],
+  squares: [{ label: 'Parade ground', x: 20, y: 20, width: 355, height: 338 }],
+  walls: [
+    // The number and place of the breaches are invented (research §9.4); that the wall was breached is documented.
+    { name: 'Presidio La Bahía', points: [{ x: 20, y: 20 }, { x: 375, y: 20 }, { x: 375, y: 358 }, { x: 20, y: 358 }, { x: 20, y: 20 }], sprite: 'alamo-wall-intact', breach: 'alamo-wall-breach', breachEvery: 11, spacing: 14, height: 8 },
+  ],
+  buildings: [
+    ...[[20, 20], [375, 20], [375, 358], [20, 358]].map(([x, y], i) => ({ id: `gol-bastion-${i + 1}`, sprite: 'alamo-wall-corner', x, y, height: 10 })),
+    { id: 'gol-chapel', sprite: 'chapel', x: 135, y: 32, height: 23, label: 'Our Lady of Loreto' },
+    { id: 'gol-magazine', sprite: 'storehouse', x: 162, y: 75, height: 10 },
+    { id: 'gol-officers-quarters', sprite: 'stone-long-barrack', x: 55, y: 180, height: 12, label: 'Officers’ quarters' },
+    { id: 'gol-barracks', sprite: 'stone-long-barrack', x: 268, y: 345, height: 12 },
+    { id: 'gol-espiritu-santo', sprite: 'roofless-church-shell', x: -1498, y: -3113, height: 20, label: 'Mission Espíritu Santo (ruin)' },
+    { id: 'gol-zaragoza', sprite: 'stone-tile-house', x: -38, y: 420, height: 14, label: 'The Zaragoza house' },
+    ...[[-60, 480], [-150, 390], [30, 500], [150, 480], [260, 470], [440, 430]].map(([x, y], i) => ({ id: `gol-stone-${i + 1}`, sprite: 'stone-tile-house', x, y, height: 14, filler: true })),
+    // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - jacales in variety.
+    ...scatter('gol-jacal', { centre: { x: 0, y: 500 }, radius: 900, count: 36, sprites: ['house-jacal', 'house-jacal', 'adobe-flat'], height: 13, exclude: [{ x: 20, y: 20, width: 355, height: 338 }], within: (x, y) => y > 380 || x < -40 }),
+  ],
+};
+
+export const TOWN_LAYOUTS = Object.freeze({
+  'san-felipe': SAN_FELIPE, victoria: VICTORIA, mina: MINA, matagorda: MATAGORDA, columbia: COLUMBIA, liberty: LIBERTY,
+  washington: WASHINGTON, brazoria: BRAZORIA, velasco: VELASCO, harrisburg: HARRISBURG, anahuac: ANAHUAC, nacogdoches: NACOGDOCHES, refugio: REFUGIO, goliad: GOLIAD,
+});

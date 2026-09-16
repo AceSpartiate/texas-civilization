@@ -6,7 +6,7 @@ import {drawBexarGround,bexarDrawables} from '/bexar-art.js';
 import {plotArt} from '/field-art.js';
 import {drawGonzalesGround,gonzalesDrawables,GONZALES_ART_BOUNDS} from '/gonzales-art.js';
 import { drawTownGround, townDrawables } from '/town-art.js';
-import { TOWN_LAYOUTS } from '/town-layouts.js';
+import { TOWN_LAYOUTS, townPoint } from '/town-layouts.js';
 import {drawWater,drawRoad,drawCrossing,crossingAngle} from '/landscape-art.js';
 import { drawHousePlot, plotted, renderHousePlot } from '/house-plot.js';
 import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesInView, treesVisible, woodsShown } from '/woods-view.js';
@@ -906,7 +906,7 @@ function applyMapView(action, { street = false, at = null } = {}) {
     const site = world.map?.sites?.[action === 'home' ? homeOf(world) : action];
     if (!site) return;
     // A town the Host goes to is framed to its street of shops, about six tenths of a mile across (sim/shops.mjs).
-    if (street && action !== 'gonzales') { manualView = { cx: site.x, cy: site.y, scale: clampTo(Math.min(canvas.width / .75, canvas.height / .7), view.limits) }; drawWorld(world); return; }
+    if (street && action !== 'gonzales') { manualView = { cx: (at || site).x, cy: (at || site).y, scale: clampTo(Math.min(canvas.width / .75, canvas.height / .7), view.limits) }; drawWorld(world); return; }
     manualView = { cx: (at || site).x, cy: (at || site).y, scale: clampTo(action==='gonzales'?Math.min(canvas.width/.86,canvas.height/.80):Math.max(view.scale, view.limits.max * .45), view.limits) };
   }
   drawWorld(world);
@@ -1743,7 +1743,12 @@ $('#host-goto')?.addEventListener('change', event => {
   // point can be a quarter mile off it, out of frame at a student's closest zoom (found merging the map rebuild, 2026-09-16).
   const home = (window.__snapshot.world.others || []).filter(entity => entity.kind === 'person' && entity.location?.siteId === siteId);
   const at = home.length ? { x: home.reduce((sum, e) => sum + e.location.x, 0) / home.length, y: home.reduce((sum, e) => sum + e.location.y, 0) / home.length } : null;
-  if (site) applyMapView(siteId, { street: site.kind === 'town', at: site.kind === 'town' ? null : at });
+  // A drawn town is framed on the middle of its buildings (the median, so a mission across the river does not pull it off):
+  // Anahuac's 1835 town stands half a mile from the map's point (sim/town-layouts.mjs).
+  const layout = TOWN_LAYOUTS[siteId], median = values => values.sort((a, b) => a - b)[Math.floor(values.length / 2)];
+  const drawnAt = layout && layout.buildings.map(building => townPoint(layout, building));
+  const townAt = drawnAt ? { x: site.x + median(drawnAt.map(p => p.x)), y: site.y + median(drawnAt.map(p => p.y)) } : null;
+  if (site) applyMapView(siteId, { street: site.kind === 'town', at: site.kind === 'town' ? townAt : at });
 });
 function renderHousehold(world) {
   const household = world.household;

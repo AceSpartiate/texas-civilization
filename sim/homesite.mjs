@@ -185,7 +185,10 @@ export function laneState(world, household) {
   const route = laneOf(world, household);
   if (!route?.ground || !Number.isFinite(route.cut)) return null;
   const miles = polylineLength(route.points);
-  return { route, miles: round(miles), cut: round(Math.min(miles, route.cut)), left: round(Math.max(0, miles - route.cut)) };
+  // Nothing left, to the hundredth of a mile, is a lane cut to the road: rounded apart, a lane within 26 ft of the road read
+  // as nothing left and yet a hundredth short of cut (found when Brazoria's map point moved, 2026-09-16).
+  const left = round(Math.max(0, miles - route.cut));
+  return { route, miles: round(miles), cut: left === 0 ? round(miles) : round(Math.min(miles, route.cut)), left };
 }
 
 /** What lies at the uncut end of the lane, as shares of timber and brush over the stretch being cut. */
@@ -216,8 +219,11 @@ export function cutLaneSpell(world, household, entity, ticks) {
   if (!lane || lane.left <= 0) return true;
   const [, timber, brush] = frontGround(lane.route);
   const perMile = LANE_TICKS_PER_MILE.open + timber * (LANE_TICKS_PER_MILE.timber - LANE_TICKS_PER_MILE.open) + brush * (LANE_TICKS_PER_MILE.brush - LANE_TICKS_PER_MILE.open);
-  lane.route.cut = round(Math.min(lane.miles, lane.route.cut + ticks / perMile), 4);
-  if (lane.route.cut < lane.miles) return false;
+  // Measured against the lane's own length, not its rounding: a lane cut to within a hundredth of a mile of a rounded-up
+  // length read as nothing left, stopped, and never said it was done (found when Brazoria's map point moved, 2026-09-16).
+  const whole = polylineLength(lane.route.points);
+  lane.route.cut = round(Math.min(whole, lane.route.cut + ticks / perMile), 4);
+  if (round(Math.max(0, whole - lane.route.cut)) > 0) return false;
   record(world, 'improvement', { actorId: entity.id, householdId: household.id, importance: 2, claimId: 'FIC-GONZ-026', text: `The lane is cut all the way to the road, ${lane.miles} miles of it. A wagon can come and go without fighting the brush.` });
   return true;
 }

@@ -11,7 +11,8 @@ export function drawTownGround(ctx, layout, project, scale) {
   const at = point => project(townPoint(layout, point)), pixelsPerFoot = scale / FEET_PER_MILE;
   ctx.save();
   for (const square of layout.squares) {
-    const corners = [[0, 0], [square.width, 0], [square.width, square.height], [0, square.height]].map(([dx, dy]) => at({ x: square.x + dx, y: square.y + dy }));
+    // A square is a block (x, y, width, height), or, where the research measured an irregular one, its corner `points`.
+    const corners = square.points ? square.points.map(at) : [[0, 0], [square.width, 0], [square.width, square.height], [0, square.height]].map(([dx, dy]) => at({ x: square.x + dx, y: square.y + dy }));
     ctx.beginPath(); corners.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); ctx.closePath();
     ctx.globalAlpha = .7; ctx.fillStyle = '#ccb985'; ctx.fill();
     ctx.globalAlpha = .5; ctx.strokeStyle = '#a59063'; ctx.lineWidth = Math.max(1, pixelsPerFoot * 4); ctx.stroke();
@@ -33,7 +34,21 @@ export function drawTownGround(ctx, layout, project, scale) {
  */
 export function townDrawables(ctx, layout, project, scale, labels = {}) {
   const pixelsPerFoot = scale / FEET_PER_MILE;
-  return layout.buildings.map(building => {
+  // A wall is its pieces laid along its line, every `spacing` feet, with a breach piece where the research has it broken.
+  const walls = (layout.walls || []).flatMap(wall => {
+    const pieces = [];
+    for (let i = 1; i < wall.points.length; i++) {
+      const a = wall.points[i - 1], b = wall.points[i], span = Math.hypot(b.x - a.x, b.y - a.y), count = Math.max(1, Math.round(span / wall.spacing));
+      for (let j = 0; j < count; j++) {
+        const t = (j + .5) / count, n = pieces.length;
+        const p = project(townPoint(layout, { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t }));
+        const sprite = wall.breach && wall.breachEvery && n % wall.breachEvery === wall.breachEvery - 1 ? wall.breach : wall.sprite;
+        pieces.push({ y: p.y, draw: () => drawSprite(ctx, sprite, p.x, p.y, wall.height * DRAWN_HEIGHT * pixelsPerFoot) });
+      }
+    }
+    return pieces;
+  });
+  return [...walls, ...layout.buildings.map(building => {
     const p = project(townPoint(layout, building)), label = labels[building.id] || building.label;
     return { y: p.y, draw: () => {
       drawSprite(ctx, building.sprite, p.x, p.y, building.height * DRAWN_HEIGHT * pixelsPerFoot);
@@ -44,5 +59,5 @@ export function townDrawables(ctx, layout, project, scale, labels = {}) {
         ctx.strokeText(label, p.x, p.y + 16); ctx.fillStyle = '#4c422e'; ctx.fillText(label, p.x, p.y + 16); ctx.restore();
       }
     } };
-  });
+  })];
 }

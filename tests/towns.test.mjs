@@ -31,7 +31,9 @@ test('a town frame turns to its bearing: +x along the bearing, +y ninety degrees
 });
 
 test('every drawn town uses art the library has, names each building once, and keeps them near its site', () => {
-  assert.deepEqual(Object.keys(TOWN_LAYOUTS).sort(), ['columbia', 'liberty', 'matagorda', 'mina', 'san-felipe', 'victoria']);
+  // Every town and settlement on the map with research, which is all of them but Gonzales and Béxar (drawn by their own art).
+  assert.deepEqual(Object.keys(TOWN_LAYOUTS).sort(), ['anahuac', 'brazoria', 'columbia', 'goliad', 'harrisburg', 'liberty', 'matagorda', 'mina', 'nacogdoches', 'refugio', 'san-felipe', 'velasco', 'victoria', 'washington']);
+  for (const place of Object.values(map.places).filter(p => p.kind === 'town' && !['gonzales', 'bexar', 'lynchburg'].includes(p.id))) assert.ok(TOWN_LAYOUTS[place.id], `${place.id} is a town on the map with no layout`);
   for (const [id, layout] of Object.entries(TOWN_LAYOUTS)) {
     assert.ok(map.places[id], `${id} is not a place on the map`);
     assert.ok(layout.research && readFileSync(new URL(`../${layout.research}`, import.meta.url)), `${id} names no research`);
@@ -43,6 +45,10 @@ test('every drawn town uses art the library has, names each building once, and k
       assert.ok(Math.hypot(p.x, p.y) < 1.5, `${id}'s ${building.id} is ${Math.hypot(p.x, p.y).toFixed(2)} miles from the town`);
     }
     assert.ok(layout.buildings.some(b => b.filler), `${id} has no ordinary houses`);
+    for (const wall of layout.walls || []) {
+      for (const sprite of [wall.sprite, wall.breach].filter(Boolean)) assert.ok(sprites.has(sprite), `${id}'s wall is drawn as ${sprite}, which the library does not have`);
+      assert.ok(wall.points.length >= 2 && wall.spacing > 0 && wall.height > 0, `${id} has a wall that cannot be drawn`);
+    }
   }
   assert.ok(DRAWN_HEIGHT >= 1 && DRAWN_HEIGHT <= 4);
 });
@@ -51,10 +57,11 @@ test('no building of any town stands in a river or a creek the map draws', () =>
   const rivers = map.watercourses.filter(c => c.kind === 'river'), creeks = map.watercourses.filter(c => c.kind !== 'river');
   for (const [id, layout] of Object.entries(TOWN_LAYOUTS)) {
     const site = map.places[id];
-    for (const building of layout.buildings) {
+    // A ferry, a skiff or a wharf stands at the water on purpose (`onWater`); a wall's corners are held clear like a building.
+    for (const building of [...layout.buildings.filter(b => !b.onWater), ...(layout.walls || []).flatMap(w => w.points.map((p, i) => ({ ...p, id: `${w.name || 'wall'} point ${i}` })))]) {
       const p = townPoint(layout, building), at = { x: site.x + p.x, y: site.y + p.y };
       const river = nearest(at, rivers) * 5280, creek = nearest(at, creeks) * 5280;
-      assert.ok(river > 300, `${id}'s ${building.id} stands ${river.toFixed(0)} ft from a river`);
+      assert.ok(river > (layout.riverClearance ?? 300), `${id}'s ${building.id} stands ${river.toFixed(0)} ft from a river`);
       assert.ok(creek > 40, `${id}'s ${building.id} stands ${creek.toFixed(0)} ft from a creek`);
     }
   }

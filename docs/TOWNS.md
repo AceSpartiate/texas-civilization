@@ -110,8 +110,15 @@ Columbia and Liberty — are drawn from the layout sketches in `docs/town-resear
 - `ceiling:` buildings are drawn four times the height the research gives them (`DRAWN_HEIGHT`), so a town reads at a
   student's walking zoom.
 - `ceiling:` a class made before this keeps its shops' own sprites in its saved map, and draws them on top of the new town.
-- Not yet drawn: Washington, Brazoria, Velasco, Harrisburg, Anahuac, Nacogdoches, Refugio and Goliad, each with its sketch
-  ready in `docs/town-research/`.
+- **The other eight, drawn the same day**: Washington (one street, a staked grid, the ferry on its bench), Brazoria (a
+  frontage on Main along the bank; its map point moved to Old Town, `HIST-TEX-046`), Velasco (six buildings in two
+  fenced enclosures and the derelict round fort), Harrisburg (survey lines, about twenty houses and the steam mills),
+  Anahuac (the brick fort a ruin on the bluff, the town a scatter half a mile north of it), Nacogdoches (the Camino Real,
+  the turned plaza, the Stone House, old houses of logs and mud), Refugio (the plat's lines round an empty plaza, the
+  mission a ruin in its walled churchyard) and Goliad (the presidio's breached limestone walls, the chapel, the town a
+  scatter against the walls, Espíritu Santo a ruin across the river). Each of these has a measured origin. A layout may
+  carry `walls` (pieces along a line, with breaches) and squares with measured corner `points`. These places have no
+  keepers. Go to… frames a drawn town on the middle of its buildings.
 - Tests `tests/towns.test.mjs` (5, each proven by injection); browser `npm run test:towns`
   ([evidence](evidence/towns-browser.json), a wide and a close screenshot of each town).
 

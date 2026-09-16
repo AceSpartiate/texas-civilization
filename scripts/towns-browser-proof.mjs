@@ -49,7 +49,8 @@ try {
     await host.waitForTimeout(800);
     await host.screenshot({ path: `docs/evidence/town-${id}-close.png` });
     assert.equal(seen.drawn, TOWN_LAYOUTS[id].buildings.length, `${id} drew ${seen.drawn} of ${TOWN_LAYOUTS[id].buildings.length} buildings`);
-    assert.ok(seen.shops.length && seen.shops.every(shop => shop.building), `${id}'s keepers are not in drawn buildings`);
+    // A town families are dealt near has keepers, each in a drawn building; the other places have none.
+    assert.ok(seen.shops.every(shop => shop.building), `${id}'s keepers are not in drawn buildings`);
     ok(`${TOWN_LAYOUTS[id].name}: ${seen.drawn} buildings drawn at ${Math.round(seen.scale)} px a mile; ${seen.shops.length} keepers' buildings named; ${seen.keepersDrawn} people drawn there`);
   }
   assert.deepEqual(errors, [], `the page threw: ${errors.join(' | ')}`);

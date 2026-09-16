@@ -42,7 +42,9 @@ const PLACES = [
   ['liberty', 'Liberty', 'town', -94.7954784, 30.057993, 'HIST-TEX-013', true],
   ['victoria', 'Victoria', 'town', -97.0035982, 28.8052674, 'HIST-TEX-010', true],
   ['washington', 'Washington', 'town', -96.1566258, 30.3252093, 'HIST-TEX-010', false],
-  ['brazoria', 'Brazoria', 'town', -95.5691126, 29.0444147, 'HIST-TEX-010', false],
+  // Old Town Brazoria, Market × Main, where the 1835 town stood on the bank; the official point is the modern town, about
+  // a mile inland (HIST-TEX-046).
+  ['brazoria', 'Brazoria', 'town', -95.56016, 29.05593, 'HIST-TEX-046', false],
   // Old Velasco at the old river mouth (Surfside Beach); the official point is the 1891 town in Freeport (HIST-TEX-025).
   ['velasco', 'Velasco', 'town', -95.3001, 28.9419, 'HIST-TEX-025', false],
   // The bayou-front blocks of the 1826 plat (Broadway and Cypress), about 2,400 ft north of the official point (HIST-TEX-025).
