@@ -1,0 +1,62 @@
+{
+  "record": "The shops of the towns, in a browser: docs/TOWNS.md",
+  "date": "2026-09-16",
+  "verdict": "PASS",
+  "note": "Same computer only. A student sent a person to town from the family panel, chose the tavern from the street, read its counter, and paid for a meal in food; the keepers were in sight while the person was in Gonzales. Every other trade is proved in tests/shops.test.mjs. No LAN or district claim.",
+  "checks": [
+    "the family panel offers the street: \"Go into town and trade at one of its shops: the smith, the gunsmith, the doctor, the tavern and more.\"",
+    "in Gonzales the street has 8 shops: Go to the blacksmith's; Go to the gunsmith's; Go to the doctor's; Go to the tavern; Go to the tanner's; Go to the wheelwright's; Go to the mill; Go to the weaver's; Come home again",
+    "11 townspeople are in sight in Gonzales: Marta Ibarra, Josiah Pike, Anselmo Lozano, Ruth Crandall, Tobias Rhine, Dr. Felipe Arocha, Hannah Deering, Calvin Oakes, Rafael Cantú, Micajah Hobbs, Lucía Benavides",
+    "the tavern's counter says what each costs and does: A meal, and the talk: 1 real (It costs 1 real, and there is not that much coin in the house.); A meal, and the talk: 1 food (A hot meal takes some of the road out of the legs, and whatever the town has heard is heard.); Nothing today (Nothing spent)",
+    "a meal at the tavern, paid in food, is in the family's story: \"Rhoda ate at the tavern. Nobody there knew anything the family had not heard.\"",
+    "no page errors"
+  ],
+  "observed": {
+    "icon": "Go into town and trade at one of its shops: the smith, the gunsmith, the doctor, the tavern and more.",
+    "street": [
+      "Go to the blacksmith's",
+      "Go to the gunsmith's",
+      "Go to the doctor's",
+      "Go to the tavern",
+      "Go to the tanner's",
+      "Go to the wheelwright's",
+      "Go to the mill",
+      "Go to the weaver's",
+      "Come home again"
+    ],
+    "keepers": [
+      "Marta Ibarra",
+      "Josiah Pike",
+      "Anselmo Lozano",
+      "Ruth Crandall",
+      "Tobias Rhine",
+      "Dr. Felipe Arocha",
+      "Hannah Deering",
+      "Calvin Oakes",
+      "Rafael Cantú",
+      "Micajah Hobbs",
+      "Lucía Benavides"
+    ],
+    "counter": [
+      {
+        "option": "tavern:meal:coin",
+        "label": "A meal, and the talk: 1 real",
+        "note": "It costs 1 real, and there is not that much coin in the house.",
+        "disabled": true
+      },
+      {
+        "option": "tavern:meal:food",
+        "label": "A meal, and the talk: 1 food",
+        "note": "A hot meal takes some of the road out of the legs, and whatever the town has heard is heard.",
+        "disabled": false
+      },
+      {
+        "option": "leave",
+        "label": "Nothing today",
+        "note": "Nothing spent",
+        "disabled": false
+      }
+    ],
+    "story": "Rhoda ate at the tavern. Nobody there knew anything the family had not heard."
+  }
+}

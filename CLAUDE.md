@@ -13,6 +13,7 @@ Read these before substantial changes:
 9. `docs/COLONIES.md` before changing where families start, the arrival, news between settlements, or the timeline past October 2 — families spread across the settled colonies are owner-decided (2026-09-14) and amend `FIC-GONZ-024`.
 10. `docs/WOODS_AND_BUILDING.md` before changing where timber stands, hunting, felling, logs, or how a house is planned and raised — the woods from LANDFIRE, hunting on the family's own land, felling its own trees and building from plans or pieces are owner-decided (2026-09-15) and amend `docs/SETTLING_IN.md` §5–6.
 11. `docs/FAMILY_PANEL.md` before changing how a student gives a person an order, the family panel, its portraits and icons, or renaming — the panel down the left (father, mother, children oldest first), icons that glow while the server says the person is doing that, portrait to camera, and names that save themselves are owner-decided (2026-09-15) and amend `docs/SETTLING_IN.md` in how a family's people are managed.
+12. `docs/TOWNS.md` before changing what a town's shops sell or buy, who keeps them, or what a purchase does — a variety of trades in every town, core everywhere and documented extras in the larger towns, kept by invented people, are owner-decided (2026-09-16).
 
 The active next phase is Gonzales/core usability and deployment hardening, described in `HANDOFF.md`. `CLAUDE_DEVELOPMENT_ROADMAP.md` is reference for later work, not an instruction to build every arc now.
 

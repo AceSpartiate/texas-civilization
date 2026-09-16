@@ -1546,7 +1546,7 @@ export function drawWorld(world) {
   const journey = travellers.map(entity => `${entity.name} is on the road to ${placeName(world, entity.travel.to)}, about ${Math.round((entity.travel.progress || 0) / (entity.travel.distance || 1) * 100)}% of the way.`).join(' ');
   const settled = here.length ? `At ${placeName(world, entities.find(e => e.location.siteId)?.location.siteId)}: ${here.join(', ')}.` : '';
   const met = observed.length
-    ? ` Also here: ${observed.map(e => `${e.name}${e.resident ? ' of Gonzales' : ''}`).join(', ')}.`
+    ? ` Also here: ${observed.map(e => `${e.name}${e.resident ? ` of ${placeName(world, e.location?.siteId)}` : ''}`).join(', ')}.`
     : '';
   const battleText = window.__viewFormations.length ? ` ${world.battle.caption} Miniature groups show the opposing formations.` : '';
   const meeting = world.encounter?.status === 'open'
@@ -1622,7 +1622,7 @@ function renderHousehold(world) {
   const others = observedOf(world);
   $('#others').replaceChildren(...others.map(entity => {
     const li = element('li', ''); li.dataset.entityId = entity.id;
-    const who = entity.resident ? 'of Gonzales' : entity.household ? `of ${entity.household}` : 'passing through';
+    const who = entity.resident ? `of ${placeName(world, entity.location?.siteId)}${entity.about ? `, who ${entity.about}` : ''}` : entity.household ? `of ${entity.household}` : 'passing through';
     const button = element('button', `${entity.name}, ${who}: ${entity.task || 'here'} at ${placeName(world, entity.location?.siteId)}, ${entity.condition || 'well'}`);
     button.dataset.select = entity.id;
     li.append(button); return li;

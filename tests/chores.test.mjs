@@ -212,5 +212,6 @@ test('the chore catalogue is static and stays off the per-tick channel', () => {
     'a family’s remembered story is unbounded on the tick channel again');
   const size = JSON.stringify(projected).length;
   // 7000 until Survey (2026-09-14) put one more chore, a real control, on every person's list: 7108 measured then.
-  assert.ok(size < 7500, `a fresh student's per-tick payload is ${size} bytes, which is too large`);
+  // 7500 until the furniture and the town's shops (2026-09-16) put two more there: 7536 measured then.
+  assert.ok(size < 8000, `a fresh student's per-tick payload is ${size} bytes, which is too large`);
 });

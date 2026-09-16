@@ -612,3 +612,17 @@ for October either. No strength or casualty figure is asserted: the army is as m
 2. **Seat Liberty as well as Gonzales?** Yes.
 3. **Victoria?** Left to the numbers.
 4. **Playing alone** (raised by the owner): a normal world played by one student (§5.8).
+
+### 7a. Concepción — answered 2026-09-16, before build step 6
+
+Put to the owner as multiple choice after the research in [battle-research/concepcion.md](battle-research/concepcion.md).
+
+| Question | Owner's answer |
+| --- | --- |
+| How deadly for a family's volunteer in the fight? (1 Texian killed of ~92) | **About 1% per fighter, weighted by hidden strength and health, and never more than one death in a class.** Amends `docs/FAMILY_CREATION.md` §5's "very likely fatal for somebody weak or frail" for this battle. |
+| How does a volunteer come to be in Bowie and Fannin's detachment? | **The family is asked**, on October 22, whether their person goes with the detachment; the risk stays hidden. |
+| Show the real halts (Cibolo Oct 16–19, Salado Oct 20–26, Espada Oct 27)? | **Yes**, dated from Austin's order book. |
+| Can a Liberty volunteer be in the fight, when sources disagree on Briscoe's company? | **Yes, like anyone**; the disagreement is recorded, not enforced. |
+| The glory penalty for sending a woman to fight, which no source read documents? | **Kept, and labelled as the game's own reading of the period**; the ending words it as the period's judgement. |
+| Mexican losses (14, 16, 67 or 76 by source)? | **The range, with its sources**: families hear that the reports disagree. |
+| Goliad as a battle a family member fought in? | **No — news only.** Nobody who went to Gonzales was there. |

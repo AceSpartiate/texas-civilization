@@ -28,6 +28,7 @@ import { armyInvalid, armyProjection, callHome, callHomeRefusal } from './army.m
 import { endingProjection } from './ending.mjs';
 import { appearanceInvalid, setAppearance } from './appearance.mjs';
 import { furnitureInvalid } from './furniture.mjs';
+import { gearExertionShare, shopsInvalid, wagonSpeedShare } from './shops.mjs';
 import { fellingInvalid, logsProjection, recordFelling } from './felling.mjs';
 import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, ageBand, defaultNames, familyProjection, familyRoll, FAMILY_DIE, compositionFor, rolledWords, householdName, kinFor, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
 export { HOUSEHOLD_SHAPE, ROLES, householdName, sanitiseName } from './family.mjs';
@@ -276,7 +277,7 @@ function harness(world, entity, mode, path, causeId) {
     const beast = world.entities[propertyId(entity.householdId, role)];
     beast.borrowedBy = entity.id;
     const pace = path.pace || paceOf(path.points, path.ground, mode.id);
-    beast.travel = { from: entity.travel.from, to: entity.travel.to, points: path.points, progress: 0, distance: path.distance, speed: mode.speed, mode: mode.id, purpose: 'harness', causeId, silent: true, ...(pace.length && { pace }) };
+    beast.travel = { from: entity.travel.from, to: entity.travel.to, points: path.points, progress: 0, distance: path.distance, speed: entity.travel.speed, mode: mode.id, purpose: 'harness', causeId, silent: true, ...(pace.length && { pace }) };
     beast.location = { ...path.points[0], siteId: null };
   }
 }
@@ -319,7 +320,7 @@ export function beginTravel(world, entity, destination, causeId, purpose = 'visi
   const apart = gap > STANDING_APART_MILES;
   const pace = path.pace ? path.pace.map(([segment, factor]) => [segment + (apart ? 1 : 0), factor])
     : paceOf(points, path.ground && (apart ? [null, ...path.ground] : path.ground), mode.id);
-  entity.travel = { from, to: destination, points, progress: 0, distance, speed: riding ? RIDER_SPEED : mode.speed, mode: mode.id, purpose, causeId: departure, ...(pace.length && { pace }) };
+  entity.travel = { from, to: destination, points, progress: 0, distance, speed: riding ? RIDER_SPEED : mode.speed * wagonSpeedShare(world, entity, mode.id), mode: mode.id, purpose, causeId: departure, ...(pace.length && { pace }) };
   entity.location = { ...points[0], siteId: null }; entity.task = 'travel';
   if (!riding) harness(world, entity, mode, path, departure);
 }
@@ -369,7 +370,8 @@ export function progressTravel(world, entity, units = 1) {
   // horse is worth having to a family nineteen miles out - quite apart from the speed,
   // they arrive fit to do something. A tired principal is the one who risks hurt upriver.
   if (entity.kind === 'person' && entity.householdId && !entity.report) {
-    const cost = (travel.progress - wasAt) * modeOf(travel).exertion;
+    // Shoes on foot and a saddle on the horse take some of it off (sim/shops.mjs).
+    const cost = (travel.progress - wasAt) * modeOf(travel).exertion * gearExertionShare(world, entity, modeOf(travel).id);
     entity.exertion = Math.min(EXERTION_CAP, Math.round(((entity.exertion || 0) + cost) * 10000) / 10000);
   }
   entity.location = { ...pointAt(travel.points, travel.progress), siteId: null };
@@ -897,6 +899,8 @@ export function validateWorld(world) {
   if (badExpress) throw new Error(badExpress);
   const badCall = callsInvalid(world);
   if (badCall) throw new Error(badCall);
+  const badShops = shopsInvalid(world);
+  if (badShops) throw new Error(badShops);
   const badFurniture = furnitureInvalid(world);
   if (badFurniture) throw new Error(badFurniture);
   const badLooks = appearanceInvalid(world);

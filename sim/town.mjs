@@ -15,6 +15,7 @@
 // are deliberately NOT used here. A named historical person requires their own checked
 // claim, and putting one behind a trade counter would invent a life for them.
 import { record } from './events.mjs';
+import { advanceShopkeepers, createShopkeepers } from './shops.mjs';
 import { householdName, ageBand } from './family.mjs';
 import { facingOf, ridersInSight } from './encounters.mjs';
 
@@ -145,6 +146,8 @@ export function createTownspeople(world) {
       travel: null, health: { condition: 'well' }, task: 'work',
     };
   }
+  // The shops of the towns (sim/shops.mjs, docs/TOWNS.md), after the residents so Gonzales's smith is Josiah Pike.
+  createShopkeepers(world, near);
 }
 
 /**
@@ -154,6 +157,7 @@ export function createTownspeople(world) {
  * moving between places. Nobody here is simulated beyond where they are standing.
  */
 export function advanceTown(world) {
+  advanceShopkeepers(world);
   // The storekeepers of the other settlements keep to their own counters.
   for (const [settlementId, keeper] of Object.entries(STOREKEEPERS)) {
     const entity = world.entities[`town-store-${settlementId}`], place = world.map.sites[settlementId];

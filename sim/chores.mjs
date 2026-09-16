@@ -34,6 +34,7 @@ import { choosing, cutLaneSpell, digWell, lanePoint, laneRefusal, laneState, wat
 import { huntingPlace, huntRefusal, placeWord, stillTicks } from './hunting.mjs';
 import { fellRefusal, fellTicks, fellTree, logsLying, nextTree, recordFelling, stackLogs, takeUpLogs } from './felling.mjs';
 import { KINDS, woodsRule } from './woods.mjs';
+import { TRADES, counterOptions, counterRefusal, rifleTrue, spendRifleShot, takeCounter, tradesAt } from './shops.mjs';
 import { BABY_BURDEN, FURNITURE, PIECES, buyRefusal, furnish, makeRefusal, mindingBaby, wanting } from './furniture.mjs';
 import { SPELL_TICKS, buildRefusal, buildSpell, helpRefusal, hostOf, houseBuilt, houseSettled, raising, recordHelpBegun, recordHelpDone, stageOf } from './houses.mjs';
 export { MODES } from './travel.mjs';
@@ -140,6 +141,11 @@ export function askAvailability(world, household, entity, optionId) {
   if (['take', 'wait'].includes(optionId) && dryHouse(household)) {
     return { can: false, why: 'There is no powder and lead in the house.' };
   }
+  // A shop's counter is refused by the shop's own rules (sim/shops.mjs).
+  if (entity.chore?.ask?.id === 'shop-counter' && optionId !== 'leave') {
+    const why = counterRefusal(world, household, entity, optionId);
+    return why ? { can: false, why } : { can: true, why: '' };
+  }
   for (const needs of [].concat(ASKS[entity.chore?.ask?.id]?.requires?.[optionId] || [])) {
     if (!needs.test(household, world, entity)) return { can: false, why: typeof needs.why === 'function' ? needs.why(household, world, entity) : needs.why };
   }
@@ -236,12 +242,28 @@ export const ASKS = {
     ],
     requires: Object.fromEntries(PIECES.flatMap(piece => ['coin', 'food'].map(pay => [`${piece}-${pay}`, { test: household => !buyRefusal(household, piece, pay), why: household => buyRefusal(household, piece, pay) }]))),
   },
+  // The shops (sim/shops.mjs, docs/TOWNS.md): which one, then that shop's counter.
+  'which-shop': {
+    doing: 'on the street in town',
+    fallback: 'leave',
+    text: entity => `${entity.name} is in town. Which shop?`,
+    options: (entity, world) => [
+      ...tradesAt(world, entity.location.siteId).map(trade => ({ id: trade, label: `Go to ${TRADES[trade].shop}`, note: TRADES[trade].offers.map(offer => offer.label).join('; ') })),
+      { id: 'leave', label: 'Come home again', note: 'Nothing spent' },
+    ],
+  },
+  'shop-counter': {
+    doing: 'at the counter',
+    fallback: 'leave',
+    text: entity => `What will ${entity.name} do at ${TRADES[(entity.chore?.flags || []).find(flag => TRADES[flag])]?.shop || 'the shop'}?`,
+    options: entity => counterOptions((entity.chore?.flags || []).find(flag => TRADES[flag])),
+  },
   shot: {
     doing: 'downwind, with the shot there to take',
     fallback: 'take',
     text: entity => `${entity.name} is downwind of a deer, with a shot to take. It is not a close one.`,
-    options: entity => [
-      { id: 'take', label: 'Take the shot', note: `One powder. ${unsteadyBecause(entity) || `${entity.name} is steady, and it is within reach`}` },
+    options: (entity, world, household) => [
+      { id: 'take', label: 'Take the shot', note: `One powder. ${(rifleTrue(household) && entity.health?.condition !== 'tired' ? null : unsteadyBecause(entity)) || `${entity.name} is steady, and it is within reach${rifleTrue(household) && !steadyHand(entity) ? ', with the rifle put in order' : ''}`}` },
       { id: 'wait', label: 'Wait for it to come closer', note: 'One powder, three more hours, and then the shot is a certainty' },
       { id: 'leave', label: 'Leave it and come home', note: 'Nothing spent, nothing to carry, and the rest of the day is the family\u2019s' },
     ],
@@ -515,6 +537,21 @@ export const CHORES = {
       { mend: 'hoe' },
     ],
   },
+  'visit-shop': {
+    name: 'Go to a shop in town', skill: 'hands', where: 'home', hauls: true, shops: true,
+    describe: "Walk the town's street: the blacksmith, the gunsmith, the doctor, the tavern and the rest, whichever the family's town has. Each shop says what it sells and buys, for coin or food.",
+    steps: [
+      { travel: 'town', doing: 'on the road to {town}' },
+      { work: 1, doing: 'walking the street in {town}' },
+      { ask: 'which-shop' },
+      ...Object.keys(TRADES).flatMap(trade => [
+        { when: [trade], trade, doing: `at ${TRADES[trade].shop}` },
+        { when: [trade], ask: 'shop-counter' },
+      ]),
+      { shop: true },
+      { travel: 'home', doing: 'walking home from {town}' },
+    ],
+  },
   'make-furniture': {
     name: 'Make furniture', skill: 'hands', where: 'home', furniture: 'make',
     describe: 'Make a table, benches, a bedstead, shelves or a cradle from a small tree, with the tools the wagon brought. Each piece does one small thing once there is a roof over it.',
@@ -745,6 +782,7 @@ export function choreAvailability(world, household, entity, choreId) {
   if (chore.well) { const why = wellRefusal(household); if (why) return { can: false, why }; }
   if (chore.survey && world.status === 'lobby') return { can: false, why: 'The family surveys its land once the class has begun.' };
   if (chore.huntLand && world.status === 'lobby') return { can: false, why: 'The family hunts its land once the class has begun.' };
+  if (chore.shops && !Object.values(world.entities).some(one => one.shopSpot || one.deals?.includes('blacksmith'))) return { can: false, why: 'There are no shops in this country.' };
   if (chore.furniture && !wanting(household).length) return { can: false, why: 'The family has every piece of furniture it can use.' };
   if (chore.furniture === 'make' && household.tools?.axe === undefined) return { can: false, why: 'Making furniture wants a felling axe, and there is none in the house.' };
   if (chore.furniture === 'buy' && !Object.values(world.entities).some(one => one.deals?.includes('furniture'))) return { can: false, why: 'There is no carpenter in this country.' };
@@ -871,6 +909,7 @@ export function choresFor(world, household, entity) {
     && !(chore.fells && !counted) && !(chore.hauling && !lying)
     // Nor furniture while the family is still on the road in, or once it has every piece (sim/furniture.mjs).
     && !(chore.furniture && (household.arriving || !wanting(household).length))
+    && !(chore.shops && household.arriving)
     // Nor survey or plot work before the class has begun, which would be a refusal for every person on every lobby tick.
     && !((chore.survey || chore.plotWork || chore.huntLand || chore.fells) && world.status === 'lobby')).map(([id, chore]) => {
     const { can, why } = choreAvailability(world, household, entity, id);
@@ -1095,7 +1134,7 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       state.doing = ask.doing;
       state.ask = {
         id: step.ask, openedMinute: world.minute, fallback: ask.fallback,
-        text: ask.text(entity), options: ask.options(entity),
+        text: ask.text(entity, world, household), options: ask.options(entity, world, household),
       };
       record(world, 'pressure', {
         actorId: entity.id, householdId: household.id, importance: 2,
@@ -1107,7 +1146,9 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       // Whether the shot went home, decided by the person and the range and nothing else.
       // Waiting closed the range, so somebody who waited connects whatever their state.
       const close = (state.flags || []).includes('wait');
-      if (!close && !steadyHand(entity)) {
+      // A rifle the gunsmith put in order makes the long shot for a hand without the knack; tired is still tired (sim/shops.mjs).
+      const trueRifle = rifleTrue(household) && entity.health?.condition !== 'tired';
+      if (!close && !steadyHand(entity) && !trueRifle) {
         state.flags = [...(state.flags || []), 'empty'];
         record(world, 'consequence', {
           actorId: entity.id, householdId: household.id, importance: 2,
@@ -1116,6 +1157,8 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
         continue;
       }
       state.flags = [...(state.flags || []), 'carrying'];
+      // And the hide comes home with it, for the tanner (sim/shops.mjs).
+      household.resources.hides = (household.resources.hides ?? 0) + 1;
       // Falls through to the ordinary produce rule, carrying cap and all, so what comes
       // home is decided in one place for every chore that hauls rather than two.
       step = { produce: step.strike };
@@ -1140,6 +1183,7 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       // and the day somebody wants a neighbour to have heard one, this is what they hang
       // it on. It names no animal, because no animal has been named.
       household.resources.powder = round(Math.max(0, (household.resources.powder ?? 0) - SHOT_COST));
+      spendRifleShot(household);
       record(world, 'hunt', {
         actorId: entity.id, householdId: household.id,
         text: `${entity.name} fired in ${state.ground?.cover || coverWord(world, household)}.`,
@@ -1425,6 +1469,11 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       continue;
     }
     if (step.mend) { household.tools[step.mend] = 0; continue; }
+    if (step.shop) {
+      const chosen = (state.flags || []).find(flag => flag.includes(':'));
+      if (chosen) takeCounter(world, household, entity, chosen);
+      continue;
+    }
     if (step.furnish) {
       furnish(household, step.furnish, step.how);
       const kind = FURNITURE[step.furnish];

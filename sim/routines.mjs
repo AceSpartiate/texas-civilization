@@ -3,6 +3,7 @@ import { record } from './events.mjs';
 import { housekeepingSaving } from './family.mjs';
 import { shelterOf } from './houses.mjs';
 import { furnitureShares } from './furniture.mjs';
+import { campRestShare } from './shops.mjs';
 
 // Fatigue, and the only thing that mends it.
 //
@@ -68,7 +69,7 @@ function restAndTire(world, entity, minutes) {
     const household = world.households[entity.householdId];
     const atHome = household && entity.location.siteId === household.homeSiteId;
     const shelter = atHome ? shelterOf(world, household) : null;
-    const mended = REST_MILES_PER_MINUTE * minutes * (atHome ? shelter.restShare * furnitureShares(household, shelter.kind === 'house').rest : 1);
+    const mended = REST_MILES_PER_MINUTE * minutes * (atHome ? shelter.restShare * furnitureShares(household, shelter.kind === 'house').rest * (shelter.kind === 'camp' ? campRestShare(household) : 1) : 1);
     entity.exertion = Math.max(0, Math.round((exertion - mended) * 10000) / 10000);
   }
   const condition = entity.health?.condition;
