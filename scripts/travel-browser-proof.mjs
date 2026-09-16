@@ -91,14 +91,16 @@ try {
   assert.ok(harnessed.every(e => e.travelling && e.borrowedBy === 'hh-1-thomas' && e.mode === 'wagon'), JSON.stringify(harnessed));
   ok('the ox and the wagon are on the road with him, not left standing at home');
 
-  // Drawn, not merely projected: sample where each is actually painted, two frames apart.
+  // Drawn, not merely projected: sample where each is actually painted, two frames apart. Since 2026-09-16 the ox and wagon
+  // are drawn with their driver sitting on the wagon (public/app.js `drawSeated`, scripts/riding-browser-proof.mjs), so
+  // their painted places are the parts of his seated drawing.
   const moved = await page.evaluate(async () => {
-    const at = () => ({ ...window.__drawnAt });
+    const at = () => Object.fromEntries((window.__seatedDrawn?.['hh-1-thomas']?.parts || []).map(part => [part.part, part]));
     const first = at();
     await new Promise(resolve => setTimeout(resolve, 900));
     const later = at();
     const shifted = id => first[id] && later[id] && Math.hypot(later[id].x - first[id].x, later[id].y - first[id].y);
-    return { ox: shifted('hh-1-animal'), wagon: shifted('hh-1-wagon'), man: shifted('hh-1-thomas') };
+    return { ox: shifted('ox'), wagon: shifted('wagon'), man: shifted('rider') };
   });
   assert.ok(moved.ox > 0.5 && moved.wagon > 0.5, `ox moved ${moved.ox}px, wagon ${moved.wagon}px on screen`);
   ok(`the ox and wagon are drawn travelling, not teleported (${moved.ox.toFixed(1)}px and ${moved.wagon.toFixed(1)}px of screen movement)`);
@@ -116,7 +118,7 @@ try {
   assert.equal(await shut.isDisabled(), true);
   const why = await shut.getAttribute('title');
   const holder = app.state.world.entities['hh-1-thomas'].name;
-  assert.equal(why, `${holder} has the ox.`, why);
+  assert.equal(why, `${holder} has the ox and wagon.`, why);
   ok(`a second person is told who has it, in words: "${why}"`);
   assert.equal(await page.locator('#travel-modes button[data-mode=foot]').isDisabled(), false);
   ok('and walking is never taken away from anybody');

@@ -1,6 +1,6 @@
 // Renderers consume the server's permitted projection. They never advance simulation state.
 import { drawSprite, drawClip, clipInfo, hasSprite, loadArt, onArtReady, pickSprite, spriteFrame } from '/art.js';
-import { ProjectionMotion, entityClip, travelHeading, travelDirection, figureScale, underARider, mounted, MOUNTED_HEIGHT, castVariant, childFigure } from '/motion.js';
+import { ProjectionMotion, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, seatedClip, seatLayout, mounted, MOUNTED_HEIGHT, castVariant, childFigure } from '/motion.js';
 import { drawIcon, drawPortrait, nameToSave, panelActions, panelOrder, rowReason, RENAME_PAUSE_MS } from '/family-panel.js';
 import {drawBexarGround,bexarDrawables} from '/bexar-art.js';
 import {plotArt} from '/field-art.js';
@@ -391,9 +391,48 @@ const drawnAt = new Map();
 // server says a shot is happening this tick, and this remembers when the puff started so
 // it plays from its own beginning.
 const shotSince = new Map();
+// Who was drawn sitting on what this frame, and where each part of them went, for the proofs (docs/evidence/riding-browser.json).
+const seatedDrawn = new Map();
+/**
+ * Somebody on the horse, or driving the ox and wagon, drawn as one: the mount, and their own figure sitting on it
+ * (public/motion.js `seatLayout`). The ox and wagon and the ridden horse are not drawn again by themselves.
+ * stand-in: docs/ART_REQUESTS.md, requests 2026-09-14 (family members on horseback) and 2026-09-16 (driving the ox wagon).
+ */
+function drawSeated(ctx, x, y, size, entity, seat, entities, flip) {
+  const direction = travelDirection(entity) || 'e';
+  const vertical = direction === 'n' || direction === 's';
+  const along = vertical ? 1 : flip ? -1 : 1;
+  const own = entities.filter(other => other.householdId === entity.householdId);
+  const mount = {
+    horse: own.find(other => other.kind === 'animal' && other.species === 'horse'),
+    ox: own.find(other => other.kind === 'animal' && other.species !== 'horse'),
+    wagon: own.find(other => other.kind === 'wagon'),
+  };
+  const drawn = [];
+  for (const part of seatLayout(seat, direction, SIZE, figureScale(entity))) {
+    const px = x + part.dx * size * along, py = y + part.dy * size, height = part.height * size;
+    if (part.part === 'rider') {
+      // Their own figure from the head down to just below the waist; the rest would be inside the saddle or the box.
+      ctx.save();
+      ctx.beginPath(); ctx.rect(px - height * 2, py - height * 1.5, height * 4, height * (.5 + part.shown)); ctx.clip();
+      const clip = seatedClip(entity, direction);
+      if (!animated(ctx, clip.id, px, py, height, entity.id, { paused: true })) miniPerson(ctx, px, py, size, { ...entity, travel: null, flip });
+      ctx.restore();
+    } else {
+      // The family's own beast, as the server has it on the road with them; a stand-in of the right kind if it is not in view.
+      const beast = mount[part.part] || { id: `${entity.id}-${part.part}`, kind: part.part === 'wagon' ? 'wagon' : 'animal', species: part.part, condition: 'sound' };
+      const moving = { ...beast, travel: entity.travel };
+      if (part.part === 'wagon') miniWagon(ctx, px, py, height, moving, flip);
+      else miniAnimal(ctx, px, py, height, moving, flip);
+    }
+    drawn.push({ part: part.part, x: Math.round(px), y: Math.round(py), height: Math.round(height), ...(part.shown && { shown: part.shown }) });
+  }
+  seatedDrawn.set(entity.id, { seat, direction, parts: drawn });
+}
 function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
-  // The horse is under its rider, drawn with them (public/motion.js `inTheSaddle`).
-  if (underARider(entity)) return;
+  // The horse is under its rider, and the ox and wagon under their driver, drawn with them (public/motion.js `seatOf`).
+  if (!marks.observed && carriedWithRider(entity, marks.entities || [])) return;
+  const seat = marks.observed ? null : seatOf(entity, marks.entities || []);
   // Cosmetic separation only. Overlapping drawings must never imply different true positions.
   const spread = size / 26;
   // On the road a person is drawn exactly where the server says they are. Their ox and
@@ -408,7 +447,7 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
   // is the body above that point, not a circle centred on the feet.
   // Somebody on a horse is drawn the height of a horse with a rider on it: at a person's height the horse under them was a
   // toy, smaller than the family's own horse standing in the yard (found in play 2026-09-14).
-  const height = size * (entity.kind === 'animal' ? (entity.species === 'horse' ? SIZE.horse : SIZE.ox) : entity.kind === 'wagon' ? SIZE.wagon : mounted(entity) ? MOUNTED_HEIGHT : 1);
+  const height = size * (entity.kind === 'animal' ? (entity.species === 'horse' ? SIZE.horse : SIZE.ox) : entity.kind === 'wagon' ? SIZE.wagon : seat === 'wagon' ? SIZE.wagon : mounted(entity) ? MOUNTED_HEIGHT : 1);
   drawnAt.set(entity.id, { x, y: y - height * .45, size: height });
   if (marks.selected) {
     ctx.strokeStyle = marks.observed ? '#cfd6c2' : '#f0d38a';
@@ -421,7 +460,8 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
   // reined in is turned toward the person they are speaking to instead, which the server
   // works out from where the two of them actually are.
   const flip = entity.facing ? entity.facing === 'w' : travelDirection(entity) === 'w';
-  if (entity.kind === 'person') miniPerson(ctx, x, y, mounted(entity) ? height : size, { ...entity, observed: marks.observed, flip });
+  if (seat) drawSeated(ctx, x, y, size, entity, seat, marks.entities || [], flip);
+  else if (entity.kind === 'person') miniPerson(ctx, x, y, mounted(entity) ? height : size, { ...entity, observed: marks.observed, flip });
   else if (entity.kind === 'animal') miniAnimal(ctx, x, y, height, entity, flip);
   else if (entity.kind === 'wagon') miniWagon(ctx, x, y, height, entity, flip);
   // The one moment of a hunt that can be shown. `musket-smoke` runs once - small, growing,
@@ -1488,6 +1528,7 @@ export function drawWorld(world) {
   // request mark and never with a selection ring that implies you can order them.
   const observed = observedOf(world).filter(entity => entity.location);
   drawnAt.clear();
+  seatedDrawn.clear();
   const chosen = selectedEntity(world);
   const pending = [];
   // Six names around one cabin is a smear, not information. Below this size - which a
@@ -1519,7 +1560,7 @@ export function drawWorld(world) {
       window.__quarryDrawn = { id: entity.id, x: spot.x, y: spot.y };
     }
     standing.push({ y: point.y, draw: () => drawEntity(ctx, entity, point, roomForNames, camera.figure, {
-      selected: entity.id === chosen?.id, mark,
+      selected: entity.id === chosen?.id, mark, entities,
       labels, heading: destination ? destination.x - entity.location.x : 0,
     }) });
   }
@@ -1549,6 +1590,7 @@ export function drawWorld(world) {
   // question worth asking about motion - how fast does a person cross the screen relative
   // to their own size - cannot be answered from the projection, which only moves once a
   // tick while the figure is drawn every frame between.
+  window.__seatedDrawn = Object.fromEntries(seatedDrawn);
   window.__drawnAt = Object.fromEntries([...drawnAt].map(([id, spot]) => [id, { x: spot.x, y: spot.y, size: spot.size }]));
   // Presentation evidence, same contract as __viewEntities: who was drawn because they
   // were seen, kept as a separate list so a proof can tell the two apart.
@@ -3223,7 +3265,7 @@ document.addEventListener('click', async event => {
     if (button.dataset.chore) input.chore = button.dataset.chore;
     if (button.dataset.option) input.option = button.dataset.option;
     // Every order that can put somebody on a road carries how they mean to go.
-    if (['travel', 'chore', 'help', 'go-upriver', 'go-see'].includes(action) && input.entityId) input.mode = modeFor(input.entityId);
+    if (['travel', 'chore', 'help', 'go-upriver', 'go-see', 'turn-out'].includes(action) && input.entityId) input.mode = modeFor(input.entityId);
     if (button.dataset.lineId) input.lineId = button.dataset.lineId;
   }
   try {

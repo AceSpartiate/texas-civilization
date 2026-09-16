@@ -72,7 +72,9 @@ A short optional walk-through offers itself once, in that lobby. It explains the
 
 **Your land is big.** Zoom in on it: a labor of 177 acres is about thirty people across, and a league and a labor more than a hundred and fifty.
 
-**Whoever goes on the horse rides it**, drawn in the saddle, and a family nobody plays rides its horse to town or to hunt whenever the horse is home, walking only when somebody else has it.
+**Whoever goes on the horse sits on it**, drawn as themselves in the saddle, and **whoever takes the ox and wagon sits on the wagon** with the ox walking ahead; anybody else going along walks beside it (owner's playtest, 2026-09-16). A family nobody plays rides its horse to town or to hunt whenever the horse is home, walking only when somebody else has it.
+
+**One person at a time on the horse, and on the ox and wagon.** Whoever takes it keeps it until it is back on the family's land: on the road, in town, at the timber, and marching with the army if they rode to the gathering — the horse goes with them, and they ride it home when they are sent for. Anybody else who wants it is told who has it, *"Maria has the horse."* or *"Maria has the ox and wagon."*, and the order is refused even if it is sent some other way. Work given with the horse holds it from the moment it is given. It is free again when it comes home, or as soon as whoever had it goes on without it, which leaves it where it stands for whoever is there to take.
 
 **The ground slows you, and people go the quickest way.** Off the roads, climbing, timber, brush and creeks all make a journey longer, on foot, on horseback and most of all with the wagon. Somebody walking or riding cuts straight across open country when that is quicker than going round by the road, and keeps to the road where the road is quicker: through the timber bottoms, and over a big river, which is crossed only where a road crosses it. The wagon leaves the road only over open ground, so a lane cut through your timber is what lets it out.
 
@@ -112,7 +114,7 @@ Shooting is the only thing anybody can practise. Nobody gets better at farming o
 
 **There is a deer.** Out in the timber, a deer stands ahead of whoever is hunting while they wait downwind, and comes closer if you tell them to wait for it; it is gone once the shot is taken or they turn for home. Deer are what the settlers of the colonies hunted.
 
-**Anybody on a horse is drawn the size of a horse with somebody riding it.**
+**Anybody on a horse is drawn the size of a horse with themselves sitting on it.**
 
 **Your family hunts its own timber.** There are no hunting grounds set aside: a hunter goes to the timber or brush nearest your house, which is a few hundred yards off for a family on a wooded creek and miles across the prairie for a family out in the open, so the country you were dealt decides how far a hunt is. The place is named for its water, *the timber on Kerr Creek*.
 
@@ -151,7 +153,7 @@ The exchange plays out a line at a time. You can ask him things — where he cam
 - **On the horse.** Near three times the pace and barely tiring, which is what lets a family nineteen miles from Gonzales arrive fit to do something rather than arrive worn out. It carries very little.
 - **With the ox and wagon.** Slower than the people walking beside it, and it brings home four times what a person can carry. It will not go over the ford.
 
-There is one of each between four people, and the thing you take is genuinely away from the farm while you have it: the ox that walked to Gonzales is standing in Gonzales, and the next person who wants it is told who has it and where. A hunt in the timber kills far more than one person can carry; the button says how much will come home before it is pressed, and the family is told plainly what was left behind.
+There is one of each between four people, and the thing you take is genuinely away from the farm while you have it: the ox that walked to Gonzales is standing in Gonzales with whoever drove it, and the next person who wants it — even somebody standing right beside it — is told who has it. A hunt in the timber kills far more than one person can carry; the button says how much will come home before it is pressed, and the family is told plainly what was left behind.
 
 **A class runs at a pace the teacher chooses.** Study, Brisk or Quick on the Host page. The afternoon is identical in all three — the same distances, the same arrivals, the same decisions — and only the number of real minutes spent watching it changes. **Study** is the default and the honest one: a settler walks three miles an hour, and at that pace they cross about their own length of ground each second, which is what walking looks like. It also makes the Gonzales slice fill a class period rather than running out in under five minutes. Quick is the old pace, for a teacher who is behind.
 
