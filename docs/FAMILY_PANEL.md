@@ -5,6 +5,10 @@
 and rest buttons, and the family book's row of Rename buttons, are replaced by one panel on the left of the map. Read this
 before changing how a student gives a person an order, the portrait or icon art, or renaming.
 
+**Amended by the owner 2026-09-16 and built the same day** ([evidence](evidence/family-commands-browser.json)): an "!" on a
+row for anybody who needs the student, that takes the camera to them and opens what waits; idle shown; and one person the
+student chooses as their main one. See §11, which wins where it and the sections before it differ.
+
 ---
 
 ## 1. What the owner asked for
@@ -52,8 +56,8 @@ mother who is principal is already first.
   **the camera goes to them and zooms in**, using the camera's existing "watch this person" (`watchedId` in `public/app.js`,
   the same follow a name in the journal's roster already starts): it centres on where they are drawn, zooms to at least
   55 in 100 of the closest zoom, and walks with them until the student pans, zooms or presses Follow. The person's card opens
-  beside them, as clicking them on the map does. A person who is being asked something, or whom a rider has stopped, has a
-  mark on the portrait; the question itself is still answered on their card.
+  beside them, as clicking them on the map does. A person who is being asked something, or whom a rider has stopped, has an
+  "!" over the corner of the portrait that is a button of its own (§11); the question itself is still answered on their card.
 - **The name**, an input labelled with the person's role and age (§5).
 - **The icons**, one per action the server offers that person now, in a row extending to the right; on a wide screen a long
   row (a principal has twenty or so) wraps to a second line so nothing is out of sight, and on a phone it scrolls sideways.
@@ -221,3 +225,104 @@ it), clicking a person on the map, the Host view, refusal lines, calls, rider me
 | No rename buttons | Names save on blur, Enter or a pause, survive a reload, and a refused name says why. |
 | The map stays visible | At about 400 px wide the panel is a portrait column and one row. |
 | Stand-ins listed | Both art requests written; both stand-ins marked `stand-in:` and listed. |
+
+---
+
+## 11. Commands, the "!" and the main person — as built 2026-09-16
+
+> "Ideally, I should be able to use the Family icons and action bars on the left to quickly give characters commands as to
+> what to do. If they need my attention (for example a rider is trying to talk to them) then there should be an exclamation
+> point there for me to click on. This exclamation point if clicked on would take my camera to that character and begin the
+> interaction that they need me for. I should also be able to select one character to be focused on. That way I can quickly
+> give all my characters commands, see that they're all busy, while also using the main one to do more specific tasks like
+> decorating in the house, fight in a battle, etc."
+>
+> — the owner, 2026-09-16
+
+Nothing here changes a rule of the world either: no new action, no projection field, no save version. Everything the "!" reads
+was already sent to the family; the main person is this browser's, not the world's. The rules are in `public/family-panel.js`
+(`needsOf`, `isIdle`, `focusFor`), tested against the simulation in `tests/family-commands.test.mjs`; the browser proof is
+`npm run test:family-commands`.
+
+### 11.1 Quick commands
+
+The icons of §4 were already one press each on every row, without finding anybody on the map; that stays. What was missing was
+seeing, down the column, who has nothing to do:
+
+- **Idle** is shown on a row as an *Idle* tag beside the name and the word *idle* on a dimmed portrait (so a phone's column of
+  faces shows it too). A person is idle when they are alive, not at a chore, not on a road, not with the army, the server's
+  `task` for them is resting (not `work` about the place, not `help` where a call sent them), **and** at least one icon on their
+  row is open. A child under ten, or somebody every order is refused to, is not called idle: there is nothing to give them.
+- Resting counts as idle, including a principal told to *Rest*, whose *Rest* icon still glows. `ceiling:` the server cannot
+  tell a rest the student chose from the rest a chore ends in; a separate "resting on purpose" is the way out if students find
+  their resting principal nagged.
+- **Who may be ordered what is unchanged.** Every person old enough is offered the chores; travelling, working about the place
+  and resting are still the principal's (`applyAction`, "Only your principal can be asked that"). The owner's "give all my
+  characters commands" is met by the chores; opening the journeys to everybody is a world rule and is asked in §11.5.
+
+### 11.2 The "!"
+
+A round "!" over the top corner of the portrait, its own button (a button cannot hold a button), bobbing gently unless the
+student has asked for reduced motion. Its accessible name says who wants what ("Ned Falk has stopped to speak with Jasper. And
+1 more. Go to Jasper and answer."). It is shown while the projection says something waits on that person, and gone the tick it
+does not. What raises it, most pressing first — a person with several shows the first:
+
+| Need | Read from the family's own projection | Pressing the "!" opens |
+| --- | --- | --- |
+| A rider standing with them (a slate "!": a rider will not wait for ever) | `world.encounter`, open, `listenerId` is this person | the conversation, with its questions and *Let them ride on* |
+| A question from the army they are with | `world.army.ours[]` for this person: `detachment` open, or a question whose `answer` is open | their card at the army's question and its two answers |
+| A call, march or rumour's question they may answer | `world.request`, open, with this person in its `answerers` | their card at the call and its answers |
+| Work that has stopped to ask | `entity.chore.ask` | their card at the question and its answers |
+| An offer another family made to them | `world.offers[]`, `direction: 'received'`, `ourEntityId` this person | their card at the offer, *Accept* / *No thank you* |
+
+- A call the whole family may answer marks **every** person who may answer it, as the map's own mark over their heads already
+  did; any one of them answering clears all of them. The map's mark and the "!" read one rule (`requestFor`, `meetingFor`).
+- Pressing the "!" chooses the person, takes the camera to them (the portrait's watch), opens what waits on them and puts the
+  keyboard on the first open answer — or on the conversation panel for a rider, whose questions are redrawn every tick.
+- The words say who and what, never what an answer risks (`docs/COLONIES.md` §7a).
+- **Server-filtered knowledge:** the rule reads only what the server sent this family, so another family's offers, riders and
+  questions cannot raise an "!" (tested: another family's projection marks nobody of this one). The Host has no panel.
+- What the family rather than a person must decide (the wagon load, the house plan, the house site) is not a person's need and
+  has no "!"; those open their own panels.
+
+### 11.3 The main person
+
+- Every row has a star button. Pressing a hollow star makes that person the student's **main person** and goes to them;
+  pressing the main person's filled star takes the camera back to them. A double press on a portrait also makes them the main
+  person.
+- The main person's portrait and row have a gold edge and a star in the corner. Until one is chosen it is the principal; a main
+  person who dies, is captured, or is not one of this family falls back to the principal.
+- **Directed from the main person:** with nobody else chosen, the card that opens is the main person's (it was the
+  principal's), so their detailed controls — *Going by*, a neighbour's homestead, trading, the army's question in a battle — are
+  what the card shows first; and only the main person's row has **House**, which opens the rooms of the family's house
+  (`docs/SETTLING_IN.md` step 7) as tapping the house on the map does. House appears once a house stands. On a phone the main
+  person's row is the one open when the page loads.
+- **Where it is kept:** this browser only, in `localStorage` under the class's session and the family's id (`focusKey`), read
+  and written inside `try`/`catch`, so a private window simply starts from the principal again. `ceiling:` a student who
+  changes computer chooses their main person again; it moves into the household only if that turns out to matter, and then as
+  a field that defaults to the principal with no save version moved.
+
+### 11.4 On a slow computer
+
+The panel is redrawn on each snapshot, not each animation frame, and rows, icons, "!", star and House are kept and changed in
+place: an attribute is written only when its value changes. Measured in the browser proof over sixteen quiet ticks: no nodes
+added and no attributes changed across ten rows (before the last fix, every row rewrote its name box's `data-current` every
+tick).
+
+### 11.5 Asked of the owner
+
+- Should the other grown people also be able to go to town, go home, rest and work about the place from their rows? Today that
+  is a rule of the world (only the principal travels on their own, rests or works about the place), not of the panel.
+- Should a call any grown person may answer show its "!" on all of them (as built, matching the map), or only on the main
+  person?
+
+### 11.6 Gates
+
+| Gate | What it means |
+| --- | --- |
+| The "!" is the server's | Raised only by a need the family's projection carries, on exactly the person it concerns, gone the tick it is answered, never for another family. |
+| One press to the interaction | The "!" takes the camera to the person and opens the rider, the question, the call or the offer with the keyboard on it. |
+| Idle is visible | A person with something open to them and nothing to do is marked on the row and the portrait; a child too young is not. |
+| The main person is kept | Chosen by the star or a double press, marked, remembered through a reload in the same browser, the card's default, and the row with House. |
+| Cheap | No DOM rewritten on a tick where nothing changed. |
+| Stand-ins listed | The "!", star and idle marks are type; requested in `docs/ART_REQUESTS.md` (2026-09-16) and listed. |

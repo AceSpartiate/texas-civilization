@@ -228,6 +228,84 @@ export function nameToSave(typed, current) {
 /** How long a pause in typing is before a name saves itself, in milliseconds (docs/FAMILY_PANEL.md §5). */
 export const RENAME_PAUSE_MS = 1500;
 
+// ------------------------------------------------------------------------------------ needs, idleness and the main person
+// docs/FAMILY_PANEL.md §11 (owner, 2026-09-16): an "!" on the row of anybody who needs the student, a row that shows it is
+// idle, and one person the student chooses as their main one. Everything here reads the student's own projection; nothing
+// is remembered on the page about what anybody needs.
+
+const gone = entity => !entity || ['dead', 'captured'].includes(entity.health?.condition);
+
+/** The call, march or rumour's question this person could answer now, with their own answers; or null. */
+export function requestFor(world, entity) {
+  const request = world?.request;
+  if (!entity || request?.status !== 'open') return null;
+  // Everybody who could answer it, each with their own prices. A class served by an older server has no `answerers`, and
+  // there the call was the principal's or the march's person's.
+  if (request.answerers) return request.answerers[entity.id] ? { ...request, options: request.answerers[entity.id] } : null;
+  const asked = request.actorId || world.household?.principalId;
+  return entity.id === asked ? request : null;
+}
+
+/** The rider standing with this person waiting to be spoken to; or null. A meeting belongs to the one the rider stopped for. */
+export function meetingFor(world, entity) {
+  const encounter = world?.encounter;
+  return entity && encounter?.status === 'open' && encounter.listenerId === entity.id ? encounter : null;
+}
+
+/** Which card section answers each need, in the order a need is shown when a person has more than one. */
+export const NEED_KINDS = Object.freeze(['rider', 'army', 'call', 'asking', 'offer']);
+
+/**
+ * What this person is waiting on the student for, most pressing first: a rider standing with them (who will not wait for
+ * ever), a question from the army they are with, a call to answer, work that has stopped to ask, an offer made to them.
+ * Every one is a thing the server has already sent this family and will take an answer to; the words say who and what,
+ * and never what an answer risks (docs/COLONIES.md §7a).
+ */
+export function needsOf(world, entityId) {
+  const entity = (world?.entities || []).find(one => one.id === entityId);
+  if (gone(entity) || world.role === 'host') return [];
+  const name = entity.name || 'Somebody';
+  const needs = [];
+  const meeting = meetingFor(world, entity);
+  if (meeting) needs.push({ kind: 'rider', text: `${meeting.carrierName || 'A rider'} has stopped to speak with ${name}.` });
+  const ours = world.army?.ours?.find(one => one.id === entityId);
+  if (ours && (ours.detachment === 'open' || (ours.questions || []).some(question => question.answer === 'open'))) {
+    needs.push({ kind: 'army', text: `The army is asking ${name} something.` });
+  }
+  if (requestFor(world, entity)?.options?.length) needs.push({ kind: 'call', text: `${name} can answer what the family is being asked.` });
+  if (entity.chore?.ask) needs.push({ kind: 'asking', text: `${name}’s work has stopped to ask something.` });
+  for (const offer of world.offers || []) {
+    if (offer.direction === 'received' && offer.ourEntityId === entityId) { needs.push({ kind: 'offer', text: `${offer.theirName || 'A neighbour'} has offered ${name} a trade.` }); break; }
+  }
+  return needs;
+}
+
+/**
+ * Whether a row shows its person idle: alive, not at work, not on a road, not with the army, and able to be set to
+ * something now. A child under ten, or somebody every order is refused to, is not "idle" - there is nothing to give them -
+ * and a principal told to work about the place is working.
+ */
+export function isIdle(entity, icons = [], { withArmy = false } = {}) {
+  // `task` is the server's: working about the place and helping where a call sent them are work; only resting is idle.
+  if (gone(entity) || withArmy || entity.chore || entity.travel || (entity.task && entity.task !== 'rest')) return false;
+  return icons.some(icon => icon.can);
+}
+
+/**
+ * The student's main person: the one remembered in this browser if they are still one of the family and can act, otherwise
+ * the principal, otherwise the first row. `order` is the rows top to bottom; `entities` the family's people as sent.
+ */
+export function focusFor(stored, { order = [], principalId = null, entities = [] } = {}) {
+  const byId = new Map(entities.map(entity => [entity.id, entity]));
+  const usable = id => id && order.includes(id) && !gone(byId.get(id));
+  if (usable(stored)) return stored;
+  if (usable(principalId)) return principalId;
+  return order.find(usable) || null;
+}
+
+/** Where the main person is remembered: per class and per family, in this browser only. */
+export const focusKey = (sessionId, householdId) => `tr_focus_${sessionId || 'none'}_${householdId || 'none'}`;
+
 // ---------------------------------------------------------------------------------------------------- drawing, in a page
 
 /** Draw an icon's picture into its canvas: a library sprite fitted to the square, or a drawn glyph. */

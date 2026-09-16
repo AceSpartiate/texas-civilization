@@ -1,0 +1,261 @@
+{
+  "record": "family-commands-browser",
+  "date": "2026-09-16",
+  "verdict": "PASS",
+  "browser": "152.0.7977.83",
+  "task": "docs/FAMILY_PANEL.md §11: orders from the panel in a press each, idle shown, an \"!\" for every person something waits on that takes the camera there and opens it, and a main person remembered in the browser.",
+  "environment": "Same computer: a local classroom server and headless Chrome. Not a physical LAN, a classroom, a real phone or a weak computer.",
+  "setUpInProcess": [
+    "Every family’s cabin set standing when the class is made, so the House button has rooms to open. Nothing else: the next family (hh-2) is played through /api/command, its principal sent to Gonzales and making the offer there."
+  ],
+  "checks": [
+    "before anybody is chosen the main person is the principal (hh-1-parent-1), starred on the panel",
+    "a rider stopped for hh-1-child-1: an \"!\" on that row alone (\"Ned Falk has stopped to speak with Jasper. And 1 more. Go to Jasper and answer.\"); pressing it took the camera to them (0.000 mi) and opened the conversation, the keyboard on \"encounter\"",
+    "letting the rider ride on clears the \"!\"",
+    "a call to the family marks the 4 people the server lets answer it; the principal's \"!\" opened it on their card (\"A neighbour is at the door. They are carrying food to the people gathering near Gonzales, and ask whether somebody from your family can help take it.\"), the keyboard on \"Carry the food to Gonzales\"",
+    "answering it clears the \"!\" from everybody who could have",
+    "7 presses (0 refused in the server's words and another tried) set 7 of 10 people to work without finding anybody on the map; each icon glowed when the server took it, and the 6 still at it are not idle (1: work, 2: fetch-seed, 1: make-furniture, 2: make-furniture, 3: make-furniture, 4: make-furniture, 5: make-furniture)",
+    "of the 3 not given work, 0 are shown idle (something is open to them) and 3 are not (too young to be sent)",
+    "a stale \"harvest-field\" pressed for hh-1-parent-1 is refused by the server, in its words: \"The field is not ready.\"",
+    "hh-1-child-1 is left standing about (their work finished), and the row says \"Idle\" and marks the portrait",
+    "hh-1-parent-2's errand stopped to ask (\"Rhoda can pay for seed in food or in coin.\"): the \"!\" took the camera to them and opened the question on their card, the keyboard on \"Pay in food\"",
+    "answering it clears the \"!\"",
+    "an offer from the next family marks hh-1-parent-1; the \"!\" took the camera to them and opened the offer (\"Trinidad of Trinidad's family offers 1 food for 1 seed.\"), the keyboard on Accept",
+    "declining it clears the \"!\"",
+    "the star makes hh-1-parent-2 the main person, remembered in this browser; their row alone has House, which opens the rooms",
+    "after a reload the same person is starred, and the card that opens with nobody chosen is theirs",
+    "pressing the main person's star from Gonzales brings the camera back to them (0.000 mi); a double-click on a portrait chooses another",
+    "over 16 ticks the panel added 0 nodes and changed 0 attributes across 10 rows: kept, not rebuilt",
+    "at 400 px the page does not scroll sideways, the \"!\" is on screen and big enough to press, and pressing it opens the offer on the docked card",
+    "no page errors anywhere in the run"
+  ],
+  "measured": {
+    "rider": {
+      "listener": "hh-1-child-1",
+      "label": "Ned Falk has stopped to speak with Jasper. And 1 more. Go to Jasper and answer.",
+      "opened": {
+        "id": "hh-1-child-1",
+        "kind": "rider",
+        "target": "encounter"
+      },
+      "miles": 0,
+      "card": "hh-1-child-1",
+      "focusInEncounter": true,
+      "focused": "encounter"
+    },
+    "call": {
+      "callers": [
+        "hh-1-parent-1",
+        "hh-1-parent-2",
+        "hh-1-child-1",
+        "hh-1-child-2"
+      ],
+      "text": "A neighbour is at the door. They are carrying food to the people gathering near Gonzales, and ask whether somebody from your family can help take it.",
+      "focused": "Carry the food to Gonzales",
+      "card": "hh-1-parent-1"
+    },
+    "idleBeforeOrders": [
+      "hh-1-child-3",
+      "hh-1-child-4",
+      "hh-1-child-5"
+    ],
+    "commands": {
+      "plan": [
+        {
+          "id": "hh-1-parent-1",
+          "key": "work",
+          "glowed": true
+        },
+        {
+          "id": "hh-1-parent-2",
+          "key": "fetch-seed",
+          "glowed": true
+        },
+        {
+          "id": "hh-1-child-1",
+          "key": "make-furniture",
+          "glowed": true
+        },
+        {
+          "id": "hh-1-child-2",
+          "key": "make-furniture",
+          "glowed": true
+        },
+        {
+          "id": "hh-1-child-3",
+          "key": "make-furniture",
+          "glowed": true
+        },
+        {
+          "id": "hh-1-child-4",
+          "key": "make-furniture",
+          "glowed": true
+        },
+        {
+          "id": "hh-1-child-5",
+          "key": "make-furniture",
+          "glowed": true
+        }
+      ],
+      "presses": 7,
+      "refusals": [],
+      "stillAtIt": [
+        "hh-1-parent-1",
+        "hh-1-parent-2",
+        "hh-1-child-2",
+        "hh-1-child-3",
+        "hh-1-child-4",
+        "hh-1-child-5"
+      ],
+      "rows": [
+        {
+          "id": "hh-1-parent-1",
+          "role": "father",
+          "active": [
+            "work"
+          ],
+          "idle": false,
+          "need": null
+        },
+        {
+          "id": "hh-1-parent-2",
+          "role": "mother",
+          "active": [
+            "fetch-seed"
+          ],
+          "idle": false,
+          "need": null
+        },
+        {
+          "id": "hh-1-child-1",
+          "role": "son",
+          "active": [],
+          "idle": true,
+          "need": null
+        },
+        {
+          "id": "hh-1-child-2",
+          "role": "daughter",
+          "active": [
+            "make-furniture"
+          ],
+          "idle": false,
+          "need": null
+        },
+        {
+          "id": "hh-1-child-3",
+          "role": "daughter",
+          "active": [
+            "make-furniture"
+          ],
+          "idle": false,
+          "need": null
+        },
+        {
+          "id": "hh-1-child-4",
+          "role": "son",
+          "active": [
+            "make-furniture"
+          ],
+          "idle": false,
+          "need": null
+        },
+        {
+          "id": "hh-1-child-5",
+          "role": "daughter",
+          "active": [
+            "make-furniture"
+          ],
+          "idle": false,
+          "need": null
+        },
+        {
+          "id": "hh-1-child-6",
+          "role": "daughter",
+          "active": [],
+          "idle": false,
+          "need": null
+        },
+        {
+          "id": "hh-1-child-7",
+          "role": "daughter",
+          "active": [],
+          "idle": false,
+          "need": null
+        },
+        {
+          "id": "hh-1-child-8",
+          "role": "daughter",
+          "active": [],
+          "idle": false,
+          "need": null
+        }
+      ]
+    },
+    "refusal": {
+      "id": "hh-1-parent-1",
+      "key": "harvest-field",
+      "shown": "The field is not ready.",
+      "server": "The field is not ready."
+    },
+    "idleHow": "their work finished",
+    "idle": {
+      "calledOff": "hh-1-child-1",
+      "tag": true,
+      "mark": "block"
+    },
+    "asking": {
+      "asker": "hh-1-parent-2",
+      "chore": "fetch-seed",
+      "card": "hh-1-parent-2",
+      "question": "Rhoda can pay for seed in food or in coin.",
+      "focused": "Pay in food",
+      "watching": "Watching Rhoda"
+    },
+    "offer": {
+      "tradedWith": "hh-1-parent-1",
+      "neighbour": "hh-2-parent-1",
+      "card": "hh-1-parent-1",
+      "said": "Trinidad of Trinidad's family offers 1 food for 1 seed.",
+      "watching": "Watching Feliciano"
+    },
+    "churn": {
+      "ticks": 16,
+      "nodesAdded": 0,
+      "attributeChanges": 0,
+      "rows": 10
+    },
+    "phone": {
+      "pageScrolls": false,
+      "overflow": 0,
+      "mark": {
+        "x": 38,
+        "y": 85,
+        "width": 24
+      },
+      "markOnScreen": true,
+      "toolsOnScreen": true,
+      "expanded": "hh-1-parent-1",
+      "focusedStarred": "true"
+    }
+  },
+  "screenshots": [
+    "docs/evidence/family-commands-rider-mark.png",
+    "docs/evidence/family-commands-rider-opened.png",
+    "docs/evidence/family-commands-call-opened.png",
+    "docs/evidence/family-commands-everyone-busy.png",
+    "docs/evidence/family-commands-idle.png",
+    "docs/evidence/family-commands-asking-opened.png",
+    "docs/evidence/family-commands-offer-mark.png",
+    "docs/evidence/family-commands-offer-opened.png",
+    "docs/evidence/family-commands-main-person-house.png",
+    "docs/evidence/family-commands-main-person.png",
+    "docs/evidence/family-commands-phone.png",
+    "docs/evidence/family-commands-phone-offer.png"
+  ],
+  "notProved": [
+    "An army question or a settlement call raising an \"!\" in a browser: both are proved against the simulation in tests/family-commands.test.mjs, and open the same card sections scripts/army-browser-proof.mjs and the call proofs already press.",
+    "A weak computer: the DOM churn is measured here on a fast one; frame time on the owner's machine is not.",
+    "A real phone or touch screen: the phone here is Chrome at 400 by 800."
+  ]
+}

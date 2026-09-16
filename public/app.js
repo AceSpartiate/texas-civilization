@@ -1,7 +1,7 @@
 // Renderers consume the server's permitted projection. They never advance simulation state.
 import { drawSprite, drawClip, clipInfo, hasSprite, loadArt, onArtReady, pickSprite, spriteFrame } from '/art.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, seatedClip, seatLayout, mounted, MOUNTED_HEIGHT, castVariant, childFigure } from '/motion.js';
-import { drawIcon, drawPortrait, nameToSave, panelActions, panelOrder, rowReason, RENAME_PAUSE_MS } from '/family-panel.js';
+import { drawIcon, drawPortrait, focusFor, focusKey, isIdle, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, RENAME_PAUSE_MS } from '/family-panel.js';
 import {drawBexarGround,bexarDrawables} from '/bexar-art.js';
 import {plotArt} from '/field-art.js';
 import {drawGonzalesGround,gonzalesDrawables,GONZALES_ART_BOUNDS} from '/gonzales-art.js';
@@ -77,6 +77,9 @@ let mapRevision = 0, homesPending = null;
 // The map is the interface: a person is chosen by clicking them, and their instructions
 // appear beside them. Nobody selected falls back to the person this household directs.
 let selectedId = null, selectionDismissed = false;
+// The student's main person (docs/FAMILY_PANEL.md §11): chosen on the panel, remembered in this browser, the principal until
+// one is chosen. Not the world's: which of the family a student likes to look after changes nothing anybody else can see.
+let focusedId = null;
 const EMPTY_MAP = { sites: {}, routes: {}, terrain: [] };
 // The catalogue of work is fixed for a class, so it is fetched once alongside the map.
 // Only whether a given person may do a given chore rides on the tick.
@@ -533,29 +536,18 @@ function drawTaskMark(ctx, { x, y, size, glyph = '!', tone = '#c2582c' }) {
   ctx.fillText(glyph, x, top + bob + mark * .06);
   ctx.textBaseline = 'alphabetic';
 }
-// Which person, if any, has something waiting for them.
-const taskFor = (world, entity) => {
-  const request = world.request;
-  if (request?.status !== 'open') return null;
-  // Everybody who could answer it, each with their own prices. A class served by an older
-  // server has no `answerers`, and there the call was the principal's or the march's person's.
-  if (request.answerers) return request.answerers[entity.id] ? { ...request, options: request.answerers[entity.id] } : null;
-  const asked = request.actorId || world.household?.principalId;
-  return entity.id === asked ? request : null;
-};
+// Which person, if any, has something waiting for them (`requestFor`), and who is standing with a rider (`meetingFor`):
+// both in public/family-panel.js, so the mark over a person on the map and the "!" on their panel row read one rule.
+const taskFor = requestFor;
 // How far word has travelled from the person who saw it, said the way a person would say
 // it. Beyond the third hand nobody counts, they just know it has been about.
 const handLabel = hands => hands === 1 ? 'second-hand' : hands === 2 ? 'third-hand' : `through ${hands} hands`;
-// Who, if anybody, is standing with a rider right now. A meeting is the household's, but
-// it belongs to one named person: the one the rider actually stopped for.
-const meetingFor = (world, entity) => {
-  const encounter = world.encounter;
-  return encounter?.status === 'open' && encounter.listenerId === entity.id ? encounter : null;
-};
 export function selectedEntity(world) {
   const own = entitiesOf(world);
+  // With nobody chosen, the card is the student's main person's (docs/FAMILY_PANEL.md §11), and the principal's until one is.
   return own.find(entity => entity.id === selectedId)
     || observedOf(world).find(entity => entity.id === selectedId)
+    || own.find(entity => entity.id === focusedId)
     || own.find(entity => entity.id === world.household?.principalId) || null;
 }
 /** Houses drawn this frame, by site: where a tap opens the interior (public/interior.js). */
@@ -2208,8 +2200,14 @@ function renderFamilyPanel(world) {
   const settable = world.status === 'running' || world.status === 'lobby';
   const homeId = homeOf(world);
   const homesteads = sitesOf(world).filter(site => site.kind === 'homestead' && site.id !== homeId).map(site => site.id);
-  if (!panelExpanded || !byId.has(panelExpanded)) panelExpanded = order[0] || null;
+  // The main person: remembered in this browser, or the principal (docs/FAMILY_PANEL.md §11).
+  focusedId = focusFor(focusedId || storedFocus(world), { order, principalId: household.principalId, entities: people });
+  if (!panelExpanded || !byId.has(panelExpanded)) panelExpanded = focusedId || order[0] || null;
+  const land = world.land;
+  const house = Boolean(land?.interior?.kind);
+  const army = new Set((world.army?.ours || []).map(one => one.id));
   for (const [id, row] of panelRows) if (!byId.has(id)) { row.item.remove(); panelRows.delete(id); }
+  const seen = [];
   order.forEach((id, at) => {
     const entity = byId.get(id), person = book.get(id);
     const row = panelRows.get(id) || panelRow(id);
@@ -2217,16 +2215,31 @@ function renderFamilyPanel(world) {
     const principal = id === household.principalId && entity.principal;
     const age = !Number.isFinite(person?.age ?? entity.age) ? '' : (person?.age ?? entity.age) === 0 ? ', under a year' : `, ${person?.age ?? entity.age}`;
     const role = person?.role || (principal ? 'principal' : 'of this family');
-    row.item.dataset.role = person?.role || '';
-    row.item.dataset.principal = String(principal);
-    row.item.dataset.expanded = String(id === panelExpanded);
-    // Somebody is waiting on this person: a call, a rider, or work that has stopped to ask. Answered on their card.
-    const waiting = Boolean(taskFor(world, entity) || meetingFor(world, entity) || entity.chore?.ask);
-    row.item.dataset.waiting = String(waiting);
-    row.portrait.setAttribute('aria-label', `${entity.name}, ${role}${age}. Go to ${entity.name} on the map${waiting ? '; somebody is waiting on them' : ''}.`);
-    row.label.textContent = `${role}${age}`;
+    const focused = id === focusedId;
+    setData(row.item, 'role', person?.role || '');
+    setData(row.item, 'principal', String(principal));
+    setData(row.item, 'expanded', String(id === panelExpanded));
+    setData(row.item, 'focused', String(focused));
+    // Somebody is waiting on this person - a rider, the army, a call, work that has stopped to ask, an offer - and the "!"
+    // takes the student to them and to the thing waiting (docs/FAMILY_PANEL.md §11). Read from the projection every tick, so
+    // it goes the tick the answer is given.
+    const needs = needsOf(world, id);
+    const need = needs[0] || null;
+    setData(row.item, 'waiting', String(Boolean(need)));
+    if (row.attention.hidden !== !need) row.attention.hidden = !need;
+    const needLabel = need ? `${need.text}${needs.length > 1 ? ` And ${needs.length - 1} more.` : ''} Go to ${entity.name} and answer.` : '';
+    if (need && row.attention.dataset.need !== need.kind) row.attention.dataset.need = need.kind;
+    if (row.attention.getAttribute('aria-label') !== needLabel) { row.attention.setAttribute('aria-label', needLabel); row.attention.title = needLabel; }
+    const portraitLabel = `${entity.name}, ${role}${age}${focused ? ', your main person' : ''}. Go to ${entity.name} on the map${need ? '; somebody is waiting on them' : ''}.`;
+    if (row.portrait.getAttribute('aria-label') !== portraitLabel) row.portrait.setAttribute('aria-label', portraitLabel);
+    const focusLabel = focused ? `Go back to ${entity.name}, your main person` : `Make ${entity.name} your main person`;
+    if (row.focus.getAttribute('aria-label') !== focusLabel) { row.focus.setAttribute('aria-label', focusLabel); row.focus.title = focusLabel; row.focus.textContent = focused ? '★' : '☆'; row.focus.setAttribute('aria-pressed', String(focused)); }
+    // The rooms of the house are set out from the main person's row: one place for the family's own detailed work.
+    const houseShown = focused && house;
+    if (row.house.hidden !== !houseShown) row.house.hidden = !houseShown;
+    if (row.label.textContent !== `${role}${age}`) row.label.textContent = `${role}${age}`;
     if (mayOverwriteName(row.input, entity.name)) row.input.value = entity.name;
-    row.input.dataset.current = entity.name;
+    setData(row.input, 'current', entity.name);
     // The portrait: the person's own figure, redrawn only when who they are drawn as changes.
     const clip = childFigure(entity) ? `${childFigure(entity)}-idle-s` : `${castVariant(entity)}-idle-s`;
     const face = `${clip}:${entity.band || ''}:${principal}`;
@@ -2239,6 +2252,11 @@ function renderFamilyPanel(world) {
     const icons = panelActions({ entity, offered: world.work?.[id] || [], catalogue: choreCache || new Map(), principal, homeId, homesteads,
       atHome: entity.location?.siteId === homeId, settable, carry });
     const reason = rowReason(icons);
+    // Idle: nothing to do and something could be given them. Everybody else on the panel is visibly at something (a glow).
+    const idle = isIdle(entity, icons, { withArmy: army.has(id) });
+    setData(row.item, 'idle', String(idle));
+    if (row.idle.hidden !== !idle) row.idle.hidden = !idle;
+    seen.push({ id, need: need?.kind || null, needs: needs.map(one => one.kind), idle, focused });
     const key = JSON.stringify([reason, icons]);
     if (row.iconsKey !== key) {
       row.iconsKey = key;
@@ -2258,10 +2276,63 @@ function renderFamilyPanel(world) {
       if (panelTipFor?.entityId === id) showPanelTip(row.icons.querySelector(`[data-key="${panelTipFor.key}"]`));
     }
   });
-  window.__familyPanel = order.map(id => {
+  window.__familyPanel = order.map((id, at) => {
     const row = panelRows.get(id);
-    return { id, role: row.item.dataset.role, name: byId.get(id).name, active: [...row.icons.querySelectorAll('[data-active=true]')].map(icon => icon.dataset.key) };
+    return { id, role: row.item.dataset.role, name: byId.get(id).name, active: [...row.icons.querySelectorAll('[data-active=true]')].map(icon => icon.dataset.key), ...seen[at] };
   });
+}
+/** A data- attribute written only when it changes: the panel is redrawn every tick on a slow computer. */
+function setData(element, key, value) { if (element.dataset[key] !== value) element.dataset[key] = value; }
+function storedFocus(world) {
+  try { return localStorage.getItem(focusKey(window.__snapshot?.sessionId, world.householdId)); } catch { return null; }
+}
+/** Choose the student's main person, remember it in this browser, and redraw what depends on it. */
+function chooseFocus(id) {
+  focusedId = id;
+  const world = window.__snapshot?.world;
+  try { localStorage.setItem(focusKey(window.__snapshot?.sessionId, world?.householdId), id); } catch { /* a private window is allowed to forget */ }
+  if (world) { renderFamilyPanel(world); renderSelection(world); }
+}
+/**
+ * Take the camera to one of the family and open their card: the same watch a portrait starts (`cameraFor` centres on where
+ * they are drawn and zooms in), which walks with them until the student pans, zooms or presses Follow.
+ */
+function goToPerson(id) {
+  const world = window.__snapshot?.world;
+  selectedId = id; selectionDismissed = false;
+  watchedId = id; manualView = null; panelExpanded = id;
+  if (world) { drawWorld(world); renderFamilyPanel(world); renderSelection(world); renderTutorial(world); }
+}
+/** Where on the card each need is answered. A rider has a panel of their own. */
+const NEED_SECTIONS = { army: '#selection-army', call: '#selection-call', asking: '#selection-work', offer: '#selection-trade' };
+/**
+ * The "!" on a row: go to the person and open what is waiting on them - the rider's conversation, or their card at the
+ * question with its answers - and put the keyboard on the first answer. Nothing is decided here: the answers are the card's
+ * buttons, sent as they always were, and the "!" goes when the projection stops saying anything is waiting.
+ */
+function openNeed(id) {
+  const world = window.__snapshot?.world;
+  if (!world) return;
+  const need = needsOf(world, id)[0];
+  goToPerson(id);
+  if (!need) return;
+  let target = null;
+  if (need.kind === 'rider') {
+    encounterOpen = true;
+    renderEncounter(world);
+    // The conversation itself, not its first question: the questions are drawn again every tick, and a focused one would be
+    // replaced under the keyboard.
+    target = $('#encounter');
+  } else {
+    const section = $(NEED_SECTIONS[need.kind]);
+    target = section && !section.hidden ? section.querySelector('button:not([disabled])') || section : null;
+  }
+  window.__needOpened = { id, kind: need.kind, target: target?.id || target?.dataset?.action || null };
+  if (target) {
+    if (!target.matches('button, input, select')) target.setAttribute('tabindex', '-1');
+    target.scrollIntoView?.({ block: 'nearest' });
+    target.focus?.({ preventScroll: true });
+  }
 }
 function panelRow(id) {
   const item = element('li', '', 'panel-row');
@@ -2272,7 +2343,14 @@ function panelRow(id) {
   const canvas = document.createElement('canvas');
   canvas.width = canvas.height = 96;
   canvas.setAttribute('aria-hidden', 'true');
-  portrait.append(canvas, element('span', '!', 'panel-mark'));
+  // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the family panel's marks. The main person's star and idle are type.
+  portrait.append(canvas, element('span', '★', 'panel-star'), element('span', 'idle', 'panel-idle-mark'));
+  // The "!": its own button beside the portrait (a button cannot hold a button), shown only while somebody waits on them.
+  // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the family panel's marks. A type "!" in the map mark's orange.
+  const attention = element('button', '!', 'panel-attention');
+  attention.type = 'button';
+  attention.dataset.attention = id;
+  attention.hidden = true;
   const body = element('div', '', 'panel-body');
   const label = element('label', '', 'panel-label');
   const input = document.createElement('input');
@@ -2281,11 +2359,24 @@ function panelRow(id) {
   input.maxLength = 24; input.autocomplete = 'off'; input.spellcheck = false;
   input.dataset.rename = id;
   label.htmlFor = input.id;
+  const tools = element('span', '', 'panel-tools');
+  const idle = element('span', 'Idle', 'panel-idle');
+  idle.hidden = true;
+  const house = element('button', 'House', 'panel-house');
+  house.type = 'button';
+  house.dataset.house = id;
+  house.hidden = true;
+  house.setAttribute('aria-label', 'Go inside the house to set out the furniture and the goods');
+  house.title = 'Go inside the house to set out the furniture and the goods';
+  const focus = element('button', '☆', 'panel-focus');
+  focus.type = 'button';
+  focus.dataset.focus = id;
+  tools.append(idle, house, focus);
   const icons = element('div', '', 'panel-icons');
   icons.setAttribute('role', 'group');
-  body.append(label, input, icons);
-  item.append(portrait, body);
-  const row = { item, portrait, canvas, label, input, icons, face: null, iconsKey: null };
+  body.append(label, input, tools, icons);
+  item.append(portrait, attention, body);
+  const row = { item, portrait, canvas, label, input, icons, attention, idle, house, focus, face: null, iconsKey: null };
   panelRows.set(id, row);
   return row;
 }
@@ -2346,6 +2437,8 @@ $('#family-panel')?.addEventListener('scroll', () => {
   showPanelTip(panelRows.get(panelTipFor.entityId)?.icons.querySelector(`[data-key="${panelTipFor.key}"]`));
 }, true);
 document.addEventListener('keydown', event => { if (event.key === 'Escape' && panelTipFor) hidePanelTip(); });
+// A portrait pressed twice makes that person the main one, as the star does (the first press has already gone to them).
+$('#family-panel')?.addEventListener('dblclick', event => { const portrait = event.target.closest('[data-portrait]'); if (portrait) chooseFocus(portrait.dataset.portrait); });
 /** Art arrives after the page: portraits and icons drawn with a fallback are drawn again with it. */
 function repaintFamilyPanel() {
   for (const row of panelRows.values()) {
@@ -3407,11 +3500,24 @@ document.addEventListener('click', async event => {
   // The same watch the roster starts - `cameraFor` centres on where they are drawn and zooms to at least 55 in 100 of the
   // closest zoom - so it walks with them until the student pans, zooms or presses Follow.
   const portrait = event.target.closest('[data-portrait]');
-  if (portrait) {
+  if (portrait) { goToPerson(portrait.dataset.portrait); return; }
+  // The "!" on a row: to the person, and open what is waiting on them (docs/FAMILY_PANEL.md §11).
+  const attention = event.target.closest('[data-attention]');
+  if (attention) { openNeed(attention.dataset.attention); return; }
+  // The star: make this person the main one; on the main person already, go back to them.
+  const star = event.target.closest('[data-focus]');
+  if (star) {
+    if (star.dataset.focus !== focusedId) chooseFocus(star.dataset.focus);
+    goToPerson(star.dataset.focus);
+    return;
+  }
+  // The main person's House: the rooms inside, as tapping the house on the map opens them.
+  const indoors = event.target.closest('[data-house]');
+  if (indoors) {
     const world = window.__snapshot?.world;
-    selectedId = portrait.dataset.portrait; selectionDismissed = false;
-    watchedId = selectedId; manualView = null; panelExpanded = selectedId;
-    if (world) { drawWorld(world); renderFamilyPanel(world); renderSelection(world); renderTutorial(world); }
+    interiorSiteId = world?.land?.homeSiteId || homeOf(world); clearInteriorChoice();
+    const panel = $('#interior'); if (panel) delete panel.dataset.shown;
+    if (world) renderInteriorPanel(world);
     return;
   }
   // An icon on the family panel. A refused one does nothing but say why; "Go to a neighbour's homestead" needs a choice of

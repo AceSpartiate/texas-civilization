@@ -20,6 +20,7 @@ does not have:
 | --- | --- | --- | --- |
 | The six drawn towns' documented buildings the library cannot draw (frame buildings, the Whiteside Hotel, the Round Top House, jacales, Mina's stockade, Liberty's court room) | `sim/town-layouts.mjs`, drawn by `public/town-art.js` | Request 2026-09-16 — the buildings the towns' research found | the requested buildings |
 | A new town's shops are the nearest buildings the library has, two trades sharing a sprite | `SHOP_SPRITES` in `sim/shops.mjs`, drawn in `drawWorld` in `public/app.js` | Request 2026-09-16 — the shops of the towns | `shop-*` buildings, one per trade |
+| The panel's marks are type and CSS: the "!" a person needs the student for is a bold "!" in an orange disc (slate for a rider), the main person's star is a ★/☆ character, and idle is the word "idle" on the portrait and an "Idle" tag | `panelRow` in `public/app.js`, `.panel-attention`, `.panel-star`, `.panel-idle` in `public/style.css` | Request 2026-09-16 — the family panel's marks | `mark-need`, `mark-need-rider`, `mark-main`, `mark-idle` |
 | A family member's portrait is the head and shoulders of their own map figure (the `-idle-s` clip `castVariant`/`childFigure` choose), drawn large and cropped by the square; a drawn silhouette until the sheet loads | `drawPortrait` in `public/family-panel.js` | Request 2026-09-15 — face portraits for the family panel | `portrait-<figure>` for every first- and second-cast figure and the four children |
 | Each action's icon is the nearest library sprite fitted into the square (a survey stake, a stump, a bucket, young and ripe corn, clearing branches, a rail, walls going up, an oak, ripe cotton, a barrel, sacks, a crate, tools, a fallen log, a trading house, two cabins, a man with a hoe, a bedroll), and four are drawn glyphs: a deer's head (hunt on our land), a target (practice), a hoe and coin (buy a hoe), a cross (call off the work) | `PANEL_ICONS` and `drawIcon` in `public/family-panel.js` | Request 2026-09-15 — action icons for the family panel | `icon-<key>` for each of the twenty-six actions |
 | Whole jacal stage sprites; `lean-to` shed frame; procedural double chimney; no separate interior floor/loft display | `drawHousePlot` in `public/house-plot.js` | Request 2026-09-15 — the house plot's pieces | Jacal modules, shed frame, double chimney, and separately registered floor and loft overlays |
@@ -62,6 +63,25 @@ weaver `cabin-weathered`.
 - **How it plugs in.** `SHOP_SPRITES` in `sim/shops.mjs` names the sprite a new town's shop is drawn as; replace each with its
   `shop-*` frame once registered through `npm run build:art`. Gonzales keeps its own drawn buildings.
 - **Check.** At the zoom a town's labels appear, each trade is told apart without its label.
+
+## Request 2026-09-16 — the family panel's marks
+
+**Status: open; type and CSS stand in.** The owner asked for "an exclamation point there for me to click on" when a person
+needs the student, and for one person to be chosen as the main one ([FAMILY_PANEL.md](FAMILY_PANEL.md) §11). Rows now also
+show who is idle. None of the three has art; each is a character or a word styled by the page.
+
+- **Why.** The marks are what a student scans the column for. A system-font "!" and "★" look like the web page they are, not
+  the illustrated game around them, and "idle" in small capitals is easy to miss on a portrait.
+- **What.** Four small marks, transparent, in the illustrated palette with the thin dark outline the icons will have, drawn to
+  read at 24 CSS pixels (deliver at 96 by 96): `mark-need` (an exclamation point on a round orange token, the colour of the
+  map's own mark over a person, `#c2582c`), `mark-need-rider` (the same token in slate, `#41556b`, for a rider waiting to speak),
+  `mark-main` (a gold star or a small brass badge, marking the student's main person), `mark-idle` (a small resting sign, such as
+  a hat hung on a peg, laid on the corner of a portrait). No text in any of them.
+- **How it plugs in.** Registered through `npm run build:art`; `panelRow` in `public/app.js` draws them in place of the
+  characters in `.panel-attention`, `.panel-star` and `.panel-idle-mark`. The buttons keep their accessible names, which carry
+  the words.
+- **Check.** At 24 pixels on the panel's dark row and on a portrait, each is told apart from the others and from the action
+  icons; the "!" still reads while it bobs.
 
 ## Request 2026-09-15 — face portraits for the family panel
 
