@@ -12,7 +12,8 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, dispatchReport, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
 import { createSettledWorld } from './support/settled.mjs';
 import { choreCatalogue } from '../sim/chores.mjs';
-import { NEED_KINDS, focusFor, focusKey, isIdle, needsOf, panelActions } from '../public/family-panel.js';
+import { mainPersonId } from '../sim/family.mjs';
+import { NEED_KINDS, callMenu, callPlan, focusFor, isIdle, needsOf, panelActions } from '../public/family-panel.js';
 
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
 const catalogue = new Map(choreCatalogue().map(chore => [chore.id, chore]));
@@ -136,7 +137,7 @@ test('idle is somebody who could be set to something and is not: not a child, no
     const seen = view(world, 'hh-1'), home = seen.household.homeSiteId;
     return Object.fromEntries(household.members.map(id => {
       const entity = seen.entities.find(one => one.id === id);
-      const icons = panelActions({ entity, offered: seen.work[id], catalogue, principal: id === household.principalId, homeId: home, atHome: entity.location?.siteId === home });
+      const icons = panelActions({ entity, offered: seen.work[id], catalogue, main: id === household.principalId, homeId: home, atHome: entity.location?.siteId === home });
       return [id, isIdle(entity, icons)];
     }));
   };
@@ -159,13 +160,113 @@ test('idle is somebody who could be set to something and is not: not a child, no
   assert.equal(rows()[household.principalId], false);
 });
 
-test('the main person is the one chosen in this browser while they can act, and otherwise the principal', () => {
-  const order = ['f', 'm', 'd'], entities = order.map(id => ({ id }));
-  assert.equal(focusFor(null, { order, principalId: 'm', entities }), 'm');
-  assert.equal(focusFor('d', { order, principalId: 'm', entities }), 'd');
-  assert.equal(focusFor('hh-9-thomas', { order, principalId: 'm', entities }), 'm', 'somebody not in this family is kept as the main person');
-  assert.equal(focusFor('d', { order, principalId: 'm', entities: [{ id: 'f' }, { id: 'm' }, { id: 'd', health: { condition: 'dead' } }] }), 'm');
-  assert.equal(focusFor(null, { order, principalId: null, entities: [{ id: 'f', health: { condition: 'captured' } }, { id: 'm' }, { id: 'd' }] }), 'm');
-  assert.notEqual(focusKey('s1', 'hh-1'), focusKey('s2', 'hh-1'), 'a new class inherits the last class’s choice');
-  assert.notEqual(focusKey('s1', 'hh-1'), focusKey('s1', 'hh-2'));
+// The main person is the server's (owner, 2026-09-16: "If any character (that's old enough) is selected as the main person
+// (only one at a time) then they can be sent on travelling ... select the dad of the family as the main, send him off to war,
+// then switch the main person to the mom so that I can have her take something into town").
+test('the main person is held by the server: set-main chooses one at a time, and only they travel, rest and work about the place', () => {
+  const world = createSettledWorld('commands-main', 5);
+  world.status = 'running';
+  const household = world.households['hh-1'];
+  const [father, mother, daughter, son] = household.members;
+  // Stated ages, so that "old enough" has somebody on each side of it (docs/FAMILY_CREATION.md §3).
+  Object.assign(world.entities[daughter], { age: 17 }); Object.assign(world.entities[son], { age: 8 });
+  validateWorld(world);
+  assert.equal(household.mainId, undefined, 'a class that has chosen nobody holds a main person');
+  // Sent only when the main person is not the principal: absent means the principal (and nothing new on the per-tick payload).
+  assert.equal(view(world, 'hh-1').household.mainId, undefined, 'until one is chosen the main person is the principal, and rides on no tick');
+  assert.equal(mainPersonId(world, household), father);
+  // Chosen: the mother. The projection says so; the star's row is hers.
+  applyAction(world, 'hh-1', { action: 'set-main', entityId: mother });
+  assert.equal(household.mainId, mother);
+  assert.equal(view(world, 'hh-1').household.mainId, mother);
+  validateWorld(world);
+  assert.equal(focusFor(view(world, 'hh-1').household.mainId, { order: household.members, principalId: father, entities: view(world, 'hh-1').entities }), mother);
+  // Only the main person is asked to travel, work about the place or rest; the refusal is in words.
+  assert.throws(() => applyAction(world, 'hh-1', { action: 'travel', entityId: father, destination: 'gonzales' }), /Only your main person can be asked that/);
+  assert.throws(() => applyAction(world, 'hh-1', { action: 'work', entityId: daughter }), /Only your main person can be asked that/);
+  assert.throws(() => applyAction(world, 'hh-1', { action: 'rest', entityId: father }), /Only your main person can be asked that/);
+  applyAction(world, 'hh-1', { action: 'travel', entityId: mother, destination: 'gonzales' });
+  assert.equal(world.entities[mother].travel?.to, 'gonzales', 'the main person could not be sent to town');
+  // The panel offers the journeys on the main person's row and nobody else's, from the same field.
+  const seen = view(world, 'hh-1'), home = seen.household.homeSiteId;
+  const icons = id => panelActions({ entity: seen.entities.find(one => one.id === id), offered: seen.work[id], catalogue, main: id === seen.household.mainId, homeId: home }).map(icon => icon.key);
+  assert.ok(icons(mother).includes('travel-home') && icons(mother).includes('rest'));
+  assert.ok(!icons(father).includes('travel-gonzales') && !icons(father).includes('rest'), 'the principal keeps the journeys when somebody else is main');
+  // One at a time: choosing the father again recalls nobody - the mother goes on to town.
+  applyAction(world, 'hh-1', { action: 'set-main', entityId: father });
+  assert.equal(household.mainId, father);
+  assert.equal(world.entities[mother].travel?.to, 'gonzales', 'switching the main person interrupted her journey');
+  for (let i = 0; i < 400 && world.entities[mother].travel; i++) stepWorld(world);
+  assert.equal(world.entities[mother].location.siteId, 'gonzales', 'she never arrived');
+  // Somebody away can be the main person: the army's questions are answered from them.
+  applyAction(world, 'hh-1', { action: 'set-main', entityId: mother });
+  assert.equal(view(world, 'hh-1').household.mainId, mother);
+  applyAction(world, 'hh-1', { action: 'travel', entityId: mother, destination: home });
+  assert.equal(world.entities[mother].travel?.to, home);
+  applyAction(world, 'hh-1', { action: 'set-main', entityId: father });
+  assert.equal(world.entities[mother].travel?.to, home, 'switching away from somebody on the road brought them back');
+  // Refused in words: too young, and somebody who cannot act. The choice does not move.
+  assert.throws(() => applyAction(world, 'hh-1', { action: 'set-main', entityId: son }), /too young to be sent/);
+  assert.equal(household.mainId, father);
+  applyAction(world, 'hh-1', { action: 'set-main', entityId: daughter });
+  assert.equal(household.mainId, daughter, 'a child of seventeen may be the main person');
+  world.entities[daughter].health = { condition: 'captured' };
+  assert.throws(() => applyAction(world, 'hh-1', { action: 'set-main', entityId: daughter }), /cannot act/);
+  assert.throws(() => applyAction(world, 'hh-2', { action: 'set-main', entityId: father }), /Choose one of your family/);
+  // The fallback when the main person is gone: the principal if they can act, else the oldest living member old enough.
+  assert.equal(mainPersonId(world, household), father, 'a captured main person did not give way to the principal');
+  assert.equal(view(world, 'hh-1').household.mainId, undefined, 'the principal as main person rides on the tick');
+  assert.throws(() => applyAction(world, 'hh-1', { action: 'travel', entityId: daughter, destination: 'gonzales' }), /cannot act/);
+  world.entities[daughter].health = { condition: 'well' };
+  applyAction(world, 'hh-1', { action: 'set-main', entityId: daughter });
+  world.entities[daughter].health = { condition: 'dead' };
+  world.entities[father].health = { condition: 'dead' };
+  assert.equal(view(world, 'hh-1').household.mainId, mother, 'with the main person and the principal dead, the oldest left who is old enough is main');
+  assert.throws(() => applyAction(world, 'hh-1', { action: 'work', entityId: son }), /too young/);
+  world.entities[mother].health = { condition: 'dead' };
+  assert.equal(view(world, 'hh-1').household.mainId, null, 'a child of eight is made the main person');
+  // An older class: no field at all opens as the principal's, and a field naming a stranger is refused by validation.
+  validateWorld(world);
+  delete household.mainId;
+  validateWorld(world);
+  household.mainId = 'hh-2-thomas';
+  assert.throws(() => validateWorld(world), /main person is not one of the family/);
+  delete household.mainId;
+});
+
+test('the call’s one menu lists exactly who the server lets answer, and its confirm is one command per ticked person, else the keeping answer', () => {
+  const go = (can, why = '') => ({ id: 'turn-out', label: 'Go: ride for Gonzales', note: 'takes 2 powder', can, why });
+  const stay = (can, why = '') => ({ id: 'stay-put', label: 'Stay home', note: 'stays', can, why });
+  const request = { id: 'call-1', kind: 'call', status: 'open', text: 'Does somebody from your family go?', answerers: { a: [go(true), stay(true)], b: [go(false, 'Wait until this person arrives.'), stay(false, 'Return home first.')], d: [go(true), stay(true)] } };
+  const people = [{ id: 'a', role: 'father', age: 41 }, { id: 'b', role: 'son', age: 17 }, { id: 'c', role: 'daughter', age: 6 }, { id: 'd', role: 'mother', age: 38 }];
+  const entities = [{ id: 'a', name: 'Asa' }, { id: 'b', name: 'Ben' }, { id: 'c', name: 'Cy' }, { id: 'd', name: 'Dora', health: { condition: 'dead' } }];
+  const menu = callMenu(request, { people, entities });
+  assert.deepEqual(menu.rows.map(row => row.id), ['a', 'b'], 'the menu lists somebody the server did not, or somebody dead');
+  assert.equal(menu.rows[0].who, 'Father, 41');
+  assert.deepEqual([menu.rows[0].go.can, menu.rows[1].go.can, menu.rows[1].go.why], [true, false, 'Wait until this person arrives.']);
+  assert.equal(menu.several, true, 'a settlement’s call takes several');
+  assert.equal(menu.stay.label, 'Stay home');
+  assert.deepEqual(callPlan(menu, ['a', 'b']), [{ entityId: 'a', action: 'turn-out' }, { entityId: 'b', action: 'turn-out' }], 'in the menu’s order, one command each');
+  assert.deepEqual(callPlan(menu, ['b', 'a']), [{ entityId: 'a', action: 'turn-out' }, { entityId: 'b', action: 'turn-out' }]);
+  assert.deepEqual(callPlan(menu, [], 'b'), [{ entityId: 'a', action: 'stay-put' }], 'nobody ticked keeps everybody home, by somebody who may say so');
+  assert.deepEqual(callPlan(menu, [], 'a'), [{ entityId: 'a', action: 'stay-put' }]);
+  assert.deepEqual(callPlan(null, ['a']), []);
+  // The food call, the rumour and the march are put to one person: the menu says so, and one tick is the most it sends.
+  const supplies = { ...request, id: 'req-1', kind: 'supplies', answerers: { a: [{ id: 'help', label: 'Carry the food', note: '', can: true, why: '' }, { id: 'stay', label: 'Stay home and prepare', note: '', can: true, why: '' }] } };
+  assert.equal(callMenu(supplies, { people, entities }).several, false);
+  assert.deepEqual(callPlan(callMenu(supplies, { people, entities }), ['a']), [{ entityId: 'a', action: 'help' }]);
+  assert.equal(callMenu({ ...request, status: 'accepted' }, { people, entities }), null, 'an answered call still has a menu');
+  assert.equal(callMenu(null, { people, entities }), null);
+  // Against the class: the menu is exactly the people the "!" marks for the call, and confirming it clears every "!".
+  const world = createGonzalesWorld('commands-call', 5);
+  world.status = 'running';
+  for (let i = 0; i < 3000 && view(world, 'hh-1').request?.status !== 'open'; i++) stepWorld(world);
+  const seen = view(world, 'hh-1');
+  assert.equal(seen.request?.status, 'open', 'the class never asked hh-1 anything');
+  const real = callMenu(seen.request, { people: seen.entities.map(entity => ({ id: entity.id, age: entity.age, role: entity.kin?.role })), entities: seen.entities });
+  assert.deepEqual(real.rows.map(row => row.id).sort(), Object.keys(marked(world, 'hh-1')).filter(id => marked(world, 'hh-1')[id].includes('call')).sort());
+  const [first] = real.rows.filter(row => row.go.can);
+  for (const step of callPlan(real, [first.id])) applyAction(world, 'hh-1', { ...step, mode: 'foot' });
+  assert.ok(Object.values(marked(world, 'hh-1')).every(kinds => !kinds.includes('call')), 'the confirm left an "!"');
+  assert.equal(callMenu(view(world, 'hh-1').request, { entities: seen.entities }), null);
 });

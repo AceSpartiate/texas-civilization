@@ -121,52 +121,80 @@ export function callOptions(world, householdId, call, entity) {
   ];
 }
 
+/**
+ * Everybody this call has sent. `actorIds` since a family could send more than one (2026-09-16); a class saved before
+ * that has `actorId` alone, which is the one it sent, so no save version moved.
+ */
+export const volunteersOf = call => call?.actorIds || (call?.status === 'accepted' && call.actorId ? [call.actorId] : []);
+/** The choice that sent this person: their own, or on an older save the call's one. */
+const choiceOf = (call, id) => call.choices?.[id] ?? call.choiceId;
+const hasArrived = (call, id) => call.arrived?.[id] !== undefined || (id === call.actorId && call.arrivedMinute !== undefined);
+function noteArrival(world, call, entity) {
+  if (!call.arrived) call.arrived = {};
+  call.arrived[entity.id] = world.minute;
+  if (call.arrivedMinute === undefined) call.arrivedMinute = world.minute;
+  entity.task = 'help';
+}
+
+/**
+ * One answer for the family, and then more may go (owner, 2026-09-16: "a series of checkmarks so the player can send who
+ * they want"). Somebody turning out answers the call for the family: it is accepted, and stands for the rest of the family
+ * to follow while the class runs - the men of a settlement went in ones and twos (`HIST-TEX-014`). Staying is the family's
+ * whole answer: the call is refused, and nobody goes after it. Once somebody has gone, staying is no longer a question;
+ * those not sent simply stay.
+ */
 export function handleCall(world, householdId, entity, action, { beginTravel, travelRefusal }, mode) {
   const call = world.calls?.[householdId];
-  if (!call || call.status !== 'open') throw new Error('Nobody is asking that.');
+  const going = action === 'turn-out';
+  if (!call || !(call.status === 'open' || (call.status === 'accepted' && going))) throw new Error('Nobody is asking that.');
   if (world.director?.complete) throw new Error('The class has ended.');
+  if (volunteersOf(call).includes(entity.id)) throw new Error(`${entity.name} has already gone.`);
   const allowed = callAvailability(world, householdId, entity, action);
   if (!allowed.can) throw new Error(allowed.why);
   const household = world.households[householdId];
-  const going = action === 'turn-out';
   const place = world.map.sites[call.gather];
   // Refused before anything is written down or spent, so an impossible journey never leaves a promise with nobody on the road.
   if (going && entity.location.siteId !== call.gather) {
     const why = travelRefusal?.(world, entity, call.gather, mode);
     if (why) throw new Error(why);
   }
-  call.status = going ? 'accepted' : 'refused';
-  call.actorId = entity.id;
-  call.choiceId = record(world, 'choice', {
+  const first = call.status === 'open', before = volunteersOf(call);
+  const choiceId = record(world, 'choice', {
     actorId: entity.id, householdId, decision: action, causes: [call.id], importance: 2, claimId: 'FIC-GONZ-031',
     text: going ? `${entity.name} will ride for ${place.name} with the volunteers.` : `${entity.name} will stay home.`,
   });
+  if (first) { call.status = going ? 'accepted' : 'refused'; call.actorId = entity.id; call.choiceId = choiceId; }
   if (!going) {
-    const consequence = record(world, 'consequence', { actorId: entity.id, householdId, importance: 2, causes: [call.choiceId], text: COAST.includes(call.settlementId) ? `${entity.name} stayed to keep the coast, and the farm kept its hands.` : `${entity.name} stayed home when the settlement turned out.` });
+    const consequence = record(world, 'consequence', { actorId: entity.id, householdId, importance: 2, causes: [choiceId], text: COAST.includes(call.settlementId) ? `${entity.name} stayed to keep the coast, and the farm kept its hands.` : `${entity.name} stayed home when the settlement turned out.` });
     remember(world, household, entity, consequence, `When the call came, your family kept ${entity.name} home.`);
     return;
   }
-  entity.commitments.push({ id: 'volunteer', type: 'service', status: 'active', choiceId: call.choiceId, gather: call.gather });
+  call.actorIds = [...before, entity.id];
+  if (!call.choices) call.choices = {};
+  call.choices[entity.id] = choiceId;
+  entity.commitments.push({ id: 'volunteer', type: 'service', status: 'active', choiceId, gather: call.gather });
   const carried = Math.min(VOLUNTEER_POWDER, household.resources.powder ?? 0);
   if (carried > 0) {
     household.resources.powder = Math.round((household.resources.powder - carried) * 10000) / 10000;
-    record(world, 'property', { actorId: entity.id, householdId, importance: 2, causes: [call.choiceId], text: `${entity.name} took the rifle and ${carried} powder. There is ${household.resources.powder} left in the house.` });
+    record(world, 'property', { actorId: entity.id, householdId, importance: 2, causes: [choiceId], text: `${entity.name} took the rifle and ${carried} powder. There is ${household.resources.powder} left in the house.` });
   }
-  if (entity.location.siteId === call.gather) { call.arrivedMinute = world.minute; entity.task = 'help'; return; }
-  beginTravel(world, entity, call.gather, call.choiceId, 'volunteer', mode);
+  if (entity.location.siteId === call.gather) { noteArrival(world, call, entity); return; }
+  beginTravel(world, entity, call.gather, choiceId, 'volunteer', mode);
 }
 
-/** Somebody who turned out and has reached the gathering place: said once, in words, and remembered. */
+/** Everybody who turned out and has reached the gathering place: said once each, in words, and remembered. */
 export function settleCalls(world) {
   for (const [householdId, call] of Object.entries(world.calls || {})) {
-    if (call.status !== 'accepted' || call.arrivedMinute !== undefined) continue;
-    const entity = world.entities[call.actorId];
-    if (!entity || entity.location.siteId !== call.gather || entity.travel) continue;
-    call.arrivedMinute = world.minute;
-    entity.task = 'help';
-    const text = SETTLEMENT_CALLS[call.settlementId]?.there(entity.name) || `${entity.name} reached ${world.map.sites[call.gather].name}.`;
-    const consequence = record(world, 'consequence', { actorId: entity.id, householdId, importance: 2, causes: [call.choiceId], claimId: 'FIC-GONZ-031', text });
-    remember(world, world.households[householdId], entity, consequence, `${entity.name} went with the volunteers.`);
+    if (call.status !== 'accepted') continue;
+    for (const id of volunteersOf(call)) {
+      if (hasArrived(call, id)) continue;
+      const entity = world.entities[id];
+      if (!entity || entity.location.siteId !== call.gather || entity.travel) continue;
+      noteArrival(world, call, entity);
+      const text = SETTLEMENT_CALLS[call.settlementId]?.there(entity.name) || `${entity.name} reached ${world.map.sites[call.gather].name}.`;
+      const consequence = record(world, 'consequence', { actorId: entity.id, householdId, importance: 2, causes: [choiceOf(call, id)], claimId: 'FIC-GONZ-031', text });
+      remember(world, world.households[householdId], entity, consequence, `${entity.name} went with the volunteers.`);
+    }
   }
 }
 
@@ -192,6 +220,9 @@ export function callsInvalid(world) {
     if (!['open', 'accepted', 'refused', 'expired'].includes(call.status)) return 'Invalid call status';
     if (!world.map.sites[call.gather] || call.settlementId !== household.settlementId) return 'A call to a gathering that is not there';
     if (call.status === 'accepted' || call.status === 'refused') { if (!world.entities[call.actorId]) return 'A call answered by nobody'; }
+    // Absent on a class saved before a family could send more than one, where `actorId` was the one sent. Present, every
+    // volunteer is somebody, and the first of them is the one the call was answered by.
+    if (call.actorIds !== undefined && (!Array.isArray(call.actorIds) || !call.actorIds.length || call.actorIds[0] !== call.actorId || call.actorIds.some(id => !world.entities[id]))) return 'A call sent somebody who is not there';
   }
   return null;
 }

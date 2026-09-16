@@ -3,9 +3,10 @@
 // offers that person now.
 //
 // Nothing here decides what is possible. Which actions a person has, and why any is refused, come from the projection
-// (`world.work`, `world.travelModes`, the principal flag); what somebody is doing, and so which icon glows, comes from the
-// projection too. This module only orders, words and draws what was sent, and it imports nothing, so the rules it does
-// hold - the order, the sentences, the glow - are tested headlessly (tests/family-panel.test.mjs).
+// (`world.work`, `world.travelModes`, `world.household.mainId`); what somebody is doing, and so which icon glows, comes from
+// the projection too. This module only orders, words and draws what was sent, and it imports nothing, so the rules it does
+// hold - the order, the sentences, the glow, the call's menu - are tested headlessly (tests/family-panel.test.mjs,
+// tests/family-commands.test.mjs).
 
 /**
  * One sentence for every action, shown when an icon is hovered or focused.
@@ -129,18 +130,19 @@ export function panelOrder(members = [], people = []) {
  * Which icon glows for this person: the action the projection says they are doing, or null.
  *
  * A chore wins, including while they walk out to it and back. With no chore, being on the road to Gonzales, home or
- * another homestead is that journey; standing still, the principal's standing order to work or rest is what they are doing.
+ * another homestead is that journey; standing still, the main person's standing order to work or rest is what they are
+ * doing. `main` is whether this is the family's main person (`world.household.mainId`), whose row alone has those icons.
  */
-export function activeKey(entity, { homeId = null, principal = false, homesteads = [] } = {}) {
+export function activeKey(entity, { homeId = null, main = false, homesteads = [] } = {}) {
   if (!entity || ['dead', 'captured'].includes(entity.health?.condition)) return null;
   if (entity.chore?.id) return entity.chore.id;
   if (entity.travel) {
-    if (!principal) return null;
+    if (!main) return null;
     if (entity.travel.to === 'gonzales') return 'travel-gonzales';
     if (homeId && entity.travel.to === homeId) return 'travel-home';
     return homesteads.includes(entity.travel.to) ? 'visit' : null;
   }
-  if (!principal) return null;
+  if (!main) return null;
   return entity.task === 'work' ? 'work' : entity.task === 'rest' ? 'rest' : null;
 }
 
@@ -148,16 +150,18 @@ export function activeKey(entity, { homeId = null, principal = false, homesteads
 const firstSentence = text => (String(text || '').match(/^.*?[.!?](?=\s|$)/)?.[0] || String(text || '')).trim();
 
 /**
- * Every icon on one person's row, in order: their work, then the principal's orders, then calling off the work.
+ * Every icon on one person's row, in order: their work, then the main person's orders, then calling off the work.
  *
  * `offered` is `world.work[id]` as the server sent it; `catalogue` the chore catalogue by id (names, descriptions, costs);
- * `carry` what this person could carry the way they are set to travel (`world.travelModes`), for a haul's note. `settable` is
- * whether orders may be given at all (running, or the lobby). Each icon says what it sends; nothing is sent from here.
+ * `main` whether this is the family's main person (`world.household.mainId`), the one the server lets travel, work about the
+ * place and rest; `carry` what this person could carry the way they are set to travel (`world.travelModes`), for a haul's
+ * note. `settable` is whether orders may be given at all (running, or the lobby). Each icon says what it sends; nothing is
+ * sent from here.
  */
-export function panelActions({ entity, offered = [], catalogue = new Map(), principal = false, homeId = null, homesteads = [], atHome = false,
+export function panelActions({ entity, offered = [], catalogue = new Map(), main = false, homeId = null, homesteads = [], atHome = false,
   settable = true, carry = null } = {}) {
   if (!entity || ['dead', 'captured'].includes(entity.health?.condition)) return [];
-  const active = activeKey(entity, { homeId, principal, homesteads });
+  const active = activeKey(entity, { homeId, main, homesteads });
   // A refusal the land hunt shares with the timber hunt is sent once, on the timber hunt (sim/chores.mjs `choresFor`).
   const sharedWhy = entry => entry.id === 'hunt-land' && !entry.can && !entry.why ? offered.find(other => other.id === 'hunt-timber')?.why : entry.why;
   const icons = [];
@@ -189,7 +193,7 @@ export function panelActions({ entity, offered = [], catalogue = new Map(), prin
     icons.unshift({ key: active, kind: 'chore', name: spec.name || active, summary: PANEL_SUMMARIES[active] || firstSentence(spec.describe),
       note: '', can: false, why: '', onMap: ON_MAP.includes(active), active: true });
   }
-  if (principal) {
+  if (main) {
     // The same rule the card's buttons had: not while on the road, and not to where they already are.
     const still = settable && !entity.travel;
     const at = entity.location?.siteId;
@@ -292,19 +296,75 @@ export function isIdle(entity, icons = [], { withArmy = false } = {}) {
 }
 
 /**
- * The student's main person: the one remembered in this browser if they are still one of the family and can act, otherwise
- * the principal, otherwise the first row. `order` is the rows top to bottom; `entities` the family's people as sent.
+ * The student's main person on the panel: the one the server says (`world.household.mainId`, resolved there by
+ * `mainPersonId` in sim/family.mjs, so a dead or captured main person has already given way) if they are one of the rows
+ * and can act; otherwise the principal; otherwise the first row - which only happens against a server older than the
+ * field, or between a death and the next tick. `order` is the rows top to bottom; `entities` the family's people as sent.
  */
-export function focusFor(stored, { order = [], principalId = null, entities = [] } = {}) {
+export function focusFor(mainId, { order = [], principalId = null, entities = [] } = {}) {
   const byId = new Map(entities.map(entity => [entity.id, entity]));
   const usable = id => id && order.includes(id) && !gone(byId.get(id));
-  if (usable(stored)) return stored;
+  if (usable(mainId)) return mainId;
   if (usable(principalId)) return principalId;
   return order.find(usable) || null;
 }
 
-/** Where the main person is remembered: per class and per family, in this browser only. */
-export const focusKey = (sessionId, householdId) => `tr_focus_${sessionId || 'none'}_${householdId || 'none'}`;
+// ---------------------------------------------------------------------------------------------- the call's one menu
+// Owner, 2026-09-16: "The ! should appear on anyone that can answer. When it's clicked on however, a single interactable
+// menu should appear that lets the player make the choice for each applicable person. Say a series of checkmarks so the
+// player can send who they want quickly and easily."
+
+/** The answer that sends somebody, and the one that keeps them, for every call the server puts to a family. */
+export const GO_ANSWERS = Object.freeze(['turn-out', 'help', 'go-see', 'go-upriver']);
+export const STAY_ANSWERS = Object.freeze(['stay-put', 'stay', 'stay-home', 'stay-in-town']);
+
+/**
+ * Whether this call takes more than one of the family. A settlement's call does (sim/calls.mjs: once somebody has gone
+ * the call stands for the rest to follow); the food call, the rumour and the march are put to one person, and the server
+ * closes them on the first answer. ceiling: the food call and the rumour could take a second person the way the
+ * settlement's call does; nothing in their settling (sim/directors.mjs `settleHelp`) is written for more than one yet.
+ */
+export const takesSeveral = request => request?.kind === 'call';
+
+/**
+ * The one menu for a call: every person who may answer it, with the answer that sends them and the one that keeps them,
+ * as the server priced each for that person. `people` is the family's book (`/api/family`), for the line saying who they
+ * are; `entities` the projection's people. Null when nothing is open to answer.
+ */
+export function callMenu(request, { people = [], entities = [] } = {}) {
+  if (request?.status !== 'open' || !request.answerers) return null;
+  const book = new Map(people.map(person => [person.id, person]));
+  const byId = new Map(entities.map(entity => [entity.id, entity]));
+  const rows = [];
+  for (const [id, options] of Object.entries(request.answerers)) {
+    const entity = byId.get(id);
+    if (gone(entity)) continue;
+    const person = book.get(id) || {};
+    const go = options.find(option => GO_ANSWERS.includes(option.id)), stay = options.find(option => STAY_ANSWERS.includes(option.id));
+    if (!go) continue;
+    const age = Number.isFinite(person.age ?? entity.age) ? (person.age ?? entity.age) === 0 ? 'under a year' : String(person.age ?? entity.age) : '';
+    const role = person.role ? person.role[0].toUpperCase() + person.role.slice(1) : 'Of this family';
+    rows.push({ id, name: entity.name, who: [role, age].filter(Boolean).join(', '), go: { id: go.id, label: go.label, note: go.note, can: Boolean(go.can), why: go.why || '' },
+      stay: stay ? { id: stay.id, label: stay.label, note: stay.note, can: Boolean(stay.can), why: stay.why || '' } : null });
+  }
+  if (!rows.length) return null;
+  return { id: request.id, kind: request.kind, text: request.text, several: takesSeveral(request), rows,
+    // What keeping everybody home is called, from the first row that may say so.
+    stay: rows.find(row => row.stay?.can)?.stay || rows.find(row => row.stay)?.stay || null };
+}
+
+/**
+ * What the menu sends when it is confirmed, in order: the sending answer for each person ticked, top to bottom; with
+ * nobody ticked, the keeping answer once, for the person whose "!" was pressed if they may give it, else the first who may.
+ * Nothing is sent from here; each entry is one command for the dispatcher, and the server has the last word on each.
+ */
+export function callPlan(menu, checked = [], clickedId = null) {
+  if (!menu) return [];
+  const going = menu.rows.filter(row => checked.includes(row.id)).map(row => ({ entityId: row.id, action: row.go.id }));
+  if (going.length) return going;
+  const keeper = menu.rows.find(row => row.id === clickedId && row.stay?.can) || menu.rows.find(row => row.stay?.can) || menu.rows.find(row => row.stay);
+  return keeper ? [{ entityId: keeper.id, action: keeper.stay.id }] : [];
+}
 
 // ---------------------------------------------------------------------------------------------------- drawing, in a page
 

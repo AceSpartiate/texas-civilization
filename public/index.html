@@ -138,6 +138,21 @@
       <div id="selection-trade"></div>
     </div>
 
+    <!-- The call's one menu (docs/FAMILY_PANEL.md §11.2, owner 2026-09-16): pressing any "!" for a call opens this, with a
+         tick for every person the server says may answer it and one confirm. Built by renderCallMenu in public/app.js from
+         request.answerers; the ticks become the same per-person commands the card's buttons send, in order. -->
+    <div id="call-menu" hidden role="dialog" aria-labelledby="call-menu-title">
+      <div id="call-menu-head"><span id="call-menu-title">Who goes?</span><button type="button" id="call-menu-close" aria-label="Close">×</button></div>
+      <p id="call-menu-text" class="ask-text"></p>
+      <p id="call-menu-how"></p>
+      <ul id="call-menu-rows"></ul>
+      <div id="call-menu-answer">
+        <button type="button" id="call-menu-confirm">Send them</button>
+        <button type="button" id="call-menu-stay" hidden>Nobody goes</button>
+      </div>
+      <p id="call-menu-said" role="status"></p>
+    </div>
+
     <!-- The first five minutes, before the teacher has begun. Never modal and never in
          the way: a student who would rather just start farming says so once and it goes. -->
     <!-- The die a family is rolled with (docs/FAMILY_CREATION.md). What the number means

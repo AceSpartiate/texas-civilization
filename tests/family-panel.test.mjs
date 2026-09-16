@@ -86,7 +86,7 @@ test('the glow is the projection: a chore glows from the order until the server 
     const home = view.household.homeSiteId;
     const glowing = id => {
       const entity = view.entities.find(one => one.id === id);
-      return panelActions({ entity, offered: view.work[id], catalogue, principal: id === household.principalId, homeId: home, atHome: entity.location?.siteId === home })
+      return panelActions({ entity, offered: view.work[id], catalogue, main: id === household.principalId, homeId: home, atHome: entity.location?.siteId === home })
         .filter(icon => icon.active).map(icon => icon.key);
     };
     return { worker: glowing(worker), principal: glowing(household.principalId) };
@@ -110,13 +110,13 @@ test('the glow is the projection: a chore glows from the order until the server 
 
 test('activeKey reads only what the server sent', () => {
   const homesteads = ['home-2'];
-  assert.equal(activeKey({ chore: { id: 'fell-trees' }, travel: { to: 'home-1' } }, { homeId: 'home-1', principal: true, homesteads }), 'fell-trees', 'a chore that walks out is the chore, not a journey');
-  assert.equal(activeKey({ travel: { to: 'home-1' } }, { homeId: 'home-1', principal: true, homesteads }), 'travel-home');
-  assert.equal(activeKey({ travel: { to: 'home-2' } }, { homeId: 'home-1', principal: true, homesteads }), 'visit');
-  assert.equal(activeKey({ travel: { to: 'williams-camp' } }, { homeId: 'home-1', principal: true, homesteads }), null, 'a march is no icon');
-  assert.equal(activeKey({ task: 'work' }, { principal: true }), 'work');
-  assert.equal(activeKey({ task: 'work' }, { principal: false }), null, 'only the principal has work and rest icons to glow');
-  assert.equal(activeKey({ chore: { id: 'plant-field' }, health: { condition: 'dead' } }, { principal: true }), null);
+  assert.equal(activeKey({ chore: { id: 'fell-trees' }, travel: { to: 'home-1' } }, { homeId: 'home-1', main: true, homesteads }), 'fell-trees', 'a chore that walks out is the chore, not a journey');
+  assert.equal(activeKey({ travel: { to: 'home-1' } }, { homeId: 'home-1', main: true, homesteads }), 'travel-home');
+  assert.equal(activeKey({ travel: { to: 'home-2' } }, { homeId: 'home-1', main: true, homesteads }), 'visit');
+  assert.equal(activeKey({ travel: { to: 'williams-camp' } }, { homeId: 'home-1', main: true, homesteads }), null, 'a march is no icon');
+  assert.equal(activeKey({ task: 'work' }, { main: true }), 'work');
+  assert.equal(activeKey({ task: 'work' }, { main: false }), null, 'only the main person has work and rest icons to glow');
+  assert.equal(activeKey({ chore: { id: 'plant-field' }, health: { condition: 'dead' } }, { main: true }), null);
 });
 
 test('the panel sends only what the server already accepts, and only the principal is offered the principal’s orders', () => {
@@ -127,7 +127,7 @@ test('the panel sends only what the server already accepts, and only the princip
   const home = view.household.homeSiteId;
   const iconsOf = id => {
     const entity = view.entities.find(one => one.id === id);
-    return panelActions({ entity, offered: view.work[id], catalogue, principal: id === household.principalId, homeId: home, homesteads: ['home-2'], atHome: entity.location?.siteId === home });
+    return panelActions({ entity, offered: view.work[id], catalogue, main: id === household.principalId, homeId: home, homesteads: ['home-2'], atHome: entity.location?.siteId === home });
   };
   const principal = iconsOf(household.principalId).map(icon => icon.key);
   for (const key of ['travel-gonzales', 'travel-home', 'visit', 'work', 'rest']) assert.ok(principal.includes(key), `the principal has no ${key}`);

@@ -10,7 +10,7 @@ import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { createSettledWorld } from './support/settled.mjs';
 import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
-import { SETTLEMENT_CALLS, VOLUNTEER_POWDER, callsInvalid } from '../sim/calls.mjs';
+import { SETTLEMENT_CALLS, VOLUNTEER_POWDER, callsInvalid, volunteersOf } from '../sim/calls.mjs';
 import { momentOf } from '../sim/directors.mjs';
 import { withTheArmy } from '../sim/army.mjs';
 
@@ -169,10 +169,61 @@ test('the invented map asks no settlement calls, and a world cannot claim a call
     [w => { w.calls[householdId].gather = 'nowhere'; }, /gathering that is not there/],
     [w => { w.calls['hh-99'] = { ...w.calls[householdId] }; }, /household that is not there/],
     [w => { w.calls[householdId].status = 'accepted'; w.calls[householdId].actorId = 'nobody'; }, /answered by nobody/],
+    [w => { const call = w.calls[householdId]; call.status = 'accepted'; call.actorId = w.households[householdId].members[0]; call.actorIds = [call.actorId, 'nobody']; }, /sent somebody who is not there/],
+    [w => { const call = w.calls[householdId]; call.status = 'accepted'; call.actorId = w.households[householdId].members[0]; call.actorIds = [w.households[householdId].members[1]]; }, /sent somebody who is not there/],
   ]) {
     const copy = structuredClone(world);
     corrupt(copy);
     assert.match(callsInvalid(copy), message);
     assert.throws(() => validateWorld(copy), message);
   }
+});
+
+// Owner, 2026-09-16: "a series of checkmarks so the player can send who they want quickly and easily." A settlement's call
+// takes more than one of the family: once somebody has gone it stands for the rest to follow; staying is the family's whole answer.
+test('a family may send more than one to the settlement’s call, each with the powder and the ride, and each said to arrive', () => {
+  const world = colonies('calls-several');
+  const household = firstIn(world, ['san-felipe', 'mina', 'victoria']);
+  until(world, () => world.calls?.[household.id]);
+  const request = view(world, household.id).request;
+  const able = Object.entries(request.answerers).filter(([, options]) => options.find(o => o.id === 'turn-out').can).map(([id]) => id);
+  assert.ok(able.length >= 2, `only ${able.length} of ${household.id} may turn out; this seed was chosen for two`);
+  const [first, second] = able;
+  const powder = household.resources.powder;
+  applyAction(world, household.id, { action: 'turn-out', entityId: first, mode: 'horse' });
+  assert.equal(world.calls[household.id].status, 'accepted');
+  assert.ok(Object.values(view(world, household.id).request.answerers || {}).length === 0, 'the "!" would stay once the family has answered');
+  // The second follows the first; the call is still theirs to answer that way, and only that way.
+  assert.throws(() => applyAction(world, household.id, { action: 'stay-put', entityId: second }), /Nobody is asking that/, 'staying after somebody has gone is a question');
+  assert.throws(() => applyAction(world, household.id, { action: 'turn-out', entityId: first }), /has already gone/);
+  applyAction(world, household.id, { action: 'turn-out', entityId: second, mode: 'foot' });
+  validateWorld(world);
+  assert.deepEqual(world.calls[household.id].actorIds, [first, second]);
+  assert.equal(world.calls[household.id].actorId, first, 'the call was answered by the first');
+  for (const id of [first, second]) {
+    assert.ok(world.entities[id].commitments.some(c => c.id === 'volunteer' && c.status === 'active'), `${id} made no promise`);
+    assert.ok(world.entities[id].travel?.to === 'gonzales' || world.entities[id].location.siteId === 'gonzales', `${id} is not on the road`);
+  }
+  const left = Math.max(0, powder - VOLUNTEER_POWDER);
+  assert.ok(Math.abs(household.resources.powder - Math.max(0, left - VOLUNTEER_POWDER)) < 1e-6, `each took powder: ${powder} became ${household.resources.powder}`);
+  until(world, () => world.calls[household.id].arrived?.[first] !== undefined && world.calls[household.id].arrived?.[second] !== undefined);
+  validateWorld(world);
+  const said = storyOf(world, household.id).map(event => event.text);
+  for (const id of [first, second]) {
+    assert.equal(world.entities[id].task, 'help');
+    assert.ok(said.some(text => text === `${world.entities[id].name} reached Gonzales, where volunteers from the settlements are gathering and waiting to be made into an army.`), `${id}'s arrival was never said`);
+  }
+  assert.ok(world.calls[household.id].arrivedMinute <= world.calls[household.id].arrived[second]);
+  // A family that kept everybody home has answered: nobody goes after it.
+  const other = Object.values(world.households).find(h => h.id !== household.id && ['san-felipe', 'mina', 'liberty', 'victoria'].includes(h.settlementId) && world.calls?.[h.id]?.status === 'open');
+  assert.ok(other, 'no second family to refuse with');
+  const [stayer, goer] = Object.keys(view(world, other.id).request.answerers);
+  applyAction(world, other.id, { action: 'stay-put', entityId: stayer });
+  assert.equal(world.calls[other.id].status, 'refused');
+  assert.throws(() => applyAction(world, other.id, { action: 'turn-out', entityId: goer || stayer, mode: 'foot' }), /Nobody is asking that/);
+  // A class saved before a family could send more than one reads its one volunteer as the one it sent.
+  const older = structuredClone(world);
+  delete older.calls[household.id].actorIds; delete older.calls[household.id].arrived; delete older.calls[household.id].choices;
+  validateWorld(older);
+  assert.deepEqual(volunteersOf(older.calls[household.id]), [first]);
 });

@@ -8,13 +8,17 @@
 // when answered, that no family is shown another's, what idle is, and who the main person is. This proves what a student
 // does: every person set to work from the panel in a press each, and the panel showing they are busy; a stale order refused
 // in the server's words; somebody left idle shown idle; a rider, work that stops to ask, and a neighbour's offer each raising
-// an "!" that takes the camera to that person and opens what waits on them, and each "!" going once it is answered; the main
-// person chosen, remembered through a reload, their card the one that opens, and their House button opening the rooms; and
-// at 400 px nothing scrolls sideways.
+// an "!" that takes the camera to that person and opens what waits on them, and each "!" going once it is answered; a call's
+// "!" opening the one menu with a row per person who may answer (docs/FAMILY_PANEL.md §11.2); the main person chosen with the
+// star and held by the server (`set-main`, §11.3) - the journeys, the yard and rest moving to their row and the principal
+// refused in the server's words - kept through a reload, their card the one that opens, their House button opening the rooms;
+// at 400 px nothing scrolls sideways; and, in a second class on the real land, two of the family ticked in the menu and both
+// sent to the settlement's call.
 //
-// The class is the invented Gonzales country with every family's cabin standing (set in process, as
-// scripts/interior-browser-proof.mjs does, because raising a house takes an afternoon); that is the only thing set in process.
-// The next family's student is played through the API: its principal is sent to Gonzales and makes the offer there.
+// The first class is the invented Gonzales country with every family's cabin standing (set in process, as
+// scripts/interior-browser-proof.mjs does, because raising a house takes an afternoon). The next family's student is played
+// through the API: its principal is sent to Gonzales and makes the offer there. The second class is played in process to the
+// morning San Felipe's call reaches hh-1 and handed over in the lobby, as scripts/army-browser-proof.mjs hands over a class.
 //
 // Same computer only: headless Chrome. Run: npm run test:family-commands
 import assert from 'node:assert/strict';
@@ -22,6 +26,8 @@ import { createRequire } from 'node:module';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { createClassroom } from '../server/app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
+import { applyAction, projectWorld, stepWorld } from '../sim/world.mjs';
+import { pickSite } from '../sim/neighbours.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -37,8 +43,29 @@ function housedClass(seed, playerCount) {
   for (const household of Object.values(world.households)) household.improvements = { ...(household.improvements || {}), cabin: 'sound' };
   return world;
 }
+/**
+ * A class on the real land, played in process to the morning its settlement's call reaches hh-1 - the one call a family may
+ * send more than one person to (sim/calls.mjs) - and handed to the browser in the lobby, as scripts/army-browser-proof.mjs
+ * hands over a class played to the muster. hh-1 is the family the browser joins.
+ */
+function playedToTheCall(seed, playerCount) {
+  const world = createGonzalesWorld(seed, playerCount, { map: 'colonies' });
+  world.status = 'running';
+  for (let i = 0; i < 1500 && !world.calls?.['hh-1'] && !world.director.complete; i++) stepWorld(world);
+  // The house site chosen as a neighbour chooses it (sim/neighbours.mjs `pickSite`), so the site chooser is not over the
+  // panel on a phone; nothing else is decided for the family.
+  const land = projectWorld(world, 'hh-1', 'student', { includeMap: false }).land;
+  if (land?.choosingSite?.can) {
+    for (const point of pickSite(land.grant.bounds, land.choosingSite.mark)) {
+      try { applyAction(world, 'hh-1', { action: 'choose-site', x: point.x, y: point.y }); break; } catch { /* the next point */ }
+    }
+  }
+  world.status = 'lobby';
+  return world;
+}
 
 const app = createClassroom({ seed: 'commands-2', playerCount: 5, tickMs: 250, worldFactory: housedClass });
+let app2 = null;
 const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
 const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
 const errors = [];
@@ -130,17 +157,24 @@ try {
   const callers = (await page.evaluate(() => window.__familyPanel)).filter(row => row.needs.includes('call')).map(row => row.id);
   const answerers = await page.evaluate(() => Object.keys(window.__snapshot.world.request?.answerers || {}));
   assert.deepEqual([...callers].sort(), [...answerers].sort(), 'the "!" for the call is not on exactly the people the server says may answer it');
-  await page.locator(`.panel-row[data-entity-id="${principalId}"] .panel-attention`).click();
-  await page.waitForFunction(() => document.activeElement?.closest?.('#selection-call') && document.activeElement.matches('button'), null, { timeout: 5000 });
-  const called = await page.evaluate(() => ({ text: document.querySelector('#selection-call .ask-text')?.textContent, focused: document.activeElement.querySelector('.work-name')?.textContent, card: document.querySelector('#selection').dataset.entityId }));
-  assert.equal(called.card, principalId);
+  // Any "!" for the call opens the one menu (docs/FAMILY_PANEL.md §11.2): a row per person who may answer, the keyboard on
+  // the first. The food call is put to one person, so the rows are a single choice; keeping everybody home is its own button.
+  await page.locator(`.panel-row[data-entity-id="${callers.at(-1)}"] .panel-attention`).click();
+  await page.waitForFunction(() => !document.querySelector('#call-menu').hidden && document.activeElement?.closest?.('#call-menu') && document.activeElement.matches('input'), null, { timeout: 5000 });
+  const called = await page.evaluate(() => ({ text: document.querySelector('#call-menu-text')?.textContent, kind: window.__snapshot.world.request.kind, menu: window.__callMenu,
+    inputs: [...document.querySelectorAll('#call-menu input')].map(input => input.type), focused: document.activeElement.dataset.callMenuPerson, card: document.querySelector('#selection').dataset.entityId, opened: window.__needOpened }));
+  assert.equal(called.card, callers.at(-1), 'the camera and card did not go to the person whose "!" was pressed');
+  assert.deepEqual(called.menu.rows.map(row => row.id).sort(), [...answerers].sort(), 'the menu does not list exactly the people the server lets answer');
+  assert.equal(called.menu.several, false); assert.ok(called.inputs.every(type => type === 'radio'), `a one-person call offers ${called.inputs}`);
   measured.call = { callers, ...called };
   await shot(page, 'call-opened');
-  ok(`a call to the family marks the ${callers.length} people the server lets answer it; the principal's "!" opened it on their card ("${called.text}"), the keyboard on "${called.focused}"`);
-  const stay = page.locator('#selection-call button[data-action="stay"]:not([disabled])');
-  await ((await stay.count()) ? stay : page.locator('#selection-call button:not([disabled])').last()).click();
-  await page.waitForFunction(() => window.__familyPanel.every(row => !row.needs.includes('call')), null, { timeout: 15000 });
-  ok('answering it clears the "!" from everybody who could have');
+  ok(`a call to the family marks the ${callers.length} people the server lets answer it; pressing ${callers.at(-1)}'s "!" opened the one menu for it ("${called.text}") with a row each, the keyboard on ${called.focused}'s`);
+  // Keep everybody home; if nobody is home to say so (the server's rule), send the one the server allows instead.
+  const stay = page.locator('#call-menu-stay:not([disabled])');
+  if (await stay.count()) { await stay.click(); measured.call.answered = 'nobody goes'; }
+  else { await page.locator('#call-menu input:not([disabled])').first().check(); await page.locator('#call-menu-confirm').click(); measured.call.answered = 'one sent'; }
+  await page.waitForFunction(() => window.__familyPanel.every(row => !row.needs.includes('call')) && document.querySelector('#call-menu').hidden, null, { timeout: 15000 });
+  ok(`answering from the menu (${measured.call.answered}) clears the "!" from everybody who could have answered, and the menu goes`);
 
   // ----------------------------------------------------------------------------------------- the whole family, set to work
   await page.waitForFunction(() => window.__snapshot.world.entities.filter(e => e.kind === 'person').every(e => !e.travel), null, { timeout: 60000 });
@@ -292,12 +326,29 @@ try {
   ok('declining it clears the "!"');
 
   // -------------------------------------------------------------------------------------------- choosing the main person
+  // The main person is the server's (docs/FAMILY_PANEL.md §11.3): the star sends `set-main`, the household holds it, and the
+  // journeys, the yard and rest move to that row - the principal's row loses them, and the server refuses him in words.
   const mother = book.find(person => person.role === 'mother')?.id || book.find(person => person.id !== principalId).id;
+  assert.equal(world().households['hh-1'].mainId, undefined, 'the server holds a main person before anybody chose one');
+  assert.ok(await page.locator(`.panel-row[data-entity-id="${principalId}"] .panel-icon[data-key="travel-gonzales"]`).count(), 'the principal, main until somebody is chosen, has no journey icon');
   await page.locator(`.panel-row[data-entity-id="${mother}"] .panel-focus`).click();
   await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"]`)?.dataset.focused === 'true', mother);
-  const stored = await page.evaluate(() => Object.entries(localStorage).filter(([key]) => key.startsWith('tr_focus_')));
-  assert.deepEqual(stored.map(([, value]) => value), [mother]);
+  assert.equal(world().households['hh-1'].mainId, mother, 'the star did not reach the server');
+  assert.equal(await page.evaluate(() => window.__snapshot.world.household.mainId), mother, 'the projection does not carry the main person');
+  assert.deepEqual(await page.evaluate(() => Object.keys(localStorage).filter(key => key.startsWith('tr_focus_'))), [], 'the browser still keeps a main person of its own');
   assert.equal(await page.locator('.panel-row[data-focused=true]').count(), 1);
+  await page.waitForFunction(({ mother, principalId }) => document.querySelector(`.panel-row[data-entity-id="${mother}"] .panel-icon[data-key="rest"]`) && !document.querySelector(`.panel-row[data-entity-id="${principalId}"] .panel-icon[data-key="rest"]`), { mother, principalId }, { timeout: 10000 });
+  const rowsNow = await page.evaluate(({ mother, principalId }) => Object.fromEntries([mother, principalId].map(id => [id, [...document.querySelectorAll(`.panel-row[data-entity-id="${id}"] .panel-icon`)].map(icon => icon.dataset.key)])), { mother, principalId });
+  assert.ok(['travel-gonzales', 'travel-home', 'work', 'rest'].every(key => rowsNow[mother].includes(key)), `the main person's row lacks the journeys: ${rowsNow[mother]}`);
+  assert.ok(!['travel-gonzales', 'travel-home', 'work', 'rest'].some(key => rowsNow[principalId].includes(key)), `the principal's row keeps the journeys: ${rowsNow[principalId]}`);
+  // The server's refusal, in its words, for an order the page no longer offers: the principal sent to town as this student.
+  const studentCookie = (await context.cookies()).map(cookie => `${cookie.name}=${cookie.value}`).join('; ');
+  const refusedTravel = await fetch(url + '/api/command', { method: 'POST', headers: { 'Content-Type': 'application/json', Cookie: studentCookie }, body: JSON.stringify({ id: `proof-refused-${crypto.randomUUID()}`, action: 'travel', entityId: principalId, destination: 'gonzales' }) });
+  const refusedWords = (await refusedTravel.json()).error;
+  assert.notEqual(refusedTravel.status, 200, 'the principal was sent to town while somebody else is the main person');
+  assert.match(refusedWords, /Only your main person/, refusedWords);
+  measured.mainPerson = { mother, rows: rowsNow, refused: refusedWords };
+  ok(`the star makes ${mother} the main person on the server (household.mainId), the journeys, the yard and rest move to her row and off the principal's, and the principal sent to town is refused: "${refusedWords}"`);
   // The rooms are opened from the main person's row.
   await page.locator(`.panel-row[data-entity-id="${mother}"] .panel-house`).waitFor({ state: 'visible' });
   assert.equal(await page.locator('.panel-house:not([hidden])').count(), 1, 'a House button on more than the main person');
@@ -305,8 +356,8 @@ try {
   await page.locator('#interior').waitFor({ state: 'visible' });
   await shot(page, 'main-person-house');
   await page.locator('#interior-close').click();
-  ok(`the star makes ${mother} the main person, remembered in this browser; their row alone has House, which opens the rooms`);
-  // Remembered through a reload, and the card that opens with nobody chosen is theirs.
+  ok(`${mother}'s row alone has House, which opens the rooms`);
+  // Kept by the server through a reload, and the card that opens with nobody chosen is theirs.
   await page.reload();
   await page.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
   await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"]`)?.dataset.focused === 'true', mother, { timeout: 15000 });
@@ -377,6 +428,110 @@ try {
   await shot(small, 'phone-offer');
   ok('at 400 px the page does not scroll sideways, the "!" is on screen and big enough to press, and pressing it opens the offer on the docked card');
 
+  // ------------------------------------------------------------------------------------- a call two may answer: the one menu
+  // A class on the real land, played to the morning San Felipe's call reaches hh-1 (set in process, as the army proof is
+  // played to the muster): the father and the mother may both turn out. Pressing either "!" opens the one menu for the call;
+  // with both ticked and confirmed both are sent - the server takes the second because a settlement's call stands for the
+  // rest of the family once somebody has gone (sim/calls.mjs) - the camera goes to the first, and the "!" goes from everybody.
+  app2 = createClassroom({ seed: 'commands-call-2', playerCount: 5, tickMs: 250, worldFactory: playedToTheCall });
+  assert.equal(app2.state.world.calls?.['hh-1']?.status, 'open', 'the class never reached hh-1’s call');
+  const port2 = await app2.listen(0, '127.0.0.1'), url2 = `http://127.0.0.1:${port2}`;
+  const post2 = async (path, body, cookie) => {
+    const response = await fetch(url2 + path, { method: 'POST', headers: { 'Content-Type': 'application/json', ...(cookie && { Cookie: cookie }) }, body: JSON.stringify(body) });
+    assert.equal(response.status, 200, `${path}: ${response.status} ${await response.text()}`);
+    return response;
+  };
+  const host2 = await post2('/api/host', { key: app2.state.hostKey });
+  const hostCookie2 = host2.headers.get('set-cookie').split(';')[0];
+  const far = await browser.newContext({ reducedMotion: 'reduce', viewport: { width: 1440, height: 950 } });
+  const page2 = await far.newPage();
+  page2.on('pageerror', error => errors.push(`call menu: ${error.message}`));
+  await page2.goto(url2);
+  await page2.locator('[name=name]').fill('Volunteer');
+  await page2.locator('[name=code]').fill(app2.state.sessionCode);
+  await page2.getByRole('button', { name: 'Join', exact: true }).click();
+  await page2.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
+  for (let i = 2; i <= 5; i++) await post2('/api/join', { name: `Settler ${i}`, code: app2.state.sessionCode });
+  await post2('/api/command', { id: `proof-start-${crypto.randomUUID()}`, action: 'start' }, hostCookie2);
+  await page2.waitForFunction(() => window.__snapshot?.world.status === 'running');
+  if (await page2.locator('#wagon-done').isVisible()) await page2.locator('#wagon-done').click();
+  if (await page2.locator('#tutorial-skip').isVisible()) await page2.locator('#tutorial-skip').click();
+  await page2.locator('#family-panel').waitFor({ state: 'visible' });
+  await page2.waitForFunction(() => (window.__familyPanel || []).filter(row => row.needs.includes('call')).length >= 2, null, { timeout: 30000, polling: 100 });
+  const answerers2 = await page2.evaluate(() => Object.keys(window.__snapshot.world.request?.answerers || {}));
+  const canGo = await page2.evaluate(() => Object.entries(window.__snapshot.world.request.answerers).filter(([, options]) => options.find(option => option.id === 'turn-out')?.can).map(([id]) => id));
+  assert.ok(canGo.length >= 2, `only ${canGo.length} may turn out: ${JSON.stringify(await page2.evaluate(() => window.__snapshot.world.request.answerers))}`);
+  const marked2 = (await page2.evaluate(() => window.__familyPanel)).filter(row => row.needs.includes('call')).map(row => row.id);
+  assert.deepEqual([...marked2].sort(), [...answerers2].sort(), 'the "!" is not on exactly the people the server lets answer the settlement’s call');
+  ok(`the settlement's call marks ${marked2.length} people (${marked2.join(', ')}), and ${canGo.length} of them may turn out`);
+  // A rider standing with somebody is the more pressing need and their "!" opens the conversation instead; the riders are let
+  // go (as the student would, from the conversation) until a row's first need is the call, and that "!" is the one pressed.
+  const studentCookie2 = (await far.cookies()).map(cookie => `${cookie.name}=${cookie.value}`).join('; ');
+  for (let i = 0; i < 20; i++) {
+    const rows = await page2.evaluate(() => window.__familyPanel);
+    if (rows.some(row => row.need === 'call')) break;
+    const listener = Object.values(app2.state.world.encounters || {}).find(e => e.householdId === 'hh-1' && e.status === 'open')?.listenerId;
+    if (listener) await post2('/api/command', { id: `proof-leave-${crypto.randomUUID()}`, action: 'leave-rider', entityId: listener }, studentCookie2);
+    await page2.waitForTimeout(400);
+  }
+  const opener = (await page2.evaluate(() => window.__familyPanel)).find(row => row.need === 'call')?.id;
+  assert.ok(opener, 'nobody whose first need is the call');
+  // On a phone first: the menu opened from an "!", on screen with nothing scrolling sideways, then closed.
+  const phone2 = await browser.newContext({ reducedMotion: 'reduce', viewport: { width: 400, height: 800 }, isMobile: true, hasTouch: true });
+  await phone2.addCookies(await far.cookies());
+  const small2 = await phone2.newPage();
+  small2.on('pageerror', error => errors.push(`phone call menu: ${error.message}`));
+  await small2.goto(url2);
+  await small2.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
+  await small2.locator('#family-panel').waitFor({ state: 'visible' });
+  if (await small2.locator('#tutorial-skip').isVisible()) await small2.locator('#tutorial-skip').click();
+  await small2.waitForFunction(id => !document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-attention`)?.hidden, opener, { timeout: 15000 });
+  await small2.locator(`.panel-row[data-entity-id="${opener}"] .panel-attention`).tap();
+  await small2.waitForFunction(() => !document.querySelector('#call-menu').hidden, null, { timeout: 5000 });
+  await small2.waitForTimeout(300);
+  const phoneMenu = await small2.evaluate(() => {
+    const menu = document.querySelector('#call-menu').getBoundingClientRect(), confirm = document.querySelector('#call-menu-confirm').getBoundingClientRect();
+    return { pageScrolls: document.documentElement.scrollWidth > window.innerWidth, menuOnScreen: menu.left >= 0 && menu.right <= window.innerWidth, confirmOnScreen: confirm.right <= window.innerWidth && confirm.bottom <= window.innerHeight && confirm.height >= 36,
+      rows: document.querySelectorAll('#call-menu input').length, types: [...document.querySelectorAll('#call-menu input')].map(input => input.type) };
+  });
+  assert.equal(phoneMenu.pageScrolls, false, 'the page scrolls sideways at 400 px with the menu open');
+  assert.ok(phoneMenu.menuOnScreen && phoneMenu.confirmOnScreen, `the menu or its confirm is off a phone's screen: ${JSON.stringify(phoneMenu)}`);
+  await shot(small2, 'phone-call-menu');
+  await small2.locator('#call-menu-close').tap();
+  await small2.waitForFunction(() => document.querySelector('#call-menu').hidden);
+  measured.phoneCallMenu = phoneMenu;
+  ok(`at 400 px the call's menu opens from an "!" on screen with ${phoneMenu.rows} rows and its confirm within reach, and closes`);
+  await phone2.close();
+  // Then on the desk: opened from the second person's "!", both ticked, confirmed; both sent, the camera on the first.
+  await page2.locator(`.panel-row[data-entity-id="${opener}"] .panel-attention`).click();
+  await page2.waitForFunction(() => !document.querySelector('#call-menu').hidden && document.activeElement?.closest?.('#call-menu'), null, { timeout: 5000 });
+  const menu2 = await page2.evaluate(() => ({ ...window.__callMenu, text: document.querySelector('#call-menu-text').textContent, types: [...document.querySelectorAll('#call-menu input')].map(input => input.type), card: document.querySelector('#selection').dataset.entityId }));
+  assert.equal(menu2.several, true, 'a settlement’s call is offered as a single choice');
+  assert.ok(menu2.types.every(type => type === 'checkbox'), `the rows are ${menu2.types}`);
+  assert.deepEqual(menu2.rows.map(row => row.id).sort(), [...answerers2].sort());
+  assert.equal(menu2.card, opener, 'the camera and card did not go to the person whose "!" was pressed');
+  await shot(page2, 'call-menu');
+  for (const id of canGo.slice(0, 2)) await page2.locator(`#call-menu input[data-call-menu-person="${id}"]`).check();
+  assert.deepEqual((await page2.evaluate(() => window.__callMenu.rows.filter(row => row.checked).map(row => row.id))).sort(), canGo.slice(0, 2).sort(), 'the ticks were not kept');
+  await page2.locator('#call-menu-confirm').click();
+  await page2.waitForFunction(() => document.querySelector('#call-menu').hidden && (window.__familyPanel || []).every(row => !row.needs.includes('call')), null, { timeout: 15000 });
+  const call2 = app2.state.world.calls['hh-1'];
+  assert.equal(call2.status, 'accepted');
+  assert.deepEqual(call2.actorIds, canGo.slice(0, 2), `the server sent ${JSON.stringify(call2.actorIds)}`);
+  for (const id of canGo.slice(0, 2)) {
+    const person = app2.state.world.entities[id];
+    assert.ok(person.travel?.to === 'gonzales' || person.location.siteId === 'gonzales', `${id} is not on the road to Gonzales`);
+    assert.ok(person.commitments.some(c => c.id === 'volunteer' && c.status === 'active'), `${id} made no promise`);
+  }
+  const afterSend = await page2.evaluate(() => ({ card: document.querySelector('#selection').dataset.entityId, error: (document.querySelector('#error')?.textContent || '').trim(), watching: document.querySelector('#map-nav [data-view=follow]')?.textContent }));
+  assert.equal(afterSend.card, canGo[0], 'the camera did not go to the first person sent');
+  assert.equal(afterSend.error, '', `a refusal was said: ${afterSend.error}`);
+  await page2.waitForTimeout(400);
+  await shot(page2, 'call-menu-sent');
+  measured.callMenu = { answerers: answerers2, sent: canGo.slice(0, 2), text: menu2.text, actorIds: call2.actorIds, ...afterSend };
+  ok(`pressing ${opener}'s "!" opened the one menu ("${menu2.text}") with a tick per person; ${canGo[0]} and ${canGo[1]} ticked and confirmed were both sent (server: ${call2.actorIds.join(', ')} on the road with a volunteer's promise), the camera went to ${canGo[0]}, and the "!" went from everybody`);
+  await far.close();
+
   assert.deepEqual(errors, [], `page errors: ${errors.join(' | ')}`);
   ok('no page errors anywhere in the run');
 
@@ -385,14 +540,19 @@ try {
     date: new Date().toISOString().slice(0, 10),
     verdict: 'PASS',
     browser: await browser.version(),
-    task: 'docs/FAMILY_PANEL.md §11: orders from the panel in a press each, idle shown, an "!" for every person something waits on that takes the camera there and opens it, and a main person remembered in the browser.',
+    task: 'docs/FAMILY_PANEL.md §11: orders from the panel in a press each, idle shown, an "!" for every person something waits on that takes the camera there and opens it, a main person held by the server (set-main) whose row alone has the journeys, and one menu for a call with a tick per person who may answer.',
     environment: 'Same computer: a local classroom server and headless Chrome. Not a physical LAN, a classroom, a real phone or a weak computer.',
-    setUpInProcess: ['Every family’s cabin set standing when the class is made, so the House button has rooms to open. Nothing else: the next family (hh-2) is played through /api/command, its principal sent to Gonzales and making the offer there.'],
+    setUpInProcess: [
+      'Every family’s cabin set standing when the first class is made, so the House button has rooms to open. The next family (hh-2) is played through /api/command, its principal sent to Gonzales and making the offer there.',
+      'A second class on the real land is played in process to the morning San Felipe’s call reaches hh-1 and handed to the browser in the lobby (as scripts/army-browser-proof.mjs hands over a class played to the muster); the browser then starts it and answers the call.',
+    ],
     checks: pass,
     measured,
     screenshots: shots,
     notProved: [
-      'An army question or a settlement call raising an "!" in a browser: both are proved against the simulation in tests/family-commands.test.mjs, and open the same card sections scripts/army-browser-proof.mjs and the call proofs already press.',
+      'An army question raising an "!" in a browser: proved against the simulation in tests/family-commands.test.mjs, and it opens the card section scripts/army-browser-proof.mjs presses.',
+      'A refusal from the menu leaving it open with the rest still to send: the server refused nothing in this run; the menu’s plan is tested in tests/family-commands.test.mjs and the refusals are the server’s existing sentences.',
+      'A main person dying or captured in a browser: the fallback to the principal and then the oldest living member old enough is tested against the simulation in tests/family-commands.test.mjs.',
       'A weak computer: the DOM churn is measured here on a fast one; frame time on the owner\'s machine is not.',
       'A real phone or touch screen: the phone here is Chrome at 400 by 800.',
     ],
@@ -401,4 +561,5 @@ try {
 } finally {
   await browser.close();
   await app.close();
+  if (app2) await app2.close();
 }

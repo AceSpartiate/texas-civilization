@@ -47,8 +47,8 @@ test('Gate B: reproducible initialization, one authority and cross-household com
   // anything about his rank. Both halves of that matter, so both are asserted.
   assert.throws(() => applyAction(world, 'hh-2', { action: 'travel', entityId: 'hh-1-thomas', destination: 'gonzales' }), /your family/);
   assert.equal(world.entities['hh-1-thomas'].location.siteId, 'home-1');
-  // Farm work is open to the whole family; the historical choice stays the principal's.
-  assert.throws(() => applyAction(world, 'hh-1', { action: 'travel', entityId: 'hh-1-rosa', destination: 'gonzales' }), /principal/);
+  // Farm work is open to the whole family; the roads are the main person's (the principal until somebody is chosen, docs/FAMILY_PANEL.md §11.3).
+  assert.throws(() => applyAction(world, 'hh-1', { action: 'travel', entityId: 'hh-1-rosa', destination: 'gonzales' }), /main person/);
   applyAction(world, 'hh-1', { action: 'chore', entityId: 'hh-1-rosa', chore: 'plant-field' });
   assert.equal(world.entities['hh-1-rosa'].chore.id, 'plant-field');
   world.entities['hh-1-thomas'].id = 'imposter';

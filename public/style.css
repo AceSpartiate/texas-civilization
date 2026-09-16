@@ -90,6 +90,28 @@ button:disabled{opacity:.4;cursor:default}
    Docked, it takes at most half the screen and scrolls inside itself. */
 #selection[data-docked]{max-height:50vh;overflow-y:auto}
 #selection{max-height:min(76vh,640px);overflow-y:auto}
+/* The call's one menu (docs/FAMILY_PANEL.md §11.2): over the map, above the card, one row per person with a tick. */
+#call-menu{position:absolute;z-index:12;left:50%;top:60px;transform:translateX(-50%);width:min(440px,calc(100% - 24px));max-height:min(72vh,600px);overflow-y:auto;background:var(--paper);border:1px solid #8fa392;border-radius:10px;padding:10px 12px 12px;box-shadow:0 6px 20px rgba(20,28,20,.32)}
+#call-menu-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+#call-menu-title{font-family:Georgia,serif;font-size:18px}
+#call-menu-close{background:none;border:none;color:#62736b;font-size:20px;min-height:0;padding:0 4px;cursor:pointer}
+#call-menu-close:hover{background:none;color:#244c42}
+#call-menu-how{margin:0 0 6px;font-size:12px;color:#62736b}
+#call-menu-rows{list-style:none;margin:0 0 8px;padding:0;display:flex;flex-direction:column;gap:4px}
+.call-menu-label{display:grid;grid-template-columns:auto auto minmax(0,1fr);column-gap:8px;align-items:center;padding:6px 8px;border:1px solid #bcc3ac;border-radius:6px;background:#f3f0e2;cursor:pointer}
+.call-menu-label:has(input:checked){background:#fdf0dd;border-color:#c2582c}
+.call-menu-label:has(input:disabled){opacity:.6;cursor:default}
+.call-menu-label input{width:20px;height:20px;margin:0;accent-color:#c2582c}
+.call-menu-name{font:600 14px/1.2 Georgia,serif;color:#28392f}
+.call-menu-who{font-size:12px;color:#5b6a55;white-space:nowrap}
+.call-menu-note{grid-column:2 / -1;font-size:12px;color:#4b3e28;line-height:1.35}
+.call-menu-row[data-sent=true] .call-menu-note{color:#2c4238;font-weight:600}
+#call-menu-answer{display:flex;flex-wrap:wrap;gap:6px}
+#call-menu-answer button{flex:1 1 auto;min-height:40px;font-size:14px}
+#call-menu-confirm{background:#c2582c;border-color:#a8471f}
+#call-menu-said{margin:6px 0 0;font-size:12.5px;color:#66311f;min-height:0}
+#call-menu-said:empty{display:none}
+@media (max-width:760px){#call-menu{left:8px;right:8px;top:56px;width:auto;transform:none;max-height:60vh}}
 
 @media (max-width:760px){
   /* One compact row of status, so the map keeps its height. */

@@ -3,17 +3,18 @@
   "date": "2026-09-16",
   "verdict": "PASS",
   "browser": "152.0.7977.83",
-  "task": "docs/FAMILY_PANEL.md §11: orders from the panel in a press each, idle shown, an \"!\" for every person something waits on that takes the camera there and opens it, and a main person remembered in the browser.",
+  "task": "docs/FAMILY_PANEL.md §11: orders from the panel in a press each, idle shown, an \"!\" for every person something waits on that takes the camera there and opens it, a main person held by the server (set-main) whose row alone has the journeys, and one menu for a call with a tick per person who may answer.",
   "environment": "Same computer: a local classroom server and headless Chrome. Not a physical LAN, a classroom, a real phone or a weak computer.",
   "setUpInProcess": [
-    "Every family’s cabin set standing when the class is made, so the House button has rooms to open. Nothing else: the next family (hh-2) is played through /api/command, its principal sent to Gonzales and making the offer there."
+    "Every family’s cabin set standing when the first class is made, so the House button has rooms to open. The next family (hh-2) is played through /api/command, its principal sent to Gonzales and making the offer there.",
+    "A second class on the real land is played in process to the morning San Felipe’s call reaches hh-1 and handed to the browser in the lobby (as scripts/army-browser-proof.mjs hands over a class played to the muster); the browser then starts it and answers the call."
   ],
   "checks": [
     "before anybody is chosen the main person is the principal (hh-1-parent-1), starred on the panel",
     "a rider stopped for hh-1-child-1: an \"!\" on that row alone (\"Ned Falk has stopped to speak with Jasper. And 1 more. Go to Jasper and answer.\"); pressing it took the camera to them (0.000 mi) and opened the conversation, the keyboard on \"encounter\"",
     "letting the rider ride on clears the \"!\"",
-    "a call to the family marks the 4 people the server lets answer it; the principal's \"!\" opened it on their card (\"A neighbour is at the door. They are carrying food to the people gathering near Gonzales, and ask whether somebody from your family can help take it.\"), the keyboard on \"Carry the food to Gonzales\"",
-    "answering it clears the \"!\" from everybody who could have",
+    "a call to the family marks the 4 people the server lets answer it; pressing hh-1-child-2's \"!\" opened the one menu for it (\"A neighbour is at the door. They are carrying food to the people gathering near Gonzales, and ask whether somebody from your family can help take it.\") with a row each, the keyboard on hh-1-parent-1's",
+    "answering from the menu (nobody goes) clears the \"!\" from everybody who could have answered, and the menu goes",
     "7 presses (0 refused in the server's words and another tried) set 7 of 10 people to work without finding anybody on the map; each icon glowed when the server took it, and the 6 still at it are not idle (1: work, 2: fetch-seed, 1: make-furniture, 2: make-furniture, 3: make-furniture, 4: make-furniture, 5: make-furniture)",
     "of the 3 not given work, 0 are shown idle (something is open to them) and 3 are not (too young to be sent)",
     "a stale \"harvest-field\" pressed for hh-1-parent-1 is refused by the server, in its words: \"The field is not ready.\"",
@@ -22,11 +23,15 @@
     "answering it clears the \"!\"",
     "an offer from the next family marks hh-1-parent-1; the \"!\" took the camera to them and opened the offer (\"Trinidad of Trinidad's family offers 1 food for 1 seed.\"), the keyboard on Accept",
     "declining it clears the \"!\"",
-    "the star makes hh-1-parent-2 the main person, remembered in this browser; their row alone has House, which opens the rooms",
+    "the star makes hh-1-parent-2 the main person on the server (household.mainId), the journeys, the yard and rest move to her row and off the principal's, and the principal sent to town is refused: \"Only your main person can be asked that. Choose them with the star on their row.\"",
+    "hh-1-parent-2's row alone has House, which opens the rooms",
     "after a reload the same person is starred, and the card that opens with nobody chosen is theirs",
     "pressing the main person's star from Gonzales brings the camera back to them (0.000 mi); a double-click on a portrait chooses another",
     "over 16 ticks the panel added 0 nodes and changed 0 attributes across 10 rows: kept, not rebuilt",
     "at 400 px the page does not scroll sideways, the \"!\" is on screen and big enough to press, and pressing it opens the offer on the docked card",
+    "the settlement's call marks 2 people (hh-1-thomas, hh-1-elena), and 2 of them may turn out",
+    "at 400 px the call's menu opens from an \"!\" on screen with 2 rows and its confirm within reach, and closes",
+    "pressing hh-1-thomas's \"!\" opened the one menu (\"An express has brought word to San Felipe that the Mexican troops are at Gonzales. The committee asks the men to turn out, and the District of Washington is already turning out to march to Gonzales as fast as it can. Does somebody from your family go?\") with a tick per person; hh-1-thomas and hh-1-elena ticked and confirmed were both sent (server: hh-1-thomas, hh-1-elena on the road with a volunteer's promise), the camera went to hh-1-thomas, and the \"!\" went from everybody",
     "no page errors anywhere in the run"
   ],
   "measured": {
@@ -51,8 +56,52 @@
         "hh-1-child-2"
       ],
       "text": "A neighbour is at the door. They are carrying food to the people gathering near Gonzales, and ask whether somebody from your family can help take it.",
-      "focused": "Carry the food to Gonzales",
-      "card": "hh-1-parent-1"
+      "kind": "supplies",
+      "menu": {
+        "requestId": "ev-68",
+        "several": false,
+        "rows": [
+          {
+            "id": "hh-1-parent-1",
+            "can": true,
+            "checked": false,
+            "sent": false
+          },
+          {
+            "id": "hh-1-parent-2",
+            "can": true,
+            "checked": false,
+            "sent": false
+          },
+          {
+            "id": "hh-1-child-1",
+            "can": true,
+            "checked": false,
+            "sent": false
+          },
+          {
+            "id": "hh-1-child-2",
+            "can": true,
+            "checked": false,
+            "sent": false
+          }
+        ],
+        "said": ""
+      },
+      "inputs": [
+        "radio",
+        "radio",
+        "radio",
+        "radio"
+      ],
+      "focused": "hh-1-parent-1",
+      "card": "hh-1-child-2",
+      "opened": {
+        "id": "hh-1-child-2",
+        "kind": "call",
+        "target": "call-menu-one"
+      },
+      "answered": "nobody goes"
     },
     "idleBeforeOrders": [
       "hh-1-child-3",
@@ -219,6 +268,33 @@
       "said": "Trinidad of Trinidad's family offers 1 food for 1 seed.",
       "watching": "Watching Feliciano"
     },
+    "mainPerson": {
+      "mother": "hh-1-parent-2",
+      "rows": {
+        "hh-1-parent-2": [
+          "survey-plot",
+          "plant-field",
+          "harvest-field",
+          "fence-plot",
+          "hunt-timber",
+          "practise-shooting",
+          "fetch-powder",
+          "fetch-seed",
+          "sell-food",
+          "visit-shop",
+          "make-furniture",
+          "buy-furniture",
+          "hunt-land",
+          "travel-gonzales",
+          "travel-home",
+          "visit",
+          "work",
+          "rest"
+        ],
+        "hh-1-parent-1": []
+      },
+      "refused": "Only your main person can be asked that. Choose them with the star on their row."
+    },
     "churn": {
       "ticks": 16,
       "nodesAdded": 0,
@@ -237,6 +313,34 @@
       "toolsOnScreen": true,
       "expanded": "hh-1-parent-1",
       "focusedStarred": "true"
+    },
+    "phoneCallMenu": {
+      "pageScrolls": false,
+      "menuOnScreen": true,
+      "confirmOnScreen": true,
+      "rows": 2,
+      "types": [
+        "checkbox",
+        "checkbox"
+      ]
+    },
+    "callMenu": {
+      "answerers": [
+        "hh-1-thomas",
+        "hh-1-elena"
+      ],
+      "sent": [
+        "hh-1-thomas",
+        "hh-1-elena"
+      ],
+      "text": "An express has brought word to San Felipe that the Mexican troops are at Gonzales. The committee asks the men to turn out, and the District of Washington is already turning out to march to Gonzales as fast as it can. Does somebody from your family go?",
+      "actorIds": [
+        "hh-1-thomas",
+        "hh-1-elena"
+      ],
+      "card": "hh-1-thomas",
+      "error": "",
+      "watching": "Watching Ezra"
     }
   },
   "screenshots": [
@@ -251,10 +355,15 @@
     "docs/evidence/family-commands-main-person-house.png",
     "docs/evidence/family-commands-main-person.png",
     "docs/evidence/family-commands-phone.png",
-    "docs/evidence/family-commands-phone-offer.png"
+    "docs/evidence/family-commands-phone-offer.png",
+    "docs/evidence/family-commands-phone-call-menu.png",
+    "docs/evidence/family-commands-call-menu.png",
+    "docs/evidence/family-commands-call-menu-sent.png"
   ],
   "notProved": [
-    "An army question or a settlement call raising an \"!\" in a browser: both are proved against the simulation in tests/family-commands.test.mjs, and open the same card sections scripts/army-browser-proof.mjs and the call proofs already press.",
+    "An army question raising an \"!\" in a browser: proved against the simulation in tests/family-commands.test.mjs, and it opens the card section scripts/army-browser-proof.mjs presses.",
+    "A refusal from the menu leaving it open with the rest still to send: the server refused nothing in this run; the menu’s plan is tested in tests/family-commands.test.mjs and the refusals are the server’s existing sentences.",
+    "A main person dying or captured in a browser: the fallback to the principal and then the oldest living member old enough is tested against the simulation in tests/family-commands.test.mjs.",
     "A weak computer: the DOM churn is measured here on a fast one; frame time on the owner's machine is not.",
     "A real phone or touch screen: the phone here is Chrome at 400 by 800."
   ]

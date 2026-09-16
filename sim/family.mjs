@@ -355,6 +355,30 @@ export function heavyWorkPace(entity) {
 }
 export const tooYoungWhy = entity => `${entity.name} is too young to be sent.`;
 
+/**
+ * The family's main person: the one the student directs on the roads, about the place and in the house
+ * (docs/FAMILY_PANEL.md §11.3, owner 2026-09-16: "If any character (that's old enough) is selected as the main person
+ * (only one at a time) then they can be sent on travelling").
+ *
+ * `household.mainId` is the student's choice, set by `set-main`; absent on every class saved before there was one, which
+ * reads as the principal, so no save version moved. Resolved on every read rather than rewritten on a death: a chosen
+ * person who has died or been captured gives way to the principal if they can act, otherwise to the oldest living member
+ * old enough to be sent, so a family with anybody left is never without one. Somebody in the army or on a road is still
+ * the main person: their army questions are the detailed work the owner chose them for.
+ */
+export function mainPersonId(world, household) {
+  const usable = id => {
+    const entity = id && world.entities?.[id];
+    return Boolean(entity) && entity.kind === 'person' && household.members.includes(id)
+      && !['dead', 'captured'].includes(entity.health?.condition) && !tooYoung(entity);
+  };
+  if (usable(household.mainId)) return household.mainId;
+  if (usable(household.principalId)) return household.principalId;
+  // Oldest first; a founding family has no ages and keeps the household's own order.
+  const left = household.members.filter(usable);
+  return left.sort((a, b) => (world.entities[b].age ?? -1) - (world.entities[a].age ?? -1))[0] ?? null;
+}
+
 /** What a household is called. Absent means nobody has named it, so it is named for its own. */
 export function householdName(world, household) {
   if (household.name) return household.name;

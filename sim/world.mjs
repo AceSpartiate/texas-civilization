@@ -33,7 +33,7 @@ import { furnitureInvalid } from './furniture.mjs';
 import { interiorInvalid, interiorProjection, placeItem } from './interior.mjs';
 import { gearExertionShare, shopsInvalid, wagonSpeedShare } from './shops.mjs';
 import { fellingInvalid, logsProjection, recordFelling } from './felling.mjs';
-import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, ageBand, defaultNames, familyProjection, familyRoll, FAMILY_DIE, compositionFor, rolledWords, householdName, kinFor, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
+import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, ageBand, defaultNames, familyProjection, familyRoll, FAMILY_DIE, compositionFor, rolledWords, householdName, kinFor, mainPersonId, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
 export { HOUSEHOLD_SHAPE, ROLES, householdName, sanitiseName } from './family.mjs';
 export { clearedOf, improvementsOf, ruin } from './improvements.mjs';
 export { MODES, MODE_IDS, DEFAULT_MODE, carryCapacity, modeOf } from './travel.mjs';
@@ -151,6 +151,8 @@ export function rollFamily(world, household) {
     addPerson(world, household, site, j, { ...person, adult: person.age >= 16 });
   });
   household.principalId = household.members[0];
+  // A main person chosen among the founding four names somebody who is gone; the principal is the main person again.
+  delete household.mainId;
   household.roll = roll;
   household.die = FAMILY_DIE;
   // A family rolled while it is still on the road in goes on the road beside its wagon.
@@ -597,7 +599,7 @@ export function advanceRelays(world) {
  * offer made to an empty chair - and the historical choices, which do not exist until the
  * news that prompts them has arrived.
  */
-export const LOBBY_ACTIONS = new Set(['survey-plot', 'hunt-land', 'fell-trees', 'place-piece', 'remove-piece', 'clear-plot', 'fence-plot','roll-family', 'set-appearance', 'load-wagon', 'bring-stock', 'plan-house', 'chore', 'stop-chore', 'answer-chore', 'rename', 'work', 'rest', 'travel']);
+export const LOBBY_ACTIONS = new Set(['survey-plot', 'hunt-land', 'fell-trees', 'place-piece', 'remove-piece', 'clear-plot', 'fence-plot','roll-family', 'set-appearance', 'load-wagon', 'bring-stock', 'plan-house', 'chore', 'stop-chore', 'answer-chore', 'rename', 'work', 'rest', 'travel', 'set-main']);
 export function applyAction(world, householdId, input) {
   const entity = world.entities[input.entityId];
   const household = world.households[householdId];
@@ -630,6 +632,10 @@ export function applyAction(world, householdId, input) {
   // A child under ten is not sent anywhere (`docs/FAMILY_CREATION.md` §3): not to work, not
   // on a road, not to answer for the family. They can still be named, rest, and be spoken to.
   if (tooYoung(entity) && !['rename', 'rest', 'ask-rider', 'leave-rider'].includes(input.action)) throw new Error(tooYoungWhy(entity));
+  // The student's main person (sim/family.mjs `mainPersonId`, docs/FAMILY_PANEL.md §11.3): one at a time, anybody of the
+  // family who can act and is old enough to be sent - refused above, in the words every order gets. Choosing another recalls
+  // nobody: whoever was main stays in the army or on their road; only who may be given the next order moves.
+  if (input.action === 'set-main') { household.mainId = entity.id; return; }
   // Farm work is open to the whole family; the historical choice is the principal's.
   // Keeping that split explicit is the point: everyone can be sent to the field, but
   // the decision the lesson turns on still belongs to one named person.
@@ -690,9 +696,9 @@ export function applyAction(world, householdId, input) {
   }
   // The historical calls are answered by whichever parent or grown child the family sends
   // (docs/FAMILY_CREATION.md step 4). Each handler checks who may answer; travelling, the
-  // yard and resting stay the principal's.
+  // yard and resting are the main person's (`mainPersonId`: the student's choice, the principal until one is made).
   const answering = ['go-upriver', 'stay-in-town', 'go-see', 'stay-home', 'help', 'stay', 'turn-out', 'stay-put', 'send-for', 'detachment-go', 'detachment-stay', 'army-answer'].includes(input.action);
-  if (!answering && !entity.principal) throw new Error('Only your principal can be asked that.');
+  if (!answering && entity.id !== mainPersonId(world, household)) throw new Error('Only your main person can be asked that. Choose them with the star on their row.');
   if (['go-upriver', 'stay-in-town'].includes(input.action)) {
     // Going upriver abandons whatever work was in hand, for the same reason answering
     // the first call does: a chore left merely frozen resumes wherever the journey ends.
@@ -757,6 +763,17 @@ export const projectFamily = (world, householdId) => {
   const household = world.households[householdId];
   return household ? structuredClone(familyProjection(world, household)) : null;
 };
+/**
+ * The household as its family sees it, with its main person resolved (sim/family.mjs `mainPersonId`). `mainId` is sent
+ * only when the main person is not the principal: absent means the principal, the correct empty value, so a class that has
+ * chosen nobody sends nothing new - the per-tick payload was one byte under its budget (tests/family.test.mjs).
+ */
+function projectHousehold(world, household) {
+  const shown = { ...household };
+  delete shown.mainId;
+  const main = mainPersonId(world, household);
+  return { ...shown, ...(main !== household.principalId && { mainId: main }) };
+}
 export function projectWorld(world, householdId, role, { includeMap = true } = {}) {
   const household = world.households[householdId];
   // The last few a family can see, not every one it has ever seen.
@@ -799,7 +816,7 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
   const toolCondition = household ? Object.fromEntries(Object.entries(household.tools || {}).map(([tool, wear]) => [tool, { wear, state: toolState(wear) }])) : {};
   const offers = offersFor(world, householdId);
   const encounter = encounterProjection(world, householdId, role);
-  return structuredClone({ tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: world.map }), household, entities, others, offers, encounter, events, work, travelModes, land, wagon, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role),
+  return structuredClone({ tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: world.map }), household: household && projectHousehold(world, household), entities, others, offers, encounter, events, work, travelModes, land, wagon, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role),
     // The army, once there is one: where it is, how many went, and which of them are this family's (sim/army.mjs).
     ...(world.army && householdId ? { army: armyProjection(world, householdId) } : {}),
     // Every family's land as it truly stands, and where the army is, for the Host's map only (sim/overview.mjs).
@@ -867,6 +884,8 @@ export function validateWorld(world) {
   }
   for (const household of Object.values(world.households)) {
     if (!world.entities[household.principalId] || [...household.members, ...household.property].some(id => !world.entities[id])) throw new Error('Dangling household reference');
+    // The main person, once chosen, is one of the family; absent, the principal is (sim/family.mjs `mainPersonId`), so no save version moved.
+    if (household.mainId !== undefined && !household.members.includes(household.mainId)) throw new Error('The main person is not one of the family');
     // A twenty-sided roll (`die` 20, since 2026-09-14) makes the family its face says; a class rolled before on six sides has
     // no `die`, and there the number was the size. Absent roll: a household nobody rolled.
     if (household.die !== undefined && household.die !== FAMILY_DIE) throw new Error('Invalid family die');

@@ -153,7 +153,9 @@ housework effect produces: a family that needs its housekeeper at home has a rea
 
 - **Parents, and children aged 16 or over.** A younger child cannot be sent, and the control says so.
 - **The student chooses who goes.** The food call is answered by any parent or child of sixteen or more, and
-  the upriver march is put to whoever carried the food (step 4, built).
+  the upriver march is put to whoever carried the food (step 4, built). Since 2026-09-16 every call is answered from one
+  menu with a tick beside each person who may answer (`docs/FAMILY_PANEL.md` §11.2), and a settlement's call to turn out
+  can take more than one of them; the roads on an ordinary errand are the family's **main person's** (§11.3 there).
 - **The risk is hidden and very likely fatal for somebody weak or frail** (owner's decision). There
   is no warning on the control and no number anywhere. The outcome is resolved from that person's
   hidden `strength` and `health` with a seeded roll: very likely death for somebody low in both,

@@ -1,7 +1,7 @@
 // Renderers consume the server's permitted projection. They never advance simulation state.
 import { drawSprite, drawClip, clipInfo, hasSprite, loadArt, onArtReady, pickSprite, spriteFrame } from '/art.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, seatedClip, seatLayout, mounted, MOUNTED_HEIGHT, castVariant, childFigure } from '/motion.js';
-import { drawIcon, drawPortrait, focusFor, focusKey, isIdle, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, RENAME_PAUSE_MS } from '/family-panel.js';
+import { callMenu, callPlan, drawIcon, drawPortrait, focusFor, isIdle, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, RENAME_PAUSE_MS } from '/family-panel.js';
 import {drawBexarGround,bexarDrawables} from '/bexar-art.js';
 import {plotArt} from '/field-art.js';
 import {drawGonzalesGround,gonzalesDrawables,GONZALES_ART_BOUNDS} from '/gonzales-art.js';
@@ -77,9 +77,12 @@ let mapRevision = 0, homesPending = null;
 // The map is the interface: a person is chosen by clicking them, and their instructions
 // appear beside them. Nobody selected falls back to the person this household directs.
 let selectedId = null, selectionDismissed = false;
-// The student's main person (docs/FAMILY_PANEL.md §11): chosen on the panel, remembered in this browser, the principal until
-// one is chosen. Not the world's: which of the family a student likes to look after changes nothing anybody else can see.
+// The student's main person (docs/FAMILY_PANEL.md §11.3): the household's `mainId` as the server sent it this tick, chosen
+// with the star (`set-main`) and the principal until one is chosen. The server's, not this browser's: the main person is
+// the one the server lets travel, work about the place and rest, and it falls back for a death before the page hears.
 let focusedId = null;
+// The call's one menu (docs/FAMILY_PANEL.md §11.2): which "!" opened it, and the ticked rows, kept across ticks.
+let callMenuFor = null;
 const EMPTY_MAP = { sites: {}, routes: {}, terrain: [] };
 // The catalogue of work is fixed for a class, so it is fetched once alongside the map.
 // Only whether a given person may do a given chore rides on the tick.
@@ -1902,6 +1905,7 @@ function renderHousehold(world) {
   const memory = world.events || [];
   $('#event-log').replaceChildren(...memory.slice(-12).reverse().map(event => { const li = element('li', `${event.text || event.type} (${timeLabel(event.minute ?? 0)} into the story)`); li.dataset.eventId = event.id; return li; }));
   renderFamilyPanel(world);
+  renderCallMenu(world);
   renderSelection(world);
 }
 // Instructions live beside the person they concern, anchored to where they stand.
@@ -2200,8 +2204,8 @@ function renderFamilyPanel(world) {
   const settable = world.status === 'running' || world.status === 'lobby';
   const homeId = homeOf(world);
   const homesteads = sitesOf(world).filter(site => site.kind === 'homestead' && site.id !== homeId).map(site => site.id);
-  // The main person: remembered in this browser, or the principal (docs/FAMILY_PANEL.md §11).
-  focusedId = focusFor(focusedId || storedFocus(world), { order, principalId: household.principalId, entities: people });
+  // The main person: the server's `mainId` (the principal until one is chosen), checked against the rows (docs/FAMILY_PANEL.md §11.3).
+  focusedId = focusFor(household.mainId, { order, principalId: household.principalId, entities: people });
   if (!panelExpanded || !byId.has(panelExpanded)) panelExpanded = focusedId || order[0] || null;
   const land = world.land;
   const house = Boolean(land?.interior?.kind);
@@ -2247,9 +2251,9 @@ function renderFamilyPanel(world) {
       row.face = face;
       drawPortrait(row.canvas, { clip, band: entity.band, principal, tint: hashOf(id) }, { drawClip });
     }
-    // The icons, from the server's own lists.
+    // The icons, from the server's own lists. The journeys, the yard and rest are on the main person's row: the server's rule.
     const carry = world.travelModes?.[id]?.find(mode => mode.id === modeFor(id))?.carry;
-    const icons = panelActions({ entity, offered: world.work?.[id] || [], catalogue: choreCache || new Map(), principal, homeId, homesteads,
+    const icons = panelActions({ entity, offered: world.work?.[id] || [], catalogue: choreCache || new Map(), main: focused, homeId, homesteads,
       atHome: entity.location?.siteId === homeId, settable, carry });
     const reason = rowReason(icons);
     // Idle: nothing to do and something could be given them. Everybody else on the panel is visibly at something (a glow).
@@ -2283,15 +2287,14 @@ function renderFamilyPanel(world) {
 }
 /** A data- attribute written only when it changes: the panel is redrawn every tick on a slow computer. */
 function setData(element, key, value) { if (element.dataset[key] !== value) element.dataset[key] = value; }
-function storedFocus(world) {
-  try { return localStorage.getItem(focusKey(window.__snapshot?.sessionId, world.householdId)); } catch { return null; }
-}
-/** Choose the student's main person, remember it in this browser, and redraw what depends on it. */
-function chooseFocus(id) {
-  focusedId = id;
-  const world = window.__snapshot?.world;
-  try { localStorage.setItem(focusKey(window.__snapshot?.sessionId, world?.householdId), id); } catch { /* a private window is allowed to forget */ }
-  if (world) { renderFamilyPanel(world); renderSelection(world); }
+/**
+ * Choose the student's main person: `set-main`, which the server keeps on the household and refuses in words for anybody
+ * too young or gone. The star fills on the next snapshot, which is what says the server took it; nothing is remembered here.
+ */
+async function chooseFocus(id) {
+  say('');
+  try { await api('/api/command', { id: crypto.randomUUID?.() || `cmd-${Date.now()}-${Math.random().toString(36).slice(2)}`, action: 'set-main', entityId: id }); }
+  catch (error) { say(error.message); }
 }
 /**
  * Take the camera to one of the family and open their card: the same watch a portrait starts (`cameraFor` centres on where
@@ -2323,17 +2326,119 @@ function openNeed(id) {
     // The conversation itself, not its first question: the questions are drawn again every tick, and a focused one would be
     // replaced under the keyboard.
     target = $('#encounter');
+  } else if (need.kind === 'call') {
+    // One menu for the whole family's call, whichever "!" was pressed (docs/FAMILY_PANEL.md §11.2).
+    callMenuFor = { id, requestId: world.request?.id, checked: new Set(), key: null };
+    renderCallMenu(world);
+    target = $('#call-menu input:not([disabled])') || $('#call-menu-confirm');
   } else {
     const section = $(NEED_SECTIONS[need.kind]);
     target = section && !section.hidden ? section.querySelector('button:not([disabled])') || section : null;
   }
-  window.__needOpened = { id, kind: need.kind, target: target?.id || target?.dataset?.action || null };
+  window.__needOpened = { id, kind: need.kind, target: target?.id || target?.dataset?.action || target?.name || null };
   if (target) {
     if (!target.matches('button, input, select')) target.setAttribute('tabindex', '-1');
     target.scrollIntoView?.({ block: 'nearest' });
     target.focus?.({ preventScroll: true });
   }
 }
+/**
+ * The call's one menu (docs/FAMILY_PANEL.md §11.2, owner 2026-09-16): every person who may answer, each with a tick, and one
+ * confirm. Built from the server's `request.answerers` by `callMenu`, so who is listed, what sending each costs and why any
+ * is refused are the server's words; `callPlan` turns the ticks into the same per-person commands the card's buttons send.
+ * Rows are rebuilt only when what they say changes; ticks are kept in `callMenuFor` across ticks.
+ */
+function renderCallMenu(world) {
+  const menuEl = $('#call-menu');
+  if (!menuEl) return;
+  if (!callMenuFor || world.role === 'host') { callMenuFor = null; menuEl.hidden = true; return; }
+  const live = callMenu(world.request, { people: familyCache?.people || [], entities: entitiesOf(world) });
+  // The menu as last built stays while an answer is being sent, or after a refusal, so the rest can still be sent; a call
+  // answered from the card, or closed by the class, takes it away.
+  if (live && live.id === callMenuFor.requestId) callMenuFor.menu = live;
+  else if (!callMenuFor.busy && !callMenuFor.said) { callMenuFor = null; menuEl.hidden = true; return; }
+  const menu = callMenuFor.menu;
+  if (!menu) { callMenuFor = null; menuEl.hidden = true; return; }
+  menuEl.hidden = false;
+  const sent = callMenuFor.sent || new Set();
+  const key = JSON.stringify([menu, [...sent], callMenuFor.said || '', callMenuFor.busy || false]);
+  if (callMenuFor.key === key) return;
+  callMenuFor.key = key;
+  const stayLabel = menu.stay ? `Nobody goes: ${menu.stay.label.toLowerCase()}` : null;
+  $('#call-menu-title').textContent = menu.several ? 'Who goes?' : 'Who answers?';
+  $('#call-menu-text').textContent = menu.text;
+  $('#call-menu-how').textContent = menu.several ? 'Tick everybody who goes; each takes what the call says.' : 'One of the family answers this. Choose who.';
+  $('#call-menu-rows').replaceChildren(...menu.rows.map(row => {
+    const item = element('li', '', 'call-menu-row');
+    const label = element('label', '', 'call-menu-label');
+    const input = document.createElement('input');
+    input.type = menu.several ? 'checkbox' : 'radio';
+    input.name = menu.several ? `call-menu-${row.id}` : 'call-menu-one';
+    input.value = row.id;
+    input.dataset.callMenuPerson = row.id;
+    input.checked = callMenuFor.checked.has(row.id);
+    input.disabled = !row.go.can || sent.has(row.id) || Boolean(callMenuFor.busy);
+    item.dataset.person = row.id;
+    item.dataset.sent = String(sent.has(row.id));
+    label.append(input, element('span', row.name, 'call-menu-name'), element('span', row.who, 'call-menu-who'),
+      element('span', sent.has(row.id) ? 'Sent.' : row.go.can ? row.go.note : row.go.why, 'call-menu-note'));
+    if (!row.go.can) label.title = row.go.why;
+    item.append(label);
+    return item;
+  }));
+  const confirm = $('#call-menu-confirm'), stay = $('#call-menu-stay');
+  confirm.disabled = Boolean(callMenuFor.busy);
+  stay.hidden = !stayLabel;
+  if (stayLabel) { stay.textContent = stayLabel; stay.title = menu.stay.note || ''; stay.disabled = Boolean(callMenuFor.busy) || !menu.stay.can || sent.size > 0; }
+  $('#call-menu-said').textContent = callMenuFor.said || '';
+  window.__callMenu = { requestId: menu.id, several: menu.several, rows: menu.rows.map(row => ({ id: row.id, can: row.go.can, checked: callMenuFor.checked.has(row.id), sent: sent.has(row.id) })), said: callMenuFor.said || '' };
+}
+/**
+ * Confirm: send the plan the ticks make, one command each, in order, and say any refusal in the server's words. The camera
+ * goes to the first person sent. Everybody sent stays sent; a refusal leaves the menu open with the rest still to tick.
+ */
+async function confirmCallMenu(stayOnly = false) {
+  const world = window.__snapshot?.world;
+  if (!callMenuFor?.menu || callMenuFor.busy || !world) return;
+  const menu = callMenuFor.menu;
+  const ticked = stayOnly ? [] : menu.rows.filter(row => callMenuFor.checked.has(row.id)).map(row => row.id);
+  const plan = callPlan(menu, ticked, callMenuFor.id);
+  if (!plan.length) { say('Tick who goes, or choose to keep everybody home.'); return; }
+  callMenuFor.busy = true; callMenuFor.said = ''; callMenuFor.sent = callMenuFor.sent || new Set();
+  renderCallMenu(world);
+  goToPerson(plan[0].entityId);
+  const refused = [];
+  for (const step of plan) {
+    const input = { id: crypto.randomUUID?.() || `cmd-${Date.now()}-${Math.random().toString(36).slice(2)}`, action: step.action, entityId: step.entityId };
+    // Every order that can put somebody on a road carries how they mean to go, as the card's buttons do.
+    if (['help', 'go-upriver', 'go-see', 'turn-out'].includes(step.action)) input.mode = modeFor(step.entityId);
+    try {
+      await api('/api/command', input);
+      callMenuFor.sent.add(step.entityId); callMenuFor.checked.delete(step.entityId);
+    } catch (error) {
+      const name = menu.rows.find(row => row.id === step.entityId)?.name || step.entityId;
+      refused.push(`${name}: ${error.message}`);
+    }
+  }
+  callMenuFor.busy = false;
+  callMenuFor.said = refused.join(' ');
+  if (!refused.length) { callMenuFor = null; $('#call-menu').hidden = true; return; }
+  say(callMenuFor.said);
+  renderCallMenu(window.__snapshot?.world || world);
+}
+$('#call-menu')?.addEventListener('change', event => {
+  const input = event.target.closest('[data-call-menu-person]');
+  if (!input || !callMenuFor) return;
+  if (input.type === 'radio') callMenuFor.checked.clear();
+  if (input.checked) callMenuFor.checked.add(input.dataset.callMenuPerson); else callMenuFor.checked.delete(input.dataset.callMenuPerson);
+  callMenuFor.key = null;
+  if (window.__snapshot) renderCallMenu(window.__snapshot.world);
+});
+$('#call-menu')?.addEventListener('click', event => {
+  if (event.target.closest('#call-menu-confirm')) confirmCallMenu(false);
+  else if (event.target.closest('#call-menu-stay')) confirmCallMenu(true);
+  else if (event.target.closest('#call-menu-close')) { callMenuFor = null; $('#call-menu').hidden = true; }
+});
 function panelRow(id) {
   const item = element('li', '', 'panel-row');
   item.dataset.entityId = id;
@@ -2483,7 +2588,8 @@ function renderSelection(world) {
   if (!chosen || (world.role === 'host' && !chosen.observed) || selectionDismissed || familyCache?.canRoll || rollState === 'rolling') { panel.hidden = true; return; }
   panel.hidden = false;
   panel.dataset.entityId = chosen.id;
-  const commands = chosen.id === household?.principalId && chosen.principal && !chosen.observed;
+  // The detailed controls - Going by, a neighbour's homestead - are the main person's (docs/FAMILY_PANEL.md §11.3), as the server holds it.
+  const commands = chosen.id === (household?.mainId || household?.principalId) && !chosen.observed;
   const task = taskFor(world, chosen);
   $('#selection-name').textContent = chosen.name;
   // What someone is doing is the chore's own words when they are on one - "breaking the
@@ -3563,7 +3669,7 @@ document.addEventListener('click', async event => {
   if (world?.role !== 'host') {
     // A trade names its own actor: the person making the offer is one of mine, while the
     // person selected on the map is the neighbour it is being made to.
-    input.entityId = button.dataset.entityId || (action === 'offer' ? $('#trade-from')?.value : null) || selectedEntity(world)?.id || world?.household?.principalId;
+    input.entityId = button.dataset.entityId || (action === 'offer' ? $('#trade-from')?.value : null) || selectedEntity(world)?.id || world?.household?.mainId || world?.household?.principalId;
     if (button.dataset.offerId) input.offerId = button.dataset.offerId;
     if (action === 'offer') {
       input.toEntityId = button.dataset.toEntityId;

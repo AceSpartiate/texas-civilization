@@ -239,10 +239,13 @@ it), clicking a person on the map, the Host view, refusal lines, calls, rider me
 >
 > — the owner, 2026-09-16
 
-Nothing here changes a rule of the world either: no new action, no projection field, no save version. Everything the "!" reads
-was already sent to the family; the main person is this browser's, not the world's. The rules are in `public/family-panel.js`
-(`needsOf`, `isIdle`, `focusFor`), tested against the simulation in `tests/family-commands.test.mjs`; the browser proof is
-`npm run test:family-commands`.
+Everything the "!" reads was already sent to the family. **Amended the same day by the owner's two answers (§11.5):** the main
+person is the world's — a household field, `set-main`, and the one person the server lets travel, rest and work about the
+place — and a call's "!" opens one menu with a tick for everybody who may answer, which the settlement's call can take more
+than one of. No save version moved: a class saved without a main person opens with the principal as one. The rules are in
+`public/family-panel.js` (`needsOf`, `isIdle`, `focusFor`, `callMenu`, `callPlan`), `sim/family.mjs` (`mainPersonId`),
+`sim/world.mjs` (`set-main`, the gate) and `sim/calls.mjs` (`volunteersOf`), tested against the simulation in
+`tests/family-commands.test.mjs` and `tests/calls.test.mjs`; the browser proof is `npm run test:family-commands`.
 
 ### 11.1 Quick commands
 
@@ -256,9 +259,10 @@ seeing, down the column, who has nothing to do:
 - Resting counts as idle, including a principal told to *Rest*, whose *Rest* icon still glows. `ceiling:` the server cannot
   tell a rest the student chose from the rest a chore ends in; a separate "resting on purpose" is the way out if students find
   their resting principal nagged.
-- **Who may be ordered what is unchanged.** Every person old enough is offered the chores; travelling, working about the place
-  and resting are still the principal's (`applyAction`, "Only your principal can be asked that"). The owner's "give all my
-  characters commands" is met by the chores; opening the journeys to everybody is a world rule and is asked in §11.5.
+- **Who may be ordered what.** Every person old enough is offered the chores; travelling, working about the place and resting
+  are the **main person's** (§11.3; `applyAction`, "Only your main person can be asked that. Choose them with the star on their
+  row."). They were the principal's until the owner answered §11.5. The journeys, the yard and rest are on the main person's
+  row and nobody else's, from the same field the server refuses by.
 
 ### 11.2 The "!"
 
@@ -271,14 +275,35 @@ does not. What raises it, most pressing first — a person with several shows th
 | --- | --- | --- |
 | A rider standing with them (a slate "!": a rider will not wait for ever) | `world.encounter`, open, `listenerId` is this person | the conversation, with its questions and *Let them ride on* |
 | A question from the army they are with | `world.army.ours[]` for this person: `detachment` open, or a question whose `answer` is open | their card at the army's question and its two answers |
-| A call, march or rumour's question they may answer | `world.request`, open, with this person in its `answerers` | their card at the call and its answers |
+| A call, march or rumour's question they may answer | `world.request`, open, with this person in its `answerers` | **the call's one menu** (below): a row per person who may answer, with a tick |
 | Work that has stopped to ask | `entity.chore.ask` | their card at the question and its answers |
 | An offer another family made to them | `world.offers[]`, `direction: 'received'`, `ourEntityId` this person | their card at the offer, *Accept* / *No thank you* |
 
 - A call the whole family may answer marks **every** person who may answer it, as the map's own mark over their heads already
-  did; any one of them answering clears all of them. The map's mark and the "!" read one rule (`requestFor`, `meetingFor`).
+  did; answering clears all of them. The map's mark and the "!" read one rule (`requestFor`, `meetingFor`).
+- **The call's one menu** (owner, 2026-09-16: *"The ! should appear on anyone that can answer. When it's clicked on however,
+  a single interactable menu should appear that lets the player make the choice for each applicable person. Say a series of
+  checkmarks so the player can send who they want quickly and easily."*). Pressing any of those "!"s goes to that person and
+  opens `#call-menu`: the call's words, then a row for every person in `request.answerers` who is alive — a tick, their name,
+  who they are (*Father, 41*), and the server's own note for sending them or its reason they cannot be — then **Send them** and
+  **Nobody goes: …** (the keeping answer, in the call's own words). `callMenu(request, { people, entities })` builds it;
+  `callPlan(menu, ticked, clickedId)` turns the ticks into the same per-person commands the card's buttons send
+  (`turn-out`, `help`, `go-see`, `go-upriver`; `stay-put`, `stay`, `stay-home`, `stay-in-town`), top to bottom, one at a
+  time, each carrying how that person travels. Confirm takes the camera to the first person sent; a refusal is said in the
+  server's words under the menu and on the error line, everybody already sent stays sent, and the menu stays open for the rest
+  until it is closed. Sent without refusal, the menu goes, and the "!" goes from everybody the tick the server says the call is
+  answered. On a phone the menu is docked under the top bar and scrolls inside itself.
+- **Which calls take several.** A settlement's call (`sim/calls.mjs`) does: once somebody has turned out it is accepted and
+  stands for the rest of the family to follow while the class runs (`call.actorIds`, each with the powder and the ride, each
+  said to arrive; `actorId` stays the first, which is what a class saved before this reads). Staying is the family's whole
+  answer and closes it; once somebody has gone, staying is no longer a question — those not sent simply stay — and somebody
+  who has gone is refused a second time in words. The food call, the rumour and the march are put to one person, so their menu
+  is a single choice (radio buttons, "One of the family answers this"). `ceiling:` the food call and the rumour could take a
+  second person the way the settlement's call does; their settling (`settleHelp`) is written for one, and the card still
+  offers the accepted settlement call to nobody, so a second volunteer is sent from the menu at the moment the family answers.
 - Pressing the "!" chooses the person, takes the camera to them (the portrait's watch), opens what waits on them and puts the
-  keyboard on the first open answer — or on the conversation panel for a rider, whose questions are redrawn every tick.
+  keyboard on the first open answer — the first tick for a call, or the conversation panel for a rider, whose questions are
+  redrawn every tick.
 - The words say who and what, never what an answer risks (`docs/COLONIES.md` §7a).
 - **Server-filtered knowledge:** the rule reads only what the server sent this family, so another family's offers, riders and
   questions cannot raise an "!" (tested: another family's projection marks nobody of this one). The Host has no panel.
@@ -290,17 +315,27 @@ does not. What raises it, most pressing first — a person with several shows th
 - Every row has a star button. Pressing a hollow star makes that person the student's **main person** and goes to them;
   pressing the main person's filled star takes the camera back to them. A double press on a portrait also makes them the main
   person.
-- The main person's portrait and row have a gold edge and a star in the corner. Until one is chosen it is the principal; a main
-  person who dies, is captured, or is not one of this family falls back to the principal.
-- **Directed from the main person:** with nobody else chosen, the card that opens is the main person's (it was the
-  principal's), so their detailed controls — *Going by*, a neighbour's homestead, trading, the army's question in a battle — are
-  what the card shows first; and only the main person's row has **House**, which opens the rooms of the family's house
-  (`docs/SETTLING_IN.md` step 7) as tapping the house on the map does. House appears once a house stands. On a phone the main
-  person's row is the one open when the page loads.
-- **Where it is kept:** this browser only, in `localStorage` under the class's session and the family's id (`focusKey`), read
-  and written inside `try`/`catch`, so a private window simply starts from the principal again. `ceiling:` a student who
-  changes computer chooses their main person again; it moves into the household only if that turns out to matter, and then as
-  a field that defaults to the principal with no save version moved.
+- The main person's portrait and row have a gold edge and a star in the corner. Until one is chosen it is the principal.
+- **The world's, not the browser's** (owner, 2026-09-16: *"If any character (that's old enough) is selected as the main person
+  (only one at a time) then they can be sent on travelling. I should be able to select the dad of the family as the main, send
+  him off to war, then switch the main person to the mom so that I can have her take something into town … Let's say that the
+  Dad dies at the Alamo, and I have an older son that's old enough, so I select him as the main person and send him to join Sam
+  Houston once a rider arrives and it's appropriate."*). The star and the double press send **`set-main`**, which the server
+  keeps as `household.mainId` — one at a time; anybody of the family who can act and is old enough to be sent (`tooYoung`),
+  refused otherwise in the words every order gets (*"… is too young to be sent."*, *"This person cannot act."*). Nothing is
+  kept in the browser any more: the panel reads `world.household.mainId`, sent when the main person is not the principal
+  (absent means the principal, so a class that has chosen nobody sends nothing new on the tick).
+- **What being main means:** travelling, working about the place and resting are theirs alone (`applyAction`: *"Only your main
+  person can be asked that."*); their row alone has those icons; with nobody else chosen the card that opens is theirs, with
+  their detailed controls — *Going by*, a neighbour's homestead, trading, the army's question in a battle; and only their row
+  has **House**, which opens the rooms of the family's house (`docs/SETTLING_IN.md` step 7). Somebody in the army or on a
+  road can be main — that is how their army questions are the student's detailed work — and the chores stay everybody's.
+- **Switching recalls nobody.** Choosing the mother while the father marches leaves him marching; choosing him back while she
+  is on the road to town leaves her walking. Only who may be given the next order moves (tested).
+- **When the main person is gone:** the server resolves it on every read (`mainPersonId`): a chosen person dead or captured
+  gives way to the principal if they can act, otherwise to the oldest living member old enough to be sent (with no ages, the
+  household's own order), and to nobody only when nobody is left — so a family with anybody in it is never without one, and
+  the panel's star moves the same tick. Rolling the family clears a choice made among the founding four.
 
 ### 11.4 On a slow computer
 
@@ -309,20 +344,22 @@ place: an attribute is written only when its value changes. Measured in the brow
 added and no attributes changed across ten rows (before the last fix, every row rewrote its name box's `data-current` every
 tick).
 
-### 11.5 Asked of the owner
+### 11.5 Answered by the owner (2026-09-16)
 
-- Should the other grown people also be able to go to town, go home, rest and work about the place from their rows? Today that
-  is a rule of the world (only the principal travels on their own, rests or works about the place), not of the panel.
-- Should a call any grown person may answer show its "!" on all of them (as built, matching the map), or only on the main
-  person?
+- *Should the other grown people also be able to go to town, go home, rest and work about the place from their rows?* — The
+  main person can, whoever is chosen, one at a time: §11.3. Built the same day, as a rule of the world (`set-main`, the gate
+  in `applyAction`), not of the panel.
+- *Should a call any grown person may answer show its "!" on all of them, or only on the main person?* — On all of them, and
+  any of them opens one menu with a tick per person: §11.2. Built the same day.
 
 ### 11.6 Gates
 
 | Gate | What it means |
 | --- | --- |
 | The "!" is the server's | Raised only by a need the family's projection carries, on exactly the person it concerns, gone the tick it is answered, never for another family. |
-| One press to the interaction | The "!" takes the camera to the person and opens the rider, the question, the call or the offer with the keyboard on it. |
+| One press to the interaction | The "!" takes the camera to the person and opens the rider, the question, the call's menu or the offer with the keyboard on it. |
+| One menu for a call | Any "!" for a call opens the one menu: a tick per person the server lets answer, their name and age, the server's price or reason; confirm sends one command per tick in order, refusals in the server's words leave it open for the rest; the settlement's call takes several. |
 | Idle is visible | A person with something open to them and nothing to do is marked on the row and the portrait; a child too young is not. |
-| The main person is kept | Chosen by the star or a double press, marked, remembered through a reload in the same browser, the card's default, and the row with House. |
+| The main person is the server's | Chosen by the star or a double press (`set-main`), held on the household, refused for the too young and the gone, the only one who travels, rests and works about the place, the card's default, the row with House; falls back to the principal, then the oldest old enough; switching recalls nobody. |
 | Cheap | No DOM rewritten on a tick where nothing changed. |
 | Stand-ins listed | The "!", star and idle marks are type; requested in `docs/ART_REQUESTS.md` (2026-09-16) and listed. |
