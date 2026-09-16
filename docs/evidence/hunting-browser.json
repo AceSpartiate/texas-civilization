@@ -1,6 +1,6 @@
 {
   "record": "hunting-browser",
-  "date": "2026-09-15",
+  "date": "2026-09-16",
   "browser": "152.0.7977.83",
   "ownerDirection": [
     "\"when they're out hunting, maybe i should see them actually hunting?\"",
@@ -25,7 +25,7 @@
     }
   ],
   "checks": [
-    "a poor shot can be taught: \"Practise at the mark · 2 powder\"",
+    "a poor shot can be taught: \"Practise at the mark: Costs 2 powder.\"",
     "the hunt stops and asks: \"Jasper is downwind of a deer, with a shot to take. It is not a close one.\"",
     "and every answer says what it would cost before it is pressed — Take the shot (One powder. it is a long shot, and Jasper has never had the knack of it); Wait for it to come closer (One powder, three more hours, and then the shot is a certainty); Leave it and come home (Nothing spent, nothing to carry, and the rest of the day is the family’s)",
     "the projected deer is visible and alert while the family decides, without inventing an escape",
@@ -33,7 +33,7 @@
     "nothing moves while it waits: three ticks passed and the work had not gone a step further",
     "the family answers, and the hunt goes on",
     "a student watches four named stages of a hunt, not one: \"reading the ground at the edge of the timber\", \"working up through the timber\", \"waiting downwind, and still\", \"downwind, with the shot there to take\", \"letting it come closer\", \"the shot\"",
-    "and is painted working through the trees, not standing on one spot (18 places, 37px apart on screen)",
+    "and is painted working through the trees, not standing on one spot (19 places, 37px apart on screen)",
     "the hunter's own poses change with the stages: blue-search, blue-idle-s, blue-carry, blue-walk",
     "and they are drawn carrying something home, which the carry cycle had never been used for outside the harvest",
     "the shot is a puff of smoke in the trees; the server removes the projected deer after it",
@@ -51,7 +51,7 @@
       "the shot",
       "carrying it home from the timber"
     ],
-    "placesPaintedInTheTimber": 18,
+    "placesPaintedInTheTimber": 19,
     "screenSpreadPixels": 37,
     "clipsBound": [
       "blue-carry",

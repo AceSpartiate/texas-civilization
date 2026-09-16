@@ -1,6 +1,6 @@
 {
   "record": "rider-relay",
-  "date": "2026-09-15",
+  "date": "2026-09-16",
   "address": "192.168.4.38",
   "sameMachine": true,
   "near": {
@@ -9,7 +9,7 @@
     "opening": "I've come up from Gonzales. There are Mexican soldiers on the far bank of the Guadalupe, across from the town. They have come for the cannon, and the town has told them no.",
     "observedAgoMinutes": 0,
     "header": "Rode from Gonzales · 40 min on the road · already 0 min old when they set out",
-    "journal": "A Mexican detachment has reached the Guadalupe opposite Gonzales to reclaim the cannon. Local settlers have refused to return it. — confirmed, Silas Roe, who rode from Gonzales · Received 11.0 hours ago · describes 11.7 hours earlierRead what Silas Roe said"
+    "journal": "A Mexican detachment has reached the Guadalupe opposite Gonzales to reclaim the cannon. Local settlers have refused to return it. — confirmed, Silas Roe, who rode from Gonzales · Received 10.7 hours ago · describes 11.3 hours earlierRead what Silas Roe said"
   },
   "far": {
     "id": "hh-5",
@@ -21,7 +21,7 @@
     "observedAgoMinutes": 140,
     "header": "Had it from Abner Teel at the fork of the road · third-hand out of Gonzales · 1.3 hours on the road · already 2.3 hours old when they set out",
     "sawIt": "No. Abner Teel did not either. It was through 2 hands before mine, and I never met whoever it was that saw it. I am telling you what I was told, out of Gonzales.",
-    "journal": "A Mexican detachment has reached the Guadalupe opposite Gonzales to reclaim the cannon. Local settlers have refused to return it. — rumor, Perla Zamarripa, who had it from Abner Teel at the fork of the road, and it had passed through other hands before that · third-hand · Received 8.0 hours ago · describes 11.7 hours earlier“Did you see them yourself?” — “No. Abner Teel did not either. It was through 2 hands before mine, and I never met whoever it was that saw it. I am telling you what I was told, out of Gonzales.”Read what Perla Zamarripa said"
+    "journal": "A Mexican detachment has reached the Guadalupe opposite Gonzales to reclaim the cannon. Local settlers have refused to return it. — rumor, Perla Zamarripa, who had it from Abner Teel at the fork of the road, and it had passed through other hands before that · third-hand · Received 7.7 hours ago · describes 11.3 hours earlier“Did you see them yourself?” — “No. Abner Teel did not either. It was through 2 hands before mine, and I never met whoever it was that saw it. I am telling you what I was told, out of Gonzales.”Read what Perla Zamarripa said"
   },
   "preContactSnapshotsChecked": 114,
   "payloadIsolation": "PASS",

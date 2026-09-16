@@ -54,10 +54,12 @@ try {
   await page.locator('#selection').waitFor({ state: 'visible' });
   // Before anybody sets out: a hand that has never had the knack can be taught one, and
   // the price of the lesson is on the button.
-  const mark = await page.locator('button[data-chore=practise-shooting] .work-name').textContent();
+  // His work is on his row of the family panel (docs/FAMILY_PANEL.md); the price is in the icon's popup.
+  const mateo = key => page.locator(`.panel-row[data-entity-id="hh-1-mateo"] .panel-icon[data-key="${key}"]`);
+  const mark = `${await mateo('practise-shooting').getAttribute('data-name')}: ${await mateo('practise-shooting').getAttribute('data-note')}`;
   assert.match(mark, /2 powder/, `the mark does not state its price: "${mark}"`);
   ok(`a poor shot can be taught: "${mark}"`);
-  await page.locator('button[data-chore=hunt-timber]').click();
+  await mateo('hunt-timber').click();
   // And then stop watching him. Choosing somebody in the journal locks the camera to them,
   // which pins the figure at the centre of the screen where it cannot appear to move at
   // all - the same trap the pace measurement fell into. The ordinary family frame is both

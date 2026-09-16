@@ -1,6 +1,7 @@
 // Renderers consume the server's permitted projection. They never advance simulation state.
-import { drawSprite, drawClip, clipInfo, hasSprite, loadArt, onArtReady, pickSprite } from '/art.js';
-import { ProjectionMotion, entityClip, travelHeading, travelDirection, figureScale, underARider, mounted, MOUNTED_HEIGHT } from '/motion.js';
+import { drawSprite, drawClip, clipInfo, hasSprite, loadArt, onArtReady, pickSprite, spriteFrame } from '/art.js';
+import { ProjectionMotion, entityClip, travelHeading, travelDirection, figureScale, underARider, mounted, MOUNTED_HEIGHT, castVariant, childFigure } from '/motion.js';
+import { drawIcon, drawPortrait, nameToSave, panelActions, panelOrder, rowReason, RENAME_PAUSE_MS } from '/family-panel.js';
 import {drawBexarGround,bexarDrawables} from '/bexar-art.js';
 import {plotArt} from '/field-art.js';
 import {drawGonzalesGround,gonzalesDrawables,GONZALES_ART_BOUNDS} from '/gonzales-art.js';
@@ -1567,7 +1568,7 @@ export function drawWorld(world) {
 }
 function renderHousehold(world) {
   const household = world.household;
-  if (!household) { $('#selection').hidden = true; $('#food').textContent = ''; $('#supplies').textContent = ''; return; }
+  if (!household) { $('#selection').hidden = true; $('#family-panel').hidden = true; hidePanelTip(); $('#food').textContent = ''; $('#supplies').textContent = ''; return; }
   $('#family-title').textContent = familyCache?.name || 'Your family';
   renderFamilyBook();
   $('#food').textContent = `Food ${Number(household.resources?.food || 0).toFixed(1)}`;
@@ -1677,6 +1678,7 @@ function renderHousehold(world) {
   $('#property').replaceChildren(...ground, ...cargo, ...property.map(entity => { const li = element('li', `${entity.name}: ${entity.kind} at ${placeName(world, entity.location?.siteId)}`); li.dataset.entityId = entity.id; return li; }));
   const memory = world.events || [];
   $('#event-log').replaceChildren(...memory.slice(-12).reverse().map(event => { const li = element('li', `${event.text || event.type} (${timeLabel(event.minute ?? 0)} into the story)`); li.dataset.eventId = event.id; return li; }));
+  renderFamilyPanel(world);
   renderSelection(world);
 }
 // Instructions live beside the person they concern, anchored to where they stand.
@@ -1897,12 +1899,6 @@ function renderWork(world, chosen, running) {
 function populateWork(world, chosen, running) {
   const host = $('#selection-work');
   host.replaceChildren();
-  const permitted = world.work?.[chosen.id];
-  if (!permitted?.length || !choreCache || chosen.health?.condition === 'dead' || chosen.health?.condition === 'captured') return;
-  // Server says who may do what; the catalogue says what each thing is called and costs.
-  // A refusal the hunt on the family's land shares with the hunt in the timber is sent once (sim/chores.mjs `choresFor`).
-  const sharedWhy = entry => entry.id === 'hunt-land' && !entry.can && !entry.why ? { why: permitted.find(other => other.id === 'hunt-timber')?.why } : {};
-  const offered = permitted.map(entry => ({ ...choreCache.get(entry.id), ...entry, ...sharedWhy(entry) })).filter(entry => entry.name);
   // Work that has stopped to ask something. It takes the whole panel, because a question
   // put to somebody standing in a wood is the only thing worth saying about them while
   // they are standing there - and because the list of other jobs is not an answer to it.
@@ -1933,53 +1929,179 @@ function populateWork(world, chosen, running) {
     host.append(stop);
     return;
   }
-  if (chosen.chore) {
-    const stop = element('button', 'Call off the work');
-    stop.dataset.action = 'stop-chore';
-    stop.className = 'work-stop';
-    stop.disabled = !running;
-    host.append(stop);
-    return;
+  // Everything else a person can be set to - the work, the principal's journeys, work and rest, calling off - is an icon on
+  // their row of the family panel (docs/FAMILY_PANEL.md), not a list on this card.
+}
+/**
+ * The family panel (docs/FAMILY_PANEL.md, owner 2026-09-15): a row per person down the left of the map.
+ *
+ * Rows are kept per person and changed in place, never rebuilt on a tick: a name being typed is never replaced under the
+ * student's fingers, and an icon being hovered or focused stays the same button, keeping its focus and its popup, while what
+ * it says changes. Every rule here is the projection's; public/family-panel.js orders, words and draws it.
+ */
+const panelRows = new Map();
+let panelExpanded = null, panelTipFor = null;
+function renderFamilyPanel(world) {
+  const panel = $('#family-panel'), list = $('#family-rows');
+  const household = world.household;
+  // No rows before the die is rolled, for the reason the card waits too: setting one of the founding four to work would use
+  // up the family's roll on people it is about to replace. Nor before the family's book has arrived, which is what says
+  // whether it has been rolled and who is father, mother and child - a panel drawn before it showed the founding four for a
+  // moment (found by scripts/family-panel-browser-proof.mjs). And the Host has no family.
+  if (!household || world.role === 'host' || !familyCache || familyCache.canRoll || rollState === 'rolling') { panel.hidden = true; hidePanelTip(); return; }
+  panel.hidden = false;
+  const people = entitiesOf(world).filter(entity => entity.kind === 'person' && (household.members || []).includes(entity.id));
+  const byId = new Map(people.map(entity => [entity.id, entity]));
+  const book = new Map((familyCache?.people || []).map(person => [person.id, person]));
+  const order = panelOrder(household.members.filter(id => byId.has(id)), familyCache.people);
+  const settable = world.status === 'running' || world.status === 'lobby';
+  const homeId = homeOf(world);
+  const homesteads = sitesOf(world).filter(site => site.kind === 'homestead' && site.id !== homeId).map(site => site.id);
+  if (!panelExpanded || !byId.has(panelExpanded)) panelExpanded = order[0] || null;
+  for (const [id, row] of panelRows) if (!byId.has(id)) { row.item.remove(); panelRows.delete(id); }
+  order.forEach((id, at) => {
+    const entity = byId.get(id), person = book.get(id);
+    const row = panelRows.get(id) || panelRow(id);
+    if (list.children[at] !== row.item) list.insertBefore(row.item, list.children[at] || null);
+    const principal = id === household.principalId && entity.principal;
+    const age = !Number.isFinite(person?.age ?? entity.age) ? '' : (person?.age ?? entity.age) === 0 ? ', under a year' : `, ${person?.age ?? entity.age}`;
+    const role = person?.role || (principal ? 'principal' : 'of this family');
+    row.item.dataset.role = person?.role || '';
+    row.item.dataset.principal = String(principal);
+    row.item.dataset.expanded = String(id === panelExpanded);
+    // Somebody is waiting on this person: a call, a rider, or work that has stopped to ask. Answered on their card.
+    const waiting = Boolean(taskFor(world, entity) || meetingFor(world, entity) || entity.chore?.ask);
+    row.item.dataset.waiting = String(waiting);
+    row.portrait.setAttribute('aria-label', `${entity.name}, ${role}${age}. Go to ${entity.name} on the map${waiting ? '; somebody is waiting on them' : ''}.`);
+    row.label.textContent = `${role}${age}`;
+    if (mayOverwriteName(row.input, entity.name)) row.input.value = entity.name;
+    row.input.dataset.current = entity.name;
+    // The portrait: the person's own figure, redrawn only when who they are drawn as changes.
+    const clip = childFigure(entity) ? `${childFigure(entity)}-idle-s` : `${castVariant(entity)}-idle-s`;
+    const face = `${clip}:${entity.band || ''}:${principal}`;
+    if (row.face !== face) {
+      row.face = face;
+      drawPortrait(row.canvas, { clip, band: entity.band, principal, tint: hashOf(id) }, { drawClip });
+    }
+    // The icons, from the server's own lists.
+    const carry = world.travelModes?.[id]?.find(mode => mode.id === modeFor(id))?.carry;
+    const icons = panelActions({ entity, offered: world.work?.[id] || [], catalogue: choreCache || new Map(), principal, homeId, homesteads,
+      atHome: entity.location?.siteId === homeId, settable, carry });
+    const reason = rowReason(icons);
+    const key = JSON.stringify([reason, icons]);
+    if (row.iconsKey !== key) {
+      row.iconsKey = key;
+      row.icons.setAttribute('aria-label', `What ${entity.name} can do`);
+      // Changed in place, icon by icon: the button a student has focused or is pointing at stays the same button while what
+      // it says changes around it, so keyboard focus and the popup survive every tick.
+      const kept = new Map([...row.icons.querySelectorAll('.panel-icon')].map(button => [button.dataset.key, button]));
+      const wanted = reason ? [row.icons.querySelector('.panel-reason') || element('span', '', 'panel-reason')] : icons.map(icon => {
+        const button = kept.get(icon.key) || panelIcon(id, icon);
+        kept.delete(icon.key);
+        describeIcon(button, icon);
+        return button;
+      });
+      if (reason) wanted[0].textContent = reason;
+      for (const leftover of [...kept.values(), ...(reason ? [] : row.icons.querySelectorAll('.panel-reason'))]) leftover.remove();
+      wanted.forEach((node, at) => { if (row.icons.children[at] !== node) row.icons.insertBefore(node, row.icons.children[at] || null); });
+      if (panelTipFor?.entityId === id) showPanelTip(row.icons.querySelector(`[data-key="${panelTipFor.key}"]`));
+    }
+  });
+  window.__familyPanel = order.map(id => {
+    const row = panelRows.get(id);
+    return { id, role: row.item.dataset.role, name: byId.get(id).name, active: [...row.icons.querySelectorAll('[data-active=true]')].map(icon => icon.dataset.key) };
+  });
+}
+function panelRow(id) {
+  const item = element('li', '', 'panel-row');
+  item.dataset.entityId = id;
+  const portrait = element('button', '', 'panel-portrait');
+  portrait.type = 'button';
+  portrait.dataset.portrait = id;
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = 96;
+  canvas.setAttribute('aria-hidden', 'true');
+  portrait.append(canvas, element('span', '!', 'panel-mark'));
+  const body = element('div', '', 'panel-body');
+  const label = element('label', '', 'panel-label');
+  const input = document.createElement('input');
+  input.id = `panel-name-${id}`;
+  input.className = 'panel-name';
+  input.maxLength = 24; input.autocomplete = 'off'; input.spellcheck = false;
+  input.dataset.rename = id;
+  label.htmlFor = input.id;
+  const icons = element('div', '', 'panel-icons');
+  icons.setAttribute('role', 'group');
+  body.append(label, input, icons);
+  item.append(portrait, body);
+  const row = { item, portrait, canvas, label, input, icons, face: null, iconsKey: null };
+  panelRows.set(id, row);
+  return row;
+}
+function panelIcon(entityId, icon) {
+  const button = element('button', '', 'panel-icon');
+  button.type = 'button';
+  button.dataset.key = icon.key;
+  button.dataset.entityId = entityId;
+  // What pressing it sends, in the same attributes the card's buttons carried, so the one dispatcher sends it.
+  if (icon.kind === 'chore') { button.dataset.action = icon.onMap ? 'survey-start' : 'chore'; button.dataset.chore = icon.key; }
+  else if (icon.visit) button.dataset.visit = 'true';
+  else if (icon.destination) { button.dataset.action = 'travel'; button.dataset.destination = icon.destination; }
+  else button.dataset.action = icon.key;
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = 72;
+  canvas.setAttribute('aria-hidden', 'true');
+  drawIcon(canvas, icon.key, { drawSprite, spriteFrame });
+  button.append(canvas);
+  return button;
+}
+/** What an icon says this tick: its name, sentence and note, whether it is open, and whether it glows. */
+function describeIcon(button, icon) {
+  button.dataset.name = icon.name;
+  button.dataset.summary = icon.summary;
+  // Somebody at this already is not refused it: they are doing it, and the popup says so rather than giving the busy reason.
+  const note = icon.active ? 'Doing this now.' : icon.can ? icon.note : icon.why;
+  button.dataset.note = note;
+  // Refused, but still focusable and hoverable so its reason can be read: `aria-disabled`, not `disabled`.
+  if (icon.can) button.removeAttribute('aria-disabled'); else button.setAttribute('aria-disabled', 'true');
+  button.dataset.active = String(icon.active);
+  if (icon.active) button.setAttribute('aria-current', 'true'); else button.removeAttribute('aria-current');
+  button.setAttribute('aria-label', [`${icon.name}.`, icon.summary, note].filter(Boolean).join(' '));
+}
+/** The small popup over an icon: what it is, its one sentence, and the server's price or reason. */
+function showPanelTip(button) {
+  const tip = $('#panel-tip');
+  if (!button) { hidePanelTip(); return; }
+  panelTipFor = { entityId: button.dataset.entityId, key: button.dataset.key };
+  $('#panel-tip-name').textContent = button.dataset.name;
+  $('#panel-tip-summary').textContent = button.dataset.summary;
+  $('#panel-tip-note').textContent = button.dataset.note || '';
+  tip.dataset.refused = String(button.getAttribute('aria-disabled') === 'true' && button.dataset.active !== 'true');
+  tip.hidden = false;
+  const box = button.getBoundingClientRect(), stage = $('.map-stage').getBoundingClientRect();
+  const left = Math.max(8, Math.min(stage.width - tip.offsetWidth - 8, box.left - stage.left + box.width / 2 - tip.offsetWidth / 2));
+  const below = box.bottom - stage.top + 8, above = box.top - stage.top - tip.offsetHeight - 8;
+  tip.style.left = `${left}px`;
+  tip.style.top = `${below + tip.offsetHeight < stage.height - 8 ? below : Math.max(8, above)}px`;
+}
+function hidePanelTip() { panelTipFor = null; const tip = $('#panel-tip'); if (tip) tip.hidden = true; }
+$('#family-panel')?.addEventListener('pointerover', event => { const icon = event.target.closest('.panel-icon'); if (icon) showPanelTip(icon); });
+$('#family-panel')?.addEventListener('pointerout', event => { const icon = event.target.closest('.panel-icon'); if (icon && !icon.contains(event.relatedTarget)) hidePanelTip(); });
+$('#family-panel')?.addEventListener('focusin', event => { const icon = event.target.closest('.panel-icon'); if (icon) showPanelTip(icon); else hidePanelTip(); });
+$('#family-panel')?.addEventListener('focusout', event => { if (!event.relatedTarget?.closest?.('.panel-icon')) hidePanelTip(); });
+// A row or the panel scrolled under the popup: it follows its icon rather than floating where the icon was.
+$('#family-panel')?.addEventListener('scroll', () => {
+  if (!panelTipFor) return;
+  showPanelTip(panelRows.get(panelTipFor.entityId)?.icons.querySelector(`[data-key="${panelTipFor.key}"]`));
+}, true);
+document.addEventListener('keydown', event => { if (event.key === 'Escape' && panelTipFor) hidePanelTip(); });
+/** Art arrives after the page: portraits and icons drawn with a fallback are drawn again with it. */
+function repaintFamilyPanel() {
+  for (const row of panelRows.values()) {
+    row.face = null;
+    for (const icon of row.icons.querySelectorAll('.panel-icon')) drawIcon(icon.querySelector('canvas'), icon.dataset.key, { drawSprite, spriteFrame });
   }
-  // A chore that wants a worn tool is not "refused" when the tool is sound, it is simply
-  // not a thing to do. Showing it greyed out would be clutter pretending to be a choice.
-  // Work that is not refused so much as not a thing to do right now. A corn family has no
-  // cotton to take to the store and never will; a greyed-out line saying so all afternoon
-  // is clutter pretending to be a choice, which is the same reason a sound hoe hides the
-  // mending.
-  const shown = offered.filter(entry => entry.can || !/^The hoe is sound|^Not enough cotton/.test(entry.why));
-  if (!shown.length) return;
-  for (const entry of shown) {
-    const button = element('button', '');
-    // Survey, clearing and fencing are sent with a place on the map, so their buttons start choosing the place instead of
-    // the work (sim/survey.mjs).
-    const onMap = ['survey-plot', 'clear-plot', 'fence-plot', 'hunt-land', 'fell-trees'].includes(entry.id);
-    button.dataset.action = onMap ? 'survey-start' : 'chore';
-    if (onMap) button.dataset.entityId = chosen.id;
-    button.dataset.chore = entry.id;
-    button.disabled = !running || !entry.can;
-    button.className = 'work-option';
-    button.append(element('span', entry.cost ? `${entry.name} · ${entry.cost}` : entry.name, 'work-name'));
-    // Either why it cannot be done, or what it is - never nothing. For a trip that hauls
-    // something back, what it would actually bring home the way this person is set to
-    // travel, which is the whole visible cost of choosing to walk instead of taking the
-    // wagon. Both numbers come from the server; putting them side by side is formatting.
-    const carry = world.travelModes?.[chosen.id]?.find(mode => mode.id === modeFor(chosen.id))?.carry;
-    const haul = entry.haul && Number.isFinite(carry)
-      ? ` Brings home ${Math.min(entry.haul.got, carry)} ${entry.haul.resource}${entry.haul.got > carry ? ` of ${entry.haul.got}; the rest is left behind.` : '.'}`
-      : '';
-    // A standing crop, and what the stock will have had out of it if nobody fenced the
-    // field. Both numbers come from the server; saying them before the work is chosen is
-    // the same rule the tool's remaining uses follow - a cost you can see coming.
-    const crop = entry.crop
-      ? entry.crop.share < 1
-        ? ` About ${Math.round(entry.crop.grown * entry.crop.share)} food of ${Math.round(entry.crop.grown)} standing; the rest has gone to stock in an unfenced field.`
-        : ` About ${Math.round(entry.crop.grown)} food standing.`
-      : '';
-    button.append(element('span', entry.can ? `${entry.describe}${haul}${crop}` : entry.why, 'work-note'));
-    if (!entry.can) button.title = entry.why;
-    host.append(button);
-  }
+  if (window.__snapshot) renderFamilyPanel(window.__snapshot.world);
 }
 /**
  * The neighbours' homesteads this person could set out for, nearest to where they stand first.
@@ -2086,7 +2208,10 @@ function positionSelection(world, chosen = selectedEntity(world)) {
     delete panel.dataset.docked;
     const scaleX = rect.width / canvas.width, scaleY = rect.height / canvas.height;
     const right = spot.x * scaleX + 26, flip = right + panel.offsetWidth > rect.width - 8;
-    panel.style.left = `${Math.max(8, flip ? spot.x * scaleX - panel.offsetWidth - 26 : right)}px`;
+    // And never over the family panel down the left, when there is room beside it (docs/FAMILY_PANEL.md §7).
+    const family = $('#family-panel'), familyBox = family && !family.hidden ? family.getBoundingClientRect() : null;
+    const margin = familyBox?.width && familyBox.right - rect.left + panel.offsetWidth + 16 < rect.width ? familyBox.right - rect.left + 8 : 8;
+    panel.style.left = `${Math.max(margin, flip ? spot.x * scaleX - panel.offsetWidth - 26 : right)}px`;
     // Never down over the row of buttons along the bottom: clamped to the canvas alone, a person standing low on a wide
     // screen put this card over Family, Follow and Land, and the journal could not be opened (found 2026-09-14).
     const controls = ['#journal-toggle', '#map-nav'].map(selector => $(selector)?.getBoundingClientRect()).filter(box => box?.height);
@@ -2104,40 +2229,52 @@ function positionSelection(world, chosen = selectedEntity(world)) {
 function renderFamilyBook() {
   const host = $('#family-kin'), form = $('#family-name-form');
   const family = familyCache;
-  if (!family) { host.replaceChildren(); form.hidden = true; return; }
+  if (!family) { host.replaceChildren(); delete host.dataset.shape; form.hidden = true; return; }
   // Nobody to name until the die is rolled: renaming first would be naming people the roll
   // is about to replace, so the server refuses it and the book does not offer it.
-  if (family.canRoll) { host.replaceChildren(); form.hidden = true; $('#family-book-note').textContent = 'Roll the die to find out who your family is.'; return; }
+  if (family.canRoll) { host.replaceChildren(); delete host.dataset.shape; form.hidden = true; $('#family-book-note').textContent = 'Roll the die to find out who your family is.'; return; }
   form.hidden = false;
   const nameInput = $('#family-name-input');
   // Never overwrite what somebody is in the middle of typing.
-  if (document.activeElement !== nameInput) nameInput.value = family.named ? family.name : '';
+  nameInput.dataset.current = family.named ? family.name : '';
+  if (mayOverwriteName(nameInput, nameInput.dataset.current)) nameInput.value = nameInput.dataset.current;
   nameInput.placeholder = family.name;
   $('#family-book-note').textContent = family.named
     ? 'Names are yours to change. Who is whose is not.'
     : `Nobody has named this family yet, so it goes by ${family.name}.`;
-  host.replaceChildren(...family.people.map(person => {
-    const item = element('li', '', 'kin-row');
-    item.dataset.entityId = person.id;
-    item.dataset.role = person.role || '';
-    const form_ = element('form', '', 'name-row');
-    form_.dataset.entityId = person.id;
-    const age = !Number.isFinite(person.age) ? '' : person.age === 0 ? ', under a year' : `, ${person.age}`;
-    const label = element('label', `${person.role || 'of this family'}${age}`);
-    label.htmlFor = `rename-${person.id}`;
-    const input = element('input');
-    input.id = `rename-${person.id}`;
-    input.name = 'rename';
-    input.maxLength = 24;
-    input.autocomplete = 'off';
-    if (document.activeElement !== input) input.value = person.name;
-    const save = element('button', 'Rename');
-    save.type = 'submit';
-    form_.append(label, input, save);
-    item.append(form_);
-    if (person.of) item.append(element('span', person.of, 'kin-of'));
-    return item;
-  }));
+  // Rebuilt only when who is in the book or what they are to each other changes. It used to be rebuilt on every snapshot,
+  // which put a fresh box under the fingers of anybody typing a name; now a name saves itself when it is left
+  // (docs/FAMILY_PANEL.md §5), so a box that vanished mid-word would lose the word.
+  const shape = JSON.stringify(family.people.map(person => [person.id, person.role, person.age, person.of]));
+  if (host.dataset.shape !== shape) {
+    host.dataset.shape = shape;
+    host.replaceChildren(...family.people.map(person => {
+      const item = element('li', '', 'kin-row');
+      item.dataset.entityId = person.id;
+      item.dataset.role = person.role || '';
+      const form_ = element('form', '', 'name-row');
+      form_.dataset.entityId = person.id;
+      const age = !Number.isFinite(person.age) ? '' : person.age === 0 ? ', under a year' : `, ${person.age}`;
+      const label = element('label', `${person.role || 'of this family'}${age}`);
+      label.htmlFor = `rename-${person.id}`;
+      const input = element('input');
+      input.id = `rename-${person.id}`;
+      input.name = 'rename';
+      input.dataset.rename = person.id;
+      input.maxLength = 24;
+      input.autocomplete = 'off';
+      form_.append(label, input);
+      item.append(form_);
+      if (person.of) item.append(element('span', person.of, 'kin-of'));
+      return item;
+    }));
+  }
+  for (const person of family.people) {
+    const input = $(`#rename-${CSS.escape(person.id)}`);
+    if (!input) continue;
+    input.dataset.current = person.name;
+    if (mayOverwriteName(input, person.name)) input.value = person.name;
+  }
 }
 function renderKnowledge(world) {
   const host = world.role === 'host';
@@ -2214,19 +2351,19 @@ const TUTORIAL = [
     // waited for a selection was a step that had already finished before it was read.
     // It says what is true instead: this is the panel, and it follows whoever you click.
     title: 'This is your family',
-    text: 'Four people live here and all four can work. The panel beside them is open on Thomas, who the big decisions belong to later on; click any of the others and it follows them. The ox and the wagon are yours too.',
-    arriving: 'Your family is on the road in with the wagon, the ox and the horse. When your teacher begins they drive onto their own land, where there is no house yet, and camp by the wagon. The panel beside them follows whoever you click.',
+    text: 'Your family is down the left of the map: father and mother first, then the children, oldest first. Press a face to go to that person on the map; the card beside them follows whoever you choose. The ox and the wagon are yours too.',
+    arriving: 'Your family is on the road in with the wagon, the ox and the horse. When your teacher begins they drive onto their own land, where there is no house yet, and camp by the wagon. Press a face on the left to go to that person.',
     next: 'Go on',
   },
   {
     id: 'work',
     title: 'Give them something to do',
-    text: 'The panel beside them lists the work they can do today. Plant the field turns the rows and puts in seed, and it is where a year on this land starts. Choose a job for them.',
+    text: 'The pictures beside each face are what that person can do today: hold the pointer over one to read what it is, and press it to set them to it. It glows while they are at it. Plant the field turns the rows and puts in seed, and it is where a year on this land starts.',
     doing: 'Waiting for somebody to be set to work.',
     done: world => entitiesOf(world).some(person => person.chore),
     // Nobody can start work on the road, so a family still coming in is told what to do once it
     // is there instead of being left waiting on a step it cannot finish.
-    arriving: 'The panel beside them lists the work they can do. None of it can start on the road: once they are on their land, choose a job for one of them. Plant the field turns the rows and puts in seed, and it is where a year on this land starts.',
+    arriving: 'The pictures beside each face are what that person can do: hold the pointer over one to read what it is. None of it can start on the road: once they are on their land, press one to set somebody to it. Plant the field turns the rows and puts in seed, and it is where a year on this land starts.',
   },
   {
     id: 'cost',
@@ -2988,6 +3125,30 @@ document.addEventListener('click', async event => {
     if (world) { drawWorld(world); renderSelection(world); renderTutorial(world); }
     return;
   }
+  // A portrait on the family panel: choose the person, and the camera goes to them and zooms in (docs/FAMILY_PANEL.md §3).
+  // The same watch the roster starts - `cameraFor` centres on where they are drawn and zooms to at least 55 in 100 of the
+  // closest zoom - so it walks with them until the student pans, zooms or presses Follow.
+  const portrait = event.target.closest('[data-portrait]');
+  if (portrait) {
+    const world = window.__snapshot?.world;
+    selectedId = portrait.dataset.portrait; selectionDismissed = false;
+    watchedId = selectedId; manualView = null; panelExpanded = selectedId;
+    if (world) { drawWorld(world); renderFamilyPanel(world); renderSelection(world); renderTutorial(world); }
+    return;
+  }
+  // An icon on the family panel. A refused one does nothing but say why; "Go to a neighbour's homestead" needs a choice of
+  // which, so it opens the person's card at the list of homesteads, as a chore sent to a place starts choosing the place.
+  const panelButton = event.target.closest('.panel-icon');
+  if (panelButton) {
+    if (panelButton.getAttribute('aria-disabled') === 'true') { showPanelTip(panelButton); return; }
+    if (panelButton.dataset.visit) {
+      selectedId = panelButton.dataset.entityId; selectionDismissed = false;
+      const world = window.__snapshot?.world;
+      if (world) { renderSelection(world); $('#visit-select')?.focus(); }
+      return;
+    }
+    hidePanelTip();
+  }
   if (event.target.closest('#selection-close')) {
     selectedId = null; selectionDismissed = true;
     if (window.__snapshot) { drawWorld(window.__snapshot.world); renderSelection(window.__snapshot.world); }
@@ -3051,21 +3212,68 @@ document.addEventListener('click', async event => {
  * a button, and this one carries a line of text somebody typed. The server sanitises and
  * has the last word on it; nothing here decides what a name may be.
  */
-$('#family-book')?.addEventListener('submit', async event => {
-  event.preventDefault();
-  const form = event.target.closest('form');
-  const input = form?.querySelector('input[name=rename]');
-  if (!input) return;
-  const world = window.__snapshot?.world;
-  const order = { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, action: 'rename', name: input.value };
-  if (form.dataset.entityId) order.entityId = form.dataset.entityId;
+/**
+ * Names save themselves (docs/FAMILY_PANEL.md §5): every box carrying `data-rename` - a person's id, or `family` - on the
+ * family panel and in the family book. Saved when the box is left, on Enter, or after a pause in typing; never by a button.
+ * Only a changed, non-blank name is sent, and the server cleans it and has the last word: a refusal is its sentence, on the
+ * page's error line and on the box, and the box goes back to the world's name once it is left.
+ * ceiling: every save writes a line into the family's story ("Rosa is called Winnie now"), so a name typed with long pauses
+ * between letters writes half-names; save only on leaving the box if a class's story fills with them.
+ */
+const renameTimers = new Map();
+/** How long a saved name is left alone in its box while the world catches up with it, in milliseconds. */
+const NAME_HOLD_MS = 4000;
+/**
+ * Whether a tick may put the world's name into a box. Never while it is being typed in or saved; and for a moment after a
+ * save, not with the old name, so a box does not flick back to the name it just replaced before the new one arrives. After
+ * that moment the world's name wins, which is how a name the server cleaned ("<b>Bad</b>" became "bBadb") shows as cleaned.
+ */
+function mayOverwriteName(input, name) {
+  if (document.activeElement === input || input.dataset.saving === 'true' || renameTimers.has(input)) return false;
+  const held = Number(input.dataset.heldUntil || 0);
+  if (held && name !== input.value && Date.now() < held) return false;
+  delete input.dataset.heldUntil;
+  if (input.value !== name) input.removeAttribute('aria-invalid');
+  return true;
+}
+async function saveName(input) {
+  clearTimeout(renameTimers.get(input)); renameTimers.delete(input);
+  const name = nameToSave(input.value, input.dataset.current);
+  if (!name || input.dataset.sent === name) return;
+  const order = { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, action: 'rename', name };
+  if (input.dataset.rename !== 'family') order.entityId = input.dataset.rename;
+  input.dataset.sent = name; input.dataset.saving = 'true';
   try {
     await api('/api/command', order);
+    input.removeAttribute('aria-invalid'); input.title = ''; input.dataset.heldUntil = String(Date.now() + NAME_HOLD_MS);
     forgetFamily();
-    input.blur();
+  } catch (error) {
+    input.setAttribute('aria-invalid', 'true'); input.title = error.message;
+    say(error.message);
+  } finally {
+    delete input.dataset.saving; delete input.dataset.sent;
     if (window.__snapshot) render(window.__snapshot);
-  } catch (error) { say(error.message); }
+  }
+}
+document.addEventListener('input', event => {
+  const input = event.target.closest?.('input[data-rename]');
+  if (!input) return;
+  clearTimeout(renameTimers.get(input));
+  renameTimers.set(input, setTimeout(() => saveName(input), RENAME_PAUSE_MS));
 });
+document.addEventListener('change', event => { const input = event.target.closest?.('input[data-rename]'); if (input) saveName(input); });
+document.addEventListener('focusout', event => {
+  const input = event.target.closest?.('input[data-rename]');
+  if (!input) return;
+  saveName(input);
+  // Left without saving anything new: the box shows the world's name again, whatever was refused in it.
+  if (input.dataset.saving !== 'true' && window.__snapshot) render(window.__snapshot);
+});
+document.addEventListener('keydown', event => {
+  const input = event.target.closest?.('input[data-rename]');
+  if (input && event.key === 'Enter') { event.preventDefault(); input.blur(); }
+});
+$('#family-book')?.addEventListener('submit', event => event.preventDefault());
 $('#travel-modes')?.addEventListener('click', event => {
   const button = event.target.closest('button[data-mode]');
   if (!button || button.disabled) return;
@@ -3114,7 +3322,7 @@ reducedMotion.addEventListener('change', () => { if (window.__snapshot) drawWorl
 // The map draws immediately with its own shapes, and repaints once when the sprite
 // sheets arrive. Nothing waits on the art: a stalled or missing download costs detail,
 // never a working class.
-onArtReady(() => { if (window.__snapshot) drawWorld(window.__snapshot.world); });
+onArtReady(() => { if (window.__snapshot) drawWorld(window.__snapshot.world); repaintFamilyPanel(); });
 loadArt();
 try {
   if (hostPage && location.hash) { await api('/api/host', { key: location.hash.slice(1) }); history.replaceState(null, '', '/host'); }

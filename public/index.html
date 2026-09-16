@@ -39,7 +39,16 @@
       <div id="world"></div>
       <div id="food"></div>
       <div id="supplies"></div>
+      <button type="button" id="wagon-open" hidden>Repack the wagon</button>
+      <button type="button" id="house-open" hidden>Choose a house</button>
+      <!-- The family panel (docs/FAMILY_PANEL.md, owner 2026-09-15): father, mother, then the children oldest first, each
+           with a portrait that takes the camera to them, a name that saves itself, and an icon for every action the server
+           offers them now. Built by renderFamilyPanel in public/app.js from the projection; nothing in it decides anything. -->
+      <section id="family-panel" aria-label="Your family's people" hidden>
+        <ol id="family-rows"></ol>
+      </section>
     </div>
+    <p id="panel-tip" role="tooltip" hidden><span id="panel-tip-name"></span><span id="panel-tip-summary"></span><span id="panel-tip-note"></span></p>
     <div id="hud-right" class="hud">
       <span id="connection" role="status"></span>
       <nav id="host-controls" aria-label="Teacher controls" hidden>
@@ -107,16 +116,12 @@
              therefore an instruction to that person, on that person's own panel, and not
              a card that appears in the corner of the screen. -->
         <button id="listen-rider" data-open-encounter="now" hidden>Listen</button>
-        <button data-action="travel" data-destination="gonzales">Travel to Gonzales</button>
-        <button data-action="travel" data-destination="home">Return home</button>
         <!-- A neighbour's land, nearest first. The only way to stand with a family at home is to go
              there - to trade, or to help raise their walls (docs/SETTLING_IN.md step 5). -->
         <span id="visit-row">
           <select id="visit-select" aria-label="A neighbour's homestead"></select>
           <button data-action="travel" data-destination="" id="visit-go">Go there</button>
         </span>
-        <button data-action="work">Work</button>
-        <button data-action="rest">Rest</button>
       </div>
       <!-- How they go. One choice per person, and it governs whatever journey the next
            order starts: a trip to town, or the road out that a chore begins with. The
@@ -165,7 +170,6 @@
       <p id="wagon-note" role="alert"></p>
       <button type="button" id="wagon-done">Done packing</button>
     </section>
-    <button type="button" id="wagon-open" hidden>Repack the wagon</button>
 
     <!-- Choosing the house (docs/SETTLING_IN.md step 4). What each house needs and what it is good
          and bad at come from the server's catalogue; whether it can be chosen now, and why not, from
@@ -195,7 +199,6 @@
       <ul id="plot-palette" class="plot-palette"></ul>
       <button type="button" id="plot-close">Close</button>
     </section>
-    <button type="button" id="house-open" hidden>Choose a house</button>
 
     <!-- Where the house stands, on the real land (docs/LAND_GRANTS.md §8.2, sim/homesite.mjs). What a place is like, and
          whether the house can go there, come from the server for the place the student taps. -->
@@ -291,8 +294,8 @@
           <h3>Who we are</h3>
           <form id="family-name-form" class="name-row">
             <label for="family-name-input">Our family is called</label>
-            <input id="family-name-input" name="rename" maxlength="24" autocomplete="off">
-            <button type="submit">Rename</button>
+            <!-- No Rename buttons (docs/FAMILY_PANEL.md §5): every name box saves itself when it is left, on Enter, or after a pause. -->
+            <input id="family-name-input" name="rename" data-rename="family" maxlength="24" autocomplete="off">
           </form>
           <ul id="family-kin"></ul>
           <!-- How the family looks (public/appearance.js): a parent's looks are chosen, a child takes after them. -->

@@ -71,7 +71,7 @@ try {
   // Lists and work buttons are redrawn on every tick, sixty milliseconds apart here, so a button found is often replaced
   // before a pointer click lands on it. Pressed in the page instead, on the element as it stands, once it can be pressed.
   const press = async selector => {
-    await page.waitForFunction(found => { const button = document.querySelector(found); return button && !button.disabled; }, selector, { timeout: 30000 });
+    await page.waitForFunction(found => { const button = document.querySelector(found); return button && !button.disabled && button.getAttribute('aria-disabled') !== 'true'; }, selector, { timeout: 30000 });
     await page.evaluate(found => document.querySelector(found).click(), selector);
   };
   const choose = async id => {
@@ -89,19 +89,22 @@ try {
   await choose(principal);
 
   // --------------------------------------------------------- the work is offered in words
-  const offered = await page.locator('#selection-work button.work-option').evaluateAll(buttons =>
-    buttons.map(button => ({ id: button.dataset.chore, name: button.querySelector('.work-name')?.textContent, note: button.querySelector('.work-note')?.textContent })));
+  // The work is icons on the principal's row of the family panel (docs/FAMILY_PANEL.md): a name, one sentence, and the
+  // server's price or reason in each icon's popup.
+  const work = `.panel-row[data-entity-id="${principal}"] .panel-icon`;
+  const offered = await page.locator(work).evaluateAll(buttons =>
+    buttons.map(button => ({ id: button.dataset.chore, name: button.dataset.name, summary: button.dataset.summary, note: button.dataset.note })));
   const clearing = offered.find(entry => entry.id === 'clear-plot');
   const fencing = offered.find(entry => entry.id === 'fence-plot');
   assert.ok(clearing, `no way to clear the staked plot: ${JSON.stringify(offered.map(o => o.id))}`);
   assert.ok(fencing, 'no way to fence a plot');
-  assert.match(fencing.note, /stock/i, `the fence does not say what it is for: "${fencing.note}"`);
-  assert.match(clearing.note, /timber thirty/i, `clearing does not say what it costs: "${clearing.note}"`);
+  assert.match(fencing.summary, /stock/i, `the fence does not say what it is for: "${fencing.summary}"`);
+  assert.match(clearing.summary, /staked plot/i, `clearing does not say what it is for: "${clearing.summary}"`);
   ok(`a family is offered "${clearing.name}" and "${fencing.name}", and each says what it is for`);
 
   const planting = offered.find(entry => entry.id === 'plant-field');
-  assert.match(planting.name, /2 seed/, `planting does not state its price: "${planting.name}"`);
-  ok(`the price of planting is on the button: "${planting.name}"`);
+  assert.match(planting.note, /2 seed/, `planting does not state its price: "${planting.note}"`);
+  ok(`the price of planting is in its popup: "${planting.name}: ${planting.note}"`);
 
   // A tap on the map at the middle of a plot as it is drawn: canvas pixels to page pixels, as the map's own pointer does.
   // The camera follows whoever was chosen, close in; the land view and a step out bring the plot on to the screen first.
@@ -132,7 +135,7 @@ try {
   assert.deepEqual(before.map(plot => plot.state), ['cleared', 'staked'], `the plots were not drawn as they stand: ${JSON.stringify(before)}`);
   assert.equal(before[0].fence, 'none', 'a family started with a fence it never built');
 
-  await press('button[data-chore=clear-plot]');
+  await press(`${work}[data-key=clear-plot]`);
   await tapPlot('plot-2');
   const words = await page.locator('#survey-text').textContent();
   assert.match(words, /Ten acres of prairie .*staked\. 10 spells of clearing, with the hoe\./, `the plot was not described before clearing: "${words}"`);
@@ -145,7 +148,7 @@ try {
 
   // ------------------------------------------------------------------- and the rails go up
   await choose(principal);
-  await press('button[data-chore=fence-plot]');
+  await press(`${work}[data-key=fence-plot]`);
   await tapPlot('plot-2');
   await page.locator('#survey-send').click();
   await page.waitForFunction(() => window.__snapshot.world.land.fenced === 1, null, { timeout: 60000 });

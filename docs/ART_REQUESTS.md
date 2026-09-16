@@ -18,6 +18,8 @@ does not have:
 
 | Stand-in | Where | Standing in for | Replace with |
 | --- | --- | --- | --- |
+| A family member's portrait is the head and shoulders of their own map figure (the `-idle-s` clip `castVariant`/`childFigure` choose), drawn large and cropped by the square; a drawn silhouette until the sheet loads | `drawPortrait` in `public/family-panel.js` | Request 2026-09-15 — face portraits for the family panel | `portrait-<figure>` for every first- and second-cast figure and the four children |
+| Each action's icon is the nearest library sprite fitted into the square (a survey stake, a stump, a bucket, young and ripe corn, clearing branches, a rail, walls going up, an oak, ripe cotton, a barrel, sacks, a crate, tools, a fallen log, a trading house, two cabins, a man with a hoe, a bedroll), and four are drawn glyphs: a deer's head (hunt on our land), a target (practice), a hoe and coin (buy a hoe), a cross (call off the work) | `PANEL_ICONS` and `drawIcon` in `public/family-panel.js` | Request 2026-09-15 — action icons for the family panel | `icon-<key>` for each of the twenty-six actions |
 | Whole jacal stage sprites; `lean-to` shed frame; procedural double chimney; no separate interior floor/loft display | `drawHousePlot` in `public/house-plot.js` | Request 2026-09-15 — the house plot's pieces | Jacal modules, shed frame, double chimney, and separately registered floor and loft overlays |
 | Generic `chapel` and `adobe-flat` silhouettes represent San Fernando and the Governor's Palace | `public/bexar-layout.js` | Request 2026-09-14 — Béxar civic architecture | Researched 1836 civic façades in the existing illustrated style |
 | A person is drawn as the nearest figure by sex and age: a woman or girl as `teal`, a boy as `blue`, a man as `elder`; the principal in `rust` whoever they are, including a mother | `castVariant` in `public/motion.js` | Request 2026-09-12, priority 2 — the second cast | `rust-woman` for a mother who is principal, `indigo` and `teal` for women, `ochre` and `elder` for men, `blue-girl` and `blue` for adolescents |
@@ -36,6 +38,53 @@ into the existing pipeline, and how it will be checked. When a request is delive
 `npm run build:art`; do not delete it from here.
 
 ---
+
+## Request 2026-09-15 — face portraits for the family panel
+
+**Status: open; the figure's own head and shoulders stand in.** The owner asked for a panel down the left of the screen with "a
+small picture of the character's face" for every person in the family ([FAMILY_PANEL.md](FAMILY_PANEL.md) §6). There are no
+portraits, so each is the top of the person's map figure drawn large, which is legible but low and soft at 56 pixels.
+
+- **Why.** The portrait is how a student tells their people apart at a glance and the button that takes the camera to them. A
+  cropped walking figure is blurred, cut off at the chest, and identical for every small child.
+- **What.** A head-and-shoulders portrait, facing the viewer, on a transparent ground, one per figure the renderer draws a
+  family member as, **matching the existing cast and children exactly** (same clothes, hat, bonnet, hair and colours as the
+  sheet): first cast `rust` (the principal's coat, a man), `teal` (a woman), `elder` (an older man), `blue` (an adolescent boy);
+  second cast `rust-woman` (the principal's coat, a woman), `indigo` (a woman), `ochre` (a man), `blue-girl` (an adolescent
+  girl); children `girl` and `boy` (5–9), `smallchild` (2–4) and `infant` (under 2, in or out of the basket). Named
+  `portrait-<figure>`, square, drawn to read at 44 and 56 CSS pixels (deliver at 192 by 192), the head centred a little above
+  the middle with the shoulders to the bottom edge. No background scene; a flat ground is added by the page. One neutral
+  expression each; nothing about a person may be inferred from how they look (`VISION.md` §15).
+- **How it plugs in.** `drawPortrait` in `public/family-panel.js` receives the figure name `castVariant`/`childFigure` already
+  choose; with the frame registered through `npm run build:art` it draws `portrait-<figure>` fitted to the square instead of
+  cropping the idle clip. When layered people art lands (the request below), portraits follow the same layers.
+- **Check.** Beside the map figure at the same moment the portrait is recognisably the same person; the principal's rust is
+  visible; the four children's portraits are told apart at 44 pixels; alpha edges clean, no painted transparency.
+
+## Request 2026-09-15 — action icons for the family panel
+
+**Status: open; the nearest library pictures and drawn glyphs stand in.** Every action a student can give a person is now an
+icon on that person's row ([FAMILY_PANEL.md](FAMILY_PANEL.md) §4, §6). The stand-ins are scene sprites shrunk into a square,
+so several read poorly at 38 pixels (a barrel, a crate and sacks look alike) and four are plain drawn glyphs.
+
+- **Why.** The owner asked that "each icon will have a picture of an action". A picture of a *thing* (a bucket) is not a
+  picture of the *action* (digging a well), and a row of twelve small props is hard to scan.
+- **What.** One icon per action, square, transparent, a single strong silhouette in the illustrated palette with a thin dark
+  outline so it reads on the panel's light tile and at 34 and 38 CSS pixels (deliver at 128 by 128), and a version that still
+  reads dimmed to 40 per cent (a refused action). Named `icon-<key>`:
+  `survey-plot` (a stake being driven), `cut-lane` (an axe in brush beside a track), `dig-well` (a spade at a well mouth),
+  `plant-field` (a hand dropping seed in a furrow), `harvest-field` (a sickle and a sheaf), `clear-plot` (a grubbing hoe and a
+  stump), `fence-plot` (a maul splitting a rail), `build-house` (a log being notched), `help-raise` (two hands lifting a log),
+  `hunt-timber` (a rifle among trees), `hunt-land` (a deer's head), `practise-shooting` (a mark with a hole in it),
+  `sell-cotton` (a cotton bale and a coin), `fetch-powder` (a powder horn and lead), `fetch-seed` (a seed sack),
+  `sell-food` (a barrel of meal and a coin), `mend-hoe` (a hoe blade and a file), `replace-hoe` (a new hoe and a coin),
+  `fell-trees` (an axe in a trunk), `haul-logs` (a log on a chain behind an ox yoke), `travel-gonzales` (a signpost, town
+  side), `travel-home` (a cabin doorway), `visit` (two cabins and a path), `work` (a hoe and a basket), `rest` (a bedroll),
+  `stop-chore` (a hand raised, stop). Period-appropriate tools only (`HIST-GONZ-027`/`028`); no weapon pointed at a person.
+- **How it plugs in.** `PANEL_ICONS` in `public/family-panel.js` maps each key to a sprite; registering the frames and naming
+  `icon-<key>` there is the whole swap. `tests/family-panel.test.mjs` fails if an icon names a frame the atlas does not have.
+- **Check.** All twenty-six side by side at 38 pixels are told apart without their popups by somebody who has not seen them;
+  each still reads at 40 per cent opacity and under the yellow glow the panel draws round an action in progress.
 
 ## Request 2026-09-15 — the house plot's pieces
 

@@ -84,7 +84,9 @@ try {
   // -------------------------------------------------------------- a student renames one
   const row = page.locator(`#family-kin .kin-row[data-entity-id="${before.id}"]`);
   await row.locator('input').fill('Winnie');
-  await row.locator('button').click();
+  // No Rename button (docs/FAMILY_PANEL.md §5): leaving the box saves it.
+  assert.equal(await row.locator('button').count(), 0, 'the book still has a Rename button');
+  await row.locator('input').press('Tab');
   await page.waitForFunction(id => window.__snapshot.world.entities.find(e => e.id === id)?.name === 'Winnie', before.id);
   ok(`renaming reaches the world: ${before.name} is Winnie now`);
   // And the book, which had to be re-fetched, because it is not on the tick channel.
@@ -100,17 +102,17 @@ try {
 
   // ------------------------------------------------------------ and names the family too
   await page.locator('#family-name-input').fill('  The Elm Creek place  ');
-  await page.locator('#family-name-form button').click();
+  await page.locator('#family-name-input').press('Enter');
   await page.waitForFunction(() => document.querySelector('#family-title')?.textContent === 'The Elm Creek place');
   ok('a family can name itself, and the name reaches the rest of the page');
 
   // ------------------------------------------------- and junk comes back as a name or not
   await page.locator('#family-name-input').fill('<b>Bad</b> 1234 \u{1F600}');
-  await page.locator('#family-name-form button').click();
+  await page.locator('#family-name-input').press('Enter');
   await page.waitForFunction(() => document.querySelector('#family-title')?.textContent === 'bBadb');
   ok('what a student types is cleaned before anybody else reads it: "<b>Bad</b> 1234 \u{1F600}" became "bBadb"');
   await page.locator('#family-name-input').fill('!!!');
-  await page.locator('#family-name-form button').click();
+  await page.locator('#family-name-input').press('Enter');
   await page.waitForFunction(() => /at least one letter/.test(document.querySelector('#error')?.textContent || ''));
   ok('and a name with no letters in it is refused, in words');
 

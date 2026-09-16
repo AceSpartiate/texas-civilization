@@ -45,6 +45,7 @@ const files = new Map([
   ['/landscape-art.js', ['../public/landscape-art.js', 'text/javascript']],
   ['/woods-view.js', ['../public/woods-view.js', 'text/javascript']],
   ['/house-plot.js', ['../public/house-plot.js', 'text/javascript']],
+  ['/family-panel.js', ['../public/family-panel.js', 'text/javascript']],
   ['/alamo-workshop.html', ['../public/alamo-workshop.html', 'text/html']],
   ['/alamo-workshop.js', ['../public/alamo-workshop.js', 'text/javascript']],
   ['/alamo-workshop.css', ['../public/alamo-workshop.css', 'text/css']],

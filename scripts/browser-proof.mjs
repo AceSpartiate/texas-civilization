@@ -63,7 +63,10 @@ try {
     await page.locator('#journal-toggle').click();
     await page.locator(`#family-journal [data-select="${principalId}"]`).click();
     await page.locator('#journal-close').click();
-    await page.getByRole('button', { name: 'Travel to Gonzales', exact: true }).click();
+    // The principal's "Travel to Gonzales" icon on the family panel (docs/FAMILY_PANEL.md).
+    const toTown = `.panel-row[data-entity-id="${principalId}"] .panel-icon[data-key="travel-gonzales"]`;
+    await page.waitForFunction(selector => document.querySelector(selector)?.getAttribute('aria-disabled') === null, toTown, { timeout: 30000 });
+    await page.locator(toTown).click();
     // Read in the same moment the trip is seen under way: at a quick tick the traveller could reach Gonzales between two reads.
     const underWay = await (await page.waitForFunction(id => { const person = window.__snapshot.world.entities.find(e => e.id === id), trip = person?.travel; return trip && trip.progress > 0 && trip.progress < trip.distance && { siteId: person.location.siteId }; }, principalId)).jsonValue();
     assert.equal(underWay.siteId, null);

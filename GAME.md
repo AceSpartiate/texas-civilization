@@ -12,7 +12,7 @@ Each student guides one fictional household in a shared world: its people, a hom
 
 **Any parent, or a child of sixteen or older, can answer history.** A request for help shows on each of them and the family picks who goes; whoever carries the food is the one asked whether to go on upriver. Travelling on an ordinary errand, working the yard and resting are still the principal's orders to give. Nobody in the family has a personality beyond that.
 
-The family panel shows people, tasks, locations and health; the property panel shows the ox and wagon. The remembered-story panel shows the most recent household events.
+The family panel down the left of the map ([docs/FAMILY_PANEL.md](docs/FAMILY_PANEL.md)) is where people are given work and orders, each as an icon that glows while they are at it; the journal lists people, tasks, locations and health in words, the ox and wagon, and the most recent household events.
 
 Nothing is scored during play: no points, patriotism meters or rewards for choosing an approved historical answer. An end-of-class outcome that names a winning family is planned and not built. Military participation is not required. This slice's request is civilian help with supplies.
 
@@ -30,7 +30,7 @@ A settings screen, choosing a seed or class size from the Host page, restoring a
 
 ## A place and a continuous family
 
-**The map is the whole interface.** It fills the screen. There are no side panels: the household's name, the date and its food sit as small chips over the map, news rides on it as a single line that opens, and everything else is a screen-reader text equivalent.
+**The map is the whole interface.** It fills the screen. The one panel over it is the family, down the left (owner, 2026-09-15; see below): the household's name, the date and its food sit as small chips over the map above it, news rides on it as a single line that opens, and everything else is a screen-reader text equivalent.
 
 The view opens on the family's own land, about three and a half miles across, so a student can see their cabin, their people, their ox and wagon and their fenced field at once. It follows the family, widening to take in the road and the destination whenever someone travels. The student can drag to pan, pinch or scroll to zoom, jump to their land or to Gonzales, and press Follow to hand the camera back. Zooming out reaches the whole province. Moving the camera is not travel: everybody remains at their true location however the student looks around.
 
@@ -56,7 +56,9 @@ A short optional walk-through offers itself once, in that lobby. It explains the
 
 **This is your family, and the game knows who they are.** Open the journal and the first thing under what you have heard is **Who we are**: a father, a mother, a daughter and a son, each with a line saying who they are to the rest — *"Married to Refugia. Father to Delia and Marcos."* That was the question the first person to play this asked, and the game had no answer to it at all.
 
-**Every name is yours to change.** Rename any of your own people, and name the family itself; until you do, it goes by whoever the big decisions belong to — *Alvin's family*. Renaming somebody changes nothing else about them: not what they are good at, not their face, and not whose child they are. And no two families in the class start with the same names, so the neighbour you trade with is a person rather than another Thomas.
+**Your family is down the left of the map** ([docs/FAMILY_PANEL.md](docs/FAMILY_PANEL.md), owner 2026-09-15). The father at the top, then the mother, then the children from oldest to youngest; a lone mother is simply first. Each person has a small picture of their face, their name, and a row of pictures of what they can be set to do now. Hold the pointer over a picture (or tab to it) and a small popup says in one sentence what it is, what it costs, and — if it cannot be done now — the reason. Press it and that becomes what they are doing: the picture glows for as long as they are at it and goes out when they are done. The principal's row also has going to Gonzales, going home, going to a neighbour's homestead, working about the place and resting. Press a face and the map goes to that person and zooms in on them, with their card open beside them for anything that is a question rather than an order — a call to answer, a rider to listen to, how they travel, a trade. On a phone the panel is a column of faces, and pressing one opens that person's row.
+
+**Every name is yours to change.** Every name on the panel, and every name and the family's own in the journal's *Who we are*, is a box you can type in, and it saves itself when you leave it, press Enter, or stop typing for a moment — there are no Rename buttons. A name with no letters in it is refused, and says so. Until you name the family, it goes by whoever the big decisions belong to — *Alvin's family*. Renaming somebody changes nothing else about them: not what they are good at, not their face, and not whose child they are. And no two families in the class start with the same names, so the neighbour you trade with is a person rather than another Thomas.
 
 **Powder and lead is the one thing the farm and the fight both spend.** Your family keeps some in the house. A shot in the timber spends one. Whoever goes upriver with the militia takes what is there with them — the volunteers at Gonzales were settlers who brought their own arms, and so is your family. Run out and you can still farm, still trade, still go; you cannot shoot. More costs food and an afternoon in town, or a neighbour who has some and wants something you have.
 
@@ -78,7 +80,7 @@ A short optional walk-through offers itself once, in that lobby. It explains the
 
 **Your land.** Every family has land marked out for it, the way the 1825 law measured it. Drive cattle and hogs in behind the wagon and you hold a league and a labor, over 4,600 acres of grazing and cropland; come without stock and you hold a labor, 177 acres. The herd's keep costs two spaces in the wagon. Your land is drawn on your map with a dashed line. No title has been issued yet.
 
-**Neighbours help raise the walls.** Send your principal to a neighbour's land from the person panel. If their walls are going up while you are there, you can help raise them: every hour you put in is an hour off theirs, and both families remember it. Nobody has to, and nobody will ask you to.
+**Neighbours help raise the walls.** Send your principal to a neighbour's land from their row on the family panel (*Go to a neighbour's homestead*, then choose which). If their walls are going up while you are there, you can help raise them: every hour you put in is an hour off theirs, and both families remember it. Nobody has to, and nobody will ask you to.
 
 **You build your own house.** Choose a jacal, a round-log cabin, a hewn-log cabin or a dog-run. Each says what tools it needs, how much work it is, how many people it holds, and how well you will rest and how long food keeps in it — before you choose. Set anybody old enough to **Work on the house** and they keep at it until it stands; the more of the family on it, the sooner. A hewn-log cabin wants a broadaxe, so it matters what you packed. A dog-run holds a big family but is a great deal of work; a jacal wants no axe but is small. Until it stands, you camp by the wagon. You see how a neighbour's house is coming on only by going there.
 

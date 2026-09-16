@@ -23,7 +23,10 @@ try {
   await page.evaluate(async()=>{const a=await import('/art.js');await a.loadArt({all:true});});
   await page.locator('[data-view=home]').click();
   await host.getByRole('button',{name:'Start',exact:true}).click();
-  await page.locator('[data-chore="plant-field"]').click();
+  // The principal's "Plant the field" on the family panel (docs/FAMILY_PANEL.md), once the family is on its land to plant it.
+  const plant='.panel-row[data-principal=true] .panel-icon[data-key="plant-field"]';
+  await page.waitForFunction(s=>{const b=document.querySelector(s);return b&&b.getAttribute('aria-disabled')!=='true';},plant,{timeout:60000});
+  await page.locator(plant).click();
   await page.waitForFunction(()=>window.__animation?.clips.some(c=>c.endsWith('-work')||c.endsWith('-sow')));
   const a=await page.locator('#world-map').evaluate(c=>c.toDataURL());
   await page.waitForTimeout(330);

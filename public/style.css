@@ -373,3 +373,62 @@ button:hover:enabled{background:#60673e}
 .looks-field{display:flex;flex-direction:column;font-size:11px;color:#84714c;gap:2px}
 .looks-field select{font-size:13px;min-height:32px}
 .looks-child{color:#5a4a2e}
+
+
+/* The family panel (docs/FAMILY_PANEL.md): down the left of the map under the status lines. A row per person - a portrait,
+   a name that saves itself, and the icons of what they can be set to - scrolling inside itself for a large family, so the
+   buttons along the bottom are never covered.
+   ceiling: on a wide screen it covers the left of the map outright; a collapse to portraits, as on a phone, is the way out
+   if that ground turns out to matter in play. */
+#hud-left #wagon-open,#hud-left #house-open{position:static}
+#hud-left{bottom:74px}
+#family-panel{pointer-events:none;min-height:0;max-width:min(36rem,calc(100vw - 24px));overflow-y:auto;overscroll-behavior:contain;padding:2px 4px 4px 0;flex:0 1 auto}
+#family-rows{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px}
+.panel-row{display:flex;align-items:stretch;pointer-events:none}
+.panel-portrait,.panel-body{pointer-events:auto}
+.panel-portrait{position:relative;flex:none;width:56px;height:56px;min-height:0;padding:0;border:2px solid #8f825b;border-radius:6px;background:#e9dcb8;overflow:hidden;box-shadow:0 2px 6px #29251b55}
+.panel-portrait:hover:enabled{background:#e9dcb8;border-color:#f0d38a}
+.panel-portrait canvas{display:block;width:100%;height:100%}
+.panel-row[data-principal=true] .panel-portrait{border-color:#a9512d;box-shadow:0 0 0 2px #a9512d99,0 2px 6px #29251b55}
+.panel-mark{position:absolute;top:1px;right:1px;width:17px;height:17px;border-radius:50%;background:#c2582c;color:#fff8e6;font:700 12px/17px system-ui;text-align:center;border:1px solid #fff8e6;display:none}
+.panel-row[data-waiting=true] .panel-mark{display:block}
+.panel-body{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto auto;align-items:center;column-gap:6px;min-width:0;margin-left:-3px;padding:3px 8px 4px 9px;background:var(--shade);border:1px solid #8f825b;border-left:none;border-radius:0 6px 6px 0}
+.panel-label{grid-row:1;grid-column:1;font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:#d8c9a2;white-space:nowrap}
+.panel-name{grid-row:1;grid-column:2;width:100%;max-width:11rem;min-width:0;font:600 13px/1.2 Georgia,serif;padding:2px 5px;border:1px solid transparent;border-radius:4px;background:transparent;color:#f7eed5}
+.panel-name:hover{border-color:#8f825b}
+.panel-name:focus{background:#fdf8ea;color:#3f3524;border-color:#b09a6d}
+.panel-name[aria-invalid=true]{border-color:#e07a5c}
+/* On a wide screen every icon is in sight: a principal's long row wraps to a second line rather than hiding its journeys,
+   work and rest off to the right. A phone scrolls it sideways instead (below). */
+.panel-icons{grid-row:2;grid-column:1 / span 2;display:flex;flex-wrap:wrap;gap:4px;padding:3px 1px 2px;min-width:0}
+.panel-icon{position:relative;flex:none;width:38px;height:38px;min-height:0;padding:1px;border-radius:5px;border:1px solid #b09a6d;background:#f3ead2;box-shadow:none}
+.panel-icon:hover:enabled{background:#fff6dc}
+.panel-icon canvas{display:block;width:100%;height:100%;pointer-events:none}
+.panel-icon[aria-disabled=true]{opacity:.42;cursor:default}
+.panel-icon[aria-disabled=true]:hover{background:#f3ead2}
+/* The glow: while the server says this person is doing this. */
+.panel-icon[data-active=true]{opacity:1;background:#fff3c4;border-color:#f0b43a;box-shadow:0 0 0 2px #f0b43a,0 0 12px 3px #ffd35ccc;animation:panel-glow 1.6s ease-in-out infinite}
+@keyframes panel-glow{50%{box-shadow:0 0 0 2px #f0b43a,0 0 18px 6px #ffd35c}}
+.panel-reason{grid-column:1 / span 2;font-size:11.5px;color:#e6dbbf;padding:3px 0;white-space:normal;max-width:18rem}
+#panel-tip{position:absolute;z-index:30;margin:0;max-width:17rem;padding:7px 10px;border-radius:6px;background:#fff7e3;border:1px solid #9c8259;box-shadow:0 6px 18px #32291955;color:#3b3427;font-size:12.5px;line-height:1.4;pointer-events:none}
+#panel-tip span{display:block}
+#panel-tip-name{font-weight:650;color:#4b3e28}
+#panel-tip-note{margin-top:3px;font-size:11.5px;color:#6c6046}
+#panel-tip-note:empty{display:none}
+#panel-tip[data-refused=true] #panel-tip-note{color:#8a3b22}
+@media(prefers-reduced-motion:reduce){.panel-icon[data-active=true]{animation:none}}
+@media (max-width:760px){
+  /* A phone: a column of portraits, and only the chosen person's name and icons open beside it, scrolling sideways. */
+  #hud-left{bottom:auto}
+  #family-panel{flex-basis:100%;max-height:calc(100vh - 290px);max-width:calc(100vw - 24px)}
+  #family-rows{gap:4px}
+  .panel-portrait{width:44px;height:44px}
+  .panel-row:not([data-expanded=true]) .panel-body{display:none}
+  .panel-body{max-width:calc(100vw - 80px)}
+  .panel-name{max-width:9rem}
+  .panel-icons{flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin}
+  .panel-icon{width:34px;height:34px}
+  /* "Watching Keziah" after a portrait is pressed wrapped the map buttons onto a second line, under the docked card. */
+  #map-nav{flex-wrap:nowrap}
+  #map-nav button[data-view=follow]{flex:0 1 auto;min-width:0;max-width:7.5rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+}

@@ -1,6 +1,6 @@
 {
   "result": "PASS",
-  "date": "2026-09-15T18:34:05.948Z",
+  "date": "2026-09-16T10:07:53.152Z",
   "browser": "152.0.7977.83",
   "catalog": {
     "sprites": 767,
@@ -15,6 +15,6 @@
   "phoneNoOverflow": true,
   "journalKeyboard": true,
   "externalRequests": 0,
-  "observedDrawMs": 5.399999991059303,
+  "observedDrawMs": 3.2000000001862645,
   "errors": []
 }

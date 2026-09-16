@@ -3,6 +3,11 @@
 **Status: decided; step 1 (the peaceful opening and the clock) built 2026-09-12** ([evidence](evidence/peaceful-opening.json)); **step 2 (arrival and the camp) built 2026-09-13** ([evidence](evidence/arrival.json)); **step 3 (the wagon load) built 2026-09-13** ([evidence](evidence/wagon-load.json)); **step 4 (houses) built 2026-09-13** ([evidence](evidence/houses.json)); **step 5 (the house-raising) built 2026-09-13** ([evidence](evidence/raising.json)); steps 6–8 are next (owner, 2026-09-12). Read this in full
 before changing the class start, the lobby, house or furniture state, or the director's timeline.
 
+**Amended 2026-09-15** ([FAMILY_PANEL.md](FAMILY_PANEL.md), owner-decided): a family's people are managed from a panel down the left
+of the map — father, mother, children oldest first, a portrait that takes the camera to the person, an icon for every order that
+glows while they carry it out, and names that save themselves. Where this document says "the person panel" for an order (§6's
+"Go to"), that order is now an icon on the principal's row.
+
 ---
 
 ## 1. What the owner asked for

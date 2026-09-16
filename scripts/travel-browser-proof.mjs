@@ -69,10 +69,13 @@ try {
   ok('and starts on the one that is always possible');
 
   // --------------------------------------------------- what a trip would bring home, said
-  const onFoot = await page.locator('button[data-chore=hunt-timber] .work-note').textContent();
+  // The hunt is an icon on Thomas's row of the family panel, and what it would bring home is in its popup (docs/FAMILY_PANEL.md).
+  const hunt = page.locator('.panel-row[data-entity-id="hh-1-thomas"] .panel-icon[data-key=hunt-timber]');
+  const onFoot = await hunt.getAttribute('data-note');
   await page.locator('#travel-modes button[data-mode=wagon]').click();
   await page.waitForFunction(() => document.querySelector('#travel-modes button[data-mode=wagon]')?.getAttribute('aria-pressed') === 'true');
-  const withWagon = await page.locator('button[data-chore=hunt-timber] .work-note').textContent();
+  await page.waitForFunction(() => !/left behind/.test(document.querySelector('.panel-row[data-entity-id="hh-1-thomas"] .panel-icon[data-key=hunt-timber]')?.dataset.note));
+  const withWagon = await hunt.getAttribute('data-note');
   assert.match(onFoot, /Brings home 5 food of \d+; the rest is left behind\./, onFoot);
   assert.ok(!/left behind/.test(withWagon), withWagon);
   ok(`the hunt says what it will bring home before it is chosen: on foot "${onFoot.match(/Brings home[^.]+\./)[0]}"`);

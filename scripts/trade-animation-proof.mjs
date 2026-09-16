@@ -72,7 +72,8 @@ try {
   assert.equal(offer.fromEntityId, 'hh-1-elena');
   assert.equal(offer.toEntityId, 'hh-2-elena');
   await choose('hh-1-thomas');
-  const work = page.locator('[data-chore="plant-field"]');
+  // Thomas's "Plant the field" on the family panel (docs/FAMILY_PANEL.md).
+  const work = page.locator('.panel-row[data-entity-id="hh-1-thomas"] .panel-icon[data-key="plant-field"]');
   await work.focus();
   await page.evaluate(() => { window.__workBefore = document.activeElement; });
   const workTick = await page.evaluate(() => window.__snapshot.world.tick);
