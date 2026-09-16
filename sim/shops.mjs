@@ -192,9 +192,38 @@ export const KEEPERS = Object.freeze({
   victoria: { blacksmith: 'Ramón Sosa' },
 });
 
-/** Where the shops stand, offsets from the town's centre, one per trade in `TOWN_TRADES` order. */
-const SPOTS = [{ x: .20, y: -.02 }, { x: -.22, y: .12 }, { x: .06, y: .22 }, { x: -.02, y: -.20 }, { x: .24, y: .16 }, { x: -.18, y: -.18 }, { x: .16, y: -.18 }, { x: -.26, y: -.02 }];
-const place = value => { const fixed = +value.toFixed(2); return fixed === 0 ? 0 : fixed; };
+/**
+ * Where every keeper keeps shop, in miles from the town's centre (owner, 2026-09-16: "use one of the pre-existing
+ * buildings per shopkeeper for places already built. for new locations give each shopkeeper their own place").
+ *
+ * **Gonzales is already built** (public/gonzales-art.js): each keeper takes one of its drawn buildings, named by its id
+ * there and at its exact position - `tests/shops.test.mjs` reads that file and holds the two together. Marta Ibarra keeps
+ * the general store and Josiah Pike the ironworker's yard, as the drawing always labelled them.
+ *
+ * **Every other settlement is new**: each keeper gets a building of their own, placed round the town's centre and drawn
+ * from `world.map.shops` with the trade's sprite. ceiling: the places are invented and evenly spread; the measured plans
+ * in docs/town-research/ are where each shop's documented or likeliest lot belongs, once those towns are laid out.
+ */
+export const GONZALES_PLACES = Object.freeze({
+  store: { building: 'gonzales-store-art', x: -.16, y: -.13 },
+  blacksmith: { building: 'gonzales-iron-art', x: .18, y: .05 },
+  tavern: { building: 'gonzales-house-art-16', x: -.25, y: -.15 },
+  wheelwright: { building: 'gonzales-house-art-17', x: -.07, y: -.15 },
+  gunsmith: { building: 'gonzales-house-art-18', x: .06, y: -.16 },
+  tanner: { building: 'gonzales-house-art-19', x: .23, y: -.10 },
+  doctor: { building: 'gonzales-house-art-20', x: -.25, y: .14 },
+  weaver: { building: 'gonzales-house-art-21', x: .29, y: .15 },
+  carpenter: { building: 'gonzales-house-art-22', x: .19, y: .21 },
+  mill: { building: 'gonzales-house-art-23', x: -.12, y: .22 },
+});
+/** A new town's places, in the order store, carpenter, then its trades. */
+const NEW_PLACES = [{ x: -.16, y: -.13 }, { x: .18, y: .05 }, { x: .20, y: -.16 }, { x: -.24, y: .10 }, { x: .04, y: .22 }, { x: -.04, y: -.24 }, { x: .28, y: .18 }, { x: -.28, y: -.06 }, { x: -.16, y: .26 }, { x: .30, y: -.04 }];
+/** The building each kind of shop is drawn as in a new town. stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the shops of the towns. */
+export const SHOP_SPRITES = Object.freeze({ store: 'trading-house', carpenter: 'timber-shop', blacksmith: 'shed-open', gunsmith: 'cabin-small', doctor: 'house-hewn-log', tavern: 'house-dog-run', tanner: 'storehouse', wheelwright: 'timber-shop', mill: 'storehouse', weaver: 'cabin-weathered' });
+export const SHOP_LABELS = Object.freeze({ store: 'General store', carpenter: 'Carpenter', blacksmith: 'Blacksmith', gunsmith: 'Gunsmith', doctor: 'Doctor', tavern: 'Tavern', tanner: 'Tanner & saddler', wheelwright: 'Wheelwright', mill: 'Mill', weaver: 'Weaver' });
+/** Where a keeper stands: just in front of the door. */
+const DOOR = 0.012;
+const place = value => { const fixed = +value.toFixed(3); return fixed === 0 ? 0 : fixed; };
 export const keeperId = (settlementId, trade) => `town-${trade}-${settlementId}`;
 
 /**
@@ -202,28 +231,47 @@ export const keeperId = (settlementId, trade) => `town-${trade}-${settlementId}`
  * settlement a family lives near. Gonzales's blacksmith is Josiah Pike, who has always been there, so he
  * is given the trade rather than a second smith. Called once, when the world is built.
  */
+/**
+ * Put the keepers in the towns, each at their own door. On the invented country only Gonzales exists; on the real land
+ * every settlement a family lives near. The store and the carpenter were made by sim/town.mjs, and Gonzales's blacksmith is
+ * Josiah Pike, who has always been there; they are given their doors here with everybody else, and every shop is written
+ * to `world.map.shops` so a town's buildings can be drawn for anybody, whether or not one of their family is standing there.
+ * Called once, when the world is built.
+ */
 export function createShopkeepers(world, near) {
   for (const [settlementId, trades] of Object.entries(TOWN_TRADES)) {
     const site = world.map.sites[settlementId];
     if (!site) continue;
     const families = settlementId === 'gonzales' && !near.length ? (world.playerCount || 15) : near.filter(home => home.settlementId === settlementId).length;
     if (!families) continue;
-    trades.forEach((trade, index) => {
-      if (settlementId === 'gonzales' && trade === 'blacksmith' && world.entities['town-pike']) {
-        world.entities['town-pike'].deals = [...new Set([...(world.entities['town-pike'].deals || []), 'blacksmith'])];
-        return;
+    const gonzales = settlementId === 'gonzales';
+    const existing = gonzales
+      ? { store: world.entities['town-ibarra'], carpenter: world.entities['town-carpenter'], blacksmith: world.entities['town-pike'] }
+      : { store: world.entities[`town-store-${settlementId}`], carpenter: world.entities[`town-carpenter-${settlementId}`] };
+    const shops = [];
+    ['store', 'carpenter', ...trades].forEach((trade, index) => {
+      const at = gonzales ? GONZALES_PLACES[trade] : NEW_PLACES[index % NEW_PLACES.length];
+      if (!at) return;
+      let keeper = existing[trade];
+      if (!keeper && TRADES[trade]) {
+        const id = keeperId(settlementId, trade);
+        const buys = TRADES[trade].offers.some(offer => offer.kind === 'buy');
+        keeper = world.entities[id] = {
+          id, name: KEEPERS[settlementId][trade], kind: 'person', householdId: null, depth: 'moderate', principal: false,
+          resident: trade, deals: [trade],
+          ...(buys && { purse: KEEPER_PURSE_PER_FAMILY * families }),
+          about: `keeps ${TRADES[trade].shop} at ${site.name}`,
+          travel: null, health: { condition: 'well' }, task: 'work',
+        };
       }
-      const id = keeperId(settlementId, trade), spot = SPOTS[index % SPOTS.length];
-      const buys = TRADES[trade].offers.some(offer => offer.kind === 'buy');
-      world.entities[id] = {
-        id, name: KEEPERS[settlementId][trade], kind: 'person', householdId: null, depth: 'moderate', principal: false,
-        resident: trade, deals: [trade], townSiteId: settlementId, shopSpot: spot,
-        ...(buys && { purse: KEEPER_PURSE_PER_FAMILY * families }),
-        about: `keeps ${TRADES[trade].shop} at ${site.name}`,
-        location: { x: place(site.x + spot.x), y: place(site.y + spot.y), siteId: settlementId },
-        travel: null, health: { condition: 'well' }, task: 'work',
-      };
+      if (!keeper) return;
+      if (TRADES[trade]) keeper.deals = [...new Set([...(keeper.deals || []), trade])];
+      keeper.townSiteId = settlementId;
+      keeper.shopSpot = { x: at.x, y: place(at.y + DOOR) };
+      keeper.location = { x: place(site.x + keeper.shopSpot.x), y: place(site.y + keeper.shopSpot.y), siteId: settlementId };
+      shops.push({ trade, keeperId: keeper.id, x: at.x, y: at.y, label: SHOP_LABELS[trade], ...(at.building ? { building: at.building } : { sprite: SHOP_SPRITES[trade] }) });
     });
+    world.map.shops = { ...(world.map.shops || {}), [settlementId]: shops };
   }
 }
 
@@ -233,7 +281,8 @@ export function advanceShopkeepers(world) {
     if (!entity.shopSpot || entity.travel) continue;
     const site = world.map.sites[entity.townSiteId];
     if (!site) continue;
-    const out = Math.floor(world.tick / 4 + entity.id.length) % 3 === 0 ? 0.03 : 0;
+    // A step out to the street and back: never far enough to leave the door.
+    const out = Math.floor(world.tick / 4 + entity.id.length) % 3 === 0 ? 0.008 : 0;
     entity.location = { x: place(site.x + entity.shopSpot.x + out), y: place(site.y + entity.shopSpot.y), siteId: entity.townSiteId };
   }
 }

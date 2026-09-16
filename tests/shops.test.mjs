@@ -7,6 +7,7 @@
 // this opens with none of it.
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { createSettledWorld } from './support/settled.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, beginTravel, stepWorld, projectWorld, validateWorld } from '../sim/world.mjs';
@@ -211,4 +212,57 @@ test('a class saved before the shops opens with none of it, and bought things th
   for (const entity of Object.values(old.entities)) if (entity.shopSpot || entity.deals?.includes('blacksmith')) delete old.entities[entity.id];
   const person = old.entities[old.households['hh-1'].members[0]];
   assert.throws(() => applyAction(old, 'hh-1', { action: 'chore', entityId: person.id, chore: 'visit-shop' }), /no shops/);
+});
+
+test('in Gonzales every keeper keeps one of the buildings already drawn, at its door, and no two share one', () => {
+  // The drawing is the authority for where Gonzales's buildings stand: read it, not a copy of it.
+  const art = readFileSync(new URL('../public/gonzales-art.js', import.meta.url), 'utf8');
+  const homes = JSON.parse(art.match(/const homes=(\[[\s\S]*?\]\]);/)[1].replace(/(^|[^\d])\./g, '$10.'));
+  const drawn = {
+    'gonzales-store-art': art.match(/id:'gonzales-store-art'[^}]*x:(-?[.\d]+),y:(-?[.\d]+)/).slice(1).map(Number),
+    'gonzales-iron-art': art.match(/id:'gonzales-iron-art'[^}]*x:(-?[.\d]+),y:(-?[.\d]+)/).slice(1).map(Number),
+    ...Object.fromEntries(homes.map(([x, y], i) => [`gonzales-house-art-${i}`, [x, y]])),
+  };
+  const world = createGonzalesWorld('shops-places', 5);
+  world.status = 'running';
+  const town = world.map.sites.gonzales;
+  const shops = world.map.shops.gonzales;
+  assert.equal(shops.length, 2 + TOWN_TRADES.gonzales.length, 'a Gonzales shop has no building');
+  assert.equal(new Set(shops.map(shop => shop.building)).size, shops.length, 'two keepers share a building');
+  for (const shop of shops) {
+    assert.ok(drawn[shop.building], `${shop.trade} keeps ${shop.building}, which Gonzales does not draw`);
+    assert.deepEqual([shop.x, shop.y], drawn[shop.building], `${shop.trade} is not where ${shop.building} is drawn`);
+    const keeper = world.entities[shop.keeperId];
+    const off = Math.hypot(keeper.location.x - (town.x + shop.x), keeper.location.y - (town.y + shop.y));
+    assert.ok(off < 0.02, `${keeper.name} stands ${off.toFixed(3)} miles from ${shop.label}`);
+  }
+  assert.equal(shops.find(shop => shop.trade === 'store').keeperId, 'town-ibarra');
+  assert.equal(shops.find(shop => shop.trade === 'blacksmith').keeperId, 'town-pike');
+  // They step out and back, never away from the door.
+  for (let t = 0; t < 30; t++) {
+    stepWorld(world);
+    for (const shop of shops) {
+      const keeper = world.entities[shop.keeperId];
+      assert.ok(Math.hypot(keeper.location.x - (town.x + shop.x), keeper.location.y - (town.y + shop.y)) < 0.03, `${keeper.name} wandered from the door`);
+    }
+  }
+});
+
+test('in every new town each keeper has a building of their own, drawn from the map', () => {
+  const world = createGonzalesWorld('shops-new-places', 30, { map: 'colonies' });
+  let towns = 0;
+  for (const [settlementId, shops] of Object.entries(world.map.shops)) {
+    if (settlementId === 'gonzales') continue;
+    towns++;
+    const site = world.map.sites[settlementId];
+    assert.equal(new Set(shops.map(shop => `${shop.x},${shop.y}`)).size, shops.length, `${settlementId} has two shops in one place`);
+    assert.ok(shops.some(shop => shop.trade === 'store') && shops.some(shop => shop.trade === 'carpenter'), `${settlementId} lacks its store or carpenter`);
+    for (const shop of shops) {
+      assert.ok(shop.sprite && shop.label, `${settlementId}'s ${shop.trade} has nothing to be drawn as`);
+      const keeper = world.entities[shop.keeperId];
+      assert.ok(Math.hypot(keeper.location.x - (site.x + shop.x), keeper.location.y - (site.y + shop.y)) < 0.02, `${keeper.name} is not at their door`);
+    }
+  }
+  assert.ok(towns >= 3, `only ${towns} new towns had shops`);
+  validateWorld(world);
 });

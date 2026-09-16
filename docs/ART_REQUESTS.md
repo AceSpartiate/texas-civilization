@@ -18,6 +18,7 @@ does not have:
 
 | Stand-in | Where | Standing in for | Replace with |
 | --- | --- | --- | --- |
+| A new town's shops are the nearest buildings the library has, two trades sharing a sprite | `SHOP_SPRITES` in `sim/shops.mjs`, drawn in `drawWorld` in `public/app.js` | Request 2026-09-16 — the shops of the towns | `shop-*` buildings, one per trade |
 | A family member's portrait is the head and shoulders of their own map figure (the `-idle-s` clip `castVariant`/`childFigure` choose), drawn large and cropped by the square; a drawn silhouette until the sheet loads | `drawPortrait` in `public/family-panel.js` | Request 2026-09-15 — face portraits for the family panel | `portrait-<figure>` for every first- and second-cast figure and the four children |
 | Each action's icon is the nearest library sprite fitted into the square (a survey stake, a stump, a bucket, young and ripe corn, clearing branches, a rail, walls going up, an oak, ripe cotton, a barrel, sacks, a crate, tools, a fallen log, a trading house, two cabins, a man with a hoe, a bedroll), and four are drawn glyphs: a deer's head (hunt on our land), a target (practice), a hoe and coin (buy a hoe), a cross (call off the work) | `PANEL_ICONS` and `drawIcon` in `public/family-panel.js` | Request 2026-09-15 — action icons for the family panel | `icon-<key>` for each of the twenty-six actions |
 | Whole jacal stage sprites; `lean-to` shed frame; procedural double chimney; no separate interior floor/loft display | `drawHousePlot` in `public/house-plot.js` | Request 2026-09-15 — the house plot's pieces | Jacal modules, shed frame, double chimney, and separately registered floor and loft overlays |
@@ -38,6 +39,27 @@ into the existing pipeline, and how it will be checked. When a request is delive
 `npm run build:art`; do not delete it from here.
 
 ---
+
+## Request 2026-09-16 — the shops of the towns
+
+**Status: open; the nearest buildings stand in.** The owner asked for towns that feel alive, with a shop per keeper and, in the towns
+not already drawn, each keeper's own building ([TOWNS.md](TOWNS.md) §5a). In Gonzales each keeper uses a building already drawn;
+elsewhere each trade is the nearest building the library has: store `trading-house`, carpenter and wheelwright `timber-shop`,
+blacksmith `shed-open`, gunsmith `cabin-small`, doctor `house-hewn-log`, tavern `house-dog-run`, tanner and mill `storehouse`,
+weaver `cabin-weathered`.
+
+- **Why.** A student in town should be able to tell the smithy from the tavern without reading a label; two trades share a
+  sprite today and the mill is a storehouse.
+- **What.** At homestead scale, in the frontier-v1 style and the projection and footprint of `cabin-small`, anchored at the base
+  centre: `shop-blacksmith` (an open forge shed, anvil, bellows, smoke), `shop-gunsmith` (a log shop with a rifle-shaped sign
+  and a bench under the eave), `shop-doctor` (a small frame or hewn-log office with a shingle), `shop-tavern` (a double log
+  house with a gallery and benches), `shop-tanner` (a shed with hides stretched on frames and a bark pit), `shop-wheelwright`
+  (a shed with wheels leaning against it), `shop-mill` (a small log gristmill with a millstone by the door; horse-powered, not a
+  water wheel, unless a town's research documents one), `shop-weaver` (a cabin with a loom visible through the open door and
+  cloth on a line), `shop-carpenter` (a shed with planks and a sawhorse). No lettering; a sign may be a picture.
+- **How it plugs in.** `SHOP_SPRITES` in `sim/shops.mjs` names the sprite a new town's shop is drawn as; replace each with its
+  `shop-*` frame once registered through `npm run build:art`. Gonzales keeps its own drawn buildings.
+- **Check.** At the zoom a town's labels appear, each trade is told apart without its label.
 
 ## Request 2026-09-15 — face portraits for the family panel
 

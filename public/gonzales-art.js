@@ -24,8 +24,10 @@ export function drawGonzalesGround(ctx,project,scale){
   for(const path of paths)drawRoad(ctx,path.map(([x,y])=>project({x,y})),Math.max(1,.009*scale));
   ctx.restore();
 }
-export function gonzalesDrawables(ctx,project,scale){
-  const items=GONZALES_BUILDINGS.map(b=>{const p=project(b);return {y:p.y,draw:()=>{drawSprite(ctx,b.sprite,p.x,p.y,b.height*scale);if(b.label&&scale>1000){ctx.save();ctx.font='12px Georgia';ctx.textAlign='center';ctx.lineWidth=3;ctx.strokeStyle='#f2e6c9';ctx.strokeText(b.label,p.x,p.y+16);ctx.fillStyle='#4c422e';ctx.fillText(b.label,p.x,p.y+16);ctx.restore();}}};});
+// `labels` names the buildings the town's shopkeepers keep, by building id, from the map's own shops (sim/shops.mjs):
+// a shop is one of these drawn buildings, never a new one set down on top of the town.
+export function gonzalesDrawables(ctx,project,scale,labels={}){
+  const items=GONZALES_BUILDINGS.map(b=>{const p=project(b),label=labels[b.id]||b.label;return {y:p.y,draw:()=>{drawSprite(ctx,b.sprite,p.x,p.y,b.height*scale);if(label&&scale>1000){ctx.save();ctx.font='12px Georgia';ctx.textAlign='center';ctx.lineWidth=3;ctx.strokeStyle='#f2e6c9';ctx.strokeText(label,p.x,p.y+16);ctx.fillStyle='#4c422e';ctx.fillText(label,p.x,p.y+16);ctx.restore();}}};});
   for(const [x,y,sprite,height] of props){const p=project({x,y});items.push({y:p.y,draw:()=>drawSprite(ctx,sprite,p.x,p.y,height*scale)});}
   return items;
 }

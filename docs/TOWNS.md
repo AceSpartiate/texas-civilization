@@ -69,6 +69,21 @@ The **Go to a shop** icon on a person's row sends them to the family's own town.
 shop, from the shops standing there; at the counter, what to buy or sell. Nobody answering comes home having spent
 nothing. The keepers stand at their doors in the town and are seen, like anybody, only when one of the family is there.
 
+## 5a. Where each keeper keeps shop (owner, 2026-09-16)
+
+> "Use one of the pre-existing buildings per shopkeeper for places already built. for new locations give each shopkeeper
+> their own place."
+
+- **Gonzales is already built.** Each keeper takes one of the buildings `public/gonzales-art.js` draws, and that building
+  is labelled with the shop: Marta Ibarra the general store and Josiah Pike the ironworker's yard, as always; the tavern,
+  wheelwright, gunsmith, tanner, doctor, weaver, carpenter and mill each one of the town's houses (`GONZALES_PLACES` in
+  `sim/shops.mjs`). A test reads the drawing and holds every place to its building, and no two keepers share one.
+- **Every other settlement is new.** Each keeper, the store and the carpenter included, has a building of their own round
+  the town's centre, drawn with the nearest building the library has for the trade (a stand-in, see `docs/ART_REQUESTS.md`)
+  and labelled close up.
+- **Shops are in the map** (`world.map.shops`), so a town's buildings are drawn for anybody; the keepers themselves are still
+  seen only by somebody of the family standing in the town. A keeper stands at their door and steps out to the street and back.
+
 ## 6. Stored, and old classes
 
 `household.gear` (`shoes`, `saddle`, `wagon`, `blankets`), `household.rifle.shots` and `household.resources.hides`, each
@@ -77,8 +92,8 @@ old three, and the icon says there are no shops rather than sending anybody to a
 
 ## 7. Ceilings and what is next
 
-- `ceiling:` shops are not drawn as buildings of their own; the keepers stand near the town's existing buildings. The town
-  layouts from the research (`docs/town-research/`) are where each shop's building belongs, with art requested there.
+- `ceiling:` a new town's shop places are invented and evenly spread round its centre; the measured plans in
+  `docs/town-research/` are where each shop's documented or likeliest lot belongs, once those towns are laid out.
 - `ceiling:` a keeper never runs out of goods, only of coin; nothing a family buys is taken from anybody else.
 - `ceiling:` the tavern hears only what is already public; it does not yet start rumors of its own.
 - `ceiling:` the weaver sells blankets but no cloth, and nobody wears what they buy on the map.

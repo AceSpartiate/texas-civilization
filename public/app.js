@@ -1409,7 +1409,8 @@ export function drawWorld(world) {
       // that began with the families arriving (sim/houses.mjs, `noteLandSeen`).
       const view = settlement ? null : ownLand && world.land ? ownLandView(world.land) : (world.household?.seenLand?.[site.id] || (world.arrivalClass ? { shelter: 'camp' } : { shelter: 'house' }));
       if(site.id==='gonzales'&&camera.scale>=200){
-        const project=p=>camera.toScreen({x:site.x+p.x,y:site.y+p.y});drawGonzalesGround(ctx,project,camera.scale);standing.push(...gonzalesDrawables(ctx,project,camera.scale));
+        const project=p=>camera.toScreen({x:site.x+p.x,y:site.y+p.y});drawGonzalesGround(ctx,project,camera.scale);standing.push(...gonzalesDrawables(ctx,project,camera.scale,Object.fromEntries((world.map?.shops?.gonzales||[]).filter(shop=>shop.building).map(shop=>[shop.building,shop.label]))));
+        window.__shopsDrawn={gonzales:(world.map?.shops?.gonzales||[]).length};
       }else if(site.id==='bexar'&&camera.scale>=200){
         // Scenic local feet around the existing, server-projected town. No new
         // entities or travel shortcuts. Live terrain retains its own river data.
@@ -1420,6 +1421,19 @@ export function drawWorld(world) {
         // The family's house plot, piece by piece at its stage (public/house-plot.js); the camp beside it until a pen stands.
         standing.push({ y: q.y, draw: () => { if (world.land.shelter === 'camp') homesteadCamp(ctx, q.x - size * .9, q.y + size * .35, size * .7, site.id); window.__plotPiecesDrawn = drawHousePlot(ctx, q.x, q.y, size, world.land, plotCatalogue, drawSprite); } });
       }else standing.push({ y: q.y, draw: () => view ? homesteadHouse(ctx, q.x, q.y, size, site.id, view) : miniBuilding(ctx, q.x, q.y, size, true, site.id) });
+      // A new town's shops, each keeper's own building at its place (sim/shops.mjs, docs/TOWNS.md). Drawn for anybody, as
+      // a town's buildings are; who is standing in them is still only seen by somebody who is there.
+      // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the shops of the towns. Each trade is the nearest building the library has.
+      if (settlement && site.id !== 'gonzales' && camera.scale >= 200 && world.map?.shops?.[site.id]) {
+        for (const shop of world.map.shops[site.id]) {
+          const p = camera.toScreen({ x: site.x + shop.x, y: site.y + shop.y }), height = 0.024 * camera.scale;
+          standing.push({ y: p.y, draw: () => {
+            drawSprite(ctx, shop.sprite, p.x, p.y, height);
+            if (camera.scale > 1000) { ctx.save(); ctx.font = '12px Georgia'; ctx.textAlign = 'center'; ctx.lineWidth = 3; ctx.strokeStyle = '#f2e6c9'; ctx.strokeText(shop.label, p.x, p.y + 16); ctx.fillStyle = '#4c422e'; ctx.fillText(shop.label, p.x, p.y + 16); ctx.restore(); }
+          } });
+        }
+        window.__shopsDrawn = { ...(window.__shopsDrawn || {}), [site.id]: world.map.shops[site.id].length };
+      }
       // The family's log pile beside the house, a log drawn for every ten or part of ten, up to four (sim/felling.mjs).
       // stand-in: a pile is `log-fallen` laid side by side until a log pile is drawn. Request 2026-09-15 - the trees of the colonies.
       const piled = ownLand && world.land?.logs ? world.land.logs.wall + world.land.logs.sill + world.land.logs.poor : 0;

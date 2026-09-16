@@ -161,13 +161,13 @@ export function advanceTown(world) {
   // The storekeepers of the other settlements keep to their own counters.
   for (const [settlementId, keeper] of Object.entries(STOREKEEPERS)) {
     const entity = world.entities[`town-store-${settlementId}`], place = world.map.sites[settlementId];
-    if (!entity || entity.travel || !place) continue;
+    if (!entity || entity.travel || !place || entity.shopSpot) continue;
     const spot = keeper.round[Math.floor(world.tick / 3 + entity.id.length) % keeper.round.length];
     entity.location = { x: round(place.x + spot.x), y: round(place.y + spot.y), siteId: settlementId };
   }
   for (const [settlementId, carpenter] of Object.entries(CARPENTERS)) {
     const entity = world.entities[`town-carpenter-${settlementId}`], place = world.map.sites[settlementId];
-    if (!entity || entity.travel || !place) continue;
+    if (!entity || entity.travel || !place || entity.shopSpot) continue;
     const spot = carpenter.round[Math.floor(world.tick / 3 + entity.id.length) % carpenter.round.length];
     entity.location = { x: round(place.x + spot.x), y: round(place.y + spot.y), siteId: settlementId };
   }
@@ -175,7 +175,7 @@ export function advanceTown(world) {
   if (!town) return;
   for (const resident of RESIDENTS) {
     const entity = world.entities[resident.id];
-    if (!entity || entity.travel) continue;
+    if (!entity || entity.travel || entity.shopSpot) continue;
     // Deterministic from the tick, so a reloaded world puts everyone back where they were.
     const spot = resident.round[Math.floor(world.tick / 3 + resident.id.length) % resident.round.length];
     entity.location = { x: round(town.x + spot.x), y: round(town.y + spot.y), siteId: 'gonzales' };
