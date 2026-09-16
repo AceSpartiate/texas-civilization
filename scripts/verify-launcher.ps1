@@ -54,6 +54,39 @@ try {
     if ($again.processId -ne $serverPid -or $again.launchId -ne $metadata.launchId) { throw 'Repeat launch duplicated server' }
     'PASS: repeat launch reuses the verified process and session.'
 
+    # Solo Mode beside the running class: its own verified process, folder and loopback port,
+    # a game dealt through its Host key, and a graceful stop that leaves the class running.
+    $soloListener = [Net.Sockets.TcpListener]::new([Net.IPAddress]::Loopback, 0)
+    $soloListener.Start(); $soloPort = $soloListener.LocalEndpoint.Port; $soloListener.Stop()
+    $oldSoloPort = $env:SOLO_PORT
+    $env:SOLO_PORT = [string]$soloPort
+    try {
+        $soloExit = Invoke-Script ('-NoLogo -NoProfile -NonInteractive -ExecutionPolicy RemoteSigned -File "' + (Join-Path $appPath 'scripts\launch.ps1') + '" -NoBrowser -NoDialog -Solo -StartupTimeoutSeconds 30')
+        $soloData = Join-Path $appPath 'data\solo'
+        if ($soloExit -ne 0) { throw ('Solo launch failed: ' + (Get-Content -LiteralPath (Join-Path $soloData 'launcher-error.txt') -Raw -ErrorAction SilentlyContinue)) }
+        $soloMeta = Get-Content -LiteralPath (Join-Path $soloData 'launcher-process.json') -Raw | ConvertFrom-Json
+        $soloHealth = Invoke-RestMethod -Uri "http://127.0.0.1:$soloPort/health"
+        if (-not $soloHealth.solo -or [int]$soloHealth.pid -ne [int]$soloMeta.processId -or [int]$soloMeta.processId -eq $serverPid) { throw 'Solo launch did not start its own verified solo server' }
+        if (-not (Test-Path -LiteralPath (Join-Path $soloData 'classroom.json.lock'))) { throw 'The solo server holds no lock on its own save' }
+        $soloKey = ([IO.File]::ReadAllText((Join-Path $soloData 'host-url.txt')).Trim() -split '#')[1]
+        $game = Invoke-RestMethod -Uri "http://127.0.0.1:$soloPort/api/solo" -Method Post -ContentType 'application/json' -Body (@{ key = $soloKey } | ConvertTo-Json -Compress) -TimeoutSec 60
+        if ($game.playUrl -notmatch "^http://127\.0\.0\.1:$soloPort/solo/enter\?ticket=") { throw 'The solo server dealt no game' }
+        $classHealth = Invoke-RestMethod -Uri "http://127.0.0.1:$testPort/health"
+        if ([int]$classHealth.pid -ne $serverPid -or $classHealth.solo) { throw 'Solo launch disturbed the running class' }
+        'PASS: solo launch beside a running class starts its own verified server in data\solo on its own port and deals a game; the class keeps running.'
+        $soloStop = Invoke-Script ('-NoLogo -NoProfile -NonInteractive -ExecutionPolicy RemoteSigned -File "' + (Join-Path $appPath 'scripts\stop.ps1') + '" -NoDialog -Solo -TimeoutSeconds 20')
+        if ($soloStop -ne 0) { throw "Solo stop reported failure (exit $soloStop)" }
+        if (Get-Process -Id ([int]$soloMeta.processId) -ErrorAction SilentlyContinue) { throw 'Solo server survived its graceful stop' }
+        if (Test-Path -LiteralPath (Join-Path $soloData 'classroom.json.lock')) { throw 'Solo stop left a stale lock' }
+        if ([int](Invoke-RestMethod -Uri "http://127.0.0.1:$testPort/health").pid -ne $serverPid) { throw 'Stopping solo stopped the class' }
+        'PASS: stopping solo stops only the solo server and releases its lock; the class is still running.'
+    } finally {
+        $env:SOLO_PORT = $oldSoloPort
+        # Only the solo server this block started, and only if a failed check left it running.
+        $soloRecord = Join-Path $appPath 'data\solo\launcher-process.json'
+        if (Test-Path -LiteralPath $soloRecord) { try { Stop-Process -Id ([int](Get-Content -LiteralPath $soloRecord -Raw | ConvertFrom-Json).processId) -ErrorAction SilentlyContinue } catch { } }
+    }
+
     $lockPath = (Join-Path $appPath 'data\classroom.json.lock')
     if (-not (Test-Path -LiteralPath $lockPath -PathType Leaf)) { throw 'The running server held no save lock' }
     $stopExit = Invoke-Stop

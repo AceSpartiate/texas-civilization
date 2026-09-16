@@ -13,18 +13,30 @@ namespace TexasRevolution.Launcher;
 /// without a teacher hunting for the keystroke.
 ///
 /// The URL is never shown, because it *is* the credential.
+///
+/// <para>Solo Mode reuses the same window for the player's page, with a button for its own
+/// class view and one for a new game, and with developer tools on, because the person
+/// looking at it is the one building the game rather than a class watching it.</para>
 /// </remarks>
 public sealed class TeacherWindow : Form
 {
     private readonly WebView2 _view = new() { Dock = DockStyle.Fill };
     private readonly Panel _bar = new() { Dock = DockStyle.Top, Height = 40, Padding = new Padding(6, 5, 6, 5) };
+    private readonly bool _developer;
     private FormBorderStyle _borderBeforeFullScreen;
     private FormWindowState _stateBeforeFullScreen;
     private bool _fullScreen;
 
-    public TeacherWindow(string hostUrl)
+    public TeacherWindow(string hostUrl) : this(hostUrl, "Texas Revolution — class view") { }
+
+    /// <param name="url">The page to open.</param>
+    /// <param name="title">The window's title.</param>
+    /// <param name="developer">Developer tools and context menus on (Solo Mode).</param>
+    /// <param name="extra">Further buttons for the bar, left of the standard ones.</param>
+    public TeacherWindow(string url, string title, bool developer = false, params (string Text, Action<TeacherWindow> OnClick)[] extra)
     {
-        Text = "Texas Revolution — class view";
+        Text = title;
+        _developer = developer;
         Branding.Apply(this);
         StartPosition = FormStartPosition.CenterScreen;
         Width = 1280;
@@ -35,7 +47,9 @@ public sealed class TeacherWindow : Form
         var fullScreen = Button("Full screen", (_, _) => ToggleFullScreen());
         var nextMonitor = Button("Next monitor", (_, _) => MoveToNextScreen());
         var reload = Button("Reload", (_, _) => _view.CoreWebView2?.Reload());
-        // Right to left, so the order reads left to right on the bar.
+        // Right-docked controls added first sit furthest left, so this reads left to right on
+        // the bar: any extra buttons, then the standard three.
+        foreach (var (text, onClick) in extra) _bar.Controls.Add(Button(text, (_, _) => onClick(this)));
         foreach (var control in new[] { reload, nextMonitor, fullScreen }) _bar.Controls.Add(control);
 
         Controls.Add(_view);
@@ -48,12 +62,12 @@ public sealed class TeacherWindow : Form
             Directory.CreateDirectory(profile);
             var environment = await Microsoft.Web.WebView2.Core.CoreWebView2Environment.CreateAsync(null, profile);
             await _view.EnsureCoreWebView2Async(environment);
-            _view.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
+            _view.CoreWebView2.Settings.AreDefaultContextMenusEnabled = _developer;
             _view.CoreWebView2.Settings.IsStatusBarEnabled = false;
-            _view.CoreWebView2.Settings.AreDevToolsEnabled = false;
+            _view.CoreWebView2.Settings.AreDevToolsEnabled = _developer;
             // Nothing in this page opens a new window, and a stray one would land off-screen.
             _view.CoreWebView2.NewWindowRequested += (_, args) => args.Handled = true;
-            _view.CoreWebView2.Navigate(hostUrl);
+            _view.CoreWebView2.Navigate(url);
         };
         KeyPreview = true;
         KeyDown += (_, args) =>
@@ -61,6 +75,12 @@ public sealed class TeacherWindow : Form
             if (args.KeyCode == Keys.F11) ToggleFullScreen();
             if (args.KeyCode == Keys.Escape && _fullScreen) ToggleFullScreen();
         };
+    }
+
+    /// <summary>Open another page in this window.</summary>
+    public void Navigate(string url)
+    {
+        if (_view.CoreWebView2 is { } core) core.Navigate(url);
     }
 
     private static Button Button(string text, EventHandler onClick)

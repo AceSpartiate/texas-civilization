@@ -1,13 +1,21 @@
 import { join } from 'node:path';
-import { writeFileSync, readFileSync, rmSync } from 'node:fs';
+import { writeFileSync, readFileSync, rmSync, existsSync } from 'node:fs';
 import { createClassroom, PACES } from './app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
-import { resolveDataDir, resolveSavePath, joinCandidates } from './deployment.mjs';
+import { resolveDataDir, resolveSavePath, joinCandidates, soloPaths } from './deployment.mjs';
 
-const port = Number(process.env.PORT || 1835);
-const { dir: dataDir, origin } = resolveDataDir();
-const savePath = resolveSavePath(dataDir);
-const joinUrls = joinCandidates(port);
+// `--solo` is Solo Mode (docs/DEPLOYMENT.md): the owner's playtest server. Its own folder, save
+// and port, bound to this computer only, and no join addresses because nobody else joins.
+const solo = process.argv.includes('--solo');
+const paths = solo ? soloPaths() : null;
+const port = solo ? paths.port : Number(process.env.PORT || 1835);
+const { dir: dataDir, origin } = solo ? { dir: paths.dir, origin: 'solo' } : resolveDataDir();
+const savePath = solo ? paths.savePath : resolveSavePath(dataDir);
+const joinUrls = solo ? [] : joinCandidates(port);
+// A solo save is a scratch pad: every Play solo deals a new game, so the last one is not
+// reopened - which also means a solo save left by an older build can never refuse to start.
+// Only when no lock says a solo server still owns it; that one refuses to start below.
+if (solo && !existsSync(`${savePath}.lock`)) rmSync(savePath, { force: true });
 let stopping = false;
 async function shutdown(reason) {
   if (stopping) return;
@@ -25,13 +33,15 @@ const app = createClassroom({
   // A settler walks three miles an hour whatever this is; this decides only how many
   // real minutes a class spends watching that. `PACES.study` makes the walk look like a
   // walk and the slice fill a class period; TICK_MS still overrides it for development.
-  tickMs: Number(process.env.TICK_MS || PACES.study), savePath, joinUrls, // MAP=colonies starts classes on the real land of the colonies (docs/COLONIES.md); unset, the invented Gonzales country.
+  tickMs: Number(process.env.TICK_MS || PACES.study), savePath, joinUrls, solo, // MAP=colonies starts classes on the real land of the colonies (docs/COLONIES.md); unset, the invented Gonzales country.
   // Every new class has automatic neighbours for the families nobody joins (owner, 2026-09-14; docs/COLONIES.md §5.9).
   worldFactory: (seed, playerCount) => createGonzalesWorld(seed, playerCount, { map: process.env.MAP || 'gonzales', neighbours: true }),
   onStopRequested: () => shutdown('Host requested a graceful stop'),
 });
-await app.listen(port);
+await app.listen(port, solo ? '127.0.0.1' : '0.0.0.0');
 const hostUrl = `http://localhost:${port}/host#${app.state.hostKey}`;
 writeFileSync(join(dataDir, 'host-url.txt'), hostUrl);
-console.log(`Texas Revolution PROTOTYPE. Host: ${hostUrl}\nJoin: ${joinUrls[0]?.url || `http://localhost:${port}/`}\nData (${origin}): ${dataDir}\nSave: ${savePath}`);
+console.log(solo
+  ? `Texas Revolution SOLO PLAYTEST (this computer only). Host: ${hostUrl}\nNew solo game: npm run solo\nData: ${dataDir}\nSave: ${savePath}`
+  : `Texas Revolution PROTOTYPE. Host: ${hostUrl}\nJoin: ${joinUrls[0]?.url || `http://localhost:${port}/`}\nData (${origin}): ${dataDir}\nSave: ${savePath}`);
 for (const signal of ['SIGINT', 'SIGTERM']) process.on(signal, () => shutdown(signal));

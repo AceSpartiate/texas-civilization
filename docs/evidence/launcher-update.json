@@ -1,0 +1,21 @@
+{
+  "recordedAt": "2026-09-16T16:10:36.8079064Z",
+  "machine": "development computer (same-computer simulation)",
+  "script": "scripts/verify-update.ps1",
+  "results": [
+    "PASS: the running launcher replaced itself: TexasRevolution.exe now hashes as the v2 build, the v1 build renamed to .old while it ran.",
+    "PASS: the game and release.txt moved to v2 with the launcher, and data\\classroom.json is byte-for-byte untouched.",
+    "PASS: the next launch deletes the renamed old launcher.",
+    "PASS: an update that fails part way (server\\ held open, after the launcher, public\\ and release.txt were already swapped) rolls all of it back: v2 launcher, v2 game, v2 stamp.",
+    "PASS: a launch that finds an interrupted swap puts the previous build back before doing anything else.",
+    "PASS: an update archive with no launcher in it (every release before this one) updates the game and keeps the launcher."
+  ],
+  "note": "Stand-in games, local setup programs built from this working copy; nothing downloaded from GitHub. Proves the swap and rollback, not the download or a real release.",
+  "injections": [
+    "R1 Apply does not roll back on failure: 3 PASS, then stopped at \"A failed update left a different launcher installed\"",
+    "R2 CleanUp deletes no old launcher (sync and background removed): 2 PASS, then stopped at \"The next launch did not delete the old launcher\"",
+    "R3 CleanUp ignores the swap marker: 4 PASS, then stopped at \"A launch after an interrupted swap did not put the old build back\"",
+    "R4 Apply never swaps the launcher: 0 PASS, stopped at \"The installed launcher was not replaced by the v2 launcher\""
+  ],
+  "priorInstalls": "Launchers installed before this change download only the update archive and cannot replace themselves; the release that ships this must be installed with TexasRevolutionSetup.exe once."
+}

@@ -82,35 +82,105 @@ and it checks the owning process and backs the save up first.
 .\TexasRevolution.exe --start
 .\TexasRevolution.exe --stop
 .\TexasRevolution.exe --check-updates
+.\TexasRevolution.exe --solo            # Solo Mode: start or reuse, new game, print its address
+.\TexasRevolution.exe --stop-solo
+.\TexasRevolution.exe --install-update <TexasRevolutionSetup.exe or update .zip> [--no-restart]
 ```
 
 These call exactly the code the buttons call. One caveat found by measuring: do not capture
-the output of `--start`. The classroom server it leaves running inherits the console handle,
+the output of `--start` (or `--solo`). The server it leaves running inherits the console handle,
 so a parent that redirects and waits will wait for the whole lesson. Ask `--status` instead.
 
-Updating downloads the release asset, unpacks it, and only then replaces the installed files
-with `robocopy /XD data`, so an interrupted download leaves the working copy untouched and a
-teacher's classes are never in the path. The launcher refuses to update while a class runs.
+## Solo Mode (playtesting)
+
+**Play solo (playtest)** on the launcher is for the owner trying the game, not for a class. One
+click starts a solo server if none is running (or reuses it), deals a **fresh game**, joins one
+player, rolls that family, starts the class, and opens that player's page **already joined** in
+a window of its own. No class code, no join form, no Host Start. The other families of the class
+are there as automatic neighbours, exactly as in a class nobody else joined. The window has
+**Class view** (the solo Host page, for inspecting what the teacher would see), **New solo game**,
+and developer tools. Closing the launcher stops a solo server it started, through the same
+graceful stop as a class.
+
+It cannot disturb a real class, by construction rather than by care:
+
+- **Its own folder:** `<class data folder>\solo\` — its own `classroom.json`, save lock,
+  `host-url.txt`, logs and launcher record (`soloPaths` in `server/deployment.mjs`). `SAVE_PATH`
+  and `PORT` are deliberately ignored, because both are overrides for the real class.
+- **Its own port:** 1836 (`SOLO_PORT` to change it), so a class running on 1835 is left running
+  rather than having to be stopped first.
+- **This computer only:** `server/main.mjs --solo` binds `127.0.0.1`, the classroom refuses to
+  listen anywhere else when `solo` is set, and it answers no request from a non-loopback address.
+  It advertises no join address.
+- **Only a solo server has the door.** `POST /api/solo` (with the solo Host key, read from its
+  own `host-url.txt`) and `GET /solo/enter?ticket=` exist only on a classroom created with
+  `solo: true`. The ticket is one use and lasts two minutes; it becomes the player's cookie and
+  redirects to `/`, so no credential is left in the address bar.
+
+ceiling: every Play solo is a new game, and the last solo game is not archived or offered back;
+a solo save is a scratch pad. "Continue the last solo game" would be reopening the same save.
+
+For development without the launcher: `npm run solo` (add `-- --no-open` to print instead of
+opening a browser). It starts `server/main.mjs --solo` in the terminal (Ctrl+C stops it) or
+reuses one already answering, deals a new game and opens the play address. The solo Host address
+is printed with it. `npm run test:solo` is the browser proof; `tests/solo.test.mjs` the server's.
+
+## Updating, launcher included
+
+Updating downloads the release's **setup program**, runs it with `--extract` into a staging
+folder, checks that what it unpacked is a Texas Revolution build stamped with the release's own
+tag, and only then replaces the installation (`launcher/Updater.cs`, `launcher/UpdateSwap.cs`).
+An interrupted download, a setup that will not run, or a build stamped with some other tag leaves
+the working copy untouched. The launcher refuses to update while a class runs, and stops a solo
+playtest first.
+
+The swap replaces the launcher as well as the game. Windows will not overwrite a running
+executable but will rename one, so `TexasRevolution.exe` becomes `TexasRevolution.exe.old`, the
+new one is copied in, and the next launch deletes the old one. Every top-level folder or file the
+new build carries is moved aside into `.update-backup` before its replacement is copied in, with
+a journal of what was moved and added; if anything fails part way, all of it - launcher, game and
+`release.txt` - is put back, and the error says the previous version is still installed. A launch
+that finds a swap marker (the power went mid-swap) rolls back before anything else. `data` is not
+in a build and is never touched. The installed launcher is exactly what a fresh install makes -
+the setup program, with its payload - so it can still be copied onto a memory stick, and the plain
+emblem is rewritten beside it on each launch, keeping the setup and installed emblems apart. A
+release with no setup program falls back to the update archive, which updates the game and keeps
+the launcher.
+
+Proved on this computer by `scripts/verify-update.ps1`, which builds three setup programs around
+stand-in games and has an *installed* launcher update itself through `--install-update` (the same
+stage-and-swap as the button): six PASS lines covering the swap by hash, the stamp and the class
+data, deletion of the old launcher, rollback of a swap that fails part way, rollback after an
+interrupted swap, and an archive without a launcher. Recorded in
+[evidence/launcher-update.json](evidence/launcher-update.json). It does not download from GitHub
+or use a published release; the first real proof is the release after the one that ships this.
+
+**Reinstall the setup program once, for the release that ships this.** Every launcher installed
+before it downloads only the update archive and cannot replace itself, so it would update the
+game and keep the old launcher - without Solo Mode and without the self-update. That release is
+the last one that needs `TexasRevolutionSetup.exe` run over the top; from then on the launcher
+updates itself.
 
 **Publishing a release that installed launchers will take.** The launcher asks GitHub for the
 latest release, compares its tag with the installed `release.txt`, and downloads the release's
-`.zip` whose name does **not** contain `NeedsNode` (`launcher/Updates.cs`). So a release needs:
+`TexasRevolutionSetup.exe`, or failing that its `.zip` whose name does **not** contain `NeedsNode`
+(`launcher/Updates.cs`). So a release needs:
 
 1. `scripts/package.ps1 -Stamp yyyy-MM-dd -Tag vyyyy.MM.dd -Destination <existing folder>` — the
-   tag passed here is what gets stamped into `release.txt`, so it must equal the release tag.
-2. All three outputs attached: `TexasRevolutionSetup.exe`, `TexasRevolution-Gonzales-<stamp>.zip`
-   (the update archive) and the `-NeedsNode.zip`.
+   tag passed here is what gets stamped into `release.txt`, so it must equal the release tag; an
+   updating launcher now refuses a build whose stamp differs.
+2. All three outputs attached: `TexasRevolutionSetup.exe` (what updates the launcher and the game),
+   `TexasRevolution-Gonzales-<stamp>.zip` (the update archive older launchers take) and the
+   `-NeedsNode.zip`.
 3. The release marked latest. Only the latest release is ever offered.
 
-A release without the update archive is invisible to every installed copy: the check reports a
-newer release and then "That release has no downloadable build attached." The release of
-2026-09-11 went out exactly that way; v2026.09.12 was the first to carry it.
+A release without the update archive is invisible to every launcher installed before this change:
+the check reports a newer release and then "That release has no downloadable build attached." The
+release of 2026-09-11 went out exactly that way; v2026.09.12 was the first to carry it.
 
-ceiling: the update archive carries the game and never `TexasRevolution.exe`, so updating
-leaves the launcher itself at whatever version was installed. A change to `launcher/` reaches a
-machine only when its teacher runs a newer `TexasRevolutionSetup.exe` over the top. Ship the
-launcher in the archive (and have `install.cmd` swap it after exit) once a launcher change is one
-a teacher cannot do without.
+ceiling: an update downloads the whole setup program (about 136 MB) rather than only what changed.
+A delta, or a separate launcher asset, is the way out if release sizes or school bandwidth make
+that hurt.
 
 ## A package that came from the Internet
 

@@ -39,6 +39,7 @@ public static class Uninstaller
 
         // Stop the class first, properly, so nothing is left holding a save lock.
         try { new ServerControl().StopAsync().GetAwaiter().GetResult(); } catch { /* it may not be running */ }
+        try { new ServerControl().StopSoloAsync().GetAwaiter().GetResult(); } catch { /* nor a solo playtest */ }
 
         Shortcuts.Remove();
         Installer.Unregister();

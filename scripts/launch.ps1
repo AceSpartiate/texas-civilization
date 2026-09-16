@@ -2,6 +2,9 @@
 param(
     [switch]$NoBrowser,
     [switch]$NoDialog,
+    # Solo Mode (docs/DEPLOYMENT.md): the same verified start, for the playtest server in its own
+    # folder and on its own loopback port. A running class is neither reused nor disturbed.
+    [switch]$Solo,
     [ValidateRange(2, 120)][int]$StartupTimeoutSeconds = 20
 )
 
@@ -107,10 +110,13 @@ try {
     $appInfoScript = Join-Path $rootPath 'scripts\appinfo.mjs'
     if (-not (Test-Path -LiteralPath $appInfoScript -PathType Leaf)) { throw 'The application files are incomplete: scripts\appinfo.mjs is missing.' }
     $infoText = $null
-    try { $infoText = (& $nodePath $appInfoScript) -join '' } catch { $infoText = $null }
+    $infoArguments = @($appInfoScript)
+    if ($Solo) { $infoArguments += '--solo' }
+    try { $infoText = (& $nodePath @infoArguments) -join '' } catch { $infoText = $null }
     if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($infoText)) { throw 'Could not determine where this installation keeps its class data. Confirm that the application folder or your user profile is writable.' }
     $info = $infoText | ConvertFrom-Json
     Set-DataPaths ([string]$info.dataDir)
+    if ($Solo) { $port = [int]$info.port }
     $savePath = [string]$info.savePath
     $null = New-Item -ItemType Directory -Path $dataPath -Force
 
@@ -137,7 +143,7 @@ try {
         $previousLaunchId = $env:TEXAS_LAUNCH_ID
         try {
             $env:TEXAS_LAUNCH_ID = $launchId
-            $childProcess = Start-Process -FilePath $nodePath -ArgumentList 'server/main.mjs' -WorkingDirectory $rootPath -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $dataPath 'server.stdout.log') -RedirectStandardError (Join-Path $dataPath 'server.stderr.log')
+            $childProcess = Start-Process -FilePath $nodePath -ArgumentList $(if ($Solo) { 'server/main.mjs --solo' } else { 'server/main.mjs' }) -WorkingDirectory $rootPath -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $dataPath 'server.stdout.log') -RedirectStandardError (Join-Path $dataPath 'server.stderr.log')
         } finally { $env:TEXAS_LAUNCH_ID = $previousLaunchId }
         $startedHere = $true
         $metadata = [ordered]@{
@@ -168,7 +174,9 @@ try {
         try { $childProcess.Refresh(); if (-not $childProcess.HasExited) { $childProcess.Kill(); $childProcess.WaitForExit(3000) | Out-Null } } catch { }
     }
     $message = "Texas Revolution could not open.`r`n`r`n$($_.Exception.Message)`r`n`r`nClass data folder: $dataPath`r`nDetails: server.stderr.log and server.stdout.log in that folder.`r`nRecorded: $([DateTime]::UtcNow.ToString('o')).`r`n"
-    foreach ($destination in @($errorPath, (Join-Path $fallbackDataPath 'launcher-error.txt')) | Select-Object -Unique) {
+    # A solo failure is not the class's failure, so it never overwrites the class's error file.
+    $destinations = if ($Solo -and $dataPath -ne $fallbackDataPath) { @($errorPath) } else { @($errorPath, (Join-Path $fallbackDataPath 'launcher-error.txt')) }
+    foreach ($destination in $destinations | Select-Object -Unique) {
         try {
             $null = New-Item -ItemType Directory -Path (Split-Path -Parent $destination) -Force
             [IO.File]::WriteAllText($destination, $message)
