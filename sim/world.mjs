@@ -26,6 +26,7 @@ import { advanceExpresses, expressesInvalid } from './expresses.mjs';
 import { callsInvalid, handleCall } from './calls.mjs';
 import { armyInvalid, armyProjection, callHome, callHomeRefusal } from './army.mjs';
 import { endingProjection } from './ending.mjs';
+import { appearanceInvalid, setAppearance } from './appearance.mjs';
 import { fellingInvalid, logsProjection, recordFelling } from './felling.mjs';
 import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, ageBand, defaultNames, familyProjection, familyRoll, FAMILY_DIE, compositionFor, rolledWords, householdName, kinFor, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
 export { HOUSEHOLD_SHAPE, ROLES, householdName, sanitiseName } from './family.mjs';
@@ -564,7 +565,7 @@ export function advanceRelays(world) {
  * offer made to an empty chair - and the historical choices, which do not exist until the
  * news that prompts them has arrived.
  */
-export const LOBBY_ACTIONS = new Set(['survey-plot', 'hunt-land', 'fell-trees', 'place-piece', 'remove-piece', 'clear-plot', 'fence-plot','roll-family', 'load-wagon', 'bring-stock', 'plan-house', 'chore', 'stop-chore', 'answer-chore', 'rename', 'work', 'rest', 'travel']);
+export const LOBBY_ACTIONS = new Set(['survey-plot', 'hunt-land', 'fell-trees', 'place-piece', 'remove-piece', 'clear-plot', 'fence-plot','roll-family', 'set-appearance', 'load-wagon', 'bring-stock', 'plan-house', 'chore', 'stop-chore', 'answer-chore', 'rename', 'work', 'rest', 'travel']);
 export function applyAction(world, householdId, input) {
   const entity = world.entities[input.entityId];
   const household = world.households[householdId];
@@ -576,6 +577,9 @@ export function applyAction(world, householdId, input) {
   if (input.action === 'bring-stock') { setStock(world, household, input.stock); return; }
   // So is choosing the house, which can be changed until the first spell of work goes into it.
   if (input.action === 'plan-house') { planHouse(world, household, input.layout); return; }
+  // How a parent looks (sim/appearance.mjs). Checked before the rules about who can act, because it is not an act:
+  // nothing reads it, and a parent away or hurt still looks like somebody.
+  if (input.action === 'set-appearance') { setAppearance(world, household, input); return; }
   // A piece placed on the house plot or an unstarted one taken away (sim/houseplot.mjs).
   if (input.action === 'place-piece' || input.action === 'remove-piece') { editPlot(world, household, input); return; }
   // And where it stands, on the real land, once the wagon is in (sim/homesite.mjs). It refuses in the lobby itself.
@@ -892,6 +896,8 @@ export function validateWorld(world) {
   if (badExpress) throw new Error(badExpress);
   const badCall = callsInvalid(world);
   if (badCall) throw new Error(badCall);
+  const badLooks = appearanceInvalid(world);
+  if (badLooks) throw new Error(badLooks);
   const badArmy = armyInvalid(world);
   if (badArmy) throw new Error(badArmy);
   const badFelling = fellingInvalid(world);

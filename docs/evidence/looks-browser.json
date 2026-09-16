@@ -1,0 +1,22 @@
+{
+  "record": "How the family looks, in a browser: docs/SETTLING_IN.md build step 8",
+  "date": "2026-09-16",
+  "verdict": "PASS",
+  "note": "Same computer only. A student joined, rolled, chose a parent's hair and clothes in the family book, and reloaded. The figure on the map is unchanged: layered people art is a stand-in (docs/ART_REQUESTS.md). No LAN or district claim.",
+  "checks": [
+    "after the roll the book shows how the family looks",
+    "a parent is offered the server's choices, a child none: \"Marcos: brown skin, black hair, rust clothes. Takes after their parents.\"",
+    "a parent's hair and clothes change and save as they are chosen: \"Alvin: olive skin, black hair, rust clothes, a beard\"",
+    "reloaded, the choices are still there",
+    "at phone width the page does not scroll sideways",
+    "no page errors"
+  ],
+  "observed": {
+    "childBefore": "Marcos: brown skin, black hair, rust clothes. Takes after their parents.",
+    "parentAfter": "Alvin: olive skin, black hair, rust clothes, a beard"
+  },
+  "screenshots": [
+    "docs/evidence/looks-book.png",
+    "docs/evidence/looks-book-phone.png"
+  ]
+}

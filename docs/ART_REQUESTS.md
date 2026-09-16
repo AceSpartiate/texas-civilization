@@ -22,7 +22,7 @@ does not have:
 | Generic `chapel` and `adobe-flat` silhouettes represent San Fernando and the Governor's Palace | `public/bexar-layout.js` | Request 2026-09-14 — Béxar civic architecture | Researched 1836 civic façades in the existing illustrated style |
 | A person is drawn as the nearest figure by sex and age: a woman or girl as `teal`, a boy as `blue`, a man as `elder`; the principal in `rust` whoever they are, including a mother | `castVariant` in `public/motion.js` | Request 2026-09-12, priority 2 — the second cast | `rust-woman` for a mother who is principal, `indigo` and `teal` for women, `ochre` and `elder` for men, `blue-girl` and `blue` for adolescents |
 | A child in an unavailable action pose is a grown figure drawn smaller (90% at 10–17, 70% at 5–9, 55% at 2–4, 45% an infant). Idle, cardinal walking, rest and injured-rest use delivered `girl`, `boy`, `smallchild` and `infant` art | `CHILD_POSES` and `entityClip` in `public/motion.js` | Request 2026-09-12, priority 1 — children | Any later child-specific action poses. **Keep the scaling**: the delivered sheets fill their cells and need it |
-| *(Planned, with [SETTLING_IN.md](SETTLING_IN.md) step 8)* A parent's chosen appearance is stored and described in words; the figure is still chosen by sex and age | the family book | Request below — layered people art | Layered or palette-swappable sheets for the whole cast |
+| A person's appearance - a parent's chosen, a child's taken after the parents - is shown only in words in the family book ("olive skin, black hair, rust clothes, a beard"); the figure on the map is still chosen by sex and age | `public/appearance.js`, `sim/appearance.mjs` | Request below — layered people art | Layered or palette-swappable sheets for the whole cast |
 | *(Planned, with [SETTLING_IN.md](SETTLING_IN.md) steps 6–7)* Interiors and furniture drawn from the Alamo interior pieces | the interior view | Request below — interiors and furnishings | Cabin interiors, furniture and brought goods |
 | Five priority tree kinds use delivered size-specific art: pine, cedar, mesquite, live oak and elm. Shortleaf temporarily shares loblolly art; post oak, blackjack and the remaining hardwoods still use their nearest original broadleaf tree | `KINDS` picture in `sim/woods.mjs`, drawn by `drawGroundDetail` in `public/app.js` | Request 2026-09-15 — the trees of the colonies | `post-oak` and `blackjack` at three sizes; remaining species-specific hardwoods are later breadth |
 | Anybody of a family riding the family horse is drawn as the courier rider (`mounted-courier-*`), whoever they are; the horse under them is not drawn again | `inTheSaddle` and `underARider` in `public/motion.js` | Request 2026-09-14 — family members on horseback | Each cast figure mounted on the family's chestnut, walking in four directions |
@@ -153,6 +153,40 @@ into this request when that chapter's build reaches them, in the contract format
   show that. Needed: the cast — adults, adolescents and the requested children — drawn as aligned layers
   (body and skin, hair, facial hair or head covering, clothing), or with clean flat colour regions a
   renderer can swap, across idle, walk, vertical and task sheets.
+
+  **Written out 2026-09-16 for step 8, which is built and drawing the stand-in** (`sim/appearance.mjs`, `public/appearance.js`).
+  What a student can now choose, and so what the art must be able to show:
+
+  | Part | Choices (the server's words, `SKIN`, `HAIR`, `CLOTHING`, `HEAD` in `sim/appearance.mjs`) |
+  | --- | --- |
+  | Skin | fair, light, olive, tan, brown, dark brown, deep brown |
+  | Hair | black, dark brown, brown, auburn, red, fair, grey |
+  | Clothes | rust, indigo, ochre, teal, butternut, grey, cream |
+  | A man | a hat, or a beard (bareheaded) |
+  | A woman | a bonnet, or hair pinned up |
+
+  Children take a skin, hair and clothes colour after their parents and wear nothing on their heads.
+
+  - **Format:** for every people sheet that exists now — `civilians`, `people-walk`, `people-vertical`, `people-work`,
+    `people-carry`, `people-tasks`, `people-care`, `people-search-trade`, the three `people-children-*` sheets and the
+    mounted rider — deliver the same grid, same cells and same frames as **aligned layer PNGs** named
+    `<sheet>--<layer>.png`, every layer registered pixel for pixel with the others:
+    `--line` (contours, and all shading as greyscale darkening, no hue), `--skin`, `--hair`, `--clothes` (each a
+    greyscale value mask of only that region, light where lit, which the renderer tints), and the head items
+    `--hat`, `--beard`, `--bonnet`, `--pinned` (each fully coloured and drawn over the hair where it covers it).
+    Transparent RGBA; no painted checkerboard, text, borders or shadows. A woman's row carries `--bonnet` and
+    `--pinned`, a man's `--hat` and `--beard`, a child's none.
+  - **One figure per sex and age band, not one per identity:** a man, a woman, an adolescent girl, an adolescent
+    boy, and the girl, boy and small child already drawn. The identities in the second-cast request become
+    unnecessary once layers exist; identity comes from the chosen colours.
+  - **Style and scale** exactly as the second-cast request above (same preamble, line weight, camera, and every
+    figure filling its cell the way an adult does).
+  - **Tints are the renderer's**, from the words above; the art carries no colour in `--skin`, `--hair` or
+    `--clothes`. Draw the masks so that a mid-grey tint reads as a believable mid tone and the lightest and darkest
+    choices both keep their shading.
+  - **What Claude wires on delivery:** a tinting pass in `public/art.js` that composites line over tinted masks per
+    person, cached per appearance so a class of thirty is not recoloured every frame; `castVariant` in
+    `public/motion.js` chooses the figure by sex and age band only; the words in the family book stay.
 - **Houses — exteriors, written out 2026-09-13 for step 4, which is built and drawing stand-ins.** Needed for
   the map, at homestead scale, in the frontier-v1 style and the same projection and footprint as `cabin-small`
   (the renderer draws them at the size it draws a cabin now, anchored at the base centre):

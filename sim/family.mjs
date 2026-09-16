@@ -21,6 +21,7 @@
 // `FIC-GONZ-017` registers the kin structure and the name pools. Both are invented, both
 // are personal-scale, and neither is offered as a demographic sample of anybody.
 import { record } from './events.mjs';
+import { appearanceOf, choicesFor, isParent, looksWords } from './appearance.mjs';
 
 /**
  * The household, as authored.
@@ -455,7 +456,10 @@ export function familyProjection(world, household) {
           : parents.length ? `${Role} of ${parents.join(' and ')}.`
           : widowed ? 'Widowed, with no children.' : null;
       // Age is visible; the hidden stats are not, and are deliberately not read here at all.
-      return { id, name: entity?.name || id, role: kin.role || null, of, ...(Number.isFinite(entity?.age) && { age: entity.age }) };
+      // How they look, in words and as the choices behind them (sim/appearance.mjs). Only a parent's can be chosen.
+      const looks = appearanceOf(world, entity);
+      return { id, name: entity?.name || id, role: kin.role || null, of, ...(Number.isFinite(entity?.age) && { age: entity.age }),
+        ...(looks && { appearance: looks, looks: looksWords(looks), ...(isParent(entity) && { choices: choicesFor(entity), chosen: Boolean(entity.appearance) }) }) };
     }),
   };
 }

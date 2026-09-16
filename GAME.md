@@ -230,6 +230,8 @@ The separate time-compression foundation summarizes routine life while preservin
 
 At the end of this slice the game stops advancing and retains the world. Thomas may still be away; the wagon and ox stay where they actually are; memories remain. That stop is a prototype boundary, not a fictional end to the Revolution. There is no inventory reset or automatic return home.
 
+**What your family looks like is yours to choose.** After the roll, the family book lets you choose each parent's skin tone, hair, the colour of their clothes, and a hat or beard for a man or a bonnet or pinned-up hair for a woman. The children take after their parents; you cannot choose for them. How anybody looks changes nothing else in the game. For now it shows in words in the book; the figures on the map will follow when the art arrives.
+
 **When the class ends, the fog lifts** ([docs/MONEY_AND_GLORY.md](docs/MONEY_AND_GLORY.md) §7.1). Each family sees for the first time its coin, its glory — which it never saw while playing — and its final number, coin × (1 + glory), with the sum written out — a family with no coin is counted as having one real, so its glory still counts; what earned the glory, what moved the coin, and a few lines of its own story. The teacher's screen shows every family's three numbers in family order and names the family that finished first, with questions for the class about why the families finished so differently. A family that stayed home and sold its crop can still finish first.
 
 ## What Claude should expand carefully

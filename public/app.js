@@ -8,6 +8,7 @@ import {drawWater,drawRoad,drawCrossing,crossingAngle} from '/landscape-art.js';
 import { drawHousePlot, plotted, renderHousePlot } from '/house-plot.js';
 import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesInView, treesVisible, woodsShown } from '/woods-view.js';
 import { bindEnding, renderEnding } from '/ending.js';
+import { bindLooks, renderLooks } from '/appearance.js';
 const $ = selector => document.querySelector(selector);
 const say = message => { for (const id of ['#error', '#join-error', '#rejoin-error']) { const el = $(id); if (el) el.textContent = message; } };
 const hostPage = location.pathname === '/host';
@@ -2752,6 +2753,11 @@ document.addEventListener('click', event => {
   if (window.__snapshot) renderEncounter(window.__snapshot.world);
 });
 bindEnding();
+bindLooks({
+  command: order => api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, ...order }),
+  refresh: () => { forgetFamily(); if (window.__snapshot) render(window.__snapshot); },
+  say: message => say(message),
+});
 $('#encounter-close')?.addEventListener('click', () => {
   encounterOpen = false;
   $('#encounter').hidden = true;
@@ -2904,6 +2910,7 @@ function render(snapshot) {
   renderJoinLinks(snapshot);
   renderSlice(world);
   renderEnding(world);
+  renderLooks(familyCache);
   drawWorld(world); renderHousehold(world); renderKnowledge(world); renderEncounter(world); renderFamilyRoll(world); renderWagonLoad(world); renderHousePlan(world); renderSite(world); renderSurvey(world); renderTutorial(world);
 }
 function showJoin(message) {
