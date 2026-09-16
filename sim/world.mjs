@@ -7,7 +7,8 @@ import { advanceRoutine } from './routines.mjs';
 import { TICK_MINUTES, calendarMinutes } from './clock.mjs';
 import { advanceDirectors, handleChoice, handleMarch, handleRumor, directorProjection } from './directors.mjs';
 import { abandonChore, advanceChores, answerChore, askProjection, beginChore, CHORES, choresFor, skillsFor, SKILL_CAP, toolState } from './chores.mjs';
-import { bringAlong, hasWords, holderOf, keepWithRiders, leaveBehind, NOUN } from './keeping.mjs';
+import { bringAlong, hasWords, holderOf, keepWithRiders, leaveBehind, modeWith, NOUN } from './keeping.mjs';
+import { SERVING_ACTIONS, recallFromService, servingWhy, winterInvalid } from './winter.mjs';
 import { advanceTown, createTownspeople, observedBy } from './town.mjs';
 import { GOODS, advanceOffers, makeOffer, offersFor, respondToOffer } from './trade.mjs';
 import { buildGonzalesRegion, findPath, polylineLength } from './geography.mjs';
@@ -636,6 +637,9 @@ export function applyAction(world, householdId, input) {
   // family who can act and is old enough to be sent - refused above, in the words every order gets. Choosing another recalls
   // nobody: whoever was main stays in the army or on their road; only who may be given the next order moves.
   if (input.action === 'set-main') { household.mainId = entity.id; return; }
+  // Somebody who has joined the army, the garrison or the expedition is in one place until the family sends for them (sim/winter.mjs).
+  if (entity.service?.status === 'serving' && !SERVING_ACTIONS.includes(input.action)) throw new Error(servingWhy(world, entity));
+  if (input.action === 'winter-recall') { recallFromService(world, household, entity, { beginTravel, modeWith }); return; }
   // Farm work is open to the whole family; the historical choice is the principal's.
   // Keeping that split explicit is the point: everyone can be sent to the field, but
   // the decision the lesson turns on still belongs to one named person.
@@ -792,7 +796,7 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
     .slice(-PROJECTED_EVENTS);
   const knownIds = new Set(visibleEvents.map(e => e.id));
   const events = visibleEvents.map(e => ({ id: e.id, type: e.type, minute: e.minute, text: e.text, actorId: e.actorId, householdId: e.householdId, causes: e.causes.filter(id => knownIds.has(id)) }));
-  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.sex && { sex: e.sex }), ...(Number.isFinite(e.age) && { age: e.age, band: ageBand(e.age) }), location: e.location, travel: e.travel ? { from: e.travel.from, to: e.travel.to, points: e.travel.points, progress: e.travel.progress, distance: e.travel.distance, speed: e.travel.speed, mode: e.travel.mode } : null, health: e.health, task: e.task, skills: e.skills, chore: e.chore?.ask ? { ...e.chore, ask: askProjection(world, household, e) } : e.chore, condition: e.condition, species: e.species, laden: e.laden, borrowedBy: e.borrowedBy, ...(e.marks && { marks: e.marks }) }));
+  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.sex && { sex: e.sex }), ...(Number.isFinite(e.age) && { age: e.age, band: ageBand(e.age) }), location: e.location, travel: e.travel ? { from: e.travel.from, to: e.travel.to, points: e.travel.points, progress: e.travel.progress, distance: e.travel.distance, speed: e.travel.speed, mode: e.travel.mode } : null, health: e.health, task: e.task, skills: e.skills, chore: e.chore?.ask ? { ...e.chore, ask: askProjection(world, household, e) } : e.chore, condition: e.condition, species: e.species, laden: e.laden, borrowedBy: e.borrowedBy, ...(e.marks && { marks: e.marks }), ...(e.service && { service: { kind: e.service.kind, status: e.service.status, siteId: e.service.siteId, ...(e.service.acres && { acres: e.service.acres }) } }), ...(e.voted && { voted: true }) }));
   // What each person could be asked to do, with the reason for anything refused, is
   // computed on the server. The client must never decide for itself what is possible:
   // that is the same rule as fog of war, applied to a control instead of a fact.
@@ -831,6 +835,8 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
 }
 export function validateWorld(world) {
   if (world.schemaVersion !== 3 || !Number.isInteger(world.tick) || world.tick < 0 || !Number.isFinite(world.minute) || world.minute < 0 || !['lobby', 'running', 'paused', 'ended'].includes(world.status)) throw new Error('Invalid world');
+  // Absent on every class saved before a second period existed, which were all in the first (sim/periods.mjs).
+  if (world.period !== undefined && ![1, 2].includes(world.period)) throw new Error('Invalid class period');
   const ids = new Set();
   for (const [id, entity] of Object.entries(world.entities)) {
     if (id !== entity.id || ids.has(id)) throw new Error('Duplicate or mismatched entity ID');
@@ -976,6 +982,8 @@ export function validateWorld(world) {
   if (badArmy) throw new Error(badArmy);
   const badFelling = fellingInvalid(world);
   if (badFelling) throw new Error(badFelling);
+  const badService = winterInvalid(world);
+  if (badService) throw new Error(badService);
   const events = new Set(world.events.map(e => e.id));
   if (events.size !== world.events.length || world.events.some(e => e.causes.some(id => !events.has(id)))) throw new Error('Invalid event graph');
   if (world.nextEventId !== world.events.length + 1) throw new Error('Event sequence would duplicate an ID');

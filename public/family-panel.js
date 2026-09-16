@@ -38,6 +38,12 @@ export const PANEL_SUMMARIES = Object.freeze({
   'buy-furniture': 'Go to the carpenter in town and buy a piece of furniture for coin or food.',
   'fell-trees': 'Fell the trees at a place in timber you choose on the family’s land.',
   'haul-logs': 'Bring the felled logs lying out to the house.',
+  'enlist-regular': 'Go to San Felipe and enlist in the regular army for $24 and 800 acres of land, promised.',
+  'enlist-auxiliary': 'Go to San Felipe and sign on as an auxiliary volunteer, for 640 acres or 320, promised.',
+  'join-garrison': 'Go to Béxar and join the men holding the town and the Alamo.',
+  'join-matamoros': 'Go south to Refugio and join the volunteers bound for Matamoros.',
+  'go-vote': 'Go into town and vote for the delegates to the convention.',
+  'winter-recall': 'Send for them to leave where they serve and come home.',
   'travel-gonzales': 'Go into the town of Gonzales and stay there until sent somewhere else.',
   'travel-home': 'Come back to the family’s own land.',
   visit: 'Choose a neighbour’s homestead and go there, to trade or to help raise their walls.',
@@ -49,7 +55,7 @@ export const PANEL_SUMMARIES = Object.freeze({
 /** What the orders that are not chores are called. Chores are named by the server's catalogue. */
 export const ORDER_NAMES = Object.freeze({
   'travel-gonzales': 'Travel to Gonzales', 'travel-home': 'Return home', visit: 'Go to a neighbour’s homestead',
-  work: 'Work about the place', rest: 'Rest', 'stop-chore': 'Call off the work',
+  work: 'Work about the place', rest: 'Rest', 'stop-chore': 'Call off the work', 'winter-recall': 'Send for them to come home',
 });
 
 /**
@@ -83,6 +89,14 @@ export const PANEL_ICONS = Object.freeze({
   'buy-furniture': { sprite: 'home-bedstead' },
   'fell-trees': { sprite: 'stump-post-oak' },
   'haul-logs': { sprite: 'log-fallen' },
+  // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the winter's icons (enlisting, the garrison, the expedition, voting,
+  // sending for somebody). Drawn with glyphs and the nearest pictures the library has until they are delivered.
+  'enlist-regular': { glyph: 'flag' },
+  'enlist-auxiliary': { glyph: 'flag' },
+  'join-garrison': { glyph: 'fort' },
+  'join-matamoros': { glyph: 'south' },
+  'go-vote': { glyph: 'ballot' },
+  'winter-recall': { sprite: 'cabin-small' },
   'travel-gonzales': { sprite: 'trading-house' },
   'travel-home': { sprite: 'cabin-small' },
   visit: { sprite: 'cabin-wide' },
@@ -161,6 +175,12 @@ const firstSentence = text => (String(text || '').match(/^.*?[.!?](?=\s|$)/)?.[0
 export function panelActions({ entity, offered = [], catalogue = new Map(), main = false, homeId = null, homesteads = [], atHome = false,
   settable = true, carry = null } = {}) {
   if (!entity || ['dead', 'captured'].includes(entity.health?.condition)) return [];
+  // Somebody with the army, the garrison or the expedition (sim/winter.mjs) has one order and no other: sending for them.
+  if (entity.service?.status === 'serving') {
+    return [{ key: 'winter-recall', kind: 'order', name: ORDER_NAMES['winter-recall'], summary: PANEL_SUMMARIES['winter-recall'],
+      note: entity.service.kind === 'regular' ? 'A regular who leaves has deserted, and loses glory.' : entity.service.acres ? 'The promise of land is lost.' : '',
+      why: '', can: settable && !entity.travel, active: false }];
+  }
   const active = activeKey(entity, { homeId, main, homesteads });
   // A refusal the land hunt shares with the timber hunt is sent once, on the timber hunt (sim/chores.mjs `choresFor`).
   const sharedWhy = entry => entry.id === 'hunt-land' && !entry.can && !entry.why ? offered.find(other => other.id === 'hunt-timber')?.why : entry.why;
@@ -291,7 +311,7 @@ export function needsOf(world, entityId) {
  */
 export function isIdle(entity, icons = [], { withArmy = false } = {}) {
   // `task` is the server's: working about the place and helping where a call sent them are work; only resting is idle.
-  if (gone(entity) || withArmy || entity.chore || entity.travel || (entity.task && entity.task !== 'rest')) return false;
+  if (gone(entity) || withArmy || entity.service?.status === 'serving' || entity.chore || entity.travel || (entity.task && entity.task !== 'rest')) return false;
   return icons.some(icon => icon.can);
 }
 
@@ -402,6 +422,23 @@ function drawGlyph(ctx, glyph, size) {
     path(() => ctx.arc(14, 16, 6, 0, Math.PI * 2)); ctx.fillStyle = '#c9a44a'; ctx.fill(); ctx.stroke();
   } else if (glyph === 'stop') {
     path(() => { ctx.moveTo(14, 14); ctx.lineTo(34, 34); ctx.moveTo(34, 14); ctx.lineTo(14, 34); }); ctx.lineWidth = 5; ctx.strokeStyle = '#8a3b22'; ctx.stroke();
+  } else if (glyph === 'flag') {
+    // A flag on a staff: enlisting. stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the winter's icons.
+    path(() => { ctx.moveTo(14, 42); ctx.lineTo(14, 6); }); ctx.stroke();
+    path(() => { ctx.moveTo(15, 8); ctx.lineTo(38, 12); ctx.lineTo(15, 24); ctx.closePath(); }); ctx.fillStyle = '#9c3a28'; ctx.fill(); ctx.stroke();
+  } else if (glyph === 'fort') {
+    // A walled place with a gate: the garrison.
+    path(() => { ctx.rect(8, 18, 32, 22); }); ctx.fillStyle = '#c9b38a'; ctx.fill(); ctx.stroke();
+    path(() => { ctx.moveTo(8, 18); ctx.lineTo(8, 12); ctx.lineTo(14, 12); ctx.lineTo(14, 18); ctx.moveTo(34, 18); ctx.lineTo(34, 12); ctx.lineTo(40, 12); ctx.lineTo(40, 18); }); ctx.stroke();
+    path(() => { ctx.rect(20, 28, 8, 12); }); ctx.fillStyle = '#4b3e28'; ctx.fill();
+  } else if (glyph === 'south') {
+    // An arrow pointing down the map: going south.
+    path(() => { ctx.moveTo(24, 6); ctx.lineTo(24, 38); ctx.moveTo(12, 28); ctx.lineTo(24, 42); ctx.lineTo(36, 28); }); ctx.lineWidth = 5; ctx.stroke();
+  } else if (glyph === 'ballot') {
+    // A paper going into a box: voting.
+    path(() => { ctx.rect(10, 24, 28, 18); }); ctx.fillStyle = '#8a6a3d'; ctx.fill(); ctx.stroke();
+    path(() => { ctx.rect(16, 6, 16, 20); }); ctx.fillStyle = '#f3ead2'; ctx.fill(); ctx.stroke();
+    path(() => { ctx.moveTo(20, 12); ctx.lineTo(28, 12); ctx.moveTo(20, 17); ctx.lineTo(28, 17); }); ctx.lineWidth = 2; ctx.stroke();
   } else {
     path(() => ctx.arc(24, 24, 6, 0, Math.PI * 2)); ctx.fill();
   }

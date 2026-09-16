@@ -262,6 +262,18 @@ A household with no glory keeps its money.
 
 The formula as first written finished a household with no money at zero whatever its glory. Built, that was the common case: a family that sent its man to the army and sold nothing finished at 0, and a class where nobody sold for coin tied every family at 0 (§7.1). Now a household with no coin is counted as holding one real, so its glory multiplies something. The floor lifts nobody who holds a real or more, and the ending says the real was counted rather than implying the family had it.
 
+**Amended by the owner, 2026-09-16 (`docs/COLONIES.md` §7e, the winter of 1836):**
+
+```
+final = max(money, 1) × (1 + glory) + land
+```
+
+Land promised for enlisting in the winter - a real for every twenty acres, if the person is alive and still serving - is added
+after glory multiplies the coin, never multiplied by it. With it, the store buys a family's whole cotton crop for coin at a real a
+bale, so that a family that never fights can, rarely, finish first by what it grew and sold. The owner asked for exactly that:
+*"it should be balanced so that's a possible, but unlikely way to win."* Measured before deciding: families that sent somebody to
+the army finished the first period at 15-173 with no coin; families that stayed home, at 1, with their cotton unsold.
+
 ### What each family sees
 
 At the end the fog lifts (`VISION.md` §20) and each family sees, for the first time:

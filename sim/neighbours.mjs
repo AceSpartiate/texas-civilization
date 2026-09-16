@@ -35,6 +35,20 @@ export const NEIGHBOUR_PLOTS = 3;
 /** The house it chooses, best first, where its tools allow. */
 const HOUSE_PREFERENCE = ['hewn-log', 'round-log', 'jacal'];
 
+/**
+ * How often a family nobody plays takes each winter choice, per grown hand (owner, 2026-09-16, docs/COLONIES.md §7e: "rarely,
+ * as the record shows"; 78 in 100 of those serving that winter were newcomers from the United States, `HIST-TEX-047`). The
+ * regular army takes two in five of those who enlist; the numbers are this game's own (`FIC-GONZ-044`).
+ */
+export const WINTER_SHARES = Object.freeze({ enlist: 0.1, regular: 0.04, garrison: 0.1, matamoros: 0.02, vote: 0.9 });
+
+/** A share in [0, 1) that is always the same for this class, this person and this question: FNV-1a over the three. */
+export function shareOf(world, personId, question) {
+  let hash = 0x811c9dc5;
+  for (const char of `${world.seed}:${personId}:${question}`) { hash ^= char.charCodeAt(0); hash = Math.imul(hash, 0x01000193) >>> 0; }
+  return hash / 0x100000000;
+}
+
 const worth = goods => Object.entries(goods || {}).reduce((sum, [good, amount]) => sum + (TRADE_VALUE[good] ?? 1) * amount, 0);
 
 /** Whether this family is one the director runs. */
@@ -104,6 +118,23 @@ export function thinkFor(world, household, { project, act }) {
     const volunteer = !coast && answerers.length >= 2 && (answerers.find(a => goes(a) && a.person?.sex === 'male' && !a.person.principal) || answerers.find(a => goes(a) && a.person?.principal && a.person.sex !== 'female'));
     if (volunteer) ride({ action: 'turn-out', entityId: volunteer.person.id });
     else if (answerers[0]) attempt({ action: 'stay-put', entityId: answerers[0].person.id });
+  }
+
+  // The winter's choices (sim/winter.mjs, docs/COLONIES.md §7e), at the record's rarity (owner, 2026-09-16): most colonists
+  // stayed home that winter, so about one grown hand in ten enlists for land, about one in ten goes to the Béxar garrison,
+  // one in fifty goes south to Matamoros, and nearly every man who may vote rides in to vote. Who is decided by a share
+  // hashed from the class and the person, not drawn from a random stream, so the family is as deterministic as the rest of
+  // this director and a class replays the same.
+  for (const person of people) {
+    if (person.chore || person.travel || person.service) continue;
+    const offer = chore => (view.work?.[person.id] || []).find(entry => entry.id === chore && entry.can);
+    if (offer('go-vote') && shareOf(world, person.id, 'vote') < WINTER_SHARES.vote) { ride({ action: 'chore', entityId: person.id, chore: 'go-vote' }); continue; }
+    const share = shareOf(world, person.id, 'winter');
+    const chore = share < WINTER_SHARES.regular ? 'enlist-regular'
+      : share < WINTER_SHARES.enlist ? 'enlist-auxiliary'
+      : share < WINTER_SHARES.enlist + WINTER_SHARES.garrison ? 'join-garrison'
+      : share < WINTER_SHARES.enlist + WINTER_SHARES.garrison + WINTER_SHARES.matamoros ? 'join-matamoros' : null;
+    if (chore && offer(chore)) ride({ action: 'chore', entityId: person.id, chore });
   }
 
   // On the real land, where the house stands comes first (sim/homesite.mjs): looked over as a student would look it over.

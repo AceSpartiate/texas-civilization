@@ -8,9 +8,11 @@
     "the class ended on its own, with both pages watching",
     "the family sees its own reckoning: 0 reales, counted as 1 real × (1 + 94 glory) = 95",
     "the family can close it to look at the map, and open it again",
-    "the Host names the family that finished first: hh-1 at 95",
+    "the Host names the family that leads after Béxar: hh-1 at 95",
     "no word on either page names a virtue",
     "at phone width the page does not scroll sideways",
+    "the Host continues the class into the winter: both pages open paused on \"1836-01-25 · paused\", the standings gone",
+    "the teacher resumes, and the same student gives an order in January 1836",
     "no page errors"
   ],
   "observed": {
@@ -31,7 +33,7 @@
         "Cipriano was there for the storming of Béxar, 184 road miles from home."
       ]
     },
-    "familyText": "THE END OF THE STORY\n×\nCipriano's family\nCOIN IN THE HOUSE\n0 reales\nGLORY\n94\nFINAL NUMBER\n95\n\n0 reales, counted as 1 real × (1 + 94 glory) = 95\n\nOur story\n\nThe family lived 115 road miles from Gonzales.\n\nWord that soldiers had come for the cannon reached them on October 2.\n\nWhere the coin came from and went\n\nNothing was bought or sold for coin.\n\nWhat earned glory\nOctober 11: Cipriano was there for the army made at Gonzales, 115 road miles from home. (16)\nOctober 28: Cipriano was there for the fight at Concepción, 184 road miles from home. (26)\nNovember 27: Cipriano was there for the Grass Fight, 184 road miles from home. (26)\nDecember 9: Cipriano was there for the storming of Béxar, 184 road miles from home. (26)",
+    "familyText": "THE STORY SO FAR\n×\nCipriano's family\n\nThis is where your family stands after the fall of Béxar. The war is not over: the next class goes on into 1836, and these numbers will change.\n\nCOIN IN THE HOUSE\n0 reales\nGLORY\n94\nFINAL NUMBER\n95\n\n0 reales, counted as 1 real × (1 + 94 glory) = 95\n\nOur story\n\nThe family lived 115 road miles from Gonzales.\n\nWord that soldiers had come for the cannon reached them on October 2.\n\nWhere the coin came from and went\n\nNothing was bought or sold for coin.\n\nWhat earned glory\nOctober 11: Cipriano was there for the army made at Gonzales, 115 road miles from home. (16)\nOctober 28: Cipriano was there for the fight at Concepción, 184 road miles from home. (26)\nNovember 27: Cipriano was there for the Grass Fight, 184 road miles from home. (26)\nDecember 9: Cipriano was there for the storming of Béxar, 184 road miles from home. (26)",
     "host": {
       "winners": [
         "hh-1"
@@ -45,11 +47,16 @@
         "Ezra's family: 0 × (1 + 0) = 1"
       ]
     },
-    "hostText": "THE END OF THE STORY\n×\nHow the families finished\n\nCipriano's family finished first, with a final number of 95.\n\nFamily\tRoad miles from Gonzales\tHeard of the cannon\tWho went\tCoin\tGlory\tFinal\nCipriano's family\t115\tOctober 2\tCipriano\t0 reales\t94\t95\nElias's family\t171\tOctober 2\tnobody\t5 reales\t0\t5\nAsa's family\t133\tOctober 1\tnobody\t0 reales\t0\t1\nBarnabas's family\t7\tSeptember 29\tnobody\t0 reales\t0\t1\nEzra's family\t204\tOctober 2\tnobody\t0 reales\t0\t1\n\nFinal number = coin × (1 + glory). A family with no coin is counted as having 1 real.\n\nFor the class\nWhich families heard the news first, and did hearing first change what they did?\nHow did living far from Gonzales change what a family could do?\nWhat did a family give up at home when somebody went, and what did staying home cost?\nWhy do the families with the most coin and the families with the most glory not always match?"
+    "hostText": "THE STORY SO FAR\n×\nHow the families stand after Béxar\n\nCipriano's family leads, with a final number of 95.\n\nThese are interim standings. The war goes on in the next class: press Continue to the winter of 1836 when the class meets again.\n\nFamily\tRoad miles from Gonzales\tHeard of the cannon\tWho went\tCoin\tGlory\tLand\tFinal\nCipriano's family\t115\tOctober 2\tCipriano\t0 reales\t94\t—\t95\nElias's family\t165\tOctober 2\tnobody\t5 reales\t0\t—\t5\nAsa's family\t133\tOctober 1\tnobody\t0 reales\t0\t—\t1\nBarnabas's family\t7\tSeptember 29\tnobody\t0 reales\t0\t—\t1\nEzra's family\t204\tOctober 2\tnobody\t0 reales\t0\t—\t1\n\nFinal number = coin × (1 + glory) + land. A family with no coin is counted as having 1 real. Land promised for enlisting counts a real for every 20 acres, if the person is alive and still serving.\n\nFor the class\nWhich families heard the news first, and did hearing first change what they did?\nHow did living far from Gonzales change what a family could do?\nWhat did a family give up at home when somebody went, and what did staying home cost?\nWhy do the families with the most coin and the families with the most glory not always match?",
+    "winter": {
+      "householdId": "hh-1",
+      "date": "1836-01-25 · paused"
+    }
   },
   "screenshots": [
     "docs/evidence/ending-family.png",
     "docs/evidence/ending-host.png",
-    "docs/evidence/ending-host-phone.png"
+    "docs/evidence/ending-host-phone.png",
+    "docs/evidence/ending-winter.png"
   ]
 }

@@ -378,7 +378,12 @@ Each step ends with tests that failed first, a browser proof where it touches wh
    the first `fought`. **Concepción done 2026-09-16** (§6i); **the siege and the Grass Fight done 2026-09-16** (§6k); **the storming of Béxar done 2026-09-16** (§6l). Build step 6 is complete.
 6a. ~~**The two clocks** (§5.7) come in with step 4~~ **Done 2026-09-15** (§6g). **Playing alone** (§5.8) can still be built
    at any point.
-7. Then `docs/LAND_GRANTS.md` §4–5: Survey and clearing.
+7. ~~Then `docs/LAND_GRANTS.md` §4–5: Survey and clearing.~~ Done 2026-09-14 (`docs/LAND_GRANTS.md` §4.1, §5.1).
+8. **The second class period: the winter of 1835–36** (§7e; research [winter-1835-36.md](battle-research/winter-1835-36.md)).
+   (a) Two periods: the first ends after Béxar with interim standings and is continued, not archived; the gap is skipped
+   gently; the second opens about January 25, 1836. (b) The winter's choices: enlisting for land, the Béxar garrison, the
+   February 1 vote, Matamoros; one person, one place. (c) Families nobody plays, at the record's rarity.
+9. **The Alamo**, researched first as the 1835 battles were; then Goliad, the Runaway Scrape and San Jacinto.
 
 ---
 
@@ -720,6 +725,73 @@ about 27 more ticks when the questions are answered promptly.
 - Tests: `tests/storming.test.mjs` (6, proven by 16 injections when built; the casualty tests re-proven for §7d); browser: `npm run test:storming`
   ([evidence](evidence/storming-browser.json)).
 
+### 6m. As built: step 8(a), two class periods (2026-09-16)
+
+Decided by the owner by multiple choice (§7e). `FIC-GONZ-044`.
+
+- **The first period ends as it did**, on the evening of December 15 (`bexar-end`), and `world.status` is `ended`. What it
+  shows is **interim standings** (`sim/ending.mjs` `endingProjection`, `interim`): the same coin, glory and final number
+  each family and the Host were already shown, headed *The story so far*; the Host's page says which family **leads**, not
+  which finished first, and that the war goes on in the next class. Only a real-land class that reached `bexar-end` has a
+  second period (`sim/periods.mjs` `canContinue`); the invented Gonzales country ends at its fight as before.
+- **The Host continues the class** with *Continue to the winter of 1836* (host action `next-period`), offered only where
+  the server says so. It is not *New Class*: the same save, session, class code, family keys, people and glory.
+- **The winter is skipped gently** (`beginSecondPeriod`): word still on the road is learned from whoever carried it and the
+  riders set down; open calls expire, open conversations close, offers lapse; everyone alive comes home off whatever road
+  they were on, with their horse, ox and wagon; a wound that mends before January 25 is mended, and one that does not
+  (a dangerous wound from the storming) keeps the person lying where the surgeon has them; nobody is tired, at work or
+  promised to the army. **Each family eats an ordinary winter** (0.35 a person a day, the routine's figure) **and never goes
+  below a fortnight's food**, or below what it had if it had less (`WINTER_FLOOR_DAYS`). `ceiling:` nothing else happens
+  over the winter - no crop, no spoilage, no trade.
+- **The second period opens paused at dawn on January 25, 1836** (`winter-opens`) on the farming scale, so the teacher
+  starts it; the winter's news moves the calendar to the campaign scale at dawn on the 26th (`winter-news`), and the
+  period ends at dawn on February 23 (`winter-end`) with the **final** reckoning. `ceiling:` until the Alamo is built the
+  second period stops there. None of 1835's moments fire again (`advanceDirectors` branches on `world.period`).
+- **Stored** as `world.period` (absent is the first); validated as 1 or 2. No save version moved.
+- Tests `tests/periods.test.mjs` (5, proven by 12 injections); browser `npm run test:ending`, which now ends the first period,
+  checks the standings are interim, continues into the winter on both pages and gives an order in January 1836
+  ([evidence](evidence/ending-browser.json)).
+
+### 6n. As built: step 8(b) and 8(c), the winter's choices (2026-09-16)
+
+Decided by the owner by multiple choice (§7e). Research [winter-1835-36.md](battle-research/winter-1835-36.md); `HIST-TEX-047` to
+`-053`, `FIC-GONZ-044`.
+
+- **Five chores, offered only in the second period's winter** (`sim/winter.mjs`, `winter` in `CHORES`), so none of it rides the
+  channel in 1835. Each goes where the thing is done and its last step does it:
+  - *Enlist in the regular army at San Felipe*: 800 acres promised, bound.
+  - *Enlist as an auxiliary volunteer at San Felipe*: asked at the table, the war (640 acres) or a year (320); nobody answering signs for the year.
+  - *Join the garrison at Béxar* and *Go south to join the Matamoros men* (at Refugio: `ceiling:` San Patricio is not on the map).
+  - *Go into town to vote*, offered to men of 21 and over (a father of no stated age counts) while the polls are open.
+- **Who may go** is who may answer a call: a parent, or a son or daughter of sixteen or more.
+- **One person, one place.** Somebody serving (`entity.service`, `status: 'serving'`) is refused every chore and every order but
+  being sent for, named, made main or spoken to (`SERVING_ACTIONS`), in the words *"X is with the regular army at San Felipe de
+  Austin, and can only be sent for."* Their row on the family panel has one icon, *Send for them to come home*, which opens their
+  card; the card says where they are and what was promised, and sending for them is asked twice.
+- **Sent for** (action `winter-recall`): a regular has **deserted** - the enlisting glory is taken back twice over, they can never
+  enlist again, and they start home; an auxiliary is **released** and the land is forfeit; the garrison and the expedition simply
+  come home.
+- **Glory**: enlisting is worth `enlisted` (2, as being present); voting `voted` (1). The garrison and the expedition earn
+  theirs from what they are there for, when the Alamo and Matamoros are built.
+- **The ending**: `final = coin × (1 + glory) + land`, land a real for twenty acres promised to every living member still
+  serving on land terms (`landPromised`), written into the sum and shown in the Host's table.
+- **Cotton**: the store buys a family's whole crop for coin, however little is in its purse; everything else is still paid
+  from the purse (`FIC-GONZ-022`).
+- **The winter's news** (`advanceWinter`): on January 26 the army gone home (`-047`), Houston's terms (`-048`), Béxar and the
+  Matamoros men (`-049`), and the council's quarrel (`-050`) reach every family; from noon on January 31 to midnight on
+  February 1 the polls are open on the hourly calendar (`-052`); Travis's and Crockett's arrivals at Béxar are heard about five
+  days after (`-051`); the rumour of Santa Anna over the Rio Grande about February 18 (`-053`). `ceiling:` news reaches every
+  family at once, not by riders over the roads as in 1835.
+- **Families nobody plays** (`sim/neighbours.mjs`, step 8c): a share hashed from the class and the person, never a random draw,
+  so a class replays the same: 4 grown hands in 100 enlist as regulars and 6 as auxiliaries (1 in 10 in all), 1 in 10 goes to the
+  garrison, 1 in 50 to Matamoros, and 9 men in 10 who may vote ride in to vote (`WINTER_SHARES`).
+- **Stored** as `entity.service` (`kind`, `status`, `since`, `siteId`, `acres`), `entity.deserted` and `entity.voted`, all
+  absent on every class saved before; validated. No save version moved.
+- **Stand-ins**: the five icons are drawn glyphs (a flag, a fort, an arrow south, a ballot) and the cabin; request 2026-09-16 -
+  the winter's icons.
+- Tests `tests/winter.test.mjs` (8, proven by 23 injections), `tests/money.test.mjs` (the purse and cotton),
+  `tests/family-panel.test.mjs` (the serving row); browser `npm run test:winter` ([evidence](evidence/winter-browser.json)).
+
 ## 7. Questions for the owner — all answered 2026-09-14
 
 1. **How long is a class?** About fifty minutes: ten of farming, then the war, compressed without feeling compressed (§5.7).
@@ -800,3 +872,24 @@ class. A crowd of classmates in a deadly fight can lose several; a battle nobody
 This supersedes the cap in §6i, §6l, §7a and §7c, `FIC-GONZ-039` and `FIC-GONZ-041`, and the "at most one death" readings
 in the battle research, which were proposals written before the owner decided. The Alamo and Goliad are not built; when
 they are, their rates come from their own research the same way.
+
+### 7e. Past Béxar: two class periods and the winter of 1835–36 — answered 2026-09-16
+
+Put to the owner by multiple choice after build step 6, before any research, and again after
+[winter-1835-36.md](battle-research/winter-1835-36.md):
+
+| Question | Owner's answer |
+| --- | --- |
+| How does the class continue past Béxar into 1836? | **Two class periods.** Day 1 ends after Béxar and saves; day 2 opens the same families in January 1836 and runs to San Jacinto. Each day stays near fifty minutes. (Not one longer class, not squeezed into fifty minutes, not a teacher-chosen range.) |
+| What next along the war track? | **The winter, then the Alamo**, each researched first. |
+| What does the end of day 1 show? | **Interim standings**: each family's glory and a provisional ranking at the end of day 1; the final winner at the end of day 2. |
+| The weeks nobody plays, December 15 to day 2 | **Skipped gently**: everyone who went home arrives home; wounds heal by the time that passed; the family eats an ordinary winter, and nobody starves over time nobody could play. |
+| When does day 2 open? | **About January 25, 1836**: ten minutes of winter farming and news, then the Alamo from February 23, leaving room for Goliad, the Runaway Scrape and San Jacinto. |
+| What can grown family members choose to do in the winter? | **All four: enlist for land, join the Béxar garrison, vote on February 1, join Matamoros.** The owner: *"All of the above, but each character can only be in one location, so each family would need to send an applicable person to each that they want to participate in. Choices will need to be made."* |
+| What does enlisting for land earn? | **Glory now, land at the end**: glory for enlisting, and the promised acres count as coin at a period land price at the final reckoning, only if the person is alive and still serving. |
+| Can the family bring them home before the fighting? | **Volunteers yes, enlisted no.** Garrison and Matamoros volunteers can be sent for; a regular who leaves has deserted, costs glory, and cannot enlist again. |
+| How often do families nobody plays take part? | **Rarely, as the record shows**: about 1 in 10 adults each enlist or join the garrison, Matamoros very rarely, and nearly every eligible man votes. |
+| How much is the promised land worth at the end? | The owner: *"1 real per 20 acres is my thought, but I wonder: if a family never fights, how many harvests and sales could they realistically have? It should be balanced so that's a possible, but unlikely way to win."* Measured (three simulated first periods, 15 families each): families that sent somebody finished at 15–173 with no coin; families that stayed home finished at 1, holding 50–156 unsold bales, because a store's purse (2 reales a family) could never buy them. Answered: **land outside the multiplier** - `final = coin × (1 + glory) + land`, land at **a real for twenty acres** (40, 32 or 16) - and **stores buy a whole cotton crop** at a real a bale, so staying home is a possible but unlikely way to win. Amends `docs/MONEY_AND_GLORY.md` §5. |
+| Where must somebody be to vote on February 1? | **In the settlement's own town**: a trip, and nobody away at Béxar or Matamoros votes. |
+| Who may vote? | **Men of 21 and over**, as in 1836. |
+| Can an auxiliary volunteer be sent for? | **Yes, and the land is forfeit.** Only the regular army is bound. |

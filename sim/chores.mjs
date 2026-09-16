@@ -19,6 +19,7 @@
 // documented local game. So a household grows corn or cotton and nothing else, and no
 // hunted species is ever named.
 import { heavyWorkPace, tooYoung, tooYoungWhy } from './family.mjs';
+import { castVote, joinService, servingWhy, winterOffered, winterRefusal } from './winter.mjs';
 import { record } from './events.mjs';
 import { purseHeld, purseOf, recordTrade, traderAt } from './town.mjs';
 import { carryCapacity, DEFAULT_MODE, MODES, propertyId } from './travel.mjs';
@@ -185,9 +186,20 @@ export const ASKS = {
     requires: {
       coin: [
         { test: household => (household.resources.cotton ?? 0) >= 1, why: 'The store pays coin only for a whole bale.' },
-        { test: (household, world, entity) => purseHeld(world, world.entities[entity.chore?.traderId]) >= COIN.cottonBale, why: 'The store has no coin left to pay out.' },
       ],
     },
+  },
+  // The auxiliary volunteers' two terms (sim/winter.mjs, `HIST-TEX-048`). Nobody answering signs for the year.
+  'auxiliary-terms': {
+    doing: 'at the table with the roll',
+    fallback: 'year',
+    text: entity => `${entity.name} can sign on for the war, for 640 acres, or for one year, for 320.`,
+    options: () => [
+      { id: 'war', label: 'Sign on for the war', note: '640 acres, promised' },
+      { id: 'year', label: 'Sign on for a year', note: '320 acres, promised' },
+      { id: 'leave', label: 'Do not sign', note: 'Come home again' },
+    ],
+    requires: {},
   },
   'powder-counter': {
     doing: 'at the counter',
@@ -527,6 +539,57 @@ export const CHORES = {
       { travel: 'home', doing: 'walking home from {town}' },
     ],
   },
+  // The winter's choices (sim/winter.mjs, docs/COLONIES.md §7e): offered only in the second class period. Each goes to where
+  // the thing is done and the `winter` step does it; somebody who has joined stays there until they are sent for.
+  'enlist-regular': {
+    name: 'Enlist in the regular army at San Felipe', skill: 'hands', where: 'home', winter: true,
+    describe: 'Ride or walk to San Felipe, where the council sits, and sign on in the regular army for two years or the war, on the promise of $24 and 800 acres of land. A regular who leaves has deserted.',
+    steps: [
+      { travel: 'san-felipe', doing: 'on the road to San Felipe to enlist' },
+      { work: 1, doing: 'waiting to sign the roll' },
+      { winter: 'regular' },
+    ],
+  },
+  'enlist-auxiliary': {
+    name: 'Enlist as an auxiliary volunteer at San Felipe', skill: 'hands', where: 'home', winter: true,
+    describe: 'Ride or walk to San Felipe and sign on as an auxiliary volunteer: 640 acres of land for the war, or 320 for a year. An auxiliary can be sent for, and loses the land.',
+    steps: [
+      { travel: 'san-felipe', doing: 'on the road to San Felipe to enlist' },
+      { work: 1, doing: 'waiting to sign the roll' },
+      { ask: 'auxiliary-terms' },
+      { when: ['war'], winter: 'auxiliary-war' },
+      { when: ['year'], winter: 'auxiliary-year' },
+      { when: ['leave'], travel: 'home', doing: 'walking home from San Felipe' },
+    ],
+  },
+  'join-garrison': {
+    name: 'Join the garrison at Béxar', skill: 'hands', where: 'home', winter: true,
+    describe: 'Go to Béxar and join the men holding the town and the Alamo, who are short of everything. They stay until sent for.',
+    steps: [
+      { travel: 'bexar', doing: 'on the road to Béxar' },
+      { work: 1, doing: 'reporting to the garrison' },
+      { winter: 'garrison' },
+    ],
+  },
+  'join-matamoros': {
+    name: 'Go south to join the Matamoros men', skill: 'hands', where: 'home', winter: true,
+    describe: 'Go south to Refugio and join the volunteers gathering to carry the war to Matamoros. They stay until sent for.',
+    steps: [
+      { travel: 'refugio', doing: 'on the road south to Refugio' },
+      { work: 1, doing: 'finding the volunteers' },
+      { winter: 'matamoros' },
+    ],
+  },
+  'go-vote': {
+    name: 'Go into town to vote', skill: 'hands', where: 'home', winter: true,
+    describe: 'On February 1 the settlements elect their delegates to the convention. The polls are in town; whoever goes is away from the work for the trip.',
+    steps: [
+      { travel: 'town', doing: 'on the road to {town} to vote' },
+      { work: 1, doing: 'waiting at the polls in {town}' },
+      { winter: 'vote' },
+      { travel: 'home', doing: 'walking home from {town}' },
+    ],
+  },
   'mend-hoe': {
     name: 'Mend the hoe', skill: 'hands', where: 'home',
     needsTool: 'worn',
@@ -775,6 +838,9 @@ export function choreAvailability(world, household, entity, choreId) {
   if (entity.chore) return { can: false, why: `${entity.name} is already ${entity.chore.doing}.` };
   if (entity.travel) return { can: false, why: `${entity.name} is on the road.` };
   if (entity.task === 'help') return { can: false, why: `${entity.name} is away helping.` };
+  // Somebody who has joined the army, the garrison or the expedition is in one place and does nothing else (sim/winter.mjs).
+  if (entity.service?.status === 'serving') return { can: false, why: servingWhy(world, entity) };
+  if (chore.winter) { const why = winterRefusal(world, household, entity, choreId); if (why) return { can: false, why }; }
   if (chore.where === 'home' && entity.location.siteId !== household.homeSiteId) return { can: false, why: `${entity.name} is not at home.` };
   if (chore.helps) { const why = helpRefusal(world, entity); if (why) return { can: false, why }; }
   // On the real land the house, the field and the well wait for the family to say where the house stands (sim/homesite.mjs).
@@ -910,6 +976,8 @@ export function choresFor(world, household, entity) {
     // Nor furniture while the family is still on the road in, or once it has every piece (sim/furniture.mjs).
     && !(chore.furniture && (household.arriving || !wanting(household).length))
     && !(chore.shops && household.arriving)
+    // Nor the winter's choices outside the second period's winter, nor a vote before the polls or for somebody who has none.
+    && !(chore.winter && !winterOffered(world, household, entity, id))
     // Nor survey or plot work before the class has begun, which would be a refusal for every person on every lobby tick.
     && !((chore.survey || chore.plotWork || chore.huntLand || chore.fells) && world.status === 'lobby')).map(([id, chore]) => {
     const { can, why } = choreAvailability(world, household, entity, id);
@@ -1236,7 +1304,10 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       // Coin is paid only for whole bundles - a whole bale, three food - so what is sold for
       // coin is the whole bundles carried, and anything left over stays in the house.
       // Coin is paid out of the storekeeper's purse, and no more than it holds.
-      const trader = want === 'money' ? world.entities[state.traderId] : null;
+      // Cotton is the exception: the store buys a family's whole crop for coin, because it ships the bales down to the coast
+      // on its own credit (owner, 2026-09-16, docs/COLONIES.md §7e, so a family that stays home can sell what it grew;
+      // `FIC-GONZ-044`). Everything else is paid from the storekeeper's purse, which is scarce (`FIC-GONZ-022`).
+      const trader = want === 'money' && good !== 'cotton' ? world.entities[state.traderId] : null;
       const bundles = per ? Math.floor(carried / per) : 0;
       const affordable = trader ? Math.min(bundles, Math.floor(purseOf(world, trader) / gives)) : bundles;
       const sold = per ? affordable * per : carried;
@@ -1469,6 +1540,8 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       continue;
     }
     if (step.mend) { household.tools[step.mend] = 0; continue; }
+    // Arrived where they meant to join or to vote (sim/winter.mjs).
+    if (step.winter) { if (step.winter === 'vote') castVote(world, household, entity); else joinService(world, household, entity, step.winter); continue; }
     if (step.shop) {
       const chosen = (state.flags || []).find(flag => flag.includes(':'));
       if (chosen) takeCounter(world, household, entity, chosen);

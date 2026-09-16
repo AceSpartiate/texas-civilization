@@ -15,7 +15,7 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectFamily, projectWorld, rollFamily, stepWorld } from '../sim/world.mjs';
 import { CHORES, choreCatalogue } from '../sim/chores.mjs';
 import {
-  ORDER_NAMES, PANEL_ICONS, PANEL_SUMMARIES, activeKey, nameToSave, panelActions, panelOrder, rowReason,
+  ORDER_NAMES, PANEL_ICONS, PANEL_SUMMARIES, activeKey, isIdle, nameToSave, panelActions, panelOrder, rowReason,
 } from '../public/family-panel.js';
 
 const atlas = JSON.parse(readFileSync(fileURLToPath(new URL('../public/assets/frontier-v1/atlas.json', import.meta.url)), 'utf8'));
@@ -170,4 +170,13 @@ test('a name is saved only when it changes and is not blank', () => {
   assert.equal(nameToSave(' Rosa ', 'Rosa'), null);
   assert.equal(nameToSave('   ', 'Rosa'), null);
   assert.equal(nameToSave('Mary  Ann', 'Rosa'), 'Mary Ann');
+});
+
+test('somebody serving in the winter has one icon on their row, sending for them (sim/winter.mjs)', () => {
+  const entity = { id: 'p', kind: 'person', health: { condition: 'well' }, task: 'rest', location: { siteId: 'san-felipe' }, service: { kind: 'regular', status: 'serving', siteId: 'san-felipe', acres: 800 } };
+  const icons = panelActions({ entity, offered: [{ id: 'sell-cotton', can: false, why: 'x' }], main: true, homeId: 'home-1', settable: true });
+  assert.deepEqual(icons.map(icon => icon.key), ['winter-recall']);
+  assert.equal(icons[0].can, true);
+  assert.match(icons[0].note, /deserted/);
+  assert.equal(isIdle(entity, icons), false, 'somebody serving was shown idle');
 });

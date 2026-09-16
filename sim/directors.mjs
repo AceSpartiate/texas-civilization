@@ -76,6 +76,16 @@ const FROM_MIDNIGHT_SEPT_29 = Object.freeze({
   // the class stops that evening.
   'winter-quarters': 95400, assault: 96780, 'milam-killed': 100290, reinforce: 101160, ugartechea: 101880, 'bexar-express': 102120,
   'white-flag': 102660, terms: 103800, capitulation: 105840, 'wound-deaths': 107280, 'cos-marches': 109980, 'bexar-victory': 111600, 'bexar-end': 112320,
+  // The second class period (docs/COLONIES.md §7e, sim/periods.mjs), the winter of 1835-36. January 25, 1836 is day 118 from
+  // midnight on September 29, 1835 (169920). It opens at dawn with the quiet farming scale; the winter's news begins at dawn
+  // on the 26th on the campaign calendar; the period stops at dawn on February 23, the day Santa Anna reached Béxar
+  // (`HIST-TEX-053` proposed; research in docs/battle-research/winter-1835-36.md). ceiling: until the Alamo is built the
+  // second period ends there, with the final reckoning.
+  // The polls are open on February 1 (`HIST-TEX-052`): from noon on January 31, so a man can ride in, to midnight on the 2nd,
+  // on the hourly calendar so the day lasts long enough to go. Travis's arrival (February 3) and Crockett's (the 8th) are
+  // heard about five days after; the rumour that Santa Anna is over the Rio Grande about the 18th (`HIST-TEX-053`).
+  'winter-opens': 170280, 'winter-news': 171720, 'election-opens': 179280, 'election-close': 181440,
+  'travis-news': 181440 + 5 * 1440 + 360, 'crockett-news': 181440 + 10 * 1440 + 360, 'santa-anna-rumour': 181440 + 15 * 1440 + 360, 'winter-end': 212040,
 });
 /**
  * The families arrive at dawn on September 28, eighteen hours before midnight.
@@ -827,10 +837,50 @@ function advanceStorming(world, movement, { due, said }) {
   });
 }
 
+/**
+ * The second period (sim/periods.mjs): the winter of 1835-36. It is played only once the Host has continued the class, and
+ * everything before it was settled in the first period, so none of the 1835 milestones fire again.
+ */
+function advanceWinter(world) {
+  const said = (claimId, text) => record(world, 'milestone', { visibility: 'public', importance: 3, classification: 'DOCUMENTED', claimId, text });
+  once(world, 'winter-news', () => {
+    world.director.phase = 'campaign';
+    said('HIST-TEX-047', 'Most of the men who took Béxar are home. Burleson has gone home too, and the volunteers left in Béxar are mostly newcomers from the United States.');
+    sendWord(world, 'winter-terms', { truth: WINTER_TERMS, claimId: 'HIST-TEX-048', source: 'A printed call from General Houston' });
+    sendWord(world, 'winter-bexar', { truth: WINTER_BEXAR, claimId: 'HIST-TEX-049', source: 'Word from the west' });
+    sendWord(world, 'winter-council', { truth: WINTER_COUNCIL, claimId: 'HIST-TEX-050', source: 'Word from San Felipe' });
+  });
+  once(world, 'election-opens', () => {
+    world.director.phase = 'news';
+    said('HIST-TEX-052', 'Tomorrow, February 1, each settlement elects its delegates to the convention called for March 1 at Washington-on-the-Brazos. The polls are in town.');
+  });
+  once(world, 'election-close', () => {
+    world.director.phase = 'campaign';
+    said('HIST-TEX-052', 'The polls have closed. The delegates are chosen, and the convention meets at Washington on March 1. Gonzales has sent Mathew Caldwell and John Fisher.');
+  });
+  once(world, 'travis-news', () => sendWord(world, 'winter-travis', { truth: 'William Barret Travis has come to Béxar with about thirty horsemen, and Bowie means to hold the place.', claimId: 'HIST-TEX-051', source: 'Word from Béxar' }));
+  once(world, 'crockett-news', () => sendWord(world, 'winter-crockett', { truth: 'David Crockett of Tennessee has reached Béxar with a few volunteers. Colonel Neill has gone home to his sick family, and Travis and Bowie command together.', claimId: 'HIST-TEX-051', source: 'Word from Béxar' }));
+  once(world, 'santa-anna-rumour', () => sendWord(world, 'winter-santa-anna', { truth: 'It is said Santa Anna himself has crossed the Rio Grande with a great army, through snow, and is marching on Béxar.', status: 'rumor', claimId: 'HIST-TEX-053', source: 'A rumour from the west' }));
+  once(world, 'winter-end', () => {
+    world.director.complete = true; world.director.phase = 'preserved'; world.status = 'ended';
+    record(world, 'slice-preserved', {
+      visibility: 'public', classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-044',
+      text: 'It is February 23, 1836. Santa Anna’s army has reached Béxar. This class stops here; the Alamo is still to come.',
+    });
+  });
+}
+
+/** The winter's first news (sim/winter.mjs): what a man could sign up for, the garrison and the expedition, and the government. */
+const WINTER_TERMS = 'General Houston calls for volunteers. A man who enlists in the regular army for two years or the war is promised $24 and 800 acres of land; an auxiliary volunteer, 640 acres for the war or 320 for a year. Men enlist at San Felipe.';
+const WINTER_BEXAR = 'Colonel Neill holds Béxar with fewer than a hundred men, without money, horses or clothing, since Johnson and Grant took most of the men and supplies south for an attack on Matamoros. Bowie has come to Béxar with thirty men, and the Matamoros volunteers are gathering south, about Refugio.';
+const WINTER_COUNCIL = 'The government at San Felipe has fallen out with itself: the council has put out Governor Smith over the Matamoros business, and Smith will not go.';
+
 /** The fuller word of the storming, as the government heard it on December 15 (`HIST-TEX-038` to `-044`), in the owner's wording (§7c). */
 const BEXAR_VICTORY = 'Word has come that Béxar has fallen. For four days the volunteers fought through the town house by house, cutting through walls and digging trenches across the streets, while the families of Béxar lay shut in their houses; a woman of the town was shot carrying water to them. Ben Milam was killed on the 7th and Johnson took command. On the 9th Cos sent out a white flag from the Alamo, and by the capitulation dated the 11th he and his officers go into the interior on their word not to oppose the Constitution of 1824, his men keeping their muskets. Between four and six of ours were killed and about two dozen wounded. How many Mexican soldiers were killed and wounded the reports do not agree: about a hundred and fifty, or about three hundred.';
 export function advanceDirectors(world, movement) {
   if (!world.director || world.director.complete) return;
+  // The second period has its own moments; the first period's were all settled before the winter (sim/periods.mjs).
+  if (world.period === 2) { advanceWinter(world); return; }
   once(world, 'notice', () => {
     establishTruth(world, { id: 'cannon-request', text: 'A Mexican detachment has reached the Guadalupe opposite Gonzales to reclaim the cannon. Local settlers have refused to return it.', siteId: 'gonzales', classification: 'DOCUMENTED', claimId: 'HIST-GONZ-002' });
     world.director.phase = 'news';

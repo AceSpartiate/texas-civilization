@@ -67,7 +67,7 @@ function element(tag, content, className) { const el = document.createElement(ta
 // itself, so a browser dialog never blocks the projected Host.
 // Sending for somebody is asked twice, like the other two that cannot be taken back: they lose
 // their place in the ranks and whatever the army does next happens without them.
-const confirmLabel = { 'new-class': 'Confirm new class', 'stop-server': 'Confirm stop', 'send-for': 'Confirm: bring them home' };
+const confirmLabel = { 'new-class': 'Confirm new class', 'stop-server': 'Confirm stop', 'send-for': 'Confirm: bring them home', 'winter-recall': 'Confirm: send for them' };
 let confirming = null, confirmTimer = null, authRecheck = false, startAnyway = false;
 // The map is public geography that never changes during a class, so it is fetched once
 // and re-attached to each snapshot. A new class rotates the session id and invalidates it.
@@ -2110,7 +2110,8 @@ function renderTravelModes(world, chosen, settable) {
   // And not while somebody is standing in a wood waiting to be answered. How they would
   // set out on the next journey is not an answer to the question in front of them, and a
   // greyed-out row of it above the question is clutter at the one moment that matters.
-  if (!offered?.length || chosen.observed || world.role === 'host' || chosen.chore?.ask) { wrap.hidden = true; return; }
+  // Nor for somebody serving (sim/winter.mjs): they go nowhere but home, when sent for.
+  if (!offered?.length || chosen.observed || world.role === 'host' || chosen.chore?.ask || chosen.service?.status === 'serving') { wrap.hidden = true; return; }
   wrap.hidden = false;
   const open = offered.find(entry => entry.id === modeFor(chosen.id) && entry.can);
   if (!open) travelModeByEntity.delete(chosen.id);
@@ -2135,7 +2136,7 @@ function renderTravelModes(world, chosen, settable) {
 }
 function renderWork(world, chosen, running) {
   const panel = $('#selection-work');
-  const key = JSON.stringify([chosen.id, running, modeFor(chosen.id), world.land, chosen.health?.condition, Boolean(chosen.chore), chosen.chore?.ask?.openedMinute ?? null,
+  const key = JSON.stringify([chosen.id, running, chosen.service?.status ?? null, Boolean(chosen.travel), modeFor(chosen.id), world.land, chosen.health?.condition, Boolean(chosen.chore), chosen.chore?.ask?.openedMinute ?? null,
     (world.work?.[chosen.id] || []).map(entry => ({ ...choreCache?.get(entry.id), ...entry }))]);
   if (renderedWork?.key === key) return;
   const restore = renderedWork?.chosenId === chosen.id ? rememberControls(panel) : () => {};
@@ -2175,6 +2176,19 @@ function populateWork(world, chosen, running) {
     stop.disabled = !running;
     host.append(stop);
     return;
+  }
+  // Somebody with the army, the garrison or the expedition (sim/winter.mjs): where they are, what it promised, and sending for
+  // them, asked twice because a regular who leaves has deserted and an auxiliary loses the land.
+  if (chosen.service?.status === 'serving') {
+    const where = world.map?.sites?.[chosen.service.siteId]?.name || chosen.service.siteId;
+    const what = { regular: 'the regular army', 'auxiliary-war': 'the auxiliary volunteers, for the war', 'auxiliary-year': 'the auxiliary volunteers, for a year', garrison: 'the garrison', matamoros: 'the Matamoros expedition' }[chosen.service.kind];
+    host.append(element('p', `${chosen.name} is with ${what} at ${where}${chosen.service.acres ? `, on the promise of ${chosen.service.acres} acres` : ''}.`, 'ask-text'));
+    const recall = element('button', 'Send for them to come home', 'work-stop');
+    recall.dataset.action = 'winter-recall';
+    recall.dataset.entityId = chosen.id;
+    recall.disabled = !running || Boolean(chosen.travel);
+    host.append(recall);
+    host.append(element('p', chosen.service.kind === 'regular' ? 'A regular who leaves has deserted: the family loses glory, and they will not be taken again.' : chosen.service.acres ? 'The promise of land is lost.' : 'They start home at once.', 'work-note'));
   }
   // Everything else a person can be set to - the work, the principal's journeys, work and rest, calling off - is an icon on
   // their row of the family panel (docs/FAMILY_PANEL.md), not a list on this card.
@@ -2565,7 +2579,7 @@ function renderVisits(world, chosen, commands) {
   const row = $('#visit-row');
   const from = chosen.location?.siteId ? world.map?.sites?.[chosen.location.siteId] : chosen.location;
   const homes = sitesOf(world).filter(site => site.kind === 'homestead' && site.id !== homeOf(world));
-  row.hidden = !commands || !homes.length || !from;
+  row.hidden = !commands || !homes.length || !from || chosen.service?.status === 'serving';
   if (row.hidden) return;
   const miles = site => Math.hypot(site.x - from.x, site.y - from.y);
   const ordered = homes.sort((a, b) => miles(a) - miles(b));
@@ -3512,7 +3526,8 @@ function render(snapshot) {
   $('#world').textContent = [world.historicalDate || timeLabel(world.minute ?? 0), statusLabel].filter(Boolean).join(' · ');
   const whenAvailable = { start: ['lobby'], pause: ['running'], resume: ['paused'], end: ['running', 'paused'], 'new-class': ['lobby', 'ended'], 'stop-server': ['lobby', 'running', 'paused', 'ended'] };
   for (const button of $('#host-controls').querySelectorAll('button')) {
-    const allowed = (whenAvailable[button.dataset.action] || []).includes(world.status);
+    // Continuing to the winter is offered only where the server says this class can go on (sim/periods.mjs).
+    const allowed = button.dataset.action === 'next-period' ? Boolean(world.ending?.host?.canContinue) : (whenAvailable[button.dataset.action] || []).includes(world.status);
     // A stop control is only offered when this process can actually stop itself.
     button.hidden = !allowed || Boolean(snapshot.lifecycle) || (button.dataset.action === 'stop-server' && !snapshot.canStop);
     if (button.hidden) resetConfirm(button);
@@ -3631,10 +3646,11 @@ document.addEventListener('click', async event => {
   const panelButton = event.target.closest('.panel-icon');
   if (panelButton) {
     if (panelButton.getAttribute('aria-disabled') === 'true') { showPanelTip(panelButton); return; }
-    if (panelButton.dataset.visit) {
+    // Sending for somebody who serves is asked twice, on their card, where there is room to say what it costs.
+    if (panelButton.dataset.visit || panelButton.dataset.key === 'winter-recall') {
       selectedId = panelButton.dataset.entityId; selectionDismissed = false;
       const world = window.__snapshot?.world;
-      if (world) { renderSelection(world); $('#visit-select')?.focus(); }
+      if (world) { renderSelection(world); (panelButton.dataset.visit ? $('#visit-select') : document.querySelector('#selection-work [data-action="winter-recall"]'))?.focus(); }
       return;
     }
     hidePanelTip();

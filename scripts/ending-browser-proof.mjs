@@ -5,7 +5,7 @@
 // class on the real land, one family's man in the army and another family with coin in the house,
 // run live in the browser to its last tick. Until then neither page shows an ending or a glory;
 // then the family sees its own coin, glory, the multiplication and why, and the Host sees every
-// family's three numbers in household order and the family that finished first - with no word on
+// family's three numbers in household order and the family that leads (this is the first of two class periods) - with no word on
 // either page naming a virtue.
 //
 // The class is played in process to the day before it ends, because the march takes about 250
@@ -105,7 +105,7 @@ try {
   // Closed to look at the map, and opened again.
   await student.locator('#ending-close').click();
   assert.equal(await student.locator('#ending').isHidden(), true);
-  await student.getByRole('button', { name: 'How it ended' }).click();
+  await student.locator('#ending-open').click();
   await student.locator('#ending').waitFor({ state: 'visible' });
   ok('the family can close it to look at the map, and open it again');
 
@@ -123,10 +123,14 @@ try {
   assert.ok(closing.winners.length >= 1, 'nobody was named');
   for (const id of closing.winners) {
     const name = closing.families.find(f => f.householdId === id).name;
-    assert.ok(new RegExp(`${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}.*finished first`).test(hostText) || hostText.includes(name), `${name} finished first and is not named`);
+    assert.ok(hostText.includes(name), `${name} leads and is not named`);
   }
-  assert.match(hostText, /finished first/);
-  ok(`the Host names the family that finished first: ${closing.winners.join(', ')} at ${closing.best}`);
+  // The first of two class periods (sim/periods.mjs, docs/COLONIES.md §7e): the families stand and one leads; nobody has
+  // finished, because the war goes on in the next class. tests/periods.test.mjs proves the second period's final reckoning.
+  assert.equal(closing.interim, true, 'the end of the first period was not interim');
+  assert.match(hostText, /\blead(s|, level)\b/);
+  assert.doesNotMatch(hostText, /finished first/, 'the first period named a family that finished first');
+  ok(`the Host names the family that leads after Béxar: ${closing.winners.join(', ')} at ${closing.best}`);
 
   for (const [who, text] of [['family', familyText], ['Host', hostText]]) {
     assert.doesNotMatch(text, VIRTUE, `the ${who} page names a virtue`);
@@ -144,6 +148,30 @@ try {
   await student.screenshot({ path: 'docs/evidence/ending-family.png' });
   ok('at phone width the page does not scroll sideways');
 
+  // The next class meets: the Host continues the same class into the winter (sim/periods.mjs, docs/COLONIES.md §7e). The
+  // standings go, both pages open on January 25, 1836, paused; the teacher resumes, and the student is still hh-1 and can
+  // give an order.
+  const session = app.state.sessionId;
+  await host.getByRole('button', { name: 'Continue to the winter of 1836' }).click();
+  for (const page of [student, host]) {
+    await page.waitForFunction(() => window.__snapshot?.world.status === 'paused' && !window.__snapshot.world.ending, null, { timeout: 15000 });
+    await page.locator('#ending').waitFor({ state: 'hidden' });
+  }
+  const winter = await student.evaluate(() => ({ householdId: window.__snapshot.world.householdId, date: document.querySelector('#world').textContent }));
+  observed.winter = winter;
+  assert.equal(app.state.sessionId, session, 'continuing started a new class');
+  assert.equal(winter.householdId, 'hh-1', 'the student lost their family over the winter');
+  assert.match(winter.date, /1836/, `the date did not move to 1836: ${winter.date}`);
+  assert.equal(await host.getByRole('button', { name: 'Continue to the winter of 1836' }).isHidden(), true, 'the winter was offered twice');
+  ok(`the Host continues the class into the winter: both pages open paused on "${winter.date}", the standings gone`);
+  await host.getByRole('button', { name: 'Resume' }).click();
+  await student.waitForFunction(() => window.__snapshot?.world.status === 'running', null, { timeout: 15000 });
+  const principal = await student.evaluate(() => window.__snapshot.world.household.principalId);
+  const rested = await student.evaluate(async id => (await fetch('/api/command', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: `winter-${Date.now()}`, action: 'rest', entityId: id }) })).status, principal);
+  assert.equal(rested, 200, 'the student could not give an order in the winter');
+  await student.screenshot({ path: 'docs/evidence/ending-winter.png' });
+  ok('the teacher resumes, and the same student gives an order in January 1836');
+
   assert.deepEqual(errors, [], `a page threw: ${errors.join(' | ')}`);
   ok('no page errors');
 
@@ -154,7 +182,7 @@ try {
     note: 'Same computer only. A real class on the colonies map, played in process to three days before it ends, with hh-1\'s volunteer in the army and 5 reales placed in hh-2\'s house in process; then served live, a student joined as hh-1 and the Host page watched the last ticks and the ending arrive. No LAN or district claim.',
     checks: pass,
     observed,
-    screenshots: ['docs/evidence/ending-family.png', 'docs/evidence/ending-host.png', 'docs/evidence/ending-host-phone.png'],
+    screenshots: ['docs/evidence/ending-family.png', 'docs/evidence/ending-host.png', 'docs/evidence/ending-host-phone.png', 'docs/evidence/ending-winter.png'],
   }, null, 2)}\n`);
   console.log(`\n${pass.length} checks passed.`);
 } finally {

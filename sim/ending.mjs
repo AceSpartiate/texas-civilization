@@ -20,6 +20,8 @@ import { findPath } from './geography.mjs';
 import { automatic } from './neighbours.mjs';
 import { householdName } from './family.mjs';
 import { dateOf } from './directors.mjs';
+import { canContinue, interimStandings } from './periods.mjs';
+import { landPromised } from './winter.mjs';
 
 /**
  * The coin the final number multiplies: what is in the house, and never less than one real.
@@ -34,7 +36,9 @@ export const countedCoin = money => Math.max(COIN_FLOOR, money);
 /** The final number: glory multiplies coin and can never erase it. */
 // Glory below nothing counts as nothing: the woman's penalty can take a family's glory away, and the owner's rule that glory
 // "multiplies money and cannot erase it" (docs/MONEY_AND_GLORY.md §2) still holds of the coin.
-export const finalNumber = (money, glory) => countedCoin(money) * (1 + Math.max(0, glory));
+// Land promised for enlisting is added after glory multiplies the coin, never multiplied by it (owner, 2026-09-16,
+// docs/COLONIES.md §7e): a family that never fought can still, rarely, finish first by what it sold.
+export const finalNumber = (money, glory, land = 0) => countedCoin(money) * (1 + Math.max(0, glory)) + land;
 
 const reales = amount => `${amount} ${amount === 1 ? 'real' : 'reales'}`;
 const day = (world, minute) => dateOf(world, minute).toLocaleDateString('en-US', { month: 'long', day: 'numeric', timeZone: 'UTC' });
@@ -47,12 +51,17 @@ const EVENT_NAMES = Object.freeze({
   'storm-order': 'the order to storm Béxar',
   'grass-fight': 'the Grass Fight',
   'bexar-storming': 'the storming of Béxar',
+  enlistment: 'the army of Texas, for land',
+  desertion: 'the army of Texas, for land,',
+  election: 'the election of February 1, 1836',
 });
 const PART_WORDS = Object.freeze({
   supplied: 'carried supplies for',
   present: 'was there for',
   fought: 'fought in',
   willing: 'said they would go in at',
+  enlisted: 'enlisted in',
+  voted: 'voted in',
 });
 
 /** How far a family lived from Gonzales by road, where the news and the army both started. */
@@ -107,7 +116,8 @@ export function familyEnding(world, householdId) {
   const miles = milesFromGonzales(world, household);
   const heard = firstWord(world, household);
   const parts = partsTaken(world, household);
-  const final = finalNumber(money, glory);
+  const land = landPromised(world, household);
+  const final = finalNumber(money, glory, land.reales);
   const story = [
     miles === null ? null : `The family lived ${miles} road miles from Gonzales.`,
     heard ? `Word that soldiers had come for the cannon reached them on ${heard.date}.` : 'Word of the cannon never reached them before the end.',
@@ -116,9 +126,9 @@ export function familyEnding(world, householdId) {
   return {
     householdId,
     name: householdName(world, household),
-    money, glory, final,
+    money, glory, final, land: land.reales, acres: land.acres,
     counted: countedCoin(money),
-    sum: `${money < COIN_FLOOR ? `${reales(money)}, counted as ${reales(COIN_FLOOR)}` : reales(money)} × (1 + ${glory < 0 ? `${glory} glory, counted as 0` : `${glory} glory`}) = ${final}`,
+    sum: `${money < COIN_FLOOR ? `${reales(money)}, counted as ${reales(COIN_FLOOR)}` : reales(money)} × (1 + ${glory < 0 ? `${glory} glory, counted as 0` : `${glory} glory`})${land.reales ? ` + ${reales(land.reales)} of land (${land.acres} acres promised)` : ''} = ${final}`,
     story, coin, awards,
   };
 }
@@ -152,7 +162,7 @@ export function hostEnding(world) {
     return {
       householdId: household.id,
       name: own.name,
-      money: own.money, glory: own.glory, final: own.final,
+      money: own.money, glory: own.glory, land: own.land, final: own.final,
       automatic: automatic(world, household),
       miles: milesFromGonzales(world, household),
       heard: firstWord(world, household)?.date || null,
@@ -172,6 +182,9 @@ export function hostEnding(world) {
  */
 export function endingProjection(world, householdId, role) {
   if (world.status !== 'ended') return {};
-  if (role === 'host') return { ending: { host: hostEnding(world) } };
-  return householdId && world.households[householdId] ? { ending: { family: familyEnding(world, householdId) } } : {};
+  // The first of two class periods ends with interim standings, not a winner (owner, 2026-09-16, docs/COLONIES.md §7e):
+  // the same numbers, said as where the families stand with the war still to finish, and the Host offered the winter.
+  const interim = interimStandings(world);
+  if (role === 'host') return { ending: { host: { ...hostEnding(world), interim, canContinue: canContinue(world) } } };
+  return householdId && world.households[householdId] ? { ending: { family: { ...familyEnding(world, householdId), interim } } } : {};
 }

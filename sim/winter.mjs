@@ -1,0 +1,177 @@
+// The winter's choices: docs/COLONIES.md §7e and build step 8(b), decided by the owner by multiple choice (2026-09-16).
+// Researched in docs/battle-research/winter-1835-36.md (`HIST-TEX-047` to `-053`).
+//
+// "All of the above, but each character can only be in one location, so each family would need to send an applicable
+// person to each that they want to participate in. Choices will need to be made." In the second class period a grown
+// member of a family can:
+//
+// - **enlist for land at San Felipe**, where the council sat: the regular army ($24 and 800 acres for two years or the
+//   war, `HIST-TEX-048`) or the auxiliary volunteers (640 acres for the war, 320 for a year). Glory now, the land at the
+//   end if they are alive and still serving (owner). A regular who is sent for has deserted: the glory is taken back
+//   twice over and they can never enlist again. An auxiliary can be sent for, and forfeits the land;
+// - **ride to Béxar and join the garrison** under Neill, Bowie and then Travis (`HIST-TEX-049`, `-051`);
+// - **go south to join the Matamoros men** (`HIST-TEX-049`), gathered at Refugio in the game;
+// - **vote on February 1** in the family's own settlement town, if a man of twenty-one or more (`HIST-TEX-052`).
+//
+// Each is a chore in `sim/chores.mjs` (the `winter` flag): it walks or rides there and the step below does the rest, so
+// the road, the mode, the refusals and the family panel are the ones every errand already has. Somebody serving is in one
+// place and does nothing else until they are sent for.
+//
+// ceiling: the service has no fights yet. What happens to the garrison on February 23 and to the Matamoros men at San
+// Patricio and Agua Dulce is the Alamo's and Matamoros's own research, not this step's; until then serving is standing
+// where they went, and the second period ends on February 23.
+import { record } from './events.mjs';
+import { awardGlory } from './glory.mjs';
+import { canAnswerCalls, cannotAnswerWhy } from './family.mjs';
+
+/** Where each kind of service is joined, and what it promises. */
+export const SERVICE = Object.freeze({
+  regular: { siteId: 'san-felipe', acres: 800, bound: true, name: 'the regular army', claimId: 'HIST-TEX-048', event: 'enlistment' },
+  'auxiliary-war': { siteId: 'san-felipe', acres: 640, bound: false, name: 'the auxiliary volunteers, for the war', claimId: 'HIST-TEX-048', event: 'enlistment' },
+  'auxiliary-year': { siteId: 'san-felipe', acres: 320, bound: false, name: 'the auxiliary volunteers, for a year', claimId: 'HIST-TEX-048', event: 'enlistment' },
+  // ceiling: Neill's garrison was in the town and the Alamo; the game has one place for Béxar.
+  garrison: { siteId: 'bexar', acres: 0, bound: false, name: 'the garrison at Béxar', claimId: 'HIST-TEX-051', event: 'garrison' },
+  // ceiling: Johnson and Grant were at San Patricio, which is not on the map; Refugio is where Houston met their men.
+  matamoros: { siteId: 'refugio', acres: 0, bound: false, name: 'the Matamoros expedition', claimId: 'HIST-TEX-049', event: 'matamoros' },
+});
+
+/** Land counts at the end at one real for every twenty acres, added after glory multiplies the coin (owner, 2026-09-16). */
+export const ACRES_PER_REAL = 20;
+/** Men of this age and more voted (owner's choice of the 1836 rule). */
+export const VOTING_AGE = 21;
+
+/** The chores of the winter, by what their last step does. */
+export const WINTER_CHORES = Object.freeze({
+  'enlist-regular': 'regular', 'enlist-auxiliary': 'auxiliary', 'join-garrison': 'garrison', 'join-matamoros': 'matamoros', 'go-vote': 'vote',
+});
+
+const GONE = ['dead', 'captured'];
+/**
+ * Whether somebody may vote: a man of twenty-one or more. A family nobody has rolled has no ages or sexes, only who is who
+ * (sim/family.mjs): its father is a grown man, and a son of no stated age is not counted as one.
+ */
+export function mayVote(entity) {
+  const male = entity?.sex ? entity.sex === 'male' : entity?.kin?.role === 'father';
+  const grown = Number.isFinite(entity?.age) ? entity.age >= VOTING_AGE : entity?.kin?.role === 'father';
+  return Boolean(male && grown);
+}
+const serving = entity => entity?.service?.status === 'serving';
+const place = (world, siteId) => world.map.sites[siteId]?.name || siteId;
+
+/** Whether the winter's choices are open: the second period, once its news has come, and before it ends. */
+export const winterOpen = world => world.period === 2 && Boolean(world.director?.milestones?.['winter-news']) && !world.director?.complete;
+/** Whether the polls are open, February 1. */
+export const pollsOpen = world => world.period === 2 && Boolean(world.director?.milestones?.['election-opens']) && !world.director?.milestones?.['election-close'];
+
+/** Whether this chore is put in front of this person at all, so nothing of the winter rides the channel in 1835. */
+export function winterOffered(world, household, entity, choreId) {
+  if (!winterOpen(world)) return false;
+  if (WINTER_CHORES[choreId] === 'vote') return pollsOpen(world) && mayVote(entity) && !entity.voted;
+  return true;
+}
+
+/** Why this person cannot be sent on this winter chore now, or null. */
+export function winterRefusal(world, household, entity, choreId) {
+  const kind = WINTER_CHORES[choreId];
+  if (!kind) return null;
+  if (!winterOpen(world)) return 'That is not a choice this winter.';
+  if (serving(entity)) return `${entity.name} is already with ${SERVICE[entity.service.kind].name}.`;
+  if (kind === 'vote') {
+    if (!pollsOpen(world)) return 'The polls are open on February 1.';
+    if (!mayVote(entity)) return `Only men of ${VOTING_AGE} and over vote.`;
+    if (entity.voted) return `${entity.name} has voted.`;
+    return null;
+  }
+  // Who may go is who may answer a call: a parent, or a son or daughter of sixteen or more (docs/FAMILY_CREATION.md step 4).
+  if (!canAnswerCalls(entity)) return cannotAnswerWhy(entity);
+  if (['regular', 'auxiliary'].includes(kind) && entity.deserted) return `${entity.name} deserted the army and cannot enlist again.`;
+  return null;
+}
+
+/** Somebody arrives where they meant to serve, and joins. Called by the chore's last step. */
+export function joinService(world, household, entity, kind) {
+  const terms = SERVICE[kind];
+  if (!terms || GONE.includes(entity.health?.condition)) return null;
+  entity.service = { kind, status: 'serving', since: world.minute, siteId: terms.siteId, ...(terms.acres && { acres: terms.acres }) };
+  const eventId = record(world, 'army', {
+    actorId: entity.id, householdId: household.id, importance: 3, classification: 'DOCUMENTED', claimId: terms.claimId,
+    text: terms.acres
+      ? `${entity.name} put their name to the roll of ${terms.name} at ${place(world, terms.siteId)}, on the promise of ${terms.acres} acres of land.`
+      : `${entity.name} has joined ${terms.name} at ${place(world, terms.siteId)}.`,
+  });
+  // Glory now for enlisting (owner); the garrison and the expedition earn theirs from what they are there for, later.
+  if (terms.acres) awardGlory(world, { event: 'enlistment', claimId: terms.claimId, personId: entity.id, householdId: household.id, role: 'enlisted', fromSiteId: terms.siteId, causes: [eventId] });
+  return eventId;
+}
+
+/** A man votes at his settlement's polls. */
+export function castVote(world, household, entity) {
+  if (entity.voted) return null;
+  if (!pollsOpen(world)) return record(world, 'consequence', { actorId: entity.id, householdId: household.id, importance: 2, text: `${entity.name} reached ${place(world, entity.location.siteId)} after the polls had closed.` });
+  entity.voted = true;
+  const siteId = entity.location.siteId;
+  const eventId = record(world, 'choice', {
+    actorId: entity.id, householdId: household.id, importance: 2, classification: 'DOCUMENTED', claimId: 'HIST-TEX-052',
+    text: `${entity.name} voted at ${place(world, siteId)} for the delegates to the convention.`,
+  });
+  awardGlory(world, { event: 'election', claimId: 'HIST-TEX-052', personId: entity.id, householdId: household.id, role: 'voted', fromSiteId: siteId, causes: [eventId] });
+  return eventId;
+}
+
+/** Why somebody cannot be sent for, or null. */
+export function recallRefusal(entity) {
+  if (!serving(entity)) return `${entity.name} is not away with anybody to be sent for.`;
+  if (GONE.includes(entity.health?.condition)) return `${entity.name} cannot come home.`;
+  if (entity.travel) return `${entity.name} is on the road.`;
+  return null;
+}
+
+/**
+ * The family sends for somebody serving. A regular has deserted: the glory for enlisting is taken back twice over and they
+ * may never enlist again (owner). An auxiliary forfeits the land. The garrison and the expedition simply come home.
+ */
+export function recallFromService(world, household, entity, { beginTravel, modeWith }) {
+  const why = recallRefusal(entity);
+  if (why) throw new Error(why);
+  const terms = SERVICE[entity.service.kind];
+  const deserting = terms.bound;
+  entity.service = { ...entity.service, status: deserting ? 'deserted' : 'released', until: world.minute, acres: 0 };
+  if (deserting) entity.deserted = true;
+  const text = deserting
+    ? `${entity.name} left the regular army at ${place(world, terms.siteId)} without a discharge and started home. They have deserted, and will not be taken again.`
+    : terms.acres
+      ? `${entity.name} left ${terms.name} and started home. The promise of land went with it.`
+      : `${entity.name} left ${terms.name} at ${place(world, terms.siteId)} and started home.`;
+  const eventId = record(world, 'army', { actorId: entity.id, householdId: household.id, importance: 3, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-044', text });
+  if (deserting) awardGlory(world, { event: 'desertion', claimId: terms.claimId, personId: entity.id, householdId: household.id, role: 'enlisted', fromSiteId: terms.siteId, causes: [eventId], adjust: earned => -2 * earned, note: 'They deserted.' });
+  const mode = modeWith(world, entity);
+  try { beginTravel(world, entity, household.homeSiteId, eventId, 'home', mode); } catch (error) { if (mode === 'foot') throw error; beginTravel(world, entity, household.homeSiteId, eventId, 'home'); }
+  return eventId;
+}
+
+/** The land a family is promised at the end: every living member still serving on land terms, at a real for twenty acres. */
+export function landPromised(world, household) {
+  let acres = 0;
+  for (const id of household.members) {
+    const person = world.entities[id];
+    if (!person || GONE.includes(person.health?.condition) || !serving(person)) continue;
+    acres += person.service.acres || 0;
+  }
+  return { acres, reales: Math.floor(acres / ACRES_PER_REAL) };
+}
+
+/** What somebody serving may still be asked: nothing that is not about being sent for, named, or spoken to. */
+export const SERVING_ACTIONS = Object.freeze(['winter-recall', 'rename', 'set-main', 'ask-rider', 'leave-rider', 'army-answer']);
+export const servingWhy = (world, entity) => `${entity.name} is with ${SERVICE[entity.service.kind].name} at ${place(world, entity.service.siteId)}, and can only be sent for.`;
+
+/** A saved service that cannot be, or null. */
+export function winterInvalid(world) {
+  for (const entity of Object.values(world.entities)) {
+    const service = entity.service;
+    if (service === undefined) continue;
+    if (!service || !SERVICE[service.kind] || !['serving', 'released', 'deserted'].includes(service.status)) return 'Invalid service';
+    if (service.acres !== undefined && (!Number.isInteger(service.acres) || service.acres < 0)) return 'Invalid acres promised';
+  }
+  return null;
+}
+

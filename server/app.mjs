@@ -6,6 +6,7 @@ import { basename, isAbsolute, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createWorld, stepWorld, projectWorld, projectMap, applyAction, validateWorld, projectFamily, rollFamily } from '../sim/world.mjs';
 import { rollRefusal } from '../sim/family.mjs';
+import { beginSecondPeriod } from '../sim/periods.mjs';
 import { choreCatalogue, modeCatalogue } from '../sim/chores.mjs';
 import { GOODS } from '../sim/trade.mjs';
 import { siteFactsFor } from '../sim/homesite.mjs';
@@ -487,6 +488,8 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
             } else if (input.action === 'pause' && s.world.status === 'running') s.world.status = 'paused';
             else if (input.action === 'resume' && s.world.status === 'paused') s.world.status = runtimeFault?.resumeStatus || 'running';
             else if (input.action === 'end') s.world.status = 'ended';
+            // The second class period (sim/periods.mjs): the same class carried on into the winter, never a new one.
+            else if (input.action === 'next-period') beginSecondPeriod(s.world);
             else if (input.action === 'new-class') {
               // Never discard a class that is still being played.
               if (!['lobby', 'ended'].includes(s.world.status)) throw new Error('End the current class before starting a new one.');

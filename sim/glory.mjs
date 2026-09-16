@@ -31,7 +31,9 @@ import { findPath } from './geography.mjs';
  */
 // `willing` is a volunteer who said they would go in when Austin ordered Béxar stormed on November 21, which never came
 // (owner, 2026-09-16, docs/COLONIES.md §7b). What it is worth is this game's own: the weight of being present.
-export const GLORY_WEIGHT = Object.freeze({ supplied: 1, present: 2, fought: 3, willing: 2 });
+// `enlisted` is somebody who signed on for land in the winter of 1836 and `voted` a man who voted on February 1 (owner,
+// 2026-09-16, docs/COLONIES.md §7e, sim/winter.mjs): enlisting is worth being present; voting, a little.
+export const GLORY_WEIGHT = Object.freeze({ supplied: 1, present: 2, fought: 3, willing: 2, enlisted: 2, voted: 1 });
 /** Every fifteen road miles a family lived from where it happened multiplies the part once more. */
 export const GLORY_MILES_STEP = 15;
 

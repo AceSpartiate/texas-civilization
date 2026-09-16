@@ -22,6 +22,7 @@ let closed = false;
 
 function familyView(family) {
   const parts = [make('h2', family.name, 'ending-title')];
+  if (family.interim) parts.push(make('p', 'This is where your family stands after the fall of Béxar. The war is not over: the next class goes on into 1836, and these numbers will change.', 'ending-sum'));
   const numbers = make('dl', null, 'ending-numbers');
   for (const [term, value] of [['Coin in the house', reales(family.money)], ['Glory', String(family.glory)], ['Final number', String(family.final)]]) {
     const pair = make('div');
@@ -55,14 +56,17 @@ function familyView(family) {
 function hostView(closing) {
   const names = Object.fromEntries(closing.families.map(family => [family.householdId, family.name]));
   const first = closing.winners.map(id => names[id]);
-  const parts = [make('h2', 'How the families finished', 'ending-title')];
+  // The first of two periods names who leads, not who finished first: the war is not over (sim/periods.mjs).
+  const lead = closing.interim ? ['lead', 'leads', 'How the families stand after Béxar'] : ['finished first', 'finished first', 'How the families finished'];
+  const parts = [make('h2', lead[2], 'ending-title')];
   parts.push(make('p', first.length
-    ? `${first.length > 1 ? `${first.slice(0, -1).join(', ')} and ${first.at(-1)} finished first, level` : `${first[0]} finished first`}, with a final number of ${closing.best}.`
+    ? `${first.length > 1 ? `${first.slice(0, -1).join(', ')} and ${first.at(-1)} ${lead[0]}, level` : `${first[0]} ${lead[1]}`}, with a final number of ${closing.best}.`
     : 'No family a student played finished this class.', 'ending-winner'));
+  if (closing.interim) parts.push(make('p', 'These are interim standings. The war goes on in the next class: press Continue to the winter of 1836 when the class meets again.', 'ending-sum'));
   const wrap = make('div', null, 'ending-table-wrap');
   const table = make('table', null, 'ending-table');
   const head = make('tr');
-  for (const label of ['Family', 'Road miles from Gonzales', 'Heard of the cannon', 'Who went', 'Coin', 'Glory', 'Final']) head.append(make('th', label));
+  for (const label of ['Family', 'Road miles from Gonzales', 'Heard of the cannon', 'Who went', 'Coin', 'Glory', 'Land', 'Final']) head.append(make('th', label));
   const thead = make('thead');
   thead.append(head);
   table.append(thead);
@@ -77,13 +81,14 @@ function hostView(closing) {
       make('td', family.went.length ? family.went.join(', ') : 'nobody'),
       make('td', reales(family.money)),
       make('td', String(family.glory)),
+      make('td', family.land ? reales(family.land) : '—'),
       make('td', String(family.final)),
     );
     body.append(row);
   }
   table.append(body);
   wrap.append(table);
-  parts.push(wrap, make('p', 'Final number = coin × (1 + glory). A family with no coin is counted as having 1 real.', 'ending-sum'));
+  parts.push(wrap, make('p', 'Final number = coin × (1 + glory) + land. A family with no coin is counted as having 1 real. Land promised for enlisting counts a real for every 20 acres, if the person is alive and still serving.', 'ending-sum'));
   const talk = make('section');
   talk.append(make('h3', 'For the class'));
   const list = make('ol');
@@ -98,6 +103,9 @@ export function renderEnding(world) {
   const panel = document.querySelector('#ending');
   const reopen = document.querySelector('#ending-open');
   const ending = world?.ending;
+  const interim = Boolean((ending?.host || ending?.family)?.interim);
+  document.querySelector('#ending-eyebrow').textContent = interim ? 'THE STORY SO FAR' : 'THE END OF THE STORY';
+  reopen.textContent = interim ? 'The story so far' : 'How it ended';
   if (!ending || !(ending.family || ending.host)) {
     panel.hidden = true; reopen.hidden = true; shown = ''; closed = false;
     return;

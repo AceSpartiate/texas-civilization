@@ -20,6 +20,7 @@ does not have:
 | --- | --- | --- | --- |
 | The six drawn towns' documented buildings the library cannot draw (frame buildings, the Whiteside Hotel, the Round Top House, jacales, Mina's stockade, Liberty's court room) | `sim/town-layouts.mjs`, drawn by `public/town-art.js` | Request 2026-09-16 — the buildings the towns' research found | the requested buildings |
 | A new town's shops are the nearest buildings the library has, two trades sharing a sprite | `SHOP_SPRITES` in `sim/shops.mjs`, drawn in `drawWorld` in `public/app.js` | Request 2026-09-16 — the shops of the towns | `shop-*` buildings, one per trade |
+| The winter's orders are drawn glyphs - a flag for both enlistments, a walled fort, an arrow pointing south, a ballot in a box - and sending for somebody is the small cabin | `PANEL_ICONS` and `drawGlyph` in `public/family-panel.js` | Request 2026-09-16 — the winter's icons | `icon-enlist-regular`, `icon-enlist-auxiliary`, `icon-join-garrison`, `icon-join-matamoros`, `icon-go-vote`, `icon-winter-recall` |
 | The panel's marks are type and CSS: the "!" a person needs the student for is a bold "!" in an orange disc (slate for a rider), the main person's star is a ★/☆ character, and idle is the word "idle" on the portrait and an "Idle" tag | `panelRow` in `public/app.js`, `.panel-attention`, `.panel-star`, `.panel-idle` in `public/style.css` | Request 2026-09-16 — the family panel's marks | `mark-need`, `mark-need-rider`, `mark-main`, `mark-idle` |
 | A family member's portrait is the head and shoulders of their own map figure (the `-idle-s` clip `castVariant`/`childFigure` choose), drawn large and cropped by the square; a drawn silhouette until the sheet loads | `drawPortrait` in `public/family-panel.js` | Request 2026-09-15 — face portraits for the family panel | `portrait-<figure>` for every first- and second-cast figure and the four children |
 | Each action's icon is the nearest library sprite fitted into the square (a survey stake, a stump, a bucket, young and ripe corn, clearing branches, a rail, walls going up, an oak, ripe cotton, a barrel, sacks, a crate, tools, a fallen log, a trading house, two cabins, a man with a hoe, a bedroll), and four are drawn glyphs: a deer's head (hunt on our land), a target (practice), a hoe and coin (buy a hoe), a cross (call off the work) | `PANEL_ICONS` and `drawIcon` in `public/family-panel.js` | Request 2026-09-15 — action icons for the family panel | `icon-<key>` for each of the twenty-six actions |
@@ -64,6 +65,23 @@ weaver `cabin-weathered`.
 - **How it plugs in.** `SHOP_SPRITES` in `sim/shops.mjs` names the sprite a new town's shop is drawn as; replace each with its
   `shop-*` frame once registered through `npm run build:art`. Gonzales keeps its own drawn buildings.
 - **Check.** At the zoom a town's labels appear, each trade is told apart without its label.
+
+## Request 2026-09-16 — the winter's icons
+
+**Status: open; drawn glyphs stand in.** The second class period's choices ([COLONIES.md](COLONIES.md) §6n) are orders on the
+family panel with no icon art: enlisting (two orders), joining the garrison at Béxar, going south to the Matamoros men, voting,
+and sending for somebody who serves.
+
+- **Why.** A flag, a box and an arrow drawn in canvas strokes read as placeholders beside the illustrated icons, and two
+  enlistment orders share one glyph.
+- **What.** Six icons in the action-icon contract (request 2026-09-15 — action icons): `icon-enlist-regular` (a recruiting
+  table with a roll and a quill), `icon-enlist-auxiliary` (the same with a folded land certificate), `icon-join-garrison`
+  (the Alamo church's front or a walled mission gate), `icon-join-matamoros` (a mounted volunteer riding off to the south),
+  `icon-go-vote` (a hand putting a folded paper into a wooden box), `icon-winter-recall` (a rider turning back toward a cabin).
+- **How it plugs in.** Registered through `npm run build:art`; `PANEL_ICONS` in `public/family-panel.js` names the sprite in
+  place of the glyph for each key.
+- **Check.** At 38 CSS pixels on the panel's dark row each is told apart from the others and from the farm icons; the two
+  enlistments are distinguishable.
 
 ## Request 2026-09-16 — the family panel's marks
 
