@@ -1,0 +1,48 @@
+{
+  "record": "The two clocks: build step 4 part 3 of docs/COLONIES.md (§5.7)",
+  "date": "2026-09-15",
+  "verdict": "PASS",
+  "verdictMeaning": "On the real land of the colonies a tick still holds twenty minutes of anybody's effort, and the date it carries follows the phase: twenty minutes while the class farms, an hour through the news. What belongs to days follows the calendar - what is eaten, what spoils, how far the ground goes past - so the letters keep the dates HIST-TEX-006 gives them and a volunteer can still reach a gathering history dated. What belongs to a student does not: the same ticks of road before a rider is at the door, and the same ticks to answer him. The invented Gonzales country, and every class saved before this, runs the single clock it always ran; no save version moved.",
+  "ownerDecisions": [
+    "2026-09-15: the ground scales with the calendar, rather than a journey costing the same ticks in every phase. Asked because §5.7 promises both that history keeps its dates and that nothing a student watches speeds up, and a compressed calendar cannot give both. Kept honest: at half a day a tick the alternative made a nineteen-mile walk take nine and a half days of 1835, which would have made the march to Bexar something the game had to fake.",
+    "2026-09-15: a student's warning is its own dial, not a consequence of the clock - hence the calendar holding at the crossing, below."
+  ],
+  "measured": {
+    "sameClassWithoutTheTwoClocks": "seed warning-measure, 30 families, MAP=colonies: the fight at tick 288 and the class ending at tick 464 - 73 minutes at the Study pace of 9.5s a tick, so the Gonzales slice alone outruns a fifty-minute lesson.",
+    "sameClassWithThem": "the fight at tick 168 and the class ending at tick 236 - 37 minutes, with the news phase starting at tick 84 (13 minutes). Against the §5.7 budget of farming to 10 and the fight by 22, and it leaves the rest of the lesson for build steps 5 and 6.",
+    "calendarScale": "home 20 minutes a tick, news 60, gathering 240, campaign 720 - 72, 24, 6 and 2 ticks to the day, so a day never ends inside a tick. The last two are declared and come into use with build steps 5 and 6.",
+    "ridersApproach": "40 in 100 riders reach a family with no tick of approach in the news phase, against 39 in 100 in a farming phase of the same class: the faster calendar adds a point, not a flood. The pre-existing 39 are short legs and riders who come over a river, and are older than this change.",
+    "patience": "a rider waits 59-60 ticks for an unanswered family in both phases. Counted in minutes of 1835 it would have been 20 in the news phase - a third of the time to read the same prompt.",
+    "upriverQuestion": "the night of the crossing keeps 24 ticks rather than 8, because the calendar steps back to the farming scale while a dated question is open in front of the families."
+  },
+  "foundWhileBuilding": [
+    "Express riders dated by ticks arrived at the Colorado crossing on 10-01 04:00, where the letters put the word on the 30th (HIST-TEX-006). Scaling the ground with the calendar puts it back inside the documented window.",
+    "A neighbour who answered his settlement's call set out for Gonzales on foot and the class ended while he was still on the road: history's schedule had arrived in a third of the ticks while his walk still cost what it always had. This is the measurement behind the owner decision above.",
+    "SIGHT_MILES is a count of ticks of approach wearing a distance (five miles, at 2.6 miles a tick). Left in miles it would have put a news-phase rider in view and at the door in the same tick - the appearance that number was tuned to prevent.",
+    "PATIENCE_MINUTES, PASSING_MINUTES and SPEAKING_MINUTES are numbers about a student noticing a prompt and reading five lines, and were held in minutes of 1835. The design doc names two kinds of time, effort and days; these are a third, attention, and belong in ticks with effort.",
+    "In a compressed phase a courier can be made and reach the door inside one tick, so there is no road to watch him come up. His first tick now never carries him past halfway. Gated to stretched phases only: at twenty minutes a tick a family a mile and a half off has always heard on the tick the rider reached it, and tests/encounters.test.mjs holds that."
+  ],
+  "tests": {
+    "file": "tests/clock.test.mjs",
+    "count": 7,
+    "suite": "433 pass, 0 fail",
+    "injectedRegressions": [
+      "one clock everywhere -> caught by the phase, the ground and the crossing tests",
+      "the invented country compressed too -> caught by the phase test",
+      "no hold at the crossing -> caught by the crossing test",
+      "ground stays in ticks -> caught by the ground and the patience tests",
+      "no halfway rule on a courier's first tick -> caught by the approach test",
+      "sight fixed in miles -> caught by the sight and the approach tests",
+      "patience fixed in minutes of 1835 -> caught by the patience test",
+      "a day's food charged by the tick -> caught by the food test"
+    ],
+    "note": "Each was substituted into the production file, the suite run, and the file restored. Every one was caught, and by the test that claims it."
+  },
+  "limitations": [
+    "No browser proof: nothing a student sees is new. What a class watches is the date it already showed and riders it already drew, and the payload, the projection and every control are untouched.",
+    "The gathering and campaign scales are declared and unused until build steps 5 and 6 set those phases. Only home and news are exercised by a played class today.",
+    "The scale is read once at the top of a tick, so a phase boundary inside a tick takes effect on the next one (ceiling).",
+    "One decision window is named in the clock - the night of the crossing. When steps 5 and 6 bring their own dated decisions this wants to be a question the director answers rather than a list of milestones in the clock (ceiling).",
+    "Untuned by play: no class has been taught on the compressed calendar, and the four scales are FIC-GONZ-027 proposals tuned by measurement rather than by a lesson."
+  ]
+}

@@ -42,7 +42,7 @@ export const ROAD_TO_TOWN = 30;
 /** The steepest ground a house is set on, as rise over run across an eighth of a mile (FIC-GONZ-027). */
 export const STEEPEST = 0.06;
 /** How far round each settlement its watercourses and timber are kept on the saved map. */
-const KEPT_ROUND_SETTLEMENT = 13;
+export const KEPT_ROUND_SETTLEMENT = 13;
 
 /** Segments with their boxes, bucketed on a one-mile grid, so "what water is near here" is cheap. */
 function segmentIndex(courses) {
@@ -76,6 +76,57 @@ function segmentIndex(courses) {
       return near(middle, reach).some(s => segmentsCross(from, to, s.a, s.b));
     },
   };
+}
+
+/** How far a mouth may be carried to reach the course it runs into (FIC-GONZ-027). */
+export const JOIN_MILES = 0.25;
+/** The point on a segment nearest another point, and how far off it is. */
+const nearestOnSegment = (q, a, b) => {
+  const dx = b.x - a.x, dy = b.y - a.y, length = dx * dx + dy * dy;
+  const t = length ? Math.max(0, Math.min(1, ((q.x - a.x) * dx + (q.y - a.y) * dy) / length)) : 0;
+  const x = a.x + dx * t, y = a.y + dy * t;
+  return { x, y, distance: Math.hypot(q.x - x, q.y - y) };
+};
+/**
+ * A creek's mouth reaches the river it runs into.
+ *
+ * The courses are digitised one at a time, so a tributary's last point sits a hundred feet or so
+ * off the line of the river it joins - invisible while water was a thin stroke, and an obvious
+ * broken join once it is drawn at its true width. The mouth is carried the last few yards onto the
+ * course it meets, which states a confluence the source data already implies rather than inventing
+ * one, and nothing is carried further than `JOIN_MILES`.
+ *
+ * **Never an end that was cut.** A course leaving the kept country round a settlement is cut where
+ * it crosses that edge, and the map writes that down as it is made (`cut`). Such an end is not a
+ * mouth: the course carries on into country this map does not keep, and joining it to whatever
+ * happens to run past would state a confluence nobody surveyed.
+ *
+ * Called last in the build, after every draw the seed makes: joining a mouth adds a point to a
+ * course, the timber band along it is jittered per point, and a single extra draw there would
+ * shift every random number after it - dealing a different class from the same seed for the sake
+ * of a few yards of water.
+ */
+export function joinMouths(courses, within = JOIN_MILES) {
+  let joined = 0;
+  for (const course of courses) {
+    for (const end of [0, course.points.length - 1]) {
+      if (course.cut?.includes(end === 0 ? 'start' : 'end')) continue;
+      const point = course.points[end];
+      let best = null;
+      for (const other of courses) {
+        if (other === course) continue;
+        for (let i = 1; i < other.points.length; i++) {
+          const near = nearestOnSegment(point, other.points[i - 1], other.points[i]);
+          if (near.distance < within && (!best || near.distance < best.distance)) best = near;
+        }
+      }
+      if (!best || best.distance < 1e-9) continue;
+      if (end === 0) course.points.unshift({ x: best.x, y: best.y });
+      else course.points.push({ x: best.x, y: best.y });
+      joined++;
+    }
+  }
+  return joined;
 }
 
 export function buildColoniesRegion(random, playerCount) {
@@ -215,12 +266,23 @@ export function buildColoniesRegion(random, playerCount) {
   const courses = [];
   built.watercourses.forEach((course, index) => {
     const runs = [[]];
-    for (const p of course.points) { if (inKept(p)) runs.at(-1).push(p); else if (runs.at(-1).length) runs.push([]); }
-    runs.filter(run => run.length >= 2).forEach((points, part) => {
+    // Which ends of a run are the course carrying on into country this map does not keep, rather
+    // than the course's own head or mouth. A run is cut by dropping the points outside the kept
+    // box, so a cut end is the last point *inside* it and can be a good way short of the edge -
+    // there is no way to tell one from a real mouth by looking at it afterwards, which is why it
+    // is written down here as the map is made. Everything downstream reads this rather than
+    // guessing: the join below leaves a cut end open, and a drawn end could be tapered on it.
+    const cuts = [new Set()];
+    course.points.forEach((p, i) => {
+      if (inKept(p)) { if (!runs.at(-1).length && i > 0) cuts.at(-1).add('start'); runs.at(-1).push(p); }
+      else if (runs.at(-1).length) { cuts.at(-1).add('end'); runs.push([]); cuts.push(new Set()); }
+    });
+    const emitted = runs.map((points, i) => ({ points, cut: cuts[i] })).filter(run => run.points.length >= 2);
+    emitted.forEach(({ points, cut }, part) => {
       // ceiling: a creek under five miles is left off the saved map, which every save carries whole; drawing every creek
       // from the served colonies map is the way out.
       if (course.kind === 'creek' && polylineLength(points) < 5) return;
-      const feature = { id: `water-${index}-${part}`, kind: course.kind, name: course.name, points };
+      const feature = { id: `water-${index}-${part}`, kind: course.kind, name: course.name, points, ...(cut.size && { cut: [...cut] }) };
       terrain.push(feature);
       courses.push(feature);
     });
@@ -249,6 +311,8 @@ export function buildColoniesRegion(random, playerCount) {
   }
 
   // The home country, drawn at the shape of the view: every family and Gonzales.
+  joinMouths(courses);
+
   const xs = [...homesteads, sites.gonzales].map(s => s.x), ys = [...homesteads, sites.gonzales].map(s => s.y);
   const padded = { minX: Math.min(...xs) - 10, maxX: Math.max(...xs) + 10, minY: Math.min(...ys) - 10, maxY: Math.max(...ys) + 10 };
   const aspect = 960 / 540, width = padded.maxX - padded.minX, height = padded.maxY - padded.minY;

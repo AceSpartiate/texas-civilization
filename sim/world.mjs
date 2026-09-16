@@ -4,6 +4,7 @@ import { advanceNeighbours } from './neighbours.mjs';
 import { record } from './events.mjs';
 import { reportsFor, deliverReports } from './knowledge.mjs';
 import { advanceRoutine } from './routines.mjs';
+import { TICK_MINUTES, calendarMinutes } from './clock.mjs';
 import { advanceDirectors, handleChoice, handleMarch, handleRumor, directorProjection } from './directors.mjs';
 import { abandonChore, advanceChores, answerChore, askProjection, beginChore, choresFor, skillsFor, SKILL_CAP, toolState } from './chores.mjs';
 import { advanceTown, createTownspeople, observedBy } from './town.mjs';
@@ -23,6 +24,7 @@ import { chooseSite, siteInvalid, siteProjection } from './homesite.mjs';
 import { plotProjection, plotRefusal, plotsInvalid } from './survey.mjs';
 import { advanceExpresses, expressesInvalid } from './expresses.mjs';
 import { callsInvalid, handleCall } from './calls.mjs';
+import { armyInvalid, armyProjection, callHome, callHomeRefusal } from './army.mjs';
 import { fellingInvalid, logsProjection, recordFelling } from './felling.mjs';
 import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, ageBand, defaultNames, familyProjection, familyRoll, FAMILY_DIE, compositionFor, rolledWords, householdName, kinFor, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
 export { HOUSEHOLD_SHAPE, ROLES, householdName, sanitiseName } from './family.mjs';
@@ -325,8 +327,32 @@ export function progressTravel(world, entity, units = 1) {
   // instead would put an entity nowhere, which `validateWorld` rightly refuses.
   if (travel.halted) return;
   const wasAt = travel.progress;
+  // How fast the ground goes past is a fact about the land and the horse, not about the
+  // lesson: three miles in an hour of 1835 in every phase (sim/clock.mjs, docs/COLONIES.md
+  // §5.7). So when a tick carries an hour of the calendar instead of twenty minutes, it
+  // carries three times the miles with it. That is what keeps the letters reaching San
+  // Felipe and Goliad on the days `HIST-TEX-006` puts them there, keeps a volunteer able
+  // to reach a gathering that history has dated, and keeps the march to Béxar the fortnight
+  // it was rather than something the game has to fake. The miles tire whoever walks them at
+  // the same cost a mile always had, below, so a longer day on the road is a harder one.
+  //
+  // What does *not* scale is effort and attention: a spell of work yields what it always
+  // did, and a rider waits the same number of ticks for an answer (sim/encounters.mjs).
+  const paced = units * (calendarMinutes(world) / TICK_MINUTES);
+  // A rider who is made and reaches the door inside one tick was never on the road at all,
+  // and news that materialises at the moment it is spoken has no approach - the thing
+  // `SIGHT_MILES` exists to prevent (sim/encounters.mjs). Seeing further does not fix it,
+  // because on a short leg he is already inside sight when he is made; what fixes it is that
+  // his first tick never carries him past halfway, so there is always a tick of road to
+  // watch him coming up. It binds only on a leg shorter than two ticks' riding - an ordinary
+  // ride is far longer and is not slowed by it - and it costs that leg one tick.
+  // Only where the calendar is stretched: at twenty minutes a tick a leg is longer than a
+  // tick's riding anyway, and a family a mile and a half off has always heard on the tick the
+  // rider reached it. Nothing about a class on the invented country changes.
+  const stretched = paced > units;
+  const reach = entity.courier && stretched && wasAt === 0 ? Math.min(travel.speed * paced, travel.distance / 2) : travel.speed * paced;
   // Slower over hard ground where the journey has any (sim/ground.mjs); what is left past the end goes on with a relayed word.
-  const moved = moveOnGround(travel.points, travel.pace, travel.distance, travel.progress, travel.speed * units);
+  const moved = moveOnGround(travel.points, travel.pace, travel.distance, travel.progress, reach);
   travel.progress = moved.progress;
   // Ground covered on somebody's own feet is what tires them out, and it is the only
   // thing that does. A courier is on a horse and is nobody's family; a chore's `walk`
@@ -372,7 +398,10 @@ export function progressTravel(world, entity, units = 1) {
 }
 export function stepWorld(world) {
   if (world.status !== 'running') return;
-  world.tick++; world.minute += 20;
+  // One tick of everybody's own time; on the real land the calendar it carries can be
+  // longer than the twenty minutes of work in it (sim/clock.mjs, docs/COLONIES.md §5.7).
+  const calendar = calendarMinutes(world);
+  world.tick++; world.minute += calendar;
   for (const entity of Object.values(world.entities)) progressTravel(world, entity);
   // A family whose last wagon wheel came in off the road this tick has arrived.
   advanceArrivals(world);
@@ -397,7 +426,8 @@ export function stepWorld(world) {
   // thing that happens between two people who are standing together, so they are settled
   // once everybody has finished moving for the tick.
   advanceEncounters(world);
-  advanceRoutine(world, 20); deliverReports(world);
+  // Days of the calendar: what is eaten, what spoils, what mends, whatever the tick was worth.
+  advanceRoutine(world, calendar); deliverReports(world);
   advanceDirectors(world, { beginTravel, dispatchReport });
   // Families nobody plays decide last, from what the tick has left them able to see, through the actions a student sends.
   advanceNeighbours(world, { project: id => projectWorld(world, id, 'student', { includeMap: false }), apply: (id, input) => applyAction(world, id, input) });
@@ -621,7 +651,7 @@ export function applyAction(world, householdId, input) {
   // The historical calls are answered by whichever parent or grown child the family sends
   // (docs/FAMILY_CREATION.md step 4). Each handler checks who may answer; travelling, the
   // yard and resting stay the principal's.
-  const answering = ['go-upriver', 'stay-in-town', 'go-see', 'stay-home', 'help', 'stay', 'turn-out', 'stay-put'].includes(input.action);
+  const answering = ['go-upriver', 'stay-in-town', 'go-see', 'stay-home', 'help', 'stay', 'turn-out', 'stay-put', 'send-for'].includes(input.action);
   if (!answering && !entity.principal) throw new Error('Only your principal can be asked that.');
   if (['go-upriver', 'stay-in-town'].includes(input.action)) {
     // Going upriver abandons whatever work was in hand, for the same reason answering
@@ -634,6 +664,14 @@ export function applyAction(world, householdId, input) {
     // afternoon's work for the same reason.
     if (entity.chore) abandonChore(world, world.households[householdId], entity);
     handleRumor(world, householdId, entity, input.action, { beginTravel, travelRefusal }, mode);
+  }
+  else if (input.action === 'send-for') {
+    // A family sends for its own volunteer, and they leave the army where it stands and start
+    // home (sim/army.mjs, docs/COLONIES.md §5.5). Always allowed while the class runs: what it
+    // costs is the part they would have taken, not a refusal.
+    const why = callHomeRefusal(world, householdId, entity);
+    if (why) throw new Error(why);
+    callHome(world, householdId, entity, { beginTravel });
   }
   else if (['turn-out', 'stay-put'].includes(input.action)) {
     // A far settlement's call (sim/calls.mjs): turning out costs the afternoon's work, as every call does.
@@ -710,6 +748,8 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
   const offers = offersFor(world, householdId);
   const encounter = encounterProjection(world, householdId, role);
   return structuredClone({ tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: world.map }), household, entities, others, offers, encounter, events, work, travelModes, land, wagon, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role),
+    // The army, once there is one: where it is, how many went, and which of them are this family's (sim/army.mjs).
+    ...(world.army && householdId ? { army: armyProjection(world, householdId) } : {}),
     // Whether this class began with the families arriving, which is what a family knows of a
     // neighbour's land it has not been to see: at dawn on the 28th nobody had a house. Land it has
     // seen since is in `household.seenLand`, as it stood then (sim/houses.mjs, `noteLandSeen`).
@@ -848,6 +888,8 @@ export function validateWorld(world) {
   if (badExpress) throw new Error(badExpress);
   const badCall = callsInvalid(world);
   if (badCall) throw new Error(badCall);
+  const badArmy = armyInvalid(world);
+  if (badArmy) throw new Error(badArmy);
   const badFelling = fellingInvalid(world);
   if (badFelling) throw new Error(badFelling);
   const events = new Set(world.events.map(e => e.id));

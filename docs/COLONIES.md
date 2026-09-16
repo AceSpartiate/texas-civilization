@@ -372,12 +372,12 @@ Each step ends with tests that failed first, a browser proof where it touches wh
 2a. ~~**Automatic neighbours: farming, building, trading and house-raisings**~~ **Done 2026-09-14** (§6c) (§5.9), so every class after step 2 has living
    neighbours. Their answer to the war comes with steps 4 and 5.
 3. ~~**Movement by ground and the house site**~~ **Done 2026-09-14** (§6d) (`docs/LAND_GRANTS.md` §8.3 steps 3–4).
-4. **News by riders over real distance**, calibrated to `HIST-TEX-006`, and the settlement-specific calls. **Part 1, the expresses, done 2026-09-14** (§6e); **part 2, the settlement calls, done 2026-09-14** (§6f); part 3 the two clocks (6a) to come.
-5. **The gathering and the march**, through the October 11–12 departure: volunteers, joining, the army formation.
+4. **News by riders over real distance**, calibrated to `HIST-TEX-006`, and the settlement-specific calls. **Part 1, the expresses, done 2026-09-14** (§6e); **part 2, the settlement calls, done 2026-09-14** (§6f); **part 3, the two clocks, done 2026-09-15** (§6g).
+5. ~~**The gathering and the march**~~ **Done 2026-09-15** (§6h). Volunteers, joining, the army as one formation, sending for somebody, and the departure - on the **13th**, which is what the order book and the Telegraph say (`HIST-TEX-018`).
 6. **Beyond** (Concepción, the Grass Fight, Béxar), each battle researched first; the glory rule for women built with
    the first `fought`.
-6a. **The two clocks** (§5.7) come in with step 4, the first phase whose calendar runs faster than farming, and **playing
-   alone** (§5.8) can be built at any point.
+6a. ~~**The two clocks** (§5.7) come in with step 4~~ **Done 2026-09-15** (§6g). **Playing alone** (§5.8) can still be built
+   at any point.
 7. Then `docs/LAND_GRANTS.md` §4–5: Survey and clearing.
 
 ---
@@ -528,6 +528,83 @@ Each step ends with tests that failed first, a browser proof where it touches wh
 - `ceiling:` the roads carry no going; a site's facts are asked of the server one place at a time, and laying a long lane takes
   a tenth of a second or so on the server's thread; creeks are counted as crossed by name, so one creek wandering across a
   stretch twice is one crossing; USGS's perennial streams describe the present, not 1835; no flood happens yet.
+
+### 6g. As built: step 4 part 3, the two clocks (2026-09-15)
+
+`sim/clock.mjs`. A tick still holds twenty minutes of anybody's effort. What changes with the phase is the date it
+carries: **twenty minutes while the class farms, an hour through the news, four hours for the gathering, half a day for
+the campaign** — 72, 24, 6 and 2 ticks to the day, so a day never ends inside a tick. The last two are declared and come
+into use with build steps 5 and 6. Only a class on the real land reads them (`world.map.source`); the invented Gonzales
+country, and so every class saved before this, keeps the single twenty-minute clock, and **no save version moved**
+because nothing is stored — the scale is computed at the top of each tick.
+
+**What it cost, measured** ([record](evidence/two-clocks.json)): the same thirty-family class reaches the fight at tick
+288 and ends at tick 464 without the two clocks — 73 minutes at the Study pace, so the Gonzales slice alone outruns the
+lesson. With them it reaches the fight at tick 168 and ends at 236, and the rest of the fifty minutes is left for steps
+5 and 6.
+
+**Three kinds of time, not two.** §5.7 names effort and days. Building it found a third:
+
+- **Days follow the calendar**: what a family eats, what spoils, what a wound needs, what sitting still mends — and
+  **how far the ground goes past**, which is the owner decision of 2026-09-15. Miles an hour of 1835 is a fact about the
+  land and the horse, not about the lesson, so a tick carrying an hour carries three miles of road with it. That is what
+  keeps the letters inside the dates `HIST-TEX-006` gives them, keeps a volunteer able to reach a gathering history has
+  dated, and keeps the march to Béxar a fortnight rather than something the game has to fake. The alternative was
+  measured and rejected: a nineteen-mile walk would have taken nine and a half days of 1835 in the campaign phase.
+- **Effort stays in ticks**: a spell of work, a chore step, a felled tree. Work per calendar day therefore falls in a
+  compressed phase, which is the point — a student is farming while weeks go by.
+- **Attention stays in ticks too, and this was the defect.** `PATIENCE_MINUTES`, `PASSING_MINUTES`, `SPEAKING_MINUTES`
+  and `SIGHT_MILES` are numbers about a student noticing a prompt, reading five lines, and watching somebody come up the
+  road. They were held in minutes of 1835, so a faster calendar quietly cut each to a third. They now stretch with it
+  (`stretch` and `attention` in `sim/encounters.mjs`), and a rider still waits about sixty ticks and is still seen about
+  two ticks off in every phase.
+
+**The calendar holds for a dated question.** History fixes both ends of the night of October 1 — the force crosses in
+the dark and marches at dawn — and everything between is a family deciding whether its man goes upriver. Eight hours is
+twenty-four ticks while farming and eight at an hour a tick, and eight is not long enough to read the prompt. So the
+calendar steps back into that window and picks the faster scale up again at the approach, which is §5.7's own rule kept
+rather than broken: the scale steps at moments of news, never in the middle of something a student is watching.
+
+**No browser proof, deliberately**: nothing a student sees is new. The date on the screen, the riders and every control
+are the ones already shipped and proved; the payload and the projection are untouched.
+
+`ceiling:` the scale is read once at the top of a tick, so a boundary inside a tick takes effect on the next one. One
+decision window is named in the clock; when steps 5 and 6 bring their own, this wants to be a question the director
+answers rather than a list of milestones. The four scales are `FIC-GONZ-027`, tuned by measurement and not yet by a
+taught lesson. A courier's first tick never carries him past halfway in a stretched phase, so a leg shorter than a tick
+still has a tick of road to be watched on — one tick of approach where an ordinary ride gives two.
+
+### 6h. As built: step 5, the gathering and the march (2026-09-15)
+
+`sim/army.mjs`, with the milestones in `sim/directors.mjs` and the town's own call in `sim/calls.mjs`.
+[Evidence](evidence/gathering-and-march.json); [what a student sees](evidence/army-browser.json).
+
+**A class on the real land no longer stops when the fight is over.** After the outcome it goes on: the gathering
+opens on October 3, Goliad falls in the night of the 9th–10th, the army is made on the afternoon of the **11th** and
+marches for Béxar on the **13th**, and the slice preserves on the 17th with the column on the road. A measured
+thirty-family class mustered **19 volunteers** and had them 40 of the 69 road miles out when it ended, at 262 ticks —
+about 41 minutes at the Study pace. The invented Gonzales country still ends at the old finish, and no save version moved.
+
+- **Who is asked.** Far families keep the settlement calls of §6f. Gonzales's own families are asked for the first
+  time, in the town's own words, once the gathering has opened — not on an express, because the gathering is
+  happening around them. One call each, as before.
+- **The army is one body.** It forms out of everybody standing at the rendezvous under an active promise to serve.
+  Being *near* it is not joining it and being still on the road is not either; both are guarded and both are tested.
+  Somebody who arrives late, or catches the column, falls in where they are. The people in it are carried along
+  rather than each walking their own road, which is what keeps a thirty-family class inside its tick budget.
+- **A volunteer is still a person.** Marching is a journey of the army's own — the world knows a person as at a place
+  or between two — so the ranks hold real people on a real road, and a family can **send for** its own at any time.
+  They leave the column, start home from the last place it passed, and the promise ends. It is asked twice on the page.
+- **What it counts for.** Standing in the ranks the day the army was made is `present` in `world.participation`,
+  awarded sealed through `sim/glory.mjs` and never projected while the class runs.
+- **The dates are `HIST-TEX-018`**, researched for this and stating its disagreements rather than resolving them —
+  including that the march date in the older `HIST-TEX-007` rests on the weakest of three sources. The march pace,
+  the October 3 opening and the shape of the muster are `FIC-GONZ-034`.
+
+`ceiling:` what happens at Béxar is step 6. A man who leaves the column starts from the last place it passed rather
+than the spot on the road. Goliad is told to the whole country on the day, because no express rides there on this map.
+Liberty's volunteers gather at Gonzales like everybody else's — their own company is not built, and is not documented
+for October either. No strength or casualty figure is asserted: the army is as many as the class actually sent.
 
 ## 7. Questions for the owner — all answered 2026-09-14
 

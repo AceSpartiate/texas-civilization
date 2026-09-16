@@ -37,6 +37,7 @@ const files = new Map([
   ['/alamo-collapse.js', ['../public/alamo-collapse.js', 'text/javascript']],
   ['/bexar-layout.js', ['../public/bexar-layout.js', 'text/javascript']],
   ['/bexar-art.js', ['../public/bexar-art.js', 'text/javascript']],
+  ['/curve.js', ['../public/curve.js', 'text/javascript']],
   ['/field-art.js', ['../public/field-art.js', 'text/javascript']],
   ['/gonzales-art.js', ['../public/gonzales-art.js', 'text/javascript']],
   ['/landscape-art.js', ['../public/landscape-art.js', 'text/javascript']],

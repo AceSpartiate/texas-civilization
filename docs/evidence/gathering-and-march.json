@@ -1,0 +1,48 @@
+{
+  "record": "The gathering and the march: build step 5 of docs/COLONIES.md (§5.5)",
+  "date": "2026-09-15",
+  "verdict": "PASS",
+  "verdictMeaning": "On the real land the class no longer stops when the fight is over. Volunteers keep coming into Gonzales, the town's own families are asked for the first time, the army is made on the afternoon of October 11 and marches for Béxar on the 13th, and a family's volunteer is a person inside one body who can be sent for at any time. Standing in the ranks the day it was made is written down as a part the family took. The invented Gonzales country still ends at the old finish, and no save version moved.",
+  "ownerDecisions": [
+    "2026-09-15: build step 5, after the two clocks made the calendar affordable.",
+    "2026-09-14 (docs/COLONIES.md §5.5): the army is aggregate, one representative formation, like the Gonzales formations of FIC-GONZ-006."
+  ],
+  "measured": {
+    "playedClass": "seed army-muster, 30 families, MAP=colonies: 19 volunteers mustered on October 11, the column 40 of the 69 road miles to Béxar when the slice preserved on October 17. 262 ticks, about 41 minutes at the Study pace of 9.5s a tick.",
+    "marchPace": "ten miles a day of 1835, read off the calendar like every other pace since the two clocks, which puts the column outside Béxar in the third week of October - when it was there.",
+    "theSliceNowEnds": "October 17, chosen rather than dated: far enough past the march that a class watches the column go, well short of Béxar, which is build step 6."
+  },
+  "foundWhileBuilding": [
+    "The research pass read Austin's manuscript order book, which this project had not: it prints the same October letter the Austin Papers print from a newspaper clipping, dated the 13th against the 11th, and the Telegraph of October 17 agrees with the order book. The march is now the 13th, Goliad the night of the 9th-10th (Collinsworth's own letters, against Austin's mistaken 8th), and HIST-TEX-018 states the disagreement rather than resolving it.",
+    "No Liberty company appears in any October 1835 letter. §5.5's Liberty volunteer joining on the road is a gameplay construction and is now registered as one rather than implied to be history.",
+    "A marching man holds a journey of the army's own, and every other way of setting somebody off refuses to begin a journey inside one - so sending for a volunteer worked at the muster and failed the moment the army moved, which is exactly when a family would want him back. Found by the browser proof, not by the unit tests, and now guarded by a test of its own.",
+    "The army arrived at Béxar inside the slice at first, because the pace was a mile every calendar hour - twenty-four miles a day, against the ten miles a day its own comment claimed.",
+    "The slice first ended one tick after the march, so the column was never seen to move. march-on moved from October 13 to October 17."
+  ],
+  "tests": {
+    "files": ["tests/army.test.mjs (10)", "tests/calls.test.mjs (6, one claim updated)", "tests/news.test.mjs (5, one claim updated)"],
+    "suite": "443 pass, 0 fail",
+    "injectedRegressions": 14,
+    "note": "Each was substituted into the production file, the suite run, and the file restored. All 14 were caught, each by the test that claims it. Two of them - that nobody is mustered without promising, and that somebody still on the road is not - were not caught by the first draft of the tests, and a test was added for them rather than the guards being trusted."
+  },
+  "liveBrowserProof": {
+    "script": "scripts/army-browser-proof.mjs (npm run test:army)",
+    "note": "Same computer only. A class on the colonies map played in process to the muster and then served live; a student joined as hh-1 in the browser. No LAN or district claim.",
+    "checks": [
+      "the page says where the army is, how far off, and how many went",
+      "the family's own volunteer is named with the one control that brings him back",
+      "sending for somebody is asked twice, because it cannot be taken back",
+      "he left the ranks and the army was one fewer",
+      "he was on the road home",
+      "no page errors"
+    ]
+  },
+  "limitations": [
+    "What happens at Béxar - and at Concepción and the Grass Fight on the way - is build step 6, and each battle is researched before it is built. The slice stops with the column on the road.",
+    "ceiling: a man who leaves the column starts from the last place the army actually passed, not from the spot on the road, so he can gain or lose a few miles by leaving between two places.",
+    "ceiling: the taking of Goliad is told to the whole country on the day, because no express rides to Goliad on this map.",
+    "ceiling: Liberty's volunteers gather at Gonzales like everybody else's; their own company on the road is not built, and is not documented for October either.",
+    "No casualty or strength figure is asserted anywhere: the army is as many as the class actually sent.",
+    "Untuned by play: no class has been taught on this."
+  ]
+}

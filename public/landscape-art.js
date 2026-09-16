@@ -1,12 +1,33 @@
-// Material detail follows the supplied polyline exactly: no invented bends or crossings.
+// Material detail follows the supplied polyline: every point it is given is a point the line
+// passes through, and no bend, branch or crossing is invented between courses.
+//
+// What IS invented is the shape *between* two points, and deliberately. A river's course is a
+// curve; the map carries a sample of it - a few points a mile on the real land, and on the
+// invented country as few as four points for the whole Guadalupe. Joining those samples with
+// straight lines does not draw a river, it draws a survey traverse: at any zoom past a mile it
+// reads as ruled lines meeting at corners, which is what a reader noticed. So the line is drawn
+// as a curve through every sample instead. The samples are honoured exactly; only the water
+// between them is rounded, which is the more truthful of the two guesses.
+//
+// ceiling: the surface detail - ripples, reeds, the stones on the bank - is still placed along the
+// straight chords by `samples`, so at a wide river's sharpest bends a ripple can sit a little
+// inside the curve. It is a few pixels at the widths this is drawn at.
 import {drawSprite} from '/art.js';
-function trace(ctx,points){ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));}
-function stroke(ctx,points,color,width){trace(ctx,points);ctx.strokeStyle=color;ctx.lineWidth=width;ctx.stroke();}
+import {curveThrough} from '/curve.js';
+function stroke(ctx,points,color,width){curveThrough(ctx,points);ctx.strokeStyle=color;ctx.lineWidth=width;ctx.stroke();}
 function samples(points,spacing,visit,bounds){let count=0;for(let i=1;i<points.length;i++){const a=points[i-1],b=points[i],dx=b.x-a.x,dy=b.y-a.y,length=Math.hypot(dx,dy);if(!length)continue;
   let lo=0,hi=1;for(const [origin,delta,min,max] of [[a.x,dx,-100,bounds.width+100],[a.y,dy,-100,bounds.height+100]]){if(!delta){if(origin<min||origin>max){hi=-1;break;}continue;}const u=(min-origin)/delta,v=(max-origin)/delta;lo=Math.max(lo,Math.min(u,v));hi=Math.min(hi,Math.max(u,v));}
   if(hi<lo)continue;
-  for(let d=Math.ceil(lo*length/spacing)*spacing;d<=hi*length;d+=spacing){visit({x:a.x+dx*d/length,y:a.y+dy*d/length,tx:dx/length,ty:dy/length,index:i*101+Math.round(d/spacing)});if(++count>700)return;}
+  for(let d=Math.ceil(lo*length/spacing)*spacing;d<=hi*length;d+=spacing){visit({x:a.x+dx*d/length,y:a.y+dy*d/length,tx:dx/length,ty:dy/length,index:i*101+Math.round(d/spacing)});if(++count>CAP)return;}
 }}
+// How many pieces of surface detail one course may put on the screen.
+//
+// It was seven hundred, and seven hundred is reached partway along a wide river at close zoom -
+// so the ripples and reeds simply stopped in the middle of the water, leaving one half of the
+// river dressed and the other half bare with a hard seam between them. Only what is on screen is
+// ever visited (the loop above clips first), so the number is a budget for a frame rather than
+// for a river, and this is what a full screen of the widest water actually asks for.
+const CAP=2600;
 export function drawWater(ctx,points,width){
   ctx.save();ctx.lineCap='round';ctx.lineJoin='round';
   stroke(ctx,points,'#798666',width+Math.min(12,width*.35));

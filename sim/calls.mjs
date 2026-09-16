@@ -58,21 +58,43 @@ export const SETTLEMENT_CALLS = Object.freeze({
     text: 'Word has come to Victoria that the Mexican troops are at Gonzales and the colonists are gathering there. Does somebody from your family ride to join them?',
     there: name => `${name} reached Gonzales, where volunteers from the settlements are gathering and waiting to be made into an army.`,
   },
+  // Gonzales's own, and the one call that is not asked on the strength of an express: the town is
+  // where the volunteers are coming to, and its families are asked once the gathering has begun
+  // (docs/COLONIES.md §5.5, build step 5). A family that carried food to town or went upriver in
+  // the first days is asked this as well - that week is exactly when men went home and came back.
+  gonzales: {
+    gather: 'gonzales',
+    gathering: true,
+    text: 'Volunteers are coming into Gonzales from every settlement, and there is talk of making them into an army and marching on Béxar. Does somebody from your family join them?',
+    there: name => `${name} joined the volunteers gathering in Gonzales, waiting to be made into an army.`,
+  },
 });
 
-/** The call a household's settlement makes, or null for a family of Gonzales and every family on the invented map. */
-export const callFor = household => household.settlementId && household.settlementId !== 'gonzales' ? SETTLEMENT_CALLS[household.settlementId] || null : null;
+/**
+ * The call a household's settlement makes, or null for every family on the invented map.
+ *
+ * A family of Gonzales has none until the gathering opens, and then has the town's own
+ * (build step 5); a far family's is the one its settlement made when the express reached it.
+ */
+export const callFor = (household, gathering = false) => {
+  if (!household.settlementId) return null;
+  if (household.settlementId === 'gonzales') return gathering ? SETTLEMENT_CALLS.gonzales : null;
+  return SETTLEMENT_CALLS[household.settlementId] || null;
+};
 
-/** Put each far family's call to it once the express has brought it the call for help. */
+/** Put each family's call to it: a far family's once the express has brought the word, Gonzales's own once the gathering has begun. */
 export function offerCalls(world) {
   if (world.director?.complete) return;
+  const gathering = Boolean(world.director?.milestones?.['gathering-opens']);
   for (const household of Object.values(world.households)) {
-    const call = callFor(household);
+    const call = callFor(household, gathering);
     if (!call || world.calls?.[household.id]) continue;
-    const report = world.knowledge.households[household.id]?.['cannon-request'];
+    // The town's own call is asked on the gathering itself, which its families can see happening
+    // around them; every other call waits on a rider (`FIC-GONZ-031`).
+    const report = call.gathering ? { eventId: world.truth['gonzales-outcome']?.eventId } : world.knowledge.households[household.id]?.['cannon-request'];
     if (!report) continue;
     if (!world.calls) world.calls = {};
-    const id = record(world, 'pressure', { householdId: household.id, text: call.text, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-031', causes: [report.eventId], importance: 2 });
+    const id = record(world, 'pressure', { householdId: household.id, text: call.text, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-031', causes: report.eventId ? [report.eventId] : [], importance: 2 });
     world.calls[household.id] = { id, text: call.text, status: 'open', settlementId: household.settlementId, gather: call.gather, offeredMinute: world.minute };
   }
 }

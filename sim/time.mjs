@@ -4,13 +4,18 @@ import { deliverReports } from './knowledge.mjs';
 import { advanceEncounters } from './encounters.mjs';
 import { advanceRelays, progressTravel, validateWorld } from './world.mjs';
 import { groundLeft } from './travel.mjs';
+import { calendarMinutes } from './clock.mjs';
 
 export function resolveTimeJump(world, requestedMinutes) {
   if (!Number.isInteger(requestedMinutes) || requestedMinutes < 0 || requestedMinutes > 60 * 24 * 60) throw new Error('Time jump must be whole minutes, at most 60 days.');
   if (world.status !== 'running') throw new Error('Time compression requires a running world.');
   const from = world.minute;
   const limit = from + requestedMinutes;
-  const arrivals = Object.values(world.entities).filter(e => e.principal && e.travel && ['help', 'service'].includes(e.travel.purpose)).map(e => ({ id: `arrival:${e.id}`, minute: from + Math.max(0, Math.ceil(groundLeft(e.travel) / e.travel.speed) - 1) * 20 }));
+  // A jump is made of ticks, and a tick may stand for more than twenty minutes of the calendar
+  // on the real land (sim/clock.mjs). Somebody's arrival is still counted in the ticks their
+  // travel actually takes; only the date those ticks land on moves with the phase.
+  const step = calendarMinutes(world);
+  const arrivals = Object.values(world.entities).filter(e => e.principal && e.travel && ['help', 'service'].includes(e.travel.purpose)).map(e => ({ id: `arrival:${e.id}`, minute: from + Math.max(0, Math.ceil(groundLeft(e.travel) / e.travel.speed) - 1) * step }));
   const barrier = [...world.barriers.filter(b => !b.resolved), ...arrivals].filter(b => b.minute >= from && b.minute <= limit).sort((a, b) => a.minute - b.minute || a.id.localeCompare(b.id))[0];
   // Somebody already standing with a rider is pending meaningful contact, and compressed
   // time may not run past a conversation that has not finished.
@@ -19,12 +24,14 @@ export function resolveTimeJump(world, requestedMinutes) {
   let blockedBy = meeting ? `encounter:${meeting.id}` : barrier?.id || null;
   if (target === from) return { requestedMinutes, advancedMinutes: 0, blockedBy, eventId: null };
   const beforeFood = Object.fromEntries(Object.values(world.households).map(h => [h.id, h.resources.food]));
-  // Advance in the same small units as live simulation so travel affects home labor.
+  // Advance in the same small units as live simulation so travel affects home labor: one
+  // tick's worth of the calendar at a time, whatever that phase's tick is worth.
   let remaining = target - from;
   while (remaining > 0) {
-    const minutes = Math.min(20, remaining);
+    const minutes = Math.min(step, remaining);
+    const ticks = minutes / step;
     world.minute += minutes;
-    for (const entity of Object.values(world.entities)) progressTravel(world, entity, minutes / 20);
+    for (const entity of Object.values(world.entities)) progressTravel(world, entity, ticks);
     // Somebody a rider came by is met before the word changes hands at a fork, as in `stepWorld`.
     const passed = advanceEncounters(world);
     // Word keeps changing hands through compressed time. Without this a rider who reached

@@ -6,6 +6,15 @@ import { awardGlory } from './glory.mjs';
 import { canAnswerCalls, cannotAnswerWhy, tooYoung, tooYoungWhy } from './family.mjs';
 import { distantHouseholds, expressLeaves, startExpress } from './expresses.mjs';
 import { callOptions, expireCalls, offerCalls, settleCalls } from './calls.mjs';
+import { advanceArmy, formArmy, marchOut, recordPresent } from './army.mjs';
+
+/**
+ * What the gathering, the organisation of the army and the march for Béxar rest on.
+ *
+ * One claim for the whole week because the dates are one body of record; `HISTORY.md` holds what
+ * each is sourced to and what is not documented at all.
+ */
+const HIST_GATHERING = 'HIST-TEX-018';
 
 /**
  * A family that lives near another settlement on the real map (docs/COLONIES.md §5.4). It hears by express, and the
@@ -15,8 +24,9 @@ import { callOptions, expireCalls, offerCalls, settleCalls } from './calls.mjs';
 const distant = household => Boolean(household.settlementId && household.settlementId !== 'gonzales');
 /**
  * How long past the Gonzales finish a real-map class runs, at most, so the furthest families hear how the fight ended.
- * Three days; tests/news.test.mjs measures the last family hearing well inside it. ceiling: until the two clocks of §5.7
- * compress the days after the fight, this makes a real-map class longer than a lesson.
+ * Three days; tests/news.test.mjs measures the last family hearing well inside it. Those three days used to make a
+ * real-map class longer than a lesson; since the two clocks (sim/clock.mjs, docs/COLONIES.md §5.7 and §6g) the news
+ * phase spends them at an hour a tick, and the measured class ends at tick 236 rather than 464.
  */
 export const EXPRESS_GRACE_MINUTES = 4320;
 
@@ -25,7 +35,25 @@ export const EXPRESS_GRACE_MINUTES = 4320;
 // started upriver (HIST-GONZ-003). It is when a household that carried food to town is
 // asked whether its person goes on with them. 4200 minutes from midnight on the 29th is
 // late on the 1st; `approach` at 4680 is dawn on the 2nd, and the call shuts then.
-const FROM_MIDNIGHT_SEPT_29 = Object.freeze({ notice: 600, publicNotice: 1440, gathering: 3000, crossing: 4200, approach: 4680, exchange: 4760, withdrawal: 4840, resolved: 4920, publicOutcome: 5400, finish: 5680 });
+const FROM_MIDNIGHT_SEPT_29 = Object.freeze({
+  notice: 600, publicNotice: 1440, gathering: 3000, crossing: 4200, approach: 4680, exchange: 4760, withdrawal: 4840, resolved: 4920, publicOutcome: 5400, finish: 5680,
+  // After the fight: the gathering and the march, build step 5 (docs/COLONIES.md §5.5). Only a
+  // class on the real land of the colonies reaches these; the invented country stops at `finish`,
+  // exactly as every class saved before this does. Days from midnight on the 29th: the 3rd is
+  // 5760, the 10th 15840, the 11th 17280, the 13th 20160.
+  //
+  // Dated from `HIST-TEX-018`, which was read for this: Goliad fell in the night of the 9th-10th
+  // (Collinsworth's own letters, against Austin's mistaken "8th"); Austin was elected at four in
+  // the afternoon of the 11th; the army crossed the Guadalupe on the 12th; the column stepped off
+  // on the **13th**, which is what Austin's manuscript order book and the Telegraph of October 17
+  // both say, against the 11th the Austin Papers' newspaper copy implies. When the gathering
+  // *began* is documented nowhere - the 3rd is this game's own (`FIC-GONZ-034`), and the first
+  // dated presence is the letter of the 6th.
+  // `march-on` is where this slice stops, and it is a choice rather than a date out of the
+  // record: far enough past the march that a class watches the column go - seven ticks of the
+  // campaign calendar - and well short of Béxar, which is build step 6.
+  'gathering-opens': 6240, goliad: 15840, organised: 18240, march: 20640, 'march-on': 25920,
+});
 /**
  * The families arrive at dawn on September 28, eighteen hours before midnight.
  *
@@ -557,6 +585,57 @@ function standWithTheForce(world) {
     };
   });
 }
+/**
+ * After October 2: the gathering, the army and the march (docs/COLONIES.md §5.5, build step 5).
+ *
+ * Only a class on the real land of the colonies comes here. The volunteers who answered their
+ * settlements keep coming in, Gonzales's own families are asked the same question for the first
+ * time, the army is made on the eleventh and marches on the twelfth, and what a family's person
+ * was there for is written down as they go. Where the march ends - Concepción, the Grass Fight,
+ * Béxar - is build step 6, and each of those battles is researched before it is built.
+ */
+function advanceGathering(world, movement) {
+  once(world, 'gathering-opens', () => {
+    world.director.phase = 'gathering';
+    // When the gathering began is dated by nothing that was read for `HIST-TEX-018`: the first
+    // named, dated presence is the letter of October 6. The third is this game's own.
+    record(world, 'milestone', {
+      visibility: 'public', importance: 2, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-034',
+      text: 'Volunteers are coming into Gonzales from every settlement, and there is talk of marching on Béxar.',
+    });
+  });
+  // ceiling: told to the whole country on the day, because no express rides to Goliad on this map.
+  // Carrying it by rider the way the Gonzales word is carried belongs with build step 6. What the
+  // taking cost is left out on purpose: the two sources that give numbers disagree (`HIST-TEX-018`).
+  once(world, 'goliad', () => record(world, 'milestone', {
+    visibility: 'public', importance: 2, classification: 'DOCUMENTED', claimId: HIST_GATHERING,
+    text: `Word has come that the volunteers took the presidio at ${world.map.sites.goliad?.name || 'Goliad'} in the night, and its stores and arms with it.`,
+  }));
+  once(world, 'organised', () => {
+    const eventId = record(world, 'milestone', {
+      visibility: 'public', importance: 3, classification: 'DOCUMENTED', claimId: HIST_GATHERING,
+      text: 'At four in the afternoon the volunteers at Gonzales were made into an army, and chose Stephen F. Austin to command it.',
+    });
+    formArmy(world, eventId);
+    // Standing in the ranks the day it was made an army is a part a family took, and it is
+    // written down now rather than at the end, because somebody sent for tomorrow was still there today.
+    recordPresent(world, 'gathering', { claimId: HIST_GATHERING, causes: [eventId] });
+  });
+  once(world, 'march', () => {
+    marchOut(world);
+    // The weeks to Béxar: the calendar's longest stride, and the phase the two clocks were built for.
+    world.director.phase = 'campaign';
+  });
+  advanceArmy(world);
+  once(world, 'march-on', () => {
+    expireCalls(world);
+    world.director.complete = true; world.director.phase = 'preserved'; world.status = 'ended';
+    record(world, 'slice-preserved', {
+      visibility: 'public',
+      text: 'The army is on the road for Béxar. This slice stops here: families, absences, property, promises and memories are saved for the next arc, and what happened at Concepción, the Grass Fight and Béxar is still ahead.',
+    });
+  });
+}
 export function advanceDirectors(world, movement) {
   if (!world.director || world.director.complete) return;
   once(world, 'notice', () => {
@@ -652,6 +731,9 @@ export function advanceDirectors(world, movement) {
   });
   settleHelp(world); settleCalls(world); moveFormations(world); standWithTheForce(world);
   once(world, 'publicOutcome', () => learn(world, 'public', 'gonzales-outcome', { source: 'Public report (reconstructed timing)' }));
+  // Build step 5: on the real land the class does not stop when the fight is over. The volunteers
+  // keep coming in, the army is made and it marches, and that is what ends it instead.
+  if (world.map.source) return advanceGathering(world, movement);
   // On the real map the class waits, a few days at most, until the furthest family has heard how it ended.
   const waiting = distantHouseholds(world).some(household => !world.knowledge.households[household.id]?.['gonzales-outcome']);
   if (waiting && world.minute < momentOf(world, 'finish') + EXPRESS_GRACE_MINUTES) return;

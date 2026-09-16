@@ -581,7 +581,7 @@ function stalkPoint(world, entity, where) {
 /**
  * Where the deer stands (`HIST-TEX-015`): ahead of the hunter, the way into the cover, far enough that it is not a close
  * shot, or half as far once they have waited. The server places it, so the renderer never invents where an animal is.
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-14 - game. The client draws it as a simple shape until the art lands.
+ * The client draws the projected quarry with registered deer art; this function remains its sole position authority.
  */
 const QUARRY_MILES = Object.freeze({ far: 0.065, near: 0.035 });
 function quarryPoint(world, entity, range) {
@@ -949,7 +949,7 @@ export function haulFor(entity, choreId, modeId = DEFAULT_MODE) {
 }
 
 /** One step of one person's chore. Called once per tick per working person. */
-function advanceChore(world, household, entity, { beginTravel }) {
+function advanceChore(world, household, entity, { beginTravel, modeAvailability }) {
   const chore = CHORES[entity.chore.id];
   const skill = entity.skills?.[chore.skill] ?? 1;
   // A travel step owns the person until the road is behind them.
@@ -1017,7 +1017,15 @@ function advanceChore(world, household, entity, { beginTravel }) {
         : step.travel === 'town' ? townOf(household) : step.travel;
       // Already standing there: nothing to walk, so fall through to the next step.
       if (!destination || entity.location.siteId === destination) continue;
-      beginTravel(world, entity, destination, null, 'chore', state.mode || DEFAULT_MODE);
+      // How they meant to go may not be theirs any more: a chore that began with the horse can
+      // reach its walking step after somebody else has taken it, and `beginTravel` refuses a mode
+      // the family cannot supply. Refusing is right; throwing in the middle of a tick is not - it
+      // stopped the whole class. They walk instead, which is always possible and is what somebody
+      // who came out to find the horse gone would do.
+      const wanted = state.mode || DEFAULT_MODE;
+      const held = wanted === DEFAULT_MODE || (modeAvailability?.(world, entity, wanted)?.can ?? true);
+      if (!held) state.mode = DEFAULT_MODE;
+      beginTravel(world, entity, destination, null, 'chore', held ? wanted : DEFAULT_MODE);
       return;
     }
     if (step.ask) {

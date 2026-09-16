@@ -1,0 +1,25 @@
+{
+  "record": "The gathering and the march, in a browser: docs/COLONIES.md build step 5",
+  "date": "2026-09-16",
+  "verdict": "PASS",
+  "note": "Same computer only. A real class on the colonies map, played in process to the morning of October 11 and then served live; a student joined as hh-1 in the browser and read and used the army panel. No LAN or district claim.",
+  "checks": [
+    "the page says where the army is: \"The army is on the road for Béxar, on the road, 98.9 miles from your land. 1 went from the settlements.\"",
+    "the family's own volunteer is named, with a control: \"Ezra is on the road for Béxar, 98.9 miles from your land.Send for EzraThey leave the ranks and start home. Whatever the army does next happens without them.\"",
+    "sending for somebody is asked twice: \"Confirm: bring them home\"",
+    "he left the ranks and the army is one fewer: 1 to 0",
+    "Ezra is on the road to home-1",
+    "no page errors"
+  ],
+  "observed": {
+    "where": "The army is on the road for Béxar, on the road, 98.9 miles from your land. 1 went from the settlements.",
+    "ours": "Ezra is on the road for Béxar, 98.9 miles from your land.Send for EzraThey leave the ranks and start home. Whatever the army does next happens without them.",
+    "control": "Send for EzraThey leave the ranks and start home. Whatever the army does next happens without them.",
+    "confirm": "Confirm: bring them home",
+    "after": "The army is on the road for Béxar, on the road, 98.9 miles from your land. 0 went from the settlements.",
+    "home": {
+      "name": "Ezra",
+      "to": "home-1"
+    }
+  }
+}

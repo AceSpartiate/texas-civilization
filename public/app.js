@@ -43,7 +43,9 @@ const timeLabel = minutes => minutes < 60 ? `${Math.floor(minutes)} min` : minut
 function element(tag, content, className) { const el = document.createElement(tag); el.textContent = content; if (className) el.className = className; return el; }
 // Teacher actions that discard a class or close the server ask twice, in the page
 // itself, so a browser dialog never blocks the projected Host.
-const confirmLabel = { 'new-class': 'Confirm new class', 'stop-server': 'Confirm stop' };
+// Sending for somebody is asked twice, like the other two that cannot be taken back: they lose
+// their place in the ranks and whatever the army does next happens without them.
+const confirmLabel = { 'new-class': 'Confirm new class', 'stop-server': 'Confirm stop', 'send-for': 'Confirm: bring them home' };
 let confirming = null, confirmTimer = null, authRecheck = false, startAnyway = false;
 // The map is public geography that never changes during a class, so it is fetched once
 // and re-attached to each snapshot. A new class rotates the session id and invalidates it.
@@ -1038,6 +1040,21 @@ function drawGroundDetail(ctx, world, camera) {
   // where it stands instead of scattered ones, so no lone oak stands in open prairie the simulation has none in.
   const landWoods = woodsShown(world) && woodsCatalogue;
   const realTrees = landWoods && treesInView(camera, canvas);
+  // Nothing stands in the river. The vegetation layers - the scatter here, and the real trees the
+  // land itself puts on the bank - know nothing about water, so cottonwoods were drawn standing in
+  // the middle of the channel. A tree within the water as it is actually drawn is dropped, at the
+  // same exaggerated width `drawTerrain` paints, so the rule matches the picture at every zoom.
+  // ceiling: the channel only. Timber crowding right up to the bank is correct and stays.
+  const channels = (world.map?.terrain || [])
+    .filter(feature => ['river', 'creek'].includes(feature.kind) && feature.points?.length > 1)
+    .map(feature => {
+      const xs = feature.points.map(p => p.x), ys = feature.points.map(p => p.y);
+      const half = Math.max(1.5, ((feature.kind === 'river' ? 0.05 : 0.012) / PERSON_MILES) * figure) / 2 / camera.scale;
+      return { points: feature.points, half, minX: Math.min(...xs) - half, maxX: Math.max(...xs) + half, minY: Math.min(...ys) - half, maxY: Math.max(...ys) + half };
+    })
+    .filter(course => course.maxX >= topLeft.x && course.minX <= bottomRight.x && course.maxY >= topLeft.y && course.minY <= bottomRight.y);
+  const inWater = (x, y) => channels.some(course =>
+    x >= course.minX && x <= course.maxX && y >= course.minY && y <= course.maxY && distanceToLine({ x, y }, course.points) < course.half);
   const inWoods = landWoods
     ? (x, y) => timberAt(x, y, woodsCatalogue.tiles.patches) === true
     : water.length
@@ -1050,6 +1067,7 @@ function drawGroundDetail(ctx, world, camera) {
       const jitter = groundHash(cx + 8191, cy - 5077);
       const wx = (cx + jitter) * cell, wy = (cy + groundHash(cx - 331, cy + 977)) * cell;
       if (cleared.length && inCleared(wx, wy)) continue;
+      if (channels.length && inWater(wx, wy)) continue;
       if(bexarSite&&camera.scale>=200){const x=(wx-bexarSite.x)*5280+1200,y=(wy-bexarSite.y)*5280+2050;if(x>=0&&x<=4000&&y>=0&&y<=3400)continue;}
       if(gonzalesSite&&camera.scale>=200){const x=wx-gonzalesSite.x,y=wy-gonzalesSite.y,b=GONZALES_ART_BOUNDS;if(x>b.left&&x<b.right&&y>b.top&&y<b.bottom)continue;}
       // Kind is independent of LOD density: panning or zooming cannot turn a tuft into a tree.
@@ -1062,18 +1080,20 @@ function drawGroundDetail(ctx, world, camera) {
   if (realTrees) {
     for (const tree of treesVisible(camera, canvas, woodsCatalogue)) {
       if (cleared.length && inCleared(tree.x, tree.y)) continue;
+      if (channels.length && inWater(tree.x, tree.y)) continue;
       const point = camera.toScreen(tree), height = figure * SIZE.timberTree * TREE_SIZES[tree.size];
-      // stand-in: every kind is drawn with the nearest tree the library has (`KINDS` picture in sim/woods.mjs): pine as the
-      // cottonwood, cedar as the sapling, mesquite as scrub. Request 2026-09-15 - the trees of the colonies.
-      scattered.push({ tree: tree.kind.picture, height, point, seed: Math.round(tree.x * 1e5) });
+      const sizeName = ['pole', 'log', 'large'][tree.size];
+      const sizedTree = `${tree.kind.picture}-${sizeName}`;
+      const deliveredSizes = ['pine-loblolly', 'cedar', 'mesquite', 'live-oak', 'elm'].includes(tree.kind.picture);
+      scattered.push({ tree: deliveredSizes ? sizedTree : tree.kind.picture, height, point, seed: Math.round(tree.x * 1e5) });
     }
     // What the family has felled: a stump, and a log lying beside it while any are left to haul (sim/felling.mjs).
-    // stand-in: pine, pecan and every other kind's stump is the post oak's or the cottonwood's, and a felled log is
-    // `log-fallen`. Request 2026-09-15 - the trees of the colonies.
+    // stand-in: hardwood stumps use the nearest post-oak or cottonwood stump, and every felled trunk uses
+    // `log-fallen`. Pine has its delivered stump. Request 2026-09-15 - the trees of the colonies.
     const stumps = stumpsVisible(camera, canvas, woodsCatalogue);
     for (const stump of stumps) {
-      const point = camera.toScreen(stump), soft = ['cottonwood', 'sycamore', 'loblolly', 'shortleaf'].includes(stump.kind.id);
-      scattered.push({ tree: soft ? 'stump-cottonwood' : 'stump-post-oak', height: figure * SIZE.stump, point, seed: 0 });
+      const point = camera.toScreen(stump), pine = ['loblolly', 'shortleaf'].includes(stump.kind.id), soft = ['cottonwood', 'sycamore'].includes(stump.kind.id);
+      scattered.push({ tree: pine ? 'stump-pine-loblolly' : soft ? 'stump-cottonwood' : 'stump-post-oak', height: figure * SIZE.stump, point, seed: 0 });
       if (stump.left > 0) scattered.push({ tree: 'log-fallen', height: figure * SIZE.stump * .8, point: { x: point.x + figure * .35, y: point.y + figure * .08 }, seed: 0 });
     }
     window.__stumpsDrawn = stumps.length;
@@ -1122,11 +1142,18 @@ function drawTerrain(ctx, world, camera) {
     let points = (feature.points || []).map(camera.toScreen); if (points.length < 2) continue;
     if (!style.fill) {
       ctx.beginPath(); points.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
-      // On the real land (docs/COLONIES.md) a river's course is its true meandering course, and drawn at the invented
-      // map's width every bend runs into the next like a flood. There it is drawn near its true width: about eighty
-      // metres for a river and a few metres for a creek, never thinner than a readable line.
-      const trueWidth = world.map?.source ? Math.max(feature.kind === 'river' ? 2.2 : 1.1, (feature.kind === 'river' ? 0.05 : 0.012) * camera.scale) : null;
-      drawWater(ctx,points,trueWidth ?? Math.max(1.5, Math.min(26, style.width * camera.scale * .55)));
+      // Water is drawn at its true width - about eighty metres for a river, a dozen for a creek -
+      // measured in the same exaggerated yardstick as everything else on this map. `figure` is
+      // PERSON_MILES of ground, and every tree, cabin and ox is a multiple of it; drawing water in
+      // plain pixels instead was why a river read as a blue thread between trees twice its width.
+      // Now a river is the 2.6 person-symbols across that it really is, at every zoom, and it
+      // grows and shrinks with the trees on its bank instead of against them.
+      //
+      // The invented country used to be worse still: a width capped at twenty-six pixels, so the
+      // Guadalupe was the same twenty-six pixels whether the whole county was on screen or one
+      // yard of bank. The land grew as you zoomed and the water did not.
+      const miles = feature.kind === 'river' ? 0.05 : 0.012;
+      drawWater(ctx, points, Math.max(1.5, (miles / PERSON_MILES) * figure));
       continue;
     }
     ctx.beginPath(); points.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); ctx.closePath();
@@ -1805,6 +1832,27 @@ function renderCall(world, chosen, running) {
     return button;
   }));
 }
+/**
+ * The one thing a family can do about somebody who is away with the army (sim/army.mjs).
+ *
+ * Shown against the person themselves, where everything else about them is shown, rather than in
+ * a panel of its own: they are still one of this family's people, and what is offered is the same
+ * shape as every other thing a student may tell somebody to do.
+ */
+function renderArmyControl(world, chosen, running) {
+  const wrap = $('#selection-army');
+  const ours = world.army?.ours?.find(one => one.id === chosen.id);
+  if (!ours || world.role === 'host') { wrap.hidden = true; wrap.replaceChildren(); return; }
+  wrap.hidden = false;
+  const where = world.army.at === 'on the road' ? 'on the road for Béxar' : `with the army at ${world.army.at}`;
+  const button = element('button', '', 'work-option ask-option-work');
+  button.dataset.action = 'send-for';
+  button.dataset.entityId = chosen.id;
+  button.disabled = !running;
+  button.append(element('span', `Send for ${ours.name}`, 'work-name'));
+  button.append(element('span', 'They leave the ranks and start home. Whatever the army does next happens without them.', 'work-note'));
+  wrap.replaceChildren(element('p', `${ours.name} is ${where}, ${world.army.miles} miles from your land.`, 'ask-text'), button);
+}
 function renderTravelModes(world, chosen, settable) {
   const wrap = $('#selection-travel'), host = $('#travel-modes');
   const offered = world.travelModes?.[chosen.id];
@@ -2014,6 +2062,7 @@ function renderSelection(world) {
   listen.hidden = !waiting || world.role === 'host';
   listen.textContent = waiting ? `Listen to ${world.encounter.carrierName}` : 'Listen';
   renderCall(world, chosen, running);
+  renderArmyControl(world, chosen, running);
   renderTravelModes(world, chosen, settable);
   renderWork(world, chosen, settable);
   // Trading stays shut until the class is running, because the neighbour it is addressed
@@ -2723,6 +2772,27 @@ function renderSlice(world) {
       ? { open: 'Your family can choose how to respond.', accepted: 'Your family went to see for itself.', refused: 'Your family stayed home.', expired: 'Nobody went to find out.' }
       : { open: 'Your family can choose how to respond.', accepted: 'Your family chose to help.', refused: 'Your family chose to stay home.', expired: 'This request has passed.' };
     $('#request-status').textContent = said[request.status] || '';
+  }
+  // The army, once the volunteers have been made into one (sim/army.mjs, docs/COLONIES.md §5.5).
+  // Where it is and how many went are public; which of them are this family's, and the control
+  // for sending for one, come from the server's own projection and are never worked out here.
+  const army = world.army;
+  $('#army').hidden = !army || world.role === 'host';
+  if (army && world.role !== 'host') {
+    const phase = {
+      organised: `The volunteers have been made into an army at ${army.at}`,
+      marching: 'The army is on the road for Béxar',
+      arrived: 'The army has reached Béxar',
+    }[army.phase] || `The volunteers are gathering at ${army.at}`;
+    $('#army-where').textContent = `${phase}, ${army.miles} miles from your land. ${army.strength} went from the settlements.`;
+    $('#army-ours').replaceChildren(...army.ours.map(one => {
+      const line = element('div', `${one.name} is with it. `);
+      const button = element('button', `Send for ${one.name}`);
+      button.dataset.action = 'send-for';
+      button.dataset.entityId = one.id;
+      line.append(button);
+      return line;
+    }));
   }
   const battle = world.battle;
   $('#battle-info').hidden = !battle;

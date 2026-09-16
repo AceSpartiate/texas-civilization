@@ -22,6 +22,15 @@ export const RESTED_MILES = 7;
 // still. Working does not mend it, which is what gives the Rest verb something to do.
 export const REST_MILES_PER_MINUTE = 0.075;
 
+/**
+ * Routine life over `minutes` of the calendar (sim/clock.mjs, docs/COLONIES.md §5.7).
+ *
+ * Every one of these belongs to days rather than to effort, so all of it reads the calendar
+ * and none of it reads the tick: what a family eats, what spoils, what a wound needs, and
+ * what sitting still mends. Somebody who rests through four hours of 1835 has rested four
+ * hours. The miles that tire them are counted where they are covered, in `progressTravel`,
+ * and scale with the calendar for the same reason.
+ */
 export function advanceRoutine(world, minutes) {
   const days = minutes / 1440;
   for (const household of Object.values(world.households)) {

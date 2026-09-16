@@ -1,0 +1,53 @@
+{
+  "record": "The rivers: curves, true width, joined mouths, and nothing standing in the water",
+  "date": "2026-09-15",
+  "verdict": "PASS",
+  "verdictMeaning": "Water is drawn as a curve through the map's own points rather than straight lines between them; at the width it really is, measured in the same exaggerated yardstick as every tree and person on the map, so it grows with the land as a reader zooms; with a creek's mouth carried the last few yards onto the river it runs into; and with nothing - scattered brush or the land's own timber - left standing in the channel. The invented Gonzales country and the real land are now drawn by the same rules.",
+  "reportedBy": "The owner, 2026-09-15: \"all of the rivers need work. the ones around Gonzales look better, but when i zoom in they all of the sudden change shape and it just doesn't work visually. trees and clipping issues, parts of the rivers not connected, angular instead of curves.\"",
+  "whatWasActuallyWrong": {
+    "angular": "Every course was drawn with `lineTo` between the map's sample points. On the real land those are a fifth of a mile apart; on the invented country the whole Guadalupe is four points with segments of 2.7 to 7.4 miles. Past about a mile of zoom that is not a river, it is a survey traverse.",
+    "changesShapeOnZoom": "Width was in pixels, not in ground. On the invented map it was `style.width * scale * 0.55` clamped to 26 pixels - so above about 15 pixels a mile the Guadalupe was the same 26 pixels wide whether the whole county was on screen or one yard of bank. On the real land it was a true 0.05 miles but in plain pixels, which at a wide view is two pixels: a blue thread between trees ten times its width, because `figure` - the yardstick every tree, cabin and ox is drawn in - has a floor of 7 pixels and water had none.",
+    "notConnected": "Measured on a fifteen-family class: 34 endpoints sat between 100 feet and a quarter mile from another course - tributary mouths digitised separately from the river they run into. Invisible while water was a thin stroke; an obvious broken join at true width.",
+    "treesInTheWater": "The scatter and the land's own tree lattice know nothing about watercourses, so cottonwoods were drawn standing in mid-channel."
+  },
+  "measured": {
+    "geometryBefore": "invented map: 4 water features, 23 points, segments 2.7-7.4 miles. Real land: 139 features, 6747 points, median segment 0.2 miles.",
+    "joinsBefore": "74 endpoints touching another course, 34 between 100 feet and a quarter mile off, 170 open.",
+    "joinsAfter": "108 touching, 0 between, 170 open - the open ones being headwaters and courses cut where they leave the country this map keeps.",
+    "surfaceDetail": "the ripple and reed budget was 700 marks a course, which a wide river at close zoom exhausts partway along, leaving half the water dressed and half bare with a seam between. Now 2600, which is what a full screen of the widest water asks for."
+  },
+  "foundWhileBuilding": [
+    "Joining mouths in the middle of the build dealt a different class from the same seed: a join adds a point to a course, the timber band along it is jittered per point, and one extra draw shifted every random number after it. The join is now the last thing the build does, and a test holds the seed.",
+    "The first guard for 'do not join an end that was cut at the edge of the kept country' did not work: a run is cut by dropping the points outside the box, so its end is the last point inside and is never exactly on the edge. The map now writes down which ends are cut, as it makes them, and the join reads that.",
+    "A latent crash surfaced when the new geometry moved the class: a chore that began with the horse reached its walking step after somebody else had taken it, and `beginTravel` threw inside `stepWorld` - stopping the whole class rather than that one errand. They walk instead."
+  ],
+  "tests": {
+    "file": "tests/rivers.test.mjs",
+    "count": 6,
+    "suite": "449 pass, 0 fail",
+    "injectedRegressions": [
+      "straight lines between points -> caught by the curve test",
+      "the curve misses the map's own points -> caught by the curve and hairpin tests",
+      "an unclamped curve overshoots a corner -> caught by the hairpin test",
+      "mouths left short of their river -> caught by the mouth test",
+      "every end joined, cut ends and all -> caught by the cut-end test",
+      "a mouth carried across the county -> caught by the cut-end and open-ends tests"
+    ]
+  },
+  "liveBrowserProof": {
+    "note": "Same computer only. A colonies class served locally and read in a browser at several zooms, before and after. No LAN or district claim.",
+    "observed": [
+      "Before: at a close zoom the river was a two-pixel blue hairline with timber twice its width standing along and in it.",
+      "After: the same water reads as a channel with banks, curving through its meanders, with the bottomland timber on the bank and none of it in the water.",
+      "At Mina on the Colorado the creek network is visibly one drainage: every tributary drawn reaches the river it runs into.",
+      "A first attempt at the width - true miles in plain pixels - was tried, looked wrong for the same reason the old one did, and was replaced by the person-symbol yardstick before this record was written."
+    ]
+  },
+  "limitations": [
+    "ceiling: the surface detail - ripples, reeds, the stones on the bank - is still placed along the straight chords, so at a wide river's sharpest bends a ripple can sit slightly inside the curve.",
+    "ceiling: a course cut where it leaves the kept country simply stops, with a round cap. Tapering such an end, now that the map says which ends they are, is the obvious next step.",
+    "ceiling: only the channel is kept clear of trees. Timber crowding right up to the bank is correct and stays.",
+    "The invented Gonzales country still has only four watercourses of 23 points; they are now curved and true-width, but no amount of drawing makes four points into a meandering river. Carrying the real courses onto that map, or sampling them more finely, is the way out.",
+    "A class saved before this keeps the map it was made with, joins and all; nothing was migrated and no save version moved."
+  ]
+}

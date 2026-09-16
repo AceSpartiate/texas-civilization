@@ -11,6 +11,8 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { createSettledWorld } from './support/settled.mjs';
 import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
 import { SETTLEMENT_CALLS, VOLUNTEER_POWDER, callsInvalid } from '../sim/calls.mjs';
+import { momentOf } from '../sim/directors.mjs';
+import { withTheArmy } from '../sim/army.mjs';
 
 const colonies = (seed, players = 15, options = {}) => {
   const world = createGonzalesWorld(seed, players, { map: 'colonies', ...options });
@@ -37,7 +39,14 @@ test("each far family is asked its own settlement's call once the express has br
   let asked = 0;
   for (const household of Object.values(world.households)) {
     const call = world.calls?.[household.id];
-    if (household.settlementId === 'gonzales') { assert.equal(call, undefined, `${household.id} of Gonzales was asked a far settlement's call`); continue; }
+    if (household.settlementId === 'gonzales') {
+      // Never a far settlement's call, and never on an express: the town's own, asked once the
+      // gathering has begun around it (docs/COLONIES.md §5.5, build step 5).
+      assert.equal(call?.text, SETTLEMENT_CALLS.gonzales.text, `${household.id} of Gonzales was asked ${call ? 'a far settlement\'s call' : 'nothing'}`);
+      assert.ok(world.director.milestones['gathering-opens'], 'the gathering never opened');
+      assert.ok(call.offeredMinute >= momentOf(world, 'gathering-opens'), `${household.id} was asked before the gathering opened`);
+      continue;
+    }
     assert.ok(call, `${household.id} of ${household.settlementId} was never asked`);
     asked++;
     const expected = SETTLEMENT_CALLS[household.settlementId];
@@ -135,7 +144,11 @@ test('neighbours answer as the settlements did: the coast stays, inland a family
     went++;
     const person = world.entities[call.actorId];
     assert.ok(person.sex !== 'female', `${person.name} was sent`);
-    assert.equal(person.location.siteId, call.gather, `${person.name} never reached ${call.gather}`);
+    // Standing where they were called to, or gone on from it with the army - which they could only
+    // have joined by getting there first (docs/COLONIES.md §5.5, build step 5).
+    assert.ok(person.location.siteId === call.gather || withTheArmy(world, person.id),
+      `${person.name} never reached ${call.gather}`);
+    assert.ok(call.arrivedMinute !== undefined, `${person.name} is counted as having gone without ever arriving`);
   }
   assert.ok(went >= 3, `${went} neighbours turned out`);
   assert.ok(Object.values(world.calls).some(call => call.status === 'refused' && !['matagorda', 'columbia'].includes(call.settlementId)) || went < Object.keys(world.calls).length);

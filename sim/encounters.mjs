@@ -27,6 +27,30 @@
 // spoken to their family in the world. Failing to click cannot unhear it.
 import { record } from './events.mjs';
 import { learn, wouldLearn } from './knowledge.mjs';
+import { TICK_MINUTES, calendarMinutes } from './clock.mjs';
+
+/**
+ * How far the calendar has been stretched, as a multiplier (sim/clock.mjs, docs/COLONIES.md §5.7).
+ *
+ * One while a class farms and on every class on the invented map, and more in the phases whose
+ * calendar runs fast. Two things in this file are counted in ticks rather than in minutes of
+ * 1835 and so have to be stretched with it: how far off a rider is *seen*, which was always a
+ * count of ticks of approach, and how long a student is given to answer one, which was always a
+ * count of seconds in a real classroom. Left alone, both would shrink to a third of themselves
+ * the moment the calendar sped up - the rider appearing and reining in on the same tick, and the
+ * prompt closing before it could be read.
+ */
+const stretch = world => calendarMinutes(world) / TICK_MINUTES;
+/**
+ * A span tuned to a student's attention, in the minutes of 1835 that hold that many ticks of it.
+ *
+ * Stretched only where somebody is actually reading it. At a family nobody plays there is no
+ * attention to protect, and stretching it there was measured doing harm: sixty ticks of a
+ * four-hour tick left a rider at an empty gate for ten days of 1835 with the next rider queued
+ * behind him, and a Liberty family never heard how the fight ended. Unplayed, a rider simply
+ * waits the twenty fictional hours the number always meant and then rides on.
+ */
+const attention = (world, minutes, householdId) => minutes * (world.households?.[householdId]?.played ? stretch(world) : 1);
 
 // How close two people must be before one can say something to the other. Invented, like
 // every distance in this project (`FIC-GONZ-002`); a rider reining in beside somebody.
@@ -42,7 +66,14 @@ export const EARSHOT_MILES = 0.45;
 // ceiling: general open-country sight does not exist - a household still sees other
 // people only where one of its own is standing. Widening that is its own decision about
 // payload and about what a student is allowed to watch, and it is not this change.
+//
+// Because it is ticks of approach and not eyesight, it stretches with the calendar: in a
+// phase where a tick carries an hour the rider also covers three times the ground in it, so
+// five miles would put him in view and at the door in the same tick - the appearance this
+// number exists to prevent. `seenComing` is the one the simulation asks.
 export const SIGHT_MILES = 5;
+/** How far off a rider is seen coming, in this phase: always about two ticks of road. */
+export const seenComing = world => SIGHT_MILES * stretch(world);
 // How long a rider will wait once they have said their piece. They have already been
 // heard by the time this matters, so what runs out is the chance to ask anything further,
 // and every question asked resets it.
@@ -434,7 +465,7 @@ export function advanceEncounters(world) {
     // Somebody met on the way gets a short stop; the family the word is for gets as long
     // as it takes, because by then the rider has nowhere else to be.
     const errand = carrier.report && carrier.report.audience !== encounter.householdId;
-    if (world.minute - encounter.lastSpokenMinute >= (errand ? PASSING_MINUTES : PATIENCE_MINUTES)) finish(world, encounter, 'unanswered');
+    if (world.minute - encounter.lastSpokenMinute >= attention(world, errand ? PASSING_MINUTES : PATIENCE_MINUTES, encounter.householdId)) finish(world, encounter, 'unanswered');
   }
   const opened = [];
   // Two passes. On the first a rider may only stop for the family they were sent to; on the
@@ -591,7 +622,8 @@ export function ridersInSight(world, householdId) {
   const household = world.households[householdId];
   if (!household) return [];
   const family = household.members.map(id => world.entities[id]);
-  const inSight = carrier => family.some(person => between(carrier.location, person.location) <= SIGHT_MILES && !blockedByWater(world, carrier.location, person.location));
+  const sight = seenComing(world);
+  const inSight = carrier => family.some(person => between(carrier.location, person.location) <= sight && !blockedByWater(world, carrier.location, person.location));
   const seen = [];
   // Whoever this family is standing with right now. A meeting is a modelled fact rather
   // than a distance query, and a rider who reined in out on the road holds no site - so
@@ -635,6 +667,6 @@ export function facingOf(world, carrier) {
     facing: Math.abs(listener.location.y - carrier.location.y) > Math.abs(listener.location.x - carrier.location.x) * 1.2
       ? (listener.location.y < carrier.location.y ? 'n' : 's')
       : listener.location.x < carrier.location.x ? 'w' : 'e',
-    speaking: said?.speaker === 'rider' && world.minute - said.minute < SPEAKING_MINUTES,
+    speaking: said?.speaker === 'rider' && world.minute - said.minute < attention(world, SPEAKING_MINUTES, encounter.householdId),
   };
 }

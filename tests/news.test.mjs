@@ -79,7 +79,7 @@ test('a family far from Gonzales hears by express, from a rider of its own settl
   validateWorld(world);
 });
 
-test('a distant family is not asked the Gonzales calls, and the class runs on until the furthest family has heard how it ended', () => {
+test('a distant family is not asked the Gonzales calls, and the word still reaches every family before the army marches', () => {
   const { world } = class15();
   for (const household of distantHouseholds(world)) {
     assert.equal(world.requests[household.id], undefined, `${household.id} of ${household.settlementId} was asked to carry food to Gonzales`);
@@ -87,7 +87,11 @@ test('a distant family is not asked the Gonzales calls, and the class runs on un
   }
   const last = Math.max(...Object.values(world.households).map(h => world.knowledge.households[h.id]['gonzales-outcome'].receivedMinute));
   assert.ok(world.minute > momentOf(world, 'finish'), 'the class ended before the far families could hear');
-  assert.ok(world.minute - last <= 20, `the class ran on ${world.minute - last} minutes after the last family heard`);
+  // The class used to stop as soon as the last family had heard. Since build step 5 it goes on to
+  // the gathering and the march (docs/COLONIES.md §5.5), so what is asserted now is that the word
+  // still reached everybody while it ran, and that what ended it was the army leaving.
+  assert.ok(world.minute > last, 'a family heard after the class had ended');
+  assert.ok(world.director.milestones.march, 'the class ended before the army marched');
 });
 
 test('the invented Gonzales map is told as it always was', () => {
