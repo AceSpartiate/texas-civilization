@@ -3,9 +3,9 @@
 // tests/hunting.test.mjs proves the simulation: that a hunt is stages in a place rather
 // than one spot, that the shot happens once and is written down, that nothing names the
 // quarry. What it cannot prove is the thing the owner actually asked for - that you can
-// *see* it. That needs a browser: the figure has to be painted in more than one place
-// inside the timber, the poses have to change as the stages change, the smoke has to be
-// drawn, and they have to be drawn carrying something on the way home.
+// *see* it. That needs a browser: the hunter has to move through the timber, the projected
+// deer has to use its alert art at the decision, the poses have to change, and the smoke
+// and homeward carry have to be painted.
 //
 // Run: npm run test:hunt
 import assert from 'node:assert/strict';
@@ -110,6 +110,9 @@ try {
   ok(`the hunt stops and asks: "${question}"`);
   ok(`and every answer says what it would cost before it is pressed \u2014 ${options.map(entry => `${entry.label} (${entry.note})`).join('; ')}`);
   assert.ok(atAsk.marks.includes('asking'), `nothing on the map said the hunt was waiting: ${JSON.stringify(atAsk.marks)}`);
+  assert.ok(atAsk.clips.includes('deer-alert'), `the quarry did not look alert at the decision: ${JSON.stringify(atAsk.clips)}`);
+  assert.ok(!atAsk.clips.includes('deer-bound'), 'the renderer invented an escape before the family answered');
+  ok('the projected deer is visible and alert while the family decides, without inventing an escape');
   ok('and the person carries a mark, so a student looking at the map knows the hunt is waiting on them');
   mkdirSync('test-results', { recursive: true });
   await page.screenshot({ path: 'test-results/hunt-decision.png' });
@@ -161,7 +164,7 @@ try {
 
   // --------------------------------------------------------------------------- and the shot
   assert.ok(watched.sawSmoke, `no smoke was ever drawn: ${JSON.stringify(watched.clips)}`);
-  ok('the shot is a puff of smoke in the trees - and no animal is drawn, because none is documented');
+  ok('the shot is a puff of smoke in the trees; the server removes the projected deer after it');
   assert.ok(!watched.clips.some(clip => /volunteer|regular|military/.test(clip)),
     `a militia sheet was borrowed for a farmer: ${watched.clips.filter(c => /volunteer|regular/.test(c))}`);
   ok('no soldier appears in the timber: the militia firing sheets were not borrowed for a civilian');
@@ -190,7 +193,7 @@ try {
     },
     notProved: [
       'That it reads as hunting to a twelve-year-old. Four stages, four poses, movement through the trees and a puff of smoke are what is measurably on screen; whether that says "hunting" is a classroom question.',
-      'Anything about the quarry, deliberately. HIST-GONZ-013 documents buffalo as the only local game and this project names no other, so nothing is drawn being hunted. The kill is smoke and then somebody carrying something home.',
+      'Escape and drinking behavior. Those authored clips are registered for later states, but this hunt projection does not supply either state.',
       'That the stages are the right length at the study pace. A hunt spends six to eight ticks in the timber, which is about a minute; nobody has watched one at that speed.',
     ],
   }, null, 2) + '\n');

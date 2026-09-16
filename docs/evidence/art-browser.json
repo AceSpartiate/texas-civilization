@@ -1,13 +1,13 @@
 {
   "result": "PASS",
-  "date": "2026-09-15T13:07:30.201Z",
+  "date": "2026-09-15T18:34:05.948Z",
   "browser": "152.0.7977.83",
   "catalog": {
-    "sprites": 663,
-    "clips": 283,
-    "sheets": 45,
+    "sprites": 767,
+    "clips": 322,
+    "sheets": 52,
     "missingSheets": [],
-    "shown": 283
+    "shown": 322
   },
   "actualAnimatedPixels": true,
   "pauseFreezesPixels": true,
@@ -15,6 +15,6 @@
   "phoneNoOverflow": true,
   "journalKeyboard": true,
   "externalRequests": 0,
-  "observedDrawMs": 5.5999999940395355,
+  "observedDrawMs": 5.399999991059303,
   "errors": []
 }

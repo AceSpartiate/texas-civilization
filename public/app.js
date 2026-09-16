@@ -216,9 +216,7 @@ function miniAnimal(ctx, x, y, size, entity = {}, flip = false) {
   ctx.fillStyle = '#815f3e'; ctx.fillRect(x - size * .5, y - size * .62, size, size * .45); ctx.fillRect(x + size * .34, y - size * .88, size * .3, size * .38);
   ctx.fillStyle = '#534830'; for (const leg of [-.36, .28]) ctx.fillRect(x + size * leg, y - size * .22, size * .13, size * .22);
 }
-// stand-in: docs/ART_REQUESTS.md, request 2026-09-14 - game. A deer drawn as a plain shape where the server says one
-// stands (sim/chores.mjs `quarryPoint`), until the illustrated deer lands.
-function miniDeer(ctx, x, y, size, { flip = false } = {}) {
+function deerFallback(ctx, x, y, size, flip = false) {
   ctx.save();
   ctx.translate(x, y); if (flip) ctx.scale(-1, 1);
   groundShadow(ctx, 0, 0, size * .38);
@@ -230,6 +228,10 @@ function miniDeer(ctx, x, y, size, { flip = false } = {}) {
   ctx.fillStyle = '#f2ead8'; ctx.beginPath(); ctx.ellipse(-size * .34, -size * .56, size * .05, size * .04, 0, 0, Math.PI * 2); ctx.fill();
   ctx.beginPath(); ctx.moveTo(size * .38, -size * .92); ctx.lineTo(size * .34, -size * 1.02); ctx.moveTo(size * .44, -size * .92); ctx.lineTo(size * .46, -size * 1.02); ctx.stroke();
   ctx.restore();
+}
+function miniDeer(ctx, x, y, size, { flip = false, alert = false, seed = 0 } = {}) {
+  if (animated(ctx, alert ? 'deer-alert' : 'deer-idle', x, y, size, seed, { flip })) return;
+  deerFallback(ctx, x, y, size, flip);
 }
 function miniWagon(ctx, x, y, size, entity = {}, flip = false) {
   const rolling = entity.travel ? (entity.laden ? 'wagon-loaded-travel' : 'wagon-travel') : 'wagon-idle';
@@ -1467,7 +1469,9 @@ export function drawWorld(world) {
     const quarry = entity.chore?.quarry;
     if (quarry) {
       const spot = camera.toScreen(quarry);
-      standing.push({ y: spot.y, draw: () => miniDeer(ctx, spot.x, spot.y, camera.figure * SIZE.deer, { flip: spot.x < point.x }) });
+      standing.push({ y: spot.y, draw: () => miniDeer(ctx, spot.x, spot.y, camera.figure * SIZE.deer, {
+        flip: spot.x < point.x, alert: Boolean(entity.chore.ask), seed: entity.id,
+      }) });
       window.__quarryDrawn = { id: entity.id, x: spot.x, y: spot.y };
     }
     standing.push({ y: point.y, draw: () => drawEntity(ctx, entity, point, roomForNames, camera.figure, {

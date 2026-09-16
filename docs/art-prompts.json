@@ -610,6 +610,112 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/people-cast2-search-trade.png",
       "postProcessing": "None. Original PNG copied unchanged; source originals preserved. Only read-only alpha measurement.",
       "review": "Accepted after visual review and read-only RGBA validation. Sixteen complete identity-consistent figures, distinct action poses, no painted backdrop."
+    },
+    {
+      "sheet": "people-cast2-walk",
+      "promptId": "frontier-v1/people-cast2-walk",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Use case: production sprite atlas for a top-down three-quarter-view historical game. Create a genuine transparent-background 4 by 4 sprite sheet, exactly sixteen isolated full-body figures, equal cells, no grid lines, no text, no checkerboard, generous clear margins, no overlap. Preserve the four character identities, clothing, palette, proportions, faces and clean dark outlined rustic illustrated style from the reference exactly: row 1 rust-blouse bonneted adult woman; row 2 indigo-dress adult woman; row 3 ochre-shirt young man; row 4 blue-dress adolescent girl. All figures face EAST / screen-right. Each row is a seamless four-frame walking cycle in place: column 1 left foot clearly forward and right arm forward; column 2 passing pose; column 3 right foot clearly forward and left arm forward; column 4 opposite passing pose. Feet and arms must visibly alternate, with consistent head size, baseline and scale across every cell. No props, shadows, scenery, labels, weapons, ground patches or extra people. Output a square PNG with real alpha transparency.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e2587906-9753-4b58-a2c8-58330bf5cea8.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-cast2-walk.png",
+      "postProcessing": "None. Generated PNG copied unchanged; only read-only validation.",
+      "review": "Accepted as four identity-consistent east-facing walk rows with transparent separation. Runtime mirrors east poses for west travel."
+    },
+    {
+      "sheet": "trees-colonies-1",
+      "promptId": "frontier-v1/trees-colonies-1",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Use case historical-scene. Production game sprite atlas for a top-down/elevated three-quarter 1835 Texas frontier simulation. Exactly a 4-column by 4-row atlas: row 1 loblolly pine pole, log-size, large, and freshly cut stump; row 2 Ashe juniper cedar pole, log-size, large, and mesquite pole; row 3 mesquite log-size, mesquite large, live oak pole, live oak log-size; row 4 live oak large, elm pole, elm log-size, elm large. Historically plausible silhouettes: high-crowned straight pine, dark bushy often many-stemmed cedar, low crooked feathery mesquite, low extremely wide evergreen live oak, vase-shaped elm. Warm hand-painted outlined miniature game art, earthy olive greens and bark browns, bold readable silhouettes, slightly elevated three-quarter view. Genuine transparent alpha, equal cells, whole tree crown to trunk foot, consistent row baselines, generous transparent gutters, tiny contact shadows only. No labels, text, grid, checkerboard, border, landscape, people, animals, buildings, or overlap.",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a0a64f-b7c9-7550-a30a-dd4fac6f892b\\exec-0eaa25a9-efd7-44fe-a27e-4987b21c1922.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/trees-colonies-1.png",
+      "postProcessing": "None. Generated original copied unchanged.",
+      "review": "Accepted: true RGBA, 61.24% fully transparent pixels, no visible outer-edge pixels, sixteen distinct non-overlapping cells. Five priority species have pole, log and large silhouettes; pine also has a specific stump."
+    },
+    {
+      "sheet": "people-cast2-vertical",
+      "promptId": "frontier-v1/people-cast2-vertical",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Use case: production sprite atlas for a top-down three-quarter-view historical game. Create a genuine transparent-background 4 by 4 sprite sheet, exactly sixteen isolated full-body figures, equal cells, no grid lines, no text, no checkerboard, generous clear margins, no overlap. Preserve these four character identities, clothes, colors, faces, proportions, and clean dark outlined rustic illustrated style from the reference: row 1 rust-blouse bonneted adult woman; row 2 indigo-dress adult woman; row 3 ochre-shirt young man; row 4 blue-dress adolescent girl. This is a vertical walking sheet. In every row: column 1 faces SOUTH/toward viewer with LEFT foot forward; column 2 faces SOUTH/toward viewer with RIGHT foot forward and opposite arm swing; column 3 faces NORTH/away from viewer with LEFT foot forward; column 4 faces NORTH/away from viewer with RIGHT foot forward and opposite arm swing. Columns 3 and 4 must clearly show back views. Feet, skirt hems, arms, and shoulders visibly alternate within each pair. Keep identical head size, foot baseline, and scale. No props, scenery, shadow, labels, ground, weapons, or extra people. Square PNG with real alpha transparency.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-8a669c4d-ed59-4f02-8b96-100f184a7233.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-cast2-vertical.png",
+      "postProcessing": "None. Generated PNG copied unchanged; only read-only validation.",
+      "review": "Accepted as identity-consistent south and north walk pairs with visibly opposed steps and transparent separation."
+    },
+    {
+      "sheet": "house-modules",
+      "promptId": "frontier-v1/house-modules",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Use case: historical-scene. Asset type: production 4x4 modular sprite atlas for a 1835 Texas frontier house-building game. Create exactly sixteen separate reusable architectural pieces in exactly four columns by four rows on genuine transparent RGBA. Match the warm rustic outlined top-down/slightly elevated three-quarter frontier farming-game style, with dark brown outlines, restrained ochre, weathered cedar, clay and limestone. Keep every piece centered in its equal cell with transparent gutters and no overlap, labels, grid, people, landscape or background. All pieces share one perspective, scale and registration. Reading order: round-log sill, low walls, full walls, partial clapboard roof; hewn-log sill, low walls, full walls, finished clapboard roof; passage floor, open passage roof on posts, open porch, enclosed lean-to shed; half-built stick-and-mud chimney, complete stick-and-mud chimney, complete rough limestone chimney, puncheon floor with partial loft and ladder. Modest frontier workmanship only; no brick, glass panes, ornate trim, railings, modern material, fantasy, foliage, smoke, fire, text or watermark.",
+      "reference": "Owner-provided rustic outlined farm-game references; existing frontier-v1 house sheets.",
+      "correctionPrompts": [],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0a64f-d486-7760-b461-e4cb3c660d5e/exec-3dae2d78-1c4d-432e-812c-db1ce20f026b.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/house-modules.png",
+      "postProcessing": "None. Generated PNG copied unchanged.",
+      "review": "Sixteen isolated structural layers. Round and hewn pen stages, passage, porch, shed and single chimneys are usable in the live house plot. The combined floor/loft plate remains library-only because the simulation tracks those improvements independently."
+    },
+    {
+      "sheet": "wildlife-deer",
+      "promptId": "frontier-v1/wildlife-deer",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate from style reference",
+      "prompt": "Use case: historical-scene. Asset type: production animated wildlife sprite atlas for a top-down classroom game. Create a square 1254x1254 PNG with EXACTLY 4 columns and 4 rows, sixteen isolated sprites on a genuinely transparent RGBA background. Use the attached animal-stock atlas as the strict STYLE, perspective, outline weight, shading, scale, and warm earthy palette reference only. Subject is the SAME adult Texas white-tailed deer in every cell, east-facing in a slightly elevated side view, natural tawny-brown coat, pale underside and throat, distinct raised white tail underside when running, modest antlers. Row 1 deer-idle four coherent animation frames: grazing low, chewing, lifting head halfway, calm head up. Row 2 deer-alert four subtle coherent frames: head fully up, ears pivot forward, weight shifts, one forehoof lifts; same planted location and silhouette scale. Row 3 deer-bound four clearly distinct locomotion frames: gather, launch, airborne stretched bound, landing; alternating legs and readable forward motion while keeping the body centered in each cell. Row 4 deer-drink four coherent frames: head lowering, muzzle at water level, swallow, head lifting; NO water or scenery, only the isolated deer. Keep the same deer identity, proportions, baseline, lighting and apparent size across all cells. Each complete animal including antlers, tail, hooves and airborne legs stays fully inside its equal cell with at least 24 pixels of transparent gutter on every side and no overlap across cell boundaries. Tiny contact shadow allowed only beneath hooves in planted poses; no ground patches. Constraints: true transparency, no checkerboard, no solid background, no text, no labels, no borders, no blood, no carcass, no hunter, no weapons, no plants, no extra animals, no photorealism. Production-ready rustic outlined illustrated game art.",
+      "reference": "public/assets/frontier-v1/atlases/animal-stock.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0a64f-e643-7982-979c-b7a6f21fe3ec/exec-172aafee-c06e-44f2-9a24-b9e46a78d92b.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/wildlife-deer.png",
+      "postProcessing": "None. Generated original copied unchanged.",
+      "review": "One consistent adult white-tailed deer. Four idle, alert, bound and drinking poses; complete antlers, tail and hooves remain inside their cells on true alpha."
+    },
+    {
+      "sheet": "people-cast2-carry",
+      "promptId": "frontier-v1/people-cast2-carry",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Use case: production sprite atlas for a top-down three-quarter-view historical game. Genuine transparent-background 4 by 4 PNG sprite sheet, exactly sixteen complete isolated full-body figures, equal cells, generous gutters, no overlap, no grid, checkerboard, text, ground, shadows, scenery, or extra people. Preserve the four identities and clean dark outlined rustic illustrated style exactly from the reference: row 1 rust-blouse bonneted adult woman; row 2 indigo-dress adult woman; row 3 ochre-shirt young man; row 4 blue-dress adolescent girl. All face EAST/screen-right. Each row is a four-frame carry-walk cycle with the SAME plain tied burlap provisions sack held securely in both arms against the torso: column 1 left foot forward; column 2 passing; column 3 right foot forward; column 4 opposite passing, with visible alternating legs and body motion while the sack remains stable. Maintain identical character head size, clothing, palette, baseline and scale. No floating objects and no different cargo per row. Square PNG with real alpha transparency.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-4fa0e913-f60c-4458-bb82-deeb86e7efe1.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-cast2-carry.png",
+      "postProcessing": "None. Generated PNG copied unchanged; only read-only validation.",
+      "review": "Accepted columns 1-3 as east-facing identity-consistent carry poses. Column 4 is deliberately excluded because two rows turn away from east; clips return through pose 2 rather than using incorrect directional art."
+    },
+    {
+      "sheet": "people-children-vertical",
+      "promptId": "frontier-v1/people-children-vertical",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Use case: production sprite atlas for a top-down three-quarter-view historical game. Create a genuine transparent-background 4 by 4 square PNG sprite sheet with exactly twelve complete isolated child figures in rows 1-3 and row 4 completely empty transparent. Equal cells, generous gutters, no overlaps, no grid, checkerboard, text, ground, shadow, scenery, or extra people. Preserve these exact three identities, age proportions, clothes, colors, faces and clean dark outlined rustic illustrated style from the reference: row 1 young girl in faded rose calico dress and cream pinafore; row 2 young blond boy in linen shirt, brown trousers and one suspender; row 3 small child in plain cream gown. Vertical walking poses in every occupied row: column 1 SOUTH/toward viewer with LEFT foot forward; column 2 SOUTH/toward viewer with RIGHT foot forward and opposite arms; column 3 NORTH/away from viewer with LEFT foot forward; column 4 NORTH/away with RIGHT foot forward and opposite arms. Back-view columns must clearly face away. The small child toddles with shorter steps and arms slightly out. Preserve consistent head size, baseline, scale, and child-safe dignified depiction. Real alpha transparency.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-children-idle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a9562a2d-a5e9-498a-b333-eb329d26c3c5.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-children-vertical.png",
+      "postProcessing": "None. Generated PNG copied unchanged; only read-only validation.",
+      "review": "Accepted as three identity-consistent south and north walk pairs; fourth row is transparent as requested."
+    },
+    {
+      "sheet": "artillery-service",
+      "promptId": "frontier-v1/artillery-service",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Use case: production 2D sprite atlas for a historically grounded 1835-36 Texas Revolution game. Create exactly sixteen isolated full-body artillery crew figures on genuine transparent alpha, strict 4 columns x 4 rows, equal cells, generous gutters, no overlap, grid, checkerboard, text, ground, smoke, cannon, scenery, blood, or extra people. Match the reference's warm hand-painted dark-outlined elevated three-quarter style and figure scale. All face EAST/screen-right. Rows 1-2 are the same Texian volunteer identity: brown broad-brim hat, brown hunting coat, tan trousers, boots, cartridge bag. Rows 3-4 are the same Mexican regular identity: 1830s blue coatee with red facings, white crossbelts and trousers, black shako with small red pompon. Reading order in EACH faction's eight frames: 1 carrying a long wooden sponge-rammer horizontally; 2 stepping forward with rammer; 3 ramming forward at waist height; 4 withdrawing rammer; 5 bending to lift a plain roundshot with both hands; 6 carrying roundshot close to torso; 7 kneeling beside an imaginary wheel pulling a lanyard backward; 8 standing covering both ears after firing. Tools stay inside cells. Historically restrained uniforms and humane non-graphic poses. Square PNG with real alpha transparency.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military-actions.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-dd149258-6eab-46f5-8793-97294a5b9f2d.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/artillery-service.png",
+      "postProcessing": "None. Generated PNG copied unchanged; only read-only validation.",
+      "review": "Accepted as matching eight-pose volunteer and regular cannon-service sets, with tools wholly inside isolated cells."
     }
   ]
 }

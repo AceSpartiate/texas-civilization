@@ -56,7 +56,14 @@ test('each tile is the woods themselves: the trees in it, its patches and its sh
   // Every kind names a picture the art library has.
   const frames = JSON.parse(readFileSync(new URL('../public/assets/frontier-v1/atlas.json', import.meta.url), 'utf8')).frames;
   const names = new Set(Array.isArray(frames) ? frames.map(frame => frame.id || frame.name) : Object.keys(frames));
-  for (const [id, kind] of Object.entries(KINDS)) assert.ok(names.has(kind.picture), `${id} is drawn as ${kind.picture}, which the library has`);
+  assert.deepEqual(Object.fromEntries(['loblolly','shortleaf','cedar','mesquite','live-oak','elm'].map(id => [id,KINDS[id].picture])), {
+    loblolly:'pine-loblolly', shortleaf:'pine-loblolly', cedar:'cedar', mesquite:'mesquite', 'live-oak':'live-oak', elm:'elm',
+  }, 'delivered tree kinds stay bound to their species-specific art');
+  for (const [id, kind] of Object.entries(KINDS)) {
+    const deliveredSizes = ['pine-loblolly', 'cedar', 'mesquite', 'live-oak', 'elm'].includes(kind.picture);
+    if (deliveredSizes) for (const sizeName of ['pole','log','large']) assert.ok(names.has(`${kind.picture}-${sizeName}`), `${id} has ${sizeName} art`);
+    else assert.ok(names.has(kind.picture), `${id} is drawn as ${kind.picture}, which the library has`);
+  }
 });
 
 test("the page asks for its view's tiles and reads timber and trees out of what it was sent", async () => {

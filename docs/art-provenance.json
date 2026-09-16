@@ -594,6 +594,103 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/people-cast2-search-trade.png",
       "postProcessing": "None. Original PNG copied unchanged; source originals preserved. Only read-only alpha measurement.",
       "review": "Accepted after visual review and read-only RGBA validation. Sixteen complete identity-consistent figures, distinct action poses, no painted backdrop."
+    },
+    {
+      "sheet": "people-cast2-walk",
+      "promptId": "frontier-v1/people-cast2-walk",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e2587906-9753-4b58-a2c8-58330bf5cea8.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-cast2-walk.png",
+      "postProcessing": "None. Generated PNG copied unchanged; only read-only validation.",
+      "review": "Accepted as four identity-consistent east-facing walk rows with transparent separation. Runtime mirrors east poses for west travel."
+    },
+    {
+      "sheet": "trees-colonies-1",
+      "promptId": "frontier-v1/trees-colonies-1",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a0a64f-b7c9-7550-a30a-dd4fac6f892b\\exec-0eaa25a9-efd7-44fe-a27e-4987b21c1922.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/trees-colonies-1.png",
+      "postProcessing": "None. Generated original copied unchanged.",
+      "review": "Accepted: true RGBA, 61.24% fully transparent pixels, no visible outer-edge pixels, sixteen distinct non-overlapping cells. Five priority species have pole, log and large silhouettes; pine also has a specific stump."
+    },
+    {
+      "sheet": "people-cast2-vertical",
+      "promptId": "frontier-v1/people-cast2-vertical",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-8a669c4d-ed59-4f02-8b96-100f184a7233.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-cast2-vertical.png",
+      "postProcessing": "None. Generated PNG copied unchanged; only read-only validation.",
+      "review": "Accepted as identity-consistent south and north walk pairs with visibly opposed steps and transparent separation."
+    },
+    {
+      "sheet": "house-modules",
+      "promptId": "frontier-v1/house-modules",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "reference": "Owner-provided rustic outlined farm-game references; existing frontier-v1 house sheets.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0a64f-d486-7760-b461-e4cb3c660d5e/exec-3dae2d78-1c4d-432e-812c-db1ce20f026b.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/house-modules.png",
+      "postProcessing": "None. Generated PNG copied unchanged.",
+      "review": "Sixteen isolated structural layers. Round and hewn pen stages, passage, porch, shed and single chimneys are usable in the live house plot. The combined floor/loft plate remains library-only because the simulation tracks those improvements independently."
+    },
+    {
+      "sheet": "wildlife-deer",
+      "promptId": "frontier-v1/wildlife-deer",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate from style reference",
+      "reference": "public/assets/frontier-v1/atlases/animal-stock.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0a64f-e643-7982-979c-b7a6f21fe3ec/exec-172aafee-c06e-44f2-9a24-b9e46a78d92b.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/wildlife-deer.png",
+      "postProcessing": "None. Generated original copied unchanged.",
+      "review": "One consistent adult white-tailed deer. Four idle, alert, bound and drinking poses; complete antlers, tail and hooves remain inside their cells on true alpha."
+    },
+    {
+      "sheet": "people-cast2-carry",
+      "promptId": "frontier-v1/people-cast2-carry",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-4fa0e913-f60c-4458-bb82-deeb86e7efe1.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-cast2-carry.png",
+      "postProcessing": "None. Generated PNG copied unchanged; only read-only validation.",
+      "review": "Accepted columns 1-3 as east-facing identity-consistent carry poses. Column 4 is deliberately excluded because two rows turn away from east; clips return through pose 2 rather than using incorrect directional art."
+    },
+    {
+      "sheet": "people-children-vertical",
+      "promptId": "frontier-v1/people-children-vertical",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-children-idle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a9562a2d-a5e9-498a-b333-eb329d26c3c5.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-children-vertical.png",
+      "postProcessing": "None. Generated PNG copied unchanged; only read-only validation.",
+      "review": "Accepted as three identity-consistent south and north walk pairs; fourth row is transparent as requested."
+    },
+    {
+      "sheet": "artillery-service",
+      "promptId": "frontier-v1/artillery-service",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military-actions.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-dd149258-6eab-46f5-8793-97294a5b9f2d.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/artillery-service.png",
+      "postProcessing": "None. Generated PNG copied unchanged; only read-only validation.",
+      "review": "Accepted as matching eight-pose volunteer and regular cannon-service sets, with tools wholly inside isolated cells."
     }
   ],
   "rejectedAttempts": [

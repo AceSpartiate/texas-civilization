@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 45,
-    "sprites": 663,
-    "clips": 283,
-    "poseCycles": 134,
+    "sheets": 52,
+    "sprites": 767,
+    "clips": 322,
+    "poseCycles": 158,
     "rigs": 4
   },
   "entrypoints": {
@@ -26,6 +26,254 @@
     "authority": "Rendering never changes world state. No frame callbacks cause outcomes. Purge concealed actors; snap across time jumps. Buildings stay still."
   },
   "sheets": {
+    "artillery-service": {
+      "image": "atlases/artillery-service.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1171440,
+      "sha256": "bbb266e7915a692c2c96fd685666c76afcd94510d9cd64060c25db6778ef16a1",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.718423,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              77,
+              345
+            ],
+            "columns": [
+              [
+                49,
+                346
+              ],
+              [
+                375,
+                675
+              ],
+              [
+                682,
+                1026
+              ],
+              [
+                1026,
+                1242
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              360,
+              633
+            ],
+            "columns": [
+              [
+                59,
+                244
+              ],
+              [
+                371,
+                559
+              ],
+              [
+                699,
+                1001
+              ],
+              [
+                1041,
+                1196
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              643,
+              941
+            ],
+            "columns": [
+              [
+                53,
+                333
+              ],
+              [
+                381,
+                666
+              ],
+              [
+                688,
+                1017
+              ],
+              [
+                1026,
+                1242
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              941,
+              1225
+            ],
+            "columns": [
+              [
+                65,
+                241
+              ],
+              [
+                377,
+                561
+              ],
+              [
+                708,
+                1002
+              ],
+              [
+                1039,
+                1201
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "people-cast2-carry": {
+      "image": "atlases/people-cast2-carry.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1294419,
+      "sha256": "ae23bd819825a24844eddb36c37ffcb50b9b7968be45f10361b95bee54e7afd0",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.647824,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              10,
+              325
+            ],
+            "columns": [
+              [
+                136,
+                314
+              ],
+              [
+                422,
+                586
+              ],
+              [
+                684,
+                869
+              ],
+              [
+                962,
+                1143
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              333,
+              665
+            ],
+            "columns": [
+              [
+                125,
+                331
+              ],
+              [
+                412,
+                601
+              ],
+              [
+                678,
+                880
+              ],
+              [
+                960,
+                1158
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              667,
+              972
+            ],
+            "columns": [
+              [
+                137,
+                323
+              ],
+              [
+                425,
+                599
+              ],
+              [
+                693,
+                870
+              ],
+              [
+                969,
+                1142
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              977,
+              1243
+            ],
+            "columns": [
+              [
+                150,
+                310
+              ],
+              [
+                436,
+                597
+              ],
+              [
+                694,
+                859
+              ],
+              [
+                979,
+                1142
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "people-cast2-care": {
       "image": "atlases/people-cast2-care.png",
       "width": 1254,
@@ -268,6 +516,130 @@
               [
                 1000,
                 1140
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "people-cast2-walk": {
+      "image": "atlases/people-cast2-walk.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1288383,
+      "sha256": "e44da8f32ebef4264dbb72d216b304cfdbb619bf84a79a7a34c8eef57e9e9d4f",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.644113,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              12,
+              334
+            ],
+            "columns": [
+              [
+                152,
+                353
+              ],
+              [
+                425,
+                600
+              ],
+              [
+                673,
+                867
+              ],
+              [
+                949,
+                1137
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              342,
+              668
+            ],
+            "columns": [
+              [
+                146,
+                349
+              ],
+              [
+                423,
+                603
+              ],
+              [
+                677,
+                871
+              ],
+              [
+                952,
+                1140
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              674,
+              982
+            ],
+            "columns": [
+              [
+                154,
+                346
+              ],
+              [
+                427,
+                601
+              ],
+              [
+                676,
+                866
+              ],
+              [
+                957,
+                1138
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              986,
+              1245
+            ],
+            "columns": [
+              [
+                163,
+                333
+              ],
+              [
+                436,
+                596
+              ],
+              [
+                688,
+                853
+              ],
+              [
+                968,
+                1131
               ]
             ]
           }
@@ -518,6 +890,110 @@
                 1069
               ]
             ]
+          }
+        ]
+      }
+    },
+    "people-children-vertical": {
+      "image": "atlases/people-children-vertical.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1163980,
+      "sha256": "74d29848d80320d9a28a8f76bfe7633e57b9480a8a09ed91df45ed4a7e287afb",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.696376,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              12,
+              371
+            ],
+            "columns": [
+              [
+                124,
+                290
+              ],
+              [
+                409,
+                574
+              ],
+              [
+                683,
+                858
+              ],
+              [
+                986,
+                1160
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              373,
+              728
+            ],
+            "columns": [
+              [
+                122,
+                281
+              ],
+              [
+                420,
+                564
+              ],
+              [
+                689,
+                842
+              ],
+              [
+                996,
+                1152
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              734,
+              1031
+            ],
+            "columns": [
+              [
+                103,
+                299
+              ],
+              [
+                398,
+                590
+              ],
+              [
+                668,
+                868
+              ],
+              [
+                970,
+                1164
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [],
+            "columns": []
           }
         ]
       }
@@ -967,6 +1443,130 @@
               [
                 1004,
                 1200
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "house-modules": {
+      "image": "atlases/house-modules.png",
+      "width": 1448,
+      "height": 1086,
+      "bytes": 1837997,
+      "sha256": "0dd8f9c26dab5991bbb2b57b237d1a20658954c1f096d97b6737ebf12a52827b",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.596538,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              7,
+              261
+            ],
+            "columns": [
+              [
+                29,
+                349
+              ],
+              [
+                383,
+                689
+              ],
+              [
+                747,
+                1049
+              ],
+              [
+                1077,
+                1429
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              267,
+              531
+            ],
+            "columns": [
+              [
+                30,
+                345
+              ],
+              [
+                384,
+                685
+              ],
+              [
+                746,
+                1046
+              ],
+              [
+                1074,
+                1430
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              532,
+              795
+            ],
+            "columns": [
+              [
+                45,
+                308
+              ],
+              [
+                375,
+                642
+              ],
+              [
+                708,
+                1066
+              ],
+              [
+                1089,
+                1432
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              789,
+              1071
+            ],
+            "columns": [
+              [
+                100,
+                264
+              ],
+              [
+                450,
+                625
+              ],
+              [
+                813,
+                973
+              ],
+              [
+                1104,
+                1393
               ]
             ]
           }
@@ -1769,6 +2369,254 @@
               [
                 807,
                 1233
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "trees-colonies-1": {
+      "image": "atlases/trees-colonies-1.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1626976,
+      "sha256": "02ba55ba1f30eb5103e6f9edc379c5159c17fa1839e33c8b8b711027cabd8b58",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.612356,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              10,
+              321
+            ],
+            "columns": [
+              [
+                102,
+                205
+              ],
+              [
+                387,
+                553
+              ],
+              [
+                640,
+                924
+              ],
+              [
+                1018,
+                1190
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              336,
+              633
+            ],
+            "columns": [
+              [
+                102,
+                209
+              ],
+              [
+                375,
+                565
+              ],
+              [
+                635,
+                927
+              ],
+              [
+                1016,
+                1196
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              658,
+              919
+            ],
+            "columns": [
+              [
+                40,
+                292
+              ],
+              [
+                326,
+                639
+              ],
+              [
+                716,
+                854
+              ],
+              [
+                956,
+                1233
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              926,
+              1226
+            ],
+            "columns": [
+              [
+                14,
+                423
+              ],
+              [
+                459,
+                579
+              ],
+              [
+                694,
+                874
+              ],
+              [
+                938,
+                1238
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "wildlife-deer": {
+      "image": "atlases/wildlife-deer.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1223203,
+      "sha256": "d2d7bf3942d6f3115f193d57c5ffe0e518460f93adbdcb9a1e314680959a098c",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.680502,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              78,
+              305
+            ],
+            "columns": [
+              [
+                39,
+                300
+              ],
+              [
+                355,
+                610
+              ],
+              [
+                668,
+                930
+              ],
+              [
+                982,
+                1225
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              369,
+              620
+            ],
+            "columns": [
+              [
+                40,
+                283
+              ],
+              [
+                356,
+                594
+              ],
+              [
+                668,
+                921
+              ],
+              [
+                981,
+                1233
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              669,
+              904
+            ],
+            "columns": [
+              [
+                59,
+                292
+              ],
+              [
+                342,
+                603
+              ],
+              [
+                641,
+                941
+              ],
+              [
+                987,
+                1229
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              959,
+              1184
+            ],
+            "columns": [
+              [
+                39,
+                301
+              ],
+              [
+                354,
+                611
+              ],
+              [
+                666,
+                927
+              ],
+              [
+                980,
+                1224
               ]
             ]
           }
@@ -5299,6 +6147,970 @@
     }
   },
   "assets": {
+    "volunteer-rammer-carry-1": {
+      "sheet": "artillery-service",
+      "x": 49,
+      "y": 79,
+      "w": 297,
+      "h": 265,
+      "anchorX": 0.2761,
+      "anchorY": 0.9283,
+      "label": "volunteer rammer carry 1",
+      "kind": "artillery-service",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          51,
+          81,
+          293,
+          261
+        ],
+        "visiblePixels": 25626,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/artillery-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-gun-ram"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/artillery-service"
+    },
+    "volunteer-rammer-carry-2": {
+      "sheet": "artillery-service",
+      "x": 375,
+      "y": 77,
+      "w": 300,
+      "h": 268,
+      "anchorX": 0.3,
+      "anchorY": 0.9291,
+      "label": "volunteer rammer carry 2",
+      "kind": "artillery-service",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          377,
+          79,
+          296,
+          264
+        ],
+        "visiblePixels": 24132,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/artillery-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-gun-ram"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/artillery-service"
+    },
+    "volunteer-ram-1": {
+      "sheet": "artillery-service",
+      "x": 682,
+      "y": 106,
+      "w": 344,
+      "h": 239,
+      "anchorX": 0.2674,
+      "anchorY": 0.9289,
+      "label": "volunteer ram 1",
+      "kind": "artillery-service",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          684,
+          108,
+          342,
+          235
+        ],
+        "visiblePixels": 24497,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/artillery-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-gun-ram"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/artillery-service"
+    },
+    "volunteer-ram-2": {
+      "sheet": "artillery-service",
+      "x": 1026,
+      "y": 79,
+      "w": 216,
+      "h": 266,
+      "anchorX": 0.3866,
+      "anchorY": 0.9286,
+      "label": "volunteer ram 2",
+      "kind": "artillery-service",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1027,
+          81,
+          213,
+          262
+        ],
+        "visiblePixels": 24109,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/artillery-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-gun-ram"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/artillery-service"
+    },
+    "volunteer-roundshot-lift": {
+      "sheet": "artillery-service",
+      "x": 59,
+      "y": 437,
+      "w": 185,
+      "h": 196,
+      "anchorX": 0.4595,
+      "anchorY": 0.9286,
+      "label": "volunteer roundshot lift",
+      "kind": "artillery-service",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          61,
+          439,
+          181,
+          192
+        ],
+        "visiblePixels": 20667,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/artillery-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-gun-shot-carry"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/artillery-service"
+    },
+    "volunteer-roundshot-carry": {
+      "sheet": "artillery-service",
+      "x": 371,
+      "y": 363,
+      "w": 188,
+      "h": 266,
+      "anchorX": 0.4973,
+      "anchorY": 0.9286,
+      "label": "volunteer roundshot carry",
+      "kind": "artillery-service",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          373,
+          365,
+          184,
+          262
+        ],
+        "visiblePixels": 20936,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/artillery-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-gun-shot-carry"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/artillery-service"
+    },
+    "volunteer-lanyard-pull": {
+      "sheet": "artillery-service",
+      "x": 699,
+      "y": 432,
+      "w": 302,
+      "h": 198,
+      "anchorX": 0.2848,
+      "anchorY": 0.9293,
+      "label": "volunteer lanyard pull",
+      "kind": "artillery-service",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          701,
+          434,
+          298,
+          194
+        ],
+        "visiblePixels": 23894,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/artillery-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-gun-fire"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/artillery-service"
+    },
+    "volunteer-cover-ears": {
+      "sheet": "artillery-service",
+      "x": 1041,
+      "y": 360,
+      "w": 155,
+      "h": 271,
+      "anchorX": 0.4935,
+      "anchorY": 0.9373,
+      "label": "volunteer cover ears",
+      "kind": "artillery-service",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1043,
+          362,
+          151,
+          267
+        ],
+        "visiblePixels": 21865,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/artillery-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-gun-fire"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/artillery-service"
+    },
+    "regular-rammer-carry-1": {
+      "sheet": "artillery-service",
+      "x": 53,
+      "y": 644,
+      "w": 280,
+      "h": 295,
+      "anchorX": 0.2804,
+      "anchorY": 0.9322,
+      "label": "regular rammer carry 1",
+      "kind": "artillery-service",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          55,
+          646,
+          276,
+          291
+        ],
+        "visiblePixels": 25798,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/artillery-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-gun-ram"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/artillery-service"
+    },
+    "regular-rammer-carry-2": {
+      "sheet": "artillery-service",
+      "x": 381,
+      "y": 644,
+      "w": 285,
+      "h": 296,
+      "anchorX": 0.3175,
+      "anchorY": 0.9324,
+      "label": "regular rammer carry 2",
+      "kind": "artillery-service",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          383,
+          646,
+          281,
+          292
+        ],
+        "visiblePixels": 24565,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/artillery-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-gun-ram"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/artillery-service"
+    },
+    "regular-ram-1": {
+      "sheet": "artillery-service",
+      "x": 688,
+      "y": 706,
+      "w": 329,
+      "h": 233,
+      "anchorX": 0.2948,
+      "anchorY": 0.9399,
+      "label": "regular ram 1",
+      "kind": "artillery-service",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          690,
+          708,
+          325,
+          229
+        ],
+        "visiblePixels": 24285,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/artillery-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-gun-ram"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/artillery-service"
+    },
+    "regular-ram-2": {
+      "sheet": "artillery-service",
+      "x": 1026,
+      "y": 643,
+      "w": 216,
+      "h": 298,
+      "anchorX": 0.3912,
+      "anchorY": 0.9295,
+      "label": "regular ram 2",
+      "kind": "artillery-service",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1028,
+          645,
+          212,
+          294
+        ],
+        "visiblePixels": 24979,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/artillery-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-gun-ram"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/artillery-service"
+    },
+    "regular-roundshot-lift": {
+      "sheet": "artillery-service",
+      "x": 65,
+      "y": 1024,
+      "w": 176,
+      "h": 200,
+      "anchorX": 0.5085,
+      "anchorY": 0.93,
+      "label": "regular roundshot lift",
+      "kind": "artillery-service",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          67,
+          1026,
+          172,
+          196
+        ],
+        "visiblePixels": 20849,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/artillery-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-gun-shot-carry"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/artillery-service"
+    },
+    "regular-roundshot-carry": {
+      "sheet": "artillery-service",
+      "x": 377,
+      "y": 943,
+      "w": 184,
+      "h": 281,
+      "anchorX": 0.5027,
+      "anchorY": 0.9288,
+      "label": "regular roundshot carry",
+      "kind": "artillery-service",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          379,
+          945,
+          180,
+          277
+        ],
+        "visiblePixels": 20514,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/artillery-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-gun-shot-carry"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/artillery-service"
+    },
+    "regular-lanyard-pull": {
+      "sheet": "artillery-service",
+      "x": 708,
+      "y": 1006,
+      "w": 294,
+      "h": 218,
+      "anchorX": 0.2908,
+      "anchorY": 0.9312,
+      "label": "regular lanyard pull",
+      "kind": "artillery-service",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          710,
+          1008,
+          290,
+          214
+        ],
+        "visiblePixels": 22887,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/artillery-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-gun-fire"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/artillery-service"
+    },
+    "regular-cover-ears": {
+      "sheet": "artillery-service",
+      "x": 1039,
+      "y": 941,
+      "w": 162,
+      "h": 284,
+      "anchorX": 0.4969,
+      "anchorY": 0.9331,
+      "label": "regular cover ears",
+      "kind": "artillery-service",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1041,
+          943,
+          158,
+          280
+        ],
+        "visiblePixels": 21411,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/artillery-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-gun-fire"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/artillery-service"
+    },
+    "rust-woman-carry-1": {
+      "sheet": "people-cast2-carry",
+      "x": 136,
+      "y": 10,
+      "w": 178,
+      "h": 313,
+      "anchorX": 0.5225,
+      "anchorY": 0.9297,
+      "logicalHeight": 313,
+      "label": "rust woman carry 1",
+      "kind": "people-cast2-carry",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          138,
+          12,
+          174,
+          309
+        ],
+        "visiblePixels": 33384,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-carry.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-carry"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-carry"
+    },
+    "rust-woman-carry-2": {
+      "sheet": "people-cast2-carry",
+      "x": 422,
+      "y": 13,
+      "w": 164,
+      "h": 312,
+      "anchorX": 0.5091,
+      "anchorY": 0.9295,
+      "logicalHeight": 313,
+      "label": "rust woman carry 2",
+      "kind": "people-cast2-carry",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          424,
+          15,
+          160,
+          308
+        ],
+        "visiblePixels": 31357,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-carry.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-carry"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-carry"
+    },
+    "rust-woman-carry-3": {
+      "sheet": "people-cast2-carry",
+      "x": 684,
+      "y": 12,
+      "w": 185,
+      "h": 311,
+      "anchorX": 0.5216,
+      "anchorY": 0.9293,
+      "logicalHeight": 313,
+      "label": "rust woman carry 3",
+      "kind": "people-cast2-carry",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          686,
+          14,
+          181,
+          307
+        ],
+        "visiblePixels": 32385,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-carry.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-carry"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-carry"
+    },
+    "indigo-carry-1": {
+      "sheet": "people-cast2-carry",
+      "x": 125,
+      "y": 334,
+      "w": 206,
+      "h": 330,
+      "anchorX": 0.5194,
+      "anchorY": 0.9273,
+      "logicalHeight": 331,
+      "label": "indigo carry 1",
+      "kind": "people-cast2-carry",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          127,
+          336,
+          202,
+          326
+        ],
+        "visiblePixels": 38085,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-carry.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-carry"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-carry"
+    },
+    "indigo-carry-2": {
+      "sheet": "people-cast2-carry",
+      "x": 412,
+      "y": 334,
+      "w": 189,
+      "h": 331,
+      "anchorX": 0.4815,
+      "anchorY": 0.9275,
+      "logicalHeight": 331,
+      "label": "indigo carry 2",
+      "kind": "people-cast2-carry",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          414,
+          336,
+          185,
+          327
+        ],
+        "visiblePixels": 36752,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-carry.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-carry"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-carry"
+    },
+    "indigo-carry-3": {
+      "sheet": "people-cast2-carry",
+      "x": 678,
+      "y": 333,
+      "w": 202,
+      "h": 331,
+      "anchorX": 0.4975,
+      "anchorY": 0.9275,
+      "logicalHeight": 331,
+      "label": "indigo carry 3",
+      "kind": "people-cast2-carry",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          680,
+          335,
+          198,
+          327
+        ],
+        "visiblePixels": 37610,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-carry.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-carry"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-carry"
+    },
+    "ochre-carry-1": {
+      "sheet": "people-cast2-carry",
+      "x": 137,
+      "y": 667,
+      "w": 186,
+      "h": 305,
+      "anchorX": 0.4946,
+      "anchorY": 0.9279,
+      "logicalHeight": 305,
+      "label": "ochre carry 1",
+      "kind": "people-cast2-carry",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          139,
+          669,
+          182,
+          301
+        ],
+        "visiblePixels": 29271,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-carry.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-carry"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-carry"
+    },
+    "ochre-carry-2": {
+      "sheet": "people-cast2-carry",
+      "x": 425,
+      "y": 668,
+      "w": 174,
+      "h": 304,
+      "anchorX": 0.4684,
+      "anchorY": 0.9276,
+      "logicalHeight": 305,
+      "label": "ochre carry 2",
+      "kind": "people-cast2-carry",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          427,
+          670,
+          170,
+          300
+        ],
+        "visiblePixels": 28428,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-carry.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-carry"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-carry"
+    },
+    "ochre-carry-3": {
+      "sheet": "people-cast2-carry",
+      "x": 693,
+      "y": 669,
+      "w": 177,
+      "h": 302,
+      "anchorX": 0.4774,
+      "anchorY": 0.9272,
+      "logicalHeight": 305,
+      "label": "ochre carry 3",
+      "kind": "people-cast2-carry",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          695,
+          671,
+          173,
+          298
+        ],
+        "visiblePixels": 28322,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-carry.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-carry"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-carry"
+    },
+    "blue-girl-carry-1": {
+      "sheet": "people-cast2-carry",
+      "x": 150,
+      "y": 978,
+      "w": 160,
+      "h": 265,
+      "anchorX": 0.5094,
+      "anchorY": 0.9283,
+      "logicalHeight": 265,
+      "label": "blue girl carry 1",
+      "kind": "people-cast2-carry",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          152,
+          980,
+          156,
+          261
+        ],
+        "visiblePixels": 26696,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-carry.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-carry"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-carry"
+    },
+    "blue-girl-carry-2": {
+      "sheet": "people-cast2-carry",
+      "x": 436,
+      "y": 978,
+      "w": 161,
+      "h": 264,
+      "anchorX": 0.5248,
+      "anchorY": 0.928,
+      "logicalHeight": 265,
+      "label": "blue girl carry 2",
+      "kind": "people-cast2-carry",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          438,
+          980,
+          157,
+          260
+        ],
+        "visiblePixels": 27103,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-carry.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-carry"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-carry"
+    },
+    "blue-girl-carry-3": {
+      "sheet": "people-cast2-carry",
+      "x": 694,
+      "y": 977,
+      "w": 165,
+      "h": 265,
+      "anchorX": 0.4848,
+      "anchorY": 0.9283,
+      "logicalHeight": 265,
+      "label": "blue girl carry 3",
+      "kind": "people-cast2-carry",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          696,
+          979,
+          161,
+          261
+        ],
+        "visiblePixels": 27079,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-carry.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-carry"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-carry"
+    },
     "rust-woman-rest-pose": {
       "sheet": "people-cast2-care",
       "x": 111,
@@ -6419,6 +8231,566 @@
       "locationKits": [],
       "promptId": "frontier-v1/people-cast2-search-trade"
     },
+    "rust-woman-walk-1": {
+      "sheet": "people-cast2-walk",
+      "x": 152,
+      "y": 12,
+      "w": 201,
+      "h": 320,
+      "anchorX": 0.49,
+      "anchorY": 0.9281,
+      "logicalHeight": 320,
+      "label": "rust woman walk 1",
+      "kind": "people-cast2-walk",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          154,
+          14,
+          197,
+          316
+        ],
+        "visiblePixels": 36878,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-walk"
+    },
+    "rust-woman-walk-2": {
+      "sheet": "people-cast2-walk",
+      "x": 425,
+      "y": 16,
+      "w": 175,
+      "h": 318,
+      "anchorX": 0.4943,
+      "anchorY": 0.9277,
+      "logicalHeight": 320,
+      "label": "rust woman walk 2",
+      "kind": "people-cast2-walk",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          427,
+          18,
+          171,
+          314
+        ],
+        "visiblePixels": 33241,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-walk"
+    },
+    "rust-woman-walk-3": {
+      "sheet": "people-cast2-walk",
+      "x": 673,
+      "y": 15,
+      "w": 194,
+      "h": 317,
+      "anchorX": 0.5258,
+      "anchorY": 0.9274,
+      "logicalHeight": 320,
+      "label": "rust woman walk 3",
+      "kind": "people-cast2-walk",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          675,
+          17,
+          190,
+          313
+        ],
+        "visiblePixels": 35656,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-walk"
+    },
+    "rust-woman-walk-4": {
+      "sheet": "people-cast2-walk",
+      "x": 949,
+      "y": 14,
+      "w": 188,
+      "h": 319,
+      "anchorX": 0.5319,
+      "anchorY": 0.9279,
+      "logicalHeight": 320,
+      "label": "rust woman walk 4",
+      "kind": "people-cast2-walk",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          951,
+          16,
+          184,
+          315
+        ],
+        "visiblePixels": 36429,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-walk"
+    },
+    "indigo-walk-1": {
+      "sheet": "people-cast2-walk",
+      "x": 146,
+      "y": 342,
+      "w": 203,
+      "h": 325,
+      "anchorX": 0.5025,
+      "anchorY": 0.9292,
+      "logicalHeight": 325,
+      "label": "indigo walk 1",
+      "kind": "people-cast2-walk",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          148,
+          344,
+          199,
+          321
+        ],
+        "visiblePixels": 37964,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-walk"
+    },
+    "indigo-walk-2": {
+      "sheet": "people-cast2-walk",
+      "x": 423,
+      "y": 342,
+      "w": 180,
+      "h": 325,
+      "anchorX": 0.4917,
+      "anchorY": 0.9292,
+      "logicalHeight": 325,
+      "label": "indigo walk 2",
+      "kind": "people-cast2-walk",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          425,
+          344,
+          176,
+          321
+        ],
+        "visiblePixels": 34814,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-walk"
+    },
+    "indigo-walk-3": {
+      "sheet": "people-cast2-walk",
+      "x": 677,
+      "y": 342,
+      "w": 194,
+      "h": 325,
+      "anchorX": 0.5052,
+      "anchorY": 0.9292,
+      "logicalHeight": 325,
+      "label": "indigo walk 3",
+      "kind": "people-cast2-walk",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          679,
+          344,
+          190,
+          321
+        ],
+        "visiblePixels": 36631,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-walk"
+    },
+    "indigo-walk-4": {
+      "sheet": "people-cast2-walk",
+      "x": 952,
+      "y": 343,
+      "w": 188,
+      "h": 325,
+      "anchorX": 0.5053,
+      "anchorY": 0.9292,
+      "logicalHeight": 325,
+      "label": "indigo walk 4",
+      "kind": "people-cast2-walk",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          954,
+          345,
+          184,
+          321
+        ],
+        "visiblePixels": 36757,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-walk"
+    },
+    "ochre-walk-1": {
+      "sheet": "people-cast2-walk",
+      "x": 154,
+      "y": 674,
+      "w": 192,
+      "h": 308,
+      "anchorX": 0.4792,
+      "anchorY": 0.9286,
+      "logicalHeight": 308,
+      "label": "ochre walk 1",
+      "kind": "people-cast2-walk",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          156,
+          676,
+          188,
+          304
+        ],
+        "visiblePixels": 30248,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-walk"
+    },
+    "ochre-walk-2": {
+      "sheet": "people-cast2-walk",
+      "x": 427,
+      "y": 674,
+      "w": 174,
+      "h": 305,
+      "anchorX": 0.5115,
+      "anchorY": 0.9279,
+      "logicalHeight": 308,
+      "label": "ochre walk 2",
+      "kind": "people-cast2-walk",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          429,
+          676,
+          170,
+          301
+        ],
+        "visiblePixels": 27841,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-walk"
+    },
+    "ochre-walk-3": {
+      "sheet": "people-cast2-walk",
+      "x": 676,
+      "y": 674,
+      "w": 190,
+      "h": 308,
+      "anchorX": 0.5079,
+      "anchorY": 0.9286,
+      "logicalHeight": 308,
+      "label": "ochre walk 3",
+      "kind": "people-cast2-walk",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          678,
+          676,
+          186,
+          304
+        ],
+        "visiblePixels": 29449,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-walk"
+    },
+    "ochre-walk-4": {
+      "sheet": "people-cast2-walk",
+      "x": 957,
+      "y": 675,
+      "w": 181,
+      "h": 306,
+      "anchorX": 0.4862,
+      "anchorY": 0.9281,
+      "logicalHeight": 308,
+      "label": "ochre walk 4",
+      "kind": "people-cast2-walk",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          959,
+          677,
+          177,
+          302
+        ],
+        "visiblePixels": 29204,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-walk"
+    },
+    "blue-girl-walk-1": {
+      "sheet": "people-cast2-walk",
+      "x": 163,
+      "y": 986,
+      "w": 170,
+      "h": 259,
+      "anchorX": 0.5,
+      "anchorY": 0.9266,
+      "logicalHeight": 259,
+      "label": "blue girl walk 1",
+      "kind": "people-cast2-walk",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          165,
+          988,
+          166,
+          255
+        ],
+        "visiblePixels": 26769,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-walk"
+    },
+    "blue-girl-walk-2": {
+      "sheet": "people-cast2-walk",
+      "x": 436,
+      "y": 986,
+      "w": 160,
+      "h": 258,
+      "anchorX": 0.5031,
+      "anchorY": 0.9264,
+      "logicalHeight": 259,
+      "label": "blue girl walk 2",
+      "kind": "people-cast2-walk",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          438,
+          988,
+          156,
+          254
+        ],
+        "visiblePixels": 25043,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-walk"
+    },
+    "blue-girl-walk-3": {
+      "sheet": "people-cast2-walk",
+      "x": 688,
+      "y": 986,
+      "w": 165,
+      "h": 259,
+      "anchorX": 0.5061,
+      "anchorY": 0.9266,
+      "logicalHeight": 259,
+      "label": "blue girl walk 3",
+      "kind": "people-cast2-walk",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          690,
+          988,
+          161,
+          255
+        ],
+        "visiblePixels": 25653,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-walk"
+    },
+    "blue-girl-walk-4": {
+      "sheet": "people-cast2-walk",
+      "x": 968,
+      "y": 986,
+      "w": 163,
+      "h": 259,
+      "anchorX": 0.4969,
+      "anchorY": 0.9266,
+      "logicalHeight": 259,
+      "label": "blue girl walk 4",
+      "kind": "people-cast2-walk",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          970,
+          988,
+          159,
+          255
+        ],
+        "visiblePixels": 25251,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-walk"
+    },
     "rust-woman-work-1": {
       "sheet": "people-cast2-work",
       "x": 58,
@@ -7538,6 +9910,426 @@
       ],
       "locationKits": [],
       "promptId": "frontier-v1/people-cast2-idle"
+    },
+    "girl-walk-s-1": {
+      "sheet": "people-children-vertical",
+      "x": 124,
+      "y": 13,
+      "w": 166,
+      "h": 357,
+      "anchorX": 0.5392,
+      "anchorY": 0.93,
+      "logicalHeight": 359,
+      "label": "girl walk s 1",
+      "kind": "people-children-vertical",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          126,
+          15,
+          162,
+          353
+        ],
+        "visiblePixels": 41860,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "girl-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-vertical"
+    },
+    "girl-walk-s-2": {
+      "sheet": "people-children-vertical",
+      "x": 409,
+      "y": 13,
+      "w": 165,
+      "h": 358,
+      "anchorX": 0.5091,
+      "anchorY": 0.9274,
+      "logicalHeight": 359,
+      "label": "girl walk s 2",
+      "kind": "people-children-vertical",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          411,
+          15,
+          161,
+          354
+        ],
+        "visiblePixels": 40840,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "girl-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-vertical"
+    },
+    "girl-walk-n-1": {
+      "sheet": "people-children-vertical",
+      "x": 683,
+      "y": 13,
+      "w": 175,
+      "h": 358,
+      "anchorX": 0.4514,
+      "anchorY": 0.9274,
+      "logicalHeight": 359,
+      "label": "girl walk n 1",
+      "kind": "people-children-vertical",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          685,
+          15,
+          171,
+          354
+        ],
+        "visiblePixels": 40877,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "girl-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-vertical"
+    },
+    "girl-walk-n-2": {
+      "sheet": "people-children-vertical",
+      "x": 986,
+      "y": 12,
+      "w": 174,
+      "h": 359,
+      "anchorX": 0.4454,
+      "anchorY": 0.9276,
+      "logicalHeight": 359,
+      "label": "girl walk n 2",
+      "kind": "people-children-vertical",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          988,
+          14,
+          170,
+          355
+        ],
+        "visiblePixels": 41085,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "girl-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-vertical"
+    },
+    "boy-walk-s-1": {
+      "sheet": "people-children-vertical",
+      "x": 122,
+      "y": 373,
+      "w": 159,
+      "h": 355,
+      "anchorX": 0.6226,
+      "anchorY": 0.9577,
+      "logicalHeight": 355,
+      "label": "boy walk s 1",
+      "kind": "people-children-vertical",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          124,
+          375,
+          155,
+          351
+        ],
+        "visiblePixels": 34865,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "boy-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-vertical"
+    },
+    "boy-walk-s-2": {
+      "sheet": "people-children-vertical",
+      "x": 420,
+      "y": 373,
+      "w": 144,
+      "h": 355,
+      "anchorX": 0.6146,
+      "anchorY": 0.9577,
+      "logicalHeight": 355,
+      "label": "boy walk s 2",
+      "kind": "people-children-vertical",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          422,
+          375,
+          140,
+          351
+        ],
+        "visiblePixels": 33008,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "boy-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-vertical"
+    },
+    "boy-walk-n-1": {
+      "sheet": "people-children-vertical",
+      "x": 689,
+      "y": 375,
+      "w": 153,
+      "h": 353,
+      "anchorX": 0.3791,
+      "anchorY": 0.9547,
+      "logicalHeight": 355,
+      "label": "boy walk n 1",
+      "kind": "people-children-vertical",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          691,
+          377,
+          149,
+          349
+        ],
+        "visiblePixels": 33342,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "boy-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-vertical"
+    },
+    "boy-walk-n-2": {
+      "sheet": "people-children-vertical",
+      "x": 996,
+      "y": 374,
+      "w": 156,
+      "h": 354,
+      "anchorX": 0.6635,
+      "anchorY": 0.9576,
+      "logicalHeight": 355,
+      "label": "boy walk n 2",
+      "kind": "people-children-vertical",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          998,
+          376,
+          152,
+          350
+        ],
+        "visiblePixels": 34796,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "boy-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-vertical"
+    },
+    "smallchild-walk-s-1": {
+      "sheet": "people-children-vertical",
+      "x": 103,
+      "y": 734,
+      "w": 196,
+      "h": 297,
+      "anchorX": 0.4872,
+      "anchorY": 0.9293,
+      "logicalHeight": 297,
+      "label": "smallchild walk s 1",
+      "kind": "people-children-vertical",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          105,
+          736,
+          192,
+          293
+        ],
+        "visiblePixels": 31408,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "smallchild-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-vertical"
+    },
+    "smallchild-walk-s-2": {
+      "sheet": "people-children-vertical",
+      "x": 398,
+      "y": 734,
+      "w": 192,
+      "h": 297,
+      "anchorX": 0.4792,
+      "anchorY": 0.9293,
+      "logicalHeight": 297,
+      "label": "smallchild walk s 2",
+      "kind": "people-children-vertical",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          400,
+          736,
+          188,
+          293
+        ],
+        "visiblePixels": 31137,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "smallchild-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-vertical"
+    },
+    "smallchild-walk-n-1": {
+      "sheet": "people-children-vertical",
+      "x": 668,
+      "y": 736,
+      "w": 200,
+      "h": 294,
+      "anchorX": 0.465,
+      "anchorY": 0.9286,
+      "logicalHeight": 297,
+      "label": "smallchild walk n 1",
+      "kind": "people-children-vertical",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          670,
+          738,
+          196,
+          290
+        ],
+        "visiblePixels": 30822,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "smallchild-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-vertical"
+    },
+    "smallchild-walk-n-2": {
+      "sheet": "people-children-vertical",
+      "x": 970,
+      "y": 737,
+      "w": 194,
+      "h": 294,
+      "anchorX": 0.4175,
+      "anchorY": 0.9456,
+      "logicalHeight": 297,
+      "label": "smallchild walk n 2",
+      "kind": "people-children-vertical",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          972,
+          739,
+          190,
+          290
+        ],
+        "visiblePixels": 30223,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-children-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "smallchild-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-children-vertical"
     },
     "girl-idle-s": {
       "sheet": "people-children-idle",
@@ -9468,6 +12260,518 @@
       "clips": [],
       "locationKits": [],
       "promptId": "frontier-v1/land-clearing"
+    },
+    "house-round-sill": {
+      "sheet": "house-modules",
+      "x": 29,
+      "y": 63,
+      "w": 320,
+      "h": 198,
+      "anchorX": 0.5844,
+      "anchorY": 0.9293,
+      "label": "house round sill",
+      "kind": "house-modules",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          31,
+          65,
+          316,
+          194
+        ],
+        "visiblePixels": 20999,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/house-modules.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/house-modules"
+    },
+    "house-round-low-walls": {
+      "sheet": "house-modules",
+      "x": 383,
+      "y": 33,
+      "w": 306,
+      "h": 214,
+      "anchorX": 0.6536,
+      "anchorY": 0.9299,
+      "label": "house round low walls",
+      "kind": "house-modules",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          385,
+          35,
+          302,
+          210
+        ],
+        "visiblePixels": 35436,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/house-modules.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/house-modules"
+    },
+    "house-round-full-walls": {
+      "sheet": "house-modules",
+      "x": 747,
+      "y": 7,
+      "w": 302,
+      "h": 253,
+      "anchorX": 0.5811,
+      "anchorY": 0.9289,
+      "label": "house round full walls",
+      "kind": "house-modules",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          749,
+          9,
+          298,
+          249
+        ],
+        "visiblePixels": 50127,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/house-modules.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/house-modules"
+    },
+    "house-round-roof-partial": {
+      "sheet": "house-modules",
+      "x": 1077,
+      "y": 10,
+      "w": 352,
+      "h": 241,
+      "anchorX": 0.6648,
+      "anchorY": 0.9295,
+      "label": "house round roof partial",
+      "kind": "house-modules",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1079,
+          12,
+          348,
+          237
+        ],
+        "visiblePixels": 39569,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/house-modules.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/house-modules"
+    },
+    "house-hewn-sill": {
+      "sheet": "house-modules",
+      "x": 30,
+      "y": 324,
+      "w": 315,
+      "h": 207,
+      "anchorX": 0.5619,
+      "anchorY": 0.9275,
+      "label": "house hewn sill",
+      "kind": "house-modules",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          32,
+          326,
+          311,
+          203
+        ],
+        "visiblePixels": 21600,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/house-modules.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/house-modules"
+    },
+    "house-hewn-low-walls": {
+      "sheet": "house-modules",
+      "x": 384,
+      "y": 302,
+      "w": 301,
+      "h": 211,
+      "anchorX": 0.6728,
+      "anchorY": 0.9289,
+      "label": "house hewn low walls",
+      "kind": "house-modules",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          386,
+          304,
+          297,
+          207
+        ],
+        "visiblePixels": 34754,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/house-modules.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/house-modules"
+    },
+    "house-hewn-full-walls": {
+      "sheet": "house-modules",
+      "x": 746,
+      "y": 267,
+      "w": 300,
+      "h": 262,
+      "anchorX": 0.56,
+      "anchorY": 0.9275,
+      "label": "house hewn full walls",
+      "kind": "house-modules",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          748,
+          269,
+          296,
+          258
+        ],
+        "visiblePixels": 52936,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/house-modules.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/house-modules"
+    },
+    "house-hewn-roof-finished": {
+      "sheet": "house-modules",
+      "x": 1074,
+      "y": 271,
+      "w": 356,
+      "h": 251,
+      "anchorX": 0.6742,
+      "anchorY": 0.9283,
+      "label": "house hewn roof finished",
+      "kind": "house-modules",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1076,
+          273,
+          352,
+          247
+        ],
+        "visiblePixels": 42196,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/house-modules.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/house-modules"
+    },
+    "house-passage-floor": {
+      "sheet": "house-modules",
+      "x": 45,
+      "y": 643,
+      "w": 263,
+      "h": 142,
+      "anchorX": 0.6217,
+      "anchorY": 0.9296,
+      "label": "house passage floor",
+      "kind": "house-modules",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          47,
+          645,
+          259,
+          138
+        ],
+        "visiblePixels": 20536,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/house-modules.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/house-modules"
+    },
+    "house-passage-roof": {
+      "sheet": "house-modules",
+      "x": 375,
+      "y": 532,
+      "w": 267,
+      "h": 241,
+      "anchorX": 0.6592,
+      "anchorY": 0.9295,
+      "label": "house passage roof",
+      "kind": "house-modules",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          377,
+          534,
+          263,
+          237
+        ],
+        "visiblePixels": 23261,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/house-modules.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/house-modules"
+    },
+    "house-porch": {
+      "sheet": "house-modules",
+      "x": 708,
+      "y": 543,
+      "w": 358,
+      "h": 252,
+      "anchorX": 0.655,
+      "anchorY": 0.996,
+      "label": "house porch",
+      "kind": "house-modules",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          710,
+          545,
+          354,
+          252
+        ],
+        "visiblePixels": 50604,
+        "trimmedPixels": 10,
+        "retainedFraction": 0.999802
+      },
+      "source": "atlases/house-modules.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/house-modules"
+    },
+    "house-shed-room": {
+      "sheet": "house-modules",
+      "x": 1089,
+      "y": 556,
+      "w": 343,
+      "h": 227,
+      "anchorX": 0.7697,
+      "anchorY": 0.9295,
+      "label": "house shed room",
+      "kind": "house-modules",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1091,
+          558,
+          339,
+          223
+        ],
+        "visiblePixels": 50891,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/house-modules.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/house-modules"
+    },
+    "house-chimney-stick-building": {
+      "sheet": "house-modules",
+      "x": 100,
+      "y": 801,
+      "w": 164,
+      "h": 269,
+      "anchorX": 0.5366,
+      "anchorY": 0.9294,
+      "label": "house chimney stick building",
+      "kind": "house-modules",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          102,
+          803,
+          160,
+          265
+        ],
+        "visiblePixels": 25390,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/house-modules.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/house-modules"
+    },
+    "house-chimney-stick": {
+      "sheet": "house-modules",
+      "x": 450,
+      "y": 789,
+      "w": 175,
+      "h": 282,
+      "anchorX": 0.5343,
+      "anchorY": 0.9291,
+      "label": "house chimney stick",
+      "kind": "house-modules",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          452,
+          791,
+          171,
+          278
+        ],
+        "visiblePixels": 28719,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/house-modules.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/house-modules"
+    },
+    "house-chimney-stone": {
+      "sheet": "house-modules",
+      "x": 813,
+      "y": 795,
+      "w": 160,
+      "h": 276,
+      "anchorX": 0.525,
+      "anchorY": 0.9275,
+      "label": "house chimney stone",
+      "kind": "house-modules",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          815,
+          793,
+          156,
+          276
+        ],
+        "visiblePixels": 28691,
+        "trimmedPixels": 21,
+        "retainedFraction": 0.999268
+      },
+      "source": "atlases/house-modules.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/house-modules"
+    },
+    "house-floor-loft": {
+      "sheet": "house-modules",
+      "x": 1104,
+      "y": 794,
+      "w": 289,
+      "h": 276,
+      "anchorX": 0.6176,
+      "anchorY": 0.9275,
+      "label": "house floor loft",
+      "kind": "house-modules",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1106,
+          796,
+          285,
+          272
+        ],
+        "visiblePixels": 40653,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/house-modules.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/house-modules"
     },
     "courier-dismount-1": {
       "sheet": "courier-dismount",
@@ -12900,6 +16204,1092 @@
       "clips": [],
       "locationKits": [],
       "promptId": "frontier-v1/home-interiors"
+    },
+    "pine-loblolly-pole": {
+      "sheet": "trees-colonies-1",
+      "x": 102,
+      "y": 107,
+      "w": 103,
+      "h": 209,
+      "anchorX": 0.5146,
+      "anchorY": 0.9474,
+      "label": "pine loblolly pole",
+      "kind": "trees-colonies-1",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          104,
+          109,
+          99,
+          205
+        ],
+        "visiblePixels": 9171,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/trees-colonies-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "pine-loblolly-pole-wind"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/trees-colonies-1"
+    },
+    "pine-loblolly-log": {
+      "sheet": "trees-colonies-1",
+      "x": 387,
+      "y": 10,
+      "w": 166,
+      "h": 308,
+      "anchorX": 0.5181,
+      "anchorY": 0.9643,
+      "label": "pine loblolly log",
+      "kind": "trees-colonies-1",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          389,
+          12,
+          162,
+          304
+        ],
+        "visiblePixels": 21329,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/trees-colonies-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "pine-loblolly-log-wind"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/trees-colonies-1"
+    },
+    "pine-loblolly-large": {
+      "sheet": "trees-colonies-1",
+      "x": 640,
+      "y": 10,
+      "w": 284,
+      "h": 309,
+      "anchorX": 0.4982,
+      "anchorY": 0.9579,
+      "label": "pine loblolly large",
+      "kind": "trees-colonies-1",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          642,
+          12,
+          280,
+          305
+        ],
+        "visiblePixels": 47308,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/trees-colonies-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "pine-loblolly-large-wind"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/trees-colonies-1"
+    },
+    "stump-pine-loblolly": {
+      "sheet": "trees-colonies-1",
+      "x": 1018,
+      "y": 191,
+      "w": 172,
+      "h": 130,
+      "anchorX": 0.4593,
+      "anchorY": 0.9231,
+      "label": "stump pine loblolly",
+      "kind": "trees-colonies-1",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1020,
+          193,
+          168,
+          126
+        ],
+        "visiblePixels": 14079,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/trees-colonies-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/trees-colonies-1"
+    },
+    "cedar-pole": {
+      "sheet": "trees-colonies-1",
+      "x": 102,
+      "y": 416,
+      "w": 107,
+      "h": 213,
+      "anchorX": 0.5234,
+      "anchorY": 0.9484,
+      "label": "cedar pole",
+      "kind": "trees-colonies-1",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          104,
+          418,
+          103,
+          209
+        ],
+        "visiblePixels": 11790,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/trees-colonies-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "cedar-pole-wind"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/trees-colonies-1"
+    },
+    "cedar-log": {
+      "sheet": "trees-colonies-1",
+      "x": 375,
+      "y": 357,
+      "w": 190,
+      "h": 273,
+      "anchorX": 0.4816,
+      "anchorY": 0.956,
+      "label": "cedar log",
+      "kind": "trees-colonies-1",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          377,
+          359,
+          186,
+          269
+        ],
+        "visiblePixels": 26822,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/trees-colonies-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "cedar-log-wind"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/trees-colonies-1"
+    },
+    "cedar-large": {
+      "sheet": "trees-colonies-1",
+      "x": 635,
+      "y": 336,
+      "w": 292,
+      "h": 297,
+      "anchorX": 0.4897,
+      "anchorY": 0.9529,
+      "label": "cedar large",
+      "kind": "trees-colonies-1",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          637,
+          338,
+          288,
+          293
+        ],
+        "visiblePixels": 49351,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/trees-colonies-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "cedar-large-wind"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/trees-colonies-1"
+    },
+    "mesquite-pole": {
+      "sheet": "trees-colonies-1",
+      "x": 1016,
+      "y": 417,
+      "w": 180,
+      "h": 213,
+      "anchorX": 0.4694,
+      "anchorY": 0.9437,
+      "label": "mesquite pole",
+      "kind": "trees-colonies-1",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1018,
+          419,
+          176,
+          209
+        ],
+        "visiblePixels": 15045,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/trees-colonies-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "mesquite-pole-wind"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/trees-colonies-1"
+    },
+    "mesquite-log": {
+      "sheet": "trees-colonies-1",
+      "x": 40,
+      "y": 703,
+      "w": 252,
+      "h": 214,
+      "anchorX": 0.4821,
+      "anchorY": 0.9393,
+      "label": "mesquite log",
+      "kind": "trees-colonies-1",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          42,
+          705,
+          248,
+          210
+        ],
+        "visiblePixels": 22299,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/trees-colonies-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "mesquite-log-wind"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/trees-colonies-1"
+    },
+    "mesquite-large": {
+      "sheet": "trees-colonies-1",
+      "x": 326,
+      "y": 658,
+      "w": 313,
+      "h": 261,
+      "anchorX": 0.5527,
+      "anchorY": 0.9464,
+      "label": "mesquite large",
+      "kind": "trees-colonies-1",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          328,
+          660,
+          309,
+          257
+        ],
+        "visiblePixels": 36859,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/trees-colonies-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "mesquite-large-wind"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/trees-colonies-1"
+    },
+    "live-oak-pole": {
+      "sheet": "trees-colonies-1",
+      "x": 716,
+      "y": 741,
+      "w": 138,
+      "h": 177,
+      "anchorX": 0.4529,
+      "anchorY": 0.9266,
+      "label": "live oak pole",
+      "kind": "trees-colonies-1",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          718,
+          743,
+          134,
+          173
+        ],
+        "visiblePixels": 13169,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/trees-colonies-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "live-oak-pole-wind"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/trees-colonies-1"
+    },
+    "live-oak-log": {
+      "sheet": "trees-colonies-1",
+      "x": 956,
+      "y": 703,
+      "w": 277,
+      "h": 213,
+      "anchorX": 0.5415,
+      "anchorY": 0.9343,
+      "label": "live oak log",
+      "kind": "trees-colonies-1",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          958,
+          705,
+          273,
+          209
+        ],
+        "visiblePixels": 33502,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/trees-colonies-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "live-oak-log-wind"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/trees-colonies-1"
+    },
+    "live-oak-large": {
+      "sheet": "trees-colonies-1",
+      "x": 14,
+      "y": 979,
+      "w": 409,
+      "h": 247,
+      "anchorX": 0.4474,
+      "anchorY": 0.9271,
+      "label": "live oak large",
+      "kind": "trees-colonies-1",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          16,
+          981,
+          405,
+          243
+        ],
+        "visiblePixels": 58983,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/trees-colonies-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "live-oak-large-wind"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/trees-colonies-1"
+    },
+    "elm-pole": {
+      "sheet": "trees-colonies-1",
+      "x": 459,
+      "y": 981,
+      "w": 120,
+      "h": 244,
+      "anchorX": 0.5083,
+      "anchorY": 0.9549,
+      "label": "elm pole",
+      "kind": "trees-colonies-1",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          461,
+          983,
+          116,
+          240
+        ],
+        "visiblePixels": 12606,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/trees-colonies-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "elm-pole-wind"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/trees-colonies-1"
+    },
+    "elm-log": {
+      "sheet": "trees-colonies-1",
+      "x": 694,
+      "y": 948,
+      "w": 180,
+      "h": 278,
+      "anchorX": 0.4861,
+      "anchorY": 0.9568,
+      "label": "elm log",
+      "kind": "trees-colonies-1",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          696,
+          950,
+          176,
+          274
+        ],
+        "visiblePixels": 23594,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/trees-colonies-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "elm-log-wind"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/trees-colonies-1"
+    },
+    "elm-large": {
+      "sheet": "trees-colonies-1",
+      "x": 938,
+      "y": 926,
+      "w": 300,
+      "h": 300,
+      "anchorX": 0.5083,
+      "anchorY": 0.96,
+      "label": "elm large",
+      "kind": "trees-colonies-1",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          940,
+          928,
+          296,
+          296
+        ],
+        "visiblePixels": 51825,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/trees-colonies-1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "elm-large-wind"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/trees-colonies-1"
+    },
+    "deer-idle-1": {
+      "sheet": "wildlife-deer",
+      "x": 39,
+      "y": 139,
+      "w": 261,
+      "h": 166,
+      "anchorX": 0.4713,
+      "anchorY": 0.9277,
+      "label": "deer idle 1",
+      "kind": "wildlife-deer",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          41,
+          141,
+          257,
+          162
+        ],
+        "visiblePixels": 23025,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-deer.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "deer-idle"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-deer"
+    },
+    "deer-idle-2": {
+      "sheet": "wildlife-deer",
+      "x": 355,
+      "y": 139,
+      "w": 255,
+      "h": 165,
+      "anchorX": 0.498,
+      "anchorY": 0.9273,
+      "label": "deer idle 2",
+      "kind": "wildlife-deer",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          357,
+          141,
+          251,
+          161
+        ],
+        "visiblePixels": 22695,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-deer.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "deer-idle"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-deer"
+    },
+    "deer-idle-3": {
+      "sheet": "wildlife-deer",
+      "x": 668,
+      "y": 119,
+      "w": 262,
+      "h": 186,
+      "anchorX": 0.3721,
+      "anchorY": 0.9301,
+      "label": "deer idle 3",
+      "kind": "wildlife-deer",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          670,
+          121,
+          258,
+          182
+        ],
+        "visiblePixels": 23233,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-deer.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "deer-idle"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-deer"
+    },
+    "deer-idle-4": {
+      "sheet": "wildlife-deer",
+      "x": 982,
+      "y": 78,
+      "w": 243,
+      "h": 227,
+      "anchorX": 0.3971,
+      "anchorY": 0.9471,
+      "label": "deer idle 4",
+      "kind": "wildlife-deer",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          984,
+          80,
+          239,
+          223
+        ],
+        "visiblePixels": 23418,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-deer.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "deer-idle"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-deer"
+    },
+    "deer-alert-1": {
+      "sheet": "wildlife-deer",
+      "x": 40,
+      "y": 370,
+      "w": 243,
+      "h": 250,
+      "anchorX": 0.4053,
+      "anchorY": 0.948,
+      "label": "deer alert 1",
+      "kind": "wildlife-deer",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          42,
+          372,
+          239,
+          246
+        ],
+        "visiblePixels": 24158,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-deer.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "deer-alert"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-deer"
+    },
+    "deer-alert-2": {
+      "sheet": "wildlife-deer",
+      "x": 356,
+      "y": 369,
+      "w": 238,
+      "h": 251,
+      "anchorX": 0.4265,
+      "anchorY": 0.9442,
+      "label": "deer alert 2",
+      "kind": "wildlife-deer",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          358,
+          371,
+          234,
+          247
+        ],
+        "visiblePixels": 24250,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-deer.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "deer-alert"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-deer"
+    },
+    "deer-alert-3": {
+      "sheet": "wildlife-deer",
+      "x": 668,
+      "y": 369,
+      "w": 253,
+      "h": 251,
+      "anchorX": 0.3656,
+      "anchorY": 0.9641,
+      "label": "deer alert 3",
+      "kind": "wildlife-deer",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          670,
+          371,
+          249,
+          247
+        ],
+        "visiblePixels": 24753,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-deer.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "deer-alert"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-deer"
+    },
+    "deer-alert-4": {
+      "sheet": "wildlife-deer",
+      "x": 981,
+      "y": 369,
+      "w": 252,
+      "h": 251,
+      "anchorX": 0.377,
+      "anchorY": 0.9602,
+      "label": "deer alert 4",
+      "kind": "wildlife-deer",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          983,
+          371,
+          248,
+          247
+        ],
+        "visiblePixels": 24704,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-deer.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "deer-alert"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-deer"
+    },
+    "deer-bound-1": {
+      "sheet": "wildlife-deer",
+      "x": 59,
+      "y": 705,
+      "w": 233,
+      "h": 199,
+      "anchorX": 0.3755,
+      "anchorY": 0.9296,
+      "label": "deer bound 1",
+      "kind": "wildlife-deer",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          61,
+          707,
+          229,
+          195
+        ],
+        "visiblePixels": 19805,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-deer.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "deer-bound"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-deer"
+    },
+    "deer-bound-2": {
+      "sheet": "wildlife-deer",
+      "x": 342,
+      "y": 669,
+      "w": 261,
+      "h": 230,
+      "anchorX": 0.0939,
+      "anchorY": 0.9261,
+      "label": "deer bound 2",
+      "kind": "wildlife-deer",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          344,
+          671,
+          257,
+          226
+        ],
+        "visiblePixels": 20426,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-deer.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "deer-bound"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-deer"
+    },
+    "deer-bound-3": {
+      "sheet": "wildlife-deer",
+      "x": 641,
+      "y": 675,
+      "w": 300,
+      "h": 194,
+      "anchorX": 0.475,
+      "anchorY": 0.9381,
+      "label": "deer bound 3",
+      "kind": "wildlife-deer",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          643,
+          677,
+          296,
+          190
+        ],
+        "visiblePixels": 21433,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-deer.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "deer-bound"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-deer"
+    },
+    "deer-bound-4": {
+      "sheet": "wildlife-deer",
+      "x": 987,
+      "y": 698,
+      "w": 242,
+      "h": 204,
+      "anchorX": 0.7955,
+      "anchorY": 0.9265,
+      "label": "deer bound 4",
+      "kind": "wildlife-deer",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          989,
+          700,
+          238,
+          200
+        ],
+        "visiblePixels": 20499,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-deer.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "deer-bound"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-deer"
+    },
+    "deer-drink-1": {
+      "sheet": "wildlife-deer",
+      "x": 39,
+      "y": 1017,
+      "w": 262,
+      "h": 162,
+      "anchorX": 0.4943,
+      "anchorY": 0.9259,
+      "label": "deer drink 1",
+      "kind": "wildlife-deer",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          41,
+          1019,
+          258,
+          158
+        ],
+        "visiblePixels": 22959,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-deer.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "deer-drink"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-deer"
+    },
+    "deer-drink-2": {
+      "sheet": "wildlife-deer",
+      "x": 354,
+      "y": 1015,
+      "w": 257,
+      "h": 169,
+      "anchorX": 0.4747,
+      "anchorY": 0.929,
+      "label": "deer drink 2",
+      "kind": "wildlife-deer",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          356,
+          1017,
+          253,
+          165
+        ],
+        "visiblePixels": 22483,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-deer.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "deer-drink"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-deer"
+    },
+    "deer-drink-3": {
+      "sheet": "wildlife-deer",
+      "x": 666,
+      "y": 1017,
+      "w": 261,
+      "h": 162,
+      "anchorX": 0.3793,
+      "anchorY": 0.9321,
+      "label": "deer drink 3",
+      "kind": "wildlife-deer",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          668,
+          1019,
+          257,
+          158
+        ],
+        "visiblePixels": 22532,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-deer.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "deer-drink"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-deer"
+    },
+    "deer-drink-4": {
+      "sheet": "wildlife-deer",
+      "x": 980,
+      "y": 959,
+      "w": 244,
+      "h": 221,
+      "anchorX": 0.4057,
+      "anchorY": 0.9457,
+      "label": "deer drink 4",
+      "kind": "wildlife-deer",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          982,
+          961,
+          240,
+          217
+        ],
+        "visiblePixels": 22806,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-deer.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "deer-drink"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-deer"
     },
     "mounted-courier-listen-1": {
       "sheet": "courier-encounters",
@@ -28278,6 +32668,214 @@
     }
   },
   "clips": {
+    "volunteer-gun-ram": {
+      "frames": [
+        {
+          "sprite": "volunteer-rammer-carry-1",
+          "duration": 260
+        },
+        {
+          "sprite": "volunteer-rammer-carry-2",
+          "duration": 240
+        },
+        {
+          "sprite": "volunteer-ram-1",
+          "duration": 360
+        },
+        {
+          "sprite": "volunteer-ram-2",
+          "duration": 300
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "volunteer-gun-shot-carry": {
+      "frames": [
+        {
+          "sprite": "volunteer-roundshot-lift",
+          "duration": 420
+        },
+        {
+          "sprite": "volunteer-roundshot-carry",
+          "duration": 420
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "volunteer-gun-fire": {
+      "frames": [
+        {
+          "sprite": "volunteer-lanyard-pull",
+          "duration": 360
+        },
+        {
+          "sprite": "volunteer-cover-ears",
+          "duration": 700
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "regular-gun-ram": {
+      "frames": [
+        {
+          "sprite": "regular-rammer-carry-1",
+          "duration": 260
+        },
+        {
+          "sprite": "regular-rammer-carry-2",
+          "duration": 240
+        },
+        {
+          "sprite": "regular-ram-1",
+          "duration": 360
+        },
+        {
+          "sprite": "regular-ram-2",
+          "duration": 300
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "regular-gun-shot-carry": {
+      "frames": [
+        {
+          "sprite": "regular-roundshot-lift",
+          "duration": 420
+        },
+        {
+          "sprite": "regular-roundshot-carry",
+          "duration": 420
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "regular-gun-fire": {
+      "frames": [
+        {
+          "sprite": "regular-lanyard-pull",
+          "duration": 360
+        },
+        {
+          "sprite": "regular-cover-ears",
+          "duration": 700
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "rust-woman-carry": {
+      "frames": [
+        {
+          "sprite": "rust-woman-carry-1",
+          "duration": 190
+        },
+        {
+          "sprite": "rust-woman-carry-2",
+          "duration": 190
+        },
+        {
+          "sprite": "rust-woman-carry-3",
+          "duration": 190
+        },
+        {
+          "sprite": "rust-woman-carry-2",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "indigo-carry": {
+      "frames": [
+        {
+          "sprite": "indigo-carry-1",
+          "duration": 190
+        },
+        {
+          "sprite": "indigo-carry-2",
+          "duration": 190
+        },
+        {
+          "sprite": "indigo-carry-3",
+          "duration": 190
+        },
+        {
+          "sprite": "indigo-carry-2",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ochre-carry": {
+      "frames": [
+        {
+          "sprite": "ochre-carry-1",
+          "duration": 190
+        },
+        {
+          "sprite": "ochre-carry-2",
+          "duration": 190
+        },
+        {
+          "sprite": "ochre-carry-3",
+          "duration": 190
+        },
+        {
+          "sprite": "ochre-carry-2",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-girl-carry": {
+      "frames": [
+        {
+          "sprite": "blue-girl-carry-1",
+          "duration": 190
+        },
+        {
+          "sprite": "blue-girl-carry-2",
+          "duration": 190
+        },
+        {
+          "sprite": "blue-girl-carry-3",
+          "duration": 190
+        },
+        {
+          "sprite": "blue-girl-carry-2",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "rust-woman-rest": {
       "frames": [
         {
@@ -28559,6 +33157,102 @@
         {
           "sprite": "blue-girl-trade-2",
           "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "rust-woman-walk": {
+      "frames": [
+        {
+          "sprite": "rust-woman-walk-1",
+          "duration": 180
+        },
+        {
+          "sprite": "rust-woman-walk-2",
+          "duration": 180
+        },
+        {
+          "sprite": "rust-woman-walk-3",
+          "duration": 180
+        },
+        {
+          "sprite": "rust-woman-walk-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "indigo-walk": {
+      "frames": [
+        {
+          "sprite": "indigo-walk-1",
+          "duration": 180
+        },
+        {
+          "sprite": "indigo-walk-2",
+          "duration": 180
+        },
+        {
+          "sprite": "indigo-walk-3",
+          "duration": 180
+        },
+        {
+          "sprite": "indigo-walk-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ochre-walk": {
+      "frames": [
+        {
+          "sprite": "ochre-walk-1",
+          "duration": 180
+        },
+        {
+          "sprite": "ochre-walk-2",
+          "duration": 180
+        },
+        {
+          "sprite": "ochre-walk-3",
+          "duration": 180
+        },
+        {
+          "sprite": "ochre-walk-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-girl-walk": {
+      "frames": [
+        {
+          "sprite": "blue-girl-walk-1",
+          "duration": 180
+        },
+        {
+          "sprite": "blue-girl-walk-2",
+          "duration": 180
+        },
+        {
+          "sprite": "blue-girl-walk-3",
+          "duration": 180
+        },
+        {
+          "sprite": "blue-girl-walk-4",
+          "duration": 180
         }
       ],
       "loop": true,
@@ -28852,6 +33546,102 @@
       "loop": true,
       "authored": false,
       "motion": "breathe",
+      "direction": "north"
+    },
+    "girl-walk-s": {
+      "frames": [
+        {
+          "sprite": "girl-walk-s-1",
+          "duration": 230
+        },
+        {
+          "sprite": "girl-walk-s-2",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "girl-walk-n": {
+      "frames": [
+        {
+          "sprite": "girl-walk-n-1",
+          "duration": 230
+        },
+        {
+          "sprite": "girl-walk-n-2",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "boy-walk-s": {
+      "frames": [
+        {
+          "sprite": "boy-walk-s-1",
+          "duration": 230
+        },
+        {
+          "sprite": "boy-walk-s-2",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "boy-walk-n": {
+      "frames": [
+        {
+          "sprite": "boy-walk-n-1",
+          "duration": 230
+        },
+        {
+          "sprite": "boy-walk-n-2",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "smallchild-walk-s": {
+      "frames": [
+        {
+          "sprite": "smallchild-walk-s-1",
+          "duration": 230
+        },
+        {
+          "sprite": "smallchild-walk-s-2",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "smallchild-walk-n": {
+      "frames": [
+        {
+          "sprite": "smallchild-walk-n-1",
+          "duration": 230
+        },
+        {
+          "sprite": "smallchild-walk-n-2",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
       "direction": "north"
     },
     "girl-idle-s": {
@@ -30000,6 +34790,282 @@
       "loop": true,
       "authored": false,
       "motion": "rock",
+      "direction": "east; west by mirroring"
+    },
+    "pine-loblolly-pole-wind": {
+      "frames": [
+        {
+          "sprite": "pine-loblolly-pole",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "pine-loblolly-log-wind": {
+      "frames": [
+        {
+          "sprite": "pine-loblolly-log",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "pine-loblolly-large-wind": {
+      "frames": [
+        {
+          "sprite": "pine-loblolly-large",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "cedar-pole-wind": {
+      "frames": [
+        {
+          "sprite": "cedar-pole",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "cedar-log-wind": {
+      "frames": [
+        {
+          "sprite": "cedar-log",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "cedar-large-wind": {
+      "frames": [
+        {
+          "sprite": "cedar-large",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "mesquite-pole-wind": {
+      "frames": [
+        {
+          "sprite": "mesquite-pole",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "mesquite-log-wind": {
+      "frames": [
+        {
+          "sprite": "mesquite-log",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "mesquite-large-wind": {
+      "frames": [
+        {
+          "sprite": "mesquite-large",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "live-oak-pole-wind": {
+      "frames": [
+        {
+          "sprite": "live-oak-pole",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "live-oak-log-wind": {
+      "frames": [
+        {
+          "sprite": "live-oak-log",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "live-oak-large-wind": {
+      "frames": [
+        {
+          "sprite": "live-oak-large",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "elm-pole-wind": {
+      "frames": [
+        {
+          "sprite": "elm-pole",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "elm-log-wind": {
+      "frames": [
+        {
+          "sprite": "elm-log",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "elm-large-wind": {
+      "frames": [
+        {
+          "sprite": "elm-large",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "deer-idle": {
+      "frames": [
+        {
+          "sprite": "deer-idle-1",
+          "duration": 700
+        },
+        {
+          "sprite": "deer-idle-2",
+          "duration": 700
+        },
+        {
+          "sprite": "deer-idle-3",
+          "duration": 700
+        },
+        {
+          "sprite": "deer-idle-4",
+          "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "deer-alert": {
+      "frames": [
+        {
+          "sprite": "deer-alert-1",
+          "duration": 650
+        },
+        {
+          "sprite": "deer-alert-2",
+          "duration": 650
+        },
+        {
+          "sprite": "deer-alert-3",
+          "duration": 650
+        },
+        {
+          "sprite": "deer-alert-4",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "deer-bound": {
+      "frames": [
+        {
+          "sprite": "deer-bound-1",
+          "duration": 180
+        },
+        {
+          "sprite": "deer-bound-2",
+          "duration": 180
+        },
+        {
+          "sprite": "deer-bound-3",
+          "duration": 180
+        },
+        {
+          "sprite": "deer-bound-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "deer-drink": {
+      "frames": [
+        {
+          "sprite": "deer-drink-1",
+          "duration": 700
+        },
+        {
+          "sprite": "deer-drink-2",
+          "duration": 700
+        },
+        {
+          "sprite": "deer-drink-3",
+          "duration": 700
+        },
+        {
+          "sprite": "deer-drink-4",
+          "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
       "direction": "east; west by mirroring"
     },
     "mounted-courier-listen": {
@@ -38173,14 +43239,14 @@
     {
       "id": "animals",
       "scope": "Animals",
-      "delivered": "Ox/chestnut horse/cow/pig cardinal walking and four-pose grazing; alternate animals have idle breathing only.",
-      "remaining": "Cream ox/grey horse/sheep/chicken locomotion, other species grazing, drinking, flight and load/harness behavior. Do not substitute a different coat mid-journey."
+      "delivered": "Ox/chestnut horse/cow/pig cardinal walking and four-pose grazing; white-tailed deer idle, alert, bound and drinking cycles; alternate animals have idle breathing only.",
+      "remaining": "Cream ox/grey horse/sheep/chicken locomotion, other livestock grazing and drinking, flight and load/harness behavior. Do not substitute a different coat mid-journey."
     },
     {
       "id": "artillery-service",
       "scope": "Cannons and soldiers",
-      "delivered": "Cardinal iron gun poses, E/W iron/bronze carriage recoil, smoke, volunteer/regular aim-fire-load-ramrod and surrender, mounted marching.",
-      "remaining": "Crew serving/ramming a gun, limber/unlimber, elevated aim, mounted firing and remounting. Gun recoil is whole-carriage translation, not an articulated barrel rig."
+      "delivered": "Cardinal iron gun poses, E/W iron/bronze carriage recoil, smoke, volunteer/regular aim-fire-load-ramrod and surrender, mounted marching, plus volunteer/regular ramming, roundshot carrying, lanyard and cover-ear service poses.",
+      "remaining": "Limber/unlimber, elevated aim, mounted firing and remounting. Gun recoil is whole-carriage translation, not an articulated barrel rig."
     },
     {
       "id": "structural-states",
@@ -38197,7 +43263,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 45,
+    "sourceCount": 53,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

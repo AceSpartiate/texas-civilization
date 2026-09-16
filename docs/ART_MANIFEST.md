@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **663 usable sprites, 45 PNG atlases, 283 clips** (134 pose cycles; 4 layered rigs).
+Generated from the shipped library: **767 usable sprites, 52 PNG atlases, 322 clips** (158 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -12,14 +12,19 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 
 | Atlas | Frames | Size | PNG bytes |
 | --- | ---: | --- | ---: |
+| artillery-service | 16 | 1254 × 1254 | 1171440 |
+| people-cast2-carry | 12 | 1254 × 1254 | 1294419 |
 | people-cast2-care | 16 | 1254 × 1254 | 1382974 |
 | people-cast2-search-trade | 16 | 1254 × 1254 | 1289372 |
+| people-cast2-walk | 16 | 1254 × 1254 | 1288383 |
 | people-cast2-work | 16 | 1254 × 1254 | 1279315 |
 | people-cast2-idle | 16 | 1254 × 1254 | 1103935 |
+| people-children-vertical | 12 | 1254 × 1254 | 1163980 |
 | people-children-idle | 16 | 1254 × 1254 | 1351105 |
 | people-children-walk | 12 | 1254 × 1254 | 1127437 |
 | people-children-care | 12 | 1254 × 1254 | 1425070 |
 | land-clearing | 16 | 1254 × 1254 | 904975 |
+| house-modules | 16 | 1448 × 1086 | 1837997 |
 | courier-dismount | 16 | 1254 × 1254 | 1219584 |
 | courier-encounters-vertical | 16 | 1254 × 1254 | 1034014 |
 | people-dialogue | 16 | 1254 × 1254 | 1237850 |
@@ -27,6 +32,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | animal-stock | 16 | 1254 × 1254 | 946031 |
 | home-furnishings | 16 | 1254 × 1254 | 1795581 |
 | home-interiors | 4 | 1254 × 1254 | 1850877 |
+| trees-colonies-1 | 16 | 1254 × 1254 | 1626976 |
+| wildlife-deer | 16 | 1254 × 1254 | 1223203 |
 | courier-encounters | 16 | 1254 × 1254 | 1697901 |
 | alamo-facades | 4 | 1254 × 1254 | 1715808 |
 | alamo-interiors | 16 | 1254 × 1254 | 1988444 |
@@ -62,6 +69,34 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 
 | Sprite ID | Atlas | Animation clips |
 | --- | --- | --- |
+| volunteer-rammer-carry-1 | artillery-service | volunteer-gun-ram |
+| volunteer-rammer-carry-2 | artillery-service | volunteer-gun-ram |
+| volunteer-ram-1 | artillery-service | volunteer-gun-ram |
+| volunteer-ram-2 | artillery-service | volunteer-gun-ram |
+| volunteer-roundshot-lift | artillery-service | volunteer-gun-shot-carry |
+| volunteer-roundshot-carry | artillery-service | volunteer-gun-shot-carry |
+| volunteer-lanyard-pull | artillery-service | volunteer-gun-fire |
+| volunteer-cover-ears | artillery-service | volunteer-gun-fire |
+| regular-rammer-carry-1 | artillery-service | regular-gun-ram |
+| regular-rammer-carry-2 | artillery-service | regular-gun-ram |
+| regular-ram-1 | artillery-service | regular-gun-ram |
+| regular-ram-2 | artillery-service | regular-gun-ram |
+| regular-roundshot-lift | artillery-service | regular-gun-shot-carry |
+| regular-roundshot-carry | artillery-service | regular-gun-shot-carry |
+| regular-lanyard-pull | artillery-service | regular-gun-fire |
+| regular-cover-ears | artillery-service | regular-gun-fire |
+| rust-woman-carry-1 | people-cast2-carry | rust-woman-carry |
+| rust-woman-carry-2 | people-cast2-carry | rust-woman-carry |
+| rust-woman-carry-3 | people-cast2-carry | rust-woman-carry |
+| indigo-carry-1 | people-cast2-carry | indigo-carry |
+| indigo-carry-2 | people-cast2-carry | indigo-carry |
+| indigo-carry-3 | people-cast2-carry | indigo-carry |
+| ochre-carry-1 | people-cast2-carry | ochre-carry |
+| ochre-carry-2 | people-cast2-carry | ochre-carry |
+| ochre-carry-3 | people-cast2-carry | ochre-carry |
+| blue-girl-carry-1 | people-cast2-carry | blue-girl-carry |
+| blue-girl-carry-2 | people-cast2-carry | blue-girl-carry |
+| blue-girl-carry-3 | people-cast2-carry | blue-girl-carry |
 | rust-woman-rest-pose | people-cast2-care | rust-woman-rest |
 | rust-woman-injured-pose | people-cast2-care | rust-woman-injured-rest |
 | rust-woman-care-1 | people-cast2-care | rust-woman-care |
@@ -94,6 +129,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | blue-girl-search-2 | people-cast2-search-trade | blue-girl-search |
 | blue-girl-trade-1 | people-cast2-search-trade | blue-girl-trade |
 | blue-girl-trade-2 | people-cast2-search-trade | blue-girl-trade |
+| rust-woman-walk-1 | people-cast2-walk | rust-woman-walk |
+| rust-woman-walk-2 | people-cast2-walk | rust-woman-walk |
+| rust-woman-walk-3 | people-cast2-walk | rust-woman-walk |
+| rust-woman-walk-4 | people-cast2-walk | rust-woman-walk |
+| indigo-walk-1 | people-cast2-walk | indigo-walk |
+| indigo-walk-2 | people-cast2-walk | indigo-walk |
+| indigo-walk-3 | people-cast2-walk | indigo-walk |
+| indigo-walk-4 | people-cast2-walk | indigo-walk |
+| ochre-walk-1 | people-cast2-walk | ochre-walk |
+| ochre-walk-2 | people-cast2-walk | ochre-walk |
+| ochre-walk-3 | people-cast2-walk | ochre-walk |
+| ochre-walk-4 | people-cast2-walk | ochre-walk |
+| blue-girl-walk-1 | people-cast2-walk | blue-girl-walk |
+| blue-girl-walk-2 | people-cast2-walk | blue-girl-walk |
+| blue-girl-walk-3 | people-cast2-walk | blue-girl-walk |
+| blue-girl-walk-4 | people-cast2-walk | blue-girl-walk |
 | rust-woman-work-1 | people-cast2-work | rust-woman-work |
 | rust-woman-work-2 | people-cast2-work | rust-woman-work |
 | rust-woman-work-3 | people-cast2-work | rust-woman-work |
@@ -126,6 +177,18 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | blue-girl-idle-e | people-cast2-idle | blue-girl-idle-e |
 | blue-girl-idle-w | people-cast2-idle | blue-girl-idle-w |
 | blue-girl-idle-n | people-cast2-idle | blue-girl-idle-n |
+| girl-walk-s-1 | people-children-vertical | girl-walk-s |
+| girl-walk-s-2 | people-children-vertical | girl-walk-s |
+| girl-walk-n-1 | people-children-vertical | girl-walk-n |
+| girl-walk-n-2 | people-children-vertical | girl-walk-n |
+| boy-walk-s-1 | people-children-vertical | boy-walk-s |
+| boy-walk-s-2 | people-children-vertical | boy-walk-s |
+| boy-walk-n-1 | people-children-vertical | boy-walk-n |
+| boy-walk-n-2 | people-children-vertical | boy-walk-n |
+| smallchild-walk-s-1 | people-children-vertical | smallchild-walk-s |
+| smallchild-walk-s-2 | people-children-vertical | smallchild-walk-s |
+| smallchild-walk-n-1 | people-children-vertical | smallchild-walk-n |
+| smallchild-walk-n-2 | people-children-vertical | smallchild-walk-n |
 | girl-idle-s | people-children-idle | girl-idle-s |
 | girl-idle-e | people-children-idle | girl-idle-e |
 | girl-idle-w | people-children-idle | girl-idle-w |
@@ -182,6 +245,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | clearing-brush-dry | land-clearing | State artwork; no motion required |
 | clearing-ash | land-clearing | State artwork; no motion required |
 | clearing-branches | land-clearing | State artwork; no motion required |
+| house-round-sill | house-modules | State artwork; no motion required |
+| house-round-low-walls | house-modules | State artwork; no motion required |
+| house-round-full-walls | house-modules | State artwork; no motion required |
+| house-round-roof-partial | house-modules | State artwork; no motion required |
+| house-hewn-sill | house-modules | State artwork; no motion required |
+| house-hewn-low-walls | house-modules | State artwork; no motion required |
+| house-hewn-full-walls | house-modules | State artwork; no motion required |
+| house-hewn-roof-finished | house-modules | State artwork; no motion required |
+| house-passage-floor | house-modules | State artwork; no motion required |
+| house-passage-roof | house-modules | State artwork; no motion required |
+| house-porch | house-modules | State artwork; no motion required |
+| house-shed-room | house-modules | State artwork; no motion required |
+| house-chimney-stick-building | house-modules | State artwork; no motion required |
+| house-chimney-stick | house-modules | State artwork; no motion required |
+| house-chimney-stone | house-modules | State artwork; no motion required |
+| house-floor-loft | house-modules | State artwork; no motion required |
 | courier-dismount-1 | courier-dismount | courier-dismount |
 | courier-dismount-2 | courier-dismount | courier-dismount |
 | courier-dismount-3 | courier-dismount | courier-dismount |
@@ -282,6 +361,38 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | interior-hewn-log | home-interiors | State artwork; no motion required |
 | interior-dog-run | home-interiors | State artwork; no motion required |
 | interior-jacal | home-interiors | State artwork; no motion required |
+| pine-loblolly-pole | trees-colonies-1 | pine-loblolly-pole-wind |
+| pine-loblolly-log | trees-colonies-1 | pine-loblolly-log-wind |
+| pine-loblolly-large | trees-colonies-1 | pine-loblolly-large-wind |
+| stump-pine-loblolly | trees-colonies-1 | State artwork; no motion required |
+| cedar-pole | trees-colonies-1 | cedar-pole-wind |
+| cedar-log | trees-colonies-1 | cedar-log-wind |
+| cedar-large | trees-colonies-1 | cedar-large-wind |
+| mesquite-pole | trees-colonies-1 | mesquite-pole-wind |
+| mesquite-log | trees-colonies-1 | mesquite-log-wind |
+| mesquite-large | trees-colonies-1 | mesquite-large-wind |
+| live-oak-pole | trees-colonies-1 | live-oak-pole-wind |
+| live-oak-log | trees-colonies-1 | live-oak-log-wind |
+| live-oak-large | trees-colonies-1 | live-oak-large-wind |
+| elm-pole | trees-colonies-1 | elm-pole-wind |
+| elm-log | trees-colonies-1 | elm-log-wind |
+| elm-large | trees-colonies-1 | elm-large-wind |
+| deer-idle-1 | wildlife-deer | deer-idle |
+| deer-idle-2 | wildlife-deer | deer-idle |
+| deer-idle-3 | wildlife-deer | deer-idle |
+| deer-idle-4 | wildlife-deer | deer-idle |
+| deer-alert-1 | wildlife-deer | deer-alert |
+| deer-alert-2 | wildlife-deer | deer-alert |
+| deer-alert-3 | wildlife-deer | deer-alert |
+| deer-alert-4 | wildlife-deer | deer-alert |
+| deer-bound-1 | wildlife-deer | deer-bound |
+| deer-bound-2 | wildlife-deer | deer-bound |
+| deer-bound-3 | wildlife-deer | deer-bound |
+| deer-bound-4 | wildlife-deer | deer-bound |
+| deer-drink-1 | wildlife-deer | deer-drink |
+| deer-drink-2 | wildlife-deer | deer-drink |
+| deer-drink-3 | wildlife-deer | deer-drink |
+| deer-drink-4 | wildlife-deer | deer-drink |
 | mounted-courier-listen-1 | courier-encounters | mounted-courier-listen |
 | mounted-courier-listen-2 | courier-encounters | mounted-courier-listen |
 | mounted-courier-listen-3 | courier-encounters | mounted-courier-listen |
@@ -730,6 +841,16 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 
 | Clip | Method | Frames | Duration (ms) | Loop | Direction |
 | --- | --- | ---: | ---: | --- | --- |
+| volunteer-gun-ram | Pose cycle | 4 | 1160 | one-shot | east; west by mirroring |
+| volunteer-gun-shot-carry | Pose cycle | 2 | 840 | yes | east; west by mirroring |
+| volunteer-gun-fire | Pose cycle | 2 | 1060 | one-shot | east; west by mirroring |
+| regular-gun-ram | Pose cycle | 4 | 1160 | one-shot | east; west by mirroring |
+| regular-gun-shot-carry | Pose cycle | 2 | 840 | yes | east; west by mirroring |
+| regular-gun-fire | Pose cycle | 2 | 1060 | one-shot | east; west by mirroring |
+| rust-woman-carry | Pose cycle | 4 | 760 | yes | east; west by mirroring |
+| indigo-carry | Pose cycle | 4 | 760 | yes | east; west by mirroring |
+| ochre-carry | Pose cycle | 4 | 760 | yes | east; west by mirroring |
+| blue-girl-carry | Pose cycle | 4 | 760 | yes | east; west by mirroring |
 | rust-woman-rest | breathe | 1 | 2500 | yes | east; west by mirroring |
 | rust-woman-injured-rest | breathe | 1 | 3000 | yes | east; west by mirroring |
 | rust-woman-care | Pose cycle | 2 | 840 | yes | east; west by mirroring |
@@ -750,6 +871,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | blue-girl-care | Pose cycle | 2 | 840 | yes | east; west by mirroring |
 | blue-girl-search | Pose cycle | 2 | 1800 | yes | east; west by mirroring |
 | blue-girl-trade | Pose cycle | 2 | 1200 | yes | east; west by mirroring |
+| rust-woman-walk | Pose cycle | 4 | 720 | yes | east; west by mirroring |
+| indigo-walk | Pose cycle | 4 | 720 | yes | east; west by mirroring |
+| ochre-walk | Pose cycle | 4 | 720 | yes | east; west by mirroring |
+| blue-girl-walk | Pose cycle | 4 | 720 | yes | east; west by mirroring |
 | rust-woman-work | Pose cycle | 4 | 800 | yes | east; west by mirroring |
 | indigo-work | Pose cycle | 4 | 800 | yes | east; west by mirroring |
 | ochre-work | Pose cycle | 4 | 800 | yes | east; west by mirroring |
@@ -770,6 +895,12 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | blue-girl-idle-w | breathe | 1 | 2200 | yes | west |
 | blue-girl-idle-e | breathe | 1 | 2200 | yes | east |
 | blue-girl-idle-n | breathe | 1 | 2200 | yes | north |
+| girl-walk-s | Pose cycle | 2 | 460 | yes | south |
+| girl-walk-n | Pose cycle | 2 | 460 | yes | north |
+| boy-walk-s | Pose cycle | 2 | 460 | yes | south |
+| boy-walk-n | Pose cycle | 2 | 460 | yes | north |
+| smallchild-walk-s | Pose cycle | 2 | 460 | yes | south |
+| smallchild-walk-n | Pose cycle | 2 | 460 | yes | north |
 | girl-idle-s | breathe | 1 | 2200 | yes | south |
 | girl-idle-e | breathe | 1 | 2200 | yes | east |
 | girl-idle-w | breathe | 1 | 2200 | yes | west |
@@ -844,6 +975,25 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | hog-root | Pose cycle | 6 | 5100 | yes | east; west by mirroring |
 | home-chest-opening | Pose cycle | 2 | 1000 | one-shot | east; west by mirroring |
 | home-cradle-rock | rock | 1 | 2000 | yes | east; west by mirroring |
+| pine-loblolly-pole-wind | sway | 1 | 3800 | yes | not applicable |
+| pine-loblolly-log-wind | sway | 1 | 3800 | yes | not applicable |
+| pine-loblolly-large-wind | sway | 1 | 3800 | yes | not applicable |
+| cedar-pole-wind | sway | 1 | 3800 | yes | not applicable |
+| cedar-log-wind | sway | 1 | 3800 | yes | not applicable |
+| cedar-large-wind | sway | 1 | 3800 | yes | not applicable |
+| mesquite-pole-wind | sway | 1 | 3800 | yes | not applicable |
+| mesquite-log-wind | sway | 1 | 3800 | yes | not applicable |
+| mesquite-large-wind | sway | 1 | 3800 | yes | not applicable |
+| live-oak-pole-wind | sway | 1 | 3800 | yes | not applicable |
+| live-oak-log-wind | sway | 1 | 3800 | yes | not applicable |
+| live-oak-large-wind | sway | 1 | 3800 | yes | not applicable |
+| elm-pole-wind | sway | 1 | 3800 | yes | not applicable |
+| elm-log-wind | sway | 1 | 3800 | yes | not applicable |
+| elm-large-wind | sway | 1 | 3800 | yes | not applicable |
+| deer-idle | Pose cycle | 4 | 2800 | yes | east; west by mirroring |
+| deer-alert | Pose cycle | 4 | 2600 | yes | east; west by mirroring |
+| deer-bound | Pose cycle | 4 | 720 | yes | east; west by mirroring |
+| deer-drink | Pose cycle | 4 | 2800 | yes | east; west by mirroring |
 | mounted-courier-listen | Pose cycle | 4 | 1600 | yes | east; west by mirroring |
 | mounted-courier-speak | Pose cycle | 4 | 1600 | yes | east; west by mirroring |
 | mounted-courier-letter | Pose cycle | 4 | 1600 | one-shot | east; west by mirroring |
@@ -1019,8 +1169,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 - **Wagons/carts:** N/S wagon/carts, articulated hitch/yoke and crew pushing/loading. Current oblique rig translates along any route without pretending to turn in 3D.
 - **People:** N/S work/dialogue action poses, turns, climbing, swimming, assisted walking/stretcher pairs, individual civilian riding/dismounting and final mounted cross-sheet registration. Dedicated mounted courier and dragoon travel already exist.
 - **Families and riders:** Requested 2026-09-12 in docs/ART_REQUESTS.md: children (girl, boy, small child, an infant in a basket), a second cast (a woman in the principal rust, a second woman, a younger man, an adolescent girl), the rider dismounting, remounting and talking on foot beside a tethered horse, and N/S dialogue facings for riders and the existing cast.
-- **Animals:** Cream ox/grey horse/sheep/chicken locomotion, other species grazing, drinking, flight and load/harness behavior. Do not substitute a different coat mid-journey.
-- **Cannons and soldiers:** Crew serving/ramming a gun, limber/unlimber, elevated aim, mounted firing and remounting. Gun recoil is whole-carriage translation, not an articulated barrel rig.
+- **Animals:** Cream ox/grey horse/sheep/chicken locomotion, other livestock grazing and drinking, flight and load/harness behavior. Do not substitute a different coat mid-journey.
+- **Cannons and soldiers:** Limber/unlimber, elevated aim, mounted firing and remounting. Gun recoil is whole-carriage translation, not an articulated barrel rig.
 - **Buildings and environment:** Continuous door/gate hinge rig, construction/repair progression, crown-only tree rig, boat rowing/poling and ferry loading. Building stillness is intentional; condition changes require simulation state.
 - **Production finish:** Generated pose proportions can drift between sheets. Hand-register additional transitions and final cast/period uniform variants as the game defines them. These are prototype assets, not exact historical portraits.
 

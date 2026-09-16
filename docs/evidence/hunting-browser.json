@@ -28,14 +28,15 @@
     "a poor shot can be taught: \"Practise at the mark · 2 powder\"",
     "the hunt stops and asks: \"Jasper is downwind of a deer, with a shot to take. It is not a close one.\"",
     "and every answer says what it would cost before it is pressed — Take the shot (One powder. it is a long shot, and Jasper has never had the knack of it); Wait for it to come closer (One powder, three more hours, and then the shot is a certainty); Leave it and come home (Nothing spent, nothing to carry, and the rest of the day is the family’s)",
+    "the projected deer is visible and alert while the family decides, without inventing an escape",
     "and the person carries a mark, so a student looking at the map knows the hunt is waiting on them",
     "nothing moves while it waits: three ticks passed and the work had not gone a step further",
     "the family answers, and the hunt goes on",
     "a student watches four named stages of a hunt, not one: \"reading the ground at the edge of the timber\", \"working up through the timber\", \"waiting downwind, and still\", \"downwind, with the shot there to take\", \"letting it come closer\", \"the shot\"",
-    "and is painted working through the trees, not standing on one spot (16 places, 36px apart on screen)",
+    "and is painted working through the trees, not standing on one spot (18 places, 37px apart on screen)",
     "the hunter's own poses change with the stages: blue-search, blue-idle-s, blue-carry, blue-walk",
     "and they are drawn carrying something home, which the carry cycle had never been used for outside the harvest",
-    "the shot is a puff of smoke in the trees - and no animal is drawn, because none is documented",
+    "the shot is a puff of smoke in the trees; the server removes the projected deer after it",
     "no soldier appears in the timber: the militia firing sheets were not borrowed for a civilian",
     "no page errors anywhere in the run"
   ],
@@ -50,14 +51,16 @@
       "the shot",
       "carrying it home from the timber"
     ],
-    "placesPaintedInTheTimber": 16,
-    "screenSpreadPixels": 36,
+    "placesPaintedInTheTimber": 18,
+    "screenSpreadPixels": 37,
     "clipsBound": [
       "blue-carry",
       "blue-idle-s",
       "blue-rest",
       "blue-search",
       "blue-walk",
+      "deer-alert",
+      "deer-idle",
       "fire-flicker",
       "horse-chestnut-idle",
       "musket-smoke",
@@ -74,7 +77,7 @@
   },
   "notProved": [
     "That it reads as hunting to a twelve-year-old. Four stages, four poses, movement through the trees and a puff of smoke are what is measurably on screen; whether that says \"hunting\" is a classroom question.",
-    "Anything about the quarry, deliberately. HIST-GONZ-013 documents buffalo as the only local game and this project names no other, so nothing is drawn being hunted. The kill is smoke and then somebody carrying something home.",
+    "Escape and drinking behavior. Those authored clips are registered for later states, but this hunt projection does not supply either state.",
     "That the stages are the right length at the study pace. A hunt spends six to eight ticks in the timber, which is about a minute; nobody has watched one at that speed."
   ]
 }

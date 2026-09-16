@@ -227,7 +227,8 @@ test("Astra's second delivery is drawn: children in their own figures where the 
   assert.equal(entityClip(child({ sex: 'female', band: 'small', health: { condition: 'minor-injury' } })).id, 'smallchild-injured-rest');
   assert.equal(entityClip(child({ sex: 'male', band: 'infant' })).id, 'infant-rest');
   assert.equal(entityClip(child({ sex: 'female', band: 'child', travel: road([{ x: 0, y: 0 }, { x: 9, y: 0 }]) })).id, 'girl-walk', 'walking east is her own walk');
-  assert.equal(entityClip(child({ sex: 'female', band: 'child', travel: road([{ x: 0, y: 0 }, { x: 0, y: 9 }]) })).id, 'teal-walk-s', 'walking south is still a grown figure drawn small, until that pose comes');
+  assert.equal(entityClip(child({ sex: 'female', band: 'child', travel: road([{ x: 0, y: 0 }, { x: 0, y: 9 }]) })).id, 'girl-walk-s', 'walking south uses her delivered child walk');
+  assert.equal(entityClip(child({ sex: 'male', band: 'small', travel: road([{ x: 0, y: 0 }, { x: 0, y: -9 }]) })).id, 'smallchild-walk-n', 'a small child walking north keeps their own figure');
   assert.equal(childFigure({ band: 'youth', sex: 'female' }), null, 'an adolescent is not drawn as a child');
   for (const [figure, poses] of Object.entries(CHILD_POSES)) for (const pose of poses) assert.ok(clips[`${figure}-${pose}`], `${figure}-${pose} is in the library`);
 

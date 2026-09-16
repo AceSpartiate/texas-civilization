@@ -18,14 +18,13 @@ does not have:
 
 | Stand-in | Where | Standing in for | Replace with |
 | --- | --- | --- | --- |
-| Whole-house stage sprites scaled into pens; procedural passage/chimneys; `lean-to` shed and `shed-open` porch | `drawHousePlot` in `public/house-plot.js` | Request 2026-09-15 — the house plot's pieces | Modular pen courses, roof, chimney, passage, shed, porch and interior layers |
+| Whole jacal stage sprites; `lean-to` shed frame; procedural double chimney; no separate interior floor/loft display | `drawHousePlot` in `public/house-plot.js` | Request 2026-09-15 — the house plot's pieces | Jacal modules, shed frame, double chimney, and separately registered floor and loft overlays |
 | Generic `chapel` and `adobe-flat` silhouettes represent San Fernando and the Governor's Palace | `public/bexar-layout.js` | Request 2026-09-14 — Béxar civic architecture | Researched 1836 civic façades in the existing illustrated style |
 | A person is drawn as the nearest figure by sex and age: a woman or girl as `teal`, a boy as `blue`, a man as `elder`; the principal in `rust` whoever they are, including a mother | `castVariant` in `public/motion.js` | Request 2026-09-12, priority 2 — the second cast | `rust-woman` for a mother who is principal, `indigo` and `teal` for women, `ochre` and `elder` for men, `blue-girl` and `blue` for adolescents |
-| A child walking north or south, working, carrying, sowing or repairing is a grown figure drawn smaller (90% at 10–17, 70% at 5–9, 55% at 2–4, 45% an infant). Idle, east walk, rest and injured-rest use the delivered `girl`, `boy`, `smallchild` and `infant` (2026-09-14) | `CHILD_POSES` and `entityClip` in `public/motion.js` | Request 2026-09-12, priority 1 — children | The children's remaining poses. **Keep the scaling**: the delivered sheets fill their cells and need it |
+| A child in an unavailable action pose is a grown figure drawn smaller (90% at 10–17, 70% at 5–9, 55% at 2–4, 45% an infant). Idle, cardinal walking, rest and injured-rest use delivered `girl`, `boy`, `smallchild` and `infant` art | `CHILD_POSES` and `entityClip` in `public/motion.js` | Request 2026-09-12, priority 1 — children | Any later child-specific action poses. **Keep the scaling**: the delivered sheets fill their cells and need it |
 | *(Planned, with [SETTLING_IN.md](SETTLING_IN.md) step 8)* A parent's chosen appearance is stored and described in words; the figure is still chosen by sex and age | the family book | Request below — layered people art | Layered or palette-swappable sheets for the whole cast |
 | *(Planned, with [SETTLING_IN.md](SETTLING_IN.md) steps 6–7)* Interiors and furniture drawn from the Alamo interior pieces | the interior view | Request below — interiors and furnishings | Cabin interiors, furniture and brought goods |
-| Every kind of tree is drawn with the nearest tree the library has: post oak, blackjack, water oak, elm and hackberry as `oak-broad`; live oak as `oak-spreading`; pecan, hickory, walnut and ash as `pecan`; loblolly and shortleaf pine, cottonwood and sycamore as `cottonwood`; cedar as `sapling`; mesquite as `scrub` | `KINDS` picture in `sim/woods.mjs`, drawn by `drawGroundDetail` in `public/app.js` | Request 2026-09-15 — the trees of the colonies | `pine-loblolly`, `cedar`, `mesquite`, `live-oak`, `elm`, `post-oak` and `blackjack` in the illustrated style, at three sizes |
-| A deer being hunted is a plain procedural shape (brown body, stick legs, white tail, small antlers) standing where the server placed it | `miniDeer` in `public/app.js` | Request 2026-09-14 — game | `deer-idle`, `deer-alert` and `deer-bound` in the illustrated style |
+| Five priority tree kinds use delivered size-specific art: pine, cedar, mesquite, live oak and elm. Shortleaf temporarily shares loblolly art; post oak, blackjack and the remaining hardwoods still use their nearest original broadleaf tree | `KINDS` picture in `sim/woods.mjs`, drawn by `drawGroundDetail` in `public/app.js` | Request 2026-09-15 — the trees of the colonies | `post-oak` and `blackjack` at three sizes; remaining species-specific hardwoods are later breadth |
 | Anybody of a family riding the family horse is drawn as the courier rider (`mounted-courier-*`), whoever they are; the horse under them is not drawn again | `inTheSaddle` and `underARider` in `public/motion.js` | Request 2026-09-14 — family members on horseback | Each cast figure mounted on the family's chestnut, walking in four directions |
 | A rider never gets down to talk: they speak from the saddle, turned east, west, north or south toward the listener (the vertical dialogue delivered 2026-09-14 is in use) | `carrierClip` in `public/motion.js` | Request 2026-09-12, priority 3 | `courier-dismount` (delivered 2026-09-14, registered, not yet bound: it needs the encounter to know when a rider has got down and where the horse stands) |
 
@@ -40,7 +39,7 @@ into the existing pipeline, and how it will be checked. When a request is delive
 
 ## Request 2026-09-15 — the house plot's pieces
 
-**Status: open; stage sprites stand in.** The house plot now places and builds pieces on an eight-foot grid.
+**Status: partially delivered 2026-09-15.** `house-modules.png` supplies registered round/hewn sills, low and full walls, partial and finished roofs, passage floor/roof, porch, finished shed room, building/finished stick-and-mud chimneys and a stone chimney. The live plot uses those pieces without changing server stages. Jacal modules, a shed frame, a two-sided double chimney, and separate floor and loft overlays remain open; the combined floor/loft plate is library-only.
 
 - **Why:** a pen currently repeats a whole-house silhouette, so additions cannot read as one coherent building.
 - **What:** round/hewn 16-foot pen sills and ten stackable wall courses, door/window faces, separate rafters/clapboard roof and chinking overlays; jacal post/wattle/thatch stages; an eight-foot passage roof; stick-and-mud, stone and double chimneys; 16-by-8-foot shed and porch; floor and loft overlays. Match existing illustrated art. Supply grounded anchors, footprints and occlusion masks, with transparent PNGs and manifest entries. Roof and wall layers must support cutaways; construction stages must be independently addressable rather than baked into a single image.
@@ -49,10 +48,11 @@ into the existing pipeline, and how it will be checked. When a request is delive
 
 ## Request 2026-09-15 — the trees of the colonies
 
-**Status: open; the nearest trees stand in.** The owner asked for realistic woods (docs/WOODS_AND_BUILDING.md §4). The map now
+**Status: partially delivered 2026-09-15.** `trees-colonies-1.png` supplies loblolly pine, cedar, mesquite, live oak and elm
+at pole, log and large sizes, plus a pine stump. The owner asked for realistic woods (docs/WOODS_AND_BUILDING.md §4). The map now
 draws every tree where it stands on the real land, of its kind: loblolly pine round Bastrop and in the east, live oak in the
 coastal bottoms, post oak and blackjack on the savanna, pecan, elm and hackberry by the water, cedar in the hills, mesquite
-west of the Guadalupe. The library has four broad trees, a sapling and scrub, so a pine is drawn as a cottonwood.
+west of the Guadalupe. Post oak and blackjack size variants, additional species-specific hardwoods and the general felled log remain open. Shortleaf uses the delivered loblolly silhouette until its own atlas exists.
 
 - **Why.** A student standing in the Lost Pines sees broadleaf trees; one in the thornscrub sees bushes where the mesquite is
   a small tree. The kind of tree is what tells a family what its timber is good for (felling, step 4).
@@ -70,7 +70,7 @@ west of the Guadalupe. The library has four broad trees, a sapling and scrub, so
 
 ## Request 2026-09-14 — game
 
-**Status: open; a drawn shape stands in.** Found in play: "when hunting i don't see an animal". A hunt now places a deer
+**Status: delivered and in use 2026-09-15.** Found in play: "when hunting i don't see an animal". A hunt now places a deer
 (`HIST-TEX-015`) ahead of the hunter in the timber, nearer if they wait for it.
 
 - **Why.** The hunt's one decision - take the long shot or wait - means little when nothing is there to shoot at.
@@ -80,6 +80,8 @@ west of the Guadalupe. The library has four broad trees, a sapling and scrub, so
 - **How it plugs in.** `miniDeer` in `public/app.js` draws the clip for `chore.quarry`; `alert` while the hunter waits on the
   family's word, `bound` for the tick of a missed shot if that state is ever projected.
 - **Check.** Scale against `rust-idle-s` and `horse-chestnut`, alternating legs in the run, no painted transparency.
+
+Delivered in `wildlife-deer`: four-frame idle, alert, bound and drinking cycles. The live quarry uses idle and switches to alert while the hunter awaits the family's answer; the server still supplies the only position and visibility. Bound and drinking are registered for later projected states and never invent behavior.
 
 ## Request 2026-09-14 — family members on horseback
 
@@ -177,7 +179,7 @@ into this request when that chapter's build reaches them, in the contract format
 
 ## Request 2026-09-12 — families that look like who they are, and a rider who gets down
 
-**Status: partly delivered.** 2026-09-14: children's idle, east walk, rest and injured-rest (`people-children-idle`, `-walk`, `-care`), in use; the rider's vertical dialogue (`courier-encounters-vertical`), in use; the dismount, remount, on-foot and waiting-horse sheet (`courier-dismount`), registered and not yet bound; speaking and listening poses for the first cast (`people-dialogue`), registered and not yet bound; the second cast's idle, work, care and search/trade sheets, registered, waiting for walking, carrying, sow/repair and dialogue before the cast stand-in changes. See [delivery details](ART_DELIVERY_2026-09-14.md). Still open: the children's vertical walks and task poses, and the rest of the second cast. Requested by Claude on the owner's list of next work.
+**Status: partly delivered.** 2026-09-14: children's idle, east walk, rest and injured-rest (`people-children-idle`, `-walk`, `-care`), in use; the rider's vertical dialogue (`courier-encounters-vertical`), in use; the dismount, remount, on-foot and waiting-horse sheet (`courier-dismount`), registered and not yet bound; speaking and listening poses for the first cast (`people-dialogue`), registered and not yet bound. 2026-09-15: children's north/south walk sheet is delivered and in use. The second cast now has idle, east/west walk, work, carry, care and search/trade. Sowing/repair, north/south walking and dialogue remain before the whole appearance stand-in can change. See [delivery details](ART_DELIVERY_2026-09-15-ART-BATCH.md).
 
 ### Why
 

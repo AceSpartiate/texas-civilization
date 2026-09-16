@@ -132,11 +132,22 @@ function penPicture(p) {
   return `house-${kind}-${p.stage < 1 ? 'site' : p.stage <= lastWall ? 'walls' : 'roofing'}`;
 }
 
+function drawLogPen(ctx, p, x, y, height, drawSprite) {
+  if (p.type === 'pen-jacal') return 0;
+  const material = p.type === 'pen-hewn' ? 'hewn' : 'round';
+  const course = Math.max(0, p.stage - 1);
+  const base = course === 0 ? `house-${material}-sill` : course <= 4 ? `house-${material}-low-walls` : `house-${material}-full-walls`;
+  const drawn = drawSprite(ctx, base, x, y, height);
+  if (!drawn) return 0;
+  if (p.stage >= 12) drawSprite(ctx, p.stage >= p.kind.stageCount ? 'house-hewn-roof-finished' : 'house-round-roof-partial', x, y, height);
+  return drawn;
+}
+
 /**
  * The house plot drawn on the family's own land, piece by piece at its stage, round the house's point. Returns how many
- * pieces were drawn. stand-in: a pen is the whole-house picture of its kind at its stage, scaled to its cells; a chimney and
- * a passage are drawn shapes; a shed room is the `lean-to` and a porch the `shed-open`. Requested in docs/ART_REQUESTS.md
- * 2026-09-15 (the house plot's pieces).
+ * pieces were drawn. Delivered modular art covers round/hewn pens, passage, porch, finished shed room, and single
+ * chimneys. stand-in: jacal stages, the shed frame, double chimney and independent interior floor/loft layers still use
+ * earlier pictures or shapes. Requested in docs/ART_REQUESTS.md 2026-09-15 (the house plot's pieces).
  */
 export function drawHousePlot(ctx, x, y, size, land, catalogue, drawSprite) {
   const pieces = (land.house?.pieces || []).map(([type, px, py, stage, progress]) => ({ type, x: px, y: py, stage, progress, kind: catalogue.pieces.find(each => each.id === type) }))
@@ -146,15 +157,34 @@ export function drawHousePlot(ctx, x, y, size, land, catalogue, drawSprite) {
   // Back to front, so a porch stands in front of its pen and a shed room behind it.
   for (const p of pieces.filter(each => each.kind.place !== 'in').sort((a, b) => (a.y + a.kind.h) - (b.y + b.kind.h))) {
     const footX = left + (p.x + p.kind.w / 2) * cell, footY = top + (p.y + p.kind.h) * cell;
-    if (p.kind.pen) { drawSprite(ctx, penPicture(p), footX, footY, cell * 2.2); continue; }
-    if (p.type === 'shed') { drawSprite(ctx, 'lean-to', footX, footY, cell * 1.1); continue; }
-    if (p.type === 'porch') { drawSprite(ctx, 'shed-open', footX, footY, cell * 0.9); continue; }
+    if (p.kind.pen) {
+      if (!drawLogPen(ctx, p, footX, footY, cell * 2.2, drawSprite)) drawSprite(ctx, penPicture(p), footX, footY, cell * 2.2);
+      continue;
+    }
+    if (p.type === 'shed') {
+      const sprite = p.stage >= p.kind.stageCount ? 'house-shed-room' : 'lean-to';
+      if (!drawSprite(ctx, sprite, footX, footY, cell * 1.1) && sprite !== 'lean-to') drawSprite(ctx, 'lean-to', footX, footY, cell * 1.1);
+      continue;
+    }
+    if (p.type === 'porch') { if (!drawSprite(ctx, 'house-porch', footX, footY, cell * 0.9)) drawSprite(ctx, 'shed-open', footX, footY, cell * 0.9); continue; }
     ctx.save();
     if (p.type === 'passage') {
-      ctx.fillStyle = '#7b6a52';
-      ctx.fillRect(left + p.x * cell, top + (p.y + 0.4) * cell, cell, cell * 0.35);
+      const floor = drawSprite(ctx, 'house-passage-floor', footX, footY, cell * .72);
+      if (!floor) {
+        ctx.fillStyle = '#7b6a52';
+        ctx.fillRect(left + p.x * cell, top + (p.y + .4) * cell, cell, cell * .35);
+      }
+      if (p.stage >= p.kind.stageCount) drawSprite(ctx, 'house-passage-roof', footX, footY, cell * 1.35);
+    } else if (p.type === 'chimney' || p.type === 'chimney-stone') {
+      const complete = p.stage >= p.kind.stageCount;
+      const sprite = p.type === 'chimney-stone' ? 'house-chimney-stone' : complete ? 'house-chimney-stick' : 'house-chimney-stick-building';
+      if (!drawSprite(ctx, sprite, footX, footY, cell * 1.55)) {
+        ctx.fillStyle = p.type === 'chimney-stone' ? '#9b968a' : '#9a6b43';
+        const wide = cell * .45, tall = cell * (p.kind.h + .9) * Math.min(1, (p.stage + .3) / p.kind.stageCount);
+        ctx.fillRect(footX - wide / 2, footY - tall, wide, tall);
+      }
     } else {
-      // A chimney: sticks and clay a warm brown, stone grey, rising above the eaves as it is laid up.
+      // stand-in: the double chimney still needs a two-sided sprite matching its two-cell footprint.
       ctx.fillStyle = p.type === 'chimney-stone' ? '#9b968a' : '#9a6b43';
       const wide = cell * 0.45, tall = cell * (p.kind.h + 0.9) * Math.min(1, (p.stage + 0.3) / p.kind.stageCount);
       ctx.fillRect(footX - wide / 2, footY - tall, wide, tall);

@@ -123,14 +123,13 @@ export function carrierClip(entity) {
 /**
  * The children's figures Astra delivered (2026-09-14): a girl and a boy of about five to nine, a small child, and an
  * infant, with the poses the sheets hold. A child is drawn as their own figure wherever it has the pose, and as the
- * nearest grown figure scaled down (`figureScale`, which stays) wherever it does not yet.
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-12, priority 1 - a child walking north or south, working or carrying
- * is still a grown figure drawn small, until those poses are delivered.
+ * nearest grown figure scaled down (`figureScale`, which stays) wherever it does not yet. North/south walking is
+ * delivered; task poses remain unnecessary for children under ten.
  */
 export const CHILD_POSES = Object.freeze({
-  girl: ['idle-s', 'idle-e', 'idle-w', 'idle-n', 'walk', 'rest', 'rest-s', 'rest-e', 'injured-rest', 'injured-rest-s', 'injured-rest-e'],
-  boy: ['idle-s', 'idle-e', 'idle-w', 'idle-n', 'walk', 'rest', 'rest-s', 'rest-e', 'injured-rest', 'injured-rest-s', 'injured-rest-e'],
-  smallchild: ['idle-s', 'idle-e', 'idle-w', 'idle-n', 'walk', 'rest', 'rest-s', 'rest-e', 'injured-rest', 'injured-rest-s', 'injured-rest-e'],
+  girl: ['idle-s', 'idle-e', 'idle-w', 'idle-n', 'walk', 'walk-s', 'walk-n', 'rest', 'rest-s', 'rest-e', 'injured-rest', 'injured-rest-s', 'injured-rest-e'],
+  boy: ['idle-s', 'idle-e', 'idle-w', 'idle-n', 'walk', 'walk-s', 'walk-n', 'rest', 'rest-s', 'rest-e', 'injured-rest', 'injured-rest-s', 'injured-rest-e'],
+  smallchild: ['idle-s', 'idle-e', 'idle-w', 'idle-n', 'walk', 'walk-s', 'walk-n', 'rest', 'rest-s', 'rest-e', 'injured-rest', 'injured-rest-s', 'injured-rest-e'],
   infant: ['idle-s', 'idle-e', 'idle-w', 'rest'],
 });
 /** Which child's figure somebody is, or null for anyone the children's sheets do not draw. */
