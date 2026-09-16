@@ -6,7 +6,7 @@ import { awardGlory } from './glory.mjs';
 import { canAnswerCalls, cannotAnswerWhy, tooYoung, tooYoungWhy } from './family.mjs';
 import { distantHouseholds, expressLeaves, startExpress } from './expresses.mjs';
 import { callOptions, expireCalls, offerCalls, settleCalls } from './calls.mjs';
-import { advanceArmy, closeDetachment, closeQuestion, countermandStorm, fightConcepcion, fightGrass, formArmy, goForClothing, marchOut, moveCamp, openDetachment, openQuestion, questionOpen, recordPresent, returnFromClothing, tellGrassFight } from './army.mjs';
+import { advanceArmy, closeDetachment, closeQuestion, countermandStorm, dieOfWounds, disbandArmy, fightConcepcion, fightGrass, fightStorming, formArmy, goForClothing, marchOut, moveCamp, openDetachment, openQuestion, questionOpen, recordPresent, returnFromClothing, tellGrassFight, tellStorming } from './army.mjs';
 
 /**
  * What the gathering, the organisation of the army and the march for Béxar rest on.
@@ -67,6 +67,15 @@ const FROM_MIDNIGHT_SEPT_29 = Object.freeze({
   // evening of December 4, when Milam calls for volunteers to go into the town.
   clothing: 52560, 'to-concepcion': 59760, united: 68400, 'storm-order': 77040, countermand: 77760, pledge: 81360,
   'austin-leaves': 82440, 'grass-alarm': 84120, 'grass-fight': 84420, 'grass-rumour': 91440, 'grass-news': 94320, milam: 96120,
+  // The storming of Béxar (docs/COLONIES.md §6l; `HIST-TEX-036` to `-045`). Dec 4 is 95040. The army is ordered into winter
+  // quarters in the morning of the 4th and Milam calls for volunteers that afternoon; the divisions go in about five on the
+  // 5th; Milam is killed about half past three on the 7th; men are sent in from the camp on the 8th and Ugartechea reaches
+  // Cos that evening; the express with the first, wrong report reaches San Felipe late on the 8th; the white flag about
+  // seven on the 9th; terms about two on the 10th; the capitulation dated the 11th; a dangerous wound may kill by the 12th;
+  // Cos marches out on the 14th and the colonists start home; word of the victory reaches the government on the 15th, and
+  // the class stops that evening.
+  'winter-quarters': 95400, assault: 96780, 'milam-killed': 100290, reinforce: 101160, ugartechea: 101880, 'bexar-express': 102120,
+  'white-flag': 102660, terms: 103800, capitulation: 105840, 'wound-deaths': 107280, 'cos-marches': 109980, 'bexar-victory': 111600, 'bexar-end': 112320,
 });
 /**
  * The families arrive at dawn on September 28, eighteen hours before midnight.
@@ -763,16 +772,63 @@ function advanceSiege(world, movement) {
     sendWord(world, 'silver-train', { truth: GRASS_FIGHT, text: 'The pack train carried grass for the horses in Béxar, not silver.', status: 'contradicted', claimId: 'HIST-TEX-031' });
     tellGrassFight(world, eventId);
   });
-  once(world, 'milam', () => {
+  advanceStorming(world, movement, { due, said });
+  if (!world.director.complete) world.director.phase = questionOpen(world) ? 'news' : 'campaign';
+}
+
+/**
+ * The storming of Béxar, December 4 to 15 (docs/COLONIES.md §6l, decided by the owner in §7c). The same shape as the siege:
+ * dated milestones for the Host's page, questions on the volunteer's own card with a six-hour floor, and the word by rider -
+ * wrong first, then the victory with each family's own person's part.
+ */
+function advanceStorming(world, movement, { due, said }) {
+  const { beginTravel } = movement || {};
+  once(world, 'winter-quarters', () => openQuestion(world, 'winter', said('HIST-TEX-036', 'The army before Béxar has been ordered into winter quarters, and men are setting off for home in squads.'), { beginTravel }));
+  if (due('milam', world.army?.questions?.winter?.openedMinute)) {
+    once(world, 'milam', () => {
+      closeQuestion(world, 'winter');
+      const eventId = said('HIST-TEX-036', 'A Mexican officer has deserted into the camp and says the garrison is weak. Ben Milam is calling for men to go into San Antonio with him before dawn.');
+      openQuestion(world, 'milam', eventId, { beginTravel });
+    });
+  }
+  if (due('assault', world.army?.questions?.milam?.openedMinute)) {
+    once(world, 'assault', () => {
+      closeQuestion(world, 'milam');
+      said('HIST-TEX-037', 'Before dawn Neill\'s gun fired on the Alamo, and two divisions under Milam and Johnson went into San Antonio and took the de la Garza and Veramendi houses on Soledad Street. Burleson holds the camp.');
+    });
+  }
+  once(world, 'milam-killed', () => said('HIST-TEX-039', 'Ben Milam has been shot dead in the yard of the Veramendi house. Johnson commands in the town. The fighting goes on house by house.'));
+  once(world, 'reinforce', () => openQuestion(world, 'reinforce', said('HIST-TEX-037', 'Burleson is sending companies from the camp into the town.'), { beginTravel }));
+  if (due('ugartechea', world.army?.questions?.reinforce?.openedMinute)) {
+    once(world, 'ugartechea', () => { closeQuestion(world, 'reinforce'); said('HIST-TEX-040', 'Ugartechea has reached Cos in Béxar with about six hundred men, most of them raw conscripts.'); });
+  }
+  // The express of December 6 reached San Felipe late on the 8th, and it was wrong: the attack "on the 6th", the town taken.
+  once(world, 'bexar-express', () => sendWord(world, 'bexar-storming', { truth: BEXAR_VICTORY, text: 'An express from the army says the volunteers went into Béxar about daylight on the 6th and have possessed themselves of the town, silencing the big guns, with two killed and a few wounded. Ugartechea is expected with six hundred men.', status: 'rumor', claimId: 'HIST-TEX-044', source: 'An express from the army' }));
+  if (world.director.milestones.ugartechea) once(world, 'white-flag', () => fightStorming(world, said('HIST-TEX-040', 'At dawn a white flag came out to the Main Plaza. Cos has drawn his men into the Alamo, and some of his cavalry have ridden away.')));
+  once(world, 'terms', () => said('HIST-TEX-041', 'In the small hours the commissioners agreed the terms of Cos\'s surrender.'));
+  once(world, 'capitulation', () => said('HIST-TEX-041', 'The capitulation is signed. Cos and his officers are to go into the interior on their word not to oppose the Constitution of 1824; his men keep their muskets and ten rounds; the convicts are to be taken beyond the Rio Grande; any soldier may stay; the people of Béxar and their property are protected.'));
+  once(world, 'wound-deaths', () => dieOfWounds(world));
+  once(world, 'cos-marches', () => {
+    said('HIST-TEX-045', 'Cos has marched out of Béxar for Mission San José and the Rio Grande. Burleson has written that the rest of the army will retire to their homes; the wounded stay in the town under the surgeons.');
+    if (beginTravel) disbandArmy(world, { beginTravel });
+  });
+  once(world, 'bexar-victory', () => {
+    const eventId = said('HIST-TEX-044', BEXAR_VICTORY);
+    sendWord(world, 'bexar-storming', { truth: BEXAR_VICTORY, claimId: 'HIST-TEX-044' });
+    tellStorming(world, eventId);
+  });
+  once(world, 'bexar-end', () => {
     expireCalls(world);
     world.director.complete = true; world.director.phase = 'preserved'; world.status = 'ended';
     record(world, 'slice-preserved', {
-      visibility: 'public', classification: 'STRONGLY SUPPORTED', claimId: 'HIST-TEX-035',
-      text: 'On December 4 most of the army before Béxar meant to go into winter quarters, until Ben Milam called for men to go into San Antonio with him, and about three hundred answered. This slice stops here, on the eve of the storming: families, absences, property, promises and memories are saved for the next arc.',
+      visibility: 'public', classification: 'DOCUMENTED', claimId: 'HIST-TEX-045',
+      text: 'Béxar has fallen to the volunteers, Cos is on the road to the Rio Grande, and the men are riding home. This slice stops here: families, absences, wounds, property, promises and memories are saved for the next arc.',
     });
   });
-  if (!world.director.complete) world.director.phase = questionOpen(world) ? 'news' : 'campaign';
 }
+
+/** The fuller word of the storming, as the government heard it on December 15 (`HIST-TEX-038` to `-044`), in the owner's wording (§7c). */
+const BEXAR_VICTORY = 'Word has come that Béxar has fallen. For four days the volunteers fought through the town house by house, cutting through walls and digging trenches across the streets, while the families of Béxar lay shut in their houses; a woman of the town was shot carrying water to them. Ben Milam was killed on the 7th and Johnson took command. On the 9th Cos sent out a white flag from the Alamo, and by the capitulation dated the 11th he and his officers go into the interior on their word not to oppose the Constitution of 1824, his men keeping their muskets. Between four and six of ours were killed and about two dozen wounded. How many Mexican soldiers were killed and wounded the reports do not agree: about a hundred and fifty, or about three hundred.';
 export function advanceDirectors(world, movement) {
   if (!world.director || world.director.complete) return;
   once(world, 'notice', () => {

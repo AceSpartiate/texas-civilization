@@ -21,6 +21,7 @@
  * All absent on a class saved before this, which is a family with none of them, so no save version moves.
  */
 import { record } from './events.mjs';
+import { TOWN_LAYOUTS, townPoint } from './town-layouts.mjs';
 import { learn } from './knowledge.mjs';
 import { carryCapacity } from './travel.mjs';
 import { purseOf, purseHeld } from './town.mjs';
@@ -227,6 +228,30 @@ const place = value => { const fixed = +value.toFixed(3); return fixed === 0 ? 0
 export const keeperId = (settlementId, trade) => `town-${trade}-${settlementId}`;
 
 /**
+ * In a town that is drawn (sim/town-layouts.mjs), every keeper keeps one of its buildings, as Gonzales's do (owner,
+ * 2026-09-16: "Use one of the pre-existing buildings per shopkeeper for places already built"). A trade the research
+ * places in a documented building - San Felipe's smithy, Peyton's tavern - is there; every other trade takes the next
+ * of the town's ordinary houses, nearest the centre first. Returns trade -> { x, y, building } in miles from the site.
+ */
+export function placesInLayout(settlementId, trades) {
+  const layout = TOWN_LAYOUTS[settlementId];
+  if (!layout) return {};
+  const places = {}, used = new Set();
+  for (const trade of trades) {
+    const building = layout.buildings.find(b => b.trade === trade && !used.has(b.id));
+    if (building) { used.add(building.id); places[trade] = { ...townPoint(layout, building), building: building.id }; }
+  }
+  const houses = layout.buildings.filter(b => b.filler);
+  for (const trade of trades) {
+    if (places[trade]) continue;
+    const building = houses.find(b => !used.has(b.id));
+    if (!building) continue;
+    used.add(building.id); places[trade] = { ...townPoint(layout, building), building: building.id };
+  }
+  return places;
+}
+
+/**
  * Put the keepers in the towns. On the invented country only Gonzales exists; on the real land every
  * settlement a family lives near. Gonzales's blacksmith is Josiah Pike, who has always been there, so he
  * is given the trade rather than a second smith. Called once, when the world is built.
@@ -249,8 +274,9 @@ export function createShopkeepers(world, near) {
       ? { store: world.entities['town-ibarra'], carpenter: world.entities['town-carpenter'], blacksmith: world.entities['town-pike'] }
       : { store: world.entities[`town-store-${settlementId}`], carpenter: world.entities[`town-carpenter-${settlementId}`] };
     const shops = [];
+    const layoutPlaces = placesInLayout(settlementId, ['store', 'carpenter', ...trades]);
     ['store', 'carpenter', ...trades].forEach((trade, index) => {
-      const at = gonzales ? GONZALES_PLACES[trade] : NEW_PLACES[index % NEW_PLACES.length];
+      const at = gonzales ? GONZALES_PLACES[trade] : layoutPlaces[trade] || NEW_PLACES[index % NEW_PLACES.length];
       if (!at) return;
       let keeper = existing[trade];
       if (!keeper && TRADES[trade]) {

@@ -7,7 +7,7 @@
 // say yes earn their family glory when it is countermanded. On the 24th each is asked to pledge, and one who does not goes
 // home. On the 26th, after the rumour of silver, each is asked whether they go out after the pack train: nobody is killed,
 // about three in a hundred are slightly hurt, and about one in a hundred runs home, which is held against the family. Word
-// of it rides home days later, the rumour first. The class ends on December 4 with Milam's call.
+// of it rides home days later, the rumour first. The siege runs to Milam's call on December 4 (tests/storming.test.mjs has what follows).
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
@@ -159,7 +159,7 @@ test('a volunteer who does not pledge on November 24 leaves the army and starts 
   // On the horse they rode to the army, as a volunteer sent for does (sim/keeping.mjs).
   assert.equal(seen.pledge.bMode, 'horse', 'a volunteer who did not pledge walked home and left the horse behind');
   assert.equal(world.army.questions.pledge.asks[a.person.id], 'yes');
-  assert.ok(withTheArmy(world, a.person.id) || world.participation['grass-fight'][a.person.id]?.role === 'ran', 'a volunteer who pledged left the army');
+  assert.ok(world.participation['grass-fight'][a.person.id], 'a volunteer who pledged had left the army before the Grass Fight');
 });
 
 test('the rumour of silver comes before the Grass Fight, and its word rides home days later, the wrong rumour first', () => {
@@ -190,11 +190,11 @@ test('the rumour of silver comes before the Grass Fight, and its word rides home
   assert.ok(world.events.some(e => e.householdId === a.household.id && e.minute >= fuller.minute && /November 26/.test(e.text)), 'the family was never told what happened to their person');
 });
 
-test('the class ends on December 4 with Milam\'s call, at the mill, with the siege\'s parts in the ending', () => {
+test('the siege runs to Milam\'s call on December 4, at the mill, with the siege\'s parts in the ending', () => {
   const { world, a } = siege();
   assert.equal(world.status, 'ended');
-  assert.ok(world.minute >= momentOf(world, 'milam'));
-  assert.ok(world.events.some(e => e.type === 'slice-preserved' && /Milam/.test(e.text)));
+  assert.ok(world.minute >= momentOf(world, 'bexar-end'));
+  assert.ok(world.events.some(e => e.visibility === 'public' && /Ben Milam is calling/.test(e.text)), 'Milam never called for men');
   assert.equal(world.army.camp, 'the old mill above Béxar');
   const ending = projectWorld(world, a.household.id, 'student', { includeMap: false }).ending.family;
   assert.ok(ending.awards.some(award => /order to storm Béxar/.test(award.text)), 'the ending does not name the storm order');

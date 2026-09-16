@@ -375,7 +375,7 @@ Each step ends with tests that failed first, a browser proof where it touches wh
 4. **News by riders over real distance**, calibrated to `HIST-TEX-006`, and the settlement-specific calls. **Part 1, the expresses, done 2026-09-14** (§6e); **part 2, the settlement calls, done 2026-09-14** (§6f); **part 3, the two clocks, done 2026-09-15** (§6g).
 5. ~~**The gathering and the march**~~ **Done 2026-09-15** (§6h). Volunteers, joining, the army as one formation, sending for somebody, and the departure - on the **13th**, which is what the order book and the Telegraph say (`HIST-TEX-018`).
 6. **Beyond** (Concepción, the Grass Fight, Béxar), each battle researched first; the glory rule for women built with
-   the first `fought`. **Concepción done 2026-09-16** (§6i); **the siege and the Grass Fight done 2026-09-16** (§6k); the storming of Béxar remains.
+   the first `fought`. **Concepción done 2026-09-16** (§6i); **the siege and the Grass Fight done 2026-09-16** (§6k); **the storming of Béxar done 2026-09-16** (§6l). Build step 6 is complete.
 6a. ~~**The two clocks** (§5.7) come in with step 4~~ **Done 2026-09-15** (§6g). **Playing alone** (§5.8) can still be built
    at any point.
 7. Then `docs/LAND_GRANTS.md` §4–5: Survey and clearing.
@@ -684,6 +684,37 @@ Researched in [battle-research/grass-fight.md](battle-research/grass-fight.md) a
 - Tests: `tests/siege.test.mjs` (8, each proven by injection, 24 drills); browser: `npm run test:siege`
   ([evidence](evidence/siege-browser.json)).
 
+### 6l. As built: step 6, the storming of Béxar (2026-09-16)
+
+Researched in [battle-research/bexar-storming.md](battle-research/bexar-storming.md) and decided by the owner by multiple
+choice (§7c). The class runs on past Milam's call to the evening of December 15 (`HIST-TEX-036` to `-045`, `FIC-GONZ-041`),
+about 27 more ticks when the questions are answered promptly.
+
+- **December 4, winter quarters** (question `winter`): families nobody plays send men home; a played family is asked on its
+  volunteer's card whether they stay in camp or go home, and a no starts home on the horse they came with.
+- **Milam's call** (`milam`), that afternoon: every volunteer still in camp is asked whether they go into San Antonio. On
+  **December 8** (`reinforce`) everybody still at the camp is asked whether they go in with the companies Burleson sends.
+  None of the questions says what an answer risks.
+- **The fight** (`fightStorming`, at the white flag on December 9): those who went in fought, the camp was present (glory
+  3 and 2, as before; going home earns nothing). About 1.7 in 100 of those who went in are killed and 8 in 100 wounded,
+  weighted by hidden strength and health; nobody at the camp is hurt; never more than one death.
+- **Wounds in three grades** (`WOUND_GRADES`): slight mends in three days in the ranks; severe (three weeks) and dangerous
+  (two months) take the person out of the ranks to lie at Béxar, unable to travel until they mend (condition `wounded`,
+  `health.grade`). A dangerous wound can leave a lasting mark shown on the person's card (`marks`), and can kill on
+  December 12 (`dieOfWounds`) — only if the fight has not already cost the class its one death.
+- **Dated milestones** on the Host's page: the assault, Milam killed on the 7th, Ugartechea on the 8th, the white flag, the
+  terms at 2 a.m. on the 10th, the capitulation dated the 11th in its signed terms, Cos marching out on the 14th, when
+  everybody still in the army starts home (`disbandArmy`).
+- **The word** (`sendWord`, `tellStorming`): the wrong express reaches every family late on December 8 ("about daylight on
+  the 6th", the town already taken); the victory on December 15, with the siege told as it was (the people of Béxar shut in
+  their houses, a woman shot carrying water), Milam's death, the terms as signed, and the Mexican losses as "about a
+  hundred and fifty, or about three hundred"; each family's own person's part with it.
+- `ceiling:` the four days are resolved at once at the white flag; the divisions, houses and streets are not drawn apart.
+  `ceiling:` every family hears on the same day; the coast's garbled "Cos has fled with 100 men" (December 17) is after the
+  class ends and is not told. `ceiling:` the badly wounded lie at Béxar when the class ends and nobody carries them home.
+- Tests: `tests/storming.test.mjs` (6, proven by 16 injections); browser: `npm run test:storming`
+  ([evidence](evidence/storming-browser.json)).
+
 ## 7. Questions for the owner — all answered 2026-09-14
 
 1. **How long is a class?** About fifty minutes: ten of farming, then the war, compressed without feeling compressed (§5.7).
@@ -721,3 +752,24 @@ Put to the owner as multiple choice after the research in [battle-research/grass
 | Mexican losses (3, 15, 50 or 60 killed by source)? | **The range, with its sources**, as at Concepción. |
 | The silver? | **Families hear the rumour of a silver train before the fight**, and the grass is the reveal. |
 | Austin's storm order of November 21? | **The family's person is asked** — "since it'd be a family member off serving, only that family member is asked. If they say yes, their family receives extra glory." How much is this game's own: the weight of being present (`willing`: 2). |
+
+### 7c. The storming of Béxar — answered 2026-09-16, before building it
+
+Put to the owner as multiple choice after the research in [battle-research/bexar-storming.md](battle-research/bexar-storming.md).
+Every answer was the research's leaning.
+
+| Question | Owner's answer |
+| --- | --- |
+| How far should the class run? | **To December 14–15**: Cos marches out, the army goes home, the news reaches San Felipe on the 15th. |
+| Who goes in with Milam? | **Each volunteer still in camp is asked on their own card**; families nobody plays say yes about a third to a half of the time. |
+| December 4: can a volunteer go home? | **Families nobody plays send some home at about the documented rate; a played family is asked** before Milam's call. |
+| How deadly? | **About 1.7 in 100 killed and 8 in 100 wounded for those who go in**, weighted by hidden strength and health, never more than one killed in a class; **nobody in the reserve hurt**. |
+| What does a serious wound do? | **Three grades**: slight three days; severe about three weeks at Béxar; dangerous about two months, with some chance of a lasting mark shown on the card. |
+| Can a wounded person die afterwards? | **Yes, rarely, and it counts against the one-death cap.** |
+| The reinforcement of December 8? | **Families with a volunteer in the reserve are asked**; a yes makes them fighters. |
+| How does a family hear? | **By rider, as the record has it**: the wrong first report, then the victory with Milam's death about December 15, each family's own person's part with it. |
+| Mexican losses? | **"About 150 to 300 killed and wounded"**, Ehrenberg's figure left out. |
+| The surrender date? | **White flag December 9, terms at 2 a.m. December 10, the capitulation dated December 11.** |
+| Civilians in Béxar? | **Told in text**; nothing shown wounded. |
+| The capitulation's terms? | **As signed**: parole not to oppose the Constitution of 1824, muskets kept, convicts beyond the Rio Grande, soldiers free to stay. |
+| Glory? | **Fought (3) for those who went in, present (2) for the reserve, nothing for going home on December 4.** |

@@ -40,9 +40,12 @@ const marchingClass = () => {
   until(world, () => world.director.milestones.organised);
   const atMuster = { members: [...world.army.members], minute: world.minute };
   until(world, () => world.director.milestones.march);
+  // The day before the army breaks up on December 14 (tests/storming.test.mjs): a volunteer still marching with it.
+  until(world, () => world.minute >= momentOf(world, 'cos-marches') - 1440);
+  const beforeHome = structuredClone(world);
   until(world, () => world.director.complete);
   validateWorld(world);
-  return (mustered = { world, sent, atMuster });
+  return (mustered = { world, sent, atMuster, beforeHome });
 };
 
 test('the volunteers are made into an army in the town, and it marches for Béxar', () => {
@@ -70,7 +73,8 @@ test('the volunteers are made into an army in the town, and it marches for Béxa
 });
 
 test('a volunteer marches as a person inside the army, and what the family is told is where it has got to', () => {
-  const { world, sent } = marchingClass();
+  const { beforeHome: world, sent: marched } = marchingClass();
+  const sent = { ...marched, person: world.entities[marched.person.id] };
   assert.ok(withTheArmy(world, sent.person.id), `${sent.person.name} is not with the army`);
   // On the road: the world knows a person as at a place or between two, and marching is between.
   assert.equal(sent.person.location.siteId, null);
@@ -131,6 +135,9 @@ test('somebody who reaches the rendezvous after the army has gone catches it on 
   const sent = sentSomebody(world, ['liberty']);
   // Held at home until the army has left, then put at the rendezvous the way an arrival leaves them.
   until(world, () => world.director.milestones.march);
+  // The day before the army breaks up on December 14 (tests/storming.test.mjs): a volunteer still marching with it.
+  until(world, () => world.minute >= momentOf(world, 'cos-marches') - 1440);
+  const beforeHome = structuredClone(world);
   assert.ok(!withTheArmy(world, sent.person.id) || sent.person.travel?.purpose === 'march');
   if (!withTheArmy(world, sent.person.id)) {
     const site = world.map.sites[RENDEZVOUS];

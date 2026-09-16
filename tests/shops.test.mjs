@@ -14,6 +14,7 @@ import { applyAction, beginTravel, stepWorld, projectWorld, validateWorld } from
 import { establishTruth, learn } from '../sim/knowledge.mjs';
 import { advanceRoutine } from '../sim/routines.mjs';
 import { KEEPERS, TOWN_TRADES, counterRefusal, TUNED_SHOTS, WAGON_SPEED_SHARE, keeperId } from '../sim/shops.mjs';
+import { TOWN_LAYOUTS, townPoint } from '../sim/town-layouts.mjs';
 
 const running = seed => { const world = createSettledWorld(seed, 5); world.status = 'running'; return world; };
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
@@ -256,9 +257,16 @@ test('in every new town each keeper has a building of their own, drawn from the 
     towns++;
     const site = world.map.sites[settlementId];
     assert.equal(new Set(shops.map(shop => `${shop.x},${shop.y}`)).size, shops.length, `${settlementId} has two shops in one place`);
+    if (TOWN_LAYOUTS[settlementId]) assert.equal(new Set(shops.map(shop => shop.building)).size, shops.length, `two keepers share a building in ${settlementId}`);
     assert.ok(shops.some(shop => shop.trade === 'store') && shops.some(shop => shop.trade === 'carpenter'), `${settlementId} lacks its store or carpenter`);
     for (const shop of shops) {
-      assert.ok(shop.sprite && shop.label, `${settlementId}'s ${shop.trade} has nothing to be drawn as`);
+      // A town with a layout (sim/town-layouts.mjs) gives each keeper one of its drawn buildings; any other gets a sprite of its own.
+      assert.ok((shop.building || shop.sprite) && shop.label, `${settlementId}'s ${shop.trade} has nothing to be drawn as`);
+      if (TOWN_LAYOUTS[settlementId]) {
+        const building = TOWN_LAYOUTS[settlementId].buildings.find(b => b.id === shop.building);
+        assert.ok(building, `${settlementId}'s ${shop.trade} keeps no building the town draws`);
+        assert.deepEqual([shop.x, shop.y], [townPoint(TOWN_LAYOUTS[settlementId], building).x, townPoint(TOWN_LAYOUTS[settlementId], building).y], `${settlementId}'s ${shop.trade} is not where its building is drawn`);
+      }
       const keeper = world.entities[shop.keeperId];
       assert.ok(Math.hypot(keeper.location.x - (site.x + shop.x), keeper.location.y - (site.y + shop.y)) < 0.02, `${keeper.name} is not at their door`);
     }

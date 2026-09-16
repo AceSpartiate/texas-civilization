@@ -303,6 +303,8 @@ function harness(world, entity, mode, path, causeId) {
 /** Further from a place's point than this, somebody is standing somewhere else in it. */
 export const STANDING_APART_MILES = 0.25;
 export function beginTravel(world, entity, destination, causeId, purpose = 'visit', modeId = DEFAULT_MODE) {
+  // Somebody severely or dangerously wounded lies where the surgeon has them until they mend (sim/army.mjs `WOUND_GRADES`).
+  if (entity.health?.condition === 'wounded') throw new Error(`${entity.name} is lying wounded and cannot travel yet.`);
   if (entity.travel || !entity.location.siteId) throw new Error('Already traveling.');
   if (!world.map.sites[destination]) throw new Error('No known route to that destination.');
   if (entity.location.siteId === destination) throw new Error('Already there.');
@@ -769,7 +771,7 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
     .slice(-PROJECTED_EVENTS);
   const knownIds = new Set(visibleEvents.map(e => e.id));
   const events = visibleEvents.map(e => ({ id: e.id, type: e.type, minute: e.minute, text: e.text, actorId: e.actorId, householdId: e.householdId, causes: e.causes.filter(id => knownIds.has(id)) }));
-  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.sex && { sex: e.sex }), ...(Number.isFinite(e.age) && { age: e.age, band: ageBand(e.age) }), location: e.location, travel: e.travel ? { from: e.travel.from, to: e.travel.to, points: e.travel.points, progress: e.travel.progress, distance: e.travel.distance, speed: e.travel.speed, mode: e.travel.mode } : null, health: e.health, task: e.task, skills: e.skills, chore: e.chore?.ask ? { ...e.chore, ask: askProjection(world, household, e) } : e.chore, condition: e.condition, species: e.species, laden: e.laden, borrowedBy: e.borrowedBy }));
+  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.sex && { sex: e.sex }), ...(Number.isFinite(e.age) && { age: e.age, band: ageBand(e.age) }), location: e.location, travel: e.travel ? { from: e.travel.from, to: e.travel.to, points: e.travel.points, progress: e.travel.progress, distance: e.travel.distance, speed: e.travel.speed, mode: e.travel.mode } : null, health: e.health, task: e.task, skills: e.skills, chore: e.chore?.ask ? { ...e.chore, ask: askProjection(world, household, e) } : e.chore, condition: e.condition, species: e.species, laden: e.laden, borrowedBy: e.borrowedBy, ...(e.marks && { marks: e.marks }) }));
   // What each person could be asked to do, with the reason for anything refused, is
   // computed on the server. The client must never decide for itself what is possible:
   // that is the same rule as fog of war, applied to a control instead of a fact.

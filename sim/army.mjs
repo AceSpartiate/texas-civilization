@@ -559,7 +559,8 @@ export function moveCamp(world, key) {
  * the family member away serving is asked). What either answer risks is never said. A family nobody plays answers for
  * itself about as often as the army did.
  */
-export const ARMY_QUESTIONS = Object.freeze({
+// Frozen once the storming's questions have joined it, below.
+export const ARMY_QUESTIONS = {
   // Austin's order of November 21 to storm next morning: "not more than 100 men" of about six hundred would go.
   storm: {
     claimId: 'HIST-TEX-028', unplayed: 0.17,
@@ -581,7 +582,7 @@ export const ARMY_QUESTIONS = Object.freeze({
     yes: name => `${name} goes out after the train`, no: name => `${name} stays in camp`,
     said: { yes: name => `${name} went out after the pack train.`, no: name => `${name} stayed in camp.`, silent: name => `Nobody answered for ${name}, who stayed in camp.` },
   },
-});
+};
 
 /** Open a question to every volunteer in the ranks. */
 export function openQuestion(world, key, causeId, { beginTravel } = {}) {
@@ -596,6 +597,8 @@ export function openQuestion(world, key, causeId, { beginTravel } = {}) {
 function askQuestion(world, key, person, { beginTravel } = {}) {
   const question = world.army?.questions?.[key], spec = ARMY_QUESTIONS[key];
   if (!question || question.closed || !person || question.asks[person.id]) return;
+  // A question put to only some of the camp: the reinforcement of December 8 is asked of those who did not go in.
+  if (spec.who && !spec.who(world, person)) return;
   const household = world.households[person.householdId];
   if (!household?.played && world.neighbours) {
     const answer = unit(`${world.seed}:${person.id}:${key}`) < spec.unplayed ? 'yes' : 'no';
@@ -641,7 +644,7 @@ export function answerQuestion(world, householdId, entity, key, yes, { beginTrav
  * The storm's willing are rewarded when the order is countermanded, and the Grass Fight's riders fight when it is fought.
  */
 function settleAnswer(world, key, person, answer, { beginTravel } = {}) {
-  if (key === 'pledge' && answer === 'no') leaveArmy(world, person, { beginTravel, text: null });
+  if (['pledge', 'winter'].includes(key) && answer === 'no') leaveArmy(world, person, { beginTravel, text: null });
 }
 
 /** Close a question: anybody not answered for is answered by silence. */
@@ -786,6 +789,192 @@ export function tellGrassFight(world, causeId) {
     record(world, fate === 'present' ? 'army' : 'consequence', {
       actorId: id, householdId: person.householdId, importance: fate === 'present' ? 2 : 3, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-040',
       causes: causeId ? [causeId] : [], text: words[fate](person.name),
+    });
+  }
+}
+
+// ------------------------------------------------------------------------------------ build step 6: the storming of Béxar
+//
+// docs/COLONIES.md §6l, researched in docs/battle-research/bexar-storming.md and decided by the owner (§7c). On December 4
+// the army was ordered into winter quarters and "250 or 300 set off for home"; that afternoon Milam called for men to go
+// into San Antonio, and between about 210 and 300 went in before dawn on the 5th while the rest held the camp (`HIST-TEX-036`,
+// `-037`). Four days of house-to-house fighting; Milam killed on the 7th; about a hundred of the reserve sent in on the 8th;
+// the white flag on the 9th, terms on the 10th, the capitulation dated the 11th; Cos marched out on the 14th and the
+// colonists went home (`HIST-TEX-038` to `-045`).
+
+/** The owner's bounds for those who went in (§7c): about 1.7 in 100 killed and 8 in 100 wounded, weighted by hidden strength and health; nobody in the reserve hurt. */
+export const STORMING_DEATH_RISK = 0.017;
+export const STORMING_WOUND_RISK = 0.08;
+/**
+ * The three grades of wound, as the surgeon listed them (`HIST-TEX-042`: of 23, 3 slight, 11 severe, 7 dangerous, 2 mortal),
+ * with how long each keeps somebody down. No source gives a healing time; these are the research's reading of a handful of
+ * careers (§8.3), and this game's own (`FIC-GONZ-041`). A dangerous wound can leave a lasting mark, and rarely kill later.
+ */
+export const WOUND_GRADES = Object.freeze({
+  slight: { share: 0.125, minutes: 3 * 1440, condition: 'minor-injury' },
+  severe: { share: 0.5, minutes: 21 * 1440, condition: 'wounded' },
+  dangerous: { share: 0.375, minutes: 60 * 1440, condition: 'wounded', mark: 0.4, laterDeath: 0.15 },
+});
+const MARKS = ['lost a leg', 'lost an eye', 'lost the use of an arm'];
+
+/** The storming's questions join the siege's, each on the volunteer's own card. */
+Object.assign(ARMY_QUESTIONS, {
+  // December 4: ordered into winter quarters. A yes stays in camp; a no goes home, as 250 or 300 did (Maverick).
+  winter: {
+    claimId: 'HIST-TEX-036', unplayed: 0.6,
+    ask: name => `The army has been ordered into winter quarters, and men are setting off for home in squads. Does ${name} stay in camp?`,
+    yes: name => `${name} stays in camp`, no: name => `${name} goes home for the winter`,
+    said: { yes: name => `${name} stayed in camp when the army was ordered into winter quarters.`, no: name => `${name} set off for home when the army was ordered into winter quarters.`, silent: name => `Nobody answered for ${name}, who stayed in camp.` },
+  },
+  // December 4, the afternoon: "Who will go with old Ben Milam into San Antonio?"
+  milam: {
+    claimId: 'HIST-TEX-036', unplayed: 0.4,
+    ask: name => `Ben Milam is calling for men to go into San Antonio with him before dawn. Does ${name} go?`,
+    yes: name => `${name} goes in with Milam`, no: name => `${name} stays with the camp`,
+    said: { yes: name => `${name} said they would go into San Antonio with Milam.`, no: name => `${name} stayed with Burleson at the camp.`, silent: name => `Nobody answered for ${name}, who stayed with the camp.` },
+  },
+  // December 8: Cheshire's, Sutherland's and Lewis's companies, about a hundred of the reserve, sent in.
+  reinforce: {
+    claimId: 'HIST-TEX-037', unplayed: 0.2, who: (world, person) => world.army?.questions?.milam?.asks?.[person.id] !== 'yes',
+    ask: name => `Burleson is sending men from the camp into the town to join the fighting. Does ${name} go in?`,
+    yes: name => `${name} goes into the town`, no: name => `${name} stays at the camp`,
+    said: { yes: name => `${name} went into the town with the men sent from the camp.`, no: name => `${name} stayed at the camp.`, silent: name => `Nobody answered for ${name}, who stayed at the camp.` },
+  },
+});
+Object.freeze(ARMY_QUESTIONS);
+
+/** Who went into the town: with Milam on the 5th, or sent in from the camp on the 8th. */
+export const stormedIn = (world, id) => world.army?.questions?.milam?.asks?.[id] === 'yes' || world.army?.questions?.reinforce?.asks?.[id] === 'yes';
+
+/**
+ * The storming, resolved at the white flag on December 9 (`HIST-TEX-038`, `-042`). Everybody of the class who went in fought;
+ * the rest of the camp was present. Each fighter's fate is rolled against the owner's bound; the likeliest death is the only
+ * one there can be, and a later death from a wound counts against the same one. What happened is told to each family when
+ * the word of the victory rides home (`tellStorming`). Returns what happened, for the tests.
+ */
+export function fightStorming(world, causeId) {
+  const army = world.army;
+  if (!army) return { fought: [], present: [], killed: [], wounded: [] };
+  closeQuestion(world, 'reinforce');
+  const fought = army.members.filter(id => stormedIn(world, id));
+  const present = army.members.filter(id => !stormedIn(world, id));
+  world.participation ??= {};
+  const taking = world.participation['bexar-storming'] ??= {};
+  const bexar = world.map.sites[OBJECTIVE];
+  const fates = fought.map(id => {
+    const person = world.entities[id], weight = frailty(person);
+    return { id, person, roll: unit(`${world.seed}:${id}:storming`), death: STORMING_DEATH_RISK * weight, wound: STORMING_WOUND_RISK * weight };
+  }).sort((a, b) => a.roll / a.death - b.roll / b.death);
+  const killed = [], wounded = [], outcomes = [], later = [];
+  for (const { id, person, roll, death, wound } of fates) {
+    const dies = killed.length === 0 && roll < death;
+    const hurt = !dies && roll < death + wound;
+    taking[id] = { householdId: person.householdId, role: 'fought', minute: world.minute };
+    const woman = person.sex === 'female';
+    awardGlory(world, { event: 'bexar-storming', claimId: 'HIST-TEX-038', personId: id, householdId: person.householdId, role: 'fought', fromSiteId: OBJECTIVE, causes: causeId ? [causeId] : [], ...(woman && dies && { adjust: points => -2 * points, note: 'In 1835, sending a woman to fight was held against a family. (This is the game’s own reading of the period, not a documented judgement.)' }) });
+    if (dies) {
+      killed.push(id);
+      layDead(world, person, { x: bexar.x, y: bexar.y });
+      outcomes.push({ id, fate: 'killed' });
+    } else if (hurt) {
+      const g = unit(`${world.seed}:${id}:grade`);
+      const grade = g < WOUND_GRADES.slight.share ? 'slight' : g < WOUND_GRADES.slight.share + WOUND_GRADES.severe.share ? 'severe' : 'dangerous';
+      const spec = WOUND_GRADES[grade];
+      wounded.push(id);
+      person.health = { condition: spec.condition, grade, recoversAt: world.minute + spec.minutes };
+      if (spec.mark && unit(`${world.seed}:${id}:mark`) < spec.mark) person.marks = [...(person.marks || []), MARKS[Math.floor(unit(`${world.seed}:${id}:which-mark`) * MARKS.length)]];
+      if (spec.laterDeath && unit(`${world.seed}:${id}:later`) < spec.laterDeath) later.push(id);
+      // A wound worse than slight keeps somebody in Béxar under the surgeon (`HIST-TEX-042`): out of the ranks and lying in the town.
+      if (grade !== 'slight') {
+        army.members = army.members.filter(member => member !== id);
+        person.travel = null; person.task = 'rest';
+        person.location = { x: bexar.x, y: bexar.y, siteId: OBJECTIVE };
+        const promise = person.commitments?.find(p => p.id === 'volunteer' && p.status === 'active');
+        if (promise) promise.status = 'ended';
+      }
+      outcomes.push({ id, fate: 'wounded', grade });
+    } else outcomes.push({ id, fate: 'unhurt' });
+  }
+  for (const id of present) {
+    const person = world.entities[id];
+    if (!person?.householdId || taking[id]) continue;
+    taking[id] = { householdId: person.householdId, role: 'present', minute: world.minute };
+    awardGlory(world, { event: 'bexar-storming', claimId: 'HIST-TEX-037', personId: id, householdId: person.householdId, role: 'present', fromSiteId: OBJECTIVE, causes: causeId ? [causeId] : [] });
+    outcomes.push({ id, fate: 'present' });
+  }
+  army.storming = { outcomes, later, killed: [...killed], told: false, minute: world.minute };
+  return { fought, present, killed, wounded };
+}
+
+/** A person killed: out of the ranks, laid where they fell, their promise ended. */
+function layDead(world, person, at) {
+  const army = world.army;
+  if (army) army.members = army.members.filter(member => member !== person.id);
+  person.health = { condition: 'dead' };
+  person.travel = null; person.task = 'rest';
+  person.location = { x: at.x, y: at.y, siteId: OBJECTIVE };
+  const promise = person.commitments?.find(p => p.id === 'volunteer' && p.status === 'active');
+  if (promise) promise.status = 'ended';
+}
+
+/** A dangerous wound that proves fatal, days after (owner, §7c: rarely, and within the one death the fight may cost a class). */
+export function dieOfWounds(world) {
+  const storming = world.army?.storming;
+  if (!storming) return [];
+  const died = [];
+  for (const id of storming.later) {
+    if (storming.killed.length) break;
+    const person = world.entities[id];
+    if (!person || person.health?.condition !== 'wounded') continue;
+    const award = world.glory?.[person.householdId]?.awards?.[`bexar-storming:${id}`];
+    // A woman who does not come through is judged as at Concepción: her award taken away twice over.
+    if (person.sex === 'female' && award && award.points > 0) {
+      const ledger = world.glory[person.householdId];
+      ledger.total -= 3 * award.points; award.points = -2 * award.points;
+      award.note = 'In 1835, sending a woman to fight was held against a family. (This is the game’s own reading of the period, not a documented judgement.)';
+    }
+    layDead(world, person, person.location);
+    storming.killed.push(id);
+    const outcome = storming.outcomes.find(o => o.id === id);
+    if (outcome) { outcome.fate = 'died-of-wounds'; outcome.day = world.minute; }
+    died.push(id);
+  }
+  storming.later = [];
+  return died;
+}
+
+/** The army breaks up, December 14: "the rest of the army will retire to their homes" (Burleson). The wounded stay at Béxar. */
+export function disbandArmy(world, { beginTravel }) {
+  const army = world.army;
+  if (!army) return;
+  for (const id of [...army.members]) {
+    const person = world.entities[id];
+    if (!person) continue;
+    leaveArmy(world, person, { beginTravel, text: `${person.name} started home from Béxar as the army broke up.` });
+  }
+}
+
+/** Word of the victory reaches a family: what happened to their own person in the storming. */
+export function tellStorming(world, causeId) {
+  const storming = world.army?.storming;
+  if (!storming || storming.told) return;
+  storming.told = true;
+  const marksOf = person => person.marks?.length ? ` They have ${person.marks.join(' and ')}.` : '';
+  for (const outcome of storming.outcomes) {
+    const person = world.entities[outcome.id];
+    if (!person?.householdId) continue;
+    const text = {
+      killed: () => `${person.name} was killed in the storming of Béxar, and was buried there.`,
+      'died-of-wounds': () => `${person.name} was badly wounded in the storming of Béxar, and died of the wound there some days after.`,
+      wounded: () => outcome.grade === 'slight'
+        ? `${person.name} was slightly hurt in the storming of Béxar, and was soon on their feet.`
+        : `${person.name} was ${outcome.grade === 'dangerous' ? 'dangerously' : 'severely'} wounded in the storming of Béxar, and is lying in the town under the surgeon's care.${marksOf(person)}`,
+      unhurt: () => `${person.name} went into San Antonio and fought through the four days of the storming, and came through unhurt.`,
+      present: () => `${person.name} held the camp at the old mill while the others fought in the town.`,
+    }[outcome.fate]();
+    record(world, outcome.fate === 'present' ? 'army' : 'consequence', {
+      actorId: person.id, householdId: person.householdId, importance: outcome.fate === 'present' ? 2 : 3,
+      classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-041', causes: causeId ? [causeId] : [], text,
     });
   }
 }

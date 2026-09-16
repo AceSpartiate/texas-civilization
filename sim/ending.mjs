@@ -46,6 +46,7 @@ const EVENT_NAMES = Object.freeze({
   concepcion: 'the fight at Concepción',
   'storm-order': 'the order to storm Béxar',
   'grass-fight': 'the Grass Fight',
+  'bexar-storming': 'the storming of Béxar',
 });
 const PART_WORDS = Object.freeze({
   supplied: 'carried supplies for',

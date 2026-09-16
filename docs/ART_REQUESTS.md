@@ -18,6 +18,7 @@ does not have:
 
 | Stand-in | Where | Standing in for | Replace with |
 | --- | --- | --- | --- |
+| The six drawn towns' documented buildings the library cannot draw (frame buildings, the Whiteside Hotel, the Round Top House, jacales, Mina's stockade, Liberty's court room) | `sim/town-layouts.mjs`, drawn by `public/town-art.js` | Request 2026-09-16 — the buildings the towns' research found | the requested buildings |
 | A new town's shops are the nearest buildings the library has, two trades sharing a sprite | `SHOP_SPRITES` in `sim/shops.mjs`, drawn in `drawWorld` in `public/app.js` | Request 2026-09-16 — the shops of the towns | `shop-*` buildings, one per trade |
 | A family member's portrait is the head and shoulders of their own map figure (the `-idle-s` clip `castVariant`/`childFigure` choose), drawn large and cropped by the square; a drawn silhouette until the sheet loads | `drawPortrait` in `public/family-panel.js` | Request 2026-09-15 — face portraits for the family panel | `portrait-<figure>` for every first- and second-cast figure and the four children |
 | Each action's icon is the nearest library sprite fitted into the square (a survey stake, a stump, a bucket, young and ripe corn, clearing branches, a rail, walls going up, an oak, ripe cotton, a barrel, sacks, a crate, tools, a fallen log, a trading house, two cabins, a man with a hoe, a bedroll), and four are drawn glyphs: a deer's head (hunt on our land), a target (practice), a hoe and coin (buy a hoe), a cross (call off the work) | `PANEL_ICONS` and `drawIcon` in `public/family-panel.js` | Request 2026-09-15 — action icons for the family panel | `icon-<key>` for each of the twenty-six actions |
@@ -154,6 +155,30 @@ west of the Guadalupe. Post oak and blackjack size variants, additional species-
 - **Check.** Scale against `rust-idle-s` and `horse-chestnut`, alternating legs in the run, no painted transparency.
 
 Delivered in `wildlife-deer`: four-frame idle, alert, bound and drinking cycles. The live quarry uses idle and switches to alert while the hunter awaits the family's answer; the server still supplies the only position and visibility. Bound and drinking are registered for later projected states and never invent behavior.
+
+## Request 2026-09-16 — the buildings the towns' research found
+
+**Status: open; each is the nearest building the library has.** The six towns drawn from `docs/town-research/` (docs/TOWNS.md
+§9) name buildings the library cannot draw. In the frontier-v1 style and the scale of `house-hewn-log` and `trading-house`,
+south-facing like the other buildings, with a ground-contact shadow and no painted transparency:
+
+1. **A frame building** — clapboard siding on sawn studs, a shingle roof, glazed sash windows, a plank door; one storey, and a
+   storey-and-a-half variant. San Felipe's Cooper & Chieves saloon, the only frame building there in 1828; Columbia's Kelsey
+   store; Matagorda's frame town of imported lumber. Stand-in: `trading-house`.
+2. **A two-storey frame house**, two rooms below and two above — Columbia's Brown house, where the Senate sat. Stand-in:
+   `frame-hall`.
+3. **A storey-and-a-half log house with a central passage and a stick-and-mud chimney at each end** — San Felipe's Whiteside
+   Hotel. Stand-in: `house-dog-run` drawn taller.
+4. **The Round Top House** — a round fortified house with gun slits at first-floor level and a heavy door; Victoria's own
+   landmark. Stand-in: `storehouse` drawn taller.
+5. **Jacales in variety** — two or three jacal silhouettes and one with a brush ramada, for a town whose houses were mostly
+   jacales (Victoria). Stand-in: the one `house-jacal` at varied heights.
+6. **A frontier log stockade** — a free-standing square of set vertical logs with a gate, enclosing a cabin (Mina). Stand-in:
+   `palisade` pieces run in a square with a `gate` and `house-hewn-log` inside.
+7. **A small hewn-log court room, 22 feet square** — Liberty's Casa Consistorial. Stand-in: `cabin-small`.
+
+- **How it plugs in.** Each building's `sprite` in `sim/town-layouts.mjs`; the stockade replaces the palisade pieces with one
+  building. **Check** in `npm run test:towns`, whose close screenshots show each town.
 
 ## Request 2026-09-16 — driving the ox wagon
 

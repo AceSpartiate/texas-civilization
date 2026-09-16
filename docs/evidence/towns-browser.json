@@ -1,0 +1,248 @@
+{
+  "record": "The towns of the colonies, drawn in a browser: docs/TOWNS.md §9",
+  "date": "2026-09-16",
+  "verdict": "PASS",
+  "note": "Same computer only. A 30-family class on the colonies map, served live; the Host page went to each drawn town from its Go to list. No LAN or district claim.",
+  "checks": [
+    "San Felipe de Austin: 46 buildings drawn at 1357 px a mile; 10 keepers' buildings named; 10 people drawn there",
+    "Victoria: 36 buildings drawn at 1357 px a mile; 3 keepers' buildings named; 3 people drawn there",
+    "Mina: 55 buildings drawn at 1357 px a mile; 5 keepers' buildings named; 5 people drawn there",
+    "Matagorda: 46 buildings drawn at 1357 px a mile; 4 keepers' buildings named; 4 people drawn there",
+    "Columbia: 18 buildings drawn at 1357 px a mile; 9 keepers' buildings named; 9 people drawn there",
+    "Liberty: 11 buildings drawn at 1357 px a mile; 4 keepers' buildings named; 4 people drawn there",
+    "no page errors"
+  ],
+  "observed": {
+    "san-felipe": {
+      "drawn": 46,
+      "scale": 1357.1428571428573,
+      "shops": [
+        {
+          "trade": "store",
+          "building": "sf-white-store",
+          "label": "General store"
+        },
+        {
+          "trade": "carpenter",
+          "building": "sf-house-1",
+          "label": "Carpenter"
+        },
+        {
+          "trade": "blacksmith",
+          "building": "sf-smithy",
+          "label": "Blacksmith"
+        },
+        {
+          "trade": "gunsmith",
+          "building": "sf-house-2",
+          "label": "Gunsmith"
+        },
+        {
+          "trade": "doctor",
+          "building": "sf-stewart-drugs",
+          "label": "Doctor"
+        },
+        {
+          "trade": "tavern",
+          "building": "sf-peyton-tavern",
+          "label": "Tavern"
+        },
+        {
+          "trade": "tanner",
+          "building": "sf-house-3",
+          "label": "Tanner & saddler"
+        },
+        {
+          "trade": "wheelwright",
+          "building": "sf-house-4",
+          "label": "Wheelwright"
+        },
+        {
+          "trade": "mill",
+          "building": "sf-house-5",
+          "label": "Mill"
+        },
+        {
+          "trade": "weaver",
+          "building": "sf-house-6",
+          "label": "Weaver"
+        }
+      ],
+      "keepersDrawn": 10
+    },
+    "victoria": {
+      "drawn": 36,
+      "scale": 1357.1428571428573,
+      "shops": [
+        {
+          "trade": "store",
+          "building": "vic-linn-house",
+          "label": "General store"
+        },
+        {
+          "trade": "carpenter",
+          "building": "vic-jacal-1",
+          "label": "Carpenter"
+        },
+        {
+          "trade": "blacksmith",
+          "building": "vic-jacal-2",
+          "label": "Blacksmith"
+        }
+      ],
+      "keepersDrawn": 3
+    },
+    "mina": {
+      "drawn": 55,
+      "scale": 1357.1428571428573,
+      "shops": [
+        {
+          "trade": "store",
+          "building": "mina-gazley-store",
+          "label": "General store"
+        },
+        {
+          "trade": "carpenter",
+          "building": "mina-house-1",
+          "label": "Carpenter"
+        },
+        {
+          "trade": "blacksmith",
+          "building": "mina-house-2",
+          "label": "Blacksmith"
+        },
+        {
+          "trade": "gunsmith",
+          "building": "mina-house-3",
+          "label": "Gunsmith"
+        },
+        {
+          "trade": "tavern",
+          "building": "mina-house-4",
+          "label": "Tavern"
+        }
+      ],
+      "keepersDrawn": 5
+    },
+    "matagorda": {
+      "drawn": 46,
+      "scale": 1357.1428571428573,
+      "shops": [
+        {
+          "trade": "store",
+          "building": "mat-store-1",
+          "label": "General store"
+        },
+        {
+          "trade": "carpenter",
+          "building": "mat-house-1",
+          "label": "Carpenter"
+        },
+        {
+          "trade": "blacksmith",
+          "building": "mat-house-2",
+          "label": "Blacksmith"
+        },
+        {
+          "trade": "tavern",
+          "building": "mat-house-3",
+          "label": "Tavern"
+        }
+      ],
+      "keepersDrawn": 4
+    },
+    "columbia": {
+      "drawn": 18,
+      "scale": 1357.1428571428573,
+      "shops": [
+        {
+          "trade": "store",
+          "building": "col-kelsey-store",
+          "label": "General store"
+        },
+        {
+          "trade": "carpenter",
+          "building": "col-house-1",
+          "label": "Carpenter"
+        },
+        {
+          "trade": "blacksmith",
+          "building": "col-house-2",
+          "label": "Blacksmith"
+        },
+        {
+          "trade": "gunsmith",
+          "building": "col-house-3",
+          "label": "Gunsmith"
+        },
+        {
+          "trade": "doctor",
+          "building": "col-house-4",
+          "label": "Doctor"
+        },
+        {
+          "trade": "tavern",
+          "building": "col-tavern",
+          "label": "Tavern"
+        },
+        {
+          "trade": "tanner",
+          "building": "col-house-5",
+          "label": "Tanner & saddler"
+        },
+        {
+          "trade": "wheelwright",
+          "building": "col-house-6",
+          "label": "Wheelwright"
+        },
+        {
+          "trade": "weaver",
+          "building": "col-house-7",
+          "label": "Weaver"
+        }
+      ],
+      "keepersDrawn": 9
+    },
+    "liberty": {
+      "drawn": 11,
+      "scale": 1357.1428571428573,
+      "shops": [
+        {
+          "trade": "store",
+          "building": "lib-store",
+          "label": "General store"
+        },
+        {
+          "trade": "carpenter",
+          "building": "lib-house-1",
+          "label": "Carpenter"
+        },
+        {
+          "trade": "blacksmith",
+          "building": "lib-house-2",
+          "label": "Blacksmith"
+        },
+        {
+          "trade": "tavern",
+          "building": "lib-house-3",
+          "label": "Tavern"
+        }
+      ],
+      "keepersDrawn": 4
+    }
+  },
+  "screenshots": [
+    "docs/evidence/town-san-felipe.png",
+    "docs/evidence/town-san-felipe-close.png",
+    "docs/evidence/town-victoria.png",
+    "docs/evidence/town-victoria-close.png",
+    "docs/evidence/town-mina.png",
+    "docs/evidence/town-mina-close.png",
+    "docs/evidence/town-matagorda.png",
+    "docs/evidence/town-matagorda-close.png",
+    "docs/evidence/town-columbia.png",
+    "docs/evidence/town-columbia-close.png",
+    "docs/evidence/town-liberty.png",
+    "docs/evidence/town-liberty-close.png"
+  ]
+}

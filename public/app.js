@@ -5,6 +5,8 @@ import { drawIcon, drawPortrait, nameToSave, panelActions, panelOrder, rowReason
 import {drawBexarGround,bexarDrawables} from '/bexar-art.js';
 import {plotArt} from '/field-art.js';
 import {drawGonzalesGround,gonzalesDrawables,GONZALES_ART_BOUNDS} from '/gonzales-art.js';
+import { drawTownGround, townDrawables } from '/town-art.js';
+import { TOWN_LAYOUTS } from '/town-layouts.js';
 import {drawWater,drawRoad,drawCrossing,crossingAngle} from '/landscape-art.js';
 import { drawHousePlot, plotted, renderHousePlot } from '/house-plot.js';
 import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesInView, treesVisible, woodsShown } from '/woods-view.js';
@@ -1511,6 +1513,12 @@ export function drawWorld(world) {
       if(site.id==='gonzales'&&camera.scale>=200){
         const project=p=>camera.toScreen({x:site.x+p.x,y:site.y+p.y});drawGonzalesGround(ctx,project,camera.scale);standing.push(...gonzalesDrawables(ctx,project,camera.scale,Object.fromEntries((world.map?.shops?.gonzales||[]).filter(shop=>shop.building).map(shop=>[shop.building,shop.label]))));
         window.__shopsDrawn={gonzales:(world.map?.shops?.gonzales||[]).length};
+      }else if(TOWN_LAYOUTS[site.id]&&camera.scale>=200){
+        // A town of the colonies from its research sketch (sim/town-layouts.mjs, docs/TOWNS.md §5b), its keepers' buildings named.
+        const layout=TOWN_LAYOUTS[site.id],project=p=>camera.toScreen({x:site.x+p.x,y:site.y+p.y});
+        drawTownGround(ctx,layout,project,camera.scale);
+        standing.push(...townDrawables(ctx,layout,project,camera.scale,Object.fromEntries((world.map?.shops?.[site.id]||[]).filter(shop=>shop.building).map(shop=>[shop.building,shop.label]))));
+        window.__townsDrawn={...(window.__townsDrawn||{}),[site.id]:layout.buildings.length};
       }else if(site.id==='bexar'&&camera.scale>=200){
         // Scenic local feet around the existing, server-projected town. No new
         // entities or travel shortcuts. Live terrain retains its own river data.
@@ -1529,6 +1537,8 @@ export function drawWorld(world) {
       // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the shops of the towns. Each trade is the nearest building the library has.
       if (settlement && site.id !== 'gonzales' && camera.scale >= 200 && world.map?.shops?.[site.id]) {
         for (const shop of world.map.shops[site.id]) {
+          // A keeper in one of the town's own drawn buildings is drawn with the town (public/town-art.js).
+          if (shop.building) continue;
           const p = camera.toScreen({ x: site.x + shop.x, y: site.y + shop.y }), height = 0.024 * camera.scale;
           standing.push({ y: p.y, draw: () => {
             drawSprite(ctx, shop.sprite, p.x, p.y, height);
@@ -2364,7 +2374,9 @@ function renderSelection(world) {
     ? `${chosen.chore.doing} · ${chosen.health?.condition || 'well'}`
     : chosen.travel
       ? `On the road to ${placeName(world, chosen.travel.to)} · ${Math.round((chosen.travel.progress || 0) / (chosen.travel.distance || 1) * 100)}%`
-      : `${chosen.task || 'resting'} · ${placeName(world, chosen.location?.siteId)} · ${chosen.health?.condition || 'well'}`;
+      : `${chosen.task || 'resting'} · ${placeName(world, chosen.location?.siteId)} · ${chosen.health?.condition === 'wounded' ? `${chosen.health.grade || 'badly'} wounded` : chosen.health?.condition || 'well'}`;
+  // A lasting mark from a wound (sim/army.mjs `WOUND_GRADES`): part of who this person is now, so it stays on their card.
+  if (chosen.marks?.length && world.role !== 'host') $('#selection-state').textContent += ` · ${chosen.marks.join(', ')}`;
   // The call panel below carries the question itself. This line is what is left for a
   // person who has been asked something that is not open to them to answer any more.
   const calling = task?.status === 'open' && task.options?.length && !chosen.observed && world.role !== 'host';

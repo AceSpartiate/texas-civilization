@@ -41,7 +41,7 @@ function playedToTheEnd(seed, playerCount) {
     if (found) applyAction(world, household.id, { action: 'turn-out', entityId: found[0], mode: 'horse' });
   }
   // Stop a handful of ticks short of the end, so the browser watches the last of them happen.
-  const end = momentOf(world, 'milam');
+  const end = momentOf(world, 'bexar-end');
   for (let i = 0; i < 2000 && world.minute + 3 * 720 < end && !world.director.complete; i++) stepWorld(world);
   world.households['hh-2'].resources.money = 5;
   world.status = 'lobby';

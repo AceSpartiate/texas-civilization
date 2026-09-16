@@ -84,6 +84,37 @@ nothing. The keepers stand at their doors in the town and are seen, like anybody
 - **Shops are in the map** (`world.map.shops`), so a town's buildings are drawn for anybody; the keepers themselves are still
   seen only by somebody of the family standing in the town. A keeper stands at their door and steps out to the street and back.
 
+## 5b. The towns drawn (2026-09-16)
+
+Owner: "start drawing the town layouts." The six settlements families are dealt to — San Felipe, Victoria, Mina, Matagorda,
+Columbia and Liberty — are drawn from the layout sketches in `docs/town-research/<town>.md` §7 (`FIC-GONZ-042`).
+
+- **One source for the page and the server.** `sim/town-layouts.mjs` is pure data with no imports; the server serves it as
+  `/town-layouts.js` and `public/town-art.js` draws from it, and `sim/shops.mjs` reads the same file to put the keepers in.
+- **Each town in its research's own frame**: feet, turned to the measured bearing of its surviving grid (Victoria N 20.7° E
+  on its cross-axis, Matagorda N 60.5° E, Columbia 104.8°, Liberty 88.78°, Mina cardinal) and set on the map's site point by
+  an `anchor`. San Felipe's frame is invented in the research, so its sheet is turned to put its river side toward the Brazos.
+- **What is drawn**: the platted streets (those not yet built along drawn faint), the public squares, every building the
+  research names in its sketch with the sprite it suggests, and the ordinary houses placed on lot centres nearest the
+  documented centre, the number the research reasons to (`dwellings`, repeatable arithmetic). **Rivers, bays and creeks
+  are not drawn from the sketches**: the map's own watercourses are real, and a test holds every building clear of them
+  (300 ft of a river, 40 ft of a creek).
+- **Keepers in drawn buildings** (owner, 2026-09-16, §5a: "use one of the pre-existing buildings per shopkeeper for places
+  already built"): a trade the research ties to a documented building keeps it — San Felipe's smithy, Peyton's tavern and
+  Stewart's drug store, White's, Linn's, Gazley's and Kelsey's stores, Fitchett & Gill's tavern — and every other trade
+  takes the next of the town's ordinary houses. The building is labelled with the trade.
+- **Names**: a keeper's trade shows as soon as the town is drawn; a building's own documented name only when close.
+- `ceiling:` each anchor but Liberty's puts the town's central documented feature on the official point; Liberty's frame is
+  tied to the ground by its 1968 Plaza Constitucional marker (tested to 120 ft). Measuring each frame against its markers
+  would place the others as well.
+- `ceiling:` buildings are drawn four times the height the research gives them (`DRAWN_HEIGHT`), so a town reads at a
+  student's walking zoom.
+- `ceiling:` a class made before this keeps its shops' own sprites in its saved map, and draws them on top of the new town.
+- Not yet drawn: Washington, Brazoria, Velasco, Harrisburg, Anahuac, Nacogdoches, Refugio and Goliad, each with its sketch
+  ready in `docs/town-research/`.
+- Tests `tests/towns.test.mjs` (5, each proven by injection); browser `npm run test:towns`
+  ([evidence](evidence/towns-browser.json), a wide and a close screenshot of each town).
+
 ## 6. Stored, and old classes
 
 `household.gear` (`shoes`, `saddle`, `wagon`, `blankets`), `household.rifle.shots` and `household.resources.hides`, each
@@ -92,8 +123,8 @@ old three, and the icon says there are no shops rather than sending anybody to a
 
 ## 7. Ceilings and what is next
 
-- `ceiling:` a new town's shop places are invented and evenly spread round its centre; the measured plans in
-  `docs/town-research/` are where each shop's documented or likeliest lot belongs, once those towns are laid out.
+- ~~`ceiling:` a new town's shop places are invented and evenly spread round its centre~~ **Done 2026-09-16 for the six
+  towns families live near** (§5b); the other eight places on the map still draw as a single building.
 - `ceiling:` a keeper never runs out of goods, only of coin; nothing a family buys is taken from anybody else.
 - `ceiling:` the tavern hears only what is already public; it does not yet start rumors of its own.
 - `ceiling:` the weaver sells blankets but no cloth, and nobody wears what they buy on the map.

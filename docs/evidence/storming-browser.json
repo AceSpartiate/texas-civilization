@@ -1,0 +1,47 @@
+{
+  "record": "The storming of Béxar, in a browser: docs/COLONIES.md build step 6",
+  "date": "2026-09-16",
+  "verdict": "PASS",
+  "note": "Same computer only. A real class on the colonies map, played in process to December 3 with hh-1's volunteer in the army, then served live; a student answered the winter-quarters question and Milam's call on the card and watched the wrong express and then the victory reach the family. The lasting mark was placed on the volunteer in process. No LAN or district claim.",
+  "checks": [
+    "December 4, the winter-quarters question on the volunteer's card, answered to stay: \"Trinidad is with the army at the old mill above Béxar, 136.4 miles from your land. The army has been ordered into winter quarters, and men are setting off for home in squads. Does Trinidad stay in camp? Trinidad stays in camp Trinidad goes home for the winter Send for Trinidad They leave the ranks and start home. Whatever the army does next happens without them.\"",
+    "Milam's call on the card, with nothing about the risk, answered by the server: \"Trinidad is with the army at the old mill above Béxar, 136.4 miles from your land. Ben Milam is calling for men to go into San Antonio with him before dawn. Does Trinidad go? Trinidad goes in with Milam Trinidad stays with the camp Send for Trinidad They leave the ranks and start home. Whatever the army does next happens without them.\"",
+    "the wrong express reaches the family's reports first: \"An express from the army says the volunteers went into Béxar about daylight on the 6th and have possessed themselves of the town, silencing the big guns, with two killed and a few wounded. Ugartechea is expected with six hundred men.\"",
+    "the victory follows, the terms as signed and the Mexican losses as a range",
+    "the family is told what happened to their person: \"Trinidad went into San Antonio and fought through the four days of the storming, and came through unhurt.\"",
+    "a lasting mark shows on the person's card: \"rest · Family 1 home · well · lost an eye\"",
+    "no page errors"
+  ],
+  "observed": {
+    "winter": "Trinidad is with the army at the old mill above Béxar, 136.4 miles from your land. The army has been ordered into winter quarters, and men are setting off for home in squads. Does Trinidad stay in camp? Trinidad stays in camp Trinidad goes home for the winter Send for Trinidad They leave the ranks and start home. Whatever the army does next happens without them.",
+    "milam": "Trinidad is with the army at the old mill above Béxar, 136.4 miles from your land. Ben Milam is calling for men to go into San Antonio with him before dawn. Does Trinidad go? Trinidad goes in with Milam Trinidad stays with the camp Send for Trinidad They leave the ranks and start home. Whatever the army does next happens without them.",
+    "express": {
+      "topicId": "bexar-storming",
+      "text": "An express from the army says the volunteers went into Béxar about daylight on the 6th and have possessed themselves of the town, silencing the big guns, with two killed and a few wounded. Ugartechea is expected with six hundred men.",
+      "status": "rumor",
+      "source": "An express from the army",
+      "observedMinute": 103200,
+      "receivedMinute": 103200,
+      "eventId": "ev-275",
+      "ageMinutes": 0,
+      "observationAgeMinutes": 0
+    },
+    "victory": {
+      "topicId": "bexar-storming",
+      "text": "Word has come that Béxar has fallen. For four days the volunteers fought through the town house by house, cutting through walls and digging trenches across the streets, while the families of Béxar lay shut in their houses; a woman of the town was shot carrying water to them. Ben Milam was killed on the 7th and Johnson took command. On the 9th Cos sent out a white flag from the Alamo, and by the capitulation dated the 11th he and his officers go into the interior on their word not to oppose the Constitution of 1824, his men keeping their muskets. Between four and six of ours were killed and about two dozen wounded. How many Mexican soldiers were killed and wounded the reports do not agree: about a hundred and fifty, or about three hundred.",
+      "status": "confirmed",
+      "source": "Word from the army",
+      "observedMinute": 103200,
+      "receivedMinute": 113280,
+      "eventId": "ev-292",
+      "ageMinutes": 0,
+      "observationAgeMinutes": 10080
+    },
+    "own": "Trinidad went into San Antonio and fought through the four days of the storming, and came through unhurt.",
+    "card": "rest · Family 1 home · well · lost an eye"
+  },
+  "screenshots": [
+    "docs/evidence/storming-milam-question.png",
+    "docs/evidence/storming-news.png"
+  ]
+}

@@ -52,7 +52,7 @@ export function advanceRoutine(world, minutes) {
     household.resources.food = Math.round(kept * 10000) / 10000;
   }
   for (const entity of Object.values(world.entities)) {
-    if (entity.health?.condition === 'minor-injury' && Number.isFinite(entity.health.recoversAt) && entity.health.recoversAt <= world.minute) entity.health = { condition: 'well' };
+    if (['minor-injury', 'wounded'].includes(entity.health?.condition) && Number.isFinite(entity.health.recoversAt) && entity.health.recoversAt <= world.minute) entity.health = { condition: 'well' };
     restAndTire(world, entity, minutes);
   }
 }
