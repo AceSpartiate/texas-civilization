@@ -67,7 +67,7 @@ function element(tag, content, className) { const el = document.createElement(ta
 // itself, so a browser dialog never blocks the projected Host.
 // Sending for somebody is asked twice, like the other two that cannot be taken back: they lose
 // their place in the ranks and whatever the army does next happens without them.
-const confirmLabel = { 'new-class': 'Confirm new class', 'stop-server': 'Confirm stop', 'send-for': 'Confirm: bring them home', 'winter-recall': 'Confirm: send for them' };
+const confirmLabel = { 'new-class': 'Confirm new class', 'stop-server': 'Confirm stop', 'send-for': 'Confirm: bring them home', 'winter-recall': 'Confirm: send for them', flee: 'Confirm: leave, and let it burn' };
 let confirming = null, confirmTimer = null, authRecheck = false, startAnyway = false;
 // The map is public geography that never changes during a class, so it is fetched once
 // and re-attached to each snapshot. A new class rotates the session id and invalidates it.
@@ -2046,6 +2046,53 @@ function populateTrade(world, chosen, running) {
  * next decision. Now both kinds of decision are a line of text and answers that each say
  * what they would cost, so the small one rehearses the large one without ever saying so.
  */
+/**
+ * The family's flight east (sim/scrape.mjs, docs/COLONIES.md §7g): told to leave, the main person's card takes the decision -
+ * what goes in the wagon, within the room it has, and where the family makes for. Leaving is asked twice, because the farm
+ * burns behind them. Once gone, the card says where the family is on the road.
+ */
+let flightFormKey = '';
+function renderFlight(world, chosen, running) {
+  const wrap = $('#selection-flight');
+  const flight = world.flight;
+  const main = world.household?.mainId || world.household?.principalId;
+  if (!flight || world.role === 'host' || chosen.id !== main) { wrap.hidden = true; wrap.replaceChildren(); flightFormKey = ''; return; }
+  wrap.hidden = false;
+  if (!['ordered', 'stayed'].includes(flight.status)) {
+    const said = { fled: `The family is on the road east for ${flight.refugeName}${flight.waitingAt ? `, waiting to get over at ${flight.waitingAt}` : ''}.`, refuged: `The family is camped at ${flight.refugeName} with the other families from the west.`, returning: 'The family is on the road home.', home: 'The family is home, to what is left.' }[flight.status] || '';
+    if (wrap.dataset.said !== said) { wrap.replaceChildren(element('p', said, 'ask-text')); wrap.dataset.said = said; }
+    flightFormKey = '';
+    return;
+  }
+  const key = JSON.stringify([flight.room, flight.mode, flight.have, flight.refuges, flight.burned, running]);
+  if (flightFormKey === key) return;
+  flightFormKey = key;
+  wrap.replaceChildren();
+  wrap.append(element('p', flight.burned ? 'The army has passed and burned the farm. The family can still go east with what it can carry.' : 'The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned.', 'ask-text'));
+  wrap.append(element('p', `Room for ${flight.room}${flight.mode === 'wagon' ? ' in the wagon' : ', carried on foot'}. Food takes ${flight.space.food} each, seed ${flight.space.seed}, cotton ${flight.space.cotton}, powder ${flight.space.powder}.`, 'work-note'));
+  const form = element('div', '', 'flight-form');
+  for (const good of Object.keys(flight.space)) {
+    const label = element('label', '', 'flight-take');
+    label.append(element('span', `${good} (${flight.have[good]} in the house)`));
+    const input = document.createElement('input');
+    input.type = 'number'; input.min = '0'; input.max = String(flight.have[good]); input.step = '1'; input.value = '0';
+    input.dataset.take = good; input.className = 'flight-amount';
+    label.append(input);
+    form.append(label);
+  }
+  const room = element('p', '', 'work-note'); room.id = 'flight-room';
+  const refuge = document.createElement('select'); refuge.id = 'flight-refuge';
+  for (const option of flight.refuges) { const choice = element('option', `${option.name} · about ${option.miles} miles`); choice.value = option.id; refuge.append(choice); }
+  const go = element('button', 'Leave for the east', 'work-stop');
+  go.dataset.action = 'flee'; go.dataset.entityId = chosen.id; go.disabled = !running;
+  const tally = () => {
+    const used = [...form.querySelectorAll('.flight-amount')].reduce((sum, input) => sum + (Number(input.value) || 0) * flight.space[input.dataset.take], 0);
+    room.textContent = `Loaded ${Math.round(used * 100) / 100} of ${flight.room}.`;
+    room.dataset.over = String(used > flight.room + 1e-9);
+  };
+  form.addEventListener('input', tally); tally();
+  wrap.append(form, room, element('label', 'Make for', 'flight-where'), refuge, go);
+}
 function renderCall(world, chosen, running) {
   const wrap = $('#selection-call');
   const request = taskFor(world, chosen);
@@ -2333,7 +2380,7 @@ function goToPerson(id) {
   if (world) { drawWorld(world); renderFamilyPanel(world); renderSelection(world); renderTutorial(world); }
 }
 /** Where on the card each need is answered. A rider has a panel of their own. */
-const NEED_SECTIONS = { army: '#selection-army', courier: '#selection-work', call: '#selection-call', asking: '#selection-work', offer: '#selection-trade' };
+const NEED_SECTIONS = { army: '#selection-army', courier: '#selection-work', flight: '#selection-flight', call: '#selection-call', asking: '#selection-work', offer: '#selection-trade' };
 /**
  * The "!" on a row: go to the person and open what is waiting on them - the rider's conversation, or their card at the
  * question with its answers - and put the keyboard on the first answer. Nothing is decided here: the answers are the card's
@@ -2674,7 +2721,7 @@ function renderSelection(world) {
   const listen = $('#listen-rider');
   listen.hidden = !waiting || world.role === 'host';
   listen.textContent = waiting ? `Listen to ${world.encounter.carrierName}` : 'Listen';
-  renderCall(world, chosen, running);
+  renderCall(world, chosen, running); renderFlight(world, chosen, running);
   renderArmyControl(world, chosen, running);
   renderTravelModes(world, chosen, settable);
   renderWork(world, chosen, settable);
@@ -3534,6 +3581,9 @@ function render(snapshot) {
   for (const button of $('#host-pace').querySelectorAll('button')) {
     button.dataset.active = String(paces[button.dataset.pace] === snapshot.tickMs);
   }
+  // The Host's button names the period that follows (sim/periods.mjs `nextPeriodLabel`).
+  const next = $('#host-controls [data-action="next-period"]');
+  if (next && world.ending?.host?.nextLabel && next.textContent !== world.ending.host.nextLabel && !next.dataset.confirming) next.textContent = world.ending.host.nextLabel;
   const statusLabel = world.slice?.complete ? 'story preserved' : { lobby: 'waiting to begin', running: '', paused: 'paused', ended: 'session ended' }[world.status] ?? world.status;
   $('#world').textContent = [world.historicalDate || timeLabel(world.minute ?? 0), statusLabel].filter(Boolean).join(' · ');
   const whenAvailable = { start: ['lobby'], pause: ['running'], resume: ['paused'], end: ['running', 'paused'], 'new-class': ['lobby', 'ended'], 'stop-server': ['lobby', 'running', 'paused', 'ended'] };
@@ -3706,6 +3756,8 @@ document.addEventListener('click', async event => {
     }
     if (button.dataset.destination) input.destination = button.dataset.destination === 'home' ? homeOf(world) : button.dataset.destination;
     if (button.dataset.chore) input.chore = button.dataset.chore;
+    // The flight's load and refuge come from the card's own form (sim/scrape.mjs).
+    if (action === 'flee') { input.refuge = $('#flight-refuge')?.value; input.take = Object.fromEntries([...document.querySelectorAll('#selection-flight .flight-amount')].map(one => [one.dataset.take, Number(one.value) || 0])); }
     if (button.dataset.option) input.option = button.dataset.option;
     if (button.dataset.question) { input.question = button.dataset.question; input.answer = button.dataset.answer; }
     // Every order that can put somebody on a road carries how they mean to go.

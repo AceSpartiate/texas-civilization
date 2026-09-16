@@ -23,6 +23,7 @@
 import { record } from './events.mjs';
 import { awardGlory } from './glory.mjs';
 import { canAnswerCalls, cannotAnswerWhy } from './family.mjs';
+import { houstonCamp, houstonOpen } from './houston.mjs';
 
 /** Where each kind of service is joined, and what it promises. */
 export const SERVICE = Object.freeze({
@@ -37,6 +38,8 @@ export const SERVICE = Object.freeze({
   // southern fights to Fannin at Goliad.
   relief: { siteId: 'gonzales', acres: 0, bound: false, name: 'the men going in from Gonzales', claimId: 'HIST-TEX-057', event: 'alamo' },
   fannin: { siteId: 'goliad', acres: 0, bound: false, name: 'Fannin\'s command at Goliad', claimId: 'HIST-TEX-059', event: 'goliad' },
+  // Houston's army of the spring (sim/houston.mjs): joined at whichever camp it is in.
+  houston: { siteId: 'gonzales', acres: 0, bound: false, name: 'General Houston\'s army', claimId: 'HIST-TEX-066', event: 'houston' },
 });
 
 /** Land counts at the end at one real for every twenty acres, added after glory multiplies the coin (owner, 2026-09-16). */
@@ -46,7 +49,7 @@ export const VOTING_AGE = 21;
 
 /** The chores of the winter, by what their last step does. */
 export const WINTER_CHORES = Object.freeze({
-  'enlist-regular': 'regular', 'enlist-auxiliary': 'auxiliary', 'join-garrison': 'garrison', 'join-matamoros': 'matamoros', 'go-vote': 'vote', 'join-relief': 'relief',
+  'enlist-regular': 'regular', 'enlist-auxiliary': 'auxiliary', 'join-garrison': 'garrison', 'join-matamoros': 'matamoros', 'go-vote': 'vote', 'join-relief': 'relief', 'join-houston': 'houston',
 });
 
 const passed = (world, key) => Boolean(world.director?.milestones?.[key]);
@@ -54,7 +57,9 @@ const passed = (world, key) => Boolean(world.director?.milestones?.[key]);
 const stillOpen = (world, household, kind) => kind === 'garrison' ? !passed(world, 'alamo-siege')
   : kind === 'matamoros' ? !passed(world, 'san-patricio')
   : kind === 'relief' ? Boolean(world.knowledge?.households?.[household.id]?.['alamo-siege']) && !passed(world, 'relief-leaves')
-  : true;
+  : kind === 'houston' ? houstonOpen(world)
+  // In the spring only Houston's army can be joined: enlisting at San Felipe ended when the council fled, the garrison fell, the south is Urrea's.
+  : world.period !== 3;
 
 const GONE = ['dead', 'captured'];
 /**
@@ -69,8 +74,8 @@ export function mayVote(entity) {
 const serving = entity => entity?.service?.status === 'serving';
 const place = (world, siteId) => world.map.sites[siteId]?.name || siteId;
 
-/** Whether the winter's choices are open: the second period, once its news has come, and before it ends. */
-export const winterOpen = world => world.period === 2 && Boolean(world.director?.milestones?.['winter-news']) && !world.director?.complete;
+/** Whether the winter's choices are open: the second period, once its news has come, and before it ends; and the spring, for Houston's army. */
+export const winterOpen = world => ((world.period === 2 && Boolean(world.director?.milestones?.['winter-news'])) || world.period === 3) && !world.director?.complete;
 /** Whether the polls are open, February 1. */
 export const pollsOpen = world => world.period === 2 && Boolean(world.director?.milestones?.['election-opens']) && !world.director?.milestones?.['election-close'];
 
@@ -93,7 +98,7 @@ export function winterRefusal(world, household, entity, choreId) {
     if (entity.voted) return `${entity.name} has voted.`;
     return null;
   }
-  if (!stillOpen(world, household, kind)) return { garrison: 'Béxar is under siege. Only the men going in from Gonzales can reach the garrison now.', matamoros: 'Nobody is going south to Matamoros now.', relief: 'The men from Gonzales have ridden for the Alamo.' }[kind] || 'That is not a choice now.';
+  if (!stillOpen(world, household, kind)) return { garrison: 'Béxar is under siege. Only the men going in from Gonzales can reach the garrison now.', matamoros: 'Nobody is going south to Matamoros now.', relief: 'The men from Gonzales have ridden for the Alamo.', houston: 'The battle is fought. The army is going home.' }[kind] || 'That is not a choice now.';
   // Who may go is who may answer a call: a parent, or a son or daughter of sixteen or more (docs/FAMILY_CREATION.md step 4).
   if (!canAnswerCalls(entity)) return cannotAnswerWhy(entity);
   if (['regular', 'auxiliary'].includes(kind) && entity.deserted) return `${entity.name} deserted the army and cannot enlist again.`;
@@ -109,7 +114,9 @@ export function joinService(world, household, entity, kind) {
     if (entity.chore) entity.chore.flags = [...(entity.chore.flags || []), 'shut-out'];
     return record(world, 'consequence', { actorId: entity.id, householdId: household.id, importance: 2, text: kind === 'garrison' ? `${entity.name} reached Béxar too late: the Mexican army is in the town and the Alamo is shut.` : kind === 'relief' ? `${entity.name} reached Gonzales after the men for the Alamo had ridden.` : `${entity.name} found the volunteers gone from ${place(world, terms.siteId)}.` });
   }
-  entity.service = { kind, status: 'serving', since: world.minute, siteId: terms.siteId, ...(terms.acres && { acres: terms.acres }) };
+  // Houston's army is wherever its camp is now; somebody who reaches an empty camp follows it (sim/houston.mjs `followCamp`).
+  const siteId = kind === 'houston' ? houstonCamp(world) : terms.siteId;
+  entity.service = { kind, status: 'serving', since: world.minute, siteId, ...(terms.acres && { acres: terms.acres }) };
   const eventId = record(world, 'army', {
     actorId: entity.id, householdId: household.id, importance: 3, classification: 'DOCUMENTED', claimId: terms.claimId,
     text: terms.acres
@@ -136,7 +143,11 @@ export function castVote(world, household, entity) {
 }
 
 /** Why somebody cannot be sent for, or null. */
-export function recallRefusal(entity) {
+/** Six in the morning of March 19, 1836: Fannin's column leaves Goliad in the fog (`HIST-TEX-063`). */
+export const FANNIN_MARCHES = 221760 + 18 * 1440 + 360;
+export function recallRefusal(entity, world = null) {
+  // With Fannin from the morning of March 19 (sim/houston.mjs): on the prairie, then a prisoner; nobody can be sent after them.
+  if (entity?.service?.kind === 'fannin' && ['serving', 'prisoner'].includes(entity.service.status) && Number.isFinite(world?.minute) && world.minute >= FANNIN_MARCHES) return `${entity.name} has marched out of Goliad with Fannin, and nobody can be sent after them.`;
   if (!serving(entity)) return `${entity.name} is not away with anybody to be sent for.`;
   if (entity.service.besieged) return `${entity.name} is shut in the Alamo, and nobody can be sent for through the Mexican lines.`;
   if (entity.service.riding) return `${entity.name} has ridden for the Alamo with the Gonzales men.`;
@@ -150,10 +161,11 @@ export function recallRefusal(entity) {
  * may never enlist again (owner). An auxiliary forfeits the land. The garrison and the expedition simply come home.
  */
 export function recallFromService(world, household, entity, { beginTravel, modeWith }) {
-  const why = recallRefusal(entity);
+  const why = recallRefusal(entity, world);
   if (why) throw new Error(why);
   const terms = SERVICE[entity.service.kind];
-  const deserting = terms.bound;
+  // A regular taken into Houston's army is a regular still (sim/houston.mjs `takeInEnlisted`).
+  const deserting = entity.service.bound ?? terms.bound;
   entity.service = { ...entity.service, status: deserting ? 'deserted' : 'released', until: world.minute, acres: 0 };
   if (deserting) entity.deserted = true;
   const text = deserting
@@ -190,9 +202,9 @@ export function winterInvalid(world) {
   for (const entity of Object.values(world.entities)) {
     const service = entity.service;
     if (service === undefined) continue;
-    if (!service || !SERVICE[service.kind] || !['serving', 'released', 'deserted', 'fell', 'captured'].includes(service.status)) return 'Invalid service';
+    if (!service || !SERVICE[service.kind] || !['serving', 'released', 'deserted', 'fell', 'captured', 'prisoner'].includes(service.status)) return 'Invalid service';
     if (service.courier !== undefined && !['open', 'volunteered', 'stays', 'passed', 'sent'].includes(service.courier)) return 'Invalid courier answer';
-    if (service.fate !== undefined && !['fell', 'spared', 'killed', 'captured', 'escaped'].includes(service.fate)) return 'Invalid fate';
+    if (service.fate !== undefined && !['fell', 'spared', 'killed', 'captured', 'escaped', 'executed', 'wounded', 'unhurt'].includes(service.fate)) return 'Invalid fate';
     if (service.acres !== undefined && (!Number.isInteger(service.acres) || service.acres < 0)) return 'Invalid acres promised';
   }
   return null;

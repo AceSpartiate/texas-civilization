@@ -96,6 +96,7 @@ test('a call and an army question are "!"s on whoever may answer them, and nothi
   const everything = {
     entities: [{ ...entity, chore: { ask: { id: 'shot' } }, service: { kind: 'garrison', status: 'serving', besieged: true, courier: 'open' } }], request: call, army: army('open'),
     encounter: { status: 'open', listenerId: 'a', carrierName: 'Ben' }, offers: [{ direction: 'received', ourEntityId: 'a', theirName: 'Cy' }],
+    flight: { status: 'ordered' }, household: { mainId: 'a' },
   };
   assert.deepEqual(needsOf(everything, 'a').map(need => need.kind), NEED_KINDS);
   // The Host is never waited on, and the dead and captured are not asked anything.

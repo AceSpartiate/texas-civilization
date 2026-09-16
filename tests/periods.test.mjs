@@ -97,7 +97,7 @@ test('continuing skips the winter gently: everyone home, wounds healed by the ti
   assert.throws(() => beginSecondPeriod(world), /first period/, 'a class went into the winter twice');
 });
 
-test('the second period plays its own moments, none of 1835 again, and ends with the final reckoning', () => {
+test('the second period plays its own moments, none of 1835 again, and ends with interim standings and the spring offered', () => {
   const world = firstPeriod();
   beginSecondPeriod(world);
   const preserved = () => world.events.filter(event => event.type === 'slice-preserved').length;
@@ -113,13 +113,14 @@ test('the second period plays its own moments, none of 1835 again, and ends with
   assert.ok(world.minute >= momentOf(world, 'alamo-end'));
   assert.equal(preserved(), before + 1, 'the end of 1835 fired again in the winter');
   const host = view(world, undefined, 'host').ending.host;
-  assert.equal(host.interim, false, 'the end of the second period was only interim');
-  assert.equal(host.canContinue, false, 'the Host was offered a third period');
+  // The second period ends interim too, with the spring to follow (docs/COLONIES.md §7g).
+  assert.equal(host.interim, true, 'the end of the second period was shown as final');
+  assert.equal(host.canContinue, true, 'the Host was not offered the spring');
 });
 
-test('a saved class period that is neither the first nor the second is refused', () => {
+test('a saved class period that is not one of the three is refused', () => {
   const world = createGonzalesWorld('periods-invalid', 5, { map: 'colonies' });
-  world.period = 3;
+  world.period = 4;
   assert.throws(() => validateWorld(world), /class period/);
 });
 

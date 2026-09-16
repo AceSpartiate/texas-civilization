@@ -81,7 +81,9 @@ export const HURT_CONDITIONS = ['minor-injury', 'injured', 'wounded'];
 export const STILL_CONDITIONS = ['dead', 'captured'];
 // Conditions that need no pose of their own: the person is drawn doing whatever they are
 // doing, and the state is carried in words.
-export const ORDINARY_CONDITIONS = ['well', 'tired'];
+// ceiling: somebody sick on the road (sim/scrape.mjs) is drawn as they are, travelling or resting; the sickness is carried in
+// words on their card. A sick pose is nobody's request yet.
+export const ORDINARY_CONDITIONS = ['well', 'tired', 'sick'];
 /**
  * A rider, drawn as a rider.
  *

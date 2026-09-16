@@ -10,6 +10,7 @@ import { abandonChore, advanceChores, answerChore, askProjection, beginChore, CH
 import { bringAlong, hasWords, holderOf, keepWithRiders, leaveBehind, modeWith, NOUN } from './keeping.mjs';
 import { SERVING_ACTIONS, recallFromService, servingWhy, winterInvalid } from './winter.mjs';
 import { answerCourier } from './alamo.mjs';
+import { advanceFlight, flee, flightProjection, scrapeInvalid } from './scrape.mjs';
 import { advanceTown, createTownspeople, observedBy } from './town.mjs';
 import { GOODS, advanceOffers, makeOffer, offersFor, respondToOffer } from './trade.mjs';
 import { buildGonzalesRegion, findPath, polylineLength } from './geography.mjs';
@@ -464,6 +465,8 @@ export function stepWorld(world) {
   advanceEncounters(world);
   // Days of the calendar: what is eaten, what spoils, what mends, whatever the tick was worth.
   advanceRoutine(world, calendar); deliverReports(world);
+  // The families on the road east (sim/scrape.mjs): the rivers, the food, the sickness, arriving.
+  advanceFlight(world, calendar);
   advanceDirectors(world, { beginTravel, dispatchReport });
   // Whatever somebody rode to the army marches with them (sim/keeping.mjs), once the army has moved.
   keepWithRiders(world);
@@ -643,6 +646,8 @@ export function applyAction(world, householdId, input) {
   if (input.action === 'winter-recall') { recallFromService(world, household, entity, { beginTravel, modeWith }); return; }
   // Asked inside the Alamo whether they will carry a letter out (sim/alamo.mjs).
   if (input.action === 'alamo-courier') { answerCourier(world, entity, input.answer); return; }
+  // The family leaves for the east (sim/scrape.mjs): the household's own decision, given by its main person.
+  if (input.action === 'flee') { flee(world, household, { take: input.take || {}, refuge: input.refuge }); return; }
   // Farm work is open to the whole family; the historical choice is the principal's.
   // Keeping that split explicit is the point: everyone can be sent to the field, but
   // the decision the lesson turns on still belongs to one named person.
@@ -826,6 +831,8 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
   return structuredClone({ tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: world.map }), household: household && projectHousehold(world, household), entities, others, offers, encounter, events, work, travelModes, land, wagon, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role),
     // The army, once there is one: where it is, how many went, and which of them are this family's (sim/army.mjs).
     ...(world.army && householdId ? { army: armyProjection(world, householdId) } : {}),
+    // The family's flight east, once it has been told to go (sim/scrape.mjs).
+    ...(household?.flight ? { flight: flightProjection(world, household) } : {}),
     // Every family's land as it truly stands, and where the army is, for the Host's map only (sim/overview.mjs).
     ...(overview && { overview: { lands: overview.lands, ...(overview.army && { army: overview.army }) } }),
     // The end of the game, and only once it has ended: each family's coin and glory revealed, and the
@@ -839,7 +846,7 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
 export function validateWorld(world) {
   if (world.schemaVersion !== 3 || !Number.isInteger(world.tick) || world.tick < 0 || !Number.isFinite(world.minute) || world.minute < 0 || !['lobby', 'running', 'paused', 'ended'].includes(world.status)) throw new Error('Invalid world');
   // Absent on every class saved before a second period existed, which were all in the first (sim/periods.mjs).
-  if (world.period !== undefined && ![1, 2].includes(world.period)) throw new Error('Invalid class period');
+  if (world.period !== undefined && ![1, 2, 3].includes(world.period)) throw new Error('Invalid class period');
   const ids = new Set();
   for (const [id, entity] of Object.entries(world.entities)) {
     if (id !== entity.id || ids.has(id)) throw new Error('Duplicate or mismatched entity ID');
@@ -987,6 +994,8 @@ export function validateWorld(world) {
   if (badFelling) throw new Error(badFelling);
   const badService = winterInvalid(world);
   if (badService) throw new Error(badService);
+  const badFlight = scrapeInvalid(world);
+  if (badFlight) throw new Error(badFlight);
   const events = new Set(world.events.map(e => e.id));
   if (events.size !== world.events.length || world.events.some(e => e.causes.some(id => !events.has(id)))) throw new Error('Invalid event graph');
   if (world.nextEventId !== world.events.length + 1) throw new Error('Event sequence would duplicate an ID');

@@ -388,6 +388,13 @@ button:hover:enabled{background:#60673e}
 .ending-table tr[data-first="true"] td{background:#ecd9a8;font-weight:600}
 #ending-open{position:absolute;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:29}
 @media(max-width:760px){#ending{padding:12px}.ending-numbers dd{font-size:21px}}
+/* The flight east (public/app.js renderFlight). */
+.flight-form{display:grid;gap:4px;margin:6px 0}
+.flight-take{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px}
+.flight-amount{width:64px}
+#flight-room[data-over=true]{color:#8a3b22}
+.flight-where{display:block;margin-top:6px;font-size:12px;color:#5a4a2e}
+#flight-refuge{width:100%;margin:4px 0 8px}
 /* Inside the house (public/interior.js). */
 #interior{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:31;width:min(680px,calc(100% - 32px));max-height:min(90vh,900px);overflow-y:auto;background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259;border-radius:8px;box-shadow:0 5px 0 #6b583638,0 18px 45px #32291950;padding:12px 16px 16px;color:#3b3221}
 #interior-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #c5b286;padding-bottom:6px;margin-bottom:8px}

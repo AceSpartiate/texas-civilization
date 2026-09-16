@@ -20,6 +20,7 @@
 // hunted species is ever named.
 import { heavyWorkPace, tooYoung, tooYoungWhy } from './family.mjs';
 import { castVote, joinService, servingWhy, winterOffered, winterRefusal } from './winter.mjs';
+import { houstonCamp } from './houston.mjs';
 import { record } from './events.mjs';
 import { purseHeld, purseOf, recordTrade, traderAt } from './town.mjs';
 import { carryCapacity, DEFAULT_MODE, MODES, propertyId } from './travel.mjs';
@@ -590,6 +591,17 @@ export const CHORES = {
       { travel: 'refugio', doing: 'on the road south to Refugio' },
       { work: 1, doing: 'finding the volunteers' },
       { winter: 'matamoros' },
+      { when: ['shut-out'], travel: 'home', doing: 'turning back for home' },
+    ],
+  },
+  // Houston's army of the spring (sim/houston.mjs): to wherever its camp is when they set out; they follow it after.
+  'join-houston': {
+    name: 'Go and join General Houston\'s army', skill: 'hands', where: 'home', winter: true,
+    describe: 'Go to the camp of the army Houston is gathering as he falls back east, and stay with it. They can be sent for to help the family.',
+    steps: [
+      { travel: 'houston-camp', doing: 'on the road to the army' },
+      { work: 1, doing: 'reporting to the army' },
+      { winter: 'houston' },
       { when: ['shut-out'], travel: 'home', doing: 'turning back for home' },
     ],
   },
@@ -1193,7 +1205,9 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       delete state.quarry;
       const destination = step.travel === 'home' ? household.homeSiteId
         : step.travel === 'timber' ? timberFor(world, household)
-        : step.travel === 'town' ? townOf(household) : step.travel;
+        : step.travel === 'town' ? townOf(household)
+        // Houston's camp is wherever it is when they set out (sim/houston.mjs).
+        : step.travel === 'houston-camp' ? houstonCamp(world) : step.travel;
       // Already standing there: nothing to walk, so fall through to the next step.
       if (!destination || entity.location.siteId === destination) continue;
       // How they meant to go may not be theirs any more: a chore that began with the horse can

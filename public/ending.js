@@ -62,7 +62,7 @@ function hostView(closing) {
   parts.push(make('p', first.length
     ? `${first.length > 1 ? `${first.slice(0, -1).join(', ')} and ${first.at(-1)} ${lead[0]}, level` : `${first[0]} ${lead[1]}`}, with a final number of ${closing.best}.`
     : 'No family a student played finished this class.', 'ending-winner'));
-  if (closing.interim) parts.push(make('p', 'These are interim standings. The war goes on in the next class: press Continue to the winter of 1836 when the class meets again.', 'ending-sum'));
+  if (closing.interim) parts.push(make('p', `These are interim standings. The war goes on in the next class: press ${closing.nextLabel || 'Continue'} when the class meets again.`, 'ending-sum'));
   const wrap = make('div', null, 'ending-table-wrap');
   const table = make('table', null, 'ending-table');
   const head = make('tr');

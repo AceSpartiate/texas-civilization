@@ -385,7 +385,12 @@ Each step ends with tests that failed first, a browser proof where it touches wh
    February 1 vote, Matamoros; one person, one place. (c) Families nobody plays, at the record's rarity.
 9. **The Alamo** (§7f; research [alamo.md](battle-research/alamo.md)): the siege from February 23, couriers, the Gonzales relief,
    the fall on March 6, San Patricio and Agua Dulce, word of the fall disbelieved and confirmed; the second period ends on the
-   night of March 13 when Gonzales is burned. Then Goliad, the Runaway Scrape and San Jacinto.
+   night of March 13 when Gonzales is burned.
+10. **The third class period: the Runaway Scrape, Goliad and San Jacinto** (§7g; research
+   [goliad-scrape-san-jacinto.md](battle-research/goliad-scrape-san-jacinto.md)). (a) The third period, opening March 14 with no
+   gap. (b) The flight: each settlement ordered out on its date, the wagon loaded, the farm burned behind, the rivers, sickness.
+   (c) Houston's army: joined at its camps, left to help a family. (d) Goliad: Coleto and the massacre. (e) San Jacinto and the
+   road home, ending about April 25 with the final reckoning.
 
 ---
 
@@ -832,6 +837,56 @@ Decided by the owner by multiple choice (§7f). Research [alamo.md](battle-resea
   `tests/family-commands.test.mjs` (the courier "!"); browser `npm run test:alamo-siege`
   ([evidence](evidence/alamo-siege-browser.json)).
 
+### 6p. As built: step 10, the third period - the Runaway Scrape, Goliad and San Jacinto (2026-09-16)
+
+Decided by the owner by multiple choice (§7g). Research [goliad-scrape-san-jacinto.md](battle-research/goliad-scrape-san-jacinto.md);
+`HIST-TEX-062` to `-067`, `FIC-GONZ-046`. `sim/scrape.mjs`, `sim/houston.mjs`, `advanceScrape` in `sim/directors.mjs`.
+
+- **The third period** (`beginThirdPeriod`): the second ends interim too, and the Host's button reads *Continue to the spring
+  of 1836* (`nextPeriodLabel`); the same class opens paused at dawn on March 14 (`scrape-opens`), seven hours on, with nothing
+  skipped and everybody where they were. It runs on the four-hours-a-tick calendar and ends at dawn on April 25 (`scrape-end`)
+  with the final reckoning, the families on the road home.
+- **Told to leave** (`SETTLEMENT_DAYS`, `orderOut`): each settlement's families on its day - Gonzales, Goliad and Refugio March
+  14, Mina and Washington the 17th, Victoria the 19th, San Felipe the 28th, the Brazos and coast towns April 1, Nacogdoches the
+  12th, Liberty and Anahuac the 13th, Harrisburg the 14th (`ceiling:` the record has the days towns were found empty; the
+  rest are placed by the armies' movements). A "!" on the main person's row opens the card at the decision, and **the calendar
+  holds at the farming scale while a played family decides**, until it goes or the army has passed (two days).
+- **Leaving** (action `flee`, `take` and `refuge`, asked twice): what fits goes - food a quarter of a unit of room, seed one,
+  cotton a half, powder a tenth, in a wagon with room for 20 when the ox and wagon stand at home, else what the grown people
+  carry (1.25 each); the coin always goes. The family chooses a refuge east of it among San Felipe, Washington, Lynchburg,
+  Liberty and Nacogdoches. Everybody at home sets out together with the beasts, silently, as the arrival does; **the Texas army
+  burns the house, the field and the fences as they leave** (`burnFarm`: `ruin`, the furniture and the room gone, what was
+  not taken gone, the stock gone), and the record says they watched it burn. Somebody serving or away is not at home and stays
+  where they are.
+- **Staying**: two days after the order the army passes and burns the farm anyway (`stayed`); the family can still go with what
+  it can carry. When the Mexican army comes through (`enemy`), whoever is at home is taken prisoner at one in two, by a hashed
+  share.
+- **The road** (`advanceFlight`): at every crossing on the way - the fords and the ferry towns - the family waits its turn,
+  eighteen hours (`CROSSING_HOURS`), and goes over together; it eats what it carries; each day everybody on the road is rolled
+  for sickness at 4 in 1,000, doubled under six and doubled with no food, weighted by hidden strength and health; the sick mend
+  in five days and each day sick carries 2 in 100 of dying, "buried where they fell". About one person in a hundred over the
+  flight (owner). `sick` is a condition drawn as they are (`public/motion.js`).
+- **The refuge and home**: the family camps at its refuge; with the word of San Jacinto (April 23) every family turns for home
+  (`turnHome`), and one that gets there is told the house and the field are burned.
+- **Houston's army** (`sim/houston.mjs`, service kind `houston`, chore *Go and join General Houston's army*): joined at the camp
+  of the day - Gonzales, Beeson's on the Colorado from March 17, San Felipe from the 28th (`ceiling:` Groce's is San Felipe),
+  Harrisburg from April 18, Lynchburg from the 20th - and followed as it moves (`followCamp`); anybody can be sent for; the
+  regulars and auxiliaries at San Felipe are taken into it on the 28th, the regulars bound still (`takeInEnlisted`). Nobody
+  joins after the battle. The only other winter choice open in the spring is none: enlisting, the garrison and the south are shut.
+- **Goliad**: those with Fannin can be sent for until six on the morning of March 19; Coleto at noon (`fightColeto`, 3 in 100
+  killed and 20 wounded, all then prisoners); Palm Sunday (`goliadMassacre`, 89 in 100 shot, 7 got away, 5 spared to Matamoros,
+  by a hashed share); the word of the defeat March 25 and of the massacre about April 1, when the family learns its own
+  (`tellGoliad`): the escaped start home.
+- **San Jacinto** (`fightSanJacinto`, half past four on April 21): 1 in 100 killed and 3 wounded (slightly), told with the
+  victory on the 23rd (`tellSanJacinto`), when the army goes home. Santa Anna taken on the 22nd.
+- **Families nobody plays** flee at once with all the food that fits and the nearest refuge; about one grown man in seven joins
+  Houston (`WINTER_SHARES.houston`).
+- **Stored**: `household.flight` (`status` ordered, fled, stayed, refuged, returning, home; `refuge`, `took`, `crossing`,
+  `crossed`, `burned`), `entity.service` (`prisoner`, `coleto`, `enlisted`, `bound`), health `sick`; validated. No save
+  version moved. The projection's `flight` carries the room, the have and the refuges; never a fate.
+- Tests `tests/scrape.test.mjs` (6) and `tests/houston.test.mjs` (4), proven by 35 injections; browser `npm run test:scrape`
+  ([evidence](evidence/scrape-browser.json)).
+
 ## 7. Questions for the owner — all answered 2026-09-14
 
 1. **How long is a class?** About fifty minutes: ten of farming, then the war, compressed without feeling compressed (§5.7).
@@ -947,3 +1002,18 @@ Put to the owner by multiple choice after [alamo.md](battle-research/alamo.md), 
 | A family member who went south with the Matamoros men | **The record's rates, split between the two parties**: rolled at San Patricio (February 27) or Agua Dulce (March 2) for killed, captured or escaped; the captured are prisoners at Matamoros until the war ends; the escaped make their way to Goliad and Fannin. |
 | Where does the second period end? | **March 13, Gonzales burned**: word confirmed, Houston burns Gonzales, the Runaway Scrape begins, and the class ends that night. Goliad, the Scrape and San Jacinto come next. |
 | Can families still enlist, garrison or go south once the siege begins? | **The garrison closes; the others stay open**: nobody new reaches the garrison except with the relief from Gonzales; enlisting at San Felipe stays open; going south closes on February 27. |
+
+### 7g. Goliad, the Runaway Scrape and San Jacinto — answered 2026-09-16
+
+Put to the owner by multiple choice after [goliad-scrape-san-jacinto.md](battle-research/goliad-scrape-san-jacinto.md):
+
+| Question | Owner's answer |
+| --- | --- |
+| How does the class continue past March 13? | **A third class period**: day 3 opens the same families on March 14, 1836, with no gap to skip, and runs through the Scrape, Goliad and San Jacinto to the road home. |
+| How does the Runaway Scrape work for a family? | **Ordered out, with choices along the way.** When word reaches a settlement on its historical date its families are told to leave; each chooses what to load into the wagon (what is left is lost) and a way east, and must get over the flooded rivers at the crossings. The owner: *"Families watch as they leave the Texas Army burns their farm and house to make sure the Mexican Army can't use it."* |
+| What if a family will not leave? | **Burned anyway, and at risk**: the army burns the house and field when it passes whether the family has gone or not, and anybody still at home when the Mexican army comes through may be taken prisoner. Leaving is urged, never forced. |
+| Sickness on the road ("many persons died and were buried where they fell", no number) | **Sickness, rarely fatal**: rain, cold and hunger make people sick, the weak more (low hidden health, the very young, a family short of food or shelter); a few of the sick die, around one person in a hundred over the whole flight, so a family's preparation matters. |
+| Joining Houston's army | **Join at a camp, leave any time**: any grown member can join at the army's camp on its dates (Gonzales, the Colorado, San Felipe, Groce's) and can be sent for to help the family, as many men were after word of Goliad (a regular who leaves deserts); regulars and auxiliaries already enlisted join it automatically. |
+| A family member with Fannin | **The record's rates, no new joins**: Coleto about 3 in 100 killed and 20 wounded; the prisoners at Goliad on March 27 about 89 in 100 executed, 7 escape, 5 spared as physicians or workmen and taken to Matamoros. Nobody new joins Fannin; a family can send for its person until March 18. |
+| San Jacinto | **1 in 100 killed, 3 in 100 wounded**, weighted by hidden strength and health. |
+| When does the game end? | **The road home, about April 25**: the battle on the 21st, Santa Anna taken on the 22nd, word by rider, families starting home to what is left, then the final reckoning. Prisoners held at Matamoros count as alive. |

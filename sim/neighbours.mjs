@@ -40,7 +40,7 @@ const HOUSE_PREFERENCE = ['hewn-log', 'round-log', 'jacal'];
  * as the record shows"; 78 in 100 of those serving that winter were newcomers from the United States, `HIST-TEX-047`). The
  * regular army takes two in five of those who enlist; the numbers are this game's own (`FIC-GONZ-044`).
  */
-export const WINTER_SHARES = Object.freeze({ enlist: 0.1, regular: 0.04, garrison: 0.1, matamoros: 0.02, vote: 0.9, relief: 0.1 });
+export const WINTER_SHARES = Object.freeze({ enlist: 0.1, regular: 0.04, garrison: 0.1, matamoros: 0.02, vote: 0.9, relief: 0.1, houston: 0.15 });
 
 /** A share in [0, 1) that is always the same for this class, this person and this question: FNV-1a over the three. */
 export function shareOf(world, personId, question) {
@@ -120,6 +120,14 @@ export function thinkFor(world, household, { project, act }) {
     else if (answerers[0]) attempt({ action: 'stay-put', entityId: answerers[0].person.id });
   }
 
+  // Told to leave in the spring (sim/scrape.mjs): a family nobody plays goes at once, taking all the food that fits and then
+  // seed, for the nearest refuge east.
+  if (view.flight?.status === 'ordered' && view.flight.refuges?.length) {
+    const take = {}; let room = view.flight.room;
+    for (const good of ['food', 'seed', 'cotton', 'powder']) { const amount = Math.min(view.flight.have[good] || 0, Math.floor(room / view.flight.space[good])); take[good] = amount; room -= amount * view.flight.space[good]; }
+    const refuge = [...view.flight.refuges].sort((a, b) => a.miles - b.miles)[0].id;
+    attempt({ action: 'flee', entityId: view.household.mainId || view.household.principalId, take, refuge });
+  }
   // The winter's choices (sim/winter.mjs, docs/COLONIES.md §7e), at the record's rarity (owner, 2026-09-16): most colonists
   // stayed home that winter, so about one grown hand in ten enlists for land, about one in ten goes to the Béxar garrison,
   // one in fifty goes south to Matamoros, and nearly every man who may vote rides in to vote. Who is decided by a share
@@ -136,7 +144,9 @@ export function thinkFor(world, household, { project, act }) {
       : share < WINTER_SHARES.enlist + WINTER_SHARES.garrison + WINTER_SHARES.matamoros ? 'join-matamoros' : null;
     if (chore && offer(chore)) { ride({ action: 'chore', entityId: person.id, chore }); continue; }
     // Travis's letter (sim/alamo.mjs): about one grown hand in ten of a family that has heard it rides to Gonzales to go in.
-    if (offer('join-relief') && shareOf(world, person.id, 'relief') < WINTER_SHARES.relief) ride({ action: 'chore', entityId: person.id, chore: 'join-relief' });
+    if (offer('join-relief') && shareOf(world, person.id, 'relief') < WINTER_SHARES.relief) { ride({ action: 'chore', entityId: person.id, chore: 'join-relief' }); continue; }
+    // Houston's army in the spring (sim/houston.mjs): about one grown man in seven.
+    if (offer('join-houston') && person.sex !== 'female' && shareOf(world, person.id, 'houston') < WINTER_SHARES.houston) ride({ action: 'chore', entityId: person.id, chore: 'join-houston' });
   }
 
   // On the real land, where the house stands comes first (sim/homesite.mjs): looked over as a student would look it over.

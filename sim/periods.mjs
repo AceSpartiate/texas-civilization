@@ -26,11 +26,17 @@ export const periodOf = world => world.period || 1;
  * real land of the colonies. The invented Gonzales country ends at the fight and has no winter to go on to.
  */
 export function canContinue(world) {
-  return world.status === 'ended' && periodOf(world) === 1 && Boolean(world.map?.source) && Boolean(world.director?.milestones?.['bexar-end']);
+  if (world.status !== 'ended' || !world.map?.source) return false;
+  if (periodOf(world) === 1) return Boolean(world.director?.milestones?.['bexar-end']);
+  // The third period, the spring of 1836 (docs/COLONIES.md §7g), follows the second's end on the night of March 13.
+  if (periodOf(world) === 2) return Boolean(world.director?.milestones?.['alamo-end']);
+  return false;
 }
+/** What the Host's button says: the period that follows this one. */
+export const nextPeriodLabel = world => periodOf(world) === 1 ? 'Continue to the winter of 1836' : 'Continue to the spring of 1836';
 
 /** Whether the standings a class ends with are interim: the first period, which a second follows. */
-export const interimStandings = world => periodOf(world) === 1 && Boolean(world.map?.source) && Boolean(world.director?.milestones?.['bexar-end']);
+export const interimStandings = world => Boolean(world.map?.source) && ((periodOf(world) === 1 && Boolean(world.director?.milestones?.['bexar-end'])) || (periodOf(world) === 2 && Boolean(world.director?.milestones?.['alamo-end'])));
 
 /** How many days of what the family eats it is always left over the winter, so nobody starves over time nobody played. */
 export const WINTER_FLOOR_DAYS = 14;
@@ -56,7 +62,7 @@ function setDown(world, entity, siteId) {
  * the farms, it is `advanceRoutine` run over these days with spoilage, and the owner's "nobody starves" kept as the floor.
  */
 export function beginSecondPeriod(world) {
-  if (!canContinue(world)) throw new Error('Only a class that has finished its first period can go on to the winter.');
+  if (!canContinue(world) || periodOf(world) !== 1) throw new Error('Only a class that has finished its first period can go on to the winter.');
   const opens = momentOf(world, 'winter-opens');
   const days = Math.max(0, (opens - world.minute) / 1440);
 
@@ -117,3 +123,23 @@ export function beginSecondPeriod(world) {
     text: 'The winter has passed. It is January 25, 1836. The men who took Béxar are home, and the families are at work on their land again. The war is not over.',
   });
 }
+
+/**
+ * The third period, the spring of 1836 (docs/COLONIES.md §7g): the same class carried on from the night Gonzales burned to
+ * dawn on March 14, seven hours later. There is no winter to skip: everybody is where they were, the roads are as they were,
+ * and the families of Gonzales are told to leave that morning (sim/scrape.mjs). Paused, so the teacher starts it.
+ */
+export function beginThirdPeriod(world) {
+  if (!canContinue(world) || periodOf(world) !== 2) throw new Error('Only a class that has finished its second period can go on to the spring.');
+  world.period = 3;
+  world.minute = Math.max(world.minute, momentOf(world, 'scrape-opens'));
+  world.director.complete = false;
+  world.director.phase = 'gathering';
+  world.status = 'paused';
+  return record(world, 'period-opens', {
+    visibility: 'public', importance: 3, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-046',
+    text: 'Dawn, March 14, 1836. Gonzales is ashes behind the army, and the Mexican columns are coming east. The war has come to the families now.',
+  });
+}
+/** The next period, whichever it is. */
+export const beginNextPeriod = world => periodOf(world) === 1 ? beginSecondPeriod(world) : beginThirdPeriod(world);

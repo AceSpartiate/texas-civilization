@@ -44,6 +44,7 @@ export const PANEL_SUMMARIES = Object.freeze({
   'join-matamoros': 'Go south to Refugio and join the volunteers bound for Matamoros.',
   'go-vote': 'Go into town and vote for the delegates to the convention.',
   'join-relief': 'Ride to Gonzales to go in to the Alamo with the men gathering there.',
+  'join-houston': 'Go to the camp of General Houston\'s army and stay with it.',
   'winter-recall': 'Send for them to leave where they serve and come home.',
   'travel-gonzales': 'Go into the town of Gonzales and stay there until sent somewhere else.',
   'travel-home': 'Come back to the family’s own land.',
@@ -98,6 +99,7 @@ export const PANEL_ICONS = Object.freeze({
   'join-matamoros': { glyph: 'south' },
   'go-vote': { glyph: 'ballot' },
   'join-relief': { glyph: 'fort' },
+  'join-houston': { glyph: 'flag' },
   'winter-recall': { sprite: 'cabin-small' },
   'travel-gonzales': { sprite: 'trading-house' },
   'travel-home': { sprite: 'cabin-small' },
@@ -280,7 +282,7 @@ export function meetingFor(world, entity) {
 }
 
 /** Which card section answers each need, in the order a need is shown when a person has more than one. */
-export const NEED_KINDS = Object.freeze(['rider', 'army', 'courier', 'call', 'asking', 'offer']);
+export const NEED_KINDS = Object.freeze(['rider', 'flight', 'army', 'courier', 'call', 'asking', 'offer']);
 
 /**
  * What this person is waiting on the student for, most pressing first: a rider standing with them (who will not wait for
@@ -295,6 +297,8 @@ export function needsOf(world, entityId) {
   const needs = [];
   const meeting = meetingFor(world, entity);
   if (meeting) needs.push({ kind: 'rider', text: `${meeting.carrierName || 'A rider'} has stopped to speak with ${name}.` });
+  // Told to leave (sim/scrape.mjs): the family's decision, on its main person's row.
+  if (world.flight?.status === 'ordered' && entityId === (world.household?.mainId || world.household?.principalId)) needs.push({ kind: 'flight', text: 'The family has been told to leave for the east.' });
   const ours = world.army?.ours?.find(one => one.id === entityId);
   if (ours && (ours.detachment === 'open' || (ours.questions || []).some(question => question.answer === 'open'))) {
     needs.push({ kind: 'army', text: `The army is asking ${name} something.` });

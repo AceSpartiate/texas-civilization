@@ -151,7 +151,7 @@ test('on March 6 every man inside dies and every woman is spared, and no family 
   until(world, () => world.director.complete);
   assert.equal(world.status, 'ended');
   assert.ok(world.minute >= momentOf(world, 'alamo-end'));
-  assert.equal(projectWorld(world, undefined, 'host', { includeMap: false }).ending.host.interim, false, 'the second period ended only interim');
+  assert.equal(projectWorld(world, undefined, 'host', { includeMap: false }).ending.host.interim, true, 'the second period was shown as the end of the story');
   validateWorld(world);
 });
 

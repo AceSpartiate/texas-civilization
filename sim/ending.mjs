@@ -20,7 +20,7 @@ import { findPath } from './geography.mjs';
 import { automatic } from './neighbours.mjs';
 import { householdName } from './family.mjs';
 import { dateOf } from './directors.mjs';
-import { canContinue, interimStandings } from './periods.mjs';
+import { canContinue, interimStandings, nextPeriodLabel } from './periods.mjs';
 import { landPromised } from './winter.mjs';
 
 /**
@@ -57,6 +57,9 @@ const EVENT_NAMES = Object.freeze({
   alamo: 'the siege of the Alamo',
   'san-patricio': 'the fight at San Patricio',
   'agua-dulce': 'the fight at Agua Dulce Creek',
+  coleto: 'the fight at Coleto',
+  goliad: 'Goliad, on Palm Sunday',
+  'san-jacinto': 'the battle of San Jacinto',
 });
 const PART_WORDS = Object.freeze({
   supplied: 'carried supplies for',
@@ -125,6 +128,7 @@ export function familyEnding(world, householdId) {
     miles === null ? null : `The family lived ${miles} road miles from Gonzales.`,
     heard ? `Word that soldiers had come for the cannon reached them on ${heard.date}.` : 'Word of the cannon never reached them before the end.',
     parts.length ? null : 'Nobody from the family went to Gonzales or to the army. They stayed with the land.',
+    household.flight?.status === 'home' ? 'They fled east in the spring, and came home to a burned farm.' : household.flight ? 'They were told to leave in the spring.' : null,
   ].filter(Boolean);
   return {
     householdId,
@@ -188,6 +192,6 @@ export function endingProjection(world, householdId, role) {
   // The first of two class periods ends with interim standings, not a winner (owner, 2026-09-16, docs/COLONIES.md §7e):
   // the same numbers, said as where the families stand with the war still to finish, and the Host offered the winter.
   const interim = interimStandings(world);
-  if (role === 'host') return { ending: { host: { ...hostEnding(world), interim, canContinue: canContinue(world) } } };
+  if (role === 'host') return { ending: { host: { ...hostEnding(world), interim, canContinue: canContinue(world), ...(canContinue(world) && { nextLabel: nextPeriodLabel(world) }) } } };
   return householdId && world.households[householdId] ? { ending: { family: { ...familyEnding(world, householdId), interim } } } : {};
 }

@@ -7,6 +7,8 @@ import { canAnswerCalls, cannotAnswerWhy, tooYoung, tooYoungWhy } from './family
 import { distantHouseholds, expressLeaves, startExpress } from './expresses.mjs';
 import { callOptions, expireCalls, offerCalls, settleCalls } from './calls.mjs';
 import { ALAMO_WORD, COURIER_DAYS, askCouriers, beginSiege, fightSouth, gonzalesFamilies, otherFamilies, reliefEnters, reliefRides, sendCouriers, splitSouth, stormAlamo, survivorsLeave, tellFall, tellSouth, word } from './alamo.mjs';
+import { SETTLEMENT_DAYS, advanceArmiesPassing, orderOut, turnHome } from './scrape.mjs';
+import { HOUSTON_WORD, fightColeto, fightSanJacinto, followCamp, goliadMassacre, takeInEnlisted, tellGoliad, tellSanJacinto } from './houston.mjs';
 import { advanceArmy, closeDetachment, closeQuestion, countermandStorm, dieOfWounds, disbandArmy, fightConcepcion, fightGrass, fightStorming, formArmy, goForClothing, marchOut, moveCamp, openDetachment, openQuestion, questionOpen, recordPresent, returnFromClothing, tellGrassFight, tellStorming } from './army.mjs';
 
 /**
@@ -100,6 +102,16 @@ const FROM_MIDNIGHT_SEPT_29 = Object.freeze({
   'agua-dulce': 223560, 'courier-3-opens': 225000, 'san-patricio-news': 225360, 'courier-3': 225840, 'declaration-news': 226800,
   'courier-4-opens': 228240, 'courier-4': 229080, 'alamo-assault': 229260, 'agua-dulce-news': 231120, 'survivors-leave': 232200,
   'fall-rumour': 237240, 'fall-confirmed': 239520, 'fall-colonies': 240240, 'alamo-end': 240420,
+  // The third period (docs/COLONIES.md §7g, sim/scrape.mjs and sim/houston.mjs; `HIST-TEX-062` to `-067`). Dawn on March 14
+  // is 240840. Houston over the Colorado the 17th; Fannin out of Goliad the 19th and caught at Coleto at noon (its hour is
+  // not in the record); the surrender the 20th; word of it the evening of the 25th; the massacre at sunrise on the 27th, its
+  // word about April 1; the army at San Felipe the 28th; Santa Anna over the Brazos the 11th; the army at Harrisburg the 18th
+  // and Lynchburg the 20th; the battle at half past four on the 21st; Santa Anna taken the 22nd; the word on the 23rd; the
+  // period ends at dawn on the 25th, the families on the road home.
+  'scrape-opens': 240840, 'houston-colorado': 245160, coleto: 248400, 'goliad-surrender': 249840, 'goliad-word': 257400,
+  'goliad-massacre': 259620, 'houston-san-felipe': 261360, 'massacre-word': 267120, 'santa-anna-brazos': 281520,
+  'houston-harrisburg': 291600, 'houston-lynchburg': 294480, 'san-jacinto': 296190, 'santa-anna-taken': 297360,
+  'victory-word': 298800, 'scrape-end': 301320,
 });
 /**
  * The families arrive at dawn on September 28, eighteen hours before midnight.
@@ -912,6 +924,43 @@ function advanceAlamo(world, said, { beginTravel } = {}) {
   });
 }
 
+/**
+ * The third period (sim/scrape.mjs, sim/houston.mjs): the families told to leave settlement by settlement, the armies
+ * passing, Houston's camps, Goliad, San Jacinto and the word of each.
+ */
+function advanceScrape(world, { beginTravel } = {}) {
+  const said = (claimId, text) => record(world, 'milestone', { visibility: 'public', importance: 3, classification: 'DOCUMENTED', claimId, text });
+  const go = { beginTravel: beginTravel || (() => {}) };
+  const everyone = Object.values(world.households);
+  // Each settlement's families, on its day.
+  for (const household of everyone) {
+    const days = SETTLEMENT_DAYS[household.settlementId || 'gonzales'];
+    if (days && world.minute >= days.order && !household.flight) orderOut(world, household, null);
+  }
+  advanceArmiesPassing(world);
+  once(world, 'houston-colorado', () => { word(world, 'houston-colorado', everyone, { truth: HOUSTON_WORD.colorado, claimId: 'HIST-TEX-066', source: 'Word from the army' }); followCamp(world, go); });
+  once(world, 'coleto', () => fightColeto(world, said('HIST-TEX-063', 'Fannin marched out of Goliad this morning and was caught on the open prairie by Urrea\'s cavalry near Coleto Creek.')));
+  once(world, 'goliad-surrender', () => said('HIST-TEX-063', 'Fannin has surrendered his whole command to Urrea.'));
+  once(world, 'goliad-word', () => word(world, 'goliad-defeat', everyone, { truth: HOUSTON_WORD.goliadDefeat, claimId: 'HIST-TEX-063', source: 'Word from the army' }));
+  once(world, 'goliad-massacre', () => goliadMassacre(world));
+  once(world, 'houston-san-felipe', () => { takeInEnlisted(world); followCamp(world, go); word(world, 'houston-san-felipe', everyone, { truth: HOUSTON_WORD.sanFelipe, claimId: 'HIST-TEX-066', source: 'Word from the army' }); });
+  once(world, 'massacre-word', () => { word(world, 'goliad-massacre', everyone, { truth: HOUSTON_WORD.massacre, status: 'unconfirmed', claimId: 'HIST-TEX-064', source: 'Word from the west' }); tellGoliad(world, go); });
+  once(world, 'santa-anna-brazos', () => word(world, 'santa-anna-brazos', everyone, { truth: HOUSTON_WORD.santaAnnaBrazos, claimId: 'HIST-TEX-067', source: 'Word from the Brazos' }));
+  once(world, 'houston-harrisburg', () => followCamp(world, go));
+  once(world, 'houston-lynchburg', () => followCamp(world, go));
+  once(world, 'san-jacinto', () => fightSanJacinto(world, record(world, 'milestone', { visibility: 'sealed', importance: 3, classification: 'DOCUMENTED', claimId: 'HIST-TEX-067', text: 'The battle of San Jacinto.' })));
+  once(world, 'santa-anna-taken', () => said('HIST-TEX-067', 'Santa Anna has been found hiding in the grass and brought in a prisoner.'));
+  once(world, 'victory-word', () => { const cause = said('HIST-TEX-067', HOUSTON_WORD.victory); word(world, 'san-jacinto', everyone, { truth: HOUSTON_WORD.victory, claimId: 'HIST-TEX-067', source: 'A rider from the army' }); tellSanJacinto(world, go); turnHome(world, cause); });
+  if (world.minute >= momentOf(world, 'san-jacinto') && !world.director.milestones['san-jacinto']) return;
+  once(world, 'scrape-end', () => {
+    world.director.complete = true; world.director.phase = 'preserved'; world.status = 'ended';
+    record(world, 'slice-preserved', {
+      visibility: 'public', classification: 'DOCUMENTED', claimId: 'HIST-TEX-067',
+      text: 'April 25, 1836. The war is won, and the families are on the road home to what is left. Here the story ends.',
+    });
+  });
+}
+
 /** The winter's first news (sim/winter.mjs): what a man could sign up for, the garrison and the expedition, and the government. */
 const WINTER_TERMS = 'General Houston calls for volunteers. A man who enlists in the regular army for two years or the war is promised $24 and 800 acres of land; an auxiliary volunteer, 640 acres for the war or 320 for a year. Men enlist at San Felipe.';
 const WINTER_BEXAR = 'Colonel Neill holds Béxar with fewer than a hundred men, without money, horses or clothing, since Johnson and Grant took most of the men and supplies south for an attack on Matamoros. Bowie has come to Béxar with thirty men, and the Matamoros volunteers are gathering south, about Refugio.';
@@ -923,6 +972,7 @@ export function advanceDirectors(world, movement) {
   if (!world.director || world.director.complete) return;
   // The second period has its own moments; the first period's were all settled before the winter (sim/periods.mjs).
   if (world.period === 2) { advanceWinter(world, movement); return; }
+  if (world.period === 3) { advanceScrape(world, movement); return; }
   once(world, 'notice', () => {
     establishTruth(world, { id: 'cannon-request', text: 'A Mexican detachment has reached the Guadalupe opposite Gonzales to reclaim the cannon. Local settlers have refused to return it.', siteId: 'gonzales', classification: 'DOCUMENTED', claimId: 'HIST-GONZ-002' });
     world.director.phase = 'news';
