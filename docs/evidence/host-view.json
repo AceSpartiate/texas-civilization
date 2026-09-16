@@ -1,0 +1,114 @@
+{
+  "title": "The teacher sees the whole class",
+  "date": "2026-09-16",
+  "owner": "On the Class View, the teacher should be able to see everything and everyone. I as the teacher should be able to zoom in and see what's happening at anyone's farm, any town, all of it. Sure, players are limited by fog of war, but the teacher shouldn't be.",
+  "before": {
+    "whatFilteredTheHost": "projectWorld(world, undefined, 'host') has no household: entities filtered to householdId === undefined (none), land/wagon/work null or empty, and others = observedBy(world, undefined), which returns [] when there is no household. The Host page therefore drew roads, towns and homesteads from the public map (neighbours' houses as an assumed camp or house) and not one person. Zoom limits, /api/map and /api/woods were never refused to the Host.",
+    "hostSnapshotBytes": "1,974 bytes for a 30-family real-land class at tick 200"
+  },
+  "studentUnchanged": {
+    "method": "Before the change, every student projection of a 30-family real-land class (240 ticks) and a 15-family invented class (200 ticks), rolled and run by the neighbours, was hashed every 20 ticks; the same run after the change was compared.",
+    "compared": 510,
+    "differing": 0
+  },
+  "tests": {
+    "file": "tests/host-view.test.mjs",
+    "count": 6,
+    "suiteAfter": "npm test: 495 pass, 0 fail (489 before)",
+    "injections": [
+      { "regression": "the old filter: the Host's others = observedBy(world, householdId)", "failed": ["the Host is sent everybody … with no fog", "the Host's whole class stays a bounded payload … (no traveller to measure the window on)", "over the wire the Host watches the whole class … (the same property over HTTP)"] },
+      { "regression": "every family's house sent as a camp (view: { shelter: 'camp' })", "failed": ["the Host is sent everybody … with no fog"] },
+      { "regression": "the overview computed for every role (a student gains `overview` and the whole class as others)", "failed": ["a student is sent exactly what it was before …", "over the wire … (a student was sent the class overview)"] },
+      { "regression": "the whole chore copied onto the Host's figures (`...entity.chore`)", "failed": ["the Host is still sent nothing of what a family keeps …"] },
+      { "regression": "the whole road sent instead of roadWindow", "failed": ["the Host's whole class stays a bounded payload, and a long road rides along only round the traveller"] },
+      { "regression": "a Host command other than the Host's own applied to the family whose person it names", "failed": ["over the wire the Host watches the whole class and still cannot give a family an order"] },
+      { "regression": "public/motion.js travelDirection ignores travel.base", "failed": ["a traveller sent with only the stretch of road round them walks it …"] },
+      { "regression": "public/motion.js ProjectionMotion.position ignores travel.base", "failed": ["a traveller sent with only the stretch of road round them walks it …"] }
+    ],
+    "note": "The first injection fails three tests, not one: the payload and wire tests both read the Host's whole class and cannot run without it. The student test was first written deriving the class from the Host's projection and also failed under that injection; it now reads the world directly and did not fail."
+  },
+  "browserInjections": [
+    { "regression": "the person card hidden for the Host again", "failed": "timed out waiting for #selection after clicking a person" },
+    { "regression": "every family's land drawn as a student would (no Host land)", "failed": "hh-9's land was not drawn as the Host's" },
+    { "regression": "every family's people skipped on the Host's map", "failed": "none of hh-9's people were drawn on the Host's map" },
+    { "regression": "a town framed like a farm (no street framing)", "failed": "nobody keeping a shop in San Felipe de Austin was drawn" }
+  ],
+  "measured": {
+    "date": "2026-09-16",
+    "command": "node scripts/host-view-measure.mjs",
+    "runs": [
+      {
+        "map": "colonies",
+        "families": 30,
+        "ticks": 295,
+        "hostBytes": {
+          "mean": 87026,
+          "max": 117523,
+          "min": 72780,
+          "meanPerFigure": 262
+        },
+        "worst": {
+          "tick": 1,
+          "bytes": 117523,
+          "figures": 291,
+          "travelling": 233,
+          "landsBytes": 8202
+        },
+        "meanProjectMs": 1.83,
+        "studentBytesAtEnd": {
+          "mean": 24726,
+          "max": 37483,
+          "allStudentsTogether": 741783
+        }
+      },
+      {
+        "map": "gonzales",
+        "families": 30,
+        "ticks": 338,
+        "hostBytes": {
+          "mean": 73738,
+          "max": 88619,
+          "min": 60080,
+          "meanPerFigure": 256
+        },
+        "worst": {
+          "tick": 310,
+          "bytes": 88619,
+          "figures": 358,
+          "travelling": 46,
+          "landsBytes": 12917
+        },
+        "meanProjectMs": 1.27,
+        "studentBytesAtEnd": {
+          "mean": 21520,
+          "max": 39098,
+          "allStudentsTogether": 645587
+        }
+      },
+      {
+        "map": "colonies",
+        "families": 15,
+        "ticks": 295,
+        "hostBytes": {
+          "mean": 51218,
+          "max": 68471,
+          "min": 43161,
+          "meanPerFigure": 260
+        },
+        "worst": {
+          "tick": 1,
+          "bytes": 68471,
+          "figures": 174,
+          "travelling": 123,
+          "landsBytes": 4075
+        },
+        "meanProjectMs": 0.91,
+        "studentBytesAtEnd": {
+          "mean": 24797,
+          "max": 38962,
+          "allStudentsTogether": 371960
+        }
+      }
+    ]
+  }
+}

@@ -27,6 +27,7 @@ import { advanceExpresses, expressesInvalid } from './expresses.mjs';
 import { callsInvalid, handleCall } from './calls.mjs';
 import { answerQuestion, answerDetachment, armyInvalid, armyProjection, callHome, callHomeRefusal } from './army.mjs';
 import { endingProjection } from './ending.mjs';
+import { hostOverview } from './overview.mjs';
 import { appearanceInvalid, setAppearance } from './appearance.mjs';
 import { furnitureInvalid } from './furniture.mjs';
 import { gearExertionShare, shopsInvalid, wagonSpeedShare } from './shops.mjs';
@@ -774,7 +775,11 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
   // that is the same rule as fog of war, applied to a control instead of a fact.
   // Anyone else standing where one of this household's people is standing. Filtered on
   // the server, at the level of detail that being in the same place would give you.
-  const others = observedBy(world, householdId);
+  //
+  // The Host is not a family and has no fog (owner, 2026-09-16): everybody in the class, where they truly are, at the level of
+  // detail a map needs and no more (sim/overview.mjs). A student's `others` is exactly what it always was.
+  const overview = role === 'host' ? hostOverview(world) : null;
+  const others = overview ? overview.everyone : observedBy(world, householdId);
   const work = household ? Object.fromEntries(household.members.map(id => [id, choresFor(world, household, world.entities[id])])) : {};
   // Which ways each person could set out, on the same rule as the work: a permission, so
   // it is decided here and never guessed at by the client.
@@ -791,6 +796,8 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
   return structuredClone({ tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: world.map }), household, entities, others, offers, encounter, events, work, travelModes, land, wagon, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role),
     // The army, once there is one: where it is, how many went, and which of them are this family's (sim/army.mjs).
     ...(world.army && householdId ? { army: armyProjection(world, householdId) } : {}),
+    // Every family's land as it truly stands, and where the army is, for the Host's map only (sim/overview.mjs).
+    ...(overview && { overview: { lands: overview.lands, ...(overview.army && { army: overview.army }) } }),
     // The end of the game, and only once it has ended: each family's coin and glory revealed, and the
     // Host's closing view (sim/ending.mjs, docs/MONEY_AND_GLORY.md steps 4-5).
     ...endingProjection(world, householdId, role),

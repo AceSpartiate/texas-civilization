@@ -1,0 +1,205 @@
+{
+  "date": "2026-09-16",
+  "command": "npm run test:host-view",
+  "scope": "Same computer only: headless Chrome 1440x950, a server on 127.0.0.1. Not a physical LAN, a phone or a classroom.",
+  "class": {
+    "map": "colonies",
+    "families": 12,
+    "ticksPlayedInProcess": 150,
+    "joined": 1
+  },
+  "pass": [
+    "the student's page, 158.5 miles away, has none of hh-9's people and no overview",
+    "the Host zoomed to Thomas's family's farm (house, round-log) and drew 4 of its people, 2 plot(s) and its line",
+    "the Host zooms in as far as a student does (4737 pixels a mile)",
+    "the Host looks at Thomas: \"of Thomas's family · felling timber on the clearing · at home · well\", with no order offered",
+    "the Host went to San Felipe de Austin: 10 shops and 12 people drawn, keepers among them",
+    "Whole class: The whole class: 111 people, 147 figures in view, 9 people on the road.",
+    "at 400 pixels wide the list of places is on screen and the page does not scroll sideways",
+    "no page error on either page"
+  ],
+  "errors": [],
+  "observed": {
+    "farFamily": {
+      "householdId": "hh-9",
+      "homeSiteId": "home-9",
+      "milesFromStudent": 158.5,
+      "atHome": [
+        "hh-9-thomas",
+        "hh-9-elena",
+        "hh-9-rosa",
+        "hh-9-mateo"
+      ]
+    },
+    "studentOthers": 13,
+    "farm": {
+      "camera": {
+        "kind": "region",
+        "scale": 2131.5789473684213,
+        "named": true,
+        "cx": 156.362,
+        "cy": -41.068,
+        "following": false
+      },
+      "land": {
+        "name": "Thomas's family",
+        "view": {
+          "shelter": "house",
+          "layout": "round-log"
+        },
+        "plots": 3,
+        "logs": 8
+      },
+      "drawnPeople": [
+        "hh-9-thomas",
+        "hh-9-elena",
+        "hh-9-rosa",
+        "hh-9-mateo"
+      ],
+      "houseDrawn": {
+        "householdId": "hh-9",
+        "shelter": "house",
+        "layout": "round-log",
+        "pieces": 2
+      },
+      "plotsDrawn": 2,
+      "holdings": 1,
+      "snapshotBytes": 45270,
+      "description": "The whole class: 111 people, 4 figures in view, 13 people on the road."
+    },
+    "closestScale": {
+      "host": 4736.842105263158,
+      "student": 4736.842105263158
+    },
+    "card": {
+      "id": "hh-9-thomas",
+      "name": "Thomas",
+      "state": "of Thomas's family · felling timber on the clearing · at home · well",
+      "subject": "The teacher watches; only the family gives orders.",
+      "orders": []
+    },
+    "town": {
+      "id": "san-felipe",
+      "name": "San Felipe de Austin",
+      "camera": {
+        "kind": "region",
+        "scale": 1357.1428571428573,
+        "named": true,
+        "cx": 82.56,
+        "cy": -20.8,
+        "following": false
+      },
+      "shops": 10,
+      "people": [
+        "hh-2-elena",
+        "town-store-san-felipe",
+        "town-carpenter-san-felipe",
+        "town-blacksmith-san-felipe",
+        "town-gunsmith-san-felipe",
+        "town-doctor-san-felipe",
+        "town-tavern-san-felipe",
+        "town-tanner-san-felipe",
+        "town-wheelwright-san-felipe",
+        "town-mill-san-felipe",
+        "town-weaver-san-felipe",
+        "courier-6"
+      ],
+      "drawn": [
+        {
+          "id": "hh-2-elena",
+          "name": "Refugia",
+          "keeper": false
+        },
+        {
+          "id": "town-store-san-felipe",
+          "name": "Hiram Stovall",
+          "keeper": true
+        },
+        {
+          "id": "town-carpenter-san-felipe",
+          "name": "Ezekiel Marsh",
+          "keeper": true
+        },
+        {
+          "id": "town-blacksmith-san-felipe",
+          "name": "Ira Pettibone",
+          "keeper": true
+        },
+        {
+          "id": "town-gunsmith-san-felipe",
+          "name": "Seth Haverly",
+          "keeper": true
+        },
+        {
+          "id": "town-doctor-san-felipe",
+          "name": "Dr. Josiah Crane",
+          "keeper": true
+        },
+        {
+          "id": "town-tavern-san-felipe",
+          "name": "Martha Cudworth",
+          "keeper": true
+        },
+        {
+          "id": "town-tanner-san-felipe",
+          "name": "Esteban Lerma",
+          "keeper": true
+        },
+        {
+          "id": "town-wheelwright-san-felipe",
+          "name": "Obadiah Fenn",
+          "keeper": true
+        },
+        {
+          "id": "town-mill-san-felipe",
+          "name": "Silas Garrow",
+          "keeper": true
+        },
+        {
+          "id": "town-weaver-san-felipe",
+          "name": "Prudence Lamb",
+          "keeper": true
+        },
+        {
+          "id": "courier-6",
+          "name": "Tobias Crow",
+          "keeper": false
+        }
+      ]
+    },
+    "studentSeesInTown": 0,
+    "wholeClass": {
+      "camera": {
+        "kind": "region",
+        "scale": 3.066819211330315,
+        "named": false,
+        "cx": 54.010000000000005,
+        "cy": -31.61500000000001,
+        "following": true
+      },
+      "follow": "Whole class",
+      "description": "The whole class: 111 people, 147 figures in view, 9 people on the road.",
+      "land": true
+    },
+    "phone": {
+      "overflow": 0,
+      "goto": {
+        "x": 135.203125,
+        "y": 808,
+        "width": 85.40625,
+        "height": 44,
+        "top": 808,
+        "right": 220.609375,
+        "bottom": 852,
+        "left": 135.203125
+      }
+    }
+  },
+  "screenshots": [
+    "docs/evidence/host-view-farm.png",
+    "docs/evidence/host-view-person.png",
+    "docs/evidence/host-view-town.png",
+    "docs/evidence/host-view-class.png",
+    "docs/evidence/host-view-phone.png"
+  ]
+}

@@ -31,6 +31,7 @@
     "test:concepcion": "node scripts/concepcion-browser-proof.mjs",
     "test:siege": "node scripts/siege-browser-proof.mjs",
     "test:movement": "node scripts/movement-browser-proof.mjs",
-    "test:riding": "node scripts/riding-browser-proof.mjs"
+    "test:riding": "node scripts/riding-browser-proof.mjs",
+    "test:host-view": "node scripts/host-view-browser-proof.mjs"
   }
 }

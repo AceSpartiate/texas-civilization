@@ -51,7 +51,9 @@ export const figureScale = entity => FIGURE_SCALE[entity?.band] ?? 1;
 export function travelDirection(entity) {
   const travel = entity?.travel, points = travel?.points;
   if (!Array.isArray(points) || points.length < 2) return null;
-  let left = Number.isFinite(travel.progress) ? travel.progress : 0;
+  // `base` is how far along the road the points begin: the Host is sent only the stretch round each traveller
+  // (sim/overview.mjs `roadWindow`); a student's own people carry the whole road and no base.
+  let left = (Number.isFinite(travel.progress) ? travel.progress : 0) - (travel.base || 0);
   for (let index = 1; index < points.length; index++) {
     const from = points[index - 1], to = points[index];
     const length = Math.hypot(to.x - from.x, to.y - from.y);
@@ -347,7 +349,8 @@ export class ProjectionMotion {
     const f = Math.min(1, Math.max(0, (now - record.at) / record.duration));
     const oldTravel = previous.travel, travel = entity.travel;
     if (oldTravel?.points?.length && (!travel || sameJourney(oldTravel, travel))) {
-      return along(oldTravel.points, this.progressAt(record, entity, now)) || entity.location;
+      // `base`: the Host is sent only the stretch of road round each traveller (sim/overview.mjs `roadWindow`).
+      return along(oldTravel.points, this.progressAt(record, entity, now) - (oldTravel.base || 0)) || entity.location;
     }
     if (previous.location.siteId && previous.location.siteId === entity.location.siteId && Math.hypot(previous.location.x - entity.location.x, previous.location.y - entity.location.y) < .6) {
       return { x: previous.location.x + (entity.location.x - previous.location.x) * f, y: previous.location.y + (entity.location.y - previous.location.y) * f };
