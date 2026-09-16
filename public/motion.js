@@ -209,40 +209,135 @@ function along(points, distance) {
   }
   return points.at(-1);
 }
+/**
+ * The minutes of 1835 one live tick can move the calendar: `CALENDAR_SCALE` in sim/clock.mjs,
+ * which the browser cannot import. A snapshot one tick on by any of these is the next tick and
+ * is drawn as a walk; any other gap is a Host's time jump and is snapped. This list used to be
+ * the single number 20, so on the real land every tick of the news phase (an hour a tick) was
+ * taken for a jump and a traveller was drawn teleporting three miles every tick.
+ * tests/movement.test.mjs holds it equal to the clock's own table.
+ */
+export const CALENDAR_STEPS = Object.freeze([20, 60, 240, 720]);
+const sameJourney = (a, b) => Boolean(a && b && a.from === b.from && a.to === b.to);
+/**
+ * How far along a journey somebody is drawn, as a fraction `f` of the way through the tick.
+ * Linear in real time from where they were drawn when the tick arrived to where the server
+ * says they are now: an even walk, with no easing, so the figure never hurries at the start
+ * of a tick and dawdles at the end.
+ */
+export const drawnProgress = (start, end, f) => start + (end - start) * Math.min(1, Math.max(0, f));
 export class ProjectionMotion {
-  constructor() { this.records = new Map(); this.session = null; this.tick = null; this.receivedAt = 0; }
+  constructor() { this.records = new Map(); this.session = null; this.tick = null; }
   accept(snapshot, now) {
     const world = snapshot.world;
     // A repeat render/map fetch must not restart the current interpolation.
     if (snapshot.sessionId === this.session && world.tick === this.tick && snapshot.revision === this.revision) return;
-    const ordinaryTime = !Number.isFinite(world.minute) || !Number.isFinite(this.minute) || world.minute - this.minute === 20;
-    const sequential = snapshot.sessionId === this.session && world.tick === this.tick + 1 && world.status === 'running' && ordinaryTime;
-    // One tick's movement is spread across one tick's worth of real time. The ceiling
-    // used to be a flat second, which was invisible while a tick *was* a second and became
-    // a bug the moment a class could be slowed down: a traveller glided for one second and
-    // then stood frozen for the remaining eight and a half. Measured from the arrivals
-    // themselves, and bounded by what the server says a tick costs.
     const cadence = Number.isFinite(snapshot.tickMs) ? snapshot.tickMs : 1000;
-    const duration = Math.max(80, Math.min(cadence * 1.5, now - this.receivedAt));
-    const next = new Map();
-    for (const entity of [...(world.entities || []), ...(world.others || [])]) {
-      if (!entity.location) continue;
-      const previous = this.records.get(entity.id)?.current;
-      next.set(entity.id, { current: structuredClone(entity), previous: sequential ? previous : null, at: now, duration });
+    const entities = [...(world.entities || []), ...(world.others || [])].filter(entity => entity.location);
+    // The same tick again with a new revision: somebody in the class did something (any command
+    // bumps the revision and every screen is sent a snapshot). Nobody moved, so nothing restarts.
+    // This used to be treated as a break in time: every traveller on every screen snapped to the
+    // end of the tick, and the next tick's walk was then squeezed into whatever was left of the
+    // interval - a lurch and a stand, once a tick, in any class where students are doing things.
+    if (snapshot.sessionId === this.session && world.tick === this.tick && world.minute === this.minute) {
+      const next = new Map();
+      for (const entity of entities) {
+        const was = this.records.get(entity.id);
+        next.set(entity.id, was ? { ...was, current: structuredClone(entity) } : { current: structuredClone(entity), previous: null, at: now, duration: cadence });
+      }
+      this.records = next; this.revision = snapshot.revision;
+      return;
     }
-    this.records = next; this.session = snapshot.sessionId; this.tick = world.tick; this.minute = world.minute; this.revision = snapshot.revision; this.receivedAt = now;
+    const step = world.minute - this.minute;
+    const ordinaryTime = !Number.isFinite(world.minute) || !Number.isFinite(this.minute) || CALENDAR_STEPS.includes(step);
+    const sequential = snapshot.sessionId === this.session && world.tick === this.tick + 1 && world.status === 'running' && ordinaryTime;
+    // One tick's movement is spread across one tick's worth of real time: the interval the server
+    // says a tick costs, not a flat second (a traveller at the study pace once glided for one second
+    // and stood for eight and a half) and not the gap since the last snapshot, which a command in
+    // the middle of a tick or a pace change could make far shorter than the tick really is.
+    const duration = Math.max(80, cadence);
+    const next = new Map();
+    for (const entity of entities) {
+      const was = this.records.get(entity.id), previous = sequential ? was?.current : null;
+      // Carry on from where the figure is actually drawn. A tick that arrives a little early
+      // would otherwise pull the walker back or push them forward in one frame.
+      const startProgress = previous && sameJourney(previous.travel, entity.travel) && was.previous && sameJourney(was.previous.travel, previous.travel)
+        ? this.progressAt(was, previous, now) : null;
+      next.set(entity.id, { current: structuredClone(entity), previous, at: now, duration, startProgress });
+    }
+    this.records = next; this.session = snapshot.sessionId; this.tick = world.tick; this.minute = world.minute; this.revision = snapshot.revision;
+  }
+  progressAt(record, entity, now) {
+    const oldTravel = record.previous.travel, f = (now - record.at) / record.duration;
+    return drawnProgress(record.startProgress ?? oldTravel.progress, entity.travel?.progress ?? oldTravel.distance, f);
   }
   position(entity, now, reducedMotion = false) {
     const record = this.records.get(entity.id), previous = record?.previous;
     if (!previous || reducedMotion) return entity.location;
     const f = Math.min(1, Math.max(0, (now - record.at) / record.duration));
     const oldTravel = previous.travel, travel = entity.travel;
-    if (oldTravel?.points?.length && (!travel || (oldTravel.from === travel.from && oldTravel.to === travel.to))) {
-      return along(oldTravel.points, oldTravel.progress + ((travel?.progress ?? oldTravel.distance) - oldTravel.progress) * f) || entity.location;
+    if (oldTravel?.points?.length && (!travel || sameJourney(oldTravel, travel))) {
+      return along(oldTravel.points, this.progressAt(record, entity, now)) || entity.location;
     }
     if (previous.location.siteId && previous.location.siteId === entity.location.siteId && Math.hypot(previous.location.x - entity.location.x, previous.location.y - entity.location.y) < .6) {
       return { x: previous.location.x + (entity.location.x - previous.location.x) * f, y: previous.location.y + (entity.location.y - previous.location.y) * f };
     }
     return entity.location;
+  }
+}
+/**
+ * How much ground one loop of a travel cycle covers, in the drawn height of whoever is doing it.
+ *
+ * Every walk and ride cycle in the library is one stride: two steps. A person's step is a little
+ * under half their height, so a stride is 0.86 of one; a horse or an ox covers about its own
+ * drawn height in a stride of its walk. A wheel covers its own circumference in a turn, which the
+ * clip already states (`clipGait`).
+ */
+export const STRIDE = Object.freeze({ foot: 0.86, hoof: 1 });
+/**
+ * The slowest a travel cycle plays, as a share of its authored speed. Feet matched exactly to a
+ * crawl would stand still on a figure that is still, just, going somewhere.
+ */
+export const GAIT_FLOOR = 0.25;
+/** A clip's loop length and the ground one loop covers: from its turning wheels if it has them, its frames if not. */
+export function clipGait(clip, strideBodies = STRIDE.foot) {
+  const wheel = (clip?.parts || []).find(part => part.turnsPerSecond > 0 && part.height > 0);
+  if (wheel) return { cycleMs: 1000 / wheel.turnsPerSecond, strideBodies: Math.PI * wheel.height };
+  const cycleMs = (clip?.frames || []).reduce((total, frame) => total + (Number.isFinite(frame.duration) ? frame.duration : 0), 0);
+  return cycleMs > 0 ? { cycleMs, strideBodies } : null;
+}
+/**
+ * How many milliseconds of a travel cycle to play for one painted frame.
+ *
+ * The owner (2026-09-16): walking "still looks too fast", without the ground covered changing.
+ * The authored cycles step at their own rate whatever the ground does - 2.8 steps a second for a
+ * person - and a figure drawn covering less ground than that has feet running ahead of the road
+ * under it, which reads as hurry. So the cycle plays at the rate the drawn ground demands: one
+ * loop per stride of screen actually covered. Never faster than authored, so a class on a fast
+ * pace or a compressed calendar glides rather than flails; never slower than `GAIT_FLOOR`.
+ */
+export function gaitStep({ elapsedMs, movedBodies, cycleMs, strideBodies, floor = GAIT_FLOOR }) {
+  if (!(elapsedMs > 0) || !(cycleMs > 0) || !(strideBodies > 0)) return 0;
+  const matched = Math.max(0, movedBodies || 0) / strideBodies * cycleMs;
+  return Math.min(elapsedMs, Math.max(elapsedMs * floor, matched));
+}
+/**
+ * Each traveller's own place in their stride, advanced by the ground they were drawn covering.
+ * Kept in loops rather than milliseconds, so turning from an east cycle to a south one (different
+ * lengths) keeps the foot where it was. Display state only; `clockMs` is the renderer's
+ * animation clock, which stops when the class is paused.
+ *
+ * ceiling: one entry per traveller ever drawn in this page, never pruned. A class has a few
+ * hundred people and animals; prune by age if a class ever draws thousands.
+ */
+export class GaitClock {
+  constructor() { this.walkers = new Map(); }
+  time(id, { clockMs, at, bodyMiles, gait }) {
+    let walker = this.walkers.get(id);
+    if (!walker || clockMs < walker.clockMs) { walker = { loops: 0, clockMs, at }; this.walkers.set(id, walker); }
+    const moved = walker.at && at && bodyMiles > 0 ? Math.hypot(at.x - walker.at.x, at.y - walker.at.y) / bodyMiles : 0;
+    walker.loops += gaitStep({ elapsedMs: clockMs - walker.clockMs, movedBodies: moved, ...gait }) / gait.cycleMs;
+    walker.clockMs = clockMs; walker.at = at;
+    return walker.loops * gait.cycleMs;
   }
 }
