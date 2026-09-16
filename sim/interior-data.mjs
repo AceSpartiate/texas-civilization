@@ -5,8 +5,8 @@
 /**
  * The spots in each interior, as fractions of the interior picture (sim is art-free, so these are the picture's own box: x
  * left to right, y top to bottom, at the item's feet). Read off the delivered `home-interiors` sheet. A saddlebag house has
- * no interior picture of its own and uses the dog-run's two pens. ceiling: every spot takes any item; a bedstead under the
- * window and a pot in the passage are the student's own choice.
+ * its own spots, two pens and no passage, on a stand-in picture (below). ceiling: every spot takes any item; a bedstead under
+ * the window and a pot in the passage are the student's own choice.
  */
 export const INTERIORS = Object.freeze({
   'round-log': { sprite: 'interior-round-log', spots: [
@@ -51,13 +51,27 @@ export const INTERIORS = Object.freeze({
     ['east-middle', 'In the east pen', 0.77, 0.76],
     ['east-front', 'At the front of the east pen', 0.66, 0.78],
   ] },
+  // stand-in: Request 2026-09-12 (second) — interiors and furnishings. A saddlebag house (two pens round one central chimney,
+  // sim/houseplot.mjs) has no interior picture, so it is drawn as the dog-run's and its spots are measured on that picture: the
+  // hearths are where the dog-run draws them, at the outer ends, and nothing is set in the passage the picture shows between
+  // the pens. When `interior-saddlebag` is delivered, name it here and re-measure the spots, the hearths at the centre.
+  saddlebag: { sprite: 'interior-dog-run', spots: [
+    ['west-hearth', 'By the west hearth', 0.17, 0.66],
+    ['west-window', "Under the west pen's window", 0.27, 0.53],
+    ['west-back', "Against the west pen's back wall", 0.19, 0.53],
+    ['west-middle', 'In the west pen', 0.26, 0.69],
+    ['west-door', "By the west pen's door", 0.31, 0.79],
+    ['east-hearth', 'By the east hearth', 0.83, 0.66],
+    ['east-window', "Under the east pen's window", 0.74, 0.53],
+    ['east-back', "Against the east pen's back wall", 0.81, 0.53],
+    ['east-middle', 'In the east pen', 0.74, 0.69],
+    ['east-door', "By the east pen's door", 0.69, 0.79],
+  ] },
 });
-export const INTERIOR_OF = { saddlebag: 'dog-run' };
 
 /**
  * What each thing is drawn as inside, and how tall, as a share of the interior picture's height. Furniture from
  * `home-furnishings`; stores from the equipment sheet.
- * ceiling: the tools that came in the wagon have no interior art and cannot be set out; they stay in the house unseen.
  */
 export const INTERIOR_ART = Object.freeze({
   'furniture:bedstead': ['home-bedstead', 0.2, 'Bedstead'], 'furniture:table': ['home-table', 0.15, 'Table'], 'furniture:benches': ['home-bench', 0.1, 'Benches'],
@@ -65,5 +79,10 @@ export const INTERIOR_ART = Object.freeze({
   'good:bedding': ['home-bedding', 0.08, 'Bedding'], 'good:pot': ['home-iron-pot', 0.08, 'Iron pot'], 'good:chest': ['home-chest', 0.12, 'Chest'], 'good:spinning-wheel': ['home-spinning-wheel', 0.2, 'Spinning wheel'],
   'good:books': ['home-books', 0.06, 'A few books'], 'good:mosquito-bars': ['home-mosquito-bars', 0.22, 'Mosquito bars'], 'good:tinware': ['home-tinware', 0.07, 'Tinware'], 'good:chairs': ['home-chair', 0.14, 'Chairs'],
   'stores:provisions': ['barrel', 0.13, 'Barrels of meal and salt meat'], 'stores:seed': ['sacks', 0.11, 'Sacks of seed'],
+  // stand-in: Request 2026-09-12 (second) — interiors and furnishings. The wagon's tools have no interior art, so every one is
+  // the equipment sheet's `tools` (a hatchet, an axe and a spade leaning together), told apart by its name and drawn larger
+  // for the long-handled tools. When the interior tool pieces are delivered, name each one's frame here.
+  'tool:hoe': ['tools', 0.13, 'Hoe'], 'tool:axe': ['tools', 0.13, 'Felling axe'], 'tool:broadaxe': ['tools', 0.1, 'Broadaxe'],
+  'tool:froe': ['tools', 0.08, 'Froe'], 'tool:auger': ['tools', 0.08, 'Auger'],
 });
 

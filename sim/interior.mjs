@@ -13,15 +13,20 @@
 import { FURNITURE } from './furniture.mjs';
 import { wagonItem } from './wagon.mjs';
 import { landView } from './houses.mjs';
-import { INTERIORS, INTERIOR_ART, INTERIOR_OF } from './interior-data.mjs';
+import { INTERIORS, INTERIOR_ART } from './interior-data.mjs';
 
 export { INTERIORS, INTERIOR_ART };
 
-/** Which interior this family's house has, or null while there is no house standing. */
+/**
+ * Which interior this family's house has, or null while there is no house standing. Every two-pen plot looks like a dog-run
+ * from outside (sim/houseplot.mjs `plotLayout`: there are four house pictures); inside, one with no passage between its pens
+ * is a saddlebag, whether planned as one or free-built.
+ */
 export function interiorOf(household) {
   const view = landView(household);
   if (view.shelter !== 'house') return null;
-  const kind = INTERIOR_OF[view.layout] || view.layout;
+  const pieces = household.house?.pieces;
+  const kind = view.layout === 'dog-run' && Array.isArray(pieces) && !pieces.some(piece => piece.type === 'passage') ? 'saddlebag' : view.layout;
   return INTERIORS[kind] ? kind : 'round-log';
 }
 

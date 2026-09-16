@@ -27,7 +27,8 @@ does not have:
 | A person is drawn as the nearest figure by sex and age: a woman or girl as `teal`, a boy as `blue`, a man as `elder`; the principal in `rust` whoever they are, including a mother | `castVariant` in `public/motion.js` | Request 2026-09-12, priority 2 — the second cast | `rust-woman` for a mother who is principal, `indigo` and `teal` for women, `ochre` and `elder` for men, `blue-girl` and `blue` for adolescents |
 | A child in an unavailable action pose is a grown figure drawn smaller (90% at 10–17, 70% at 5–9, 55% at 2–4, 45% an infant). Idle, cardinal walking, rest and injured-rest use delivered `girl`, `boy`, `smallchild` and `infant` art | `CHILD_POSES` and `entityClip` in `public/motion.js` | Request 2026-09-12, priority 1 — children | Any later child-specific action poses. **Keep the scaling**: the delivered sheets fill their cells and need it |
 | A person's appearance - a parent's chosen, a child's taken after the parents - is shown only in words in the family book ("olive skin, black hair, rust clothes, a beard"); the figure on the map is still chosen by sex and age | `public/appearance.js`, `sim/appearance.mjs` | Request below — layered people art | Layered or palette-swappable sheets for the whole cast |
-| A saddlebag house's interior is the dog-run's two pens and passage; the wagon's tools cannot be set out | `sim/interior-data.mjs` (`INTERIOR_OF`, `INTERIOR_ART`), drawn by `public/interior.js` | Request 2026-09-12 (second) — interiors and furnishings | a saddlebag interior (two pens round a central chimney); the hoe, felling axe, broadaxe, froe and auger as interior pieces |
+| A saddlebag house's interior is drawn on the dog-run's picture (`interior-dog-run`, drawn wide), with its own ten spots measured there — by each hearth at the outer ends where that picture draws them, each back wall, window, pen and door — and nothing set in the passage the picture shows | `INTERIORS.saddlebag` in `sim/interior-data.mjs`, drawn by `public/interior.js` | Request 2026-09-12 (second) — interiors and furnishings: a saddlebag interior | `interior-saddlebag`; re-measure the spots on it, the hearths at the central chimney |
+| Every wagon tool set out in the house (hoe, felling axe, broadaxe, froe, auger) is the equipment sheet's `tools` (a hatchet, an axe and a spade leaning together), told apart only by its name, the long-handled ones drawn larger | `INTERIOR_ART` `tool:*` in `sim/interior-data.mjs`, drawn by `public/interior.js` | Request 2026-09-12 (second) — interiors and furnishings: the wagon's tools | `home-hoe`, `home-felling-axe`, `home-broadaxe`, `home-froe`, `home-auger` |
 | Five priority tree kinds use delivered size-specific art: pine, cedar, mesquite, live oak and elm. Shortleaf temporarily shares loblolly art; post oak, blackjack and the remaining hardwoods still use their nearest original broadleaf tree | `KINDS` picture in `sim/woods.mjs`, drawn by `drawGroundDetail` in `public/app.js` | Request 2026-09-15 — the trees of the colonies | `post-oak` and `blackjack` at three sizes; remaining species-specific hardwoods are later breadth |
 | Anybody of a family riding the family horse is their own figure's idle pose (`seatedClip`), facing the way they go, cut off below the waist and drawn over the back of the family's walking horse (`horse-walk`, `-n`, `-s`); the horse is not drawn again. It replaced the courier rider on 2026-09-16, which read as a stranger on the horse | `seatOf`, `seatedClip`, `seatLayout` in `public/motion.js`; `drawSeated` in `public/app.js` | Request 2026-09-14 — family members on horseback | Each cast figure mounted on the family's chestnut, walking in four directions |
 | Whoever drives the ox and wagon is their own figure's idle pose, cut off below the waist, sitting at the front of the side-view wagon (`wagon-travel`) with the ox (`ox-walk`, `-n`, `-s`) ahead; the ox and wagon are not drawn again. Going north or south the wagon stays side-on and the ox is above or below it | `wagonDriverId`, `seatOf`, `seatLayout` in `public/motion.js`; `drawSeated` in `public/app.js` | Request 2026-09-16 — driving the ox wagon | An ox team hitched to the wagon with a seated driver, in four directions, for every cast figure |
@@ -273,7 +274,7 @@ legs astride and no hands on the reins.
 
 ## Request 2026-09-12 (second) — settling in: houses, interiors, furnishings, and people whose looks can be chosen
 
-**Status: houses delivered and in use 2026-09-14** (`houses-settling`: the four houses and their `-site`, `-walls` and `-roofing` stages, drawn by the stage the server reports). **Interiors and furnishings delivered 2026-09-14** (`home-interiors`, `home-furnishings`), registered for the interior view, which is not built. Layered people still open. Specified in [SETTLING_IN.md](SETTLING_IN.md); the exact sheets are to be written
+**Status: houses delivered and in use 2026-09-14** (`houses-settling`: the four houses and their `-site`, `-walls` and `-roofing` stages, drawn by the stage the server reports). **Interiors and furnishings delivered 2026-09-14** (`home-interiors`, `home-furnishings`), in use in the interior view since 2026-09-16; a saddlebag interior and the wagon's tools still open (below). Layered people still open. Specified in [SETTLING_IN.md](SETTLING_IN.md); the exact sheets are to be written
 into this request when that chapter's build reaches them, in the contract format of the request below.
 
 - **Layered people.** Students now choose what parents look like (skin tone, hair colour, clothing colour,
@@ -333,7 +334,25 @@ into this request when that chapter's build reaches them, in the contract format
   - **Replaces:** the stand-ins listed above. Check: every house and stage draws, and the family figures stand
     in front of and behind it correctly in the back-to-front sort.
 - **Interiors.** A single-pen interior, a dog-run's two pens and breezeway, and a jacal interior, drawn as
-  rooms a student can place furniture in.
+  rooms a student can place furniture in. **Delivered 2026-09-14 and in use since the interior view was built 2026-09-16**
+  (`SETTLING_IN.md` §7.2). **Still open, written out 2026-09-16 — a saddlebag interior and the wagon's tools; stand-ins are
+  drawing both (listed above):**
+  - **Why.** A saddlebag house (two pens either side of one big central chimney, a fireplace in each, `sim/houseplot.mjs`)
+    has its own rooms but is drawn on the dog-run's picture, so a student sees a passage and end chimneys their house does
+    not have. The five tools that came in the wagon can be set out, but all five are one picture of a hatchet, axe and spade.
+  - **What.** `interior-saddlebag`: in the `home-interiors` style, camera, scale and cutaway exactly as `interior-dog-run`
+    (two round-log pens, front walls cut low, back walls with a window each), but the pens stand wall to wall around one
+    stone chimney at the centre with a fireplace opening into each pen, a door in each pen's front wall, and no passage.
+    Transparent, anchored at the base centre, a wide frame like the dog-run's. And, in the `home-furnishings` style and
+    scale, each standing or leaning on the floor as it would in a cabin: `home-hoe` (a broad-bladed grubbing hoe),
+    `home-felling-axe` (a long-handled axe), `home-broadaxe` (the wide, short-handled hewing axe), `home-froe` (the L-shaped
+    riving blade with its club), `home-auger` (a T-handled auger). Period tools only (`HIST-GONZ-027`/`028`).
+  - **How it plugs in.** Registered through `npm run build:art`; `INTERIORS.saddlebag.sprite` and the `tool:*` rows of
+    `INTERIOR_ART` in `sim/interior-data.mjs` name the frames. The saddlebag's spots are re-measured on the new picture
+    (fractions of its own box, at a thing's feet), the hearths moved to the central chimney; the spot ids stay, so saved rooms
+    still open.
+  - **Check.** `tests/interior.test.mjs` fails if a sprite named there is not in the atlas; in `npm run test:interior` a pot
+    set by each saddlebag hearth stands at a fireplace, and each tool is told apart from the others without its label.
 - **Furniture and brought goods.** Table, benches, bedstead, shelves, cradle; bedding, iron pot, chest,
   spinning wheel, clock, looking glass, crockery, rocking chair; a wagon camp.
 

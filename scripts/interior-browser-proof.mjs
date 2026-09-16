@@ -2,7 +2,8 @@
 //
 // tests/interior.test.mjs proves the spots, what can be set out, one thing in one place, and who is sent the rooms. This
 // proves what a student and a teacher do: the student taps the family's own house on the map and the rooms open; chooses the
-// iron pot and a place by the hearth, and the server sets it there and the picture shows it; moves it and puts it away; and
+// iron pot and a place by the hearth, and the server sets it there and the picture shows it; moves it and puts it away; sets the felling axe
+// from the wagon under the window; and
 // the teacher, going to that family's land, taps the same house and sees the room read only, with nothing to press.
 //
 // The class is the invented Gonzales country, every family's cabin standing (set in process, and said so in the record),
@@ -102,6 +103,14 @@ try {
   assert.equal(app.state.world.households['hh-1'].interior['back-wall'], 'stores:provisions', 'the bedding was dropped onto the barrel');
   ok('a filled place chooses what stands there; nothing is set on top of it');
 
+  // A tool from the wagon, set under the window (drawn as the stand-in `tools`: sim/interior-data.mjs).
+  await student.locator('#interior [data-item="tool:axe"]').click();
+  await student.locator('#interior [data-spot="window"]').click();
+  await student.waitForFunction(() => window.__snapshot?.world.land?.interior?.placed?.window === 'tool:axe', null, { timeout: 15000 });
+  await student.waitForFunction(() => window.__interiorShown?.drawn?.some(d => d.spot === 'window' && d.item === 'tool:axe'), null, { timeout: 15000 });
+  assert.equal(app.state.world.households['hh-1'].interior.window, 'tool:axe');
+  ok('the felling axe from the wagon is set under the window: the server holds it, and the picture shows it');
+
   // Closed with the map behind it.
   await student.locator('#interior-close').click();
   assert.equal(await student.locator('#interior').isHidden(), true);
@@ -134,7 +143,7 @@ try {
   writeFileSync('docs/evidence/interior-browser.json', `${JSON.stringify({
     record: 'Inside the house, in a browser: docs/SETTLING_IN.md step 7',
     date: new Date().toISOString().slice(0, 10), verdict: 'PASS',
-    note: 'Same computer only. The invented Gonzales country with every family\'s cabin set standing in process; a student tapped their house, set out, moved and put away things; the Host went to the land and tapped the same house. No LAN or district claim.',
+    note: 'Same computer only. The invented Gonzales country with every family\'s cabin set standing in process; a student tapped their house, set out, moved and put away things and set out a tool from the wagon; the Host went to the land and tapped the same house. No LAN or district claim.',
     checks: pass, observed, screenshots: ['docs/evidence/interior-student.png', 'docs/evidence/interior-host.png', 'docs/evidence/interior-phone.png'],
   }, null, 2)}\n`);
   console.log(`\n${pass.length} checks passed.`);

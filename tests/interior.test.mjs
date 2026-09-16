@@ -48,7 +48,7 @@ test('a thing the family has is set on a free spot, moved, refused a taken spot,
   assert.equal(interiorOf(household), 'round-log');
   const items = land(world).interior.items;
   assert.ok(items.includes('good:pot') && items.includes('stores:provisions'), `the wagon's goods cannot be set out: ${items}`);
-  assert.ok(!items.some(item => item.startsWith('tool:')), 'a tool with no interior art is offered');
+  assert.ok(items.includes('tool:axe') && items.includes('tool:hoe'), `the wagon's tools cannot be set out: ${items}`);
   const events = world.events.length;
   applyAction(world, 'hh-1', { action: 'place-item', item: 'good:pot', spot: 'hearth' });
   assert.deepEqual(land(world).interior.placed, { hearth: 'good:pot' });
@@ -62,6 +62,10 @@ test('a thing the family has is set on a free spot, moved, refused a taken spot,
   assert.deepEqual(land(world).interior.placed, { hearth: 'stores:provisions' }, 'putting away left it standing');
   assert.equal(world.events.length, events, 'arranging the room was written into the story');
   validateWorld(world);
+  // A tool that came in the wagon is set out like anything else, and a saved room holding it opens.
+  applyAction(world, 'hh-1', { action: 'place-item', item: 'tool:axe', spot: 'door' });
+  assert.equal(land(world).interior.placed.door, 'tool:axe');
+  validateWorld(world);
   // Furniture the family makes or buys can be set out too.
   household.furniture = { table: 'made' };
   assert.ok(interiorItems(household).some(item => item.id === 'furniture:table'));
@@ -69,15 +73,23 @@ test('a thing the family has is set on a free spot, moved, refused a taken spot,
   assert.equal(land(world).interior.placed.window, 'furniture:table');
 });
 
-test('a two-pen house has both pens and the passage between them', () => {
+test('a dog-run has both pens and the passage between them; a saddlebag has its two pens and no passage', () => {
   const world = housed();
   const household = world.households['hh-1'];
-  // A house raised piece by piece with two pens (sim/houseplot.mjs `plotLayout`): a dog-run or a saddlebag.
-  household.house = { plan: 'saddlebag', pieces: [{ type: 'pen-round', x: 1, y: 2, stage: 9, progress: 0 }, { type: 'pen-round', x: 4, y: 2, stage: 9, progress: 0 }] };
-  const kind = interiorOf(household);
-  assert.equal(kind, 'dog-run');
+  // Houses raised piece by piece with two pens (sim/houseplot.mjs `plotLayout`), which look alike from outside.
+  const pen = x => ({ type: 'pen-round', x, y: 2, stage: 9, progress: 0 });
+  household.house = { plan: 'dog-run', pieces: [pen(1), { type: 'passage', x: 3, y: 2, stage: 0, progress: 0 }, pen(4)] };
+  assert.equal(interiorOf(household), 'dog-run');
   assert.equal(placeRefusal(world, household, 'good:pot', 'passage'), null);
   assert.match(placeRefusal(world, household, 'good:pot', 'hearth'), /no such place/);
+  assert.match(placeRefusal(world, household, 'good:pot', 'west-door'), /no such place/);
+  household.house = { plan: 'saddlebag', pieces: [pen(1), { type: 'chimney-double', x: 3, y: 2, stage: 0, progress: 0 }, pen(4)] };
+  assert.equal(interiorOf(household), 'saddlebag');
+  assert.equal(land(world).interior.kind, 'saddlebag');
+  assert.match(placeRefusal(world, household, 'good:pot', 'passage'), /no such place/);
+  assert.equal(placeRefusal(world, household, 'good:pot', 'west-door'), null);
+  applyAction(world, 'hh-1', { action: 'place-item', item: 'good:pot', spot: 'east-hearth' });
+  assert.deepEqual(land(world).interior.placed, { 'east-hearth': 'good:pot' });
 });
 
 test('a family is sent its own rooms, the Host every family\'s, and no student another family\'s', () => {
@@ -95,6 +107,9 @@ test('a saved interior with a place or a thing that cannot be there, or one thin
   assert.throws(() => validateWorld(world), /cannot be there/);
   world.households['hh-1'].interior = { hearth: 'good:pot', middle: 'good:pot' };
   assert.throws(() => validateWorld(world), /one thing in two places/);
-  world.households['hh-1'].interior = { hearth: 'tool:hoe' };
+  // Powder and lead has no picture inside and is never set out.
+  world.households['hh-1'].interior = { hearth: 'stores:powder' };
   assert.throws(() => validateWorld(world), /cannot be there/);
+  world.households['hh-1'].interior = { 'west-window': 'tool:hoe' };
+  validateWorld(world);
 });

@@ -2,14 +2,15 @@
   "record": "Inside the house, in a browser: docs/SETTLING_IN.md step 7",
   "date": "2026-09-16",
   "verdict": "PASS",
-  "note": "Same computer only. The invented Gonzales country with every family's cabin set standing in process; a student tapped their house, set out, moved and put away things; the Host went to the land and tapped the same house. No LAN or district claim.",
+  "note": "Same computer only. The invented Gonzales country with every family's cabin set standing in process; a student tapped their house, set out, moved and put away things and set out a tool from the wagon; the Host went to the land and tapped the same house. No LAN or district claim.",
   "checks": [
     "tapping the family's own house opens its rooms: a round-log interior",
     "the iron pot is set by the hearth and a barrel against the back wall: the server holds them, and the picture shows them",
     "the pot is moved to the middle of the room, then put away",
     "a filled place chooses what stands there; nothing is set on top of it",
+    "the felling axe from the wagon is set under the window: the server holds it, and the picture shows it",
     "the rooms close, back to the map",
-    "the teacher sees the same room read only: \"INSIDE · ELIAS'S FAMILY × 1 thing set out.\"",
+    "the teacher sees the same room read only: \"INSIDE · ELIAS'S FAMILY × 2 things set out.\"",
     "at phone width the rooms open and the page does not scroll sideways",
     "no page errors"
   ],
@@ -28,11 +29,15 @@
           {
             "spot": "back-wall",
             "item": "stores:provisions"
+          },
+          {
+            "spot": "window",
+            "item": "tool:axe"
           }
         ]
       },
       "buttons": 0,
-      "text": "INSIDE · ELIAS'S FAMILY\n×\n\n1 thing set out."
+      "text": "INSIDE · ELIAS'S FAMILY\n×\n\n2 things set out."
     }
   },
   "screenshots": [

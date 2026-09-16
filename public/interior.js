@@ -31,7 +31,8 @@ export function renderInterior(root, interior, { title, readOnly = false, send, 
   const stage = el('div', null, 'interior-stage');
   const canvas = el('canvas', null, 'interior-canvas');
   const width = Math.min(640, Math.max(280, (root.clientWidth || 640) - 36));
-  const wide = interior.kind === 'dog-run';
+  // The dog-run's picture is wide; the saddlebag is drawn on it too (stand-in: sim/interior-data.mjs).
+  const wide = room.sprite === 'interior-dog-run';
   // The picture fills the stage's width. It is drawn from its anchor (its feet, off centre), so the anchor is placed where
   // the picture's own box puts it; the spots are fractions of that same box (sim/interior-data.mjs).
   const frame = spriteFrame(room.sprite) || { w: 1, h: wide ? 0.44 : 0.87, anchorX: 0.5, anchorY: 0.93 };

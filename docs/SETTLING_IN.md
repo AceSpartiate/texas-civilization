@@ -310,11 +310,16 @@ stands**. `FIC-GONZ-043`.
 
 - **The rooms** (`sim/interior-data.mjs`, pure data served to the page as `/interior-data.js`): the delivered
   `home-interiors` pictures — round-log and hewn-log cabins and the jacal with eight spots each (by the hearth, against the
-  back wall, under the window, in the middle, by the door …), the dog-run's two pens and passage with ten. A house raised
-  with two pens (dog-run or saddlebag) uses the dog-run's; a house chosen whole with no layout uses the round-log's.
+  back wall, under the window, in the middle, by the door …), the dog-run's two pens and passage with ten. A saddlebag (a
+  house raised with two pens and no passage between them, planned or free-built) has its own ten — by each hearth, against
+  each back wall, under each window, in each pen, by each door — and no passage; `stand-in:` it is drawn on the dog-run's
+  picture, its spots measured there, until an `interior-saddlebag` is delivered (`docs/ART_REQUESTS.md`). A house chosen
+  whole with no layout uses the round-log's.
 - **What can be set out** (`sim/interior.mjs` `interiorItems`): the family's furniture (`home-furnishings` art), and from
   the wagon the bedding, iron pot, chest, spinning wheel, books, mosquito bars, tinware and chairs, and a barrel of provisions
-  and a sack of seed. Each thing once, in one place. `ceiling:` the tools have no interior art and are not offered.
+  and a sack of seed, and its tools: hoe, felling axe, broadaxe, froe and auger. Each thing once, in one place.
+  `stand-in:` every tool is drawn as the equipment sheet's `tools` (a hatchet, an axe and a spade) until interior tool
+  pieces are delivered (`docs/ART_REQUESTS.md`). Powder and lead has no picture inside and is not offered.
 - **Action `place-item`** (`item`, `spot`; no spot puts it away): refused while camping, for a thing the family does not
   have, for a place the house does not have, or a place something else stands in (named). Moving a thing takes it from
   where it stood. Nothing is recorded in the story, and nothing in the world changes: furniture's effects come from owning it.
