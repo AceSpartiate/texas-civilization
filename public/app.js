@@ -1,6 +1,6 @@
 // Renderers consume the server's permitted projection. They never advance simulation state.
 import { drawSprite, drawClip, clipInfo, hasSprite, loadArt, onArtReady, pickSprite, spriteFrame } from '/art.js';
-import { ProjectionMotion, entityClip, travelHeading, travelDirection, figureScale, underARider, mounted, MOUNTED_HEIGHT, castVariant, childFigure } from '/motion.js';
+import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, underARider, mounted, MOUNTED_HEIGHT, castVariant, childFigure } from '/motion.js';
 import { drawIcon, drawPortrait, nameToSave, panelActions, panelOrder, rowReason, RENAME_PAUSE_MS } from '/family-panel.js';
 import {drawBexarGround,bexarDrawables} from '/bexar-art.js';
 import {plotArt} from '/field-art.js';
@@ -22,8 +22,16 @@ window.__camera = null;
 const motionProjection = new ProjectionMotion();
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 let animationTime = 0, previousFrame = 0, paintedFrame = 0;
-function animated(ctx, clip, x, y, size, seed = 0, options = {}) {
-  const width = drawClip(ctx, clip, x, y, size, { timeMs: animationTime, seed, reducedMotion: reducedMotion.matches, ...options });
+// A traveller's cycle is played from their own place in their stride rather than the shared clock (public/motion.js `GaitClock`).
+const gaitClock = new GaitClock(), gaits = new Map();
+function gaitTime(clip, gait) {
+  const key = `${clip}|${gait.stride}`;
+  if (!gaits.has(key)) { const found = clipGait(clipInfo(clip), gait.stride); if (!found) return undefined; gaits.set(key, found); }
+  return gaitClock.time(gait.id, { clockMs: animationTime, at: gait.at, bodyMiles: gait.bodyMiles, gait: gaits.get(key) });
+}
+function animated(ctx, clip, x, y, size, seed = 0, { gait, ...options } = {}) {
+  const own = gait && !options.paused && !('timeMs' in options) ? gaitTime(clip, gait) : undefined;
+  const width = drawClip(ctx, clip, x, y, size, { timeMs: own ?? animationTime, seed, reducedMotion: reducedMotion.matches, ...options });
   if (width) window.__animationClips?.add(clip);
   return width;
 }
@@ -170,7 +178,7 @@ function miniPerson(ctx, x, y, size, entity) {
   const binding = entity.side ? { id: `${entity.side === 'mexican' ? 'regular' : 'volunteer'}-idle-e` } : entityClip(entity, entity.observed);
   // A north or south cycle is drawn facing that way already; mirroring it would turn a
   // person walking away into a person walking away backwards.
-  if (animated(ctx, binding.id, x, y, size, entity.id || entity.side, { paused: binding.frozen, flip: binding.upright ? false : entity.flip })) return;
+  if (animated(ctx, binding.id, x, y, size, entity.id || entity.side, { paused: binding.frozen, flip: binding.upright ? false : entity.flip, gait: entity.gait })) return;
   const tint = hashOf(entity.id || entity.name || 'person');
   const coat = entity.side === 'mexican' ? '#4a6079' : entity.side === 'texian' ? '#7d5f45'
     // The principal's rust coat marks the one person a student directs, and nobody who is
@@ -214,7 +222,7 @@ function miniPerson(ctx, x, y, size, entity) {
 function miniAnimal(ctx, x, y, size, entity = {}, flip = false) {
   const beast = entity.species === 'horse' ? 'horse' : 'ox';
   const heading = entity.travel ? travelHeading(entity) : null;
-  if (entity.travel && animated(ctx, heading ? `${beast}-walk-${heading}` : `${beast}-walk`, x, y, size, entity.id, { flip: heading ? false : flip })) return;
+  if (entity.travel && animated(ctx, heading ? `${beast}-walk-${heading}` : `${beast}-walk`, x, y, size, entity.id, { flip: heading ? false : flip, gait: entity.gait })) return;
   if (!entity.travel && animated(ctx, beast === 'horse' ? 'horse-chestnut-idle' : 'ox-brown-idle', x, y, size, entity.id, { flip })) return;
   if (drawSprite(ctx, beast === 'horse' ? 'horse-chestnut' : 'ox-brown', x, y, size, { flip })) return;
   groundShadow(ctx, x, y, size * .42);
@@ -240,7 +248,7 @@ function miniDeer(ctx, x, y, size, { flip = false, alert = false, seed = 0 } = {
 }
 function miniWagon(ctx, x, y, size, entity = {}, flip = false) {
   const rolling = entity.travel ? (entity.laden ? 'wagon-loaded-travel' : 'wagon-travel') : 'wagon-idle';
-  if (entity.condition === 'sound' && animated(ctx, rolling, x, y, size, entity.id, { flip: !flip })) return;
+  if (entity.condition === 'sound' && animated(ctx, rolling, x, y, size, entity.id, { flip: !flip, gait: entity.gait })) return;
   // A wagon that has come to harm shows it. Nothing here invents that state: it is drawn
   // only when the projection this student is allowed to see already says so.
   const sound = !entity.condition || entity.condition === 'sound';
@@ -421,9 +429,15 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
   // reined in is turned toward the person they are speaking to instead, which the server
   // works out from where the two of them actually are.
   const flip = entity.facing ? entity.facing === 'w' : travelDirection(entity) === 'w';
-  if (entity.kind === 'person') miniPerson(ctx, x, y, mounted(entity) ? height : size, { ...entity, observed: marks.observed, flip });
-  else if (entity.kind === 'animal') miniAnimal(ctx, x, y, height, entity, flip);
-  else if (entity.kind === 'wagon') miniWagon(ctx, x, y, height, entity, flip);
+  // Somebody on the road steps at the rate the ground drawn under them goes past (public/motion.js `gaitStep`),
+  // measured in their own drawn height: a child's shorter stride, a horse's longer one.
+  const onFoot = entity.kind === 'person' && !mounted(entity);
+  const gait = entity.travel && !entity.travel.halted && !entity.facing && marks.ground && marks.scale > 0
+    ? { id: entity.id, at: marks.ground, bodyMiles: height * (onFoot ? figureScale(entity) : 1) / marks.scale, stride: onFoot ? STRIDE.foot : STRIDE.hoof }
+    : null;
+  if (entity.kind === 'person') miniPerson(ctx, x, y, mounted(entity) ? height : size, { ...entity, observed: marks.observed, flip, gait });
+  else if (entity.kind === 'animal') miniAnimal(ctx, x, y, height, { ...entity, gait }, flip);
+  else if (entity.kind === 'wagon') miniWagon(ctx, x, y, height, { ...entity, gait }, flip);
   // The one moment of a hunt that can be shown. `musket-smoke` runs once - small, growing,
   // dispersing, just over a second - so it is sampled from when this client first saw the
   // shot rather than from the shared animation clock, which would catch it already gone.
@@ -1495,7 +1509,7 @@ export function drawWorld(world) {
   // by clicking them, and the hidden roster still lists every one of them by name.
   const roomForNames = camera.named && camera.figure > 34;
   for (const entity of entities) {
-    const point = camera.toScreen(motionProjection.position(entity, performance.now(), reducedMotion.matches || world.status !== 'running'));
+    const ground = motionProjection.position(entity, performance.now(), reducedMotion.matches || world.status !== 'running'), point = camera.toScreen(ground);
     // Which way someone is facing comes from where they are actually going, so a mirrored
     // ox is reporting the journey the server gave it rather than decorating the scene.
     const destination = entity.travel && world.map?.sites?.[entity.travel.to];
@@ -1520,13 +1534,13 @@ export function drawWorld(world) {
     }
     standing.push({ y: point.y, draw: () => drawEntity(ctx, entity, point, roomForNames, camera.figure, {
       selected: entity.id === chosen?.id, mark,
-      labels, heading: destination ? destination.x - entity.location.x : 0,
+      labels, heading: destination ? destination.x - entity.location.x : 0, ground, scale: camera.scale,
     }) });
   }
   for (const entity of observed) {
-    const point = camera.toScreen(motionProjection.position(entity, performance.now(), reducedMotion.matches || world.status !== 'running'));
+    const ground = motionProjection.position(entity, performance.now(), reducedMotion.matches || world.status !== 'running'), point = camera.toScreen(ground);
     standing.push({ y: point.y, draw: () => drawEntity(ctx, { ...entity, health: { condition: entity.condition } }, point, roomForNames, camera.figure, {
-      selected: entity.id === chosen?.id, mark: null, labels, observed: true,
+      selected: entity.id === chosen?.id, mark: null, labels, observed: true, ground, scale: camera.scale,
     }) });
   }
   standing.sort((a, b) => a.y - b.y);

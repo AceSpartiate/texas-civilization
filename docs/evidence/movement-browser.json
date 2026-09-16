@@ -1,0 +1,179 @@
+{
+  "record": "movement-browser",
+  "date": "2026-09-16",
+  "ownerDirection": "\"It still looks too fast. I don't want to change the rate at which players actually cover ground. Could we change the animation so it appears slower, without actually changing how much ground is covered?\"",
+  "tickMs": 2000,
+  "readThis": "firstQuarterShare is the share of a tick's drawn walk painted in its first quarter (an even walk is about 0.25); stillFromShare is how far through the tick the figure last moved (1 is all the way); bodiesPerSecond scales with the tick, so at the Study pace of 9500ms divide by 4.75.",
+  "beforeThisChange": {
+    "commit": "ee0beef, same script, same machine, PROOF_OBSERVE_ONLY=1",
+    "quietClose": "firstQuarterShare 0.23-0.26, stillFromShare 1: a walk nobody interrupts was already even.",
+    "busyClose": "firstQuarterShare 0.56-0.70, largest painted step 10.8-11.5px: another family renaming itself mid-tick front-loaded every tick of the walk.",
+    "busyWide": "firstQuarterShare 0.38-0.46, stillFromShare 0.43-0.49: the walker covered the tick in its first half and stood for the rest."
+  },
+  "measured": {
+    "quietClose": [
+      {
+        "tick": 1,
+        "spanMs": 1568,
+        "screenPx": 107.6,
+        "firstQuarterShare": 0.21,
+        "largestStepPx": 6.9,
+        "jumpRatio": 1.2,
+        "stillFromShare": 1,
+        "bodiesPerSecond": 9.8,
+        "clip": "rust-walk",
+        "revisions": 1
+      },
+      {
+        "tick": 2,
+        "spanMs": 2015,
+        "screenPx": 137.4,
+        "firstQuarterShare": 0.23,
+        "largestStepPx": 6.9,
+        "jumpRatio": 1.1,
+        "stillFromShare": 1,
+        "bodiesPerSecond": 9.74,
+        "clip": "rust-walk",
+        "revisions": 1
+      },
+      {
+        "tick": 3,
+        "spanMs": 2002,
+        "screenPx": 137.3,
+        "firstQuarterShare": 0.22,
+        "largestStepPx": 6.9,
+        "jumpRatio": 1.2,
+        "stillFromShare": 1,
+        "bodiesPerSecond": 9.8,
+        "clip": "rust-walk",
+        "revisions": 1
+      },
+      {
+        "tick": 4,
+        "spanMs": 2015,
+        "screenPx": 137.3,
+        "firstQuarterShare": 0.25,
+        "largestStepPx": 6.9,
+        "jumpRatio": 1.2,
+        "stillFromShare": 1,
+        "bodiesPerSecond": 9.74,
+        "clip": "rust-walk",
+        "revisions": 1
+      }
+    ],
+    "busyClose": [
+      {
+        "tick": 1,
+        "spanMs": 1567,
+        "screenPx": 64.2,
+        "firstQuarterShare": 0.2,
+        "largestStepPx": 4.1,
+        "jumpRatio": 1.2,
+        "stillFromShare": 1,
+        "bodiesPerSecond": 5.85,
+        "clip": "rust-walk-s",
+        "revisions": 2
+      },
+      {
+        "tick": 2,
+        "spanMs": 2016,
+        "screenPx": 81.4,
+        "firstQuarterShare": 0.24,
+        "largestStepPx": 4.1,
+        "jumpRatio": 1.2,
+        "stillFromShare": 1,
+        "bodiesPerSecond": 5.77,
+        "clip": "rust-walk-s",
+        "revisions": 2
+      },
+      {
+        "tick": 3,
+        "spanMs": 2018,
+        "screenPx": 81.4,
+        "firstQuarterShare": 0.23,
+        "largestStepPx": 4.1,
+        "jumpRatio": 1.2,
+        "stillFromShare": 1,
+        "bodiesPerSecond": 5.76,
+        "clip": "rust-walk-s",
+        "revisions": 2
+      },
+      {
+        "tick": 4,
+        "spanMs": 2002,
+        "screenPx": 81.8,
+        "firstQuarterShare": 0.22,
+        "largestStepPx": 4.1,
+        "jumpRatio": 1.1,
+        "stillFromShare": 1,
+        "bodiesPerSecond": 5.84,
+        "clip": "rust-walk-s",
+        "revisions": 2
+      }
+    ],
+    "busyWide": [
+      {
+        "tick": 1,
+        "spanMs": 1919,
+        "screenPx": 22.9,
+        "firstQuarterShare": 0.24,
+        "largestStepPx": 1.2,
+        "jumpRatio": 1.2,
+        "stillFromShare": 1,
+        "bodiesPerSecond": 1.7,
+        "clip": "rust-walk-s",
+        "revisions": 2
+      },
+      {
+        "tick": 2,
+        "spanMs": 2015,
+        "screenPx": 24,
+        "firstQuarterShare": 0.22,
+        "largestStepPx": 1.2,
+        "jumpRatio": 1.2,
+        "stillFromShare": 1,
+        "bodiesPerSecond": 1.7,
+        "clip": "rust-walk-s",
+        "revisions": 2
+      },
+      {
+        "tick": 3,
+        "spanMs": 2002,
+        "screenPx": 24.2,
+        "firstQuarterShare": 0.25,
+        "largestStepPx": 1.2,
+        "jumpRatio": 1.1,
+        "stillFromShare": 1,
+        "bodiesPerSecond": 1.73,
+        "clip": "rust-walk-s",
+        "revisions": 2
+      },
+      {
+        "tick": 4,
+        "spanMs": 1998,
+        "screenPx": 23.9,
+        "firstQuarterShare": 0.23,
+        "largestStepPx": 1.3,
+        "jumpRatio": 1.2,
+        "stillFromShare": 1,
+        "bodiesPerSecond": 1.71,
+        "clip": "rust-walk-s",
+        "revisions": 2
+      }
+    ]
+  },
+  "pass": [
+    "the page raised no errors",
+    "quietClose: every tick's walk is spread across the tick, not drawn in a burst (0.21, 0.23, 0.22, 0.25 in the first quarter)",
+    "busyClose: every tick's walk is spread across the tick, not drawn in a burst (0.2, 0.24, 0.23, 0.22 in the first quarter)",
+    "busyWide: every tick's walk is spread across the tick, not drawn in a burst (0.24, 0.22, 0.25, 0.23 in the first quarter)",
+    "the busy run really did receive a second snapshot inside a tick"
+  ],
+  "notMeasuredHere": [
+    "The walk cycle's rate. The page exposes which clips were drawn, not which frame; the stride-matched rate is proved in tests/movement.test.mjs.",
+    "A compressed calendar (MAP=colonies, news phase). The fix is proved in tests/movement.test.mjs; before it every such tick was drawn as a jump."
+  ],
+  "limitations": [
+    "Same computer, headless Chrome at a 2000ms tick: frame timing is the headless browser's, and nothing here says anything about a classroom network or a projector."
+  ]
+}
