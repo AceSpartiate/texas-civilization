@@ -9,17 +9,17 @@
     "the hunt says what it will bring home before it is chosen: on foot \"Brings home 5 food of 10; the rest is left behind.\"",
     "choosing the wagon and pressing Travel sends them with the wagon",
     "the ox and the wagon are on the road with him, not left standing at home",
-    "the ox and wagon are drawn travelling, not teleported (12.2px and 12.2px of screen movement)",
+    "the ox and wagon are drawn travelling, not teleported (81.0px and 45.4px of screen movement)",
     "and are drawn with the walking and rolling cycles the art library has always carried",
-    "a second person is told who has it, in words: \"Alvin has the ox.\"",
+    "a second person is told who has it, in words: \"Alvin has the ox and wagon.\"",
     "and walking is never taken away from anybody",
     "no page errors anywhere in the run"
   ],
   "measured": {
     "screenPixelsMovedInNineTenthsOfASecond": {
-      "ox": 12.192631583994707,
-      "wagon": 12.192631583994707,
-      "man": 12.192631583994707
+      "ox": 81.0246875958186,
+      "wagon": 45.35416188179427,
+      "man": 16.278820596099706
     },
     "clipsBound": [
       "blue-rest",
@@ -29,7 +29,7 @@
       "oak-spreading-wind",
       "ox-walk-s",
       "pecan-wind",
-      "rust-walk-s",
+      "rust-idle-s",
       "teal-idle-s",
       "teal-rest",
       "wagon-travel"

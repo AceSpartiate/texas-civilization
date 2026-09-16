@@ -60,7 +60,7 @@ const siege = () => shared ??= (() => {
   until(world, () => card(world, b.household, b.person)?.questions?.some(q => q.key === 'pledge'));
   applyAction(world, a.household.id, { action: 'army-answer', entityId: a.person.id, question: 'pledge', answer: 'yes' });
   applyAction(world, b.household.id, { action: 'army-answer', entityId: b.person.id, question: 'pledge', answer: 'no' });
-  seen.pledge = { bInArmy: withTheArmy(world, b.person.id), bGoing: world.entities[b.person.id].travel?.to, bHome: b.household.homeSiteId };
+  seen.pledge = { bInArmy: withTheArmy(world, b.person.id), bGoing: world.entities[b.person.id].travel?.to, bHome: b.household.homeSiteId, bMode: world.entities[b.person.id].travel?.mode };
   // November 26: the rumour, then the question, then the fight.
   until(world, () => card(world, a.household, a.person)?.questions?.some(q => q.key === 'grass'));
   seen.alarm = { minute: world.minute, phase: world.director.phase, silver: world.events.some(e => e.visibility === 'public' && /silver/.test(e.text)) };
@@ -156,6 +156,8 @@ test('a volunteer who does not pledge on November 24 leaves the army and starts 
   const { world, a, seen } = siege();
   assert.equal(seen.pledge.bInArmy, false, 'a volunteer who did not pledge stayed in the army');
   assert.equal(seen.pledge.bGoing, seen.pledge.bHome, 'a volunteer who did not pledge is not going home');
+  // On the horse they rode to the army, as a volunteer sent for does (sim/keeping.mjs).
+  assert.equal(seen.pledge.bMode, 'horse', 'a volunteer who did not pledge walked home and left the horse behind');
   assert.equal(world.army.questions.pledge.asks[a.person.id], 'yes');
   assert.ok(withTheArmy(world, a.person.id) || world.participation['grass-fight'][a.person.id]?.role === 'ran', 'a volunteer who pledged left the army');
 });

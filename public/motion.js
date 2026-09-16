@@ -100,15 +100,87 @@ export const ORDINARY_CONDITIONS = ['well', 'tired'];
 /**
  * Somebody of a family going on the family's horse is drawn in the saddle, and the horse under them is not drawn a second
  * time trotting alongside. Both read the journey the server gave: a horse only ever travels harnessed (sim/world.mjs
- * `harness`), so a horse on a journey made on horseback is being ridden.
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-14 - family members on horseback. Whoever rides is drawn as the courier
- * rider, until the cast has mounted figures of its own.
+ * `harness`) or marching with its rider (sim/keeping.mjs), so a horse on a journey made on horseback is being ridden.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-14 - family members on horseback. The rider is their own figure sitting
+ * on the family's walking horse (`seatedClip`, `seatLayout`): the top of them drawn over its back, from the waist up. It
+ * replaced the courier's sheet on 2026-09-16, because the owner saw a stranger on the horse and "characters don't actually
+ * sit on the horse".
  */
 export const inTheSaddle = entity => entity.kind === 'person' && !entity.carrier && entity.travel?.mode === 'horse';
 /** How tall a rider and horse are drawn, as a person is 1: the horse at its own size with somebody sitting up on it. */
 export const MOUNTED_HEIGHT = 1.8;
 export const mounted = entity => entity.kind === 'person' && (entity.carrier || inTheSaddle(entity));
 export const underARider = entity => entity.kind === 'animal' && entity.species === 'horse' && entity.travel?.mode === 'horse';
+
+/**
+ * Who drives this family's wagon on the road: whoever has it (`borrowedBy`, sim/keeping.mjs), or - on the family's own
+ * arrival, which nobody took it on - the principal if they are coming in with it, or else the first grown person who is.
+ * Everybody else going the wagon's way walks beside it. Null while the wagon is not on the road.
+ */
+export function wagonDriverId(householdId, entities = []) {
+  const wagon = entities.find(entity => entity.kind === 'wagon' && entity.householdId === householdId);
+  if (!wagon?.travel || wagon.travel.mode !== 'wagon') return null;
+  const aboard = entities.filter(entity => entity.kind === 'person' && entity.householdId === householdId && !entity.carrier && entity.travel?.mode === 'wagon');
+  if (wagon.borrowedBy) return aboard.some(entity => entity.id === wagon.borrowedBy) ? wagon.borrowedBy : null;
+  const young = ['child', 'small', 'infant'];
+  return (aboard.find(entity => entity.principal) || aboard.find(entity => !young.includes(entity.band)) || aboard[0])?.id || null;
+}
+/** What this person is sitting on: 'horse', 'wagon', or null for anybody on their own feet. */
+export function seatOf(entity, entities = []) {
+  if (entity.kind !== 'person' || entity.carrier || entity.observed) return null;
+  if (HURT_CONDITIONS.includes(entity.health?.condition) || STILL_CONDITIONS.includes(entity.health?.condition)) return null;
+  if (inTheSaddle(entity)) return 'horse';
+  if (entity.travel?.mode === 'wagon' && wagonDriverId(entity.householdId, entities) === entity.id) return 'wagon';
+  return null;
+}
+/** Whether a beast is drawn with the person on it rather than by itself: the ridden horse, the ox and wagon being driven. */
+export function carriedWithRider(entity, entities = []) {
+  if (underARider(entity)) return true;
+  if ((entity.kind === 'wagon' || (entity.kind === 'animal' && entity.species !== 'horse')) && entity.travel?.mode === 'wagon') {
+    const driver = wagonDriverId(entity.householdId, entities);
+    return Boolean(driver && seatOf(entities.find(other => other.id === driver), entities) === 'wagon');
+  }
+  return false;
+}
+/** The person's own figure sitting up, facing the way they go: the idle pose of the figure they are always drawn as. */
+export function seatedClip(entity, direction = 'e') {
+  const figure = (!entity.carrier && childFigure(entity)) || castVariant(entity);
+  const facing = ['n', 's', 'e', 'w'].includes(direction) ? direction : 'e';
+  // The infant's sheet has no back view.
+  const pose = figure === 'infant' && facing === 'n' ? 'idle-s' : `idle-${facing}`;
+  return { id: `${figure}-${pose}`, upright: true, frozen: true };
+}
+/**
+ * Where each part of a rider and their mount is drawn, in a person's heights from the point the server gives them, and in
+ * the order to draw them. `sizes` are the mounts' drawn heights as a person is 1 (public/app.js `SIZE`).
+ *
+ * Each part is `{ part: 'horse'|'ox'|'wagon'|'rider', dx, dy, height, shown? }`: `dx` is along the way they face (mirrored
+ * for west by the caller's `flip`), `dy` down the screen to the part's ground line; `shown`, on the rider, is how much
+ * of their height is drawn, from the top of the head down - the rest would be inside the saddle
+ * or behind the wagon's box.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-14 (on horseback) and 2026-09-16 (driving the ox wagon). The numbers
+ * fit the delivered horse, ox and wagon sheets; mounted and driving figures replace all of it.
+ */
+export const SEAT = Object.freeze({ horseBack: 0.57, horseBackUpright: 0.6, wagonSeat: 0.44, hip: 0.44, overlap: 0.07 });
+export function seatLayout(seat, direction = 'e', { horse = 1.5, ox = 1.45, wagon = 1.55 } = {}, rider = 1) {
+  const vertical = direction === 'n' || direction === 's';
+  // The rider's feet are put where their hip lands on the seat, and they are cut a little below the hip.
+  const sitting = (seatHeight, dx = 0) => ({ part: 'rider', dx, dy: -seatHeight + SEAT.hip * rider, height: rider, shown: 1 - SEAT.hip + SEAT.overlap });
+  if (seat === 'horse') {
+    const on = sitting(horse * (vertical ? SEAT.horseBackUpright : SEAT.horseBack), vertical ? 0 : -0.05 * horse);
+    const mount = { part: 'horse', dx: 0, dy: 0, height: horse };
+    // Coming toward the camera the horse's head and shoulders are in front of the rider.
+    return direction === 's' ? [on, mount] : [mount, on];
+  }
+  if (seat === 'wagon') {
+    const box = { part: 'wagon', dx: vertical ? 0 : -0.55 * wagon, dy: 0, height: wagon };
+    const team = { part: 'ox', dx: vertical ? 0 : 0.95 * ox, dy: vertical ? (direction === 'n' ? -0.5 : 0.5) * ox : 0, height: ox };
+    const driver = sitting(wagon * SEAT.wagonSeat, vertical ? 0 : box.dx + 0.42 * wagon);
+    // Going away the ox is further off and drawn first; coming toward the camera it is nearer and drawn last.
+    return direction === 's' ? [box, driver, team] : [team, box, driver];
+  }
+  return [];
+}
 export function carrierClip(entity) {
   const vertical = entity.facing === 'n' || entity.facing === 's';
   if (entity.speaking) return vertical ? { id: `mounted-courier-speak-${entity.facing}`, upright: true } : { id: 'mounted-courier-speak' };
@@ -140,6 +212,8 @@ export function childFigure(entity) {
   return null;
 }
 export function entityClip(entity, observed = false) {
+  // In the saddle: their own figure sitting up, which public/app.js puts on the horse (`seatLayout`).
+  if (!observed && seatOf(entity) === 'horse') return seatedClip(entity, travelDirection(entity) || 'e');
   const clip = grownClip(entity, observed);
   const young = entity.kind === 'person' && !entity.carrier && childFigure(entity);
   if (!young) return clip;
@@ -157,10 +231,6 @@ function grownClip(entity, observed) {
   // this project never chose.
   if (STILL_CONDITIONS.includes(condition)) return { id: `${variant}-idle-s`, frozen: true, upright: true };
   if (entity.carrier) return carrierClip(entity);
-  if (inTheSaddle(entity)) {
-    const heading = travelHeading(entity);
-    return heading ? { id: `mounted-courier-${heading}`, upright: true } : { id: 'mounted-courier-e' };
-  }
   if (entity.kind === 'animal') {
     // A class saved before there were horses has no `species` on anything, and every
     // animal in it is an ox - so the absent field reads correctly as one.

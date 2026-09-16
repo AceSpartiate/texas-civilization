@@ -15,6 +15,7 @@ import { findWay } from './ways.mjs';
 import { WALK_SPEED, moveOnGround } from './travel.mjs';
 import { awardGlory } from './glory.mjs';
 import { calendarMinutes } from './clock.mjs';
+import { modeWith } from './keeping.mjs';
 
 /** Where the volunteers were made into an army, and where they went. */
 export const RENDEZVOUS = 'gonzales';
@@ -247,7 +248,10 @@ export function callHome(world, householdId, entity, { beginTravel }) {
     classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-034',
     text: `${entity.name} left the army and started home.`,
   });
-  beginTravel(world, entity, world.households[householdId].homeSiteId, causeId, 'home');
+  // On the horse they rode to the gathering, if it marched with them (sim/keeping.mjs); on foot if that way home is shut
+  // (the wagon at a ford), because leaving the army is never refused.
+  const home = world.households[householdId].homeSiteId, mode = modeWith(world, entity);
+  try { beginTravel(world, entity, home, causeId, 'home', mode); } catch (error) { if (mode === 'foot') throw error; beginTravel(world, entity, home, causeId, 'home'); }
   return causeId;
 }
 
@@ -666,7 +670,9 @@ function leaveArmy(world, person, { beginTravel, text, keepPromise = false }) {
   const promise = person.commitments?.find(p => p.id === 'volunteer' && p.status === 'active');
   if (promise && !keepPromise) promise.status = 'ended';
   const causeId = text ? record(world, 'army', { actorId: person.id, householdId: person.householdId, importance: 2, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-040', text }) : null;
-  if (beginTravel) beginTravel(world, person, world.households[person.householdId].homeSiteId, causeId, 'home');
+  // On the horse they came with, as a volunteer sent for does (`callHome`); on foot if that way home is shut.
+  const home = world.households[person.householdId].homeSiteId, mode = modeWith(world, person);
+  if (beginTravel) { try { beginTravel(world, person, home, causeId, 'home', mode); } catch (error) { if (mode === 'foot') throw error; beginTravel(world, person, home, causeId, 'home'); } }
 }
 
 /**

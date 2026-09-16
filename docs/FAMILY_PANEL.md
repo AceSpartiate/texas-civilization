@@ -118,7 +118,8 @@ cotton) are hidden, as before.
 **What stays on the person's card, and why.** The card that opens beside a person keeps what is a *question* rather than an
 order, or needs more than one press: a call to answer (`#selection-call`), a rider to listen to, work that has stopped to ask
 something and its answers, how the person travels (*Going by*: on foot, the ox, the wagon, the horse — remembered per person
-and sent with the next icon that starts a journey), which neighbour's homestead to go to, and trading with somebody standing
+and sent with the next icon that starts a journey; a way somebody else in the family is using is shut and says who has it,
+*"Maria has the horse."*, and the server refuses it however the order is sent — 2026-09-16, `sim/keeping.mjs`), which neighbour's homestead to go to, and trading with somebody standing
 there. The army's "send for" control and every call are unchanged; they were never icons of their own.
 
 ### The glow

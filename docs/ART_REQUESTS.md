@@ -28,7 +28,8 @@ does not have:
 | A person's appearance - a parent's chosen, a child's taken after the parents - is shown only in words in the family book ("olive skin, black hair, rust clothes, a beard"); the figure on the map is still chosen by sex and age | `public/appearance.js`, `sim/appearance.mjs` | Request below — layered people art | Layered or palette-swappable sheets for the whole cast |
 | *(Planned, with [SETTLING_IN.md](SETTLING_IN.md) steps 6–7)* Interiors and furniture drawn from the Alamo interior pieces | the interior view | Request below — interiors and furnishings | Cabin interiors, furniture and brought goods |
 | Five priority tree kinds use delivered size-specific art: pine, cedar, mesquite, live oak and elm. Shortleaf temporarily shares loblolly art; post oak, blackjack and the remaining hardwoods still use their nearest original broadleaf tree | `KINDS` picture in `sim/woods.mjs`, drawn by `drawGroundDetail` in `public/app.js` | Request 2026-09-15 — the trees of the colonies | `post-oak` and `blackjack` at three sizes; remaining species-specific hardwoods are later breadth |
-| Anybody of a family riding the family horse is drawn as the courier rider (`mounted-courier-*`), whoever they are; the horse under them is not drawn again | `inTheSaddle` and `underARider` in `public/motion.js` | Request 2026-09-14 — family members on horseback | Each cast figure mounted on the family's chestnut, walking in four directions |
+| Anybody of a family riding the family horse is their own figure's idle pose (`seatedClip`), facing the way they go, cut off below the waist and drawn over the back of the family's walking horse (`horse-walk`, `-n`, `-s`); the horse is not drawn again. It replaced the courier rider on 2026-09-16, which read as a stranger on the horse | `seatOf`, `seatedClip`, `seatLayout` in `public/motion.js`; `drawSeated` in `public/app.js` | Request 2026-09-14 — family members on horseback | Each cast figure mounted on the family's chestnut, walking in four directions |
+| Whoever drives the ox and wagon is their own figure's idle pose, cut off below the waist, sitting at the front of the side-view wagon (`wagon-travel`) with the ox (`ox-walk`, `-n`, `-s`) ahead; the ox and wagon are not drawn again. Going north or south the wagon stays side-on and the ox is above or below it | `wagonDriverId`, `seatOf`, `seatLayout` in `public/motion.js`; `drawSeated` in `public/app.js` | Request 2026-09-16 — driving the ox wagon | An ox team hitched to the wagon with a seated driver, in four directions, for every cast figure |
 | A rider never gets down to talk: they speak from the saddle, turned east, west, north or south toward the listener (the vertical dialogue delivered 2026-09-14 is in use) | `carrierClip` in `public/motion.js` | Request 2026-09-12, priority 3 | `courier-dismount` (delivered 2026-09-14, registered, not yet bound: it needs the encounter to know when a rider has got down and where the horse stands) |
 
 ---
@@ -154,10 +155,34 @@ west of the Guadalupe. Post oak and blackjack size variants, additional species-
 
 Delivered in `wildlife-deer`: four-frame idle, alert, bound and drinking cycles. The live quarry uses idle and switches to alert while the hunter awaits the family's answer; the server still supplies the only position and visibility. Bound and drinking are registered for later projected states and never invent behavior.
 
+## Request 2026-09-16 — driving the ox wagon
+
+**Status: open; the person's own figure sits on the side-view wagon.** Owner's playtest, 2026-09-16: "characters don't actually
+sit on the horse when using it ... Same thing for the Ox and Wagon." Whoever takes the ox and wagon was drawn walking in front
+of it; they are now their own standing figure cut off at the waist and put on the front of the wagon, with the ox drawn
+separately ahead. Nothing hitches the ox to the wagon, and going north or south the wagon is still side-on.
+
+- **Why.** The person driving should read as driving: on the seat, reins or a goad in hand, the ox yoked to the tongue.
+- **What.** In the frontier-v1 style and the scale of `wagon-covered` and `ox-walk`: (1) the covered wagon with one ox yoked to
+  its tongue as one rolling rig, facing east (mirrored for west), north (away) and south (toward the camera), four frames each,
+  with the wheels turning; loaded and empty covers as the existing `wagon-*-travel` cycles have; (2) a seated driver layer for
+  each first- and second-cast figure (`rust`, `teal`, `blue`, `elder`, `rust-woman`, `indigo`, `ochre`, `blue-girl`) that sits
+  on the rig's seat in each direction, holding the lines or a goad, anchored to the rig's seat point. A period ox driver often
+  walked beside the team with a goad; this request is for the seated driver the owner asked for, and a walking-driver pose is
+  welcome beside it.
+- **How it plugs in.** `seatLayout('wagon', direction)` in `public/motion.js` returns the parts `drawSeated` draws; with the rig
+  and driver layers registered through `npm run build:art`, it returns one `wagon-ox-<direction>` part and a
+  `<figure>-drive-<direction>` layer in place of the separate ox, wagon and cut-off figure. `carriedWithRider` keeps the ox and
+  wagon from being drawn a second time.
+- **Check.** At the portrait's zoom, the driver is recognisably the same person as their walk cycle, the principal's rust coat
+  visible; the ox stays hitched through a turn; ground contact matches `wagon-covered`; no painted transparency.
+
 ## Request 2026-09-14 — family members on horseback
 
-**Status: open; the courier rider stands in.** Found in play: a person sent on the horse was drawn walking with the horse
-beside them. They are now drawn in the saddle, but every rider is the same brown-hatted courier.
+**Status: open; the person's own figure sits on the family horse** (since 2026-09-16; before that the courier rider stood in,
+and the owner saw a stranger riding). Found in play: a person sent on the horse was drawn walking with the horse beside them.
+They are now drawn in the saddle as themselves, cut off at the waist over the horse's back, which reads as sitting but has no
+legs astride and no hands on the reins.
 
 - **Why.** A mother riding to the store, a son riding to hunt and the principal riding to Gonzales should each be seen as
   themselves on the family's horse, and the principal's rust coat must stay the student's mark even mounted.
@@ -165,8 +190,9 @@ beside them. They are now drawn in the saddle, but every rider is the same brown
   `ochre`) and the adolescent `blue-girl`: mounted on the same chestnut horse as `courier-mounted`, a walk cycle facing east
   (mirrored for west), north (away) and south (toward the camera), four frames each, same cell size and ground anchor as
   `mounted-courier-e`/`-n`/`-s`. Women ride astride or sidesaddle as the period evidence for Texas settlers supports; say which.
-- **How it plugs in.** `inTheSaddle` in `public/motion.js` returns `${variant}-ride-${heading}` in place of the courier clip,
-  registered through `npm run build:art`; `underARider` keeps the horse from being drawn twice.
+- **How it plugs in.** `seatLayout('horse', direction)` in `public/motion.js` returns one `${variant}-ride-${direction}` part in
+  place of the horse and the cut-off figure, registered through `npm run build:art`; `carriedWithRider` keeps the horse from
+  being drawn twice.
 - **Check.** Each figure recognisably the same person as their walk cycle, horse scale identical to the courier's, feet
   alternating, no painted transparency, and the principal's rust coat visible from all three sides.
 

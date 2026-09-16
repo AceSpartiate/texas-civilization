@@ -84,7 +84,8 @@ test('taking the wagon takes the ox and the wagon, and they come back with you',
   assert.equal(mateo.location.siteId, 'gonzales');
   assert.equal(ox.location.siteId, 'gonzales', 'the ox is where it was taken, not back in the yard');
   assert.equal(wagon.location.siteId, 'gonzales');
-  assert.equal(ox.borrowedBy, null, 'the journey is over, so the ox belongs to nobody again');
+  // Still his in town: whoever takes it keeps it until it is home (sim/keeping.mjs, owner's playtest 2026-09-16).
+  assert.equal(ox.borrowedBy, mateo.id, 'the ox was handed to nobody the moment it stopped, away from home');
   validateWorld(world);
 });
 
@@ -95,8 +96,9 @@ test('there is one wagon, so the second person to want it is told who has it', (
   const refused = travelModesFor(world, rosa).find(mode => mode.id === 'wagon');
   assert.equal(refused.can, false);
   // Named from the world: who has the ox is a person whose name this class dealt.
-  assert.equal(refused.why, `${mateo.name} has the ox.`);
-  assert.throws(() => beginTravel(world, rosa, 'gonzales', null, 'visit', 'wagon'), new RegExp(`${mateo.name} has the ox`));
+  // The ox pulls the wagon, so he has both and is said to.
+  assert.equal(refused.why, `${mateo.name} has the ox and wagon.`);
+  assert.throws(() => beginTravel(world, rosa, 'gonzales', null, 'visit', 'wagon'), new RegExp(`${mateo.name} has the ox and wagon`));
   // The horse is a different animal and is still standing in the yard.
   assert.equal(travelModesFor(world, rosa).find(mode => mode.id === 'horse').can, true);
   // And walking is never taken away from anybody.
@@ -107,12 +109,16 @@ test('property left somewhere stays there, and cannot be used from anywhere else
   const world = running('left-behind');
   const mateo = person(world, 'hh-1', 'mateo'), rosa = person(world, 'hh-1', 'rosa');
   travelTo(world, mateo, 'gonzales', 'horse');
-  // Mateo rode to town, so the horse is in town. Rosa is at home and cannot ride it.
+  // Mateo rode to town, so the horse is in town, with him. Rosa is at home and cannot ride it.
   const home = travelModesFor(world, rosa).find(mode => mode.id === 'horse');
   assert.equal(home.can, false);
-  assert.match(home.why, /The horse is not here/);
-  // Mateo, standing beside it, can - which is what "not here" means and what it does not.
+  assert.equal(home.why, `${mateo.name} has the horse.`);
+  // Mateo, standing beside it, can.
   assert.equal(travelModesFor(world, mateo).find(mode => mode.id === 'horse').can, true);
+  // He walks on without it: now it is nobody's, and simply not where Rosa is - which is what "not here" means.
+  beginTravel(world, mateo, world.households['hh-1'].homeSiteId, null, 'visit', 'foot');
+  assert.equal(beast(world, 'hh-1', 'horse').borrowedBy, null, 'a horse left behind is still held by the man who walked away');
+  assert.match(travelModesFor(world, rosa).find(mode => mode.id === 'horse').why, /The horse is not here/);
 });
 
 test('riding is faster and costs the legs less; the wagon is slower and costs them little too', () => {

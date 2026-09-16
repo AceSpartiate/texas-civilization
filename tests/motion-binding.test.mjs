@@ -163,11 +163,13 @@ test('somebody sent on the family horse is drawn riding it, and the horse is not
   const south = road([{ x: 0, y: 0 }, { x: 0, y: 9 }]), east = road([{ x: 0, y: 0 }, { x: 9, y: 0 }]);
   const riding = person({ task: 'travel', travel: { ...south, mode: 'horse' } });
   assert.equal(inTheSaddle(riding), true);
-  assert.equal(entityClip(riding).id, 'mounted-courier-s');
-  assert.equal(entityClip(person({ task: 'travel', travel: { ...east, mode: 'horse' } })).id, 'mounted-courier-e');
-  assert.equal(entityClip(person({ task: 'travel', band: 'child', sex: 'female', age: 12, travel: { ...east, mode: 'horse' } })).id, 'mounted-courier-e', 'a girl riding is not drawn walking in her own figure');
+  // Their own figure sitting up, which the page puts on the horse (tests/riding.test.mjs); no longer the courier (owner, 2026-09-16).
+  const variant = visualVariant('hh-1-rosa');
+  assert.equal(entityClip(riding).id, `${variant}-idle-s`);
+  assert.equal(entityClip(person({ task: 'travel', travel: { ...east, mode: 'horse' } })).id, `${variant}-idle-e`);
+  assert.equal(entityClip(person({ task: 'travel', band: 'child', sex: 'female', age: 12, travel: { ...east, mode: 'horse' } })).id, 'girl-idle-e', 'a girl riding is drawn sitting up in her own figure, not walking');
   for (const mode of ['foot', 'wagon', undefined]) {
-    assert.ok(!entityClip(person({ task: 'travel', travel: { ...south, mode } })).id.startsWith('mounted'), `on ${mode} nobody is in the saddle`);
+    assert.ok(!/idle/.test(entityClip(person({ task: 'travel', travel: { ...south, mode } })).id), `on ${mode} nobody is in the saddle`);
   }
   const horse = extra => ({ id: 'hh-1-horse', kind: 'animal', species: 'horse', ...extra });
   assert.equal(underARider(horse({ travel: { ...south, mode: 'horse' } })), true);
