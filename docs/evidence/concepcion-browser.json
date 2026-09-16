@@ -7,7 +7,7 @@
     "the page names where the army is camped: \"The army is camped at the Salado, 58.1 miles from your land. 1 went from the settlements.\"",
     "the family is asked on the volunteer's card, with nothing about the risk: \"Asa is with the army at the Salado, 58.1 miles from your land. Bowie and Fannin are taking a division ahead to the missions. Does Asa go with them? Asa goes ahead with Bowie and Fannin With the division, ahead of the army. Asa stays with the main army With the main body, under Austin. Send for Asa They leave the ranks and start home. Whatever the army does next happens without them.\"",
     "the answer is the server's: the volunteer goes ahead with the division",
-    "the family is told what happened: \"Asa fought with Bowie and Fannin's men at Mission Concepción and came through unhurt.\"",
+    "the family is told what happened: \"Word has come of a fight at Mission Concepción on the morning of the 28th. About ninety men under Bowie and Fannin, surrounded in the fog, beat back the Mexican cavalry and infantry and took a cannon. Richard Andrews of Mina was killed. How many of the Mexican soldiers fell, the reports do not agree: sixteen dead were counted on the field, and others say fifty, sixty-seven, or more. / Asa fought with Bowie and Fannin's men at Mission Concepción and came through unhurt.\"",
     "and the army's place afterwards: Mission Concepción",
     "no page errors"
   ],
@@ -15,6 +15,7 @@
     "camp": "The army is camped at the Salado, 58.1 miles from your land. 1 went from the settlements.",
     "question": "Asa is with the army at the Salado, 58.1 miles from your land.\n\nBowie and Fannin are taking a division ahead to the missions. Does Asa go with them?\n\nAsa goes ahead with Bowie and Fannin\nWith the division, ahead of the army.\nAsa stays with the main army\nWith the main body, under Austin.\nSend for Asa\nThey leave the ranks and start home. Whatever the army does next happens without them.",
     "story": [
+      "Word has come of a fight at Mission Concepción on the morning of the 28th. About ninety men under Bowie and Fannin, surrounded in the fog, beat back the Mexican cavalry and infantry and took a cannon. Richard Andrews of Mina was killed. How many of the Mexican soldiers fell, the reports do not agree: sixteen dead were counted on the field, and others say fifty, sixty-seven, or more.",
       "Asa fought with Bowie and Fannin's men at Mission Concepción and came through unhurt."
     ],
     "after": "Mission Concepción"

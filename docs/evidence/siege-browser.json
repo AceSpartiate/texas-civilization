@@ -1,0 +1,61 @@
+{
+  "record": "The siege and the Grass Fight, in a browser: docs/COLONIES.md build step 6",
+  "date": "2026-09-16",
+  "verdict": "PASS",
+  "note": "Same computer only. A real class on the colonies map, played in process to November 20 with hh-1's volunteer in the army, then served live; a student read the camp, answered the storm order, the pledge and the Grass Fight question on the volunteer's card, and watched the rumour and then the fuller word reach the family. No LAN or district claim.",
+  "checks": [
+    "the page names where the army is camped: \"The army is camped at the old mill above Béxar, 136.4 miles from your land. 1 went from the settlements.\"",
+    "the storm order is asked on the volunteer's card and answered by the server: \"Trinidad is with the army at the old mill above Béxar, 136.4 miles from your land. Austin has ordered Béxar stormed at dawn. Will Trinidad go in? Trinidad goes in when the order comes Trinidad will not go in Send for Trinidad They leave the ranks and start home. Whatever the army does next happens without them.\"",
+    "the pledge is asked and answered on the card",
+    "the rumour of silver comes with the question to go out after the pack train: \"Trinidad is with the army at the old mill above Béxar, 136.4 miles from your land. Deaf Smith has ridden in: a Mexican pack train is coming in from the west, and the camp says it carries the silver to pay the garrison. Bowie and Jack are taking men out after it. Does Trinidad go? Trinidad goes out after the train Trinidad stays in camp Send for Trinidad They leave the ranks and start home. Whatever the army does next happens without them.\"",
+    "the rumour reaches the family's reports first: \"Men just back from the army say there has been a fight near Béxar: three hundred of ours against as many of theirs, ten of the enemy dead on the ground, and no loss on our side.\"",
+    "the fuller word follows, with the Mexican losses as a range, and the silver is set right",
+    "the family is told what happened to their person: \"Trinidad went out with Bowie and Jack's men in the fight west of Béxar on November 26, and came through unhurt.\"",
+    "no page errors"
+  ],
+  "observed": {
+    "camp": "The army is camped at the old mill above Béxar, 136.4 miles from your land. 1 went from the settlements.",
+    "storm": "Trinidad is with the army at the old mill above Béxar, 136.4 miles from your land. Austin has ordered Béxar stormed at dawn. Will Trinidad go in? Trinidad goes in when the order comes Trinidad will not go in Send for Trinidad They leave the ranks and start home. Whatever the army does next happens without them.",
+    "pledge": "Trinidad is with the army at the old mill above Béxar, 136.4 miles from your land. The army is paraded to see who will stay before Béxar under a commander they elect. Does Trinidad pledge to stay? Trinidad pledges to stay Trinidad goes home Send for Trinidad They leave the ranks and start home. Whatever the army does next happens without them.",
+    "grass": "Trinidad is with the army at the old mill above Béxar, 136.4 miles from your land. Deaf Smith has ridden in: a Mexican pack train is coming in from the west, and the camp says it carries the silver to pay the garrison. Bowie and Jack are taking men out after it. Does Trinidad go? Trinidad goes out after the train Trinidad stays in camp Send for Trinidad They leave the ranks and start home. Whatever the army does next happens without them.",
+    "rumour": {
+      "topicId": "grass-fight",
+      "text": "Men just back from the army say there has been a fight near Béxar: three hundred of ours against as many of theirs, ten of the enemy dead on the ground, and no loss on our side.",
+      "status": "rumor",
+      "source": "Men back from the army",
+      "observedMinute": 93180,
+      "receivedMinute": 93180,
+      "eventId": "ev-245",
+      "ageMinutes": 0,
+      "observationAgeMinutes": 0
+    },
+    "word": {
+      "topicId": "grass-fight",
+      "text": "Fuller word of the fight near Béxar on November 26: Bowie's horsemen and Jack's infantry caught a Mexican pack train west of the town, near the Alazán, and drove back into Béxar the troops sent out to meet them. The packs held grass cut for the horses, not silver. No man of ours was killed, and a few were slightly hurt. How many Mexican soldiers fell, the reports do not agree: three, fifteen, about fifty, or sixty.",
+      "status": "confirmed",
+      "source": "Word from the army",
+      "observedMinute": 93180,
+      "receivedMinute": 96060,
+      "eventId": "ev-252",
+      "ageMinutes": 0,
+      "observationAgeMinutes": 2880
+    },
+    "silver": {
+      "topicId": "silver-train",
+      "text": "The pack train carried grass for the horses in Béxar, not silver.",
+      "status": "contradicted",
+      "source": "Word from the army",
+      "observedMinute": 85200,
+      "receivedMinute": 96060,
+      "eventId": "ev-258",
+      "ageMinutes": 0,
+      "observationAgeMinutes": 10860
+    },
+    "own": "Trinidad went out with Bowie and Jack's men in the fight west of Béxar on November 26, and came through unhurt."
+  },
+  "screenshots": [
+    "docs/evidence/siege-storm-question.png",
+    "docs/evidence/siege-grass-question.png",
+    "docs/evidence/siege-news.png"
+  ]
+}

@@ -84,7 +84,7 @@ export function formArmy(world, causeId) {
 }
 
 /** Whoever is standing with the army and has promised to serve joins it. */
-function fallIn(world, causeId) {
+function fallIn(world, causeId, { beginTravel } = {}) {
   const army = world.army;
   for (const household of Object.values(world.households)) {
     for (const person of volunteersOf(world, household.id)) {
@@ -95,6 +95,7 @@ function fallIn(world, causeId) {
       army.members.push(person.id);
       if (army.phase === 'marching') marchingTravel(world, person);
       askDetachment(world, person);
+      for (const key of Object.keys(army.questions || {})) askQuestion(world, key, person, { beginTravel });
       record(world, 'army', {
         actorId: person.id, householdId: household.id, importance: 2,
         classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-034', causes: causeId ? [causeId] : [],
@@ -179,7 +180,7 @@ export function marchOut(world, causeId) {
  * half a day of 1835 carries half a day's marching with it, which is what lets a fortnight's
  * march happen inside a lesson without anybody on the screen moving unnaturally fast.
  */
-export function advanceArmy(world, { hold = null } = {}) {
+export function advanceArmy(world, { hold = null, beginTravel } = {}) {
   const army = world.army;
   if (!army) return;
   // An army formed before the campaign road existed gets it now, keeping the miles it has made.
@@ -205,7 +206,7 @@ export function advanceArmy(world, { hold = null } = {}) {
   }
   army.camp = army.phase === 'marching' ? campOf(army, hold) : null;
   // Somebody who reached the rendezvous late, or caught the column up, falls in where they are.
-  fallIn(world, army.causeId);
+  fallIn(world, army.causeId, { beginTravel });
   standInTheRanks(world);
 }
 
@@ -275,7 +276,16 @@ export function armyProjection(world, householdId) {
     at: army.camp || (army.siteId ? world.map.sites[army.siteId]?.name : 'on the road'),
     ...(army.camp && { camp: army.camp }),
     miles: Math.round(Math.hypot(army.x - home.x, army.y - home.y) * 10) / 10,
-    ours: mine.map(id => ({ id, name: world.entities[id].name, ...(army.detachment?.asks?.[id] && { detachment: army.detachment.asks[id] }) })),
+    ours: mine.map(id => {
+      // The November questions still open, with this person's answer so far, and the words for the one still to answer
+      // (`ARMY_QUESTIONS`): the server's words, so the card never says anything the server did not.
+      const name = world.entities[id].name;
+      const questions = Object.entries(army.questions || {}).filter(([, q]) => !q.closed && q.asks[id]).map(([key, q]) => {
+        const spec = ARMY_QUESTIONS[key], answer = q.asks[id];
+        return { key, answer, ...(answer === 'open' ? { ask: spec.ask(name), yes: spec.yes(name), no: spec.no(name) } : { said: spec.said[answer](name) }) };
+      });
+      return { id, name, ...(army.detachment?.asks?.[id] && { detachment: army.detachment.asks[id] }), ...(questions.length && { questions }) };
+    }),
     // What the whole class sent, which is a public fact: the town watched them go.
     strength: army.members.length,
   };
@@ -294,6 +304,11 @@ export function armyInvalid(world) {
   if (!Number.isFinite(army.x) || !Number.isFinite(army.y) || !Number.isFinite(army.progress)) return 'The army stands nowhere';
   if (army.siteId && !world.map.sites[army.siteId]) return 'The army stands at a place that is not there';
   if (army.detachment && Object.values(army.detachment.asks || {}).some(answer => !['open', 'go', 'stay'].includes(answer))) return 'Invalid detachment';
+  for (const [key, question] of Object.entries(army.questions || {})) {
+    if (!ARMY_QUESTIONS[key]) return 'The army asked a question that does not exist';
+    if (Object.values(question.asks || {}).some(answer => !['open', 'yes', 'no', 'silent'].includes(answer))) return 'Invalid answer to an army question';
+  }
+  if (army.road?.campKey && !SIEGE_CAMPS[army.road.campKey]) return 'The army is camped at a camp that does not exist';
   return null;
 }
 
@@ -360,6 +375,8 @@ function campaignRoad(world, base) {
 const campOf = (army, hold) => {
   const stop = hold ? army.road?.stops?.[hold] : undefined;
   if (stop !== undefined && army.progress >= stop - 1e-6) return CAMP_NAMES[hold];
+  // A siege camp's own short road (`moveCamp`): named once the army has reached it.
+  if (army.road?.camp && army.progress >= army.road.distance - 1e-6) return army.road.camp;
   if (army.road?.campaign && army.progress >= army.road.distance - 1e-6) return CAMP_NAMES.concepcion;
   return null;
 };
@@ -496,4 +513,273 @@ export function fightConcepcion(world, causeId) {
     record(world, 'army', { actorId: id, householdId: person.householdId, importance: 2, classification: 'DOCUMENTED', claimId: 'HIST-TEX-021', text: `${person.name} was with the main army at Espada, and came up an hour after the fight was over.` });
   }
   return { fought, present, killed, wounded };
+}
+
+// ------------------------------------------------------------------------------------ build step 6: the siege and the Grass Fight
+//
+// docs/COLONIES.md §6k, researched in docs/battle-research/grass-fight.md and decided by the owner (§7b). After November 2
+// the army sat outside Béxar and did not storm it: camped above the town, split with headquarters back at Concepción for a
+// week, united at the old mill on November 15 (`HIST-TEX-026`). Men went home for winter clothing and some came back
+// (`HIST-TEX-027`); Austin ordered a storm on the 21st that fewer than a hundred would obey, and on the 24th the army
+// pledged to stay and elected Burleson (`HIST-TEX-028`). On the 26th Bowie's horsemen and Jack's infantry, drawn across
+// companies, caught a pack train they thought carried silver and found grass; nobody was killed (`HIST-TEX-031`, `-032`).
+
+/**
+ * The siege camps, in miles east and south of Béxar's plaza. The mill is "about one-half mile north of the main plaza"
+ * (TSHA) to "1½ miles above" (Austin); the sources disagree and no coordinate fixes it, so a mile north is this game's
+ * estimate (`FIC-GONZ-040`). The camp above the town, October 31 to November 8, was the same ground.
+ */
+export const SIEGE_CAMPS = Object.freeze({
+  above: { name: 'the camp above Béxar', dx: 0, dy: -1 },
+  concepcion: { name: MISSIONS.concepcion.name, dx: MISSIONS.concepcion.dx, dy: MISSIONS.concepcion.dy },
+  mill: { name: 'the old mill above Béxar', dx: 0, dy: -1 },
+});
+
+/** The army moves to a siege camp: a short road of its own from where it stands, kept like the campaign road. */
+export function moveCamp(world, key) {
+  const army = world.army, bexar = world.map.sites[OBJECTIVE], camp = SIEGE_CAMPS[key];
+  if (!army?.road || !bexar || !camp) return;
+  const from = { x: army.x, y: army.y }, to = { x: bexar.x + camp.dx, y: bexar.y + camp.dy };
+  // Somebody who leaves the army from here starts home from the last place it passed, as on the march.
+  const at = lastPlacePassed(world);
+  army.road = {
+    points: [from, to], distance: Math.hypot(to.x - from.x, to.y - from.y), pace: null, ground: null,
+    nodes: [{ id: at, at: 0 }], campaign: true, stops: {}, camp: camp.name, campKey: key,
+  };
+  army.progress = 0;
+  for (const id of army.members) { const person = world.entities[id]; if (person?.travel?.purpose === 'march') marchingTravel(world, person); }
+}
+
+/**
+ * The questions the army put to a family's volunteer in November, each asked on that person's own card (owner, §7b: only
+ * the family member away serving is asked). What either answer risks is never said. A family nobody plays answers for
+ * itself about as often as the army did.
+ */
+export const ARMY_QUESTIONS = Object.freeze({
+  // Austin's order of November 21 to storm next morning: "not more than 100 men" of about six hundred would go.
+  storm: {
+    claimId: 'HIST-TEX-028', unplayed: 0.17,
+    ask: name => `Austin has ordered Béxar stormed at dawn. Will ${name} go in?`,
+    yes: name => `${name} goes in when the order comes`, no: name => `${name} will not go in`,
+    said: { yes: name => `${name} said they would go in when Béxar was stormed.`, no: name => `${name} would not go in.`, silent: name => `Nobody answered for ${name}, so they were not counted among those who would go in.` },
+  },
+  // The parade of November 24: 405 of about six hundred "pledged themselves to remain".
+  pledge: {
+    claimId: 'HIST-TEX-028', unplayed: 0.68,
+    ask: name => `The army is paraded to see who will stay before Béxar under a commander they elect. Does ${name} pledge to stay?`,
+    yes: name => `${name} pledges to stay`, no: name => `${name} goes home`,
+    said: { yes: name => `${name} pledged to stay before Béxar.`, no: name => `${name} did not pledge, and started home.`, silent: name => `Nobody answered for ${name}, who stayed in camp without pledging.` },
+  },
+  // November 26: Bowie's horsemen and Jack's infantry "from different companies", about a third of the camp.
+  grass: {
+    claimId: 'HIST-TEX-032', unplayed: 0.33,
+    ask: name => `Deaf Smith has ridden in: a Mexican pack train is coming in from the west, and the camp says it carries the silver to pay the garrison. Bowie and Jack are taking men out after it. Does ${name} go?`,
+    yes: name => `${name} goes out after the train`, no: name => `${name} stays in camp`,
+    said: { yes: name => `${name} went out after the pack train.`, no: name => `${name} stayed in camp.`, silent: name => `Nobody answered for ${name}, who stayed in camp.` },
+  },
+});
+
+/** Open a question to every volunteer in the ranks. */
+export function openQuestion(world, key, causeId, { beginTravel } = {}) {
+  const army = world.army;
+  if (!army || !ARMY_QUESTIONS[key]) return;
+  army.questions ??= {};
+  if (army.questions[key]) return;
+  army.questions[key] = { asks: {}, closed: false, openedMinute: world.minute, causeId: causeId || null };
+  for (const id of [...army.members]) askQuestion(world, key, world.entities[id], { beginTravel });
+}
+
+function askQuestion(world, key, person, { beginTravel } = {}) {
+  const question = world.army?.questions?.[key], spec = ARMY_QUESTIONS[key];
+  if (!question || question.closed || !person || question.asks[person.id]) return;
+  const household = world.households[person.householdId];
+  if (!household?.played && world.neighbours) {
+    const answer = unit(`${world.seed}:${person.id}:${key}`) < spec.unplayed ? 'yes' : 'no';
+    question.asks[person.id] = answer;
+    record(world, 'army', { actorId: person.id, householdId: person.householdId, importance: 2, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-040', text: spec.said[answer](person.name) });
+    settleAnswer(world, key, person, answer, { beginTravel });
+    return;
+  }
+  question.asks[person.id] = 'open';
+  record(world, 'pressure', {
+    actorId: person.id, householdId: person.householdId, importance: 3, classification: 'DOCUMENTED', claimId: spec.claimId,
+    causes: question.causeId ? [question.causeId] : [], text: spec.ask(person.name),
+  });
+}
+
+/** Whether a family somebody plays still has a question in front of it: the calendar slows to the hour while one does. */
+export const questionOpen = world => Object.values(world.army?.questions || {}).some(question => !question.closed
+  && Object.entries(question.asks).some(([id, answer]) => answer === 'open' && world.households[world.entities[id]?.householdId]?.played));
+
+/** Why this answer cannot be given now, in the words the control shows. */
+export function questionRefusal(world, householdId, entity, key) {
+  const question = world.army?.questions?.[key];
+  if (!ARMY_QUESTIONS[key]) return 'There is no such question.';
+  if (!question || question.closed) return 'Nobody is being asked that now.';
+  if (!entity || entity.householdId !== householdId) return 'That is not your family.';
+  if (!withTheArmy(world, entity.id)) return `${entity.name} is not with the army.`;
+  if (question.asks[entity.id] !== 'open') return `${entity.name} has already been answered for.`;
+  return null;
+}
+
+/** The family's answer for its volunteer. */
+export function answerQuestion(world, householdId, entity, key, yes, { beginTravel } = {}) {
+  const why = questionRefusal(world, householdId, entity, key);
+  if (why) throw new Error(why);
+  const answer = yes ? 'yes' : 'no';
+  world.army.questions[key].asks[entity.id] = answer;
+  record(world, 'choice', { actorId: entity.id, householdId, importance: 2, decision: `${key}-${answer}`, text: ARMY_QUESTIONS[key].said[answer](entity.name) });
+  settleAnswer(world, key, entity, answer, { beginTravel });
+}
+
+/**
+ * What an answer does at once. Only one does anything before its question closes: somebody who does not pledge goes home.
+ * The storm's willing are rewarded when the order is countermanded, and the Grass Fight's riders fight when it is fought.
+ */
+function settleAnswer(world, key, person, answer, { beginTravel } = {}) {
+  if (key === 'pledge' && answer === 'no') leaveArmy(world, person, { beginTravel, text: null });
+}
+
+/** Close a question: anybody not answered for is answered by silence. */
+export function closeQuestion(world, key) {
+  const question = world.army?.questions?.[key];
+  if (!question || question.closed) return;
+  for (const [id, answer] of Object.entries(question.asks)) {
+    if (answer !== 'open') continue;
+    question.asks[id] = 'silent';
+    const person = world.entities[id];
+    if (person) record(world, 'choice', { actorId: id, householdId: person.householdId, importance: 2, decision: `${key}-silent`, text: ARMY_QUESTIONS[key].said.silent(person.name) });
+  }
+  question.closed = true;
+}
+
+/** Somebody leaves the ranks for home: not pledging, going for winter clothing, or running from the field. */
+function leaveArmy(world, person, { beginTravel, text, keepPromise = false }) {
+  const army = world.army;
+  if (!army?.members.includes(person.id)) return;
+  army.members = army.members.filter(id => id !== person.id);
+  if (person.travel?.purpose === 'march') {
+    const at = lastPlacePassed(world), site = world.map.sites[at];
+    person.travel = null;
+    person.location = { x: site.x, y: site.y, siteId: at };
+  }
+  const promise = person.commitments?.find(p => p.id === 'volunteer' && p.status === 'active');
+  if (promise && !keepPromise) promise.status = 'ended';
+  const causeId = text ? record(world, 'army', { actorId: person.id, householdId: person.householdId, importance: 2, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-040', text }) : null;
+  if (beginTravel) beginTravel(world, person, world.households[person.householdId].homeSiteId, causeId, 'home');
+}
+
+/**
+ * Winter clothing, November 3-4 (`HIST-TEX-027`): "more than 150 men" of about six hundred went home, "all having promised
+ * to return". Only a family nobody plays sends its volunteer (owner, §7b); about half of them come back, between ten and
+ * sixteen days later. ceiling: who returns and when is rolled, since the record gives only that some did.
+ */
+export const CLOTHING_SHARE = 0.25;
+export const CLOTHING_RETURN_SHARE = 0.5;
+export function goForClothing(world, { beginTravel }) {
+  const army = world.army;
+  if (!army || !world.neighbours) return;
+  army.furloughs ??= {};
+  for (const id of [...army.members]) {
+    const person = world.entities[id], household = world.households[person?.householdId];
+    if (!person || household?.played || unit(`${world.seed}:${id}:clothing`) >= CLOTHING_SHARE) continue;
+    const back = unit(`${world.seed}:${id}:clothing-back`) < CLOTHING_RETURN_SHARE;
+    army.furloughs[id] = { back, returnMinute: world.minute + Math.round((10 + 6 * unit(`${world.seed}:${id}:clothing-day`)) * 1440), returned: false };
+    leaveArmy(world, person, { beginTravel, keepPromise: back, text: `${person.name} went home from the camp before Béxar for winter clothing, promising to return.` });
+  }
+}
+/** Those who promised to come back set out again once they are home and the days are up. */
+export function returnFromClothing(world, { beginTravel }) {
+  for (const [id, furlough] of Object.entries(world.army?.furloughs || {})) {
+    const person = world.entities[id];
+    if (!furlough.back || furlough.returned || !person || world.minute < furlough.returnMinute) continue;
+    if (person.travel || person.location.siteId !== world.households[person.householdId]?.homeSiteId || ['dead', 'captured'].includes(person.health.condition)) continue;
+    furlough.returned = true;
+    const causeId = record(world, 'army', { actorId: id, householdId: person.householdId, importance: 2, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-040', text: `${person.name} set out again for the army before Béxar, with warmer clothes.` });
+    beginTravel(world, person, OBJECTIVE, causeId, 'visit');
+  }
+}
+
+/**
+ * The storm order is countermanded, November 22. Owner (§7b): a volunteer who said they would go in earns their family
+ * glory for it, though the storm never came. How much is this game's own (`FIC-GONZ-040`): the weight of being present.
+ */
+export function countermandStorm(world, causeId) {
+  closeQuestion(world, 'storm');
+  for (const [id, answer] of Object.entries(world.army?.questions?.storm?.asks || {})) {
+    const person = world.entities[id];
+    if (answer !== 'yes' || !person?.householdId) continue;
+    awardGlory(world, { event: 'storm-order', claimId: 'HIST-TEX-028', personId: id, householdId: person.householdId, role: 'willing', fromSiteId: OBJECTIVE, causes: causeId ? [causeId] : [] });
+  }
+}
+
+/** The owner's bounds for the Grass Fight (§7b): nobody killed; about three in a hundred slightly wounded, weighted by hidden strength and health; about one in a hundred runs home. */
+export const GRASS_WOUND_RISK = 0.03;
+export const GRASS_RUN_RISK = 0.01;
+
+/**
+ * The Grass Fight, November 26 (`HIST-TEX-031`, `-032`). Those who went out fought; the rest of the camp was present. A
+ * fighter who ran home is taken from the ranks, and the owner decided their family's glory for the fight goes the other
+ * way (§7b). What happened to each person is written down now but told to their family only when word rides home
+ * (`tellGrassFight`). Returns what happened, for the tests.
+ */
+export function fightGrass(world, causeId, { beginTravel } = {}) {
+  const army = world.army;
+  if (!army) return { fought: [], present: [], ran: [], wounded: [] };
+  closeQuestion(world, 'grass');
+  const asks = army.questions?.grass?.asks || {};
+  const fought = army.members.filter(id => asks[id] === 'yes');
+  const present = army.members.filter(id => asks[id] !== 'yes');
+  world.participation ??= {};
+  const taking = world.participation['grass-fight'] ??= {};
+  const outcomes = [], ran = [], wounded = [];
+  for (const id of fought) {
+    const person = world.entities[id];
+    const runs = unit(`${world.seed}:${id}:grass-run`) < GRASS_RUN_RISK;
+    const hurt = !runs && unit(`${world.seed}:${id}:grass`) < GRASS_WOUND_RISK * frailty(person);
+    taking[id] = { householdId: person.householdId, role: runs ? 'ran' : 'fought', minute: world.minute };
+    awardGlory(world, {
+      event: 'grass-fight', claimId: 'HIST-TEX-031', personId: id, householdId: person.householdId, role: 'fought', fromSiteId: OBJECTIVE, causes: causeId ? [causeId] : [],
+      ...(runs && { adjust: points => -points, note: 'They ran from the field and went home, and it was held against the family. (This is the game’s own reading; the record punishes nobody for going home.)' }),
+    });
+    if (runs) {
+      ran.push(id);
+      leaveArmy(world, person, { beginTravel, text: null });
+      outcomes.push({ id, fate: 'ran' });
+    } else if (hurt) {
+      wounded.push(id);
+      person.health = { condition: 'minor-injury', recoversAt: world.minute + MEND_MINUTES };
+      outcomes.push({ id, fate: 'wounded' });
+    } else outcomes.push({ id, fate: 'unhurt' });
+  }
+  for (const id of present) {
+    const person = world.entities[id];
+    if (!person?.householdId || taking[id]) continue;
+    taking[id] = { householdId: person.householdId, role: 'present', minute: world.minute };
+    awardGlory(world, { event: 'grass-fight', claimId: 'HIST-TEX-032', personId: id, householdId: person.householdId, role: 'present', fromSiteId: OBJECTIVE, causes: causeId ? [causeId] : [] });
+    outcomes.push({ id, fate: 'present' });
+  }
+  army.grass = { outcomes, told: false, minute: world.minute };
+  return { fought, present, ran, wounded };
+}
+
+/** Word of the Grass Fight reaches a family: what happened to their own person, days after it happened (owner, §7b). */
+export function tellGrassFight(world, causeId) {
+  const grass = world.army?.grass;
+  if (!grass || grass.told) return;
+  grass.told = true;
+  const words = {
+    ran: name => `${name} ran from the field in the fight west of Béxar on November 26, and made for home.`,
+    wounded: name => `${name} was slightly hurt in the fight west of Béxar on November 26, and was days mending.`,
+    unhurt: name => `${name} went out with Bowie and Jack's men in the fight west of Béxar on November 26, and came through unhurt.`,
+    present: name => `${name} was in the camp at the mill when the others went out after the pack train on November 26.`,
+  };
+  for (const { id, fate } of grass.outcomes) {
+    const person = world.entities[id];
+    if (!person?.householdId) continue;
+    record(world, fate === 'present' ? 'army' : 'consequence', {
+      actorId: id, householdId: person.householdId, importance: fate === 'present' ? 2 : 3, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-040',
+      causes: causeId ? [causeId] : [], text: words[fate](person.name),
+    });
+  }
 }

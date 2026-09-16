@@ -6,7 +6,7 @@ import { awardGlory } from './glory.mjs';
 import { canAnswerCalls, cannotAnswerWhy, tooYoung, tooYoungWhy } from './family.mjs';
 import { distantHouseholds, expressLeaves, startExpress } from './expresses.mjs';
 import { callOptions, expireCalls, offerCalls, settleCalls } from './calls.mjs';
-import { advanceArmy, closeDetachment, fightConcepcion, formArmy, marchOut, openDetachment, recordPresent } from './army.mjs';
+import { advanceArmy, closeDetachment, closeQuestion, countermandStorm, fightConcepcion, fightGrass, formArmy, goForClothing, marchOut, moveCamp, openDetachment, openQuestion, questionOpen, recordPresent, returnFromClothing, tellGrassFight } from './army.mjs';
 
 /**
  * What the gathering, the organisation of the army and the march for Béxar rest on.
@@ -58,6 +58,15 @@ const FROM_MIDNIGHT_SEPT_29 = Object.freeze({
   // when a family is asked whether its volunteer goes with them; the army moves to Espada on the 26th; the fight is at
   // about eight on the 28th; the class stops on November 2, the day both councils of war voted not to storm the town.
   'leave-cibolo': 28800, detachment: 33600, 'to-espada': 39360, concepcion: 42240, siege: 49680,
+  // The siege and the Grass Fight (docs/COLONIES.md §6k; `HIST-TEX-026` to `-035`, dated from Austin's order book and
+  // letters). Nov 2 is 48960. The army goes above the town after the vote; men leave for winter clothing (reported the
+  // 4th); headquarters goes back to Concepción about the 9th; the army is united at the mill on the 15th; Austin orders the
+  // storm on the 21st for next dawn and countermands it; the parade and pledge on the 24th; Austin leaves on the 25th; Deaf
+  // Smith rides in mid-morning on the 26th and the fight follows (its hour is not in the record: the afternoon here);
+  // the first word reaches San Felipe December 1 as a rumour, and the fuller account follows; the class stops on the
+  // evening of December 4, when Milam calls for volunteers to go into the town.
+  clothing: 52560, 'to-concepcion': 59760, united: 68400, 'storm-order': 77040, countermand: 77760, pledge: 81360,
+  'austin-leaves': 82440, 'grass-alarm': 84120, 'grass-fight': 84420, 'grass-rumour': 91440, 'grass-news': 94320, milam: 96120,
 });
 /**
  * The families arrive at dawn on September 28, eighteen hours before midnight.
@@ -593,6 +602,21 @@ function standWithTheForce(world) {
   });
 }
 /**
+ * Word from the army, told to every family and to the public reports on the same day.
+ *
+ * A milestone recorded `public` reaches only the Host's page (`projectWorld`); a family learns a thing only through its own
+ * reports (sim/knowledge.mjs). Until 2026-09-16 the news of Goliad and Concepción was written as milestones alone, so no
+ * student ever read it. `truth` is what happened; `text` is what this telling says, which for a rumour is not the same.
+ * ceiling: every family hears it on one day, however far it lives; carrying battle news by rider settlement to settlement,
+ * as the express carries the Gonzales word (sim/expresses.mjs), is what this still wants.
+ */
+function sendWord(world, topicId, { truth, text = truth, status = 'confirmed', claimId, source = 'Word from the army' }) {
+  if (!world.truth[topicId]) establishTruth(world, { id: topicId, text: truth, siteId: 'bexar', classification: 'DOCUMENTED', claimId });
+  for (const household of Object.values(world.households)) learn(world, household.id, topicId, { status, source, text });
+  learn(world, 'public', topicId, { status, source, text });
+}
+
+/**
  * After October 2: the gathering, the army and the march (docs/COLONIES.md §5.5, build step 5).
  *
  * Only a class on the real land of the colonies comes here. The volunteers who answered their
@@ -614,10 +638,11 @@ function advanceGathering(world, movement) {
   // ceiling: told to the whole country on the day, because no express rides to Goliad on this map.
   // Carrying it by rider the way the Gonzales word is carried belongs with build step 6. What the
   // taking cost is left out on purpose: the two sources that give numbers disagree (`HIST-TEX-018`).
-  once(world, 'goliad', () => record(world, 'milestone', {
-    visibility: 'public', importance: 2, classification: 'DOCUMENTED', claimId: HIST_GATHERING,
-    text: `Word has come that the volunteers took the presidio at ${world.map.sites.goliad?.name || 'Goliad'} in the night, and its stores and arms with it.`,
-  }));
+  once(world, 'goliad', () => {
+    const text = `Word has come that the volunteers took the presidio at ${world.map.sites.goliad?.name || 'Goliad'} in the night, and its stores and arms with it.`;
+    record(world, 'milestone', { visibility: 'public', importance: 2, classification: 'DOCUMENTED', claimId: HIST_GATHERING, text });
+    sendWord(world, 'goliad-taken', { truth: text, claimId: HIST_GATHERING });
+  });
   once(world, 'organised', () => {
     const eventId = record(world, 'milestone', {
       visibility: 'public', importance: 3, classification: 'DOCUMENTED', claimId: HIST_GATHERING,
@@ -654,7 +679,7 @@ function advanceGathering(world, movement) {
       text: 'The army has left the Salado and gone south down the river to Mission Espada.',
     });
   });
-  advanceArmy(world, { hold });
+  advanceArmy(world, { hold, beginTravel: movement?.beginTravel });
   once(world, 'concepcion', () => {
     // Told to the whole country on the day, like Goliad. ceiling: word of it rode to San Felipe in three days and arrived
     // wrong about who was hurt (`HIST-TEX-024`); carrying battle news by rider is the next thing this wants.
@@ -662,16 +687,91 @@ function advanceGathering(world, movement) {
       visibility: 'public', importance: 3, classification: 'DOCUMENTED', claimId: 'HIST-TEX-020',
       text: 'Word has come of a fight at Mission Concepción on the morning of the 28th. About ninety men under Bowie and Fannin, surrounded in the fog, beat back the Mexican cavalry and infantry and took a cannon. Richard Andrews of Mina was killed. How many of the Mexican soldiers fell, the reports do not agree: sixteen dead were counted on the field, and others say fifty, sixty-seven, or more.',
     });
+    sendWord(world, 'concepcion-fight', { truth: world.events.find(e => e.id === eventId).text, claimId: 'HIST-TEX-020' });
     fightConcepcion(world, eventId);
   });
+  advanceSiege(world, movement);
+}
+
+/** How long, at least, a question the army asks stays open once asked, whatever hour the tick that asked it fell on. */
+const QUESTION_MINUTES = 360;
+/**
+ * The siege and the Grass Fight, November 2 to December 4 (docs/COLONIES.md §6k, decided by the owner in §7b).
+ *
+ * A question's close is dated, but never sooner than six hours after it was asked: at half a day a tick the ask could land
+ * on the tick the close is due. And while a family somebody plays has a question in front of it, the calendar slows to the
+ * hour (sim/clock.mjs's `news` scale) so a student has real minutes to answer it.
+ */
+function advanceSiege(world, movement) {
+  if (!world.director.milestones.concepcion) return;
+  const { beginTravel } = movement || {};
+  const due = (key, opened) => world.minute >= Math.max(momentOf(world, key), (opened ?? -Infinity) + QUESTION_MINUTES);
+  const said = (claimId, text) => record(world, 'milestone', { visibility: 'public', importance: 3, classification: 'DOCUMENTED', claimId, text });
   once(world, 'siege', () => {
+    said('HIST-TEX-026', 'Both councils of war before Béxar have voted not to storm the town. Bowie\'s division has come up from the missions, and the army is camped about a mile above Béxar.');
+    moveCamp(world, 'above');
+  });
+  if (!world.director.milestones.siege) return;
+  once(world, 'clothing', () => {
+    said('HIST-TEX-027', 'More than a hundred and fifty men have gone home from the camp before Béxar for winter clothing, all promising to return. There is no medicine in the camp.');
+    goForClothing(world, { beginTravel });
+  });
+  if (beginTravel) returnFromClothing(world, { beginTravel });
+  // ceiling: the army is one body. From about the 8th to the 15th Burleson's division held the mill while Austin's
+  // headquarters was at Concepción; here the whole army goes down to Concepción and comes back up.
+  once(world, 'to-concepcion', () => {
+    said('HIST-TEX-026', 'Austin has moved his headquarters back down the river to Mission Concepción, while Burleson holds the mill above the town.');
+    moveCamp(world, 'concepcion');
+  });
+  once(world, 'united', () => {
+    said('HIST-TEX-026', 'The army has been united at the old mill above Béxar, after the upper division said whole companies would go home otherwise.');
+    moveCamp(world, 'mill');
+  });
+  once(world, 'storm-order', () => openQuestion(world, 'storm', said('HIST-TEX-028', 'Austin has ordered the army to storm Béxar at dawn tomorrow.'), { beginTravel }));
+  if (due('countermand', world.army?.questions?.storm?.openedMinute)) {
+    once(world, 'countermand', () => countermandStorm(world, said('HIST-TEX-028', 'Not more than a hundred men could be found to storm Béxar, and Austin has countermanded the order. A battery is being built within three hundred yards of the walls, and the army is out of flour.')));
+  }
+  once(world, 'pledge', () => openQuestion(world, 'pledge', said('HIST-TEX-028', 'The army before Béxar is paraded, to see who will stay as a permanent force under a commander they elect themselves.'), { beginTravel }));
+  if (due('austin-leaves', world.army?.questions?.pledge?.openedMinute)) {
+    once(world, 'austin-leaves', () => {
+      closeQuestion(world, 'pledge');
+      said('HIST-TEX-028', 'Four hundred and five men pledged to stay before Béxar, and elected Edward Burleson to command them. Stephen F. Austin has left the army for San Felipe.');
+    });
+  }
+  // The rumour first (owner, §7b): the camp took the pack train for the garrison's silver.
+  once(world, 'grass-alarm', () => {
+    const text = 'In the camp before Béxar the word is that a Mexican pack train is coming in from the west, carrying silver to pay the garrison.';
+    sendWord(world, 'silver-train', { truth: 'A Mexican pack train was coming in to Béxar from the west, carrying grass cut for the garrison\'s horses.', text, status: 'rumor', claimId: 'HIST-TEX-031', source: 'Talk from the camp' });
+    openQuestion(world, 'grass', said('HIST-TEX-031', text), { beginTravel });
+  });
+  if (due('grass-fight', world.army?.questions?.grass?.openedMinute)) {
+    // Nothing public on the day: the first word of it is a rider's, five days later (`HIST-TEX-034`).
+    once(world, 'grass-fight', () => fightGrass(world, null, { beginTravel }));
+  }
+  const GRASS_FIGHT = 'Fuller word of the fight near Béxar on November 26: Bowie\'s horsemen and Jack\'s infantry caught a Mexican pack train west of the town, near the Alazán, and drove back into Béxar the troops sent out to meet them. The packs held grass cut for the horses, not silver. No man of ours was killed, and a few were slightly hurt. How many Mexican soldiers fell, the reports do not agree: three, fifteen, about fifty, or sixty.';
+  once(world, 'grass-rumour', () => {
+    const text = 'Men just back from the army say there has been a fight near Béxar: three hundred of ours against as many of theirs, ten of the enemy dead on the ground, and no loss on our side.';
+    said('HIST-TEX-034', text);
+    sendWord(world, 'grass-fight', { truth: GRASS_FIGHT, text, status: 'rumor', claimId: 'HIST-TEX-034', source: 'Men back from the army' });
+  });
+  // ceiling: word rides into the whole country on one day, five days after the fight, as it reached San Felipe; a
+  // settlement nearer or farther hears it on the same day.
+  once(world, 'grass-news', () => {
+    const eventId = said('HIST-TEX-031', GRASS_FIGHT);
+    sendWord(world, 'grass-fight', { truth: GRASS_FIGHT, claimId: 'HIST-TEX-031' });
+    // The silver was a rumour, and now the country knows it.
+    sendWord(world, 'silver-train', { truth: GRASS_FIGHT, text: 'The pack train carried grass for the horses in Béxar, not silver.', status: 'contradicted', claimId: 'HIST-TEX-031' });
+    tellGrassFight(world, eventId);
+  });
+  once(world, 'milam', () => {
     expireCalls(world);
     world.director.complete = true; world.director.phase = 'preserved'; world.status = 'ended';
     record(world, 'slice-preserved', {
-      visibility: 'public', classification: 'DOCUMENTED', claimId: 'HIST-TEX-020',
-      text: 'The army has closed on Béxar from above and below the town, and both councils of war have voted not to storm it. This slice stops here: families, absences, property, promises and memories are saved for the next arc, and the Grass Fight and the storming of Béxar are still ahead.',
+      visibility: 'public', classification: 'STRONGLY SUPPORTED', claimId: 'HIST-TEX-035',
+      text: 'On December 4 most of the army before Béxar meant to go into winter quarters, until Ben Milam called for men to go into San Antonio with him, and about three hundred answered. This slice stops here, on the eve of the storming: families, absences, property, promises and memories are saved for the next arc.',
     });
   });
+  if (!world.director.complete) world.director.phase = questionOpen(world) ? 'news' : 'campaign';
 }
 export function advanceDirectors(world, movement) {
   if (!world.director || world.director.complete) return;

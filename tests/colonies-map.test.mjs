@@ -28,6 +28,34 @@ test('every place stands at the official coordinates its claim gives', () => {
   for (const place of Object.values(map.places)) assert.match(place.claimId, /^(HIST|FIC)-/, `${place.id} names its claim`);
 });
 
+test('the five towns the research moved stand at their 1835 sites, and Liberty has the roads it really had', () => {
+  // HIST-TEX-025: each official point is a later town, measured from the 1835 site by the town research.
+  for (const [id, lon, lat, officialLon, officialLat] of [
+    ['columbia', -95.64884, 29.14190, -95.6157797, 29.1413578],
+    ['goliad', -97.3830, 28.6476, -97.3883265, 28.6683252],
+    ['velasco', -95.3001, 28.9419, -95.360495, 28.9619144],
+    ['harrisburg', -95.2785, 29.7228, -95.2796581, 29.7182845],
+    ['refugio', -97.274887, 28.296482, -97.2752704, 28.3052838],
+  ]) {
+    assert.ok(distance(map.places[id], milesFrom(terrain, lon, lat)) < 0.01, `${id} is not at its 1835 site: ${map.places[id].x}, ${map.places[id].y}`);
+    assert.ok(distance(map.places[id], milesFrom(terrain, officialLon, officialLat)) > 0.3, `${id} is still at the later town`);
+    assert.equal(map.places[id].claimId, 'HIST-TEX-025');
+  }
+  // The Atascosito road crossed the Trinity about three miles north of Liberty, not at the town.
+  const crossing = map.places['atascosito-crossing'];
+  const off = distance(crossing, map.places.liberty);
+  assert.ok(off > 2.2 && off < 4, `the Atascosito crossing is ${off.toFixed(2)} miles from Liberty`);
+  assert.ok(crossing.y < map.places.liberty.y, 'the Atascosito crossing is not north of Liberty');
+  assert.deepEqual(Object.keys(map.crossings).filter(key => key.endsWith(':Trinity River')), ['atascosito-crossing:Trinity River']);
+  const road = (from, to) => map.roads.find(r => r.from === from && r.to === to);
+  for (const [from, to] of [['harrisburg', 'atascosito-crossing'], ['atascosito-crossing', 'liberty'], ['harrisburg', 'lynchburg'], ['lynchburg', 'liberty'], ['liberty', 'nacogdoches']]) {
+    assert.ok(road(from, to), `no road from ${from} to ${to}`);
+  }
+  assert.equal(road('harrisburg', 'liberty'), undefined, 'the Atascosito road still goes straight to Liberty');
+  // Brazoria sits on the lower Brazos road (mail route No. 4): Columbia, Brazoria, Velasco.
+  assert.ok(road('columbia', 'brazoria') && road('brazoria', 'velasco'));
+});
+
 test('no road crosses a big river except at a crossing on that river', () => {
   const crossingsOn = river => Object.values(map.crossings).filter(c => c.river === river);
   let checked = 0;

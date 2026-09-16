@@ -8,7 +8,9 @@
 // routing happens once, here, and never when a world is made.
 //
 // What is documented and what is not:
-//   - Settlement positions are the official coordinates of the present places (HIST-TEX-010, HIST-TEX-013).
+//   - Settlement positions are the official coordinates of the present places (HIST-TEX-010, HIST-TEX-013), except five
+//     that the town research (docs/town-research/, HIST-TEX-025) found standing on a later town: Columbia, Goliad, Velasco,
+//     Harrisburg and Refugio are at their 1835 sites.
 //     The Colorado crossings near La Grange (the La Bahía road, HIST-TEX-008) and at Columbus use those
 //     towns' official coordinates too (GNIS 1360798 and 1333156).
 //   - Which settlements a road joins follows the routes of HIST-TEX-008 and the traffic of HIST-TEX-006.
@@ -33,20 +35,27 @@ const distance = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
 const PLACES = [
   ['gonzales', 'Gonzales', 'town', -97.4524926, 29.5016257, 'HIST-TEX-010', true],
   ['san-felipe', 'San Felipe de Austin', 'town', -96.1007929, 29.7930093, 'HIST-TEX-010', true],
-  ['columbia', 'Columbia', 'town', -95.6157797, 29.1413578, 'HIST-TEX-010', true],
+  // West Columbia, where every 1835 letter datelined Columbia was written; the official point is East Columbia (HIST-TEX-025).
+  ['columbia', 'Columbia', 'town', -95.64884, 29.14190, 'HIST-TEX-025', true],
   ['matagorda', 'Matagorda', 'town', -95.9674625, 28.6908222, 'HIST-TEX-010', true],
   ['mina', 'Mina', 'town', -97.3152701, 30.1104947, 'HIST-TEX-010', true],
   ['liberty', 'Liberty', 'town', -94.7954784, 30.057993, 'HIST-TEX-013', true],
   ['victoria', 'Victoria', 'town', -97.0035982, 28.8052674, 'HIST-TEX-010', true],
   ['washington', 'Washington', 'town', -96.1566258, 30.3252093, 'HIST-TEX-010', false],
   ['brazoria', 'Brazoria', 'town', -95.5691126, 29.0444147, 'HIST-TEX-010', false],
-  ['velasco', 'Velasco', 'town', -95.360495, 28.9619144, 'HIST-TEX-010', false],
-  ['harrisburg', 'Harrisburg', 'town', -95.2796581, 29.7182845, 'HIST-TEX-010', false],
+  // Old Velasco at the old river mouth (Surfside Beach); the official point is the 1891 town in Freeport (HIST-TEX-025).
+  ['velasco', 'Velasco', 'town', -95.3001, 28.9419, 'HIST-TEX-025', false],
+  // The bayou-front blocks of the 1826 plat (Broadway and Cypress), about 2,400 ft north of the official point (HIST-TEX-025).
+  ['harrisburg', 'Harrisburg', 'town', -95.2785, 29.7228, 'HIST-TEX-025', false],
+  // Lynchburg, at the mouth of Buffalo Bayou: a point on the mail road to Liberty (HIST-TEX-025).
+  ['lynchburg', 'Lynchburg', 'town', -95.0554851, 29.7871704, 'HIST-TEX-025', false],
   ['anahuac', 'Anahuac', 'town', -94.6826961, 29.7730001, 'HIST-TEX-010', false],
   ['nacogdoches', 'Nacogdoches', 'town', -94.6554874, 31.6035129, 'HIST-TEX-010', false],
   ['bexar', 'Béxar', 'town', -98.4936282, 29.4241219, 'HIST-TEX-010', false],
-  ['goliad', 'Goliad', 'town', -97.3883265, 28.6683252, 'HIST-TEX-010', false],
-  ['refugio', 'Refugio', 'town', -97.2752704, 28.3052838, 'HIST-TEX-010', false],
+  // The 1835 settlement stood against the presidio walls; the present town is across the river, 1.46 miles off (HIST-TEX-025).
+  ['goliad', 'Goliad', 'town', -97.3830, 28.6476, 'HIST-TEX-025', false],
+  // The plaza of the 1834 plat (King Park); the official point is 0.61 miles north of it (HIST-TEX-025).
+  ['refugio', 'Refugio', 'town', -97.274887, 28.296482, 'HIST-TEX-025', false],
   ['la-grange-crossing', 'The Colorado crossing', 'crossing', -96.876647, 29.9055033, 'HIST-TEX-008', false],
   ['columbus-crossing', "Beeson's crossing", 'crossing', -96.5396933, 29.7066232, 'FIC-GONZ-027', false],
 ];
@@ -57,7 +66,8 @@ const CROSSINGS = {
   'Guadalupe River': ['ford', 'victoria'],
   'Colorado River': ['la-grange-crossing', 'columbus-crossing', 'mina', 'matagorda'],
   'Brazos River': ['san-felipe', 'washington', 'columbia', 'brazoria'],
-  'Trinity River': ['liberty'],
+  // The Atascosito road crossed about three miles north of Liberty, not at the town (HIST-TEX-025).
+  'Trinity River': ['atascosito-crossing'],
   'San Antonio River': ['goliad', 'bexar'],
 };
 // Watercourses that slow a road across them but are not barriers. ceiling: every one of these was crossed
@@ -74,7 +84,15 @@ const ROADS = [
   ['victoria', 'columbus-crossing', 'The Atascosito road'],
   ['columbus-crossing', 'san-felipe', 'The Atascosito road'],
   ['san-felipe', 'harrisburg', 'The Atascosito road'],
-  ['harrisburg', 'liberty', 'The Atascosito road'],
+  ['harrisburg', 'atascosito-crossing', 'The Atascosito road'],
+  ['atascosito-crossing', 'liberty', 'The Atascosito road'],
+  // Mail route No. 5 ran San Felipe - Hunter's - Harrisburg - Lynchburg - Liberty (HIST-TEX-025). ceiling: Hunter's has no
+  // position in anything read, so the road from San Felipe does not stop there; and the mail road's own Trinity crossing is
+  // unknown, so it crosses at the Atascosito crossing like the other road.
+  ['harrisburg', 'lynchburg', 'The mail road to Liberty'],
+  ['lynchburg', 'liberty', 'The mail road to Liberty'],
+  // The road that actually ran through Liberty, north up the east side of the Trinity to Nacogdoches (HIST-TEX-025).
+  ['liberty', 'nacogdoches', 'The Liberty-Nacogdoches road'],
   ['ford', 'bexar', 'The road to Béxar'],
   ['gonzales', 'victoria', 'The road to Victoria'],
   ['san-felipe', 'columbia', 'The road to Columbia'],
@@ -172,6 +190,15 @@ function nearestOn(name, p) {
 // The ford: the Guadalupe nearest the town.
 const ford = nearestOn('Guadalupe River', places.gonzales).point;
 places.ford = { id: 'ford', name: 'The ford', kind: 'ford', x: round(ford.x), y: round(ford.y), claimId: 'HIST-GONZ-007' };
+// The Atascosito crossing of the Trinity: "three miles to the north" of Liberty (TSHA), or four and a half miles west of the
+// Atascosito marker, about 3.1 miles north-west (1936 marker); the two agree to a quarter mile. The river nearest a point
+// three miles from the town on a bearing of 330 degrees (HIST-TEX-025).
+{
+  const bearing = 330 * Math.PI / 180;
+  const aim = { x: places.liberty.x + 3 * Math.sin(bearing), y: places.liberty.y - 3 * Math.cos(bearing) };
+  const crossing = nearestOn('Trinity River', aim).point;
+  places['atascosito-crossing'] = { id: 'atascosito-crossing', name: 'The Atascosito crossing', kind: 'crossing', x: round(crossing.x), y: round(crossing.y), claimId: 'HIST-TEX-025' };
+}
 places.confluence = { id: 'confluence', name: 'The forks of the rivers', kind: 'confluence', x: 0, y: 0, claimId: 'HIST-GONZ-015' };
 
 /**

@@ -1883,6 +1883,15 @@ function renderArmyControl(world, chosen, running) {
       option('detachment-go', `${ours.name} goes ahead with Bowie and Fannin`, 'With the division, ahead of the army.'),
       option('detachment-stay', `${ours.name} stays with the main army`, 'With the main body, under Austin.'));
   } else if (ours.detachment === 'go') said.push(element('p', `${ours.name} is with Bowie and Fannin's division.`, 'ask-text'));
+  // The army's November questions: the storm order, the pledge, the Grass Fight (sim/army.mjs `ARMY_QUESTIONS`). The
+  // words are the server's; asked of this person alone, and nothing on the card says what an answer risks.
+  for (const question of ours.questions || []) {
+    if (question.answer !== 'open') { said.push(element('p', question.said, 'ask-text')); continue; }
+    const yes = option('army-answer', question.yes, ''), no = option('army-answer', question.no, '');
+    yes.dataset.question = no.dataset.question = question.key;
+    yes.dataset.answer = 'yes'; no.dataset.answer = 'no';
+    said.push(element('p', question.ask, 'ask-text'), yes, no);
+  }
   said.push(option('send-for', `Send for ${ours.name}`, 'They leave the ranks and start home. Whatever the army does next happens without them.'));
   wrap.replaceChildren(...said);
 }
@@ -2968,6 +2977,14 @@ function renderSlice(world) {
         control('detachment-go', `${one.name} goes ahead with them`);
         control('detachment-stay', `${one.name} stays with the main army`);
       }
+      for (const question of one.questions || []) {
+        if (question.answer !== 'open') continue;
+        line.append(`${question.ask} `);
+        for (const [answer, words] of [['yes', question.yes], ['no', question.no]]) {
+          const button = element('button', words); button.dataset.action = 'army-answer'; button.dataset.entityId = one.id;
+          button.dataset.question = question.key; button.dataset.answer = answer; line.append(button);
+        }
+      }
       control('send-for', `Send for ${one.name}`);
       return line;
     }));
@@ -3222,6 +3239,7 @@ document.addEventListener('click', async event => {
     if (button.dataset.destination) input.destination = button.dataset.destination === 'home' ? homeOf(world) : button.dataset.destination;
     if (button.dataset.chore) input.chore = button.dataset.chore;
     if (button.dataset.option) input.option = button.dataset.option;
+    if (button.dataset.question) { input.question = button.dataset.question; input.answer = button.dataset.answer; }
     // Every order that can put somebody on a road carries how they mean to go.
     if (['travel', 'chore', 'help', 'go-upriver', 'go-see'].includes(action) && input.entityId) input.mode = modeFor(input.entityId);
     if (button.dataset.lineId) input.lineId = button.dataset.lineId;

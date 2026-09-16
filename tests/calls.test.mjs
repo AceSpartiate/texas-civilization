@@ -134,7 +134,8 @@ test('only somebody old enough is asked, only a far family, and not once the cla
 });
 
 test('neighbours answer as the settlements did: the coast stays, inland a family with a second grown hand sends a man', () => {
-  const run = () => { const world = colonies('calls-neighbours', 30, { neighbours: true }); until(world, () => false); validateWorld(world); return world; };
+  // To November 2: after it, men go home from the siege for clothes and pledges (tests/siege.test.mjs), which is not this.
+  const run = () => { const world = colonies('calls-neighbours', 30, { neighbours: true }); until(world, () => world.director.milestones.siege); validateWorld(world); return world; };
   const world = run();
   let went = 0;
   for (const [householdId, call] of Object.entries(world.calls)) {

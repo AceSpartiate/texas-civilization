@@ -44,11 +44,14 @@ const EVENT_NAMES = Object.freeze({
   gonzales: 'the stand at Gonzales',
   gathering: 'the army made at Gonzales',
   concepcion: 'the fight at Concepción',
+  'storm-order': 'the order to storm Béxar',
+  'grass-fight': 'the Grass Fight',
 });
 const PART_WORDS = Object.freeze({
   supplied: 'carried supplies for',
   present: 'was there for',
   fought: 'fought in',
+  willing: 'said they would go in at',
 });
 
 /** How far a family lived from Gonzales by road, where the news and the army both started. */

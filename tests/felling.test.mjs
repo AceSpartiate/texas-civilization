@@ -172,7 +172,7 @@ test('hauling brings the logs to the house, six behind the ox or one on the shou
 });
 
 test('the map is told what was felled: stumps with their logs in the tile, fetched again when the woods change', async () => {
-  const { world, household, bounds } = onTheLand('fell-tiles');
+  const { world, household, bounds } = onTheLand('fell-tiles-2'); // a seed whose land has a small stand; the map rebuild of HIST-TEX-025 moved the first one's
   const { point } = timberOn(world, household, bounds).find(entry => entry.facts.trees >= 2 && entry.facts.trees <= 6);
   // The tile of the nearest tree to come down: a place near a tile's edge fells into its neighbours too.
   const size = woodsCatalogue().tiles.trees, nearest = standingTrees(world, point)[0];

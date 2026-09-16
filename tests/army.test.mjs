@@ -52,12 +52,14 @@ test('the volunteers are made into an army in the town, and it marches for Béxa
   assert.ok(atMuster.minute >= momentOf(world, 'organised'), 'the army formed before it was raised');
   assert.equal(world.army.phase, 'marching', 'the army never took the road');
   assert.ok(world.army.progress > 0, 'the army marched no distance at all');
-  // Build step 6: it never marched into the town. By November 2 it stands at Concepción, south of Béxar, at the end
-  // of its own road - the Salado, then Espada, then Concepción (tests/concepcion.test.mjs has the halts and the fight).
-  assert.equal(world.army.progress, world.army.road.distance, 'the army did not reach Concepción by the end');
-  assert.equal(world.army.camp, 'Mission Concepción');
+  // Build step 6: it never marched into the town. By December 4 it stands at the old mill above Béxar, at the end of its
+  // last short road (tests/concepcion.test.mjs has the march to Concepción, tests/siege.test.mjs the camps after).
+  assert.equal(world.army.progress, world.army.road.distance, 'the army did not reach its last camp by the end');
+  assert.equal(world.army.camp, 'the old mill above Béxar');
   // Out of the town it formed in, on the road to the town it is going to.
   assert.equal(world.army.road.points.length >= 2, true);
+  // The taking of Goliad reached every family's own reports, not the Host's page alone.
+  for (const household of Object.values(world.households)) assert.match(world.knowledge.households[household.id]['goliad-taken']?.text || '', /took the presidio/, `${household.id} never heard of Goliad`);
   assert.ok(world.map.sites[RENDEZVOUS] && world.map.sites[OBJECTIVE]);
   // The march is dated, and the calendar's longest stride comes in with it.
   assert.ok(world.director.milestones.march);
@@ -78,9 +80,9 @@ test('a volunteer marches as a person inside the army, and what the family is to
   assert.equal(sent.person.travel.progress, world.army.progress);
   const army = view(world, sent.household.id).army;
   assert.equal(army.phase, 'marching');
-  // By the class's end it is camped at Concepción, and a family is told the camp by name.
-  assert.equal(army.at, 'Mission Concepción');
-  assert.equal(army.camp, 'Mission Concepción');
+  // By the class's end it is camped at the old mill above Béxar, and a family is told the camp by name.
+  assert.equal(army.at, 'the old mill above Béxar');
+  assert.equal(army.camp, 'the old mill above Béxar');
   assert.ok(army.ours.some(one => one.id === sent.person.id), 'the family is not told its own man is in it');
   assert.equal(army.strength, world.army.members.length);
   assert.ok(army.miles > 0, 'the army is said to be no distance from home');

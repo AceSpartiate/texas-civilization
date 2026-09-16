@@ -105,16 +105,16 @@ judged for sending one is not documented, so the penalty's size is a game rule.
 | Washington | Washington (1349512) | 30.32521, -96.15663 | the locality at Washington-on-the-Brazos |
 | Mina | Bastrop (1330128) | 30.11049, -97.31527 | Mina was the 1835 name |
 | Brazoria | Brazoria (1352845) | 29.04441, -95.56911 | GNIS also lists Old Brazoria (1364399), 29.0555255, -95.5652235 |
-| Velasco | Velasco (1381075) | 28.96191, -95.36050 |  |
-| Columbia | East Columbia (1356596) | 29.14136, -95.61578 | Columbia of 1835 is nearer East Columbia on the Brazos; West Columbia (1371096) is 29.1438582, -95.6452249 — which one stands for 1835 Columbia is to be checked |
+| Velasco | Velasco (1381075) | 28.96191, -95.36050 | **the 1891 town; the map uses old Velasco at Surfside Beach, 28.9419, -95.3001 (`HIST-TEX-025`)** |
+| Columbia | East Columbia (1356596) | 29.14136, -95.61578 | Columbia of 1835 is nearer East Columbia on the Brazos; West Columbia (1371096) is 29.1438582, -95.6452249 — **checked: 1835 Columbia is West Columbia, 29.14190, -95.64884, which the map uses (`HIST-TEX-025`)** |
 | Matagorda | Matagorda (1362277) | 28.69082, -95.96746 |  |
-| Harrisburg | Harrisburg (1337404) | 29.71828, -95.27966 | now within Houston |
+| Harrisburg | Harrisburg (1337404) | 29.71828, -95.27966 | now within Houston; **the map uses the bayou-front blocks, 29.7228, -95.2785 (`HIST-TEX-025`)** |
 | Anahuac | Anahuac (1329510) | 29.77300, -94.68270 |  |
 | Liberty | Liberty (1339866) | 30.05799, -94.79548 |  |
 | Nacogdoches | Nacogdoches (1363573) | 31.60351, -94.65549 |  |
 | Victoria | Victoria (1370631) | 28.80527, -97.00360 |  |
-| Goliad | Goliad (1358133) | 28.66833, -97.38833 | the presidio La Bahía stands across the San Antonio River from the present town |
-| Refugio | Refugio (1345013) | 28.30528, -97.27527 |  |
+| Goliad | Goliad (1358133) | 28.66833, -97.38833 | the presidio La Bahía stands across the San Antonio River from the present town; **the map uses the 1835 settlement at the presidio, 28.6476, -97.3830 (`HIST-TEX-025`)** |
+| Refugio | Refugio (1345013) | 28.30528, -97.27527 | **the map uses the 1834 plaza, 28.296482, -97.274887 (`HIST-TEX-025`)** |
 | Bexar | San Antonio (1380951) | 29.42412, -98.49363 |  |
 | Nashville on the Brazos | Nashville (historical) (2033973) | 30.82578, -96.65288 | Robertson's colony; not in HIST-TEX-003, so its 1835 existence needs its own claim before use |
 
@@ -375,7 +375,7 @@ Each step ends with tests that failed first, a browser proof where it touches wh
 4. **News by riders over real distance**, calibrated to `HIST-TEX-006`, and the settlement-specific calls. **Part 1, the expresses, done 2026-09-14** (§6e); **part 2, the settlement calls, done 2026-09-14** (§6f); **part 3, the two clocks, done 2026-09-15** (§6g).
 5. ~~**The gathering and the march**~~ **Done 2026-09-15** (§6h). Volunteers, joining, the army as one formation, sending for somebody, and the departure - on the **13th**, which is what the order book and the Telegraph say (`HIST-TEX-018`).
 6. **Beyond** (Concepción, the Grass Fight, Béxar), each battle researched first; the glory rule for women built with
-   the first `fought`. **Concepción done 2026-09-16** (§6i); the Grass Fight and the storming of Béxar remain.
+   the first `fought`. **Concepción done 2026-09-16** (§6i); **the siege and the Grass Fight done 2026-09-16** (§6k); the storming of Béxar remains.
 6a. ~~**The two clocks** (§5.7) come in with step 4~~ **Done 2026-09-15** (§6g). **Playing alone** (§5.8) can still be built
    at any point.
 7. Then `docs/LAND_GRANTS.md` §4–5: Survey and clearing.
@@ -628,7 +628,7 @@ caught); browser proof `npm run test:concepcion` ([record](evidence/concepcion-b
   hears the outcome, Richard Andrews's death, and that the reports of Mexican losses do not agree.
 - **Glory.** Fought is weight 3, present 2, times the road miles as always. A woman killed in the fight has her award
   taken away twice over, with the sentence *"In 1835, sending a woman to fight was held against a family"* marked as the
-  game's own reading; a woman who comes through keeps hers. A family's glory below nothing counts as nothing at the end.
+  game's own reading; a woman who comes through keeps hers. A family's glory below nothing counts as nothing at the end, so its final number is its coin (owner, 2026-09-16).
 - **The end.** The class now stops on November 2, the day both councils of war voted not to storm Béxar. Measured on a
   thirty-family class with five played families: the campaign past October 17 adds about 41 ticks, some six and a half
   minutes at the Study pace.
@@ -638,6 +638,51 @@ caught); browser proof `npm run test:concepcion` ([record](evidence/concepcion-b
 three days and wrong about who was hurt (`HIST-TEX-024`). `ceiling:` the family of somebody killed is told at once.
 `ceiling:` no horse is lost, though "a few horses" were. `ceiling:` a volunteer's card still shows the road and the
 neighbour-visit controls while they are in the ranks, which predates this step.
+
+### 6j. As built: the map corrected from the town research (2026-09-16)
+
+The town research (`docs/town-research/`, fourteen towns) found five places standing on a later town and Liberty's roads
+wrong; the owner approved one rebuild with every correction (`HIST-TEX-025`). Columbia moves to West Columbia (1.95 miles),
+Goliad to the presidio (1.46), Velasco to the old river mouth (3.91), Harrisburg to its bayou front (about 2,400 ft) and
+Refugio to its 1834 plaza (0.61). The Trinity is no longer crossed at Liberty but at **the Atascosito crossing** three
+miles north, which the Atascosito road from Harrisburg now uses; **the Liberty-Nacogdoches road** runs north from the town;
+and **Lynchburg** stands on a mail road Harrisburg - Lynchburg - Liberty. Brazoria already had its road (mail route
+No. 4). 37 places and 42 roads. `ceiling:` Hunter's, the mail route's stop between San Felipe and Harrisburg, has no
+position in anything read and is not placed; the mail road crosses the Trinity at the Atascosito crossing because its own
+crossing is not known. Only a class made after the rebuild uses the new map; a saved class keeps the map it was dealt on.
+One seeded test (`tests/felling.test.mjs`) needed a new seed because a family's land fell differently.
+
+### 6k. As built: step 6, the siege and the Grass Fight (2026-09-16)
+
+Researched in [battle-research/grass-fight.md](battle-research/grass-fight.md) and decided by the owner by multiple choice
+(§7b). The class no longer stops on November 2: it runs to the evening of December 4 (`HIST-TEX-026` to `-035`,
+`FIC-GONZ-040`), about 78 more ticks when the questions are answered promptly.
+
+- **The camps** (`moveCamp`, `SIEGE_CAMPS`): after the councils vote not to storm (Nov 2) the army goes to the camp above
+  the town; back down to Mission Concepción on Nov 9; united at the old mill above Béxar on Nov 15, where it stays. Each move
+  is a short road of the army's own, so a family's card names the camp. The army is never in the town.
+- **Winter clothing** (`goForClothing`, `returnFromClothing`): on Nov 4 about a quarter of the volunteers of families nobody
+  plays go home, promising to return; about half of them set out again ten to sixteen days later and fall in at the mill. A
+  played family's volunteer is never sent.
+- **Three questions, each on the volunteer's own card** (`ARMY_QUESTIONS`, action `army-answer`): Austin's storm order
+  (Nov 21, closed on the 22nd when it is countermanded; a yes earns the family a `willing` award); the pledge (Nov 24,
+  closed when Austin leaves on the 25th; a no sends the volunteer home, silence keeps them in camp without pledging); and,
+  with the rumour of silver, whether they go out after the pack train (Nov 26). None says what an answer risks. Families
+  nobody plays answer as the army did. While a played family has one open the calendar runs at an hour a tick, and a
+  question stays open at least six hours of 1835.
+- **The Grass Fight** (`fightGrass`): those who went out fought, the rest of the camp was present. Nobody is killed; about
+  3 in 100 are slightly wounded (weighted by hidden strength and health); about 1 in 100 runs home, taken from the ranks,
+  and the family's award for the fight goes the other way with a note labelled as the game's own reading.
+- **The word** (`sendWord` in `sim/directors.mjs`, `tellGrassFight`): the silver rumour reaches every family's reports with
+  the question; nothing is told on the day of the fight; on Dec 1 the wrong rumour ("three hundred a side, ten dead, no
+  loss"); on Dec 3 the fuller word, with the Mexican losses as the range 3, 15, about 50 or 60, the silver set right, and
+  each family's own person's part. `ceiling:` every family hears it on the same day, however far away.
+- **Found and fixed on the way:** the news of Goliad and Concepción was recorded only as a public milestone, which reaches the
+  Host's page and no student; it now goes to every family's reports too (`sendWord`).
+- `ceiling:` the army is one body, so the week it was split (Burleson at the mill, Austin at Concepción) is the whole army at
+  Concepción; the camp guard, Bowie's riders and Jack's infantry are not drawn apart; the mill's place is estimated.
+- Tests: `tests/siege.test.mjs` (8, each proven by injection, 24 drills); browser: `npm run test:siege`
+  ([evidence](evidence/siege-browser.json)).
 
 ## 7. Questions for the owner — all answered 2026-09-14
 
@@ -659,3 +704,20 @@ Put to the owner as multiple choice after the research in [battle-research/conce
 | The glory penalty for sending a woman to fight, which no source read documents? | **Kept, and labelled as the game's own reading of the period**; the ending words it as the period's judgement. |
 | Mexican losses (14, 16, 67 or 76 by source)? | **The range, with its sources**: families hear that the reports disagree. |
 | Goliad as a battle a family member fought in? | **No — news only.** Nobody who went to Gonzales was there. |
+
+### 7b. The siege and the Grass Fight — answered 2026-09-16, before building them
+
+Put to the owner as multiple choice after the research in [battle-research/grass-fight.md](battle-research/grass-fight.md).
+
+| Question | Owner's answer |
+| --- | --- |
+| How far should the class run? | **To December 4**, the eve of the storming, with Milam's call as the last event. |
+| How deadly is the Grass Fight? (nobody killed of ~140–300; 2–4 slightly wounded; one ran home) | **Nobody killed**; about 3 in 100 slightly wounded, weighted by hidden strength and health. |
+| Who fights on November 26? | **The family is asked** when Deaf Smith rides in, as on October 22. |
+| Can a volunteer run home from the fight? | **Yes, rarely**, about 1 in 100 — **and their family should suffer negative glory for it.** |
+| Where does the army camp after November 2? | **The real sequence**: above the town, headquarters at Concepción Nov 8–15, united at the mill from Nov 15. |
+| Leaving and staying in November? | **Automatic neighbours' volunteers go home for winter clothing** at about the documented rate and some come back; **on November 24 every family with somebody in camp is asked whether they pledge to stay.** |
+| How does a family hear of the Grass Fight? | **By rider, days later, and first as the wrong rumour**, then the fuller account. |
+| Mexican losses (3, 15, 50 or 60 killed by source)? | **The range, with its sources**, as at Concepción. |
+| The silver? | **Families hear the rumour of a silver train before the fight**, and the grass is the reveal. |
+| Austin's storm order of November 21? | **The family's person is asked** — "since it'd be a family member off serving, only that family member is asked. If they say yes, their family receives extra glory." How much is this game's own: the weight of being present (`willing`: 2). |

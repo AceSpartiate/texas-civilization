@@ -195,8 +195,9 @@ Rules that apply to every row:
 **As built** (`fightConcepcion` in `sim/army.mjs`, `docs/COLONIES.md` §6i): the owner chose on 2026-09-16 to keep the penalty
 and label it as the game's own reading, since no source read documents it (`HIST-TEX-023`). A woman killed in the fight has
 her award taken away twice over, with the note shown in the ending; one who comes through keeps her ordinary award. At
-Concepción every fate resolves in the fight, so the unresolved case does not yet arise. A family's glory below nothing
-counts as nothing in the final number, so the coin is never erased.
+Concepción every fate resolves in the fight, so the unresolved case does not yet arise. A family's glory of nothing or
+below counts as nothing in the final number (owner, 2026-09-16): it never takes away coin, so such a family's final
+number is simply its coin, never zero.
 
 > "if a family sends a woman to battle, they should receive - glory. it wouldn't have been socially or culturally
 > acceptable. if the woman dies, they should receive 2x - glory. if the woman survives battle however, they should
@@ -217,6 +218,12 @@ This amends one rule above: **a casualty never adds glory** still holds — a de
 The balance gate (§8) must be re-run once `fought` exists, because this makes sending a mother to fight both very
 likely fatal (`docs/FAMILY_CREATION.md` §5) and costly. It is hidden like every other award, and a woman's
 survival is decided by her hidden stats exactly as a man's is; the penalty never changes the odds.
+
+**Two more parts, from the siege (owner, 2026-09-16, `docs/COLONIES.md` §7b).** A volunteer who says they would go in when
+Austin orders Béxar stormed on November 21 earns their family a `willing` award, weighted like being present (2), though the
+storm never came. A volunteer who runs home from the Grass Fight has the fight's award taken away (the ordinary award, turned
+negative), with the note shown in the ending labelled as the game's own reading: no man in the record was punished for going
+home (`HIST-TEX-027`, `FIC-GONZ-040`).
 
 **Automatic neighbours are never ranked** (owner, 2026-09-14, `docs/COLONIES.md` §5.9): when the ending is built it ranks only families with `household.played`; an automatic family's money and glory are counted but it is never named winner or placed in a ranking.
 

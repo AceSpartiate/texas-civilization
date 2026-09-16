@@ -48,7 +48,7 @@ const campaign = () => shared ??= (() => {
   untilMinute(world, momentOf(world, 'leave-cibolo') - 1440);
   seen.cibolo = { camp: world.army.camp, progress: world.army.progress, strength: world.army.members.length };
   untilMinute(world, momentOf(world, 'detachment') + 1);
-  seen.salado = { camp: world.army.camp, progress: world.army.progress, left: world.army.road.distance - world.army.progress };
+  seen.salado = { camp: world.army.camp, progress: world.army.progress, left: world.army.road.distance - world.army.progress, stopLeft: world.army.road.distance - world.army.road.stops.salado };
   seen.asked = view(world, household.id).army.ours.find(one => one.id === person.id)?.detachment;
   seen.story = storyOf(world, household.id).filter(text => /Bowie and Fannin/.test(text));
   applyAction(world, household.id, { action: 'detachment-go', entityId: person.id });
@@ -56,6 +56,8 @@ const campaign = () => shared ??= (() => {
   seen.again = (() => { try { applyAction(world, household.id, { action: 'detachment-stay', entityId: person.id }); return null; } catch (error) { return error.message; } })();
   untilMinute(world, momentOf(world, 'concepcion') - 1440);
   seen.espada = { camp: world.army.camp };
+  untilMinute(world, momentOf(world, 'concepcion') + 1);
+  seen.concepcion = { camp: world.army.camp, y: world.army.y };
   until(world, () => world.director.complete);
   validateWorld(world);
   return { world, household, person, seen };
@@ -66,13 +68,13 @@ test('the army halts where the order book halts it: the Cibolo, the Salado five 
   assert.equal(seen.cibolo.camp, 'the Cibolo');
   assert.equal(seen.cibolo.progress, CIBOLO_MILES, 'the army did not wait at the Cibolo');
   assert.equal(seen.salado.camp, 'the Salado');
-  assert.ok(Math.abs(seen.salado.left - (world.army.road.distance - world.army.road.stops.salado)) < 1e-6);
+  assert.ok(Math.abs(seen.salado.left - seen.salado.stopLeft) < 1e-6);
   assert.equal(seen.espada.camp, 'Mission Espada');
-  assert.equal(world.army.camp, 'Mission Concepción');
-  // It never marched into the town: Concepción is south of Béxar, and so is where the army ends.
-  assert.ok(world.army.y > world.map.sites.bexar.y, 'the army ended north of Béxar');
+  assert.equal(seen.concepcion.camp, 'Mission Concepción');
+  // It never marched into the town: Concepción is south of Béxar, and that is where the march ended.
+  assert.ok(seen.concepcion.y > world.map.sites.bexar.y, 'the march ended north of Béxar');
   assert.equal(world.director.phase, 'preserved');
-  assert.ok(world.events.some(e => /voted not to storm/.test(e.text)), 'the class did not end on the councils of war');
+  assert.ok(world.events.some(e => /voted not to storm/.test(e.text)), 'the councils of war never voted');
 });
 
 test('on October 22 a family is asked whether its volunteer goes ahead with Bowie and Fannin, once, and the risk is not on the question', () => {
@@ -103,6 +105,8 @@ test('those who went fought and those who stayed were present, and each is told 
   assert.match(word.text, /Richard Andrews/);
   assert.match(word.text, /do not agree/);
   assert.match(word.text, /sixteen/); assert.match(word.text, /sixty-seven/);
+  // And the families hear it in their own reports, not the Host's page alone.
+  for (const household of Object.values(world.households)) assert.match(world.knowledge.households[household.id]['concepcion-fight']?.text || '', /do not agree/, `${household.id} never heard of Concepción`);
 });
 
 test('an unanswered family\'s volunteer stays with the main army, and a volunteer sent for is no longer asked', () => {
