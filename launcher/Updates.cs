@@ -2,7 +2,10 @@ using System.Text.Json;
 
 namespace TexasRevolution.Launcher;
 
-public sealed record ReleaseInfo(string Tag, string Name, string PageUrl, string? DownloadUrl, long Size);
+/// <param name="DownloadUrl">The update archive: the game with its runtime, no launcher.</param>
+/// <param name="SetupUrl">The setup program: the launcher with the game inside it. Preferred,
+/// because it is the only asset that carries the launcher (launcher/Updater.cs).</param>
+public sealed record ReleaseInfo(string Tag, string Name, string PageUrl, string? DownloadUrl, long Size, string? SetupUrl = null, long SetupSize = 0);
 
 /// <summary>
 /// Whether a newer build has been published.
@@ -41,23 +44,28 @@ public static class Updates
             var tag = root.GetProperty("tag_name").GetString() ?? "";
             var page = root.GetProperty("html_url").GetString() ?? "";
             var name = root.TryGetProperty("name", out var title) ? title.GetString() ?? tag : tag;
-            string? download = null;
-            long size = 0;
+            string? download = null, setup = null;
+            long size = 0, setupSize = 0;
             if (root.TryGetProperty("assets", out var assets))
             {
                 foreach (var asset in assets.EnumerateArray())
                 {
                     var assetName = asset.GetProperty("name").GetString() ?? "";
                     // The self-contained build: the one a teacher can open with nothing installed.
-                    if (assetName.EndsWith(".zip", StringComparison.OrdinalIgnoreCase) && !assetName.Contains("NeedsNode", StringComparison.OrdinalIgnoreCase))
+                    if (download is null && assetName.EndsWith(".zip", StringComparison.OrdinalIgnoreCase) && !assetName.Contains("NeedsNode", StringComparison.OrdinalIgnoreCase))
                     {
                         download = asset.GetProperty("browser_download_url").GetString();
                         size = asset.TryGetProperty("size", out var bytes) ? bytes.GetInt64() : 0;
-                        break;
+                    }
+                    // The launcher travels only inside the setup program, so that is what updates it.
+                    if (setup is null && assetName.Equals("TexasRevolutionSetup.exe", StringComparison.OrdinalIgnoreCase))
+                    {
+                        setup = asset.GetProperty("browser_download_url").GetString();
+                        setupSize = asset.TryGetProperty("size", out var bytes) ? bytes.GetInt64() : 0;
                     }
                 }
             }
-            return new ReleaseInfo(tag, name, page, download, size);
+            return new ReleaseInfo(tag, name, page, download, size, setup, setupSize);
         }
         catch { return null; }
     }

@@ -1,0 +1,23 @@
+{
+  "recordedAt": "2026-09-16T16:00:08.024Z",
+  "scope": "same computer, headless Chrome",
+  "command": "npm run test:solo",
+  "pass": [
+    "npm run solo opens the player page already joined as hh-1, the class running (tick 0 → 1), no join form, no ticket in the address",
+    "the play link is one use: opening it again is refused",
+    "the solo class view opens from its Host address: running, 1 family joined",
+    "the solo server does not answer on this computer's network address (Ethernet 4), only on 127.0.0.1",
+    "a second npm run solo reuses the running solo server, deals a new game (new session) and opens it joined",
+    "a real class running from the same data folder is untouched: same session, same code, save unchanged; solo saved to solo\\classroom.json on its own port",
+    "the solo server stops gracefully from its class view and releases its save lock",
+    "no page errors"
+  ],
+  "observed": {
+    "play": "http://127.0.0.1:59619/solo/enter?ticket=…",
+    "hostView": {
+      "status": "running",
+      "joined": 1,
+      "households": 0
+    }
+  }
+}

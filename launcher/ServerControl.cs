@@ -122,6 +122,65 @@ public sealed class ServerControl
     public Task<(bool Ok, string Output)> StopAsync() =>
         RunScriptAsync("stop.ps1", "-NoDialog");
 
+    /// <summary>
+    /// Solo Mode's server: the same verified start and graceful stop as the class, pointed at
+    /// the playtest's own folder and loopback port (`--solo` in server/main.mjs). A running
+    /// class is neither reused nor touched by either.
+    /// </summary>
+    public Task<(bool Ok, string Output)> StartSoloAsync() =>
+        RunScriptAsync("launch.ps1", "-NoBrowser -NoDialog -Solo");
+
+    public Task<(bool Ok, string Output)> StopSoloAsync() =>
+        RunScriptAsync("stop.ps1", "-NoDialog -Solo");
+
+    /// <summary>Is a solo playtest server answering on its own port?</summary>
+    public async Task<bool> SoloRunningAsync()
+    {
+        var info = AppPaths.Resolve(solo: true);
+        if (info is null) return false;
+        try
+        {
+            using var response = await Http.GetAsync($"http://127.0.0.1:{info.Port}/health");
+            if (!response.IsSuccessStatusCode) return false;
+            using var document = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
+            return document.RootElement.TryGetProperty("solo", out var solo) && solo.ValueKind == JsonValueKind.True;
+        }
+        catch { return false; }
+    }
+
+    /// <summary>
+    /// Deal a new solo game on the running solo server: one player joined, family rolled, class
+    /// started. Returns the one-use address that opens that player's page already joined, and
+    /// the solo Host address for inspecting it, or an explanation.
+    /// </summary>
+    /// <remarks>
+    /// Asked with the Host key the solo server wrote to its own folder - the same privilege, from
+    /// the same file, that reading the class code uses - never through an open route.
+    /// </remarks>
+    public async Task<(string? PlayUrl, string? HostUrl, string? Error)> NewSoloGameAsync()
+    {
+        var info = AppPaths.Resolve(solo: true);
+        if (info is null) return (null, null, "Could not find the solo playtest folder.");
+        var hostUrl = AppPaths.HostUrl(info);
+        var hash = hostUrl?.LastIndexOf('#') ?? -1;
+        if (hostUrl is null || hash < 0) return (null, null, "The solo server has not written its Host address yet.");
+        try
+        {
+            using var content = new StringContent(JsonSerializer.Serialize(new { key = hostUrl[(hash + 1)..].Trim() }), Encoding.UTF8, "application/json");
+            // A new world is dealt on this request, which can take longer than a status poll.
+            using var cancel = new CancellationTokenSource(TimeSpan.FromSeconds(60));
+            using var response = await SoloHttp.PostAsync($"http://127.0.0.1:{info.Port}/api/solo", content, cancel.Token);
+            using var document = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
+            var root = document.RootElement;
+            if (!response.IsSuccessStatusCode)
+                return (null, null, root.TryGetProperty("error", out var error) ? error.GetString() : $"The solo server answered {(int)response.StatusCode}.");
+            return (root.GetProperty("playUrl").GetString(), hostUrl, null);
+        }
+        catch (Exception error) { return (null, null, error.Message); }
+    }
+
+    private static readonly HttpClient SoloHttp = new() { Timeout = TimeSpan.FromSeconds(90) };
+
     private static async Task<(bool Ok, string Output)> RunScriptAsync(string script, string arguments)
     {
         var path = Path.Combine(AppPaths.Scripts, script);
@@ -131,7 +190,8 @@ public sealed class ServerControl
         // pipe, so reading it to the end does not finish until the *server* stops. Measured:
         // a pipe here makes Start hang for the length of the lesson. A file handle the
         // server also holds costs nothing and closes when PowerShell exits.
-        var log = Path.Combine(Path.GetTempPath(), $"texas-{script}-{Environment.ProcessId}.log");
+        // Solo and the class can be starting at once, so they do not share a log.
+        var log = Path.Combine(Path.GetTempPath(), $"texas-{script}{(arguments.Contains("-Solo") ? "-solo" : "")}-{Environment.ProcessId}.log");
         var start = new ProcessStartInfo("cmd.exe",
             $"/c powershell.exe -NoLogo -NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy RemoteSigned -File \"{path}\" {arguments} > \"{log}\" 2>&1")
         {

@@ -54,7 +54,17 @@ internal static class Program
         // failure that produces has no error file and reads like a blocked machine.
         Unblocker.ClearApplicationFolder();
 
-        if (args.Length > 0) { AttachConsole(ParentProcess); return Headless(verb!).GetAwaiter().GetResult(); }
+        // The last update's leftovers: the old launcher, renamed out of the way while it ran,
+        // and the backup of the build it replaced - or, if that update was cut off part way,
+        // the old build put back (launcher/UpdateSwap.cs). Then the installed emblem is written
+        // from this executable, so an update that brings a new emblem brings it to the shortcuts.
+        var rolledBack = UpdateSwap.CleanUp(AppPaths.Root);
+        if (File.Exists(Path.Combine(AppPaths.Root, Branding.EmblemFileName))) Branding.WriteEmblemTo(AppPaths.Root);
+
+        if (args.Length > 0) { AttachConsole(ParentProcess); return Headless(verb!, args).GetAwaiter().GetResult(); }
+        if (rolledBack)
+            MessageBox.Show("The last update was interrupted before it finished, so the previous version was put back. Your classes were not touched. You can try the update again.",
+                "Texas Revolution", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         ApplicationConfiguration.Initialize();
         Application.Run(new LauncherForm());
@@ -96,11 +106,59 @@ internal static class Program
     /// exactly the same code the buttons call; a seam that tested something else would be
     /// worse than no seam.
     /// </remarks>
-    private static async Task<int> Headless(string verb)
+    private static async Task<int> Headless(string verb, string[] args)
     {
         var server = new ServerControl();
         switch (verb)
         {
+            case "solo":
+            {
+                // Solo Mode without the window: start (or reuse) the playtest server, deal a new
+                // game, and print the one-use address that opens it already joined.
+                var (ok, output) = await server.StartSoloAsync();
+                Console.WriteLine($"solo start ok={ok}");
+                if (!ok) { if (!string.IsNullOrWhiteSpace(output)) Console.WriteLine(output); return 1; }
+                var (play, host, error) = await server.NewSoloGameAsync();
+                if (play is null) { Console.WriteLine($"solo game failed: {error}"); return 1; }
+                Console.WriteLine($"play={play}");
+                Console.WriteLine($"classview={(host is null ? "(none)" : "found")}");
+                return 0;
+            }
+            case "stop-solo":
+            {
+                var (ok, output) = await server.StopSoloAsync();
+                Console.WriteLine($"stop-solo ok={ok}");
+                if (!string.IsNullOrWhiteSpace(output)) Console.WriteLine(output);
+                return ok ? 0 : 1;
+            }
+            case "install-update":
+            {
+                // An update from a build on this computer - a setup program or an update archive -
+                // through exactly the stage-and-swap the Update button uses. It is how the swap and
+                // its rollback are proved without publishing a release (scripts/verify-update.ps1).
+                var file = args.Skip(1).FirstOrDefault(arg => !arg.StartsWith("--", StringComparison.Ordinal));
+                if (file is null) { Console.Error.WriteLine("Use --install-update <TexasRevolutionSetup.exe or update .zip> [--no-restart]."); return 2; }
+                if ((await server.StatusAsync()).Running || await server.SoloRunningAsync())
+                {
+                    Console.WriteLine("refused: stop the class (and any solo playtest) first");
+                    return 3;
+                }
+                var progress = new Progress<(int Percent, string What)>(_ => { });
+                try
+                {
+                    var payload = await new Updater().StageLocalAsync(Path.GetFullPath(file), progress, CancellationToken.None);
+                    Console.WriteLine($"staged release={UpdateSwap.ReleaseOf(payload) ?? "(none)"}");
+                    Updater.Install(payload, progress);
+                    Console.WriteLine($"installed release={AppPaths.InstalledRelease ?? "(none)"}");
+                    if (!args.Contains("--no-restart", StringComparer.OrdinalIgnoreCase)) Updater.Restart();
+                    return 0;
+                }
+                catch (Exception error)
+                {
+                    Console.WriteLine($"update failed, previous version kept: {error.Message}");
+                    return 1;
+                }
+            }
             case "status":
             {
                 var status = await server.StatusAsync();
@@ -135,7 +193,7 @@ internal static class Program
                 return 0;
             }
             default:
-                Console.Error.WriteLine("Use --status, --start, --stop, --check-updates or --uninstall, or open it with no arguments for the window. A setup copy also takes --install [folder] [--desktop] and --extract [folder].");
+                Console.Error.WriteLine("Use --status, --start, --stop, --solo, --stop-solo, --check-updates, --install-update <file> or --uninstall, or open it with no arguments for the window. A setup copy also takes --install [folder] [--desktop] and --extract [folder].");
                 return 2;
         }
     }

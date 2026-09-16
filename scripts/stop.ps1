@@ -6,6 +6,8 @@
 [CmdletBinding()]
 param(
     [switch]$NoDialog,
+    # Stop the Solo Mode playtest server instead of the class (docs/DEPLOYMENT.md).
+    [switch]$Solo,
     [ValidateRange(2, 120)][int]$TimeoutSeconds = 20
 )
 
@@ -29,7 +31,9 @@ try {
         if ($null -eq $command) { throw 'The Node runtime is missing, so this script cannot find the class data folder.' }
         $nodePath = $command.Source
     }
-    $infoText = (& $nodePath (Join-Path $rootPath 'scripts\appinfo.mjs')) -join ''
+    $infoArguments = @((Join-Path $rootPath 'scripts\appinfo.mjs'))
+    if ($Solo) { $infoArguments += '--solo' }
+    $infoText = (& $nodePath @infoArguments) -join ''
     if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($infoText)) { throw 'Could not read the application data location.' }
     $info = $infoText | ConvertFrom-Json
     $dataPath = [string]$info.dataDir

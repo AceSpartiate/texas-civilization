@@ -106,7 +106,7 @@ async function body(req) {
  */
 export const PACES = Object.freeze({ study: 9500, brisk: 4000, quick: 1000 });
 
-export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tickMs = 200, savePath, joinUrls = [], worldFactory = createWorld, onStopRequested = null, stopDelayMs = 250 } = {}) {
+export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tickMs = 200, savePath, joinUrls = [], worldFactory = createWorld, onStopRequested = null, stopDelayMs = 250, solo = false } = {}) {
   if (!Number.isInteger(playerCount) || playerCount < 5 || playerCount > 30) throw new Error('Class size must be 5–30');
   if (!Number.isInteger(tickMs) || tickMs < 10 || tickMs > 10000) throw new Error('Tick interval must be 10–10000 milliseconds');
   /**
@@ -231,8 +231,53 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     setTimeout(() => { try { onStopRequested?.(); } catch (error) { console.error('Stop request failed:', error.message); } }, stopDelayMs).unref();
     return true;
   }
+  /**
+   * Solo Mode: a class of one, for the owner to playtest without running a lesson.
+   *
+   * One call throws away whatever solo game there was, deals a new world, joins one player,
+   * rolls that family and starts the class - the join form, the class code and the Host's
+   * Start press all skipped. Every other household is an automatic neighbour, exactly as in a
+   * class where nobody joined them. The player is handed over through a one-use ticket rather
+   * than a credential in a URL, because a browser only takes a cookie from a response.
+   *
+   * It exists only on a classroom created with `solo: true`, which `server/main.mjs --solo`
+   * binds to loopback and keeps in its own save (`soloPaths` in server/deployment.mjs), so a
+   * teacher's real class is never the one discarded here.
+   *
+   * ceiling: a fresh game on every call and no archive of the last one; a solo save is a
+   * scratch pad. "Continue the last solo game" is a reopen of the same save if it is ever wanted.
+   */
+  const SOLO_TICKET_MS = 120000;
+  const soloTickets = new Map();
+  function newSoloGame(name = 'Solo player') {
+    if (!solo) throw new Error('This is not a solo playtest server.');
+    if (lifecycle) throw new Error('This server is stopping.');
+    const credential = token(), identity = { name, householdId: 'hh-1', commands: [] };
+    commit(s => {
+      s.sessionId = token().slice(0, 12);
+      s.sessionCode = randomBytes(3).toString('hex').toUpperCase();
+      s.hostCommands = [];
+      s.world = worldFactory(token().slice(0, 16), s.world.playerCount);
+      s.clients = { [hash(credential)]: identity };
+      markPlayed(s.world, identity.householdId);
+      // Rolled as Start rolls a joined family that never rolled (docs/FAMILY_CREATION.md).
+      const household = s.world.households[identity.householdId];
+      if (household && rollRefusal(s.world, household) === null) rollFamily(s.world, household);
+      s.world.status = 'running';
+    });
+    // The last game's pages belong to a session that no longer exists.
+    for (const stream of [...streams]) { streams.delete(stream); stream.res.end(); }
+    // ceiling: one outstanding ticket at a time - a second new game voids the first's link.
+    soloTickets.clear();
+    const ticket = token();
+    soloTickets.set(ticket, { credential, at: Date.now() });
+    return { ticket, path: `/solo/enter?ticket=${ticket}`, householdId: identity.householdId, sessionId: state.sessionId };
+  }
+  const loopback = address => address === '127.0.0.1' || address === '::1' || address === '::ffff:127.0.0.1';
   const server = http.createServer(async (req, res) => {
     try {
+      // A solo server is bound to loopback; this is the second lock on the same door.
+      if (solo && !loopback(req.socket.remoteAddress)) return json(res, 403, { error: 'A solo playtest server answers only this computer.' });
       const url = new URL(req.url, `http://${req.headers.host}`);
       res.setHeader('X-Content-Type-Options', 'nosniff');
       res.setHeader('Referrer-Policy', 'no-referrer');
@@ -256,7 +301,16 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       // it is the address a student types, and anybody asking this question has already
       // reached the server to ask it. The alternative was a second copy of the interface
       // filtering in the launcher, drifting away from `joinCandidates` over time.
-      if (req.method === 'GET' && url.pathname === '/health') return json(res, 200, { ok: true, application: 'texas-revolution-foundation', pid: process.pid, launchId: process.env.TEXAS_LAUNCH_ID || null, maturity: 'PROTOTYPE', stopping: Boolean(lifecycle), canStop: Boolean(onStopRequested), joinUrls });
+      if (req.method === 'GET' && url.pathname === '/health') return json(res, 200, { ok: true, application: 'texas-revolution-foundation', pid: process.pid, launchId: process.env.TEXAS_LAUNCH_ID || null, maturity: 'PROTOTYPE', stopping: Boolean(lifecycle), canStop: Boolean(onStopRequested), solo: Boolean(solo), joinUrls });
+      // The ticket from `newSoloGame` becomes the player's cookie, once, and the page opens joined.
+      if (solo && req.method === 'GET' && url.pathname === '/solo/enter') {
+        const ticket = url.searchParams.get('ticket') || '';
+        const entry = soloTickets.get(ticket);
+        soloTickets.delete(ticket);
+        if (!entry || Date.now() - entry.at > SOLO_TICKET_MS) return json(res, 403, { error: 'That solo link has been used or has expired. Press Play solo again.' });
+        res.writeHead(303, { 'Set-Cookie': setCookie(studentCookie(), entry.credential, 604800), Location: '/', 'Cache-Control': 'no-store' });
+        return res.end();
+      }
       if (req.method === 'POST') {
         if (req.headers.origin && req.headers.origin !== `http://${req.headers.host}`) return json(res, 403, { error: 'Same-origin requests only' });
         if (!req.headers['content-type']?.startsWith('application/json')) return json(res, 415, { error: 'JSON required' });
@@ -266,6 +320,13 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         if (!equal(input.key, state.hostKey)) return json(res, 403, { error: 'Host key required. Open Host using the launcher.' });
         res.setHeader('Set-Cookie', setCookie(hostCookie(), state.hostKey, 604800));
         return json(res, 200, { ok: true });
+      }
+      // A new solo game, asked for with the Host key the solo server wrote to its own data folder.
+      if (solo && req.method === 'POST' && url.pathname === '/api/solo') {
+        const input = await body(req);
+        if (!equal(input.key, state.hostKey)) return json(res, 403, { error: 'Host key required.' });
+        const game = newSoloGame(typeof input.name === 'string' && input.name.trim() ? input.name.trim().slice(0, 40) : undefined);
+        return json(res, 200, { playUrl: `http://127.0.0.1:${server.address().port}${game.path}`, householdId: game.householdId, sessionId: game.sessionId });
       }
       if (req.method === 'POST' && url.pathname === '/api/join') {
         const input = await body(req);
@@ -492,7 +553,10 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     requestStop,
     setPace,
     get pace() { return pace; },
+    newSoloGame,
     async listen(port = 0, bind = '0.0.0.0') {
+      // Whatever it is asked for, a solo server never listens beyond this computer.
+      if (solo) bind = '127.0.0.1';
       try { await new Promise((resolve, reject) => { server.once('error', reject); server.listen(port, bind, resolve); }); return server.address().port; }
       catch (error) { clearInterval(timer); lease.release(); throw error; }
     },

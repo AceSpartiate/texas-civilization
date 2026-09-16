@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start": "node server/main.mjs",
+    "solo": "node scripts/solo.mjs",
     "test": "node --test",
     "build:art": "node scripts/build-atlas-manifest.mjs",
     "test:art": "node scripts/art-browser-proof.mjs",
@@ -35,6 +36,7 @@
     "test:host-view": "node scripts/host-view-browser-proof.mjs",
     "test:towns": "node scripts/towns-browser-proof.mjs",
     "test:storming": "node scripts/storming-browser-proof.mjs",
-    "test:interior": "node scripts/interior-browser-proof.mjs"
+    "test:interior": "node scripts/interior-browser-proof.mjs",
+    "test:solo": "node scripts/solo-browser-proof.mjs"
   }
 }

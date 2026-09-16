@@ -32,6 +32,26 @@ export function resolveDataDir({ env = process.env, root = appRoot() } = {}) {
 // SAVE_PATH stays an absolute developer override; it does not move the rest of the data folder.
 export const resolveSavePath = (dataDir, env = process.env) => env.SAVE_PATH ? resolve(env.SAVE_PATH) : join(dataDir, 'classroom.json');
 
+/**
+ * Where Solo Mode keeps its class, and which port it answers on.
+ *
+ * A folder of its own inside the class data folder, so a playtest has its own save, save
+ * lock, Host key file and launcher record and can run beside a real class without either
+ * touching the other. The port is its own for the same reason: of the two choices, leaving a
+ * running class alone is less disruptive than asking a teacher to stop it first.
+ *
+ * `SAVE_PATH` and `PORT` are deliberately not read. Both are overrides for the real class,
+ * and a solo game honouring them would be a solo game written over a teacher's save.
+ */
+export const SOLO_PORT = 1836;
+export function soloPaths({ env = process.env, root = appRoot() } = {}) {
+  const dir = join(resolveDataDir({ env, root }).dir, 'solo');
+  if (!writableDir(dir)) throw new Error(`The solo playtest folder is not writable: ${dir}`);
+  const port = Number(env.SOLO_PORT || SOLO_PORT);
+  if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('SOLO_PORT must be a port number.');
+  return { dir, savePath: join(dir, 'classroom.json'), port };
+}
+
 // Interface enumeration only ranks candidates. It cannot establish that another
 // device can reach any of them; that is the physical-device deployment check.
 export function joinCandidates(port) {

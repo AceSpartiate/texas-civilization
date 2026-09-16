@@ -54,13 +54,14 @@ public static class AppPaths
     }
 
     /// <summary>Ask the server's own code where the data folder and port are.</summary>
-    public static AppInfo? Resolve()
+    /// <param name="solo">Solo Mode's own folder and port rather than the class's.</param>
+    public static AppInfo? Resolve(bool solo = false)
     {
         var node = NodePath();
         if (node is null) return null;
         try
         {
-            var start = new ProcessStartInfo(node, $"\"{Path.Combine(Scripts, "appinfo.mjs")}\"")
+            var start = new ProcessStartInfo(node, $"\"{Path.Combine(Scripts, "appinfo.mjs")}\"{(solo ? " --solo" : "")}")
             {
                 WorkingDirectory = Root,
                 RedirectStandardOutput = true,

@@ -31,6 +31,8 @@ public sealed class LauncherForm : Form
     private readonly Button _copyCode = Secondary("Copy the class code");
     private readonly Button _copyJoin = Secondary("Copy the join address");
     private readonly Button _updates = Secondary("Check for updates");
+    // Solo Mode: the owner playtesting, not a class. It never touches the class above it.
+    private readonly Button _solo = Secondary("Play solo (playtest)");
     private readonly ProgressBar _progress = new() { Dock = DockStyle.Top, Height = 14, Visible = false, Style = ProgressBarStyle.Continuous, Maximum = 100 };
     private readonly Label _notice = new() { Dock = DockStyle.Fill, ForeColor = Color.FromArgb(214, 190, 140) };
 
@@ -39,13 +41,17 @@ public sealed class LauncherForm : Form
     private ReleaseInfo? _available;
     private bool _busy;
     private TeacherWindow? _classView;
+    private TeacherWindow? _soloView;
+    private TeacherWindow? _soloHostView;
+    private bool _soloBusy;
+    private bool _soloStarted;
 
     public LauncherForm()
     {
         Text = "Texas Revolution";
         Branding.Apply(this);
         StartPosition = FormStartPosition.CenterScreen;
-        ClientSize = new Size(460, 540);
+        ClientSize = new Size(460, 580);
         FormBorderStyle = FormBorderStyle.FixedSingle;
         MaximizeBox = false;
         BackColor = Color.FromArgb(38, 48, 42);
@@ -66,12 +72,14 @@ public sealed class LauncherForm : Form
         _copyCode.Click += (_, _) => CopyToClipboard(_status.ClassCode, "class code");
         _copyJoin.Click += (_, _) => CopyToClipboard(_status.PrimaryJoinUrl, "join address");
         _updates.Click += async (_, _) => await UpdatesClickedAsync();
+        _solo.Click += async (_, _) => await PlaySoloAsync();
+        _solo.BackColor = Color.FromArgb(62, 58, 76);
 
         // Dock=Top stacks in reverse of the order added, so this list reads bottom-up. The
         // notice fills whatever is left, which is what keeps a long message from pushing a
         // button off the window the way the first version of this did.
         Controls.Add(_notice);
-        foreach (var control in new Control[] { _progress, _updates, _copyJoin, _copyCode, _openPlayer, _showClass, _power, _join, _code, _state, _release, _title })
+        foreach (var control in new Control[] { _progress, _updates, _solo, _copyJoin, _copyCode, _openPlayer, _showClass, _power, _join, _code, _state, _release, _title })
             Controls.Add(control);
 
         _poll.Tick += async (_, _) => await RefreshAsync();
@@ -84,7 +92,85 @@ public sealed class LauncherForm : Form
             // lesson should not be interrupted, so a failure here says nothing at all.
             await LookForUpdateAsync(announce: false);
         };
-        FormClosing += (_, _) => _poll.Stop();
+        FormClosing += (_, _) =>
+        {
+            _poll.Stop();
+            // A playtest server this window started goes with it, through the same graceful
+            // stop as a class. Not awaited: the script outlives the window, and a solo game is
+            // a scratch pad with nothing in it worth holding the window open for.
+            if (_soloStarted) _ = _server.StopSoloAsync();
+        };
+    }
+
+    /// <summary>
+    /// Solo Mode: one click from here to playing, for the owner testing the game.
+    /// </summary>
+    /// <remarks>
+    /// Starts the solo server if it is not running (its own folder, its own save, its own port,
+    /// this computer only - a running class is left exactly as it is), deals a new game with one
+    /// player already joined, rolled and started, and opens that player's page in a window of
+    /// its own. The window has a button for the solo class view, to inspect what the Host sees,
+    /// and one for another new game.
+    /// </remarks>
+    private async Task PlaySoloAsync()
+    {
+        if (_soloBusy) return;
+        _soloBusy = true;
+        _solo.Enabled = false;
+        try
+        {
+            Say("Starting a solo game…");
+            // Only a server this window started is stopped when it closes; one already running
+            // (say, from `npm run solo` in a terminal) belongs to whoever started it.
+            var wasRunning = await _server.SoloRunningAsync();
+            var (ok, output) = await _server.StartSoloAsync();
+            if (!ok) { Say(string.IsNullOrWhiteSpace(output) ? "The solo server did not start, and said nothing about why." : output); return; }
+            if (!wasRunning) _soloStarted = true;
+            var (play, host, error) = await _server.NewSoloGameAsync();
+            if (play is null) { Say($"The solo server started but would not deal a game. {error}"); return; }
+            if (_soloView is { IsDisposed: false })
+            {
+                _soloView.Navigate(play);
+                _soloView.Activate();
+            }
+            else
+            {
+                _soloView = new TeacherWindow(play, "Texas Revolution — solo playtest", developer: true,
+                    ("Class view", _ => ShowSoloHost(host)),
+                    ("New solo game", window => _ = NewSoloGameInAsync(window)));
+                _soloView.FormClosed += (_, _) => _soloView = null;
+                _soloView.Show();
+            }
+            Say("Solo game running: one family joined and the class started. Nobody else can reach it.");
+        }
+        finally
+        {
+            _soloBusy = false;
+            _solo.Enabled = true;
+        }
+    }
+
+    private void ShowSoloHost(string? hostUrl)
+    {
+        if (hostUrl is null) { Say("The solo server has not written its Host address yet."); return; }
+        if (_soloHostView is { IsDisposed: false })
+        {
+            // A new game rotates the session, so the class view is reopened rather than shown stale.
+            _soloHostView.Navigate(hostUrl);
+            _soloHostView.Activate();
+            return;
+        }
+        _soloHostView = new TeacherWindow(hostUrl, "Texas Revolution — solo class view", developer: true);
+        _soloHostView.FormClosed += (_, _) => _soloHostView = null;
+        _soloHostView.Show();
+    }
+
+    private async Task NewSoloGameInAsync(TeacherWindow window)
+    {
+        var (play, host, error) = await _server.NewSoloGameAsync();
+        if (play is null) { Say($"No new solo game: {error}"); return; }
+        window.Navigate(play);
+        if (_soloHostView is { IsDisposed: false } && host is not null) _soloHostView.Navigate(host);
     }
 
     /// <summary>
@@ -244,7 +330,7 @@ public sealed class LauncherForm : Form
                 "Texas Revolution", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) != DialogResult.OK) return;
 
         _busy = true;
-        foreach (var button in new[] { _power, _updates, _showClass, _openPlayer, _copyJoin }) button.Enabled = false;
+        foreach (var button in new[] { _power, _updates, _showClass, _openPlayer, _copyJoin, _solo }) button.Enabled = false;
         _progress.Visible = true;
         _progress.Value = 0;
         var progress = new Progress<(int Percent, string What)>(step =>
@@ -255,17 +341,28 @@ public sealed class LauncherForm : Form
         try
         {
             var payload = await _updater.StageAsync(release, progress, CancellationToken.None);
-            Say("Installing. Texas Revolution will reopen by itself.");
-            Updater.InstallAndRestart(payload);
+            // Nothing may be running out of this folder while it is replaced: no playtest server,
+            // and no status check starting the bundled node every second and a half.
             _poll.Stop();
+            if (await _server.SoloRunningAsync())
+            {
+                Say("Stopping the solo playtest first…");
+                await _server.StopSoloAsync();
+                _soloStarted = false;
+            }
+            Say("Installing…");
+            await Task.Run(() => Updater.Install(payload, progress));
+            Say("Installed. Texas Revolution is reopening.");
+            Updater.Restart();
             Close();
         }
         catch (Exception error)
         {
             _progress.Visible = false;
-            Say($"The update did not finish, and nothing was replaced. {error.Message}");
-            foreach (var button in new[] { _power, _updates }) button.Enabled = true;
+            Say($"The update did not finish, and the version you had is still installed. {error.Message}");
+            foreach (var button in new[] { _power, _updates, _solo }) button.Enabled = true;
             _busy = false;
+            _poll.Start();
             await RefreshAsync();
         }
     }
