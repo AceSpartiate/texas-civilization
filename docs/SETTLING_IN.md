@@ -250,6 +250,26 @@ choice made inside a visible risk. The hidden stats stay hidden; the house's own
 
 ---
 
+### 6.1 As built: furniture and the carpenter (2026-09-16)
+
+`sim/furniture.mjs`; the chores `make-furniture` and `buy-furniture` and the asks `furniture-make` and `carpenter-counter` in `sim/chores.mjs`; carpenters in `sim/town.mjs`; claim `FIC-GONZ-037`. Tests `tests/furniture.test.mjs` (five, sixteen injected regressions each caught); browser proof `npm run test:furniture` ([record](evidence/furniture-browser.json)).
+
+| Piece | Made with | Work | Bought for | Does, under a roof |
+| --- | --- | --- | --- | --- |
+| Bedstead | axe, auger | 8 spells | 3 reales or 6 food | rest at home mends a tenth faster |
+| Table | axe, auger | 6 | 2 reales or 4 food | the family eats a twentieth less |
+| Benches | axe | 3 | 1 real or 2 food | rest at home mends a twentieth faster |
+| Shelves | axe, auger | 3 | 1 real or 2 food | food spoils a third less |
+| Cradle | axe | 4 | 1 real or 2 food | a parent does heavy work at home at full pace with a baby (under two) at home; **without one, a quarter slower**, and the work says *with the baby to mind* |
+
+- **Making** starts at home and asks which piece, each option stating what it does and its work, or why it cannot be made (no auger, already have one). Then a trip to the family's timber for a small tree, two spells felling and splitting, the walk home, and the making, paced by `hands`. Nobody answering makes the cheapest piece the family can.
+- **Buying** is a trip to the family's own town, the carpenter's counter, and a choice of piece and of coin or food, refused in words when the house cannot pay. Coin paid is in the ending's coin account.
+- **Carpenters** are invented residents (`FIC-GONZ-009`'s terms): Anselmo Lozano in Gonzales, and one at every settlement a family lives near on the real map. A class saved before has none, and the trip says so.
+- **One of each**, stored as `household.furniture`; absent is none, so nothing changes for an old class and no save version moved. The work is not offered while the family is still on the road in, or once it has every piece. The family book lists what it has.
+- **The cradle's other half is new**: before this nothing slowed a parent with a baby. It slows only heavy work at home, and says so on the work.
+
+`ceiling:` the small tree for a piece is not taken from the woods grid on the real land. `ceiling:` nobody but a cradle minds the baby — an older child or the other parent idle at home does not yet count. The furniture art (`home-furnishings`) is delivered and waits for the interior view (step 7).
+
 ## 7. What the parents look like, and the children after them
 
 - **After the roll, the student chooses each parent's appearance**: skin tone from a range, hair colour,
@@ -291,7 +311,7 @@ Each step is shippable and provable alone.
 3. ~~**The wagon load.**~~ **Done 2026-09-13.** Choosing in the lobby, the default, items becoming stores, tools and belongings.
 4. ~~**Houses.**~~ **Done 2026-09-13.** The four layouts with needs, benefits and problems, built as chores, with stand-in art.
 5. ~~**The house-raising.**~~ **Done 2026-09-13.** Neighbours standing on the land helping raise the walls.
-6. **Furniture and the carpenter.** Made at home or bought in Gonzales; effects on the same hooks.
+6. ~~**Furniture and the carpenter.** Made at home or bought in Gonzales; effects on the same hooks.~~ **Done 2026-09-16** (§6.1).
 7. **The interior view and decoration.**
 8. ~~**Parent appearance and inherited children**, with the stand-in and the art request.~~ **Done 2026-09-16** (§7.1).
 

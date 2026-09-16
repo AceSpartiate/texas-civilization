@@ -34,6 +34,7 @@ import { choosing, cutLaneSpell, digWell, lanePoint, laneRefusal, laneState, wat
 import { huntingPlace, huntRefusal, placeWord, stillTicks } from './hunting.mjs';
 import { fellRefusal, fellTicks, fellTree, logsLying, nextTree, recordFelling, stackLogs, takeUpLogs } from './felling.mjs';
 import { KINDS, woodsRule } from './woods.mjs';
+import { BABY_BURDEN, FURNITURE, PIECES, buyRefusal, furnish, makeRefusal, mindingBaby, wanting } from './furniture.mjs';
 import { SPELL_TICKS, buildRefusal, buildSpell, helpRefusal, hostOf, houseBuilt, houseSettled, raising, recordHelpBegun, recordHelpDone, stageOf } from './houses.mjs';
 export { MODES } from './travel.mjs';
 
@@ -140,7 +141,7 @@ export function askAvailability(world, household, entity, optionId) {
     return { can: false, why: 'There is no powder and lead in the house.' };
   }
   for (const needs of [].concat(ASKS[entity.chore?.ask?.id]?.requires?.[optionId] || [])) {
-    if (!needs.test(household, world, entity)) return { can: false, why: needs.why };
+    if (!needs.test(household, world, entity)) return { can: false, why: typeof needs.why === 'function' ? needs.why(household, world, entity) : needs.why };
   }
   return { can: true, why: '' };
 }
@@ -209,6 +210,31 @@ export const ASKS = {
       food: { test: household => (household.resources.food ?? 0) >= 3, why: 'There is not enough food to pay with.' },
       coin: { test: household => (household.resources.money ?? 0) >= COIN.seed, why: 'There is no coin in the house.' },
     },
+  },
+  // Furniture (sim/furniture.mjs, docs/SETTLING_IN.md §6): which piece to make, asked at home before the trip for timber.
+  'furniture-make': {
+    doing: 'deciding what to make',
+    fallback: ['shelves', 'benches', 'cradle', 'table', 'bedstead'],
+    text: entity => `What should ${entity.name} make? It means a trip to the timber for a small tree, and then the work of it.`,
+    options: () => [
+      ...PIECES.map(piece => ({ id: piece, label: `Make ${FURNITURE[piece].a}`, note: `${FURNITURE[piece].does} ${FURNITURE[piece].work} spells of work.` })),
+      { id: 'leave', label: 'Make nothing', note: 'Nothing spent' },
+    ],
+    requires: Object.fromEntries(PIECES.map(piece => [piece, { test: household => !makeRefusal(household, piece), why: household => makeRefusal(household, piece) }])),
+  },
+  // The carpenter's counter: a piece, paid for in coin or in food.
+  'carpenter-counter': {
+    doing: "at the carpenter's",
+    fallback: 'leave',
+    text: entity => `The carpenter has pieces made. ${entity.name} can pay in coin or in food.`,
+    options: () => [
+      ...PIECES.flatMap(piece => [
+        { id: `${piece}-coin`, label: `Buy ${FURNITURE[piece].a} for coin`, note: `${reales(FURNITURE[piece].coin)}. ${FURNITURE[piece].does}` },
+        { id: `${piece}-food`, label: `Buy ${FURNITURE[piece].a} for food`, note: `${FURNITURE[piece].food} food. ${FURNITURE[piece].does}` },
+      ]),
+      { id: 'leave', label: 'Buy nothing', note: 'Nothing spent' },
+    ],
+    requires: Object.fromEntries(PIECES.flatMap(piece => ['coin', 'food'].map(pay => [`${piece}-${pay}`, { test: household => !buyRefusal(household, piece, pay), why: household => buyRefusal(household, piece, pay) }]))),
   },
   shot: {
     doing: 'downwind, with the shot there to take',
@@ -489,6 +515,34 @@ export const CHORES = {
       { mend: 'hoe' },
     ],
   },
+  'make-furniture': {
+    name: 'Make furniture', skill: 'hands', where: 'home', furniture: 'make',
+    describe: 'Make a table, benches, a bedstead, shelves or a cradle from a small tree, with the tools the wagon brought. Each piece does one small thing once there is a roof over it.',
+    steps: [
+      { ask: 'furniture-make' },
+      { when: PIECES, travel: 'timber', doing: 'on the road to {cover} for a small tree' },
+      { when: PIECES, work: 2, doing: 'felling and splitting a small tree' },
+      { when: PIECES, travel: 'home', doing: 'carrying the timber home' },
+      ...PIECES.map(piece => ({ when: [piece], work: FURNITURE[piece].work, doing: `making ${FURNITURE[piece].a}` })),
+      ...PIECES.map(piece => ({ when: [piece], furnish: piece, how: 'made' })),
+    ],
+  },
+  'buy-furniture': {
+    name: 'Buy furniture from the carpenter', skill: 'hands', where: 'home', hauls: true, furniture: 'buy',
+    describe: 'The carpenter in town sells a table, benches, a bedstead, shelves or a cradle, for coin or for food. Each piece does one small thing once there is a roof over it.',
+    steps: [
+      { travel: 'town', doing: 'on the road to {town}' },
+      { work: 2, doing: "looking over the carpenter's pieces" },
+      { trade: 'furniture', doing: "at the carpenter's" },
+      { ask: 'carpenter-counter' },
+      ...PIECES.flatMap(piece => [
+        { when: [`${piece}-coin`], consume: { money: FURNITURE[piece].coin } },
+        { when: [`${piece}-food`], consume: { food: FURNITURE[piece].food } },
+        { when: [`${piece}-coin`, `${piece}-food`], furnish: piece, how: 'bought' },
+      ]),
+      { travel: 'home', doing: 'carrying it home from {town}' },
+    ],
+  },
   'replace-hoe': {
     name: 'Buy a hoe in town', skill: 'hands', where: 'home',
     needs: { money: COIN.hoe }, needsTool: 'worn',
@@ -691,6 +745,9 @@ export function choreAvailability(world, household, entity, choreId) {
   if (chore.well) { const why = wellRefusal(household); if (why) return { can: false, why }; }
   if (chore.survey && world.status === 'lobby') return { can: false, why: 'The family surveys its land once the class has begun.' };
   if (chore.huntLand && world.status === 'lobby') return { can: false, why: 'The family hunts its land once the class has begun.' };
+  if (chore.furniture && !wanting(household).length) return { can: false, why: 'The family has every piece of furniture it can use.' };
+  if (chore.furniture === 'make' && household.tools?.axe === undefined) return { can: false, why: 'Making furniture wants a felling axe, and there is none in the house.' };
+  if (chore.furniture === 'buy' && !Object.values(world.entities).some(one => one.deals?.includes('furniture'))) return { can: false, why: 'There is no carpenter in this country.' };
   if (chore.fells && household.tools?.axe === undefined) return { can: false, why: 'Felling wants an axe, and there is none in the house.' };
   if (chore.hauling && !logsLying(world, household).length) return { can: false, why: 'No felled logs lie out to haul.' };
   if (chore.lane) { const why = laneRefusal(world, household); if (why) return { can: false, why }; }
@@ -812,6 +869,8 @@ export function choresFor(world, household, entity) {
   const list = Object.entries(CHORES).filter(([id, chore]) => !(chore.house && settled) && !(chore.helps && !visiting) && !(chore.well && !wantsWell) && !(chore.lane && !wantsLane)
     && !(chore.plotWork && !wants[id])
     && !(chore.fells && !counted) && !(chore.hauling && !lying)
+    // Nor furniture while the family is still on the road in, or once it has every piece (sim/furniture.mjs).
+    && !(chore.furniture && (household.arriving || !wanting(household).length))
     // Nor survey or plot work before the class has begun, which would be a refusal for every person on every lobby tick.
     && !((chore.survey || chore.plotWork || chore.huntLand || chore.fells) && world.status === 'lobby')).map(([id, chore]) => {
     const { can, why } = choreAvailability(world, household, entity, id);
@@ -1099,7 +1158,10 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
     if (step.work) {
       const ticks = step.work === 'well' ? wellTicks(household) : step.stalk === 'still' && state.ground ? stillTicks(state.ground.game, step.work) : step.work;
       const burden = chore.heavy && chore.where === 'home' ? waterBurden(household) : 1;
-      state.wait = paceFor(ticks, skill, (chore.heavy ? heavyWorkPace(entity) : 1) * burden);
+      // A parent with a baby at home and no cradle does heavy work slower, and it says so (sim/furniture.mjs).
+      const baby = chore.heavy && chore.where === 'home' && entity.location.siteId === household.homeSiteId && mindingBaby(world, household, entity) ? BABY_BURDEN : 1;
+      if (baby > 1 && state.doing && !state.doing.includes('the baby')) state.doing = `${state.doing}, with the baby to mind`;
+      state.wait = paceFor(ticks, skill, (chore.heavy ? heavyWorkPace(entity) : 1) * burden * baby);
       return;
     }
     if (step.consume) {
@@ -1363,6 +1425,15 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       continue;
     }
     if (step.mend) { household.tools[step.mend] = 0; continue; }
+    if (step.furnish) {
+      furnish(household, step.furnish, step.how);
+      const kind = FURNITURE[step.furnish];
+      record(world, 'property', {
+        actorId: entity.id, householdId: household.id, importance: 2,
+        text: step.how === 'made' ? `${entity.name} made ${kind.a}. ${kind.does}` : `${entity.name} bought ${kind.a} from ${state.tradedWith || 'the carpenter'}. ${kind.does}`,
+      });
+      continue;
+    }
   }
 }
 

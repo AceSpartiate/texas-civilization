@@ -1,0 +1,104 @@
+// Furniture, in a real browser: docs/SETTLING_IN.md §6, build step 6.
+//
+// tests/furniture.test.mjs proves the rules. This proves a student can do it with the controls they
+// have: the Make furniture icon on a person's row of the family panel, the question the work stops to
+// ask with every piece saying what it does, the choice, the trip to the timber and back, and the
+// piece in the family's book at the end.
+//
+// Run: npm run test:furniture
+import assert from 'node:assert/strict';
+import { createRequire } from 'node:module';
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { createClassroom } from '../server/app.mjs';
+import { createSettledWorld, keepFoundingFamilies } from '../tests/support/settled.mjs';
+
+const require = createRequire(import.meta.url);
+const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
+
+const pass = [];
+const ok = label => { pass.push(label); console.log('PASS', label); };
+const observed = {};
+
+const app = createClassroom({ seed: 'furniture-proof', playerCount: 5, tickMs: 200, worldFactory: (seed, count) => keepFoundingFamilies(createSettledWorld(seed, count)) });
+const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
+const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
+const errors = [];
+const post = async (path, body, cookie) => {
+  const response = await fetch(url + path, { method: 'POST', headers: { 'Content-Type': 'application/json', ...(cookie && { Cookie: cookie }) }, body: JSON.stringify(body) });
+  assert.equal(response.status, 200, `${path}: ${response.status}`);
+  return response;
+};
+
+try {
+  const host = await post('/api/host', { key: app.state.hostKey });
+  const hostCookie = host.headers.get('set-cookie').split(';')[0];
+  const page = await (await browser.newContext({ viewport: { width: 1440, height: 950 } })).newPage();
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto(url);
+  await page.locator('[name=name]').fill('Furniture reader');
+  await page.locator('[name=code]').fill(app.state.sessionCode);
+  await page.getByRole('button', { name: 'Join', exact: true }).click();
+  await page.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
+  for (let i = 2; i <= 5; i++) await post('/api/join', { name: `Reader ${i}`, code: app.state.sessionCode });
+  await post('/api/command', { id: `proof-start-${crypto.randomUUID()}`, action: 'start' }, hostCookie);
+  await page.waitForFunction(() => window.__snapshot?.world.status === 'running');
+
+  // The icon, with its sentence.
+  const worker = 'hh-1-elena';
+  const icon = page.locator(`.panel-row[data-entity-id="${worker}"] .panel-icon[data-key="make-furniture"]`);
+  await icon.waitFor({ state: 'visible' });
+  observed.icon = `${await icon.getAttribute('data-name')}: ${await icon.getAttribute('data-summary') || ''}`;
+  await icon.click();
+  ok(`the family panel offers the work: ${observed.icon}`);
+
+  // The question, with every piece saying what it does.
+  await page.waitForFunction(id => window.__snapshot?.world.entities.find(e => e.id === id)?.chore?.ask, worker, { timeout: 30000 });
+  await page.locator(`.panel-row[data-entity-id="${worker}"] .panel-portrait`).click();
+  await page.locator('#selection-work button[data-action=answer-chore]').first().waitFor({ state: 'visible' });
+  const options = await page.locator('#selection-work button[data-action=answer-chore]').evaluateAll(buttons =>
+    buttons.map(button => ({ option: button.dataset.option, label: button.querySelector('.work-name')?.textContent, note: button.querySelector('.work-note')?.textContent, disabled: button.disabled })));
+  observed.options = options;
+  assert.deepEqual(options.map(o => o.option), ['bedstead', 'table', 'benches', 'shelves', 'cradle', 'leave']);
+  // A piece the family can make says what it does and what it costs; one it cannot says why not.
+  for (const o of options.filter(o => o.option !== 'leave')) assert.match(o.note, o.disabled ? /wants|already/ : /spells of work/, `${o.option} says neither what it costs nor why not: "${o.note}"`);
+  assert.ok(options.some(o => o.option !== 'leave' && !o.disabled), 'nothing could be made');
+  ok(`the work asks which piece, and each says what it does: ${options.map(o => `${o.label} (${o.note})`).join('; ')}`);
+
+  const chosen = options.find(o => o.option === 'benches' && !o.disabled) ? 'benches' : options.find(o => !o.disabled && o.option !== 'leave').option;
+  await page.locator(`#selection-work button[data-action=answer-chore][data-option="${chosen}"]`).click();
+  let left = false;
+  await page.waitForFunction(([id, piece]) => {
+    const world = window.__snapshot?.world;
+    const person = world?.entities.find(e => e.id === id);
+    if (person && person.location.siteId !== world.household.homeSiteId) window.__leftForTimber = true;
+    return world?.household.furniture?.[piece];
+  }, [worker, chosen], { timeout: 120000, polling: 100 });
+  left = await page.evaluate(() => Boolean(window.__leftForTimber));
+  assert.ok(left, 'the piece was made without anybody leaving the land for timber');
+  ok(`${chosen} made, after a trip off the land for timber`);
+
+  await page.locator('#journal-toggle').click();
+  const line = page.locator('#property li[data-furniture="true"]');
+  await line.waitFor({ state: 'visible' });
+  observed.book = await line.textContent();
+  assert.match(observed.book, new RegExp(`${chosen} \\(made\\)`));
+  ok(`the family book lists it: "${observed.book}"`);
+
+  mkdirSync('test-results', { recursive: true });
+  await page.screenshot({ path: 'test-results/furniture-book.png' });
+  assert.deepEqual(errors, [], `the page threw: ${errors.join(' | ')}`);
+  ok('no page errors');
+
+  writeFileSync('docs/evidence/furniture-browser.json', `${JSON.stringify({
+    record: 'Furniture, in a browser: docs/SETTLING_IN.md build step 6',
+    date: new Date().toISOString().slice(0, 10),
+    verdict: 'PASS',
+    note: 'Same computer only. A student started Make furniture from the family panel, chose a piece at the question, watched the trip to the timber and back, and found the piece in the family book. Buying from the carpenter is proved in tests/furniture.test.mjs. No LAN or district claim.',
+    checks: pass,
+    observed,
+  }, null, 2)}\n`);
+  console.log(`\n${pass.length} checks passed.`);
+} finally {
+  await browser.close();
+  await app.close();
+}

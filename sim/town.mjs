@@ -51,6 +51,13 @@ export const RESIDENTS = [
     round: [{ x: .18, y: .08 }, { x: .24, y: -.02 }, { x: .12, y: .12 }],
   },
   {
+    // The carpenter (docs/SETTLING_IN.md §6): a table, benches, a bedstead, shelves or a cradle, for coin or food.
+    // Invented, like everybody here (FIC-GONZ-009); 1835 Gonzales had some thirty-odd buildings, and no named carpenter was found.
+    id: 'town-carpenter', name: 'Anselmo Lozano', trade: 'furniture',
+    about: 'is the carpenter: tables, benches, bedsteads, shelves and cradles, for coin or for food',
+    round: [{ x: .08, y: -.14 }, { x: .14, y: -.06 }, { x: .02, y: -.10 }],
+  },
+  {
     id: 'town-crandall', name: 'Ruth Crandall', trade: null,
     about: 'is usually somewhere on the commons',
     round: [{ x: .02, y: .16 }, { x: -.08, y: .20 }, { x: .10, y: .18 }, { x: 0, y: .10 }],
@@ -74,6 +81,16 @@ export const STOREKEEPERS = Object.freeze({
   victoria: { name: 'Inés Cárdenas', pronoun: 'she', round: [{ x: .14, y: -.06 }, { x: .04, y: .04 }, { x: .18, y: .08 }] },
 });
 
+/** A carpenter at every other settlement a family lives near, on the real map. Invented people, FIC-GONZ-009. */
+export const CARPENTERS = Object.freeze({
+  'san-felipe': { name: 'Ezekiel Marsh', round: [{ x: .10, y: -.12 }, { x: .16, y: -.04 }] },
+  columbia: { name: 'Pablo Garza', round: [{ x: -.10, y: .12 }, { x: -.16, y: .04 }] },
+  matagorda: { name: 'Nathaniel Toombs', round: [{ x: .12, y: .10 }, { x: .06, y: .16 }] },
+  mina: { name: 'Gideon Ashby', round: [{ x: -.12, y: -.08 }, { x: -.06, y: -.14 }] },
+  liberty: { name: 'Juan Manuel Rosales', round: [{ x: .12, y: .08 }, { x: .18, y: .02 }] },
+  victoria: { name: 'Absalom Grier', round: [{ x: -.14, y: .08 }, { x: -.08, y: .14 }] },
+});
+
 /** Put the residents in the town. Called once, when the world is built. */
 export function createTownspeople(world) {
   // On the real map, a store in every other settlement a family lives near, with a purse for the families near it.
@@ -88,6 +105,19 @@ export function createTownspeople(world) {
       deals: ['seed', 'powder', 'cotton', 'food', 'iron'], purse: STORE_PURSE_PER_FAMILY * families, townSiteId: settlementId,
       about: `keeps the store at ${place.name}: seed, powder and lead, ironware, and ${keeper.pronoun} buys cotton`,
       location: { x: round(place.x + keeper.round[0].x), y: round(place.y + keeper.round[0].y), siteId: settlementId },
+      travel: null, health: { condition: 'well' }, task: 'work',
+    };
+  }
+  for (const [settlementId, carpenter] of Object.entries(CARPENTERS)) {
+    const families = near.filter(site => site.settlementId === settlementId).length;
+    const place = world.map.sites[settlementId];
+    if (!families || !place) continue;
+    const id = `town-carpenter-${settlementId}`;
+    world.entities[id] = {
+      id, name: carpenter.name, kind: 'person', householdId: null, depth: 'moderate', principal: false, resident: 'furniture',
+      deals: ['furniture'], townSiteId: settlementId,
+      about: `is the carpenter at ${place.name}: tables, benches, bedsteads, shelves and cradles, for coin or for food`,
+      location: { x: round(place.x + carpenter.round[0].x), y: round(place.y + carpenter.round[0].y), siteId: settlementId },
       travel: null, health: { condition: 'well' }, task: 'work',
     };
   }
@@ -129,6 +159,12 @@ export function advanceTown(world) {
     const entity = world.entities[`town-store-${settlementId}`], place = world.map.sites[settlementId];
     if (!entity || entity.travel || !place) continue;
     const spot = keeper.round[Math.floor(world.tick / 3 + entity.id.length) % keeper.round.length];
+    entity.location = { x: round(place.x + spot.x), y: round(place.y + spot.y), siteId: settlementId };
+  }
+  for (const [settlementId, carpenter] of Object.entries(CARPENTERS)) {
+    const entity = world.entities[`town-carpenter-${settlementId}`], place = world.map.sites[settlementId];
+    if (!entity || entity.travel || !place) continue;
+    const spot = carpenter.round[Math.floor(world.tick / 3 + entity.id.length) % carpenter.round.length];
     entity.location = { x: round(place.x + spot.x), y: round(place.y + spot.y), siteId: settlementId };
   }
   const town = world.map.sites.gonzales;

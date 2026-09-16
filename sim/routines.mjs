@@ -2,6 +2,7 @@
 import { record } from './events.mjs';
 import { housekeepingSaving } from './family.mjs';
 import { shelterOf } from './houses.mjs';
+import { furnitureShares } from './furniture.mjs';
 
 // Fatigue, and the only thing that mends it.
 //
@@ -39,11 +40,13 @@ export function advanceRoutine(world, minutes) {
     // would pay a family twice for the same afternoon's work.
     const workers = present.filter(e => e.task === 'work' && !e.chore && e.health.condition === 'well').length;
     // The best housekeeper at home makes what the family eats go further (FIC-GONZ-021).
-    const eaten = present.length * .35 * (1 - housekeepingSaving(present));
+    // Furniture under a roof does its small part (sim/furniture.mjs): a table stretches the food, shelves keep it.
+    const furnished = furnitureShares(household, shelterOf(world, household).kind === 'house');
+    const eaten = present.length * .35 * (1 - housekeepingSaving(present)) * furnished.eaten;
     const fed = Math.max(0, household.resources.food + (workers - eaten) * days);
     // A little of the food spoils in a camp or a draughty house; nothing in a tight one, or in the
     // cabin every class saved before houses always had (sim/houses.mjs, FIC-GONZ-024).
-    const spoiling = shelterOf(world, household).spoilagePerDay;
+    const spoiling = shelterOf(world, household).spoilagePerDay * furnished.spoil;
     const kept = spoiling ? fed * (1 - spoiling * days) : fed;
     household.resources.food = Math.round(kept * 10000) / 10000;
   }
@@ -64,7 +67,8 @@ function restAndTire(world, entity, minutes) {
     // at the ordinary rate, because nothing yet says what shelter is there.
     const household = world.households[entity.householdId];
     const atHome = household && entity.location.siteId === household.homeSiteId;
-    const mended = REST_MILES_PER_MINUTE * minutes * (atHome ? shelterOf(world, household).restShare : 1);
+    const shelter = atHome ? shelterOf(world, household) : null;
+    const mended = REST_MILES_PER_MINUTE * minutes * (atHome ? shelter.restShare * furnitureShares(household, shelter.kind === 'house').rest : 1);
     entity.exertion = Math.max(0, Math.round((exertion - mended) * 10000) / 10000);
   }
   const condition = entity.health?.condition;

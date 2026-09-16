@@ -1675,7 +1675,11 @@ function renderHousehold(world) {
   const brought = household.load ? [...Object.keys(household.tools || {}), ...(household.belongings || [])].map(id => names.get(id) || id) : [];
   const cargo = household.load ? [element('li', brought.length ? `Brought in the wagon: ${brought.join(', ')}.` : 'Brought in the wagon: no tools and no belongings, only stores.')] : [];
   if (cargo[0]) cargo[0].dataset.brought = 'true';
-  $('#property').replaceChildren(...ground, ...cargo, ...property.map(entity => { const li = element('li', `${entity.name}: ${entity.kind} at ${placeName(world, entity.location?.siteId)}`); li.dataset.entityId = entity.id; return li; }));
+  // The family's furniture (sim/furniture.mjs), made or bought. Drawn in the house once the interior view exists (SETTLING_IN step 7).
+  const pieces = Object.entries(household.furniture || {});
+  const furnished = pieces.length ? [element('li', `Furniture: ${pieces.map(([piece, how]) => `${piece} (${how})`).join(', ')}.`)] : [];
+  if (furnished[0]) furnished[0].dataset.furniture = 'true';
+  $('#property').replaceChildren(...ground, ...cargo, ...furnished, ...property.map(entity => { const li = element('li', `${entity.name}: ${entity.kind} at ${placeName(world, entity.location?.siteId)}`); li.dataset.entityId = entity.id; return li; }));
   const memory = world.events || [];
   $('#event-log').replaceChildren(...memory.slice(-12).reverse().map(event => { const li = element('li', `${event.text || event.type} (${timeLabel(event.minute ?? 0)} into the story)`); li.dataset.eventId = event.id; return li; }));
   renderFamilyPanel(world);

@@ -27,6 +27,7 @@ import { callsInvalid, handleCall } from './calls.mjs';
 import { armyInvalid, armyProjection, callHome, callHomeRefusal } from './army.mjs';
 import { endingProjection } from './ending.mjs';
 import { appearanceInvalid, setAppearance } from './appearance.mjs';
+import { furnitureInvalid } from './furniture.mjs';
 import { fellingInvalid, logsProjection, recordFelling } from './felling.mjs';
 import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, ageBand, defaultNames, familyProjection, familyRoll, FAMILY_DIE, compositionFor, rolledWords, householdName, kinFor, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
 export { HOUSEHOLD_SHAPE, ROLES, householdName, sanitiseName } from './family.mjs';
@@ -896,6 +897,8 @@ export function validateWorld(world) {
   if (badExpress) throw new Error(badExpress);
   const badCall = callsInvalid(world);
   if (badCall) throw new Error(badCall);
+  const badFurniture = furnitureInvalid(world);
+  if (badFurniture) throw new Error(badFurniture);
   const badLooks = appearanceInvalid(world);
   if (badLooks) throw new Error(badLooks);
   const badArmy = armyInvalid(world);
