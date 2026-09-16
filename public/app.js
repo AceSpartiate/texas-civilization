@@ -1867,13 +1867,24 @@ function renderArmyControl(world, chosen, running) {
   if (!ours || world.role === 'host') { wrap.hidden = true; wrap.replaceChildren(); return; }
   wrap.hidden = false;
   const where = world.army.at === 'on the road' ? 'on the road for Béxar' : `with the army at ${world.army.at}`;
-  const button = element('button', '', 'work-option ask-option-work');
-  button.dataset.action = 'send-for';
-  button.dataset.entityId = chosen.id;
-  button.disabled = !running;
-  button.append(element('span', `Send for ${ours.name}`, 'work-name'));
-  button.append(element('span', 'They leave the ranks and start home. Whatever the army does next happens without them.', 'work-note'));
-  wrap.replaceChildren(element('p', `${ours.name} is ${where}, ${world.army.miles} miles from your land.`, 'ask-text'), button);
+  const option = (action, name, note) => {
+    const button = element('button', '', 'work-option ask-option-work');
+    button.dataset.action = action;
+    button.dataset.entityId = chosen.id;
+    button.disabled = !running;
+    button.append(element('span', name, 'work-name'), element('span', note, 'work-note'));
+    return button;
+  };
+  const said = [element('p', `${ours.name} is ${where}, ${world.army.miles} miles from your land.`, 'ask-text')];
+  // Bowie and Fannin's division, October 22 (sim/army.mjs). The question is the army's, in the family's hands, and it says
+  // nothing about what either answer risks: the risk is hidden, as the owner decided (docs/COLONIES.md §7a).
+  if (ours.detachment === 'open') {
+    said.push(element('p', `Bowie and Fannin are taking a division ahead to the missions. Does ${ours.name} go with them?`, 'ask-text'),
+      option('detachment-go', `${ours.name} goes ahead with Bowie and Fannin`, 'With the division, ahead of the army.'),
+      option('detachment-stay', `${ours.name} stays with the main army`, 'With the main body, under Austin.'));
+  } else if (ours.detachment === 'go') said.push(element('p', `${ours.name} is with Bowie and Fannin's division.`, 'ask-text'));
+  said.push(option('send-for', `Send for ${ours.name}`, 'They leave the ranks and start home. Whatever the army does next happens without them.'));
+  wrap.replaceChildren(...said);
 }
 function renderTravelModes(world, chosen, settable) {
   const wrap = $('#selection-travel'), host = $('#travel-modes');
@@ -2942,7 +2953,7 @@ function renderSlice(world) {
   const army = world.army;
   $('#army').hidden = !army || world.role === 'host';
   if (army && world.role !== 'host') {
-    const phase = {
+    const phase = army.camp ? `The army is camped at ${army.camp}` : {
       organised: `The volunteers have been made into an army at ${army.at}`,
       marching: 'The army is on the road for Béxar',
       arrived: 'The army has reached Béxar',
@@ -2950,10 +2961,14 @@ function renderSlice(world) {
     $('#army-where').textContent = `${phase}, ${army.miles} miles from your land. ${army.strength} went from the settlements.`;
     $('#army-ours').replaceChildren(...army.ours.map(one => {
       const line = element('div', `${one.name} is with it. `);
-      const button = element('button', `Send for ${one.name}`);
-      button.dataset.action = 'send-for';
-      button.dataset.entityId = one.id;
-      line.append(button);
+      const control = (action, words) => { const button = element('button', words); button.dataset.action = action; button.dataset.entityId = one.id; line.append(button); };
+      // The same question the card asks, for a screen reader (sim/army.mjs, Bowie and Fannin's division).
+      if (one.detachment === 'open') {
+        line.append(`Bowie and Fannin are taking a division ahead to the missions. `);
+        control('detachment-go', `${one.name} goes ahead with them`);
+        control('detachment-stay', `${one.name} stays with the main army`);
+      }
+      control('send-for', `Send for ${one.name}`);
       return line;
     }));
   }

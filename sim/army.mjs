@@ -22,15 +22,15 @@ export const OBJECTIVE = 'bexar';
 /**
  * How far the army makes in a day of 1835, on the march.
  *
- * Ten miles a day is the pace usually given to an armed body with ox carts and no road
- * discipline, and it is the one that fits: the seventy miles of road from Gonzales puts the
- * column outside Béxar in the third week of October, which is when it was there. It is invented
- * for gameplay (`FIC-GONZ-034`) and nothing presents it as a measurement - what is documented is
- * when they left, not how fast they walked. Read against the calendar rather than the tick, like
+ * Fourteen miles on a marching day: the research for Concepción (`HIST-TEX-019`) computed about
+ * fourteen from the order book's camps, which fits a supply officer's "15 miles travel pr day".
+ * It was ten until then, which happened to reach Béxar on the right date only because it hid the
+ * nine days the army really spent halted; the halts are now their own (`advanceArmy`'s `hold`).
+ * The pace is computed, not a measurement. Read against the calendar rather than the tick, like
  * every other pace since the two clocks (sim/clock.mjs), and spread over the whole day rather
  * than a marching morning, because the calendar is all this has to divide by.
  */
-export const ARMY_MILES_PER_DAY = 10;
+export const ARMY_MILES_PER_DAY = 14;
 export const ARMY_MILES_PER_HOUR = ARMY_MILES_PER_DAY / 24;
 /** How near the army somebody has to be to fall in with it. */
 export const FALL_IN_MILES = 1.5;
@@ -73,7 +73,7 @@ function lastPlacePassed(world) {
  */
 export function formArmy(world, causeId) {
   if (world.army) return world.army;
-  const road = roadToBexar(world);
+  const road = campaignRoad(world, roadToBexar(world));
   const site = world.map.sites[RENDEZVOUS];
   world.army = {
     phase: 'organised', x: site.x, y: site.y, siteId: RENDEZVOUS, members: [],
@@ -94,6 +94,7 @@ function fallIn(world, causeId) {
       if (!near && person.location.siteId !== army.siteId) continue;
       army.members.push(person.id);
       if (army.phase === 'marching') marchingTravel(world, person);
+      askDetachment(world, person);
       record(world, 'army', {
         actorId: person.id, householdId: household.id, importance: 2,
         classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-034', causes: causeId ? [causeId] : [],
@@ -178,29 +179,31 @@ export function marchOut(world, causeId) {
  * half a day of 1835 carries half a day's marching with it, which is what lets a fortnight's
  * march happen inside a lesson without anybody on the screen moving unnaturally fast.
  */
-export function advanceArmy(world) {
+export function advanceArmy(world, { hold = null } = {}) {
   const army = world.army;
   if (!army) return;
+  // An army formed before the campaign road existed gets it now, keeping the miles it has made.
+  if (army.road && !army.road.campaign) {
+    army.road = campaignRoad(world, army.road);
+    for (const id of army.members) { const person = world.entities[id]; if (person?.travel?.purpose === 'march') marchingTravel(world, person); }
+  }
   // Not on the tick it steps off: the order is given at that hour and the ground starts going
   // past afterwards. Without this the march gets one free tick, which at half a day a tick is
   // half a day of marching nobody watched.
   if (army.phase === 'marching' && army.road && army.leftMinute !== world.minute) {
     const miles = ARMY_MILES_PER_HOUR * (calendarMinutes(world) / 60);
-    const moved = moveOnGround(army.road.points, army.road.pace, army.road.distance, army.progress, miles);
-    army.progress = moved.progress;
+    // Held where the order book holds it, by the date (sim/directors.mjs decides which hold applies).
+    const limit = hold && army.road.stops?.[hold] !== undefined ? army.road.stops[hold] : army.road.distance;
+    if (army.progress < limit) {
+      const moved = moveOnGround(army.road.points, army.road.pace, army.road.distance, army.progress, miles);
+      army.progress = Math.min(limit, moved.progress);
+    }
     const at = pointAt(army.road.points, army.progress);
     army.x = at.x; army.y = at.y;
-    if (army.progress >= army.road.distance) {
-      army.phase = 'arrived'; army.siteId = OBJECTIVE;
-      // The road is behind them: they are men standing outside a town again, not men on a journey.
-      for (const id of army.members) {
-        const person = world.entities[id];
-        if (person?.travel?.purpose === 'march') { person.travel = null; person.task = 'help'; }
-      }
-      // ceiling: what happens when it gets there is build step 6, researched first. Until then
-      // the army stands outside the town and the class's own ending is what stops it.
-    }
+    // ceiling: the army never stands in a town again once it has marched: its camps are points on its own road, and
+    // somebody in it stays on the army's journey. The dead and the sent-for are the ones who leave it.
   }
+  army.camp = army.phase === 'marching' ? campOf(army, hold) : null;
   // Somebody who reached the rendezvous late, or caught the column up, falls in where they are.
   fallIn(world, army.causeId);
   standInTheRanks(world);
@@ -225,6 +228,7 @@ export function callHomeRefusal(world, householdId, entity) {
 export function callHome(world, householdId, entity, { beginTravel }) {
   const army = world.army;
   army.members = army.members.filter(id => id !== entity.id);
+  if (army.detachment?.asks?.[entity.id]) delete army.detachment.asks[entity.id];
   // Out of the column and standing on the road again. A marching man holds a journey of the
   // army's own (`marchingTravel`), and a journey cannot be begun from inside another one - so he
   // is put at the last place the army actually passed and starts home from there.
@@ -268,9 +272,10 @@ export function armyProjection(world, householdId) {
   const home = world.map.sites[world.households[householdId].homeSiteId];
   return {
     phase: army.phase,
-    at: army.siteId ? world.map.sites[army.siteId]?.name : 'on the road',
+    at: army.camp || (army.siteId ? world.map.sites[army.siteId]?.name : 'on the road'),
+    ...(army.camp && { camp: army.camp }),
     miles: Math.round(Math.hypot(army.x - home.x, army.y - home.y) * 10) / 10,
-    ours: mine.map(id => ({ id, name: world.entities[id].name })),
+    ours: mine.map(id => ({ id, name: world.entities[id].name, ...(army.detachment?.asks?.[id] && { detachment: army.detachment.asks[id] }) })),
     // What the whole class sent, which is a public fact: the town watched them go.
     strength: army.members.length,
   };
@@ -288,5 +293,207 @@ export function armyInvalid(world) {
   }
   if (!Number.isFinite(army.x) || !Number.isFinite(army.y) || !Number.isFinite(army.progress)) return 'The army stands nowhere';
   if (army.siteId && !world.map.sites[army.siteId]) return 'The army stands at a place that is not there';
+  if (army.detachment && Object.values(army.detachment.asks || {}).some(answer => !['open', 'go', 'stay'].includes(answer))) return 'Invalid detachment';
   return null;
+}
+
+// ------------------------------------------------------------------------------------ build step 6: Concepción
+//
+// docs/COLONIES.md §6i, researched in docs/battle-research/concepcion.md and decided by the owner (§7a). The army did not
+// march into Béxar. It halted on the Cibolo to wait for reinforcements (Oct 16-19), camped on the Salado five miles from the
+// town (Oct 20-26), went south down the river to Mission Espada (Oct 26-27), and on Oct 28 a detachment of about ninety
+// under Bowie and Fannin fought at Mission Concepción while the main body was still at Espada (`HIST-TEX-019` to `-021`).
+
+/** Where the halts are, in road miles from Gonzales. The Cibolo crossing is estimated; the Salado camp "within less than five miles of Bejar". */
+export const CIBOLO_MILES = 40;
+export const SALADO_SHORT_MILES = 5;
+/** The missions, in miles from Béxar's plaza, from their coordinates (Espada 29.3178 N 98.4731 W; Concepción 29.3906 N 98.4926 W). */
+export const MISSIONS = Object.freeze({
+  espada: { name: 'Mission Espada', dx: 1.24, dy: 7.35 },
+  concepcion: { name: 'Mission Concepción', dx: 0.06, dy: 2.32 },
+});
+/** Where the army is held, by the date, in the order it reaches them. */
+export const HOLDS = Object.freeze(['cibolo', 'salado', 'espada']);
+const CAMP_NAMES = { cibolo: 'the Cibolo', salado: 'the Salado', espada: MISSIONS.espada.name, concepcion: MISSIONS.concepcion.name };
+
+/**
+ * The owner's bound, 2026-09-16 (§7a): about one in a hundred for somebody in the fight, weighted by hidden strength and
+ * health, and never more than one death in a class. One of about ninety-two was killed (`HIST-TEX-020`); wounds were
+ * none to two, so about two in a hundred.
+ */
+export const CONCEPCION_DEATH_RISK = 0.011;
+export const CONCEPCION_WOUND_RISK = 0.02;
+/** A wound mends in three days of 1835, as every minor injury in this game does. */
+const MEND_MINUTES = 4320;
+
+const unit = text => { let h = 2166136261; for (let i = 0; i < text.length; i++) { h ^= text.charCodeAt(i); h = Math.imul(h, 16777619); } h ^= h >>> 15; h = Math.imul(h, 2246822507); h ^= h >>> 13; return (h >>> 0) / 4294967296; };
+
+/**
+ * The army's road once it is a campaign: the road from Gonzales as far as the Salado camp, then south to Espada and on to
+ * Concepción. Built when the army forms, and for an army formed before this the first time it moves, keeping its miles.
+ */
+function campaignRoad(world, base) {
+  const bexar = world.map.sites[OBJECTIVE];
+  if (!base || !bexar) return base;
+  const salado = Math.max(0, base.distance - SALADO_SHORT_MILES);
+  const points = [];
+  let walked = 0;
+  for (let i = 0; i < base.points.length; i++) {
+    if (i === 0) { points.push(base.points[0]); continue; }
+    const span = Math.hypot(base.points[i].x - base.points[i - 1].x, base.points[i].y - base.points[i - 1].y);
+    if (walked + span >= salado) { points.push(pointAt(base.points, salado)); break; }
+    walked += span;
+    points.push(base.points[i]);
+  }
+  const espada = { x: bexar.x + MISSIONS.espada.dx, y: bexar.y + MISSIONS.espada.dy };
+  const concepcion = { x: bexar.x + MISSIONS.concepcion.dx, y: bexar.y + MISSIONS.concepcion.dy };
+  const last = points[points.length - 1];
+  const toEspada = Math.hypot(espada.x - last.x, espada.y - last.y), toConcepcion = Math.hypot(concepcion.x - espada.x, concepcion.y - espada.y);
+  return {
+    points: [...points, espada, concepcion], distance: salado + toEspada + toConcepcion, pace: null, ground: null,
+    nodes: (base.nodes || []).filter(node => node.at <= salado), campaign: true,
+    stops: { cibolo: Math.min(CIBOLO_MILES, salado), salado, espada: salado + toEspada },
+  };
+}
+
+/** Where the army camps now, or null while it is on the road. */
+const campOf = (army, hold) => {
+  const stop = hold ? army.road?.stops?.[hold] : undefined;
+  if (stop !== undefined && army.progress >= stop - 1e-6) return CAMP_NAMES[hold];
+  if (army.road?.campaign && army.progress >= army.road.distance - 1e-6) return CAMP_NAMES.concepcion;
+  return null;
+};
+
+/** Frailty for the fight: about 0.4 for somebody strong and hale, 1.6 for somebody weak and frail, 1 for somebody unknown. */
+export function frailty(person) {
+  const strength = person?.traits?.strength, health = person?.traits?.health;
+  if (!Number.isFinite(strength) || !Number.isFinite(health)) return 1;
+  const fit = ((strength - 1) / 9 + (health - 2) / 16) / 2;
+  return Math.max(0.4, Math.min(1.6, 1.6 - 1.2 * fit));
+}
+
+/** Bowie and Fannin take a division ahead to the missions, October 22: every family with somebody in the ranks is asked. */
+export function openDetachment(world, causeId) {
+  const army = world.army;
+  if (!army || army.detachment) return;
+  army.detachment = { asks: {}, causeId: causeId || null, closed: false };
+  for (const id of army.members) askDetachment(world, world.entities[id]);
+}
+
+function askDetachment(world, person) {
+  const army = world.army, detachment = army?.detachment;
+  if (!detachment || detachment.closed || !person || detachment.asks[person.id]) return;
+  const household = world.households[person.householdId];
+  // A family nobody plays decides for itself, about as often as the army did: some ninety of four hundred.
+  if (!household?.played && world.neighbours) {
+    detachment.asks[person.id] = unit(`${world.seed}:${person.id}:detachment`) < 0.23 ? 'go' : 'stay';
+    return;
+  }
+  detachment.asks[person.id] = 'open';
+  record(world, 'pressure', {
+    actorId: person.id, householdId: person.householdId, importance: 3, classification: 'DOCUMENTED', claimId: 'HIST-TEX-019',
+    causes: detachment.causeId ? [detachment.causeId] : [],
+    text: `Bowie and Fannin are taking a division ahead to the missions below Béxar. Does ${person.name} go with them, or stay with the main army?`,
+  });
+}
+
+/** Why this answer cannot be given now, in the words the control shows. */
+export function detachmentRefusal(world, householdId, entity) {
+  const detachment = world.army?.detachment;
+  if (!detachment || detachment.closed) return 'Nobody is being asked to go ahead now.';
+  if (!entity || entity.householdId !== householdId) return 'That is not your family.';
+  if (!withTheArmy(world, entity.id)) return `${entity.name} is not with the army.`;
+  if (detachment.asks[entity.id] !== 'open') return `${entity.name} has already been answered for.`;
+  return null;
+}
+
+/** The family's answer: go ahead with Bowie and Fannin, or stay with the main body. */
+export function answerDetachment(world, householdId, entity, go) {
+  const why = detachmentRefusal(world, householdId, entity);
+  if (why) throw new Error(why);
+  world.army.detachment.asks[entity.id] = go ? 'go' : 'stay';
+  record(world, 'choice', {
+    actorId: entity.id, householdId, importance: 2, decision: go ? 'detachment-go' : 'detachment-stay',
+    text: go ? `${entity.name} went ahead with Bowie and Fannin's division.` : `${entity.name} stayed with the main army.`,
+  });
+}
+
+/** The army moves to the missions: anybody not answered for stays with the main body, and is told so. */
+export function closeDetachment(world) {
+  const detachment = world.army?.detachment;
+  if (!detachment || detachment.closed) return;
+  for (const [id, answer] of Object.entries(detachment.asks)) {
+    if (answer !== 'open') continue;
+    detachment.asks[id] = 'stay';
+    const person = world.entities[id];
+    if (person) record(world, 'choice', { actorId: id, householdId: person.householdId, importance: 2, decision: 'detachment-stay', text: `Nobody answered, so ${person.name} stayed with the main army.` });
+  }
+  detachment.closed = true;
+}
+
+/**
+ * The fight at Concepción, October 28 (`HIST-TEX-020`, `-021`). Everybody of the class in the detachment fought; everybody
+ * else with the army was at Espada and was present. Each fighter's fate is rolled against the owner's bound, weighted by
+ * their hidden strength and health, and the most likely death is the only one there can be. A woman sent to fight is
+ * judged as the owner decided (docs/MONEY_AND_GLORY.md §4): her ordinary award if she comes through, twice it taken away if
+ * she does not. Returns what happened, for the tests.
+ */
+export function fightConcepcion(world, causeId) {
+  const army = world.army;
+  if (!army) return { fought: [], present: [], killed: [], wounded: [] };
+  closeDetachment(world);
+  const asks = army.detachment?.asks || {};
+  const fought = army.members.filter(id => asks[id] === 'go');
+  const present = army.members.filter(id => asks[id] !== 'go');
+  if (!world.participation) world.participation = {};
+  const taking = world.participation.concepcion ??= {};
+  const bexar = world.map.sites[OBJECTIVE];
+  const fates = fought.map(id => {
+    const person = world.entities[id], weight = frailty(person);
+    return { id, person, roll: unit(`${world.seed}:${id}:concepcion`), death: CONCEPCION_DEATH_RISK * weight, wound: CONCEPCION_WOUND_RISK * weight };
+  }).sort((a, b) => a.roll / a.death - b.roll / b.death);
+  const killed = [], wounded = [];
+  for (const fate of fates) {
+    const { person } = fate;
+    const dies = killed.length === 0 && fate.roll < fate.death;
+    const hurt = !dies && fate.roll < fate.death + fate.wound;
+    taking[person.id] = { householdId: person.householdId, role: 'fought', minute: world.minute };
+    const woman = person.sex === 'female';
+    const base = awardGlory(world, { event: 'concepcion', claimId: 'HIST-TEX-020', personId: person.id, householdId: person.householdId, role: 'fought', fromSiteId: OBJECTIVE, causes: causeId ? [causeId] : [], ...(woman && dies && { adjust: points => -2 * points, note: 'In 1835, sending a woman to fight was held against a family. (This is the game’s own reading of the period, not a documented judgement.)' }) });
+    void base;
+    if (dies) {
+      killed.push(person.id);
+      army.members = army.members.filter(member => member !== person.id);
+      person.health = { condition: 'dead' };
+      person.travel = null;
+      person.task = 'rest';
+      person.location = { x: bexar.x + MISSIONS.concepcion.dx, y: bexar.y + MISSIONS.concepcion.dy, siteId: OBJECTIVE };
+      const promise = person.commitments?.find(p => p.id === 'volunteer' && p.status === 'active');
+      if (promise) promise.status = 'ended';
+      record(world, 'consequence', {
+        actorId: person.id, householdId: person.householdId, importance: 3, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-039', causes: causeId ? [causeId] : [],
+        text: `${person.name} was killed in the fight at Mission Concepción on the morning of October 28, and was buried there under the pecans by the river.`,
+      });
+    } else if (hurt) {
+      wounded.push(person.id);
+      person.health = { condition: 'minor-injury', recoversAt: world.minute + MEND_MINUTES };
+      record(world, 'consequence', {
+        actorId: person.id, householdId: person.householdId, importance: 3, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-039', causes: causeId ? [causeId] : [],
+        text: `${person.name} was hurt in the fight at Mission Concepción, and will be days mending.`,
+      });
+    } else {
+      record(world, 'consequence', {
+        actorId: person.id, householdId: person.householdId, importance: 3, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-039', causes: causeId ? [causeId] : [],
+        text: `${person.name} fought with Bowie and Fannin's men at Mission Concepción and came through unhurt.`,
+      });
+    }
+  }
+  for (const id of present) {
+    const person = world.entities[id];
+    if (!person?.householdId || taking[id]) continue;
+    taking[id] = { householdId: person.householdId, role: 'present', minute: world.minute };
+    awardGlory(world, { event: 'concepcion', claimId: 'HIST-TEX-021', personId: id, householdId: person.householdId, role: 'present', fromSiteId: OBJECTIVE, causes: causeId ? [causeId] : [] });
+    record(world, 'army', { actorId: id, householdId: person.householdId, importance: 2, classification: 'DOCUMENTED', claimId: 'HIST-TEX-021', text: `${person.name} was with the main army at Espada, and came up an hour after the fight was over.` });
+  }
+  return { fought, present, killed, wounded };
 }

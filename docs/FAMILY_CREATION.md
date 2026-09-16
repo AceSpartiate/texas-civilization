@@ -163,7 +163,9 @@ housework effect produces: a family that needs its housekeeper at home has a rea
 
 **Not at Gonzales.** No Texian was killed there, `HISTORY.md` excludes casualties for that clash, and
 `FIC-GONZ-005` permits only fatigue or a minor condition. The upriver march keeps its stated,
-recoverable cost. Lethal risk belongs to battles where people did die — Béxar, the Alamo, Goliad,
+recoverable cost. **At Concepción (built 2026-09-16) the owner bounded it** (`docs/COLONIES.md` §7a): about one in a hundred for
+somebody in the fight, weighted by hidden strength and health, and never more than one death in a class — the record's one
+killed of ninety-two cannot carry "very likely fatal". Lethal risk belongs to battles where people did die — Béxar, the Alamo, Goliad,
 San Jacinto — none of which exist yet. **Step 5 is therefore specified here and cannot be built until
 the first of those arcs is.**
 

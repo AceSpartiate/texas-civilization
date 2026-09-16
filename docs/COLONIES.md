@@ -251,7 +251,7 @@ what a family sends. Liberty and Mina have no documented call in these letters a
 ### 5.5 After October 2: the gathering and the march
 
 - **Milestones** on the timeline, each from a claim (`HIST-TEX-007`): volunteers gathering at Gonzales (October 3–11);
-  Goliad taken (October 9–10); the army organised and Austin elected (October 11); the march for Béxar (October 11–12);
+  Goliad taken (October 9–10); the army organised and Austin elected (October 11); the march for Béxar (October 13, `HIST-TEX-018`);
   Concepción (October 28); the Grass Fight (November 26); the assault and Cos's surrender (December 5–9).
 - **Sending a volunteer.** A family may send a parent or a child of 16 or over (`docs/FAMILY_CREATION.md` §5) to join.
   They travel the roads to Gonzales like anybody; one who arrives before the march joins the army there, one who arrives
@@ -375,7 +375,7 @@ Each step ends with tests that failed first, a browser proof where it touches wh
 4. **News by riders over real distance**, calibrated to `HIST-TEX-006`, and the settlement-specific calls. **Part 1, the expresses, done 2026-09-14** (§6e); **part 2, the settlement calls, done 2026-09-14** (§6f); **part 3, the two clocks, done 2026-09-15** (§6g).
 5. ~~**The gathering and the march**~~ **Done 2026-09-15** (§6h). Volunteers, joining, the army as one formation, sending for somebody, and the departure - on the **13th**, which is what the order book and the Telegraph say (`HIST-TEX-018`).
 6. **Beyond** (Concepción, the Grass Fight, Béxar), each battle researched first; the glory rule for women built with
-   the first `fought`.
+   the first `fought`. **Concepción done 2026-09-16** (§6i); the Grass Fight and the storming of Béxar remain.
 6a. ~~**The two clocks** (§5.7) come in with step 4~~ **Done 2026-09-15** (§6g). **Playing alone** (§5.8) can still be built
    at any point.
 7. Then `docs/LAND_GRANTS.md` §4–5: Survey and clearing.
@@ -605,6 +605,39 @@ about 41 minutes at the Study pace. The invented Gonzales country still ends at 
 than the spot on the road. Goliad is told to the whole country on the day, because no express rides there on this map.
 Liberty's volunteers gather at Gonzales like everybody else's — their own company is not built, and is not documented
 for October either. No strength or casualty figure is asserted: the army is as many as the class actually sent.
+
+### 6i. As built: step 6, Concepción (2026-09-16)
+
+`sim/army.mjs` (the campaign road, `openDetachment`/`answerDetachment`/`closeDetachment`, `fightConcepcion`, `frailty`), the
+milestones in `sim/directors.mjs`; decided in §7a, researched in [battle-research/concepcion.md](battle-research/concepcion.md).
+Claims `HIST-TEX-019` to `-024`, `FIC-GONZ-039`. Tests `tests/concepcion.test.mjs` (six, eighteen injected regressions each
+caught); browser proof `npm run test:concepcion` ([record](evidence/concepcion-browser.json)).
+
+- **The halts.** The army marches at fourteen miles a marching day and is held: at the Cibolo (40 road miles) until the
+  19th, at the Salado five miles short of Béxar until the 26th, at Mission Espada until the fight. Its road leaves the
+  Béxar road at the Salado and runs south to Espada and back north to Concepción; it never enters the town. A family is
+  told the camp by name. An army formed before this is given the campaign road the first time it moves, keeping its miles.
+- **The question, October 22.** Every family with somebody in the ranks is asked, on that person's card, whether they
+  go ahead with Bowie and Fannin's division or stay with the main army; nothing on it says what either risks. A volunteer
+  who falls in while it is open is asked too; one sent for is no longer asked; nobody answering by the 26th stays with the
+  main army. A family nobody plays sends its volunteer about 23 times in 100.
+- **The fight, October 28.** Whoever went fought; everybody else was present, and is told they came up an hour after.
+  Each fighter is rolled once from the seed: killed at about 1.1 in 100 and wounded at about 2 in 100, each weighted from
+  0.4 (strong and hale) to 1.6 (weak and frail), and **never more than one killed in a class** — the likeliest is the one.
+  The killed are told to their family with dignity and buried at Concepción; the wounded mend in three days. The country
+  hears the outcome, Richard Andrews's death, and that the reports of Mexican losses do not agree.
+- **Glory.** Fought is weight 3, present 2, times the road miles as always. A woman killed in the fight has her award
+  taken away twice over, with the sentence *"In 1835, sending a woman to fight was held against a family"* marked as the
+  game's own reading; a woman who comes through keeps hers. A family's glory below nothing counts as nothing at the end.
+- **The end.** The class now stops on November 2, the day both councils of war voted not to storm Béxar. Measured on a
+  thirty-family class with five played families: the campaign past October 17 adds about 41 ticks, some six and a half
+  minutes at the Study pace.
+
+`ceiling:` the detachment is not drawn apart from the main body; both are one formation until the fight.
+`ceiling:` battle news is told to the country on the day rather than carried by rider, though it reached San Felipe in
+three days and wrong about who was hurt (`HIST-TEX-024`). `ceiling:` the family of somebody killed is told at once.
+`ceiling:` no horse is lost, though "a few horses" were. `ceiling:` a volunteer's card still shows the road and the
+neighbour-visit controls while they are in the ranks, which predates this step.
 
 ## 7. Questions for the owner — all answered 2026-09-14
 

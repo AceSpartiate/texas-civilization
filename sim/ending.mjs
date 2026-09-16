@@ -32,7 +32,9 @@ import { dateOf } from './directors.mjs';
 export const COIN_FLOOR = 1;
 export const countedCoin = money => Math.max(COIN_FLOOR, money);
 /** The final number: glory multiplies coin and can never erase it. */
-export const finalNumber = (money, glory) => countedCoin(money) * (1 + glory);
+// Glory below nothing counts as nothing: the woman's penalty can take a family's glory away, and the owner's rule that glory
+// "multiplies money and cannot erase it" (docs/MONEY_AND_GLORY.md §2) still holds of the coin.
+export const finalNumber = (money, glory) => countedCoin(money) * (1 + Math.max(0, glory));
 
 const reales = amount => `${amount} ${amount === 1 ? 'real' : 'reales'}`;
 const day = (world, minute) => dateOf(world, minute).toLocaleDateString('en-US', { month: 'long', day: 'numeric', timeZone: 'UTC' });
@@ -41,6 +43,7 @@ const day = (world, minute) => dateOf(world, minute).toLocaleDateString('en-US',
 const EVENT_NAMES = Object.freeze({
   gonzales: 'the stand at Gonzales',
   gathering: 'the army made at Gonzales',
+  concepcion: 'the fight at Concepción',
 });
 const PART_WORDS = Object.freeze({
   supplied: 'carried supplies for',
@@ -95,7 +98,7 @@ export function familyEnding(world, householdId) {
       const name = world.entities[award.personId]?.name || 'Somebody';
       const what = EVENT_NAMES[award.event] || award.event;
       const far = award.miles >= 1 ? `, ${Math.round(award.miles)} road miles from home` : '';
-      return { date: day(world, award.minute), points: award.points, role: award.role, text: `${name} ${PART_WORDS[award.role] || 'took part in'} ${what}${far}.` };
+      return { date: day(world, award.minute), points: award.points, role: award.role, text: `${name} ${PART_WORDS[award.role] || 'took part in'} ${what}${far}.${award.note ? ` ${award.note}` : ''}` };
     });
   const miles = milesFromGonzales(world, household);
   const heard = firstWord(world, household);
@@ -111,7 +114,7 @@ export function familyEnding(world, householdId) {
     name: householdName(world, household),
     money, glory, final,
     counted: countedCoin(money),
-    sum: `${money < COIN_FLOOR ? `${reales(money)}, counted as ${reales(COIN_FLOOR)}` : reales(money)} × (1 + ${glory} glory) = ${final}`,
+    sum: `${money < COIN_FLOOR ? `${reales(money)}, counted as ${reales(COIN_FLOOR)}` : reales(money)} × (1 + ${glory < 0 ? `${glory} glory, counted as 0` : `${glory} glory`}) = ${final}`,
     story, coin, awards,
   };
 }

@@ -27,6 +27,7 @@
     "test:ending": "node scripts/ending-browser-proof.mjs",
     "test:looks": "node scripts/looks-browser-proof.mjs",
     "test:furniture": "node scripts/furniture-browser-proof.mjs",
-    "test:shops": "node scripts/shops-browser-proof.mjs"
+    "test:shops": "node scripts/shops-browser-proof.mjs",
+    "test:concepcion": "node scripts/concepcion-browser-proof.mjs"
   }
 }

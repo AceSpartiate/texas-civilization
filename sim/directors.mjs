@@ -6,7 +6,7 @@ import { awardGlory } from './glory.mjs';
 import { canAnswerCalls, cannotAnswerWhy, tooYoung, tooYoungWhy } from './family.mjs';
 import { distantHouseholds, expressLeaves, startExpress } from './expresses.mjs';
 import { callOptions, expireCalls, offerCalls, settleCalls } from './calls.mjs';
-import { advanceArmy, formArmy, marchOut, recordPresent } from './army.mjs';
+import { advanceArmy, closeDetachment, fightConcepcion, formArmy, marchOut, openDetachment, recordPresent } from './army.mjs';
 
 /**
  * What the gathering, the organisation of the army and the march for Béxar rest on.
@@ -53,6 +53,11 @@ const FROM_MIDNIGHT_SEPT_29 = Object.freeze({
   // record: far enough past the march that a class watches the column go - seven ticks of the
   // campaign calendar - and well short of Béxar, which is build step 6.
   'gathering-opens': 6240, goliad: 15840, organised: 18240, march: 20640, 'march-on': 25920,
+  // Build step 6, Concepción (docs/COLONIES.md §6i; `HIST-TEX-019` to `-021`, dated from Austin's order book). The army
+  // leaves the Cibolo on the 19th (it camped on the Salado "early" on the 20th); Bowie and Fannin go ahead on the 22nd,
+  // when a family is asked whether its volunteer goes with them; the army moves to Espada on the 26th; the fight is at
+  // about eight on the 28th; the class stops on November 2, the day both councils of war voted not to storm the town.
+  'leave-cibolo': 28800, detachment: 33600, 'to-espada': 39360, concepcion: 42240, siege: 49680,
 });
 /**
  * The families arrive at dawn on September 28, eighteen hours before midnight.
@@ -628,13 +633,43 @@ function advanceGathering(world, movement) {
     // The weeks to Béxar: the calendar's longest stride, and the phase the two clocks were built for.
     world.director.phase = 'campaign';
   });
-  advanceArmy(world);
-  once(world, 'march-on', () => {
+  // Where the army is held, by the date: the Cibolo until the 19th, the Salado until the 26th, Espada until the fight.
+  const reached = key => world.minute >= momentOf(world, key);
+  const hold = !reached('leave-cibolo') ? 'cibolo' : !reached('to-espada') ? 'salado' : !world.director.milestones.concepcion ? 'espada' : null;
+  once(world, 'leave-cibolo', () => record(world, 'milestone', {
+    visibility: 'public', importance: 2, classification: 'DOCUMENTED', claimId: 'HIST-TEX-019',
+    text: 'The army has left its camp on the Cibolo, where it waited four days for reinforcements, and is moving on toward Béxar.',
+  }));
+  once(world, 'detachment', () => {
+    const eventId = record(world, 'milestone', {
+      visibility: 'public', importance: 2, classification: 'DOCUMENTED', claimId: 'HIST-TEX-019',
+      text: 'From the camp on the Salado, five miles from Béxar, Bowie and Fannin have been ordered ahead with a division to the missions below the town.',
+    });
+    openDetachment(world, eventId);
+  });
+  once(world, 'to-espada', () => {
+    closeDetachment(world);
+    record(world, 'milestone', {
+      visibility: 'public', importance: 2, classification: 'DOCUMENTED', claimId: 'HIST-TEX-019',
+      text: 'The army has left the Salado and gone south down the river to Mission Espada.',
+    });
+  });
+  advanceArmy(world, { hold });
+  once(world, 'concepcion', () => {
+    // Told to the whole country on the day, like Goliad. ceiling: word of it rode to San Felipe in three days and arrived
+    // wrong about who was hurt (`HIST-TEX-024`); carrying battle news by rider is the next thing this wants.
+    const eventId = record(world, 'milestone', {
+      visibility: 'public', importance: 3, classification: 'DOCUMENTED', claimId: 'HIST-TEX-020',
+      text: 'Word has come of a fight at Mission Concepción on the morning of the 28th. About ninety men under Bowie and Fannin, surrounded in the fog, beat back the Mexican cavalry and infantry and took a cannon. Richard Andrews of Mina was killed. How many of the Mexican soldiers fell, the reports do not agree: sixteen dead were counted on the field, and others say fifty, sixty-seven, or more.',
+    });
+    fightConcepcion(world, eventId);
+  });
+  once(world, 'siege', () => {
     expireCalls(world);
     world.director.complete = true; world.director.phase = 'preserved'; world.status = 'ended';
     record(world, 'slice-preserved', {
-      visibility: 'public',
-      text: 'The army is on the road for Béxar. This slice stops here: families, absences, property, promises and memories are saved for the next arc, and what happened at Concepción, the Grass Fight and Béxar is still ahead.',
+      visibility: 'public', classification: 'DOCUMENTED', claimId: 'HIST-TEX-020',
+      text: 'The army has closed on Béxar from above and below the town, and both councils of war have voted not to storm it. This slice stops here: families, absences, property, promises and memories are saved for the next arc, and the Grass Fight and the storming of Béxar are still ahead.',
     });
   });
 }

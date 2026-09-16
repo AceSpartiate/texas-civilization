@@ -1,0 +1,22 @@
+{
+  "record": "Concepción, in a browser: docs/COLONIES.md build step 6",
+  "date": "2026-09-16",
+  "verdict": "PASS",
+  "note": "Same computer only. A real class on the colonies map, played in process to October 21 with hh-1's volunteer in the army, then served live; a student read the camp, answered the detachment question on the volunteer's card, and watched the fight's outcome reach the family. No LAN or district claim.",
+  "checks": [
+    "the page names where the army is camped: \"The army is camped at the Salado, 58.1 miles from your land. 1 went from the settlements.\"",
+    "the family is asked on the volunteer's card, with nothing about the risk: \"Asa is with the army at the Salado, 58.1 miles from your land. Bowie and Fannin are taking a division ahead to the missions. Does Asa go with them? Asa goes ahead with Bowie and Fannin With the division, ahead of the army. Asa stays with the main army With the main body, under Austin. Send for Asa They leave the ranks and start home. Whatever the army does next happens without them.\"",
+    "the answer is the server's: the volunteer goes ahead with the division",
+    "the family is told what happened: \"Asa fought with Bowie and Fannin's men at Mission Concepción and came through unhurt.\"",
+    "and the army's place afterwards: Mission Concepción",
+    "no page errors"
+  ],
+  "observed": {
+    "camp": "The army is camped at the Salado, 58.1 miles from your land. 1 went from the settlements.",
+    "question": "Asa is with the army at the Salado, 58.1 miles from your land.\n\nBowie and Fannin are taking a division ahead to the missions. Does Asa go with them?\n\nAsa goes ahead with Bowie and Fannin\nWith the division, ahead of the army.\nAsa stays with the main army\nWith the main body, under Austin.\nSend for Asa\nThey leave the ranks and start home. Whatever the army does next happens without them.",
+    "story": [
+      "Asa fought with Bowie and Fannin's men at Mission Concepción and came through unhurt."
+    ],
+    "after": "Mission Concepción"
+  }
+}

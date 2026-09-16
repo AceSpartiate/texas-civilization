@@ -24,7 +24,7 @@ import { chooseSite, siteInvalid, siteProjection } from './homesite.mjs';
 import { plotProjection, plotRefusal, plotsInvalid } from './survey.mjs';
 import { advanceExpresses, expressesInvalid } from './expresses.mjs';
 import { callsInvalid, handleCall } from './calls.mjs';
-import { armyInvalid, armyProjection, callHome, callHomeRefusal } from './army.mjs';
+import { answerDetachment, armyInvalid, armyProjection, callHome, callHomeRefusal } from './army.mjs';
 import { endingProjection } from './ending.mjs';
 import { appearanceInvalid, setAppearance } from './appearance.mjs';
 import { furnitureInvalid } from './furniture.mjs';
@@ -659,7 +659,7 @@ export function applyAction(world, householdId, input) {
   // The historical calls are answered by whichever parent or grown child the family sends
   // (docs/FAMILY_CREATION.md step 4). Each handler checks who may answer; travelling, the
   // yard and resting stay the principal's.
-  const answering = ['go-upriver', 'stay-in-town', 'go-see', 'stay-home', 'help', 'stay', 'turn-out', 'stay-put', 'send-for'].includes(input.action);
+  const answering = ['go-upriver', 'stay-in-town', 'go-see', 'stay-home', 'help', 'stay', 'turn-out', 'stay-put', 'send-for', 'detachment-go', 'detachment-stay'].includes(input.action);
   if (!answering && !entity.principal) throw new Error('Only your principal can be asked that.');
   if (['go-upriver', 'stay-in-town'].includes(input.action)) {
     // Going upriver abandons whatever work was in hand, for the same reason answering
@@ -672,6 +672,10 @@ export function applyAction(world, householdId, input) {
     // afternoon's work for the same reason.
     if (entity.chore) abandonChore(world, world.households[householdId], entity);
     handleRumor(world, householdId, entity, input.action, { beginTravel, travelRefusal }, mode);
+  }
+  else if (['detachment-go', 'detachment-stay'].includes(input.action)) {
+    // Whether a volunteer goes ahead with Bowie and Fannin (sim/army.mjs, docs/COLONIES.md §6i). The risk is hidden.
+    answerDetachment(world, householdId, entity, input.action === 'detachment-go');
   }
   else if (input.action === 'send-for') {
     // A family sends for its own volunteer, and they leave the army where it stands and start

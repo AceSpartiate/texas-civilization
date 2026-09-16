@@ -190,7 +190,13 @@ Rules that apply to every row:
 - **Fighting should be the stronger strategy, never the only one.** A family that never fights
   winning should be difficult, not impossible. The balance gate in §8 is the check.
 
-### A woman sent to fight — owner decision, 2026-09-14, not yet built
+### A woman sent to fight — owner decision, 2026-09-14, built at Concepción 2026-09-16
+
+**As built** (`fightConcepcion` in `sim/army.mjs`, `docs/COLONIES.md` §6i): the owner chose on 2026-09-16 to keep the penalty
+and label it as the game's own reading, since no source read documents it (`HIST-TEX-023`). A woman killed in the fight has
+her award taken away twice over, with the note shown in the ending; one who comes through keeps her ordinary award. At
+Concepción every fate resolves in the fight, so the unresolved case does not yet arise. A family's glory below nothing
+counts as nothing in the final number, so the coin is never erased.
 
 > "if a family sends a woman to battle, they should receive - glory. it wouldn't have been socially or culturally
 > acceptable. if the woman dies, they should receive 2x - glory. if the woman survives battle however, they should

@@ -41,7 +41,7 @@ function playedToTheEnd(seed, playerCount) {
     if (found) applyAction(world, household.id, { action: 'turn-out', entityId: found[0], mode: 'horse' });
   }
   // Stop a handful of ticks short of the end, so the browser watches the last of them happen.
-  const end = momentOf(world, 'march-on');
+  const end = momentOf(world, 'siege');
   for (let i = 0; i < 2000 && world.minute + 3 * 720 < end && !world.director.complete; i++) stepWorld(world);
   world.households['hh-2'].resources.money = 5;
   world.status = 'lobby';
@@ -77,7 +77,6 @@ try {
   await host.waitForFunction(() => window.__snapshot?.world.status === 'running');
 
   // While it runs: no ending, no glory, on either page.
-  const glory = String(app.state.world.glory['hh-1'].total);
   for (const [who, page] of [['student', student], ['host', host]]) {
     const running = await page.evaluate(() => ({ ending: 'ending' in window.__snapshot.world, hidden: document.querySelector('#ending').hidden, wire: JSON.stringify(window.__snapshot.world) }));
     assert.equal(running.ending, false, `the ${who} was sent an ending while the class ran`);
@@ -96,7 +95,7 @@ try {
   observed.family = { name: family.name, money: family.money, glory: family.glory, final: family.final, sum: family.sum, story: family.story, awards: family.awards.map(award => award.text) };
   const familyText = await student.locator('#ending').innerText();
   observed.familyText = familyText;
-  assert.equal(String(family.glory), glory, 'the family was shown a glory that is not its own');
+  assert.equal(family.glory, app.state.world.glory['hh-1'].total, 'the family was shown a glory that is not its own');
   assert.ok(familyText.includes(family.sum), 'the multiplication is not on the page');
   assert.ok(family.awards.every(award => familyText.includes(award.text)), 'what earned the glory is not on the page');
   assert.ok(family.story.every(line => familyText.includes(line)), 'the story is not on the page');
