@@ -16,6 +16,7 @@
 // field by field rather than copied and trimmed, so a field added to an entity or a household later reaches the Host only by
 // being named here.
 import { ageBand, householdName } from './family.mjs';
+import { interiorProjection } from './interior.mjs';
 import { facingOf } from './encounters.mjs';
 import { holdingOf } from './grants.mjs';
 import { laneState } from './homesite.mjs';
@@ -89,6 +90,8 @@ function overviewLand(world, household) {
   return {
     name: householdName(world, household),
     homeSiteId: household.homeSiteId,
+    // Inside the house, read only (sim/interior.mjs): the teacher sees every family's rooms as the family has set them.
+    interior: interiorProjection(household),
     view: landView(household),
     ...(pieced(household) && { pieces: household.house.pieces.map(p => [p.type, p.x, p.y, p.stage, p.progress]) }),
     grant: holdingOf(world, household).bounds,

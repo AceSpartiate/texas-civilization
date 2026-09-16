@@ -34,6 +34,7 @@
     "test:riding": "node scripts/riding-browser-proof.mjs",
     "test:host-view": "node scripts/host-view-browser-proof.mjs",
     "test:towns": "node scripts/towns-browser-proof.mjs",
-    "test:storming": "node scripts/storming-browser-proof.mjs"
+    "test:storming": "node scripts/storming-browser-proof.mjs",
+    "test:interior": "node scripts/interior-browser-proof.mjs"
   }
 }

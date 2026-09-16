@@ -40,6 +40,9 @@ const files = new Map([
   // The towns' layouts are the server's own data (sim/town-layouts.mjs): the page draws exactly the buildings the keepers stand in.
   ['/town-layouts.js', ['../sim/town-layouts.mjs', 'text/javascript']],
   ['/town-art.js', ['../public/town-art.js', 'text/javascript']],
+  // The interiors' spots and art (sim/interior-data.mjs): the page offers exactly the spots the server accepts.
+  ['/interior-data.js', ['../sim/interior-data.mjs', 'text/javascript']],
+  ['/interior.js', ['../public/interior.js', 'text/javascript']],
   ['/curve.js', ['../public/curve.js', 'text/javascript']],
   ['/ending.js', ['../public/ending.js', 'text/javascript']],
   ['/appearance.js', ['../public/appearance.js', 'text/javascript']],

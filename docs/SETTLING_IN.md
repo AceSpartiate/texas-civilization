@@ -301,6 +301,31 @@ choice made inside a visible risk. The hidden stats stay hidden; the house's own
 
 ---
 
+
+### 7.2 As built: inside the house (2026-09-16)
+
+Decided by the owner by multiple choice: **the house is opened by clicking it** on the map; **things are set on marked spots**;
+**what can be placed is furniture and the goods and stores brought in the wagon**; **the interior opens only once a house
+stands**. `FIC-GONZ-043`.
+
+- **The rooms** (`sim/interior-data.mjs`, pure data served to the page as `/interior-data.js`): the delivered
+  `home-interiors` pictures — round-log and hewn-log cabins and the jacal with eight spots each (by the hearth, against the
+  back wall, under the window, in the middle, by the door …), the dog-run's two pens and passage with ten. A house raised
+  with two pens (dog-run or saddlebag) uses the dog-run's; a house chosen whole with no layout uses the round-log's.
+- **What can be set out** (`sim/interior.mjs` `interiorItems`): the family's furniture (`home-furnishings` art), and from
+  the wagon the bedding, iron pot, chest, spinning wheel, books, mosquito bars, tinware and chairs, and a barrel of provisions
+  and a sack of seed. Each thing once, in one place. `ceiling:` the tools have no interior art and are not offered.
+- **Action `place-item`** (`item`, `spot`; no spot puts it away): refused while camping, for a thing the family does not
+  have, for a place the house does not have, or a place something else stands in (named). Moving a thing takes it from
+  where it stood. Nothing is recorded in the story, and nothing in the world changes: furniture's effects come from owning it.
+- **The page** (`public/interior.js`): a tap on the family's own house (a person under the tap is chosen first) opens the
+  room over the map. Choose a thing, then a free spot; a filled spot chooses what stands in it, to move it or put it away.
+  Two taps, not a drag, so it works on a phone. On the Host's page a tap on any family's house shows its room read only.
+- **Stored** as `household.interior = { spot: item }`; absent is a bare room. The projection rides every tick and is kept
+  small: `{ kind, placed, items }`. No save version moved.
+- Tests `tests/interior.test.mjs` (6, proven by 9 injections); browser `npm run test:interior`
+  ([evidence](evidence/interior-browser.json)).
+
 ## 8. Build order
 
 Each step is shippable and provable alone.
@@ -312,7 +337,7 @@ Each step is shippable and provable alone.
 4. ~~**Houses.**~~ **Done 2026-09-13.** The four layouts with needs, benefits and problems, built as chores, with stand-in art.
 5. ~~**The house-raising.**~~ **Done 2026-09-13.** Neighbours standing on the land helping raise the walls.
 6. ~~**Furniture and the carpenter.** Made at home or bought in Gonzales; effects on the same hooks.~~ **Done 2026-09-16** (§6.1).
-7. **The interior view and decoration.**
+7. ~~**The interior view and decoration.**~~ **Done 2026-09-16** (§7.2).
 8. ~~**Parent appearance and inherited children**, with the stand-in and the art request.~~ **Done 2026-09-16** (§7.1).
 
 Weather and the day/night cycle come after this document and plug into §5's hooks.

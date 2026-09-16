@@ -242,8 +242,8 @@ test('nothing in the Gonzales afternoon takes anybody’s property', () => {
 test('the class is told what is standing on its land, and never left to guess', () => {
   const world = running('projection');
   const view = () => projectWorld(world, 'hh-1', 'student', { includeMap: false }).land;
-  // The grant is its own concern (tests/grants.test.mjs); everything else on the land line is this.
-  const { grant, plots, ...rest } = view();
+  // The grant is its own concern (tests/grants.test.mjs) and so is the interior (tests/interior.test.mjs); everything else on the land line is this.
+  const { grant, plots, interior, ...rest } = view();
   assert.equal(grant.kind, 'labor');
   assert.deepEqual(rest, { cabin: 'sound', cleared: 1, fenced: 0, harvestShare: 1 - UNFENCED_LOSS, needsWagon: false, shelter: 'house' });
   assert.deepEqual(plots.map(plot => plot.state), ['cleared'], 'the first patch, as a plot');

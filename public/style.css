@@ -366,6 +366,18 @@ button:hover:enabled{background:#60673e}
 .ending-table tr[data-first="true"] td{background:#ecd9a8;font-weight:600}
 #ending-open{position:absolute;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:29}
 @media(max-width:760px){#ending{padding:12px}.ending-numbers dd{font-size:21px}}
+/* Inside the house (public/interior.js). */
+#interior{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:31;width:min(680px,calc(100% - 32px));max-height:min(90vh,900px);overflow-y:auto;background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259;border-radius:8px;box-shadow:0 5px 0 #6b583638,0 18px 45px #32291950;padding:12px 16px 16px;color:#3b3221}
+#interior-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #c5b286;padding-bottom:6px;margin-bottom:8px}
+#interior-close{background:none;border:none;color:#756342;font-size:24px;min-height:0;padding:0 4px}
+.interior-stage{position:relative;margin:0 auto;max-width:100%}
+.interior-canvas{display:block;width:100%;height:100%}
+.interior-spot{position:absolute;transform:translate(-50%,-50%);width:30px;height:30px;min-height:0;padding:0;border-radius:50%;border:2px dashed #7a6440;background:#fff7e3cc;color:#6b5636;font-size:18px;line-height:1}
+.interior-spot.filled{border:2px solid transparent;background:transparent;width:44px;height:44px}
+.interior-spot.filled:hover,.interior-spot.chosen{border-color:#b8862f;background:#f5d58a55}
+.interior-note{margin:8px 0 4px;color:#5a4a2e}
+.interior-items{display:flex;flex-wrap:wrap;gap:6px}
+.interior-item.chosen,.interior-away{border-color:#b8862f;background:#f5d58a}
 /* How the family looks (public/appearance.js). */
 #family-looks-title{font-size:13px;margin:12px 0 4px;color:#5a4a2e}
 #family-looks{list-style:none;padding:0;margin:0}

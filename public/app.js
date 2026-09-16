@@ -6,6 +6,7 @@ import {drawBexarGround,bexarDrawables} from '/bexar-art.js';
 import {plotArt} from '/field-art.js';
 import {drawGonzalesGround,gonzalesDrawables,GONZALES_ART_BOUNDS} from '/gonzales-art.js';
 import { drawTownGround, townDrawables } from '/town-art.js';
+import { renderInterior, clearInteriorChoice } from '/interior.js';
 import { TOWN_LAYOUTS, townPoint } from '/town-layouts.js';
 import {drawWater,drawRoad,drawCrossing,crossingAngle} from '/landscape-art.js';
 import { drawHousePlot, plotted, renderHousePlot } from '/house-plot.js';
@@ -557,6 +558,36 @@ export function selectedEntity(world) {
     || observedOf(world).find(entity => entity.id === selectedId)
     || own.find(entity => entity.id === world.household?.principalId) || null;
 }
+/** Houses drawn this frame, by site: where a tap opens the interior (public/interior.js). */
+const housesDrawn = new Map();
+let interiorSiteId = null;
+function houseAt(point) {
+  for (const [siteId, spot] of housesDrawn) if (Math.abs(point.x - spot.x) < Math.max(18, spot.size * .7) && Math.abs(point.y - spot.y) < Math.max(18, spot.size * .6)) return siteId;
+  return null;
+}
+/** The interior panel for the house at this site: the family's own, or on the Host's map any family's, read only. */
+function renderInteriorPanel(world) {
+  const panel = $('#interior');
+  if (!panel) return;
+  if (!interiorSiteId) { panel.hidden = true; return; }
+  const host = hostView(world);
+  const land = host ? Object.values(world.overview?.lands || {}).find(entry => entry.homeSiteId === interiorSiteId) : world.land;
+  if (!land) { interiorSiteId = null; panel.hidden = true; return; }
+  panel.hidden = false;
+  const shown = JSON.stringify([interiorSiteId, land.interior, panel.clientWidth]);
+  if (panel.dataset.shown === shown && !panel.dataset.dirty) return;
+  panel.dataset.shown = shown; delete panel.dataset.dirty;
+  window.__interiorShown = renderInterior(panel, land.interior, {
+    title: host ? `INSIDE · ${land.name || 'a family'}`.toUpperCase() : 'INSIDE THE HOUSE', readOnly: host,
+    say,
+    send: async (item, spot) => {
+      say('');
+      try { await api('/api/command', { id: crypto.randomUUID?.() || `cmd-${Date.now()}-${Math.random().toString(36).slice(2)}`, action: 'place-item', item, spot }); }
+      catch (error) { say(error.message); panel.dataset.dirty = '1'; if (window.__snapshot) renderInteriorPanel(window.__snapshot.world); }
+    },
+  });
+}
+$('#interior-close')?.addEventListener('click', () => { interiorSiteId = null; clearInteriorChoice(); if (window.__snapshot) renderInteriorPanel(window.__snapshot.world); });
 function entityAt(point) {
   let best = null, bestDistance = Infinity;
   for (const [id, spot] of drawnAt) {
@@ -868,6 +899,9 @@ function installMapNavigation() {
         if (place) (siteLooking() ? lookAtSite : lookAtPlot)(place);
       } else if (type === 'pointerup' && pressedAt && travelled < 7 && active.size === 1) {
         const hit = entityAt(localPoint(event));
+        // Nobody under the tap, but the family's own house is: open the rooms inside (docs/SETTLING_IN.md step 7).
+        const house = !hit && houseAt(localPoint(event));
+        if (house) { interiorSiteId = house; clearInteriorChoice(); const panel = $('#interior'); if (panel) delete panel.dataset.shown; if (window.__snapshot) renderInteriorPanel(window.__snapshot.world); }
         selectedId = hit;
         selectionDismissed = !hit;
         if (window.__snapshot) { drawWorld(window.__snapshot.world); renderSelection(window.__snapshot.world); renderTutorial(window.__snapshot.world); }
@@ -1489,6 +1523,9 @@ export function drawWorld(world) {
   // Presentation evidence for proofs, on the same contract as `__plotsDrawn`: each family's land the Host's map drew, as drawn.
   const hostLandsDrawn = {};
   window.__hostLandsDrawn = hostLandsDrawn;
+  housesDrawn.clear();
+  // Presentation evidence for proofs: where each house a tap can open was drawn this frame.
+  window.__housesDrawn = housesDrawn;
   for (const site of sitesOf(world)) {
     // A road junction is a shape in the network, not a place: it must never draw a building.
     if (site.kind === 'junction') continue;
@@ -1503,6 +1540,8 @@ export function drawWorld(world) {
     if (site.kind === 'homestead' && !ownLand && camera.scale < HOMESTEAD_LEGIBLE) continue;
     if (settlement || site.kind === 'homestead' || !site.kind) {
       const size = Math.max(5, camera.figure * (settlement ? SIZE.settlementCabin : SIZE.cabin));
+      // Where the family's own house is drawn, and on the Host's map every family's, so a tap on it can open the rooms inside.
+      if (!settlement && (ownLand || host)) housesDrawn.set(site.id, { x: q.x, y: q.y - size * .35, size });
       // What is on this land, as this family knows it: its own as it is, a neighbour's as it was
       // last seen, and one nobody has been to see as it was at dawn on the 28th - a camp, in a class
       // that began with the families arriving (sim/houses.mjs, `noteLandSeen`).
@@ -3287,7 +3326,7 @@ function render(snapshot) {
   renderSlice(world);
   renderEnding(world);
   renderLooks(familyCache);
-  drawWorld(world); renderHousehold(world); renderKnowledge(world); renderEncounter(world); renderFamilyRoll(world); renderWagonLoad(world); renderHousePlan(world); renderSite(world); renderSurvey(world); renderTutorial(world);
+  drawWorld(world); renderInteriorPanel(world); renderHousehold(world); renderKnowledge(world); renderEncounter(world); renderFamilyRoll(world); renderWagonLoad(world); renderHousePlan(world); renderSite(world); renderSurvey(world); renderTutorial(world);
 }
 function showJoin(message) {
   events?.close(); events = null;

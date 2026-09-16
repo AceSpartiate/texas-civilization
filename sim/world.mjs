@@ -30,6 +30,7 @@ import { endingProjection } from './ending.mjs';
 import { hostOverview } from './overview.mjs';
 import { appearanceInvalid, setAppearance } from './appearance.mjs';
 import { furnitureInvalid } from './furniture.mjs';
+import { interiorInvalid, interiorProjection, placeItem } from './interior.mjs';
 import { gearExertionShare, shopsInvalid, wagonSpeedShare } from './shops.mjs';
 import { fellingInvalid, logsProjection, recordFelling } from './felling.mjs';
 import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, ageBand, defaultNames, familyProjection, familyRoll, FAMILY_DIE, compositionFor, rolledWords, householdName, kinFor, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
@@ -613,6 +614,9 @@ export function applyAction(world, householdId, input) {
   if (input.action === 'set-appearance') { setAppearance(world, household, input); return; }
   // A piece placed on the house plot or an unstarted one taken away (sim/houseplot.mjs).
   if (input.action === 'place-piece' || input.action === 'remove-piece') { editPlot(world, household, input); return; }
+  // Setting something out in the house, or putting it away (sim/interior.mjs, docs/SETTLING_IN.md step 7). The family's own
+  // arrangement: it names nobody in it and moves nothing in the world.
+  if (input.action === 'place-item') { placeItem(world, household, String(input.item || ''), input.spot ? String(input.spot) : null); return; }
   // And where it stands, on the real land, once the wagon is in (sim/homesite.mjs). It refuses in the lobby itself.
   if (input.action === 'choose-site') { chooseSite(world, household, { x: input.x, y: input.y }); return; }
   // How they go, chosen once and applied to whatever journey this order starts - a trip
@@ -787,7 +791,7 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
   // it is decided here and never guessed at by the client.
   // What the family has made of this land, and what state it is in. The renderer draws
   // the field at the size this says and the fence only when there is one to draw.
-  const land = household ? { ...improvementProjection(household), ...shelterProjection(household), ...houseProjection(world, household), ...grantProjection(world, household), ...siteProjection(world, household), ...plotProjection(world, household), ...logsProjection(world, household) } : null;
+  const land = household ? { ...improvementProjection(household), ...shelterProjection(household), ...houseProjection(world, household), ...grantProjection(world, household), ...siteProjection(world, household), ...plotProjection(world, household), ...logsProjection(world, household), interior: interiorProjection(household) } : null;
   // What is in the wagon, and whether it can still be repacked. The catalogue comes once, from /api/chores.
   const wagon = household ? wagonProjection(world, household) : null;
 
@@ -945,6 +949,8 @@ export function validateWorld(world) {
   if (badShops) throw new Error(badShops);
   const badFurniture = furnitureInvalid(world);
   if (badFurniture) throw new Error(badFurniture);
+  const badInterior = interiorInvalid(world);
+  if (badInterior) throw new Error(badInterior);
   const badLooks = appearanceInvalid(world);
   if (badLooks) throw new Error(badLooks);
   const badArmy = armyInvalid(world);
