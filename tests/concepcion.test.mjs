@@ -3,15 +3,15 @@
 //
 // The army halts where and when the order book says: the Cibolo, the Salado, then south to Espada. On October 22 a family
 // with somebody in the ranks is asked whether they go ahead with Bowie and Fannin. On the 28th those who went fought and
-// everybody else was present. Each fighter's fate is rolled against about one in a hundred, weighted by hidden strength and
-// health, and a class never loses more than one person there. A woman sent to fight keeps her award if she comes through
+// everybody else was present. Each fighter's fate is rolled on its own at the record's rates, 1 killed and 2 wounded in 100,
+// weighted by hidden strength and health, with no limit on how many a class loses (owner's correction, 2026-09-16). A woman sent to fight keeps her award if she comes through
 // and has it taken away twice over if she does not. Families hear that the reports of Mexican losses disagree.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
 import { momentOf } from '../sim/directors.mjs';
-import { CIBOLO_MILES, CONCEPCION_DEATH_RISK, closeDetachment, fightConcepcion, frailty, openDetachment, withTheArmy } from '../sim/army.mjs';
+import { CIBOLO_MILES, CONCEPCION_DEATH_RISK, CONCEPCION_WOUND_RISK, closeDetachment, fightConcepcion, frailty, openDetachment, rollFates, withTheArmy } from '../sim/army.mjs';
 import { awardGlory } from '../sim/glory.mjs';
 import { familyEnding, finalNumber } from '../sim/ending.mjs';
 
@@ -127,7 +127,7 @@ test('an unanswered family\'s volunteer stays with the main army, and a voluntee
 
 /** Everybody of a class put in the ranks and sent ahead, their strength and health set, and the fight fought. */
 let crowd = null;
-function crowdedFight(seed, { strength, health, sex } = {}) {
+function crowdedFight(seed, { strength, health, sex, all = true } = {}) {
   // One class played to the muster, cloned for every fight: the fates are rolled from the seed, so a new seed is a new fight.
   crowd ??= (() => { const base = colonies('concepcion-crowd', 30); untilMinute(base, momentOf(base, 'organised') + 1); return base; })();
   const world = structuredClone(crowd);
@@ -139,31 +139,44 @@ function crowdedFight(seed, { strength, health, sex } = {}) {
     if (sex) p.sex = sex;
   }
   openDetachment(world, null);
-  for (const p of people) world.army.detachment.asks[p.id] = 'go';
+  people.forEach((p, i) => { world.army.detachment.asks[p.id] = all || i % 2 ? 'go' : 'stay'; });
   closeDetachment(world);
   return { world, result: fightConcepcion(world, null), people };
 }
 
-test('a class never loses more than one person at Concepción, and the weak and frail are the likelier to be the one', () => {
-  let deaths = 0, frailDeaths = 0, hardyDeaths = 0, fights = 0;
-  for (let n = 0; n < 40; n++) {
+test('each fighter at Concepción is rolled on their own at the record\'s 1 killed and 2 wounded in 100, a crowd can lose several, the frail die more, and Espada is unhurt', () => {
+  // The record, rounded as the owner allows: 1 of ~92 killed (1.1%), 0-2 wounded (0-2.2%). docs/battle-research/concepcion.md §6.
+  assert.equal(CONCEPCION_DEATH_RISK, 0.01);
+  assert.equal(CONCEPCION_WOUND_RISK, 0.02);
+  // Strength 10 and health 2 is exactly middling (frailty 1), so a crowd of them should die at the record's own rate.
+  assert.equal(frailty({ traits: { strength: 10, health: 2 } }), 1);
+  let fighters = 0, killed = 0, wounded = 0, frailDeaths = 0, hardyDeaths = 0, most = 0;
+  for (let n = 0; n < 60; n++) {
+    const mid = crowdedFight(`concepcion-rate-${n}`, { strength: 10, health: 2, all: n % 4 !== 0 });
+    assert.ok(mid.result.fought.length > 30, 'the crowd did not fight');
+    for (const id of mid.result.present) assert.equal(mid.world.entities[id].health?.condition ?? 'well', 'well', 'somebody at Espada was hurt');
+    fighters += mid.result.fought.length; killed += mid.result.killed.length; wounded += mid.result.wounded.length;
     const frail = crowdedFight(`concepcion-frail-${n}`, { strength: 1, health: 2 });
     const hardy = crowdedFight(`concepcion-hardy-${n}`, { strength: 10, health: 18 });
-    for (const { result } of [frail, hardy]) {
-      assert.ok(result.killed.length <= 1, `${result.killed.length} killed in one class`);
-      assert.ok(result.fought.length > 50, 'the crowd did not fight');
-      fights++;
-    }
     frailDeaths += frail.result.killed.length; hardyDeaths += hardy.result.killed.length;
+    most = Math.max(most, mid.result.killed.length, frail.result.killed.length, hardy.result.killed.length);
+    if (n === 0) assert.ok(mid.result.present.length > 0, 'nobody stayed at Espada');
   }
-  deaths = frailDeaths + hardyDeaths;
-  assert.ok(deaths > 0, 'nobody ever died, so the bound was never tested');
-  assert.ok(frailDeaths > hardyDeaths, `the frail died ${frailDeaths} times and the hardy ${hardyDeaths}`);
+  assert.ok(most > 1, `no fight of a large crowd ever lost more than ${most}: a limit is being kept`);
+  const killRate = killed / fighters, woundRate = wounded / fighters;
+  assert.ok(fighters > 3000, `only ${fighters} fighters`);
+  assert.ok(killRate > 0.0065 && killRate < 0.0135, `killed ${(100 * killRate).toFixed(2)} in 100 of ${fighters} fighters`);
+  assert.ok(woundRate > 0.015 && woundRate < 0.025, `wounded ${(100 * woundRate).toFixed(2)} in 100 of ${fighters} fighters`);
+  assert.ok(frailDeaths > 1.8 * hardyDeaths, `the frail died ${frailDeaths} times and the hardy ${hardyDeaths}`);
   assert.ok(frailty({ traits: { strength: 1, health: 2 } }) > frailty({ traits: { strength: 10, health: 18 } }));
   assert.equal(frailty({}), 1, 'somebody with no hidden stats is not treated as average');
-  // The expected number in a real class is far below one: about one in a hundred for each fighter.
-  assert.ok(CONCEPCION_DEATH_RISK > 0.005 && CONCEPCION_DEATH_RISK < 0.02);
-  void fights;
+});
+
+test('the rule has no limit of its own: a battle nobody survived kills the hardiest, and one nobody died in kills nobody', () => {
+  const world = crowdedFight('concepcion-general', { strength: 10, health: 18 }).world;
+  const ids = Object.values(world.entities).filter(e => e.kind === 'person' && e.householdId).map(e => e.id);
+  assert.ok(rollFates(world, ids, { event: 'probe-all', death: 1, wound: 0 }).every(f => f.fate === 'killed'), 'somebody survived a battle with no survivors');
+  assert.ok(rollFates(world, ids, { event: 'probe-none', death: 0, wound: 0 }).every(f => f.fate === 'unhurt'), 'somebody died where nobody did');
 });
 
 test('a woman sent to fight keeps her award if she comes through, and has it taken away twice over if she does not', () => {

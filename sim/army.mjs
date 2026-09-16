@@ -336,11 +336,12 @@ export const HOLDS = Object.freeze(['cibolo', 'salado', 'espada']);
 const CAMP_NAMES = { cibolo: 'the Cibolo', salado: 'the Salado', espada: MISSIONS.espada.name, concepcion: MISSIONS.concepcion.name };
 
 /**
- * The owner's bound, 2026-09-16 (§7a): about one in a hundred for somebody in the fight, weighted by hidden strength and
- * health, and never more than one death in a class. One of about ninety-two was killed (`HIST-TEX-020`); wounds were
- * none to two, so about two in a hundred.
+ * Concepción's rates, from the record and rounded as the owner allows (2026-09-16, docs/COLONIES.md §7a): one of about
+ * ninety-two killed (`HIST-TEX-020`; docs/battle-research/concepcion.md §6, 1.1%) is 1 in 100; none to two wounded (0–2.2%)
+ * is 2 in 100. Each fighter is rolled on their own (`rollFates`), weighted by hidden strength and health, with no limit on
+ * how many a class loses.
  */
-export const CONCEPCION_DEATH_RISK = 0.011;
+export const CONCEPCION_DEATH_RISK = 0.01;
 export const CONCEPCION_WOUND_RISK = 0.02;
 /** A wound mends in three days of 1835, as every minor injury in this game does. */
 const MEND_MINUTES = 4320;
@@ -391,6 +392,26 @@ export function frailty(person) {
   if (!Number.isFinite(strength) || !Number.isFinite(health)) return 1;
   const fit = ((strength - 1) / 9 + (health - 2) / 16) / 2;
   return Math.max(0.4, Math.min(1.6, 1.6 - 1.2 * fit));
+}
+
+/**
+ * Each fighter's fate in one battle, rolled on its own at the battle's recorded rates (owner, 2026-09-16: "Keep it inline
+ * with % of casualties from the actual battle"). There is no limit on how many a fight or a class can lose: a crowd at a
+ * battle where many died loses many. `death` and `wound` are the record's shares of those engaged; frailty weights each as
+ * 1 − (1 − rate)^frailty, which is rate × frailty for a small rate (1.6 × 2% ≈ 3.2%) and stays at 1 for a rate of 1, so a
+ * battle nobody survived still kills the strongest. One roll per person, seeded by the battle's name, so a fight replays
+ * the same. Returns [{ id, person, fate: 'killed' | 'wounded' | 'unhurt' }] in the order given.
+ * ceiling: frailty weights every battle alike; an execution like Goliad's, where strength saved nobody, would want a
+ * rate given without the weighting (an option here) once that arc is built from its research.
+ */
+export function rollFates(world, ids, { event, death, wound }) {
+  const weighted = (rate, weight) => 1 - (1 - Math.max(0, Math.min(1, rate))) ** weight;
+  return ids.map(id => {
+    const person = world.entities[id], weight = frailty(person);
+    const roll = unit(`${world.seed}:${id}:${event}`), dies = weighted(death, weight);
+    const fate = roll < dies ? 'killed' : roll < dies + weighted(wound, weight) ? 'wounded' : 'unhurt';
+    return { id, person, fate };
+  });
 }
 
 /** Bowie and Fannin take a division ahead to the missions, October 22: every family with somebody in the ranks is asked. */
@@ -454,8 +475,8 @@ export function closeDetachment(world) {
 
 /**
  * The fight at Concepción, October 28 (`HIST-TEX-020`, `-021`). Everybody of the class in the detachment fought; everybody
- * else with the army was at Espada and was present. Each fighter's fate is rolled against the owner's bound, weighted by
- * their hidden strength and health, and the most likely death is the only one there can be. A woman sent to fight is
+ * else with the army was at Espada and was present. Each fighter's fate is rolled on its own at the battle's recorded
+ * rates, weighted by their hidden strength and health (`rollFates`), however many that kills. A woman sent to fight is
  * judged as the owner decided (docs/MONEY_AND_GLORY.md §4): her ordinary award if she comes through, twice it taken away if
  * she does not. Returns what happened, for the tests.
  */
@@ -469,15 +490,9 @@ export function fightConcepcion(world, causeId) {
   if (!world.participation) world.participation = {};
   const taking = world.participation.concepcion ??= {};
   const bexar = world.map.sites[OBJECTIVE];
-  const fates = fought.map(id => {
-    const person = world.entities[id], weight = frailty(person);
-    return { id, person, roll: unit(`${world.seed}:${id}:concepcion`), death: CONCEPCION_DEATH_RISK * weight, wound: CONCEPCION_WOUND_RISK * weight };
-  }).sort((a, b) => a.roll / a.death - b.roll / b.death);
   const killed = [], wounded = [];
-  for (const fate of fates) {
-    const { person } = fate;
-    const dies = killed.length === 0 && fate.roll < fate.death;
-    const hurt = !dies && fate.roll < fate.death + fate.wound;
+  for (const { person, fate } of rollFates(world, fought, { event: 'concepcion', death: CONCEPCION_DEATH_RISK, wound: CONCEPCION_WOUND_RISK })) {
+    const dies = fate === 'killed', hurt = fate === 'wounded';
     taking[person.id] = { householdId: person.householdId, role: 'fought', minute: world.minute };
     const woman = person.sex === 'female';
     const base = awardGlory(world, { event: 'concepcion', claimId: 'HIST-TEX-020', personId: person.id, householdId: person.householdId, role: 'fought', fromSiteId: OBJECTIVE, causes: causeId ? [causeId] : [], ...(woman && dies && { adjust: points => -2 * points, note: 'In 1835, sending a woman to fight was held against a family. (This is the game’s own reading of the period, not a documented judgement.)' }) });
@@ -802,8 +817,13 @@ export function tellGrassFight(world, causeId) {
 // the white flag on the 9th, terms on the 10th, the capitulation dated the 11th; Cos marched out on the 14th and the
 // colonists went home (`HIST-TEX-038` to `-045`).
 
-/** The owner's bounds for those who went in (§7c): about 1.7 in 100 killed and 8 in 100 wounded, weighted by hidden strength and health; nobody in the reserve hurt. */
-export const STORMING_DEATH_RISK = 0.017;
+/**
+ * The storming's rates for those who went in, from the record and rounded as the owner allows (2026-09-16, docs/COLONIES.md
+ * §7c): about 5 killed and 21 wounded of about 300 (`HIST-TEX-042`; docs/battle-research/bexar-storming.md §8, 1.7% and
+ * 7–9%) are 2 in 100 killed and 8 in 100 wounded. Rolled for each on their own (`rollFates`), weighted by hidden strength
+ * and health, with no limit on how many a class loses; nobody in the reserve is hurt (it recorded no loss).
+ */
+export const STORMING_DEATH_RISK = 0.02;
 export const STORMING_WOUND_RISK = 0.08;
 /**
  * The three grades of wound, as the surgeon listed them (`HIST-TEX-042`: of 23, 3 slight, 11 severe, 7 dangerous, 2 mortal),
@@ -848,8 +868,8 @@ export const stormedIn = (world, id) => world.army?.questions?.milam?.asks?.[id]
 
 /**
  * The storming, resolved at the white flag on December 9 (`HIST-TEX-038`, `-042`). Everybody of the class who went in fought;
- * the rest of the camp was present. Each fighter's fate is rolled against the owner's bound; the likeliest death is the only
- * one there can be, and a later death from a wound counts against the same one. What happened is told to each family when
+ * the rest of the camp was present. Each fighter's fate is rolled on its own at the recorded rates (`rollFates`), and each
+ * dangerous wound's later death on its own at its rate, however many that costs a class. What happened is told to each family when
  * the word of the victory rides home (`tellStorming`). Returns what happened, for the tests.
  */
 export function fightStorming(world, causeId) {
@@ -861,14 +881,9 @@ export function fightStorming(world, causeId) {
   world.participation ??= {};
   const taking = world.participation['bexar-storming'] ??= {};
   const bexar = world.map.sites[OBJECTIVE];
-  const fates = fought.map(id => {
-    const person = world.entities[id], weight = frailty(person);
-    return { id, person, roll: unit(`${world.seed}:${id}:storming`), death: STORMING_DEATH_RISK * weight, wound: STORMING_WOUND_RISK * weight };
-  }).sort((a, b) => a.roll / a.death - b.roll / b.death);
   const killed = [], wounded = [], outcomes = [], later = [];
-  for (const { id, person, roll, death, wound } of fates) {
-    const dies = killed.length === 0 && roll < death;
-    const hurt = !dies && roll < death + wound;
+  for (const { id, person, fate } of rollFates(world, fought, { event: 'storming', death: STORMING_DEATH_RISK, wound: STORMING_WOUND_RISK })) {
+    const dies = fate === 'killed', hurt = fate === 'wounded';
     taking[id] = { householdId: person.householdId, role: 'fought', minute: world.minute };
     const woman = person.sex === 'female';
     awardGlory(world, { event: 'bexar-storming', claimId: 'HIST-TEX-038', personId: id, householdId: person.householdId, role: 'fought', fromSiteId: OBJECTIVE, causes: causeId ? [causeId] : [], ...(woman && dies && { adjust: points => -2 * points, note: 'In 1835, sending a woman to fight was held against a family. (This is the game’s own reading of the period, not a documented judgement.)' }) });
@@ -917,13 +932,16 @@ function layDead(world, person, at) {
   if (promise) promise.status = 'ended';
 }
 
-/** A dangerous wound that proves fatal, days after (owner, §7c: rarely, and within the one death the fight may cost a class). */
+/**
+ * A dangerous wound that proves fatal, days after (owner, §7c: rarely). Each was rolled on its own in the fight, at about 15 in
+ * 100 dangerous wounds (the record: about 3 of 23 wounds fatal, 13%, bexar-storming.md §8), and every one rolled dies here,
+ * with no limit (owner's correction, 2026-09-16).
+ */
 export function dieOfWounds(world) {
   const storming = world.army?.storming;
   if (!storming) return [];
   const died = [];
   for (const id of storming.later) {
-    if (storming.killed.length) break;
     const person = world.entities[id];
     if (!person || person.health?.condition !== 'wounded') continue;
     const award = world.glory?.[person.householdId]?.awards?.[`bexar-storming:${id}`];
@@ -969,7 +987,7 @@ export function tellStorming(world, causeId) {
       wounded: () => outcome.grade === 'slight'
         ? `${person.name} was slightly hurt in the storming of Béxar, and was soon on their feet.`
         : `${person.name} was ${outcome.grade === 'dangerous' ? 'dangerously' : 'severely'} wounded in the storming of Béxar, and is lying in the town under the surgeon's care.${marksOf(person)}`,
-      unhurt: () => `${person.name} went into San Antonio and fought through the four days of the storming, and came through unhurt.`,
+      unhurt: () => `${person.name} went into San Antonio and fought through the four days of the storming of Béxar, and came through unhurt.`,
       present: () => `${person.name} held the camp at the old mill while the others fought in the town.`,
     }[outcome.fate]();
     record(world, outcome.fate === 'present' ? 'army' : 'consequence', {

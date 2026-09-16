@@ -610,8 +610,8 @@ for October either. No strength or casualty figure is asserted: the army is as m
 
 `sim/army.mjs` (the campaign road, `openDetachment`/`answerDetachment`/`closeDetachment`, `fightConcepcion`, `frailty`), the
 milestones in `sim/directors.mjs`; decided in §7a, researched in [battle-research/concepcion.md](battle-research/concepcion.md).
-Claims `HIST-TEX-019` to `-024`, `FIC-GONZ-039`. Tests `tests/concepcion.test.mjs` (six, eighteen injected regressions each
-caught); browser proof `npm run test:concepcion` ([record](evidence/concepcion-browser.json)).
+Claims `HIST-TEX-019` to `-024`, `FIC-GONZ-039`. Tests `tests/concepcion.test.mjs` (seven; eighteen injected regressions each
+caught when built, and the casualty tests re-proven for the correction of §7d); browser proof `npm run test:concepcion` ([record](evidence/concepcion-browser.json)).
 
 - **The halts.** The army marches at fourteen miles a marching day and is held: at the Cibolo (40 road miles) until the
   19th, at the Salado five miles short of Béxar until the 26th, at Mission Espada until the fight. Its road leaves the
@@ -622,8 +622,9 @@ caught); browser proof `npm run test:concepcion` ([record](evidence/concepcion-b
   who falls in while it is open is asked too; one sent for is no longer asked; nobody answering by the 26th stays with the
   main army. A family nobody plays sends its volunteer about 23 times in 100.
 - **The fight, October 28.** Whoever went fought; everybody else was present, and is told they came up an hour after.
-  Each fighter is rolled once from the seed: killed at about 1.1 in 100 and wounded at about 2 in 100, each weighted from
-  0.4 (strong and hale) to 1.6 (weak and frail), and **never more than one killed in a class** — the likeliest is the one.
+  Each fighter is rolled once from the seed (`rollFates`): killed at 1 in 100 and wounded at 2 in 100 (the record's 1.1%
+  and 0–2.2%, rounded), each weighted from about 0.4 (strong and hale) to 1.6 (weak and frail) times, and **with no limit
+  on how many a class loses** (owner's correction, §7d; this replaced "never more than one killed in a class").
   The killed are told to their family with dignity and buried at Concepción; the wounded mend in three days. The country
   hears the outcome, Richard Andrews's death, and that the reports of Mexican losses do not agree.
 - **Glory.** Fought is weight 3, present 2, times the road miles as always. A woman killed in the fight has her award
@@ -696,12 +697,14 @@ about 27 more ticks when the questions are answered promptly.
   **December 8** (`reinforce`) everybody still at the camp is asked whether they go in with the companies Burleson sends.
   None of the questions says what an answer risks.
 - **The fight** (`fightStorming`, at the white flag on December 9): those who went in fought, the camp was present (glory
-  3 and 2, as before; going home earns nothing). About 1.7 in 100 of those who went in are killed and 8 in 100 wounded,
-  weighted by hidden strength and health; nobody at the camp is hurt; never more than one death.
+  3 and 2, as before; going home earns nothing). Each who went in is rolled on their own (`rollFates`): 2 in 100 killed and 8 in
+  100 wounded (the record's 1.7% and 7–9%, rounded), weighted by hidden strength and health; nobody at the camp is hurt;
+  no limit on how many a class loses (owner's correction, §7d; this replaced "never more than one death").
 - **Wounds in three grades** (`WOUND_GRADES`): slight mends in three days in the ranks; severe (three weeks) and dangerous
   (two months) take the person out of the ranks to lie at Béxar, unable to travel until they mend (condition `wounded`,
   `health.grade`). A dangerous wound can leave a lasting mark shown on the person's card (`marks`), and can kill on
-  December 12 (`dieOfWounds`) — only if the fight has not already cost the class its one death.
+  December 12 (`dieOfWounds`): about 15 in 100 dangerous wounds, each rolled on its own, whatever the fight already cost
+  the class (§7d; it was once allowed only if the fight had killed nobody).
 - **Dated milestones** on the Host's page: the assault, Milam killed on the 7th, Ugartechea on the 8th, the white flag, the
   terms at 2 a.m. on the 10th, the capitulation dated the 11th in its signed terms, Cos marching out on the 14th, when
   everybody still in the army starts home (`disbandArmy`).
@@ -712,7 +715,7 @@ about 27 more ticks when the questions are answered promptly.
 - `ceiling:` the four days are resolved at once at the white flag; the divisions, houses and streets are not drawn apart.
   `ceiling:` every family hears on the same day; the coast's garbled "Cos has fled with 100 men" (December 17) is after the
   class ends and is not told. `ceiling:` the badly wounded lie at Béxar when the class ends and nobody carries them home.
-- Tests: `tests/storming.test.mjs` (6, proven by 16 injections); browser: `npm run test:storming`
+- Tests: `tests/storming.test.mjs` (6, proven by 16 injections when built; the casualty tests re-proven for §7d); browser: `npm run test:storming`
   ([evidence](evidence/storming-browser.json)).
 
 ## 7. Questions for the owner — all answered 2026-09-14
@@ -728,7 +731,7 @@ Put to the owner as multiple choice after the research in [battle-research/conce
 
 | Question | Owner's answer |
 | --- | --- |
-| How deadly for a family's volunteer in the fight? (1 Texian killed of ~92) | **About 1% per fighter, weighted by hidden strength and health, and never more than one death in a class.** Amends `docs/FAMILY_CREATION.md` §5's "very likely fatal for somebody weak or frail" for this battle. |
+| How deadly for a family's volunteer in the fight? (1 Texian killed of ~92) | **About 1% per fighter, weighted by hidden strength and health**, ~~and never more than one death in a class~~ — the cap was withdrawn by the owner the same day (§7d): each fighter is rolled on their own at the record's rate, with no limit. Amends `docs/FAMILY_CREATION.md` §5's "very likely fatal for somebody weak or frail" for this battle. |
 | How does a volunteer come to be in Bowie and Fannin's detachment? | **The family is asked**, on October 22, whether their person goes with the detachment; the risk stays hidden. |
 | Show the real halts (Cibolo Oct 16–19, Salado Oct 20–26, Espada Oct 27)? | **Yes**, dated from Austin's order book. |
 | Can a Liberty volunteer be in the fight, when sources disagree on Briscoe's company? | **Yes, like anyone**; the disagreement is recorded, not enforced. |
@@ -763,9 +766,9 @@ Every answer was the research's leaning.
 | How far should the class run? | **To December 14–15**: Cos marches out, the army goes home, the news reaches San Felipe on the 15th. |
 | Who goes in with Milam? | **Each volunteer still in camp is asked on their own card**; families nobody plays say yes about a third to a half of the time. |
 | December 4: can a volunteer go home? | **Families nobody plays send some home at about the documented rate; a played family is asked** before Milam's call. |
-| How deadly? | **About 1.7 in 100 killed and 8 in 100 wounded for those who go in**, weighted by hidden strength and health, never more than one killed in a class; **nobody in the reserve hurt**. |
+| How deadly? | **About 1.7 in 100 killed and 8 in 100 wounded for those who go in**, weighted by hidden strength and health, ~~never more than one killed in a class~~ (withdrawn, §7d: built as 2 and 8 in 100, each rolled on their own, no limit); **nobody in the reserve hurt**. |
 | What does a serious wound do? | **Three grades**: slight three days; severe about three weeks at Béxar; dangerous about two months, with some chance of a lasting mark shown on the card. |
-| Can a wounded person die afterwards? | **Yes, rarely, and it counts against the one-death cap.** |
+| Can a wounded person die afterwards? | **Yes, rarely**, ~~and it counts against the one-death cap~~ (withdrawn, §7d: each dangerous wound's later death is rolled on its own, no limit). |
 | The reinforcement of December 8? | **Families with a volunteer in the reserve are asked**; a yes makes them fighters. |
 | How does a family hear? | **By rider, as the record has it**: the wrong first report, then the victory with Milam's death about December 15, each family's own person's part with it. |
 | Mexican losses? | **"About 150 to 300 killed and wounded"**, Ehrenberg's figure left out. |
@@ -773,3 +776,25 @@ Every answer was the research's leaning.
 | Civilians in Béxar? | **Told in text**; nothing shown wounded. |
 | The capitulation's terms? | **As signed**: parole not to oppose the Constitution of 1824, muskets kept, convicts beyond the Rio Grande, soldiers free to stay. |
 | Glory? | **Fought (3) for those who went in, present (2) for the reserve, nothing for going home on December 4.** |
+
+### 7d. Casualties at the record's rates — the owner's correction, 2026-09-16
+
+The owner, after §7a and §7c were built: *"I disagree with the never more than one killed per battle per class. There are
+several battles where that would not make sense. Fall of the Alamo? What if classmates answered the call and they're there
+for the Goliad Massacre? Keep it inline with % of casualties from the actual battle (within reason, you're allowed to
+round)."*
+
+**As built:** every battle rolls each fighter's fate on its own at the battle's documented share of killed and wounded,
+weighted by hidden strength and health, through one rule (`rollFates` in `sim/army.mjs`), with no limit per fight or per
+class. A crowd of classmates in a deadly fight can lose several; a battle nobody survived kills everybody in it.
+
+| Battle | The record | Rates used |
+| --- | --- | --- |
+| Concepción | 1 killed of ~92 (1.1%); 0–2 wounded (0–2.2%) — [concepcion.md §6](battle-research/concepcion.md) | **1 in 100 killed, 2 in 100 wounded** |
+| The Grass Fight | nobody killed; 2–4 slightly wounded — [grass-fight.md](battle-research/grass-fight.md) | nobody killed, 3 in 100 wounded (unchanged, §7b) |
+| The storming of Béxar | ~5 killed and ~21 wounded of ~300 who went in (1.7%, 7–9%); the reserve unhurt — [bexar-storming.md §8](battle-research/bexar-storming.md) | **2 in 100 killed, 8 in 100 wounded**, the reserve unhurt |
+| A dangerous wound at Béxar, later | about 3 of 23 wounds proved fatal (13%) | **about 15 in 100 dangerous wounds**, each rolled on its own |
+
+This supersedes the cap in §6i, §6l, §7a and §7c, `FIC-GONZ-039` and `FIC-GONZ-041`, and the "at most one death" readings
+in the battle research, which were proposals written before the owner decided. The Alamo and Goliad are not built; when
+they are, their rates come from their own research the same way.
