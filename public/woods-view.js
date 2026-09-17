@@ -11,8 +11,13 @@ import { smoothCover } from './map-base.js';
 const tiles = new Map();
 const pending = new Set();
 let classId = null;
-/** At most this many tile requests are out at once, so a fast pan does not queue hundreds. */
-const IN_FLIGHT = 6;
+/**
+ * At most this many requests are out at once, each for up to `BATCH` tiles of one level (`/api/woods?tiles=`), so a fast pan
+ * does not queue hundreds. One request a tile was 120-180 requests on every load of a class (docs/PERFORMANCE_LOAD.md).
+ */
+const IN_FLIGHT = 3;
+export const BATCH = 48;
+let inFlight = 0;
 /** Close enough to draw every tree at full strength when the view covers no more than this many square miles. */
 export const TREE_VIEW_SQUARE_MILES = 0.4;
 /**
@@ -60,15 +65,22 @@ function keysFor(level, size, box) {
 }
 
 function fetchTiles(level, size, box, onLoad) {
-  for (const { key, tx, ty } of keysFor(level, size, box)) {
-    if ((tiles.has(key) && !stale.has(key)) || pending.has(key)) continue;
-    if (pending.size >= IN_FLIGHT) return;
-    pending.add(key);
+  const wanted = keysFor(level, size, box).filter(({ key }) => !((tiles.has(key) && !stale.has(key)) || pending.has(key)));
+  for (let at = 0; at < wanted.length && inFlight < IN_FLIGHT; at += BATCH) {
+    const group = wanted.slice(at, at + BATCH);
+    for (const { key } of group) pending.add(key);
+    inFlight++;
     const asked = classId;
-    fetch(`/api/woods?level=${level}&tx=${tx}&ty=${ty}`)
+    fetch(`/api/woods?level=${level}&tiles=${group.map(({ tx, ty }) => `${tx},${ty}`).join(';')}`)
       .then(response => response.ok ? response.json() : null)
-      .then(result => { if (asked !== classId) return; pending.delete(key); stale.delete(key); tiles.set(key, result?.tile || { empty: true }); arrivals[level] = (arrivals[level] || 0) + 1; onLoad(); })
-      .catch(() => { if (asked === classId) pending.delete(key); });
+      .then(result => {
+        inFlight--;
+        if (asked !== classId) return;
+        group.forEach(({ key }, index) => { pending.delete(key); stale.delete(key); tiles.set(key, result?.tiles?.[index] || { empty: true }); });
+        arrivals[level] = (arrivals[level] || 0) + group.length;
+        onLoad();
+      })
+      .catch(() => { inFlight--; if (asked === classId) for (const { key } of group) pending.delete(key); });
   }
 }
 

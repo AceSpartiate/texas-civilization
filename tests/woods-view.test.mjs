@@ -12,9 +12,9 @@ import { join } from 'node:path';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { landAround } from '../sim/ground.mjs';
 import { KINDS, patchAt, patchCover, treesIn } from '../sim/woods.mjs';
-import { WOODS_TILE_MILES, woodsCatalogue, woodsTile } from '../sim/woods-view.mjs';
-import { createClassroom } from '../server/app.mjs';
-import { ensureWoods, timberAt, treesInView, treesVisible, woodsShown } from '../public/woods-view.js';
+import { WOODS_TILE_MILES, landTilesKept, woodsCatalogue, woodsTile, woodsTiles } from '../sim/woods-view.mjs';
+import { WOODS_BATCH_MAX, createClassroom } from '../server/app.mjs';
+import { BATCH, ensureWoods, timberAt, treesInView, treesVisible, woodsShown } from '../public/woods-view.js';
 
 const land = landAround();
 const woods = { rule: 'landfire', nearCreek: land.nearCreek };
@@ -68,12 +68,16 @@ test('each tile is the woods themselves: the trees in it, its patches and its sh
 
 test("the page asks for its view's tiles and reads timber and trees out of what it was sent", async () => {
   const requests = [];
+  let calls = 0;
   const realFetch = globalThis.fetch;
+  // Answered as the server answers `/api/woods?level=&tiles=tx,ty;...`: one entry in `requests` per tile, one call per request.
   globalThis.fetch = async path => {
     const url = new URL(path, 'http://page');
-    requests.push(url.searchParams.get('level'));
-    const tile = woodsTile(colonies, url.searchParams.get('level'), Number(url.searchParams.get('tx')), Number(url.searchParams.get('ty')));
-    return { ok: Boolean(tile), json: async () => ({ tile }) };
+    calls++;
+    const pairs = url.searchParams.get('tiles').split(';').map(pair => pair.split(',').map(Number));
+    for (const _ of pairs) requests.push(url.searchParams.get('level'));
+    const tiles = woodsTiles(colonies, url.searchParams.get('level'), pairs);
+    return { ok: tiles.some(Boolean), json: async () => ({ tiles }) };
   };
   const catalogue = woodsCatalogue();
   const canvas = { width: 1000, height: 600 };
@@ -87,6 +91,10 @@ test("the page asks for its view's tiles and reads timber and trees out of what 
   assert.equal(treesInView(middle, canvas), false);
   for (let round = 0; round < 6; round++) { ensureWoods(colonies, middle, canvas, 'class-1', catalogue, () => {}); await settle(); }
   assert.ok(requests.length > 0 && requests.every(level => level === 'patches'), requests.join());
+  // Asked for in batches (2026-09-17): a view's tiles in a request or two, not a request each.
+  // At least sixteen tiles a request: counted against a number, not `BATCH`, so shrinking the batch fails here.
+  assert.ok(calls <= Math.ceil(requests.length / 16), `${requests.length} tiles took ${calls} requests (batches of ${BATCH})`);
+  assert.ok(requests.length > 6, 'the view needed too few tiles to show batching');
   for (let i = 0; i < 40; i++) {
     const point = { x: home.x - 1.5 + (i % 8) * 0.37, y: home.y - 0.9 + Math.floor(i / 8) * 0.37 };
     assert.equal(timberAt(point.x, point.y, catalogue.tiles.patches), patchCover(patchAt(point, woods)) === 'timber', `timber at ${point.x},${point.y}`);
@@ -114,6 +122,32 @@ test("the page asks for its view's tiles and reads timber and trees out of what 
   ensureWoods(createGonzalesWorld('woods-view-none', 5), close, canvas, 'class-3', catalogue, () => {}); await settle();
   assert.equal(requests.length, 0);
   globalThis.fetch = realFetch;
+});
+
+test('the server answers many tiles in one request, the same as one at a time, remembers the land\'s tiles, and holds the request to a size', async () => {
+  const pairs = [[Math.floor(home.x) - 1, Math.floor(home.y)], [Math.floor(home.x), Math.floor(home.y)], [Math.floor(home.x) + 1, Math.floor(home.y) - 1]];
+  const batch = woodsTiles(colonies, 'patches', pairs);
+  assert.deepEqual(batch, pairs.map(([tx, ty]) => woodsTile(colonies, 'patches', tx, ty)));
+  // Remembered: the second asking hands back the same tile rather than working it out again.
+  assert.equal(woodsTile(colonies, 'patches', pairs[0][0], pairs[0][1]), batch[0], 'a land tile was worked out again');
+  assert.ok(landTilesKept() >= pairs.length);
+  // Trees are never remembered: a felled tree changes its tile.
+  const trees = woodsTile(colonies, 'trees', Math.floor(home.x * 4), Math.floor(home.y * 4));
+  assert.notEqual(woodsTile(colonies, 'trees', Math.floor(home.x * 4), Math.floor(home.y * 4)), trees, 'a trees tile was remembered');
+  const dir = mkdtempSync(join(tmpdir(), 'texas-woods-batch-'));
+  const app = createClassroom({ seed: 'woods-batch', playerCount: 5, savePath: join(dir, 'save.json'), tickMs: 10000, worldFactory: (seed, count) => createGonzalesWorld(seed, count, { map: 'colonies' }) });
+  try {
+    const port = await app.listen(0, '127.0.0.1'), base = `http://127.0.0.1:${port}`;
+    const join_ = await fetch(`${base}/api/join`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: 'Batcher', code: app.state.sessionCode }) });
+    const cookie = join_.headers.get('set-cookie').split(';')[0];
+    const asked = await fetch(`${base}/api/woods?level=patches&tiles=${pairs.map(pair => pair.join(',')).join(';')}`, { headers: { cookie } });
+    assert.equal(asked.status, 200);
+    const body = await asked.json();
+    assert.deepEqual(body.tiles, JSON.parse(JSON.stringify(batch)));
+    const tooMany = Array.from({ length: WOODS_BATCH_MAX + 1 }, (_, i) => `${i},0`).join(';');
+    assert.equal((await fetch(`${base}/api/woods?level=patches&tiles=${tooMany}`, { headers: { cookie } })).status, 400);
+    assert.equal((await fetch(`${base}/api/woods?level=patches&tiles=1.5,2`, { headers: { cookie } })).status, 400);
+  } finally { await app.close(); rmSync(dir, { recursive: true, force: true }); }
 });
 
 test('the server serves woods tiles to anybody in the class, and says so when a class has none', async () => {

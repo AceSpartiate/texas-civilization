@@ -192,9 +192,10 @@ test('the map is told what was felled: stumps with their logs in the tile, fetch
   const asked = [];
   globalThis.fetch = async path => {
     const url = new URL(path, 'http://page');
-    asked.push(`${url.searchParams.get('level')}:${url.searchParams.get('tx')}:${url.searchParams.get('ty')}`);
-    const answer = woodsTile(world, url.searchParams.get('level'), Number(url.searchParams.get('tx')), Number(url.searchParams.get('ty')));
-    return { ok: Boolean(answer), json: async () => ({ tile: answer }) };
+    const pairs = url.searchParams.get('tiles').split(';').map(pair => pair.split(',').map(Number));
+    for (const [tx, ty] of pairs) asked.push(`${url.searchParams.get('level')}:${tx}:${ty}`);
+    const tiles = pairs.map(([tx, ty]) => woodsTile(world, url.searchParams.get('level'), tx, ty));
+    return { ok: tiles.some(Boolean), json: async () => ({ tiles }) };
   };
   try {
     const canvas = { width: 800, height: 500 }, scale = 2400;

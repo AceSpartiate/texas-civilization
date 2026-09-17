@@ -75,3 +75,28 @@ Not on loading. Once the map is drawn, the throttled page never has two seconds 
 1. Owner decision: WebP (lossless, or quality 90) for the atlases, then a pipeline change that writes them and records their hashes. Largest remaining load cost by far.
 2. Batch or cache the woods tiles, once the pan/zoom work on `public/woods-view.js` has landed.
 3. Take the throttled measurement onto a real Chromebook on the school Wi-Fi with the teacher laptop serving: open a class on several at once and time the map and the last sheet. Until then nothing here is Chromebook evidence.
+
+## Woods in batches, and the land's levels revalidated — 2026-09-17
+
+After the rendering, server, map-data and navigation work merged, `node scripts/perf-load-measure.mjs --label woods-batch`
+(same computer, CPU throttled 6x; [evidence](evidence/perf-load-woods-batch.json)), against the `after` run above:
+
+| | solo cold | solo reload | classroom cold | classroom reload |
+|---|---|---|---|---|
+| Requests | 224 → **56** | 181 → **54** | 215 → **55** | 167 → **54** |
+| Responsive (2 s with no long task after the map is drawn) | 23.7 → **3.5 s** | 18.4 → **3.3 s** | 28.0 → **9.9 s** | 18.0 → **3.2 s** |
+| Long tasks | 201 → **10** | 121 → **7** | 173 → **10** | 141 → **4** |
+
+The responsiveness is mostly the drawing and navigation work; the request count is this change. What changed:
+
+- **Woods tiles in batches.** `/api/woods?level=&tiles=tx,ty;tx,ty;...` answers up to 64 tiles (`WOODS_BATCH_MAX`) in one
+  request; `public/woods-view.js` asks for a view's missing tiles 48 at a time (`BATCH`), three requests at most at once.
+  The single-tile form still answers. The land's own tiles (`shade`, `patches`) are worked out once per server and kept
+  (`LAND_TILES_KEPT`, `ceiling:`); `trees` tiles are not, since a felled tree changes them. Tests in
+  `tests/woods-view.test.mjs`, each injected (one tile a request, nothing remembered, no size limit, trees remembered).
+- **The land's detail levels revalidated.** `/terrain/colonies-province.json` and `/terrain/colonies-land.json` (about 350 KB
+  gzipped together, new with the map-data work) went again on every reload; they now carry an ETag and a reload holding
+  them is answered 304. `tests/delivery.test.mjs`, injected.
+
+Still to look at: a single long task of about 2 s (throttled) on the first draw after the land's levels arrive. Decoding
+them costs under 5 ms unthrottled, so it is the first full ground draw with the land classes.

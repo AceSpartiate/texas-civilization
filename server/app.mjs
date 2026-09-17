@@ -17,7 +17,7 @@ import { plotFacts } from '../sim/survey.mjs';
 import { wagonCatalogue } from '../sim/wagon.mjs';
 import { houseCatalogue } from '../sim/houses.mjs';
 import { plotCatalogue } from '../sim/houseplot.mjs';
-import { woodsCatalogue, woodsTile } from '../sim/woods-view.mjs';
+import { woodsCatalogue, woodsTile, woodsTiles } from '../sim/woods-view.mjs';
 import { huntFacts } from '../sim/hunting.mjs';
 import { fellFacts } from '../sim/felling.mjs';
 import { LAND_FILE, LAND_HREF, PROVINCE_FILE, PROVINCE_HREF } from '../sim/province.mjs';
@@ -138,6 +138,8 @@ export const ABSENT_MS = 120000;
 export const SAVE_WITHIN_MS = 5000;
 const SAVE_EVERY_TICKS = 3;
 
+/** The most woods tiles one request may ask for. */
+export const WOODS_BATCH_MAX = 64;
 export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tickMs = 200, savePath, joinUrls = [], worldFactory = createWorld, onStopRequested = null, stopDelayMs = 250, solo = false, absentMs = ABSENT_MS, soloGamesDir = null, timings = null, saveWithinMs = SAVE_WITHIN_MS } = {}) {
   if (!Number.isInteger(playerCount) || playerCount < 5 || playerCount > 30) throw new Error('Class size must be 5–30');
   if (!Number.isInteger(tickMs) || tickMs < 10 || tickMs > 10000) throw new Error('Tick interval must be 10–10000 milliseconds');
@@ -539,10 +541,16 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       // The real land drawn zoomed out, every band of it, and its land classes (docs/MAP_ACCURACY.md): built files, the
       // same for every class, stored gzipped and sent as they are to a browser that takes gzip.
       if (req.method === 'GET' && (url.pathname === PROVINCE_HREF || url.pathname === LAND_HREF)) {
-        const gz = readFileSync(url.pathname === PROVINCE_HREF ? PROVINCE_FILE : LAND_FILE);
+        // Kept in memory with a validator (server/delivery.mjs): a reload that already holds them is answered 304 with no body,
+        // rather than 350 KB sent again on every load (measured 2026-09-17, docs/PERFORMANCE_LOAD.md).
+        const file = url.pathname === PROVINCE_HREF ? PROVINCE_FILE : LAND_FILE;
+        const facts = fileFacts(file instanceof URL ? fileURLToPath(file) : file, { keep: true });
         const zipped = /\bgzip\b/.test(req.headers['accept-encoding'] || '');
-        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-cache', ...(zipped && { 'Content-Encoding': 'gzip' }) });
-        return res.end(zipped ? gz : gunzipSync(gz));
+        const etag = `${facts.etag.slice(0, -1)}${zipped ? '-gz' : ''}"`;
+        res.setHeader('Vary', 'Accept-Encoding');
+        if (notModified(req, etag)) { res.writeHead(304, { ETag: etag, 'Cache-Control': 'no-cache' }); return res.end(); }
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-cache', ETag: etag, ...(zipped && { 'Content-Encoding': 'gzip' }) });
+        return res.end(zipped ? facts.content : gunzipSync(facts.content));
       }
       if (req.method === 'GET' && files.has(url.pathname)) {
         const [path, mime] = files.get(url.pathname);
@@ -685,6 +693,15 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       }
       // One tile of the woods (sim/woods-view.mjs): the land itself, the same for everybody, so no family is needed to ask.
       if (req.method === 'GET' && url.pathname === '/api/woods') {
+        // Many tiles of one level in one request (`tiles=tx,ty;tx,ty;...`): a view at middle distance needs dozens, and one
+        // request each was 120-180 requests on every load of a class (docs/PERFORMANCE_LOAD.md).
+        if (url.searchParams.has('tiles')) {
+          const pairs = url.searchParams.get('tiles').split(';').filter(Boolean).map(pair => pair.split(',').map(Number));
+          if (!pairs.length || pairs.length > WOODS_BATCH_MAX || pairs.some(pair => pair.length !== 2 || !pair.every(Number.isInteger))) return json(res, 400, { error: `Ask for 1 to ${WOODS_BATCH_MAX} whole-numbered tiles.` });
+          const tiles = woodsTiles(state.world, url.searchParams.get('level'), pairs);
+          if (tiles.every(tile => !tile)) return json(res, 404, { error: 'This class has no woods to show there.' });
+          return json(res, 200, { mapId: state.sessionId, tiles });
+        }
         const tile = woodsTile(state.world, url.searchParams.get('level'), Number(url.searchParams.get('tx')), Number(url.searchParams.get('ty')));
         if (!tile) return json(res, 404, { error: 'This class has no woods to show there.' });
         return json(res, 200, { mapId: state.sessionId, tile });

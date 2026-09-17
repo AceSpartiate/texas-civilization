@@ -19,6 +19,22 @@ const KIND_IDS = Object.keys(KINDS);
 export const woodsCatalogue = () => ({ tiles: WOODS_TILE_MILES, kinds: KIND_IDS.map(id => ({ id, name: KINDS[id].name, picture: KINDS[id].picture })), sizes: SIZES });
 
 /**
+ * The land's own tiles, remembered: `shade` and `patches` are worked out from the land alone, the same for every class that
+ * reads its woods from it, and never change, so each is worked out once per server (2026-09-17, the woods fetched in batches,
+ * docs/PERFORMANCE_LOAD.md). The trees are not remembered: a felled tree changes its tile.
+ * ceiling: at most `LAND_TILES_KEPT` are kept and the oldest dropped first; a whole class panning the whole colonies at middle
+ * distance can outrun it, and then a tile is worked out again - never wrongly.
+ */
+export const LAND_TILES_KEPT = 6000;
+const landTiles = new Map();
+export const landTilesKept = () => landTiles.size;
+
+/** Many tiles of one level at once: `tiles` is `[[tx, ty], ...]`; the answer is in the same order, null where there is none. */
+export function woodsTiles(world, level, tiles) {
+  return tiles.map(([tx, ty]) => woodsTile(world, level, tx, ty));
+}
+
+/**
  * One tile of the woods, or null when this class has none to show or the tile is not a real one.
  * `level` is `shade`, `patches` or `trees`; `tx`, `ty` are whole tile numbers (tile × size = miles).
  */
@@ -26,6 +42,24 @@ export function woodsTile(world, level, tx, ty) {
   const size = WOODS_TILE_MILES[level];
   if (!size || !Number.isInteger(tx) || !Number.isInteger(ty) || Math.abs(tx) > 1e5 || Math.abs(ty) > 1e5) return null;
   if (woodsRule(world) !== 'landfire') return null;
+  if (level !== 'trees') {
+    const key = `${level}:${tx}:${ty}`;
+    let tile = landTiles.get(key);
+    if (!tile) {
+      tile = landTile(level, tx, ty, size);
+      if (landTiles.size >= LAND_TILES_KEPT) landTiles.delete(landTiles.keys().next().value);
+      landTiles.set(key, tile);
+    }
+    return tile;
+  }
+  const land = landAround();
+  const options = { rule: 'landfire', nearCreek: land.nearCreek };
+  const minX = tx * size, minY = ty * size;
+  return treeTile(world, level, tx, ty, size, minX, minY, options);
+}
+
+/** A `shade` or `patches` tile, worked out from the land. */
+function landTile(level, tx, ty, size) {
   const land = landAround();
   const options = { rule: 'landfire', nearCreek: land.nearCreek };
   const minX = tx * size, minY = ty * size;
@@ -48,6 +82,11 @@ export function woodsTile(world, level, tx, ty) {
     }
     return { level, tx, ty, size, cells };
   }
+  return null;
+}
+
+/** A `trees` tile: every tree standing in it, and the stumps of those felled with the logs still beside them. */
+function treeTile(world, level, tx, ty, size, minX, minY, options) {
   // Tiles are whole numbers of lattice cells and a tree stands inside its cell, so no tree lies on a tile's edge.
   const trees = treesIn({ minX, minY, maxX: minX + size, maxY: minY + size }, options) || [];
   // Felled trees are stumps, with the logs still lying beside each (sim/felling.mjs).

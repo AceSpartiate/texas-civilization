@@ -132,3 +132,24 @@ test('gzip is taken only where the browser offers it', () => {
   assert.equal(acceptsGzip({ headers: { 'accept-encoding': 'identity' } }), false);
   assert.equal(acceptsGzip({ headers: {} }), false);
 });
+
+test('the real land\'s detail levels go gzipped, and a reload that holds them is answered 304 with no body', async () => {
+  // Found measuring the woods batching (2026-09-17): 350 KB of province and land sent again on every reload.
+  const app = createClassroom({ playerCount: 5 });
+  const port = await app.listen(0, '127.0.0.1');
+  try {
+    for (const path of ['/terrain/colonies-province.json', '/terrain/colonies-land.json']) {
+      const first = await request(port, path, { 'Accept-Encoding': 'gzip' });
+      assert.equal(first.status, 200);
+      assert.equal(first.headers['content-encoding'], 'gzip');
+      assert.ok(first.headers.etag, `${path} carries no validator`);
+      assert.ok(JSON.parse(gunzipSync(first.bytes).toString('utf8')), `${path} is not JSON`);
+      const again = await request(port, path, { 'Accept-Encoding': 'gzip', 'If-None-Match': first.headers.etag });
+      assert.equal(again.status, 304, `a reload fetched the whole of ${path} again`);
+      assert.equal(again.bytes.length, 0);
+      const plain = await request(port, path, { 'If-None-Match': first.headers.etag });
+      assert.equal(plain.status, 200, 'a browser without gzip was told it holds the gzip copy');
+      assert.equal(plain.headers['content-encoding'], undefined);
+    }
+  } finally { await app.close(); }
+});
