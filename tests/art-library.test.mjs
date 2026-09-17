@@ -4,6 +4,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { buildManifest, decodeRgba, root, SHEETS } from '../scripts/build-atlas-manifest.mjs';
 import { pending } from '../scripts/art-deliveries/index.mjs';
+import { GROUND_CLASSES } from '../public/ground-classes.js';
 
 const manifest = JSON.parse(readFileSync(root + 'atlas.json', 'utf8'));
 const expected = Object.values(SHEETS).flat().filter(Boolean);
@@ -67,7 +68,15 @@ test('the renderer treats every sprite as optional', () => {
   assert.match(art, /image\.onerror/, 'a sheet that fails to load is survivable, not an exception');
   // Every drawSprite call is either guarded by its return value or is decoration whose
   // absence costs nothing. These four carry the farm, so each must have a fallback.
-  for (const guarded of ['grass-tuft', 'rocks', 'oak-broad']) {
+  // The ground's scattered marks come from the classes of ground (public/ground-classes.js): every mark that names a sprite
+  // names the shape drawn without it, and the renderer draws that shape when the sprite does not draw.
+  assert.match(app, /if \(mark\.sprite && drawSprite\(ctx, mark\.sprite[^\n]*\)\) return;/, 'a mark falls through to its shape when its sprite does not draw');
+  for (const shape of ['rock', 'bush', 'tuft']) assert.ok(app.includes(`mark.fallback === '${shape}'`), `the renderer draws the ${shape} shape`);
+  for (const [id, kind] of Object.entries(GROUND_CLASSES)) {
+    for (const mark of kind.marks) if (mark.sprite) assert.ok(['rock', 'bush', 'tuft'].includes(mark.fallback), `${id}'s ${mark.sprite} has a drawn fallback`);
+  }
+  for (const guarded of ['grass-tuft', 'rocks']) assert.ok(GROUND_CLASSES.prairie.marks.some(mark => mark.sprite === guarded && mark.fallback), `${guarded} has a drawn fallback`);
+  for (const guarded of ['oak-broad']) {
     assert.match(app, new RegExp(`!drawSprite\\(ctx, ('|\\w+ \\? ')?${guarded}|hasSprite\\('${guarded}'\\)`), `${guarded} has a drawn fallback`);
   }
   assert.match(app, /if \(drawSprite\(ctx, pickSprite\(HOMESTEAD_CABINS/, 'a homestead falls back to the drawn cabin');

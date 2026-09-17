@@ -11,9 +11,12 @@ import { renderInterior, clearInteriorChoice } from '/interior.js';
 import { TOWN_LAYOUTS, townPoint } from '/town-layouts.js';
 import {drawWater,drawRoad,drawCrossing,crossingAngle} from '/landscape-art.js';
 import { drawHousePlot, plotted, renderHousePlot } from '/house-plot.js';
-import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesInView, treesVisible, woodsShown } from '/woods-view.js';
+import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesVisible, woodsLayersFor, woodsShown } from '/woods-view.js';
 import { bindEnding, renderEnding } from '/ending.js';
 import { bindLooks, renderLooks } from '/appearance.js';
+import { applyDrawState, canvasRatio, creekOpacity, distanceToSegments, ramp, readDrawState, sameLayerKey, scatterItem, scatterLevels, segmentsNear, setText, smoothCover, WATER, waterWidth } from '/map-base.js';
+import { groundClass, groundClassAt, markFor } from '/ground-classes.js';
+import { decodeLand, decodeProvince, landWeights, lineBand } from '/land-levels.js';
 const $ = selector => document.querySelector(selector);
 const say = message => { for (const id of ['#error', '#join-error', '#rejoin-error']) { const el = $(id); if (el) el.textContent = message; } };
 const hostPage = location.pathname === '/host';
@@ -98,9 +101,17 @@ let houseCatalogue = null;
 let woodsCatalogue = null;
 // The house plot's pieces and plans (sim/houseplot.mjs): fixed too.
 let plotCatalogue = null;
-// A woods tile arriving redraws the map once, on the next frame, however many arrive together.
-let woodsRedraw = false;
-const redrawForWoods = () => { if (woodsRedraw) return; woodsRedraw = true; requestAnimationFrame(() => { woodsRedraw = false; if (window.__snapshot) drawWorld(window.__snapshot.world); }); };
+// A woods tile or a sheet of art arriving redraws the map's ground once, a moment later, however many arrive together. They
+// arrive in bursts - six tiles at a time, a sheet at a time - and each redraw of the ground is the most a frame can cost; on
+// the next frame it came to four redraws a second while a view's tiles loaded on a throttled laptop (docs/PERFORMANCE_RENDER.md).
+const ARRIVAL_REDRAW_MS = 200;
+let arrivalRedraw = null;
+const redrawForArrival = () => {
+  invalidateMapBase();
+  if (arrivalRedraw) return;
+  arrivalRedraw = setTimeout(() => { arrivalRedraw = null; if (window.__snapshot) drawWorld(window.__snapshot.world); }, ARRIVAL_REDRAW_MS);
+};
+const redrawForWoods = redrawForArrival;
 function ensureChores(snapshot) {
   if (!snapshot.mapId || (choreCache && choreCacheId === snapshot.mapId) || chorePending === snapshot.mapId) return;
   chorePending = snapshot.mapId;
@@ -148,7 +159,7 @@ function ensureMap(snapshot) {
   api('/api/map').then(result => {
     mapPending = null;
     if (!result?.map) return;
-    mapCache = result.map; mapCacheId = result.mapId; mapRevision = result.map.revision || 0; reliefCaches.clear();
+    mapCache = result.map; mapCacheId = result.mapId; mapRevision = result.map.revision || 0; reliefCaches.clear(); invalidateMapBase();
     if (window.__snapshot) render(window.__snapshot);
   }).catch(() => { mapPending = null; });
 }
@@ -832,7 +843,8 @@ function cameraFor(world, canvas) {
 function fitCanvas() {
   const canvas = $('#world-map'), rect = canvas.getBoundingClientRect();
   if (!rect.width || !rect.height) return false;
-  const ratio = Math.min(2, window.devicePixelRatio || 1);
+  // Sharp on a high-density screen, but never more pixels than a 1080p frame (public/map-base.js `canvasRatio`).
+  const ratio = canvasRatio(rect.width, rect.height, window.devicePixelRatio || 1);
   const width = Math.round(Math.min(2200, rect.width * ratio)), height = Math.round(Math.min(2200, rect.height * ratio));
   if (canvas.width === width && canvas.height === height) return false;
   canvas.width = width; canvas.height = height;
@@ -990,10 +1002,49 @@ const PROVINCE_COVER = {
   forest: '#7f9166', savannah: '#a9b681', prairie: '#c0c68f', marsh: '#9fb195',
   brush: '#b4ac81', plateau: '#c2b891',
 };
+/** The box the colonies' own rivers and creeks cover, in miles, grown by a mile; null for a map without them. */
+const waterCovers = new WeakMap();
+function waterCover(map) {
+  if (!map?.terrain) return null;
+  if (waterCovers.has(map)) return waterCovers.get(map);
+  const courses = map.terrain.filter(feature => feature.kind === 'river' || feature.kind === 'creek');
+  let cover = null;
+  if (courses.length) {
+    cover = { minX: Infinity, minY: Infinity, maxX: -Infinity, maxY: -Infinity };
+    for (const course of courses) { const box = courseBox(course); cover.minX = Math.min(cover.minX, box.minX - 1); cover.minY = Math.min(cover.minY, box.minY - 1); cover.maxX = Math.max(cover.maxX, box.maxX + 1); cover.maxY = Math.max(cover.maxY, box.maxY + 1); }
+  }
+  waterCovers.set(map, cover);
+  return cover;
+}
+/**
+ * The real land's detail levels (docs/MAP_ACCURACY.md §6, public/land-levels.js): every river, the sea and the escarpment at
+ * four nested bands, and the land's classes and hillshade on grids of 8, 2 and half a mile. The land is the same for every
+ * class on the real land, so they are fetched once for the page, and the ground is redrawn when they land.
+ */
+let landLevels = { key: null, province: null, land: null, pending: false, failed: false };
+function ensureLandLevels(map) {
+  const levels = map?.province?.levels;
+  if (!levels?.href || !levels.land) return;
+  const key = `${levels.href}|${levels.land}`;
+  if (landLevels.key === key) return;
+  const mine = landLevels = { key, province: null, land: null, pending: true, failed: false };
+  const load = href => fetch(href).then(response => response.ok ? response.json() : null);
+  Promise.all([load(levels.href), load(levels.land)]).then(([province, land]) => {
+    if (landLevels !== mine) return;
+    mine.pending = false;
+    mine.province = province?.rivers ? decodeProvince(province) : null;
+    mine.land = land?.bands ? decodeLand(land) : null;
+    redrawForArrival();
+  }).catch(() => { if (landLevels === mine) { mine.pending = false; mine.failed = true; } });
+}
+/** The levels this world is drawn from, once they have arrived; null for the invented country or while they load. */
+const levelsOf = world => world.map?.province?.levels && landLevels.province ? landLevels : null;
 function drawProvince(ctx, world, camera) {
   const province = world.map?.province;
   if (!province) return false;
   const painted = paintRelief(ctx, province.relief, camera, 'province');
+  // On the real land the land's own classes are the cover (`drawLand`): the cover belts are a band-3 sketch of the same.
+  if (levelsOf(world)?.land) return painted;
   ctx.globalAlpha = .5;
   for (const belt of province.belts) {
     const points = belt.points.map(camera.toScreen);
@@ -1001,6 +1052,56 @@ function drawProvince(ctx, world, camera) {
     ctx.beginPath(); points.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); ctx.closePath(); ctx.fill();
   }
   ctx.globalAlpha = 1;
+  return painted;
+}
+/**
+ * The province's lines over its ground: the Gulf, the escarpment, the old roads, the sketched rivers and, pulled right back,
+ * the settlements' names. Drawn after the land's own layers (`drawRelief`), under the colony's relief where that is drawn.
+ */
+/** The width floor for a river of the real land, in pixels: a little wider for a wider channel. */
+const riverFloor = miles => 1.5 + Math.min(2, miles * 20);
+/** A line's box in miles, worked out once a line. */
+const lineBoxes = new WeakMap();
+function lineBox(points) {
+  let box = lineBoxes.get(points);
+  if (!box) { box = courseBox({ points }); lineBoxes.set(points, box); }
+  return box;
+}
+/** The real land's rivers at the band this zoom draws, in miles: `{ points, miles, floor }`. */
+function levelRivers(levels, camera) {
+  const band = lineBand(levels.province.bands, camera.scale);
+  return levels.province.rivers.map(river => ({ points: river.levels[band], miles: river.miles, floor: riverFloor(river.miles) })).filter(river => river.points?.length > 1);
+}
+/**
+ * The real land's lines from its levels: the sea, the escarpment and every river, each at the band this zoom draws. A band
+ * only drops points less than a pixel off the line, so zooming never moves or reshapes one (docs/MAP_ACCURACY.md §6).
+ */
+function drawLevelLines(ctx, levels, camera) {
+  const band = lineBand(levels.province.bands, camera.scale);
+  const topLeft = camera.toWorld({ x: 0, y: 0 }), bottomRight = camera.toWorld({ x: ctx.canvas.width, y: ctx.canvas.height });
+  const inView = (points, pad) => { const box = lineBox(points); return !(box.maxX < topLeft.x - pad || box.minX > bottomRight.x + pad || box.maxY < topLeft.y - pad || box.minY > bottomRight.y + pad); };
+  const rings = (levels.province.sea[band] || []).filter(ring => ring.length > 2 && inView(ring, 0));
+  if (rings.length) {
+    ctx.beginPath();
+    for (const ring of rings) { ring.forEach((p, i) => { const q = camera.toScreen(p); i ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y); }); ctx.closePath(); }
+    ctx.fillStyle = '#8fb0bd'; ctx.fill('evenodd');
+  }
+  const escarpment = levels.province.escarpment[band];
+  if (escarpment?.length > 1 && inView(escarpment, 1)) {
+    ctx.save();
+    ctx.strokeStyle = '#9a9070'; ctx.lineWidth = Math.min(4, Math.max(1, camera.scale * .6)); ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.setLineDash([9, 7]);
+    ctx.beginPath(); escarpment.forEach((p, i) => { const q = camera.toScreen(p); i ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y); }); ctx.stroke();
+    ctx.restore();
+  }
+  for (const river of levelRivers(levels, camera)) {
+    const width = waterWidth(river.miles, camera.scale, river.floor);
+    if (!inView(river.points, (width + 60) / camera.scale)) continue;
+    drawWater(ctx, river.points.map(camera.toScreen), width);
+  }
+}
+function drawProvinceLines(ctx, world, camera) {
+  const province = world.map?.province;
+  if (!province) return;
   // The Gulf: everything seaward of the shore line.
   const shore = province.coast.map(camera.toScreen);
   ctx.fillStyle = '#8fb0bd';
@@ -1011,9 +1112,22 @@ function drawProvince(ctx, world, camera) {
     ctx.strokeStyle = colour; ctx.lineWidth = width; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.setLineDash(dash);
     ctx.beginPath(); screen.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); ctx.stroke(); ctx.setLineDash([]);
   };
-  stroke(province.escarpment, '#9a9070', Math.max(1, camera.scale * .6), [9, 7]);
-  for (const road of province.roads) stroke(road.points, '#b9a97f', Math.max(1, camera.scale * .5), [8, 6]);
-  for (const river of province.rivers) stroke(river.points, '#8fb0bd', Math.max(1.2, river.width * camera.scale * .5));
+  // Line widths held to a few pixels: `scale × .6` was a band two thousand pixels wide at the closest zoom.
+  stroke(province.escarpment, '#9a9070', Math.min(4, Math.max(1, camera.scale * .6)), [9, 7]);
+  for (const road of province.roads) stroke(road.points, '#b9a97f', Math.min(3, Math.max(1, camera.scale * .5)), [8, 6]);
+  // The province's rivers are a sketch of a few points each, for the country beyond the colonies' own water. Drawn as water,
+  // at the same widths as the colonies' rivers (`waterWidth`, their sketch width as the floor), and not over the ground the
+  // colonies' water covers: they were straight bands `width × scale / 2` wide, a mile and more across close in, drawn
+  // under the real rivers in other places, so a river changed shape and place as the student zoomed (2026-09-17).
+  // ceiling: a sketched river stops at the edge of the colonies' water; carrying each on as the real course is the way out.
+  const covered = waterCover(world.map);
+  ctx.save();
+  if (covered) {
+    const a = camera.toScreen({ x: covered.minX, y: covered.minY }), b = camera.toScreen({ x: covered.maxX, y: covered.maxY });
+    ctx.beginPath(); ctx.rect(-10, -10, ctx.canvas.width + 20, ctx.canvas.height + 20); ctx.rect(a.x, a.y, b.x - a.x, b.y - a.y); ctx.clip('evenodd');
+  }
+  for (const river of province.rivers) drawWater(ctx, river.points.map(camera.toScreen), waterWidth(WATER.river.miles, camera.scale, river.width));
+  ctx.restore();
   // Settlements are named only when the camera is wide enough for them to mean anything.
   if (camera.scale < 3.2) {
     for (const place of province.settlements) {
@@ -1024,7 +1138,6 @@ function drawProvince(ctx, world, camera) {
       ctx.fillText(place.name, q.x, q.y - size - 4);
     }
   }
-  return painted;
 }
 // The colony's own shaded relief is a small rectangle laid over the province's. Its edges
 // are square, so once the camera pulls back it stops reading as ground and starts reading
@@ -1034,15 +1147,107 @@ function drawProvince(ctx, world, camera) {
 export const HOME_RELIEF_GONE = 7, HOME_RELIEF_FULL = 18;
 export const homeReliefOpacity = scale =>
   Math.max(0, Math.min(1, (scale - HOME_RELIEF_GONE) / (HOME_RELIEF_FULL - HOME_RELIEF_GONE)));
+/**
+ * The land under everything else, in its order: the province's relief and cover belts; the colony's own relief; the classes
+ * of ground (`drawLand`); then the province's lines. Every one is drawn from a picture or a shape fixed to the map, so none
+ * moves or reshapes as the camera zooms, and all of it is the kept ground (`mapBase`), costing nothing on a frame that only
+ * moves people.
+ */
 function drawRelief(ctx, world, camera) {
   drawProvince(ctx, world, camera);
   const opacity = homeReliefOpacity(camera.scale);
-  if (opacity <= 0) return false;
+  let painted = false;
+  if (opacity > 0) {
+    ctx.save();
+    ctx.globalAlpha *= opacity;
+    painted = paintRelief(ctx, world.map?.relief, camera, 'home');
+    ctx.restore();
+  }
+  // The land's classes and its hillshade - hills, bluffs, the Balcones escarpment - over the relief's tint (`drawLand`).
+  drawLand(ctx, world, camera);
+  // On the real land its own lines go over everything, at the band the zoom draws. The invented province's sketch lines
+  // were painted under the colony's relief and showed through it only as it faded: kept so for that country.
+  const landHere = levelsOf(world);
+  if (landHere) { drawLevelLines(ctx, landHere, camera); return painted; }
+  const home = painted && world.map?.relief;
+  if (!home || opacity <= 0) { drawProvinceLines(ctx, world, camera); return painted; }
+  const a = camera.toScreen({ x: home.minX, y: home.minY });
+  const b = camera.toScreen({ x: home.minX + home.cellX * (home.columns - 1), y: home.minY + home.cellY * (home.rows - 1) });
   ctx.save();
-  ctx.globalAlpha *= opacity;
-  const painted = paintRelief(ctx, world.map?.relief, camera, 'home');
+  ctx.beginPath(); ctx.rect(-10, -10, ctx.canvas.width + 20, ctx.canvas.height + 20); ctx.rect(a.x, a.y, b.x - a.x, b.y - a.y); ctx.clip('evenodd');
+  drawProvinceLines(ctx, world, camera);
   ctx.restore();
+  if (opacity < 1) {
+    ctx.save();
+    ctx.beginPath(); ctx.rect(a.x, a.y, b.x - a.x, b.y - a.y); ctx.clip();
+    ctx.globalAlpha *= 1 - opacity;
+    drawProvinceLines(ctx, world, camera);
+    ctx.restore();
+  }
   return painted;
+}
+/**
+ * The classes of ground the land says stand where - prairie, savanna, bottomland, pine, live oak, brush, hill country, marsh,
+ * sand - each as its table entry's wash (public/ground-classes.js), and the land's hillshade over them: pictures of the land's
+ * grids of 8, 2 and half a mile, smoothed, made once a grid, and handed over from one grid to the next across a band of zoom
+ * (`landWeights`) so the land never changes at one wheel step. Only the part in view is laid down.
+ */
+const landPictures = new WeakMap();
+function landPicture(grid) {
+  let pictures = landPictures.get(grid);
+  if (pictures) return pictures;
+  const cells = grid.columns * grid.rows, upscale = cells * 16 <= 1.5e6 ? 4 : cells * 4 <= 1.5e6 ? 2 : 1;
+  const make = colourAt => {
+    const smooth = smoothCover(grid.columns, grid.rows, colourAt, { upscale });
+    const canvas = document.createElement('canvas');
+    canvas.width = smooth.width; canvas.height = smooth.height;
+    canvas.getContext('2d').putImageData(new ImageData(smooth.data, smooth.width, smooth.height), 0, 0);
+    return canvas;
+  };
+  const at = (column, row) => row * grid.columns + column;
+  pictures = {
+    upscale,
+    wash: make((column, row) => {
+      const id = grid.classes[grid.cells[at(column, row)]];
+      if (!id || id === 'none') return null;
+      const kind = groundClass(id);
+      return kind.alpha > 0 ? [...kind.colour, kind.alpha] : null;
+    }),
+    // Hillshade: 128 is level ground; darker faces a shadow, brighter faces a light (docs/MAP_ACCURACY.md §6.2).
+    shade: grid.shade ? make((column, row) => {
+      const i = at(column, row), value = grid.shade[i];
+      if (!grid.cells[i] || value === 128) return null;
+      return value < 128 ? [38, 46, 30, Math.min(.45, (128 - value) / 128 * .9)] : [255, 250, 226, Math.min(.3, (value - 128) / 127 * .6)];
+    }) : null,
+  };
+  landPictures.set(grid, pictures);
+  return pictures;
+}
+function layLandPicture(ctx, camera, grid, canvas, upscale, alpha) {
+  const perMile = upscale / grid.cellMiles;
+  const topLeft = camera.toWorld({ x: 0, y: 0 }), bottomRight = camera.toWorld({ x: ctx.canvas.width, y: ctx.canvas.height });
+  const clamp = (value, most) => Math.max(0, Math.min(most, value));
+  const sx0 = clamp(Math.floor((topLeft.x - grid.minX) * perMile) - 2, canvas.width), sx1 = clamp(Math.ceil((bottomRight.x - grid.minX) * perMile) + 2, canvas.width);
+  const sy0 = clamp(Math.floor((topLeft.y - grid.minY) * perMile) - 2, canvas.height), sy1 = clamp(Math.ceil((bottomRight.y - grid.minY) * perMile) + 2, canvas.height);
+  if (sx1 <= sx0 || sy1 <= sy0) return;
+  const a = camera.toScreen({ x: grid.minX + sx0 / perMile, y: grid.minY + sy0 / perMile }), b = camera.toScreen({ x: grid.minX + sx1 / perMile, y: grid.minY + sy1 / perMile });
+  const was = ctx.globalAlpha, smoothing = ctx.imageSmoothingEnabled;
+  ctx.globalAlpha = was * alpha; ctx.imageSmoothingEnabled = true;
+  ctx.drawImage(canvas, sx0, sy0, sx1 - sx0, sy1 - sy0, a.x, a.y, b.x - a.x, b.y - a.y);
+  ctx.globalAlpha = was; ctx.imageSmoothingEnabled = smoothing;
+}
+function drawLand(ctx, world, camera) {
+  const grids = levelsOf(world)?.land;
+  if (!grids?.length) return;
+  const weights = landWeights(camera.scale, grids.map(grid => grid.cellMiles));
+  window.__landDrawn = Object.fromEntries(grids.map((grid, i) => [grid.cellMiles, Math.round(weights[i] * 100) / 100]));
+  for (const layer of ['wash', 'shade']) {
+    grids.forEach((grid, i) => {
+      if (weights[i] <= 0.01) return;
+      const pictures = landPicture(grid);
+      if (pictures[layer]) layLandPicture(ctx, camera, grid, pictures[layer], pictures.upscale, weights[i]);
+    });
+  }
 }
 // Terrain is map data, not decoration invented by the renderer. An empty terrain list
 // draws nothing; it must never imply ground that the world does not actually model.
@@ -1073,24 +1278,8 @@ function scatterInside(points, seed, count) {
   return out;
 }
 const seedOf = id => { let n = 0; for (const c of String(id)) n = (Math.imul(n, 31) + c.charCodeAt(0)) | 0; return n; };
-// Close in, open country is not a flat wash. Tufts, stones and lone post oaks are keyed
-// to their position in the world, so they sit still while the camera moves over them.
-function groundHash(cx, cy) {
-  let value = Math.imul(cx ^ 0x27d4eb2f, 0x165667b1) ^ Math.imul(cy ^ 0x9e3779b9, 0x85ebca6b);
-  value = Math.imul(value ^ (value >>> 13), 0x2c1b3c6d);
-  return ((value ^ (value >>> 16)) >>> 0) / 4294967296;
-}
 /** sim/fields.mjs `groundAt` on the invented map: timber stands this far from its water. Keep the two in step. */
 const INVENTED_TIMBER_MILES = 1.15;
-function distanceToLine(p, points) {
-  let best = Infinity;
-  for (let i = 1; i < points.length; i++) {
-    const a = points[i - 1], b = points[i], dx = b.x - a.x, dy = b.y - a.y, length = dx * dx + dy * dy;
-    const t = length ? Math.max(0, Math.min(1, ((p.x - a.x) * dx + (p.y - a.y) * dy) / length)) : 0;
-    best = Math.min(best, Math.hypot(p.x - (a.x + dx * t), p.y - (a.y + dy * t)));
-  }
-  return best;
-}
 /** Whether a point lies inside a polygon (ray casting). */
 function insidePolygon(x, y, points) {
   let inside = false;
@@ -1100,26 +1289,25 @@ function insidePolygon(x, y, points) {
   }
   return inside;
 }
+/**
+ * The scattered ground (`drawGroundDetail`): about this many of the finest drawn cells across the view, a thing in this
+ * share of cells, and fading in between these scales. Tuned so a view draws about as many things as the old scatter did.
+ */
+const SCATTER_ACROSS = 48, SCATTER_CHANCE = .105;
+const groundDetailOpacity = scale => ramp(scale, 28, 40);
 function drawGroundDetail(ctx, world, camera) {
-  if (camera.scale < 34) return;
+  // Fades in as the camera comes down to a few miles across, rather than appearing whole at one scale.
+  const detail = groundDetailOpacity(camera.scale);
+  if (detail <= 0) return;
   const canvas = ctx.canvas;
   const topLeft = camera.toWorld({ x: 0, y: 0 }), bottomRight = camera.toWorld({ x: canvas.width, y: canvas.height });
-  // A tuft or a tree every few rods close up, and coarser as the view widens, so a frame never has more cells to roll
-  // than it can afford. It was a fixed 0.055 miles, sized for figures six times as big, and close up the land went bare.
   const viewMiles = Math.max(bottomRight.x - topLeft.x, bottomRight.y - topLeft.y);
-  // In doublings, so the scatter holds still while zooming within a band and only thins at the band's edge.
-  const cell = 0.01 * 2 ** Math.max(0, Math.ceil(Math.log2(viewMiles / 150 / 0.01)));
-  const startX = Math.floor(topLeft.x / cell), endX = Math.ceil(bottomRight.x / cell);
-  const startY = Math.floor(topLeft.y / cell), endY = Math.ceil(bottomRight.y / cell);
-  const cells = (endX - startX + 1) * (endY - startY + 1);
-  if (cells > 26000) return;
+  // A tuft or a tree every few rods close up, and sparser as the view widens, so a frame never has more cells to roll than
+  // it can afford - as levels of a doubling grid (public/map-base.js `scatterLevels`): whatever is on screen stays where it
+  // is while the camera comes in, and the next level down fades in between. It was one grid re-rolled at every doubling,
+  // thinned by a density that changed with every wheel step, and the prairie reshuffled as a student zoomed (2026-09-17).
+  const levels = scatterLevels(viewMiles, { finest: 0.01, across: SCATTER_ACROSS });
   const figure = camera.figure;
-  // There is a ceiling on how many objects one frame can afford. Spending it top to
-  // bottom and stopping when it runs out leaves the lower half of a tall phone screen
-  // as bare paint, so thin the whole viewport evenly instead: fewer objects per acre,
-  // over all of it. `share` then reads the kind out of the roll independently of how
-  // hard it was thinned, or a sparse view would turn every surviving tuft into an oak.
-  const density = Math.min(.105, 400 / Math.max(1, cells));
   const scattered = [];
   // Nothing wild stands in ground the family has cleared (sim/fields.mjs): no oak in the corn, no scrub in the rows.
   // Only plots near the view are checked, so the Host's thirty families cost no more per tree than one family's land does.
@@ -1141,47 +1329,71 @@ function drawGroundDetail(ctx, world, camera) {
   // hunter who goes into the timber is drawn among trees. The real land draws its woods polygons.
   const water = world.map?.source ? [] : (world.map?.terrain || []).filter(feature => feature.kind === 'river' || feature.kind === 'creek');
   // A class whose woods come from the land (public/woods-view.js): timber is its patches, and close up every tree is drawn
-  // where it stands instead of scattered ones, so no lone oak stands in open prairie the simulation has none in.
+  // where it stands instead of scattered ones, so no lone oak stands in open prairie the simulation has none in. Between the
+  // two the real trees fade in over their band as the scattered timber oaks fade out, so a hunter in the timber stands among
+  // trees at every zoom (`woodsLayers`).
   const landWoods = woodsShown(world) && woodsCatalogue;
-  const realTrees = landWoods && treesInView(camera, canvas);
+  const treesShown = landWoods ? woodsLayersFor(camera, canvas).trees : 0;
   // Nothing stands in the river. The vegetation layers - the scatter here, and the real trees the
   // land itself puts on the bank - know nothing about water, so cottonwoods were drawn standing in
   // the middle of the channel. A tree within the water as it is actually drawn is dropped, at the
-  // same exaggerated width `drawTerrain` paints, so the rule matches the picture at every zoom.
+  // same width `drawTerrain` paints (`waterWidth`), so the rule matches the picture at every zoom.
   // ceiling: the channel only. Timber crowding right up to the bank is correct and stays.
-  const channels = (world.map?.terrain || [])
-    .filter(feature => ['river', 'creek'].includes(feature.kind) && feature.points?.length > 1)
-    .map(feature => {
-      const xs = feature.points.map(p => p.x), ys = feature.points.map(p => p.y);
-      const half = Math.max(1.5, ((feature.kind === 'river' ? 0.05 : 0.012) / PERSON_MILES) * figure) / 2 / camera.scale;
-      return { points: feature.points, half, minX: Math.min(...xs) - half, maxX: Math.max(...xs) + half, minY: Math.min(...ys) - half, maxY: Math.max(...ys) + half };
+  // A thing just outside the view can still reach into it: the finest cell, or three figures, whichever is further.
+  const reach = Math.max(levels[0].cell, figure * 3 / camera.scale), margin = figure * 3;
+  const viewBox = { minX: topLeft.x, minY: topLeft.y, maxX: bottomRight.x, maxY: bottomRight.y };
+  const landHere = levelsOf(world);
+  const courses = [
+    ...(world.map?.terrain || []).filter(feature => (feature.kind === 'creek' || (feature.kind === 'river' && !landHere)) && feature.points?.length > 1)
+      .map(feature => ({ points: feature.points, ...WATER[feature.kind] })),
+    ...(landHere ? levelRivers(landHere, camera) : []),
+  ];
+  const channels = courses
+    .map(course => {
+      const box = lineBox(course.points);
+      const half = waterWidth(course.miles, camera.scale, course.floor) / 2 / camera.scale;
+      return { points: course.points, half, minX: box.minX - half, maxX: box.maxX + half, minY: box.minY - half, maxY: box.maxY + half };
     })
-    .filter(course => course.maxX >= topLeft.x && course.minX <= bottomRight.x && course.maxY >= topLeft.y && course.minY <= bottomRight.y);
+    .filter(course => course.maxX >= topLeft.x - reach && course.minX <= bottomRight.x + reach && course.maxY >= topLeft.y - reach && course.minY <= bottomRight.y + reach)
+    // Only the stretch of each course near the view is measured (public/map-base.js `segmentsNear`): a scattered cell can lie
+    // a cell beyond the view's edge, so the view is grown by a cell. A river across the colonies is thousands of points.
+    .map(course => ({ ...course, near: segmentsNear(course.points, viewBox, course.half + reach) }))
+    .filter(course => course.near.length);
   const inWater = (x, y) => channels.some(course =>
-    x >= course.minX && x <= course.maxX && y >= course.minY && y <= course.maxY && distanceToLine({ x, y }, course.points) < course.half);
+    x >= course.minX && x <= course.maxX && y >= course.minY && y <= course.maxY && distanceToSegments({ x, y }, course.points, course.near) < course.half);
+  const timberWater = water.map(course => ({ points: course.points, near: segmentsNear(course.points, viewBox, INVENTED_TIMBER_MILES + reach) }));
   const inWoods = landWoods
     ? (x, y) => timberAt(x, y, woodsCatalogue.tiles.patches) === true
     : water.length
-    ? (x, y) => water.some(course => distanceToLine({ x, y }, course.points) < INVENTED_TIMBER_MILES)
+    ? (x, y) => timberWater.some(course => distanceToSegments({ x, y }, course.points, course.near) < INVENTED_TIMBER_MILES)
     : (x, y) => woods.some(w => x >= w.minX && x <= w.maxX && y >= w.minY && y <= w.maxY && insidePolygon(x, y, w.points));
-  for (let cy = startY; cy <= endY; cy++) {
-    for (let cx = startX; cx <= endX; cx++) {
-      const roll = groundHash(cx, cy);
-      if (roll > density) continue;
-      const jitter = groundHash(cx + 8191, cy - 5077);
-      const wx = (cx + jitter) * cell, wy = (cy + groundHash(cx - 331, cy + 977)) * cell;
-      if (cleared.length && inCleared(wx, wy)) continue;
-      if (channels.length && inWater(wx, wy)) continue;
-      if(bexarSite&&camera.scale>=200){const x=(wx-bexarSite.x)*5280+1200,y=(wy-bexarSite.y)*5280+2050;if(x>=0&&x<=4000&&y>=0&&y<=3400)continue;}
-      if(gonzalesSite&&camera.scale>=200){const x=wx-gonzalesSite.x,y=wy-gonzalesSite.y,b=GONZALES_ART_BOUNDS;if(x>b.left&&x<b.right&&y>b.top&&y<b.bottom)continue;}
-      // Kind is independent of LOD density: panning or zooming cannot turn a tuft into a tree.
-      scattered.push({ share: groundHash(cx+973,cy-997), seed: cx + cy, timber: !realTrees && (landWoods || water.length > 0 || woods.length > 0) && inWoods(wx, wy), point: camera.toScreen({ x: wx, y: wy }) });
+  const hasWoods = landWoods || water.length > 0 || woods.length > 0;
+  const landGrid = landHere?.land?.[0] || null;
+  for (const { level, cell, alpha } of levels) {
+    const startX = Math.floor(topLeft.x / cell), endX = Math.floor(bottomRight.x / cell);
+    const startY = Math.floor(topLeft.y / cell), endY = Math.floor(bottomRight.y / cell);
+    for (let cy = startY; cy <= endY; cy++) {
+      for (let cx = startX; cx <= endX; cx++) {
+        const item = scatterItem(level, cx, cy);
+        if (item.roll > SCATTER_CHANCE) continue;
+        const wx = (cx + item.jx) * cell, wy = (cy + item.jy) * cell;
+        const sx = (wx - topLeft.x) * camera.scale, sy = (wy - topLeft.y) * camera.scale;
+        if (sx < -margin || sy < -margin || sx > canvas.width + margin || sy > canvas.height + margin * 2) continue;
+        if (cleared.length && inCleared(wx, wy)) continue;
+        if (channels.length && inWater(wx, wy)) continue;
+        if(bexarSite&&camera.scale>=200){const x=(wx-bexarSite.x)*5280+1200,y=(wy-bexarSite.y)*5280+2050;if(x>=0&&x<=4000&&y>=0&&y<=3400)continue;}
+        if(gonzalesSite&&camera.scale>=200){const x=wx-gonzalesSite.x,y=wy-gonzalesSite.y,b=GONZALES_ART_BOUNDS;if(x>b.left&&x<b.right&&y>b.top&&y<b.bottom)continue;}
+        const point = camera.toScreen({ x: wx, y: wy });
+        // Kind is fixed by the cell: panning or zooming cannot turn a tuft into a tree.
+        // The mark is the class of ground's (public/ground-classes.js). Timber on a map with the land's woods is the woods'
+        // patches alone, so no oak stands where the simulation has none; elsewhere a timber class counts too.
+        const ground = groundClassAt(landGrid, wx, wy);
+        const timber = (hasWoods && inWoods(wx, wy)) || (!landWoods && groundClass(ground).timber === true);
+        scattered.push({ share: item.share, seed: cx + cy, alpha: alpha * detail, timber, ground, point });
+      }
     }
   }
-  // Painted back to front, so a tuft in front of a rock overlaps it rather than being
-  // cut in half by it.
-  scattered.sort((a, b) => a.point.y - b.point.y);
-  if (realTrees) {
+  if (treesShown > 0) {
     for (const tree of treesVisible(camera, canvas, woodsCatalogue)) {
       if (cleared.length && inCleared(tree.x, tree.y)) continue;
       if (channels.length && inWater(tree.x, tree.y)) continue;
@@ -1189,7 +1401,7 @@ function drawGroundDetail(ctx, world, camera) {
       const sizeName = ['pole', 'log', 'large'][tree.size];
       const sizedTree = `${tree.kind.picture}-${sizeName}`;
       const deliveredSizes = ['pine-loblolly', 'cedar', 'mesquite', 'live-oak', 'elm'].includes(tree.kind.picture);
-      scattered.push({ tree: deliveredSizes ? sizedTree : tree.kind.picture, height, point, seed: Math.round(tree.x * 1e5) });
+      scattered.push({ tree: deliveredSizes ? sizedTree : tree.kind.picture, height, point, seed: Math.round(tree.x * 1e5), alpha: treesShown });
     }
     // What the family has felled: a stump, and a log lying beside it while any are left to haul (sim/felling.mjs).
     // stand-in: hardwood stumps use the nearest post-oak or cottonwood stump, and every felled trunk uses
@@ -1197,33 +1409,33 @@ function drawGroundDetail(ctx, world, camera) {
     const stumps = stumpsVisible(camera, canvas, woodsCatalogue);
     for (const stump of stumps) {
       const point = camera.toScreen(stump), pine = ['loblolly', 'shortleaf'].includes(stump.kind.id), soft = ['cottonwood', 'sycamore'].includes(stump.kind.id);
-      scattered.push({ tree: pine ? 'stump-pine-loblolly' : soft ? 'stump-cottonwood' : 'stump-post-oak', height: figure * SIZE.stump, point, seed: 0 });
-      if (stump.left > 0) scattered.push({ tree: 'log-fallen', height: figure * SIZE.stump * .8, point: { x: point.x + figure * .35, y: point.y + figure * .08 }, seed: 0 });
+      scattered.push({ tree: pine ? 'stump-pine-loblolly' : soft ? 'stump-cottonwood' : 'stump-post-oak', height: figure * SIZE.stump, point, seed: 0, alpha: treesShown });
+      if (stump.left > 0) scattered.push({ tree: 'log-fallen', height: figure * SIZE.stump * .8, point: { x: point.x + figure * .35, y: point.y + figure * .08 }, seed: 0, alpha: treesShown });
     }
     window.__stumpsDrawn = stumps.length;
-    scattered.sort((a, b) => a.point.y - b.point.y);
-  }
-  for (const { share, seed, timber, point, tree, height } of scattered) {
-    if (tree) {
-      if (!drawSprite(ctx, tree, point.x, point.y, height)) postOak(ctx, point.x, point.y, height, seed);
-    } else if (timber && share < .5) {
-      postOak(ctx, point.x, point.y, figure * SIZE.timberTree, seed);
-    } else if (share < .055 && camera.scale > 90 && !landWoods) {
-      // A lone open-grown oak standing out of the prairie.
-      postOak(ctx, point.x, point.y, figure * SIZE.loneTree, seed);
-    } else if (share < .095) {
-      if (!drawSprite(ctx, 'rocks', point.x, point.y, figure * SIZE.rock)) {
-        ctx.fillStyle = '#b9b7a4';
-        ctx.beginPath(); ctx.ellipse(point.x, point.y, figure * .17, figure * .12, 0, 0, Math.PI * 2); ctx.fill();
-      }
-    } else if (share < .21) {
-      // Thorny scrub and prickly pear belong to this country as much as the grass does.
-      const bush = share < .17 ? 'scrub' : 'prickly-pear';
-      if (!drawSprite(ctx, bush, point.x, point.y, figure * SIZE.scrub)) {
-        ctx.fillStyle = '#7c8f5c';
-        ctx.beginPath(); ctx.ellipse(point.x, point.y - figure * .12, figure * .26, figure * .2, 0, 0, Math.PI * 2); ctx.fill();
-      }
-    } else if (!drawSprite(ctx, 'grass-tuft', point.x, point.y, figure * SIZE.tuft)) {
+  } else if (landWoods) window.__stumpsDrawn = 0;
+  // Painted back to front, so a tuft in front of a rock overlaps it rather than being cut in half by it.
+  scattered.sort((a, b) => a.point.y - b.point.y);
+  // A lone open-grown oak takes the place of a rock as the camera comes close enough to see one (invented map only).
+  const loneOaks = landWoods ? 0 : ramp(camera.scale, 70, 110);
+  const faded = (alpha, draw) => {
+    if (alpha <= 0.02) return;
+    if (alpha >= 0.98) { draw(); return; }
+    // Not save and restore: a few hundred of each a redraw were a fifth of its time. Every draw here keeps its own state.
+    const was = ctx.globalAlpha;
+    ctx.globalAlpha = was * alpha; draw(); ctx.globalAlpha = was;
+  };
+  // One mark of the ground, from its class's table entry, or the entry's shape while the art has not loaded.
+  const plain = (share, point, ground) => {
+    const mark = markFor(ground, share);
+    if (mark.sprite && drawSprite(ctx, mark.sprite, point.x, point.y, figure * mark.size)) return;
+    if (mark.fallback === 'rock') {
+      ctx.fillStyle = '#b9b7a4';
+      ctx.beginPath(); ctx.ellipse(point.x, point.y, figure * .17, figure * .12, 0, 0, Math.PI * 2); ctx.fill();
+    } else if (mark.fallback === 'bush') {
+      ctx.fillStyle = '#7c8f5c';
+      ctx.beginPath(); ctx.ellipse(point.x, point.y - figure * .12, figure * .26, figure * .2, 0, 0, Math.PI * 2); ctx.fill();
+    } else if (mark.fallback === 'tuft') {
       // A tuft of bunch grass (HIST-GONZ-017).
       ctx.strokeStyle = share < .5 ? '#93a066' : '#87975d';
       ctx.lineWidth = Math.max(.7, figure * .07); ctx.lineCap = 'round';
@@ -1234,10 +1446,34 @@ function drawGroundDetail(ctx, world, camera) {
       }
       ctx.stroke();
     }
+  };
+  for (const { share, seed, timber, point, tree, height, alpha, ground } of scattered) {
+    if (tree) {
+      faded(alpha, () => { if (!drawSprite(ctx, tree, point.x, point.y, height)) postOak(ctx, point.x, point.y, height, seed); });
+    } else if (timber && share < .5) {
+      // A scattered oak in the timber, handing over to the real trees where the land's trees are drawn.
+      faded(alpha * (1 - treesShown), () => postOak(ctx, point.x, point.y, figure * SIZE.timberTree, seed));
+      faded(alpha * treesShown, () => plain(share, point, ground));
+    } else if (share < .055 && loneOaks > 0) {
+      faded(alpha * loneOaks, () => postOak(ctx, point.x, point.y, figure * SIZE.loneTree, seed));
+      faded(alpha * (1 - loneOaks), () => plain(share, point, ground));
+    } else faded(alpha, () => plain(share, point, ground));
   }
+}
+/** A course's box in miles, worked out once a course: most of the colonies' water is off screen at any zoom that shows it. */
+const courseBoxes = new WeakMap();
+function courseBox(feature) {
+  let box = courseBoxes.get(feature);
+  if (!box) {
+    box = { minX: Infinity, minY: Infinity, maxX: -Infinity, maxY: -Infinity };
+    for (const p of feature.points || []) { box.minX = Math.min(box.minX, p.x); box.maxX = Math.max(box.maxX, p.x); box.minY = Math.min(box.minY, p.y); box.maxY = Math.max(box.maxY, p.y); }
+    courseBoxes.set(feature, box);
+  }
+  return box;
 }
 function drawTerrain(ctx, world, camera) {
   const figure = camera.figure;
+  const topLeft = camera.toWorld({ x: 0, y: 0 }), bottomRight = camera.toWorld({ x: ctx.canvas.width, y: ctx.canvas.height });
   for (const feature of world.map?.terrain || []) {
     if(feature.id==='town-commons'&&camera.scale>=200)continue; // Detailed Gonzales yards replace the old rectangular wash.
     const style = TERRAIN_STYLE[feature.kind]; if (!style) continue;
@@ -1245,9 +1481,19 @@ function drawTerrain(ctx, world, camera) {
     if (feature.kind === 'field' && world.land?.plots && feature.ownerHouseholdId === world.household?.id) continue;
     // And on the Host's map every family's field is its plots.
     if (feature.kind === 'field' && world.overview?.lands?.[feature.ownerHouseholdId]?.plots) continue;
+    // On the real land a river is drawn from the land's levels (`drawLevelLines`), which hold the same courses at every band.
+    if (feature.kind === 'river' && levelsOf(world)) continue;
+    const water = !style.fill && WATER[feature.kind];
+    const width = water ? waterWidth(water.miles, camera.scale, water.floor) : 0;
+    // Creeks fade in as the camera comes down to a colony (`creekOpacity`); rivers are always the map.
+    const shown = feature.kind === 'creek' ? creekOpacity(camera.scale) : 1;
+    if (water) {
+      if (shown <= 0.02) continue;
+      const box = courseBox(feature), pad = (width + 60) / camera.scale;
+      if (box.maxX < topLeft.x - pad || box.minX > bottomRight.x + pad || box.maxY < topLeft.y - pad || box.minY > bottomRight.y + pad) continue;
+    }
     let points = (feature.points || []).map(camera.toScreen); if (points.length < 2) continue;
     if (!style.fill) {
-      ctx.beginPath(); points.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
       // Water is drawn at its true width - about eighty metres for a river, a dozen for a creek -
       // measured in the same exaggerated yardstick as everything else on this map. `figure` is
       // PERSON_MILES of ground, and every tree, cabin and ox is a multiple of it; drawing water in
@@ -1258,8 +1504,12 @@ function drawTerrain(ctx, world, camera) {
       // The invented country used to be worse still: a width capped at twenty-six pixels, so the
       // Guadalupe was the same twenty-six pixels whether the whole county was on screen or one
       // yard of bank. The land grew as you zoomed and the water did not.
-      const miles = feature.kind === 'river' ? 0.05 : 0.012;
-      drawWater(ctx, points, Math.max(1.5, (miles / PERSON_MILES) * figure));
+      //
+      // Pulled back, the width was held at the figure's floor instead - eighteen pixels for every river below a county's
+      // zoom - so a river swelled into a lake and its bends into a tangle as the map widened around it (2026-09-17). The
+      // true width now meets a floor of a few pixels smoothly (public/map-base.js `waterWidth`).
+      if (shown < 0.98) { ctx.save(); ctx.globalAlpha *= shown; drawWater(ctx, points, width); ctx.restore(); }
+      else drawWater(ctx, points, width);
       continue;
     }
     ctx.beginPath(); points.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); ctx.closePath();
@@ -1267,7 +1517,8 @@ function drawTerrain(ctx, world, camera) {
     // Timber has no edge you could walk up to and touch. Drawn at full strength its
     // polygon reads as a ruled wedge of darker paint across the prairie, so the fill is
     // only a tint and the trees standing in it do the work of saying where the wood is.
-    if (feature.kind === 'woods') ctx.globalAlpha *= camera.scale > 26 || woodsShown(world) ? 0 : .4;
+    // It hands over to the stand of trees across a band of zoom rather than at one scale (`inventedWoods`).
+    if (feature.kind === 'woods') ctx.globalAlpha *= woodsShown(world) ? 0 : .4 * (1 - inventedWoods(camera.scale));
     // The commons is trodden ground, not a paved square. Same reason, same treatment.
     else if (feature.kind === 'town') ctx.globalAlpha *= .5;
     ctx.fillStyle = style.fill; ctx.fill();
@@ -1281,21 +1532,25 @@ function drawTerrain(ctx, world, camera) {
       const left = Math.min(...xs), top = Math.min(...ys);
       const right = left + (Math.max(...xs) - left) * .5, bottom = top + (Math.max(...ys) - top) * .5;
       fieldPatch(ctx, camera, { left, top, right, bottom }, null, 'sound');
-    } else if (feature.kind === 'woods' && camera.scale > 26 && !woodsShown(world)) {
+    } else if (feature.kind === 'woods' && inventedWoods(camera.scale) > 0.02 && !woodsShown(world)) {
       // Close in, timber resolves into individual trees rather than a green wash. Timber
       // follows the water here, so a share of it is drawn as river-bottom cottonwood
       // rather than making every stand the same upland oak (HIST-GONZ-012).
       const area = Math.abs(points.reduce((sum, p, i) => sum + (p.x * points[(i + 1) % points.length].y - points[(i + 1) % points.length].x * p.y), 0) / 2);
       const count = Math.min(64, Math.round(area / Math.max(900, figure * figure * 9)));
       const stand = scatterInside(points, seedOf(feature.id), count).sort((a, b) => a.y - b.y);
+      ctx.save(); ctx.globalAlpha *= inventedWoods(camera.scale);
       for (const spot of stand) {
         if (spot.tint % 5 === 3) { if (drawSprite(ctx, 'cottonwood', spot.x, spot.y, figure * SIZE.timberTree * 1.12)) continue; }
         else if (spot.tint % 7 === 5) { if (drawSprite(ctx, 'sapling', spot.x, spot.y, figure * SIZE.sapling)) continue; }
         postOak(ctx, spot.x, spot.y, figure * SIZE.timberTree, spot.tint);
       }
+      ctx.restore();
     }
   }
 }
+/** On the invented map, how far a wood's polygon tint has handed over to its stand of trees: over scales 20 to 34. */
+const inventedWoods = scale => ramp(scale, 20, 34);
 /**
  * The land the family holds, as a boundary on its own map (docs/LAND_GRANTS.md). Only its own: a
  * neighbour's grant is theirs to know. Marked with a dashed line of survey-chain brown, because no
@@ -1471,26 +1726,55 @@ function drawHolding(ctx, world, camera) {
   // Presentation evidence for proofs, on the same contract as `window.__plotsDrawn`.
   window.__holdingRect = { kind: holding.kind, acres: holding.acres, corners };
 }
+/**
+ * The ground under everybody, drawn once and laid down each frame (public/map-base.js, docs/PERFORMANCE_RENDER.md): relief,
+ * woods, scattered ground, water, fields, roads and a town's ground. Drawn again when the key changes - a snapshot, the
+ * camera, the canvas's size - or when something it drew from lands without a snapshot (`invalidateMapBase`: art, a woods
+ * tile, the map fetched). Twelve frames a second of people walking no longer repaint the country under them.
+ */
+const mapBase = { canvas: null, key: null, state: null };
+let mapBaseEpoch = 0;
+function invalidateMapBase() { mapBaseEpoch++; }
 export function drawWorld(world) {
   window.__animationClips = new Set();
-  const canvas = $('#world-map'), ctx = canvas.getContext('2d');
+  const canvas = $('#world-map'), main = canvas.getContext('2d');
   fitCanvas();
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = '#9fbe73'; ctx.fillRect(0, 0, canvas.width, canvas.height);
   const camera = cameraFor(world, canvas);
   window.__camera = { kind: camera.kind, scale: camera.scale, named: camera.named, cx: camera.cx, cy: camera.cy, following: camera.following };
-  window.__relief = drawRelief(ctx, world, camera);
-  ensureWoods(world, camera, canvas, window.__snapshot?.mapId, woodsCatalogue, redrawForWoods, window.__snapshot?.woodsRevision || 0);
-  if (woodsShown(world) && woodsCatalogue) drawWoodsCover(ctx, camera, canvas, woodsCatalogue);
-  drawGroundDetail(ctx, world, camera);
-  drawTerrain(ctx, world, camera);
-  drawHolding(ctx, world, camera);
-  drawPlots(ctx, world, camera);
+  const baseKey = [mapBaseEpoch, world, world.map, canvas.width, canvas.height, camera.cx, camera.cy, camera.scale];
+  // `ground` is the context the ground is drawn into this frame, or null when the kept ground is still right.
+  let ground = null;
+  if (!sameLayerKey(mapBase.key, baseKey)) {
+    mapBase.canvas ??= document.createElement('canvas');
+    if (mapBase.canvas.width !== canvas.width || mapBase.canvas.height !== canvas.height) { mapBase.canvas.width = canvas.width; mapBase.canvas.height = canvas.height; }
+    ground = mapBase.canvas.getContext('2d');
+    mapBase.key = baseKey;
+    // Presentation evidence, read by scripts/perf-render-measure.mjs and by nothing in the application: how often the ground is drawn.
+    window.__groundDrawn = (window.__groundDrawn || 0) + 1;
+  }
+  if (ground) {
+    ground.clearRect(0, 0, canvas.width, canvas.height);
+    ground.fillStyle = '#9fbe73'; ground.fillRect(0, 0, canvas.width, canvas.height);
+    window.__relief = drawRelief(ground, world, camera);
+    ensureWoods(world, camera, canvas, window.__snapshot?.mapId, woodsCatalogue, redrawForWoods, window.__snapshot?.woodsRevision || 0);
+    if (woodsShown(world) && woodsCatalogue) drawWoodsCover(ground, camera, canvas, woodsCatalogue);
+    drawGroundDetail(ground, world, camera);
+    drawTerrain(ground, world, camera);
+    drawHolding(ground, world, camera);
+    drawPlots(ground, world, camera);
+    // The ground's own clips (the oaks' wind) are kept with it, and still named on the frames that only lay it down.
+    // ceiling: the trees in the kept ground stand still between redraws of it; a few swaying trees drawn on each frame over
+    // the kept ground is the way out, if the stillness is missed.
+    mapBase.clips = new Set(window.__animationClips);
+  } else for (const clip of mapBase.clips || []) window.__animationClips.add(clip);
+  // What is drawn from here on goes on the page's own canvas; the ground's own draws in the loops below go to `ground`.
+  const ctx = main;
   const host = hostView(world);
   // Every family's land by its house, for the Host's map (empty for a student).
   const landBySite = new Map(landsOf(world).map(land => [land.homeSiteId, land]));
   // Worn dirt, not a drafting line: a soft verge with a packed track down the middle.
-  for (const route of Object.values(world.map?.routes || {})) {
+  if (ground) for (const route of Object.values(world.map?.routes || {})) {
+    const ctx = ground;
     const points = (route.points || []).filter(Boolean).map(camera.toScreen); if (points.length < 2) continue;
     const track = route.kind === 'track' ? .55 : 1;
     // A cart road is a few rods wide; drawn at a sixteenth of a mile it was wider than the house beside it.
@@ -1548,19 +1832,19 @@ export function drawWorld(world) {
       const view = settlement ? null : theirs ? theirs.view : ownLand && world.land ? ownLandView(world.land) : (world.household?.seenLand?.[site.id] || (world.arrivalClass ? { shelter: 'camp' } : { shelter: 'house' }));
       if (theirs) hostLandsDrawn[site.id] = { householdId: theirs.householdId, ...view };
       if(site.id==='gonzales'&&camera.scale>=200){
-        const project=p=>camera.toScreen({x:site.x+p.x,y:site.y+p.y});drawGonzalesGround(ctx,project,camera.scale);standing.push(...gonzalesDrawables(ctx,project,camera.scale,Object.fromEntries((world.map?.shops?.gonzales||[]).filter(shop=>shop.building).map(shop=>[shop.building,shop.label]))));
+        const project=p=>camera.toScreen({x:site.x+p.x,y:site.y+p.y});if(ground)drawGonzalesGround(ground,project,camera.scale);standing.push(...gonzalesDrawables(ctx,project,camera.scale,Object.fromEntries((world.map?.shops?.gonzales||[]).filter(shop=>shop.building).map(shop=>[shop.building,shop.label]))));
         window.__shopsDrawn={gonzales:(world.map?.shops?.gonzales||[]).length};
       }else if(TOWN_LAYOUTS[site.id]&&camera.scale>=200){
         // A town of the colonies from its research sketch (sim/town-layouts.mjs, docs/TOWNS.md §5b), its keepers' buildings named.
         const layout=TOWN_LAYOUTS[site.id],project=p=>camera.toScreen({x:site.x+p.x,y:site.y+p.y});
-        drawTownGround(ctx,layout,project,camera.scale);
+        if(ground)drawTownGround(ground,layout,project,camera.scale);
         standing.push(...townDrawables(ctx,layout,project,camera.scale,Object.fromEntries((world.map?.shops?.[site.id]||[]).filter(shop=>shop.building).map(shop=>[shop.building,shop.label]))));
         window.__townsDrawn={...(window.__townsDrawn||{}),[site.id]:layout.buildings.length};
       }else if(site.id==='bexar'&&camera.scale>=200){
         // Scenic local feet around the existing, server-projected town. No new
         // entities or travel shortcuts. Live terrain retains its own river data.
         const project=p=>camera.toScreen({x:site.x+(p.x-1200)/5280,y:site.y+(p.y-2050)/5280});
-        drawBexarGround(ctx,project,camera.scale/5280,{river:false});
+        if(ground)drawBexarGround(ground,project,camera.scale/5280,{river:false});
         standing.push(...bexarDrawables(ctx,project,camera.scale/5280,{bankTrees:false}));
       }else if (ownLand && world.land?.house?.pieces && plotCatalogue) {
         // The family's house plot, piece by piece at its stage (public/house-plot.js); the camp beside it until a pen stands.
@@ -1602,7 +1886,7 @@ export function drawWorld(world) {
       }
     } else if (site.kind === 'ford'||site.kind==='bridge') {
       const length=Math.max(12,world.map?.source?camera.scale*.065:camera.figure*1.8);
-      drawCrossing(ctx,q.x,q.y,length,crossingAngle(site,world.map?.terrain||[],camera.toScreen),site.kind==='bridge');
+      if(ground)drawCrossing(ground,q.x,q.y,length,crossingAngle(site,world.map?.terrain||[],camera.toScreen),site.kind==='bridge');
     } else if (site.kind === 'camp') {
       // A camp is shelter, not a house: canvas and brush, nothing that implies a holding.
       standing.push({ y: q.y, draw: () => {
@@ -1689,6 +1973,11 @@ export function drawWorld(world) {
     }) });
     shownObserved.push(entity.id);
   }
+  // The ground goes down whole, and the drawing state it ended in is carried over, as when it was drawn on this canvas.
+  if (ground) mapBase.state = readDrawState(ground);
+  main.setTransform(1, 0, 0, 1, 0, 0); main.globalAlpha = 1; main.globalCompositeOperation = 'source-over';
+  main.drawImage(mapBase.canvas, 0, 0);
+  applyDrawState(main, mapBase.state);
   standing.sort((a, b) => a.y - b.y);
   for (const item of standing) item.draw();
   const placeFont = `${Math.round(Math.max(11, Math.min(16, camera.scale * 1.1)))}px system-ui`;
@@ -1730,20 +2019,23 @@ export function drawWorld(world) {
     : '';
   // The Host's whole class is hundreds of names; what is on the screen is said as a count instead.
   const hostText = host ? `The whole class: ${observed.filter(e => e.kind === 'person').length} people, ${shownObserved.length} figures in view, ${observed.filter(e => e.kind === 'person' && e.travel).length} people on the road.` : '';
-  $('#world-description').textContent = host ? `${hostText}${battleText}` : `${settled}${met} ${journey}${meeting}${battleText}`.trim() || 'The world will appear when the class begins.';
+  // Each only when it changed: this runs on every animation frame (public/map-base.js `setText`).
+  const described = host ? `${hostText}${battleText}` : `${settled}${met} ${journey}${meeting}${battleText}`.trim() || 'The world will appear when the class begins.';
+  setText($('#world-description'), described);
   const follow = $('#map-nav [data-view=follow]');
-  $('#map-nav [data-view=bexar]').hidden=!world.map?.sites?.bexar;
+  const bexarButton = $('#map-nav [data-view=bexar]'), noBexar = !world.map?.sites?.bexar;
+  if (bexarButton.hidden !== noBexar) bexarButton.hidden = noBexar;
   if (follow) {
-    follow.dataset.active = String(camera.following);
+    setData(follow, 'active', String(camera.following));
     // Naming who is being watched, because a camera that has stopped following the family
     // should say why rather than leaving a student to wonder where everyone went.
     const watched = watchedId ? entities.find(entity => entity.id === watchedId) : null;
-    follow.textContent = host ? (camera.following ? 'Whole class' : 'Show whole class') : camera.following ? 'Following' : watched ? `Watching ${watched.name}` : 'Follow';
+    setText(follow, host ? (camera.following ? 'Whole class' : 'Show whole class') : camera.following ? 'Following' : watched ? `Watching ${watched.name}` : 'Follow');
   }
   renderHostGoto(world, landBySite);
-  $('#map-title').textContent = camera.title;
-  $('#map-framing').textContent = 'Prototype · fictional families';
-  canvas.setAttribute('aria-label', $('#world-description').textContent);
+  setText($('#map-title'), camera.title);
+  setText($('#map-framing'), 'Prototype · fictional families');
+  if (canvas.getAttribute('aria-label') !== described) canvas.setAttribute('aria-label', described);
 }
 /**
  * Where the teacher can go: every family's land and every town, from one list on the Host's map. A student has Land and
@@ -3712,10 +4004,12 @@ function renderJoinLinks(snapshot) {
 }
 function render(snapshot) {
   if (motionProjection.session !== snapshot.sessionId) { animationTime = 0; visibleBattlePhase = null; battleAnimationStart = 0; }
+  // Anything the ground is drawn from may have changed with this render: the map, the plots, a pick on the land.
+  invalidateMapBase();
   motionProjection.accept(snapshot, performance.now());
   // Everybody on the Host's map is somebody the teacher looks at and never orders: marked here rather than sent on every one.
   if (snapshot.world?.role === 'host') for (const entity of snapshot.world.others || []) entity.observed = true;
-  ensureMap(snapshot); ensureHomes(snapshot); ensureChores(snapshot); ensureFamily(snapshot);
+  ensureMap(snapshot); ensureHomes(snapshot); ensureChores(snapshot); ensureFamily(snapshot); ensureLandLevels(mapCache);
   snapshot.world.map = mapCacheId === snapshot.mapId ? mapCache : (snapshot.world.map || EMPTY_MAP);
   $('#save-fault').hidden = !snapshot.fault;
   $('#save-fault').textContent = snapshot.fault?.message || '';
@@ -4068,7 +4362,7 @@ reducedMotion.addEventListener('change', () => { if (window.__snapshot) drawWorl
 // The map draws immediately with its own shapes, and repaints once when the sprite
 // sheets arrive. Nothing waits on the art: a stalled or missing download costs detail,
 // never a working class.
-onArtReady(() => { if (window.__snapshot) drawWorld(window.__snapshot.world); repaintFamilyPanel(); });
+onArtReady(() => { redrawForArrival(); repaintFamilyPanel(); });
 loadArt();
 try {
   if (hostPage && location.hash) { await api('/api/host', { key: location.hash.slice(1) }); history.replaceState(null, '', '/host'); }

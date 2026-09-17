@@ -123,12 +123,16 @@ export function drawSprite(ctx, name, x, y, height, { flip = false, alpha = 1, a
   }
   const scale = height / (frame.logicalHeight || frame.h);
   const width = frame.w * scale, drawnHeight = frame.h * scale;
-  ctx.save();
-  if (alpha !== 1) ctx.globalAlpha *= Math.max(0, Math.min(1, alpha));
+  // Undone by hand rather than with save and restore: the map lays down hundreds of sprites a redraw, and save and restore
+  // copy the whole drawing state each time (docs/PERFORMANCE_RENDER.md). Only the alpha and the transform are touched.
+  const was = ctx.globalAlpha;
+  if (alpha !== 1) ctx.globalAlpha = was * Math.max(0, Math.min(1, alpha));
   ctx.translate(x, y);
   if (flip) ctx.scale(-1, 1);
   ctx.drawImage(image, frame.x, frame.y, frame.w, frame.h, -width * (anchor?.[0] ?? frame.anchorX), -drawnHeight * (anchor?.[1] ?? frame.anchorY), width, drawnHeight);
-  ctx.restore();
+  if (flip) ctx.scale(-1, 1);
+  ctx.translate(-x, -y);
+  ctx.globalAlpha = was;
   return width;
 }
 

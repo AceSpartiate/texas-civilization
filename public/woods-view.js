@@ -5,18 +5,36 @@
 // tree close up. Tiles never change during a class, so each is fetched once and kept. A class that does not read its
 // woods from the land gets 404s it never asks for: `woodsShown` is false and the map draws as it always has.
 
+import { smoothCover } from './map-base.js';
+
 /** Fetched tiles by class and key, and those on their way. */
 const tiles = new Map();
 const pending = new Set();
 let classId = null;
 /** At most this many tile requests are out at once, so a fast pan does not queue hundreds. */
 const IN_FLIGHT = 6;
-/** Close enough to draw every tree when the view covers no more than this many square miles. */
+/** Close enough to draw every tree at full strength when the view covers no more than this many square miles. */
 export const TREE_VIEW_SQUARE_MILES = 0.4;
-/** Patches are fetched for the ground detail when the view is no wider than this, in miles. */
-const PATCH_VIEW_MILES = 12;
-/** The shade is drawn when the view is no wider than this, in miles; beyond it nothing is. */
-const SHADE_VIEW_MILES = 90;
+/**
+ * The zoom bands the woods hand over across (docs/PERFORMANCE_RENDER.md, "Zoom"). Each layer fades in or out across its
+ * band rather than switching at one number, which is what made the woods pop in and out as a student zoomed (owner,
+ * 2026-09-17). Trees fade in over `trees` (square miles in view); the patches hand over to the shade over `shade` (miles
+ * across); the shade fades out over `shadeOut`, where the province's own cover belts are the woods.
+ */
+export const WOODS_BANDS = Object.freeze({ trees: [1, TREE_VIEW_SQUARE_MILES], shade: [8, 12], shadeOut: [90, 60] });
+/** Under the trees the canopy is kept at this share of its strength, so a stand still reads as woods between its trunks. */
+const CANOPY_UNDER_TREES = 0.45;
+const band = (value, [from, to]) => Math.max(0, Math.min(1, (value - from) / (to - from)));
+/**
+ * How strongly each layer of the woods is drawn for a view `wide` miles across its wider side and `area` square miles:
+ * `trees` every tree, `patches` the timber and brush canopy, `shade` the mile-by-mile share of timber. Pure, so the bands
+ * can be held by a test (tests/map-base.test.mjs): no layer jumps between two neighbouring wheel steps.
+ */
+export function woodsLayers(wide, area) {
+  const trees = band(area, WOODS_BANDS.trees);
+  const shade = band(wide, WOODS_BANDS.shade);
+  return { trees, patches: (1 - shade) * (1 - (1 - CANOPY_UNDER_TREES) * trees), shade: shade * band(wide, WOODS_BANDS.shadeOut) };
+}
 
 /** Whether this class's map draws its woods from the land. */
 export const woodsShown = world => world?.map?.woods === 'landfire-2016';
@@ -49,7 +67,7 @@ function fetchTiles(level, size, box, onLoad) {
     const asked = classId;
     fetch(`/api/woods?level=${level}&tx=${tx}&ty=${ty}`)
       .then(response => response.ok ? response.json() : null)
-      .then(result => { if (asked !== classId) return; pending.delete(key); stale.delete(key); tiles.set(key, result?.tile || { empty: true }); onLoad(); })
+      .then(result => { if (asked !== classId) return; pending.delete(key); stale.delete(key); tiles.set(key, result?.tile || { empty: true }); arrivals[level] = (arrivals[level] || 0) + 1; onLoad(); })
       .catch(() => { if (asked === classId) pending.delete(key); });
   }
 }
@@ -65,14 +83,17 @@ function viewOf(camera, canvas, margin = 0) {
 export function ensureWoods(world, camera, canvas, mapId, catalogue, onLoad, woodsRevision = 0) {
   if (!woodsShown(world) || !catalogue || !mapId) return;
   reset(mapId, woodsRevision);
-  const view = viewOf(camera, canvas, 0.15);
-  if (view.area <= TREE_VIEW_SQUARE_MILES) fetchTiles('trees', catalogue.tiles.trees, view, onLoad);
-  else if (view.wide <= PATCH_VIEW_MILES) fetchTiles('patches', catalogue.tiles.patches, view, onLoad);
-  else if (view.wide <= SHADE_VIEW_MILES) fetchTiles('shade', catalogue.tiles.shade, view, onLoad);
+  const view = viewOf(camera, canvas, 0.15), layers = woodsLayersFor(camera, canvas);
+  // Every layer a band draws is asked for, closest first: the trees are what a student zoomed in is looking at.
+  if (layers.trees > 0) fetchTiles('trees', catalogue.tiles.trees, view, onLoad);
+  if (layers.patches > 0) fetchTiles('patches', catalogue.tiles.patches, view, onLoad);
+  if (layers.shade > 0) fetchTiles('shade', catalogue.tiles.shade, view, onLoad);
 }
 
-/** Whether the view is close enough for every tree, rather than scattered detail. */
+/** Whether the view is close enough for every tree at full strength, rather than scattered detail. */
 export const treesInView = (camera, canvas) => viewOf(camera, canvas).area <= TREE_VIEW_SQUARE_MILES;
+/** How strongly this view draws each layer of the woods (`woodsLayers`). */
+export const woodsLayersFor = (camera, canvas) => { const view = viewOf(camera, canvas); return woodsLayers(view.wide, view.area); };
 
 /**
  * Is this point timber, by the patches fetched: true, false, or null when its tile has not come yet.
@@ -100,31 +121,75 @@ export function treesVisible(camera, canvas, catalogue) {
 }
 
 /**
- * The woods under the ground detail, as far as the view needs: nothing close up (every tree is drawn), the timber and
- * brush patches as canopy at middle distance (the scattered trees alone read as open savanna where the patch is closed
- * woods), and the shade of timber further out.
+ * The woods under the ground detail, as far as the view needs: the timber and brush patches as a canopy from close up to
+ * the middle distance - kept faintly under the trees close in, so a stand reads as woods between its trunks - handing over
+ * to the mile-by-mile shade of timber further out, which fades away where the province's cover belts take over.
+ *
+ * Each is laid down as one small picture of its cells, a pixel a cell, scaled up smoothly. The patches and the shade were
+ * squares filled edge to edge, and a square of 330 feet or a mile drawn hard-edged is a checkerboard, not a wood; smoothed,
+ * a stand has soft edges that stay put as the camera moves (owner, 2026-09-17).
+ * ceiling: a tile that has not arrived is bare until it does, and then appears; fading tiles in as they land is the way out.
  */
 export function drawWoodsCover(ctx, camera, canvas, catalogue) {
-  const view = viewOf(camera, canvas);
-  if (view.area <= TREE_VIEW_SQUARE_MILES) return;
-  if (view.wide > PATCH_VIEW_MILES) return drawWoodsShade(ctx, camera, canvas, catalogue);
-  const size = catalogue.tiles.patches;
-  // One path a cover, filled once, so neighbouring patches do not darken where their edges overlap.
-  const paths = { t: new Path2D(), b: new Path2D() };
-  for (const { key, tx, ty } of keysFor('patches', size, view)) {
-    const tile = tiles.get(key);
-    if (!tile?.cells) continue;
-    const across = Math.round(Math.sqrt(tile.cells.length)), step = size / across;
-    for (let row = 0; row < across; row++) for (let column = 0; column < across; column++) {
-      const path = paths[tile.cells[row * across + column]];
-      if (!path) continue;
-      const a = camera.toScreen({ x: tx * size + column * step, y: ty * size + row * step }), b = camera.toScreen({ x: tx * size + (column + 1) * step, y: ty * size + (row + 1) * step });
-      path.rect(Math.floor(a.x), Math.floor(a.y), Math.ceil(b.x) - Math.floor(a.x), Math.ceil(b.y) - Math.floor(a.y));
-    }
+  const view = viewOf(camera, canvas), layers = woodsLayers(view.wide, view.area);
+  const box = viewOf(camera, canvas, 0.05);
+  if (layers.patches > 0.01) {
+    // Stronger than the squares were (.55): smoothed, a narrow stand spreads its colour and would otherwise read paler than its trees.
+    const colours = { t: [86, 116, 56, 0.7], b: [154, 148, 96, 0.35] };
+    const size = catalogue.tiles.patches;
+    const cover = coverRaster('patches', size, box, tile => Math.round(Math.sqrt(tile.cells.length)), (tile, across, column, row) => colours[tile.cells[row * across + column]]);
+    if (cover) layRaster(ctx, camera, cover, size, layers.patches);
   }
+  if (layers.shade > 0.01) {
+    const size = catalogue.tiles.shade;
+    const cover = coverRaster('shade', size, box, () => size, (tile, across, column, row) => {
+      const share = Number(tile.cells[row * across + column]);
+      return share ? [93, 122, 60, 0.06 * share] : null;
+    });
+    if (cover) layRaster(ctx, camera, cover, size, layers.shade);
+  }
+}
+
+/** Tiles arrived, by level: a level's picture of the cover is made again from the tiles on hand when one of its own lands. */
+const arrivals = {};
+const rasters = new Map();
+/**
+ * The cells of every tile of a level in a box, a pixel each, as a canvas: `{ canvas, tx, ty, across }`. Made again only when
+ * the tiles in the box or the tiles on hand change, so zooming within a box costs a scaled draw and nothing else.
+ */
+function coverRaster(level, size, box, acrossOf, colourOf) {
+  const tx0 = Math.floor(box.minX / size), tx1 = Math.floor(box.maxX / size), ty0 = Math.floor(box.minY / size), ty1 = Math.floor(box.maxY / size);
+  const key = `${classId}:${tx0}:${ty0}:${tx1}:${ty1}:${arrivals[level] || 0}`;
+  const kept = rasters.get(level);
+  if (kept?.key === key) return kept.cover;
+  let across = 0;
+  for (let ty = ty0; ty <= ty1 && !across; ty++) for (let tx = tx0; tx <= tx1 && !across; tx++) { const tile = tiles.get(`${level}:${tx}:${ty}`); if (tile?.cells) across = acrossOf(tile); }
+  let cover = null;
+  if (across && typeof document !== 'undefined') {
+    const columns = (tx1 - tx0 + 1) * across, rows = (ty1 - ty0 + 1) * across;
+    // Four pixels a cell, smoothed about a cell wide; two for a wide view, so the picture stays under a million pixels.
+    const upscale = columns * rows * 16 <= 1e6 ? 4 : 2;
+    const smooth = smoothCover(columns, rows, (column, row) => {
+      const tile = tiles.get(`${level}:${tx0 + Math.floor(column / across)}:${ty0 + Math.floor(row / across)}`);
+      return tile?.cells && acrossOf(tile) === across ? colourOf(tile, across, column % across, row % across) : null;
+    }, { upscale });
+    const canvas = kept?.cover?.canvas || document.createElement('canvas');
+    canvas.width = smooth.width; canvas.height = smooth.height;
+    canvas.getContext('2d').putImageData(new ImageData(smooth.data, smooth.width, smooth.height), 0, 0);
+    cover = { canvas, tx: tx0, ty: ty0, across: across * upscale };
+  }
+  rasters.set(level, { key, cover });
+  return cover;
+}
+
+/** A cover picture laid over the map where its tiles stand, smoothly scaled, at `alpha`. */
+function layRaster(ctx, camera, { canvas, tx, ty, across }, size, alpha) {
+  const a = camera.toScreen({ x: tx * size, y: ty * size });
+  const b = camera.toScreen({ x: tx * size + canvas.width / across * size, y: ty * size + canvas.height / across * size });
   ctx.save();
-  ctx.globalAlpha = 0.55; ctx.fillStyle = '#5d7a3c'; ctx.fill(paths.t, 'nonzero');
-  ctx.globalAlpha = 0.35; ctx.fillStyle = '#9a9460'; ctx.fill(paths.b, 'nonzero');
+  ctx.globalAlpha *= alpha;
+  ctx.imageSmoothingEnabled = true;
+  ctx.drawImage(canvas, a.x, a.y, b.x - a.x, b.y - a.y);
   ctx.restore();
 }
 
@@ -139,25 +204,3 @@ export function stumpsVisible(camera, canvas, catalogue) {
   return found;
 }
 
-/** Draw the shade of timber for the view, zoomed out: each mile a green wash as strong as its share of timber. */
-function drawWoodsShade(ctx, camera, canvas, catalogue) {
-  const view = viewOf(camera, canvas);
-  if (view.wide > SHADE_VIEW_MILES) return;
-  const size = catalogue.tiles.shade;
-  // One path a shade, filled once, for the same reason as the patches.
-  const paths = Array.from({ length: 10 }, () => new Path2D());
-  for (const { key, tx, ty } of keysFor('shade', size, view)) {
-    const tile = tiles.get(key);
-    if (!tile?.cells) continue;
-    for (let row = 0; row < size; row++) for (let column = 0; column < size; column++) {
-      const share = Number(tile.cells[row * size + column]);
-      if (!share) continue;
-      const a = camera.toScreen({ x: tx * size + column, y: ty * size + row }), b = camera.toScreen({ x: tx * size + column + 1, y: ty * size + row + 1 });
-      paths[share].rect(Math.floor(a.x), Math.floor(a.y), Math.ceil(b.x) - Math.floor(a.x), Math.ceil(b.y) - Math.floor(a.y));
-    }
-  }
-  ctx.save();
-  ctx.fillStyle = '#5d7a3c';
-  paths.forEach((path, share) => { if (share) { ctx.globalAlpha = 0.06 * share; ctx.fill(path); } });
-  ctx.restore();
-}

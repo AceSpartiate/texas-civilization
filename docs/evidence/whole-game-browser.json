@@ -12,10 +12,10 @@
     "3 of the family set to auto from the panel: Amos Proofwright, Mahala Proofwright, Nieves Proofwright",
     "3 orders given from the panel and taken",
     "the call came (\"Volunteers from Columbia and the lower Brazos are to gather at James Kerr's on the Lavaca …\") and Amos Proofwright was sent from the one menu",
-    "the first period ended on its own at minute 114020: interim standings on both pages, no winner named (633 ticks, 68.8 s)",
+    "the first period ended on its own at minute 114020: interim standings on both pages, no winner named (633 ticks, 69 s)",
     "the Host continued the class into the winter: period 2 opens on 1836-01-25",
     "Amos Proofwright was sent to enlist auxiliary from the panel",
-    "the second period ended on its own at minute 241560 (195 ticks, 21.6 s)",
+    "the second period ended on its own at minute 241560 (195 ticks, 21.7 s)",
     "the Host continued the class into the spring: period 3 opens on 1836-03-14",
     "told to leave, the \"!\" opened the card and the family left for lynchburg with what fit; the farm burned behind it",
     "the game ended on the road home at minute 302520: the final reckoning on both pages, the Host naming who finished first (621 ticks, 68.1 s)",
@@ -25,12 +25,12 @@
     "periods": {
       "first": {
         "ticks": 633,
-        "seconds": 68.8,
+        "seconds": 69,
         "endedAtMinute": 114020
       },
       "second": {
         "ticks": 195,
-        "seconds": 21.6,
+        "seconds": 21.7,
         "endedAtMinute": 241560
       },
       "third": {
@@ -80,7 +80,7 @@
       "service": {
         "kind": "auxiliary-year",
         "status": "serving",
-        "since": 175680,
+        "since": 174960,
         "siteId": "san-felipe",
         "acres": 320
       }
@@ -90,12 +90,12 @@
       "card": "The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer within the day, or the family packs w"
     },
     "ending": {
-      "host": "THE END OF THE STORY × How the families finished the Proofwright family finished first, with a final number of 73. Family Road miles from Gonzales Heard of the cannon Who went Coin Glory Land Final the Proofwright family 162 October 2 Amos Proofwright 0 reales 56 16 reales 73 Asa's family 124 Octobe",
-      "family": "THE END OF THE STORY × the Proofwright family COIN IN THE HOUSE 0 reales GLORY 56 FINAL NUMBER 73 0 reales, counted as 1 real × (1 + 56 glory) + 16 reales of land (320 acres promised) = 73 Our story The family lived 162 road miles from Gonzales. Word that soldiers had come for the cannon reached the",
+      "host": "THE END OF THE STORY × How the families finished the Proofwright family finished first, with a final number of 70. Family Road miles from Gonzales Heard of the cannon Who went Coin Glory Land Final the Proofwright family 162 October 2 Amos Proofwright 0 reales 53 16 reales 70 Asa's family 124 Octobe",
+      "family": "THE END OF THE STORY × the Proofwright family COIN IN THE HOUSE 0 reales GLORY 53 FINAL NUMBER 70 0 reales, counted as 1 real × (1 + 53 glory) + 16 reales of land (320 acres promised) = 70 Our story The family lived 162 road miles from Gonzales. Word that soldiers had come for the cannon reached the",
       "flight": "returning",
       "minute": 302520
     },
-    "totalSeconds": 158.5
+    "totalSeconds": 158.8
   },
   "screenshots": [
     "docs/evidence/whole-game-at-work.png",

@@ -1,0 +1,234 @@
+# What a running game costs the browser to draw
+
+**2026-09-17.** Owner, after playing Solo on the school laptop: *"it's exceptionally laggy. Very slow to load and a lot of
+problems with being able to navigate … There's no way it'll work on the student chromebooks right?"* Then: *"Rivers and
+forests pop in and out of their places during zoom. their shapes and sizes change too. could we use this as an opportunity
+to make this look better, as well as improve performance?"* and *"there's also desert and other land styles we need to
+consider. prairie, buttes, hills, etc."*
+
+This record covers the **cost of drawing while a game runs**: the animation loop, `render(snapshot)`, the DOM it touches,
+memory and garbage; and how the map's detail changes with zoom. The page's load (`scripts/perf-load-measure.mjs`), the
+server's tick and snapshot size, and pan and zoom input were other pieces of the same work, recorded elsewhere.
+
+**Nothing here is a Chromebook measurement.** Every number is this desktop, headless Chrome 152, with the CPU slowed
+six-fold through the DevTools protocol. That slows JavaScript and layout, not the GPU, memory or heat of a real Chromebook.
+The numbers compare one build with another on one machine. Real Chromebook acceptance is still unproven.
+
+## Method
+
+`node scripts/perf-render-measure.mjs --label <name> [--root <dir>]` (`PLAYWRIGHT_MODULE` and `BROWSER_EXECUTABLE` as for the
+proofs). What it does:
+
+- It starts an in-process solo classroom on the colonies map: 15 families, the same seed every run, 1 s ticks. Real Solo play
+  uses 9.5 s ticks, so per-snapshot cost shows up here nearly ten times as often as in a real game.
+- It opens the game at 1366×768 at density 1 with the CPU throttled 6×, and answers the family's pop-ups.
+- It measures four views for 30 s each:
+  - `default`: the camera following the family;
+  - `land`: the family's homestead, close up;
+  - `town`: Gonzales;
+  - `whole`: zoomed right out.
+- Before any page script runs, it wraps a few browser functions:
+  - `requestAnimationFrame`, to count callbacks and time each one (a *painted frame* is a callback that drew, over 1 ms);
+  - the EventSource message handler, to time `render(snapshot)`, JSON parsing included;
+  - `document.createElement` (count and caller) and a MutationObserver, to track DOM churn;
+  - a `longtask` PerformanceObserver.
+- It reads DevTools `Performance.getMetrics` for busy, script and layout time and the JS heap every 3 s, and runs a sampling
+  CPU profile of each view for self-time by function.
+- It counts how often the ground was redrawn (`window.__groundDrawn`).
+
+`--root` points the same script at a copy of an earlier commit. The *before* column is commit `cb7b9de`, exported to a
+scratch folder and measured with this script. Evidence: [before](evidence/perf-render-before.json),
+[after](evidence/perf-render-after.json).
+
+## Before and after
+
+The CPU is throttled 6×. Frames are capped at 12 a second by design (`animateMap`). "Snapshot" is the time for one
+`render(snapshot)`.
+
+| View | Build | Painted fps | ms / frame (mean / p95) | ms / snapshot (mean / p95) | Long tasks / min | Main thread busy | Script | Ground redraws / s |
+|---|---|---|---|---|---|---|---|---|
+| default (scale 402) | before | 7.5 | 109 / 136 | 122 / 167 | 518 | 102 % | 92 % | every frame |
+| | after | **10.9** | **15 / 19** | 63 / 90 | **73** | **41 %** | 23 % | 1.2 |
+| land (scale 2132) | before | 4.5 | 179 / 209 | 193 / 221 | 238 | 104 % | 98 % | every frame |
+| | after | **10.9** | **27 / 65** | 75 / 80 | 239 | **55 %** | 39 % | 4.0 |
+| town (scale 960) | before | 6.7 | 116 / 137 | 131 / 196 | 465 | 102 % | 90 % | every frame |
+| | after | **11.0** | **14 / 17** | 67 / 76 | **62** | **38 %** | 22 % | 1.0 |
+| whole (scale 3.6 → 4.5) | before | 2.5 | 216 / 407 | 376 / 513 | 208 | 100 % | 86 % | every frame |
+| | after | **11.0** | **6 / 7** | 53 / 74 | **46** | **28 %** | 11 % | 1.1 |
+
+Other measurements:
+
+- **JS heap:** 9 to 22 MB in every view after; 9 to 40 MB before.
+- **Elements created:** about 1,000 to 1,400 a minute in both builds, so render did not add DOM churn. Those elements come
+  from `renderHousehold`, `renderVisits` and `renderTravelModes` rebuilding their rows on every snapshot.
+- **Page errors:** none in either build.
+- **Whole-map scale:** the whole view is at 3.6 before and 4.5 after. The map data's new box (301 by 275 miles) stops the
+  camera sooner.
+
+Before, the main thread was over 100 % busy in every view: the page could not keep up with its own animation, and every
+click and wheel step waited behind a frame.
+
+## What made it slow
+
+The top self-time functions in the *before* profile:
+
+- `pull` and `bezierCurveTo` in `public/curve.js`: 190 to 230 ms a second. Every river and creek on the colonies was drawn
+  as a curve, nine strokes deep, on every frame. That is 7,000 points a stroke, nearly all off screen.
+- `distanceToLine`: 106 to 247 ms a second. The scattered tufts and trees tested themselves against every point of every
+  river, on every frame.
+- `save`, `restore` and `drawImage`: the ground's sprites, redrawn every frame.
+
+The animation loop repainted the whole map twelve times a second so that people could walk, and everything under them was
+repainted too, although it had not changed.
+
+## What changed
+
+1. **The ground is kept between frames** (`mapBase` in `public/app.js`).
+   - **What is kept:** relief, land classes, woods, scattered detail, water, fields, the holding, roads, and a town's or a
+     ford's ground. They are drawn into a canvas of their own, and each frame copies that canvas whole and draws people and
+     buildings on top.
+   - **The key:** `sameLayerKey` in `public/map-base.js`. It holds an invalidation epoch, the snapshot's world object, the
+     map object, the canvas size and the camera.
+   - **What redraws it:** `render(snapshot)`; a woods tile or a sheet of art arriving (`redrawForArrival`, grouped into one
+     redraw 200 ms later); the map arriving.
+   - **Drawing state:** the canvas state the ground ended in (line caps, font and so on) is carried onto the page's canvas
+     each frame (`readDrawState` and `applyDrawState`). The people drawn on top see exactly what they saw before.
+   - **Animation evidence:** `__animationClips` still names the ground's clips on frames that only copy it.
+   - `ceiling:` the oaks' wind does not animate between ground redraws. The way out is to draw a few swaying trees over the
+     kept ground each frame.
+2. **Rivers are only drawn where they can reach the screen** (`visibleSegments` in `public/curve.js`).
+   - A segment is kept if its box, grown by a third of its span plus the stroke and bank detail, meets the screen. The curve
+     stays inside that grown box.
+   - The curve through the kept segments is the same curve as before.
+   - A course whose box is off screen is skipped before its points are projected (`courseBox`).
+3. **The scatter measures only water near the view** (`segmentsNear` and `distanceToSegments`). Every distance inside the
+   view is unchanged.
+4. **Text is written only when it changes** (`setText`). The loop was rewriting the map title, the Follow button, the
+   world description and the canvas's aria-label twelve times a second.
+5. **`drawSprite` resets by hand** (`public/art.js`). It undoes its translate and alpha instead of calling `save` and
+   `restore`. This took the town view from 188 ms to 67 ms a snapshot. Alpha fades in the scatter do the same.
+6. **Canvas pixel budget** (`canvasRatio`). The canvas still follows a dense screen's density up to 2, but never goes above
+   about a 1080p frame of pixels. A 1440×900 screen at density 2 was 5.2 million pixels a frame and is now 2.1 million.
+   Screens at density 1 are untouched. `ceiling:` one budget for every machine.
+
+## Zoom: nothing pops, nothing moves
+
+Before and after at the same spot: the San Felipe family's land, zoomed out one wheel step at a time. Each sheet is twelve
+steps.
+
+- Contact sheets: [before 1](evidence/zoom-lod-before-sheet-1.png)–[5](evidence/zoom-lod-before-sheet-5.png) and
+  [after 1](evidence/zoom-lod-after-sheet-1.png)–[5](evidence/zoom-lod-after-sheet-5.png).
+- Pairs at single steps:
+  - step 8, a farm: [before](evidence/zoom-lod-before-step-8.png), [after](evidence/zoom-lod-after-step-8.png);
+  - step 14, the neighbourhood: [before](evidence/zoom-lod-before-step-14.png), [after](evidence/zoom-lod-after-step-14.png);
+  - step 26, the colony: [before](evidence/zoom-lod-before-step-26.png), [after](evidence/zoom-lod-after-step-26.png);
+  - step 44, the country: [before](evidence/zoom-lod-before-step-44.png), [after](evidence/zoom-lod-after-step-44.png).
+
+Run it with `node scripts/zoom-lod-shots.mjs --label <name> [--only 8,14] [--root <dir>]`.
+
+The *after* images include the map-data agent's corrected data (merged from `main`: `docs/MAP_ACCURACY.md`). The *before*
+images are on the old invented province. Where a river *is* comes from that data. How it is drawn at each zoom comes from
+here.
+
+What was wrong in *before*, and what replaced it:
+
+- **Rivers changed width and shape.**
+  - *Before:* water width was tied to the figure size's floor, so every river was 18 px wide below a county's zoom. Near
+    San Felipe the rivers swelled into lakes and tangles (step 44). The province's sketched rivers were straight bands,
+    `width × scale / 2` wide, which is more than a mile across when close in, and they ran in other places.
+  - *After:* `waterWidth(miles, scale, floor)` joins the true width to a floor of a few pixels smoothly, so a river narrows
+    steadily as the camera pulls back. On the real land, rivers, the sea and the escarpment are drawn from the data's
+    nested bands (`public/land-levels.js` `lineBand`). A coarser band only drops points of the finer band, so a line
+    never moves. Terrain rivers are not drawn a second time.
+  - Creeks fade in between scales 6 and 14 (`creekOpacity`). Ripples, stones, reeds, ruts and tufts fade in as the
+    water or road widens, instead of switching on at one width.
+- **Forests popped and were checkerboards.**
+  - *Before:* each woods layer switched on or off at a single number: trees at 0.4 square miles, patches at 12 miles
+    across, shade at 90. The patches and shade were drawn as hard-edged squares (steps 8 to 26).
+  - *After:* each layer fades across a band (`WOODS_BANDS` and `woodsLayers` in `public/woods-view.js`):
+    - trees fade in from 1 square mile to 0.4, over a canopy kept at 45 % under them;
+    - patches hand over to shade between 8 and 12 miles across;
+    - shade fades out between 60 and 90.
+  - The patches and shade are laid down as smoothed pictures of their cells (`smoothCover`: four pixels a cell, blurred
+    about a cell wide with premultiplied alpha). A stand has a soft edge that stays in place. Each picture is rebuilt only
+    when a tile of its own level arrives.
+  - **Hunting rule:** a hunter sent into timber is drawn among trees at every zoom. The canopy never leaves, and the
+    scattered oaks fade out only as the real trees fade in.
+- **The prairie reshuffled.**
+  - *Before:* the scattered tufts, rocks and oaks were re-rolled at every doubling of the view, and thinned by a density
+    that changed at every wheel step.
+  - *After:* they are levels of a doubling grid (`scatterLevels` and `scatterItem`). Each cell of each level holds at most
+    one thing, at a place fixed by the cell. A view always draws every coarser level and fades in the next finer one. A
+    thing on screen stays exactly where it is as the camera comes in. The whole scatter fades in between scales 28 and 40
+    instead of appearing at 34.
+  - **Water rule:** nothing is scattered in a channel as it is drawn. The exclusion uses the same `waterWidth` and the same
+    band lines.
+- **The land.** On the real land, the province's cover belts (a band-3 sketch) are replaced by the land's own classes and
+  hillshade, described in the next section. Hills now read on the country view (step 44, after).
+
+## Ground classes: where a new land style plugs in
+
+The land data (`/terrain/colonies-land.json`) has one class per cell on grids of 8, 2 and half a mile, and a hillshade per
+cell. The page decodes it in `public/land-levels.js` (`decodeLand`). **A class is one table entry** in
+`public/ground-classes.js` `GROUND_CLASSES`, keyed by the data's id. Each entry has:
+
+- `colour` and `alpha`: its wash over the relief;
+- `marks`: its scattered detail by the cell's roll. Each mark is a sprite at a size, with a drawn fallback shape (`rock`,
+  `bush`, `tuft`) used while the art has not loaded;
+- `timber`: whether its scatter is woods. On a map that has the land's woods tiles, those tiles decide instead.
+
+How a class meets its neighbours is the smoothing of the picture: about a cell wide, the same at every zoom. `ceiling:`
+every class has the same edge softness.
+
+**To add a land style** (desert, buttes, and so on):
+
+1. The map data gives it an id in `land`.
+2. Add an entry with that id to `GROUND_CLASSES`.
+3. `tests/map-base.test.mjs` fails until every class the data names has an entry.
+
+**Hillshade** is drawn from each grid's `shade` byte in `drawLand` (`landPicture`), as a dark or light wash over the classes.
+Hills, bluffs and the escarpment come through with no extra work. A stronger relief pass (relief classes such as buttes
+drawn as sprites) would go in the same place, as another picture per grid.
+
+**Cost:** every picture is made once per grid and cached. Only the part in view is copied, and only when the ground is
+redrawn. The grids hand over across a band of zoom (`landWeights`: a grid fades in from 4 to 8 pixels a cell).
+
+## Tests
+
+- **Current count:** `npm test` passes, 662 tests.
+- **`tests/map-base.test.mjs`** has 11 tests, covering:
+  - the ground's key and `setText`;
+  - `canvasRatio`;
+  - `segmentsNear` and `visibleSegments`, including a bend that dips onto the screen and a creek just outside the view;
+  - `waterWidth` and `creekOpacity`, with no jump from one wheel step to the next;
+  - `woodsLayers`, with no jump from one wheel step to the next;
+  - scatter stability as the camera comes in, and its budget;
+  - `smoothCover`: soft edges without grey bleed;
+  - class table entries, including the prairie drawing exactly the old marks;
+  - the real land's levels: decoding, band nesting, band and grid choice.
+- **`tests/art-library.test.mjs`** now finds the fallbacks for the grass tuft and rocks in the class table instead of
+  as source patterns.
+- **Injection proofs:** thirteen regressions were injected one at a time
+  ([injections](evidence/perf-render-injections.json)). Each failed its own test and no other.
+- **Browser proofs** rerun after the change: `test:family-panel`, `test:looks`, `test:art` (the map still animates, and
+  pause still freezes every pixel), `test:whole-game`, and the map-accuracy proof. Their screenshots were checked by eye.
+
+## What remains
+
+These are the top costs after the change, from the profile.
+
+- **Redrawing the ground.** A redraw costs 50 to 75 ms throttled, and the main one-off cost now is a snapshot: at the 1 s
+  tick of this measurement that is about one redraw a second. At Solo's 9.5 s pace it is one every 9.5 s. The redraw
+  happens for the whole snapshot even when nothing on the ground changed. A fingerprint of what the ground is drawn from
+  (plots, lane, woods revision, picks) in place of the snapshot's identity would skip most of these. It was left out
+  because a missed dependency would draw stale ground.
+- **The land view** redraws the ground about 4 times a second: woods tiles and the homes (`/api/map/homes`) arriving while
+  neighbours settle and fell trees. That view has 239 long tasks a minute, mostly those redraws.
+- **Every frame:**
+  - copying the ground and drawing the people and buildings (`drawImage`), 50 to 140 ms a second;
+  - `townPoint`, 13 ms a second: a town's drawables are rebuilt each frame at scale 200 and up;
+  - `getBoundingClientRect` in `fitCanvas`, about 10 ms a second.
+- **DOM rebuilds:** `renderHousehold`, `renderVisits` and `renderTravelModes` rebuild their rows on every snapshot. They are
+  cheap next to the drawing.
+- **Loading:** woods tiles and art still appear when they arrive rather than fading in.
+- **Unmeasured:** a real Chromebook, its GPU, 4 GB of memory, and a density above 1.
