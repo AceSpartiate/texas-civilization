@@ -232,3 +232,20 @@ These are the top costs after the change, from the profile.
   cheap next to the drawing.
 - **Loading:** woods tiles and art still appear when they arrive rather than fading in.
 - **Unmeasured:** a real Chromebook, its GPU, 4 GB of memory, and a density above 1.
+
+## After the follow-ups — 2026-09-17
+
+`node scripts/perf-render-measure.mjs --label final` (same computer, CPU throttled 6x, 15 families, 1 s ticks), against
+`after` above, once the land and woods pictures moved to a worker, the card, the canvas and the towns stopped being
+measured or rebuilt every frame, and the woods came in batches:
+
+| View | Main thread busy | Long-task time per minute | Layouts per second |
+|---|---|---|---|
+| default | 41% → **34%** | 4,617 → **1,702 ms** | 3.6 → **1.2** |
+| land (close up) | 55% → **38%** | 16,094 → **7,711 ms** | 3.0 → **1.0** |
+| town (Gonzales) | 38% → **29%** | 4,133 → **3,148 ms** | 3.1 → **1.0** |
+| whole map | 28% → **23%** | 2,567 → **366 ms** | 3.0 → **1.0** |
+
+Painted frames stay at 9-10 a second (the animation's own cap is 12). Still to do: the household, visit and travel-mode rows
+are rebuilt on every snapshot (about 1,000-1,300 elements a minute, `renderHousehold` and `renderTravelModes`), and the
+close-up land view redraws its ground twice a second while neighbours work nearby.
