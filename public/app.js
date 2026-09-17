@@ -14,6 +14,7 @@ import { drawHousePlot, plotted, renderHousePlot } from '/house-plot.js';
 import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesInView, treesVisible, woodsShown } from '/woods-view.js';
 import { bindEnding, renderEnding } from '/ending.js';
 import { bindLooks, renderLooks } from '/appearance.js';
+import { frameTransform, gestureView, isTap, keyView, nearestSpot, reproject, tapSlop, wheelZoomFactor, worldAt, zoomAbout } from '/map-camera.js';
 const $ = selector => document.querySelector(selector);
 const say = message => { for (const id of ['#error', '#join-error', '#rejoin-error']) { const el = $(id); if (el) el.textContent = message; } };
 const hostPage = location.pathname === '/host';
@@ -25,7 +26,7 @@ window.__viewFormations = [];
 window.__camera = null;
 const motionProjection = new ProjectionMotion();
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-let animationTime = 0, previousFrame = 0, paintedFrame = 0;
+let animationTime = 0, previousFrame = 0, paintedFrame = 0, animationDrawMs = 0;
 // A traveller's cycle is played from their own place in their stride rather than the shared clock (public/motion.js `GaitClock`).
 const gaitClock = new GaitClock(), gaits = new Map();
 function gaitTime(clip, gait) {
@@ -100,7 +101,8 @@ let woodsCatalogue = null;
 let plotCatalogue = null;
 // A woods tile arriving redraws the map once, on the next frame, however many arrive together.
 let woodsRedraw = false;
-const redrawForWoods = () => { if (woodsRedraw) return; woodsRedraw = true; requestAnimationFrame(() => { woodsRedraw = false; if (window.__snapshot) drawWorld(window.__snapshot.world); }); };
+// Not while a hand is on the map, whose pans are what fetch the tiles: then the map is drawn with them when the hand stops.
+const redrawForWoods = () => { if (woodsRedraw) return; woodsRedraw = true; requestAnimationFrame(() => { woodsRedraw = false; if (!window.__snapshot) return; if (performance.now() < handOnMapUntil) requestMapDraw(); else drawWorld(window.__snapshot.world); }); };
 function ensureChores(snapshot) {
   if (!snapshot.mapId || (choreCache && choreCacheId === snapshot.mapId) || chorePending === snapshot.mapId) return;
   chorePending = snapshot.mapId;
@@ -560,8 +562,21 @@ export function selectedEntity(world) {
 const housesDrawn = new Map();
 let interiorSiteId = null;
 function houseAt(point) {
-  for (const [siteId, spot] of housesDrawn) if (Math.abs(point.x - spot.x) < Math.max(18, spot.size * .7) && Math.abs(point.y - spot.y) < Math.max(18, spot.size * .6)) return siteId;
+  for (const [siteId, spot] of drawnNow(housesDrawn)) if (Math.abs(point.x - spot.x) < Math.max(18, spot.size * .7) && Math.abs(point.y - spot.y) < Math.max(18, spot.size * .6)) return siteId;
   return null;
+}
+/** The view the figures in `drawnAt` and the houses in `housesDrawn` were last drawn under (set in drawWorld). */
+let drawnCamera = null;
+/**
+ * Drawn spots moved to where the camera now puts them. A tap is tested against what was drawn, but on a slow computer it can
+ * arrive after a drag or a wheel has moved the camera and before the next frame has been drawn (public/map-camera.js).
+ */
+function drawnNow(spots) {
+  const canvas = $('#world-map'), world = window.__snapshot?.world;
+  if (!world || !drawnCamera || drawnCamera.width !== canvas.width || drawnCamera.height !== canvas.height) return spots;
+  const now = cameraFor(world, canvas), size = { width: canvas.width, height: canvas.height };
+  if (now.cx === drawnCamera.cx && now.cy === drawnCamera.cy && now.scale === drawnCamera.scale) return spots;
+  return new Map([...spots].map(([id, spot]) => [id, reproject(spot, drawnCamera, now, size)]));
 }
 /** The interior panel for the house at this site: the family's own, or on the Host's map any family's, read only. */
 function renderInteriorPanel(world) {
@@ -586,17 +601,9 @@ function renderInteriorPanel(world) {
   });
 }
 $('#interior-close')?.addEventListener('click', () => { interiorSiteId = null; clearInteriorChoice(); if (window.__snapshot) renderInteriorPanel(window.__snapshot.world); });
-function entityAt(point) {
-  let best = null, bestDistance = Infinity;
-  for (const [id, spot] of drawnAt) {
-    // Reach must not grow with the sprite, or a zoomed-in ox swallows the clicks meant
-    // for the person standing next to it. It must not shrink below a fingertip either.
-    const reach = Math.max(22, Math.min(64, spot.size * .55));
-    const distance = Math.hypot(spot.x - point.x, spot.y - point.y);
-    if (distance < reach && distance < bestDistance) { best = id; bestDistance = distance; }
-  }
-  return best;
-}
+// The nearest figure within a fingertip (`nearestSpot`: reach neither grows with a zoomed-in ox nor shrinks below a finger),
+// where the camera now puts it.
+function entityAt(point) { return nearestSpot(drawnNow(drawnAt), point); }
 // Formation soldiers are visual samples of aggregate state, never duplicate person entities.
 let visibleBattlePhase = null, battleAnimationStart = 0;
 function drawFormations(ctx, battle, project, named, tick, figure = 16) {
@@ -838,21 +845,102 @@ function fitCanvas() {
   canvas.width = width; canvas.height = height;
   return true;
 }
+/**
+ * One map draw at the next frame, however many inputs ask for it before then (docs/PERFORMANCE_NAVIGATION.md).
+ *
+ * Every pointer move and wheel event used to draw the whole map there and then, and the twelve-a-second animation drew it
+ * again in the same frame. On a slow computer a draw is most of a frame's budget, so a touchpad swipe queued a draw per event
+ * and the map fell further behind the hand the longer it moved (measured 2026-09-17, CPU throttled six times). Inputs now
+ * only move the camera, which is arithmetic, and ask for this; the draw reads the camera as it is when the frame comes, and
+ * counts as the animation's frame too (`lastMapDraw` in animateMap).
+ */
+let mapDrawWanted = false, lastMapDraw = 0;
+function requestMapDraw() {
+  if (mapDrawWanted) return;
+  mapDrawWanted = true;
+  requestAnimationFrame(() => {
+    if (!mapDrawWanted) return; // a snapshot or the animation drew it first
+    const world = window.__snapshot?.world;
+    if (!world) { mapDrawWanted = false; return; }
+    if (performance.now() < handOnMapUntil && quickFrame(world)) { mapDrawWanted = false; return; }
+    drawWorld(world); positionSelection(world);
+  });
+}
+/**
+ * While a hand is on the map, the last whole drawing of it moved and scaled to the camera instead of a new one
+ * (`frameTransform` in public/map-camera.js), and the whole map drawn again the moment the hand stops.
+ *
+ * The hand has stopped when the last pointer lifts, or when a pointer held down has not moved for HELD_STILL_MS; a wheel or
+ * touchpad has no lifting, so it has stopped when WHEEL_SETTLE_MS pass without a wheel event. Not a short timer for all of
+ * them: on a loaded page the gaps between the moves a browser delivers grow past any short timer, and a whole draw on every
+ * gap made each gap longer (measured 2026-09-17: a finger pan fell to five frames a second).
+ *
+ * ceiling: for the length of a gesture the figures stand still and ground panned in from beyond the old picture is plain
+ * grass, until the map is drawn properly when the hand stops, or sooner once the picture would cover under half the view
+ * (`QUICK_FRAME`). A draw cheap enough to run every frame on a Chromebook would make this unnecessary; so would drawing the
+ * ground to a cached layer, which is the drawing's own work, not the camera's.
+ */
+const HELD_STILL_MS = 500, WHEEL_SETTLE_MS = 250;
+let handOnMapUntil = 0, settleTimer = 0, gesturePicture = null;
+function handOnMap(settleMs) {
+  const canvas = $('#world-map');
+  // The canvas holds a whole drawing whenever there is no picture: a quick frame is only ever shown from a picture, and every
+  // whole drawing throws the picture away (drawWorld).
+  if (!gesturePicture && drawnCamera && drawnCamera.width === canvas.width && drawnCamera.height === canvas.height) {
+    const image = handOnMap.image || (handOnMap.image = document.createElement('canvas'));
+    if (image.width !== canvas.width || image.height !== canvas.height) { image.width = canvas.width; image.height = canvas.height; }
+    image.getContext('2d').drawImage(canvas, 0, 0);
+    gesturePicture = { image, camera: drawnCamera };
+  }
+  handOnMapUntil = performance.now() + settleMs;
+  clearTimeout(settleTimer);
+  settleTimer = setTimeout(handOffMap, settleMs);
+}
+/** The hand has stopped: draw the whole map, now. */
+function handOffMap() {
+  clearTimeout(settleTimer);
+  if (!handOnMapUntil) return;
+  handOnMapUntil = 0;
+  requestMapDraw();
+}
+function quickFrame(world) {
+  const canvas = $('#world-map');
+  if (!gesturePicture || gesturePicture.camera.width !== canvas.width || gesturePicture.camera.height !== canvas.height) return false;
+  const camera = cameraFor(world, canvas);
+  const move = frameTransform(gesturePicture.camera, camera, { width: canvas.width, height: canvas.height });
+  if (!move.usable) return false;
+  const ctx = canvas.getContext('2d');
+  ctx.save();
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+  ctx.fillStyle = '#9fbe73'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.imageSmoothingEnabled = true;
+  ctx.drawImage(gesturePicture.image, move.x, move.y, canvas.width * move.ratio, canvas.height * move.ratio);
+  ctx.restore();
+  // Presentation evidence on the contract drawWorld keeps: the camera this frame shows, marked as a moved picture.
+  window.__camera = { ...window.__camera, cx: camera.cx, cy: camera.cy, scale: camera.scale, following: camera.following, quick: true };
+  return true;
+}
 function installMapNavigation() {
   const canvas = $('#world-map');
   fitCanvas();
-  window.addEventListener('resize', () => { if (fitCanvas() && window.__snapshot) { drawWorld(window.__snapshot.world); renderSelection(window.__snapshot.world); } });
-  const active = new Map();
-  let anchor = null;
-  const localPoint = event => {
-    const rect = canvas.getBoundingClientRect();
-    return { x: (event.clientX - rect.left) * canvas.width / rect.width, y: (event.clientY - rect.top) * canvas.height / rect.height };
-  };
+  // Where the canvas sits, read at the start of a gesture rather than on every move: reading layout just after a snapshot
+  // has rewritten the panels makes the browser lay the whole page out again, once a move.
+  let rect = canvas.getBoundingClientRect(), measuredAt = performance.now();
+  const measure = () => { rect = canvas.getBoundingClientRect(); measuredAt = performance.now(); };
+  window.addEventListener('resize', () => { measure(); if (fitCanvas() && window.__snapshot) { drawWorld(window.__snapshot.world); renderSelection(window.__snapshot.world); } });
+  const size = () => ({ width: canvas.width, height: canvas.height });
+  const localPoint = event => ({ x: (event.clientX - rect.left) * canvas.width / rect.width, y: (event.clientY - rect.top) * canvas.height / rect.height });
+  const cssDistance = (a, b) => Math.hypot(a.x - b.x, a.y - b.y) * rect.width / canvas.width;
   const currentView = () => {
     const snapshot = window.__snapshot; if (!snapshot) return null;
     const camera = cameraFor(snapshot.world, canvas);
     return { cx: camera.cx, cy: camera.cy, scale: camera.scale, limits: camera.limits };
   };
+  const active = new Map();
+  // The press under way: where it began, how far (CSS pixels) its one pointer has wandered, the most pointers it has had
+  // down, and whether it has become a drag or a pinch. Until it has, it moves nothing: a tap that jittered a pixel used to
+  // pan the map and switch Follow off.
+  let press = null, anchor = null;
   const centre = () => {
     const points = [...active.values()];
     return { x: points.reduce((sum, p) => sum + p.x, 0) / points.length, y: points.reduce((sum, p) => sum + p.y, 0) / points.length };
@@ -862,67 +950,85 @@ function installMapNavigation() {
     return points.length < 2 ? 0 : Math.hypot(points[0].x - points[1].x, points[0].y - points[1].y);
   };
   const beginGesture = () => {
-    const view = currentView(); if (!view) return;
-    anchor = { view, screen: centre(), spread: spread() };
+    const view = currentView();
+    anchor = view && { view, centre: centre(), spread: spread() };
   };
-  let pressedAt = null, travelled = 0;
+  const tapAt = point => {
+    if (siteLooking() || surveyLooking()) {
+      // Looking over the family's own land for a house site or ten acres to survey: a tap is a place, not a person.
+      const view = currentView();
+      if (view) (siteLooking() ? lookAtSite : lookAtPlot)(worldAt(view, point, size()));
+      return;
+    }
+    const hit = entityAt(point);
+    // Nobody under the tap, but the family's own house is: open the rooms inside (docs/SETTLING_IN.md step 7).
+    const house = !hit && houseAt(point);
+    if (house) { interiorSiteId = house; clearInteriorChoice(); const panel = $('#interior'); if (panel) delete panel.dataset.shown; if (window.__snapshot) renderInteriorPanel(window.__snapshot.world); }
+    selectedId = hit;
+    selectionDismissed = !hit;
+    if (window.__snapshot) { drawWorld(window.__snapshot.world); renderSelection(window.__snapshot.world); renderTutorial(window.__snapshot.world); }
+  };
+  const release = (event, mayTap) => {
+    if (!active.has(event.pointerId)) return;
+    const tap = mayTap && press && !press.moving && active.size === 1 && isTap(press);
+    active.delete(event.pointerId);
+    // Where the press began, not where it lifted: that is what the student aimed at.
+    if (tap) tapAt(press.at);
+    if (active.size) beginGesture(); else { press = null; anchor = null; handOffMap(); }
+  };
   canvas.addEventListener('pointerdown', event => {
-    canvas.setPointerCapture(event.pointerId);
-    active.set(event.pointerId, localPoint(event));
-    if (active.size === 1) { pressedAt = localPoint(event); travelled = 0; }
+    // A right or middle button is not a hand on the map.
+    if (event.pointerType === 'mouse' && event.button !== 0) return;
+    try { canvas.setPointerCapture(event.pointerId); } catch { /* the pointer has already gone */ }
+    if (!active.size) measure();
+    const at = localPoint(event);
+    active.set(event.pointerId, at);
+    if (active.size === 1) press = { at, pointerType: event.pointerType, travelled: 0, pointers: 1, moving: false };
+    else if (press) { press.pointers = Math.max(press.pointers, active.size); press.moving = true; }
     beginGesture();
   });
   canvas.addEventListener('pointermove', event => {
-    if (!active.has(event.pointerId) || !anchor) return;
-    active.set(event.pointerId, localPoint(event));
-    const scale = anchor.spread > 12 && spread() > 12 ? clampTo(anchor.view.scale * spread() / anchor.spread, anchor.view.limits) : anchor.view.scale;
-    const moved = centre();
-    if (pressedAt) travelled = Math.max(travelled, Math.hypot(moved.x - pressedAt.x, moved.y - pressedAt.y));
+    if (!active.has(event.pointerId)) return;
+    // A mouse let go somewhere this page never heard about.
+    if (event.pointerType === 'mouse' && event.buttons === 0) { release(event, false); return; }
+    const at = localPoint(event);
+    active.set(event.pointerId, at);
+    if (!press || !anchor) return;
+    if (active.size === 1) press.travelled = Math.max(press.travelled, cssDistance(at, press.at));
+    if (!press.moving && press.travelled > tapSlop(press.pointerType)) press.moving = true;
+    if (!press.moving) return;
     // Taking hold of the map is taking the camera back.
     stopWatching();
-    manualView = {
-      scale,
-      cx: anchor.view.cx + (anchor.screen.x - moved.x) / scale,
-      cy: anchor.view.cy + (anchor.screen.y - moved.y) / scale,
-    };
-    if (window.__snapshot) drawWorld(window.__snapshot.world);
+    manualView = gestureView(anchor, centre(), spread(), size(), anchor.view.limits);
+    handOnMap(HELD_STILL_MS); requestMapDraw();
   });
-  for (const type of ['pointerup', 'pointercancel', 'pointerleave']) {
-    canvas.addEventListener(type, event => {
-      // A tap that did not drag is a choice of person, not a pan.
-      if (type === 'pointerup' && pressedAt && travelled < 7 && active.size === 1 && (siteLooking() || surveyLooking())) {
-        // Looking over the family's own land for a house site or ten acres to survey: a tap is a place, not a person.
-        const view = currentView(), at = localPoint(event);
-        const place = view && { x: view.cx + (at.x - canvas.width / 2) / view.scale, y: view.cy + (at.y - canvas.height / 2) / view.scale };
-        if (place) (siteLooking() ? lookAtSite : lookAtPlot)(place);
-      } else if (type === 'pointerup' && pressedAt && travelled < 7 && active.size === 1) {
-        const hit = entityAt(localPoint(event));
-        // Nobody under the tap, but the family's own house is: open the rooms inside (docs/SETTLING_IN.md step 7).
-        const house = !hit && houseAt(localPoint(event));
-        if (house) { interiorSiteId = house; clearInteriorChoice(); const panel = $('#interior'); if (panel) delete panel.dataset.shown; if (window.__snapshot) renderInteriorPanel(window.__snapshot.world); }
-        selectedId = hit;
-        selectionDismissed = !hit;
-        if (window.__snapshot) { drawWorld(window.__snapshot.world); renderSelection(window.__snapshot.world); renderTutorial(window.__snapshot.world); }
-      }
-      active.delete(event.pointerId);
-      if (!active.size) pressedAt = null;
-      anchor = active.size ? (beginGesture(), anchor) : null;
-    });
-  }
+  canvas.addEventListener('pointerup', event => release(event, true));
+  // Cancelled (the browser took the touch) or capture lost: the pointer is gone, and it chose nothing.
+  canvas.addEventListener('pointercancel', event => release(event, false));
+  canvas.addEventListener('lostpointercapture', event => release(event, false));
   canvas.addEventListener('wheel', event => {
-    const view = currentView(); if (!view) return;
+    // Always ours, so a touchpad pinch (a ctrlKey wheel) never zooms the whole page instead.
     event.preventDefault();
-    const scale = clampTo(view.scale * (event.deltaY < 0 ? 1.15 : 1 / 1.15), view.limits);
+    const view = currentView(); if (!view) return;
+    const factor = wheelZoomFactor(event);
+    if (factor === 1) return;
+    if (performance.now() - measuredAt > 500) measure();
     // Keep the point under the cursor still, so zooming feels like a map and not a slideshow.
-    const point = localPoint(event);
     stopWatching();
-    manualView = {
-      scale,
-      cx: view.cx + (point.x - canvas.width / 2) * (1 / view.scale - 1 / scale),
-      cy: view.cy + (point.y - canvas.height / 2) * (1 / view.scale - 1 / scale),
-    };
-    drawWorld(window.__snapshot.world);
+    manualView = zoomAbout(view, factor, localPoint(event), size(), view.limits);
+    handOnMap(WHEEL_SETTLE_MS); requestMapDraw();
   }, { passive: false });
+  // The map focused: arrows pan and + and - zoom, for a student whose pointer is not helping.
+  canvas.addEventListener('keydown', event => {
+    if (event.altKey || event.ctrlKey || event.metaKey) return;
+    const view = currentView(); if (!view) return;
+    const next = keyView(view, event.key, size(), view.limits);
+    if (!next) return;
+    event.preventDefault();
+    stopWatching();
+    manualView = next;
+    requestMapDraw();
+  });
 }
 function applyMapView(action, { street = false, at = null } = {}) {
   const snapshot = window.__snapshot; if (!snapshot) return;
@@ -1478,6 +1584,8 @@ export function drawWorld(world) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = '#9fbe73'; ctx.fillRect(0, 0, canvas.width, canvas.height);
   const camera = cameraFor(world, canvas);
+  drawnCamera = { cx: camera.cx, cy: camera.cy, scale: camera.scale, width: canvas.width, height: canvas.height };
+  mapDrawWanted = false; lastMapDraw = performance.now(); gesturePicture = null;
   window.__camera = { kind: camera.kind, scale: camera.scale, named: camera.named, cx: camera.cx, cy: camera.cy, following: camera.following };
   window.__relief = drawRelief(ctx, world, camera);
   ensureWoods(world, camera, canvas, window.__snapshot?.mapId, woodsCatalogue, redrawForWoods, window.__snapshot?.woodsRevision || 0);
@@ -3765,7 +3873,10 @@ function render(snapshot) {
   renderSlice(world);
   renderEnding(world);
   renderLooks(familyCache);
-  drawWorld(world); renderInteriorPanel(world); renderHousehold(world); renderKnowledge(world); renderEncounter(world); renderFamilyRoll(world); renderWagonLoad(world); renderHousePlan(world); renderSite(world); renderSurvey(world); renderTutorial(world);
+  // A snapshot that lands while a hand is on the map is drawn when the hand stops (`handOnMap`), not in the middle of the
+  // gesture: a whole draw there is the stall a student feels as the map sticking under their finger.
+  if (performance.now() < handOnMapUntil) requestMapDraw(); else drawWorld(world);
+  renderInteriorPanel(world); renderHousehold(world); renderKnowledge(world); renderEncounter(world); renderFamilyRoll(world); renderWagonLoad(world); renderHousePlan(world); renderSite(world); renderSurvey(world); renderTutorial(world);
 }
 function showJoin(message) {
   events?.close(); events = null;
@@ -4047,10 +4158,18 @@ function animateMap(now) {
   const world = window.__snapshot?.world;
   const active = world?.status === 'running' && !document.hidden && !reducedMotion.matches && !$('#game').hidden;
   if (active) animationTime += elapsed;
-  if (active && now - paintedFrame >= 1000 / 12) {
+  // A draw a gesture asked for this frame is the animation's frame too: never two whole-map draws in one frame.
+  // Nor while a hand is on the map: the gesture's moved picture stands for the frame until it stops (`handOnMap`).
+  // And never more than half the page's time: on a computer where a whole draw takes longer than a twelfth of a second, the
+  // animation drew frame after frame with no gap, and a touch or a click waited behind as many as five draws before the page
+  // heard it (measured 2026-09-17, CPU throttled six times: 840 ms from a finger landing to its pointerdown).
+  // ceiling: the animation runs slower than twelve frames a second wherever a draw costs more than 42 ms; cheaper drawing
+  // raises it again by itself.
+  if (active && now - lastMapDraw >= Math.max(1000 / 12, animationDrawMs * 2) && now >= handOnMapUntil) {
     paintedFrame = now;
     const began = performance.now(); drawWorld(world); positionSelection(world);
-    window.__animation = { timeMs: animationTime, clips: [...window.__animationClips], drawMs: performance.now() - began };
+    animationDrawMs = performance.now() - began;
+    window.__animation = { timeMs: animationTime, clips: [...window.__animationClips], drawMs: animationDrawMs };
   }
   requestAnimationFrame(animateMap);
 }

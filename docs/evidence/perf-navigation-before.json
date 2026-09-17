@@ -1,0 +1,687 @@
+{
+  "label": "before",
+  "date": "2026-09-17",
+  "browser": "152.0.7977.83",
+  "cpuThrottle": 6,
+  "tickMs": 1000,
+  "runs": 3,
+  "summary": {
+    "load (context only)": {
+      "msToRunningAndDrawn": 890
+    },
+    "idle map (context only)": {
+      "drawsIn3s": 29,
+      "drawMsMedian": 102
+    },
+    "mouse drag": {
+      "handled": 12,
+      "latency": {
+        "median": 195,
+        "p95": 315,
+        "max": 315
+      },
+      "fps": 7,
+      "settleMs": 181,
+      "drawMsMedian": 101,
+      "movedPictureMsMedian": [
+        null,
+        null,
+        null
+      ],
+      "wholeDraws": 13,
+      "movedPictures": 0,
+      "endErrorPx": 0,
+      "takenForATap": [
+        false,
+        false,
+        false
+      ]
+    },
+    "mouse wheel 3 notches out": {
+      "handled": 2,
+      "latency": {
+        "median": 801,
+        "p95": 801,
+        "max": 801
+      },
+      "fps": 0,
+      "settleMs": 631,
+      "drawMsMedian": 77,
+      "movedPictureMsMedian": [
+        null,
+        null,
+        null
+      ],
+      "wholeDraws": 3,
+      "movedPictures": 0,
+      "zoom": 0.7561,
+      "anchorErrorPx": 0
+    },
+    "touchpad scroll 30x4": {
+      "handled": 16,
+      "latency": {
+        "median": 1392,
+        "p95": 2281,
+        "max": 2281
+      },
+      "fps": 4,
+      "settleMs": 2281,
+      "drawMsMedian": 76,
+      "movedPictureMsMedian": [
+        null,
+        null,
+        null
+      ],
+      "wholeDraws": 8,
+      "movedPictures": 0,
+      "zoom": 0.1069,
+      "anchorErrorPx": 0
+    },
+    "touchpad pinch 30x-1.35": {
+      "handled": 16,
+      "latency": {
+        "median": 1191,
+        "p95": 2471,
+        "max": 2471
+      },
+      "fps": 5.6,
+      "settleMs": 1296,
+      "drawMsMedian": 74,
+      "movedPictureMsMedian": [
+        null,
+        null,
+        null
+      ],
+      "wholeDraws": 9,
+      "movedPictures": 0,
+      "zoom": 4.3556,
+      "anchorErrorPx": 0,
+      "pageZoom": 1
+    },
+    "touchpad tap, 5px jitter": {
+      "person": [
+        "hh-1-child-1",
+        "hh-1-child-2",
+        "hh-1-child-3"
+      ],
+      "room": 46,
+      "chose": [
+        "hh-1-child-1",
+        "hh-1-child-2",
+        "hh-1-child-3"
+      ],
+      "selected": [
+        true,
+        true,
+        true
+      ]
+    },
+    "click right after a drag": {
+      "person": [
+        "hh-1-child-1",
+        "hh-1-child-2",
+        "hh-1-child-3"
+      ],
+      "chose": [
+        "hh-1-child-1",
+        "hh-1-child-2",
+        "hh-1-child-3"
+      ],
+      "selected": [
+        true,
+        true,
+        true
+      ]
+    },
+    "Follow, then drag held 3 ticks": {
+      "endErrorPx": 1,
+      "movedAfterReleasePx": 0,
+      "worstJumpLateInHoldPx": 0,
+      "followingAfter": [
+        false,
+        false,
+        false
+      ]
+    },
+    "view button home": {
+      "latencyMs": 115
+    },
+    "view button follow": {
+      "latencyMs": 190
+    },
+    "view button in": {
+      "latencyMs": 77
+    },
+    "keyboard arrow and +": {
+      "focusable": [
+        false,
+        false,
+        false
+      ],
+      "panPx": 0,
+      "zoom": 1
+    },
+    "touch pan": {
+      "handled": 4,
+      "latency": {
+        "median": 1179,
+        "p95": 1179,
+        "max": 1179
+      },
+      "fps": 0.7,
+      "settleMs": 1032,
+      "drawMsMedian": 165,
+      "movedPictureMsMedian": [
+        null,
+        null,
+        null
+      ],
+      "wholeDraws": 9,
+      "movedPictures": 0,
+      "endErrorPx": 0
+    },
+    "touch pinch 2x": {
+      "handled": 14,
+      "latency": {
+        "median": 850,
+        "p95": 1815,
+        "max": 1815
+      },
+      "fps": 5.5,
+      "settleMs": 1815,
+      "drawMsMedian": 143,
+      "movedPictureMsMedian": [
+        null,
+        null,
+        null
+      ],
+      "wholeDraws": 11,
+      "movedPictures": 0,
+      "zoom": 2,
+      "anchorErrorPx": 245.8
+    },
+    "pinch lifted over a person": {
+      "person": [
+        "hh-1-child-3",
+        "hh-1-child-3",
+        "hh-1-child-3"
+      ],
+      "before": [
+        null,
+        null,
+        null
+      ],
+      "after": [
+        null,
+        null,
+        null
+      ],
+      "takenForATap": [
+        false,
+        false,
+        false
+      ]
+    },
+    "finger tap, 6px jitter": {
+      "person": [
+        "hh-1-child-3",
+        "hh-1-child-3",
+        "hh-1-child-3"
+      ],
+      "chose": [
+        "hh-1-child-3",
+        "hh-1-child-3",
+        "hh-1-child-3"
+      ],
+      "selected": [
+        true,
+        true,
+        true
+      ]
+    }
+  },
+  "each": [
+    {
+      "load (context only)": {
+        "msToRunningAndDrawn": 890
+      },
+      "idle map (context only)": {
+        "drawsIn3s": 29,
+        "drawMsMedian": 102
+      },
+      "mouse drag": {
+        "handled": 12,
+        "latency": {
+          "median": 195,
+          "p95": 315,
+          "max": 315
+        },
+        "fps": 7,
+        "settleMs": 181,
+        "drawMsMedian": 101,
+        "movedPictureMsMedian": null,
+        "wholeDraws": 13,
+        "movedPictures": 0,
+        "endErrorPx": 0,
+        "takenForATap": false
+      },
+      "mouse wheel 3 notches out": {
+        "handled": 2,
+        "latency": {
+          "median": 801,
+          "p95": 801,
+          "max": 801
+        },
+        "fps": 0,
+        "settleMs": 631,
+        "drawMsMedian": 77,
+        "movedPictureMsMedian": null,
+        "wholeDraws": 3,
+        "movedPictures": 0,
+        "zoom": 0.7561,
+        "anchorErrorPx": 0
+      },
+      "touchpad scroll 30x4": {
+        "handled": 16,
+        "latency": {
+          "median": 1345,
+          "p95": 2163,
+          "max": 2163
+        },
+        "fps": 4.2,
+        "settleMs": 2163,
+        "drawMsMedian": 74,
+        "movedPictureMsMedian": null,
+        "wholeDraws": 8,
+        "movedPictures": 0,
+        "zoom": 0.1069,
+        "anchorErrorPx": 0
+      },
+      "touchpad pinch 30x-1.35": {
+        "handled": 16,
+        "latency": {
+          "median": 1185,
+          "p95": 2471,
+          "max": 2471
+        },
+        "fps": 6.3,
+        "settleMs": 1296,
+        "drawMsMedian": 74,
+        "movedPictureMsMedian": null,
+        "wholeDraws": 9,
+        "movedPictures": 0,
+        "zoom": 4.3556,
+        "anchorErrorPx": 0,
+        "pageZoom": 1
+      },
+      "touchpad tap, 5px jitter": {
+        "person": "hh-1-child-1",
+        "room": 8,
+        "chose": "hh-1-child-1",
+        "selected": true
+      },
+      "click right after a drag": {
+        "person": "hh-1-child-1",
+        "chose": "hh-1-child-1",
+        "selected": true
+      },
+      "Follow, then drag held 3 ticks": {
+        "endErrorPx": 1,
+        "movedAfterReleasePx": 0,
+        "worstJumpLateInHoldPx": 0,
+        "followingAfter": false
+      },
+      "view button home": {
+        "latencyMs": 115
+      },
+      "view button follow": {
+        "latencyMs": 190
+      },
+      "view button in": {
+        "latencyMs": 77
+      },
+      "keyboard arrow and +": {
+        "focusable": false,
+        "panPx": 0,
+        "zoom": 1
+      },
+      "touch pan": {
+        "handled": 3,
+        "latency": {
+          "median": 1691,
+          "p95": 1953,
+          "max": 1953
+        },
+        "fps": 0,
+        "settleMs": 1691,
+        "drawMsMedian": 276,
+        "movedPictureMsMedian": null,
+        "wholeDraws": 4,
+        "movedPictures": 0,
+        "endErrorPx": 0
+      },
+      "touch pinch 2x": {
+        "handled": 10,
+        "latency": {
+          "median": 850,
+          "p95": 1815,
+          "max": 1815
+        },
+        "fps": 5.2,
+        "settleMs": 1815,
+        "drawMsMedian": 104,
+        "movedPictureMsMedian": null,
+        "wholeDraws": 8,
+        "movedPictures": 0,
+        "zoom": 2,
+        "anchorErrorPx": 245.8
+      },
+      "pinch lifted over a person": {
+        "person": "hh-1-child-3",
+        "before": null,
+        "after": null,
+        "takenForATap": false
+      },
+      "finger tap, 6px jitter": {
+        "person": "hh-1-child-3",
+        "chose": "hh-1-child-3",
+        "selected": true
+      }
+    },
+    {
+      "load (context only)": {
+        "msToRunningAndDrawn": 864
+      },
+      "idle map (context only)": {
+        "drawsIn3s": 30,
+        "drawMsMedian": 97
+      },
+      "mouse drag": {
+        "handled": 13,
+        "latency": {
+          "median": 189,
+          "p95": 278,
+          "max": 278
+        },
+        "fps": 8.3,
+        "settleMs": 177,
+        "drawMsMedian": 91,
+        "movedPictureMsMedian": null,
+        "wholeDraws": 13,
+        "movedPictures": 0,
+        "endErrorPx": 0,
+        "takenForATap": false
+      },
+      "mouse wheel 3 notches out": {
+        "handled": 2,
+        "latency": {
+          "median": 709,
+          "p95": 709,
+          "max": 709
+        },
+        "fps": 0,
+        "settleMs": 530,
+        "drawMsMedian": 75,
+        "movedPictureMsMedian": null,
+        "wholeDraws": 3,
+        "movedPictures": 0,
+        "zoom": 0.7561,
+        "anchorErrorPx": 0
+      },
+      "touchpad scroll 30x4": {
+        "handled": 16,
+        "latency": {
+          "median": 1392,
+          "p95": 2281,
+          "max": 2281
+        },
+        "fps": 4,
+        "settleMs": 2281,
+        "drawMsMedian": 76,
+        "movedPictureMsMedian": null,
+        "wholeDraws": 8,
+        "movedPictures": 0,
+        "zoom": 0.1069,
+        "anchorErrorPx": 0
+      },
+      "touchpad pinch 30x-1.35": {
+        "handled": 17,
+        "latency": {
+          "median": 1191,
+          "p95": 2427,
+          "max": 2427
+        },
+        "fps": 5.6,
+        "settleMs": 1260,
+        "drawMsMedian": 68,
+        "movedPictureMsMedian": null,
+        "wholeDraws": 9,
+        "movedPictures": 0,
+        "zoom": 4.3556,
+        "anchorErrorPx": 0,
+        "pageZoom": 1
+      },
+      "touchpad tap, 5px jitter": {
+        "person": "hh-1-child-2",
+        "room": 55,
+        "chose": "hh-1-child-2",
+        "selected": true
+      },
+      "click right after a drag": {
+        "person": "hh-1-child-2",
+        "chose": "hh-1-child-2",
+        "selected": true
+      },
+      "Follow, then drag held 3 ticks": {
+        "endErrorPx": 1,
+        "movedAfterReleasePx": 0,
+        "worstJumpLateInHoldPx": 0,
+        "followingAfter": false
+      },
+      "view button home": {
+        "latencyMs": 112
+      },
+      "view button follow": {
+        "latencyMs": 183
+      },
+      "view button in": {
+        "latencyMs": 76
+      },
+      "keyboard arrow and +": {
+        "focusable": false,
+        "panPx": 0,
+        "zoom": 1
+      },
+      "touch pan": {
+        "handled": 4,
+        "latency": {
+          "median": 1179,
+          "p95": 1179,
+          "max": 1179
+        },
+        "fps": 0.7,
+        "settleMs": 1032,
+        "drawMsMedian": 165,
+        "movedPictureMsMedian": null,
+        "wholeDraws": 9,
+        "movedPictures": 0,
+        "endErrorPx": 0
+      },
+      "touch pinch 2x": {
+        "handled": 14,
+        "latency": {
+          "median": 822,
+          "p95": 2099,
+          "max": 2099
+        },
+        "fps": 5.9,
+        "settleMs": 2099,
+        "drawMsMedian": 145,
+        "movedPictureMsMedian": null,
+        "wholeDraws": 11,
+        "movedPictures": 0,
+        "zoom": 2,
+        "anchorErrorPx": 245.8
+      },
+      "pinch lifted over a person": {
+        "person": "hh-1-child-3",
+        "before": null,
+        "after": null,
+        "takenForATap": false
+      },
+      "finger tap, 6px jitter": {
+        "person": "hh-1-child-3",
+        "chose": "hh-1-child-3",
+        "selected": true
+      }
+    },
+    {
+      "load (context only)": {
+        "msToRunningAndDrawn": 946
+      },
+      "idle map (context only)": {
+        "drawsIn3s": 17,
+        "drawMsMedian": 198
+      },
+      "mouse drag": {
+        "handled": 7,
+        "latency": {
+          "median": 386,
+          "p95": 436,
+          "max": 436
+        },
+        "fps": 3.9,
+        "settleMs": 359,
+        "drawMsMedian": 194,
+        "movedPictureMsMedian": null,
+        "wholeDraws": 6,
+        "movedPictures": 0,
+        "endErrorPx": 0,
+        "takenForATap": false
+      },
+      "mouse wheel 3 notches out": {
+        "handled": 2,
+        "latency": {
+          "median": 1487,
+          "p95": 1487,
+          "max": 1487
+        },
+        "fps": 0,
+        "settleMs": 1322,
+        "drawMsMedian": 96,
+        "movedPictureMsMedian": null,
+        "wholeDraws": 2,
+        "movedPictures": 0,
+        "zoom": 0.7561,
+        "anchorErrorPx": 0
+      },
+      "touchpad scroll 30x4": {
+        "handled": 16,
+        "latency": {
+          "median": 1943,
+          "p95": 3545,
+          "max": 3545
+        },
+        "fps": 0,
+        "settleMs": 3545,
+        "drawMsMedian": 92,
+        "movedPictureMsMedian": null,
+        "wholeDraws": 4,
+        "movedPictures": 0,
+        "zoom": 0.1069,
+        "anchorErrorPx": 0
+      },
+      "touchpad pinch 30x-1.35": {
+        "handled": 16,
+        "latency": {
+          "median": 2789,
+          "p95": 4222,
+          "max": 4222
+        },
+        "fps": 3.9,
+        "settleMs": 2877,
+        "drawMsMedian": 86,
+        "movedPictureMsMedian": null,
+        "wholeDraws": 7,
+        "movedPictures": 0,
+        "zoom": 4.3556,
+        "anchorErrorPx": 0,
+        "pageZoom": 1
+      },
+      "touchpad tap, 5px jitter": {
+        "person": "hh-1-child-3",
+        "room": 46,
+        "chose": "hh-1-child-3",
+        "selected": true
+      },
+      "click right after a drag": {
+        "person": "hh-1-child-3",
+        "chose": "hh-1-child-3",
+        "selected": true
+      },
+      "Follow, then drag held 3 ticks": {
+        "endErrorPx": 1,
+        "movedAfterReleasePx": 0,
+        "worstJumpLateInHoldPx": 0,
+        "followingAfter": false
+      },
+      "view button home": {
+        "latencyMs": 220
+      },
+      "view button follow": {
+        "latencyMs": 362
+      },
+      "view button in": {
+        "latencyMs": 187
+      },
+      "keyboard arrow and +": {
+        "focusable": false,
+        "panPx": 0,
+        "zoom": 1
+      },
+      "touch pan": {
+        "handled": 4,
+        "latency": {
+          "median": 1101,
+          "p95": 1122,
+          "max": 1122
+        },
+        "fps": 0.7,
+        "settleMs": 953,
+        "drawMsMedian": 141,
+        "movedPictureMsMedian": null,
+        "wholeDraws": 10,
+        "movedPictures": 0,
+        "endErrorPx": 0
+      },
+      "touch pinch 2x": {
+        "handled": 14,
+        "latency": {
+          "median": 948,
+          "p95": 1331,
+          "max": 1331
+        },
+        "fps": 5.5,
+        "settleMs": 1290,
+        "drawMsMedian": 143,
+        "movedPictureMsMedian": null,
+        "wholeDraws": 11,
+        "movedPictures": 0,
+        "zoom": 2,
+        "anchorErrorPx": 245.8
+      },
+      "pinch lifted over a person": {
+        "person": "hh-1-child-3",
+        "before": null,
+        "after": null,
+        "takenForATap": false
+      },
+      "finger tap, 6px jitter": {
+        "person": "hh-1-child-3",
+        "chose": "hh-1-child-3",
+        "selected": true
+      }
+    }
+  ],
+  "errors": []
+}

@@ -54,6 +54,8 @@ const files = new Map([
   ['/woods-view.js', ['../public/woods-view.js', 'text/javascript']],
   ['/house-plot.js', ['../public/house-plot.js', 'text/javascript']],
   ['/family-panel.js', ['../public/family-panel.js', 'text/javascript']],
+  // How the map answers a hand: pan, zoom, pinch, tap (docs/PERFORMANCE_NAVIGATION.md).
+  ['/map-camera.js', ['../public/map-camera.js', 'text/javascript']],
   // The Host's live page in words (docs/HOST_PAGE.md); named off the /host prefix, which is the Host page itself.
   ['/live-page.js', ['../public/live-page.js', 'text/javascript']],
   ['/alamo-workshop.html', ['../public/alamo-workshop.html', 'text/html']],
