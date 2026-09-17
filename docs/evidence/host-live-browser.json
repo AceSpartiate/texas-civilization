@@ -1,0 +1,126 @@
+{
+  "record": "host-live-browser",
+  "date": "2026-09-17",
+  "verdict": "PASS",
+  "browser": "152.0.7977.83",
+  "task": "docs/HOST_PAGE.md: the class panel in words with presence and what waits; an absent family playing itself and back; the Rumor Mill; the spotlight taking the camera to the fight at Gonzales; the student sent none of it.",
+  "environment": "Same computer: a local classroom server at 100 ms a tick with a 2500 ms absence grace (the build ships 120 s), five families, and headless Chrome. Not a physical LAN, a classroom, a real phone or a weak computer.",
+  "checks": [
+    "the class panel lists all five families in words: the student's family here, the four joined with no page open gone; Asa on the road home",
+    "the student's page has no class panel and is sent no live page",
+    "the student's page closed: after 2623 ms the row says the family is playing itself, and the world has it absent",
+    "the absent family goes on by itself: somebody of it is at work or on a road with nobody at the screen",
+    "the page opened again: the row says here the next tick, the family is the student's again, and the record says so",
+    "the fight at Gonzales lit the spotlight: the camera went to Gonzales and the banner reads \"October 2: October 2, 1835: the Texians at Gonzales fire the cannon, an…\"",
+    "Whole class brings the camera back to the class",
+    "the Rumor Mill has 2 piece(s), newest first: \"October 2 · confirmed · heard by 1 of 5 families\" - Mexican detachment withdraws; Texians retain the cannon.…",
+    "as word became public the mill grew to 3 pieces",
+    "at 400 px the Host page does not scroll sideways",
+    "no page errors on either page"
+  ],
+  "measured": {
+    "panel": [
+      {
+        "id": "hh-1",
+        "presence": "here",
+        "people": [
+          "Asa on the road home",
+          "Temperance on the road home",
+          "Basilio on the road home",
+          "Rufino on the road home"
+        ]
+      },
+      {
+        "id": "hh-2",
+        "presence": "gone",
+        "people": [
+          "Almira on the road home",
+          "Jonas on the road home",
+          "Soledad on the road home",
+          "Docia on the road home",
+          "Delia on the road home"
+        ]
+      },
+      {
+        "id": "hh-3",
+        "presence": "gone",
+        "people": [
+          "Feliciano on the road home",
+          "Drusilla on the road home",
+          "Cayetano on the road home",
+          "Nieves on the road home",
+          "Lavinia on the road home",
+          "Mateo on the road home",
+          "Winnie on the road home",
+          "Jasper on the road home",
+          "Emeterio on the road home"
+        ]
+      },
+      {
+        "id": "hh-4",
+        "presence": "gone",
+        "people": [
+          "Caleb on the road home",
+          "Manuela on the road home",
+          "Loreta on the road home",
+          "Obed on the road home",
+          "Effie on the road home",
+          "Benita on the road home",
+          "Zadok on the road home"
+        ]
+      },
+      {
+        "id": "hh-5",
+        "presence": "gone",
+        "people": [
+          "Ignacio on the road home",
+          "Rhoda on the road home",
+          "Marcos on the road home",
+          "Ramona on the road home"
+        ]
+      }
+    ],
+    "absentAfterMs": 2623,
+    "spotlight": {
+      "date": "October 2",
+      "text": "October 2, 1835: the Texians at Gonzales fire the cannon, and the Mexican dragoons fall back. The war has begun.",
+      "camera": {
+        "kind": "region",
+        "scale": 2131.5789473684213,
+        "named": true,
+        "cx": 1.11,
+        "cy": -0.74,
+        "following": false
+      }
+    },
+    "mill": [
+      {
+        "topic": "gonzales-outcome",
+        "status": "confirmed",
+        "head": "October 2 · confirmed · heard by 1 of 5 families",
+        "text": "Mexican detachment withdraws; Texians retain the cannon.",
+        "earlier": 0
+      },
+      {
+        "topic": "cannon-request",
+        "status": "confirmed",
+        "head": "September 30 · confirmed · heard by 5 of 5 families",
+        "text": "A Mexican detachment has reached the Guadalupe opposite Gonzales to reclaim the cannon. Local settlers have refused to return it.",
+        "earlier": 0
+      }
+    ],
+    "millLater": 3
+  },
+  "screenshots": [
+    "docs/evidence/host-live-class-panel.png",
+    "docs/evidence/host-live-absent.png",
+    "docs/evidence/host-live-spotlight.png",
+    "docs/evidence/host-live-rumor-mill.png",
+    "docs/evidence/host-live-phone.png"
+  ],
+  "notProved": [
+    "The Alamo, Goliad and San Jacinto spotlights in a browser: lit against the simulation in tests/host-live.test.mjs; the camera move is the same code the Gonzales spotlight pressed here.",
+    "A burned farm's spotlight in a browser: tested against the simulation.",
+    "The 120 s grace of the build: the grace here is 2.5 s."
+  ]
+}

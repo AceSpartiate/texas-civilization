@@ -12,6 +12,7 @@ import { SERVING_ACTIONS, recallFromService, servingWhy, winterInvalid } from '.
 import { answerCourier } from './alamo.mjs';
 import { advanceFlight, flee, flightProjection, scrapeInvalid, stayHome } from './scrape.mjs';
 import { REPEATED, advanceAuto, noteOrder, setAuto } from './auto.mjs';
+import { hostLiveProjection } from './host.mjs';
 import { advanceTown, createTownspeople, observedBy } from './town.mjs';
 import { GOODS, advanceOffers, makeOffer, offersFor, respondToOffer } from './trade.mjs';
 import { buildGonzalesRegion, findPath, polylineLength } from './geography.mjs';
@@ -843,6 +844,8 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
     ...(household?.flight ? { flight: flightProjection(world, household) } : {}),
     // Every family's land as it truly stands, and where the army is, for the Host's map only (sim/overview.mjs).
     ...(overview && { overview: { lands: overview.lands, ...(overview.army && { army: overview.army }) } }),
+    // The Host's live page (sim/host.mjs): the class in words, the Rumor Mill and the spotlight. Never a student's.
+    ...(role === 'host' && { live: hostLiveProjection(world) }),
     // The end of the game, and only once it has ended: each family's coin and glory revealed, and the
     // Host's closing view (sim/ending.mjs, docs/MONEY_AND_GLORY.md steps 4-5).
     ...endingProjection(world, householdId, role),
@@ -943,6 +946,8 @@ export function validateWorld(world) {
     // Present only while a new class's family is still on the road in (sim/settling.mjs).
     if (household.arriving !== undefined && household.arriving !== true) throw new Error('Invalid arrival marker');
     if (household.played !== undefined && household.played !== true) throw new Error('Invalid played marker');
+    // Absent is true or absent, never false (sim/absence.mjs), and only a played family can be absent.
+    if (household.absent !== undefined && (household.absent !== true || !household.played)) throw new Error('Invalid absent marker');
     if (household.settlementId !== undefined && world.map.sites[household.settlementId]?.kind !== 'town') throw new Error('A family belongs to a settlement that is not there');
     if (household.name !== undefined && (typeof household.name !== 'string' || !household.name.trim() || household.name.length > NAME_LIMIT)) throw new Error('Invalid household name');
     if (!household.field || !['bare', 'planted', 'ripe'].includes(household.field.state) || !['corn', 'cotton'].includes(household.field.crop)) throw new Error('Invalid field state');

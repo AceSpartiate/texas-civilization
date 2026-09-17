@@ -15,7 +15,7 @@
 //
 // Every sentence a family reads here is the game's wording (`FIC-GONZ-031`); what each settlement asked is `HIST-TEX-014`.
 import { record } from './events.mjs';
-import { canAnswerCalls, cannotAnswerWhy, tooYoung, tooYoungWhy } from './family.mjs';
+import { canAnswerCalls, canFight, cannotAnswerWhy, cannotFightWhy, tooYoung, tooYoungWhy } from './family.mjs';
 
 /** What a volunteer takes of the family's powder: the settlers brought their own arms (`HIST-GONZ-020`), and powder was short. */
 export const VOLUNTEER_POWDER = 2;
@@ -104,6 +104,8 @@ export function callAvailability(world, householdId, entity, action) {
   if (['dead', 'captured'].includes(entity.health.condition)) return { can: false, why: `${entity.name} cannot answer.` };
   if (tooYoung(entity)) return { can: false, why: tooYoungWhy(entity) };
   if (!canAnswerCalls(entity)) return { can: false, why: cannotAnswerWhy(entity) };
+  // Turning out is the fighting: the men's (sim/family.mjs `canFight`). Staying is anybody's.
+  if (action === 'turn-out' && !canFight(entity)) return { can: false, why: cannotFightWhy(entity) };
   if (action === 'turn-out' && entity.travel) return { can: false, why: 'Wait until this person arrives.' };
   return { can: true, why: '' };
 }

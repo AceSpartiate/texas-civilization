@@ -1,6 +1,7 @@
 // Renderers consume the server's permitted projection. They never advance simulation state.
 import { drawSprite, drawClip, clipInfo, hasSprite, loadArt, onArtReady, pickSprite, spriteFrame } from '/art.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, seatedClip, seatLayout, mounted, MOUNTED_HEIGHT, castVariant, childFigure } from '/motion.js';
+import { familyRows, PRESENCE_LABELS, rumourLines, spotlightBanner } from '/live-page.js';
 import { autoLabel, callMenu, callPlan, drawIcon, drawPortrait, focusFor, isIdle, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, RENAME_PAUSE_MS } from '/family-panel.js';
 import {drawBexarGround,bexarDrawables} from '/bexar-art.js';
 import {plotArt} from '/field-art.js';
@@ -2377,6 +2378,70 @@ function renderFamilyPanel(world) {
     return { id, role: row.item.dataset.role, name: byId.get(id).name, active: [...row.icons.querySelectorAll('[data-active=true]')].map(icon => icon.dataset.key), ...seen[at] };
   });
 }
+/**
+ * The Host's live page (docs/HOST_PAGE.md, owner 2026-09-16): the class family by family in words, the Rumor Mill, and the
+ * spotlight. Rewritten only when what it says changes, as the family panel is, because the Host page redraws every tick.
+ * The spotlight moves the camera once, the tick it is lit; the teacher can pan away or press Whole class and it stays away.
+ */
+let hostLiveKeys = { families: null, rumours: null, spotlight: null };
+function renderHostLive(snapshot, host) {
+  const panel = $('#host-live'), banner = $('#host-spotlight');
+  if (!panel) return;
+  const live = host ? snapshot.world.live : null;
+  if (!live) { panel.hidden = true; if (banner) banner.hidden = true; hostLiveKeys = { families: null, rumours: null, spotlight: null }; return; }
+  panel.hidden = false;
+  const rows = familyRows(live, snapshot.presence);
+  const familiesKey = JSON.stringify(rows);
+  if (hostLiveKeys.families !== familiesKey) {
+    hostLiveKeys.families = familiesKey;
+    $('#host-families').replaceChildren(...rows.map(row => {
+      const item = element('li', '', 'host-family');
+      item.dataset.householdId = row.id; item.dataset.presence = row.presence;
+      const head = element('div', '', 'host-family-head');
+      head.append(element('span', row.name), element('span', row.settlement, 'host-family-settlement'));
+      const presence = element('span', PRESENCE_LABELS[row.presence] || row.presence, 'host-presence'); presence.dataset.presence = row.presence;
+      head.append(presence);
+      if (row.waiting) { const waiting = element('span', `${row.waiting} waiting`, 'host-waiting'); waiting.title = `${row.waiting} thing${row.waiting === 1 ? '' : 's'} wait${row.waiting === 1 ? 's' : ''} unanswered on this family`; head.append(waiting); }
+      const people = element('ul', '', 'host-people');
+      people.append(...row.people.map(person => { const line = element('li', ''); line.append(element('span', `${person.name} `), element('span', person.where)); return line; }));
+      item.append(head, people);
+      return item;
+    }));
+  }
+  const pieces = rumourLines(live.rumours);
+  const rumoursKey = pieces.map(piece => piece.key).join('|');
+  if (hostLiveKeys.rumours !== rumoursKey) {
+    hostLiveKeys.rumours = rumoursKey;
+    $('#rumor-list').replaceChildren(...pieces.map(piece => {
+      const item = element('li', '', 'rumor');
+      item.dataset.topicId = piece.topicId; item.dataset.status = piece.key.split(':')[1];
+      item.append(element('div', piece.head, 'rumor-head'), element('p', piece.text, 'rumor-text'));
+      if (piece.earlier.length) {
+        const earlier = element('div', '', 'rumor-earlier');
+        for (const telling of piece.earlier) { const p = element('p', ''); p.append(element('strong', `${telling.head}: `), document.createTextNode(telling.text)); earlier.append(p); }
+        item.append(earlier);
+      }
+      return item;
+    }));
+  }
+  const shown = spotlightBanner(live.spotlight);
+  if (banner) {
+    banner.hidden = !shown;
+    if (shown && hostLiveKeys.spotlight !== shown.key) {
+      hostLiveKeys.spotlight = shown.key;
+      $('#host-spotlight-date').textContent = shown.date;
+      $('#host-spotlight-text').textContent = shown.text;
+      // The camera goes there once, zoomed in as a family's land is framed; anything the teacher does after wins.
+      const canvas = $('#world-map'), view = cameraFor(snapshot.world, canvas);
+      stopWatching();
+      manualView = { cx: shown.x, cy: shown.y, scale: clampTo(Math.max(view.scale, view.limits.max * .45), view.limits) };
+      window.__spotlightSeen = (window.__spotlightSeen || []).concat(shown.key);
+    }
+    if (!shown) hostLiveKeys.spotlight = null;
+  }
+  window.__hostLive = { families: rows, rumours: pieces.map(piece => ({ topicId: piece.topicId, head: piece.head, earlier: piece.earlier.length })), spotlight: shown?.key || null };
+}
+$('#host-spotlight-back')?.addEventListener('click', () => applyMapView('follow'));
 /** A data- attribute written only when it changes: the panel is redrawn every tick on a slow computer. */
 function setData(element, key, value) { if (element.dataset[key] !== value) element.dataset[key] = value; }
 /**
@@ -3606,6 +3671,7 @@ function render(snapshot) {
     : '';
   $('#host-controls').hidden = !host;
   $('#host-pace').hidden = !host;
+  renderHostLive(snapshot, host);
   // Named paces rather than a number, because milliseconds a tick is not a thing a teacher
   // should have to hold in their head.
   const paces = { study: 9500, brisk: 4000, quick: 1000 };

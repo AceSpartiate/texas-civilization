@@ -86,8 +86,9 @@ function deciding(world) {
   // Only a conversation somebody is actually reading. A family nobody plays answers a rider in
   // the same tick he speaks (sim/neighbours.mjs), and holding the whole class's calendar for one
   // of those put eighty-five minutes on a fifty-minute lesson when it was measured.
-  if (Object.values(world.encounters || {}).some(encounter => encounter.status === 'open' && world.households[encounter.householdId]?.played)) return true;
+  // Nor for a family whose student has gone (sim/absence.mjs): the director answers for it in the same tick.
+  if (Object.values(world.encounters || {}).some(encounter => encounter.status === 'open' && world.households[encounter.householdId]?.played && !world.households[encounter.householdId].absent)) return true;
   // A played family told to leave in the spring (sim/scrape.mjs): the calendar holds at the farming scale until it has gone, or
   // the army has passed and burned it out, which is at most two days.
-  return Object.values(world.households).some(household => household.played && household.flight?.status === 'ordered' && !household.flight.burned);
+  return Object.values(world.households).some(household => household.played && !household.absent && household.flight?.status === 'ordered' && !household.flight.burned);
 }

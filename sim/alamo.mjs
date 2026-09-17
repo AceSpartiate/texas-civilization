@@ -92,9 +92,11 @@ export function askCouriers(world) {
   let asked = 0;
   for (const person of inService(world, 'garrison')) {
     if (!person.service.besieged || person.service.courier) continue;
-    if (!householdOf(world, person)?.played) continue;
-    // On auto, answered the moment it is asked, at auto's share (sim/auto.mjs); nobody waits on the family.
-    if (person.auto) {
+    const household = householdOf(world, person);
+    if (!household?.played) continue;
+    // On auto, or with nobody at the family's screen (sim/absence.mjs), answered the moment it is asked, at auto's share
+    // (sim/auto.mjs); nobody waits on the family.
+    if (person.auto || household.absent) {
       const offers = autoOffers(world, person);
       person.service.courier = offers ? 'volunteered' : 'stays';
       record(world, 'choice', { actorId: person.id, householdId: person.householdId, importance: 2, decision: `courier-${offers ? 'volunteer' : 'stay'}`, text: offerSaid(person, offers) });

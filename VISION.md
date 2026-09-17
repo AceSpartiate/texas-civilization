@@ -509,6 +509,16 @@ When major events occur before distant households could know about them, nearby 
 
 Use reconstructions sparingly.
 
+### Amendment, 2026-09-16 — the Host's live page (docs/HOST_PAGE.md)
+
+*By the owner:* the teacher's map has no fog (the whole class, everyone where they truly are), and beside it the Host's page
+now shows **the class in words** (each family: its student here or gone, each person where they are and what they are at,
+how many things wait on it - never coin or glory), **the Rumor Mill** (what the public has heard, as it heard it, with the
+earlier tellings kept: "some are true, some aren't"), and **a spotlight**: when something happens that most of the class
+would miss - the fall of the Alamo, the Goliad massacre, a player's house burned - the Host's camera goes there and says
+so. The Host still reflects public knowledge in the mill and still triggers nothing. And **a family whose student has gone
+becomes the director's** until the student returns, so nobody's absence holds the class.
+
 ---
 
 ## 19. Learning Priorities

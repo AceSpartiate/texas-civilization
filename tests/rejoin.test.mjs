@@ -197,16 +197,19 @@ test('the Host is told who is here and who is merely away', async () => {
   try {
     const host = await call('/api/host', { key: app.state.hostKey });
     const families = await fiveFamilies(call, app);
-    assert.deepEqual((await call('/api/state', null, host.cookie)).body.presence, { here: 0, away: 0, joined: 5 });
+    // The counts; the households beside them are each family's own word (tests/absence.test.mjs).
+    const counts = ({ here, away, joined }) => ({ here, away, joined });
+    assert.deepEqual(counts((await call('/api/state', null, host.cookie)).body.presence), { here: 0, away: 0, joined: 5 });
     for (const family of families.slice(0, 3)) streams.push(await openStream(port, family.cookie));
     await delay(40);
-    assert.deepEqual((await call('/api/state', null, host.cookie)).body.presence, { here: 3, away: 0, joined: 5 });
+    assert.deepEqual(counts((await call('/api/state', null, host.cookie)).body.presence), { here: 3, away: 0, joined: 5 });
     // A phone that locks its screen closes the stream within seconds. That is not a
     // student who left, and the count the teacher reads must not say it is.
     await streams.pop().close();
     await delay(40);
     const after = (await call('/api/state', null, host.cookie)).body.presence;
-    assert.deepEqual(after, { here: 2, away: 1, joined: 5 });
+    assert.deepEqual(counts(after), { here: 2, away: 1, joined: 5 });
+    assert.deepEqual(after.households, { 'hh-1': 'here', 'hh-2': 'here', 'hh-3': 'away', 'hh-4': 'gone', 'hh-5': 'gone' }, 'each family\'s own word');
     assert.equal((await call('/api/state', null, host.cookie)).body.connected, 2, 'the older count still means streams open now');
     // Presence is about this moment and is never written into the class.
     assert.ok(!JSON.stringify(app.state).includes('presence'), 'presence is not saved state');

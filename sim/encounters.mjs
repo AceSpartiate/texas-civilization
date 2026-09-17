@@ -50,7 +50,7 @@ const stretch = world => calendarMinutes(world) / TICK_MINUTES;
  * behind him, and a Liberty family never heard how the fight ended. Unplayed, a rider simply
  * waits the twenty fictional hours the number always meant and then rides on.
  */
-const attention = (world, minutes, householdId) => minutes * (world.households?.[householdId]?.played ? stretch(world) : 1);
+const attention = (world, minutes, householdId) => minutes * (world.households?.[householdId]?.played && !world.households[householdId].absent ? stretch(world) : 1);
 
 // How close two people must be before one can say something to the other. Invented, like
 // every distance in this project (`FIC-GONZ-002`); a rider reining in beside somebody.

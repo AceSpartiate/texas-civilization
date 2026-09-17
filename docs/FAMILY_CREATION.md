@@ -228,3 +228,14 @@ Each step is shippable and provable alone.
 | Old classes open | A class saved before this opens with four people per household and no save version moves. |
 | No death at Gonzales | Nothing in the Gonzales slice can kill anybody, whoever is sent. |
 | Claims registered | Ages, stat means and spreads, and the lethality rule carry `FIC-GONZ-021`. |
+
+## Amendment, 2026-09-16 — who is sent to the fighting
+
+**Owner:** *"Women did not participate in battle. Actual combat shouldn't be a presented option for them."* Who may answer
+a call is unchanged (a parent, or a son or daughter of sixteen or more, `canAnswerCalls`); who may be sent **to the
+fighting** is a father or a son of sixteen or more (`canFight` in `sim/family.mjs`): turning out for a settlement's
+force, riding upriver to Gonzales, enlisting in the regular army or the auxiliary volunteers, the garrison at Béxar, the
+Matamoros expedition, the relief of the Alamo and Houston's army. A mother or a grown daughter is refused each in words on
+the control and can still go to see, help at a gathering, take the family's goods to town, hunt, and lead the family east.
+This supersedes the glory penalty for a woman sent to fight (`docs/MONEY_AND_GLORY.md` §4). Tests `tests/women.test.mjs`
+(four, each proven by injection).

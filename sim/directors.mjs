@@ -1,9 +1,10 @@
 import { record } from './events.mjs';
+import { spotlight } from './host.mjs';
 import { SHOT_COST } from './chores.mjs';
 import { establishTruth, learn } from './knowledge.mjs';
 import { TIRING_MILES } from './routines.mjs';
 import { awardGlory } from './glory.mjs';
-import { canAnswerCalls, cannotAnswerWhy, tooYoung, tooYoungWhy } from './family.mjs';
+import { canAnswerCalls, canFight, cannotAnswerWhy, cannotFightWhy, tooYoung, tooYoungWhy } from './family.mjs';
 import { distantHouseholds, expressLeaves, startExpress } from './expresses.mjs';
 import { callOptions, expireCalls, offerCalls, settleCalls } from './calls.mjs';
 import { ALAMO_WORD, COURIER_DAYS, askCouriers, beginSiege, fightSouth, gonzalesFamilies, otherFamilies, reliefEnters, reliefRides, sendCouriers, splitSouth, stormAlamo, survivorsLeave, tellFall, tellSouth, word } from './alamo.mjs';
@@ -348,6 +349,8 @@ export function callAvailability(world, householdId, entity, action) {
     return { can: true, why: '' };
   }
   if (action === 'go-upriver' || action === 'go-see') {
+    // Going upriver is going to the fight; going to see is not (sim/family.mjs `canFight`).
+    if (action === 'go-upriver' && !canFight(entity)) return { can: false, why: cannotFightWhy(entity) };
     if (entity.travel) return { can: false, why: 'Wait until this person arrives.' };
     return { can: true, why: '' };
   }
@@ -734,6 +737,7 @@ function advanceGathering(world, movement) {
     });
     sendWord(world, 'concepcion-fight', { truth: world.events.find(e => e.id === eventId).text, claimId: 'HIST-TEX-020' });
     fightConcepcion(world, eventId);
+    spotlight(world, { key: 'concepcion', text: 'The fight at Mission Concepción. Ninety men under Bowie and Fannin, surrounded in the fog, beat back the Mexican attack and take a cannon.', siteId: 'bexar', claimId: 'HIST-TEX-020' });
   });
   advanceSiege(world, movement);
 }
@@ -791,7 +795,7 @@ function advanceSiege(world, movement) {
   });
   if (due('grass-fight', world.army?.questions?.grass?.openedMinute)) {
     // Nothing public on the day: the first word of it is a rider's, five days later (`HIST-TEX-034`).
-    once(world, 'grass-fight', () => fightGrass(world, null, { beginTravel }));
+    once(world, 'grass-fight', () => { fightGrass(world, null, { beginTravel }); spotlight(world, { key: 'grass-fight', text: 'The Grass Fight. Riders go out after a Mexican pack train and find it carries grass for the horses, not silver.', siteId: 'bexar', claimId: 'HIST-TEX-032' }); });
   }
   const GRASS_FIGHT = 'Fuller word of the fight near Béxar on November 26: Bowie\'s horsemen and Jack\'s infantry caught a Mexican pack train west of the town, near the Alazán, and drove back into Béxar the troops sent out to meet them. The packs held grass cut for the horses, not silver. No man of ours was killed, and a few were slightly hurt. How many Mexican soldiers fell, the reports do not agree: three, fifteen, about fifty, or sixty.';
   once(world, 'grass-rumour', () => {
@@ -830,6 +834,7 @@ function advanceStorming(world, movement, { due, said }) {
   if (due('assault', world.army?.questions?.milam?.openedMinute)) {
     once(world, 'assault', () => {
       closeQuestion(world, 'milam');
+      spotlight(world, { key: 'bexar-storming', text: 'Before dawn, Milam and Johnson lead two divisions into San Antonio de Béxar. The fighting goes house by house.', siteId: 'bexar', claimId: 'HIST-TEX-037' });
       said('HIST-TEX-037', 'Before dawn Neill\'s gun fired on the Alamo, and two divisions under Milam and Johnson went into San Antonio and took the de la Garza and Veramendi houses on Soledad Street. Burleson holds the camp.');
     });
   }
@@ -909,7 +914,7 @@ function advanceAlamo(world, said, { beginTravel } = {}) {
   once(world, 'agua-dulce', () => fightSouth(world, 'agua-dulce', alamo));
   once(world, 'san-patricio-news', () => { word(world, 'san-patricio', Object.values(world.households), { truth: ALAMO_WORD.sanPatricio, status: 'rumor', claimId: 'HIST-TEX-059', source: 'A rumour from the south' }); tellSouth(world, 'san-patricio'); });
   once(world, 'declaration-news', () => word(world, 'declaration', Object.values(world.households), { truth: ALAMO_WORD.declaration, claimId: 'HIST-TEX-061', source: 'Word from Washington' }));
-  once(world, 'alamo-assault', () => stormAlamo(world, record(world, 'milestone', { visibility: 'sealed', importance: 3, classification: 'DOCUMENTED', claimId: 'HIST-TEX-058', text: 'The Alamo was stormed at dawn.' })));
+  once(world, 'alamo-assault', () => { stormAlamo(world, record(world, 'milestone', { visibility: 'sealed', importance: 3, classification: 'DOCUMENTED', claimId: 'HIST-TEX-058', text: 'The Alamo was stormed at dawn.' })); spotlight(world, { key: 'alamo-fall', text: 'The Alamo falls. Every man of the garrison is killed; the women and children are spared. No family knows yet.', siteId: 'bexar', claimId: 'HIST-TEX-058' }); });
   once(world, 'agua-dulce-news', () => { word(world, 'agua-dulce', Object.values(world.households), { truth: ALAMO_WORD.aguaDulce, status: 'rumor', claimId: 'HIST-TEX-059', source: 'A rumour from the south' }); tellSouth(world, 'agua-dulce'); });
   once(world, 'survivors-leave', () => survivorsLeave(world, alamo));
   once(world, 'fall-rumour', () => word(world, 'alamo-fall', gonzalesFamilies(world), { truth: ALAMO_WORD.fall, text: ALAMO_WORD.fallRumour, status: 'rumor', claimId: 'HIST-TEX-060', source: 'Two riders from Béxar, at Gonzales' }));
@@ -939,17 +944,17 @@ function advanceScrape(world, { beginTravel } = {}) {
   }
   advanceArmiesPassing(world);
   once(world, 'houston-colorado', () => { word(world, 'houston-colorado', everyone, { truth: HOUSTON_WORD.colorado, claimId: 'HIST-TEX-066', source: 'Word from the army' }); followCamp(world, go); });
-  once(world, 'coleto', () => fightColeto(world, said('HIST-TEX-063', 'Fannin marched out of Goliad this morning and was caught on the open prairie by Urrea\'s cavalry near Coleto Creek.')));
+  once(world, 'coleto', () => { fightColeto(world, said('HIST-TEX-063', 'Fannin marched out of Goliad this morning and was caught on the open prairie by Urrea\'s cavalry near Coleto Creek.')); spotlight(world, { key: 'coleto', text: 'Fannin\'s command, caught on the open prairie near Coleto Creek, fights through the day and surrenders the next morning.', siteId: 'goliad', claimId: 'HIST-TEX-063' }); });
   once(world, 'goliad-surrender', () => said('HIST-TEX-063', 'Fannin has surrendered his whole command to Urrea.'));
   once(world, 'goliad-word', () => word(world, 'goliad-defeat', everyone, { truth: HOUSTON_WORD.goliadDefeat, claimId: 'HIST-TEX-063', source: 'Word from the army' }));
-  once(world, 'goliad-massacre', () => goliadMassacre(world));
+  once(world, 'goliad-massacre', () => { goliadMassacre(world); spotlight(world, { key: 'goliad-massacre', text: 'Fannin\'s men, prisoners at Goliad, are marched out and shot. A few escape. No family knows yet.', siteId: 'goliad', claimId: 'HIST-TEX-064' }); });
   once(world, 'houston-san-felipe', () => { takeInEnlisted(world); followCamp(world, go); word(world, 'houston-san-felipe', everyone, { truth: HOUSTON_WORD.sanFelipe, claimId: 'HIST-TEX-066', source: 'Word from the army' }); });
   once(world, 'massacre-word', () => { word(world, 'goliad-massacre', everyone, { truth: HOUSTON_WORD.massacre, status: 'unconfirmed', claimId: 'HIST-TEX-064', source: 'Word from the west' }); tellGoliad(world, go); });
   once(world, 'santa-anna-brazos', () => word(world, 'santa-anna-brazos', everyone, { truth: HOUSTON_WORD.santaAnnaBrazos, claimId: 'HIST-TEX-067', source: 'Word from the Brazos' }));
   once(world, 'houston-harrisburg', () => followCamp(world, go));
   once(world, 'houston-lynchburg', () => followCamp(world, go));
-  once(world, 'san-jacinto', () => fightSanJacinto(world, record(world, 'milestone', { visibility: 'sealed', importance: 3, classification: 'DOCUMENTED', claimId: 'HIST-TEX-067', text: 'The battle of San Jacinto.' })));
-  once(world, 'santa-anna-taken', () => said('HIST-TEX-067', 'Santa Anna has been found hiding in the grass and brought in a prisoner.'));
+  once(world, 'san-jacinto', () => { fightSanJacinto(world, record(world, 'milestone', { visibility: 'sealed', importance: 3, classification: 'DOCUMENTED', claimId: 'HIST-TEX-067', text: 'The battle of San Jacinto.' })); spotlight(world, { key: 'san-jacinto', text: 'Houston\'s army crosses the prairie at San Jacinto and breaks Santa Anna\'s camp in eighteen minutes.', siteId: 'lynchburg', claimId: 'HIST-TEX-067' }); });
+  once(world, 'santa-anna-taken', () => { said('HIST-TEX-067', 'Santa Anna has been found hiding in the grass and brought in a prisoner.'); spotlight(world, { key: 'santa-anna-taken', text: 'Santa Anna is found hiding in the grass and brought in a prisoner to Houston\'s camp.', siteId: 'lynchburg', claimId: 'HIST-TEX-067' }); });
   once(world, 'victory-word', () => { const cause = said('HIST-TEX-067', HOUSTON_WORD.victory); word(world, 'san-jacinto', everyone, { truth: HOUSTON_WORD.victory, claimId: 'HIST-TEX-067', source: 'A rider from the army' }); tellSanJacinto(world, go); turnHome(world, cause); });
   if (world.minute >= momentOf(world, 'san-jacinto') && !world.director.milestones['san-jacinto']) return;
   once(world, 'scrape-end', () => {
@@ -1046,7 +1051,7 @@ export function advanceDirectors(world, movement) {
     }
     setBattlePhase(world, 'approach');
   });
-  once(world, 'exchange', () => setBattlePhase(world, 'exchange'));
+  once(world, 'exchange', () => { setBattlePhase(world, 'exchange'); spotlight(world, { key: 'gonzales', text: 'The Texians at Gonzales fire the cannon, and the Mexican dragoons fall back. The war has begun.', siteId: 'gonzales', claimId: 'HIST-GONZ-008' }); });
   // Whether somebody was actually standing there when it happened is decided here, while
   // it is happening - not afterwards from where they finally ended up. Answering the call
   // late and arriving after the shooting is a different story from being there for it.

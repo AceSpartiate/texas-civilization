@@ -431,7 +431,7 @@ function askDetachment(world, person) {
   const household = world.households[person.householdId];
   // A family nobody plays decides for itself, about as often as the army did: some ninety of four hundred. So does a person
   // on auto, at once and at the same share (sim/auto.mjs).
-  if ((!household?.played && world.neighbours) || person.auto) {
+  if ((!household?.played && world.neighbours) || person.auto || household?.absent) {
     const go = autoDetachment(world, person);
     detachment.asks[person.id] = go ? 'go' : 'stay';
     if (person.auto) record(world, 'choice', { actorId: person.id, householdId: person.householdId, importance: 2, decision: go ? 'detachment-go' : 'detachment-stay', text: detachmentSaid(person, go) });
@@ -628,7 +628,7 @@ function askQuestion(world, key, person, { beginTravel } = {}) {
   const household = world.households[person.householdId];
   // A family nobody plays decides for itself at the record's share (`FIC-GONZ-040`), and so does a person on auto, at once
   // and at the same share (sim/auto.mjs): the switch changes when the question is answered, never the odds.
-  if ((!household?.played && world.neighbours) || person.auto) {
+  if ((!household?.played && world.neighbours) || person.auto || household?.absent) {
     const answer = autoAnswer(world, key, person);
     question.asks[person.id] = answer;
     record(world, person.auto ? 'choice' : 'army', { actorId: person.id, householdId: person.householdId, importance: 2, ...(person.auto ? { decision: `${key}-${answer}` } : { classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-040' }), text: spec.said[answer](person.name) });
@@ -644,7 +644,7 @@ function askQuestion(world, key, person, { beginTravel } = {}) {
 
 /** Whether a family somebody plays still has a question in front of it: the calendar slows to the hour while one does. */
 export const questionOpen = world => Object.values(world.army?.questions || {}).some(question => !question.closed
-  && Object.entries(question.asks).some(([id, answer]) => answer === 'open' && world.households[world.entities[id]?.householdId]?.played));
+  && Object.entries(question.asks).some(([id, answer]) => { const household = world.households[world.entities[id]?.householdId]; return answer === 'open' && household?.played && !household.absent; }));
 
 /** Why this answer cannot be given now, in the words the control shows. */
 export function questionRefusal(world, householdId, entity, key) {

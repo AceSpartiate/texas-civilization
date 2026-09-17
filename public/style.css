@@ -427,6 +427,33 @@ button:hover:enabled{background:#60673e}
 #hud-left{bottom:74px}
 #family-panel{pointer-events:none;min-height:0;max-width:min(36rem,calc(100vw - 24px));overflow-y:auto;overscroll-behavior:contain;padding:2px 4px 4px 0;flex:0 1 auto}
 #family-rows{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px}
+/* The Host's live page (docs/HOST_PAGE.md): the class in words and the Rumor Mill, two folding lists down the left that
+   scroll inside themselves, and a banner over the map while a spotlight stands. */
+#host-live{pointer-events:auto;min-height:0;max-width:min(30rem,calc(100vw - 24px));overflow-y:auto;overscroll-behavior:contain;display:flex;flex-direction:column;gap:8px;padding:2px 4px 4px 0;flex:0 1 auto}
+#host-live details{background:var(--shade);color:#f7eed5;border:1px solid #8f825b;border-radius:8px;padding:4px 10px 8px}
+#host-live summary{cursor:pointer;font:600 13px/1.4 Georgia,serif;letter-spacing:.04em;padding:3px 0}
+#host-live ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.host-family{padding:5px 7px;border-radius:6px;background:#00000022;border-left:3px solid #8f825b}
+.host-family[data-presence=here]{border-left-color:#8fbf6a}
+.host-family[data-presence=away]{border-left-color:#e0b25c}
+.host-family[data-presence=absent]{border-left-color:#c2582c}
+.host-family[data-presence=gone]{border-left-color:#7a6a4a}
+.host-family-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px;font:600 12.5px/1.3 Georgia,serif}
+.host-family-settlement{font:500 10.5px/1.3 system-ui;color:#d8c9a2;letter-spacing:.06em;text-transform:uppercase}
+.host-presence{font:600 10px/1 system-ui;letter-spacing:.06em;text-transform:uppercase;padding:3px 6px;border-radius:9px;background:#3b3427;color:#f7eed5}
+.host-presence[data-presence=here]{background:#4f7a3a}.host-presence[data-presence=away]{background:#8a6a2a}.host-presence[data-presence=absent]{background:#8a3b22}
+.host-waiting{font:800 10px/1 system-ui;padding:3px 6px;border-radius:9px;background:#c2582c;color:#fff8e6}
+.host-people{margin:3px 0 0;padding:0;list-style:none;font:12px/1.4 system-ui;color:#f2e9d2}
+.host-people li span:first-child{color:#d8c9a2}
+.rumor{padding:5px 7px;border-radius:6px;background:#00000022;border-left:3px solid #b09a6d}
+.rumor[data-status=rumor]{border-left-color:#e0b25c}.rumor[data-status=confirmed]{border-left-color:#8fbf6a}.rumor[data-status=contradicted]{border-left-color:#c2582c}
+.rumor-head{font:600 10.5px/1.3 system-ui;letter-spacing:.05em;text-transform:uppercase;color:#d8c9a2}
+.rumor-text{margin:2px 0 0;font:12.5px/1.45 Georgia,serif}
+.rumor-earlier{margin:4px 0 0;padding-left:10px;border-left:2px solid #6b5f45;font:11px/1.4 system-ui;color:#c9bb98}
+.rumor-earlier p{margin:0 0 3px}
+#host-spotlight{position:absolute;left:50%;top:12px;transform:translateX(-50%);max-width:min(46rem,calc(100vw - 24px));display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;padding:9px 14px;border-radius:10px;background:#3b2417f0;color:#fff3dc;border:1px solid #c2582c;box-shadow:0 3px 10px #00000066;font:14px/1.4 Georgia,serif;z-index:5}
+#host-spotlight-date{font:700 11px/1 system-ui;letter-spacing:.08em;text-transform:uppercase;color:#f0b43a}
+#host-spotlight-back{min-height:0;padding:4px 10px;font-size:12px;background:#f3ead2;color:#3b3427;border:1px solid #b09a6d;border-radius:6px}
 .panel-row{display:flex;align-items:stretch;pointer-events:none}
 .panel-portrait,.panel-body{pointer-events:auto}
 .panel-portrait{position:relative;flex:none;width:56px;height:56px;min-height:0;padding:0;border:2px solid #8f825b;border-radius:6px;background:#e9dcb8;overflow:hidden;box-shadow:0 2px 6px #29251b55}

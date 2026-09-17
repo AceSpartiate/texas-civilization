@@ -190,7 +190,15 @@ Rules that apply to every row:
 - **Fighting should be the stronger strategy, never the only one.** A family that never fights
   winning should be difficult, not impossible. The balance gate in §8 is the check.
 
-### A woman sent to fight — owner decision, 2026-09-14, built at Concepción 2026-09-16
+### A woman sent to fight — owner decision, 2026-09-14, built at Concepción 2026-09-16 — **superseded 2026-09-16**
+
+**Owner, 2026-09-16: "I've also changed my mind. Women did not participate in battle. Actual combat shouldn't be a presented
+option for them."** Built the same day as `canFight` in `sim/family.mjs`: turning out for a force, riding upriver to
+Gonzales, the winter's enlistments, the garrison, the expedition, the relief and Houston's army are refused a woman in words
+on the control (*"… does not go to the fighting; in 1835 that was the men's."*), and never offered by the neighbours'
+director. Going to see, helping at a gathering, the vote's own rule, the road east and every chore are unchanged. The rule
+below - a woman's award taken away twice over if she does not come through - is kept in the code only for a class saved
+with a woman already in the ranks; no new class can reach it (`tests/women.test.mjs`).
 
 **As built** (`fightConcepcion` in `sim/army.mjs`, `docs/COLONIES.md` §6i): the owner chose on 2026-09-16 to keep the penalty
 and label it as the game's own reading, since no source read documents it (`HIST-TEX-023`). A woman killed in the fight has

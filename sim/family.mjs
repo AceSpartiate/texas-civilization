@@ -327,6 +327,16 @@ export function canAnswerCalls(entity) {
 export const cannotAnswerWhy = entity => `${entity.name} is too young to answer for the family.`;
 
 /**
+ * Who may be sent to the fighting: whoever may answer a call, and not a woman (owner, 2026-09-16: "Women did not participate
+ * in battle. Actual combat shouldn't be a presented option for them"). This replaces the earlier rule that a woman could be
+ * sent at a cost to the family's glory (docs/MONEY_AND_GLORY.md §4): the option is not offered. It gates turning out for a
+ * force, riding upriver to Gonzales, the winter's enlistments, the garrison, the expedition, the relief and Houston's army.
+ * Going to see, helping, the vote's own rule, the road east and every chore are untouched.
+ */
+export const canFight = entity => canAnswerCalls(entity) && entity.sex !== 'female';
+export const cannotFightWhy = entity => entity.sex === 'female' ? `${entity.name} does not go to the fighting; in 1835 that was the men's.` : cannotAnswerWhy(entity);
+
+/**
  * How much longer the family's food lasts for the best housekeeper at home.
  *
  * Step 3 of docs/FAMILY_CREATION.md. Nothing for a housekeeping of three or less, rising to

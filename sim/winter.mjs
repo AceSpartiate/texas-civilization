@@ -22,7 +22,7 @@
 // where they went, and the second period ends on February 23.
 import { record } from './events.mjs';
 import { awardGlory } from './glory.mjs';
-import { canAnswerCalls, cannotAnswerWhy } from './family.mjs';
+import { canAnswerCalls, canFight, cannotFightWhy, cannotAnswerWhy } from './family.mjs';
 import { houstonCamp, houstonOpen } from './houston.mjs';
 
 /** Where each kind of service is joined, and what it promises. */
@@ -99,8 +99,9 @@ export function winterRefusal(world, household, entity, choreId) {
     return null;
   }
   if (!stillOpen(world, household, kind)) return { garrison: 'Béxar is under siege. Only the men going in from Gonzales can reach the garrison now.', matamoros: 'Nobody is going south to Matamoros now.', relief: 'The men from Gonzales have ridden for the Alamo.', houston: 'The battle is fought. The army is going home.' }[kind] || 'That is not a choice now.';
-  // Who may go is who may answer a call: a parent, or a son or daughter of sixteen or more (docs/FAMILY_CREATION.md step 4).
-  if (!canAnswerCalls(entity)) return cannotAnswerWhy(entity);
+  // Who may go is who may be sent to the fighting: a father, or a son of sixteen or more (docs/FAMILY_CREATION.md step 4;
+  // owner, 2026-09-16: women did not go to battle, and it is not offered them).
+  if (!canFight(entity)) return cannotFightWhy(entity);
   if (['regular', 'auxiliary'].includes(kind) && entity.deserted) return `${entity.name} deserted the army and cannot enlist again.`;
   return null;
 }

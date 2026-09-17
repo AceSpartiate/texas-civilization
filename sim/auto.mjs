@@ -57,7 +57,7 @@ export function advanceAuto(world, { beginTravel, modeAvailability }) {
     const flight = household.flight;
     // The day's patience is a played family's: a family nobody plays is fled by its director (sim/neighbours.mjs) or,
     // in a class without one, left as it was.
-    if (household.played && flight?.status === 'ordered' && !flight.burned) {
+    if (household.played && !household.absent && flight?.status === 'ordered' && !flight.burned) {
       const main = world.entities[mainPersonId(world, household)];
       if (main?.auto || world.minute - flight.orderedMinute >= FLIGHT_PATIENCE) autoFlee(world, household, { why: main?.auto ? 'auto' : 'waited' });
     }

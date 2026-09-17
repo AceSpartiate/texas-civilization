@@ -17,7 +17,8 @@ import { ruin } from './improvements.mjs';
 import { findWay } from './ways.mjs';
 import { WAGON_SPEED, WALK_SPEED, propertyId } from './travel.mjs';
 import { frailty } from './army.mjs';
-import { canAnswerCalls } from './family.mjs';
+import { canAnswerCalls, householdName } from './family.mjs';
+import { spotlight } from './host.mjs';
 
 const GONE = ['dead', 'captured'];
 const DAY = 1440;
@@ -128,6 +129,8 @@ export function burnFarm(world, household, { watching }) {
   delete household.interior;
   if (household.stock) household.stock = false;
   household.flight = { ...household.flight, burned: world.minute };
+  // A student's house burning is a moment most of the class would miss (owner, 2026-09-16): the Host's camera goes to it.
+  if (household.played) spotlight(world, { key: `burned:${household.id}`, text: `The Texas army sets fire to ${householdName(world, household)}'s house and field at ${world.map.sites[household.homeSiteId]?.name || 'their land'}, so the Mexican army will find nothing to use.`, siteId: household.homeSiteId, claimId: 'HIST-TEX-065', householdId: household.id });
   return ruined;
 }
 
@@ -276,6 +279,7 @@ export function advanceArmiesPassing(world) {
         if (share(world, person.id, 'enemy') >= CAPTURED_AT_HOME) continue;
         person.health = { condition: 'captured' }; person.task = 'rest'; person.chore = null;
         tell(world, household, `${person.name} was at home when the Mexican army came through, and was taken prisoner.`, { actorId: person.id });
+        if (household.played) spotlight(world, { key: `taken:${person.id}`, text: `The Mexican army comes through ${world.map.sites[household.homeSiteId]?.name || 'the settlement'} and takes ${person.name}, of ${householdName(world, household)}, prisoner at home.`, siteId: household.homeSiteId, householdId: household.id });
       }
     }
   }

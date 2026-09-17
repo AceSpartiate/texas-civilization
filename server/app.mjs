@@ -4,6 +4,7 @@ import { randomBytes, createHash, createHmac, timingSafeEqual } from 'node:crypt
 import { readFileSync, realpathSync, statSync } from 'node:fs';
 import { basename, isAbsolute, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { setAbsent } from '../sim/absence.mjs';
 import { createWorld, stepWorld, projectWorld, projectMap, applyAction, validateWorld, projectFamily, rollFamily } from '../sim/world.mjs';
 import { rollRefusal } from '../sim/family.mjs';
 import { beginNextPeriod } from '../sim/periods.mjs';
@@ -53,6 +54,8 @@ const files = new Map([
   ['/woods-view.js', ['../public/woods-view.js', 'text/javascript']],
   ['/house-plot.js', ['../public/house-plot.js', 'text/javascript']],
   ['/family-panel.js', ['../public/family-panel.js', 'text/javascript']],
+  // The Host's live page in words (docs/HOST_PAGE.md); named off the /host prefix, which is the Host page itself.
+  ['/live-page.js', ['../public/live-page.js', 'text/javascript']],
   ['/alamo-workshop.html', ['../public/alamo-workshop.html', 'text/html']],
   ['/alamo-workshop.js', ['../public/alamo-workshop.js', 'text/javascript']],
   ['/alamo-workshop.css', ['../public/alamo-workshop.css', 'text/css']],
@@ -106,8 +109,15 @@ async function body(req) {
  * measurement before today was taken at.
  */
 export const PACES = Object.freeze({ study: 9500, brisk: 4000, quick: 1000 });
+/**
+ * How long a student's page can be closed before their family goes on by itself (owner, 2026-09-16: "Absent families
+ * automatically become npc, but may be played again by the player if they return later"; sim/absence.mjs). Two minutes:
+ * longer than the away grace, so a locked phone or a tab in the background is never called absent, and shorter than the
+ * time a question would otherwise hold the whole class for a student who has left the room.
+ */
+export const ABSENT_MS = 120000;
 
-export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tickMs = 200, savePath, joinUrls = [], worldFactory = createWorld, onStopRequested = null, stopDelayMs = 250, solo = false } = {}) {
+export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tickMs = 200, savePath, joinUrls = [], worldFactory = createWorld, onStopRequested = null, stopDelayMs = 250, solo = false, absentMs = ABSENT_MS } = {}) {
   if (!Number.isInteger(playerCount) || playerCount < 5 || playerCount > 30) throw new Error('Class size must be 5–30');
   if (!Number.isInteger(tickMs) || tickMs < 10 || tickMs > 10000) throw new Error('Tick interval must be 10–10000 milliseconds');
   /**
@@ -164,8 +174,31 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
   function presence() {
     const here = streaming(), now = Date.now();
     let away = 0;
-    for (const [householdId, at] of lastSeen) if (!here.has(householdId) && now - at < AWAY_GRACE_MS) away++;
-    return { here: here.size, away, joined: Object.keys(state.clients).length };
+    const households = {};
+    for (const client of Object.values(state.clients)) {
+      const id = client.householdId;
+      if (!id) continue;
+      const at = lastSeen.get(id);
+      // 'absent' is the world's word (sim/absence.mjs): the family is being run for. It outranks the grace.
+      households[id] = here.has(id) ? 'here' : state.world.households[id]?.absent ? 'absent' : at !== undefined && now - at < AWAY_GRACE_MS ? 'away' : 'gone';
+      if (households[id] === 'away') away++;
+    }
+    return { here: here.size, away, joined: Object.keys(state.clients).length, households };
+  }
+  /**
+   * Absent families go on by themselves (sim/absence.mjs): a joined household whose stream has been closed for `absentMs`
+   * while the class runs is marked absent, and unmarked the tick after its page opens again. Decided here, where presence
+   * is known, and told to the world in the same commit as the tick, so a save carries it.
+   */
+  function markAbsences(world) {
+    const here = streaming(), now = Date.now();
+    for (const client of Object.values(state.clients)) {
+      const household = client.householdId && world.households[client.householdId];
+      if (!household?.played) continue;
+      const at = lastSeen.get(client.householdId);
+      const gone = !here.has(client.householdId) && at !== undefined && now - at >= absentMs;
+      setAbsent(world, household, gone);
+    }
   }
   // Guessing a key is cheap to attempt, so attempting it becomes expensive. Per address,
   // in memory, and bounded by the number of devices that can reach a classroom LAN.
@@ -531,7 +564,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
   });
   function tick() {
     if (state.world.status !== 'running') return;
-    try { commit(s => stepWorld(s.world)); }
+    try { commit(s => { markAbsences(s.world); stepWorld(s.world); }); }
     catch (error) { if (!runtimeFault) suspend('SIMULATION_FAILED'); console.error('Simulation paused:', error.cause?.message || error.message); }
   }
   let timer = setInterval(tick, pace);

@@ -54,7 +54,8 @@ export function shareOf(world, personId, question) {
 const worth = goods => Object.entries(goods || {}).reduce((sum, [good, amount]) => sum + (TRADE_VALUE[good] ?? 1) * amount, 0);
 
 /** Whether this family is one the director runs. */
-export const automatic = (world, household) => Boolean(world.neighbours && household && !household.played);
+/** A family nobody plays, or one whose student has gone (sim/absence.mjs): the director gives its orders. */
+export const automatic = (world, household) => Boolean(world.neighbours && household && (!household.played || household.absent));
 
 /** Mark a family as a student's, for good. Called by the server when a student joins it. */
 export function markPlayed(world, householdId) {

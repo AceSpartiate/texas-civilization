@@ -1197,11 +1197,12 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
   // past - without this the question would be asked and answered by the next tick, which
   // is a question in name only.
   if (state.ask) {
-    if (world.minute - state.ask.openedMinute < ASK_PATIENCE) return;
+    // A family whose student has gone (sim/absence.mjs) is not waited for.
+    if (!household.absent && world.minute - state.ask.openedMinute < ASK_PATIENCE) return;
     // Nobody answered in time: auto takes over for this one question (`autoChoice`). Deciding alone still cannot do the
     // impossible - a person with nothing to fire comes away - and a counter nobody answered pays the first way the family
     // can: food, as it always was, and coin if there is not the food.
-    settleAsk(world, household, entity, autoChoice(world, household, entity), 'silence');
+    settleAsk(world, household, entity, autoChoice(world, household, entity), household.absent ? 'auto' : 'silence');
   }
   // Spend a tick of the current step, and only move on once it is actually paid for.
   // Returning here whenever the counter was non-zero would cost one extra tick per step,
@@ -1272,7 +1273,7 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
         text: ask.text(entity, world, household), options: ask.options(entity, world, household),
       };
       // On auto the question is decided the tick it is asked - no "!", no wait, the person's own switch (sim/auto.mjs).
-      if (entity.auto) { settleAsk(world, household, entity, autoChoice(world, household, entity), 'auto'); continue; }
+      if (entity.auto || household.absent) { settleAsk(world, household, entity, autoChoice(world, household, entity), 'auto'); continue; }
       record(world, 'pressure', {
         actorId: entity.id, householdId: household.id, importance: 2,
         text: `${ask.text(entity)} ${entity.name} is waiting on the family's word.`,
