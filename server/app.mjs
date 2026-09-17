@@ -54,6 +54,7 @@ const files = new Map([
   ['/map-base.js', ['../public/map-base.js', 'text/javascript']],
   ['/land-worker.js', ['../public/land-worker.js', 'text/javascript']],
   ['/smooth-worker.js', ['../public/smooth-worker.js', 'text/javascript']],
+  ['/army-view.js', ['../public/army-view.js', 'text/javascript']],
   ['/creation.js', ['../public/creation.js', 'text/javascript']],
   ['/intro-art.js', ['../public/intro-art.js', 'text/javascript']],
   ['/ground-classes.js', ['../public/ground-classes.js', 'text/javascript']],

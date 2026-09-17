@@ -1,5 +1,6 @@
 // Renderers consume the server's permitted projection. They never advance simulation state.
 import { drawSprite, drawClip, clipInfo, hasSprite, loadArt, onArtReady, pickSprite, spriteFrame } from '/art.js';
+import { drawArmy } from '/army-view.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, seatedClip, seatLayout, mounted, MOUNTED_HEIGHT, castVariant, childFigure } from '/motion.js';
 import { familyRows, PRESENCE_LABELS, rumourLines, spotlightBanner } from '/live-page.js';
 import { autoLabel, callMenu, callPlan, drawIcon, drawMark, drawPortrait, focusFor, isIdle, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, RENAME_PAUSE_MS } from '/family-panel.js';
@@ -2128,6 +2129,13 @@ export function drawWorld(world) {
   // mark over a person in the world rather than a card in the corner of the screen, and
   // "is the invitation actually there" is not a question a projection can answer.
   window.__viewMarks = pending.map(mark => ({ id: mark.id, kind: mark.kind }));
+  // The armies standing in the country (sim/armies.mjs, public/army-view.js): a camp with its men close up, a marker far
+  // off, so a man who joined an army is drawn among an army (owner, 2026-09-17).
+  window.__armiesDrawn = (world.armies || []).map(army => {
+    const at = camera.toScreen(army);
+    const how = drawArmy(ctx, army, at, { scale: camera.scale, figure: camera.figure, time: animationTime, draw: (clip, x, y, size, key, options) => animated(ctx, clip, x, y, size, key, options), mini: miniPerson });
+    return { id: army.id, side: army.side, ours: army.ours, strength: army.strength, how, x: Math.round(at.x), y: Math.round(at.y) };
+  });
   window.__viewFormations = drawFormations(ctx, world.battle, camera.toScreen, camera.named, world.tick, camera.figure);
   canvas.dataset.formationIds = window.__viewFormations.join(' ');
   window.__viewEntities = entities.map(entity => entity.id);

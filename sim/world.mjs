@@ -1,5 +1,6 @@
 // Pure deterministic simulation; credentials and renderer state never belong here.
 import { buildColoniesRegion } from './colonies-region.mjs';
+import { armiesSeen } from './armies.mjs';
 import { mapForPage } from './province.mjs';
 import { advanceNeighbours } from './neighbours.mjs';
 import { record } from './events.mjs';
@@ -859,9 +860,13 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   const toolCondition = household ? Object.fromEntries(Object.entries(household.tools || {}).map(([tool, wear]) => [tool, { wear, state: toolState(wear) }])) : {};
   const offers = offersFor(world, householdId);
   const encounter = encounterProjection(world, householdId, role);
+  const armies = armiesSeen(world, householdId, role);
   const view = { tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: mapForPage(world.map) }), household: household && projectHousehold(world, household), entities, others, offers, encounter, events, work, travelModes, land, wagon, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role),
     // The army, once there is one: where it is, how many went, and which of them are this family's (sim/army.mjs).
     ...(world.army && householdId ? { army: armyProjection(world, householdId) } : {}),
+    // The armies standing in the country, as far as this page may know of them (sim/armies.mjs): the page draws their camps
+    // and the Mexican columns, so a man who joins an army is not alone in the middle of nowhere (owner, 2026-09-17).
+    ...(armies.length && { armies }),
     // The family's flight east, once it has been told to go (sim/scrape.mjs).
     ...(household?.flight ? { flight: flightProjection(world, household) } : {}),
     // Every family's land as it truly stands, and where the army is, for the Host's map only (sim/overview.mjs).
