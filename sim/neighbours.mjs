@@ -18,6 +18,7 @@ import { overlaps, squareOf } from './fields.mjs';
 import { CHORES } from './chores.mjs';
 import { COTTON_SEED_PER_PLOT, SEED_PER_PLOT } from './improvements.mjs';
 import { huntingPlace } from './hunting.mjs';
+import { packFlight } from './scrape.mjs';
 import { fellFacts, logsLying } from './felling.mjs';
 import { logsShort } from './houseplot.mjs';
 import { treesIn, woodsRule } from './woods.mjs';
@@ -124,9 +125,7 @@ export function thinkFor(world, household, { project, act }) {
   // Told to leave in the spring (sim/scrape.mjs): a family nobody plays goes at once, taking all the food that fits and then
   // seed, for the nearest refuge east.
   if (view.flight?.status === 'ordered' && view.flight.refuges?.length) {
-    const take = {}; let room = view.flight.room;
-    for (const good of ['food', 'seed', 'cotton', 'powder']) { const amount = Math.min(view.flight.have[good] || 0, Math.floor(room / view.flight.space[good])); take[good] = amount; room -= amount * view.flight.space[good]; }
-    const refuge = [...view.flight.refuges].sort((a, b) => a.miles - b.miles)[0].id;
+    const { take, refuge } = packFlight(view.flight);
     attempt({ action: 'flee', entityId: view.household.mainId || view.household.principalId, take, refuge });
   }
   // The winter's choices (sim/winter.mjs, docs/COLONIES.md §7e), at the record's rarity (owner, 2026-09-16): most colonists

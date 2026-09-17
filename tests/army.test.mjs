@@ -31,6 +31,17 @@ function sentSomebody(world, settlements = ['san-felipe', 'mina', 'victoria']) {
   return { household, person: world.entities[personId] };
 }
 
+/**
+ * Since 2026-09-16 a question nobody answers in time is answered as auto answers (sim/auto.mjs), which can send an unattended
+ * volunteer home from the pledge. These tests are about the march, so the family keeps its volunteer in: the pledge and the
+ * winter answered yes as they open, and every fight declined.
+ */
+const keptIn = (world, sent) => () => {
+  for (const question of view(world, sent.household.id).army?.ours?.find(one => one.id === sent.person.id)?.questions || []) {
+    if (question.answer !== 'open') continue;
+    applyAction(world, sent.household.id, { action: 'army-answer', entityId: sent.person.id, question: question.key, answer: ['pledge', 'winter'].includes(question.key) ? 'yes' : 'no' });
+  }
+};
 let mustered = null;
 /** One played-out class, shared: a volunteer sent, the army made, the march begun. */
 const marchingClass = () => {
@@ -39,11 +50,12 @@ const marchingClass = () => {
   const sent = sentSomebody(world);
   until(world, () => world.director.milestones.organised);
   const atMuster = { members: [...world.army.members], minute: world.minute };
-  until(world, () => world.director.milestones.march);
+  const keep = keptIn(world, sent);
+  until(world, () => (keep(), world.director.milestones.march));
   // The day before the army breaks up on December 14 (tests/storming.test.mjs): a volunteer still marching with it.
-  until(world, () => world.minute >= momentOf(world, 'cos-marches') - 1440);
+  until(world, () => (keep(), world.minute >= momentOf(world, 'cos-marches') - 1440));
   const beforeHome = structuredClone(world);
-  until(world, () => world.director.complete);
+  until(world, () => (keep(), world.director.complete));
   validateWorld(world);
   return (mustered = { world, sent, atMuster, beforeHome });
 };
@@ -133,10 +145,11 @@ test('a family sends for its own volunteer, who leaves the ranks and starts home
 test('somebody who reaches the rendezvous after the army has gone catches it on the road', () => {
   const world = colonies('army-late', 15);
   const sent = sentSomebody(world, ['liberty']);
+  const keep = keptIn(world, sent);
   // Held at home until the army has left, then put at the rendezvous the way an arrival leaves them.
-  until(world, () => world.director.milestones.march);
+  until(world, () => (keep(), world.director.milestones.march));
   // The day before the army breaks up on December 14 (tests/storming.test.mjs): a volunteer still marching with it.
-  until(world, () => world.minute >= momentOf(world, 'cos-marches') - 1440);
+  until(world, () => (keep(), world.minute >= momentOf(world, 'cos-marches') - 1440));
   const beforeHome = structuredClone(world);
   assert.ok(!withTheArmy(world, sent.person.id) || sent.person.travel?.purpose === 'march');
   if (!withTheArmy(world, sent.person.id)) {

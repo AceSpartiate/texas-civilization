@@ -1,7 +1,7 @@
 // Renderers consume the server's permitted projection. They never advance simulation state.
 import { drawSprite, drawClip, clipInfo, hasSprite, loadArt, onArtReady, pickSprite, spriteFrame } from '/art.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, seatedClip, seatLayout, mounted, MOUNTED_HEIGHT, castVariant, childFigure } from '/motion.js';
-import { callMenu, callPlan, drawIcon, drawPortrait, focusFor, isIdle, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, RENAME_PAUSE_MS } from '/family-panel.js';
+import { autoLabel, callMenu, callPlan, drawIcon, drawPortrait, focusFor, isIdle, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, RENAME_PAUSE_MS } from '/family-panel.js';
 import {drawBexarGround,bexarDrawables} from '/bexar-art.js';
 import {plotArt} from '/field-art.js';
 import {drawGonzalesGround,gonzalesDrawables,GONZALES_ART_BOUNDS} from '/gonzales-art.js';
@@ -67,7 +67,7 @@ function element(tag, content, className) { const el = document.createElement(ta
 // itself, so a browser dialog never blocks the projected Host.
 // Sending for somebody is asked twice, like the other two that cannot be taken back: they lose
 // their place in the ranks and whatever the army does next happens without them.
-const confirmLabel = { 'new-class': 'Confirm new class', 'stop-server': 'Confirm stop', 'send-for': 'Confirm: bring them home', 'winter-recall': 'Confirm: send for them', flee: 'Confirm: leave, and let it burn' };
+const confirmLabel = { 'new-class': 'Confirm new class', 'stop-server': 'Confirm stop', 'send-for': 'Confirm: bring them home', 'winter-recall': 'Confirm: send for them', flee: 'Confirm: leave, and let it burn', 'flight-stay': 'Confirm: stay, and take the risk' };
 let confirming = null, confirmTimer = null, authRecheck = false, startAnyway = false;
 // The map is public geography that never changes during a class, so it is fetched once
 // and re-attached to each snapshot. A new class rotates the session id and invalidates it.
@@ -2064,11 +2064,13 @@ function renderFlight(world, chosen, running) {
     flightFormKey = '';
     return;
   }
-  const key = JSON.stringify([flight.room, flight.mode, flight.have, flight.refuges, flight.burned, running]);
+  const key = JSON.stringify([flight.room, flight.mode, flight.have, flight.refuges, flight.burned, flight.decidedToStay, running]);
   if (flightFormKey === key) return;
   flightFormKey = key;
   wrap.replaceChildren();
-  wrap.append(element('p', flight.burned ? 'The army has passed and burned the farm. The family can still go east with what it can carry.' : 'The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned.', 'ask-text'));
+  wrap.append(element('p', flight.burned ? 'The army has passed and burned the farm. The family can still go east with what it can carry.'
+    : flight.decidedToStay ? 'The family is staying, and takes what comes. The road east is still open if it changes its mind.'
+    : 'The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer within the day, or the family packs what it can and goes by itself.', 'ask-text'));
   wrap.append(element('p', `Room for ${flight.room}${flight.mode === 'wagon' ? ' in the wagon' : ', carried on foot'}. Food takes ${flight.space.food} each, seed ${flight.space.seed}, cotton ${flight.space.cotton}, powder ${flight.space.powder}.`, 'work-note'));
   const form = element('div', '', 'flight-form');
   for (const good of Object.keys(flight.space)) {
@@ -2092,6 +2094,12 @@ function renderFlight(world, chosen, running) {
   };
   form.addEventListener('input', tally); tally();
   wrap.append(form, room, element('label', 'Make for', 'flight-where'), refuge, go);
+  // Refusing to go is an answer of its own (sim/scrape.mjs `stayHome`), offered only while the order stands unanswered.
+  if (flight.status === 'ordered') {
+    const stay = element('button', 'Stay, and take the risk', 'work-stop');
+    stay.dataset.action = 'flight-stay'; stay.dataset.entityId = chosen.id; stay.disabled = !running;
+    wrap.append(stay);
+  }
 }
 function renderCall(world, chosen, running) {
   const wrap = $('#selection-call');
@@ -2311,6 +2319,13 @@ function renderFamilyPanel(world) {
     if (row.portrait.getAttribute('aria-label') !== portraitLabel) row.portrait.setAttribute('aria-label', portraitLabel);
     const focusLabel = focused ? `Go back to ${entity.name}, your main person` : `Make ${entity.name} your main person`;
     if (row.focus.getAttribute('aria-label') !== focusLabel) { row.focus.setAttribute('aria-label', focusLabel); row.focus.title = focusLabel; row.focus.textContent = focused ? '★' : '☆'; row.focus.setAttribute('aria-pressed', String(focused)); }
+    // The auto switch, read from the server's `auto` on the person every tick (docs/FAMILY_PANEL.md §11.7).
+    const onAuto = Boolean(entity.auto);
+    // 'onAuto', not 'auto': the switch button carries data-auto, and a row attribute of the same name would catch its presses.
+    setData(row.item, 'onAuto', String(onAuto));
+    if (row.auto.getAttribute('aria-pressed') !== String(onAuto)) row.auto.setAttribute('aria-pressed', String(onAuto));
+    const autoWords = autoLabel(entity, onAuto);
+    if (row.auto.getAttribute('aria-label') !== autoWords) { row.auto.setAttribute('aria-label', autoWords); row.auto.title = autoWords; }
     // The rooms of the house are set out from the main person's row: one place for the family's own detailed work.
     const houseShown = focused && house;
     if (row.house.hidden !== !houseShown) row.house.hidden = !houseShown;
@@ -2329,11 +2344,15 @@ function renderFamilyPanel(world) {
     const icons = panelActions({ entity, offered: world.work?.[id] || [], catalogue: choreCache || new Map(), main: focused, homeId, homesteads,
       atHome: entity.location?.siteId === homeId, settable, carry });
     const reason = rowReason(icons);
+    // No switch on a child too young to be sent, who has nothing for auto to repeat or answer. Only that case: somebody on
+    // the road or in the ranks has a reason on their row too, and theirs is the switch auto-fight is for.
+    const noSwitch = Boolean(reason && /too young/.test(reason));
+    if (row.auto.hidden !== noSwitch) row.auto.hidden = noSwitch;
     // Idle: nothing to do and something could be given them. Everybody else on the panel is visibly at something (a glow).
     const idle = isIdle(entity, icons, { withArmy: army.has(id) });
     setData(row.item, 'idle', String(idle));
     if (row.idle.hidden !== !idle) row.idle.hidden = !idle;
-    seen.push({ id, need: need?.kind || null, needs: needs.map(one => one.kind), idle, focused });
+    seen.push({ id, need: need?.kind || null, needs: needs.map(one => one.kind), idle, focused, auto: onAuto });
     const key = JSON.stringify([reason, icons]);
     if (row.iconsKey !== key) {
       row.iconsKey = key;
@@ -2364,6 +2383,12 @@ function setData(element, key, value) { if (element.dataset[key] !== value) elem
  * Choose the student's main person: `set-main`, which the server keeps on the household and refuses in words for anybody
  * too young or gone. The star fills on the next snapshot, which is what says the server took it; nothing is remembered here.
  */
+/** The auto switch: `set-auto`, the server's; the button shows pressed on the next snapshot, which is what says it took. */
+async function setAutoFor(id, on) {
+  say('');
+  try { await api('/api/command', { id: crypto.randomUUID?.() || `cmd-${Date.now()}-${Math.random().toString(36).slice(2)}`, action: 'set-auto', entityId: id, auto: on }); }
+  catch (error) { say(error.message); }
+}
 async function chooseFocus(id) {
   say('');
   try { await api('/api/command', { id: crypto.randomUUID?.() || `cmd-${Date.now()}-${Math.random().toString(36).slice(2)}`, action: 'set-main', entityId: id }); }
@@ -2549,12 +2574,18 @@ function panelRow(id) {
   const focus = element('button', '☆', 'panel-focus');
   focus.type = 'button';
   focus.dataset.focus = id;
-  tools.append(idle, house, focus);
+  // The auto switch (docs/FAMILY_PANEL.md §11.7): the word "auto", pressed while the server says the person is on it.
+  // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the family panel's marks. The switch is type.
+  const auto = element('button', 'auto', 'panel-auto');
+  auto.type = 'button';
+  auto.dataset.auto = id;
+  auto.setAttribute('aria-pressed', 'false');
+  tools.append(idle, house, auto, focus);
   const icons = element('div', '', 'panel-icons');
   icons.setAttribute('role', 'group');
   body.append(label, input, tools, icons);
   item.append(portrait, attention, body);
-  const row = { item, portrait, canvas, label, input, icons, attention, idle, house, focus, face: null, iconsKey: null };
+  const row = { item, portrait, canvas, label, input, icons, attention, idle, house, focus, auto, face: null, iconsKey: null };
   panelRows.set(id, row);
   return row;
 }
@@ -3687,6 +3718,9 @@ document.addEventListener('click', async event => {
   // The "!" on a row: to the person, and open what is waiting on them (docs/FAMILY_PANEL.md §11).
   const attention = event.target.closest('[data-attention]');
   if (attention) { openNeed(attention.dataset.attention); return; }
+  // The auto switch on a row: on if it is off, off if it is on (docs/FAMILY_PANEL.md §11.7).
+  const sw = event.target.closest('[data-auto]');
+  if (sw) { setAutoFor(sw.dataset.auto, sw.getAttribute('aria-pressed') !== 'true'); return; }
   // The star: make this person the main one; on the main person already, go back to them.
   const star = event.target.closest('[data-focus]');
   if (star) {

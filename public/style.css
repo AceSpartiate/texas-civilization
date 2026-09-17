@@ -455,6 +455,10 @@ button:hover:enabled{background:#60673e}
 .panel-house,.panel-focus{min-height:0;height:24px;padding:0 7px;border-radius:5px;border:1px solid #b09a6d;background:#f3ead2;color:#3b3427;font:600 11.5px/1 system-ui;box-shadow:none}
 .panel-focus{width:26px;padding:0;font-size:15px;color:#8f825b}
 .panel-focus[aria-pressed=true]{color:#c98a12;background:#fff3c4;border-color:#f0b43a}
+/* The auto switch (docs/FAMILY_PANEL.md §11.7): the word, dim until pressed, green while the server says the person is on it. */
+.panel-auto{min-height:0;height:24px;padding:0 6px;border-radius:12px;border:1px solid #b09a6d;background:#f3ead2;color:#8f825b;font:700 10px/1 system-ui;letter-spacing:.08em;text-transform:uppercase;box-shadow:none}
+.panel-auto[aria-pressed=true]{color:#f7eed5;background:#4f7a3a;border-color:#6f9c58}
+.panel-row[data-on-auto=true] .panel-portrait{border-color:#6f9c58}
 .panel-body{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-rows:auto auto;align-items:center;column-gap:6px;min-width:0;margin-left:-3px;padding:3px 8px 4px 9px;background:var(--shade);border:1px solid #8f825b;border-left:none;border-radius:0 6px 6px 0}
 .panel-label{grid-row:1;grid-column:1;font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:#d8c9a2;white-space:nowrap}
 .panel-name{grid-row:1;grid-column:2;width:100%;max-width:11rem;min-width:0;font:600 13px/1.2 Georgia,serif;padding:2px 5px;border:1px solid transparent;border-radius:4px;background:transparent;color:#f7eed5}

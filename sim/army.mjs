@@ -415,6 +415,9 @@ export function rollFates(world, ids, { event, death, wound }) {
 }
 
 /** Bowie and Fannin take a division ahead to the missions, October 22: every family with somebody in the ranks is asked. */
+const autoDetachment = (world, person) => unit(`${world.seed}:${person.id}:detachment`) < 0.23;
+const detachmentSaid = (person, go) => go ? `${person.name} went ahead with Bowie and Fannin's division.` : `${person.name} stayed with the main army.`;
+
 export function openDetachment(world, causeId) {
   const army = world.army;
   if (!army || army.detachment) return;
@@ -426,9 +429,12 @@ function askDetachment(world, person) {
   const army = world.army, detachment = army?.detachment;
   if (!detachment || detachment.closed || !person || detachment.asks[person.id]) return;
   const household = world.households[person.householdId];
-  // A family nobody plays decides for itself, about as often as the army did: some ninety of four hundred.
-  if (!household?.played && world.neighbours) {
-    detachment.asks[person.id] = unit(`${world.seed}:${person.id}:detachment`) < 0.23 ? 'go' : 'stay';
+  // A family nobody plays decides for itself, about as often as the army did: some ninety of four hundred. So does a person
+  // on auto, at once and at the same share (sim/auto.mjs).
+  if ((!household?.played && world.neighbours) || person.auto) {
+    const go = autoDetachment(world, person);
+    detachment.asks[person.id] = go ? 'go' : 'stay';
+    if (person.auto) record(world, 'choice', { actorId: person.id, householdId: person.householdId, importance: 2, decision: go ? 'detachment-go' : 'detachment-stay', text: detachmentSaid(person, go) });
     return;
   }
   detachment.asks[person.id] = 'open';
@@ -456,7 +462,7 @@ export function answerDetachment(world, householdId, entity, go) {
   world.army.detachment.asks[entity.id] = go ? 'go' : 'stay';
   record(world, 'choice', {
     actorId: entity.id, householdId, importance: 2, decision: go ? 'detachment-go' : 'detachment-stay',
-    text: go ? `${entity.name} went ahead with Bowie and Fannin's division.` : `${entity.name} stayed with the main army.`,
+    text: detachmentSaid(entity, go),
   });
 }
 
@@ -466,9 +472,11 @@ export function closeDetachment(world) {
   if (!detachment || detachment.closed) return;
   for (const [id, answer] of Object.entries(detachment.asks)) {
     if (answer !== 'open') continue;
-    detachment.asks[id] = 'stay';
     const person = world.entities[id];
-    if (person) record(world, 'choice', { actorId: id, householdId: person.householdId, importance: 2, decision: 'detachment-stay', text: `Nobody answered, so ${person.name} stayed with the main army.` });
+    // Nobody answered in time: decided as auto decides (sim/auto.mjs), not by silence.
+    const go = person ? autoDetachment(world, person) : false;
+    detachment.asks[id] = go ? 'go' : 'stay';
+    if (person) record(world, 'choice', { actorId: id, householdId: person.householdId, importance: 2, decision: go ? 'detachment-go' : 'detachment-stay', text: `Nobody answered for ${person.name} in time, and it was decided for them. ${detachmentSaid(person, go)}` });
   }
   detachment.closed = true;
 }
@@ -581,23 +589,26 @@ export const ARMY_QUESTIONS = {
     claimId: 'HIST-TEX-028', unplayed: 0.17,
     ask: name => `Austin has ordered Béxar stormed at dawn. Will ${name} go in?`,
     yes: name => `${name} goes in when the order comes`, no: name => `${name} will not go in`,
-    said: { yes: name => `${name} said they would go in when Béxar was stormed.`, no: name => `${name} would not go in.`, silent: name => `Nobody answered for ${name}, so they were not counted among those who would go in.` },
+    said: { yes: name => `${name} said they would go in when Béxar was stormed.`, no: name => `${name} would not go in.` },
   },
   // The parade of November 24: 405 of about six hundred "pledged themselves to remain".
   pledge: {
     claimId: 'HIST-TEX-028', unplayed: 0.68,
     ask: name => `The army is paraded to see who will stay before Béxar under a commander they elect. Does ${name} pledge to stay?`,
     yes: name => `${name} pledges to stay`, no: name => `${name} goes home`,
-    said: { yes: name => `${name} pledged to stay before Béxar.`, no: name => `${name} did not pledge, and started home.`, silent: name => `Nobody answered for ${name}, who stayed in camp without pledging.` },
+    said: { yes: name => `${name} pledged to stay before Béxar.`, no: name => `${name} did not pledge, and started home.` },
   },
   // November 26: Bowie's horsemen and Jack's infantry "from different companies", about a third of the camp.
   grass: {
     claimId: 'HIST-TEX-032', unplayed: 0.33,
     ask: name => `Deaf Smith has ridden in: a Mexican pack train is coming in from the west, and the camp says it carries the silver to pay the garrison. Bowie and Jack are taking men out after it. Does ${name} go?`,
     yes: name => `${name} goes out after the train`, no: name => `${name} stays in camp`,
-    said: { yes: name => `${name} went out after the pack train.`, no: name => `${name} stayed in camp.`, silent: name => `Nobody answered for ${name}, who stayed in camp.` },
+    said: { yes: name => `${name} went out after the pack train.`, no: name => `${name} stayed in camp.` },
   },
 };
+
+/** What a person answers when nobody plays them, or they are on auto, or nobody answered for them in time: the record's share. */
+const autoAnswer = (world, key, person) => unit(`${world.seed}:${person.id}:${key}`) < ARMY_QUESTIONS[key].unplayed ? 'yes' : 'no';
 
 /** Open a question to every volunteer in the ranks. */
 export function openQuestion(world, key, causeId, { beginTravel } = {}) {
@@ -615,10 +626,12 @@ function askQuestion(world, key, person, { beginTravel } = {}) {
   // A question put to only some of the camp: the reinforcement of December 8 is asked of those who did not go in.
   if (spec.who && !spec.who(world, person)) return;
   const household = world.households[person.householdId];
-  if (!household?.played && world.neighbours) {
-    const answer = unit(`${world.seed}:${person.id}:${key}`) < spec.unplayed ? 'yes' : 'no';
+  // A family nobody plays decides for itself at the record's share (`FIC-GONZ-040`), and so does a person on auto, at once
+  // and at the same share (sim/auto.mjs): the switch changes when the question is answered, never the odds.
+  if ((!household?.played && world.neighbours) || person.auto) {
+    const answer = autoAnswer(world, key, person);
     question.asks[person.id] = answer;
-    record(world, 'army', { actorId: person.id, householdId: person.householdId, importance: 2, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-040', text: spec.said[answer](person.name) });
+    record(world, person.auto ? 'choice' : 'army', { actorId: person.id, householdId: person.householdId, importance: 2, ...(person.auto ? { decision: `${key}-${answer}` } : { classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-040' }), text: spec.said[answer](person.name) });
     settleAnswer(world, key, person, answer, { beginTravel });
     return;
   }
@@ -662,15 +675,22 @@ function settleAnswer(world, key, person, answer, { beginTravel } = {}) {
   if (['pledge', 'winter'].includes(key) && answer === 'no') leaveArmy(world, person, { beginTravel, text: null });
 }
 
-/** Close a question: anybody not answered for is answered by silence. */
-export function closeQuestion(world, key) {
+/**
+ * Close a question: anybody not answered for in time is answered as auto answers (sim/auto.mjs) - the owner's rule that
+ * auto takes over when the choice is not made - and what that answer does is done, so somebody decided out of the pledge
+ * starts home. 'silent' stays in the saved vocabulary for classes closed before this rule.
+ */
+export function closeQuestion(world, key, { beginTravel } = {}) {
   const question = world.army?.questions?.[key];
   if (!question || question.closed) return;
   for (const [id, answer] of Object.entries(question.asks)) {
     if (answer !== 'open') continue;
-    question.asks[id] = 'silent';
     const person = world.entities[id];
-    if (person) record(world, 'choice', { actorId: id, householdId: person.householdId, importance: 2, decision: `${key}-silent`, text: ARMY_QUESTIONS[key].said.silent(person.name) });
+    const decided = person ? autoAnswer(world, key, person) : 'silent';
+    question.asks[id] = decided;
+    if (!person) continue;
+    record(world, 'choice', { actorId: id, householdId: person.householdId, importance: 2, decision: `${key}-${decided}`, text: `Nobody answered for ${person.name} in time, and it was decided for them. ${ARMY_QUESTIONS[key].said[decided](person.name)}` });
+    settleAnswer(world, key, person, decided, { beginTravel });
   }
   question.closed = true;
 }
@@ -844,21 +864,21 @@ Object.assign(ARMY_QUESTIONS, {
     claimId: 'HIST-TEX-036', unplayed: 0.6,
     ask: name => `The army has been ordered into winter quarters, and men are setting off for home in squads. Does ${name} stay in camp?`,
     yes: name => `${name} stays in camp`, no: name => `${name} goes home for the winter`,
-    said: { yes: name => `${name} stayed in camp when the army was ordered into winter quarters.`, no: name => `${name} set off for home when the army was ordered into winter quarters.`, silent: name => `Nobody answered for ${name}, who stayed in camp.` },
+    said: { yes: name => `${name} stayed in camp when the army was ordered into winter quarters.`, no: name => `${name} set off for home when the army was ordered into winter quarters.` },
   },
   // December 4, the afternoon: "Who will go with old Ben Milam into San Antonio?"
   milam: {
     claimId: 'HIST-TEX-036', unplayed: 0.4,
     ask: name => `Ben Milam is calling for men to go into San Antonio with him before dawn. Does ${name} go?`,
     yes: name => `${name} goes in with Milam`, no: name => `${name} stays with the camp`,
-    said: { yes: name => `${name} said they would go into San Antonio with Milam.`, no: name => `${name} stayed with Burleson at the camp.`, silent: name => `Nobody answered for ${name}, who stayed with the camp.` },
+    said: { yes: name => `${name} said they would go into San Antonio with Milam.`, no: name => `${name} stayed with Burleson at the camp.` },
   },
   // December 8: Cheshire's, Sutherland's and Lewis's companies, about a hundred of the reserve, sent in.
   reinforce: {
     claimId: 'HIST-TEX-037', unplayed: 0.2, who: (world, person) => world.army?.questions?.milam?.asks?.[person.id] !== 'yes',
     ask: name => `Burleson is sending men from the camp into the town to join the fighting. Does ${name} go in?`,
     yes: name => `${name} goes into the town`, no: name => `${name} stays at the camp`,
-    said: { yes: name => `${name} went into the town with the men sent from the camp.`, no: name => `${name} stayed at the camp.`, silent: name => `Nobody answered for ${name}, who stayed at the camp.` },
+    said: { yes: name => `${name} went into the town with the men sent from the camp.`, no: name => `${name} stayed at the camp.` },
   },
 });
 Object.freeze(ARMY_QUESTIONS);

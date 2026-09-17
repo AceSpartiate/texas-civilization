@@ -356,6 +356,16 @@ export const STAY_ANSWERS = Object.freeze(['stay-put', 'stay', 'stay-home', 'sta
 export const takesSeveral = request => request?.kind === 'call';
 
 /**
+ * The auto switch's words (docs/FAMILY_PANEL.md §11.7): what pressing it does, said before it is pressed. `on` is the
+ * server's `entity.auto`; nothing is remembered in the browser.
+ */
+export function autoLabel(entity, on) {
+  return on
+    ? `${entity.name} decides for themself: the last order given them is repeated, and what they are asked is answered. Press to take the choices back.`
+    : `Let ${entity.name} decide for themself: repeat the last order given them, and answer what they are asked.`;
+}
+
+/**
  * The one menu for a call: every person who may answer it, with the answer that sends them and the one that keeps them,
  * as the server priced each for that person. `people` is the family's book (`/api/family`), for the line saying who they
  * are; `entities` the projection's people. Null when nothing is open to answer.

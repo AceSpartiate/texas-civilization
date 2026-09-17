@@ -1017,3 +1017,8 @@ Put to the owner by multiple choice after [goliad-scrape-san-jacinto.md](battle-
 | A family member with Fannin | **The record's rates, no new joins**: Coleto about 3 in 100 killed and 20 wounded; the prisoners at Goliad on March 27 about 89 in 100 executed, 7 escape, 5 spared as physicians or workmen and taken to Matamoros. Nobody new joins Fannin; a family can send for its person until March 18. |
 | San Jacinto | **1 in 100 killed, 3 in 100 wounded**, weighted by hidden strength and health. |
 | When does the game end? | **The road home, about April 25**: the battle on the 21st, Santa Anna taken on the 22nd, word by rider, families starting home to what is left, then the final reckoning. Prisoners held at Matamoros count as alive. |
+
+**Amended 2026-09-16 (the auto switch, [FAMILY_PANEL.md](FAMILY_PANEL.md) §11.7):** a family whose main person is on auto
+packs as a neighbour packs and goes the tick after the order; a family by hand that answers nothing for a day is packed off
+by itself (`FLIGHT_PATIENCE` in `sim/auto.mjs`), so "will not leave" is now an answer of its own — *Stay, and take the
+risk* (`flight-stay`) — burned out anyway and at risk as above, the road east still open.

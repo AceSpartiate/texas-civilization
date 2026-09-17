@@ -10,7 +10,8 @@ import { abandonChore, advanceChores, answerChore, askProjection, beginChore, CH
 import { bringAlong, hasWords, holderOf, keepWithRiders, leaveBehind, modeWith, NOUN } from './keeping.mjs';
 import { SERVING_ACTIONS, recallFromService, servingWhy, winterInvalid } from './winter.mjs';
 import { answerCourier } from './alamo.mjs';
-import { advanceFlight, flee, flightProjection, scrapeInvalid } from './scrape.mjs';
+import { advanceFlight, flee, flightProjection, scrapeInvalid, stayHome } from './scrape.mjs';
+import { REPEATED, advanceAuto, noteOrder, setAuto } from './auto.mjs';
 import { advanceTown, createTownspeople, observedBy } from './town.mjs';
 import { GOODS, advanceOffers, makeOffer, offersFor, respondToOffer } from './trade.mjs';
 import { buildGonzalesRegion, findPath, polylineLength } from './geography.mjs';
@@ -455,6 +456,8 @@ export function stepWorld(world) {
   // Chores run after travel resolves, so a person who arrived this tick picks up the
   // next step of their work in the same tick rather than idling for one.
   advanceChores(world, { beginTravel, modeAvailability });
+  // People on auto take up their last order again, and a family whose main person is on auto goes when told (sim/auto.mjs).
+  advanceAuto(world, { beginTravel, modeAvailability });
   advanceTown(world);
   // Offers resolve after everyone has moved, because an offer is a thing said face to
   // face and ends the moment the two people part.
@@ -604,7 +607,7 @@ export function advanceRelays(world) {
  * offer made to an empty chair - and the historical choices, which do not exist until the
  * news that prompts them has arrived.
  */
-export const LOBBY_ACTIONS = new Set(['survey-plot', 'hunt-land', 'fell-trees', 'place-piece', 'remove-piece', 'clear-plot', 'fence-plot','roll-family', 'set-appearance', 'load-wagon', 'bring-stock', 'plan-house', 'chore', 'stop-chore', 'answer-chore', 'rename', 'work', 'rest', 'travel', 'set-main']);
+export const LOBBY_ACTIONS = new Set(['survey-plot', 'hunt-land', 'fell-trees', 'place-piece', 'remove-piece', 'clear-plot', 'fence-plot','roll-family', 'set-appearance', 'load-wagon', 'bring-stock', 'plan-house', 'chore', 'stop-chore', 'answer-chore', 'rename', 'work', 'rest', 'travel', 'set-main', 'set-auto']);
 export function applyAction(world, householdId, input) {
   const entity = world.entities[input.entityId];
   const household = world.households[householdId];
@@ -641,6 +644,8 @@ export function applyAction(world, householdId, input) {
   // family who can act and is old enough to be sent - refused above, in the words every order gets. Choosing another recalls
   // nobody: whoever was main stays in the army or on their road; only who may be given the next order moves.
   if (input.action === 'set-main') { household.mainId = entity.id; return; }
+  // The person's auto switch (sim/auto.mjs, docs/FAMILY_PANEL.md §11.7): theirs whether at home or in the ranks.
+  if (input.action === 'set-auto') { setAuto(world, household, entity, input.auto); return; }
   // Somebody who has joined the army, the garrison or the expedition is in one place until the family sends for them (sim/winter.mjs).
   if (entity.service?.status === 'serving' && !SERVING_ACTIONS.includes(input.action)) throw new Error(servingWhy(world, entity));
   if (input.action === 'winter-recall') { recallFromService(world, household, entity, { beginTravel, modeWith }); return; }
@@ -648,13 +653,15 @@ export function applyAction(world, householdId, input) {
   if (input.action === 'alamo-courier') { answerCourier(world, entity, input.answer); return; }
   // The family leaves for the east (sim/scrape.mjs): the household's own decision, given by its main person.
   if (input.action === 'flee') { flee(world, household, { take: input.take || {}, refuge: input.refuge }); return; }
+  // Or decides to stay and take what comes: its own answer, since silence now packs the wagon after a day (sim/auto.mjs).
+  if (input.action === 'flight-stay') { stayHome(world, household); return; }
   // Farm work is open to the whole family; the historical choice is the principal's.
   // Keeping that split explicit is the point: everyone can be sent to the field, but
   // the decision the lesson turns on still belongs to one named person.
   // Naming is the household's own, belongs to no one member of it, and is checked before
   // the "choose one of your family" rule below because renaming the *family* names nobody.
   if (input.action === 'rename') { rename(world, household, input); return; }
-  if (input.action === 'chore') { beginChore(world, household, entity, input.chore, { beginTravel, modeAvailability }, mode); return; }
+  if (input.action === 'chore') { beginChore(world, household, entity, input.chore, { beginTravel, modeAvailability }, mode); noteOrder(entity, input.chore, mode); return; }
   // Survey, with the place the student chose on the family's own land (sim/survey.mjs). The server decides whether it can be.
   if (input.action === 'survey-plot') {
     const plot = { x: Number(input.x), y: Number(input.y) };
@@ -671,6 +678,7 @@ export function applyAction(world, householdId, input) {
   // Hunting a place on the family's own land, chosen on the map (sim/hunting.mjs). The server decides whether it can be.
   if (input.action === 'hunt-land') {
     beginChore(world, household, entity, 'hunt-land', { beginTravel, modeAvailability }, DEFAULT_MODE, { ground: { x: Number(input.x), y: Number(input.y) } });
+    noteOrder(entity, 'hunt-land', DEFAULT_MODE, { ground: { x: Number(input.x), y: Number(input.y) } });
     return;
   }
   // Clearing or fencing one of the family's plots, chosen on the map by a point inside it (sim/fields.mjs).
@@ -804,7 +812,7 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
     .slice(-PROJECTED_EVENTS);
   const knownIds = new Set(visibleEvents.map(e => e.id));
   const events = visibleEvents.map(e => ({ id: e.id, type: e.type, minute: e.minute, text: e.text, actorId: e.actorId, householdId: e.householdId, causes: e.causes.filter(id => knownIds.has(id)) }));
-  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.sex && { sex: e.sex }), ...(Number.isFinite(e.age) && { age: e.age, band: ageBand(e.age) }), location: e.location, travel: e.travel ? { from: e.travel.from, to: e.travel.to, points: e.travel.points, progress: e.travel.progress, distance: e.travel.distance, speed: e.travel.speed, mode: e.travel.mode } : null, health: e.health, task: e.task, skills: e.skills, chore: e.chore?.ask ? { ...e.chore, ask: askProjection(world, household, e) } : e.chore, condition: e.condition, species: e.species, laden: e.laden, borrowedBy: e.borrowedBy, ...(e.marks && { marks: e.marks }), ...(e.service && { service: { kind: e.service.kind, status: e.service.status, siteId: e.service.siteId, ...(e.service.acres && { acres: e.service.acres }), ...(e.service.besieged && { besieged: true }), ...(e.service.riding && { riding: true }), ...(e.service.courier === 'open' && { courier: 'open' }) } }), ...(e.voted && { voted: true }) }));
+  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.sex && { sex: e.sex }), ...(Number.isFinite(e.age) && { age: e.age, band: ageBand(e.age) }), location: e.location, travel: e.travel ? { from: e.travel.from, to: e.travel.to, points: e.travel.points, progress: e.travel.progress, distance: e.travel.distance, speed: e.travel.speed, mode: e.travel.mode } : null, health: e.health, task: e.task, skills: e.skills, chore: e.chore?.ask ? { ...e.chore, ask: askProjection(world, household, e) } : e.chore, condition: e.condition, species: e.species, laden: e.laden, borrowedBy: e.borrowedBy, ...(e.marks && { marks: e.marks }), ...(e.service && { service: { kind: e.service.kind, status: e.service.status, siteId: e.service.siteId, ...(e.service.acres && { acres: e.service.acres }), ...(e.service.besieged && { besieged: true }), ...(e.service.riding && { riding: true }), ...(e.service.courier === 'open' && { courier: 'open' }) } }), ...(e.voted && { voted: true }), ...(e.auto && { auto: true }) }));
   // What each person could be asked to do, with the reason for anything refused, is
   // computed on the server. The client must never decide for itself what is possible:
   // that is the same rule as fog of war, applied to a control instead of a fact.
@@ -884,6 +892,9 @@ export function validateWorld(world) {
     for (const [skill, level] of Object.entries(entity.skills || {})) {
       if (!Number.isInteger(level) || level < 1 || level > SKILL_CAP) throw new Error(`Invalid ${skill} skill`);
     }
+    // The auto switch and the order it repeats (sim/auto.mjs): absent on every class saved before, which is off.
+    if (entity.auto !== undefined && entity.auto !== true) throw new Error('Invalid auto switch');
+    if (entity.order !== undefined && !REPEATED.includes(entity.order?.chore)) throw new Error('Invalid remembered order');
     // Property is lent to somebody who exists - a person who took it on a journey, or a
     // whole household it is out with. A dangling borrower is how an ox ends up
     // permanently unusable, because nothing will ever hand it back.

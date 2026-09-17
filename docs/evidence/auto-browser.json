@@ -1,0 +1,38 @@
+{
+  "record": "auto-browser",
+  "date": "2026-09-17",
+  "verdict": "PASS",
+  "browser": "152.0.7977.83",
+  "task": "docs/FAMILY_PANEL.md §11.7: the auto switch on every row, held by the server (set-auto); a hunt on auto decided alone with no \"!\" and repeated when the hunter comes home; off, nobody goes again; nothing scrolling sideways at 400 px.",
+  "environment": "Same computer: a local classroom server at 150 ms a tick and headless Chrome. Not a physical LAN, a classroom, a real phone or a weak computer.",
+  "checks": [
+    "every row has the switch, and nobody is on auto to begin with",
+    "the word \"auto\" pressed on Ramón's row: the server holds it, the row shows pressed on the next snapshot, and the record says so",
+    "a hunt sent from the panel with the switch on, and the icon glowing",
+    "Ramón decided the shot alone with no \"!\" and went out again by themself: 2 hunts in 3 s",
+    "pressed off: the hunt in hand finished and nobody went out again",
+    "at 400 px nothing scrolls sideways with the switch on every row",
+    "no page errors anywhere in the run"
+  ],
+  "measured": {
+    "secondsToTwoHunts": 3,
+    "huntsFinished": 2,
+    "snapshotsAsking": 0,
+    "glowResumed": 0,
+    "huntsAfterOff": 1,
+    "phone": {
+      "width": 400,
+      "inner": 400
+    }
+  },
+  "screenshots": [
+    "docs/evidence/auto-switch-on.png",
+    "docs/evidence/auto-hunting-again.png",
+    "docs/evidence/auto-phone.png"
+  ],
+  "notProved": [
+    "The army's questions, Travis's couriers and the Runaway Scrape on auto in a browser: proved against the simulation in tests/auto.test.mjs; the cards they use are the ones scripts/army-browser-proof.mjs, scripts/alamo-siege-browser-proof.mjs and scripts/scrape-browser-proof.mjs press.",
+    "The flight card's \"Stay, and take the risk\": the action is tested in tests/auto.test.mjs; the button is not pressed here.",
+    "A weak computer or a real phone: the phone here is Chrome at 400 by 800."
+  ]
+}

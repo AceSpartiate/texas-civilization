@@ -63,6 +63,21 @@ export const SKILLS = ['farming', 'hunting', 'hands'];
 export const ASK_PATIENCE = 120;
 
 /**
+ * What somebody left to decide alone decides (sim/auto.mjs, docs/FAMILY_PANEL.md §11.7): the shot is taken when the hand
+ * is steady or the rifle has been put in order, and waited for when it is not - what a hunter who knows their own hand
+ * does - and every other question falls to the family's own answer, the fallback silence always took. Nothing impossible
+ * is chosen: a person with no powder comes away. The same rule answers a person on auto at once and a player by hand whose
+ * patience (`ASK_PATIENCE`) has run out, so the switch changes when the question is answered and never how.
+ */
+export function autoChoice(world, household, entity) {
+  const ask = entity.chore?.ask;
+  if (!ask) return null;
+  const steady = steadyHand(entity) || (rifleTrue(household) && entity.health?.condition !== 'tired');
+  const preferred = ask.id === 'shot' ? (steady ? ['take', 'wait', 'leave'] : ['wait', 'take', 'leave']) : [].concat(ask.fallback);
+  return preferred.find(option => askAvailability(world, household, entity, option).can) || 'leave';
+}
+
+/**
  * Whether this person could make a long shot right now.
  *
  * The whole outcome of a hunt turns on this and **there is no die in it**. `FIC-GONZ-008`
@@ -1069,7 +1084,7 @@ export function choresFor(world, household, entity) {
  * decides for themselves - and the record says which of those happened, because "we chose
  * to take the shot" and "nobody was listening" are different stories about the same family.
  */
-function settleAsk(world, household, entity, option, byDefault) {
+function settleAsk(world, household, entity, option, how = 'answered') {
   const state = entity.chore, ask = state.ask;
   // Nobody answering falls to 'leave' where nothing else can be; an ask with no such answer settles on its first.
   const chosen = ask.options.find(candidate => candidate.id === option) || ask.options[0];
@@ -1077,9 +1092,9 @@ function settleAsk(world, household, entity, option, byDefault) {
   state.ask = null;
   state.flags = [...(state.flags || []), option, ...(option === 'leave' ? ['empty'] : [])];
   record(world, 'choice', {
-    actorId: entity.id, householdId: household.id, decision: option, importance: 2,
-    text: byDefault
-      ? `Nobody answered. ${entity.name} decided alone: ${chosen.label.toLowerCase()}.`
+    actorId: entity.id, householdId: household.id, decision: option, importance: how === 'auto' ? 1 : 2,
+    text: how === 'silence' ? `Nobody answered. ${entity.name} decided alone: ${chosen.label.toLowerCase()}.`
+      : how === 'auto' ? `${entity.name}, deciding for themself, chose: ${chosen.label.toLowerCase()}.`
       : `${entity.name} will ${chosen.label.toLowerCase()}.`,
   });
   return option;
@@ -1183,12 +1198,10 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
   // is a question in name only.
   if (state.ask) {
     if (world.minute - state.ask.openedMinute < ASK_PATIENCE) return;
-    // Deciding alone still cannot do the impossible. A person with nothing to fire comes
-    // away, which is what they would actually do.
-    // A counter nobody answered pays the first way the family can: food, as it always was,
-    // and coin if there is not the food. A class saved with a single fallback reads the same.
-    const alone = [].concat(state.ask.fallback).find(option => askAvailability(world, household, entity, option).can) || 'leave';
-    settleAsk(world, household, entity, alone, true);
+    // Nobody answered in time: auto takes over for this one question (`autoChoice`). Deciding alone still cannot do the
+    // impossible - a person with nothing to fire comes away - and a counter nobody answered pays the first way the family
+    // can: food, as it always was, and coin if there is not the food.
+    settleAsk(world, household, entity, autoChoice(world, household, entity), 'silence');
   }
   // Spend a tick of the current step, and only move on once it is actually paid for.
   // Returning here whenever the counter was non-zero would cost one extra tick per step,
@@ -1258,6 +1271,8 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
         id: step.ask, openedMinute: world.minute, fallback: typeof ask.fallback === 'function' ? ask.fallback(household) : ask.fallback,
         text: ask.text(entity, world, household), options: ask.options(entity, world, household),
       };
+      // On auto the question is decided the tick it is asked - no "!", no wait, the person's own switch (sim/auto.mjs).
+      if (entity.auto) { settleAsk(world, household, entity, autoChoice(world, household, entity), 'auto'); continue; }
       record(world, 'pressure', {
         actorId: entity.id, householdId: household.id, importance: 2,
         text: `${ask.text(entity)} ${entity.name} is waiting on the family's word.`,

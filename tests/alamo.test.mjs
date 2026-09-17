@@ -12,7 +12,7 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, rollFamily, stepWorld, validateWorld } from '../sim/world.mjs';
 import { beginSecondPeriod } from '../sim/periods.mjs';
 import { momentOf } from '../sim/directors.mjs';
-import { COURIER_CHOSEN, JOHNSON_SHARE, SOUTH_RATES, share } from '../sim/alamo.mjs';
+import { COURIER_CHOSEN, COURIER_OFFERED, JOHNSON_SHARE, SOUTH_RATES, share } from '../sim/alamo.mjs';
 import { frailty } from '../sim/army.mjs';
 import { joinService } from '../sim/winter.mjs';
 
@@ -80,7 +80,10 @@ test('on the days riders went out a played person inside is asked once; about on
   for (const person of volunteers) applyAction(world, person.householdId, { action: 'alamo-courier', entityId: person.id, answer: 'volunteer' });
   assert.throws(() => applyAction(world, stays.householdId, { action: 'alamo-courier', entityId: stays.id, answer: 'volunteer' }), /not being asked/, 'somebody answered twice');
   untilMoment(world, 'courier-1');
-  assert.equal(silent.service.courier, 'stays', 'nobody answering sent them');
+  // Nobody answering in time is answered as auto answers (sim/auto.mjs): an offer at auto's share, which may be chosen.
+  assert.ok(['stays', 'sent', 'passed'].includes(silent.service.courier), `nobody answering left them ${silent.service.courier}`);
+  assert.equal(silent.service.courier === 'stays', share(world, silent.id, 'courier-offer') >= COURIER_OFFERED, 'the decision made for them did not follow the share');
+  assert.ok(world.events.some(e => e.actorId === silent.id && /Nobody answered for .* in time/.test(e.text)), 'the family was not told the choice was made for them');
   assert.equal(stays.service.besieged, true);
   for (const person of volunteers) {
     const chosen = share(world, person.id, 'courier-1') < COURIER_CHOSEN;

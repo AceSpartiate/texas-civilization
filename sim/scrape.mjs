@@ -135,6 +135,25 @@ export function burnFarm(world, household, { watching }) {
  * The family leaves: what it takes is all it keeps, everybody at home sets out together for the refuge - by the wagon when
  * the ox and wagon stand at home, on foot otherwise - and the farm burns behind them.
  */
+/** Why the family cannot decide to stay, or null. */
+export function stayRefusal(world, household) {
+  if (!scrapeOn(world) || !household.flight) return 'Nobody has told the family to leave.';
+  if (household.flight.status !== 'ordered') return 'The family has already decided.';
+  return null;
+}
+/**
+ * The family decides to stay and take what comes (owner: "burned anyway, at risk"). Said, not left to silence: since auto
+ * packs the wagon of a family that answers nothing for a day (sim/auto.mjs), refusing to go has to be an answer of its own.
+ * The family can still go east later, burned out or not (`fleeRefusal` allows 'stayed').
+ */
+export function stayHome(world, household) {
+  const why = stayRefusal(world, household);
+  if (why) throw new Error(why);
+  household.flight.status = 'stayed';
+  household.flight.stayedMinute = world.minute;
+  tell(world, household, 'The family will stay, and take what comes. The Texas army will burn what it finds standing, and whoever is at home when the Mexican army comes may be taken. The road east is still open.', { importance: 2 });
+}
+
 export function flee(world, household, { take = {}, refuge }) {
   const why = fleeRefusal(world, household, { take, refuge });
   if (why) throw new Error(why);
@@ -283,6 +302,32 @@ export function turnHome(world, causeId) {
 }
 
 /** What the family sees of its own flight. */
+/**
+ * The load a family that decides alone takes (sim/neighbours.mjs, sim/auto.mjs): all the food that fits, then seed, cotton
+ * and powder, for the nearest refuge east. From the flight as the family is shown it (`flightProjection`).
+ */
+export function packFlight(shown) {
+  const take = {}; let room = shown.room;
+  for (const good of ['food', 'seed', 'cotton', 'powder']) { const amount = Math.min(shown.have[good] || 0, Math.floor(room / shown.space[good])); take[good] = amount; room -= amount * shown.space[good]; }
+  const refuge = [...shown.refuges].sort((a, b) => a.miles - b.miles)[0].id;
+  return { take, refuge };
+}
+
+/**
+ * The family goes without a student's word: its main person is on auto, or nobody answered by hand within
+ * `FLIGHT_PATIENCE` (sim/auto.mjs). Packed as a neighbour packs. False when it cannot go yet - nobody at home - which is
+ * tried again next tick.
+ */
+export function autoFlee(world, household, { why = 'auto' } = {}) {
+  const shown = flightProjection(world, household);
+  if (!shown?.refuges?.length) return false;
+  const { take, refuge } = packFlight(shown);
+  if (fleeRefusal(world, household, { take, refuge })) return false;
+  if (why === 'waited') tell(world, household, 'Nobody gave the word for a day, and the family could wait no longer: it loaded what it could and went.', { importance: 2 });
+  flee(world, household, { take, refuge });
+  return true;
+}
+
 export function flightProjection(world, household) {
   const flight = household?.flight;
   if (!flight) return null;
@@ -291,7 +336,7 @@ export function flightProjection(world, household) {
   if (!['ordered', 'stayed'].includes(flight.status)) return shown;
   const { room, mode } = flightRoom(world, household);
   return {
-    ...shown, room, mode, space: FLIGHT_SPACE,
+    ...shown, room, mode, space: FLIGHT_SPACE, ...(flight.stayedMinute !== undefined && { decidedToStay: true }),
     have: Object.fromEntries(Object.keys(FLIGHT_SPACE).map(good => [good, Math.floor(household.resources?.[good] ?? 0)])),
     refuges: REFUGES.filter(id => world.map.sites[id] && world.map.sites[id].x > home.x + 2).map(id => ({ id, name: world.map.sites[id].name, miles: Math.round(Math.hypot(world.map.sites[id].x - home.x, world.map.sites[id].y - home.y)) })),
     burned: Boolean(flight.burned),

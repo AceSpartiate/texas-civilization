@@ -779,7 +779,7 @@ function advanceSiege(world, movement) {
   once(world, 'pledge', () => openQuestion(world, 'pledge', said('HIST-TEX-028', 'The army before Béxar is paraded, to see who will stay as a permanent force under a commander they elect themselves.'), { beginTravel }));
   if (due('austin-leaves', world.army?.questions?.pledge?.openedMinute)) {
     once(world, 'austin-leaves', () => {
-      closeQuestion(world, 'pledge');
+      closeQuestion(world, 'pledge', { beginTravel });
       said('HIST-TEX-028', 'Four hundred and five men pledged to stay before Béxar, and elected Edward Burleson to command them. Stephen F. Austin has left the army for San Felipe.');
     });
   }
@@ -822,7 +822,7 @@ function advanceStorming(world, movement, { due, said }) {
   once(world, 'winter-quarters', () => openQuestion(world, 'winter', said('HIST-TEX-036', 'The army before Béxar has been ordered into winter quarters, and men are setting off for home in squads.'), { beginTravel }));
   if (due('milam', world.army?.questions?.winter?.openedMinute)) {
     once(world, 'milam', () => {
-      closeQuestion(world, 'winter');
+      closeQuestion(world, 'winter', { beginTravel });
       const eventId = said('HIST-TEX-036', 'A Mexican officer has deserted into the camp and says the garrison is weak. Ben Milam is calling for men to go into San Antonio with him before dawn.');
       openQuestion(world, 'milam', eventId, { beginTravel });
     });

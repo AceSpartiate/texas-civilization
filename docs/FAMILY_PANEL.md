@@ -362,4 +362,47 @@ tick).
 | Idle is visible | A person with something open to them and nothing to do is marked on the row and the portrait; a child too young is not. |
 | The main person is the server's | Chosen by the star or a double press (`set-main`), held on the household, refused for the too young and the gone, the only one who travels, rests and works about the place, the card's default, the row with House; falls back to the principal, then the oldest old enough; switching recalls nobody. |
 | Cheap | No DOM rewritten on a tick where nothing changed. |
-| Stand-ins listed | The "!", star and idle marks are type; requested in `docs/ART_REQUESTS.md` (2026-09-16) and listed. |
+| Stand-ins listed | The "!", star, idle and auto marks are type; requested in `docs/ART_REQUESTS.md` (2026-09-16) and listed. |
+| Auto is the server's | The word "auto" on a row sends `set-auto`; the row shows pressed only from the projection's `auto`; on, the person's questions are answered the tick they are asked and their last hunt repeated, with no "!" ever raised on them; off, the game's own windows stand and then auto decides that one question (§11.7). |
+
+### 11.7 Auto — as built 2026-09-16
+
+The owner (2026-09-16): *"for all combat, and hunting, the player should be able to let it automatically happen (autohunt, or
+autofight) but the player should have the ability to micromanage their character during hunting or battle. if they fail to
+make the character's choices in a timely manner then eventually the auto should take over."* Put to the owner by multiple
+choice the same day and answered: **one switch per person**, and a person on auto **repeats the last order given them**;
+**auto-fight answers only what the army asks of somebody already in the ranks** (who enlists, turns out, joins Houston or
+comes home stays the player's order); **auto-hunt decides only the shot** (the player still sends the hunter); a player by hand
+keeps **the game's own windows** and then auto decides that one question; and in the Runaway Scrape, where the family moves as
+one behind the parent, **the main person's switch** decides, a family by hand being waited for a day.
+
+- **The switch.** The word *auto* on every row's tools, beside the star, hidden on a row that can be given nothing (a child too
+  young). Pressing it sends **`set-auto`** (`sim/auto.mjs`), held on the person as `entity.auto` — absent when off, so no
+  saved class changes and no save version moves — and shown back as `auto` on the projection, which is the only thing the
+  pressed state is drawn from. Its accessible name says what a press does (`autoLabel` in `public/family-panel.js`). The
+  switch is written into the family's record either way.
+- **What auto decides, and where.** Each question is decided where it lives, at the share families nobody plays use
+  (`FIC-GONZ-040`, `FIC-GONZ-048`), so the switch changes *when* a question is answered and never the odds:
+  - *the shot* (`autoChoice`, `sim/chores.mjs`): taken when the hand is steady or the rifle has been put in order, waited for
+    when it is not; every other question work stops to ask falls to the family's own fallback; nothing impossible is chosen.
+  - *the army's questions* (storm, pledge, the pack train, winter quarters, Milam, the reinforcement) and *the detachment*
+    (`sim/army.mjs`): answered the tick they are asked, and what the answer does is done (not pledging starts home).
+  - *Travis's couriers* (`sim/alamo.mjs`, `COURIER_OFFERED`, about a third offer): answered the moment Travis asks.
+  - *the wagon* (`autoFlee`, `sim/scrape.mjs`): if the main person is on auto the family packs as a neighbour packs — food,
+    then seed, cotton, powder, for the nearest refuge east — and goes the tick after the order.
+- **The repeat.** Hunting only (`REPEATED`): the order last given from the panel is remembered on the person (`entity.order`,
+  with the ground for a hunt on the family's land) and, on auto, taken up again the tick they are home and free — with a shot
+  in the house, as a neighbour hunts; without one, or refused for any other reason, the reason is written down once and tried
+  again each tick. Off, the hunt in hand finishes and nobody goes again. `ceiling:` only the hunts repeat; felling, hauling,
+  the field and the errands each change what the family has in a way a student should see before the next.
+- **By hand, and the windows.** Nothing changes until the window closes: a hunt's question stands `ASK_PATIENCE` (two hours,
+  about a minute at the Study pace), an army question until its dated close with the calendar held, a courier ask until the
+  riders go, the wagon `FLIGHT_PATIENCE` (a day). Then **auto decides that one question**, said so in the record (*"Nobody
+  answered for … in time, and it was decided for them."*) — where silence used to count as a no, a stay, or the first fallback.
+  So a class saved before this rule may still carry `'silent'` answers; none are made now.
+- **Refusing to go is an answer.** Since silence now packs the wagon after a day, a family that means to stay says so: *Stay,
+  and take the risk* on the flight card (`flight-stay`, `sim/scrape.mjs` `stayHome`), which releases the calendar, keeps the
+  farm to be burned when the army passes and the family at risk when the enemy comes, and leaves the road east open.
+- **Proof.** `tests/auto.test.mjs` (six tests, each proven by injection: fourteen regressions, each failing only its test) and
+  `npm run test:auto` (`scripts/auto-browser-proof.mjs`, same computer): the word pressed, the server holding it, a hunt from
+  the panel decided alone with no "!" and repeated, off and nobody going again, nothing scrolling sideways at 400 px.

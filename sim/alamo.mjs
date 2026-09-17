@@ -79,11 +79,27 @@ export function beginSiege(world, causeId) {
 }
 
 /** A day Travis sends riders out: every played person inside not yet asked is asked whether they will carry a letter. */
+/**
+ * The share of the garrison that offers to ride when the choice is auto's (`FIC-GONZ-048`): about a third. Some sixteen
+ * couriers are known to have gone out (`HIST-TEX-055`), and with one offer in four chosen (`COURIER_CHOSEN`) that is
+ * sixty or so offers among fewer than two hundred men.
+ */
+export const COURIER_OFFERED = 1 / 3;
+const autoOffers = (world, person) => share(world, person.id, 'courier-offer') < COURIER_OFFERED;
+const offerSaid = (person, offers) => offers ? `${person.name} offered to carry Travis's letters out.` : `${person.name} will stay inside the walls.`;
+
 export function askCouriers(world) {
   let asked = 0;
   for (const person of inService(world, 'garrison')) {
     if (!person.service.besieged || person.service.courier) continue;
     if (!householdOf(world, person)?.played) continue;
+    // On auto, answered the moment it is asked, at auto's share (sim/auto.mjs); nobody waits on the family.
+    if (person.auto) {
+      const offers = autoOffers(world, person);
+      person.service.courier = offers ? 'volunteered' : 'stays';
+      record(world, 'choice', { actorId: person.id, householdId: person.householdId, importance: 2, decision: `courier-${offers ? 'volunteer' : 'stay'}`, text: offerSaid(person, offers) });
+      continue;
+    }
     person.service.courier = 'open';
     tell(world, person, `Travis wants riders to carry letters out through the Mexican lines. ${person.name} can offer to go.`, { claimId: 'HIST-TEX-055', type: 'pressure' });
     asked++;
@@ -102,14 +118,19 @@ export function answerCourier(world, person, answer) {
   if (why) throw new Error(why);
   person.service.courier = answer === 'volunteer' ? 'volunteered' : 'stays';
   record(world, 'choice', { actorId: person.id, householdId: person.householdId, importance: 2, decision: `courier-${answer}`,
-    text: answer === 'volunteer' ? `${person.name} offered to carry Travis's letters out.` : `${person.name} will stay inside the walls.` });
+    text: offerSaid(person, answer === 'volunteer') });
 }
 
 /** The riders go: of those who offered, about one in four is chosen, rides out to Gonzales and lives; the asking closes. */
 export function sendCouriers(world, day, { beginTravel }) {
   for (const person of inService(world, 'garrison')) {
     const service = person.service;
-    if (service.courier === 'open') { service.courier = 'stays'; tell(world, person, `Nobody answered for ${person.name}, and the riders went without them.`, { importance: 2 }); continue; }
+    // Nobody answered in time: decided as auto decides (sim/auto.mjs), and an offer made this way can still be chosen tonight.
+    if (service.courier === 'open') {
+      const offers = autoOffers(world, person);
+      service.courier = offers ? 'volunteered' : 'stays';
+      tell(world, person, `Nobody answered for ${person.name} in time, and it was decided for them. ${offerSaid(person, offers)}`, { importance: 2, type: 'choice' });
+    }
     if (service.courier !== 'volunteered') continue;
     if (share(world, person.id, day) >= COURIER_CHOSEN) {
       service.courier = 'passed';

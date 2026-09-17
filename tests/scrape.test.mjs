@@ -139,6 +139,12 @@ test('a family that stays is burned out when the army passes, and whoever is at 
   household.played = true;
   household.improvements = { ...household.improvements, cabin: 'sound' };
   const days = SETTLEMENT_DAYS.gonzales;
+  // Staying is an answer of its own since auto packs the wagon of a family that answers nothing for a day (sim/auto.mjs).
+  until(world, () => household.flight?.status === 'ordered');
+  applyAction(world, household.id, { action: 'flight-stay', entityId: main(world, household).id });
+  assert.equal(household.flight.status, 'stayed');
+  assert.equal(calendarMinutes(world), 240, 'the calendar still held after the family decided to stay');
+  assert.throws(() => applyAction(world, household.id, { action: 'flight-stay', entityId: main(world, household).id }), /already decided/);
   untilMinute(world, days.burn);
   assert.equal(household.flight.status, 'stayed');
   assert.equal(household.improvements.cabin, 'ruined', 'the army passed and did not burn the farm');

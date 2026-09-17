@@ -420,7 +420,8 @@ test('nobody stands in a wood for ever waiting on a student who has gone elsewhe
   // family, and the epilogue is built out of exactly these.
   const decided = world.events.find(event => /Nobody answered/.test(event.text));
   assert.equal(decided.type, 'choice');
-  assert.equal(decided.decision, 'take');
+  // Decided as auto decides (sim/chores.mjs `autoChoice`): Mateo has no knack for it, so the long shot is waited for.
+  assert.equal(decided.decision, 'wait');
 });
 
 test('an answer nobody was offered is refused, and so is answering for another family', () => {

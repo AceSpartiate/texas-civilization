@@ -142,11 +142,14 @@ test('the storm order is asked on the volunteer\'s own card, once, with nothing 
   assert.match(seen.forged, /no such question/);
   assert.match(seen.afterStorm.closed, /Nobody is being asked/);
   assert.equal(world.army.questions.storm.asks[a.person.id], 'yes');
-  assert.equal(world.army.questions.storm.asks[b.person.id], 'silent', 'an unanswered volunteer was not answered by silence');
+  // Nobody answering in time is answered as auto answers (sim/auto.mjs), at the record's share, and glory follows the answer.
+  const decided = world.army.questions.storm.asks[b.person.id];
+  assert.ok(['yes', 'no'].includes(decided), `an unanswered volunteer was left ${decided}`);
+  assert.ok(world.events.some(e => e.householdId === b.household.id && e.decision === `storm-${decided}` && /Nobody answered for .* in time/.test(e.text)), 'the story does not say the choice was made for them');
   const willing = world.glory[a.household.id].awards[`storm-order:${a.person.id}`];
   assert.equal(willing?.role, 'willing', 'saying yes to the storm earned nothing');
   assert.ok(willing.points > 0);
-  assert.equal(world.glory[b.household.id]?.awards?.[`storm-order:${b.person.id}`], undefined, 'silence earned glory');
+  assert.equal(world.glory[b.household.id]?.awards?.[`storm-order:${b.person.id}`] !== undefined, decided === 'yes', 'glory did not follow the answer made for them');
   // Families nobody plays answered for themselves, most of them no, as the army did.
   const unplayed = Object.entries(world.army.questions.storm.asks).filter(([id]) => !world.households[world.entities[id].householdId].played);
   assert.ok(unplayed.length > 0 && unplayed.every(([, answer]) => ['yes', 'no'].includes(answer)));
