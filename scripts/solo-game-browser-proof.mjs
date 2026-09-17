@@ -116,7 +116,7 @@ try {
     measured,
     screenshots: shots,
     notProved: [
-      'The launcher\'s Play solo button and its window: proved by scripts/verify-launcher.ps1 and scripts/solo-browser-proof.mjs; this run enters through the same newSoloGame/enter path in process.',
+      'The launcher\'s Play Solo button and its window: proved by scripts/verify-launcher.ps1 and scripts/solo-browser-proof.mjs; this run enters through the same newSoloGame/enter path in process.',
       'The Study pace: the game here runs at 100 ms a tick.',
       'Every branch: one call answered, one winter order, one flight by hand; the period proofs press the rest.',
     ],

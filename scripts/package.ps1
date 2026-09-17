@@ -88,6 +88,7 @@ if (-not $SkipLauncher) {
   try {
     & dotnet publish -c Release -r win-x64 --self-contained true `
       -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true `
+      "-p:InformationalVersion=$Tag" `
       -o bin\package -v quiet | Out-Null
     if ($LASTEXITCODE -ne 0) { throw 'The setup program did not build.' }
   } finally {

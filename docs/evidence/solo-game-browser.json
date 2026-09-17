@@ -9,17 +9,17 @@
     "server/main.mjs --solo deals its game on the real land of the colonies (5 families, running)",
     "the solo game opens joined as hh-1 in gonzales, rolled and running, no join form, no Start press; the other four families automatic",
     "the solo class view opens from its Host address with the game already running",
-    "the family arrived and the house site was chosen on its grant at (3.8596, -2.8404)",
-    "3 of the family set to auto from the panel: Thomas, Almira, Winnie",
-    "3 orders given from the panel and taken",
-    "the call came (\"A neighbour is at the door. They are carrying food to the people gathering near Gonzales, …\") and Thomas was sent from the one menu",
-    "the first period ended on its own at minute 113880: interim standings on both pages, no winner named (407 ticks, 46.1 s)",
+    "the family arrived and the house site was chosen on its grant at (2.8447999999999998, 8.5204)",
+    "2 of the family set to auto from the panel: Anselmo, Almira",
+    "2 orders given from the panel and taken",
+    "the call came (\"A neighbour is at the door. They are carrying food to the people gathering near Gonzales, …\") and Anselmo was sent from the one menu",
+    "the first period ended on its own at minute 113880: interim standings on both pages, no winner named (406 ticks, 44.5 s)",
     "the Host continued the class into the winter: period 2 opens on 1836-01-25",
-    "Thomas was sent to enlist auxiliary from the panel",
-    "the second period ended on its own at minute 241560 (195 ticks, 21.8 s)",
+    "Anselmo was sent to enlist auxiliary from the panel",
+    "the second period ended on its own at minute 241560 (195 ticks, 23.6 s)",
     "the Host continued the class into the spring: period 3 opens on 1836-03-14",
     "told to leave, the \"!\" opened the card and the family left for san-felipe with what fit; the farm burned behind it",
-    "the game ended on the road home at minute 302520: the final reckoning on both pages, the Host naming who finished first (698 ticks, 76.8 s)",
+    "the game ended on the road home at minute 302520: the final reckoning on both pages, the Host naming who finished first (401 ticks, 44.5 s)",
     "after the ending, a new solo game is dealt with the old pages open, and opens joined and running from the beginning",
     "no page errors on any page across the whole solo game"
   ],
@@ -31,34 +31,33 @@
     },
     "periods": {
       "first": {
-        "ticks": 407,
-        "seconds": 46.1,
+        "ticks": 406,
+        "seconds": 44.5,
         "endedAtMinute": 113880
       },
       "second": {
         "ticks": 195,
-        "seconds": 21.8,
+        "seconds": 23.6,
         "endedAtMinute": 241560
       },
       "third": {
-        "ticks": 698,
-        "seconds": 76.8,
+        "ticks": 401,
+        "seconds": 44.5,
         "endedAtMinute": 302520
       }
     },
     "family": [
-      "Thomas (father, 27)",
-      "Almira (mother, 31)",
-      "Winnie (daughter, 13)",
-      "Ruperto (son, 6)",
-      "Petra (daughter, 4)",
-      "Hiram (son, 3)",
-      "Jasper (son, 2)"
+      "Anselmo (father, 24)",
+      "Almira (mother, 21)",
+      "Loreta (daughter, 4)",
+      "Winnie (daughter, 3)",
+      "Rufino (son, 2)",
+      "Zadok (son, 1)",
+      "Emeterio (son, 0)"
     ],
     "onAuto": [
-      "Thomas",
-      "Almira",
-      "Winnie"
+      "Anselmo",
+      "Almira"
     ],
     "orders": [
       {
@@ -70,21 +69,16 @@
         "id": "hh-1-parent-2",
         "key": "cut-lane",
         "took": true
-      },
-      {
-        "id": "hh-1-child-1",
-        "key": "cut-lane",
-        "took": true
       }
     ],
     "call": {
       "text": "A neighbour is at the door. They are carrying food to the people gathering near Gonzales, and ask whether somebody from your family can help take it.",
-      "sent": "Thomas"
+      "sent": "Anselmo"
     },
     "winter": {
       "key": "enlist-auxiliary",
       "id": "hh-1-parent-1",
-      "name": "Thomas"
+      "name": "Anselmo"
     },
     "winterOutcome": {
       "voted": false,
@@ -101,12 +95,12 @@
       "card": "The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer within the day, or the family packs w"
     },
     "ending": {
-      "host": "THE END OF THE STORY × How the families finished Thomas's family finished first, with a final number of 90. Family Road miles from Gonzales Heard of the cannon Who went Coin Glory Land Final Thomas's family 6 September 29 Thomas 0 reales 73 16 reales 90 Ignacio's family (nobody played them) 150 Octo",
-      "family": "THE END OF THE STORY × Thomas's family COIN IN THE HOUSE 0 reales GLORY 73 FINAL NUMBER 90 0 reales, counted as 1 real × (1 + 73 glory) + 16 reales of land (320 acres promised) = 90 Our story The family lived 6 road miles from Gonzales. Word that soldiers had come for the cannon reached them on Sept",
+      "host": "THE END OF THE STORY × How the families finished Anselmo's family finished first, with a final number of 73. Family Road miles from Gonzales Heard of the cannon Who went Coin Glory Land Final Anselmo's family 11 September 29 Anselmo 0 reales 56 16 reales 73 Amos's family (nobody played them) 108 Oct",
+      "family": "THE END OF THE STORY × Anselmo's family COIN IN THE HOUSE 0 reales GLORY 56 FINAL NUMBER 73 0 reales, counted as 1 real × (1 + 56 glory) + 16 reales of land (320 acres promised) = 73 Our story The family lived 11 road miles from Gonzales. Word that soldiers had come for the cannon reached them on Se",
       "flight": "returning",
       "minute": 302520
     },
-    "totalSeconds": 144.7
+    "totalSeconds": 112.6
   },
   "screenshots": [
     "docs/evidence/solo-game-at-work.png",

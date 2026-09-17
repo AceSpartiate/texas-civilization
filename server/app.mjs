@@ -284,7 +284,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
   const SOLO_TICKET_MS = 120000;
   const soloTickets = new Map();
   function newSoloGame(name = 'Solo player') {
-    if (!solo) throw new Error('This is not a solo playtest server.');
+    if (!solo) throw new Error('This is not a Play Solo server.');
     if (lifecycle) throw new Error('This server is stopping.');
     const credential = token(), identity = { name, householdId: 'hh-1', commands: [] };
     commit(s => {
@@ -311,7 +311,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
   const server = http.createServer(async (req, res) => {
     try {
       // A solo server is bound to loopback; this is the second lock on the same door.
-      if (solo && !loopback(req.socket.remoteAddress)) return json(res, 403, { error: 'A solo playtest server answers only this computer.' });
+      if (solo && !loopback(req.socket.remoteAddress)) return json(res, 403, { error: 'A Play Solo server answers only this computer.' });
       const url = new URL(req.url, `http://${req.headers.host}`);
       res.setHeader('X-Content-Type-Options', 'nosniff');
       res.setHeader('Referrer-Policy', 'no-referrer');
@@ -341,7 +341,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         const ticket = url.searchParams.get('ticket') || '';
         const entry = soloTickets.get(ticket);
         soloTickets.delete(ticket);
-        if (!entry || Date.now() - entry.at > SOLO_TICKET_MS) return json(res, 403, { error: 'That solo link has been used or has expired. Press Play solo again.' });
+        if (!entry || Date.now() - entry.at > SOLO_TICKET_MS) return json(res, 403, { error: 'That solo link has been used or has expired. Press Play Solo again.' });
         res.writeHead(303, { 'Set-Cookie': setCookie(studentCookie(), entry.credential, 604800), Location: '/', 'Cache-Control': 'no-store' });
         return res.end();
       }

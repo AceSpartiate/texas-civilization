@@ -160,7 +160,7 @@ public sealed class ServerControl
     public async Task<(string? PlayUrl, string? HostUrl, string? Error)> NewSoloGameAsync()
     {
         var info = AppPaths.Resolve(solo: true);
-        if (info is null) return (null, null, "Could not find the solo playtest folder.");
+        if (info is null) return (null, null, "Could not find the Play Solo folder.");
         var hostUrl = AppPaths.HostUrl(info);
         var hash = hostUrl?.LastIndexOf('#') ?? -1;
         if (hostUrl is null || hash < 0) return (null, null, "The solo server has not written its Host address yet.");

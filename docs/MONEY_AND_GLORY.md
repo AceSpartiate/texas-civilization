@@ -190,6 +190,12 @@ Rules that apply to every row:
 - **Fighting should be the stronger strategy, never the only one.** A family that never fights
   winning should be difficult, not impossible. The balance gate in §8 is the check.
 
+### Caught on the road east — owner decision, 2026-09-17
+
+A family the Mexican army overtakes in the Runaway Scrape loses glory as a desertion does: twice what enlisting is worth,
+by the miles from home, once for each column (`overtake` in `sim/road.mjs`, `docs/ROAD_EAST.md` §2). The owner, by
+multiple choice: "Keep as it is, but with a minus glory consequence"; "Like a desertion."
+
 ### A woman sent to fight — owner decision, 2026-09-14, built at Concepción 2026-09-16 — **superseded 2026-09-16**
 
 **Owner, 2026-09-16: "I've also changed my mind. Women did not participate in battle. Actual combat shouldn't be a presented

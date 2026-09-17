@@ -10,10 +10,15 @@ namespace TexasRevolution.Launcher;
 /// script that waits for this process to exit. The teacher's saved classes are a separate
 /// question and a separate answer: everything else is replaceable by downloading it again,
 /// and a class is not.
+///
+/// <para>"Everything the game installed" (owner, 2026-09-17) is more than its folder: the Start menu and desktop
+/// shortcuts, the Add/Remove entry, the remembered-install stamp under LocalAppData, the class view's browser profile and
+/// the update's download folder in Temp, the files .NET unpacks for a single-file program, and the launch logs. All of
+/// them go; the saved classes go only if the teacher says so.</para>
 /// </remarks>
 public static class Uninstaller
 {
-    public static int Run()
+    public static int Run(int? afterProcessId = null)
     {
         var root = AppPaths.Root;
         var data = AppPaths.Resolve()?.DataDir;
@@ -21,7 +26,9 @@ public static class Uninstaller
 
         var answer = MessageBox.Show(
             "Remove Texas Revolution from this computer?" + Environment.NewLine + Environment.NewLine + root,
-            "Texas Revolution", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+            "Texas Revolution", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning,
+            // Cancel is the default: a stray Enter must not remove the game (found testing the launcher's link, 2026-09-17).
+            MessageBoxDefaultButton.Button2);
         if (answer != DialogResult.OK) return 1;
 
         var keepClasses = false;
@@ -49,7 +56,7 @@ public static class Uninstaller
         var lines = new List<string>
         {
             "@echo off",
-            $"powershell.exe -NoProfile -Command \"Wait-Process -Id {Environment.ProcessId} -Timeout 60 -ErrorAction SilentlyContinue\"",
+            $"powershell.exe -NoProfile -Command \"Wait-Process -Id {string.Join(',', new[] { Environment.ProcessId }.Concat(afterProcessId is { } launcher ? new[] { launcher } : Array.Empty<int>()))} -Timeout 60 -ErrorAction SilentlyContinue\"",
         };
         if (keepInside)
         {
@@ -64,6 +71,15 @@ public static class Uninstaller
             if (!keepClasses && data is not null && !data.StartsWith(root, StringComparison.OrdinalIgnoreCase))
                 lines.Add($"rd /s /q \"{data}\"");
         }
+        // Outside the folder: what the launcher, its windows, its updates and .NET itself leave behind.
+        var temp = Path.GetTempPath().TrimEnd(Path.DirectorySeparatorChar);
+        foreach (var folder in new[] { "TexasRevolutionView", "TexasRevolutionUpdate", Path.Combine(".net", "TexasRevolution") })
+            lines.Add($"if exist \"{temp}\\{folder}\" rd /s /q \"{temp}\\{folder}\"");
+        lines.Add($"del /q \"{temp}\\texas-*.log\" 2>nul");
+        var profile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "TexasRevolution");
+        var classesInProfile = data is not null && data.StartsWith(profile, StringComparison.OrdinalIgnoreCase);
+        if (!(keepClasses && classesInProfile) && !string.Equals(profile.TrimEnd('\\'), root.TrimEnd('\\'), StringComparison.OrdinalIgnoreCase))
+            lines.Add($"if exist \"{profile}\" rd /s /q \"{profile}\"");
         lines.Add($"del /q \"{script}\"");
         File.WriteAllLines(script, lines);
         Process.Start(new ProcessStartInfo("cmd.exe", $"/c \"{script}\"")

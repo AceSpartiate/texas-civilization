@@ -28,7 +28,9 @@ internal static class Program
         if (verb == "uninstall")
         {
             ApplicationConfiguration.Initialize();
-            return Uninstaller.Run();
+            // `--after <pid>`: the launcher window that asked, which has to be gone before its folder can be.
+            var after = args.SkipWhile(arg => !arg.TrimStart('-', '/').Equals("after", StringComparison.OrdinalIgnoreCase)).Skip(1).FirstOrDefault();
+            return Uninstaller.Run(int.TryParse(after, out var pid) ? pid : null);
         }
 
         if (!Installer.IsInsideInstallation)
@@ -140,7 +142,7 @@ internal static class Program
                 if (file is null) { Console.Error.WriteLine("Use --install-update <TexasRevolutionSetup.exe or update .zip> [--no-restart]."); return 2; }
                 if ((await server.StatusAsync()).Running || await server.SoloRunningAsync())
                 {
-                    Console.WriteLine("refused: stop the class (and any solo playtest) first");
+                    Console.WriteLine("refused: stop the class (and Play Solo) first");
                     return 3;
                 }
                 var progress = new Progress<(int Percent, string What)>(_ => { });

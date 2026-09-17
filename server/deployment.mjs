@@ -46,7 +46,7 @@ export const resolveSavePath = (dataDir, env = process.env) => env.SAVE_PATH ? r
 export const SOLO_PORT = 1836;
 export function soloPaths({ env = process.env, root = appRoot() } = {}) {
   const dir = join(resolveDataDir({ env, root }).dir, 'solo');
-  if (!writableDir(dir)) throw new Error(`The solo playtest folder is not writable: ${dir}`);
+  if (!writableDir(dir)) throw new Error(`The Play Solo folder is not writable: ${dir}`);
   const port = Number(env.SOLO_PORT || SOLO_PORT);
   if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('SOLO_PORT must be a port number.');
   return { dir, savePath: join(dir, 'classroom.json'), port };

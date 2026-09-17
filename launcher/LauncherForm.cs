@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Diagnostics;
 
 namespace TexasRevolution.Launcher;
@@ -32,9 +33,11 @@ public sealed class LauncherForm : Form
     private readonly Button _copyJoin = Secondary("Copy the join address");
     private readonly Button _updates = Secondary("Check for updates");
     // Solo Mode: the owner playtesting, not a class. It never touches the class above it.
-    private readonly Button _solo = Secondary("Play solo (playtest)");
+    private readonly Button _solo = Secondary("Play Solo");
     private readonly ProgressBar _progress = new() { Dock = DockStyle.Top, Height = 14, Visible = false, Style = ProgressBarStyle.Continuous, Maximum = 100 };
     private readonly Label _notice = new() { Dock = DockStyle.Fill, ForeColor = Color.FromArgb(214, 190, 140) };
+    // Small, at the very bottom, and out of the way of the class buttons (owner, 2026-09-17).
+    private readonly LinkLabel _uninstall = new() { Dock = DockStyle.Bottom, Height = 22, Text = "Uninstall Texas Revolution…", TextAlign = ContentAlignment.MiddleRight, LinkColor = Color.FromArgb(150, 168, 150), ActiveLinkColor = Color.WhiteSmoke, Font = new Font("Segoe UI", 8f) };
 
     private readonly System.Windows.Forms.Timer _poll = new() { Interval = 1500 };
     private ServerStatus _status = ServerStatus.Stopped;
@@ -61,6 +64,15 @@ public sealed class LauncherForm : Form
         _title.Text = "Texas Revolution — Gonzales, 1835";
         _title.Font = new Font("Segoe UI", 13f, FontStyle.Bold);
         _release.Text = AppPaths.InstalledRelease is { } tag ? $"Release {tag}" : "Working copy (not an installed release)";
+        // Found 2026-09-17: a computer showed Release v2026.09.17.2 and no Solo Mode button, because the game files were new
+        // and the launcher was not. The setup stamps its tag into the launcher (scripts/package.ps1), so a mismatch is said.
+        var launcherTag = LauncherTag;
+        if (launcherTag is not null && AppPaths.InstalledRelease is { } game && !string.Equals(launcherTag, game, StringComparison.OrdinalIgnoreCase))
+        {
+            _release.Text = $"Release {game} · launcher {launcherTag}";
+            Say("This launcher is from a different release than the game beside it. Download TexasRevolutionSetup.exe again from the release page and choose Update.");
+        }
+        _uninstall.LinkClicked += (_, _) => Uninstall();
         _join.Font = new Font("Consolas", 10f);
         // The six characters a student types are the thing a teacher reads out and writes on
         // the board, so they are the largest thing on this window after the button.
@@ -79,6 +91,7 @@ public sealed class LauncherForm : Form
         // notice fills whatever is left, which is what keeps a long message from pushing a
         // button off the window the way the first version of this did.
         Controls.Add(_notice);
+        Controls.Add(_uninstall);
         foreach (var control in new Control[] { _progress, _updates, _solo, _copyJoin, _copyCode, _openPlayer, _showClass, _power, _join, _code, _state, _release, _title })
             Controls.Add(control);
 
@@ -135,7 +148,7 @@ public sealed class LauncherForm : Form
             }
             else
             {
-                _soloView = new TeacherWindow(play, "Texas Revolution — solo playtest", developer: true,
+                _soloView = new TeacherWindow(play, "Texas Revolution — Play Solo", developer: true,
                     ("Class view", _ => ShowSoloHost(host)),
                     ("New solo game", window => _ = NewSoloGameInAsync(window)));
                 _soloView.FormClosed += (_, _) => _soloView = null;
@@ -160,7 +173,7 @@ public sealed class LauncherForm : Form
             _soloHostView.Activate();
             return;
         }
-        _soloHostView = new TeacherWindow(hostUrl, "Texas Revolution — solo class view", developer: true);
+        _soloHostView = new TeacherWindow(hostUrl, "Texas Revolution — Play Solo class view", developer: true);
         _soloHostView.FormClosed += (_, _) => _soloHostView = null;
         _soloHostView.Show();
     }
@@ -206,6 +219,30 @@ public sealed class LauncherForm : Form
     };
 
     private void Say(string message) => _notice.Text = message;
+
+    /// <summary>The release tag stamped into this launcher when the setup was built; null for a working copy's build.</summary>
+    private static string? LauncherTag =>
+        typeof(LauncherForm).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion?.Split('+')[0] is { } version
+        && version.StartsWith('v') ? version : null;
+
+    /// <summary>
+    /// The same uninstall Add/Remove Programs runs, in a process of its own: it asks, and if the teacher goes ahead this
+    /// window closes so its folder can be removed; if they cancel, nothing changes.
+    /// </summary>
+    private void Uninstall()
+    {
+        var exe = Environment.ProcessPath;
+        if (exe is null || AppPaths.InstalledRelease is null) { Say("This is a working copy, not an installed release; there is nothing to uninstall."); return; }
+        _uninstall.Enabled = false;
+        var process = Process.Start(new ProcessStartInfo(exe, $"--uninstall --after {Environment.ProcessId}") { UseShellExecute = false });
+        if (process is null) { _uninstall.Enabled = true; return; }
+        process.EnableRaisingEvents = true;
+        process.Exited += (_, _) => BeginInvoke(() =>
+        {
+            if (process.ExitCode == 0) { _soloStarted = false; Close(); }
+            else _uninstall.Enabled = true;
+        });
+    }
 
     private async Task RefreshAsync()
     {
@@ -346,7 +383,7 @@ public sealed class LauncherForm : Form
             _poll.Stop();
             if (await _server.SoloRunningAsync())
             {
-                Say("Stopping the solo playtest first…");
+                Say("Stopping Play Solo first…");
                 await _server.StopSoloAsync();
                 _soloStarted = false;
             }

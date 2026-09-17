@@ -91,9 +91,34 @@ These call exactly the code the buttons call. One caveat found by measuring: do 
 the output of `--start` (or `--solo`). The server it leaves running inherits the console handle,
 so a parent that redirects and waits will wait for the whole lesson. Ask `--status` instead.
 
+### Uninstalling from the launcher, and a launcher older than its game — 2026-09-17
+
+**Uninstall Texas Revolution…**, in small text at the bottom of the launcher (owner: *"an uninstall button that remove
+everything that the game installed"*), runs the same `--uninstall` that Settings ▸ Apps runs, in a process of its own
+with `--after <launcher pid>`: it asks first (Cancel is the default button, so a stray Enter removes nothing), asks
+whether to keep saved classes if there are any (Yes keeps them), stops the class and Play Solo, and the launcher closes so
+its folder can go. It removes the installed folder, the Start menu and desktop shortcuts, the Add/Remove entry, and what
+the game leaves outside its folder: `%LOCALAPPDATA%TexasRevolution` (the install stamp, and the class data if it fell
+back there and was not kept), the class view's browser profile `%TEMP%TexasRevolutionView`, the update download folder
+`%TEMP%TexasRevolutionUpdate`, the files .NET unpacks for the single-file program `%TEMP%.netTexasRevolution`, and
+the launch logs `%TEMP%	exas-*.log`.
+
+The setup is now stamped with its release tag (`-p:InformationalVersion=<tag>` in `scripts/package.ps1`). When the
+launcher's tag and the game's `release.txt` differ, the release line reads *Release v… · launcher v…* and the launcher
+says to download the setup again and choose Update. Found 2026-09-17: the owner's second computer showed *Release
+v2026.09.17.2* with no Solo Mode button - new game files beside a launcher from before 2026-09-16, which could only ever
+update the game (see *Updating, launcher included*). A launcher from before this release cannot show the warning.
+
+Proved on this computer only, against a scratch copy with the real install's shortcuts backed up and restored: the
+release's setup unpacked and its launcher showed Play Solo; a launcher stamped with another tag showed the warning; the
+link started `--uninstall --after`, and after OK the launcher closed and the folder, the shortcuts, the stamp and the
+view profile were gone. `ceiling:` the Cancel path and the keep-classes question were not driven to completion by UI
+automation (the automated presses did not find the message box's buttons); both are the unchanged dialogs Settings ▸ Apps
+already used, with Cancel now the default.
+
 ## Solo Mode (playtesting)
 
-**Play solo (playtest)** on the launcher is for the owner trying the game, not for a class. One
+**Play Solo** on the launcher is for the owner trying the game, not for a class. One
 click starts a solo server if none is running (or reuses it), deals a **fresh game**, joins one
 player, rolls that family, starts the class, and opens that player's page **already joined** in
 a window of its own. No class code, no join form, no Host Start. The other families of the class
@@ -125,7 +150,7 @@ country and could never reach either. The **Class view** is where the game is co
 one solo game from its dealt start to the road home through all three periods and then deals the next; it also starts
 `server/main.mjs --solo` for real and checks what it deals.
 
-ceiling: every Play solo is a new game, and the last solo game is not archived or offered back;
+ceiling: every Play Solo is a new game, and the last solo game is not archived or offered back;
 a solo save is a scratch pad. "Continue the last solo game" would be reopening the same save.
 
 For development without the launcher: `npm run solo` (add `-- --no-open` to print instead of

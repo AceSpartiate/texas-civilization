@@ -26,7 +26,7 @@ It appears in **Settings ▸ Apps** like anything else and can be removed there;
 
 The launcher shows which release you have and checks GitHub for a newer one when it opens; updating downloads and installs it with a progress bar — the launcher itself included, putting the previous version back if anything fails — leaves your saved classes alone, and refuses to run while a class is going. A copy installed before the launcher could update itself needs `TexasRevolutionSetup.exe` run over it once more; see [deployment](docs/DEPLOYMENT.md#updating-launcher-included).
 
-**Play solo (playtest)** opens a game of one, already joined and already started, in its own window — for trying the game without running a class. It keeps its own save and port and answers only this computer, so a class that is running is not touched.
+**Play Solo** opens a game of one, already joined and already started, in its own window — for trying the game without running a class. It keeps its own save and port and answers only this computer, so a class that is running is not touched.
 
 **Other ways to get it.** `TexasRevolutionSetup.exe --extract <folder>` unpacks without installing anything — for a memory stick, or a machine that will not have software installed on it. `--install <folder> [--desktop]` installs without the window, for a school setting up a room of machines. The smaller **NeedsNode** zip is the game alone for a machine that already has Node 22+, and uses `Launch.vbs` as it always has.
 

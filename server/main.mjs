@@ -12,7 +12,7 @@ const port = solo ? paths.port : Number(process.env.PORT || 1835);
 const { dir: dataDir, origin } = solo ? { dir: paths.dir, origin: 'solo' } : resolveDataDir();
 const savePath = solo ? paths.savePath : resolveSavePath(dataDir);
 const joinUrls = solo ? [] : joinCandidates(port);
-// A solo save is a scratch pad: every Play solo deals a new game, so the last one is not
+// A solo save is a scratch pad: every Play Solo deals a new game, so the last one is not
 // reopened - which also means a solo save left by an older build can never refuse to start.
 // Only when no lock says a solo server still owns it; that one refuses to start below.
 if (solo && !existsSync(`${savePath}.lock`)) rmSync(savePath, { force: true });
@@ -45,6 +45,6 @@ await app.listen(port, solo ? '127.0.0.1' : '0.0.0.0');
 const hostUrl = `http://localhost:${port}/host#${app.state.hostKey}`;
 writeFileSync(join(dataDir, 'host-url.txt'), hostUrl);
 console.log(solo
-  ? `Texas Revolution SOLO PLAYTEST (this computer only). Host: ${hostUrl}\nNew solo game: npm run solo\nData: ${dataDir}\nSave: ${savePath}`
+  ? `Texas Revolution PLAY SOLO (this computer only). Host: ${hostUrl}\nNew solo game: npm run solo\nData: ${dataDir}\nSave: ${savePath}`
   : `Texas Revolution PROTOTYPE. Host: ${hostUrl}\nJoin: ${joinUrls[0]?.url || `http://localhost:${port}/`}\nData (${origin}): ${dataDir}\nSave: ${savePath}`);
 for (const signal of ['SIGINT', 'SIGTERM']) process.on(signal, () => shutdown(signal));

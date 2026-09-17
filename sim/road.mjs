@@ -34,6 +34,8 @@ import { WAGON_SPEED, WALK_SPEED, propertyId } from './travel.mjs';
 import { findWay } from './ways.mjs';
 import { CARRIED_ROOM, FLIGHT_SPACE, REFUGES, SETTLEMENT_DAYS, share } from './scrape.mjs';
 import { spotlight } from './host.mjs';
+import { awardGlory } from './glory.mjs';
+import { findPath, pointAlong, polylineLength } from './geography.mjs';
 
 const DAY = 1440;
 /** Minutes from midnight on September 29, 1835 to midnight on March 1 and April 1, 1836 (as sim/scrape.mjs counts them). */
@@ -73,6 +75,11 @@ export const CAMP_HUNT_FOOD = 6;
  * head here is the main body; Urrea's dates between Victoria and the Brazos are placed; Gaona's wandering column reaches
  * San Felipe on the 12th). Before its first date a column is not in the country; after its last it stands where it stopped,
  * except Santa Anna's, which ends at San Jacinto on the afternoon of April 21 (`HIST-TEX-067`).
+ *
+ * Between two dated places a column marches along the map's roads (owner, 2026-09-17: "Game's roads, same dates"), at
+ * whatever pace on that stretch brings it in on the record's date. A stop that is not a place on the map (the Brazos below
+ * Richmond) names the place whose road it takes (`via`, the Columbia road down the Brazos), and leaves that road where the road
+ * comes nearest the stop, going on across country from there.
  */
 let columnsMemo = null;
 export function columns() {
@@ -80,7 +87,7 @@ export function columns() {
   const at = (siteId, minute) => ({ siteId, minute });
   const days = SETTLEMENT_DAYS;
   columnsMemo = Object.freeze([
-    { id: 'santa-anna', name: 'Santa Anna’s column', path: [at('gonzales', days.gonzales.enemy), at('columbus-crossing', april(1, 12)), at('san-felipe', days['san-felipe'].enemy), { point: { x: 103, y: -1 }, siteId: 'san-felipe', minute: april(12, 12), name: 'the Brazos below Richmond' }, at('harrisburg', days.harrisburg.enemy), at('lynchburg', april(20, 12))], until: april(21, 16) },
+    { id: 'santa-anna', name: 'Santa Anna’s column', path: [at('gonzales', days.gonzales.enemy), at('columbus-crossing', april(1, 12)), at('san-felipe', days['san-felipe'].enemy), { point: { x: 103, y: -1 }, siteId: 'san-felipe', via: 'columbia', minute: april(12, 12), name: 'the Brazos below Richmond' }, at('harrisburg', days.harrisburg.enemy), at('lynchburg', april(20, 12))], until: april(21, 16) },
     { id: 'urrea', name: 'Urrea’s column', path: [at('refugio', days.refugio.enemy), at('goliad', days.goliad.enemy), at('victoria', days.victoria.enemy), at('matagorda', april(17, 12)), at('columbia', days.columbia.enemy), at('brazoria', april(21, 12))] },
     { id: 'gaona', name: 'Gaona’s column', path: [at('mina', days.mina.enemy), at('san-felipe', april(12, 12))] },
   ]);
@@ -88,6 +95,40 @@ export function columns() {
 }
 
 const placeOf = (world, stop) => stop.point || world.map.sites[stop.siteId];
+/**
+ * A road that goes further than this many times the straight line is not the column's road: the map has no road between
+ * the two places, and the column goes across country. `ceiling:` Gonzales to the Colorado at Beeson's is the one such
+ * stretch (the map has no Gonzales-Beeson's road, and its roads go round by San Felipe); adding that road to the map is
+ * the way out.
+ */
+export const ROAD_DETOUR = 1.6;
+
+/** The line a column's head follows from one dated stop to the next: the roads where the map has them. */
+export function columnLeg(world, a, b) {
+  const from = placeOf(world, a), to = placeOf(world, b);
+  if (!from || !to) return null;
+  const straight = [{ x: from.x, y: from.y }, { x: to.x, y: to.y }];
+  if (a.point) return straight;
+  const roadTo = b.point ? b.via : b.siteId;
+  const road = roadTo && roadTo !== a.siteId ? findPath(world.map, a.siteId, roadTo) : null;
+  if (!road) return straight;
+  let points = road.points;
+  if (b.point) {
+    let nearest = 0;
+    road.points.forEach((point, index) => { if (Math.hypot(point.x - to.x, point.y - to.y) < Math.hypot(road.points[nearest].x - to.x, road.points[nearest].y - to.y)) nearest = index; });
+    points = [...road.points.slice(0, nearest + 1), { x: to.x, y: to.y }];
+  }
+  return polylineLength(points) > ROAD_DETOUR * Math.hypot(to.x - from.x, to.y - from.y) ? straight : points;
+}
+
+const legsMemo = new WeakMap();
+const legsOf = (world, column) => {
+  if (!legsMemo.has(world.map)) legsMemo.set(world.map, new Map());
+  const memo = legsMemo.get(world.map);
+  if (!memo.has(column.id)) memo.set(column.id, column.path.slice(1).map((b, i) => { const points = columnLeg(world, column.path[i], b); return points && { points, length: polylineLength(points) }; }));
+  return memo.get(column.id);
+};
+
 /** Where a column's head stands at this minute, and the place it is making for: null before it enters the country. */
 export function columnHead(world, column, minute) {
   const path = column.path;
@@ -96,9 +137,10 @@ export function columnHead(world, column, minute) {
     const a = path[i - 1], b = path[i];
     if (minute <= b.minute) {
       const t = b.minute === a.minute ? 1 : (minute - a.minute) / (b.minute - a.minute);
-      const from = placeOf(world, a), to = placeOf(world, b);
-      if (!from || !to) return null;
-      return { x: from.x + (to.x - from.x) * t, y: from.y + (to.y - from.y) * t, toward: b.siteId, towardName: b.name || world.map.sites[b.siteId]?.name };
+      const leg = legsOf(world, column)[i - 1];
+      if (!leg) return null;
+      const at = t >= 1 ? leg.points.at(-1) : pointAlong(leg.points, leg.length * t);
+      return { x: at.x, y: at.y, toward: b.siteId, towardName: b.name || world.map.sites[b.siteId]?.name };
     }
   }
   const last = path[path.length - 1], place = placeOf(world, last);
@@ -327,6 +369,9 @@ export function abandonWagon(world, household) {
 
 // ---------------------------------------------------------------------------------------------------- overtaken
 
+/** The place on the map nearest a point: where a family was when something happened to it on the road. */
+const siteNear = (world, point) => point && Object.values(world.map.sites).reduce((best, site) => !best || Math.hypot(site.x - point.x, site.y - point.y) < Math.hypot(best.x - point.x, best.y - point.y) ? site : best, null)?.id;
+
 /** The place a column's prisoners and takings go: where its head is making for. */
 const columnSite = (world, near) => world.map.sites[near.toward] ? near.toward : 'san-felipe';
 
@@ -362,7 +407,11 @@ export function overtake(world, household, near) {
   if (flight.status === 'fled') flight.mode = 'foot';
   const where = flight.status === 'refuged' ? `at ${world.map.sites[flight.refuge].name}` : 'on the road';
   const text = `${near.name} came up with the family ${where}. The soldiers took ${animals.length ? animals.join(', ') : 'what animals there were'}${taken.length ? ` and everything in the wagon: ${taken.join(', ')}` : ''}. ${prisoners.length ? `${prisoners.map(one => one.name).join(' and ')} ${prisoners.length > 1 ? 'were' : 'was'} taken prisoner and marched off with the column${with_.length > prisoners.length ? '; the rest were let go' : ''}.` : 'Nobody was taken.'}${flight.status === 'fled' && with_.length > prisoners.length ? ' The family went on on foot with nothing.' : ''}`;
-  record(world, 'consequence', { householdId: household.id, importance: 3, claimId: 'HIST-TEX-073', classification: 'FICTIONAL FOR GAMEPLAY', text });
+  const eventId = record(world, 'consequence', { householdId: household.id, importance: 3, claimId: 'HIST-TEX-073', classification: 'FICTIONAL FOR GAMEPLAY', text });
+  // Caught costs the family glory as a desertion does (owner, 2026-09-17: "Keep as it is, but with a minus glory
+  // consequence", "Like a desertion"): twice what enlisting is worth, by the miles from home, once for each column.
+  const principal = mainPersonId(world, household) || household.members[0];
+  awardGlory(world, { event: `overtaken-${near.id}`, claimId: 'HIST-TEX-073', personId: principal, householdId: household.id, role: 'enlisted', fromSiteId: siteNear(world, familyPoint(world, household)) || siteId, causes: eventId ? [eventId] : [], adjust: earned => -2 * earned, note: 'They stayed too long on the road and the Mexican army caught them.' });
   for (const one of prisoners) record(world, 'consequence', { actorId: one.id, householdId: household.id, importance: 3, claimId: 'HIST-TEX-073', text: `${one.name} was taken prisoner by the Mexican army ${where}.` });
   if (household.played) spotlight(world, { key: `overtaken:${household.id}:${near.id}`, text: `${near.name} overtakes ${householdName(world, household)} ${where === 'on the road' ? 'on the road east' : where} and takes the wagon, the animals and the goods${prisoners.length ? `, and ${prisoners.map(one => one.name).join(' and ')} prisoner` : ''}.`, x: familyPoint(world, household)?.x, y: familyPoint(world, household)?.y, claimId: 'HIST-TEX-073', householdId: household.id });
 }

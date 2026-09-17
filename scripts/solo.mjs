@@ -5,7 +5,7 @@
 // the class running. `-- --no-open` prints the address instead of opening a browser.
 //
 // It asks for the game over HTTP with the Host key the solo server wrote to its own folder,
-// which is exactly what the launcher's Play solo button does, so the two cannot drift.
+// which is exactly what the launcher's Play Solo button does, so the two cannot drift.
 import { spawn } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -32,7 +32,7 @@ async function main() {
   let child = null;
   const running = await health();
   if (running && !(running.application === 'texas-revolution-foundation' && running.solo)) {
-    console.error(`Port ${port} is answering, but not as a solo playtest server. Nothing was changed. Set SOLO_PORT to use another port.`);
+    console.error(`Port ${port} is answering, but not as a Play Solo server. Nothing was changed. Set SOLO_PORT to use another port.`);
     return 1;
   }
   if (!running) {

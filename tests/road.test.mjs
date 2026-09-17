@@ -15,7 +15,9 @@ import { calendarMinutes } from '../sim/clock.mjs';
 import { CHORES } from '../sim/chores.mjs';
 import { WAGON_SPEED, WALK_SPEED } from '../sim/travel.mjs';
 import { share } from '../sim/scrape.mjs';
-import { BOG_SHARE, DIG_MILES, PRISONER_SHARE, SPENT_PACE, WARNING_MILES, OVERTAKEN_MILES, dayOf, rainyDay, pursuit } from '../sim/road.mjs';
+import { BOG_SHARE, DIG_MILES, PRISONER_SHARE, SPENT_PACE, WARNING_MILES, OVERTAKEN_MILES, columnHead, columns, dayOf, rainyDay, pursuit } from '../sim/road.mjs';
+import { GLORY_WEIGHT, distanceMultiplier } from '../sim/glory.mjs';
+import { findPath } from '../sim/geography.mjs';
 import { waitingOn, whereWords } from '../sim/host.mjs';
 import { needsOf } from '../public/family-panel.js';
 
@@ -213,6 +215,31 @@ test('the pursuit: a family camped at San Felipe is warned as Santa Anna’s col
   validateWorld(world);
 });
 
+test('the columns march along the map’s roads between their dated places and arrive on the record’s dates; across country only where the map has no road', () => {
+  const world = createGonzalesWorld(SEED, 5, { map: 'colonies' });
+  const column = id => columns().find(one => one.id === id);
+  const offRoad = (head, points) => Math.min(...points.slice(1).map((b, i) => { const a = points[i]; const dx = b.x - a.x, dy = b.y - a.y; const t = Math.max(0, Math.min(1, ((head.x - a.x) * dx + (head.y - a.y) * dy) / (dx * dx + dy * dy || 1))); return Math.hypot(head.x - a.x - t * dx, head.y - a.y - t * dy); }));
+  const straightOff = (head, a, b) => offRoad(head, [world.map.sites[a], world.map.sites[b]]);
+  // Urrea from Victoria to Matagorda, and Gaona from Mina to San Felipe: halfway in time, on the road and off the straight line.
+  for (const [id, from, to] of [['urrea', 'victoria', 'matagorda'], ['gaona', 'mina', 'san-felipe']]) {
+    const path = column(id).path, i = path.findIndex(stop => stop.siteId === to && !stop.point);
+    const head = columnHead(world, column(id), Math.round((path[i - 1].minute + path[i].minute) / 2));
+    const road = findPath(world.map, from, to).points;
+    assert.ok(offRoad(head, road) < 0.01, `${id}'s head is ${offRoad(head, road).toFixed(2)} miles off the road from ${from} to ${to}`);
+    assert.ok(straightOff(head, from, to) > 0.3, `${id}'s head still walks the straight line from ${from} to ${to}`);
+    const there = columnHead(world, column(id), path[i].minute);
+    assert.ok(Math.hypot(there.x - world.map.sites[to].x, there.y - world.map.sites[to].y) < 0.01, `${id} did not reach ${to} on its date`);
+  }
+  // Santa Anna down the Brazos: along the road from San Felipe to where it leaves it, then across to Thompson's.
+  const santa = column('santa-anna'), brazos = santa.path.findIndex(stop => stop.point);
+  const early = columnHead(world, santa, santa.path[brazos - 1].minute + 60);
+  assert.ok(offRoad(early, findPath(world.map, 'san-felipe', 'columbia').points) < 0.01, 'Santa Anna did not leave San Felipe by the road');
+  // Gonzales to the Colorado: the map's road goes round by San Felipe, so the column goes straight across.
+  const colorado = santa.path.findIndex(stop => stop.siteId === 'columbus-crossing');
+  const midway = columnHead(world, santa, Math.round((santa.path[colorado - 1].minute + santa.path[colorado].minute) / 2));
+  assert.ok(straightOff(midway, 'gonzales', 'columbus-crossing') < 0.01, 'Santa Anna went round by San Felipe to reach the Colorado');
+});
+
 test('a family that stays is overtaken: the wagon, the animals and the goods taken, the grown men prisoners at the share, the rest let go; a played family is spotlit; and it is not taken twice', () => {
   const world = spring();
   const household = fled(world, { auto: true });
@@ -241,6 +268,11 @@ test('a family that stays is overtaken: the wagon, the animals and the goods tak
   assert.equal(household.flight.status, 'refuged');
   assert.equal(household.flight.ask, undefined);
   assert.equal(view(world, household.id).flight.overtaken, true);
+  // Caught costs glory as a desertion does (owner, 2026-09-17), once for the column, and never on the family's wire.
+  const caught = Object.values(world.glory[household.id].awards).filter(award => award.event === 'overtaken-santa-anna');
+  assert.equal(caught.length, 1, 'being overtaken cost the family no glory');
+  assert.equal(caught[0].points, -2 * GLORY_WEIGHT.enlisted * distanceMultiplier(caught[0].miles), 'being overtaken did not cost what a desertion costs');
+  assert.doesNotMatch(JSON.stringify(view(world, household.id)), /overtaken-santa-anna/, 'the glory rode the wire');
   validateWorld(world);
   const once = world.events.filter(event => event.householdId === household.id && /came up with the family/.test(event.text)).length;
   until(world, () => world.director.milestones['victory-word'], 2000);
