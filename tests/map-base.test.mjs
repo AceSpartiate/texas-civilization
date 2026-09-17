@@ -11,6 +11,9 @@ import { CANVAS_PIXEL_BUDGET, canvasRatio, distanceToSegments, ramp, sameLayerKe
 import { curveThrough, visibleSegments } from '../public/curve.js';
 import { WOODS_BANDS, woodsLayers } from '../public/woods-view.js';
 import { DEFAULT_GROUND, GROUND_CLASSES, groundClassAt, markFor } from '../public/ground-classes.js';
+import { decodeLand, decodeProvince, flatPoints, landWeights, lineBand } from '../public/land-levels.js';
+import { gunzipSync } from 'node:zlib';
+import { readFileSync } from 'node:fs';
 
 /** One wheel step of the map (public/app.js, the wheel handler). */
 const STEP = 1.15;
@@ -208,7 +211,7 @@ test('a class of ground is a table entry, and the prairie draws the marks the ma
   assert.equal(markFor('no-such-ground', 0.05).sprite, 'rocks', 'an unknown class is drawn as prairie');
   for (const [id, kind] of Object.entries(GROUND_CLASSES)) {
     assert.equal(kind.colour.length, 3, `${id} has a colour`);
-    assert.ok(kind.alpha > 0 && kind.alpha < 1, `${id} lets the relief show through`);
+    assert.ok(id === 'water' ? kind.alpha === 0 : kind.alpha > 0 && kind.alpha < 1, `${id} lets the relief show through`);
     assert.ok(kind.marks.at(-1).upTo >= 1, `${id}'s marks cover every roll`);
   }
   const grid = { minX: 10, minY: 20, cellMiles: 0.5, columns: 3, rows: 2, classes: ['prairie', 'desert', 'marsh'], cells: '012210' };
@@ -220,4 +223,41 @@ test('a class of ground is a table entry, and the prairie draws the marks the ma
   assert.equal(groundClassAt(null, 0, 0), DEFAULT_GROUND, 'a map without a grid');
   assert.equal(ramp(5, 0, 10), 0.5);
   assert.equal(ramp(5, 20, 10), 1, 'a ramp that falls');
+});
+
+test("the real land's levels decode as the data says, and a zoom picks its band and grids without a jump", () => {
+  const read = name => JSON.parse(gunzipSync(readFileSync(new URL(`../public/terrain/${name}`, import.meta.url))));
+  const province = decodeProvince(read('colonies-province.json.gz'));
+  const land = decodeLand(read('colonies-land.json.gz'));
+  // Every land class the data names has a table entry, so none is drawn as something else.
+  for (const id of land[0].classes) if (id !== 'none') assert.ok(GROUND_CLASSES[id], `${id} has a table entry`);
+  // Grids finest first; a cell is its class, the low nibble of the data's byte.
+  assert.deepEqual(land.map(grid => grid.cellMiles), [0.5, 2, 8]);
+  assert.equal(land[0].cells.length, land[0].columns * land[0].rows);
+  assert.ok(land[0].cells.every(value => value < land[0].classes.length));
+  assert.ok(land[0].cells.some(value => land[0].classes[value] === 'floodplain'), 'the bottomland is on the land');
+  // A river is its points in miles, and every coarser band keeps only points of the finer one: choosing a band never moves it.
+  const brazos = province.rivers.find(river => river.name === 'Brazos River' && river.levels[3]);
+  assert.ok(brazos.miles > 0.05 && brazos.miles < 0.1, `the Brazos is ${brazos.miles} miles across`);
+  for (let band = 1; band < 4; band++) {
+    const finer = new Set(brazos.levels[band - 1].map(p => `${p.x},${p.y}`));
+    assert.ok(brazos.levels[band].every(p => finer.has(`${p.x},${p.y}`)), `band ${band} keeps only points of band ${band - 1}`);
+  }
+  // Bands by zoom: coarse far out, finest close in, and never coarser as the camera comes in.
+  let last = 3;
+  for (const scale of zooms(1, 5000)) { const band = lineBand(province.bands, scale); assert.ok(band <= last); last = band; }
+  assert.equal(lineBand(province.bands, 2000), 0);
+  assert.ok(lineBand(province.bands, 4) >= 1, 'the whole country is not drawn at the finest band');
+  // Grids by zoom: the weights sum to one and hand over across wheel steps.
+  let previous = null;
+  for (const scale of zooms(1, 5000)) {
+    const weights = landWeights(scale);
+    assert.ok(Math.abs(weights.reduce((sum, w) => sum + w, 0) - 1) < 1e-9);
+    if (previous) weights.forEach((w, i) => assert.ok(Math.abs(w - previous[i]) <= 0.5, `grid ${i} jumps at scale ${scale}`));
+    previous = weights;
+  }
+  assert.deepEqual(landWeights(1), [0, 0, 1], 'pulled right back: the eight-mile grid');
+  assert.deepEqual(landWeights(5), [0, 1, 0], 'the whole country on a laptop: the two-mile grid');
+  assert.deepEqual(landWeights(400), [1, 0, 0], 'a county: the half-mile grid');
+  assert.deepEqual(flatPoints([100, -250, 1, 2]), [{ x: 1, y: -2.5 }, { x: 0.01, y: 0.02 }]);
 });

@@ -13,6 +13,8 @@
     { "id": "H", "regression": "the cover blurred without premultiplied alpha", "file": "public/map-base.js", "failed": ["a grid of cover is smoothed into soft edges without bleeding grey into the empty cells"] },
     { "id": "I", "regression": "the prairie's rocks threshold moved from .095 to .12", "file": "public/ground-classes.js", "failed": ["a class of ground is a table entry, and the prairie draws the marks the map always drew"] },
     { "id": "J", "regression": "the prairie's rocks lose their drawn fallback shape", "file": "public/ground-classes.js", "failed": ["the renderer treats every sprite as optional"] },
-    { "id": "K", "regression": "the canvas drawn at the full screen density with no pixel budget", "file": "public/map-base.js", "failed": ["the map is drawn sharp on a dense screen but never at more pixels than a 1080p frame"] }
+    { "id": "K", "regression": "the canvas drawn at the full screen density with no pixel budget", "file": "public/map-base.js", "failed": ["the map is drawn sharp on a dense screen but never at more pixels than a 1080p frame"] },
+    { "id": "L", "regression": "the land's grids switch at one zoom instead of handing over", "file": "public/land-levels.js", "failed": ["the real land's levels decode as the data says, and a zoom picks its band and grids without a jump"] },
+    { "id": "M", "regression": "the land's cell byte read whole, not its class nibble", "file": "public/land-levels.js", "failed": ["the real land's levels decode as the data says, and a zoom picks its band and grids without a jump"] }
   ]
 }

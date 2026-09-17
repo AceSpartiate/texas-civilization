@@ -16,6 +16,7 @@ import { bindEnding, renderEnding } from '/ending.js';
 import { bindLooks, renderLooks } from '/appearance.js';
 import { applyDrawState, canvasRatio, creekOpacity, distanceToSegments, ramp, readDrawState, sameLayerKey, scatterItem, scatterLevels, segmentsNear, setText, smoothCover, WATER, waterWidth } from '/map-base.js';
 import { groundClass, groundClassAt, markFor } from '/ground-classes.js';
+import { decodeLand, decodeProvince, landWeights, lineBand } from '/land-levels.js';
 const $ = selector => document.querySelector(selector);
 const say = message => { for (const id of ['#error', '#join-error', '#rejoin-error']) { const el = $(id); if (el) el.textContent = message; } };
 const hostPage = location.pathname === '/host';
@@ -1015,10 +1016,35 @@ function waterCover(map) {
   waterCovers.set(map, cover);
   return cover;
 }
+/**
+ * The real land's detail levels (docs/MAP_ACCURACY.md §6, public/land-levels.js): every river, the sea and the escarpment at
+ * four nested bands, and the land's classes and hillshade on grids of 8, 2 and half a mile. The land is the same for every
+ * class on the real land, so they are fetched once for the page, and the ground is redrawn when they land.
+ */
+let landLevels = { key: null, province: null, land: null, pending: false, failed: false };
+function ensureLandLevels(map) {
+  const levels = map?.province?.levels;
+  if (!levels?.href || !levels.land) return;
+  const key = `${levels.href}|${levels.land}`;
+  if (landLevels.key === key) return;
+  const mine = landLevels = { key, province: null, land: null, pending: true, failed: false };
+  const load = href => fetch(href).then(response => response.ok ? response.json() : null);
+  Promise.all([load(levels.href), load(levels.land)]).then(([province, land]) => {
+    if (landLevels !== mine) return;
+    mine.pending = false;
+    mine.province = province?.rivers ? decodeProvince(province) : null;
+    mine.land = land?.bands ? decodeLand(land) : null;
+    redrawForArrival();
+  }).catch(() => { if (landLevels === mine) { mine.pending = false; mine.failed = true; } });
+}
+/** The levels this world is drawn from, once they have arrived; null for the invented country or while they load. */
+const levelsOf = world => world.map?.province?.levels && landLevels.province ? landLevels : null;
 function drawProvince(ctx, world, camera) {
   const province = world.map?.province;
   if (!province) return false;
   const painted = paintRelief(ctx, province.relief, camera, 'province');
+  // On the real land the land's own classes are the cover (`drawLand`): the cover belts are a band-3 sketch of the same.
+  if (levelsOf(world)?.land) return painted;
   ctx.globalAlpha = .5;
   for (const belt of province.belts) {
     const points = belt.points.map(camera.toScreen);
@@ -1032,6 +1058,47 @@ function drawProvince(ctx, world, camera) {
  * The province's lines over its ground: the Gulf, the escarpment, the old roads, the sketched rivers and, pulled right back,
  * the settlements' names. Drawn after the land's own layers (`drawRelief`), under the colony's relief where that is drawn.
  */
+/** The width floor for a river of the real land, in pixels: a little wider for a wider channel. */
+const riverFloor = miles => 1.5 + Math.min(2, miles * 20);
+/** A line's box in miles, worked out once a line. */
+const lineBoxes = new WeakMap();
+function lineBox(points) {
+  let box = lineBoxes.get(points);
+  if (!box) { box = courseBox({ points }); lineBoxes.set(points, box); }
+  return box;
+}
+/** The real land's rivers at the band this zoom draws, in miles: `{ points, miles, floor }`. */
+function levelRivers(levels, camera) {
+  const band = lineBand(levels.province.bands, camera.scale);
+  return levels.province.rivers.map(river => ({ points: river.levels[band], miles: river.miles, floor: riverFloor(river.miles) })).filter(river => river.points?.length > 1);
+}
+/**
+ * The real land's lines from its levels: the sea, the escarpment and every river, each at the band this zoom draws. A band
+ * only drops points less than a pixel off the line, so zooming never moves or reshapes one (docs/MAP_ACCURACY.md §6).
+ */
+function drawLevelLines(ctx, levels, camera) {
+  const band = lineBand(levels.province.bands, camera.scale);
+  const topLeft = camera.toWorld({ x: 0, y: 0 }), bottomRight = camera.toWorld({ x: ctx.canvas.width, y: ctx.canvas.height });
+  const inView = (points, pad) => { const box = lineBox(points); return !(box.maxX < topLeft.x - pad || box.minX > bottomRight.x + pad || box.maxY < topLeft.y - pad || box.minY > bottomRight.y + pad); };
+  const rings = (levels.province.sea[band] || []).filter(ring => ring.length > 2 && inView(ring, 0));
+  if (rings.length) {
+    ctx.beginPath();
+    for (const ring of rings) { ring.forEach((p, i) => { const q = camera.toScreen(p); i ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y); }); ctx.closePath(); }
+    ctx.fillStyle = '#8fb0bd'; ctx.fill('evenodd');
+  }
+  const escarpment = levels.province.escarpment[band];
+  if (escarpment?.length > 1 && inView(escarpment, 1)) {
+    ctx.save();
+    ctx.strokeStyle = '#9a9070'; ctx.lineWidth = Math.min(4, Math.max(1, camera.scale * .6)); ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.setLineDash([9, 7]);
+    ctx.beginPath(); escarpment.forEach((p, i) => { const q = camera.toScreen(p); i ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y); }); ctx.stroke();
+    ctx.restore();
+  }
+  for (const river of levelRivers(levels, camera)) {
+    const width = waterWidth(river.miles, camera.scale, river.floor);
+    if (!inView(river.points, (width + 60) / camera.scale)) continue;
+    drawWater(ctx, river.points.map(camera.toScreen), width);
+  }
+}
 function drawProvinceLines(ctx, world, camera) {
   const province = world.map?.province;
   if (!province) return;
@@ -1096,10 +1163,12 @@ function drawRelief(ctx, world, camera) {
     painted = paintRelief(ctx, world.map?.relief, camera, 'home');
     ctx.restore();
   }
-  // A hillshade pass - hills, buttes, the Balcones escarpment, bluffs - goes here when the map carries one: over the relief's
-  // tint, under the classes' wash, drawn from a picture of its grid the way `drawLand` draws the classes.
+  // The land's classes and its hillshade - hills, bluffs, the Balcones escarpment - over the relief's tint (`drawLand`).
   drawLand(ctx, world, camera);
-  // The province's lines were painted under the colony's relief and showed through it only as it faded: kept so.
+  // On the real land its own lines go over everything, at the band the zoom draws. The invented province's sketch lines
+  // were painted under the colony's relief and showed through it only as it faded: kept so for that country.
+  const landHere = levelsOf(world);
+  if (landHere) { drawLevelLines(ctx, landHere, camera); return painted; }
   const home = painted && world.map?.relief;
   if (!home || opacity <= 0) { drawProvinceLines(ctx, world, camera); return painted; }
   const a = camera.toScreen({ x: home.minX, y: home.minY });
@@ -1118,39 +1187,67 @@ function drawRelief(ctx, world, camera) {
   return painted;
 }
 /**
- * The classes of ground the map says stand where - prairie, savanna, forest, brush, marsh, sand, desert - as one smoothed
- * picture of the map's class grid, each class's wash from its table entry (public/ground-classes.js). Nothing is drawn for a
- * map without a class grid, which today is every map: the land-type layer is coming from the map data (2026-09-17).
- * The picture is made once a grid and only the part in view is laid down.
+ * The classes of ground the land says stand where - prairie, savanna, bottomland, pine, live oak, brush, hill country, marsh,
+ * sand - each as its table entry's wash (public/ground-classes.js), and the land's hillshade over them: pictures of the land's
+ * grids of 8, 2 and half a mile, smoothed, made once a grid, and handed over from one grid to the next across a band of zoom
+ * (`landWeights`) so the land never changes at one wheel step. Only the part in view is laid down.
  */
 const landPictures = new WeakMap();
-function drawLand(ctx, world, camera) {
-  const grid = world.map?.ground;
-  if (!grid?.cells || !grid.columns || !grid.rows) return;
-  let picture = landPictures.get(grid);
-  if (!picture) {
-    const cells = grid.columns * grid.rows, upscale = cells * 16 <= 4e6 ? 4 : cells * 4 <= 4e6 ? 2 : 1;
-    const smooth = smoothCover(grid.columns, grid.rows, (column, row) => {
-      const kind = groundClass(grid.classes?.[Number(grid.cells[row * grid.columns + column])]);
-      return [...kind.colour, kind.alpha];
-    }, { upscale });
+function landPicture(grid) {
+  let pictures = landPictures.get(grid);
+  if (pictures) return pictures;
+  const cells = grid.columns * grid.rows, upscale = cells * 16 <= 1.5e6 ? 4 : cells * 4 <= 1.5e6 ? 2 : 1;
+  const make = colourAt => {
+    const smooth = smoothCover(grid.columns, grid.rows, colourAt, { upscale });
     const canvas = document.createElement('canvas');
     canvas.width = smooth.width; canvas.height = smooth.height;
     canvas.getContext('2d').putImageData(new ImageData(smooth.data, smooth.width, smooth.height), 0, 0);
-    picture = { canvas, upscale };
-    landPictures.set(grid, picture);
-  }
-  const { canvas, upscale } = picture, perMile = upscale / grid.cellMiles;
+    return canvas;
+  };
+  const at = (column, row) => row * grid.columns + column;
+  pictures = {
+    upscale,
+    wash: make((column, row) => {
+      const id = grid.classes[grid.cells[at(column, row)]];
+      if (!id || id === 'none') return null;
+      const kind = groundClass(id);
+      return kind.alpha > 0 ? [...kind.colour, kind.alpha] : null;
+    }),
+    // Hillshade: 128 is level ground; darker faces a shadow, brighter faces a light (docs/MAP_ACCURACY.md §6.2).
+    shade: grid.shade ? make((column, row) => {
+      const i = at(column, row), value = grid.shade[i];
+      if (!grid.cells[i] || value === 128) return null;
+      return value < 128 ? [38, 46, 30, Math.min(.45, (128 - value) / 128 * .9)] : [255, 250, 226, Math.min(.3, (value - 128) / 127 * .6)];
+    }) : null,
+  };
+  landPictures.set(grid, pictures);
+  return pictures;
+}
+function layLandPicture(ctx, camera, grid, canvas, upscale, alpha) {
+  const perMile = upscale / grid.cellMiles;
   const topLeft = camera.toWorld({ x: 0, y: 0 }), bottomRight = camera.toWorld({ x: ctx.canvas.width, y: ctx.canvas.height });
   const clamp = (value, most) => Math.max(0, Math.min(most, value));
   const sx0 = clamp(Math.floor((topLeft.x - grid.minX) * perMile) - 2, canvas.width), sx1 = clamp(Math.ceil((bottomRight.x - grid.minX) * perMile) + 2, canvas.width);
   const sy0 = clamp(Math.floor((topLeft.y - grid.minY) * perMile) - 2, canvas.height), sy1 = clamp(Math.ceil((bottomRight.y - grid.minY) * perMile) + 2, canvas.height);
   if (sx1 <= sx0 || sy1 <= sy0) return;
   const a = camera.toScreen({ x: grid.minX + sx0 / perMile, y: grid.minY + sy0 / perMile }), b = camera.toScreen({ x: grid.minX + sx1 / perMile, y: grid.minY + sy1 / perMile });
-  ctx.save();
-  ctx.imageSmoothingEnabled = true;
+  const was = ctx.globalAlpha, smoothing = ctx.imageSmoothingEnabled;
+  ctx.globalAlpha = was * alpha; ctx.imageSmoothingEnabled = true;
   ctx.drawImage(canvas, sx0, sy0, sx1 - sx0, sy1 - sy0, a.x, a.y, b.x - a.x, b.y - a.y);
-  ctx.restore();
+  ctx.globalAlpha = was; ctx.imageSmoothingEnabled = smoothing;
+}
+function drawLand(ctx, world, camera) {
+  const grids = levelsOf(world)?.land;
+  if (!grids?.length) return;
+  const weights = landWeights(camera.scale, grids.map(grid => grid.cellMiles));
+  window.__landDrawn = Object.fromEntries(grids.map((grid, i) => [grid.cellMiles, Math.round(weights[i] * 100) / 100]));
+  for (const layer of ['wash', 'shade']) {
+    grids.forEach((grid, i) => {
+      if (weights[i] <= 0.01) return;
+      const pictures = landPicture(grid);
+      if (pictures[layer]) layLandPicture(ctx, camera, grid, pictures[layer], pictures.upscale, weights[i]);
+    });
+  }
 }
 // Terrain is map data, not decoration invented by the renderer. An empty terrain list
 // draws nothing; it must never imply ground that the world does not actually model.
@@ -1245,12 +1342,17 @@ function drawGroundDetail(ctx, world, camera) {
   // A thing just outside the view can still reach into it: the finest cell, or three figures, whichever is further.
   const reach = Math.max(levels[0].cell, figure * 3 / camera.scale), margin = figure * 3;
   const viewBox = { minX: topLeft.x, minY: topLeft.y, maxX: bottomRight.x, maxY: bottomRight.y };
-  const channels = (world.map?.terrain || [])
-    .filter(feature => ['river', 'creek'].includes(feature.kind) && feature.points?.length > 1)
-    .map(feature => {
-      const xs = feature.points.map(p => p.x), ys = feature.points.map(p => p.y), water = WATER[feature.kind];
-      const half = waterWidth(water.miles, camera.scale, water.floor) / 2 / camera.scale;
-      return { points: feature.points, half, minX: Math.min(...xs) - half, maxX: Math.max(...xs) + half, minY: Math.min(...ys) - half, maxY: Math.max(...ys) + half };
+  const landHere = levelsOf(world);
+  const courses = [
+    ...(world.map?.terrain || []).filter(feature => (feature.kind === 'creek' || (feature.kind === 'river' && !landHere)) && feature.points?.length > 1)
+      .map(feature => ({ points: feature.points, ...WATER[feature.kind] })),
+    ...(landHere ? levelRivers(landHere, camera) : []),
+  ];
+  const channels = courses
+    .map(course => {
+      const box = lineBox(course.points);
+      const half = waterWidth(course.miles, camera.scale, course.floor) / 2 / camera.scale;
+      return { points: course.points, half, minX: box.minX - half, maxX: box.maxX + half, minY: box.minY - half, maxY: box.maxY + half };
     })
     .filter(course => course.maxX >= topLeft.x - reach && course.minX <= bottomRight.x + reach && course.maxY >= topLeft.y - reach && course.minY <= bottomRight.y + reach)
     // Only the stretch of each course near the view is measured (public/map-base.js `segmentsNear`): a scattered cell can lie
@@ -1266,7 +1368,7 @@ function drawGroundDetail(ctx, world, camera) {
     ? (x, y) => timberWater.some(course => distanceToSegments({ x, y }, course.points, course.near) < INVENTED_TIMBER_MILES)
     : (x, y) => woods.some(w => x >= w.minX && x <= w.maxX && y >= w.minY && y <= w.maxY && insidePolygon(x, y, w.points));
   const hasWoods = landWoods || water.length > 0 || woods.length > 0;
-  const landGrid = world.map?.ground;
+  const landGrid = landHere?.land?.[0] || null;
   for (const { level, cell, alpha } of levels) {
     const startX = Math.floor(topLeft.x / cell), endX = Math.floor(bottomRight.x / cell);
     const startY = Math.floor(topLeft.y / cell), endY = Math.floor(bottomRight.y / cell);
@@ -1379,6 +1481,8 @@ function drawTerrain(ctx, world, camera) {
     if (feature.kind === 'field' && world.land?.plots && feature.ownerHouseholdId === world.household?.id) continue;
     // And on the Host's map every family's field is its plots.
     if (feature.kind === 'field' && world.overview?.lands?.[feature.ownerHouseholdId]?.plots) continue;
+    // On the real land a river is drawn from the land's levels (`drawLevelLines`), which hold the same courses at every band.
+    if (feature.kind === 'river' && levelsOf(world)) continue;
     const water = !style.fill && WATER[feature.kind];
     const width = water ? waterWidth(water.miles, camera.scale, water.floor) : 0;
     // Creeks fade in as the camera comes down to a colony (`creekOpacity`); rivers are always the map.
@@ -3905,7 +4009,7 @@ function render(snapshot) {
   motionProjection.accept(snapshot, performance.now());
   // Everybody on the Host's map is somebody the teacher looks at and never orders: marked here rather than sent on every one.
   if (snapshot.world?.role === 'host') for (const entity of snapshot.world.others || []) entity.observed = true;
-  ensureMap(snapshot); ensureHomes(snapshot); ensureChores(snapshot); ensureFamily(snapshot);
+  ensureMap(snapshot); ensureHomes(snapshot); ensureChores(snapshot); ensureFamily(snapshot); ensureLandLevels(mapCache);
   snapshot.world.map = mapCacheId === snapshot.mapId ? mapCache : (snapshot.world.map || EMPTY_MAP);
   $('#save-fault').hidden = !snapshot.fault;
   $('#save-fault').textContent = snapshot.fault?.message || '';

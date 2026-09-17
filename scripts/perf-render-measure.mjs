@@ -14,6 +14,7 @@ import { createRequire } from 'node:module';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { resolve } from 'node:path';
+import { meetFamily } from './support/meet-family.mjs';
 
 // `--root <dir>` measures another copy of the game (an export of an earlier commit) with this script, for a before and after.
 const rootArg = process.argv.indexOf('--root');
@@ -80,6 +81,8 @@ try {
   await page.goto(url + game.path);
   await page.waitForFunction(() => window.__snapshot?.world?.status === 'running' && window.__snapshot.world.map?.province, null, { timeout: 180000 });
   result.loadToRunningMs = Date.now() - loadStarted;
+  // The last name and How We Look, where the build asks for them (a build before 2026-09-17 does not).
+  await meetFamily(page, 'Measure', { timeout: 20000 });
   for (const id of ['#journal-close', '#wagon-done', '#tutorial-skip']) if (await page.locator(id).isVisible().catch(() => false)) await page.locator(id).click().catch(() => {});
   await page.waitForTimeout(3000);
 
