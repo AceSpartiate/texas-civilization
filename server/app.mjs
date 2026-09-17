@@ -4,6 +4,7 @@ import { randomBytes, createHash, createHmac, timingSafeEqual } from 'node:crypt
 import { readFileSync, realpathSync, statSync } from 'node:fs';
 import { basename, isAbsolute, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { etagFor, fileFacts, notModified, PIN_LENGTH, PINNED_CACHE, REVALIDATE_CACHE, sendBody } from './delivery.mjs';
 import { setAbsent } from '../sim/absence.mjs';
 import { createWorld, stepWorld, projectWorld, projectMap, applyAction, validateWorld, projectFamily, rollFamily } from '../sim/world.mjs';
 import { rollRefusal } from '../sim/family.mjs';
@@ -29,7 +30,8 @@ const KEY_ALPHABET = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
 const KEY_LENGTH = 8;
 const readKey = value => String(value ?? '').toUpperCase().replace(/[^0-9A-Z]/g, '').replace(/[IL]/g, '1').replace(/O/g, '0');
 const cookie = (req, key) => (req.headers.cookie || '').split(';').map(v => v.trim()).find(v => v.startsWith(`${key}=`))?.slice(key.length + 1);
-const json = (res, status, value) => { res.writeHead(status, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }); res.end(JSON.stringify(value)); };
+// Gzipped when large and accepted (server/delivery.mjs): the map alone is a third of a megabyte of JSON.
+const json = (res, status, value) => sendBody(res.req, res, status, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }, Buffer.from(JSON.stringify(value)), { compressible: true });
 const files = new Map([
   ['/', ['../public/index.html', 'text/html']], ['/host', ['../public/index.html', 'text/html']],
   ['/app.js', ['../public/app.js', 'text/javascript']], ['/style.css', ['../public/style.css', 'text/css']],
@@ -76,13 +78,17 @@ function serveAsset(req, res, rawPath) {
     if (!inside(root, path) || relative(root, path).split(sep).some(part => part.startsWith('.'))) return json(res, 404, { error: 'Not found' });
     const info = statSync(path);
     if (!info.isFile() || info.size > 64 * 1024 * 1024) return json(res, 404, { error: 'Not found' });
-    const content = readFileSync(path), etag = `"${hash(content)}"`;
-    res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate');
+    // The file's hash is remembered by size and time, so a 304 reads nothing off disk. Manifests are kept and gzipped once;
+    // pictures are already compressed and are read per 200. A URL whose `v` is the start of the file's own SHA-256 (what
+    // public/art.js asks for) names bytes that can never change, and the browser keeps it for a year without asking.
+    const extension = rawPath.slice(rawPath.lastIndexOf('.') + 1), compressible = extension === 'json';
+    const facts = fileFacts(path, { keep: compressible, info });
+    const version = new URL(req.url, 'http://asset').searchParams.get('v') || '';
+    const etag = etagFor(req, facts, compressible);
+    res.setHeader('Cache-Control', version.length >= PIN_LENGTH && facts.sha256.startsWith(version) ? PINNED_CACHE : REVALIDATE_CACHE);
     res.setHeader('ETag', etag);
-    if (req.headers['if-none-match'] === etag) { res.writeHead(304); return res.end(); }
-    const extension = rawPath.slice(rawPath.lastIndexOf('.') + 1);
-    res.writeHead(200, { 'Content-Type': assetTypes[extension], 'Content-Length': content.length });
-    return res.end(content);
+    if (notModified(req, etag)) { res.writeHead(304); return res.end(); }
+    return sendBody(req, res, 200, { 'Content-Type': assetTypes[extension] }, facts.content || readFileSync(path), { compressible, zipped: facts.zipped });
   } catch (error) {
     if (['ENOENT', 'ENOTDIR', 'EACCES', 'EPERM', 'ELOOP'].includes(error.code)) return json(res, 404, { error: 'Not found' });
     throw error;
@@ -325,11 +331,15 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       }
       if (req.method === 'GET' && files.has(url.pathname)) {
         const [path, mime] = files.get(url.pathname);
-        let content;
-        try { content = readFileSync(fileURLToPath(new URL(path, import.meta.url))); }
+        let facts;
+        try { facts = fileFacts(fileURLToPath(new URL(path, import.meta.url)), { keep: true }); }
         catch (error) { if (error.code === 'ENOENT') return json(res, 404, { error: 'Not found' }); throw error; }
-        res.writeHead(200, { 'Content-Type': `${mime}; charset=utf-8`, 'Cache-Control': 'no-store' });
-        return res.end(content);
+        // Asked about on every load (no-cache), so an updated game never runs from an old copy; a 304 carries no body.
+        const etag = etagFor(req, facts, true);
+        res.setHeader('Cache-Control', 'no-cache');
+        res.setHeader('ETag', etag);
+        if (notModified(req, etag)) { res.writeHead(304); return res.end(); }
+        return sendBody(req, res, 200, { 'Content-Type': `${mime}; charset=utf-8` }, facts.content, { compressible: true, zipped: facts.zipped });
       }
       // `joinUrls` is here because the launcher needs it and because it is not a secret:
       // it is the address a student types, and anybody asking this question has already
