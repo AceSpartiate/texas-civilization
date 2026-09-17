@@ -67,6 +67,17 @@ public sealed class TeacherWindow : Form
             _view.CoreWebView2.Settings.AreDevToolsEnabled = _developer;
             // Nothing in this page opens a new window, and a stray one would land off-screen.
             _view.CoreWebView2.NewWindowRequested += (_, args) => args.Handled = true;
+            // Esc and F11 while the page has the keyboard (owner, 2026-09-17: "went fullscreen, and saw no way to exit fullscreen. it
+            // should be the esc button on the keyboard"). Keys pressed in the page go to the browser, not this form, so the page
+            // tells the window through a web message; the controller's accelerator event catches F11 as well.
+            await _view.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(
+                "window.addEventListener('keydown', e => { if ((e.key === 'Escape' || e.key === 'F11') && window.chrome?.webview) { if (e.key === 'F11') e.preventDefault(); window.chrome.webview.postMessage('launcher-key:' + e.key); } }, true);");
+            _view.CoreWebView2.WebMessageReceived += (_, args) =>
+            {
+                var message = args.TryGetWebMessageAsString();
+                if (message == "launcher-key:F11") ToggleFullScreen();
+                else if (message == "launcher-key:Escape" && _fullScreen) ToggleFullScreen();
+            };
             _view.CoreWebView2.Navigate(url);
         };
         KeyPreview = true;
@@ -105,6 +116,7 @@ public sealed class TeacherWindow : Form
         _fullScreen = !_fullScreen;
         if (_fullScreen)
         {
+            ShowExitHint();
             _borderBeforeFullScreen = FormBorderStyle;
             _stateBeforeFullScreen = WindowState;
             // Normal first: going straight from Maximized to a borderless maximized window
@@ -119,7 +131,30 @@ public sealed class TeacherWindow : Form
             FormBorderStyle = _borderBeforeFullScreen;
             WindowState = _stateBeforeFullScreen;
             _bar.Visible = true;
+            _exitHint.Visible = false;
         }
+    }
+
+    private readonly Label _exitHint = new()
+    {
+        Text = "Press Esc to exit full screen", AutoSize = true, Visible = false, Padding = new Padding(12, 8, 12, 8),
+        BackColor = Color.FromArgb(38, 48, 42), ForeColor = Color.WhiteSmoke, Font = new Font("Segoe UI", 11f),
+    };
+    private readonly System.Windows.Forms.Timer _exitHintTimer = new() { Interval = 3000 };
+
+    /// <summary>Said for three seconds on entering full screen, over the top of the page, as browsers do.</summary>
+    private void ShowExitHint()
+    {
+        if (!Controls.Contains(_exitHint))
+        {
+            Controls.Add(_exitHint);
+            _exitHintTimer.Tick += (_, _) => { _exitHintTimer.Stop(); _exitHint.Visible = false; };
+        }
+        _exitHint.Visible = true;
+        _exitHint.BringToFront();
+        BeginInvoke(() => _exitHint.Location = new Point(Math.Max(0, (ClientSize.Width - _exitHint.Width) / 2), 24));
+        _exitHintTimer.Stop();
+        _exitHintTimer.Start();
     }
 
     /// <summary>Move to the next display, keeping the window's proportions.</summary>

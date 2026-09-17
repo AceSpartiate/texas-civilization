@@ -7,19 +7,19 @@
   "environment": "Same computer: an in-process solo classroom at 100 ms a tick with five families, four automatic, and headless Chrome; server/main.mjs --solo run for real only to check what it deals. Not the launcher's window, a real phone or a weak computer.",
   "checks": [
     "server/main.mjs --solo deals its game on the real land of the colonies (5 families, running)",
-    "the solo game opens joined as hh-1 in liberty, rolled and running, no join form, no Start press; the other four families automatic",
+    "the solo game opens joined as hh-1 in gonzales, rolled and running, no join form, no Start press; the other four families automatic",
     "the solo class view opens from its Host address with the game already running",
-    "the family arrived and the house site was chosen on its grant at (164.86, -34.5396)",
-    "2 of the family set to auto from the panel: Feliciano Proofwright, Charity Proofwright",
-    "2 orders given from the panel and taken",
-    "the call came (\"An express from San Felipe has reached the Trinity with word that the Mexican troops are a…\") and Feliciano Proofwright was sent from the one menu",
-    "the first period ended on its own at minute 113880: interim standings on both pages, no winner named (439 ticks, 48.1 s)",
+    "the family arrived and the house site was chosen on its grant at (-3.5496, 8.3996)",
+    "4 of the family set to auto from the panel: Cipriano Proofwright, Temperance Proofwright, Teodoro Proofwright, Mateo Proofwright",
+    "4 orders given from the panel and taken",
+    "the call came (\"A neighbour is at the door. They are carrying food to the people gathering near Gonzales, …\") and Cipriano Proofwright was sent from the one menu",
+    "the first period ended on its own at minute 113880: interim standings on both pages, no winner named (379 ticks, 41.5 s)",
     "the Host continued the class into the winter: period 2 opens on 1836-01-25",
-    "Feliciano Proofwright was sent to enlist auxiliary from the panel",
-    "the second period ended on its own at minute 241560 (195 ticks, 21.7 s)",
+    "Cipriano Proofwright was sent to enlist auxiliary from the panel",
+    "the second period ended on its own at minute 241560 (195 ticks, 21.6 s)",
     "the Host continued the class into the spring: period 3 opens on 1836-03-14",
-    "told to leave, the \"!\" opened the card and the family left for nacogdoches with what fit; the farm burned behind it",
-    "the game ended on the road home at minute 302520: the final reckoning on both pages, the Host naming who finished first (401 ticks, 44.6 s)",
+    "told to leave, the \"!\" opened the card and the family left for san-felipe with what fit; the farm burned behind it",
+    "the game ended on the road home at minute 302520: the final reckoning on both pages, the Host naming who finished first (401 ticks, 44.2 s)",
     "after the ending, a new solo game is dealt with the old pages open, and opens joined and running from the beginning",
     "no page errors on any page across the whole solo game"
   ],
@@ -31,29 +31,35 @@
     },
     "periods": {
       "first": {
-        "ticks": 439,
-        "seconds": 48.1,
+        "ticks": 379,
+        "seconds": 41.5,
         "endedAtMinute": 113880
       },
       "second": {
         "ticks": 195,
-        "seconds": 21.7,
+        "seconds": 21.6,
         "endedAtMinute": 241560
       },
       "third": {
         "ticks": 401,
-        "seconds": 44.6,
+        "seconds": 44.2,
         "endedAtMinute": 302520
       }
     },
     "family": [
-      "Feliciano Proofwright (father, 25)",
-      "Charity Proofwright (mother, 26)",
-      "Jasper Proofwright (son, 4)"
+      "Cipriano Proofwright (father, 33)",
+      "Temperance Proofwright (mother, 35)",
+      "Teodoro Proofwright (son, 13)",
+      "Mateo Proofwright (son, 10)",
+      "Jonas Proofwright (son, 9)",
+      "Orpha Proofwright (daughter, 7)",
+      "Ruperto Proofwright (son, 2)"
     ],
     "onAuto": [
-      "Feliciano Proofwright",
-      "Charity Proofwright"
+      "Cipriano Proofwright",
+      "Temperance Proofwright",
+      "Teodoro Proofwright",
+      "Mateo Proofwright"
     ],
     "orders": [
       {
@@ -65,38 +71,48 @@
         "id": "hh-1-parent-2",
         "key": "cut-lane",
         "took": true
+      },
+      {
+        "id": "hh-1-child-1",
+        "key": "cut-lane",
+        "took": true
+      },
+      {
+        "id": "hh-1-child-2",
+        "key": "cut-lane",
+        "took": true
       }
     ],
     "call": {
-      "text": "An express from San Felipe has reached the Trinity with word that the Mexican troops are at Gonzales and the settlements are turning out. Does somebody from your family ride west to join them?",
-      "sent": "Feliciano Proofwright"
+      "text": "A neighbour is at the door. They are carrying food to the people gathering near Gonzales, and ask whether somebody from your family can help take it.",
+      "sent": "Cipriano Proofwright"
     },
     "winter": {
       "key": "enlist-auxiliary",
       "id": "hh-1-parent-1",
-      "name": "Feliciano Proofwright"
+      "name": "Cipriano Proofwright"
     },
     "winterOutcome": {
       "voted": false,
       "service": {
         "kind": "auxiliary-year",
         "status": "serving",
-        "since": 176400,
+        "since": 177120,
         "siteId": "san-felipe",
         "acres": 320
       }
     },
     "flight": {
-      "refuge": "nacogdoches",
+      "refuge": "san-felipe",
       "card": "The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer within the day, or the family packs w"
     },
     "ending": {
-      "host": "THE END OF THE STORY × How the families finished the Proofwright family finished first, with a final number of 114. Family Road miles from Gonzales Heard of the cannon Who went Coin Glory Land Final the Proofwright family 204 October 5 Feliciano Proofwright 0 reales 97 16 reales 114 Ezra's family (n",
-      "family": "THE END OF THE STORY × the Proofwright family COIN IN THE HOUSE 0 reales GLORY 97 FINAL NUMBER 114 0 reales, counted as 1 real × (1 + 97 glory) + 16 reales of land (320 acres promised) = 114 Our story The family lived 204 road miles from Gonzales. Word that soldiers had come for the cannon reached t",
+      "host": "THE END OF THE STORY × How the families finished the Proofwright family finished first, with a final number of 97. Family Road miles from Gonzales Heard of the cannon Who went Coin Glory Land Final the Proofwright family 13 September 29 Cipriano Proofwright 0 reales 80 16 reales 97 Barnabas's family",
+      "family": "THE END OF THE STORY × the Proofwright family COIN IN THE HOUSE 0 reales GLORY 80 FINAL NUMBER 97 0 reales, counted as 1 real × (1 + 80 glory) + 16 reales of land (320 acres promised) = 97 Our story The family lived 13 road miles from Gonzales. Word that soldiers had come for the cannon reached them",
       "flight": "returning",
       "minute": 302520
     },
-    "totalSeconds": 114.4
+    "totalSeconds": 107.30000000000001
   },
   "screenshots": [
     "docs/evidence/solo-game-at-work.png",

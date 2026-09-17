@@ -8,13 +8,13 @@
   "checks": [
     "the class panel lists all five families in words: the student's family here, the four joined with no page open gone; Asa on the road home",
     "the student's page has no class panel and is sent no live page",
-    "the student's page closed: after 2577 ms the row says the family is playing itself, and the world has it absent",
+    "the student's page closed: after 2628 ms the row says the family is playing itself, and the world has it absent",
     "the absent family goes on by itself: somebody of it is at work or on a road with nobody at the screen",
     "the page opened again: the row says here the next tick, the family is the student's again, and the record says so",
     "the fight at Gonzales lit the spotlight: the camera went to Gonzales and the banner reads \"October 2: The Texians at Gonzales fire the cannon, and the Mexican dra…\"",
     "Whole class brings the camera back to the class",
-    "the Rumor Mill has 2 piece(s), newest first: \"October 2 · confirmed · heard by 1 of 5 families\" - Mexican detachment withdraws; Texians retain the cannon.…",
-    "as word became public the mill grew to 3 pieces",
+    "the Rumor Mill has 1 piece(s), newest first: \"September 30 · confirmed · heard by 4 of 5 families\" - A Mexican detachment has reached the Guadalupe opposite Gonzales to re…",
+    "as word became public the mill grew to 2 pieces",
     "at 400 px the Host page does not scroll sideways",
     "no page errors on either page"
   ],
@@ -80,7 +80,7 @@
         ]
       }
     ],
-    "absentAfterMs": 2577,
+    "absentAfterMs": 2628,
     "spotlight": {
       "date": "October 2",
       "text": "The Texians at Gonzales fire the cannon, and the Mexican dragoons fall back. The war has begun.",
@@ -95,21 +95,14 @@
     },
     "mill": [
       {
-        "topic": "gonzales-outcome",
-        "status": "confirmed",
-        "head": "October 2 · confirmed · heard by 1 of 5 families",
-        "text": "Mexican detachment withdraws; Texians retain the cannon.",
-        "earlier": 0
-      },
-      {
         "topic": "cannon-request",
         "status": "confirmed",
-        "head": "September 30 · confirmed · heard by 5 of 5 families",
+        "head": "September 30 · confirmed · heard by 4 of 5 families",
         "text": "A Mexican detachment has reached the Guadalupe opposite Gonzales to reclaim the cannon. Local settlers have refused to return it.",
         "earlier": 0
       }
     ],
-    "millLater": 3
+    "millLater": 2
   },
   "screenshots": [
     "docs/evidence/host-live-class-panel.png",
