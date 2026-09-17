@@ -8,10 +8,10 @@
   "checks": [
     "the class panel lists all five families in words: the student's family here, the four joined with no page open gone; Asa on the road home",
     "the student's page has no class panel and is sent no live page",
-    "the student's page closed: after 2623 ms the row says the family is playing itself, and the world has it absent",
+    "the student's page closed: after 2577 ms the row says the family is playing itself, and the world has it absent",
     "the absent family goes on by itself: somebody of it is at work or on a road with nobody at the screen",
     "the page opened again: the row says here the next tick, the family is the student's again, and the record says so",
-    "the fight at Gonzales lit the spotlight: the camera went to Gonzales and the banner reads \"October 2: October 2, 1835: the Texians at Gonzales fire the cannon, an…\"",
+    "the fight at Gonzales lit the spotlight: the camera went to Gonzales and the banner reads \"October 2: The Texians at Gonzales fire the cannon, and the Mexican dra…\"",
     "Whole class brings the camera back to the class",
     "the Rumor Mill has 2 piece(s), newest first: \"October 2 · confirmed · heard by 1 of 5 families\" - Mexican detachment withdraws; Texians retain the cannon.…",
     "as word became public the mill grew to 3 pieces",
@@ -80,10 +80,10 @@
         ]
       }
     ],
-    "absentAfterMs": 2623,
+    "absentAfterMs": 2577,
     "spotlight": {
       "date": "October 2",
-      "text": "October 2, 1835: the Texians at Gonzales fire the cannon, and the Mexican dragoons fall back. The war has begun.",
+      "text": "The Texians at Gonzales fire the cannon, and the Mexican dragoons fall back. The war has begun.",
       "camera": {
         "kind": "region",
         "scale": 2131.5789473684213,

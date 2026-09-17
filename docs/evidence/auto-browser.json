@@ -9,13 +9,13 @@
     "every row has the switch, and nobody is on auto to begin with",
     "the word \"auto\" pressed on Ramón's row: the server holds it, the row shows pressed on the next snapshot, and the record says so",
     "a hunt sent from the panel with the switch on, and the icon glowing",
-    "Ramón decided the shot alone with no \"!\" and went out again by themself: 2 hunts in 3.1 s",
+    "Ramón decided the shot alone with no \"!\" and went out again by themself: 2 hunts in 3 s",
     "pressed off: the hunt in hand finished and nobody went out again",
     "at 400 px nothing scrolls sideways with the switch on every row",
     "no page errors anywhere in the run"
   ],
   "measured": {
-    "secondsToTwoHunts": 3.1,
+    "secondsToTwoHunts": 3,
     "huntsFinished": 2,
     "snapshotsAsking": 0,
     "glowResumed": 0,
