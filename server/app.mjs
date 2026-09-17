@@ -18,6 +18,8 @@ import { plotCatalogue } from '../sim/houseplot.mjs';
 import { woodsCatalogue, woodsTile } from '../sim/woods-view.mjs';
 import { huntFacts } from '../sim/hunting.mjs';
 import { fellFacts } from '../sim/felling.mjs';
+import { LAND_FILE, LAND_HREF, PROVINCE_FILE, PROVINCE_HREF } from '../sim/province.mjs';
+import { gunzipSync } from 'node:zlib';
 import { readSave, writeSave, acquireSaveLock, archiveSave } from './storage.mjs';
 
 const token = () => randomBytes(24).toString('hex');
@@ -322,6 +324,14 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       if (assetRequest) {
         if (req.method !== 'GET') return json(res, 404, { error: 'Not found' });
         return serveAsset(req, res, rawPath);
+      }
+      // The real land drawn zoomed out, every band of it, and its land classes (docs/MAP_ACCURACY.md): built files, the
+      // same for every class, stored gzipped and sent as they are to a browser that takes gzip.
+      if (req.method === 'GET' && (url.pathname === PROVINCE_HREF || url.pathname === LAND_HREF)) {
+        const gz = readFileSync(url.pathname === PROVINCE_HREF ? PROVINCE_FILE : LAND_FILE);
+        const zipped = /\bgzip\b/.test(req.headers['accept-encoding'] || '');
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-cache', ...(zipped && { 'Content-Encoding': 'gzip' }) });
+        return res.end(zipped ? gz : gunzipSync(gz));
       }
       if (req.method === 'GET' && files.has(url.pathname)) {
         const [path, mime] = files.get(url.pathname);

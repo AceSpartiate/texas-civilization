@@ -1,0 +1,110 @@
+{
+  "date": "2026-09-17T14:33:46.697Z",
+  "results": [
+    {
+      "injected": "the Colorado drawn 1.5 miles east, putting Mina on its west bank",
+      "test": "tests/geography-truth.test.mjs",
+      "failed": [
+        "each town stands on its documented bank of its river, near it, on every line the map draws"
+      ],
+      "caughtByThatTestOnly": true
+    },
+    {
+      "injected": "Béxar set down across the river on the Alamo side (a quarter mile east of Main Plaza), maps rebuilt",
+      "test": "tests/geography-truth.test.mjs",
+      "failed": [
+        "the San Antonio River runs between the Alamo and the town of Béxar",
+        "the page is sent the real province for a class on the real land, saved with the invented one or not"
+      ],
+      "caughtByThatTestOnly": true
+    },
+    {
+      "injected": "Castañeda's camp set down on Gonzales's side of the Guadalupe",
+      "test": "tests/geography-truth.test.mjs",
+      "failed": [
+        "Gonzales is across the Guadalupe from Castañeda's camp, a short walk from its ford, above the forks"
+      ],
+      "caughtByThatTestOnly": true
+    },
+    {
+      "injected": "Lynchburg back at TSHA's point at Interstate 10, maps rebuilt",
+      "test": "tests/geography-truth.test.mjs",
+      "failed": [
+        "Columbus and Harrisburg stand at their water; Lynchburg at Lynch's ferry, where Buffalo Bayou meets the San Jacinto"
+      ],
+      "caughtByThatTestOnly": true
+    },
+    {
+      "injected": "a point of the Brazos at the one-mile band moved two miles off the finer band",
+      "test": "tests/geography-truth.test.mjs",
+      "failed": [
+        "the province drawn zoomed out is the real one: its towns are the map's, and every band lies on the band finer than it"
+      ],
+      "caughtByThatTestOnly": true
+    },
+    {
+      "injected": "the page sent whatever province the class was saved with",
+      "test": "tests/geography-truth.test.mjs",
+      "failed": [
+        "the page is sent the real province for a class on the real land, saved with the invented one or not"
+      ],
+      "caughtByThatTestOnly": true
+    },
+    {
+      "injected": "the classic shape drawing only the quarter-mile band, a chord across the bend at Béxar",
+      "test": "tests/geography-truth.test.mjs",
+      "failed": [
+        "the page is sent the real province for a class on the real land, saved with the invented one or not"
+      ],
+      "caughtByThatTestOnly": true
+    },
+    {
+      "injected": "pine read as floodplain",
+      "test": "tests/land.test.mjs",
+      "failed": [
+        "the Lost Pines stand east of Mina, and the coast round Harrisburg and Lynchburg is prairie"
+      ],
+      "caughtByThatTestOnly": true
+    },
+    {
+      "injected": "brush read as savanna",
+      "test": "tests/land.test.mjs",
+      "failed": [
+        "south-west of Béxar is brush country, and there is no desert anywhere in the colonies"
+      ],
+      "caughtByThatTestOnly": true
+    },
+    {
+      "injected": "the brush named desert scrub",
+      "test": "tests/land.test.mjs",
+      "failed": [
+        "south-west of Béxar is brush country, and there is no desert anywhere in the colonies"
+      ],
+      "caughtByThatTestOnly": true
+    },
+    {
+      "injected": "the escarpment read as plain hills",
+      "test": "tests/land.test.mjs",
+      "failed": [
+        "north-west of San Antonio the hill country rises at the escarpment; Béxar is on the plain below it; La Grange has its bluff"
+      ],
+      "caughtByThatTestOnly": true
+    },
+    {
+      "injected": "beach read as prairie",
+      "test": "tests/land.test.mjs",
+      "failed": [
+        "Galveston Island is beach on the Gulf side and marsh behind; the bays are water"
+      ],
+      "caughtByThatTestOnly": true
+    },
+    {
+      "injected": "a band cell takes the lowest class in its block, not the most common; land rebuilt",
+      "test": "tests/land.test.mjs",
+      "failed": [
+        "each band is the most common class of its cells, so a place keeps its class as the map zooms out"
+      ],
+      "caughtByThatTestOnly": true
+    }
+  ]
+}
