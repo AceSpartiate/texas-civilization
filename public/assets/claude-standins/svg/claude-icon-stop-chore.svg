@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!-- icon-stop-chore: a hand raised, palm out - stop. Claude-drawn stand-in; replace with Astra's icon-stop-chore
+       (request 2026-09-15, action icons). -->
+  <defs>
+    <linearGradient id="stop-sleeve" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a9512d"/><stop offset="1" stop-color="#6e2f18"/></linearGradient>
+    <linearGradient id="stop-skin" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e6b98c"/><stop offset="0.6" stop-color="#c8905e"/><stop offset="1" stop-color="#9a6a44"/></linearGradient>
+  </defs>
+  <g filter="url(#grain)" stroke-linejoin="round" stroke-linecap="round" stroke="#1a0e08">
+    <!-- the sleeve and cuff -->
+    <path d="M 40 124 L 88 124 L 90 96 L 38 96 Z" fill="url(#stop-sleeve)" stroke-width="3"/>
+    <path d="M 36 98 L 92 98 L 92 88 L 36 88 Z" fill="#f3e6c6" stroke-width="2.8"/>
+    <!-- the palm -->
+    <path d="M 40 92 Q 36 70 42 52 L 86 52 Q 92 70 88 92 Q 64 100 40 92 Z" fill="url(#stop-skin)" stroke-width="3"/>
+    <!-- the fingers, four up and the thumb out to the left -->
+    <path d="M 42 56 L 40 22 Q 40 14 47 14 Q 54 14 54 22 L 54 54 Z" fill="url(#stop-skin)" stroke-width="3"/>
+    <path d="M 54 54 L 54 12 Q 54 4 61 4 Q 68 4 68 12 L 68 54 Z" fill="url(#stop-skin)" stroke-width="3"/>
+    <path d="M 68 54 L 68 16 Q 68 8 75 8 Q 82 8 82 16 L 82 54 Z" fill="url(#stop-skin)" stroke-width="3"/>
+    <path d="M 82 56 L 84 28 Q 84 20 90 20 Q 96 20 96 28 L 94 60 Z" fill="url(#stop-skin)" stroke-width="3"/>
+    <path d="M 42 70 L 20 52 Q 14 46 20 42 Q 26 38 32 44 L 48 60 Z" fill="url(#stop-skin)" stroke-width="3"/>
+    <!-- the palm's creases and a lit edge -->
+    <path d="M 48 76 Q 62 70 78 76" fill="none" stroke="#9a6a44" stroke-width="2" opacity="0.6"/>
+    <path d="M 50 84 Q 62 80 76 84" fill="none" stroke="#9a6a44" stroke-width="1.6" opacity="0.5"/>
+    <path d="M 44 26 L 44 50 M 57 12 L 57 50" fill="none" stroke="#f6d9b8" stroke-width="2" opacity="0.7"/>
+  </g>
+</svg>

@@ -466,15 +466,24 @@ button:hover:enabled{background:#60673e}
 .panel-attention{position:absolute;z-index:2;top:-5px;left:36px;width:26px;height:26px;min-height:0;padding:0;border-radius:50%;background:#c2582c;color:#fff8e6;font:800 16px/1 system-ui;border:2px solid #fff8e6;box-shadow:0 1px 5px #29251b88;pointer-events:auto;animation:panel-need 1.1s ease-in-out infinite}
 .panel-attention:hover:enabled{background:#d8663a}
 .panel-attention[data-need=rider]{background:#41556b}
+/* The marks (docs/ART_REQUESTS.md, request 2026-09-16): a drawn `mark-*` frame in a canvas over the type it replaced; the type
+   shows only while no frame has been drawn (`data-drawn`), so a page without art keeps its "!", stars and words. */
+[data-mark] canvas{display:block;width:100%;height:100%;pointer-events:none}
+[data-mark][data-drawn=true] .panel-mark-text{display:none}
+[data-mark]:not([data-drawn=true]) canvas{display:none}
+.panel-attention[data-drawn=true]{width:32px;height:32px;top:-8px;left:33px;background:transparent;border:none;box-shadow:none;filter:drop-shadow(0 1px 3px #29251baa)}
+.panel-attention[data-drawn=true]:hover:enabled{background:transparent;filter:drop-shadow(0 1px 3px #29251baa) brightness(1.12)}
 @keyframes panel-need{50%{transform:translateY(-3px)}}
 /* The main person: a gold edge and a star on the portrait; a star button on every row to choose them. */
 .panel-star{position:absolute;left:2px;bottom:1px;font:700 13px/1 system-ui;color:#f0b43a;text-shadow:0 0 2px #29251b,0 0 2px #29251b;display:none;pointer-events:none}
+.panel-star[data-drawn=true]{left:0;bottom:0;width:20px;height:20px;filter:drop-shadow(0 0 2px #29251b)}
 .panel-row[data-focused=true] .panel-star{display:block}
 .panel-row[data-focused=true] .panel-portrait{border-color:#f0b43a;box-shadow:0 0 0 2px #f0b43acc,0 2px 6px #29251b55}
 .panel-row[data-focused=true] .panel-body{border-color:#f0b43a}
 /* Idle: nothing to do and something could be given them. A dimmed portrait with a word on it, so a glance down the column
    finds whoever is standing about - on a phone too, where only the portraits show. */
 .panel-idle-mark{position:absolute;right:0;bottom:0;padding:0 3px;border-radius:4px 0 0 0;background:#3b3427d9;color:#f7eed5;font:600 9px/13px system-ui;letter-spacing:.04em;display:none;pointer-events:none}
+.panel-idle-mark[data-drawn=true]{padding:0;background:transparent;width:24px;height:24px;right:-2px;bottom:-1px;filter:drop-shadow(0 0 2px #29251b)}
 .panel-row[data-idle=true] .panel-idle-mark{display:block}
 .panel-row[data-idle=true] .panel-portrait canvas{filter:saturate(.45) brightness(.92)}
 .panel-tools{grid-row:1;grid-column:3;display:flex;align-items:center;gap:4px;justify-self:end}
@@ -482,9 +491,13 @@ button:hover:enabled{background:#60673e}
 .panel-house,.panel-focus{min-height:0;height:24px;padding:0 7px;border-radius:5px;border:1px solid #b09a6d;background:#f3ead2;color:#3b3427;font:600 11.5px/1 system-ui;box-shadow:none}
 .panel-focus{width:26px;padding:0;font-size:15px;color:#8f825b}
 .panel-focus[aria-pressed=true]{color:#c98a12;background:#fff3c4;border-color:#f0b43a}
+.panel-focus[data-drawn=true]{padding:2px}
+.panel-focus[data-drawn=true][aria-pressed=false] canvas{opacity:.45;filter:grayscale(.7)}
 /* The auto switch (docs/FAMILY_PANEL.md §11.7): the word, dim until pressed, green while the server says the person is on it. */
 .panel-auto{min-height:0;height:24px;padding:0 6px;border-radius:12px;border:1px solid #b09a6d;background:#f3ead2;color:#8f825b;font:700 10px/1 system-ui;letter-spacing:.08em;text-transform:uppercase;box-shadow:none}
 .panel-auto[aria-pressed=true]{color:#f7eed5;background:#4f7a3a;border-color:#6f9c58}
+.panel-auto[data-drawn=true]{width:26px;padding:2px;background:#f3ead2}
+.panel-auto[data-drawn=true][aria-pressed=true]{background:#e8f0dc;border-color:#6f9c58}
 .panel-row[data-on-auto=true] .panel-portrait{border-color:#6f9c58}
 .panel-body{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-rows:auto auto;align-items:center;column-gap:6px;min-width:0;margin-left:-3px;padding:3px 8px 4px 9px;background:var(--shade);border:1px solid #8f825b;border-left:none;border-radius:0 6px 6px 0}
 .panel-label{grid-row:1;grid-column:1;font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:#d8c9a2;white-space:nowrap}
@@ -518,6 +531,7 @@ button:hover:enabled{background:#60673e}
   #family-rows{gap:4px}
   .panel-portrait{width:44px;height:44px}
   .panel-attention{left:26px;top:-4px;width:24px;height:24px;font-size:15px}
+  .panel-attention[data-drawn=true]{left:24px;top:-7px;width:30px;height:30px}
   .panel-row:not([data-expanded=true]) .panel-body{display:none}
   .panel-body{max-width:calc(100vw - 80px)}
   .panel-name{max-width:9rem}

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!-- icon-sell-cotton: a pressed cotton bale in sacking, roped, with a coin in front. Claude-drawn stand-in; replace with
+       Astra's icon-sell-cotton (request 2026-09-15, action icons). -->
+  <defs>
+    <linearGradient id="cotton-sack" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d8c8a0"/><stop offset="0.6" stop-color="#b9a578"/><stop offset="1" stop-color="#7e6a48"/></linearGradient>
+    <linearGradient id="cotton-top" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ecdfbd"/><stop offset="1" stop-color="#c4b088"/></linearGradient>
+    <radialGradient id="cotton-coin" cx="0.35" cy="0.3" r="0.8"><stop offset="0" stop-color="#f6dc80"/><stop offset="0.6" stop-color="#d4a83a"/><stop offset="1" stop-color="#8a5f12"/></radialGradient>
+  </defs>
+  <g filter="url(#grain)" stroke-linejoin="round" stroke-linecap="round" stroke="#1a0e08">
+    <!-- the bale: a fat block seen from the front-left-above, bulging between its ropes -->
+    <path d="M 18 40 L 92 40 L 92 104 L 18 104 Z" fill="url(#cotton-sack)" stroke-width="3"/>
+    <path d="M 92 40 L 114 26 L 114 90 L 92 104 Z" fill="#8e7a54" stroke-width="3"/>
+    <path d="M 18 40 L 40 26 L 114 26 L 92 40 Z" fill="url(#cotton-top)" stroke-width="3"/>
+    <!-- white cotton bulging out at the seams -->
+    <path d="M 20 44 Q 30 36 42 44 Q 54 36 66 44 Q 78 36 90 44" fill="none" stroke="#fdf8ec" stroke-width="5"/>
+    <path d="M 20 44 Q 30 36 42 44 Q 54 36 66 44 Q 78 36 90 44" fill="none" stroke="#1a0e08" stroke-width="1.6" opacity="0.5"/>
+    <!-- the ropes round it -->
+    <path d="M 36 40 L 36 104 M 74 40 L 74 104" fill="none" stroke="#1a0e08" stroke-width="7"/>
+    <path d="M 36 40 L 36 104 M 74 40 L 74 104" fill="none" stroke="#6a4525" stroke-width="4"/>
+    <path d="M 36 40 L 58 26 M 74 40 L 96 26" fill="none" stroke="#1a0e08" stroke-width="6"/>
+    <path d="M 36 40 L 58 26 M 74 40 L 96 26" fill="none" stroke="#6a4525" stroke-width="3.5"/>
+    <!-- the sacking's weave and a lit edge -->
+    <path d="M 22 60 L 88 60 M 22 84 L 88 84" fill="none" stroke="#7e6a48" stroke-width="1.6" opacity="0.5"/>
+    <path d="M 21 44 L 21 100" fill="none" stroke="#f0e4c4" stroke-width="2" opacity="0.7"/>
+    <!-- the coin, standing against the bale's foot -->
+    <circle cx="98" cy="102" r="17" fill="url(#cotton-coin)" stroke-width="3"/>
+    <circle cx="98" cy="102" r="11" fill="none" stroke="#8a5f12" stroke-width="1.8" opacity="0.7"/>
+    <path d="M 88 96 A 12 12 0 0 1 96 90" fill="none" stroke="#fff3c4" stroke-width="2.2" opacity="0.9"/>
+    <path d="M 94 96 L 102 96 L 98 108 Z" fill="#8a5f12" opacity="0.6" stroke="none"/>
+  </g>
+</svg>

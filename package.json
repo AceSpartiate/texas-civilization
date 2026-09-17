@@ -11,6 +11,7 @@
     "solo": "node scripts/solo.mjs",
     "test": "node --test",
     "build:art": "node scripts/build-atlas-manifest.mjs",
+    "build:standins": "node scripts/build-claude-standins.mjs",
     "test:art": "node scripts/art-browser-proof.mjs",
     "test:alamo": "node scripts/alamo-browser-proof.mjs",
     "test:trade-animation": "node scripts/trade-animation-proof.mjs",

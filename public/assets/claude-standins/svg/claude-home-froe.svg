@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <!-- home-froe: the L-shaped riving blade, its handle standing up from one end, with the club that drives it lying beside.
+       Claude-drawn stand-in; replace with Astra's home-froe (request 2026-09-12 (second), the wagon's tools). -->
+  <defs>
+    <linearGradient id="hfroe-handle" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#d9b27a"/><stop offset="0.5" stop-color="#a5784b"/><stop offset="1" stop-color="#5e3d1e"/></linearGradient>
+    <linearGradient id="hfroe-blade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a0a29c"/><stop offset="0.5" stop-color="#6a6c68"/><stop offset="1" stop-color="#2f312e"/></linearGradient>
+    <linearGradient id="hfroe-club" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b8875a"/><stop offset="1" stop-color="#5e3d1e"/></linearGradient>
+  </defs>
+  <g filter="url(#grain)" stroke-linejoin="round" stroke-linecap="round" stroke="#1a0e08">
+    <!-- the club, a short round billet lying behind -->
+    <path d="M 84 120 L 150 108 L 152 126 L 86 138 Z" fill="url(#hfroe-club)" stroke-width="3"/>
+    <ellipse cx="151" cy="117" rx="5" ry="9" fill="#e8c898" stroke-width="2.6"/>
+    <path d="M 90 124 L 144 114" fill="none" stroke="#e0b98a" stroke-width="2" opacity="0.7"/>
+    <!-- the froe: the handle standing up from the eye, the blade lying along the floor -->
+    <path d="M 36 16 L 36 118" fill="none" stroke="#1a0e08" stroke-width="15"/>
+    <path d="M 36 16 L 36 118" fill="none" stroke="url(#hfroe-handle)" stroke-width="10"/>
+    <path d="M 33 24 L 33 104" fill="none" stroke="#f0d8b0" stroke-width="2.2" opacity="0.8"/>
+    <path d="M 24 112 Q 36 106 48 112 L 48 126 L 24 126 Z" fill="#3a3c38" stroke-width="2.8"/>
+    <path d="M 26 124 L 126 130 L 126 152 L 26 154 Z" fill="url(#hfroe-blade)" stroke-width="3"/>
+    <path d="M 30 128 L 120 134" fill="none" stroke="#c6c8c2" stroke-width="2" opacity="0.7"/>
+    <path d="M 30 150 L 122 149" fill="none" stroke="#e6e8e2" stroke-width="2.4" opacity="0.9"/>
+  </g>
+</svg>

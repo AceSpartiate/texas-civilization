@@ -74,6 +74,34 @@ try {
   assert.ok(panelBox.x < 40, `the panel is not on the left: ${JSON.stringify(panelBox)}`);
   ok(`down the left of the map (x ${Math.round(panelBox.x)}, ${Math.round(panelBox.width)} by ${Math.round(panelBox.height)})`);
 
+  // ------------------------------------------------------------------- the icons and marks are drawn art, not glyphs or type
+  // docs/ART_REQUESTS.md, "Claude-drawn stand-ins": every icon names an `icon-<key>` frame and the marks `mark-*` frames, from
+  // the separate claude-standins library until Astra's replace them. Wait for the sheets, then read the canvases.
+  await page.waitForFunction(async () => {
+    const art = await import('/art.js');
+    return ['icon-rest', 'mark-main', 'mark-need'].every(name => art.hasSprite(name));
+  }, null, { timeout: 15000 });
+  await page.waitForFunction(() => document.querySelector('.panel-focus[data-drawn=true]'));
+  const drawn = await page.evaluate(async () => {
+    const art = await import('/art.js');
+    const painted = canvas => { const ctx = canvas.getContext('2d'); const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data; let n = 0; for (let i = 3; i < data.length; i += 4) if (data[i] > 24) n++; return n; };
+    const icons = [...document.querySelectorAll('.panel-icon')].map(icon => ({ key: icon.dataset.key, frame: art.spriteFrame(`icon-${icon.dataset.key}`), painted: painted(icon.querySelector('canvas')) }));
+    const marks = [...document.querySelectorAll('[data-mark]')].map(node => ({ mark: node.dataset.mark, drawn: node.dataset.drawn, painted: painted(node.querySelector('canvas')), text: getComputedStyle(node.querySelector('.panel-mark-text')).display }));
+    return { icons, marks };
+  });
+  for (const icon of drawn.icons) {
+    assert.ok(icon.frame, `${icon.key}: no icon-${icon.key} frame in either library`);
+    assert.ok(icon.painted > 200, `${icon.key}: its canvas is blank (${icon.painted} painted pixels)`);
+  }
+  for (const mark of drawn.marks) {
+    assert.equal(mark.drawn, 'true', `${mark.mark} was not drawn`);
+    assert.ok(mark.painted > 100, `${mark.mark}: its canvas is blank`);
+    assert.equal(mark.text, 'none', `${mark.mark}: the type it replaced is still showing`);
+  }
+  const madeBy = [...new Set(drawn.icons.map(icon => icon.frame.madeBy || 'astra'))];
+  measured.art = { icons: drawn.icons.length, marks: drawn.marks.length, madeBy };
+  ok(`every icon (${drawn.icons.length}) and mark (${drawn.marks.length}) is drawn from a frame, none a glyph or type (drawn by: ${madeBy.join(', ')})`);
+
   // ------------------------------------------------------------------------------------------------------ hover, in words
   const father = rows[0].id;
   const fatherIcon = page.locator(`.panel-row[data-entity-id="${father}"] .panel-icon[data-key="rest"]`);

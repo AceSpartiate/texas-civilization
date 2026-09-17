@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!-- icon-dig-well: a spade standing in the dug ground at a round well mouth ringed with stones. Claude-drawn stand-in;
+       replace with Astra's icon-dig-well (request 2026-09-15, action icons). -->
+  <defs>
+    <linearGradient id="well-stone" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c9bda0"/><stop offset="1" stop-color="#7d7058"/></linearGradient>
+    <radialGradient id="well-hole" cx="0.5" cy="0.4" r="0.7"><stop offset="0" stop-color="#3a2a18"/><stop offset="1" stop-color="#0f0904"/></radialGradient>
+    <linearGradient id="well-blade" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a0a29c"/><stop offset="0.5" stop-color="#6a6c68"/><stop offset="1" stop-color="#2f312e"/></linearGradient>
+    <linearGradient id="well-handle" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#c49463"/><stop offset="1" stop-color="#6a4525"/></linearGradient>
+    <linearGradient id="well-dirt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8c6a44"/><stop offset="1" stop-color="#4b3018"/></linearGradient>
+  </defs>
+  <g filter="url(#grain)" stroke-linejoin="round" stroke-linecap="round" stroke="#1a0e08">
+    <!-- the heap of dug earth behind -->
+    <path d="M 6 104 Q 20 78 44 88 Q 56 96 60 106 Z" fill="url(#well-dirt)" stroke-width="3"/>
+    <!-- the well mouth: a ring of stones round a dark hole -->
+    <ellipse cx="74" cy="98" rx="46" ry="20" fill="url(#well-stone)" stroke-width="3"/>
+    <ellipse cx="74" cy="96" rx="30" ry="12" fill="url(#well-hole)" stroke-width="3"/>
+    <path d="M 32 96 L 40 84 M 48 82 L 50 90 M 98 82 L 100 90 M 116 96 L 108 84 M 60 112 L 62 106 M 88 112 L 86 106" fill="none" stroke="#5a4d38" stroke-width="2.2" opacity="0.8"/>
+    <path d="M 34 92 Q 50 80 74 78" fill="none" stroke="#ece2cc" stroke-width="2.4" opacity="0.8"/>
+    <!-- the spade, standing in the heap, handle leaning right -->
+    <path d="M 30 92 L 66 20" fill="none" stroke="#1a0e08" stroke-width="11"/>
+    <path d="M 30 92 L 66 20" fill="none" stroke="url(#well-handle)" stroke-width="7"/>
+    <path d="M 60 16 L 76 24" fill="none" stroke="#1a0e08" stroke-width="10"/>
+    <path d="M 60 16 L 76 24" fill="none" stroke="#7a5534" stroke-width="6"/>
+    <g transform="rotate(27 30 92)">
+      <path d="M 18 82 L 42 82 L 42 106 Q 30 122 18 106 Z" fill="url(#well-blade)" stroke-width="3"/>
+      <path d="M 22 86 L 22 104" fill="none" stroke="#e6e8e2" stroke-width="2.2" opacity="0.9"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!-- icon-hunt-timber: a long rifle leaning among tree trunks. Claude-drawn stand-in; replace with Astra's icon-hunt-timber
+       (request 2026-09-15, action icons). -->
+  <defs>
+    <linearGradient id="huntt-trunk" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9a7048"/><stop offset="0.5" stop-color="#6a4525"/><stop offset="1" stop-color="#3a2412"/></linearGradient>
+    <radialGradient id="huntt-leaf" cx="0.35" cy="0.3" r="0.8"><stop offset="0" stop-color="#8faa52"/><stop offset="0.6" stop-color="#5f7a34"/><stop offset="1" stop-color="#34471c"/></radialGradient>
+    <linearGradient id="huntt-stock" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#a5784b"/><stop offset="1" stop-color="#4b3018"/></linearGradient>
+  </defs>
+  <g filter="url(#grain)" stroke-linejoin="round" stroke-linecap="round" stroke="#1a0e08">
+    <!-- canopy behind -->
+    <ellipse cx="34" cy="30" rx="30" ry="22" fill="url(#huntt-leaf)" stroke-width="3"/>
+    <ellipse cx="96" cy="26" rx="28" ry="20" fill="url(#huntt-leaf)" stroke-width="3"/>
+    <path d="M 12 22 Q 22 12 36 12" fill="none" stroke="#b6cf7a" stroke-width="2.2" opacity="0.8"/>
+    <path d="M 78 18 Q 88 10 100 10" fill="none" stroke="#b6cf7a" stroke-width="2.2" opacity="0.8"/>
+    <!-- the trunks -->
+    <path d="M 24 40 L 44 40 L 46 120 L 22 120 Z" fill="url(#huntt-trunk)" stroke-width="3"/>
+    <path d="M 86 36 L 106 36 L 110 120 L 84 120 Z" fill="url(#huntt-trunk)" stroke-width="3"/>
+    <path d="M 28 46 L 28 114 M 90 42 L 91 114" fill="none" stroke="#c49463" stroke-width="2" opacity="0.6"/>
+    <path d="M 40 50 L 41 112 M 102 44 L 104 112" fill="none" stroke="#2a1a10" stroke-width="2" opacity="0.6"/>
+    <!-- the ground -->
+    <path d="M 4 120 L 124 120" fill="none" stroke="#5f7a34" stroke-width="4"/>
+    <!-- the long rifle, leaning against the right trunk: stock at the foot left, barrel up to the right -->
+    <path d="M 40 116 L 100 30" fill="none" stroke="#1a0e08" stroke-width="9"/>
+    <path d="M 40 116 L 78 62" fill="none" stroke="url(#huntt-stock)" stroke-width="5"/>
+    <path d="M 78 62 L 100 30" fill="none" stroke="#8a8c86" stroke-width="3.5"/>
+    <!-- the butt, the lock and the trigger guard -->
+    <path d="M 34 106 L 46 112 L 40 124 L 30 118 Z" fill="url(#huntt-stock)" stroke-width="2.8"/>
+    <path d="M 62 84 L 70 88 Q 74 86 72 80 Z" fill="#8a8c86" stroke-width="2.2"/>
+    <path d="M 56 90 Q 60 98 66 94" fill="none" stroke="#8a8c86" stroke-width="2.4"/>
+    <path d="M 44 108 L 74 66" fill="none" stroke="#d9b27a" stroke-width="1.6" opacity="0.7"/>
+  </g>
+</svg>

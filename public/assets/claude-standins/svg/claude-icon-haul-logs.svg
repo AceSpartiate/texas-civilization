@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!-- icon-haul-logs: a log dragged on a chain behind an ox yoke. Claude-drawn stand-in; replace with Astra's
+       icon-haul-logs (request 2026-09-15, action icons). -->
+  <defs>
+    <linearGradient id="haul-log" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c49463"/><stop offset="0.5" stop-color="#8c6238"/><stop offset="1" stop-color="#4b3018"/></linearGradient>
+    <radialGradient id="haul-end" cx="0.4" cy="0.4" r="0.7"><stop offset="0" stop-color="#e8c898"/><stop offset="1" stop-color="#b8875a"/></radialGradient>
+    <linearGradient id="haul-yoke" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d9b27a"/><stop offset="0.5" stop-color="#a5784b"/><stop offset="1" stop-color="#5e3d1e"/></linearGradient>
+  </defs>
+  <g filter="url(#grain)" stroke-linejoin="round" stroke-linecap="round" stroke="#1a0e08">
+    <!-- the ground, a drag mark behind the log -->
+    <path d="M 4 118 Q 40 112 76 116" fill="none" stroke="#7a6a4a" stroke-width="3" opacity="0.7"/>
+    <!-- the log, its near end toward the lower left -->
+    <path d="M 14 104 L 76 74 L 88 92 L 26 122 Z" fill="url(#haul-log)" stroke-width="3"/>
+    <ellipse cx="20" cy="113" rx="9" ry="11" transform="rotate(-26 20 113)" fill="url(#haul-end)" stroke-width="3"/>
+    <path d="M 24 106 L 72 82" fill="none" stroke="#e8c898" stroke-width="2" opacity="0.7"/>
+    <!-- the chain from the log up to the yoke ring -->
+    <path d="M 78 84 L 92 52" fill="none" stroke="#1a0e08" stroke-width="7"/>
+    <path d="M 78 84 L 92 52" fill="none" stroke="#5a5c58" stroke-width="3.5" stroke-dasharray="5 3"/>
+    <!-- the yoke: a curved beam with two bows, seen from the front, and the ring in the middle -->
+    <path d="M 22 38 Q 40 22 62 32 Q 84 22 106 38 L 106 48 Q 84 36 62 44 Q 40 36 22 48 Z" fill="url(#haul-yoke)" stroke-width="3"/>
+    <path d="M 26 40 Q 40 28 60 36" fill="none" stroke="#f0d8b0" stroke-width="2" opacity="0.8"/>
+    <path d="M 34 44 Q 26 62 34 70 Q 40 76 46 70 Q 50 60 44 44 M 80 44 Q 74 60 78 70 Q 84 76 90 70 Q 96 62 90 44" fill="none" stroke="#1a0e08" stroke-width="9"/>
+    <path d="M 34 44 Q 26 62 34 70 Q 40 76 46 70 Q 50 60 44 44 M 80 44 Q 74 60 78 70 Q 84 76 90 70 Q 96 62 90 44" fill="none" stroke="#a5784b" stroke-width="5"/>
+    <circle cx="62" cy="52" r="7" fill="none" stroke="#1a0e08" stroke-width="7"/>
+    <circle cx="62" cy="52" r="7" fill="none" stroke="#6a6c68" stroke-width="3.5"/>
+  </g>
+</svg>

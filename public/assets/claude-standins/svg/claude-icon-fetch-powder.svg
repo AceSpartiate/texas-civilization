@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!-- icon-fetch-powder: a powder horn on its strap and a few lead balls beside it. Claude-drawn stand-in; replace with
+       Astra's icon-fetch-powder (request 2026-09-15, action icons). -->
+  <defs>
+    <linearGradient id="powder-horn" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f0e2bc"/><stop offset="0.5" stop-color="#c9ad7a"/><stop offset="1" stop-color="#7e6240"/></linearGradient>
+    <linearGradient id="powder-plug" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a5784b"/><stop offset="1" stop-color="#4b3018"/></linearGradient>
+    <radialGradient id="powder-ball" cx="0.35" cy="0.3" r="0.8"><stop offset="0" stop-color="#a0a29c"/><stop offset="0.6" stop-color="#5a5c58"/><stop offset="1" stop-color="#1f2120"/></radialGradient>
+  </defs>
+  <g filter="url(#grain)" stroke-linejoin="round" stroke-linecap="round" stroke="#1a0e08">
+    <!-- the strap, looped behind -->
+    <path d="M 30 40 Q 10 70 40 104" fill="none" stroke="#1a0e08" stroke-width="8"/>
+    <path d="M 30 40 Q 10 70 40 104" fill="none" stroke="#6a4525" stroke-width="4.5"/>
+    <!-- the horn: wide base at the lower right, curving up to a narrow spout at the upper left -->
+    <path d="M 100 96 Q 112 74 96 56 Q 76 32 44 26 L 30 22 L 26 34 L 40 40 Q 68 46 82 66 Q 92 82 80 100 Q 90 110 100 96 Z" fill="url(#powder-horn)" stroke-width="3"/>
+    <!-- the base plug, a wooden disc with a brass ring -->
+    <ellipse cx="90" cy="100" rx="13" ry="12" fill="url(#powder-plug)" stroke-width="3"/>
+    <ellipse cx="90" cy="100" rx="7" ry="6.5" fill="none" stroke="#d4a83a" stroke-width="2.2"/>
+    <!-- the spout stopper -->
+    <path d="M 30 22 L 26 34 L 16 30 L 20 18 Z" fill="url(#powder-plug)" stroke-width="2.6"/>
+    <!-- the horn's dark band and lit ridge -->
+    <path d="M 60 40 Q 70 46 78 56" fill="none" stroke="#7e6240" stroke-width="3" opacity="0.6"/>
+    <path d="M 40 32 Q 62 36 80 54" fill="none" stroke="#fbf1d8" stroke-width="2.4" opacity="0.8"/>
+    <!-- lead balls on the ground -->
+    <circle cx="24" cy="108" r="9" fill="url(#powder-ball)" stroke-width="2.6"/>
+    <circle cx="44" cy="114" r="9" fill="url(#powder-ball)" stroke-width="2.6"/>
+    <circle cx="34" cy="96" r="9" fill="url(#powder-ball)" stroke-width="2.6"/>
+    <circle cx="21" cy="105" r="2.2" fill="#d0d2cc" stroke="none" opacity="0.8"/>
+    <circle cx="31" cy="93" r="2.2" fill="#d0d2cc" stroke="none" opacity="0.8"/>
+  </g>
+</svg>

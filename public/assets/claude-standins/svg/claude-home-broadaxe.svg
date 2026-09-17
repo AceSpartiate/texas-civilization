@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <!-- home-broadaxe: the wide, short-handled hewing axe, its great flat blade standing on the floor and the short bent handle
+       up. Claude-drawn stand-in; replace with Astra's home-broadaxe (request 2026-09-12 (second), the wagon's tools). -->
+  <defs>
+    <linearGradient id="hbax-handle" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#d9b27a"/><stop offset="0.5" stop-color="#a5784b"/><stop offset="1" stop-color="#5e3d1e"/></linearGradient>
+    <linearGradient id="hbax-head" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b0b2ac"/><stop offset="0.5" stop-color="#6a6c68"/><stop offset="1" stop-color="#2f312e"/></linearGradient>
+  </defs>
+  <g filter="url(#grain)" stroke-linejoin="round" stroke-linecap="round" stroke="#1a0e08">
+    <!-- the short handle, bent away from the blade -->
+    <path d="M 52 22 Q 60 60 66 92" fill="none" stroke="#1a0e08" stroke-width="15"/>
+    <path d="M 52 22 Q 60 60 66 92" fill="none" stroke="url(#hbax-handle)" stroke-width="10"/>
+    <path d="M 50 30 Q 56 56 60 78" fill="none" stroke="#f0d8b0" stroke-width="2.2" opacity="0.8"/>
+    <!-- the blade: very wide, one flat face, the bevel on the far side -->
+    <path d="M 40 84 L 92 82 Q 130 88 138 128 Q 130 152 118 156 L 28 156 Q 24 120 40 84 Z" fill="url(#hbax-head)" stroke-width="3"/>
+    <path d="M 124 96 Q 134 116 132 140" fill="none" stroke="#e6e8e2" stroke-width="3" opacity="0.9"/>
+    <path d="M 44 90 L 86 88" fill="none" stroke="#c6c8c2" stroke-width="2" opacity="0.7"/>
+    <path d="M 36 150 L 116 150" fill="none" stroke="#1a0e08" stroke-width="2" opacity="0.5"/>
+  </g>
+</svg>
