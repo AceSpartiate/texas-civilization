@@ -1,0 +1,18 @@
+{
+  "record": "perf-render-injections",
+  "date": "2026-09-17",
+  "method": "Each regression injected alone into the file named, the named test file run with node --test, the file restored. Each failed exactly the one test listed and no other.",
+  "injections": [
+    { "id": "A", "regression": "the kept ground is reused for a new snapshot (sameLayerKey ignores the world object)", "file": "public/map-base.js", "failed": ["the kept ground is laid down again only for the same snapshot, camera and canvas"] },
+    { "id": "B", "regression": "setText writes the node every time", "file": "public/map-base.js", "failed": ["a node is written only when its words change, so the drawing loop does not touch the page twelve times a second"] },
+    { "id": "C", "regression": "segmentsNear ignores the reach, dropping a creek just outside the view", "file": "public/map-base.js", "failed": ["a course is measured against only its segments near the view, and every distance in the view is unchanged"] },
+    { "id": "D", "regression": "visibleSegments ignores how far a curve bulges from its two points", "file": "public/curve.js", "failed": ["a river laid down only where it can reach the screen is the same curve there"] },
+    { "id": "E", "regression": "water held at the old figure floor (eighteen pixels for a river at any wide zoom)", "file": "public/map-base.js", "failed": ["water narrows steadily as the camera pulls back and never swells into a lake at a wide zoom"] },
+    { "id": "F", "regression": "the trees switch on at one zoom (band 0.41 to 0.4 square miles)", "file": "public/woods-view.js", "failed": ["the woods hand over between trees, canopy and shade across bands of zoom, never at one wheel step"] },
+    { "id": "G", "regression": "the scatter draws only its finest level, re-rolling the ground at every band", "file": "public/map-base.js", "failed": ["the scattered ground stays where it is as the camera comes in, and only fades in or out"] },
+    { "id": "H", "regression": "the cover blurred without premultiplied alpha", "file": "public/map-base.js", "failed": ["a grid of cover is smoothed into soft edges without bleeding grey into the empty cells"] },
+    { "id": "I", "regression": "the prairie's rocks threshold moved from .095 to .12", "file": "public/ground-classes.js", "failed": ["a class of ground is a table entry, and the prairie draws the marks the map always drew"] },
+    { "id": "J", "regression": "the prairie's rocks lose their drawn fallback shape", "file": "public/ground-classes.js", "failed": ["the renderer treats every sprite as optional"] },
+    { "id": "K", "regression": "the canvas drawn at the full screen density with no pixel budget", "file": "public/map-base.js", "failed": ["the map is drawn sharp on a dense screen but never at more pixels than a 1080p frame"] }
+  ]
+}

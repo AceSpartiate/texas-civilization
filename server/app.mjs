@@ -46,6 +46,8 @@ const files = new Map([
   ['/interior-data.js', ['../sim/interior-data.mjs', 'text/javascript']],
   ['/interior.js', ['../public/interior.js', 'text/javascript']],
   ['/curve.js', ['../public/curve.js', 'text/javascript']],
+  ['/map-base.js', ['../public/map-base.js', 'text/javascript']],
+  ['/ground-classes.js', ['../public/ground-classes.js', 'text/javascript']],
   ['/ending.js', ['../public/ending.js', 'text/javascript']],
   ['/appearance.js', ['../public/appearance.js', 'text/javascript']],
   ['/field-art.js', ['../public/field-art.js', 'text/javascript']],
