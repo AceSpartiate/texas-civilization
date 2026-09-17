@@ -7,18 +7,19 @@
   "environment": "Same computer: an in-process solo classroom at 100 ms a tick with five families, four automatic, and headless Chrome; server/main.mjs --solo run for real only to check what it deals. Not the launcher's window, a real phone or a weak computer.",
   "checks": [
     "server/main.mjs --solo deals its game on the real land of the colonies (5 families, running)",
-    "the solo game opens joined as hh-1 in san-felipe, rolled and running, no join form, no Start press; the other four families automatic",
+    "the solo game opens joined as hh-1 in gonzales, rolled and running, no join form, no Start press; the other four families automatic",
     "the solo class view opens from its Host address with the game already running",
-    "the family arrived and the house site was chosen on its grant at (87.7904, -23.0696)",
-    "1 of the family set to auto from the panel: Temperance",
-    "1 orders given from the panel and taken",
-    "the call came (\"An express has brought word to San Felipe that the Mexican troops are at Gonzales. The com…\") and was answered from the one menu",
-    "the first period ended on its own at minute 113880: interim standings on both pages, no winner named (435 ticks, 54.5 s)",
+    "the family arrived and the house site was chosen on its grant at (3.8596, -2.8404)",
+    "3 of the family set to auto from the panel: Thomas, Almira, Winnie",
+    "3 orders given from the panel and taken",
+    "the call came (\"A neighbour is at the door. They are carrying food to the people gathering near Gonzales, …\") and Thomas was sent from the one menu",
+    "the first period ended on its own at minute 113880: interim standings on both pages, no winner named (407 ticks, 46.1 s)",
     "the Host continued the class into the winter: period 2 opens on 1836-01-25",
-    "the second period ended on its own at minute 241560 (195 ticks, 23.3 s)",
+    "Thomas was sent to enlist auxiliary from the panel",
+    "the second period ended on its own at minute 241560 (195 ticks, 21.8 s)",
     "the Host continued the class into the spring: period 3 opens on 1836-03-14",
-    "told to leave, the \"!\" opened the card and the family left for lynchburg with what fit; the farm burned behind it",
-    "the game ended on the road home at minute 302580: the final reckoning on both pages, the Host naming who finished first (272 ticks, 30.7 s)",
+    "told to leave, the \"!\" opened the card and the family left for san-felipe with what fit; the farm burned behind it",
+    "the game ended on the road home at minute 302520: the final reckoning on both pages, the Host naming who finished first (698 ticks, 76.8 s)",
     "after the ending, a new solo game is dealt with the old pages open, and opens joined and running from the beginning",
     "no page errors on any page across the whole solo game"
   ],
@@ -30,54 +31,82 @@
     },
     "periods": {
       "first": {
-        "ticks": 435,
-        "seconds": 54.5,
+        "ticks": 407,
+        "seconds": 46.1,
         "endedAtMinute": 113880
       },
       "second": {
         "ticks": 195,
-        "seconds": 23.3,
+        "seconds": 21.8,
         "endedAtMinute": 241560
       },
       "third": {
-        "ticks": 272,
-        "seconds": 30.7,
-        "endedAtMinute": 302580
+        "ticks": 698,
+        "seconds": 76.8,
+        "endedAtMinute": 302520
       }
     },
     "family": [
-      "Temperance (mother, 21)",
-      "Jonas (son, 3)",
-      "Jasper (son, 2)",
-      "Basilio (son, 1)",
-      "Eli (son, 0)"
+      "Thomas (father, 27)",
+      "Almira (mother, 31)",
+      "Winnie (daughter, 13)",
+      "Ruperto (son, 6)",
+      "Petra (daughter, 4)",
+      "Hiram (son, 3)",
+      "Jasper (son, 2)"
     ],
     "onAuto": [
-      "Temperance"
+      "Thomas",
+      "Almira",
+      "Winnie"
     ],
     "orders": [
       {
         "id": "hh-1-parent-1",
         "key": "cut-lane",
         "took": true
+      },
+      {
+        "id": "hh-1-parent-2",
+        "key": "cut-lane",
+        "took": true
+      },
+      {
+        "id": "hh-1-child-1",
+        "key": "cut-lane",
+        "took": true
       }
     ],
     "call": {
-      "text": "An express has brought word to San Felipe that the Mexican troops are at Gonzales. The committee asks the men to turn out, and the District of Washington is already turning out to march to Gonzales as fast as it can. Does somebody from your family go?",
-      "sent": null
+      "text": "A neighbour is at the door. They are carrying food to the people gathering near Gonzales, and ask whether somebody from your family can help take it.",
+      "sent": "Thomas"
     },
-    "winterOutcome": null,
+    "winter": {
+      "key": "enlist-auxiliary",
+      "id": "hh-1-parent-1",
+      "name": "Thomas"
+    },
+    "winterOutcome": {
+      "voted": false,
+      "service": {
+        "kind": "auxiliary-year",
+        "status": "serving",
+        "since": 177120,
+        "siteId": "san-felipe",
+        "acres": 320
+      }
+    },
     "flight": {
-      "refuge": "lynchburg",
+      "refuge": "san-felipe",
       "card": "The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer within the day, or the family packs w"
     },
     "ending": {
-      "host": "THE END OF THE STORY × How the families finished Temperance's family finished first, with a final number of 1. Family Road miles from Gonzales Heard of the cannon Who went Coin Glory Land Final Temperance's family 108 October 1 nobody 0 reales 0 — 1 Anselmo's family (nobody played them) 144 October ",
-      "family": "THE END OF THE STORY × Temperance's family COIN IN THE HOUSE 0 reales GLORY 0 FINAL NUMBER 1 0 reales, counted as 1 real × (1 + 0 glory) = 1 Our story The family lived 108 road miles from Gonzales. Word that soldiers had come for the cannon reached them on October 1. Nobody from the family went to G",
+      "host": "THE END OF THE STORY × How the families finished Thomas's family finished first, with a final number of 90. Family Road miles from Gonzales Heard of the cannon Who went Coin Glory Land Final Thomas's family 6 September 29 Thomas 0 reales 73 16 reales 90 Ignacio's family (nobody played them) 150 Octo",
+      "family": "THE END OF THE STORY × Thomas's family COIN IN THE HOUSE 0 reales GLORY 73 FINAL NUMBER 90 0 reales, counted as 1 real × (1 + 73 glory) + 16 reales of land (320 acres promised) = 90 Our story The family lived 6 road miles from Gonzales. Word that soldiers had come for the cannon reached them on Sept",
       "flight": "returning",
-      "minute": 302580
+      "minute": 302520
     },
-    "totalSeconds": 108.5
+    "totalSeconds": 144.7
   },
   "screenshots": [
     "docs/evidence/solo-game-at-work.png",

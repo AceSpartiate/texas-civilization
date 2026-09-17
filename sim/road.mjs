@@ -473,7 +473,8 @@ export function roadChoreRefusal(world, household, entity, chore) {
   const onRoad = flight && (flight.status === 'fled' ? entity.travel?.purpose === 'flee' : flight.status === 'refuged' && !entity.travel && entity.location?.siteId === flight.refuge);
   if (!onRoad) return 'The family is not on the road east.';
   if (flight.bog) return 'The wagon is fast in the mud; free it first.';
-  if (chore.camp && !(flight.crossing || flight.status === 'refuged')) return 'There are no other families camped here to trade with; there are at a crossing or a refuge.';
+  // 'campsite', not 'camp': that key is Houston's camp work (sim/camp.mjs), which the army's march breaks off.
+  if (chore.campsite && !(flight.crossing || flight.status === 'refuged')) return 'There are no other families camped here to trade with; there are at a crossing or a refuge.';
   if (chore.nurses && !people(world, household).some(one => one.health?.condition === 'sick')) return 'Nobody of the family is sick.';
   return null;
 }
@@ -522,7 +523,7 @@ const roadChores = () => ({
   },
   'trade-crossing': {
     // No skill of the family's bears on a price: `trade` is a skill nobody has, so a real buys exactly what it says.
-    name: 'Trade for food with the families camped here', skill: 'trade', where: 'road', road: true, camp: true, refuse: roadChoreRefusal,
+    name: 'Trade for food with the families camped here', skill: 'trade', where: 'road', road: true, campsite: true, refuse: roadChoreRefusal,
     needs: { money: 1 },
     describe: `Among the families waiting at a crossing or camped at a refuge, ${reales(1)} buys ${CAMP_FOOD_PER_REAL} food: dear, because bread is scarce on the road (in town it buys ${COIN.foodPerReal}).`,
     steps: [
