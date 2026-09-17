@@ -1,0 +1,99 @@
+{
+  "record": "Injection proofs for tests/road.test.mjs (docs/ROAD_EAST.md)",
+  "date": "2026-09-17",
+  "injections": [
+    {
+      "what": "the diggers are not worn",
+      "file": "sim/road.mjs",
+      "guards": "rain bogs the wagon",
+      "failed": [
+        "rain bogs the wagon: the family is halted and asked, the calendar holds while a played family decides, and digging out frees it with the ox spent and the diggers worn"
+      ],
+      "passedCount": 7
+    },
+    {
+      "what": "the calendar does not hold for the road question",
+      "file": "sim/clock.mjs",
+      "guards": "rain bogs the wagon (and the pursuit test, which guards the same hold)",
+      "failed": [
+        "rain bogs the wagon: the family is halted and asked, the calendar holds while a played family decides, and digging out frees it with the ox spent and the diggers worn",
+        "the pursuit: a family camped at San Felipe is warned as Santa Anna’s column nears, its main person carries the \"!\", and pressing on takes it east to Lynchburg",
+        "a family that stays is overtaken: the wagon, the animals and the goods taken, the grown men prisoners at the share, the rest let go; a played family is spotlit; and it is not taken twice"
+      ],
+      "passedCount": 5
+    },
+    {
+      "what": "leaving the wagon keeps the flight by wagon",
+      "file": "sim/road.mjs",
+      "guards": "a bogged family can wait",
+      "failed": [
+        "a bogged family can wait for a dry day, or leave the wagon and go on on foot with what it can carry, faster"
+      ],
+      "passedCount": 7
+    },
+    {
+      "what": "the hunt brings nothing back",
+      "file": "sim/road.mjs",
+      "guards": "a hunt from the camp",
+      "failed": [
+        "a hunt from the camp halts the family where it is, asks the shot as at home, and brings food back; then the family goes on"
+      ],
+      "passedCount": 7
+    },
+    {
+      "what": "pressing on goes to the furthest refuge",
+      "file": "sim/road.mjs",
+      "guards": "the pursuit: a family camped",
+      "failed": [
+        "the pursuit: a family camped at San Felipe is warned as Santa Anna’s column nears, its main person carries the \"!\", and pressing on takes it east to Lynchburg"
+      ],
+      "passedCount": 7
+    },
+    {
+      "what": "the goods are not taken",
+      "file": "sim/road.mjs",
+      "guards": "a family that stays is overtaken",
+      "failed": [
+        "a family that stays is overtaken: the wagon, the animals and the goods taken, the grown men prisoners at the share, the rest let go; a played family is spotlit; and it is not taken twice"
+      ],
+      "passedCount": 7
+    },
+    {
+      "what": "the director does not answer the road",
+      "file": "sim/neighbours.mjs",
+      "guards": "families nobody plays dig out",
+      "failed": [
+        "families nobody plays dig out, hunt from the camp when short, and press on when warned, through the director; an absent family, or one whose main person is on auto, is answered at once by the same rule"
+      ],
+      "passedCount": 7
+    },
+    {
+      "what": "auto and absence do not answer the road",
+      "file": "sim/auto.mjs",
+      "guards": "families nobody plays dig out (absent and auto)",
+      "failed": [
+        "families nobody plays dig out, hunt from the camp when short, and press on when warned, through the director; an absent family, or one whose main person is on auto, is answered at once by the same rule"
+      ],
+      "passedCount": 7
+    },
+    {
+      "what": "nursing mends nobody sooner",
+      "file": "sim/road.mjs",
+      "guards": "nursing the sick",
+      "failed": [
+        "nursing the sick keeps them alive that day and mends them sooner, and a real buys food among the families camped at a crossing"
+      ],
+      "passedCount": 7
+    },
+    {
+      "what": "the Host has no word for a bogged family",
+      "file": "sim/host.mjs",
+      "guards": "the Host's words",
+      "failed": [
+        "the Host's words for the road, and a saved road that cannot be is refused"
+      ],
+      "passedCount": 7
+    }
+  ],
+  "restored": "all pass"
+}

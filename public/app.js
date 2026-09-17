@@ -68,7 +68,9 @@ function element(tag, content, className) { const el = document.createElement(ta
 // itself, so a browser dialog never blocks the projected Host.
 // Sending for somebody is asked twice, like the other two that cannot be taken back: they lose
 // their place in the ranks and whatever the army does next happens without them.
-const confirmLabel = { 'new-class': 'Confirm new class', 'stop-server': 'Confirm stop', 'send-for': 'Confirm: bring them home', 'winter-recall': 'Confirm: send for them', flee: 'Confirm: leave, and let it burn', 'flight-stay': 'Confirm: stay, and take the risk' };
+const confirmLabel = { 'new-class': 'Confirm new class', 'stop-server': 'Confirm stop', 'send-for': 'Confirm: bring them home', 'winter-recall': 'Confirm: send for them', flee: 'Confirm: leave, and let it burn', 'flight-stay': 'Confirm: stay, and take the risk', 'road-abandon': 'Confirm: leave the wagon behind' };
+/** Which confirmation an action wants: leaving the wagon in the mud is the one road answer asked twice (sim/road.mjs). */
+const confirmKeyOf = button => button.dataset.action === 'road-answer' ? (button.dataset.option === 'abandon' ? 'road-abandon' : null) : button.dataset.action;
 let confirming = null, confirmTimer = null, authRecheck = false, startAnyway = false;
 // The map is public geography that never changes during a class, so it is fetched once
 // and re-attached to each snapshot. A new class rotates the session id and invalidates it.
@@ -2060,8 +2062,36 @@ function renderFlight(world, chosen, running) {
   if (!flight || world.role === 'host' || chosen.id !== main) { wrap.hidden = true; wrap.replaceChildren(); flightFormKey = ''; return; }
   wrap.hidden = false;
   if (!['ordered', 'stayed'].includes(flight.status)) {
-    const said = { fled: `The family is on the road east for ${flight.refugeName}${flight.waitingAt ? `, waiting to get over at ${flight.waitingAt}` : ''}.`, refuged: `The family is camped at ${flight.refugeName} with the other families from the west.`, returning: 'The family is on the road home.', home: 'The family is home, to what is left.' }[flight.status] || '';
-    if (wrap.dataset.said !== said) { wrap.replaceChildren(element('p', said, 'ask-text')); wrap.dataset.said = said; }
+    // On the road (sim/road.mjs, docs/ROAD_EAST.md): where the family is, the weather, the mud, the camp, the danger - and
+    // the road's question with its answers and their prices, in the shape every question here takes.
+    const where = { fled: `The family is on the road east for ${flight.refugeName}${flight.mode === 'foot' ? ', on foot' : ''}${flight.waitingAt ? `, waiting to get over at ${flight.waitingAt}` : ''}.`, refuged: `The family is camped at ${flight.refugeName} with the other families from the west.`, returning: 'The family is on the road home.', home: 'The family is home, to what is left.' }[flight.status] || '';
+    const road = [
+      flight.weather === 'rain' && ['fled', 'refuged'].includes(flight.status) ? 'It is raining.' : '',
+      flight.bogged ? (flight.bogged.freeing ? 'The wagon is being dug out of the mud.' : flight.bogged.waiting ? 'The wagon is fast in the mud; the family waits for the ground to dry.' : 'The wagon is fast in the mud.') : '',
+      flight.oxSpent ? 'The ox is spent and goes at half pace.' : '',
+      flight.camp ? `The family has halted: ${flight.camp.toLowerCase()}.` : '',
+      // Said once: while the warning is the open question, its own words carry the miles.
+      flight.danger && flight.ask?.id !== 'danger' ? `${flight.danger.name} is about ${flight.danger.miles} miles off, making for ${flight.danger.towardName}.` : '',
+      flight.overtaken ? 'The Mexican army has come up with the family and taken what it had.' : '',
+    ].filter(Boolean).join(' ');
+    const said = JSON.stringify([where, road, flight.ask?.openedMinute ?? null, (flight.ask?.options || []).map(option => [option.id, option.can]), running]);
+    if (wrap.dataset.said !== said) {
+      wrap.replaceChildren(element('p', where, 'ask-text'));
+      if (road) wrap.append(element('p', road, 'work-note'));
+      if (flight.ask) {
+        wrap.append(element('p', flight.ask.text, 'ask-text'));
+        for (const option of flight.ask.options) {
+          const button = element('button', '', 'work-option ask-option-work');
+          button.dataset.action = 'road-answer'; button.dataset.option = option.id; button.dataset.entityId = chosen.id;
+          const open = option.can !== false;
+          button.disabled = !running || !open;
+          if (!open) button.title = option.why;
+          button.append(element('span', option.label, 'work-name'), element('span', open ? option.note : option.why, 'work-note'));
+          wrap.append(button);
+        }
+      }
+      wrap.dataset.said = said;
+    }
     flightFormKey = '';
     return;
   }
@@ -2470,7 +2500,7 @@ function goToPerson(id) {
   if (world) { drawWorld(world); renderFamilyPanel(world); renderSelection(world); renderTutorial(world); }
 }
 /** Where on the card each need is answered. A rider has a panel of their own. */
-const NEED_SECTIONS = { army: '#selection-army', courier: '#selection-work', flight: '#selection-flight', call: '#selection-call', asking: '#selection-work', offer: '#selection-trade' };
+const NEED_SECTIONS = { army: '#selection-army', courier: '#selection-work', flight: '#selection-flight', road: '#selection-flight', call: '#selection-call', asking: '#selection-work', offer: '#selection-trade' };
 /**
  * The "!" on a row: go to the person and open what is waiting on them - the rider's conversation, or their card at the
  * question with its answers - and put the keyboard on the first answer. Nothing is decided here: the answers are the card's
@@ -3845,10 +3875,10 @@ document.addEventListener('click', async event => {
   // The person's panel is put away so the land is there to tap; the survey panel names who is going.
   if (action === 'survey-start') { surveyFor = button.dataset.entityId; plotJob = button.dataset.chore; plotPick = null; selectedId = null; selectionDismissed = true; if (window.__snapshot) render(window.__snapshot); return; }
   if (action !== 'start') startAnyway = false;
-  if (confirmLabel[action] && button.dataset.confirming !== 'true') {
+  if (confirmLabel[confirmKeyOf(button)] && button.dataset.confirming !== 'true') {
     resetConfirm(confirming);
     button.dataset.label = button.dataset.label || button.textContent;
-    button.textContent = confirmLabel[action];
+    button.textContent = confirmLabel[confirmKeyOf(button)];
     button.dataset.confirming = 'true';
     confirming = button;
     confirmTimer = setTimeout(() => resetConfirm(button), 6000);

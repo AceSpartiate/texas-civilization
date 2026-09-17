@@ -1,0 +1,66 @@
+{
+  "record": "The road east, in a browser: docs/ROAD_EAST.md",
+  "date": "2026-09-17",
+  "verdict": "PASS",
+  "note": "Same computer only. A real class on the colonies map with rolled families, played in process through two periods and continued into the spring, the seed chosen for rain on the first family's first days on the road; served live at a tick every second and a half. The pursuit was reached by running the paused class on in process to the days Santa Anna's column nears San Felipe. No LAN or district claim.",
+  "checks": [
+    "told to leave, the family loaded the wagon and set out for San Felipe",
+    "the wagon bogged on a rain day; the \"!\" opened the card at the question with three priced answers, and the Host's row read bogged; Unload and dig it out was pressed and the wagon came free with the ox spent",
+    "Hunt from the camp pressed on Bernarda's row: the icon glows, the family is halted, the card says so and the Host's row reads camped: hunt from the camp",
+    "the hunt ended and the family went on",
+    "camped at San Felipe as Santa Anna's column neared, the \"!\" opened the warning (about 20 miles off); Go on east to Lynchburg was pressed and the family is on the road again",
+    "at phone width the page does not scroll sideways",
+    "no page errors"
+  ],
+  "observed": {
+    "bogNeed": "road",
+    "bogCard": "The family is on the road east for San Felipe de Austin. It is raining. The wagon is fast in the mud. The wagon is fast in the mud, and it is still raining. The ox cannot pull it out alone. Unload and dig it out 8 hours. Everybody grown is worn by it, and the ox is spent and goes at half pace for a day after. Wait for the ground to dry Nothing spent. The family sits where it is until a dry day, and the Mexican army does not wait. Leave the wagon and go on on foot The wagon and the ox stay in the mud. The family carries 2.5 room’s worth (food first) and the rest is lost; on foot it goes faster.",
+    "bogAnswers": [
+      {
+        "option": "dig",
+        "disabled": false,
+        "text": "Unload and dig it out 8 hours. Everybody grown is worn by it, and the ox is spent and goes at half pace for a day after."
+      },
+      {
+        "option": "wait",
+        "disabled": false,
+        "text": "Wait for the ground to dry Nothing spent. The family sits where it is until a dry day, and the Mexican army does not wait."
+      },
+      {
+        "option": "abandon",
+        "disabled": false,
+        "text": "Leave the wagon and go on on foot The wagon and the ox stay in the mud. The family carries 2.5 room’s worth (food first) and the rest is lost; on foot it goes faster."
+      }
+    ],
+    "hostBogged": [
+      "bogged in the mud on the road east to San Felipe de Austin",
+      "bogged in the mud on the road east to San Felipe de Austin",
+      "bogged in the mud on the road east to San Felipe de Austin"
+    ],
+    "dugOut": "The family is on the road east for San Felipe de Austin. It is raining. The ox is spent and goes at half pace.",
+    "huntGlow": "true",
+    "hostCamped": [
+      "on the road east to San Felipe de Austin",
+      "camped on the road east to San Felipe de Austin: hunt from the camp",
+      "on the road east to San Felipe de Austin"
+    ],
+    "pursuitReached": {
+      "tick": 945,
+      "danger": {
+        "id": "santa-anna",
+        "name": "Santa Anna’s column",
+        "miles": 19.58,
+        "towardName": "San Felipe de Austin",
+        "minute": 269520,
+        "asked": true
+      }
+    },
+    "dangerCard": "The family is camped at San Felipe de Austin with the other families from the west. Santa Anna’s column is about 20 miles off, making for San Felipe de Austin. A family that sits still may be caught. Go on east to Lynchburg About 63 miles. The family sets out the moment it is pressed, with the wagon. Stay as we are, and take the risk The family keeps its camp. If the army comes it takes the wagon, the animals and the goods, and may take the men. Leave the wagon and go on on foot The wagon and the ox stay where they are. The family carries 2.5 room’s worth (food first) and the rest is lost; on foot it goes faster.",
+    "hostWaiting": 1
+  },
+  "screenshots": [
+    "docs/evidence/road-bogged.png",
+    "docs/evidence/road-camp.png",
+    "docs/evidence/road-warned.png"
+  ]
+}

@@ -12,20 +12,20 @@
     "3 of the family set to auto from the panel: Amos, Mahala, Nieves",
     "3 orders given from the panel and taken",
     "the call came (\"Volunteers from Columbia and the lower Brazos are to gather at James Kerr's on the Lavaca …\") and Amos was sent from the one menu",
-    "the first period ended on its own at minute 114020: interim standings on both pages, no winner named (633 ticks, 68.8 s)",
+    "the first period ended on its own at minute 114020: interim standings on both pages, no winner named (633 ticks, 69 s)",
     "the Host continued the class into the winter: period 2 opens on 1836-01-25",
     "Amos was sent to enlist auxiliary from the panel",
     "the second period ended on its own at minute 241560 (195 ticks, 21.6 s)",
     "the Host continued the class into the spring: period 3 opens on 1836-03-14",
     "told to leave, the \"!\" opened the card and the family left for lynchburg with what fit; the farm burned behind it",
-    "the game ended on the road home at minute 302400: the final reckoning on both pages, the Host naming who finished first (516 ticks, 56.7 s)",
+    "the game ended on the road home at minute 302400: the final reckoning on both pages, the Host naming who finished first (560 ticks, 61.7 s)",
     "no page errors on either page across the whole game"
   ],
   "measured": {
     "periods": {
       "first": {
         "ticks": 633,
-        "seconds": 68.8,
+        "seconds": 69,
         "endedAtMinute": 114020
       },
       "second": {
@@ -34,8 +34,8 @@
         "endedAtMinute": 241560
       },
       "third": {
-        "ticks": 516,
-        "seconds": 56.7,
+        "ticks": 560,
+        "seconds": 61.7,
         "endedAtMinute": 302400
       }
     },
@@ -80,7 +80,7 @@
       "service": {
         "kind": "auxiliary-year",
         "status": "serving",
-        "since": 175680,
+        "since": 176400,
         "siteId": "san-felipe",
         "acres": 320
       }
@@ -95,7 +95,7 @@
       "flight": "returning",
       "minute": 302400
     },
-    "totalSeconds": 147.10000000000002
+    "totalSeconds": 152.3
   },
   "screenshots": [
     "docs/evidence/whole-game-at-work.png",

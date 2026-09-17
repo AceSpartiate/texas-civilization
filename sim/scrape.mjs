@@ -19,6 +19,9 @@ import { WAGON_SPEED, WALK_SPEED, propertyId } from './travel.mjs';
 import { frailty } from './army.mjs';
 import { canAnswerCalls, householdName } from './family.mjs';
 import { spotlight } from './host.mjs';
+// The road's own doings - the rain and the bog, the camp, the pursuit - live in sim/road.mjs (docs/ROAD_EAST.md) and write
+// their fields onto `household.flight` beside these; a cycle, safe because each side uses the other only inside functions.
+import { advanceRoad, roadInvalid, roadProjection } from './road.mjs';
 
 const GONE = ['dead', 'captured'];
 const DAY = 1440;
@@ -213,7 +216,6 @@ export function advanceFlight(world, minutes) {
     if (leader && flight.status === 'fled') {
       if (flight.crossing) {
         if (world.minute >= flight.crossing.until) {
-          for (const entity of travellers) delete entity.travel.halted;
           flight.crossed = [...(flight.crossed || []), flight.crossing.siteId];
           tell(world, household, `The family got over at ${world.map.sites[flight.crossing.siteId].name} and went on.`, { importance: 2 });
           delete flight.crossing;
@@ -221,11 +223,17 @@ export function advanceFlight(world, minutes) {
       } else {
         const next = crossingsAlong(world, leader.travel).find(one => !(flight.crossed || []).includes(one.id) && leader.travel.progress >= one.at - 0.05);
         if (next) {
-          for (const entity of travellers) entity.travel.halted = true;
           flight.crossing = { siteId: next.id, until: world.minute + CROSSING_HOURS * 60 };
           tell(world, household, `The river is up at ${world.map.sites[next.id].name}, and families are waiting their turn to get over. The family waits with them.`, { importance: 2 });
         }
       }
+    }
+    // The road's own doings (sim/road.mjs): the rain and the bog, the camp, the pursuit. Whatever holds the family - the
+    // river, the mud, a hunt from the camp - halts everybody travelling with it, and nothing else does.
+    const heldOnRoad = advanceRoad(world, household);
+    if (flight.status === 'fled') {
+      const halt = Boolean(flight.crossing) || heldOnRoad;
+      for (const entity of travellers) if (entity.travel) { if (halt) entity.travel.halted = true; else delete entity.travel.halted; }
     }
     // On the road the family eats what it carries, and goes hungry when that is gone.
     const alive = people(world, household).filter(person => !GONE.includes(person.health?.condition) && (person.travel?.purpose === 'flee' || person.travel?.purpose === 'return' || person.location?.siteId === flight.refuge));
@@ -235,10 +243,12 @@ export function advanceFlight(world, minutes) {
     const day = Math.floor(world.minute / DAY);
     if (flight.status !== 'home' && day !== flight.sickDay) {
       flight.sickDay = day;
+      // Somebody nursing the sick today (sim/road.mjs `tend-sick`, `FIC-GONZ-052`): nobody in their care dies; the mending comes when the day's nursing is done.
+      const tended = alive.some(person => person.chore?.id === 'tend-sick');
       for (const person of alive) {
         const weight = frailty(person) * ((person.age ?? 30) < 6 ? 2 : 1) * (hungry ? 2 : 1);
         if (person.health.condition === 'sick') {
-          if (share(world, person.id, `sick-death:${day}`) < 1 - (1 - DEATH_PER_SICK_DAY) ** weight) {
+          if (!tended && share(world, person.id, `sick-death:${day}`) < 1 - (1 - DEATH_PER_SICK_DAY) ** weight) {
             person.health = { condition: 'dead' }; person.travel = null; person.task = 'rest';
             person.location = { x: person.location.x, y: person.location.y, siteId: person.location.siteId || flight.refuge };
             tell(world, household, `${person.name} died of the sickness on the road, and was buried where they fell.`, { actorId: person.id, claimId: 'HIST-TEX-065' });
@@ -336,8 +346,9 @@ export function flightProjection(world, household) {
   const flight = household?.flight;
   if (!flight) return null;
   const home = world.map.sites[household.homeSiteId];
-  const shown = { status: flight.status, ...(flight.refuge && { refuge: flight.refuge, refugeName: world.map.sites[flight.refuge]?.name }), ...(flight.crossing && { waitingAt: world.map.sites[flight.crossing.siteId]?.name }) };
-  if (!['ordered', 'stayed'].includes(flight.status)) return shown;
+  const shown = { status: flight.status, ...(flight.refuge && { refuge: flight.refuge, refugeName: world.map.sites[flight.refuge]?.name }), ...(flight.crossing && { waitingAt: world.map.sites[flight.crossing.siteId]?.name }), ...(flight.mode && { mode: flight.mode }) };
+  // On the road: the weather, the bog, the camp, the danger and the open question (sim/road.mjs).
+  if (!['ordered', 'stayed'].includes(flight.status)) return { ...shown, ...roadProjection(world, household) };
   const { room, mode } = flightRoom(world, household);
   return {
     ...shown, room, mode, space: FLIGHT_SPACE, ...(flight.stayedMinute !== undefined && { decidedToStay: true }),
@@ -355,6 +366,8 @@ export function scrapeInvalid(world) {
     if (!flight || !FLIGHT_STATUSES.includes(flight.status)) return 'Invalid flight';
     if (flight.refuge !== undefined && !world.map.sites[flight.refuge]) return 'Invalid refuge';
   }
+  const badRoad = roadInvalid(world);
+  if (badRoad) return badRoad;
   for (const entity of Object.values(world.entities)) {
     if (entity.health?.condition === 'sick' && !Number.isFinite(entity.health.recoversAt)) return 'A sickness with no mending';
   }

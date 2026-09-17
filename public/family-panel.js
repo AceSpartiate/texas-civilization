@@ -45,6 +45,9 @@ export const PANEL_SUMMARIES = Object.freeze({
   'go-vote': 'Go into town and vote for the delegates to the convention.',
   'join-relief': 'Ride to Gonzales to go in to the Alamo with the men gathering there.',
   'join-houston': 'Go to the camp of General Houston\'s army and stay with it.',
+  'hunt-road': 'Halt the family on the road east and go out from the camp for game, powder in hand.',
+  'tend-sick': 'Halt the family for a day and nurse whoever is sick, so nobody in their care dies and the sick mend sooner.',
+  'trade-crossing': 'Buy food with a real among the families camped at the crossing or the refuge, dear as it is.',
   'winter-recall': 'Send for them to leave where they serve and come home.',
   'travel-gonzales': 'Go into the town of Gonzales and stay there until sent somewhere else.',
   'travel-home': 'Come back to the family’s own land.',
@@ -68,13 +71,20 @@ export const ORDER_NAMES = Object.freeze({
  * name, registered through `npm run build:art`, replaces it without a change here. The winter's eight (request 2026-09-16)
  * are Claude-drawn the same way. A frame that has not loaded draws the `dot` glyph until the sheet arrives.
  */
-export const PANEL_ICONS = Object.freeze(Object.fromEntries([
-  'survey-plot', 'cut-lane', 'dig-well', 'plant-field', 'harvest-field', 'clear-plot', 'fence-plot', 'build-house', 'help-raise',
-  'hunt-timber', 'hunt-land', 'practise-shooting', 'sell-cotton', 'fetch-powder', 'fetch-seed', 'sell-food', 'mend-hoe', 'replace-hoe',
-  'visit-shop', 'make-furniture', 'buy-furniture', 'fell-trees', 'haul-logs',
-  'enlist-regular', 'enlist-auxiliary', 'join-garrison', 'join-matamoros', 'go-vote', 'join-relief', 'join-houston', 'winter-recall',
-  'travel-gonzales', 'travel-home', 'visit', 'work', 'rest', 'stop-chore',
-].map(key => [key, { sprite: `icon-${key}` }])));
+export const PANEL_ICONS = Object.freeze({
+  ...Object.fromEntries([
+    'survey-plot', 'cut-lane', 'dig-well', 'plant-field', 'harvest-field', 'clear-plot', 'fence-plot', 'build-house', 'help-raise',
+    'hunt-timber', 'hunt-land', 'practise-shooting', 'sell-cotton', 'fetch-powder', 'fetch-seed', 'sell-food', 'mend-hoe', 'replace-hoe',
+    'visit-shop', 'make-furniture', 'buy-furniture', 'fell-trees', 'haul-logs',
+    'enlist-regular', 'enlist-auxiliary', 'join-garrison', 'join-matamoros', 'go-vote', 'join-relief', 'join-houston', 'winter-recall',
+    'travel-gonzales', 'travel-home', 'visit', 'work', 'rest', 'stop-chore',
+  ].map(key => [key, { sprite: `icon-${key}` }])),
+  // The road's chores (sim/road.mjs, docs/ROAD_EAST.md): no frame yet. stand-in: docs/ART_REQUESTS.md, request 2026-09-16 -
+  // the road's icons; each is a glyph drawn by `drawGlyph` until `icon-<key>` is registered, which `drawIcon` then prefers.
+  'hunt-road': { glyph: 'hunt-road' },
+  'tend-sick': { glyph: 'tend-sick' },
+  'trade-crossing': { glyph: 'trade-crossing' },
+});
 
 /** Chores sent with a place the student taps on the map: their icon starts choosing the place (sim/survey.mjs). */
 export const ON_MAP = Object.freeze(['survey-plot', 'clear-plot', 'fence-plot', 'hunt-land', 'fell-trees']);
@@ -266,6 +276,8 @@ export function needsOf(world, entityId) {
   if (meeting) needs.push({ kind: 'rider', text: `${meeting.carrierName || 'A rider'} has stopped to speak with ${name}.` });
   // Told to leave (sim/scrape.mjs): the family's decision, on its main person's row.
   if (world.flight?.status === 'ordered' && entityId === (world.household?.mainId || world.household?.principalId)) needs.push({ kind: 'flight', text: 'The family has been told to leave for the east.' });
+  // The road's question (sim/road.mjs): the bogged wagon, the army close behind - the family's, on its main person's row.
+  if (world.flight?.ask && entityId === (world.household?.mainId || world.household?.principalId)) needs.push({ kind: 'road', text: world.flight.ask.text || 'The road is asking the family something.' });
   const ours = world.army?.ours?.find(one => one.id === entityId);
   if (ours && (ours.detachment === 'open' || (ours.questions || []).some(question => question.answer === 'open'))) {
     needs.push({ kind: 'army', text: `The army is asking ${name} something.` });
@@ -379,23 +391,59 @@ export function drawIcon(canvas, key, { drawSprite, spriteFrame }) {
   const ctx = canvas.getContext('2d'), size = canvas.width;
   ctx.clearRect(0, 0, size, size);
   const icon = PANEL_ICONS[key];
-  const frame = icon?.sprite && spriteFrame(icon.sprite);
+  // An icon with a glyph and no sprite still takes the `icon-<key>` frame the moment one is registered (the road's icons).
+  const sprite = icon?.sprite || (icon?.glyph && spriteFrame(`icon-${key}`) ? `icon-${key}` : null);
+  const frame = sprite && spriteFrame(sprite);
   if (frame) {
     const fit = Math.min(size * .86 / frame.w, size * .86 / frame.h);
     const x = (size - frame.w * fit) / 2 + frame.w * fit * frame.anchorX, y = (size - frame.h * fit) / 2 + frame.h * fit * frame.anchorY;
-    if (drawSprite(ctx, icon.sprite, x, y, fit * (frame.logicalHeight || frame.h))) return true;
+    if (drawSprite(ctx, sprite, x, y, fit * (frame.logicalHeight || frame.h))) return true;
   }
   drawGlyph(ctx, icon?.glyph || 'dot', size);
   return !icon?.sprite;
 }
 
-/** The one glyph left: a dot, drawn while an icon's sheet has not arrived (or never does; the library is optional). */
+/**
+ * The glyphs drawn in strokes: a dot while an icon's sheet has not arrived (or never does; the library is optional), and
+ * the road's three (docs/ROAD_EAST.md), drawn until their frames come.
+ *
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the road's icons. `hunt-road` is a rifle over a campfire, `tend-sick`
+ * a figure under a blanket with a cup beside, `trade-crossing` a coin passed over a ferry's rail; Astra's `icon-hunt-road`,
+ * `icon-tend-sick` and `icon-trade-crossing` replace them on registration with no change here.
+ */
 function drawGlyph(ctx, glyph, size) {
   const s = size / 48;
   ctx.save();
   ctx.scale(s, s);
-  ctx.fillStyle = '#8a6a3d';
-  ctx.beginPath(); ctx.arc(24, 24, 6, 0, Math.PI * 2); ctx.fill();
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  ctx.strokeStyle = '#3a2a18'; ctx.fillStyle = '#8a6a3d';
+  if (glyph === 'hunt-road') {
+    // The fire, and the rifle leaning over it.
+    ctx.fillStyle = '#c2582c';
+    ctx.beginPath(); ctx.moveTo(16, 40); ctx.quadraticCurveTo(24, 22, 32, 40); ctx.closePath(); ctx.fill();
+    ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(10, 42); ctx.lineTo(38, 42); ctx.stroke();
+    ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(12, 38); ctx.lineTo(40, 8); ctx.stroke();
+    ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(12, 38); ctx.lineTo(20, 30); ctx.stroke();
+  } else if (glyph === 'tend-sick') {
+    // Somebody lying under a blanket, and a cup set beside them.
+    ctx.fillStyle = '#5f7a8a';
+    ctx.beginPath(); ctx.moveTo(6, 34); ctx.quadraticCurveTo(24, 20, 40, 34); ctx.lineTo(40, 40); ctx.lineTo(6, 40); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#d9b48a';
+    ctx.beginPath(); ctx.arc(10, 27, 5, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#8a6a3d';
+    ctx.fillRect(38, 22, 6, 7);
+    ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(6, 42); ctx.lineTo(44, 42); ctx.stroke();
+  } else if (glyph === 'trade-crossing') {
+    // A ferry's rail over the water, and a coin passed across it.
+    ctx.strokeStyle = '#41556b'; ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.moveTo(4, 38); ctx.quadraticCurveTo(12, 33, 20, 38); ctx.quadraticCurveTo(28, 43, 36, 38); ctx.quadraticCurveTo(40, 36, 44, 38); ctx.stroke();
+    ctx.strokeStyle = '#3a2a18'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(8, 30); ctx.lineTo(40, 30); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(12, 30); ctx.lineTo(12, 22); ctx.moveTo(36, 30); ctx.lineTo(36, 22); ctx.stroke();
+    ctx.fillStyle = '#c9a227'; ctx.beginPath(); ctx.arc(24, 16, 6, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = '#7a5a10'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(24, 16, 6, 0, Math.PI * 2); ctx.stroke();
+  } else {
+    ctx.beginPath(); ctx.arc(24, 24, 6, 0, Math.PI * 2); ctx.fill();
+  }
   ctx.restore();
 }
 

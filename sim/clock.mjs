@@ -90,5 +90,9 @@ function deciding(world) {
   if (Object.values(world.encounters || {}).some(encounter => encounter.status === 'open' && world.households[encounter.householdId]?.played && !world.households[encounter.householdId].absent)) return true;
   // A played family told to leave in the spring (sim/scrape.mjs): the calendar holds at the farming scale until it has gone, or
   // the army has passed and burned it out, which is at most two days.
-  return Object.values(world.households).some(household => household.played && !household.absent && household.flight?.status === 'ordered' && !household.flight.burned);
+  if (Object.values(world.households).some(household => household.played && !household.absent && household.flight?.status === 'ordered' && !household.flight.burned)) return true;
+  // A played family with the road's question in front of it (sim/road.mjs): the bogged wagon, the army close behind. Only
+  // while it is deciding - `ROAD_PATIENCE_TICKS` at most - and never for the road itself; a family nobody is at the screen
+  // for (sim/absence.mjs) is answered the next tick and holds nothing.
+  return Object.values(world.households).some(household => household.played && !household.absent && household.flight?.ask);
 }

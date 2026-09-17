@@ -17,6 +17,7 @@ import { CHORES, beginChore } from './chores.mjs';
 import { record } from './events.mjs';
 import { mainPersonId } from './family.mjs';
 import { autoFlee } from './scrape.mjs';
+import { answerRoad, roadAutoAnswer } from './road.mjs';
 
 /**
  * The orders a person on auto takes up again when they come home: hunting, which is what the owner asked for.
@@ -60,6 +61,12 @@ export function advanceAuto(world, { beginTravel, modeAvailability }) {
     if (household.played && !household.absent && flight?.status === 'ordered' && !flight.burned) {
       const main = world.entities[mainPersonId(world, household)];
       if (main?.auto || world.minute - flight.orderedMinute >= FLIGHT_PATIENCE) autoFlee(world, household, { why: main?.auto ? 'auto' : 'waited' });
+    }
+    // The road's questions (sim/road.mjs) - the bogged wagon, the army close behind - are the family's, answered the tick after
+    // they are put when its main person is on auto or nobody is at its screen (sim/absence.mjs), as its neighbours answer.
+    if (flight?.ask && (household.absent || world.entities[mainPersonId(world, household)]?.auto)) {
+      const option = roadAutoAnswer(world, household);
+      if (option) answerRoad(world, household, option, 'auto');
     }
     for (const id of household.members) {
       const person = world.entities[id];

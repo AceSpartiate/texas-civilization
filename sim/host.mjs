@@ -88,14 +88,22 @@ export function whereWords(world, person, household) {
   if (world.army?.members?.includes(person.id)) return `${sick}with the army${world.army.camp ? ` at ${world.army.camp}` : ''}`;
   if (person.travel) {
     const purpose = person.travel.purpose;
-    if (purpose === 'flee') return `${sick}on the road east to ${placeName(world, person.travel.to)}`;
+    if (purpose === 'flee') {
+      // The road east (sim/road.mjs): held by the mud, the river or the camp, or overtaken.
+      const flight = household.flight || {}, to = placeName(world, person.travel.to);
+      if (flight.overtaken && world.minute - flight.overtaken.minute <= 1440) return `${sick}overtaken by the Mexican army on the road east to ${to}`;
+      if (flight.bog) return `${sick}bogged in the mud on the road east to ${to}`;
+      if (flight.crossing) return `${sick}waiting to get over at ${placeName(world, flight.crossing.siteId)}`;
+      if (person.chore) return `${sick}camped on the road east to ${to}: ${CHORES[person.chore.id]?.name?.toLowerCase() || 'at work'}`;
+      return `${sick}on the road east to ${to}`;
+    }
     if (purpose === 'return' || purpose === 'home' || person.travel.to === household.homeSiteId) return `${sick}on the road home`;
     if (purpose === 'march') return `${sick}marching with the army`;
     return `${sick}on the road to ${placeName(world, person.travel.to)}`;
   }
   const at = person.location?.siteId;
   const doing = person.chore ? CHORES[person.chore.id]?.name?.toLowerCase() : person.task === 'help' ? 'helping' : person.task === 'work' ? 'working' : null;
-  if (household.flight && ['fled', 'refuged'].includes(household.flight.status) && at === household.flight.refuge) return `${sick}at ${placeName(world, at)}, fled from home`;
+  if (household.flight && ['fled', 'refuged'].includes(household.flight.status) && at === household.flight.refuge) return `${sick}at ${placeName(world, at)}, fled from home${doing ? `: ${doing}` : ''}`;
   if (at === household.homeSiteId) return `${sick}at home${doing ? `: ${doing}` : ''}`;
   if (at) return `${sick}at ${placeName(world, at)}${doing ? `: ${doing}` : ''}`;
   return `${sick}somewhere on the road`;
@@ -109,6 +117,8 @@ export function waitingOn(world, household) {
   if (world.army?.detachment && !world.army.detachment.closed) for (const id of household.members) if (world.army.detachment.asks?.[id] === 'open') count++;
   for (const id of household.members) { const person = world.entities[id]; if (person?.service?.courier === 'open') count++; if (person?.chore?.ask) count++; }
   if (household.flight?.status === 'ordered') count++;
+  // The road's question - the bogged wagon, the army close behind (sim/road.mjs).
+  if (household.flight?.ask) count++;
   for (const request of [world.calls?.[household.id], world.requests?.[household.id], world.marches?.[household.id]]) if (request?.status === 'open') count++;
   for (const offer of Object.values(world.offers || {})) if (offer.toHouseholdId === household.id && offer.status === 'open') count++;
   return count;
