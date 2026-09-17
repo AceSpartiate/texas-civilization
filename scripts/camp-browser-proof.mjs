@@ -20,6 +20,7 @@ import { createClassroom } from '../server/app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { rollFamily, stepWorld } from '../sim/world.mjs';
 import { beginSecondPeriod, beginThirdPeriod } from '../sim/periods.mjs';
+import { meetFamily } from './support/meet-family.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -60,6 +61,8 @@ try {
   await student.locator('[name=code]').fill(app.state.sessionCode);
   await student.getByRole('button', { name: 'Join', exact: true }).click();
   await student.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
+  // The family's last name and how the parents look, asked for once the rolled family is the student's (owner, 2026-09-17).
+  await meetFamily(student);
   // The other four families joined by their key, so the class is five and Start goes ahead on one press.
   for (let i = 2; i <= 5; i++) {
     const response = await fetch(`${url}/api/join`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: `Reader ${i}`, code: app.state.sessionCode }) });

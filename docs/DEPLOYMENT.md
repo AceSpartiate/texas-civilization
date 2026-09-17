@@ -118,6 +118,19 @@ already used, with Cancel now the default.
 
 ## Solo Mode (playtesting)
 
+**Saved games, 2026-09-17.** Owner: *"When pressing Solo Game, a popup should ask if the player wants to start a new game, or
+continue an old one. they can't continue a multiplayer game from there."* By multiple choice, a list of every saved solo game.
+Every solo game is kept in `data/solo/games/<session>.json`: written when another game takes its place, and when the solo
+server starts over a game left in its live save (`server/main.mjs`). **Play Solo** starts the server, asks it for the list
+(`POST /api/solo/games` with the solo Host key), and, if there is any, asks **New game** or **Continue** with the newest
+selected (`launcher/SoloGameDialog.cs`); Continue reopens that game where it was left (`POST /api/solo` with `continue`),
+a paused game running again. Only solo games are in that folder, so a class cannot be continued from here. Headless:
+`TexasRevolution.exe --solo --list` and `--solo --continue <id>`. Proved: `tests/solo.test.mjs` (two tests, four injections);
+on this computer the built launcher against a scratch data folder dealt two games, listed three (one kept from the live
+save at start), continued the oldest on its own date, and after a stop and restart listed it again, paused. `ceiling:` the
+dialog itself was not driven by UI automation, and games are never deleted (a Delete beside each is the way out).
+
+
 **Play Solo** on the launcher is for the owner trying the game, not for a class. One
 click starts a solo server if none is running (or reuses it), deals a **fresh game**, joins one
 player, rolls that family, starts the class, and opens that player's page **already joined** in

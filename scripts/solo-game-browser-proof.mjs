@@ -21,6 +21,7 @@ import { join } from 'node:path';
 import { createClassroom } from '../server/app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { playWholeGame } from './support/whole-game.mjs';
+import { meetFamily } from './support/meet-family.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -76,6 +77,8 @@ try {
   const seen = await student.evaluate(() => ({ joinHidden: document.querySelector('#join')?.hidden, path: location.pathname + location.search, rolled: Boolean(window.__snapshot.world.household) }));
   assert.equal(seen.joinHidden, true, 'a join form');
   assert.equal(seen.path, '/', 'the ticket left in the address bar');
+  // The family's last name and how the parents look, asked for once the rolled family is the player's (owner, 2026-09-17).
+  await meetFamily(student);
   if (await student.locator('#journal-close').isVisible()) await student.locator('#journal-close').click();
   if (await student.locator('#wagon-done').isVisible()) await student.locator('#wagon-done').click();
   if (await student.locator('#tutorial-skip').isVisible()) await student.locator('#tutorial-skip').click();

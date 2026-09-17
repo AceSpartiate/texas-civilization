@@ -7,19 +7,19 @@
   "environment": "Same computer: an in-process solo classroom at 100 ms a tick with five families, four automatic, and headless Chrome; server/main.mjs --solo run for real only to check what it deals. Not the launcher's window, a real phone or a weak computer.",
   "checks": [
     "server/main.mjs --solo deals its game on the real land of the colonies (5 families, running)",
-    "the solo game opens joined as hh-1 in gonzales, rolled and running, no join form, no Start press; the other four families automatic",
+    "the solo game opens joined as hh-1 in san-felipe, rolled and running, no join form, no Start press; the other four families automatic",
     "the solo class view opens from its Host address with the game already running",
-    "the family arrived and the house site was chosen on its grant at (2.8447999999999998, 8.5204)",
-    "2 of the family set to auto from the panel: Anselmo, Almira",
+    "the family arrived and the house site was chosen on its grant at (86.7996, -16.619999999999997)",
+    "2 of the family set to auto from the panel: Gregorio Proofwright, Cayetano Proofwright",
     "2 orders given from the panel and taken",
-    "the call came (\"A neighbour is at the door. They are carrying food to the people gathering near Gonzales, …\") and Anselmo was sent from the one menu",
-    "the first period ended on its own at minute 113880: interim standings on both pages, no winner named (406 ticks, 44.5 s)",
+    "the call came (\"An express has brought word to San Felipe that the Mexican troops are at Gonzales. The com…\") and Gregorio Proofwright was sent from the one menu",
+    "the first period ended on its own at minute 113880: interim standings on both pages, no winner named (411 ticks, 44.8 s)",
     "the Host continued the class into the winter: period 2 opens on 1836-01-25",
-    "Anselmo was sent to enlist auxiliary from the panel",
-    "the second period ended on its own at minute 241560 (195 ticks, 23.6 s)",
+    "Gregorio Proofwright was sent to enlist auxiliary from the panel",
+    "the second period ended on its own at minute 241560 (195 ticks, 21.7 s)",
     "the Host continued the class into the spring: period 3 opens on 1836-03-14",
-    "told to leave, the \"!\" opened the card and the family left for san-felipe with what fit; the farm burned behind it",
-    "the game ended on the road home at minute 302520: the final reckoning on both pages, the Host naming who finished first (401 ticks, 44.5 s)",
+    "told to leave, the \"!\" opened the card and the family left for lynchburg with what fit; the farm burned behind it",
+    "the game ended on the road home at minute 302520: the final reckoning on both pages, the Host naming who finished first (390 ticks, 44.2 s)",
     "after the ending, a new solo game is dealt with the old pages open, and opens joined and running from the beginning",
     "no page errors on any page across the whole solo game"
   ],
@@ -31,33 +31,29 @@
     },
     "periods": {
       "first": {
-        "ticks": 406,
-        "seconds": 44.5,
+        "ticks": 411,
+        "seconds": 44.8,
         "endedAtMinute": 113880
       },
       "second": {
         "ticks": 195,
-        "seconds": 23.6,
+        "seconds": 21.7,
         "endedAtMinute": 241560
       },
       "third": {
-        "ticks": 401,
-        "seconds": 44.5,
+        "ticks": 390,
+        "seconds": 44.2,
         "endedAtMinute": 302520
       }
     },
     "family": [
-      "Anselmo (father, 24)",
-      "Almira (mother, 21)",
-      "Loreta (daughter, 4)",
-      "Winnie (daughter, 3)",
-      "Rufino (son, 2)",
-      "Zadok (son, 1)",
-      "Emeterio (son, 0)"
+      "Gregorio Proofwright (father, 35)",
+      "Cayetano Proofwright (son, 12)",
+      "Rosa Proofwright (daughter, 3)"
     ],
     "onAuto": [
-      "Anselmo",
-      "Almira"
+      "Gregorio Proofwright",
+      "Cayetano Proofwright"
     ],
     "orders": [
       {
@@ -66,41 +62,41 @@
         "took": true
       },
       {
-        "id": "hh-1-parent-2",
+        "id": "hh-1-child-1",
         "key": "cut-lane",
         "took": true
       }
     ],
     "call": {
-      "text": "A neighbour is at the door. They are carrying food to the people gathering near Gonzales, and ask whether somebody from your family can help take it.",
-      "sent": "Anselmo"
+      "text": "An express has brought word to San Felipe that the Mexican troops are at Gonzales. The committee asks the men to turn out, and the District of Washington is already turning out to march to Gonzales as fast as it can. Does somebody from your family go?",
+      "sent": "Gregorio Proofwright"
     },
     "winter": {
       "key": "enlist-auxiliary",
       "id": "hh-1-parent-1",
-      "name": "Anselmo"
+      "name": "Gregorio Proofwright"
     },
     "winterOutcome": {
       "voted": false,
       "service": {
         "kind": "auxiliary-year",
         "status": "serving",
-        "since": 177120,
+        "since": 175680,
         "siteId": "san-felipe",
         "acres": 320
       }
     },
     "flight": {
-      "refuge": "san-felipe",
+      "refuge": "lynchburg",
       "card": "The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer within the day, or the family packs w"
     },
     "ending": {
-      "host": "THE END OF THE STORY × How the families finished Anselmo's family finished first, with a final number of 73. Family Road miles from Gonzales Heard of the cannon Who went Coin Glory Land Final Anselmo's family 11 September 29 Anselmo 0 reales 56 16 reales 73 Amos's family (nobody played them) 108 Oct",
-      "family": "THE END OF THE STORY × Anselmo's family COIN IN THE HOUSE 0 reales GLORY 56 FINAL NUMBER 73 0 reales, counted as 1 real × (1 + 56 glory) + 16 reales of land (320 acres promised) = 73 Our story The family lived 11 road miles from Gonzales. Word that soldiers had come for the cannon reached them on Se",
+      "host": "THE END OF THE STORY × How the families finished the Proofwright family finished first, with a final number of 76. Family Road miles from Gonzales Heard of the cannon Who went Coin Glory Land Final the Proofwright family 111 October 3 Gregorio Proofwright 0 reales 59 16 reales 76 Asa's family (nobod",
+      "family": "THE END OF THE STORY × the Proofwright family COIN IN THE HOUSE 0 reales GLORY 59 FINAL NUMBER 76 0 reales, counted as 1 real × (1 + 59 glory) + 16 reales of land (320 acres promised) = 76 Our story The family lived 111 road miles from Gonzales. Word that soldiers had come for the cannon reached the",
       "flight": "returning",
       "minute": 302520
     },
-    "totalSeconds": 112.6
+    "totalSeconds": 110.7
   },
   "screenshots": [
     "docs/evidence/solo-game-at-work.png",
@@ -111,7 +107,7 @@
     "docs/evidence/solo-game-ending-family.png"
   ],
   "notProved": [
-    "The launcher's Play solo button and its window: proved by scripts/verify-launcher.ps1 and scripts/solo-browser-proof.mjs; this run enters through the same newSoloGame/enter path in process.",
+    "The launcher's Play Solo button and its window: proved by scripts/verify-launcher.ps1 and scripts/solo-browser-proof.mjs; this run enters through the same newSoloGame/enter path in process.",
     "The Study pace: the game here runs at 100 ms a tick.",
     "Every branch: one call answered, one winter order, one flight by hand; the period proofs press the rest."
   ]

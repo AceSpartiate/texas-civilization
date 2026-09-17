@@ -7,15 +7,15 @@
   "environment": "Same computer: a local classroom server at 150 ms a tick and headless Chrome. Not a physical LAN, a classroom, a real phone or a weak computer.",
   "checks": [
     "every row has the switch, and nobody is on auto to begin with",
-    "the word \"auto\" pressed on Ramón's row: the server holds it, the row shows pressed on the next snapshot, and the record says so",
+    "the word \"auto\" pressed on Ramón Proofwright's row: the server holds it, the row shows pressed on the next snapshot, and the record says so",
     "a hunt sent from the panel with the switch on, and the icon glowing",
-    "Ramón decided the shot alone with no \"!\" and went out again by themself: 2 hunts in 3 s",
+    "Ramón Proofwright decided the shot alone with no \"!\" and went out again by themself: 2 hunts in 3.1 s",
     "pressed off: the hunt in hand finished and nobody went out again",
     "at 400 px nothing scrolls sideways with the switch on every row",
     "no page errors anywhere in the run"
   ],
   "measured": {
-    "secondsToTwoHunts": 3,
+    "secondsToTwoHunts": 3.1,
     "huntsFinished": 2,
     "snapshotsAsking": 0,
     "glowResumed": 0,

@@ -28,6 +28,7 @@ import { createClassroom } from '../server/app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, stepWorld } from '../sim/world.mjs';
 import { pickSite } from '../sim/neighbours.mjs';
+import { meetFamily } from './support/meet-family.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -97,8 +98,8 @@ try {
   await page.locator('#roll-family').click();
   await page.waitForFunction(() => document.querySelector('#roll-family')?.textContent === 'Meet your family', null, { timeout: 15000 });
   await page.locator('#roll-family').click();
-  await page.locator('#family-book').waitFor({ state: 'visible' });
-  await page.locator('#journal-close').click();
+  // The family's last name and how the parents look, asked for after the roll (owner, 2026-09-17).
+  await meetFamily(page);
   if (await page.locator('#wagon-done').isVisible()) await page.locator('#wagon-done').click();
   if (await page.locator('#tutorial-skip').isVisible()) await page.locator('#tutorial-skip').click();
   await page.locator('#family-panel').waitFor({ state: 'visible' });

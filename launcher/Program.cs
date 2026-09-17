@@ -120,7 +120,17 @@ internal static class Program
                 var (ok, output) = await server.StartSoloAsync();
                 Console.WriteLine($"solo start ok={ok}");
                 if (!ok) { if (!string.IsNullOrWhiteSpace(output)) Console.WriteLine(output); return 1; }
-                var (play, host, error) = await server.NewSoloGameAsync();
+                // `--solo --continue <id>` continues a saved game; `--solo --list` lists them and deals nothing.
+                if (args.Any(arg => arg.TrimStart('-', '/').Equals("list", StringComparison.OrdinalIgnoreCase)))
+                {
+                    var (games, listError) = await server.ListSoloGamesAsync();
+                    if (games is null) { Console.WriteLine($"solo list failed: {listError}"); return 1; }
+                    foreach (var game in games) Console.WriteLine($"game id={game.Id} family=\"{game.Family}\" date=\"{game.Date}\" period={game.Period} status={game.Status} savedAt={game.SavedAt}");
+                    Console.WriteLine($"games={games.Count}");
+                    return 0;
+                }
+                var continueId = args.SkipWhile(arg => !arg.TrimStart('-', '/').Equals("continue", StringComparison.OrdinalIgnoreCase)).Skip(1).FirstOrDefault();
+                var (play, host, error) = await server.NewSoloGameAsync(continueId);
                 if (play is null) { Console.WriteLine($"solo game failed: {error}"); return 1; }
                 Console.WriteLine($"play={play}");
                 Console.WriteLine($"classview={(host is null ? "(none)" : "found")}");

@@ -1,19 +1,20 @@
 {
   "record": "family-browser",
-  "date": "2026-09-16",
+  "date": "2026-09-17",
   "browser": "152.0.7977.83",
   "task": "HANDOFF next task 2: let a student name their own family, and make family relationships exist and be visible.",
   "started": "The first person to play this asked who the mother and the father were, and the game had no answer.",
   "checks": [
-    "the die is rolled in the page, and the family is the server's: \"You rolled an 18.\", 8 people",
-    "the book says who everybody is: Alvin (father), Refugia (mother), Marcos (son), Levi (son), Delia (daughter), Jasper (son), Rufino (son), Petra (daughter)",
-    "and in sentences — \"Married to Refugia. Father to Marcos, Levi, Delia, Jasper, Rufino and Petra.\"",
-    "renaming reaches the world: Delia is Winnie now",
+    "the die is rolled in the page, and the family is the server's: \"You rolled an 18.\", 8 people, every one a Hollis",
+    "the book says who everybody is, and edits nothing: Alvin Hollis (father), Refugia Hollis (mother), Marcos Hollis (son), Levi Hollis (son), Delia Hollis (daughter), Jasper Hollis (son), Rufino Hollis (son), Petra Hollis (daughter)",
+    "and in sentences — \"Married to Refugia Hollis. Father to Marcos Hollis, Levi Hollis, Delia Hollis, Jasper Hollis, Rufino Hollis and Petra Hollis.\"",
+    "renaming on the panel changes the first name and keeps the last: Delia Hollis is Winnie Hollis now",
     "and the book still knows whose child they are, because a name is not an identity",
-    "a family can name itself, and the name reaches the rest of the page",
+    "the family is \"The Hollis family\" on the page",
     "what a student types is cleaned before anybody else reads it: \"<b>Bad</b> 1234 😀\" became \"bBadb\"",
     "and a name with no letters in it is refused, in words",
-    "and it is fetched once: 8 ticks passed and nothing asked again (a tick is 19153 bytes without the map)",
+    "and the last name, once given, is kept: a second one is refused in words",
+    "and it is fetched once: 8 ticks passed and nothing asked again (a tick is 20254 bytes without the map)",
     "no page errors anywhere in the run"
   ],
   "measured": {
@@ -21,53 +22,53 @@
       {
         "id": "hh-1-parent-1",
         "role": "father",
-        "name": "Alvin",
-        "of": "Married to Refugia. Father to Marcos, Levi, Delia, Jasper, Rufino and Petra."
+        "name": "Alvin Hollis",
+        "of": "Married to Refugia Hollis. Father to Marcos Hollis, Levi Hollis, Delia Hollis, Jasper Hollis, Rufino Hollis and Petra Hollis."
       },
       {
         "id": "hh-1-parent-2",
         "role": "mother",
-        "name": "Refugia",
-        "of": "Married to Alvin. Mother to Marcos, Levi, Delia, Jasper, Rufino and Petra."
+        "name": "Refugia Hollis",
+        "of": "Married to Alvin Hollis. Mother to Marcos Hollis, Levi Hollis, Delia Hollis, Jasper Hollis, Rufino Hollis and Petra Hollis."
       },
       {
         "id": "hh-1-child-1",
         "role": "son",
-        "name": "Marcos",
-        "of": "Son of Alvin and Refugia."
+        "name": "Marcos Hollis",
+        "of": "Son of Alvin Hollis and Refugia Hollis."
       },
       {
         "id": "hh-1-child-2",
         "role": "son",
-        "name": "Levi",
-        "of": "Son of Alvin and Refugia."
+        "name": "Levi Hollis",
+        "of": "Son of Alvin Hollis and Refugia Hollis."
       },
       {
         "id": "hh-1-child-3",
         "role": "daughter",
-        "name": "Delia",
-        "of": "Daughter of Alvin and Refugia."
+        "name": "Delia Hollis",
+        "of": "Daughter of Alvin Hollis and Refugia Hollis."
       },
       {
         "id": "hh-1-child-4",
         "role": "son",
-        "name": "Jasper",
-        "of": "Son of Alvin and Refugia."
+        "name": "Jasper Hollis",
+        "of": "Son of Alvin Hollis and Refugia Hollis."
       },
       {
         "id": "hh-1-child-5",
         "role": "son",
-        "name": "Rufino",
-        "of": "Son of Alvin and Refugia."
+        "name": "Rufino Hollis",
+        "of": "Son of Alvin Hollis and Refugia Hollis."
       },
       {
         "id": "hh-1-child-6",
         "role": "daughter",
-        "name": "Petra",
-        "of": "Daughter of Alvin and Refugia."
+        "name": "Petra Hollis",
+        "of": "Daughter of Alvin Hollis and Refugia Hollis."
       }
     ],
-    "tickBytes": 19153,
+    "tickBytes": 20254,
     "familyFetchesDuringPlay": 0,
     "ticksWatched": 8
   },

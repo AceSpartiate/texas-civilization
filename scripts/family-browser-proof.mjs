@@ -4,7 +4,8 @@
 // the world's and names are the student's, that ids never move. What it cannot prove is
 // that a student can actually do any of it - that the book opens on the question somebody
 // asked, that a new name reaches the map, and that a line of junk typed into a box comes
-// back as a name. And one thing only a browser can answer at all: that who a family is is
+// back as a name. Since 2026-09-17 the family's last name is given in the pop-up after the roll and first names on the
+// family panel (docs/FAMILY_CREATION.md amendment); the book says who is whose and edits nothing. And one thing only a browser can answer at all: that who a family is is
 // **fetched once** rather than sent on every tick.
 //
 // Run: npm run test:family
@@ -13,6 +14,7 @@ import { createRequire } from 'node:module';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { createClassroom } from '../server/app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
+import { meetFamily } from './support/meet-family.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -55,16 +57,19 @@ try {
   const rolled = await page.locator('#family-roll-result').textContent();
   assert.match(rolled, /^You rolled an? (\d|1\d|20)\.$/);
   await page.locator('#roll-family').click();
-  await page.locator('#family-book').waitFor({ state: 'visible' });
+  // The last name, asked for at once, and carried by everybody (owner, 2026-09-17).
+  assert.equal(await meetFamily(page, 'Hollis'), 'Hollis', 'the last name was not asked for after the roll');
   const family = await page.evaluate(async () => (await (await fetch('/api/family')).json()).family);
-  ok(`the die is rolled in the page, and the family is the server's: "${rolled}", ${family.people.length} people`);
+  assert.ok(family.people.every(person => person.name === `${person.given} Hollis`), 'somebody does not carry the last name');
+  ok(`the die is rolled in the page, and the family is the server's: "${rolled}", ${family.people.length} people, every one a Hollis`);
 
   // ------------------------------------------------------- the book answers the question
+  if (await page.locator('#family-journal').getAttribute('data-open') !== 'true') await page.locator('#journal-toggle').click();
+  await page.locator('#family-kin .kin-row').first().waitFor({ state: 'visible' });
   const rows = await page.locator('#family-kin .kin-row').evaluateAll(items => items.map(item => ({
     id: item.dataset.entityId,
-    // The label carries the age as well ("son, 7") since rolled families have ages; the role is the row's own.
     role: item.dataset.role,
-    name: item.querySelector('input')?.value,
+    name: item.querySelector('strong')?.textContent,
     of: item.querySelector('.kin-of')?.textContent,
   })));
   assert.equal(rows.length, family.people.length, `the book lists ${rows.length} people`);
@@ -74,47 +79,46 @@ try {
   assert.ok(rows.some(row => row.role === 'daughter') && rows.some(row => row.role === 'son'), 'this seed rolls a daughter and a son, which the rename below needs');
   for (const row of rows) assert.ok(row.of && row.of.length > 10, `${row.role} does not say who they are to anybody`);
   assert.equal(new Set(rows.map(row => row.name)).size, rows.length, 'a family with two people of one name');
-  ok(`the book says who everybody is: ${rows.map(row => `${row.name} (${row.role})`).join(', ')}`);
+  assert.equal(await page.locator('#family-journal input, #family-journal select').count(), 0, 'the book still edits something');
+  ok(`the book says who everybody is, and edits nothing: ${rows.map(row => `${row.name} (${row.role})`).join(', ')}`);
   ok(`and in sentences — "${rows[0].of}"`);
 
   const before = rows.find(row => row.role === 'daughter');
   mkdirSync('test-results', { recursive: true });
   await page.screenshot({ path: 'test-results/family-book.png' });
+  // Put the journal away; its close button, because the open sheet covers the toggle on a narrow screen.
+  if (await page.locator('#journal-close').isVisible()) await page.locator('#journal-close').click();
+  else await page.locator('#journal-toggle').click();
 
-  // -------------------------------------------------------------- a student renames one
-  const row = page.locator(`#family-kin .kin-row[data-entity-id="${before.id}"]`);
-  await row.locator('input').fill('Winnie');
-  // No Rename button (docs/FAMILY_PANEL.md §5): leaving the box saves it.
-  assert.equal(await row.locator('button').count(), 0, 'the book still has a Rename button');
-  await row.locator('input').press('Tab');
-  await page.waitForFunction(id => window.__snapshot.world.entities.find(e => e.id === id)?.name === 'Winnie', before.id);
-  ok(`renaming reaches the world: ${before.name} is Winnie now`);
+  // ------------------------------------------------------ a student renames one, on the panel
+  const box = page.locator(`#panel-name-${before.id}`);
+  assert.equal(await box.inputValue(), before.name.replace(/ Hollis$/, ''), 'the panel box is not the first name');
+  await box.fill('Winnie');
+  await box.press('Tab');
+  await page.waitForFunction(id => window.__snapshot.world.entities.find(e => e.id === id)?.name === 'Winnie Hollis', before.id);
+  ok(`renaming on the panel changes the first name and keeps the last: ${before.name} is Winnie Hollis now`);
   // And the book, which had to be re-fetched, because it is not on the tick channel.
-  await page.waitForFunction(() =>
-    [...document.querySelectorAll('#family-kin input')].some(input => input.value === 'Winnie'));
+  await page.waitForFunction(id => document.querySelector(`#family-kin .kin-row[data-entity-id="${id}"] strong`)?.textContent === 'Winnie Hollis', before.id);
   const after = await page.locator(`#family-kin .kin-row[data-entity-id="${before.id}"] .kin-of`).textContent();
   assert.match(after, /Daughter of /, after);
   ok('and the book still knows whose child they are, because a name is not an identity');
-  // Their brother's line names her too, which is the whole point of re-fetching it.
-  // Every son's line, since a rolled family can have several.
   const siblings = await page.locator('#family-kin .kin-row[data-role=son] .kin-of').allTextContents();
   assert.ok(siblings.length && siblings.every(line => !line.includes(before.name)), `a son is still described as ${before.name}'s brother`);
-
-  // ------------------------------------------------------------ and names the family too
-  await page.locator('#family-name-input').fill('  The Elm Creek place  ');
-  await page.locator('#family-name-input').press('Enter');
-  await page.waitForFunction(() => document.querySelector('#family-title')?.textContent === 'The Elm Creek place');
-  ok('a family can name itself, and the name reaches the rest of the page');
+  assert.equal(await page.locator('#family-title').textContent(), 'The Hollis family');
+  ok('the family is "The Hollis family" on the page');
 
   // ------------------------------------------------- and junk comes back as a name or not
-  await page.locator('#family-name-input').fill('<b>Bad</b> 1234 \u{1F600}');
-  await page.locator('#family-name-input').press('Enter');
-  await page.waitForFunction(() => document.querySelector('#family-title')?.textContent === 'bBadb');
-  ok('what a student types is cleaned before anybody else reads it: "<b>Bad</b> 1234 \u{1F600}" became "bBadb"');
-  await page.locator('#family-name-input').fill('!!!');
-  await page.locator('#family-name-input').press('Enter');
+  await box.fill('<b>Bad</b> 1234 😀');
+  await box.press('Enter');
+  await page.waitForFunction(id => window.__snapshot.world.entities.find(e => e.id === id)?.name === 'bBadb Hollis', before.id);
+  ok('what a student types is cleaned before anybody else reads it: "<b>Bad</b> 1234 😀" became "bBadb"');
+  await box.fill('!!!');
+  await box.press('Enter');
   await page.waitForFunction(() => /at least one letter/.test(document.querySelector('#error')?.textContent || ''));
   ok('and a name with no letters in it is refused, in words');
+  const again = await page.evaluate(async () => (await fetch('/api/command', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: `proof-surname-${Date.now()}`, action: 'rename', surname: 'Navarro' }) })).json());
+  assert.match(again.error || '', /is Hollis, and it is kept/);
+  ok('and the last name, once given, is kept: a second one is refused in words');
 
   // ------------------------------------------------- fetched once, not sent on every tick
   await post('/api/command', { id: `proof-start-${crypto.randomUUID()}`, action: 'start' }, hostCookie);

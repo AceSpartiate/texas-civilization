@@ -12,6 +12,7 @@ import { createRequire } from 'node:module';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { createClassroom } from '../server/app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
+import { meetFamily } from './support/meet-family.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -53,8 +54,8 @@ try {
   await page.waitForFunction(() => document.querySelector('#roll-family')?.textContent === 'Meet your family', null, { timeout: 15000 });
   await page.locator('#roll-family').click();
   // "Meet your family" opens the family book; this proof is about the panel, so the book is put away.
-  await page.locator('#family-book').waitFor({ state: 'visible' });
-  await page.locator('#journal-close').click();
+  // The family's last name and how the parents look, asked for after the roll (owner, 2026-09-17).
+  await meetFamily(page);
   if (await page.locator('#wagon-done').isVisible()) await page.locator('#wagon-done').click();
   if (await page.locator('#tutorial-skip').isVisible()) await page.locator('#tutorial-skip').click();
   await page.locator('#family-panel').waitFor({ state: 'visible' });
@@ -197,7 +198,7 @@ try {
     // Most are left with Tab; the last is simply left alone to prove the pause saves it.
     if (at < ids.length - 1) await input.press('Tab');
   }
-  await page.waitForFunction(expected => Object.entries(expected).every(([id, name]) => window.__snapshot.world.entities.find(e => e.id === id)?.name === name), renamed, { timeout: 15000 });
+  await page.waitForFunction(expected => Object.entries(expected).every(([id, name]) => window.__snapshot.world.entities.find(e => e.id === id)?.given === name), renamed, { timeout: 15000 });
   ok(`all ${ids.length} names changed in place and saved themselves - left by Tab, and the last by a pause in typing: ${Object.values(renamed).join(', ')}`);
   // A refusal, in the server's words.
   const first = page.locator(`#panel-name-${ids[0]}`);
@@ -210,8 +211,9 @@ try {
   await page.reload();
   await page.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
   await page.waitForFunction(expected => Object.entries(expected).every(([id, name]) => document.querySelector(`#panel-name-${id}`)?.value === name), renamed, { timeout: 15000 });
-  const bookNames = await page.evaluate(ids => ids.map(id => document.querySelector(`#rename-${id}`)?.value), ids);
-  assert.deepEqual(bookNames, ids.map(id => renamed[id]), 'the family book does not show the new names');
+  // The book says the names in full, first and last (owner, 2026-09-17: first names are given on the panel only).
+  const bookNames = await page.evaluate(ids => ids.map(id => document.querySelector(`#family-kin .kin-row[data-entity-id="${id}"] strong`)?.textContent), ids);
+  assert.deepEqual(bookNames, ids.map(id => `${renamed[id]} Proofwright`), 'the family book does not show the new names');
   ok('after a reload every new name is in its box on the panel and in the family book');
 
   // ------------------------------------------------------------------------------------------ the desktop, looked at
