@@ -10,11 +10,11 @@
   },
   "pass": [
     "the student's page, 158.5 miles away, has none of hh-9's people and no overview",
-    "the Host zoomed to Thomas's family's farm (house, round-log) and drew 3 of its people, 2 plot(s) and its line",
+    "the Host zoomed to Thomas's family's farm (house, round-log) and drew 4 of its people, 2 plot(s) and its line",
     "the Host zooms in as far as a student does (4737 pixels a mile)",
     "the Host looks at Antonia: \"of Thomas's family · felling timber on the clearing · at home · well\", with no order offered",
     "the Host went to San Felipe de Austin: 10 shops and 11 people drawn, keepers among them",
-    "Whole class: The whole class: 109 people, 145 figures in view, 10 people on the road.",
+    "Whole class: The whole class: 109 people, 145 figures in view, 8 people on the road.",
     "at 400 pixels wide the list of places is on screen and the page does not scroll sideways",
     "no page error on either page"
   ],
@@ -25,19 +25,20 @@
       "homeSiteId": "home-9",
       "milesFromStudent": 158.5,
       "atHome": [
+        "hh-9-thomas",
         "hh-9-elena",
         "hh-9-rosa",
         "hh-9-mateo"
       ]
     },
-    "studentOthers": 1,
+    "studentOthers": 14,
     "farm": {
       "camera": {
         "kind": "region",
         "scale": 2131.5789473684213,
         "named": true,
-        "cx": 156.362,
-        "cy": -41.068,
+        "cx": 156.43525,
+        "cy": -40.979749999999996,
         "following": false
       },
       "land": {
@@ -50,6 +51,7 @@
         "logs": 8
       },
       "drawnPeople": [
+        "hh-9-thomas",
         "hh-9-elena",
         "hh-9-rosa",
         "hh-9-mateo"
@@ -62,8 +64,8 @@
       },
       "plotsDrawn": 2,
       "holdings": 1,
-      "snapshotBytes": 49115,
-      "description": "The whole class: 109 people, 3 figures in view, 8 people on the road."
+      "snapshotBytes": 49367,
+      "description": "The whole class: 109 people, 7 figures in view, 9 people on the road."
     },
     "closestScale": {
       "host": 4736.842105263158,
@@ -170,7 +172,7 @@
         "following": true
       },
       "follow": "Whole class",
-      "description": "The whole class: 109 people, 145 figures in view, 10 people on the road.",
+      "description": "The whole class: 109 people, 145 figures in view, 8 people on the road.",
       "land": true
     },
     "phone": {

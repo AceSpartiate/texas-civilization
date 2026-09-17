@@ -12,30 +12,30 @@
     "3 of the family set to auto from the panel: Amos Proofwright, Mahala Proofwright, Nieves Proofwright",
     "3 orders given from the panel and taken",
     "the call came (\"Volunteers from Columbia and the lower Brazos are to gather at James Kerr's on the Lavaca …\") and Amos Proofwright was sent from the one menu",
-    "the first period ended on its own at minute 114020: interim standings on both pages, no winner named (633 ticks, 69 s)",
+    "the first period ended on its own at minute 114020: interim standings on both pages, no winner named (632 ticks, 69.1 s)",
     "the Host continued the class into the winter: period 2 opens on 1836-01-25",
     "Amos Proofwright was sent to enlist auxiliary from the panel",
-    "the second period ended on its own at minute 241560 (195 ticks, 21.7 s)",
+    "the second period ended on its own at minute 241560 (195 ticks, 21.6 s)",
     "the Host continued the class into the spring: period 3 opens on 1836-03-14",
     "told to leave, the \"!\" opened the card and the family left for lynchburg with what fit; the farm burned behind it",
-    "the game ended on the road home at minute 302520: the final reckoning on both pages, the Host naming who finished first (621 ticks, 68.1 s)",
+    "the game ended on the road home at minute 302520: the final reckoning on both pages, the Host naming who finished first (621 ticks, 68.3 s)",
     "no page errors on either page across the whole game"
   ],
   "measured": {
     "periods": {
       "first": {
-        "ticks": 633,
-        "seconds": 69,
+        "ticks": 632,
+        "seconds": 69.1,
         "endedAtMinute": 114020
       },
       "second": {
         "ticks": 195,
-        "seconds": 21.7,
+        "seconds": 21.6,
         "endedAtMinute": 241560
       },
       "third": {
         "ticks": 621,
-        "seconds": 68.1,
+        "seconds": 68.3,
         "endedAtMinute": 302520
       }
     },
@@ -95,7 +95,7 @@
       "flight": "returning",
       "minute": 302520
     },
-    "totalSeconds": 158.8
+    "totalSeconds": 159
   },
   "screenshots": [
     "docs/evidence/whole-game-at-work.png",

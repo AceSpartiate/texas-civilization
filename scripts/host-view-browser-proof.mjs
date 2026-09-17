@@ -128,7 +128,10 @@ try {
   await settle(host);
 
   // Look at one of them, read only.
-  const person = far.home.find(id => world.entities[id].kind === 'person') || far.home[0];
+  // One who is on the screen at this zoom: since 2026-09-17 a figure off the screen is not drawn at all (public/map-base.js), and at the
+  // closest zoom somebody working at the edge of the field can be.
+  const onScreen = await host.evaluate(() => Object.keys(window.__drawnAt || {}));
+  const person = far.home.find(id => world.entities[id].kind === 'person' && onScreen.includes(id)) || far.home.find(id => onScreen.includes(id)) || far.home[0];
   const spot = await host.evaluate(id => {
     const canvas = document.querySelector('#world-map'), rect = canvas.getBoundingClientRect(), at = window.__drawnAt[id];
     return at && { x: rect.left + at.x * rect.width / canvas.width, y: rect.top + at.y * rect.height / canvas.height };
