@@ -23,10 +23,11 @@ const amountOf = (household, id) => household.load.find(entry => entry.id === id
 test('a family that never loads has a sensible default, and its stores are exactly what that wagon holds', () => {
   const world = lobby();
   for (const household of Object.values(world.households)) {
-    const barrels = amountOf(household, 'provisions');
-    assert.ok([3, 4].includes(barrels), 'three or four barrels of meal');
+    const barrels = amountOf(household, 'provisions'), cotton = household.field.crop === 'cotton';
+    // A cotton family brings a sack more and a barrel less (docs/MONEY_AND_GLORY.md §8.1).
+    assert.ok((cotton ? [2, 3] : [3, 4]).includes(barrels), 'three or four barrels of meal, a cotton family one fewer');
     assert.ok(spaceOf(household.load) <= WAGON_SPACE, 'the default fits the wagon it is packed in');
-    assert.deepEqual(household.resources, { food: barrels * 4, seed: 2, powder: STARTING_POWDER, money: 0 });
+    assert.deepEqual(household.resources, { food: barrels * 4, seed: cotton ? 3 : 2, powder: STARTING_POWDER, money: 0 });
     assert.deepEqual(household.tools, { hoe: 0, axe: 0 }, 'a felling axe, and a hoe');
     assert.deepEqual(household.belongings, ['bedding', 'pot']);
   }

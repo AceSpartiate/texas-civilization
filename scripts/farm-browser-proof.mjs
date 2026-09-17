@@ -103,7 +103,7 @@ try {
   ok(`a family is offered "${clearing.name}" and "${fencing.name}", and each says what it is for`);
 
   const planting = offered.find(entry => entry.id === 'plant-field');
-  assert.match(planting.note, /2 seed/, `planting does not state its price: "${planting.note}"`);
+  assert.match(planting.note, /[234] seed/, `planting does not state its price: "${planting.note}"`);
   ok(`the price of planting is in its popup: "${planting.name}: ${planting.note}"`);
 
   // A tap on the map at the middle of a plot as it is drawn: canvas pixels to page pixels, as the map's own pointer does.

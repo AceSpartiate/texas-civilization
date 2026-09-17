@@ -116,8 +116,12 @@ const canonical = amounts => WAGON_ITEMS.filter(entry => amounts[entry.id] > 0).
  * ceiling: a default family can build the crudest house in step 4 and not the best. A default is
  * for a student who never chose, and it should not out-choose one who did.
  */
-export function defaultLoad(random) {
-  return canonical({ provisions: 3 + Math.floor(random() * 2), seed: 2, powder: STARTING_POWDER, axe: 1, hoe: 1, bedding: 1, pot: 1 });
+export function defaultLoad(random, crop = 'corn') {
+  const barrels = 3 + Math.floor(random() * 2);
+  // A cotton family brings the three sacks its first planting wants (docs/MONEY_AND_GLORY.md §8.1: cotton takes half again
+  // the seed a plot) and a barrel the less, so the load is the room it always was: the dearer crop costs it meal.
+  const cotton = crop === 'cotton';
+  return canonical({ provisions: cotton ? barrels - 1 : barrels, seed: cotton ? 3 : 2, powder: STARTING_POWDER, axe: 1, hoe: 1, bedding: 1, pot: 1 });
 }
 
 /** The stores a load puts in the house. */

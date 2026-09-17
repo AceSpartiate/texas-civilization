@@ -68,7 +68,7 @@ Almonte reported in 1834 not ten transactions in a hundred used it, and the coin
 included Spanish eight-real pieces, cut for change. A household deals in whole reales.
 
 **As built (prices are `FIC-GONZ-022`, invented):** every family starts with none. At the store
-counter a whole bale of cotton fetches 2 food or 1 real, and 3 food fetch 1 real; powder costs 2
+counter a whole bale of cotton fetches 2 food or 1 real, and 5 food fetch 1 real (3 until 2026-09-16, §8.1); powder costs 2
 food or 1 real and seed 3 food or 1 real; a new hoe is **coin only**, 2 reales. The counter asks
 how to pay or be paid, in the same shape as every other decision; nobody answering pays the first
 way the family can. The store would rather barter than pay out coin, which is the scarcity showing
@@ -370,7 +370,7 @@ Nothing here is finished until all of these hold.
 | Money is used | At least one thing a family will want is bought only with coin. |
 | Barter survives | A family that never touches coin can still plant, harvest, hunt, trade, answer the call and reach the end. |
 | No annihilation | A household with zero glory finishes with its money intact (`money × 1`). |
-| Winning without fighting is hard, not impossible | In 3E's headless runs at 5–30 players, households that send nobody to fight win **some** runs, and **well below their share of the class**; households that fight win more often than their share. If non-fighting households never win, or win as often as fighting ones, the weights are wrong. |
+| Winning without fighting is hard, not impossible | **Measured 2026-09-16, §8.1: holds for a cotton family, fails for a corn family.** In 3E's headless runs at 5–30 players, households that send nobody to fight win **some** runs, and **well below their share of the class**; households that fight win more often than their share. If non-fighting households never win, or win as often as fighting ones, the weights are wrong. |
 | Casualties earn nothing extra | A family member hurt, captured or lost adds no glory beyond their participation. |
 | No virtue labels | Nothing in the interface, the epilogue or the Host view names a family good, loyal, brave or patriotic. |
 | Save compatibility | A class saved before any of this opens, and no save version moves. Absent money reads as none; absent glory reads as zero. |
@@ -378,7 +378,43 @@ Nothing here is finished until all of these hold.
 
 ---
 
-## 9. What this must never become
+### 8.1 The balance study, measured (2026-09-16)
+
+`scripts/balance-study.mjs` (`npm run balance`), once the whole war was built: six classes of fifteen families on the real land,
+every family run by the neighbours' director through all three periods, arrival to April 25, 1836, and one family in each class
+played to stay home - the same director, but nobody ever sent to a call, the army, the garrison, the expedition or Houston, and
+every bale of cotton at the counter sold for coin. Recorded in [evidence/balance-study.json](evidence/balance-study.json).
+
+| What | Found |
+| --- | --- |
+| Who finished first | In every class a family that fought (finals 129, 156, 149, 163, 193, 220). |
+| Families that fought | 53 of 90; median final 72. |
+| Families that sent nobody | 38 of 90; finals 1–2 for most, up to 79 for those that voted, enlisted late, or held coin. |
+| The stay-home family, cotton | 180 (90 coin), 130 (65 coin), 101 (101 coin): ranks 2, 3 and 5 of 15. **Possible but unlikely**, as the owner asked. |
+| The stay-home family, corn | 1 or 2, last or near it, having sold nothing: corn is sold only as food, at three food a real, and only from the store's purse of two reales a family. |
+| Deaths over three periods | 12 of about 360 people, in battle and on the road. |
+
+**The gate *Winning without fighting is hard, not impossible* holds for a cotton family and fails for a corn family.** Put to the
+owner by multiple choice the same day - the store buys food for coin too; families choose their crop at planting; both; leave
+it - the owner answered: **"both, but cotton is more expensive, so more profitable for players."**
+
+**As built** (`FIC-GONZ-047`): planting now stops at the field to ask **corn or cotton** (`crop-choice` in `sim/chores.mjs`);
+cotton takes **half again the seed a plot** (`COTTON_SEED_PER_PLOT`, 3 against 2; a cotton family's default load brings three
+sacks and a barrel fewer) and sells at a real a bale; corn is food, and the store now **buys a family's food for coin outside
+its purse**, as it buys cotton, at **five food a real**. The family's own crop is offered first and is what silence plants, so
+a family nobody plays grows what it grew; the neighbours' director gathers the seed its own crop wants.
+
+**Tuned by measurement, the same day**, each step re-run over the same six classes:
+
+| Step | The stay-home family reached | Why it changed |
+| --- | --- | --- |
+| Cotton at twice the seed (4 a plot) | 1–2 everywhere, nothing sold | the neighbours' director gathered seed to corn's count and never planted cotton; at the field silence fell to corn |
+| Cotton at 3, the director gathering its own crop's seed, food at 3 a real | corn 128 (3rd), 150 (2nd), 19; cotton **364 (1st)**, 144 (2nd), 164 (2nd) | staying home was no longer unlikely: put to the owner |
+| **Food at 5 a real** (owner: "food dearer to sell") | corn 86 (6th), 94 (4th), 11 (11th); cotton **292 (1st)**, 84 (4th), 140 (2nd) | **as shipped**: a cotton family that sells everything wins about one class in six; a corn family places mid-field and does not win |
+
+The gate holds as the owner asked: a possible way to win, and an unlikely one. Recorded in
+[evidence/balance-study.json](evidence/balance-study.json) (the last run).
+
 
 - **A patriotism meter.** `VISION.md` §11 still forbids it, and this is the mechanic most likely to
   turn into one by accident.

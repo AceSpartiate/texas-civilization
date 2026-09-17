@@ -25,7 +25,7 @@ import { record } from './events.mjs';
 import { purseHeld, purseOf, recordTrade, traderAt } from './town.mjs';
 import { carryCapacity, DEFAULT_MODE, MODES, propertyId } from './travel.mjs';
 import {
-  SEED_PER_PLOT, clearSpell, clearedOf, harvestShare, needsWagonToHarvest, raiseFence, standingCrop,
+  COTTON_SEED_PER_PLOT, SEED_PER_PLOT, clearSpell, clearedOf, harvestShare, needsWagonToHarvest, raiseFence, standingCrop,
 } from './improvements.mjs';
 import { groundAt, plotsOf } from './fields.mjs';
 import { landAround, onRealLand } from './ground.mjs';
@@ -119,7 +119,9 @@ export const COTTON_RATE = 2;
  * than food does, because it is the scarce thing. A new hoe is iron that came a long way, and
  * the smith wants coin for it; mending the old one at home still costs none.
  */
-export const COIN = Object.freeze({ cottonBale: 1, foodPerReal: 3, powder: 1, seed: 1, hoe: 2 });
+// Food at five a real (owner, 2026-09-16, docs/MONEY_AND_GLORY.md §8.1, measured: at three a corn family that sold everything
+// placed second in most classes; corn is the modest path and cotton, a real a bale, the profitable one).
+export const COIN = Object.freeze({ cottonBale: 1, foodPerReal: 5, powder: 1, seed: 1, hoe: 2 });
 export const reales = amount => amount === 1 ? '1 real' : `${amount} reales`;
 /** A resource as a student reads it. */
 export const resourceName = (resource, amount) => resource === 'money' ? (amount === 1 ? 'real' : 'reales') : resource;
@@ -175,6 +177,22 @@ export const ASKS = {
   // The store counter. Paying, or being paid, is a choice made at the counter rather than a
   // second chore on the list, in the one shape every decision in this game takes. Nobody
   // answering means the old way: goods for goods.
+  // Which crop goes in (owner, 2026-09-16, docs/MONEY_AND_GLORY.md §8.1): corn, which is food, or cotton, which takes twice the
+  // seed and sells at a real a bale. The family's own crop is offered first and is what silence plants, so a family nobody plays
+  // grows what it grew.
+  'crop-choice': {
+    doing: 'at the field with the seed',
+    // Silence plants the family's own crop, or the other when there is not the seed for it.
+    fallback: household => (household.field?.crop || 'corn') === 'cotton' ? ['cotton', 'corn'] : ['corn', 'cotton'],
+    text: entity => `${entity.name} can put in corn, or cotton.`,
+    options: (entity, world, household) => [
+      { id: 'corn', label: 'Plant corn', note: `${SEED_PER_PLOT} seed a plot; the crop is food` },
+      { id: 'cotton', label: 'Plant cotton', note: `${COTTON_SEED_PER_PLOT} seed a plot; the store pays ${reales(COIN.cottonBale)} a bale` },
+    ].sort((a, b) => (a.id === (household.field?.crop || 'corn') ? -1 : b.id === (household.field?.crop || 'corn') ? 1 : 0)),
+    requires: {
+      cotton: { test: household => (household.resources.seed ?? 0) >= COTTON_SEED_PER_PLOT * clearedOf(household), why: household => `Cotton wants ${COTTON_SEED_PER_PLOT * clearedOf(household)} seed for this field, and there is not that much in the house.` },
+    },
+  },
   'cotton-counter': {
     doing: 'at the counter with the cotton',
     fallback: 'food',
@@ -367,8 +385,12 @@ export const CHORES = {
     describe: 'Walk out to every cleared plot, turn the rows and put in seed.',
     steps: [
       { stroll: 'fields', doing: 'walking out to the fields' },
+      { ask: 'crop-choice' },
       { work: 4, doing: 'breaking the rows' },
-      { consumePerPlot: { seed: SEED_PER_PLOT } },
+      { when: ['corn'], consumePerPlot: { seed: SEED_PER_PLOT } },
+      { when: ['cotton'], consumePerPlot: { seed: COTTON_SEED_PER_PLOT } },
+      { when: ['corn'], crop: 'corn' },
+      { when: ['cotton'], crop: 'cotton' },
       { work: 3, doing: 'putting in seed' },
       { field: 'planted' },
       { wear: 'hoe' },
@@ -924,8 +946,11 @@ export function choreAvailability(world, household, entity, choreId) {
  * with the ground, because a bigger field swallows more seed.
  */
 export function needsOf(household, chore) {
+  // Planting is quoted at the family's own crop: cotton wants twice the seed (docs/MONEY_AND_GLORY.md §8.1), so a cotton family
+  // gathers the seed for cotton before it sets out, and is not turned to corn at the field for want of it.
+  const cotton = chore.field === 'bare' && household.field?.crop === 'cotton';
   const perPlot = Object.fromEntries(Object.entries(chore.needsPerPlot || {})
-    .map(([resource, amount]) => [resource, amount * clearedOf(household)]));
+    .map(([resource, amount]) => [resource, (resource === 'seed' && cotton ? COTTON_SEED_PER_PLOT : amount) * clearedOf(household)]));
   return { ...chore.needs, ...perPlot };
 }
 
@@ -1046,7 +1071,9 @@ export function choresFor(world, household, entity) {
  */
 function settleAsk(world, household, entity, option, byDefault) {
   const state = entity.chore, ask = state.ask;
-  const chosen = ask.options.find(candidate => candidate.id === option);
+  // Nobody answering falls to 'leave' where nothing else can be; an ask with no such answer settles on its first.
+  const chosen = ask.options.find(candidate => candidate.id === option) || ask.options[0];
+  option = chosen.id;
   state.ask = null;
   state.flags = [...(state.flags || []), option, ...(option === 'leave' ? ['empty'] : [])];
   record(world, 'choice', {
@@ -1228,7 +1255,7 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       const ask = ASKS[step.ask];
       state.doing = ask.doing;
       state.ask = {
-        id: step.ask, openedMinute: world.minute, fallback: ask.fallback,
+        id: step.ask, openedMinute: world.minute, fallback: typeof ask.fallback === 'function' ? ask.fallback(household) : ask.fallback,
         text: ask.text(entity, world, household), options: ask.options(entity, world, household),
       };
       record(world, 'pressure', {
@@ -1331,10 +1358,11 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       // Coin is paid only for whole bundles - a whole bale, three food - so what is sold for
       // coin is the whole bundles carried, and anything left over stays in the house.
       // Coin is paid out of the storekeeper's purse, and no more than it holds.
-      // Cotton is the exception: the store buys a family's whole crop for coin, because it ships the bales down to the coast
-      // on its own credit (owner, 2026-09-16, docs/COLONIES.md §7e, so a family that stays home can sell what it grew;
-      // `FIC-GONZ-044`). Everything else is paid from the storekeeper's purse, which is scarce (`FIC-GONZ-022`).
-      const trader = want === 'money' && good !== 'cotton' ? world.entities[state.traderId] : null;
+      // Cotton and food are the exception: the store buys a family's whole crop for coin, because it ships the bales and the corn
+      // down to the coast on its own credit (owner, 2026-09-16, docs/COLONIES.md §7e and docs/MONEY_AND_GLORY.md §8.1, so a family
+      // that stays home can sell what it grew; `FIC-GONZ-044`, `FIC-GONZ-047`). Everything else is paid from the storekeeper's
+      // purse, which is scarce (`FIC-GONZ-022`).
+      const trader = want === 'money' && !['cotton', 'food'].includes(good) ? world.entities[state.traderId] : null;
       const bundles = per ? Math.floor(carried / per) : 0;
       const affordable = trader ? Math.min(bundles, Math.floor(purseOf(world, trader) / gives)) : bundles;
       const sold = per ? affordable * per : carried;
@@ -1567,6 +1595,8 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       continue;
     }
     if (step.mend) { household.tools[step.mend] = 0; continue; }
+    // The crop the family chose at the field goes in (the ask 'crop-choice').
+    if (step.crop) { household.field = { ...household.field, crop: step.crop }; continue; }
     // Arrived where they meant to join or to vote (sim/winter.mjs).
     if (step.winter) { if (step.winter === 'vote') castVote(world, household, entity); else joinService(world, household, entity, step.winter); continue; }
     if (step.shop) {

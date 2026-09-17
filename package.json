@@ -41,6 +41,7 @@
     "test:family-commands": "node scripts/family-commands-browser-proof.mjs",
     "test:winter": "node scripts/winter-browser-proof.mjs",
     "test:alamo-siege": "node scripts/alamo-siege-browser-proof.mjs",
-    "test:scrape": "node scripts/scrape-browser-proof.mjs"
+    "test:scrape": "node scripts/scrape-browser-proof.mjs",
+    "balance": "node scripts/balance-study.mjs"
   }
 }

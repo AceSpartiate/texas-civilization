@@ -16,6 +16,7 @@ import { tooYoung } from './family.mjs';
 import { siteFacts } from './ground.mjs';
 import { overlaps, squareOf } from './fields.mjs';
 import { CHORES } from './chores.mjs';
+import { COTTON_SEED_PER_PLOT, SEED_PER_PLOT } from './improvements.mjs';
 import { huntingPlace } from './hunting.mjs';
 import { fellFacts, logsLying } from './felling.mjs';
 import { logsShort } from './houseplot.mjs';
@@ -205,7 +206,9 @@ export function thinkFor(world, household, { project, act }) {
       moreLogs && 'fell-trees',
       'dig-well', 'mend-hoe', 'cut-lane',
       view.household.field?.state === 'planted' && unfenced && 'fence-plot',
-      view.household.field?.state === 'bare' && (resources.seed || 0) < 2 * Math.max(1, land.cleared || 0) && 'fetch-seed',
+      // Seed enough for the family's own crop: cotton wants more a plot than corn (sim/improvements.mjs). Measured 2026-09-16: with
+      // corn's count written here, a cotton family never gathered enough, never planted, and its cotton economy collapsed.
+      view.household.field?.state === 'bare' && (resources.seed || 0) < (view.household.field?.crop === 'cotton' ? COTTON_SEED_PER_PLOT : SEED_PER_PLOT) * Math.max(1, land.cleared || 0) && 'fetch-seed',
       (resources.cotton || 0) >= 1 && 'sell-cotton',
       // Then more ground, a plot at a time: clear what is staked, and stake more while it has fewer than it keeps.
       staked && 'clear-plot',

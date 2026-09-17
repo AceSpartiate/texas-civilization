@@ -1,6 +1,6 @@
 {
   "record": "The shops of the towns, in a browser: docs/TOWNS.md",
-  "date": "2026-09-16",
+  "date": "2026-09-17",
   "verdict": "PASS",
   "note": "Same computer only. A student sent a person to town from the family panel, chose the tavern from the street, read its counter, and paid for a meal in food; the keepers were in sight while the person was in Gonzales. Every other trade is proved in tests/shops.test.mjs. No LAN or district claim.",
   "checks": [

@@ -14,7 +14,7 @@ import assert from 'node:assert/strict';
 import { createSettledWorld } from './support/settled.mjs';
 import { applyAction, beginTravel, createWorld, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
 import {
-  SEED_PER_PLOT, UNFENCED_LOSS, clearedOf, harvestShare, improvementsOf,
+  COTTON_SEED_PER_PLOT, SEED_PER_PLOT, UNFENCED_LOSS, clearedOf, harvestShare, improvementsOf,
   isFenced, needsWagonToHarvest, ruin, standingCrop,
 } from '../sim/improvements.mjs';
 import { OLD_PATCHES, plotsOf } from '../sim/fields.mjs';
@@ -108,13 +108,15 @@ test('a bigger field swallows more seed, and the control says so before it is ch
   household.resources.seed = 20;
   const costOf = () => projectWorld(world, 'hh-1', 'student', { includeMap: false })
     .work[thomas.id].find(entry => entry.id === 'plant-field').cost;
-  assert.equal(costOf(), `${SEED_PER_PLOT} seed`);
+  const perPlot = household.field.crop === 'cotton' ? COTTON_SEED_PER_PLOT : SEED_PER_PLOT;
+  assert.equal(costOf(), `${perPlot} seed`);
   household.field = { ...household.field, cleared: 3 };
-  assert.equal(costOf(), `${SEED_PER_PLOT * 3} seed`, 'the family was quoted the price of a field they no longer have');
+  assert.equal(costOf(), `${perPlot * 3} seed`, 'the family was quoted the price of a field they no longer have');
 
   const before = household.resources.seed;
   work(world, 'hh-1', thomas.id, 'plant-field');
-  assert.equal(before - household.resources.seed, SEED_PER_PLOT * 3, 'three times the ground took one patch worth of seed');
+  // Cotton takes more seed a plot (docs/MONEY_AND_GLORY.md §8.1); silence plants the family's own crop.
+  assert.equal(before - household.resources.seed, perPlot * 3, 'three times the ground took one patch worth of seed');
   assert.equal(household.field.state, 'planted');
 
   // And a family that cannot pay is told, rather than quietly planting a smaller field.

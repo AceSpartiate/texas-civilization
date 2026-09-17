@@ -70,7 +70,7 @@ export function createWorld(seed = 'gonzales', playerCount = 15, { map = 'gonzal
     // The wagon, packed with the sensible default, and the stores, tools and belongings that
     // follow from it (docs/SETTLING_IN.md step 3, sim/wagon.mjs). A student may repack it in the
     // lobby; one who never does has this. Its one draw is the one the founding food used to take.
-    const load = defaultLoad(random);
+    const load = defaultLoad(random, crop);
     // No `name`. A household nobody has named is named for its own principal - "Jethro's
     // family" - which is a real family rather than a row number, and follows along if a
     // student renames him. A class saved when every household was `Family N` keeps that,

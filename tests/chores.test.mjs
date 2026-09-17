@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createWorld, stepWorld, applyAction, projectWorld, validateWorld } from '../sim/world.mjs';
+import { COTTON_SEED_PER_PLOT, SEED_PER_PLOT } from '../sim/improvements.mjs';
 import { CHORES, RIPEN_TICKS, TOOL_LIFE, choreCatalogue, skillsFor, toolState } from '../sim/chores.mjs';
 import { callAvailability } from '../sim/directors.mjs';
 
@@ -25,7 +26,8 @@ test('a chore is a program: it walks out, works, spends and yields, and comes ho
   assert.equal(rosa.location.siteId, household.homeSiteId, 'working the field does not move her off her own land');
   const ticks = runUntil(world, () => !rosa.chore);
   assert.equal(household.field.state, 'planted');
-  assert.equal(household.resources.seed, seedBefore - 2, 'planting spent exactly the seed it said it would');
+  // Cotton takes more seed a plot than corn (docs/MONEY_AND_GLORY.md §8.1); silence plants the family's own crop.
+  assert.equal(household.resources.seed, seedBefore - (household.field.crop === 'cotton' ? COTTON_SEED_PER_PLOT : SEED_PER_PLOT), 'planting spent exactly the seed it said it would');
   assert.equal(household.tools.hoe, 1, 'one use of the hoe');
   assert.ok(ticks > 4 && ticks < 40, `planting took a believable ${ticks} ticks`);
   validateWorld(world);
