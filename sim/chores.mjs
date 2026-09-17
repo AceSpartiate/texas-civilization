@@ -1004,6 +1004,14 @@ export function modeCatalogue() {
   return Object.values(MODES).map(mode => ({ id: mode.id, name: mode.name, describe: mode.describe, carry: mode.carry }));
 }
 
+/**
+ * Chores kept in their own module (the road east's, Houston's camp's) register here at load, so that two pieces of work built
+ * apart never edit the one table. A chore already in the table is refused: an id is a promise a saved class keeps.
+ */
+export function registerChores(extra) {
+  for (const [id, chore] of Object.entries(extra)) { if (CHORES[id]) throw new Error(`Chore ${id} is already defined`); CHORES[id] = chore; }
+}
+
 export function choreCatalogue() {
   return Object.entries(CHORES).map(([id, chore]) => ({
     id, name: chore.name, describe: chore.describe, skill: chore.skill,
