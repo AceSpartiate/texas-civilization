@@ -129,8 +129,14 @@ export const PACES = Object.freeze({ study: 9500, brisk: 4000, quick: 1000 });
  * time a question would otherwise hold the whole class for a student who has left the room.
  */
 export const ABSENT_MS = 120000;
+/**
+ * How long a tick or a student's order can be shown before it is written (`commit` below): the most a crash can lose. Five
+ * seconds is under one tick at the study pace, and at a quicker pace the third unsaved tick is written sooner.
+ */
+export const SAVE_WITHIN_MS = 5000;
+const SAVE_EVERY_TICKS = 3;
 
-export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tickMs = 200, savePath, joinUrls = [], worldFactory = createWorld, onStopRequested = null, stopDelayMs = 250, solo = false, absentMs = ABSENT_MS, soloGamesDir = null } = {}) {
+export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tickMs = 200, savePath, joinUrls = [], worldFactory = createWorld, onStopRequested = null, stopDelayMs = 250, solo = false, absentMs = ABSENT_MS, soloGamesDir = null, timings = null, saveWithinMs = SAVE_WITHIN_MS } = {}) {
   if (!Number.isInteger(playerCount) || playerCount < 5 || playerCount > 30) throw new Error('Class size must be 5–30');
   if (!Number.isInteger(tickMs) || tickMs < 10 || tickMs > 10000) throw new Error('Tick interval must be 10–10000 milliseconds');
   /**
@@ -155,8 +161,14 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
   try {
     state = readSave(savePath) || { saveVersion: 3, revision: 0, hostKey: token(), sessionId: token().slice(0, 12), sessionCode: randomBytes(3).toString('hex').toUpperCase(), clients: {}, hostCommands: [], world: worldFactory(seed, playerCount) };
     validateWorld(state.world);
-    writeSave(savePath, state);
   } catch (error) { lease.release(); throw error; }
+  // The last committed class as its save text, and the last one written (`commit`).
+  let committed;
+  try {
+    committed = JSON.stringify(state);
+    writeSave(savePath, committed);
+  } catch (error) { lease.release(); throw error; }
+  let durable = committed, unsavedTicks = 0, saveTimer = null;
   // Cookies are host/path scoped, not port scoped; separate class namespaces prevent
   // collisions. A new class rotates the session ID, so the names are read per request.
   const hostCookie = () => `tr_host_${state.sessionId}`, studentCookie = () => `tr_student_${state.sessionId}`;
@@ -228,10 +240,17 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     return client ? { role: 'student', ...client, credentialHash: hash(credential) } : null;
   }
   function snapshot(identity) {
+    return { revision: state.revision, ...view(identity) };
+  }
+  /**
+   * A snapshot without its revision: what a page sees, which is the same text for as long as nothing it sees changes.
+   * `copy: false` when it is serialised at once and never kept (`send`); anything handed out keeps its own copy.
+   */
+  function view(identity, copy = true) {
     // `tickMs` rides along because the renderer has to know how long a tick lasts to
     // spread one tick's movement across it. Without it the client guesses one second and a
     // slower class walks for a second and then stands still for the rest of the tick.
-    const payload = { revision: state.revision, sessionId: state.sessionId, connected: connected(), tickMs: pace, fault: runtimeFault && structuredClone(runtimeFault), lifecycle: lifecycle && structuredClone(lifecycle), world: projectWorld(state.world, identity.householdId, identity.role, { includeMap: false }), mapId: state.sessionId, ...(state.world.map.revision && { mapRevision: state.world.map.revision }), ...(state.world.woods?.revision && { woodsRevision: state.world.woods.revision }) };
+    const payload = { sessionId: state.sessionId, connected: connected(), tickMs: pace, fault: runtimeFault && structuredClone(runtimeFault), lifecycle: lifecycle && structuredClone(lifecycle), world: projectWorld(state.world, identity.householdId, identity.role, { includeMap: false, copy }), mapId: state.sessionId, ...(state.world.map.revision && { mapRevision: state.world.map.revision }), ...(state.world.woods?.revision && { woodsRevision: state.world.woods.revision }) };
     if (identity.role === 'host') Object.assign(payload, { sessionCode: state.sessionCode, joinUrls, canStop: Boolean(onStopRequested), presence: presence() });
     // A household is told its own key and no other. The Host page deliberately carries
     // none of them, because a teacher's screen is sometimes a projector.
@@ -240,12 +259,66 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     else if (identity.householdId) payload.familyKey = familyKey(identity.householdId);
     return payload;
   }
-  function send(stream) {
+  // Measurement only (`timings`, scripts/perf-server-measure.mjs): where one commit's milliseconds and bytes go. Null on
+  // every real server, where none of this is counted.
+  let sent = null;
+  /**
+   * One snapshot to one page, from the views already made for this broadcast.
+   *
+   * Pages that see the same thing - the Host's tabs, one family's tabs - share one projection and one serialisation per
+   * broadcast (`made`, keyed by role and family), and a page whose view has not changed since the last snapshot it was sent
+   * is sent nothing: another family's order, a page opening or closing elsewhere. A snapshot is the whole of what a page
+   * sees, so a page that is sent nothing is exactly as current as one that is sent the same view again, and it is spared
+   * parsing and drawing it (docs/PERFORMANCE_SERVER.md). `force` is the page of whoever made the change, which always hears
+   * back that it went through.
+   */
+  function send(stream, made = new Map(), force = null) {
     // Disconnect a slow receiver instead of retaining an unbounded snapshot queue.
     if (stream.res.writableLength > 1024 * 1024) { stream.res.destroy(); streams.delete(stream); return; }
-    stream.res.write(`id: ${state.revision}\ndata: ${JSON.stringify(snapshot(stream.identity))}\n\n`);
+    const { role, householdId } = stream.identity;
+    const key = `${role}:${householdId || ''}`;
+    let body = made.get(key);
+    if (body === undefined) {
+      const started = sent && performance.now();
+      const payload = view(stream.identity, false);
+      const projected = sent && performance.now();
+      body = JSON.stringify(payload);
+      made.set(key, body);
+      if (sent) { sent.project += projected - started; sent.stringify += performance.now() - projected; }
+    }
+    const mine = force?.some(actor => actor.role === role && (actor.householdId || '') === (householdId || ''));
+    if (body === stream.body && !mine) { if (sent) sent.skipped = (sent.skipped || 0) + 1; return; }
+    stream.body = body;
+    const text = `{"revision":${state.revision},${body.slice(1)}`;
+    if (sent) { sent.bytes[role] = (sent.bytes[role] || 0) + text.length; sent.count[role] = (sent.count[role] || 0) + 1; }
+    stream.res.write(`id: ${state.revision}\ndata: ${text}\n\n`);
   }
-  const broadcast = () => { if (!closing) for (const stream of streams) send(stream); };
+  /**
+   * Snapshots to every page, now. Ticks, the Host's commands and faults go at once; a student's order, and a page opening or
+   * closing, go through `broadcastSoon`, so that thirty orders pressed in the same second are shown in a handful of
+   * broadcasts rather than thirty, each of which projected the class for every page (docs/PERFORMANCE_SERVER.md). Whoever
+   * sent an order still waiting to be shown is always sent a snapshot (`send`'s `force`).
+   */
+  const BROADCAST_GAP_MS = 200;
+  let lastBroadcast = 0, broadcastTimer = null, waiting = [];
+  function broadcast(force = null) {
+    clearTimeout(broadcastTimer); broadcastTimer = null;
+    const actors = force ? [...waiting, force] : waiting;
+    waiting = [];
+    if (closing) return;
+    lastBroadcast = Date.now();
+    const made = new Map();
+    for (const stream of streams) send(stream, made, actors);
+  }
+  // ceiling: an order is shown up to BROADCAST_GAP_MS after another page's order was; ticks are never held. A per-family
+  // record of what changed, so only the pages it touched are projected, is the way out if a class's orders outrun this.
+  function broadcastSoon(actor = null) {
+    if (actor) waiting.push(actor);
+    if (broadcastTimer) return;
+    const wait = lastBroadcast + BROADCAST_GAP_MS - Date.now();
+    if (wait <= 0) broadcast();
+    else broadcastTimer = setTimeout(() => broadcast(), wait);
+  }
   function suspend(code) {
     const resumeStatus = runtimeFault?.resumeStatus || (state.world.status === 'paused' ? 'running' : state.world.status);
     state.world.status = 'paused';
@@ -257,17 +330,65 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     };
     broadcast();
   }
-  function commit(mutate) {
-    const previous = structuredClone(state);
-    let persisting = false;
-    try { mutate(state); validateWorld(state.world); state.revision++; persisting = true; writeSave(savePath, state); }
+  /**
+   * Put the class back to a committed text. A fault's pause is an overlay on the committed class, not part of it, so it
+   * survives being put back: an order refused while the class is paused by a fault must not un-pause it.
+   */
+  function restore(text) {
+    state = JSON.parse(text);
+    if (runtimeFault) state.world.status = 'paused';
+  }
+  /**
+   * Write whatever has been committed since the last save. A write that fails puts the class back to its last save,
+   * pauses it and says so (`SAVE_FAILED`), and throws a 503 to whoever asked, if anybody did.
+   */
+  function flush() {
+    clearTimeout(saveTimer); saveTimer = null;
+    if (committed === durable) return;
+    try { writeSave(savePath, committed); }
     catch (error) {
-      state = previous;
-      if (persisting) { suspend('SAVE_FAILED'); const unavailable = new Error(runtimeFault.message, { cause: error }); unavailable.status = 503; throw unavailable; }
-      throw error;
+      committed = durable; unsavedTicks = 0;
+      restore(durable);
+      suspend('SAVE_FAILED');
+      const unavailable = new Error(runtimeFault.message, { cause: error }); unavailable.status = 503; throw unavailable;
     }
-    runtimeFault = null;
-    broadcast();
+    durable = committed; unsavedTicks = 0;
+  }
+  /**
+   * Every change to the class: made, checked, serialised, and then saved and shown.
+   *
+   * A change that throws or leaves an invalid world is undone. What it is undone to is the last committed class read back
+   * from its own save text (`committed`), serialised once per commit - which is also the text written to disk, so the copy
+   * a rollback needs costs one serialisation, where a `structuredClone` of the whole class on every commit was the largest
+   * single cost of a late-game tick (docs/PERFORMANCE_SERVER.md). A class is plain JSON by construction, because it has to
+   * reopen from its save identically (sim/events.mjs `record`; tests/save-text.test.mjs), so its save text is an exact copy.
+   *
+   * `when`, what a change is:
+   * - 'now' (the default): joining, a family key, the Host's commands, Play Solo. Written and fsynced before it is shown or
+   *   answered, and a failed write refuses it with a 503, as every commit used to be.
+   * - 'tick': shown at once, written with the third unsaved tick or SAVE_WITHIN_MS after the first, whichever is sooner.
+   * - 'order': a student's order. Written like a tick, and shown with the orders around it (`broadcastSoon`).
+   *
+   * ceiling: a crash - the laptop's battery, the process killed - loses at most SAVE_WITHIN_MS of ticks and students' orders,
+   * or three ticks at a quick pace. Stopping the server, from the Host page, the launcher or Ctrl+C, writes everything first
+   * (`close`), and so does every Host command. Writing every commit is the way back if a class ever cannot afford five
+   * seconds, and it costs a write and an fsync of the whole class per order: with each order also broadcast at once, the
+   * last of 30 orders pressed together was answered after 2.5 s on a fast desktop, against under 1 s now
+   * (docs/PERFORMANCE_SERVER.md).
+   */
+  function commit(mutate, { actor = null, when = 'now' } = {}) {
+    const at = timings ? [performance.now()] : null;
+    let text;
+    try { mutate(state); at?.push(performance.now()); validateWorld(state.world); at?.push(performance.now()); state.revision++; text = JSON.stringify(state); at?.push(performance.now()); }
+    catch (error) { restore(committed); throw error; }
+    committed = text;
+    if (when === 'tick') unsavedTicks++;
+    if (when === 'now' || unsavedTicks >= SAVE_EVERY_TICKS) { flush(); runtimeFault = null; }
+    else saveTimer ??= setTimeout(() => { try { flush(); } catch (error) { console.error('Saving failed:', error.cause?.message || error.message); } }, saveWithinMs);
+    at?.push(performance.now());
+    if (at) sent = { project: 0, stringify: 0, bytes: {}, count: {} };
+    if (when === 'order') broadcastSoon(actor); else broadcast(actor);
+    if (at) { timings({ revision: state.revision, when, mutate: at[1] - at[0], validate: at[2] - at[1], serialise: at[3] - at[2], save: at[4] - at[3], broadcast: performance.now() - at[4], ...sent }); sent = null; }
   }
   // A graceful stop tells the class before the streams end, so a closed browser is
   // never the only evidence that the teacher stopped the server deliberately.
@@ -587,12 +708,14 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         const stream = { res, identity };
         streams.add(stream);
         if (identity.role === 'student') lastSeen.set(identity.householdId, Date.now());
-        broadcast();
+        // The page that opened is shown the class at once; the others hear the count change with the next broadcast.
+        if (!closing) send(stream);
+        broadcastSoon();
         const heartbeat = setInterval(() => res.write(': keepalive\n\n'), 15000);
         req.on('close', () => {
           clearInterval(heartbeat); streams.delete(stream);
           if (identity.role === 'student') lastSeen.set(identity.householdId, Date.now());
-          broadcast();
+          broadcastSoon();
         });
         return;
       }
@@ -636,6 +759,8 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
             else if (input.action === 'new-class') {
               // Never discard a class that is still being played.
               if (!['lobby', 'ended'].includes(s.world.status)) throw new Error('End the current class before starting a new one.');
+              // The archive copies the save on disk, which a class that ended on its own tick can trail by a few seconds.
+              flush();
               archived = archiveSave(savePath, s.sessionId);
               s.sessionId = token().slice(0, 12);
               s.sessionCode = randomBytes(3).toString('hex').toUpperCase();
@@ -658,7 +783,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
           }
           const ledger = identity.role === 'host' ? s.hostCommands : s.clients[identity.credentialHash].commands;
           ledger.push(input.id); if (ledger.length > 256) ledger.shift();
-        });
+        }, { actor: identity, when: identity.role === 'host' ? 'now' : 'order' });
         if (rotatedSession) {
           res.setHeader('Set-Cookie', [setCookie(`tr_host_${rotatedSession}`, state.hostKey, 604800), setCookie(`tr_host_${priorSession}`, '', 0)]);
           // Credentials belong to the archived class. End those streams so a previous
@@ -674,7 +799,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
   });
   function tick() {
     if (state.world.status !== 'running') return;
-    try { commit(s => { markAbsences(s.world); stepWorld(s.world); }); }
+    try { commit(s => { markAbsences(s.world); stepWorld(s.world); }, { when: 'tick' }); }
     catch (error) { if (!runtimeFault) suspend('SIMULATION_FAILED'); console.error('Simulation paused:', error.cause?.message || error.message); }
   }
   let timer = setInterval(tick, pace);
@@ -707,7 +832,9 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       catch (error) { clearInterval(timer); lease.release(); throw error; }
     },
     async close() {
-      closing = true; clearInterval(timer);
+      closing = true; clearInterval(timer); clearTimeout(broadcastTimer);
+      // Whatever was shown and not yet written is written before the save is let go (`commit`).
+      try { flush(); } catch (error) { console.error('The last changes could not be saved:', error.cause?.message || error.message); }
       for (const s of streams) s.res.destroy(); streams.clear();
       try { await new Promise(resolve => { server.close(resolve); server.closeAllConnections(); }); }
       finally { lease.release(); }

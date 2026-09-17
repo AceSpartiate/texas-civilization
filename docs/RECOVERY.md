@@ -6,13 +6,13 @@ Maturity: **PROTOTYPE**. This describes the current implementation in `server/ap
 
 The normal save is `classroom.json` inside the resolved **class data folder** — `<application folder>\data` while that folder is writable, otherwise `%LOCALAPPDATA%\TexasRevolution\data`, or `TEXAS_DATA_DIR` when set. Run `node scripts/appinfo.mjs` to print the folder this installation actually uses before following any procedure here. `SAVE_PATH` can select another save file for development without moving the rest of the folder. A save contains the session identity, Host credential, student credential hashes and household assignments, accepted-command ledgers, and authoritative world including persistent people, property, locations, knowledge, and events. Treat saves and `data/host-url.txt` as private application data.
 
-Every successful mutation is validated and checkpointed before its new revision is broadcast. A checkpoint is written to `<save>.tmp`, flushed with `fsync`, and renamed over the main save. The main file is the last completed checkpoint; the temporary file is never loaded automatically. Do not promote a leftover temporary file over the main save without developer inspection.
+Every successful mutation is validated before its new revision is broadcast. Joining, recovering a family key, every Host command (Start, Pause, Resume, End, the next period, New Class, Stop Server) and Play Solo are also checkpointed before they are answered or shown. A tick and a student's order are checkpointed within **five seconds** of being shown (`SAVE_WITHIN_MS`), or with the third unsaved tick at a quicker pace, whichever is sooner (since 2026-09-17, [PERFORMANCE_SERVER.md](PERFORMANCE_SERVER.md)): a crash or a forced process kill can lose at most those few seconds of play, and a graceful stop — Stop Server, `Stop.vbs`, Ctrl+C — writes them first. A checkpoint is written to `<save>.tmp`, flushed with `fsync`, and renamed over the main save. The main file is the last completed checkpoint; the temporary file is never loaded automatically. Do not promote a leftover temporary file over the main save without developer inspection.
 
 Atomic replacement prevents clients from being told that an uncommitted mutation succeeded, and the previous main checkpoint survives an ordinary write/rename failure. This is not a rotating backup system or a guarantee against every power-loss/filesystem failure: the parent directory is not explicitly flushed after rename. Keep independent backups before migrations. Do not restore, edit, copy over, or delete the active save while its server owns it.
 
 The one exception is the `archive` subfolder. Choosing **New Class** on the Host page copies the last completed checkpoint to `archive\classroom-<sessionId>-<timestamp>.json` before the new class replaces it. Those files are deliberate, additive copies of finished classes; nothing reads them automatically, and nothing removes them. There is still no rotating backup of an ongoing class and no UI for restoring an archive — to inspect one, stop the server and open the file, and involve a developer before copying it over a live save.
 
-The `revision` is the latest completed checkpoint revision when a real save path is configured. Headless `createClassroom()` instances without `savePath` are intentionally ephemeral; they have no disk persistence or save lease. Normal `server/main.mjs` always supplies a save path.
+The `revision` is the latest committed revision; the save on disk is at most the five seconds described above behind it, and `fault.lastSavedRevision` names the last completed checkpoint when a write fails. Headless `createClassroom()` instances without `savePath` are intentionally ephemeral; they have no disk persistence or save lease. Normal `server/main.mjs` always supplies a save path.
 
 ## One owner per save
 
@@ -37,7 +37,7 @@ For a developer-run server, start Node directly in a visible PowerShell terminal
 node server/main.mjs
 ```
 
-Choose **Pause** on the Host and verify the class is paused without a fault. Then press **Ctrl+C once in that server's terminal** and wait for the process to exit. The `SIGINT` handler awaits `app.close()` and releases the save lease. The server also installs a `SIGTERM` handler on platforms that deliver it; do not assume Windows process-termination tools deliver a graceful Node signal. `Stop-Process`, Task Manager End Task, and forced process termination can leave a stale lock.
+Choose **Pause** on the Host and verify the class is paused without a fault. Then press **Ctrl+C once in that server's terminal** and wait for the process to exit. The `SIGINT` handler awaits `app.close()` and releases the save lease. The server also installs a `SIGTERM` handler on platforms that deliver it; do not assume Windows process-termination tools deliver a graceful Node signal. `Stop-Process`, Task Manager End Task, and forced process termination can leave a stale lock, and lose up to the last five seconds of ticks and orders.
 
 Restart with the same save path and the same student address. Existing browser credentials reconnect to their saved households. A saved paused class remains paused; choose **Resume** when the class is ready. A saved running class starts advancing automatically on restart, even before the Host is reopened. Therefore a successfully checkpointed Pause is preferable before an intentional stop.
 
@@ -45,7 +45,7 @@ Closing a Host or student browser tab does not stop the server. **End Game** per
 
 ## Save failure during a class
 
-When a checkpoint fails, the failed tick or command rolls back. The server changes the live class to paused and broadcasts a transient `fault` object to authenticated clients. The latest main save is retained. Fault fields are:
+When a checkpoint fails, the live class goes back to the last completed checkpoint: the failed tick or command, and any ticks and orders shown in the few seconds since that checkpoint, are undone. The server changes the live class to paused and broadcasts a transient `fault` object to authenticated clients. The latest main save is retained. Fault fields are:
 
 | Field | Meaning |
 | --- | --- |
