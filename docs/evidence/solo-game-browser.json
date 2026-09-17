@@ -1,0 +1,128 @@
+{
+  "record": "solo-game-browser",
+  "date": "2026-09-17",
+  "verdict": "PASS",
+  "browser": "152.0.7977.83",
+  "task": "Solo Mode end to end: the real solo server dealing on the real land; a solo game played from its dealt start to the road home through all three periods, the solo class view continuing it; a new game dealt after the end.",
+  "environment": "Same computer: an in-process solo classroom at 100 ms a tick with five families, four automatic, and headless Chrome; server/main.mjs --solo run for real only to check what it deals. Not the launcher's window, a real phone or a weak computer.",
+  "checks": [
+    "server/main.mjs --solo deals its game on the real land of the colonies (5 families, running)",
+    "the solo game opens joined as hh-1 in liberty, rolled and running, no join form, no Start press; the other four families automatic",
+    "the solo class view opens from its Host address with the game already running",
+    "the family arrived and the house site was chosen on its grant at (156.6848, -29.599600000000002)",
+    "4 of the family set to auto from the panel: Cipriano, Refugia, Silvano, Cayetano",
+    "4 orders given from the panel and taken",
+    "the call came (\"An express from San Felipe has reached the Trinity with word that the Mexican troops are a…\") and Cipriano was sent from the one menu",
+    "the first period ended on its own at minute 113940: interim standings on both pages, no winner named (470 ticks, 51.1 s)",
+    "the Host continued the class into the winter: period 2 opens on 1836-01-25",
+    "Cipriano was sent to enlist auxiliary from the panel",
+    "the second period ended on its own at minute 241560 (195 ticks, 21.3 s)",
+    "the Host continued the class into the spring: period 3 opens on 1836-03-14",
+    "told to leave, the \"!\" opened the card and the family left for liberty with what fit; the farm burned behind it",
+    "the game ended on the road home at minute 302400: the final reckoning on both pages, the Host naming who finished first (318 ticks, 35.1 s)",
+    "after the ending, a new solo game is dealt with the old pages open, and opens joined and running from the beginning",
+    "no page errors on any page across the whole solo game"
+  ],
+  "measured": {
+    "realServer": {
+      "mapSource": "texas-colonies-map",
+      "households": 5,
+      "status": "running"
+    },
+    "periods": {
+      "first": {
+        "ticks": 470,
+        "seconds": 51.1,
+        "endedAtMinute": 113940
+      },
+      "second": {
+        "ticks": 195,
+        "seconds": 21.3,
+        "endedAtMinute": 241560
+      },
+      "third": {
+        "ticks": 318,
+        "seconds": 35.1,
+        "endedAtMinute": 302400
+      }
+    },
+    "family": [
+      "Cipriano (father, 31)",
+      "Refugia (mother, 37)",
+      "Silvano (son, 16)",
+      "Cayetano (son, 12)",
+      "Andrés (son, 0)"
+    ],
+    "onAuto": [
+      "Cipriano",
+      "Refugia",
+      "Silvano",
+      "Cayetano"
+    ],
+    "orders": [
+      {
+        "id": "hh-1-parent-1",
+        "key": "cut-lane",
+        "took": true
+      },
+      {
+        "id": "hh-1-parent-2",
+        "key": "cut-lane",
+        "took": true
+      },
+      {
+        "id": "hh-1-child-1",
+        "key": "cut-lane",
+        "took": true
+      },
+      {
+        "id": "hh-1-child-2",
+        "key": "cut-lane",
+        "took": true
+      }
+    ],
+    "call": {
+      "text": "An express from San Felipe has reached the Trinity with word that the Mexican troops are at Gonzales and the settlements are turning out. Does somebody from your family ride west to join them?",
+      "sent": "Cipriano"
+    },
+    "winter": {
+      "key": "enlist-auxiliary",
+      "id": "hh-1-parent-1",
+      "name": "Cipriano"
+    },
+    "winterOutcome": {
+      "voted": false,
+      "service": {
+        "kind": "auxiliary-year",
+        "status": "serving",
+        "since": 177120,
+        "siteId": "san-felipe",
+        "acres": 320
+      }
+    },
+    "flight": {
+      "refuge": "liberty",
+      "card": "The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer within the day, or the family packs w"
+    },
+    "ending": {
+      "host": "THE END OF THE STORY × How the families finished Cipriano's family finished first, with a final number of 135. Family Road miles from Gonzales Heard of the cannon Who went Coin Glory Land Final Cipriano's family 191 October 5 Cipriano 0 reales 118 16 reales 135 Bartolo's family (nobody played them) ",
+      "family": "THE END OF THE STORY × Cipriano's family COIN IN THE HOUSE 0 reales GLORY 118 FINAL NUMBER 135 0 reales, counted as 1 real × (1 + 118 glory) + 16 reales of land (320 acres promised) = 135 Our story The family lived 191 road miles from Gonzales. Word that soldiers had come for the cannon reached them",
+      "flight": "home",
+      "minute": 302400
+    },
+    "totalSeconds": 107.5
+  },
+  "screenshots": [
+    "docs/evidence/solo-game-at-work.png",
+    "docs/evidence/solo-game-interim-1.png",
+    "docs/evidence/solo-game-interim-2.png",
+    "docs/evidence/solo-game-leaving.png",
+    "docs/evidence/solo-game-ending-host.png",
+    "docs/evidence/solo-game-ending-family.png"
+  ],
+  "notProved": [
+    "The launcher's Play solo button and its window: proved by scripts/verify-launcher.ps1 and scripts/solo-browser-proof.mjs; this run enters through the same newSoloGame/enter path in process.",
+    "The Study pace: the game here runs at 100 ms a tick.",
+    "Every branch: one call answered, one winter order, one flight by hand; the period proofs press the rest."
+  ]
+}

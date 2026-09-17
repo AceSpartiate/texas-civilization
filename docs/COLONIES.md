@@ -321,6 +321,11 @@ Polish, not a new mode:
 - `VISION.md` says "There is no normal solo mode" and gives a range of 5–30. This amends it narrowly: the class is still a
   class of five or more; one student may play it alone. Recorded in `VISION.md` when built.
 
+**As built and proved 2026-09-16:** the launcher's Solo Mode ([DEPLOYMENT.md](DEPLOYMENT.md), *Solo Mode*) is this - a normal
+class of five or more dealt on the real land with one family joined and the rest automatic - and `npm run test:solo-game`
+plays it from the dealt start to the road home through all three periods. The same day the solo server was found dealing the
+invented country, which has no periods past 1835; it deals on the colonies now.
+
 ### 5.9 Automatic neighbours
 
 Every family nobody is playing is run by **a neighbour director** (`sim/neighbours.mjs`), in every class, so a class of

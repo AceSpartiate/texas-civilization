@@ -117,6 +117,14 @@ It cannot disturb a real class, by construction rather than by care:
   `solo: true`. The ticket is one use and lasts two minutes; it becomes the player's cookie and
   redirects to `/`, so no credential is left in the address bar.
 
+**On the real land, the whole game.** A solo game (and a class started from the launcher) is dealt on the real land of
+the colonies (`MAP` unset means `colonies` since 2026-09-16; `MAP=gonzales` still starts the invented country). It has
+to be: the winter and the spring only continue there, and until that day a solo playtest dealt the invented Gonzales
+country and could never reach either. The **Class view** is where the game is continued into the winter and the spring
+(*Continue to the winter of 1836*, then *Resume*), exactly as a teacher continues a class. `npm run test:solo-game` plays
+one solo game from its dealt start to the road home through all three periods and then deals the next; it also starts
+`server/main.mjs --solo` for real and checks what it deals.
+
 ceiling: every Play solo is a new game, and the last solo game is not archived or offered back;
 a solo save is a scratch pad. "Continue the last solo game" would be reopening the same save.
 
