@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!-- icon-harvest-field: a sickle and a tied sheaf. Claude-drawn stand-in; replace with Astra's icon-harvest-field
+       (request 2026-09-15, action icons). -->
+  <defs>
+    <linearGradient id="harv-sheaf" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f0d47a"/><stop offset="0.5" stop-color="#d4aa48"/><stop offset="1" stop-color="#9a7420"/></linearGradient>
+    <linearGradient id="harv-blade" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b0b2ac"/><stop offset="0.5" stop-color="#6a6c68"/><stop offset="1" stop-color="#2f312e"/></linearGradient>
+    <linearGradient id="harv-handle" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#c49463"/><stop offset="1" stop-color="#6a4525"/></linearGradient>
+  </defs>
+  <g filter="url(#grain)" stroke-linejoin="round" stroke-linecap="round" stroke="#1a0e08">
+    <!-- the sheaf: a bundle of stalks flaring at the foot and the head, tied in the middle -->
+    <path d="M 40 118 Q 46 80 42 44 Q 60 20 80 44 Q 78 80 86 118 Z" fill="url(#harv-sheaf)" stroke-width="3"/>
+    <path d="M 50 110 Q 52 78 52 48 M 62 112 Q 62 76 62 40 M 74 110 Q 72 78 72 48" fill="none" stroke="#9a7420" stroke-width="2" opacity="0.7"/>
+    <path d="M 47 100 Q 49 70 48 52" fill="none" stroke="#fbe9a8" stroke-width="2" opacity="0.8"/>
+    <!-- the ears at the top -->
+    <path d="M 48 40 Q 44 26 52 16 M 62 38 Q 60 22 66 12 M 76 42 Q 78 28 86 20" fill="none" stroke="#1a0e08" stroke-width="7"/>
+    <path d="M 48 40 Q 44 26 52 16 M 62 38 Q 60 22 66 12 M 76 42 Q 78 28 86 20" fill="none" stroke="#e8c46a" stroke-width="4"/>
+    <!-- the band tying it -->
+    <path d="M 40 76 Q 62 84 84 76 L 85 86 Q 62 94 39 86 Z" fill="#a5784b" stroke-width="2.6"/>
+    <!-- the sickle, leaning against the sheaf, its curved blade at the top left -->
+    <path d="M 22 120 L 40 78" fill="none" stroke="#1a0e08" stroke-width="10"/>
+    <path d="M 22 120 L 40 78" fill="none" stroke="url(#harv-handle)" stroke-width="6"/>
+    <path d="M 40 78 Q 10 52 26 26 Q 42 6 66 20 Q 46 18 34 34 Q 22 50 44 70 Z" fill="url(#harv-blade)" stroke-width="3"/>
+    <path d="M 30 32 Q 42 18 58 22" fill="none" stroke="#e6e8e2" stroke-width="2.4" opacity="0.9"/>
+  </g>
+</svg>

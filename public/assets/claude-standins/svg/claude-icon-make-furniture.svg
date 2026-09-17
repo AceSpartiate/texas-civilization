@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!-- icon-make-furniture: a stool half made on the bench, a saw and shavings beside it. Claude-drawn stand-in; replace
+       with Astra's icon-make-furniture (request 2026-09-15, action icons). -->
+  <defs>
+    <linearGradient id="makef-wood" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d9b27a"/><stop offset="0.5" stop-color="#a5784b"/><stop offset="1" stop-color="#5e3d1e"/></linearGradient>
+    <linearGradient id="makef-blade" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c6c8c2"/><stop offset="0.5" stop-color="#7a7c78"/><stop offset="1" stop-color="#3a3c38"/></linearGradient>
+    <linearGradient id="makef-handle" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#c49463"/><stop offset="1" stop-color="#6a4525"/></linearGradient>
+  </defs>
+  <g filter="url(#grain)" stroke-linejoin="round" stroke-linecap="round" stroke="#1a0e08">
+    <!-- the stool: a round top on three splayed legs, one leg not yet in -->
+    <ellipse cx="60" cy="52" rx="34" ry="12" fill="url(#makef-wood)" stroke-width="3"/>
+    <path d="M 26 52 L 26 60 Q 60 74 94 60 L 94 52 Q 60 66 26 52 Z" fill="#7a5534" stroke-width="2.6"/>
+    <path d="M 34 48 Q 60 40 86 48" fill="none" stroke="#f0d8b0" stroke-width="2" opacity="0.8"/>
+    <path d="M 38 62 L 24 112 M 82 62 L 96 112" fill="none" stroke="#1a0e08" stroke-width="11"/>
+    <path d="M 38 62 L 24 112 M 82 62 L 96 112" fill="none" stroke="url(#makef-handle)" stroke-width="7"/>
+    <path d="M 60 66 L 58 92" fill="none" stroke="#1a0e08" stroke-width="11"/>
+    <path d="M 60 66 L 58 92" fill="none" stroke="url(#makef-handle)" stroke-width="7"/>
+    <!-- the third leg still to go in, lying on the ground -->
+    <path d="M 66 116 L 118 100" fill="none" stroke="#1a0e08" stroke-width="11"/>
+    <path d="M 66 116 L 118 100" fill="none" stroke="url(#makef-handle)" stroke-width="7"/>
+    <!-- the saw, leaning at the left -->
+    <path d="M 8 30 L 22 18" fill="none" stroke="#1a0e08" stroke-width="12"/>
+    <path d="M 8 30 L 22 18" fill="none" stroke="url(#makef-handle)" stroke-width="8"/>
+    <path d="M 20 20 L 60 8 L 64 16 L 24 42 Z" fill="url(#makef-blade)" stroke-width="2.8"/>
+    <path d="M 28 40 L 30 36 L 34 38 L 36 34 L 40 36 L 42 32 L 46 34 L 48 30 L 52 32 L 54 28 L 58 30 L 60 26" fill="none" stroke="#1a0e08" stroke-width="2"/>
+    <!-- shavings -->
+    <path d="M 100 116 Q 108 108 116 116 Q 112 122 104 120" fill="none" stroke="#d9b27a" stroke-width="3"/>
+    <path d="M 10 110 Q 16 104 22 110" fill="none" stroke="#d9b27a" stroke-width="3"/>
+  </g>
+</svg>

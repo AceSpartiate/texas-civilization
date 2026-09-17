@@ -1,7 +1,7 @@
 // Renderers consume the server's permitted projection. They never advance simulation state.
 import { drawSprite, drawClip, clipInfo, hasSprite, loadArt, onArtReady, pickSprite, spriteFrame } from '/art.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, seatedClip, seatLayout, mounted, MOUNTED_HEIGHT, castVariant, childFigure } from '/motion.js';
-import { autoLabel, callMenu, callPlan, drawIcon, drawPortrait, focusFor, isIdle, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, RENAME_PAUSE_MS } from '/family-panel.js';
+import { autoLabel, callMenu, callPlan, drawIcon, drawMark, drawPortrait, focusFor, isIdle, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, RENAME_PAUSE_MS } from '/family-panel.js';
 import {drawBexarGround,bexarDrawables} from '/bexar-art.js';
 import {plotArt} from '/field-art.js';
 import {drawGonzalesGround,gonzalesDrawables,GONZALES_ART_BOUNDS} from '/gonzales-art.js';
@@ -2313,17 +2313,17 @@ function renderFamilyPanel(world) {
     setData(row.item, 'waiting', String(Boolean(need)));
     if (row.attention.hidden !== !need) row.attention.hidden = !need;
     const needLabel = need ? `${need.text}${needs.length > 1 ? ` And ${needs.length - 1} more.` : ''} Go to ${entity.name} and answer.` : '';
-    if (need && row.attention.dataset.need !== need.kind) row.attention.dataset.need = need.kind;
+    if (need && row.attention.dataset.need !== need.kind) { row.attention.dataset.need = need.kind; paintMark(row.attention, need.kind === 'rider' ? 'mark-need-rider' : 'mark-need'); }
     if (row.attention.getAttribute('aria-label') !== needLabel) { row.attention.setAttribute('aria-label', needLabel); row.attention.title = needLabel; }
     const portraitLabel = `${entity.name}, ${role}${age}${focused ? ', your main person' : ''}. Go to ${entity.name} on the map${need ? '; somebody is waiting on them' : ''}.`;
     if (row.portrait.getAttribute('aria-label') !== portraitLabel) row.portrait.setAttribute('aria-label', portraitLabel);
     const focusLabel = focused ? `Go back to ${entity.name}, your main person` : `Make ${entity.name} your main person`;
-    if (row.focus.getAttribute('aria-label') !== focusLabel) { row.focus.setAttribute('aria-label', focusLabel); row.focus.title = focusLabel; row.focus.textContent = focused ? '★' : '☆'; row.focus.setAttribute('aria-pressed', String(focused)); }
+    if (row.focus.getAttribute('aria-label') !== focusLabel) { row.focus.setAttribute('aria-label', focusLabel); row.focus.title = focusLabel; row.focus.querySelector('.panel-mark-text').textContent = focused ? '★' : '☆'; row.focus.setAttribute('aria-pressed', String(focused)); }
     // The auto switch, read from the server's `auto` on the person every tick (docs/FAMILY_PANEL.md §11.7).
     const onAuto = Boolean(entity.auto);
     // 'onAuto', not 'auto': the switch button carries data-auto, and a row attribute of the same name would catch its presses.
     setData(row.item, 'onAuto', String(onAuto));
-    if (row.auto.getAttribute('aria-pressed') !== String(onAuto)) row.auto.setAttribute('aria-pressed', String(onAuto));
+    if (row.auto.getAttribute('aria-pressed') !== String(onAuto)) { row.auto.setAttribute('aria-pressed', String(onAuto)); paintMark(row.auto, onAuto ? 'mark-auto-on' : 'mark-auto-off'); }
     const autoWords = autoLabel(entity, onAuto);
     if (row.auto.getAttribute('aria-label') !== autoWords) { row.auto.setAttribute('aria-label', autoWords); row.auto.title = autoWords; }
     // The rooms of the house are set out from the main person's row: one place for the family's own detailed work.
@@ -2333,11 +2333,11 @@ function renderFamilyPanel(world) {
     if (mayOverwriteName(row.input, entity.name)) row.input.value = entity.name;
     setData(row.input, 'current', entity.name);
     // The portrait: the person's own figure, redrawn only when who they are drawn as changes.
-    const clip = childFigure(entity) ? `${childFigure(entity)}-idle-s` : `${castVariant(entity)}-idle-s`;
+    const figure = childFigure(entity) || castVariant(entity), clip = `${figure}-idle-s`;
     const face = `${clip}:${entity.band || ''}:${principal}`;
     if (row.face !== face) {
       row.face = face;
-      drawPortrait(row.canvas, { clip, band: entity.band, principal, tint: hashOf(id) }, { drawClip });
+      drawPortrait(row.canvas, { clip, figure, band: entity.band, principal, tint: hashOf(id) }, { drawClip, drawSprite, spriteFrame });
     }
     // The icons, from the server's own lists. The journeys, the yard and rest are on the main person's row: the server's rule.
     const carry = world.travelModes?.[id]?.find(mode => mode.id === modeFor(id))?.carry;
@@ -2546,11 +2546,14 @@ function panelRow(id) {
   const canvas = document.createElement('canvas');
   canvas.width = canvas.height = 96;
   canvas.setAttribute('aria-hidden', 'true');
-  // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the family panel's marks. The main person's star and idle are type.
-  portrait.append(canvas, element('span', '★', 'panel-star'), element('span', 'idle', 'panel-idle-mark'));
+  // The marks (docs/FAMILY_PANEL.md §11): each a small canvas drawn from the `mark-*` frames, with the type it replaced kept
+  // under it for a page the art never reaches (`data-drawn` says which is showing).
+  // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - the marks drawn are Claude-drawn; Astra's
+  // mark-need, mark-need-rider, mark-main, mark-idle and mark-auto of the same names replace them when registered.
+  const star = panelMark('span', '★', 'panel-star', 'mark-main'), idleMark = panelMark('span', 'idle', 'panel-idle-mark', 'mark-idle');
+  portrait.append(canvas, star, idleMark);
   // The "!": its own button beside the portrait (a button cannot hold a button), shown only while somebody waits on them.
-  // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the family panel's marks. A type "!" in the map mark's orange.
-  const attention = element('button', '!', 'panel-attention');
+  const attention = panelMark('button', '!', 'panel-attention', 'mark-need');
   attention.type = 'button';
   attention.dataset.attention = id;
   attention.hidden = true;
@@ -2571,12 +2574,11 @@ function panelRow(id) {
   house.hidden = true;
   house.setAttribute('aria-label', 'Go inside the house to set out the furniture and the goods');
   house.title = 'Go inside the house to set out the furniture and the goods';
-  const focus = element('button', '☆', 'panel-focus');
+  const focus = panelMark('button', '☆', 'panel-focus', 'mark-main');
   focus.type = 'button';
   focus.dataset.focus = id;
-  // The auto switch (docs/FAMILY_PANEL.md §11.7): the word "auto", pressed while the server says the person is on it.
-  // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the family panel's marks. The switch is type.
-  const auto = element('button', 'auto', 'panel-auto');
+  // The auto switch (docs/FAMILY_PANEL.md §11.7): the key, dim until pressed, green while the server says the person is on it.
+  const auto = panelMark('button', 'auto', 'panel-auto', 'mark-auto-off');
   auto.type = 'button';
   auto.dataset.auto = id;
   auto.setAttribute('aria-pressed', 'false');
@@ -2588,6 +2590,20 @@ function panelRow(id) {
   const row = { item, portrait, canvas, label, input, icons, attention, idle, house, focus, auto, face: null, iconsKey: null };
   panelRows.set(id, row);
   return row;
+}
+/** A mark: a small canvas for its `mark-*` frame over the character or word it replaced, drawn now and again when art arrives. */
+function panelMark(tag, text, className, mark) {
+  const node = element(tag, '', className);
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = 48;
+  canvas.setAttribute('aria-hidden', 'true');
+  node.append(canvas, element('span', text, 'panel-mark-text'));
+  paintMark(node, mark);
+  return node;
+}
+function paintMark(node, mark) {
+  node.dataset.mark = mark;
+  setData(node, 'drawn', String(drawMark(node.querySelector('canvas'), mark, { drawSprite, spriteFrame })));
 }
 function panelIcon(entityId, icon) {
   const button = element('button', '', 'panel-icon');
@@ -2652,6 +2668,7 @@ $('#family-panel')?.addEventListener('dblclick', event => { const portrait = eve
 function repaintFamilyPanel() {
   for (const row of panelRows.values()) {
     row.face = null;
+    for (const node of row.item.querySelectorAll('[data-mark]')) paintMark(node, node.dataset.mark);
     for (const icon of row.icons.querySelectorAll('.panel-icon')) drawIcon(icon.querySelector('canvas'), icon.dataset.key, { drawSprite, spriteFrame });
   }
   if (window.__snapshot) renderFamilyPanel(window.__snapshot.world);

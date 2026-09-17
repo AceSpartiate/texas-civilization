@@ -2,6 +2,11 @@
 // own the clock and the ground position. No function reads or changes simulation state.
 // A missing atlas always returns 0, preserving the caller's procedural fallback.
 const BASE = '/assets/frontier-v1/';
+// stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)". A second, separate library of frames
+// Claude drew for requests Astra has not delivered (scripts/build-claude-standins.mjs). Its sheets carry absolute image
+// paths and every entry `madeBy: "claude"`; a frame of the same name in Astra's atlas always wins, so her delivery
+// replaces a stand-in the moment it is registered. Missing or unreadable, it changes nothing.
+const STANDIN_MANIFEST = '/assets/claude-standins/atlas.json';
 const CORE_SHEETS = ['nature', 'buildings', 'transport', 'civilians'];
 const MOTIONS = new Set(['none', 'sway', 'breathe', 'rock', 'recoil', 'drift', 'pulse']);
 const art = { status: 'idle', frames: {}, sheets: {}, images: {}, clips: {} };
@@ -35,18 +40,25 @@ function loadImage(source) {
 }
 async function readManifest(name) {
   try {
-    const response = await fetch(BASE + name);
+    const response = await fetch(name.startsWith('/') ? name : BASE + name);
     return response.ok ? await response.json() : null;
   } catch { return null; }
+}
+/** Add the Claude-drawn stand-ins behind Astra's frames: hers keep their names, theirs fill the gaps. */
+function mergeStandins(standins) {
+  if (!standins?.sheets || !standins.frames) return;
+  for (const [name, sheet] of Object.entries(standins.sheets)) if (!art.sheets[name]) art.sheets[name] = sheet;
+  for (const [name, frame] of Object.entries(standins.frames)) if (!art.frames[name] && art.sheets[frame.sheet]) art.frames[name] = frame;
 }
 function ensureManifests() {
   if (!manifestPending) {
     art.status = 'loading';
     manifestPending = (async () => {
-      const [atlas, animation] = await Promise.all([readManifest('atlas.json'), readManifest('animation.json')]);
+      const [atlas, animation, standins] = await Promise.all([readManifest('atlas.json'), readManifest('animation.json'), readManifest(STANDIN_MANIFEST)]);
       art.frames = atlas?.frames || {};
       art.sheets = atlas?.sheets || {};
       art.clips = animation?.clips || {};
+      mergeStandins(standins);
       if (!atlas) art.status = 'unavailable';
       return Boolean(atlas);
     })();
@@ -57,7 +69,8 @@ function requestSheet(name) {
   if (!art.sheets[name]) return Promise.resolve(null);
   if (!sheetPending.has(name)) {
     sheetPending.set(name, (async () => {
-      const image = await loadImage(BASE + art.sheets[name].image);
+      const source = art.sheets[name].image;
+      const image = await loadImage(source.startsWith('/') ? source : BASE + source);
       if (image) art.images[name] = image;
       art.status = Object.keys(art.images).length ? 'ready' : 'unavailable';
       notifyReady();

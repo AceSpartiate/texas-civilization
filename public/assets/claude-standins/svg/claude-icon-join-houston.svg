@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!-- icon-join-houston: a column of men on the march under a flag - three hatted men in file, rifles shouldered, a plain
+       flag on a staff over them. Claude-drawn stand-in; replace with Astra's icon-join-houston (request 2026-09-16, the
+       winter's icons). -->
+  <defs>
+    <linearGradient id="hous-coat" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9a7a52"/><stop offset="1" stop-color="#5e4629"/></linearGradient>
+    <linearGradient id="hous-coat2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6f7f8f"/><stop offset="1" stop-color="#3c4a58"/></linearGradient>
+    <linearGradient id="hous-coat3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a9512d"/><stop offset="1" stop-color="#6e2f18"/></linearGradient>
+    <linearGradient id="hous-hat" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d4b075"/><stop offset="1" stop-color="#8c683d"/></linearGradient>
+    <linearGradient id="hous-flag" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3e6c6"/><stop offset="1" stop-color="#c9b48a"/></linearGradient>
+    <linearGradient id="hous-trews" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#c3a679"/><stop offset="1" stop-color="#8a7050"/></linearGradient>
+  </defs>
+  <g filter="url(#grain)" stroke-linejoin="round" stroke-linecap="round" stroke="#1a0e08">
+    <!-- the flag staff and flag, carried at the head of the column -->
+    <path d="M 100 112 L 100 8" fill="none" stroke="#1a0e08" stroke-width="7"/>
+    <path d="M 100 112 L 100 8" fill="none" stroke="#7a5534" stroke-width="3.5"/>
+    <path d="M 100 12 Q 84 18 72 12 Q 62 8 54 14 L 56 40 Q 66 34 76 40 Q 88 46 100 38 Z" fill="url(#hous-flag)" stroke-width="2.8"/>
+    <path d="M 62 18 Q 70 14 78 18" fill="none" stroke="#fffaf0" stroke-width="1.8" opacity="0.8"/>
+    <path d="M 66 30 Q 78 26 90 30" fill="none" stroke="#a8946a" stroke-width="1.6" opacity="0.6"/>
+    <!-- the men, back to front: each a hat, head, coat, legs and a shouldered rifle -->
+    <!-- rearmost -->
+    <g transform="translate(-6 0)">
+      <path d="M 30 112 L 28 90 M 40 112 L 42 90" fill="none" stroke="#1a0e08" stroke-width="9"/>
+      <path d="M 30 112 L 28 90 M 40 112 L 42 90" fill="none" stroke="url(#hous-trews)" stroke-width="5"/>
+      <path d="M 36 40 L 34 66" fill="none" stroke="#1a0e08" stroke-width="6"/>
+      <path d="M 36 40 L 34 66" fill="none" stroke="#5a3a1e" stroke-width="3"/>
+      <path d="M 24 92 L 24 62 Q 35 52 46 62 L 46 92 Z" fill="url(#hous-coat2)" stroke-width="3"/>
+      <circle cx="35" cy="50" r="8" fill="#d9a879" stroke-width="2.8"/>
+      <path d="M 20 46 Q 35 36 50 44 L 49 48 Q 35 41 21 50 Z" fill="url(#hous-hat)" stroke-width="2.8"/>
+      <path d="M 27 46 Q 28 34 35 34 Q 43 34 43 46 Z" fill="url(#hous-hat)" stroke-width="2.8"/>
+    </g>
+    <!-- middle -->
+    <g transform="translate(20 6)">
+      <path d="M 30 112 L 28 90 M 40 112 L 42 90" fill="none" stroke="#1a0e08" stroke-width="9"/>
+      <path d="M 30 112 L 28 90 M 40 112 L 42 90" fill="none" stroke="url(#hous-trews)" stroke-width="5"/>
+      <path d="M 36 40 L 34 66" fill="none" stroke="#1a0e08" stroke-width="6"/>
+      <path d="M 36 40 L 34 66" fill="none" stroke="#5a3a1e" stroke-width="3"/>
+      <path d="M 24 92 L 24 62 Q 35 52 46 62 L 46 92 Z" fill="url(#hous-coat)" stroke-width="3"/>
+      <circle cx="35" cy="50" r="8" fill="#d9a879" stroke-width="2.8"/>
+      <path d="M 20 46 Q 35 36 50 44 L 49 48 Q 35 41 21 50 Z" fill="url(#hous-hat)" stroke-width="2.8"/>
+      <path d="M 27 46 Q 28 34 35 34 Q 43 34 43 46 Z" fill="url(#hous-hat)" stroke-width="2.8"/>
+    </g>
+    <!-- foremost, the colour bearer's hand on the staff -->
+    <g transform="translate(46 12)">
+      <path d="M 30 112 L 28 90 M 40 112 L 42 90" fill="none" stroke="#1a0e08" stroke-width="9"/>
+      <path d="M 30 112 L 28 90 M 40 112 L 42 90" fill="none" stroke="url(#hous-trews)" stroke-width="5"/>
+      <path d="M 24 92 L 24 62 Q 35 52 46 62 L 46 92 Z" fill="url(#hous-coat3)" stroke-width="3"/>
+      <path d="M 44 66 L 54 60" fill="none" stroke="#1a0e08" stroke-width="8"/>
+      <path d="M 44 66 L 54 60" fill="none" stroke="#8b432b" stroke-width="4.5"/>
+      <circle cx="54" cy="58" r="4" fill="#d9a879" stroke-width="2.2"/>
+      <circle cx="35" cy="50" r="8" fill="#d9a879" stroke-width="2.8"/>
+      <path d="M 20 46 Q 35 36 50 44 L 49 48 Q 35 41 21 50 Z" fill="url(#hous-hat)" stroke-width="2.8"/>
+      <path d="M 27 46 Q 28 34 35 34 Q 43 34 43 46 Z" fill="url(#hous-hat)" stroke-width="2.8"/>
+      <path d="M 28 62 L 28 86" fill="none" stroke="#e0a070" stroke-width="1.8" opacity="0.6"/>
+    </g>
+    <!-- the ground under their feet -->
+    <path d="M 8 118 Q 64 112 120 118" fill="none" stroke="#7a6a4a" stroke-width="2.4" opacity="0.6"/>
+  </g>
+</svg>

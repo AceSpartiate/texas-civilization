@@ -79,10 +79,11 @@ export const INTERIOR_ART = Object.freeze({
   'good:bedding': ['home-bedding', 0.08, 'Bedding'], 'good:pot': ['home-iron-pot', 0.08, 'Iron pot'], 'good:chest': ['home-chest', 0.12, 'Chest'], 'good:spinning-wheel': ['home-spinning-wheel', 0.2, 'Spinning wheel'],
   'good:books': ['home-books', 0.06, 'A few books'], 'good:mosquito-bars': ['home-mosquito-bars', 0.22, 'Mosquito bars'], 'good:tinware': ['home-tinware', 0.07, 'Tinware'], 'good:chairs': ['home-chair', 0.14, 'Chairs'],
   'stores:provisions': ['barrel', 0.13, 'Barrels of meal and salt meat'], 'stores:seed': ['sacks', 0.11, 'Sacks of seed'],
-  // stand-in: Request 2026-09-12 (second) — interiors and furnishings. The wagon's tools have no interior art, so every one is
-  // the equipment sheet's `tools` (a hatchet, an axe and a spade leaning together), told apart by its name and drawn larger
-  // for the long-handled tools. When the interior tool pieces are delivered, name each one's frame here.
-  'tool:hoe': ['tools', 0.13, 'Hoe'], 'tool:axe': ['tools', 0.13, 'Felling axe'], 'tool:broadaxe': ['tools', 0.1, 'Broadaxe'],
-  'tool:froe': ['tools', 0.08, 'Froe'], 'tool:auger': ['tools', 0.08, 'Auger'],
+  // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)". The wagon's five tools are Claude-drawn
+  // frames from public/assets/claude-standins/ (request 2026-09-12 (second), the wagon's tools); Astra's home-hoe, home-felling-axe,
+  // home-broadaxe, home-froe and home-auger of the same names replace them when registered. The long-handled tools are still
+  // drawn larger, the rule the earlier one-picture stand-in set.
+  'tool:hoe': ['home-hoe', 0.13, 'Hoe'], 'tool:axe': ['home-felling-axe', 0.13, 'Felling axe'], 'tool:broadaxe': ['home-broadaxe', 0.1, 'Broadaxe'],
+  'tool:froe': ['home-froe', 0.08, 'Froe'], 'tool:auger': ['home-auger', 0.08, 'Auger'],
 });
 

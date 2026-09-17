@@ -19,6 +19,9 @@ import {
 } from '../public/family-panel.js';
 
 const atlas = JSON.parse(readFileSync(fileURLToPath(new URL('../public/assets/frontier-v1/atlas.json', import.meta.url)), 'utf8'));
+// The Claude-drawn stand-ins (docs/ART_REQUESTS.md, "Claude-drawn stand-ins"): a frame may come from either library.
+const standins = JSON.parse(readFileSync(fileURLToPath(new URL('../public/assets/claude-standins/atlas.json', import.meta.url)), 'utf8'));
+const inLibrary = name => Boolean(atlas.frames[name] || standins.frames[name]);
 const catalogue = new Map(choreCatalogue().map(chore => [chore.id, chore]));
 const person = (id, role, age) => ({ id, role, ...(age !== undefined && { age }) });
 
@@ -68,7 +71,7 @@ test('every chore and every order has an icon from the library and exactly one s
     assert.match(sentence, /^[A-Z][^.!?]*[.!?]$/, `${key}'s summary is not one sentence: "${sentence}"`);
     const icon = PANEL_ICONS[key];
     assert.ok(icon && (icon.sprite || icon.glyph), `${key} has no icon`);
-    if (icon.sprite) assert.ok(atlas.frames[icon.sprite], `${key}'s icon ${icon.sprite} is not in the atlas`);
+    if (icon.sprite) assert.ok(inLibrary(icon.sprite), `${key}'s icon ${icon.sprite} is in neither atlas (frontier-v1 or claude-standins)`);
   }
 });
 

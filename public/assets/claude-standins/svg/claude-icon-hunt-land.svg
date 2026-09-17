@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!-- icon-hunt-land: a white-tailed buck's head, facing the viewer, ears out and antlers up. Claude-drawn stand-in;
+       replace with Astra's icon-hunt-land (request 2026-09-15, action icons). -->
+  <defs>
+    <linearGradient id="deer-face" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c8905a"/><stop offset="0.6" stop-color="#a06a3c"/><stop offset="1" stop-color="#6a4225"/></linearGradient>
+    <linearGradient id="deer-antler" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e0cfae"/><stop offset="1" stop-color="#8c7350"/></linearGradient>
+    <linearGradient id="deer-neck" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a06a3c"/><stop offset="1" stop-color="#5e3d1e"/></linearGradient>
+  </defs>
+  <g filter="url(#grain)" stroke-linejoin="round" stroke-linecap="round" stroke="#1a0e08">
+    <!-- the neck and chest -->
+    <path d="M 40 124 Q 36 92 50 80 L 78 80 Q 92 92 88 124 Z" fill="url(#deer-neck)" stroke-width="3"/>
+    <path d="M 52 96 Q 64 90 76 96 L 78 124 L 50 124 Z" fill="#e9d9b8" stroke-width="2.4"/>
+    <!-- the antlers, beam and tines -->
+    <path d="M 46 40 Q 30 30 26 8 M 34 24 L 20 20 M 40 34 L 30 40 M 82 40 Q 98 30 102 8 M 94 24 L 108 20 M 88 34 L 98 40" fill="none" stroke="#1a0e08" stroke-width="10"/>
+    <path d="M 46 40 Q 30 30 26 8 M 34 24 L 20 20 M 40 34 L 30 40 M 82 40 Q 98 30 102 8 M 94 24 L 108 20 M 88 34 L 98 40" fill="none" stroke="url(#deer-antler)" stroke-width="5.5"/>
+    <!-- the ears -->
+    <path d="M 40 48 Q 14 40 8 56 Q 22 66 42 62 Z" fill="url(#deer-face)" stroke-width="3"/>
+    <path d="M 88 48 Q 114 40 120 56 Q 106 66 86 62 Z" fill="url(#deer-face)" stroke-width="3"/>
+    <path d="M 36 52 Q 22 50 16 56" fill="none" stroke="#e9d9b8" stroke-width="3" opacity="0.8"/>
+    <path d="M 92 52 Q 106 50 112 56" fill="none" stroke="#e9d9b8" stroke-width="3" opacity="0.8"/>
+    <!-- the head: broad at the brow, narrowing to the muzzle -->
+    <path d="M 40 44 Q 64 30 88 44 Q 92 62 84 78 Q 74 94 64 96 Q 54 94 44 78 Q 36 62 40 44 Z" fill="url(#deer-face)" stroke-width="3"/>
+    <!-- the pale muzzle and dark nose -->
+    <path d="M 50 80 Q 64 74 78 80 Q 74 92 64 94 Q 54 92 50 80 Z" fill="#e9d9b8" stroke-width="2.4"/>
+    <path d="M 56 84 Q 64 80 72 84 Q 70 92 64 92 Q 58 92 56 84 Z" fill="#1a0e08" stroke-width="2"/>
+    <!-- eyes -->
+    <ellipse cx="50" cy="60" rx="4.5" ry="5" fill="#1a0e08" stroke="none"/>
+    <ellipse cx="78" cy="60" rx="4.5" ry="5" fill="#1a0e08" stroke="none"/>
+    <circle cx="49" cy="58" r="1.5" fill="#fff" stroke="none"/>
+    <circle cx="77" cy="58" r="1.5" fill="#fff" stroke="none"/>
+    <!-- rim light on the brow -->
+    <path d="M 46 46 Q 56 38 66 38" fill="none" stroke="#e8b880" stroke-width="2" opacity="0.7"/>
+  </g>
+</svg>

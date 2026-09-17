@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96">
+  <!-- mark-need: an exclamation point on a round orange token, the map's own mark colour (#c2582c). Claude-drawn stand-in;
+       replace with Astra's mark-need (request 2026-09-16, the family panel's marks). -->
+  <defs>
+    <radialGradient id="need-face" cx="0.36" cy="0.32" r="0.78">
+      <stop offset="0" stop-color="#e07a4a"/>
+      <stop offset="0.5" stop-color="#c2582c"/>
+      <stop offset="1" stop-color="#8e3a1a"/>
+    </radialGradient>
+    <linearGradient id="need-edge" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8e3a1a"/>
+      <stop offset="1" stop-color="#5a2410"/>
+    </linearGradient>
+    <linearGradient id="need-bang" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0" stop-color="#fff6e2"/>
+      <stop offset="0.7" stop-color="#f3dfb6"/>
+      <stop offset="1" stop-color="#d9bc86"/>
+    </linearGradient>
+  </defs>
+  <g filter="url(#grain)" stroke-linejoin="round" stroke-linecap="round">
+    <!-- the token's thickness, a darker rim showing below -->
+    <ellipse cx="48" cy="52" rx="40" ry="39" fill="url(#need-edge)" stroke="#1a0e08" stroke-width="2.6"/>
+    <!-- the face -->
+    <circle cx="48" cy="46" r="39" fill="url(#need-face)" stroke="#1a0e08" stroke-width="2.6"/>
+    <!-- lit rim, upper left -->
+    <path d="M 18 34 A 33 33 0 0 1 40 12" fill="none" stroke="#f0a070" stroke-width="2.4" opacity="0.85"/>
+    <path d="M 26 62 A 33 33 0 0 1 14 44" fill="none" stroke="#f0a070" stroke-width="1.4" opacity="0.4"/>
+    <!-- a sunk inner ring, like a stamped coin -->
+    <circle cx="48" cy="46" r="32" fill="none" stroke="#7a2f14" stroke-width="1.6" opacity="0.7"/>
+    <!-- the exclamation: a tapered bar and a dot, cream -->
+    <path d="M 40 17 Q 48 13 56 17 L 53 50 Q 48 53 43 50 Z" fill="url(#need-bang)" stroke="#1a0e08" stroke-width="2.4"/>
+    <circle cx="48" cy="64" r="7" fill="url(#need-bang)" stroke="#1a0e08" stroke-width="2.4"/>
+    <path d="M 43 21 Q 44 30 44 40" fill="none" stroke="#fffaf0" stroke-width="1.6" opacity="0.9"/>
+    <path d="M 44 62 Q 45 60 47 59" fill="none" stroke="#fffaf0" stroke-width="1.4" opacity="0.9"/>
+  </g>
+</svg>

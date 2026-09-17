@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!-- icon-practise-shooting: a mark - a board target on a post, rings painted on it and a ball hole near the middle.
+       Claude-drawn stand-in; replace with Astra's icon-practise-shooting (request 2026-09-15, action icons). -->
+  <defs>
+    <linearGradient id="shoot-board" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e8d8b0"/><stop offset="1" stop-color="#b8a078"/></linearGradient>
+    <linearGradient id="shoot-post" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#a5784b"/><stop offset="1" stop-color="#4b3018"/></linearGradient>
+  </defs>
+  <g filter="url(#grain)" stroke-linejoin="round" stroke-linecap="round" stroke="#1a0e08">
+    <!-- the post and the ground -->
+    <ellipse cx="64" cy="116" rx="30" ry="7" fill="#7a6a4a" stroke-width="2.6"/>
+    <path d="M 58 84 L 70 84 L 70 116 L 58 116 Z" fill="url(#shoot-post)" stroke-width="3"/>
+    <!-- the board, two planks nailed together -->
+    <path d="M 18 14 L 110 14 L 112 90 L 16 90 Z" fill="url(#shoot-board)" stroke-width="3"/>
+    <path d="M 18 52 L 110 52" fill="none" stroke="#8c7a52" stroke-width="2" opacity="0.7"/>
+    <path d="M 22 18 L 106 18" fill="none" stroke="#fbf1d8" stroke-width="2" opacity="0.8"/>
+    <!-- the rings, painted in charcoal and rust -->
+    <circle cx="64" cy="52" r="30" fill="#c2582c" stroke-width="3"/>
+    <circle cx="64" cy="52" r="20" fill="#e8d8b0" stroke-width="3"/>
+    <circle cx="64" cy="52" r="10" fill="#3b3427" stroke-width="3"/>
+    <!-- the ball hole, splintered, a little off centre -->
+    <path d="M 70 46 L 76 42 L 78 48 L 84 50 L 78 54 L 80 60 L 74 56 L 70 60 L 68 54 L 62 52 L 68 48 Z" fill="#1a0e08" stroke-width="2"/>
+    <path d="M 72 48 L 76 50" fill="none" stroke="#5a4a30" stroke-width="1.6"/>
+    <!-- a nail at each corner -->
+    <circle cx="24" cy="20" r="2" fill="#3b3427" stroke="none"/>
+    <circle cx="104" cy="20" r="2" fill="#3b3427" stroke="none"/>
+    <circle cx="22" cy="84" r="2" fill="#3b3427" stroke="none"/>
+    <circle cx="106" cy="84" r="2" fill="#3b3427" stroke="none"/>
+  </g>
+</svg>

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!-- icon-clear-plot: a grubbing hoe driven in beside a stump. Claude-drawn stand-in; replace with Astra's icon-clear-plot
+       (request 2026-09-15, action icons). -->
+  <defs>
+    <linearGradient id="clear-stump" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#b8875a"/><stop offset="0.5" stop-color="#8c6238"/><stop offset="1" stop-color="#4b3018"/></linearGradient>
+    <radialGradient id="clear-top" cx="0.4" cy="0.4" r="0.7"><stop offset="0" stop-color="#e8c898"/><stop offset="1" stop-color="#b8875a"/></radialGradient>
+    <linearGradient id="clear-blade" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a0a29c"/><stop offset="0.5" stop-color="#6a6c68"/><stop offset="1" stop-color="#2f312e"/></linearGradient>
+    <linearGradient id="clear-handle" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#c49463"/><stop offset="1" stop-color="#6a4525"/></linearGradient>
+  </defs>
+  <g filter="url(#grain)" stroke-linejoin="round" stroke-linecap="round" stroke="#1a0e08">
+    <!-- the ground -->
+    <ellipse cx="64" cy="112" rx="56" ry="10" fill="#7a6a4a" stroke-width="2.6"/>
+    <!-- the stump with its roots, cut top seen from above -->
+    <path d="M 66 112 L 62 106 L 74 96 M 118 110 L 110 104 L 102 94" fill="none" stroke="#1a0e08" stroke-width="8"/>
+    <path d="M 66 112 L 62 106 L 74 96 M 118 110 L 110 104 L 102 94" fill="none" stroke="#5e3d1e" stroke-width="4.5"/>
+    <path d="M 72 62 L 108 62 L 112 100 Q 90 108 68 100 Z" fill="url(#clear-stump)" stroke-width="3"/>
+    <path d="M 78 68 L 76 96 M 90 66 L 90 100 M 102 68 L 104 96" fill="none" stroke="#4b3018" stroke-width="2" opacity="0.6"/>
+    <ellipse cx="90" cy="62" rx="18" ry="7" fill="url(#clear-top)" stroke-width="3"/>
+    <ellipse cx="90" cy="62" rx="10" ry="4" fill="none" stroke="#a5784b" stroke-width="1.4" opacity="0.7"/>
+    <path d="M 74 66 L 74 94" fill="none" stroke="#d9b27a" stroke-width="2" opacity="0.7"/>
+    <!-- the grubbing hoe, handle up and to the left, its broad blade bitten into the ground by the stump -->
+    <path d="M 60 96 L 20 18" fill="none" stroke="#1a0e08" stroke-width="11"/>
+    <path d="M 60 96 L 20 18" fill="none" stroke="url(#clear-handle)" stroke-width="7"/>
+    <path d="M 52 84 L 74 78 L 70 110 L 46 104 Z" fill="url(#clear-blade)" stroke-width="3"/>
+    <path d="M 56 88 L 54 100" fill="none" stroke="#e6e8e2" stroke-width="2.2" opacity="0.9"/>
+    <!-- dirt thrown up -->
+    <ellipse cx="34" cy="104" rx="5" ry="3" fill="#5a3a1e" stroke-width="2"/>
+    <ellipse cx="24" cy="110" rx="4" ry="2.5" fill="#5a3a1e" stroke-width="2"/>
+  </g>
+</svg>

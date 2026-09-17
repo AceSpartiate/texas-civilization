@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!-- icon-mend-hoe: a hoe blade, its edge nicked, and the file that sets it right. Claude-drawn stand-in; replace with
+       Astra's icon-mend-hoe (request 2026-09-15, action icons). -->
+  <defs>
+    <linearGradient id="mend-blade" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a0a29c"/><stop offset="0.5" stop-color="#6a6c68"/><stop offset="1" stop-color="#2f312e"/></linearGradient>
+    <linearGradient id="mend-handle" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#c49463"/><stop offset="1" stop-color="#6a4525"/></linearGradient>
+    <linearGradient id="mend-file" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8a8c86"/><stop offset="0.5" stop-color="#5a5c58"/><stop offset="1" stop-color="#2f312e"/></linearGradient>
+  </defs>
+  <g filter="url(#grain)" stroke-linejoin="round" stroke-linecap="round" stroke="#1a0e08">
+    <!-- the hoe, lying with its handle off to the upper left and the blade toward us -->
+    <path d="M 8 10 L 62 58" fill="none" stroke="#1a0e08" stroke-width="11"/>
+    <path d="M 8 10 L 62 58" fill="none" stroke="url(#mend-handle)" stroke-width="7"/>
+    <path d="M 56 50 L 70 42 L 104 76 L 78 96 L 44 72 Z" fill="url(#mend-blade)" stroke-width="3"/>
+    <!-- the nick in the edge -->
+    <path d="M 88 84 L 92 78 L 96 84 Z" fill="#f3ead2" stroke-width="2"/>
+    <path d="M 62 56 L 90 82" fill="none" stroke="#e6e8e2" stroke-width="2.4" opacity="0.8"/>
+    <!-- the eye where the handle goes through -->
+    <path d="M 58 54 Q 66 48 72 56 Q 66 62 58 54 Z" fill="#3a3c38" stroke-width="2.2"/>
+    <!-- the file, laid across the blade at an angle, wooden handle at the top right -->
+    <path d="M 118 24 L 100 40" fill="none" stroke="#1a0e08" stroke-width="12"/>
+    <path d="M 118 24 L 100 40" fill="none" stroke="url(#mend-handle)" stroke-width="8"/>
+    <path d="M 102 38 L 40 106" fill="none" stroke="#1a0e08" stroke-width="10"/>
+    <path d="M 102 38 L 40 106" fill="none" stroke="url(#mend-file)" stroke-width="6"/>
+    <path d="M 96 46 L 92 44 M 90 52 L 86 50 M 84 58 L 80 56 M 78 64 L 74 62 M 72 70 L 68 68 M 66 76 L 62 74 M 60 82 L 56 80 M 54 88 L 50 86 M 48 94 L 44 92" fill="none" stroke="#c6c8c2" stroke-width="1.4" opacity="0.8"/>
+    <!-- filings -->
+    <circle cx="30" cy="112" r="2" fill="#8a8c86" stroke="none"/>
+    <circle cx="38" cy="118" r="1.6" fill="#8a8c86" stroke="none"/>
+    <circle cx="24" cy="104" r="1.6" fill="#8a8c86" stroke="none"/>
+  </g>
+</svg>

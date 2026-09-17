@@ -61,53 +61,20 @@ export const ORDER_NAMES = Object.freeze({
 });
 
 /**
- * The picture on every icon.
+ * The picture on every icon: the `icon-<key>` frame of the action-icon contract (docs/ART_REQUESTS.md, request 2026-09-15).
  *
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-15 - action icons. No icon art exists: each action is drawn with the
- * nearest thing the library already has, fitted into the icon, or a simple drawn glyph where nothing is near. Replace
- * with the delivered `icon-*` frames, one per key, and delete the row under *Stand-ins in use*.
+ * stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)". Every `icon-*` frame drawn today is
+ * Claude-drawn, from public/assets/claude-standins/ (`madeBy: "claude"` in its atlas.json); Astra's `icon-<key>` of the same
+ * name, registered through `npm run build:art`, replaces it without a change here. The winter's eight (request 2026-09-16)
+ * are Claude-drawn the same way. A frame that has not loaded draws the `dot` glyph until the sheet arrives.
  */
-export const PANEL_ICONS = Object.freeze({
-  'survey-plot': { sprite: 'survey-stake' },
-  'cut-lane': { sprite: 'stump' },
-  'dig-well': { sprite: 'bucket' },
-  'plant-field': { sprite: 'corn-young' },
-  'harvest-field': { sprite: 'corn-mature' },
-  'clear-plot': { sprite: 'clearing-branches' },
-  'fence-plot': { sprite: 'fence-rail' },
-  'build-house': { sprite: 'house-round-log-walls' },
-  'help-raise': { sprite: 'house-hewn-log-walls' },
-  'hunt-timber': { sprite: 'oak-broad' },
-  'hunt-land': { glyph: 'deer' },
-  'practise-shooting': { glyph: 'target' },
-  'sell-cotton': { sprite: 'cotton-mature' },
-  'fetch-powder': { sprite: 'barrel' },
-  'fetch-seed': { sprite: 'sacks' },
-  'sell-food': { sprite: 'crate' },
-  'mend-hoe': { sprite: 'tools' },
-  'replace-hoe': { glyph: 'hoe' },
-  'visit-shop': { sprite: 'timber-shop' },
-  'make-furniture': { sprite: 'home-bench' },
-  'buy-furniture': { sprite: 'home-bedstead' },
-  'fell-trees': { sprite: 'stump-post-oak' },
-  'haul-logs': { sprite: 'log-fallen' },
-  // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the winter's icons (enlisting, the garrison, the expedition, voting,
-  // sending for somebody). Drawn with glyphs and the nearest pictures the library has until they are delivered.
-  'enlist-regular': { glyph: 'flag' },
-  'enlist-auxiliary': { glyph: 'flag' },
-  'join-garrison': { glyph: 'fort' },
-  'join-matamoros': { glyph: 'south' },
-  'go-vote': { glyph: 'ballot' },
-  'join-relief': { glyph: 'fort' },
-  'join-houston': { glyph: 'flag' },
-  'winter-recall': { sprite: 'cabin-small' },
-  'travel-gonzales': { sprite: 'trading-house' },
-  'travel-home': { sprite: 'cabin-small' },
-  visit: { sprite: 'cabin-wide' },
-  work: { sprite: 'householder-hoe' },
-  rest: { sprite: 'bedroll' },
-  'stop-chore': { glyph: 'stop' },
-});
+export const PANEL_ICONS = Object.freeze(Object.fromEntries([
+  'survey-plot', 'cut-lane', 'dig-well', 'plant-field', 'harvest-field', 'clear-plot', 'fence-plot', 'build-house', 'help-raise',
+  'hunt-timber', 'hunt-land', 'practise-shooting', 'sell-cotton', 'fetch-powder', 'fetch-seed', 'sell-food', 'mend-hoe', 'replace-hoe',
+  'visit-shop', 'make-furniture', 'buy-furniture', 'fell-trees', 'haul-logs',
+  'enlist-regular', 'enlist-auxiliary', 'join-garrison', 'join-matamoros', 'go-vote', 'join-relief', 'join-houston', 'winter-recall',
+  'travel-gonzales', 'travel-home', 'visit', 'work', 'rest', 'stop-chore',
+].map(key => [key, { sprite: `icon-${key}` }])));
 
 /** Chores sent with a place the student taps on the map: their icon starts choosing the place (sim/survey.mjs). */
 export const ON_MAP = Object.freeze(['survey-plot', 'clear-plot', 'fence-plot', 'hunt-land', 'fell-trees']);
@@ -422,60 +389,52 @@ export function drawIcon(canvas, key, { drawSprite, spriteFrame }) {
   return !icon?.sprite;
 }
 
+/** The one glyph left: a dot, drawn while an icon's sheet has not arrived (or never does; the library is optional). */
 function drawGlyph(ctx, glyph, size) {
   const s = size / 48;
   ctx.save();
   ctx.scale(s, s);
-  ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = '#4b3e28'; ctx.fillStyle = '#8a6a3d'; ctx.lineWidth = 3;
-  const path = draw => { ctx.beginPath(); draw(); };
-  if (glyph === 'deer') {
-    // A deer's head and antlers, facing the viewer.
-    path(() => { ctx.ellipse(24, 30, 7, 10, 0, 0, Math.PI * 2); }); ctx.fill(); ctx.stroke();
-    path(() => { ctx.ellipse(15, 22, 4, 2.5, -0.5, 0, Math.PI * 2); ctx.moveTo(37, 22); ctx.ellipse(33, 22, 4, 2.5, 0.5, 0, Math.PI * 2); }); ctx.fill();
-    path(() => { ctx.moveTo(20, 20); ctx.lineTo(14, 8); ctx.moveTo(16, 12); ctx.lineTo(9, 10); ctx.moveTo(28, 20); ctx.lineTo(34, 8); ctx.moveTo(32, 12); ctx.lineTo(39, 10); }); ctx.stroke();
-  } else if (glyph === 'target') {
-    for (const [radius, fill] of [[17, '#f3ead2'], [11, '#b0503a'], [5, '#f3ead2']]) { path(() => ctx.arc(24, 24, radius, 0, Math.PI * 2)); ctx.fillStyle = fill; ctx.fill(); ctx.stroke(); }
-  } else if (glyph === 'hoe') {
-    path(() => { ctx.moveTo(12, 40); ctx.lineTo(34, 10); }); ctx.lineWidth = 3.5; ctx.strokeStyle = '#7a5a33'; ctx.stroke();
-    path(() => { ctx.moveTo(30, 8); ctx.lineTo(42, 14); ctx.lineTo(38, 20); ctx.lineTo(29, 14); ctx.closePath(); }); ctx.fillStyle = '#6d6a62'; ctx.strokeStyle = '#3b3427'; ctx.lineWidth = 2; ctx.fill(); ctx.stroke();
-    path(() => ctx.arc(14, 16, 6, 0, Math.PI * 2)); ctx.fillStyle = '#c9a44a'; ctx.fill(); ctx.stroke();
-  } else if (glyph === 'stop') {
-    path(() => { ctx.moveTo(14, 14); ctx.lineTo(34, 34); ctx.moveTo(34, 14); ctx.lineTo(14, 34); }); ctx.lineWidth = 5; ctx.strokeStyle = '#8a3b22'; ctx.stroke();
-  } else if (glyph === 'flag') {
-    // A flag on a staff: enlisting. stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the winter's icons.
-    path(() => { ctx.moveTo(14, 42); ctx.lineTo(14, 6); }); ctx.stroke();
-    path(() => { ctx.moveTo(15, 8); ctx.lineTo(38, 12); ctx.lineTo(15, 24); ctx.closePath(); }); ctx.fillStyle = '#9c3a28'; ctx.fill(); ctx.stroke();
-  } else if (glyph === 'fort') {
-    // A walled place with a gate: the garrison.
-    path(() => { ctx.rect(8, 18, 32, 22); }); ctx.fillStyle = '#c9b38a'; ctx.fill(); ctx.stroke();
-    path(() => { ctx.moveTo(8, 18); ctx.lineTo(8, 12); ctx.lineTo(14, 12); ctx.lineTo(14, 18); ctx.moveTo(34, 18); ctx.lineTo(34, 12); ctx.lineTo(40, 12); ctx.lineTo(40, 18); }); ctx.stroke();
-    path(() => { ctx.rect(20, 28, 8, 12); }); ctx.fillStyle = '#4b3e28'; ctx.fill();
-  } else if (glyph === 'south') {
-    // An arrow pointing down the map: going south.
-    path(() => { ctx.moveTo(24, 6); ctx.lineTo(24, 38); ctx.moveTo(12, 28); ctx.lineTo(24, 42); ctx.lineTo(36, 28); }); ctx.lineWidth = 5; ctx.stroke();
-  } else if (glyph === 'ballot') {
-    // A paper going into a box: voting.
-    path(() => { ctx.rect(10, 24, 28, 18); }); ctx.fillStyle = '#8a6a3d'; ctx.fill(); ctx.stroke();
-    path(() => { ctx.rect(16, 6, 16, 20); }); ctx.fillStyle = '#f3ead2'; ctx.fill(); ctx.stroke();
-    path(() => { ctx.moveTo(20, 12); ctx.lineTo(28, 12); ctx.moveTo(20, 17); ctx.lineTo(28, 17); }); ctx.lineWidth = 2; ctx.stroke();
-  } else {
-    path(() => ctx.arc(24, 24, 6, 0, Math.PI * 2)); ctx.fill();
-  }
+  ctx.fillStyle = '#8a6a3d';
+  ctx.beginPath(); ctx.arc(24, 24, 6, 0, Math.PI * 2); ctx.fill();
   ctx.restore();
 }
 
 /**
- * Draw a portrait: the head and shoulders of the person's own figure.
+ * Draw one of the panel's marks into its canvas: `mark-need`, `mark-need-rider`, `mark-main`, `mark-idle`, `mark-auto-off`
+ * or `mark-auto-on`, fitted to the square. True when it drew; false when the frame is not there, and the page shows the
+ * type it had instead (docs/ART_REQUESTS.md, request 2026-09-16 - the family panel's marks).
  *
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-15 - face portraits. There are no portraits: the figure the map draws the
- * person as (`clip`, chosen by `castVariant` and `childFigure` in public/motion.js) is drawn large, facing south, with only
- * its top showing - the head and shoulders. A drawn silhouette in the same place until the sheet loads, or if it fails.
- * Replace with the delivered `portrait-*` frames and delete the row under *Stand-ins in use*.
+ * stand-in: the marks drawn today are Claude-drawn, from public/assets/claude-standins/; Astra's frames of the same names
+ * replace them when registered.
  */
-export function drawPortrait(canvas, { clip, band, principal = false, tint = 0 }, { drawClip }) {
+export function drawMark(canvas, name, { drawSprite, spriteFrame }) {
+  const ctx = canvas.getContext('2d'), size = canvas.width;
+  ctx.clearRect(0, 0, size, size);
+  const frame = spriteFrame(name);
+  if (!frame) return false;
+  const fit = Math.min(size / frame.w, size / frame.h);
+  const x = (size - frame.w * fit) / 2 + frame.w * fit * frame.anchorX, y = (size - frame.h * fit) / 2 + frame.h * fit * frame.anchorY;
+  return Boolean(drawSprite(ctx, name, x, y, fit * (frame.logicalHeight || frame.h)));
+}
+
+/**
+ * Draw a portrait: `portrait-<figure>`, the head and shoulders of the figure the map draws the person as (`figure`, chosen
+ * by `castVariant` and `childFigure` in public/motion.js), fitted to the square on the page's flat ground.
+ *
+ * stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)". The `portrait-*` frames drawn today are
+ * Claude-drawn (public/assets/claude-standins/, request 2026-09-15 - face portraits); Astra's of the same names replace
+ * them when registered. Without a portrait frame the older stand-in stays: the figure's own idle clip drawn large with only
+ * its top showing, and a drawn silhouette until any sheet loads.
+ */
+export function drawPortrait(canvas, { clip, figure = null, band, principal = false, tint = 0 }, { drawClip, drawSprite = null, spriteFrame = null }) {
   const ctx = canvas.getContext('2d'), size = canvas.width;
   ctx.clearRect(0, 0, size, size);
   ctx.fillStyle = '#e9dcb8'; ctx.fillRect(0, 0, size, size);
+  const portrait = figure && spriteFrame ? spriteFrame(`portrait-${figure}`) : null;
+  if (portrait && drawSprite) {
+    const fit = size / Math.max(portrait.w, portrait.h);
+    if (drawSprite(ctx, `portrait-${figure}`, size / 2 - portrait.w * fit * (0.5 - portrait.anchorX), size / 2 + portrait.h * fit * (portrait.anchorY - 0.5), fit * (portrait.logicalHeight || portrait.h))) return true;
+  }
   // How much of the figure fills the square: a grown figure's head and shoulders are about its top third; a small child's
   // head is a bigger share of them, and an infant in a basket is shown whole.
   const share = { infant: 1.05, small: 1.9, child: 2.3, youth: 2.8, adult: 2.9 }[band] || 2.9;

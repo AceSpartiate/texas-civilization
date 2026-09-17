@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!-- icon-sell-food: a barrel of meal, its lid off and the meal showing, with a coin in front. Claude-drawn stand-in;
+       replace with Astra's icon-sell-food (request 2026-09-15, action icons). -->
+  <defs>
+    <linearGradient id="food-stave" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#c49463"/><stop offset="0.45" stop-color="#9a7048"/><stop offset="1" stop-color="#4b3018"/></linearGradient>
+    <radialGradient id="food-meal" cx="0.4" cy="0.3" r="0.8"><stop offset="0" stop-color="#f6e8c0"/><stop offset="1" stop-color="#cdb27a"/></radialGradient>
+    <radialGradient id="food-coin" cx="0.35" cy="0.3" r="0.8"><stop offset="0" stop-color="#f6dc80"/><stop offset="0.6" stop-color="#d4a83a"/><stop offset="1" stop-color="#8a5f12"/></radialGradient>
+  </defs>
+  <g filter="url(#grain)" stroke-linejoin="round" stroke-linecap="round" stroke="#1a0e08">
+    <!-- the barrel, bulging staves and two iron hoops -->
+    <path d="M 26 30 Q 14 64 26 108 Q 60 116 94 108 Q 106 64 94 30 Q 60 22 26 30 Z" fill="url(#food-stave)" stroke-width="3"/>
+    <path d="M 44 30 Q 36 64 44 108 M 62 28 Q 58 64 62 110 M 80 30 Q 84 64 80 108" fill="none" stroke="#4b3018" stroke-width="2" opacity="0.6"/>
+    <path d="M 20 46 Q 60 54 100 46 L 100 54 Q 60 62 20 54 Z" fill="#5a5c58" stroke-width="2.6"/>
+    <path d="M 20 88 Q 60 96 100 88 L 100 96 Q 60 104 20 96 Z" fill="#5a5c58" stroke-width="2.6"/>
+    <path d="M 30 36 Q 28 64 30 102" fill="none" stroke="#e0b98a" stroke-width="2.2" opacity="0.7"/>
+    <!-- the open top, the meal heaped in it -->
+    <ellipse cx="60" cy="30" rx="34" ry="10" fill="#3a2412" stroke-width="3"/>
+    <path d="M 30 30 Q 44 16 60 18 Q 78 18 90 30 Q 60 38 30 30 Z" fill="url(#food-meal)" stroke-width="2.6"/>
+    <!-- the coin -->
+    <circle cx="100" cy="104" r="17" fill="url(#food-coin)" stroke-width="3"/>
+    <circle cx="100" cy="104" r="11" fill="none" stroke="#8a5f12" stroke-width="1.8" opacity="0.7"/>
+    <path d="M 90 98 A 12 12 0 0 1 98 92" fill="none" stroke="#fff3c4" stroke-width="2.2" opacity="0.9"/>
+    <path d="M 96 98 L 104 98 L 100 110 Z" fill="#8a5f12" opacity="0.6" stroke="none"/>
+  </g>
+</svg>

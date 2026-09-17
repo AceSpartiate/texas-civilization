@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <!-- home-felling-axe: a long-handled felling axe standing head-down on the floor, the handle leaning back. Claude-drawn
+       stand-in; replace with Astra's home-felling-axe (request 2026-09-12 (second), the wagon's tools). -->
+  <defs>
+    <linearGradient id="hfax-handle" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#d9b27a"/><stop offset="0.5" stop-color="#a5784b"/><stop offset="1" stop-color="#5e3d1e"/></linearGradient>
+    <linearGradient id="hfax-head" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a0a29c"/><stop offset="0.5" stop-color="#6a6c68"/><stop offset="1" stop-color="#2f312e"/></linearGradient>
+  </defs>
+  <g filter="url(#grain)" stroke-linejoin="round" stroke-linecap="round" stroke="#1a0e08">
+    <path d="M 60 6 L 82 136" fill="none" stroke="#1a0e08" stroke-width="13"/>
+    <path d="M 60 6 L 82 136" fill="none" stroke="url(#hfax-handle)" stroke-width="9"/>
+    <path d="M 58 14 L 78 122" fill="none" stroke="#f0d8b0" stroke-width="2.2" opacity="0.8"/>
+    <!-- the head, resting on the floor: a poll at the back, the bit curving out to the right -->
+    <path d="M 68 120 L 96 118 Q 122 126 124 156 Q 106 148 96 152 L 72 154 Z" fill="url(#hfax-head)" stroke-width="3"/>
+    <path d="M 114 130 Q 120 142 120 152" fill="none" stroke="#e6e8e2" stroke-width="2.6" opacity="0.9"/>
+    <path d="M 72 124 L 92 122" fill="none" stroke="#c6c8c2" stroke-width="2" opacity="0.7"/>
+  </g>
+</svg>

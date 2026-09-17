@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <!-- home-hoe: a broad-bladed grubbing hoe standing on its blade, handle leaning back a little, as it would against a
+       cabin wall. Claude-drawn stand-in; replace with Astra's home-hoe (request 2026-09-12 (second), the wagon's tools). -->
+  <defs>
+    <linearGradient id="hhoe-handle" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#d9b27a"/><stop offset="0.5" stop-color="#a5784b"/><stop offset="1" stop-color="#5e3d1e"/></linearGradient>
+    <linearGradient id="hhoe-blade" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a0a29c"/><stop offset="0.5" stop-color="#6a6c68"/><stop offset="1" stop-color="#2f312e"/></linearGradient>
+  </defs>
+  <g filter="url(#grain)" stroke-linejoin="round" stroke-linecap="round" stroke="#1a0e08">
+    <path d="M 96 6 L 72 132" fill="none" stroke="#1a0e08" stroke-width="13"/>
+    <path d="M 96 6 L 72 132" fill="none" stroke="url(#hhoe-handle)" stroke-width="9"/>
+    <path d="M 92 12 L 72 118" fill="none" stroke="#f0d8b0" stroke-width="2.2" opacity="0.8"/>
+    <!-- the eye and the blade, standing on its edge -->
+    <path d="M 64 126 Q 74 118 84 126 L 84 134 L 64 134 Z" fill="#3a3c38" stroke-width="2.8"/>
+    <path d="M 46 130 L 102 130 L 108 156 L 40 156 Z" fill="url(#hhoe-blade)" stroke-width="3"/>
+    <path d="M 50 134 L 46 152" fill="none" stroke="#e6e8e2" stroke-width="2.4" opacity="0.9"/>
+    <path d="M 44 154 L 104 154" fill="none" stroke="#c6c8c2" stroke-width="2" opacity="0.6"/>
+  </g>
+</svg>

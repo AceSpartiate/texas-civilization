@@ -12,6 +12,9 @@ import { applyAction, projectWorld, validateWorld } from '../sim/world.mjs';
 import { INTERIORS, INTERIOR_ART, interiorItems, interiorOf, placeRefusal } from '../sim/interior.mjs';
 
 const atlas = JSON.parse(readFileSync(new URL('../public/assets/frontier-v1/atlas.json', import.meta.url), 'utf8'));
+// The Claude-drawn stand-ins (docs/ART_REQUESTS.md, "Claude-drawn stand-ins"): a thing may be drawn from either library.
+const standins = JSON.parse(readFileSync(new URL('../public/assets/claude-standins/atlas.json', import.meta.url), 'utf8'));
+const inLibrary = name => Boolean(atlas.frames[name] || standins.frames[name]);
 /** A class where every family's cabin stands. */
 const housed = () => {
   const world = createGonzalesWorld('interior', 5); world.status = 'running';
@@ -28,7 +31,7 @@ test('every interior\'s spots lie on its picture and every thing that can be set
     for (const [id, label, x, y] of room.spots) assert.ok(label && x > 0 && x < 1 && y > 0 && y < 1, `${kind}'s ${id} is off the picture`);
   }
   for (const [item, [sprite, height, name]] of Object.entries(INTERIOR_ART)) {
-    assert.ok(atlas.frames[sprite], `${item} is drawn as ${sprite}, which the library does not have`);
+    assert.ok(inLibrary(sprite), `${item} is drawn as ${sprite}, which neither library (frontier-v1 or claude-standins) has`);
     assert.ok(height > 0 && height < 0.5 && name, `${item} cannot be drawn`);
   }
 });

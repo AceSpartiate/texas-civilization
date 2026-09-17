@@ -20,21 +20,49 @@ does not have:
 | --- | --- | --- | --- |
 | The six drawn towns' documented buildings the library cannot draw (frame buildings, the Whiteside Hotel, the Round Top House, jacales, Mina's stockade, Liberty's court room) | `sim/town-layouts.mjs`, drawn by `public/town-art.js` | Request 2026-09-16 — the buildings the towns' research found | the requested buildings |
 | A new town's shops are the nearest buildings the library has, two trades sharing a sprite | `SHOP_SPRITES` in `sim/shops.mjs`, drawn in `drawWorld` in `public/app.js` | Request 2026-09-16 — the shops of the towns | `shop-*` buildings, one per trade |
-| The winter's and spring's orders are drawn glyphs - a flag for both enlistments and for joining Houston, a walled fort (for the garrison and for riding in from Gonzales), an arrow pointing south, a ballot in a box - and sending for somebody is the small cabin | `PANEL_ICONS` and `drawGlyph` in `public/family-panel.js` | Request 2026-09-16 — the winter's icons | `icon-enlist-regular`, `icon-enlist-auxiliary`, `icon-join-garrison`, `icon-join-matamoros`, `icon-go-vote`, `icon-winter-recall` |
-| The panel's marks are type and CSS: the "!" a person needs the student for is a bold "!" in an orange disc (slate for a rider), the main person's star is a ★/☆ character, idle is the word "idle" on the portrait and an "Idle" tag, and the auto switch is the word "auto" in a pill, green while on | `panelRow` in `public/app.js`, `.panel-attention`, `.panel-star`, `.panel-idle`, `.panel-auto` in `public/style.css` | Request 2026-09-16 — the family panel's marks | `mark-need`, `mark-need-rider`, `mark-main`, `mark-idle`, `mark-auto` |
-| A family member's portrait is the head and shoulders of their own map figure (the `-idle-s` clip `castVariant`/`childFigure` choose), drawn large and cropped by the square; a drawn silhouette until the sheet loads | `drawPortrait` in `public/family-panel.js` | Request 2026-09-15 — face portraits for the family panel | `portrait-<figure>` for every first- and second-cast figure and the four children |
-| Each action's icon is the nearest library sprite fitted into the square (a survey stake, a stump, a bucket, young and ripe corn, clearing branches, a rail, walls going up, an oak, ripe cotton, a barrel, sacks, a crate, tools, a fallen log, a trading house, two cabins, a man with a hoe, a bedroll), and four are drawn glyphs: a deer's head (hunt on our land), a target (practice), a hoe and coin (buy a hoe), a cross (call off the work) | `PANEL_ICONS` and `drawIcon` in `public/family-panel.js` | Request 2026-09-15 — action icons for the family panel | `icon-<key>` for each of the twenty-six actions |
 | Whole jacal stage sprites; `lean-to` shed frame; procedural double chimney; no separate interior floor/loft display | `drawHousePlot` in `public/house-plot.js` | Request 2026-09-15 — the house plot's pieces | Jacal modules, shed frame, double chimney, and separately registered floor and loft overlays |
 | Generic `chapel` and `adobe-flat` silhouettes represent San Fernando and the Governor's Palace | `public/bexar-layout.js` | Request 2026-09-14 — Béxar civic architecture | Researched 1836 civic façades in the existing illustrated style |
 | A person is drawn as the nearest figure by sex and age: a woman or girl as `teal`, a boy as `blue`, a man as `elder`; the principal in `rust` whoever they are, including a mother | `castVariant` in `public/motion.js` | Request 2026-09-12, priority 2 — the second cast | `rust-woman` for a mother who is principal, `indigo` and `teal` for women, `ochre` and `elder` for men, `blue-girl` and `blue` for adolescents |
 | A child in an unavailable action pose is a grown figure drawn smaller (90% at 10–17, 70% at 5–9, 55% at 2–4, 45% an infant). Idle, cardinal walking, rest and injured-rest use delivered `girl`, `boy`, `smallchild` and `infant` art | `CHILD_POSES` and `entityClip` in `public/motion.js` | Request 2026-09-12, priority 1 — children | Any later child-specific action poses. **Keep the scaling**: the delivered sheets fill their cells and need it |
 | A person's appearance - a parent's chosen, a child's taken after the parents - is shown only in words in the family book ("olive skin, black hair, rust clothes, a beard"); the figure on the map is still chosen by sex and age | `public/appearance.js`, `sim/appearance.mjs` | Request below — layered people art | Layered or palette-swappable sheets for the whole cast |
 | A saddlebag house's interior is drawn on the dog-run's picture (`interior-dog-run`, drawn wide), with its own ten spots measured there — by each hearth at the outer ends where that picture draws them, each back wall, window, pen and door — and nothing set in the passage the picture shows | `INTERIORS.saddlebag` in `sim/interior-data.mjs`, drawn by `public/interior.js` | Request 2026-09-12 (second) — interiors and furnishings: a saddlebag interior | `interior-saddlebag`; re-measure the spots on it, the hearths at the central chimney |
-| Every wagon tool set out in the house (hoe, felling axe, broadaxe, froe, auger) is the equipment sheet's `tools` (a hatchet, an axe and a spade leaning together), told apart only by its name, the long-handled ones drawn larger | `INTERIOR_ART` `tool:*` in `sim/interior-data.mjs`, drawn by `public/interior.js` | Request 2026-09-12 (second) — interiors and furnishings: the wagon's tools | `home-hoe`, `home-felling-axe`, `home-broadaxe`, `home-froe`, `home-auger` |
 | Five priority tree kinds use delivered size-specific art: pine, cedar, mesquite, live oak and elm. Shortleaf temporarily shares loblolly art; post oak, blackjack and the remaining hardwoods still use their nearest original broadleaf tree | `KINDS` picture in `sim/woods.mjs`, drawn by `drawGroundDetail` in `public/app.js` | Request 2026-09-15 — the trees of the colonies | `post-oak` and `blackjack` at three sizes; remaining species-specific hardwoods are later breadth |
 | Anybody of a family riding the family horse is their own figure's idle pose (`seatedClip`), facing the way they go, cut off below the waist and drawn over the back of the family's walking horse (`horse-walk`, `-n`, `-s`); the horse is not drawn again. It replaced the courier rider on 2026-09-16, which read as a stranger on the horse | `seatOf`, `seatedClip`, `seatLayout` in `public/motion.js`; `drawSeated` in `public/app.js` | Request 2026-09-14 — family members on horseback | Each cast figure mounted on the family's chestnut, walking in four directions |
 | Whoever drives the ox and wagon is their own figure's idle pose, cut off below the waist, sitting at the front of the side-view wagon (`wagon-travel`) with the ox (`ox-walk`, `-n`, `-s`) ahead; the ox and wagon are not drawn again. Going north or south the wagon stays side-on and the ox is above or below it | `wagonDriverId`, `seatOf`, `seatLayout` in `public/motion.js`; `drawSeated` in `public/app.js` | Request 2026-09-16 — driving the ox wagon | An ox team hitched to the wagon with a seated driver, in four directions, for every cast figure |
 | A rider never gets down to talk: they speak from the saddle, turned east, west, north or south toward the listener (the vertical dialogue delivered 2026-09-14 is in use) | `carrierClip` in `public/motion.js` | Request 2026-09-12, priority 3 | `courier-dismount` (delivered 2026-09-14, registered, not yet bound: it needs the encounter to know when a rider has got down and where the horse stands) |
+
+## Claude-drawn stand-ins (replace with Astra's)
+
+Owner's instruction, 2026-09-16: complete the outstanding requests with Claude-drawn art, marked so Astra can replace any of
+it at a glance. Everything in this table was **drawn by Claude, not by Astra**, and is kept apart from her library so that it
+can never be mistaken for hers:
+
+- **Where:** `public/assets/claude-standins/` — its own folder, its own sheets (every file prefixed `claude-`), its own
+  `atlas.json` with `madeBy: "claude"` on every sheet and frame, and the hand-written SVG sources under `svg/`
+  (`claude-<frame>.svg`; the portraits are generated by `scripts/draw-claude-portraits.mjs`). Built by `npm run build:standins`
+  (`scripts/build-claude-standins.mjs`, the same Playwright/Chrome the browser proofs use). Nothing is added to
+  `frontier-v1/atlases/` or `atlas.json`.
+- **How it is drawn:** `public/art.js` reads the second manifest after hers and lets **her frame of the same name win**, so
+  registering a delivery through `npm run build:art` replaces the stand-in with no change to the page. `tests/claude-standins.test.mjs`
+  then fails, naming the frame, until the SVG, its entry in `SHEETS` in `scripts/build-claude-standins.mjs` and its row here are
+  deleted and the stand-ins rebuilt.
+- **In code:** every place that draws one keeps a `stand-in:` comment pointing at this section. Grep `stand-in:`.
+- **What she delivers:** each request's contract below is unchanged; the frame name in the table is the name to deliver, at
+  the size in the contract, and it will take over on registration.
+
+| Request | Claude-drawn file (frame names) | Where it plugs in | What Astra should deliver to replace it |
+| --- | --- | --- | --- |
+| Request 2026-09-16 — the family panel's marks | `claude-marks.png`: `mark-need`, `mark-need-rider`, `mark-main`, `mark-idle`, `mark-auto-off`, `mark-auto-on` | `panelMark`/`paintMark` in `public/app.js` (a canvas in `.panel-attention`, `.panel-star`, `.panel-idle-mark`, `.panel-focus` and `.panel-auto`; the type shows only while no frame is drawn, `data-drawn`), `drawMark` in `public/family-panel.js` | The five marks at 96 by 96, transparent, no text; `mark-auto` in its two states as `mark-auto-off` and `mark-auto-on` (dim brown; green `#4f7a3a`) |
+| Request 2026-09-16 — the winter's icons | `claude-icons-winter.png`: `icon-enlist-regular`, `icon-enlist-auxiliary`, `icon-join-garrison`, `icon-join-matamoros`, `icon-go-vote`, `icon-winter-recall`, `icon-join-relief`, `icon-join-houston` | `PANEL_ICONS` in `public/family-panel.js` (every key names `icon-<key>`) | The eight icons at 128 by 128 in the action-icon contract, reading at 38 pixels and dimmed to 40 per cent |
+| Request 2026-09-15 — action icons for the family panel | `claude-icons-actions.png`: `icon-<key>` for `survey-plot`, `cut-lane`, `dig-well`, `plant-field`, `harvest-field`, `clear-plot`, `fence-plot`, `build-house`, `help-raise`, `hunt-timber`, `hunt-land`, `practise-shooting`, `sell-cotton`, `fetch-powder`, `fetch-seed`, `sell-food`, `mend-hoe`, `replace-hoe`, `fell-trees`, `haul-logs`, `travel-gonzales`, `travel-home`, `visit`, `work`, `rest`, `stop-chore`, and three the contract did not list but the panel has, `visit-shop`, `make-furniture`, `buy-furniture` | `PANEL_ICONS` and `drawIcon` in `public/family-panel.js`; the four drawn glyphs and the fitted scene sprites are gone (a dot remains for a sheet that has not arrived) | All twenty-nine at 128 by 128, one silhouette each, per the contract; the three extra keys need icons too |
+| Request 2026-09-15 — face portraits for the family panel | `claude-portraits.png`: `portrait-rust`, `portrait-teal`, `portrait-elder`, `portrait-blue`, `portrait-rust-woman`, `portrait-indigo`, `portrait-ochre`, `portrait-blue-girl`, `portrait-girl`, `portrait-boy`, `portrait-smallchild`, `portrait-infant` | `drawPortrait` in `public/family-panel.js` (draws `portrait-<figure>` for the figure `castVariant`/`childFigure` choose; without one it still crops the idle clip, the older stand-in) | Twelve head-and-shoulders portraits at 192 by 192 matching the sheet figures exactly; Claude's are one parameterised drawing dressed after each figure and are the first to replace |
+| Request 2026-09-12 (second) — interiors and furnishings: the wagon's tools | `claude-home-tools.png`: `home-hoe`, `home-felling-axe`, `home-broadaxe`, `home-froe`, `home-auger` | `INTERIOR_ART` `tool:*` in `sim/interior-data.mjs`, drawn by `public/interior.js` (the long-handled tools still drawn larger) | The five tools in the `home-furnishings` style and scale, standing or leaning as in a cabin |
+
+**Not attempted, still on the nearest library art** (each needs animation sheets or whole buildings in Astra's painted
+style, which a hand-written SVG cannot match without jarring beside her work; their rows stay under *Stand-ins in use*):
+the shops of the towns, the buildings the towns' research found, the house plot's remaining pieces, the remaining trees,
+Béxar's civic façades, family members on horseback, driving the ox wagon, the rider who gets down, the saddlebag interior,
+the second cast's remaining sheets and layered people.
 
 ---
 
@@ -68,7 +96,7 @@ weaver `cabin-weathered`.
 
 ## Request 2026-09-16 — the winter's icons
 
-**Status: open; drawn glyphs stand in.** The second class period's choices ([COLONIES.md](COLONIES.md) §6n) are orders on the
+**Status: open; Claude-drawn stand-ins in use since 2026-09-16 (see *Claude-drawn stand-ins* above).** The second class period's choices ([COLONIES.md](COLONIES.md) §6n) are orders on the
 family panel with no icon art: enlisting (two orders), joining the garrison at Béxar, going south to the Matamoros men, voting,
 and sending for somebody who serves.
 
@@ -85,7 +113,7 @@ and sending for somebody who serves.
 
 ## Request 2026-09-16 — the family panel's marks
 
-**Status: open; type and CSS stand in.** The owner asked for "an exclamation point there for me to click on" when a person
+**Status: open; Claude-drawn stand-ins in use since 2026-09-16 (see *Claude-drawn stand-ins* above); before that, type and CSS.** The owner asked for "an exclamation point there for me to click on" when a person
 needs the student, and for one person to be chosen as the main one ([FAMILY_PANEL.md](FAMILY_PANEL.md) §11). Rows now also
 show who is idle. None of the three has art; each is a character or a word styled by the page.
 
@@ -106,7 +134,7 @@ show who is idle. None of the three has art; each is a character or a word style
 
 ## Request 2026-09-15 — face portraits for the family panel
 
-**Status: open; the figure's own head and shoulders stand in.** The owner asked for a panel down the left of the screen with "a
+**Status: open; Claude-drawn stand-ins in use since 2026-09-16 (see *Claude-drawn stand-ins* above); before that, the figure's own head and shoulders.** The owner asked for a panel down the left of the screen with "a
 small picture of the character's face" for every person in the family ([FAMILY_PANEL.md](FAMILY_PANEL.md) §6). There are no
 portraits, so each is the top of the person's map figure drawn large, which is legible but low and soft at 56 pixels.
 
@@ -128,7 +156,7 @@ portraits, so each is the top of the person's map figure drawn large, which is l
 
 ## Request 2026-09-15 — action icons for the family panel
 
-**Status: open; the nearest library pictures and drawn glyphs stand in.** Every action a student can give a person is now an
+**Status: open; Claude-drawn stand-ins in use since 2026-09-16 (see *Claude-drawn stand-ins* above); before that, the nearest library pictures and drawn glyphs.** Every action a student can give a person is now an
 icon on that person's row ([FAMILY_PANEL.md](FAMILY_PANEL.md) §4, §6). The stand-ins are scene sprites shrunk into a square,
 so several read poorly at 38 pixels (a barrel, a crate and sacks look alike) and four are plain drawn glyphs.
 
@@ -314,7 +342,7 @@ legs astride and no hands on the reins.
 
 ## Request 2026-09-12 (second) — settling in: houses, interiors, furnishings, and people whose looks can be chosen
 
-**Status: houses delivered and in use 2026-09-14** (`houses-settling`: the four houses and their `-site`, `-walls` and `-roofing` stages, drawn by the stage the server reports). **Interiors and furnishings delivered 2026-09-14** (`home-interiors`, `home-furnishings`), in use in the interior view since 2026-09-16; a saddlebag interior and the wagon's tools still open (below). Layered people still open. Specified in [SETTLING_IN.md](SETTLING_IN.md); the exact sheets are to be written
+**Status: houses delivered and in use 2026-09-14** (`houses-settling`: the four houses and their `-site`, `-walls` and `-roofing` stages, drawn by the stage the server reports). **Interiors and furnishings delivered 2026-09-14** (`home-interiors`, `home-furnishings`), in use in the interior view since 2026-09-16; a saddlebag interior still open (below); the wagon's tools are Claude-drawn stand-ins since 2026-09-16 (see *Claude-drawn stand-ins* above). Layered people still open. Specified in [SETTLING_IN.md](SETTLING_IN.md); the exact sheets are to be written
 into this request when that chapter's build reaches them, in the contract format of the request below.
 
 - **Layered people.** Students now choose what parents look like (skin tone, hair colour, clothing colour,
