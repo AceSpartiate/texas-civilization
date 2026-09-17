@@ -19,6 +19,7 @@
 // ceiling: felling a patch does not make it open ground for the going or for clearing; clearing a timber plot does not
 // fell its trees into logs. Joining them is the way out when the house plot needs more logs than a family can fell.
 import { record } from './events.mjs';
+import { PLOT_SIDE } from './fields.mjs';
 import { landAround, onRealLand } from './ground.mjs';
 import { holdingOf } from './grants.mjs';
 import { choosing } from './homesite.mjs';
@@ -196,4 +197,31 @@ export function fellingInvalid(world) {
     if (!household.logs || USE_ORDER.some(use => !Number.isInteger(household.logs[use]) || household.logs[use] < 0)) return 'Invalid log pile';
   }
   return null;
+}
+
+/**
+ * Every tree standing on a plot brought down at once, with its logs left lying where it fell.
+ *
+ * Clearing ten acres of timber is felling the trees on them (owner, 2026-09-17: "instead of having survey just magically
+ * clearing trees, there should be a way to cut those trees down, and use those to build with"). The trees are the woods' own
+ * (sim/woods.mjs), marked felled exactly as the axe marks them one by one, so the map loses them, the logs can be hauled and
+ * built with, and nothing is made that the land did not hold. Returns what came down.
+ */
+export function fellStanding(world, household, plot) {
+  // Only a class whose woods come from the land has trees to bring down; on the invented country the ground is cleared as it
+  // always was (sim/woods.mjs `woodsRule`).
+  if (woodsRule(world) !== 'landfire') return { trees: 0, logs: 0 };
+  const half = PLOT_SIDE / 2;
+  // The corners of the plot as well as its middle: `standingTrees` reaches a radius, and a plot is a square.
+  const reach = Math.hypot(half, half);
+  const trees = standingTrees(world, plot, reach).filter(tree => Math.abs(tree.x - plot.x) <= half && Math.abs(tree.y - plot.y) <= half);
+  if (!trees.length) return { trees: 0, logs: 0 };
+  world.woods ||= { felled: {}, revision: 0 };
+  let logs = 0;
+  for (const tree of trees) {
+    world.woods.felled[tree.id] = { by: household.id, minute: world.minute, kind: tree.kind, use: tree.use, logs: tree.logs, left: tree.logs };
+    logs += tree.logs;
+  }
+  world.woods.revision += 1;
+  return { trees: trees.length, logs };
 }

@@ -121,11 +121,11 @@ test('a hunt on the land goes on foot whatever is asked, and a world cannot clai
   // On the tick it costs as little as it can: no carry number (it goes on foot), and a refusal it shares with the hunt in
   // the timber said once.
   const listed = choresFor(world, household, world.entities[household.principalId]);
-  const land = listed.find(entry => entry.id === 'hunt-land'), timber = listed.find(entry => entry.id === 'hunt-timber');
+  const land = listed.find(entry => entry.id === 'hunt-land');
   assert.equal(land.haul, undefined);
-  assert.equal(timber.can, false);
-  assert.equal(land.why, undefined, 'the shared refusal is sent once');
-  assert.ok(timber.why);
+  // One hunt on the panel, not two (owner, 2026-09-17): where the trees are counted one by one a family hunts a place of its
+  // own choosing, and the hunt to the nearest timber is not offered at all.
+  assert.equal(listed.find(entry => entry.id === 'hunt-timber'), undefined, 'both hunts are offered on the real land');
   validateWorld(world);
   for (const corrupt of [c => { c.ground.x = 'far'; }, c => { c.ground.game = 2; }, c => { delete c.ground.toward; }, c => { c.ground.cover = 7; }]) {
     const copy = structuredClone(world);

@@ -39,7 +39,10 @@ const spring = () => structuredClone(shared ??= (() => {
   beginThirdPeriod(world); world.status = 'running';
   return world;
 })());
-const grownMen = world => Object.values(world.entities).filter(one => one.householdId && one.kind === 'person' && one.health.condition === 'well' && one.sex === 'male' && (one.age ?? 0) >= 16 && !one.service && !one.travel && !one.chore && one.location.siteId === world.households[one.householdId].homeSiteId);
+const grownMen = world => Object.values(world.entities).filter(one => one.householdId && one.kind === 'person' && one.health.condition === 'well' && one.sex === 'male' && (one.age ?? 0) >= 16 && !one.service && !one.travel && one.location.siteId === world.households[one.householdId].homeSiteId);
+// A man at work at home may still be sent: `serve` puts down whatever he was doing, as an order does. Since clearing timber
+// leaves logs lying (sim/improvements.mjs, 2026-09-17) more of the neighbours are busy hauling, and a test that wanted six
+// idle men found four.
 /** Put somebody with Houston at his camp, as if they had ridden there; a family somebody plays unless said otherwise. */
 const serve = (world, person, { played = true, ...extra } = {}) => {
   const siteId = houstonCamp(world), site = world.map.sites[siteId];

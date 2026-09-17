@@ -27,6 +27,7 @@
 // takes a family's own property and one that prints a sentence about it; retrofitting it
 // later would mean touching every save in existence.
 import { record } from './events.mjs';
+import { fellStanding } from './felling.mjs';
 import { clearedPlots, clearingSpells, fieldPlots, keepPlots, sownPlots } from './fields.mjs';
 import { whereFromHouse } from './survey.mjs';
 
@@ -104,9 +105,14 @@ export function clearSpell(world, household, entity, plotId) {
   if (plot.work < clearingSpells(plot)) return false;
   delete plot.work;
   plot.state = 'cleared';
+  // The trees that stood on it come down with it and the logs lie where they fell (owner, 2026-09-17: "instead of having
+  // survey just magically clearing trees, there should be a way to cut those trees down, and use those to build with").
+  // The same felling the axe does tree by tree (sim/felling.mjs), done here because the ground itself was cleared: the trees
+  // leave the map, the logs are there to haul, and nothing is created that the woods did not hold.
+  const felled = fellStanding(world, household, plot);
   record(world, 'property', {
     actorId: entity?.id, householdId: household.id, importance: 2, claimId: 'FIC-GONZ-025',
-    text: `${entity ? entity.name : 'The family'} finished clearing ten acres of ${plot.ground} ${whereFromHouse(world, household, plot)}. The field is ${clearedOf(household) * 10} acres now.`,
+    text: `${entity ? entity.name : 'The family'} finished clearing ten acres of ${plot.ground} ${whereFromHouse(world, household, plot)}. The field is ${clearedOf(household) * 10} acres now.${felled.trees ? ` ${felled.trees === 1 ? 'One tree came down' : `${felled.trees} trees came down`} with it, and ${felled.logs === 1 ? 'one log lies' : `${felled.logs} logs lie`} where they fell.` : ''}`,
   });
   return true;
 }

@@ -221,3 +221,42 @@ test('a family asks the server about clearing or fencing its own plots only', as
     rmSync(dir, { recursive: true, force: true });
   }
 });
+
+test('clearing ten acres of timber fells the trees standing on it and leaves their logs lying, ready to haul and build with', async () => {
+  // Owner, 2026-09-17, playtesting: "instead of having survey just magically clearing trees, there should be a way to cut
+  // those trees down, and use those to build with." The trees are the woods' own (sim/woods.mjs) and are marked felled
+  // exactly as the axe marks them, so the map loses them and the logs can be hauled; nothing is made that the land had not.
+  const { standingTrees, logsLying } = await import('../sim/felling.mjs');
+  const { clearSpell } = await import('../sim/improvements.mjs');
+  const { PLOT_SIDE } = await import('../sim/fields.mjs');
+  const world = createGonzalesWorld('clearing-timber', 5, { map: 'colonies' });
+  const household = world.households['hh-1'];
+  const person = world.entities[household.members[0]];
+  // A staked plot on ground that carries trees: the first place on this family's land with timber standing in it.
+  const home = world.map.sites[household.homeSiteId];
+  let where = null;
+  for (let ring = 0; ring < 12 && !where; ring++) {
+    for (const [dx, dy] of [[1, 0], [0, 1], [-1, 0], [0, -1], [1, 1], [-1, -1], [1, -1], [-1, 1]]) {
+      const point = { x: home.x + dx * PLOT_SIDE * (ring + 1), y: home.y + dy * PLOT_SIDE * (ring + 1) };
+      if (standingTrees(world, point, PLOT_SIDE / 2).length >= 3) { where = point; break; }
+    }
+  }
+  assert.ok(where, 'this seed has no timber standing near the first family');
+  const before = standingTrees(world, where, PLOT_SIDE / 2).length;
+  household.plots = [{ id: 'plot-1', x: where.x, y: where.y, ground: 'timber', state: 'staked' }];
+  // Cleared, however many spells it takes.
+  for (let spell = 0; spell < 60 && household.plots[0].state === 'staked'; spell++) clearSpell(world, household, person, 'plot-1');
+  assert.equal(household.plots[0].state, 'cleared');
+  assert.equal(standingTrees(world, where, PLOT_SIDE / 2).length, 0, 'trees are still standing on ground the family cleared');
+  const lying = logsLying(world, household);
+  assert.ok(lying.length >= before, `${before} trees came down and ${lying.length} logs lie where they fell`);
+  assert.ok(world.events.some(event => event.householdId === household.id && /trees? came down with it/.test(event.text)), 'the family was not told the trees came down');
+  validateWorld(world);
+  // On the invented country, where the trees are not counted one by one, clearing is what it always was.
+  const invented = createGonzalesWorld('clearing-invented', 5);
+  const plain = invented.households['hh-1'];
+  plain.plots = [{ id: 'plot-1', x: invented.map.sites[plain.homeSiteId].x + 0.2, y: invented.map.sites[plain.homeSiteId].y, ground: 'prairie', state: 'staked' }];
+  for (let spell = 0; spell < 60 && plain.plots[0].state === 'staked'; spell++) clearSpell(invented, plain, invented.entities[plain.members[0]], 'plot-1');
+  assert.equal(plain.plots[0].state, 'cleared');
+  assert.equal(invented.woods, undefined, 'the invented country grew woods to fell');
+});

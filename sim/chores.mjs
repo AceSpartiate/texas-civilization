@@ -475,7 +475,10 @@ export const CHORES = {
       { build: true },
     ],
   },
+  // Only where the trees are not counted one by one (the invented country): on the real land a family hunts a place of its
+  // own choosing instead, and two hunts on one panel was one too many (owner, 2026-09-17: "do we need two hunting options?").
   'hunt-timber': {
+    plainCountry: true,
     name: 'Hunt in the timber', skill: 'hunting', where: 'home', hauls: true,
     describe: 'Out to the nearest timber or brush and back: close by where the land is timbered, a long way across the prairie where it is not. The kill is a big one; what comes home is what they can carry.',
     // A hunt used to be one line - five ticks of standing in one spot with a searching
@@ -1061,6 +1064,7 @@ export function choresFor(world, household, entity, logsOut = null) {
   const list = Object.entries(CHORES).filter(([id, chore]) => !(chore.house && settled) && !(chore.helps && !visiting) && !(chore.well && !wantsWell) && !(chore.lane && !wantsLane)
     && !(chore.plotWork && !wants[id])
     && !(chore.fells && !counted) && !(chore.hauling && !lying)
+    && !(chore.plainCountry && counted)
     // Nor furniture while the family is still on the road in, or once it has every piece (sim/furniture.mjs).
     && !(chore.furniture && (household.arriving || !wanting(household).length))
     && !(chore.shops && household.arriving)
