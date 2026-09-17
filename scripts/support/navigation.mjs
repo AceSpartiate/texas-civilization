@@ -13,6 +13,7 @@
 //   anchorErrorPx how far the ground under the cursor (or between the fingers) drifted during a zoom, in screen pixels
 //   wholeDraws / movedPictures   whole-map draws, and frames that moved the last drawing instead (public/app.js handOnMap)
 import { pickSite } from '../../sim/neighbours.mjs';
+import { meetFamily } from './meet-family.mjs';
 
 const VIEW = { width: 1366, height: 768 };
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -140,6 +141,9 @@ export async function openGame({ browser, app, rate, hasTouch, errors }) {
   await page.goto(app.url + game.path);
   await page.waitForFunction(() => window.__snapshot?.world?.status === 'running' && window.__camera, null, { timeout: 180000 });
   const loadMs = Date.now() - began;
+  // The family's last name and the parents' looks, asked for before anything else (owner, 2026-09-17); unanswered, they cover
+  // the middle of the map where the gestures land.
+  await meetFamily(page);
   await clearOverlays(page);
   // Past the arrival and the house site, chosen as a neighbour chooses it (sim/neighbours.mjs `pickSite`) and sent through the
   // student's own API: while a family is choosing its site a tap on the map is a place, not a person.

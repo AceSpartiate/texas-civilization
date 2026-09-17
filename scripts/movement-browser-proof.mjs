@@ -87,12 +87,14 @@ async function run({ label, interrupt, zoom = 0 }) {
       };
       requestAnimationFrame(step);
     });
-    // Rename the neighbouring family partway through each tick, for four ticks.
+    // Rename one of the walker's own family partway through each tick, for four ticks. It was the neighbouring family until
+    // 2026-09-17, when the server stopped sending a page a snapshot that changes nothing it can see (docs/PERFORMANCE_SERVER.md):
+    // a rename the walker's page cannot see no longer interrupts its tick, so the interruption is one it does see.
     const ticks = 4;
     const started = Date.now();
     for (let i = 0; i < ticks; i++) {
       await new Promise(resolve => setTimeout(resolve, TICK_MS * (i === 0 ? 0.4 : 1)));
-      if (interrupt) await post('/api/command', { id: `rename-${crypto.randomUUID()}`, action: 'rename', name: `Neighbours ${i}` }, secondCookie);
+      if (interrupt) await page.evaluate(async n => { const kin = window.__snapshot.world.entities.find(e => e.householdId === 'hh-1' && e.kind === 'person' && e.id !== 'hh-1-thomas'); await fetch('/api/command', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: `rename-${crypto.randomUUID()}`, action: 'rename', entityId: kin.id, name: `Kin ${String.fromCharCode(65 + n)}` }) }); }, i);
     }
     await new Promise(resolve => setTimeout(resolve, Math.max(0, TICK_MS * (ticks + 0.8) - (Date.now() - started))));
     const samples = await page.evaluate(() => window.__movementSamples.slice());

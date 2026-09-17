@@ -459,6 +459,9 @@ try {
   if (await page2.locator('#tutorial-skip').isVisible()) await page2.locator('#tutorial-skip').click();
   await page2.locator('#family-panel').waitFor({ state: 'visible' });
   await page2.waitForFunction(() => (window.__familyPanel || []).filter(row => row.needs.includes('call')).length >= 2, null, { timeout: 30000, polling: 100 });
+  // The call can open while the family is still on the road in, when nobody may go yet ("Wait until this person arrives"); the
+  // menu is proved once two of them have arrived and may.
+  await page2.waitForFunction(() => Object.values(window.__snapshot?.world.request?.answerers || {}).filter(options => options.find(option => option.id === 'turn-out')?.can).length >= 2, null, { timeout: 60000, polling: 200 });
   const answerers2 = await page2.evaluate(() => Object.keys(window.__snapshot.world.request?.answerers || {}));
   const canGo = await page2.evaluate(() => Object.entries(window.__snapshot.world.request.answerers).filter(([, options]) => options.find(option => option.id === 'turn-out')?.can).map(([id]) => id));
   assert.ok(canGo.length >= 2, `only ${canGo.length} may turn out: ${JSON.stringify(await page2.evaluate(() => window.__snapshot.world.request.answerers))}`);

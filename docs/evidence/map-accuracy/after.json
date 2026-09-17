@@ -1,61 +1,61 @@
 {
   "result": "PASS",
   "label": "after",
-  "date": "2026-09-17T15:12:28.181Z",
+  "date": "2026-09-17T15:29:35.376Z",
   "sameComputerOnly": true,
   "shots": [
     {
       "place": "bexar",
       "zoom": "town",
-      "scale": 373.6,
+      "scale": 423.35,
       "path": "docs/evidence/map-accuracy/after-bexar-town.png"
     },
     {
       "place": "bexar",
       "zoom": "county",
-      "scale": 45.91,
+      "scale": 47.63,
       "path": "docs/evidence/map-accuracy/after-bexar-county.png"
     },
     {
       "place": "bexar",
       "zoom": "colonies",
-      "scale": 4.91,
+      "scale": 5.36,
       "path": "docs/evidence/map-accuracy/after-bexar-colonies.png"
     },
     {
       "place": "liberty",
       "zoom": "town",
-      "scale": 373.6,
+      "scale": 423.35,
       "path": "docs/evidence/map-accuracy/after-liberty-town.png"
     },
     {
       "place": "liberty",
       "zoom": "county",
-      "scale": 45.91,
+      "scale": 47.63,
       "path": "docs/evidence/map-accuracy/after-liberty-county.png"
     },
     {
       "place": "liberty",
       "zoom": "colonies",
-      "scale": 4.91,
+      "scale": 5.36,
       "path": "docs/evidence/map-accuracy/after-liberty-colonies.png"
     },
     {
       "place": "gonzales",
       "zoom": "town",
-      "scale": 375.94,
+      "scale": 451.82,
       "path": "docs/evidence/map-accuracy/after-gonzales-town.png"
     },
     {
       "place": "gonzales",
       "zoom": "county",
-      "scale": 46.2,
+      "scale": 41.67,
       "path": "docs/evidence/map-accuracy/after-gonzales-county.png"
     },
     {
       "place": "gonzales",
       "zoom": "colonies",
-      "scale": 4.94,
+      "scale": 4.69,
       "path": "docs/evidence/map-accuracy/after-gonzales-colonies.png"
     }
   ],

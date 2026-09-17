@@ -10,7 +10,7 @@
     "a filled place chooses what stands there; nothing is set on top of it",
     "the felling axe from the wagon is set under the window: the server holds it, and the picture shows it",
     "the rooms close, back to the map",
-    "the teacher sees the same room read only: \"INSIDE · ELIAS'S FAMILY × 2 things set out.\"",
+    "the teacher sees the same room read only: \"INSIDE · THE PROOFWRIGHT FAMILY × 2 things set out.\"",
     "at phone width the rooms open and the page does not scroll sideways",
     "no page errors"
   ],
@@ -37,7 +37,7 @@
         ]
       },
       "buttons": 0,
-      "text": "INSIDE · ELIAS'S FAMILY\n×\n\n2 things set out."
+      "text": "INSIDE · THE PROOFWRIGHT FAMILY\n×\n\n2 things set out."
     }
   },
   "screenshots": [

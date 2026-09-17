@@ -9,17 +9,17 @@
     "server/main.mjs --solo deals its game on the real land of the colonies (5 families, running)",
     "the solo game opens joined as hh-1 in gonzales, rolled and running, no join form, no Start press; the other four families automatic",
     "the solo class view opens from its Host address with the game already running",
-    "the family arrived and the house site was chosen on its grant at (-3.5496, 8.3996)",
-    "4 of the family set to auto from the panel: Cipriano Proofwright, Temperance Proofwright, Teodoro Proofwright, Mateo Proofwright",
+    "the family arrived and the house site was chosen on its grant at (6.5004, -4.7048)",
+    "4 of the family set to auto from the panel: Nicolás Proofwright, Refugia Proofwright, Eli Proofwright, Marcela Proofwright",
     "4 orders given from the panel and taken",
-    "the call came (\"A neighbour is at the door. They are carrying food to the people gathering near Gonzales, …\") and Cipriano Proofwright was sent from the one menu",
-    "the first period ended on its own at minute 113880: interim standings on both pages, no winner named (379 ticks, 41.5 s)",
+    "the call came (\"A neighbour is at the door. They are carrying food to the people gathering near Gonzales, …\") and Nicolás Proofwright was sent from the one menu",
+    "the first period ended on its own at minute 113880: interim standings on both pages, no winner named (380 ticks, 41.7 s)",
     "the Host continued the class into the winter: period 2 opens on 1836-01-25",
-    "Cipriano Proofwright was sent to enlist auxiliary from the panel",
-    "the second period ended on its own at minute 241560 (195 ticks, 21.6 s)",
+    "Nicolás Proofwright was sent to enlist auxiliary from the panel",
+    "the second period ended on its own at minute 241560 (195 ticks, 21.8 s)",
     "the Host continued the class into the spring: period 3 opens on 1836-03-14",
     "told to leave, the \"!\" opened the card and the family left for san-felipe with what fit; the farm burned behind it",
-    "the game ended on the road home at minute 302520: the final reckoning on both pages, the Host naming who finished first (401 ticks, 44.2 s)",
+    "the game ended on the road home at minute 302520: the final reckoning on both pages, the Host naming who finished first (401 ticks, 44.4 s)",
     "after the ending, a new solo game is dealt with the old pages open, and opens joined and running from the beginning",
     "no page errors on any page across the whole solo game"
   ],
@@ -31,35 +31,32 @@
     },
     "periods": {
       "first": {
-        "ticks": 379,
-        "seconds": 41.5,
+        "ticks": 380,
+        "seconds": 41.7,
         "endedAtMinute": 113880
       },
       "second": {
         "ticks": 195,
-        "seconds": 21.6,
+        "seconds": 21.8,
         "endedAtMinute": 241560
       },
       "third": {
         "ticks": 401,
-        "seconds": 44.2,
+        "seconds": 44.4,
         "endedAtMinute": 302520
       }
     },
     "family": [
-      "Cipriano Proofwright (father, 33)",
-      "Temperance Proofwright (mother, 35)",
-      "Teodoro Proofwright (son, 13)",
-      "Mateo Proofwright (son, 10)",
-      "Jonas Proofwright (son, 9)",
-      "Orpha Proofwright (daughter, 7)",
-      "Ruperto Proofwright (son, 2)"
+      "Nicolás Proofwright (father, 21)",
+      "Refugia Proofwright (mother, 29)",
+      "Eli Proofwright (son, 12)",
+      "Marcela Proofwright (daughter, 10)"
     ],
     "onAuto": [
-      "Cipriano Proofwright",
-      "Temperance Proofwright",
-      "Teodoro Proofwright",
-      "Mateo Proofwright"
+      "Nicolás Proofwright",
+      "Refugia Proofwright",
+      "Eli Proofwright",
+      "Marcela Proofwright"
     ],
     "orders": [
       {
@@ -85,19 +82,19 @@
     ],
     "call": {
       "text": "A neighbour is at the door. They are carrying food to the people gathering near Gonzales, and ask whether somebody from your family can help take it.",
-      "sent": "Cipriano Proofwright"
+      "sent": "Nicolás Proofwright"
     },
     "winter": {
       "key": "enlist-auxiliary",
       "id": "hh-1-parent-1",
-      "name": "Cipriano Proofwright"
+      "name": "Nicolás Proofwright"
     },
     "winterOutcome": {
       "voted": false,
       "service": {
         "kind": "auxiliary-year",
         "status": "serving",
-        "since": 177120,
+        "since": 175680,
         "siteId": "san-felipe",
         "acres": 320
       }
@@ -107,12 +104,12 @@
       "card": "The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer within the day, or the family packs w"
     },
     "ending": {
-      "host": "THE END OF THE STORY × How the families finished the Proofwright family finished first, with a final number of 97. Family Road miles from Gonzales Heard of the cannon Who went Coin Glory Land Final the Proofwright family 13 September 29 Cipriano Proofwright 0 reales 80 16 reales 97 Barnabas's family",
-      "family": "THE END OF THE STORY × the Proofwright family COIN IN THE HOUSE 0 reales GLORY 80 FINAL NUMBER 97 0 reales, counted as 1 real × (1 + 80 glory) + 16 reales of land (320 acres promised) = 97 Our story The family lived 13 road miles from Gonzales. Word that soldiers had come for the cannon reached them",
+      "host": "THE END OF THE STORY × How the families finished the Proofwright family finished first, with a final number of 90. Family Road miles from Gonzales Heard of the cannon Who went Coin Glory Land Final the Proofwright family 9 September 29 Nicolás Proofwright 0 reales 73 16 reales 90 Ignacio's family (n",
+      "family": "THE END OF THE STORY × the Proofwright family COIN IN THE HOUSE 0 reales GLORY 73 FINAL NUMBER 90 0 reales, counted as 1 real × (1 + 73 glory) + 16 reales of land (320 acres promised) = 90 Our story The family lived 9 road miles from Gonzales. Word that soldiers had come for the cannon reached them ",
       "flight": "returning",
       "minute": 302520
     },
-    "totalSeconds": 107.30000000000001
+    "totalSeconds": 107.9
   },
   "screenshots": [
     "docs/evidence/solo-game-at-work.png",

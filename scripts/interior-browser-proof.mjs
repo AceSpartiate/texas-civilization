@@ -15,6 +15,7 @@ import { createRequire } from 'node:module';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { createClassroom } from '../server/app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
+import { meetFamily } from './support/meet-family.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -60,6 +61,8 @@ try {
   await host.waitForFunction(() => window.__snapshot?.world.role === 'host');
   await host.getByRole('button', { name: 'Start' }).click();
   await student.waitForFunction(() => window.__snapshot?.world.status === 'running');
+  // Start rolls the joined family, which is then asked its last name and the parents' looks (owner, 2026-09-17).
+  await meetFamily(student);
   await student.evaluate(async () => { const { loadArt } = await import('/art.js'); await loadArt({ all: true }); });
 
   // The student taps the house, and the rooms open.
