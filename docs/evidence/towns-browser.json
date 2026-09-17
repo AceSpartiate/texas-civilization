@@ -1,6 +1,6 @@
 {
   "record": "The towns of the colonies, drawn in a browser: docs/TOWNS.md §5b",
-  "date": "2026-09-16",
+  "date": "2026-09-17",
   "verdict": "PASS",
   "note": "Same computer only. A 30-family class on the colonies map, served live; the Host page went to each drawn town from its Go to list. No LAN or district claim.",
   "checks": [

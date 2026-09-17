@@ -32,7 +32,22 @@ export function drawTownGround(ctx, layout, project, scale) {
  * Every building as a drawable. `labels` names the buildings a shopkeeper keeps, by building id, from the map's own shops
  * (sim/shops.mjs); a building's own documented name shows otherwise. Names appear only when the town is close.
  */
+/**
+ * The drawables of a town are the same from one frame to the next while the camera stands still, so they are kept by what
+ * decides them: the canvas, the scale, where the town's corner lands on the screen, and the keepers' names. Working them out
+ * again on every frame was about 105 ms of a nine-second load on a Chromebook-slow CPU (2026-09-17, docs/PERFORMANCE_LOAD.md).
+ */
+const keptDrawables = new WeakMap();
 export function townDrawables(ctx, layout, project, scale, labels = {}) {
+  const corner = project(townPoint(layout, { x: 0, y: 0 })), across = project(townPoint(layout, { x: 100, y: 0 }));
+  const key = [scale, corner.x, corner.y, across.x, across.y, JSON.stringify(labels)].join('|');
+  const kept = keptDrawables.get(layout);
+  if (kept?.ctx === ctx && kept.key === key) return kept.drawables;
+  const drawables = makeTownDrawables(ctx, layout, project, scale, labels);
+  keptDrawables.set(layout, { ctx, key, drawables });
+  return drawables;
+}
+function makeTownDrawables(ctx, layout, project, scale, labels) {
   const pixelsPerFoot = scale / FEET_PER_MILE;
   // A wall is its pieces laid along its line, every `spacing` feet, with a breach piece where the research has it broken.
   const walls = (layout.walls || []).flatMap(wall => {

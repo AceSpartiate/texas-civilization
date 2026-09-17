@@ -860,7 +860,7 @@ function fitCanvas() {
     canvasObserver = new ResizeObserver(() => { canvasBox = null; });
     canvasObserver.observe(canvas);
   }
-  if (!canvasBox || !canvasObserver) { const measured = canvas.getBoundingClientRect(); canvasBox = { width: measured.width, height: measured.height }; }
+  if (!canvasBox || !canvasObserver || canvasBox.viewport !== `${innerWidth}x${innerHeight}`) { const measured = canvas.getBoundingClientRect(); canvasBox = { width: measured.width, height: measured.height, viewport: `${innerWidth}x${innerHeight}` }; }
   const rect = canvasBox;
   if (!rect.width || !rect.height) { canvasBox = null; return false; }
   // Sharp on a high-density screen, but never more pixels than a 1080p frame (public/map-base.js `canvasRatio`).
@@ -3321,12 +3321,14 @@ function renderSelection(world) {
  * resizing; nothing moves them today.
  */
 const placement = { boxes: null, observer: null, left: null, top: null, docked: null };
+// The window's own size is checked too, and costs nothing: a resize is seen by the observer only after the next layout, and a
+// card placed in between used the wide screen's boxes on a phone (found by the art proof, 2026-09-17).
 function placementBoxes() {
-  if (placement.boxes) return placement.boxes;
+  if (placement.boxes && placement.boxes.viewport === `${innerWidth}x${innerHeight}`) return placement.boxes;
   const canvas = $('#world-map'), panel = $('#selection'), family = $('#family-panel');
   const rect = canvas.getBoundingClientRect();
   placement.boxes = {
-    rect, panelWidth: panel.offsetWidth, panelHeight: panel.offsetHeight,
+    viewport: `${innerWidth}x${innerHeight}`, rect, panelWidth: panel.offsetWidth, panelHeight: panel.offsetHeight,
     family: family && !family.hidden ? family.getBoundingClientRect() : null,
     controls: ['#journal-toggle', '#map-nav'].map(selector => $(selector)?.getBoundingClientRect()).filter(box => box?.height),
   };
