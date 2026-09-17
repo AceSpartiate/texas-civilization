@@ -1,13 +1,14 @@
 import { markPlayed } from '../sim/neighbours.mjs';
 import http from 'node:http';
 import { randomBytes, createHash, createHmac, timingSafeEqual } from 'node:crypto';
-import { readFileSync, realpathSync, statSync } from 'node:fs';
-import { basename, isAbsolute, relative, resolve, sep } from 'node:path';
+import { readFileSync, readdirSync, realpathSync, statSync } from 'node:fs';
+import { basename, dirname, isAbsolute, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { setAbsent } from '../sim/absence.mjs';
 import { createWorld, stepWorld, projectWorld, projectMap, applyAction, validateWorld, projectFamily, rollFamily } from '../sim/world.mjs';
-import { rollRefusal } from '../sim/family.mjs';
-import { beginNextPeriod } from '../sim/periods.mjs';
+import { householdName, rollRefusal } from '../sim/family.mjs';
+import { beginNextPeriod, periodOf } from '../sim/periods.mjs';
+import { dateOf } from '../sim/directors.mjs';
 import { choreCatalogue, modeCatalogue } from '../sim/chores.mjs';
 import { GOODS } from '../sim/trade.mjs';
 import { siteFactsFor } from '../sim/homesite.mjs';
@@ -48,6 +49,7 @@ const files = new Map([
   ['/curve.js', ['../public/curve.js', 'text/javascript']],
   ['/ending.js', ['../public/ending.js', 'text/javascript']],
   ['/appearance.js', ['../public/appearance.js', 'text/javascript']],
+  ['/looks-art.js', ['../public/looks-art.js', 'text/javascript']],
   ['/field-art.js', ['../public/field-art.js', 'text/javascript']],
   ['/gonzales-art.js', ['../public/gonzales-art.js', 'text/javascript']],
   ['/landscape-art.js', ['../public/landscape-art.js', 'text/javascript']],
@@ -117,7 +119,7 @@ export const PACES = Object.freeze({ study: 9500, brisk: 4000, quick: 1000 });
  */
 export const ABSENT_MS = 120000;
 
-export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tickMs = 200, savePath, joinUrls = [], worldFactory = createWorld, onStopRequested = null, stopDelayMs = 250, solo = false, absentMs = ABSENT_MS } = {}) {
+export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tickMs = 200, savePath, joinUrls = [], worldFactory = createWorld, onStopRequested = null, stopDelayMs = 250, solo = false, absentMs = ABSENT_MS, soloGamesDir = null } = {}) {
   if (!Number.isInteger(playerCount) || playerCount < 5 || playerCount > 30) throw new Error('Class size must be 5–30');
   if (!Number.isInteger(tickMs) || tickMs < 10 || tickMs > 10000) throw new Error('Tick interval must be 10–10000 milliseconds');
   /**
@@ -278,15 +280,98 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
    * binds to loopback and keeps in its own save (`soloPaths` in server/deployment.mjs), so a
    * teacher's real class is never the one discarded here.
    *
-   * ceiling: a fresh game on every call and no archive of the last one; a solo save is a
-   * scratch pad. "Continue the last solo game" is a reopen of the same save if it is ever wanted.
+   * Saved games (owner, 2026-09-17: "a popup should ask if the player wants to start a new game, or continue an old one.
+   * they can't continue a multiplayer game from there"; by multiple choice, a list of saved games). Every solo game is kept
+   * in its own file in `soloGamesDir` (`data/solo/games/<session>.json`), written when another game takes its place and
+   * when the server starts over a game left in the live save (server/main.mjs). Only solo games are ever in that folder,
+   * so a class's save cannot be listed or continued from here.
+   *
+   * ceiling: every solo game is kept for good; a Delete beside each game is the way out if the folder grows.
    */
   const SOLO_TICKET_MS = 120000;
   const soloTickets = new Map();
+  const gamesDir = solo ? (soloGamesDir || (savePath ? join(dirname(savePath), 'games') : null)) : null;
+  const SOLO_GAME_ID = /^[\w-]{6,40}$/;
+  const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  /** What the launcher's list says about one game: whose, when in 1835-36, and how far along. */
+  function soloSummary(saved, savedAt) {
+    const identity = Object.values(saved.clients || {})[0];
+    const household = identity && saved.world?.households?.[identity.householdId];
+    if (!household) return null;
+    const at = dateOf(saved.world, saved.world.minute);
+    const name = householdName(saved.world, household);
+    return {
+      id: saved.sessionId,
+      family: name[0].toUpperCase() + name.slice(1),
+      date: `${MONTH_NAMES[at.getUTCMonth()]} ${at.getUTCDate()}, ${at.getUTCFullYear()}`,
+      period: periodOf(saved.world),
+      status: saved.world.status,
+      savedAt,
+    };
+  }
+  /** Keep the game being played in its own file, before another takes its place. */
+  function keepSoloGame() {
+    if (!gamesDir || !Object.keys(state.clients).length) return;
+    writeSave(join(gamesDir, `${state.sessionId}.json`), { ...state, soloSavedAt: new Date().toISOString() });
+  }
+  function soloGames() {
+    if (!solo) throw new Error('This is not a Play Solo server.');
+    const games = new Map();
+    let files = [];
+    try { files = readdirSync(gamesDir).filter(file => file.endsWith('.json')); } catch { /* no games kept yet */ }
+    for (const file of files) {
+      try {
+        const saved = readSave(join(gamesDir, file));
+        const summary = saved && soloSummary(saved, saved.soloSavedAt || statSync(join(gamesDir, file)).mtime.toISOString());
+        if (summary && SOLO_GAME_ID.test(summary.id)) games.set(summary.id, summary);
+      } catch { /* a game an older build cannot open is not offered */ }
+    }
+    const live = Object.keys(state.clients).length && soloSummary(state, new Date().toISOString());
+    if (live) games.set(live.id, live);
+    return [...games.values()].sort((a, b) => b.savedAt.localeCompare(a.savedAt));
+  }
+  /** Hand the player a one-use link into whatever game is now live; the last game's pages belong to a session that is gone. */
+  function soloEntry(credential, householdId) {
+    for (const stream of [...streams]) { streams.delete(stream); stream.res.end(); }
+    // ceiling: one outstanding ticket at a time - a second game voids the first's link.
+    soloTickets.clear();
+    const ticket = token();
+    soloTickets.set(ticket, { credential, at: Date.now() });
+    return { ticket, path: `/solo/enter?ticket=${ticket}`, householdId, sessionId: state.sessionId };
+  }
+  function continueSoloGame(id) {
+    if (!solo) throw new Error('This is not a Play Solo server.');
+    if (lifecycle) throw new Error('This server is stopping.');
+    if (typeof id !== 'string' || !SOLO_GAME_ID.test(id)) throw new Error('That is not a saved solo game.');
+    const credential = token();
+    let identity;
+    if (id === state.sessionId && Object.keys(state.clients).length) {
+      identity = { ...Object.values(state.clients)[0], commands: [] };
+      commit(s => { s.clients = { [hash(credential)]: identity }; });
+    } else {
+      let saved = null;
+      try { saved = gamesDir && readSave(join(gamesDir, `${id}.json`)); } catch (error) { throw new Error(`That saved game cannot be opened: ${error.message}`); }
+      if (!saved || saved.sessionId !== id) throw new Error('That saved solo game is not there.');
+      identity = { ...Object.values(saved.clients || {})[0], commands: [] };
+      if (!identity.householdId || !saved.world?.households?.[identity.householdId]) throw new Error('That saved solo game has no player in it.');
+      keepSoloGame();
+      commit(s => {
+        s.sessionId = saved.sessionId;
+        s.sessionCode = saved.sessionCode;
+        s.hostCommands = saved.hostCommands || [];
+        s.world = saved.world;
+        s.clients = { [hash(credential)]: identity };
+        // A game left paused by a stop goes on when it is continued; an ended one is shown as it ended.
+        if (s.world.status === 'paused') s.world.status = 'running';
+      });
+    }
+    return soloEntry(credential, identity.householdId);
+  }
   function newSoloGame(name = 'Solo player') {
     if (!solo) throw new Error('This is not a Play Solo server.');
     if (lifecycle) throw new Error('This server is stopping.');
     const credential = token(), identity = { name, householdId: 'hh-1', commands: [] };
+    keepSoloGame();
     commit(s => {
       s.sessionId = token().slice(0, 12);
       s.sessionCode = randomBytes(3).toString('hex').toUpperCase();
@@ -299,13 +384,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       if (household && rollRefusal(s.world, household) === null) rollFamily(s.world, household);
       s.world.status = 'running';
     });
-    // The last game's pages belong to a session that no longer exists.
-    for (const stream of [...streams]) { streams.delete(stream); stream.res.end(); }
-    // ceiling: one outstanding ticket at a time - a second new game voids the first's link.
-    soloTickets.clear();
-    const ticket = token();
-    soloTickets.set(ticket, { credential, at: Date.now() });
-    return { ticket, path: `/solo/enter?ticket=${ticket}`, householdId: identity.householdId, sessionId: state.sessionId };
+    return soloEntry(credential, identity.householdId);
   }
   const loopback = address => address === '127.0.0.1' || address === '::1' || address === '::ffff:127.0.0.1';
   const server = http.createServer(async (req, res) => {
@@ -355,11 +434,19 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         res.setHeader('Set-Cookie', setCookie(hostCookie(), state.hostKey, 604800));
         return json(res, 200, { ok: true });
       }
-      // A new solo game, asked for with the Host key the solo server wrote to its own data folder.
+      // The saved solo games, for the launcher's choice between a new game and continuing one.
+      if (solo && req.method === 'POST' && url.pathname === '/api/solo/games') {
+        const input = await body(req);
+        if (!equal(input.key, state.hostKey)) return json(res, 403, { error: 'Host key required.' });
+        return json(res, 200, { games: soloGames() });
+      }
+      // A new solo game, or a saved one continued, asked for with the Host key the solo server wrote to its own data folder.
       if (solo && req.method === 'POST' && url.pathname === '/api/solo') {
         const input = await body(req);
         if (!equal(input.key, state.hostKey)) return json(res, 403, { error: 'Host key required.' });
-        const game = newSoloGame(typeof input.name === 'string' && input.name.trim() ? input.name.trim().slice(0, 40) : undefined);
+        const game = input.continue !== undefined
+          ? continueSoloGame(input.continue)
+          : newSoloGame(typeof input.name === 'string' && input.name.trim() ? input.name.trim().slice(0, 40) : undefined);
         return json(res, 200, { playUrl: `http://127.0.0.1:${server.address().port}${game.path}`, householdId: game.householdId, sessionId: game.sessionId });
       }
       if (req.method === 'POST' && url.pathname === '/api/join') {

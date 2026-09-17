@@ -1,5 +1,6 @@
-import { join } from 'node:path';
-import { writeFileSync, readFileSync, rmSync, existsSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { writeFileSync, readFileSync, rmSync, existsSync, statSync } from 'node:fs';
+import { readSave, writeSave } from './storage.mjs';
 import { createClassroom, PACES } from './app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { resolveDataDir, resolveSavePath, joinCandidates, soloPaths } from './deployment.mjs';
@@ -12,10 +13,16 @@ const port = solo ? paths.port : Number(process.env.PORT || 1835);
 const { dir: dataDir, origin } = solo ? { dir: paths.dir, origin: 'solo' } : resolveDataDir();
 const savePath = solo ? paths.savePath : resolveSavePath(dataDir);
 const joinUrls = solo ? [] : joinCandidates(port);
-// A solo save is a scratch pad: every Play Solo deals a new game, so the last one is not
-// reopened - which also means a solo save left by an older build can never refuse to start.
-// Only when no lock says a solo server still owns it; that one refuses to start below.
-if (solo && !existsSync(`${savePath}.lock`)) rmSync(savePath, { force: true });
+// The live solo save is kept among the saved solo games (`data/solo/games`, server/app.mjs `soloGames`) and the server
+// starts clean, so Play Solo asks whether to continue it or deal a new one - and a solo save left by an older build it
+// cannot read can never refuse to start. Only when no lock says a solo server still owns it; that one refuses below.
+if (solo && !existsSync(`${savePath}.lock`) && existsSync(savePath)) {
+  try {
+    const left = readSave(savePath);
+    if (left && Object.keys(left.clients || {}).length && /^[\w-]{6,40}$/.test(left.sessionId)) writeSave(join(dirname(savePath), 'games', `${left.sessionId}.json`), { ...left, soloSavedAt: statSync(savePath).mtime.toISOString() });
+  } catch (error) { console.error(`The last solo game could not be kept: ${error.message}`); }
+  rmSync(savePath, { force: true });
+}
 let stopping = false;
 async function shutdown(reason) {
   if (stopping) return;

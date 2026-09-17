@@ -28,13 +28,14 @@ test('a parent\'s looks are chosen after the roll, from the choices for them, an
   const [parent] = parentsOf(world, 'hh-1');
   const own = parent.sex === 'female' ? 'bonnet' : 'hat';
   const other = parent.sex === 'female' ? 'beard' : 'bonnet';
-  applyAction(world, 'hh-1', { action: 'set-appearance', entityId: parent.id, skin: 'olive', hair: 'red', clothing: 'indigo', head: own });
-  assert.deepEqual(appearanceOf(world, parent), { skin: 'olive', hair: 'red', clothing: 'indigo', head: own });
-  // Part by part: choosing one thing keeps the others.
-  applyAction(world, 'hh-1', { action: 'set-appearance', entityId: parent.id, hair: 'black' });
-  assert.equal(appearanceOf(world, parent).skin, 'olive');
   assert.throws(() => applyAction(world, 'hh-1', { action: 'set-appearance', entityId: parent.id, head: other }), /not one of the choices/);
   assert.throws(() => applyAction(world, 'hh-1', { action: 'set-appearance', entityId: parent.id, skin: 'green' }), /not one of the choices/);
+  // Part by part until every part is chosen: choosing one thing keeps the others.
+  applyAction(world, 'hh-1', { action: 'set-appearance', entityId: parent.id, skin: 'olive', hair: 'red' });
+  applyAction(world, 'hh-1', { action: 'set-appearance', entityId: parent.id, hair: 'black', clothing: 'indigo', head: own });
+  assert.deepEqual(appearanceOf(world, parent), { skin: 'olive', hair: 'black', clothing: 'indigo', head: own });
+  // Then kept (owner, 2026-09-17: the looks are set once, in the pop-up).
+  assert.throws(() => applyAction(world, 'hh-1', { action: 'set-appearance', entityId: parent.id, hair: 'red' }), /already been chosen/);
   for (const child of childrenOf(world, 'hh-1')) {
     assert.throws(() => applyAction(world, 'hh-1', { action: 'set-appearance', entityId: child.id, hair: 'red' }), /takes after their parents/);
   }

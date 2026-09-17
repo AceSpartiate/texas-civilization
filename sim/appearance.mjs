@@ -88,6 +88,11 @@ export function looksWords(appearance) {
   return [`${appearance.skin} skin`, `${appearance.hair} hair`, `${appearance.clothing} clothes`, head].filter(Boolean).join(', ');
 }
 
+/** The four parts of a parent's looks. */
+export const LOOK_PARTS = Object.freeze(['skin', 'hair', 'clothing', 'head']);
+/** Whether a parent's looks have been chosen: every part, which the pop-up sends together. */
+export const lookChosen = entity => LOOK_PARTS.every(part => entity?.appearance?.[part] !== undefined);
+
 /** What may be chosen for one parent, for the page to offer. */
 export const choicesFor = entity => ({ skin: SKIN, hair: HAIR, clothing: CLOTHING, head: HEAD[sexOf(entity)] });
 
@@ -97,6 +102,8 @@ export function appearanceRefusal(world, household, entity, input) {
   // Before the roll the people in the house are about to be replaced, so there is nobody yet to dress.
   if (rollRefusal(world, household) === null) return 'Roll the die to find out who your family is.';
   if (!isParent(entity)) return `${entity.name} takes after their parents. Choose how the parents look.`;
+  // Set once (owner, 2026-09-17: "Names on the panel only"): chosen in the pop-up after the family is named, and then kept.
+  if (lookChosen(entity)) return `How ${entity.name} looks has already been chosen.`;
   const choices = choicesFor(entity);
   for (const part of ['skin', 'hair', 'clothing', 'head']) {
     if (input[part] !== undefined && !choices[part].includes(input[part])) return `That is not one of the choices for ${part === 'head' ? 'a hat, beard, bonnet or hair' : part}.`;
