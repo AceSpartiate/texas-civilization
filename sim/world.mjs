@@ -1,5 +1,6 @@
 // Pure deterministic simulation; credentials and renderer state never belong here.
 import { buildColoniesRegion } from './colonies-region.mjs';
+import { mapForPage } from './province.mjs';
 import { advanceNeighbours } from './neighbours.mjs';
 import { record } from './events.mjs';
 import { reportsFor, deliverReports } from './knowledge.mjs';
@@ -60,7 +61,9 @@ export function createWorld(seed = 'gonzales', playerCount = 15, { map = 'gonzal
   // A class on the real land of the colonies (docs/COLONIES.md) or on the invented Gonzales country every class had before.
   if (!['gonzales', 'colonies'].includes(map)) throw new Error('Unknown map');
   const region = map === 'colonies' ? buildColoniesRegion(random, playerCount) : buildGonzalesRegion(random, playerCount);
-  world.map.sites = region.sites; world.map.routes = region.routes; world.map.terrain = region.terrain; world.map.relief = region.relief; world.map.bounds = region.bounds; world.map.homeBounds = region.homeBounds; world.map.province = region.province;
+  world.map.sites = region.sites; world.map.routes = region.routes; world.map.terrain = region.terrain; world.map.relief = region.relief; world.map.bounds = region.bounds; world.map.homeBounds = region.homeBounds;
+  // A class on the real land carries no province of its own: the page is sent the current one (sim/province.mjs).
+  if (region.province) world.map.province = region.province;
   if (region.source) world.map.source = region.source;
   // The woods of the real land (sim/woods.mjs, docs/WOODS_AND_BUILDING.md §4). Absent on every class made before, which keeps timber by the water.
   if (region.woods) world.map.woods = region.woods;
@@ -781,7 +784,7 @@ export function applyAction(world, householdId, input) {
 // The map is public geography and never changes during a class, so it is fetched once
 // rather than repeated in every snapshot. Shaded relief alone was three quarters of a
 // student's payload; at thirty clients that is megabytes a second of unchanging ground.
-export const projectMap = world => structuredClone(world.map);
+export const projectMap = world => structuredClone(mapForPage(world.map));
 /**
  * Who a family is: the answer to the question the first person to play this asked.
  *
@@ -847,7 +850,7 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
   const toolCondition = household ? Object.fromEntries(Object.entries(household.tools || {}).map(([tool, wear]) => [tool, { wear, state: toolState(wear) }])) : {};
   const offers = offersFor(world, householdId);
   const encounter = encounterProjection(world, householdId, role);
-  return structuredClone({ tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: world.map }), household: household && projectHousehold(world, household), entities, others, offers, encounter, events, work, travelModes, land, wagon, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role),
+  return structuredClone({ tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: mapForPage(world.map) }), household: household && projectHousehold(world, household), entities, others, offers, encounter, events, work, travelModes, land, wagon, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role),
     // The army, once there is one: where it is, how many went, and which of them are this family's (sim/army.mjs).
     ...(world.army && householdId ? { army: armyProjection(world, householdId) } : {}),
     // The family's flight east, once it has been told to go (sim/scrape.mjs).

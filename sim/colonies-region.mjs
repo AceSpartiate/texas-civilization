@@ -9,16 +9,16 @@
 // reasonably level ground, with a track to a road it can reach without crossing a big river. Every number in that
 // sentence is FIC-GONZ-027.
 //
-// ceiling: the province drawn when zoomed out is still the invented one of sim/texas.mjs (FIC-GONZ-002); its rivers
-// do not lie on the real ones. The home country the relief is drawn over now spans the whole class, which at thirty
-// families is most of the colonies, so its relief is coarse.
+// The country drawn zoomed out is the real land's (sim/province.mjs, docs/MAP_ACCURACY.md), sent with the map rather
+// than saved. ceiling: the home country the relief is drawn over spans the whole class, which at thirty families is
+// most of the colonies, so its relief is coarse.
 import { LEAGUE_MILES, findPath, polylineLength } from './geography.mjs';
 import { coloniesMap, BARRIER_RIVERS, dealCounts } from './colonies-map.mjs';
 import { realTerrain } from './terrain-data.mjs';
 import { groundAlong, layLane } from './ground.mjs';
 import { sampleReliefGrid } from './terrain.mjs';
 import { WOODS_SOURCE } from './woods.mjs';
-import { buildProvince } from './texas.mjs';
+import { coloniesProvince } from './province.mjs';
 
 const round = value => { const fixed = +value.toFixed(2); return fixed === 0 ? 0 : fixed; };
 const distance = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
@@ -320,6 +320,5 @@ export function buildColoniesRegion(random, playerCount) {
   else { const grow = (width / aspect - height) / 2; padded.minY -= grow; padded.maxY += grow; }
   // The Gulf has no height; the relief drawing reads it as the lowest ground there is.
   const relief = sampleReliefGrid({ heightAt: (x, y) => { const h = land.heightAt(x, y); return Number.isFinite(h) ? h : 0; } }, padded, 88);
-  const province = buildProvince();
-  return { sites, routes, terrain, homesteads, relief, homeBounds: padded, bounds: province.bounds, province, source: built.kind, woods: WOODS_SOURCE };
+  return { sites, routes, terrain, homesteads, relief, homeBounds: padded, bounds: coloniesProvince().bounds, source: built.kind, woods: WOODS_SOURCE };
 }

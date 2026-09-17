@@ -21,6 +21,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { gzipSync } from 'node:zlib';
 import { milesFrom, realTerrain } from '../sim/terrain-data.mjs';
+import { joinReaches } from './terrain/lines.mjs';
 
 const terrain = realTerrain();
 const { header, heights } = terrain;
@@ -49,8 +50,10 @@ const PLACES = [
   ['velasco', 'Velasco', 'town', -95.3001, 28.9419, 'HIST-TEX-025', false],
   // The bayou-front blocks of the 1826 plat (Broadway and Cypress), about 2,400 ft north of the official point (HIST-TEX-025).
   ['harrisburg', 'Harrisburg', 'town', -95.2785, 29.7228, 'HIST-TEX-025', false],
-  // Lynchburg, at the mouth of Buffalo Bayou: a point on the mail road to Liberty (HIST-TEX-025).
-  ['lynchburg', 'Lynchburg', 'town', -95.0554851, 29.7871704, 'HIST-TEX-025', false],
+  // Lynchburg, at the mouth of Buffalo Bayou on the east bank of the San Jacinto, by Lynch's ferry (HIST-TEX-025, HIST-TEX-084):
+  // the ground a quarter mile north-east of the present ferry landing. The TSHA point, 29.78717, -95.05549, is the present
+  // community at Interstate 10, 2.3 miles off and a mile and more from either water (docs/MAP_ACCURACY.md).
+  ['lynchburg', 'Lynchburg', 'town', -95.0740, 29.7690, 'HIST-TEX-084', false],
   ['anahuac', 'Anahuac', 'town', -94.6826961, 29.7730001, 'HIST-TEX-010', false],
   ['nacogdoches', 'Nacogdoches', 'town', -94.6554874, 31.6035129, 'HIST-TEX-010', false],
   ['bexar', 'Béxar', 'town', -98.4936282, 29.4241219, 'HIST-TEX-010', false],
@@ -454,41 +457,6 @@ for (const road of roads) if (!road.miles) road.miles = round(road.points.slice(
 // The big rivers whole, and the named creeks near any start, simplified for the map a class downloads once.
 const RIVERS = new Set([...BARRIERS, ...SLOW_WATER.filter(name => /River|Bayou/.test(name))]);
 const starts = Object.values(places).filter(p => p.start);
-// The data keeps each watercourse as many short reaches drawn downstream; join a name's reaches end to start into
-// continuous lines first, so a creek is one line and not forty.
-function joinReaches(courses) {
-  const byName = new Map();
-  for (const course of courses) {
-    if (!course.name || course.points.length < 2) continue;
-    if (!byName.has(course.name)) byName.set(course.name, []);
-    byName.get(course.name).push(course);
-  }
-  const joined = [];
-  const key = p => `${Math.round(p.x * 50)},${Math.round(p.y * 50)}`;
-  for (const [name, reaches] of byName) {
-    const startsAt = new Map();
-    for (const reach of reaches) {
-      const k = key(reach.points[0]);
-      if (!startsAt.has(k)) startsAt.set(k, []);
-      startsAt.get(k).push(reach);
-    }
-    const hasUpstream = new Set(reaches.flatMap(reach => startsAt.get(key(reach.points.at(-1))) || []));
-    const used = new Set();
-    const follow = first => {
-      const points = [...first.points];
-      let reach = first; used.add(reach);
-      for (;;) {
-        const next = (startsAt.get(key(reach.points.at(-1))) || []).find(r => !used.has(r));
-        if (!next) break;
-        used.add(next); points.push(...next.points.slice(1)); reach = next;
-      }
-      joined.push({ name, flow: first.flow, points });
-    };
-    for (const reach of reaches) if (!hasUpstream.has(reach) && !used.has(reach)) follow(reach);
-    for (const reach of reaches) if (!used.has(reach)) follow(reach);
-  }
-  return joined;
-}
 const drawn = [];
 for (const course of joinReaches(terrain.courses)) {
   if (!course.name) continue;

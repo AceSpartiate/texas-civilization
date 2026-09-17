@@ -1,0 +1,63 @@
+{
+  "result": "PASS",
+  "label": "before",
+  "date": "2026-09-17T13:58:05.337Z",
+  "sameComputerOnly": true,
+  "shots": [
+    {
+      "place": "bexar",
+      "zoom": "town",
+      "scale": 373.6,
+      "path": "docs/evidence/map-accuracy/before-bexar-town.png"
+    },
+    {
+      "place": "bexar",
+      "zoom": "county",
+      "scale": 45.91,
+      "path": "docs/evidence/map-accuracy/before-bexar-county.png"
+    },
+    {
+      "place": "bexar",
+      "zoom": "colonies",
+      "scale": 4.91,
+      "path": "docs/evidence/map-accuracy/before-bexar-colonies.png"
+    },
+    {
+      "place": "liberty",
+      "zoom": "town",
+      "scale": 373.6,
+      "path": "docs/evidence/map-accuracy/before-liberty-town.png"
+    },
+    {
+      "place": "liberty",
+      "zoom": "county",
+      "scale": 45.91,
+      "path": "docs/evidence/map-accuracy/before-liberty-county.png"
+    },
+    {
+      "place": "liberty",
+      "zoom": "colonies",
+      "scale": 4.91,
+      "path": "docs/evidence/map-accuracy/before-liberty-colonies.png"
+    },
+    {
+      "place": "gonzales",
+      "zoom": "town",
+      "scale": 375.94,
+      "path": "docs/evidence/map-accuracy/before-gonzales-town.png"
+    },
+    {
+      "place": "gonzales",
+      "zoom": "county",
+      "scale": 46.2,
+      "path": "docs/evidence/map-accuracy/before-gonzales-county.png"
+    },
+    {
+      "place": "gonzales",
+      "zoom": "colonies",
+      "scale": 4.94,
+      "path": "docs/evidence/map-accuracy/before-gonzales-colonies.png"
+    }
+  ],
+  "errors": []
+}
