@@ -94,7 +94,7 @@ test('a call and an army question are "!"s on whoever may answer them, and nothi
   assert.doesNotMatch(needsOf({ entities: [entity], army: army('open') }, 'a')[0].text, /kill|die|death|danger|risk|wound/i);
   // The most pressing first: a rider who will not wait, then the army, Travis asking for riders, a call, work asking, an offer.
   const everything = {
-    entities: [{ ...entity, chore: { ask: { id: 'shot' } }, service: { kind: 'garrison', status: 'serving', besieged: true, courier: 'open' } }], request: call, army: army('open'),
+    entities: [{ ...entity, chore: { ask: { id: 'shot' } }, service: { kind: 'garrison', status: 'serving', besieged: true, courier: 'open', leave: 'open' } }], request: call, army: army('open'),
     encounter: { status: 'open', listenerId: 'a', carrierName: 'Ben' }, offers: [{ direction: 'received', ourEntityId: 'a', theirName: 'Cy' }],
     flight: { status: 'ordered' }, household: { mainId: 'a' },
   };

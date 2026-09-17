@@ -900,9 +900,12 @@ export function choreAvailability(world, household, entity, choreId) {
   if (entity.chore) return { can: false, why: `${entity.name} is already ${entity.chore.doing}.` };
   if (entity.travel) return { can: false, why: `${entity.name} is on the road.` };
   if (entity.task === 'help') return { can: false, why: `${entity.name} is away helping.` };
-  // Somebody who has joined the army, the garrison or the expedition is in one place and does nothing else (sim/winter.mjs).
-  if (entity.service?.status === 'serving') return { can: false, why: servingWhy(world, entity) };
+  // Somebody who has joined the army, the garrison or the expedition is in one place and does nothing else (sim/winter.mjs) -
+  // except the camp's own work, which a chore kept in its own module marks `camp` and gates itself (sim/camp.mjs).
+  if (entity.service?.status === 'serving' && !chore.camp) return { can: false, why: servingWhy(world, entity) };
   if (chore.winter) { const why = winterRefusal(world, household, entity, choreId); if (why) return { can: false, why }; }
+  // A chore registered from its own module carries its own refusal (`registerChores`).
+  if (chore.refusal) { const why = chore.refusal(world, household, entity); if (why) return { can: false, why }; }
   if (chore.where === 'home' && entity.location.siteId !== household.homeSiteId) return { can: false, why: `${entity.name} is not at home.` };
   if (chore.helps) { const why = helpRefusal(world, entity); if (why) return { can: false, why }; }
   // On the real land the house, the field and the well wait for the family to say where the house stands (sim/homesite.mjs).
@@ -1007,10 +1010,19 @@ export function modeCatalogue() {
 /**
  * Chores kept in their own module (the road east's, Houston's camp's) register here at load, so that two pieces of work built
  * apart never edit the one table. A chore already in the table is refused: an id is a promise a saved class keeps.
+ *
+ * A module that registers can be reached while this one is still loading - sim/camp.mjs is, through winter → houston → scrape
+ * → host → directors - and then `CHORES` is not yet a value. Those wait in `pendingChores` (a `var`, which exists from the
+ * module's instantiation, unlike a `const`) and are taken into the table the moment it is made, below it.
  */
+var pendingChores;
 export function registerChores(extra) {
-  for (const [id, chore] of Object.entries(extra)) { if (CHORES[id]) throw new Error(`Chore ${id} is already defined`); CHORES[id] = chore; }
+  let table;
+  try { table = CHORES; } catch { (pendingChores ??= []).push(extra); return; }
+  for (const [id, chore] of Object.entries(extra)) { if (table[id]) throw new Error(`Chore ${id} is already defined`); table[id] = chore; }
 }
+for (const extra of pendingChores || []) registerChores(extra);
+pendingChores = null;
 
 export function choreCatalogue() {
   return Object.entries(CHORES).map(([id, chore]) => ({
@@ -1051,6 +1063,10 @@ export function choresFor(world, household, entity) {
     && !(chore.shops && household.arriving)
     // Nor the winter's choices outside the second period's winter, nor a vote before the polls or for somebody who has none.
     && !(chore.winter && !winterOffered(world, household, entity, id))
+    // A chore kept in its own module says who sees it (`registerChores`); and somebody serving sees only the camp's work,
+    // not thirty refusals saying they are away (sim/camp.mjs).
+    && !(chore.offered && !chore.offered(world, household, entity))
+    && !(entity.service?.status === 'serving' && !chore.camp)
     // Nor survey or plot work before the class has begun, which would be a refusal for every person on every lobby tick.
     && !((chore.survey || chore.plotWork || chore.huntLand || chore.fells) && world.status === 'lobby')).map(([id, chore]) => {
     const { can, why } = choreAvailability(world, household, entity, id);
@@ -1621,6 +1637,8 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
     if (step.mend) { household.tools[step.mend] = 0; continue; }
     // The crop the family chose at the field goes in (the ask 'crop-choice').
     if (step.crop) { household.field = { ...household.field, crop: step.crop }; continue; }
+    // A step owned by the chore's own module (`registerChores`): what the camp's work does when it is done (sim/camp.mjs).
+    if (step.run) { step.run(world, household, entity, state); continue; }
     // Arrived where they meant to join or to vote (sim/winter.mjs).
     if (step.winter) { if (step.winter === 'vote') castVote(world, household, entity); else joinService(world, household, entity, step.winter); continue; }
     if (step.shop) {

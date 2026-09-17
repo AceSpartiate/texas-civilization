@@ -90,5 +90,11 @@ function deciding(world) {
   if (Object.values(world.encounters || {}).some(encounter => encounter.status === 'open' && world.households[encounter.householdId]?.played && !world.households[encounter.householdId].absent)) return true;
   // A played family told to leave in the spring (sim/scrape.mjs): the calendar holds at the farming scale until it has gone, or
   // the army has passed and burned it out, which is at most two days.
-  return Object.values(world.households).some(household => household.played && !household.absent && household.flight?.status === 'ordered' && !household.flight.burned);
+  if (Object.values(world.households).some(household => household.played && !household.absent && household.flight?.status === 'ordered' && !household.flight.burned)) return true;
+  // A question Houston's army has put to a played family's man (sim/camp.mjs: leaving after the word of Goliad, the fork of
+  // the road) holds the calendar while that family decides - never for the camp itself, and never for a family whose
+  // student has gone, which is answered the tick it is asked. Read here without importing, as the flight is.
+  return Object.values(world.entities).some(entity => entity.service?.kind === 'houston' && entity.service.status === 'serving'
+    && (entity.service.leave === 'open' || entity.service.road === 'open')
+    && world.households[entity.householdId]?.played && !world.households[entity.householdId].absent);
 }

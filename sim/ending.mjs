@@ -60,6 +60,8 @@ const EVENT_NAMES = Object.freeze({
   coleto: 'the fight at Coleto',
   goliad: 'Goliad, on Palm Sunday',
   'san-jacinto': 'the battle of San Jacinto',
+  'houston-camp': 'the camp of Houston\'s army',
+  'which-road': 'the fork of the road below Harrisburg',
 });
 const PART_WORDS = Object.freeze({
   supplied: 'carried supplies for',
@@ -68,6 +70,8 @@ const PART_WORDS = Object.freeze({
   willing: 'said they would go in at',
   enlisted: 'enlisted in',
   voted: 'voted in',
+  served: 'did the camp\'s work at',
+  forward: 'called for the enemy\'s road at',
 });
 
 /** How far a family lived from Gonzales by road, where the news and the army both started. */

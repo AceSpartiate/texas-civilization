@@ -198,8 +198,12 @@ export function landPromised(world, household) {
   return { acres, reales: Math.floor(acres / ACRES_PER_REAL) };
 }
 
-/** What somebody serving may still be asked: nothing that is not about being sent for, named, or spoken to. */
-export const SERVING_ACTIONS = Object.freeze(['winter-recall', 'alamo-courier', 'rename', 'set-main', 'ask-rider', 'leave-rider', 'army-answer']);
+/**
+ * What somebody serving may still be asked: nothing that is not about being sent for, named, or spoken to - and, for a man
+ * with Houston, the camp's own work and the army's questions (sim/camp.mjs; `chore` is refused for anything but the camp's
+ * work by `choreAvailability`).
+ */
+export const SERVING_ACTIONS = Object.freeze(['winter-recall', 'alamo-courier', 'rename', 'set-main', 'ask-rider', 'leave-rider', 'army-answer', 'chore', 'stop-chore', 'houston-answer']);
 export const servingWhy = (world, entity) => entity.service.besieged
   ? `${entity.name} is shut in the Alamo with the garrison.`
   : `${entity.name} is with ${SERVICE[entity.service.kind].name} at ${place(world, entity.service.siteId)}, and can only be sent for.`;

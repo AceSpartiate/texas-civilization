@@ -16,6 +16,7 @@ import { record } from './events.mjs';
 import { householdName } from './family.mjs';
 import { CHORES } from './chores.mjs';
 import { SERVICE } from './winter.mjs';
+import { campName } from './houston.mjs';
 // A cycle with sim/directors.mjs (which calls `spotlight`), safe because both sides use the other only inside functions.
 import { dateOf } from './directors.mjs';
 
@@ -81,7 +82,8 @@ export function whereWords(world, person, household) {
     if (service.besieged) return `${sick}shut in the Alamo`;
     if (service.riding) return `${sick}riding for the Alamo`;
     if (service.status === 'prisoner') return `${sick}a prisoner at ${placeName(world, service.siteId)}`;
-    if (service.kind === 'houston') return `${sick}with Houston's army at ${placeName(world, service.siteId)}`;
+    // What he is at in the camp (sim/camp.mjs): "with Houston's army at Groce's, above San Felipe de Austin: drilling with the company".
+    if (service.kind === 'houston') { const at = person.chore ? `: ${person.chore.doing}` : ''; return `${sick}with Houston's army at ${campName(world, service.siteId)}${at}`; }
     if (service.kind === 'fannin') return `${sick}with Fannin at ${placeName(world, service.siteId)}`;
     return `${sick}with ${SERVICE[service.kind]?.name || 'the army'} at ${placeName(world, service.siteId)}`;
   }
@@ -107,7 +109,14 @@ export function waitingOn(world, household) {
   for (const encounter of Object.values(world.encounters || {})) if (encounter.status === 'open' && encounter.householdId === household.id) count++;
   for (const question of Object.values(world.army?.questions || {})) if (!question.closed) for (const id of household.members) if (question.asks?.[id] === 'open') count++;
   if (world.army?.detachment && !world.army.detachment.closed) for (const id of household.members) if (world.army.detachment.asks?.[id] === 'open') count++;
-  for (const id of household.members) { const person = world.entities[id]; if (person?.service?.courier === 'open') count++; if (person?.chore?.ask) count++; }
+  for (const id of household.members) {
+    const person = world.entities[id];
+    if (person?.service?.courier === 'open') count++;
+    // The army's questions to a man with Houston (sim/camp.mjs): leaving after the word of Goliad, the fork of the road.
+    if (person?.service?.leave === 'open') count++;
+    if (person?.service?.road === 'open') count++;
+    if (person?.chore?.ask) count++;
+  }
   if (household.flight?.status === 'ordered') count++;
   for (const request of [world.calls?.[household.id], world.requests?.[household.id], world.marches?.[household.id]]) if (request?.status === 'open') count++;
   for (const offer of Object.values(world.offers || {})) if (offer.toHouseholdId === household.id && offer.status === 'open') count++;

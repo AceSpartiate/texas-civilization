@@ -43,6 +43,7 @@
     "test:winter": "node scripts/winter-browser-proof.mjs",
     "test:alamo-siege": "node scripts/alamo-siege-browser-proof.mjs",
     "test:scrape": "node scripts/scrape-browser-proof.mjs",
+    "test:camp": "node scripts/camp-browser-proof.mjs",
     "test:auto": "node scripts/auto-browser-proof.mjs",
     "test:whole-game": "node scripts/whole-game-browser-proof.mjs",
     "test:solo-game": "node scripts/solo-game-browser-proof.mjs",

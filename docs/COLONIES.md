@@ -878,6 +878,11 @@ Decided by the owner by multiple choice (§7g). Research [goliad-scrape-san-jaci
   Harrisburg from April 18, Lynchburg from the 20th - and followed as it moves (`followCamp`); anybody can be sent for; the
   regulars and auxiliaries at San Felipe are taken into it on the 28th, the regulars bound still (`takeInEnlisted`). Nobody
   joins after the battle. The only other winter choice open in the spring is none: enlisting, the garrison and the south are shut.
+  **Amended 2026-09-17 ([HOUSTON_CAMP.md](HOUSTON_CAMP.md), `sim/camp.mjs`):** a man with Houston has the camp's work on his
+  row - drill (three days make him steady in the line, which counts at San Jacinto), beef and corn for the mess, the guard,
+  the scouts - and the army's two questions on his card with a "!": whether he goes home with the word of Goliad, and which
+  road at the fork below Harrisburg. Families that do not choose do the camp's work and answer at documented rates. The
+  camp's dates are now read against the class's clock (`campClock`), as the director's milestones are.
 - **Goliad**: those with Fannin can be sent for until six on the morning of March 19; Coleto at noon (`fightColeto`, 3 in 100
   killed and 20 wounded, all then prisoners); Palm Sunday (`goliadMassacre`, 89 in 100 shot, 7 got away, 5 spared to Matamoros,
   by a hashed share); the word of the defeat March 25 and of the massacre about April 1, when the family learns its own

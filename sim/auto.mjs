@@ -13,7 +13,8 @@
 // the detachment in sim/army.mjs, Travis's couriers in sim/alamo.mjs, the wagon in sim/scrape.mjs (`autoFlee`) - at the
 // shares families nobody plays use (`FIC-GONZ-040`, `FIC-GONZ-048`), so a family on auto is played as its neighbours are
 // and nobody's odds change with the switch. This module is the switch itself and the repeating of an order.
-import { CHORES, beginChore } from './chores.mjs';
+import { CHORES, beginChore, choresFor } from './chores.mjs';
+import { campChoice } from './camp.mjs';
 import { record } from './events.mjs';
 import { mainPersonId } from './family.mjs';
 import { autoFlee } from './scrape.mjs';
@@ -63,6 +64,13 @@ export function advanceAuto(world, { beginTravel, modeAvailability }) {
     }
     for (const id of household.members) {
       const person = world.entities[id];
+      // A man on auto with Houston's army takes up the camp's work as his neighbours do (sim/camp.mjs `campChoice`): the
+      // director's day, read from the same offered list a student sees. A refusal is simply a day with nothing to do.
+      if (person?.auto && person.service?.kind === 'houston' && person.service.status === 'serving' && !person.chore && !person.travel) {
+        const chore = campChoice(world, person, choresFor(world, household, person));
+        if (chore) { try { beginChore(world, household, person, chore, { beginTravel, modeAvailability }); } catch { /* refused: nothing to do today */ } }
+        continue;
+      }
       if (!person?.auto || !person.order || person.chore || person.travel || person.service || person.task === 'help') continue;
       if (person.location?.siteId !== household.homeSiteId || (household.flight && household.flight.status !== 'home')) continue;
       const order = person.order;

@@ -19,6 +19,7 @@ import { CHORES } from './chores.mjs';
 import { COTTON_SEED_PER_PLOT, SEED_PER_PLOT } from './improvements.mjs';
 import { huntingPlace } from './hunting.mjs';
 import { packFlight } from './scrape.mjs';
+import { campChoice } from './camp.mjs';
 import { fellFacts, logsLying } from './felling.mjs';
 import { logsShort } from './houseplot.mjs';
 import { treesIn, woodsRule } from './woods.mjs';
@@ -129,6 +130,13 @@ export function thinkFor(world, household, { project, act }) {
     const { take, refuge } = packFlight(view.flight);
     attempt({ action: 'flee', entityId: view.household.mainId || view.household.principalId, take, refuge });
   }
+  // A man with Houston's army (sim/camp.mjs, docs/HOUSTON_CAMP.md): the camp's work at documented rates, chosen by a hashed
+  // share of the day - mostly drill, as the army did at Groce's - so a man whose family does nothing never sits idle.
+  for (const person of people) {
+    if (person.service?.kind !== 'houston' || person.service.status !== 'serving' || person.chore || person.travel) continue;
+    const chore = campChoice(world, world.entities[person.id], view.work?.[person.id] || []);
+    if (chore) attempt({ action: 'chore', entityId: person.id, chore });
+  }
   // The winter's choices (sim/winter.mjs, docs/COLONIES.md §7e), at the record's rarity (owner, 2026-09-16): most colonists
   // stayed home that winter, so about one grown hand in ten enlists for land, about one in ten goes to the Béxar garrison,
   // one in fifty goes south to Matamoros, and nearly every man who may vote rides in to vote. Who is decided by a share
@@ -191,8 +199,9 @@ export function thinkFor(world, household, { project, act }) {
   const unfenced = nearest(plots.filter(plot => plot.state === 'cleared' && plot.fence !== 'sound'));
   for (const person of idle) {
     // Somebody away from home with nothing to do there comes home.
-    // Somebody who went with the volunteers, or to help at Gonzales, is where the family sent them (task 'help'), and stays.
-    if (person.task === 'help') continue;
+    // Somebody who went with the volunteers, or to help at Gonzales, is where the family sent them (task 'help'), and stays;
+    // so does somebody serving (sim/winter.mjs), whose day at the camp was chosen above.
+    if (person.task === 'help' || person.service) continue;
     if (person.location?.siteId !== view.household.homeSiteId) { ride({ action: 'travel', entityId: person.id, destination: view.household.homeSiteId }); continue; }
     const can = chore => Boolean(available({ person: person.id, chore }));
     const food = view.household.resources.food || 0;

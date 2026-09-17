@@ -2192,7 +2192,7 @@ function renderTravelModes(world, chosen, settable) {
 }
 function renderWork(world, chosen, running) {
   const panel = $('#selection-work');
-  const key = JSON.stringify([chosen.id, running, chosen.service?.status ?? null, chosen.service?.besieged ?? null, chosen.service?.riding ?? null, chosen.service?.courier ?? null, Boolean(chosen.travel), modeFor(chosen.id), world.land, chosen.health?.condition, Boolean(chosen.chore), chosen.chore?.ask?.openedMinute ?? null,
+  const key = JSON.stringify([chosen.id, running, chosen.service?.status ?? null, chosen.service?.besieged ?? null, chosen.service?.riding ?? null, chosen.service?.courier ?? null, chosen.service?.leave ?? null, chosen.service?.road ?? null, chosen.service?.drilled ?? null, Boolean(chosen.travel), modeFor(chosen.id), world.land, chosen.health?.condition, Boolean(chosen.chore), chosen.chore?.ask?.openedMinute ?? null,
     (world.work?.[chosen.id] || []).map(entry => ({ ...choreCache?.get(entry.id), ...entry }))]);
   if (renderedWork?.key === key) return;
   const restore = renderedWork?.chosenId === chosen.id ? rememberControls(panel) : () => {};
@@ -2237,8 +2237,27 @@ function populateWork(world, chosen, running) {
   // them, asked twice because a regular who leaves has deserted and an auxiliary loses the land.
   if (chosen.service?.status === 'serving') {
     const where = world.map?.sites?.[chosen.service.siteId]?.name || chosen.service.siteId;
-    const what = { regular: 'the regular army', 'auxiliary-war': 'the auxiliary volunteers, for the war', 'auxiliary-year': 'the auxiliary volunteers, for a year', garrison: 'the garrison', matamoros: 'the Matamoros expedition', relief: 'the men going in to the Alamo', fannin: 'Fannin\'s command' }[chosen.service.kind];
-    host.append(element('p', chosen.service.besieged ? `${chosen.name} is shut in the Alamo with the garrison.` : chosen.service.riding ? `${chosen.name} has ridden for the Alamo with the Gonzales men.` : `${chosen.name} is with ${what} at ${where}${chosen.service.acres ? `, on the promise of ${chosen.service.acres} acres` : ''}.`, 'ask-text'));
+    const what = { regular: 'the regular army', 'auxiliary-war': 'the auxiliary volunteers, for the war', 'auxiliary-year': 'the auxiliary volunteers, for a year', garrison: 'the garrison', matamoros: 'the Matamoros expedition', relief: 'the men going in to the Alamo', fannin: 'Fannin\'s command', houston: 'General Houston\'s army' }[chosen.service.kind];
+    // A man with Houston (sim/camp.mjs): how many days he has drilled is on the card, since it counts when the army fights.
+    const drilled = chosen.service.kind === 'houston' ? chosen.service.drilled ? `, drilled ${chosen.service.drilled} ${chosen.service.drilled === 1 ? 'day' : 'days'}${chosen.service.drilled >= 3 ? ' and steady in the line' : ''}` : ', not yet drilled' : '';
+    host.append(element('p', chosen.service.besieged ? `${chosen.name} is shut in the Alamo with the garrison.` : chosen.service.riding ? `${chosen.name} has ridden for the Alamo with the Gonzales men.` : `${chosen.name} is with ${what} at ${where}${chosen.service.acres ? `, on the promise of ${chosen.service.acres} acres` : ''}${drilled}.`, 'ask-text'));
+    // The army's questions to a man with Houston (sim/camp.mjs `CAMP_QUESTIONS`): the words are the server's own, from the
+    // record; the card says what leaving costs the family and nothing of what staying risks (docs/COLONIES.md §7a).
+    for (const [question, ask, yes, no, note] of [
+      ['leave', `Word has come that Fannin's whole command is taken on the prairie. Many of the men are leaving the army to see to their families. Does ${chosen.name} go home?`, `${chosen.name} leaves for home`, `${chosen.name} stays with the army`,
+        chosen.service.bound ? 'A regular who leaves has deserted: the family loses the glory of enlisting twice over, and they will not be taken again.' : chosen.service.acres ? 'They start home at once, and the promise of land goes with it.' : 'They start home at once. Whatever the army does next happens without them.'],
+      ['road', `The army has come to a fork of the road: the left-hand road goes to Nacogdoches and safety, the right to Harrisburg and the enemy. The men are shouting which. What does ${chosen.name} call for?`, `${chosen.name} calls for the right-hand road, to Harrisburg`, `${chosen.name} would take the left-hand road, for Nacogdoches`, 'The army takes the road the most of the men shout for.'],
+    ]) {
+      if (chosen.service[question] !== 'open') continue;
+      host.append(element('p', ask, 'ask-text'));
+      for (const [answer, label, words] of [['yes', yes, note], ['no', no, '']]) {
+        const button = element('button', '', 'work-option ask-option-work');
+        button.dataset.action = 'houston-answer'; button.dataset.question = question; button.dataset.answer = answer; button.dataset.entityId = chosen.id;
+        button.disabled = !running;
+        button.append(element('span', label, 'work-name'), element('span', words, 'work-note'));
+        host.append(button);
+      }
+    }
     // Travis asking for riders (sim/alamo.mjs): volunteering is no promise of being chosen.
     if (chosen.service.courier === 'open') {
       host.append(element('p', 'Travis wants riders to carry his letters out through the Mexican lines. He will choose among those who offer.', 'work-note'));
@@ -2470,7 +2489,7 @@ function goToPerson(id) {
   if (world) { drawWorld(world); renderFamilyPanel(world); renderSelection(world); renderTutorial(world); }
 }
 /** Where on the card each need is answered. A rider has a panel of their own. */
-const NEED_SECTIONS = { army: '#selection-army', courier: '#selection-work', flight: '#selection-flight', call: '#selection-call', asking: '#selection-work', offer: '#selection-trade' };
+const NEED_SECTIONS = { army: '#selection-army', camp: '#selection-work', courier: '#selection-work', flight: '#selection-flight', call: '#selection-call', asking: '#selection-work', offer: '#selection-trade' };
 /**
  * The "!" on a row: go to the person and open what is waiting on them - the rider's conversation, or their card at the
  * question with its answers - and put the keyboard on the first answer. Nothing is decided here: the answers are the card's

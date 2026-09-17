@@ -49,8 +49,10 @@ test('a grown member joins Houston at his camp, follows it when it moves, and ca
   applyAction(world, first.householdId, { action: 'chore', entityId: first.id, chore: 'join-houston', mode: 'horse' });
   until(world, () => first.service);
   assert.equal(first.service.kind, 'houston');
+  // Kept in explicitly through the word of Goliad (sim/camp.mjs), which would answer for a family nobody plays at the share.
+  first.service.leave = 'no';
   // The camp moves over the Colorado, and the army with it; somebody set out for the old camp follows.
-  serve(world, second, 'houston', 'gonzales');
+  serve(world, second, 'houston', 'gonzales', { leave: 'no' });
   untilMoment(world, 'houston-colorado');
   assert.equal(houstonCamp(world), 'columbus-crossing');
   until(world, () => [first, second].every(one => one.location.siteId === 'columbus-crossing'), 400);
@@ -135,7 +137,9 @@ test('with Fannin: sent for until March 19, then Coleto, prison, and Palm Sunday
 test('San Jacinto: 1 in 100 killed and 3 wounded, told with the victory; the army goes home and the game ends on the road home', () => {
   const world = spring();
   const men = grownMen(world).slice(0, 12);
-  for (const one of men) serve(world, one, 'houston', 'gonzales');
+  // Kept in explicitly: with the word of Goliad the army asks every man whether he leaves (sim/camp.mjs), and a family nobody
+  // plays answers at once at the record's share, so a test that wants its men at the battle says they stay.
+  for (const one of men) serve(world, one, 'houston', 'gonzales', { leave: 'no' });
   untilMoment(world, 'san-jacinto');
   const fates = Object.fromEntries(rollFates(world, men.map(one => one.id), { event: 'san-jacinto', ...SAN_JACINTO }).map(({ id, fate }) => [id, fate]));
   for (const one of men) {

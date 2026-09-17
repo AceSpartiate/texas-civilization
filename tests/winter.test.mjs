@@ -81,8 +81,10 @@ test('a regular enlists at San Felipe for 800 acres and glory, is in one place, 
   assert.throws(() => send(world, household, person, 'join-garrison'), /is with the regular army at San Felipe( de Austin)?/);
   assert.throws(() => applyAction(world, household.id, { action: 'rest', entityId: person.id }), /can only be sent for/);
   const work = view(world, household.id).work[person.id] || [];
-  // Refused because they are serving, not by the accident of standing somewhere other than home. (The land hunt shares its refusal with the timber hunt, sent once.)
-  assert.ok(work.length > 0 && work.every(entry => entry.can === false && (/can only be sent for/.test(entry.why) || (entry.id === "hunt-land" && entry.why === undefined))), `a serving person was not refused for serving: ${work.filter(entry => !/can only be sent for/.test(entry.why || "")).map(entry => `${entry.id}: ${entry.why}`)}`);
+  // Nothing is offered somebody serving (the camp's work is Houston's army's alone, sim/camp.mjs): thirty refusals saying they
+  // are away were freight on the channel. What is refused is refused for serving, not by the accident of standing elsewhere.
+  assert.equal(work.length, 0, `a serving regular was offered work: ${work.map(entry => entry.id).join(', ')}`);
+  assert.ok(work.every(entry => entry.can === false && (/can only be sent for/.test(entry.why) || (entry.id === "hunt-land" && entry.why === undefined))), `a serving person was not refused for serving: ${work.filter(entry => !/can only be sent for/.test(entry.why || "")).map(entry => `${entry.id}: ${entry.why}`)}`);
   validateWorld(world);
 
   const before = world.glory[household.id].total;
