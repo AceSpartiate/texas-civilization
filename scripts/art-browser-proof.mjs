@@ -2,6 +2,7 @@ import { createRequire } from 'node:module';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
 import { createClassroom } from '../server/app.mjs';
+import { meetFamily } from './support/meet-family.mjs';
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const app = createClassroom({ seed:'art-proof', playerCount:5, tickMs:500 });
@@ -17,7 +18,7 @@ try {
   for(let i=0;i<5;i++){
     const page=await browser.newPage({viewport:{width:1440,height:950}});capture(page);
     await page.goto(url);await page.locator('[name=name]').fill(`Art reader ${i+1}`);await page.locator('[name=code]').fill(app.state.sessionCode);
-    await page.getByRole('button',{name:'Join',exact:true}).click();await page.waitForFunction(()=>window.__snapshot?.world.householdId);clients.push(page);
+    await page.getByRole('button',{name:'Join',exact:true}).click();await page.waitForFunction(()=>window.__snapshot?.world.householdId);await meetFamily(page);clients.push(page);
   }
   const page=clients[0];
   await page.evaluate(async()=>{const a=await import('/art.js');await a.loadArt({all:true});});

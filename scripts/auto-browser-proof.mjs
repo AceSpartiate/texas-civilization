@@ -54,6 +54,9 @@ try {
   await page.getByRole('button', { name: 'Join', exact: true }).click();
   await page.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
   for (let i = 2; i <= 5; i++) await post('/api/join', { name: `Neighbour ${i}`, code: app.state.sessionCode });
+  // The title screen comes first (public/creation.js, owner 2026-09-17): Begin, then the die.
+  await page.locator('#creation-begin-button').waitFor({ state: 'visible', timeout: 30000 });
+  await page.locator('#creation-begin-button').click();
   await page.locator('#roll-family').click();
   await page.waitForFunction(() => document.querySelector('#roll-family')?.textContent === 'Meet your family', null, { timeout: 15000 });
   await page.locator('#roll-family').click();

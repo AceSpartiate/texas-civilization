@@ -14,7 +14,8 @@ import { drawHousePlot, plotted, renderHousePlot } from '/house-plot.js';
 import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesVisible, woodsLayersFor, woodsShown } from '/woods-view.js';
 import { bindEnding, renderEnding } from '/ending.js';
 import { bindLooks, renderLooks } from '/appearance.js';
-import { applyDrawState, canvasRatio, creekOpacity, distanceToSegments, ramp, readDrawState, sameLayerKey, scatterItem, scatterLevels, segmentsNear, setText, smoothCover, WATER, waterWidth, landPictureData, landUpscale } from '/map-base.js';
+import { bindCreation, creationStep, renderCreation, showTitle } from '/creation.js';
+import { applyDrawState, canvasRatio, creekOpacity, distanceToSegments, ramp, readDrawState, sameLayerKey, scatterItem, scatterLevels, segmentsNear, setText, smoothCover, WATER, waterWidth, landPictureData, landUpscale, outOfSight } from '/map-base.js';
 import { canSmoothOffThread, smoothOffThread, toBitmap } from '/smooth-worker.js';
 import { groundClass, groundClassAt, markFor } from '/ground-classes.js';
 import { decodeLand, decodeProvince, landWeights, lineBand } from '/land-levels.js';
@@ -1860,7 +1861,18 @@ function drawHolding(ctx, world, camera) {
 const mapBase = { canvas: null, key: null, state: null };
 let mapBaseEpoch = 0;
 function invalidateMapBase() { mapBaseEpoch++; }
+/**
+ * How many minutes of 1835 the last tick stood for, read from two snapshots in a row (sim/clock.mjs runs two clocks on the
+ * real land). It decides whether a journey is watchable or is left to the fog (public/map-base.js `outOfSight`).
+ */
+let minutesATick = 0, lastTickSeen = null;
+function noteTick(world) {
+  if (!world || world.tick === lastTickSeen?.tick) return;
+  if (lastTickSeen && world.tick === lastTickSeen.tick + 1 && world.minute > lastTickSeen.minute) minutesATick = world.minute - lastTickSeen.minute;
+  lastTickSeen = { tick: world.tick, minute: world.minute };
+}
 export function drawWorld(world) {
+  noteTick(world);
   window.__animationClips = new Set();
   const canvas = $('#world-map'), main = canvas.getContext('2d');
   fitCanvas();
@@ -2044,10 +2056,10 @@ export function drawWorld(world) {
       labels.push({ name: ownLand ? 'Home' : (host && landBySite.get(site.id)?.name) || site.name, x: q.x, y: q.y - Math.max(12, roof) });
     }
   }
-  const entities = entitiesOf(world).filter(entity => entity.location);
+  const entities = entitiesOf(world).filter(entity => entity.location && !outOfSight(entity, minutesATick));
   // Everyone else standing where your family is standing. Drawn plainly, never with a
   // request mark and never with a selection ring that implies you can order them.
-  const observed = observedOf(world).filter(entity => entity.location);
+  const observed = observedOf(world).filter(entity => entity.location && !outOfSight(entity, minutesATick));
   drawnAt.clear();
   seatedDrawn.clear();
   const chosen = selectedEntity(world);
@@ -3272,7 +3284,9 @@ function renderSelection(world) {
   } else $('#selection-state').textContent = chosen.chore
     ? `${chosen.chore.doing} · ${chosen.health?.condition || 'well'}`
     : chosen.travel
+      // Out of sight on the long middle of a journey (public/map-base.js `outOfSight`): the card is where it is said.
       ? `On the road to ${placeName(world, chosen.travel.to)} · ${Math.round((chosen.travel.progress || 0) / (chosen.travel.distance || 1) * 100)}%`
+        + (outOfSight(chosen, minutesATick) ? ` · out of sight, ${Math.max(1, Math.round((chosen.travel.distance || 0) - (chosen.travel.progress || 0)))} miles to go` : '')
       : `${chosen.task || 'resting'} · ${placeName(world, chosen.location?.siteId)} · ${chosen.health?.condition === 'wounded' ? `${chosen.health.grade || 'badly'} wounded` : chosen.health?.condition || 'well'}`;
   // A lasting mark from a wound (sim/army.mjs `WOUND_GRADES`): part of who this person is now, so it stays on their card.
   if (chosen.marks?.length && world.role !== 'host') $('#selection-state').textContent += ` · ${chosen.marks.join(', ')}`;
@@ -3374,7 +3388,7 @@ let surnameSaving = false;
 function renderSurname() {
   const box = $('#surname'), family = familyCache;
   // After the die has been seen: not while it tumbles or while 'Meet your family' is still on the screen.
-  const show = Boolean(family && !family.canRoll && family.roll && !family.named && window.__snapshot?.world?.role !== 'host' && rollState !== 'rolling' && rollState !== 'rolled');
+  const show = creationStep(window.__snapshot?.world, family) === 'surname' && rollState !== 'rolling' && rollState !== 'rolled';
   if (box.hidden === show) {
     box.hidden = !show;
     if (show) setTimeout(() => $('#surname-input')?.focus(), 0);
@@ -3570,6 +3584,9 @@ function renderFamilyRoll(world) {
     rollState = 'rolled';
   }
   if ((rollState === 'idle' && !family.canRoll) || rollState === 'done') { panel.hidden = true; return; }
+  // Not before the title screen has been answered (public/creation.js); once the die is in the air it stays until the family
+  // has been met, which is what carries the page from the roll to the last name.
+  if (rollState === 'idle' && creationStep(world, family) !== 'roll') { panel.hidden = true; return; }
   panel.hidden = false;
   const die = $('#family-die'), button = $('#roll-family');
   if (rollState === 'rolled') {
@@ -4044,6 +4061,11 @@ document.addEventListener('click', event => {
   if (window.__snapshot) renderEncounter(window.__snapshot.world);
 });
 bindEnding();
+bindCreation({
+  command: order => api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, ...order }),
+  refresh: () => { forgetFamily(); if (window.__snapshot) render(window.__snapshot); },
+  family: () => familyCache,
+});
 bindLooks({
   command: order => api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, ...order }),
   refresh: () => { forgetFamily(); if (window.__snapshot) render(window.__snapshot); },
@@ -4222,15 +4244,19 @@ function render(snapshot) {
   renderJoinLinks(snapshot);
   renderSlice(world);
   renderEnding(world);
-  renderLooks(familyCache, { blocked: !$('#surname').hidden || world.role === 'host' });
+  // Making the family comes before the world is seen (public/creation.js): the curtain, and no map drawn behind it.
+  const creating = renderCreation(world, familyCache);
+  renderLooks(familyCache, { blocked: creating !== 'looks' });
   // A snapshot that lands while a hand is on the map is drawn when the hand stops (`handOnMap`), not in the middle of the
   // gesture: a whole draw there is the stall a student feels as the map sticking under their finger.
-  if (performance.now() < handOnMapUntil) requestMapDraw(); else drawWorld(world);
+  if (creating) { /* the curtain is up: nothing of the world is drawn */ } else if (performance.now() < handOnMapUntil) requestMapDraw(); else drawWorld(world);
   renderInteriorPanel(world); renderHousehold(world); renderKnowledge(world); renderEncounter(world); renderFamilyRoll(world); renderWagonLoad(world); renderHousePlan(world); renderSite(world); renderSurvey(world); renderTutorial(world);
 }
 function showJoin(message) {
   events?.close(); events = null;
   $('#game').hidden = true; $('#rejoin').hidden = true; $('#join').hidden = hostPage;
+  // The title screen is the join form's own backdrop (public/creation.js): the game's name is the first thing a student sees.
+  if (!hostPage) showTitle();
   $('#connection').textContent = hostPage ? 'Host access required' : 'Ready to join';
   say(message);
 }

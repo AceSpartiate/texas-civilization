@@ -54,6 +54,8 @@ const files = new Map([
   ['/map-base.js', ['../public/map-base.js', 'text/javascript']],
   ['/land-worker.js', ['../public/land-worker.js', 'text/javascript']],
   ['/smooth-worker.js', ['../public/smooth-worker.js', 'text/javascript']],
+  ['/creation.js', ['../public/creation.js', 'text/javascript']],
+  ['/intro-art.js', ['../public/intro-art.js', 'text/javascript']],
   ['/ground-classes.js', ['../public/ground-classes.js', 'text/javascript']],
   ['/land-levels.js', ['../public/land-levels.js', 'text/javascript']],
   ['/ending.js', ['../public/ending.js', 'text/javascript']],
@@ -517,9 +519,9 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       s.world = worldFactory(token().slice(0, 16), s.world.playerCount);
       s.clients = { [hash(credential)]: identity };
       markPlayed(s.world, identity.householdId);
-      // Rolled as Start rolls a joined family that never rolled (docs/FAMILY_CREATION.md).
-      const household = s.world.households[identity.householdId];
-      if (household && rollRefusal(s.world, household) === null) rollFamily(s.world, household);
+      // Not rolled: the player rolls their own family, as a student does (owner, 2026-09-17: "when did i roll for family
+      // size?"). A family somebody plays may roll while the class runs (sim/family.mjs `rollRefusal`), which is what lets Play
+      // Solo deal a game that is already going and still leave the die to the player.
       s.world.status = 'running';
     });
     return soloEntry(credential, identity.householdId);

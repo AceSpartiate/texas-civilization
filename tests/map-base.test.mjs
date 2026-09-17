@@ -290,3 +290,30 @@ test('the land\'s pictures are made by one pure function, off the page\'s main t
   assert.match(server, /\['\/land-worker\.js', \['\.\.\/public\/land-worker\.js', 'text\/javascript'\]\]/, 'the server does not serve the worker');
   assert.match(server, /\['\/smooth-worker\.js', \['\.\.\/public\/smooth-worker\.js', 'text\/javascript'\]\]/, 'the server does not serve the worker client');
 });
+
+test('a long journey is out of sight in the middle, and a short one is watched all the way', async () => {
+  // Owner, 2026-09-17, playtesting: "when i sent someone to join the army, they zipped excessively fast across the map", then
+  // "what if we used fog of war to hide teleporting the character to their destination ... hide long distance travel on the
+  // class view?" In the winter and spring a tick is twelve hours (sim/clock.mjs), so a walker crosses about 36 miles in the
+  // fifth of a second a tick is drawn in. The clock is left alone; the long middle of a journey is not watched.
+  const { IN_SIGHT_MILES, WATCHABLE_MILES_A_TICK, outOfSight } = await import('../public/map-base.js');
+  // A campaign tick is twelve hours, in which a walker at three miles an hour crosses thirty-six; a farming tick is twenty
+  // minutes, which is a mile, and is watched from end to end as it always was.
+  const CAMPAIGN = 720, FARMING = 20, WALK = 1;
+  const road = points => ({ points, distance: 40, speed: WALK });
+  const on = (progress, distance = 40) => ({ travel: { points: [{ x: 0, y: 0 }, { x: 40, y: 0 }], distance, progress, speed: WALK } });
+  assert.equal(outOfSight({ travel: null }, CAMPAIGN), false, 'somebody standing still went out of sight');
+  assert.equal(outOfSight({ travel: road([]) }, CAMPAIGN), false, 'a journey with no line went out of sight');
+  assert.equal(outOfSight(on(0), CAMPAIGN), false, 'somebody setting out was not watched');
+  assert.equal(outOfSight(on(IN_SIGHT_MILES - 0.1), CAMPAIGN), false, 'somebody still near home was not watched');
+  assert.equal(outOfSight(on(IN_SIGHT_MILES + 0.1), CAMPAIGN), true, 'the middle of a long journey is watched');
+  assert.equal(outOfSight(on(38), CAMPAIGN), false, 'somebody walking in at the far end was not watched');
+  assert.equal(outOfSight(on(40), CAMPAIGN), false, 'somebody arriving was not watched');
+  // A short journey - one end of a family's land to the other - is watched the whole way.
+  for (const progress of [0, 1, 2, 3]) assert.equal(outOfSight(on(progress, 4), CAMPAIGN), false, `a four-mile walk went out of sight at ${progress}`);
+  const app = readFileSync(new URL('../public/app.js', import.meta.url), 'utf8');
+  assert.match(app, /entitiesOf\(world\)\.filter\(entity => entity\.location && !outOfSight\(entity, minutesATick\)\)/, 'the map draws somebody who is out of sight');
+  assert.match(app, /observedOf\(world\)\.filter\(entity => entity\.location && !outOfSight\(entity, minutesATick\)\)/, 'a neighbour out of sight is drawn');
+  assert.match(app, /minutesATick = world\.minute - lastTickSeen\.minute/, 'the page does not know how long a tick stood for');
+  assert.match(app, /out of sight, \$\{Math\.max\(1, Math\.round\(\(chosen\.travel\.distance \|\| 0\) - \(chosen\.travel\.progress \|\| 0\)\)\)\} miles to go/, 'the card does not say where they are');
+});

@@ -8,7 +8,7 @@
   "checks": [
     "the class panel lists all five families in words: the student's family here, the four joined with no page open gone; Asa on the road home",
     "the student's page has no class panel and is sent no live page",
-    "the student's page closed: after 2628 ms the row says the family is playing itself, and the world has it absent",
+    "the student's page closed: after 2610 ms the row says the family is playing itself, and the world has it absent",
     "the absent family goes on by itself: somebody of it is at work or on a road with nobody at the screen",
     "the page opened again: the row says here the next tick, the family is the student's again, and the record says so",
     "the fight at Gonzales lit the spotlight: the camera went to Gonzales and the banner reads \"October 2: The Texians at Gonzales fire the cannon, and the Mexican dra…\"",
@@ -80,7 +80,7 @@
         ]
       }
     ],
-    "absentAfterMs": 2628,
+    "absentAfterMs": 2610,
     "spotlight": {
       "date": "October 2",
       "text": "The Texians at Gonzales fire the cannon, and the Mexican dragoons fall back. The war has begun.",

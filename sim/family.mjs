@@ -284,7 +284,10 @@ export function rolledPeople(seed, householdId, index, roll) {
  */
 export function rollRefusal(world, household) {
   if (household.roll) return 'Your family has already rolled.';
-  if (world.status !== 'lobby') return 'A family is rolled before the class begins.';
+  // Before the class begins - or, for a family somebody plays that has never rolled, whenever they come to it: Play Solo deals a
+  // game already running and leaves the die to the player (owner, 2026-09-17: "when did i roll for family size?"). What a class
+  // does is unchanged: Start rolls every joined family that never rolled, so nobody meets this later.
+  if (world.status !== 'lobby' && !household.played) return 'A family is rolled before the class begins.';
   // Everything that can happen to a person - a name, work, a road, a word with a rider - is
   // written into the family's record, so a record holding nothing but its founding is a
   // family nothing has happened to. A family renamed as a whole writes a memory too, and is

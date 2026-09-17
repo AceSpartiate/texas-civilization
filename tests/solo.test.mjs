@@ -7,6 +7,7 @@ import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createClassroom } from '../server/app.mjs';
+import { rollRefusal } from '../sim/family.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { resolveDataDir, resolveSavePath, soloPaths, SOLO_PORT } from '../server/deployment.mjs';
 
@@ -26,7 +27,7 @@ const caller = port => async (path, data, cookie) => {
   return { status: response.status, body, location: response.headers.get('location'), cookie: response.headers.get('set-cookie')?.split(';')[0] };
 };
 
-test('one solo request gives a joined, rolled, running family among automatic neighbours', async () => {
+test('one solo request gives a joined, running family among automatic neighbours, with its own die still to roll', async () => {
   const { app, dispose } = classroom({ solo: true });
   const call = caller(await app.listen());
   try {
@@ -43,7 +44,10 @@ test('one solo request gives a joined, rolled, running family among automatic ne
     assert.equal(mine.body.world.status, 'running', 'no Start press was needed');
     const state = app.state;
     assert.equal(Object.keys(state.clients).length, 1, 'exactly one player joined');
-    assert.ok(state.world.households['hh-1'].roll, 'the player family was rolled as Start rolls it');
+    // The die is the player's (owner, 2026-09-17: "when did i roll for family size?"), and may be rolled although the class runs.
+    assert.equal(state.world.households['hh-1'].roll, undefined, 'the solo family was rolled for the player');
+    assert.equal(rollRefusal(state.world, state.world.households['hh-1']), null, 'the player may not roll their own family');
+
     assert.equal(state.world.households['hh-1'].played, true, 'and the neighbour director leaves it alone');
     const others = Object.values(state.world.households).filter(household => household.id !== 'hh-1');
     assert.equal(others.length, 4, 'the other families of the class still exist');
@@ -129,6 +133,8 @@ test('every solo game is kept: a new game keeps the last, the list names each, a
     assert.deepEqual((await call('/api/solo/games', { key })).body.games, [], 'a fresh solo server lists a game');
     const first = await call('/api/solo', { key });
     const firstCookie = (await call(`/solo/enter?ticket=${new URL(first.body.playUrl).searchParams.get('ticket')}`)).cookie;
+    // The player rolls their own family first (owner, 2026-09-17), and then names it.
+    assert.equal((await call('/api/command', { id: 'cmd-roll-first', action: 'roll-family' }, firstCookie)).status, 200);
     await call('/api/command', { id: 'cmd-name-first', action: 'rename', surname: 'Navarro' }, firstCookie);
     const firstId = app.state.sessionId, firstSeed = app.state.world.seed;
     const listed = (await call('/api/solo/games', { key })).body.games;

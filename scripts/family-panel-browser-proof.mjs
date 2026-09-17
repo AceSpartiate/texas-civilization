@@ -50,6 +50,9 @@ try {
 
   // The die first, as a student does; the panel waits for it.
   assert.equal(await page.locator('#family-panel').isHidden(), true, 'the panel offers people the roll is about to replace');
+  // The title screen comes first (public/creation.js, owner 2026-09-17): Begin, then the die.
+  await page.locator('#creation-begin-button').waitFor({ state: 'visible', timeout: 30000 });
+  await page.locator('#creation-begin-button').click();
   await page.locator('#roll-family').click();
   await page.waitForFunction(() => document.querySelector('#roll-family')?.textContent === 'Meet your family', null, { timeout: 15000 });
   await page.locator('#roll-family').click();
@@ -228,9 +231,13 @@ try {
   const small = await phone.newPage();
   small.on('pageerror', error => errors.push(`phone: ${error.message}`));
   await small.goto(url);
+  // A page opened afresh sees the title screen again (public/creation.js), the family already made behind it.
+  await meetFamily(small);
   await small.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
   await small.locator('#family-panel').waitFor({ state: 'visible' });
   if (await small.locator('#tutorial-skip').isVisible()) await small.locator('#tutorial-skip').click();
+  // A rider may have come to the door while the family was being made; the card is closed before the panel is measured.
+  if (await small.locator('#selection-close').isVisible()) await small.locator('#selection-close').click();
   await small.waitForTimeout(600);
   const phoneLayout = await small.evaluate(() => {
     const box = element => element.getBoundingClientRect();

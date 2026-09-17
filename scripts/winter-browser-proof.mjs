@@ -16,6 +16,7 @@ import { createClassroom } from '../server/app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { rollFamily, stepWorld } from '../sim/world.mjs';
 import { beginSecondPeriod } from '../sim/periods.mjs';
+import { meetFamily } from './support/meet-family.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -51,6 +52,8 @@ try {
   await student.locator('[name=code]').fill(app.state.sessionCode);
   await student.getByRole('button', { name: 'Join', exact: true }).click();
   await student.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
+  // The title screen and the family made, before the world is drawn (public/creation.js, owner 2026-09-17).
+  await meetFamily(student);
   for (let i = 2; i <= 5; i++) {
     const response = await fetch(`${url}/api/join`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: `Reader ${i}`, code: app.state.sessionCode }) });
     assert.equal(response.status, 200);

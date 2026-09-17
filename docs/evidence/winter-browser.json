@@ -4,9 +4,9 @@
   "verdict": "PASS",
   "note": "Same computer only. A real class on the colonies map with rolled families, played in process through the first period, continued into the winter and run to the morning its news comes; then served live: a student enlisted a parent from the family panel, read the card and sent for them twice. No LAN or district claim.",
   "checks": [
-    "the winter's orders are on Nicolás's row: enlist-regular, enlist-auxiliary, join-garrison, join-matamoros",
-    "Nicolás rode to San Felipe and enlisted in the regular army on the promise of 800 acres",
-    "the card says where they are and what leaving costs: \"Nicolás is with the regular army at San Felipe de Austin, on the promise of 800 acres. Send for them to come home A regular who leaves has deserted: the family loses glory, and they will not be taken again.\"",
+    "the winter's orders are on Nicolás Proofwright's row: enlist-regular, enlist-auxiliary, join-garrison, join-matamoros",
+    "Nicolás Proofwright rode to San Felipe and enlisted in the regular army on the promise of 800 acres",
+    "the card says where they are and what leaving costs: \"Nicolás Proofwright is with the regular army at San Felipe de Austin, on the promise of 800 acres. Send for them to come home A regular who leaves has deserted: the family loses glory, and they will not be taken again.\"",
     "sending for a regular is asked twice, and then they have deserted and started home",
     "at phone width the page does not scroll sideways",
     "no page errors"
@@ -38,7 +38,7 @@
       "work",
       "rest"
     ],
-    "card": "Nicolás is with the regular army at San Felipe de Austin, on the promise of 800 acres. Send for them to come home A regular who leaves has deserted: the family loses glory, and they will not be taken again."
+    "card": "Nicolás Proofwright is with the regular army at San Felipe de Austin, on the promise of 800 acres. Send for them to come home A regular who leaves has deserted: the family loses glory, and they will not be taken again."
   },
   "screenshots": [
     "docs/evidence/winter-enlisted.png",

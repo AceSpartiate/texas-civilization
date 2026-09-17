@@ -9,6 +9,37 @@
   <script type="module" src="/app.js"></script>
 </head>
 <body>
+<!-- Making a family, before the world is seen (public/creation.js, owner 2026-09-17): the curtain, the game's name and the
+     scene behind every step of it - joining or beginning, the die, the family's last name, everybody's first name, the
+     parents' looks. The map is not drawn at all while this is up. -->
+<div id="creation" hidden>
+  <canvas id="creation-scene" width="1600" height="900" aria-hidden="true"></canvas>
+  <div id="creation-banner">
+    <h1 id="creation-name">Family: Texas 1835/36</h1>
+    <p id="creation-tagline">A family of settlers in the last year of Mexican Texas.</p>
+  </div>
+</div>
+<section id="creation-begin" hidden aria-labelledby="creation-begin-title">
+  <h2 id="creation-begin-title">Your family</h2>
+  <p>You are one family among the settlers of Texas in the autumn of 1835. You will roll for who they are, name them, and
+    choose how the parents look. After that the country is yours to work: the field, the timber, the town, and whatever the
+    year brings.</p>
+  <button type="button" id="creation-begin-button">Begin</button>
+</section>
+<!-- Everybody's first name, on one card, already filled in with the names the game dealt (owner, 2026-09-17). -->
+<section id="names" hidden role="dialog" aria-modal="true" aria-labelledby="names-title">
+  <span class="eyebrow" id="names-family"></span>
+  <h2 id="names-title">Name each of them</h2>
+  <form id="names-form">
+    <ul id="names-list"></ul>
+    <p id="names-error" role="alert"></p>
+    <button id="names-done" type="submit">Continue</button>
+  </form>
+</section>
+
+<!-- Making a family, before the world is seen (public/creation.js, owner 2026-09-17): the curtain, the game's name and the
+     scene behind every step of it - joining or beginning, the die, the family's last name, everybody's first name, the
+     parents' looks. The map is not drawn at all while this is up. -->
 <form id="join" hidden>
   <span class="eyebrow">TEXAS · 1835</span>
   <h1>A family. A home.<br>A changing world.</h1>

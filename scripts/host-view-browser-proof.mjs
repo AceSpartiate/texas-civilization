@@ -19,6 +19,7 @@ import { createClassroom } from '../server/app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { stepWorld } from '../sim/world.mjs';
 import { landView } from '../sim/houses.mjs';
+import { meetFamily } from './support/meet-family.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -53,6 +54,8 @@ try {
   await student.locator('[name=code]').fill(app.state.sessionCode);
   await student.getByRole('button', { name: 'Join', exact: true }).click();
   await student.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
+  // The title screen and the family made, before the map is drawn (public/creation.js, owner 2026-09-17).
+  await meetFamily(student);
 
   const host = await (await browser.newContext({ viewport: { width: 1440, height: 950 } })).newPage();
   host.on('pageerror', error => errors.push(`host: ${error.message}`));

@@ -259,3 +259,30 @@ this is done correctly, we shouldn't need the Family button at the bottom any mo
 A class saved before this keeps any family name it had; a rolled family with no name is asked the next time its page opens.
 The director's families are not named. Tests `tests/surname.test.mjs` (4) and `tests/appearance.test.mjs`, each rule proven
 by injection; browser `npm run test:looks` (7 checks, [evidence](evidence/looks-browser.json)).
+
+## Amendment, 2026-09-17 — the title screen, and making the family before the world is seen
+
+**Owner:** *"the rolling for a family, naming them, choosing the looks, should all happen before the world renders. the
+experience in solo vs live class should be the same. before we see the character creation interface experience, we need an
+intro screen. Name it 'Family: Texas 1835/36'. the intro screen should be a professional game introduction experience."*
+
+`public/creation.js` puts one curtain over the page and walks five steps on it, the same in a class and in Play Solo
+(`creationStep`, `tests/creation.test.mjs`, `scripts/looks-browser-proof.mjs`):
+
+| Step | What is asked | Where |
+| --- | --- | --- |
+| Title | **Family: Texas 1835/36** over a drawn evening scene (`public/intro-art.js`, `stand-in:`), with the class's join form on it, or **Begin** for a page that arrives already joined | `#creation`, `#creation-begin` |
+| The die | The twenty-sided die and *Meet your family*, as before | `#family-roll` |
+| The last name | **Family Last Name**; everybody in the family carries it | `#surname` |
+| Their names | Everybody on one card, filled in with the names the game dealt, kept or changed, and one **Continue** | `#names` |
+| How they look | Each parent in turn, a picture on every choice; children take after their parents and are not asked | `#looks` |
+
+**The map is not drawn at all while the curtain is up** (`public/app.js` skips `drawWorld`), which is also what a slow
+computer wants. Play Solo no longer rolls the family for the player: it deals the game running and leaves the die
+(`newSoloGame` in `server/app.mjs`), which `rollRefusal` now allows for a family somebody plays that has never rolled. A
+page opened later - another tab, another day - sees the title screen and then the world: a family whose parents have been
+chosen for is already made. A family that has not rolled and may not, because the class began without it, waits in the
+world as it always did and is asked its last name as soon as Start has rolled it.
+
+`ceiling:` how far a page has got is kept in that tab's own `sessionStorage`, so the title screen shows again in a new tab;
+the steps behind it do not.

@@ -37,6 +37,12 @@ const pass = [];
 const ok = label => { pass.push(label); console.log('PASS', label); };
 const measured = {};
 const shots = [];
+/** Press somebody's "!", waiting for it: a question answered or withdrawn between the reading and the pressing is not a failure. */
+async function pressMark(page, id, how = 'click') {
+  const mark = page.locator(`.panel-row[data-entity-id="${id}"] .panel-attention`);
+  await mark.waitFor({ state: 'visible', timeout: 20000 });
+  await mark[how]();
+}
 const shot = async (page, name) => { const path = `docs/evidence/family-commands-${name}.png`; await page.screenshot({ path }); shots.push(path); };
 
 function housedClass(seed, playerCount) {
@@ -95,13 +101,18 @@ try {
     const joined = await post('/api/join', { name: `Neighbour ${i}`, code: app.state.sessionCode });
     if (i === 2) neighbourCookie = joined.headers.get('set-cookie').split(';')[0];
   }
+  // The title screen comes first (public/creation.js, owner 2026-09-17): Begin, then the die.
+  await page.locator('#creation-begin-button').waitFor({ state: 'visible', timeout: 30000 });
+  await page.locator('#creation-begin-button').click();
   await page.locator('#roll-family').click();
   await page.waitForFunction(() => document.querySelector('#roll-family')?.textContent === 'Meet your family', null, { timeout: 15000 });
   await page.locator('#roll-family').click();
   // The family's last name and how the parents look, asked for after the roll (owner, 2026-09-17).
   await meetFamily(page);
-  if (await page.locator('#wagon-done').isVisible()) await page.locator('#wagon-done').click();
-  if (await page.locator('#tutorial-skip').isVisible()) await page.locator('#tutorial-skip').click();
+  // Put away if they are there; a card that goes by itself between the asking and the pressing is not a failure.
+  for (const button of ['#wagon-done', '#tutorial-skip']) {
+    if (await page.locator(button).isVisible()) await page.locator(button).click({ timeout: 5000 }).catch(() => {});
+  }
   await page.locator('#family-panel').waitFor({ state: 'visible' });
   const principalId = world().households['hh-1'].principalId;
   await page.waitForFunction(() => window.__familyPanel?.length >= 3);
@@ -115,22 +126,26 @@ try {
   // ------------------------------------------------------------------------------------------------------------ the rider
   await post('/api/command', { id: `proof-start-${crypto.randomUUID()}`, action: 'start' }, hostCookie);
   await page.waitForFunction(() => window.__snapshot?.world.status === 'running');
+  // The rider and the mark over the person he stopped, read together: a rider who has been and gone by the time the page is
+  // asked again names somebody whose mark is rightly no longer there (found 2026-09-17).
   const listener = await page.waitForFunction(() => {
     const encounter = window.__snapshot?.world.encounter;
-    return encounter?.status === 'open' ? encounter.listenerId : null;
+    if (encounter?.status !== 'open') return null;
+    const row = document.querySelector(`.panel-row[data-entity-id="${encounter.listenerId}"]`);
+    const mark = row?.querySelector('.panel-attention');
+    return row?.dataset.waiting === 'true' && mark && !mark.hidden && mark.dataset.need === 'rider' ? encounter.listenerId : null;
   }, null, { timeout: 120000, polling: 100 }).then(handle => handle.jsonValue());
-  await page.waitForFunction(id => {
-    const row = document.querySelector(`.panel-row[data-entity-id="${id}"]`);
-    return row?.dataset.waiting === 'true' && !row.querySelector('.panel-attention').hidden && row.querySelector('.panel-attention').dataset.need === 'rider';
-  }, listener, { timeout: 15000 });
   const others = await page.evaluate(id => [...document.querySelectorAll('.panel-row')].filter(row => row.dataset.entityId !== id && row.querySelector('.panel-attention')?.dataset.need === 'rider' && !row.querySelector('.panel-attention').hidden).length, listener);
   assert.equal(others, 0, 'a rider who stopped for one person marks somebody else');
   await page.locator('#map-nav [data-view=gonzales]').click();
-  await page.waitForTimeout(300);
-  await shot(page, 'rider-mark');
-  const riderLabel = await page.locator(`.panel-row[data-entity-id="${listener}"] .panel-attention`).getAttribute('aria-label');
-  await page.locator(`.panel-row[data-entity-id="${listener}"] .panel-attention`).click();
+  // The mark is waited for again here: the camera and the screenshot above take a moment, and this proof is about pressing it.
+  const mark = page.locator(`.panel-row[data-entity-id="${listener}"] .panel-attention`);
+  await mark.waitFor({ state: 'visible', timeout: 20000 });
+  const riderLabel = await mark.getAttribute('aria-label');
+  await mark.click();
   await page.locator('#encounter').waitFor({ state: 'visible' });
+  // The mark is pressed before the picture is taken: a rider does not wait for a screenshot.
+  await shot(page, 'rider-mark');
   await page.waitForFunction(id => document.querySelector('#map-nav [data-view=follow]')?.textContent.startsWith('Watching'), listener);
   await page.waitForTimeout(400);
   const riderOpened = await page.evaluate(id => {
@@ -160,7 +175,7 @@ try {
   assert.deepEqual([...callers].sort(), [...answerers].sort(), 'the "!" for the call is not on exactly the people the server says may answer it');
   // Any "!" for the call opens the one menu (docs/FAMILY_PANEL.md §11.2): a row per person who may answer, the keyboard on
   // the first. The food call is put to one person, so the rows are a single choice; keeping everybody home is its own button.
-  await page.locator(`.panel-row[data-entity-id="${callers.at(-1)}"] .panel-attention`).click();
+  await pressMark(page, callers.at(-1), 'click');
   await page.waitForFunction(() => !document.querySelector('#call-menu').hidden && document.activeElement?.closest?.('#call-menu') && document.activeElement.matches('input'), null, { timeout: 5000 });
   const called = await page.evaluate(() => ({ text: document.querySelector('#call-menu-text')?.textContent, kind: window.__snapshot.world.request.kind, menu: window.__callMenu,
     inputs: [...document.querySelectorAll('#call-menu input')].map(input => input.type), focused: document.activeElement.dataset.callMenuPerson, card: document.querySelector('#selection').dataset.entityId, opened: window.__needOpened }));
@@ -230,7 +245,11 @@ try {
   const idleLeft = busyPanel.filter(row => row.idle).map(row => row.id);
   assert.deepEqual(idleLeft.filter(id => stillAtIt.includes(id)), [], `shown idle while at work: ${idleLeft}`);
   for (const id of stillAtIt) assert.ok(busyPanel.find(row => row.id === id).active.length, `${id} is at work and nothing glows`);
-  assert.equal(await page.locator('.panel-row[data-idle=true] .panel-idle:not([hidden])').count(), idleLeft.length, 'a row the panel calls idle does not say so');
+  // Read in one go, in the page: somebody finishing their work between two reads would be a difference that says nothing.
+  // Every row the panel calls idle says 'Idle' on it, and no row says it that the panel does not.
+  const idleRows = await page.evaluate(() => [...document.querySelectorAll('.panel-row')].map(row => ({
+    id: row.dataset.entityId, idle: row.dataset.idle === 'true', says: !row.querySelector('.panel-idle')?.hidden })));
+  assert.deepEqual(idleRows.filter(row => row.idle !== row.says), [], 'a row the panel calls idle does not say so');
   await shot(page, 'everyone-busy');
   ok(`${presses} presses (${refusals.length} refused in the server's words and another tried) set ${orderable.length} of ${busyPanel.length} people to work without finding anybody on the map; each icon glowed when the server took it, and the ${stillAtIt.length} still at it are not idle (${plan.map(e => `${e.id.split('-').pop()}: ${e.key}`).join(', ')})`);
   const unorderable = busyPanel.filter(row => !orderable.includes(row.id));
@@ -280,7 +299,7 @@ try {
     .catch(error => { throw new Error(`${asker} never stopped to ask: chore ${JSON.stringify(world().entities[asker].chore)}; ${error.message}`); });
   await page.locator('#map-nav [data-view=home]').click();
   await page.waitForTimeout(300);
-  await page.locator(`.panel-row[data-entity-id="${asker}"] .panel-attention`).click();
+  await pressMark(page, asker, 'click');
   await page.waitForFunction(() => document.activeElement?.dataset?.action === 'answer-chore', null, { timeout: 5000 });
   const asked = await page.evaluate(id => ({ card: document.querySelector('#selection').dataset.entityId, question: document.querySelector('#selection-work .ask-text')?.textContent,
     focused: document.activeElement.querySelector('.work-name')?.textContent || document.activeElement.textContent, watching: document.querySelector('#map-nav [data-view=follow]').textContent }), asker);
@@ -314,7 +333,7 @@ try {
   await page.locator('#map-nav [data-view=home]').click();
   await page.waitForTimeout(300);
   await shot(page, 'offer-mark');
-  await page.locator(`.panel-row[data-entity-id="${tradedWith}"] .panel-attention`).click();
+  await pressMark(page, tradedWith, 'click');
   await page.waitForFunction(() => document.activeElement?.dataset?.action === 'accept-offer', null, { timeout: 5000 });
   const offered = await page.evaluate(() => ({ card: document.querySelector('#selection').dataset.entityId, said: document.querySelector('#selection-trade .trade-note')?.textContent, watching: document.querySelector('#map-nav [data-view=follow]').textContent }));
   assert.equal(offered.card, tradedWith);
@@ -362,7 +381,7 @@ try {
   await page.reload();
   await page.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
   await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"]`)?.dataset.focused === 'true', mother, { timeout: 15000 });
-  if (await page.locator('#tutorial-skip').isVisible()) await page.locator('#tutorial-skip').click();
+  if (await page.locator('#tutorial-skip').isVisible()) await page.locator('#tutorial-skip').click({ timeout: 5000 }).catch(() => {});
   await page.waitForFunction(id => document.querySelector('#selection')?.dataset.entityId === id, mother, { timeout: 10000 });
   ok('after a reload the same person is starred, and the card that opens with nobody chosen is theirs');
   // Away and back: the star on the main person returns the camera to them.
@@ -402,9 +421,11 @@ try {
   const small = await phone.newPage();
   small.on('pageerror', error => errors.push(`phone: ${error.message}`));
   await small.goto(url);
+  // A page opened afresh sees the title screen again (public/creation.js); until it is answered the curtain takes every tap.
+  await meetFamily(small);
   await small.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
   await small.locator('#family-panel').waitFor({ state: 'visible' });
-  if (await small.locator('#tutorial-skip').isVisible()) await small.locator('#tutorial-skip').click();
+  if (await small.locator('#tutorial-skip').isVisible()) await small.locator('#tutorial-skip').click({ timeout: 5000 }).catch(() => {});
   // An offer waiting, so the "!" is on the phone too.
   await offerFromNeighbour({ food: 1 }, { seed: 1 });
   await small.waitForFunction(id => !document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-attention`)?.hidden, tradedWith, { timeout: 15000 });
@@ -422,7 +443,12 @@ try {
   assert.ok(layout.markOnScreen, 'the "!" is off the screen or too small to press on a phone');
   assert.ok(layout.toolsOnScreen !== false, 'the star and House are off the side of a phone');
   await shot(small, 'phone');
-  await small.locator(`.panel-row[data-entity-id="${tradedWith}"] .panel-attention`).tap();
+  // An offer stands until it is taken or withdrawn; if it went while the picture was taken, another is made.
+  if (await small.locator(`.panel-row[data-entity-id="${tradedWith}"] .panel-attention`).isHidden()) {
+    await offerFromNeighbour({ food: 1 }, { seed: 1 });
+    await small.waitForFunction(id => !document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-attention`)?.hidden, tradedWith, { timeout: 15000 });
+  }
+  await pressMark(small, tradedWith, 'tap');
   await small.waitForFunction(id => document.querySelector('#selection')?.dataset.entityId === id && Boolean(document.querySelector('#selection-trade .trade-pending')), tradedWith, { timeout: 5000 });
   const phoneAfter = await small.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
   assert.equal(phoneAfter, false, 'the page scrolls sideways once the offer is open on a phone');
@@ -455,8 +481,9 @@ try {
   for (let i = 2; i <= 5; i++) await post2('/api/join', { name: `Settler ${i}`, code: app2.state.sessionCode });
   await post2('/api/command', { id: `proof-start-${crypto.randomUUID()}`, action: 'start' }, hostCookie2);
   await page2.waitForFunction(() => window.__snapshot?.world.status === 'running');
-  if (await page2.locator('#wagon-done').isVisible()) await page2.locator('#wagon-done').click();
-  if (await page2.locator('#tutorial-skip').isVisible()) await page2.locator('#tutorial-skip').click();
+  await meetFamily(page2);
+  if (await page2.locator('#wagon-done').isVisible()) await page2.locator('#wagon-done').click({ timeout: 5000 }).catch(() => {});
+  if (await page2.locator('#tutorial-skip').isVisible()) await page2.locator('#tutorial-skip').click({ timeout: 5000 }).catch(() => {});
   await page2.locator('#family-panel').waitFor({ state: 'visible' });
   await page2.waitForFunction(() => (window.__familyPanel || []).filter(row => row.needs.includes('call')).length >= 2, null, { timeout: 30000, polling: 100 });
   // The call can open while the family is still on the road in, when nobody may go yet ("Wait until this person arrives"); the
@@ -486,11 +513,13 @@ try {
   const small2 = await phone2.newPage();
   small2.on('pageerror', error => errors.push(`phone call menu: ${error.message}`));
   await small2.goto(url2);
+  // A page opened afresh sees the title screen again (public/creation.js); until it is answered the curtain takes every tap.
+  await meetFamily(small2);
   await small2.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
   await small2.locator('#family-panel').waitFor({ state: 'visible' });
-  if (await small2.locator('#tutorial-skip').isVisible()) await small2.locator('#tutorial-skip').click();
+  if (await small2.locator('#tutorial-skip').isVisible()) await small2.locator('#tutorial-skip').click({ timeout: 5000 }).catch(() => {});
   await small2.waitForFunction(id => !document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-attention`)?.hidden, opener, { timeout: 15000 });
-  await small2.locator(`.panel-row[data-entity-id="${opener}"] .panel-attention`).tap();
+  await pressMark(small2, opener, 'tap');
   await small2.waitForFunction(() => !document.querySelector('#call-menu').hidden, null, { timeout: 5000 });
   await small2.waitForTimeout(300);
   const phoneMenu = await small2.evaluate(() => {
@@ -507,7 +536,7 @@ try {
   ok(`at 400 px the call's menu opens from an "!" on screen with ${phoneMenu.rows} rows and its confirm within reach, and closes`);
   await phone2.close();
   // Then on the desk: opened from the second person's "!", both ticked, confirmed; both sent, the camera on the first.
-  await page2.locator(`.panel-row[data-entity-id="${opener}"] .panel-attention`).click();
+  await pressMark(page2, opener, 'click');
   await page2.waitForFunction(() => !document.querySelector('#call-menu').hidden && document.activeElement?.closest?.('#call-menu'), null, { timeout: 5000 });
   const menu2 = await page2.evaluate(() => ({ ...window.__callMenu, text: document.querySelector('#call-menu-text').textContent, types: [...document.querySelectorAll('#call-menu input')].map(input => input.type), card: document.querySelector('#selection').dataset.entityId }));
   assert.equal(menu2.several, true, 'a settlement’s call is offered as a single choice');

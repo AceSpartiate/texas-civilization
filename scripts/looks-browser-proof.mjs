@@ -47,6 +47,12 @@ try {
   assert.equal((await page.locator('#journal-toggle').textContent()).trim(), 'Journal');
   ok('before the roll nothing is asked, and the button at the bottom reads Journal');
 
+  // The title screen comes first (public/creation.js, owner 2026-09-17): Begin, then the die.
+
+  await page.locator('#creation-begin-button').waitFor({ state: 'visible', timeout: 30000 });
+
+  await page.locator('#creation-begin-button').click();
+
   await page.locator('#roll-family').click();
   await page.waitForFunction(() => document.querySelector('#roll-family')?.textContent === 'Meet your family', null, { timeout: 15000 });
   await page.locator('#roll-family').click();
@@ -69,6 +75,17 @@ try {
   const book = await family(page);
   observed.names = book.people.map(person => person.name);
   assert.ok(book.people.every(person => person.name === `${person.given} Navarro`), `not everybody carries the last name: ${observed.names.join(', ')}`);
+  // Everybody's first names come next, filled in as the game dealt them (owner, 2026-09-17).
+  await page.locator('#names').waitFor({ state: 'visible', timeout: 10000 });
+  assert.equal(await page.locator('#looks').isHidden(), true, 'the looks came up before the names');
+  const nameRows = await page.locator('#names-list input').evaluateAll(inputs => inputs.map(input => input.value));
+  assert.deepEqual(nameRows.sort(), book.people.map(person => person.given).sort(), 'the naming card does not hold everybody by their first name');
+  observed.nameRows = nameRows;
+  await page.screenshot({ path: 'docs/evidence/looks-names.png' });
+  await page.locator('#names-done').click();
+  await page.locator('#names').waitFor({ state: 'hidden', timeout: 10000 });
+  ok(`the naming card holds every one of the family by their first name (${nameRows.join(', ')}) and Continue keeps them`);
+
   const panelNames = await page.locator('.panel-name').evaluateAll(inputs => inputs.map(input => input.value));
   assert.deepEqual(panelNames.sort(), book.people.map(person => person.given).sort(), 'the panel boxes are not the first names');
   ok(`named, every member carries the last name (${observed.names.join(', ')}); the panel's boxes hold the first names`);
@@ -127,11 +144,14 @@ try {
   await small.locator('[name=code]').fill(app.state.sessionCode);
   await small.getByRole('button', { name: 'Join', exact: true }).click();
   await small.waitForFunction(() => window.__snapshot?.world.householdId);
+  await small.locator('#creation-begin-button').waitFor({ state: 'visible', timeout: 30000 });
+  await small.locator('#creation-begin-button').click();
   await small.locator('#roll-family').click();
   await small.waitForFunction(() => document.querySelector('#roll-family')?.textContent === 'Meet your family', null, { timeout: 15000 });
   await small.locator('#roll-family').click();
   await small.locator('#surname-input').fill('Ybarbo');
   await small.locator('#surname-save').click();
+  await small.locator('#names-done').click();
   await small.locator('#looks').waitFor({ state: 'visible', timeout: 10000 });
   const box = await small.locator('#looks').boundingBox();
   const overflow = await small.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
@@ -149,7 +169,7 @@ try {
     note: 'Same computer only. A student joined, rolled, gave the family its last name in the pop-up, chose each parent\'s looks from pictures, and reloaded. The pictures are Claude-drawn stand-ins; the figure on the map is unchanged (layered people art, docs/ART_REQUESTS.md). No LAN or district claim.',
     checks: pass,
     observed,
-    screenshots: ['docs/evidence/looks-surname.png', 'docs/evidence/looks-popup.png', 'docs/evidence/looks-popup-phone.png'],
+    screenshots: ['docs/evidence/looks-surname.png', 'docs/evidence/looks-names.png', 'docs/evidence/looks-popup.png', 'docs/evidence/looks-popup-phone.png'],
   }, null, 2)}\n`);
   console.log(`\n${pass.length} checks passed.`);
 } finally {

@@ -52,6 +52,9 @@ try {
   // ---------------------------------------------------------------------- the die first
   // A family has to be rolled before its book says who anybody is (docs/FAMILY_CREATION.md): before that the book asks for
   // the roll. Rolled here as a student does, on the twenty-sided die, and the book opens on "Meet your family".
+  // The title screen comes first (public/creation.js, owner 2026-09-17): Begin, then the die.
+  await page.locator('#creation-begin-button').waitFor({ state: 'visible', timeout: 30000 });
+  await page.locator('#creation-begin-button').click();
   await page.locator('#roll-family').click();
   await page.waitForFunction(() => document.querySelector('#roll-family')?.textContent === 'Meet your family', null, { timeout: 15000 });
   const rolled = await page.locator('#family-roll-result').textContent();

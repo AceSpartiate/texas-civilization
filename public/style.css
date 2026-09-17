@@ -567,3 +567,36 @@ button:hover:enabled{background:#60673e}
 #looks-error:empty{display:none}
 #looks-done{margin-top:10px;width:100%}
 #family-kin .kin-row{padding:4px 0;border-bottom:1px solid #ddcda3;list-style:none}
+
+/* The curtain over the whole page while a family is made (public/creation.js): the scene, the game's name, and whichever step
+   is being answered on top of it. The map is not drawn behind it at all. */
+#creation{position:fixed;inset:0;z-index:40;background:#1d2218;overflow:hidden}
+#creation-scene{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#creation-banner{position:absolute;left:0;right:0;top:6vh;text-align:center;color:#f7ecd2;text-shadow:0 2px 14px #10140e}
+#creation-name{font-size:clamp(28px,5.2vw,54px);margin:0;letter-spacing:.01em;font-weight:700}
+#creation-tagline{margin:8px 0 0;font-size:clamp(13px,1.6vw,17px);color:#e4d6b4;letter-spacing:.04em}
+/* On the title screen the name stands in the middle of the scene; once a step is being answered it sits up out of the way. */
+#creation[data-step=join] #creation-banner,#creation[data-step=begin] #creation-banner{top:14vh}
+#creation-begin{position:fixed;left:50%;top:auto;bottom:12vh;transform:translateX(-50%);z-index:41;width:min(30rem,calc(100% - 32px));background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259;border-radius:10px;box-shadow:0 5px 0 #6b583638,0 18px 45px #32291950;padding:16px 20px 18px;color:#3b3221}
+#creation-begin h2{font-size:22px;margin:0 0 8px;color:#4b3e28}
+#creation-begin p{margin:0;font-size:14.5px;line-height:1.5}
+#creation-begin-button{margin-top:12px;width:100%;min-height:44px;font-size:16px;background:#4b3e28;border-color:#6b5836;color:#fdf0dd}
+/* Joining a class is the title screen's own card, so a student sees the game's name first (owner, 2026-09-17). */
+body[data-creating=true] #join,body[data-creating=true] #rejoin{position:relative;z-index:41;margin:38vh auto 0;background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259}
+/* Every step's card stands above the curtain. */
+body[data-creating=true] #family-roll,body[data-creating=true] #surname,body[data-creating=true] #looks,#names{z-index:41}
+#names{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:41;width:min(30rem,calc(100% - 32px));max-height:min(80vh,44rem);overflow-y:auto;background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259;border-radius:10px;box-shadow:0 5px 0 #6b583638,0 18px 45px #32291950;padding:14px 18px 18px;color:#3b3221}
+#names h2{font-size:22px;margin:2px 0 10px;color:#4b3e28}
+#names-list{list-style:none;margin:0;padding:0}
+.names-row{display:grid;grid-template-columns:8.5rem 1fr;gap:8px;align-items:center;padding:5px 0;border-top:1px solid #ddcda3}
+.names-row:first-child{border-top:none}
+.names-row label{font-size:13px;color:#5a4a2e}
+.names-row input{font:inherit;font-size:15px;padding:6px 8px;border:1px solid #9c8259;border-radius:5px;background:#fffdf6;color:#3b3221;width:100%}
+#names-error{margin:6px 0 0;font-size:13px;color:#8a2c1c}
+#names-error:empty{display:none}
+#names-done{margin-top:12px;width:100%;min-height:42px;background:#4b3e28;border-color:#6b5836;color:#fdf0dd}
+@media (max-width:760px){
+  #creation-begin{bottom:6vh;width:calc(100% - 20px)}
+  .names-row{grid-template-columns:1fr;gap:2px}
+}
+
