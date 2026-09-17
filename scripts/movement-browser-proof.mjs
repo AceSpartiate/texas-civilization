@@ -72,6 +72,9 @@ async function run({ label, interrupt, zoom = 0 }) {
     });
     await page.mouse.move(spot.x, spot.y);
     for (let i = 0; i < Math.max(1, zoom); i++) await page.mouse.wheel(0, zoom ? -100 : 100);
+    // Let the zoom settle: while the wheel turns the page moves its last drawing rather than redrawing the walkers, and draws
+    // them again 250 ms after the last notch (docs/PERFORMANCE_NAVIGATION.md). The walk is measured with the camera still.
+    await page.waitForTimeout(600);
     await page.evaluate(() => { window.__movementSamples = []; });
     // Sample the painted position on every animation frame, with the tick the frame belonged to.
     await page.evaluate(() => {

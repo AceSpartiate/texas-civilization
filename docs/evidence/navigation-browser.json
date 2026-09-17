@@ -1,0 +1,175 @@
+{
+  "record": "navigation-browser",
+  "date": "2026-09-17",
+  "verdict": "PASS",
+  "browser": "152.0.7977.83",
+  "task": "Navigating the map on a slow computer: drag, wheel, touchpad swipe and pinch, taps that wobble, Follow across snapshots, keyboard, and touch pan, pinch and tap.",
+  "environment": "Same computer: an in-process Play Solo classroom on the colonies map at 1000 ms a tick, headless Chrome at 1366 by 768 with the CPU throttled 6 times and touch emulated through CDP. Not a Chromebook, a real touchpad or a touchscreen.",
+  "checks": [
+    "a mouse drag pans exactly with the pointer (0 px off), shown by 56 moved pictures and 0 whole draws, latency median 17 ms",
+    "three wheel notches zoom by all three (0.6086) and the ground under the cursor stays put (0 px)",
+    "a touchpad swipe of 30 small deltas zooms as far as its travel (0.8199), anchored, and settles 46 ms after the fingers stop",
+    "a touchpad pinch zooms the map, not the page, by the fingers' 1.5 (1.4993), anchored, settling in 55 ms",
+    "a touchpad click that moves 5 px between press and release chooses the person under it (hh-1-child-2)",
+    "a click sent straight after a drag, before the page has drawn it, chooses the person where the drag put them (hh-1-child-2)",
+    "from Follow, a drag held across three snapshots stays where the hand put it (0 px) and is still there three snapshots later",
+    "with the map focused, an arrow pans an eighth of the view (171 px) and + zooms in (1.4)",
+    "a finger pans exactly (0 px off), shown by 36 moved pictures and 1 whole draws, latency median 53 ms",
+    "two fingers spread to twice apart zoom twice (2) about the point between them (0 px)",
+    "a pinch whose last finger lifts on a person does not choose them",
+    "a finger tap that rolls 6 px chooses the person under it (hh-1-parent-2)",
+    "no page errors"
+  ],
+  "measured": {
+    "load (context only)": {
+      "msToRunningAndDrawn": 864
+    },
+    "idle map (context only)": {
+      "drawsIn3s": 17,
+      "drawMsMedian": 167
+    },
+    "mouse drag": {
+      "handled": 58,
+      "latency": {
+        "median": 17,
+        "p95": 19,
+        "max": 55
+      },
+      "fps": 45.5,
+      "settleMs": 18,
+      "drawMsMedian": 161,
+      "movedPictureMsMedian": 0,
+      "wholeDraws": 0,
+      "movedPictures": 56,
+      "endErrorPx": 0,
+      "takenForATap": false
+    },
+    "mouse wheel 3 notches out": {
+      "handled": 3,
+      "latency": {
+        "median": 300,
+        "p95": 402,
+        "max": 402
+      },
+      "fps": 0,
+      "settleMs": 300,
+      "drawMsMedian": 81,
+      "movedPictureMsMedian": 0,
+      "wholeDraws": 2,
+      "movedPictures": 0,
+      "zoom": 0.6086,
+      "anchorErrorPx": 0
+    },
+    "touchpad scroll 30x4": {
+      "handled": 24,
+      "latency": {
+        "median": 54,
+        "p95": 175,
+        "max": 194
+      },
+      "fps": 35.4,
+      "settleMs": 46,
+      "drawMsMedian": 198,
+      "movedPictureMsMedian": 0,
+      "wholeDraws": 1,
+      "movedPictures": 21,
+      "zoom": 0.8199,
+      "anchorErrorPx": 0
+    },
+    "touchpad pinch 30x-1.35": {
+      "handled": 30,
+      "latency": {
+        "median": 54,
+        "p95": 56,
+        "max": 56
+      },
+      "fps": 41.6,
+      "settleMs": 55,
+      "drawMsMedian": 215,
+      "movedPictureMsMedian": 0,
+      "wholeDraws": 0,
+      "movedPictures": 25,
+      "zoom": 1.4993,
+      "anchorErrorPx": 0,
+      "pageZoom": 1
+    },
+    "touchpad tap, 5px jitter": {
+      "person": "hh-1-child-2",
+      "room": 58,
+      "chose": "hh-1-child-2",
+      "selected": true
+    },
+    "click right after a drag": {
+      "person": "hh-1-child-2",
+      "chose": "hh-1-child-2",
+      "selected": true
+    },
+    "Follow, then drag held 3 ticks": {
+      "endErrorPx": 0,
+      "movedAfterReleasePx": 0,
+      "worstJumpLateInHoldPx": 1,
+      "followingAfter": false
+    },
+    "view button home": {
+      "latencyMs": 175
+    },
+    "view button follow": {
+      "latencyMs": 121
+    },
+    "view button in": {
+      "latencyMs": 86
+    },
+    "keyboard arrow and +": {
+      "focusable": true,
+      "panPx": 171,
+      "zoom": 1.4
+    },
+    "touch pan": {
+      "handled": 38,
+      "latency": {
+        "median": 53,
+        "p95": 327,
+        "max": 599
+      },
+      "fps": 28,
+      "settleMs": 55,
+      "drawMsMedian": 264,
+      "movedPictureMsMedian": 0,
+      "wholeDraws": 1,
+      "movedPictures": 36,
+      "endErrorPx": 0
+    },
+    "touch pinch 2x": {
+      "handled": 84,
+      "latency": {
+        "median": 53,
+        "p95": 57,
+        "max": 328
+      },
+      "fps": 44.2,
+      "settleMs": 328,
+      "drawMsMedian": 256,
+      "movedPictureMsMedian": 0,
+      "wholeDraws": 0,
+      "movedPictures": 40,
+      "zoom": 2,
+      "anchorErrorPx": 0
+    },
+    "pinch lifted over a person": {
+      "person": "hh-1-parent-2",
+      "before": null,
+      "after": null,
+      "takenForATap": false
+    },
+    "finger tap, 6px jitter": {
+      "person": "hh-1-parent-2",
+      "chose": "hh-1-parent-2",
+      "selected": true
+    }
+  },
+  "notProved": [
+    "A real Chromebook, touchpad or touchscreen: CDP input emulates the events, not the hardware or ChromeOS gesture handling.",
+    "Timings on this computer vary with its other work; the thresholds here are deliberately loose and the numbers in docs/PERFORMANCE_NAVIGATION.md are medians of repeated runs.",
+    "The cost of a whole map draw and of a snapshot render, which are not navigation (see docs/PERFORMANCE_NAVIGATION.md, What remains)."
+  ]
+}

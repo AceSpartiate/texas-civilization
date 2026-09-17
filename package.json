@@ -50,6 +50,8 @@
     "test:host-live": "node scripts/host-live-browser-proof.mjs",
     "test:road": "node scripts/road-browser-proof.mjs",
     "test:map-accuracy": "node scripts/map-accuracy-browser-proof.mjs",
+    "test:navigation": "node scripts/navigation-browser-proof.mjs",
+    "measure:navigation": "node scripts/perf-navigation-measure.mjs",
     "balance": "node scripts/balance-study.mjs"
   }
 }
