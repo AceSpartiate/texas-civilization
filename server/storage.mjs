@@ -72,11 +72,13 @@ export function archiveSave(path, label) {
   return target;
 }
 
+// `save` is the class, or its save text already written out: the classroom serialises each commit once and both keeps that
+// text (what a failed change goes back to) and writes it here (server/app.mjs `commit`).
 export function writeSave(path, save) {
   if (!path) return;
   mkdirSync(dirname(path), { recursive: true });
   const temp = `${path}.tmp`;
-  writeFileSync(temp, JSON.stringify(save));
+  writeFileSync(temp, typeof save === 'string' ? save : JSON.stringify(save));
   const fd = openSync(temp, 'r+');
   try { fsyncSync(fd); } finally { closeSync(fd); }
   renameSync(temp, path);

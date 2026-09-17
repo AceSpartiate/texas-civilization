@@ -34,7 +34,7 @@ import { OVERLAND_REACH } from './ways.mjs';
 import { moreFields, plotWorkRefusal, stakePlot, stroll, strollTarget } from './survey.mjs';
 import { choosing, cutLaneSpell, digWell, lanePoint, laneRefusal, laneState, waterBurden, wellRefusal, wellTicks } from './homesite.mjs';
 import { huntingPlace, huntRefusal, placeWord, stillTicks } from './hunting.mjs';
-import { fellRefusal, fellTicks, fellTree, logsLying, nextTree, recordFelling, stackLogs, takeUpLogs } from './felling.mjs';
+import { fellRefusal, fellTicks, fellTree, logsLeftOut, logsLying, nextTree, recordFelling, stackLogs, takeUpLogs } from './felling.mjs';
 import { KINDS, woodsRule } from './woods.mjs';
 import { TRADES, counterOptions, counterRefusal, rifleTrue, spendRifleShot, takeCounter, tradesAt } from './shops.mjs';
 import { BABY_BURDEN, FURNITURE, PIECES, buyRefusal, furnish, makeRefusal, mindingBaby, wanting } from './furniture.mjs';
@@ -891,7 +891,7 @@ function timberFor(world, household) {
  * The reason is shown to the student: a control that is refused without saying why is
  * worse than no control.
  */
-export function choreAvailability(world, household, entity, choreId) {
+export function choreAvailability(world, household, entity, choreId, logsOut = null) {
   const chore = CHORES[choreId];
   if (!chore) return { can: false, why: 'No such work.' };
   if (entity.kind !== 'person' || entity.householdId !== household.id) return { can: false, why: 'Not one of your family.' };
@@ -921,7 +921,7 @@ export function choreAvailability(world, household, entity, choreId) {
   if (chore.furniture === 'make' && household.tools?.axe === undefined) return { can: false, why: 'Making furniture wants a felling axe, and there is none in the house.' };
   if (chore.furniture === 'buy' && !Object.values(world.entities).some(one => one.deals?.includes('furniture'))) return { can: false, why: 'There is no carpenter in this country.' };
   if (chore.fells && household.tools?.axe === undefined) return { can: false, why: 'Felling wants an axe, and there is none in the house.' };
-  if (chore.hauling && !logsLying(world, household).length) return { can: false, why: 'No felled logs lie out to haul.' };
+  if (chore.hauling && !(logsOut ?? logsLeftOut(world, household))) return { can: false, why: 'No felled logs lie out to haul.' };
   if (chore.lane) { const why = laneRefusal(world, household); if (why) return { can: false, why }; }
   if (chore.field && (household.field?.state ?? 'bare') !== chore.field) {
     return { can: false, why: chore.field === 'ripe' ? 'The field is not ready.' : 'The field is already planted.' };
@@ -1042,7 +1042,7 @@ export function choreCatalogue() {
  * The changing half: whether this person can be sent on each chore right now, and why
  * not. This is a permission, so it stays on the server and is recomputed every tick.
  */
-export function choresFor(world, household, entity) {
+export function choresFor(world, household, entity, logsOut = null) {
   // A family with a roof over it has no house to work on, and a refusal saying so to every person on
   // every tick would be freight: this channel's size budget caught it (tests/chores.test.mjs).
   const settled = houseSettled(household);
@@ -1057,7 +1057,7 @@ export function choresFor(world, household, entity) {
   const wants = { 'clear-plot': plots.some(plot => plot.state === 'staked'), 'fence-plot': plots.some(plot => plot.state === 'cleared' && plot.fence !== 'sound') };
   // Nor felling where the trees are not counted one by one, nor hauling with nothing lying out (sim/felling.mjs).
   const counted = woodsRule(world) === 'landfire';
-  const lying = counted && logsLying(world, household).length > 0;
+  const lying = counted && (logsOut ??= logsLeftOut(world, household)) > 0;
   const list = Object.entries(CHORES).filter(([id, chore]) => !(chore.house && settled) && !(chore.helps && !visiting) && !(chore.well && !wantsWell) && !(chore.lane && !wantsLane)
     && !(chore.plotWork && !wants[id])
     && !(chore.fells && !counted) && !(chore.hauling && !lying)
@@ -1074,7 +1074,7 @@ export function choresFor(world, household, entity) {
     && !(entity.service?.status === 'serving' && !chore.camp)
     // Nor survey or plot work before the class has begun, which would be a refusal for every person on every lobby tick.
     && !((chore.survey || chore.plotWork || chore.huntLand || chore.fells) && world.status === 'lobby')).map(([id, chore]) => {
-    const { can, why } = choreAvailability(world, household, entity, id);
+    const { can, why } = choreAvailability(world, household, entity, id, logsOut);
     // `haul` is what this person's own hands would bring back from this trip, before any
     // cap. The cap itself is the mode's `carry`, which the projection sends alongside; the
     // control puts the two together so a student sees what a choice costs before making

@@ -41,7 +41,7 @@ import { appearanceInvalid, setAppearance } from './appearance.mjs';
 import { furnitureInvalid } from './furniture.mjs';
 import { interiorInvalid, interiorProjection, placeItem } from './interior.mjs';
 import { gearExertionShare, shopsInvalid, wagonSpeedShare } from './shops.mjs';
-import { fellingInvalid, logsProjection, recordFelling } from './felling.mjs';
+import { fellingInvalid, logsLeftOut, logsProjection, recordFelling } from './felling.mjs';
 import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, ageBand, defaultNames, familyProjection, familyRoll, FAMILY_DIE, compositionFor, rolledWords, householdName, kinFor, mainPersonId, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
 export { HOUSEHOLD_SHAPE, ROLES, householdName, sanitiseName } from './family.mjs';
 export { clearedOf, improvementsOf, ruin } from './improvements.mjs';
@@ -805,7 +805,7 @@ function projectHousehold(world, household) {
   const main = mainPersonId(world, household);
   return { ...shown, ...(main !== household.principalId && { mainId: main }) };
 }
-export function projectWorld(world, householdId, role, { includeMap = true } = {}) {
+export function projectWorld(world, householdId, role, { includeMap = true, copy = true } = {}) {
   const household = world.households[householdId];
   // The last few a family can see, not every one it has ever seen.
   //
@@ -815,12 +815,19 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
   // log the same, so this is the visible record with room to spare. The household's own
   // event list in `world` is untouched, which is what the epilogue is built from
   // (VISION.md §20) and what a save carries.
-  const visibleEvents = world.events
+  //
+  // Read from the newest back until there are enough, rather than filtering the whole history: a class has thirty thousand
+  // events by the spring, and this runs for every page on every commit and for every automatic family that thinks
+  // (docs/PERFORMANCE_SERVER.md). The same events in the same order as filtering all of them and keeping the last few.
+  const visibleEvents = [];
+  for (let index = world.events.length - 1; index >= 0 && visibleEvents.length < PROJECTED_EVENTS; index--) {
+    const e = world.events[index];
     // A sealed event - glory, today - belongs to the family's story and is revealed only at
     // the end of the game. It is dropped before the slice, so it cannot even displace a line.
-    .filter(e => e.visibility !== 'sealed')
-    .filter(e => (householdId && e.householdId === householdId) || (role === 'host' && e.visibility === 'public'))
-    .slice(-PROJECTED_EVENTS);
+    if (e.visibility === 'sealed') continue;
+    if ((householdId && e.householdId === householdId) || (role === 'host' && e.visibility === 'public')) visibleEvents.push(e);
+  }
+  visibleEvents.reverse();
   const knownIds = new Set(visibleEvents.map(e => e.id));
   const events = visibleEvents.map(e => ({ id: e.id, type: e.type, minute: e.minute, text: e.text, actorId: e.actorId, householdId: e.householdId, causes: e.causes.filter(id => knownIds.has(id)) }));
   const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, ...(e.given && { given: e.given }), kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.sex && { sex: e.sex }), ...(Number.isFinite(e.age) && { age: e.age, band: ageBand(e.age) }), location: e.location, travel: e.travel ? { from: e.travel.from, to: e.travel.to, points: e.travel.points, progress: e.travel.progress, distance: e.travel.distance, speed: e.travel.speed, mode: e.travel.mode } : null, health: e.health, task: e.task, skills: e.skills, chore: e.chore?.ask ? { ...e.chore, ask: askProjection(world, household, e) } : e.chore, condition: e.condition, species: e.species, laden: e.laden, borrowedBy: e.borrowedBy, ...(e.marks && { marks: e.marks }), ...(e.service && { service: { kind: e.service.kind, status: e.service.status, siteId: e.service.siteId, ...(e.service.acres && { acres: e.service.acres }), ...(e.service.besieged && { besieged: true }), ...(e.service.riding && { riding: true }), ...(e.service.courier === 'open' && { courier: 'open' }), ...(e.service.drilled && { drilled: e.service.drilled }), ...(e.service.bound && { bound: true }), ...(e.service.leave === 'open' && { leave: 'open' }), ...(e.service.road === 'open' && { road: 'open' }) } }), ...(e.voted && { voted: true }), ...(e.auto && { auto: true }) }));
@@ -834,12 +841,14 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
   // detail a map needs and no more (sim/overview.mjs). A student's `others` is exactly what it always was.
   const overview = role === 'host' ? hostOverview(world) : null;
   const others = overview ? overview.everyone : observedBy(world, householdId);
-  const work = household ? Object.fromEntries(household.members.map(id => [id, choresFor(world, household, world.entities[id])])) : {};
+  // How many logs lie out is asked of every person's work list; counted once for the family here.
+  const logsOut = household ? logsLeftOut(world, household) : 0;
+  const work = household ? Object.fromEntries(household.members.map(id => [id, choresFor(world, household, world.entities[id], logsOut)])) : {};
   // Which ways each person could set out, on the same rule as the work: a permission, so
   // it is decided here and never guessed at by the client.
   // What the family has made of this land, and what state it is in. The renderer draws
   // the field at the size this says and the fence only when there is one to draw.
-  const land = household ? { ...improvementProjection(household), ...shelterProjection(household), ...houseProjection(world, household), ...grantProjection(world, household), ...siteProjection(world, household), ...plotProjection(world, household), ...logsProjection(world, household), interior: interiorProjection(household) } : null;
+  const land = household ? { ...improvementProjection(household), ...shelterProjection(household), ...houseProjection(world, household), ...grantProjection(world, household), ...siteProjection(world, household), ...plotProjection(world, household), ...logsProjection(world, household, logsOut), interior: interiorProjection(household) } : null;
   // What is in the wagon, and whether it can still be repacked. The catalogue comes once, from /api/chores.
   const wagon = household ? wagonProjection(world, household) : null;
 
@@ -847,7 +856,7 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
   const toolCondition = household ? Object.fromEntries(Object.entries(household.tools || {}).map(([tool, wear]) => [tool, { wear, state: toolState(wear) }])) : {};
   const offers = offersFor(world, householdId);
   const encounter = encounterProjection(world, householdId, role);
-  return structuredClone({ tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: world.map }), household: household && projectHousehold(world, household), entities, others, offers, encounter, events, work, travelModes, land, wagon, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role),
+  const view = { tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: world.map }), household: household && projectHousehold(world, household), entities, others, offers, encounter, events, work, travelModes, land, wagon, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role),
     // The army, once there is one: where it is, how many went, and which of them are this family's (sim/army.mjs).
     ...(world.army && householdId ? { army: armyProjection(world, householdId) } : {}),
     // The family's flight east, once it has been told to go (sim/scrape.mjs).
@@ -862,7 +871,11 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
     // Whether this class began with the families arriving, which is what a family knows of a
     // neighbour's land it has not been to see: at dawn on the 28th nobody had a house. Land it has
     // seen since is in `household.seenLand`, as it stood then (sim/houses.mjs, `noteLandSeen`).
-    ...(world.director?.arrival && { arrivalClass: true }) });
+    ...(world.director?.arrival && { arrivalClass: true }) };
+  // A copy, so that nothing holding a view can change the world through it. `copy: false` is for a caller that only
+  // serialises the view at once (server/app.mjs `view`), where the copy was a sixth of the projection's time and changes
+  // not one byte of the text (docs/PERFORMANCE_SERVER.md; tests/save-text.test.mjs).
+  return copy ? structuredClone(view) : view;
 }
 export function validateWorld(world) {
   if (world.schemaVersion !== 3 || !Number.isInteger(world.tick) || world.tick < 0 || !Number.isFinite(world.minute) || world.minute < 0 || !['lobby', 'running', 'paused', 'ended'].includes(world.status)) throw new Error('Invalid world');

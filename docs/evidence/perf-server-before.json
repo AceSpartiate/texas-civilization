@@ -1,0 +1,473 @@
+{
+  "label": "before",
+  "measuredAt": "2026-09-17T14:19:21.074Z",
+  "machine": {
+    "cpu": "12th Gen Intel(R) Core(TM) i9-12900KF",
+    "logicalProcessors": 24,
+    "node": "v24.18.1",
+    "busyThreads": 0,
+    "affinityNote": null
+  },
+  "results": [
+    {
+      "scenario": "solo",
+      "point": "arriving (period 1, tick 20)",
+      "worldTick": 20,
+      "families": 15,
+      "students": 1,
+      "host": true,
+      "tickMs": 1000,
+      "ticks": 12,
+      "msPerTick": {
+        "total": 30,
+        "max": 42.07,
+        "step": 12.67,
+        "clone": 6.04,
+        "validate": 0.64,
+        "serialise": 0,
+        "save": 8.57,
+        "broadcast": 2.08,
+        "project": 1.82,
+        "stringify": 0.16
+      },
+      "skippedSendsPerTick": 0,
+      "burst": null,
+      "mainThread": {
+        "busyMsPerTick": 43.21,
+        "utilisation": 0.04,
+        "eventLoopDelayMs": {
+          "p50": 15.56,
+          "p99": 35.09,
+          "max": 57.28
+        }
+      },
+      "saveBytes": 596734,
+      "serverBytesPerTick": {
+        "student": 17170,
+        "host": 45297.92
+      },
+      "received": {
+        "student": {
+          "messagesPerPagePerTick": 1,
+          "meanBytes": 17170,
+          "maxBytes": 17845,
+          "bytesPerSecondAllPages": 16448
+        },
+        "host": {
+          "messagesPerPagePerTick": 1,
+          "meanBytes": 45298,
+          "maxBytes": 45946,
+          "bytesPerSecondAllPages": 43394
+        }
+      }
+    },
+    {
+      "scenario": "solo",
+      "point": "late period 1",
+      "worldTick": 250,
+      "families": 15,
+      "students": 1,
+      "host": true,
+      "tickMs": 1000,
+      "ticks": 12,
+      "msPerTick": {
+        "total": 40.58,
+        "max": 49.81,
+        "step": 12.46,
+        "clone": 11.13,
+        "validate": 1.13,
+        "serialise": 0,
+        "save": 12.75,
+        "broadcast": 3.12,
+        "project": 2.83,
+        "stringify": 0.21
+      },
+      "skippedSendsPerTick": 0,
+      "burst": null,
+      "mainThread": {
+        "busyMsPerTick": 44.64,
+        "utilisation": 0.04,
+        "eventLoopDelayMs": {
+          "p50": 15.55,
+          "p99": 46.76,
+          "max": 65.54
+        }
+      },
+      "saveBytes": 1859667,
+      "serverBytesPerTick": {
+        "student": 18865.58,
+        "host": 63967.33
+      },
+      "received": {
+        "student": {
+          "messagesPerPagePerTick": 1,
+          "meanBytes": 18866,
+          "maxBytes": 20407,
+          "bytesPerSecondAllPages": 18130
+        },
+        "host": {
+          "messagesPerPagePerTick": 1,
+          "meanBytes": 63967,
+          "maxBytes": 67680,
+          "bytesPerSecondAllPages": 61474
+        }
+      }
+    },
+    {
+      "scenario": "solo",
+      "point": "period 2 (winter)",
+      "worldTick": 502,
+      "families": 15,
+      "students": 1,
+      "host": true,
+      "tickMs": 1000,
+      "ticks": 12,
+      "msPerTick": {
+        "total": 58.07,
+        "max": 73.08,
+        "step": 14.8,
+        "clone": 18.15,
+        "validate": 1.97,
+        "serialise": 0,
+        "save": 18.97,
+        "broadcast": 4.18,
+        "project": 3.69,
+        "stringify": 0.22
+      },
+      "skippedSendsPerTick": 0,
+      "burst": null,
+      "mainThread": {
+        "busyMsPerTick": 65.55,
+        "utilisation": 0.06,
+        "eventLoopDelayMs": {
+          "p50": 15.57,
+          "p99": 67.9,
+          "max": 88.74
+        }
+      },
+      "saveBytes": 3277847,
+      "serverBytesPerTick": {
+        "student": 25669.58,
+        "host": 72406.83
+      },
+      "received": {
+        "student": {
+          "messagesPerPagePerTick": 1,
+          "meanBytes": 25670,
+          "maxBytes": 26798,
+          "bytesPerSecondAllPages": 24558
+        },
+        "host": {
+          "messagesPerPagePerTick": 1,
+          "meanBytes": 72407,
+          "maxBytes": 73409,
+          "bytesPerSecondAllPages": 69271
+        }
+      }
+    },
+    {
+      "scenario": "solo",
+      "point": "period 3 (spring)",
+      "worldTick": 657,
+      "families": 15,
+      "students": 1,
+      "host": true,
+      "tickMs": 1000,
+      "ticks": 12,
+      "msPerTick": {
+        "total": 66.17,
+        "max": 87.63,
+        "step": 12.54,
+        "clone": 22.25,
+        "validate": 2.29,
+        "serialise": 0,
+        "save": 24.28,
+        "broadcast": 4.81,
+        "project": 4.44,
+        "stringify": 0.26
+      },
+      "skippedSendsPerTick": 0,
+      "burst": null,
+      "mainThread": {
+        "busyMsPerTick": 70.56,
+        "utilisation": 0.07,
+        "eventLoopDelayMs": {
+          "p50": 15.56,
+          "p99": 67.5,
+          "max": 93.19
+        }
+      },
+      "saveBytes": 4228099,
+      "serverBytesPerTick": {
+        "student": 31945.33,
+        "host": 82066.5
+      },
+      "received": {
+        "student": {
+          "messagesPerPagePerTick": 1,
+          "meanBytes": 31945,
+          "maxBytes": 35064,
+          "bytesPerSecondAllPages": 30715
+        },
+        "host": {
+          "messagesPerPagePerTick": 1,
+          "meanBytes": 82067,
+          "maxBytes": 87203,
+          "bytesPerSecondAllPages": 78906
+        }
+      }
+    },
+    {
+      "scenario": "class",
+      "point": "arriving (period 1, tick 20)",
+      "worldTick": 20,
+      "families": 30,
+      "students": 30,
+      "host": true,
+      "tickMs": 1500,
+      "ticks": 12,
+      "msPerTick": {
+        "total": 249.33,
+        "max": 504.96,
+        "step": 94.5,
+        "clone": 15.88,
+        "validate": 2.97,
+        "serialise": 0,
+        "save": 35.1,
+        "broadcast": 100.88,
+        "project": 94.84,
+        "stringify": 3.58
+      },
+      "skippedSendsPerTick": 0,
+      "burst": {
+        "orders": 30,
+        "accepted": 30,
+        "refused": 0,
+        "slowestAnswerMs": 1672.5,
+        "medianAnswerMs": 873.98,
+        "commits": 31,
+        "serverBusyMs": 1741.33,
+        "commitMs": 54.38,
+        "snapshotsSentToStudentPages": 930,
+        "snapshotsSentToHost": 31
+      },
+      "mainThread": {
+        "busyMsPerTick": 269.8,
+        "utilisation": 0.18,
+        "eventLoopDelayMs": {
+          "p50": 15.95,
+          "p99": 158.47,
+          "max": 508.3
+        }
+      },
+      "saveBytes": 896987,
+      "serverBytesPerTick": {
+        "student": 17091.07,
+        "host": 81117.25
+      },
+      "received": {
+        "student": {
+          "messagesPerPagePerTick": 1,
+          "meanBytes": 17091,
+          "maxBytes": 19261,
+          "bytesPerSecondAllPages": 336087
+        },
+        "host": {
+          "messagesPerPagePerTick": 1,
+          "meanBytes": 81117,
+          "maxBytes": 81628,
+          "bytesPerSecondAllPages": 53171
+        }
+      }
+    },
+    {
+      "scenario": "class",
+      "point": "late period 1",
+      "worldTick": 250,
+      "families": 30,
+      "students": 30,
+      "host": true,
+      "tickMs": 1500,
+      "ticks": 12,
+      "msPerTick": {
+        "total": 147,
+        "max": 169.5,
+        "step": 41.82,
+        "clone": 18.81,
+        "validate": 2.11,
+        "serialise": 0,
+        "save": 19.23,
+        "broadcast": 65.03,
+        "project": 62.22,
+        "stringify": 2.23
+      },
+      "skippedSendsPerTick": 0,
+      "burst": {
+        "orders": 30,
+        "accepted": 30,
+        "refused": 0,
+        "slowestAnswerMs": 3393.64,
+        "medianAnswerMs": 1799.03,
+        "commits": 31,
+        "serverBusyMs": 3528.57,
+        "commitMs": 112.68,
+        "snapshotsSentToStudentPages": 930,
+        "snapshotsSentToHost": 31
+      },
+      "mainThread": {
+        "busyMsPerTick": 152.62,
+        "utilisation": 0.1,
+        "eventLoopDelayMs": {
+          "p50": 15.52,
+          "p99": 132.32,
+          "max": 186.25
+        }
+      },
+      "saveBytes": 3644535,
+      "serverBytesPerTick": {
+        "student": 22210.72,
+        "host": 113296.83
+      },
+      "received": {
+        "student": {
+          "messagesPerPagePerTick": 1,
+          "meanBytes": 22211,
+          "maxBytes": 31280,
+          "bytesPerSecondAllPages": 431463
+        },
+        "host": {
+          "messagesPerPagePerTick": 1,
+          "meanBytes": 113297,
+          "maxBytes": 120061,
+          "bytesPerSecondAllPages": 73363
+        }
+      }
+    },
+    {
+      "scenario": "class",
+      "point": "period 2 (winter)",
+      "worldTick": 502,
+      "families": 30,
+      "students": 30,
+      "host": true,
+      "tickMs": 1500,
+      "ticks": 12,
+      "msPerTick": {
+        "total": 191.85,
+        "max": 225.34,
+        "step": 44.55,
+        "clone": 33.95,
+        "validate": 3.3,
+        "serialise": 0,
+        "save": 31.17,
+        "broadcast": 78.87,
+        "project": 76.5,
+        "stringify": 1.86
+      },
+      "skippedSendsPerTick": 0,
+      "burst": {
+        "orders": 30,
+        "accepted": 30,
+        "refused": 0,
+        "slowestAnswerMs": 4745.98,
+        "medianAnswerMs": 2508.48,
+        "commits": 31,
+        "serverBusyMs": 4947.65,
+        "commitMs": 158.52,
+        "snapshotsSentToStudentPages": 930,
+        "snapshotsSentToHost": 31
+      },
+      "mainThread": {
+        "busyMsPerTick": 196.18,
+        "utilisation": 0.13,
+        "eventLoopDelayMs": {
+          "p50": 15.58,
+          "p99": 188.09,
+          "max": 226.36
+        }
+      },
+      "saveBytes": 7095823,
+      "serverBytesPerTick": {
+        "student": 24356.29,
+        "host": 115031.83
+      },
+      "received": {
+        "student": {
+          "messagesPerPagePerTick": 1,
+          "meanBytes": 24356,
+          "maxBytes": 30606,
+          "bytesPerSecondAllPages": 472432
+        },
+        "host": {
+          "messagesPerPagePerTick": 1,
+          "meanBytes": 115032,
+          "maxBytes": 116726,
+          "bytesPerSecondAllPages": 74375
+        }
+      }
+    },
+    {
+      "scenario": "class",
+      "point": "period 3 (spring)",
+      "worldTick": 657,
+      "families": 30,
+      "students": 30,
+      "host": true,
+      "tickMs": 1500,
+      "ticks": 12,
+      "msPerTick": {
+        "total": 242.3,
+        "max": 299.04,
+        "step": 44.61,
+        "clone": 47.8,
+        "validate": 4.13,
+        "serialise": 0,
+        "save": 46.94,
+        "broadcast": 98.83,
+        "project": 95.82,
+        "stringify": 2.32
+      },
+      "skippedSendsPerTick": 0,
+      "burst": {
+        "orders": 30,
+        "accepted": 28,
+        "refused": 2,
+        "slowestAnswerMs": 6196.79,
+        "medianAnswerMs": 2894.46,
+        "commits": 29,
+        "serverBusyMs": 6493.04,
+        "commitMs": 219.29,
+        "snapshotsSentToStudentPages": 870,
+        "snapshotsSentToHost": 29
+      },
+      "mainThread": {
+        "busyMsPerTick": 252.35,
+        "utilisation": 0.16,
+        "eventLoopDelayMs": {
+          "p50": 15.63,
+          "p99": 228.98,
+          "max": 314.83
+        }
+      },
+      "saveBytes": 9068890,
+      "serverBytesPerTick": {
+        "student": 33411.76,
+        "host": 117287
+      },
+      "received": {
+        "student": {
+          "messagesPerPagePerTick": 1,
+          "meanBytes": 33412,
+          "maxBytes": 55686,
+          "bytesPerSecondAllPages": 648937
+        },
+        "host": {
+          "messagesPerPagePerTick": 1,
+          "meanBytes": 117287,
+          "maxBytes": 122509,
+          "bytesPerSecondAllPages": 75933
+        }
+      }
+    }
+  ]
+}

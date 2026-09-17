@@ -129,6 +129,18 @@ export function logsLying(world, household) {
     .sort((a, b) => Math.hypot(a.x - home.x, a.y - home.y) - Math.hypot(b.x - home.x, b.y - home.y));
 }
 
+/**
+ * How many logs this family still has lying out, without placing or sorting them. `logsLying` finds each felled tree's spot
+ * again from its id and sorts them by distance, which is what taking a load up needs; the work list and the land line only
+ * ask whether any lie out and how many, on every person of every family on every tick, and the class's felled trees run to
+ * a thousand by the spring (docs/PERFORMANCE_SERVER.md).
+ */
+export function logsLeftOut(world, household) {
+  let left = 0;
+  for (const entry of Object.values(felledOf(world))) if (entry.by === household.id && entry.left > 0) left += entry.left;
+  return left;
+}
+
 /** Whether the family's ox is at home and free to drag a load. */
 export function oxFree(world, household) {
   return household.property.some(id => {
@@ -164,8 +176,7 @@ export function stackLogs(household, load) {
 }
 
 /** The family's log pile and what still lies out, for its own land line. Absent when there is neither. */
-export function logsProjection(world, household) {
-  const lying = logsLying(world, household).reduce((sum, entry) => sum + entry.left, 0);
+export function logsProjection(world, household, lying = logsLeftOut(world, household)) {
   const pile = household.logs;
   return pile || lying ? { logs: { ...(pile || { wall: 0, sill: 0, poor: 0 }), lying } } : {};
 }
