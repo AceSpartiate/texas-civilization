@@ -15,7 +15,7 @@
     "letting the rider ride on clears the \"!\"",
     "a call to the family marks the 4 people the server lets answer it; pressing hh-1-child-2's \"!\" opened the one menu for it (\"A neighbour is at the door. They are carrying food to the people gathering near Gonzales, and ask whether somebody from your family can help take it.\") with a row each, the keyboard on hh-1-parent-1's",
     "answering from the menu (nobody goes) clears the \"!\" from everybody who could have answered, and the menu goes",
-    "7 presses (0 refused in the server's words and another tried) set 7 of 10 people to work without finding anybody on the map; each icon glowed when the server took it, and the 5 still at it are not idle (1: work, 2: fetch-seed, 1: make-furniture, 2: make-furniture, 3: make-furniture, 4: make-furniture, 5: make-furniture)",
+    "7 presses (0 refused in the server's words and another tried) set 7 of 10 people to work without finding anybody on the map; each icon glowed when the server took it, and the 6 still at it are not idle (1: work, 2: fetch-seed, 1: make-furniture, 2: make-furniture, 3: make-furniture, 4: make-furniture, 5: make-furniture)",
     "of the 3 not given work, 0 are shown idle (something is open to them) and 3 are not (too young to be sent)",
     "a stale \"harvest-field\" pressed for hh-1-parent-1 is refused by the server, in its words: \"The field is not ready.\"",
     "hh-1-child-1 is left standing about (their work finished), and the row says \"Idle\" and marks the portrait",
@@ -151,6 +151,7 @@
       "stillAtIt": [
         "hh-1-parent-1",
         "hh-1-parent-2",
+        "hh-1-child-2",
         "hh-1-child-3",
         "hh-1-child-4",
         "hh-1-child-5"
@@ -184,8 +185,10 @@
         {
           "id": "hh-1-child-2",
           "role": "daughter",
-          "active": [],
-          "idle": true,
+          "active": [
+            "make-furniture"
+          ],
+          "idle": false,
           "need": null
         },
         {
