@@ -14,7 +14,7 @@ import { drawHousePlot, plotted, renderHousePlot } from '/house-plot.js';
 import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesVisible, woodsLayersFor, woodsShown } from '/woods-view.js';
 import { bindEnding, renderEnding } from '/ending.js';
 import { bindLooks, renderLooks } from '/appearance.js';
-import { applyDrawState, canvasRatio, creekOpacity, distanceToSegments, ramp, readDrawState, sameLayerKey, scatterItem, scatterLevels, segmentsNear, setText, smoothCover, WATER, waterWidth } from '/map-base.js';
+import { applyDrawState, canvasRatio, creekOpacity, distanceToSegments, ramp, readDrawState, sameLayerKey, scatterItem, scatterLevels, segmentsNear, setText, smoothCover, WATER, waterWidth, landPictureData, landUpscale } from '/map-base.js';
 import { groundClass, groundClassAt, markFor } from '/ground-classes.js';
 import { decodeLand, decodeProvince, landWeights, lineBand } from '/land-levels.js';
 import { frameTransform, gestureView, isTap, keyView, nearestSpot, reproject, tapSlop, wheelZoomFactor, worldAt, zoomAbout } from '/map-camera.js';
@@ -1299,35 +1299,48 @@ function drawRelief(ctx, world, camera) {
  * (`landWeights`) so the land never changes at one wheel step. Only the part in view is laid down.
  */
 const landPictures = new WeakMap();
+/** A grid's pictures are being made (`landPicture`): the ground is laid down without them until they come. */
+const LAND_MAKING = Symbol('making');
+let landWorker = null, landJob = 0;
+const landWaiting = new Map();
+/** Each class's wash colour, in the grid's class order: `[r, g, b, alpha]` or null (public/ground-classes.js). */
+const landPalette = grid => grid.classes.map(id => { if (!id || id === 'none') return null; const kind = groundClass(id); return kind.alpha > 0 ? [...kind.colour, kind.alpha] : null; });
+/**
+ * A grid's pictures, or null while they are being made. Made off the main thread (public/land-worker.js) when the browser has
+ * workers: on a Chromebook-slow CPU making them here was one two-second task with the page frozen just after the map first
+ * appeared (docs/PERFORMANCE_LOAD.md). They are handed over as bitmaps and the ground is drawn again when they land.
+ */
 function landPicture(grid) {
-  let pictures = landPictures.get(grid);
-  if (pictures) return pictures;
-  const cells = grid.columns * grid.rows, upscale = cells * 16 <= 1.5e6 ? 4 : cells * 4 <= 1.5e6 ? 2 : 1;
-  const make = colourAt => {
-    const smooth = smoothCover(grid.columns, grid.rows, colourAt, { upscale });
+  const known = landPictures.get(grid);
+  if (known) return known === LAND_MAKING ? null : known;
+  const upscale = landUpscale(grid), palette = landPalette(grid);
+  const toCanvas = picture => {
+    if (!picture) return null;
     const canvas = document.createElement('canvas');
-    canvas.width = smooth.width; canvas.height = smooth.height;
-    canvas.getContext('2d').putImageData(new ImageData(smooth.data, smooth.width, smooth.height), 0, 0);
+    canvas.width = picture.width; canvas.height = picture.height;
+    canvas.getContext('2d').putImageData(new ImageData(picture.data, picture.width, picture.height), 0, 0);
     return canvas;
   };
-  const at = (column, row) => row * grid.columns + column;
-  pictures = {
-    upscale,
-    wash: make((column, row) => {
-      const id = grid.classes[grid.cells[at(column, row)]];
-      if (!id || id === 'none') return null;
-      const kind = groundClass(id);
-      return kind.alpha > 0 ? [...kind.colour, kind.alpha] : null;
-    }),
-    // Hillshade: 128 is level ground; darker faces a shadow, brighter faces a light (docs/MAP_ACCURACY.md §6.2).
-    shade: grid.shade ? make((column, row) => {
-      const i = at(column, row), value = grid.shade[i];
-      if (!grid.cells[i] || value === 128) return null;
-      return value < 128 ? [38, 46, 30, Math.min(.45, (128 - value) / 128 * .9)] : [255, 250, 226, Math.min(.3, (value - 128) / 127 * .6)];
-    }) : null,
-  };
-  landPictures.set(grid, pictures);
-  return pictures;
+  if (typeof Worker !== 'function') {
+    const data = landPictureData(grid, palette, upscale);
+    const pictures = { upscale, wash: toCanvas(data.wash), shade: toCanvas(data.shade) };
+    landPictures.set(grid, pictures);
+    return pictures;
+  }
+  landPictures.set(grid, LAND_MAKING);
+  if (!landWorker) {
+    landWorker = new Worker('/land-worker.js', { type: 'module' });
+    landWorker.onmessage = event => { const done = landWaiting.get(event.data.id); landWaiting.delete(event.data.id); done?.(event.data.pictures); };
+  }
+  const id = ++landJob;
+  landWaiting.set(id, async data => {
+    const bitmap = async picture => picture ? createImageBitmap(new ImageData(picture.data, picture.width, picture.height)) : null;
+    const [wash, shade] = await Promise.all([bitmap(data.wash), bitmap(data.shade)]);
+    landPictures.set(grid, { upscale, wash, shade });
+    redrawForArrival();
+  });
+  landWorker.postMessage({ id, grid: { columns: grid.columns, rows: grid.rows, cells: grid.cells, shade: grid.shade }, palette, upscale });
+  return null;
 }
 function layLandPicture(ctx, camera, grid, canvas, upscale, alpha) {
   const perMile = upscale / grid.cellMiles;
@@ -1351,7 +1364,7 @@ function drawLand(ctx, world, camera) {
     grids.forEach((grid, i) => {
       if (weights[i] <= 0.01) return;
       const pictures = landPicture(grid);
-      if (pictures[layer]) layLandPicture(ctx, camera, grid, pictures[layer], pictures.upscale, weights[i]);
+      if (pictures?.[layer]) layLandPicture(ctx, camera, grid, pictures[layer], pictures.upscale, weights[i]);
     });
   }
 }
@@ -1446,7 +1459,8 @@ function drawGroundDetail(ctx, world, camera) {
   // same width `drawTerrain` paints (`waterWidth`), so the rule matches the picture at every zoom.
   // ceiling: the channel only. Timber crowding right up to the bank is correct and stays.
   // A thing just outside the view can still reach into it: the finest cell, or three figures, whichever is further.
-  const reach = Math.max(levels[0].cell, figure * 3 / camera.scale), margin = figure * 3;
+  // Zoomed far enough out no level of the scatter is drawn at all (`scatterLevels` gives none), and nothing reaches in.
+  const reach = Math.max(levels[0]?.cell ?? 0, figure * 3 / camera.scale), margin = figure * 3;
   const viewBox = { minX: topLeft.x, minY: topLeft.y, maxX: bottomRight.x, maxY: bottomRight.y };
   const landHere = levelsOf(world);
   const courses = [

@@ -186,3 +186,22 @@ export function cellHash(level, cx, cy, salt = 0) {
 export function scatterItem(level, cx, cy) {
   return { roll: cellHash(level, cx, cy, 1), jx: cellHash(level, cx, cy, 2), jy: cellHash(level, cx, cy, 3), share: cellHash(level, cx, cy, 4) };
 }
+
+/**
+ * A land grid's two pictures as RGBA data: `wash`, each cell its class's colour, and `shade`, the hillshade (128 is level
+ * ground; darker faces a shadow, brighter faces a light, docs/MAP_ACCURACY.md §6.2). `grid` is `{ columns, rows, cells,
+ * shade }` as public/land-levels.js decodes it; `palette[classIndex]` is `[r, g, b, alpha]` or null. Pure and free of the
+ * page, so the same pictures are made by the page or by public/land-worker.js, and a test can hold them to each other.
+ */
+export function landPictureData(grid, palette, upscale) {
+  const wash = smoothCover(grid.columns, grid.rows, (column, row) => palette[grid.cells[row * grid.columns + column]] || null, { upscale });
+  const shade = grid.shade ? smoothCover(grid.columns, grid.rows, (column, row) => {
+    const i = row * grid.columns + column, value = grid.shade[i];
+    if (!grid.cells[i] || value === 128) return null;
+    return value < 128 ? [38, 46, 30, Math.min(.45, (128 - value) / 128 * .9)] : [255, 250, 226, Math.min(.3, (value - 128) / 127 * .6)];
+  }, { upscale }) : null;
+  return { wash, shade };
+}
+
+/** How far a land grid's picture is scaled up: as much as keeps it under about a million and a half pixels. */
+export const landUpscale = grid => { const cells = grid.columns * grid.rows; return cells * 16 <= 1.5e6 ? 4 : cells * 4 <= 1.5e6 ? 2 : 1; };

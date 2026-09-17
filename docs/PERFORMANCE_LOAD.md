@@ -100,3 +100,14 @@ The responsiveness is mostly the drawing and navigation work; the request count 
 
 Still to look at: a single long task of about 2 s (throttled) on the first draw after the land's levels arrive. Decoding
 them costs under 5 ms unthrottled, so it is the first full ground draw with the land classes.
+
+### The land's pictures made in a worker — 2026-09-17
+
+The ~2 s long task was `landPicture` smoothing each land grid (classes and hillshade) on the main thread on the first draw
+(a CPU profile of a solo load, throttled 6x: `smoothCover` and its box blur about 900 ms inside one 1,977 ms task). The
+pictures are now made by `public/land-worker.js` from the pure `landPictureData` (public/map-base.js), handed back as
+`ImageBitmap`s, and the ground is drawn again when they land; the map shows without the land's wash for that moment.
+Longest task on load: **1,977 → 361 ms**. A latent crash this exposed is fixed: zoomed far enough out, `scatterLevels`
+gives no level and `drawGroundDetail` read `levels[0].cell`. `tests/map-base.test.mjs` (injected: the pictures made on the
+main thread). Remaining long tasks of 250-360 ms are the woods' cover rasters (`coverRaster`, also `smoothCover`) and
+`positionSelection`.

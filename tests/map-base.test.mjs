@@ -261,3 +261,24 @@ test("the real land's levels decode as the data says, and a zoom picks its band 
   assert.deepEqual(landWeights(400), [1, 0, 0], 'a county: the half-mile grid');
   assert.deepEqual(flatPoints([100, -250, 1, 2]), [{ x: 1, y: -2.5 }, { x: 0.01, y: 0.02 }]);
 });
+
+test('the land\'s pictures are made by one pure function, off the page\'s main thread when the browser has workers', async () => {
+  // Found profiling a load (2026-09-17): making them on the main thread was one task of about two seconds with the CPU
+  // throttled six times, the page frozen just after the map first appeared.
+  const { landPictureData, landUpscale, smoothCover } = await import('../public/map-base.js');
+  const { readFileSync } = await import('node:fs');
+  const grid = { columns: 6, rows: 4, cells: Uint8Array.from({ length: 24 }, (_, i) => i % 3), shade: Uint8Array.from({ length: 24 }, (_, i) => 100 + i * 4) };
+  const palette = [null, [200, 180, 90, 0.4], [60, 90, 40, 0.7]];
+  const pictures = landPictureData(grid, palette, 2);
+  assert.deepEqual(pictures.wash, smoothCover(6, 4, (c, r) => palette[grid.cells[r * 6 + c]] || null, { upscale: 2 }), 'the wash is not each cell its class colour, smoothed');
+  assert.equal(pictures.shade.width, 12);
+  assert.ok(pictures.shade.data.some(v => v > 0), 'no hillshade drawn');
+  assert.equal(landUpscale({ columns: 602, rows: 550 }), 2);
+  const worker = readFileSync(new URL('../public/land-worker.js', import.meta.url), 'utf8');
+  assert.match(worker, /import \{ landPictureData \} from '\.\/map-base\.js'/);
+  const app = readFileSync(new URL('../public/app.js', import.meta.url), 'utf8');
+  assert.match(app, /new Worker\('\/land-worker\.js', \{ type: 'module' \}\)/, 'the page does not make the land\'s pictures in a worker');
+  assert.match(app, /if \(typeof Worker !== 'function'\) \{/, 'the page makes them on the main thread even where it has workers');
+  const server = readFileSync(new URL('../server/app.mjs', import.meta.url), 'utf8');
+  assert.match(server, /\['\/land-worker\.js', \['\.\.\/public\/land-worker\.js', 'text\/javascript'\]\]/, 'the server does not serve the worker');
+});
