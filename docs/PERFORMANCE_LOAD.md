@@ -111,3 +111,19 @@ Longest task on load: **1,977 → 361 ms**. A latent crash this exposed is fixed
 gives no level and `drawGroundDetail` read `levels[0].cell`. `tests/map-base.test.mjs` (injected: the pictures made on the
 main thread). Remaining long tasks of 250-360 ms are the woods' cover rasters (`coverRaster`, also `smoothCover`) and
 `positionSelection`.
+
+### The woods' cover in the worker, and nothing measured on every frame — 2026-09-17
+
+The same profile (solo load, CPU throttled 6x, 9 s) after the land pictures moved: the remaining long tasks were the woods'
+cover rasters (`coverRaster` smoothing on the main thread, ~600 ms of `smoothCover` in the 9 s), the selection card placed
+every frame (`positionSelection` reading five boxes and writing its position each frame, ~150 ms), and `fitCanvas` asking
+the canvas's box every frame (~85 ms).
+
+- `public/smooth-worker.js` is the page's side of the one worker (`public/land-worker.js`, `kind: 'land' | 'cover'`); the
+  woods' cover picture on screen stays until the new one lands, then the ground is drawn again.
+- The card's placement reads its boxes once and again only after a `ResizeObserver` says something resized, and writes its
+  position only when it changes (`ceiling:` a box that moves without resizing is not re-measured; nothing does today).
+- `fitCanvas` keeps the canvas's size from a `ResizeObserver`.
+
+Result: long tasks after the first 0.3 s are 50-150 ms; the longest (264-299 ms) is the scripts loading. Smoothing is gone
+from the main thread entirely. `tests/map-base.test.mjs` extended (injected: the cover smoothed on the main thread).

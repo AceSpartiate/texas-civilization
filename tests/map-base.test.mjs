@@ -275,10 +275,18 @@ test('the land\'s pictures are made by one pure function, off the page\'s main t
   assert.ok(pictures.shade.data.some(v => v > 0), 'no hillshade drawn');
   assert.equal(landUpscale({ columns: 602, rows: 550 }), 2);
   const worker = readFileSync(new URL('../public/land-worker.js', import.meta.url), 'utf8');
-  assert.match(worker, /import \{ landPictureData \} from '\.\/map-base\.js'/);
+  assert.match(worker, /import \{ landPictureData, smoothCover \} from '\.\/map-base\.js'/);
+  assert.match(worker, /kind === 'cover'/, 'the worker does not smooth the woods cover');
+  const client = readFileSync(new URL('../public/smooth-worker.js', import.meta.url), 'utf8');
+  assert.match(client, /new Worker\('\/land-worker\.js', \{ type: 'module' \}\)/);
   const app = readFileSync(new URL('../public/app.js', import.meta.url), 'utf8');
-  assert.match(app, /new Worker\('\/land-worker\.js', \{ type: 'module' \}\)/, 'the page does not make the land\'s pictures in a worker');
-  assert.match(app, /if \(typeof Worker !== 'function'\) \{/, 'the page makes them on the main thread even where it has workers');
+  assert.match(app, /if \(!canSmoothOffThread\(\)\) \{/, 'the page makes the land pictures on the main thread even where it has workers');
+  assert.match(app, /smoothOffThread\(\{ kind: 'land'/, 'the page does not send the land to the worker');
+  // The woods' cover too (2026-09-17): a third of a second each time it was smoothed on the main thread.
+  const woodsPage = readFileSync(new URL('../public/woods-view.js', import.meta.url), 'utf8');
+  assert.match(woodsPage, /if \(across && canSmoothOffThread\(\)\) \{/, 'the woods cover is smoothed on the main thread even where the page has workers');
+  assert.match(woodsPage, /smoothOffThread\(\{ kind: 'cover'/);
   const server = readFileSync(new URL('../server/app.mjs', import.meta.url), 'utf8');
   assert.match(server, /\['\/land-worker\.js', \['\.\.\/public\/land-worker\.js', 'text\/javascript'\]\]/, 'the server does not serve the worker');
+  assert.match(server, /\['\/smooth-worker\.js', \['\.\.\/public\/smooth-worker\.js', 'text\/javascript'\]\]/, 'the server does not serve the worker client');
 });

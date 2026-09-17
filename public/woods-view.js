@@ -6,6 +6,7 @@
 // woods from the land gets 404s it never asks for: `woodsShown` is false and the map draws as it always has.
 
 import { smoothCover } from './map-base.js';
+import { canSmoothOffThread, smoothOffThread, toBitmap } from './smooth-worker.js';
 
 /** Fetched tiles by class and key, and those on their way. */
 const tiles = new Map();
@@ -94,6 +95,7 @@ function viewOf(camera, canvas, margin = 0) {
 /** Ask for whatever tiles the view needs now. `catalogue` is `/api/chores`' `woods`; `onLoad` redraws. */
 export function ensureWoods(world, camera, canvas, mapId, catalogue, onLoad, woodsRevision = 0) {
   if (!woodsShown(world) || !catalogue || !mapId) return;
+  coverLanded = onLoad;
   reset(mapId, woodsRevision);
   const view = viewOf(camera, canvas, 0.15), layers = woodsLayersFor(camera, canvas);
   // Every layer a band draws is asked for, closest first: the trees are what a student zoomed in is looking at.
@@ -162,6 +164,8 @@ export function drawWoodsCover(ctx, camera, canvas, catalogue) {
   }
 }
 
+/** What redraws the ground when a cover picture made off the main thread lands: the `onLoad` `ensureWoods` was last given. */
+let coverLanded = null;
 /** Tiles arrived, by level: a level's picture of the cover is made again from the tiles on hand when one of its own lands. */
 const arrivals = {};
 const rasters = new Map();
@@ -176,6 +180,29 @@ function coverRaster(level, size, box, acrossOf, colourOf) {
   if (kept?.key === key) return kept.cover;
   let across = 0;
   for (let ty = ty0; ty <= ty1 && !across; ty++) for (let tx = tx0; tx <= tx1 && !across; tx++) { const tile = tiles.get(`${level}:${tx}:${ty}`); if (tile?.cells) across = acrossOf(tile); }
+  // Off the main thread where the page can (public/smooth-worker.js): the picture on screen stays until the new one lands, then
+  // the ground is drawn again. On a Chromebook-slow CPU smoothing it here was a task of about a third of a second each time.
+  if (across && canSmoothOffThread()) {
+    if (kept?.making === key) return kept.cover;
+    const columns = (tx1 - tx0 + 1) * across, rows = (ty1 - ty0 + 1) * across;
+    const upscale = columns * rows * 16 <= 1e6 ? 4 : 2;
+    const colours = new Float32Array(columns * rows * 4);
+    for (let row = 0; row < rows; row++) for (let column = 0; column < columns; column++) {
+      const tile = tiles.get(`${level}:${tx0 + Math.floor(column / across)}:${ty0 + Math.floor(row / across)}`);
+      const colour = tile?.cells && acrossOf(tile) === across ? colourOf(tile, across, column % across, row % across) : null;
+      if (colour) colours.set(colour, (row * columns + column) * 4);
+    }
+    rasters.set(level, { key: kept?.key, cover: kept?.cover || null, making: key });
+    const asked = classId;
+    smoothOffThread({ kind: 'cover', columns, rows, colours, upscale }, [colours.buffer]).then(async ({ picture }) => {
+      const bitmap = await toBitmap(picture);
+      if (asked !== classId || rasters.get(level)?.making !== key) { bitmap?.close?.(); return; }
+      rasters.get(level)?.cover?.canvas?.close?.();
+      rasters.set(level, { key, cover: { canvas: bitmap, tx: tx0, ty: ty0, across: across * upscale } });
+      coverLanded?.();
+    });
+    return kept?.cover || null;
+  }
   let cover = null;
   if (across && typeof document !== 'undefined') {
     const columns = (tx1 - tx0 + 1) * across, rows = (ty1 - ty0 + 1) * across;

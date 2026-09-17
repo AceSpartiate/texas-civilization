@@ -15,6 +15,7 @@ import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesVisible, woo
 import { bindEnding, renderEnding } from '/ending.js';
 import { bindLooks, renderLooks } from '/appearance.js';
 import { applyDrawState, canvasRatio, creekOpacity, distanceToSegments, ramp, readDrawState, sameLayerKey, scatterItem, scatterLevels, segmentsNear, setText, smoothCover, WATER, waterWidth, landPictureData, landUpscale } from '/map-base.js';
+import { canSmoothOffThread, smoothOffThread, toBitmap } from '/smooth-worker.js';
 import { groundClass, groundClassAt, markFor } from '/ground-classes.js';
 import { decodeLand, decodeProvince, landWeights, lineBand } from '/land-levels.js';
 import { frameTransform, gestureView, isTap, keyView, nearestSpot, reproject, tapSlop, wheelZoomFactor, worldAt, zoomAbout } from '/map-camera.js';
@@ -847,9 +848,21 @@ function cameraFor(world, canvas) {
 }
 // Pointer events cover mouse, touch and stylus with one path, so a Chromebook trackpad
 // and a phone get the same panning without a separate touch implementation.
+/**
+ * The map's size on the page, measured when it changes rather than asked for on every frame: asking forced the page to be laid
+ * out again whenever anything on it had changed since the last frame (about 85 ms of a nine-second load on a Chromebook-slow
+ * CPU, 2026-09-17, docs/PERFORMANCE_LOAD.md). Null until first measured, and again after a resize.
+ */
+let canvasBox = null, canvasObserver = null;
 function fitCanvas() {
-  const canvas = $('#world-map'), rect = canvas.getBoundingClientRect();
-  if (!rect.width || !rect.height) return false;
+  const canvas = $('#world-map');
+  if (!canvasObserver && typeof ResizeObserver === 'function') {
+    canvasObserver = new ResizeObserver(() => { canvasBox = null; });
+    canvasObserver.observe(canvas);
+  }
+  if (!canvasBox || !canvasObserver) { const measured = canvas.getBoundingClientRect(); canvasBox = { width: measured.width, height: measured.height }; }
+  const rect = canvasBox;
+  if (!rect.width || !rect.height) { canvasBox = null; return false; }
   // Sharp on a high-density screen, but never more pixels than a 1080p frame (public/map-base.js `canvasRatio`).
   const ratio = canvasRatio(rect.width, rect.height, window.devicePixelRatio || 1);
   const width = Math.round(Math.min(2200, rect.width * ratio)), height = Math.round(Math.min(2200, rect.height * ratio));
@@ -1301,8 +1314,6 @@ function drawRelief(ctx, world, camera) {
 const landPictures = new WeakMap();
 /** A grid's pictures are being made (`landPicture`): the ground is laid down without them until they come. */
 const LAND_MAKING = Symbol('making');
-let landWorker = null, landJob = 0;
-const landWaiting = new Map();
 /** Each class's wash colour, in the grid's class order: `[r, g, b, alpha]` or null (public/ground-classes.js). */
 const landPalette = grid => grid.classes.map(id => { if (!id || id === 'none') return null; const kind = groundClass(id); return kind.alpha > 0 ? [...kind.colour, kind.alpha] : null; });
 /**
@@ -1321,25 +1332,19 @@ function landPicture(grid) {
     canvas.getContext('2d').putImageData(new ImageData(picture.data, picture.width, picture.height), 0, 0);
     return canvas;
   };
-  if (typeof Worker !== 'function') {
+  if (!canSmoothOffThread()) {
     const data = landPictureData(grid, palette, upscale);
     const pictures = { upscale, wash: toCanvas(data.wash), shade: toCanvas(data.shade) };
     landPictures.set(grid, pictures);
     return pictures;
   }
   landPictures.set(grid, LAND_MAKING);
-  if (!landWorker) {
-    landWorker = new Worker('/land-worker.js', { type: 'module' });
-    landWorker.onmessage = event => { const done = landWaiting.get(event.data.id); landWaiting.delete(event.data.id); done?.(event.data.pictures); };
-  }
-  const id = ++landJob;
-  landWaiting.set(id, async data => {
-    const bitmap = async picture => picture ? createImageBitmap(new ImageData(picture.data, picture.width, picture.height)) : null;
-    const [wash, shade] = await Promise.all([bitmap(data.wash), bitmap(data.shade)]);
-    landPictures.set(grid, { upscale, wash, shade });
-    redrawForArrival();
-  });
-  landWorker.postMessage({ id, grid: { columns: grid.columns, rows: grid.rows, cells: grid.cells, shade: grid.shade }, palette, upscale });
+  smoothOffThread({ kind: 'land', grid: { columns: grid.columns, rows: grid.rows, cells: grid.cells, shade: grid.shade }, palette, upscale })
+    .then(async ({ pictures: data }) => {
+      const [wash, shade] = await Promise.all([toBitmap(data.wash), toBitmap(data.shade)]);
+      landPictures.set(grid, { upscale, wash, shade });
+      redrawForArrival();
+    });
   return null;
 }
 function layLandPicture(ctx, camera, grid, canvas, upscale, alpha) {
@@ -3308,30 +3313,56 @@ function renderSelection(world) {
   renderTrade(world, chosen, running);
   positionSelection(world, chosen);
 }
+/**
+ * The boxes the card is placed among, measured once and again only when something about them changes size - never on every
+ * frame. Placing the card read five boxes and wrote its position on every animation frame, which forced the browser to lay
+ * the page out twelve times a second (about 150 ms a nine-second load on a Chromebook-slow CPU, docs/PERFORMANCE_LOAD.md).
+ * ceiling: the family panel and the buttons along the bottom are measured when they resize, not when they move without
+ * resizing; nothing moves them today.
+ */
+const placement = { boxes: null, observer: null, left: null, top: null, docked: null };
+function placementBoxes() {
+  if (placement.boxes) return placement.boxes;
+  const canvas = $('#world-map'), panel = $('#selection'), family = $('#family-panel');
+  const rect = canvas.getBoundingClientRect();
+  placement.boxes = {
+    rect, panelWidth: panel.offsetWidth, panelHeight: panel.offsetHeight,
+    family: family && !family.hidden ? family.getBoundingClientRect() : null,
+    controls: ['#journal-toggle', '#map-nav'].map(selector => $(selector)?.getBoundingClientRect()).filter(box => box?.height),
+  };
+  if (!placement.observer && typeof ResizeObserver === 'function') {
+    placement.observer = new ResizeObserver(() => { placement.boxes = null; });
+    for (const element of [canvas, panel, family, $('#journal-toggle'), $('#map-nav')]) if (element) placement.observer.observe(element);
+    window.addEventListener('resize', () => { placement.boxes = null; });
+  }
+  return placement.boxes;
+}
 function positionSelection(world, chosen = selectedEntity(world)) {
   const panel = $('#selection');
   if (panel.hidden || !chosen) return;
   // Beside the person on a wide screen; docked on a phone, where a floating card would
   // simply cover the family it is describing.
   const canvas = $('#world-map'), spot = drawnAt.get(chosen.id);
-  const rect = canvas.getBoundingClientRect();
-  if (rect.width < 760 || !spot) {
-    panel.dataset.docked = 'true';
-    panel.style.left = ''; panel.style.top = '';
-  } else {
-    delete panel.dataset.docked;
-    const scaleX = rect.width / canvas.width, scaleY = rect.height / canvas.height;
-    const right = spot.x * scaleX + 26, flip = right + panel.offsetWidth > rect.width - 8;
-    // And never over the family panel down the left, when there is room beside it (docs/FAMILY_PANEL.md §7).
-    const family = $('#family-panel'), familyBox = family && !family.hidden ? family.getBoundingClientRect() : null;
-    const margin = familyBox?.width && familyBox.right - rect.left + panel.offsetWidth + 16 < rect.width ? familyBox.right - rect.left + 8 : 8;
-    panel.style.left = `${Math.max(margin, flip ? spot.x * scaleX - panel.offsetWidth - 26 : right)}px`;
-    // Never down over the row of buttons along the bottom: clamped to the canvas alone, a person standing low on a wide
-    // screen put this card over Family, Follow and Land, and the journal could not be opened (found 2026-09-14).
-    const controls = ['#journal-toggle', '#map-nav'].map(selector => $(selector)?.getBoundingClientRect()).filter(box => box?.height);
-    const floor = Math.min(rect.height, ...controls.map(box => box.top - rect.top));
-    panel.style.top = `${Math.max(8, Math.min(floor - panel.offsetHeight - 8, spot.y * scaleY - panel.offsetHeight / 2))}px`;
+  const { rect, panelWidth, panelHeight, family: familyBox, controls } = placementBoxes();
+  const docked = rect.width < 760 || !spot;
+  if (docked !== placement.docked) {
+    placement.docked = docked; placement.left = null; placement.top = null;
+    if (docked) { panel.dataset.docked = 'true'; panel.style.left = ''; panel.style.top = ''; } else delete panel.dataset.docked;
+    placement.boxes = null;
   }
+  if (docked) return;
+  const scaleX = rect.width / canvas.width, scaleY = rect.height / canvas.height;
+  const right = spot.x * scaleX + 26, flip = right + panelWidth > rect.width - 8;
+  // And never over the family panel down the left, when there is room beside it (docs/FAMILY_PANEL.md §7).
+  const margin = familyBox?.width && familyBox.right - rect.left + panelWidth + 16 < rect.width ? familyBox.right - rect.left + 8 : 8;
+  const left = `${Math.round(Math.max(margin, flip ? spot.x * scaleX - panelWidth - 26 : right))}px`;
+  // Never down over the row of buttons along the bottom: clamped to the canvas alone, a person standing low on a wide
+  // screen put this card over Family, Follow and Land, and the journal could not be opened (found 2026-09-14).
+  const floor = Math.min(rect.height, ...controls.map(box => box.top - rect.top));
+  const top = `${Math.round(Math.max(8, Math.min(floor - panelHeight - 8, spot.y * scaleY - panelHeight / 2)))}px`;
+  // Written only when it changes: a style written every frame is a layout every frame.
+  if (left !== placement.left) { panel.style.left = left; placement.left = left; }
+  if (top !== placement.top) { panel.style.top = top; placement.top = top; }
 }
 /**
  * Naming the family (owner, 2026-09-17): once the die is rolled, a student's family with no last name is asked for one in a
