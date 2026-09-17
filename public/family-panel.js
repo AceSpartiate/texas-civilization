@@ -49,6 +49,10 @@ export const PANEL_SUMMARIES = Object.freeze({
   'tend-sick': 'Halt the family for a day and nurse whoever is sick, so nobody in their care dies and the sick mend sooner.',
   'trade-crossing': 'Buy food with a real among the families camped at the crossing or the refuge, dear as it is.',
   'winter-recall': 'Send for them to leave where they serve and come home.',
+  'camp-drill': 'Spend a day drilling with the company at the camp; three days make them steady in the line.',
+  'camp-forage': 'Spend a day out for the mess, bringing beef and corn in to the camp.',
+  'camp-guard': 'Stand a night on the camp guard.',
+  'camp-scout': 'Ride out with the scouts for a day to find the enemy, which wants a horse and can bring them back hurt.',
   'travel-gonzales': 'Go into the town of Gonzales and stay there until sent somewhere else.',
   'travel-home': 'Come back to the family’s own land.',
   visit: 'Choose a neighbour’s homestead and go there, to trade or to help raise their walls.',
@@ -71,20 +75,23 @@ export const ORDER_NAMES = Object.freeze({
  * name, registered through `npm run build:art`, replaces it without a change here. The winter's eight (request 2026-09-16)
  * are Claude-drawn the same way. A frame that has not loaded draws the `dot` glyph until the sheet arrives.
  */
-export const PANEL_ICONS = Object.freeze({
-  ...Object.fromEntries([
+export const PANEL_ICONS = Object.freeze(Object.fromEntries([
+  ...[
     'survey-plot', 'cut-lane', 'dig-well', 'plant-field', 'harvest-field', 'clear-plot', 'fence-plot', 'build-house', 'help-raise',
     'hunt-timber', 'hunt-land', 'practise-shooting', 'sell-cotton', 'fetch-powder', 'fetch-seed', 'sell-food', 'mend-hoe', 'replace-hoe',
     'visit-shop', 'make-furniture', 'buy-furniture', 'fell-trees', 'haul-logs',
     'enlist-regular', 'enlist-auxiliary', 'join-garrison', 'join-matamoros', 'go-vote', 'join-relief', 'join-houston', 'winter-recall',
     'travel-gonzales', 'travel-home', 'visit', 'work', 'rest', 'stop-chore',
-  ].map(key => [key, { sprite: `icon-${key}` }])),
+  ].map(key => [key, { sprite: `icon-${key}` }]),
+  // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the camp's icons. The camp's four (sim/camp.mjs) are drawn glyphs
+  // (`drawGlyph`) until a sheet lands: Astra's `icon-camp-<key>` frames replace them by naming the sprite here.
+  ['camp-drill', { glyph: 'drill' }], ['camp-forage', { glyph: 'forage' }], ['camp-guard', { glyph: 'guard' }], ['camp-scout', { glyph: 'scout' }],
   // The road's chores (sim/road.mjs, docs/ROAD_EAST.md): no frame yet. stand-in: docs/ART_REQUESTS.md, request 2026-09-16 -
   // the road's icons; each is a glyph drawn by `drawGlyph` until `icon-<key>` is registered, which `drawIcon` then prefers.
-  'hunt-road': { glyph: 'hunt-road' },
-  'tend-sick': { glyph: 'tend-sick' },
-  'trade-crossing': { glyph: 'trade-crossing' },
-});
+  ['hunt-road', { glyph: 'hunt-road' }], ['tend-sick', { glyph: 'tend-sick' }], ['trade-crossing', { glyph: 'trade-crossing' }],
+]));
+/** The camp's work, the chores a man serving with Houston's army is offered (sim/camp.mjs); the only work a serving row shows. */
+export const CAMP_CHORES = Object.freeze(['camp-drill', 'camp-forage', 'camp-guard', 'camp-scout']);
 
 /** Chores sent with a place the student taps on the map: their icon starts choosing the place (sim/survey.mjs). */
 export const ON_MAP = Object.freeze(['survey-plot', 'clear-plot', 'fence-plot', 'hunt-land', 'fell-trees']);
@@ -156,12 +163,19 @@ const firstSentence = text => (String(text || '').match(/^.*?[.!?](?=\s|$)/)?.[0
 export function panelActions({ entity, offered = [], catalogue = new Map(), main = false, homeId = null, homesteads = [], atHome = false,
   settable = true, carry = null } = {}) {
   if (!entity || ['dead', 'captured'].includes(entity.health?.condition)) return [];
-  // Somebody with the army, the garrison or the expedition (sim/winter.mjs) has one order and no other: sending for them.
+  // Somebody with the army, the garrison or the expedition (sim/winter.mjs) has one order and no other: sending for them -
+  // except a man with Houston's army, whose row has the camp's work first (sim/camp.mjs), as the server offers it.
   if (entity.service?.status === 'serving') {
     const shut = entity.service.besieged ? `${entity.name || 'They'} is shut in the Alamo.` : entity.service.riding ? `${entity.name || 'They'} has ridden for the Alamo.` : '';
-    return [{ key: 'winter-recall', kind: 'order', name: ORDER_NAMES['winter-recall'], summary: PANEL_SUMMARIES['winter-recall'],
+    const camp = offered.filter(entry => CAMP_CHORES.includes(entry.id)).map(entry => {
+      const spec = catalogue.get?.(entry.id) || {};
+      return { key: entry.id, kind: 'chore', name: spec.name || entry.id, summary: PANEL_SUMMARIES[entry.id] || firstSentence(spec.describe),
+        note: entry.cost ? `Costs ${entry.cost}.` : '', can: Boolean(settable && entry.can), why: entry.can ? '' : entry.why || '', onMap: false, active: entity.chore?.id === entry.id };
+    });
+    return [...camp, { key: 'winter-recall', kind: 'order', name: ORDER_NAMES['winter-recall'], summary: PANEL_SUMMARIES['winter-recall'],
       note: entity.service.kind === 'regular' ? 'A regular who leaves has deserted, and loses glory.' : entity.service.acres ? 'The promise of land is lost.' : '',
-      why: shut, can: settable && !entity.travel && !shut, active: false }];
+      why: shut, can: settable && !entity.travel && !shut, active: false },
+    ...(entity.chore ? [{ key: 'stop-chore', kind: 'order', name: ORDER_NAMES['stop-chore'], summary: PANEL_SUMMARIES['stop-chore'], note: '', why: '', can: settable, active: false }] : [])];
   }
   const active = activeKey(entity, { homeId, main, homesteads });
   // A refusal the land hunt shares with the timber hunt is sent once, on the timber hunt (sim/chores.mjs `choresFor`).
@@ -259,7 +273,7 @@ export function meetingFor(world, entity) {
 }
 
 /** Which card section answers each need, in the order a need is shown when a person has more than one. */
-export const NEED_KINDS = Object.freeze(['rider', 'flight', 'army', 'courier', 'call', 'asking', 'offer']);
+export const NEED_KINDS = Object.freeze(['rider', 'flight', 'army', 'camp', 'courier', 'call', 'asking', 'offer']);
 
 /**
  * What this person is waiting on the student for, most pressing first: a rider standing with them (who will not wait for
@@ -282,6 +296,9 @@ export function needsOf(world, entityId) {
   if (ours && (ours.detachment === 'open' || (ours.questions || []).some(question => question.answer === 'open'))) {
     needs.push({ kind: 'army', text: `The army is asking ${name} something.` });
   }
+  // With Houston's army, asked whether they leave for the family, or which road at the fork (sim/camp.mjs).
+  if (entity.service?.leave === 'open') needs.push({ kind: 'camp', text: `The army is asking whether ${name} goes home to the family.` });
+  else if (entity.service?.road === 'open') needs.push({ kind: 'camp', text: `The army is asking ${name} which road it takes.` });
   // Inside the Alamo, asked whether they will carry Travis's letters out (sim/alamo.mjs).
   if (entity.service?.courier === 'open') needs.push({ kind: 'courier', text: `Travis is asking whether ${name} will ride out with his letters.` });
   if (requestFor(world, entity)?.options?.length) needs.push({ kind: 'call', text: `${name} can answer what the family is being asked.` });
@@ -299,7 +316,10 @@ export function needsOf(world, entityId) {
  */
 export function isIdle(entity, icons = [], { withArmy = false } = {}) {
   // `task` is the server's: working about the place and helping where a call sent them are work; only resting is idle.
-  if (gone(entity) || withArmy || entity.service?.status === 'serving' || entity.chore || entity.travel || (entity.task && entity.task !== 'rest')) return false;
+  if (gone(entity) || withArmy || entity.chore || entity.travel || (entity.task && entity.task !== 'rest')) return false;
+  // Somebody serving is idle only when the camp's work is open to them (sim/camp.mjs): a garrison man with nothing but
+  // "send for them" on his row is where the family put him, not idle.
+  if (entity.service?.status === 'serving') return icons.some(icon => icon.can && icon.kind === 'chore');
   return icons.some(icon => icon.can);
 }
 
@@ -404,20 +424,45 @@ export function drawIcon(canvas, key, { drawSprite, spriteFrame }) {
 }
 
 /**
- * The glyphs drawn in strokes: a dot while an icon's sheet has not arrived (or never does; the library is optional), and
- * the road's three (docs/ROAD_EAST.md), drawn until their frames come.
- *
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the road's icons. `hunt-road` is a rifle over a campfire, `tend-sick`
- * a figure under a blanket with a cup beside, `trade-crossing` a coin passed over a ferry's rail; Astra's `icon-hunt-road`,
- * `icon-tend-sick` and `icon-trade-crossing` replace them on registration with no change here.
+ * The drawn glyphs: a dot while an icon's sheet has not arrived (or never does; the library is optional), and the camp's
+ * four (stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the camp's icons): a musket at the shoulder for drill, a
+ * beef's horns over a corn ear for foraging, a sentry's bayonet and a crescent moon for the guard, a horseshoe and a
+ * spyglass for the scouts; and the road's three (docs/ROAD_EAST.md; stand-in: request 2026-09-16 - the road's icons):
+ * `hunt-road` a rifle over a campfire, `tend-sick` a figure under a blanket with a cup beside, `trade-crossing` a coin passed
+ * over a ferry's rail. Strokes, so they read as placeholders beside the illustrated icons; Astra's `icon-<key>` frames
+ * replace them on registration with no change here.
  */
 function drawGlyph(ctx, glyph, size) {
   const s = size / 48;
   ctx.save();
   ctx.scale(s, s);
-  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-  ctx.strokeStyle = '#3a2a18'; ctx.fillStyle = '#8a6a3d';
-  if (glyph === 'hunt-road') {
+  ctx.fillStyle = '#8a6a3d'; ctx.strokeStyle = '#8a6a3d'; ctx.lineWidth = 3; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  if (glyph === 'drill') {
+    // A musket held at the shoulder: the barrel up, the stock down, a bayonet's point.
+    ctx.beginPath(); ctx.moveTo(18, 42); ctx.lineTo(30, 8); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(30, 8); ctx.lineTo(33, 3); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(14, 40); ctx.lineTo(24, 40); ctx.lineTo(22, 30); ctx.closePath(); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(8, 44); ctx.lineTo(40, 44); ctx.stroke();
+  } else if (glyph === 'forage') {
+    // A beef's horns over an ear of corn.
+    ctx.beginPath(); ctx.moveTo(8, 18); ctx.quadraticCurveTo(12, 6, 20, 14); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(40, 18); ctx.quadraticCurveTo(36, 6, 28, 14); ctx.stroke();
+    ctx.beginPath(); ctx.ellipse(24, 32, 6, 12, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#e9dcb8';
+    for (const [x, y] of [[22, 26], [26, 26], [22, 32], [26, 32], [22, 38], [26, 38]]) { ctx.beginPath(); ctx.arc(x, y, 1.5, 0, Math.PI * 2); ctx.fill(); }
+  } else if (glyph === 'guard') {
+    // A sentry's musket with the bayonet fixed, under a crescent moon.
+    ctx.beginPath(); ctx.moveTo(30, 44); ctx.lineTo(30, 14); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(30, 14); ctx.lineTo(30, 6); ctx.lineTo(33, 12); ctx.closePath(); ctx.fill();
+    ctx.beginPath(); ctx.arc(14, 14, 7, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#e9dcb8'; ctx.beginPath(); ctx.arc(17, 12, 6, 0, Math.PI * 2); ctx.fill();
+  } else if (glyph === 'scout') {
+    // A horseshoe, and a spyglass laid across it.
+    ctx.beginPath(); ctx.arc(24, 24, 13, Math.PI * 0.8, Math.PI * 2.2); ctx.stroke();
+    ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(12, 38); ctx.lineTo(34, 16); ctx.stroke();
+    ctx.lineWidth = 7; ctx.beginPath(); ctx.moveTo(34, 16); ctx.lineTo(40, 10); ctx.stroke();
+  } else if (glyph === 'hunt-road') {
+    ctx.strokeStyle = '#3a2a18';
     // The fire, and the rifle leaning over it.
     ctx.fillStyle = '#c2582c';
     ctx.beginPath(); ctx.moveTo(16, 40); ctx.quadraticCurveTo(24, 22, 32, 40); ctx.closePath(); ctx.fill();
@@ -425,6 +470,7 @@ function drawGlyph(ctx, glyph, size) {
     ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(12, 38); ctx.lineTo(40, 8); ctx.stroke();
     ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(12, 38); ctx.lineTo(20, 30); ctx.stroke();
   } else if (glyph === 'tend-sick') {
+    ctx.strokeStyle = '#3a2a18';
     // Somebody lying under a blanket, and a cup set beside them.
     ctx.fillStyle = '#5f7a8a';
     ctx.beginPath(); ctx.moveTo(6, 34); ctx.quadraticCurveTo(24, 20, 40, 34); ctx.lineTo(40, 40); ctx.lineTo(6, 40); ctx.closePath(); ctx.fill();

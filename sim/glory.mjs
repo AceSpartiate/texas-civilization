@@ -33,7 +33,11 @@ import { findPath } from './geography.mjs';
 // (owner, 2026-09-16, docs/COLONIES.md §7b). What it is worth is this game's own: the weight of being present.
 // `enlisted` is somebody who signed on for land in the winter of 1836 and `voted` a man who voted on February 1 (owner,
 // 2026-09-16, docs/COLONIES.md §7e, sim/winter.mjs): enlisting is worth being present; voting, a little.
-export const GLORY_WEIGHT = Object.freeze({ supplied: 1, present: 2, fought: 3, willing: 2, enlisted: 2, voted: 1 });
+// `served` is the camp's work with Houston's army in the spring of 1836 - drilling, foraging, guard, the scouts - awarded once
+// the first time a man does any of it and weighted like carrying supplies, so it never rivals the fight's own award; `forward`
+// is a man who called for the right-hand road to Harrisburg and the enemy at the fork on April 16, weighted like `willing`
+// (owner, 2026-09-16, docs/HOUSTON_CAMP.md, sim/camp.mjs).
+export const GLORY_WEIGHT = Object.freeze({ supplied: 1, present: 2, fought: 3, willing: 2, enlisted: 2, voted: 1, served: 1, forward: 2 });
 /** Every fifteen road miles a family lived from where it happened multiplies the part once more. */
 export const GLORY_MILES_STEP = 15;
 

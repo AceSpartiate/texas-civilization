@@ -15,6 +15,7 @@ import { answerRoad, registerRoadChores } from './road.mjs';
 // The road's chores join the one table here, once every module above is made (sim/road.mjs says why not at its own load).
 registerRoadChores();
 import { REPEATED, advanceAuto, noteOrder, setAuto } from './auto.mjs';
+import { advanceCamp, answerCampQuestion, campInvalid } from './camp.mjs';
 import { hostLiveProjection } from './host.mjs';
 import { advanceTown, createTownspeople, observedBy } from './town.mjs';
 import { GOODS, advanceOffers, makeOffer, offersFor, respondToOffer } from './trade.mjs';
@@ -457,6 +458,8 @@ export function stepWorld(world) {
   advanceRelays(world);
   // Expresses between the settlements of the real map arrive, wait while the word is read, and send it on (sim/expresses.mjs).
   advanceExpresses(world, { beginTravel, relayReport });
+  // A man at the camp's work whom the army has marched away from it leaves it off (sim/camp.mjs), before the chores run.
+  advanceCamp(world);
   // Chores run after travel resolves, so a person who arrived this tick picks up the
   // next step of their work in the same tick rather than idling for one.
   advanceChores(world, { beginTravel, modeAvailability });
@@ -653,6 +656,8 @@ export function applyAction(world, householdId, input) {
   // Somebody who has joined the army, the garrison or the expedition is in one place until the family sends for them (sim/winter.mjs).
   if (entity.service?.status === 'serving' && !SERVING_ACTIONS.includes(input.action)) throw new Error(servingWhy(world, entity));
   if (input.action === 'winter-recall') { recallFromService(world, household, entity, { beginTravel, modeWith }); return; }
+  // The army's questions to a man with Houston (sim/camp.mjs): leaving after the word of Goliad, the fork of the road.
+  if (input.action === 'houston-answer') { answerCampQuestion(world, household, entity, String(input.question || ''), String(input.answer || ''), { beginTravel, modeWith }); return; }
   // Asked inside the Alamo whether they will carry a letter out (sim/alamo.mjs).
   if (input.action === 'alamo-courier') { answerCourier(world, entity, input.answer); return; }
   // The family leaves for the east (sim/scrape.mjs): the household's own decision, given by its main person.
@@ -818,7 +823,7 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
     .slice(-PROJECTED_EVENTS);
   const knownIds = new Set(visibleEvents.map(e => e.id));
   const events = visibleEvents.map(e => ({ id: e.id, type: e.type, minute: e.minute, text: e.text, actorId: e.actorId, householdId: e.householdId, causes: e.causes.filter(id => knownIds.has(id)) }));
-  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.sex && { sex: e.sex }), ...(Number.isFinite(e.age) && { age: e.age, band: ageBand(e.age) }), location: e.location, travel: e.travel ? { from: e.travel.from, to: e.travel.to, points: e.travel.points, progress: e.travel.progress, distance: e.travel.distance, speed: e.travel.speed, mode: e.travel.mode } : null, health: e.health, task: e.task, skills: e.skills, chore: e.chore?.ask ? { ...e.chore, ask: askProjection(world, household, e) } : e.chore, condition: e.condition, species: e.species, laden: e.laden, borrowedBy: e.borrowedBy, ...(e.marks && { marks: e.marks }), ...(e.service && { service: { kind: e.service.kind, status: e.service.status, siteId: e.service.siteId, ...(e.service.acres && { acres: e.service.acres }), ...(e.service.besieged && { besieged: true }), ...(e.service.riding && { riding: true }), ...(e.service.courier === 'open' && { courier: 'open' }) } }), ...(e.voted && { voted: true }), ...(e.auto && { auto: true }) }));
+  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.sex && { sex: e.sex }), ...(Number.isFinite(e.age) && { age: e.age, band: ageBand(e.age) }), location: e.location, travel: e.travel ? { from: e.travel.from, to: e.travel.to, points: e.travel.points, progress: e.travel.progress, distance: e.travel.distance, speed: e.travel.speed, mode: e.travel.mode } : null, health: e.health, task: e.task, skills: e.skills, chore: e.chore?.ask ? { ...e.chore, ask: askProjection(world, household, e) } : e.chore, condition: e.condition, species: e.species, laden: e.laden, borrowedBy: e.borrowedBy, ...(e.marks && { marks: e.marks }), ...(e.service && { service: { kind: e.service.kind, status: e.service.status, siteId: e.service.siteId, ...(e.service.acres && { acres: e.service.acres }), ...(e.service.besieged && { besieged: true }), ...(e.service.riding && { riding: true }), ...(e.service.courier === 'open' && { courier: 'open' }), ...(e.service.drilled && { drilled: e.service.drilled }), ...(e.service.bound && { bound: true }), ...(e.service.leave === 'open' && { leave: 'open' }), ...(e.service.road === 'open' && { road: 'open' }) } }), ...(e.voted && { voted: true }), ...(e.auto && { auto: true }) }));
   // What each person could be asked to do, with the reason for anything refused, is
   // computed on the server. The client must never decide for itself what is possible:
   // that is the same rule as fog of war, applied to a control instead of a fact.
@@ -1017,6 +1022,8 @@ export function validateWorld(world) {
   if (badService) throw new Error(badService);
   const badFlight = scrapeInvalid(world);
   if (badFlight) throw new Error(badFlight);
+  const badCamp = campInvalid(world);
+  if (badCamp) throw new Error(badCamp);
   const events = new Set(world.events.map(e => e.id));
   if (events.size !== world.events.length || world.events.some(e => e.causes.some(id => !events.has(id)))) throw new Error('Invalid event graph');
   if (world.nextEventId !== world.events.length + 1) throw new Error('Event sequence would duplicate an ID');

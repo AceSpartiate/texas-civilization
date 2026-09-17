@@ -14,7 +14,7 @@
 //   are dead on its screen when the word comes, as at the Alamo.
 import { record } from './events.mjs';
 import { awardGlory } from './glory.mjs';
-import { rollFates, WOUND_GRADES } from './army.mjs';
+import { frailty, rollFates, WOUND_GRADES } from './army.mjs';
 import { share } from './scrape.mjs';
 
 const GONE = ['dead', 'captured'];
@@ -22,7 +22,15 @@ const MARCH_1 = 221760, APRIL_1 = 266400, DAY = 1440;
 const march = (day, hour = 6) => MARCH_1 + (day - 1) * DAY + hour * 60;
 const april = (day, hour = 6) => APRIL_1 + (day - 1) * DAY + hour * 60;
 
-/** Where Houston's army was camped, and from when (`HIST-TEX-066`). */
+/**
+ * The class's clock against the timeline's: a class that arrives at dawn on September 28 runs eighteen hours ahead of a
+ * timeline counted from midnight on the 29th (sim/directors.mjs `ARRIVAL_MINUTES`, `momentOf`), and a class saved before
+ * arrivals began does not. The dates below are timeline dates, so they are read against the clock the director reads.
+ * They used to be read off the minute alone, eighteen hours ahead of the director's milestones: for those hours a man at the
+ * old camp "had not reached the camp" and could do nothing (found by tests/camp.test.mjs, 2026-09-17).
+ */
+export const campClock = world => world.director?.arrival ? 1080 : 0;
+/** Where Houston's army was camped, and from when (`HIST-TEX-066`): the milestone of the same date moves the army (`followCamp`). */
 export const HOUSTON_CAMPS = Object.freeze([
   { from: march(11), siteId: 'gonzales' },
   { from: march(17), siteId: 'columbus-crossing' },
@@ -31,7 +39,29 @@ export const HOUSTON_CAMPS = Object.freeze([
   { from: april(20, 12), siteId: 'lynchburg' },
 ]);
 /** The army's camp now. */
-export const houstonCamp = world => [...HOUSTON_CAMPS].reverse().find(camp => world.minute >= camp.from)?.siteId || 'gonzales';
+export const houstonCamp = world => [...HOUSTON_CAMPS].reverse().find(camp => world.minute >= camp.from + campClock(world))?.siteId || 'gonzales';
+/**
+ * Groce's, on the Brazos above San Felipe, from March 30 (`HIST-TEX-075`): the camp where the army drilled for a fortnight.
+ * ceiling: Groce's is not a place on the map, so the camp stands at San Felipe and only the words move; a site for Bernardo
+ * twenty miles up the river is the way out.
+ */
+export const GROCES_FROM = march(30);
+export const atGroces = world => world.minute >= GROCES_FROM + campClock(world) && houstonCamp(world) === 'san-felipe';
+/** The camp's name in words: Groce's once the army is there, else the place. */
+export function campName(world, siteId = houstonCamp(world)) {
+  const name = world.map?.sites?.[siteId]?.name || siteId;
+  return siteId === 'san-felipe' && atGroces(world) ? `Groce's, above ${name}` : name;
+}
+/**
+ * Drilling counts at San Jacinto (docs/HOUSTON_CAMP.md, `FIC-GONZ-053`): three days' drill at the camp make a man steady in
+ * the line, and a steady man's weight in the battle's roll is three quarters of his frailty. The record says the fortnight's
+ * drill "had a good effect in disciplining us" (`HIST-TEX-075`); the number is this game's own, and it is said on the drill
+ * control and in the record when the word of the battle comes. No new die: the roll is the same seeded one.
+ */
+export const DRILL_TO_STEADY = 3;
+export const DRILLED_STEADINESS = 0.75;
+export const drilledSteady = person => (person?.service?.drilled || 0) >= DRILL_TO_STEADY;
+const steadiness = person => frailty(person) * (drilledSteady(person) ? DRILLED_STEADINESS : 1);
 /** After the battle nobody new joins. */
 export const houstonOpen = world => world.period === 3 && !world.director?.milestones?.['san-jacinto'];
 
@@ -107,7 +137,7 @@ export function tellGoliad(world, { beginTravel }) {
 
 /** San Jacinto: everybody with Houston fights. Nobody's family knows yet. */
 export function fightSanJacinto(world, causeId) {
-  for (const { person, fate } of rollFates(world, inService(world, 'houston').map(person => person.id), { event: 'san-jacinto', ...SAN_JACINTO })) {
+  for (const { person, fate } of rollFates(world, inService(world, 'houston').map(person => person.id), { event: 'san-jacinto', ...SAN_JACINTO, weightOf: steadiness })) {
     awardGlory(world, { event: 'san-jacinto', claimId: 'HIST-TEX-067', personId: person.id, householdId: person.householdId, role: 'fought', fromSiteId: 'lynchburg', causes: causeId ? [causeId] : [] });
     person.service = { ...person.service, fate };
   }
@@ -119,9 +149,11 @@ export function tellSanJacinto(world, { beginTravel }) {
     const service = person.service;
     if (!person.householdId || service?.kind !== 'houston' || !service.fate || service.told) continue;
     service.told = true;
-    if (service.fate === 'killed') { service.status = 'fell'; person.health = { condition: 'dead' }; person.task = 'rest'; tell(world, person, `${person.name} was killed in the charge at San Jacinto.`, { claimId: 'HIST-TEX-067' }); continue; }
-    if (service.fate === 'wounded') { person.health = { condition: WOUND_GRADES.slight.condition, grade: 'slight', recoversAt: world.minute + WOUND_GRADES.slight.minutes }; tell(world, person, `${person.name} was slightly hurt at San Jacinto, and is on their feet.`, { claimId: 'HIST-TEX-067' }); }
-    else tell(world, person, `${person.name} came through the fight at San Jacinto unhurt.`, { claimId: 'HIST-TEX-067' });
+    // A drilled man is said to be one (sim/camp.mjs): the family reads what the camp's work came to.
+    const drilled = drilledSteady(person) ? ', steady in the line from the drill at the camp,' : '';
+    if (service.fate === 'killed') { service.status = 'fell'; person.health = { condition: 'dead' }; person.task = 'rest'; tell(world, person, `${person.name}${drilled} was killed in the charge at San Jacinto.`, { claimId: 'HIST-TEX-067' }); continue; }
+    if (service.fate === 'wounded') { person.health = { condition: WOUND_GRADES.slight.condition, grade: 'slight', recoversAt: world.minute + WOUND_GRADES.slight.minutes }; tell(world, person, `${person.name}${drilled} was slightly hurt at San Jacinto, and is on their feet.`, { claimId: 'HIST-TEX-067' }); }
+    else tell(world, person, `${person.name}${drilled} came through the fight at San Jacinto unhurt.`, { claimId: 'HIST-TEX-067' });
     person.service = { ...person.service, status: 'released', until: world.minute };
     const home = world.households[person.householdId]?.homeSiteId;
     if (home && person.location?.siteId && !person.travel && person.health.condition !== 'wounded') { try { beginTravel(world, person, home, null, 'home'); } catch { /* ceiling: they stand where they are */ } }

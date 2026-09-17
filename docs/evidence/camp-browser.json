@@ -1,0 +1,58 @@
+{
+  "record": "Houston's camp, in a browser: docs/HOUSTON_CAMP.md",
+  "date": "2026-09-17",
+  "verdict": "PASS",
+  "note": "Same computer only. A real class on the colonies map with rolled families, played in process through two periods and into the spring to the army's camp on the Colorado; then served live: a student sent the father to join Houston from the family panel, set him drilling from his row, read his card, answered the army's question from the \"!\" when the word of Goliad came, and the Host read what he was at. No LAN or district claim.",
+  "checks": [
+    "Trinidad was sent from the panel and joined Houston's army at Beeson's crossing",
+    "his row has the camp's work and sending for him: camp-drill, camp-forage, camp-guard, camp-scout, winter-recall",
+    "pressing \"Drill with the company\" set him drilling, and the icon glows",
+    "his card counts the drill: \"Trinidad is with General Houston's army at Beeson's crossing, drilled 1 day. Send for them to come home They start home at once.\"",
+    "the \"!\" opened his card at the army's question: \"Trinidad is with General Houston's army at Beeson's crossing, drilled 1 day. Word has come that Fannin's whole command is taken on the prairie. Many of the men are leaving the army to see to their fam\"",
+    "answering that he stays took the \"!\" away, and he is with the army still",
+    "the Host's live page says what he is at: \"Trinidad with Houston's army at Beeson's crossing: drilling with the company\"",
+    "at phone width the page does not scroll sideways",
+    "no page errors"
+  ],
+  "observed": {
+    "joined": {
+      "name": "Trinidad",
+      "at": "columbus-crossing",
+      "minute": 249840
+    },
+    "icons": [
+      {
+        "key": "camp-drill",
+        "refused": false
+      },
+      {
+        "key": "camp-forage",
+        "refused": false
+      },
+      {
+        "key": "camp-guard",
+        "refused": false
+      },
+      {
+        "key": "camp-scout",
+        "refused": true
+      },
+      {
+        "key": "winter-recall",
+        "refused": false
+      }
+    ],
+    "card": "Trinidad is with General Houston's army at Beeson's crossing, drilled 1 day. Send for them to come home They start home at once.",
+    "need": [
+      "camp"
+    ],
+    "question": "Trinidad is with General Houston's army at Beeson's crossing, drilled 1 day. Word has come that Fannin's whole command is taken on the prairie. Many of the men are leaving the army to see to their families. Does Trinidad go home? Trinidad leaves for home They start home at once. Whatever the army does next happens without them. Trinidad stays with the army Send for them to come home They start home at once.",
+    "host": "Trinidad with Houston's army at Beeson's crossing: drilling with the company"
+  },
+  "screenshots": [
+    "docs/evidence/camp-drilling.png",
+    "docs/evidence/camp-goliad-question.png",
+    "docs/evidence/camp-host-words.png",
+    "docs/evidence/camp-phone.png"
+  ]
+}

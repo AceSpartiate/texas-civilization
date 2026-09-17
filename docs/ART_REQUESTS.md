@@ -32,6 +32,8 @@ does not have:
 | A rider never gets down to talk: they speak from the saddle, turned east, west, north or south toward the listener (the vertical dialogue delivered 2026-09-14 is in use) | `carrierClip` in `public/motion.js` | Request 2026-09-12, priority 3 | `courier-dismount` (delivered 2026-09-14, registered, not yet bound: it needs the encounter to know when a rider has got down and where the horse stands) |
 | The road's three panel icons are glyphs drawn in canvas strokes: a rifle over a campfire (`hunt-road`), a figure under a blanket with a cup beside (`tend-sick`), a coin passed over a ferry's rail (`trade-crossing`) | `drawGlyph` in `public/family-panel.js`; `PANEL_ICONS` carries `glyph` and no sprite, and `drawIcon` takes `icon-<key>` the moment it is registered | Request 2026-09-16 — the road's icons | `icon-hunt-road`, `icon-tend-sick`, `icon-trade-crossing` |
 
+| The camp's four icons - drill, beef and corn, the guard, the scouts - are canvas glyphs (a musket at the shoulder; horns over a corn ear; a bayonet and a crescent moon; a horseshoe and a spyglass) in the panel's brown | `PANEL_ICONS` (`glyph`) and `drawGlyph` in `public/family-panel.js` | Request 2026-09-16 — the camp's icons | `icon-camp-drill`, `icon-camp-forage`, `icon-camp-guard`, `icon-camp-scout` |
+
 ## Claude-drawn stand-ins (replace with Astra's)
 
 Owner's instruction, 2026-09-16: complete the outstanding requests with Claude-drawn art, marked so Astra can replace any of
@@ -91,6 +93,23 @@ sick, and buying food among the families camped at a crossing. Each is an order 
   that has not arrived.
 - **Check.** At 38 CSS pixels on the panel's dark row each is told apart from the others and from `icon-hunt-timber` and
   `icon-hunt-land`.
+
+## Request 2026-09-16 — the camp's icons
+
+**Status: open; drawn glyphs in use since 2026-09-17 (see *Stand-ins in use* above).** A man serving with General Houston's
+army in the spring of 1836 has the camp's work on his row of the family panel ([HOUSTON_CAMP.md](HOUSTON_CAMP.md), `sim/camp.mjs`):
+drilling, going out for beef and corn, standing guard, riding with the scouts.
+
+- **Why.** The four are canvas strokes (a musket at the shoulder, horns over a corn ear, a bayonet under a crescent moon, a
+  horseshoe and a spyglass) beside illustrated icons, and they read as placeholders.
+- **What.** Four icons in the action-icon contract (request 2026-09-15 — action icons): `icon-camp-drill` (a file of men
+  with muskets at the shoulder, or one man at the position of the soldier), `icon-camp-forage` (a man leading a beef, a sack of
+  corn over the saddle), `icon-camp-guard` (a sentry with a fixed bayonet by a fire, night), `icon-camp-scout` (a rider low on
+  the horse's neck, looking out over prairie).
+- **How it plugs in.** Registered through `npm run build:art`; `PANEL_ICONS` in `public/family-panel.js` names the sprite
+  (`sprite: 'icon-camp-<key>'`) in place of the glyph for each key, and `drawGlyph`'s four camp cases are deleted.
+- **Check.** At 38 CSS pixels on the panel's dark row each is told apart from the others, from the winter's eight and from the
+  farm icons; the drill and the guard are distinguishable at a glance.
 
 ## Request 2026-09-16 — the shops of the towns
 

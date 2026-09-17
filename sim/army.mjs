@@ -404,10 +404,12 @@ export function frailty(person) {
  * ceiling: frailty weights every battle alike; an execution like Goliad's, where strength saved nobody, would want a
  * rate given without the weighting (an option here) once that arc is built from its research.
  */
-export function rollFates(world, ids, { event, death, wound }) {
+export function rollFates(world, ids, { event, death, wound, weightOf = frailty }) {
   const weighted = (rate, weight) => 1 - (1 - Math.max(0, Math.min(1, rate))) ** weight;
   return ids.map(id => {
-    const person = world.entities[id], weight = frailty(person);
+    // `weightOf` is the one place a battle may read something besides frailty: San Jacinto reads whether the man drilled
+    // (sim/houston.mjs `DRILLED_STEADINESS`). The roll itself is the same seeded one.
+    const person = world.entities[id], weight = weightOf(person);
     const roll = unit(`${world.seed}:${id}:${event}`), dies = weighted(death, weight);
     const fate = roll < dies ? 'killed' : roll < dies + weighted(wound, weight) ? 'wounded' : 'unhurt';
     return { id, person, fate };

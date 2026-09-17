@@ -143,8 +143,8 @@ test('what a person may be asked to do is decided on the server, with a reason',
   // or that has one, and a lane for a family with none to cut (sim/homesite.mjs); this family is on the invented map, where
   // nobody needs either; and clearing, for a family with nothing staked to clear (sim/fields.mjs); and felling, where the
   // trees are not counted one by one, as they are not here, and hauling, with no logs lying out (sim/felling.mjs); and the
-  // road's chores, for a family not on the road east (sim/road.mjs).
-  assert.equal(offered.length, Object.keys(CHORES).filter(id => !CHORES[id].house && !CHORES[id].helps && !CHORES[id].well && !CHORES[id].lane && !CHORES[id].fells && !CHORES[id].hauling && !CHORES[id].winter && !CHORES[id].road && id !== 'clear-plot').length, 'every chore is accounted for, refused or not');
+  // road's chores, for a family not on the road east (sim/road.mjs); and the camp's, for a man not with Houston (sim/camp.mjs).
+  assert.equal(offered.length, Object.keys(CHORES).filter(id => !CHORES[id].house && !CHORES[id].helps && !CHORES[id].well && !CHORES[id].lane && !CHORES[id].fells && !CHORES[id].hauling && !CHORES[id].winter && !CHORES[id].road && !CHORES[id].camp && id !== 'clear-plot').length, 'every chore is accounted for, refused or not');
   for (const entry of offered) {
     assert.ok(typeof entry.can === 'boolean');
     if (!entry.can) assert.ok(entry.why.length > 0, `${entry.id} says why it is refused`);
