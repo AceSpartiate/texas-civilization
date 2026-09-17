@@ -83,16 +83,25 @@ function firstWord(world, household) {
   return { date: day(world, report.receivedMinute), minute: report.receivedMinute, source: report.source || null };
 }
 
-/** Everybody in the family who took part in anything, with each part. */
+/**
+ * Everybody in the family who took part in anything, with each part: the 1835 participation record (Gonzales, the march,
+ * Concepción, the Grass Fight, the storming) and every sealed glory award after it (enlisting, the vote, the Alamo, Coleto,
+ * San Jacinto), which is where the winter and the spring keep who went. Found by the whole-game browser run (2026-09-16):
+ * a man who enlisted and fought at San Jacinto was shown as "nobody" having gone, and his story said the family stayed home.
+ */
 function partsTaken(world, household) {
-  const parts = [];
+  const parts = new Map();
   for (const [event, people] of Object.entries(world.participation || {})) {
     for (const [personId, part] of Object.entries(people)) {
       if (part.householdId !== household.id) continue;
-      parts.push({ event, personId, name: world.entities[personId]?.name || 'Somebody', role: part.role, minute: part.minute ?? 0 });
+      parts.set(`${event}:${personId}`, { event, personId, name: world.entities[personId]?.name || 'Somebody', role: part.role, minute: part.minute ?? 0 });
     }
   }
-  return parts.sort((a, b) => a.minute - b.minute);
+  for (const [key, award] of Object.entries(world.glory?.[household.id]?.awards || {})) {
+    if (parts.has(key) || !award.personId) continue;
+    parts.set(key, { event: award.event, personId: award.personId, name: world.entities[award.personId]?.name || 'Somebody', role: award.role, minute: award.minute ?? 0 });
+  }
+  return [...parts.values()].sort((a, b) => a.minute - b.minute);
 }
 
 /**

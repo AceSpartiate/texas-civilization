@@ -88,7 +88,7 @@ function hostView(closing) {
   }
   table.append(body);
   wrap.append(table);
-  parts.push(wrap, make('p', 'Final number = coin × (1 + glory) + land. A family with no coin is counted as having 1 real. Land promised for enlisting counts a real for every 20 acres, if the person is alive and still serving.', 'ending-sum'));
+  parts.push(wrap, make('p', 'Final number = coin × (1 + glory) + land. A family with no coin is counted as having 1 real. Land promised for enlisting counts a real for every 20 acres, if the person is alive and served it out or is serving still; being sent for home forfeits it.', 'ending-sum'));
   const talk = make('section');
   talk.append(make('h3', 'For the class'));
   const list = make('ol');

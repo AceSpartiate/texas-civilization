@@ -43,6 +43,7 @@
     "test:alamo-siege": "node scripts/alamo-siege-browser-proof.mjs",
     "test:scrape": "node scripts/scrape-browser-proof.mjs",
     "test:auto": "node scripts/auto-browser-proof.mjs",
+    "test:whole-game": "node scripts/whole-game-browser-proof.mjs",
     "balance": "node scripts/balance-study.mjs"
   }
 }

@@ -4,7 +4,7 @@
 // auxiliary volunteers, who can be sent for and lose the land), ride to Béxar to join the garrison, go south to join the
 // Matamoros men, or - a man of twenty-one or more - vote in the family's town on February 1. Each person is in one place.
 // Enlisting earns glory now and the land at the end, a real for twenty acres added after glory multiplies the coin, if the
-// person is alive and still serving. A regular sent for has deserted. None of it exists in 1835.
+// person is alive and still serving or released with the promise kept. A regular sent for has deserted. None of it exists in 1835.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
@@ -13,7 +13,7 @@ import { beginSecondPeriod } from '../sim/periods.mjs';
 import { momentOf } from '../sim/directors.mjs';
 import { ACRES_PER_REAL, SERVICE, VOTING_AGE, landPromised, mayVote, winterRefusal } from '../sim/winter.mjs';
 import { canAnswerCalls } from '../sim/family.mjs';
-import { familyEnding, finalNumber } from '../sim/ending.mjs';
+import { hostEnding, familyEnding, finalNumber } from '../sim/ending.mjs';
 
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
 const until = (world, done, limit = 8000) => { for (let t = 0; t < limit && !done() && world.status === 'running'; t++) stepWorld(world); };
@@ -155,7 +155,7 @@ test('a man of twenty-one or more votes in his own town on February 1; nobody el
   assert.ok(!offered(world, man.household, man.person).includes('go-vote'), 'the vote was offered after the polls closed');
 });
 
-test('land counts at the end at a real for twenty acres, added after glory, only for the living still serving', () => {
+test('land counts at the end at a real for twenty acres, added after glory, only for the living still serving or released with the promise kept', () => {
   assert.equal(finalNumber(5, 10, 40), 5 * 11 + 40);
   assert.equal(finalNumber(0, 70, 40), 1 * 71 + 40, 'land was multiplied by glory, or coin not floored');
   const world = winter();
@@ -166,6 +166,10 @@ test('land counts at the end at a real for twenty acres, added after glory, only
   assert.equal(own.land, 800 / ACRES_PER_REAL);
   assert.equal(own.final, finalNumber(household.resources.money, world.glory[household.id].total, 40));
   assert.match(own.sum, /\+ 40 reales of land \(800 acres promised\)/);
+  // Enlisting is a part taken: the story does not say the family stayed home, and the Host's table names who went (found by
+  // the whole-game browser run, 2026-09-16, when a man who fought at San Jacinto was shown as nobody having gone).
+  assert.ok(!own.story.some(line => /Nobody from the family went/.test(line)), 'the story says nobody went');
+  assert.ok(hostEnding(world).families.find(family => family.householdId === household.id).went.includes(person.name), 'the Host\'s table does not name who enlisted');
   person.health = { condition: 'dead' };
   assert.equal(familyEnding(world, household.id).land, 0, 'the dead were counted for land');
 });

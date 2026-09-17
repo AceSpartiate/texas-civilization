@@ -65,6 +65,24 @@ test('a grown member joins Houston at his camp, follows it when it moves, and ca
   validateWorld(world);
 });
 
+test('somebody who serves out the war goes home after San Jacinto with the promised land still counted; the dead are not counted', () => {
+  // Found by the whole-game browser run (2026-09-16): a man who enlisted in the winter, marched with Houston and came
+  // through San Jacinto finished with no land, because the ending counted only those still serving and the victory releases.
+  const world = spring();
+  const [regular, auxiliary] = grownMen(world);
+  serve(world, regular, 'regular', 'san-felipe', { acres: 800 });
+  serve(world, auxiliary, 'auxiliary-year', 'san-felipe', { acres: 320 });
+  untilMoment(world, 'houston-san-felipe');
+  untilMoment(world, 'victory-word');
+  for (const one of [regular, auxiliary]) {
+    const promised = one.service.kind === 'houston' && one.service.enlisted === 'regular' ? 800 : 320;
+    if (one.health.condition === 'dead') { assert.equal(landPromised(world, world.households[one.householdId]).acres, 0, 'the dead were counted for land'); continue; }
+    assert.equal(one.service.status, 'released', `${one.name} was not released after the victory`);
+    assert.equal(landPromised(world, world.households[one.householdId]).acres, promised, `${one.name} served out the war and lost the land promised`);
+  }
+  validateWorld(world);
+});
+
 test('the regulars at San Felipe are taken into the army as regulars still, with their land, and desert if sent for', () => {
   const world = spring();
   const [regular, auxiliary] = grownMen(world);

@@ -268,7 +268,7 @@ The formula as first written finished a household with no money at zero whatever
 final = max(money, 1) × (1 + glory) + land
 ```
 
-Land promised for enlisting in the winter - a real for every twenty acres, if the person is alive and still serving - is added
+Land promised for enlisting in the winter - a real for every twenty acres, if the person is alive and still serving or was released with the promise kept, as the victory releases them (being sent for forfeits it; found by the whole-game run, 2026-09-16) - is added
 after glory multiplies the coin, never multiplied by it. With it, the store buys a family's whole cotton crop for coin at a real a
 bale, so that a family that never fights can, rarely, finish first by what it grew and sold. The owner asked for exactly that:
 *"it should be balanced so that's a possible, but unlikely way to win."* Measured before deciding: families that sent somebody to

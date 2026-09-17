@@ -180,12 +180,18 @@ export function recallFromService(world, household, entity, { beginTravel, modeW
   return eventId;
 }
 
-/** The land a family is promised at the end: every living member still serving on land terms, at a real for twenty acres. */
+/**
+ * The land a family is promised at the end: every living member on land terms who is still serving or was released with the
+ * promise kept, at a real for twenty acres. Released, not only serving: an enlisted man taken into Houston's army
+ * (sim/houston.mjs `takeInEnlisted`) is released after San Jacinto and goes home with the promise, which is the whole point
+ * of enlisting (docs/COLONIES.md §7e). Being sent for zeroes the acres (`recallFromService`), so a release with acres on it
+ * is an honourable one. Found by the whole-game browser run, 2026-09-16: a man who served out the war finished with no land.
+ */
 export function landPromised(world, household) {
   let acres = 0;
   for (const id of household.members) {
     const person = world.entities[id];
-    if (!person || GONE.includes(person.health?.condition) || !serving(person)) continue;
+    if (!person || GONE.includes(person.health?.condition) || !['serving', 'released'].includes(person.service?.status)) continue;
     acres += person.service.acres || 0;
   }
   return { acres, reales: Math.floor(acres / ACRES_PER_REAL) };
