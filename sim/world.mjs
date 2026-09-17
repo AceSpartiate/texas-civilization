@@ -11,6 +11,9 @@ import { bringAlong, hasWords, holderOf, keepWithRiders, leaveBehind, modeWith, 
 import { SERVING_ACTIONS, recallFromService, servingWhy, winterInvalid } from './winter.mjs';
 import { answerCourier } from './alamo.mjs';
 import { advanceFlight, flee, flightProjection, scrapeInvalid, stayHome } from './scrape.mjs';
+import { answerRoad, registerRoadChores } from './road.mjs';
+// The road's chores join the one table here, once every module above is made (sim/road.mjs says why not at its own load).
+registerRoadChores();
 import { REPEATED, advanceAuto, noteOrder, setAuto } from './auto.mjs';
 import { hostLiveProjection } from './host.mjs';
 import { advanceTown, createTownspeople, observedBy } from './town.mjs';
@@ -656,6 +659,8 @@ export function applyAction(world, householdId, input) {
   if (input.action === 'flee') { flee(world, household, { take: input.take || {}, refuge: input.refuge }); return; }
   // Or decides to stay and take what comes: its own answer, since silence now packs the wagon after a day (sim/auto.mjs).
   if (input.action === 'flight-stay') { stayHome(world, household); return; }
+  // The road's questions (sim/road.mjs): the bogged wagon, the army close behind - the family's answer, given by anybody of it.
+  if (input.action === 'road-answer') { answerRoad(world, household, input.option); return; }
   // Farm work is open to the whole family; the historical choice is the principal's.
   // Keeping that split explicit is the point: everyone can be sent to the field, but
   // the decision the lesson turns on still belongs to one named person.

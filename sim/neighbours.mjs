@@ -31,7 +31,7 @@ export const TRADE_VALUE = Object.freeze({ food: 1, cotton: 1, seed: 2, powder: 
 /** Food per person the family keeps back before it will trade food away or stop hunting. */
 export const FOOD_KEPT_PER_PERSON = 3;
 /** Work one person does alone; a family never puts two of its people on the same one at once. */
-export const ONE_AT_A_TIME = Object.freeze(['hunt-timber', 'hunt-land', 'haul-logs', 'fetch-seed', 'fetch-powder', 'sell-cotton', 'sell-food', 'mend-hoe', 'replace-hoe', 'fence-plot', 'survey-plot', 'dig-well']);
+export const ONE_AT_A_TIME = Object.freeze(['hunt-timber', 'hunt-land', 'haul-logs', 'fetch-seed', 'fetch-powder', 'sell-cotton', 'sell-food', 'mend-hoe', 'replace-hoe', 'fence-plot', 'survey-plot', 'dig-well', 'hunt-road', 'tend-sick', 'trade-crossing']);
 /** Plots a family nobody plays keeps, its first patch among them: enough to feed it, and a harvest it can carry in. */
 export const NEIGHBOUR_PLOTS = 3;
 /** The house it chooses, best first, where its tools allow. */
@@ -128,6 +128,31 @@ export function thinkFor(world, household, { project, act }) {
   if (view.flight?.status === 'ordered' && view.flight.refuges?.length) {
     const { take, refuge } = packFlight(view.flight);
     attempt({ action: 'flee', entityId: view.household.mainId || view.household.principalId, take, refuge });
+  }
+  // On the road east (sim/road.mjs, docs/ROAD_EAST.md): the road's question is answered as most families answered it - the
+  // question's own fallback, the first open (the wagon dug out; the camp broken and the family pressed on); with nobody
+  // chasing, a family short of food sends one grown hand out from the camp when there is a shot in the house, nurses
+  // whoever is sick, and buys food with a real among the families camped at a crossing or the refuge. A family that has
+  // been warned does nothing but go.
+  const flight = view.flight;
+  if (flight && ['fled', 'refuged'].includes(flight.status)) {
+    const mainId = view.household.mainId || view.household.principalId;
+    if (flight.ask) {
+      const option = (flight.ask.fallback || []).find(id => flight.ask.options.some(choice => choice.id === id && choice.can !== false)) || flight.ask.options.find(choice => choice.can !== false)?.id;
+      if (option) attempt({ action: 'road-answer', entityId: mainId, option });
+    }
+    if (!flight.danger && !flight.bogged) {
+      const resources = view.household.resources || {};
+      const short = (resources.food || 0) < people.length * FOOD_KEPT_PER_PERSON;
+      const free = people.filter(person => !tooYoung(person) && !person.chore && person.health?.condition !== 'dead' && person.health?.condition !== 'captured' && person.health?.condition !== 'sick');
+      const busy = id => people.some(person => person.chore?.id === id);
+      const offer = (person, chore) => (view.work?.[person.id] || []).find(entry => entry.id === chore && entry.can);
+      const send = chore => { const hand = free.find(person => offer(person, chore)); return hand ? attempt({ action: 'chore', entityId: hand.id, chore }) : false; };
+      if (short && (resources.powder || 0) >= 1 && !busy('hunt-road')) send('hunt-road');
+      if (people.some(person => person.health?.condition === 'sick') && !busy('tend-sick')) send('tend-sick');
+      if (short && (resources.money || 0) >= 1 && !busy('trade-crossing')) send('trade-crossing');
+    }
+    return tried;
   }
   // The winter's choices (sim/winter.mjs, docs/COLONIES.md §7e), at the record's rarity (owner, 2026-09-16): most colonists
   // stayed home that winter, so about one grown hand in ten enlists for land, about one in ten goes to the Béxar garrison,

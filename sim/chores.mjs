@@ -898,7 +898,10 @@ export function choreAvailability(world, household, entity, choreId) {
   if (entity.health.condition === 'dead' || entity.health.condition === 'captured') return { can: false, why: 'This person cannot work.' };
   if (tooYoung(entity)) return { can: false, why: tooYoungWhy(entity) };
   if (entity.chore) return { can: false, why: `${entity.name} is already ${entity.chore.doing}.` };
-  if (entity.travel) return { can: false, why: `${entity.name} is on the road.` };
+  // The road's own chores (sim/road.mjs) are for somebody travelling east with the family, or camped with it at the refuge.
+  if (entity.travel && !chore.road) return { can: false, why: `${entity.name} is on the road.` };
+  // A chore kept in its own module carries its own refusal (`refuse`), asked here so this table never imports that module.
+  if (chore.refuse) { const why = chore.refuse(world, household, entity, chore); if (why) return { can: false, why }; }
   if (entity.task === 'help') return { can: false, why: `${entity.name} is away helping.` };
   // Somebody who has joined the army, the garrison or the expedition is in one place and does nothing else (sim/winter.mjs).
   if (entity.service?.status === 'serving') return { can: false, why: servingWhy(world, entity) };
@@ -1051,6 +1054,8 @@ export function choresFor(world, household, entity) {
     && !(chore.shops && household.arriving)
     // Nor the winter's choices outside the second period's winter, nor a vote before the polls or for somebody who has none.
     && !(chore.winter && !winterOffered(world, household, entity, id))
+    // The road's chores (sim/road.mjs) only while the family is on its way east or camped at its refuge.
+    && !(chore.road && !['fled', 'refuged'].includes(household.flight?.status))
     // Nor survey or plot work before the class has begun, which would be a refusal for every person on every lobby tick.
     && !((chore.survey || chore.plotWork || chore.huntLand || chore.fells) && world.status === 'lobby')).map(([id, chore]) => {
     const { can, why } = choreAvailability(world, household, entity, id);
@@ -1161,6 +1166,8 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
   }
   entity.chore = { id: choreId, step: -1, wait: 0, doing: 'setting out', ...(modeId !== DEFAULT_MODE && { mode: modeId }), ...(extra.plot && { plot: { x: extra.plot.x, y: extra.plot.y } }), ...(extra.plotId && { plotId: extra.plotId }), ...(extra.ground && { ground: extra.ground }) };
   entity.task = 'work';
+  // A chore kept in its own module may need to set something up as it begins: a road chore halts the family (sim/road.mjs).
+  chore.begin?.(world, household, entity);
   if (chore.helps) {
     const host = hostOf(world, entity);
     Object.assign(entity.chore, { hostHouseholdId: host.id, spells: 0 });
@@ -1193,8 +1200,9 @@ export function haulFor(entity, choreId, modeId = DEFAULT_MODE) {
 function advanceChore(world, household, entity, { beginTravel, modeAvailability }) {
   const chore = CHORES[entity.chore.id];
   const skill = entity.skills?.[chore.skill] ?? 1;
-  // A travel step owns the person until the road is behind them.
-  if (entity.travel) return;
+  // A travel step owns the person until the road is behind them. A road chore (sim/road.mjs) runs where the family has
+  // halted on its way east: the road is still theirs, but the ground has stopped going past.
+  if (entity.travel && !(chore.road && entity.travel.halted)) return;
   const state = entity.chore;
   // Somebody working beside them finished the house: nobody goes on thatching a roof that is on.
   if (chore.house && houseBuilt(household)) return finishChore(world, household, entity, chore);
@@ -1362,7 +1370,7 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
         if (trader) trader.purse = purseOf(world, trader) + amount;
         // Said, and tagged with the coin it cost, because the ending tells a family where its coin went.
         if (resource === 'money' && amount > 0) {
-          record(world, 'consequence', { actorId: entity.id, householdId: household.id, coin: -amount, text: `${entity.name} paid ${amount} ${resourceName('money', amount)} in town.` });
+          record(world, 'consequence', { actorId: entity.id, householdId: household.id, coin: -amount, text: `${entity.name} paid ${amount} ${resourceName('money', amount)} ${chore.road ? 'among the families camped there' : 'in town'}.` });
         }
       }
       continue;
@@ -1663,6 +1671,8 @@ function finishChore(world, household, entity, chore) {
   entity.chore = null;
   entity.task = 'rest';
   record(world, 'consequence', { actorId: entity.id, householdId: household.id, text: `${entity.name} finished: ${chore.name.toLowerCase()}.` });
+  // A chore kept in its own module may have something to do once the work is done (sim/road.mjs, the sick nursed a day).
+  chore.done?.(world, household, entity);
 }
 
 /**

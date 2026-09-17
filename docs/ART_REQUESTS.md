@@ -30,6 +30,7 @@ does not have:
 | Anybody of a family riding the family horse is their own figure's idle pose (`seatedClip`), facing the way they go, cut off below the waist and drawn over the back of the family's walking horse (`horse-walk`, `-n`, `-s`); the horse is not drawn again. It replaced the courier rider on 2026-09-16, which read as a stranger on the horse | `seatOf`, `seatedClip`, `seatLayout` in `public/motion.js`; `drawSeated` in `public/app.js` | Request 2026-09-14 — family members on horseback | Each cast figure mounted on the family's chestnut, walking in four directions |
 | Whoever drives the ox and wagon is their own figure's idle pose, cut off below the waist, sitting at the front of the side-view wagon (`wagon-travel`) with the ox (`ox-walk`, `-n`, `-s`) ahead; the ox and wagon are not drawn again. Going north or south the wagon stays side-on and the ox is above or below it | `wagonDriverId`, `seatOf`, `seatLayout` in `public/motion.js`; `drawSeated` in `public/app.js` | Request 2026-09-16 — driving the ox wagon | An ox team hitched to the wagon with a seated driver, in four directions, for every cast figure |
 | A rider never gets down to talk: they speak from the saddle, turned east, west, north or south toward the listener (the vertical dialogue delivered 2026-09-14 is in use) | `carrierClip` in `public/motion.js` | Request 2026-09-12, priority 3 | `courier-dismount` (delivered 2026-09-14, registered, not yet bound: it needs the encounter to know when a rider has got down and where the horse stands) |
+| The road's three panel icons are glyphs drawn in canvas strokes: a rifle over a campfire (`hunt-road`), a figure under a blanket with a cup beside (`tend-sick`), a coin passed over a ferry's rail (`trade-crossing`) | `drawGlyph` in `public/family-panel.js`; `PANEL_ICONS` carries `glyph` and no sprite, and `drawIcon` takes `icon-<key>` the moment it is registered | Request 2026-09-16 — the road's icons | `icon-hunt-road`, `icon-tend-sick`, `icon-trade-crossing` |
 
 ## Claude-drawn stand-ins (replace with Astra's)
 
@@ -72,6 +73,24 @@ into the existing pipeline, and how it will be checked. When a request is delive
 `npm run build:art`; do not delete it from here.
 
 ---
+
+## Request 2026-09-16 — the road's icons
+
+**Status: open; glyphs drawn in canvas strokes in use since 2026-09-17 (see *Stand-ins in use* above).** The road east
+([ROAD_EAST.md](ROAD_EAST.md)) gives a family three things to do while it flees: a hunt from the camp, a day's nursing of the
+sick, and buying food among the families camped at a crossing. Each is an order on the family panel with no icon art.
+
+- **Why.** Three stroke-drawn glyphs sit beside thirty-eight illustrated icons and read as placeholders; the hunt's glyph in
+  particular must be told from the two hunts at home.
+- **What.** Three icons in the action-icon contract (request 2026-09-15 — action icons, 128 by 128, one silhouette each,
+  reading at 38 pixels and dimmed to 40 per cent): `icon-hunt-road` (a rifle leaning over a small campfire beside a halted
+  wagon wheel), `icon-tend-sick` (a figure lying under a blanket with a cup or bowl set beside them), `icon-trade-crossing`
+  (a coin passed hand to hand over a ferry's rail, water below).
+- **How it plugs in.** Registered through `npm run build:art`; `drawIcon` in `public/family-panel.js` takes `icon-<key>` for
+  a key whose `PANEL_ICONS` entry has only a glyph, with no change to the page; the glyph stays as the fallback for a sheet
+  that has not arrived.
+- **Check.** At 38 CSS pixels on the panel's dark row each is told apart from the others and from `icon-hunt-timber` and
+  `icon-hunt-land`.
 
 ## Request 2026-09-16 — the shops of the towns
 

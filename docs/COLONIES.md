@@ -891,6 +891,11 @@ Decided by the owner by multiple choice (§7g). Research [goliad-scrape-san-jaci
   version moved. The projection's `flight` carries the room, the have and the refuges; never a fate.
 - Tests `tests/scrape.test.mjs` (6) and `tests/houston.test.mjs` (4), proven by 35 injections; browser `npm run test:scrape`
   ([evidence](evidence/scrape-browser.json)).
+- **The road itself** (2026-09-17, [ROAD_EAST.md](ROAD_EAST.md), `sim/road.mjs`): the rain and the bogged wagon - dug out,
+  waited out or left in the mud; a hunt from the camp, a day's nursing, food bought among the families at a crossing; and the
+  pursuit - each Mexican column a head between the dated places above, a warning at twenty miles with the choice to press on,
+  and a family that sits still overtaken and robbed, its grown men taken prisoner at a share, nobody killed. `HIST-TEX-068`
+  to `-074`, `FIC-GONZ-049` to `-052`. Every choice a default made in the owner's absence, listed there for the owner to change.
 
 ## 7. Questions for the owner — all answered 2026-09-14
 

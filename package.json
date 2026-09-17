@@ -47,6 +47,7 @@
     "test:whole-game": "node scripts/whole-game-browser-proof.mjs",
     "test:solo-game": "node scripts/solo-game-browser-proof.mjs",
     "test:host-live": "node scripts/host-live-browser-proof.mjs",
+    "test:road": "node scripts/road-browser-proof.mjs",
     "balance": "node scripts/balance-study.mjs"
   }
 }
