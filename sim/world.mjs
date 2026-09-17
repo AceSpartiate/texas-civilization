@@ -1,5 +1,6 @@
 // Pure deterministic simulation; credentials and renderer state never belong here.
 import { buildColoniesRegion } from './colonies-region.mjs';
+import { mapForPage } from './province.mjs';
 import { advanceNeighbours } from './neighbours.mjs';
 import { record } from './events.mjs';
 import { reportsFor, deliverReports } from './knowledge.mjs';
@@ -60,7 +61,9 @@ export function createWorld(seed = 'gonzales', playerCount = 15, { map = 'gonzal
   // A class on the real land of the colonies (docs/COLONIES.md) or on the invented Gonzales country every class had before.
   if (!['gonzales', 'colonies'].includes(map)) throw new Error('Unknown map');
   const region = map === 'colonies' ? buildColoniesRegion(random, playerCount) : buildGonzalesRegion(random, playerCount);
-  world.map.sites = region.sites; world.map.routes = region.routes; world.map.terrain = region.terrain; world.map.relief = region.relief; world.map.bounds = region.bounds; world.map.homeBounds = region.homeBounds; world.map.province = region.province;
+  world.map.sites = region.sites; world.map.routes = region.routes; world.map.terrain = region.terrain; world.map.relief = region.relief; world.map.bounds = region.bounds; world.map.homeBounds = region.homeBounds;
+  // A class on the real land carries no province of its own: the page is sent the current one (sim/province.mjs).
+  if (region.province) world.map.province = region.province;
   if (region.source) world.map.source = region.source;
   // The woods of the real land (sim/woods.mjs, docs/WOODS_AND_BUILDING.md §4). Absent on every class made before, which keeps timber by the water.
   if (region.woods) world.map.woods = region.woods;
@@ -781,7 +784,7 @@ export function applyAction(world, householdId, input) {
 // The map is public geography and never changes during a class, so it is fetched once
 // rather than repeated in every snapshot. Shaded relief alone was three quarters of a
 // student's payload; at thirty clients that is megabytes a second of unchanging ground.
-export const projectMap = world => structuredClone(world.map);
+export const projectMap = world => structuredClone(mapForPage(world.map));
 /**
  * Who a family is: the answer to the question the first person to play this asked.
  *
@@ -823,7 +826,7 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
     .slice(-PROJECTED_EVENTS);
   const knownIds = new Set(visibleEvents.map(e => e.id));
   const events = visibleEvents.map(e => ({ id: e.id, type: e.type, minute: e.minute, text: e.text, actorId: e.actorId, householdId: e.householdId, causes: e.causes.filter(id => knownIds.has(id)) }));
-  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.sex && { sex: e.sex }), ...(Number.isFinite(e.age) && { age: e.age, band: ageBand(e.age) }), location: e.location, travel: e.travel ? { from: e.travel.from, to: e.travel.to, points: e.travel.points, progress: e.travel.progress, distance: e.travel.distance, speed: e.travel.speed, mode: e.travel.mode } : null, health: e.health, task: e.task, skills: e.skills, chore: e.chore?.ask ? { ...e.chore, ask: askProjection(world, household, e) } : e.chore, condition: e.condition, species: e.species, laden: e.laden, borrowedBy: e.borrowedBy, ...(e.marks && { marks: e.marks }), ...(e.service && { service: { kind: e.service.kind, status: e.service.status, siteId: e.service.siteId, ...(e.service.acres && { acres: e.service.acres }), ...(e.service.besieged && { besieged: true }), ...(e.service.riding && { riding: true }), ...(e.service.courier === 'open' && { courier: 'open' }), ...(e.service.drilled && { drilled: e.service.drilled }), ...(e.service.bound && { bound: true }), ...(e.service.leave === 'open' && { leave: 'open' }), ...(e.service.road === 'open' && { road: 'open' }) } }), ...(e.voted && { voted: true }), ...(e.auto && { auto: true }) }));
+  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, ...(e.given && { given: e.given }), kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.sex && { sex: e.sex }), ...(Number.isFinite(e.age) && { age: e.age, band: ageBand(e.age) }), location: e.location, travel: e.travel ? { from: e.travel.from, to: e.travel.to, points: e.travel.points, progress: e.travel.progress, distance: e.travel.distance, speed: e.travel.speed, mode: e.travel.mode } : null, health: e.health, task: e.task, skills: e.skills, chore: e.chore?.ask ? { ...e.chore, ask: askProjection(world, household, e) } : e.chore, condition: e.condition, species: e.species, laden: e.laden, borrowedBy: e.borrowedBy, ...(e.marks && { marks: e.marks }), ...(e.service && { service: { kind: e.service.kind, status: e.service.status, siteId: e.service.siteId, ...(e.service.acres && { acres: e.service.acres }), ...(e.service.besieged && { besieged: true }), ...(e.service.riding && { riding: true }), ...(e.service.courier === 'open' && { courier: 'open' }), ...(e.service.drilled && { drilled: e.service.drilled }), ...(e.service.bound && { bound: true }), ...(e.service.leave === 'open' && { leave: 'open' }), ...(e.service.road === 'open' && { road: 'open' }) } }), ...(e.voted && { voted: true }), ...(e.auto && { auto: true }) }));
   // What each person could be asked to do, with the reason for anything refused, is
   // computed on the server. The client must never decide for itself what is possible:
   // that is the same rule as fog of war, applied to a control instead of a fact.
@@ -847,7 +850,7 @@ export function projectWorld(world, householdId, role, { includeMap = true } = {
   const toolCondition = household ? Object.fromEntries(Object.entries(household.tools || {}).map(([tool, wear]) => [tool, { wear, state: toolState(wear) }])) : {};
   const offers = offersFor(world, householdId);
   const encounter = encounterProjection(world, householdId, role);
-  return structuredClone({ tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: world.map }), household: household && projectHousehold(world, household), entities, others, offers, encounter, events, work, travelModes, land, wagon, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role),
+  return structuredClone({ tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: mapForPage(world.map) }), household: household && projectHousehold(world, household), entities, others, offers, encounter, events, work, travelModes, land, wagon, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role),
     // The army, once there is one: where it is, how many went, and which of them are this family's (sim/army.mjs).
     ...(world.army && householdId ? { army: armyProjection(world, householdId) } : {}),
     // The family's flight east, once it has been told to go (sim/scrape.mjs).
@@ -890,7 +893,9 @@ export function validateWorld(world) {
         if (relative && !world.entities[relative]) throw new Error('Kin names somebody who does not exist');
       }
     }
-    if (typeof entity.name !== 'string' || !entity.name.trim() || entity.name.length > NAME_LIMIT) throw new Error('Invalid person name');
+    // A first name and the family's last name, each within the limit (sim/family.mjs `nameFamily`).
+    if (typeof entity.name !== 'string' || !entity.name.trim() || entity.name.length > (entity.given === undefined ? NAME_LIMIT : NAME_LIMIT * 2 + 1)) throw new Error('Invalid person name');
+    if (entity.given !== undefined && (typeof entity.given !== 'string' || !entity.given.trim() || entity.given.length > NAME_LIMIT)) throw new Error('Invalid first name');
     // Present only on a rolled family. Absent reads as the founding household, which had no
     // stated ages and no hidden stats, and is why no save version moved.
     if (entity.purse !== undefined && (!Number.isInteger(entity.purse) || entity.purse < 0)) throw new Error('A purse holds whole reales');
@@ -960,6 +965,7 @@ export function validateWorld(world) {
     if (household.absent !== undefined && (household.absent !== true || !household.played)) throw new Error('Invalid absent marker');
     if (household.settlementId !== undefined && world.map.sites[household.settlementId]?.kind !== 'town') throw new Error('A family belongs to a settlement that is not there');
     if (household.name !== undefined && (typeof household.name !== 'string' || !household.name.trim() || household.name.length > NAME_LIMIT)) throw new Error('Invalid household name');
+    if (household.surname !== undefined && (typeof household.surname !== 'string' || !household.surname.trim() || household.surname.length > NAME_LIMIT)) throw new Error('Invalid family last name');
     if (!household.field || !['bare', 'planted', 'ripe'].includes(household.field.state) || !['corn', 'cotton'].includes(household.field.crop)) throw new Error('Invalid field state');
     // Absent on a class saved before a family could break new ground, and the empty value
     // is the one every family used to have: the first patch, and no fence. So no save

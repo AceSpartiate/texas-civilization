@@ -118,3 +118,69 @@ test('solo keeps its own folder, save and port, and ignores the real class overr
     assert.equal(soloPaths({ env: { ...env, SOLO_PORT: '4100' }, root: dir }).port, 4100);
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });
+
+// Saved games (owner, 2026-09-17: "When pressing Solo Game, a popup should ask if the player wants to start a new game, or
+// continue an old one. they can't continue a multiplayer game from there"; by multiple choice, a list of saved games).
+test('every solo game is kept: a new game keeps the last, the list names each, and continuing opens it where it was', async () => {
+  const { app, dispose } = classroom({ solo: true });
+  const call = caller(await app.listen());
+  const key = app.state.hostKey;
+  try {
+    assert.deepEqual((await call('/api/solo/games', { key })).body.games, [], 'a fresh solo server lists a game');
+    const first = await call('/api/solo', { key });
+    const firstCookie = (await call(`/solo/enter?ticket=${new URL(first.body.playUrl).searchParams.get('ticket')}`)).cookie;
+    await call('/api/command', { id: 'cmd-name-first', action: 'rename', surname: 'Navarro' }, firstCookie);
+    const firstId = app.state.sessionId, firstSeed = app.state.world.seed;
+    const listed = (await call('/api/solo/games', { key })).body.games;
+    assert.equal(listed.length, 1, 'the game being played is not in the list');
+    assert.equal(listed[0].id, firstId);
+    assert.equal(listed[0].family, 'The Navarro family');
+    assert.match(listed[0].date, /^[A-Z][a-z]+ \d{1,2}, 18\d\d$/);
+    assert.equal(listed[0].period, 1);
+
+    await call('/api/solo', { key });
+    const secondId = app.state.sessionId;
+    const both = (await call('/api/solo/games', { key })).body.games.map(game => game.id);
+    assert.deepEqual(new Set(both), new Set([firstId, secondId]), 'a new game threw the last one away');
+
+    const back = await call('/api/solo', { key, continue: firstId });
+    assert.equal(back.status, 200, JSON.stringify(back.body));
+    assert.equal(app.state.sessionId, firstId);
+    assert.equal(app.state.world.seed, firstSeed, 'continuing dealt a different world');
+    assert.equal(app.state.world.households['hh-1'].surname, 'Navarro', 'continuing lost what was done in the game');
+    const cookie = (await call(`/solo/enter?ticket=${new URL(back.body.playUrl).searchParams.get('ticket')}`)).cookie;
+    const mine = await call('/api/state', null, cookie);
+    assert.equal(mine.status, 200);
+    assert.equal(mine.body.world.householdId, 'hh-1', 'the player did not come back to their own family');
+    assert.equal((await call('/api/state', null, firstCookie)).status, 401, 'an old link to the game still opens it');
+    assert.ok((await call('/api/solo/games', { key })).body.games.some(game => game.id === secondId), 'continuing an old game threw away the newer one');
+    // Continuing the game already being played hands out a new way in and changes nothing else.
+    const revisionWorld = JSON.stringify(app.state.world);
+    const again = await call('/api/solo', { key, continue: firstId });
+    assert.equal(again.status, 200);
+    assert.equal(JSON.stringify(app.state.world), revisionWorld);
+    const againCookie = (await call(`/solo/enter?ticket=${new URL(again.body.playUrl).searchParams.get('ticket')}`)).cookie;
+    assert.equal((await call('/api/state', null, againCookie)).status, 200, 'continuing the game being played gave no way back into it');
+  } finally { await dispose(); }
+});
+
+test('only solo games can be continued: a bad id, a missing game and the wrong key are refused, and a class has no list', async () => {
+  const soloRoom = classroom({ solo: true });
+  const plain = classroom();
+  try {
+    const call = caller(await soloRoom.app.listen());
+    const key = soloRoom.app.state.hostKey;
+    await call('/api/solo', { key });
+    const before = soloRoom.app.state.sessionId;
+    for (const id of ['../save', 'nothere-000', '']) {
+      const refused = await call('/api/solo', { key, continue: id });
+      assert.notEqual(refused.status, 200, `continuing "${id}" was not refused`);
+      assert.match(refused.body.error, id === 'nothere-000' ? /not there/ : /not a saved solo game/);
+    }
+    assert.equal(soloRoom.app.state.sessionId, before, 'a refused continue changed the game');
+    assert.equal((await call('/api/solo/games', { key: 'not-the-key' })).status, 403);
+    const plainCall = caller(await plain.app.listen());
+    assert.notEqual((await plainCall('/api/solo/games', { key: plain.app.state.hostKey })).status, 200, 'a class lists games');
+    assert.notEqual((await plainCall('/api/solo', { key: plain.app.state.hostKey, continue: before })).status, 200, 'a class continues a solo game');
+  } finally { await soloRoom.dispose(); await plain.dispose(); }
+});

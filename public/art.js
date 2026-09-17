@@ -28,7 +28,21 @@ export function hasSprite(name) {
 function notifyReady() {
   for (const listener of listeners) listener(art.status);
 }
-function loadImage(source) {
+/**
+ * A sheet, decoded before anything draws it (docs/PERFORMANCE_LOAD.md). Fetched as bytes and made an ImageBitmap, the
+ * picture is decoded off the main thread; an <img> drawn to a canvas is decoded on the main thread at its first draw,
+ * a stall of a tenth of a second or more per sheet on a Chromebook. A browser without createImageBitmap uses <img>.
+ * ceiling: a bitmap holds its decoded pixels (about 6 MB a 1254-pixel sheet) for as long as the page is open, where the
+ * browser may drop an <img>'s decode under memory pressure. The first view uses 13 sheets; `ImageBitmap.close()` on
+ * sheets unused for minutes is the way out if a 4 GB Chromebook runs short over a whole game.
+ */
+async function loadImage(source) {
+  if (typeof fetch === 'function' && typeof createImageBitmap === 'function') {
+    try {
+      const response = await fetch(source);
+      return response.ok ? await createImageBitmap(await response.blob()) : null;
+    } catch { return null; }
+  }
   return new Promise(resolve => {
     if (typeof Image !== 'function') { resolve(null); return; }
     const image = new Image();
@@ -69,8 +83,11 @@ function requestSheet(name) {
   if (!art.sheets[name]) return Promise.resolve(null);
   if (!sheetPending.has(name)) {
     sheetPending.set(name, (async () => {
-      const source = art.sheets[name].image;
-      const image = await loadImage(source.startsWith('/') ? source : BASE + source);
+      const { image: source, sha256 } = art.sheets[name];
+      // The manifest's own hash of the sheet pins the URL: the server lets the browser keep a pinned sheet for a year, so a
+      // class's second day - or a reload - downloads no art at all, and a changed sheet has a new URL (server/delivery.mjs).
+      const pin = typeof sha256 === 'string' && /^[0-9a-f]{64}$/.test(sha256) ? `?v=${sha256.slice(0, 16)}` : '';
+      const image = await loadImage(`${source.startsWith('/') ? source : BASE + source}${pin}`);
       if (image) art.images[name] = image;
       art.status = Object.keys(art.images).length ? 'ready' : 'unavailable';
       notifyReady();

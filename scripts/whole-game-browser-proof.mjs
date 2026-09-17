@@ -19,6 +19,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { createClassroom } from '../server/app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { playWholeGame } from './support/whole-game.mjs';
+import { meetFamily } from './support/meet-family.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -57,8 +58,8 @@ try {
   await student.locator('#roll-family').click();
   await student.waitForFunction(() => document.querySelector('#roll-family')?.textContent === 'Meet your family', null, { timeout: 15000 });
   await student.locator('#roll-family').click();
-  await student.locator('#family-book').waitFor({ state: 'visible' });
-  await student.locator('#journal-close').click();
+  // The family's last name and how the parents look, asked for after the roll (owner, 2026-09-17).
+  await meetFamily(student);
   if (await student.locator('#wagon-done').isVisible()) await student.locator('#wagon-done').click();
   if (await student.locator('#tutorial-skip').isVisible()) await student.locator('#tutorial-skip').click();
   await student.locator('#family-panel').waitFor({ state: 'visible' });

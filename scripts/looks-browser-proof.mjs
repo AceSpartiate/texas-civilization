@@ -1,10 +1,13 @@
-// How the family looks, in a real browser: docs/SETTLING_IN.md §7, build step 8.
+// Naming the family and How We Look, in a real browser (owner, 2026-09-17).
 //
-// tests/appearance.test.mjs proves the rules - chosen after the roll, parents only, children after
-// their parents, and nothing in the game reading any of it. This proves a student can do it: roll,
-// open the book, change a parent's hair and clothes from the choices offered, see the words change
-// without pressing anything, see a child take after them with nothing to choose, and find it all
-// still so after reloading the page.
+// "After rolling for a family, the player should see an interface pop up and ask them to name their family. It shouldn't
+// say 'Our family is called' it should say 'Family Last Name' and that last name should be added to the members of the
+// family as such." Then: "The How We Look section should have images for each section too. This should appear next."
+//
+// tests/surname.test.mjs and tests/appearance.test.mjs prove the rules. This proves a student meets them: roll, and the last
+// name is asked for in a box that will not close; named, every person on the panel carries it; then each parent's looks,
+// one at a time, with a picture on every choice and the preview following what is picked; Done keeps it; reloaded, nothing
+// is asked again; the journal button reads Journal and edits neither.
 //
 // Run: npm run test:looks
 import assert from 'node:assert/strict';
@@ -24,8 +27,10 @@ const app = createClassroom({ seed: 'family-proof', playerCount: 5, tickMs: 200,
 const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
 const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
 const errors = [];
+const family = page => page.evaluate(async () => (await (await fetch('/api/family')).json()).family);
 
 try {
+  mkdirSync('docs/evidence', { recursive: true });
   const context = await browser.newContext({ viewport: { width: 1440, height: 950 } });
   const page = await context.newPage();
   page.on('pageerror', error => errors.push(error.message));
@@ -35,80 +40,116 @@ try {
   await page.getByRole('button', { name: 'Join', exact: true }).click();
   await page.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
 
-  // Before the roll there is nobody to dress.
-  assert.equal(await page.locator('#family-looks').isHidden(), true, 'looks were offered before the roll');
+  // Before the roll nothing is asked.
+  await page.waitForTimeout(600);
+  assert.equal(await page.locator('#surname').isHidden(), true, 'the last name was asked for before the roll');
+  assert.equal(await page.locator('#looks').isHidden(), true, 'the looks were asked for before the roll');
+  assert.equal((await page.locator('#journal-toggle').textContent()).trim(), 'Journal');
+  ok('before the roll nothing is asked, and the button at the bottom reads Journal');
+
   await page.locator('#roll-family').click();
   await page.waitForFunction(() => document.querySelector('#roll-family')?.textContent === 'Meet your family', null, { timeout: 15000 });
   await page.locator('#roll-family').click();
-  await page.locator('#family-looks').waitFor({ state: 'visible' });
-  const family = await page.evaluate(async () => (await (await fetch('/api/family')).json()).family);
-  const parent = family.people.find(person => person.choices);
-  const child = family.people.find(person => ['son', 'daughter'].includes(person.role));
-  assert.ok(parent && child, 'this seed needs a parent and a child');
-  ok('after the roll the book shows how the family looks');
+  await page.locator('#surname').waitFor({ state: 'visible', timeout: 15000 });
+  assert.equal(await page.locator('#surname label').textContent(), 'Family Last Name');
+  assert.equal(await page.locator('#surname').getByText('Our family is called').count(), 0);
+  assert.equal(await page.locator('#looks').isHidden(), true, 'the looks came up before the last name');
+  await page.keyboard.press('Escape');
+  await page.waitForTimeout(400);
+  assert.equal(await page.locator('#surname').isHidden(), false, 'Escape closed the naming box');
+  ok('after the roll the "Family Last Name" box comes up, before the looks, and Escape does not close it');
 
-  // A parent: every choice offered, as the server offers it.
-  const row = page.locator(`#family-looks li[data-entity-id="${parent.id}"]`);
-  for (const part of ['skin', 'hair', 'clothing', 'head']) {
-    const offered = await row.locator(`select[data-part="${part}"] option`).allTextContents();
-    assert.deepEqual(offered, parent.choices[part], `${part} offers something other than the server's choices`);
+  await page.locator('#surname-input').fill('Navarro');
+  observed.surnamePreview = await page.locator('#surname-people').textContent();
+  assert.match(observed.surnamePreview, /Navarro/);
+  await page.screenshot({ path: 'docs/evidence/looks-surname.png' });
+  await page.locator('#surname-save').click();
+  await page.locator('#surname').waitFor({ state: 'hidden' });
+  await page.waitForFunction(() => (window.__snapshot?.world.entities || []).filter(e => e.householdId === 'hh-1' && e.kind === 'person').every(e => e.name.endsWith(' Navarro')), null, { timeout: 10000 });
+  const book = await family(page);
+  observed.names = book.people.map(person => person.name);
+  assert.ok(book.people.every(person => person.name === `${person.given} Navarro`), `not everybody carries the last name: ${observed.names.join(', ')}`);
+  const panelNames = await page.locator('.panel-name').evaluateAll(inputs => inputs.map(input => input.value));
+  assert.deepEqual(panelNames.sort(), book.people.map(person => person.given).sort(), 'the panel boxes are not the first names');
+  ok(`named, every member carries the last name (${observed.names.join(', ')}); the panel's boxes hold the first names`);
+
+  // The looks, one parent at a time.
+  const parents = book.people.filter(person => person.choices);
+  assert.ok(parents.length, 'this seed needs a parent');
+  await page.locator('#looks').waitFor({ state: 'visible', timeout: 10000 });
+  for (const [index, parent] of parents.entries()) {
+    await page.waitForFunction(id => document.querySelector('#looks')?.dataset.entityId === id && !document.querySelector('#looks').hidden, parent.id, { timeout: 10000 });
+    for (const part of ['skin', 'hair', 'clothing', 'head']) {
+      const offered = await page.locator(`#looks-parts button[data-part="${part}"]`).evaluateAll(buttons => buttons.map(b => b.dataset.value));
+      assert.deepEqual(offered, parent.choices[part], `${part} offers something other than the server's choices`);
+      assert.equal(await page.locator(`#looks-parts button[data-part="${part}"] canvas`).count(), offered.length, `a ${part} choice has no picture`);
+      const pressed = await page.locator(`#looks-parts button[data-part="${part}"][aria-pressed="true"]`).evaluateAll(b => b.map(x => x.dataset.value));
+      assert.deepEqual(pressed, [parent.appearance[part]], `the default ${part} is not the one chosen`);
+    }
+    const before = await page.locator('#looks-preview').evaluate(canvas => canvas.toDataURL());
+    const hair = parent.choices.hair.find(value => value !== parent.appearance.hair && value !== 'grey');
+    const head = parent.choices.head.find(value => value !== parent.appearance.head);
+    await page.locator(`#looks-parts button[data-part="hair"][data-value="${hair}"]`).click();
+    await page.locator(`#looks-parts button[data-part="head"][data-value="${head}"]`).click();
+    const after = await page.locator('#looks-preview').evaluate(canvas => canvas.toDataURL());
+    assert.notEqual(after, before, 'the preview did not follow the choice');
+    assert.equal(await page.locator(`#looks-parts button[data-part="hair"][data-value="${hair}"]`).getAttribute('aria-pressed'), 'true');
+    if (index === 0) await page.screenshot({ path: 'docs/evidence/looks-popup.png' });
+    await page.locator('#looks-done').click();
+    await page.waitForFunction(async ([id, value, headValue]) => {
+      const person = (await (await fetch('/api/family')).json()).family.people.find(one => one.id === id);
+      return person.chosen && person.appearance.hair === value && person.appearance.head === headValue;
+    }, [parent.id, hair, head], { timeout: 10000 });
+    observed[`chose-${parent.role}`] = `${hair} hair, ${head}`;
   }
-  // A child: words, and nothing to choose.
-  const childRow = page.locator('#family-looks li.looks-child', { hasText: child.name });
-  assert.equal(await childRow.locator('select').count(), 0, 'a child was offered choices');
-  observed.childBefore = await childRow.textContent();
-  assert.match(observed.childBefore, /takes after their parents/i);
-  ok(`a parent is offered the server's choices, a child none: "${observed.childBefore}"`);
+  await page.locator('#looks').waitFor({ state: 'hidden', timeout: 10000 });
+  ok(`each parent's looks came up in turn with a picture on every choice, the defaults pressed, the preview following, and Done kept ${Object.entries(observed).filter(([k]) => k.startsWith('chose-')).map(([k, v]) => `${k.slice(6)}: ${v}`).join('; ')}`);
 
-  // Changed, and saved with no button: the words update from the server.
-  const hair = parent.choices.hair.find(value => value !== parent.appearance.hair && value !== 'grey');
-  const clothing = parent.choices.clothing.find(value => value !== parent.appearance.clothing);
-  await row.locator('select[data-part="hair"]').selectOption(hair);
-  await page.waitForFunction(([id, value]) => document.querySelector(`#family-looks li[data-entity-id="${id}"] .looks-words`)?.textContent.includes(`${value} hair`), [parent.id, hair]);
-  await row.locator('select[data-part="clothing"]').selectOption(clothing);
-  await page.waitForFunction(([id, value]) => document.querySelector(`#family-looks li[data-entity-id="${id}"] .looks-words`)?.textContent.includes(`${value} clothes`), [parent.id, clothing]);
-  observed.parentAfter = await row.locator('.looks-words').textContent();
-  assert.equal(await page.locator('#family-looks button').count(), 0, 'there is a button to save');
-  ok(`a parent's hair and clothes change and save as they are chosen: "${observed.parentAfter}"`);
-
-  // Reloaded: still so, from the server.
+  // Reloaded: nothing asked again; the journal shows who is whose and edits nothing.
   await page.reload();
   await page.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
-  const toggle = page.locator('#journal-toggle');
-  if (await page.locator('#family-journal').getAttribute('data-open') !== 'true') await toggle.click();
-  await page.locator('#family-looks').waitFor({ state: 'visible' });
-  const kept = await page.locator(`#family-looks li[data-entity-id="${parent.id}"] .looks-words`).textContent();
-  assert.ok(kept.includes(`${hair} hair`) && kept.includes(`${clothing} clothes`), `the choice was not kept: "${kept}"`);
-  ok('reloaded, the choices are still there');
-
-  await page.locator('#family-looks').scrollIntoViewIfNeeded();
-  mkdirSync('docs/evidence', { recursive: true });
-  await page.screenshot({ path: 'docs/evidence/looks-book.png' });
-  // Loaded at phone width rather than shrunk to it: the person panel keeps a position computed at the
-  // wider size until something moves it, which is a known limit of that panel and not of this book.
-  await page.setViewportSize({ width: 400, height: 860 });
-  await page.reload();
-  await page.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
+  await page.waitForTimeout(1500);
+  assert.equal(await page.locator('#surname').isHidden(), true, 'the last name was asked for again');
+  assert.equal(await page.locator('#looks').isHidden(), true, 'the looks were asked for again');
   if (await page.locator('#family-journal').getAttribute('data-open') !== 'true') await page.locator('#journal-toggle').click();
-  await page.locator('#family-looks').waitFor({ state: 'visible' });
-  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
-  const wide = await page.evaluate(() => [...document.querySelectorAll('body *')].filter(el => el.getBoundingClientRect().right > document.documentElement.clientWidth + 1 && el.offsetParent !== null).slice(0, 8).map(el => `${el.tagName}#${el.id}.${el.className} ${Math.round(el.getBoundingClientRect().left)}-${Math.round(el.getBoundingClientRect().right)}`));
-  assert.ok(overflow <= 1, `the page scrolls sideways at phone width by ${overflow}px: ${wide.join(' | ')}`);
-  await page.locator('#family-looks').scrollIntoViewIfNeeded();
-  await page.screenshot({ path: 'docs/evidence/looks-book-phone.png' });
-  ok('at phone width the page does not scroll sideways');
+  await page.locator('#family-kin li').first().waitFor({ state: 'visible' });
+  assert.equal(await page.locator('#family-journal input[data-rename], #family-journal select').count(), 0, 'the journal still edits names or looks');
+  observed.kin = await page.locator('#family-kin li').first().textContent();
+  assert.match(observed.kin, /Navarro/);
+  ok(`reloaded, nothing is asked again, and the journal says who is whose without editing: "${observed.kin}"`);
+
+  // At phone width, a fresh family's pop-ups fit.
+  const phone = await browser.newContext({ viewport: { width: 400, height: 860 } });
+  const small = await phone.newPage();
+  small.on('pageerror', error => errors.push(error.message));
+  await small.goto(url);
+  await small.locator('[name=name]').fill('Phone reader');
+  await small.locator('[name=code]').fill(app.state.sessionCode);
+  await small.getByRole('button', { name: 'Join', exact: true }).click();
+  await small.waitForFunction(() => window.__snapshot?.world.householdId);
+  await small.locator('#roll-family').click();
+  await small.waitForFunction(() => document.querySelector('#roll-family')?.textContent === 'Meet your family', null, { timeout: 15000 });
+  await small.locator('#roll-family').click();
+  await small.locator('#surname-input').fill('Ybarbo');
+  await small.locator('#surname-save').click();
+  await small.locator('#looks').waitFor({ state: 'visible', timeout: 10000 });
+  const box = await small.locator('#looks').boundingBox();
+  const overflow = await small.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+  assert.ok(overflow <= 1 && box.x >= 0 && box.x + box.width <= 401, `the looks pop-up does not fit at phone width (${JSON.stringify(box)}, overflow ${overflow})`);
+  await small.screenshot({ path: 'docs/evidence/looks-popup-phone.png' });
+  ok('at phone width the looks pop-up fits and the page does not scroll sideways');
 
   assert.deepEqual(errors, [], `the page threw: ${errors.join(' | ')}`);
   ok('no page errors');
 
   writeFileSync('docs/evidence/looks-browser.json', `${JSON.stringify({
-    record: 'How the family looks, in a browser: docs/SETTLING_IN.md build step 8',
+    record: 'Naming the family and How We Look, in a browser (owner, 2026-09-17)',
     date: new Date().toISOString().slice(0, 10),
     verdict: 'PASS',
-    note: 'Same computer only. A student joined, rolled, chose a parent\'s hair and clothes in the family book, and reloaded. The figure on the map is unchanged: layered people art is a stand-in (docs/ART_REQUESTS.md). No LAN or district claim.',
+    note: 'Same computer only. A student joined, rolled, gave the family its last name in the pop-up, chose each parent\'s looks from pictures, and reloaded. The pictures are Claude-drawn stand-ins; the figure on the map is unchanged (layered people art, docs/ART_REQUESTS.md). No LAN or district claim.',
     checks: pass,
     observed,
-    screenshots: ['docs/evidence/looks-book.png', 'docs/evidence/looks-book-phone.png'],
+    screenshots: ['docs/evidence/looks-surname.png', 'docs/evidence/looks-popup.png', 'docs/evidence/looks-popup-phone.png'],
   }, null, 2)}\n`);
   console.log(`\n${pass.length} checks passed.`);
 } finally {

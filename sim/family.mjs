@@ -21,7 +21,7 @@
 // `FIC-GONZ-017` registers the kin structure and the name pools. Both are invented, both
 // are personal-scale, and neither is offered as a demographic sample of anybody.
 import { record } from './events.mjs';
-import { appearanceOf, choicesFor, isParent, looksWords } from './appearance.mjs';
+import { appearanceOf, choicesFor, isParent, lookChosen, looksWords } from './appearance.mjs';
 
 /**
  * The household, as authored.
@@ -391,6 +391,7 @@ export function mainPersonId(world, household) {
 
 /** What a household is called. Absent means nobody has named it, so it is named for its own. */
 export function householdName(world, household) {
+  if (household.surname) return `the ${household.surname} family`;
   if (household.name) return household.name;
   const principal = world.entities?.[household.principalId];
   return principal?.name ? `${principal.name}'s family` : 'Your family';
@@ -435,11 +436,14 @@ export function sanitiseName(raw) {
  * another keeps it from naming them.
  */
 export function rename(world, household, input) {
+  if (input.surname !== undefined && !input.entityId) return nameFamily(world, household, input.surname);
   if (input.entityId) {
     const entity = world.entities[input.entityId];
     if (!entity || entity.householdId !== household.id || entity.kind !== 'person') throw new Error('Choose one of your family.');
     const was = entity.name;
-    entity.name = sanitiseName(input.name);
+    // A family with a last name: the box is the first name, and the last name stays the family's.
+    if (household.surname) { entity.given = sanitiseName(input.name); entity.name = `${entity.given} ${household.surname}`; }
+    else entity.name = sanitiseName(input.name);
     if (entity.name === was) return entity.name;
     record(world, 'memory', {
       actorId: entity.id, householdId: household.id, importance: 1,
@@ -458,6 +462,37 @@ export function rename(world, household, input) {
 }
 
 /**
+ * The family's last name (owner, 2026-09-17: "It shouldn't say 'Our family is called' it should say 'Family Last Name' and
+ * that last name should be added to the members of the family as such").
+ *
+ * Kept apart from each person's first name (`given`), so renaming Thomas never touches it and renaming the family renames
+ * everybody in it: every person's `name` is their first name and the family's last name, which is what every sentence in
+ * the game already says. The family is "the García family" to the rest of the class (`householdName`). A family's first
+ * naming is asked for by a box the page will not close until it is answered, once the die is rolled.
+ */
+export function nameFamily(world, household, raw) {
+  if (!household.roll && household.played) throw new Error('Roll the die to find out who your family is before naming it.');
+  const surname = sanitiseName(raw);
+  const was = household.surname;
+  if (surname === was) return surname;
+  // Set once (owner, 2026-09-17: "The last name and looks are set once, in the pop-ups").
+  if (was) throw new Error(`The family's last name is ${was}, and it is kept.`);
+  household.surname = surname;
+  delete household.name;
+  for (const id of household.members) {
+    const person = world.entities[id];
+    if (!person || person.kind !== 'person') continue;
+    person.given ??= person.name;
+    person.name = `${person.given} ${surname}`;
+  }
+  record(world, 'memory', {
+    householdId: household.id, importance: 1,
+    text: `The family took the last name ${surname}.`,
+  });
+  return surname;
+}
+
+/**
  * Who this family is, for the family's own book.
  *
  * The answer to the question that started this: who is the mother, who is the father, and
@@ -467,7 +502,8 @@ export function familyProjection(world, household) {
   const nameOf = id => world.entities[id]?.name || 'somebody';
   return {
     name: householdName(world, household),
-    named: Boolean(household.name),
+    named: Boolean(household.name || household.surname),
+    ...(household.surname && { surname: household.surname }),
     // The number on the die, once there is one. Whether a family may still roll is the
     // server's to say, like every other control.
     roll: household.roll ?? null,
@@ -492,8 +528,8 @@ export function familyProjection(world, household) {
       // Age is visible; the hidden stats are not, and are deliberately not read here at all.
       // How they look, in words and as the choices behind them (sim/appearance.mjs). Only a parent's can be chosen.
       const looks = appearanceOf(world, entity);
-      return { id, name: entity?.name || id, role: kin.role || null, of, ...(Number.isFinite(entity?.age) && { age: entity.age }),
-        ...(looks && { appearance: looks, looks: looksWords(looks), ...(isParent(entity) && { choices: choicesFor(entity), chosen: Boolean(entity.appearance) }) }) };
+      return { id, name: entity?.name || id, ...(entity?.given && { given: entity.given }), role: kin.role || null, of, ...(Number.isFinite(entity?.age) && { age: entity.age }),
+        ...(looks && { appearance: looks, looks: looksWords(looks), ...(isParent(entity) && { choices: choicesFor(entity), chosen: lookChosen(entity), sex: entity.sex || (kin.role === 'mother' ? 'female' : 'male') }) }) };
     }),
   };
 }

@@ -1982,8 +1982,9 @@ function renderHousehold(world) {
     if (hostView(world)) renderSelection(world); else $('#selection').hidden = true;
     $('#family-panel').hidden = true; hidePanelTip(); $('#food').textContent = ''; $('#supplies').textContent = ''; return;
   }
-  $('#family-title').textContent = familyCache?.name || 'Your family';
+  $('#family-title').textContent = headingCase(familyCache?.name || 'Your family');
   renderFamilyBook();
+  renderSurname();
   $('#food').textContent = `Food ${Number(household.resources?.food || 0).toFixed(1)}`;
   // Seed, the field and the hoe are the three things that run out. They sit on the map
   // as one quiet line, because a student needs to notice them without being told to.
@@ -2568,8 +2569,9 @@ function renderFamilyPanel(world) {
     const houseShown = focused && house;
     if (row.house.hidden !== !houseShown) row.house.hidden = !houseShown;
     if (row.label.textContent !== `${role}${age}`) row.label.textContent = `${role}${age}`;
-    if (mayOverwriteName(row.input, entity.name)) row.input.value = entity.name;
-    setData(row.input, 'current', entity.name);
+    const firstName = entity.given || entity.name;
+    if (mayOverwriteName(row.input, firstName)) row.input.value = firstName;
+    setData(row.input, 'current', firstName);
     // The portrait: the person's own figure, redrawn only when who they are drawn as changes.
     const figure = childFigure(entity) || castVariant(entity), clip = `${figure}-idle-s`;
     const face = `${clip}:${entity.band || ''}:${principal}`;
@@ -3106,61 +3108,69 @@ function positionSelection(world, chosen = selectedEntity(world)) {
   }
 }
 /**
+ * Naming the family (owner, 2026-09-17): once the die is rolled, a student's family with no last name is asked for one in a
+ * box that does not close until it is answered. What the family is called before that is the game's (`householdName`).
+ */
+let surnameSaving = false;
+function renderSurname() {
+  const box = $('#surname'), family = familyCache;
+  // After the die has been seen: not while it tumbles or while 'Meet your family' is still on the screen.
+  const show = Boolean(family && !family.canRoll && family.roll && !family.named && window.__snapshot?.world?.role !== 'host' && rollState !== 'rolling' && rollState !== 'rolled');
+  if (box.hidden === show) {
+    box.hidden = !show;
+    if (show) setTimeout(() => $('#surname-input')?.focus(), 0);
+  }
+  if (!show) return;
+  const first = family.people.map(person => person.given || person.name);
+  const typed = $('#surname-input').value.trim();
+  $('#surname-people').textContent = typed ? first.map(name => `${name} ${typed}`).join(', ') : first.join(', ');
+}
+$('#surname-input')?.addEventListener('input', () => { $('#surname-error').textContent = ''; renderSurname(); });
+$('#surname-form')?.addEventListener('submit', async event => {
+  event.preventDefault();
+  const surname = $('#surname-input').value.trim();
+  if (!surname || surnameSaving) return;
+  surnameSaving = true; $('#surname-save').disabled = true;
+  try {
+    await api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, action: 'rename', surname });
+    $('#surname-error').textContent = '';
+    familyCache = familyCache && { ...familyCache, named: true };
+    renderSurname();
+    forgetFamily();
+    if (window.__snapshot) render(window.__snapshot);
+  } catch (error) {
+    $('#surname-error').textContent = error.message;
+  } finally {
+    surnameSaving = false; $('#surname-save').disabled = false;
+  }
+});
+
+/**
  * Who we are: every person, what they are to the rest, and a box to rename them in.
  *
  * The roles are the world's and do not move - a student renaming somebody does not change
  * whose child they are - and the names are entirely the student's. Ids never change at all,
  * which is what lets skills and faces stay put through a rename.
  */
+/** "the García family" as a heading: "The García family". */
+const headingCase = text => text ? text[0].toUpperCase() + text.slice(1) : text;
 function renderFamilyBook() {
-  const host = $('#family-kin'), form = $('#family-name-form');
+  const host = $('#family-kin');
   const family = familyCache;
-  if (!family) { host.replaceChildren(); delete host.dataset.shape; form.hidden = true; return; }
-  // Nobody to name until the die is rolled: renaming first would be naming people the roll
-  // is about to replace, so the server refuses it and the book does not offer it.
-  if (family.canRoll) { host.replaceChildren(); delete host.dataset.shape; form.hidden = true; $('#family-book-note').textContent = 'Roll the die to find out who your family is.'; return; }
-  form.hidden = false;
-  const nameInput = $('#family-name-input');
-  // Never overwrite what somebody is in the middle of typing.
-  nameInput.dataset.current = family.named ? family.name : '';
-  if (mayOverwriteName(nameInput, nameInput.dataset.current)) nameInput.value = nameInput.dataset.current;
-  nameInput.placeholder = family.name;
-  $('#family-book-note').textContent = family.named
-    ? 'Names are yours to change. Who is whose is not.'
-    : `Nobody has named this family yet, so it goes by ${family.name}.`;
-  // Rebuilt only when who is in the book or what they are to each other changes. It used to be rebuilt on every snapshot,
-  // which put a fresh box under the fingers of anybody typing a name; now a name saves itself when it is left
-  // (docs/FAMILY_PANEL.md §5), so a box that vanished mid-word would lose the word.
-  const shape = JSON.stringify(family.people.map(person => [person.id, person.role, person.age, person.of]));
-  if (host.dataset.shape !== shape) {
-    host.dataset.shape = shape;
-    host.replaceChildren(...family.people.map(person => {
-      const item = element('li', '', 'kin-row');
-      item.dataset.entityId = person.id;
-      item.dataset.role = person.role || '';
-      const form_ = element('form', '', 'name-row');
-      form_.dataset.entityId = person.id;
-      const age = !Number.isFinite(person.age) ? '' : person.age === 0 ? ', under a year' : `, ${person.age}`;
-      const label = element('label', `${person.role || 'of this family'}${age}`);
-      label.htmlFor = `rename-${person.id}`;
-      const input = element('input');
-      input.id = `rename-${person.id}`;
-      input.name = 'rename';
-      input.dataset.rename = person.id;
-      input.maxLength = 24;
-      input.autocomplete = 'off';
-      form_.append(label, input);
-      item.append(form_);
-      if (person.of) item.append(element('span', person.of, 'kin-of'));
-      return item;
-    }));
-  }
-  for (const person of family.people) {
-    const input = $(`#rename-${CSS.escape(person.id)}`);
-    if (!input) continue;
-    input.dataset.current = person.name;
-    if (mayOverwriteName(input, person.name)) input.value = person.name;
-  }
+  if (!family || family.canRoll) { host.replaceChildren(); delete host.dataset.shape; $('#family-book-note').textContent = family ? 'Roll the die to find out who your family is.' : ''; return; }
+  $('#family-book-note').textContent = 'First names are changed on the family panel. The last name and how the parents look were chosen when the family was named.';
+  const shape = JSON.stringify(family.people.map(person => [person.id, person.name, person.role, person.age, person.of]));
+  if (host.dataset.shape === shape) return;
+  host.dataset.shape = shape;
+  host.replaceChildren(...family.people.map(person => {
+    const item = element('li', '', 'kin-row');
+    item.dataset.entityId = person.id;
+    item.dataset.role = person.role || '';
+    const age = !Number.isFinite(person.age) ? '' : person.age === 0 ? ', under a year' : `, ${person.age}`;
+    item.append(element('strong', person.name), element('span', ` - ${person.role || 'of this family'}${age}. `));
+    if (person.of) item.append(element('span', person.of, 'kin-of'));
+    return item;
+  }));
 }
 function renderKnowledge(world) {
   const host = world.role === 'host';
@@ -3319,8 +3329,7 @@ $('#roll-family')?.addEventListener('click', async () => {
   if (rollState === 'rolled') {
     rollState = 'done';
     $('#family-roll').hidden = true;
-    const toggle = $('#journal-toggle');
-    if (toggle && $('#family-journal')?.dataset.open !== 'true') toggle.click();
+    // The family is met in the pop-ups that follow (the last name, then how the parents look), not in the journal.
     if (window.__snapshot) render(window.__snapshot);
     return;
   }
@@ -3779,7 +3788,7 @@ bindEnding();
 bindLooks({
   command: order => api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, ...order }),
   refresh: () => { forgetFamily(); if (window.__snapshot) render(window.__snapshot); },
-  say: message => say(message),
+  family: () => familyCache,
 });
 $('#encounter-close')?.addEventListener('click', () => {
   encounterOpen = false;
@@ -3916,7 +3925,7 @@ function render(snapshot) {
     : '';
   // The family's own name, not the row number it used to carry and not the raw id it fell
   // back to the moment households stopped being called "Family N".
-  $('#session').textContent = host ? `Class code ${snapshot.sessionCode}` : (familyCache?.name || world.household?.name || '');
+  $('#session').textContent = host ? `Class code ${snapshot.sessionCode}` : headingCase(familyCache?.name || world.household?.name || '');
   // The key is shown to its own household only, and in the journal rather than on the
   // map: it is identity, not news. It is what gets this family back on a borrowed laptop
   // or a phone that lost its cookie, and it lasts as long as the class does.
@@ -3954,7 +3963,7 @@ function render(snapshot) {
   renderJoinLinks(snapshot);
   renderSlice(world);
   renderEnding(world);
-  renderLooks(familyCache);
+  renderLooks(familyCache, { blocked: !$('#surname').hidden || world.role === 'host' });
   drawWorld(world); renderInteriorPanel(world); renderHousehold(world); renderKnowledge(world); renderEncounter(world); renderFamilyRoll(world); renderWagonLoad(world); renderHousePlan(world); renderSite(world); renderSurvey(world); renderTutorial(world);
 }
 function showJoin(message) {

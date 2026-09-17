@@ -11,7 +11,7 @@
   ],
   "checks": [
     "before anybody is chosen the main person is the principal (hh-1-parent-1), starred on the panel",
-    "a rider stopped for hh-1-child-1: an \"!\" on that row alone (\"Ned Falk has stopped to speak with Jasper. And 1 more. Go to Jasper and answer.\"); pressing it took the camera to them (0.000 mi) and opened the conversation, the keyboard on \"encounter\"",
+    "a rider stopped for hh-1-child-1: an \"!\" on that row alone (\"Ned Falk has stopped to speak with Jasper Proofwright. And 1 more. Go to Jasper Proofwright and answer.\"); pressing it took the camera to them (0.000 mi) and opened the conversation, the keyboard on \"encounter\"",
     "letting the rider ride on clears the \"!\"",
     "a call to the family marks the 4 people the server lets answer it; pressing hh-1-child-2's \"!\" opened the one menu for it (\"A neighbour is at the door. They are carrying food to the people gathering near Gonzales, and ask whether somebody from your family can help take it.\") with a row each, the keyboard on hh-1-parent-1's",
     "answering from the menu (nobody goes) clears the \"!\" from everybody who could have answered, and the menu goes",
@@ -19,7 +19,7 @@
     "of the 3 not given work, 0 are shown idle (something is open to them) and 3 are not (too young to be sent)",
     "a stale \"harvest-field\" pressed for hh-1-parent-1 is refused by the server, in its words: \"The field is not ready.\"",
     "hh-1-child-1 is left standing about (their work finished), and the row says \"Idle\" and marks the portrait",
-    "hh-1-parent-2's errand stopped to ask (\"Rhoda can pay for seed in food or in coin.\"): the \"!\" took the camera to them and opened the question on their card, the keyboard on \"Pay in food\"",
+    "hh-1-parent-2's errand stopped to ask (\"Rhoda Proofwright can pay for seed in food or in coin.\"): the \"!\" took the camera to them and opened the question on their card, the keyboard on \"Pay in food\"",
     "answering it clears the \"!\"",
     "an offer from the next family marks hh-1-parent-1; the \"!\" took the camera to them and opened the offer (\"Trinidad of Trinidad's family offers 1 food for 1 seed.\"), the keyboard on Accept",
     "declining it clears the \"!\"",
@@ -27,7 +27,7 @@
     "hh-1-parent-2's row alone has House, which opens the rooms",
     "after a reload the same person is starred, and the card that opens with nobody chosen is theirs",
     "pressing the main person's star from Gonzales brings the camera back to them (0.000 mi); a double-click on a portrait chooses another",
-    "over 16 ticks the panel added 0 nodes and changed 0 attributes across 10 rows: kept, not rebuilt",
+    "over 15 ticks the panel added 0 nodes and changed 0 attributes across 10 rows: kept, not rebuilt",
     "at 400 px the page does not scroll sideways, the \"!\" is on screen and big enough to press, and pressing it opens the offer on the docked card",
     "the settlement's call marks 2 people (hh-1-thomas, hh-1-elena), and 2 of them may turn out",
     "at 400 px the call's menu opens from an \"!\" on screen with 2 rows and its confirm within reach, and closes",
@@ -37,7 +37,7 @@
   "measured": {
     "rider": {
       "listener": "hh-1-child-1",
-      "label": "Ned Falk has stopped to speak with Jasper. And 1 more. Go to Jasper and answer.",
+      "label": "Ned Falk has stopped to speak with Jasper Proofwright. And 1 more. Go to Jasper Proofwright and answer.",
       "opened": {
         "id": "hh-1-child-1",
         "kind": "rider",
@@ -58,7 +58,7 @@
       "text": "A neighbour is at the door. They are carrying food to the people gathering near Gonzales, and ask whether somebody from your family can help take it.",
       "kind": "supplies",
       "menu": {
-        "requestId": "ev-68",
+        "requestId": "ev-69",
         "several": false,
         "rows": [
           {
@@ -257,16 +257,16 @@
       "asker": "hh-1-parent-2",
       "chore": "fetch-seed",
       "card": "hh-1-parent-2",
-      "question": "Rhoda can pay for seed in food or in coin.",
+      "question": "Rhoda Proofwright can pay for seed in food or in coin.",
       "focused": "Pay in food",
-      "watching": "Watching Rhoda"
+      "watching": "Watching Rhoda Proofwright"
     },
     "offer": {
       "tradedWith": "hh-1-parent-1",
       "neighbour": "hh-2-parent-1",
       "card": "hh-1-parent-1",
       "said": "Trinidad of Trinidad's family offers 1 food for 1 seed.",
-      "watching": "Watching Feliciano"
+      "watching": "Watching Feliciano Proofwright"
     },
     "mainPerson": {
       "mother": "hh-1-parent-2",
@@ -296,7 +296,7 @@
       "refused": "Only your main person can be asked that. Choose them with the star on their row."
     },
     "churn": {
-      "ticks": 16,
+      "ticks": 15,
       "nodesAdded": 0,
       "attributeChanges": 0,
       "rows": 10

@@ -239,3 +239,23 @@ Matamoros expedition, the relief of the Alamo and Houston's army. A mother or a 
 the control and can still go to see, help at a gathering, take the family's goods to town, hunt, and lead the family east.
 This supersedes the glory penalty for a woman sent to fight (`docs/MONEY_AND_GLORY.md` §4). Tests `tests/women.test.mjs`
 (four, each proven by injection).
+
+## Amendment, 2026-09-17 — the family's last name and how the parents look, asked for after the roll
+
+**Owner:** *"After rolling for a family, the player should see an interface pop up and ask them to name their family. It
+shouldn't say 'Our family is called' it should say 'Family Last Name' and that last name should be added to the members of
+the family as such."* Then: *"The How We Look section should have images for each section too. This should appear next. If
+this is done correctly, we shouldn't need the Family button at the bottom any more."* Decided by multiple choice:
+
+| Question | Decision |
+| --- | --- |
+| How the last name is kept | Separately: `household.surname`, and each person's first name as `entity.given`; `entity.name` is the two together, so every sentence in the game says "Tomás García". Renaming a person on the panel changes only the first name (`sim/family.mjs` `nameFamily`, `rename`). |
+| What the class sees | "the García family" (`householdName`); a heading capitalises it. |
+| The pop-ups | Required: the "Family Last Name" box comes up once *Meet your family* is pressed and cannot be closed until it is answered; then How We Look for each parent in turn, with every choice already set to the dealt default, so Done is enough. The class goes on underneath. |
+| The pictures | A head-and-shoulders picture on every option and a larger one of the whole choice, drawn by Claude (`public/looks-art.js`, `stand-in:`; docs/ART_REQUESTS.md). |
+| Changing them later | First names on the family panel only. The last name and the looks are set once (refused in words afterwards). |
+| The journal | Keeps the news, belongings, neighbours, key and story; its "Who we are" says who is whose in sentences and edits nothing; the button reads **Journal**. |
+
+A class saved before this keeps any family name it had; a rolled family with no name is asked the next time its page opens.
+The director's families are not named. Tests `tests/surname.test.mjs` (4) and `tests/appearance.test.mjs`, each rule proven
+by injection; browser `npm run test:looks` (7 checks, [evidence](evidence/looks-browser.json)).

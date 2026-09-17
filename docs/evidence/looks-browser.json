@@ -1,22 +1,36 @@
 {
-  "record": "How the family looks, in a browser: docs/SETTLING_IN.md build step 8",
+  "record": "Naming the family and How We Look, in a browser (owner, 2026-09-17)",
   "date": "2026-09-17",
   "verdict": "PASS",
-  "note": "Same computer only. A student joined, rolled, chose a parent's hair and clothes in the family book, and reloaded. The figure on the map is unchanged: layered people art is a stand-in (docs/ART_REQUESTS.md). No LAN or district claim.",
+  "note": "Same computer only. A student joined, rolled, gave the family its last name in the pop-up, chose each parent's looks from pictures, and reloaded. The pictures are Claude-drawn stand-ins; the figure on the map is unchanged (layered people art, docs/ART_REQUESTS.md). No LAN or district claim.",
   "checks": [
-    "after the roll the book shows how the family looks",
-    "a parent is offered the server's choices, a child none: \"Marcos: brown skin, black hair, rust clothes. Takes after their parents.\"",
-    "a parent's hair and clothes change and save as they are chosen: \"Alvin: olive skin, black hair, rust clothes, a beard\"",
-    "reloaded, the choices are still there",
-    "at phone width the page does not scroll sideways",
+    "before the roll nothing is asked, and the button at the bottom reads Journal",
+    "after the roll the \"Family Last Name\" box comes up, before the looks, and Escape does not close it",
+    "named, every member carries the last name (Alvin Navarro, Refugia Navarro, Marcos Navarro, Levi Navarro, Delia Navarro, Jasper Navarro, Rufino Navarro, Petra Navarro); the panel's boxes hold the first names",
+    "each parent's looks came up in turn with a picture on every choice, the defaults pressed, the preview following, and Done kept father: black hair, hat; mother: dark brown hair, pinned hair",
+    "reloaded, nothing is asked again, and the journal says who is whose without editing: \"Alvin Navarro - father, 24. Married to Refugia Navarro. Father to Marcos Navarro, Levi Navarro, Delia Navarro, Jasper Navarro, Rufino Navarro and Petra Navarro.\"",
+    "at phone width the looks pop-up fits and the page does not scroll sideways",
     "no page errors"
   ],
   "observed": {
-    "childBefore": "Marcos: brown skin, black hair, rust clothes. Takes after their parents.",
-    "parentAfter": "Alvin: olive skin, black hair, rust clothes, a beard"
+    "surnamePreview": "Alvin Navarro, Refugia Navarro, Marcos Navarro, Levi Navarro, Delia Navarro, Jasper Navarro, Rufino Navarro, Petra Navarro",
+    "names": [
+      "Alvin Navarro",
+      "Refugia Navarro",
+      "Marcos Navarro",
+      "Levi Navarro",
+      "Delia Navarro",
+      "Jasper Navarro",
+      "Rufino Navarro",
+      "Petra Navarro"
+    ],
+    "chose-father": "black hair, hat",
+    "chose-mother": "dark brown hair, pinned hair",
+    "kin": "Alvin Navarro - father, 24. Married to Refugia Navarro. Father to Marcos Navarro, Levi Navarro, Delia Navarro, Jasper Navarro, Rufino Navarro and Petra Navarro."
   },
   "screenshots": [
-    "docs/evidence/looks-book.png",
-    "docs/evidence/looks-book-phone.png"
+    "docs/evidence/looks-surname.png",
+    "docs/evidence/looks-popup.png",
+    "docs/evidence/looks-popup-phone.png"
   ]
 }

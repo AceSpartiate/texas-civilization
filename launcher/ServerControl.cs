@@ -5,6 +5,18 @@ using System.Text.Json;
 
 namespace TexasRevolution.Launcher;
 
+/// <summary>One saved solo game, as the solo server lists it (`POST /api/solo/games`).</summary>
+public sealed record SoloGame(string Id, string Family, string Date, int Period, string Status, string SavedAt)
+{
+    /// <summary>One line for the list: whose game, where it stands, and when it was last played.</summary>
+    public override string ToString()
+    {
+        var when = DateTimeOffset.TryParse(SavedAt, out var at) ? at.ToLocalTime().ToString("MMM d, h:mm tt") : SavedAt;
+        var standing = Status == "ended" ? "finished" : $"{Date}";
+        return $"{Family}  —  {standing}  ·  played {when}";
+    }
+}
+
 public sealed record ServerStatus(
     bool Running, int Pid, string? HostUrl, IReadOnlyList<string> JoinUrls, bool Stopping,
     string? ClassCode = null, int Joined = 0)
@@ -157,7 +169,8 @@ public sealed class ServerControl
     /// Asked with the Host key the solo server wrote to its own folder - the same privilege, from
     /// the same file, that reading the class code uses - never through an open route.
     /// </remarks>
-    public async Task<(string? PlayUrl, string? HostUrl, string? Error)> NewSoloGameAsync()
+    /// <param name="continueId">A saved game to continue (`SoloGame.Id`) rather than a new one.</param>
+    public async Task<(string? PlayUrl, string? HostUrl, string? Error)> NewSoloGameAsync(string? continueId = null)
     {
         var info = AppPaths.Resolve(solo: true);
         if (info is null) return (null, null, "Could not find the Play Solo folder.");
@@ -166,7 +179,8 @@ public sealed class ServerControl
         if (hostUrl is null || hash < 0) return (null, null, "The solo server has not written its Host address yet.");
         try
         {
-            using var content = new StringContent(JsonSerializer.Serialize(new { key = hostUrl[(hash + 1)..].Trim() }), Encoding.UTF8, "application/json");
+            var key = hostUrl[(hash + 1)..].Trim();
+            using var content = new StringContent(continueId is null ? JsonSerializer.Serialize(new { key }) : JsonSerializer.Serialize(new { key, @continue = continueId }), Encoding.UTF8, "application/json");
             // A new world is dealt on this request, which can take longer than a status poll.
             using var cancel = new CancellationTokenSource(TimeSpan.FromSeconds(60));
             using var response = await SoloHttp.PostAsync($"http://127.0.0.1:{info.Port}/api/solo", content, cancel.Token);
@@ -177,6 +191,38 @@ public sealed class ServerControl
             return (root.GetProperty("playUrl").GetString(), hostUrl, null);
         }
         catch (Exception error) { return (null, null, error.Message); }
+    }
+
+    /// <summary>
+    /// The saved solo games, newest first, for the choice between a new game and continuing one (owner, 2026-09-17).
+    /// Only the solo server's own games: a class is never offered here.
+    /// </summary>
+    public async Task<(IReadOnlyList<SoloGame>? Games, string? Error)> ListSoloGamesAsync()
+    {
+        var info = AppPaths.Resolve(solo: true);
+        if (info is null) return (null, "Could not find the Play Solo folder.");
+        var hostUrl = AppPaths.HostUrl(info);
+        var hash = hostUrl?.LastIndexOf('#') ?? -1;
+        if (hostUrl is null || hash < 0) return (null, "The solo server has not written its Host address yet.");
+        try
+        {
+            using var content = new StringContent(JsonSerializer.Serialize(new { key = hostUrl[(hash + 1)..].Trim() }), Encoding.UTF8, "application/json");
+            using var cancel = new CancellationTokenSource(TimeSpan.FromSeconds(60));
+            using var response = await SoloHttp.PostAsync($"http://127.0.0.1:{info.Port}/api/solo/games", content, cancel.Token);
+            using var document = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
+            var root = document.RootElement;
+            if (!response.IsSuccessStatusCode)
+                return (null, root.TryGetProperty("error", out var error) ? error.GetString() : $"The solo server answered {(int)response.StatusCode}.");
+            var games = root.GetProperty("games").EnumerateArray().Select(game => new SoloGame(
+                game.GetProperty("id").GetString() ?? "",
+                game.GetProperty("family").GetString() ?? "A family",
+                game.GetProperty("date").GetString() ?? "",
+                game.TryGetProperty("period", out var period) && period.TryGetInt32(out var p) ? p : 1,
+                game.GetProperty("status").GetString() ?? "",
+                game.GetProperty("savedAt").GetString() ?? "")).ToList();
+            return (games, null);
+        }
+        catch (Exception error) { return (null, error.Message); }
     }
 
     private static readonly HttpClient SoloHttp = new() { Timeout = TimeSpan.FromSeconds(90) };

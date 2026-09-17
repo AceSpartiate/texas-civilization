@@ -139,7 +139,18 @@ public sealed class LauncherForm : Form
             var (ok, output) = await _server.StartSoloAsync();
             if (!ok) { Say(string.IsNullOrWhiteSpace(output) ? "The solo server did not start, and said nothing about why." : output); return; }
             if (!wasRunning) _soloStarted = true;
-            var (play, host, error) = await _server.NewSoloGameAsync();
+            // New or continue (owner, 2026-09-17): asked only when there is a saved solo game to continue.
+            var (games, listError) = await _server.ListSoloGamesAsync();
+            if (games is null) { Say($"The solo server would not list its saved games. {listError}"); return; }
+            string? continueId = null;
+            if (games.Count > 0)
+            {
+                using var choice = new SoloGameDialog(games);
+                if (choice.ShowDialog(this) != DialogResult.OK) { Say("Play Solo was cancelled."); return; }
+                continueId = choice.ContinueId;
+            }
+            Say(continueId is null ? "Starting a new solo game…" : "Opening the saved game…");
+            var (play, host, error) = await _server.NewSoloGameAsync(continueId);
             if (play is null) { Say($"The solo server started but would not deal a game. {error}"); return; }
             if (_soloView is { IsDisposed: false })
             {
@@ -154,7 +165,9 @@ public sealed class LauncherForm : Form
                 _soloView.FormClosed += (_, _) => _soloView = null;
                 _soloView.Show();
             }
-            Say("Solo game running: one family joined and the class started. Nobody else can reach it.");
+            Say(continueId is null
+                ? "Solo game running: one family joined and the class started. Nobody else can reach it."
+                : "Saved game continued where it was left. Nobody else can reach it.");
         }
         finally
         {

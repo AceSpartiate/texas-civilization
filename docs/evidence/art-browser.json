@@ -1,6 +1,10 @@
 {
   "result": "PASS",
+<<<<<<< HEAD
   "date": "2026-09-17T14:28:09.672Z",
+=======
+  "date": "2026-09-17T14:17:00.404Z",
+>>>>>>> main
   "browser": "152.0.7977.83",
   "catalog": {
     "sprites": 827,
@@ -15,6 +19,10 @@
   "phoneNoOverflow": true,
   "journalKeyboard": true,
   "externalRequests": 0,
+<<<<<<< HEAD
   "observedDrawMs": 0.7000000001862645,
+=======
+  "observedDrawMs": 3.400000000372529,
+>>>>>>> main
   "errors": []
 }
