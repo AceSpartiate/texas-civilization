@@ -12,7 +12,7 @@ import { applyAction, projectWorld, rollFamily, stepWorld, validateWorld } from 
 import { beginSecondPeriod, beginThirdPeriod } from '../sim/periods.mjs';
 import { momentOf } from '../sim/directors.mjs';
 import { establishTruth, learn } from '../sim/knowledge.mjs';
-import { SPOTLIGHT_MINUTES, rumourMill, spotlight, waitingOn, whereWords } from '../sim/host.mjs';
+import { SPOTLIGHT_MINUTES, spotlight, waitingOn, whereWords } from '../sim/host.mjs';
 
 const host = world => projectWorld(world, undefined, 'host', { includeMap: false });
 const student = (world, id) => projectWorld(world, id, 'student', { includeMap: false });
@@ -91,28 +91,18 @@ test('what waits on a family is counted: a rider, the army\'s question, a hunt t
   assert.equal(host(world).live.families.find(f => f.id === 'hh-1').waiting, 7);
 });
 
-test('the Rumor Mill: what the public has heard, newest first, as it was heard, with the earlier tellings kept and how far it has travelled', () => {
+test('the Rumor Mill on the Host\'s wire is the running story of what the families heard, and never the truth beside it', () => {
+  // The story itself is tests/rumour-story.test.mjs; this holds what reaches the Host, and that no student is sent it.
   const world = createGonzalesWorld('host-live-rumours', 5, { map: 'colonies', neighbours: true });
   world.status = 'running';
   establishTruth(world, { id: 'test-topic', text: 'The truth of it.', siteId: 'gonzales' });
-  learn(world, 'public', 'test-topic', { status: 'rumor', source: 'A rider', text: 'They say the cannon was taken.' });
   learn(world, 'hh-1', 'test-topic', { status: 'rumor', source: 'A rider', text: 'They say the cannon was taken.' });
-  world.minute += 600;
-  learn(world, 'public', 'test-topic', { status: 'confirmed', source: 'An express', text: 'The cannon was fired and kept.' });
-  const mill = rumourMill(world);
-  const piece = mill.find(r => r.topicId === 'test-topic');
-  assert.ok(piece, 'the topic is not in the mill');
-  assert.equal(piece.status, 'confirmed');
-  assert.equal(piece.text, 'The cannon was fired and kept.', 'the mill shows the truth rather than what the public heard');
-  assert.equal(piece.earlier.length, 1);
-  assert.deepEqual({ status: piece.earlier[0].status, text: piece.earlier[0].text }, { status: 'rumor', text: 'They say the cannon was taken.' });
-  assert.equal(piece.heardBy, 1); assert.equal(piece.families, 5);
-  assert.match(piece.date, /^(September|October)/);
-  assert.ok(mill.every((r, i) => i === 0 || r.minute <= mill[i - 1].minute), 'not newest first');
   const live = host(world).live;
-  assert.ok(live.rumours.some(r => r.topicId === 'test-topic'));
-  // The truth itself is never on the wire beside a report.
-  assert.doesNotMatch(JSON.stringify(live.rumours), /The truth of it/);
+  assert.ok(live.story.topics.includes('test-topic'), 'news one family heard is not in the mill');
+  assert.match(live.story.paragraphs.join(' '), /They say the cannon was taken/);
+  assert.match(live.story.paragraphs.join(' '), /heard by 1 of 5 families/);
+  assert.doesNotMatch(JSON.stringify(live.story), /The truth of it/, 'the truth rode on the Host\'s wire beside what was heard');
+  assert.equal(projectWorld(world, 'hh-1', 'student', { includeMap: false }).live, undefined, 'a student was sent the Host\'s mill');
 });
 
 test('the spotlight: set by the major events at their place, shown to the Host until it passes, never to a student', () => {

@@ -72,7 +72,11 @@ test('Gate D: requests require household knowledge; historical truth and battle 
   assert.equal(projectWorld(world, undefined, 'host').battle, null);
   assert.equal(projectWorld(world, 'hh-1', 'student').historicalDate, '1835-10-02');
   advance(world, TIMELINE.resolved);
-  assert.ok(!JSON.stringify(projectWorld(world, undefined, 'host')).includes('gonzales-outcome'));
+  // The Host's Rumor Mill tells what any family has heard (owner, 2026-09-18, sim/rumour-story.mjs): the families at the
+  // fight know how it went, so the story may carry it - as heard by them and no further. Nothing else on the Host's wire does.
+  const early = projectWorld(world, undefined, 'host'), { story, ...liveRest } = early.live;
+  assert.ok(!JSON.stringify({ ...early, live: liveRest }).includes('gonzales-outcome'), 'the fight\'s outcome reached the Host outside the mill');
+  if (story.topics.includes('gonzales-outcome')) assert.match(story.paragraphs.join(' '), /the Texians kept the cannon \(heard by [1-4] of 5 families\)/, 'the mill told the outcome as more than the families at the fight had heard it');
   advance(world, TIMELINE.publicOutcome);
   const host = projectWorld(world, undefined, 'host');
   assert.equal(host.battle.reconstruction, true);

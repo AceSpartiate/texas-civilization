@@ -9,14 +9,15 @@
 // would miss."
 //
 // Everything here is read from the world and sent to the Host alone (sim/world.mjs `projectWorld`); a student's payload
-// gains nothing (tests/host-live.test.mjs). The Rumor Mill is public knowledge as the public heard it - the report's own
-// words and status, not the truth beside it - so the Host still reflects public knowledge (VISION.md §18) even though the
-// teacher's map has no fog.
+// gains nothing (tests/host-live.test.mjs). The Rumor Mill is one running story of what the families have heard, in the
+// words of their tellings and as firm as they had it, never the truth beside it (sim/rumour-story.mjs), so the Host still
+// reflects what the colonies knew (VISION.md §18) even though the teacher's map has no fog.
 import { record } from './events.mjs';
 import { householdName } from './family.mjs';
 import { CHORES } from './chores.mjs';
 import { SERVICE } from './winter.mjs';
 import { campName } from './houston.mjs';
+import { rumourStory } from './rumour-story.mjs';
 // A cycle with sim/directors.mjs (which calls `spotlight`), safe because both sides use the other only inside functions.
 import { dateOf } from './directors.mjs';
 
@@ -45,30 +46,6 @@ export function spotlightProjection(world) {
   const s = world.spotlight;
   if (!s || world.minute - s.minute > SPOTLIGHT_MINUTES) return null;
   return { key: s.key, text: s.text, siteId: s.siteId, x: s.x, y: s.y, minute: s.minute, date: dayOf(world, s.minute), ...(s.householdId && { householdId: s.householdId, family: householdName(world, world.households[s.householdId]) }) };
-}
-
-/**
- * The Rumor Mill: what the public has heard, newest first, each piece as the public heard it - a rumour, unconfirmed,
- * confirmed, contradicted - with the earlier tellings of the same thing kept under it, so a story that changed as firmer
- * word came in reads as having changed. How many families have heard each piece says how far the news has travelled.
- */
-export function rumourMill(world) {
-  const public_ = world.knowledge?.public || {};
-  const tellings = {};
-  for (const event of world.events) {
-    if (event.type !== 'information' || event.visibility !== 'public' || !event.topicId) continue;
-    (tellings[event.topicId] ??= []).push({ minute: event.minute, date: dayOf(world, event.minute), status: event.status, text: event.text, source: event.source });
-  }
-  const families = Object.values(world.households);
-  return Object.values(public_)
-    .sort((a, b) => b.receivedMinute - a.receivedMinute)
-    .map(report => ({
-      topicId: report.topicId, text: report.text, status: report.status, source: report.source,
-      minute: report.receivedMinute, date: dayOf(world, report.receivedMinute),
-      earlier: (tellings[report.topicId] || []).filter(t => t.minute < report.receivedMinute || (t.minute === report.receivedMinute && t.status !== report.status)),
-      heardBy: families.filter(h => world.knowledge.households[h.id]?.[report.topicId]).length,
-      families: families.length,
-    }));
 }
 
 /** One person, in words a teacher reads at a glance: where they are and what they are at. */
@@ -151,5 +128,5 @@ export function familiesOverview(world) {
 
 /** What the Host's live page is sent, beside the map: never a student. */
 export function hostLiveProjection(world) {
-  return { families: familiesOverview(world), rumours: rumourMill(world), ...(spotlightProjection(world) && { spotlight: spotlightProjection(world) }) };
+  return { families: familiesOverview(world), story: rumourStory(world), ...(spotlightProjection(world) && { spotlight: spotlightProjection(world) }) };
 }

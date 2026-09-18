@@ -1,6 +1,6 @@
 {
   "record": "host-live-browser",
-  "date": "2026-09-17",
+  "date": "2026-09-18",
   "verdict": "PASS",
   "browser": "152.0.7977.83",
   "task": "docs/HOST_PAGE.md: the class panel in words with presence and what waits; an absent family playing itself and back; the Rumor Mill; the spotlight taking the camera to the fight at Gonzales; the student sent none of it.",
@@ -8,13 +8,13 @@
   "checks": [
     "the class panel lists all five families in words: the student's family here, the four joined with no page open gone; Asa on the road home",
     "the student's page has no class panel and is sent no live page",
-    "the student's page closed: after 2602 ms the row says the family is playing itself, and the world has it absent",
+    "the student's page closed: after 2544 ms the row says the family is playing itself, and the world has it absent",
     "the absent family goes on by itself: somebody of it is at work or on a road with nobody at the screen",
     "the page opened again: the row says here the next tick, the family is the student's again, and the record says so",
     "the fight at Gonzales lit the spotlight: the camera went to Gonzales and the banner reads \"October 2: The Texians at Gonzales fire the cannon, and the Mexican dra…\"",
     "Whole class brings the camera back to the class",
-    "the Rumor Mill has 1 piece(s), newest first: \"September 30 · confirmed · heard by 4 of 5 families\" - A Mexican detachment has reached the Guadalupe opposite Gonzales to re…",
-    "as word became public the mill grew to 2 pieces",
+    "the Rumor Mill tells 1 piece(s) as a story: \"In September, a Mexican detachment came to the Guadalupe opposite Gonzales for the town's …\" - The latest, September 29 (confirmed): A Mexican detachment has reached…",
+    "as word spread the story grew to 2 pieces",
     "at 400 px the Host page does not scroll sideways",
     "no page errors on either page"
   ],
@@ -80,7 +80,7 @@
         ]
       }
     ],
-    "absentAfterMs": 2602,
+    "absentAfterMs": 2544,
     "spotlight": {
       "date": "October 2",
       "text": "The Texians at Gonzales fire the cannon, and the Mexican dragoons fall back. The war has begun.",
@@ -93,15 +93,15 @@
         "following": false
       }
     },
-    "mill": [
-      {
-        "topic": "cannon-request",
-        "status": "confirmed",
-        "head": "September 30 · confirmed · heard by 4 of 5 families",
-        "text": "A Mexican detachment has reached the Guadalupe opposite Gonzales to reclaim the cannon. Local settlers have refused to return it.",
-        "earlier": 0
-      }
-    ],
+    "mill": {
+      "paragraphs": [
+        "In September, a Mexican detachment came to the Guadalupe opposite Gonzales for the town's cannon, and the settlers would not give it up (heard by 4 of 5 families)."
+      ],
+      "latest": "The latest, September 29 (confirmed): A Mexican detachment has reached the Guadalupe opposite Gonzales to reclaim the cannon.",
+      "topics": [
+        "cannon-request"
+      ]
+    },
     "millLater": 2
   },
   "screenshots": [

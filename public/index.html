@@ -79,11 +79,11 @@
         <ol id="family-rows"></ol>
       </section>
       <!-- The Host's live page (docs/HOST_PAGE.md, owner 2026-09-16): the class family by family in words, and the Rumor
-           Mill - what the public has heard, as it heard it. Built by renderHostLive in public/app.js from the Host's
+           Mill - one running story of what the families have heard (sim/rumour-story.mjs). Built by renderHostLive in public/app.js from the Host's
            projection; nothing in it decides anything. -->
       <section id="host-live" aria-label="The class, live" hidden>
         <details id="host-class" open><summary>The class</summary><ol id="host-families"></ol></details>
-        <details id="rumor-mill" open><summary>The Rumor Mill</summary><ol id="rumor-list"></ol></details>
+        <details id="rumor-mill" open><summary>The Rumor Mill</summary><div id="rumor-story" aria-live="polite"></div></details>
       </section>
     </div>
     <!-- Something happened that most of the class would miss: the Host's camera has gone there, and this says what. -->

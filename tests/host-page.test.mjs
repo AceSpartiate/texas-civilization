@@ -3,7 +3,7 @@
 // remembers nothing, so it is tested as pure functions; the browser proof presses the page.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { PRESENCE_LABELS, familyRows, presenceWord, rumourLines, spotlightBanner } from '../public/live-page.js';
+import { PRESENCE_LABELS, familyRows, presenceWord, storyView, spotlightBanner } from '../public/live-page.js';
 
 test('a family\'s presence word: nobody playing, here, away a moment, playing itself, gone', () => {
   const presence = { households: { 'hh-1': 'here', 'hh-2': 'away', 'hh-3': 'gone' } };
@@ -28,18 +28,15 @@ test('the class rows carry each family\'s name, settlement, presence, how many t
   assert.deepEqual(familyRows(null, null), []);
 });
 
-test('the Rumor Mill\'s pieces say the day, how firm the word is and how far it travelled, keep the earlier tellings, and change key when the story changes', () => {
-  const pieces = rumourLines([
-    { topicId: 'cannon', text: 'The cannon was fired and kept.', status: 'confirmed', minute: 5400, date: 'October 2', heardBy: 3, families: 5, earlier: [{ date: 'October 1', status: 'rumor', text: 'They say the cannon was taken.' }] },
-    { topicId: 'silver', text: 'A pack train of silver is on the road.', status: 'rumor', minute: 4000, date: 'November 26', heardBy: 1, families: 5, earlier: [] },
-  ]);
-  assert.equal(pieces[0].head, 'October 2 · confirmed · heard by 3 of 5 families');
-  assert.equal(pieces[0].text, 'The cannon was fired and kept.');
-  assert.deepEqual(pieces[0].earlier, [{ head: 'October 1 · a rumour', text: 'They say the cannon was taken.' }]);
-  assert.equal(pieces[1].head, 'November 26 · a rumour · heard by 1 of 5 families');
-  const firmer = rumourLines([{ topicId: 'silver', text: 'It was grass.', status: 'contradicted', minute: 4100, date: 'November 26', heardBy: 4, families: 5, earlier: [] }]);
-  assert.notEqual(firmer[0].key, pieces[1].key, 'a story that changed kept its key');
-  assert.deepEqual(rumourLines(undefined), []);
+test('the Rumor Mill shows the running story and the latest word with its day and how firm it was; with no news it says so', () => {
+  const story = { paragraphs: ['In October, the Mexican detachment withdrew, and the Texians kept the cannon.'], latest: { date: 'October 2', status: 'rumor', text: 'They say the cannon was taken.' }, key: 'k1' };
+  const view = storyView(story);
+  assert.deepEqual(view.paragraphs, story.paragraphs);
+  assert.equal(view.latest, 'The latest, October 2 (a rumour): They say the cannon was taken.');
+  assert.equal(view.key, 'k1');
+  assert.equal(storyView({ ...story, latest: { ...story.latest, status: 'unconfirmed' } }).latest, 'The latest, October 2 (not yet sure): They say the cannon was taken.');
+  assert.deepEqual(storyView(undefined), { key: 'quiet', paragraphs: ['No word has reached the colonies yet.'], latest: null });
+  assert.deepEqual(storyView({ paragraphs: [], latest: null, key: 'x' }).paragraphs, ['No word has reached the colonies yet.']);
 });
 
 test('the spotlight banner carries the day, the words and the place, and is nothing when no spotlight stands', () => {

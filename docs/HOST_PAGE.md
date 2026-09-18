@@ -32,16 +32,33 @@ away grace, a locked phone), **playing itself** (absent, §2.4), **gone** (close
 **nobody playing** (a family no student joined). No coin and no glory are on the panel or the wire
 (`tests/host-live.test.mjs`).
 
-### 2.2 The Rumor Mill
+### 2.2 The Rumor Mill - one running story (2026-09-18)
 
-Under the class panel, *The Rumor Mill*: what the public has heard, newest first, each piece **as the public heard it** -
-the report's own words with the day, how firm the word was (*a rumour*, *unconfirmed*, *confirmed*, *contradicted*) and how
-far it has travelled (*heard by 3 of 5 families*) - and under it the earlier tellings of the same thing, so a story that
-changed as firmer word came in reads as having changed (the Béxar express that had the town taken on the 6th, then the
-truth). Some are true and some are not; the mill says how sure the public was, never which, and the truth is not on the
-wire beside a report: the Host still reflects public knowledge (VISION §18) even though the teacher's map has no fog.
-Built from `world.knowledge.public` and the public `information` events (`rumourMill` in `sim/host.mjs`); the list is
-rewritten only when a piece changes.
+Under the class panel, *The Rumor Mill*: **one running story of what the families have heard**, a paragraph a month in the
+order the news first reached the colonies, and under it **the latest word** as it was heard, with its day and how firm it
+was - *"The latest, April 23 (confirmed): On the afternoon of April 21 General Houston attacked Santa Anna's camp..."*.
+The owner chose, by multiple choice, that the story **replaces** the list of reports, that word which changed **keeps its
+turn**, and that the story draws on **everything any family has heard**:
+
+- **A line for every piece of news.** Each of the 26 pieces the war tells has a short past-tense line in
+  `sim/rumour-story.mjs` (`STORY_LINES`), taken from the report's own words and nothing else - no new history. A piece
+  with no line is told in its report's first sentence, and `tests/rumour-story.test.mjs` fails until it has one.
+- **How firm the word was.** A rumour reads *"it was said that..."*, word not yet sure *"word not yet sure said that..."*;
+  firm word is told plainly. Some of it is true and some is not: the story says what was heard, never which.
+- **The turn.** Word that changed says so: *"First word had it that a Mexican pack train was coming in to Béxar with
+  silver to pay the garrison, but it was not so: the pack train carried only grass for the horses."* or *"First word had
+  it that two Mexican riders said the Alamo had fallen, though General Houston thought them spies. Fuller word said..."*.
+  A rumour reaching a far family late does not undo firmer word nearer home, nor become the latest news.
+- **How far it went.** News not every family has heard says so: *(heard by 3 of 8 families)*.
+- **Everything any family heard.** Until now the mill read only the public reports, and everything the war told family
+  by family - the Alamo, Goliad, San Jacinto, the Runaway Scrape - never reached it. It does now. This amends §2.2's
+  "public knowledge as the public heard it": the Host reads what reached **any** family, as those families heard it. So
+  the teacher learns how the fight at Gonzales went when the families who fought do, marked as heard by them alone; the
+  truth itself is never on the Host's wire (`tests/gonzales.test.mjs` Gate D, `tests/host-live.test.mjs`).
+
+The page (`storyView` in `public/live-page.js`) rewrites the story only when it changes; with no news yet it says *"No word
+has reached the colonies yet."* The class list and the story each scroll within their own share of the column, so both
+stay in view.
 
 ### 2.3 The spotlight
 
@@ -82,7 +99,8 @@ the family's own page is told (`household.absent`). `absent` is true or absent, 
 - `ceiling:` the spotlight moves the camera and shows a banner; there is no drawn scene of the Alamo's fall or the
   massacre. A reconstruction drawn on the map at the place is the way out if the owner wants one (the Gonzales fight has
   its formations).
-- `ceiling:` the Rumor Mill lists the public's pieces; it does not yet write one running story across them. A composed
-  paragraph is the next step if teachers read it aloud.
+- ~~The Rumor Mill lists the public's pieces.~~ Done 2026-09-18: one running story (§2.2). `ceiling:` the story grows through
+  the whole war - eight paragraphs by San Jacinto - and nothing folds the earlier months away; the lines are written for
+  the 26 pieces the war tells, and a new piece reads in its report's words until it has one.
 - `ceiling:` absence is decided by the page's stream alone; a student whose page is open but who has walked away is
   present. The "!" count on the row is what tells a teacher that.

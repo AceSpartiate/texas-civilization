@@ -25,21 +25,17 @@ export function familyRows(live, presence) {
   }));
 }
 
-const STATUS_WORDS = Object.freeze({ rumor: 'a rumour', unconfirmed: 'unconfirmed', confirmed: 'confirmed', contradicted: 'contradicted' });
+const STATUS_WORDS = Object.freeze({ rumor: 'a rumour', unconfirmed: 'not yet sure', confirmed: 'confirmed', contradicted: 'contradicted' });
 
 /**
- * The Rumor Mill's pieces, newest first: a heading with the day, how firm the word is and how far it has travelled, the
- * report as the public heard it, and the earlier tellings of the same thing under it, so a story that changed reads as
- * having changed. Some are true and some are not; the mill says how sure the public was, never which.
+ * The Rumor Mill as the page shows it (owner, 2026-09-18): the running story, a paragraph a month, and the latest word as
+ * it was heard, with its day and how firm it was. Nothing to show says so, rather than leaving an empty panel.
  */
-export function rumourLines(rumours) {
-  return (rumours || []).map(piece => ({
-    topicId: piece.topicId,
-    key: `${piece.topicId}:${piece.status}:${piece.minute}:${piece.heardBy}`,
-    head: `${piece.date} · ${STATUS_WORDS[piece.status] || piece.status} · heard by ${piece.heardBy} of ${piece.families} families`,
-    text: piece.text,
-    earlier: (piece.earlier || []).map(telling => ({ head: `${telling.date} · ${STATUS_WORDS[telling.status] || telling.status}`, text: telling.text })),
-  }));
+export function storyView(story) {
+  const paragraphs = story?.paragraphs || [];
+  if (!paragraphs.length) return { key: 'quiet', paragraphs: ['No word has reached the colonies yet.'], latest: null };
+  const latest = story.latest ? `The latest, ${story.latest.date} (${STATUS_WORDS[story.latest.status] || story.latest.status}): ${story.latest.text}` : null;
+  return { key: story.key, paragraphs, latest };
 }
 
 /** The banner over the map while a spotlight stands: the day and the words. */

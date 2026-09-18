@@ -1,5 +1,19 @@
 # Claude handoff — Astra foundation
 
+**The Rumor Mill as one running story, 2026-09-18:** [HOST_PAGE §2.2](docs/HOST_PAGE.md), `sim/rumour-story.mjs`,
+[screenshot](docs/evidence/host-live-rumor-mill.png). The owner's words were "a short, easy to read story" that "will
+adapt and change as new rumors flow in"; by multiple choice the story **replaces** the list, word that changed **keeps
+its turn**, and the mill draws on **everything any family heard**. A paragraph a month in the order the news first
+reached the colonies, each of the war's 26 pieces in a short line taken from its report's words, framed by how firm the
+word was ("it was said that...") and how far it went ("heard by 3 of 8 families"); a turned report reads "First word
+had it that... Fuller word said..." or "...but it was not so"; the latest word is set apart under the story. The mill
+had read only the public reports, so the Alamo, Goliad and San Jacinto never reached it; they do now. Consequence, kept
+on purpose and guarded: the teacher reads how the fight at Gonzales went when the families who fought do, marked as
+heard by them alone (Gate D in `tests/gonzales.test.mjs` narrowed to that, and the truth never on the wire). The class
+list and the story each scroll within their share of the column. `npm test` 707, every new test proven by injection
+(a line missing, public reports only, no turn, a late rumour undoing the word, reach unsaid, a silent empty mill).
+Browser, same computer only: `test:host-live` 11 checks.
+
 **Over the Brazos at Groce's, 2026-09-18:** the owner asked whether a steamboat was worth drawing; the answer was to fix
 the crossing first and request the boat as art. Three agents, one item each (`HIST-TEX-088`, `HIST-TEX-089`). **The ferry
 and the road east:** `bernardo` ("Bernardo", the east bank, at the 1936 Groce's Ferry marker) is joined to the camp at

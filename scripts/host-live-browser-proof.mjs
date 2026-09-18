@@ -112,17 +112,23 @@ try {
   ok('Whole class brings the camera back to the class');
 
   // ------------------------------------------------------------------------------------------- the Rumor Mill
-  await host.waitForFunction(() => (window.__hostLive?.rumours || []).length >= 1, null, { timeout: 120000, polling: 200 });
-  const mill = await host.evaluate(() => [...document.querySelectorAll('.rumor')].map(item => ({ topic: item.dataset.topicId, status: item.dataset.status, head: item.querySelector('.rumor-head').textContent, text: item.querySelector('.rumor-text').textContent, earlier: item.querySelectorAll('.rumor-earlier p').length })));
-  assert.ok(mill.length >= 1);
-  assert.ok(mill.every(piece => /heard by \d+ of 5 families/.test(piece.head)), `a piece without its reach: ${JSON.stringify(mill[0])}`);
+  // One running story of what the families heard (owner, 2026-09-18): paragraphs a teacher can read aloud, and the latest
+  // word set apart under them with its day and how firm it was.
+  await host.waitForFunction(() => (window.__hostLive?.story?.topics || []).length >= 1, null, { timeout: 120000, polling: 200 });
+  const mill = await host.evaluate(() => ({
+    paragraphs: [...document.querySelectorAll('#rumor-story .rumor-paragraph')].map(node => node.textContent),
+    latest: document.querySelector('#rumor-story .rumor-latest')?.textContent || null,
+    topics: window.__hostLive.story.topics,
+  }));
+  assert.ok(mill.paragraphs.length >= 1 && /^In (September|October),/.test(mill.paragraphs[0]), `the mill does not open as a story: ${JSON.stringify(mill.paragraphs[0])}`);
+  assert.match(mill.latest || '', /^The latest, \w+ \d+ \((a rumour|not yet sure|confirmed|contradicted)\): /, 'the latest word is not said with its day and how firm it was');
   measured.mill = mill;
-  ok(`the Rumor Mill has ${mill.length} piece(s), newest first: "${mill[0].head}" - ${mill[0].text.slice(0, 70)}…`);
-  // Word of the fight's outcome becomes public after the fight: the mill grows, and the panel is rewritten only when it changes.
-  await host.waitForFunction(count => (window.__hostLive?.rumours || []).length > count, mill.length, { timeout: 120000, polling: 200 }).catch(() => null);
-  const grown = await host.evaluate(() => (window.__hostLive?.rumours || []).length);
+  ok(`the Rumor Mill tells ${mill.topics.length} piece(s) as a story: "${mill.paragraphs[0].slice(0, 90)}…" - ${mill.latest.slice(0, 70)}…`);
+  // Word of the fight's outcome spreads after the fight: the story grows, rewritten only when it changes.
+  await host.waitForFunction(count => (window.__hostLive?.story?.topics || []).length > count, mill.topics.length, { timeout: 120000, polling: 200 }).catch(() => null);
+  const grown = await host.evaluate(() => (window.__hostLive?.story?.topics || []).length);
   measured.millLater = grown;
-  if (grown > mill.length) ok(`as word became public the mill grew to ${grown} pieces`);
+  if (grown > mill.topics.length) ok(`as word spread the story grew to ${grown} pieces`);
   await shot(host, 'rumor-mill');
 
   // ------------------------------------------------------------------------------------------- at phone width

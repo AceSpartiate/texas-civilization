@@ -2,7 +2,7 @@
 import { drawSprite, drawClip, clipInfo, hasSprite, loadArt, onArtReady, pickSprite, spriteFrame } from '/art.js';
 import { drawArmy } from '/army-view.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, seatedClip, seatLayout, mounted, MOUNTED_HEIGHT, castVariant, childFigure } from '/motion.js';
-import { familyRows, PRESENCE_LABELS, rumourLines, spotlightBanner } from '/live-page.js';
+import { familyRows, PRESENCE_LABELS, storyView, spotlightBanner } from '/live-page.js';
 import { autoLabel, callMenu, callPlan, drawIcon, drawMark, drawPortrait, focusFor, isIdle, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, standing, RENAME_PAUSE_MS } from '/family-panel.js';
 import {drawBexarGround,bexarDrawables} from '/bexar-art.js';
 import {alamoOnMap,bexarToSite} from '/bexar-layout.js';
@@ -2909,21 +2909,11 @@ function renderHostLive(snapshot, host) {
       return item;
     }));
   }
-  const pieces = rumourLines(live.rumours);
-  const rumoursKey = pieces.map(piece => piece.key).join('|');
-  if (hostLiveKeys.rumours !== rumoursKey) {
-    hostLiveKeys.rumours = rumoursKey;
-    $('#rumor-list').replaceChildren(...pieces.map(piece => {
-      const item = element('li', '', 'rumor');
-      item.dataset.topicId = piece.topicId; item.dataset.status = piece.key.split(':')[1];
-      item.append(element('div', piece.head, 'rumor-head'), element('p', piece.text, 'rumor-text'));
-      if (piece.earlier.length) {
-        const earlier = element('div', '', 'rumor-earlier');
-        for (const telling of piece.earlier) { const p = element('p', ''); p.append(element('strong', `${telling.head}: `), document.createTextNode(telling.text)); earlier.append(p); }
-        item.append(earlier);
-      }
-      return item;
-    }));
+  // The Rumor Mill: one running story, rewritten only when it changes (sim/rumour-story.mjs, docs/HOST_PAGE.md §2.2).
+  const story = storyView(live.story);
+  if (hostLiveKeys.rumours !== story.key) {
+    hostLiveKeys.rumours = story.key;
+    $('#rumor-story').replaceChildren(...story.paragraphs.map(text => element('p', text, 'rumor-paragraph')), ...(story.latest ? [element('p', story.latest, 'rumor-latest')] : []));
   }
   const shown = spotlightBanner(live.spotlight);
   if (banner) {
@@ -2940,7 +2930,7 @@ function renderHostLive(snapshot, host) {
     }
     if (!shown) hostLiveKeys.spotlight = null;
   }
-  window.__hostLive = { families: rows, rumours: pieces.map(piece => ({ topicId: piece.topicId, head: piece.head, earlier: piece.earlier.length })), spotlight: shown?.key || null };
+  window.__hostLive = { families: rows, story: { paragraphs: story.paragraphs.length, topics: live.story?.topics || [], latest: story.latest }, spotlight: shown?.key || null };
 }
 $('#host-spotlight-back')?.addEventListener('click', () => applyMapView('follow'));
 /** A data- attribute written only when it changes: the panel is redrawn every tick on a slow computer. */
