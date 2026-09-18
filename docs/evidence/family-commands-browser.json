@@ -1,6 +1,6 @@
 {
   "record": "family-commands-browser",
-  "date": "2026-09-17",
+  "date": "2026-09-18",
   "verdict": "PASS",
   "browser": "152.0.7977.83",
   "task": "docs/FAMILY_PANEL.md §11: orders from the panel in a press each, idle shown, an \"!\" for every person something waits on that takes the camera there and opens it, a main person held by the server (set-main) whose row alone has the journeys, and one menu for a call with a tick per person who may answer.",
@@ -15,11 +15,11 @@
     "letting the rider ride on clears the \"!\"",
     "a call to the family marks the 4 people the server lets answer it; pressing hh-1-child-2's \"!\" opened the one menu for it (\"A neighbour is at the door. They are carrying food to the people gathering near Gonzales, and ask whether somebody from your family can help take it.\") with a row each, the keyboard on hh-1-parent-1's",
     "answering from the menu (nobody goes) clears the \"!\" from everybody who could have answered, and the menu goes",
-    "7 presses (0 refused in the server's words and another tried) set 7 of 10 people to work without finding anybody on the map; each icon glowed when the server took it, and the 5 still at it are not idle (1: work, 2: fetch-seed, 1: make-furniture, 2: make-furniture, 3: make-furniture, 4: make-furniture, 5: make-furniture)",
+    "7 presses (0 refused in the server's words and another tried) set 7 of 10 people to work without finding anybody on the map; each icon glowed when the server took it, and the 5 still at it are not idle (1: work, 2: visit-shop, 1: make-furniture, 2: make-furniture, 3: make-furniture, 4: make-furniture, 5: make-furniture)",
     "of the 3 not given work, 0 are shown idle (something is open to them) and 3 are not (too young to be sent)",
     "a stale \"harvest-field\" pressed for hh-1-parent-1 is refused by the server, in its words: \"The field is not ready.\"",
     "hh-1-child-1 is left standing about (their work finished), and the row says \"Idle\" and marks the portrait",
-    "hh-1-parent-2's errand stopped to ask (\"Rhoda Proofwright can pay for seed in food or in coin.\"): the \"!\" took the camera to them and opened the question on their card, the keyboard on \"Pay in food\"",
+    "hh-1-parent-2's errand stopped to ask (\"Rhoda Proofwright is in town. Which shop?\"): the \"!\" took the camera to them and opened the question on their card, the keyboard on \"Go to the store\"",
     "answering it clears the \"!\"",
     "an offer from the next family marks hh-1-parent-1; the \"!\" took the camera to them and opened the offer (\"Trinidad of Trinidad's family offers 1 food for 1 seed.\"), the keyboard on Accept",
     "declining it clears the \"!\"",
@@ -117,7 +117,7 @@
         },
         {
           "id": "hh-1-parent-2",
-          "key": "fetch-seed",
+          "key": "visit-shop",
           "glowed": true
         },
         {
@@ -169,7 +169,7 @@
           "id": "hh-1-parent-2",
           "role": "mother",
           "active": [
-            "fetch-seed"
+            "visit-shop"
           ],
           "idle": false,
           "need": null
@@ -252,10 +252,10 @@
     },
     "asking": {
       "asker": "hh-1-parent-2",
-      "chore": "fetch-seed",
+      "chore": "visit-shop",
       "card": "hh-1-parent-2",
-      "question": "Rhoda Proofwright can pay for seed in food or in coin.",
-      "focused": "Pay in food",
+      "question": "Rhoda Proofwright is in town. Which shop?",
+      "focused": "Go to the store",
       "watching": "Watching Rhoda Proofwright"
     },
     "offer": {
@@ -275,9 +275,6 @@
           "fence-plot",
           "hunt-timber",
           "practise-shooting",
-          "fetch-powder",
-          "fetch-seed",
-          "sell-food",
           "visit-shop",
           "make-furniture",
           "buy-furniture",

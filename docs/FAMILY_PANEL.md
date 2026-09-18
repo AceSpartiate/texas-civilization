@@ -89,15 +89,13 @@ the principal for the orders only a principal may be given (`applyAction` in `si
 | Hunt in the timber (`hunt-timber`) | Go out to the nearest timber or brush to hunt, and carry home what they can. |
 | Hunt on our land (`hunt-land`) | Hunt at a place you choose on the family's own land, and carry home what they can. |
 | Practise at the mark (`practise-shooting`) | Spend an afternoon and two powder shooting at a mark to steady their aim. |
-| Take the cotton to the store (`sell-cotton`) | Carry the cotton to the store in town and trade it for food or coin. |
-| Buy powder and lead in town (`fetch-powder`) | Go to the store in town and buy powder and lead. |
-| Fetch seed from town (`fetch-seed`) | Go to the store in town and buy seed. |
-| Sell food at the store for coin (`sell-food`) | Carry spare food to the store in town and sell it for coin. |
 | Mend the hoe (`mend-hoe`) | Set the worn hoe right again at home. |
-| Buy a hoe in town (`replace-hoe`) | Go to the smith in town and buy a sound hoe for coin. |
 | Fell trees (`fell-trees`) | Fell the trees at a place in timber you choose on the family's land. |
 | Haul logs to the house (`haul-logs`) | Bring the felled logs lying out to the house. |
 
+The five town errands - fetch seed, buy powder, sell food, take the cotton, buy a hoe - left this table on 2026-09-17:
+each of them walked a person to a counter the **Go to a shop** order already reaches, so they are the store's own trades
+now (`docs/TOWNS.md` §4). A family nobody plays is still sent on them by its director.
 The five that need a place (`survey-plot`, `clear-plot`, `fence-plot`, `hunt-land`, `fell-trees`) start choosing the place on
 the map when pressed, exactly as their buttons did; the order is sent with the place. A chore the family's land has no use
 for today is not offered at all, and two refusals that are not choices (a sound hoe cannot be mended, a corn family has no
@@ -126,6 +124,15 @@ and sent with the next icon that starts a journey; a way somebody else in the fa
 *"Maria has the horse."*, and the server refuses it however the order is sent — 2026-09-16, `sim/keeping.mjs`), which neighbour's homestead to go to, and trading with somebody standing
 there. The army's "send for" control and every call are unchanged; they were never icons of their own.
 
+### What a person has become
+
+Under the name, in a line of its own: **a steady shot**, **the best shot on this land**, **steady in the line**. The first
+two are the hunting hand (2 and 3), the third is a man who has drilled his three days at the camp. Added 2026-09-17 after
+the owner played: an afternoon at the mark costs two powder and an afternoon, the story said so, and then nothing about the
+person showed it. None of it is a hidden stat revealed - a steady hand is already written on the hunt's own controls and the
+drill is already said at San Jacinto - it is the same fact where a student looks first. Nothing is shown for a person who
+has neither, so the line is earned rather than worn by everybody. `standing` in `public/family-panel.js`; the row keeps its
+own line so a phone wraps it instead of pushing the star off the row.
 ### The glow
 
 An icon glows while **the server's projection says that person is doing that action**, and stops the tick it says they are

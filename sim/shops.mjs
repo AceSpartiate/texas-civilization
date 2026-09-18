@@ -56,6 +56,44 @@ const TOOL_NAMES = { axe: 'a felling axe', auger: 'an auger', broadaxe: 'a broad
  * does it and returns the sentence for the family's story.
  */
 export const TRADES = Object.freeze({
+  // The general store, which every settlement has (docs/TOWNS.md §2). Until 2026-09-17 these were errands of their own on
+  // the family panel - fetch seed, fetch powder, sell food, sell the cotton, buy a hoe - so a student had two ways to the
+  // same counter and no way to compare them. They are the store's own trades now, at exactly the prices those errands paid,
+  // and the errands are left to the families nobody plays (sim/chores.mjs `directorOnly`).
+  // The prices are the ones those errands paid (`COIN` in sim/chores.mjs), written out here because chores.mjs reads this
+  // table and cannot be read back from it.
+  store: {
+    name: 'storekeeper', shop: 'the store',
+    offers: [
+      {
+        id: 'seed', kind: 'sell', label: 'Buy seed', coin: 1, food: 3, does: 'Two sacks of seed: enough to plant a cleared plot.',
+        refuse: () => null,
+        give: (world, household, entity) => { household.resources.seed = round((household.resources.seed ?? 0) + 2); return `${entity.name} bought two seed at the store.`; },
+      },
+      {
+        id: 'powder', kind: 'sell', label: 'Buy powder and lead', coin: 1, food: 2, does: 'Three powder. The gunsmith, where there is one, gives more for the money.',
+        refuse: () => null,
+        give: (world, household, entity) => { household.resources.powder = round((household.resources.powder ?? 0) + 3); return `${entity.name} bought three powder and lead at the store.`; },
+      },
+      {
+        id: 'hoe', kind: 'sell', label: 'Buy a sound hoe', coin: 2, food: null, does: 'Iron comes a long way, and the store wants coin for it.',
+        refuse: (world, household) => household.tools?.hoe === undefined ? 'The family has no hoe to replace; the smith sells tools.' : (household.tools.hoe === 0 ? 'The hoe in the house is sound.' : null),
+        give: (world, household, entity) => { household.tools = { ...household.tools, hoe: 0 }; return `${entity.name} bought a sound hoe at the store.`; },
+      },
+      {
+        // Five food a real, and the sixth stays in the house: `per` is the lot the keeper pays for, so no part of a real is
+        // ever paid. This is the errand's own arithmetic (`COIN.foodPerReal`), moved to the counter.
+        id: 'food', kind: 'buy', label: 'Sell food', coinEach: 1, per: 5, good: 'food',
+        does: 'The store pays a real for every five food it can sell on, whole reales only.',
+        refuse: (world, household) => (household.resources.food ?? 0) >= 5 ? null : 'There is not five food in the house to sell.',
+      },
+      {
+        id: 'cotton', kind: 'buy', label: 'Sell the cotton', coinEach: 1, foodEach: 2, good: 'cotton',
+        does: 'A real a whole bale, or two food. The weaver, where there is one, gives three food.',
+        refuse: (world, household) => (household.resources.cotton ?? 0) >= 1 ? null : 'There is no whole bale of cotton in the house.',
+      },
+    ],
+  },
   blacksmith: {
     name: 'blacksmith', shop: "the blacksmith's",
     offers: Object.entries({ axe: [3, 6], auger: [2, 4], broadaxe: [3, 6], froe: [1, 2] }).map(([tool, [coin, food]]) => ({
@@ -323,9 +361,10 @@ export function counterOptions(trade) {
     ...TRADES[trade].offers.flatMap(offer => offer.kind === 'service'
       ? [{ id: `${trade}:${offer.id}`, label: offer.label, note: offer.does }]
       : offer.kind === 'buy'
+        // A keeper who does not pay in food for a thing - the store, buying food itself - offers only the coin (2026-09-17).
         ? [
-          { id: `${trade}:${offer.id}:coin`, label: `${offer.label} for coin`, note: offer.does },
-          { id: `${trade}:${offer.id}:food`, label: `${offer.label} for food`, note: offer.does },
+          ...(offer.coinEach ? [{ id: `${trade}:${offer.id}:coin`, label: `${offer.label} for coin`, note: offer.does }] : []),
+          ...(offer.foodEach ? [{ id: `${trade}:${offer.id}:food`, label: `${offer.label} for food`, note: offer.does }] : []),
         ]
         : [
           { id: `${trade}:${offer.id}:coin`, label: `${offer.label}: ${reales(offer.coin)}`, note: offer.does },
@@ -359,13 +398,18 @@ export function takeCounter(world, household, entity, optionId) {
     return;
   }
   if (offer.kind === 'buy') {
-    // Sold by the unit: every whole one carried, and no more than the keeper's purse pays for.
+    // Sold by the lot: `per` is how many go to one payment (the store's five food a real, 2026-09-17; one of anything else),
+    // every whole lot carried, and no more than the keeper's purse pays for. What will not make a whole lot stays at home.
+    const per = offer.per ?? 1;
     const carried = Math.floor(Math.min(household.resources[offer.good] ?? 0, carryCapacity(entity.chore?.mode)));
-    const units = pay === 'coin' ? Math.min(carried, Math.floor(purseOf(world, trader) / offer.coinEach)) : carried;
+    const lots = pay === 'coin'
+      ? Math.min(Math.floor(carried / per), Math.floor(purseOf(world, trader) / offer.coinEach))
+      : Math.floor(carried / per);
+    const units = lots * per;
     if (units < 1) return;
     household.resources[offer.good] = round((household.resources[offer.good] ?? 0) - units);
     if (pay === 'coin') {
-      const got = units * offer.coinEach;
+      const got = lots * offer.coinEach;
       trader.purse -= got;
       household.resources.money = (household.resources.money ?? 0) + got;
       record(world, 'consequence', { actorId: entity.id, householdId: household.id, importance: 2, coin: got, text: `${entity.name} sold ${units} ${offer.good} to ${trader.name} for ${reales(got)}.` });

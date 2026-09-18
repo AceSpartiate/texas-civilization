@@ -15,8 +15,11 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectFamily, projectWorld, rollFamily, stepWorld } from '../sim/world.mjs';
 import { CHORES, choreCatalogue } from '../sim/chores.mjs';
 import {
-  ORDER_NAMES, PANEL_ICONS, PANEL_SUMMARIES, activeKey, isIdle, nameToSave, panelActions, panelOrder, rowReason,
+  DRILLED_ROW, ORDER_NAMES, PANEL_ICONS, PANEL_SUMMARIES, activeKey, isIdle, nameToSave, panelActions, panelOrder, rowReason,
+  standing,
 } from '../public/family-panel.js';
+import { DRILL_TO_STEADY } from '../sim/houston.mjs';
+import { PRACTICE_COST } from '../sim/chores.mjs';
 
 const atlas = JSON.parse(readFileSync(fileURLToPath(new URL('../public/assets/frontier-v1/atlas.json', import.meta.url)), 'utf8'));
 // The Claude-drawn stand-ins (docs/ART_REQUESTS.md, "Claude-drawn stand-ins"): a frame may come from either library.
@@ -24,6 +27,37 @@ const standins = JSON.parse(readFileSync(fileURLToPath(new URL('../public/assets
 const inLibrary = name => Boolean(atlas.frames[name] || standins.frames[name]);
 const catalogue = new Map(choreCatalogue().map(chore => [chore.id, chore]));
 const person = (id, role, age) => ({ id, role, ...(age !== undefined && { age }) });
+
+test('an afternoon at the mark shows on the row: what a person has become is written beside what they are', () => {
+  // Owner, 2026-09-17, playtesting: the practice cost two powder and an afternoon, the story said it, and nothing on the
+  // person showed it afterwards. The row says it now, and says nothing about anybody who has not earned it.
+  const world = createSettledWorld('panel-standing', 5);
+  world.status = 'running';
+  const found = Object.values(world.households).flatMap(one => one.members.map(id => ({ household: one, person: world.entities[id] })))
+    .find(({ person }) => (person.skills?.hunting ?? 1) === 1 && person.kind === 'person');
+  assert.ok(found, 'this seed deals nobody who needs the practice');
+  const { household } = found, poor = found.person;
+  household.resources.powder = PRACTICE_COST + 2;
+  const rowWords = id => standing(projectWorld(world, household.id, 'student', { includeMap: false }).entities.find(one => one.id === id));
+  assert.equal(rowWords(poor.id), '', 'a hand that has never been steadied is described as one');
+  applyAction(world, household.id, { action: 'chore', entityId: poor.id, chore: 'practise-shooting' });
+  for (let tick = 0; tick < 400 && poor.chore; tick++) stepWorld(world);
+  assert.equal(poor.chore, null, 'the practice never finished');
+  assert.equal(poor.skills.hunting, 2);
+  assert.equal(rowWords(poor.id), 'a steady shot', 'the afternoon at the mark left no mark on the row');
+  // A second afternoon, and the row says so again in stronger words.
+  household.resources.powder = PRACTICE_COST + 2;
+  applyAction(world, household.id, { action: 'chore', entityId: poor.id, chore: 'practise-shooting' });
+  for (let tick = 0; tick < 400 && poor.chore; tick++) stepWorld(world);
+  assert.equal(standing({ skills: { hunting: 3 } }), 'the best shot on this land');
+  assert.equal(rowWords(poor.id), 'the best shot on this land');
+  // And the camp's drill is said the same way, at the camp's own count (sim/houston.mjs).
+  assert.equal(DRILLED_ROW, DRILL_TO_STEADY, 'the panel counts the drill differently from the camp');
+  assert.equal(standing({ service: { drilled: DRILL_TO_STEADY - 1 } }), '', 'a man part way through the drill is called steady');
+  assert.equal(standing({ service: { drilled: DRILL_TO_STEADY } }), 'steady in the line');
+  assert.equal(standing({ skills: { hunting: 2 }, service: { drilled: DRILL_TO_STEADY } }), 'a steady shot, steady in the line');
+  assert.equal(standing(undefined), '');
+});
 
 test('the rows are the family: father, mother, then the children oldest first, whatever order the household holds them in', () => {
   const people = [person('d9', 'daughter', 9), person('m', 'mother', 38), person('s15', 'son', 15), person('f', 'father', 41), person('s3', 'son', 3)];
@@ -81,11 +115,11 @@ test('the glow is the projection: a chore glows from the order until the server 
   const household = world.households['hh-1'];
   household.resources.powder = 6;
   // Somebody the server will let practise: a steady shot already is refused it.
-  const offered = projectWorld(world, 'hh-1', 'student').work;
+  const offered = projectWorld(world, household.id, 'student').work;
   const worker = household.members.find(id => id !== household.principalId && offered[id].some(entry => entry.id === 'practise-shooting' && entry.can));
   assert.ok(worker, 'nobody in this family may practise, so this test would prove nothing');
   const seen = () => {
-    const view = projectWorld(world, 'hh-1', 'student');
+    const view = projectWorld(world, household.id, 'student');
     const home = view.household.homeSiteId;
     const glowing = id => {
       const entity = view.entities.find(one => one.id === id);
@@ -95,7 +129,7 @@ test('the glow is the projection: a chore glows from the order until the server 
     return { worker: glowing(worker), principal: glowing(household.principalId) };
   };
   assert.deepEqual(seen().worker, [], 'something glows before anybody was set to anything');
-  applyAction(world, 'hh-1', { action: 'chore', entityId: worker, chore: 'practise-shooting' });
+  applyAction(world, household.id, { action: 'chore', entityId: worker, chore: 'practise-shooting' });
   assert.deepEqual(seen().worker, ['practise-shooting'], 'the chore does not glow once it is ordered');
   let ticks = 0;
   while (world.entities[worker].chore && ticks++ < 200) {
@@ -126,7 +160,7 @@ test('the panel sends only what the server already accepts, and only the princip
   const world = createSettledWorld('panel-orders', 5);
   world.status = 'running';
   const household = world.households['hh-1'];
-  const view = projectWorld(world, 'hh-1', 'student');
+  const view = projectWorld(world, household.id, 'student');
   const home = view.household.homeSiteId;
   const iconsOf = id => {
     const entity = view.entities.find(one => one.id === id);

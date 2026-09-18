@@ -111,20 +111,43 @@ test('drilling counts at San Jacinto: a drilled man\'s weight in the battle\'s r
   assert.ok(hurt(drilled) < hurt(plain), `drilling did not steady the crowd: ${hurt(drilled)} hurt against ${hurt(plain)}`);
   assert.ok(hurt(drilled) > hurt(plain) * 0.6, 'drilling took away more than a quarter of the risk');
   for (let i = 0; i < ids.length; i++) assert.ok(plain[i].fate !== 'unhurt' || drilled[i].fate === 'unhurt', 'a drilled man was hurt where an undrilled one was not');
-  // In the class: the father of hh-6 is wounded as he is and unhurt drilled.
+  // In the class: one man drilled and one not, and the drill shows in what the battle deals him.
+  //
+  // Until 2026-09-17 this named hh-6 of this seed, whose dealt traits put his roll between the drilled and the undrilled line.
+  // Which men are still free to serve moves with everything else the neighbours do - the store's counter and the logs left by
+  // clearing both shifted it - and that seed now sends him to Béxar to die. So the man is found instead of named, and the
+  // constitution that puts his roll in the band is dealt to him here. The roll itself is untouched: it reads only the class's
+  // seed and his id (sim/army.mjs `rollFates`), and it is the same roll the battle makes.
   const world = spring();
-  const father = world.entities['hh-6-parent-1'];
-  assert.ok(father && father.health.condition === 'well' && !father.service, 'the father this test turns on is not there to drill');
+  const fateOf = (one, weightOf) => rollFates(world, [one.id], { event: 'san-jacinto', ...SAN_JACINTO, ...(weightOf ? { weightOf } : {}) })[0].fate;
+  const worse = ['unhurt', 'wounded', 'killed'];
+  let father = null;
+  for (const one of grownMen(world)) {
+    const dealt = { ...one.traits };
+    for (let strength = 1; strength <= 10 && !father; strength++) {
+      for (let health = 2; health <= 18 && !father; health++) {
+        one.traits = { ...dealt, strength, health };
+        if (worse.indexOf(fateOf(one)) > worse.indexOf(fateOf(one, person => frailty(person) * DRILLED_STEADINESS))) father = one;
+      }
+    }
+    if (father) break;
+    one.traits = dealt;
+  }
+  assert.ok(father, 'no man in this class has a San Jacinto roll the drill can improve, so the drill cannot be shown to count');
+  const asHeIs = fateOf(father), asDrilled = fateOf(father, person => frailty(person) * DRILLED_STEADINESS);
   const other = grownMen(world).find(one => one.id !== father.id);
   serve(world, father, { drilled: DRILL_TO_STEADY, leave: 'no', road: 'no' });
   serve(world, other, { leave: 'no', road: 'no' });
-  assert.equal(rollFates(world, [father.id], { event: 'san-jacinto', ...SAN_JACINTO })[0].fate, 'wounded', 'the seed no longer deals the father this test turns on');
   untilMoment(world, 'san-jacinto');
-  assert.equal(father.service.fate, 'unhurt', 'drilling did not count at San Jacinto');
-  assert.equal(other.service.fate, rollFates(world, [other.id], { event: 'san-jacinto', ...SAN_JACINTO })[0].fate, 'an undrilled man\'s roll moved');
+  assert.equal(father.service.fate, asDrilled, 'drilling did not count at San Jacinto');
+  assert.notEqual(asDrilled, asHeIs, 'the man this test turns on is dealt the same fate drilled or not');
+  assert.equal(other.service.fate, fateOf(other), 'an undrilled man\'s roll moved');
   assert.equal(world.glory[father.householdId].awards[`san-jacinto:${father.id}`].role, 'fought');
   untilMoment(world, 'victory-word');
-  assert.ok(world.events.some(event => event.actorId === father.id && /steady in the line from the drill at the camp, came through the fight at San Jacinto unhurt/.test(event.text)), 'the word did not say the drill counted');
+  // The family is told he was drilled whichever way the battle went for him (sim/houston.mjs `tellSanJacinto`).
+  const said = asDrilled === 'unhurt' ? /steady in the line from the drill at the camp, came through the fight at San Jacinto unhurt/
+    : /steady in the line from the drill at the camp, was slightly hurt at San Jacinto/;
+  assert.ok(world.events.some(event => event.actorId === father.id && said.test(event.text)), 'the word did not say the drill counted');
   validateWorld(world);
 });
 

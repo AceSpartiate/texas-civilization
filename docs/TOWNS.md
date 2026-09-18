@@ -50,6 +50,11 @@ Coin in either direction is in the ending's account.
 
 | Trade | Offers | Does |
 | --- | --- | --- |
+| **Store** | seed 1 real / 3 food | Two sacks: enough to plant a cleared plot. |
+| | powder and lead 1 / 2 | Three powder. The gunsmith gives five for its two. |
+| | a sound hoe 2 reales, coin only | Iron comes a long way. Refused when the hoe in the house is sound. |
+| | sell food, a real for every 5, coin only | Whole reales only: what will not make five stays in the house. |
+| | sell cotton, 1 real or 2 food a whole bale | The weaver, where there is one, gives three food. |
 | **Blacksmith** | felling axe 3 reales / 6 food; auger 2 / 4; broadaxe 3 / 6; froe 1 / 2 | The tool, once. The auger is what most furniture wants. |
 | **Gunsmith** | powder and lead 2 / 4 | Five powder. |
 | | the rifle put in order 2 / 4 | For the next ten shots, a hand without the knack makes the long shot; a tired hand still misses. Said on the shot. |
@@ -63,6 +68,12 @@ Coin in either direction is in the ending's account.
 | **Weaver** | sell cotton, 1 real or 3 food a whole bale | More food a bale than the store's two. |
 | | blankets 1 / 2 | Sleeping by the wagon mends a quarter better. |
 
+Until 2026-09-17 the five things the store does were also five errands of their own on the family panel - fetch seed,
+buy powder, sell food, take the cotton to the store, buy a hoe - so a student had two ways to the same counter, with the
+prices written in two places and no way to compare them with anything else the street sells. They are the store's own
+trades now, at exactly the prices those errands paid. The errands themselves still exist for the families nobody plays:
+their director sends them on one (`directorOnly` in `sim/chores.mjs`), which is why a neighbour is still seen walking to
+town for seed.
 ## 5. How a student uses it
 
 The **Go to a shop** icon on a person's row sends them to the family's own town. On the street they are asked which

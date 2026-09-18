@@ -310,6 +310,29 @@ export function needsOf(world, entityId) {
 }
 
 /**
+ * How many days at the camp make a man steady in the line. `DRILL_TO_STEADY` in sim/houston.mjs is the authority; this is
+ * the page's copy of it, and tests/family-panel.test.mjs fails if the two ever part.
+ */
+export const DRILLED_ROW = 3;
+
+/**
+ * What this person has become, in the few words that go on their row beside "father, 38".
+ *
+ * The owner asked for it after playing (2026-09-17): an afternoon at the mark cost two powder and an afternoon, said so in
+ * the story, and then nothing anywhere showed that the person was any different. Neither of these is a hidden stat being
+ * revealed - a steady hand is already written on the hunt's own controls (`unsteadyBecause` in sim/chores.mjs) and the
+ * drill is already said at San Jacinto. This is the same fact, where a student looks first.
+ */
+export function standing(entity) {
+  const words = [];
+  const hunting = entity?.skills?.hunting ?? 1;
+  if (hunting >= 3) words.push('the best shot on this land');
+  else if (hunting >= 2) words.push('a steady shot');
+  if ((entity?.service?.drilled ?? 0) >= DRILLED_ROW) words.push('steady in the line');
+  return words.join(', ');
+}
+
+/**
  * Whether a row shows its person idle: alive, not at work, not on a road, not with the army, and able to be set to
  * something now. A child under ten, or somebody every order is refused to, is not "idle" - there is nothing to give them -
  * and a principal told to work about the place is working.

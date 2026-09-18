@@ -3,7 +3,7 @@ import { drawSprite, drawClip, clipInfo, hasSprite, loadArt, onArtReady, pickSpr
 import { drawArmy } from '/army-view.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, seatedClip, seatLayout, mounted, MOUNTED_HEIGHT, castVariant, childFigure } from '/motion.js';
 import { familyRows, PRESENCE_LABELS, rumourLines, spotlightBanner } from '/live-page.js';
-import { autoLabel, callMenu, callPlan, drawIcon, drawMark, drawPortrait, focusFor, isIdle, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, RENAME_PAUSE_MS } from '/family-panel.js';
+import { autoLabel, callMenu, callPlan, drawIcon, drawMark, drawPortrait, focusFor, isIdle, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, standing, RENAME_PAUSE_MS } from '/family-panel.js';
 import {drawBexarGround,bexarDrawables} from '/bexar-art.js';
 import {plotArt} from '/field-art.js';
 import {drawGonzalesGround,gonzalesDrawables,GONZALES_ART_BOUNDS} from '/gonzales-art.js';
@@ -2819,7 +2819,12 @@ function renderFamilyPanel(world) {
     // The rooms of the house are set out from the main person's row: one place for the family's own detailed work.
     const houseShown = focused && house;
     if (row.house.hidden !== !houseShown) row.house.hidden = !houseShown;
+    // What the person has become goes on the row after what they are: the mark and the camp drill (docs/FAMILY_PANEL.md).
     if (row.label.textContent !== `${role}${age}`) row.label.textContent = `${role}${age}`;
+    // What they have become goes under the name: the mark and the camp drill (docs/FAMILY_PANEL.md §11).
+    const become = standing(entity);
+    if (row.note.textContent !== become) row.note.textContent = become;
+    if (row.note.hidden !== !become) row.note.hidden = !become;
     const firstName = entity.given || entity.name;
     if (mayOverwriteName(row.input, firstName)) row.input.value = firstName;
     setData(row.input, 'current', firstName);
@@ -3140,9 +3145,12 @@ function panelRow(id) {
   tools.append(idle, house, auto, focus);
   const icons = element('div', '', 'panel-icons');
   icons.setAttribute('role', 'group');
-  body.append(label, input, tools, icons);
+  // What the person has become, under their name: its own line so it wraps on a phone instead of pushing the star off the row.
+  const note = element('span', '', 'panel-standing');
+  note.hidden = true;
+  body.append(label, input, tools, note, icons);
   item.append(portrait, attention, body);
-  const row = { item, portrait, canvas, label, input, icons, attention, idle, house, focus, auto, face: null, iconsKey: null };
+  const row = { item, portrait, canvas, label, input, icons, attention, idle, house, focus, auto, note, face: null, iconsKey: null };
   panelRows.set(id, row);
   return row;
 }

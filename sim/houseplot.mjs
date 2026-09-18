@@ -219,6 +219,22 @@ export function nextStage(pieces) {
   return null;
 }
 
+/**
+ * What the next stage of this plot wants before it can be worked: its logs, and the work in hours.
+ *
+ * The plan's whole remaining want was already on the panel, and a student reading "still wants 26 wall logs" could not tell
+ * what the very next spell of work needed - so a family hauled eleven logs in and the house still would not go up (owner,
+ * 2026-09-17: "say what the next house stage needs"). Null when nothing can be started.
+ */
+export function stageWants(pieces) {
+  const next = nextStage(pieces);
+  if (!next) return null;
+  const logs = next.stage.logs || {};
+  // Logs are wanted once, at the start of a stage: a stage part done has already taken them off the pile.
+  const wants = next.piece.progress === 0 ? { ...(logs.wall && { wall: logs.wall }), ...(logs.sill && { sill: logs.sill }), ...(logs.any && { any: logs.any }) } : {};
+  return { doing: next.stage.doing, piece: pieceWords(pieces, next.piece), logs: wants, hours: Math.round(next.stage.work * 3 * 20 / 60) };
+}
+
 const WHERE = ['west', 'east'];
 /** A piece in words: "the round-log pen", "the east pen" where there are two. */
 export function pieceWords(pieces, p) {

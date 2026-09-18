@@ -147,7 +147,10 @@ test('a family that never touches a coin still farms, hunts and buys what it nee
   const household = Object.values(world.households)[0];
   const person = world.entities[household.members[1]];
   const open = choresFor(world, household, person).filter(chore => chore.can).map(chore => chore.id);
-  for (const id of ['plant-field', 'hunt-timber', 'fetch-seed', 'fetch-powder', 'fence-plot']) assert.ok(open.includes(id), `${id} needs coin`);
+  for (const id of ['plant-field', 'hunt-timber', 'fence-plot']) assert.ok(open.includes(id), `${id} needs coin`);
+  // Since 2026-09-17 the town errands are the store's own trades (sim/shops.mjs), so they are not on the family's panel; the
+  // director still sends the families nobody plays on them, which is the path the rest of this test walks.
+  for (const id of ['fetch-seed', 'fetch-powder', 'sell-food', 'sell-cotton', 'replace-hoe']) assert.ok(!open.includes(id), `${id} is still an errand on the panel`);
   const buyer = toCounter(world, household.id, person.id, 'fetch-seed');
   // Paying in coin that is not in the house would be seed for nothing: the answer is closed, and refused if pressed.
   const coin = view(world, household.id).entities.find(e => e.id === buyer.id).chore.ask.options.find(option => option.id === 'coin');

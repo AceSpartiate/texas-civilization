@@ -226,6 +226,12 @@ one person alone raises it at a third of the pace — the reason a house-raising
 invented). Logs come off the pile as each course goes up; a course with no logs on the pile waits and says so. Called
 away, the work stays.
 
+The panel says **what the next stage wants** before it is begun, beside what the family has: *"Next: laying the sills on
+the round-log pen. It wants 4 sill logs and about 2 hours' work; 3 sound and 1 poor at the house, 6 lying out."* Until
+2026-09-17 it said only what the whole plan still wanted - "still wants 26 wall logs" - and a family that hauled eleven in
+could not tell why the walls still would not go up (owner, playtesting). A stage already begun wants no more logs: they
+went onto it when it started. `stageWants` in `sim/houseplot.mjs`, worded by `nextLine` in `public/house-plot.js`.
+
 A neighbour standing on the plot while any pen's walls are going up can help (the raising as now, per course).
 
 ### 6.4 Drawn

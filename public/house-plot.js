@@ -12,6 +12,22 @@ const el = (tag, text, className) => { const node = document.createElement(tag);
 const partsIn100 = share => Math.round(share * 100);
 const logWords = logs => [logs.wall && `${logs.wall} wall`, logs.sill && `${logs.sill} sill`, logs.any && `${logs.any} of any kind`].filter(Boolean).join(', ') || 'no logs';
 
+/**
+ * The next stage, what it wants before anybody can start it, and what the family has to start it with (owner, 2026-09-17:
+ * "say what the next house stage needs"). Until now the panel said what the whole plan still wanted - "still wants 26 wall
+ * logs" - and a student who hauled eleven logs in could not tell why the walls still would not go up. The stage and its
+ * want are the server's (`stageWants` in sim/houseplot.mjs); the pile is the family's own land line. A stage already begun
+ * wants no more logs: they went onto it when it started.
+ */
+export function nextLine(house, logs) {
+  const wants = house.wants || null;
+  if (!wants) return `Next: ${house.stage}.`;
+  const asks = wants.logs.wall || wants.logs.sill || wants.logs.any;
+  const sound = (logs?.wall || 0) + (logs?.sill || 0), poor = logs?.poor || 0, lying = logs?.lying || 0;
+  const have = `${sound} sound${poor ? ` and ${poor} poor` : ''} at the house${lying ? `, ${lying} lying out` : ''}`;
+  return `Next: ${house.stage}. It wants ${asks ? `${logWords(wants.logs)} logs and ` : ''}about ${wants.hours} hours\u2019 work; ${have}.`;
+}
+
 /** Whether this family plans its house on the plot. */
 export const plotted = (world, catalogue) => Boolean(catalogue && world.role !== 'host' && world.land?.plot);
 
@@ -36,7 +52,7 @@ export function renderHousePlot(world, catalogue, { open, send, rerender }) {
   if (land.planned?.room) lines.push(`Planned: holds ${land.planned.room}; rest mends ${partsIn100(land.planned.restShare)} in 100; ${land.planned.spoilagePerDay ? `${Math.round(land.planned.spoilagePerDay * 1000) / 10} in 100 of the food spoil a day` : 'the food keeps'}.`);
   if (land.planned) lines.push(`Still wants ${logWords(land.planned.logs)} logs and about ${land.planned.hours} hours of one person's work${land.planned.tools?.length ? `, with ${land.planned.tools.join(' and ')}` : ''}.`);
   lines.push(land.logs ? `The log pile: ${land.logs.wall} wall, ${land.logs.sill} sill, ${land.logs.poor} poor${land.logs.lying ? `; ${land.logs.lying} more lying where they were felled` : ''}.` : 'No logs at the house yet: fell trees and haul them in.');
-  if (house?.stage && house.stage !== 'finished') lines.push(`Next: ${house.stage}.`);
+  if (house?.stage && house.stage !== 'finished') lines.push(nextLine(house, land.logs));
   if (house?.why) lines.push(house.why);
   if (land.home) lines.push(`Living in it now: rest mends ${partsIn100(land.home.restShare)} in 100${land.home.crowded ? ', crowded' : ''}.`);
   summary.replaceChildren(...lines.map(line => el('p', line, 'house-line')));

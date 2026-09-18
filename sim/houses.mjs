@@ -33,7 +33,7 @@ import { improvementsOf, setImprovement } from './improvements.mjs';
 import { CAMP_REST_SHARE, CAMP_SPOILAGE_PER_DAY } from './settling.mjs';
 import {
   PIECES, PLANS, PLAN_IDS, nextStage, pieceDone, pieceWords, placeRefusal, planPieces, plotBuildRefusal, plotBuildSpell,
-  plotInvalid, plotLayout, plotNeeds, plotPhase, plotRaising, plotShelter,
+  plotInvalid, plotLayout, plotNeeds, plotPhase, plotRaising, plotShelter, stageWants,
 } from './houseplot.mjs';
 import { woodsRule } from './woods.mjs';
 
@@ -370,7 +370,7 @@ export function houseProjection(world, household) {
     const planned = plotShelter(pieces, { built: false });
     return {
       plot: true,
-      ...(plan && { house: { plan: plan.plan, pieces: pieces.map(p => [p.type, p.x, p.y, p.stage, p.progress]), stage: stageOf(household), phase: phaseOf(household), ...(!houseBuilt(household) && { why: buildRefusal(household) }) } }),
+      ...(plan && { house: { plan: plan.plan, pieces: pieces.map(p => [p.type, p.x, p.y, p.stage, p.progress]), stage: stageOf(household), phase: phaseOf(household), ...(!houseBuilt(household) && { wants: stageWants(pieces), why: buildRefusal(household) }) } }),
       ...(shelter.layout && { home: { restShare: shelter.restShare, spoilagePerDay: shelter.spoilagePerDay, ...(shelter.crowded && { crowded: true }) } }),
       // What the whole plan would do and still wants, so the plot says it while it is being laid out and built.
       ...(pieces.length && { planned: { ...(planned || {}), ...plotNeeds(pieces) } }),

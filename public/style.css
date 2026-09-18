@@ -500,15 +500,16 @@ button:hover:enabled{background:#60673e}
 .panel-auto[data-drawn=true]{width:26px;padding:2px;background:#f3ead2}
 .panel-auto[data-drawn=true][aria-pressed=true]{background:#e8f0dc;border-color:#6f9c58}
 .panel-row[data-on-auto=true] .panel-portrait{border-color:#6f9c58}
-.panel-body{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-rows:auto auto;align-items:center;column-gap:6px;min-width:0;margin-left:-3px;padding:3px 8px 4px 9px;background:var(--shade);border:1px solid #8f825b;border-left:none;border-radius:0 6px 6px 0}
+.panel-body{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-rows:auto auto auto;align-items:center;column-gap:6px;min-width:0;margin-left:-3px;padding:3px 8px 4px 9px;background:var(--shade);border:1px solid #8f825b;border-left:none;border-radius:0 6px 6px 0}
 .panel-label{grid-row:1;grid-column:1;font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:#d8c9a2;white-space:nowrap}
+.panel-standing{grid-row:2;grid-column:1 / -1;font:italic 11px/1.25 Georgia,serif;color:#cdbb92;padding:0 1px}
 .panel-name{grid-row:1;grid-column:2;width:100%;max-width:11rem;min-width:0;font:600 13px/1.2 Georgia,serif;padding:2px 5px;border:1px solid transparent;border-radius:4px;background:transparent;color:#f7eed5}
 .panel-name:hover{border-color:#8f825b}
 .panel-name:focus{background:#fdf8ea;color:#3f3524;border-color:#b09a6d}
 .panel-name[aria-invalid=true]{border-color:#e07a5c}
 /* On a wide screen every icon is in sight: a principal's long row wraps to a second line rather than hiding its journeys,
    work and rest off to the right. A phone scrolls it sideways instead (below). */
-.panel-icons{grid-row:2;grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:4px;padding:3px 1px 2px;min-width:0}
+.panel-icons{grid-row:3;grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:4px;padding:3px 1px 2px;min-width:0}
 .panel-icon{position:relative;flex:none;width:38px;height:38px;min-height:0;padding:1px;border-radius:5px;border:1px solid #b09a6d;background:#f3ead2;box-shadow:none}
 .panel-icon:hover:enabled{background:#fff6dc}
 .panel-icon canvas{display:block;width:100%;height:100%;pointer-events:none}

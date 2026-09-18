@@ -525,6 +525,7 @@ export const CHORES = {
     ],
   },
   'sell-cotton': {
+    directorOnly: true,
     name: 'Take the cotton to the store', skill: 'hands', where: 'home', hauls: true,
     needs: { cotton: 1 },
     describe: `Cotton is not food. The store in town trades ${COTTON_RATE} food for every bale, or ${reales(COIN.cottonBale)} for a whole one, and takes as much as whoever goes can carry.`,
@@ -539,6 +540,7 @@ export const CHORES = {
     ],
   },
   'fetch-powder': {
+    directorOnly: true,
     name: 'Buy powder and lead in town', skill: 'hands', where: 'home', hauls: true,
     needsAny: [{ food: 2 }, { money: COIN.powder }],
     describe: `Trade in town for powder and lead, paying 2 food or ${reales(COIN.powder)}. A shot spends one, and whoever goes upriver takes what is in the house with them.`,
@@ -554,6 +556,7 @@ export const CHORES = {
     ],
   },
   'fetch-seed': {
+    directorOnly: true,
     name: 'Fetch seed from town', skill: 'hands', where: 'home', hauls: true,
     needsAny: [{ food: 3 }, { money: COIN.seed }],
     describe: `Trade in town for seed, paying 3 food or ${reales(COIN.seed)}. The road is as long as it is.`,
@@ -569,6 +572,7 @@ export const CHORES = {
     ],
   },
   'sell-food': {
+    directorOnly: true,
     name: 'Sell food at the store for coin', skill: 'hands', where: 'home', hauls: true,
     needs: { food: COIN.foodPerReal },
     describe: `The store pays coin for food it can sell on: ${reales(1)} for every ${COIN.foodPerReal} food, whole reales only, and as much as whoever goes can carry.`,
@@ -709,6 +713,7 @@ export const CHORES = {
     ],
   },
   'replace-hoe': {
+    directorOnly: true,
     name: 'Buy a hoe in town', skill: 'hands', where: 'home',
     needs: { money: COIN.hoe }, needsTool: 'worn',
     describe: `Buy a sound hoe from the smith in town. Iron comes a long way, and the smith wants coin for it: ${reales(COIN.hoe)}.`,
@@ -1065,6 +1070,9 @@ export function choresFor(world, household, entity, logsOut = null) {
     && !(chore.plotWork && !wants[id])
     && !(chore.fells && !counted) && !(chore.hauling && !lying)
     && !(chore.plainCountry && counted)
+    // The town errands are the store's own trades now (sim/shops.mjs): a family walks the street and deals at the counter,
+    // and only the families nobody plays are still sent on an errand by their director (owner, 2026-09-17).
+    && !chore.directorOnly
     // Nor furniture while the family is still on the road in, or once it has every piece (sim/furniture.mjs).
     && !(chore.furniture && (household.arriving || !wanting(household).length))
     && !(chore.shops && household.arriving)

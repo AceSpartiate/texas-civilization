@@ -15,8 +15,9 @@ import { siteFactsFor } from '../sim/homesite.mjs';
 import { handsOn, helpRefusal, houseBuilt, landView, pieced, raising, shelterOf, stageOf } from '../sim/houses.mjs';
 import {
   PIECES, PLANS, PLAN_IDS, TWO_HANDED_ABOVE, logsShort, nextStage, pieceDone, placeRefusal, planInvalid, planPieces, plotCatalogue,
-  plotNeeds, plotShelter,
+  plotNeeds, plotShelter, stageWants,
 } from '../sim/houseplot.mjs';
+import { nextLine } from '../public/house-plot.js';
 
 const grid = (bounds, side = 7) => {
   const places = [];
@@ -149,6 +150,40 @@ test('the house goes up stage by stage, each taking its logs; the family moves i
   assert.equal(worker.chore, null);
   assert.ok(storyOf(short, 'hh-1').some(text => text === 'Work on the house stopped: raising the walls, course 2 of 10 on the round-log pen wants 4 sound logs, and the log pile has not got them.'));
   assert.equal(shelterOf(short, shortHousehold).kind, 'camp');
+});
+
+test('the panel says what the next stage wants, not only what the whole plan wants', () => {
+  // Owner, 2026-09-17: a family that had hauled logs in could read "still wants 26 wall logs" and not know what the next
+  // spell of work itself needed. The stage, its logs and its hours come from the server; the page puts the family's own
+  // pile beside them.
+  const { world, household } = onTheLand('plot-next');
+  applyAction(world, 'hh-1', { action: 'plan-house', layout: 'round-log' });
+  household.logs = { wall: 2, sill: 1, poor: 1 };
+  for (let tick = 0; tick < 2; tick++) stepWorld(world);
+  const land = () => projectWorld(world, 'hh-1', 'student', { includeMap: false }).land;
+  const sills = land();
+  assert.deepEqual(sills.house.wants.logs, { sill: 4 }, 'the sills want their four sill logs and nothing else');
+  assert.equal(sills.house.wants.piece, 'the round-log pen');
+  assert.ok(sills.house.wants.hours > 0, 'the stage asks for no work at all');
+  assert.equal(nextLine(sills.house, sills.logs),
+    `Next: laying the sills on the round-log pen. It wants 4 sill logs and about ${sills.house.wants.hours} hours\u2019 work; 3 sound and 1 poor at the house.`);
+  // The whole plan's want is a different, larger number: that is the line this one was added beside.
+  assert.ok(plotNeeds(household.house.pieces).logs.wall > 4, 'the plan wants no more wall logs than one stage does');
+
+  // Once the sills are laid the next stage is the first course, and the panel moves on with it.
+  household.logs = { wall: 40, sill: 8, poor: 0 };
+  const worker = personsOf(world, household).find(person => choreAvailability(world, household, person, 'build-house').can);
+  applyAction(world, 'hh-1', { action: 'chore', entityId: worker.id, chore: 'build-house' });
+  for (let tick = 0; tick < 300 && household.house.pieces[0].stage === 0; tick++) stepWorld(world);
+  assert.ok(household.house.pieces[0].stage >= 1, 'the sills never went on');
+  assert.match(land().house.stage, /course 1 of 10/);
+
+  // A stage already begun has taken its logs: it wants no more, and the line says so rather than asking twice.
+  const begun = { ...land().house, wants: { ...stageWants(household.house.pieces), logs: {} } };
+  assert.match(nextLine(begun, { wall: 36, sill: 8, poor: 0, lying: 6 }), /It wants about \d+ hours\u2019 work; 44 sound at the house, 6 lying out\./);
+  // And a house with nothing to start says only what it is at.
+  assert.equal(nextLine({ stage: 'waiting on the pens' }, null), 'Next: waiting on the pens.');
+  validateWorld(world);
 });
 
 test('a course above the sixth goes at a third of the pace with one person on it, and a neighbour helping raise it counts as a hand', () => {

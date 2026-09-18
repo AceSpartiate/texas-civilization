@@ -34,6 +34,10 @@ try{
  await press('[data-remove="2"]');await page.waitForFunction(()=>window.__snapshot.world.land.house.pieces.length===2);
  await press('[data-piece="porch"]');await press('.plot-cell[data-x="0"][data-y="0"]');await page.waitForFunction(()=>document.querySelector('#plot-note').textContent.includes('front'));
  assert.equal(app.state.world.households['hh-1'].house.pieces.length,2);
+ // What the next stage wants, on the panel where the student reads it (owner, 2026-09-17: 'say what the next house stage needs').
+ await page.waitForTimeout(2500);
+ const nextSaid=await page.evaluate(()=>[...document.querySelectorAll('#plot-summary .house-line')].map(n=>n.textContent).find(text=>text.startsWith('Next:')));
+ assert.match(nextSaid,/^Next: laying the sills on the round-log pen\. It wants 4 sill logs and about \d+ hours\u2019 work; \d+ sound( and \d+ poor)? at the house/);
  mkdirSync('test-results',{recursive:true});await page.screenshot({path:'test-results/house-plot.png'});
  await page.setViewportSize({width:390,height:844});await page.waitForTimeout(200);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);await page.setViewportSize({width:1440,height:1000});await press('#plot-close');
  const principal=await page.evaluate(()=>window.__snapshot.world.household.principalId);
@@ -42,6 +46,6 @@ try{
  assert.equal(app.state.world.households['hh-1'].logs.wall+app.state.world.households['hh-1'].logs.sill,82);
  await press('#house-open');await page.waitForFunction(()=>document.querySelector('#plot-summary').textContent.includes('Living in it now'));
  assert.deepEqual(errors,[]);validateWorld(app.state.world);
- writeFileSync('docs/evidence/house-plot-browser.json',JSON.stringify({date:new Date().toISOString(),result:'PASS',scope:'Same-computer student integration',checks:['preset through command','loft added inside occupied pen','unstarted loft removed','invalid porch refused without mutation','phone fits','stage construction consumes 50 logs','finished shelter displayed'],errors},null,2));
+ writeFileSync('docs/evidence/house-plot-browser.json',JSON.stringify({date:new Date().toISOString(),result:'PASS',scope:'Same-computer student integration',checks:['preset through command','loft added inside occupied pen','unstarted loft removed','invalid porch refused without mutation','phone fits','stage construction consumes 50 logs','finished shelter displayed','the next stage says what it wants: '+nextSaid],errors},null,2));
  console.log('PASS: student plans, edits, refuses invalid placement, builds from logs and sees completed shelter.');
 }finally{await browser.close();await app.close();}

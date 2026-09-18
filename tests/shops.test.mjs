@@ -196,6 +196,59 @@ test('the wheelwright, the mill and the weaver each do their one thing', () => {
   assert.ok(rest(true) < rest(false), 'blankets mended nothing by the wagon');
 });
 
+test('the store sells the seed, the powder and the hoe the town errands used to fetch, and buys food five for a real', () => {
+  // The errands that walked a person to this same counter left the family panel on 2026-09-17 (owner: "do we need two hunting
+  // options? problem solve the various things characters can do and make improvements"). What they did is done here now, at
+  // the prices they paid (`COIN` in sim/chores.mjs), so a student has one way to the store and one set of prices to read.
+  const world = running('shops-store');
+  const household = world.households['hh-1'];
+  const person = world.entities[household.members[0]];
+  household.resources = { ...household.resources, money: 4, food: 40, seed: 0, powder: 0, cotton: 1 };
+  household.tools = { ...household.tools, hoe: 3 };
+
+  // The family eats while the walk to town and back goes on, so what the counter took is read as a drop, not a total.
+  const spent = of => { const before = household.resources[of]; return () => before - household.resources[of]; };
+  const forSeed = spent('food');
+  shop(world, household, person, 'store', 'store:seed:food');
+  assert.equal(household.resources.seed, 2, 'two seed for three food, as the errand gave');
+  assert.ok(forSeed() >= 3 && forSeed() < 4, `the seed cost ${forSeed().toFixed(2)} food, not the errand's three`);
+  shop(world, household, person, 'store', 'store:powder:coin');
+  assert.equal(household.resources.powder, 3, 'three powder for a real, as the errand gave');
+  assert.equal(household.resources.money, 3);
+  shop(world, household, person, 'store', 'store:hoe:coin');
+  assert.equal(household.tools.hoe, 0, 'the worn hoe was not replaced');
+  assert.equal(household.resources.money, 1);
+
+  // Food is bought by the lot: five a real, and what will not make a whole real stays in the house. The store pays for food
+  // in coin only - paying a family in the very thing it is selling would be no trade at all.
+  // He rides, so he carries seven (sim/travel.mjs): five of them make the one whole real, and the other two come home again
+  // rather than being taken for a part of one.
+  household.resources.food = 12;
+  const sold = spent('food');
+  applyAction(world, household.id, { action: 'chore', entityId: person.id, chore: 'visit-shop', mode: 'horse' });
+  toAsk(world, person);
+  applyAction(world, household.id, { action: 'answer-chore', entityId: person.id, option: 'store' });
+  toAsk(world, person);
+  const counter = askOf(world, household, person);
+  assert.deepEqual(counter.options.filter(option => option.id.startsWith('store:food')).map(option => option.id), ['store:food:coin'], 'the store offered to pay for food in food');
+  applyAction(world, household.id, { action: 'answer-chore', entityId: person.id, option: 'store:food:coin' });
+  finish(world, person);
+  assert.ok(sold() >= 5 && sold() < 6, `the store took ${sold().toFixed(2)} food for its real, not the five it paid for`);
+  assert.equal(household.resources.money, 2, 'a real for five food');
+  assert.ok(storyOf(world, household.id).some(text => /sold 5 food to .* for 1 real\./.test(text)), 'the sale was not said');
+
+  // And the refusals are said rather than silently doing nothing.
+  const bare = running('shops-store-bare');
+  const poor = bare.households['hh-1'];
+  poor.resources = { ...poor.resources, money: 0, food: 2, cotton: 0 };
+  const hand = bare.entities[poor.members[0]];
+  const bareCounter = shop(bare, poor, hand, 'store', 'leave', { stopAtCounter: true });
+  assert.match(bareCounter.options.find(option => option.id === 'store:food:coin').why, /not five food/);
+  assert.match(bareCounter.options.find(option => option.id === 'store:cotton:coin').why, /no whole bale/);
+  assert.match(bareCounter.options.find(option => option.id === 'store:seed:coin').why, /not that much coin/);
+  validateWorld(world);
+});
+
 test('a class saved before the shops opens with none of it, and bought things that could not be are refused', () => {
   const world = running('shops-valid');
   for (const household of Object.values(world.households)) assert.equal(household.gear, undefined);
