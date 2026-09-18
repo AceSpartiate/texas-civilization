@@ -28,9 +28,17 @@ mkdirSync('docs/evidence', { recursive: true });
 
 /** A class already in the spring, with two of the first family's men in Houston's army. */
 function springWorld(_seed, playerCount) {
-  // The seed is this proof's own, not the one Play Solo deals at random: the family that sends its men must be the same every
-  // run, or a seed whose first family has no grown man proves nothing.
-  const world = createGonzalesWorld('armies-proof-world', playerCount, { map: 'colonies', neighbours: true });
+  // The seeds are this proof's own, not the one Play Solo deals at random, tried in a fixed order: the first whose first family
+  // still has a grown man by the spring. Which one that is moves with everything the earlier periods do (the road to Beeson's,
+  // 2026-09-17, moved it once), and a seed whose first family has no grown man proves nothing.
+  for (let n = 0; n < 12; n++) {
+    const world = springOf(n ? `armies-proof-world-${n}` : 'armies-proof-world', playerCount);
+    if (world) return world;
+  }
+  throw new Error('no seed tried leaves the first family a grown man by the spring');
+}
+function springOf(seed, playerCount) {
+  const world = createGonzalesWorld(seed, playerCount, { map: 'colonies', neighbours: true });
   for (const household of Object.values(world.households)) rollFamily(world, household);
   world.status = 'running';
   for (let t = 0; t < 9000 && !world.director.complete; t++) stepWorld(world);
@@ -47,7 +55,7 @@ function springWorld(_seed, playerCount) {
     man.service = { kind: 'houston', status: 'serving', since: world.minute, siteId: camp.id, leave: 'no' };
   }
   world.households['hh-1'].played = true;
-  if (!Object.values(world.entities).some(one => one.householdId === 'hh-1' && one.service?.kind === 'houston')) throw new Error("this seed's first family has no grown man to send");
+  if (!Object.values(world.entities).some(one => one.householdId === 'hh-1' && one.service?.kind === 'houston')) return null;
   return world;
 }
 

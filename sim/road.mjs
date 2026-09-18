@@ -97,9 +97,9 @@ export function columns() {
 const placeOf = (world, stop) => stop.point || world.map.sites[stop.siteId];
 /**
  * A road that goes further than this many times the straight line is not the column's road: the map has no road between
- * the two places, and the column goes across country. `ceiling:` Gonzales to the Colorado at Beeson's is the one such
- * stretch (the map has no Gonzales-Beeson's road, and its roads go round by San Felipe); adding that road to the map is
- * the way out.
+ * the two places, and the column goes across country. Gonzales to the Colorado at Beeson's was the one such stretch until
+ * the road between them was put on the map (`HIST-TEX-087`, 2026-09-17); a stop off the roads - Thompson's on the Brazos -
+ * is still reached across country.
  */
 export const ROAD_DETOUR = 1.6;
 

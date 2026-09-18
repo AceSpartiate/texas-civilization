@@ -8,9 +8,12 @@ import assert from 'node:assert/strict';
 import { milesFrom, realTerrain } from '../sim/terrain-data.mjs';
 import { coloniesMap } from '../sim/colonies-map.mjs';
 import { coloniesProvince, mapForPage, provinceBands } from '../sim/province.mjs';
+import { findPath } from '../sim/geography.mjs';
 
 const terrain = realTerrain();
 const map = coloniesMap();
+// The graph findPath reads: places as sites, roads as routes.
+const graph = { sites: map.places, routes: Object.fromEntries(map.roads.map(road => [road.id, road])) };
 const province = provinceBands();
 const at = (lon, lat) => milesFrom(terrain, lon, lat);
 const toPoints = flat => { const out = []; for (let i = 0; i < flat.length; i += 2) out.push({ x: flat[i] / 100, y: flat[i + 1] / 100 }); return out; };
@@ -60,6 +63,7 @@ const BANKS = [
   ['mina', 'Colorado River', 90, 0.6, 'Mina (Bastrop) on the east bank of the Colorado (TSHA, Bastrop, TX)'],
   ['victoria', 'Guadalupe River', 90, 1.2, 'Victoria on the east bank of the Guadalupe (TSHA, Victoria, TX)'],
   ['goliad', 'San Antonio River', 180, 0.4, 'La Bahía on the south bank of the San Antonio, the present town across it (HIST-TEX-025)'],
+  ['bernardo', 'Brazos River', 90, 1, 'Bernardo, the landing of Groce\'s ferry, on the east bank of the Brazos (TSHA, Groce, Jared Ellison; HIST-TEX-088)'],
 ];
 
 test('each town stands on its documented bank of its river, near it, on every line the map draws', () => {
@@ -116,6 +120,49 @@ test('Columbus and Harrisburg stand at their water; Lynchburg at Lynch\'s ferry,
   assert.ok(off < 0.6, `Lynchburg is ${off.toFixed(2)} miles from Lynch's ferry`);
   assert.ok(lynchburg.y < ferry.y && lynchburg.x > ferry.x, 'Lynchburg is on the north-east side of the crossing');
   assert.ok(terrain.heightAt(lynchburg.x, lynchburg.y) >= 0.3, 'Lynchburg stands on dry ground');
+});
+
+test('Groce\'s ferry crosses the Brazos from the camp to Bernardo, and it is the only way over the Brazos the map has added', () => {
+  const ferry = map.roads.find(road => road.from === 'groces' && road.to === 'bernardo');
+  assert.ok(ferry, 'there is no road from Groce\'s to Bernardo');
+  // The camp was "a half mile from the ferry" (TSHA, Groce's Ferry): the way over is short, not round by another crossing.
+  assert.ok(ferry.miles < 3, `Groce's ferry is ${ferry.miles} miles long`);
+  for (const [way, lines] of Object.entries(WAYS)) {
+    const brazos = lines('Brazos River');
+    const over = ferry.points.slice(1).reduce((n, p, i) => n + crossings(ferry.points[i], p, brazos), 0);
+    assert.equal(over % 2, 1, `the ferry from Groce's to Bernardo does not cross the Brazos by ${way}`);
+  }
+  const opened = map.crossings['bernardo:Brazos River'];
+  assert.ok(opened && distanceTo(opened, [ferry.points]) < 0.6, 'the ferry does not go over at the crossing opened for it');
+  assert.deepEqual(Object.keys(map.crossings).filter(key => key.endsWith(':Brazos River')).sort(),
+    ['bernardo', 'brazoria', 'columbia', 'san-felipe', 'washington'].map(id => `${id}:Brazos River`), 'a way over the Brazos was opened that the record does not give');
+});
+
+test('from Groce\'s the road to Harrisburg goes over the ferry by Bernardo, not back through San Felipe (HIST-TEX-088)', () => {
+  const path = findPath(graph, 'groces', 'harrisburg');
+  const by = path.nodes.map(node => node.id);
+  assert.ok(by.includes('bernardo'), `from Groce's to Harrisburg goes by ${by.join(', ')}, not Bernardo`);
+  assert.ok(!by.includes('san-felipe'), `from Groce's to Harrisburg goes back by San Felipe: ${by.join(', ')}`);
+});
+
+test('the road east from Bernardo goes the army\'s way: Donoho\'s, McCarley\'s, the fork at Roberts\', Burnett\'s (HIST-TEX-088)', () => {
+  const road = map.roads.find(r => r.from === 'bernardo' && r.to === 'harrisburg');
+  assert.ok(road, 'there is no road from Bernardo to Harrisburg');
+  // The markers, from their THC atlas positions converted: the road passes each, in order.
+  const stops = [["Donoho's", -96.04354, 30.06361], ["McCarley's", -95.80741, 30.06940], ["Roberts'", -95.76074, 30.07926], ["Burnett's", -95.64829, 29.95433]];
+  const along = [0];
+  for (let i = 1; i < road.points.length; i++) along.push(along[i - 1] + Math.hypot(road.points[i].x - road.points[i - 1].x, road.points[i].y - road.points[i - 1].y));
+  const miles = stops.map(([name, lon, lat]) => {
+    const marker = at(lon, lat);
+    assert.ok(distanceTo(marker, [road.points]) < 0.4, `the road to Harrisburg passes ${distanceTo(marker, [road.points]).toFixed(2)} miles from ${name}`);
+    let nearest = 0;
+    road.points.forEach((p, i) => { if (Math.hypot(p.x - marker.x, p.y - marker.y) < Math.hypot(road.points[nearest].x - marker.x, road.points[nearest].y - marker.y)) nearest = i; });
+    return along[nearest];
+  });
+  assert.deepEqual([...miles].sort((a, b) => a - b), miles, 'the road does not pass the stops in the army\'s order');
+  // McCarley's "some fifteen miles east of Donoho's" (Barker); Roberts' "about three miles east" of McCarley (THC marker).
+  assert.ok(miles[1] - miles[0] > 12 && miles[1] - miles[0] < 18, `Donoho's to McCarley's is ${(miles[1] - miles[0]).toFixed(1)} road miles`);
+  assert.ok(miles[2] - miles[1] > 2 && miles[2] - miles[1] < 4, `McCarley's to Roberts' is ${(miles[2] - miles[1]).toFixed(1)} road miles`);
 });
 
 test('the province drawn zoomed out is the real one: its towns are the map\'s, and every band lies on the band finer than it', () => {

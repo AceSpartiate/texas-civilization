@@ -15,13 +15,15 @@
 //     towns' official coordinates too (GNIS 1360798 and 1333156).
 //   - Which settlements a road joins follows the routes of HIST-TEX-008 and the traffic of HIST-TEX-006.
 //   - **Every road course is invented** (FIC-GONZ-027): no surveyed 1835 course was found, so each is the
-//     least-effort line over the real ground between its places, crossing the big rivers only at a crossing.
+//     least-effort line over the real ground between its places, crossing the big rivers only at a crossing. A road the
+//     record walks stop by stop (the army's from Bernardo, HIST-TEX-088) goes by each stop, leg by leg.
 //   - Gonzales's ford is the point of the Guadalupe nearest the town (HIST-GONZ-007); Castañeda's camp is
 //     about seven miles upriver of it on the far bank (HIST-GONZ-008), measured along the real river.
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { gzipSync } from 'node:zlib';
 import { milesFrom, realTerrain } from '../sim/terrain-data.mjs';
 import { joinReaches } from './terrain/lines.mjs';
+import { BEXAR_LAYOUT, bexarToSite } from '../public/bexar-layout.js';
 
 const terrain = realTerrain();
 const { header, heights } = terrain;
@@ -63,6 +65,14 @@ const PLACES = [
   ['refugio', 'Refugio', 'town', -97.274887, 28.296482, 'HIST-TEX-025', false],
   ['la-grange-crossing', 'The Colorado crossing', 'crossing', -96.876647, 29.9055033, 'HIST-TEX-008', false],
   ['columbus-crossing', "Beeson's crossing", 'crossing', -96.5396933, 29.7066232, 'FIC-GONZ-027', false],
+  // Houston's camp west of the Brazos opposite Groce's plantation, March 30 - April 12, 1836: the 1990 THC marker "Sam Houston's
+  // Camp West of the Brazos", Austin County (UTM 14 779049 E 3324235 N, converted). A marker, not a surveyed campsite; the
+  // river has moved since (HIST-TEX-086).
+  ['groces', "Groce's", 'landing', -96.10685, 30.01736, 'HIST-TEX-086', false],
+  // Bernardo, Groce's plantation and the landing of his ferry on the east bank, four miles south of Hempstead (TSHA), where
+  // the Yellow Stone put the army across on April 12-13, 1836: the 1936 marker "Site of Groce's Ferry", FM 1887, Waller
+  // County (UTM 14 781265 E 3325403 N, converted). A marker, not the landing; "the River has since changed its course" (HIST-TEX-088).
+  ['bernardo', 'Bernardo', 'landing', -96.08359, 30.02738, 'HIST-TEX-088', false],
 ];
 
 // The rivers a road may cross only at a crossing, and the places where each may be crossed.
@@ -70,7 +80,8 @@ const BARRIERS = ['Guadalupe River', 'Colorado River', 'Brazos River', 'Trinity 
 const CROSSINGS = {
   'Guadalupe River': ['ford', 'victoria'],
   'Colorado River': ['la-grange-crossing', 'columbus-crossing', 'mina', 'matagorda'],
-  'Brazos River': ['san-felipe', 'washington', 'columbia', 'brazoria'],
+  // Groce's ferry, from the camp to Bernardo: the river nearest the ferry's marker on the east bank (HIST-TEX-088).
+  'Brazos River': ['san-felipe', 'washington', 'columbia', 'brazoria', 'bernardo'],
   // The Atascosito road crossed about three miles north of Liberty, not at the town (HIST-TEX-025).
   'Trinity River': ['atascosito-crossing'],
   'San Antonio River': ['goliad', 'bexar'],
@@ -114,6 +125,26 @@ const ROADS = [
   ['matagorda', 'victoria', 'The road through the Lavaca country'],
   // Men from the Colorado fought at Gonzales on October 2 (Fisher, HIST-TEX-007): the upper Colorado had a way there. FIC-GONZ-027.
   ['mina', 'gonzales', 'The road to Gonzales from the Colorado'],
+  // "The road which led from Beeson's Crossing to Gonzales", where the scouts met the Mexican scouts west of the Navidad in
+  // March 1836 (HIST-TEX-087). Houston's army did not take it: it went by Burnam's and down the east bank. Course FIC-GONZ-027.
+  ['gonzales', 'columbus-crossing', "The road to Beeson's"],
+  // The army marched up the west bank from San Felipe - six miles to Mill Creek, nine more to opposite Bernardo (HIST-TEX-086).
+  // Course FIC-GONZ-027.
+  ['san-felipe', 'groces', "The road up the Brazos to Groce's"],
+  // Groce's ferry, which the army crossed on the steamboat Yellow Stone, April 12-13, 1836 (HIST-TEX-088). A road, not a ford:
+  // it took the wagons, their ox teams and some two hundred horses over (Barker).
+  ['groces', 'bernardo', "Groce's ferry"],
+  // The army's march east, April 14-18, 1836 (HIST-TEX-088): Donoho's "a few miles east of Groce's", McCarley's on Spring Creek
+  // "some fifteen miles east of Donoho's" (Barker), the fork at Roberts' three miles on, Burnett's on Cypress Creek, and on
+  // "opposite Harrisburg". The road goes by each of their markers; its course between them is FIC-GONZ-027. ceiling: the
+  // stops are waypoints, not places - nobody can be sent to Donoho's or Roberts' - and the fork's other road, to the
+  // Trinity at Robbins' ferry, is not on the map; make them places if the army is ever to stop or choose there.
+  ['bernardo', 'harrisburg', 'The road to Harrisburg', [
+    ["Donoho's", -96.04354, 30.06361], // 1936 marker "In This Vicinity Plantation of Charles Donoho", UTM 14 785025 E 3329520 N
+    ["McCarley's", -95.80741, 30.06940], // 1993 marker "Samuel McCarley Homesite", UTM 15 229366 E 3329799 N
+    ["Roberts'", -95.76074, 30.07926], // 1993 marker "Abraham Roberts Homesite", UTM 15 233893 E 3330783 N
+    ["Burnett's", -95.64829, 29.95433], // 1993 marker "Matthew Burnett Homesite", UTM 15 244416 E 3316675 N
+  ]],
 ];
 
 // ---- Grid helpers ---------------------------------------------------------------------------
@@ -430,12 +461,15 @@ function simplify(points, tolerance, keepOffWater = true) {
 }
 
 const roads = [];
-for (const [from, to, name] of ROADS) {
+for (const [from, to, name, stops = []] of ROADS) {
   const started = Date.now();
-  const cells = route(places[from], places[to]);
+  // A road the record walks stop by stop is routed leg by leg through them, each leg the least effort between the two.
+  const via = stops.map(([stop, lon, lat]) => { const p = at(lon, lat); return { name: stop, x: round(p.x), y: round(p.y) }; });
+  const ends = [places[from], ...via, places[to]];
+  const cells = ends.slice(1).flatMap((end, i) => route(ends[i], end).slice(i ? 1 : 0));
   const points = simplify([places[from], ...cells.slice(1, -1), places[to]], 0.03).map(p => ({ x: round(p.x), y: round(p.y) }));
   const miles = points.slice(1).reduce((sum, p, i) => sum + distance(p, points[i]), 0);
-  roads.push({ id: `road-${from}-${to}`, from, to, name, kind: 'road', points, miles: round(miles) });
+  roads.push({ id: `road-${from}-${to}`, from, to, name, kind: 'road', points, miles: round(miles), ...(via.length && { via }) });
   console.log(`${name}: ${from} to ${to}, ${miles.toFixed(1)} miles, ${points.length} points, ${Date.now() - started} ms`);
 }
 // Gonzales's own short ways, as the invented map had them: the town down to the ford, and the bank to the camp.
@@ -466,6 +500,24 @@ for (const course of joinReaches(terrain.courses)) {
   const points = simplify(course.points, river ? 0.05 : 0.04, false).map(p => ({ x: round(p.x), y: round(p.y) }));
   if (points.length < 2) continue;
   drawn.push({ name: course.name, kind: river ? 'river' : 'creek', points });
+}
+
+// The San Antonio through Béxar as it ran in 1836 (FIC-GONZ-058). The modern line through the town is the cut-off channel of
+// the 1920s, straight through what were the town's lots; in 1836 the river looped east of the Plaza de las Islas round La
+// Villita and the Potrero (the owner's Nelson panorama, GLO map 83600). The reconstruction's own river is laid on the map by
+// the same frame as its streets (public/bexar-layout.js `BEXAR_FRAME`) and joined to the real line where the town ends,
+// so everything that reads the river - the page at every zoom, the province bands, the tests - reads one line.
+{
+  const bexar = places.bexar;
+  const channel = BEXAR_LAYOUT.river.points.map(p => { const o = bexarToSite(p); return { x: round(bexar.x + o.x), y: round(bexar.y + o.y) }; });
+  const reach = Math.max(...channel.map(p => distance(p, bexar)));
+  const course = drawn.filter(c => c.name === 'San Antonio River').sort((a, b) => b.points.length - a.points.length)[0];
+  const inside = course.points.map(p => distance(p, bexar) <= reach);
+  const first = inside.indexOf(true), last = inside.lastIndexOf(true);
+  if (first < 1 || last >= course.points.length - 1) throw new Error('The San Antonio does not run through Béxar');
+  const before = course.points[first - 1];
+  const ordered = distance(channel[0], before) <= distance(channel.at(-1), before) ? channel : [...channel].reverse();
+  course.points = [...course.points.slice(0, first), ...ordered, ...course.points.slice(last + 1)];
 }
 
 const output = {

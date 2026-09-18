@@ -5,6 +5,7 @@ import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeadin
 import { familyRows, PRESENCE_LABELS, rumourLines, spotlightBanner } from '/live-page.js';
 import { autoLabel, callMenu, callPlan, drawIcon, drawMark, drawPortrait, focusFor, isIdle, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, standing, RENAME_PAUSE_MS } from '/family-panel.js';
 import {drawBexarGround,bexarDrawables} from '/bexar-art.js';
+import {alamoOnMap,bexarToSite} from '/bexar-layout.js';
 import {plotArt} from '/field-art.js';
 import {drawGonzalesGround,gonzalesDrawables,GONZALES_ART_BOUNDS} from '/gonzales-art.js';
 import { drawTownGround, townDrawables } from '/town-art.js';
@@ -683,6 +684,8 @@ const CLOSEST_FIGURE = 90;
 // Below this many screen pixels per world mile, a neighbour's homestead is smaller than
 // the label that would sit on it. Fords and other minor names thin out at the same point.
 const HOMESTEAD_LEGIBLE = 11;
+/** Pixels a mile from which a landing is named: its name clears the one across the river (Groce's and Bernardo, 1.6 miles). */
+const LANDING_LEGIBLE = 45;
 // Every drawn object as a multiple of a person, so the whole scene grows together and
 // an ox never ends up smaller than the family leading it.
 /** A pole, a log tree and a large tree, as shares of a timber tree's drawn height (sim/woods.mjs `SIZES`). */
@@ -1981,11 +1984,12 @@ export function drawWorld(world) {
         standing.push(...townDrawables(ctx,layout,project,camera.scale,Object.fromEntries((world.map?.shops?.[site.id]||[]).filter(shop=>shop.building).map(shop=>[shop.building,shop.label]))));
         window.__townsDrawn={...(window.__townsDrawn||{}),[site.id]:layout.buildings.length};
       }else if(site.id==='bexar'&&camera.scale>=200){
-        // Scenic local feet around the existing, server-projected town. No new
-        // entities or travel shortcuts. Live terrain retains its own river data.
-        const project=p=>camera.toScreen({x:site.x+(p.x-1200)/5280,y:site.y+(p.y-2050)/5280});
+        // Scenic local feet around the existing, server-projected town. No new entities or travel shortcuts. Laid by the
+        // reconstruction's own frame (public/bexar-layout.js `BEXAR_FRAME`); the map's river through the town is the
+        // reconstruction's 1836 river (scripts/build-colonies-map.mjs), so it is not drawn twice and its bank trees stand on it.
+        const project=p=>{const o=bexarToSite(p);return camera.toScreen({x:site.x+o.x,y:site.y+o.y});};
         if(ground)drawBexarGround(ground,project,camera.scale/5280,{river:false});
-        standing.push(...bexarDrawables(ctx,project,camera.scale/5280,{bankTrees:false}));
+        standing.push(...bexarDrawables(ctx,project,camera.scale/5280,{alamoProject:p=>{const o=alamoOnMap(p);return camera.toScreen({x:site.x+o.x,y:site.y+o.y});}}));
       }else if (ownLand && world.land?.house?.pieces && plotCatalogue) {
         // The family's house plot, piece by piece at its stage (public/house-plot.js); the camp beside it until a pen stands.
         standing.push({ y: q.y, draw: () => { if (world.land.shelter === 'camp') homesteadCamp(ctx, q.x - size * .9, q.y + size * .35, size * .7, site.id); window.__plotPiecesDrawn = drawHousePlot(ctx, q.x, q.y, size, world.land, plotCatalogue, drawSprite); } });
@@ -2045,7 +2049,9 @@ export function drawWorld(world) {
         for (const spot of [-1, 0, 1]) { ctx.beginPath(); ctx.arc(q.x + spot * size * .5, q.y - size * .3, size * .28, 0, Math.PI * 2); ctx.fill(); }
       } });
     }
-    const worthNaming = settlement || ownLand || (camera.scale >= HOMESTEAD_LEGIBLE && (site.kind === 'ford' || (camera.named && site.kind !== 'camp')));
+    // A landing is named only once it stands clear of its neighbour: Groce's camp and Bernardo across the Brazos are a mile
+    // and a half apart, and their names lay over each other further out (2026-09-18).
+    const worthNaming = settlement || ownLand || (camera.scale >= HOMESTEAD_LEGIBLE && (site.kind === 'ford' || (camera.named && site.kind !== 'camp' && (site.kind !== 'landing' || camera.scale >= LANDING_LEGIBLE))));
     // A place name goes above its buildings. Below is where the family stands, and a
     // homestead's own name landing on top of four people and an ox is unreadable.
     if (worthNaming) {

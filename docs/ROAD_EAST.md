@@ -83,8 +83,9 @@ Each row is **chosen by default; the owner may change it.** The grounding is wha
 ## 5. Ceilings
 
 - `ceiling:` the columns march the map's roads (owner, 2026-09-17) but the dates between the settlements' days are placed,
-  and the pace within a stretch is even; the record's day-by-day marches are the way out. Gonzales to the Colorado is
-  across country because the map has no Gonzales-Beeson's road (`ROAD_DETOUR`); adding that road is the way out.
+  and the pace within a stretch is even; the record's day-by-day marches are the way out. Gonzales to the Colorado went
+  across country until 2026-09-17, when the road from Gonzales to Beeson's was put on the map (`HIST-TEX-087`); the
+  columns march it now.
 - `ceiling:` a column's reach is a circle, so a family a few miles off its road is as much in danger as one on it; the
   record has the ferry crossings taken and the roads' towns looted, not the country between.
 - `ceiling:` Washington's `enemy` day in `SETTLEMENT_DAYS` (April 10) has no column here, and Lynchburg's crowd was on the

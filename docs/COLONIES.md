@@ -197,6 +197,12 @@ chosen on arrival (`docs/LAND_GRANTS.md` §8.2).
   Velasco; Columbia – Matagorda; San Felipe – Mina). **Every course is laid by least-cost routing over the real
   terrain between its settlements** and marked `FIC-GONZ-027`: no surveyed 1835 course was found. Rivers are crossed
   only at crossings the roads name (fords and ferries), which is the rule the ford at Gonzales already follows.
+- **Groce's ferry and the road east** (2026-09-18, `HIST-TEX-088`): **Bernardo** (`bernardo`, a landing) on the east bank
+  at the 1936 "Site of Groce's Ferry" marker; **Groce's ferry** from the army's camp (`groces`, `HIST-TEX-086`) to it,
+  1.7 miles, the one way over the Brazos above San Felipe; and **the road to Harrisburg**, 62.7 miles, routed leg by leg
+  by the markers of the army's march - Donoho's, McCarley's, the fork at Roberts', Burnett's. From Groce's, `findPath`
+  now goes to Harrisburg by the ferry (64.4 miles) instead of back through San Felipe (70.6). `ceiling:` the four stops
+  are points the road passes, not places, and the fork's other road, to Robbins' ferry on the Trinity, is not drawn.
 - **Lanes** join each homestead to its nearest road along the easiest ground (`docs/LAND_GRANTS.md` §8.2).
 
 ### 5.3 The arrival
@@ -874,14 +880,15 @@ Decided by the owner by multiple choice (§7g). Research [goliad-scrape-san-jaci
 - **The refuge and home**: the family camps at its refuge; with the word of San Jacinto (April 23) every family turns for home
   (`turnHome`), and one that gets there is told the house and the field are burned.
 - **Houston's army** (`sim/houston.mjs`, service kind `houston`, chore *Go and join General Houston's army*): joined at the camp
-  of the day - Gonzales, Beeson's on the Colorado from March 17, San Felipe from the 28th (`ceiling:` Groce's is San Felipe),
+  of the day - Gonzales, Beeson's on the Colorado from March 17, San Felipe from the 28th (Groce's a place of its own since 2026-09-17, `HIST-TEX-086`), over the Brazos to Bernardo
+  on the steamboat Yellow Stone from April 12 (2026-09-18, `HIST-TEX-089`; a class saved before Bernardo stays at Groce's),
   Harrisburg from April 18, Lynchburg from the 20th - and followed as it moves (`followCamp`); anybody can be sent for; the
   regulars and auxiliaries at San Felipe are taken into it on the 28th, the regulars bound still (`takeInEnlisted`). Nobody
   joins after the battle. The only other winter choice open in the spring is none: enlisting, the garrison and the south are shut.
   **Amended 2026-09-17 ([HOUSTON_CAMP.md](HOUSTON_CAMP.md), `sim/camp.mjs`):** a man with Houston has the camp's work on his
   row - drill (three days make him steady in the line, which counts at San Jacinto), beef and corn for the mess, the guard,
   the scouts - and the army's two questions on his card with a "!": whether he goes home with the word of Goliad, and which
-  road at the fork below Harrisburg. Families that do not choose do the camp's work and answer at documented rates. The
+  road at the fork at Roberts', beyond Spring Creek (corrected 2026-09-18 from "below Harrisburg", `HIST-TEX-088`). Families that do not choose do the camp's work and answer at documented rates. The
   camp's dates are now read against the class's clock (`campClock`), as the director's milestones are.
 - **Goliad**: those with Fannin can be sent for until six on the morning of March 19; Coleto at noon (`fightColeto`, 3 in 100
   killed and 20 wounded, all then prisoners); Palm Sunday (`goliadMassacre`, 89 in 100 shot, 7 got away, 5 spared to Matamoros,
@@ -1028,7 +1035,7 @@ Put to the owner by multiple choice after [goliad-scrape-san-jacinto.md](battle-
 | How does the Runaway Scrape work for a family? | **Ordered out, with choices along the way.** When word reaches a settlement on its historical date its families are told to leave; each chooses what to load into the wagon (what is left is lost) and a way east, and must get over the flooded rivers at the crossings. The owner: *"Families watch as they leave the Texas Army burns their farm and house to make sure the Mexican Army can't use it."* |
 | What if a family will not leave? | **Burned anyway, and at risk**: the army burns the house and field when it passes whether the family has gone or not, and anybody still at home when the Mexican army comes through may be taken prisoner. Leaving is urged, never forced. |
 | Sickness on the road ("many persons died and were buried where they fell", no number) | **Sickness, rarely fatal**: rain, cold and hunger make people sick, the weak more (low hidden health, the very young, a family short of food or shelter); a few of the sick die, around one person in a hundred over the whole flight, so a family's preparation matters. |
-| Joining Houston's army | **Join at a camp, leave any time**: any grown member can join at the army's camp on its dates (Gonzales, the Colorado, San Felipe, Groce's) and can be sent for to help the family, as many men were after word of Goliad (a regular who leaves deserts); regulars and auxiliaries already enlisted join it automatically. |
+| Joining Houston's army | **Join at a camp, leave any time**: any grown member can join at the army's camp on its dates (Gonzales, the Colorado, San Felipe, Groce's, Bernardo) and can be sent for to help the family, as many men were after word of Goliad (a regular who leaves deserts); regulars and auxiliaries already enlisted join it automatically. |
 | A family member with Fannin | **The record's rates, no new joins**: Coleto about 3 in 100 killed and 20 wounded; the prisoners at Goliad on March 27 about 89 in 100 executed, 7 escape, 5 spared as physicians or workmen and taken to Matamoros. Nobody new joins Fannin; a family can send for its person until March 18. |
 | San Jacinto | **1 in 100 killed, 3 in 100 wounded**, weighted by hidden strength and health. |
 | When does the game end? | **The road home, about April 25**: the battle on the 21st, Santa Anna taken on the 22nd, word by rider, families starting home to what is left, then the final reckoning. Prisoners held at Matamoros count as alive. |

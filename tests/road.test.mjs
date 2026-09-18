@@ -215,7 +215,7 @@ test('the pursuit: a family camped at San Felipe is warned as Santa Anna’s col
   validateWorld(world);
 });
 
-test('the columns march along the map’s roads between their dated places and arrive on the record’s dates; across country only where the map has no road', () => {
+test('the columns march along the map’s roads between their dated places and arrive on the record’s dates, Gonzales to Beeson’s by its own road; across country only to a place off the roads', () => {
   const world = createGonzalesWorld(SEED, 5, { map: 'colonies' });
   const column = id => columns().find(one => one.id === id);
   const offRoad = (head, points) => Math.min(...points.slice(1).map((b, i) => { const a = points[i]; const dx = b.x - a.x, dy = b.y - a.y; const t = Math.max(0, Math.min(1, ((head.x - a.x) * dx + (head.y - a.y) * dy) / (dx * dx + dy * dy || 1))); return Math.hypot(head.x - a.x - t * dx, head.y - a.y - t * dy); }));
@@ -234,10 +234,13 @@ test('the columns march along the map’s roads between their dated places and a
   const santa = column('santa-anna'), brazos = santa.path.findIndex(stop => stop.point);
   const early = columnHead(world, santa, santa.path[brazos - 1].minute + 60);
   assert.ok(offRoad(early, findPath(world.map, 'san-felipe', 'columbia').points) < 0.01, 'Santa Anna did not leave San Felipe by the road');
-  // Gonzales to the Colorado: the map's road goes round by San Felipe, so the column goes straight across.
+  // Gonzales to the Colorado at Beeson's: by the road between them (HIST-TEX-087, on the map since 2026-09-17). Until then the
+  // map had no such road and the column went straight across country rather than round by San Felipe.
   const colorado = santa.path.findIndex(stop => stop.siteId === 'columbus-crossing');
   const midway = columnHead(world, santa, Math.round((santa.path[colorado - 1].minute + santa.path[colorado].minute) / 2));
-  assert.ok(straightOff(midway, 'gonzales', 'columbus-crossing') < 0.01, 'Santa Anna went round by San Felipe to reach the Colorado');
+  const beesons = findPath(world.map, 'gonzales', 'columbus-crossing');
+  assert.ok(!beesons.nodes.some(node => node.id === 'san-felipe'), "the way from Gonzales to Beeson's still goes round by San Felipe");
+  assert.ok(offRoad(midway, beesons.points) < 0.01, `Santa Anna's head is ${offRoad(midway, beesons.points).toFixed(2)} miles off the road to Beeson's`);
 });
 
 test('a family that stays is overtaken: the wagon, the animals and the goods taken, the grown men prisoners at the share, the rest let go; a played family is spotlit; and it is not taken twice', () => {

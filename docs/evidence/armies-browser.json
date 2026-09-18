@@ -1,31 +1,47 @@
 {
   "record": "The armies on the map, in a browser (owner, 2026-09-17)",
-  "date": "2026-09-17",
+  "date": "2026-09-18",
   "verdict": "PASS",
   "note": "Same computer only. A solo game in the spring with two of the family's men in Houston's army: the camp and its men drawn around them, the Mexican columns drawn marching, armies far off as markers, and a family out of sight told nothing. The tents and fire are Claude-drawn (docs/ART_REQUESTS.md); the men are the militia and regular figures the battles use.",
   "checks": [
-    "the page is told where the armies are: Houston's army at Gonzales (1 of ours)",
-    "zoomed in on the man his army is a camp of men around him (1 in it, 1 of the family's)",
-    "with the country in view the armies the family knows of are markers (houston)",
-    "the teacher's page sees every army in the country (4), the Mexican columns among them (1 drawn)",
+    "the page is told where the armies are: the regular army; Houston's army at Gonzales (1 of ours)",
+    "zoomed in on the man his army is a camp of men around him (2 in it, 1 of the family's)",
+    "with the country in view the armies the family knows of are markers (regulars, houston)",
+    "the teacher's page sees every army in the country (3), the Mexican columns among them (1 drawn)",
     "no page errors"
   ],
   "observed": {
     "armies": [
       {
+        "id": "regulars",
+        "name": "the regular army",
+        "side": "texian",
+        "ours": 0,
+        "strength": 1
+      },
+      {
         "id": "houston",
         "name": "Houston's army at Gonzales",
         "side": "texian",
         "ours": 1,
-        "strength": 1
+        "strength": 2
       }
     ],
     "drawn": [
       {
+        "id": "regulars",
+        "side": "texian",
+        "ours": 0,
+        "strength": 1,
+        "how": "camp",
+        "x": 386536,
+        "y": -94546
+      },
+      {
         "id": "houston",
         "side": "texian",
         "ours": 1,
-        "strength": 1,
+        "strength": 2,
         "how": "camp",
         "x": 720,
         "y": 475
@@ -33,10 +49,19 @@
     ],
     "wide": [
       {
+        "id": "regulars",
+        "side": "texian",
+        "ours": 0,
+        "strength": 1,
+        "how": "mark",
+        "x": 4192,
+        "y": -380
+      },
+      {
         "id": "houston",
         "side": "texian",
         "ours": 1,
-        "strength": 1,
+        "strength": 2,
         "how": "mark",
         "x": 720,
         "y": 475
@@ -53,19 +78,10 @@
         "y": 367
       },
       {
-        "id": "auxiliary-war",
-        "side": "texian",
-        "ours": 0,
-        "strength": 1,
-        "how": "mark",
-        "x": 835,
-        "y": 367
-      },
-      {
         "id": "houston",
         "side": "texian",
         "ours": 0,
-        "strength": 1,
+        "strength": 2,
         "how": "mark",
         "x": 446,
         "y": 463

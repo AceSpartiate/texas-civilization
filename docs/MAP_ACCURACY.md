@@ -100,8 +100,8 @@ pixel or two. Outlines too small to see at a band are left out of it (sea: 0.05,
 
 ## 4. Checks
 
-`tests/geography-truth.test.mjs` (6) and `tests/land.test.mjs` (5). Every one was proven by injecting the regression it
-guards and watching that test, and only that test, fail ([evidence/map-accuracy-injections.json](evidence/map-accuracy-injections.json), 13 of 13; the script is [evidence/map-accuracy/injections.mjs](evidence/map-accuracy/injections.mjs)). Moving Béxar across the river fails two tests, both of which hold the river between Béxar and the Alamo, the second on the shape an older page draws:
+`tests/geography-truth.test.mjs` (9) and `tests/land.test.mjs` (5). Every one was proven by injecting the regression it
+guards and watching that test, and only that test, fail ([evidence/map-accuracy-injections.json](evidence/map-accuracy-injections.json), 13 of 13; the script is [evidence/map-accuracy/injections.mjs](evidence/map-accuracy/injections.mjs)). The Groce's ferry checks of 2026-09-18 were injected the same way - the build script changed, the colonies map rebuilt (the province reads no roads or landings), the file run, everything restored and checked byte for byte - and each has an injection that fails it alone (the table's last column). Moving Béxar across the river fails two tests, both of which hold the river between Béxar and the Alamo, the second on the shape an older page draws:
 
 | check | tolerance | injected |
 |---|---|---|
@@ -109,6 +109,10 @@ guards and watching that test, and only that test, fail ([evidence/map-accuracy-
 | The San Antonio between Béxar and the Alamo, beside both | 0.3 and 0.5 miles | Béxar set a quarter mile east, maps rebuilt |
 | Gonzales across the Guadalupe from Castañeda's camp; the ford on the river; the town by its ford and above the forks | 0.06, 1, 2 miles | the camp set on Gonzales's bank |
 | Beeson's on the Colorado; Harrisburg on Buffalo Bayou; Lynchburg at Lynch's ferry, north-east of it, on dry ground | 0.3, 0.5, 0.6 miles | Lynchburg back at TSHA's point, maps rebuilt |
+| Bernardo east of the Brazos, near it (2026-09-18, `HIST-TEX-088`), a row of the banks check | 1 mile | Bernardo set 1.2 miles east (fails only this); set on the west bank (fails this and the ferry) |
+| Groce's ferry crosses the Brazos from the camp to Bernardo, short, at the crossing opened for it; the Brazos crossings are exactly San Felipe, Washington, Columbia, Brazoria and Bernardo | 3 miles; 0.6 miles | a crossing opened at the camp too (fails only this); the ferry's crossing closed (fails this and the next: the ferry goes 31 miles round) |
+| From Groce's, `findPath` to Harrisburg goes by Bernardo, not San Felipe | - | the road east sent round by a detour south of Burnett's |
+| The road to Harrisburg passes the markers of Donoho's, McCarley's, Roberts' and Burnett's, in order; Donoho's to McCarley's about fifteen miles (Barker), McCarley's to Roberts' about three (marker) | 0.4 miles; 12-18, 2-4 miles | the road routed straight, by none of the stops |
 | The province's towns are the map's; its finest band is the colonies map's line; the bands nest | exact; tolerance + 0.02 | a band-2 point moved two miles |
 | The page is sent the real province whatever a class saved; the classic Trinity passes west of Liberty and the classic San Antonio between Béxar and the Alamo; the coast runs east to west | - | the saved province sent; the classic rivers drawn only at the quarter-mile band |
 | The Lost Pines east of Mina are pine; Harrisburg and Lynchburg flat coastal prairie and marsh | over half; over 0.7 | pine read as floodplain |
@@ -232,8 +236,12 @@ longer zooms out to the invented province's 740 by 510 miles, only to the 301 by
   colonies map's own rivers, and the woods tiles still arrive in steps: the pop-in is the rendering work, which now has
   bands that nest to draw.
 - Rivers outside the box (Rio Grande, Nueces, Sabine) are not drawn (§2).
-- The Béxar street layout (`public/bexar-layout.js`) draws its own reconstructed river, which the rendering work should
-  lay on the real line.
+- ~~The Béxar street layout draws its own reconstructed river.~~ Done 2026-09-17 (`FIC-GONZ-058`): the map's modern line
+  through Béxar was the 1920s cut-off channel, running through the town's lots, and the layout was pinned 220 ft west of its
+  plaza. The town is now pinned by the Plaza de las Islas on Béxar's point and turned so the Alamo church lies on its true
+  bearing; the map's river through the town is the reconstruction's 1836 river, joined to the real line where the town
+  ends; the Alamo compound keeps its plan's compass. `ceiling:` the panorama draws the church about 600 ft short of its
+  true distance from the plaza. `tests/bexar-layout.test.mjs`.
 - A creek's timber band and the kept rivers round each settlement in `world.map.terrain` are unchanged, and still carry
   the seed's jitter; since the woods tiles they are not drawn on a real-land class.
 - The Lynchburg ferry point is the present crossing; the 1836 landing may have been a few hundred yards off it.

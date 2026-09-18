@@ -61,7 +61,7 @@ const EVENT_NAMES = Object.freeze({
   goliad: 'Goliad, on Palm Sunday',
   'san-jacinto': 'the battle of San Jacinto',
   'houston-camp': 'the camp of Houston\'s army',
-  'which-road': 'the fork of the road below Harrisburg',
+  'which-road': 'the fork of the road at Roberts\'',
 });
 const PART_WORDS = Object.freeze({
   supplied: 'carried supplies for',

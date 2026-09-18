@@ -1,5 +1,41 @@
 # Claude handoff — Astra foundation
 
+**Over the Brazos at Groce's, 2026-09-18:** the owner asked whether a steamboat was worth drawing; the answer was to fix
+the crossing first and request the boat as art. Three agents, one item each (`HIST-TEX-088`, `HIST-TEX-089`). **The ferry
+and the road east:** `bernardo` ("Bernardo", the east bank, at the 1936 Groce's Ferry marker) is joined to the camp at
+`groces` by a 1.7-mile ferry across the Brazos - the only new Brazos crossing - and a 62.7-mile road runs from it to
+Harrisburg past the marker positions of Donoho's, McCarley's, Roberts' and Burnett's (a `via` on the road's entry in
+`scripts/build-colonies-map.mjs`). **The army crosses:** at dawn on April 12 (`houston-brazos`) the story says "The army is
+crossing the Brazos on the steamboat Yellow Stone. ..." and the men with Houston move to Bernardo; on April 18 they march to
+Harrisburg by the new road, not back through San Felipe. The Host reads "with Houston's army at Bernardo, Groce's
+plantation". A class saved on a map without these places keeps its old camps (`LATER_CAMPS`). The fork of April 16 is
+now said to be at Roberts', beyond Spring Creek, as the sources put it (owner's choice); it said "below Harrisburg".
+**The steamboat** is requested from Astra in `docs/ART_REQUESTS.md` (a side-wheeler, from Karl Bodmer's 1833 plate): three
+sheets, moored, under steam and laden with men; nothing is drawn meanwhile, which is recorded as deliberate. Landings are
+named from 45 px a mile (`LANDING_LEGIBLE`), where Groce's and Bernardo stand clear of each other. `npm test` 704, every
+new test proven by injection. Browser, same computer only: `test:road`, `test:map-accuracy`, `test:whole-game`,
+`test:armies`, `test:scrape`. `ceiling:` the army waits at Bernardo until April 18 (it left the evening of the 14th; the
+stops between are points on a road, not places), so the fork question is asked while the men sit at Bernardo; the crossing
+is all at once, not seven trips; Robbins' Ferry road at the fork is not drawn.
+
+**Three map fixes, 2026-09-17:** chosen by multiple choice; researched from TSHA, the THC atlas, Barker's *San Jacinto
+Campaign* (1901) and Bill Stein's county history (`HIST-TEX-086`, `HIST-TEX-087`, `FIC-GONZ-058`). **The road from
+Gonzales to Beeson's**, "the road which led from Beeson's Crossing to Gonzales" in March 1836, is on the map (62.7 road
+miles), and the Mexican column marches it instead of cutting across country; the 1835 expresses still go by Moore's on the
+Colorado, as the letters say (`byTheLetters` in `sim/expresses.mjs`). **Groce's is a place**: the army's camp west of the
+Brazos (the 1990 THC marker, 30.01736, -96.10685), 17 road miles above San Felipe by a new road; the army marches there
+the evening of March 30 (`houston-groces`), and a class saved on the old map keeps its camp at San Felipe with the old
+words. **Béxar's river is the 1836 one**: the owner sent the Nelson panorama and a plan of the Alamo; the map's modern line
+through the town was the 1920s cut-off channel, and the town was pinned 220 ft east of its plaza, so its eastern streets ran
+into the water. The town is now pinned by the Plaza de las Islas, turned 21.1 degrees so the Alamo church lies on its true
+bearing, and the map's San Antonio through it is the reconstruction's own loops round La Villita and the Potrero, joined
+to the real line where the town ends ([screenshot](docs/evidence/bexar-1836-river.png)); the compound keeps its plan's
+compass. `ceiling:` the panorama puts the church about 600 ft short of its true distance; the army leaves Groce's for
+Harrisburg through San Felipe, not by the *Yellow Stone*; Burnam's is not a place. `npm test` 697, every new check proven
+by injecting its regression (the old map, an unturned town, the express on the new road, no fallback for an old map, the
+compound left turned). Browser, same computer only: `test:map-accuracy`, `test:road`, `test:camp`, `test:armies` (its
+seed now tried in a fixed order), `test:scrape`, `test:whole-game`.
+
 **One counter, one hand, one next course, 2026-09-17:** the three fixes the owner chose after *"problem solve the various
 things characters can do amd make improvements"*. **The town errands are the store's own trades.** Fetch seed, buy powder,
 sell food, take the cotton, buy a hoe each walked a person to a counter the *Go to a shop* order already reaches, so a

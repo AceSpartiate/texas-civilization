@@ -31,8 +31,8 @@ does not have:
 | Whoever drives the ox and wagon is their own figure's idle pose, cut off below the waist, sitting at the front of the side-view wagon (`wagon-travel`) with the ox (`ox-walk`, `-n`, `-s`) ahead; the ox and wagon are not drawn again. Going north or south the wagon stays side-on and the ox is above or below it | `wagonDriverId`, `seatOf`, `seatLayout` in `public/motion.js`; `drawSeated` in `public/app.js` | Request 2026-09-16 — driving the ox wagon | An ox team hitched to the wagon with a seated driver, in four directions, for every cast figure |
 | A rider never gets down to talk: they speak from the saddle, turned east, west, north or south toward the listener (the vertical dialogue delivered 2026-09-14 is in use) | `carrierClip` in `public/motion.js` | Request 2026-09-12, priority 3 | `courier-dismount` (delivered 2026-09-14, registered, not yet bound: it needs the encounter to know when a rider has got down and where the horse stands) |
 | The road's three panel icons are glyphs drawn in canvas strokes: a rifle over a campfire (`hunt-road`), a figure under a blanket with a cup beside (`tend-sick`), a coin passed over a ferry's rail (`trade-crossing`) | `drawGlyph` in `public/family-panel.js`; `PANEL_ICONS` carries `glyph` and no sprite, and `drawIcon` takes `icon-<key>` the moment it is registered | Request 2026-09-16 — the road's icons | `icon-hunt-road`, `icon-tend-sick`, `icon-trade-crossing` |
-
 | The camp's four icons - drill, beef and corn, the guard, the scouts - are canvas glyphs (a musket at the shoulder; horns over a corn ear; a bayonet and a crescent moon; a horseshoe and a spyglass) in the panel's brown | `PANEL_ICONS` (`glyph`) and `drawGlyph` in `public/family-panel.js` | Request 2026-09-16 — the camp's icons | `icon-camp-drill`, `icon-camp-forage`, `icon-camp-guard`, `icon-camp-scout` |
+| **No stand-in: nothing is drawn.** The army's crossing of the Brazos at Groce's on the steamboat Yellow Stone, April 12–13, 1836, is said only in words ("The army is crossing the Brazos on the steamboat Yellow Stone. She came up the river for cotton under Captain John E. Ross, and General Houston has taken her to carry the men, the horses and the wagons over the flood."); no boat is on the river. Words-only is the deliberate state: the library has nothing near a steamboat (the `skiff` and `ferry-raft` would say the wrong thing), and a wrong picture of a named boat is worse than none | `sim/houston.mjs` (the words) | Request 2026-09-18 — the steamboat Yellow Stone | `steamboat-moored`, `steamboat-steam`, `steamboat-laden`, drawn on the Brazos at Groce's ferry |
 
 ## Claude-drawn stand-ins (replace with Astra's)
 
@@ -78,6 +78,70 @@ into the existing pipeline, and how it will be checked. When a request is delive
 `npm run build:art`; do not delete it from here.
 
 ---
+
+## Request 2026-09-18 — the steamboat Yellow Stone
+
+**Status: open; no stand-in — the crossing is said in words and nothing is drawn (see *Stand-ins in use* above).** Owner-approved
+2026-09-18. On April 12–13, 1836 Houston's army crossed the Brazos at Groce's ferry, above San Felipe, on the steamboat
+Yellow Stone, which had come up the river for cotton ([HOUSTON_CAMP.md](HOUSTON_CAMP.md), `sim/houston.mjs`, `HIST-TEX-086`).
+A student with a man in the army reads "The army is crossing the Brazos on the steamboat Yellow Stone. She came up the river for cotton under Captain John E. Ross, and General Houston has taken her to carry the men, the horses and the wagons over the flood." and sees an empty river.
+
+- **Why.** The crossing is the moment the retreat turns east toward Harrisburg, and it happened on a named boat a class can
+  look up. Nothing in the library is near it — a `skiff` or a `ferry-raft` would put the army on the wrong craft — so until this
+  lands the game says it and draws nothing, rather than drawing it wrongly.
+- **References.** Read 2026-09-18 through a fetching tool that returns page summaries; the quoted wording is to be checked
+  against the pages before it is quoted to a class.
+  - TSHA, *Yellow Stone*: built at Louisville in 1831, a "sidewheeler" with a "tonnage of 144"; on April 12, 1836 she "made the
+    first of seven trips transporting the Texas army across" at Groce's. https://www.tshaonline.org/handbook/entries/yellow-stone
+  - *American Heritage*, "The Short, Dramatic Life of the Steamboat Yellow Stone" (May 1987): 120 feet long, a 20-foot beam,
+    "two side wheels, each 18 feet in diameter", "sheet-iron chimneys", a pilothouse on the boiler deck; she carried the
+    army's men, horses, wagons and ox teams. https://www.americanheritage.com/short-dramatic-life-steamboat-yellow-stone
+  - Wikipedia, *Yellowstone (steamboat)*: three decks — hold, main deck, boiler deck; a second boiler added in 1835; 120 or 130
+    feet by 19 or 20, the sources differ. https://en.wikipedia.org/wiki/Yellowstone_(steamboat)
+  - **The picture to draw from:** Karl Bodmer's aquatint *The Steamer Yellow-Stone on the 19th April 1833*, drawn from life on
+    the Missouri three years before the crossing, called perhaps the most accurate depiction of the boat in existence.
+    https://www.nga.gov/artworks/183372-steamer-yellow-stone ; https://www.metmuseum.org/art/collection/search/680742 ;
+    https://www.nps.gov/jeff/blogs/karl-bodmer-aquatint-the-steamer-yellowstone-on-the-9th-april-1833-artifact-of-the-month-for-december-2012.htm
+    Take the number and place of the chimneys, the paddle boxes, the cabin and the pilothouse from the plate; where it does
+    not show something, keep it plain rather than borrow a later, grander steamboat (no gingerbread, no tall texas deck, no
+    stern wheel).
+- **What.** A small side-wheel river steamer of 1836 in the frontier-v1 style (the `transport` preamble in
+  [art-prompts.json](art-prompts.json): warm outlined storybook art, dark olive-brown ink, flat shading, light from the upper
+  left, a slightly elevated view that sees the deck as well as the side). Broadside, **bow to screen-right (east; mirrored for
+  west)**, the starboard paddle box amidships toward the camera. The Brazos at Groce's runs north–south, so the crossing is
+  east–west and no north or south view is needed now. Weathered wood and cream paintwork, black sooty sheet-iron chimneys,
+  cotton-bale white; **no lettering** (her name on the paddle box would be text), **no flag**. Nothing below the waterline and
+  **no painted water** — the map draws the river; a thin dark water-contact line along the hull is fine, and the moving frames
+  may carry white churn at the foot of the paddle box and a small bow wave inside the frame. Three sheets of four frames, each
+  sheet square and transparent, read by the builder as **2 by 2** (a sheet of four names is laid out 2 × 2 in
+  `scripts/build-atlas-manifest.mjs`, as `wagon-rig` is), one boat per cell, 12 per cent margin, waterline at 86 per cent down
+  the cell like every other sprite's base:
+  - `steamboat-moored` — lying at the bank with steam up: (1) still, thin smoke; (2) the same, smoke lifting; (3) a gangplank
+    run out from the bow to the bank; (4) moored with cotton bales stacked on the main deck. Paddles still in all four.
+  - `steamboat-steam` — under way, empty main deck: a four-frame loop, the paddle buckets turning at the foot of the box,
+    churn, smoke puffs from the chimneys; the hull steady (the renderer adds a slow rock).
+  - `steamboat-laden` — the same four-frame loop with the main deck **crowded with the army**: men standing close in plain
+    frontier clothes with their rifles held upright, a few horses, one wagon; no uniforms beyond what the militia figures wear.
+- **Scale.** The library compresses big things; this one too. Drawn height, waterline to the chimney tops, **four figure
+  heights** (`SIZE` in `public/app.js` draws a person at 1, a wagon at 1.55, a cabin at 3.3); hull length about three times that
+  height, so the boat is plainly bigger than any building on the map but not a true 120 feet (about 21 figures). The main-deck
+  rail stands about one figure above the waterline, and **every man on the laden deck is one figure tall — a quarter of the
+  frame's height** — so the men aboard are the same size as the men waiting on the bank.
+- **Anchor.** The waterline at the middle of the hull, beneath the paddle box: the renderer sets that point on the river.
+- **How it plugs in.** Put the PNGs in `public/assets/frontier-v1/atlases/`, add the three sheets and their frame ids to
+  `SHEETS` in `scripts/build-atlas-manifest.mjs` with clips beside `skiff-float` and `ferry-float` (`steamboat-moored` a slow
+  loop with smoke, `steamboat-steam` and `steamboat-laden` 4-frame loops with `rock`), record the prompt and source, then
+  `npm run build:art` and `npm test`. The page then draws her on the Brazos at Groce's ferry for the two days of the crossing,
+  beside the army (`public/army-view.js`): moored or under way, laden or empty, **as the server's projection says** — the art
+  decides nothing, and the page never moves her across the river on its own. The words stay.
+- **Possible reuse, not a commitment.** River traffic — the Yellow Stone carrying cotton down the Brazos to Brazoria and
+  Velasco, or the Cayuga at Harrisburg — is a later design question. `steamboat-moored` frame 4 is asked for with that in mind;
+  a different boat would need its own request and research, and a boat going down the river would need north and south views.
+- **Check.** Beside `rust-idle-s` and `wagon-covered` at the drawn scale, a man on the laden deck is a person's height and the
+  boat outsizes a cabin; at the map's close zoom she reads as a side-wheel steamboat and not a building; the paddles turn in
+  `steam` and `laden` and are still in `moored`; each loop runs without a jump; one paddle box amidships, no stern wheel, no
+  text, no flag, no painted water; alpha edges clean, no painted transparency; compared with Bodmer's plate, the chimneys, the
+  paddle box and the cabin are where he drew them.
 
 ## Request 2026-09-16 — the road's icons
 

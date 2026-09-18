@@ -9,9 +9,9 @@ import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, rollFamily, stepWorld, validateWorld } from '../sim/world.mjs';
 import { beginSecondPeriod, beginThirdPeriod } from '../sim/periods.mjs';
-import { momentOf } from '../sim/directors.mjs';
+import { ARRIVAL_MINUTES, TIMELINE, momentOf } from '../sim/directors.mjs';
 import { frailty, rollFates } from '../sim/army.mjs';
-import { DRILLED_STEADINESS, DRILL_TO_STEADY, GROCES_FROM, SAN_JACINTO, campClock, drilledSteady, houstonCamp } from '../sim/houston.mjs';
+import { DRILLED_STEADINESS, DRILL_TO_STEADY, GROCES_FROM, HOUSTON_CAMPS, HOUSTON_WORD, SAN_JACINTO, campClock, drilledSteady, houstonCamp } from '../sim/houston.mjs';
 import { CAMP_CHORES, CAMP_QUESTIONS, CAMP_SHARES, SCOUT_HURT, campChoice, campInvalid, campQuestionOpen, scoutHurt } from '../sim/camp.mjs';
 import { CHORES } from '../sim/chores.mjs';
 import { GLORY_WEIGHT } from '../sim/glory.mjs';
@@ -20,6 +20,8 @@ import { setAbsent } from '../sim/absence.mjs';
 import { whereWords, waitingOn } from '../sim/host.mjs';
 import { share } from '../sim/scrape.mjs';
 import { propertyId } from '../sim/travel.mjs';
+import { findPath } from '../sim/geography.mjs';
+import { coloniesMap } from '../sim/colonies-map.mjs';
 import { isIdle, needsOf, panelActions } from '../public/family-panel.js';
 
 const view = (world, householdId, role = 'student') => projectWorld(world, householdId, role, { includeMap: false });
@@ -247,7 +249,8 @@ test('the fork of the road, April 16: asked of every man with Houston, closed th
   for (const one of [right, left, silent]) serve(world, one, { leave: 'no' });
   untilMoment(world, 'which-road');
   for (const one of [right, left, silent]) assert.equal(one.service.road, 'open', `${one.name} was not asked which road`);
-  assert.ok(world.events.some(event => event.type === 'milestone' && /fork of the road below Harrisburg/.test(event.text)));
+  // At Roberts', beyond Spring Creek, where the road forked for the Trinity and for Harrisburg (`HIST-TEX-082`, `HIST-TEX-088`).
+  assert.ok(world.events.some(event => event.type === 'milestone' && /fork of the road at Roberts', beyond Spring Creek: the left-hand road goes to the Trinity and Nacogdoches/.test(event.text)));
   assert.deepEqual(needsOf(view(world, right.householdId), right.id).map(need => need.kind), ['camp']);
   applyAction(world, right.householdId, { action: 'houston-answer', entityId: right.id, question: 'road', answer: 'yes' });
   applyAction(world, left.householdId, { action: 'houston-answer', entityId: left.id, question: 'road', answer: 'no' });
@@ -306,7 +309,7 @@ test('a man whose family does nothing is never idle: the director sets him to th
   validateWorld(world);
 });
 
-test('the Host reads what he is at and what waits: "with Houston\'s army at Groce\'s, above San Felipe de Austin: drilling with the company"', () => {
+test('the Host reads what he is at and what waits: "with Houston\'s army at Gonzales: drilling with the company", and Groce\'s by its own name', () => {
   const world = spring();
   const [man] = grownMen(world);
   const household = world.households[man.householdId];
@@ -318,10 +321,141 @@ test('the Host reads what he is at and what waits: "with Houston\'s army at Groc
   man.service.leave = 'open';
   assert.equal(waitingOn(world, household), 1);
   delete man.service.leave;
-  // Groce's, from March 30, though the camp stands at San Felipe (`ceiling:` in sim/houston.mjs).
-  world.minute = GROCES_FROM + campClock(world); man.service.siteId = 'san-felipe'; man.chore = null;
-  assert.match(whereWords(world, man, household), /^with Houston's army at Groce's, above San Felipe de Austin$/);
+  // Groce's, from the evening of March 30: a place of its own on the map since 2026-09-17 (`HIST-TEX-086`), where the camp stands.
+  world.minute = GROCES_FROM + campClock(world); man.chore = null;
+  assert.equal(houstonCamp(world), 'groces', 'the army is not camped at Groce\'s');
+  man.service.siteId = houstonCamp(world);
+  assert.match(whereWords(world, man, household), /^with Houston's army at Groce's$/);
   assert.ok(view(world, undefined, 'host').live.families.some(family => family.people.some(person => /Groce's/.test(person.where))));
+  // Over the river from April 12 (`HIST-TEX-089`): Bernardo, said as Groce's plantation, since its name alone tells a class nothing.
+  world.minute = HOUSTON_CAMPS.find(camp => camp.siteId === 'bernardo').from + campClock(world);
+  assert.equal(houstonCamp(world), 'bernardo', 'the army is not camped at Bernardo');
+  man.service.siteId = houstonCamp(world);
+  assert.match(whereWords(world, man, household), /^with Houston's army at Bernardo, Groce's plantation$/);
+  assert.ok(view(world, undefined, 'host').live.families.some(family => family.people.some(person => /Bernardo, Groce's plantation/.test(person.where))));
+  world.minute = GROCES_FROM + campClock(world); man.service.siteId = 'groces';
+  // A class saved on a map without Groce's keeps the army at San Felipe for the fortnight, and still says Groce's.
+  delete world.map.sites.groces;
+  assert.equal(houstonCamp(world), 'san-felipe', 'a class with no Groce\'s on its map lost its camp');
+  man.service.siteId = 'san-felipe';
+  assert.match(whereWords(world, man, household), /^with Houston's army at Groce's, above San Felipe de Austin$/);
+});
+
+test('Groce\'s is a place of its own: west of the Brazos, some fifteen miles above San Felipe by the road up the river, and the army marches there on March 30', () => {
+  // HIST-TEX-086: the army "camped on the west side of the river" opposite Bernardo, after six miles to Mill Creek and nine
+  // more; the 1990 THC marker "Sam Houston's Camp West of the Brazos" is in Austin County, west of the river.
+  const world = spring();
+  const groces = world.map.sites.groces, sanFelipe = world.map.sites['san-felipe'];
+  assert.ok(groces, 'Groce\'s is not on the map');
+  assert.equal(groces.name, "Groce's");
+  const road = findPath(world.map, 'san-felipe', 'groces');
+  assert.ok(road, 'there is no road to Groce\'s');
+  const miles = road.points.slice(1).reduce((sum, p, i) => sum + Math.hypot(p.x - road.points[i].x, p.y - road.points[i].y), 0);
+  assert.ok(miles > 12 && miles < 22, `Groce's is ${miles.toFixed(1)} road miles from San Felipe, not about fifteen`);
+  assert.ok(groces.y < sanFelipe.y - 10, 'Groce\'s is not up the river from San Felipe');
+  // West of the Brazos as the map draws it: the river crossed once going east from the camp, at the camp's own latitude.
+  const brazos = coloniesMap().watercourses.filter(course => course.name === 'Brazos River');
+  const eastward = brazos.flatMap(course => course.points.slice(1).map((b, i) => [course.points[i], b]))
+    .filter(([a, b]) => (a.y - groces.y) * (b.y - groces.y) <= 0 && Math.min(a.x, b.x) > groces.x - 0.01 && Math.max(a.x, b.x) < groces.x + 5);
+  assert.ok(eastward.length % 2 === 1, 'Groce\'s camp is not on the west bank of the Brazos the map draws');
+  // The army marches there on its date: a man with it at San Felipe, after the word of Goliad has sent home those who went.
+  untilMoment(world, 'houston-san-felipe');
+  const [man] = grownMen(world);
+  assert.equal(houstonCamp(world), 'san-felipe');
+  serve(world, man, { leave: 'no' });
+  until(world, () => world.minute >= GROCES_FROM + campClock(world) + 60);
+  assert.ok(man.travel?.to === 'groces' || man.location.siteId === 'groces', 'the man with the army was not marched to Groce\'s');
+  until(world, () => !man.travel, 400);
+  assert.equal(man.location.siteId, 'groces');
+  validateWorld(world);
+});
+
+// Over the Brazos at Groce's on the steamboat Yellow Stone, April 12-13, 1836 (`HIST-TEX-089`; owner 2026-09-18): the crossing
+// "began on the 12th and was completed at 1 p.m. on the 13th" (Kemp & Kilman), and the army camped "a few hundred yards east of
+// Groce's residence" (Kuykendall, in Barker 1901) - Bernardo, over Groce's ferry (`HIST-TEX-088`).
+const BERNARDO_FROM = () => HOUSTON_CAMPS.find(camp => camp.siteId === 'bernardo')?.from;
+
+test('the crossing of the Brazos and the camp at Bernardo are the same moment: dawn on April 12, between Groce\'s and Harrisburg', () => {
+  // Two tables written apart (the director's milestones and the army's camps) must agree, or for the hours between them a
+  // man at the old camp has not reached the new one - the eighteen-hour fault of 2026-09-17 over again.
+  assert.equal(BERNARDO_FROM(), 266400 + 11 * 1440 + 6 * 60, 'the Bernardo camp is not dated dawn on April 12');
+  assert.equal(TIMELINE['houston-brazos'] - ARRIVAL_MINUTES, BERNARDO_FROM(), 'the crossing\'s milestone and the Bernardo camp are at different moments');
+  const camps = HOUSTON_CAMPS.map(camp => camp.siteId);
+  assert.deepEqual(camps.slice(camps.indexOf('groces'), camps.indexOf('harrisburg') + 1), ['groces', 'bernardo', 'harrisburg']);
+  assert.match(HOUSTON_WORD.brazos, /^The army is crossing the Brazos on the steamboat Yellow Stone\. /);
+});
+
+test('April 12: the story says the army is crossing on the Yellow Stone, and a man with it at Groce\'s crosses to Bernardo, where the camp\'s work goes on with Groce\'s herd and cribs', () => {
+  const world = spring();
+  untilMoment(world, 'houston-groces');
+  const [man] = grownMen(world);
+  serve(world, man, { leave: 'no' });
+  assert.equal(man.location.siteId, 'groces');
+  // Nothing moves before the day.
+  until(world, () => world.minute >= momentOf(world, 'houston-brazos') - 1440);
+  assert.ok(world.minute < momentOf(world, 'houston-brazos'), 'the calendar stepped past the crossing');
+  assert.equal(houstonCamp(world), 'groces');
+  assert.ok(!world.events.some(event => event.claimId === 'HIST-TEX-089'), 'the crossing was said before April 12');
+  untilMoment(world, 'houston-brazos');
+  assert.equal(houstonCamp(world), 'bernardo', 'the army\'s camp did not move over the river');
+  const said = world.events.filter(event => event.type === 'milestone' && event.claimId === 'HIST-TEX-089');
+  assert.equal(said.length, 1, 'the crossing was not said, or said twice');
+  assert.equal(said[0].text, HOUSTON_WORD.brazos);
+  assert.equal(said[0].visibility, 'public');
+  assert.ok(man.travel?.to === 'bernardo' || man.location.siteId === 'bernardo', 'the man with the army was not taken over the river');
+  until(world, () => !man.travel, 60);
+  assert.equal(man.location.siteId, 'bernardo');
+  assert.ok(world.minute < momentOf(world, 'houston-brazos') + 1440, 'the crossing took him more than a day');
+  // At the new camp the day's work is open, and a day out for the mess comes back from Groce's, whose house the camp is by.
+  assert.equal(work(world, man).find(entry => entry.id === 'camp-drill').can, true, 'the camp\'s work was not open at Bernardo');
+  order(world, man, 'camp-forage'); finish(world, man);
+  assert.ok(world.events.some(event => event.actorId === man.id && /beef from Groce's herd and corn from his cribs/.test(event.text)), 'foraging at Bernardo did not come from Groce\'s');
+  validateWorld(world);
+});
+
+test('the army waits at Bernardo until noon on April 18 and then marches east by the road to Harrisburg, not back through San Felipe, and is there before Lynchburg', () => {
+  // ceiling (sim/houston.mjs): it really left on the evening of the 14th by Donoho's, McCarley's, Roberts' and Burnett's,
+  // which are points on the road, not places. Marching then would put it at Harrisburg while Santa Anna held it (April 15-18).
+  const world = spring();
+  untilMoment(world, 'houston-brazos');
+  const [man] = grownMen(world);
+  serve(world, man, { leave: 'no', road: 'no' });
+  assert.equal(man.location.siteId, 'bernardo');
+  until(world, () => world.minute >= momentOf(world, 'houston-harrisburg') - 1440);
+  assert.ok(world.minute < momentOf(world, 'houston-harrisburg'), 'the calendar stepped past the march');
+  assert.equal(houstonCamp(world), 'bernardo', 'the army\'s camp moved on from Bernardo before April 18');
+  assert.equal(man.location.siteId, 'bernardo', 'the army left Bernardo before April 18');
+  assert.equal(man.travel, null, 'the army was on the march before April 18');
+  untilMoment(world, 'houston-harrisburg');
+  assert.equal(man.travel?.from, 'bernardo'); assert.equal(man.travel?.to, 'harrisburg');
+  const sanFelipe = world.map.sites['san-felipe'];
+  const nearest = Math.min(...man.travel.points.map(p => Math.hypot(p.x - sanFelipe.x, p.y - sanFelipe.y)));
+  assert.ok(nearest > 10, `the march to Harrisburg went within ${nearest.toFixed(1)} miles of San Felipe`);
+  until(world, () => !man.travel, 400);
+  assert.equal(man.location.siteId, 'harrisburg');
+  assert.ok(world.minute < momentOf(world, 'houston-lynchburg'), 'the army reached Harrisburg after it should have marched for Lynchburg');
+  validateWorld(world);
+});
+
+test('a class saved on a map without Bernardo keeps the army at Groce\'s until April 18, as it always did, and the story still says it crossed', () => {
+  const world = spring();
+  // The map as it was before 2026-09-18: no Bernardo, no ferry, no road east from it.
+  delete world.map.sites.bernardo;
+  for (const [id, route] of Object.entries(world.map.routes)) if (route.from === 'bernardo' || route.to === 'bernardo') delete world.map.routes[id];
+  untilMoment(world, 'houston-groces');
+  const [man] = grownMen(world);
+  serve(world, man, { leave: 'no', road: 'no' });
+  untilMoment(world, 'houston-brazos');
+  assert.equal(houstonCamp(world), 'groces', 'a class with no Bernardo on its map lost its camp');
+  assert.ok(world.events.some(event => event.claimId === 'HIST-TEX-089' && event.text === HOUSTON_WORD.brazos), 'the crossing went unsaid on the old map');
+  until(world, () => world.minute >= momentOf(world, 'houston-harrisburg') - 1440);
+  assert.ok(world.minute < momentOf(world, 'houston-harrisburg'), 'the calendar stepped past the march');
+  assert.equal(man.location.siteId, 'groces', 'the man left Groce\'s with nowhere to go');
+  assert.equal(man.travel, null);
+  assert.deepEqual(work(world, man).filter(entry => entry.id !== 'camp-scout').map(entry => entry.can), [true, true, true], 'the camp\'s work closed at Groce\'s');
+  untilMoment(world, 'houston-harrisburg');
+  assert.equal(man.travel?.to, 'harrisburg', 'the army did not march for Harrisburg from Groce\'s');
+  validateWorld(world);
 });
 
 test('the panel: a man with Houston has the camp\'s work on his row and sending for him after it, is idle with it open, and a "!" for the army\'s question', () => {

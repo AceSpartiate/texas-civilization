@@ -33,7 +33,9 @@ Each is **chosen by default; the owner may change it.** The historical grounding
 | The fork of the road | At noon on April 16 the army asks every man which road he calls for: the right-hand road to Harrisburg and the enemy, or the left for Nacogdoches. The army goes right whatever he says - it did. A man who called for the right has a part in the record (**`forward`**, weight 2, like `willing`); the left changes nothing. Closes at noon on the 17th. | The Whichway Tree and "To the right boys, to the right"; who chose is disputed (`HIST-TEX-082`); the mood against Houston (`HIST-TEX-081`). The share and the award are the game's own (`FIC-GONZ-056`). |
 | Families that do not choose | A man of a family nobody plays, of a family whose student has gone (HOST_PAGE §2.4) or on auto (FAMILY_PANEL §11.7) is set to the camp's work by the neighbours' director or by auto - mostly drill, a day in six out for the mess, a day in six on guard, one in twenty with the scouts, by a hashed share of the day - and answers the two questions the tick they are asked at the same shares: **half leave** with the word of Goliad, **three in four** call for the right-hand road. So nobody's man sits idle, and nobody's odds change with the switch. | The record's rates where it has them (`HIST-TEX-076`); the rest the game's own (`FIC-GONZ-055`). |
 | The class's calendar | Holds at the farming scale while a **played** family has one of the two questions in front of it, never for the camp itself, and never for a family whose student has gone (answered at once). | COLONIES §5.7's rule, as the flight order and the army's November questions already keep it. |
-| Groce's | The camp stands at San Felipe from March 28 (COLONIES §6p's `ceiling:`), and from March 30 the words say **"Groce's, above San Felipe de Austin"** - the Host's page, the drill's record. | Groce's on the Brazos from March 30 (`HIST-TEX-066`, `-075`). |
+| Groce's | The camp is at San Felipe from March 28, and from the evening of March 30 at **Groce's**, a place of its own on the west bank about fifteen miles up the river by the road the army marched (2026-09-17, `HIST-TEX-086`); the men with the army march there. A class saved before Groce's was a place keeps the camp at San Felipe and says **"Groce's, above San Felipe de Austin"**. | Groce's on the Brazos from March 30 (`HIST-TEX-066`, `-075`). |
+| Over the Brazos (owner 2026-09-18) | At dawn on April 12 (`houston-brazos`, 282600) the story says **"The army is crossing the Brazos on the steamboat Yellow Stone. She came up the river for cotton under Captain John E. Ross, and General Houston has taken her to carry the men, the horses and the wagons over the flood."** and the camp moves to **Bernardo**, over Groce's ferry on the east bank (`HIST-TEX-088`); the men with the army cross with it. The Host reads **"with Houston's army at Bernardo, Groce's plantation"**, and a day out for the mess still comes back from Groce's herd and cribs. The army waits there until noon on April 18 and then marches for Harrisburg by the road east (`ceiling:` below). A class saved before Bernardo was a place keeps the army at Groce's until the 18th and marches as it always did, and is still told of the crossing. Words only: the boat is not drawn (docs/ART_REQUESTS.md). The hour is the game's own. | The crossing April 12-13, the camp "a few hundred yards east of Groce's residence" until the 14th (`HIST-TEX-089`). |
+| The fork's place (owner 2026-09-18) | The fork is said **at Roberts', beyond Spring Creek**, the left-hand road going to the Trinity and Nacogdoches; it had been said "below Harrisburg", which it was not - Roberts' is some forty-five road miles above it. | `HIST-TEX-082`, `HIST-TEX-088`. |
 | The camp's dates and the class's clock | `houstonCamp` now reads the record's dates against the class's clock (`campClock`: eighteen hours ahead of the timeline's midnight for a class that arrives at dawn on September 28), the way the director's milestones are read. It used to run eighteen hours ahead of the army, and for those hours a man at the old camp "had not reached the camp". Found by `tests/camp.test.mjs`. | `HIST-TEX-066`. |
 
 ## 3. As built
@@ -46,14 +48,17 @@ Each is **chosen by default; the owner may change it.** The historical grounding
   (`leave`, `road`), `openCampQuestion`, `campQuestionRefusal`, `answerCampQuestion` (action **`houston-answer`** with
   `question` and `answer`), `closeCampQuestion`, `campQuestionOpen`; `campInvalid`. Stored on the service: `drilled`,
   `scouted`, `leave`, `road` - absent until earned or asked, so **no save version moved**.
-- **`sim/houston.mjs`**: `campClock`, `houstonCamp` read against it; `GROCES_FROM`, `atGroces`, `campName`; `DRILL_TO_STEADY`,
+- **`sim/houston.mjs`**: `campClock`, `houstonCamp` read against it, passing over a camp in `LATER_CAMPS` (`groces`,
+  `bernardo`) the class's map lacks; the `bernardo` camp from April 12 and `HOUSTON_WORD.brazos` (2026-09-18); `GROCES_FROM`,
+  `atGroces` (Bernardo counts), `campName` ("Bernardo, Groce's plantation"); `DRILL_TO_STEADY`,
   `DRILLED_STEADINESS`, `drilledSteady`; `fightSanJacinto` passes `weightOf: steadiness`; `tellSanJacinto` says a drilled man
   was steady. `sim/army.mjs` `rollFates` takes `weightOf` (frailty by default).
 - **`sim/chores.mjs`**: the three hooks; somebody serving sees only `camp` chores; `registerChores` takes a registration made
   while the table is still loading (the import cycle winter → houston → scrape → host → directors → camp) and applies it
   when the table is made.
-- **`sim/directors.mjs`**: TIMELINE `goliad-leave-close` (March 28, 6 a.m.), `which-road` (April 16, noon), `which-road-close`
-  (April 17, noon); `advanceScrape` opens `leave` with `goliad-word` and `road` at the fork, and closes each.
+- **`sim/directors.mjs`**: TIMELINE `goliad-leave-close` (March 28, 6 a.m.), `houston-brazos` (April 12, 6 a.m., 2026-09-18),
+  `which-road` (April 16, noon), `which-road-close` (April 17, noon); `advanceScrape` opens `leave` with `goliad-word` and
+  `road` at the fork, and closes each; at `houston-brazos` it says the crossing and moves the men with the army to Bernardo.
 - **`sim/winter.mjs`** `SERVING_ACTIONS` adds `chore`, `stop-chore`, `houston-answer`; `sim/world.mjs` runs `advanceCamp` before
   the chores, validates `campInvalid`, dispatches `houston-answer`, and projects `drilled`, `bound`, `leave: 'open'`,
   `road: 'open'` on the service (never a fate). `sim/clock.mjs` `deciding` holds for an open camp question of a played,
@@ -75,7 +80,11 @@ Each is **chosen by default; the owner may change it.** The historical grounding
   the word of Goliad - a "!" for a played family, at once for auto, unplayed and absent, leaving and deserting, the close, the
   calendar; the fork; the director, auto and absence, and the march breaking off the work; the Host's words and count; the
   panel. Every rule was proved by injecting its regression and watching only its test fail (the record is in the HANDOFF
-  entry).
+  entry). Since 2026-09-18 (13): the crossing's milestone and the Bernardo camp at one moment, dawn on April 12; the
+  crossing said once and the man with the army taken over to Bernardo, the camp's work open there, the mess from Groce's; the
+  army waiting at Bernardo until noon on the 18th and marching east by the road to Harrisburg, clear of San Felipe, before
+  Lynchburg; a map without Bernardo keeping the army at Groce's and still saying the crossing; the Host's "Bernardo, Groce's
+  plantation"; the fork said at Roberts'.
 - `tests/houston.test.mjs`, `tests/winter.test.mjs`, `tests/chores.test.mjs`, `tests/family-commands.test.mjs` amended: a test
   that wants its men at the battle keeps them in explicitly (`leave: 'no'`), a serving regular is offered nothing, the camp's
   chores are not on a farmer's list, `camp` is a need.
@@ -92,8 +101,15 @@ Each is **chosen by default; the owner may change it.** The historical grounding
 - `ceiling:` no sickness in the camp. The record has the sick left opposite Harrisburg and the maladies of the spring rains
   (`HIST-TEX-078`); the road's sickness (`sim/scrape.mjs`) stays the road's. A daily roll at the road's rate for a man in
   camp, and being left with the camp guard when the army marches for the field, is the way out.
-- `ceiling:` Groce's is words, not a place: the camp stands at San Felipe. A site for Bernardo twenty miles up the Brazos is
-  the way out (COLONIES §6p).
+- ~~Groce's is words, not a place.~~ Done 2026-09-17: Groce's is the army's camp west of the Brazos (`HIST-TEX-086`).
+  ~~The army leaves it for Harrisburg through San Felipe.~~ Done 2026-09-18: it crosses to Bernardo on April 12 and marches
+  east from there (`HIST-TEX-088`, `-089`). `ceiling:` the army waits at Bernardo until noon on April 18 and then marches
+  straight to Harrisburg. It really left on the evening of the 14th and went by Donoho's, McCarley's, the fork at Roberts'
+  and Burnett's, which are points on the road, not places a camp can stand at; making them places, each with its night, is
+  the way out - and would put the fork's question where the fork was.
+- `ceiling:` a class saved before Bernardo was a place is told the army is crossing the Brazos while its map keeps the army
+  at Groce's and marches it by San Felipe; its map has no ferry to cross by.
+- `ceiling:` the crossing is words; the steamboat is not drawn (docs/ART_REQUESTS.md, the Yellow Stone).
 - `ceiling:` the camp has no stores. A beef brought in is said, not counted; a camp mess that runs short when nobody forages
   would want a store the camp keeps and a hunger the men feel.
 - `ceiling:` the fork's question changes nothing about where the army goes, which is the record; it is the man's part.

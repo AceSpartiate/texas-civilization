@@ -179,7 +179,8 @@ export const CAMP_QUESTIONS = Object.freeze({
       : entity.service?.acres ? 'They start home at once, and the promise of land goes with it.' : 'They start home at once. Whatever the army does next happens without them.',
     said: { yes: name => `${name} left the army to see to the family, as many did.`, no: name => `${name} stayed with the army.` },
   },
-  // April 16, the fork below Harrisburg: the right-hand road to Harrisburg and the enemy, the left to Nacogdoches (`HIST-TEX-082`).
+  // April 16, the fork at Roberts', beyond Spring Creek: the right-hand road to Harrisburg and the enemy, the left to the Trinity
+  // and Nacogdoches (`HIST-TEX-082`, `HIST-TEX-088`).
   road: {
     claimId: 'HIST-TEX-082', unplayed: 0.75, closes: 'which-road-close',
     ask: name => `The army has come to a fork of the road: the left-hand road goes to Nacogdoches and safety, the right to Harrisburg and the enemy. The men are shouting which. What does ${name} call for?`,

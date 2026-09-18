@@ -11,11 +11,12 @@ export function drawBexarGround(ctx,project,pixelsPerFoot,{river=true}={}){
   for(const road of town.roads)drawRoad(ctx,road.points.map(project),Math.max(1,road.widthFeet*pixelsPerFoot));
   for(const plaza of town.plazas)polygon(ctx,corners(plaza).map(project),'#ccb985','#a59063');
 }
-export function bexarDrawables(ctx,project,pixelsPerFoot,{alamo=true,bankTrees=true}={}){
+export function bexarDrawables(ctx,project,pixelsPerFoot,{alamo=true,bankTrees=true,alamoProject=null}={}){
   const items=[];
   // Bank trees line the illustrated river; without that river (the live game keeps its own) they would ring bare grass.
   for(const b of [...town.buildings,...town.props.filter(p=>bankTrees||!p.id.startsWith('bank-tree-'))]){const p=project(b);items.push({y:p.y,draw:()=>drawSprite(ctx,b.sprite,p.x,p.y,b.heightFeet*pixelsPerFoot)});}
-  if(alamo){const layout=town.alamo.layout,convert=p=>project(alamoToBexar(p));
+  // `alamoProject` lays the compound by its own plan (the live map keeps it north-up, public/bexar-layout.js `alamoOnMap`).
+  if(alamo){const layout=town.alamo.layout,convert=alamoProject||(p=>project(alamoToBexar(p)));
     for(const g of layout.ground)items.push({y:-Infinity,draw:()=>polygon(ctx,g.points.map(convert),'#c9b17e')});
     for(const wall of layout.walls){if(wall.roomId)continue;const a=convert(wall.a),b=convert(wall.b),count=Math.max(1,Math.ceil(Math.hypot(wall.b.x-wall.a.x,wall.b.y-wall.a.y)/12));
       items.push({y:Math.max(a.y,b.y),draw:()=>{for(let i=0;i<count;i++){const t=(i+.5)/count;drawSprite(ctx,wall.material==='timber'?'alamo-palisade':'alamo-wall-intact',a.x+(b.x-a.x)*t,a.y+(b.y-a.y)*t,wall.heightFeet*pixelsPerFoot);}}});}

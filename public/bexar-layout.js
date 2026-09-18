@@ -80,3 +80,36 @@ export const BEXAR_LAYOUT = {
     {title:'User-supplied aerial Alamo reconstruction',file:'Screenshot 2026-09-14 162509.png'}],
   note:'Illustrated reconstruction from the supplied references. Streets, river course, building count, dimensions and plots are interpretive, not surveyed 1836 geography. Generic existing artwork stands in for named civic architecture. No historical household occupancy or battle state is inferred.',
 };
+
+/**
+ * Where the reconstruction is laid on the map (2026-09-17, docs/MAP_ACCURACY.md §7). The owner's Nelson panorama is drawn in
+ * its own feet, north up as its author read it; the map is in miles from Béxar's site point.
+ *
+ * - **Anchor: the centre of the Plaza de las Islas**, which is Béxar's official point (Main Plaza, `HIST-TEX-010`). Until
+ *   now the frame was pinned by a point 220 ft west of the plaza's west edge, so the whole town sat that much east - its
+ *   eastern streets ran into the river.
+ * - **Turn: 21.1 degrees clockwise**, so the Alamo church lies from the plaza on the bearing it truly has: 29.42583,
+ *   -98.48611 (`HIST-TEX-085`), a little north of east. The panorama puts it well north of east - an oblique view read as
+ *   north up. ceiling: the panorama also draws the church about three quarters of its true distance from the plaza
+ *   (1,860 ft against about 2,470); the town is not stretched to meet it, so the church is drawn some 600 ft short.
+ *
+ * The map's own San Antonio through the town is this reconstruction's 1836 river, laid by the same frame
+ * (scripts/build-colonies-map.mjs): the modern line there is the 1920s cut-off channel, which ran through the town's lots.
+ */
+const islas = plazas.find(plaza => plaza.id === 'plaza-islas');
+export const BEXAR_FRAME = Object.freeze({ anchor: Object.freeze({ x: islas.x + islas.width / 2, y: islas.y + islas.height / 2 }), turn: 21.1 });
+/** A point of the reconstruction, in feet, as miles east and south of Béxar's site point. */
+export function bexarToSite(point) {
+  const angle = BEXAR_FRAME.turn * Math.PI / 180, x = point.x - BEXAR_FRAME.anchor.x, y = point.y - BEXAR_FRAME.anchor.y;
+  return { x: (x * Math.cos(angle) - y * Math.sin(angle)) / 5280, y: (x * Math.sin(angle) + y * Math.cos(angle)) / 5280 };
+}
+/**
+ * A point of the Alamo compound's own north-up plan (public/alamo-layout.js) as miles from Béxar's site point. The town is
+ * turned to lay the church on its bearing; the compound is turned back about the church's front, so the published plan keeps
+ * its compass on the map - the north wall runs east and west, as the owner's plan of it shows (2026-09-17).
+ */
+export const ALAMO_FRONT = Object.freeze({ x: 291, y: 393 });
+export function alamoOnMap(point) {
+  const angle = -BEXAR_FRAME.turn * Math.PI / 180, x = point.x - ALAMO_FRONT.x, y = point.y - ALAMO_FRONT.y;
+  return bexarToSite(alamoToBexar({ x: ALAMO_FRONT.x + x * Math.cos(angle) - y * Math.sin(angle), y: ALAMO_FRONT.y + x * Math.sin(angle) + y * Math.cos(angle) }));
+}

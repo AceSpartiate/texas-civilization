@@ -111,10 +111,13 @@ const FROM_MIDNIGHT_SEPT_29 = Object.freeze({
   // and Lynchburg the 20th; the battle at half past four on the 21st; Santa Anna taken the 22nd; the word on the 23rd; the
   // period ends at dawn on the 25th, the families on the road home.
   'scrape-opens': 240840, 'houston-colorado': 245160, coleto: 248400, 'goliad-surrender': 249840, 'goliad-word': 257400,
-  'goliad-massacre': 259620, 'houston-san-felipe': 261360, 'massacre-word': 267120, 'santa-anna-brazos': 281520,
+  'goliad-massacre': 259620, 'houston-san-felipe': 261360, 'houston-groces': 264240, 'massacre-word': 267120, 'santa-anna-brazos': 281520,
+  // The army over the Brazos at Groce's on the steamboat Yellow Stone from dawn on April 12 (`HIST-TEX-089`): April 1 is
+  // 266400, and 266400 + 11 × 1440 + 6 × 60 = 282600, the date of the Bernardo camp in sim/houston.mjs `HOUSTON_CAMPS`.
+  'houston-brazos': 282600,
   // The army's questions to a man with Houston (sim/camp.mjs, docs/HOUSTON_CAMP.md): whether he leaves for his family with
   // the word of Goliad (open from `goliad-word` to dawn on the 28th, when the army marches for the Brazos), and which road at
-  // the fork below Harrisburg (noon on April 16 to noon on the 17th, `HIST-TEX-082`).
+  // the fork at Roberts', beyond Spring Creek (noon on April 16 to noon on the 17th, `HIST-TEX-082`).
   'goliad-leave-close': 261000, 'which-road': 288720, 'which-road-close': 290160,
   'houston-harrisburg': 291600, 'houston-lynchburg': 294480, 'san-jacinto': 296190, 'santa-anna-taken': 297360,
   'victory-word': 298800, 'scrape-end': 301320,
@@ -956,10 +959,16 @@ function advanceScrape(world, { beginTravel } = {}) {
   once(world, 'goliad-leave-close', () => closeCampQuestion(world, 'leave', go));
   once(world, 'goliad-massacre', () => { goliadMassacre(world); spotlight(world, { key: 'goliad-massacre', text: 'Fannin\'s men, prisoners at Goliad, are marched out and shot. A few escape. No family knows yet.', siteId: 'goliad', claimId: 'HIST-TEX-064' }); });
   once(world, 'houston-san-felipe', () => { takeInEnlisted(world); followCamp(world, go); word(world, 'houston-san-felipe', everyone, { truth: HOUSTON_WORD.sanFelipe, claimId: 'HIST-TEX-066', source: 'Word from the army' }); });
+  // Up the west bank to Groce's, the evening of the 30th (`HIST-TEX-086`): the men with the army march with it.
+  once(world, 'houston-groces', () => followCamp(world, go));
   once(world, 'massacre-word', () => { word(world, 'goliad-massacre', everyone, { truth: HOUSTON_WORD.massacre, status: 'unconfirmed', claimId: 'HIST-TEX-064', source: 'Word from the west' }); tellGoliad(world, go); });
   once(world, 'santa-anna-brazos', () => word(world, 'santa-anna-brazos', everyone, { truth: HOUSTON_WORD.santaAnnaBrazos, claimId: 'HIST-TEX-067', source: 'Word from the Brazos' }));
-  // The fork of the road below Harrisburg, April 16 (`HIST-TEX-082`): the men shout which road; the army goes right whatever is said.
-  once(world, 'which-road', () => openCampQuestion(world, 'road', said('HIST-TEX-082', 'The army has come to a fork of the road below Harrisburg: the left-hand road goes to Nacogdoches, the right to Harrisburg and the enemy. The men are shouting for the right.'), go));
+  // Over the Brazos on the Yellow Stone, April 12-13 (`HIST-TEX-089`): said in the story, and the men with the army cross to
+  // Bernardo by Groce's ferry. A class whose map has no Bernardo keeps the army at Groce's (sim/houston.mjs `houstonCamp`).
+  once(world, 'houston-brazos', () => { said('HIST-TEX-089', HOUSTON_WORD.brazos); followCamp(world, go); });
+  // The fork of the road at Roberts', beyond Spring Creek, April 16 (`HIST-TEX-082`, `HIST-TEX-088`): the men shout which road;
+  // the army goes right whatever is said.
+  once(world, 'which-road', () => openCampQuestion(world, 'road', said('HIST-TEX-082', 'The army has come to a fork of the road at Roberts\', beyond Spring Creek: the left-hand road goes to the Trinity and Nacogdoches, the right to Harrisburg and the enemy. The men are shouting for the right.'), go));
   once(world, 'which-road-close', () => closeCampQuestion(world, 'road', go));
   once(world, 'houston-harrisburg', () => followCamp(world, go));
   once(world, 'houston-lynchburg', () => followCamp(world, go));

@@ -1,6 +1,6 @@
 {
   "record": "Houston's camp, in a browser: docs/HOUSTON_CAMP.md",
-  "date": "2026-09-17",
+  "date": "2026-09-18",
   "verdict": "PASS",
   "note": "Same computer only. A real class on the colonies map with rolled families, played in process through two periods and into the spring to the army's camp on the Colorado; then served live: a student sent the father to join Houston from the family panel, set him drilling from his row, read his card, answered the army's question from the \"!\" when the word of Goliad came, and the Host read what he was at. No LAN or district claim.",
   "checks": [
@@ -18,7 +18,7 @@
     "joined": {
       "name": "Trinidad Proofwright",
       "at": "columbus-crossing",
-      "minute": 249600
+      "minute": 248880
     },
     "icons": [
       {

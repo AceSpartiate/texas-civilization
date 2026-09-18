@@ -45,7 +45,7 @@ export function expressRoutes(world) {
   const from = {};
   const targets = [...new Set(distantHouseholds(world).map(household => household.settlementId))].sort();
   for (const target of targets) {
-    const path = findPath(world.map, SOURCE, target);
+    const path = byTheLetters(world, target);
     if (!path) continue;
     let previous = SOURCE;
     for (const node of path.nodes.slice(1)) {
@@ -57,6 +57,21 @@ export function expressRoutes(world) {
   }
   return from;
 }
+
+/**
+ * The road the word takes from Gonzales to a settlement: the shortest, except that it does not leave by the road to Beeson's.
+ * The letters of 1835 went by Moore's on the Colorado - the La Grange crossing - and on by Coles' to San Felipe
+ * (`HIST-TEX-006`); the road from Gonzales to Beeson's is first found in March 1836 (`HIST-TEX-087`), and since it was put on
+ * the map (2026-09-17) it is the shorter way east. ceiling: which roads the committees' riders chose is known only for these
+ * letters; every other stop is the shortest road.
+ */
+function byTheLetters(world, target) {
+  const path = findPath(world.map, SOURCE, target);
+  if (path?.nodes[1]?.id !== BEESONS || !world.map.sites[MOORES]) return path;
+  const first = findPath(world.map, SOURCE, MOORES), rest = findPath(world.map, MOORES, target);
+  return first && rest ? { nodes: [...first.nodes, ...rest.nodes.slice(1)] } : path;
+}
+const BEESONS = 'columbus-crossing', MOORES = 'la-grange-crossing';
 
 /** When this word left Gonzales for the other settlements, on this class's clock. */
 export const expressLeaves = (world, topicId, arrivalMinutes) => EXPRESS_LEAVES[topicId] + (world.director?.arrival ? arrivalMinutes : 0);
