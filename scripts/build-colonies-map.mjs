@@ -73,6 +73,13 @@ const PLACES = [
   // the Yellow Stone put the army across on April 12-13, 1836: the 1936 marker "Site of Groce's Ferry", FM 1887, Waller
   // County (UTM 14 781265 E 3325403 N, converted). A marker, not the landing; "the River has since changed its course" (HIST-TEX-088).
   ['bernardo', 'Bernardo', 'landing', -96.08359, 30.02738, 'HIST-TEX-088', false],
+  // The army's four nights on the march east, April 14-17, 1836 (HIST-TEX-088): each a settler's house on the
+  // road to Harrisburg, stood at its marker, which says where the house was, not the camp ("in this vicinity", "settled south
+  // of here"). A farmstead is a place on the road - a family can be sent there - with nothing to buy and nobody's land.
+  ['donohos', "Donoho's", 'farmstead', -96.04354, 30.06361, 'HIST-TEX-088', false], // 1936 marker "In This Vicinity Plantation of Charles Donoho", UTM 14 785025 E 3329520 N
+  ['mccarleys', "McCarley's", 'farmstead', -95.80741, 30.06940, 'HIST-TEX-088', false], // 1993 marker "Samuel McCarley Homesite", UTM 15 229366 E 3329799 N
+  ['roberts', "Roberts'", 'farmstead', -95.76074, 30.07926, 'HIST-TEX-088', false], // 1993 marker "Abraham Roberts Homesite", UTM 15 233893 E 3330783 N
+  ['burnetts', "Burnett's", 'farmstead', -95.64829, 29.95433, 'HIST-TEX-088', false], // 1993 marker "Matthew Burnett Homesite", UTM 15 244416 E 3316675 N
 ];
 
 // The rivers a road may cross only at a crossing, and the places where each may be crossed.
@@ -136,15 +143,14 @@ const ROADS = [
   ['groces', 'bernardo', "Groce's ferry"],
   // The army's march east, April 14-18, 1836 (HIST-TEX-088): Donoho's "a few miles east of Groce's", McCarley's on Spring Creek
   // "some fifteen miles east of Donoho's" (Barker), the fork at Roberts' three miles on, Burnett's on Cypress Creek, and on
-  // "opposite Harrisburg". The road goes by each of their markers; its course between them is FIC-GONZ-027. ceiling: the
-  // stops are waypoints, not places - nobody can be sent to Donoho's or Roberts' - and the fork's other road, to the
-  // Trinity at Robbins' ferry, is not on the map; make them places if the army is ever to stop or choose there.
-  ['bernardo', 'harrisburg', 'The road to Harrisburg', [
-    ["Donoho's", -96.04354, 30.06361], // 1936 marker "In This Vicinity Plantation of Charles Donoho", UTM 14 785025 E 3329520 N
-    ["McCarley's", -95.80741, 30.06940], // 1993 marker "Samuel McCarley Homesite", UTM 15 229366 E 3329799 N
-    ["Roberts'", -95.76074, 30.07926], // 1993 marker "Abraham Roberts Homesite", UTM 15 233893 E 3330783 N
-    ["Burnett's", -95.64829, 29.95433], // 1993 marker "Matthew Burnett Homesite", UTM 15 244416 E 3316675 N
-  ]],
+  // "opposite Harrisburg". Places since 2026-09-18, where the army camps each night (sim/houston.mjs); the road is laid leg by
+  // leg from one to the next, each leg's course FIC-GONZ-027. ceiling: the fork's other road, to the Trinity at Robbins'
+  // ferry, is not on the map; the left-hand road the men may call for goes nowhere a family can follow.
+  ['bernardo', 'donohos', 'The road to Harrisburg'],
+  ['donohos', 'mccarleys', 'The road to Harrisburg'],
+  ['mccarleys', 'roberts', 'The road to Harrisburg'],
+  ['roberts', 'burnetts', 'The road to Harrisburg'],
+  ['burnetts', 'harrisburg', 'The road to Harrisburg'],
 ];
 
 // ---- Grid helpers ---------------------------------------------------------------------------

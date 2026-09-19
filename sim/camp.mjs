@@ -36,7 +36,7 @@ import { record } from './events.mjs';
 import { awardGlory } from './glory.mjs';
 import { WOUND_GRADES } from './army.mjs';
 import { modeWith } from './keeping.mjs';
-import { DRILL_TO_STEADY, atGroces, campName, drilledSteady, houstonCamp } from './houston.mjs';
+import { DRILL_TO_STEADY, MARCH_CAMPS, atGroces, campName, drilledSteady, houstonCamp } from './houston.mjs';
 import { recallFromService, recallRefusal } from './winter.mjs';
 import { share } from './scrape.mjs';
 
@@ -66,6 +66,9 @@ export function campRefusal(world, household, entity, choreId) {
   if (entity.service.fate) return 'The battle is fought. The army is going home.';
   if (entity.travel) return `${entity.name} is on the road.`;
   if (entity.location?.siteId !== houstonCamp(world)) return `${entity.name} has not reached the camp.`;
+  // On the march east the army made "a forced march of fifty-five miles" (Houston, `HIST-TEX-088`): a night's camp on the
+  // road, with a guard to stand and the scouts out, and no day to drill in.
+  if (choreId === 'camp-drill' && MARCH_CAMPS.includes(houstonCamp(world))) return 'The army is on the march to Harrisburg. There is no day to drill.';
   if (choreId === 'camp-drill' && drilledSteady(entity)) return `${entity.name} has drilled ${DRILL_TO_STEADY} days and stands steady in the line.`;
   if (choreId === 'camp-scout' && modeWith(world, entity) !== 'horse') return `The scouts ride, and ${entity.name} has no horse at the camp.`;
   return null;

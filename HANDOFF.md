@@ -1,5 +1,17 @@
 # Claude handoff — Astra foundation
 
+**The army's march east, a night at each house on the road, 2026-09-18:** [HOUSTON_CAMP.md](docs/HOUSTON_CAMP.md) *The
+march east*, `HIST-TEX-088`. Owner, by multiple choice: the march's stops made places. Donoho's, McCarley's, Roberts' and
+Burnett's are places at their markers (kind `farmstead`, named from the zoom a landing is), the road to Harrisburg laid leg
+by leg between them (`scripts/build-colonies-map.mjs`; nothing else in the built map moved). The army leaves Bernardo at 3
+p.m. on April 14 - said once, "The army has left Groce's and is marching east..." - camps at Donoho's, McCarley's (6 p.m.
+the 15th), the fork at Roberts' (noon the 16th, when the men are asked which road) and Burnett's (noon the 17th, when that
+closes), and is opposite Harrisburg at noon on the 18th as before. No drilling on the march; guard, mess and scouts go on. A
+class saved before the houses were places keeps the army at Bernardo and marches it straight to Harrisburg, as it always
+did (`LATER_CAMPS`). `npm test` +3 new and 3 rewritten in `tests/camp.test.mjs` and `tests/geography-truth.test.mjs`, each
+proven by injection: a milestone an hour off, the army left at the fork, drilling on the march, old maps not passed over,
+the road skipping Roberts'. `ceiling:` the fork's left-hand road, to Robbins' ferry, is still not on the map.
+
 **Play Solo holds its clock until the family is made, 2026-09-18:** [FAMILY_CREATION.md](docs/FAMILY_CREATION.md)
 *Amendment, 2026-09-18*. Owner, by multiple choice: *hold*. The world wrote a family's arrival on its second tick, which
 closes the die, so a Solo page slower than that to open never offered it. `familyMaking` (`sim/family.mjs`) - not yet

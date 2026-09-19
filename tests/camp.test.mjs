@@ -381,7 +381,7 @@ test('the crossing of the Brazos and the camp at Bernardo are the same moment: d
   assert.equal(BERNARDO_FROM(), 266400 + 11 * 1440 + 6 * 60, 'the Bernardo camp is not dated dawn on April 12');
   assert.equal(TIMELINE['houston-brazos'] - ARRIVAL_MINUTES, BERNARDO_FROM(), 'the crossing\'s milestone and the Bernardo camp are at different moments');
   const camps = HOUSTON_CAMPS.map(camp => camp.siteId);
-  assert.deepEqual(camps.slice(camps.indexOf('groces'), camps.indexOf('harrisburg') + 1), ['groces', 'bernardo', 'harrisburg']);
+  assert.deepEqual(camps.slice(camps.indexOf('groces'), camps.indexOf('harrisburg') + 1), ['groces', 'bernardo', 'donohos', 'mccarleys', 'roberts', 'burnetts', 'harrisburg']);
   assert.match(HOUSTON_WORD.brazos, /^The army is crossing the Brazos on the steamboat Yellow Stone\. /);
 });
 
@@ -413,24 +413,76 @@ test('April 12: the story says the army is crossing on the Yellow Stone, and a m
   validateWorld(world);
 });
 
-test('the army waits at Bernardo until noon on April 18 and then marches east by the road to Harrisburg, not back through San Felipe, and is there before Lynchburg', () => {
-  // ceiling (sim/houston.mjs): it really left on the evening of the 14th by Donoho's, McCarley's, Roberts' and Burnett's,
-  // which are points on the road, not places. Marching then would put it at Harrisburg while Santa Anna held it (April 15-18).
+// The march east, April 14-18, 1836 (`HIST-TEX-088`): a night at each house on the road to Harrisburg, and the fork's question
+// asked at the fork (owner, 2026-09-18: the army's march east stops made places).
+const MARCH = [['houston-donohos', 'donohos'], ['houston-mccarleys', 'mccarleys'], ['which-road', 'roberts'], ['which-road-close', 'burnetts'], ['houston-harrisburg', 'harrisburg']];
+test('the march east\'s camps and the director\'s milestones are the same moments, the fork\'s question asked at Roberts\'', () => {
+  for (const [key, siteId] of MARCH) {
+    assert.equal(TIMELINE[key] - ARRIVAL_MINUTES, HOUSTON_CAMPS.find(camp => camp.siteId === siteId)?.from, `${key} and the camp at ${siteId} are at different moments`);
+  }
+  // Donoho's the afternoon of April 14 (Barker), McCarley's the evening of the 15th (its marker).
+  assert.equal(TIMELINE['houston-donohos'] - ARRIVAL_MINUTES, 266400 + 13 * 1440 + 15 * 60);
+  assert.equal(TIMELINE['houston-mccarleys'] - ARRIVAL_MINUTES, 266400 + 14 * 1440 + 18 * 60);
+});
+
+test('the army marches east from Bernardo on April 14 and camps a night at each house on the road - Donoho\'s, McCarley\'s, the fork at Roberts\', Burnett\'s - and is opposite Harrisburg on the 18th, not before, never back by San Felipe', () => {
   const world = spring();
   untilMoment(world, 'houston-brazos');
   const [man] = grownMen(world);
   serve(world, man, { leave: 'no', road: 'no' });
   assert.equal(man.location.siteId, 'bernardo');
+  until(world, () => world.minute >= momentOf(world, 'houston-donohos') - 60);
+  assert.equal(houstonCamp(world), 'bernardo', 'the army left Bernardo before the afternoon of April 14');
+  assert.equal(man.location.siteId, 'bernardo');
+  const sanFelipe = world.map.sites['san-felipe'];
+  let from = 'bernardo';
+  for (const [key, siteId] of MARCH) {
+    untilMoment(world, key);
+    assert.equal(houstonCamp(world), siteId, `at ${key} the army's camp is not ${siteId}`);
+    assert.ok(man.travel?.to === siteId, `at ${key} the man with the army did not march for ${siteId}`);
+    assert.equal(man.travel.from, from, `the march to ${siteId} did not start from ${from}`);
+    const nearest = Math.min(...man.travel.points.map(p => Math.hypot(p.x - sanFelipe.x, p.y - sanFelipe.y)));
+    assert.ok(nearest > 10, `the march to ${siteId} went within ${nearest.toFixed(1)} miles of San Felipe`);
+    until(world, () => !man.travel, 400);
+    assert.equal(man.location.siteId, siteId, `the man did not reach ${siteId}`);
+    from = siteId;
+    if (siteId === 'harrisburg') break;
+    // A night on the road: the guard stood and the scouts out, and no day to drill (Houston: "a forced march").
+    const drill = work(world, man).find(entry => entry.id === 'camp-drill');
+    assert.equal(drill.can, false, `the army drilled on the march, at ${siteId}`);
+    assert.match(drill.why, /on the march to Harrisburg/);
+    assert.equal(work(world, man).find(entry => entry.id === 'camp-guard').can, true, `there was no guard to stand at ${siteId}`);
+  }
+  // Santa Anna held Harrisburg April 15-18: the army is not there before the 18th, and is there before it marches for Lynchburg.
+  assert.ok(world.minute >= momentOf(world, 'houston-harrisburg'), 'the army was at Harrisburg before April 18');
+  assert.ok(world.minute < momentOf(world, 'houston-lynchburg'), 'the army reached Harrisburg after it should have marched for Lynchburg');
+  assert.equal(world.events.filter(event => event.type === 'milestone' && event.text === HOUSTON_WORD.marchEast).length, 1, 'the march east was not said, or said twice');
+  validateWorld(world);
+});
+
+/** A class saved before the march's houses were places (before 2026-09-18): one road from Bernardo to Harrisburg. */
+function oldEastRoad(world) {
+  const legs = ['bernardo', 'donohos', 'mccarleys', 'roberts', 'burnetts', 'harrisburg'].slice(1).map((to, i, all) => Object.values(world.map.routes).find(route => route.from === (i ? all[i - 1] : 'bernardo') && route.to === to));
+  const points = legs.flatMap((leg, i) => i ? leg.points.slice(1) : leg.points);
+  for (const leg of legs) delete world.map.routes[leg.id];
+  for (const id of ['donohos', 'mccarleys', 'roberts', 'burnetts']) delete world.map.sites[id];
+  world.map.routes['route-bernardo-harrisburg'] = { ...legs[0], id: 'route-bernardo-harrisburg', to: 'harrisburg', points };
+}
+
+test('a class saved before the march\'s houses were places keeps the army at Bernardo until noon on April 18 and marches it straight to Harrisburg, as it always did', () => {
+  const world = spring();
+  oldEastRoad(world);
+  untilMoment(world, 'houston-brazos');
+  const [man] = grownMen(world);
+  serve(world, man, { leave: 'no', road: 'no' });
   until(world, () => world.minute >= momentOf(world, 'houston-harrisburg') - 1440);
   assert.ok(world.minute < momentOf(world, 'houston-harrisburg'), 'the calendar stepped past the march');
-  assert.equal(houstonCamp(world), 'bernardo', 'the army\'s camp moved on from Bernardo before April 18');
+  assert.equal(houstonCamp(world), 'bernardo', 'the army\'s camp moved on from Bernardo on a map with nowhere to camp');
   assert.equal(man.location.siteId, 'bernardo', 'the army left Bernardo before April 18');
   assert.equal(man.travel, null, 'the army was on the march before April 18');
+  assert.ok(world.events.some(event => event.text === HOUSTON_WORD.marchEast), 'the march east went unsaid on the old map');
   untilMoment(world, 'houston-harrisburg');
   assert.equal(man.travel?.from, 'bernardo'); assert.equal(man.travel?.to, 'harrisburg');
-  const sanFelipe = world.map.sites['san-felipe'];
-  const nearest = Math.min(...man.travel.points.map(p => Math.hypot(p.x - sanFelipe.x, p.y - sanFelipe.y)));
-  assert.ok(nearest > 10, `the march to Harrisburg went within ${nearest.toFixed(1)} miles of San Felipe`);
   until(world, () => !man.travel, 400);
   assert.equal(man.location.siteId, 'harrisburg');
   assert.ok(world.minute < momentOf(world, 'houston-lynchburg'), 'the army reached Harrisburg after it should have marched for Lynchburg');
@@ -439,7 +491,8 @@ test('the army waits at Bernardo until noon on April 18 and then marches east by
 
 test('a class saved on a map without Bernardo keeps the army at Groce\'s until April 18, as it always did, and the story still says it crossed', () => {
   const world = spring();
-  // The map as it was before 2026-09-18: no Bernardo, no ferry, no road east from it.
+  // The map as it was before 2026-09-18: no Bernardo, no ferry, no road east from it, and none of the march's houses.
+  oldEastRoad(world);
   delete world.map.sites.bernardo;
   for (const [id, route] of Object.entries(world.map.routes)) if (route.from === 'bernardo' || route.to === 'bernardo') delete world.map.routes[id];
   untilMoment(world, 'houston-groces');

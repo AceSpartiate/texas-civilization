@@ -145,24 +145,26 @@ test('from Groce\'s the road to Harrisburg goes over the ferry by Bernardo, not 
   assert.ok(!by.includes('san-felipe'), `from Groce's to Harrisburg goes back by San Felipe: ${by.join(', ')}`);
 });
 
-test('the road east from Bernardo goes the army\'s way: Donoho\'s, McCarley\'s, the fork at Roberts\', Burnett\'s (HIST-TEX-088)', () => {
-  const road = map.roads.find(r => r.from === 'bernardo' && r.to === 'harrisburg');
-  assert.ok(road, 'there is no road from Bernardo to Harrisburg');
-  // The markers, from their THC atlas positions converted: the road passes each, in order.
-  const stops = [["Donoho's", -96.04354, 30.06361], ["McCarley's", -95.80741, 30.06940], ["Roberts'", -95.76074, 30.07926], ["Burnett's", -95.64829, 29.95433]];
-  const along = [0];
-  for (let i = 1; i < road.points.length; i++) along.push(along[i - 1] + Math.hypot(road.points[i].x - road.points[i - 1].x, road.points[i].y - road.points[i - 1].y));
-  const miles = stops.map(([name, lon, lat]) => {
-    const marker = at(lon, lat);
-    assert.ok(distanceTo(marker, [road.points]) < 0.4, `the road to Harrisburg passes ${distanceTo(marker, [road.points]).toFixed(2)} miles from ${name}`);
-    let nearest = 0;
-    road.points.forEach((p, i) => { if (Math.hypot(p.x - marker.x, p.y - marker.y) < Math.hypot(road.points[nearest].x - marker.x, road.points[nearest].y - marker.y)) nearest = i; });
-    return along[nearest];
-  });
-  assert.deepEqual([...miles].sort((a, b) => a - b), miles, 'the road does not pass the stops in the army\'s order');
+test('the road east from Bernardo goes the army\'s way, a place at each of its nights: Donoho\'s, McCarley\'s, the fork at Roberts\', Burnett\'s (HIST-TEX-088)', () => {
+  // The markers, from their THC atlas positions converted: each house is a place standing at its marker, and the way from
+  // Bernardo to Harrisburg goes by each, in order.
+  const stops = [['donohos', "Donoho's", -96.04354, 30.06361], ['mccarleys', "McCarley's", -95.80741, 30.06940], ['roberts', "Roberts'", -95.76074, 30.07926], ['burnetts', "Burnett's", -95.64829, 29.95433]];
+  for (const [id, name, lon, lat] of stops) {
+    const place = map.places[id], marker = at(lon, lat);
+    assert.ok(place, `${name} is not a place`);
+    assert.equal(place.name, name);
+    assert.equal(place.kind, 'farmstead');
+    assert.ok(Math.hypot(place.x - marker.x, place.y - marker.y) < 0.02, `${name} stands ${Math.hypot(place.x - marker.x, place.y - marker.y).toFixed(2)} miles from its marker`);
+  }
+  const path = findPath(graph, 'bernardo', 'harrisburg');
+  assert.deepEqual(path.nodes.map(node => node.id), ['bernardo', ...stops.map(([id]) => id), 'harrisburg'], 'the way east does not go house by house');
+  const leg = (from, to) => map.roads.find(r => r.from === from && r.to === to)?.miles;
   // McCarley's "some fifteen miles east of Donoho's" (Barker); Roberts' "about three miles east" of McCarley (THC marker).
-  assert.ok(miles[1] - miles[0] > 12 && miles[1] - miles[0] < 18, `Donoho's to McCarley's is ${(miles[1] - miles[0]).toFixed(1)} road miles`);
-  assert.ok(miles[2] - miles[1] > 2 && miles[2] - miles[1] < 4, `McCarley's to Roberts' is ${(miles[2] - miles[1]).toFixed(1)} road miles`);
+  assert.ok(leg('donohos', 'mccarleys') > 12 && leg('donohos', 'mccarleys') < 18, `Donoho's to McCarley's is ${leg('donohos', 'mccarleys')} road miles`);
+  assert.ok(leg('mccarleys', 'roberts') > 2 && leg('mccarleys', 'roberts') < 4, `McCarley's to Roberts' is ${leg('mccarleys', 'roberts')} road miles`);
+  // Houston: "a forced march of fifty-five miles" from Donoho's to opposite Harrisburg.
+  const march = ['mccarleys', 'roberts', 'burnetts', 'harrisburg'].reduce((sum, to, i, all) => sum + leg(i ? all[i - 1] : 'donohos', to), 0);
+  assert.ok(march > 50 && march < 65, `Donoho's to Harrisburg is ${march.toFixed(1)} road miles`);
 });
 
 test('the province drawn zoomed out is the real one: its towns are the map\'s, and every band lies on the band finer than it', () => {

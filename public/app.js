@@ -686,6 +686,8 @@ const CLOSEST_FIGURE = 90;
 const HOMESTEAD_LEGIBLE = 11;
 /** Pixels a mile from which a landing is named: its name clears the one across the river (Groce's and Bernardo, 1.6 miles). */
 const LANDING_LEGIBLE = 45;
+/** Named only from LANDING_LEGIBLE: the landings, and the farmsteads of the march east, McCarley's and Roberts' 2.8 miles apart. */
+const NAMED_CLOSE = ['landing', 'farmstead'];
 // Every drawn object as a multiple of a person, so the whole scene grows together and
 // an ox never ends up smaller than the family leading it.
 /** A pole, a log tree and a large tree, as shares of a timber tree's drawn height (sim/woods.mjs `SIZES`). */
@@ -2090,7 +2092,7 @@ export function drawWorld(world) {
     }
     // A landing is named only once it stands clear of its neighbour: Groce's camp and Bernardo across the Brazos are a mile
     // and a half apart, and their names lay over each other further out (2026-09-18).
-    const worthNaming = settlement || ownLand || (camera.scale >= HOMESTEAD_LEGIBLE && (site.kind === 'ford' || (camera.named && site.kind !== 'camp' && (site.kind !== 'landing' || camera.scale >= LANDING_LEGIBLE))));
+    const worthNaming = settlement || ownLand || (camera.scale >= HOMESTEAD_LEGIBLE && (site.kind === 'ford' || (camera.named && site.kind !== 'camp' && (!NAMED_CLOSE.includes(site.kind) || camera.scale >= LANDING_LEGIBLE))));
     // A place name goes above its buildings. Below is where the family stands, and a
     // homestead's own name landing on top of four people and an ox is unreadable.
     if (worthNaming) {

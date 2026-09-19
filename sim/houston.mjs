@@ -38,20 +38,33 @@ export const HOUSTON_CAMPS = Object.freeze([
   // Groce's, on the west bank opposite Bernardo, from the evening of March 30 (`HIST-TEX-075`, `HIST-TEX-086`).
   { from: march(30, 12), siteId: 'groces' },
   // Over the Brazos on the steamboat Yellow Stone from April 12, to the camp by Groce's house at Bernardo (`HIST-TEX-089`).
-  // ceiling: the army waits at Bernardo until noon on the 18th and then marches straight to Harrisburg. It left on the evening
-  // of the 14th and went by Donoho's, McCarley's, the fork at Roberts' and Burnett's (`HIST-TEX-088`), which are points on the
-  // road, not places a camp can stand at; making them places, each with its night, is the way out.
   { from: april(12), siteId: 'bernardo' },
+  // The march east (`HIST-TEX-088`), a night at each house on the road. Donoho's the afternoon of the 14th (Barker; its marker
+  // has the army there the 14th and 15th); McCarley's the evening of the 15th (its marker); the fork at Roberts' from noon on the
+  // 16th, the day the men are asked which road (sim/camp.mjs, `which-road`); Burnett's from noon on the 17th, when that
+  // question closes - the markers put Roberts' and Burnett's both on the 16th and Kemp & Kilman both on the 17th, and the fork
+  // is held a day so the question is asked where the road forks. Then opposite Harrisburg on the 18th ("a forced march of
+  // fifty-five miles", Houston).
+  { from: april(14, 15), siteId: 'donohos' },
+  { from: april(15, 18), siteId: 'mccarleys' },
+  { from: april(16, 12), siteId: 'roberts' },
+  { from: april(17, 12), siteId: 'burnetts' },
   { from: april(18, 12), siteId: 'harrisburg' },
   { from: april(20, 12), siteId: 'lynchburg' },
 ]);
-/** Camps that became places after classes were saved: Groce's (2026-09-17, `HIST-TEX-086`) and Bernardo (2026-09-18, `HIST-TEX-088`). */
-const LATER_CAMPS = Object.freeze(['groces', 'bernardo']);
+/**
+ * Camps that became places after classes were saved: Groce's (2026-09-17, `HIST-TEX-086`), Bernardo (2026-09-18,
+ * `HIST-TEX-088`), and the four houses of the march east (2026-09-18, `HIST-TEX-088`).
+ */
+const LATER_CAMPS = Object.freeze(['groces', 'bernardo', 'donohos', 'mccarleys', 'roberts', 'burnetts']);
+/** The march east's nights (`HIST-TEX-088`): a camp on the road, where the army does not drill. */
+export const MARCH_CAMPS = Object.freeze(['donohos', 'mccarleys', 'roberts', 'burnetts']);
 /**
  * The army's camp now. A camp whose place this class's map does not have is passed over: a class saved before Groce's was a
  * place (2026-09-17) keeps the army at San Felipe for that fortnight, as it always did, and only its words say Groce's; a class
  * saved before Bernardo was (2026-09-18) keeps it at Groce's until it marches for Harrisburg on the 18th, by San Felipe as it
- * always did, and only the story says it crossed (ceiling: its map has no ferry to cross by).
+ * always did, and only the story says it crossed (ceiling: its map has no ferry to cross by); and a class saved before the
+ * march's houses were places keeps it at Bernardo until the 18th, and marches it straight to Harrisburg, as it always did.
  */
 export const houstonCamp = world => [...HOUSTON_CAMPS].reverse().find(camp => world.minute >= camp.from + campClock(world)
   && (!LATER_CAMPS.includes(camp.siteId) || world.map?.sites?.[camp.siteId]))?.siteId || 'gonzales';
@@ -185,6 +198,7 @@ export const HOUSTON_WORD = Object.freeze({
   sanFelipe: 'The army has fallen back to the Brazos. San Felipe is burned, and Houston is camped above it at Groce\'s, drilling the men.',
   massacre: 'It is said the prisoners taken with Fannin were marched out of Goliad on Palm Sunday and shot, some four hundred of them. A few got away.',
   // April 12 (`HIST-TEX-089`). ceiling: words only; the boat is not drawn (docs/ART_REQUESTS.md, the Yellow Stone).
+  marchEast: 'The army has left Groce\'s and is marching east on the road to Harrisburg. Tonight it is camped at Donoho\'s, a few miles on.',
   brazos: 'The army is crossing the Brazos on the steamboat Yellow Stone. She came up the river for cotton under Captain John E. Ross, and General Houston has taken her to carry the men, the horses and the wagons over the flood.',
   santaAnnaBrazos:'Santa Anna has crossed the Brazos at Fort Bend with about seven hundred men and is making for Harrisburg and the government.',
   victory: 'On the afternoon of April 21 General Houston attacked Santa Anna\'s camp on the San Jacinto and destroyed his army in eighteen minutes. Santa Anna himself was taken the next day. The war is won; the families can go home.',
