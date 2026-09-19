@@ -1,5 +1,14 @@
 # Claude handoff — Astra foundation
 
+**Play Solo holds its clock until the family is made, 2026-09-18:** [FAMILY_CREATION.md](docs/FAMILY_CREATION.md)
+*Amendment, 2026-09-18*. Owner, by multiple choice: *hold*. The world wrote a family's arrival on its second tick, which
+closes the die, so a Solo page slower than that to open never offered it. `familyMaking` (`sim/family.mjs`) - not yet
+rolled but free to, or no last name, or a parent's looks unchosen - stops `tick` (`server/app.mjs`) stepping a Solo world,
+neighbours and all; the status stays `running`, so the die, the name and the looks are taken. A kept game that can no
+longer roll is not held. `npm test` 710 (`tests/solo.test.mjs` +2, each proven by injection); `npm run test:solo` now
+waits two study-pace ticks and more at tick 0 with the die still offered, then sees the world go on once the family is
+made (fails with the hold out). The navigation proof's own pause and resume are gone. Class play is unchanged.
+
 **The ground drawn again only when it changed, 2026-09-18:** [PERFORMANCE_RENDER.md](docs/PERFORMANCE_RENDER.md) *Redrawn
 only when it changed*, [before](docs/evidence/perf-render-redraw-before.json), [after](docs/evidence/perf-render-redraw-after.json).
 The kept ground was keyed on the snapshot and thrown away on every render, so each snapshot and each click drew the whole
@@ -19,9 +28,8 @@ between being found and being tapped (a target must now stand still across 700 m
 its site (waited for), a target out of view (the camera goes to the next of the family), a man dealt alone (the game is dealt
 again), and the click after a drag landing on the family panel (80 px of open map now required). One is the product's: a
 Play Solo family may roll only until the world writes its arrival on the second tick, so a page slower than that to open is
-never offered the die. The proof holds the class's clock through the Host's own `pause`/`resume` while its page opens; the
-owner chose (2026-09-18) that a Solo game **holds its clock until the family is made** - next to build. Two batches of 12 in a
-row, 24/24, none dealt again, every run all 13 checks.
+never offered the die - since fixed in the game (above), where the proof first held the clock through the Host's own
+`pause`/`resume`. Two batches of 12 in a row, 24/24, none dealt again, every run all 13 checks.
 
 **The Rumor Mill as one running story, 2026-09-18:** [HOST_PAGE §2.2](docs/HOST_PAGE.md), `sim/rumour-story.mjs`,
 [screenshot](docs/evidence/host-live-rumor-mill.png). The owner's words were "a short, easy to read story" that "will

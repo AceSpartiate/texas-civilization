@@ -286,3 +286,21 @@ world as it always did and is asked its last name as soon as Start has rolled it
 
 `ceiling:` how far a page has got is kept in that tab's own `sessionStorage`, so the title screen shows again in a new tab;
 the steps behind it do not.
+
+## Amendment, 2026-09-18 — Play Solo holds its clock until the family is made
+
+**Owner**, by multiple choice: *hold* - over letting a Solo family roll at any time. The world writes a family's arrival into
+its record on the second tick, and `rollRefusal` closes the die once anything but the founding is there; a Play Solo page
+slower than two ticks to open (a slow laptop, found by the navigation proof throttled 6x) was never offered the die, and its
+family went on unrolled.
+
+`familyMaking` (`sim/family.mjs`) is true while the player's family is still to be made and may yet be: not rolled but free
+to roll, or rolled and without its last name, or with a parent whose looks are not chosen - what the curtain asks, less the
+names card, which keeps the dealt names if nothing is changed. While it is, `tick` in `server/app.mjs` does not step a Play
+Solo world at all, the neighbours included, as a class waits in its lobby; the status stays `running`, so the die, the name
+and the looks are all taken. A class is unchanged: its Host's Start rolls every joined family that never rolled.
+
+A family that has not rolled and can no longer - a Solo game kept from before the hold - is not held, or that world would
+never move. `tests/solo.test.mjs` (the hold, and the family that cannot be made) and `npm run test:solo` (tick 0 after two
+study-pace ticks and more, the die still offered, then the world going on once the family is made) each failed with the hold
+taken out.

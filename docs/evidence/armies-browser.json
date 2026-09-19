@@ -1,6 +1,6 @@
 {
   "record": "The armies on the map, in a browser (owner, 2026-09-17)",
-  "date": "2026-09-18",
+  "date": "2026-09-19",
   "verdict": "PASS",
   "note": "Same computer only. A solo game in the spring with two of the family's men in Houston's army: the camp and its men drawn around them, the Mexican columns drawn marching, armies far off as markers, and a family out of sight told nothing. The tents and fire are Claude-drawn (docs/ART_REQUESTS.md); the men are the militia and regular figures the battles use.",
   "checks": [
@@ -92,8 +92,8 @@
         "ours": 0,
         "strength": null,
         "how": "mark",
-        "x": 492,
-        "y": 840
+        "x": 493,
+        "y": 851
       }
     ]
   },

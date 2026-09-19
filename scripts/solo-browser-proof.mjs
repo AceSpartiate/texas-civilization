@@ -1,11 +1,12 @@
 // Solo Mode, in a real browser, through the real entry point (docs/DEPLOYMENT.md).
 //
-// tests/solo.test.mjs proves the server's half: one request deals a joined, rolled, running
-// family; the link opens once; only a solo server has the door; loopback only; its own save.
+// tests/solo.test.mjs proves the server's half: one request deals a joined, running family whose
+// clock waits until the family is made; the link opens once; only a solo server has the door; loopback only; its own save.
 // This runs `npm run solo` itself - scripts/solo.mjs starting `server/main.mjs --solo` - beside
 // a real class that is already running in the same data folder, and checks what the owner
 // actually sees: the player page opens already joined with the class running, no join form
-// and no ticket left in the address bar; the solo class view opens from its Host address; a
+// and no ticket left in the address bar, and the world held until the family is made (owner,
+// 2026-09-18) and going on after; the solo class view opens from its Host address; a
 // second `npm run solo` reuses the server and deals a new game; the solo server cannot be
 // reached on this computer's network address; and the real class, its save and its port are
 // exactly as they were.
@@ -19,7 +20,8 @@ import { createServer } from 'node:net';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { setTimeout as delay } from 'node:timers/promises';
-import { createClassroom } from '../server/app.mjs';
+import { createClassroom, PACES } from '../server/app.mjs';
+import { meetFamily } from './support/meet-family.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { resolveSavePath, joinCandidates } from '../server/deployment.mjs';
 
@@ -78,9 +80,18 @@ try {
   assert.equal(seen.path, '/', 'the one-use ticket is not left in the address bar');
   assert.equal(seen.joinHidden, true, 'no join form');
   assert.ok(seen.familyKey, 'the page is a family, not a visitor');
-  const tickBefore = await page.evaluate(() => window.__snapshot.world.tick);
-  await page.waitForFunction(before => window.__snapshot.world.tick > before, tickBefore, { timeout: 60000 });
-  ok(`npm run solo opens the player page already joined as hh-1, the class running (tick ${tickBefore} → ${await page.evaluate(() => window.__snapshot.world.tick)}), no join form, no ticket in the address`);
+  ok('npm run solo opens the player page already joined as hh-1, the class running, no join form, no ticket in the address');
+  // Held while the family is made (owner, 2026-09-18, by multiple choice: "hold"): two of the study pace's ticks and more go
+  // by, and the world has not moved and the die is still the player's - the world's second tick used to close it.
+  const holdMs = PACES.study * 2 + 2000;
+  await delay(holdMs);
+  const held = await page.evaluate(async () => ({ tick: window.__snapshot.world.tick, canRoll: (await (await fetch('/api/family')).json()).family?.canRoll }));
+  assert.equal(held.tick, 0, 'the world went on before the family was made');
+  assert.equal(held.canRoll, true, 'the die was closed before the player came to it');
+  await meetFamily(page, 'Proofwright', { timeout: 30000 });
+  await page.waitForFunction(() => window.__snapshot.world.tick > 0, null, { timeout: 60000 });
+  observed.held = { waitedMs: holdMs, tickWhileMaking: held.tick, tickAfter: await page.evaluate(() => window.__snapshot.world.tick) };
+  ok(`the world waits while the family is made (tick 0 after ${holdMs / 1000} s, the die still offered) and goes on once it is (tick ${observed.held.tickAfter})`);
 
   const used = await context.newPage();
   const reused = await used.goto(first.play);

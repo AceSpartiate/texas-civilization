@@ -7,7 +7,9 @@ import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createClassroom } from '../server/app.mjs';
-import { rollRefusal } from '../sim/family.mjs';
+import { familyMaking, rollRefusal } from '../sim/family.mjs';
+import { choicesFor, isParent, LOOK_PARTS } from '../sim/appearance.mjs';
+import { stepWorld } from '../sim/world.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { resolveDataDir, resolveSavePath, soloPaths, SOLO_PORT } from '../server/deployment.mjs';
 
@@ -53,6 +55,48 @@ test('one solo request gives a joined, running family among automatic neighbours
     assert.equal(others.length, 4, 'the other families of the class still exist');
     assert.ok(others.every(household => !household.played), 'as automatic neighbours');
   } finally { await dispose(); }
+});
+
+// Owner, 2026-09-18, by multiple choice: a Solo game holds its clock until the family is made. Without it the world wrote the
+// family's arrival on its second tick, which closes the die, and a page slower than that to open was never offered it.
+test('a solo game holds its clock while the family is being made, and goes on the moment it is made', async () => {
+  const { app, dispose } = classroom({ solo: true, tickMs: 20 });
+  const call = caller(await app.listen());
+  const wait = () => new Promise(resolve => setTimeout(resolve, 300));
+  try {
+    const game = await call('/api/solo', { key: app.state.hostKey });
+    const cookie = (await call(`/solo/enter?ticket=${new URL(game.body.playUrl).searchParams.get('ticket')}`)).cookie;
+    const command = async (id, input) => assert.equal((await call('/api/command', { id, ...input }, cookie)).status, 200, id);
+    await wait();
+    assert.equal(app.state.world.status, 'running');
+    assert.equal(app.state.world.tick, 0, 'the world went on while the page was opening');
+    assert.equal(rollRefusal(app.state.world, app.state.world.households['hh-1']), null, 'the die closed before the player came to it');
+    await command('hold-roll', { action: 'roll-family' });
+    await wait();
+    assert.equal(app.state.world.tick, 0, 'the world went on before the family had its last name');
+    await command('hold-name', { action: 'rename', surname: 'Navarro' });
+    await wait();
+    assert.equal(app.state.world.tick, 0, 'the world went on before the parents\' looks were chosen');
+    const world = app.state.world;
+    const parents = world.households['hh-1'].members.map(id => world.entities[id]).filter(isParent);
+    for (const parent of parents) {
+      const choices = choicesFor(parent);
+      await command(`hold-looks-${parent.id}`, { action: 'set-appearance', entityId: parent.id, ...Object.fromEntries(LOOK_PARTS.map(part => [part, choices[part][0]])) });
+    }
+    await wait();
+    assert.ok(app.state.world.tick > 0, 'the world did not go on once the family was made');
+  } finally { await dispose(); }
+});
+
+test('a family that can no longer roll is not held, or its world would never move', () => {
+  const world = createGonzalesWorld('solo-hold', 5, { neighbours: true });
+  world.status = 'running';
+  world.households['hh-1'].played = true;
+  assert.equal(familyMaking(world, world.households['hh-1']), true, 'a new solo family is not being made');
+  // A game kept from before the hold, which ran past the die unrolled.
+  stepWorld(world); stepWorld(world);
+  assert.notEqual(rollRefusal(world, world.households['hh-1']), null, 'the arrival no longer closes the die');
+  assert.equal(familyMaking(world, world.households['hh-1']), false, 'a family that can never be made holds the world');
 });
 
 test('a solo link opens once, and a new solo game signs the last one out', async () => {

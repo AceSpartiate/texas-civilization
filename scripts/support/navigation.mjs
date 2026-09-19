@@ -169,20 +169,10 @@ export async function openGame(options, tries = 4) {
   await opened.context.close();
   return openGame(options, tries - 1);
 }
-/** The class's clock, held and let go through the Host's own commands (server/app.mjs `pause`, `resume`). */
-async function hostCommand(app, action) {
-  const post = (path, body, cookie) => fetch(app.url + path, { method: 'POST', headers: { 'Content-Type': 'application/json', ...(cookie && { cookie }) }, body: JSON.stringify(body) });
-  const cookie = (await post('/api/host', { key: app.state.hostKey })).headers.get('set-cookie').split(';')[0];
-  const response = await post('/api/command', { id: `nav-${action}-${Date.now()}`, action }, cookie);
-  if (!response.ok) throw new Error(`the Host could not ${action} the class: ${response.status}`);
-}
 async function openOneGame({ browser, app, rate, hasTouch, errors }) {
   const game = app.newSoloGame('Navigator');
-  // Held while the page opens. A Play Solo family may roll only while nothing but its founding is in its record, and the world
-  // writes its arrival there on the second tick: a page slower than that to open is never offered the die (found here
-  // 2026-09-18, and put to the owner). What is proved is navigation, not that race, so the clock waits for the page and goes on
-  // the moment before the die is rolled (a paused class sends the page nothing, and the die's answer with it).
-  await hostCommand(app, 'pause');
+  // No race with the die: a Play Solo game holds its clock until the family is made (sim/family.mjs `familyMaking`; owner,
+  // 2026-09-18). Before that the world's second tick closed the die, and a throttled page slower than that never saw it.
   const context = await browser.newContext({ viewport: VIEW, deviceScaleFactor: 1, hasTouch, reducedMotion: 'no-preference' });
   await context.addInitScript(INSTRUMENT);
   const page = await context.newPage();
@@ -191,14 +181,13 @@ async function openOneGame({ browser, app, rate, hasTouch, errors }) {
   await cdp.send('Emulation.setCPUThrottlingRate', { rate });
   const began = Date.now();
   await page.goto(app.url + game.path);
-  await page.waitForFunction(() => ['running', 'paused'].includes(window.__snapshot?.world?.status) && window.__camera, null, { timeout: 180000 });
+  await page.waitForFunction(() => window.__snapshot?.world?.status === 'running' && window.__camera, null, { timeout: 180000 });
   const loadMs = Date.now() - began;
   // Making the family and walking it to its house are the setting, not what is measured: done at the computer's own speed and
   // throttled again before the first view is drawn for the gestures. Done throttled, the making of the family ran past its
   // steps' waits about one run in three, and the proof went on with the founding family unrolled and its making still to come
   // over the map mid-run, or stopped on a timeout (2026-09-18).
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 });
-  await hostCommand(app, 'resume');
   // The family's last name and the parents' looks, asked for before anything else (owner, 2026-09-17); unanswered, they cover
   // the middle of the map where the gestures land.
   await meetFamily(page);

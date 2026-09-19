@@ -1,9 +1,10 @@
 {
-  "recordedAt": "2026-09-17T22:11:49.341Z",
+  "recordedAt": "2026-09-19T02:56:14.647Z",
   "scope": "same computer, headless Chrome",
   "command": "npm run test:solo",
   "pass": [
-    "npm run solo opens the player page already joined as hh-1, the class running (tick 0 → 1), no join form, no ticket in the address",
+    "npm run solo opens the player page already joined as hh-1, the class running, no join form, no ticket in the address",
+    "the world waits while the family is made (tick 0 after 21 s, the die still offered) and goes on once it is (tick 1)",
     "the play link is one use: opening it again is refused",
     "the solo class view opens from its Host address: running, 1 family joined",
     "the solo server does not answer on this computer's network address (Ethernet 4), only on 127.0.0.1",
@@ -13,7 +14,12 @@
     "no page errors"
   ],
   "observed": {
-    "play": "http://127.0.0.1:50697/solo/enter?ticket=…",
+    "play": "http://127.0.0.1:59585/solo/enter?ticket=…",
+    "held": {
+      "waitedMs": 21000,
+      "tickWhileMaking": 0,
+      "tickAfter": 1
+    },
     "hostView": {
       "status": "running",
       "joined": 1,

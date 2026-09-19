@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { etagFor, fileFacts, notModified, PIN_LENGTH, PINNED_CACHE, REVALIDATE_CACHE, sendBody } from './delivery.mjs';
 import { setAbsent } from '../sim/absence.mjs';
 import { createWorld, stepWorld, projectWorld, projectMap, applyAction, validateWorld, projectFamily, rollFamily } from '../sim/world.mjs';
-import { householdName, rollRefusal } from '../sim/family.mjs';
+import { familyMaking, householdName, rollRefusal } from '../sim/family.mjs';
 import { beginNextPeriod, periodOf } from '../sim/periods.mjs';
 import { dateOf } from '../sim/directors.mjs';
 import { choreCatalogue, modeCatalogue } from '../sim/chores.mjs';
@@ -823,6 +823,9 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
   });
   function tick() {
     if (state.world.status !== 'running') return;
+    // Play Solo's clock waits while the player's family is being made (sim/family.mjs `familyMaking`): the whole world, the
+    // neighbours too, as a class waits in its lobby. Still 'running', so the die, the name and the looks are taken.
+    if (solo && Object.values(state.clients).some(client => familyMaking(state.world, state.world.households[client.householdId]))) return;
     try { commit(s => { markAbsences(s.world); stepWorld(s.world); }, { when: 'tick' }); }
     catch (error) { if (!runtimeFault) suspend('SIMULATION_FAILED'); console.error('Simulation paused:', error.cause?.message || error.message); }
   }

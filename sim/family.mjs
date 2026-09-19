@@ -298,6 +298,22 @@ export function rollRefusal(world, household) {
 }
 
 /**
+ * Whether this family is still being made and may yet be: rolled, given its last name, and each parent's looks chosen - what
+ * the curtain in public/creation.js asks, the names card aside, which keeps what the game dealt if nothing is changed.
+ *
+ * Play Solo holds its clock while this is true (server/app.mjs `tick`; owner, 2026-09-18, by multiple choice: "hold"). The
+ * world writes the family's arrival on its second tick, which closes the die (`rollRefusal`), so a page slower than that to
+ * open was never offered it. A family that has not rolled and may not - a game kept from before the hold - is not held: it
+ * could never be made, and the world would never move.
+ */
+export function familyMaking(world, household) {
+  if (!household) return false;
+  if (!household.roll) return rollRefusal(world, household) === null;
+  if (!household.name && !household.surname) return true;
+  return household.members.some(id => isParent(world.entities[id]) && !lookChosen(world.entities[id]));
+}
+
+/**
  * How old somebody looks, in the bands a glance can tell apart. Sent to a client instead of an
  * exact age for anybody outside the family - standing near a neighbour's child tells you it is
  * a small child, not that it is three. Absent for somebody with no stated age.
