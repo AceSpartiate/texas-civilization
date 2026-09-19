@@ -7,13 +7,15 @@
 // how a class of ground looks - is here, pure, and held.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { CANVAS_PIXEL_BUDGET, canvasRatio, distanceToSegments, ramp, sameLayerKey, scatterItem, scatterLevels, segmentsNear, setText, smoothCover, WATER, waterWidth, creekOpacity } from '../public/map-base.js';
+import { CANVAS_PIXEL_BUDGET, canvasRatio, groundInputs, distanceToSegments, ramp, sameLayerKey, scatterItem, scatterLevels, segmentsNear, setText, smoothCover, WATER, waterWidth, creekOpacity } from '../public/map-base.js';
 import { curveThrough, visibleSegments } from '../public/curve.js';
 import { WOODS_BANDS, woodsLayers } from '../public/woods-view.js';
 import { DEFAULT_GROUND, GROUND_CLASSES, groundClassAt, markFor } from '../public/ground-classes.js';
 import { decodeLand, decodeProvince, flatPoints, landWeights, lineBand } from '../public/land-levels.js';
 import { gunzipSync } from 'node:zlib';
 import { readFileSync } from 'node:fs';
+import { createGonzalesWorld } from '../sim/gonzales.mjs';
+import { projectWorld, stepWorld } from '../sim/world.mjs';
 
 /** One wheel step of the map (public/app.js, the wheel handler). */
 const STEP = 1.15;
@@ -316,4 +318,46 @@ test('a long journey is out of sight in the middle, and a short one is watched a
   assert.match(app, /observedOf\(world\)\.filter\(entity => entity\.location && !outOfSight\(entity, minutesATick\)\)/, 'a neighbour out of sight is drawn');
   assert.match(app, /minutesATick = world\.minute - lastTickSeen\.minute/, 'the page does not know how long a tick stood for');
   assert.match(app, /out of sight, \$\{Math\.max\(1, Math\.round\(\(chosen\.travel\.distance \|\| 0\) - \(chosen\.travel\.progress \|\| 0\)\)\)\} miles to go/, 'the card does not say where they are');
+});
+
+// The ground is drawn again only when what it is drawn from changed (2026-09-18). Until then every snapshot, and every click,
+// drew the whole country again under people who were only walking.
+test('the ground\'s key holds while only people move, the clock turns and the story grows, and changes with everything the ground draws', () => {
+  const world = createGonzalesWorld('ground-key', 5, { map: 'colonies' });
+  world.status = 'running';
+  for (let tick = 0; tick < 40; tick++) stepWorld(world);
+  const view = () => projectWorld(world, 'hh-1', 'student', { includeMap: false });
+  const before = view();
+  for (let tick = 0; tick < 3; tick++) stepWorld(world);
+  const after = view();
+  assert.notEqual(after.minute, before.minute, 'the clock did not turn');
+  assert.equal(groundInputs(after), groundInputs(before), 'a snapshot in which only the clock and the people moved redraws the ground');
+  // A copy is judged by what it holds, and the same snapshot is not read twice.
+  assert.equal(groundInputs(structuredClone(after)), groundInputs(after));
+  assert.equal(groundInputs(after), groundInputs(after));
+  // Each thing the ground draws, changed on its own, changes the key.
+  const changed = mutate => { const copy = structuredClone(after); mutate(copy); return groundInputs(copy); };
+  const same = groundInputs(after);
+  const plot = { id: 'plot-x', x: 1, y: 2, state: 'staked', work: 0, spells: 6 };
+  for (const [what, mutate] of [
+    ['a plot staked', w => { w.land = { ...(w.land || {}), plots: [...(w.land?.plots || []), plot] }; }],
+    ['the field sown', w => { w.household = { ...w.household, field: { crop: 'corn', state: 'young' } }; }],
+    ['the grant', w => { w.land = { ...(w.land || {}), grant: { bounds: { minX: 0, minY: 0, maxX: 1, maxY: 1 } } }; }],
+    ['the lane cut', w => { w.land = { ...(w.land || {}), lane: { miles: 1, cut: 0.5 } }; }],
+    ['the house site being chosen', w => { w.land = { ...(w.land || {}), choosingSite: true }; }],
+    ['somebody off to survey', w => { w.entities[0].chore = { id: 'survey-plot', plot: { x: 3, y: 4 } }; }],
+    ['the woods are the land\'s', w => { w.map = { ...(w.map || {}), woods: w.map?.woods === 'landfire-2016' ? null : 'landfire-2016' }; }],
+  ]) assert.notEqual(changed(mutate), same, `${what} did not redraw the ground`);
+  // The work on a staked plot moves the turned earth in its middle.
+  const staked = structuredClone(after); staked.land = { ...(staked.land || {}), plots: [plot] };
+  const worked = structuredClone(staked); worked.land.plots[0].work = 3;
+  assert.notEqual(groundInputs(worked), groundInputs(staked), 'clearing done on a plot did not redraw the ground');
+  // The Host's ground is every family's land.
+  const host = projectWorld(world, undefined, 'host', { includeMap: false });
+  const hostCopy = structuredClone(host);
+  const someone = Object.keys(hostCopy.overview?.lands || {})[0];
+  assert.ok(someone, 'the Host is sent no family\'s land');
+  hostCopy.overview.lands[someone].plots = [plot];
+  assert.notEqual(groundInputs(hostCopy), groundInputs(host), 'a family\'s plot on the Host\'s map did not redraw the ground');
+  assert.equal(groundInputs(null), '');
 });

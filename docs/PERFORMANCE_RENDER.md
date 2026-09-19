@@ -217,7 +217,7 @@ redrawn. The grids hand over across a band of zoom (`landWeights`: a grid fades 
 
 These are the top costs after the change, from the profile.
 
-- **Redrawing the ground.** A redraw costs 50 to 75 ms throttled, and the main one-off cost now is a snapshot: at the 1 s
+- ~~**Redrawing the ground.**~~ Done 2026-09-18 (*Redrawn only when it changed*, below). A redraw costs 50 to 75 ms throttled, and the main one-off cost now is a snapshot: at the 1 s
   tick of this measurement that is about one redraw a second. At Solo's 9.5 s pace it is one every 9.5 s. The redraw
   happens for the whole snapshot even when nothing on the ground changed. A fingerprint of what the ground is drawn from
   (plots, lane, woods revision, picks) in place of the snapshot's identity would skip most of these. It was left out
@@ -249,3 +249,38 @@ measured or rebuilt every frame, and the woods came in batches:
 Painted frames stay at 9-10 a second (the animation's own cap is 12). Still to do: the household, visit and travel-mode rows
 are rebuilt on every snapshot (about 1,000-1,300 elements a minute, `renderHousehold` and `renderTravelModes`), and the
 close-up land view redraws its ground twice a second while neighbours work nearby.
+
+## Redrawn only when it changed — 2026-09-18
+
+The first item under *What remains*, done. The kept ground was keyed on the snapshot itself, and `render` threw it away as
+well, so every snapshot and every click drew the whole country again under people who were only walking. Now:
+
+- **The ground's key is what it is drawn from** (`groundInputs` in `public/map-base.js`, kept per snapshot): the family's
+  plots and their work, fences and crop, its grant, lane and house site; on the Host's map every family's; the ground
+  somebody is on the way to survey; whether the woods are the land's; and the pick being made on the land.
+- **The woods' revision is not in it.** A tree felled anywhere in the class moves it, and the neighbours fell nearly every
+  tick; what changes on screen is the tile that comes back, whose arrival draws the ground. The woods are still asked for
+  their view whenever the revision moves.
+- **A tile that comes back unchanged draws nothing** (`public/woods-view.js`): after a felling somewhere else the trees in
+  view are asked for again and nearly always return as they were.
+- **The ground audit** is the guard against the risk this carried - a thing drawn into the ground that the key does not know
+  of, standing stale. With `window.__groundAudit` set, the page draws the ground afresh aside on every snapshot the kept
+  ground was not redrawn for, from the same drawing state and moment, and compares the pixels (`auditGround`).
+  `npm run test:farm` runs with it on: 50 snapshots of staking, clearing, planting and fencing, none stale. Leaving the plots
+  out of the key makes it fail on the first snapshot after a plot is cleared, where the proof's own checks do not.
+- **Why each redraw happened** is counted (`window.__groundWhy`) and written into the measurement (`groundDrawnBecause`).
+
+`node scripts/perf-render-measure.mjs --phase 20`, same computer, CPU throttled 6x, 15 families, 1 s ticks; *before* is the
+v2026.09.18.2 build measured by the same script (`--root`). [before](evidence/perf-render-redraw-before.json),
+[after](evidence/perf-render-redraw-after.json).
+
+| View | Ground drawn a second | Snapshot handled (mean) | Long tasks a minute | Slowest frames (p95) | Main thread busy |
+|---|---|---|---|---|---|
+| default | 1.3 → **0.1** | 54 → **23 ms** | 63 → **6** | 15 → **14 ms** | 38% → **30%** |
+| land (close up) | 2 → **0** | 73 → **21 ms** | 119 → **0** | 60 → **14 ms** | 41% → **30%** |
+| town (Gonzales) | 1 → **0** | 61 → **18 ms** | 62 → **0** | 14 → **13 ms** | 34% → **28%** |
+| whole map | 1 → **0** | 46 → **12 ms** | 9 → **0** | 6 → **6 ms** | 26% → **22%** |
+
+Same computer only: a throttled desktop is not a Chromebook. `ceiling:` anything newly drawn into the ground must be added
+to `groundInputs`, or it stands stale until the camera moves; the audit in the farm proof is what finds one, and it covers
+a student's own land, not the Host's map. Still to do: the household, visit and travel-mode rows rebuilt on every snapshot.

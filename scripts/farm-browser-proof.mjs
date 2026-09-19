@@ -55,6 +55,10 @@ try {
   const host = await post('/api/host', { key: app.state.hostKey });
   const hostCookie = host.headers.get('set-cookie').split(';')[0];
   const context = await browser.newContext({ reducedMotion: 'no-preference', viewport: { width: 1440, height: 950 } });
+  // The ground audit (public/app.js `auditGround`, 2026-09-18): on every snapshot the kept ground is not redrawn for, the
+  // page draws it afresh aside and compares. This run stakes, clears, plants and fences, so anything drawn into the ground
+  // that the ground's key does not know of shows here as ground left stale.
+  await context.addInitScript(() => { window.__groundAudit = true; });
   const page = await context.newPage();
   page.on('pageerror', error => errors.push(error.message));
   await page.goto(url);
@@ -178,6 +182,10 @@ try {
 
   mkdirSync('test-results', { recursive: true });
   await page.screenshot({ path: 'test-results/farm-expanded.png' });
+  const audit = await page.evaluate(() => ({ audits: window.__groundAudits || 0, misses: window.__groundAuditMisses || [], drawn: window.__groundDrawn || 0, why: window.__groundWhy || {} }));
+  assert.ok(audit.audits >= 5, `the ground was audited only ${audit.audits} times`);
+  assert.deepEqual(audit.misses, [], `the kept ground went stale: ${JSON.stringify(audit.misses)}`);
+  ok(`the ground stayed right while the land changed: ${audit.audits} snapshots checked against a fresh drawing, none stale; drawn ${audit.drawn} times (${JSON.stringify(audit.why)})`);
   assert.deepEqual(errors, [], `page errors: ${errors.join(' | ')}`);
   ok('no page errors anywhere in the run');
 

@@ -79,6 +79,8 @@ test("the page asks for its view's tiles and reads timber and trees out of what 
     const tiles = woodsTiles(colonies, url.searchParams.get('level'), pairs);
     return { ok: tiles.some(Boolean), json: async () => ({ tiles }) };
   };
+  // Put back however the test ends, or a failure here would leave every later test fetching from this stand-in.
+  try {
   const catalogue = woodsCatalogue();
   const canvas = { width: 1000, height: 600 };
   const cameraAt = scale => ({ scale, toWorld: s => ({ x: home.x + (s.x - canvas.width / 2) / scale, y: home.y + (s.y - canvas.height / 2) / scale }), toScreen: p => ({ x: canvas.width / 2 + (p.x - home.x) * scale, y: canvas.height / 2 + (p.y - home.y) * scale }) });
@@ -115,13 +117,25 @@ test("the page asks for its view's tiles and reads timber and trees out of what 
   requests.length = 0;
   ensureWoods(colonies, close, canvas, 'class-1', catalogue, () => {}); await settle();
   assert.equal(requests.length, 0);
+  // A tree felled somewhere moves the woods' revision and the trees in view are asked for again; tiles that come back as they
+  // were do not draw the ground again, and one that changed does (2026-09-18).
+  let redrawn = 0;
+  ensureWoods(colonies, close, canvas, 'class-1', catalogue, () => { redrawn++; }, 1); await settle();
+  assert.ok(requests.length > 0, 'a new revision did not ask for the trees in view again');
+  assert.equal(redrawn, 0, 'tiles that came back unchanged drew the ground again');
+  const answer = globalThis.fetch;
+  globalThis.fetch = async path => { const response = await answer(path); const { tiles } = await response.json(); return { ok: true, json: async () => ({ tiles: tiles.map((tile, i) => i === 0 && tile ? { ...tile, trees: (tile.trees || []).slice(1) } : tile) }) }; };
+  ensureWoods(colonies, close, canvas, 'class-1', catalogue, () => { redrawn++; }, 2); await settle();
+  globalThis.fetch = answer;
+  assert.ok(redrawn >= 1, 'a tile with a tree gone did not draw the ground again');
+  requests.length = 0;
   ensureWoods(colonies, close, canvas, 'class-2', catalogue, () => {}); await settle();
   assert.ok(requests.length > 0);
   // A class that does not read its woods asks for nothing.
   requests.length = 0;
   ensureWoods(createGonzalesWorld('woods-view-none', 5), close, canvas, 'class-3', catalogue, () => {}); await settle();
   assert.equal(requests.length, 0);
-  globalThis.fetch = realFetch;
+  } finally { globalThis.fetch = realFetch; }
 });
 
 test('the server answers many tiles in one request, the same as one at a time, remembers the land\'s tiles, and holds the request to a size', async () => {

@@ -1,20 +1,20 @@
 {
   "record": "navigation-browser",
-  "date": "2026-09-17",
+  "date": "2026-09-19",
   "verdict": "PASS",
   "browser": "152.0.7977.83",
   "task": "Navigating the map on a slow computer: drag, wheel, touchpad swipe and pinch, taps that wobble, Follow across snapshots, keyboard, and touch pan, pinch and tap.",
   "environment": "Same computer: an in-process Play Solo classroom on the colonies map at 1000 ms a tick, headless Chrome at 1366 by 768 with the CPU throttled 6 times and touch emulated through CDP. Not a Chromebook, a real touchpad or a touchscreen.",
   "checks": [
-    "a mouse drag pans exactly with the pointer (0 px off), shown by 58 moved pictures and 0 whole draws, latency median 18 ms",
+    "a mouse drag pans exactly with the pointer (0 px off), shown by 58 moved pictures and 0 whole draws, latency median 17 ms",
     "three wheel notches zoom by all three (0.6086) and the ground under the cursor stays put (0 px)",
-    "a touchpad swipe of 30 small deltas zooms as far as its travel (0.8199), anchored, and settles 47 ms after the fingers stop",
-    "a touchpad pinch zooms the map, not the page, by the fingers' 1.5 (1.4993), anchored, settling in 54 ms",
-    "a touchpad click that moves 5 px between press and release chooses the person under it (hh-1-child-2)",
-    "a click sent straight after a drag, before the page has drawn it, chooses the person where the drag put them (hh-1-child-2)",
-    "from Follow, a drag held across three snapshots stays where the hand put it (0 px) and is still there three snapshots later",
+    "a touchpad swipe of 30 small deltas zooms as far as its travel (0.8199), anchored, and settles 53 ms after the fingers stop",
+    "a touchpad pinch zooms the map, not the page, by the fingers' 1.5 (1.4993), anchored, settling in 62 ms",
+    "a touchpad click that moves 5 px between press and release chooses the person under it (hh-1-child-3)",
+    "a click sent straight after a drag, before the page has drawn it, chooses the person where the drag put them (hh-1-child-3)",
+    "from Follow, a drag held across three snapshots stays where the hand put it (1 px) and is still there three snapshots later",
     "with the map focused, an arrow pans an eighth of the view (171 px) and + zooms in (1.4)",
-    "a finger pans exactly (0 px off), shown by 47 moved pictures and 1 whole draws, latency median 53 ms",
+    "a finger pans exactly (0 px off), shown by 48 moved pictures and 1 whole draws, latency median 53 ms",
     "two fingers spread to twice apart zoom twice (2) about the point between them (0 px)",
     "a pinch whose last finger lifts on a person does not choose them",
     "a finger tap that rolls 6 px chooses the person under it (hh-1-child-3)",
@@ -22,22 +22,22 @@
   ],
   "measured": {
     "load (context only)": {
-      "msToRunningAndDrawn": 660
+      "msToRunningAndDrawn": 1127
     },
     "idle map (context only)": {
-      "drawsIn3s": 35,
-      "drawMsMedian": 10
+      "drawsIn3s": 36,
+      "drawMsMedian": 4
     },
     "mouse drag": {
-      "handled": 60,
+      "handled": 59,
       "latency": {
-        "median": 18,
-        "p95": 19,
-        "max": 19
+        "median": 17,
+        "p95": 22,
+        "max": 24
       },
-      "fps": 54.6,
-      "settleMs": 17,
-      "drawMsMedian": 11,
+      "fps": 47.1,
+      "settleMs": 10,
+      "drawMsMedian": 4,
       "movedPictureMsMedian": 0,
       "wholeDraws": 0,
       "movedPictures": 58,
@@ -47,16 +47,16 @@
     "mouse wheel 3 notches out": {
       "handled": 3,
       "latency": {
-        "median": 48,
-        "p95": 156,
-        "max": 156
+        "median": 36,
+        "p95": 87,
+        "max": 87
       },
-      "fps": 3.9,
-      "settleMs": 156,
-      "drawMsMedian": 11,
+      "fps": 3.7,
+      "settleMs": 87,
+      "drawMsMedian": 4,
       "movedPictureMsMedian": 0,
       "wholeDraws": 0,
-      "movedPictures": 3,
+      "movedPictures": 2,
       "zoom": 0.6086,
       "anchorErrorPx": 0
     },
@@ -64,60 +64,91 @@
       "handled": 29,
       "latency": {
         "median": 53,
-        "p95": 55,
-        "max": 56
+        "p95": 57,
+        "max": 58
       },
-      "fps": 46.9,
-      "settleMs": 47,
-      "drawMsMedian": 10,
+      "fps": 49.4,
+      "settleMs": 53,
+      "drawMsMedian": 6,
       "movedPictureMsMedian": 0,
-      "wholeDraws": 1,
+      "wholeDraws": 0,
       "movedPictures": 27,
       "zoom": 0.8199,
       "anchorErrorPx": 0
     },
     "touchpad pinch 30x-1.35": {
-      "handled": 28,
+      "handled": 30,
       "latency": {
-        "median": 47,
-        "p95": 55,
-        "max": 56
+        "median": 51,
+        "p95": 62,
+        "max": 63
       },
-      "fps": 42.5,
-      "settleMs": 54,
-      "drawMsMedian": 10,
+      "fps": 44.6,
+      "settleMs": 62,
+      "drawMsMedian": 5,
       "movedPictureMsMedian": 0,
-      "wholeDraws": 0,
-      "movedPictures": 25,
+      "wholeDraws": 1,
+      "movedPictures": 26,
       "zoom": 1.4993,
       "anchorErrorPx": 0,
       "pageZoom": 1
     },
     "touchpad tap, 5px jitter": {
-      "person": "hh-1-child-2",
-      "room": 58,
-      "chose": "hh-1-child-2",
+      "person": "hh-1-child-3",
+      "room": 55,
+      "chose": "hh-1-child-3",
       "selected": true
     },
     "click right after a drag": {
-      "person": "hh-1-child-2",
-      "chose": "hh-1-child-2",
-      "selected": true
+      "person": "hh-1-child-3",
+      "chose": "hh-1-child-3",
+      "selected": true,
+      "clickedAt": {
+        "x": 619.4331983805401,
+        "y": 361.7250000000001
+      },
+      "standsAt": {
+        "x": 619,
+        "y": 362
+      },
+      "missPx": 0,
+      "scene": {
+        "under": "world-map",
+        "near": [
+          {
+            "id": "hh-1-child-3",
+            "d": 0,
+            "size": 50
+          }
+        ],
+        "overlays": [
+          "selection"
+        ],
+        "lastInputs": [
+          "pointermove",
+          "pointermove",
+          "pointermove",
+          "pointerup",
+          "pointerdown",
+          "pointerup"
+        ],
+        "selectedId": "hh-1-child-3"
+      }
     },
     "Follow, then drag held 3 ticks": {
-      "endErrorPx": 0,
+      "endErrorPx": 1,
       "movedAfterReleasePx": 0,
       "worstJumpLateInHoldPx": 0,
       "followingAfter": false
     },
     "view button home": {
-      "latencyMs": 72
-    },
-    "view button follow": {
       "latencyMs": 41
     },
+    "view button follow": {
+      "latencyMs": 19
+    },
     "view button in": {
-      "latencyMs": 31
+      "latencyMs": 16
     },
     "keyboard arrow and +": {
       "focusable": true,
@@ -125,30 +156,30 @@
       "zoom": 1.4
     },
     "touch pan": {
-      "handled": 52,
+      "handled": 54,
       "latency": {
         "median": 53,
-        "p95": 57,
-        "max": 71
+        "p95": 58,
+        "max": 119
       },
-      "fps": 42.1,
-      "settleMs": 37,
-      "drawMsMedian": 10,
+      "fps": 41.1,
+      "settleMs": 55,
+      "drawMsMedian": 6,
       "movedPictureMsMedian": 0,
       "wholeDraws": 1,
-      "movedPictures": 47,
+      "movedPictures": 48,
       "endErrorPx": 0
     },
     "touch pinch 2x": {
-      "handled": 72,
+      "handled": 74,
       "latency": {
-        "median": 52,
-        "p95": 160,
-        "max": 188
+        "median": 54,
+        "p95": 58,
+        "max": 67
       },
-      "fps": 37.3,
-      "settleMs": 54,
-      "drawMsMedian": 10,
+      "fps": 42.1,
+      "settleMs": 56,
+      "drawMsMedian": 5,
       "movedPictureMsMedian": 0,
       "wholeDraws": 1,
       "movedPictures": 34,

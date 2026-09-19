@@ -93,9 +93,10 @@ export async function view(page, name) {
 }
 // Close in on one of the family who is not the main person, by their portrait (docs/FAMILY_PANEL.md §3), so a family standing
 // together are separate targets; then put their card away so the map under them is clear.
-async function goClose(page) {
+// `turn` goes to the others in order, last first, for a step that found nobody standing where the first one led.
+async function goClose(page, turn = 0) {
   await clearOverlays(page);
-  const id = await page.evaluate(() => { const h = window.__snapshot.world.household || {}; return (window.__snapshot.world.entities || []).filter(e => e.kind === 'person' && e.location && e.id !== h.mainId && e.id !== h.principalId).at(-1)?.id; });
+  const id = await page.evaluate(turn => { const h = window.__snapshot.world.household || {}; const them = (window.__snapshot.world.entities || []).filter(e => e.kind === 'person' && e.location && e.id !== h.mainId && e.id !== h.principalId).reverse(); return them.length ? them[turn % them.length].id : null; }, turn);
   const portrait = id && page.locator(`[data-portrait="${id}"]`).first();
   if (!portrait || !(await portrait.isVisible())) return view(page, 'home');
   await portrait.click();
@@ -104,19 +105,43 @@ async function goClose(page) {
   await page.waitForTimeout(1000);
 }
 // A person drawn in the open middle of the map, clear of the panels, not the main person (whose card shows by default), with
-// nobody else closer than a fingertip.
-async function personOnScreen(page) {
-  return page.evaluate(() => {
-    const household = window.__snapshot.world.household || {};
-    const canvas = document.querySelector('#world-map'), rect = canvas.getBoundingClientRect();
-    const people = new Set((window.__snapshot.world.entities || []).filter(e => e.kind === 'person' && e.id !== household.mainId && e.id !== household.principalId).map(e => e.id));
-    const spots = Object.entries(window.__drawnAt || {}).map(([id, s]) => ({ id, x: rect.x + s.x * rect.width / canvas.width, y: rect.y + s.y * rect.height / canvas.height }));
-    const room = spot => Math.min(1e9, ...spots.filter(o => o.id !== spot.id).map(o => Math.hypot(o.x - spot.x, o.y - spot.y)));
-    const clear = spots.filter(s => people.has(s.id) && document.elementFromPoint(s.x, s.y) === canvas && document.elementFromPoint(s.x - 62, s.y) === canvas && s.x > rect.x + 380 && s.x < rect.right - 120 && s.y > rect.y + 120 && s.y < rect.bottom - 120);
-    clear.sort((a, b) => room(b) - room(a));
-    return clear[0] ? { ...clear[0], room: room(clear[0]) } : null;
-  });
+// nobody else closer than a fingertip - and **standing still**. The class runs while the gestures do (the page is meant to be
+// busy), and a person walking between being found and being tapped made these checks fail about one run in three
+// (2026-09-18): the gesture landed where they had been. So a person is chosen only if they are not travelling and their drawn
+// place has not moved across STILL_MS, and if nobody is, the page is looked at again for a while before the step gives up.
+const STILL_MS = 700, LOOK_FOR_MS = 45000;
+const spotsNow = page => page.evaluate(() => {
+  const household = window.__snapshot.world.household || {};
+  const canvas = document.querySelector('#world-map'), rect = canvas.getBoundingClientRect();
+  const standing = new Set((window.__snapshot.world.entities || []).filter(e => e.kind === 'person' && e.id !== household.mainId && e.id !== household.principalId && !e.travel).map(e => e.id));
+  return Object.entries(window.__drawnAt || {}).map(([id, s]) => ({ id, standing: standing.has(id), x: rect.x + s.x * rect.width / canvas.width, y: rect.y + s.y * rect.height / canvas.height }));
+});
+// `left`: how far left of the person the step will press, which must be open map too - the pinch presses 62 px left, and the
+// click after a drag 80 px, where the family panel stood once and took the click (2026-09-18).
+async function personOnScreen(page, { left = 62 } = {}) {
+  // The person the camera was taken to may be off at work somewhere out of this view, with nobody else of the family in it
+  // (found 2026-09-18: only the father at work, the horse, the ox and the wagon drawn); then the camera is taken to the next.
+  let turn = 0;
+  for (const deadline = Date.now() + LOOK_FOR_MS; Date.now() < deadline; await goClose(page, ++turn)) {
+    const first = await spotsNow(page);
+    await sleep(STILL_MS);
+    const second = await spotsNow(page);
+    const still = new Set(second.filter(spot => { const was = first.find(one => one.id === spot.id); return was && Math.hypot(was.x - spot.x, was.y - spot.y) < 0.5; }).map(spot => spot.id));
+    const found = await page.evaluate(({ spots, still, left }) => {
+      const canvas = document.querySelector('#world-map'), rect = canvas.getBoundingClientRect();
+      const room = spot => Math.min(1e9, ...spots.filter(o => o.id !== spot.id).map(o => Math.hypot(o.x - spot.x, o.y - spot.y)));
+      const clear = spots.filter(s => s.standing && still.includes(s.id) && document.elementFromPoint(s.x, s.y) === canvas && [62, left, left + 20].every(off => document.elementFromPoint(s.x - off, s.y) === canvas) && s.x > rect.x + 380 && s.x < rect.right - 120 && s.y > rect.y + 120 && s.y < rect.bottom - 120);
+      clear.sort((a, b) => room(b) - room(a));
+      return clear[0] ? { id: clear[0].id, x: clear[0].x, y: clear[0].y, room: room(clear[0]) } : null;
+    }, { spots: second, still: [...still], left });
+    if (found) return found;
+    lastLook = { drawn: second.length, standing: second.filter(spot => spot.standing).length, still: still.size, stillStanding: second.filter(spot => spot.standing && still.has(spot.id)).length, who: await page.evaluate(ids => { const h = window.__snapshot.world.household || {}; return ids.map(id => { const e = (window.__snapshot.world.entities || []).find(one => one.id === id); return e ? [id, e.id === h.mainId ? 'main' : e.id === h.principalId ? 'principal' : '', e.travel ? `to ${e.travel.to}` : '', e.task || '', e.chore?.id || ''].filter(Boolean).join(' ') : `${id} (not ours)`; }); }, second.map(spot => spot.id)) };
+  }
+  console.log('no person on screen:', JSON.stringify(lastLook));
+  console.log('the others:', JSON.stringify(await page.evaluate(() => { const h = window.__snapshot.world.household || {}; const seen = new Set(window.__viewEntities || []); return { camera: window.__camera && [Math.round(window.__camera.cx * 100) / 100, Math.round(window.__camera.cy * 100) / 100, Math.round(window.__camera.scale)], people: (window.__snapshot.world.entities || []).filter(e => e.kind === 'person' && e.id !== h.mainId).map(e => [e.id, e.location?.siteId, e.location && [Math.round(e.location.x * 100) / 100, Math.round(e.location.y * 100) / 100], e.task, e.chore?.id || null, e.health?.condition, seen.has(e.id) ? 'in view' : 'not in view', document.querySelector('[data-portrait="' + e.id + '"]') ? 'portrait' : 'no portrait']) }; })));
+  return null;
 }
+let lastLook = null;
 // A point on the canvas with open map either side of it (a pinch's fingers), and no person drawn near.
 export async function openGround(page) {
   return page.evaluate(() => {
@@ -129,8 +154,35 @@ export async function openGround(page) {
   });
 }
 
-export async function openGame({ browser, app, rate, hasTouch, errors }) {
+// A game whose family has somebody besides the main person: the taps are aimed at one of them, and the die deals a man alone
+// often enough (2026-09-18) that a proof on such a family could only report "no person on screen". Such a game is closed and
+// another begun, as a student would roll again in a new game.
+export async function openGame(options, tries = 4) {
+  let opened;
+  try { opened = await openOneGame(options); } catch (error) {
+    if (tries <= 1 || !/the family was not made/.test(error.message)) throw error;
+    console.log(`dealt again: ${error.message}`);
+    return openGame(options, tries - 1);
+  }
+  const others = await opened.page.evaluate(() => { const h = window.__snapshot.world.household || {}; return (window.__snapshot.world.entities || []).filter(e => e.kind === 'person' && e.id !== h.mainId && e.id !== h.principalId).length; });
+  if (others > 0 || tries <= 1) return opened;
+  await opened.context.close();
+  return openGame(options, tries - 1);
+}
+/** The class's clock, held and let go through the Host's own commands (server/app.mjs `pause`, `resume`). */
+async function hostCommand(app, action) {
+  const post = (path, body, cookie) => fetch(app.url + path, { method: 'POST', headers: { 'Content-Type': 'application/json', ...(cookie && { cookie }) }, body: JSON.stringify(body) });
+  const cookie = (await post('/api/host', { key: app.state.hostKey })).headers.get('set-cookie').split(';')[0];
+  const response = await post('/api/command', { id: `nav-${action}-${Date.now()}`, action }, cookie);
+  if (!response.ok) throw new Error(`the Host could not ${action} the class: ${response.status}`);
+}
+async function openOneGame({ browser, app, rate, hasTouch, errors }) {
   const game = app.newSoloGame('Navigator');
+  // Held while the page opens. A Play Solo family may roll only while nothing but its founding is in its record, and the world
+  // writes its arrival there on the second tick: a page slower than that to open is never offered the die (found here
+  // 2026-09-18, and put to the owner). What is proved is navigation, not that race, so the clock waits for the page and goes on
+  // the moment before the die is rolled (a paused class sends the page nothing, and the die's answer with it).
+  await hostCommand(app, 'pause');
   const context = await browser.newContext({ viewport: VIEW, deviceScaleFactor: 1, hasTouch, reducedMotion: 'no-preference' });
   await context.addInitScript(INSTRUMENT);
   const page = await context.newPage();
@@ -139,11 +191,20 @@ export async function openGame({ browser, app, rate, hasTouch, errors }) {
   await cdp.send('Emulation.setCPUThrottlingRate', { rate });
   const began = Date.now();
   await page.goto(app.url + game.path);
-  await page.waitForFunction(() => window.__snapshot?.world?.status === 'running' && window.__camera, null, { timeout: 180000 });
+  await page.waitForFunction(() => ['running', 'paused'].includes(window.__snapshot?.world?.status) && window.__camera, null, { timeout: 180000 });
   const loadMs = Date.now() - began;
+  // Making the family and walking it to its house are the setting, not what is measured: done at the computer's own speed and
+  // throttled again before the first view is drawn for the gestures. Done throttled, the making of the family ran past its
+  // steps' waits about one run in three, and the proof went on with the founding family unrolled and its making still to come
+  // over the map mid-run, or stopped on a timeout (2026-09-18).
+  await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 });
+  await hostCommand(app, 'resume');
   // The family's last name and the parents' looks, asked for before anything else (owner, 2026-09-17); unanswered, they cover
   // the middle of the map where the gestures land.
   await meetFamily(page);
+  // Made, not skipped: rolled and named, the curtain down.
+  const family = await page.evaluate(async () => ({ family: (await (await fetch('/api/family')).json()).family, curtain: document.querySelector('#creation')?.hidden === false }));
+  if (!family.family?.roll || !family.family.surname || family.curtain) throw new Error(`the family was not made before the gestures: ${JSON.stringify({ roll: family.family?.roll ?? null, surname: family.family?.surname ?? null, curtain: family.curtain })}`);
   await clearOverlays(page);
   // Past the arrival and the house site, chosen as a neighbour chooses it (sim/neighbours.mjs `pickSite`) and sent through the
   // student's own API: while a family is choosing its site a tap on the map is a place, not a person.
@@ -157,8 +218,12 @@ export async function openGame({ browser, app, rate, hasTouch, errors }) {
     }
   }
   await page.waitForFunction(() => !window.__snapshot.world.land?.choosingSite, null, { timeout: 60000 });
+  // And the family there: once the site is chosen they walk to it, and a person on the road is no target for a tap - the
+  // taps waited up to twenty seconds for somebody standing and found only walkers (2026-09-18).
+  await page.waitForFunction(() => (window.__snapshot.world.entities || []).filter(e => e.kind === 'person').every(e => !e.travel), null, { timeout: 180000 });
   await page.waitForTimeout(1500);
   await clearOverlays(page);
+  await cdp.send('Emulation.setCPUThrottlingRate', { rate });
   // Every view the gestures use, visited once and left to settle: the first drawing of a place at a new zoom fills the woods
   // and relief caches, which is the drawing's cost, not navigation's, and would otherwise land on whichever gesture came first.
   for (const name of ['home', 'out', 'out', 'follow', 'home']) await view(page, name);
@@ -226,7 +291,7 @@ export async function runNavigation({ browser, app, rate = 6, tickMs, shot = nul
 
   // -- a click straight after a short drag, where the drag has put the person, sent before the page has drawn it
   await goClose(page);
-  person = await personOnScreen(page);
+  person = await personOnScreen(page, { left: 80 });
   if (person) {
     const ground = await openGround(page);
     const pull = [mouse('mousePressed', ground.x, ground.y)];
@@ -235,7 +300,16 @@ export async function runNavigation({ browser, app, rate = 6, tickMs, shot = nul
     await stream(cdp, pull, errors);
     await page.waitForTimeout(2000);
     const got = await selection(page);
-    log('click right after a drag', { person: person.id, chose: got, selected: got === person.id });
+    const after = (await spotsNow(page)).find(spot => spot.id === person.id);
+    const scene = await page.evaluate(({ x, y }) => {
+      const canvas = document.querySelector('#world-map'), rect = canvas.getBoundingClientRect(), under = document.elementFromPoint(x, y);
+      const near = Object.entries(window.__drawnAt || {}).map(([id, s]) => ({ id, d: Math.round(Math.hypot(rect.x + s.x * rect.width / canvas.width - x, rect.y + s.y * rect.height / canvas.height - y)), size: Math.round(s.size) })).filter(one => one.d < 40);
+      const shownOverlays = [...document.querySelectorAll('#creation, #tutorial, #selection, #survey, #site-panel, #interior')].filter(node => !node.hidden && getComputedStyle(node).display !== 'none').map(node => node.id);
+      const inputs = (window.__nav?.inputs || []).slice(-6).map(input => input.type);
+      return { under: under ? (under.id || under.className || under.tagName) : null, near, overlays: shownOverlays, lastInputs: inputs, selectedId: document.querySelector('#selection')?.dataset.entityId || null };
+    }, { x: person.x - 80, y: person.y });
+    if (got !== person.id) await page.screenshot({ path: 'test-results/navigation-click-after-drag.png' }).catch(() => {});
+    log('click right after a drag', { person: person.id, chose: got, selected: got === person.id, clickedAt: { x: person.x - 80, y: person.y }, standsAt: after ? { x: Math.round(after.x), y: Math.round(after.y) } : null, missPx: after ? Math.round(Math.hypot(after.x - (person.x - 80), after.y - person.y)) : null, scene });
   } else log('click right after a drag', { skipped: 'no person on screen' });
 
   // -- Follow does not fight a drag: press Follow, hold a drag across three snapshots, let go, wait three more

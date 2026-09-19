@@ -77,9 +77,16 @@ function fetchTiles(level, size, box, onLoad) {
       .then(result => {
         inFlight--;
         if (asked !== classId) return;
-        group.forEach(({ key }, index) => { pending.delete(key); stale.delete(key); tiles.set(key, result?.tiles?.[index] || { empty: true }); });
+        // A tile asked for again because a tree was felled somewhere in the class mostly comes back as it was: only a tile that
+        // is new or different draws the ground again (2026-09-18, docs/PERFORMANCE_RENDER.md "Redrawn only when it changed").
+        let changed = false;
+        group.forEach(({ key }, index) => {
+          const fresh = result?.tiles?.[index] || { empty: true }, kept = tiles.get(key);
+          if (!kept || JSON.stringify(kept) !== JSON.stringify(fresh)) changed = true;
+          pending.delete(key); stale.delete(key); tiles.set(key, fresh);
+        });
         arrivals[level] = (arrivals[level] || 0) + group.length;
-        onLoad();
+        if (changed) onLoad();
       })
       .catch(() => { inFlight--; if (asked === classId) for (const { key } of group) pending.delete(key); });
   }

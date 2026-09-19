@@ -1,5 +1,28 @@
 # Claude handoff — Astra foundation
 
+**The ground drawn again only when it changed, 2026-09-18:** [PERFORMANCE_RENDER.md](docs/PERFORMANCE_RENDER.md) *Redrawn
+only when it changed*, [before](docs/evidence/perf-render-redraw-before.json), [after](docs/evidence/perf-render-redraw-after.json).
+The kept ground was keyed on the snapshot and thrown away on every render, so each snapshot and each click drew the whole
+country again. Its key is now what it is drawn from (`groundInputs`, `public/map-base.js`): the land's plots, fences, crop,
+grant, lane and house site, every family's on the Host's map, surveys under way, the woods' kind and the pick on the land.
+The woods' revision, which the neighbours' felling moved nearly every tick, is out of it; a woods tile that comes back
+unchanged draws nothing. Throttled 6x on this computer: the ground drawn 1-2 times a second → 0-0.1; a snapshot handled
+in 12-23 ms instead of 46-73; long tasks a minute 63 → 6 in the default view and 119 → 0 close up on the land. **The ground
+audit** (`window.__groundAudit`) guards the risk - something drawn into the ground the key does not know of - by drawing it
+afresh aside and comparing pixels; `test:farm` runs with it on (50 snapshots, none stale) and fails when the plots are left
+out of the key. `npm test` 708 (`tests/map-base.test.mjs` +1, `tests/woods-view.test.mjs` extended, both proven by
+injection; the woods test now puts `fetch` back however it ends). Same computer only; no Chromebook measured.
+
+**The navigation proof made steady, 2026-09-18:** `scripts/support/navigation.mjs`. `npm run test:navigation` failed about
+one run in three. Nothing was weakened; the causes it found and fixed are the proof's own: a tap aimed at a person who walked
+between being found and being tapped (a target must now stand still across 700 ms, not travelling), a family still walking to
+its site (waited for), a target out of view (the camera goes to the next of the family), a man dealt alone (the game is dealt
+again), and the click after a drag landing on the family panel (80 px of open map now required). One is the product's: a
+Play Solo family may roll only until the world writes its arrival on the second tick, so a page slower than that to open is
+never offered the die. The proof holds the class's clock through the Host's own `pause`/`resume` while its page opens; the
+owner chose (2026-09-18) that a Solo game **holds its clock until the family is made** - next to build. Two batches of 12 in a
+row, 24/24, none dealt again, every run all 13 checks.
+
 **The Rumor Mill as one running story, 2026-09-18:** [HOST_PAGE §2.2](docs/HOST_PAGE.md), `sim/rumour-story.mjs`,
 [screenshot](docs/evidence/host-live-rumor-mill.png). The owner's words were "a short, easy to read story" that "will
 adapt and change as new rumors flow in"; by multiple choice the story **replaces** the list, word that changed **keeps

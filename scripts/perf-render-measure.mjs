@@ -94,7 +94,7 @@ try {
     if (view === 'town') await press('gonzales');
     if (view === 'whole') { await press('follow'); for (let i = 0; i < 14; i++) await press('out'); }
     await page.waitForTimeout(2000);
-    await page.evaluate(() => { const p = window.__perf; Object.assign(p, { raf: 0, rafMs: [], snapshots: 0, snapshotMs: [], longTasks: [], created: 0, inserted: 0, creators: {} }); p.groundBefore = window.__groundDrawn || 0; });
+    await page.evaluate(() => { const p = window.__perf; Object.assign(p, { raf: 0, rafMs: [], snapshots: 0, snapshotMs: [], longTasks: [], created: 0, inserted: 0, creators: {} }); p.groundBefore = window.__groundDrawn || 0; window.__groundWhy = {}; });
     const before = await metrics();
     await cdp.send('Profiler.enable');
     await cdp.send('Profiler.setSamplingInterval', { interval: 1000 });
@@ -105,7 +105,7 @@ try {
     const { profile } = await cdp.send('Profiler.stop');
     const after = await metrics();
     const seconds = (Date.now() - started) / 1000;
-    const perf = await page.evaluate(() => ({ ...window.__perf, camera: window.__camera, drawMs: window.__animation?.drawMs, groundDrawn: window.__groundDrawn === undefined ? null : window.__groundDrawn - window.__perf.groundBefore }));
+    const perf = await page.evaluate(() => ({ ...window.__perf, camera: window.__camera, drawMs: window.__animation?.drawMs, groundDrawn: window.__groundDrawn === undefined ? null : window.__groundDrawn - window.__perf.groundBefore, groundWhy: window.__groundWhy || null }));
     // Self time by function, from the sampled profile.
     const self = new Map(), byId = new Map(profile.nodes.map(n => [n.id, n]));
     const deltas = profile.timeDeltas; let total = 0;
@@ -128,6 +128,8 @@ try {
       snapshots: perf.snapshots,
       // How many times the ground under the people was drawn (null for a build that drew it on every frame).
       groundDrawnPerSecond: perf.groundDrawn === null ? null : r(perf.groundDrawn / seconds),
+      // What made the ground be drawn again, by the part of its key that moved (public/app.js `GROUND_KEY_PARTS`).
+      groundDrawnBecause: perf.groundWhy,
       msPerSnapshot: { mean: r(avg(perf.snapshotMs)), p95: r(pct(perf.snapshotMs, .95)), max: r(Math.max(0, ...perf.snapshotMs)) },
       longTasksPerMinute: r(perf.longTasks.length / seconds * 60),
       longTaskMsPerMinute: Math.round(sum(perf.longTasks) / seconds * 60),

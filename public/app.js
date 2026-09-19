@@ -17,7 +17,7 @@ import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesVisible, woo
 import { bindEnding, renderEnding } from '/ending.js';
 import { bindLooks, renderLooks } from '/appearance.js';
 import { bindCreation, creationStep, renderCreation, showTitle } from '/creation.js';
-import { applyDrawState, canvasRatio, creekOpacity, distanceToSegments, ramp, readDrawState, sameLayerKey, scatterItem, scatterLevels, segmentsNear, setText, smoothCover, WATER, waterWidth, landPictureData, landUpscale, outOfSight } from '/map-base.js';
+import { groundInputs, applyDrawState, canvasRatio, creekOpacity, distanceToSegments, ramp, readDrawState, sameLayerKey, scatterItem, scatterLevels, segmentsNear, setText, smoothCover, WATER, waterWidth, landPictureData, landUpscale, outOfSight } from '/map-base.js';
 import { canSmoothOffThread, smoothOffThread, toBitmap } from '/smooth-worker.js';
 import { groundClass, groundClassAt, markFor } from '/ground-classes.js';
 import { decodeLand, decodeProvince, landWeights, lineBand } from '/land-levels.js';
@@ -1862,7 +1862,20 @@ function drawHolding(ctx, world, camera) {
  * camera, the canvas's size - or when something it drew from lands without a snapshot (`invalidateMapBase`: art, a woods
  * tile, the map fetched). Twelve frames a second of people walking no longer repaint the country under them.
  */
-const mapBase = { canvas: null, key: null, state: null };
+const mapBase = { canvas: null, key: null, state: null, time: 0, audited: null };
+const GROUND_KEY_PARTS = ['art or tiles', 'land', 'pick', 'map', 'width', 'height', 'camera', 'camera', 'zoom'];
+/** The ground audit's comparison: how much of the ground drawn afresh differs from the kept one (`window.__groundAudit`). */
+function auditGround(fresh, kept, world) {
+  const a = fresh.getContext('2d').getImageData(0, 0, fresh.width, fresh.height).data, b = kept.getContext('2d').getImageData(0, 0, kept.width, kept.height).data;
+  let differ = 0, minX = Infinity, minY = Infinity, maxX = -1, maxY = -1;
+  for (let i = 0; i < a.length; i += 4) if (Math.abs(a[i] - b[i]) + Math.abs(a[i + 1] - b[i + 1]) + Math.abs(a[i + 2] - b[i + 2]) > 24) {
+    differ++; const p = i / 4, x = p % fresh.width, y = Math.floor(p / fresh.width);
+    minX = Math.min(minX, x); maxX = Math.max(maxX, x); minY = Math.min(minY, y); maxY = Math.max(maxY, y);
+  }
+  const share = differ / (a.length / 4);
+  window.__groundAudits = (window.__groundAudits || 0) + 1;
+  if (share > 0.001) (window.__groundAuditMisses ||= []).push({ tick: world.tick, minute: world.minute, share: +share.toFixed(4), box: [minX, minY, maxX, maxY] });
+}
 let mapBaseEpoch = 0;
 function invalidateMapBase() { mapBaseEpoch++; }
 /**
@@ -1884,22 +1897,47 @@ export function drawWorld(world) {
   drawnCamera = { cx: camera.cx, cy: camera.cy, scale: camera.scale, width: canvas.width, height: canvas.height };
   mapDrawWanted = false; lastMapDraw = performance.now(); gesturePicture = null;
   window.__camera = { kind: camera.kind, scale: camera.scale, named: camera.named, cx: camera.cx, cy: camera.cy, following: camera.following };
-  const baseKey = [mapBaseEpoch, world, world.map, canvas.width, canvas.height, camera.cx, camera.cy, camera.scale];
+  // The ground is drawn again only when something it is drawn from changed (`groundInputs`, public/map-base.js): not for a
+  // snapshot in which only people moved, nor for a click that renders one. The pick being made on the land is drawn into it.
+  const pick = surveyLooking() && plotPick ? JSON.stringify([plotJob, plotPick.point, plotPick.facts?.can ?? null, plotPick.facts?.plotId ?? null]) : null;
+  // The woods' revision is not in it: a tree felled anywhere in the class moves it, and what changes on the ground is the tile
+  // that comes after, whose arrival draws the ground again (`redrawForArrival`).
+  const baseKey = [mapBaseEpoch, groundInputs(world), pick, world.map, canvas.width, canvas.height, camera.cx, camera.cy, camera.scale];
   // `ground` is the context the ground is drawn into this frame, or null when the kept ground is still right.
-  let ground = null;
+  let ground = null, audit = null;
   if (!sameLayerKey(mapBase.key, baseKey)) {
     mapBase.canvas ??= document.createElement('canvas');
     if (mapBase.canvas.width !== canvas.width || mapBase.canvas.height !== canvas.height) { mapBase.canvas.width = canvas.width; mapBase.canvas.height = canvas.height; }
     ground = mapBase.canvas.getContext('2d');
-    mapBase.key = baseKey;
+    // Presentation evidence, like `__groundDrawn`: what made the ground be drawn again, by the first part of the key that moved.
+    const why = mapBase.key ? GROUND_KEY_PARTS[baseKey.findIndex((part, i) => !Object.is(part, mapBase.key[i]))] || 'first' : 'first';
+    (window.__groundWhy ||= {})[why] = (window.__groundWhy[why] || 0) + 1;
+    mapBase.key = baseKey; mapBase.time = animationTime; mapBase.audited = world; mapBase.startState = readDrawState(ground);
     // Presentation evidence, read by scripts/perf-render-measure.mjs and by nothing in the application: how often the ground is drawn.
     window.__groundDrawn = (window.__groundDrawn || 0) + 1;
+  } else if (window.__groundAudit && mapBase.audited !== world) {
+    // The ground audit, for proofs only: on each snapshot the kept ground was not redrawn for, draw it afresh aside, at the
+    // moment the kept one was drawn, and compare. A difference is something drawn into the ground that `groundInputs` does
+    // not know of, and would have stood stale on a student's map.
+    mapBase.audited = world;
+    audit = document.createElement('canvas'); audit.width = canvas.width; audit.height = canvas.height;
+    ground = audit.getContext('2d');
+    // From the drawing state the kept ground began in: it is drawn into a canvas that keeps its state from one drawing to the next.
+    if (mapBase.startState) applyDrawState(ground, mapBase.startState);
+  }
+  // The woods are asked for what the view needs whenever the ground is drawn, and whenever their revision moves - a tree
+  // felled somewhere - which no longer draws the ground by itself: the tiles that come back do (`redrawForWoods`).
+  const woodsRevision = window.__snapshot?.woodsRevision || 0;
+  if ((ground && !audit) || woodsRevision !== mapBase.woodsRevision) {
+    mapBase.woodsRevision = woodsRevision;
+    ensureWoods(world, camera, canvas, window.__snapshot?.mapId, woodsCatalogue, redrawForWoods, woodsRevision);
   }
   if (ground) {
+    const frameTime = animationTime;
+    if (audit) animationTime = mapBase.time;
     ground.clearRect(0, 0, canvas.width, canvas.height);
     ground.fillStyle = '#9fbe73'; ground.fillRect(0, 0, canvas.width, canvas.height);
     window.__relief = drawRelief(ground, world, camera);
-    ensureWoods(world, camera, canvas, window.__snapshot?.mapId, woodsCatalogue, redrawForWoods, window.__snapshot?.woodsRevision || 0);
     if (woodsShown(world) && woodsCatalogue) drawWoodsCover(ground, camera, canvas, woodsCatalogue);
     drawGroundDetail(ground, world, camera);
     drawTerrain(ground, world, camera);
@@ -1908,7 +1946,8 @@ export function drawWorld(world) {
     // The ground's own clips (the oaks' wind) are kept with it, and still named on the frames that only lay it down.
     // ceiling: the trees in the kept ground stand still between redraws of it; a few swaying trees drawn on each frame over
     // the kept ground is the way out, if the stillness is missed.
-    mapBase.clips = new Set(window.__animationClips);
+    animationTime = frameTime;
+    if (!audit) mapBase.clips = new Set(window.__animationClips);
   } else for (const clip of mapBase.clips || []) window.__animationClips.add(clip);
   // What is drawn from here on goes on the page's own canvas; the ground's own draws in the loops below go to `ground`.
   const ctx = main;
@@ -2120,7 +2159,8 @@ export function drawWorld(world) {
     shownObserved.push(entity.id);
   }
   // The ground goes down whole, and the drawing state it ended in is carried over, as when it was drawn on this canvas.
-  if (ground) mapBase.state = readDrawState(ground);
+  if (ground && !audit) mapBase.state = readDrawState(ground);
+  if (audit) auditGround(audit, mapBase.canvas, world);
   main.setTransform(1, 0, 0, 1, 0, 0); main.globalAlpha = 1; main.globalCompositeOperation = 'source-over';
   main.drawImage(mapBase.canvas, 0, 0);
   applyDrawState(main, mapBase.state);
@@ -4193,8 +4233,8 @@ function renderJoinLinks(snapshot) {
 }
 function render(snapshot) {
   if (motionProjection.session !== snapshot.sessionId) { animationTime = 0; visibleBattlePhase = null; battleAnimationStart = 0; }
-  // Anything the ground is drawn from may have changed with this render: the map, the plots, a pick on the land.
-  invalidateMapBase();
+  // The kept ground is not thrown away here: it is drawn again when what it is drawn from changed (`groundInputs`), which a
+  // render that only moved people did not.
   motionProjection.accept(snapshot, performance.now());
   // Everybody on the Host's map is somebody the teacher looks at and never orders: marked here rather than sent on every one.
   if (snapshot.world?.role === 'host') for (const entity of snapshot.world.others || []) entity.observed = true;

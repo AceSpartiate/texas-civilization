@@ -18,6 +18,35 @@ export function sameLayerKey(kept, wanted) {
 }
 
 /**
+ * What in a snapshot the kept ground is drawn from, as one string: the ground is drawn again when this changes, and not when
+ * only people move, the clock turns or the story grows (2026-09-18, docs/PERFORMANCE_RENDER.md "Redrawn only when it
+ * changed"). Until then every snapshot - and every click, which renders one - drew the whole country again.
+ *
+ * Read from what public/app.js's ground draws: the family's own land (its plots and their work, fences and crop, its grant,
+ * its lane, the site being chosen) and field, or on the Host's map every family's; the ground somebody is on the way to
+ * survey; and whether the class's woods are the land's. The map itself, the camera, the canvas, art and woods tiles are keyed
+ * or invalidated apart. Kept for each snapshot, so the frames between snapshots pay nothing for it.
+ * ceiling: a new thing drawn into the ground must be added here, or it goes stale until the camera moves; the ground audit
+ * (`window.__groundAudit` in public/app.js) is what finds one.
+ */
+const groundOfWorld = new WeakMap();
+export function groundInputs(world) {
+  if (!world || typeof world !== 'object') return '';
+  let kept = groundOfWorld.get(world);
+  if (kept !== undefined) return kept;
+  const host = world.role === 'host';
+  const landOf = land => land ? [land.plots || null, land.grant || null, land.lane || null, land.choosingSite ?? null] : null;
+  const lands = host
+    ? Object.entries(world.overview?.lands || {}).sort(([a], [b]) => a.localeCompare(b)).map(([id, land]) => [id, land.homeSiteId || null, land.field || null, landOf(land)])
+    : [[world.householdId || null, world.household?.homeSiteId || null, world.household?.field || null, landOf(world.land)]];
+  const surveys = ((host ? world.others : world.entities) || []).filter(person => person.chore?.id === 'survey-plot' && person.chore.plot)
+    .map(person => [person.chore.plot.x, person.chore.plot.y]);
+  kept = JSON.stringify([world.role || null, world.map?.woods || null, lands, surveys]);
+  groundOfWorld.set(world, kept);
+  return kept;
+}
+
+/**
  * The drawing state the people and buildings used to inherit from the ground drawn before them in the same context. The
  * ground is now drawn into another context, so its last state is carried across each frame and nothing drawn on top of it
  * can look different for having lost, say, the roads' round line caps.
