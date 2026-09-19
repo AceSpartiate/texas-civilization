@@ -41,6 +41,36 @@ beside a 24-thread busy loop it passed 10/10. **Seen in those suites:** `pace.te
 failed 7 of 10 (fixed the same day, above) and `save-cadence.test.mjs` *"a page is sent a snapshot"* 1 of 10 (fixed the same day, above), both real-time tests of their own. No
 product code changed.
 
+**Fords, ferries and a bridge wherever a road meets the water, 2026-09-19:** [MAP_ACCURACY.md](docs/MAP_ACCURACY.md)
+§10, `HIST-TEX-140` to `-155`, `FIC-GONZ-090` to `-092`. Owner: "we're going to have to have assets ford, or build
+bridges (where they historically were)". Every place a road on the map meets a river or creek is a `ford`, `ferry` or
+`bridge`: 135 in all, 122 fords, 12 ferries and Vince's bridge. The record's crossings stand where it puts them (Lynch's,
+Harrisburg, Groce's, San Felipe, Robinson's, Brigham's, Burnam's, Beeson's, the Atascosito ferry, the fords at Gonzales,
+Mina, Goliad and Béxar); the rest are the game's. The Colorado crossing, Beeson's and the Atascosito crossing are ferries
+marked `stage` (`isStage`), so expresses and the Runaway Scrape stop there as before and an old save's `crossing` kind
+reads the same. A ferry costs an hour's wait for anyone on the roads (`FERRY_MINUTES`), said on the travel control and in
+the departure words; riders with word and the flight (`findWay(..., { ferries: false })`) don't pay it, and the army's
+dates hold. No ferriage (`ceiling:`; the 1831 rates are in `HIST-TEX-140` for the owner to decide). A ferry is drawn with a
+rope and the `ferry-raft` stand-in. Six roads re-routed so one river crossing has one point; 143 creeks added round the
+march east; a saved class keeps its creeks two miles round each ford; no save version moved. `tests/crossings.test.mjs` +6,
+each proven by injection; `npm run test:crossings` (18 shots). Not done: crossings past the old box (Rio Grande, Nueces,
+Sabine) need their roads first; nothing drawn on a ferry or waiting at one; the ferry waits the same hour at night; Beeson's
+stands west of the drawn Colorado though Houston's March camp was on the east bank. Found: the shipped province file does
+not rebuild to its own hash, before this work too. Same computer only.
+
+**The biomes in play, 2026-09-19:** [BIOME_GAMEPLAY.md](docs/BIOME_GAMEPLAY.md), `HIST-TEX-109` to `-112`,
+`FIC-GONZ-065` to `-067`. Owner: research what the new biomes should change and make those changes, "balance and
+gameplay". On a class of the biomes a hunt brings the quarry its place holds, fixed by the patch, its cover and the month
+(ducks, geese and buffalo in winter; turkey and ducks 4 food and no hide, javelina 4 and a hide, the rest 5 and a hide), said
+before sending, at the shot and in the record; only a deer is drawn. *Fetch logs from the timber* takes the axe and the ox
+and wagon to the nearest timber for 6 sound logs, its cost said in hours and miles; unplayed families fetch when timber is
+within 2 miles, and prairie jacales went from 26 to 2 of 76. A fence costs 8 ticks plus 4 a mile to the nearest timber.
+Measured over 6×30 families (`scripts/biome-balance-study.mjs`): food an hour from hunting within about a tenth between
+regions in either season; final numbers barely move. Decided against: soil yields, stock, firewood, buying logs, bear oil.
+`tests/biome-game.test.mjs` +9, 16 injections caught; `npm run test:biome-game`. No save version moved. Found, not fixed:
+unplayed families never buy powder and are short of food two-thirds of the time; the stay-home family in `npm run balance`
+no longer sells its cotton (predates this work). Same computer only.
+
 **The biomes of 1836 on the map, woods only where woods make sense, 2026-09-19:** [BIOMES.md](docs/BIOMES.md) §13,
 [MAP_ACCURACY.md](docs/MAP_ACCURACY.md) §9. Owner: research the natural biomes, then bring the map in line; "woods should
 only exist where woods make sense... some families are going to have a harder time hunting... thats okay"; Béxar cleared to
