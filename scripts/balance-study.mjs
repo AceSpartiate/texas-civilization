@@ -55,7 +55,11 @@ for (let s = 0; s < seeds; s++) {
   const home = world.households['hh-1'];
   home.played = true;
   world.status = 'running';
-  const run = () => { for (let t = 0; t < 12000 && !world.director.complete && world.status === 'running'; t++) { stepWorld(world); if (world.tick % 3 === 0) stayHome(world, home); } };
+  // The director's town errands are listed only for a family it runs (sim/chores.mjs `directed`). This one is marked played so
+  // the class's own director leaves it to this policy, and is let see them while the policy thinks: a student reaches the same
+  // counters through the shops at the same prices (sim/shops.mjs). Without it, from 2026-09-17 the family never sold a bale.
+  const policy = () => { home.absent = true; try { stayHome(world, home); } finally { delete home.absent; } };
+  const run = () => { for (let t = 0; t < 12000 && !world.director.complete && world.status === 'running'; t++) { stepWorld(world); if (world.tick % 3 === 0) policy(); } };
   run();
   beginSecondPeriod(world); world.status = 'running'; run();
   beginThirdPeriod(world); world.status = 'running'; run();

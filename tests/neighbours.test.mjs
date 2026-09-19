@@ -10,7 +10,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
-import { choresFor } from '../sim/chores.mjs';
+import { CHORES, choresFor } from '../sim/chores.mjs';
 import { houseBuilt, raising } from '../sim/houses.mjs';
 import { ONE_AT_A_TIME, markPlayed, thinkFor } from '../sim/neighbours.mjs';
 import { createClassroom } from '../server/app.mjs';
@@ -95,6 +95,24 @@ test("a student's family is never run, and a class made without neighbours leave
   quiet.status = 'running';
   run(quiet, 300);
   assert.ok(Object.values(quiet.households).every(household => !household.house), 'a class without neighbours is as it always was');
+});
+
+test("a family nobody plays is offered its town errands and goes for powder before its last shot; a student's family is offered neither", () => {
+  // Found 2026-09-19 (docs/BIOME_GAMEPLAY.md §5.2): the errands hidden from students were hidden from the director too, and
+  // it never went for powder anyway, so a family nobody played fired its three shots and went without for the rest of the class.
+  const world = lively('neighbours-powder', 5);
+  markPlayed(world, 'hh-1');
+  run(world, 40);
+  const neighbourHousehold = world.households['hh-2'];
+  const home = world.map.sites[neighbourHousehold.homeSiteId];
+  for (const id of neighbourHousehold.members) Object.assign(world.entities[id], { chore: null, travel: null, task: 'rest', location: { x: home.x, y: home.y, siteId: home.id } });
+  neighbourHousehold.resources = { ...neighbourHousehold.resources, food: 20, powder: 1, money: 0 };
+  const neighbour = world.entities[neighbourHousehold.principalId];
+  assert.ok(choresFor(world, neighbourHousehold, neighbour).some(entry => entry.id === 'fetch-powder' && entry.can), 'the director is offered the errand to town');
+  const student = world.entities[world.households['hh-1'].principalId];
+  assert.ok(!choresFor(world, world.households['hh-1'], student).some(entry => CHORES[entry.id]?.directorOnly), "a student's family deals at the counter instead");
+  thinkFor(world, neighbourHousehold, { project: id => projectWorld(world, id, 'student', { includeMap: false }), act: input => applyAction(world, 'hh-2', input) });
+  assert.equal(neighbourHousehold.members.filter(id => world.entities[id].chore?.id === 'fetch-powder').length, 1, 'one of the family goes to town for powder');
 });
 
 test('a neighbour takes a fair trade, and refuses an unfair one or one it cannot spare, saying why in both stories', () => {

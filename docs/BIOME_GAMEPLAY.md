@@ -131,7 +131,7 @@ Gonzales country hunt, build and fence exactly as they did. **No save version mo
 | The ox bringing in a kill too big to carry | **Not built** (`ceiling:`) | It would double every hunt's food where the ox is home, a change to the whole economy rather than to the regions. |
 | Retuning the game values (0.1 in the fields, 0.15 on the salt prairie) | **Left** | The wait is already capped at five ticks, the same as 0.2; the salt prairie and marsh now have ducks and geese in winter with a one-tick wait. |
 | Thinning the hill savanna's 25-37% timber near Boerne | **Left** | No family is dealt to the Hill Country, and changing a stand's shares moves its patches, and so the trees a class made today has felled. |
-| Neighbours buying powder | **Left** (found, not changed) | Families nobody plays never buy powder, fire two or three shots a class and are short of food most of it (§5); a change to every class's economy, for its own session. |
+| Neighbours buying powder | **Fixed 2026-09-19** (§5.3) | Families nobody plays never bought powder, fired two or three shots a class and were short of food most of it (§5.2). The owner chose it as the next item; the cause was wider than powder (§5.3). |
 
 ---
 
@@ -187,7 +187,44 @@ ticks against timber; its fence gives back up to nine.
 
 `npm run balance` (the money-and-glory study, fifteen families) gave the same numbers on the base and on this branch. On both
 the stay-home family finished last or near it (1-2), having sold no cotton; the committed record of 2026-09-17 has it winning
-one class in six. That change came before this branch and is **found, not investigated** here.
+one class in six. That change came before this branch and is **found, not investigated** here (explained and fixed in §5.3).
+
+### 5.3 The families nobody plays go to town again (2026-09-19)
+
+Owner, by multiple choice: the unplayed families' food next. **The cause was wider than powder.** On 2026-09-17 the five town
+errands - fetch seed, buy powder, sell food, take the cotton, buy a hoe - became the store's own trades for a student and were
+kept as errands for the families nobody plays (`directorOnly`, sim/chores.mjs). But the list that hid them from a student is
+the list the neighbours' director reads, so it lost them too: from 2026-09-17 no family nobody played bought seed or sold its
+cotton. And the director had never gone for powder at all. Two changes:
+
+- The errands are listed for a family the director runs (`directed` in sim/chores.mjs, the same test as `automatic` in
+  sim/neighbours.mjs) and for nobody else.
+- The director sends one hand to town for powder and lead when the house has fewer than two shots (`POWDER_KEPT`,
+  `FIC-GONZ-028`), paying in food or coin while there is still food to pay with.
+
+The same six classes of thirty, before ([errands-before](evidence/biome-balance-errands-before.json), main at `731e725`) and
+after ([errands-after](evidence/biome-balance-errands-after.json)):
+
+| | Before | After |
+| --- | ---: | ---: |
+| Ticks short of food (under half a unit), median of 829 | 566 | 67 |
+| Families ever short | 179 of 180 | 139 of 180 |
+| Food in the house, median family's mean | 5.1 | 38.7 |
+| Shots fired a class, mean | 2.2 | 9.3 |
+| House lived in, median tick | 93 | 99 |
+| Glory, median | 52.5 | 49 |
+| Final number, median | 60.5 | 59.5 |
+
+One family in ten is still short for more than 227 ticks: its grown hands are away with the army or helping a neighbour, or
+it has spent its food and powder together with no coin, and powder costs two food. Putting its idle hands to work about the
+place (a food a day each, sim/routines.mjs) was tried and measured: the same numbers to a tenth, so it was not
+kept. `ceiling:` a family with no food, no powder and no coin sells nothing it holds for them - hides,
+seed - because the director does not visit the shops; that is the way out if it matters.
+
+`npm run balance` marks its stay-home family played, so the class's director leaves it to the study's own policy; the study
+now lets that family see the errands while its policy thinks (a student reaches the same counters through the shops at the
+same prices). It sells its cotton again: finals 25, 56, 26, 74, 67 and 1, ranks 12, 11, 12, 6, 9 and 11 of 15, no class won
+(docs/MONEY_AND_GLORY.md §8.1).
 
 ---
 
@@ -232,5 +269,5 @@ one class in six. That change came before this branch and is **found, not invest
 - `ceiling:` a fence's rails are carried without the ox; a family's holding is a labor or a league, and inside a labor the
   timber's distance barely changes (8 to 10 ticks), so the fence tells most on a league on the open prairie.
 - Art: the quarry other than the deer, and the fetch-logs icon ([ART_REQUESTS](ART_REQUESTS.md), 2026-09-19).
-- For the owner: a stock economy (cattle on the prairie, hogs on the mast, `HIST-TEX-112`); the families nobody plays buying
-  powder, which would let them hunt; and why the stay-home family no longer sells its cotton in `npm run balance` (§5.2).
+- For the owner: a stock economy (cattle on the prairie, hogs on the mast, `HIST-TEX-112`). The families nobody plays buying
+  powder and the stay-home family's cotton were fixed the same day (§5.3).

@@ -67,9 +67,20 @@ and wagon to the nearest timber for 6 sound logs, its cost said in hours and mil
 within 2 miles, and prairie jacales went from 26 to 2 of 76. A fence costs 8 ticks plus 4 a mile to the nearest timber.
 Measured over 6×30 families (`scripts/biome-balance-study.mjs`): food an hour from hunting within about a tenth between
 regions in either season; final numbers barely move. Decided against: soil yields, stock, firewood, buying logs, bear oil.
-`tests/biome-game.test.mjs` +9, 16 injections caught; `npm run test:biome-game`. No save version moved. Found, not fixed:
-unplayed families never buy powder and are short of food two-thirds of the time; the stay-home family in `npm run balance`
-no longer sells its cotton (predates this work). Same computer only.
+`tests/biome-game.test.mjs` +9, 16 injections caught; `npm run test:biome-game`. No save version moved. Found, and fixed the same
+day (next entry): unplayed families never bought powder and were short of food two-thirds of the time; the stay-home family
+in `npm run balance` no longer sold its cotton. Same computer only.
+
+**The families nobody plays go to town again, 2026-09-19:** [BIOME_GAMEPLAY.md](docs/BIOME_GAMEPLAY.md) §5.3. Owner, by
+multiple choice: the unplayed families' food next. From 2026-09-17 the five town errands (seed, powder, sell food, cotton,
+hoe) were hidden from the neighbours' director with a student's list, so no family nobody played bought seed or sold cotton;
+and the director had never gone for powder. Now the errands are listed for a family the director runs (`directed`,
+sim/chores.mjs) and nobody else, and the director sends a hand for powder under two shots (`POWDER_KEPT`). Six classes of
+thirty, before → after: ticks short of food median 566 → 67 of 829, food in the house 5.1 → 38.7, shots 2.2 → 9.3, final
+number 60.5 → 59.5. One family in ten is still short for long spells (hands away, or food and powder spent together);
+setting idle hands to work was measured, moved nothing, and was not kept. `npm run balance`'s stay-home family sells its
+cotton again: finals 1-74, ranks 6-12 of 15, no class won (it won one in six on 2026-09-16; much else has moved since, so
+recorded, not tuned - the owner's call). `tests/neighbours.test.mjs` +1, proven by three injections. Same computer only.
 
 **The biomes of 1836 on the map, woods only where woods make sense, 2026-09-19:** [BIOMES.md](docs/BIOMES.md) §13,
 [MAP_ACCURACY.md](docs/MAP_ACCURACY.md) §9. Owner: research the natural biomes, then bring the map in line; "woods should

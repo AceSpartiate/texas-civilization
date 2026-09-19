@@ -31,6 +31,8 @@ export const THINK_EVERY = 3;
 export const TRADE_VALUE = Object.freeze({ food: 1, cotton: 1, seed: 2, powder: 3, money: 3 });
 /** Food per person the family keeps back before it will trade food away or stop hunting. */
 export const FOOD_KEPT_PER_PERSON = 3;
+/** Shots the family keeps in the house: with fewer, somebody goes to town for powder and lead. */
+export const POWDER_KEPT = 2;
 /** Work one person does alone; a family never puts two of its people on the same one at once. */
 export const ONE_AT_A_TIME = Object.freeze(['hunt-timber', 'hunt-land', 'haul-logs', 'fetch-logs', 'fetch-seed', 'fetch-powder', 'sell-cotton', 'sell-food', 'mend-hoe', 'replace-hoe', 'fence-plot', 'survey-plot', 'dig-well', 'hunt-road', 'tend-sick', 'trade-crossing']);
 /** Plots a family nobody plays keeps, its first patch among them: enough to feed it, and a harvest it can carry in. */
@@ -241,6 +243,10 @@ export function thinkFor(world, household, { project, act }) {
       // Food first when the family is short, then the crop, the house, the tools, the fence, and the trips to town
       // a farm needs: seed when there is none to plant, cotton to the store once there is some.
       food < people.length * FOOD_KEPT_PER_PERSON && hunters === 0 && (resources.powder || 0) >= 1 && huntChore,
+      // Powder bought before the last shot is gone, in food or coin, while there is still food to pay with: measured
+      // 2026-09-19, a family that never went for powder fired its three shots by November and sat at no food for the rest
+      // of the class (docs/BIOME_GAMEPLAY.md §5.2).
+      (resources.powder || 0) < POWDER_KEPT && 'fetch-powder',
       'harvest-field', 'plant-field', 'build-house',
       land.logs?.lying > 0 && 'haul-logs',
       moreLogs && fellAt().length && 'fell-trees',

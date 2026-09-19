@@ -146,6 +146,11 @@ export const SHOT_COST = 1;
 export const PRACTICE_COST = 2;
 export const SKILL_CAP = 3;
 export const dryHouse = household => (household.resources?.powder ?? 0) < SHOT_COST;
+/**
+ * Whether the neighbours' director gives this family its orders: sim/neighbours.mjs `automatic`, written out here because that
+ * module reads this one. Its town errands (`directorOnly`) are listed for it and for nobody else.
+ */
+const directed = (world, household) => Boolean(world.neighbours && household && (!household.played || household.absent));
 
 /**
  * Whether an answer is open to this family right now, and why not.
@@ -1146,8 +1151,10 @@ export function choresFor(world, household, entity, logsOut = null) {
     && !(chore.fells && !counted) && !(chore.hauling && !lying) && !(chore.fetchesLogs && !counted)
     && !(chore.plainCountry && counted)
     // The town errands are the store's own trades now (sim/shops.mjs): a family walks the street and deals at the counter,
-    // and only the families nobody plays are still sent on an errand by their director (owner, 2026-09-17).
-    && !chore.directorOnly
+    // and only the families nobody plays are still sent on an errand by their director (owner, 2026-09-17). The director
+    // reads this list: hidden from it as well, from 2026-09-17 to -19 no family nobody played bought powder or seed or sold
+    // its cotton, and it hunted its three shots and went without (docs/BIOME_GAMEPLAY.md §5.2).
+    && !(chore.directorOnly && !directed(world, household))
     // Nor furniture while the family is still on the road in, or once it has every piece (sim/furniture.mjs).
     && !(chore.furniture && (household.arriving || !wanting(household).length))
     && !(chore.shops && household.arriving)

@@ -429,6 +429,13 @@ a family nobody plays grows what it grew; the neighbours' director gathers the s
 The gate holds as the owner asked: a possible way to win, and an unlikely one. Recorded in
 [evidence/balance-study.json](evidence/balance-study.json) (the last run).
 
+**Re-measured 2026-09-19** (docs/BIOME_GAMEPLAY.md §5.3). From 2026-09-17 the stay-home family had sold nothing: the town
+errands were hidden from the director's list along with a student's, and the study runs that family through the director.
+With that mended, over the same six classes: finals **25, 56, 26, 74, 67 and 1**, ranks 12, 11, 12, 6, 9 and 11 of 15, **no
+class won**; the first family fought in every class (finals 154 to 226). Staying home is now possible but no longer shown
+winning. Much else moved between the two runs (the winter, the Alamo, Houston's march, the neighbours hunting and buying
+seed), so this is recorded, not tuned; whether to tune it is the owner's.
+
 
 - **A patriotism meter.** `VISION.md` §11 still forbids it, and this is the mechanic most likely to
   turn into one by accident.
