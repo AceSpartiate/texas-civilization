@@ -574,6 +574,12 @@ lesson. With them it reaches the fight at tick 168 and ends at 236, and the rest
   keeps the letters inside the dates `HIST-TEX-006` gives them, keeps a volunteer able to reach a gathering history has
   dated, and keeps the march to Béxar a fortnight rather than something the game has to fake. The alternative was
   measured and rejected: a nineteen-mile walk would have taken nine and a half days of 1835 in the campaign phase.
+  **Amended 2026-09-18** (owner's playtest, `FIC-GONZ-059`, `HIST-TEX-093`, sim/travel.mjs `roadTicks`): taken to every
+  hour of a twelve-hour tick, that rule walked a man seventy-two miles a day and rode the family horse a hundred and
+  eighty-seven. A tick of an hour or less still carries its hours at the pace; a longer one carries its share of a day on
+  the road - seven hours of going in twenty-four, spread evenly as the army's march is - so a day is 21 miles on foot,
+  35 on the horse and 13.7 with the wagon, and the nineteen-mile walk is a day. Only a rider carrying word, whose waits
+  are calibrated on his pace against `HIST-TEX-006`, still rides night and day.
 - **Effort stays in ticks**: a spell of work, a chore step, a felled tree. Work per calendar day therefore falls in a
   compressed phase, which is the point — a student is farming while weeks go by.
 - **Attention stays in ticks too, and this was the defect.** `PATIENCE_MINUTES`, `PASSING_MINUTES`, `SPEAKING_MINUTES`

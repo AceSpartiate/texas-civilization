@@ -6,7 +6,7 @@ import { advanceNeighbours } from './neighbours.mjs';
 import { record } from './events.mjs';
 import { reportsFor, deliverReports } from './knowledge.mjs';
 import { advanceRoutine } from './routines.mjs';
-import { TICK_MINUTES, calendarMinutes } from './clock.mjs';
+import { calendarMinutes } from './clock.mjs';
 import { advanceDirectors, handleChoice, handleMarch, handleRumor, directorProjection } from './directors.mjs';
 import { abandonChore, advanceChores, answerChore, askProjection, beginChore, CHORES, choresFor, skillsFor, SKILL_CAP, toolState } from './chores.mjs';
 import { bringAlong, hasWords, holderOf, keepWithRiders, leaveBehind, modeWith, NOUN } from './keeping.mjs';
@@ -23,7 +23,7 @@ import { advanceTown, createTownspeople, observedBy } from './town.mjs';
 import { GOODS, advanceOffers, makeOffer, offersFor, respondToOffer } from './trade.mjs';
 import { buildGonzalesRegion, findPath, polylineLength } from './geography.mjs';
 import { advanceEncounters, askRider, carriedInPerson, encounterProjection, leaveRider, riderName, spotName } from './encounters.mjs';
-import { DEFAULT_MODE, MODES, modeOf, moveOnGround, propertyId, RIDER_SPEED } from './travel.mjs';
+import { DEFAULT_MODE, MODES, modeOf, moveOnGround, propertyId, RIDER_SPEED, ridesAllHours, roadTicks } from './travel.mjs';
 import { paceOf } from './ground.mjs';
 import { findWay } from './ways.mjs';
 import { STATES as IMPROVEMENT_STATES, improvementProjection } from './improvements.mjs';
@@ -175,7 +175,7 @@ export function rollFamily(world, household) {
   record(world, 'family-rolled', { householdId: household.id, text: `Your family rolled ${rolledWords(roll)}.`, importance: 2, claimId: 'FIC-GONZ-021' });
   return roll;
 }
-export { WALK_SPEED, RIDER_SPEED, WAGON_SPEED } from './travel.mjs';
+export { WALK_SPEED, HORSE_SPEED, RIDER_SPEED, WAGON_SPEED } from './travel.mjs';
 // Three shots at the founding (`FIC-GONZ-016`); now what the default wagon load packs.
 export { STARTING_POWDER } from './wagon.mjs';
 /**
@@ -365,6 +365,10 @@ export function beginTravel(world, entity, destination, causeId, purpose = 'visi
   entity.location = { ...points[0], siteId: null }; entity.task = 'travel';
   if (!riding) harness(world, entity, mode, path, departure);
 }
+/** How many farming ticks' worth of road the next tick carries for this traveller (sim/travel.mjs `roadTicks`). */
+export const roadTicksFor = (world, entity) => roadTicks(calendarMinutes(world), ridesAllHours(entity));
+/** Miles the next tick carries this traveller over open road: what the server says a tick is worth, projected for the page. */
+export const milesATick = (world, entity) => entity.travel ? entity.travel.speed * roadTicksFor(world, entity) : 0;
 export function progressTravel(world, entity, units = 1) {
   const travel = entity.travel; if (!travel) return;
   // A rider who has stopped to speak with somebody is still on a journey - `siteId` stays
@@ -375,7 +379,9 @@ export function progressTravel(world, entity, units = 1) {
   // How fast the ground goes past is a fact about the land and the horse, not about the
   // lesson: three miles in an hour of 1835 in every phase (sim/clock.mjs, docs/COLONIES.md
   // §5.7). So when a tick carries an hour of the calendar instead of twenty minutes, it
-  // carries three times the miles with it. That is what keeps the letters reaching San
+  // carries three times the miles with it. A tick longer than that carries its share of a day
+  // on the road instead - seven hours of going in twenty-four - because nobody but a rider with
+  // word goes all night and all day (sim/travel.mjs `roadTicks`, `HIST-TEX-093`, `FIC-GONZ-059`). That is what keeps the letters reaching San
   // Felipe and Goliad on the days `HIST-TEX-006` puts them there, keeps a volunteer able
   // to reach a gathering that history has dated, and keeps the march to Béxar the fortnight
   // it was rather than something the game has to fake. The miles tire whoever walks them at
@@ -383,7 +389,7 @@ export function progressTravel(world, entity, units = 1) {
   //
   // What does *not* scale is effort and attention: a spell of work yields what it always
   // did, and a rider waits the same number of ticks for an answer (sim/encounters.mjs).
-  const paced = units * (calendarMinutes(world) / TICK_MINUTES);
+  const paced = units * roadTicksFor(world, entity);
   // A rider who is made and reaches the door inside one tick was never on the road at all,
   // and news that materialises at the moment it is spoken has no approach - the thing
   // `SIGHT_MILES` exists to prevent (sim/encounters.mjs). Seeing further does not fix it,
@@ -834,7 +840,7 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   visibleEvents.reverse();
   const knownIds = new Set(visibleEvents.map(e => e.id));
   const events = visibleEvents.map(e => ({ id: e.id, type: e.type, minute: e.minute, text: e.text, actorId: e.actorId, householdId: e.householdId, causes: e.causes.filter(id => knownIds.has(id)) }));
-  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, ...(e.given && { given: e.given }), kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.sex && { sex: e.sex }), ...(Number.isFinite(e.age) && { age: e.age, band: ageBand(e.age) }), location: e.location, travel: e.travel ? { from: e.travel.from, to: e.travel.to, points: e.travel.points, progress: e.travel.progress, distance: e.travel.distance, speed: e.travel.speed, mode: e.travel.mode } : null, health: e.health, task: e.task, skills: e.skills, chore: e.chore?.ask ? { ...e.chore, ask: askProjection(world, household, e) } : e.chore, condition: e.condition, species: e.species, laden: e.laden, borrowedBy: e.borrowedBy, ...(e.marks && { marks: e.marks }), ...(e.service && { service: { kind: e.service.kind, status: e.service.status, siteId: e.service.siteId, ...(e.service.acres && { acres: e.service.acres }), ...(e.service.besieged && { besieged: true }), ...(e.service.riding && { riding: true }), ...(e.service.courier === 'open' && { courier: 'open' }), ...(e.service.drilled && { drilled: e.service.drilled }), ...(e.service.bound && { bound: true }), ...(e.service.leave === 'open' && { leave: 'open' }), ...(e.service.road === 'open' && { road: 'open' }) } }), ...(e.voted && { voted: true }), ...(e.auto && { auto: true }) }));
+  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, ...(e.given && { given: e.given }), kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.sex && { sex: e.sex }), ...(Number.isFinite(e.age) && { age: e.age, band: ageBand(e.age) }), location: e.location, travel: e.travel ? { from: e.travel.from, to: e.travel.to, points: e.travel.points, progress: e.travel.progress, distance: e.travel.distance, speed: e.travel.speed, step: milesATick(world, e), mode: e.travel.mode } : null, health: e.health, task: e.task, skills: e.skills, chore: e.chore?.ask ? { ...e.chore, ask: askProjection(world, household, e) } : e.chore, condition: e.condition, species: e.species, laden: e.laden, borrowedBy: e.borrowedBy, ...(e.marks && { marks: e.marks }), ...(e.service && { service: { kind: e.service.kind, status: e.service.status, siteId: e.service.siteId, ...(e.service.acres && { acres: e.service.acres }), ...(e.service.besieged && { besieged: true }), ...(e.service.riding && { riding: true }), ...(e.service.courier === 'open' && { courier: 'open' }), ...(e.service.drilled && { drilled: e.service.drilled }), ...(e.service.bound && { bound: true }), ...(e.service.leave === 'open' && { leave: 'open' }), ...(e.service.road === 'open' && { road: 'open' }) } }), ...(e.voted && { voted: true }), ...(e.auto && { auto: true }) }));
   // What each person could be asked to do, with the reason for anything refused, is
   // computed on the server. The client must never decide for itself what is possible:
   // that is the same rule as fog of war, applied to a control instead of a fact.

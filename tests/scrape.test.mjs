@@ -183,7 +183,10 @@ test('rain, cold and hunger make people sick on the road, the sick mend, and a f
   const travellers = Object.values(world.entities).filter(one => one.householdId && one.kind === 'person').length;
   assert.ok(died.length <= Math.ceil(travellers * 0.05), `too many died: ${died.length} of ${travellers}`);
   assert.ok(Object.values(world.households).every(household => household.flight), 'a family nobody plays was never told to leave');
-  assert.ok(Object.values(world.households).some(household => household.flight.status === 'home'), 'no family nobody plays fled and came home');
+  // Changed 2026-09-18 with the day on the road (sim/travel.mjs `roadTicks`): this asked for a family already home by April 25,
+  // which held only while a wagon made forty-seven miles a day in the long ticks. The period ends with the families on the
+  // road home (owner, docs/COLONIES.md §7g, and the ending's own words); arriving there is proved by 'the family flees...'.
+  assert.ok(Object.values(world.households).some(household => ['returning', 'home'].includes(household.flight.status)), 'no family nobody plays fled and turned for home');
   assert.ok(Object.values(world.entities).filter(one => one.kind === 'person' && one.householdId && one.health.condition === 'dead').length >= before);
   validateWorld(world);
 });

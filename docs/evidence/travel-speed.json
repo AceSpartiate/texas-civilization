@@ -1,0 +1,46 @@
+{
+  "record": "travel-speed",
+  "date": "2026-09-18",
+  "ownerDirection": [
+    "\"i was test playing and when i sent my main character to gonzales on foot he ran inhumanly fast. that speed would be fine for a horse, i could even buy it for a wagon (not quite).\"",
+    "\"is solo mode set to the normal speed? it seemed super fast.\""
+  ],
+  "readThis": "Three separate things were measured. (1) The simulation's paces in the time of 1835: the family horse went at a courier's trot, and in every tick longer than an hour everybody travelled all twenty-four hours of the day - fixed here. (2) The calendar: a tick at the Study pace stands for 20, 60, 240 or 720 minutes of 1835 by phase (sim/clock.mjs CALENDAR_SCALE, FIC-GONZ-027, owner-decided) - unchanged. (3) How it is drawn: the figure is a symbol about 100 feet tall (public/app.js PERSON_MILES = 0.019, owner 2026-09-14) moved at 126 times real time - unchanged, measured in docs/evidence/travel-speed-screen.json.",
+  "simulation": {
+    "method": "Before: read from the code (sim/world.mjs progressTravel multiplied every tick by calendarMinutes / 20 for everybody; MODES.horse.speed was RIDER_SPEED). After: measured by stepping progressTravel over a whole day of each phase's ticks on a 1000-mile straight open road (tests/travel-speed.test.mjs does the same and pins it).",
+    "milesAnHourWhileGoing": {
+      "foot": { "before": 3, "after": 3 },
+      "horse": { "before": 7.8, "after": 5 },
+      "wagon": { "before": 1.95, "after": 1.95, "wagonPutInOrder": 2.24 },
+      "courierOrExpress": { "before": 7.8, "after": 7.8 }
+    },
+    "milesADay": {
+      "farmingAndNewsTicks (20 and 60 minutes)": { "foot": "72 before and after (ceiling: nobody stops for the night at this grain)", "horse": "187 -> 120", "wagon": 46.8, "courier": 187.2 },
+      "gatheringAndCampaignTicks (240 and 720 minutes)": { "foot": "72 -> 21", "horse": "187.2 -> 35", "wagon": "46.8 -> 13.65 (15.7 put in order)", "courier": "187.2 -> 187.2 (unchanged: the expresses are calibrated on it against HIST-TEX-006)" }
+    },
+    "milesATick": {
+      "home (20 min)": { "foot": "1 -> 1", "horse": "2.6 -> 1.67", "wagon": "0.65 -> 0.65" },
+      "news (60 min)": { "foot": "3 -> 3", "horse": "7.8 -> 5", "wagon": "1.95 -> 1.95" },
+      "gathering (240 min)": { "foot": "12 -> 3.5", "horse": "31.2 -> 5.83", "wagon": "7.8 -> 2.28" },
+      "campaign (720 min)": { "foot": "36 -> 10.5", "horse": "93.6 -> 17.5", "wagon": "23.4 -> 6.83" }
+    },
+    "sources": "HIST-TEX-093 (paces and days on the road, 1830s-1860s manuals and accounts) and FIC-GONZ-059 (the family horse at five, seven hours of going a day, the one-hour line between the two rules)."
+  },
+  "screen": {
+    "measured": "docs/evidence/travel-speed-screen.json (node scripts/travel-speed-measure.mjs): a Solo game on the real land at the Study pace, farming day, main person to Gonzales. With the portrait pressed (the camera on the person, zoomed in): 4.3 of the walker's own drawn heights a real second on foot and 5.1 on the horse (whose figure is 1.8 times taller), 215 and 457 canvas pixels a second. A real walker covers about 0.8 of their height a second, a sprinter about 5. In the default following view the frame widened to take in the road and was not steady between runs (80 and 8 canvas pixels a mile in two runs); there the figure sits at its 7-pixel floor and moved 0.1 to 1.2 heights a second.",
+    "why": "A figure is drawn PERSON_MILES = 0.019 miles (100 feet) tall wherever it is not held at its 7-pixel floor or 150-pixel ceiling, and the Study pace runs the farming day at 1200 / 9.5 = 126 times real time: 3 mph is 0.105 miles a real second, 5.5 figure heights. docs/evidence/pace.json (2026-09-11) measured about a height a second when PERSON_MILES was 0.115; the owner's 2026-09-14 direction to draw people smaller against their land multiplied it by six. The page draws no faster than the server: tests/movement.test.mjs samples every frame against the server's progress.",
+    "otherClocksDerived": "Screen speed scales with the miles a tick carries. On foot with the portrait pressed, heights a second: farming 4.3; news 13 (3 miles a tick, unchanged); gathering 15 (3.5 miles a tick; 52 before, at 12); campaign 45 (10.5 miles a tick; 156 before, at 36). Beyond about 2 miles a tick the long middle of a journey is not drawn at all (public/map-base.js outOfSight, owner 2026-09-17)."
+  },
+  "gonzalesFromANearFamily": {
+    "note": "A colonies class (seed measure-travel), hh-1 by Gonzales as a Solo family is: its road to Gonzales is 2.19 miles with slow ground on part of it.",
+    "farmingDay": "on foot 3 ticks (1 hour of 1835, 28.5 real seconds at Study); on the horse 2 ticks (40 minutes, 19 s); with the wagon, which keeps to the road, 3.76 miles in 9 ticks (3 hours, 86 s). Unchanged except the horse, which took 1 tick less.",
+    "newsHour": "on foot and on the horse, 1 tick: the whole walk to town drawn in one 9.5-second tick."
+  },
+  "timingConsequencesChecked": [
+    "Chores with travel steps, hunting, hauling logs, errands to town: the farming day is unchanged except the horse at 5 mph; in the long ticks a trip of a few miles still fits in one tick. The whole suite passes.",
+    "The expresses and couriers (sim/expresses.mjs, relayReport): unchanged by design, so HIST-TEX-006's arrival dates hold.",
+    "Houston's camp moves (sim/houston.mjs followCamp): men follow on foot at 21 miles a day in the long ticks. On the map with the march's houses (main, 2026-09-18) the march tests of tests/camp.test.mjs pass unchanged. A class saved before the houses were places marches Bernardo to Harrisburg, 62.7 miles, from noon April 18: it took under 42 hours at 72 miles a day and now takes about two and a third days, still before San Jacinto (the assertion in tests/camp.test.mjs changed with it).",
+    "The Runaway Scrape (sim/scrape.mjs, sim/road.mjs): families now make about 14 miles a day with the wagon, 21 on foot, instead of 47 and 72. Families still reach their refuges; with the victory on April 23 and the period ending at dawn on April 25 the families are on the road home when it ends, which is what the ending says; arriving home is proved by running past the end.",
+    "Time jumps (sim/time.mjs): the arrival barrier now counts the miles a tick really carries (milesATick) instead of assuming a farming tick's."
+  ]
+}

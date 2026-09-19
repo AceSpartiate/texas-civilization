@@ -258,8 +258,12 @@ export const FARMING_TICK_MINUTES = 20;
 export function outOfSight(entity, minutesATick = 0) {
   const travel = entity?.travel;
   if (!travel?.points?.length || !Number.isFinite(travel.distance)) return false;
-  // A speed is miles a farming tick (sim/travel.mjs), and a tick of the compressed calendar carries that many times over.
-  const milesATick = travel.speed * (minutesATick / FARMING_TICK_MINUTES);
+  // The server says how many miles its next tick carries this journey (sim/world.mjs `milesATick`): a tick longer than an
+  // hour carries a share of a day on the road, not every hour of it at the pace (sim/travel.mjs `roadTicks`), and the page
+  // must not work that out again. Without it (a class saved and served before it was sent), the old reading: a speed is
+  // miles a farming tick, and a tick of the compressed calendar carries that many times over.
+  if (!(minutesATick > 0)) return false;
+  const milesATick = Number.isFinite(travel.step) ? travel.step : travel.speed * (minutesATick / FARMING_TICK_MINUTES);
   if (!(milesATick > WATCHABLE_MILES_A_TICK)) return false;
   const gone = travel.progress ?? 0, left = travel.distance - gone;
   return Math.min(gone, left) > IN_SIGHT_MILES;

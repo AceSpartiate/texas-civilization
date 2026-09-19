@@ -10,7 +10,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { ProjectionMotion, CALENDAR_STEPS, drawnProgress, gaitStep, clipGait, GaitClock, STRIDE, GAIT_FLOOR } from '../public/motion.js';
 import { CALENDAR_SCALE, TICK_MINUTES } from '../sim/clock.mjs';
-import { WALK_SPEED, RIDER_SPEED, WAGON_SPEED } from '../sim/travel.mjs';
+import { WALK_SPEED, HORSE_SPEED, RIDER_SPEED, WAGON_SPEED } from '../sim/travel.mjs';
 import { ARMY_MILES_PER_DAY } from '../sim/army.mjs';
 import { PACES } from '../server/app.mjs';
 import { applyAction, stepWorld } from '../sim/world.mjs';
@@ -65,6 +65,28 @@ test('a tick that arrives early carries on from where the walker is drawn, with 
   assert.equal(drawnProgress(1, 2, 1.7), 2, 'the drawn walk never overshoots the reported position');
 });
 
+test('the drawn walker is never ahead of where the server has put them, however the ticks arrive', () => {
+  // Owner, 2026-09-18: "he ran inhumanly fast". Speed is the server's and the page only draws it: a figure drawn further along
+  // the road than the last snapshot says would be the page inventing ground. Ticks here arrive on time, early, late, twice
+  // (another family's command), and on every calendar a class runs, and the drawn walker is sampled every frame between.
+  const motion = new ProjectionMotion();
+  const arrivals = [[0, 0, 20], [9500, 1, 20], [17000, 2, 20], [30000, 3, 20], [31000, 3, 20], [39500, 6, 60], [52000, 9.5, 240], [57000, 20, 720], [70000, 30.5, 720]];
+  let latest = null, tick = 0, minute = 0, frames = 0;
+  for (let i = 0; i < arrivals.length; i++) {
+    const [at, progress, step] = arrivals[i];
+    const again = i > 0 && arrivals[i - 1][1] === progress;
+    if (!again) { tick++; minute += step; }
+    motion.accept(snap(tick, progress, { revision: 100 + i, minute }), at);
+    latest = progress;
+    const until = arrivals[i + 1]?.[0] ?? at + 20000;
+    for (let now = at; now < until; now += 16, frames++) {
+      const drawn = motion.position(walker(latest), now).x;
+      assert.ok(drawn <= latest + 1e-9, `at ${now} ms the walker was drawn at ${drawn.toFixed(3)} miles, ahead of the server's ${latest}`);
+    }
+  }
+  assert.ok(frames > 4000);
+});
+
 test('the walk cycle plays at the rate the drawn ground demands, never faster than authored', () => {
   // A 720ms stride over 0.86 of a body: covering 0.43 bodies in a second is half a stride.
   assert.equal(gaitStep({ elapsedMs: 1000, movedBodies: 0.43, cycleMs: 720, strideBodies: STRIDE.foot }), 360);
@@ -96,7 +118,8 @@ test('the simulation covers exactly the ground it did: every pace constant, and 
   assert.deepEqual([...new Set(Object.values(CALENDAR_SCALE))].sort((a, b) => a - b), [...CALENDAR_STEPS], 'the drawing and the clock disagree about what one tick of calendar is');
   assert.equal(TICK_MINUTES, 20);
   assert.deepEqual({ ...CALENDAR_SCALE }, { home: 20, news: 60, gathering: 240, campaign: 720, preserved: 20 });
-  assert.deepEqual([WALK_SPEED, RIDER_SPEED, WAGON_SPEED, ARMY_MILES_PER_DAY], [1, 2.6, 0.65, 14]);
+  // The family horse is five miles an hour since 2026-09-18 (sim/travel.mjs, `FIC-GONZ-059`); it went at the courier's 2.6 before.
+  assert.deepEqual([WALK_SPEED, HORSE_SPEED, RIDER_SPEED, WAGON_SPEED, ARMY_MILES_PER_DAY], [1, 5 / 3, 2.6, 0.65, 14]);
   assert.deepEqual({ ...PACES }, { study: 9500, brisk: 4000, quick: 1000 });
   // Nothing under sim/ or server/ reads the renderer, so no drawing choice can reach the world.
   for (const dir of ['sim', 'server']) {

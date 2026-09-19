@@ -19,7 +19,7 @@ import { calendarMinutes, TICK_MINUTES } from '../sim/clock.mjs';
 import { setAbsent } from '../sim/absence.mjs';
 import { whereWords, waitingOn } from '../sim/host.mjs';
 import { share } from '../sim/scrape.mjs';
-import { propertyId } from '../sim/travel.mjs';
+import { WALK_SPEED, groundLeft, milesADay, propertyId } from '../sim/travel.mjs';
 import { findPath } from '../sim/geography.mjs';
 import { coloniesMap } from '../sim/colonies-map.mjs';
 import { isIdle, needsOf, panelActions } from '../public/family-panel.js';
@@ -483,9 +483,16 @@ test('a class saved before the march\'s houses were places keeps the army at Ber
   assert.ok(world.events.some(event => event.text === HOUSTON_WORD.marchEast), 'the march east went unsaid on the old map');
   untilMoment(world, 'houston-harrisburg');
   assert.equal(man.travel?.from, 'bernardo'); assert.equal(man.travel?.to, 'harrisburg');
+  const road = groundLeft(man.travel), setOut = world.minute;
   until(world, () => !man.travel, 400);
   assert.equal(man.location.siteId, 'harrisburg');
-  assert.ok(world.minute < momentOf(world, 'houston-lynchburg'), 'the army reached Harrisburg after it should have marched for Lynchburg');
+  // Changed 2026-09-18 with the day on the road (sim/travel.mjs `roadTicks`). This said the army was at Harrisburg before
+  // it marched for Lynchburg: sixty-three miles in forty-two hours, thirty-six miles a day, which no forced march made
+  // (Houston's fifty-five took four days, `HIST-TEX-088`, `HIST-TEX-093`) and which held only while a walker went
+  // seventy-two miles a day in the long ticks. At a day's march it is three days, and there before the battle.
+  const days = (world.minute - setOut) / 1440, allowed = road / milesADay(WALK_SPEED) + calendarMinutes(world) / 1440;
+  assert.ok(days <= allowed + 1e-9, `the march of ${road.toFixed(1)} miles took ${days.toFixed(2)} days, more than a day's march allows (${allowed.toFixed(2)})`);
+  assert.ok(world.minute < momentOf(world, 'san-jacinto'), 'the army reached Harrisburg after the battle');
   validateWorld(world);
 });
 

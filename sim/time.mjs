@@ -2,7 +2,7 @@ import { record } from './events.mjs';
 import { advanceRoutine } from './routines.mjs';
 import { deliverReports } from './knowledge.mjs';
 import { advanceEncounters } from './encounters.mjs';
-import { advanceRelays, progressTravel, validateWorld } from './world.mjs';
+import { advanceRelays, milesATick, progressTravel, validateWorld } from './world.mjs';
 import { groundLeft } from './travel.mjs';
 import { calendarMinutes } from './clock.mjs';
 
@@ -15,7 +15,7 @@ export function resolveTimeJump(world, requestedMinutes) {
   // on the real land (sim/clock.mjs). Somebody's arrival is still counted in the ticks their
   // travel actually takes; only the date those ticks land on moves with the phase.
   const step = calendarMinutes(world);
-  const arrivals = Object.values(world.entities).filter(e => e.principal && e.travel && ['help', 'service'].includes(e.travel.purpose)).map(e => ({ id: `arrival:${e.id}`, minute: from + Math.max(0, Math.ceil(groundLeft(e.travel) / e.travel.speed) - 1) * step }));
+  const arrivals = Object.values(world.entities).filter(e => e.principal && e.travel && ['help', 'service'].includes(e.travel.purpose)).map(e => ({ id: `arrival:${e.id}`, minute: from + Math.max(0, Math.ceil(groundLeft(e.travel) / milesATick(world, e)) - 1) * step }));
   const barrier = [...world.barriers.filter(b => !b.resolved), ...arrivals].filter(b => b.minute >= from && b.minute <= limit).sort((a, b) => a.minute - b.minute || a.id.localeCompare(b.id))[0];
   // Somebody already standing with a rider is pending meaningful contact, and compressed
   // time may not run past a conversation that has not finished.
