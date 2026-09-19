@@ -76,11 +76,17 @@ multiple choice: the unplayed families' food next. From 2026-09-17 the five town
 hoe) were hidden from the neighbours' director with a student's list, so no family nobody played bought seed or sold cotton;
 and the director had never gone for powder. Now the errands are listed for a family the director runs (`directed`,
 sim/chores.mjs) and nobody else, and the director sends a hand for powder under two shots (`POWDER_KEPT`). Six classes of
-thirty, before → after: ticks short of food median 566 → 67 of 829, food in the house 5.1 → 38.7, shots 2.2 → 9.3, final
+thirty, before → after: ticks short of food median 566 → 67 of 829, food in the house 5.1 → 39.3, shots 2.2 → 9.2, final
 number 60.5 → 59.5. One family in ten is still short for long spells (hands away, or food and powder spent together);
 setting idle hands to work was measured, moved nothing, and was not kept. `npm run balance`'s stay-home family sells its
 cotton again: finals 1-74, ranks 6-12 of 15, no class won (it won one in six on 2026-09-16; much else has moved since, so
-recorded, not tuned - the owner's call). `tests/neighbours.test.mjs` +1, proven by three injections. Same computer only.
+recorded, not tuned - the owner's call). Also found and mended: somebody called to the war while fetching logs left the ox
+and wagon at the timber for good; `fetch-logs` now walks out to a team left there and drives it home loaded, and the
+director sends a hand for it first (BIOME_GAMEPLAY §3.2). `tests/neighbours.test.mjs` +1 and `tests/biome-game.test.mjs`
++1, proven by six injections. Two tests changed: the fair-trade test carries out only the neighbour's answers (kept at its
+last shot, it now sends the man being offered to town), and the camp test's bound is 7 of 12, not 8 - a two-tick chore and a
+think every third tick give 7 when the family's turn falls last, which the class's new history happened to pick. Same
+computer only.
 
 **The biomes of 1836 on the map, woods only where woods make sense, 2026-09-19:** [BIOMES.md](docs/BIOMES.md) §13,
 [MAP_ACCURACY.md](docs/MAP_ACCURACY.md) §9. Owner: research the natural biomes, then bring the map in line; "woods should

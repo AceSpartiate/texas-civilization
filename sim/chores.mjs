@@ -771,29 +771,49 @@ export const FETCH_LOGS = 6;
 /** Ticks of felling and loading a wagon load, at an ordinary hand's pace: three log trees, two ticks each (sim/felling.mjs). */
 export const FETCH_FELL_TICKS = 6;
 CHORES['fetch-logs'] = {
-  name: 'Fetch logs from the timber', skill: 'hands', where: 'home', heavy: true, fetchesLogs: true, forceMode: 'wagon',
+  // Out with the team; or on foot to the team where somebody called away left it at the timber, and home with it and a load.
+  name: 'Fetch logs from the timber', skill: 'hands', where: 'home', heavy: true, fetchesLogs: true,
+  forceMode: (world, household) => fetchLogsFacts(world, household).teamLeft ? DEFAULT_MODE : 'wagon',
   describe: `With the felling axe and the ox and wagon, out to the nearest timber, off the family's land if need be, to fell ${FETCH_LOGS} sound logs, load them and bring them to the house. The ox and wagon go at their own pace, so the further the timber, the longer it takes.`,
   steps: [
     { travel: 'logwood', doing: 'on the way to {logwood} with the ox and wagon' },
     { work: FETCH_FELL_TICKS, doing: 'felling and loading logs at {logwood}' },
     { loadLogs: FETCH_LOGS },
-    { travel: 'home', doing: 'hauling logs home from {logwood}' },
+    { travel: 'home', mode: 'wagon', doing: 'hauling logs home from {logwood}' },
     { stackLoad: true },
   ],
 };
-/** How far the nearest timber is, and about how long a wagon load takes, or why the family cannot fetch logs now. */
+/**
+ * Whether the family's ox and wagon stand together at this place, free: nobody driving them, nobody holding them. At home
+ * that is `oxFree` and the wagon beside it.
+ */
+function teamAt(world, household, siteId) {
+  const wagon = world.entities[propertyId(household.id, 'wagon')];
+  if (!wagon || wagon.travel || wagon.borrowedBy || wagon.location?.siteId !== siteId) return false;
+  return household.property.some(id => {
+    const beast = world.entities[id];
+    return beast?.species === 'ox' && beast.location?.siteId === siteId && !beast.travel && !beast.borrowedBy && beast.condition !== 'lost';
+  });
+}
+/**
+ * How far the nearest timber is, and about how long a wagon load takes, or why the family cannot fetch logs now. The team is
+ * at home, or standing at that timber where somebody called away in the middle of a load left it (`teamLeft`; found
+ * 2026-09-19, a family's team stood there the rest of the class): then whoever goes walks out to it and drives it home loaded.
+ */
 export function fetchLogsFacts(world, household) {
   if (household.tools?.axe === undefined) return { can: false, why: 'Felling wants an axe, and there is none in the house.' };
-  const wagon = world.entities[propertyId(household.id, 'wagon')];
-  if (!oxFree(world, household) || !wagon || wagon.travel || wagon.borrowedBy || wagon.location?.siteId !== household.homeSiteId) {
+  const wood = logwoodGround(world, household, false), home = world.map.sites[household.homeSiteId];
+  const teamLeft = Boolean(wood && teamAt(world, household, wood.id));
+  if (!teamLeft && !(oxFree(world, household) && teamAt(world, household, household.homeSiteId))) {
     return { can: false, why: 'Fetching logs wants the ox and wagon at home.' };
   }
-  const wood = logwoodGround(world, household, false), home = world.map.sites[household.homeSiteId];
   if (!wood) return { can: false, why: 'There is no timber within reach of the house.' };
   const miles = Math.hypot(wood.x - home.x, wood.y - home.y);
-  // The wagon's pace is miles a tick of twenty minutes (sim/travel.mjs): there and back, and the felling.
-  const hours = Math.max(1, Math.round((2 * miles / MODES.wagon.speed + FETCH_FELL_TICKS) / 3));
-  return { can: true, miles: round(miles), hours, cost: `the ox and wagon for about ${hours} ${hours === 1 ? 'hour' : 'hours'}, to ${wood.name.charAt(0).toLowerCase()}${wood.name.slice(1)}, ${miles < 0.2 ? 'beside the house' : `${Math.round(miles * 10) / 10} miles off`}` };
+  // The wagon's pace is miles a tick of twenty minutes (sim/travel.mjs): there and back, and the felling; out on foot to a team
+  // left at the timber.
+  const hours = Math.max(1, Math.round(((teamLeft ? miles / MODES.foot.speed : miles / MODES.wagon.speed) + miles / MODES.wagon.speed + FETCH_FELL_TICKS) / 3));
+  const where = `${wood.name.charAt(0).toLowerCase()}${wood.name.slice(1)}, ${miles < 0.2 ? 'beside the house' : `${Math.round(miles * 10) / 10} miles off`}`;
+  return { can: true, miles: round(miles), hours, teamLeft, cost: teamLeft ? `about ${hours} ${hours === 1 ? 'hour' : 'hours'}, on foot to the ox and wagon left at ${where}, and home with them` : `the ox and wagon for about ${hours} ${hours === 1 ? 'hour' : 'hours'}, to ${where}` };
 }
 CHORES['hunt-land'] = {
   name: 'Hunt on our land', skill: 'hunting', where: 'home', hauls: true, huntLand: true,
@@ -1273,7 +1293,7 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
   // journey that turns out to be impossible there throws from inside `stepWorld`, which
   // does not refuse one student's order: it stops the whole class.
   // A chore that can only go one way goes that way, whatever was asked: logs come home in the wagon.
-  if (chore.forceMode) modeId = chore.forceMode;
+  if (chore.forceMode) modeId = typeof chore.forceMode === 'function' ? chore.forceMode(world, household) : chore.forceMode;
   if (chore.steps.some(step => step.travel) && modeId !== DEFAULT_MODE) {
     const mode = modeAvailability?.(world, entity, modeId);
     if (mode && !mode.can) throw new Error(mode.why);
@@ -1388,7 +1408,8 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       // the family cannot supply. Refusing is right; throwing in the middle of a tick is not - it
       // stopped the whole class. They walk instead, which is always possible and is what somebody
       // who came out to find the horse gone would do.
-      const wanted = state.mode || DEFAULT_MODE;
+      // A step may name its own way of going: logs come home in the wagon, however the fetcher went out to it.
+      const wanted = step.mode || state.mode || DEFAULT_MODE;
       const held = wanted === DEFAULT_MODE || (modeAvailability?.(world, entity, wanted)?.can ?? true);
       if (!held) state.mode = DEFAULT_MODE;
       beginTravel(world, entity, destination, null, 'chore', held ? wanted : DEFAULT_MODE);

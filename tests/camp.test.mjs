@@ -294,7 +294,10 @@ test('a man whose family does nothing is never idle: the director sets him to th
       assert.equal(one.chore.id, expectedChore(one, Math.floor(begun.minute / 1440)), `${one.name} was not set to the day's work`);
     }
   }
-  for (const one of [director, auto, absent]) assert.ok(busy[one.id] >= 8, `${one.name} sat idle at the camp: at work ${busy[one.id]} ticks of 12`);
+  // A day's work at the camp is two ticks and a family thinks every third (THINK_EVERY): a man set to work at every think is
+  // at work at least 7 of 12, when his family's turn falls last (idle the first two ticks, then one in three). It read 8 until
+  // 2026-09-19, when the class's history changed which men this picks and one's family thought on that last tick.
+  for (const one of [director, auto, absent]) assert.ok(busy[one.id] >= 7, `${one.name} sat idle at the camp: at work ${busy[one.id]} ticks of 12`);
   // The army marches for the Colorado: the work in hand is left off and said, and taken up again at the new camp.
   until(world, () => world.minute >= momentOf(world, 'houston-colorado') - 1440);
   for (const one of [director, auto, absent]) if (!one.chore) order(world, one, (one.service.drilled || 0) >= DRILL_TO_STEADY ? 'camp-forage' : 'camp-drill');

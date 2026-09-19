@@ -132,7 +132,9 @@ test('a neighbour takes a fair trade, and refuses an unfair one or one it cannot
   neighbourHousehold.field = { ...neighbourHousehold.field, state: 'bare' };
   const offerAndAnswer = (give, ask) => {
     applyAction(world, 'hh-1', { action: 'offer', entityId: student.id, toEntityId: neighbour.id, give, ask });
-    thinkFor(world, neighbourHousehold, { project: id => projectWorld(world, id, 'student', { includeMap: false }), act: input => applyAction(world, 'hh-2', input) });
+    // Only its answers are carried out: kept at its last shot, it would otherwise send the man being offered to town for powder.
+    const answers = ['accept-offer', 'decline-offer'];
+    thinkFor(world, neighbourHousehold, { project: id => projectWorld(world, id, 'student', { includeMap: false }), act: input => { if (answers.includes(input.action)) applyAction(world, 'hh-2', input); else throw new Error('not this test'); } });
   };
   offerAndAnswer({ powder: 2 }, { food: 5 });
   assert.equal(neighbourHousehold.resources.food, 35, 'two shots for five food is fair, and taken');

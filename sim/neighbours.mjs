@@ -230,6 +230,11 @@ export function thinkFor(world, household, { project, act }) {
   let fellCache = null;
   const fellAt = () => (fellCache ??= moreLogs && home ? fellPlaces(world, view.household, home, land.grant?.bounds) : []);
   const unfenced = nearest(plots.filter(plot => plot.state === 'cleared' && plot.fence !== 'sound'));
+  // The ox and wagon left standing at the timber, by somebody called off to the war in the middle of fetching logs: fetched
+  // home with a load (`fetch-logs` walks out to them), logs wanted or not. Found 2026-09-19: a family's team stood at the
+  // timber the rest of the class, and its house wanted logs.
+  const wagon = (view.entities || []).find(entity => entity.kind === 'wagon' && entity.householdId === household.id);
+  const teamLeft = Boolean(wagon && !wagon.travel && !wagon.borrowedBy && wagon.location?.siteId && wagon.location.siteId !== view.household.homeSiteId);
   for (const person of idle) {
     // Somebody away from home with nothing to do there comes home.
     // Somebody who went with the volunteers, or to help at Gonzales, is where the family sent them (task 'help'), and stays;
@@ -247,6 +252,8 @@ export function thinkFor(world, household, { project, act }) {
       // 2026-09-19, a family that never went for powder fired its three shots by November and sat at no food for the rest
       // of the class (docs/BIOME_GAMEPLAY.md §5.2).
       (resources.powder || 0) < POWDER_KEPT && 'fetch-powder',
+      // The team left standing at the timber, fetched home first by one hand with a load (above).
+      teamLeft && 'fetch-logs',
       'harvest-field', 'plant-field', 'build-house',
       land.logs?.lying > 0 && 'haul-logs',
       moreLogs && fellAt().length && 'fell-trees',

@@ -98,6 +98,12 @@ Gonzales country hunt, build and fence exactly as they did. **No save version mo
   from ..."*; the record: *"Elias brought 6 logs home in the wagon from the timber on Little Boggy Creek."*
 - **Families nobody plays** with fewer than a cabin's fifty sound logs standing on their land within a mile fetch their logs
   when that timber is within two miles (`FETCH_LOGS_MILES`), and build a jacal when it is not (`fetchesLogs`).
+- **A team left at the timber** (2026-09-19). Somebody called away while fetching - the call to turn out reaches them at the
+  timber - rides off and leaves the ox and wagon standing there. Found when a family's team stood at the timber the rest of
+  the class and its house wanted logs. *Fetch logs* is offered then too (`teamLeft` in `fetchLogsFacts`): whoever goes walks
+  out to the team, loads it and drives it home - *"About 2 hours, on foot to the ox and wagon left at the timber on Copperas
+  Creek, beside the house, and home with them."* The home leg names its own way of going (`mode: 'wagon'` on the step). The
+  director sends one hand for a team left out before the house and the field, logs wanted or not.
 - **Why not bought in town.** Sawn lumber existed but was scarce, dear and made at a few mills, none in most of the dealt towns,
   and it builds a frame house the house plot does not have; logs were not a shop's goods. Time and the wagon, not coin, is the
   documented price of timber for a prairie family.
@@ -202,15 +208,18 @@ cotton. And the director had never gone for powder at all. Two changes:
 - The director sends one hand to town for powder and lead when the house has fewer than two shots (`POWDER_KEPT`,
   `FIC-GONZ-028`), paying in food or coin while there is still food to pay with.
 
+Families going to town again moved the class's timing enough to show a fault in `fetch-logs` (§3.2): a team left at the
+timber by somebody called to the war was never fetched. That is mended in the same change, and the numbers below include it.
+
 The same six classes of thirty, before ([errands-before](evidence/biome-balance-errands-before.json), main at `731e725`) and
 after ([errands-after](evidence/biome-balance-errands-after.json)):
 
 | | Before | After |
 | --- | ---: | ---: |
 | Ticks short of food (under half a unit), median of 829 | 566 | 67 |
-| Families ever short | 179 of 180 | 139 of 180 |
-| Food in the house, median family's mean | 5.1 | 38.7 |
-| Shots fired a class, mean | 2.2 | 9.3 |
+| Families ever short | 179 of 180 | 138 of 180 |
+| Food in the house, median family's mean | 5.1 | 39.3 |
+| Shots fired a class, mean | 2.2 | 9.2 |
 | House lived in, median tick | 93 | 99 |
 | Glory, median | 52.5 | 49 |
 | Final number, median | 60.5 | 59.5 |

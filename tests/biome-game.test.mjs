@@ -16,7 +16,7 @@ import { holdingOf } from '../sim/grants.mjs';
 import { siteFactsFor, choosing } from '../sim/homesite.mjs';
 import { GAME, huntFacts, huntingPlace, quarryAt, quarryGame, quarryWords, stillTicks } from '../sim/hunting.mjs';
 import { FENCE_TICKS, FENCE_TICKS_A_MILE, fenceWork, fenceWords, plotsOf } from '../sim/fields.mjs';
-import { FETCH_LOGS_MILES, fetchesLogs, soundLogsNear } from '../sim/neighbours.mjs';
+import { FETCH_LOGS_MILES, fetchesLogs, soundLogsNear, thinkFor } from '../sim/neighbours.mjs';
 import { STANDS, WOODS_SOURCE_2016 } from '../sim/woods.mjs';
 import { dateOf } from '../sim/clock.mjs';
 
@@ -215,7 +215,35 @@ test('a family can fetch logs from the nearest timber with the ox and wagon, tol
   assert.match(choresFor(world, household, person).find(chore => chore.id === 'fetch-logs').why, /ox and wagon at home/);
   const invented = createGonzalesWorld('biome-game-invented', 5);
   assert.equal(choresFor(invented, invented.households['hh-1'], invented.entities[invented.households['hh-1'].principalId]).find(chore => chore.id === 'fetch-logs'), undefined);
-  assert.equal(CHORES['fetch-logs'].forceMode, 'wagon');
+  assert.equal(CHORES['fetch-logs'].forceMode(world, household), 'wagon', 'with no team left at the timber it goes in the wagon');
+});
+
+test('a team left at the timber by somebody called away is walked out to and driven home with a load, by a student or the director', () => {
+  // Found 2026-09-19: a man fetching logs answered the call from the timber and rode for Gonzales, and his family's ox and
+  // wagon stood there the rest of the class while its house wanted logs.
+  const world = onTheLand('biome-game-logs');
+  const home = h => world.entities[`${h.id}-wagon`]?.location?.siteId === h.homeSiteId && world.entities[`${h.id}-animal`]?.location?.siteId === h.homeSiteId;
+  const household = Object.values(world.households).filter(h => home(h) && h.tools?.axe !== undefined && logwoodGround(world, h, false))[0];
+  const person = world.entities[household.principalId];
+  const wood = logwoodGround(world, household);
+  const leave = () => { for (const id of [`${household.id}-wagon`, `${household.id}-animal`]) world.entities[id].location = { x: wood.x, y: wood.y, siteId: wood.id }; };
+  leave();
+  const entry = choresFor(world, household, person).find(chore => chore.id === 'fetch-logs');
+  assert.ok(entry?.can, JSON.stringify(entry));
+  assert.match(entry.cost, /^about \d+ hours?, on foot to the ox and wagon left at the timber.*, and home with them$/);
+  const pile = (household.logs?.wall || 0) + (household.logs?.sill || 0);
+  applyAction(world, household.id, { action: 'chore', entityId: person.id, chore: 'fetch-logs' });
+  const seen = [];
+  for (let tick = 0; tick < 300 && person.chore; tick++) { if (person.travel && seen.at(-1) !== person.travel.mode) seen.push(person.travel.mode); stepWorld(world); validateWorld(world); }
+  assert.equal(person.chore, null);
+  assert.deepEqual(seen, ['foot', 'wagon'], 'out on foot, home in the wagon');
+  for (const id of [`${household.id}-wagon`, `${household.id}-animal`]) assert.equal(world.entities[id].location.siteId, household.homeSiteId, `${id} is home`);
+  assert.equal((household.logs?.wall || 0) + (household.logs?.sill || 0), pile + FETCH_LOGS, 'and six logs on the pile');
+  // The director sends somebody for it, logs wanted or not.
+  leave();
+  household.resources = { ...household.resources, food: 60, powder: 6 };
+  thinkFor(world, household, { project: id => projectWorld(world, id, 'student', { includeMap: false }), act: input => applyAction(world, household.id, input) });
+  assert.equal(household.members.filter(id => world.entities[id].chore?.id === 'fetch-logs').length, 1, 'one of the family goes for the team');
 });
 
 test('a family nobody plays with no timber of its own fetches logs when timber is near, and builds a jacal when none is', () => {
