@@ -52,6 +52,7 @@
     "test:road": "node scripts/road-browser-proof.mjs",
     "test:armies": "node scripts/armies-browser-proof.mjs",
     "test:map-accuracy": "node scripts/map-accuracy-browser-proof.mjs",
+    "test:crossings": "node scripts/crossings-browser-proof.mjs",
     "test:navigation": "node scripts/navigation-browser-proof.mjs",
     "measure:navigation": "node scripts/perf-navigation-measure.mjs",
     "balance": "node scripts/balance-study.mjs"

@@ -476,3 +476,124 @@ the Alamo cleared to fields. Built from [BIOMES](BIOMES.md) §7; what was built,
   woods round the compound gone; a tan band of fields along the river; the galleries of Alazán and Apache creeks, which run all
   year, still west of the town), Béxar's fields, Gonzales, Harrisburg's coastal prairie, the Piney Woods and the Big Thicket, the
   Lost Pines, the Hill Country (the cedar breaks darker at the Balcones), South Texas past the Nueces, and pines close up.
+
+## 10. The crossings: a ford, a ferry or a bridge where a road meets water (2026-09-19)
+
+Owner, 2026-09-18: *"when the various rivers and creeks are added, we're going to have to have assets ford, or build bridges
+(where they historically were)."* Chosen the same day by multiple choice: every place a road crosses a river or creek gets a
+ford, a ferry or a bridge, at the historical crossing where one is known. Research: `HISTORY.md` `HIST-TEX-140` to `-155`;
+what is the game's, `FIC-GONZ-090` to `-092`.
+
+### 10.1 What the map has
+
+**135 crossings: 122 fords, 12 ferries, one bridge** (`scripts/build-colonies-map.mjs`, the section *The crossings*). Every road,
+and Gonzales's short way to its ford, is intersected with every river and creek the map draws. Each meeting is a crossing:
+a place of kind `ford`, `ferry` or `bridge` standing on the road where it meets the water, with the water's name (`water`,
+null for open water), `waterKind` (`river` or `creek`), which way it lies (`across`: a ford or bridge straight over the
+water, a ferry's rope along its road), and for a ferry met slantwise how much longer it is bank to bank (`oblique`).
+
+| Crossing | Water | Kind | Where | Claim | Confidence |
+|---|---|---|---|---|---|
+| The ford (Gonzales) | Guadalupe | ford | where it was: the river nearest the town | `HIST-GONZ-007`, `HIST-TEX-141` | documented; the town's ferry of 1832 was gone by 1835 |
+| The lower ford | San Antonio | ford | where the roads east meet the river at La Bahía | `HIST-TEX-148` | documented |
+| The ford at Béxar | San Antonio | ford | where the road from Gonzales meets the reconstructed river | `HIST-TEX-149` | documented (secondary): a ford for horses and wagons, a footbridge for people |
+| The ford at Mina | Colorado | ford | where the road to Gonzales meets the river | `HIST-TEX-147` | documented (Smithwick) |
+| The Colorado crossing (Burnam's ferry) | Colorado | ferry, a stage | its place stays at La Grange's point; the ferry is drawn 0.7 mi off where both roads meet the river | `HIST-TEX-145` | documented; its date and the marker's site disputed |
+| Beeson's crossing (Beeson's ferry) | Colorado | ferry, a stage | its place stays at Columbus's point; drawn 0.25 mi east where the road meets the river | `HIST-TEX-146` | documented |
+| The ferry at Matagorda | Colorado | ferry | where the road west meets the river | `FIC-GONZ-091` | nothing found at the town |
+| The ferry at Victoria | Guadalupe | ferry | where both roads meet the river | `FIC-GONZ-091` | none named before 1839 (`HIST-TEX-154`) |
+| The San Felipe ferry | Brazos | ferry | where the road east meets the river | `HIST-TEX-142` | documented; landing not located |
+| Robinson's ferry | Brazos | ferry | at Washington | `HIST-TEX-143` | documented for 1830; the year it began disputed |
+| Groce's ferry | Brazos | ferry | on the road from the camp to Bernardo | `HIST-TEX-088` | documented |
+| Brigham's ferry | Brazos | ferry | at Brazoria | `HIST-TEX-144` | documented for 1831 |
+| The Atascosito crossing | Trinity | ferry, a stage | where it was, three miles above Liberty | `HIST-TEX-152` | ferry documented; site likely |
+| The Harrisburg ferry | Buffalo Bayou | ferry | opposite the town, where the roads north meet the bayou | `HIST-TEX-151` | documented for 1830 |
+| Lynch's ferry | San Jacinto | ferry | the middle of the water the road spans at the present ferry, 0.1 mi from it | `HIST-TEX-150` | documented |
+| Vince's bridge | Vince Bayou | bridge | on the road from Harrisburg to Lynchburg, 0.1 mi from the 1912 marker | `HIST-TEX-153` | documented; site disputed by some |
+| The ferry on the San Jacinto River | San Jacinto | ferry | where the Atascosito road from Harrisburg meets it, eight miles above Lynch's | `FIC-GONZ-090` | nothing found |
+| 118 fords on creeks, bayous, sloughs and the lesser rivers ("The ford on Peach Creek") | | ford | where each road comes down to the water | `FIC-GONZ-090` | nothing found; the army's camps on Peach, Mill and Cypress creeks are documented, how they crossed is not (`HIST-TEX-155`) |
+
+**The three named crossings are `stage`s.** The Colorado crossing, Beeson's and the Atascosito crossing were `crossing` places;
+they are ferries now and keep their ids, names and points, marked `stage: true`, so the expresses still stop there
+(`sim/expresses.mjs` `isStop`) and the fleeing families still wait there (`sim/scrape.mjs` `crossingsAlong`). `isStage`
+(`sim/colonies-map.mjs`) reads a class saved before, whose places are still `crossing`, the same way. Where a stage's point is
+off the water, `over` is where its road meets the water, and the crossing is drawn there.
+
+**Where the record gives the crossing the road goes by it.** Six roads were laid again, each through one point (`layRoad` with a
+via point, each leg simplified on its own so the point is on the road): the road to the Colorado and the La Bahía road through
+the Colorado crossing's point, the La Bahía road and the Atascosito road through Victoria's, the mail road to Liberty and the
+road to Nacogdoches through the Atascosito crossing, and the road to Béxar straight over at Gonzales's ford (it had run half a
+mile down the east bank and crossed below). Every other road, every other place and every watercourse the map had is as it was,
+checked by decoding the file before and after: 44 of 50 roads byte for byte, the four places the map had given crossing fields
+and nothing else moved, 131 places added, 418 watercourses kept in order and 143 creeks added.
+
+**The creeks round the march east.** The map drew named creeks within fourteen miles of a start; it now draws them round the
+four houses of the army's march east and round Harrisburg and Lynchburg too, so the creeks the record names on the army's roads
+(Cypress Creek at Burnett's, Vince's Bayou) are drawn and their crossings with them. Spring Creek at McCarley's is drawn but the
+road east passes south of it and never crosses it. A class keeps a creek for two miles round each ford on it wherever the ford is
+(`CREEK_AT_CROSSING`, `sim/colonies-region.mjs`), so a ford is never drawn on dry ground: a class's saved map grows by about
+65 KB (a five-family class 286 → 353 KB, a thirty-family one 375 → 436 KB). Creeks draw nothing from the seed, so every class
+is dealt as it was.
+
+**Files.** `colonies-map.json.gz` 122 → 149 KB (`tests/map-outside.test.mjs` holds the new hash). The province built from it is
+byte for byte the province built from the map before - it reads the towns and the rivers, which did not change. (Rebuilt from
+either map it is `4a33a972…`, not the `8ef9b839…` the repository ships: the shipped province predates something else in the
+chain, and was left as it is.)
+
+### 10.2 What a crossing costs
+
+- **A ferry is an hour's wait** (`FERRY_MINUTES`, `ferryMiles` in `sim/travel.mjs`; `FIC-GONZ-092`): laid on the stretch of road
+  it stands on as an hour of the traveller's own going, so a walker, a rider and a wagon each lose an hour, on the watched clock
+  and as an hour of the day's road in the long ticks. `findWay` (`sim/ways.mjs`) counts it when choosing the way and returns
+  `ferries`. Said on the travel control ("Over a ferry, an hour waiting for the boat.") and in the departure ("The way goes over
+  the San Felipe ferry, with a wait for the boat.").
+- **Not for a rider with word** (`findPath`): the mails and public messengers crossed free (`HIST-TEX-140`), and the expresses'
+  waits are calibrated on the letters (`HIST-TEX-006`).
+- **Not for the flight of the spring**, whose families wait at the flooded crossings by their own rule (`CROSSING_HOURS`,
+  `docs/ROAD_EAST.md`) and are given `findWay(..., { ferries: false })`.
+- **A ford and a bridge cost what the road costs.** A ford in flood is the flight's rule; nothing else read gives a ford's delay.
+- **No ferriage is charged** (`ceiling:` in `sim/travel.mjs`). The rates of 1831 are documented - half a real on foot, a real on
+  the horse, eight reales for a loaded wagon - and money is half of the ending; charging them is the owner's call.
+- **The army keeps its dates.** Its road goes over Groce's ferry, the Harrisburg ferry and Lynch's ferry, and Beeson's on the way
+  from Beeson's to San Felipe; with an hour at each it reaches every camp before it sets out again (`tests/crossings.test.mjs`).
+
+### 10.3 On the page
+
+`drawWorld` (`public/app.js`) draws every `ford`, `ferry` and `bridge` at `over` or its point, from a county's zoom (45 pixels a
+mile), a creek's with its creek; Gonzales's ford at every zoom as always. A ford is `drawCrossing` as it was; a bridge is
+`drawCrossing`'s timber bridge; a ferry is `drawFerry` (`public/landscape-art.js`): the river laid back over the road between
+the landings, a rope bank to bank on two posts, and the library's `ferry-raft` at the near landing - `stand-in:` for a plank
+flatboat ([ART_REQUESTS](ART_REQUESTS.md), request 2026-09-19). Named as a landing is (from 45 pixels a mile), the three
+stages as before, and a ford the record does not name only from 150. `window.__crossingsDrawn` is the proofs' evidence.
+
+### 10.4 Checks
+
+`tests/crossings.test.mjs` (6), each proven by injecting the regression it guards and watching it fail alone
+([evidence/crossings/injections.json](evidence/crossings/injections.json), 6 of 6; the script is
+[evidence/crossings/injections.mjs](evidence/crossings/injections.mjs)):
+
+| check | injected |
+|---|---|
+| Each crossing the record gives is at its place (Lynch's within 0.15 mi of the present ferry, Vince's within 0.15 of the marker, and so on), of its kind and claim, on a road and its water; the places the map had did not move; the stages are exactly the three | Vince's bridge laid four tenths of a mile up the bayou |
+| Every meeting of a road with drawn water has a crossing on that road; every crossing is on a road and on its water; the game's kind is a ford but on the San Jacinto and Buffalo Bayou | the road from Roberts' to Burnett's given no crossings |
+| A ferry costs an hour, on foot, on the horse and with the wagon, in the pace and to the tick when stepped; the control and the departure say it | the wait reckoned at a walker's pace for every way of going |
+| A rider with word and the flight do not wait at the ferries; the flight waits only at the stages and the river towns | the flight made to wait at every ferry |
+| The army reaches every dated camp before it sets out again, the ferries' waits on its road | the march east at four hours a day |
+| A class saved before opens, plays, and waits at no ferry; its `crossing` places are stages | the old `crossing` places read as ferries |
+
+**Browser** (same computer only, headless Chrome; not a LAN or district test): `node scripts/crossings-browser-proof.mjs` takes
+the Host to the ford at Gonzales, Groce's ferry, Lynch's ferry, Beeson's, the Cypress Creek ford at Burnett's and Vince's bridge
+at 1,400, 420 and 60 pixels a mile, checks the page drew each as its kind, and writes `docs/evidence/crossings/*.png`, looked
+at: the ferry-raft at the landing with its rope over the Brazos at Groce's and over the open water at Lynch's, Beeson's ferry
+east of the place, the bridge over Vince's Bayou, the fords at Gonzales and on Cypress Creek.
+
+### 10.5 Ceilings
+
+- `ceiling:` a ferry's wait is an hour by day and by night; the ferryman was bound to cross only from sunrise to ten at night.
+- `ceiling:` no ferriage is charged (above).
+- `ceiling:` the game's fords are where its roads come down to the water, not where 1835 crossed; the Lavaca, the Navidad and
+  the San Bernard crossings of the Atascosito road were not found. The Atascosito road's own crossing of the Colorado, nine
+  miles below Columbus, is not on the map; Beeson's stands at Columbus's official point, west of the river the map draws, where
+  Houston's camp of March 1836 was on the east bank.
+- `ceiling:` the ferries are drawn still: nothing crosses on them, and a family on the road is not drawn waiting for the boat.
+- `ceiling:` the road is drawn across a ford and under a bridge as before; at a ferry the river is laid back over it.

@@ -69,6 +69,12 @@ Each row is **chosen by default; the owner may change it.** The grounding is wha
   `openedMinute`, `openedTick`), `danger`, `overtaken`, `overtakenBy`; on a beast, `condition` `lost` or `taken`. Every one
   is absent until it happens, validated by `roadInvalid`; no save version moved.
 
+- **The crossings of every road** (2026-09-19, `docs/MAP_ACCURACY.md` §10): the roads now have a ford, a ferry or a bridge
+  wherever they meet water, and a ferry is an hour's wait. The flight is not given that hour: its families wait where they
+  always did - the Colorado crossing, Beeson's, the Atascosito crossing (ferries now, marked `stage`) and San Felipe,
+  Washington, Lynchburg and Liberty - for `CROSSING_HOURS`, and pass the other fords and ferries as road
+  (`findWay(..., { ferries: false })` in `sim/scrape.mjs` and `moveOn`).
+
 ## 4. Proof
 
 - `tests/road.test.mjs` (8): the bog, the hold, digging out and the spent ox; waiting and leaving the wagon; the hunt from

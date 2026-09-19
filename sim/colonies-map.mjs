@@ -13,6 +13,19 @@ export function coloniesMap() {
 /** The rivers a road may cross only at a crossing (the build script's barriers). */
 export const BARRIER_RIVERS = Object.freeze(['Guadalupe River', 'Colorado River', 'Brazos River', 'Trinity River', 'San Antonio River']);
 
+/**
+ * How a road gets over water (docs/MAP_ACCURACY.md §10, 2026-09-19): a place of one of these kinds is a crossing. `crossing` is
+ * the kind a class saved before then carries for the three named crossings of the big rivers.
+ */
+export const CROSSING_KINDS = Object.freeze(['ford', 'ferry', 'bridge']);
+export const isCrossing = site => CROSSING_KINDS.includes(site?.kind) || site?.kind === 'crossing';
+/**
+ * A crossing the word and the fleeing families stop at: the Colorado crossing at La Grange, Beeson's and the Atascosito
+ * crossing. They were `crossing` places until 2026-09-19 and are now a ferry each, marked `stage` so what stopped there still
+ * does - and a class saved before, whose places are still `crossing`, is read the same.
+ */
+export const isStage = site => site?.kind === 'crossing' || site?.stage === true;
+
 /** The colony settlements families can start near (docs/COLONIES.md §5.1). */
 export const startsOf = map => Object.values(map.places).filter(place => place.start);
 

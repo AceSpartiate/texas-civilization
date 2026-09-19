@@ -11,7 +11,7 @@ import {drawGonzalesGround,gonzalesDrawables,GONZALES_ART_BOUNDS} from '/gonzale
 import { drawTownGround, townDrawables } from '/town-art.js';
 import { renderInterior, clearInteriorChoice } from '/interior.js';
 import { TOWN_LAYOUTS, townPoint } from '/town-layouts.js';
-import {drawWater,drawRoad,drawCrossing,crossingAngle} from '/landscape-art.js';
+import {drawWater,drawRoad,drawCrossing,drawFerry,crossingAngle} from '/landscape-art.js';
 import { drawHousePlot, plotted, renderHousePlot } from '/house-plot.js';
 import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesVisible, woodsLayersFor, woodsShown } from '/woods-view.js';
 import { bindEnding, renderEnding } from '/ending.js';
@@ -848,6 +848,10 @@ const HOMESTEAD_LEGIBLE = 11;
 const LANDING_LEGIBLE = 45;
 /** Named only from LANDING_LEGIBLE: the landings, and the farmsteads of the march east, McCarley's and Roberts' 2.8 miles apart. */
 const NAMED_CLOSE = ['landing', 'farmstead'];
+/** How a road gets over water (sim/colonies-map.mjs `CROSSING_KINDS`, docs/MAP_ACCURACY.md §10). */
+const CROSSING_KINDS = ['ford', 'ferry', 'bridge'];
+/** Pixels a mile from which a ford the record does not name (`FIC-GONZ-090`) is named: they lie every few miles on some roads. */
+const FORD_LEGIBLE = 150;
 // Every drawn object as a multiple of a person, so the whole scene grows together and
 // an ox never ends up smaller than the family leading it.
 /** A pole, a log tree and a large tree, as shares of a timber tree's drawn height (sim/woods.mjs `SIZES`). */
@@ -2235,6 +2239,9 @@ export function drawWorld(world) {
   housesDrawn.clear();
   // Presentation evidence for proofs: where each house a tap can open was drawn this frame.
   window.__housesDrawn = housesDrawn;
+  // Presentation evidence for proofs: each crossing drawn into the ground when it was last drawn, its kind and where
+  // (docs/MAP_ACCURACY.md §10).
+  if (ground && !audit) window.__crossingsDrawn = {};
   for (const site of sitesOf(world)) {
     // A road junction is a shape in the network, not a place: it must never draw a building.
     if (site.kind === 'junction') continue;
@@ -2312,9 +2319,22 @@ export function drawWorld(world) {
           standing.push({ y, draw: () => animated(ctx, clip, x, y, size * scale, `${site.id}:${clip}`, { flip }) });
         }
       }
-    } else if (site.kind === 'ford'||site.kind==='bridge') {
-      const length=Math.max(12,world.map?.source?camera.scale*.065:camera.figure*1.8);
-      if(ground)drawCrossing(ground,q.x,q.y,length,crossingAngle(site,world.map?.terrain||[],camera.toScreen),site.kind==='bridge');
+    } else if (CROSSING_KINDS.includes(site.kind)) {
+      // A ford, a ferry or a bridge where a road meets the water (docs/MAP_ACCURACY.md §10): drawn where its road meets the
+      // water (`over`, for a place that stands off it), lying across the water (`across`, the build's; else read off the drawn
+      // water, as Gonzales's ford of an older class is). Gonzales's own ford is drawn at every zoom as it always was; the rest
+      // come in with the county, a creek's with its creek.
+      const creek = site.waterKind === 'creek', shown = site.id === 'ford' || (camera.scale >= LANDING_LEGIBLE && (!creek || creekOpacity(camera.scale) > .5));
+      if (ground && shown) {
+        const at = site.over ? camera.toScreen(site.over) : q, angle = Number.isFinite(site.across) ? site.across : crossingAngle(site, world.map?.terrain || [], camera.toScreen);
+        const width = creek ? waterWidth(WATER.creek.miles, camera.scale, WATER.creek.floor) : waterWidth(WATER.river.miles, camera.scale, WATER.river.floor);
+        // Open water drawn as the sea's, not as a line (Lynch's ferry): the build measured it bank to bank (`span`).
+        const length = world.map?.source ? Math.max(creek ? 8 : 12, creek ? width * 2.2 : camera.scale * .065, (site.span || 0) * camera.scale * 1.1) : Math.max(12, camera.figure * 1.8);
+        // The road's width as the roads above are drawn, so the river can be laid back over it between the landings.
+        if (site.kind === 'ferry') drawFerry(ground, at.x, at.y, Math.max(length, width * 1.8 * (site.oblique || 1)), angle, camera.figure, Math.max(2, Math.min(46, camera.scale * .012 + camera.figure * .22)));
+        else drawCrossing(ground, at.x, at.y, length, angle, site.kind === 'bridge');
+        if (!audit) (window.__crossingsDrawn ||= {})[site.id] = { kind: site.kind, x: Math.round(at.x), y: Math.round(at.y) };
+      }
     } else if (site.kind === 'camp') {
       // A camp is shelter, not a house: canvas and brush, nothing that implies a holding.
       standing.push({ y: q.y, draw: () => {
@@ -2335,11 +2355,14 @@ export function drawWorld(world) {
     }
     // A landing is named only once it stands clear of its neighbour: Groce's camp and Bernardo across the Brazos are a mile
     // and a half apart, and their names lay over each other further out (2026-09-18).
-    const worthNaming = settlement || ownLand || (camera.scale >= HOMESTEAD_LEGIBLE && (site.kind === 'ford' || (camera.named && site.kind !== 'camp' && (!NAMED_CLOSE.includes(site.kind) || camera.scale >= LANDING_LEGIBLE))));
+    // A crossing is named as a landing is, the three named crossings of the big rivers (`stage`) as they always were, and a ford
+    // the record does not name only close in.
+    const crossing = CROSSING_KINDS.includes(site.kind) && site.id !== 'ford' && !site.stage;
+    const worthNaming = settlement || ownLand || (camera.scale >= HOMESTEAD_LEGIBLE && (site.id === 'ford' || (crossing ? camera.scale >= (site.claimId?.startsWith('FIC') ? FORD_LEGIBLE : LANDING_LEGIBLE) : camera.named && site.kind !== 'camp' && (!NAMED_CLOSE.includes(site.kind) || camera.scale >= LANDING_LEGIBLE))));
     // A place name goes above its buildings. Below is where the family stands, and a
     // homestead's own name landing on top of four people and an ox is unreadable.
     if (worthNaming) {
-      const roof = site.kind === "ford" ? -10 : camera.figure * (settlement ? SIZE.settlementCabin * 1.5 : SIZE.cabin) + 6;
+      const roof = site.id === 'ford' || crossing ? (site.kind === 'ferry' ? camera.figure * 1.6 + 6 : -10) : camera.figure * (settlement ? SIZE.settlementCabin * 1.5 : SIZE.cabin) + 6;
       // A family's own place is "Home". The map was generated when every household was
       // called Family N and it is fetched once a class, so it cannot follow a rename -
       // but nobody calls their own house by its number, and this is the one label that

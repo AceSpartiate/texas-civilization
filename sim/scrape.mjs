@@ -22,6 +22,7 @@ import { spotlight } from './host.mjs';
 // The road's own doings - the rain and the bog, the camp, the pursuit - live in sim/road.mjs (docs/ROAD_EAST.md) and write
 // their fields onto `household.flight` beside these; a cycle, safe because each side uses the other only inside functions.
 import { advanceRoad, roadInvalid, roadProjection } from './road.mjs';
+import { isStage } from './colonies-map.mjs';
 
 const GONE = ['dead', 'captured'];
 const DAY = 1440;
@@ -168,7 +169,8 @@ export function flee(world, household, { take = {}, refuge }) {
   // What is taken rides; the rest is left in the house for the fire.
   for (const good of Object.keys(FLIGHT_SPACE)) household.resources[good] = 0;
   const goers = atHome(world, household).filter(person => person.health?.condition !== 'wounded');
-  const path = findWay(world, household.homeSiteId, refuge, mode);
+  // The flight waits at the flooded crossings by its own rule (`crossingsAlong`), not the ferries' ordinary hour.
+  const path = findWay(world, household.homeSiteId, refuge, mode, { ferries: false });
   if (!path) throw new Error('No road east from here.');
   const departure = tell(world, household, `The family loaded ${Object.entries(take).filter(([, amount]) => amount > 0).map(([good, amount]) => `${amount} ${good}`).join(', ') || 'what it could carry'} and set out east for ${world.map.sites[refuge].name}${mode === 'wagon' ? ' with the ox and wagon' : ' on foot'}.`);
   const speed = mode === 'wagon' ? WAGON_SPEED : WALK_SPEED;
@@ -188,8 +190,10 @@ export function flee(world, household, { take = {}, refuge }) {
 }
 
 /** The crossings on this family's road: the ferries and fords over the big rivers, in the order the road meets them. */
-function crossingsAlong(world, travel) {
-  const sites = Object.values(world.map.sites).filter(site => site.kind === 'crossing' || ['san-felipe', 'washington', 'lynchburg', 'liberty'].includes(site.id));
+export function crossingsAlong(world, travel) {
+  // The three named crossings (`isStage`: `crossing` places before 2026-09-19, ferries marked `stage` since) and the river
+  // towns. The fords and ferries of every road are not waited at here: a flooded river's wait is this one.
+  const sites = Object.values(world.map.sites).filter(site => isStage(site) || ['san-felipe', 'washington', 'lynchburg', 'liberty'].includes(site.id));
   const found = [];
   let walked = 0;
   for (let i = 1; i < travel.points.length; i++) {
@@ -303,7 +307,7 @@ export function turnHome(world, causeId) {
     const at = flight.refuge;
     const goers = people(world, household).filter(person => !GONE.includes(person.health?.condition) && person.location?.siteId === at && !person.travel && person.health.condition !== 'wounded');
     const mode = flight.mode === 'wagon' && beasts(world, household).filter(beast => beast.location.siteId === at).length === 3 ? 'wagon' : 'foot';
-    const path = findWay(world, at, household.homeSiteId, mode);
+    const path = findWay(world, at, household.homeSiteId, mode, { ferries: false });
     if (!goers.length || !path) continue;
     const departure = tell(world, household, `With the news from San Jacinto the family turned for home from ${world.map.sites[at].name}.`, { causes: causeId ? [causeId] : [] });
     for (const entity of [...goers, ...beasts(world, household).filter(beast => beast.location.siteId === at && !beast.travel)]) {
