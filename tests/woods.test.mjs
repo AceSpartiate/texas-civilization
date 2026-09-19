@@ -4,6 +4,10 @@
 // its succession classes, in the shares its model gives; each twenty-one feet at most one tree, of the stand's kinds.
 // Nothing is stored but what the grid says. A class made since records the woods and reads its timber from them; a
 // class saved before keeps timber by the water.
+//
+// Since 2026-09-19 a new class reads the biomes of 1836 (tests/biomes.test.mjs). The first four tests here hold the grid of
+// the week of 2026-09-15, which a class made that week still reads (rule 'landfire', public/terrain/colonies-woods-2016.*):
+// they are unchanged but for naming that grid.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
@@ -13,7 +17,7 @@ import { siteFactsFor } from '../sim/homesite.mjs';
 import { stepWorld } from '../sim/world.mjs';
 import { groundAt } from '../sim/fields.mjs';
 import {
-  ecoregionAt, gridStandAt, KINDS, PATCH_MILES, patchAt, patchCover, STANDS, standAt, TREE_MILES, treeById, treesIn,
+  ecoregionAt, gridStandAt, KINDS, PATCH_MILES, patchAt, patchCover, STANDS_2016, standAt, TREE_MILES, treeById, treesIn,
   timberMilesFrom, WOODS_SOURCE, woodsRule,
 } from '../sim/woods.mjs';
 
@@ -29,16 +33,16 @@ const patchesRound = (point, side) => {
 };
 
 test('the woods stand where the vegetation map puts them: pines at Bastrop, bottomland on the lower Brazos, prairie on the coast', () => {
-  assert.equal(gridStandAt(at(-97.23, 30.12)), 'pine', 'the Lost Pines at Bastrop');
+  assert.equal(gridStandAt(at(-97.23, 30.12), 'landfire'), 'pine', 'the Lost Pines at Bastrop');
   assert.equal(ecoregionAt(at(-97.23, 30.12))?.code, '33e');
   assert.match(ecoregionAt(at(-97.23, 30.12)).name, /Lost Pines/);
-  assert.equal(gridStandAt(at(-95.6, 29.1)), 'bottomland', 'the Brazos bottom below Columbia');
-  assert.equal(gridStandAt(at(-96.1, 29.8)), 'prairie', 'the prairie at San Felipe');
-  assert.equal(gridStandAt(at(-98.84, 29.28)), 'brush', 'thornscrub west of Bexar');
-  assert.equal(gridStandAt(at(-96.25, 28.58)), 'water', 'Matagorda Bay');
-  assert.equal(gridStandAt({ x: 10000, y: 10000 }), 'none');
+  assert.equal(gridStandAt(at(-95.6, 29.1), 'landfire'), 'bottomland', 'the Brazos bottom below Columbia');
+  assert.equal(gridStandAt(at(-96.1, 29.8), 'landfire'), 'prairie', 'the prairie at San Felipe');
+  assert.equal(gridStandAt(at(-98.84, 29.28), 'landfire'), 'brush', 'thornscrub west of Bexar');
+  assert.equal(gridStandAt(at(-96.25, 28.58), 'landfire'), 'water', 'Matagorda Bay');
+  assert.equal(gridStandAt({ x: 10000, y: 10000 }, 'landfire'), 'none');
   // Every stand the grid holds is one the game knows.
-  for (const id of ['prairie', 'post-oak', 'bottomland', 'creek', 'pine', 'live-oak', 'hill-savanna', 'brush', 'marsh', 'water', 'none']) assert.ok(STANDS[id], id);
+  for (const id of ['prairie', 'post-oak', 'bottomland', 'creek', 'pine', 'live-oak', 'hill-savanna', 'brush', 'marsh', 'water', 'none']) assert.ok(STANDS_2016[id], id);
 });
 
 test("a stand is a mosaic of patches in its model's shares, and a creek keeps its timber through the prairie", () => {
@@ -57,7 +61,7 @@ test("a stand is a mosaic of patches in its model's shares, and a creek keeps it
   const courses = land.nearestWater(at(-96.1, 29.8), info => info.kind === 'creek', 6);
   assert.ok(courses, 'a creek near San Felipe');
   assert.equal(standAt(courses.at, woods), 'creek');
-  assert.equal(standAt(courses.at, { rule: 'landfire' }), gridStandAt(courses.at), 'without the water, only the grid');
+  assert.equal(standAt(courses.at, { rule: 'landfire' }), gridStandAt(courses.at, 'landfire'), 'without the water, only the grid');
 });
 
 test('every tree is one tree with a stable id, the same however it is asked for, and as many to the acre as its patch', () => {
@@ -101,7 +105,7 @@ test('the kinds follow the country: live oak in the coastal bottoms, pine on the
   // A creek through the prairie in the eastern pine country (ecoregion 35f) has loblolly in its timber; one at San Felipe none.
   const eastern = { x: 142.8728, y: -46.1124 }, western = land.nearestWater(at(-96.1, 29.8), info => info.kind === 'creek', 6).at;
   const creekTrees = point => treesIn({ minX: point.x - 0.1, minY: point.y - 0.1, maxX: point.x + 0.1, maxY: point.y + 0.1 }, woods).filter(tree => standAt(tree, woods) === 'creek');
-  assert.equal(gridStandAt(eastern), 'prairie');
+  assert.equal(gridStandAt(eastern, 'landfire'), 'prairie');
   assert.match(ecoregionAt(eastern).code, /^35/);
   assert.ok(creekTrees(eastern).some(tree => tree.kind === 'loblolly'), 'pine on the eastern creek');
   assert.ok(creekTrees(western).length > 0 && !creekTrees(western).some(tree => tree.kind === 'loblolly'), 'no pine on the creek at San Felipe');
@@ -115,7 +119,8 @@ test('the kinds follow the country: live oak in the coastal bottoms, pine on the
 test('a class made on the real land reads its timber from the woods; one saved before keeps timber by the water; the invented map is untouched', () => {
   const world = createGonzalesWorld('woods-new', 5, { map: 'colonies' });
   assert.equal(world.map.woods, WOODS_SOURCE);
-  assert.equal(woodsRule(world), 'landfire');
+  assert.equal(woodsRule(world), 'biomes');
+  const woods = { rule: 'biomes', nearCreek: land.nearCreek };
   // Somewhere near the families the two rules disagree, and each world reads its own.
   const home = world.map.sites[world.households['hh-1'].homeSiteId];
   const old = structuredClone(world);
@@ -125,14 +130,14 @@ test('a class made on the real land reads its timber from the woods; one saved b
   for (let i = -10; i <= 10; i++) for (let j = -10; j <= 10; j++) {
     const point = { x: home.x + i * 0.2, y: home.y + j * 0.2 };
     const now = groundAt(world, point), before = groundAt(old, point);
-    assert.equal(now, (c => c === 'open' ? 'prairie' : c)(land.coverAt(point, 'landfire')));
+    assert.equal(now, (c => c === 'open' ? 'prairie' : c)(land.coverAt(point, 'biomes')));
     assert.equal(before, (c => c === 'open' ? 'prairie' : c)(land.coverAt(point, 'rivers')));
     if (now !== before) differs++;
   }
   assert.ok(differs > 0, 'the woods changed some ground near the family');
   // Every lane and track the new map was made with carries the woods' going.
   for (const route of Object.values(world.map.routes).filter(route => route.kind === 'track')) {
-    assert.deepEqual(route.ground, groundAlong(route.points, null, 'landfire'), `${route.id}'s going`);
+    assert.deepEqual(route.ground, groundAlong(route.points, null, 'biomes'), `${route.id}'s going`);
   }
   // A site the family looks at is told the woods' ground and the distance to the woods' timber; a class saved before, the water's.
   world.status = 'running';
@@ -142,11 +147,11 @@ test('a class made on the real land reads its timber from the woods; one saved b
   let spot = null;
   for (let i = 1; i < 12 && !spot; i++) for (let j = 1; j < 12 && !spot; j++) {
     const point = { x: +(grant.minX + (grant.maxX - grant.minX) * i / 12).toFixed(3), y: +(grant.minY + (grant.maxY - grant.minY) * j / 12).toFixed(3) };
-    if (land.coverAt(point, 'landfire') !== land.coverAt(point, 'rivers') && siteFacts(point, grant, 'landfire').can) spot = point;
+    if (land.coverAt(point, 'biomes') !== land.coverAt(point, 'rivers') && siteFacts(point, grant, 'biomes').can) spot = point;
   }
   assert.ok(spot, 'a place on the holding where the woods and the water disagree');
   const facts = siteFactsFor(world, household, spot);
-  assert.equal(facts.ground, land.coverAt(spot, 'landfire'));
+  assert.equal(facts.ground, land.coverAt(spot, 'biomes'));
   assert.equal(facts.timberMiles, timberMilesFrom(spot, woods));
   const saved = structuredClone(world);
   delete saved.map.woods;

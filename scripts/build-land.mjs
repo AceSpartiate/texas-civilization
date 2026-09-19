@@ -11,24 +11,27 @@
 //                                         with a hillshade for each, for the map zoomed out
 //
 // **Where each class comes from.**
-//   - Cover is LANDFIRE's Biophysical Settings as filed into the woods' stands (scripts/build-woods.mjs), with three things
-//     the stand grid lumps recovered from other data: **the sea and the bays** are the USGS 3DEP elevation's no-data and
-//     ground under 0.3 m joined to the Gulf; **coastal marsh and salt prairie** is LANDFIRE's marsh, and its prairie inside
-//     EPA's Level IV coastal marsh ecoregions (34g Texas-Louisiana Coastal Marshes, 34h Mid-Coast Barrier Islands and
-//     Coastal Marshes); **sand and beach** is land under 5 m within a quarter mile of the open Gulf.
+//   - Cover is the woods' stand - since 2026-09-19 the biomes of 1836 (scripts/build-woods.mjs, docs/BIOMES.md), one class
+//     each (scripts/terrain/biomes.mjs `COVER_OF_STAND`) - with three things the stand grid lumps recovered from other data:
+//     **the sea and the bays** are the USGS 3DEP elevation's no-data and ground under 0.3 m joined to the Gulf; **coastal
+//     marsh** is LANDFIRE's marsh, and its coastal and tallgrass prairie inside EPA's Level IV coastal marsh ecoregions (34g
+//     Texas-Louisiana Coastal Marshes, 34h Mid-Coast Barrier Islands and Coastal Marshes); **sand and beach** is the dunes,
+//     and land under 5 m within a quarter mile of the open Gulf.
 //   - Relief is the elevation's own lie: the slope across a quarter mile and the rise and fall within about a mile, in
 //     four classes, with the steep ground beside a watercourse called a bluff and the rough ground along EPA's line
 //     between the Edwards Plateau and the plains called the escarpment.
 //   - **There is no desert in the colonies.** The driest country in the box is the South Texas brush - LANDFIRE's
 //     Tamaulipan thornscrub and mesquite savanna settings, EPA's 31c Texas-Tamaulipan Thornscrub - and it is drawn as
-//     brush. The Chihuahuan Desert (EPA Level III 24) begins beyond the Pecos, some two hundred miles west of the box.
+//     mesquite prairie and chaparral. The Chihuahuan Desert (EPA Level III 24) begins beyond the Pecos, some two hundred miles
+//     west of the box.
 //
 // Like the woods, this is LANDFIRE's model of the vegetation before settlement and today's ground, not a survey of 1835.
 import { readFileSync, writeFileSync } from 'node:fs';
 import { gunzipSync, gzipSync } from 'node:zlib';
 import { realTerrain } from '../sim/terrain-data.mjs';
 import { contours, lineLength, simplifyLine } from './terrain/lines.mjs';
-import { LAND, RELIEF, LAND_BANDS } from '../sim/land.mjs';
+import { LAND, LAND_BITS, RELIEF, LAND_BANDS } from '../sim/land.mjs';
+import { COVER_OF_STAND, MARSH_PRAIRIES } from './terrain/biomes.mjs';
 
 const terrain = realTerrain();
 const { header, heights } = terrain;
@@ -93,7 +96,7 @@ const water = new Uint8Array(size);
 }
 
 // ---- Cover ---------------------------------------------------------------------------------------------------
-const COVER_OF_STAND = { prairie: 'prairie', 'post-oak': 'savanna', bottomland: 'floodplain', creek: 'floodplain', pine: 'pine', 'live-oak': 'live-oak', 'hill-savanna': 'hill-country', brush: 'brush', marsh: 'marsh' };
+// Each stand's drawn class: since 2026-09-19 the biomes of 1836, one wash each (scripts/terrain/biomes.mjs, docs/BIOMES.md §7.2).
 const COASTAL_MARSH_ECOREGIONS = ['34g', '34h', '34i'];
 const land = new Uint8Array(size); // cover class
 const UNSET = 255;
@@ -102,7 +105,7 @@ for (let i = 0; i < size; i++) {
   if (heights[i] === noData || !inBox(i)) { land[i] = code('none'); continue; }
   const stand = STAND_IDS[stands[i]];
   let cover = COVER_OF_STAND[stand];
-  if (cover === 'prairie' && COASTAL_MARSH_ECOREGIONS.includes(ecoCodeAt(i))) cover = 'marsh';
+  if (MARSH_PRAIRIES.includes(stand) && COASTAL_MARSH_ECOREGIONS.includes(ecoCodeAt(i))) cover = 'marsh';
   // Open water inland is a modern reservoir or a river's own bed, and off the vegetation data is a hole: both take the
   // land round them, below.
   land[i] = cover ? code(cover) : UNSET;
@@ -245,16 +248,16 @@ function band(miles) {
   const classes = new Uint8Array(bandColumns * bandRows), shade = new Uint8Array(bandColumns * bandRows);
   const mean = new Float32Array(bandColumns * bandRows);
   for (let br = 0; br < bandRows; br++) for (let bc = 0; bc < bandColumns; bc++) {
-    const landVotes = new Uint32Array(16), reliefVotes = new Uint32Array(16);
+    const landVotes = new Uint32Array(1 << LAND_BITS), reliefVotes = new Uint32Array(1 << LAND_BITS);
     let total = 0, n = 0;
     for (let r = br * block; r < Math.min(rows, (br + 1) * block); r++) for (let c = bc * block; c < Math.min(columns, (bc + 1) * block); c++) {
       const i = r * columns + c;
       landVotes[land[i]]++; reliefVotes[relief[i]]++; total += metres[i]; n++;
     }
-    const pick = (votes, skip) => { let best = -1; for (let v = 0; v < 16; v++) if (v !== skip && votes[v] && (best < 0 || votes[v] > votes[best])) best = v; return best; };
+    const pick = (votes, skip) => { let best = -1; for (let v = 0; v < votes.length; v++) if (v !== skip && votes[v] && (best < 0 || votes[v] > votes[best])) best = v; return best; };
     const landClass = pick(landVotes, code('none'));
     const reliefClass = pick(reliefVotes, -1);
-    classes[br * bandColumns + bc] = (landClass < 0 ? code('none') : landClass) | (reliefClass << 4);
+    classes[br * bandColumns + bc] = (landClass < 0 ? code('none') : landClass) | (reliefClass << LAND_BITS);
     mean[br * bandColumns + bc] = n ? total / n : 0;
   }
   // Hillshade lit from the north-west at 45°, 128 is level ground; exaggerated more as the cells grow, or the land goes flat.
@@ -273,20 +276,21 @@ function band(miles) {
 }
 
 const native = new Uint8Array(size);
-for (let i = 0; i < size; i++) native[i] = land[i] | (relief[i] << 4);
+if (LAND.length > 1 << LAND_BITS || RELIEF.length > 1 << (8 - LAND_BITS)) throw new Error('The classes do not fit a byte');
+for (let i = 0; i < size; i++) native[i] = land[i] | (relief[i] << LAND_BITS);
 const tally = LAND.map((_, v) => 0), reliefTally = RELIEF.map(() => 0);
 for (let i = 0; i < size; i++) { tally[land[i]]++; reliefTally[relief[i]]++; }
 const output = {
-  kind: 'colonies-land', version: 1,
+  kind: 'colonies-land', version: 2, landBits: LAND_BITS,
   builtFrom: 'scripts/build-land.mjs over public/terrain (colonies-elevation, colonies-water, colonies-woods)',
   sources: {
-    cover: 'LANDFIRE LF2016 Biophysical Settings as filed in colonies-woods.bin.gz (docs/evidence/woods-data.json), public domain',
+    cover: 'LANDFIRE LF2016 Biophysical Settings read as the biomes of 1836 in colonies-woods.bin.gz (docs/BIOMES.md, docs/evidence/outside-data.json), public domain',
     sea: 'USGS 3DEP 1 arc-second elevation (docs/evidence/terrain-data.json), public domain: no land, or under 0.3 m joined to the Gulf',
     marsh: 'U.S. EPA Level IV Ecoregions of Texas (2011), 34g and 34h, public domain',
     relief: 'USGS 3DEP 1 arc-second elevation, slope and local relief; thresholds FIC-GONZ-057',
     escarpment: 'U.S. EPA Level IV Ecoregions of Texas (2011): Level III 30 against 31, 32 and 33',
   },
-  cellByte: 'low four bits the land class (index into land), high four bits the relief class (index into relief)',
+  cellByte: `low ${LAND_BITS} bits the land class (index into land), the bits above the relief class (index into relief)`,
   shadeByte: 'hillshade lit from the north-west, 0 dark to 255 bright, 128 level ground',
   land: LAND, relief: RELIEF,
   native: { cell, columns, rows, minX, minY, file: 'colonies-land.bin.gz', note: 'one cellByte an eighth-of-a-mile cell, aligned with colonies-elevation.bin.gz' },

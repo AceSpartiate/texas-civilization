@@ -35,14 +35,14 @@ import {
   PIECES, PLANS, PLAN_IDS, nextStage, pieceDone, pieceWords, placeRefusal, planPieces, plotBuildRefusal, plotBuildSpell,
   plotInvalid, plotLayout, plotNeeds, plotPhase, plotRaising, plotShelter, stageWants,
 } from './houseplot.mjs';
-import { woodsRule } from './woods.mjs';
+import { countsTrees, woodsRule } from './woods.mjs';
 
 /**
  * Whether this family's house is planned piece by piece on the house plot (sim/houseplot.mjs, docs/WOODS_AND_BUILDING.md
  * §6): a class that counts its trees one by one. Every other house is one of the four below, raised as one bar of work.
  */
 export const pieced = household => Array.isArray(household?.house?.pieces);
-const plotted = world => woodsRule(world) === 'landfire';
+const plotted = world => countsTrees(woodsRule(world));
 
 /**
  * The houses a family can choose.

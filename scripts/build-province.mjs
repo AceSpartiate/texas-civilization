@@ -81,7 +81,10 @@ const landHeader = JSON.parse(gunzipSync(readFileSync('public/terrain/colonies-l
 const landCells = gunzipSync(readFileSync('public/terrain/colonies-land.bin.gz'));
 if (landHeader.native.columns !== columns || landHeader.native.rows !== rows) throw new Error('The land grid is not the elevation grid');
 const LAND_IDS = landHeader.land.map(entry => entry.id);
-const landOf = index => LAND_IDS[landCells[index] & 15];
+// The land's class is the cell's low bits: four before 2026-09-19, the header's `landBits` (five) since. ceiling: this file
+// was last built from the land of 2026-09-18; on the real land its cover belts are drawn only while the land's own classes
+// load (public/app.js `drawProvince`), so it was not rebuilt for the biomes. Rebuilding it maps them by `COVER_OF_LAND`.
+const landOf = index => LAND_IDS[landCells[index] & ((1 << (landHeader.landBits || 4)) - 1)];
 // The sea closes along the edge of the data: a border of land a cell wide all round, so the Gulf is one outline to fill.
 const padded = new Float32Array((columns + 2) * (rows + 2));
 for (let r = 0; r < rows; r++) for (let c = 0; c < columns; c++) padded[(r + 1) * (columns + 2) + c + 1] = landOf(r * columns + c) === 'water' ? 1 : 0;
@@ -136,7 +139,12 @@ for (const { ring, line, length } of shoreLines) {
 // outline is where that share crosses a half, so an outline and the land grid always agree. Prairie is the ground every
 // other cover is drawn over; the water is the sea's.
 /** Which cover each land class is drawn as. The ids are the invented province's, which the renderer already colours. */
-const COVER_OF_LAND = { floodplain: 'forest', pine: 'forest', 'live-oak': 'forest', savanna: 'savannah', 'hill-country': 'plateau', brush: 'brush', marsh: 'marsh', sand: 'sand' };
+const COVER_OF_LAND = {
+  floodplain: 'forest', pine: 'forest', 'live-oak': 'forest', savanna: 'savannah', 'hill-country': 'plateau', brush: 'brush', marsh: 'marsh', sand: 'sand',
+  // The biomes of 1836 (docs/BIOMES.md), into the same six belts.
+  longleaf: 'forest', thicket: 'forest', 'cypress-swamp': 'forest', 'palm-grove': 'forest', 'thorn-riparian': 'forest', canebrake: 'forest',
+  'cross-timbers': 'savannah', 'cedar-brake': 'plateau', chaparral: 'brush', 'mesquite-savanna': 'brush', 'salt-prairie': 'marsh',
+};
 const COVERS = ['savannah', 'plateau', 'brush', 'marsh', 'sand', 'forest'];
 const COVER_NAMES = { forest: 'Timber: bottomland, floodplain, pine and live oak woods', savannah: 'Post oak savanna', plateau: 'Hill country savanna', brush: 'Mesquite and thornscrub brush', marsh: 'Coastal marsh and salt prairie', sand: 'Sand and beach' };
 const BLOCK = 4; // cells a side: half a mile

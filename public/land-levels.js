@@ -45,13 +45,15 @@ const bytes = text => {
 
 /**
  * The land's grids decoded once, finest first: `{ minX, minY, cellMiles, columns, rows, classes: [land id by index],
- * cells: low nibble (the land class), relief: high nibble, shade }` - the shape `groundClassAt` reads.
+ * cells: the low `landBits` bits (the land class), relief: the bits above, shade }` - the shape `groundClassAt` reads. A file
+ * built since 2026-09-19 says `landBits: 5` (the biomes of 1836 are more than sixteen classes); one built before has four.
  */
 export function decodeLand(data) {
   const classes = (data.land || []).map(kind => kind.id);
+  const bits = data.landBits || 4, mask = (1 << bits) - 1;
   return (data.bands || []).map(band => {
     const raw = bytes(band.classes), cells = new Uint8Array(raw.length), relief = new Uint8Array(raw.length);
-    for (let i = 0; i < raw.length; i++) { cells[i] = raw[i] & 15; relief[i] = raw[i] >> 4; }
+    for (let i = 0; i < raw.length; i++) { cells[i] = raw[i] & mask; relief[i] = raw[i] >> bits; }
     return { minX: band.minX, minY: band.minY, cellMiles: band.cell, columns: band.columns, rows: band.rows, classes, cells, relief, shade: bytes(band.shade) };
   }).sort((a, b) => a.cellMiles - b.cellMiles);
 }

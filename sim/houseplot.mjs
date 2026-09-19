@@ -8,7 +8,7 @@
 // of the pace - the reason a house-raising helps. The family sleeps under its own roof once one pen stands; the rest can
 // follow.
 //
-// Only a class that counts its trees one by one (`woodsRule` 'landfire') plans a house this way, because only there are
+// Only a class that counts its trees one by one (sim/woods.mjs `countsTrees`) plans a house this way, because only there are
 // there logs to build it from. Every other class, and every class saved before, plans one of the four houses of
 // sim/houses.mjs and raises it as one bar of work, as it always did.
 //

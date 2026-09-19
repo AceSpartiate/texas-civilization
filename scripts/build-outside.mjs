@@ -31,9 +31,10 @@ import { gunzipSync, gzipSync } from 'node:zlib';
 import { openClasses, openElevation } from './terrain/geotiff.mjs';
 import { readDbf, readShapes } from './terrain/shapefile.mjs';
 import { contours, joinReaches, lineLength, ringArea, simplifyLine, simplifyRing } from './terrain/lines.mjs';
-import { BEACH_VIEW_MILES, COASTAL_MARSH_ECOREGIONS, COVER_OF_STAND, ESCARPMENT_MILES, METRES_PER_MILE, bandShade, facesGulf, openWater, pickVote, reliefKind, slopeAt, windowRange } from './terrain/land-rules.mjs';
+import { BEACH_VIEW_MILES, COASTAL_MARSH_ECOREGIONS, COVER_OF_STAND, ESCARPMENT_MILES, MARSH_PRAIRIES, METRES_PER_MILE, bandShade, facesGulf, openWater, pickVote, reliefKind, slopeAt, windowRange } from './terrain/land-rules.mjs';
+import { MEXICO, PALM_DELTA, STAND_IDS, THORNSCRUB, modelOf, nuecesSide, standOfSetting } from './terrain/biomes.mjs';
 import { realTerrain } from '../sim/terrain-data.mjs';
-import { LAND, LAND_BANDS, RELIEF, landData } from '../sim/land.mjs';
+import { LAND, LAND_BANDS, LAND_BITS, RELIEF, landBitsOf, landData } from '../sim/land.mjs';
 import { provinceBands } from '../sim/province.mjs';
 
 const raw = process.argv[2];
@@ -82,6 +83,9 @@ for (let i = 0; i < size; i++) { IN_BOX[i] = inBox(i) ? 1 : 0; IN_EXTENT[i] = in
 
 const boxLand = landData();
 const boxCells = boxLand.cells;
+// The box's land file holds its class in the low bits of a cell (five since 2026-09-19) and its relief above; this layer writes the same.
+const BOX_BITS = landBitsOf(boxLand.header), BOX_MASK = (1 << BOX_BITS) - 1;
+if (BOX_BITS !== LAND_BITS) throw new Error('Build the box\'s land (scripts/build-land.mjs) before the country outside it');
 const LAND_IDS = LAND.map(entry => entry.id), code = id => LAND_IDS.indexOf(id), reliefCode = id => RELIEF.findIndex(entry => entry.id === id);
 const WATER = code('water'), NONE = code('none');
 
@@ -130,33 +134,27 @@ for (let i = 0; i < size; i++) {
 console.log(`Heights: ${fromBox} cells the box's, ${fromTiles} from the tiles`);
 
 // ---- Vegetation --------------------------------------------------------------------------------------------------
-// LANDFIRE's settings filed into the woods' stands exactly as scripts/build-woods.mjs files them (read from the box's own
-// colonies-woods.json, which records every model under its stand), and the two settings the box never met.
-const woodsHeader = JSON.parse(gunzipSync(readFileSync('public/terrain/colonies-woods.json.gz')).toString('utf8'));
-const STAND_IDS = woodsHeader.stands.map(stand => stand.id);
-const OUTSIDE_MODELS = Object.freeze({
-  '11490': 'prairie', // Western Great Plains Shortgrass Prairie
-  '11550': 'creek', // North American Warm Desert Riparian Systems
-});
-const standOfModel = {};
-for (const stand of woodsHeader.stands) for (const model of stand.models || []) standOfModel[model] = STAND_IDS.indexOf(stand.id);
-for (const [model, stand] of Object.entries(OUTSIDE_MODELS)) standOfModel[model] = STAND_IDS.indexOf(stand);
+// LANDFIRE's settings, read here and filed into the biomes of 1836 below - once the ecoregions and the rivers are read - by
+// exactly the rules the box's own are filed by (scripts/terrain/biomes.mjs, scripts/build-woods.mjs), so the seam matches.
 const bpsDir = join(raw, 'landfire', 'bps'), bpsName = readdirSync(bpsDir).find(name => /\.tif$/.test(name));
 const bpsTable = readDbf(join(bpsDir, `${bpsName}.vat.dbf`));
-const standOfValue = new Map(), unfiled = [];
+const MODELS = [...new Set(['-9999', ...bpsTable.map(modelOf)])], modelOfValue = new Map(), unfiled = [];
 for (const row of bpsTable) {
-  const model = row.bps_model === '-9999' ? '-9999' : row.bps_model.split('_')[0];
-  if (standOfModel[model] === undefined) unfiled.push(`${row.bps_model} ${row.bps_name}`);
-  standOfValue.set(Number(row.value), standOfModel[model] ?? 0);
+  const model = modelOf(row);
+  if (standOfSetting(model, { lon: 0, lat: 0, eco: '' }) === undefined) unfiled.push(`${row.bps_model} ${row.bps_name}`);
+  modelOfValue.set(Number(row.value), MODELS.indexOf(model));
 }
 if (unfiled.length) { console.error(`Settings not filed under a stand:\n  ${unfiled.join('\n  ')}`); process.exit(1); }
 const bps = openClasses(join(bpsDir, bpsName));
 const NO_SETTING = 255;
+/** The setting of every cell outside the box, by index into MODELS; NO_SETTING where LANDFIRE has none (Mexico, the Gulf). */
+const settings = new Uint16Array(size).fill(65535);
 const stands = new Uint8Array(size);
 for (let i = 0; i < size; i++) {
   if (IN_BOX[i] || !IN_EXTENT[i]) continue;
   const value = bps.at(columnLon[i % columns], rowLat[Math.floor(i / columns)]);
-  stands[i] = value === null ? NO_SETTING : standOfValue.get(value) ?? 0;
+  if (value === null) stands[i] = NO_SETTING;
+  else settings[i] = modelOfValue.get(value) ?? MODELS.indexOf('-9999');
 }
 console.log(`LANDFIRE read (${seconds()} s)`);
 
@@ -243,6 +241,62 @@ for (const unit of units) {
   console.log(`NHD ${unit}: ${rowsOf.length} flowlines, ${kept} named kept (${seconds()} s)`);
 }
 
+// ---- The biomes of 1836 --------------------------------------------------------------------------------------------
+// Every cell's setting filed as the box's are (scripts/terrain/biomes.mjs). The Nueces line is the river from its head to its
+// mouth: this data's pieces outside the box and the box's own inside it, so no stretch is counted twice; the delta's palms
+// stand by the Rio Grande.
+/** Every cell whose middle is within `miles` of a line in the game's miles, marked in `mask`. */
+function markNear(points, miles, mask) {
+  for (let k = 1; k < points.length; k++) {
+    const a = points[k - 1], b = points[k];
+    const c0 = Math.max(0, Math.floor((Math.min(a.x, b.x) - miles - minX) / CELL)), c1 = Math.min(columns - 1, Math.floor((Math.max(a.x, b.x) + miles - minX) / CELL));
+    const r0 = Math.max(0, Math.floor((Math.min(a.y, b.y) - miles - minY) / CELL)), r1 = Math.min(rows - 1, Math.floor((Math.max(a.y, b.y) + miles - minY) / CELL));
+    const dx = b.x - a.x, dy = b.y - a.y, length = dx * dx + dy * dy;
+    for (let r = r0; r <= r1; r++) for (let c = c0; c <= c1; c++) {
+      const px = minX + (c + 0.5) * CELL, py = minY + (r + 0.5) * CELL;
+      const t = length ? Math.max(0, Math.min(1, ((px - a.x) * dx + (py - a.y) * dy) / length)) : 0;
+      if (Math.hypot(px - a.x - dx * t, py - a.y - dy * t) <= miles) mask[r * columns + c] = 1;
+    }
+  }
+}
+const lineLengthOf = points => points.slice(1).reduce((sum, p, i) => sum + Math.hypot(p.x - points[i].x, p.y - points[i].y), 0);
+const boxMilesEarly = { minX: toMiles(AREA.west, 0).x, maxX: toMiles(AREA.east, 0).x, minY: toMiles(0, AREA.north).y, maxY: toMiles(0, AREA.south).y };
+const inBoxMiles = p => p.x >= boxMilesEarly.minX && p.x <= boxMilesEarly.maxX && p.y >= boxMilesEarly.minY && p.y <= boxMilesEarly.maxY;
+/** The pieces of lines whose segments pass `keep` (by their middles), as lines. */
+function piecesWhere(lines, keep) {
+  const out = [];
+  for (const line of lines) {
+    let run = [];
+    for (let k = 1; k < line.length; k++) {
+      const a = line[k - 1], b = line[k];
+      if (keep({ x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 })) { if (!run.length) run.push(a); run.push(b); } else if (run.length) { out.push(run); run = []; }
+    }
+    if (run.length) out.push(run);
+  }
+  return out;
+}
+const nuecesLines = [
+  ...piecesWhere(joinReaches(courses.filter(c => c.name === 'Nueces River')).map(line => line.points), p => !inBoxMiles(p)),
+  ...piecesWhere(joinReaches(terrain.courses.filter(c => c.name === 'Nueces River')).map(line => line.points), inBoxMiles),
+].filter(line => lineLengthOf(line) >= 3);
+const toLonLat = p => ({ lon: lonOf(p.x), lat: latOf(p.y) });
+const nuecesLonLat = nuecesLines.map(line => line.map(toLonLat));
+const nuecesHead = nuecesLonLat.flat().reduce((best, p) => (!best || p.lat > best.lat ? p : best), null);
+const southWestOfNueces = nuecesSide(nuecesLonLat, nuecesHead);
+console.log(`The Nueces: ${nuecesLines.length} pieces, its head at ${nuecesHead.lon.toFixed(3)}°, ${nuecesHead.lat.toFixed(3)}°`);
+const rioGrande = joinReaches(courses.filter(c => c.name === 'Rio Grande')).map(line => line.points);
+const byRioGrande = new Uint8Array(size);
+for (const line of rioGrande) markNear(line, PALM_DELTA.riverMiles, byRioGrande);
+let stripCells = 0;
+for (let i = 0; i < size; i++) {
+  if (settings[i] === 65535) continue;
+  const model = MODELS[settings[i]], lon = columnLon[i % columns], lat = rowLat[Math.floor(i / columns)];
+  const place = { lon, lat, eco: ecoCodeAt(i), byRioGrande: byRioGrande[i] === 1, southWestOfNueces: false };
+  if (THORNSCRUB.includes(model)) { place.southWestOfNueces = southWestOfNueces(lon, lat); if (place.southWestOfNueces) stripCells++; }
+  stands[i] = STAND_IDS.indexOf(standOfSetting(model, place));
+}
+console.log(`Biomes filed: ${stripCells} thornscrub cells south-west of the Nueces (${seconds()} s)`);
+
 // ---- The sea -------------------------------------------------------------------------------------------------------
 // As in the box: no land, or ground under 0.3 m, joined to the Gulf; inside the box its own water, which the flood may cross.
 const boxClassOf = i => { const b = IN_BOX[i] ? boxIndexOf(i) : -1; return b >= 0 ? boxCells[b] : -1; };
@@ -251,7 +305,7 @@ const sea = new Uint8Array(size);
 {
   const seed = toMiles(-96.3, 26.6), start = Math.floor((seed.y - minY) / CELL) * columns + Math.floor((seed.x - minX) / CELL);
   if (heights[start] !== NO_DATA) throw new Error('The seed of the Gulf is not open water');
-  const open = i => { if (!IN_EXTENT[i]) return false; const own = boxClassOf(i); return own >= 0 ? (own & 15) === WATER : isLow(i); };
+  const open = i => { if (!IN_EXTENT[i]) return false; const own = boxClassOf(i); return own >= 0 ? (own & BOX_MASK) === WATER : isLow(i); };
   const stack = [start]; sea[start] = 1;
   while (stack.length) {
     const current = stack.pop(), c = current % columns, r = (current - c) / columns;
@@ -265,15 +319,17 @@ const sea = new Uint8Array(size);
   }
 }
 const water = openWater(sea, columns, rows, i => IN_BOX[i] === 1);
-for (let i = 0; i < size; i++) if (IN_BOX[i]) water[i] = (boxClassOf(i) & 15) === WATER ? 1 : 0; else if (!IN_EXTENT[i]) water[i] = 0;
+for (let i = 0; i < size; i++) if (IN_BOX[i]) water[i] = (boxClassOf(i) & BOX_MASK) === WATER ? 1 : 0; else if (!IN_EXTENT[i]) water[i] = 0;
 console.log(`The sea (${seconds()} s)`);
 
 // ---- Cover ---------------------------------------------------------------------------------------------------------
 // Mexico, south and west of the Rio Grande, has heights (3DEP's 1 arc-second tiles carry the country across the border) but
 // no LANDFIRE: it is the land joined to the Rio Grande's far bank with no setting at all.
-// ceiling: Mexico is drawn as mesquite and thornscrub brush, flat or rolling by its real heights, because nothing here
-// says what grew there; the Tamaulipan thornscrub on the Texas bank runs on south, so it is the likeliest country, not a
-// survey. INEGI's land-use series, or a vegetation model that crosses the border, is the way out.
+// Since 2026-09-19 (docs/BIOMES.md §4.12, HIST-TEX-108): chaparral, the Tamaulipan mezquital of the Nueces Strip run on south;
+// mesquite prairie on the delta plain round Matamoros; the river woods along the Rio Grande's south bank as on the north, with
+// the palms in the delta; and oaks on the Sierra de Picachos above 800 m (scripts/terrain/biomes.mjs `MEXICO`, FIC-GONZ-060).
+// ceiling: nothing here says what grew in Mexico; these are the Texas bank's country carried across the river and one line
+// of height. INEGI's land-use series (Serie I), or a vegetation model that crosses the border, is the way out.
 const mexico = new Uint8Array(size);
 {
   const seed = toMiles(-100.0, 26.5), start = Math.floor((seed.y - minY) / CELL) * columns + Math.floor((seed.x - minX) / CELL);
@@ -292,17 +348,27 @@ const mexico = new Uint8Array(size);
   }
 }
 const land = new Uint8Array(size), relief = new Uint8Array(size);
-const UNSET = 255, BRUSH = STAND_IDS.indexOf('brush');
+const UNSET = 255;
+const nearMexicanBank = new Uint8Array(size);
+for (const line of rioGrande) markNear(line, MEXICO.riverMiles, nearMexicanBank);
+/** Mexico's stand at a cell (above). */
+const mexicanStand = i => {
+  const metres = heights[i] / 10, lon = columnLon[i % columns];
+  if (metres > MEXICO.oaksAboveMetres) return 'hill-savanna';
+  if (nearMexicanBank[i]) return lon > PALM_DELTA.east ? 'palm-grove' : 'thorn-riparian';
+  if (lon > MEXICO.deltaEast && metres < MEXICO.deltaBelowMetres) return 'mesquite-savanna';
+  return 'chaparral';
+};
 for (let i = 0; i < size; i++) {
   const own = boxClassOf(i);
-  if (own >= 0) { land[i] = own & 15; relief[i] = own >> 4; continue; }
+  if (own >= 0) { land[i] = own & BOX_MASK; relief[i] = own >> BOX_BITS; continue; }
   if (!IN_EXTENT[i]) { land[i] = NONE; continue; }
   if (water[i]) { land[i] = WATER; continue; }
   if (heights[i] === NO_DATA) { land[i] = NONE; continue; }
-  if (mexico[i]) { land[i] = code('brush'); stands[i] = BRUSH; continue; }
+  if (mexico[i]) stands[i] = STAND_IDS.indexOf(mexicanStand(i));
   const stand = STAND_IDS[stands[i] === NO_SETTING ? 0 : stands[i]];
   let cover = COVER_OF_STAND[stand];
-  if (cover === 'prairie' && COASTAL_MARSH_ECOREGIONS.includes(ecoCodeAt(i))) cover = 'marsh';
+  if (MARSH_PRAIRIES.includes(stand) && COASTAL_MARSH_ECOREGIONS.includes(ecoCodeAt(i))) cover = 'marsh';
   land[i] = cover ? code(cover) : UNSET;
 }
 // Holes - a reservoir, the Rio Grande's own bed, a gap in the settings - take the most common class round them, a ring at
@@ -445,7 +511,7 @@ const bands = LAND_BANDS.map((miles, k) => {
   const classes = new Uint8Array(bandColumns * bandRows);
   for (let br = 0; br < bandRows; br++) for (let bc = 0; bc < bandColumns; bc++) {
     let all = 1, total = 0, n = 0;
-    const landVotes = new Uint32Array(16), reliefVotes = new Uint32Array(16);
+    const landVotes = new Uint32Array(1 << LAND_BITS), reliefVotes = new Uint32Array(1 << LAND_BITS);
     for (let r = br * block; r < (br + 1) * block; r++) for (let c = bc * block; c < (bc + 1) * block; c++) {
       const i = r * columns + c;
       if (!IN_BOX[i]) all = 0;
@@ -455,7 +521,7 @@ const bands = LAND_BANDS.map((miles, k) => {
     const at = br * bandColumns + bc;
     fullyIn[at] = all; mean[at] = total / n;
     const landClass = pickVote(landVotes, NONE), reliefClass = pickVote(reliefVotes, -1);
-    classes[at] = (landClass < 0 ? NONE : landClass) | (reliefClass << 4);
+    classes[at] = (landClass < 0 ? NONE : landClass) | (reliefClass << LAND_BITS);
   }
   const shadeAll = bandShade(mean, bandColumns, bandRows, miles, CELL);
   const out = new Uint8Array(bandColumns * bandRows), shade = new Uint8Array(bandColumns * bandRows).fill(128);
@@ -470,10 +536,10 @@ const bands = LAND_BANDS.map((miles, k) => {
     const at = br * bandColumns + bc;
     const boxColumn = bc - offsetColumn, boxRow = br - offsetRow;
     const own = boxColumn >= 0 && boxRow >= 0 && boxColumn < boxBand.columns && boxRow < boxBand.rows ? boxBand.cells[boxRow * boxBand.columns + boxColumn] : 0;
-    out[at] = (own & 15) !== NONE ? own : classes[at];
-    if ((out[at] & 15) === NONE) { out[at] = 0; continue; }
+    out[at] = (own & BOX_MASK) !== NONE ? own : classes[at];
+    if ((out[at] & BOX_MASK) === NONE) { out[at] = 0; continue; }
     shade[at] = shadeAll[at];
-    if (own & 15) claimed++;
+    if (own & BOX_MASK) claimed++;
   }
   console.log(`Band ${miles} mi: ${bandColumns} x ${bandRows}, ${claimed} of the box's own cells drawn from here`);
   return { cell: miles, columns: bandColumns, rows: bandRows, minX, minY, classes: Buffer.from(out).toString('base64'), shade: Buffer.from(shade).toString('base64') };
@@ -484,7 +550,7 @@ const bands = LAND_BANDS.map((miles, k) => {
 // map's woods tiles only: sim/woods-view.mjs reads a stand here wherever the box's woods grid has none, so the timber's
 // shade, its patches and its trees are drawn outside the box exactly as inside it. Nothing in the simulation reads it -
 // hunting, felling, clearing and the going ask sim/woods.mjs, which never looks past the box. 0 inside the box and off the
-// extent; the sea is water; Mexico is brush.
+// extent; the sea is water; Mexico is its chaparral, delta, river woods and oaks (above).
 const outsideStands = new Uint8Array(size);
 const WATER_STAND = STAND_IDS.indexOf('water');
 let standCells = 0;
@@ -698,9 +764,9 @@ const provinceOut = {
   relief: reliefGrid,
 };
 const landOut = {
-  kind: 'outside-land', version: 1,
+  kind: 'outside-land', version: 2, landBits: LAND_BITS,
   builtFrom: 'scripts/build-outside.mjs', sources,
-  cellByte: 'low four bits the land class (index into land), high four bits the relief class (index into relief); 0 where the box draws its own',
+  cellByte: `low ${LAND_BITS} bits the land class (index into land), the bits above the relief class (index into relief); 0 where the box draws its own`,
   shadeByte: 'hillshade lit from the north-west, 0 dark to 255 bright, 128 level ground',
   claims: 'a cell here that is not 0 inside the box is drawn from here and not from the box\'s own band: the box\'s edge, where its hillshade leaned on nothing',
   land: LAND, relief: RELIEF,
@@ -708,7 +774,7 @@ const landOut = {
   bands,
 };
 const woodsOut = {
-  kind: 'outside-woods', version: 1,
+  kind: 'outside-woods', version: 2,
   builtFrom: 'scripts/build-outside.mjs', sources,
   grid: { minX, minY, columns, rows, cell: CELL, file: 'outside-woods.bin.gz', note: 'one byte a cell: the index into stands, as colonies-woods.bin; 0 inside the box, where the box\'s own grid is read, and off the extent' },
   stands: STAND_IDS, box: boxBounds,

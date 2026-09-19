@@ -6,9 +6,10 @@
 //   - `patches` a one-mile tile of its sixteen by sixteen patches, each `t` timber, `b` brush or `o` open, for the ground
 //               detail at middle distance;
 //   - `trees`   a quarter-mile tile of every tree in it, for close up.
-// Only a class that reads its woods (`woodsRule` 'landfire') has any; every other class draws as it always has.
+// Only a class that reads its woods (`countsTrees`: the biomes of 1836, or the 2016 grid of a class made in the week of
+// 2026-09-15) has any, each from its own grid; every other class draws as it always has.
 import { landAround } from './ground.mjs';
-import { KINDS, PATCH_MILES, SIZES, patchAt, patchCover, treesIn, woodsRule } from './woods.mjs';
+import { KINDS, PATCH_MILES, SIZES, countsTrees, patchAt, patchCover, treesIn, woodsRule } from './woods.mjs';
 import { outsideStandAt } from './outside-woods.mjs';
 
 export const WOODS_TILE_MILES = Object.freeze({ shade: 8, patches: 1, trees: 0.25 });
@@ -16,8 +17,14 @@ export const WOODS_TILE_MILES = Object.freeze({ shade: 8, patches: 1, trees: 0.2
 const SHADE_SAMPLES = 4;
 const KIND_IDS = Object.keys(KINDS);
 
-/** The kinds of tree, in the order `trees` tiles number them, with the picture each is drawn with. Fixed; sent once. */
-export const woodsCatalogue = () => ({ tiles: WOODS_TILE_MILES, kinds: KIND_IDS.map(id => ({ id, name: KINDS[id].name, picture: KINDS[id].picture })), sizes: SIZES });
+/**
+ * The kinds of tree, in the order `trees` tiles number them, with the picture each is drawn with: whether it comes at three
+ * sizes, how much taller than the picture it stands, and its stump (sim/woods.mjs `KINDS`). Fixed; sent once.
+ */
+export const woodsCatalogue = () => ({
+  tiles: WOODS_TILE_MILES, sizes: SIZES,
+  kinds: KIND_IDS.map(id => ({ id, name: KINDS[id].name, picture: KINDS[id].picture, sized: KINDS[id].sized, scale: KINDS[id].scale, stump: KINDS[id].stump })),
+});
 
 /**
  * The land's own tiles, remembered: `shade` and `patches` are worked out from the land alone, the same for every class that
@@ -42,12 +49,14 @@ export function woodsTiles(world, level, tiles) {
 export function woodsTile(world, level, tx, ty) {
   const size = WOODS_TILE_MILES[level];
   if (!size || !Number.isInteger(tx) || !Number.isInteger(ty) || Math.abs(tx) > 1e5 || Math.abs(ty) > 1e5) return null;
-  if (woodsRule(world) !== 'landfire') return null;
+  const rule = woodsRule(world);
+  if (!countsTrees(rule)) return null;
   if (level !== 'trees') {
-    const key = `${level}:${tx}:${ty}`;
+    // Each grid's tiles apart: a class of the week of 2026-09-15 reads the 2016 grid, every class since the biomes.
+    const key = `${rule}:${level}:${tx}:${ty}`;
     let tile = landTiles.get(key);
     if (!tile) {
-      tile = landTile(level, tx, ty, size);
+      tile = landTile(rule, level, tx, ty, size);
       if (landTiles.size >= LAND_TILES_KEPT) landTiles.delete(landTiles.keys().next().value);
       landTiles.set(key, tile);
     }
@@ -55,16 +64,16 @@ export function woodsTile(world, level, tx, ty) {
   }
   const land = landAround();
   // Past the box the stands are the outside layer's (sim/outside-woods.mjs), so the map's woods run on over its edge.
-  const options = { rule: 'landfire', nearCreek: land.nearCreek, beyond: outsideStandAt };
+  const options = { rule, nearCreek: land.nearCreek, beyond: outsideStandAt };
   const minX = tx * size, minY = ty * size;
   return treeTile(world, level, tx, ty, size, minX, minY, options);
 }
 
 /** A `shade` or `patches` tile, worked out from the land. */
-function landTile(level, tx, ty, size) {
+function landTile(rule, level, tx, ty, size) {
   const land = landAround();
   // Past the box the stands are the outside layer's (sim/outside-woods.mjs), so the map's woods run on over its edge.
-  const options = { rule: 'landfire', nearCreek: land.nearCreek, beyond: outsideStandAt };
+  const options = { rule, nearCreek: land.nearCreek, beyond: outsideStandAt };
   const minX = tx * size, minY = ty * size;
   if (level === 'shade') {
     const cells = [];

@@ -14,7 +14,7 @@ import { groundAt } from './fields.mjs';
 import { holdingOf } from './grants.mjs';
 import { choosing } from './homesite.mjs';
 import { whereFromHouse } from './survey.mjs';
-import { STANDS, patchAt, patchCover, woodsRule, PATCH_MILES } from './woods.mjs';
+import { QUARRY, countsTrees, patchAt, patchCover, standOf, woodsRule, PATCH_MILES } from './woods.mjs';
 import { distanceToPolyline } from './terrain.mjs';
 
 /** How much better the edge of timber is for game than the middle of a stand, added to its game, most 1. */
@@ -24,9 +24,10 @@ const EDGE_STEP = PATCH_MILES;
 
 /** The stand and cover at a point, as the family's class reads its woods. */
 function standAtPoint(world, point) {
-  if (woodsRule(world) === 'landfire') {
+  const rule = woodsRule(world);
+  if (countsTrees(rule)) {
     const land = landAround();
-    const patch = patchAt(point, { rule: 'landfire', nearCreek: land.nearCreek });
+    const patch = patchAt(point, { rule, nearCreek: land.nearCreek });
     return { stand: patch.stand, cover: patchCover(patch) };
   }
   // A class that keeps timber by the water, or the invented country: timber is creek timber, brush is brush, open is prairie.
@@ -34,14 +35,33 @@ function standAtPoint(world, point) {
   return { stand: ground === 'timber' ? 'creek' : ground === 'brush' ? 'brush' : 'prairie', cover: ground === 'prairie' ? 'open' : ground };
 }
 
-/** What a place is for hunting: its stand, its cover, whether it is at the edge of timber, and how good the game is (0-1). */
+/**
+ * What a place is for hunting: its stand and that stand's name, its cover, whether it is at the edge of timber, how good the
+ * game is (0-1), and what a hunt there may find (`quarry`, docs/BIOMES.md §7.1: words only, but the deer).
+ */
 export function huntingPlace(world, point) {
+  const rule = woodsRule(world);
   const here = standAtPoint(world, point);
   const around = [[1, 0], [-1, 0], [0, 1], [0, -1]].map(([dx, dy]) => standAtPoint(world, { x: point.x + dx * EDGE_STEP, y: point.y + dy * EDGE_STEP }).cover);
   const timberHere = here.cover === 'timber';
   const edge = around.some(cover => (cover === 'timber') !== timberHere);
-  const game = Math.min(1, (STANDS[here.stand]?.game ?? 0) + (edge ? EDGE_GAME : 0));
-  return { ...here, edge, game: Math.round(game * 100) / 100 };
+  const stand = standOf(here.stand, countsTrees(rule) ? rule : 'landfire');
+  const game = Math.min(1, (stand.game ?? 0) + (edge ? EDGE_GAME : 0));
+  return { ...here, name: stand.name, quarry: rule === 'biomes' ? stand.quarry || [] : null, edge, game: Math.round(game * 100) / 100 };
+}
+
+/**
+ * The quarry in the family's words: "Deer, turkey and bear keep to it." Nothing for a class of the old rules.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-19 - the game of 1836. No picture: every quarry but the deer is words only,
+ * and the hunt itself still finds a deer (the next session's balance work chooses the quarry).
+ */
+export function quarryWords(quarry) {
+  if (!quarry) return '';
+  if (!quarry.length) return 'Nothing is hunted here.';
+  const names = quarry.map(id => QUARRY[id] || id);
+  const list = names.length === 1 ? names[0] : `${names.slice(0, -1).join(', ')} and ${names.at(-1)}`;
+  // Every quarry's name is a plural (QUARRY): "Deer keep to it", "Ducks and geese keep to it".
+  return `${list.charAt(0).toUpperCase()}${list.slice(1)} keep to it.`;
 }
 
 /** How many ticks the hunter waits still for the deer to come, where the ground is this good: one on the best, five on the poorest. */
@@ -79,10 +99,11 @@ export function huntFacts(world, household, point) {
   const why = huntRefusal(world, household, point);
   if (why) return { can: false, why };
   const place = huntingPlace(world, point);
-  const stand = STANDS[place.stand]?.name || 'open ground';
+  const stand = place.name || 'open ground';
   const where = `${stand.charAt(0).toUpperCase()}${stand.slice(1)}${place.edge && place.cover === 'timber' ? ', at the edge of the timber,' : place.edge ? ', beside timber,' : ''} ${whereFromHouse(world, household, point)}.`;
-  return { can: true, stand: place.stand, cover: place.cover, edge: place.edge, game: place.game, words: `${where} ${GAME_WORDS.find(([least]) => place.game >= least)[1]}` };
+  const words = [where, GAME_WORDS.find(([least]) => place.game >= least)[1], quarryWords(place.quarry)].filter(Boolean).join(' ');
+  return { can: true, stand: place.stand, cover: place.cover, edge: place.edge, game: place.game, ...(place.quarry && { quarry: place.quarry }), words };
 }
 
 /** What the hunt says the hunter is in: "the bottomland timber", "the prairie". */
-export const placeWord = place => `the ${STANDS[place.stand]?.name || 'open ground'}`;
+export const placeWord = place => `the ${place.name || standOf(place.stand, 'landfire').name || 'open ground'}`;

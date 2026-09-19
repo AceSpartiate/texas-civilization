@@ -7,8 +7,8 @@
 
 export const METRES_PER_MILE = 1609.344;
 
-/** Which cover each of the woods' stands is drawn as (scripts/build-land.mjs `COVER_OF_STAND`). */
-export const COVER_OF_STAND = Object.freeze({ prairie: 'prairie', 'post-oak': 'savanna', bottomland: 'floodplain', creek: 'floodplain', pine: 'pine', 'live-oak': 'live-oak', 'hill-savanna': 'hill-country', brush: 'brush', marsh: 'marsh' });
+/** Which cover each of the woods' stands is drawn as: since 2026-09-19 one table for the box and the outside (scripts/terrain/biomes.mjs). */
+export { COVER_OF_STAND, MARSH_PRAIRIES } from './biomes.mjs';
 /** EPA Level IV coastal marsh ecoregions: prairie inside them is coastal marsh and salt prairie. */
 export const COASTAL_MARSH_ECOREGIONS = Object.freeze(['34g', '34h', '34i']);
 /** Rise and fall is read over a window this many cells either side (nine cells: about 1.1 miles). */

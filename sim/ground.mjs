@@ -10,7 +10,7 @@
 // hill, how far is too far to carry water, and every refusal's threshold.
 import { realTerrain } from './terrain-data.mjs';
 import { BARRIER_RIVERS } from './colonies-map.mjs';
-import { patchAt, patchCover, timberMilesFrom } from './woods.mjs';
+import { countsTrees, patchAt, patchCover, timberMilesFrom } from './woods.mjs';
 
 const METRES_PER_MILE = 1609.344;
 const FEET_PER_METRE = 3.28084;
@@ -25,7 +25,7 @@ export const SAMPLE_MILES = 1 / 16;
 /**
  * Timber stands along the rivers this far out, and along a running creek this far (HIST-GONZ-012; the widths FIC-GONZ-026):
  * the rule of a class on the real land saved before the woods grid (`rule` 'rivers'). A class made since reads its timber
- * from the woods (sim/woods.mjs, `rule` 'landfire').
+ * from the woods (sim/woods.mjs, `rule` 'biomes', or 'landfire' for a class made in the week of 2026-09-15).
  */
 export const TIMBER_FROM_RIVER = 0.9;
 export const TIMBER_FROM_CREEK = 0.2;
@@ -170,13 +170,21 @@ export function landAround(box) { // eslint-disable-line no-unused-vars
     return Math.hypot(dx, dy) / run;
   };
   /**
-   * What covers a point: `timber`, `brush` or `open`. Under the woods (`rule` 'landfire', docs/WOODS_AND_BUILDING.md §4.1)
+   * What covers a point: `timber`, `brush` or `open`. Under the woods (`rule` 'biomes' or 'landfire', docs/WOODS_AND_BUILDING.md §4.1)
    * a patch of ten or more log-sized trees an acre is timber and mesquite is brush; under the old rule timber is along the
    * water (HIST-GONZ-012). Either way steep open ground is broken and grown up in brush.
    */
-  const nearCreek = (point, miles) => Boolean(nearestWater(point, info => info.kind === 'creek', miles));
+  // `flow` (sim/woods.mjs `standAt`): 'perennial' a creek that runs all year, 'intermittent' one that does not, 'bank' any
+  // river or creek that runs all year; none, any creek at all (the 2016 rule's strip; docs/BIOMES.md §4.6).
+  const FLOWS = {
+    perennial: info => info.kind === 'creek' && info.perennial,
+    intermittent: info => info.kind === 'creek' && !info.perennial,
+    bank: info => info.perennial,
+  };
+  const anyCreek = info => info.kind === 'creek';
+  const nearCreek = (point, miles, flow) => Boolean(nearestWater(point, FLOWS[flow] || anyCreek, miles));
   const coverAt = (point, rule = 'rivers') => {
-    if (rule === 'landfire') {
+    if (countsTrees(rule)) {
       const cover = patchCover(patchAt(point, { rule, nearCreek }));
       return cover === 'open' && grade(point) > BRUSH_GRADE ? 'brush' : cover;
     }
@@ -373,7 +381,7 @@ export function siteFacts(point, bounds, rule = 'rivers') {
   const creekTimber = land.nearestWater(point, info => info.kind === 'creek');
   const aboveFeet = nearest ? Math.max(0, Math.round((height - land.heightAt(nearest.at.x, nearest.at.y)) * FEET_PER_METRE)) : null;
   const riverFeet = river ? (height - land.heightAt(river.at.x, river.at.y)) * FEET_PER_METRE : Infinity;
-  const timberMiles = rule === 'landfire'
+  const timberMiles = countsTrees(rule)
     ? timberMilesFrom(point, { rule, nearCreek: land.nearCreek }) ?? Infinity
     : Math.max(0, Math.min(river ? river.distance - TIMBER_FROM_RIVER : Infinity, creekTimber ? creekTimber.distance - TIMBER_FROM_CREEK : Infinity));
   const facts = {

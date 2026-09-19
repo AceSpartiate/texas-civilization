@@ -42,8 +42,11 @@ export function woodsLayers(wide, area) {
   return { trees, patches: (1 - shade) * (1 - (1 - CANOPY_UNDER_TREES) * trees), shade: shade * band(wide, WOODS_BANDS.shadeOut) };
 }
 
-/** Whether this class's map draws its woods from the land. */
-export const woodsShown = world => world?.map?.woods === 'landfire-2016';
+/**
+ * Whether this class's map draws its woods from the land: the biomes of 1836 (every class since 2026-09-19), or the 2016 grid
+ * a class of the week before was made on (sim/woods.mjs `woodsRule`).
+ */
+export const woodsShown = world => world?.map?.woods === 'biomes-1836' || world?.map?.woods === 'landfire-2016';
 
 /** Which change to the woods the tiles were fetched at: a tree felled or logs hauled makes the close-up tiles stale. */
 let revision = 0;

@@ -10,21 +10,42 @@
 import { readFileSync } from 'node:fs';
 import { gunzipSync } from 'node:zlib';
 
-/** The land classes, in the order of the low four bits of a cell. `colour` is a suggestion for the renderer. */
+/**
+ * The land classes, in the order of the low `LAND_BITS` bits of a cell. `colour` is a suggestion for the renderer (the page's
+ * own washes are public/ground-classes.js). The first eleven are the classes of 2026-09-17, in their old order; `prairie` and
+ * `brush` are no longer written (the biomes of 1836 divide them, docs/BIOMES.md §7.2) and are kept so an old legend still reads.
+ */
 export const LAND = Object.freeze([
   { id: 'none', name: 'off the map', colour: null },
   { id: 'water', name: 'the Gulf and its bays', colour: '#8fb0bd' },
-  { id: 'prairie', name: 'tallgrass and coastal prairie', colour: '#d9dcb2' },
-  { id: 'marsh', name: 'coastal marsh and salt prairie', colour: '#9fb195' },
-  { id: 'sand', name: 'sand and beach', colour: '#e6dcb4' },
+  { id: 'prairie', name: 'prairie (before 2026-09-19)', colour: '#d9dcb2' },
+  { id: 'marsh', name: 'coastal marsh', colour: '#9fb195' },
+  { id: 'sand', name: 'sand, beach and dunes', colour: '#e6dcb4' },
   { id: 'savanna', name: 'post oak savanna', colour: '#a9b681' },
-  { id: 'floodplain', name: 'bottomland and floodplain forest', colour: '#6f8a55' },
-  { id: 'pine', name: 'pine forest', colour: '#56704a' },
-  { id: 'live-oak', name: 'live oak woods', colour: '#7a9160' },
-  { id: 'brush', name: 'mesquite and thornscrub brush', colour: '#b4ac81' },
-  { id: 'hill-country', name: 'hill country oak and juniper savanna', colour: '#c2b891' },
+  { id: 'floodplain', name: 'bottomland and creek timber', colour: '#6f8a55' },
+  { id: 'pine', name: 'pine woods', colour: '#56704a' },
+  { id: 'live-oak', name: 'live oak mottes', colour: '#7a9160' },
+  { id: 'brush', name: 'mesquite and thornscrub brush (before 2026-09-19)', colour: '#b4ac81' },
+  { id: 'hill-country', name: 'hill country savanna', colour: '#c2b891' },
+  { id: 'tallgrass-prairie', name: 'tallgrass prairie', colour: '#cec48c' },
+  { id: 'coastal-prairie', name: 'coastal prairie', colour: '#c4cd96' },
+  { id: 'mixedgrass-prairie', name: 'mixed-grass prairie', colour: '#d6cda0' },
+  { id: 'salt-prairie', name: 'salt prairie', colour: '#cdcdaf' },
+  { id: 'mesquite-savanna', name: 'mesquite prairie', colour: '#c8be8c' },
+  { id: 'chaparral', name: 'chaparral', colour: '#9ea076' },
+  { id: 'cross-timbers', name: 'cross timbers', colour: '#96a66e' },
+  { id: 'longleaf', name: 'longleaf pine woods', colour: '#788c5a' },
+  { id: 'thicket', name: 'the Big Thicket', colour: '#466240' },
+  { id: 'canebrake', name: 'canebrake', colour: '#96aa5a' },
+  { id: 'cypress-swamp', name: 'cypress swamp', colour: '#5a6e5a' },
+  { id: 'cedar-brake', name: 'cedar brake', colour: '#69785f' },
+  { id: 'palm-grove', name: 'palm grove', colour: '#78965a' },
+  { id: 'fields', name: 'town fields', colour: '#baa06e' },
+  { id: 'thorn-riparian', name: 'river woods of the brush country', colour: '#7d8a5a' },
 ].map(Object.freeze));
-/** The relief classes, in the order of the high four bits of a cell. */
+/** How many low bits of a cell hold its land class (since 2026-09-19; four before). The relief is the bits above. */
+export const LAND_BITS = 5;
+/** The relief classes, in the order of the bits above `LAND_BITS` of a cell. */
 export const RELIEF = Object.freeze([
   { id: 'flat', name: 'flat', note: 'under 15 m of rise within a mile and under 1.5 in 100' },
   { id: 'rolling', name: 'rolling', note: '15 to 35 m, or 1.5 to 3 in 100' },
@@ -48,7 +69,14 @@ export function landData() {
   return loaded;
 }
 
-const decode = (byte, legend = LAND, reliefs = RELIEF) => ({ land: legend[byte & 15]?.id ?? 'none', relief: reliefs[byte >> 4]?.id ?? 'flat' });
+/** How many low bits of a land file's cell are its land class: its header's `landBits`, or four in a file built before. */
+export const landBitsOf = header => header?.landBits || 4;
+/** A cell byte as `{ land, relief }`, by a header's legend and bits. */
+export function decodeCell(byte, header) {
+  const bits = landBitsOf(header), legend = header?.land || LAND, reliefs = header?.relief || RELIEF;
+  return { land: legend[byte & ((1 << bits) - 1)]?.id ?? 'none', relief: reliefs[byte >> bits]?.id ?? 'flat' };
+}
+const decode = (byte, header) => decodeCell(byte, header);
 
 /** The land and relief at a point in the game's miles, from the eighth-of-a-mile grid; off the grid is `none`. */
 export function landAt(x, y) {
@@ -56,7 +84,7 @@ export function landAt(x, y) {
   const { minX, minY, columns, rows, cell } = header.native;
   const c = Math.floor((x - minX) / cell), r = Math.floor((y - minY) / cell);
   if (c < 0 || r < 0 || c >= columns || r >= rows) return { land: 'none', relief: 'flat' };
-  return decode(cells[r * columns + c]);
+  return decode(cells[r * columns + c], header);
 }
 
 /** One coarser band decoded: `at(x, y)` gives { land, relief, shade }. */
@@ -69,7 +97,7 @@ export function landBand(index) {
     at(x, y) {
       const c = Math.floor((x - band.minX) / band.cell), r = Math.floor((y - band.minY) / band.cell);
       if (c < 0 || r < 0 || c >= band.columns || r >= band.rows) return { land: 'none', relief: 'flat', shade: 128 };
-      return { ...decode(classes[r * band.columns + c]), shade: shade[r * band.columns + c] };
+      return { ...decode(classes[r * band.columns + c], landData().header), shade: shade[r * band.columns + c] };
     },
   };
 }

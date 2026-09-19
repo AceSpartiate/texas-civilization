@@ -1,13 +1,13 @@
 // What kind of land each part of the colonies is: docs/MAP_ACCURACY.md §5, FIC-GONZ-057.
 //
 // Checked where the country is known: the Lost Pines at Bastrop, the coastal prairie round Harrisburg and Lynchburg, the
-// brush country south-west of Béxar, the hill country and its escarpment north-west of San Antonio, the bluff at La Grange,
+// mesquite prairie of the brush country south-west of Béxar (since 2026-09-19 the biomes of 1836, docs/BIOMES.md), the hill country and its escarpment north-west of San Antonio, the bluff at La Grange,
 // the beach and marsh of Galveston Island. And the bands: each coarser band is its cells' most common class, so a place
 // keeps its class from one zoom to the next.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { milesFrom, realTerrain } from '../sim/terrain-data.mjs';
-import { LAND, LAND_BANDS, RELIEF, landAt, landBand, landData } from '../sim/land.mjs';
+import { LAND, LAND_BANDS, RELIEF, landAt, landBand, landBitsOf, landData } from '../sim/land.mjs';
 import { provinceBands } from '../sim/province.mjs';
 
 const terrain = realTerrain();
@@ -31,23 +31,28 @@ test('the Lost Pines stand east of Mina, and the coast round Harrisburg and Lync
   assert.ok(pines.land.pine > 0.5, `the Lost Pines are ${(100 * pines.land.pine).toFixed(0)} in 100 pine`);
   for (const [name, lon, lat] of [['Harrisburg', -95.2785, 29.7228], ['Lynchburg', -95.074, 29.769]]) {
     const coast = around(lon, lat, 3);
-    assert.ok(coast.land.prairie + coast.land.marsh > 0.7, `${name}: ${(100 * (coast.land.prairie + coast.land.marsh)).toFixed(0)} in 100 prairie and marsh`);
+    // The coastal prairie of 1836 and its marsh, with the town's cleared ring round Harrisburg (FIC-GONZ-062).
+    const open = coast.land['coastal-prairie'] + coast.land.marsh + coast.land.fields;
+    assert.ok(open > 0.7, `${name}: ${(100 * open).toFixed(0)} in 100 coastal prairie, marsh and fields`);
     assert.ok(coast.relief.flat > 0.75, `${name} is flat`);
     assert.equal(coast.land.pine, 0, `${name} has no pine woods`);
   }
 });
 
-test('south-west of Béxar is brush country, and there is no desert anywhere in the colonies', () => {
-  // LANDFIRE's Tamaulipan thornscrub and mesquite settings; EPA 31c Texas-Tamaulipan Thornscrub.
-  const brush = around(-98.8, 29.2, 2);
-  assert.ok(brush.land.brush > 0.5, `south-west of Béxar is ${(100 * brush.land.brush).toFixed(0)} in 100 brush`);
-  assert.ok(around(-98.49, 29.42, 2).land.brush < 0.05, 'Béxar itself is not in the brush');
+test('south-west of Béxar is the brush country\'s mesquite prairie, and there is no desert anywhere in the colonies', () => {
+  // LANDFIRE's Tamaulipan thornscrub and mesquite settings; EPA 31c Texas-Tamaulipan Thornscrub. In 1836 open mesquite prairie
+  // with thickets north-east of the Nueces (HIST-TEX-097, FIC-GONZ-060).
+  const brush = around(-98.8, 29.2, 2), share = land => land['mesquite-savanna'] + land.chaparral;
+  assert.ok(share(brush.land) > 0.5, `south-west of Béxar is ${(100 * share(brush.land)).toFixed(0)} in 100 mesquite prairie and chaparral`);
+  assert.ok(share(around(-98.49, 29.42, 2).land) < 0.05, 'Béxar itself is not in the brush');
   assert.ok(!LAND.some(entry => /desert/i.test(`${entry.id} ${entry.name}`)), 'no class of land is desert');
 });
 
 test('north-west of San Antonio the hill country rises at the escarpment; Béxar is on the plain below it; La Grange has its bluff', () => {
   const hills = around(-98.69, 29.60, 3), bexar = around(-98.49, 29.42, 2);
-  assert.ok(hills.land['hill-country'] > 0.8, 'Helotes is hill country');
+  // Hill country savanna, and at the escarpment's breaks and canyons the cedar brake (HIST-TEX-102, LANDFIRE 15230/15240/13930).
+  assert.ok(hills.land['hill-country'] + hills.land['cedar-brake'] > 0.8, 'Helotes is hill country');
+  assert.ok(hills.land['cedar-brake'] > 0.3, 'the breaks at Helotes are cedar');
   assert.ok(hills.relief.escarpment + hills.relief.steep + hills.relief.hills > 0.8, 'the hill country is hills');
   assert.ok(hills.relief.escarpment > 0.2, 'the escarpment is there');
   assert.ok(bexar.relief.flat + bexar.relief.rolling > 0.9, 'Béxar is on flat or rolling ground');
@@ -64,10 +69,11 @@ test('north-west of San Antonio the hill country rises at the escarpment; Béxar
   assert.ok(around(-96.88, 29.89, 0.5).relief.bluff > 0.25, 'the bluff at La Grange');
 });
 
-test('Galveston Island is beach on the Gulf side and marsh behind; the bays are water', () => {
+test('Galveston Island is beach and dunes on the Gulf side and marsh behind; the bays are water', () => {
+  // Since 2026-09-19 the island's dune grassland (LANDFIRE 14370) is drawn as sand and dunes, not marsh (HIST-TEX-106).
   const island = around(-94.95, 29.20, 2);
   assert.ok(island.land.sand > 0.1, `the island's beach is ${(100 * island.land.sand).toFixed(0)} in 100`);
-  assert.ok(island.land.marsh > 0.05, 'marsh behind the beach');
+  assert.ok(island.land.marsh > 0.02, 'marsh behind the beach');
   const bay = landAt(at(-94.85, 29.55).x, at(-94.85, 29.55).y);
   assert.equal(bay.land, 'water', 'Galveston Bay is water');
   assert.equal(around(-97.45, 29.50, 3).land.sand, 0, 'no beach inland');
@@ -87,11 +93,11 @@ test('each band is the most common class of its cells, so a place keeps its clas
       const bc = (k * 7919) % band.columns, br = (k * 104729) % band.rows;
       const votes = new Map();
       for (let r = br * block; r < Math.min(native.rows, (br + 1) * block); r++) for (let c = bc * block; c < Math.min(native.columns, (bc + 1) * block); c++) {
-        const v = cells[r * native.columns + c] & 15;
+        const v = cells[r * native.columns + c] & ((1 << landBitsOf(header)) - 1);
         votes.set(v, (votes.get(v) || 0) + 1);
       }
       const ranked = [...votes].filter(([v]) => v !== 0).sort((a, b) => b[1] - a[1]);
-      const cell = band.classes[br * band.columns + bc] & 15;
+      const cell = band.classes[br * band.columns + bc] & ((1 << landBitsOf(header)) - 1);
       if (!ranked.length) { assert.equal(cell, 0); continue; }
       assert.equal(votes.get(cell), ranked[0][1], `band ${miles} cell ${bc},${br} is not its block's most common class`);
     }
