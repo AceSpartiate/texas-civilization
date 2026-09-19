@@ -1,7 +1,7 @@
 // Renderers consume the server's permitted projection. They never advance simulation state.
 import { drawSprite, drawClip, clipInfo, hasSprite, loadArt, onArtReady, pickSprite, spriteFrame } from '/art.js';
 import { drawArmy } from '/army-view.js';
-import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, seatedClip, seatLayout, mounted, MOUNTED_HEIGHT, castVariant, childFigure } from '/motion.js';
+import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, seatedClip, seatLayout, mounted, MOUNTED_HEIGHT, castVariant, childFigure, MarkerFade, drawnHeightsPerSecond, travelMilesATick, routeIndexAfter, sameJourney } from '/motion.js';
 import { familyRows, PRESENCE_LABELS, storyView, spotlightBanner } from '/live-page.js';
 import { autoLabel, callMenu, callPlan, drawIcon, drawMark, drawPortrait, focusFor, isIdle, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, standing, RENAME_PAUSE_MS } from '/family-panel.js';
 import {drawBexarGround,bexarDrawables} from '/bexar-art.js';
@@ -36,12 +36,20 @@ const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 let animationTime = 0, previousFrame = 0, paintedFrame = 0, animationDrawMs = 0;
 // A traveller's cycle is played from their own place in their stride rather than the shared clock (public/motion.js `GaitClock`).
 const gaitClock = new GaitClock(), gaits = new Map();
+// How much of each traveller is drawn as a marker rather than a figure, eased (public/motion.js `MarkerFade`). Presentation
+// evidence too, read by proofs as `window.__travelMarkers` and by nothing in the application: each traveller's drawn speed in
+// their own heights a second, the marker's weight, and where it was drawn.
+const markerFade = new MarkerFade();
+window.__travelMarkers = markerFade.travellers;
 function gaitTime(clip, gait) {
   const key = `${clip}|${gait.stride}`;
   if (!gaits.has(key)) { const found = clipGait(clipInfo(clip), gait.stride); if (!found) return undefined; gaits.set(key, found); }
   return gaitClock.time(gait.id, { clockMs: animationTime, at: gait.at, bodyMiles: gait.bodyMiles, gait: gaits.get(key) });
 }
+// True while a figure fading to or from a travel marker is drawn: its walking or trotting cycle holds still (`drawEntity`).
+let cyclesHeld = false;
 function animated(ctx, clip, x, y, size, seed = 0, { gait, ...options } = {}) {
+  if (cyclesHeld) options.paused = true;
   const own = gait && !options.paused && !('timeMs' in options) ? gaitTime(clip, gait) : undefined;
   const width = drawClip(ctx, clip, x, y, size, { timeMs: own ?? animationTime, seed, reducedMotion: reducedMotion.matches, ...options });
   if (width) window.__animationClips?.add(clip);
@@ -493,7 +501,65 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
   // Somebody on a horse is drawn the height of a horse with a rider on it: at a person's height the horse under them was a
   // toy, smaller than the family's own horse standing in the yard (found in play 2026-09-14).
   const height = size * (entity.kind === 'animal' ? (entity.species === 'horse' ? SIZE.horse : SIZE.ox) : entity.kind === 'wagon' ? SIZE.wagon : seat === 'wagon' ? SIZE.wagon : mounted(entity) ? MOUNTED_HEIGHT : 1);
-  drawnAt.set(entity.id, { x, y: y - height * .45, size: height });
+  // Faster than a walk can be drawn, somebody is a marker on the road instead (`travelMarker`): drawn after everybody standing,
+  // and in the figure's place, fading between the two. Nothing of the figure is drawn once the marker is whole.
+  const marker = travelMarker(entity, point, height, marks);
+  const figure = 1 - marker;
+  if (figure > 0 && marker < .5) drawnAt.set(entity.id, { x, y: y - height * .45, size: height });
+  if (figure > 0) drawFigure(ctx, entity, x, y, size, height, seat, figure, marks);
+  // Something is being asked of this person. The mark is the invitation; clicking is the
+  // answer, so it is collected and drawn last: a cabin roof standing between the camera
+  // and a person must never hide the one thing on screen asking to be pressed. Over the marker while it stands for them.
+  if (marks.mark && marker < .5) marks.mark.list.push({ id: entity.id, kind: marks.mark.kind || 'task', x, y: y - height, size, glyph: marks.mark.glyph, tone: marks.mark.tone });
+  // The label sits just under the feet whatever the zoom - scaling the offset with the
+  // sprite would fling a name a screen's width below a close-up figure - and it is
+  // handed back rather than drawn, because the ox drawn after this person would
+  // otherwise stand on their name.
+  if (named || entity.principal) {
+    marks.labels?.push({
+      name: entity.name || entity.id, x, y: y + Math.max(13, Math.min(26, size * .22)),
+      font: `${Math.round(Math.max(11, Math.min(16, size * .26)))}px system-ui`,
+    });
+  }
+}
+/**
+ * How much of a traveller is drawn as a marker, 0 to 1, and the marker handed to `drawTravelMarkers` if any of it is.
+ *
+ * Owner, 2026-09-19, by multiple choice: "Marker when fast" (public/motion.js `MARKER_ABOVE`). The drawn speed is the miles the
+ * server says a tick carries them, at this camera, over the real length of a tick, in their own drawn height: a person's,
+ * a rider's with the horse (`MOUNTED_HEIGHT`), a driver's with the wagon, a beast's or a wagon's own. The journey is the one
+ * they are drawn along, so on the tick they arrive they are still a marker walking in, and fade to a figure once there.
+ * A rider reined in to talk is a figure, and so is everybody while the class is paused, when nobody moves.
+ *
+ * Beasts and a wagon going with their family are not a marker of their own: the family's marker stands for them, as the
+ * rider's does for the horse under them and the driver's for the ox and wagon. Only a beast or wagon with none of its
+ * family on the same road gets a plain token of its own.
+ * ceiling: a person's speed is measured against a grown figure's height, so a child walking beside a parent changes with
+ * them; measured against the child's own smaller height the child would become a marker first and the family split.
+ */
+function travelMarker(entity, point, height, marks) {
+  const journey = entity.facing || entity.speaking ? null : motionProjection.journey(entity, marks.frozen);
+  if (!journey && !markerFade.fading(entity.id)) return 0;
+  const heightsPerSecond = journey && marks.running
+    ? drawnHeightsPerSecond({ milesATick: travelMilesATick(journey, minutesATick), tickMs: marks.tickMs, scale: marks.scale, heightPx: height })
+    : 0;
+  const weight = markerFade.weight(entity.id, { heightsPerSecond, now: marks.now, instant: reducedMotion.matches });
+  const shown = markerFade.travellers.get(entity.id);
+  shown.heightsPerSecond = heightsPerSecond; shown.drawn = false;
+  if (!(weight > 0) || !journey && !shown.journey) return weight;
+  if (journey) { shown.journey = journey; shown.miles = motionProjection.drawnMiles(entity, marks.now, marks.frozen); }
+  // With their family: folded into the family's marker, and not drawn at all while the marker stands.
+  const party = marks.entities || marks.party || [];
+  if (entity.kind !== 'person' && party.some(other => other.kind === 'person' && other.householdId === entity.householdId
+    && sameJourney(other.travel || markerFade.travellers.get(other.id)?.journey, entity.travel || shown.journey))) return weight;
+  shown.x = point.x; shown.y = point.y;
+  marks.markers?.push({ entity, shown, weight, observed: Boolean(marks.observed), selected: Boolean(marks.selected), mark: marks.mark });
+  return weight;
+}
+/** The figure itself, at `alpha` of itself: the whole of it, or fading while its marker comes or goes. */
+function drawFigure(ctx, entity, x, y, size, height, seat, alpha, marks) {
+  const alphaWas = ctx.globalAlpha;
+  if (alpha < 1) { ctx.globalAlpha = alphaWas * alpha; cyclesHeld = true; }
   if (marks.selected) {
     ctx.strokeStyle = marks.observed ? '#cfd6c2' : '#f0d38a';
     ctx.lineWidth = Math.max(2, size * .11);
@@ -525,20 +591,7 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
     animated(ctx, 'musket-smoke', x + size * .38 * (flip ? -1 : 1), y - size * .56, size * .85, 0,
       { timeMs: performance.now() - shotSince.get(entity.id) });
   } else if (shotSince.has(entity.id)) shotSince.delete(entity.id);
-  // Something is being asked of this person. The mark is the invitation; clicking is the
-  // answer, so it is collected and drawn last: a cabin roof standing between the camera
-  // and a person must never hide the one thing on screen asking to be pressed.
-  if (marks.mark) marks.mark.list.push({ id: entity.id, kind: marks.mark.kind || 'task', x, y: y - height, size, glyph: marks.mark.glyph, tone: marks.mark.tone });
-  // The label sits just under the feet whatever the zoom - scaling the offset with the
-  // sprite would fling a name a screen's width below a close-up figure - and it is
-  // handed back rather than drawn, because the ox drawn after this person would
-  // otherwise stand on their name.
-  if (named || entity.principal) {
-    marks.labels?.push({
-      name: entity.name || entity.id, x, y: y + Math.max(13, Math.min(26, size * .22)),
-      font: `${Math.round(Math.max(11, Math.min(16, size * .26)))}px system-ui`,
-    });
-  }
+  ctx.globalAlpha = alphaWas; cyclesHeld = false;
 }
 // Names are read against an illustration now, not a flat wash: dark green on a dark
 // tree canopy is unreadable. A pale halo carries the text over whatever is behind it
@@ -558,6 +611,105 @@ function drawTaskMark(ctx, { x, y, size, glyph = '!', tone = '#c2582c' }) {
   ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
   ctx.fillText(glyph, x, top + bob + mark * .06);
   ctx.textBaseline = 'alphabetic';
+}
+/**
+ * The travellers drawn as markers this frame (`travelMarker`): the road still ahead of each as a dotted line to where they
+ * are going, then each as a pin standing on the point the server's journey has them at - their portrait on a disc, ringed in
+ * the principal's rust for the one person a student directs, ink for the rest of the family, grey for somebody else's,
+ * slate for a rider carrying news. Drawn over everybody standing, like the marks asking to be pressed, since a marker is a
+ * thing to find and tap. A tap on the disc chooses them, as a tap on the figure does (`drawnAt`).
+ *
+ * The road behind them is not drawn: the road itself is on the ground, and a line behind as well as ahead was two lines
+ * to read on a small screen. A family going together stands on one point, so their pins fan out from it, the principal's on
+ * top, and their road is drawn once.
+ *
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-19 - the traveller's marker. The disc, the pin and the dots are drawn in
+ * canvas strokes, the face on it is the family panel's `portrait-<figure>` (itself a Claude-drawn stand-in), and a beast or
+ * wagon on the road by itself is its own standing sprite on a smaller disc.
+ * Nothing here allocates per marker beyond the one entry `travelMarker` hands over and the hit spot: the route is walked in
+ * place (`routeIndexAfter`) and projected by hand rather than through `camera.toScreen`.
+ */
+const ROUTE_DASH = [0, 0], NO_DASH = [], PORTRAIT_OF = new Map();
+const BEAST_SPRITE = { horse: 'horse-chestnut', ox: 'ox-brown', wagon: 'wagon-covered' };
+const markerRing = marker => marker.observed ? (marker.entity.carrier ? '#41556b' : '#7b8676') : marker.entity.principal ? '#a9512d' : '#3b3221';
+function drawTravelMarkers(ctx, list, camera, canvas) {
+  if (!list.length) return;
+  const alphaWas = ctx.globalAlpha, halfW = canvas.width / 2, halfH = canvas.height / 2, { cx, cy, scale } = camera;
+  // The principal's pin last, so on top; otherwise back to front like everything standing.
+  list.sort((a, b) => (Number(a.entity.principal && !a.observed) - Number(b.entity.principal && !b.observed)) || a.shown.y - b.shown.y);
+  for (let i = 0; i < list.length; i++) {
+    const at = list[i].shown;
+    let slot = 0;
+    for (let j = 0; j < i; j++) if (Math.abs(list[j].shown.x - at.x) < 3 && Math.abs(list[j].shown.y - at.y) < 3) slot++;
+    list[i].slot = slot;
+  }
+  const dot = Math.max(2.5, Math.min(5, camera.figure * .09));
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  for (let i = 0; i < list.length; i++) {
+    const marker = list[i], travel = marker.shown.journey, points = travel?.points;
+    if (!points?.length) continue;
+    let drawn = false;
+    for (let j = 0; j < i && !drawn; j++) drawn = list[j].shown.journey === travel || (sameJourney(list[j].shown.journey, travel) && Math.abs(list[j].shown.miles - marker.shown.miles) < .05);
+    if (drawn) continue;
+    const start = routeIndexAfter(points, marker.shown.miles - (travel.base || 0));
+    if (start >= points.length) continue;
+    ctx.globalAlpha = alphaWas * marker.weight;
+    ctx.beginPath(); ctx.moveTo(marker.shown.x, marker.shown.y);
+    for (let k = start; k < points.length; k++) ctx.lineTo(halfW + (points[k].x - cx) * scale, halfH + (points[k].y - cy) * scale);
+    ROUTE_DASH[1] = dot * 2.6; ctx.setLineDash(ROUTE_DASH);
+    ctx.strokeStyle = 'rgba(252,249,238,.9)'; ctx.lineWidth = dot + 2.5; ctx.stroke();
+    ctx.strokeStyle = markerRing(marker); ctx.lineWidth = dot; ctx.stroke();
+    ctx.setLineDash(NO_DASH);
+    // Where they are going, as a ring on the place: only on a road that runs to its end (the Host is sent a stretch of it).
+    if (!travel.base) {
+      const end = points[points.length - 1], ex = halfW + (end.x - cx) * scale, ey = halfH + (end.y - cy) * scale;
+      ctx.beginPath(); ctx.arc(ex, ey, dot * 1.8, 0, Math.PI * 2); ctx.lineWidth = dot * .8; ctx.stroke();
+    }
+  }
+  for (const marker of list) {
+    const { entity, shown, weight } = marker, person = entity.kind === 'person';
+    const r = Math.max(11, Math.min(17, camera.figure * .31)) * (person ? (entity.principal && !marker.observed ? 1.12 : 1) : .72);
+    const tail = Math.max(6, r * .75);
+    const x = shown.x + (marker.slot ? (marker.slot % 2 ? -1 : 1) * Math.ceil(marker.slot / 2) * r * 1.3 : 0), y = shown.y - tail - r;
+    const ring = markerRing(marker);
+    ctx.globalAlpha = alphaWas * weight;
+    ctx.fillStyle = 'rgba(52,45,30,.25)';
+    ctx.beginPath(); ctx.ellipse(shown.x, shown.y, r * .5, r * .18, 0, 0, Math.PI * 2); ctx.fill();
+    // The pin's point, on the place the journey has them at.
+    ctx.fillStyle = ring;
+    ctx.beginPath(); ctx.moveTo(x - r * .5, y + r * .7); ctx.lineTo(shown.x, shown.y); ctx.lineTo(x + r * .5, y + r * .7); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#e9dcb8';
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+    ctx.save();
+    ctx.beginPath(); ctx.arc(x, y, r * .9, 0, Math.PI * 2); ctx.clip();
+    let face = 0;
+    if (person) {
+      const figure = childFigure(entity) || castVariant(entity, marker.observed);
+      let name = PORTRAIT_OF.get(figure);
+      if (!name) PORTRAIT_OF.set(figure, name = `portrait-${figure}`);
+      face = drawSprite(ctx, name, x, y + r * .95, r * 1.9);
+    } else face = drawSprite(ctx, BEAST_SPRITE[entity.kind === 'wagon' ? 'wagon' : entity.species === 'horse' ? 'horse' : 'ox'], x, y + r * .55, r * 1.25);
+    ctx.restore();
+    if (!face) {
+      // The sheet has not arrived: their initial.
+      ctx.fillStyle = ring; ctx.font = `bold ${Math.round(r * 1.1)}px system-ui`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText((entity.given || entity.name || entity.species || entity.kind || '?').charAt(0).toUpperCase(), x, y + r * .05);
+      ctx.textBaseline = 'alphabetic';
+    }
+    ctx.strokeStyle = ring; ctx.lineWidth = Math.max(2, r * .2);
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.stroke();
+    if (marker.selected) {
+      ctx.strokeStyle = marker.observed ? '#cfd6c2' : '#f0d38a'; ctx.lineWidth = Math.max(2.5, r * .2);
+      ctx.beginPath(); ctx.arc(x, y, r + ctx.lineWidth * 1.4, 0, Math.PI * 2); ctx.stroke();
+    }
+    shown.discX = x; shown.discY = y; shown.r = r; shown.drawn = true;
+    // Once the marker is more than half of what is drawn, it is what a tap finds and what the mark stands over.
+    if (weight >= .5) {
+      drawnAt.set(entity.id, { x, y, size: (r * 2 + tail) * 1.25 });
+      if (marker.mark) marker.mark.list.push({ id: entity.id, kind: marker.mark.kind || 'task', x, y: y - r * .6, size: r * 2.6, glyph: marker.mark.glyph, tone: marker.mark.tone });
+    }
+  }
+  ctx.globalAlpha = alphaWas;
 }
 // Which person, if any, has something waiting for them (`requestFor`), and who is standing with a rider (`meetingFor`):
 // both in public/family-panel.js, so the mark over a person on the map and the "!" on their panel row read one rule.
@@ -591,7 +743,14 @@ function drawnNow(spots) {
   if (!world || !drawnCamera || drawnCamera.width !== canvas.width || drawnCamera.height !== canvas.height) return spots;
   const now = cameraFor(world, canvas), size = { width: canvas.width, height: canvas.height };
   if (now.cx === drawnCamera.cx && now.cy === drawnCamera.cy && now.scale === drawnCamera.scale) return spots;
-  return new Map([...spots].map(([id, spot]) => [id, reproject(spot, drawnCamera, now, size)]));
+  // Except the person being watched: the camera moved because they walked on, and they with it. Moved as ground would be,
+  // somebody watched pressed close in - drawn as a marker, 270 pixels a second at the Study pace - would be carried off
+  // their own spot by however long ago the last frame was drawn, a fingertip after about a tenth of a second (reasoned
+  // 2026-09-19 with the travel marker, not seen to fail). They stay where they stood on the screen, scaled about its middle.
+  const ratio = now.scale / drawnCamera.scale, half = { x: size.width / 2, y: size.height / 2 };
+  return new Map([...spots].map(([id, spot]) => [id, id === watchedId && !now.following
+    ? { ...spot, x: half.x + (spot.x - half.x) * ratio, y: half.y + (spot.y - half.y) * ratio, size: spot.size * ratio }
+    : reproject(spot, drawnCamera, now, size)]));
 }
 /** The interior panel for the house at this site: the family's own, or on the Host's map any family's, read only. */
 function renderInteriorPanel(world) {
@@ -819,14 +978,15 @@ function autoView(world, canvas) {
     scale: clampTo(Math.min(canvas.width / (maxX - minX), canvas.height / (maxY - minY)), scaleLimits(world, canvas)),
   };
 }
-function cameraFor(world, canvas) {
+function cameraFor(world, canvas, now = performance.now()) {
   const auto = autoView(world, canvas), limits = scaleLimits(world, canvas);
   // Watching somebody beats both the automatic frame and a remembered pan, and it reads
   // their drawn position rather than their last reported one, so the view walks with them
-  // instead of jumping once a tick.
+  // instead of jumping once a tick. At the frame's own moment (`drawWorld`), the moment they are drawn at, so the person
+  // watched stands still in the middle rather than a few pixels ahead of it by however long the ground took to draw.
   const watched = watchedId ? entitiesOf(world).find(entity => entity.id === watchedId) : null;
   const at = watched?.location
-    ? motionProjection.position(watched, performance.now(), reducedMotion.matches || world.status !== 'running')
+    ? motionProjection.position(watched, now, reducedMotion.matches || world.status !== 'running')
     : null;
   const following = !manualView && !watched;
   const raw = at
@@ -1973,7 +2133,9 @@ export function drawWorld(world) {
   window.__animationClips = new Set();
   const canvas = $('#world-map'), main = canvas.getContext('2d');
   fitCanvas();
-  const camera = cameraFor(world, canvas);
+  // One moment for the frame: the camera and everybody drawn in it (`travelMarker` too).
+  const frameNow = performance.now();
+  const camera = cameraFor(world, canvas, frameNow);
   drawnCamera = { cx: camera.cx, cy: camera.cy, scale: camera.scale, width: canvas.width, height: canvas.height };
   mapDrawWanted = false; lastMapDraw = performance.now(); gesturePicture = null;
   window.__camera = { kind: camera.kind, scale: camera.scale, named: camera.named, cx: camera.cx, cy: camera.cy, following: camera.following };
@@ -2194,8 +2356,11 @@ export function drawWorld(world) {
   // phone at the default framing is - only the principal is named; the rest are reached
   // by clicking them, and the hidden roster still lists every one of them by name.
   const roomForNames = camera.named && camera.figure > 34;
+  // What a marker needs to know of the frame (`travelMarker`).
+  const running = world.status === 'running', frozen = reducedMotion.matches || !running;
+  const tickMs = window.__snapshot?.tickMs ?? 1000, markers = [];
   for (const entity of entities) {
-    const ground = motionProjection.position(entity, performance.now(), reducedMotion.matches || world.status !== 'running'), point = camera.toScreen(ground);
+    const ground = motionProjection.position(entity, frameNow, frozen), point = camera.toScreen(ground);
     // Which way someone is facing comes from where they are actually going, so a mirrored
     // ox is reporting the journey the server gave it rather than decorating the scene.
     const destination = entity.travel && world.map?.sites?.[entity.travel.to];
@@ -2221,11 +2386,12 @@ export function drawWorld(world) {
     standing.push({ y: point.y, draw: () => drawEntity(ctx, entity, point, roomForNames, camera.figure, {
       selected: entity.id === chosen?.id, mark, entities,
       labels, heading: destination ? destination.x - entity.location.x : 0, ground, scale: camera.scale,
+      now: frameNow, frozen, running, tickMs, markers,
     }) });
   }
   const margin = camera.figure * 4, shownObserved = [];
   for (const entity of observed) {
-    const ground = motionProjection.position(entity, performance.now(), reducedMotion.matches || world.status !== 'running'), point = camera.toScreen(ground);
+    const ground = motionProjection.position(entity, frameNow, frozen), point = camera.toScreen(ground);
     // The Host's whole class: only who is on screen is drawn, and each as they truly are - at their own work, the principal
     // in their own coat, the deer they are hunting beside them - because the teacher is not somebody glimpsing a stranger.
     if (host && (point.x < -margin || point.y < -margin || point.x > canvas.width + margin || point.y > canvas.height + margin)) continue;
@@ -2235,6 +2401,7 @@ export function drawWorld(world) {
     }
     standing.push({ y: point.y, draw: () => drawEntity(ctx, { ...entity, health: { condition: entity.condition } }, point, roomForNames, camera.figure, {
       selected: entity.id === chosen?.id, mark: null, labels, observed: !host, ground, scale: camera.scale,
+      now: frameNow, frozen, running, tickMs, markers, party: observed,
     }) });
     shownObserved.push(entity.id);
   }
@@ -2246,6 +2413,7 @@ export function drawWorld(world) {
   applyDrawState(main, mapBase.state);
   standing.sort((a, b) => a.y - b.y);
   for (const item of standing) item.draw();
+  drawTravelMarkers(ctx, markers, camera, canvas);
   const placeFont = `${Math.round(Math.max(11, Math.min(16, camera.scale * 1.1)))}px system-ui`;
   for (const label of labels) { ctx.font = label.font || placeFont; caption(ctx, label.name, label.x, label.y); }
   for (const mark of pending) drawTaskMark(ctx, mark);

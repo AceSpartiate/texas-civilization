@@ -33,6 +33,7 @@ does not have:
 | The road's three panel icons are glyphs drawn in canvas strokes: a rifle over a campfire (`hunt-road`), a figure under a blanket with a cup beside (`tend-sick`), a coin passed over a ferry's rail (`trade-crossing`) | `drawGlyph` in `public/family-panel.js`; `PANEL_ICONS` carries `glyph` and no sprite, and `drawIcon` takes `icon-<key>` the moment it is registered | Request 2026-09-16 — the road's icons | `icon-hunt-road`, `icon-tend-sick`, `icon-trade-crossing` |
 | The camp's four icons - drill, beef and corn, the guard, the scouts - are canvas glyphs (a musket at the shoulder; horns over a corn ear; a bayonet and a crescent moon; a horseshoe and a spyglass) in the panel's brown | `PANEL_ICONS` (`glyph`) and `drawGlyph` in `public/family-panel.js` | Request 2026-09-16 — the camp's icons | `icon-camp-drill`, `icon-camp-forage`, `icon-camp-guard`, `icon-camp-scout` |
 | Every face of the Alamo compound on the map is the painted face of the `alamo-wall-intact` module, cut from the sprite and repeated along the face at the art's own proportion; the palisade is `alamo-palisade` the same way; the south gate is a dark opening in the low barrack's front; the church's south side is plain coursed stone | `FACE_ART` in `public/bexar-art.js` | Request 2026-09-18 — the Alamo's faces seen from the south | The requested face strips, laid by the same `FACE_ART` table |
+| A traveller faster than a walk can be drawn is a canvas-drawn pin: a round disc with the family panel's `portrait-<figure>` clipped inside it (itself a Claude-drawn stand-in), ringed rust for the principal, ink for the family, grey for somebody else's and slate for a courier, on a short point to the ground, with the road ahead in canvas dots. A beast or wagon on the road by itself is its own standing sprite (`horse-chestnut`, `ox-brown`, `wagon-covered`) on a smaller disc; their initial while no sheet has loaded | `drawTravelMarkers` in `public/app.js`; the rule in `MARKER_ABOVE`/`wantsMarker` in `public/motion.js` | Request 2026-09-19 — the traveller's marker | `marker-pin` (the pin and its ring, portrait-less) and `marker-dot`, drawn over by the same portrait; `drawTravelMarkers` lays the sprites down instead of its strokes |
 | **No stand-in: nothing is drawn.** The army's crossing of the Brazos at Groce's on the steamboat Yellow Stone, April 12–13, 1836, is said only in words ("The army is crossing the Brazos on the steamboat Yellow Stone. She came up the river for cotton under Captain John E. Ross, and General Houston has taken her to carry the men, the horses and the wagons over the flood."); no boat is on the river. Words-only is the deliberate state: the library has nothing near a steamboat (the `skiff` and `ferry-raft` would say the wrong thing), and a wrong picture of a named boat is worse than none | `sim/houston.mjs` (the words) | Request 2026-09-18 — the steamboat Yellow Stone | `steamboat-moored`, `steamboat-steam`, `steamboat-laden`, drawn on the Brazos at Groce's ferry |
 
 ## Claude-drawn stand-ins (replace with Astra's)
@@ -79,6 +80,36 @@ into the existing pipeline, and how it will be checked. When a request is delive
 `npm run build:art`; do not delete it from here.
 
 ---
+
+## Request 2026-09-19 — the traveller's marker
+
+**Status: open; stand-in in use (see *Stand-ins in use* above).** Owner, 2026-09-18, playtesting Solo: "when i sent my main
+character to gonzales on foot he ran inhumanly fast". The pace is right and the clock and the figures' size stay; the owner
+chose, by multiple choice, "Marker when fast": once somebody would cross the screen faster than a walk can be drawn (more than
+1.2 of their own heights a real second, `MARKER_ABOVE` in `public/motion.js`), they are drawn as a marker moving along a
+dotted road instead of a running figure. Pressed close in, a walker in the farming day is past it; in the family's own view
+they are not; in the long ticks nearly everybody on the road is.
+
+- **Why.** The marker is drawn in canvas strokes: a flat disc and a triangle point, and round dots. It reads, and the face on
+  it is the person's own portrait, but it is the only thing on the map drawn as a diagram rather than in the illustrated style
+  around it.
+- **What.** Transparent, in the map art's own light (upper left) with the thin dark outline the family panel's marks have:
+  - `marker-pin` — a round frame on a short tapering point, like a pin pushed into the map, the round part empty in the
+    middle (the page draws the person's portrait into it, clipped to a circle 90% of the frame's inner width), about 64 by 96,
+    the point's tip at the bottom centre. Three rings: `marker-pin-rust` (the principal's rust `#a9512d`), `marker-pin-ink`
+    (`#3b3221`, the rest of the family) and `marker-pin-grey` (`#7b8676`, somebody else's); a courier's slate (`#41556b`) may be
+    a fourth.
+  - `marker-dot` — one dot of the road ahead, 16 by 16: a round pebble or a small hoof-print in the ring's colour with a pale
+    edge, drawn to read at 5 pixels and repeated along the road every 13.
+  - `marker-end` — where the road ends: a small ring or a flag on a stake, 32 by 32, base at the bottom centre.
+- **Anchor.** `marker-pin` at the tip of its point; `marker-dot` at its centre; `marker-end` at its base.
+- **How it plugs in.** Add the sheet and ids to `SHEETS` in `scripts/build-atlas-manifest.mjs`, `npm run build:art`; then
+  `drawTravelMarkers` in `public/app.js` lays `marker-pin-*` where it strokes the disc and point (the portrait is drawn into it
+  as now), `marker-dot` along the road where it strokes the dots, and `marker-end` at the destination. Remove the stand-in row
+  above. Nothing else changes: when a traveller is a marker, where it stands, and what a tap on it does are the page's.
+- **Check.** `node scripts/travel-marker-proof.mjs` and look at `docs/evidence/travel-marker/close-marker-detail.png` beside
+  `close-marker.png`: the pin reads as a thing standing on the road, the face is the same person as the panel's portrait, the
+  principal's rust is told from the family's ink at 30 pixels, the dots read as a way ahead over timber and over prairie.
 
 ## Request 2026-09-18 — the Alamo's faces seen from the south
 

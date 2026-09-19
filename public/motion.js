@@ -292,7 +292,7 @@ function along(points, distance) {
  * tests/movement.test.mjs holds it equal to the clock's own table.
  */
 export const CALENDAR_STEPS = Object.freeze([20, 60, 240, 720]);
-const sameJourney = (a, b) => Boolean(a && b && a.from === b.from && a.to === b.to);
+export const sameJourney = (a, b) => Boolean(a && b && a.from === b.from && a.to === b.to);
 /**
  * How far along a journey somebody is drawn, as a fraction `f` of the way through the tick.
  * Linear in real time from where they were drawn when the tick arrived to where the server
@@ -358,6 +358,122 @@ export class ProjectionMotion {
       return { x: previous.location.x + (entity.location.x - previous.location.x) * f, y: previous.location.y + (entity.location.y - previous.location.y) * f };
     }
     return entity.location;
+  }
+  /**
+   * The journey somebody is drawn along now, or null: the one `position` walks them down. On the tick they arrive it is the
+   * journey just finished, which they are still drawn walking the end of while the server already has them at the place.
+   */
+  journey(entity, reducedMotion = false) {
+    const previous = this.records.get(entity.id)?.previous, travel = entity.travel;
+    const oldTravel = !reducedMotion && previous?.travel;
+    if (oldTravel?.points?.length && (!travel || sameJourney(oldTravel, travel))) return oldTravel;
+    return travel?.points?.length ? travel : null;
+  }
+  /**
+   * How far along that journey they are drawn, in the miles its `progress` counts: where `position` puts them. Between two
+   * ticks it runs from where they were drawn toward the server's progress and stops there - never beyond it
+   * (tests/travel-marker.test.mjs), so nothing drawn from it can arrive before the server says so.
+   */
+  drawnMiles(entity, now, reducedMotion = false) {
+    const record = this.records.get(entity.id), travel = entity.travel;
+    const oldTravel = !reducedMotion && record?.previous?.travel;
+    if (oldTravel?.points?.length && (!travel || sameJourney(oldTravel, travel))) return this.progressAt(record, entity, now);
+    return travel?.progress ?? 0;
+  }
+}
+/**
+ * A traveller drawn as a marker on the road instead of a walking figure, once they would cross the screen faster than a
+ * walk can be drawn.
+ *
+ * Owner, 2026-09-18, playtesting Solo: "when i sent my main character to gonzales on foot he ran inhumanly fast". The pace
+ * is right (3 mph on foot, 5 on the horse, 1.95 with the ox wagon) and the clock and `PERSON_MILES` stay as they are: a tick
+ * is 20 to 720 minutes of 1835 played in 9.5 real seconds, and a person is drawn a hundred feet tall against the land. With
+ * the portrait pressed a walker covered 4.3 of their own heights a real second (docs/evidence/travel-speed-screen.json). The
+ * owner chose, by multiple choice, "Marker when fast": past a walk, a token moving along a dotted route.
+ *
+ * MARKER_ABOVE is in the figure's own drawn heights a real second. 1.2 is how much ground the library's travel cycles
+ * cover at the rate they were drawn: a person's walk is one stride of 0.86 of a height in 720 ms (1.19 a second), the
+ * horse's and the ox's walk a body in 840 ms (1.19), the wagon's wheel 1.23 bodies a turn at 1.1 turns a second (1.35).
+ * `gaitStep` never plays a cycle faster than it was drawn, so above this the ground runs out from under the feet and the
+ * figure skates - which reads as running. It sits in the 1 to 1.5 a walk looks natural at: a real walker covers about 0.8 of
+ * their height a second, a brisk one 1.1. In the family's own view in the farming day a walker covers 0.1 and stays a
+ * figure; pressed close in, or in the long ticks, they become a marker.
+ * ceiling: one number for people, riders, beasts and the wagon, from cycles that happen to agree within a tenth; a cycle
+ * drawn much slower or faster (a trot, a gallop) would want its own, from its own stride.
+ */
+export const MARKER_ABOVE = 1.2;
+/** A marker becomes a figure again only below this, so a traveller at the edge does not flicker as the zoom wheel turns. */
+export const MARKER_BELOW = 1.0;
+/**
+ * How long a traveller takes to fade between the figure and the marker, either way: no pop. Long enough to be seen as a fade
+ * at the five frames a second a close-in view of a town makes on a slow computer, where 400 ms was a single step between.
+ */
+export const MARKER_FADE_MS = 600;
+/**
+ * The miles the server says a tick carries this journey (sim/world.mjs `milesATick`, sent as `step`); without it (a class
+ * saved before it was sent) a speed is miles a farming tick, carried as many times over as the last tick was longer
+ * (public/map-base.js `outOfSight` reads it the same way).
+ */
+export function travelMilesATick(travel, minutesATick = 0) {
+  if (!travel) return 0;
+  if (Number.isFinite(travel.step)) return Math.max(0, travel.step);
+  if (!Number.isFinite(travel.speed)) return 0;
+  return Math.max(0, travel.speed) * (minutesATick > 0 ? minutesATick / CALENDAR_STEPS[0] : 1);
+}
+/**
+ * How fast somebody is drawn crossing the screen, in their own drawn heights a real second: the miles a tick carries them,
+ * at the camera's pixels a mile, over the real milliseconds a tick is drawn in, against how tall they are drawn in pixels.
+ */
+export function drawnHeightsPerSecond({ milesATick, tickMs, scale, heightPx }) {
+  if (!(milesATick > 0) || !(tickMs > 0) || !(scale > 0) || !(heightPx > 0)) return 0;
+  return milesATick * scale / heightPx / (tickMs / 1000);
+}
+/** Whether a traveller should be drawn as a marker: above MARKER_ABOVE, and a marker stays one down to MARKER_BELOW. */
+export function wantsMarker(heightsPerSecond, wasMarker = false) {
+  return heightsPerSecond > (wasMarker ? MARKER_BELOW : MARKER_ABOVE);
+}
+/** A marker's weight (0 the figure, 1 the marker) moved toward `target` for `elapsedMs`, a whole fade taking `fadeMs`. */
+export function fadeToward(weight, target, elapsedMs, fadeMs = MARKER_FADE_MS) {
+  if (!(fadeMs > 0)) return target;
+  const step = Math.max(0, elapsedMs || 0) / fadeMs;
+  return target > weight ? Math.min(target, weight + step) : Math.max(target, weight - step);
+}
+/**
+ * The first point of `points` lying beyond `miles` along them, or `points.length` when none does: where the route still
+ * ahead of a traveller begins. Allocates nothing, since it runs for every marker on every frame.
+ */
+export function routeIndexAfter(points, miles) {
+  let gone = 0;
+  for (let index = 1; index < points.length; index++) {
+    const a = points[index - 1], b = points[index];
+    gone += Math.hypot(b.x - a.x, b.y - a.y);
+    if (gone > miles) return index;
+  }
+  return points.length;
+}
+/**
+ * How much the marker is drawn, from 0 (the figure) to 1 (the marker), eased over MARKER_FADE_MS of real time.
+ *
+ * ceiling: one entry per traveller ever drawn in this page, never pruned, as `GaitClock` keeps; prune by age if a class ever
+ * draws thousands.
+ */
+export class MarkerFade {
+  constructor() { this.travellers = new Map(); }
+  /** Whether somebody is still being drawn as a marker, or fading from one: a traveller who has just arrived still is. */
+  fading(id) { return (this.travellers.get(id)?.weight || 0) > 0; }
+  /**
+   * Somebody first seen on this page, or not drawn for a second or more (out of sight, the tab hidden), starts where they
+   * belong: a fade is for a change a student watches, not for a page that has just opened.
+   */
+  weight(id, { heightsPerSecond, now, instant = false }) {
+    let traveller = this.travellers.get(id);
+    const fresh = !traveller || !(now - traveller.at < 1000);
+    if (!traveller) { traveller = { weight: 0, marker: false, at: now }; this.travellers.set(id, traveller); }
+    traveller.marker = wantsMarker(heightsPerSecond, traveller.marker);
+    const target = traveller.marker ? 1 : 0;
+    traveller.weight = instant || fresh ? target : fadeToward(traveller.weight, target, now - traveller.at);
+    traveller.at = now;
+    return traveller.weight;
   }
 }
 /**

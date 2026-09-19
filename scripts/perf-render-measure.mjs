@@ -93,6 +93,26 @@ try {
     if (view === 'land') await press('home');
     if (view === 'town') await press('gonzales');
     if (view === 'whole') { await press('follow'); for (let i = 0; i < 14; i++) await press('out'); }
+    // Somebody on the road, watched close up: the main person walks to Gonzales and home again for the whole phase, and their
+    // portrait is pressed, which is how a student watches somebody go (docs/FAMILY_PANEL.md). Added 2026-09-19 with the
+    // marker a fast traveller is drawn as (public/motion.js `wantsMarker`); a build without it draws the walking figure.
+    if (view === 'traveller') {
+      await press('follow');
+      const main = await page.evaluate(() => {
+        const world = window.__snapshot.world, id = world.household?.principalId || world.entities.find(entity => entity.principal)?.id;
+        const command = body => fetch('/api/command', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: `${body.action}-${crypto.randomUUID()}`, entityId: id, ...body }) });
+        const send = async to => { await command({ action: 'stop-chore' }); await command({ action: 'travel', destination: to, mode: 'foot' }); };
+        // Back and forth: whenever they are standing somewhere, off to the other end.
+        clearInterval(window.__perfTraveller);
+        window.__perfTraveller = setInterval(() => {
+          const me = window.__snapshot.world.entities.find(entity => entity.id === id);
+          if (me && !me.travel) send(me.location?.siteId === 'gonzales' ? world.household.homeSiteId : 'gonzales');
+        }, 700);
+        return id;
+      });
+      await page.waitForFunction(id => window.__snapshot.world.entities.find(entity => entity.id === id)?.travel, main, { timeout: 30000 });
+      await page.locator(`.panel-portrait[data-portrait="${main}"]`).click();
+    }
     await page.waitForTimeout(2000);
     await page.evaluate(() => { const p = window.__perf; Object.assign(p, { raf: 0, rafMs: [], snapshots: 0, snapshotMs: [], longTasks: [], created: 0, inserted: 0, creators: {} }); p.groundBefore = window.__groundDrawn || 0; window.__groundWhy = {}; });
     const before = await metrics();
