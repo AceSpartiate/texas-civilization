@@ -15,7 +15,7 @@ import { createClassroom, PACES } from '../server/app.mjs';
 import { createSettledWorld, keepFoundingFamilies } from '../tests/support/settled.mjs';
 // A settled class: these families are at home under a roof, as every class began before arrivals
 // (docs/SETTLING_IN.md step 2). This proves the work, not the arrival - tests/arrival.test.mjs does that.
-import { visualVariant } from '../public/motion.js';
+import { visualVariant, MARKER_BELOW } from '../public/motion.js';
 import { meetFamily } from './support/meet-family.mjs';
 
 const require = createRequire(import.meta.url);
@@ -75,16 +75,39 @@ try {
   // animation clip set is rebuilt every frame, so it has to be accumulated as it goes, and
   // the hunt now stops in the middle to ask - so this runs in two halves with the family's
   // answer between them, exactly as a class would.
-  const follow = (untilAsk) => page.evaluate(async (stopAtAsk) => {
-    window.__huntWatch = window.__huntWatch || { clips: [], stages: [], timberSpots: [], sawSmoke: false, marks: [] };
+  //
+  // The road is watched from further out. In the family's frame here a figure is at its 7-pixel floor and a walker covers
+  // about ten of his own heights a real second at the Brisk pace, so on the road he is drawn as a marker (public/motion.js
+  // `MARKER_ABOVE`, owner's choice 2026-09-19) and his walk could be caught only in the 600 ms he fades into it as he sets
+  // out - which a busy machine may not paint (found 2026-09-19 on a clean checkout). So while he is on the road the view is
+  // taken out, a press at a time, until his drawn speed - the miles the server says a tick carries him, at this camera's
+  // pixels a mile, over the real tick, against the figure's drawn height: the page's own formula - is under MARKER_BELOW
+  // with a margin, where he is a figure walking; in the timber it goes back to the family's frame, where the timber checks
+  // below were always made.
+  const follow = (untilAsk) => page.evaluate(async ({ stopAtAsk, variant, below }) => {
+    window.__huntWatch = window.__huntWatch || { clips: [], stages: [], timberSpots: [], sawSmoke: false, marks: [], road: [] };
     const seen = window.__huntWatch;
     const clips = new Set(seen.clips), stages = new Set(seen.stages);
+    const nav = view => document.querySelector(`#map-nav [data-view=${view}]`);
+    let pressed = 0;
     const start = performance.now();
     while (performance.now() - start < 300000) {
       const world = window.__snapshot?.world;
       const hunter = world?.entities.find(entity => entity.id === 'hh-1-mateo');
       if (!hunter) break;
       for (const clip of window.__animationClips || []) clips.add(clip);
+      const camera = window.__camera, now = performance.now();
+      if (hunter.travel && camera?.figure) {
+        const miles = Number.isFinite(hunter.travel.step) ? hunter.travel.step : hunter.travel.speed;
+        const speed = miles * camera.scale / camera.figure / (window.__snapshot.tickMs / 1000);
+        if (speed >= below * 0.8) { if (now - pressed > 200) { nav('out').click(); pressed = now; } }
+        else {
+          const painted = [...(window.__animationClips || [])];
+          seen.road.push({ doing: hunter.chore?.doing || null, speed: +speed.toFixed(3), scale: +camera.scale.toFixed(1), figure: camera.figure,
+            weight: window.__travelMarkers?.get('hh-1-mateo')?.weight ?? 0, pageSpeed: window.__travelMarkers?.get('hh-1-mateo')?.heightsPerSecond ?? null,
+            walk: painted.some(clip => clip.startsWith(`${variant}-walk`)), carry: painted.includes(`${variant}-carry`) });
+        }
+      } else if (!hunter.travel && camera && !camera.following && now - pressed > 200) { nav('follow').click(); pressed = now; }
       if ((window.__animationClips || new Set()).has('musket-smoke')) seen.sawSmoke = true;
       if (hunter.chore?.doing) stages.add(hunter.chore.doing);
       for (const mark of window.__viewMarks || []) {
@@ -102,7 +125,7 @@ try {
     }
     seen.clips = [...clips]; seen.stages = [...stages];
     return { ...seen, asking: Boolean(window.__snapshot?.world.entities.find(e => e.id === 'hh-1-mateo')?.chore?.ask) };
-  }, untilAsk);
+  }, { stopAtAsk: untilAsk, variant: visualVariant('hh-1-mateo', false), below: MARKER_BELOW });
 
   // ------------------------------------------------------ the work stops and asks the family
   const atAsk = await follow(true);
@@ -167,6 +190,17 @@ try {
   ok(`the hunter's own poses change with the stages: ${[...Object.values(wanted), walking[0]].join(', ')}`);
   const bound = { ...wanted, walking: walking[0] };
   ok('and they are drawn carrying something home, which the carry cycle had never been used for outside the harvest');
+  // On the road, a whole figure walking at a walk: under MARKER_BELOW by the page's own formula, the page itself agreeing, no
+  // marker drawn over him (weight 0), and the cycle painted - on many frames of each road, not one lucky frame of a fade.
+  const onFoot = key => watched.road.filter(frame => frame[key] && frame.weight === 0 && frame.speed < MARKER_BELOW && frame.pageSpeed !== null && frame.pageSpeed < MARKER_BELOW);
+  const road = { out: onFoot('walk'), home: onFoot('carry') };
+  const disagree = watched.road.filter(frame => frame.pageSpeed > 0 && Math.abs(frame.pageSpeed - frame.speed) > frame.speed * 0.05);
+  assert.equal(disagree.length, 0, `the page measured his speed differently from its formula: ${JSON.stringify(disagree.slice(0, 3))}`);
+  for (const [way, frames] of Object.entries(road)) {
+    assert.ok(frames.length >= 12, `on the road ${way} he was drawn as a walking figure on ${frames.length} frames: ${JSON.stringify(watched.road.slice(-5))}`);
+  }
+  const widest = Math.max(...[...road.out, ...road.home].map(frame => frame.speed));
+  ok(`on the road he is a figure, walking out (${road.out.length} frames) and carrying home (${road.home.length}), drawn at no more than ${widest.toFixed(2)} of his heights a second, under ${MARKER_BELOW}, at ${road.out[0].scale} pixels a mile`);
 
   // --------------------------------------------------------------------------- and the shot
   assert.ok(watched.sawSmoke, `no smoke was ever drawn: ${JSON.stringify(watched.clips)}`);
@@ -196,6 +230,8 @@ try {
       screenSpreadPixels: spread,
       clipsBound: watched.clips.sort(),
       smokeDrawn: watched.sawSmoke,
+      // The road watched from further out, where a walker is a figure (public/motion.js MARKER_BELOW).
+      road: { markerBelow: MARKER_BELOW, walkingOutFrames: road.out.length, carryingHomeFrames: road.home.length, pixelsAMile: road.out[0].scale, figurePixels: road.out[0].figure, mostHeightsASecond: +widest.toFixed(3) },
     },
     notProved: [
       'That it reads as hunting to a twelve-year-old. Four stages, four poses, movement through the trees and a puff of smoke are what is measurably on screen; whether that says "hunting" is a classroom question.',
