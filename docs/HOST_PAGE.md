@@ -85,7 +85,8 @@ the family's own page is told (`household.absent`). `absent` is true or absent, 
 ## 3. Proof
 
 - `tests/absence.test.mjs` (4): the marker; the director's, questions answered at once, nothing held; back again; the
-  server marking from presence and unmarking the tick after the page opens.
+  server marking from presence and unmarking the tick after the page opens, on a held clock so the grace is exact (149 ms
+  present, 150 ms absent) however loaded the computer is.
 - `tests/host-live.test.mjs` (6): the panel in words and no coin or glory, nothing to a student; every word; what waits;
   the Rumor Mill; the spotlight lit, passing, and a family's own; the war's spotlights across all three periods.
 - `tests/host-page.test.mjs` (4): the page's words.

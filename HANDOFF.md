@@ -1,5 +1,18 @@
 # Claude handoff — Astra foundation
 
+**The absence test on a held clock, 2026-09-19:** `tests/absence.test.mjs`. Its server test failed once in a full `npm test`
+on a loaded computer (2026-09-18): it slept 80 ms after closing the page and asserted the family was not yet absent under a
+150 ms grace, and the sleep overran. Reproduced under a 120-thread busy loop at 24 runs in parallel: 98/100 and 39/40, every
+failure *"marked absent inside the grace"*. Now the test holds `Date` still (`t.mock.timers`, Date only; ticks, stream and
+close stay real) and moves it by hand, waiting on conditions instead of sleeps: open past twice the grace is present; the
+close waited for until the Host reads *away*; 149 ms later still present after a whole tick; 150 ms absent; reopened, present
+the next tick. Stronger than before (the exact boundary, and open beyond the grace). Six regressions injected into
+`server/app.mjs` (`>` for `>=`, a grace 1 ms short, an open page not trusted, never unmarked, the close time not recorded,
+`markAbsences` not called) each failed this test and only it. Under the same load: 100/100; in 10 full suites run 5 at a time
+beside a 24-thread busy loop it passed 10/10. **Not fixed, seen in those suites:** `pace.test.mjs` *"slowing a class down"*
+failed 7 of 10 and `save-cadence.test.mjs` *"a page is sent a snapshot"* 1 of 10, both real-time tests of their own. No
+product code changed.
+
 **The map out to the Sabine and the Rio Grande, 2026-09-18:** [MAP_ACCURACY.md](docs/MAP_ACCURACY.md) §8. Owner, by
 multiple choice: all three rivers, USGS NHD with the edge units, full relief and woods outside the box. The map reaches
 93.5-100.5°W, 25.8-32°N, built by `scripts/build-outside.mjs` from data downloaded 2026-09-18

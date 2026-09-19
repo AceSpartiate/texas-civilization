@@ -113,31 +113,56 @@ function openStream(port, cookie) {
   });
 }
 
-test('the server marks a family absent when its page has been closed for the grace, and present the tick after it opens again', async () => {
+// Waits for something the server does in its own time (a tick, a closed stream noticed) instead of sleeping a guess at how
+// long it takes. The limit only turns a hang into the assertion that follows; nothing passes because of it.
+async function settle(done, limitMs = 30000) {
+  const end = performance.now() + limitMs;
+  while (!(await done()) && performance.now() < end) await delay(5);
+}
+
+// The grace is measured on the server's clock (`Date.now` in `markAbsences`), and this test holds that clock still and moves
+// it by hand, so "inside the grace" and "past it" are exact. It once slept 80 ms against a 150 ms grace and failed under a
+// loaded machine (2026-09-18) because the sleep overran. The ticks, the stream and its close stay real and are waited for.
+test('the server marks a family absent when its page has been closed for the grace, and present the tick after it opens again', async t => {
   const dir = mkdtempSync(join(tmpdir(), 'texas-absent-'));
-  const app = createClassroom({ seed: 'absent-server', playerCount: 5, savePath: join(dir, 'save.json'), tickMs: 20, absentMs: 150 });
+  const absentMs = 150;
+  const app = createClassroom({ seed: 'absent-server', playerCount: 5, savePath: join(dir, 'save.json'), tickMs: 20, absentMs });
+  // A whole tick has run since this was called: a commit is a tick here (no order is sent meanwhile), and the revision it
+  // raises was read after whatever came before.
+  const nextTick = async () => { const from = app.state.revision; await settle(() => app.state.revision > from); };
+  const absent = () => app.state.world.households[id].absent;
+  let id;
   try {
     const port = await app.listen(0, '127.0.0.1'), call = caller(port);
     const families = await Promise.all(Array.from({ length: 5 }, (_, i) => call('/api/join', { name: `Family ${i}`, code: app.state.sessionCode })));
     const host = await call('/api/host', { key: app.state.hostKey });
     assert.equal((await call('/api/command', { id: 'absent-host-start', action: 'start' }, host.cookie)).status, 200, 'the class did not start');
-    const first = families[0], id = first.body.world.householdId;
+    const first = families[0];
+    id = first.body.world.householdId;
+    t.mock.timers.enable({ apis: ['Date'], now: Date.now() });
     const stream = await openStream(port, first.cookie);
-    await delay(120);
-    assert.equal(app.state.world.households[id].absent, undefined, 'a family with its page open was marked absent');
+    // Open for longer than the grace is still present.
+    t.mock.timers.tick(absentMs * 2);
+    await nextTick();
+    assert.equal(absent(), undefined, 'a family with its page open was marked absent');
     await stream.close();
-    await delay(80);
-    assert.equal(app.state.world.households[id].absent, undefined, 'a family was marked absent inside the grace');
-    await delay(200);
-    assert.equal(app.state.world.households[id].absent, true, 'a family gone past the grace was not marked absent');
+    let presence;
+    await settle(async () => (presence = (await call('/api/state', null, host.cookie)).body.presence?.households?.[id]) === 'away');
+    assert.equal(presence, 'away', 'the server never noticed the page close');
+    t.mock.timers.tick(absentMs - 1);
+    await nextTick();
+    assert.equal(absent(), undefined, 'a family was marked absent inside the grace');
+    t.mock.timers.tick(1);
+    await nextTick();
+    assert.equal(absent(), true, 'a family gone past the grace was not marked absent');
     const hostView = await call('/api/state', null, host.cookie);
     assert.equal(hostView.body.presence?.households?.[id], 'absent', 'the Host was not told the family is absent');
     assert.equal(hostView.body.world.live.families.find(f => f.id === id).absent, true);
     // A family that never joined is nobody's and never absent.
     for (const household of Object.values(app.state.world.households)) if (!household.played) assert.equal(household.absent, undefined);
     const again = await openStream(port, first.cookie);
-    await delay(120);
-    assert.equal(app.state.world.households[id].absent, undefined, 'a family whose page opened again was still absent');
+    await nextTick();
+    assert.equal(absent(), undefined, 'a family whose page opened again was still absent');
     assert.equal((await call('/api/state', null, host.cookie)).body.presence.households[id], 'here');
     await again.close();
   } finally {
