@@ -121,29 +121,59 @@ test('a timed write that fails puts the class back to its last save, paused and 
   } finally { await c.dispose(); }
 });
 
+// Waits for something the server does in its own time (a broadcast `broadcastSoon` holds back, a tick) instead of sleeping a
+// guess at how long it takes, as tests/absence.test.mjs does. The limit only turns a hang into the assertion that follows;
+// nothing passes because of it.
+async function settle(done, limitMs = 30000) {
+  const end = performance.now() + limitMs;
+  while (!done() && performance.now() < end) await delay(5);
+}
+
+// "Was sent nothing" and "was sent one" cannot be waited for, so each step ends on a barrier: a third family's page opening
+// or closing changes how many families are here (`connected`), which every page sees, in a broadcast after everything sent
+// before it, and a page's frames arrive in the order they were written. What a page was sent in a step is what it was sent
+// before that barrier. The steps once slept 500 ms each and failed under a loaded computer (2026-09-19) when the held-back
+// broadcast arrived later than that.
 test('a page is sent a snapshot when what it sees changed or it sent the order, and every page is sent every tick', async () => {
   const c = await classroom();
   try {
+    const third = await c.call('/api/join', { code: c.app.state.sessionCode, name: 'C' });
     const pageA = await c.open(c.a.cookie), pageB = await c.open(c.b.cookie);
-    await delay(500);
-    const counts = () => [pageA.frames.length, pageB.frames.length];
-    let [fromA, fromB] = counts();
+    const pages = [pageA, pageB];
+    let marks = [0, 0];
+    // Waits until both pages have been shown `here` families here, and returns what each was sent since the last barrier and
+    // before this one.
+    const barrier = async here => {
+      const at = () => pages.map((page, p) => page.frames.findIndex((frame, i) => i >= marks[p] && frame.connected === here));
+      await settle(() => at().every(i => i !== -1));
+      const ends = at();
+      assert.ok(ends.every(i => i !== -1), `a page was never shown ${here} families here`);
+      const sent = pages.map((page, p) => page.frames.slice(marks[p], ends[p]));
+      marks = ends.map(i => i + 1);
+      return sent;
+    };
+    // Both pages open, and the broadcast held back for them has arrived.
+    await barrier(2);
     const id = c.principal('hh-1');
     assert.equal((await c.order(c.a.cookie, { action: 'set-auto', entityId: id, auto: true })).status, 200);
-    await delay(500);
-    assert.equal(pageA.frames.length, fromA + 1, 'the family that gave the order was not shown it');
-    assert.equal(pageA.frames.at(-1).world.entities.find(one => one.id === id).auto, true);
-    assert.equal(pageB.frames.length, fromB, 'a page whose view did not change was sent the class again');
+    // The order's broadcast has been sent once its sender has it, so the barrier cannot be folded into it.
+    await settle(() => pageA.frames.length > marks[0]);
+    const pageC = await c.open(third.cookie);
+    let [toA, toB] = await barrier(3);
+    assert.equal(toA.length, 1, 'the family that gave the order was not shown it');
+    assert.equal(toA[0].world.entities.find(one => one.id === id).auto, true);
+    assert.equal(toB.length, 0, 'a page whose view did not change was sent the class again');
     // The same order again changes nothing anybody sees; its sender still hears back.
-    [fromA, fromB] = counts();
     assert.equal((await c.order(c.a.cookie, { action: 'set-auto', entityId: id, auto: true })).status, 200);
-    await delay(500);
-    assert.equal(pageA.frames.length, fromA + 1, 'the page that sent an order was not answered with a snapshot');
-    assert.equal(pageB.frames.length, fromB);
+    await settle(() => pageA.frames.length > marks[0]);
+    pageC.close();
+    [toA, toB] = await barrier(2);
+    assert.equal(toA.length, 1, 'the page that sent an order was not answered with a snapshot');
+    assert.equal(toB.length, 0);
     // Ticks reach everybody.
     assert.equal((await c.call('/api/command', { id: 'cadence-start-1', action: 'start', anyway: true }, c.host.cookie)).status, 200);
     c.app.setPace(40);
-    for (let i = 0; i < 100 && !(pageA.frames.some(f => f.world.tick >= 4) && pageB.frames.some(f => f.world.tick >= 4)); i++) await delay(25);
+    await settle(() => pages.every(page => page.frames.some(f => f.world.tick >= 4)));
     for (const page of [pageA, pageB]) {
       const ticks = new Set(page.frames.map(f => f.world.tick));
       for (let tick = 1; tick <= 4; tick++) assert.ok(ticks.has(tick), `a page missed tick ${tick}`);
