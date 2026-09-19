@@ -1,0 +1,100 @@
+{
+  "date": "2026-09-19",
+  "sameComputerOnly": true,
+  "results": [
+    {
+      "injection": "cypress swamp filed as marsh again, as in the week of 2026-09-15",
+      "expected": [
+        "the country of 1836 stands where the research puts it"
+      ],
+      "failed": [
+        "the country of 1836 stands where the research puts it, and every biome is one the simulation can read"
+      ],
+      "caught": true,
+      "onlyThose": true
+    },
+    {
+      "injection": "the hill savanna 40 in 100 closed woods again",
+      "expected": [
+        "the Hill Country is a savanna"
+      ],
+      "failed": [
+        "the Hill Country is a savanna with cedar on its breaks, not a wood"
+      ],
+      "caught": true,
+      "onlyThose": true
+    },
+    {
+      "injection": "a town's fields grown up in pecan",
+      "expected": [
+        "Béxar and the Alamo stand among fields"
+      ],
+      "failed": [
+        "Béxar and the Alamo stand among fields, with a line of trees on the river and no woods"
+      ],
+      "caught": true,
+      "onlyThose": true
+    },
+    {
+      "injection": "a dry prairie creek given its strip of timber again",
+      "expected": [
+        "a creek keeps its timber only where it runs all year",
+        "a family with no timber on its land still raises a house"
+      ],
+      "note": "the second is that test's premise: its Matagorda family's land gains the dry creeks' timber, so it is no longer a family with none",
+      "failed": [
+        "a creek keeps its timber only where it runs all year: none on a dry prairie creek, a few trees in the post oak",
+        "a family with no timber on its land still raises a house: a jacal, which wants no logs"
+      ],
+      "caught": true,
+      "onlyThose": true
+    },
+    {
+      "injection": "the outside layer read in another numbering of the stands",
+      "expected": [
+        "the country outside the box is filed by the same rules"
+      ],
+      "failed": [
+        "the country outside the box is filed by the same rules, so the woods meet at its edge"
+      ],
+      "caught": true,
+      "onlyThose": true
+    },
+    {
+      "injection": "a class of the week of 2026-09-15 read on the biomes",
+      "expected": [
+        "a class made in the week of 2026-09-15 opens on its own grid"
+      ],
+      "failed": [
+        "a class made in the week of 2026-09-15 opens on its own grid, its felled trees where they fell"
+      ],
+      "caught": true,
+      "onlyThose": true
+    },
+    {
+      "injection": "a jacal wanting logs for its posts",
+      "expected": [
+        "a family with no timber on its land still raises a house"
+      ],
+      "failed": [
+        "a family with no timber on its land still raises a house: a jacal, which wants no logs"
+      ],
+      "caught": true,
+      "onlyThose": true
+    },
+    {
+      "injection": "the hunting ground placed three steps short of the cover",
+      "expected": [
+        "a family hunts the cover nearest its own house",
+        "a stalk only ever moves somebody about the place they are standing"
+      ],
+      "note": "the second, an older test, also reads where the ground is",
+      "failed": [
+        "a family hunts the cover nearest its own house, not a named stand miles off, and how near depends on its country",
+        "a stalk only ever moves somebody about the place they are standing"
+      ],
+      "caught": true,
+      "onlyThose": true
+    }
+  ]
+}

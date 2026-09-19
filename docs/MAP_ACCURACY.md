@@ -154,20 +154,36 @@ tiles as before: the drawing is the rendering work's.
 
 ## 5. The land
 
-Ten land classes and six relief classes on every eighth-of-a-mile cell (`sim/land.mjs`, `FIC-GONZ-057`):
+**Amended 2026-09-19: the biomes of 1836** ([BIOMES](BIOMES.md) §7, §13). Since then the land's classes are the woods'
+stands read as the country of 1836, one wash each, twenty-three drawn classes (26 ids, five bits of a cell; `prairie` and
+`brush` are no longer written) and six relief classes on every eighth-of-a-mile cell (`sim/land.mjs`, `FIC-GONZ-057`,
+`FIC-GONZ-060`). Relief, water and the edge of the data are cell for cell what they were (checked by decoding both files).
 
-| land | from | share of the box |
+| land | from | share of the box (2026-09-19) |
 |---|---|---|
 | water | 3DEP no-data, and ground under 0.3 m joined to the Gulf | 14.6 |
-| prairie (tallgrass and coastal) | LANDFIRE coastal, blackland, tallgrass and other prairie settings | 27.4 |
-| marsh (coastal marsh and salt prairie) | LANDFIRE marsh, and its prairie inside EPA 34g and 34h | 1.3 |
-| sand (sand and beach) | land under 5 m by water that looks out six miles on open water to the SSE | 0.2 |
-| savanna (post oak savanna) | LANDFIRE post oak settings | 12.5 |
-| floodplain (bottomland and floodplain forest) | LANDFIRE floodplain and riparian settings | 14.5 |
-| pine (pine forest) | LANDFIRE pine settings (the Lost Pines at Bastrop, the east) | 10.8 |
-| live-oak | LANDFIRE coastal live oak | 0.5 |
-| brush (mesquite and thornscrub) | LANDFIRE Tamaulipan and mesquite settings; EPA 31c | 6.4 |
-| hill-country (oak and juniper savanna) | LANDFIRE Edwards Plateau settings | 11.1 |
+| tallgrass-prairie | LANDFIRE 14220, 14230, 14290 (the blackland and the San Antonio prairie) | 12.0 |
+| coastal-prairie | LANDFIRE 14340 | 11.6 |
+| mixedgrass-prairie | LANDFIRE 11320, 11490, 11480, 10940, 15040 (the plateau tops) | 1.2 |
+| salt-prairie | LANDFIRE 14860, round the bays | 0.4 |
+| marsh | LANDFIRE 14900, 14950, and coastal or tallgrass prairie inside EPA 34g, 34h, 34i | 0.9 |
+| sand (beach and dunes) | LANDFIRE 14370 and barren; land under 5 m looking out six miles on open water to the SSE | 0.3 |
+| mesquite-savanna (mesquite prairie) | LANDFIRE 14380, 14400, 14420; thornscrub 13900, 13920 north-east of the Nueces | 8.3 |
+| chaparral | thornscrub south-west of the Nueces; 14390, 11110 | 0.4 |
+| savanna (post oak) | LANDFIRE 15190, 14100 | 10.4 |
+| cross-timbers | LANDFIRE 13080 | 1.0 |
+| pine | LANDFIRE 13710, 13780, 13580 (the Lost Pines), 14580 outside the Big Thicket | 6.5 |
+| longleaf | LANDFIRE 13480, 14510 | 4.0 |
+| thicket (the Big Thicket) | LANDFIRE 13230, 15060; pine inside 30.1-30.9°N, 94-95°W in EPA 35e/35f | 1.3 |
+| floodplain (bottomland and creek timber) | LANDFIRE floodplain (with cane on the coast) and riparian settings | 13.4 |
+| canebrake | Caney Creek and Oyster Creek (Holley, `HIST-TEX-100`) | 0.2 |
+| cypress-swamp | LANDFIRE 14800 | 0.2 |
+| thorn-riparian (river woods of the brush country) | LANDFIRE 14760, 11550 | 0.9 |
+| palm-grove | 14760 in EPA 34f or by the Rio Grande east of 98°W (none in the box) | 0 |
+| live-oak (mottes) | LANDFIRE 13380, 13390 | 0.5 |
+| hill-country (savanna) | LANDFIRE 13830 | 7.9 |
+| cedar-brake | LANDFIRE 15230, 15240, 13930 | 3.2 |
+| fields | Béxar's farmland and every town's cleared ring (`FIC-GONZ-062`) | 0.05 |
 
 Inland open water (modern reservoirs, wide river beds) and gaps in the vegetation take the class round them.
 
@@ -186,9 +202,8 @@ brush. Desert begins with the Chihuahuan Deserts (EPA Level III ecoregion 24) be
 west of the box's edge at 99°W. **Buttes** likewise: the mesas and buttes of Texas are the Edwards Plateau's western edge
 and the Trans-Pecos, outside the box; inside it the hill country's knobs are *steep*.
 
-`ceiling:` LANDFIRE's dune, sand-sheet and saline prairie settings are filed under prairie in the shipped stand grid, so
-beach and salt prairie are recovered from the shore and EPA's ecoregions; reading the vegetation raster again would give
-them directly. `ceiling:` relief classes are majority-voted into coarser bands, so a narrow bluff disappears zoomed out.
+Since 2026-09-19 LANDFIRE's dune and saline prairie settings are their own classes (the ceiling that said they were filed
+under prairie is gone); the Gulf beach band is still recovered from the shore. `ceiling:` relief classes are majority-voted into coarser bands, so a narrow bluff disappears zoomed out.
 `ceiling:` a pass narrower than a quarter mile through a barrier island closes in the sea outline.
 
 ## 6. Formats for the renderer
@@ -217,12 +232,15 @@ Coordinates are the game's miles (x east, y south of the confluence). A **flat l
 ### 6.2 `GET /terrain/colonies-land.json` (`landData().header`)
 
 ```
-{ kind: 'colonies-land', version: 1, sources, builtFrom,
-  cellByte:  'low four bits the land class, high four bits the relief class',
+{ kind: 'colonies-land', version: 2, landBits: 5, sources, builtFrom,   // since 2026-09-19; version 1 had four bits
+  cellByte:  'low five bits the land class, the bits above the relief class',
   shadeByte: 'hillshade from the north-west, 0 dark .. 255 bright, 128 level; steps of 8',
-  land:   [{ id, name, colour }]  × 11   // index = low nibble: none, water, prairie, marsh, sand, savanna,
-                                         //   floodplain, pine, live-oak, brush, hill-country
-  relief: [{ id, name, note }]    × 6    // index = high nibble: flat, rolling, hills, steep, bluff, escarpment
+  land:   [{ id, name, colour }]  × 26   // index = low five bits: none, water, prairie (unused), marsh, sand, savanna,
+                                         //   floodplain, pine, live-oak, brush (unused), hill-country, tallgrass-prairie,
+                                         //   coastal-prairie, mixedgrass-prairie, salt-prairie, mesquite-savanna, chaparral,
+                                         //   cross-timbers, longleaf, thicket, canebrake, cypress-swamp, cedar-brake,
+                                         //   palm-grove, fields, thorn-riparian
+  relief: [{ id, name, note }]    × 6    // index = the bits above: flat, rolling, hills, steep, bluff, escarpment
   native: { cell: 0.125, columns: 2424, rows: 2208, minX: -93, minY: -173, file: 'colonies-land.bin.gz' },
   bands: [{ cell: 0.5|2|8, columns, rows, minX: -93, minY: -173,
             classes: base64 (one cellByte a cell, row by row from the north-west),
@@ -420,8 +438,10 @@ the view over the box's middle cost twice what it had: that is what `aroundHole`
 ### 8.5 Ceilings
 
 - `ceiling:` the map ends at 93.5-100.5°W, 25.8-32°N (§2); the camera stops there.
-- `ceiling:` Mexico is mesquite brush wherever it is land, with no LANDFIRE to say otherwise; its heights are real. INEGI's
-  land-use series, or a vegetation model that crosses the border, is the way out.
+- `ceiling:` Mexico has no LANDFIRE; since 2026-09-19 it is chaparral, mesquite prairie on the delta plain round Matamoros
+  (east of 98°W, under 30 m), the river woods on the Rio Grande's south bank (palms east of 98°W), and oak savanna above 800 m
+  (§9, `HIST-TEX-108`, `FIC-GONZ-060`); its heights are real. INEGI's land-use series, or a vegetation model that crosses the
+  border, is the way out.
 - `ceiling:` outside the box the woods tiles have no creek strip (the creeks the map draws are the box's), and Louisiana's
   coastal marsh is LANDFIRE's alone (EPA's ecoregions are Texas's).
 - `ceiling:` the strip of the box's grid past its edge (under a mile at the west, a third of a mile at the south) is drawn with
@@ -432,3 +452,27 @@ the view over the box's middle cost twice what it had: that is what `aroundHole`
 - `ceiling:` no settlement outside the box is placed; the towns and ferries of that country are a later item, with claims.
 - `ceiling:` the box's relief classes on its edge ring keep the box's majority vote, which counted the empty strip past it as
   flat; the page draws no relief class, so nothing shows it.
+
+## 9. The biomes of 1836 (2026-09-19)
+
+Owner, 2026-09-19: the map brought in line with the natural biomes of Texas; woods only where woods make sense; the woods round
+the Alamo cleared to fields. Built from [BIOMES](BIOMES.md) §7; what was built, where it differs and the evidence are its §13.
+
+- **Files.** The box's woods grid and land were rebuilt on purpose (`colonies-woods.bin.gz` 629 → 706 KB, its header 9 → 10 KB;
+  `colonies-land.bin.gz` 1,034 → 1,133 KB, its header 185 → 196 KB), and so was the outside layer (`outside-land.json.gz`
+  170 → 180 KB, `outside-woods.bin.gz` 420 → 480 KB); `outside-province.json.gz` came out byte for byte as it was. The page
+  loads the two land headers (376 KB with the outside's, 21 KB more than before); the woods grids never leave the server. The
+  grid of 2026-09-15 is kept beside the new one, `colonies-woods-2016.*` (638 KB), read only by a class made that week. The
+  elevation, water, map and province files are byte for byte as they were; `tests/map-outside.test.mjs` holds the new hashes.
+- **The land file's cell** is five bits of land class and three of relief (`landBits: 5`, version 2), where it was four and
+  four: the biomes are twenty-six ids. `public/land-levels.js` `decodeLand`, `sim/land.mjs` and both builds read either.
+- **Speed** (`scripts/perf-render-measure.mjs`, six-times CPU throttle, same computer): the same before and after - painted
+  frames 10.2-10.5 a second in every view, a frame 12-14 ms following the family and 5 ms zoomed out, before and after alike
+  (`docs/evidence/perf-render-biomes-before-2.json`, `-after.json`, `-after-2.json`). The washes are one picture per grid as
+  before (`landPictureData`): more classes cost nothing to draw. A first pair of runs was taken while this computer was loaded
+  by other work and is not a comparison (the before run's CPU was 80-90 in 100 busy); it was discarded.
+- **Screenshots**, looked at: `docs/evidence/biomes/before-*.png` and `after-*.png` - the whole map (the blackland's gold belt,
+  the coast's green-gold, the tawny south-west and the dark pine east now read apart), Béxar and the Alamo close in (the closed
+  woods round the compound gone; a tan band of fields along the river; the galleries of Alazán and Apache creeks, which run all
+  year, still west of the town), Béxar's fields, Gonzales, Harrisburg's coastal prairie, the Piney Woods and the Big Thicket, the
+  Lost Pines, the Hill Country (the cedar breaks darker at the Balcones), South Texas past the Nueces, and pines close up.

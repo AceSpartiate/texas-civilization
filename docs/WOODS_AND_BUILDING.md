@@ -136,8 +136,34 @@ cottonwood `cottonwood`, pine and cedar the nearest tree tinted, mesquite `scrub
 - **The page** (`public/woods-view.js`): close up, when the view covers no more than 0.4 square miles, every tree in view is drawn where it stands, back to front, at a pole's, a log tree's or a large tree's height; at middle distance, out to twelve miles across, timber patches are a canopy wash and brush a paler one under the scattered ground detail, whose trees stand only in timber; further out, to ninety miles, the shade of timber a mile at a time. **Amended 2026-09-17** (owner: *"Rivers and forests pop in and out of their places during zoom"*; [PERFORMANCE_RENDER](PERFORMANCE_RENDER.md) *Zoom*): each layer now hands over across a band instead of at one number (`WOODS_BANDS`, `woodsLayers`) - the trees fade in from 1 square mile to 0.4 over a canopy kept at 45 in 100 under them, the patches hand over to the shade between eight and twelve miles across, and the shade fades out between sixty and ninety - and the patches and the shade are laid down as smoothed pictures of their cells (`smoothCover`) rather than hard squares, so a stand has a soft edge that stays put. The old woods bands along the rivers are not drawn on such a class, and no lone oak stands in prairie the woods have none in. Each tile is fetched once, six at a time, and a new class starts afresh.
 - `stand-in:` every kind is drawn as the nearest tree the library has (pine as the cottonwood, cedar as the sapling, mesquite as scrub); requested 2026-09-15 in `docs/ART_REQUESTS.md`.
 - `ceiling:` a tree is drawn at the map's symbol size, over a person tall, while it stands at its true spacing, so a closed stand is a solid canopy and savanna of six trees an acre reads a little closer than it is; drawing trees to the ground's scale is the way out if it misleads. `ceiling:` trees are painted with the ground, under people, beasts and houses, so nobody walks behind one; a family's camp in the timber stands among the trees it has not yet felled (step 4).
-- **Amended 2026-09-18: the woods past the box** ([MAP_ACCURACY](MAP_ACCURACY.md) §8). The map now reaches the Sabine and the Rio Grande, and its tiles are drawn there too: where the box's grid has no stand, the tiles read one from the country outside the box (`sim/outside-woods.mjs`, `public/terrain/outside-woods.bin.gz`, LANDFIRE filed into the same stands), so the shade, the patches and the trees run on over the box's edge with no seam. Only the tiles do: `standAt` reads the outside only when it is handed `beyond`, which `sim/woods-view.mjs` alone passes, so hunting, felling, clearing, the going and every save see the woods end at the box exactly as before. `ceiling:` no creek strip past the box (the creeks the map draws are the box's), and Mexico, with no LANDFIRE, is mesquite brush.
+- **Amended 2026-09-18: the woods past the box** ([MAP_ACCURACY](MAP_ACCURACY.md) §8). The map now reaches the Sabine and the Rio Grande, and its tiles are drawn there too: where the box's grid has no stand, the tiles read one from the country outside the box (`sim/outside-woods.mjs`, `public/terrain/outside-woods.bin.gz`, LANDFIRE filed into the same stands), so the shade, the patches and the trees run on over the box's edge with no seam. Only the tiles do: `standAt` reads the outside only when it is handed `beyond`, which `sim/woods-view.mjs` alone passes, so hunting, felling, clearing, the going and every save see the woods end at the box exactly as before. `ceiling:` no creek strip past the box (the creeks the map draws are the box's), and Mexico, with no LANDFIRE, is mesquite brush (since 2026-09-19 chaparral, delta prairie, river woods and hill oaks, §4.6).
 - **Browser** (same computer only, headless Chrome, not LAN): a San Felipe family in the Brazos bottom saw closed timber with gaps round the house and the patches and shade out to twenty-seven miles; a Liberty family in pine woods; a Gonzales family on post oak savanna saw open grass with scattered oaks, thickets and creek timber. No page errors. Tests: `tests/woods-view.test.mjs` (3); fifteen injected regressions, thirteen caught; the other two (a tile's far edge, `- 1e-9`) are the same behaviour, since no tree stands on a tile's edge, and the offset was taken out.
+
+### 4.6 Amended 2026-09-19: the biomes of 1836
+
+Owner, 2026-09-19: *"woods should only exist where woods make sense. some families are going to have a harder time hunting
+because there's no woods. thats okay"*; and, by multiple choice, the woods round the Alamo cleared to fields. Built from
+[BIOMES](BIOMES.md) §7 (what was built and where it differs: its §13).
+
+- **The stands of a class made since** are the biomes of 1836 (`STANDS` in `sim/woods.mjs`; the grid filed by
+  `scripts/build-woods.mjs` through `scripts/terrain/biomes.mjs`): tallgrass, coastal, salt and mixed-grass prairie, dunes,
+  mesquite prairie, chaparral, post oak, cross timbers, pine, longleaf, the Big Thicket, bottomland (with cane in the coastal
+  bottoms), canebrake, cypress swamp, creek timber, the brush country's river woods, palm groves, live oak mottes, hill country
+  savanna, cedar brake, marsh, fields, water. The table in §4.1 is the 2016 grid's and stays true for a class made that week.
+- **Creek timber only where a creek runs all year**: a perennial creek keeps a strip one or two patches wide (`CREEK_STRIP_MILES`,
+  0.045 either side); an intermittent one through post oak, cross timbers or the hills a few scattered trees (`creek-draw`, open
+  ground); through the prairies and the mesquite, none. A river through a town's fields keeps a line of bank trees (`bank`).
+- **Each stand says what may be hunted there** (`quarry`), in the hunt's words only; the hunt still finds a deer.
+- **A class made from 2026-09-15 to 2026-09-19** recorded `landfire-2016` and keeps reading that grid, byte for byte
+  (`public/terrain/colonies-woods-2016.*`, rule `landfire`, `STANDS_2016`): its felled trees are found by their ids where they
+  stood. A new class records `biomes-1836`. No save version moved (§7).
+- **Timber and game, within three miles of each town** (share of ground that is timber, 2016 grid then biomes): Béxar 18 then 7,
+  Goliad 22 then 10, Refugio 25 then 14, Harrisburg 13 then 5, Victoria 39 then 32, San Felipe 40 then 32, Liberty 37 then 31,
+  Matagorda 40 then 35, Gonzales 57 then 46, Washington 54 then 43, Mina 67 then 58, Brazoria 81 then 67, Columbia 54 then 42,
+  Nacogdoches 82 then 83. Of ninety families in three thirty-family classes, 13 have fewer than fifty sound logs standing on
+  their land within a mile of the house (5 on the 2016 grid): a family nobody plays builds them a jacal (§8.1).
+- **A family with no timber still builds**: the jacal wants no logs (`pen-jacal`, `sim/houseplot.mjs`); a Matagorda family with no
+  timber anywhere on its land raises one (`tests/biomes.test.mjs`). Shops sell no logs (docs/TOWNS.md).
 
 ---
 
@@ -250,8 +276,13 @@ puncheon floor, felled logs and a log pile, stumps of pine and pecan.
 
 A class saved before this has no `woods`, no log pile and its house as `{ layout, work }`. It keeps exactly that: its
 timber rule is the old one (`map.woods` is absent), its house is one of the four layouts at the ordinary one-bar
-pace, and `shelterOf` reads it as now. A new class records `map.woods: 'landfire-2016'` and `house.pieces`. No save
-version moves.
+pace, and `shelterOf` reads it as now. A class made from 2026-09-15 recorded `map.woods: 'landfire-2016'` and
+`house.pieces`. No save version moves.
+
+**Amended 2026-09-19.** A class made since records `map.woods: 'biomes-1836'` and reads the biomes (§4.6). A class that
+recorded `landfire-2016` keeps its own grid, kept beside the new one as it was (`colonies-woods-2016.*`): its felled trees,
+logs lying out, hunting ground and trees drawn are exactly what they were. The map's washes (the land's classes) are the new
+ones for every class; they are drawing only.
 
 ---
 
