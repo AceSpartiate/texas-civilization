@@ -203,6 +203,13 @@ chosen on arrival (`docs/LAND_GRANTS.md` §8.2).
   by the markers of the army's march - Donoho's, McCarley's, the fork at Roberts', Burnett's. From Groce's, `findPath`
   now goes to Harrisburg by the ferry (64.4 miles) instead of back through San Felipe (70.6). `ceiling:` the four stops
   are points the road passes, not places, and the fork's other road, to Robbins' ferry on the Trinity, is not drawn.
+- **The crossings** (2026-09-19, owner 2026-09-18; [MAP_ACCURACY](MAP_ACCURACY.md) §10): every place a road meets a river or
+  creek the map draws is a `ford`, a `ferry` or a `bridge` - 135 of them, the record's where it gives one (`HIST-TEX-140` to
+  `-155`: Lynch's, Groce's, the San Felipe, Robinson's, Brigham's, Burnam's, Beeson's, the Trinity's and the Harrisburg
+  ferries, the fords at Gonzales, Mina, La Bahía and Béxar, Vince's bridge) and the game's elsewhere (`FIC-GONZ-090`, `-091`).
+  The Colorado crossing, Beeson's and the Atascosito crossing are ferries now and stay `stage`s: the word stops there and the
+  fleeing families wait there as before. **A ferry is an hour's wait** for anybody going by the roads (`FIC-GONZ-092`), said on
+  the travel control and in the departure; a rider with word crosses without it, and the flight keeps its own flooded waits.
 - **Lanes** join each homestead to its nearest road along the easiest ground (`docs/LAND_GRANTS.md` §8.2).
 
 ### 5.3 The arrival

@@ -346,7 +346,10 @@ export function beginTravel(world, entity, destination, causeId, purpose = 'visi
     if (!can) throw new Error(why);
   }
   const how = riding || mode.id === 'foot' ? '' : mode.id === 'horse' ? ', riding' : ', with the ox and wagon';
-  const departure = record(world, 'departure', { actorId: entity.id, householdId: entity.householdId, text: `${entity.name} left for ${world.map.sites[destination].name}${how}.`, causes: causeId ? [causeId] : [] });
+  // The ferries on the way, said with the going: each is an hour's wait for the boat (sim/travel.mjs `FERRY_MINUTES`).
+  const ferries = (path.ferries || []).map(id => world.map.sites[id]?.name?.replace(/^The /, 'the ')).filter(Boolean);
+  const over = ferries.length ? ` The way goes over ${ferries.length === 1 ? ferries[0] : `${ferries.slice(0, -1).join(', ')} and ${ferries.at(-1)}`}, with a wait for the boat${ferries.length > 1 ? ' at each' : ''}.` : '';
+  const departure = record(world, 'departure', { actorId: entity.id, householdId: entity.householdId, text: `${entity.name} left for ${world.map.sites[destination].name}${how}.${over}`, causes: causeId ? [causeId] : [] });
   // A journey starts where the person is standing. Somebody who stood with the Texian force
   // is a third of a mile from the camp's point, and starting their road at the point drew
   // them jumping there as they set off. A family in its own yard stands a few hundred feet

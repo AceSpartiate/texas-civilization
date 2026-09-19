@@ -16,6 +16,7 @@ import { cutGround, polylineLength } from './geography.mjs';
 import { groundAlong, landAround, onRealLand, segmentPace } from './ground.mjs';
 import { distanceToPolyline } from './terrain.mjs';
 import { woodsRule } from './woods.mjs';
+import { ferryMiles } from './travel.mjs';
 
 /**
  * How far from where they are anybody strikes out across country to a road or a place, in miles.
@@ -86,12 +87,29 @@ const legPace = (route, forward, modeId) => {
   return points.slice(1).map((b, i) => ({ length: distance(points[i], b), ground: ground?.[i] ?? null }));
 };
 
+/** A ferry is on a road when its crossing is this close to the road's line, in miles. */
+const ON_ROAD = 0.05;
+const ferriesByRoute = new WeakMap();
+/** The ferries a route runs over, as `{ site, at }` - the place and its crossing point - worked out once for each route. */
+function ferriesOn(world, route) {
+  if (ferriesByRoute.has(route)) return ferriesByRoute.get(route);
+  const found = Object.values(world.map.sites).filter(site => site.kind === 'ferry')
+    .map(site => ({ site, at: site.over || site }))
+    .filter(({ at }) => distanceToPolyline(at, route.points) <= ON_ROAD);
+  ferriesByRoute.set(route, found);
+  return found;
+}
+
 /**
  * The quickest way from one place to another for somebody going this way. Returns what `findPath` returns - `points`,
  * `distance`, `routeIds`, `nodes`, `ground` - and `pace`, the `[segment, factor]` of every stretch that is not level open
- * road, across-country stretches with their off-road cost in it. Null when there is no way at all.
+ * road, across-country stretches with their off-road cost in it; and `ferries`, the ids of the ferries the way goes over,
+ * whose wait (`ferryMiles`, FIC-GONZ-092) is in the pace of the stretch each stands on. Null when there is no way at all.
+ *
+ * `ferries: false` leaves the ferries' wait out: the flight of the Runaway Scrape, whose flooded crossings are waited at by
+ * its own rule (sim/scrape.mjs `CROSSING_HOURS`).
  */
-export function findWay(world, fromSiteId, toSiteId, modeId = 'foot') {
+export function findWay(world, fromSiteId, toSiteId, modeId = 'foot', { ferries: waitForFerries = true } = {}) {
   const { sites, routes } = world.map;
   const from = sites[fromSiteId], to = sites[toSiteId];
   if (!from || !to || fromSiteId === toSiteId) return null;
@@ -100,7 +118,8 @@ export function findWay(world, fromSiteId, toSiteId, modeId = 'foot') {
   for (const route of Object.values(routes)) {
     for (const forward of [true, false]) {
       const segments = legPace(route, forward, modeId);
-      const cost = segments.reduce((sum, s) => sum + s.length * segmentPace(s.length, s.ground, modeId), 0);
+      const cost = segments.reduce((sum, s) => sum + s.length * segmentPace(s.length, s.ground, modeId), 0)
+        + (waitForFerries ? ferriesOn(world, route).length * ferryMiles(modeId) : 0);
       add(forward ? route.from : route.to, { to: forward ? route.to : route.from, cost, route, forward });
     }
   }
@@ -166,5 +185,27 @@ export function findWay(world, fromSiteId, toSiteId, modeId = 'foot') {
     nodes.push({ id: edge.to, at });
   }
   if (points.length < 2) return null;
-  return { points, distance: polylineLength(points), routeIds, nodes, pace, overland: legs.some(leg => leg.edge.overland), ...(ground.some(Boolean) && { ground }) };
+  // The wait at each ferry the roads go over, laid on the stretch the ferry stands on as that many more miles of going.
+  const ferried = [];
+  if (waitForFerries) {
+    for (const { edge } of legs) {
+      if (edge.overland) continue;
+      for (const { site, at: over } of ferriesOn(world, edge.route)) {
+        if (ferried.includes(site.id)) continue;
+        let segment = -1, best = Infinity;
+        for (let i = 1; i < points.length; i++) {
+          const d = distanceToPolyline(over, [points[i - 1], points[i]]);
+          if (d < best && distance(points[i - 1], points[i]) > 0) { best = d; segment = i - 1; }
+        }
+        if (segment < 0 || best > ON_ROAD) continue;
+        const length = distance(points[segment], points[segment + 1]);
+        const entry = pace.find(([index]) => index === segment);
+        const factor = round((entry ? entry[1] : 1) + ferryMiles(modeId) / length);
+        if (entry) entry[1] = factor; else pace.push([segment, factor]);
+        ferried.push(site.id);
+      }
+    }
+    pace.sort((a, b) => a[0] - b[0]);
+  }
+  return { points, distance: polylineLength(points), routeIds, nodes, pace, overland: legs.some(leg => leg.edge.overland), ...(ground.some(Boolean) && { ground }), ...(ferried.length && { ferries: ferried }) };
 }

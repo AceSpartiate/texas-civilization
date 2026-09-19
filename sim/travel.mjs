@@ -107,18 +107,34 @@ export const roadHours = travel => travel?.forced ? FORCED_MARCH_HOURS : ROAD_HO
  * `needs` names household property that must come along, which is what makes the horse
  * and the wagon rivalrous: a family has one of each and four people.
  */
+/**
+ * The wait at a ferry, in minutes (`FIC-GONZ-092`): the boat fetched from the far bank and loaded, the one load at a time a
+ * flatboat on a rope took (`HIST-TEX-140`). Nothing read gives an ordinary crossing's time; the record has the ferryman bound
+ * to cross anybody from sunrise to ten at night, and the waits of April 1836 in days, which are the flight's own
+ * (sim/scrape.mjs `CROSSING_HOURS`). ceiling: the same hour by day and by night.
+ *
+ * ceiling: no ferriage is charged. The rates of 1831 are documented (`HIST-TEX-140`) - half a real on foot, a real on the
+ * horse, eight reales for a loaded wagon - and money is half of the ending (docs/MONEY_AND_GLORY.md); charging them is the
+ * owner's call, and would take the coin here, as the wait is taken.
+ */
+export const FERRY_MINUTES = 60;
+/** The ferry's wait as miles of this way of going: the same hour whoever waits, laid on the road as going (sim/ways.mjs). */
+export const ferryMiles = modeId => FERRY_MINUTES / FARMING_TICK_MINUTES * (MODES[modeId] || MODES[DEFAULT_MODE]).speed;
+/** What every way of going is told of the ferries, on the control (`describe`). */
+const FERRY_WORDS = 'Over a ferry, an hour waiting for the boat.';
+
 export const MODES = Object.freeze({
   foot: Object.freeze({
     id: 'foot', name: 'On foot', speed: WALK_SPEED, carry: 5, exertion: 1, needs: [], crossesFord: true,
-    describe: 'Three miles an hour, about twenty miles in a day. Always possible, and it is the legs that pay for it.',
+    describe: `Three miles an hour, about twenty miles in a day. Always possible, and it is the legs that pay for it. ${FERRY_WORDS}`,
   }),
   horse: Object.freeze({
     id: 'horse', name: 'On the horse', speed: HORSE_SPEED, carry: 7, exertion: .3, needs: ['horse'], crossesFord: true,
-    describe: 'Five miles an hour, thirty-five in a day, and hardly tiring, but the horse carries little and only one of you can be on it.',
+    describe: `Five miles an hour, thirty-five in a day, and hardly tiring, but the horse carries little and only one of you can be on it. ${FERRY_WORDS}`,
   }),
   wagon: Object.freeze({
     id: 'wagon', name: 'With the ox and wagon', speed: WAGON_SPEED, carry: 20, exertion: .5, needs: ['ox', 'wagon'], crossesFord: false,
-    describe: 'Two miles an hour and a dozen or so in a day, slower than walking, and it brings home four times what a person can carry. The ford is no place for it.',
+    describe: `Two miles an hour and a dozen or so in a day, slower than walking, and it brings home four times what a person can carry. The ford at Gonzales is no place for it. ${FERRY_WORDS}`,
   }),
 });
 export const DEFAULT_MODE = 'foot';

@@ -19,6 +19,8 @@
 //     record walks stop by stop (the army's from Bernardo, HIST-TEX-088) goes by each stop, leg by leg.
 //   - Gonzales's ford is the point of the Guadalupe nearest the town (HIST-GONZ-007); Castañeda's camp is
 //     about seven miles upriver of it on the far bank (HIST-GONZ-008), measured along the real river.
+//   - Every place a road meets drawn water is a ford, a ferry or a bridge (2026-09-19, docs/MAP_ACCURACY.md §10): the record's
+//     crossing where there is one (HIST-TEX-140 to -155), else the game's (FIC-GONZ-090, -091).
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { gzipSync } from 'node:zlib';
 import { milesFrom, realTerrain } from '../sim/terrain-data.mjs';
@@ -93,8 +95,10 @@ const CROSSINGS = {
   'Trinity River': ['atascosito-crossing'],
   'San Antonio River': ['goliad', 'bexar'],
 };
-// Watercourses that slow a road across them but are not barriers. ceiling: every one of these was crossed
-// somewhere particular in 1835; until those fords are found a road crosses wherever the ground is easiest.
+// Watercourses that slow a road across them but are not barriers. Where the record gives a road's crossing of one - Lynch's
+// ferry on the San Jacinto, the Harrisburg ferry on Buffalo Bayou (HISTORIC_CROSSINGS below, 2026-09-19) - the road goes over
+// there. ceiling: everywhere else a road still crosses wherever the ground is easiest, and the ford or ferry is where it does
+// (FIC-GONZ-090); the Lavaca, the Navidad and the San Bernard crossings of 1835 were not found.
 const SLOW_WATER = ['San Marcos River', 'Lavaca River', 'Navidad River', 'San Bernard River', 'San Jacinto River', 'Navasota River', 'Buffalo Bayou', 'Peach Creek', 'Sandies Creek', 'Cibolo Creek', 'Plum Creek'];
 
 // The roads: which places each joins (HIST-TEX-006, HIST-TEX-008; courses FIC-GONZ-027).
@@ -466,18 +470,26 @@ function simplify(points, tolerance, keepOffWater = true) {
   return points.filter((_, i) => keep[i]);
 }
 
-const roads = [];
-for (const [from, to, name, stops = []] of ROADS) {
+/**
+ * A road between two places, the least effort over the ground. Through `via` - points it must pass exactly, such as the
+ * crossing of a river where the record puts it - it is laid leg by leg, each leg simplified on its own, so every via point
+ * is a point of the road. A road with no via point is laid exactly as it always was.
+ */
+function layRoad(from, to, name, via = []) {
   const started = Date.now();
-  // A road the record walks stop by stop is routed leg by leg through them, each leg the least effort between the two.
-  const via = stops.map(([stop, lon, lat]) => { const p = at(lon, lat); return { name: stop, x: round(p.x), y: round(p.y) }; });
   const ends = [places[from], ...via, places[to]];
-  const cells = ends.slice(1).flatMap((end, i) => route(ends[i], end).slice(i ? 1 : 0));
-  const points = simplify([places[from], ...cells.slice(1, -1), places[to]], 0.03).map(p => ({ x: round(p.x), y: round(p.y) }));
+  const points = [];
+  for (let i = 1; i < ends.length; i++) {
+    const cells = route(ends[i - 1], ends[i]);
+    const leg = simplify([ends[i - 1], ...cells.slice(1, -1), ends[i]], 0.03).map(p => ({ x: round(p.x), y: round(p.y) }));
+    points.push(...(i > 1 ? leg.slice(1) : leg));
+  }
   const miles = points.slice(1).reduce((sum, p, i) => sum + distance(p, points[i]), 0);
-  roads.push({ id: `road-${from}-${to}`, from, to, name, kind: 'road', points, miles: round(miles), ...(via.length && { via }) });
-  console.log(`${name}: ${from} to ${to}, ${miles.toFixed(1)} miles, ${points.length} points, ${Date.now() - started} ms`);
+  console.log(`${name}: ${from} to ${to}${via.length ? ` by ${via.map(v => v.name).join(', ')}` : ''}, ${miles.toFixed(1)} miles, ${points.length} points, ${Date.now() - started} ms`);
+  return { id: `road-${from}-${to}`, from, to, name, kind: 'road', points, miles: round(miles), ...(via.length && { via: via.map(v => ({ name: v.name, x: round(v.x), y: round(v.y) })) }) };
 }
+const roads = [];
+for (const [from, to, name] of ROADS) roads.push(layRoad(from, to, name));
 // Gonzales's own short ways, as the invented map had them: the town down to the ford, and the bank to the camp.
 roads.push({ id: 'road-gonzales-ford', from: 'gonzales', to: 'ford', name: 'The crossing', kind: 'crossing', points: [places.gonzales, places.ford].map(p => ({ x: p.x, y: p.y })), miles: round(distance(places.gonzales, places.ford)) });
 const bank = simplify(route(places.ford, places['williams-camp']), 0.03).map(p => ({ x: round(p.x), y: round(p.y) }));
@@ -496,7 +508,10 @@ for (const road of roads) if (!road.miles) road.miles = round(road.points.slice(
 // ---- Watercourses for drawing -----------------------------------------------------------------
 // The big rivers whole, and the named creeks near any start, simplified for the map a class downloads once.
 const RIVERS = new Set([...BARRIERS, ...SLOW_WATER.filter(name => /River|Bayou/.test(name))]);
-const starts = Object.values(places).filter(p => p.start);
+// The creeks are drawn round the starts, and round the houses of the army's march east and the towns at its end, where the
+// record names the creeks the road crossed - Spring Creek at McCarley's, Cypress Creek at Burnett's (HIST-TEX-088), Vince's
+// Bayou below Harrisburg - so their crossings can be drawn (2026-09-19).
+const starts = Object.values(places).filter(p => p.start || ['donohos', 'mccarleys', 'roberts', 'burnetts', 'harrisburg', 'lynchburg'].includes(p.id));
 const drawn = [];
 for (const course of joinReaches(terrain.courses)) {
   if (!course.name) continue;
@@ -525,6 +540,318 @@ for (const course of joinReaches(terrain.courses)) {
   const ordered = distance(channel[0], before) <= distance(channel.at(-1), before) ? channel : [...channel].reverse();
   course.points = [...course.points.slice(0, first), ...ordered, ...course.points.slice(last + 1)];
 }
+
+// ---- The crossings: a ford, a ferry or a bridge wherever a road meets drawn water ---------------------------------------
+// Owner, 2026-09-18: "when the various rivers and creeks are added, we're going to have to have assets ford, or build
+// bridges (where they historically were)"; chosen the same day: every place a road crosses a river or creek gets a ford, a
+// ferry or a bridge, at the historical crossing where one is known (docs/MAP_ACCURACY.md §10).
+//
+// Every road (and Gonzales's short way to its ford) is intersected with every watercourse the map draws. A road that wanders
+// along a creek bottom meets it again and again; the meetings of one road with one water within CHAIN_MILES of each other
+// along it are one crossing, set at the middle meeting. Two roads that share a stretch meet the water at the same point and
+// share the place. Where the record gives the crossing, the place is that crossing: a road that meets the water elsewhere near
+// it is laid again through it (`layRoad` with a via point), so there is one ferry at San Felipe, not one for each road.
+const CHAIN_MILES = 1.5;
+const SAME_PLACE_MILES = 0.05;
+/**
+ * The river crossings a barrier's opened window stands for, keyed `${place}:${river}` as `crossingPoints` is:
+ * [id, name, kind, claim]. A window no road crosses in (Columbia's) makes no place.
+ */
+const WINDOW_CROSSINGS = {
+  // Nothing names a ferry at Victoria before the city leased one in 1839, and Urrea had boats built to cross in March 1836
+  // (HIST-TEX-154); the game's is a town ferry by the state's rule of 1827 (HIST-TEX-140, FIC-GONZ-091).
+  'victoria:Guadalupe River': ['victoria-ferry', 'The ferry at Victoria', 'ferry', 'FIC-GONZ-091'],
+  // Smithwick's "sentinel down at the ford" at Mina, spring 1836 (HIST-TEX-147).
+  'mina:Colorado River': ['mina-ford', 'The ford at Mina', 'ford', 'HIST-TEX-147'],
+  // Nothing found at the town; a town ferry by the rule of 1827 (FIC-GONZ-091).
+  'matagorda:Colorado River': ['matagorda-ferry', 'The ferry at Matagorda', 'ferry', 'FIC-GONZ-091'],
+  // The town's public ferry, leased yearly (HIST-TEX-142).
+  'san-felipe:Brazos River': ['san-felipe-ferry', 'The San Felipe ferry', 'ferry', 'HIST-TEX-142'],
+  // Andrew Robinson's ferry at the La Bahía crossing (HIST-TEX-143).
+  'washington:Brazos River': ['robinsons-ferry', "Robinson's ferry", 'ferry', 'HIST-TEX-143'],
+  'columbia:Brazos River': ['columbia-ferry', 'The ferry at Columbia', 'ferry', 'FIC-GONZ-091'],
+  // Asa Brigham's ferry at Brazoria (HIST-TEX-144).
+  'brazoria:Brazos River': ['brighams-ferry', "Brigham's ferry", 'ferry', 'HIST-TEX-144'],
+  // Groce's ferry at Bernardo, the Coushatta crossing (HIST-TEX-088).
+  'bernardo:Brazos River': ['groces-ferry', "Groce's ferry", 'ferry', 'HIST-TEX-088'],
+  // The Victoria road's crossing at La Bahía, "the lower ford" (HIST-TEX-148).
+  'goliad:San Antonio River': ['lower-ford', 'The lower ford', 'ford', 'HIST-TEX-148'],
+  // Horses and wagons crossed at a ford below the town; people on foot had a footbridge (HIST-TEX-149).
+  'bexar:San Antonio River': ['bexar-ford', 'The ford at Béxar', 'ford', 'HIST-TEX-149'],
+};
+/**
+ * Crossings the record gives on water that is not a barrier: [id, name, kind, water, lon, lat, claim]. The place is where a
+ * road meets the drawn water nearest the point; a road crossing that water further than `ANCHOR_MILES` from it is laid again
+ * through it. `water` null is water the map draws as open water and not as a line (the San Jacinto at Lynch's ferry, which
+ * the elevation data has at the sea's level): the place is where the road passes nearest the point.
+ */
+const HISTORIC_CROSSINGS = [
+  // The present ferry's crossing (HIST-TEX-084), Lynch's since 1822 (HIST-TEX-150).
+  ['lynchs-ferry', "Lynch's ferry", 'ferry', null, -95.08000, 29.76361, 'HIST-TEX-150'],
+  // The 1912 marker "Vince's Bridge", N. Richey St., Pasadena, at the bayou: a marker, not a survey (HIST-TEX-153).
+  ['vinces-bridge', "Vince's bridge", 'bridge', 'Vince Bayou', -95.22015, 29.71933, 'HIST-TEX-153'],
+  // "A ferry across Buffalo Bayo opposite the town of Harrisburg" (1830, HIST-TEX-151): the bayou nearest the town's point.
+  ['harrisburg-ferry', 'The Harrisburg ferry', 'ferry', 'Buffalo Bayou', -95.2785, 29.7228, 'HIST-TEX-151'],
+];
+const ANCHOR_MILES = 0.3;
+/** How each place the map already had crosses its water: [kind, water, claim]. They stay where they are. */
+const PLACE_CROSSINGS = {
+  // "The ford" opposite Gonzales (HIST-GONZ-007, -008; the town's ferry of 1832 was taken off the river in 1835, HIST-TEX-141).
+  ford: ['ford', 'Guadalupe River', 'HIST-GONZ-007'],
+  // The Trinity ferry of Dilue Harris's crossing, April 1836 (HIST-TEX-152).
+  'atascosito-crossing': ['ferry', 'Trinity River', 'HIST-TEX-152'],
+  // Burnam's ferry at the La Bahía crossing near La Grange (HIST-TEX-145).
+  'la-grange-crossing': ['ferry', 'Colorado River', 'HIST-TEX-145'],
+  // Beeson's ferry at Columbus (HIST-TEX-146). ceiling: the Atascosito road's own crossing of the Colorado was nine miles below
+  // Columbus (TSHA, Atascosito Crossing); the map's Atascosito road goes over at Beeson's, and the place stands at Columbus's
+  // official point, west of the river the map draws, where Houston's camp of March 1836 was on the east bank (HIST-TEX-087). A
+  // place and a road for the lower crossing, and the camp over the river, are the way out.
+  'columbus-crossing': ['ferry', 'Colorado River', 'HIST-TEX-146'],
+};
+
+const slug = text => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const onWater = water => water.endsWith(' River') ? `the ${water}` : water;
+const intersect = (a, b, c, d) => {
+  const r = { x: b.x - a.x, y: b.y - a.y }, s = { x: d.x - c.x, y: d.y - c.y };
+  const den = r.x * s.y - r.y * s.x;
+  if (Math.abs(den) < 1e-12) return null;
+  const t = ((c.x - a.x) * s.y - (c.y - a.y) * s.x) / den, u = ((c.x - a.x) * r.y - (c.y - a.y) * r.x) / den;
+  return t >= 0 && t <= 1 && u >= 0 && u <= 1 ? { x: a.x + t * r.x, y: a.y + t * r.y, t, direction: Math.atan2(s.y, s.x) } : null;
+};
+const boxOf = points => points.reduce((box, p) => ({ minX: Math.min(box.minX, p.x), minY: Math.min(box.minY, p.y), maxX: Math.max(box.maxX, p.x), maxY: Math.max(box.maxY, p.y) }), { minX: Infinity, minY: Infinity, maxX: -Infinity, maxY: -Infinity });
+const drawnBoxes = drawn.map(course => boxOf(course.points));
+const CROSSED = ['road', 'crossing'];
+/** Every meeting of a road with drawn water: the road, the water, where, how far along the road, and the water's direction there. */
+function meetings(road) {
+  const found = [], box = boxOf(road.points);
+  let along = 0;
+  const lengths = road.points.slice(1).map((p, i) => distance(p, road.points[i]));
+  drawn.forEach((course, index) => {
+    const w = drawnBoxes[index];
+    if (w.maxX < box.minX || w.minX > box.maxX || w.maxY < box.minY || w.minY > box.maxY) return;
+    along = 0;
+    for (let i = 1; i < road.points.length; i++) {
+      const a = road.points[i - 1], b = road.points[i];
+      for (let j = 1; j < course.points.length; j++) {
+        const hit = intersect(a, b, course.points[j - 1], course.points[j]);
+        if (hit) found.push({ road, water: course.name, waterKind: course.kind, x: hit.x, y: hit.y, along: along + lengths[i - 1] * hit.t, direction: hit.direction });
+      }
+      along += lengths[i - 1];
+    }
+  });
+  return found;
+}
+/** One road's meetings with one water, chained into its crossings: each the middle meeting of a run no gap in which is longer than CHAIN_MILES. */
+function crossingsOf(road) {
+  const byWater = new Map();
+  for (const hit of meetings(road)) { if (!byWater.has(hit.water)) byWater.set(hit.water, []); byWater.get(hit.water).push(hit); }
+  const out = [];
+  for (const hits of byWater.values()) {
+    hits.sort((a, b) => a.along - b.along);
+    let run = [hits[0]];
+    const close = () => { out.push({ ...run[Math.floor((run.length - 1) / 2)], meetings: run.length }); };
+    for (const hit of hits.slice(1)) {
+      if (hit.along - run.at(-1).along > CHAIN_MILES) { close(); run = [hit]; } else run.push(hit);
+    }
+    close();
+  }
+  return out;
+}
+const crossedRoads = () => roads.filter(road => CROSSED.includes(road.kind));
+/** The window of a barrier this crossing is in: the opened crossing point of that river nearest it. */
+const windowOf = crossing => Object.entries(crossingPoints).filter(([, point]) => point.river === crossing.water)
+  .map(([key, point]) => ({ key, point, d: distance(point, crossing) })).sort((a, b) => a.d - b.d)[0];
+/** Lay a road again through a point it must cross at. A road that already ends at the point is left as it is. */
+function relay(laid, anchor, name) {
+  // The road as it now stands: an earlier crossing may have laid it again already.
+  const index = roads.findIndex(road => road.id === laid.id), road = roads[index];
+  if ([road.from, road.to].some(id => distance(places[id], anchor) < SAME_PLACE_MILES)) return false;
+  const via = [...(road.via || []), { name, x: anchor.x, y: anchor.y }].sort((a, b) => distance(places[road.from], a) - distance(places[road.from], b));
+  roads[index] = layRoad(road.from, road.to, road.name, via);
+  return true;
+}
+/** The nearest point on the drawn lines of a water to a point, and how far off it is. */
+function nearestOnWater(water, point) {
+  let best = null;
+  for (const course of drawn.filter(c => c.name === water)) {
+    for (let i = 1; i < course.points.length; i++) {
+      const a = course.points[i - 1], b = course.points[i], dx = b.x - a.x, dy = b.y - a.y, length = dx * dx + dy * dy;
+      const t = length ? Math.max(0, Math.min(1, ((point.x - a.x) * dx + (point.y - a.y) * dy) / length)) : 0;
+      const q = { x: a.x + dx * t, y: a.y + dy * t, direction: Math.atan2(dy, dx) };
+      if (!best || distance(q, point) < distance(best, point)) best = q;
+    }
+  }
+  return best;
+}
+/** The point on a road nearest a point, with the road's direction there turned a right angle (as a water's would be). */
+function nearestOnRoad(road, point) {
+  let best = null;
+  for (let i = 1; i < road.points.length; i++) {
+    const a = road.points[i - 1], b = road.points[i], dx = b.x - a.x, dy = b.y - a.y, length = dx * dx + dy * dy;
+    const t = length ? Math.max(0, Math.min(1, ((point.x - a.x) * dx + (point.y - a.y) * dy) / length)) : 0;
+    const q = { x: a.x + dx * t, y: a.y + dy * t, direction: Math.atan2(dy, dx) - Math.PI / 2 };
+    if (!best || distance(q, point) < distance(best, point)) best = q;
+  }
+  return best;
+}
+/** Every barrier crossing, grouped by the opened window it is in. */
+function barrierCrossings() {
+  const byWindow = new Map();
+  for (const road of crossedRoads()) for (const crossing of crossingsOf(road)) {
+    if (!BARRIERS.includes(crossing.water)) continue;
+    const window = windowOf(crossing);
+    if (!window || window.d > 1.5) throw new Error(`${road.id} crosses the ${crossing.water} away from any crossing`);
+    if (!byWindow.has(window.key)) byWindow.set(window.key, []);
+    byWindow.get(window.key).push(crossing);
+  }
+  return byWindow;
+}
+/** Where a window's crossing is: the place's own point when it stands on the river, else the point the window was opened on. */
+const windowAnchor = key => {
+  const id = key.split(':')[0];
+  return PLACE_CROSSINGS[id] && distance(places[id], crossingPoints[key]) < 0.1 ? places[id] : crossingPoints[key];
+};
+// One crossing in each opened window of a barrier: where the roads there meet the river at different points, each is laid
+// through the window's one point.
+for (const [key, list] of barrierCrossings()) {
+  if (!list.some(a => list.some(b => distance(a, b) > SAME_PLACE_MILES))) continue;
+  const anchor = windowAnchor(key);
+  for (const road of new Set(list.map(crossing => crossing.road))) relay(road, anchor, `${onWater(list[0].water)} at ${places[key.split(':')[0]].name}`);
+}
+// The road to Béxar leaves from the ford itself, and the least-effort line out of it ran down the east bank and over the
+// river half a mile below. It goes straight over at the ford: by the nearest ground on the far bank, Castañeda's side.
+{
+  const road = roads.find(r => r.id === 'road-ford-bexar');
+  const over = crossingsOf(road).find(crossing => crossing.water === 'Guadalupe River');
+  if (over && distance(over, places.ford) > SAME_PLACE_MILES) {
+    let best = null;
+    const reach = Math.ceil(0.5 / cell), centre = cellOf(places.ford), cc = centre % columns, cr = Math.floor(centre / columns);
+    for (let dr = -reach; dr <= reach; dr++) for (let dc = -reach; dc <= reach; dc++) {
+      const index = (cr + dr) * columns + (cc + dc);
+      if (!westBank[index]) continue;
+      const p = centreOf(index);
+      if (!best || distance(p, places.ford) < distance(best, places.ford)) best = p;
+    }
+    if (!best) throw new Error('No far bank opposite the ford');
+    roads[roads.indexOf(road)] = layRoad(road.from, road.to, road.name, [{ name: 'the far bank at the ford', x: round(best.x), y: round(best.y) }]);
+  }
+}
+// The record's crossings of lesser water: the road that crosses that water nearest the point is laid through it - through the
+// drawn water nearest the point - if it crosses further off than ANCHOR_MILES.
+const historicAt = new Map();
+for (const [id, name, , water, lon, lat] of HISTORIC_CROSSINGS) {
+  const point = at(lon, lat);
+  if (!water) { historicAt.set(id, point); continue; }
+  const onLine = nearestOnWater(water, point);
+  if (!onLine || distance(onLine, point) > 0.5) throw new Error(`${name} is not on the ${water} the map draws`);
+  historicAt.set(id, onLine);
+  const nearest = crossedRoads().flatMap(crossingsOf).filter(c => c.water === water).sort((a, b) => distance(a, onLine) - distance(b, onLine))[0];
+  if (!nearest || distance(nearest, onLine) > 3) throw new Error(`No road crosses ${water} near ${name}`);
+  if (distance(nearest, onLine) > ANCHOR_MILES) relay(nearest.road, onLine, name);
+}
+
+// The places. A barrier window's crossing is one place, at its one point; any other crossing of a road with a water is a
+// place, shared by another road that meets the same water there. Two crossings closer than CONFLUENCE_MILES are one - a
+// road over the mouth of a creek where it joins another - and the record's crossing, or else the first found, is kept. A road
+// whose crossing was folded into a place it does not pass through is laid again through that place.
+const CONFLUENCE_MILES = 0.15;
+function collectCrossings() {
+  const found = [];
+  for (const [key, list] of barrierCrossings()) {
+    const anchor = windowAnchor(key);
+    const apart = list.some(a => list.some(b => distance(a, b) > SAME_PLACE_MILES));
+    const where = apart ? { ...anchor, direction: nearestOnWater(list[0].water, anchor).direction } : list[0];
+    found.push({ x: where.x, y: where.y, water: list[0].water, waterKind: 'river', direction: where.direction, meets: list, window: key });
+  }
+  for (const road of crossedRoads()) for (const crossing of crossingsOf(road)) {
+    if (!BARRIERS.includes(crossing.water)) found.push({ x: crossing.x, y: crossing.y, water: crossing.water, waterKind: crossing.waterKind, direction: crossing.direction, meets: [crossing] });
+  }
+  for (const [id, name, kind, water, , , claimId] of HISTORIC_CROSSINGS) {
+    const point = historicAt.get(id);
+    if (!water) {
+      // Open water the map draws as sea, not as a line: the place is on the road nearest the point.
+      const best = crossedRoads().map(road => ({ road, q: nearestOnRoad(road, point) })).sort((a, b) => distance(a.q, point) - distance(b.q, point))[0];
+      if (distance(best.q, point) > ANCHOR_MILES) throw new Error(`${name} is ${distance(best.q, point).toFixed(2)} miles off any road`);
+      // The water it spans: the stretch of the road about the point that the elevation data has under thirty centimetres,
+      // read every hundredth of a mile. The place is its middle, and `span` its width, so the rope reaches bank to bank.
+      const along = [];
+      for (let i = 1; i < best.road.points.length; i++) {
+        const a = best.road.points[i - 1], b = best.road.points[i], steps = Math.max(1, Math.ceil(distance(a, b) / 0.01));
+        for (let k = i > 1 ? 1 : 0; k <= steps; k++) along.push({ x: a.x + (b.x - a.x) * k / steps, y: a.y + (b.y - a.y) * k / steps });
+      }
+      const wet = p => { const h = terrain.heightAt(p.x, p.y); return !Number.isFinite(h) || h < 0.3; };
+      let middle = along.reduce((m, p, i) => distance(p, best.q) < distance(along[m], best.q) ? i : m, 0), first = middle, last = middle;
+      while (first > 0 && wet(along[first - 1])) first--;
+      while (last < along.length - 1 && wet(along[last + 1])) last++;
+      const span = last > first ? along.slice(first + 1, last + 1).reduce((sum, p, k) => sum + distance(along[first + k], p), 0) : 0;
+      const centre = along[Math.round((first + last) / 2)];
+      found.unshift({ x: centre.x, y: centre.y, water: null, waterKind: 'river', direction: best.q.direction, span, meets: [{ road: best.road, x: centre.x, y: centre.y }], historic: [id, name, kind, claimId] });
+      continue;
+    }
+    const place = found.filter(c => c.water === water && !c.historic).sort((a, b) => distance(a, point) - distance(b, point))[0];
+    if (!place || distance(place, point) > ANCHOR_MILES + SAME_PLACE_MILES) throw new Error(`${name}: no crossing of ${water} at the record's point (${place && distance(place, point).toFixed(2)})`);
+    place.historic = [id, name, kind, claimId];
+    found.splice(found.indexOf(place), 1); found.unshift(place);
+  }
+  // Barrier windows and the record's crossings come first, so a confluence folds into them.
+  found.sort((a, b) => Boolean(b.window || b.historic) - Boolean(a.window || a.historic));
+  const kept = [];
+  for (const crossing of found) {
+    const into = kept.find(place => distance(place, crossing) <= CONFLUENCE_MILES);
+    if (into && !(crossing.window || crossing.historic)) { into.meets.push(...crossing.meets); continue; }
+    kept.push(crossing);
+  }
+  const relays = [];
+  for (const place of kept) for (const meet of place.meets) {
+    if (distance(meet, place) > SAME_PLACE_MILES && distanceToRoad(meet.road, place) > SAME_PLACE_MILES) relays.push({ road: meet.road, place });
+  }
+  return { places: kept, relays };
+}
+const distanceToRoad = (road, point) => distance(nearestOnRoad(road, point), point);
+let collected = collectCrossings();
+for (let pass = 0; collected.relays.length && pass < 3; pass++) {
+  for (const { road, place } of collected.relays) relay(road, place, `${place.water ? onWater(place.water) : 'the water'} at the crossing`);
+  collected = collectCrossings();
+}
+if (collected.relays.length) throw new Error(`Roads still miss their crossings: ${collected.relays.map(r => r.road.id).join(', ')}`);
+const crossingPlaces = collected.places;
+const used = new Set();
+const placeId = base => { let id = base, n = 2; while (used.has(id) || places[id]) id = `${base}-${n++}`; used.add(id); return id; };
+/** Where nothing in the record gives the crossing, the game's (FIC-GONZ-090): a ferry over the big rivers and the deep tidal water, a ford elsewhere. */
+const FERRY_WATER = [...BARRIERS, 'San Jacinto River', 'Buffalo Bayou'];
+for (const place of crossingPlaces) {
+  // Which way the crossing lies: a ford or a bridge straight across the water, a ferry's rope along its road, bank to bank.
+  const across = round(place.direction + Math.PI / 2);
+  const alongRoad = round(nearestOnRoad(place.meets[0].road, place).direction + Math.PI / 2);
+  const lying = kind => (kind === 'ferry' ? alongRoad : across);
+  // A road that meets the water slantwise is longer bank to bank than the water is wide: the ferry's rope is drawn that much longer.
+  const slant = place.water ? Math.min(3, 1 / Math.max(1e-6, Math.abs(Math.sin(alongRoad - place.direction)))) : 1;
+  const oblique = kind => (kind === 'ferry' && slant > 1.05 ? { oblique: round(slant) } : {});
+  const common = { x: round(place.x), y: round(place.y), water: place.water, waterKind: place.waterKind, ...(place.span && { span: round(place.span) }) };
+  // A place the map already had keeps its id, name and point; where it stands off the water its crossing is drawn at `over`,
+  // where its road meets the water. One that was a `crossing` is a `stage`: the word and the fleeing families stop there.
+  const owner = Object.keys(PLACE_CROSSINGS).find(id => place.window === `${id}:${place.water}` || (!place.window && !place.historic && PLACE_CROSSINGS[id][1] === place.water && distance(places[id], place) < 1));
+  if (owner) {
+    const [kind, water, claimId] = PLACE_CROSSINGS[owner];
+    const existing = places[owner];
+    if (existing.water) throw new Error(`${owner} is given two crossings of the ${water}`);
+    Object.assign(existing, { kind, claimId, water, waterKind: place.waterKind, across: lying(kind), ...oblique(kind), ...(existing.kind === 'crossing' && { stage: true }), ...(distance(existing, common) > CONFLUENCE_MILES && { over: { x: common.x, y: common.y } }) });
+    continue;
+  }
+  const given = place.historic || (place.window && WINDOW_CROSSINGS[place.window]);
+  if (given) {
+    const [id, name, kind, claimId] = given;
+    if (places[id]) throw new Error(`${id} is given twice`);
+    used.add(id);
+    places[id] = { id, name, kind, ...common, across: lying(kind), ...oblique(kind), claimId };
+    continue;
+  }
+  if (place.window) throw new Error(`The crossing in the window ${place.window} has no kind`);
+  const kind = FERRY_WATER.includes(place.water) ? 'ferry' : 'ford';
+  const id = placeId(`${kind}-${slug(place.water)}`);
+  places[id] = { id, name: `The ${kind} on ${onWater(place.water)}`, kind, ...common, across: lying(kind), ...oblique(kind), claimId: 'FIC-GONZ-090' };
+}
+for (const [id, [kind]] of Object.entries(PLACE_CROSSINGS)) if (places[id].kind !== kind) throw new Error(`${id} was met by no road`);
 
 const output = {
   kind: 'texas-colonies-map', version: 1, builtFrom: 'scripts/build-colonies-map.mjs over public/terrain',

@@ -38,6 +38,7 @@ does not have:
 | Béxar's fields are the `fields` wash with stubble and fallow scattered on it; **the acequias are not drawn** and no brush fence stands | `fields` in `public/ground-classes.js`; the envelope in `scripts/terrain/biomes.mjs` `BEXAR_FIELDS` | Request 2026-09-19 — Béxar's fields and acequias | `acequia`, `field-irrigated`, `fence-brush`, laid by `public/bexar-layout.js` |
 | **No stand-in: words only.** What a hunt may find besides a deer - turkey, bear, buffalo, antelope, mustangs, javelina, ducks and geese, wild cattle - is said in the words a family reads before it hunts ("Deer, turkey and bear keep to it."); the hunt itself still finds and draws a deer. A deer drawn where the words say a bear would be a wrong picture | `quarry` in `STANDS` (`sim/woods.mjs`), worded by `quarryWords` in `sim/hunting.mjs` | Request 2026-09-19 — the game of 1836 | `wildlife-turkey`, `-bear`, `-javelina`, `-pronghorn`, `-bison`, `-geese`, `-mustang` |
 | A traveller faster than a walk can be drawn is a canvas-drawn pin: a round disc with the family panel's `portrait-<figure>` clipped inside it (itself a Claude-drawn stand-in), ringed rust for the principal, ink for the family, grey for somebody else's and slate for a courier, on a short point to the ground, with the road ahead in canvas dots. A beast or wagon on the road by itself is its own standing sprite (`horse-chestnut`, `ox-brown`, `wagon-covered`) on a smaller disc; their initial while no sheet has loaded | `drawTravelMarkers` in `public/app.js`; the rule in `MARKER_ABOVE`/`wantsMarker` in `public/motion.js` | Request 2026-09-19 — the traveller's marker | `marker-pin` (the pin and its ring, portrait-less) and `marker-dot`, drawn over by the same portrait; `drawTravelMarkers` lays the sprites down instead of its strokes |
+| A ferry is the library's `ferry-raft` (round logs lashed with a rope rail) drawn at the near landing, standing in for a plank flatboat; the ferry rope bank to bank, its two posts and the trodden landings are canvas strokes, and the river is laid back over the road between the landings | `drawFerry` in `public/landscape-art.js`, called for every `ferry` place by `drawWorld` in `public/app.js` | Request 2026-09-19 — the ferry flatboat | `ferry-flatboat` (and `-laden`) where the raft is drawn, `ferry-post` for the posts |
 | **No stand-in: nothing is drawn.** The army's crossing of the Brazos at Groce's on the steamboat Yellow Stone, April 12–13, 1836, is said only in words ("The army is crossing the Brazos on the steamboat Yellow Stone. She came up the river for cotton under Captain John E. Ross, and General Houston has taken her to carry the men, the horses and the wagons over the flood."); no boat is on the river. Words-only is the deliberate state: the library has nothing near a steamboat (the `skiff` and `ferry-raft` would say the wrong thing), and a wrong picture of a named boat is worse than none | `sim/houston.mjs` (the words) | Request 2026-09-18 — the steamboat Yellow Stone | `steamboat-moored`, `steamboat-steam`, `steamboat-laden`, drawn on the Brazos at Groce's ferry |
 
 ## Claude-drawn stand-ins (replace with Astra's)
@@ -84,6 +85,41 @@ into the existing pipeline, and how it will be checked. When a request is delive
 `npm run build:art`; do not delete it from here.
 
 ---
+
+## Request 2026-09-19 — the ferry flatboat
+
+**Status: open; stand-in in use (see *Stand-ins in use* above).** Owner, 2026-09-18: "when the various rivers and creeks are
+added, we're going to have to have assets ford, or build bridges (where they historically were)"; chosen the same day, every
+place a road crosses a river or creek gets a ford, a ferry or a bridge ([MAP_ACCURACY.md](MAP_ACCURACY.md) §10). Twelve of
+the map's crossings are ferries - Lynch's, Groce's, the San Felipe ferry, Robinson's, Brigham's, Burnam's (the Colorado
+crossing), Beeson's, the Atascosito crossing of the Trinity, the Harrisburg ferry, and the game's own at Victoria, Matagorda
+and on the San Jacinto. Each is drawn now as the library's `ferry-raft` at the near landing and a canvas rope bank to bank.
+
+- **Why.** The library's `ferry-raft` is logs lashed together with a rope rail: a raft. The ferries of the colonies were
+  flatboats - "a good and substantial ferry flat boat" (San Felipe's lease, 1829), "a flat raft-like barge onto which a wagon
+  or cart could be driven" (TSHA, *Ferries*), Lynch's "a flatboat service with a hand-pulled rope for power" (TSHA, *Lynch's
+  Ferry*). A raft of round logs reads as something made in a hurry, which is what the army's rafts of April 1836 were, not the
+  licensed ferry that took a loaded wagon across for a dollar (`HIST-TEX-140`).
+- **References.** `HISTORY.md` `HIST-TEX-140` (the rules, the rates, what a ferry was) and `HIST-TEX-150` (Lynch's).
+  https://www.tshaonline.org/handbook/entries/ferries ; https://www.tshaonline.org/handbook/entries/lynchs-ferry
+- **What.** In the frontier-v1 style (the `transport` preamble in [art-prompts.json](art-prompts.json)), a plank flatboat of
+  the 1830s: flat-bottomed, square-ended, of sawn planks, about twice as long as it is wide, low sides a hand high with an
+  apron (a hinged plank ramp) at each end for a wagon to drive on, a pole or two lying on the deck, and a rope running the
+  length of the boat through two posts or rings on the upstream side, where it meets the ferry rope. Seen from a little
+  above, broadside, as `ferry-raft` is. No painted water beyond a thin water-contact line; no lettering.
+  - `ferry-flatboat` — empty, at rest.
+  - `ferry-flatboat-laden` — carrying an ox and wagon (the library's `ox-brown` and `wagon-covered` at their own scale, standing
+    on the deck), a man at the rope.
+  - `ferry-post` — the post a ferry rope is made fast to on the bank: a stout timber a little taller than a man, the rope
+    turned about it. The rope itself is drawn by the page, bank to bank.
+- **Scale.** Drawn length about three and a half figure heights (a wagon is 1.55): big enough to carry one wagon and team,
+  which is what the rates of 1831 priced.
+- **Anchor.** The middle of the boat at the waterline.
+- **How it plugs in.** Add the sheet to `SHEETS` in `scripts/build-atlas-manifest.mjs` beside `ferry-raft`, `npm run build:art`,
+  and in `drawFerry` (`public/landscape-art.js`) draw `ferry-flatboat` where `ferry-raft` is drawn now and `ferry-post` where the
+  canvas posts are; delete the stand-in row. The boat stays at its landing: nothing in the simulation moves it yet.
+- **Check.** Beside `wagon-covered` at the drawn scale a wagon fits on the deck; at the map's close zoom it reads as a boat and
+  not a raft or a bridge; alpha edges clean.
 
 ## Request 2026-09-19 — the country of 1836: trees and ground cover
 

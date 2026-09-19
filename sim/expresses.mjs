@@ -16,6 +16,7 @@
 import { record } from './events.mjs';
 import { findPath } from './geography.mjs';
 import { riderName } from './encounters.mjs';
+import { isStage } from './colonies-map.mjs';
 
 /**
  * How long the word waits at a settlement or crossing before it goes on: read, copied, a fresh horse and rider found.
@@ -30,8 +31,12 @@ export const RELAY_MINUTES = 360;
  * are invented.
  */
 export const EXPRESS_LEAVES = Object.freeze({ 'cannon-request': 1920, 'gonzales-outcome': 5160 });
-/** The places the word stops at on the way: the settlements, and the crossings where the roads meet a river. */
-const STOP_KINDS = Object.freeze(['town', 'crossing']);
+/**
+ * The places the word stops at on the way: the settlements, and the three named crossings of the big rivers (`isStage`). The
+ * fords and ferries laid on every road since 2026-09-19 are not stops: the word rides over them, as the mails crossed free
+ * (`HIST-TEX-140`), and its waits stay the ones calibrated on the letters.
+ */
+const isStop = site => site?.kind === 'town' || isStage(site);
 const SOURCE = 'gonzales';
 
 /** Families whose own settlement is not Gonzales: the ones the expresses are for. None on the invented map. */
@@ -49,7 +54,7 @@ export function expressRoutes(world) {
     if (!path) continue;
     let previous = SOURCE;
     for (const node of path.nodes.slice(1)) {
-      if (!STOP_KINDS.includes(world.map.sites[node.id]?.kind)) continue;
+      if (!isStop(world.map.sites[node.id])) continue;
       // The first road found to a stop is the one the word takes; a later settlement further on hears from it.
       if (!(node.id in from)) from[node.id] = previous;
       previous = node.id;

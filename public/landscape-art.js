@@ -66,6 +66,31 @@ export function crossingAngle(site,features,toScreen){
     if(d<best){best=d;angle=Math.atan2(dy,dx)+Math.PI/2;}
   }return angle;
 }
+/**
+ * A ferry: the rope stretched bank to bank on a post at each end, and the boat lying at one bank on it (`HIST-TEX-140`: "a
+ * flat raft-like barge" on "a bank-to-bank cable"; Lynch's "a flatboat service with a hand-pulled rope", `HIST-TEX-150`).
+ * `length` is the span in pixels, `angle` the way across the water.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-19 - the ferry flatboat. The boat is the library's `ferry-raft` (logs lashed
+ * with a rope rail), standing in for a plank flatboat; the rope and the posts are canvas strokes.
+ */
+export function drawFerry(ctx,x,y,length,angle,figure,road=0){
+  const half=length/2,post=Math.max(2,length*.035),dx=Math.cos(angle),dy=Math.sin(angle);
+  ctx.save();ctx.translate(x,y);ctx.rotate(angle);ctx.lineCap='round';
+  // The road stops at the water: the river is laid back over the road between the landings, so the way over is the boat.
+  if(road>0){const w=road*.62,run=half/1.9;ctx.fillStyle='#6a9e9c';ctx.beginPath();ctx.moveTo(-run,-w);ctx.lineTo(run,-w);ctx.quadraticCurveTo(run+w*.6,0,run,w);ctx.lineTo(-run,w);ctx.quadraticCurveTo(-run-w*.6,0,-run,-w);ctx.fill();
+    ctx.strokeStyle='#abd0c0';ctx.globalAlpha=.5;ctx.lineWidth=Math.max(.7,w*.08);for(const f of [-.45,.1,.5]){ctx.beginPath();ctx.moveTo(-run*.6+f*run*.4,f*w*.8);ctx.lineTo(-run*.2+f*run*.4,f*w*.8);ctx.stroke();}ctx.globalAlpha=1;}
+  // The landings: bare, trodden bank at each end, where the gullies were filled for the boat.
+  ctx.fillStyle='#c5bc90';ctx.globalAlpha=.7;for(const s of [-1,1]){ctx.beginPath();ctx.ellipse(s*half,0,Math.max(3,length*.09),Math.max(3,length*.12),0,0,Math.PI*2);ctx.fill();}
+  ctx.globalAlpha=1;
+  // The rope: a slack double line, darker beneath.
+  for(const [color,width,sag] of [['#4d3b26',Math.max(1.6,length*.016),.035],['#a88a5a',Math.max(.8,length*.008),.03]]){ctx.strokeStyle=color;ctx.lineWidth=width;ctx.beginPath();ctx.moveTo(-half,0);ctx.quadraticCurveTo(0,length*sag,half,0);ctx.stroke();}
+  // The posts it is made fast to.
+  for(const s of [-1,1]){ctx.fillStyle='#59452d';ctx.fillRect(s*half-post/2,-post*2.2,post,post*2.6);ctx.fillStyle='#c1a170';ctx.fillRect(s*half-post/2,-post*2.2,post*.7,post*.6);}
+  ctx.restore();
+  // The boat at the near landing, upright whatever way the river runs.
+  const bx=x-dx*half*.55,by=y-dy*half*.55,height=Math.max(8,Math.min(length*.45,figure*2.4));
+  drawSprite(ctx,'ferry-raft',bx,by+height*.35,height);
+}
 export function drawCrossing(ctx,x,y,length,angle,bridge=false){
   ctx.save();ctx.translate(x,y);ctx.rotate(angle);const half=length/2,wide=Math.max(4,length*.12);
   if(bridge){ctx.fillStyle='#263c3440';ctx.fillRect(-half+4,-wide+5,length,wide*2);ctx.fillStyle='#4e4938';ctx.fillRect(-half,-wide,length,wide*2);let n=0;for(let p=-half;p<half;p+=Math.max(3,length/16)){ctx.fillStyle=n++%3?'#aa8453':'#bc975f';ctx.fillRect(p,-wide,Math.max(2,length/16-1),wide*2);ctx.strokeStyle='#705333';ctx.lineWidth=.7;for(const f of [-.6,0,.6]){ctx.beginPath();ctx.moveTo(p+1,f*wide);ctx.lineTo(p+length/16-2,f*wide+1);ctx.stroke();}}ctx.strokeStyle='#60482e';ctx.lineWidth=2;for(const s of [-1,1]){ctx.beginPath();ctx.moveTo(-half,s*wide);ctx.lineTo(half,s*wide);ctx.stroke();for(let p=-half;p<=half;p+=length/4){ctx.fillStyle='#59452d';ctx.fillRect(p-2,s*wide-3,4,6);ctx.fillStyle='#c1a170';ctx.fillRect(p-2,s*wide-3,3,2);}}}

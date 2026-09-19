@@ -1,0 +1,224 @@
+{
+  "result": "PASS",
+  "date": "2026-09-19T19:11:23.672Z",
+  "sameComputerOnly": true,
+  "shots": [
+    {
+      "siteId": "ford",
+      "kind": "ford",
+      "zoom": "near",
+      "scale": 1432.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/ford-near.png"
+    },
+    {
+      "siteId": "ford",
+      "kind": "ford",
+      "zoom": "close",
+      "scale": 435.1,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/ford-close.png"
+    },
+    {
+      "siteId": "ford",
+      "kind": "ford",
+      "zoom": "county",
+      "scale": 59.7,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/ford-county.png"
+    },
+    {
+      "siteId": "groces-ferry",
+      "kind": "ferry",
+      "zoom": "near",
+      "scale": 1432.8,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/groces-ferry-near.png"
+    },
+    {
+      "siteId": "groces-ferry",
+      "kind": "ferry",
+      "zoom": "close",
+      "scale": 435.1,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/groces-ferry-close.png"
+    },
+    {
+      "siteId": "groces-ferry",
+      "kind": "ferry",
+      "zoom": "county",
+      "scale": 59.7,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/groces-ferry-county.png"
+    },
+    {
+      "siteId": "lynchs-ferry",
+      "kind": "ferry",
+      "zoom": "near",
+      "scale": 1432.8,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/lynchs-ferry-near.png"
+    },
+    {
+      "siteId": "lynchs-ferry",
+      "kind": "ferry",
+      "zoom": "close",
+      "scale": 435.1,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/lynchs-ferry-close.png"
+    },
+    {
+      "siteId": "lynchs-ferry",
+      "kind": "ferry",
+      "zoom": "county",
+      "scale": 59.7,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/lynchs-ferry-county.png"
+    },
+    {
+      "siteId": "columbus-crossing",
+      "kind": "ferry",
+      "zoom": "near",
+      "scale": 1432.8,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 998,
+        "y": 343
+      },
+      "path": "docs/evidence/crossings/columbus-crossing-near.png"
+    },
+    {
+      "siteId": "columbus-crossing",
+      "kind": "ferry",
+      "zoom": "close",
+      "scale": 435.1,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 749,
+        "y": 383
+      },
+      "path": "docs/evidence/crossings/columbus-crossing-close.png"
+    },
+    {
+      "siteId": "columbus-crossing",
+      "kind": "ferry",
+      "zoom": "county",
+      "scale": 59.7,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 655,
+        "y": 398
+      },
+      "path": "docs/evidence/crossings/columbus-crossing-county.png"
+    },
+    {
+      "siteId": "ford-cypress-creek",
+      "kind": "ford",
+      "zoom": "near",
+      "scale": 1432.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/ford-cypress-creek-near.png"
+    },
+    {
+      "siteId": "ford-cypress-creek",
+      "kind": "ford",
+      "zoom": "close",
+      "scale": 435.1,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/ford-cypress-creek-close.png"
+    },
+    {
+      "siteId": "ford-cypress-creek",
+      "kind": "ford",
+      "zoom": "county",
+      "scale": 59.7,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/ford-cypress-creek-county.png"
+    },
+    {
+      "siteId": "vinces-bridge",
+      "kind": "bridge",
+      "zoom": "near",
+      "scale": 1432.8,
+      "drawnAt": {
+        "kind": "bridge",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/vinces-bridge-near.png"
+    },
+    {
+      "siteId": "vinces-bridge",
+      "kind": "bridge",
+      "zoom": "close",
+      "scale": 435.1,
+      "drawnAt": {
+        "kind": "bridge",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/vinces-bridge-close.png"
+    },
+    {
+      "siteId": "vinces-bridge",
+      "kind": "bridge",
+      "zoom": "county",
+      "scale": 59.7,
+      "drawnAt": {
+        "kind": "bridge",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/vinces-bridge-county.png"
+    }
+  ],
+  "errors": []
+}

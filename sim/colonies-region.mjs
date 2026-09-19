@@ -43,6 +43,8 @@ export const ROAD_TO_TOWN = 30;
 export const STEEPEST = 0.06;
 /** How far round each settlement its watercourses and timber are kept on the saved map. */
 export const KEPT_ROUND_SETTLEMENT = 13;
+/** How far round a ford a creek is kept on the saved map, wherever the ford is (docs/MAP_ACCURACY.md §10). */
+export const CREEK_AT_CROSSING = 2;
 
 /** Segments with their boxes, bucketed on a one-mile grid, so "what water is near here" is cheap. */
 function segmentIndex(courses) {
@@ -135,7 +137,11 @@ export function buildColoniesRegion(random, playerCount) {
   const sites = {}, routes = {}, terrain = [];
 
   for (const place of Object.values(built.places)) {
-    sites[place.id] = { id: place.id, name: place.name, kind: place.kind, x: place.x, y: place.y, claimId: place.claimId, ...(place.start && { start: true }), ...(place.settlementId && { settlementId: place.settlementId }) };
+    sites[place.id] = { id: place.id, name: place.name, kind: place.kind, x: place.x, y: place.y, claimId: place.claimId, ...(place.start && { start: true }), ...(place.settlementId && { settlementId: place.settlementId }),
+      // A crossing (docs/MAP_ACCURACY.md §10): the water it is over (null for open water), which way it lies across it, whether
+      // the word and the fleeing families stop there (`stage`), and where its road meets the water when it stands off it (`over`).
+      ...(place.water !== undefined && { water: place.water, waterKind: place.waterKind, across: place.across, ...(place.span && { span: place.span }), ...(place.oblique && { oblique: place.oblique }) }),
+      ...(place.stage && { stage: true }), ...(place.over && { over: { x: place.over.x, y: place.over.y } }) };
   }
   for (const road of built.roads) {
     const id = `route-${road.from}-${road.to}`;
@@ -263,8 +269,14 @@ export function buildColoniesRegion(random, playerCount) {
     return { minX: s.x - KEPT_ROUND_SETTLEMENT, maxX: s.x + KEPT_ROUND_SETTLEMENT, minY: s.y - KEPT_ROUND_SETTLEMENT, maxY: s.y + KEPT_ROUND_SETTLEMENT };
   });
   const inKept = point => kept.some(box => inBox(point, box));
+  // A creek a road fords is kept for CREEK_AT_CROSSING miles round the ford wherever it is, so the ford is never drawn on dry
+  // ground (docs/MAP_ACCURACY.md §10). Creeks only: they carry no timber band and draw nothing from the seed.
+  const fords = Object.values(sites).filter(site => site.waterKind === 'creek');
+  const fordBoxes = fords.map(site => ({ water: site.water, site, minX: site.x - CREEK_AT_CROSSING, maxX: site.x + CREEK_AT_CROSSING, minY: site.y - CREEK_AT_CROSSING, maxY: site.y + CREEK_AT_CROSSING }));
   const courses = [];
   built.watercourses.forEach((course, index) => {
+    const own = course.kind === 'creek' ? fordBoxes.filter(box => box.water === course.name) : [];
+    const inKept = point => kept.some(box => inBox(point, box)) || own.some(box => inBox(point, box));
     const runs = [[]];
     // Which ends of a run are the course carrying on into country this map does not keep, rather
     // than the course's own head or mouth. A run is cut by dropping the points outside the kept
@@ -281,7 +293,9 @@ export function buildColoniesRegion(random, playerCount) {
     emitted.forEach(({ points, cut }, part) => {
       // ceiling: a creek under five miles is left off the saved map, which every save carries whole; drawing every creek
       // from the served colonies map is the way out.
-      if (course.kind === 'creek' && polylineLength(points) < 5) return;
+      // A run a ford is on is kept whatever its length.
+      const forded = own.some(box => points.slice(1).some((p, i) => segmentDistance(box.site, points[i], p) < 0.1));
+      if (course.kind === 'creek' && polylineLength(points) < 5 && !forded) return;
       const feature = { id: `water-${index}-${part}`, kind: course.kind, name: course.name, points, ...(cut.size && { cut: [...cut] }) };
       terrain.push(feature);
       courses.push(feature);

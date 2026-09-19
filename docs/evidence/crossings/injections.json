@@ -1,0 +1,62 @@
+{
+  "date": "2026-09-19T19:16:35.105Z",
+  "map": "649deb2f2d721cd17318ead8ce23b157787e47fc46aded03b74b6ce595e8adcb",
+  "results": [
+    {
+      "guards": "place",
+      "injected": "Vince's bridge laid four tenths of a mile up the bayou from its marker",
+      "file": "scripts/build-colonies-map.mjs",
+      "failed": [
+        "place"
+      ],
+      "alone": true
+    },
+    {
+      "guards": "every",
+      "injected": "the road from Roberts' to Burnett's given no crossings of its creeks",
+      "file": "scripts/build-colonies-map.mjs",
+      "failed": [
+        "every"
+      ],
+      "alone": true
+    },
+    {
+      "guards": "ferry",
+      "injected": "the ferry's wait reckoned at a walker's pace for every way of going",
+      "file": "sim/travel.mjs",
+      "failed": [
+        "ferry"
+      ],
+      "alone": true
+    },
+    {
+      "guards": "others",
+      "injected": "the flight made to wait at every ferry as well as its flooded crossings",
+      "file": "sim/scrape.mjs",
+      "failed": [
+        "others"
+      ],
+      "alone": true
+    },
+    {
+      "guards": "army",
+      "injected": "the army's march east a day of four hours' going",
+      "file": "sim/travel.mjs",
+      "failed": [
+        "army"
+      ],
+      "alone": true
+    },
+    {
+      "guards": "old",
+      "injected": "a class saved before read its three `crossing` places as ferries",
+      "file": "sim/ways.mjs",
+      "failed": [
+        "old"
+      ],
+      "alone": true
+    }
+  ],
+  "allAlone": true,
+  "restoredAndPassing": true
+}

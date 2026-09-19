@@ -1,0 +1,63 @@
+{
+  "result": "PASS",
+  "label": "crossings",
+  "date": "2026-09-19T19:24:00.541Z",
+  "sameComputerOnly": true,
+  "shots": [
+    {
+      "place": "bexar",
+      "zoom": "town",
+      "scale": 423.35,
+      "path": "docs/evidence/map-accuracy/crossings-bexar-town.png"
+    },
+    {
+      "place": "bexar",
+      "zoom": "county",
+      "scale": 47.63,
+      "path": "docs/evidence/map-accuracy/crossings-bexar-county.png"
+    },
+    {
+      "place": "bexar",
+      "zoom": "colonies",
+      "scale": 5.36,
+      "path": "docs/evidence/map-accuracy/crossings-bexar-colonies.png"
+    },
+    {
+      "place": "liberty",
+      "zoom": "town",
+      "scale": 423.35,
+      "path": "docs/evidence/map-accuracy/crossings-liberty-town.png"
+    },
+    {
+      "place": "liberty",
+      "zoom": "county",
+      "scale": 47.63,
+      "path": "docs/evidence/map-accuracy/crossings-liberty-county.png"
+    },
+    {
+      "place": "liberty",
+      "zoom": "colonies",
+      "scale": 5.36,
+      "path": "docs/evidence/map-accuracy/crossings-liberty-colonies.png"
+    },
+    {
+      "place": "gonzales",
+      "zoom": "town",
+      "scale": 451.82,
+      "path": "docs/evidence/map-accuracy/crossings-gonzales-town.png"
+    },
+    {
+      "place": "gonzales",
+      "zoom": "county",
+      "scale": 41.67,
+      "path": "docs/evidence/map-accuracy/crossings-gonzales-county.png"
+    },
+    {
+      "place": "gonzales",
+      "zoom": "colonies",
+      "scale": 4.69,
+      "path": "docs/evidence/map-accuracy/crossings-gonzales-colonies.png"
+    }
+  ],
+  "errors": []
+}

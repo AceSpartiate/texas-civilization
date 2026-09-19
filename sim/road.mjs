@@ -320,7 +320,8 @@ export function moveOn(world, household, refuge) {
   const flight = household.flight, at = flight.refuge;
   const { people: goers, beasts: with_ } = withFamily(world, household);
   const mode = ['wagon', 'ox'].every(kind => with_.some(beast => (beast.kind === kind || beast.species === kind) && (!beast.condition || beast.condition === 'sound'))) ? 'wagon' : 'foot';
-  const path = findWay(world, at, refuge, mode) || findWay(world, at, refuge, 'foot');
+  // The flight's crossings are its own waits (sim/scrape.mjs), not the ferries' ordinary hour.
+  const path = findWay(world, at, refuge, mode, { ferries: false }) || findWay(world, at, refuge, 'foot', { ferries: false });
   if (!goers.length || !path) return false;
   const departure = tell(world, household, `The family broke camp at ${world.map.sites[at].name} and set out east again for ${world.map.sites[refuge].name}${mode === 'wagon' ? ' with the ox and wagon' : ' on foot'}.`);
   const speed = mode === 'wagon' ? WAGON_SPEED : WALK_SPEED;
