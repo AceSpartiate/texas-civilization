@@ -19,8 +19,8 @@ import { bindLooks, renderLooks } from '/appearance.js';
 import { bindCreation, creationStep, renderCreation, showTitle } from '/creation.js';
 import { groundInputs, applyDrawState, canvasRatio, creekOpacity, distanceToSegments, ramp, readDrawState, sameLayerKey, scatterItem, scatterLevels, segmentsNear, setText, smoothCover, WATER, waterWidth, landPictureData, landUpscale, outOfSight } from '/map-base.js';
 import { canSmoothOffThread, smoothOffThread, toBitmap } from '/smooth-worker.js';
-import { groundClass, groundClassAt, markFor } from '/ground-classes.js';
-import { decodeLand, decodeProvince, landWeights, lineBand } from '/land-levels.js';
+import { DEFAULT_GROUND, groundClass, groundClassAt, markFor } from '/ground-classes.js';
+import { decodeLand, decodeOutside, decodeProvince, landWeights, lineBand, tileGrid, withoutClaims } from '/land-levels.js';
 import { frameTransform, gestureView, isTap, keyView, nearestSpot, reproject, tapSlop, wheelZoomFactor, worldAt, zoomAbout } from '/map-camera.js';
 const $ = selector => document.querySelector(selector);
 const say = message => { for (const id of ['#error', '#join-error', '#rejoin-error']) { const el = $(id); if (el) el.textContent = message; } };
@@ -1145,19 +1145,40 @@ function waterCover(map) {
  * four nested bands, and the land's classes and hillshade on grids of 8, 2 and half a mile. The land is the same for every
  * class on the real land, so they are fetched once for the page, and the ground is redrawn when they land.
  */
-let landLevels = { key: null, province: null, land: null, pending: false, failed: false };
+let landLevels = { key: null, province: null, land: null, outside: null, pending: false, failed: false };
+/**
+ * The country outside the colonies' box (docs/MAP_ACCURACY.md §8, public/land-levels.js): its lines, its land grids cut into
+ * pieces the page can smooth, its woods, and the box's own grids without the edge cells it draws instead. Null for a map
+ * without it, or when it did not come: then the box is drawn alone, as it was.
+ */
+function outsideLevels(province, land, boxGrids) {
+  if (!province?.rivers || !land?.bands) return null;
+  const grids = decodeLand(land);
+  return {
+    province: decodeOutside(province),
+    grids,
+    tiles: grids.map(grid => tileGrid(grid)),
+    box: province.box,
+    boxGrids: (boxGrids || []).map(grid => withoutClaims(grid, grids.find(other => other.cellMiles === grid.cellMiles))),
+  };
+}
 function ensureLandLevels(map) {
   const levels = map?.province?.levels;
   if (!levels?.href || !levels.land) return;
-  const key = `${levels.href}|${levels.land}`;
+  const key = `${levels.href}|${levels.land}|${levels.outside || ''}|${levels.outsideLand || ''}`;
   if (landLevels.key === key) return;
-  const mine = landLevels = { key, province: null, land: null, pending: true, failed: false };
+  const mine = landLevels = { key, province: null, land: null, outside: null, pending: true, failed: false };
   const load = href => fetch(href).then(response => response.ok ? response.json() : null);
-  Promise.all([load(levels.href), load(levels.land)]).then(([province, land]) => {
+  // The country outside the box is a picture round the box and nothing else: if it does not come, the box is drawn alone.
+  const maybe = href => href ? load(href).catch(() => null) : Promise.resolve(null);
+  Promise.all([load(levels.href), load(levels.land), maybe(levels.outside), maybe(levels.outsideLand)]).then(([province, land, outside, outsideLand]) => {
     if (landLevels !== mine) return;
     mine.pending = false;
     mine.province = province?.rivers ? decodeProvince(province) : null;
     mine.land = land?.bands ? decodeLand(land) : null;
+    mine.outside = outsideLevels(outside, outsideLand, mine.land);
+    // Presentation evidence for proofs: what of the country outside the box the page holds.
+    window.__outsideLoaded = mine.outside ? { rivers: mine.outside.province.rivers.map(river => river.name), pieces: mine.outside.tiles.map(list => list.length), bounds: mine.outside.province.bounds, box: mine.outside.box } : null;
     redrawForArrival();
   }).catch(() => { if (landLevels === mine) { mine.pending = false; mine.failed = true; } });
 }
@@ -1166,6 +1187,9 @@ const levelsOf = world => world.map?.province?.levels && landLevels.province ? l
 function drawProvince(ctx, world, camera) {
   const province = world.map?.province;
   if (!province) return false;
+  // The country outside the box first, on the same lattice and tint, and the box's own over it.
+  const outside = levelsOf(world)?.outside;
+  if (outside?.province.relief) paintRelief(ctx, outside.province.relief, camera, 'outside');
   const painted = paintRelief(ctx, province.relief, camera, 'province');
   // On the real land the land's own classes are the cover (`drawLand`): the cover belts are a band-3 sketch of the same.
   if (levelsOf(world)?.land) return painted;
@@ -1194,7 +1218,10 @@ function lineBox(points) {
 /** The real land's rivers at the band this zoom draws, in miles: `{ points, miles, floor }`. */
 function levelRivers(levels, camera) {
   const band = lineBand(levels.province.bands, camera.scale);
-  return levels.province.rivers.map(river => ({ points: river.levels[band], miles: river.miles, floor: riverFloor(river.miles) })).filter(river => river.points?.length > 1);
+  // The rivers outside the box carry on the box's (the Colorado, the Guadalupe, the Medina, the Neches) and add the Rio Grande,
+  // the Nueces, the Frio and the Sabine, drawn exactly as the box's are.
+  const rivers = levels.outside ? [...levels.province.rivers, ...levels.outside.province.rivers] : levels.province.rivers;
+  return rivers.map(river => ({ points: river.levels[band], miles: river.miles, floor: riverFloor(river.miles) })).filter(river => river.points?.length > 1);
 }
 /**
  * The real land's lines from its levels: the sea, the escarpment and every river, each at the band this zoom draws. A band
@@ -1204,14 +1231,19 @@ function drawLevelLines(ctx, levels, camera) {
   const band = lineBand(levels.province.bands, camera.scale);
   const topLeft = camera.toWorld({ x: 0, y: 0 }), bottomRight = camera.toWorld({ x: ctx.canvas.width, y: ctx.canvas.height });
   const inView = (points, pad) => { const box = lineBox(points); return !(box.maxX < topLeft.x - pad || box.minX > bottomRight.x + pad || box.maxY < topLeft.y - pad || box.minY > bottomRight.y + pad); };
-  const rings = (levels.province.sea[band] || []).filter(ring => ring.length > 2 && inView(ring, 0));
-  if (rings.length) {
+  // The sea outside the box is filled on its own, under the box's: it runs a little under the box's edge so no hairline of
+  // land shows between them, and filled in one even-odd path with the box's the overlap would cancel out.
+  const seas = [...(levels.outside ? [levels.outside.province.sea[band] || []] : []), levels.province.sea[band] || []];
+  for (const sea of seas) {
+    const rings = sea.filter(ring => ring.length > 2 && inView(ring, 0));
+    if (!rings.length) continue;
     ctx.beginPath();
     for (const ring of rings) { ring.forEach((p, i) => { const q = camera.toScreen(p); i ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y); }); ctx.closePath(); }
     ctx.fillStyle = '#8fb0bd'; ctx.fill('evenodd');
   }
-  const escarpment = levels.province.escarpment[band];
-  if (escarpment?.length > 1 && inView(escarpment, 1)) {
+  const escarpments = [levels.province.escarpment[band], ...(levels.outside?.province.escarpment[band] || [])];
+  for (const escarpment of escarpments) {
+    if (!(escarpment?.length > 1) || !inView(escarpment, 1)) continue;
     ctx.save();
     ctx.strokeStyle = '#9a9070'; ctx.lineWidth = Math.min(4, Math.max(1, camera.scale * .6)); ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.setLineDash([9, 7]);
     ctx.beginPath(); escarpment.forEach((p, i) => { const q = camera.toScreen(p); i ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y); }); ctx.stroke();
@@ -1355,9 +1387,13 @@ function landPicture(grid) {
 function layLandPicture(ctx, camera, grid, canvas, upscale, alpha) {
   const perMile = upscale / grid.cellMiles;
   const topLeft = camera.toWorld({ x: 0, y: 0 }), bottomRight = camera.toWorld({ x: ctx.canvas.width, y: ctx.canvas.height });
-  const clamp = (value, most) => Math.max(0, Math.min(most, value));
-  const sx0 = clamp(Math.floor((topLeft.x - grid.minX) * perMile) - 2, canvas.width), sx1 = clamp(Math.ceil((bottomRight.x - grid.minX) * perMile) + 2, canvas.width);
-  const sy0 = clamp(Math.floor((topLeft.y - grid.minY) * perMile) - 2, canvas.height), sy1 = clamp(Math.ceil((bottomRight.y - grid.minY) * perMile) + 2, canvas.height);
+  // A piece of a larger grid (public/land-levels.js `tileGrid`) lays down only its core; the margin round it is its neighbours'.
+  const clamp = (value, least, most) => Math.max(least, Math.min(most, value));
+  const core = grid.core;
+  const cx0 = core ? clamp(Math.round((core.minX - grid.minX) * perMile), 0, canvas.width) : 0, cx1 = core ? clamp(Math.round((core.maxX - grid.minX) * perMile), 0, canvas.width) : canvas.width;
+  const cy0 = core ? clamp(Math.round((core.minY - grid.minY) * perMile), 0, canvas.height) : 0, cy1 = core ? clamp(Math.round((core.maxY - grid.minY) * perMile), 0, canvas.height) : canvas.height;
+  const sx0 = clamp(Math.floor((topLeft.x - grid.minX) * perMile) - 2, cx0, cx1), sx1 = clamp(Math.ceil((bottomRight.x - grid.minX) * perMile) + 2, cx0, cx1);
+  const sy0 = clamp(Math.floor((topLeft.y - grid.minY) * perMile) - 2, cy0, cy1), sy1 = clamp(Math.ceil((bottomRight.y - grid.minY) * perMile) + 2, cy0, cy1);
   if (sx1 <= sx0 || sy1 <= sy0) return;
   const a = camera.toScreen({ x: grid.minX + sx0 / perMile, y: grid.minY + sy0 / perMile }), b = camera.toScreen({ x: grid.minX + sx1 / perMile, y: grid.minY + sy1 / perMile });
   const was = ctx.globalAlpha, smoothing = ctx.imageSmoothingEnabled;
@@ -1366,17 +1402,29 @@ function layLandPicture(ctx, camera, grid, canvas, upscale, alpha) {
   ctx.globalAlpha = was; ctx.imageSmoothingEnabled = smoothing;
 }
 function drawLand(ctx, world, camera) {
-  const grids = levelsOf(world)?.land;
+  const levels = levelsOf(world), outside = levels?.outside;
+  // With the country outside the box, the box's grids lose their edge cells to it (`withoutClaims`): each cell is drawn once.
+  const grids = outside ? outside.boxGrids : levels?.land;
   if (!grids?.length) return;
   const weights = landWeights(camera.scale, grids.map(grid => grid.cellMiles));
   window.__landDrawn = Object.fromEntries(grids.map((grid, i) => [grid.cellMiles, Math.round(weights[i] * 100) / 100]));
+  const topLeft = camera.toWorld({ x: 0, y: 0 }), bottomRight = camera.toWorld({ x: ctx.canvas.width, y: ctx.canvas.height });
+  const seen = core => !(core.maxX < topLeft.x || core.minX > bottomRight.x || core.maxY < topLeft.y || core.minY > bottomRight.y);
+  // Only the pieces of the outside in view are smoothed and laid down, at the weight of the box's grid of the same cell.
+  const pieces = cell => (outside?.tiles[outside.grids.findIndex(grid => grid.cellMiles === cell)] || []).filter(tile => seen(tile.core));
+  let outsidePieces = 0;
   for (const layer of ['wash', 'shade']) {
     grids.forEach((grid, i) => {
       if (weights[i] <= 0.01) return;
+      for (const tile of pieces(grid.cellMiles)) {
+        const pictures = landPicture(tile);
+        if (pictures?.[layer]) { layLandPicture(ctx, camera, tile, pictures[layer], pictures.upscale, weights[i]); outsidePieces++; }
+      }
       const pictures = landPicture(grid);
       if (pictures?.[layer]) layLandPicture(ctx, camera, grid, pictures[layer], pictures.upscale, weights[i]);
     });
   }
+  window.__outsidePiecesDrawn = outsidePieces;
 }
 // Terrain is map data, not decoration invented by the renderer. An empty terrain list
 // draws nothing; it must never imply ground that the world does not actually model.
@@ -1498,7 +1546,8 @@ function drawGroundDetail(ctx, world, camera) {
     ? (x, y) => timberWater.some(course => distanceToSegments({ x, y }, course.points, course.near) < INVENTED_TIMBER_MILES)
     : (x, y) => woods.some(w => x >= w.minX && x <= w.maxX && y >= w.minY && y <= w.maxY && insidePolygon(x, y, w.points));
   const hasWoods = landWoods || water.length > 0 || woods.length > 0;
-  const landGrid = landHere?.land?.[0] || null;
+  const landGrid = (landHere?.outside ? landHere.outside.boxGrids[0] : landHere?.land?.[0]) || null;
+  const outsideGrid = landHere?.outside?.grids[0] || null;
   for (const { level, cell, alpha } of levels) {
     const startX = Math.floor(topLeft.x / cell), endX = Math.floor(bottomRight.x / cell);
     const startY = Math.floor(topLeft.y / cell), endY = Math.floor(bottomRight.y / cell);
@@ -1517,7 +1566,10 @@ function drawGroundDetail(ctx, world, camera) {
         // Kind is fixed by the cell: panning or zooming cannot turn a tuft into a tree.
         // The mark is the class of ground's (public/ground-classes.js). Timber on a map with the land's woods is the woods'
         // patches alone, so no oak stands where the simulation has none; elsewhere a timber class counts too.
-        const ground = groundClassAt(landGrid, wx, wy);
+        // The box's class; where it falls back to the default (the box's edge, and the country outside it) the outside layer's,
+        // which is none - the default again - wherever the box has its own.
+        const own = groundClassAt(landGrid, wx, wy);
+        const ground = outsideGrid && own === DEFAULT_GROUND ? groundClassAt(outsideGrid, wx, wy) : own;
         const timber = (hasWoods && inWoods(wx, wy)) || (!landWoods && groundClass(ground).timber === true);
         scattered.push({ share: item.share, seed: cx + cy, alpha: alpha * detail, timber, ground, point });
       }

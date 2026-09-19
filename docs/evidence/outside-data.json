@@ -1,0 +1,94 @@
+{
+  "record": "The country outside the colonies' box: docs/MAP_ACCURACY.md §8",
+  "date": "2026-09-18",
+  "verdict": "PASS",
+  "verdictMeaning": "The map reaches the Sabine and the Rio Grande (93.5-100.5°W, 25.8-32°N) as a display layer round the box, built from USGS, LANDFIRE and EPA data by scripts/build-outside.mjs with no dependencies, in the box's projection, origin and lattice. The box's own files are byte for byte what they were; nothing in the simulation reads the new files except the map's woods tiles.",
+  "ownerDecisions": [
+    "2026-09-18, by multiple choice: extent all three rivers (east to the Sabine, south and west to the Rio Grande from Matamoros to Eagle Pass); data USGS NHD including the edge units; outside the box full relief and woods, drawn the way the box is drawn. Downloads approved."
+  ],
+  "sources": {
+    "licence": "U.S. Geological Survey, The National Map; LANDFIRE (USGS/USDA); U.S. EPA: all public domain.",
+    "elevation": {
+      "product": "3DEP seamless 1 arc-second GeoTIFF (current release)",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/current/<tile>/USGS_1_<tile>.tif",
+      "downloaded": "2026-09-18",
+      "tiles": {
+        "n26w098": 7509780, "n26w099": 9418490, "n26w100": 11144579, "n26w101": 18097667,
+        "n27w098": 42891359, "n27w099": 49301428, "n27w100": 28122159, "n27w101": 15994040,
+        "n28w097": 476546, "n28w098": 42102195, "n28w099": 54612557, "n28w100": 40875264, "n28w101": 9903418,
+        "n29w100": 53447300, "n29w101": 33361357,
+        "n30w094": 14914034, "n30w100": 54792386, "n30w101": 53307688,
+        "n31w094": 61671694, "n31w100": 53386164, "n31w101": 51212067,
+        "n32w094": 57294677, "n32w100": 51193290, "n32w101": 49365543
+      },
+      "totalBytes": 864395682,
+      "notPublished": "Every other tile the extent touches outside the box was checked and USGS publishes none: open Gulf. nYYwXXX covers YY-1..YY °N and XXX-1..XXX °W.",
+      "mexico": "The border tiles carry heights across the Rio Grande into Mexico (checked every tenth of a degree): Mexico has real heights, but no vegetation."
+    },
+    "hydrography": {
+      "product": "National Hydrography Dataset, Best Resolution, HU4 shapefiles; only NHDFlowline is read",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Hydrography/NHD/HU4/Shape/NHD_H_<hu4>_HU4_Shape.zip",
+      "downloaded": "2026-09-18",
+      "units": {
+        "0808": ["Calcasieu (Louisiana)", 217064112],
+        "1114": ["Red, Sulphur", 290733220],
+        "1201": ["Sabine", 157835938],
+        "1202": ["Neches, Angelina", 149943141],
+        "1206": ["Brazos", 126077361],
+        "1208": ["Colorado (upper)", 30507974],
+        "1209": ["Colorado, Llano, San Saba, Pedernales, Concho", 146807757],
+        "1210": ["Guadalupe, San Antonio, Medina", 103343728],
+        "1211": ["Nueces, Frio", 108841495],
+        "1304": ["Rio Grande, Devils", 306022364],
+        "1308": ["Rio Grande", 83648872],
+        "1309": ["Rio Grande (lower)", 19556654],
+        "1311": ["10 flowlines, none named (mostly in Mexico)", 6833190],
+        "1312": ["3 flowlines, none named (mostly in Mexico)", 6052657]
+      },
+      "totalBytes": 1753268463,
+      "sameAsTheBox": "1201, 1202, 1206, 1209, 1210 and 1211 are the same size to the byte as the box's download of 2026-09-14 (terrain-data.json): the same release."
+    },
+    "vegetation": {
+      "what": "LANDFIRE LF2016_BPS (Biophysical Settings)",
+      "how": "LANDFIRE Product Service, Layer_List=LF2016_BPS, Area_of_Interest=-100.5 25.8 -93.5 32, Output_Projection=4326, Resample_Resolution=240; job 371d8dc9-70c9-4a02-8d29-c94518797dcf, succeeded 2026-09-18.",
+      "file": "j6853d837e9764b2598a8c26531881c45.tif, 1,576,130 bytes, with its .tif.vat.dbf (92,431 bytes); lf2016_bps_outside.zip 1,670,398 bytes.",
+      "filing": "Every setting filed as scripts/build-woods.mjs files the box's (read from colonies-woods.json), and the two the box never met: 11490 Western Great Plains Shortgrass Prairie as prairie, 11550 North American Warm Desert Riparian Systems as creek timber.",
+      "mexico": "No settings south and west of the Rio Grande."
+    },
+    "ecoregions": {
+      "what": "U.S. EPA Level IV Ecoregions of Texas, tx_eco_l4 (2011)",
+      "url": "https://dmap-prod-oms-edc.s3.us-east-1.amazonaws.com/ORD/Ecoregions/tx/tx_eco_l4.zip",
+      "bytes": 4213632,
+      "downloaded": "2026-09-18"
+    },
+    "kept": "Raw downloads stay out of the repository, under C:\\Users\\zachw\\TexasData\\raw (about 2.6 GB).",
+    "notOnDisk": "The box's own raw data (its DEM tiles, NHD 1203, 1204 and 1207) is gone and was not downloaded again: build-terrain and build-woods cannot be rerun, and nothing here needs them."
+  },
+  "build": {
+    "command": "node --max-old-space-size=8192 scripts/build-outside.mjs <raw-dir>",
+    "seconds": 110,
+    "grid": "3456 x 3456 cells of an eighth of a mile, x -189..243, y -173..259: the box's lattice grown by whole eight-mile cells; the box's grid at column 768, row 0.",
+    "transformations": [
+      "Projection and origin: the box's own (colonies-water.json header), so the two meet without a seam.",
+      "Heights: each cell the mean of the 1 arc-second samples in it, inside the box the box's own heights (5,311,640 cells), outside from the tiles (4,598,042 cells).",
+      "The sea: no land or ground under 0.3 m joined to the Gulf, the flood free to cross the box's own water; opened by a cell, as in the box.",
+      "Cover: LANDFIRE through the woods' stands, EPA 34g/h/i marsh, sand where low land looks out on the open Gulf, holes filled from the land round them. Mexico (land joined to the Rio Grande's far bank with no setting) is mesquite and thornscrub brush (ceiling).",
+      "Relief: the box's rules (scripts/terrain/land-rules.mjs, held to the box's own classes by a test), the escarpment on EPA's line carried west of the box.",
+      "Land bands of 0.5, 2 and 8 miles on the box's lattice; on the box's edge the box's own classes with a hillshade worked from real ground on both sides.",
+      "Rivers: the Rio Grande, the Nueces, the Frio and the Sabine, and the Colorado, the Guadalupe, the Medina and the Neches past the box; StreamRiver and named ArtificialPath flowlines, simplified to 0.01 mile, joined, and banded at the province's tolerances. Inside the box the Nueces, the Frio and the Sabine are the box's own courses."
+    ],
+    "output": {
+      "public/terrain/outside-province.json.gz": 71373,
+      "public/terrain/outside-land.json.gz": 170070,
+      "public/terrain/outside-woods.bin.gz": 420206,
+      "public/terrain/outside-woods.json.gz": 751
+    }
+  },
+  "measured": {
+    "landOutsideTheBox": "water 39.7, brush 24.8, prairie 15.1, hill country 9.6, floodplain 4.9, pine 2.2, live oak 1.6, marsh 1.2, savanna 0.8, sand 0.1 per cent of the cells; Mexico 866,989 cells (13,547 square miles).",
+    "rivers": "24 pieces; 4,844 / 1,266 / 314 / 86 points at the four bands.",
+    "sea": "73 / 11 / 4 / 2 rings, 3,218 / 555 / 135 / 42 points.",
+    "seams": "Where each river crosses the box's edge, miles from the box's own line: Nueces south edge 0.002, Nueces west edge 0.024, Frio 0.019, Sabine 0.035, Colorado 0.014, Guadalupe 0.009, Medina 0.001, Neches 0.008. The Brazos and the San Antonio never leave the box inside the map.",
+    "boxEdgeCellsDrawnFromHere": "4,608 of the half-mile band, 1,144 of the two-mile, 276 of the eight-mile."
+  }
+}

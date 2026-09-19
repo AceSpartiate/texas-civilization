@@ -188,9 +188,13 @@ export const woodsRule = world => world?.map?.woods === WOODS_SOURCE ? 'landfire
  * too coarse to see a narrow creek's timber, so a creek through prairie, savanna, brush or the hills keeps its strip.
  * `rule` is `woodsRule(world)`; the other two rules have only creek timber and prairie, `timberAt` saying which.
  */
-export function standAt(point, { rule = 'landfire', nearCreek = null, timberAt = null } = {}) {
+export function standAt(point, { rule = 'landfire', nearCreek = null, timberAt = null, beyond = null } = {}) {
   if (rule !== 'landfire') return timberAt?.(point) ? 'creek' : 'prairie';
-  const stand = gridStandAt(point);
+  // `beyond(point)` is the stand where the box's grid has none: passed only by the map's woods tiles (sim/woods-view.mjs), so
+  // the country outside the box is drawn with woods (docs/MAP_ACCURACY.md §8). The simulation never passes it, and never
+  // sees a tree past the box.
+  let stand = gridStandAt(point);
+  if (stand === 'none' && beyond) stand = beyond(point);
   if (['prairie', 'post-oak', 'hill-savanna', 'brush'].includes(stand) && nearCreek?.(point, CREEK_TIMBER_MILES)) return 'creek';
   return stand;
 }

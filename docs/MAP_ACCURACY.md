@@ -40,7 +40,8 @@ now stands at the ferry, where Buffalo Bayou meets the San Jacinto.
 
 ## 2. Sources
 
-No new data was downloaded. Everything is built from what the game already ships in `public/terrain`:
+Inside the colonies' box (94-99°W, 28-32°N) everything is built from what the game already shipped in `public/terrain`. The
+country outside it (§8) is built from data downloaded on 2026-09-18 with the owner's approval, kept outside the repository:
 
 | Data | Source | Licence | Record |
 |---|---|---|---|
@@ -48,11 +49,17 @@ No new data was downloaded. Everything is built from what the game already ships
 | Heights, the sea and bays | USGS 3DEP 1 arc-second (downloaded 2026-09-14) | public domain | `docs/evidence/terrain-data.json` |
 | Vegetation | LANDFIRE LF2016 Biophysical Settings (requested 2026-09-15) | public domain | `docs/evidence/woods-data.json` |
 | Ecoregions, the escarpment, coastal marsh | U.S. EPA Level IV Ecoregions of Texas (2011) | public domain | `docs/evidence/woods-data.json` |
+| Rivers outside the box | USGS NHD NHDFlowline, HU4 0808, 1114, 1201, 1202, 1206, 1208, 1209, 1210, 1211, 1304, 1308, 1309, 1311, 1312 (downloaded 2026-09-18) | public domain | `docs/evidence/outside-data.json` |
+| Heights outside the box | USGS 3DEP 1 arc-second, 24 tiles round the box (downloaded 2026-09-18) | public domain | `docs/evidence/outside-data.json` |
+| Vegetation outside the box | LANDFIRE LF2016 Biophysical Settings over 100.5-93.5°W, 25.8-32°N (LFPS job 371d8dc9, 2026-09-18) | public domain | `docs/evidence/outside-data.json` |
+| Ecoregions outside the box | U.S. EPA Level IV Ecoregions of Texas (2011), downloaded again 2026-09-18 | public domain | `docs/evidence/outside-data.json` |
 | Alamo, Lynch's ferry, the banks | Wikipedia (*Alamo Mission in San Antonio*, *Lynchburg Ferry*), TSHA Handbook entries | cited as facts | `HIST-TEX-084`, `HIST-TEX-085` |
 
-`ceiling:` the province ends at the colonies' box (94-99°W, 28-32°N), which is all the data covers. The invented province
-reached the Rio Grande, the Nueces and the Sabine; those rivers are not drawn, rather than drawn in the wrong place. Natural
-Earth or NHD for the neighbouring HU4 units would draw them, and would need the owner's approval to download.
+Until 2026-09-18 the province ended at the colonies' box, which was all the data covered: the invented province had reached
+the Rio Grande, the Nueces and the Sabine, and those rivers were left undrawn rather than drawn in the wrong place.
+`ceiling:` the map now ends at 93.5-100.5°W and 25.8-32°N (owner, 2026-09-18, §8) - east to the Sabine, south and west to
+the Rio Grande from Matamoros to Eagle Pass - and the camera goes no further. Del Rio, the Devils River and the Pecos lie just
+west of it and the Red River country north of 32°N; carrying the map on needs more tiles and units and the owner's word.
 
 ## 3. What was built
 
@@ -64,7 +71,14 @@ node scripts/build-woods.mjs <bps> <vat> <eco> # woods stands, ecoregions (uncha
 node scripts/build-colonies-map.mjs            # places, roads, drawn watercourses (Lynchburg moved)
 node scripts/build-land.mjs                    # NEW: land and relief classes, the sea, the escarpment
 node scripts/build-province.mjs                # NEW: the real province, every band
+node --max-old-space-size=8192 scripts/build-outside.mjs <raw-dir>
+                                               # 2026-09-18: the country outside the box (§8); reads the box's
+                                               # files and writes only outside-*; needs the raw data (outside-data.json)
 ```
+
+The first five are the box's, and `build-land` and `build-province`, rerun on 2026-09-18 over the files the game ships, give
+their files back byte for byte (§8.4). The box's raw data (its DEM tiles, NHD 1203, 1204 and 1207) is no longer on disk, so
+`build-terrain` and `build-woods` cannot be rerun; nothing here needs them to be.
 
 - **`scripts/terrain/lines.mjs`**: Douglas-Peucker that only keeps points it was given (so bands nest), ring
   simplification, marching-squares contours with interpolation, and `joinReaches` (moved out of the colonies build).
@@ -78,8 +92,8 @@ node scripts/build-province.mjs                # NEW: the real province, every b
 - **`sim/land.mjs`**: the legends, `landAt(x, y)`, `landBand(i)`.
 - **`sim/world.mjs`**: `projectMap` and `projectWorld` send `mapForPage(world.map)`. **A class on the real land no longer
   saves a province**; the page is sent the current one whenever it asks for the map, so a class saved with the invented
-  province is drawn with the real one too. `map.bounds` is sent as the box's. No `saveVersion` moved: the province is
-  drawing, not state, and its correct value for an old save is the current one.
+  province is drawn with the real one too. `map.bounds` is sent as the box's (since 2026-09-18, the whole map's: §8). No
+  `saveVersion` moved: the province is drawing, not state, and its correct value for an old save is the current one.
 - **`server/app.mjs`**: `GET /terrain/colonies-province.json` and `GET /terrain/colonies-land.json`, the built files sent
   gzipped as stored (`Content-Encoding: gzip`, `Cache-Control: no-cache`).
 
@@ -230,12 +244,53 @@ the bend at Béxar put the river west of the plaza), `coast: [{x, y}]` (the long
 About 130 KB, where the invented province was 28 KB; the save is 28 KB smaller. `map.bounds` is the box: the camera no
 longer zooms out to the invented province's 740 by 510 miles, only to the 301 by 275 the data covers.
 
+**Since 2026-09-18** (§8): `map.bounds` is the whole map, `mapBounds()` - 93.5-100.5°W, 25.8-32°N, x -182.52 to 239.28 and
+y -172.81 to 254.22, 422 by 427 miles - whatever a class saved; `province.bounds` stays the box's. `province.rivers` carries
+the outside layer's pieces after the box's, at the same band and in the same shape, named alike (the Rio Grande, the Nueces,
+the Frio, the Sabine and the ends of the Colorado, Guadalupe, Medina and Neches): about 32 KB more (8 KB gzipped).
+`province.levels` adds `outside: '/terrain/outside-province.json'` and `outsideLand: '/terrain/outside-land.json'`.
+
+### 6.4 `GET /terrain/outside-province.json` (`outsideBands()`)
+
+The shape of §6.1, for the country outside the box:
+
+```
+{ kind: 'texas-outside-province', version: 1, sources, builtFrom, units,
+  bounds: { minX: -182.52, maxX: 239.28, minY: -172.81, maxY: 254.22 },   // the whole map
+  box:    { minX: -92.14, maxX: 209.15, minY: -172.81, maxY: 102.69 },    // where the box's own province is drawn
+  bands: [0.05, 0.25, 1, 3],                                             // the province's
+  rivers: [{ id, name, channelFeet, width, length, from: 'outside'|'box', levels: [flat|null × 4] }],
+           //   'outside': a piece past the box, carried one point into it where it crosses the edge
+           //   'box': a piece inside the box of a river the box's province does not draw, from the box's own courses
+           //   ids go on from the province's pieces of the same river (colorado-river-9 ...), so an id names one piece
+  sea:   { levels: [[ring, ...] × 4] },      // the water outside the box, and the box's own for two cells inside its edge
+  shore: { levels: [[flat, ...] × 4] },      // not the extent's edge, not the box's
+  escarpment: { levels: [[flat, ...] × 4] }, // EPA's line west of the box, in pieces; band 0 is band 1's
+  seams: [{ id, name, x, y, miles }],        // where each piece crosses the box's edge, and how far from the box's line
+  relief: { columns, rows, minX, minY, cellX, cellY, low, high, values } }   // the province's lattice and tint, carried on
+```
+
+### 6.5 `GET /terrain/outside-land.json`
+
+The shape of §6.2: `land`, `relief`, `cellByte`, `shadeByte`, and `bands` of 0.5, 2 and 8 miles on the box's own lattice
+(each band's `minX`, `minY` differ from the box's by whole cells), 864, 216 and 54 cells a side. A cell is 0 where the box
+draws its own. Inside the box a cell is not 0 only on the box's edge - any cell whose three-by-three neighbourhood reaches
+out of the box - and there its class is the box's own band's (`claims`): the page draws those cells from here and not from
+the box's band, because the box's hillshade at its edge was worked against heights read as sea level past it.
+
+### 6.6 `outside-woods.json.gz` and `outside-woods.bin.gz` (the server's only)
+
+The stand of every eighth-of-a-mile cell outside the box, on the box's lattice, in the byte order of `colonies-woods.bin`
+(`stands` lists it); 0 inside the box and off the map. Read by `sim/outside-woods.mjs` for the woods tiles (§8.2); never sent
+to the page and never read by the simulation.
+
 ## 7. What remains (ceilings)
 
 - The page's province stroke (`drawProvince` in `public/app.js`) still draws every band-1 river at every zoom under the
   colonies map's own rivers, and the woods tiles still arrive in steps: the pop-in is the rendering work, which now has
   bands that nest to draw.
-- Rivers outside the box (Rio Grande, Nueces, Sabine) are not drawn (§2).
+- ~~Rivers outside the box (Rio Grande, Nueces, Sabine) are not drawn (§2).~~ Done 2026-09-18 (§8): the map reaches the
+  Sabine and the Rio Grande, with the country between drawn as the box is. Its own ceilings are §8.5.
 - ~~The Béxar street layout draws its own reconstructed river.~~ Done 2026-09-17 (`FIC-GONZ-058`): the map's modern line
   through Béxar was the 1920s cut-off channel, running through the town's lots, and the layout was pinned 220 ft west of its
   plaza. The town is now pinned by the Plaza de las Islas on Béxar's point and turned so the Alamo church lies on its true

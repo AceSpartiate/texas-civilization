@@ -9,6 +9,7 @@
 // Only a class that reads its woods (`woodsRule` 'landfire') has any; every other class draws as it always has.
 import { landAround } from './ground.mjs';
 import { KINDS, PATCH_MILES, SIZES, patchAt, patchCover, treesIn, woodsRule } from './woods.mjs';
+import { outsideStandAt } from './outside-woods.mjs';
 
 export const WOODS_TILE_MILES = Object.freeze({ shade: 8, patches: 1, trees: 0.25 });
 /** How many points of each one-mile cell are read for its shade: a four by four grid. */
@@ -53,7 +54,8 @@ export function woodsTile(world, level, tx, ty) {
     return tile;
   }
   const land = landAround();
-  const options = { rule: 'landfire', nearCreek: land.nearCreek };
+  // Past the box the stands are the outside layer's (sim/outside-woods.mjs), so the map's woods run on over its edge.
+  const options = { rule: 'landfire', nearCreek: land.nearCreek, beyond: outsideStandAt };
   const minX = tx * size, minY = ty * size;
   return treeTile(world, level, tx, ty, size, minX, minY, options);
 }
@@ -61,7 +63,8 @@ export function woodsTile(world, level, tx, ty) {
 /** A `shade` or `patches` tile, worked out from the land. */
 function landTile(level, tx, ty, size) {
   const land = landAround();
-  const options = { rule: 'landfire', nearCreek: land.nearCreek };
+  // Past the box the stands are the outside layer's (sim/outside-woods.mjs), so the map's woods run on over its edge.
+  const options = { rule: 'landfire', nearCreek: land.nearCreek, beyond: outsideStandAt };
   const minX = tx * size, minY = ty * size;
   if (level === 'shade') {
     const cells = [];

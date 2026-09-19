@@ -25,17 +25,38 @@ export const LAND_HREF = '/terrain/colonies-land.json';
 export const PROVINCE_FILE = new URL('../public/terrain/colonies-province.json.gz', import.meta.url);
 export const LAND_FILE = new URL('../public/terrain/colonies-land.json.gz', import.meta.url);
 /**
+ * The country outside the colonies' box (scripts/build-outside.mjs, docs/MAP_ACCURACY.md §8): east to the Sabine and south
+ * and west to the Rio Grande, drawn round the box and never inside it except for rivers the box does not draw. A display
+ * layer only - nothing in the simulation reads it - in the same projection, origin and bands as the box's own files.
+ */
+export const OUTSIDE_HREF = '/terrain/outside-province.json';
+export const OUTSIDE_LAND_HREF = '/terrain/outside-land.json';
+export const OUTSIDE_FILE = new URL('../public/terrain/outside-province.json.gz', import.meta.url);
+export const OUTSIDE_LAND_FILE = new URL('../public/terrain/outside-land.json.gz', import.meta.url);
+/** The files the page may fetch of the real land, by the path it asks for: all built, all gzipped as stored. */
+export const TERRAIN_FILES = Object.freeze({ [PROVINCE_HREF]: PROVINCE_FILE, [LAND_HREF]: LAND_FILE, [OUTSIDE_HREF]: OUTSIDE_FILE, [OUTSIDE_LAND_HREF]: OUTSIDE_LAND_FILE });
+/**
  * The bands the classic shape draws: a quarter-mile tolerance for the rivers, so a river drawn under the colonies' own
  * rivers close up lies within a quarter mile of them; a mile for the coast and the escarpment; three miles for the belts
  * of country, which only the map zoomed right out shows (closer in the woods tiles draw the timber), at a fifth the size.
  */
 export const CLASSIC_LINE_BAND = 1, CLASSIC_OUTLINE_BAND = 2, CLASSIC_BELT_BAND = 3;
 
-let bands = null, classic = null;
+let bands = null, classic = null, outside = null;
 export function provinceBands() {
   if (!bands) bands = JSON.parse(gunzipSync(readFileSync(PROVINCE_FILE)).toString('utf8'));
   return bands;
 }
+/** The country outside the box, every band (the file `/terrain/outside-province.json` serves). */
+export function outsideBands() {
+  if (!outside) outside = JSON.parse(gunzipSync(readFileSync(OUTSIDE_FILE)).toString('utf8'));
+  return outside;
+}
+/**
+ * How far the map reaches, in the game's miles: the whole of it, 93.5-100.5°W and 25.8-32°N (owner, 2026-09-18). The camera
+ * zooms out to this and no further. The box's own bounds (`provinceBands().bounds`) are where its data is.
+ */
+export const mapBounds = () => outsideBands().bounds;
 
 const points = flat => { const out = []; for (let i = 0; i < flat.length; i += 2) out.push({ x: flat[i] / 100, y: flat[i + 1] / 100 }); return out; };
 const area = ring => ring.reduce((sum, p, i) => { const q = ring[(i + 1) % ring.length]; return sum + p.x * q.y - q.x * p.y; }, 0) / 2;
@@ -96,7 +117,12 @@ export function coloniesProvince() {
     .map((polygon, index) => ({ id: `${cover.id}-${index}`, name: cover.name, cover: cover.id, points: polygon })));
   classic = Object.freeze({
     source: data.kind,
-    rivers: data.rivers.filter(river => river.levels[CLASSIC_LINE_BAND]).map(river => ({ id: river.id, name: river.name, width: river.width, channelFeet: river.channelFeet, points: classicLine(river, data.settlements) })),
+    // The rivers outside the box - the Rio Grande, the Nueces, the Sabine and the ends of the box's own - named alike, at the
+    // same band, after the box's.
+    rivers: [
+      ...data.rivers.filter(river => river.levels[CLASSIC_LINE_BAND]).map(river => ({ id: river.id, name: river.name, width: river.width, channelFeet: river.channelFeet, points: classicLine(river, data.settlements) })),
+      ...outsideBands().rivers.filter(river => river.levels[CLASSIC_LINE_BAND]).map(river => ({ id: river.id, name: river.name, width: river.width, channelFeet: river.channelFeet, points: points(river.levels[CLASSIC_LINE_BAND]) })),
+    ],
     coast,
     belts,
     escarpment: points(data.escarpment.levels[CLASSIC_OUTLINE_BAND]),
@@ -104,14 +130,18 @@ export function coloniesProvince() {
     roads: [],
     relief: data.relief,
     bounds: data.bounds,
-    levels: { bands: data.bands, href: PROVINCE_HREF, land: LAND_HREF },
+    levels: { bands: data.bands, href: PROVINCE_HREF, land: LAND_HREF, outside: OUTSIDE_HREF, outsideLand: OUTSIDE_LAND_HREF },
   });
   return classic;
 }
 
-/** A map as the page is sent it: a class on the real land gets the real province and its bounds, whatever it was saved with. */
+/**
+ * A map as the page is sent it: a class on the real land gets the real province, whatever it was saved with, and the whole
+ * map's bounds (`mapBounds`), whatever it was saved with: the box's until 2026-09-18, now out to the Sabine and the Rio Grande.
+ * Nothing in the simulation reads `map.bounds`; it is how far the page's camera may go.
+ */
 export function mapForPage(map) {
   if (map?.source !== COLONIES_SOURCE) return map;
   const province = coloniesProvince();
-  return { ...map, province, bounds: province.bounds };
+  return { ...map, province, bounds: mapBounds() };
 }

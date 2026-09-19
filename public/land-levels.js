@@ -71,3 +71,73 @@ export function landWeights(scale, cells = [0.5, 2, 8]) {
   }
   return weights;
 }
+
+// ------------------------------------------------------------------------------------------ the country outside the box
+//
+// Owner, 2026-09-18: the map grows east to the Sabine and south and west to the Rio Grande (docs/MAP_ACCURACY.md §8).
+// `/terrain/outside-province.json` and `/terrain/outside-land.json` are that country in the box's own shapes, bands and
+// lattice (scripts/build-outside.mjs): drawn beside the box, and inside it only where the box leaves something undrawn -
+// the rivers it does not draw, and the ring of its land cells at its edge whose hillshade leaned on nothing.
+
+/** The outside layer's lines decoded once, in the shape `decodeProvince` gives, with the escarpment in pieces. */
+export function decodeOutside(data) {
+  const province = decodeProvince({ ...data, escarpment: null });
+  return {
+    ...province,
+    box: data.box,
+    escarpment: (data.escarpment?.levels || []).map(pieces => pieces.map(flatPoints)),
+    relief: data.relief || null,
+  };
+}
+
+/**
+ * A land grid cut into pieces small enough to be smoothed into a picture at two pixels a cell or more (public/map-base.js
+ * `landUpscale`: at one pixel a cell a picture is not smoothed at all, and its classes would be squares beside the box's
+ * soft ones). Each piece carries `margin` cells of its neighbours, so its smoothing near its edge is the whole grid's, and a
+ * `core` in miles, the part it draws: laid side by side, the cores are the whole grid with no seam. Pieces with nothing to
+ * draw are left out. A grid small enough is one piece.
+ */
+export function tileGrid(grid, { most = 375000, margin = 3 } = {}) {
+  const cell = grid.cellMiles;
+  const coreOf = (c0, r0, c1, r1) => ({ minX: grid.minX + c0 * cell, minY: grid.minY + r0 * cell, maxX: grid.minX + c1 * cell, maxY: grid.minY + r1 * cell });
+  if (grid.columns * grid.rows <= most) return [{ ...grid, core: coreOf(0, 0, grid.columns, grid.rows) }];
+  let across = 2;
+  while ((Math.ceil(grid.columns / across) + 2 * margin) * (Math.ceil(grid.rows / across) + 2 * margin) > most) across++;
+  const width = Math.ceil(grid.columns / across), height = Math.ceil(grid.rows / across), tiles = [];
+  for (let r0 = 0; r0 < grid.rows; r0 += height) for (let c0 = 0; c0 < grid.columns; c0 += width) {
+    const c1 = Math.min(grid.columns, c0 + width), r1 = Math.min(grid.rows, r0 + height);
+    let any = false;
+    for (let r = r0; r < r1 && !any; r++) for (let c = c0; c < c1; c++) if (grid.cells[r * grid.columns + c]) { any = true; break; }
+    if (!any) continue;
+    const pc0 = Math.max(0, c0 - margin), pc1 = Math.min(grid.columns, c1 + margin), pr0 = Math.max(0, r0 - margin), pr1 = Math.min(grid.rows, r1 + margin);
+    const columns = pc1 - pc0, rows = pr1 - pr0;
+    const cut = source => {
+      if (!source) return source;
+      const out = new Uint8Array(columns * rows);
+      for (let r = 0; r < rows; r++) out.set(source.subarray((pr0 + r) * grid.columns + pc0, (pr0 + r) * grid.columns + pc1), r * columns);
+      return out;
+    };
+    tiles.push({ ...grid, minX: grid.minX + pc0 * cell, minY: grid.minY + pr0 * cell, columns, rows, cells: cut(grid.cells), relief: cut(grid.relief), shade: cut(grid.shade), core: coreOf(c0, r0, c1, r1) });
+  }
+  return tiles;
+}
+
+/**
+ * The box's land grid without the cells the outside layer draws instead (its edge: the outside grid of the same cell has a
+ * class there). Cell for cell on the one lattice, so the two grids never both draw a cell and never leave one undrawn.
+ * The same grid when the outside claims none of it.
+ */
+export function withoutClaims(grid, outside) {
+  if (!outside || outside.cellMiles !== grid.cellMiles) return grid;
+  const offsetColumn = Math.round((grid.minX - outside.minX) / grid.cellMiles), offsetRow = Math.round((grid.minY - outside.minY) / grid.cellMiles);
+  let cells = null;
+  for (let r = 0; r < grid.rows; r++) for (let c = 0; c < grid.columns; c++) {
+    const oc = c + offsetColumn, or = r + offsetRow;
+    if (oc < 0 || or < 0 || oc >= outside.columns || or >= outside.rows || !outside.cells[or * outside.columns + oc]) continue;
+    const i = r * grid.columns + c;
+    if (!grid.cells[i]) continue;
+    cells ||= grid.cells.slice();
+    cells[i] = 0;
+  }
+  return cells ? { ...grid, cells } : grid;
+}
