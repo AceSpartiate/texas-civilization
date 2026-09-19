@@ -434,7 +434,7 @@ errands were hidden from the director's list along with a student's, and the stu
 With that mended, over the same six classes: finals **25, 56, 26, 74, 67 and 1**, ranks 12, 11, 12, 6, 9 and 11 of 15, **no
 class won**; the first family fought in every class (finals 154 to 226). Staying home is now possible but no longer shown
 winning. Much else moved between the two runs (the winter, the Alamo, Houston's march, the neighbours hunting and buying
-seed), so this is recorded, not tuned; whether to tune it is the owner's.
+seed), so this is recorded, not tuned. Put to the owner the same day by multiple choice - measure more, tune it up, or leave it - the owner answered: **leave it**. Staying home and selling stays possible and hard.
 
 
 - **A patriotism meter.** `VISION.md` §11 still forbids it, and this is the mechanic most likely to
