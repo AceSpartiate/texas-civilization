@@ -33,7 +33,7 @@
     "nothing moves while it waits: three ticks passed and the work had not gone a step further",
     "the family answers, and the hunt goes on",
     "a student watches four named stages of a hunt, not one: \"reading the ground at the edge of the timber\", \"working up through the timber\", \"waiting downwind, and still\", \"downwind, with the shot there to take\", \"letting it come closer\", \"the shot\"",
-    "and is painted working through the trees, not standing on one spot (16 places, 37px apart on screen)",
+    "and is painted working through the trees, not standing on one spot (111 places, 35px apart on screen)",
     "the hunter's own poses change with the stages: blue-search, blue-idle-s, blue-carry, blue-walk",
     "and they are drawn carrying something home, which the carry cycle had never been used for outside the harvest",
     "the shot is a puff of smoke in the trees; the server removes the projected deer after it",
@@ -51,8 +51,8 @@
       "the shot",
       "carrying it home from the timber"
     ],
-    "placesPaintedInTheTimber": 16,
-    "screenSpreadPixels": 37,
+    "placesPaintedInTheTimber": 111,
+    "screenSpreadPixels": 35,
     "clipsBound": [
       "blue-carry",
       "blue-idle-s",

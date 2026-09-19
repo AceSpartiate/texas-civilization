@@ -9,7 +9,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
-  ProjectionMotion, MarkerFade, MARKER_ABOVE, MARKER_BELOW, MARKER_FADE_MS, STRIDE,
+  ProjectionMotion, MarkerFade, MARKER_ABOVE, MARKER_BELOW, MARKER_FADE_MS, MARKER_STALE_MS, STRIDE, entityClip, travellerSpeed,
   drawnHeightsPerSecond, fadeToward, routeIndexAfter, travelMilesATick, wantsMarker,
 } from '../public/motion.js';
 
@@ -66,8 +66,8 @@ test('the miles a tick carries a journey are the server\'s step, and a speed onl
 
 test('between the figure and the marker the traveller fades, and never pops', () => {
   const fade = new MarkerFade();
-  // First seen already fast: a marker at once, not a figure fading out of nowhere.
-  assert.equal(fade.weight('a', { heightsPerSecond: 5, now: 0 }), 1);
+  // First seen already fast on a page that has just opened (the page asks for `instant`): a marker at once.
+  assert.equal(fade.weight('a', { heightsPerSecond: 5, now: 0, instant: true }), 1);
   // Slowing (they arrive), frame by frame at twelve a second: never more than a frame's share of the fade at a time.
   let weight = 1, frames = 0, now = 0;
   while (weight > 0) {
@@ -85,6 +85,50 @@ test('between the figure and the marker the traveller fades, and never pops', ()
   assert.equal(fade.weight('a', { heightsPerSecond: 0, now: now + 400, instant: true }), 0);
   assert.equal(fadeToward(0.5, 1, 100, 400), 0.75);
   assert.equal(fadeToward(0.5, 0, 1000, 400), 0);
+});
+
+test('somebody who has arrived is drawn at what they went to do, not as a marker walking in', () => {
+  // Found 2026-09-19 by `npm run test:hunt`: a hunter's first stage in the timber, reading the ground, lasts one tick - the
+  // tick he arrives, while he is still drawn walking the last of the road in. Measured along that journey he stayed a marker
+  // for the whole of it and was never drawn reading the ground.
+  const road = { from: 'home-1', to: 'hunt-hh-1', points: [{ x: 0, y: 0 }, { x: 3, y: 0 }], distance: 3 };
+  const onRoad = progress => ({ id: 'hunter', kind: 'person', location: { x: progress, y: 0, siteId: null }, travel: { ...road, progress, step: 1 }, chore: { doing: 'on the road to the timber' } });
+  const there = { id: 'hunter', kind: 'person', location: { x: 3, y: 0, siteId: 'hunt-hh-1' }, travel: null, chore: { doing: 'reading the ground at the edge of the timber' } };
+  const snap = (tick, entity) => ({ sessionId: 's', revision: tick, tickMs: 4000, world: { tick, minute: tick * 20, status: 'running', entities: [entity], others: [] } });
+  const motion = new ProjectionMotion(), fade = new MarkerFade();
+  const view = { tickMs: 4000, scale: 288, heightPx: 7 };
+  motion.accept(snap(1, onRoad(1.5)), 0);
+  motion.accept(snap(2, onRoad(2.5)), 4000);
+  const speed = travellerSpeed(onRoad(2.5), motion, view);
+  assert.ok(wantsMarker(speed), `on the road at ${speed} heights a second he is a marker`);
+  for (let now = 4000; now < 8000; now += 83) fade.weight('hunter', { heightsPerSecond: travellerSpeed(onRoad(2.5), motion, view), now });
+  assert.equal(fade.weight('hunter', { heightsPerSecond: speed, now: 8000 }), 1);
+  // The tick he arrives: still drawn walking the last half mile in, and the server has him at the timber, reading.
+  motion.accept(snap(3, there), 8000);
+  assert.ok(motion.journey(there), 'he is still drawn along the road he came by');
+  assert.equal(travellerSpeed(there, motion, view), 0, 'but he is not on the road, so he is not measured as going anywhere');
+  let weight = 1, now = 8000;
+  while (now < 8000 + MARKER_FADE_MS + 200) { now += 83; weight = fade.weight('hunter', { heightsPerSecond: travellerSpeed(there, motion, view), now }); }
+  assert.equal(weight, 0, `a fade's length into the tick he arrived he is the figure again (weight ${weight}), not a marker until the next tick`);
+  assert.equal(entityClip(there).id.endsWith('-search'), true, 'and the figure is reading the ground');
+  // Nor is anybody paused, or reined in to talk.
+  assert.equal(travellerSpeed(onRoad(2.5), motion, { ...view, running: false }), 0);
+  assert.equal(travellerSpeed({ ...onRoad(2.5), facing: 'e' }, motion, view), 0);
+});
+
+test('a traveller setting out again fades into the marker, and only a page just opened puts it there at once', () => {
+  // Nobody standing is weighed, so a person's entry is left as their last journey left it. Counting all that time into the
+  // fade made every departure after a person's first jump from figure to marker in one frame.
+  const fade = new MarkerFade();
+  fade.weight('p', { heightsPerSecond: 5, now: 0, instant: true });
+  let now = 0;
+  while (fade.fading('p')) { now += 83; fade.weight('p', { heightsPerSecond: 0, now }); }
+  // A minute at home, and off again.
+  now += 60000;
+  const first = fade.weight('p', { heightsPerSecond: 5, now });
+  const second = fade.weight('p', { heightsPerSecond: 5, now: now + 83 });
+  assert.ok(first < 0.2 && second > first && second < 1, `setting out the marker came in at ${first}, then ${second}`);
+  assert.ok(MARKER_STALE_MS < MARKER_FADE_MS);
 });
 
 test('the marker is never drawn further along the road than the server has them, arriving included', () => {

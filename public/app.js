@@ -1,7 +1,7 @@
 // Renderers consume the server's permitted projection. They never advance simulation state.
 import { drawSprite, drawClip, clipInfo, hasSprite, loadArt, onArtReady, pickSprite, spriteFrame } from '/art.js';
 import { drawArmy } from '/army-view.js';
-import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, seatedClip, seatLayout, mounted, MOUNTED_HEIGHT, castVariant, childFigure, MarkerFade, drawnHeightsPerSecond, travelMilesATick, routeIndexAfter, sameJourney } from '/motion.js';
+import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, seatedClip, seatLayout, mounted, MOUNTED_HEIGHT, castVariant, childFigure, MarkerFade, travellerSpeed, routeIndexAfter, sameJourney } from '/motion.js';
 import { familyRows, PRESENCE_LABELS, storyView, spotlightBanner } from '/live-page.js';
 import { autoLabel, callMenu, callPlan, drawIcon, drawMark, drawPortrait, focusFor, isIdle, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, standing, RENAME_PAUSE_MS } from '/family-panel.js';
 import {drawBexarGround,bexarDrawables} from '/bexar-art.js';
@@ -527,9 +527,9 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
  *
  * Owner, 2026-09-19, by multiple choice: "Marker when fast" (public/motion.js `MARKER_ABOVE`). The drawn speed is the miles the
  * server says a tick carries them, at this camera, over the real length of a tick, in their own drawn height: a person's,
- * a rider's with the horse (`MOUNTED_HEIGHT`), a driver's with the wagon, a beast's or a wagon's own. The journey is the one
- * they are drawn along, so on the tick they arrive they are still a marker walking in, and fade to a figure once there.
- * A rider reined in to talk is a figure, and so is everybody while the class is paused, when nobody moves.
+ * a rider's with the horse (`MOUNTED_HEIGHT`), a driver's with the wagon, a beast's or a wagon's own. It is measured only
+ * while the server has them on the road: the tick they arrive, they fade to their figure at whatever they went to do. A
+ * rider reined in to talk is a figure, and so is everybody while the class is paused, when nobody moves.
  *
  * Beasts and a wagon going with their family are not a marker of their own: the family's marker stands for them, as the
  * rider's does for the horse under them and the driver's for the ox and wagon. Only a beast or wagon with none of its
@@ -538,12 +538,13 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
  * them; measured against the child's own smaller height the child would become a marker first and the family split.
  */
 function travelMarker(entity, point, height, marks) {
+  // Only somebody the server has on the road is measured (`travellerSpeed`); on the tick they arrive they fade to their figure
+  // at whatever they went to do, while the marker, as long as it is still drawn, walks the last of the road in with them.
+  const heightsPerSecond = travellerSpeed(entity, motionProjection, { frozen: marks.frozen, running: marks.running, tickMs: marks.tickMs, scale: marks.scale, heightPx: height, minutesATick });
+  if (!(heightsPerSecond > 0) && !markerFade.fading(entity.id)) return 0;
   const journey = entity.facing || entity.speaking ? null : motionProjection.journey(entity, marks.frozen);
-  if (!journey && !markerFade.fading(entity.id)) return 0;
-  const heightsPerSecond = journey && marks.running
-    ? drawnHeightsPerSecond({ milesATick: travelMilesATick(journey, minutesATick), tickMs: marks.tickMs, scale: marks.scale, heightPx: height })
-    : 0;
-  const weight = markerFade.weight(entity.id, { heightsPerSecond, now: marks.now, instant: reducedMotion.matches });
+  // At once where the page has no earlier tick of them (just opened, or a jump in time); a fade for a change a student watches.
+  const weight = markerFade.weight(entity.id, { heightsPerSecond, now: marks.now, instant: reducedMotion.matches || !motionProjection.records.get(entity.id)?.previous });
   const shown = markerFade.travellers.get(entity.id);
   shown.heightsPerSecond = heightsPerSecond; shown.drawn = false;
   if (!(weight > 0) || !journey && !shown.journey) return weight;

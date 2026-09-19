@@ -8,14 +8,14 @@
   },
   "person": "hh-1-parent-1",
   "road": {
-    "distance": 110.3096768970962,
+    "distance": 156.0813702310837,
     "step": 1,
     "speed": 1
   },
   "follow": {
     "frames": 169,
-    "heightsPerSecond": 0.16,
-    "scale": 10.7,
+    "heightsPerSecond": 0.139,
+    "scale": 9.2,
     "figurePx": 7,
     "step": 1,
     "tickMs": 9500,
@@ -23,13 +23,13 @@
     "walkingFrames": 169
   },
   "close": {
-    "frames": 182,
+    "frames": 565,
     "heightsPerSecond": 5.54,
     "weights": [
       1
     ],
     "walkingFrames": 0,
-    "aheadOfServer": -0.0023388707409683906,
+    "aheadOfServer": -0.004224152614038412,
     "offCentre": 0,
     "discRadius": 17.186400000000006,
     "drawnAt": {
@@ -42,7 +42,7 @@
       "y": 394.9238,
       "r": 17.186400000000006
     },
-    "milesDrawn": 0.917
+    "milesDrawn": 0.859
   },
   "tap": {
     "before": null,
@@ -53,19 +53,20 @@
     }
   },
   "arrival": {
-    "frames": 1749,
-    "markerFramesBefore": 1616,
+    "frames": 5551,
+    "markerFramesBefore": 5381,
     "heightsPerSecondBefore": 157.9,
     "siteId": "gonzales",
     "weightsBetween": [
-      0.89,
-      0.67,
-      0.46,
-      0.39,
+      0.9,
+      0.74,
+      0.66,
+      0.5,
+      0.35,
       0.2,
-      0.05
+      0.14
     ],
-    "biggestStep": 0.222,
+    "biggestStep": 0.163,
     "finalWeight": 0,
     "figureClips": [
       "rust-rest"
@@ -84,19 +85,19 @@
     "docs/evidence/travel-marker/arrived-figure.png"
   ],
   "pass": [
-    "in the family's own view the walker is drawn at 0.16 heights a second, under 1.2, and is a figure",
+    "in the family's own view the walker is drawn at 0.14 heights a second, under 1.2, and is a figure",
     "and walks: their walking cycle is drawn",
     "pressed close in, the walker is drawn at 5.54 heights a second or more, over 1.2",
     "and is a marker on every frame, the marker whole",
     "their walking cycle is not played while they are a marker",
-    "the marker moves along the road (0.917 miles in a tick) and never ahead of the server (at most -0.0023)",
+    "the marker moves along the road (0.859 miles in a tick) and never ahead of the server (at most -0.0042)",
     "the camera still follows them: the marker's ground point stays within 0.0 px of the middle",
     "a tap finds the marker: its disc is where the page looks for them",
     "a tap on the marker chooses them (hh-1-parent-1)",
     "and the camera goes on following them",
     "coming in at the quick pace (157.9 heights a second) they are a marker to the end of the road",
     "on arrival at gonzales they are a figure again",
-    "fading, not popping: 6 frames between marker and figure, no frame's change over 0.222",
+    "fading, not popping: 7 frames between marker and figure, no frame's change over 0.163",
     "the page raised no errors"
   ],
   "limitations": [

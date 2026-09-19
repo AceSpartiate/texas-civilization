@@ -11,7 +11,7 @@
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { mkdirSync, writeFileSync } from 'node:fs';
-import { createClassroom } from '../server/app.mjs';
+import { createClassroom, PACES } from '../server/app.mjs';
 import { createSettledWorld, keepFoundingFamilies } from '../tests/support/settled.mjs';
 // A settled class: these families are at home under a roof, as every class began before arrivals
 // (docs/SETTLING_IN.md step 2). This proves the work, not the arrival - tests/arrival.test.mjs does that.
@@ -62,6 +62,7 @@ try {
   const mark = `${await mateo('practise-shooting').getAttribute('data-name')}: ${await mateo('practise-shooting').getAttribute('data-note')}`;
   assert.match(mark, /2 powder/, `the mark does not state its price: "${mark}"`);
   ok(`a poor shot can be taught: "${mark}"`);
+  app.setPace(PACES.brisk);
   await mateo('hunt-timber').click();
   // And then stop watching him. Choosing somebody in the journal locks the camera to them,
   // which pins the figure at the centre of the screen where it cannot appear to move at
@@ -79,7 +80,7 @@ try {
     const seen = window.__huntWatch;
     const clips = new Set(seen.clips), stages = new Set(seen.stages);
     const start = performance.now();
-    while (performance.now() - start < 90000) {
+    while (performance.now() - start < 300000) {
       const world = window.__snapshot?.world;
       const hunter = world?.entities.find(entity => entity.id === 'hh-1-mateo');
       if (!hunter) break;

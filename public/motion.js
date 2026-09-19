@@ -409,6 +409,8 @@ export const MARKER_BELOW = 1.0;
  * at the five frames a second a close-in view of a town makes on a slow computer, where 400 ms was a single step between.
  */
 export const MARKER_FADE_MS = 600;
+/** Longer than this since a traveller's marker was last weighed, and the time between is not counted into its fade. */
+export const MARKER_STALE_MS = 250;
 /**
  * The miles the server says a tick carries this journey (sim/world.mjs `milesATick`, sent as `step`); without it (a class
  * saved before it was sent) a speed is miles a farming tick, carried as many times over as the last tick was longer
@@ -427,6 +429,19 @@ export function travelMilesATick(travel, minutesATick = 0) {
 export function drawnHeightsPerSecond({ milesATick, tickMs, scale, heightPx }) {
   if (!(milesATick > 0) || !(tickMs > 0) || !(scale > 0) || !(heightPx > 0)) return 0;
   return milesATick * scale / heightPx / (tickMs / 1000);
+}
+/**
+ * How fast somebody is drawn going, in their own heights a real second, for the marker: 0 unless the server has them on the
+ * road now. On the tick they arrive they are still drawn walking the last of the road in (`journey`), but they are at their
+ * place and at whatever they went to do - a hunter reading the ground at the edge of the timber - and are drawn doing it,
+ * fading from the marker. Found 2026-09-19: measured along the journey just finished, a hunter whose first stage in the
+ * timber lasts one tick stayed a marker through all of it and was never drawn reading the ground (`npm run test:hunt`).
+ * A rider reined in to talk is not going anywhere, nor is anybody while the class is paused.
+ */
+export function travellerSpeed(entity, motion, { frozen = false, running = true, tickMs, scale, heightPx, minutesATick = 0 }) {
+  if (!running || !entity?.travel || entity.facing || entity.speaking) return 0;
+  const journey = motion.journey(entity, frozen);
+  return journey ? drawnHeightsPerSecond({ milesATick: travelMilesATick(journey, minutesATick), tickMs, scale, heightPx }) : 0;
 }
 /** Whether a traveller should be drawn as a marker: above MARKER_ABOVE, and a marker stays one down to MARKER_BELOW. */
 export function wantsMarker(heightsPerSecond, wasMarker = false) {
@@ -462,16 +477,18 @@ export class MarkerFade {
   /** Whether somebody is still being drawn as a marker, or fading from one: a traveller who has just arrived still is. */
   fading(id) { return (this.travellers.get(id)?.weight || 0) > 0; }
   /**
-   * Somebody first seen on this page, or not drawn for a second or more (out of sight, the tab hidden), starts where they
-   * belong: a fade is for a change a student watches, not for a page that has just opened.
+   * `instant`: where they belong at once, for reduced motion and for somebody the page has no earlier tick of (it has just
+   * opened, or the Host jumped time), since a fade is for a change a student watches. Anybody else starts as a figure and
+   * fades. An entry not touched for a while - somebody standing is not asked, so the last a figure's entry heard of them may
+   * be their last journey - takes the fade up from where it stood rather than jumping the time between: every departure
+   * after a person's first used to go from figure to marker in one frame (found 2026-09-19 with the hunt).
    */
   weight(id, { heightsPerSecond, now, instant = false }) {
     let traveller = this.travellers.get(id);
-    const fresh = !traveller || !(now - traveller.at < 1000);
     if (!traveller) { traveller = { weight: 0, marker: false, at: now }; this.travellers.set(id, traveller); }
     traveller.marker = wantsMarker(heightsPerSecond, traveller.marker);
-    const target = traveller.marker ? 1 : 0;
-    traveller.weight = instant || fresh ? target : fadeToward(traveller.weight, target, now - traveller.at);
+    const target = traveller.marker ? 1 : 0, elapsed = now - traveller.at;
+    traveller.weight = instant ? target : fadeToward(traveller.weight, target, elapsed > MARKER_STALE_MS ? 0 : elapsed);
     traveller.at = now;
     return traveller.weight;
   }
