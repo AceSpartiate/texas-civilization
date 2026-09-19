@@ -553,7 +553,7 @@ chain, and was left as it is.)
   `docs/ROAD_EAST.md`) and are given `findWay(..., { ferries: false })`.
 - **A ford and a bridge cost what the road costs.** A ford in flood is the flight's rule; nothing else read gives a ford's delay.
 - **No ferriage is charged** (`ceiling:` in `sim/travel.mjs`). The rates of 1831 are documented - half a real on foot, a real on
-  the horse, eight reales for a loaded wagon - and money is half of the ending; charging them is the owner's call.
+  the horse, eight reales for a loaded wagon - and money is half of the ending; the owner chose (2026-09-19) to leave the ferries free.
 - **The army keeps its dates.** Its road goes over Groce's ferry, the Harrisburg ferry and Lynch's ferry, and Beeson's on the way
   from Beeson's to San Felipe; with an hour at each it reaches every camp before it sets out again (`tests/crossings.test.mjs`).
 

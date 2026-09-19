@@ -114,8 +114,8 @@ export const roadHours = travel => travel?.forced ? FORCED_MARCH_HOURS : ROAD_HO
  * (sim/scrape.mjs `CROSSING_HOURS`). ceiling: the same hour by day and by night.
  *
  * ceiling: no ferriage is charged. The rates of 1831 are documented (`HIST-TEX-140`) - half a real on foot, a real on the
- * horse, eight reales for a loaded wagon - and money is half of the ending (docs/MONEY_AND_GLORY.md); charging them is the
- * owner's call, and would take the coin here, as the wait is taken.
+ * horse, eight reales for a loaded wagon - and money is half of the ending (docs/MONEY_AND_GLORY.md); the owner chose (2026-09-19)
+ * to leave the ferries free. Charging them would take the coin here, as the wait is taken.
  */
 export const FERRY_MINUTES = 60;
 /** The ferry's wait as miles of this way of going: the same hour whoever waits, laid on the road as going (sim/ways.mjs). */

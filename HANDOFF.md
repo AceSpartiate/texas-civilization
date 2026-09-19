@@ -50,7 +50,7 @@ Mina, Goliad and Béxar); the rest are the game's. The Colorado crossing, Beeson
 marked `stage` (`isStage`), so expresses and the Runaway Scrape stop there as before and an old save's `crossing` kind
 reads the same. A ferry costs an hour's wait for anyone on the roads (`FERRY_MINUTES`), said on the travel control and in
 the departure words; riders with word and the flight (`findWay(..., { ferries: false })`) don't pay it, and the army's
-dates hold. No ferriage (`ceiling:`; the 1831 rates are in `HIST-TEX-140` for the owner to decide). A ferry is drawn with a
+dates hold. No ferriage (`ceiling:`; the 1831 rates are in `HIST-TEX-140`; the owner chose to leave the ferries free). A ferry is drawn with a
 rope and the `ferry-raft` stand-in. Six roads re-routed so one river crossing has one point; 143 creeks added round the
 march east; a saved class keeps its creeks two miles round each ford; no save version moved. `tests/crossings.test.mjs` +6,
 each proven by injection; `npm run test:crossings` (18 shots). Not done: crossings past the old box (Rio Grande, Nueces,
