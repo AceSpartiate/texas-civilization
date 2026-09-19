@@ -11,6 +11,7 @@ import { ALAMO_WORD, COURIER_DAYS, askCouriers, beginSiege, fightSouth, gonzales
 import { SETTLEMENT_DAYS, advanceArmiesPassing, orderOut, turnHome } from './scrape.mjs';
 import { HOUSTON_WORD, catchUpCamp, fightColeto, fightSanJacinto, followCamp, goliadMassacre, takeInEnlisted, tellGoliad, tellSanJacinto } from './houston.mjs';
 import { closeCampQuestion, openCampQuestion } from './camp.mjs';
+import { dateOf } from './clock.mjs';
 import { advanceArmy, closeDetachment, closeQuestion, countermandStorm, dieOfWounds, disbandArmy, fightConcepcion, fightGrass, fightStorming, formArmy, goForClothing, marchOut, moveCamp, openDetachment, openQuestion, questionOpen, recordPresent, returnFromClothing, tellGrassFight, tellStorming } from './army.mjs';
 
 /**
@@ -145,10 +146,8 @@ export const TIMELINE = Object.freeze(Object.fromEntries(Object.entries(FROM_MID
  * and keeps exactly the timeline it was playing - no save version moves.
  */
 export const momentOf = (world, key) => TIMELINE[key] - (world.director?.arrival ? 0 : ARRIVAL_MINUTES);
-/** The calendar date at minute zero of this class's clock. */
-const startOf = world => world.director?.arrival ? Date.UTC(1835, 8, 28, 6) : Date.UTC(1835, 8, 29);
-/** The calendar moment a minute of this class's clock falls on. */
-export const dateOf = (world, minute) => new Date(startOf(world) + minute * 60000);
+/** The calendar moment a minute of this class's clock falls on: kept in sim/clock.mjs, where the hunt's season reads it too. */
+export { dateOf };
 export const HISTORICAL_OUTCOME = 'Mexican detachment withdraws; Texians retain the cannon.';
 const captions = {
   gathering: 'People gather near Gonzales. Supplies and civilian work support them.',
@@ -1153,5 +1152,5 @@ export function directorProjection(world, householdId, role) {
     shown.answerers = Object.fromEntries(people.map(id => [id, shown.kind === 'call' ? callOptions(world, householdId, call, world.entities[id]) : requestOptions(world, householdId, shown, shown.kind, world.entities[id])]));
     shown.options = shown.answerers[shown.actorId || household.principalId] || Object.values(shown.answerers)[0] || [];
   }
-  return structuredClone({ request: shown, battle, host: role === 'host' ? host : null, slice: { title: 'Gonzales', complete: world.director.complete }, historicalDate: new Date(startOf(world) + world.minute * 60000).toISOString().slice(0, 10) });
+  return structuredClone({ request: shown, battle, host: role === 'host' ? host : null, slice: { title: 'Gonzales', complete: world.director.complete }, historicalDate: dateOf(world, world.minute).toISOString().slice(0, 10) });
 }

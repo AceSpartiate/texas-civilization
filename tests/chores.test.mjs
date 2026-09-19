@@ -145,7 +145,8 @@ test('what a person may be asked to do is decided on the server, with a reason',
   // trees are not counted one by one, as they are not here, and hauling, with no logs lying out (sim/felling.mjs); and the
   // road's chores, for a family not on the road east (sim/road.mjs); and the camp's, for a man not with Houston (sim/camp.mjs).
   // And the town errands, which are the store's own trades now and are left to the families nobody plays (2026-09-17).
-  assert.equal(offered.length, Object.keys(CHORES).filter(id => !CHORES[id].house && !CHORES[id].helps && !CHORES[id].well && !CHORES[id].lane && !CHORES[id].fells && !CHORES[id].hauling && !CHORES[id].winter && !CHORES[id].road && !CHORES[id].camp && !CHORES[id].directorOnly && id !== 'clear-plot').length, 'every chore is accounted for, refused or not');
+  // And fetching logs from the timber with the wagon, where the trees are not counted one by one (docs/BIOME_GAMEPLAY.md §3.2).
+  assert.equal(offered.length, Object.keys(CHORES).filter(id => !CHORES[id].house && !CHORES[id].helps && !CHORES[id].well && !CHORES[id].lane && !CHORES[id].fells && !CHORES[id].fetchesLogs && !CHORES[id].hauling && !CHORES[id].winter && !CHORES[id].road && !CHORES[id].camp && !CHORES[id].directorOnly && id !== 'clear-plot').length, 'every chore is accounted for, refused or not');
   for (const entry of offered) {
     assert.ok(typeof entry.can === 'boolean');
     if (!entry.can) assert.ok(entry.why.length > 0, `${entry.id} says why it is refused`);

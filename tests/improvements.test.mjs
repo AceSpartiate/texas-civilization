@@ -17,7 +17,7 @@ import {
   COTTON_SEED_PER_PLOT, SEED_PER_PLOT, UNFENCED_LOSS, clearedOf, harvestShare, improvementsOf,
   isFenced, needsWagonToHarvest, ruin, standingCrop,
 } from '../sim/improvements.mjs';
-import { OLD_PATCHES, plotsOf } from '../sim/fields.mjs';
+import { FENCE_TICKS, OLD_PATCHES, plotsOf } from '../sim/fields.mjs';
 import { CHORES, choreAvailability } from '../sim/chores.mjs';
 
 const running = (seed = 'land', count = 5) => {
@@ -277,7 +277,8 @@ test('the two plot jobs are ordinary work and say what they are for', () => {
     const chore = CHORES[id];
     assert.ok(chore, `${id} is not a chore`);
     assert.equal(chore.where, 'home', 'both are work on a family’s own land');
-    assert.ok(chore.steps.some(step => step.work >= 3), `${id} is no work at all`);
+    // Fencing's length is the country's (sim/fields.mjs `fenceWork`): never less than splitting rails at hand.
+    assert.ok(chore.steps.some(step => step.work >= 3 || (step.work === 'fence' && FENCE_TICKS >= 3)), `${id} is no work at all`);
     assert.ok(!chore.steps.some(step => step.travel), 'neither goes anywhere, so neither needs a mode');
     assert.ok(chore.describe.length > 40, `${id} does not say what it is for`);
   }

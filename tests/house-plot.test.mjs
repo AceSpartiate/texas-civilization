@@ -250,7 +250,7 @@ test('a chimney waits for the sills and a loft for the roof, and the world canno
   }
 });
 
-test('families nobody plays on the real land fell, haul and raise houses of pieces, and a family with no timber near builds a jacal', () => {
+test('families nobody plays on the real land fell, haul and raise houses of pieces, and a family with no timber of its own fetches its logs', () => {
   const world = createGonzalesWorld('site-neighbours', 5, { map: 'colonies', neighbours: true });
   world.status = 'running';
   for (let tick = 0; tick < 300; tick++) stepWorld(world);
@@ -260,5 +260,11 @@ test('families nobody plays on the real land fell, haul and raise houses of piec
   assert.ok(households.filter(houseBuilt).length >= 4, households.map(h => `${h.id}:${h.house.plan}:${houseBuilt(h)}`).join(' '));
   assert.ok(households.some(h => h.house.plan === 'round-log' && houseBuilt(h)), 'a log cabin raised from felled logs');
   assert.ok(Object.values(world.woods.felled).length > 0);
-  assert.ok(households.some(h => h.house.plan === 'jacal'), 'a family on the prairie built a jacal');
+  // A family with no timber of its own fetches its logs from the nearest timber in the wagon, and raises a log house from them
+  // (docs/BIOME_GAMEPLAY.md §3.2; the jacal, for a family with no timber within a wagon's short haul, is held in
+  // tests/biome-game.test.mjs).
+  const fetched = households.filter(h => world.events.some(event => event.householdId === h.id && event.claimId === 'FIC-GONZ-066'));
+  assert.ok(fetched.length > 0, 'nobody fetched logs from the timber');
+  for (const h of fetched) assert.notEqual(h.house.plan, 'jacal', `${h.id} fetched logs and built a jacal`);
+  assert.ok(fetched.some(houseBuilt), 'a log house raised from logs fetched in the wagon');
 });

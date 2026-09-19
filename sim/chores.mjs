@@ -27,14 +27,14 @@ import { carryCapacity, DEFAULT_MODE, MODES, propertyId } from './travel.mjs';
 import {
   COTTON_SEED_PER_PLOT, SEED_PER_PLOT, clearSpell, clearedOf, harvestShare, needsWagonToHarvest, raiseFence, standingCrop,
 } from './improvements.mjs';
-import { groundAt, plotsOf } from './fields.mjs';
+import { fenceWork, groundAt, plotsOf } from './fields.mjs';
 import { landAround, onRealLand } from './ground.mjs';
 import { distanceToPolyline } from './terrain.mjs';
 import { OVERLAND_REACH } from './ways.mjs';
 import { moreFields, plotWorkRefusal, stakePlot, stroll, strollTarget } from './survey.mjs';
 import { choosing, cutLaneSpell, digWell, lanePoint, laneRefusal, laneState, waterBurden, wellRefusal, wellTicks } from './homesite.mjs';
-import { huntingPlace, huntRefusal, placeWord, stillTicks } from './hunting.mjs';
-import { fellRefusal, fellTicks, fellTree, logsLeftOut, logsLying, nextTree, recordFelling, stackLogs, takeUpLogs } from './felling.mjs';
+import { GAME, huntingPlace, huntRefusal, killYield, placeWord, quarryGame, stillTicks } from './hunting.mjs';
+import { fellRefusal, fellTicks, fellTree, logsLeftOut, logsLying, nextTree, oxFree, recordFelling, stackLogs, takeUpLogs } from './felling.mjs';
 import { KINDS, countsTrees, woodsRule } from './woods.mjs';
 import { TRADES, counterOptions, counterRefusal, rifleTrue, spendRifleShot, takeCounter, tradesAt } from './shops.mjs';
 import { BABY_BURDEN, FURNITURE, PIECES, buyRefusal, furnish, makeRefusal, mindingBaby, wanting } from './furniture.mjs';
@@ -307,7 +307,8 @@ export const ASKS = {
   shot: {
     doing: 'downwind, with the shot there to take',
     fallback: 'take',
-    text: entity => `${entity.name} is downwind of a deer, with a shot to take. It is not a close one.`,
+    // The quarry the place holds on the biomes (sim/hunting.mjs `quarryAt`); a deer everywhere else, as it always was.
+    text: entity => `${entity.name} is downwind of ${GAME[entity.chore?.ground?.quarry]?.a || 'a deer'}, with a shot to take. It is not a close one.`,
     options: (entity, world, household) => [
       { id: 'take', label: 'Take the shot', note: `One powder. ${(rifleTrue(household) && entity.health?.condition !== 'tired' ? null : unsteadyBecause(entity)) || `${entity.name} is steady, and it is within reach${rifleTrue(household) && !steadyHand(entity) ? ', with the rifle put in order' : ''}`}` },
       { id: 'wait', label: 'Wait for it to come closer', note: 'One powder, three more hours, and then the shot is a certainty' },
@@ -441,12 +442,14 @@ export const CHORES = {
   },
   'fence-plot': {
     name: 'Fence a cleared plot', skill: 'hands', where: 'home', heavy: true, plotWork: true,
-    describe: 'Split rails and lay them round ten cleared acres. Stock here run loose, and an unfenced plot feeds them first. Choose the plot on the map.',
+    describe: 'Split rails and lay them round ten cleared acres. Stock here run loose, and an unfenced plot feeds them first. Rails come from the nearest timber, so a plot out on the open prairie takes longer; the plot on the map says how long. Choose the plot on the map.',
     steps: [
       // ceiling: rails are split with an axe and a maul, and nothing here asks for either or wears them; the house and
       // the lane read the felling axe, and this should when tools wear by the job.
       { stroll: 'plot', doing: 'walking out to the plot' },
-      { work: 8, doing: 'splitting rails' },
+      // How long is the country's (sim/fields.mjs `fenceWork`, docs/BIOME_GAMEPLAY.md §3.3): rails from timber at hand, rails
+      // carried from further off, or mesquite where the plot stands.
+      { work: 'fence', doing: 'splitting rails' },
       { raise: 'fence' },
       { stroll: 'yard', doing: 'coming in from the plot' },
     ],
@@ -749,6 +752,44 @@ CHORES['haul-logs'] = {
     { stroll: 'yard', doing: 'coming in from the hauling' },
   ],
 };
+/**
+ * Logs fetched from the nearest timber with the ox and wagon (docs/BIOME_GAMEPLAY.md §3.2, `FIC-GONZ-066`). A family whose own
+ * land is open prairie or mesquite has few trees to fell (docs/BIOMES.md §8), and a settler with no timber hauled it from the
+ * river bottom, as settlers did (`HIST-TEX-110`): sawn lumber was scarce and dear, made at a few mills. So a family with the
+ * felling axe and its ox and wagon at home can go to the edge of the nearest timber (`logwoodGround`), fell and load a wagon
+ * load of sound logs, and bring them to the house's log pile. What it costs is the wagon's pace there and back and the
+ * felling, said on the control before it is sent, in hours and miles.
+ * ceiling: the timber fetched from is nobody's in particular - much of the colonies was ungranted in 1835 - and its trees are
+ * not taken off the map; the logs are sound logs, the family choosing its trees.
+ */
+export const FETCH_LOGS = 6;
+/** Ticks of felling and loading a wagon load, at an ordinary hand's pace: three log trees, two ticks each (sim/felling.mjs). */
+export const FETCH_FELL_TICKS = 6;
+CHORES['fetch-logs'] = {
+  name: 'Fetch logs from the timber', skill: 'hands', where: 'home', heavy: true, fetchesLogs: true, forceMode: 'wagon',
+  describe: `With the felling axe and the ox and wagon, out to the nearest timber, off the family's land if need be, to fell ${FETCH_LOGS} sound logs, load them and bring them to the house. The ox and wagon go at their own pace, so the further the timber, the longer it takes.`,
+  steps: [
+    { travel: 'logwood', doing: 'on the way to {logwood} with the ox and wagon' },
+    { work: FETCH_FELL_TICKS, doing: 'felling and loading logs at {logwood}' },
+    { loadLogs: FETCH_LOGS },
+    { travel: 'home', doing: 'hauling logs home from {logwood}' },
+    { stackLoad: true },
+  ],
+};
+/** How far the nearest timber is, and about how long a wagon load takes, or why the family cannot fetch logs now. */
+export function fetchLogsFacts(world, household) {
+  if (household.tools?.axe === undefined) return { can: false, why: 'Felling wants an axe, and there is none in the house.' };
+  const wagon = world.entities[propertyId(household.id, 'wagon')];
+  if (!oxFree(world, household) || !wagon || wagon.travel || wagon.borrowedBy || wagon.location?.siteId !== household.homeSiteId) {
+    return { can: false, why: 'Fetching logs wants the ox and wagon at home.' };
+  }
+  const wood = logwoodGround(world, household, false), home = world.map.sites[household.homeSiteId];
+  if (!wood) return { can: false, why: 'There is no timber within reach of the house.' };
+  const miles = Math.hypot(wood.x - home.x, wood.y - home.y);
+  // The wagon's pace is miles a tick of twenty minutes (sim/travel.mjs): there and back, and the felling.
+  const hours = Math.max(1, Math.round((2 * miles / MODES.wagon.speed + FETCH_FELL_TICKS) / 3));
+  return { can: true, miles: round(miles), hours, cost: `the ox and wagon for about ${hours} ${hours === 1 ? 'hour' : 'hours'}, to ${wood.name.charAt(0).toLowerCase()}${wood.name.slice(1)}, ${miles < 0.2 ? 'beside the house' : `${Math.round(miles * 10) / 10} miles off`}` };
+}
 CHORES['hunt-land'] = {
   name: 'Hunt on our land', skill: 'hunting', where: 'home', hauls: true, huntLand: true,
   describe: 'On foot to a place on the family\'s own land that you choose, and home again. Timber by the water is the best ground for deer and open prairie the poorest; the edge of the timber is better than the middle. What comes home is what they can carry.',
@@ -840,21 +881,44 @@ export const HUNT_STEP = 0.125;
 /** How far into the cover a bearing is read, in steps, to choose the one that leads deepest in. */
 const HUNT_DEPTH_STEPS = 4;
 export function huntingGround(world, household) {
+  return coverGround(world, household, `hunt-${household.id}`, ground => ground !== 'prairie', { hunting: true });
+}
+/**
+ * Where a family fetches logs when its own land has too few (`fetch-logs`, docs/BIOME_GAMEPLAY.md §3.2): the edge of the
+ * timber nearest its house, found as the hunting ground is but timber only - a mesquite thicket gives no logs - and kept as a
+ * site of the family's own, `logwood-<household>`, which moves when the house does. Null when no timber is within reach.
+ */
+export function logwoodGround(world, household, keep = true) {
+  return coverGround(world, household, `logwood-${household.id}`, ground => ground === 'timber', { logwood: true }, keep);
+}
+/**
+ * What was found and not yet kept, by world: asking what a trip would cost (the control's words, the neighbours' choice) must
+ * not write a site into the map, or every browser is told the homesteads changed when nothing did.
+ */
+const unkept = new WeakMap();
+/**
+ * The edge of the nearest cover of the kind wanted, along thirty-two bearings from the house, kept as a site of the family's
+ * when `keep` (the moment somebody goes there), and only remembered off the map when not.
+ */
+function coverGround(world, household, id, wanted, marks, keep = true) {
   const home = world.map.sites[household.homeSiteId];
   if (!home) return null;
-  const id = `hunt-${household.id}`, existing = world.map.sites[id];
-  if (existing && existing.fromX === home.x && existing.fromY === home.y) return existing;
+  const same = site => site && site.fromX === home.x && site.fromY === home.y;
+  if (same(world.map.sites[id])) return world.map.sites[id];
+  const remembered = unkept.get(world)?.get(id);
+  if (same(remembered)) return remembered.none ? null : keep ? keepSite(world, remembered) : remembered;
+  const remember = site => { if (!unkept.has(world)) unkept.set(world, new Map()); unkept.get(world).set(id, site); return site; };
   let best = null;
   for (let bearing = 0; bearing < HUNT_BEARINGS; bearing++) {
     const angle = (bearing / HUNT_BEARINGS) * Math.PI * 2, toward = { x: Math.cos(angle), y: Math.sin(angle) };
     for (let r = HUNT_STEP; r <= OVERLAND_REACH && (!best || r <= best.r); r += HUNT_STEP) {
       const point = { x: home.x + toward.x * r, y: home.y + toward.y * r };
       const ground = groundAt(world, point);
-      if (ground === 'prairie') continue;
+      if (!wanted(ground)) continue;
       // Of the bearings that reach cover soonest, the one that goes deepest into it: a house standing in the timber faces
       // into the timber, not out of it onto the prairie a few rods off (found in play 2026-09-14).
       let depth = 0;
-      while (depth < HUNT_DEPTH_STEPS && groundAt(world, { x: home.x + toward.x * (r + (depth + 1) * HUNT_STEP), y: home.y + toward.y * (r + (depth + 1) * HUNT_STEP) }) !== 'prairie') depth++;
+      while (depth < HUNT_DEPTH_STEPS && wanted(groundAt(world, { x: home.x + toward.x * (r + (depth + 1) * HUNT_STEP), y: home.y + toward.y * (r + (depth + 1) * HUNT_STEP) }))) depth++;
       if (best && (r > best.r || (r === best.r && depth <= best.depth))) break;
       // The open ground just short of it, where a hunter comes up to the edge; the cover itself if the house stands in it.
       const edge = r > HUNT_STEP ? { x: home.x + toward.x * (r - HUNT_STEP / 2), y: home.y + toward.y * (r - HUNT_STEP / 2) } : point;
@@ -862,14 +926,19 @@ export function huntingGround(world, household) {
       break;
     }
   }
-  if (!best) return null;
+  if (!best) { remember({ fromX: home.x, fromY: home.y, none: true }); return null; }
   const round3 = value => Math.round(value * 1000) / 1000;
   const site = {
-    id, name: groundName(world, best.edge, best.ground), kind: 'woods', hunting: true, ownerHouseholdId: household.id,
+    id, name: groundName(world, best.edge, best.ground), kind: 'woods', ...marks, ownerHouseholdId: household.id,
     x: round3(best.edge.x), y: round3(best.edge.y), cover: best.ground === 'brush' ? 'brush' : 'timber',
     toward: { x: round3(best.toward.x), y: round3(best.toward.y) }, fromX: home.x, fromY: home.y,
   };
-  world.map.sites[id] = site;
+  return keep ? keepSite(world, site) : remember(site);
+}
+/** A site found for a family, written into the map: every browser is told the map changed. */
+function keepSite(world, site) {
+  unkept.get(world)?.delete(site.id);
+  world.map.sites[site.id] = site;
   world.map.revision = (world.map.revision || 0) + 1;
   return site;
 }
@@ -889,7 +958,7 @@ function timberFor(world, household) {
   const own = huntingGround(world, household);
   if (own) return own.id;
   const home = world.map.sites[household.homeSiteId];
-  const stands = Object.values(world.map.sites).filter(site => site.kind === 'woods' && !site.hunting);
+  const stands = Object.values(world.map.sites).filter(site => site.kind === 'woods' && !site.hunting && !site.logwood);
   if (!stands.length) return null;
   return stands.reduce((best, site) => Math.hypot(site.x - home.x, site.y - home.y) < Math.hypot(best.x - home.x, best.y - home.y) ? site : best).id;
 }
@@ -929,6 +998,12 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
   if (chore.furniture === 'make' && household.tools?.axe === undefined) return { can: false, why: 'Making furniture wants a felling axe, and there is none in the house.' };
   if (chore.furniture === 'buy' && !Object.values(world.entities).some(one => one.deals?.includes('furniture'))) return { can: false, why: 'There is no carpenter in this country.' };
   if (chore.fells && household.tools?.axe === undefined) return { can: false, why: 'Felling wants an axe, and there is none in the house.' };
+  if (chore.fetchesLogs) {
+    if (world.status === 'lobby') return { can: false, why: 'The family fetches logs once the class has begun.' };
+    if (choosing(household)) return { can: false, why: 'Choose where the house will stand first.' };
+    const facts = fetchLogsFacts(world, household);
+    if (!facts.can) return { can: false, why: facts.why };
+  }
   if (chore.hauling && !(logsOut ?? logsLeftOut(world, household))) return { can: false, why: 'No felled logs lie out to haul.' };
   if (chore.lane) { const why = laneRefusal(world, household); if (why) return { can: false, why }; }
   if (chore.field && (household.field?.state ?? 'bare') !== chore.field) {
@@ -1068,7 +1143,7 @@ export function choresFor(world, household, entity, logsOut = null) {
   const lying = counted && (logsOut ??= logsLeftOut(world, household)) > 0;
   const list = Object.entries(CHORES).filter(([id, chore]) => !(chore.house && settled) && !(chore.helps && !visiting) && !(chore.well && !wantsWell) && !(chore.lane && !wantsLane)
     && !(chore.plotWork && !wants[id])
-    && !(chore.fells && !counted) && !(chore.hauling && !lying)
+    && !(chore.fells && !counted) && !(chore.hauling && !lying) && !(chore.fetchesLogs && !counted)
     && !(chore.plainCountry && counted)
     // The town errands are the store's own trades now (sim/shops.mjs): a family walks the street and deals at the counter,
     // and only the families nobody plays are still sent on an errand by their director (owner, 2026-09-17).
@@ -1085,7 +1160,7 @@ export function choresFor(world, household, entity, logsOut = null) {
     && !(chore.offered && !chore.offered(world, household, entity))
     && !(entity.service?.status === 'serving' && !chore.camp)
     // Nor survey or plot work before the class has begun, which would be a refusal for every person on every lobby tick.
-    && !((chore.survey || chore.plotWork || chore.huntLand || chore.fells) && world.status === 'lobby')).map(([id, chore]) => {
+    && !((chore.survey || chore.plotWork || chore.huntLand || chore.fells || chore.fetchesLogs) && world.status === 'lobby')).map(([id, chore]) => {
     const { can, why } = choreAvailability(world, household, entity, id, logsOut);
     // `haul` is what this person's own hands would bring back from this trip, before any
     // cap. The cap itself is the mode's `carry`, which the projection sends alongside; the
@@ -1100,7 +1175,8 @@ export function choresFor(world, household, entity, logsOut = null) {
     const full = chore.hauls && !chore.huntLand ? haulFor(entity, id) : null;
     const haul = full && { resource: full.resource, got: full.got };
     // What this one actually costs this family today, and what the field would give back.
-    const cost = chore.needsAny ? chore.needsAny.map(costWords).join(' or ') : costWords(needsOf(household, chore));
+    // Fetching logs costs the ox and wagon for as long as the nearest timber is far: said in hours and miles (`fetchLogsFacts`).
+    const cost = chore.fetchesLogs ? fetchLogsFacts(world, household).cost || '' : chore.needsAny ? chore.needsAny.map(costWords).join(' or ') : costWords(needsOf(household, chore));
     const crop = chore.wantsWagon
       ? { grown: round(yieldFor(standingCrop(household), entity.skills?.[chore.skill] ?? 1)), share: harvestShare(household) }
       : null;
@@ -1179,7 +1255,8 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
     if (why) throw new Error(why);
     const home = world.map.sites[household.homeSiteId], place = huntingPlace(world, extra.ground);
     const dx = extra.ground.x - home.x, dy = extra.ground.y - home.y, far = Math.hypot(dx, dy);
-    extra = { ground: { x: round(extra.ground.x), y: round(extra.ground.y), game: place.game, cover: placeWord(place), toward: far > 0.001 ? { x: round(dx / far), y: round(dy / far) } : { x: 0, y: -1 } } };
+    // On the biomes the quarry the place holds today goes with the hunter: the one the family was told of (sim/hunting.mjs).
+    extra = { ground: { x: round(extra.ground.x), y: round(extra.ground.y), game: place.game, cover: placeWord(place), toward: far > 0.001 ? { x: round(dx / far), y: round(dy / far) } : { x: 0, y: -1 }, ...(place.comes && { quarry: place.comes }) } };
   }
   // Refused before the work is written down.
   //
@@ -1188,6 +1265,8 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
   // nobody had checked, and the return leg runs inside `advanceChores` during a tick. A
   // journey that turns out to be impossible there throws from inside `stepWorld`, which
   // does not refuse one student's order: it stops the whole class.
+  // A chore that can only go one way goes that way, whatever was asked: logs come home in the wagon.
+  if (chore.forceMode) modeId = chore.forceMode;
   if (chore.steps.some(step => step.travel) && modeId !== DEFAULT_MODE) {
     const mode = modeAvailability?.(world, entity, modeId);
     if (mode && !mode.can) throw new Error(mode.why);
@@ -1263,7 +1342,8 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
     if (!step) return finishChore(world, household, entity, chore);
     // A step that belongs to an answer nobody gave is not this hunt's step.
     if (step.when && !step.when.some(flag => (state.flags || []).includes(flag))) continue;
-    if (step.doing) state.doing = step.doing.replace('{town}', world.map.sites[townOf(household)]?.name || 'town').replace('{cover}', state.ground?.cover || coverWord(world, household));
+    if (step.doing) state.doing = step.doing.replace('{town}', world.map.sites[townOf(household)]?.name || 'town').replace('{cover}', state.ground?.cover || coverWord(world, household))
+      .replace('{logwood}', () => (logwoodGround(world, household, false)?.name || 'the timber').replace(/^The /, 'the '));
     if (step.walk) {
       // Inside the homestead. The person's canonical site is unchanged - they are still
       // at home - but they stand where the work is.
@@ -1290,6 +1370,7 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       delete state.quarry;
       const destination = step.travel === 'home' ? household.homeSiteId
         : step.travel === 'timber' ? timberFor(world, household)
+        : step.travel === 'logwood' ? logwoodGround(world, household)?.id
         : step.travel === 'town' ? townOf(household)
         // Houston's camp is wherever it is when they set out (sim/houston.mjs).
         : step.travel === 'houston-camp' ? houstonCamp(world) : step.travel;
@@ -1339,6 +1420,20 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
         continue;
       }
       state.flags = [...(state.flags || []), 'carrying'];
+      // On the biomes the kill is the place's own quarry (sim/hunting.mjs `quarryAt`, docs/BIOME_GAMEPLAY.md §3): what it
+      // makes, what one person carries of it and its hide, and the family is told what was brought down.
+      const quarry = state.ground?.quarry && GAME[state.ground.quarry] ? state.ground.quarry : null;
+      if (quarry) {
+        const kill = killYield(quarry, chore.hauls ? carryCapacity(state.mode) : Infinity, amount => yieldFor(amount, skill));
+        household.resources.food = round((household.resources.food ?? 0) + kill.carried);
+        if (kill.hide) household.resources.hides = (household.resources.hides ?? 0) + kill.hide;
+        const hide = kill.hide ? `, and ${quarry === 'bear' ? 'the skin' : quarry === 'bison' ? 'the robe' : 'the hide'}` : '';
+        record(world, 'hunt-kill', {
+          actorId: entity.id, householdId: household.id, importance: 2, quarry, food: round(kill.carried), claimId: 'FIC-GONZ-065',
+          text: `${entity.name} brought down ${GAME[quarry].a}: ${round(kill.carried)} food came home${hide}.${kill.left > 0 ? ` The rest, ${kill.left} food, was more than ${entity.name} could carry and was left where it fell.` : ''}`,
+        });
+        continue;
+      }
       // And the hide comes home with it, for the tanner (sim/shops.mjs).
       household.resources.hides = (household.resources.hides ?? 0) + 1;
       // Falls through to the ordinary produce rule, carrying cap and all, so what comes
@@ -1358,7 +1453,9 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       // place for as long as it takes. Keeping them separate made a hunt half again as
       // long as it had been before any of this was visible.
     }
-    if (step.quarry) state.quarry = quarryPoint(world, entity, step.quarry);
+    // Only a deer is drawn. stand-in: docs/ART_REQUESTS.md, request 2026-09-19 - the game of 1836: any other quarry is words
+    // only until its art exists, so it is given no place to be drawn at, rather than a deer's picture where the words say a bear.
+    if (step.quarry && (!state.ground?.quarry || state.ground.quarry === 'deer')) state.quarry = quarryPoint(world, entity, step.quarry);
     if (step.shot) {
       // The one moment of a hunt, and the only thing drawn of it is smoke in the trees.
       // Recorded because it is a thing that happened in a place at a time: a shot carries,
@@ -1382,7 +1479,13 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
     // Heavy work goes at the pace of the person's hidden strength as well as their skill.
     // Heavy work at home goes slower still while the family carries its water from far off (sim/homesite.mjs).
     if (step.work) {
-      const ticks = step.work === 'well' ? wellTicks(household) : step.stalk === 'still' && state.ground ? stillTicks(state.ground.game, step.work) : step.work;
+      let fence = null;
+      if (step.work === 'fence') {
+        fence = fenceWork(world, household, plotsOf(world, household).find(candidate => candidate.id === state.plotId));
+        if (fence.how === 'mesquite') state.doing = 'cutting mesquite posts and brush';
+        else if (fence.how === 'hauled') state.doing = 'carrying rails from the timber';
+      }
+      const ticks = step.work === 'well' ? wellTicks(household) : fence ? fence.ticks : step.stalk === 'still' && state.ground ? stillTicks(quarryGame(state.ground.game, state.ground.quarry), step.work) : step.work;
       const burden = chore.heavy && chore.where === 'home' ? waterBurden(household) : 1;
       // A parent with a baby at home and no cradle does heavy work slower, and it says so (sim/furniture.mjs).
       const baby = chore.heavy && chore.where === 'home' && entity.location.siteId === household.homeSiteId && mindingBaby(world, household, entity) ? BABY_BURDEN : 1;
@@ -1530,6 +1633,15 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       return;
     }
     if (step.saidFelling) { recordFelling(world, household, entity); continue; }
+    // A wagon load of logs fetched from the nearest timber (`fetch-logs`): loaded where they were felled, onto the pile at home.
+    if (step.loadLogs) { state.logs = step.loadLogs; continue; }
+    if (step.stackLoad) {
+      if (entity.location.siteId !== household.homeSiteId || !state.logs) continue;
+      stackLogs(household, { wall: state.logs });
+      record(world, 'improvement', { actorId: entity.id, householdId: household.id, importance: 2, claimId: 'FIC-GONZ-066', text: `${entity.name} brought ${state.logs} logs home in the wagon from ${(logwoodGround(world, household, false)?.name || 'the timber').replace(/^The /, 'the ')}.` });
+      delete state.logs;
+      continue;
+    }
     if (step.haul) {
       // Out to the nearest logs, take up a load, bring it to the house; again until none lie out.
       if (entity.location.siteId !== household.homeSiteId) return abandonChore(world, household, entity, chore);

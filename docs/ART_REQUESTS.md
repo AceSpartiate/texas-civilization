@@ -36,7 +36,8 @@ does not have:
 | The trees of the biomes of 1836: longleaf is the loblolly drawn a quarter taller; bald cypress the cedar a third taller; the Texas palm the `sapling` drawn twice as tall; beech, magnolia, sweetgum, white oak, bur oak and Texas oak the `oak-broad`; anacua and Texas ebony the `oak-spreading`; tupelo and cedar elm the `elm`; willow the `cottonwood` | `KINDS` (`picture`, `sized`, `scale`) in `sim/woods.mjs`, sent in the woods catalogue and drawn by `drawGroundDetail` in `public/app.js` | Request 2026-09-19 — the country of 1836: trees and ground cover | `pine-longleaf-*`, `cypress-bald-*`, `palm-sabal-*`, `magnolia-*`, `beech-*` |
 | The ground of the biomes of 1836: tall grass is `grass-tuft` drawn larger; river cane `reeds` at nearly twice the size; palmetto and the thorn thicket `scrub`; yucca the `prickly-pear`; cordgrass `reeds`; a palm grove's palms the `sapling` drawn tall; a town's fields `crop-stubble` and fallow tufts | `GROUND_CLASSES` marks in `public/ground-classes.js` | Request 2026-09-19 — the country of 1836: trees and ground cover; Request 2026-09-19 — Béxar's fields and acequias | `grass-tall`, `cane`, `palmetto`, `thicket-thorn`, `yucca`, `marsh-cordgrass`, `dune-grass`, `field-irrigated`, `field-fallow` |
 | Béxar's fields are the `fields` wash with stubble and fallow scattered on it; **the acequias are not drawn** and no brush fence stands | `fields` in `public/ground-classes.js`; the envelope in `scripts/terrain/biomes.mjs` `BEXAR_FIELDS` | Request 2026-09-19 — Béxar's fields and acequias | `acequia`, `field-irrigated`, `fence-brush`, laid by `public/bexar-layout.js` |
-| **No stand-in: words only.** What a hunt may find besides a deer - turkey, bear, buffalo, antelope, mustangs, javelina, ducks and geese, wild cattle - is said in the words a family reads before it hunts ("Deer, turkey and bear keep to it."); the hunt itself still finds and draws a deer. A deer drawn where the words say a bear would be a wrong picture | `quarry` in `STANDS` (`sim/woods.mjs`), worded by `quarryWords` in `sim/hunting.mjs` | Request 2026-09-19 — the game of 1836 | `wildlife-turkey`, `-bear`, `-javelina`, `-pronghorn`, `-bison`, `-geese`, `-mustang` |
+| **No stand-in: words only.** Since 2026-09-19 (docs/BIOME_GAMEPLAY.md §3.1) a hunt on a class of the biomes brings the quarry its place holds - turkey, bear, buffalo, antelope, mustang, javelina, ducks and geese, a wild cow, or a deer - and says so before it goes ("Waiting here, a turkey: four food."), at the shot ("downwind of a bear") and in the record ("brought down a buffalo"). Only a deer is drawn: any other quarry is given no place to be drawn at (`chore.quarry` stays unset), because a deer drawn where the words say a bear would be a wrong picture | `quarryAt` and `GAME` in `sim/hunting.mjs`; the drawing is decided where `quarryPoint` is called in `sim/chores.mjs` | Request 2026-09-19 — the game of 1836 | `wildlife-turkey`, `-bear`, `-javelina`, `-pronghorn`, `-bison`, `-geese`, `-mustang`, `-cattle`; then `quarryPoint` gives every quarry its place and `miniDeer` picks the sheet by `quarry.kind` |
+| The panel icon for fetching logs from the timber is a canvas glyph: three logs laid across a wagon bed on two wheels, in the panel's brown | `PANEL_ICONS` (`glyph`) and `drawGlyph` in `public/family-panel.js` | Request 2026-09-19 — the logs fetched from the timber | `icon-fetch-logs` |
 | A traveller faster than a walk can be drawn is a canvas-drawn pin: a round disc with the family panel's `portrait-<figure>` clipped inside it (itself a Claude-drawn stand-in), ringed rust for the principal, ink for the family, grey for somebody else's and slate for a courier, on a short point to the ground, with the road ahead in canvas dots. A beast or wagon on the road by itself is its own standing sprite (`horse-chestnut`, `ox-brown`, `wagon-covered`) on a smaller disc; their initial while no sheet has loaded | `drawTravelMarkers` in `public/app.js`; the rule in `MARKER_ABOVE`/`wantsMarker` in `public/motion.js` | Request 2026-09-19 — the traveller's marker | `marker-pin` (the pin and its ring, portrait-less) and `marker-dot`, drawn over by the same portrait; `drawTravelMarkers` lays the sprites down instead of its strokes |
 | **No stand-in: nothing is drawn.** The army's crossing of the Brazos at Groce's on the steamboat Yellow Stone, April 12–13, 1836, is said only in words ("The army is crossing the Brazos on the steamboat Yellow Stone. She came up the river for cotton under Captain John E. Ross, and General Houston has taken her to carry the men, the horses and the wagons over the flood."); no boat is on the river. Words-only is the deliberate state: the library has nothing near a steamboat (the `skiff` and `ferry-raft` would say the wrong thing), and a wrong picture of a named boat is worse than none | `sim/houston.mjs` (the words) | Request 2026-09-18 — the steamboat Yellow Stone | `steamboat-moored`, `steamboat-steam`, `steamboat-laden`, drawn on the Brazos at Groce's ferry |
 
@@ -129,11 +130,27 @@ natural biomes of Texas (docs/BIOMES.md, built the same day).
   Only the deer is drawn.
 - **What.** As the delivered `wildlife-deer` (idle, alert, bound, four frames each, east-facing, anchored at the feet):
   `wildlife-turkey`, `wildlife-bear`, `wildlife-javelina`, `wildlife-pronghorn`, `wildlife-bison`, `wildlife-geese` (a flight
-  and a resting flock), `wildlife-mustang` (a wild horse, rougher than the family's).
-- **How it plugs in.** `miniDeer` in `public/app.js` draws the clip for `chore.quarry`; the quarry's kind picks the sheet
-  (the hunt does not yet choose a quarry other than the deer: `STANDS[...].quarry` in `sim/woods.mjs` lists what each country
-  holds).
+  and a resting flock), `wildlife-mustang` (a wild horse, rougher than the family's), `wildlife-cattle` (a rangy longhorned
+  wild cow; added 2026-09-19, when the hunt began to bring the wild cattle of the coastal prairie).
+- **How it plugs in.** `miniDeer` in `public/app.js` draws the clip for `chore.quarry`; the quarry's kind picks the sheet.
+  Since 2026-09-19 the hunt chooses its quarry (`quarryAt`, `sim/hunting.mjs`) and stores it on the hunting place
+  (`chore.ground.quarry`); today only a deer is given a place to be drawn at (`quarryPoint` in `sim/chores.mjs`), and the swap
+  is to give every quarry its place with `kind` set to its id once its sheet is registered.
 - **Check.** Scale against `wildlife-deer` and `horse-chestnut`.
+
+## Request 2026-09-19 — the logs fetched from the timber
+
+**Status: open; a glyph drawn in canvas strokes in use (see *Stand-ins in use* above).** A family with no timber of its own
+can take the ox and wagon to the nearest timber and bring six logs home (`fetch-logs`, docs/BIOME_GAMEPLAY.md §3.2). The
+order is on the family panel with no icon art.
+
+- **Why.** One stroke-drawn glyph beside the illustrated icons reads as a placeholder, and it must be told from *Fell trees*
+  and *Haul logs to the house*.
+- **What.** `icon-fetch-logs` in the action-icon contract (request 2026-09-15 — action icons, 128 by 128, one silhouette,
+  reading at 38 pixels and dimmed to 40 per cent): logs loaded across an ox wagon's bed, the ox's head at the edge.
+- **How it plugs in.** Registered through `npm run build:art`; `drawIcon` in `public/family-panel.js` takes `icon-fetch-logs`
+  for a key whose `PANEL_ICONS` entry has only a glyph, with no change to the page.
+- **Check.** At 38 CSS pixels it is told apart from `icon-fell-trees`, `icon-haul-logs` and the wagon's travel icon.
 ## Request 2026-09-19 — the traveller's marker
 
 **Status: open; stand-in in use (see *Stand-ins in use* above).** Owner, 2026-09-18, playtesting Solo: "when i sent my main

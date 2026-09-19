@@ -37,6 +37,12 @@ export const TICK_MINUTES = 20;
 export const CALENDAR_SCALE = Object.freeze({ home: TICK_MINUTES, news: 60, gathering: 240, campaign: 720, preserved: TICK_MINUTES });
 
 /**
+ * The calendar moment a minute of this class's clock falls on. Minute zero is dawn on September 28, 1835 for a class whose
+ * families arrive by wagon, and midnight on the 29th for a class saved before arrivals, which keeps the timeline it was playing.
+ */
+export const dateOf = (world, minute) => new Date((world.director?.arrival ? Date.UTC(1835, 8, 28, 6) : Date.UTC(1835, 8, 29)) + minute * 60000);
+
+/**
  * How many minutes of 1835 the next tick stands for.
  *
  * Only a class on the real land of the colonies runs two clocks (`world.map.source`). The
