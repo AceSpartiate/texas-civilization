@@ -284,3 +284,37 @@ v2026.09.18.2 build measured by the same script (`--root`). [before](evidence/pe
 Same computer only: a throttled desktop is not a Chromebook. `ceiling:` anything newly drawn into the ground must be added
 to `groundInputs`, or it stands stale until the camera moves; the audit in the farm proof is what finds one, and it covers
 a student's own land, not the Host's map. Still to do: the household, visit and travel-mode rows rebuilt on every snapshot.
+
+## The marker when fast - 2026-09-19
+
+A traveller past a walk is drawn as a pin with their portrait and a dotted road ahead (`drawTravelMarkers` in
+`public/app.js`, owner's choice "Marker when fast"). The marker allocates nothing per frame beyond the one entry
+`travelMarker` hands over and its hit spot - the figure it stands in for allocated more (`{ ...entity, gait }`) - walks the
+route in place (`routeIndexAfter`) and projects its points by hand rather than through `camera.toScreen`. Once whole it
+draws no figure and plays no cycle.
+
+`node scripts/perf-render-measure.mjs --views default,land,traveller`, with a new view, `traveller`: the main person walks to
+Gonzales and home again for the whole phase with their portrait pressed (scale 2605), so they are a marker throughout.
+*Before* is HEAD `86321b3` exported and measured by the same script (`--root`); *after* was measured twice, either side of
+it. Same computer, CPU throttled 6x, 15 families, 1 s ticks. [before](evidence/perf-render-marker-before.json),
+[after](evidence/perf-render-marker-after.json), [after again](evidence/perf-render-marker-after-2.json).
+
+| View | Build | Painted fps | ms / frame (mean / p95) | ms / snapshot (mean) | Main thread busy |
+|---|---|---|---|---|---|
+| default | before | 7.5 | 38 / 189 | 139 | 95% |
+| | after, after again | 6.1, 8.1 | 42 / 198, 34 / 153 | 172, 99 | 90%, 90% |
+| land | before | 6.9 | 42 / 213 | 149 | 95% |
+| | after, after again | 6.2, 8.3 | 42 / 220, 3 / 4 | 202, 175 | 98%, 86% |
+| traveller | before | 2.7 | 18 / 39 | 252 | 95% |
+| | after, after again | 2.7, 3.3 | 28 / 218, 3 / 2 | 286, 191 | 96%, 93% |
+
+**These runs cannot tell the builds apart.** Other sessions were running five test suites at once on this computer
+throughout (the CPU at 100% before throttling), and the two *after* runs differ from each other by more than either differs
+from *before*. What they do show: `drawTravelMarkers` is not among the fifteen functions with the most self time in the
+traveller view (the fifteenth is under 9 ms a second), `drawSprite`'s share is about the same (11.5 ms a second before, 13.9
+and 11.8 after), and there were no page errors. An earlier *before* run on a quieter machine is in the git history of the
+same file (default 9.2 fps, 23 ms a frame); it has no *after* beside it measured in the same conditions.
+
+Found while measuring, not changed: watching somebody close up redraws the whole ground 2.5 to 3.5 times a second in either
+build, because the camera moves with them and the ground's key holds the camera. A ground drawn larger than the view and
+moved, as the gesture's quick frame is, would be the way out.
