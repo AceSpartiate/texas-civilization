@@ -41,6 +41,35 @@ beside a 24-thread busy loop it passed 10/10. **Seen in those suites:** `pace.te
 failed 7 of 10 (fixed the same day, above) and `save-cadence.test.mjs` *"a page is sent a snapshot"* 1 of 10 (fixed the same day, above), both real-time tests of their own. No
 product code changed.
 
+**The biomes of 1836 on the map, woods only where woods make sense, 2026-09-19:** [BIOMES.md](docs/BIOMES.md) §13,
+[MAP_ACCURACY.md](docs/MAP_ACCURACY.md) §9. Owner: research the natural biomes, then bring the map in line; "woods should
+only exist where woods make sense... some families are going to have a harder time hunting... thats okay"; Béxar cleared to
+fields. New real-land classes record `map.woods: 'biomes-1836'` and read LANDFIRE and the EPA ecoregions filed into 26
+stands by `scripts/terrain/biomes.mjs` (the Nueces line, the Big Thicket, coastal cane, canebrakes, delta palms, Béxar's
+irrigated fields from the head of the river to Espada, every town's cleared ring, Mexico chaparral). Creek timber stands
+only on creeks that run all year; the Alamo's quarter mile went from 41% timber to under 15%. Each biome has its own wash
+(the land file now 5 bits of class). Classes made the week of 2026-09-15 keep their own grid (`colonies-woods-2016.*`), so
+their felled trees are found again by id; no save version moved. Timber within 3 miles: Béxar 18→7%, Goliad 22→10, coast
+towns about half; 13 of 90 families now have fewer than a cabin's 50 logs and build a jacal (no family is stuck). The hunt's
+words name each country's quarry, but the hunt still brings a deer. `tests/biomes.test.mjs` +7, 8 injections caught; 11
+before/after pairs in `docs/evidence/biomes/`; test:farm (audit on), navigation, map-accuracy, solo-game, hunt and the house
+plot pass; speed unchanged on a quiet machine. Not done: the acequias drawn, plantation fields past the towns' rings, the
+province's cover belts (drawn only while the land loads). Next: the balance session. Same computer only.
+
+**A traveller faster than a walk is drawn as a marker, 2026-09-19:** Owner, by multiple choice: "Marker when fast". Past
+`MARKER_ABOVE` (1.2 of their own drawn heights a real second - the ground the library's walk, horse, ox and wagon cycles
+cover at their authored rate; `public/motion.js`) a traveller is a pin with their panel portrait (rust for the principal,
+ink for the family, grey for others, slate for a courier), at the server's progress and never beyond it, the road ahead
+dotted to a ring at the destination; back below 1.0 a figure again, faded over 600 ms, and no cycle plays while the pin
+stands. The clock, the paces and `PERSON_MILES` are unchanged. Riders and wagon drivers are one marker with their mount;
+beasts and a wagon going with their family fold into its marker. A tap on the pin chooses them and the camera follows it.
+Also fixed: the camera and figures placed at one frame moment (a watched walker had been drawn a few pixels ahead of
+centre). `tests/travel-marker.test.mjs` +6, each proven by injection; `npm run test:travel-marker`
+([screenshots](docs/evidence/travel-marker/)): a walker in the Solo family view is 0.16 heights a second and a figure,
+pressed close 5.54 and a marker, a figure again on arrival. Stand-in: ART_REQUESTS 2026-09-19, the traveller's marker. The
+render measurements were taken on a loaded machine and cannot tell the builds apart. Found, not changed: watching somebody
+close up redraws the ground about three times a second.
+
 **Houston's march east a forced march that keeps the record's days, 2026-09-19:** [HOUSTON_CAMP.md](docs/HOUSTON_CAMP.md)
 *The march east*, `FIC-GONZ-064`. At a family's seven hours on the road the army reached Harrisburg on April 20 and Lynch's
 ferry the morning of the 21st; owner, by multiple choice: a forced march. The army's legs go ten hours a day
