@@ -23,7 +23,7 @@ import { advanceTown, createTownspeople, observedBy } from './town.mjs';
 import { GOODS, advanceOffers, makeOffer, offersFor, respondToOffer } from './trade.mjs';
 import { buildGonzalesRegion, findPath, polylineLength } from './geography.mjs';
 import { advanceEncounters, askRider, carriedInPerson, encounterProjection, leaveRider, riderName, spotName } from './encounters.mjs';
-import { DEFAULT_MODE, MODES, modeOf, moveOnGround, propertyId, RIDER_SPEED, ridesAllHours, roadTicks } from './travel.mjs';
+import { DEFAULT_MODE, MODES, modeOf, moveOnGround, propertyId, RIDER_SPEED, ridesAllHours, roadHours, roadTicks } from './travel.mjs';
 import { paceOf } from './ground.mjs';
 import { findWay } from './ways.mjs';
 import { STATES as IMPROVEMENT_STATES, improvementProjection } from './improvements.mjs';
@@ -366,7 +366,7 @@ export function beginTravel(world, entity, destination, causeId, purpose = 'visi
   if (!riding) harness(world, entity, mode, path, departure);
 }
 /** How many farming ticks' worth of road the next tick carries for this traveller (sim/travel.mjs `roadTicks`). */
-export const roadTicksFor = (world, entity) => roadTicks(calendarMinutes(world), ridesAllHours(entity));
+export const roadTicksFor = (world, entity) => roadTicks(calendarMinutes(world), ridesAllHours(entity), roadHours(entity.travel));
 /** Miles the next tick carries this traveller over open road: what the server says a tick is worth, projected for the page. */
 export const milesATick = (world, entity) => entity.travel ? entity.travel.speed * roadTicksFor(world, entity) : 0;
 export function progressTravel(world, entity, units = 1) {

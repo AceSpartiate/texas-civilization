@@ -11,15 +11,15 @@ import { applyAction, projectWorld, rollFamily, stepWorld, validateWorld } from 
 import { beginSecondPeriod, beginThirdPeriod } from '../sim/periods.mjs';
 import { ARRIVAL_MINUTES, TIMELINE, momentOf } from '../sim/directors.mjs';
 import { frailty, rollFates } from '../sim/army.mjs';
-import { DRILLED_STEADINESS, DRILL_TO_STEADY, GROCES_FROM, HOUSTON_CAMPS, HOUSTON_WORD, SAN_JACINTO, campClock, drilledSteady, houstonCamp } from '../sim/houston.mjs';
-import { CAMP_CHORES, CAMP_QUESTIONS, CAMP_SHARES, SCOUT_HURT, campChoice, campInvalid, campQuestionOpen, scoutHurt } from '../sim/camp.mjs';
+import { DRILLED_STEADINESS, DRILL_TO_STEADY, GROCES_FROM, HOUSTON_CAMPS, HOUSTON_WORD, MARCH_CAMPS, SAN_JACINTO, campClock, drilledSteady, houstonCamp } from '../sim/houston.mjs';
+import { CAMP_CHORES, CAMP_QUESTIONS, CAMP_SHARES, SCOUT_HURT, campChoice, campInvalid, campQuestionOpen, campRefusal, scoutHurt } from '../sim/camp.mjs';
 import { CHORES } from '../sim/chores.mjs';
 import { GLORY_WEIGHT } from '../sim/glory.mjs';
 import { calendarMinutes, TICK_MINUTES } from '../sim/clock.mjs';
 import { setAbsent } from '../sim/absence.mjs';
 import { whereWords, waitingOn } from '../sim/host.mjs';
 import { share } from '../sim/scrape.mjs';
-import { WALK_SPEED, groundLeft, milesADay, propertyId } from '../sim/travel.mjs';
+import { FORCED_MARCH_HOURS, WALK_SPEED, groundLeft, milesADay, propertyId } from '../sim/travel.mjs';
 import { findPath } from '../sim/geography.mjs';
 import { coloniesMap } from '../sim/colonies-map.mjs';
 import { isIdle, needsOf, panelActions } from '../public/family-panel.js';
@@ -415,26 +415,35 @@ test('April 12: the story says the army is crossing on the Yellow Stone, and a m
 
 // The march east, April 14-18, 1836 (`HIST-TEX-088`): a night at each house on the road to Harrisburg, and the fork's question
 // asked at the fork (owner, 2026-09-18: the army's march east stops made places).
-const MARCH = [['houston-donohos', 'donohos'], ['houston-mccarleys', 'mccarleys'], ['which-road', 'roberts'], ['which-road-close', 'burnetts'], ['houston-harrisburg', 'harrisburg']];
-test('the march east\'s camps and the director\'s milestones are the same moments, the fork\'s question asked at Roberts\'', () => {
+const MARCH = [['houston-donohos', 'donohos'], ['houston-mccarleys', 'mccarleys'], ['houston-roberts', 'roberts'], ['houston-burnetts', 'burnetts'], ['houston-harrisburg', 'harrisburg'], ['houston-lynchburg', 'lynchburg']];
+const APRIL = (day, hour = 0) => 266400 + (day - 1) * 1440 + hour * 60;
+test('the march east\'s camps and the director\'s milestones are the same moments, each the moment the army sets out', () => {
   for (const [key, siteId] of MARCH) {
     assert.equal(TIMELINE[key] - ARRIVAL_MINUTES, HOUSTON_CAMPS.find(camp => camp.siteId === siteId)?.from, `${key} and the camp at ${siteId} are at different moments`);
   }
-  // Donoho's the afternoon of April 14 (Barker), McCarley's the evening of the 15th (its marker).
-  assert.equal(TIMELINE['houston-donohos'] - ARRIVAL_MINUTES, 266400 + 13 * 1440 + 15 * 60);
-  assert.equal(TIMELINE['houston-mccarleys'] - ARRIVAL_MINUTES, 266400 + 14 * 1440 + 18 * 60);
+  // For Donoho's the afternoon of the 14th (Barker); McCarley's and Roberts' at dawn; Burnett's in the afternoon of the 16th,
+  // after the army has come to the fork; Harrisburg at noon on the 17th, Lynchburg at noon on the 19th.
+  assert.deepEqual(MARCH.map(([key]) => TIMELINE[key] - ARRIVAL_MINUTES), [APRIL(14, 15), APRIL(15, 6), APRIL(16, 6), APRIL(16, 14), APRIL(17, 12), APRIL(19, 12)]);
+  // The men are asked which road at noon on the 16th, after the army has set out for the fork and before it goes on.
+  assert.ok(TIMELINE['which-road'] > TIMELINE['houston-roberts'] && TIMELINE['which-road'] < TIMELINE['houston-burnetts']);
 });
 
-test('the army marches east from Bernardo on April 14 and camps a night at each house on the road - Donoho\'s, McCarley\'s, the fork at Roberts\', Burnett\'s - and is opposite Harrisburg on the 18th, not before, never back by San Felipe', () => {
+test('the army marches east from Bernardo on April 14 a night at each house on the road - Donoho\'s, McCarley\'s, the fork at Roberts\', Burnett\'s - and arrives on the days the record gives, opposite Harrisburg the evening of the 18th and at Lynch\'s ferry the morning of the 20th, never back by San Felipe', () => {
   const world = spring();
   untilMoment(world, 'houston-brazos');
   const [man] = grownMen(world);
-  serve(world, man, { leave: 'no', road: 'no' });
+  // A family nobody plays: a played family with a question open holds the calendar at twenty minutes a tick (sim/clock.mjs
+  // `deciding`), where everybody moves at the hour's pace and the army's day on the road never comes into it.
+  serve(world, man, { played: false, leave: 'no', road: 'no' });
   assert.equal(man.location.siteId, 'bernardo');
+  // The class's clock against the timeline's (sim/houston.mjs `campClock`).
+  const dated = minute => minute - (momentOf(world, 'houston-brazos') - (TIMELINE['houston-brazos'] - ARRIVAL_MINUTES));
   until(world, () => world.minute >= momentOf(world, 'houston-donohos') - 60);
   assert.equal(houstonCamp(world), 'bernardo', 'the army left Bernardo before the afternoon of April 14');
-  assert.equal(man.location.siteId, 'bernardo');
   const sanFelipe = world.map.sites['san-felipe'];
+  // Arrived by: the night of the 14th, the evening of the 15th, before the question at noon on the 16th, the night of the 16th,
+  // the evening of the 18th (and not before the 18th: Santa Anna held Harrisburg April 15-18), the morning of the 20th.
+  const BY = { donohos: [0, APRIL(15, 6)], mccarleys: [0, APRIL(16)], roberts: [0, APRIL(16, 12)], burnetts: [0, APRIL(17, 6)], harrisburg: [APRIL(18), APRIL(18, 22)], lynchburg: [0, APRIL(20, 6)] };
   let from = 'bernardo';
   for (const [key, siteId] of MARCH) {
     untilMoment(world, key);
@@ -445,18 +454,39 @@ test('the army marches east from Bernardo on April 14 and camps a night at each 
     assert.ok(nearest > 10, `the march to ${siteId} went within ${nearest.toFixed(1)} miles of San Felipe`);
     until(world, () => !man.travel, 400);
     assert.equal(man.location.siteId, siteId, `the man did not reach ${siteId}`);
+    const [after, by] = BY[siteId], at = dated(world.minute);
+    assert.ok(at >= after && at <= by, `the army reached ${siteId} at ${((at - APRIL(1)) / 1440 + 1).toFixed(2)} April, not in its window`);
     from = siteId;
-    if (siteId === 'harrisburg') break;
+    if (!MARCH_CAMPS.includes(siteId)) continue;
     // A night on the road: the guard stood and the scouts out, and no day to drill (Houston: "a forced march").
-    const drill = work(world, man).find(entry => entry.id === 'camp-drill');
-    assert.equal(drill.can, false, `the army drilled on the march, at ${siteId}`);
-    assert.match(drill.why, /on the march to Harrisburg/);
-    assert.equal(work(world, man).find(entry => entry.id === 'camp-guard').can, true, `there was no guard to stand at ${siteId}`);
+    // Asked of the rule itself: a family nobody plays is offered its work without the words.
+    const household = world.households[man.householdId];
+    assert.match(campRefusal(world, household, man, 'camp-drill') || '', /on the march to Harrisburg/, `the army drilled on the march, at ${siteId}`);
+    assert.equal(campRefusal(world, household, man, 'camp-guard'), null, `there was no guard to stand at ${siteId}`);
   }
-  // Santa Anna held Harrisburg April 15-18: the army is not there before the 18th, and is there before it marches for Lynchburg.
-  assert.ok(world.minute >= momentOf(world, 'houston-harrisburg'), 'the army was at Harrisburg before April 18');
-  assert.ok(world.minute < momentOf(world, 'houston-lynchburg'), 'the army reached Harrisburg after it should have marched for Lynchburg');
+  assert.ok(world.minute < momentOf(world, 'san-jacinto'), 'the army reached Lynch\'s ferry after the battle');
   assert.equal(world.events.filter(event => event.type === 'milestone' && event.text === HOUSTON_WORD.marchEast).length, 1, 'the march east was not said, or said twice');
+  validateWorld(world);
+});
+
+test('a man who reaches the camp the army sent him to after it has marched on follows it; one his family sent for is left to go', () => {
+  const world = spring();
+  untilMoment(world, 'houston-lynchburg');
+  assert.equal(houstonCamp(world), 'lynchburg');
+  // Any two grown men not yet serving: `serve` puts down whatever they were doing, as an order does.
+  const [late, fetched] = Object.values(world.entities).filter(one => one.householdId && one.kind === 'person' && one.health.condition === 'well' && one.sex === 'male' && (one.age ?? 0) >= 16 && !one.service && one.householdId !== undefined);
+  // One still arriving at Harrisburg, where the army last sent him; one sent for, gone home from it.
+  serve(world, late, { leave: 'no', road: 'no' });
+  const harrisburg = world.map.sites.harrisburg;
+  late.location = { x: harrisburg.x, y: harrisburg.y, siteId: 'harrisburg' }; late.service.siteId = 'harrisburg';
+  serve(world, fetched, { leave: 'no', road: 'no' });
+  fetched.service.siteId = 'harrisburg';
+  const home = world.map.sites[world.households[fetched.householdId].homeSiteId];
+  fetched.location = { x: home.x, y: home.y, siteId: home.id };
+  stepWorld(world);
+  assert.equal(late.travel?.to, 'lynchburg', 'the man who came late to Harrisburg stood there after the army had gone on');
+  assert.equal(late.travel.forced, true, 'he did not follow at the army\'s forced march');
+  assert.equal(fetched.travel?.to === 'lynchburg', false, 'the man his family sent for was dragged back to the army');
   validateWorld(world);
 });
 
@@ -469,7 +499,7 @@ function oldEastRoad(world) {
   world.map.routes['route-bernardo-harrisburg'] = { ...legs[0], id: 'route-bernardo-harrisburg', to: 'harrisburg', points };
 }
 
-test('a class saved before the march\'s houses were places keeps the army at Bernardo until noon on April 18 and marches it straight to Harrisburg, as it always did', () => {
+test('a class saved before the march\'s houses were places keeps the army at Bernardo until it sets out for Harrisburg, marches it straight there, and the man still reaches Lynch\'s ferry before the battle', () => {
   const world = spring();
   oldEastRoad(world);
   untilMoment(world, 'houston-brazos');
@@ -478,8 +508,8 @@ test('a class saved before the march\'s houses were places keeps the army at Ber
   until(world, () => world.minute >= momentOf(world, 'houston-harrisburg') - 1440);
   assert.ok(world.minute < momentOf(world, 'houston-harrisburg'), 'the calendar stepped past the march');
   assert.equal(houstonCamp(world), 'bernardo', 'the army\'s camp moved on from Bernardo on a map with nowhere to camp');
-  assert.equal(man.location.siteId, 'bernardo', 'the army left Bernardo before April 18');
-  assert.equal(man.travel, null, 'the army was on the march before April 18');
+  assert.equal(man.location.siteId, 'bernardo', 'the army left Bernardo before it set out for Harrisburg');
+  assert.equal(man.travel, null, 'the army was on the march before it set out for Harrisburg');
   assert.ok(world.events.some(event => event.text === HOUSTON_WORD.marchEast), 'the march east went unsaid on the old map');
   untilMoment(world, 'houston-harrisburg');
   assert.equal(man.travel?.from, 'bernardo'); assert.equal(man.travel?.to, 'harrisburg');
@@ -490,9 +520,13 @@ test('a class saved before the march\'s houses were places keeps the army at Ber
   // it marched for Lynchburg: sixty-three miles in forty-two hours, thirty-six miles a day, which no forced march made
   // (Houston's fifty-five took four days, `HIST-TEX-088`, `HIST-TEX-093`) and which held only while a walker went
   // seventy-two miles a day in the long ticks. At a day's march it is three days, and there before the battle.
-  const days = (world.minute - setOut) / 1440, allowed = road / milesADay(WALK_SPEED) + calendarMinutes(world) / 1440;
-  assert.ok(days <= allowed + 1e-9, `the march of ${road.toFixed(1)} miles took ${days.toFixed(2)} days, more than a day's march allows (${allowed.toFixed(2)})`);
-  assert.ok(world.minute < momentOf(world, 'san-jacinto'), 'the army reached Harrisburg after the battle');
+  // 2026-09-19: the army's days are a forced march's (`FORCED_MARCH_HOURS`, owner by multiple choice).
+  const days = (world.minute - setOut) / 1440, allowed = road / milesADay(WALK_SPEED, false, FORCED_MARCH_HOURS) + calendarMinutes(world) / 1440;
+  assert.ok(days <= allowed + 1e-9, `the march of ${road.toFixed(1)} miles took ${days.toFixed(2)} days, more than a forced march allows (${allowed.toFixed(2)})`);
+  untilMoment(world, 'houston-lynchburg');
+  until(world, () => man.location.siteId === 'lynchburg' && !man.travel, 400);
+  assert.equal(man.location.siteId, 'lynchburg', 'the man stood at Harrisburg after the army had marched on');
+  assert.ok(world.minute < momentOf(world, 'san-jacinto'), 'the man reached Lynch\'s ferry after the battle');
   validateWorld(world);
 });
 

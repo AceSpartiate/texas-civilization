@@ -58,6 +58,13 @@ export const FARMING_TICK_MINUTES = 20;
  */
 export const ROAD_HOURS_A_DAY = 7;
 /**
+ * Hours of going in a day of Houston's march east (`FIC-GONZ-064`; owner, 2026-09-19, by multiple choice: a forced march).
+ * Houston: "a forced march of fifty-five miles" to opposite Harrisburg (`HIST-TEX-088`), made from the fork on the 16th
+ * to the evening of the 18th. Ten hours is thirty miles a day on foot: the army keeps its dated camps where a family's
+ * seven would put it at Harrisburg two days late.
+ */
+export const FORCED_MARCH_HOURS = 10;
+/**
  * The longest tick that is still watched hour by hour: up to an hour of the calendar a tick, the
  * traveller moves at their pace for the whole of it. The farming day and the news are ticks like
  * this, and the moments dated inside them - the march upriver in the night, a man walking two
@@ -81,13 +88,15 @@ export const ridesAllHours = entity => Boolean(entity?.courier || entity?.report
  * than all day and then not at all. Before this a long tick carried every one of its hours at the
  * pace, and a walker made seventy-two miles a day.
  */
-export function roadTicks(calendar, allHours = false) {
+export function roadTicks(calendar, allHours = false, hours = ROAD_HOURS_A_DAY) {
   if (allHours || calendar <= WATCHED_TICK_MINUTES) return calendar / FARMING_TICK_MINUTES;
-  return (calendar / 1440) * ROAD_HOURS_A_DAY * 60 / FARMING_TICK_MINUTES;
+  return (calendar / 1440) * hours * 60 / FARMING_TICK_MINUTES;
 }
 /** Miles an hour and miles a day on the road for a stored `speed` (miles a farming tick): what the tests and the docs quote. */
 export const milesAnHour = speed => speed * 60 / FARMING_TICK_MINUTES;
-export const milesADay = (speed, allHours = false) => speed * roadTicks(1440, allHours);
+export const milesADay = (speed, allHours = false, hours = ROAD_HOURS_A_DAY) => speed * roadTicks(1440, allHours, hours);
+/** A traveller's hours of going in a day: a forced march's, or an ordinary day on the road. */
+export const roadHours = travel => travel?.forced ? FORCED_MARCH_HOURS : ROAD_HOURS_A_DAY;
 
 /**
  * `carry` is in the same abstract units the household's resources are counted in, and it

@@ -39,18 +39,19 @@ export const HOUSTON_CAMPS = Object.freeze([
   { from: march(30, 12), siteId: 'groces' },
   // Over the Brazos on the steamboat Yellow Stone from April 12, to the camp by Groce's house at Bernardo (`HIST-TEX-089`).
   { from: april(12), siteId: 'bernardo' },
-  // The march east (`HIST-TEX-088`), a night at each house on the road. Donoho's the afternoon of the 14th (Barker; its marker
-  // has the army there the 14th and 15th); McCarley's the evening of the 15th (its marker); the fork at Roberts' from noon on the
-  // 16th, the day the men are asked which road (sim/camp.mjs, `which-road`); Burnett's from noon on the 17th, when that
-  // question closes - the markers put Roberts' and Burnett's both on the 16th and Kemp & Kilman both on the 17th, and the fork
-  // is held a day so the question is asked where the road forks. Then opposite Harrisburg on the 18th ("a forced march of
-  // fifty-five miles", Houston).
+  // The march east (`HIST-TEX-088`), a forced march (`FORCED_MARCH_HOURS`) with a night at each house on the road, dated by
+  // the markers. Each `from` is when the army sets out, so that it arrives on the day: Donoho's the afternoon of the 14th
+  // (Barker; its marker has the army there the 14th-15th); McCarley's, set out at dawn on the 15th and there that evening (its
+  // marker); Roberts', at dawn on the 16th, there by the noon the men are asked which road (sim/camp.mjs, `which-road`);
+  // Burnett's that afternoon, there the evening of the 16th (its marker) while the question is still open - the army took the
+  // right-hand road whatever was said; and at noon on the 17th for Harrisburg, "arrived opposite" on the evening of the 18th
+  // (Houston). Lynchburg: over Buffalo Bayou on the 19th and at Lynch's ferry the morning of the 20th (`HIST-TEX-067`).
   { from: april(14, 15), siteId: 'donohos' },
-  { from: april(15, 18), siteId: 'mccarleys' },
-  { from: april(16, 12), siteId: 'roberts' },
-  { from: april(17, 12), siteId: 'burnetts' },
-  { from: april(18, 12), siteId: 'harrisburg' },
-  { from: april(20, 12), siteId: 'lynchburg' },
+  { from: april(15, 6), siteId: 'mccarleys' },
+  { from: april(16, 6), siteId: 'roberts' },
+  { from: april(16, 14), siteId: 'burnetts' },
+  { from: april(17, 12), siteId: 'harrisburg' },
+  { from: april(19, 12), siteId: 'lynchburg' },
 ]);
 /**
  * Camps that became places after classes were saved: Groce's (2026-09-17, `HIST-TEX-086`), Bernardo (2026-09-18,
@@ -123,7 +124,24 @@ export function followCamp(world, { beginTravel }) {
   for (const person of inService(world, 'houston')) {
     if (person.travel || person.location?.siteId === camp) continue;
     person.service.siteId = camp;
-    try { beginTravel(world, person, camp, null, 'march'); } catch { /* ceiling: somebody with no road to the camp stands where they are */ }
+    // The army's own days on the road are a forced march's (`FORCED_MARCH_HOURS`), not a family's.
+    try { beginTravel(world, person, camp, null, 'march'); person.travel.forced = true; } catch { /* ceiling: somebody with no road to the camp stands where they are */ }
+  }
+}
+
+/**
+ * Every tick of the third period: a man who has reached the camp the army sent him to after the army has marched on from it
+ * follows it. At a day's march a leg can outlast the camp - a class saved before the march's houses were places marches
+ * Bernardo to Harrisburg in one leg of two days, and was still on it when the army left for Lynchburg - and without this
+ * he stood at Harrisburg through the battle. Only a man standing where the army last sent him (`service.siteId`): one his
+ * family has sent for is somewhere else, and is left to go.
+ */
+export function catchUpCamp(world, { beginTravel }) {
+  const camp = houstonCamp(world);
+  for (const person of inService(world, 'houston')) {
+    if (person.travel || !person.location?.siteId || person.location.siteId !== person.service.siteId || person.service.siteId === camp) continue;
+    person.service.siteId = camp;
+    try { beginTravel(world, person, camp, null, 'march'); person.travel.forced = true; } catch { /* ceiling: somebody with no road to the camp stands where they are */ }
   }
 }
 

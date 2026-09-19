@@ -9,7 +9,7 @@ import { distantHouseholds, expressLeaves, startExpress } from './expresses.mjs'
 import { callOptions, expireCalls, offerCalls, settleCalls } from './calls.mjs';
 import { ALAMO_WORD, COURIER_DAYS, askCouriers, beginSiege, fightSouth, gonzalesFamilies, otherFamilies, reliefEnters, reliefRides, sendCouriers, splitSouth, stormAlamo, survivorsLeave, tellFall, tellSouth, word } from './alamo.mjs';
 import { SETTLEMENT_DAYS, advanceArmiesPassing, orderOut, turnHome } from './scrape.mjs';
-import { HOUSTON_WORD, fightColeto, fightSanJacinto, followCamp, goliadMassacre, takeInEnlisted, tellGoliad, tellSanJacinto } from './houston.mjs';
+import { HOUSTON_WORD, catchUpCamp, fightColeto, fightSanJacinto, followCamp, goliadMassacre, takeInEnlisted, tellGoliad, tellSanJacinto } from './houston.mjs';
 import { closeCampQuestion, openCampQuestion } from './camp.mjs';
 import { advanceArmy, closeDetachment, closeQuestion, countermandStorm, dieOfWounds, disbandArmy, fightConcepcion, fightGrass, fightStorming, formArmy, goForClothing, marchOut, moveCamp, openDetachment, openQuestion, questionOpen, recordPresent, returnFromClothing, tellGrassFight, tellStorming } from './army.mjs';
 
@@ -115,15 +115,16 @@ const FROM_MIDNIGHT_SEPT_29 = Object.freeze({
   // The army over the Brazos at Groce's on the steamboat Yellow Stone from dawn on April 12 (`HIST-TEX-089`): April 1 is
   // 266400, and 266400 + 11 × 1440 + 6 × 60 = 282600, the date of the Bernardo camp in sim/houston.mjs `HOUSTON_CAMPS`.
   'houston-brazos': 282600,
-  // The march east (`HIST-TEX-088`, sim/houston.mjs `HOUSTON_CAMPS`): Donoho's the afternoon of April 14 (266400 + 13 × 1440 +
-  // 15 × 60) and McCarley's the evening of the 15th (266400 + 14 × 1440 + 18 × 60); the fork at Roberts' is `which-road` and
-  // Burnett's `which-road-close`.
-  'houston-donohos': 286020, 'houston-mccarleys': 287640,
+  // The march east (`HIST-TEX-088`, sim/houston.mjs `HOUSTON_CAMPS`), each the moment the army sets out: for Donoho's the
+  // afternoon of April 14 (266400 + 13 × 1440 + 15 × 60), McCarley's dawn on the 15th (+ 14 × 1440 + 6 × 60), Roberts' dawn on
+  // the 16th (+ 15 × 1440 + 6 × 60), Burnett's 2 p.m. on the 16th (+ 15 × 1440 + 14 × 60); for Harrisburg noon on the 17th
+  // (`houston-harrisburg`, below) and Lynchburg noon on the 19th.
+  'houston-donohos': 286020, 'houston-mccarleys': 286920, 'houston-roberts': 288360, 'houston-burnetts': 288840,
   // The army's questions to a man with Houston (sim/camp.mjs, docs/HOUSTON_CAMP.md): whether he leaves for his family with
   // the word of Goliad (open from `goliad-word` to dawn on the 28th, when the army marches for the Brazos), and which road at
   // the fork at Roberts', beyond Spring Creek (noon on April 16 to noon on the 17th, `HIST-TEX-082`).
   'goliad-leave-close': 261000, 'which-road': 288720, 'which-road-close': 290160,
-  'houston-harrisburg': 291600, 'houston-lynchburg': 294480, 'san-jacinto': 296190, 'santa-anna-taken': 297360,
+  'houston-harrisburg': 290160, 'houston-lynchburg': 293040, 'san-jacinto': 296190, 'santa-anna-taken': 297360,
   'victory-word': 298800, 'scrape-end': 301320,
 });
 /**
@@ -955,6 +956,7 @@ function advanceScrape(world, { beginTravel } = {}) {
     if (days && world.minute >= days.order && !household.flight) orderOut(world, household, null);
   }
   advanceArmiesPassing(world);
+  if (!world.director.milestones['san-jacinto']) catchUpCamp(world, go);
   once(world, 'houston-colorado', () => { word(world, 'houston-colorado', everyone, { truth: HOUSTON_WORD.colorado, claimId: 'HIST-TEX-066', source: 'Word from the army' }); followCamp(world, go); });
   once(world, 'coleto', () => { fightColeto(world, said('HIST-TEX-063', 'Fannin marched out of Goliad this morning and was caught on the open prairie by Urrea\'s cavalry near Coleto Creek.')); spotlight(world, { key: 'coleto', text: 'Fannin\'s command, caught on the open prairie near Coleto Creek, fights through the day and surrenders the next morning.', siteId: 'goliad', claimId: 'HIST-TEX-063' }); });
   once(world, 'goliad-surrender', () => said('HIST-TEX-063', 'Fannin has surrendered his whole command to Urrea.'));
@@ -974,11 +976,12 @@ function advanceScrape(world, { beginTravel } = {}) {
   // keeps the army at Bernardo (sim/houston.mjs `houstonCamp`), and nothing moves.
   once(world, 'houston-donohos', () => { said('HIST-TEX-088', HOUSTON_WORD.marchEast); followCamp(world, go); });
   once(world, 'houston-mccarleys', () => followCamp(world, go));
+  once(world, 'houston-roberts', () => followCamp(world, go));
+  once(world, 'houston-burnetts', () => followCamp(world, go));
   // The fork of the road at Roberts', beyond Spring Creek, April 16 (`HIST-TEX-082`, `HIST-TEX-088`): the men shout which road;
   // the army goes right whatever is said.
-  once(world, 'which-road', () => { followCamp(world, go); openCampQuestion(world, 'road', said('HIST-TEX-082', 'The army has come to a fork of the road at Roberts\', beyond Spring Creek: the left-hand road goes to the Trinity and Nacogdoches, the right to Harrisburg and the enemy. The men are shouting for the right.'), go); });
-  // The right-hand road, whatever was called: on to Burnett's on Cypress Creek (`HIST-TEX-088`).
-  once(world, 'which-road-close', () => { closeCampQuestion(world, 'road', go); followCamp(world, go); });
+  once(world, 'which-road', () => { openCampQuestion(world, 'road', said('HIST-TEX-082', 'The army has come to a fork of the road at Roberts\', beyond Spring Creek: the left-hand road goes to the Trinity and Nacogdoches, the right to Harrisburg and the enemy. The men are shouting for the right.'), go); });
+  once(world, 'which-road-close', () => closeCampQuestion(world, 'road', go));
   once(world, 'houston-harrisburg', () => followCamp(world, go));
   once(world, 'houston-lynchburg', () => followCamp(world, go));
   once(world, 'san-jacinto', () => { fightSanJacinto(world, record(world, 'milestone', { visibility: 'sealed', importance: 3, classification: 'DOCUMENTED', claimId: 'HIST-TEX-067', text: 'The battle of San Jacinto.' })); spotlight(world, { key: 'san-jacinto', text: 'Houston\'s army crosses the prairie at San Jacinto and breaks Santa Anna\'s camp in eighteen minutes.', siteId: 'lynchburg', claimId: 'HIST-TEX-067' }); });

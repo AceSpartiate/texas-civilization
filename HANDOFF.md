@@ -13,6 +13,21 @@ beside a 24-thread busy loop it passed 10/10. **Not fixed, seen in those suites:
 failed 7 of 10 and `save-cadence.test.mjs` *"a page is sent a snapshot"* 1 of 10, both real-time tests of their own. No
 product code changed.
 
+**Houston's march east a forced march that keeps the record's days, 2026-09-19:** [HOUSTON_CAMP.md](docs/HOUSTON_CAMP.md)
+*The march east*, `FIC-GONZ-064`. At a family's seven hours on the road the army reached Harrisburg on April 20 and Lynch's
+ferry the morning of the 21st; owner, by multiple choice: a forced march. The army's legs go ten hours a day
+(`FORCED_MARCH_HOURS`, `sim/travel.mjs`; `travel.forced`, set by `followCamp`), and each camp's moment is now when it sets
+out, chosen to arrive on the day: Donoho's the night of the 14th, McCarley's the evening of the 15th, Roberts' before the
+noon question on the 16th, Burnett's that night (the army leaves the fork while the question is still open, taking the
+right-hand road whatever was said), opposite Harrisburg at 6 p.m. on the 18th, Lynch's ferry at 2 a.m. on the 20th (all
+measured in an unplayed class). New milestones `houston-roberts` and `houston-burnetts`; `houston-harrisburg` and
+`houston-lynchburg` moved earlier to the setting-out. A man who reaches a camp the army has left follows it
+(`catchUpCamp`); one his family sent for is left to go. Tests in `tests/camp.test.mjs`: the camps and milestones at one
+moment each, every arrival inside its dated window, the catch-up and the old-map march at a forced march's pace - each
+proven by injection (a family's seven hours, no catch-up, a camp out of step; the forced flag left off in `followCamp` is equivalent, because `catchUpCamp` runs first in the tick and sends the man on at the forced pace itself). Found on the way: a
+played family with a question open holds the calendar at twenty minutes a tick, when everybody moves at the hour's pace,
+so a played man's army arrives earlier than these times.
+
 **The map out to the Sabine and the Rio Grande, 2026-09-18:** [MAP_ACCURACY.md](docs/MAP_ACCURACY.md) §8. Owner, by
 multiple choice: all three rivers, USGS NHD with the edge units, full relief and woods outside the box. The map reaches
 93.5-100.5°W, 25.8-32°N, built by `scripts/build-outside.mjs` from data downloaded 2026-09-18
