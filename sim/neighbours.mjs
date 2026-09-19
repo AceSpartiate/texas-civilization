@@ -22,7 +22,7 @@ import { packFlight } from './scrape.mjs';
 import { campChoice } from './camp.mjs';
 import { fellFacts, logsLying } from './felling.mjs';
 import { logsShort } from './houseplot.mjs';
-import { treesIn, woodsRule } from './woods.mjs';
+import { countsTrees, treesIn, woodsRule } from './woods.mjs';
 import { landAround } from './ground.mjs';
 
 /** Decisions are spread over ticks: each family thinks every third tick, not all of them on the same one. */
@@ -209,7 +209,7 @@ export function thinkFor(world, household, { project, act }) {
   const busy = new Set(ONE_AT_A_TIME.filter(id => doing(id) > 0));
   const hunters = doing('hunt-timber') + doing('hunt-land');
   // A class whose woods come from the land hunts its own land (sim/hunting.mjs); every other class goes to the timber as it did.
-  const huntChore = woodsRule(world) === 'landfire' ? 'hunt-land' : 'hunt-timber';
+  const huntChore = countsTrees(woodsRule(world)) ? 'hunt-land' : 'hunt-timber';
   // Its plots, as its own land line shows them, and the house they are walked to from.
   const plots = land.plots || [];
   const home = world.map.sites[view.household.homeSiteId];
@@ -301,7 +301,7 @@ function soundTrees(world, home, bounds) {
     minX: Math.max(bounds?.minX ?? -Infinity, home.x - HUNT_LOOK_MILES), maxX: Math.min(bounds?.maxX ?? Infinity, home.x + HUNT_LOOK_MILES),
     minY: Math.max(bounds?.minY ?? -Infinity, home.y - HUNT_LOOK_MILES), maxY: Math.min(bounds?.maxY ?? Infinity, home.y + HUNT_LOOK_MILES),
   };
-  const options = { rule: 'landfire', nearCreek: landAround().nearCreek };
+  const options = { rule: woodsRule(world), nearCreek: landAround().nearCreek };
   const found = [];
   for (let x = box.minX; x < box.maxX; x += 0.25) for (let y = box.minY; y < box.maxY; y += 0.25) {
     for (const tree of treesIn({ minX: x, minY: y, maxX: Math.min(box.maxX, x + 0.25), maxY: Math.min(box.maxY, y + 0.25) }, options) || []) {

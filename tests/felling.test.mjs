@@ -23,7 +23,7 @@ import { woodsCatalogue, woodsTile } from '../sim/woods-view.mjs';
 import { ensureWoods, stumpsVisible, treesVisible } from '../public/woods-view.js';
 import { createClassroom } from '../server/app.mjs';
 
-const woods = () => ({ rule: 'landfire', nearCreek: landAround().nearCreek });
+const woods = () => ({ rule: 'biomes', nearCreek: landAround().nearCreek });
 const grid = (bounds, side = 11) => {
   const places = [];
   for (let i = 0; i < side; i++) for (let j = 0; j < side; j++) places.push({ x: +(bounds.minX + (bounds.maxX - bounds.minX) * (i + 0.5) / side).toFixed(3), y: +(bounds.minY + (bounds.maxY - bounds.minY) * (j + 0.5) / side).toFixed(3) });
@@ -172,7 +172,9 @@ test('hauling brings the logs to the house, six behind the ox or one on the shou
 });
 
 test('the map is told what was felled: stumps with their logs in the tile, fetched again when the woods change', async () => {
-  const { world, household, bounds } = onTheLand('fell-tiles-2'); // a seed whose land has a small stand; the map rebuild of HIST-TEX-025 moved the first one's
+  // A seed whose land has a small stand: the map rebuild of HIST-TEX-025 moved the first one's, and the biomes of 1836 left
+  // 'fell-tiles-2' (a Matagorda family on marsh and prairie) no timber at all (2026-09-19).
+  const { world, household, bounds } = onTheLand('fell-tiles-3');
   const { point } = timberOn(world, household, bounds).find(entry => entry.facts.trees >= 2 && entry.facts.trees <= 6);
   // The tile of the nearest tree to come down: a place near a tile's edge fells into its neighbours too.
   const size = woodsCatalogue().tiles.trees, nearest = standingTrees(world, point)[0];

@@ -13,7 +13,7 @@ import { readFileSync } from 'node:fs';
 import { gunzipSync } from 'node:zlib';
 import { milesFrom, realTerrain } from '../sim/terrain-data.mjs';
 import { coloniesProvince, mapBounds, mapForPage, outsideBands, provinceBands } from '../sim/province.mjs';
-import { LAND, landData } from '../sim/land.mjs';
+import { LAND, landBitsOf, landData } from '../sim/land.mjs';
 import { patchAt, standAt } from '../sim/woods.mjs';
 import { outsideStandAt } from '../sim/outside-woods.mjs';
 import { woodsTile } from '../sim/woods-view.mjs';
@@ -45,15 +45,22 @@ const linesOf = (name, from) => outside.rivers.filter(river => river.name === na
  */
 const BOX_FILES = {
   'colonies-elevation.bin.gz': 'a6aab196e3b58322881b7522be45a79e3d214ec7dcd0e30851fe5c3f6b21a8b9',
-  'colonies-land.bin.gz': 'dd7bf09537150de43db1bad6102050164b5051966249b43804b76c5f5adc6adb',
-  'colonies-land.json.gz': 'a327b651296099e2ff077bee7b20b6d1fbef8db2a3c09858e9e2ddabd2695c2e',
+  // Rebuilt on purpose 2026-09-19 for the biomes of 1836 (docs/BIOMES.md): the woods grid re-filed from LANDFIRE and the land's
+  // classes one a biome, five bits of a cell where there were four. Relief, water and the edge of the data are cell for cell
+  // as they were (checked by decoding both). Were dd7bf095...adc6adb and a327b651...95c2e.
+  'colonies-land.bin.gz': '65f44999f8d78565b49a1fd64437959949343e10c71752db78e490820c82ca6a',
+  'colonies-land.json.gz': '675d9a49129a8a1292bc8105dbe65aa116736baf37838af4bdaeb2db9f3508a4',
   // Rebuilt on purpose on main the same day, the march east's four houses made places (HIST-TEX-088); the outside layer does
   // not read it. Was 872c0ef1...965a4.
   'colonies-map.json.gz': '920d32946658d69a4d4a8576df90380478b2b82e049ebac74f10253744ce39ce',
   'colonies-province.json.gz': '8ef9b839a6f03b82a1ef81e832eb3d483cd7761e8f4eef32eea33b3508883dc7',
   'colonies-water.json.gz': '22900ae34954db4225fba11e1e977beab6161e4d53d84b5ebc923089e3162c44',
-  'colonies-woods.bin.gz': '16221666bf6757126faba1b8237fd82b42618aa277c36265da80ff6abeca067a',
-  'colonies-woods.json.gz': '66bf252a4d8161564866def57ba1c1680bf4075b30e8dee9ccb156fb43ab3e1e',
+  // The biomes of 1836 (2026-09-19). The grid a class of the week before was made on is kept as it was, beside it, and read
+  // by that class alone: its old hashes are now colonies-woods-2016's.
+  'colonies-woods.bin.gz': '65205bbb9e66ae64d33c47ecd2dff430641593c3eb11d6b67e855f54eecc4c87',
+  'colonies-woods.json.gz': '0f50376bbca82aa92a74442b4f20f95801ff4464e2788133efe8ce9c36c777aa',
+  'colonies-woods-2016.bin.gz': '16221666bf6757126faba1b8237fd82b42618aa277c36265da80ff6abeca067a',
+  'colonies-woods-2016.json.gz': '66bf252a4d8161564866def57ba1c1680bf4075b30e8dee9ccb156fb43ab3e1e',
 };
 
 test('the box\'s own files are byte for byte what they were', () => {
@@ -149,10 +156,12 @@ test('the Rio Grande, the Nueces and the Sabine are where they are, and named wh
 test('Mexico is country, not sea or a hole; the Gulf is sea', () => {
   const grids = decodeLand(outsideLand), half = grids[0];
   const classAt = (lon, lat) => { const p = at(lon, lat); return half.classes[half.cells[Math.floor((p.y - half.minY) / half.cellMiles) * half.columns + Math.floor((p.x - half.minX) / half.cellMiles)]]; };
-  for (const [lon, lat] of [[-99.8, 26.5], [-97.7, 25.9], [-100.2, 27.5], [-99.6, 27.3]]) assert.equal(classAt(lon, lat), 'brush', `Mexico at ${lat}, ${lon}`);
+  // Since 2026-09-19 Mexico is its own country (docs/BIOMES.md §4.12): chaparral, the delta round Matamoros, the river woods.
+  const MEXICO = ['chaparral', 'mesquite-savanna', 'thorn-riparian', 'palm-grove', 'hill-country'];
+  for (const [lon, lat] of [[-99.8, 26.5], [-97.7, 25.9], [-100.2, 27.5], [-99.6, 27.3]]) assert.ok(MEXICO.includes(classAt(lon, lat)), `Mexico at ${lat}, ${lon}: ${classAt(lon, lat)}`);
   for (const [lon, lat] of [[-96.8, 26.5], [-93.8, 28.5], [-93.7, 29.4]]) assert.equal(classAt(lon, lat), 'water', `the Gulf at ${lat}, ${lon}`);
-  // And across the Rio Grande, Texas: the brush of the Tamaulipan thornscrub at Laredo, LANDFIRE's own.
-  assert.ok(['brush', 'prairie', 'floodplain'].includes(classAt(-99.45, 27.6)), 'the Texas bank at Laredo is the land\'s own');
+  // And across the Rio Grande, Texas: the Tamaulipan thornscrub at Laredo, LANDFIRE's own, south-west of the Nueces.
+  assert.ok(['chaparral', 'mesquite-savanna', 'thorn-riparian', 'floodplain'].includes(classAt(-99.45, 27.6)), 'the Texas bank at Laredo is the land\'s own');
   const none = LAND.findIndex(entry => entry.id === 'none');
   let holes = 0;
   const bounds = mapBounds();
@@ -205,7 +214,7 @@ test('the rules outside are the box\'s own: on the box\'s heights they give the 
   const RELIEF = ['flat', 'rolling', 'hills', 'steep', 'bluff', 'escarpment'];
   let compared = 0;
   for (let r = 200; r < rows - 200; r += 37) for (let c = 200; c < columns - 200; c += 41) {
-    const i = r * columns + c, own = RELIEF[cells[i] >> 4], land = cells[i] & 15;
+    const bits = landBitsOf(landData().header), i = r * columns + c, own = RELIEF[cells[i] >> bits], land = cells[i] & ((1 << bits) - 1);
     if (land <= 1 || own === 'bluff' || own === 'escarpment') continue;
     assert.equal(reliefKind(range[i], slopeAt(metres, columns, rows, c, r, cell)), own, `relief at ${c},${r}`);
     compared++;
@@ -255,7 +264,7 @@ test('the woods outside are drawn by the map\'s tiles, and the simulation never 
   const sabine = at(-93.75, 31.0);
   assert.equal(standAt(sabine, { rule: 'landfire' }), 'none', 'the simulation reads woods past the box');
   assert.equal(patchAt(sabine, { rule: 'landfire' }).stand, 'none');
-  assert.ok(['pine', 'bottomland', 'creek', 'post-oak'].includes(outsideStandAt(sabine)), `the outside layer has ${outsideStandAt(sabine)} by the Sabine`);
+  assert.ok(['pine', 'longleaf', 'thicket', 'bottomland', 'creek', 'post-oak'].includes(outsideStandAt(sabine)), `the outside layer has ${outsideStandAt(sabine)} by the Sabine`);
   assert.equal(outsideStandAt(at(-97, 30)), 'none', 'inside the box the outside layer has no woods: the box\'s own are read');
   const world = createGonzalesWorld('outside-woods', 5, { map: 'colonies' });
   const shade = woodsTile(world, 'shade', Math.floor(sabine.x / 8), Math.floor(sabine.y / 8));

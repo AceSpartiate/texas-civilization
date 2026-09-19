@@ -1607,10 +1607,12 @@ function drawGroundDetail(ctx, world, camera) {
     for (const tree of treesVisible(camera, canvas, woodsCatalogue)) {
       if (cleared.length && inCleared(tree.x, tree.y)) continue;
       if (channels.length && inWater(tree.x, tree.y)) continue;
-      const point = camera.toScreen(tree), height = figure * SIZE.timberTree * TREE_SIZES[tree.size];
+      // The kind's picture, its three sizes and how tall it stands are the woods catalogue's (sim/woods.mjs `KINDS`): a palm is
+      // a stand-in drawn taller than its picture, a longleaf taller than the loblolly it is drawn as.
+      const point = camera.toScreen(tree), height = figure * SIZE.timberTree * TREE_SIZES[tree.size] * (tree.kind.scale || 1);
       const sizeName = ['pole', 'log', 'large'][tree.size];
       const sizedTree = `${tree.kind.picture}-${sizeName}`;
-      const deliveredSizes = ['pine-loblolly', 'cedar', 'mesquite', 'live-oak', 'elm'].includes(tree.kind.picture);
+      const deliveredSizes = tree.kind.sized ?? ['pine-loblolly', 'cedar', 'mesquite', 'live-oak', 'elm'].includes(tree.kind.picture);
       scattered.push({ tree: deliveredSizes ? sizedTree : tree.kind.picture, height, point, seed: Math.round(tree.x * 1e5), alpha: treesShown });
     }
     // What the family has felled: a stump, and a log lying beside it while any are left to haul (sim/felling.mjs).
@@ -1619,7 +1621,7 @@ function drawGroundDetail(ctx, world, camera) {
     const stumps = stumpsVisible(camera, canvas, woodsCatalogue);
     for (const stump of stumps) {
       const point = camera.toScreen(stump), pine = ['loblolly', 'shortleaf'].includes(stump.kind.id), soft = ['cottonwood', 'sycamore'].includes(stump.kind.id);
-      scattered.push({ tree: pine ? 'stump-pine-loblolly' : soft ? 'stump-cottonwood' : 'stump-post-oak', height: figure * SIZE.stump, point, seed: 0, alpha: treesShown });
+      scattered.push({ tree: stump.kind.stump || (pine ? 'stump-pine-loblolly' : soft ? 'stump-cottonwood' : 'stump-post-oak'), height: figure * SIZE.stump, point, seed: 0, alpha: treesShown });
       if (stump.left > 0) scattered.push({ tree: 'log-fallen', height: figure * SIZE.stump * .8, point: { x: point.x + figure * .35, y: point.y + figure * .08 }, seed: 0, alpha: treesShown });
     }
     window.__stumpsDrawn = stumps.length;

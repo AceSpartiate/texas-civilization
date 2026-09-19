@@ -68,9 +68,11 @@ test('a family hunts the cover nearest its own house, not a named stand miles of
       for (const mode of ['foot', 'horse', 'wagon']) assert.ok(findWay(world, household.homeSiteId, ground.id, mode), `${household.id} cannot reach its ground ${mode}`);
       const d = Math.hypot(ground.x - home.x, ground.y - home.y);
       miles.push(d);
-      // Just beyond the place, the way it faces, is timber or brush...
-      const inside = { x: ground.x + ground.toward.x * HUNT_STEP, y: ground.y + ground.toward.y * HUNT_STEP };
-      assert.notEqual(groundAt(world, inside), 'prairie', `${household.id}'s ground is not at any cover`);
+      // Within a step beyond the place, the way it faces, is timber or brush. (Until 2026-09-19 the point a whole step beyond
+      // was asked; on the biomes of 1836 a running creek's timber is one or two patches wide, a step past a place at its near
+      // edge can be the prairie on its far side, and the strip can lie between the samples.)
+      const beyond = Array.from({ length: 17 }, (_, k) => ({ x: ground.x + ground.toward.x * HUNT_STEP * k / 16, y: ground.y + ground.toward.y * HUNT_STEP * k / 16 }));
+      assert.ok(beyond.some(point => groundAt(world, point) !== 'prairie'), `${household.id}'s ground is not at any cover`);
       // ...nothing on a finer ring nearer the house is, short of the step it was looked for at...
       for (let r = 1 / 16; r < d - HUNT_STEP * 1.5; r += 1 / 16) {
         for (let k = 0; k < 64; k++) {

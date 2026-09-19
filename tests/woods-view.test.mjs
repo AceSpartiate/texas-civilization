@@ -17,7 +17,7 @@ import { WOODS_BATCH_MAX, createClassroom } from '../server/app.mjs';
 import { BATCH, ensureWoods, timberAt, treesInView, treesVisible, woodsShown } from '../public/woods-view.js';
 
 const land = landAround();
-const woods = { rule: 'landfire', nearCreek: land.nearCreek };
+const woods = { rule: 'biomes', nearCreek: land.nearCreek };
 const colonies = createGonzalesWorld('woods-view', 5, { map: 'colonies' });
 const home = colonies.map.sites[colonies.households['hh-1'].homeSiteId];
 

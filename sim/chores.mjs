@@ -35,7 +35,7 @@ import { moreFields, plotWorkRefusal, stakePlot, stroll, strollTarget } from './
 import { choosing, cutLaneSpell, digWell, lanePoint, laneRefusal, laneState, waterBurden, wellRefusal, wellTicks } from './homesite.mjs';
 import { huntingPlace, huntRefusal, placeWord, stillTicks } from './hunting.mjs';
 import { fellRefusal, fellTicks, fellTree, logsLeftOut, logsLying, nextTree, recordFelling, stackLogs, takeUpLogs } from './felling.mjs';
-import { KINDS, woodsRule } from './woods.mjs';
+import { KINDS, countsTrees, woodsRule } from './woods.mjs';
 import { TRADES, counterOptions, counterRefusal, rifleTrue, spendRifleShot, takeCounter, tradesAt } from './shops.mjs';
 import { BABY_BURDEN, FURNITURE, PIECES, buyRefusal, furnish, makeRefusal, mindingBaby, wanting } from './furniture.mjs';
 import { SPELL_TICKS, buildRefusal, buildSpell, helpRefusal, hostOf, houseBuilt, houseSettled, raising, recordHelpBegun, recordHelpDone, stageOf } from './houses.mjs';
@@ -1064,7 +1064,7 @@ export function choresFor(world, household, entity, logsOut = null) {
   const plots = plotsOf(world, household);
   const wants = { 'clear-plot': plots.some(plot => plot.state === 'staked'), 'fence-plot': plots.some(plot => plot.state === 'cleared' && plot.fence !== 'sound') };
   // Nor felling where the trees are not counted one by one, nor hauling with nothing lying out (sim/felling.mjs).
-  const counted = woodsRule(world) === 'landfire';
+  const counted = countsTrees(woodsRule(world));
   const lying = counted && (logsOut ??= logsLeftOut(world, household)) > 0;
   const list = Object.entries(CHORES).filter(([id, chore]) => !(chore.house && settled) && !(chore.helps && !visiting) && !(chore.well && !wantsWell) && !(chore.lane && !wantsLane)
     && !(chore.plotWork && !wants[id])

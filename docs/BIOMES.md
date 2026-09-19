@@ -1,7 +1,8 @@
 # The natural country of the map in 1835-36: biomes, what grew, what could be hunted, and how to draw it
 
-**Status: research, 2026-09-19. Nothing here is built.** This is the research half of the owner's request below; a second
-session implements from it. Read it with `docs/WOODS_AND_BUILDING.md` (the woods as built), `docs/MAP_ACCURACY.md` §5 and §8
+**Status: research, 2026-09-19; built the same day (§13).** This was the research half of the owner's request below; the
+second session built §7 from it, and §13 says what was built, where it differs, and what is left. A third session makes the
+balance and gameplay changes the new biomes call for. Read it with `docs/WOODS_AND_BUILDING.md` (the woods as built), `docs/MAP_ACCURACY.md` §5 and §8
 (the land classes and the country outside the box), and the claims it registers in `HISTORY.md`: `HIST-TEX-094` to
 `HIST-TEX-108` and `FIC-GONZ-060` to `FIC-GONZ-063`.
 
@@ -807,3 +808,94 @@ Read 2026-09-19 unless stated. Page numbers are the printed pages in the archive
 - The game's own grids, read through `sim/woods.mjs` and `sim/ground.mjs` for §6 and §8.
 - The repository's own research: `docs/battle-research/concepcion.md`, `grass-fight.md`, `bexar-storming.md`;
   `docs/town-research/refugio.md`, `san-felipe.md`.
+
+---
+
+## 13. As built, 2026-09-19
+
+The second session built §7 the same day. Same computer only (Windows, headless Chrome); not LAN or district acceptance.
+
+### 13.1 What was built
+
+- **The rules** are one module, `scripts/terrain/biomes.mjs`, read by both builds so the box and the country outside it are
+  filed alike: `BY_MODEL` (§3.1 and §7.1, with the ten mis-filed settings of §6.3 filed right), the Nueces line (`nuecesSide`:
+  a ray due north crosses the river an odd number of times from the Strip; the river runs on due west from its head), the Big
+  Thicket's rectangle, the coastal bottoms' cane (EPA 34c, and 33f below 29.6°N), the delta's palms (14760 in 34f, or within 1.5
+  miles of the Rio Grande east of 98°W), the canebrakes of Caney Creek (0.75 mile either side, 28.85-29.35°N) and Oyster Creek
+  (0.35 mile, below 29.45°N), Béxar's fields and every other town's ring, and Mexico's zones. All `FIC-GONZ-060`/`-062`.
+- **The box's grid** (`public/terrain/colonies-woods.*`, `scripts/build-woods.mjs`) is read from the whole map's LANDFIRE
+  raster (the box's own raster of 2026-09-15 is gone; the two differ in cell size, 0.00237° against 0.00236°, so about one
+  cell in seven at a stand's edge moves by a cell - the pattern, not the stands, changed by it). Shares of the box: tallgrass
+  prairie 12.0, coastal prairie 11.5, post oak 10.2, mesquite prairie 8.3, hill savanna 7.9, bottomland 7.2 (and 1.3 with cane),
+  pine 6.5, creek 4.5, longleaf 4.0, cedar brake 3.1, thicket 1.3, mixed-grass 1.3, cross timbers 1.0, thorn riparian 0.9,
+  marsh 0.7, live oak 0.5, salt prairie 0.4, chaparral 0.4, cypress 0.2, canebrake 0.2, dunes 0.1, fields 0.05, water 4.4,
+  off the data 12.2 (in 100 of the cells).
+- **The stands** (`STANDS` in `sim/woods.mjs`) are §7.1's table as written: patch classes, trees an acre, kinds, `game` and
+  `quarry`, with three additions the research implies: `bottomland-cane` (the coastal bottoms' cane share, filed on the grid
+  so the classes stay per stand), `creek-draw` (§4.6's few trees on an intermittent creek through post oak, cross timbers or
+  the hills: 60 in 100 of patches at 6 large trees an acre, open ground) and `bank` (§5.1's line of trees on a river through a
+  town's fields: 75 in 100 at 15 an acre). A patch class may carry its own cover (a thicket, cane or chaparral's mesquite is
+  brush) and its own kinds (a live oak motte in the mesquite, the palms). Fourteen new kinds of tree, each with logs and use
+  (`KINDS`; invented, `FIC-GONZ-061`): bur oak, longleaf, beech, magnolia, white oak, sweetgum, bald cypress, tupelo, cedar elm,
+  anacua, Texas ebony, willow, Texas palm, Texas oak.
+- **Creeks** (§4.6): through the prairies, the mesquite and the chaparral a creek keeps timber only if it runs all year
+  (`CREEK_STRIP_MILES` 0.045, one or two patches; the brush country's is its river woods); an intermittent creek through post
+  oak, cross timbers or the hills keeps `creek-draw`; through the prairies none. The strip is worked out as it always was, from
+  the creeks the map draws, not written into the grid.
+- **Béxar** (§5.1): the San Antonio half a mile either side from its head (29.478°N) to Espada, San Pedro Creek 0.35 mile from its
+  springs, the Alamo's fields 0.8 mile round the church, and half a mile round each of the four missions: 20 square miles of
+  `fields`. Within a quarter mile of the Alamo, timber fell from 41 in 100 of the ground (the 2016 grid) to under 15, the line
+  of bank trees. **Every other town** has a cleared ring of fields 0.7 mile round its middle (§5.2's rule).
+- **The washes**: the land file (`colonies-land.*`, `outside-land.*`) carries a class per biome - twenty-six ids, so a cell's
+  land class is now five bits and its relief three (`landBits: 5`; the page and the server read either) - and
+  `public/ground-classes.js` gives each §7.2's colour (pushed apart) and marks. Every wash was made stronger (alpha about .3 to
+  about .5) so the country's colour shows over the relief's green. Relief, water and the data's edge are cell for cell as they
+  were.
+- **Outside the box** (`scripts/build-outside.mjs`): the same rules; Mexico chaparral, with mesquite prairie on the delta plain
+  (east of 98°W under 30 m), river woods on the south bank (palms east of 98°W), oak savanna above 800 m.
+- **Old classes**: a class that recorded `landfire-2016` keeps its own grid (`colonies-woods-2016.*`, the old files as they
+  were) and its own stands (`STANDS_2016`); new classes record `biomes-1836`. No save version moved.
+
+### 13.2 Where it differs from §7, and why
+
+- `bottomland`'s cane share is a stand of its own on the grid (`bottomland-cane`), not a region test at run time: the patch
+  classes are per stand. Its "15 of the closed middle and gap" is read as cane 15, closed middle 6, gap 5 in 100.
+- `creek-draw` and `bank` are not in §7.1's table; §4.6 and §5.1 describe them.
+- The strip on perennial creeks is 0.045 mile either side of the creek (one or two patches), not exactly one patch.
+- Béxar's envelope adds the four missions' rings (Espada lies off the river's line); it is 20 square miles, inside §5.1's
+  one to two and a half miles by eleven.
+- The mesquite prairie's live oak motte stands in 2 in 100 of its patches everywhere, not only on sand (`ceiling:`).
+- The coastal and tallgrass prairie inside EPA 34g, 34h and 34i is drawn as marsh, as since 2026-09-17; the simulation keeps its
+  stand.
+- The quarry is words only (the hunt's facts: "Deer, turkey and bear keep to it."); the hunt still finds a deer. Which animal a
+  hunt brings is the balance session's.
+- Colours: §7.2's proposals were too close over the relief's green; they are pushed apart and stronger.
+- The acequias are not drawn (§5.1's request is open), and nothing of §5.2's particular fields (Corn Bend, the plantations) is
+  laid beyond the rings.
+
+### 13.3 Who loses timber and game (measured 2026-09-19)
+
+Within three miles of each town, the share of ground that is timber and the mean game, 2016 grid then biomes: Béxar 18 → 7
+(0.36 → 0.22), Goliad 22 → 10 (0.52 → 0.47), Refugio 25 → 14 (0.54 → 0.47), Harrisburg 13 → 5 (0.32 → 0.28), Victoria 39 → 32,
+San Felipe 40 → 32, Liberty 37 → 31, Matagorda 40 → 35, Gonzales 57 → 46 (0.73 → 0.66), Washington 54 → 43, Mina 67 → 58,
+Brazoria 81 → 67, Columbia 54 → 42, Nacogdoches 82 → 83. Families (three thirty-family classes, ninety families; the starts
+are San Felipe, Columbia, Matagorda, Mina, Liberty, Gonzales and Victoria): the median of sound logs standing on a family's land
+within a mile of its house fell by half or more on the coast (San Felipe 2,530 → 990, Columbia 3,777 → 1,534, Liberty 3,489 →
+1,587, Matagorda 1,747 → 711; Gonzales 3,738 → 2,000; Mina and Victoria about the same); 13 families of 90 have fewer than the
+fifty a cabin wants (5 before) and would build a jacal; the best hunting ground within a mile fell from about 0.9 to 0.75 on the
+coast and stayed about 0.9-1 inland. No family is stuck: a jacal wants no logs (§8, `tests/biomes.test.mjs`).
+
+### 13.4 Evidence
+
+- Tests: `tests/biomes.test.mjs` (7), and the existing woods, land, felling, hunting and outside tests amended (the 2016 grid's
+  tests now name it). Eight injected regressions, each caught; two also fail a second test that reads the same thing (recorded
+  in `docs/evidence/biomes/injections.json`).
+- Screenshots before and after, `docs/evidence/biomes/{before,after}-*.png` (`scripts/biomes-screenshots.mjs`).
+- Performance: `docs/evidence/perf-render-biomes-{after,after-2,before-2}.json`, the same on this computer (§13.5).
+
+### 13.5 What is left
+
+- The balance session: which quarry a hunt brings, the game values, and whether a prairie family wants logs from town.
+- Art (docs/ART_REQUESTS.md, three requests of 2026-09-19).
+- The acequias drawn; Corn Bend and the plantations' fields; the LANDFIRE model PDFs (§2) before any trees-an-acre is claimed.
+- `colonies-province.json.gz` was not rebuilt: its cover belts are the 2016 land's, drawn only while the land's classes load.

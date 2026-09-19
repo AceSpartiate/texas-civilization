@@ -29,14 +29,14 @@ const PRAIRIE_MARKS = Object.freeze([
 const TIMBER_MARKS = PRAIRIE_MARKS;
 export const GROUND_CLASSES = Object.freeze({
   prairie: { colour: [217, 220, 178], alpha: .22, marks: PRAIRIE_MARKS },
-  savanna: { colour: [169, 182, 129], alpha: .3, marks: [
+  savanna: { colour: [160, 176, 112], alpha: .45, marks: [
     { upTo: .06, sprite: 'rocks', size: .5, fallback: 'rock' },
     { upTo: .16, sprite: 'scrub', size: 1.0, fallback: 'bush' },
     { upTo: 1, sprite: 'grass-tuft', size: .6, fallback: 'tuft' },
   ] },
-  floodplain: { colour: [111, 138, 85], alpha: .34, timber: true, marks: TIMBER_MARKS },
-  pine: { colour: [86, 112, 74], alpha: .36, timber: true, marks: TIMBER_MARKS },
-  'live-oak': { colour: [122, 145, 96], alpha: .32, timber: true, marks: TIMBER_MARKS },
+  floodplain: { colour: [111, 138, 85], alpha: .45, timber: true, marks: TIMBER_MARKS },
+  pine: { colour: [86, 112, 74], alpha: .48, timber: true, marks: TIMBER_MARKS },
+  'live-oak': { colour: [122, 145, 96], alpha: .45, timber: true, marks: TIMBER_MARKS },
   brush: { colour: [180, 172, 129], alpha: .32, marks: [
     { upTo: .08, sprite: 'rocks', size: .5, fallback: 'rock' },
     { upTo: .34, sprite: 'mesquite-pole', size: 1.3, fallback: 'bush' },
@@ -44,19 +44,106 @@ export const GROUND_CLASSES = Object.freeze({
     { upTo: .8, sprite: 'scrub', size: 1.0, fallback: 'bush' },
     { upTo: 1, sprite: 'grass-tuft', size: .6, fallback: 'tuft' },
   ] },
-  'hill-country': { colour: [194, 184, 145], alpha: .32, marks: [
+  'hill-country': { colour: [194, 184, 145], alpha: .45, marks: [
     { upTo: .2, sprite: 'rocks', size: .6, fallback: 'rock' },
     { upTo: .32, sprite: 'cedar-pole', size: 1.3, fallback: 'bush' },
     { upTo: .42, sprite: 'scrub', size: 1.0, fallback: 'bush' },
     { upTo: 1, sprite: 'grass-tuft', size: .55, fallback: 'tuft' },
   ] },
-  marsh: { colour: [159, 177, 149], alpha: .34, marks: [
+  marsh: { colour: [150, 176, 150], alpha: .45, marks: [
     { upTo: .45, sprite: 'reeds', size: .9, fallback: 'tuft' },
     { upTo: 1, sprite: 'grass-tuft', size: .6, fallback: 'tuft' },
   ] },
-  sand: { colour: [230, 220, 180], alpha: .42, marks: [
+  sand: { colour: [230, 220, 180], alpha: .5, marks: [
     { upTo: .12, sprite: 'rocks', size: .45, fallback: 'rock' },
     { upTo: .22, sprite: 'grass-tuft', size: .5, fallback: 'tuft' },
+    { upTo: 1, sprite: null, size: 0, fallback: null },
+  ] },
+  // The biomes of 1836 (docs/BIOMES.md §7.2, 2026-09-19): each country its own wash, so the blackland, the coastal prairie,
+  // the mesquite and the thicket no longer read as one pale green. Colours are the research's proposals, pushed apart; every
+  // wash was made stronger the same day (about .3 to about .5) so the country's colour shows over the relief's green tint, the
+  // hillshade still laid over it.
+  // stand-in: docs/ART_REQUESTS.md, request 2026-09-19 - the country of 1836. Tall grass is `grass-tuft` drawn larger, cane is
+  // `reeds` at twice the size, the palm the `sapling` drawn tall, palmetto and the thorn thicket `scrub`, yucca the
+  // `prickly-pear`, cordgrass `reeds`, a town's fields `crop-stubble` and fallow tufts, until their own art lands.
+  'tallgrass-prairie': { colour: [212, 190, 118], alpha: .5, marks: [
+    { upTo: .04, sprite: 'rocks', size: .5, fallback: 'rock' },
+    { upTo: .07, sprite: 'scrub', size: 1.0, fallback: 'bush' },
+    { upTo: 1, sprite: 'grass-tuft', size: .85, fallback: 'tuft' },
+  ] },
+  'coastal-prairie': { colour: [180, 198, 122], alpha: .5, marks: [
+    { upTo: .03, sprite: 'rocks', size: .45, fallback: 'rock' },
+    { upTo: .05, sprite: 'live-oak-pole', size: 1.3, fallback: 'bush' },
+    { upTo: .1, sprite: 'reeds', size: .8, fallback: 'tuft' },
+    { upTo: 1, sprite: 'grass-tuft', size: .75, fallback: 'tuft' },
+  ] },
+  'mixedgrass-prairie': { colour: [216, 202, 150], alpha: .5, marks: [
+    { upTo: .14, sprite: 'rocks', size: .5, fallback: 'rock' },
+    { upTo: .18, sprite: 'mesquite-pole', size: 1.1, fallback: 'bush' },
+    { upTo: .22, sprite: 'prickly-pear', size: .9, fallback: 'bush' },
+    { upTo: 1, sprite: 'grass-tuft', size: .5, fallback: 'tuft' },
+  ] },
+  'salt-prairie': { colour: [206, 204, 172], alpha: .5, marks: [
+    { upTo: .3, sprite: 'grass-tuft', size: .45, fallback: 'tuft' },
+    { upTo: .42, sprite: 'reeds', size: .7, fallback: 'tuft' },
+    { upTo: 1, sprite: null, size: 0, fallback: null },
+  ] },
+  'mesquite-savanna': { colour: [196, 176, 120], alpha: .5, marks: [
+    { upTo: .05, sprite: 'rocks', size: .5, fallback: 'rock' },
+    { upTo: .2, sprite: 'mesquite-pole', size: 1.3, fallback: 'bush' },
+    { upTo: .3, sprite: 'prickly-pear', size: 1.0, fallback: 'bush' },
+    { upTo: .36, sprite: 'scrub', size: 1.0, fallback: 'bush' },
+    { upTo: 1, sprite: 'grass-tuft', size: .7, fallback: 'tuft' },
+  ] },
+  chaparral: { colour: [140, 142, 100], alpha: .5, marks: [
+    { upTo: .05, sprite: 'rocks', size: .5, fallback: 'rock' },
+    { upTo: .45, sprite: 'scrub', size: 1.1, fallback: 'bush' },
+    { upTo: .65, sprite: 'mesquite-pole', size: 1.3, fallback: 'bush' },
+    { upTo: .8, sprite: 'prickly-pear', size: 1.0, fallback: 'bush' },
+    { upTo: 1, sprite: 'grass-tuft', size: .55, fallback: 'tuft' },
+  ] },
+  'cross-timbers': { colour: [138, 156, 96], alpha: .48, marks: [
+    { upTo: .06, sprite: 'rocks', size: .5, fallback: 'rock' },
+    { upTo: .3, sprite: 'scrub', size: 1.0, fallback: 'bush' },
+    { upTo: 1, sprite: 'grass-tuft', size: .55, fallback: 'tuft' },
+  ] },
+  longleaf: { colour: [120, 140, 90], alpha: .48, timber: true, marks: [
+    { upTo: .04, sprite: 'rocks', size: .45, fallback: 'rock' },
+    { upTo: 1, sprite: 'grass-tuft', size: .8, fallback: 'tuft' },
+  ] },
+  thicket: { colour: [70, 98, 64], alpha: .55, timber: true, marks: [
+    { upTo: .5, sprite: 'scrub', size: 1.0, fallback: 'bush' },
+    { upTo: .6, sprite: 'reeds', size: 1.4, fallback: 'tuft' },
+    { upTo: 1, sprite: 'grass-tuft', size: .55, fallback: 'tuft' },
+  ] },
+  canebrake: { colour: [150, 170, 90], alpha: .5, marks: [
+    { upTo: .7, sprite: 'reeds', size: 1.8, fallback: 'tuft' },
+    { upTo: 1, sprite: 'grass-tuft', size: .7, fallback: 'tuft' },
+  ] },
+  'cypress-swamp': { colour: [90, 110, 90], alpha: .52, timber: true, marks: [
+    { upTo: .4, sprite: 'reeds', size: .9, fallback: 'tuft' },
+    { upTo: 1, sprite: null, size: 0, fallback: null },
+  ] },
+  'cedar-brake': { colour: [105, 120, 95], alpha: .52, timber: true, marks: [
+    { upTo: .45, sprite: 'cedar-pole', size: 1.3, fallback: 'bush' },
+    { upTo: .6, sprite: 'rocks', size: .6, fallback: 'rock' },
+    { upTo: .7, sprite: 'scrub', size: 1.0, fallback: 'bush' },
+    { upTo: 1, sprite: 'grass-tuft', size: .5, fallback: 'tuft' },
+  ] },
+  'palm-grove': { colour: [120, 150, 90], alpha: .5, timber: true, marks: [
+    { upTo: .15, sprite: 'sapling', size: 2.2, fallback: 'bush' },
+    { upTo: .3, sprite: 'scrub', size: .9, fallback: 'bush' },
+    { upTo: 1, sprite: 'grass-tuft', size: .6, fallback: 'tuft' },
+  ] },
+  'thorn-riparian': { colour: [125, 138, 90], alpha: .48, timber: true, marks: [
+    { upTo: .3, sprite: 'scrub', size: 1.0, fallback: 'bush' },
+    { upTo: .4, sprite: 'mesquite-pole', size: 1.2, fallback: 'bush' },
+    { upTo: 1, sprite: 'grass-tuft', size: .6, fallback: 'tuft' },
+  ] },
+  // A town's fields (docs/BIOMES.md §5, FIC-GONZ-062): stubble and fallow, the families' own plots drawn over them as always.
+  fields: { colour: [196, 158, 100], alpha: .55, marks: [
+    { upTo: .5, sprite: 'crop-stubble', size: .7, fallback: 'tuft' },
+    { upTo: .8, sprite: 'grass-tuft', size: .5, fallback: 'tuft' },
     { upTo: 1, sprite: null, size: 0, fallback: null },
   ] },
   // Outside the playable land, if the data ever carries it.

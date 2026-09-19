@@ -8,7 +8,7 @@
 // them to the house, one on a person's shoulder or a load behind the ox. What is at the house is the family's log pile,
 // which the house plot will build from (step 5).
 //
-// Only a class whose woods come from the land (`woodsRule` 'landfire') counts its trees one by one, so only such a class
+// Only a class whose woods come from the land (`countsTrees`: the biomes, or the 2016 grid) counts its trees one by one, so only such a class
 // fells them. Settlers felled their own trees for their houses (`HIST-TEX-017`); every number here is invented
 // (`FIC-GONZ-032`): how long a tree takes, how many logs it gives, how far round the place a person fells, what a person
 // or the ox drags.
@@ -24,7 +24,7 @@ import { landAround, onRealLand } from './ground.mjs';
 import { holdingOf } from './grants.mjs';
 import { choosing } from './homesite.mjs';
 import { whereFromHouse } from './survey.mjs';
-import { KINDS, STANDS, parseTreeId, patchAt, treeById, treesIn, woodsRule } from './woods.mjs';
+import { KINDS, countsTrees, parseTreeId, patchAt, standOf, treeById, treesIn, woodsRule } from './woods.mjs';
 
 /** How far round the chosen place a person fells, in miles: about 260 feet, some five acres. */
 export const FELL_REACH = 0.05;
@@ -35,13 +35,14 @@ export const DRAG_LOGS = Object.freeze({ hand: 1, ox: 6 });
 /** Which logs are felled first: those for walls, then sills, then the rest. */
 export const USE_ORDER = Object.freeze(['wall', 'sill', 'poor']);
 
-const options = () => ({ rule: 'landfire', nearCreek: landAround().nearCreek });
+/** The woods as this class reads them: the biomes, or the grid a class of the week of 2026-09-15 was made on (sim/woods.mjs). */
+const options = world => ({ rule: woodsRule(world), nearCreek: landAround().nearCreek });
 const felledOf = world => world.woods?.felled || {};
 
 /** Every tree still standing within reach of a place that would give a log, nearest first. */
 export function standingTrees(world, point, reach = FELL_REACH) {
   const felled = felledOf(world);
-  return (treesIn({ minX: point.x - reach, minY: point.y - reach, maxX: point.x + reach, maxY: point.y + reach }, options()) || [])
+  return (treesIn({ minX: point.x - reach, minY: point.y - reach, maxX: point.x + reach, maxY: point.y + reach }, options(world)) || [])
     .filter(tree => tree.logs > 0 && !felled[tree.id] && Math.hypot(tree.x - point.x, tree.y - point.y) <= reach)
     .sort((a, b) => Math.hypot(a.x - point.x, a.y - point.y) - Math.hypot(b.x - point.x, b.y - point.y));
 }
@@ -49,7 +50,7 @@ export function standingTrees(world, point, reach = FELL_REACH) {
 /** Why nobody in this family can fell at this place, or null. */
 export function fellRefusal(world, household, point) {
   if (!household) return 'No family to fell for.';
-  if (woodsRule(world) !== 'landfire') return 'The trees of this country are not counted one by one.';
+  if (!countsTrees(woodsRule(world))) return 'The trees of this country are not counted one by one.';
   if (world.status === 'lobby') return 'The family fells its trees once the class has begun.';
   if (choosing(household)) return 'Choose where the house will stand first.';
   if (!Number.isFinite(point?.x) || !Number.isFinite(point?.y)) return 'Choose a place on your land to fell.';
@@ -71,7 +72,7 @@ export function fellFacts(world, household, point) {
   const trees = standingTrees(world, point);
   const logs = trees.reduce((sum, tree) => sum + tree.logs, 0);
   const kinds = [...new Set(trees.map(tree => KINDS[tree.kind].name))].slice(0, 3);
-  const stand = STANDS[patchAt(point, options()).stand]?.name || 'timber';
+  const stand = standOf(patchAt(point, options(world)).stand, woodsRule(world)).name || 'timber';
   const wall = trees.filter(tree => tree.use === 'wall').reduce((sum, tree) => sum + tree.logs, 0);
   const sound = wall + trees.filter(tree => tree.use === 'sill').reduce((sum, tree) => sum + tree.logs, 0);
   return {
@@ -95,7 +96,7 @@ export const fellTicks = tree => Math.max(1, Math.round(FELL_TICKS[tree.size] * 
 
 /** The tree comes down: a stump, and its logs lying where it fell. False if somebody felled it first. */
 export function fellTree(world, household, entity, treeId) {
-  const tree = treeById(treeId, options());
+  const tree = treeById(treeId, options(world));
   if (!tree || felledOf(world)[treeId]) return false;
   world.woods ||= { felled: {}, revision: 0 };
   world.woods.felled[treeId] = { by: household.id, minute: world.minute, kind: tree.kind, use: tree.use, logs: tree.logs, left: tree.logs };
@@ -117,8 +118,8 @@ export function recordFelling(world, household, entity) {
 }
 
 /** Where a felled tree lay, from its id: the tree's own spot. */
-export function felledAt(treeId) {
-  const tree = treeById(treeId, options());
+export function felledAt(treeId, world) {
+  const tree = treeById(treeId, options(world));
   return tree ? { x: tree.x, y: tree.y } : null;
 }
 
@@ -126,7 +127,7 @@ export function felledAt(treeId) {
 export function logsLying(world, household) {
   const home = world.map.sites[household.homeSiteId];
   return Object.entries(felledOf(world)).filter(([, entry]) => entry.by === household.id && entry.left > 0)
-    .map(([id, entry]) => ({ id, ...entry, ...felledAt(id) }))
+    .map(([id, entry]) => ({ id, ...entry, ...felledAt(id, world) }))
     .sort((a, b) => Math.hypot(a.x - home.x, a.y - home.y) - Math.hypot(b.x - home.x, b.y - home.y));
 }
 
@@ -210,7 +211,7 @@ export function fellingInvalid(world) {
 export function fellStanding(world, household, plot) {
   // Only a class whose woods come from the land has trees to bring down; on the invented country the ground is cleared as it
   // always was (sim/woods.mjs `woodsRule`).
-  if (woodsRule(world) !== 'landfire') return { trees: 0, logs: 0 };
+  if (!countsTrees(woodsRule(world))) return { trees: 0, logs: 0 };
   const half = PLOT_SIDE / 2;
   // The corners of the plot as well as its middle: `standingTrees` reaches a radius, and a plot is a square.
   const reach = Math.hypot(half, half);

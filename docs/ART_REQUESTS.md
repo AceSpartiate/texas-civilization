@@ -33,6 +33,10 @@ does not have:
 | The road's three panel icons are glyphs drawn in canvas strokes: a rifle over a campfire (`hunt-road`), a figure under a blanket with a cup beside (`tend-sick`), a coin passed over a ferry's rail (`trade-crossing`) | `drawGlyph` in `public/family-panel.js`; `PANEL_ICONS` carries `glyph` and no sprite, and `drawIcon` takes `icon-<key>` the moment it is registered | Request 2026-09-16 — the road's icons | `icon-hunt-road`, `icon-tend-sick`, `icon-trade-crossing` |
 | The camp's four icons - drill, beef and corn, the guard, the scouts - are canvas glyphs (a musket at the shoulder; horns over a corn ear; a bayonet and a crescent moon; a horseshoe and a spyglass) in the panel's brown | `PANEL_ICONS` (`glyph`) and `drawGlyph` in `public/family-panel.js` | Request 2026-09-16 — the camp's icons | `icon-camp-drill`, `icon-camp-forage`, `icon-camp-guard`, `icon-camp-scout` |
 | Every face of the Alamo compound on the map is the painted face of the `alamo-wall-intact` module, cut from the sprite and repeated along the face at the art's own proportion; the palisade is `alamo-palisade` the same way; the south gate is a dark opening in the low barrack's front; the church's south side is plain coursed stone | `FACE_ART` in `public/bexar-art.js` | Request 2026-09-18 — the Alamo's faces seen from the south | The requested face strips, laid by the same `FACE_ART` table |
+| The trees of the biomes of 1836: longleaf is the loblolly drawn a quarter taller; bald cypress the cedar a third taller; the Texas palm the `sapling` drawn twice as tall; beech, magnolia, sweetgum, white oak, bur oak and Texas oak the `oak-broad`; anacua and Texas ebony the `oak-spreading`; tupelo and cedar elm the `elm`; willow the `cottonwood` | `KINDS` (`picture`, `sized`, `scale`) in `sim/woods.mjs`, sent in the woods catalogue and drawn by `drawGroundDetail` in `public/app.js` | Request 2026-09-19 — the country of 1836: trees and ground cover | `pine-longleaf-*`, `cypress-bald-*`, `palm-sabal-*`, `magnolia-*`, `beech-*` |
+| The ground of the biomes of 1836: tall grass is `grass-tuft` drawn larger; river cane `reeds` at nearly twice the size; palmetto and the thorn thicket `scrub`; yucca the `prickly-pear`; cordgrass `reeds`; a palm grove's palms the `sapling` drawn tall; a town's fields `crop-stubble` and fallow tufts | `GROUND_CLASSES` marks in `public/ground-classes.js` | Request 2026-09-19 — the country of 1836: trees and ground cover; Request 2026-09-19 — Béxar's fields and acequias | `grass-tall`, `cane`, `palmetto`, `thicket-thorn`, `yucca`, `marsh-cordgrass`, `dune-grass`, `field-irrigated`, `field-fallow` |
+| Béxar's fields are the `fields` wash with stubble and fallow scattered on it; **the acequias are not drawn** and no brush fence stands | `fields` in `public/ground-classes.js`; the envelope in `scripts/terrain/biomes.mjs` `BEXAR_FIELDS` | Request 2026-09-19 — Béxar's fields and acequias | `acequia`, `field-irrigated`, `fence-brush`, laid by `public/bexar-layout.js` |
+| **No stand-in: words only.** What a hunt may find besides a deer - turkey, bear, buffalo, antelope, mustangs, javelina, ducks and geese, wild cattle - is said in the words a family reads before it hunts ("Deer, turkey and bear keep to it."); the hunt itself still finds and draws a deer. A deer drawn where the words say a bear would be a wrong picture | `quarry` in `STANDS` (`sim/woods.mjs`), worded by `quarryWords` in `sim/hunting.mjs` | Request 2026-09-19 — the game of 1836 | `wildlife-turkey`, `-bear`, `-javelina`, `-pronghorn`, `-bison`, `-geese`, `-mustang` |
 | **No stand-in: nothing is drawn.** The army's crossing of the Brazos at Groce's on the steamboat Yellow Stone, April 12–13, 1836, is said only in words ("The army is crossing the Brazos on the steamboat Yellow Stone. She came up the river for cotton under Captain John E. Ross, and General Houston has taken her to carry the men, the horses and the wagons over the flood."); no boat is on the river. Words-only is the deliberate state: the library has nothing near a steamboat (the `skiff` and `ferry-raft` would say the wrong thing), and a wrong picture of a named boat is worse than none | `sim/houston.mjs` (the words) | Request 2026-09-18 — the steamboat Yellow Stone | `steamboat-moored`, `steamboat-steam`, `steamboat-laden`, drawn on the Brazos at Groce's ferry |
 
 ## Claude-drawn stand-ins (replace with Astra's)
@@ -79,6 +83,56 @@ into the existing pipeline, and how it will be checked. When a request is delive
 `npm run build:art`; do not delete it from here.
 
 ---
+
+## Request 2026-09-19 — the country of 1836: trees and ground cover
+
+**Status: open; stand-ins in use (see *Stand-ins in use* above).** Owner, 2026-09-19: the map brought in line with the
+natural biomes of Texas (docs/BIOMES.md, built the same day).
+
+- **Why.** The map shows each natural region of 1836. Longleaf pine, the Texas palm, bald cypress, river cane, tall prairie
+  grass and the South Texas thicket are what tell a student where they are, and the library has none of them.
+- **What.** Transparent, anchored at the base, three-quarter view, in the style of `pine-loblolly-*` and `live-oak-*`:
+  `pine-longleaf` at `-pole`, `-log`, `-large` (very tall straight trunk, sparse tufted crown of long needles high up, grass
+  at the foot); `palm-sabal` at three sizes (a Texas palm: straight grey trunk, round head of fan leaves, 40-60 ft when large)
+  and `palmetto` (a low fan clump, no trunk); `cypress-bald` at three sizes (buttressed flaring base, flat-topped feathery
+  crown, with and without Spanish moss) and `cypress-knees`; `cane` (river cane in a dense clump, two variants, with a `-wind`
+  frame) about twice a person's height; `grass-tall` (bluestem and Indian grass, waist to shoulder high, golden, with a
+  `-wind` frame); `thicket-thorn` (a blackbrush-guajillo-granjeno clump, grey-green, two variants); `yucca` (Spanish dagger);
+  `marsh-cordgrass` and `dune-grass` (sea oats on sand); `magnolia` and `beech` at `-log` and `-large` for the thicket.
+- **How it plugs in.** `KINDS` in `sim/woods.mjs` names each tree kind's picture, whether it comes at three sizes (`sized`)
+  and how tall it is drawn (`scale`, which goes back to 1 when the tree's own art lands); `GROUND_CLASSES` in
+  `public/ground-classes.js` names each class's marks. Registering the frames and changing the names is the whole swap.
+- **Check.** Beside `oak-broad` at the same size a longleaf reads taller and more open than a loblolly, a palm unlike any
+  pine, cane as a solid wall, tall grass above a person's knee; a closed stand still reads closed.
+
+## Request 2026-09-19 — Béxar's fields and acequias
+
+**Status: open; the fields' wash and stubble in use, the acequias not drawn (see *Stand-ins in use* above).** The owner decided
+(2026-09-19, by multiple choice) that the Alamo stood among irrigated fields, not woods; the map now has no woods round it.
+
+- **Why.** The fields need to look like Béxar's labores, not the colonies' log-fenced plots, and the acequias are what made
+  them.
+- **What.** `acequia` (an earth ditch a yard wide with water, straight and bend pieces, and a plank crossing),
+  `field-irrigated` (corn in furrows along a ditch, young and mature, sharing the corn frames' scale), `fence-brush` (a brush
+  fence, the kind the Texians crossed in December 1835), and `field-fallow` (grass and weeds on an old field).
+- **How it plugs in.** The Béxar layout (`public/bexar-layout.js`) lays the acequias as lines and the fields as plots;
+  `drawPlots` draws them. The envelope they fill is `BEXAR_FIELDS` in `scripts/terrain/biomes.mjs`.
+- **Check.** At the street zoom the Alamo stands in open fields with ditches and a line of bank trees on the river.
+
+## Request 2026-09-19 — the game of 1836
+
+**Status: open; words only (see *Stand-ins in use* above).**
+
+- **Why.** The quarry a hunt finds should be the country's (`HIST-TEX-103`, `HIST-TEX-104`): turkey in the bottoms, bear in
+  the canebrakes and the thicket, javelina in the chaparral, pronghorn and bison on the western grass, waterfowl on the coast.
+  Only the deer is drawn.
+- **What.** As the delivered `wildlife-deer` (idle, alert, bound, four frames each, east-facing, anchored at the feet):
+  `wildlife-turkey`, `wildlife-bear`, `wildlife-javelina`, `wildlife-pronghorn`, `wildlife-bison`, `wildlife-geese` (a flight
+  and a resting flock), `wildlife-mustang` (a wild horse, rougher than the family's).
+- **How it plugs in.** `miniDeer` in `public/app.js` draws the clip for `chore.quarry`; the quarry's kind picks the sheet
+  (the hunt does not yet choose a quarry other than the deer: `STANDS[...].quarry` in `sim/woods.mjs` lists what each country
+  holds).
+- **Check.** Scale against `wildlife-deer` and `horse-chestnut`.
 
 ## Request 2026-09-18 — the Alamo's faces seen from the south
 
