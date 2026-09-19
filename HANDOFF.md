@@ -1,5 +1,33 @@
 # Claude handoff — Astra foundation
 
+**The snapshot test on a barrier, 2026-09-19:** `tests/save-cadence.test.mjs` *"a page is sent a snapshot when what it sees
+changed or it sent the order"* slept 500 ms after each order for a broadcast `broadcastSoon` may hold back 200 ms, and
+failed once in 10 loaded full suites (*"the family that gave the order was not shown it"*). Now it waits on conditions, and
+because "was sent nothing" and "was sent exactly one" cannot be waited for, each step ends on a barrier: a third family's
+page opening or closing changes `connected`, which every page is sent in a later broadcast, and a page's frames arrive in
+order, so what a page was sent in a step is exactly what came before that frame. The 2.5 s cap on waiting for ticks is a
+30 s limit that only turns a hang into the assertion. An order shown 700 ms late (slow, not wrong) fails the old test and
+passes the new one. Six regressions injected into `server/app.mjs` (sender not forced, unchanged page resent, order never
+broadcast, sender sent twice, ticks held like orders, a page opening not broadcast) each failed this test and only it in its
+file. Under load: 100/100 at 24 runs in parallel beside a 120-thread busy loop; 10/10 in 10 full suites run 5 at a time
+beside a 24-thread busy loop. **Seen in those suites (HEAD's other tests, not fixed):** `capacity.test.mjs` *"30 HTTP
+households"* timed out at its 30 s in 9 of 10, `pace.test.mjs` (HEAD's, before the fix above) 9 of 10, and this file's
+*"an order is shown at once and written within the save window"* 1 of 10 (*"written before the save window"*: under load the
+answer can come back after the 300 ms save timer has fired; it also sleeps `SAVE_WITHIN + 400` for the write). Other work on
+the computer made these suites far slower than the pace test's (up to an hour each). No product code changed.
+
+**The pace test on node's mock clock, 2026-09-19:** `tests/pace.test.mjs` *"slowing a class down really does slow the clock
+down"* slept 400 ms and asked for four 40 ms ticks; on a loaded computer it got two or three (7 of 10 loaded full suites;
+42/50 at 24 runs in parallel beside a 48-thread busy loop). Now it holds `setInterval` on node's mock clock
+(`t.mock.timers`, setInterval only; the requests stay real) and moves time by hand, so the server's own interval ticks
+exactly when the test says: ten ticks in 400 ms at 40 ms, none in the 400 ms after slowing to study, none at 9,499 ms, one at
+9,500. The last two are new: a pace change that cleared the old timer and started none, or started it at the wrong period,
+passed the old test. Four regressions injected into `setPace` (old timer not cleared, argument ignored, never restarted,
+wrong period) each failed this test and only it. Under load: 50/50, and 10/10 in 10 full suites run 5 at a time beside a
+24-thread busy loop. One of those suites lost `periods.test.mjs` to a libuv crash at exit on Windows
+(`!(handle->flags & UV_HANDLE_CLOSING)`, `src\win\async.c`) after all its tests passed, with `--test-force-exit`, which
+`npm test` does not use; not investigated. No product code changed.
+
 **The absence test on a held clock, 2026-09-19:** `tests/absence.test.mjs`. Its server test failed once in a full `npm test`
 on a loaded computer (2026-09-18): it slept 80 ms after closing the page and asserted the family was not yet absent under a
 150 ms grace, and the sleep overran. Reproduced under a 120-thread busy loop at 24 runs in parallel: 98/100 and 39/40, every
@@ -9,8 +37,8 @@ close waited for until the Host reads *away*; 149 ms later still present after a
 the next tick. Stronger than before (the exact boundary, and open beyond the grace). Six regressions injected into
 `server/app.mjs` (`>` for `>=`, a grace 1 ms short, an open page not trusted, never unmarked, the close time not recorded,
 `markAbsences` not called) each failed this test and only it. Under the same load: 100/100; in 10 full suites run 5 at a time
-beside a 24-thread busy loop it passed 10/10. **Not fixed, seen in those suites:** `pace.test.mjs` *"slowing a class down"*
-failed 7 of 10 and `save-cadence.test.mjs` *"a page is sent a snapshot"* 1 of 10, both real-time tests of their own. No
+beside a 24-thread busy loop it passed 10/10. **Seen in those suites:** `pace.test.mjs` *"slowing a class down"*
+failed 7 of 10 (fixed the same day, above) and `save-cadence.test.mjs` *"a page is sent a snapshot"* 1 of 10 (fixed the same day, above), both real-time tests of their own. No
 product code changed.
 
 **Houston's march east a forced march that keeps the record's days, 2026-09-19:** [HOUSTON_CAMP.md](docs/HOUSTON_CAMP.md)
