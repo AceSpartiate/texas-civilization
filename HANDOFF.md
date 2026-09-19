@@ -1,5 +1,17 @@
 # Claude handoff — Astra foundation
 
+**The pace test on node's mock clock, 2026-09-19:** `tests/pace.test.mjs` *"slowing a class down really does slow the clock
+down"* slept 400 ms and asked for four 40 ms ticks; on a loaded computer it got two or three (7 of 10 loaded full suites;
+42/50 at 24 runs in parallel beside a 48-thread busy loop). Now it holds `setInterval` on node's mock clock
+(`t.mock.timers`, setInterval only; the requests stay real) and moves time by hand, so the server's own interval ticks
+exactly when the test says: ten ticks in 400 ms at 40 ms, none in the 400 ms after slowing to study, none at 9,499 ms, one at
+9,500. The last two are new: a pace change that cleared the old timer and started none, or started it at the wrong period,
+passed the old test. Four regressions injected into `setPace` (old timer not cleared, argument ignored, never restarted,
+wrong period) each failed this test and only it. Under load: 50/50, and 10/10 in 10 full suites run 5 at a time beside a
+24-thread busy loop. One of those suites lost `periods.test.mjs` to a libuv crash at exit on Windows
+(`!(handle->flags & UV_HANDLE_CLOSING)`, `src\win\async.c`) after all its tests passed, with `--test-force-exit`, which
+`npm test` does not use; not investigated. No product code changed.
+
 **The absence test on a held clock, 2026-09-19:** `tests/absence.test.mjs`. Its server test failed once in a full `npm test`
 on a loaded computer (2026-09-18): it slept 80 ms after closing the page and asserted the family was not yet absent under a
 150 ms grace, and the sleep overran. Reproduced under a 120-thread busy loop at 24 runs in parallel: 98/100 and 39/40, every
@@ -9,8 +21,8 @@ close waited for until the Host reads *away*; 149 ms later still present after a
 the next tick. Stronger than before (the exact boundary, and open beyond the grace). Six regressions injected into
 `server/app.mjs` (`>` for `>=`, a grace 1 ms short, an open page not trusted, never unmarked, the close time not recorded,
 `markAbsences` not called) each failed this test and only it. Under the same load: 100/100; in 10 full suites run 5 at a time
-beside a 24-thread busy loop it passed 10/10. **Not fixed, seen in those suites:** `pace.test.mjs` *"slowing a class down"*
-failed 7 of 10 and `save-cadence.test.mjs` *"a page is sent a snapshot"* 1 of 10, both real-time tests of their own. No
+beside a 24-thread busy loop it passed 10/10. **Seen in those suites:** `pace.test.mjs` *"slowing a class down"*
+failed 7 of 10 (fixed the same day, above) and `save-cadence.test.mjs` *"a page is sent a snapshot"* 1 of 10, both real-time tests of their own. No
 product code changed.
 
 **The map out to the Sabine and the Rio Grande, 2026-09-18:** [MAP_ACCURACY.md](docs/MAP_ACCURACY.md) §8. Owner, by

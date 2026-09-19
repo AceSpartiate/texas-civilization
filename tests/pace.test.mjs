@@ -12,7 +12,6 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { setTimeout as delay } from 'node:timers/promises';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createClassroom, PACES } from '../server/app.mjs';
@@ -112,21 +111,33 @@ test('the class is told how long a tick lasts, so it can spread one tick of walk
   } finally { await dispose(); }
 });
 
-test('slowing a class down really does slow the clock down', async () => {
+test('slowing a class down really does slow the clock down', async t => {
   // The one thing worth measuring rather than reasoning about: that the interval is
   // genuinely rebuilt. A `setInterval` cannot change its own period, so a pace change that
   // forgot to clear the old timer would pass every assertion above and change nothing.
+  //
+  // Measured on node's mock clock rather than the wall's: the server's own `setInterval`
+  // runs, but time passes only when the test says so. It once slept 400 ms and asked for
+  // four 40 ms ticks, and on a loaded computer got two or three (2026-09-19, 7 of 10 full
+  // suites beside a busy loop). Only `setInterval` is held; the requests stay real.
+  t.mock.timers.enable({ apis: ['setInterval'] });
   const { app, host, dispose } = await classroom({ tickMs: 40 });
   try {
     await command(host, 'start', { anyway: true });
-    await delay(400);
+    t.mock.timers.tick(400);
     const quick = app.state.world.tick;
     assert.ok(quick >= 4, `a fast class advanced ${quick} ticks`);
+    assert.equal(quick, 10, 'a 40 ms class ticks every 40 ms');
 
     await command(host, 'pace', { pace: 'study' });
     const before = app.state.world.tick;
-    await delay(400);
+    t.mock.timers.tick(400);
     assert.equal(app.state.world.tick, before, 'and once slowed, 400ms is not nearly a tick');
+    // Slowed, not stopped: a pace change that cleared the old timer and started none would pass the line above.
+    t.mock.timers.tick(PACES.study - 400 - 1);
+    assert.equal(app.state.world.tick, before, 'a slowed class ticked before its new pace came round');
+    t.mock.timers.tick(1);
+    assert.equal(app.state.world.tick, before + 1, 'a slowed class did not tick at its new pace');
   } finally { await dispose(); }
 });
 
