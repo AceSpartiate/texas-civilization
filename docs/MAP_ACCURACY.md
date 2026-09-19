@@ -40,7 +40,8 @@ now stands at the ferry, where Buffalo Bayou meets the San Jacinto.
 
 ## 2. Sources
 
-No new data was downloaded. Everything is built from what the game already ships in `public/terrain`:
+Inside the colonies' box (94-99°W, 28-32°N) everything is built from what the game already shipped in `public/terrain`. The
+country outside it (§8) is built from data downloaded on 2026-09-18 with the owner's approval, kept outside the repository:
 
 | Data | Source | Licence | Record |
 |---|---|---|---|
@@ -48,11 +49,17 @@ No new data was downloaded. Everything is built from what the game already ships
 | Heights, the sea and bays | USGS 3DEP 1 arc-second (downloaded 2026-09-14) | public domain | `docs/evidence/terrain-data.json` |
 | Vegetation | LANDFIRE LF2016 Biophysical Settings (requested 2026-09-15) | public domain | `docs/evidence/woods-data.json` |
 | Ecoregions, the escarpment, coastal marsh | U.S. EPA Level IV Ecoregions of Texas (2011) | public domain | `docs/evidence/woods-data.json` |
+| Rivers outside the box | USGS NHD NHDFlowline, HU4 0808, 1114, 1201, 1202, 1206, 1208, 1209, 1210, 1211, 1304, 1308, 1309, 1311, 1312 (downloaded 2026-09-18) | public domain | `docs/evidence/outside-data.json` |
+| Heights outside the box | USGS 3DEP 1 arc-second, 24 tiles round the box (downloaded 2026-09-18) | public domain | `docs/evidence/outside-data.json` |
+| Vegetation outside the box | LANDFIRE LF2016 Biophysical Settings over 100.5-93.5°W, 25.8-32°N (LFPS job 371d8dc9, 2026-09-18) | public domain | `docs/evidence/outside-data.json` |
+| Ecoregions outside the box | U.S. EPA Level IV Ecoregions of Texas (2011), downloaded again 2026-09-18 | public domain | `docs/evidence/outside-data.json` |
 | Alamo, Lynch's ferry, the banks | Wikipedia (*Alamo Mission in San Antonio*, *Lynchburg Ferry*), TSHA Handbook entries | cited as facts | `HIST-TEX-084`, `HIST-TEX-085` |
 
-`ceiling:` the province ends at the colonies' box (94-99°W, 28-32°N), which is all the data covers. The invented province
-reached the Rio Grande, the Nueces and the Sabine; those rivers are not drawn, rather than drawn in the wrong place. Natural
-Earth or NHD for the neighbouring HU4 units would draw them, and would need the owner's approval to download.
+Until 2026-09-18 the province ended at the colonies' box, which was all the data covered: the invented province had reached
+the Rio Grande, the Nueces and the Sabine, and those rivers were left undrawn rather than drawn in the wrong place.
+`ceiling:` the map now ends at 93.5-100.5°W and 25.8-32°N (owner, 2026-09-18, §8) - east to the Sabine, south and west to
+the Rio Grande from Matamoros to Eagle Pass - and the camera goes no further. Del Rio, the Devils River and the Pecos lie just
+west of it and the Red River country north of 32°N; carrying the map on needs more tiles and units and the owner's word.
 
 ## 3. What was built
 
@@ -64,7 +71,14 @@ node scripts/build-woods.mjs <bps> <vat> <eco> # woods stands, ecoregions (uncha
 node scripts/build-colonies-map.mjs            # places, roads, drawn watercourses (Lynchburg moved)
 node scripts/build-land.mjs                    # NEW: land and relief classes, the sea, the escarpment
 node scripts/build-province.mjs                # NEW: the real province, every band
+node --max-old-space-size=8192 scripts/build-outside.mjs <raw-dir>
+                                               # 2026-09-18: the country outside the box (§8); reads the box's
+                                               # files and writes only outside-*; needs the raw data (outside-data.json)
 ```
+
+The first five are the box's, and `build-land` and `build-province`, rerun on 2026-09-18 over the files the game ships, give
+their files back byte for byte (§8.4). The box's raw data (its DEM tiles, NHD 1203, 1204 and 1207) is no longer on disk, so
+`build-terrain` and `build-woods` cannot be rerun; nothing here needs them to be.
 
 - **`scripts/terrain/lines.mjs`**: Douglas-Peucker that only keeps points it was given (so bands nest), ring
   simplification, marching-squares contours with interpolation, and `joinReaches` (moved out of the colonies build).
@@ -78,8 +92,8 @@ node scripts/build-province.mjs                # NEW: the real province, every b
 - **`sim/land.mjs`**: the legends, `landAt(x, y)`, `landBand(i)`.
 - **`sim/world.mjs`**: `projectMap` and `projectWorld` send `mapForPage(world.map)`. **A class on the real land no longer
   saves a province**; the page is sent the current one whenever it asks for the map, so a class saved with the invented
-  province is drawn with the real one too. `map.bounds` is sent as the box's. No `saveVersion` moved: the province is
-  drawing, not state, and its correct value for an old save is the current one.
+  province is drawn with the real one too. `map.bounds` is sent as the box's (since 2026-09-18, the whole map's: §8). No
+  `saveVersion` moved: the province is drawing, not state, and its correct value for an old save is the current one.
 - **`server/app.mjs`**: `GET /terrain/colonies-province.json` and `GET /terrain/colonies-land.json`, the built files sent
   gzipped as stored (`Content-Encoding: gzip`, `Cache-Control: no-cache`).
 
@@ -230,12 +244,53 @@ the bend at Béxar put the river west of the plaza), `coast: [{x, y}]` (the long
 About 130 KB, where the invented province was 28 KB; the save is 28 KB smaller. `map.bounds` is the box: the camera no
 longer zooms out to the invented province's 740 by 510 miles, only to the 301 by 275 the data covers.
 
+**Since 2026-09-18** (§8): `map.bounds` is the whole map, `mapBounds()` - 93.5-100.5°W, 25.8-32°N, x -182.52 to 239.28 and
+y -172.81 to 254.22, 422 by 427 miles - whatever a class saved; `province.bounds` stays the box's. `province.rivers` carries
+the outside layer's pieces after the box's, at the same band and in the same shape, named alike (the Rio Grande, the Nueces,
+the Frio, the Sabine and the ends of the Colorado, Guadalupe, Medina and Neches): about 32 KB more (8 KB gzipped).
+`province.levels` adds `outside: '/terrain/outside-province.json'` and `outsideLand: '/terrain/outside-land.json'`.
+
+### 6.4 `GET /terrain/outside-province.json` (`outsideBands()`)
+
+The shape of §6.1, for the country outside the box:
+
+```
+{ kind: 'texas-outside-province', version: 1, sources, builtFrom, units,
+  bounds: { minX: -182.52, maxX: 239.28, minY: -172.81, maxY: 254.22 },   // the whole map
+  box:    { minX: -92.14, maxX: 209.15, minY: -172.81, maxY: 102.69 },    // where the box's own province is drawn
+  bands: [0.05, 0.25, 1, 3],                                             // the province's
+  rivers: [{ id, name, channelFeet, width, length, from: 'outside'|'box', levels: [flat|null × 4] }],
+           //   'outside': a piece past the box, carried one point into it where it crosses the edge
+           //   'box': a piece inside the box of a river the box's province does not draw, from the box's own courses
+           //   ids go on from the province's pieces of the same river (colorado-river-9 ...), so an id names one piece
+  sea:   { levels: [[ring, ...] × 4] },      // the water outside the box, and the box's own for two cells inside its edge
+  shore: { levels: [[flat, ...] × 4] },      // not the extent's edge, not the box's
+  escarpment: { levels: [[flat, ...] × 4] }, // EPA's line west of the box, in pieces; band 0 is band 1's
+  seams: [{ id, name, x, y, miles }],        // where each piece crosses the box's edge, and how far from the box's line
+  relief: { columns, rows, minX, minY, cellX, cellY, low, high, values } }   // the province's lattice and tint, carried on
+```
+
+### 6.5 `GET /terrain/outside-land.json`
+
+The shape of §6.2: `land`, `relief`, `cellByte`, `shadeByte`, and `bands` of 0.5, 2 and 8 miles on the box's own lattice
+(each band's `minX`, `minY` differ from the box's by whole cells), 864, 216 and 54 cells a side. A cell is 0 where the box
+draws its own. Inside the box a cell is not 0 only on the box's edge - any cell whose three-by-three neighbourhood reaches
+out of the box - and there its class is the box's own band's (`claims`): the page draws those cells from here and not from
+the box's band, because the box's hillshade at its edge was worked against heights read as sea level past it.
+
+### 6.6 `outside-woods.json.gz` and `outside-woods.bin.gz` (the server's only)
+
+The stand of every eighth-of-a-mile cell outside the box, on the box's lattice, in the byte order of `colonies-woods.bin`
+(`stands` lists it); 0 inside the box and off the map. Read by `sim/outside-woods.mjs` for the woods tiles (§8.2); never sent
+to the page and never read by the simulation.
+
 ## 7. What remains (ceilings)
 
 - The page's province stroke (`drawProvince` in `public/app.js`) still draws every band-1 river at every zoom under the
   colonies map's own rivers, and the woods tiles still arrive in steps: the pop-in is the rendering work, which now has
   bands that nest to draw.
-- Rivers outside the box (Rio Grande, Nueces, Sabine) are not drawn (§2).
+- ~~Rivers outside the box (Rio Grande, Nueces, Sabine) are not drawn (§2).~~ Done 2026-09-18 (§8): the map reaches the
+  Sabine and the Rio Grande, with the country between drawn as the box is. Its own ceilings are §8.5.
 - ~~The Béxar street layout draws its own reconstructed river.~~ Done 2026-09-17 (`FIC-GONZ-058`): the map's modern line
   through Béxar was the 1920s cut-off channel, running through the town's lots, and the layout was pinned 220 ft west of its
   plaza. The town is now pinned by the Plaza de las Islas on Béxar's point and turned so the Alamo church lies on its true
@@ -253,3 +308,127 @@ longer zooms out to the invented province's 740 by 510 miles, only to the 301 by
 - A creek's timber band and the kept rivers round each settlement in `world.map.terrain` are unchanged, and still carry
   the seed's jitter; since the woods tiles they are not drawn on a real-land class.
 - The Lynchburg ferry point is the present crossing; the 1836 landing may have been a few hundred yards off it.
+
+## 8. The country outside the box (2026-09-18)
+
+Owner, 2026-09-18, by multiple choice: **all three rivers** - the map grows to 93.5-100.5°W and 25.8-32°N, east to the Sabine
+and south and west to the Rio Grande from Matamoros to Eagle Pass; **USGS NHD**, including the edge units; outside the box,
+**full relief and woods, drawn the way the box is drawn**.
+
+### 8.1 The design: a display layer round a box that does not move
+
+The box's built files (`colonies-*`) feed the simulation - families' land, the woods, felling, travel - so they stay byte for
+byte as they were, and no save behaves differently. The country outside is a separate layer, `scripts/build-outside.mjs`,
+built from the raw data of §2 (`docs/evidence/outside-data.json`):
+
+- **The same projection, origin and lattice.** The confluence origin and `milesPerLon`/`milesPerLat` of the colonies-water
+  header; the box's eighth-of-a-mile grid grown by whole eight-mile cells (3456 by 3456, x -189 to 243, y -173 to 259), so
+  every land band's cells, the one-mile ecoregion grid and the relief tint's lattice fall exactly on the box's.
+- **The box's data wins where the two overlap.** Inside the box the build reads the box's own heights, classes and water,
+  never the new tiles; rivers the box already draws (the Colorado, Guadalupe, Medina, Neches) are drawn only outside it;
+  rivers it does not (the Nueces, the Frio, the Sabine) are drawn inside it from the box's own courses.
+- **Rivers meet across the edge.** Each piece outside the box is carried one point into it, so it overlaps the box's own line
+  rather than meeting it end to end: the Nueces crosses 0.002 and 0.024 miles from the box's line, the Frio 0.019, the Sabine
+  0.035, the Colorado 0.014, the Guadalupe 0.009, the Medina 0.001, the Neches 0.008 (`seams` in the file). **The Brazos and
+  the San Antonio never leave the box inside the map**: the Brazos leaves it at 32°N, which is the map's edge too, and the San
+  Antonio runs from Béxar to its bay inside it. Piece ids go on from the province's (`colorado-river-9` ...) and names are the
+  same, so a later item can find each road's crossing of each river.
+- **The box's edge.** The box's land bands were worked with the heights past its edge read as sea level, so its hillshade on
+  its outer two cells is a false cliff - unseen while the camera stopped at the box, a seam now. The outside's bands carry
+  those cells (every cell whose three-by-three neighbourhood reaches out of the box: 4,608 half-mile, 1,144 two-mile, 276
+  eight-mile) with the box's own class and a hillshade from real ground on both sides; the page draws them from there and
+  takes them out of the box's grids (`withoutClaims`), so each cell is drawn once.
+- **The sea** outside the box is filled on its own, under the box's, and runs two cells under the box's edge, so no hairline
+  of land shows between the two fills.
+- **The woods.** The shade, patches and trees of the map's woods tiles run on past the box: `sim/woods-view.mjs` hands the
+  woods `beyond`, the stand of the outside layer's grid (`outside-woods.bin.gz`, LANDFIRE filed as the box's is) wherever the
+  box's grid has none. Only the tiles do; `standAt` without `beyond` - hunting, felling, clearing, the going - sees the woods
+  end at the box as before.
+- **Mexico** has 3DEP heights (the border tiles carry them across) but no LANDFIRE: the land joined to the Rio Grande's far
+  bank with no setting is drawn as mesquite and thornscrub brush on its real heights (the Sierra de Picachos rises in the
+  south-west corner).
+- **Rules.** Relief thresholds, hillshade, the opening of the sea and the beach are `scripts/terrain/land-rules.mjs`, the
+  rules of `scripts/build-land.mjs` written out once more (that script must give the box's bytes back, and an old injection
+  record edits its text); a test holds them to the box's own hillshade and relief classes on the box's heights.
+
+### 8.2 On the page
+
+`mapForPage` sends `bounds: mapBounds()`, the whole map, and the camera's zoom-out limit follows it: 3.035 pixels a mile at
+1280 by 800, where the box alone was 4.248. `public/app.js` loads the two outside files with the box's (`ensureLandLevels`; if
+they do not come the box is drawn alone) and draws: the outside's relief tint under the box's; its land grids at the box's
+band weights, the half-mile grid cut into four pieces with three cells of margin each (`tileGrid`) so each is smoothed at two
+pixels a cell like the box's; the box's grids without their edge cells; the outside's sea under the box's, its escarpment and
+its rivers with the box's. The outside's pictures are laid down only around the box's empty middle (`emptyMiddle`,
+`aroundHole`), so a view inside the box pays nothing for them. The ground's scattered marks read the outside's classes where
+the box's grid has none. The ground cache key (`groundInputs`) is unchanged: the layer is static, and its arrival redraws the
+ground (`redrawForArrival`).
+
+### 8.3 Sizes
+
+| file | gzipped | JSON | who reads it |
+|---|---|---|---|
+| `outside-province.json.gz` | 71 KB | 0.23 MB | the page, once a load (304 after) |
+| `outside-land.json.gz` | 170 KB | 2.13 MB | the page, once a load |
+| `outside-woods.bin.gz` and `.json.gz` | 420 KB and 0.8 KB | - | the server's woods tiles |
+
+The box's province is 172 KB and its land 185 KB. `/api/map` grows by 32 KB (8 KB gzipped) with the outside rivers.
+
+### 8.4 Checks
+
+`tests/map-outside.test.mjs` (11): the box's eight files hashed; the bounds are the extent and the page is sent them; every
+band nests (rivers, sea, escarpment; land bands on the box's lattice); rivers meet across the edge; the Rio Grande passes
+Laredo, Rio Grande City and Brownsville and reaches the Gulf, the Nueces and the Sabine reach their bays, all named in
+`/api/map`; Mexico is brush and the Gulf water, with no hole; deep in the box the outside is empty and on its edge it has the
+box's classes; the outside's rules give the box's hillshade and relief on the box's heights; the page's pieces tile with no
+seam and each edge cell is drawn once; the empty middle is empty and the parts round it never overlap; the woods tiles run
+past the box while `standAt` does not. Fourteen injected regressions, each failing its own test and no other (the page sent
+the box's bounds also fails the geography-truth test, which holds the bounds too; the outside drawn over the box's whole
+interior also fails the empty-middle test, the same promise where the page relies on it), everything restored byte for byte:
+[evidence/map-outside-injections.json](evidence/map-outside-injections.json), the script
+[evidence/map-outside/injections.mjs](evidence/map-outside/injections.mjs). `build-land` and `build-province`, rerun over the
+shipped files, give the box's files back byte for byte.
+
+**Browser** (same computer only, headless Chrome; not a LAN or district test). `node scripts/map-outside-browser-proof.mjs`
+([record](evidence/map-outside/proof.json)): the bounds and the zoom-out limit, and screenshots, each looked at -
+[the whole map, north](evidence/map-outside/whole.png) and [south](evidence/map-outside/whole-south.png), [the colonies' zoom
+at the south-west](evidence/map-outside/colonies-southwest.png), [the Sabine](evidence/map-outside/sabine.png), [the mouth of
+the Nueces](evidence/map-outside/nueces-mouth.png), the Rio Grande at [Laredo](evidence/map-outside/rio-grande-laredo.png) and
+[Matamoros](evidence/map-outside/rio-grande-matamoros.png), the seam at the box's south-west corner at a
+[county](evidence/map-outside/seam-southwest-county.png) and [close](evidence/map-outside/seam-southwest-close.png), and
+[the Colorado over the west edge](evidence/map-outside/seam-west-colorado.png). No seam shows in relief, classes, woods, sea
+or rivers. `node scripts/map-outside-compare.mjs --root <before>` ([record](evidence/map-outside/compare.json)): the same
+class drawn by the build before and after with the same camera; inside the box 0.005, 0.000 and 0.000 per cent of the map's
+pixels differ at 8.3, 45 and 172 pixels a mile; on the south-west edge the old camera stops at the box and the new one draws
+the Nueces and the Frio. `npm run test:farm` with the ground audit on: 52 snapshots checked against a fresh drawing, none
+stale. `npm run test:navigation` (13 checks) and `npm run test:map-accuracy` pass.
+
+**Speed** (same computer, CPU throttled six times, headless; not a Chromebook). `scripts/perf-ground-measure.mjs`, the frame
+that draws the ground again after a zoom step, median of 16, two runs of each build:
+
+| view | before | after |
+|---|---|---|
+| all the way out (before 4.25, after 3.03 pixels a mile: twice the ground) | 54.9, 51.2 ms | 61.5, 62.6 ms |
+| 4.25 over the box's middle | 54.5, 48.5 ms | 48.9, 52.0 ms |
+| 5.95 over Gonzales | 80.1, 82.6 ms | 73.6, 72.3 ms |
+| 44.97 over Gonzales | 88.9, 85.2 ms | 85.7, 91.4 ms |
+
+`scripts/perf-render-measure.mjs` (a game standing still, back to back): the painted frame 15.3 and 14.2 ms following the
+family, 7.0 and 7.0 ms zoomed out; snapshots 25.8 and 26.1 ms. Records: `evidence/perf-ground-outside-{before,after}-{1,2}.json`,
+`evidence/perf-render-outside-{before,after}.json`. Before the outside's pictures were laid down only around the box's middle,
+the view over the box's middle cost twice what it had: that is what `aroundHole` is for.
+
+### 8.5 Ceilings
+
+- `ceiling:` the map ends at 93.5-100.5°W, 25.8-32°N (§2); the camera stops there.
+- `ceiling:` Mexico is mesquite brush wherever it is land, with no LANDFIRE to say otherwise; its heights are real. INEGI's
+  land-use series, or a vegetation model that crosses the border, is the way out.
+- `ceiling:` outside the box the woods tiles have no creek strip (the creeks the map draws are the box's), and Louisiana's
+  coastal marsh is LANDFIRE's alone (EPA's ecoregions are Texas's).
+- `ceiling:` the strip of the box's grid past its edge (under a mile at the west, a third of a mile at the south) is drawn with
+  the outside's woods by the tiles while the simulation has none there; a family's land would have to lie on the box's very
+  edge to notice.
+- `ceiling:` rivers outside the box are the Rio Grande, the Nueces, the Frio, the Sabine and the ends of the box's own; the
+  Llano, San Saba, Pedernales, Concho and Devils rise outside it and are not drawn, as the box leaves out its smaller rivers.
+- `ceiling:` no settlement outside the box is placed; the towns and ferries of that country are a later item, with claims.
+- `ceiling:` the box's relief classes on its edge ring keep the box's majority vote, which counted the empty strip past it as
+  flat; the page draws no relief class, so nothing shows it.

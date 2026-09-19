@@ -1,0 +1,142 @@
+{
+  "result": "PASS",
+  "date": "2026-09-19",
+  "sameComputerOnly": true,
+  "browser": "152.0.7977.83",
+  "viewport": "1280x800",
+  "checks": [
+    {
+      "check": "bounds and outside layer",
+      "bounds": {
+        "minX": -182.52,
+        "maxX": 239.28,
+        "minY": -172.81,
+        "maxY": 254.22
+      },
+      "rivers": [
+        "Rio Grande",
+        "Nueces River",
+        "Frio River",
+        "Sabine River",
+        "Colorado River",
+        "Guadalupe River",
+        "Medina River",
+        "Neches River"
+      ],
+      "pieces": [
+        4,
+        1,
+        1
+      ]
+    },
+    {
+      "check": "zoom-out limit",
+      "scale": 3.035,
+      "wholeMap": 3.035,
+      "boxAlone": 4.248
+    }
+  ],
+  "shots": [
+    {
+      "name": "whole",
+      "scale": 3.03,
+      "centre": {
+        "x": 28.38,
+        "y": -31.62
+      },
+      "outsidePiecesDrawn": 16,
+      "path": "docs/evidence/map-outside/whole.png"
+    },
+    {
+      "name": "whole-south",
+      "scale": 3.03,
+      "centre": {
+        "x": 28.38,
+        "y": 122.41
+      },
+      "outsidePiecesDrawn": 12,
+      "path": "docs/evidence/map-outside/whole-south.png"
+    },
+    {
+      "name": "colonies-southwest",
+      "scale": 4.51,
+      "centre": {
+        "x": -40.76,
+        "y": 88.91
+      },
+      "outsidePiecesDrawn": 4,
+      "path": "docs/evidence/map-outside/colonies-southwest.png"
+    },
+    {
+      "name": "sabine",
+      "scale": 48.95,
+      "centre": {
+        "x": 218.19,
+        "y": -55.72
+      },
+      "outsidePiecesDrawn": 2,
+      "path": "docs/evidence/map-outside/sabine.png"
+    },
+    {
+      "name": "nueces-mouth",
+      "scale": 48.95,
+      "centre": {
+        "x": 1.26,
+        "y": 115.09
+      },
+      "outsidePiecesDrawn": 2,
+      "path": "docs/evidence/map-outside/nueces-mouth.png"
+    },
+    {
+      "name": "rio-grande-laredo",
+      "scale": 48.95,
+      "centre": {
+        "x": -122.69,
+        "y": 136.71
+      },
+      "outsidePiecesDrawn": 2,
+      "path": "docs/evidence/map-outside/rio-grande-laredo.png"
+    },
+    {
+      "name": "rio-grande-matamoros",
+      "scale": 48.95,
+      "centre": {
+        "x": -1.75,
+        "y": 246.05
+      },
+      "outsidePiecesDrawn": 2,
+      "path": "docs/evidence/map-outside/rio-grande-matamoros.png"
+    },
+    {
+      "name": "seam-southwest-county",
+      "scale": 48.95,
+      "centre": {
+        "x": -92.14,
+        "y": 102.69
+      },
+      "outsidePiecesDrawn": 4,
+      "path": "docs/evidence/map-outside/seam-southwest-county.png"
+    },
+    {
+      "name": "seam-southwest-close",
+      "scale": 196.58,
+      "centre": {
+        "x": -92.14,
+        "y": 102.69
+      },
+      "outsidePiecesDrawn": 4,
+      "path": "docs/evidence/map-outside/seam-southwest-close.png"
+    },
+    {
+      "name": "seam-west-colorado",
+      "scale": 22.12,
+      "centre": {
+        "x": -92.14,
+        "y": -124.6
+      },
+      "outsidePiecesDrawn": 2,
+      "path": "docs/evidence/map-outside/seam-west-colorado.png"
+    }
+  ],
+  "errors": []
+}

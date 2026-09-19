@@ -7,7 +7,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { milesFrom, realTerrain } from '../sim/terrain-data.mjs';
 import { coloniesMap } from '../sim/colonies-map.mjs';
-import { coloniesProvince, mapForPage, provinceBands } from '../sim/province.mjs';
+import { coloniesProvince, mapBounds, mapForPage, provinceBands } from '../sim/province.mjs';
 import { findPath } from '../sim/geography.mjs';
 
 const terrain = realTerrain();
@@ -194,7 +194,10 @@ test('the page is sent the real province for a class on the real land, saved wit
   const saved = { source: 'texas-colonies-map', sites: {}, province: { rivers: [{ name: 'Trinity River', points: [{ x: 262, y: -14 }] }] }, bounds: { minX: -340, maxX: 400, minY: -310, maxY: 200 } };
   const sent = mapForPage(saved);
   assert.equal(sent.province, coloniesProvince());
-  assert.deepEqual(sent.bounds, province.bounds);
+  // The camera's reach is the whole map, out to the Sabine and the Rio Grande (2026-09-18, tests/map-outside.test.mjs); the
+  // province's own bounds stay the box's, where its data is.
+  assert.deepEqual(sent.bounds, mapBounds());
+  assert.deepEqual(coloniesProvince().bounds, province.bounds);
   // The invented Gonzales country keeps its own.
   const invented = { sites: {}, province: { rivers: [] } };
   assert.equal(mapForPage(invented), invented);

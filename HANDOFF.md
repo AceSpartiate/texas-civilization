@@ -1,5 +1,37 @@
 # Claude handoff — Astra foundation
 
+**The map out to the Sabine and the Rio Grande, 2026-09-18:** [MAP_ACCURACY.md](docs/MAP_ACCURACY.md) §8. Owner, by
+multiple choice: all three rivers, USGS NHD with the edge units, full relief and woods outside the box. The map reaches
+93.5-100.5°W, 25.8-32°N, built by `scripts/build-outside.mjs` from data downloaded 2026-09-18
+(`docs/evidence/outside-data.json`; raw data in `C:\Users\zachw\TexasData\raw`, outside the repository) as a display layer
+round the colonies' box in its projection, origin and lattice. The box's eight `colonies-*` files are byte for byte what
+they were (hashed in `tests/map-outside.test.mjs`; `colonies-map.json.gz` re-hashed for the march east, which changed it on
+purpose). Rivers: the Rio Grande, Nueces, Frio and Sabine, and the Colorado, Guadalupe, Medina and Neches carried on past
+the box, meeting its lines within 0.04 miles. Mexico has real 3DEP heights but no LANDFIRE and is drawn as brush
+(`ceiling:`). The box's edge ring is drawn from the outside layer, which removes a false hillshade cliff at the old edge.
+The woods tiles run past the box through `standAt`'s `beyond`, which only `sim/woods-view.mjs` passes; the simulation's
+woods still end at the box. The camera zooms out to 3.035 px per mile (was 4.248). New files: outside-province 71 KB and
+outside-land 170 KB for the page, outside-woods 420 KB for the server. 11 new tests, 14 injections each caught by its own
+test. Browser, same computer: `scripts/map-outside-browser-proof.mjs` ([whole map](docs/evidence/map-outside/whole.png)),
+`scripts/map-outside-compare.mjs` (inside the box at most 0.005% of pixels differ), test:farm with the ground audit,
+test:navigation, test:map-accuracy. At 6x CPU, fully zoomed out a ground redraw went 51-55 → 62 ms over twice the ground;
+other views unchanged. Next: the towns and crossings of that country (Matamoros, Laredo, San Patricio, the Sabine ferries).
+
+**A day on the road in the long ticks, and the family horse at a walk and trot, 2026-09-18:** Owner, playtesting Solo:
+"when i sent my main character to gonzales on foot he ran inhumanly fast". In the gathering and campaign ticks everybody
+travelled at their hourly pace for all 24 hours: 72 miles a day on foot, 187 on the horse, 47 with the wagon; and the
+family horse went at a courier's 7.8 mph. A tick of an hour or less still moves at the pace; a longer tick carries its
+share of seven hours of travel a day (`roadTicks`, `sim/travel.mjs`): 21 miles a day on foot, 35 on the horse at 5 mph,
+13.7 with the wagon. Couriers and expresses keep 7.8 mph night and day, calibrated to `HIST-TEX-006`. `HIST-TEX-093`,
+`FIC-GONZ-059` (amends `-027`). On screen ([measurement](docs/evidence/travel-speed-screen.json), same computer): with the
+portrait pressed a walker covers 4.3 of its own heights a second in the farming day, against about 0.8 for a real walker -
+the cause of what the owner saw, and it is the pace, the calendar and `PERSON_MILES`, which are the owner's to decide and
+unchanged. Two assertions that held only at the old speeds were changed to the right ones (`tests/camp.test.mjs`, the old
+map's march within a day's march; `tests/scrape.test.mjs`, a family turned for home by April 25). `npm test` +5, each
+proven by injection; the travel and riding proofs walk the title screen again. Found on merge: the army now reaches
+Harrisburg on April 20 and Lynchburg the morning of the 21st, not the 18th and 20th - put to the owner. `ceiling:` in
+ticks of an hour or less nobody stops for the night; children and the sick walk at full pace.
+
 **The Alamo in the towns' style, at its historical dimensions, 2026-09-18:** [ALAMO_LAYOUT.md](docs/ALAMO_LAYOUT.md) *On
 the map*, `HIST-TEX-090` to `-092`. Owner: "bring the Alamo complex into the same art style as the rest of the game. ensure
 it matches the dimensions of the historical building." Researched from the Alamo's model, Ivey's excavations of the west

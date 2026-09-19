@@ -1,0 +1,186 @@
+{
+  "record": "perf-ground",
+  "label": "outside-before-2",
+  "date": "2026-09-19",
+  "browser": "152.0.7977.83",
+  "cpuThrottle": 6,
+  "viewport": "1280x800 @1x",
+  "steps": 16,
+  "sameComputerOnly": true,
+  "views": {
+    "out": {
+      "scale": 4.25,
+      "redrawn": 16,
+      "groundFrameMs": {
+        "median": 51.2,
+        "p90": 54.8,
+        "max": 59.9
+      },
+      "topSelfTime": [
+        {
+          "name": "pull curve.js:56",
+          "msPerStep": 8.9
+        },
+        {
+          "name": "toScreen app.js:837",
+          "msPerStep": 4.7
+        },
+        {
+          "name": "drawImage :0",
+          "msPerStep": 4.6
+        },
+        {
+          "name": "stroke :0",
+          "msPerStep": 3.4
+        },
+        {
+          "name": "translate :0",
+          "msPerStep": 3.3
+        },
+        {
+          "name": "bezierCurveTo :0",
+          "msPerStep": 2.7
+        },
+        {
+          "name": "drawWorld app.js:1891",
+          "msPerStep": 2.7
+        },
+        {
+          "name": "curveThrough curve.js:21",
+          "msPerStep": 2.4
+        }
+      ]
+    },
+    "box": {
+      "scale": 4.25,
+      "redrawn": 16,
+      "groundFrameMs": {
+        "median": 48.5,
+        "p90": 55.8,
+        "max": 60.3
+      },
+      "topSelfTime": [
+        {
+          "name": "pull curve.js:56",
+          "msPerStep": 8.4
+        },
+        {
+          "name": "toScreen app.js:837",
+          "msPerStep": 4.3
+        },
+        {
+          "name": "drawImage :0",
+          "msPerStep": 4
+        },
+        {
+          "name": "stroke :0",
+          "msPerStep": 3.4
+        },
+        {
+          "name": "translate :0",
+          "msPerStep": 3.3
+        },
+        {
+          "name": "bezierCurveTo :0",
+          "msPerStep": 2.8
+        },
+        {
+          "name": "drawWorld app.js:1891",
+          "msPerStep": 2.6
+        },
+        {
+          "name": "(garbage collector) :0",
+          "msPerStep": 2.4
+        }
+      ]
+    },
+    "colonies": {
+      "scale": 5.95,
+      "redrawn": 16,
+      "groundFrameMs": {
+        "median": 82.6,
+        "p90": 94.9,
+        "max": 103.2
+      },
+      "topSelfTime": [
+        {
+          "name": "pull curve.js:56",
+          "msPerStep": 18.3
+        },
+        {
+          "name": "stroke :0",
+          "msPerStep": 5.8
+        },
+        {
+          "name": "drawImage :0",
+          "msPerStep": 5
+        },
+        {
+          "name": "toScreen app.js:837",
+          "msPerStep": 4.9
+        },
+        {
+          "name": "bezierCurveTo :0",
+          "msPerStep": 4.6
+        },
+        {
+          "name": "curveThrough curve.js:21",
+          "msPerStep": 4.2
+        },
+        {
+          "name": "stroke landscape-art.js:18",
+          "msPerStep": 2.7
+        },
+        {
+          "name": "(garbage collector) :0",
+          "msPerStep": 2.6
+        }
+      ]
+    },
+    "county": {
+      "scale": 44.78,
+      "redrawn": 16,
+      "groundFrameMs": {
+        "median": 85.2,
+        "p90": 99.4,
+        "max": 113.7
+      },
+      "topSelfTime": [
+        {
+          "name": "drawGroundDetail app.js:1427",
+          "msPerStep": 29.8
+        },
+        {
+          "name": "drawImage :0",
+          "msPerStep": 23.2
+        },
+        {
+          "name": "inWater app.js:1492",
+          "msPerStep": 21.6
+        },
+        {
+          "name": "toScreen app.js:837",
+          "msPerStep": 8.2
+        },
+        {
+          "name": "pull curve.js:56",
+          "msPerStep": 7.8
+        },
+        {
+          "name": "(garbage collector) :0",
+          "msPerStep": 6.1
+        },
+        {
+          "name": "distanceToSegments map-base.js:85",
+          "msPerStep": 4.9
+        },
+        {
+          "name": "drawWorld app.js:1891",
+          "msPerStep": 4.7
+        }
+      ]
+    }
+  },
+  "heapMB": 8.9,
+  "pageErrors": []
+}

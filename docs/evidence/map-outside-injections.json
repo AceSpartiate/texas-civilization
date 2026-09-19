@@ -1,0 +1,132 @@
+{
+  "date": "2026-09-19",
+  "tests": [
+    "tests/map-outside.test.mjs",
+    "tests/geography-truth.test.mjs",
+    "tests/land.test.mjs",
+    "tests/map-base.test.mjs",
+    "tests/woods.test.mjs",
+    "tests/woods-view.test.mjs",
+    "tests/rivers.test.mjs"
+  ],
+  "results": [
+    {
+      "injected": "a box file written again with the same content (colonies-woods.json.gz gzipped at level 6)",
+      "failed": [
+        "the box's own files are byte for byte what they were"
+      ],
+      "caughtByThoseTestsOnly": true,
+      "restoredByteForByte": true
+    },
+    {
+      "injected": "the page sent the box's bounds, so the camera stops at the box",
+      "note": "tests/geography-truth.test.mjs holds the page's bounds too",
+      "failed": [
+        "the page is sent the real province for a class on the real land, saved with the invented one or not",
+        "the map reaches the Sabine and the Rio Grande: 93.5-100.5°W, 25.8-32°N"
+      ],
+      "caughtByThoseTestsOnly": true,
+      "restoredByteForByte": true
+    },
+    {
+      "injected": "a point of the Rio Grande's one-mile band moved two miles off the finer band",
+      "failed": [
+        "every band of the outside layer nests in the band finer than it"
+      ],
+      "caughtByThoseTestsOnly": true,
+      "restoredByteForByte": true
+    },
+    {
+      "injected": "pieces outside the box cut at its edge instead of carried one point across it; rebuilt",
+      "failed": [
+        "the rivers that cross the box's edge meet the box's own line there"
+      ],
+      "caughtByThoseTestsOnly": true,
+      "restoredByteForByte": true
+    },
+    {
+      "injected": "the Rio Grande drawn two miles west of itself",
+      "failed": [
+        "the Rio Grande, the Nueces and the Sabine are where they are, and named wherever the box's rivers are"
+      ],
+      "caughtByThoseTestsOnly": true,
+      "restoredByteForByte": true
+    },
+    {
+      "injected": "the shape the page is sent (/api/map) leaves out the rivers outside the box",
+      "failed": [
+        "the Rio Grande, the Nueces and the Sabine are where they are, and named wherever the box's rivers are"
+      ],
+      "caughtByThoseTestsOnly": true,
+      "restoredByteForByte": true
+    },
+    {
+      "injected": "Mexico left undrawn, a hole south of the Rio Grande; rebuilt",
+      "failed": [
+        "Mexico is country, not sea or a hole; the Gulf is sea"
+      ],
+      "caughtByThoseTestsOnly": true,
+      "restoredByteForByte": true
+    },
+    {
+      "injected": "the outside layer drawing the box's whole interior over the box; rebuilt",
+      "note": "the page's empty middle is the same promise, that nothing of the outside stands deep in the box, held where the page relies on it",
+      "failed": [
+        "the outside leaves the box to the box, but for the ring at its edge, whose classes are the box's",
+        "the page lays the outside down only around the middle of the box, and that middle has nothing of the outside in it"
+      ],
+      "caughtByThoseTestsOnly": true,
+      "restoredByteForByte": true
+    },
+    {
+      "injected": "steep ground from a 60 m rise, not 70, outside the box",
+      "failed": [
+        "the rules outside are the box's own: on the box's heights they give the box's hillshade and relief"
+      ],
+      "caughtByThoseTestsOnly": true,
+      "restoredByteForByte": true
+    },
+    {
+      "injected": "the page's pieces cut with no margin of their neighbours",
+      "failed": [
+        "the page draws the outside in pieces that tile it with no seam, and each cell of the box's edge once"
+      ],
+      "caughtByThoseTestsOnly": true,
+      "restoredByteForByte": true
+    },
+    {
+      "injected": "the box's edge cells taken away off the outside's lattice (the offset turned round)",
+      "failed": [
+        "the page draws the outside in pieces that tile it with no seam, and each cell of the box's edge once"
+      ],
+      "caughtByThoseTestsOnly": true,
+      "restoredByteForByte": true
+    },
+    {
+      "injected": "the empty middle of the outside's grids reaching out to the box's edge, over its ring of edge cells",
+      "failed": [
+        "the page lays the outside down only around the middle of the box, and that middle has nothing of the outside in it"
+      ],
+      "caughtByThoseTestsOnly": true,
+      "restoredByteForByte": true
+    },
+    {
+      "injected": "the parts either side of the hole running the view's whole height, over the parts above and below it",
+      "failed": [
+        "the page lays the outside down only around the middle of the box, and that middle has nothing of the outside in it"
+      ],
+      "caughtByThoseTestsOnly": true,
+      "restoredByteForByte": true
+    },
+    {
+      "injected": "the map's woods tiles stop at the box",
+      "failed": [
+        "the woods outside are drawn by the map's tiles, and the simulation never sees them"
+      ],
+      "caughtByThoseTestsOnly": true,
+      "restoredByteForByte": true
+    }
+  ],
+  "caught": 14,
+  "of": 14
+}
