@@ -11,6 +11,7 @@ import { createRequire } from 'node:module';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { createClassroom } from '../server/app.mjs';
 import { createSettledWorld, keepFoundingFamilies } from '../tests/support/settled.mjs';
+import { meetFamily } from './support/meet-family.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -40,6 +41,9 @@ try {
   await page.locator('[name=code]').fill(app.state.sessionCode);
   await page.getByRole('button', { name: 'Join', exact: true }).click();
   await page.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
+  // The title screen and the family made, before anything is drawn (public/creation.js, owner 2026-09-17): this proof
+  // predates it and stood at the title screen until 2026-09-18.
+  await meetFamily(page);
   for (let i = 2; i <= 5; i++) await post('/api/join', { name: `Reader ${i}`, code: app.state.sessionCode });
   await post('/api/command', { id: `proof-start-${crypto.randomUUID()}`, action: 'start' }, hostCookie);
   await page.waitForFunction(() => window.__snapshot?.world.status === 'running');
