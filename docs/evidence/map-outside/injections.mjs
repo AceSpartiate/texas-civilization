@@ -11,7 +11,7 @@ import { gunzipSync, gzipSync } from 'node:zlib';
 
 const raw = process.argv[2];
 if (!raw) { console.error('usage: node docs/evidence/map-outside/injections.mjs <raw-dir> [case]'); process.exit(2); }
-const TESTS = 'tests/map-outside.test.mjs tests/geography-truth.test.mjs tests/land.test.mjs tests/map-base.test.mjs tests/woods.test.mjs tests/woods-view.test.mjs';
+const TESTS = 'tests/map-outside.test.mjs tests/geography-truth.test.mjs tests/land.test.mjs tests/map-base.test.mjs tests/woods.test.mjs tests/woods-view.test.mjs tests/rivers.test.mjs';
 const REBUILD = [`node --max-old-space-size=8192 scripts/build-outside.mjs "${raw}"`];
 const OUTSIDE_FILES = ['public/terrain/outside-province.json.gz', 'public/terrain/outside-land.json.gz', 'public/terrain/outside-woods.json.gz', 'public/terrain/outside-woods.bin.gz'];
 const LOAD = "if (!outside) outside = JSON.parse(gunzipSync(readFileSync(OUTSIDE_FILE)).toString('utf8'));";
@@ -35,7 +35,8 @@ const cases = [
   { name: 'Mexico left undrawn, a hole south of the Rio Grande; rebuilt', expect: ['Mexico is country'],
     edits: [['scripts/build-outside.mjs', "if (mexico[i]) { land[i] = code('brush'); stands[i] = BRUSH; continue; }", 'if (mexico[i]) { land[i] = NONE; continue; }']],
     rebuild: REBUILD, files: OUTSIDE_FILES },
-  { name: 'the outside layer drawing the box\'s whole interior over the box; rebuilt', expect: ['the outside leaves the box to the box'],
+  { name: 'the outside layer drawing the box\'s whole interior over the box; rebuilt', expect: ['the outside leaves the box to the box', 'the page lays the outside down only around the middle of the box'],
+    note: 'the page\'s empty middle is the same promise, that nothing of the outside stands deep in the box, held where the page relies on it',
     edits: [['scripts/build-outside.mjs', 'if (deep) continue; // the box draws it', '// the box draws it']],
     rebuild: REBUILD, files: OUTSIDE_FILES },
   { name: 'steep ground from a 60 m rise, not 70, outside the box', expect: ["the rules outside are the box's own"],
@@ -44,6 +45,10 @@ const cases = [
     edits: [['public/land-levels.js', 'export function tileGrid(grid, { most = 375000, margin = 3 } = {}) {', 'export function tileGrid(grid, { most = 375000, margin = 0 } = {}) {']] },
   { name: 'the box\'s edge cells taken away off the outside\'s lattice (the offset turned round)', expect: ['the page draws the outside in pieces'],
     edits: [['public/land-levels.js', 'const offsetColumn = Math.round((grid.minX - outside.minX) / grid.cellMiles), offsetRow = Math.round((grid.minY - outside.minY) / grid.cellMiles);', 'const offsetColumn = Math.round((outside.minX - grid.minX) / grid.cellMiles), offsetRow = Math.round((outside.minY - grid.minY) / grid.cellMiles);']] },
+  { name: 'the empty middle of the outside\'s grids reaching out to the box\'s edge, over its ring of edge cells', expect: ['the page lays the outside down only around the middle of the box'],
+    edits: [['public/land-levels.js', 'export function emptyMiddle(grid, box, cells = 4) {', 'export function emptyMiddle(grid, box, cells = 0) {']] },
+  { name: 'the parts either side of the hole running the view\'s whole height, over the parts above and below it', expect: ['the page lays the outside down only around the middle of the box'],
+    edits: [['public/map-base.js', '{ minX: view.minX, maxX: Math.min(view.maxX, hole.minX), minY: top, maxY: bottom },', '{ minX: view.minX, maxX: Math.min(view.maxX, hole.minX), minY: view.minY, maxY: view.maxY },']] },
   { name: 'the map\'s woods tiles stop at the box', expect: ['the woods outside are drawn'],
     edits: [['sim/woods-view.mjs', "  const options = { rule: 'landfire', nearCreek: land.nearCreek, beyond: outsideStandAt };\r\n  const minX = tx * size, minY = ty * size;\r\n  if (level === 'shade')", "  const options = { rule: 'landfire', nearCreek: land.nearCreek };\r\n  const minX = tx * size, minY = ty * size;\r\n  if (level === 'shade')"]] },
 ];

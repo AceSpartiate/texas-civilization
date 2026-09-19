@@ -1,0 +1,39 @@
+{
+  "date": "2026-09-19",
+  "sameComputerOnly": true,
+  "note": "a pixel differs when its red, green and blue differ by more than 24 in all; the map canvas only",
+  "results": [
+    {
+      "view": "interior-colonies",
+      "insideTheBox": true,
+      "scale": 8.33,
+      "sameCamera": true,
+      "differingShare": 0.00005,
+      "largestDifference": 94
+    },
+    {
+      "view": "interior-county",
+      "insideTheBox": true,
+      "scale": 44.78,
+      "sameCamera": true,
+      "differingShare": 0,
+      "largestDifference": 19
+    },
+    {
+      "view": "interior-close",
+      "insideTheBox": true,
+      "scale": 172.04,
+      "sameCamera": true,
+      "differingShare": 0,
+      "largestDifference": 29
+    },
+    {
+      "view": "edge-southwest",
+      "insideTheBox": false,
+      "scale": 22.85,
+      "sameCamera": false,
+      "differingShare": 0.43676,
+      "largestDifference": 132
+    }
+  ]
+}

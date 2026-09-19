@@ -17,10 +17,10 @@ import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesVisible, woo
 import { bindEnding, renderEnding } from '/ending.js';
 import { bindLooks, renderLooks } from '/appearance.js';
 import { bindCreation, creationStep, renderCreation, showTitle } from '/creation.js';
-import { groundInputs, applyDrawState, canvasRatio, creekOpacity, distanceToSegments, ramp, readDrawState, sameLayerKey, scatterItem, scatterLevels, segmentsNear, setText, smoothCover, WATER, waterWidth, landPictureData, landUpscale, outOfSight } from '/map-base.js';
+import { aroundHole, groundInputs, applyDrawState, canvasRatio, creekOpacity, distanceToSegments, ramp, readDrawState, sameLayerKey, scatterItem, scatterLevels, segmentsNear, setText, smoothCover, WATER, waterWidth, landPictureData, landUpscale, outOfSight } from '/map-base.js';
 import { canSmoothOffThread, smoothOffThread, toBitmap } from '/smooth-worker.js';
 import { DEFAULT_GROUND, groundClass, groundClassAt, markFor } from '/ground-classes.js';
-import { decodeLand, decodeOutside, decodeProvince, landWeights, lineBand, tileGrid, withoutClaims } from '/land-levels.js';
+import { decodeLand, decodeOutside, decodeProvince, emptyMiddle, landWeights, lineBand, tileGrid, withoutClaims } from '/land-levels.js';
 import { frameTransform, gestureView, isTap, keyView, nearestSpot, reproject, tapSlop, wheelZoomFactor, worldAt, zoomAbout } from '/map-camera.js';
 const $ = selector => document.querySelector(selector);
 const say = message => { for (const id of ['#error', '#join-error', '#rejoin-error']) { const el = $(id); if (el) el.textContent = message; } };
@@ -1112,12 +1112,26 @@ function reliefImage(grid, key) {
   reliefCaches.set(key, { signature, canvas });
   return canvas;
 }
-function paintRelief(ctx, grid, camera, key) {
+function paintRelief(ctx, grid, camera, key, hole = null) {
   if (!grid?.values?.length) return false;
   const topLeft = camera.toScreen({ x: grid.minX, y: grid.minY });
   const bottomRight = camera.toScreen({ x: grid.minX + grid.cellX * (grid.columns - 1), y: grid.minY + grid.cellY * (grid.rows - 1) });
   ctx.imageSmoothingEnabled = true;
-  ctx.drawImage(reliefImage(grid, key), topLeft.x, topLeft.y, bottomRight.x - topLeft.x, bottomRight.y - topLeft.y);
+  const image = reliefImage(grid, key);
+  if (!hole) { ctx.drawImage(image, topLeft.x, topLeft.y, bottomRight.x - topLeft.x, bottomRight.y - topLeft.y); return true; }
+  // Only the parts of the view outside the hole, where nothing opaque is drawn over it: the outside's relief is under the box's.
+  // The picture is opaque, so the parts overlap by a pixel and leave no hairline between them.
+  const x0 = grid.minX, x1 = grid.minX + grid.cellX * (grid.columns - 1), y0 = grid.minY, y1 = grid.minY + grid.cellY * (grid.rows - 1);
+  const a = camera.toWorld({ x: 0, y: 0 }), b = camera.toWorld({ x: ctx.canvas.width, y: ctx.canvas.height });
+  const view = { minX: Math.max(x0, a.x), minY: Math.max(y0, a.y), maxX: Math.min(x1, b.x), maxY: Math.min(y1, b.y) };
+  if (view.maxX <= view.minX || view.maxY <= view.minY) return true;
+  const px = x => (x - x0) / (x1 - x0) * image.width, py = y => (y - y0) / (y1 - y0) * image.height;
+  for (const rect of aroundHole(view, hole)) {
+    const sx0 = Math.max(0, px(rect.minX) - 1), sx1 = Math.min(image.width, px(rect.maxX) + 1), sy0 = Math.max(0, py(rect.minY) - 1), sy1 = Math.min(image.height, py(rect.maxY) + 1);
+    const p = { x: topLeft.x + sx0 / image.width * (bottomRight.x - topLeft.x), y: topLeft.y + sy0 / image.height * (bottomRight.y - topLeft.y) };
+    const q = { x: topLeft.x + sx1 / image.width * (bottomRight.x - topLeft.x), y: topLeft.y + sy1 / image.height * (bottomRight.y - topLeft.y) };
+    ctx.drawImage(image, sx0, sy0, sx1 - sx0, sy1 - sy0, p.x, p.y, q.x - p.x, q.y - p.y);
+  }
   return true;
 }
 // The province underneath, the home country painted over it. One world, one camera; only
@@ -1153,9 +1167,13 @@ let landLevels = { key: null, province: null, land: null, outside: null, pending
  */
 function outsideLevels(province, land, boxGrids) {
   if (!province?.rivers || !land?.bands) return null;
-  const grids = decodeLand(land);
+  const box = province.box;
+  // Each grid's middle is empty, where the box draws its own (`emptyMiddle`): it is laid down around it.
+  const grids = decodeLand(land).map(grid => ({ ...grid, hole: emptyMiddle(grid, box) }));
+  const relief = province.relief;
   return {
     province: decodeOutside(province),
+    reliefHole: relief && { minX: box.minX + relief.cellX, maxX: box.maxX - relief.cellX, minY: box.minY + relief.cellY, maxY: box.maxY - relief.cellY },
     grids,
     tiles: grids.map(grid => tileGrid(grid)),
     box: province.box,
@@ -1189,7 +1207,7 @@ function drawProvince(ctx, world, camera) {
   if (!province) return false;
   // The country outside the box first, on the same lattice and tint, and the box's own over it.
   const outside = levelsOf(world)?.outside;
-  if (outside?.province.relief) paintRelief(ctx, outside.province.relief, camera, 'outside');
+  if (outside?.province.relief) paintRelief(ctx, outside.province.relief, camera, 'outside', outside.reliefHole);
   const painted = paintRelief(ctx, province.relief, camera, 'province');
   // On the real land the land's own classes are the cover (`drawLand`): the cover belts are a band-3 sketch of the same.
   if (levelsOf(world)?.land) return painted;
@@ -1388,18 +1406,26 @@ function layLandPicture(ctx, camera, grid, canvas, upscale, alpha) {
   const perMile = upscale / grid.cellMiles;
   const topLeft = camera.toWorld({ x: 0, y: 0 }), bottomRight = camera.toWorld({ x: ctx.canvas.width, y: ctx.canvas.height });
   // A piece of a larger grid (public/land-levels.js `tileGrid`) lays down only its core; the margin round it is its neighbours'.
+  // A grid with an empty middle (the outside's, round the box) lays down only what is around it (`aroundHole`): the parts meet
+  // on whole cells, and never overlap, so a half-clear picture is never laid twice anywhere.
   const clamp = (value, least, most) => Math.max(least, Math.min(most, value));
   const core = grid.core;
   const cx0 = core ? clamp(Math.round((core.minX - grid.minX) * perMile), 0, canvas.width) : 0, cx1 = core ? clamp(Math.round((core.maxX - grid.minX) * perMile), 0, canvas.width) : canvas.width;
   const cy0 = core ? clamp(Math.round((core.minY - grid.minY) * perMile), 0, canvas.height) : 0, cy1 = core ? clamp(Math.round((core.maxY - grid.minY) * perMile), 0, canvas.height) : canvas.height;
-  const sx0 = clamp(Math.floor((topLeft.x - grid.minX) * perMile) - 2, cx0, cx1), sx1 = clamp(Math.ceil((bottomRight.x - grid.minX) * perMile) + 2, cx0, cx1);
-  const sy0 = clamp(Math.floor((topLeft.y - grid.minY) * perMile) - 2, cy0, cy1), sy1 = clamp(Math.ceil((bottomRight.y - grid.minY) * perMile) + 2, cy0, cy1);
-  if (sx1 <= sx0 || sy1 <= sy0) return;
-  const a = camera.toScreen({ x: grid.minX + sx0 / perMile, y: grid.minY + sy0 / perMile }), b = camera.toScreen({ x: grid.minX + sx1 / perMile, y: grid.minY + sy1 / perMile });
+  const view = { minX: Math.floor((topLeft.x - grid.minX) * perMile) - 2, maxX: Math.ceil((bottomRight.x - grid.minX) * perMile) + 2, minY: Math.floor((topLeft.y - grid.minY) * perMile) - 2, maxY: Math.ceil((bottomRight.y - grid.minY) * perMile) + 2 };
+  const hole = grid.hole && { minX: Math.round((grid.hole.minX - grid.minX) * perMile), maxX: Math.round((grid.hole.maxX - grid.minX) * perMile), minY: Math.round((grid.hole.minY - grid.minY) * perMile), maxY: Math.round((grid.hole.maxY - grid.minY) * perMile) };
   const was = ctx.globalAlpha, smoothing = ctx.imageSmoothingEnabled;
   ctx.globalAlpha = was * alpha; ctx.imageSmoothingEnabled = true;
-  ctx.drawImage(canvas, sx0, sy0, sx1 - sx0, sy1 - sy0, a.x, a.y, b.x - a.x, b.y - a.y);
+  let laid = 0;
+  for (const part of aroundHole(view, hole)) {
+    const sx0 = clamp(part.minX, cx0, cx1), sx1 = clamp(part.maxX, cx0, cx1), sy0 = clamp(part.minY, cy0, cy1), sy1 = clamp(part.maxY, cy0, cy1);
+    if (sx1 <= sx0 || sy1 <= sy0) continue;
+    const a = camera.toScreen({ x: grid.minX + sx0 / perMile, y: grid.minY + sy0 / perMile }), b = camera.toScreen({ x: grid.minX + sx1 / perMile, y: grid.minY + sy1 / perMile });
+    ctx.drawImage(canvas, sx0, sy0, sx1 - sx0, sy1 - sy0, a.x, a.y, b.x - a.x, b.y - a.y);
+    laid++;
+  }
   ctx.globalAlpha = was; ctx.imageSmoothingEnabled = smoothing;
+  return laid;
 }
 function drawLand(ctx, world, camera) {
   const levels = levelsOf(world), outside = levels?.outside;
@@ -1418,7 +1444,7 @@ function drawLand(ctx, world, camera) {
       if (weights[i] <= 0.01) return;
       for (const tile of pieces(grid.cellMiles)) {
         const pictures = landPicture(tile);
-        if (pictures?.[layer]) { layLandPicture(ctx, camera, tile, pictures[layer], pictures.upscale, weights[i]); outsidePieces++; }
+        if (pictures?.[layer]) outsidePieces += layLandPicture(ctx, camera, tile, pictures[layer], pictures.upscale, weights[i]);
       }
       const pictures = landPicture(grid);
       if (pictures?.[layer]) layLandPicture(ctx, camera, grid, pictures[layer], pictures.upscale, weights[i]);

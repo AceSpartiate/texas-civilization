@@ -2,9 +2,9 @@
 //
 // scripts/perf-render-measure.mjs measures a game standing still, where the kept ground is laid down and never drawn again.
 // This measures the frame that draws it again: the Host's map of a real-land class, CPU throttled through the DevTools
-// protocol, panned a step left and a step right with the arrow keys again and again, and the painted frame after each step
-// timed. Views: `out` (zoomed all the way out, whatever the build allows), `colonies` (5.2 pixels a mile over Gonzales, the
-// colonies' zoom, the same in any build) and `county` (45 over Gonzales).
+// protocol, zoomed a step in and a step out with the + and - keys again and again, and the painted frame after each step
+// timed, with where the time went. Views: `out` (zoomed all the way out, whatever the build allows), `box` (4.25 over the
+// middle of the box, the old build's `out`), `colonies` (5.95 over Gonzales) and `county` (44.97 over Gonzales).
 //
 // Same computer only. A throttled desktop CPU is not a Chromebook; these numbers compare one build with another here.
 //
@@ -73,27 +73,43 @@ try {
       if (Math.abs(moved.cx - now.cx) < 1e-6 && Math.abs(moved.cy - now.cy) < 1e-6) return;
     }
   }
-  for (const [view, scale] of [['out', null], ['colonies', 5.2], ['county', 45]]) {
+  // `box`: 4.25 pixels a mile over the middle of the box, as far out as a build before 2026-09-18 could go, so its `out` and
+  // this are the same view. Every view but `out` is reached from 4.25 by the + key, which zooms by exactly 1.4 in any build
+  // (the whole map's own limit, 3.035, is 4.25 / 1.4), so the builds are measured at the same scales: 4.25, 5.95 and 44.97.
+  const middle = { x: (-92.14 + 209.15) / 2, y: (-172.81 + 102.69) / 2 };
+  const press = async key => { await page.locator('#world-map').focus(); await page.keyboard.press(key); await page.waitForTimeout(120); };
+  for (const [view, steps, where] of [['out', null, null], ['box', 0, middle], ['colonies', 1, gonzales], ['county', 7, gonzales]]) {
     await zoomTo(null);
-    if (scale) { await centreOn(gonzales); await zoomTo(scale); await centreOn(gonzales); }
+    if (steps !== null) {
+      while ((await camera()).scale * 1.4 < 4.3) await press('+');
+      await centreOn(where);
+      for (let i = 0; i < steps; i++) { await press('+'); await centreOn(where); }
+    }
     await page.locator('#world-map').focus();
     // Everything the view needs is fetched and smoothed before the timing starts: two passes of the same steps.
-    for (let i = 0; i < 4; i++) { await page.keyboard.press(i % 2 ? 'ArrowRight' : 'ArrowLeft'); await page.waitForTimeout(400); }
+    for (let i = 0; i < 4; i++) { await page.keyboard.press(i % 2 ? '-' : '+'); await page.waitForTimeout(400); }
     await page.waitForTimeout(4000);
     const times = [];
+    await cdp.send('Profiler.enable'); await cdp.send('Profiler.setSamplingInterval', { interval: 500 }); await cdp.send('Profiler.start');
     for (let i = 0; i < STEPS; i++) {
       const mark = await page.evaluate(() => performance.now());
-      await page.keyboard.press(i % 2 ? 'ArrowRight' : 'ArrowLeft');
+      await page.keyboard.press(i % 2 ? '-' : '+');
       await page.waitForTimeout(700);
       // The frame that drew the ground again after the step: the one whose count moved.
       const frame = await page.evaluate(since => { const frames = window.__perf.frames.filter(f => f.at >= since); let before = frames[0]?.ground ?? 0; for (const f of frames) { if (f.ground > before) return f.ms; before = f.ground; } return null; }, mark);
       if (frame !== null) times.push(frame);
     }
+    if (!times.length) throw new Error(`${view}: the ground was never drawn again`);
+    // Self time by function over the steps, from the sampled profile: where the drawing goes.
+    const { profile } = await cdp.send('Profiler.stop');
+    const self = new Map(), byId = new Map(profile.nodes.map(n => [n.id, n]));
+    profile.samples.forEach((id, i) => { const f = byId.get(id).callFrame, name = `${f.functionName || '(anonymous)'} ${f.url.split('/').pop()}:${f.lineNumber + 1}`; self.set(name, (self.get(name) || 0) + (profile.timeDeltas[i + 1] ?? 0) / 1000); });
+    const top = [...self].filter(([name]) => !/^\((idle|program)\)/.test(name)).sort((a, b) => b[1] - a[1]).slice(0, 8).map(([name, ms]) => ({ name, msPerStep: +(ms / STEPS).toFixed(1) }));
     const sorted = [...times].sort((a, b) => a - b), pct = q => sorted[Math.min(sorted.length - 1, Math.floor(q * sorted.length))];
     const now = await camera();
-    result.views[view] = { scale: +now.scale.toFixed(2), redrawn: times.length, groundFrameMs: { median: +pct(0.5).toFixed(1), p90: +pct(0.9).toFixed(1), max: +sorted.at(-1).toFixed(1) } };
+    result.views[view] = { scale: +now.scale.toFixed(2), redrawn: times.length, groundFrameMs: { median: +pct(0.5).toFixed(1), p90: +pct(0.9).toFixed(1), max: +sorted.at(-1).toFixed(1) }, topSelfTime: top };
     console.log(`${LABEL} ${view.padEnd(9)} scale ${String(result.views[view].scale).padStart(6)} | ground frame median ${result.views[view].groundFrameMs.median} ms, p90 ${result.views[view].groundFrameMs.p90} ms (${times.length} of ${STEPS})`);
-    await cdp.send('Emulation.setCPUThrottlingRate', { rate: RATE });
+    for (const t of top.slice(0, 5)) console.log(`    ${String(t.msPerStep).padStart(6)} ms a step  ${t.name}`);
   }
   result.heapMB = +((await cdp.send('Runtime.getHeapUsage')).usedSize / 1e6).toFixed(1);
   result.pageErrors = errors;

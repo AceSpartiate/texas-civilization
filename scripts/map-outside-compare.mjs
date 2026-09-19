@@ -19,10 +19,10 @@ const { milesFrom, realTerrain } = await import(new URL('sim/terrain-data.mjs', 
 const terrain = realTerrain(), at = (lon, lat) => milesFrom(terrain, lon, lat);
 // [name, centre, scale, inside the box well away from its edge]
 const VIEWS = [
-  ['interior-colonies', at(-96.6, 30.2), 9, true],
-  ['interior-county', at(-97.9, 30.7), 45, true],
-  ['interior-close', at(-96.0, 29.6), 200, true],
-  ['edge-southwest', at(-98.8, 28.3), 20, false],
+  ['interior-colonies', at(-96.6, 30.2), 8.33, true],
+  ['interior-county', at(-97.9, 30.7), 44.97, true],
+  ['interior-close', at(-96.0, 29.6), 172.7, true],
+  ['edge-southwest', at(-98.8, 28.3), 22.9, false],
 ];
 const out = 'docs/evidence/map-outside';
 mkdirSync(out, { recursive: true });
@@ -41,26 +41,27 @@ try {
       for (const id of ['#host-class', '#rumor-mill']) if (await page.locator(`${id}[open] > summary`).count()) await page.locator(`${id} > summary`).click();
       const box = await page.locator('#world-map').boundingBox(), centre = { x: box.x + box.width / 2, y: box.y + box.height / 2 };
       const camera = () => page.evaluate(() => window.__camera);
+      const drag = async (dx, dy) => {
+        await page.mouse.move(centre.x, centre.y); await page.mouse.down();
+        await page.mouse.move(centre.x + dx, centre.y + dy, { steps: 6 }); await page.mouse.up(); await page.waitForTimeout(40);
+      };
       for (const [name, target, scale] of VIEWS) {
+        // The same scale in either build: from all the way out, the + key zooms by exactly 1.4, and every scale here is
+        // 4.25 × 1.4^k, which both reach (the box's old limit is 4.25, the whole map's 4.25 / 1.4).
         for (let i = 0; i < 40; i++) { await page.mouse.move(centre.x, centre.y); await page.mouse.wheel(0, 240); await page.waitForTimeout(10); }
+        // The same centre: dragged there, then to within a fraction of a pixel by a drag out and back (a short drag is a tap).
         const centreOn = async () => {
-          for (let guard = 0; guard < 30; guard++) {
+          for (let guard = 0; guard < 40; guard++) {
             const now = await camera(), dx = (target.x - now.cx) * now.scale, dy = (target.y - now.cy) * now.scale;
-            if (Math.hypot(dx, dy) < 2) return;
-            const step = Math.min(1, 250 / Math.hypot(dx, dy));
-            await page.mouse.move(centre.x, centre.y); await page.mouse.down();
-            await page.mouse.move(centre.x - dx * step, centre.y - dy * step, { steps: 6 }); await page.mouse.up();
-            await page.waitForTimeout(40);
+            if (Math.hypot(dx, dy) < 0.2) return;
+            if (Math.hypot(dx, dy) > 40) { const step = Math.min(1, 250 / Math.hypot(dx, dy)); await drag(-dx * step, -dy * step); }
+            else { await drag(60, 60); await drag(-60 - dx, -60 - dy); }
+            const moved = await camera();
+            if (Math.abs(moved.cx - now.cx) < 1e-9 && Math.abs(moved.cy - now.cy) < 1e-9 && Math.hypot(dx, dy) > 40) return; // held by the edge
           }
         };
         await centreOn();
-        for (let guard = 0; guard < 80; guard++) {
-          const now = await camera();
-          if (Math.abs(Math.log(now.scale / scale)) < Math.log(1.15) / 2) break;
-          await page.mouse.move(centre.x, centre.y); await page.mouse.wheel(0, now.scale > scale ? 120 : -120); await page.waitForTimeout(15);
-          if (guard % 4 === 3) await centreOn();
-        }
-        await centreOn();
+        while ((await camera()).scale < scale * 0.99) { await page.locator('#world-map').focus(); await page.keyboard.press('+'); await page.waitForTimeout(60); await centreOn(); }
         await page.waitForTimeout(2500);
         const shot = `${out}/compare-${name}-${label}.png`;
         await page.screenshot({ path: shot });
@@ -83,7 +84,7 @@ try {
       for (let i = 0; i < d1.length; i += 4) { const d = Math.abs(d1[i] - d2[i]) + Math.abs(d1[i + 1] - d2[i + 1]) + Math.abs(d1[i + 2] - d2[i + 2]); if (d > 24) differ++; most = Math.max(most, d); }
       return { pixels: d1.length / 4, differ, most };
     }, [a.data, b.data]);
-    const sameCamera = Math.abs(a.camera.cx - b.camera.cx) < 0.01 && Math.abs(a.camera.cy - b.camera.cy) < 0.01 && Math.abs(a.camera.scale - b.camera.scale) / a.camera.scale < 0.001;
+    const sameCamera = Math.abs(a.camera.cx - b.camera.cx) * b.camera.scale < 0.5 && Math.abs(a.camera.cy - b.camera.cy) * b.camera.scale < 0.5 && Math.abs(a.camera.scale - b.camera.scale) / a.camera.scale < 0.001;
     results.push({ view: name, insideTheBox: interior, scale: +b.camera.scale.toFixed(2), sameCamera, differingShare: +(diff.differ / diff.pixels).toFixed(5), largestDifference: diff.most });
     console.log(`${name.padEnd(18)} ${interior ? 'inside ' : 'on edge'} scale ${b.camera.scale.toFixed(1).padStart(6)} same camera ${sameCamera} | ${(100 * diff.differ / diff.pixels).toFixed(3)}% of pixels differ (largest ${diff.most})`);
   }

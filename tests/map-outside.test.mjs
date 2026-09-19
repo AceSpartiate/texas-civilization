@@ -19,8 +19,8 @@ import { outsideStandAt } from '../sim/outside-woods.mjs';
 import { woodsTile } from '../sim/woods-view.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { bandShade, reliefKind, slopeAt, windowRange } from '../scripts/terrain/land-rules.mjs';
-import { decodeLand, tileGrid, withoutClaims } from '../public/land-levels.js';
-import { landUpscale } from '../public/map-base.js';
+import { decodeLand, emptyMiddle, tileGrid, withoutClaims } from '../public/land-levels.js';
+import { aroundHole, landUpscale } from '../public/map-base.js';
 
 const terrain = realTerrain(), at = (lon, lat) => milesFrom(terrain, lon, lat);
 const outside = outsideBands(), province = provinceBands();
@@ -265,4 +265,38 @@ test('the woods outside are drawn by the map\'s tiles, and the simulation never 
   const own = terrain.header.grid;
   assert.equal(header.grid.cell, own.cell);
   for (const axis of ['minX', 'minY']) assert.ok(Number.isInteger((own[axis] - header.grid[axis]) / own.cell), 'the outside woods are off the box\'s lattice');
+});
+
+test('the page lays the outside down only around the middle of the box, and that middle has nothing of the outside in it', () => {
+  // Every cell of each outside grid within a cell of its empty middle (the softening reaches about a cell) is empty.
+  for (const grid of decodeLand(outsideLand)) {
+    const middle = emptyMiddle(grid, box), cell = grid.cellMiles;
+    assert.ok(middle && middle.maxX - middle.minX > 150 && middle.maxY - middle.minY > 150, `the ${cell}-mile grid has an empty middle worth leaving out`);
+    let checked = 0;
+    for (let r = 0; r < grid.rows; r++) for (let c = 0; c < grid.columns; c++) {
+      const x0 = grid.minX + c * cell, y0 = grid.minY + r * cell;
+      if (x0 + cell <= middle.minX - cell || x0 >= middle.maxX + cell || y0 + cell <= middle.minY - cell || y0 >= middle.maxY + cell) continue;
+      assert.equal(grid.cells[r * grid.columns + c], 0, `${cell}-mile cell ${c},${r} in the empty middle has a class`);
+      checked++;
+    }
+    assert.ok(checked > 100);
+  }
+  // Around a hole, the parts of a view never overlap, and with the hole they are the whole view.
+  const area = r => (r.maxX - r.minX) * (r.maxY - r.minY);
+  for (const [view, hole] of [
+    [{ minX: 0, minY: 0, maxX: 100, maxY: 60 }, { minX: 20, minY: 10, maxX: 70, maxY: 40 }],
+    [{ minX: 0, minY: 0, maxX: 100, maxY: 60 }, { minX: -20, minY: -10, maxX: 170, maxY: 40 }],
+    [{ minX: 0, minY: 0, maxX: 100, maxY: 60 }, { minX: 30, minY: -10, maxX: 60, maxY: 90 }],
+    [{ minX: 0, minY: 0, maxX: 100, maxY: 60 }, { minX: -10, minY: -10, maxX: 200, maxY: 200 }],
+    [{ minX: 0, minY: 0, maxX: 100, maxY: 60 }, { minX: 120, minY: 10, maxX: 170, maxY: 40 }],
+  ]) {
+    const parts = aroundHole(view, hole);
+    const cut = { minX: Math.max(view.minX, hole.minX), minY: Math.max(view.minY, hole.minY), maxX: Math.min(view.maxX, hole.maxX), maxY: Math.min(view.maxY, hole.maxY) };
+    const inside = cut.maxX > cut.minX && cut.maxY > cut.minY ? area(cut) : 0;
+    assert.equal(parts.reduce((sum, part) => sum + area(part), 0) + inside, area(view));
+    for (let i = 0; i < parts.length; i++) for (let j = i + 1; j < parts.length; j++) {
+      const a = parts[i], b = parts[j];
+      assert.ok(a.maxX <= b.minX || b.maxX <= a.minX || a.maxY <= b.minY || b.maxY <= a.minY, 'two parts overlap');
+    }
+  }
 });

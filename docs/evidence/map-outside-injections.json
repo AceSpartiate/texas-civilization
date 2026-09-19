@@ -6,7 +6,8 @@
     "tests/land.test.mjs",
     "tests/map-base.test.mjs",
     "tests/woods.test.mjs",
-    "tests/woods-view.test.mjs"
+    "tests/woods-view.test.mjs",
+    "tests/rivers.test.mjs"
   ],
   "results": [
     {
@@ -69,8 +70,10 @@
     },
     {
       "injected": "the outside layer drawing the box's whole interior over the box; rebuilt",
+      "note": "the page's empty middle is the same promise, that nothing of the outside stands deep in the box, held where the page relies on it",
       "failed": [
-        "the outside leaves the box to the box, but for the ring at its edge, whose classes are the box's"
+        "the outside leaves the box to the box, but for the ring at its edge, whose classes are the box's",
+        "the page lays the outside down only around the middle of the box, and that middle has nothing of the outside in it"
       ],
       "caughtByThoseTestsOnly": true,
       "restoredByteForByte": true
@@ -100,6 +103,22 @@
       "restoredByteForByte": true
     },
     {
+      "injected": "the empty middle of the outside's grids reaching out to the box's edge, over its ring of edge cells",
+      "failed": [
+        "the page lays the outside down only around the middle of the box, and that middle has nothing of the outside in it"
+      ],
+      "caughtByThoseTestsOnly": true,
+      "restoredByteForByte": true
+    },
+    {
+      "injected": "the parts either side of the hole running the view's whole height, over the parts above and below it",
+      "failed": [
+        "the page lays the outside down only around the middle of the box, and that middle has nothing of the outside in it"
+      ],
+      "caughtByThoseTestsOnly": true,
+      "restoredByteForByte": true
+    },
+    {
       "injected": "the map's woods tiles stop at the box",
       "failed": [
         "the woods outside are drawn by the map's tiles, and the simulation never sees them"
@@ -108,6 +127,6 @@
       "restoredByteForByte": true
     }
   ],
-  "caught": 12,
-  "of": 12
+  "caught": 14,
+  "of": 14
 }

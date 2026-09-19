@@ -141,3 +141,17 @@ export function withoutClaims(grid, outside) {
   }
   return cells ? { ...grid, cells } : grid;
 }
+
+/**
+ * Where an outside grid has nothing to draw, in miles: the box's middle, whole cells from four cells in from its edge - past
+ * the ring of edge cells the outside draws (`claims`, docs/MAP_ACCURACY.md §6.5) and the softening round them. The page lays
+ * the outside's pictures down only around it (public/map-base.js `aroundHole`), so a view of the box pays nothing for them.
+ */
+export function emptyMiddle(grid, box, cells = 4) {
+  const cell = grid.cellMiles, snap = (value, way) => Math[way](value / cell) * cell;
+  const middle = {
+    minX: grid.minX + snap(box.minX - grid.minX, 'ceil') + cells * cell, maxX: grid.minX + snap(box.maxX - grid.minX, 'floor') - cells * cell,
+    minY: grid.minY + snap(box.minY - grid.minY, 'ceil') + cells * cell, maxY: grid.minY + snap(box.maxY - grid.minY, 'floor') - cells * cell,
+  };
+  return middle.maxX > middle.minX && middle.maxY > middle.minY ? middle : null;
+}

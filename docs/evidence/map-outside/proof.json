@@ -44,7 +44,7 @@
         "x": 28.38,
         "y": -31.62
       },
-      "outsidePiecesDrawn": 4,
+      "outsidePiecesDrawn": 16,
       "path": "docs/evidence/map-outside/whole.png"
     },
     {
@@ -54,7 +54,7 @@
         "x": 28.38,
         "y": 122.41
       },
-      "outsidePiecesDrawn": 4,
+      "outsidePiecesDrawn": 12,
       "path": "docs/evidence/map-outside/whole-south.png"
     },
     {
@@ -64,7 +64,7 @@
         "x": -40.76,
         "y": 88.91
       },
-      "outsidePiecesDrawn": 2,
+      "outsidePiecesDrawn": 4,
       "path": "docs/evidence/map-outside/colonies-southwest.png"
     },
     {
@@ -114,7 +114,7 @@
         "x": -92.14,
         "y": 102.69
       },
-      "outsidePiecesDrawn": 2,
+      "outsidePiecesDrawn": 4,
       "path": "docs/evidence/map-outside/seam-southwest-county.png"
     },
     {
@@ -124,7 +124,7 @@
         "x": -92.14,
         "y": 102.69
       },
-      "outsidePiecesDrawn": 2,
+      "outsidePiecesDrawn": 4,
       "path": "docs/evidence/map-outside/seam-southwest-close.png"
     },
     {

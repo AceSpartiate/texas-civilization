@@ -232,6 +232,23 @@ export function landPictureData(grid, palette, upscale) {
   return { wash, shade };
 }
 
+/**
+ * A view with a hole cut out of it, as the rectangles left: above the hole, below it, and either side of it between. The
+ * country outside the colonies' box is a picture with nothing in the middle, where the box is drawn (docs/MAP_ACCURACY.md §8);
+ * laying down only these parts of it keeps a view of the box from paying for the empty middle. The rectangles never overlap,
+ * and with the hole they cover the view. Each is `{ minX, minY, maxX, maxY }`; none is empty. No hole: the view.
+ */
+export function aroundHole(view, hole) {
+  if (!hole || hole.maxX <= view.minX || hole.minX >= view.maxX || hole.maxY <= view.minY || hole.minY >= view.maxY) return [view];
+  const top = Math.max(view.minY, hole.minY), bottom = Math.min(view.maxY, hole.maxY);
+  return [
+    { minX: view.minX, maxX: view.maxX, minY: view.minY, maxY: top },
+    { minX: view.minX, maxX: view.maxX, minY: bottom, maxY: view.maxY },
+    { minX: view.minX, maxX: Math.min(view.maxX, hole.minX), minY: top, maxY: bottom },
+    { minX: Math.max(view.minX, hole.maxX), maxX: view.maxX, minY: top, maxY: bottom },
+  ].filter(rect => rect.maxX > rect.minX && rect.maxY > rect.minY);
+}
+
 /** How far a land grid's picture is scaled up: as much as keeps it under about a million and a half pixels. */
 export const landUpscale = grid => { const cells = grid.columns * grid.rows; return cells * 16 <= 1.5e6 ? 4 : cells * 4 <= 1.5e6 ? 2 : 1; };
 
