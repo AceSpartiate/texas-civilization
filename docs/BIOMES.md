@@ -1,8 +1,8 @@
 # The natural country of the map in 1835-36: biomes, what grew, what could be hunted, and how to draw it
 
 **Status: research, 2026-09-19; built the same day (§13).** This was the research half of the owner's request below; the
-second session built §7 from it, and §13 says what was built, where it differs, and what is left. A third session makes the
-balance and gameplay changes the new biomes call for. Read it with `docs/WOODS_AND_BUILDING.md` (the woods as built), `docs/MAP_ACCURACY.md` §5 and §8
+second session built §7 from it, and §13 says what was built, where it differs, and what is left. A third session made the
+balance and gameplay changes the new biomes call for: [BIOME_GAMEPLAY](BIOME_GAMEPLAY.md). Read it with `docs/WOODS_AND_BUILDING.md` (the woods as built), `docs/MAP_ACCURACY.md` §5 and §8
 (the land classes and the country outside the box), and the claims it registers in `HISTORY.md`: `HIST-TEX-094` to
 `HIST-TEX-108` and `FIC-GONZ-060` to `FIC-GONZ-063`.
 
@@ -868,7 +868,8 @@ The second session built §7 the same day. Same computer only (Windows, headless
 - The coastal and tallgrass prairie inside EPA 34g, 34h and 34i is drawn as marsh, as since 2026-09-17; the simulation keeps its
   stand.
 - The quarry is words only (the hunt's facts: "Deer, turkey and bear keep to it."); the hunt still finds a deer. Which animal a
-  hunt brings is the balance session's.
+  hunt brings is the balance session's. **Done the same day** ([BIOME_GAMEPLAY](BIOME_GAMEPLAY.md) §3.1): the hunt brings its
+  place's quarry, still drawn only when it is a deer.
 - Colours: §7.2's proposals were too close over the relief's green; they are pushed apart and stronger.
 - The acequias are not drawn (§5.1's request is open), and nothing of §5.2's particular fields (Corn Bend, the plantations) is
   laid beyond the rings.
@@ -895,7 +896,10 @@ coast and stayed about 0.9-1 inland. No family is stuck: a jacal wants no logs (
 
 ### 13.5 What is left
 
-- The balance session: which quarry a hunt brings, the game values, and whether a prairie family wants logs from town.
+- ~~The balance session: which quarry a hunt brings, the game values, and whether a prairie family wants logs from town.~~
+  **Done the same day**, [BIOME_GAMEPLAY](BIOME_GAMEPLAY.md): the quarry by place and season, logs fetched from the nearest
+  timber with the ox and wagon (not bought in town), fences as long as their rails are far; the game values left as they are
+  (§4 there says why).
 - Art (docs/ART_REQUESTS.md, three requests of 2026-09-19).
 - The acequias drawn; Corn Bend and the plantations' fields; the LANDFIRE model PDFs (§2) before any trees-an-acre is claimed.
 - `colonies-province.json.gz` was not rebuilt: its cover belts are the 2016 land's, drawn only while the land's classes load.

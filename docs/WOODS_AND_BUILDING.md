@@ -153,7 +153,9 @@ because there's no woods. thats okay"*; and, by multiple choice, the woods round
 - **Creek timber only where a creek runs all year**: a perennial creek keeps a strip one or two patches wide (`CREEK_STRIP_MILES`,
   0.045 either side); an intermittent one through post oak, cross timbers or the hills a few scattered trees (`creek-draw`, open
   ground); through the prairies and the mesquite, none. A river through a town's fields keeps a line of bank trees (`bank`).
-- **Each stand says what may be hunted there** (`quarry`), in the hunt's words only; the hunt still finds a deer.
+- **Each stand says what may be hunted there** (`quarry`). **Amended the same day** ([BIOME_GAMEPLAY](BIOME_GAMEPLAY.md) §3.1):
+  the hunt brings the quarry its place holds, fixed by the patch, its cover and the month, said before the hunter goes, and
+  only a deer is drawn.
 - **A class made from 2026-09-15 to 2026-09-19** recorded `landfire-2016` and keeps reading that grid, byte for byte
   (`public/terrain/colonies-woods-2016.*`, rule `landfire`, `STANDS_2016`): its felled trees are found by their ids where they
   stood. A new class records `biomes-1836`. No save version moved (§7).
@@ -163,7 +165,10 @@ because there's no woods. thats okay"*; and, by multiple choice, the woods round
   Nacogdoches 82 then 83. Of ninety families in three thirty-family classes, 13 have fewer than fifty sound logs standing on
   their land within a mile of the house (5 on the 2016 grid): a family nobody plays builds them a jacal (§8.1).
 - **A family with no timber still builds**: the jacal wants no logs (`pen-jacal`, `sim/houseplot.mjs`); a Matagorda family with no
-  timber anywhere on its land raises one (`tests/biomes.test.mjs`). Shops sell no logs (docs/TOWNS.md).
+  timber anywhere on its land raises one (`tests/biomes.test.mjs`). Shops sell no logs (docs/TOWNS.md). **Amended the same
+  day** ([BIOME_GAMEPLAY](BIOME_GAMEPLAY.md) §3.2): a family can *Fetch logs from the timber* - the felling axe and the ox and
+  wagon to the edge of the nearest timber, off its land if need be, six sound logs a load - at a cost said in hours and miles;
+  a family nobody plays does so when that timber is within two miles, and builds a jacal when it is not.
 
 ---
 

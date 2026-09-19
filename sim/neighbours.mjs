@@ -15,7 +15,7 @@
 import { tooYoung } from './family.mjs';
 import { siteFacts } from './ground.mjs';
 import { overlaps, squareOf } from './fields.mjs';
-import { CHORES } from './chores.mjs';
+import { CHORES, logwoodGround } from './chores.mjs';
 import { COTTON_SEED_PER_PLOT, SEED_PER_PLOT } from './improvements.mjs';
 import { huntingPlace } from './hunting.mjs';
 import { packFlight } from './scrape.mjs';
@@ -32,7 +32,7 @@ export const TRADE_VALUE = Object.freeze({ food: 1, cotton: 1, seed: 2, powder: 
 /** Food per person the family keeps back before it will trade food away or stop hunting. */
 export const FOOD_KEPT_PER_PERSON = 3;
 /** Work one person does alone; a family never puts two of its people on the same one at once. */
-export const ONE_AT_A_TIME = Object.freeze(['hunt-timber', 'hunt-land', 'haul-logs', 'fetch-seed', 'fetch-powder', 'sell-cotton', 'sell-food', 'mend-hoe', 'replace-hoe', 'fence-plot', 'survey-plot', 'dig-well', 'hunt-road', 'tend-sick', 'trade-crossing']);
+export const ONE_AT_A_TIME = Object.freeze(['hunt-timber', 'hunt-land', 'haul-logs', 'fetch-logs', 'fetch-seed', 'fetch-powder', 'sell-cotton', 'sell-food', 'mend-hoe', 'replace-hoe', 'fence-plot', 'survey-plot', 'dig-well', 'hunt-road', 'tend-sick', 'trade-crossing']);
 /** Plots a family nobody plays keeps, its first patch among them: enough to feed it, and a harvest it can carry in. */
 export const NEIGHBOUR_PLOTS = 3;
 /** The house it chooses, best first, where its tools allow. */
@@ -192,8 +192,10 @@ export function thinkFor(world, household, { project, act }) {
   // The house: choose one the tools allow, then put hands to it.
   const homeSite = world.map.sites[view.household.homeSiteId];
   // Looked for once, when the house is first planned: a family without the sound logs for a log cabin standing on its land
-  // within a mile builds a jacal, which wants none.
-  const treeless = land.plot && land.choices && !land.house && homeSite && !land.choosingSite && soundLogsNear(world, homeSite, land.grant?.bounds) < CABIN_LOGS;
+  // within a mile builds a jacal, which wants none - unless it has the axe and timber stands within a wagon's short haul, when
+  // it fetches its logs from there (`fetch-logs`, docs/BIOME_GAMEPLAY.md §3.2), as a settler on the prairie did.
+  const treeless = land.plot && land.choices && !land.house && homeSite && !land.choosingSite && soundLogsNear(world, homeSite, land.grant?.bounds) < CABIN_LOGS
+    && !fetchesLogs(world, household, homeSite);
   // Not before the site is chosen: what stands near the house is what stands near where it will be.
   if (land.choices && !land.house && !land.choosingSite) {
     const choice = treeless ? 'jacal' : HOUSE_PREFERENCE.find(id => land.choices.some(c => c.id === id && c.can));
@@ -221,6 +223,10 @@ export function thinkFor(world, household, { project, act }) {
   const got = use => (land.logs?.[use] || 0) + lying.filter(entry => entry.use === use).reduce((sum, entry) => sum + entry.left, 0);
   const moreLogs = Boolean(land.plot && land.planned && logsShort({ wall: got('wall'), sill: got('sill'), poor: got('poor') }, land.planned.logs));
   if (!moreLogs) for (const person of people) if (person.chore?.id === 'fell-trees') attempt({ action: 'stop-chore', entityId: person.id });
+  // Its own trees first; the nearest timber off its land with the ox and wagon when none stand near enough to fell.
+  // Looked for only when somebody is idle to be sent, and once a think.
+  let fellCache = null;
+  const fellAt = () => (fellCache ??= moreLogs && home ? fellPlaces(world, view.household, home, land.grant?.bounds) : []);
   const unfenced = nearest(plots.filter(plot => plot.state === 'cleared' && plot.fence !== 'sound'));
   for (const person of idle) {
     // Somebody away from home with nothing to do there comes home.
@@ -237,7 +243,8 @@ export function thinkFor(world, household, { project, act }) {
       food < people.length * FOOD_KEPT_PER_PERSON && hunters === 0 && (resources.powder || 0) >= 1 && huntChore,
       'harvest-field', 'plant-field', 'build-house',
       land.logs?.lying > 0 && 'haul-logs',
-      moreLogs && 'fell-trees',
+      moreLogs && fellAt().length && 'fell-trees',
+      moreLogs && !fellAt().length && 'fetch-logs',
       'dig-well', 'mend-hoe', 'cut-lane',
       view.household.field?.state === 'planted' && unfenced && 'fence-plot',
       // Seed enough for the family's own crop: cotton wants more a plot than corn (sim/improvements.mjs). Measured 2026-09-16: with
@@ -251,7 +258,7 @@ export function thinkFor(world, household, { project, act }) {
     const chore = plan.find(id => !busy.has(id) && can(id));
     if (!chore) continue;
     // Clearing, fencing and survey are sent to a place on the family's own land, as a student sends them.
-    const sent = chore === 'fell-trees' ? fellPlaces(world, view.household, home, land.grant?.bounds).some(point => attempt({ action: 'fell-trees', entityId: person.id, ...point }))
+    const sent = chore === 'fell-trees' ? fellAt().some(point => attempt({ action: 'fell-trees', entityId: person.id, ...point }))
       : chore === 'hunt-land' ? huntPlaces(world, home, land.grant?.bounds).some(point => attempt({ action: 'hunt-land', entityId: person.id, ...point }))
       : chore === 'survey-plot' ? surveyPlaces(home, land.grant?.bounds, plots).some(point => attempt({ action: 'survey-plot', entityId: person.id, ...point }))
       : chore === 'clear-plot' ? attempt({ action: 'clear-plot', entityId: person.id, x: staked.x, y: staked.y })
@@ -291,6 +298,17 @@ export const HUNT_LOOK_MILES = 1;
  */
 /** The sound logs a round-log cabin wants, pen and all: a family with fewer standing near builds a jacal. */
 const CABIN_LOGS = 50;
+/**
+ * How far a family nobody plays will haul its logs from, with the ox and wagon, rather than build a jacal: two miles, about two
+ * hours of the wagon's going there and back a load (`fetch-logs`). Invented (`FIC-GONZ-028`).
+ */
+export const FETCH_LOGS_MILES = 2;
+/** Whether a family with too few trees of its own would fetch its logs: it has the axe, and timber stands near enough. */
+export function fetchesLogs(world, household, home) {
+  if (household?.tools?.axe === undefined || !home) return false;
+  const wood = logwoodGround(world, household, false);
+  return Boolean(wood && Math.hypot(wood.x - home.x, wood.y - home.y) <= FETCH_LOGS_MILES);
+}
 /**
  * The standing trees that give sound logs on the family's own land within a mile of the house, nearest the house first.
  * Read a quarter mile at a time, so a square of thick timber is never too many trees to list.

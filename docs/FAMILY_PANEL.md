@@ -92,6 +92,7 @@ the principal for the orders only a principal may be given (`applyAction` in `si
 | Mend the hoe (`mend-hoe`) | Set the worn hoe right again at home. |
 | Fell trees (`fell-trees`) | Fell the trees at a place in timber you choose on the family's land. |
 | Haul logs to the house (`haul-logs`) | Bring the felled logs lying out to the house. |
+| Fetch logs from the timber (`fetch-logs`, 2026-09-19, [BIOME_GAMEPLAY](BIOME_GAMEPLAY.md) §3.2) | Take the ox and wagon to the nearest timber, off your land if need be, and bring six logs home. |
 
 The five town errands - fetch seed, buy powder, sell food, take the cotton, buy a hoe - left this table on 2026-09-17:
 each of them walked a person to a counter the **Go to a shop** order already reaches, so they are the store's own trades

@@ -1,0 +1,128 @@
+{
+ "record": "Regressions injected into the biome-game rules, one at a time: docs/BIOME_GAMEPLAY.md §6",
+ "date": "2026-09-19",
+ "files": [
+  "tests/biome-game.test.mjs",
+  "tests/hunt-land.test.mjs",
+  "tests/house-plot.test.mjs",
+  "tests/improvements.test.mjs",
+  "tests/chores.test.mjs",
+  "tests/hunting.test.mjs"
+ ],
+ "injections": [
+  {
+   "name": "ducks and buffalo in every month",
+   "file": "sim/hunting.mjs",
+   "failed": [
+    "the quarry a place holds is fixed by its ground and the season, and deer are everywhere game is"
+   ]
+  },
+  {
+   "name": "the quarry ignores the cover it keeps to",
+   "file": "sim/hunting.mjs",
+   "failed": [
+    "the quarry a place holds is fixed by its ground and the season, and deer are everywhere game is"
+   ]
+  },
+  {
+   "name": "the control does not say what would come",
+   "file": "sim/hunting.mjs",
+   "failed": [
+    "the control says what would come to a place and what it would bring home, before anybody is sent"
+   ]
+  },
+  {
+   "name": "every kill is a deer's meat",
+   "file": "sim/chores.mjs",
+   "failed": [
+    "a hunt brings the quarry its place holds: what it gives comes home, only a deer is drawn, and the family is told"
+   ]
+  },
+  {
+   "name": "every kill brings a hide",
+   "file": "sim/chores.mjs",
+   "failed": [
+    "a hunt brings the quarry its place holds: what it gives comes home, only a deer is drawn, and the family is told"
+   ]
+  },
+  {
+   "name": "a deer drawn for any quarry",
+   "file": "sim/chores.mjs",
+   "failed": [
+    "a hunt brings the quarry its place holds: what it gives comes home, only a deer is drawn, and the family is told"
+   ]
+  },
+  {
+   "name": "ducks and geese wait as long as the ground",
+   "file": "sim/hunting.mjs",
+   "failed": [
+    "in the winter the ducks and geese sit on the coast in numbers, and the wait for them is short"
+   ]
+  },
+  {
+   "name": "an old class given the biomes' quarry",
+   "file": "sim/hunting.mjs",
+   "failed": [
+    "a class of the old rules keeps its deer: no quarry, the old yield, and a hunting place stored before is still read"
+   ]
+  },
+  {
+   "name": "a hunting place naming no known quarry is accepted",
+   "file": "sim/world.mjs",
+   "failed": [
+    "a class of the old rules keeps its deer: no quarry, the old yield, and a hunting place stored before is still read"
+   ]
+  },
+  {
+   "name": "the logs fetched never reach the pile",
+   "file": "sim/chores.mjs",
+   "failed": [
+    "a family can fetch logs from the nearest timber with the ox and wagon, told the cost in hours and miles",
+    "families nobody plays on the real land fell, haul and raise houses of pieces, and a family with no timber of its own fetches its logs"
+   ]
+  },
+  {
+   "name": "logs fetched however the family asked to go",
+   "file": "sim/chores.mjs",
+   "failed": [
+    "a family can fetch logs from the nearest timber with the ox and wagon, told the cost in hours and miles"
+   ]
+  },
+  {
+   "name": "asking the cost writes the timber into the map",
+   "file": "sim/chores.mjs",
+   "failed": [
+    "asking where the timber is, is not a change to the map"
+   ]
+  },
+  {
+   "name": "fetching logs offered without an axe",
+   "file": "sim/chores.mjs",
+   "failed": [
+    "a family can fetch logs from the nearest timber with the ox and wagon, told the cost in hours and miles"
+   ]
+  },
+  {
+   "name": "a family with no timber of its own always builds a jacal",
+   "file": "sim/neighbours.mjs",
+   "failed": [
+    "a family nobody plays with no timber of its own fetches logs when timber is near, and builds a jacal when none is",
+    "families nobody plays on the real land fell, haul and raise houses of pieces, and a family with no timber of its own fetches its logs"
+   ]
+  },
+  {
+   "name": "a fence costs the same however far the rails come",
+   "file": "sim/fields.mjs",
+   "failed": [
+    "a fence takes as long as its rails are far: at hand in the timber, carried across the prairie, mesquite in the brush"
+   ]
+  },
+  {
+   "name": "the fence chore ignores the country",
+   "file": "sim/chores.mjs",
+   "failed": [
+    "a fence takes as long as its rails are far: at hand in the timber, carried across the prairie, mesquite in the brush"
+   ]
+  }
+ ]
+}

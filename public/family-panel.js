@@ -38,6 +38,7 @@ export const PANEL_SUMMARIES = Object.freeze({
   'buy-furniture': 'Go to the carpenter in town and buy a piece of furniture for coin or food.',
   'fell-trees': 'Fell the trees at a place in timber you choose on the family’s land.',
   'haul-logs': 'Bring the felled logs lying out to the house.',
+  'fetch-logs': 'Take the ox and wagon to the nearest timber, off your land if need be, and bring six logs home.',
   'enlist-regular': 'Go to San Felipe and enlist in the regular army for $24 and 800 acres of land, promised.',
   'enlist-auxiliary': 'Go to San Felipe and sign on as an auxiliary volunteer, for 640 acres or 320, promised.',
   'join-garrison': 'Go to Béxar and join the men holding the town and the Alamo.',
@@ -89,6 +90,9 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
   // The road's chores (sim/road.mjs, docs/ROAD_EAST.md): no frame yet. stand-in: docs/ART_REQUESTS.md, request 2026-09-16 -
   // the road's icons; each is a glyph drawn by `drawGlyph` until `icon-<key>` is registered, which `drawIcon` then prefers.
   ['hunt-road', { glyph: 'hunt-road' }], ['tend-sick', { glyph: 'tend-sick' }], ['trade-crossing', { glyph: 'trade-crossing' }],
+  // Fetching logs from the timber (sim/chores.mjs, docs/BIOME_GAMEPLAY.md §3.2): no frame yet. stand-in: docs/ART_REQUESTS.md,
+  // request 2026-09-19 - the logs fetched from the timber; a glyph drawn by `drawGlyph` until `icon-fetch-logs` is registered.
+  ['fetch-logs', { glyph: 'fetch-logs' }],
 ]));
 /** The camp's work, the chores a man serving with Houston's army is offered (sim/camp.mjs); the only work a serving row shows. */
 export const CAMP_CHORES = Object.freeze(['camp-drill', 'camp-forage', 'camp-guard', 'camp-scout']);
@@ -510,6 +514,15 @@ function drawGlyph(ctx, glyph, size) {
     ctx.beginPath(); ctx.moveTo(12, 30); ctx.lineTo(12, 22); ctx.moveTo(36, 30); ctx.lineTo(36, 22); ctx.stroke();
     ctx.fillStyle = '#c9a227'; ctx.beginPath(); ctx.arc(24, 16, 6, 0, Math.PI * 2); ctx.fill();
     ctx.strokeStyle = '#7a5a10'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(24, 16, 6, 0, Math.PI * 2); ctx.stroke();
+  } else if (glyph === 'fetch-logs') {
+    // Logs laid across a wagon's bed, on two wheels: fetching logs from the timber (docs/BIOME_GAMEPLAY.md §3.2).
+    ctx.strokeStyle = '#3a2a18';
+    ctx.fillStyle = '#8a6a3d';
+    for (const y of [14, 20, 26]) { ctx.beginPath(); ctx.ellipse(24, y, 16, 3, 0, 0, Math.PI * 2); ctx.fill(); }
+    ctx.fillStyle = '#d9b48a';
+    for (const y of [14, 20, 26]) { ctx.beginPath(); ctx.arc(40, y, 2.5, 0, Math.PI * 2); ctx.fill(); }
+    ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(6, 31); ctx.lineTo(42, 31); ctx.stroke();
+    ctx.lineWidth = 2.5; for (const x of [14, 34]) { ctx.beginPath(); ctx.arc(x, 38, 6, 0, Math.PI * 2); ctx.stroke(); }
   } else {
     ctx.beginPath(); ctx.arc(24, 24, 6, 0, Math.PI * 2); ctx.fill();
   }

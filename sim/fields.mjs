@@ -10,7 +10,7 @@
 // class saved before this opens as it was and no save version moved.
 import { distanceToPolyline } from './terrain.mjs';
 import { landAround, onRealLand } from './ground.mjs';
-import { woodsRule } from './woods.mjs';
+import { patchAt, timberMilesFrom, woodsRule } from './woods.mjs';
 
 export const PLOT_ACRES = 10;
 /** About an eighth of a mile a side. */
@@ -80,3 +80,40 @@ export function plotAt(world, household, point) {
 export const clearingSpells = plot => CLEARING_SPELLS[plot.ground] ?? CLEARING_SPELLS.timber;
 /** The tool clearing this ground wants: timber is felled, prairie and brush are grubbed and broken with the hoe. */
 export const clearingTool = plot => plot.ground === 'timber' ? 'axe' : 'hoe';
+
+/**
+ * Fencing by the country (docs/BIOME_GAMEPLAY.md §3.3, `FIC-GONZ-067`). Rails are split from timber - oak, cedar and ash, "valuable
+ * for fencing and building" - and mesquite made fence posts as good as cedar (`HIST-TEX-111`); a plot out on the open prairie
+ * has its rails carried from the nearest timber, which is the work that makes the prairie's easy clearing (`HIST-GONZ-039`) no
+ * free gift. Ticks of work: splitting ten acres' rails where timber stands by, and more for every mile the rails come from.
+ * On a class whose woods are not the biomes of 1836 every fence is the old eight ticks, as it always was.
+ */
+export const FENCE_TICKS = 8;
+/** Ticks more for every mile the nearest timber stands from the plot: the rails for ten acres come in several loads. */
+export const FENCE_TICKS_A_MILE = 4;
+/** Nearer than this the timber is at hand. Further than `FENCE_REACH` it is as far as the rails are ever carried from. */
+export const FENCE_NEAR_MILES = 0.25, FENCE_REACH = 3;
+/** The stands whose own mesquite makes the fence: posts and brush where the plot stands (Holley p. 43; the brush fence at Béxar, `HIST-TEX-111`). */
+const MESQUITE_FENCE = new Set(['mesquite-savanna', 'chaparral']);
+
+/** How this plot would be fenced and what it costs: `{ ticks, how, miles }`, `how` one of rails, mesquite or hauled. */
+export function fenceWork(world, household, plot) {
+  if (!plot || woodsRule(world) !== 'biomes' || !onRealLand(world)) return { ticks: FENCE_TICKS, how: 'rails', miles: 0 };
+  const land = landAround({ minX: plot.x - 4, minY: plot.y - 4, maxX: plot.x + 4, maxY: plot.y + 4 });
+  const options = { rule: 'biomes', nearCreek: land.nearCreek };
+  if (MESQUITE_FENCE.has(patchAt(plot, options).stand)) return { ticks: FENCE_TICKS, how: 'mesquite', miles: 0 };
+  const miles = timberMilesFrom(plot, options, FENCE_REACH);
+  if (miles !== null && miles <= FENCE_NEAR_MILES) return { ticks: FENCE_TICKS, how: 'rails', miles };
+  const far = miles === null ? FENCE_REACH : round(miles, 1);
+  return { ticks: FENCE_TICKS + Math.round(FENCE_TICKS_A_MILE * far), how: 'hauled', miles: miles === null ? null : far };
+}
+
+/** How the fence would go up, in the words on the control: "Rails carried from the timber 1.2 miles off: about 5 hours." */
+export function fenceWords(work) {
+  const hours = Math.max(1, Math.round(work.ticks / 3));
+  if (work.how === 'mesquite') return `Mesquite posts and brush from where it stands: about ${hours} hours.`;
+  if (work.how === 'rails') return `Rails split from the timber at hand: about ${hours} hours.`;
+  return work.miles === null
+    ? `No timber within ${FENCE_REACH} miles: the rails come from far off, about ${hours} hours.`
+    : `Rails carried from the timber ${work.miles} miles off: about ${hours} hours.`;
+}

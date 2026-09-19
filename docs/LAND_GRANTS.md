@@ -145,7 +145,11 @@ Built on both maps, in `sim/fields.mjs` (the plots as the field), `sim/improveme
   Refused: not one of the family's plots; already cleared; no axe for timber; no hoe, or a worn one; the lobby; before the
   house site. *"Temperance finished clearing ten acres of timber a quarter mile south-west of the house. The field is 20 acres now."*
 - **Fencing** walks out and splits rails for eight ticks round one cleared plot. Refused on staked ground, on a fenced plot,
-  and while somebody else is already fencing it.
+  and while somebody else is already fencing it. **Amended 2026-09-19** ([BIOME_GAMEPLAY](BIOME_GAMEPLAY.md) §3.3,
+  `FIC-GONZ-067`): on a class of the biomes the rails come from the nearest timber - eight ticks where timber stands within a
+  quarter mile of the plot or the plot is in mesquite prairie or chaparral (mesquite posts and brush), four more for every mile
+  to the nearest timber, at most three - and the plot's words say it: *"Rails carried from the timber 1.4 miles off: about 5
+  hours."* Every other class fences in eight.
 - **The field is the cleared plots.** Planting costs two seed a cleared plot, walks out to each cleared plot in turn (nearest
   first) and back, and marks each one sown; harvest walks the round again and brings in five a sown plot, the wagon wanted
   from three. **A plot cleared while the crop grows is not in it** (`plot.sown`): found while designing, because one crop state

@@ -9,6 +9,7 @@ import { advanceRoutine } from './routines.mjs';
 import { calendarMinutes } from './clock.mjs';
 import { advanceDirectors, handleChoice, handleMarch, handleRumor, directorProjection } from './directors.mjs';
 import { abandonChore, advanceChores, answerChore, askProjection, beginChore, CHORES, choresFor, skillsFor, SKILL_CAP, toolState } from './chores.mjs';
+import { GAME } from './hunting.mjs';
 import { bringAlong, hasWords, holderOf, keepWithRiders, leaveBehind, modeWith, NOUN } from './keeping.mjs';
 import { SERVING_ACTIONS, recallFromService, servingWhy, winterInvalid } from './winter.mjs';
 import { answerCourier } from './alamo.mjs';
@@ -949,7 +950,7 @@ export function validateWorld(world) {
     // A hunt on the family's own land knows where it is and how good the ground is (sim/hunting.mjs). Absent on every other chore.
     const hunted = entity.chore?.id === 'hunt-land' ? entity.chore.ground : undefined;
     if (entity.chore?.id === 'fell-trees' && (!Number.isFinite(entity.chore.ground?.x) || !Number.isFinite(entity.chore.ground?.y))) throw new Error('Invalid felling place');
-    if (hunted !== undefined && (!Number.isFinite(hunted?.x) || !Number.isFinite(hunted.y) || !(hunted.game >= 0 && hunted.game <= 1) || typeof hunted.cover !== 'string' || !Number.isFinite(hunted.toward?.x) || !Number.isFinite(hunted.toward?.y))) throw new Error('Invalid hunting place');
+    if (hunted !== undefined && (!Number.isFinite(hunted?.x) || !Number.isFinite(hunted.y) || !(hunted.game >= 0 && hunted.game <= 1) || typeof hunted.cover !== 'string' || !Number.isFinite(hunted.toward?.x) || !Number.isFinite(hunted.toward?.y) || (hunted.quarry !== undefined && !GAME[hunted.quarry]))) throw new Error('Invalid hunting place');
     if (entity.travel && (!Array.isArray(entity.travel.points) || entity.travel.points.length < 2 || !Number.isFinite(entity.travel.progress) || !Number.isFinite(entity.travel.speed) || entity.travel.speed <= 0 || entity.travel.progress < 0 || entity.travel.progress > entity.travel.distance)) throw new Error('Invalid travel');
     // Absent on every journey over open road and every class saved before the going (sim/ground.mjs), which travels as it did.
     if (entity.travel?.pace !== undefined && (!Array.isArray(entity.travel.pace) || entity.travel.pace.some(run => !Array.isArray(run) || !Number.isInteger(run[0]) || run[0] < 0 || run[0] >= entity.travel.points.length - 1 || !Number.isFinite(run[1]) || run[1] <= 0))) throw new Error('Invalid going');
