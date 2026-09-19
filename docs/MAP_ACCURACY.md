@@ -242,6 +242,14 @@ longer zooms out to the invented province's 740 by 510 miles, only to the 301 by
   bearing; the map's river through the town is the reconstruction's 1836 river, joined to the real line where the town
   ends; the Alamo compound keeps its plan's compass. `ceiling:` the panorama draws the church about 600 ft short of its
   true distance from the plaza. `tests/bexar-layout.test.mjs`.
+- The Alamo compound at its historical dimensions, in the towns' style (2026-09-18, `HIST-TEX-090` to `-092`,
+  [ALAMO_LAYOUT.md](ALAMO_LAYOUT.md) "On the map"): the church 105 ft 8¼ in by 62 ft 11⅜ in to its outer faces with 4-ft walls
+  22½ ft high, the long barrack 191 ft by 20 and two storeys, the low barrack 114 by 17 with the gate through it, a 16 ft 9 in
+  west range against 33-inch walls, the church front 290 ft from the west wall; drawn on its true footprint at its true
+  height times `DRAWN_HEIGHT`, with the library's painted stone. Placement and bearing are unchanged: nothing read moves the
+  church off 29.42583, -98.48611 or turns the plan. The 600-ft `ceiling:` above is not closed by this: it is where the
+  town's frame puts the compound relative to the plaza (`FIC-GONZ-058`), not the compound's own dimensions, and moving the
+  compound alone would part it from the Plaza de Valero and the road to it. `tests/alamo-dimensions.test.mjs`.
 - A creek's timber band and the kept rivers round each settlement in `world.map.terrain` are unchanged, and still carry
   the seed's jitter; since the woods tiles they are not drawn on a real-land class.
 - The Lynchburg ferry point is the present crossing; the 1836 landing may have been a few hundred yards off it.

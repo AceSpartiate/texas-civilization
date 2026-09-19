@@ -1,0 +1,69 @@
+{
+  "result": "PASS",
+  "label": "after",
+  "date": "2026-09-19T03:39:56.664Z",
+  "sameComputerOnly": true,
+  "shots": [
+    {
+      "place": "gonzales",
+      "zoom": "town",
+      "scale": 451.82,
+      "path": "docs/evidence/alamo-after-gonzales-town.png"
+    },
+    {
+      "place": "gonzales",
+      "zoom": "street",
+      "scale": 1487.7,
+      "path": "docs/evidence/alamo-after-gonzales-street.png"
+    },
+    {
+      "place": "gonzales",
+      "zoom": "closest",
+      "scale": 4736.84,
+      "path": "docs/evidence/alamo-after-gonzales-closest.png"
+    },
+    {
+      "place": "bexar",
+      "zoom": "town",
+      "scale": 423.35,
+      "path": "docs/evidence/alamo-after-bexar-town.png",
+      "alamoDrawn": {
+        "blocks": 9,
+        "walls": 44,
+        "floors": 10,
+        "pixelsPerFoot": 0.08017998683514171,
+        "textured": false,
+        "drawnHeight": 4
+      }
+    },
+    {
+      "place": "bexar",
+      "zoom": "street",
+      "scale": 1393.96,
+      "path": "docs/evidence/alamo-after-bexar-street.png",
+      "alamoDrawn": {
+        "blocks": 9,
+        "walls": 44,
+        "floors": 10,
+        "pixelsPerFoot": 0.26400760249509264,
+        "textured": true,
+        "drawnHeight": 4
+      }
+    },
+    {
+      "place": "bexar",
+      "zoom": "closest",
+      "scale": 4736.84,
+      "path": "docs/evidence/alamo-after-bexar-closest.png",
+      "alamoDrawn": {
+        "blocks": 9,
+        "walls": 44,
+        "floors": 10,
+        "pixelsPerFoot": 0.8971291866028709,
+        "textured": true,
+        "drawnHeight": 4
+      }
+    }
+  ],
+  "errors": []
+}

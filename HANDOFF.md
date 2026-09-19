@@ -1,5 +1,23 @@
 # Claude handoff — Astra foundation
 
+**The Alamo in the towns' style, at its historical dimensions, 2026-09-18:** [ALAMO_LAYOUT.md](docs/ALAMO_LAYOUT.md) *On
+the map*, `HIST-TEX-090` to `-092`. Owner: "bring the Alamo complex into the same art style as the rest of the game. ensure
+it matches the dimensions of the historical building." Researched from the Alamo's model, Ivey's excavations of the west
+wall, the 1772 inventory, the 1926 *Light*, Myers and Schoelwer, disagreements recorded (the church's length 75 ft or 105
+ft 8¼ in; the compound's extent; the palisade 75 or 150 ft). As drawn before: the west range 32.5 ft deep against Ivey's 16
+ft 9 in, the church's walls 2½ ft against 4, the church 69 ft north to south against 62 ft 11⅜ in, the barracks sized on
+their centre lines - all corrected in `public/alamo-layout.js`; placement, `alamoOnMap` and the bearing unchanged. The map
+draws the compound from `alamoMassing` (`public/bexar-art.js`) on its true footprint at true height × `DRAWN_HEIGHT`, with
+parapeted roofs, the library's painted stone, outlines and shadows, and a solid plaza. `npm test` 715
+(`tests/alamo-dimensions.test.mjs` +3, each proven by injection with the whole suite run). Evidence: `node
+scripts/alamo-style-shots.mjs`, [before](docs/evidence/alamo-before-bexar-closest.png) and
+[after](docs/evidence/alamo-after-bexar-closest.png) beside Gonzales, same computer. `ceiling:` the church's carved west
+front is edge-on to the north-looking camera and not shown; the roofless church reads as a stone mass; the palisade stays
+150 ft; stand-in: one stone module on every face (ART_REQUESTS 2026-09-18). Seen on review: it is still a plan drawn in
+stone rather than a building like the towns' sprites, and the woods stand thick round a compound that stood in open ground
+and fields - both for the owner. A fetch of the National Register nomination saved a PDF against the no-download rule; it
+was deleted at once.
+
 **The army's march east, a night at each house on the road, 2026-09-18:** [HOUSTON_CAMP.md](docs/HOUSTON_CAMP.md) *The
 march east*, `HIST-TEX-088`. Owner, by multiple choice: the march's stops made places. Donoho's, McCarley's, Roberts' and
 Burnett's are places at their markers (kind `farmstead`, named from the zoom a landing is), the road to Harrisburg laid leg

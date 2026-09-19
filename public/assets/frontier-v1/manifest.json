@@ -40109,90 +40109,115 @@
         "westWallFeet": 537.4166666666666,
         "longBarrackLengthFeet": 191.11458333333334,
         "longBarrackWidthFeet": 19.916666666666668,
+        "longBarrackHeightFeet": 18,
         "churchLengthFeet": 105.6875,
-        "churchWidthFeet": 62.947916666666664
+        "churchWidthFeet": 62.947916666666664,
+        "churchWallFeet": 4,
+        "churchHeightFeet": 22.5,
+        "churchCorner": {
+          "x": 291,
+          "y": 355
+        },
+        "lowBarrackLengthFeet": 114,
+        "lowBarrackDepthFeet": 17,
+        "westRangeDepthFeet": 16.75,
+        "outerWallFeet": 2.75,
+        "claims": [
+          "HIST-TEX-090",
+          "HIST-TEX-091",
+          "HIST-TEX-092"
+        ]
       },
       "rooms": [
         {
           "id": "west-room-1",
           "label": "Travis / Joe quarters · reconstructed",
-          "x": 5,
+          "x": 0,
           "y": 42,
-          "width": 25,
+          "width": 14.125,
           "height": 45,
-          "reconstruction": true
+          "reconstruction": true,
+          "wallHeight": 12.5
         },
         {
           "id": "west-room-2",
           "label": "Officers’ quarters",
-          "x": 5,
+          "x": 0,
           "y": 87,
-          "width": 25,
+          "width": 14.125,
           "height": 45,
-          "reconstruction": true
+          "reconstruction": true,
+          "wallHeight": 12.5
         },
         {
           "id": "west-room-3",
           "label": "West range · room 3",
-          "x": 5,
+          "x": 0,
           "y": 132,
-          "width": 25,
+          "width": 14.125,
           "height": 45,
-          "reconstruction": true
+          "reconstruction": true,
+          "wallHeight": 12.5
         },
         {
           "id": "west-room-4",
           "label": "West range · room 4",
-          "x": 5,
+          "x": 0,
           "y": 177,
-          "width": 25,
+          "width": 14.125,
           "height": 45,
-          "reconstruction": true
+          "reconstruction": true,
+          "wallHeight": 12.5
         },
         {
           "id": "west-room-5",
           "label": "West range · room 5",
-          "x": 5,
+          "x": 0,
           "y": 222,
-          "width": 25,
+          "width": 14.125,
           "height": 45,
-          "reconstruction": true
+          "reconstruction": true,
+          "wallHeight": 12.5
         },
         {
           "id": "west-room-6",
           "label": "West range · room 6",
-          "x": 5,
+          "x": 0,
           "y": 267,
-          "width": 25,
+          "width": 14.125,
           "height": 45,
-          "reconstruction": true
+          "reconstruction": true,
+          "wallHeight": 12.5
         },
         {
           "id": "west-room-7",
           "label": "West range · room 7",
-          "x": 5,
+          "x": 0,
           "y": 312,
-          "width": 25,
+          "width": 14.125,
           "height": 45,
-          "reconstruction": true
+          "reconstruction": true,
+          "wallHeight": 12.5
         },
         {
           "id": "west-room-8",
           "label": "West range · room 8",
-          "x": 5,
+          "x": 0,
           "y": 357,
-          "width": 25,
+          "width": 14.125,
           "height": 45,
-          "reconstruction": true
+          "reconstruction": true,
+          "wallHeight": 12.5
         },
         {
           "id": "west-room-9",
           "label": "West range · room 9",
-          "x": 5,
+          "x": 0,
           "y": 402,
-          "width": 25,
+          "width": 14.125,
           "height": 45,
-          "reconstruction": true
+          "reconstruction": true,
+          "wallHeight": 12.5
         },
         {
           "id": "north-quarter",
@@ -40215,56 +40240,62 @@
         {
           "id": "long-barrack-1",
           "label": "Long Barrack · room 1",
-          "x": 211,
-          "y": 190,
-          "width": 19.916666666666668,
-          "height": 31.852430555555557,
-          "reconstruction": true
+          "x": 212.25,
+          "y": 191.25,
+          "width": 17.416666666666668,
+          "height": 31.43576388888889,
+          "reconstruction": true,
+          "wallHeight": 18
         },
         {
           "id": "long-barrack-2",
           "label": "Long Barrack · room 2",
-          "x": 211,
-          "y": 221.85243055555554,
-          "width": 19.916666666666668,
-          "height": 31.852430555555557,
-          "reconstruction": true
+          "x": 212.25,
+          "y": 222.68576388888889,
+          "width": 17.416666666666668,
+          "height": 31.43576388888889,
+          "reconstruction": true,
+          "wallHeight": 18
         },
         {
           "id": "long-barrack-3",
           "label": "Long Barrack · room 3",
-          "x": 211,
-          "y": 253.70486111111111,
-          "width": 19.916666666666668,
-          "height": 31.852430555555557,
-          "reconstruction": true
+          "x": 212.25,
+          "y": 254.12152777777777,
+          "width": 17.416666666666668,
+          "height": 31.43576388888889,
+          "reconstruction": true,
+          "wallHeight": 18
         },
         {
           "id": "long-barrack-4",
           "label": "Long Barrack · room 4",
-          "x": 211,
+          "x": 212.25,
           "y": 285.5572916666667,
-          "width": 19.916666666666668,
-          "height": 31.852430555555557,
-          "reconstruction": true
+          "width": 17.416666666666668,
+          "height": 31.43576388888889,
+          "reconstruction": true,
+          "wallHeight": 18
         },
         {
           "id": "long-barrack-5",
           "label": "Long Barrack · room 5",
-          "x": 211,
-          "y": 317.40972222222223,
-          "width": 19.916666666666668,
-          "height": 31.852430555555557,
-          "reconstruction": true
+          "x": 212.25,
+          "y": 316.99305555555554,
+          "width": 17.416666666666668,
+          "height": 31.43576388888889,
+          "reconstruction": true,
+          "wallHeight": 18
         },
         {
           "id": "long-barrack-6",
           "label": "Long Barrack · room 6",
-          "x": 211,
-          "y": 349.2621527777778,
-          "width": 19.916666666666668,
-          "height": 31.852430555555557,
-          "reconstruction": true
+          "x": 212.25,
+          "y": 348.42881944444446,
+          "width": 17.416666666666668,
+          "height": 31.43576388888889,
+          "reconstruction": true,
+          "wallHeight": 18
         },
         {
           "id": "pen-cattle",
@@ -40309,104 +40340,112 @@
         {
           "id": "low-west",
           "label": "Low Barrack · west room",
-          "x": 55,
-          "y": 520.4166666666666,
-          "width": 41,
-          "height": 17,
+          "x": 56.25,
+          "y": 523.0416666666666,
+          "width": 39.75,
+          "height": 14.5,
           "reconstruction": true
         },
         {
           "id": "south-entry",
           "label": "Low Barrack · gate passage",
           "x": 96,
-          "y": 520.4166666666666,
+          "y": 523.0416666666666,
           "width": 10,
-          "height": 17,
+          "height": 14.5,
           "reconstruction": true
         },
         {
           "id": "low-east",
           "label": "Low Barrack · east room",
           "x": 106,
-          "y": 520.4166666666666,
-          "width": 63,
-          "height": 17,
+          "y": 523.0416666666666,
+          "width": 61.75,
+          "height": 14.5,
           "reconstruction": true
         },
         {
           "id": "church-nave",
           "label": "Church · roofless nave",
-          "x": 291,
-          "y": 373.8489583333333,
-          "width": 61,
-          "height": 25.25,
+          "x": 293,
+          "y": 371.8489583333333,
+          "width": 59,
+          "height": 29.25,
           "reconstruction": true,
           "roof": false,
-          "wallHeight": 23
+          "wallHeight": 22.5,
+          "wallThickness": 4
         },
         {
           "id": "church-transept",
           "label": "Church · transepts",
           "x": 352,
-          "y": 355,
+          "y": 357,
           "width": 26,
-          "height": 62.947916666666664,
+          "height": 58.947916666666686,
           "reconstruction": true,
           "roof": false,
-          "wallHeight": 23
+          "wallHeight": 22.5,
+          "wallThickness": 4
         },
         {
           "id": "church-chancel",
           "label": "Church · chancel",
           "x": 378,
-          "y": 373.8489583333333,
-          "width": 18.6875,
-          "height": 25.25,
+          "y": 371.8489583333333,
+          "width": 16.6875,
+          "height": 29.25,
           "reconstruction": true,
           "roof": false,
-          "wallHeight": 23
+          "wallHeight": 22.5,
+          "wallThickness": 4
         },
         {
           "id": "sacristy",
           "label": "Sacristy · survivors’ refuge",
           "x": 310,
-          "y": 348.8489583333333,
+          "y": 357,
           "width": 32.6,
-          "height": 15.5,
+          "height": 14.848958333333314,
           "reconstruction": true,
-          "wallHeight": 12
+          "wallHeight": 12,
+          "wallThickness": 4
         },
         {
           "id": "church-side-room",
           "label": "Church · side room",
-          "x": 306,
-          "y": 364.3489583333333,
-          "width": 27,
-          "height": 9.5,
+          "x": 342.6,
+          "y": 357,
+          "width": 9.399999999999977,
+          "height": 14.848958333333314,
           "reconstruction": true,
-          "roof": false
+          "roof": false,
+          "wallHeight": 12,
+          "wallThickness": 4
         },
         {
           "id": "confessional",
           "label": "Church · confessional",
-          "x": 291,
-          "y": 361.8489583333333,
+          "x": 293,
+          "y": 359.8489583333333,
           "width": 12,
           "height": 12,
           "reconstruction": true,
           "roof": false,
-          "wallHeight": 12
+          "wallHeight": 12,
+          "wallThickness": 4
         },
         {
           "id": "baptistry",
           "label": "Church · baptistry",
-          "x": 291,
-          "y": 399.0989583333333,
+          "x": 293,
+          "y": 401.0989583333333,
           "width": 12,
           "height": 12,
           "reconstruction": true,
           "roof": false,
-          "wallHeight": 12
+          "wallHeight": 12,
+          "wallThickness": 4
         },
         {
           "id": "powder-store",
@@ -40608,10 +40647,24 @@
           },
           "b": {
             "x": 0,
+            "y": 447
+          },
+          "thickness": 2.75,
+          "heightFeet": 12.5,
+          "material": "limestone"
+        },
+        {
+          "id": "west-perimeter-south",
+          "a": {
+            "x": 0,
+            "y": 447
+          },
+          "b": {
+            "x": 0,
             "y": 537.4166666666666
           },
-          "thickness": 2.5,
-          "heightFeet": 10,
+          "thickness": 2.75,
+          "heightFeet": 7,
           "material": "limestone"
         },
         {
@@ -40624,7 +40677,7 @@
             "x": 200,
             "y": 537.4166666666666
           },
-          "thickness": 2.5,
+          "thickness": 2.75,
           "heightFeet": 10,
           "material": "limestone"
         },
@@ -40638,7 +40691,7 @@
             "x": 230.92,
             "y": 190
           },
-          "thickness": 2.5,
+          "thickness": 2.75,
           "heightFeet": 10,
           "material": "limestone"
         },
@@ -40652,7 +40705,7 @@
             "x": 200,
             "y": 537.4166666666666
           },
-          "thickness": 2.5,
+          "thickness": 2.75,
           "heightFeet": 10,
           "material": "limestone"
         },
@@ -40673,540 +40726,540 @@
         {
           "id": "west-room-1-n",
           "a": {
-            "x": 5,
+            "x": 0,
             "y": 42
           },
           "b": {
-            "x": 30,
+            "x": 14.125,
             "y": 42
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-1"
         },
         {
           "id": "west-room-1-e",
           "a": {
-            "x": 30,
+            "x": 14.125,
             "y": 42
           },
           "b": {
-            "x": 30,
+            "x": 14.125,
             "y": 87
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-1"
         },
         {
           "id": "west-room-1-s",
           "a": {
-            "x": 30,
+            "x": 14.125,
             "y": 87
           },
           "b": {
-            "x": 5,
+            "x": 0,
             "y": 87
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-1"
         },
         {
           "id": "west-room-1-w",
           "a": {
-            "x": 5,
+            "x": 0,
             "y": 87
           },
           "b": {
-            "x": 5,
+            "x": 0,
             "y": 42
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-1"
         },
         {
           "id": "west-room-2-n",
           "a": {
-            "x": 5,
+            "x": 0,
             "y": 87
           },
           "b": {
-            "x": 30,
+            "x": 14.125,
             "y": 87
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-2"
         },
         {
           "id": "west-room-2-e",
           "a": {
-            "x": 30,
+            "x": 14.125,
             "y": 87
           },
           "b": {
-            "x": 30,
+            "x": 14.125,
             "y": 132
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-2"
         },
         {
           "id": "west-room-2-s",
           "a": {
-            "x": 30,
+            "x": 14.125,
             "y": 132
           },
           "b": {
-            "x": 5,
+            "x": 0,
             "y": 132
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-2"
         },
         {
           "id": "west-room-2-w",
           "a": {
-            "x": 5,
+            "x": 0,
             "y": 132
           },
           "b": {
-            "x": 5,
+            "x": 0,
             "y": 87
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-2"
         },
         {
           "id": "west-room-3-n",
           "a": {
-            "x": 5,
+            "x": 0,
             "y": 132
           },
           "b": {
-            "x": 30,
+            "x": 14.125,
             "y": 132
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-3"
         },
         {
           "id": "west-room-3-e",
           "a": {
-            "x": 30,
+            "x": 14.125,
             "y": 132
           },
           "b": {
-            "x": 30,
+            "x": 14.125,
             "y": 177
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-3"
         },
         {
           "id": "west-room-3-s",
           "a": {
-            "x": 30,
+            "x": 14.125,
             "y": 177
           },
           "b": {
-            "x": 5,
+            "x": 0,
             "y": 177
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-3"
         },
         {
           "id": "west-room-3-w",
           "a": {
-            "x": 5,
+            "x": 0,
             "y": 177
           },
           "b": {
-            "x": 5,
+            "x": 0,
             "y": 132
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-3"
         },
         {
           "id": "west-room-4-n",
           "a": {
-            "x": 5,
+            "x": 0,
             "y": 177
           },
           "b": {
-            "x": 30,
+            "x": 14.125,
             "y": 177
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-4"
         },
         {
           "id": "west-room-4-e",
           "a": {
-            "x": 30,
+            "x": 14.125,
             "y": 177
           },
           "b": {
-            "x": 30,
+            "x": 14.125,
             "y": 222
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-4"
         },
         {
           "id": "west-room-4-s",
           "a": {
-            "x": 30,
+            "x": 14.125,
             "y": 222
           },
           "b": {
-            "x": 5,
+            "x": 0,
             "y": 222
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-4"
         },
         {
           "id": "west-room-4-w",
           "a": {
-            "x": 5,
+            "x": 0,
             "y": 222
           },
           "b": {
-            "x": 5,
+            "x": 0,
             "y": 177
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-4"
         },
         {
           "id": "west-room-5-n",
           "a": {
-            "x": 5,
+            "x": 0,
             "y": 222
           },
           "b": {
-            "x": 30,
+            "x": 14.125,
             "y": 222
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-5"
         },
         {
           "id": "west-room-5-e",
           "a": {
-            "x": 30,
+            "x": 14.125,
             "y": 222
           },
           "b": {
-            "x": 30,
+            "x": 14.125,
             "y": 267
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-5"
         },
         {
           "id": "west-room-5-s",
           "a": {
-            "x": 30,
+            "x": 14.125,
             "y": 267
           },
           "b": {
-            "x": 5,
+            "x": 0,
             "y": 267
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-5"
         },
         {
           "id": "west-room-5-w",
           "a": {
-            "x": 5,
+            "x": 0,
             "y": 267
           },
           "b": {
-            "x": 5,
+            "x": 0,
             "y": 222
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-5"
         },
         {
           "id": "west-room-6-n",
           "a": {
-            "x": 5,
+            "x": 0,
             "y": 267
           },
           "b": {
-            "x": 30,
+            "x": 14.125,
             "y": 267
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-6"
         },
         {
           "id": "west-room-6-e",
           "a": {
-            "x": 30,
+            "x": 14.125,
             "y": 267
           },
           "b": {
-            "x": 30,
+            "x": 14.125,
             "y": 312
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-6"
         },
         {
           "id": "west-room-6-s",
           "a": {
-            "x": 30,
+            "x": 14.125,
             "y": 312
           },
           "b": {
-            "x": 5,
+            "x": 0,
             "y": 312
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-6"
         },
         {
           "id": "west-room-6-w",
           "a": {
-            "x": 5,
+            "x": 0,
             "y": 312
           },
           "b": {
-            "x": 5,
+            "x": 0,
             "y": 267
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-6"
         },
         {
           "id": "west-room-7-n",
           "a": {
-            "x": 5,
+            "x": 0,
             "y": 312
           },
           "b": {
-            "x": 30,
+            "x": 14.125,
             "y": 312
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-7"
         },
         {
           "id": "west-room-7-e",
           "a": {
-            "x": 30,
+            "x": 14.125,
             "y": 312
           },
           "b": {
-            "x": 30,
+            "x": 14.125,
             "y": 357
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-7"
         },
         {
           "id": "west-room-7-s",
           "a": {
-            "x": 30,
+            "x": 14.125,
             "y": 357
           },
           "b": {
-            "x": 5,
+            "x": 0,
             "y": 357
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-7"
         },
         {
           "id": "west-room-7-w",
           "a": {
-            "x": 5,
+            "x": 0,
             "y": 357
           },
           "b": {
-            "x": 5,
+            "x": 0,
             "y": 312
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-7"
         },
         {
           "id": "west-room-8-n",
           "a": {
-            "x": 5,
+            "x": 0,
             "y": 357
           },
           "b": {
-            "x": 30,
+            "x": 14.125,
             "y": 357
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-8"
         },
         {
           "id": "west-room-8-e",
           "a": {
-            "x": 30,
+            "x": 14.125,
             "y": 357
           },
           "b": {
-            "x": 30,
+            "x": 14.125,
             "y": 402
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-8"
         },
         {
           "id": "west-room-8-s",
           "a": {
-            "x": 30,
+            "x": 14.125,
             "y": 402
           },
           "b": {
-            "x": 5,
+            "x": 0,
             "y": 402
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-8"
         },
         {
           "id": "west-room-8-w",
           "a": {
-            "x": 5,
+            "x": 0,
             "y": 402
           },
           "b": {
-            "x": 5,
+            "x": 0,
             "y": 357
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-8"
         },
         {
           "id": "west-room-9-n",
           "a": {
-            "x": 5,
+            "x": 0,
             "y": 402
           },
           "b": {
-            "x": 30,
+            "x": 14.125,
             "y": 402
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-9"
         },
         {
           "id": "west-room-9-e",
           "a": {
-            "x": 30,
+            "x": 14.125,
             "y": 402
           },
           "b": {
-            "x": 30,
+            "x": 14.125,
             "y": 447
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-9"
         },
         {
           "id": "west-room-9-s",
           "a": {
-            "x": 30,
+            "x": 14.125,
             "y": 447
           },
           "b": {
-            "x": 5,
+            "x": 0,
             "y": 447
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-9"
         },
         {
           "id": "west-room-9-w",
           "a": {
-            "x": 5,
+            "x": 0,
             "y": 447
           },
           "b": {
-            "x": 5,
+            "x": 0,
             "y": 402
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 12.5,
           "material": "limestone",
           "roomId": "west-room-9"
         },
@@ -41333,360 +41386,360 @@
         {
           "id": "long-barrack-1-n",
           "a": {
-            "x": 211,
-            "y": 190
+            "x": 212.25,
+            "y": 191.25
           },
           "b": {
-            "x": 230.91666666666666,
-            "y": 190
+            "x": 229.66666666666666,
+            "y": 191.25
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 18,
           "material": "limestone",
           "roomId": "long-barrack-1"
         },
         {
           "id": "long-barrack-1-e",
           "a": {
-            "x": 230.91666666666666,
-            "y": 190
+            "x": 229.66666666666666,
+            "y": 191.25
           },
           "b": {
-            "x": 230.91666666666666,
-            "y": 221.85243055555554
+            "x": 229.66666666666666,
+            "y": 222.68576388888889
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 18,
           "material": "limestone",
           "roomId": "long-barrack-1"
         },
         {
           "id": "long-barrack-1-s",
           "a": {
-            "x": 230.91666666666666,
-            "y": 221.85243055555554
+            "x": 229.66666666666666,
+            "y": 222.68576388888889
           },
           "b": {
-            "x": 211,
-            "y": 221.85243055555554
+            "x": 212.25,
+            "y": 222.68576388888889
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 18,
           "material": "limestone",
           "roomId": "long-barrack-1"
         },
         {
           "id": "long-barrack-1-w",
           "a": {
-            "x": 211,
-            "y": 221.85243055555554
+            "x": 212.25,
+            "y": 222.68576388888889
           },
           "b": {
-            "x": 211,
-            "y": 190
+            "x": 212.25,
+            "y": 191.25
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 18,
           "material": "limestone",
           "roomId": "long-barrack-1"
         },
         {
           "id": "long-barrack-2-n",
           "a": {
-            "x": 211,
-            "y": 221.85243055555554
+            "x": 212.25,
+            "y": 222.68576388888889
           },
           "b": {
-            "x": 230.91666666666666,
-            "y": 221.85243055555554
+            "x": 229.66666666666666,
+            "y": 222.68576388888889
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 18,
           "material": "limestone",
           "roomId": "long-barrack-2"
         },
         {
           "id": "long-barrack-2-e",
           "a": {
-            "x": 230.91666666666666,
-            "y": 221.85243055555554
+            "x": 229.66666666666666,
+            "y": 222.68576388888889
           },
           "b": {
-            "x": 230.91666666666666,
-            "y": 253.7048611111111
+            "x": 229.66666666666666,
+            "y": 254.12152777777777
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 18,
           "material": "limestone",
           "roomId": "long-barrack-2"
         },
         {
           "id": "long-barrack-2-s",
           "a": {
-            "x": 230.91666666666666,
-            "y": 253.7048611111111
+            "x": 229.66666666666666,
+            "y": 254.12152777777777
           },
           "b": {
-            "x": 211,
-            "y": 253.7048611111111
+            "x": 212.25,
+            "y": 254.12152777777777
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 18,
           "material": "limestone",
           "roomId": "long-barrack-2"
         },
         {
           "id": "long-barrack-2-w",
           "a": {
-            "x": 211,
-            "y": 253.7048611111111
+            "x": 212.25,
+            "y": 254.12152777777777
           },
           "b": {
-            "x": 211,
-            "y": 221.85243055555554
+            "x": 212.25,
+            "y": 222.68576388888889
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 18,
           "material": "limestone",
           "roomId": "long-barrack-2"
         },
         {
           "id": "long-barrack-3-n",
           "a": {
-            "x": 211,
-            "y": 253.70486111111111
+            "x": 212.25,
+            "y": 254.12152777777777
           },
           "b": {
-            "x": 230.91666666666666,
-            "y": 253.70486111111111
+            "x": 229.66666666666666,
+            "y": 254.12152777777777
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 18,
           "material": "limestone",
           "roomId": "long-barrack-3"
         },
         {
           "id": "long-barrack-3-e",
           "a": {
-            "x": 230.91666666666666,
-            "y": 253.70486111111111
+            "x": 229.66666666666666,
+            "y": 254.12152777777777
           },
           "b": {
-            "x": 230.91666666666666,
+            "x": 229.66666666666666,
             "y": 285.5572916666667
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 18,
           "material": "limestone",
           "roomId": "long-barrack-3"
         },
         {
           "id": "long-barrack-3-s",
           "a": {
-            "x": 230.91666666666666,
+            "x": 229.66666666666666,
             "y": 285.5572916666667
           },
           "b": {
-            "x": 211,
+            "x": 212.25,
             "y": 285.5572916666667
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 18,
           "material": "limestone",
           "roomId": "long-barrack-3"
         },
         {
           "id": "long-barrack-3-w",
           "a": {
-            "x": 211,
+            "x": 212.25,
             "y": 285.5572916666667
           },
           "b": {
-            "x": 211,
-            "y": 253.70486111111111
+            "x": 212.25,
+            "y": 254.12152777777777
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 18,
           "material": "limestone",
           "roomId": "long-barrack-3"
         },
         {
           "id": "long-barrack-4-n",
           "a": {
-            "x": 211,
+            "x": 212.25,
             "y": 285.5572916666667
           },
           "b": {
-            "x": 230.91666666666666,
+            "x": 229.66666666666666,
             "y": 285.5572916666667
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 18,
           "material": "limestone",
           "roomId": "long-barrack-4"
         },
         {
           "id": "long-barrack-4-e",
           "a": {
-            "x": 230.91666666666666,
+            "x": 229.66666666666666,
             "y": 285.5572916666667
           },
           "b": {
-            "x": 230.91666666666666,
-            "y": 317.40972222222223
+            "x": 229.66666666666666,
+            "y": 316.9930555555556
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 18,
           "material": "limestone",
           "roomId": "long-barrack-4"
         },
         {
           "id": "long-barrack-4-s",
           "a": {
-            "x": 230.91666666666666,
-            "y": 317.40972222222223
+            "x": 229.66666666666666,
+            "y": 316.9930555555556
           },
           "b": {
-            "x": 211,
-            "y": 317.40972222222223
+            "x": 212.25,
+            "y": 316.9930555555556
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 18,
           "material": "limestone",
           "roomId": "long-barrack-4"
         },
         {
           "id": "long-barrack-4-w",
           "a": {
-            "x": 211,
-            "y": 317.40972222222223
+            "x": 212.25,
+            "y": 316.9930555555556
           },
           "b": {
-            "x": 211,
+            "x": 212.25,
             "y": 285.5572916666667
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 18,
           "material": "limestone",
           "roomId": "long-barrack-4"
         },
         {
           "id": "long-barrack-5-n",
           "a": {
-            "x": 211,
-            "y": 317.40972222222223
+            "x": 212.25,
+            "y": 316.99305555555554
           },
           "b": {
-            "x": 230.91666666666666,
-            "y": 317.40972222222223
+            "x": 229.66666666666666,
+            "y": 316.99305555555554
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 18,
           "material": "limestone",
           "roomId": "long-barrack-5"
         },
         {
           "id": "long-barrack-5-e",
           "a": {
-            "x": 230.91666666666666,
-            "y": 317.40972222222223
+            "x": 229.66666666666666,
+            "y": 316.99305555555554
           },
           "b": {
-            "x": 230.91666666666666,
-            "y": 349.26215277777777
+            "x": 229.66666666666666,
+            "y": 348.42881944444446
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 18,
           "material": "limestone",
           "roomId": "long-barrack-5"
         },
         {
           "id": "long-barrack-5-s",
           "a": {
-            "x": 230.91666666666666,
-            "y": 349.26215277777777
+            "x": 229.66666666666666,
+            "y": 348.42881944444446
           },
           "b": {
-            "x": 211,
-            "y": 349.26215277777777
+            "x": 212.25,
+            "y": 348.42881944444446
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 18,
           "material": "limestone",
           "roomId": "long-barrack-5"
         },
         {
           "id": "long-barrack-5-w",
           "a": {
-            "x": 211,
-            "y": 349.26215277777777
+            "x": 212.25,
+            "y": 348.42881944444446
           },
           "b": {
-            "x": 211,
-            "y": 317.40972222222223
+            "x": 212.25,
+            "y": 316.99305555555554
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 18,
           "material": "limestone",
           "roomId": "long-barrack-5"
         },
         {
           "id": "long-barrack-6-n",
           "a": {
-            "x": 211,
-            "y": 349.2621527777778
+            "x": 212.25,
+            "y": 348.42881944444446
           },
           "b": {
-            "x": 230.91666666666666,
-            "y": 349.2621527777778
+            "x": 229.66666666666666,
+            "y": 348.42881944444446
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 18,
           "material": "limestone",
           "roomId": "long-barrack-6"
         },
         {
           "id": "long-barrack-6-e",
           "a": {
-            "x": 230.91666666666666,
-            "y": 349.2621527777778
+            "x": 229.66666666666666,
+            "y": 348.42881944444446
           },
           "b": {
-            "x": 230.91666666666666,
-            "y": 381.11458333333337
+            "x": 229.66666666666666,
+            "y": 379.86458333333337
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 18,
           "material": "limestone",
           "roomId": "long-barrack-6"
         },
         {
           "id": "long-barrack-6-s",
           "a": {
-            "x": 230.91666666666666,
-            "y": 381.11458333333337
+            "x": 229.66666666666666,
+            "y": 379.86458333333337
           },
           "b": {
-            "x": 211,
-            "y": 381.11458333333337
+            "x": 212.25,
+            "y": 379.86458333333337
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 18,
           "material": "limestone",
           "roomId": "long-barrack-6"
         },
         {
           "id": "long-barrack-6-w",
           "a": {
-            "x": 211,
-            "y": 381.11458333333337
+            "x": 212.25,
+            "y": 379.86458333333337
           },
           "b": {
-            "x": 211,
-            "y": 349.2621527777778
+            "x": 212.25,
+            "y": 348.42881944444446
           },
           "thickness": 2.5,
-          "heightFeet": 10,
+          "heightFeet": 18,
           "material": "limestone",
           "roomId": "long-barrack-6"
         },
@@ -41933,12 +41986,12 @@
         {
           "id": "low-west-n",
           "a": {
-            "x": 55,
-            "y": 520.4166666666666
+            "x": 56.25,
+            "y": 523.0416666666666
           },
           "b": {
             "x": 96,
-            "y": 520.4166666666666
+            "y": 523.0416666666666
           },
           "thickness": 2.5,
           "heightFeet": 10,
@@ -41949,11 +42002,11 @@
           "id": "low-west-e",
           "a": {
             "x": 96,
-            "y": 520.4166666666666
+            "y": 523.0416666666666
           },
           "b": {
             "x": 96,
-            "y": 537.4166666666666
+            "y": 537.5416666666666
           },
           "thickness": 2.5,
           "heightFeet": 10,
@@ -41964,11 +42017,11 @@
           "id": "low-west-s",
           "a": {
             "x": 96,
-            "y": 537.4166666666666
+            "y": 537.5416666666666
           },
           "b": {
-            "x": 55,
-            "y": 537.4166666666666
+            "x": 56.25,
+            "y": 537.5416666666666
           },
           "thickness": 2.5,
           "heightFeet": 10,
@@ -41978,12 +42031,12 @@
         {
           "id": "low-west-w",
           "a": {
-            "x": 55,
-            "y": 537.4166666666666
+            "x": 56.25,
+            "y": 537.5416666666666
           },
           "b": {
-            "x": 55,
-            "y": 520.4166666666666
+            "x": 56.25,
+            "y": 523.0416666666666
           },
           "thickness": 2.5,
           "heightFeet": 10,
@@ -41994,11 +42047,11 @@
           "id": "south-entry-n",
           "a": {
             "x": 96,
-            "y": 520.4166666666666
+            "y": 523.0416666666666
           },
           "b": {
             "x": 106,
-            "y": 520.4166666666666
+            "y": 523.0416666666666
           },
           "thickness": 2.5,
           "heightFeet": 10,
@@ -42009,11 +42062,11 @@
           "id": "south-entry-e",
           "a": {
             "x": 106,
-            "y": 520.4166666666666
+            "y": 523.0416666666666
           },
           "b": {
             "x": 106,
-            "y": 537.4166666666666
+            "y": 537.5416666666666
           },
           "thickness": 2.5,
           "heightFeet": 10,
@@ -42024,11 +42077,11 @@
           "id": "south-entry-s",
           "a": {
             "x": 106,
-            "y": 537.4166666666666
+            "y": 537.5416666666666
           },
           "b": {
             "x": 96,
-            "y": 537.4166666666666
+            "y": 537.5416666666666
           },
           "thickness": 2.5,
           "heightFeet": 10,
@@ -42039,11 +42092,11 @@
           "id": "south-entry-w",
           "a": {
             "x": 96,
-            "y": 537.4166666666666
+            "y": 537.5416666666666
           },
           "b": {
             "x": 96,
-            "y": 520.4166666666666
+            "y": 523.0416666666666
           },
           "thickness": 2.5,
           "heightFeet": 10,
@@ -42054,11 +42107,11 @@
           "id": "low-east-n",
           "a": {
             "x": 106,
-            "y": 520.4166666666666
+            "y": 523.0416666666666
           },
           "b": {
-            "x": 169,
-            "y": 520.4166666666666
+            "x": 167.75,
+            "y": 523.0416666666666
           },
           "thickness": 2.5,
           "heightFeet": 10,
@@ -42068,12 +42121,12 @@
         {
           "id": "low-east-e",
           "a": {
-            "x": 169,
-            "y": 520.4166666666666
+            "x": 167.75,
+            "y": 523.0416666666666
           },
           "b": {
-            "x": 169,
-            "y": 537.4166666666666
+            "x": 167.75,
+            "y": 537.5416666666666
           },
           "thickness": 2.5,
           "heightFeet": 10,
@@ -42083,12 +42136,12 @@
         {
           "id": "low-east-s",
           "a": {
-            "x": 169,
-            "y": 537.4166666666666
+            "x": 167.75,
+            "y": 537.5416666666666
           },
           "b": {
             "x": 106,
-            "y": 537.4166666666666
+            "y": 537.5416666666666
           },
           "thickness": 2.5,
           "heightFeet": 10,
@@ -42099,11 +42152,11 @@
           "id": "low-east-w",
           "a": {
             "x": 106,
-            "y": 537.4166666666666
+            "y": 537.5416666666666
           },
           "b": {
             "x": 106,
-            "y": 520.4166666666666
+            "y": 523.0416666666666
           },
           "thickness": 2.5,
           "heightFeet": 10,
@@ -42113,15 +42166,15 @@
         {
           "id": "church-nave-n",
           "a": {
-            "x": 291,
-            "y": 373.8489583333333
+            "x": 293,
+            "y": 371.8489583333333
           },
           "b": {
             "x": 352,
-            "y": 373.8489583333333
+            "y": 371.8489583333333
           },
-          "thickness": 2.5,
-          "heightFeet": 23,
+          "thickness": 4,
+          "heightFeet": 22.5,
           "material": "limestone",
           "roomId": "church-nave"
         },
@@ -42129,14 +42182,14 @@
           "id": "church-nave-e",
           "a": {
             "x": 352,
-            "y": 373.8489583333333
+            "y": 371.8489583333333
           },
           "b": {
             "x": 352,
-            "y": 399.0989583333333
+            "y": 401.0989583333333
           },
-          "thickness": 2.5,
-          "heightFeet": 23,
+          "thickness": 4,
+          "heightFeet": 22.5,
           "material": "limestone",
           "roomId": "church-nave"
         },
@@ -42144,29 +42197,29 @@
           "id": "church-nave-s",
           "a": {
             "x": 352,
-            "y": 399.0989583333333
+            "y": 401.0989583333333
           },
           "b": {
-            "x": 291,
-            "y": 399.0989583333333
+            "x": 293,
+            "y": 401.0989583333333
           },
-          "thickness": 2.5,
-          "heightFeet": 23,
+          "thickness": 4,
+          "heightFeet": 22.5,
           "material": "limestone",
           "roomId": "church-nave"
         },
         {
           "id": "church-nave-w",
           "a": {
-            "x": 291,
-            "y": 399.0989583333333
+            "x": 293,
+            "y": 401.0989583333333
           },
           "b": {
-            "x": 291,
-            "y": 373.8489583333333
+            "x": 293,
+            "y": 371.8489583333333
           },
-          "thickness": 2.5,
-          "heightFeet": 23,
+          "thickness": 4,
+          "heightFeet": 22.5,
           "material": "limestone",
           "roomId": "church-nave"
         },
@@ -42174,14 +42227,14 @@
           "id": "church-transept-n",
           "a": {
             "x": 352,
-            "y": 355
+            "y": 357
           },
           "b": {
             "x": 378,
-            "y": 355
+            "y": 357
           },
-          "thickness": 2.5,
-          "heightFeet": 23,
+          "thickness": 4,
+          "heightFeet": 22.5,
           "material": "limestone",
           "roomId": "church-transept"
         },
@@ -42189,14 +42242,14 @@
           "id": "church-transept-e",
           "a": {
             "x": 378,
-            "y": 355
+            "y": 357
           },
           "b": {
             "x": 378,
-            "y": 417.9479166666667
+            "y": 415.9479166666667
           },
-          "thickness": 2.5,
-          "heightFeet": 23,
+          "thickness": 4,
+          "heightFeet": 22.5,
           "material": "limestone",
           "roomId": "church-transept"
         },
@@ -42204,14 +42257,14 @@
           "id": "church-transept-s",
           "a": {
             "x": 378,
-            "y": 417.9479166666667
+            "y": 415.9479166666667
           },
           "b": {
             "x": 352,
-            "y": 417.9479166666667
+            "y": 415.9479166666667
           },
-          "thickness": 2.5,
-          "heightFeet": 23,
+          "thickness": 4,
+          "heightFeet": 22.5,
           "material": "limestone",
           "roomId": "church-transept"
         },
@@ -42219,14 +42272,14 @@
           "id": "church-transept-w",
           "a": {
             "x": 352,
-            "y": 417.9479166666667
+            "y": 415.9479166666667
           },
           "b": {
             "x": 352,
-            "y": 355
+            "y": 357
           },
-          "thickness": 2.5,
-          "heightFeet": 23,
+          "thickness": 4,
+          "heightFeet": 22.5,
           "material": "limestone",
           "roomId": "church-transept"
         },
@@ -42234,44 +42287,44 @@
           "id": "church-chancel-n",
           "a": {
             "x": 378,
-            "y": 373.8489583333333
+            "y": 371.8489583333333
           },
           "b": {
-            "x": 396.6875,
-            "y": 373.8489583333333
+            "x": 394.6875,
+            "y": 371.8489583333333
           },
-          "thickness": 2.5,
-          "heightFeet": 23,
+          "thickness": 4,
+          "heightFeet": 22.5,
           "material": "limestone",
           "roomId": "church-chancel"
         },
         {
           "id": "church-chancel-e",
           "a": {
-            "x": 396.6875,
-            "y": 373.8489583333333
+            "x": 394.6875,
+            "y": 371.8489583333333
           },
           "b": {
-            "x": 396.6875,
-            "y": 399.0989583333333
+            "x": 394.6875,
+            "y": 401.0989583333333
           },
-          "thickness": 2.5,
-          "heightFeet": 23,
+          "thickness": 4,
+          "heightFeet": 22.5,
           "material": "limestone",
           "roomId": "church-chancel"
         },
         {
           "id": "church-chancel-s",
           "a": {
-            "x": 396.6875,
-            "y": 399.0989583333333
+            "x": 394.6875,
+            "y": 401.0989583333333
           },
           "b": {
             "x": 378,
-            "y": 399.0989583333333
+            "y": 401.0989583333333
           },
-          "thickness": 2.5,
-          "heightFeet": 23,
+          "thickness": 4,
+          "heightFeet": 22.5,
           "material": "limestone",
           "roomId": "church-chancel"
         },
@@ -42279,14 +42332,14 @@
           "id": "church-chancel-w",
           "a": {
             "x": 378,
-            "y": 399.0989583333333
+            "y": 401.0989583333333
           },
           "b": {
             "x": 378,
-            "y": 373.8489583333333
+            "y": 371.8489583333333
           },
-          "thickness": 2.5,
-          "heightFeet": 23,
+          "thickness": 4,
+          "heightFeet": 22.5,
           "material": "limestone",
           "roomId": "church-chancel"
         },
@@ -42294,13 +42347,13 @@
           "id": "sacristy-n",
           "a": {
             "x": 310,
-            "y": 348.8489583333333
+            "y": 357
           },
           "b": {
             "x": 342.6,
-            "y": 348.8489583333333
+            "y": 357
           },
-          "thickness": 2.5,
+          "thickness": 4,
           "heightFeet": 12,
           "material": "limestone",
           "roomId": "sacristy"
@@ -42309,13 +42362,13 @@
           "id": "sacristy-e",
           "a": {
             "x": 342.6,
-            "y": 348.8489583333333
+            "y": 357
           },
           "b": {
             "x": 342.6,
-            "y": 364.3489583333333
+            "y": 371.8489583333333
           },
-          "thickness": 2.5,
+          "thickness": 4,
           "heightFeet": 12,
           "material": "limestone",
           "roomId": "sacristy"
@@ -42324,13 +42377,13 @@
           "id": "sacristy-s",
           "a": {
             "x": 342.6,
-            "y": 364.3489583333333
+            "y": 371.8489583333333
           },
           "b": {
             "x": 310,
-            "y": 364.3489583333333
+            "y": 371.8489583333333
           },
-          "thickness": 2.5,
+          "thickness": 4,
           "heightFeet": 12,
           "material": "limestone",
           "roomId": "sacristy"
@@ -42339,13 +42392,13 @@
           "id": "sacristy-w",
           "a": {
             "x": 310,
-            "y": 364.3489583333333
+            "y": 371.8489583333333
           },
           "b": {
             "x": 310,
-            "y": 348.8489583333333
+            "y": 357
           },
-          "thickness": 2.5,
+          "thickness": 4,
           "heightFeet": 12,
           "material": "limestone",
           "roomId": "sacristy"
@@ -42353,74 +42406,74 @@
         {
           "id": "church-side-room-n",
           "a": {
-            "x": 306,
-            "y": 364.3489583333333
+            "x": 342.6,
+            "y": 357
           },
           "b": {
-            "x": 333,
-            "y": 364.3489583333333
+            "x": 352,
+            "y": 357
           },
-          "thickness": 2.5,
-          "heightFeet": 10,
+          "thickness": 4,
+          "heightFeet": 12,
           "material": "limestone",
           "roomId": "church-side-room"
         },
         {
           "id": "church-side-room-e",
           "a": {
-            "x": 333,
-            "y": 364.3489583333333
+            "x": 352,
+            "y": 357
           },
           "b": {
-            "x": 333,
-            "y": 373.8489583333333
+            "x": 352,
+            "y": 371.8489583333333
           },
-          "thickness": 2.5,
-          "heightFeet": 10,
+          "thickness": 4,
+          "heightFeet": 12,
           "material": "limestone",
           "roomId": "church-side-room"
         },
         {
           "id": "church-side-room-s",
           "a": {
-            "x": 333,
-            "y": 373.8489583333333
+            "x": 352,
+            "y": 371.8489583333333
           },
           "b": {
-            "x": 306,
-            "y": 373.8489583333333
+            "x": 342.6,
+            "y": 371.8489583333333
           },
-          "thickness": 2.5,
-          "heightFeet": 10,
+          "thickness": 4,
+          "heightFeet": 12,
           "material": "limestone",
           "roomId": "church-side-room"
         },
         {
           "id": "church-side-room-w",
           "a": {
-            "x": 306,
-            "y": 373.8489583333333
+            "x": 342.6,
+            "y": 371.8489583333333
           },
           "b": {
-            "x": 306,
-            "y": 364.3489583333333
+            "x": 342.6,
+            "y": 357
           },
-          "thickness": 2.5,
-          "heightFeet": 10,
+          "thickness": 4,
+          "heightFeet": 12,
           "material": "limestone",
           "roomId": "church-side-room"
         },
         {
           "id": "confessional-n",
           "a": {
-            "x": 291,
-            "y": 361.8489583333333
+            "x": 293,
+            "y": 359.8489583333333
           },
           "b": {
-            "x": 303,
-            "y": 361.8489583333333
+            "x": 305,
+            "y": 359.8489583333333
           },
-          "thickness": 2.5,
+          "thickness": 4,
           "heightFeet": 12,
           "material": "limestone",
           "roomId": "confessional"
@@ -42428,14 +42481,14 @@
         {
           "id": "confessional-e",
           "a": {
-            "x": 303,
-            "y": 361.8489583333333
+            "x": 305,
+            "y": 359.8489583333333
           },
           "b": {
-            "x": 303,
-            "y": 373.8489583333333
+            "x": 305,
+            "y": 371.8489583333333
           },
-          "thickness": 2.5,
+          "thickness": 4,
           "heightFeet": 12,
           "material": "limestone",
           "roomId": "confessional"
@@ -42443,14 +42496,14 @@
         {
           "id": "confessional-s",
           "a": {
-            "x": 303,
-            "y": 373.8489583333333
+            "x": 305,
+            "y": 371.8489583333333
           },
           "b": {
-            "x": 291,
-            "y": 373.8489583333333
+            "x": 293,
+            "y": 371.8489583333333
           },
-          "thickness": 2.5,
+          "thickness": 4,
           "heightFeet": 12,
           "material": "limestone",
           "roomId": "confessional"
@@ -42458,14 +42511,14 @@
         {
           "id": "confessional-w",
           "a": {
-            "x": 291,
-            "y": 373.8489583333333
+            "x": 293,
+            "y": 371.8489583333333
           },
           "b": {
-            "x": 291,
-            "y": 361.8489583333333
+            "x": 293,
+            "y": 359.8489583333333
           },
-          "thickness": 2.5,
+          "thickness": 4,
           "heightFeet": 12,
           "material": "limestone",
           "roomId": "confessional"
@@ -42473,14 +42526,14 @@
         {
           "id": "baptistry-n",
           "a": {
-            "x": 291,
-            "y": 399.0989583333333
+            "x": 293,
+            "y": 401.0989583333333
           },
           "b": {
-            "x": 303,
-            "y": 399.0989583333333
+            "x": 305,
+            "y": 401.0989583333333
           },
-          "thickness": 2.5,
+          "thickness": 4,
           "heightFeet": 12,
           "material": "limestone",
           "roomId": "baptistry"
@@ -42488,14 +42541,14 @@
         {
           "id": "baptistry-e",
           "a": {
-            "x": 303,
-            "y": 399.0989583333333
+            "x": 305,
+            "y": 401.0989583333333
           },
           "b": {
-            "x": 303,
-            "y": 411.0989583333333
+            "x": 305,
+            "y": 413.0989583333333
           },
-          "thickness": 2.5,
+          "thickness": 4,
           "heightFeet": 12,
           "material": "limestone",
           "roomId": "baptistry"
@@ -42503,14 +42556,14 @@
         {
           "id": "baptistry-s",
           "a": {
-            "x": 303,
-            "y": 411.0989583333333
+            "x": 305,
+            "y": 413.0989583333333
           },
           "b": {
-            "x": 291,
-            "y": 411.0989583333333
+            "x": 293,
+            "y": 413.0989583333333
           },
-          "thickness": 2.5,
+          "thickness": 4,
           "heightFeet": 12,
           "material": "limestone",
           "roomId": "baptistry"
@@ -42518,14 +42571,14 @@
         {
           "id": "baptistry-w",
           "a": {
-            "x": 291,
-            "y": 411.0989583333333
+            "x": 293,
+            "y": 413.0989583333333
           },
           "b": {
-            "x": 291,
-            "y": 399.0989583333333
+            "x": 293,
+            "y": 401.0989583333333
           },
-          "thickness": 2.5,
+          "thickness": 4,
           "heightFeet": 12,
           "material": "limestone",
           "roomId": "baptistry"
@@ -42603,7 +42656,7 @@
         {
           "id": "west-room-1-door",
           "roomId": "west-room-1",
-          "x": 27,
+          "x": 11.125,
           "y": 61.5,
           "width": 6,
           "height": 6
@@ -42611,7 +42664,7 @@
         {
           "id": "west-room-2-door",
           "roomId": "west-room-2",
-          "x": 27,
+          "x": 11.125,
           "y": 106.5,
           "width": 6,
           "height": 6
@@ -42619,7 +42672,7 @@
         {
           "id": "west-room-3-door",
           "roomId": "west-room-3",
-          "x": 27,
+          "x": 11.125,
           "y": 151.5,
           "width": 6,
           "height": 6
@@ -42627,7 +42680,7 @@
         {
           "id": "west-room-4-door",
           "roomId": "west-room-4",
-          "x": 27,
+          "x": 11.125,
           "y": 196.5,
           "width": 6,
           "height": 6
@@ -42635,7 +42688,7 @@
         {
           "id": "west-room-5-door",
           "roomId": "west-room-5",
-          "x": 27,
+          "x": 11.125,
           "y": 241.5,
           "width": 6,
           "height": 6
@@ -42643,7 +42696,7 @@
         {
           "id": "west-room-6-door",
           "roomId": "west-room-6",
-          "x": 27,
+          "x": 11.125,
           "y": 286.5,
           "width": 6,
           "height": 6
@@ -42651,7 +42704,7 @@
         {
           "id": "west-room-7-door",
           "roomId": "west-room-7",
-          "x": 27,
+          "x": 11.125,
           "y": 331.5,
           "width": 6,
           "height": 6
@@ -42659,7 +42712,7 @@
         {
           "id": "west-room-8-door",
           "roomId": "west-room-8",
-          "x": 27,
+          "x": 11.125,
           "y": 376.5,
           "width": 6,
           "height": 6
@@ -42667,7 +42720,7 @@
         {
           "id": "west-room-9-door",
           "roomId": "west-room-9",
-          "x": 27,
+          "x": 11.125,
           "y": 421.5,
           "width": 6,
           "height": 6
@@ -42691,48 +42744,48 @@
         {
           "id": "long-barrack-1-door",
           "roomId": "long-barrack-1",
-          "x": 208,
-          "y": 202.92621527777777,
+          "x": 209.25,
+          "y": 203.96788194444446,
           "width": 6,
           "height": 6
         },
         {
           "id": "long-barrack-2-door",
           "roomId": "long-barrack-2",
-          "x": 208,
-          "y": 234.77864583333331,
+          "x": 209.25,
+          "y": 235.40364583333334,
           "width": 6,
           "height": 6
         },
         {
           "id": "long-barrack-3-door",
           "roomId": "long-barrack-3",
-          "x": 208,
-          "y": 266.6310763888889,
+          "x": 209.25,
+          "y": 266.83940972222223,
           "width": 6,
           "height": 6
         },
         {
           "id": "long-barrack-4-door",
           "roomId": "long-barrack-4",
-          "x": 208,
-          "y": 298.48350694444446,
+          "x": 209.25,
+          "y": 298.27517361111114,
           "width": 6,
           "height": 6
         },
         {
           "id": "long-barrack-5-door",
           "roomId": "long-barrack-5",
-          "x": 208,
-          "y": 330.3359375,
+          "x": 209.25,
+          "y": 329.7109375,
           "width": 6,
           "height": 6
         },
         {
           "id": "long-barrack-6-door",
           "roomId": "long-barrack-6",
-          "x": 208,
-          "y": 362.1883680555556,
+          "x": 209.25,
+          "y": 361.1467013888889,
           "width": 6,
           "height": 6
         },
@@ -42785,8 +42838,8 @@
         {
           "id": "low-west-door",
           "roomId": "low-west",
-          "x": 72.5,
-          "y": 517.4166666666666,
+          "x": 73.125,
+          "y": 520.0416666666666,
           "width": 6,
           "height": 6
         },
@@ -42794,40 +42847,40 @@
           "id": "south-entry-door",
           "roomId": "south-entry",
           "x": 98,
-          "y": 517.4166666666666,
+          "y": 520.0416666666666,
           "width": 6,
           "height": 6
         },
         {
           "id": "low-east-door",
           "roomId": "low-east",
-          "x": 134.5,
-          "y": 517.4166666666666,
+          "x": 133.875,
+          "y": 520.0416666666666,
           "width": 6,
           "height": 6
         },
         {
           "id": "church-nave-door",
           "roomId": "church-nave",
-          "x": 288,
+          "x": 289.25,
           "y": 383.4739583333333,
-          "width": 6,
+          "width": 7.5,
           "height": 6
         },
         {
           "id": "church-transept-door",
           "roomId": "church-transept",
-          "x": 349,
-          "y": 383.4739583333333,
-          "width": 6,
+          "x": 348.25,
+          "y": 383.47395833333337,
+          "width": 7.5,
           "height": 6
         },
         {
           "id": "church-chancel-door",
           "roomId": "church-chancel",
-          "x": 375,
+          "x": 374.25,
           "y": 383.4739583333333,
-          "width": 6,
+          "width": 7.5,
           "height": 6
         },
         {
@@ -42848,40 +42901,40 @@
           "id": "sacristy-door",
           "roomId": "sacristy",
           "x": 323.3,
-          "y": 361.3489583333333,
+          "y": 368.0989583333333,
           "width": 6,
-          "height": 6
+          "height": 7.5
         },
         {
           "id": "church-side-room-door",
           "roomId": "church-side-room",
-          "x": 316.5,
-          "y": 370.8489583333333,
+          "x": 344.3,
+          "y": 368.0989583333333,
           "width": 6,
-          "height": 6
+          "height": 7.5
         },
         {
           "id": "sacristy-through",
           "x": 318,
-          "y": 360.8489583333333,
+          "y": 366.8489583333333,
           "width": 8,
-          "height": 17
+          "height": 10
         },
         {
           "id": "confessional-door",
           "roomId": "confessional",
-          "x": 294,
-          "y": 370.8489583333333,
+          "x": 296,
+          "y": 368.0989583333333,
           "width": 6,
-          "height": 6
+          "height": 7.5
         },
         {
           "id": "baptistry-door",
           "roomId": "baptistry",
-          "x": 294,
-          "y": 396.0989583333333,
+          "x": 296,
+          "y": 397.3489583333333,
           "width": 6,
-          "height": 6
+          "height": 7.5
         },
         {
           "id": "powder-store-door",
@@ -42896,73 +42949,73 @@
         {
           "id": "west-room-1-roof",
           "roomId": "west-room-1",
-          "x": 5,
+          "x": 0,
           "y": 42,
-          "width": 25,
+          "width": 14.125,
           "height": 45
         },
         {
           "id": "west-room-2-roof",
           "roomId": "west-room-2",
-          "x": 5,
+          "x": 0,
           "y": 87,
-          "width": 25,
+          "width": 14.125,
           "height": 45
         },
         {
           "id": "west-room-3-roof",
           "roomId": "west-room-3",
-          "x": 5,
+          "x": 0,
           "y": 132,
-          "width": 25,
+          "width": 14.125,
           "height": 45
         },
         {
           "id": "west-room-4-roof",
           "roomId": "west-room-4",
-          "x": 5,
+          "x": 0,
           "y": 177,
-          "width": 25,
+          "width": 14.125,
           "height": 45
         },
         {
           "id": "west-room-5-roof",
           "roomId": "west-room-5",
-          "x": 5,
+          "x": 0,
           "y": 222,
-          "width": 25,
+          "width": 14.125,
           "height": 45
         },
         {
           "id": "west-room-6-roof",
           "roomId": "west-room-6",
-          "x": 5,
+          "x": 0,
           "y": 267,
-          "width": 25,
+          "width": 14.125,
           "height": 45
         },
         {
           "id": "west-room-7-roof",
           "roomId": "west-room-7",
-          "x": 5,
+          "x": 0,
           "y": 312,
-          "width": 25,
+          "width": 14.125,
           "height": 45
         },
         {
           "id": "west-room-8-roof",
           "roomId": "west-room-8",
-          "x": 5,
+          "x": 0,
           "y": 357,
-          "width": 25,
+          "width": 14.125,
           "height": 45
         },
         {
           "id": "west-room-9-roof",
           "roomId": "west-room-9",
-          "x": 5,
+          "x": 0,
           "y": 402,
-          "width": 25,
+          "width": 14.125,
           "height": 45
         },
         {
@@ -42984,50 +43037,50 @@
         {
           "id": "long-barrack-1-roof",
           "roomId": "long-barrack-1",
-          "x": 211,
-          "y": 190,
-          "width": 19.916666666666668,
-          "height": 31.852430555555557
+          "x": 212.25,
+          "y": 191.25,
+          "width": 17.416666666666668,
+          "height": 31.43576388888889
         },
         {
           "id": "long-barrack-2-roof",
           "roomId": "long-barrack-2",
-          "x": 211,
-          "y": 221.85243055555554,
-          "width": 19.916666666666668,
-          "height": 31.852430555555557
+          "x": 212.25,
+          "y": 222.68576388888889,
+          "width": 17.416666666666668,
+          "height": 31.43576388888889
         },
         {
           "id": "long-barrack-3-roof",
           "roomId": "long-barrack-3",
-          "x": 211,
-          "y": 253.70486111111111,
-          "width": 19.916666666666668,
-          "height": 31.852430555555557
+          "x": 212.25,
+          "y": 254.12152777777777,
+          "width": 17.416666666666668,
+          "height": 31.43576388888889
         },
         {
           "id": "long-barrack-4-roof",
           "roomId": "long-barrack-4",
-          "x": 211,
+          "x": 212.25,
           "y": 285.5572916666667,
-          "width": 19.916666666666668,
-          "height": 31.852430555555557
+          "width": 17.416666666666668,
+          "height": 31.43576388888889
         },
         {
           "id": "long-barrack-5-roof",
           "roomId": "long-barrack-5",
-          "x": 211,
-          "y": 317.40972222222223,
-          "width": 19.916666666666668,
-          "height": 31.852430555555557
+          "x": 212.25,
+          "y": 316.99305555555554,
+          "width": 17.416666666666668,
+          "height": 31.43576388888889
         },
         {
           "id": "long-barrack-6-roof",
           "roomId": "long-barrack-6",
-          "x": 211,
-          "y": 349.2621527777778,
-          "width": 19.916666666666668,
-          "height": 31.852430555555557
+          "x": 212.25,
+          "y": 348.42881944444446,
+          "width": 17.416666666666668,
+          "height": 31.43576388888889
         },
         {
           "id": "hospital-roof",
@@ -43048,34 +43101,34 @@
         {
           "id": "low-west-roof",
           "roomId": "low-west",
-          "x": 55,
-          "y": 520.4166666666666,
-          "width": 41,
-          "height": 17
+          "x": 56.25,
+          "y": 523.0416666666666,
+          "width": 39.75,
+          "height": 14.5
         },
         {
           "id": "south-entry-roof",
           "roomId": "south-entry",
           "x": 96,
-          "y": 520.4166666666666,
+          "y": 523.0416666666666,
           "width": 10,
-          "height": 17
+          "height": 14.5
         },
         {
           "id": "low-east-roof",
           "roomId": "low-east",
           "x": 106,
-          "y": 520.4166666666666,
-          "width": 63,
-          "height": 17
+          "y": 523.0416666666666,
+          "width": 61.75,
+          "height": 14.5
         },
         {
           "id": "sacristy-roof",
           "roomId": "sacristy",
           "x": 310,
-          "y": 348.8489583333333,
+          "y": 357,
           "width": 32.6,
-          "height": 15.5
+          "height": 14.848958333333314
         },
         {
           "id": "powder-store-roof",
@@ -43089,32 +43142,32 @@
       "props": [
         {
           "sprite": "alamo-water-jar",
-          "x": 10,
-          "y": 48,
+          "x": 4,
+          "y": 47,
           "height": 3
         },
         {
           "sprite": "alamo-cot-blanket",
-          "x": 12,
-          "y": 74,
+          "x": 8,
+          "y": 76,
           "height": 5
         },
         {
           "sprite": "alamo-table",
-          "x": 23,
-          "y": 51,
+          "x": 9,
+          "y": 52,
           "height": 4
         },
         {
           "sprite": "alamo-chest-closed",
-          "x": 24,
-          "y": 75,
+          "x": 4,
+          "y": 82,
           "height": 3
         },
         {
           "sprite": "alamo-stool",
-          "x": 20,
-          "y": 54,
+          "x": 5,
+          "y": 56,
           "height": 2.5
         },
         {
@@ -43156,7 +43209,7 @@
         {
           "sprite": "alamo-straw-pallet",
           "x": 320,
-          "y": 363,
+          "y": 365,
           "height": 3
         },
         {

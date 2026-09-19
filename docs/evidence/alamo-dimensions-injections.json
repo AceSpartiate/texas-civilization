@@ -1,0 +1,11 @@
+{
+  "date": "2026-09-18",
+  "sameComputerOnly": true,
+  "method": "Each regression put into a copy of the working tree's public/alamo-layout.js (never the tree itself); the copy's art manifest rebuilt, as npm run build:art would, because it embeds the layout; the whole suite run with node --test in the copy; then the copy restored and compared byte for byte.",
+  "suite": 715,
+  "injections": [
+    { "regression": "the church's walls back to 2.5 ft (churchWall = 2.5)", "failed": ["the church is drawn 105 ft 8¼ in by 62 ft 11⅜ in to its outer faces, its walls 4 ft thick and 22½ ft high (HIST-TEX-090)"], "passed": 714 },
+    { "regression": "the west range back to 25-ft rooms standing 5 ft off the west wall (as before 2026-09-18)", "failed": ["the west side: a 16 ft 9 in range against 33-inch walls, 12½ ft high by the rooms, 290 ft from the church front (HIST-TEX-092)"], "passed": 714 },
+    { "regression": "the low barrack's rooms back on 114 x 17 ft as centre lines (as before 2026-09-18)", "failed": ["the barracks: the long barrack 191 ft by 20, two storeys; the low barrack 114 ft by 17 on the south wall, the gate through it (HIST-TEX-091)"], "passed": 714 }
+  ]
+}

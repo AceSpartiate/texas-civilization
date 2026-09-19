@@ -1,0 +1,48 @@
+{
+  "result": "PASS",
+  "label": "before",
+  "date": "2026-09-19T03:30:12.534Z",
+  "sameComputerOnly": true,
+  "shots": [
+    {
+      "place": "gonzales",
+      "zoom": "town",
+      "scale": 451.82,
+      "path": "docs/evidence/alamo-before-gonzales-town.png"
+    },
+    {
+      "place": "gonzales",
+      "zoom": "street",
+      "scale": 1487.7,
+      "path": "docs/evidence/alamo-before-gonzales-street.png"
+    },
+    {
+      "place": "gonzales",
+      "zoom": "closest",
+      "scale": 4736.84,
+      "path": "docs/evidence/alamo-before-gonzales-closest.png"
+    },
+    {
+      "place": "bexar",
+      "zoom": "town",
+      "scale": 423.35,
+      "path": "docs/evidence/alamo-before-bexar-town.png",
+      "alamoDrawn": null
+    },
+    {
+      "place": "bexar",
+      "zoom": "street",
+      "scale": 1393.96,
+      "path": "docs/evidence/alamo-before-bexar-street.png",
+      "alamoDrawn": null
+    },
+    {
+      "place": "bexar",
+      "zoom": "closest",
+      "scale": 4736.84,
+      "path": "docs/evidence/alamo-before-bexar-closest.png",
+      "alamoDrawn": null
+    }
+  ],
+  "errors": []
+}

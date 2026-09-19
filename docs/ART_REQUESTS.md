@@ -32,6 +32,7 @@ does not have:
 | A rider never gets down to talk: they speak from the saddle, turned east, west, north or south toward the listener (the vertical dialogue delivered 2026-09-14 is in use) | `carrierClip` in `public/motion.js` | Request 2026-09-12, priority 3 | `courier-dismount` (delivered 2026-09-14, registered, not yet bound: it needs the encounter to know when a rider has got down and where the horse stands) |
 | The road's three panel icons are glyphs drawn in canvas strokes: a rifle over a campfire (`hunt-road`), a figure under a blanket with a cup beside (`tend-sick`), a coin passed over a ferry's rail (`trade-crossing`) | `drawGlyph` in `public/family-panel.js`; `PANEL_ICONS` carries `glyph` and no sprite, and `drawIcon` takes `icon-<key>` the moment it is registered | Request 2026-09-16 — the road's icons | `icon-hunt-road`, `icon-tend-sick`, `icon-trade-crossing` |
 | The camp's four icons - drill, beef and corn, the guard, the scouts - are canvas glyphs (a musket at the shoulder; horns over a corn ear; a bayonet and a crescent moon; a horseshoe and a spyglass) in the panel's brown | `PANEL_ICONS` (`glyph`) and `drawGlyph` in `public/family-panel.js` | Request 2026-09-16 — the camp's icons | `icon-camp-drill`, `icon-camp-forage`, `icon-camp-guard`, `icon-camp-scout` |
+| Every face of the Alamo compound on the map is the painted face of the `alamo-wall-intact` module, cut from the sprite and repeated along the face at the art's own proportion; the palisade is `alamo-palisade` the same way; the south gate is a dark opening in the low barrack's front; the church's south side is plain coursed stone | `FACE_ART` in `public/bexar-art.js` | Request 2026-09-18 — the Alamo's faces seen from the south | The requested face strips, laid by the same `FACE_ART` table |
 | **No stand-in: nothing is drawn.** The army's crossing of the Brazos at Groce's on the steamboat Yellow Stone, April 12–13, 1836, is said only in words ("The army is crossing the Brazos on the steamboat Yellow Stone. She came up the river for cotton under Captain John E. Ross, and General Houston has taken her to carry the men, the horses and the wagons over the flood."); no boat is on the river. Words-only is the deliberate state: the library has nothing near a steamboat (the `skiff` and `ferry-raft` would say the wrong thing), and a wrong picture of a named boat is worse than none | `sim/houston.mjs` (the words) | Request 2026-09-18 — the steamboat Yellow Stone | `steamboat-moored`, `steamboat-steam`, `steamboat-laden`, drawn on the Brazos at Groce's ferry |
 
 ## Claude-drawn stand-ins (replace with Astra's)
@@ -78,6 +79,41 @@ into the existing pipeline, and how it will be checked. When a request is delive
 `npm run build:art`; do not delete it from here.
 
 ---
+
+## Request 2026-09-18 — the Alamo's faces seen from the south
+
+**Status: open; stand-in in use (see *Stand-ins in use* above).** Owner, 2026-09-18: "bring the Alamo complex into the same
+art style as the rest of the game. ensure it matches the dimensions of the historical building." The map now draws the
+compound at its true footprint (`HIST-TEX-090` to `-092`, [ALAMO_LAYOUT.md](ALAMO_LAYOUT.md) "On the map"): every building a
+box on its plan, as tall as its true height times the towns' `DRAWN_HEIGHT`, with a flat parapeted roof, and the face turned
+south to the camera painted. The camera looks north, so the church's carved front, which faces west, is edge on and not seen.
+
+- **Why.** The painted faces are one generic stone module cut and repeated, so the low barrack, the long barrack, the west
+  range and the church all wear the same wall; the gate is a dark rectangle. The compound reads as stone buildings of the
+  game, but not yet as the Alamo's own buildings.
+- **What.** Straight-on elevations in the `alamo-modules` style — warm outlined limestone, dark olive-brown ink, light from the
+  upper left — with **no top, no perspective and no ground**: a flat strip of wall face from its foot to its parapet, each
+  drawn to **tile left to right without a seam**, transparent above the parapet line only where the wall is broken.
+  - `alamo-face-limestone` — plain coursed limestone, about 2 : 1 (width : height).
+  - `alamo-face-rooms` — a one-storey range front, stone with patched plaster, one plank door and one small barred window per
+    tile, beam ends under the parapet, about 2 : 1.
+  - `alamo-face-gate` — the low barrack's gate passage: a wide opening under a timber lintel with two heavy plank leaves standing
+    open, the stone either side, about 1 : 1, to sit in the low barrack's front where the gate is.
+  - `alamo-face-convento` — the long barrack's south end, two storeys: a door below, a small window above, a line of beam ends at
+    the floor between, about 1 : 1.
+  - `alamo-face-church-south` — the church's south side in 1836, roofless: thick coursed stone to a rough, broken top edge, the
+    few small high windows, no roof line, about 3 : 1.
+- **Scale.** Whatever the tile's pixels, the renderer scales the strip's height to the face's drawn height and keeps its
+  proportion along the face; nothing of the plan changes. A stone course about a twentieth of the strip's height reads as the
+  existing module does.
+- **Anchor.** None: a strip is laid by its corners, foot at the bottom edge.
+- **How it plugs in.** Add the sheet and ids to `SHEETS` in `scripts/build-atlas-manifest.mjs`, `npm run build:art`, then name
+  each strip in `FACE_ART` in `public/bexar-art.js` with its crop as `u: [0, 1], v: [0, 1]`, and choose it by building
+  (`alamoMassing` in `public/alamo-layout.js` names every block and wall). Remove the stand-in row above.
+- **Check.** `node scripts/alamo-style-shots.mjs after` and look at `docs/evidence/alamo-after-bexar-closest.png` beside the
+  Gonzales shots: no seam where a strip repeats, the gate where the low barrack's gate is, the church's south side broken at
+  the top, the long barrack's two storeys; `node --test tests/alamo-dimensions.test.mjs` still passes (the art changes no
+  dimension).
 
 ## Request 2026-09-18 — the steamboat Yellow Stone
 
