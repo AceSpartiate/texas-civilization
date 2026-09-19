@@ -1,0 +1,476 @@
+{
+  "record": "perf-render",
+  "label": "marker-after",
+  "date": "2026-09-19",
+  "browser": "152.0.7977.83",
+  "cpuThrottle": 6,
+  "phaseSeconds": 30,
+  "tickMs": 1000,
+  "viewport": "1366x768 @1x",
+  "views": {
+    "default": {
+      "scale": 401.8,
+      "rafPerSecond": 17.7,
+      "paintedFramesPerSecond": 6.1,
+      "msPerPaintedFrame": {
+        "mean": 42.3,
+        "p95": 197.7
+      },
+      "snapshots": 32,
+      "groundDrawnPerSecond": 0,
+      "groundDrawnBecause": {},
+      "msPerSnapshot": {
+        "mean": 172.2,
+        "p95": 447.6,
+        "max": 454.2
+      },
+      "longTasksPerMinute": 324.6,
+      "longTaskMsPerMinute": 44106,
+      "mainThreadBusyPercent": 89.7,
+      "scriptPercent": 43.4,
+      "layoutPlusStylePercent": 6.9,
+      "layoutsPerSecond": 1.2,
+      "elementsCreatedPerMinute": 1343,
+      "nodesInsertedPerMinute": 2693,
+      "domNodes": {
+        "before": 4403,
+        "after": 2479
+      },
+      "heapMB": [
+        19.5,
+        17.4,
+        12.9,
+        12.5,
+        13,
+        20.6,
+        11.9,
+        19.4,
+        12.3,
+        20.5
+      ],
+      "profiledMs": 31190,
+      "topSelfTime": [
+        {
+          "name": "drawImage :0",
+          "ms": 1943,
+          "perSecond": 62.2
+        },
+        {
+          "name": "drawWorld app.js:2131",
+          "ms": 1448,
+          "perSecond": 46.3
+        },
+        {
+          "name": "translate :0",
+          "ms": 901,
+          "perSecond": 28.8
+        },
+        {
+          "name": "animated app.js:51",
+          "ms": 609,
+          "perSecond": 19.5
+        },
+        {
+          "name": "animateMap app.js:4831",
+          "ms": 598,
+          "perSecond": 19.1
+        },
+        {
+          "name": "render app.js:4482",
+          "ms": 517,
+          "perSecond": 16.6
+        },
+        {
+          "name": "draw town-art.js:68",
+          "ms": 482,
+          "perSecond": 15.4
+        },
+        {
+          "name": "applyDrawState map-base.js:61",
+          "ms": 386,
+          "perSecond": 12.4
+        },
+        {
+          "name": "drawClip art.js:223",
+          "ms": 368,
+          "perSecond": 11.8
+        },
+        {
+          "name": "drawSprite art.js:117",
+          "ms": 357,
+          "perSecond": 11.4
+        },
+        {
+          "name": "save :0",
+          "ms": 343,
+          "perSecond": 11
+        },
+        {
+          "name": "Document.createElement :22",
+          "ms": 325,
+          "perSecond": 10.4
+        },
+        {
+          "name": "(garbage collector) :0",
+          "ms": 267,
+          "perSecond": 8.6
+        },
+        {
+          "name": "drawEntity app.js:485",
+          "ms": 241,
+          "perSecond": 7.7
+        },
+        {
+          "name": "townPoint town-layouts.js:28",
+          "ms": 231,
+          "perSecond": 7.4
+        }
+      ],
+      "topElementCreators": [
+        {
+          "at": "element app.js:82:65 < app.js:2643:92 < renderHousehold app.js:2643:66",
+          "perMinute": 284
+        },
+        {
+          "at": "element app.js:82:65 < app.js:2641:108 < renderHousehold app.js:2641:81",
+          "perMinute": 213
+        },
+        {
+          "at": "element app.js:82:65 < app.js:2942:20 < renderTravelModes app.js:2940:35",
+          "perMinute": 213
+        },
+        {
+          "at": "element app.js:82:65 < app.js:2567:16 < renderHousehold app.js:2566:42",
+          "perMinute": 142
+        },
+        {
+          "at": "element app.js:82:65 < app.js:2573:20 < renderHousehold app.js:2566:42",
+          "perMinute": 142
+        },
+        {
+          "at": "element app.js:82:65 < app.js:3543:68 < renderVisits app.js:3543:39",
+          "perMinute": 134
+        },
+        {
+          "at": "element app.js:82:65 < app.js:2611:16 < renderHousehold app.js:2621:5",
+          "perMinute": 71
+        },
+        {
+          "at": "element app.js:82:65 < renderHousehold app.js:2625:16 < render app.js:4553:31",
+          "perMinute": 71
+        }
+      ]
+    },
+    "land": {
+      "scale": 2131.6,
+      "rafPerSecond": 13.3,
+      "paintedFramesPerSecond": 6.2,
+      "msPerPaintedFrame": {
+        "mean": 42,
+        "p95": 219.6
+      },
+      "snapshots": 32,
+      "groundDrawnPerSecond": 0,
+      "groundDrawnBecause": {},
+      "msPerSnapshot": {
+        "mean": 202,
+        "p95": 561.8,
+        "max": 637.1
+      },
+      "longTasksPerMinute": 330.4,
+      "longTaskMsPerMinute": 46143,
+      "mainThreadBusyPercent": 97.7,
+      "scriptPercent": 47.6,
+      "layoutPlusStylePercent": 7.1,
+      "layoutsPerSecond": 1,
+      "elementsCreatedPerMinute": 1057,
+      "nodesInsertedPerMinute": 2239,
+      "domNodes": {
+        "before": 3133,
+        "after": 2398
+      },
+      "heapMB": [
+        9.2,
+        10.9,
+        12.3,
+        14.6,
+        11.8,
+        12.6,
+        14.6,
+        16.8,
+        14.6,
+        18
+      ],
+      "profiledMs": 30775,
+      "topSelfTime": [
+        {
+          "name": "drawImage :0",
+          "ms": 1648,
+          "perSecond": 53.4
+        },
+        {
+          "name": "drawWorld app.js:2131",
+          "ms": 1169,
+          "perSecond": 37.9
+        },
+        {
+          "name": "draw town-art.js:68",
+          "ms": 810,
+          "perSecond": 26.2
+        },
+        {
+          "name": "drawSprite art.js:117",
+          "ms": 700,
+          "perSecond": 22.7
+        },
+        {
+          "name": "(garbage collector) :0",
+          "ms": 653,
+          "perSecond": 21.1
+        },
+        {
+          "name": "translate :0",
+          "ms": 631,
+          "perSecond": 20.4
+        },
+        {
+          "name": "animated app.js:51",
+          "ms": 529,
+          "perSecond": 17.1
+        },
+        {
+          "name": "applyDrawState map-base.js:61",
+          "ms": 456,
+          "perSecond": 14.8
+        },
+        {
+          "name": "Document.createElement :22",
+          "ms": 440,
+          "perSecond": 14.3
+        },
+        {
+          "name": "animateMap app.js:4831",
+          "ms": 432,
+          "perSecond": 14
+        },
+        {
+          "name": "strokeText :0",
+          "ms": 400,
+          "perSecond": 12.9
+        },
+        {
+          "name": "save :0",
+          "ms": 372,
+          "perSecond": 12.1
+        },
+        {
+          "name": "render app.js:4482",
+          "ms": 362,
+          "perSecond": 11.7
+        },
+        {
+          "name": "drawClip art.js:223",
+          "ms": 330,
+          "perSecond": 10.7
+        },
+        {
+          "name": "fetch :0",
+          "ms": 265,
+          "perSecond": 8.6
+        }
+      ],
+      "topElementCreators": [
+        {
+          "at": "element app.js:82:65 < app.js:2643:92 < renderHousehold app.js:2643:66",
+          "perMinute": 249
+        },
+        {
+          "at": "element app.js:82:65 < app.js:2641:108 < renderHousehold app.js:2641:81",
+          "perMinute": 187
+        },
+        {
+          "at": "element app.js:82:65 < app.js:2942:20 < renderTravelModes app.js:2940:35",
+          "perMinute": 187
+        },
+        {
+          "at": "element app.js:82:65 < app.js:2567:16 < renderHousehold app.js:2566:42",
+          "perMinute": 124
+        },
+        {
+          "at": "element app.js:82:65 < app.js:2573:20 < renderHousehold app.js:2566:42",
+          "perMinute": 124
+        },
+        {
+          "at": "element app.js:82:65 < app.js:2611:16 < renderHousehold app.js:2621:5",
+          "perMinute": 62
+        },
+        {
+          "at": "element app.js:82:65 < renderHousehold app.js:2625:16 < render app.js:4553:31",
+          "perMinute": 62
+        },
+        {
+          "at": "element app.js:82:65 < renderHousehold app.js:2635:35 < render app.js:4553:31",
+          "perMinute": 62
+        }
+      ]
+    },
+    "traveller": {
+      "scale": 2605.3,
+      "rafPerSecond": 10.4,
+      "paintedFramesPerSecond": 2.7,
+      "msPerPaintedFrame": {
+        "mean": 28,
+        "p95": 217.8
+      },
+      "snapshots": 33,
+      "groundDrawnPerSecond": 2.6,
+      "groundDrawnBecause": {
+        "camera": 34,
+        "art or tiles": 46
+      },
+      "msPerSnapshot": {
+        "mean": 286,
+        "p95": 680.4,
+        "max": 1763.9
+      },
+      "longTasksPerMinute": 271.6,
+      "longTaskMsPerMinute": 46263,
+      "mainThreadBusyPercent": 95.6,
+      "scriptPercent": 56.5,
+      "layoutPlusStylePercent": 6.6,
+      "layoutsPerSecond": 1,
+      "elementsCreatedPerMinute": 2336,
+      "nodesInsertedPerMinute": 3427,
+      "domNodes": {
+        "before": 2094,
+        "after": 3509
+      },
+      "heapMB": [
+        14.7,
+        16,
+        29.8,
+        43.2,
+        49.1,
+        26.9,
+        27.4,
+        44.8,
+        51.3,
+        40
+      ],
+      "profiledMs": 30695,
+      "topSelfTime": [
+        {
+          "name": "drawImage :0",
+          "ms": 2795,
+          "perSecond": 90.4
+        },
+        {
+          "name": "drawWorld app.js:2131",
+          "ms": 1179,
+          "perSecond": 38.1
+        },
+        {
+          "name": "save :0",
+          "ms": 731,
+          "perSecond": 23.6
+        },
+        {
+          "name": "draw town-art.js:68",
+          "ms": 643,
+          "perSecond": 20.8
+        },
+        {
+          "name": "Document.createElement :22",
+          "ms": 637,
+          "perSecond": 20.6
+        },
+        {
+          "name": "translate :0",
+          "ms": 614,
+          "perSecond": 19.8
+        },
+        {
+          "name": "getBoundingClientRect :0",
+          "ms": 551,
+          "perSecond": 17.8
+        },
+        {
+          "name": "fetch :0",
+          "ms": 542,
+          "perSecond": 17.5
+        },
+        {
+          "name": "drawSprite art.js:117",
+          "ms": 431,
+          "perSecond": 13.9
+        },
+        {
+          "name": "render app.js:4482",
+          "ms": 394,
+          "perSecond": 12.7
+        },
+        {
+          "name": "toScreen app.js:999",
+          "ms": 354,
+          "perSecond": 11.5
+        },
+        {
+          "name": "(garbage collector) :0",
+          "ms": 328,
+          "perSecond": 10.6
+        },
+        {
+          "name": "applyDrawState map-base.js:61",
+          "ms": 303,
+          "perSecond": 9.8
+        },
+        {
+          "name": "crossingAngle landscape-art.js:61",
+          "ms": 292,
+          "perSecond": 9.4
+        },
+        {
+          "name": "strokeText :0",
+          "ms": 263,
+          "perSecond": 8.5
+        }
+      ],
+      "topElementCreators": [
+        {
+          "at": "element app.js:82:65 < app.js:3543:68 < renderVisits app.js:3543:39",
+          "perMinute": 815
+        },
+        {
+          "at": "element app.js:82:65 < app.js:2643:92 < renderHousehold app.js:2643:66",
+          "perMinute": 483
+        },
+        {
+          "at": "element app.js:82:65 < app.js:2641:108 < renderHousehold app.js:2641:81",
+          "perMinute": 192
+        },
+        {
+          "at": "element app.js:82:65 < app.js:2942:20 < renderTravelModes app.js:2940:35",
+          "perMinute": 192
+        },
+        {
+          "at": "element app.js:82:65 < app.js:2567:16 < renderHousehold app.js:2566:42",
+          "perMinute": 128
+        },
+        {
+          "at": "element app.js:82:65 < app.js:2573:20 < renderHousehold app.js:2566:42",
+          "perMinute": 128
+        },
+        {
+          "at": "element app.js:82:65 < app.js:2611:16 < renderHousehold app.js:2621:5",
+          "perMinute": 64
+        },
+        {
+          "at": "element app.js:82:65 < renderHousehold app.js:2625:16 < render app.js:4553:31",
+          "perMinute": 64
+        }
+      ]
+    }
+  },
+  "loadToRunningMs": 3111,
+  "pageErrors": []
+}

@@ -1,0 +1,106 @@
+{
+  "record": "travel-marker-browser",
+  "date": "2026-09-19",
+  "ownerDirection": "Owner, by multiple choice, 2026-09-19: \"Marker when fast\" - once someone would cover ground faster than a walk looks natural, draw them as a marker moving along a dotted route instead of a running figure; the clock and the figure size stay as they are.",
+  "how": "node scripts/travel-marker-proof.mjs: a Solo game on the real land at the Study pace (9500 ms a tick), the family made as a student makes it, the main person sent to Gonzales on foot; the family view sampled, then the portrait pressed, the marker sampled every painted frame for a tick, tapped, and the rest of the road played at the quick pace to the arrival. Headless Chrome 1280x850 on this computer.",
+  "threshold": {
+    "heightsPerSecond": 1.2
+  },
+  "person": "hh-1-parent-1",
+  "road": {
+    "distance": 110.3096768970962,
+    "step": 1,
+    "speed": 1
+  },
+  "follow": {
+    "frames": 169,
+    "heightsPerSecond": 0.16,
+    "scale": 10.7,
+    "figurePx": 7,
+    "step": 1,
+    "tickMs": 9500,
+    "maxWeight": 0,
+    "walkingFrames": 169
+  },
+  "close": {
+    "frames": 182,
+    "heightsPerSecond": 5.54,
+    "weights": [
+      1
+    ],
+    "walkingFrames": 0,
+    "aheadOfServer": -0.0023388707409683906,
+    "offCentre": 0,
+    "discRadius": 17.186400000000006,
+    "drawnAt": {
+      "x": 640,
+      "y": 394.9238,
+      "size": 59.078250000000025
+    },
+    "disc": {
+      "x": 640,
+      "y": 394.9238,
+      "r": 17.186400000000006
+    },
+    "milesDrawn": 0.917
+  },
+  "tap": {
+    "before": null,
+    "chosen": "hh-1-parent-1",
+    "at": {
+      "x": 640,
+      "y": 394.9238
+    }
+  },
+  "arrival": {
+    "frames": 1749,
+    "markerFramesBefore": 1616,
+    "heightsPerSecondBefore": 157.9,
+    "siteId": "gonzales",
+    "weightsBetween": [
+      0.89,
+      0.67,
+      0.46,
+      0.39,
+      0.2,
+      0.05
+    ],
+    "biggestStep": 0.222,
+    "finalWeight": 0,
+    "figureClips": [
+      "rust-rest"
+    ],
+    "drawnAt": {
+      "x": 685.6923076923077,
+      "y": 421.0019230769231,
+      "size": 49.50000000000001
+    }
+  },
+  "screenshots": [
+    "docs/evidence/travel-marker/follow-figure.png",
+    "docs/evidence/travel-marker/close-marker.png",
+    "docs/evidence/travel-marker/close-marker-detail.png",
+    "docs/evidence/travel-marker/tapped-marker.png",
+    "docs/evidence/travel-marker/arrived-figure.png"
+  ],
+  "pass": [
+    "in the family's own view the walker is drawn at 0.16 heights a second, under 1.2, and is a figure",
+    "and walks: their walking cycle is drawn",
+    "pressed close in, the walker is drawn at 5.54 heights a second or more, over 1.2",
+    "and is a marker on every frame, the marker whole",
+    "their walking cycle is not played while they are a marker",
+    "the marker moves along the road (0.917 miles in a tick) and never ahead of the server (at most -0.0023)",
+    "the camera still follows them: the marker's ground point stays within 0.0 px of the middle",
+    "a tap finds the marker: its disc is where the page looks for them",
+    "a tap on the marker chooses them (hh-1-parent-1)",
+    "and the camera goes on following them",
+    "coming in at the quick pace (157.9 heights a second) they are a marker to the end of the road",
+    "on arrival at gonzales they are a figure again",
+    "fading, not popping: 6 frames between marker and figure, no frame's change over 0.222",
+    "the page raised no errors"
+  ],
+  "limitations": [
+    "Same computer, headless Chrome: frame timing is the headless browser's. Nothing here is a classroom projector or a Chromebook.",
+    "On foot in the farming day only; riders, the wagon and the long ticks are the same rule on other numbers (tests/travel-marker.test.mjs)."
+  ]
+}
