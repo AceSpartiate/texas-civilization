@@ -41,50 +41,77 @@ beside a 24-thread busy loop it passed 10/10. **Seen in those suites:** `pace.te
 failed 7 of 10 (fixed the same day, above) and `save-cadence.test.mjs` *"a page is sent a snapshot"* 1 of 10 (fixed the same day, above), both real-time tests of their own. No
 product code changed.
 
-**WHERE THIS STOOD WHEN THE SESSION STOPPED, 2026-09-20.** Read this first; the entries below it are finished work.
+**WHERE THIS STOOD WHEN THE SESSION STOPPED, 2026-09-20 (evening).** Read this first; the entries below it are
+finished work.
 
-**1. The weather is half built.** `sim/weather.mjs` is written, on main, and `npm test` is 772/772 (commit `506d472`). It has
-the five kinds of day, the three countries (`REGION_BOUNDS`, cut at x=55 and x=152), the rain shares by month and region
-anchored on Fort Jesup's counted rain days, the norther that crosses all three and reaches the east a day later, the storms
-and fogs, about two dozen dated days from the record in `WRITTEN`, and a `water` level per region that rises with rain
-(saturating, so a flood wants days of it) and falls 0.18 a day. Measured over three classes: the water is high on a fifth to
-a half of days and a ford is shut on **0 to 4 days of 210**, which is the shape the record has. `sim/road.mjs`'s `rainyDay`
-and `weatherOf` are thin readers over it and a family's bog reads the country it stands in; the hashed `share` moved to
-`sim/shares.mjs` to break the cycle that created (`scrape.mjs` still exports it).
-**Still to do, in order:** (a) the wade at a ford should read `water` rather than "is it raining today" — `wadeAt` in
-`sim/world.mjs` still reads `rainyDay`, and `WATER_SHUT` (0.85) is not enforced anywhere yet, so no ford ever closes;
-(b) put `world.weather` into the projection in the shape the drawing agent was given — `{ day, bounds: { westOf, eastOf },
-regions: { west|centre|east: { kind, water, since, wet, wind: { from, force } } } }`; (c) tests, each proven by injection,
-and a `FIC-GONZ-131`/`-132`/`-133` claim pass in HISTORY.md (the research registered them as *recorded, not built* — they
-now need marking built, with the numbers that were actually used); (d) docs/WEATHER.md §10 marked as built where it is, and
-a HANDOFF entry of its own; (e) the six road tests that changed are commented with why, but the whole thing has had **no
-injection proof yet**.
+**1. Everything through the weather and the launcher is built, merged, released.** Main is green at **791 tests, 0 fail**,
+`check-doc-links` 693, and the browser proofs `test:crossings`, `test:solo-game`, `test:hunt` and `test:farm` all pass on a
+clean detached worktree. **The release is [v2026.09.20.3](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.20.3)**
+— the coast filed right, the animals of 1836, the weather model, the weather drawn, and the launcher's face. Setup
+191.7 MB → 212.4 MB, which is the art embedded in the executable.
 
-**2. Three agents were running when the session stopped.**
-- **The launcher's face — finished, not merged.** Branch `worktree-agent-a27a1b80e37ae0e45`, commit `f8268be`. Rewrites the
-  window around the owner's painting and ten plates, embeds the art in the executable (the setup goes 62 MB → 79.5 MB),
-  hides a plate that does not apply instead of greying it, and names two real bugs it fixed: the stop sign went
-  see-through because its darkest red sat under the black-flood threshold, and the error dialogs the owner kept dismissing
-  came from `ApplyFonts` disposing `Control.DefaultFont`. **Merge it, look at its screenshots, then release.** Two plates
-  arrived after it finished and are on main but **not wired up**: `button-update-available.png` and `button-up-to-date.png`
-  (the owner: the up-to-date one shows after a check finds nothing and returns to the ordinary plate after a moment).
-- **The animals of 1836 — finished and merged** (2026-09-20). The owner was right: neither contemporary enumeration of
-  Texas game names the antelope, and every dated sighting is far west of the colonies. It now belongs to `chaparral` and
-  `mixedgrass-prairie` alone, both stopping at 97.4°W; the buffalo is rare and gains September; the mustang is back east of
-  the Lavaca at a thin weight; a range is a share of a quarry's weight now rather than a gate (`rangeShare`); the deer is
-  worth 2 on open ground. `HIST-TEX-260` to `-265`, `FIC-GONZ-170` to `-172`; the research is BIOMES §17 and what it changed
-  is BIOME_GAMEPLAY §9. 773 tests, 30 injections all caught, and the class study unchanged to the digit. **Left unbuilt and
-  written down:** small game, feral hogs, fish, oysters, honey, the fat winter turkey, the predators. It also notes two
-  coastal cover cells for me: `mesquite-savanna` reaching 95.01°W and `live-oak` 94.00°W.
-- **The weather drawn on the map** (no text; the student sees the rain, the norther, the high water) — still running, claims
-  `HIST-TEX-280`+/`FIC-GONZ-190`+. It is coding against the projection shape in (1b), which **does not exist yet**.
+**2. What is left open, in the order I would take it.**
+- **The weather model has had no injection proof of its own.** The drawing has 22 and they all caught; `sim/weather.mjs`
+  has tests but the regressions they guard were never injected, which `CLAUDE.md` says is not evidence yet. Take this first.
+- **`button-up-to-date.png` is on main and not wired.** `button-update-available.png` is. The owner asked that the
+  up-to-date plate show after a check finds nothing and **return to the ordinary plate after a moment**.
+- **`FIC-GONZ-135` is part built:** weather costs the road (the wade, the shut ford, the bog) but not the hunt — no rain
+  making a hunt worse, no fog making it better, no wet powder. `docs/WEATHER.md` §10.5.
+- **Two crossings still graze a bank** because the road runs in the creek bottom for a stretch; the crossings audit says so
+  and it is a routing decision, not a bug in the ford.
+- **Two coastal cover cells are mine to look at:** `mesquite-savanna` reaching 95.01°W and `live-oak` 94.00°W.
+- **Unbuilt and written down by the bestiary:** small game, feral hogs, fish, oysters, honey, the fat winter turkey, the
+  predators. Longleaf is still drawn at 90% timber and the hunting-wait scale is still the old one.
+- **Weather follow-ups named by the research and not done:** the Fort Jesup manuscript daily forms (they start in the right
+  month and would replace inference with observation), a *Telegraph and Texas Register* sweep, and §6.2's unsourced column.
 
-**3. Claim numbers in use, so nothing collides:** mine to `HIST-TEX-163` and `FIC-GONZ-095`; the weather research holds
+**3. Claim numbers in use, so nothing collides:** mine to `HIST-TEX-163` and `FIC-GONZ-095`; the weather research
 `HIST-TEX-220`-`238` and `FIC-GONZ-130`-`136`; the launcher `240`+/`150`+; the animals `260`+/`170`+; the weather drawing
-`280`+/`190`+.
+`280`+/`190`+ (it used `FIC-GONZ-190` and `-191`).
 
-**4. The last release is v2026.09.20.2** (the town fields). Everything since — the coast, the weather model, the art — is on
-main and **not released**.
+**The weather of 1835-36, built and drawn, 2026-09-20:** [WEATHER.md](docs/WEATHER.md) §10 (1,350 lines of research under
+it), `sim/weather.mjs`, `public/weather-art.js`, `HIST-TEX-220` to `-238`, `FIC-GONZ-130` to `-134`, `-190`, `-191`. A day
+in a region is one of five kinds — `fair`, `rain`, `norther`, `storm`, `fog` — and the country is three weathers wide
+(`REGION_BOUNDS`, cut at x=55 and x=152): **cold is shared across the map and rain is not**, which is what 25 February to
+1 March 1836 shows, Béxar clear and bitter while San Patricio's rain fell 120 miles off. The rain share is the month's and
+the country's, anchored on the U.S. Army post surgeons' counted rain days across the Sabine for the exact months the class
+runs (`HIST-TEX-234`); about two dozen dated days are written in from the record itself (`WRITTEN`), each carrying its
+source's claim ID, so **the weather a class meets on the day of a battle is the weather that was there** — the Alamo siege
+cold and *clear*, on Almonte's own thermometer. Each region carries a **water level that remembers**: it rises with rain
+(saturating, so a flood wants days of it) and falls 0.18 a day, which is why a river can still be up under a fine warm sky.
+Past `WATER_HIGH` the wade at a ford costs more and goes wrong more often, both scaled by how high the water is; past
+`WATER_SHUT` (0.85) **a river's ford is shut** and whoever came down to it waits on the bank — "sudden rains made the
+Medina unfordable", 21 February 1836. Measured over three classes: the water is high on a fifth to a half of days and a
+ford is shut on **0 to 4 days of 210**, which is the shape the record has. Two numbers moved under measurement and both are
+recorded in the doc: the rise saturates (straight addition shut 62 days of 210) and the wet spring multiplier came down
+1.6 → 1.35 when a ten-day wet run contradicted Gray's fine mid-March. The wet spring now begins **21 March**, not 1 March;
+its citation was `HIST-TEX-068` all along and my `-071` was wrong, corrected in `sim/travel.mjs`, MAP_ACCURACY and HISTORY.
+The hashed `share` moved to `sim/shares.mjs` to break the cycle `scrape`→`ways`→`weather`→`scrape` (`scrape.mjs`
+re-exports it). **No `saveVersion` moved**: a class saved before this opens on the weather its own seed always implied.
+**And none of it is written down for the student.** The owner: *"Weather should be a visual thing… Players should see the
+weather. If implemented correctly, no text should be required."* So it is drawn — rain over a country gone flat and grey, a
+norther as a lean in the trees and the grass with dust and leaves streaming north to south and the light gone thin and
+blue, a storm with lightning banked in the far sky, fog lying in the bottoms until half past nine, and a river past the
+shut line drawn brown and out of its banks with drift on it. The three regions blend over eighteen miles rather than
+switching at a line. 18 new tests, **22 of 22 injections caught**, ~1 ms a frame worst case (`docs/PERFORMANCE_RENDER.md`),
+33 screenshots under `docs/evidence/weather/`. `FIC-GONZ-136` (a line a day, in words) is marked **superseded, not built**,
+and WEATHER.md §10.6 says why. Same computer only.
+
+**The launcher's face, 2026-09-20:** `launcher/TitleScene.cs`, `launcher/PlateArt.cs`, `launcher/SceneControls.cs`, the
+owner's painting and ten plates under `launcher/art/`. It registers **no claim ID**: nothing in it is a statement about
+1836, and the reserved `240`+/`150`+ block went unused. The window is built around the
+owner's title painting with the cast plates as its buttons, and it **scales to the monitor** rather than to a fixed size
+(the owner, on an early build: "Looked better when it was bigger"). A button that does not apply is **not there** rather
+than greyed out, and appears when it means something — the owner asked for that directly. The art is an
+`<EmbeddedResource>` because the launcher publishes `PublishSingleFile`/`--self-contained`; that is the 20.7 MB the setup
+gained. Two real bugs were found and named on the way: the stop sign went **see-through** because the darkest reds of the
+sign sat under the black-flood threshold that makes a plate's background transparent, and the **error dialogs the owner
+kept dismissing** came from `ApplyFonts` disposing `Control.DefaultFont`. `button-update-available.png` is wired to the
+updater's "a newer build is waiting" state; **`button-up-to-date.png` is on disk and not wired yet** (it should show after
+a check finds nothing and go back to the ordinary plate after a moment). Because `Updater.cs` downloads the release's
+`TexasRevolutionSetup.exe`, runs `--extract` and swaps the running exe aside, **an existing install gets this new face by
+pressing the launcher's own update button** — no reinstall. Evidence: `docs/evidence/launcher/launcher-running.png`.
+
 
 **The coast filed right, 2026-09-20:** [BIOMES.md](docs/BIOMES.md) §16, `FIC-GONZ-095`. The biome critique's eighth
 finding, taken next by the owner: the Nueces line asked one question of a cell - which side of the river it lay - so every

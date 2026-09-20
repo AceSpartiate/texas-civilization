@@ -854,11 +854,27 @@ this research found.**
 
 ---
 
-## 10. The proposed model
+## 10. The model — built 2026-09-20
 
 The design rule under all of it: **model what the record proves, at the coarsest grain that still shows the difference, and
 leave the rest out.** Three claims carry it — `FIC-GONZ-130` (the day's kind), `FIC-GONZ-131` (the regions and the water),
 `FIC-GONZ-132` (the shares by month).
+
+**What of this section was built, and what was not** (2026-09-20, `sim/weather.mjs`, released in v2026.09.20.3):
+
+| § | State |
+| --- | --- |
+| 10.1 the five kinds | **Built.** `KINDS`, `weatherOn`. |
+| 10.2 three regions, a norther across all three | **Built.** `REGIONS`, `REGION_BOUNDS` (x=55, x=152), `NORTHER_DAYS`. |
+| 10.3 the days written in | **Built.** `WRITTEN`, about two dozen dated rows, each carrying its source's claim ID. |
+| 10.4 water that remembers | **Built,** with one correction to what is below: the rise **saturates** (`was.water + rise * (1 - was.water)`) and `WATER_SHUT` is **0.85**, not 0.8. Straight addition put 62 days of 210 over the shut line, which the record does not support; saturating it gives 0 to 4. |
+| 10.5 what a kind costs | **Built for the road** — the wade at a ford reads `water`, a river's ford shuts past `WATER_SHUT`, the bog waits for the ground to dry. **Not built for the hunt:** rain making a hunt worse, fog making it better, wet powder (`FIC-GONZ-135`). |
+| 10.6 a line a day | **Not built, and deliberately.** See the note in that section. |
+| 10.7 where it lives, and the save | **Built.** `saveVersion` did not move. |
+| 10.8 how it is drawn | **Built.** `public/weather-art.js`. |
+
+One number below moved after measurement and is corrected in place: the **wet spring multiplier is 1.35**, not 1.6. At 1.6
+a class ran ten wet days together through the middle of March, which §8.2 and Gray's own fine warm days contradict.
 
 ### 10.1 A day has a kind, and there are five
 
@@ -1040,7 +1056,15 @@ the reason. Weather changes what a *family* meets; it never changes what history
 **Hunting in the rain.** The warrant is thin but real: Smithwick, crossing swollen streams on foot, wrote that "our only
 care being to keep our powder dry". The penalty is the game's own (`FIC-GONZ-135`); the concern is the period's.
 
-### 10.6 What a class sees, and is told
+### 10.6 What a class sees, and is told — NOT BUILT, superseded 2026-09-20
+
+**Read §10.8 instead.** This section was written before the owner answered the question it asks. They answered it on
+2026-09-20: *"Weather should be a visual thing. Update the game via a sub-agent so that we don't need text to explain the
+weather to players. Players should see the weather. If implemented correctly, no text should be required."* So **none of
+the lines below were built**, and `FIC-GONZ-136` is marked superseded. What replaced them is the weather drawn on the map
+(§10.8, `FIC-GONZ-190`, `FIC-GONZ-191`). The one thing this section got right and the drawing keeps: **no forecast, no
+almanac, no thermometer, no weather panel.** The lines are left here because they are a useful statement of what each kind
+of day is supposed to feel like — which is what the drawing had to convey without them.
 
 One line a day, at the family's own place, in the voice the game already uses. Not a forecast, not a number, not a panel.
 
