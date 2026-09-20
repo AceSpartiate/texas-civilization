@@ -20,7 +20,8 @@ const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_
 const out = 'docs/evidence/crossings';
 mkdirSync(out, { recursive: true });
 // [site, kind]: Cypress Creek's ford is found by its water, the build names it.
-const CROSSINGS = [['ford', 'ford'], ['groces-ferry', 'ferry'], ['lynchs-ferry', 'ferry'], ['columbus-crossing', 'ferry'], ['Cypress Creek', 'ford'], ['vinces-bridge', 'bridge']];
+// The lower Colorado crossing is here for the Atascosito road's own ford, laid 2026-09-19 nine miles below Beeson's.
+const CROSSINGS = [['ford', 'ford'], ['groces-ferry', 'ferry'], ['lynchs-ferry', 'ferry'], ['columbus-crossing', 'ferry'], ['lower-colorado-crossing', 'ford'], ['Cypress Creek', 'ford'], ['vinces-bridge', 'bridge']];
 const ZOOMS = [['near', 1400], ['close', 420], ['county', 60]];
 const shots = [];
 try {

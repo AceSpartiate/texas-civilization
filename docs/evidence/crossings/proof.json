@@ -1,6 +1,6 @@
 {
   "result": "PASS",
-  "date": "2026-09-19T19:11:23.672Z",
+  "date": "2026-09-20T02:40:13.639Z",
   "sameComputerOnly": true,
   "shots": [
     {
@@ -118,8 +118,8 @@
       "scale": 1432.8,
       "drawnAt": {
         "kind": "ferry",
-        "x": 998,
-        "y": 343
+        "x": 640,
+        "y": 400
       },
       "path": "docs/evidence/crossings/columbus-crossing-near.png"
     },
@@ -130,8 +130,8 @@
       "scale": 435.1,
       "drawnAt": {
         "kind": "ferry",
-        "x": 749,
-        "y": 383
+        "x": 640,
+        "y": 400
       },
       "path": "docs/evidence/crossings/columbus-crossing-close.png"
     },
@@ -142,10 +142,46 @@
       "scale": 59.7,
       "drawnAt": {
         "kind": "ferry",
-        "x": 655,
-        "y": 398
+        "x": 640,
+        "y": 400
       },
       "path": "docs/evidence/crossings/columbus-crossing-county.png"
+    },
+    {
+      "siteId": "lower-colorado-crossing",
+      "kind": "ford",
+      "zoom": "near",
+      "scale": 1432.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/lower-colorado-crossing-near.png"
+    },
+    {
+      "siteId": "lower-colorado-crossing",
+      "kind": "ford",
+      "zoom": "close",
+      "scale": 435.1,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/lower-colorado-crossing-close.png"
+    },
+    {
+      "siteId": "lower-colorado-crossing",
+      "kind": "ford",
+      "zoom": "county",
+      "scale": 59.7,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/lower-colorado-crossing-county.png"
     },
     {
       "siteId": "ford-cypress-creek",
