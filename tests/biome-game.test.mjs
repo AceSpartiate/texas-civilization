@@ -14,10 +14,11 @@ import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/worl
 import { CHORES, FETCH_LOGS, choresFor, logwoodGround } from '../sim/chores.mjs';
 import { holdingOf } from '../sim/grants.mjs';
 import { siteFactsFor, choosing } from '../sim/homesite.mjs';
-import { GAME, WATERFOWL_MILES, huntFacts, huntingPlace, quarryAt, quarryGame, quarryWords, stillTicks, westOfTheLavaca } from '../sim/hunting.mjs';
+import { GAME, THIN, WATERFOWL_MILES, huntFacts, huntingPlace, quarryAt, quarryGame, quarryWords, stillTicks, westOfTheLavaca } from '../sim/hunting.mjs';
 import { FENCE_TICKS, FENCE_TICKS_A_MILE, fenceWork, fenceWords, plotsOf } from '../sim/fields.mjs';
 import { FETCH_LOGS_MILES, fetchesLogs, soundLogsNear, thinkFor } from '../sim/neighbours.mjs';
 import { CREEK_GALLERY_MILES, CREEK_STRIP_MILES, STANDS, WOODS_SOURCE_2016, gridStandAt, patchAt, patchCover, standAt } from '../sim/woods.mjs';
+import { realTerrain } from '../sim/terrain-data.mjs';
 import { landAround } from '../sim/ground.mjs';
 import { coloniesMap } from '../sim/colonies-map.mjs';
 import { dateOf } from '../sim/clock.mjs';
@@ -74,14 +75,15 @@ function huntAt(world, household, point) {
 
 test('the quarry a place holds is fixed by its ground and the season, and deer are everywhere game is', () => {
   const bottom = STANDS.bottomland.quarry, coast = STANDS['coastal-prairie'].quarry, grass = STANDS['tallgrass-prairie'].quarry;
-  const seen = { timber: {}, octoberOpen: {}, novemberOpen: {}, tallgrassWinter: {}, tallgrassAutumn: {} };
+  const seen = { timber: {}, octoberOpen: {}, novemberOpen: {}, tallgrassWinter: {}, tallgrassSummer: {} };
   for (let px = 0; px < 60; px++) for (let py = 0; py < 60; py++) {
     const count = (bucket, id) => { seen[bucket][id] = (seen[bucket][id] || 0) + 1; };
     count('timber', quarryAt(bottom, 'timber', false, 9, px, py));
     count('octoberOpen', quarryAt(coast, 'open', false, 9, px, py));
     count('novemberOpen', quarryAt(coast, 'open', false, 10, px, py));
     count('tallgrassWinter', quarryAt(grass, 'open', false, 0, px, py));
-    count('tallgrassAutumn', quarryAt(grass, 'open', false, 8, px, py));
+    // July: out of the buffalo's months, which since 2026-09-20 run September to April (`HIST-TEX-260`).
+    count('tallgrassSummer', quarryAt(grass, 'open', false, 6, px, py));
     // The same ground in the same month brings the same quarry, every time it is asked.
     assert.equal(quarryAt(bottom, 'timber', true, 3, px, py), quarryAt(bottom, 'timber', true, 3, px, py));
     // What keeps to cover is never met on the open grass, nor the open grass's game in the timber.
@@ -94,17 +96,27 @@ test('the quarry a place holds is fixed by its ground and the season, and deer a
   assert.equal(seen.octoberOpen.waterfowl, undefined, 'ducks and geese on the coast in October');
   assert.ok(seen.novemberOpen.waterfowl > 0, JSON.stringify(seen.novemberOpen));
   assert.ok(seen.octoberOpen.cattle > 0 && seen.octoberOpen.mustang > 0 && seen.octoberOpen.deer > 0, JSON.stringify(seen.octoberOpen));
+  // And out on the open prairie the deer is still the commonest thing on it, by a good margin (2026-09-20,
+  // `HIST-TEX-261`): Holley has them "so plentiful and tame, that they often come upon the plantations of farmers, and
+  // feed in company with the cattle", and Dilue Harris had them feeding near the house at Stafford's Point in 1834.
+  // Before this the open prairie gave a deer no more weight than a wild cow or a mustang.
+  assert.ok(seen.octoberOpen.deer > seen.octoberOpen.mustang * 1.5, `a deer on ${seen.octoberOpen.deer} open coastal patches against ${seen.octoberOpen.mustang} mustangs`);
+  // A buffalo is rare on the winter grass and never the half of it (2026-09-20, `HIST-TEX-262`): Berlandier has the herds
+  // gone from the colonized districts "since 1828", and Kuykendall, who killed one on New Year's Creek in January 1822,
+  // "found no more during our residence there". Before this it was one open tallgrass patch in two.
   assert.ok(seen.tallgrassWinter.bison > 0, JSON.stringify(seen.tallgrassWinter));
-  assert.deepEqual(Object.keys(seen.tallgrassAutumn), ['deer'], 'a deer is what the tallgrass holds out of the buffalo months');
+  assert.ok(seen.tallgrassWinter.bison < seen.tallgrassWinter.deer / 8, `a buffalo on ${seen.tallgrassWinter.bison} of ${seen.tallgrassWinter.bison + seen.tallgrassWinter.deer} open tallgrass patches`);
+  assert.deepEqual(Object.keys(seen.tallgrassSummer), ['deer'], 'a deer is what the tallgrass holds out of the buffalo months');
   // Nothing on the dunes; a salt prairie out of the ducks' months still has the odd deer.
   assert.equal(quarryAt(STANDS.dunes.quarry, 'open', false, 0, 1, 1), null);
   assert.equal(quarryAt(STANDS['salt-prairie'].quarry, 'open', false, 9, 1, 1), 'deer');
   for (const id of Object.keys(GAME)) assert.ok(STANDS && GAME[id].a && GAME[id].meat > 0 && GAME[id].covers.length, id);
   assert.deepEqual([...GAME.waterfowl.months].sort((a, b) => a - b), [...WINTER].sort((a, b) => a - b), 'ducks and geese are winter game');
-  // The buffalo's months are the sources' and not the ducks': north "in April or May", south again in September and
-  // October (Berlandier through Hornaday, `HIST-TEX-201`), so October to April and never the summer.
-  assert.deepEqual([...GAME.bison.months].sort((a, b) => a - b), [0, 1, 2, 3, 9, 10, 11]);
-  for (const month of [4, 5, 6, 7, 8]) assert.ok(!GAME.bison.months.includes(month), `a buffalo in month ${month}`);
+  // The buffalo's months are the sources' and not the ducks': north "in April or May", south again "in September and
+  // October" (Berlandier through Hornaday, `HIST-TEX-201`, read whole 2026-09-20), so September to April and never the
+  // summer. September was left out when these were first written and is his own word (`HIST-TEX-260`).
+  assert.deepEqual([...GAME.bison.months].sort((a, b) => a - b), [0, 1, 2, 3, 8, 9, 10, 11]);
+  for (const month of [4, 5, 6, 7]) assert.ok(!GAME.bison.months.includes(month), `a buffalo in month ${month}`);
   // Said as the season has it.
   assert.equal(quarryWords(STANDS['salt-prairie'].quarry, 9), 'Ducks and geese come in the winter.');
   assert.equal(quarryWords(STANDS['salt-prairie'].quarry, 11), 'Ducks and geese keep to it.');
@@ -187,13 +199,25 @@ test('the wild herds keep west of the Lavaca, and the ducks and geese to the wat
   const winter = Date.UTC(1835, 11, 1, 8);
   world.minute += Math.round((winter - dateOf(world, world.minute).getTime()) / 60000);
   const wet = new Set(['marsh', 'salt-prairie', 'cypress-swamp']);
-  let herds = 0, east = 0, fowlDry = 0, fowlWet = 0, seen = 0;
+  // Amended 2026-09-20 (`HIST-TEX-260`, `-261`, `FIC-GONZ-170`, `-171`): the wild cow, the buffalo and the javelina are
+  // still stopped at the Lavaca, but the **mustang** is only thinned east of it - Woodman's own sentence is "not
+  // numerous", not "none", and Dilue Harris had wild horses feeding near the house at Stafford's Point in 1834 - and the
+  // **antelope** is gone from every place a family can hunt, which no line was ever going to do.
+  const STOPPED = ['cattle', 'bison', 'javelina'];
+  let herds = 0, east = 0, fowlDry = 0, fowlWet = 0, seen = 0, mustangHeldEast = 0, mustangCameEast = 0, eastPlaces = 0;
   for (const { point, facts } of huntingPlaces(world)) {
     seen++;
-    const WESTERN = ['cattle', 'mustang', 'bison', 'pronghorn', 'javelina'];
-    const anyHerd = WESTERN.some(id => facts.quarry?.includes(id));
-    if (anyHerd) { herds++; assert.ok(westOfTheLavaca(point), `a wild herd east of the Lavaca: ${facts.quarry}`); } else if (!westOfTheLavaca(point)) east++;
-    assert.ok(!WESTERN.includes(facts.comes) || westOfTheLavaca(point), `${facts.comes} east of the Lavaca`);
+    const west = westOfTheLavaca(point);
+    if (!west) eastPlaces++;
+    const anyHerd = STOPPED.some(id => facts.quarry?.includes(id));
+    if (anyHerd) { herds++; assert.ok(west, `a wild herd east of the Lavaca: ${facts.quarry}`); } else if (!west) east++;
+    assert.ok(!STOPPED.includes(facts.comes) || west, `${facts.comes} east of the Lavaca`);
+    // The antelope belongs to the chaparral and the mixed-grass prairie, and no family in this box lives in either: not
+    // one place a class can hunt holds one, on either bank, and none is ever what comes.
+    assert.ok(!facts.quarry?.includes('pronghorn'), `an antelope on a family's land: ${facts.stand} at ${point.x},${point.y}`);
+    assert.notEqual(facts.comes, 'pronghorn', `an antelope came to a hunt: ${facts.stand}`);
+    if (!west && facts.quarry?.includes('mustang')) mustangHeldEast++;
+    if (!west && facts.comes === 'mustang') mustangCameEast++;
     if (facts.quarry?.includes('waterfowl')) {
       const near = landAround().nearestWater(point, () => true, WATERFOWL_MILES);
       if (near || wet.has(facts.stand)) fowlWet++; else fowlDry++;
@@ -203,6 +227,57 @@ test('the wild herds keep west of the Lavaca, and the ducks and geese to the wat
   assert.ok(herds > 0 && east > 0, `${herds} places with a wild herd, ${east} east of the Lavaca without one`);
   assert.ok(fowlWet > 0, 'no ducks and geese by the water in December');
   assert.equal(fowlDry, 0, 'ducks and geese on dry ground a quarter mile from any water');
+  // The mustang is no longer stopped at the river - the coastal prairie east of it holds one again - but it is thin:
+  // fewer than one place in twenty brings one, where its full weight brings one in seven or eight (`HIST-TEX-261`).
+  assert.ok(mustangHeldEast > 0, 'no place east of the Lavaca holds a mustang at all');
+  assert.ok(mustangCameEast > 0, 'the mustang is thin east of the Lavaca, not absent');
+  assert.ok(mustangCameEast / eastPlaces < 0.05, `a mustang came to ${mustangCameEast} of ${eastPlaces} places east of the Lavaca`);
+  // And thin against the very same ground at its full weight: only the mustang's own share is changed.
+  const coast = STANDS['coastal-prairie'].quarry;
+  const thinned = new Map([['mustang', THIN]]);
+  let full = 0, thin = 0;
+  for (let px = 0; px < 60; px++) for (let py = 0; py < 60; py++) {
+    if (quarryAt(coast, 'open', false, 9, px, py) === 'mustang') full++;
+    if (quarryAt(coast, 'open', false, 9, px, py, thinned) === 'mustang') thin++;
+  }
+  assert.ok(thin > 0 && thin * 4 < full, `a mustang on ${thin} of 3600 thinned patches against ${full} at full weight`);
+});
+
+test('the antelope keeps to its own country, and that country is nowhere a family lives (2026-09-20)', () => {
+  // The owner, 2026-09-20: "I've never heard of Antelope in Texas." The antelope was in Texas, but not here and not then.
+  // Neither contemporary enumeration of Texas game names it - Woodman's chapter of 1835 (pp. 59-60) and Holley's zoology of
+  // 1836 (pp. 94-100) both run through buffalo, deer, bear, peccary, wolf, panther, wildcat, wild horse, turkey, duck,
+  // goose, brant, swan, raccoon, opossum, rabbit, squirrel and fox, with no antelope among them - and every dated sighting
+  // is far west or south-west of the colonies: Olmsted's "one small herd" on the frontier road west of San Antonio and his
+  // antelope "below the chaparral wilderness"; Bartlett's thousands between the Rio Grande and Corpus in December 1852;
+  // Bailey's records of 1899-1902, none east of Alice (`HIST-TEX-260`). So the antelope belongs to `chaparral` and
+  // `mixedgrass-prairie` and to nothing else, and those two stands stand west of 97.4°W in this grid.
+  const holds = Object.entries(STANDS).filter(([, stand]) => stand.quarry?.includes('pronghorn')).map(([id]) => id);
+  assert.deepEqual(holds.sort(), ['chaparral', 'mixedgrass-prairie']);
+  // And it is out of every one of the stands the settled colonies are made of.
+  for (const id of ['mesquite-savanna', 'hill-savanna', 'coastal-prairie', 'tallgrass-prairie', 'live-oak', 'post-oak', 'thorn-riparian', 'palm-grove', 'salt-prairie', 'dunes', 'marsh']) {
+    assert.ok(!STANDS[id].quarry?.includes('pronghorn'), `an antelope on the ${STANDS[id].name}`);
+  }
+  // Read off the grid itself: every cell of either stand is west of the Lavaca and west of the 97.4th meridian, which is
+  // west of every settled place in the box but Béxar - and Béxar's own country holds neither stand.
+  const terrain = realTerrain();
+  const { origin, projection } = terrain.header;
+  const lonOf = x => origin.lon + x / projection.milesPerLon;
+  let cells = 0, east = null;
+  for (let x = -350; x <= 400; x += 2) for (let y = -320; y <= 210; y += 2) {
+    if (!holds.includes(gridStandAt({ x, y }))) continue;
+    cells++;
+    const lon = lonOf(x);
+    if (east === null || lon > east) east = lon;
+    assert.ok(westOfTheLavaca({ x, y }), `antelope country east of the Lavaca at ${lon.toFixed(2)}`);
+  }
+  assert.ok(cells > 100, `${cells} cells of antelope country`);
+  assert.ok(east < -97.4, `antelope country reaches ${east.toFixed(2)}, east of the 97.4th meridian`);
+  // And no settled place stands in it.
+  for (const place of Object.values(coloniesMap().places)) {
+    if (place.kind !== 'town') continue;
+    assert.ok(!holds.includes(gridStandAt(place)), `${place.name} stands in antelope country`);
+  }
 });
 
 test('a running creek as big as a bayou carries a belt of timber, not a fringe (2026-09-19)', () => {

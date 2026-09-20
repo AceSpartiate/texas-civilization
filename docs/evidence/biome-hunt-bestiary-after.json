@@ -1,0 +1,9753 @@
+{
+ "record": "The hunting bench: docs/BIOME_GAMEPLAY.md §5",
+ "label": "bestiary-after",
+ "date": "2026-09-20",
+ "seeds": 6,
+ "families": 30,
+ "autumn": {
+  "all": {
+   "families": 180,
+   "placeGameMedian": 1,
+   "hunts": 1080,
+   "ticksPerHunt": 12.19,
+   "killsPerHunt": 1.03,
+   "foodPerHunt": 5.03,
+   "foodPerHourMedian": 1.5950000000000002,
+   "foodPerHourMean": 1.67,
+   "hidesPerHunt": 0.84,
+   "quarry": {
+    "deer": 766,
+    "mustang": 31,
+    "bear": 99,
+    "turkey": 201,
+    "cattle": 6
+   }
+  },
+  "byCountry": {
+   "prairie": {
+    "families": 45,
+    "placeGameMedian": 0.45,
+    "hunts": 270,
+    "ticksPerHunt": 13.07,
+    "killsPerHunt": 1.03,
+    "foodPerHunt": 5.11,
+    "foodPerHourMedian": 1.32,
+    "foodPerHourMean": 1.57,
+    "hidesPerHunt": 0.96,
+    "quarry": {
+     "mustang": 19,
+     "turkey": 18,
+     "deer": 216,
+     "bear": 19,
+     "cattle": 6
+    }
+   },
+   "savanna": {
+    "families": 23,
+    "placeGameMedian": 0.9,
+    "hunts": 138,
+    "ticksPerHunt": 13.48,
+    "killsPerHunt": 1.02,
+    "foodPerHunt": 5.05,
+    "foodPerHourMedian": 1.36,
+    "foodPerHourMean": 1.51,
+    "hidesPerHunt": 0.8,
+    "quarry": {
+     "deer": 92,
+     "turkey": 30,
+     "bear": 13,
+     "mustang": 6
+    }
+   },
+   "timber": {
+    "families": 112,
+    "placeGameMedian": 1,
+    "hunts": 672,
+    "ticksPerHunt": 11.57,
+    "killsPerHunt": 1.03,
+    "foodPerHunt": 4.99,
+    "foodPerHourMedian": 1.64,
+    "foodPerHourMean": 1.75,
+    "hidesPerHunt": 0.8,
+    "quarry": {
+     "deer": 458,
+     "bear": 67,
+     "turkey": 153,
+     "mustang": 6
+    }
+   }
+  },
+  "bySettlement": {
+   "columbia": {
+    "families": 36,
+    "placeGameMedian": 1,
+    "hunts": 216,
+    "ticksPerHunt": 9.75,
+    "killsPerHunt": 1.03,
+    "foodPerHunt": 5.1,
+    "foodPerHourMedian": 1.6949999999999998,
+    "foodPerHourMean": 1.87,
+    "hidesPerHunt": 0.92,
+    "quarry": {
+     "mustang": 19,
+     "deer": 155,
+     "bear": 19,
+     "turkey": 24
+    }
+   },
+   "gonzales": {
+    "families": 24,
+    "placeGameMedian": 1,
+    "hunts": 144,
+    "ticksPerHunt": 15.95,
+    "killsPerHunt": 1.01,
+    "foodPerHunt": 4.94,
+    "foodPerHourMedian": 1.335,
+    "foodPerHourMean": 1.42,
+    "hidesPerHunt": 0.76,
+    "quarry": {
+     "deer": 104,
+     "turkey": 36,
+     "bear": 6
+    }
+   },
+   "liberty": {
+    "families": 24,
+    "placeGameMedian": 1,
+    "hunts": 144,
+    "ticksPerHunt": 9.15,
+    "killsPerHunt": 1.03,
+    "foodPerHunt": 5.07,
+    "foodPerHourMedian": 1.655,
+    "foodPerHourMean": 1.92,
+    "hidesPerHunt": 0.91,
+    "quarry": {
+     "bear": 31,
+     "deer": 100,
+     "turkey": 18
+    }
+   },
+   "matagorda": {
+    "families": 24,
+    "placeGameMedian": 0.8500000000000001,
+    "hunts": 144,
+    "ticksPerHunt": 14.92,
+    "killsPerHunt": 1.03,
+    "foodPerHunt": 5.08,
+    "foodPerHourMedian": 1.28,
+    "foodPerHourMean": 1.47,
+    "hidesPerHunt": 0.82,
+    "quarry": {
+     "bear": 12,
+     "deer": 100,
+     "turkey": 31,
+     "mustang": 6
+    }
+   },
+   "mina": {
+    "families": 18,
+    "placeGameMedian": 0.95,
+    "hunts": 108,
+    "ticksPerHunt": 10.55,
+    "killsPerHunt": 1.03,
+    "foodPerHunt": 5.08,
+    "foodPerHourMedian": 1.6549999999999998,
+    "foodPerHourMean": 1.91,
+    "hidesPerHunt": 0.92,
+    "quarry": {
+     "deer": 86,
+     "bear": 13,
+     "turkey": 12
+    }
+   },
+   "san-felipe": {
+    "families": 48,
+    "placeGameMedian": 1,
+    "hunts": 288,
+    "ticksPerHunt": 13.12,
+    "killsPerHunt": 1.02,
+    "foodPerHunt": 4.92,
+    "foodPerHourMedian": 1.365,
+    "foodPerHourMean": 1.5,
+    "hidesPerHunt": 0.76,
+    "quarry": {
+     "deer": 201,
+     "turkey": 74,
+     "bear": 18
+    }
+   },
+   "victoria": {
+    "families": 6,
+    "placeGameMedian": 1,
+    "hunts": 36,
+    "ticksPerHunt": 10.5,
+    "killsPerHunt": 1.06,
+    "foodPerHunt": 5.21,
+    "foodPerHourMedian": 1.9649999999999999,
+    "foodPerHourMean": 1.96,
+    "hidesPerHunt": 0.89,
+    "quarry": {
+     "deer": 20,
+     "mustang": 6,
+     "cattle": 6,
+     "turkey": 6
+    }
+   }
+  }
+ },
+ "winter": {
+  "all": {
+   "families": 180,
+   "placeGameMedian": 1,
+   "hunts": 1080,
+   "ticksPerHunt": 7.31,
+   "killsPerHunt": 1,
+   "foodPerHunt": 4.87,
+   "foodPerHourMedian": 2.4,
+   "foodPerHourMean": 2.23,
+   "hidesPerHunt": 0.78,
+   "quarry": {
+    "deer": 714,
+    "waterfowl": 42,
+    "bear": 96,
+    "turkey": 198,
+    "mustang": 12,
+    "cattle": 12
+   }
+  },
+  "byCountry": {
+   "prairie": {
+    "families": 45,
+    "placeGameMedian": 0.45,
+    "hunts": 270,
+    "ticksPerHunt": 7.64,
+    "killsPerHunt": 1,
+    "foodPerHunt": 4.88,
+    "foodPerHourMedian": 2.14,
+    "foodPerHourMean": 2.19,
+    "hidesPerHunt": 0.8,
+    "quarry": {
+     "waterfowl": 36,
+     "turkey": 18,
+     "deer": 186,
+     "mustang": 6,
+     "bear": 18,
+     "cattle": 6
+    }
+   },
+   "savanna": {
+    "families": 23,
+    "placeGameMedian": 0.9,
+    "hunts": 138,
+    "ticksPerHunt": 7.52,
+    "killsPerHunt": 1,
+    "foodPerHunt": 4.94,
+    "foodPerHourMedian": 2.5,
+    "foodPerHourMean": 2.22,
+    "hidesPerHunt": 0.78,
+    "quarry": {
+     "deer": 90,
+     "turkey": 30,
+     "bear": 12,
+     "mustang": 6
+    }
+   },
+   "timber": {
+    "families": 112,
+    "placeGameMedian": 1,
+    "hunts": 672,
+    "ticksPerHunt": 7.13,
+    "killsPerHunt": 1,
+    "foodPerHunt": 4.85,
+    "foodPerHourMedian": 2.4,
+    "foodPerHourMean": 2.25,
+    "hidesPerHunt": 0.77,
+    "quarry": {
+     "deer": 438,
+     "bear": 66,
+     "turkey": 150,
+     "cattle": 6,
+     "waterfowl": 6
+    }
+   }
+  },
+  "bySettlement": {
+   "columbia": {
+    "families": 36,
+    "placeGameMedian": 1,
+    "hunts": 216,
+    "ticksPerHunt": 7.14,
+    "killsPerHunt": 1,
+    "foodPerHunt": 4.91,
+    "foodPerHourMedian": 2.14,
+    "foodPerHourMean": 2.28,
+    "hidesPerHunt": 0.83,
+    "quarry": {
+     "waterfowl": 12,
+     "deer": 150,
+     "mustang": 6,
+     "bear": 18,
+     "turkey": 24
+    }
+   },
+   "gonzales": {
+    "families": 24,
+    "placeGameMedian": 1,
+    "hunts": 144,
+    "ticksPerHunt": 7.79,
+    "killsPerHunt": 1,
+    "foodPerHunt": 4.87,
+    "foodPerHourMedian": 1.9849999999999999,
+    "foodPerHourMean": 2.08,
+    "hidesPerHunt": 0.75,
+    "quarry": {
+     "deer": 102,
+     "turkey": 36,
+     "bear": 6
+    }
+   },
+   "liberty": {
+    "families": 24,
+    "placeGameMedian": 1,
+    "hunts": 144,
+    "ticksPerHunt": 7.67,
+    "killsPerHunt": 1,
+    "foodPerHunt": 4.86,
+    "foodPerHourMedian": 2.45,
+    "foodPerHourMean": 2.21,
+    "hidesPerHunt": 0.79,
+    "quarry": {
+     "bear": 30,
+     "deer": 84,
+     "waterfowl": 12,
+     "turkey": 18
+    }
+   },
+   "matagorda": {
+    "families": 24,
+    "placeGameMedian": 0.8500000000000001,
+    "hunts": 144,
+    "ticksPerHunt": 7.08,
+    "killsPerHunt": 1,
+    "foodPerHunt": 4.87,
+    "foodPerHourMedian": 2.4,
+    "foodPerHourMean": 2.29,
+    "hidesPerHunt": 0.75,
+    "quarry": {
+     "bear": 12,
+     "deer": 90,
+     "turkey": 30,
+     "mustang": 6,
+     "waterfowl": 6
+    }
+   },
+   "mina": {
+    "families": 18,
+    "placeGameMedian": 0.95,
+    "hunts": 108,
+    "ticksPerHunt": 7.72,
+    "killsPerHunt": 1,
+    "foodPerHunt": 4.94,
+    "foodPerHourMedian": 2.085,
+    "foodPerHourMean": 2.19,
+    "hidesPerHunt": 0.89,
+    "quarry": {
+     "deer": 84,
+     "bear": 12,
+     "turkey": 12
+    }
+   },
+   "san-felipe": {
+    "families": 48,
+    "placeGameMedian": 1,
+    "hunts": 288,
+    "ticksPerHunt": 7,
+    "killsPerHunt": 1,
+    "foodPerHunt": 4.81,
+    "foodPerHourMedian": 2.5,
+    "foodPerHourMean": 2.28,
+    "hidesPerHunt": 0.71,
+    "quarry": {
+     "deer": 186,
+     "turkey": 72,
+     "waterfowl": 12,
+     "bear": 18
+    }
+   },
+   "victoria": {
+    "families": 6,
+    "placeGameMedian": 1,
+    "hunts": 36,
+    "ticksPerHunt": 7.17,
+    "killsPerHunt": 1,
+    "foodPerHunt": 4.93,
+    "foodPerHourMedian": 2.01,
+    "foodPerHourMean": 2.19,
+    "hidesPerHunt": 0.83,
+    "quarry": {
+     "deer": 18,
+     "cattle": 12,
+     "turkey": 6
+    }
+   }
+  }
+ },
+ "rows": [
+  {
+   "id": "hh-1",
+   "seed": "biomes-0",
+   "when": "autumn",
+   "settlement": "gonzales",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-1-thomas",
+   "place": {
+    "x": -2.91,
+    "y": 1.12
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 62,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.45
+  },
+  {
+   "id": "hh-2",
+   "seed": "biomes-0",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-2-thomas",
+   "place": {
+    "x": 72.6,
+    "y": -24.43
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 153,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 0.59
+  },
+  {
+   "id": "hh-3",
+   "seed": "biomes-0",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-3-thomas",
+   "place": {
+    "x": 107.42,
+    "y": 26.27
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 83,
+   "placeGame": 0.45,
+   "shots": 7,
+   "missed": 0,
+   "kills": 7,
+   "food": 35,
+   "quarry": {
+    "mustang": 7
+   },
+   "hides": 7,
+   "foodPerHour": 1.27
+  },
+  {
+   "id": "hh-4",
+   "seed": "biomes-0",
+   "when": "autumn",
+   "settlement": "matagorda",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-4-thomas",
+   "place": {
+    "x": 88.08,
+    "y": 50.7
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 38,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "bear": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.37
+  },
+  {
+   "id": "hh-5",
+   "seed": "biomes-0",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-5-thomas",
+   "place": {
+    "x": 82.34,
+    "y": -30.61
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 35,
+   "placeGame": 1,
+   "shots": 7,
+   "missed": 0,
+   "kills": 7,
+   "food": 32.2,
+   "quarry": {
+    "turkey": 7
+   },
+   "hides": 0,
+   "foodPerHour": 2.76
+  },
+  {
+   "id": "hh-6",
+   "seed": "biomes-0",
+   "when": "autumn",
+   "settlement": "liberty",
+   "stand": "pine",
+   "country": "timber",
+   "hunter": "hh-6-thomas",
+   "place": {
+    "x": 155.96,
+    "y": -40.39
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 33,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "bear": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.73
+  },
+  {
+   "id": "hh-7",
+   "seed": "biomes-0",
+   "when": "autumn",
+   "settlement": "gonzales",
+   "stand": "tallgrass-prairie",
+   "country": "prairie",
+   "hunter": "hh-7-thomas",
+   "place": {
+    "x": 5.24,
+    "y": -6.67
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 338,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 27.6,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 0.24
+  },
+  {
+   "id": "hh-8",
+   "seed": "biomes-0",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-8-thomas",
+   "place": {
+    "x": 88.176,
+    "y": -25.496
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 38,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.37
+  },
+  {
+   "id": "hh-9",
+   "seed": "biomes-0",
+   "when": "autumn",
+   "settlement": "gonzales",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-9-thomas",
+   "place": {
+    "x": 3.23,
+    "y": 1.27
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 55,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 1,
+   "kills": 6,
+   "food": 24,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 1.31
+  },
+  {
+   "id": "hh-10",
+   "seed": "biomes-0",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-10-thomas",
+   "place": {
+    "x": 84.96,
+    "y": -11
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 169,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 24,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 0.43
+  },
+  {
+   "id": "hh-11",
+   "seed": "biomes-0",
+   "when": "autumn",
+   "settlement": "victoria",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-11-thomas",
+   "place": {
+    "x": 27.01,
+    "y": 56.99
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 63,
+   "placeGame": 1,
+   "shots": 7,
+   "missed": 0,
+   "kills": 7,
+   "food": 35,
+   "quarry": {
+    "deer": 7
+   },
+   "hides": 7,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-12",
+   "seed": "biomes-0",
+   "when": "autumn",
+   "settlement": "mina",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-12-thomas",
+   "place": {
+    "x": 12.43,
+    "y": -50.56
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-13",
+   "seed": "biomes-0",
+   "when": "autumn",
+   "settlement": "matagorda",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-13-thomas",
+   "place": {
+    "x": 83.28,
+    "y": 46.36
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 78,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.15
+  },
+  {
+   "id": "hh-14",
+   "seed": "biomes-0",
+   "when": "autumn",
+   "settlement": "matagorda",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-14-thomas",
+   "place": {
+    "x": 84.97,
+    "y": 52.06
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 174,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 0.52
+  },
+  {
+   "id": "hh-15",
+   "seed": "biomes-0",
+   "when": "autumn",
+   "settlement": "matagorda",
+   "stand": "live-oak",
+   "country": "savanna",
+   "hunter": "hh-15-thomas",
+   "place": {
+    "x": 83.45,
+    "y": 55.51
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 33,
+   "placeGame": 0.8,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 2.73
+  },
+  {
+   "id": "hh-16",
+   "seed": "biomes-0",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-16-thomas",
+   "place": {
+    "x": 80.71,
+    "y": -25.27
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 91,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 0.99
+  },
+  {
+   "id": "hh-17",
+   "seed": "biomes-0",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-17-thomas",
+   "place": {
+    "x": 103.44,
+    "y": 17.24
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 35,
+   "placeGame": 1,
+   "shots": 7,
+   "missed": 0,
+   "kills": 7,
+   "food": 35,
+   "quarry": {
+    "deer": 7
+   },
+   "hides": 7,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-18",
+   "seed": "biomes-0",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-18-thomas",
+   "place": {
+    "x": 113.99,
+    "y": 24.26
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 55,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 1,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.64
+  },
+  {
+   "id": "hh-19",
+   "seed": "biomes-0",
+   "when": "autumn",
+   "settlement": "gonzales",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-19-thomas",
+   "place": {
+    "x": 8.68,
+    "y": 1.52
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 36,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.5
+  },
+  {
+   "id": "hh-20",
+   "seed": "biomes-0",
+   "when": "autumn",
+   "settlement": "liberty",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-20-thomas",
+   "place": {
+    "x": 161.6,
+    "y": -41.54
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 56,
+   "placeGame": 1,
+   "shots": 7,
+   "missed": 1,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.61
+  },
+  {
+   "id": "hh-21",
+   "seed": "biomes-0",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-21-thomas",
+   "place": {
+    "x": 113.373,
+    "y": 34.517
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 35,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.57
+  },
+  {
+   "id": "hh-22",
+   "seed": "biomes-0",
+   "when": "autumn",
+   "settlement": "liberty",
+   "stand": "pine",
+   "country": "timber",
+   "hunter": "hh-22-thomas",
+   "place": {
+    "x": 162.2,
+    "y": -47.09
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 72,
+   "placeGame": 0.8,
+   "shots": 7,
+   "missed": 0,
+   "kills": 7,
+   "food": 35,
+   "quarry": {
+    "deer": 7
+   },
+   "hides": 7,
+   "foodPerHour": 1.46
+  },
+  {
+   "id": "hh-23",
+   "seed": "biomes-0",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-23-thomas",
+   "place": {
+    "x": 83.87,
+    "y": -26.62
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 56,
+   "placeGame": 1,
+   "shots": 7,
+   "missed": 1,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.61
+  },
+  {
+   "id": "hh-24",
+   "seed": "biomes-0",
+   "when": "autumn",
+   "settlement": "mina",
+   "stand": "pine",
+   "country": "timber",
+   "hunter": "hh-24-thomas",
+   "place": {
+    "x": 15.503,
+    "y": -49.977
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-25",
+   "seed": "biomes-0",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-25-thomas",
+   "place": {
+    "x": 103.13,
+    "y": 22.09
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 65,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.38
+  },
+  {
+   "id": "hh-26",
+   "seed": "biomes-0",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-26-thomas",
+   "place": {
+    "x": 85.18,
+    "y": -21.86
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 127,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 0.71
+  },
+  {
+   "id": "hh-27",
+   "seed": "biomes-0",
+   "when": "autumn",
+   "settlement": "mina",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-27-thomas",
+   "place": {
+    "x": 3.37,
+    "y": -41.58
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 76,
+   "placeGame": 0.9,
+   "shots": 7,
+   "missed": 0,
+   "kills": 7,
+   "food": 35,
+   "quarry": {
+    "deer": 7
+   },
+   "hides": 7,
+   "foodPerHour": 1.38
+  },
+  {
+   "id": "hh-28",
+   "seed": "biomes-0",
+   "when": "autumn",
+   "settlement": "liberty",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-28-thomas",
+   "place": {
+    "x": 156.97,
+    "y": -29.87
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 88,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.02
+  },
+  {
+   "id": "hh-29",
+   "seed": "biomes-0",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-29-thomas",
+   "place": {
+    "x": 112.45,
+    "y": 31.41
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 101,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "mustang": 6
+   },
+   "hides": 6,
+   "foodPerHour": 0.89
+  },
+  {
+   "id": "hh-30",
+   "seed": "biomes-0",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-30-thomas",
+   "place": {
+    "x": 88.877,
+    "y": -21.853
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 43,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.09
+  },
+  {
+   "id": "hh-1",
+   "seed": "biomes-0",
+   "when": "winter",
+   "settlement": "gonzales",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-1-thomas",
+   "place": {
+    "x": -2.91,
+    "y": 1.12
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-2",
+   "seed": "biomes-0",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-2-thomas",
+   "place": {
+    "x": 72.6,
+    "y": -24.43
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-3",
+   "seed": "biomes-0",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-3-thomas",
+   "place": {
+    "x": 107.42,
+    "y": 26.27
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 0.45,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 24,
+   "quarry": {
+    "waterfowl": 6
+   },
+   "hides": 0,
+   "foodPerHour": 1.33
+  },
+  {
+   "id": "hh-4",
+   "seed": "biomes-0",
+   "when": "winter",
+   "settlement": "matagorda",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-4-thomas",
+   "place": {
+    "x": 88.08,
+    "y": 50.7
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "bear": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-5",
+   "seed": "biomes-0",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-5-thomas",
+   "place": {
+    "x": 82.34,
+    "y": -30.61
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 27.6,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 2.76
+  },
+  {
+   "id": "hh-6",
+   "seed": "biomes-0",
+   "when": "winter",
+   "settlement": "liberty",
+   "stand": "pine",
+   "country": "timber",
+   "hunter": "hh-6-thomas",
+   "place": {
+    "x": 155.96,
+    "y": -40.39
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "bear": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-7",
+   "seed": "biomes-0",
+   "when": "winter",
+   "settlement": "gonzales",
+   "stand": "tallgrass-prairie",
+   "country": "prairie",
+   "hunter": "hh-7-thomas",
+   "place": {
+    "x": 5.24,
+    "y": -6.67
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 36,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 27.6,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 2.3
+  },
+  {
+   "id": "hh-8",
+   "seed": "biomes-0",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-8-thomas",
+   "place": {
+    "x": 88.176,
+    "y": -25.496
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-9",
+   "seed": "biomes-0",
+   "when": "winter",
+   "settlement": "gonzales",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-9-elena",
+   "place": {
+    "x": 3.23,
+    "y": 1.27
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 24,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 1.33
+  },
+  {
+   "id": "hh-10",
+   "seed": "biomes-0",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-10-thomas",
+   "place": {
+    "x": 84.96,
+    "y": -11
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 24,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 1.33
+  },
+  {
+   "id": "hh-11",
+   "seed": "biomes-0",
+   "when": "winter",
+   "settlement": "victoria",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-11-thomas",
+   "place": {
+    "x": 27.01,
+    "y": 56.99
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-12",
+   "seed": "biomes-0",
+   "when": "winter",
+   "settlement": "mina",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-12-thomas",
+   "place": {
+    "x": 12.43,
+    "y": -50.56
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-13",
+   "seed": "biomes-0",
+   "when": "winter",
+   "settlement": "matagorda",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-13-thomas",
+   "place": {
+    "x": 83.28,
+    "y": 46.36
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 78,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.15
+  },
+  {
+   "id": "hh-14",
+   "seed": "biomes-0",
+   "when": "winter",
+   "settlement": "matagorda",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-14-thomas",
+   "place": {
+    "x": 84.97,
+    "y": 52.06
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-15",
+   "seed": "biomes-0",
+   "when": "winter",
+   "settlement": "matagorda",
+   "stand": "live-oak",
+   "country": "savanna",
+   "hunter": "hh-15-thomas",
+   "place": {
+    "x": 83.45,
+    "y": 55.51
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 0.8,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-16",
+   "seed": "biomes-0",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-16-thomas",
+   "place": {
+    "x": 80.71,
+    "y": -25.27
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-17",
+   "seed": "biomes-0",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-17-thomas",
+   "place": {
+    "x": 103.44,
+    "y": 17.24
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-18",
+   "seed": "biomes-0",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-18-thomas",
+   "place": {
+    "x": 113.99,
+    "y": 24.26
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-19",
+   "seed": "biomes-0",
+   "when": "winter",
+   "settlement": "gonzales",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-19-thomas",
+   "place": {
+    "x": 8.68,
+    "y": 1.52
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 36,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.5
+  },
+  {
+   "id": "hh-20",
+   "seed": "biomes-0",
+   "when": "winter",
+   "settlement": "liberty",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-20-thomas",
+   "place": {
+    "x": 161.6,
+    "y": -41.54
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-21",
+   "seed": "biomes-0",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-21-thomas",
+   "place": {
+    "x": 113.373,
+    "y": 34.517
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-22",
+   "seed": "biomes-0",
+   "when": "winter",
+   "settlement": "liberty",
+   "stand": "pine",
+   "country": "timber",
+   "hunter": "hh-22-thomas",
+   "place": {
+    "x": 162.2,
+    "y": -47.09
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 66,
+   "placeGame": 0.8,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.36
+  },
+  {
+   "id": "hh-23",
+   "seed": "biomes-0",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-23-thomas",
+   "place": {
+    "x": 83.87,
+    "y": -26.62
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-24",
+   "seed": "biomes-0",
+   "when": "winter",
+   "settlement": "mina",
+   "stand": "pine",
+   "country": "timber",
+   "hunter": "hh-24-thomas",
+   "place": {
+    "x": 15.503,
+    "y": -49.977
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-25",
+   "seed": "biomes-0",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-25-thomas",
+   "place": {
+    "x": 103.13,
+    "y": 22.09
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 48,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.88
+  },
+  {
+   "id": "hh-26",
+   "seed": "biomes-0",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-26-thomas",
+   "place": {
+    "x": 85.18,
+    "y": -21.86
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-27",
+   "seed": "biomes-0",
+   "when": "winter",
+   "settlement": "mina",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-27-thomas",
+   "place": {
+    "x": 3.37,
+    "y": -41.58
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 66,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.36
+  },
+  {
+   "id": "hh-28",
+   "seed": "biomes-0",
+   "when": "winter",
+   "settlement": "liberty",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-28-thomas",
+   "place": {
+    "x": 156.97,
+    "y": -29.87
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 24,
+   "quarry": {
+    "waterfowl": 6
+   },
+   "hides": 0,
+   "foodPerHour": 1.33
+  },
+  {
+   "id": "hh-29",
+   "seed": "biomes-0",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-29-thomas",
+   "place": {
+    "x": 112.45,
+    "y": 31.41
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 42,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "mustang": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.14
+  },
+  {
+   "id": "hh-30",
+   "seed": "biomes-0",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-30-thomas",
+   "place": {
+    "x": 88.877,
+    "y": -21.853
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-1",
+   "seed": "biomes-1",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-1-thomas",
+   "place": {
+    "x": 88.44,
+    "y": -21.73
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 100,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 0.9
+  },
+  {
+   "id": "hh-2",
+   "seed": "biomes-1",
+   "when": "autumn",
+   "settlement": "matagorda",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-2-elena",
+   "place": {
+    "x": 92.75,
+    "y": 45.13
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 83,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.08
+  },
+  {
+   "id": "hh-3",
+   "seed": "biomes-1",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-3-thomas",
+   "place": {
+    "x": 116.12,
+    "y": 31.15
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 72,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "bear": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.25
+  },
+  {
+   "id": "hh-4",
+   "seed": "biomes-1",
+   "when": "autumn",
+   "settlement": "liberty",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-4-thomas",
+   "place": {
+    "x": 165.76,
+    "y": -37.77
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 34,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.65
+  },
+  {
+   "id": "hh-5",
+   "seed": "biomes-1",
+   "when": "autumn",
+   "settlement": "victoria",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-5-thomas",
+   "place": {
+    "x": 27.13,
+    "y": 43
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 48,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "mustang": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.88
+  },
+  {
+   "id": "hh-6",
+   "seed": "biomes-1",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-6-thomas",
+   "place": {
+    "x": 107.17,
+    "y": 19.57
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 58,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "mustang": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.55
+  },
+  {
+   "id": "hh-7",
+   "seed": "biomes-1",
+   "when": "autumn",
+   "settlement": "liberty",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-7-thomas",
+   "place": {
+    "x": 167.1,
+    "y": -45.14
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 36,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.5
+  },
+  {
+   "id": "hh-8",
+   "seed": "biomes-1",
+   "when": "autumn",
+   "settlement": "liberty",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-8-thomas",
+   "place": {
+    "x": 160.84,
+    "y": -47.82
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "bear": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-9",
+   "seed": "biomes-1",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-9-thomas",
+   "place": {
+    "x": 109.3,
+    "y": 30.86
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 63,
+   "placeGame": 1,
+   "shots": 7,
+   "missed": 0,
+   "kills": 7,
+   "food": 35,
+   "quarry": {
+    "deer": 7
+   },
+   "hides": 7,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-10",
+   "seed": "biomes-1",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-10-thomas",
+   "place": {
+    "x": 76.16,
+    "y": -18.95
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 55,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 1,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.64
+  },
+  {
+   "id": "hh-11",
+   "seed": "biomes-1",
+   "when": "autumn",
+   "settlement": "gonzales",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-11-thomas",
+   "place": {
+    "x": 1.78,
+    "y": -3.37
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 111,
+   "placeGame": 0.2,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 0.81
+  },
+  {
+   "id": "hh-12",
+   "seed": "biomes-1",
+   "when": "autumn",
+   "settlement": "liberty",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-12-thomas",
+   "place": {
+    "x": 157.18,
+    "y": -34.42
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 33,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.73
+  },
+  {
+   "id": "hh-13",
+   "seed": "biomes-1",
+   "when": "autumn",
+   "settlement": "gonzales",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-13-thomas",
+   "place": {
+    "x": -4.363,
+    "y": -7.867
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 67,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 1,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.34
+  },
+  {
+   "id": "hh-14",
+   "seed": "biomes-1",
+   "when": "autumn",
+   "settlement": "gonzales",
+   "stand": "tallgrass-prairie",
+   "country": "prairie",
+   "hunter": "hh-14-thomas",
+   "place": {
+    "x": 0.647,
+    "y": -9.073
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 31,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 27.6,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 2.67
+  },
+  {
+   "id": "hh-15",
+   "seed": "biomes-1",
+   "when": "autumn",
+   "settlement": "mina",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-15-thomas",
+   "place": {
+    "x": 16.42,
+    "y": -38.74
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 37,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.43
+  },
+  {
+   "id": "hh-16",
+   "seed": "biomes-1",
+   "when": "autumn",
+   "settlement": "matagorda",
+   "stand": "salt-prairie",
+   "country": "prairie",
+   "hunter": "hh-16-thomas",
+   "place": {
+    "x": 88.24,
+    "y": 53.46
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 33,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.73
+  },
+  {
+   "id": "hh-17",
+   "seed": "biomes-1",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-17-thomas",
+   "place": {
+    "x": 77.56,
+    "y": -25.7
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 71,
+   "placeGame": 0.45,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.27
+  },
+  {
+   "id": "hh-18",
+   "seed": "biomes-1",
+   "when": "autumn",
+   "settlement": "gonzales",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-18-thomas",
+   "place": {
+    "x": 7.79,
+    "y": 0.93
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 98,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 0.92
+  },
+  {
+   "id": "hh-19",
+   "seed": "biomes-1",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-19-thomas",
+   "place": {
+    "x": 71.12,
+    "y": -21.8
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 33,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.73
+  },
+  {
+   "id": "hh-20",
+   "seed": "biomes-1",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-20-thomas",
+   "place": {
+    "x": 120.2,
+    "y": 19.08
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 78,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.15
+  },
+  {
+   "id": "hh-21",
+   "seed": "biomes-1",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-21-thomas",
+   "place": {
+    "x": 91.71,
+    "y": -14.78
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 249,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 0.36
+  },
+  {
+   "id": "hh-22",
+   "seed": "biomes-1",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-22-thomas",
+   "place": {
+    "x": 83.59,
+    "y": -26
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 62,
+   "placeGame": 1,
+   "shots": 7,
+   "missed": 0,
+   "kills": 7,
+   "food": 28,
+   "quarry": {
+    "turkey": 7
+   },
+   "hides": 0,
+   "foodPerHour": 1.35
+  },
+  {
+   "id": "hh-23",
+   "seed": "biomes-1",
+   "when": "autumn",
+   "settlement": "mina",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-23-thomas",
+   "place": {
+    "x": 8.09,
+    "y": -37.71
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 181,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 0.5
+  },
+  {
+   "id": "hh-24",
+   "seed": "biomes-1",
+   "when": "autumn",
+   "settlement": "mina",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-24-thomas",
+   "place": {
+    "x": 7.21,
+    "y": -32.61
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 60,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.5
+  },
+  {
+   "id": "hh-25",
+   "seed": "biomes-1",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-25-thomas",
+   "place": {
+    "x": 82.01,
+    "y": -9.35
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 57,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.58
+  },
+  {
+   "id": "hh-26",
+   "seed": "biomes-1",
+   "when": "autumn",
+   "settlement": "matagorda",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-26-thomas",
+   "place": {
+    "x": 97.1,
+    "y": 49.37
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 38,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 27.6,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 2.18
+  },
+  {
+   "id": "hh-27",
+   "seed": "biomes-1",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-27-thomas",
+   "place": {
+    "x": 102.25,
+    "y": 29
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 56,
+   "placeGame": 1,
+   "shots": 7,
+   "missed": 1,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.61
+  },
+  {
+   "id": "hh-28",
+   "seed": "biomes-1",
+   "when": "autumn",
+   "settlement": "matagorda",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-28-thomas",
+   "place": {
+    "x": 78.957,
+    "y": 53.663
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 55,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 1,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.64
+  },
+  {
+   "id": "hh-29",
+   "seed": "biomes-1",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-29-thomas",
+   "place": {
+    "x": 103.14,
+    "y": 22.89
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 97,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 0.93
+  },
+  {
+   "id": "hh-30",
+   "seed": "biomes-1",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-30-thomas",
+   "place": {
+    "x": 77.84,
+    "y": -29.7
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 81,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 1.11
+  },
+  {
+   "id": "hh-1",
+   "seed": "biomes-1",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-1-thomas",
+   "place": {
+    "x": 88.44,
+    "y": -21.73
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-2",
+   "seed": "biomes-1",
+   "when": "winter",
+   "settlement": "matagorda",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-2-thomas",
+   "place": {
+    "x": 92.75,
+    "y": 45.13
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 48,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.88
+  },
+  {
+   "id": "hh-3",
+   "seed": "biomes-1",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-3-thomas",
+   "place": {
+    "x": 116.12,
+    "y": 31.15
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "bear": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-4",
+   "seed": "biomes-1",
+   "when": "winter",
+   "settlement": "liberty",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-4-elena",
+   "place": {
+    "x": 165.76,
+    "y": -37.77
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-5",
+   "seed": "biomes-1",
+   "when": "winter",
+   "settlement": "victoria",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-5-thomas",
+   "place": {
+    "x": 27.13,
+    "y": 43
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 48,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "cattle": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.88
+  },
+  {
+   "id": "hh-6",
+   "seed": "biomes-1",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-6-thomas",
+   "place": {
+    "x": 107.17,
+    "y": 19.57
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "waterfowl": 6
+   },
+   "hides": 0,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-7",
+   "seed": "biomes-1",
+   "when": "winter",
+   "settlement": "liberty",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-7-thomas",
+   "place": {
+    "x": 167.1,
+    "y": -45.14
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-8",
+   "seed": "biomes-1",
+   "when": "winter",
+   "settlement": "liberty",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-8-thomas",
+   "place": {
+    "x": 160.84,
+    "y": -47.82
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "bear": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-9",
+   "seed": "biomes-1",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-9-thomas",
+   "place": {
+    "x": 109.3,
+    "y": 30.86
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-10",
+   "seed": "biomes-1",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-10-thomas",
+   "place": {
+    "x": 76.16,
+    "y": -18.95
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-11",
+   "seed": "biomes-1",
+   "when": "winter",
+   "settlement": "gonzales",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-11-thomas",
+   "place": {
+    "x": 1.78,
+    "y": -3.37
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 90,
+   "placeGame": 0.2,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1
+  },
+  {
+   "id": "hh-12",
+   "seed": "biomes-1",
+   "when": "winter",
+   "settlement": "liberty",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-12-thomas",
+   "place": {
+    "x": 157.18,
+    "y": -34.42
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-13",
+   "seed": "biomes-1",
+   "when": "winter",
+   "settlement": "gonzales",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-13-thomas",
+   "place": {
+    "x": -4.363,
+    "y": -7.867
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 66,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.36
+  },
+  {
+   "id": "hh-14",
+   "seed": "biomes-1",
+   "when": "winter",
+   "settlement": "gonzales",
+   "stand": "tallgrass-prairie",
+   "country": "prairie",
+   "hunter": "hh-14-thomas",
+   "place": {
+    "x": 0.647,
+    "y": -9.073
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 27.6,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 2.76
+  },
+  {
+   "id": "hh-15",
+   "seed": "biomes-1",
+   "when": "winter",
+   "settlement": "mina",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-15-thomas",
+   "place": {
+    "x": 16.42,
+    "y": -38.74
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-16",
+   "seed": "biomes-1",
+   "when": "winter",
+   "settlement": "matagorda",
+   "stand": "salt-prairie",
+   "country": "prairie",
+   "hunter": "hh-16-thomas",
+   "place": {
+    "x": 88.24,
+    "y": 53.46
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-17",
+   "seed": "biomes-1",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-17-thomas",
+   "place": {
+    "x": 77.56,
+    "y": -25.7
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 42,
+   "placeGame": 0.45,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.14
+  },
+  {
+   "id": "hh-18",
+   "seed": "biomes-1",
+   "when": "winter",
+   "settlement": "gonzales",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-18-thomas",
+   "place": {
+    "x": 7.79,
+    "y": 0.93
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-19",
+   "seed": "biomes-1",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-19-thomas",
+   "place": {
+    "x": 71.12,
+    "y": -21.8
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-20",
+   "seed": "biomes-1",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-20-thomas",
+   "place": {
+    "x": 120.2,
+    "y": 19.08
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 78,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.15
+  },
+  {
+   "id": "hh-21",
+   "seed": "biomes-1",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-21-thomas",
+   "place": {
+    "x": 91.71,
+    "y": -14.78
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-22",
+   "seed": "biomes-1",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-22-thomas",
+   "place": {
+    "x": 83.59,
+    "y": -26
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 24,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 1.33
+  },
+  {
+   "id": "hh-23",
+   "seed": "biomes-1",
+   "when": "winter",
+   "settlement": "mina",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-23-thomas",
+   "place": {
+    "x": 8.09,
+    "y": -37.71
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 66,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.36
+  },
+  {
+   "id": "hh-24",
+   "seed": "biomes-1",
+   "when": "winter",
+   "settlement": "mina",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-24-thomas",
+   "place": {
+    "x": 7.21,
+    "y": -32.61
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-25",
+   "seed": "biomes-1",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-25-thomas",
+   "place": {
+    "x": 82.01,
+    "y": -9.35
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 27.6,
+   "quarry": {
+    "waterfowl": 6
+   },
+   "hides": 0,
+   "foodPerHour": 2.76
+  },
+  {
+   "id": "hh-26",
+   "seed": "biomes-1",
+   "when": "winter",
+   "settlement": "matagorda",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-26-thomas",
+   "place": {
+    "x": 97.1,
+    "y": 49.37
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 27.6,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 2.76
+  },
+  {
+   "id": "hh-27",
+   "seed": "biomes-1",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-27-thomas",
+   "place": {
+    "x": 102.25,
+    "y": 29
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-28",
+   "seed": "biomes-1",
+   "when": "winter",
+   "settlement": "matagorda",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-28-thomas",
+   "place": {
+    "x": 78.957,
+    "y": 53.663
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-29",
+   "seed": "biomes-1",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-29-thomas",
+   "place": {
+    "x": 103.14,
+    "y": 22.89
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 42,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.14
+  },
+  {
+   "id": "hh-30",
+   "seed": "biomes-1",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-30-thomas",
+   "place": {
+    "x": 77.84,
+    "y": -29.7
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-1",
+   "seed": "biomes-2",
+   "when": "autumn",
+   "settlement": "matagorda",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-1-thomas",
+   "place": {
+    "x": 88.6,
+    "y": 52.85
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 62,
+   "placeGame": 1,
+   "shots": 7,
+   "missed": 0,
+   "kills": 7,
+   "food": 28,
+   "quarry": {
+    "turkey": 7
+   },
+   "hides": 0,
+   "foodPerHour": 1.35
+  },
+  {
+   "id": "hh-2",
+   "seed": "biomes-2",
+   "when": "autumn",
+   "settlement": "liberty",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-2-thomas",
+   "place": {
+    "x": 169.52,
+    "y": -37.54
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "bear": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-3",
+   "seed": "biomes-2",
+   "when": "autumn",
+   "settlement": "mina",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-3-thomas",
+   "place": {
+    "x": 8.29,
+    "y": -37.66
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 68,
+   "placeGame": 0.9,
+   "shots": 7,
+   "missed": 1,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.32
+  },
+  {
+   "id": "hh-4",
+   "seed": "biomes-2",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-4-thomas",
+   "place": {
+    "x": 80.7,
+    "y": -16.64
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 122,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 0.74
+  },
+  {
+   "id": "hh-5",
+   "seed": "biomes-2",
+   "when": "autumn",
+   "settlement": "matagorda",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-5-thomas",
+   "place": {
+    "x": 91.85,
+    "y": 46.24
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 0.25,
+   "shots": 7,
+   "missed": 0,
+   "kills": 7,
+   "food": 35,
+   "quarry": {
+    "deer": 7
+   },
+   "hides": 7,
+   "foodPerHour": 1.94
+  },
+  {
+   "id": "hh-6",
+   "seed": "biomes-2",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "water",
+   "country": "timber",
+   "hunter": "hh-6-thomas",
+   "place": {
+    "x": 108.74,
+    "y": 29.17
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 35,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.57
+  },
+  {
+   "id": "hh-7",
+   "seed": "biomes-2",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "water",
+   "country": "timber",
+   "hunter": "hh-7-thomas",
+   "place": {
+    "x": 116.59,
+    "y": 17.97
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 64,
+   "placeGame": 0.2,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {},
+   "hides": 6,
+   "foodPerHour": 1.41
+  },
+  {
+   "id": "hh-8",
+   "seed": "biomes-2",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-8-thomas",
+   "place": {
+    "x": 79.85,
+    "y": -26.25
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 36,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.5
+  },
+  {
+   "id": "hh-9",
+   "seed": "biomes-2",
+   "when": "autumn",
+   "settlement": "liberty",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-9-thomas",
+   "place": {
+    "x": 164.39,
+    "y": -41.39
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 85,
+   "placeGame": 0.25,
+   "shots": 7,
+   "missed": 0,
+   "kills": 7,
+   "food": 35,
+   "quarry": {
+    "deer": 7
+   },
+   "hides": 7,
+   "foodPerHour": 1.24
+  },
+  {
+   "id": "hh-10",
+   "seed": "biomes-2",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-10-thomas",
+   "place": {
+    "x": 86.5,
+    "y": -25.51
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 79,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 1,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.14
+  },
+  {
+   "id": "hh-11",
+   "seed": "biomes-2",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-11-thomas",
+   "place": {
+    "x": 116.266,
+    "y": 28.834
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 56,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 24,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 1.29
+  },
+  {
+   "id": "hh-12",
+   "seed": "biomes-2",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-12-thomas",
+   "place": {
+    "x": 113.36,
+    "y": 33.89
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 38,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.37
+  },
+  {
+   "id": "hh-13",
+   "seed": "biomes-2",
+   "when": "autumn",
+   "settlement": "mina",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-13-thomas",
+   "place": {
+    "x": 0.58,
+    "y": -42.43
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 73,
+   "placeGame": 0.9,
+   "shots": 7,
+   "missed": 0,
+   "kills": 7,
+   "food": 35,
+   "quarry": {
+    "bear": 7
+   },
+   "hides": 7,
+   "foodPerHour": 1.44
+  },
+  {
+   "id": "hh-14",
+   "seed": "biomes-2",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-14-thomas",
+   "place": {
+    "x": 106.05,
+    "y": 25.93
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 51,
+   "placeGame": 0.25,
+   "shots": 7,
+   "missed": 0,
+   "kills": 7,
+   "food": 35,
+   "quarry": {
+    "deer": 7
+   },
+   "hides": 7,
+   "foodPerHour": 2.06
+  },
+  {
+   "id": "hh-15",
+   "seed": "biomes-2",
+   "when": "autumn",
+   "settlement": "gonzales",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-15-thomas",
+   "place": {
+    "x": -1.36,
+    "y": -1.53
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 34,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "bear": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.65
+  },
+  {
+   "id": "hh-16",
+   "seed": "biomes-2",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-16-thomas",
+   "place": {
+    "x": 80.423,
+    "y": -21.573
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 34,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.65
+  },
+  {
+   "id": "hh-17",
+   "seed": "biomes-2",
+   "when": "autumn",
+   "settlement": "liberty",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-17-thomas",
+   "place": {
+    "x": 157.27,
+    "y": -34.05
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 7,
+   "missed": 0,
+   "kills": 7,
+   "food": 35,
+   "quarry": {
+    "bear": 7
+   },
+   "hides": 7,
+   "foodPerHour": 3.5
+  },
+  {
+   "id": "hh-18",
+   "seed": "biomes-2",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-18-thomas",
+   "place": {
+    "x": 73.81,
+    "y": -26.71
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 56,
+   "placeGame": 1,
+   "shots": 7,
+   "missed": 1,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "bear": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.61
+  },
+  {
+   "id": "hh-19",
+   "seed": "biomes-2",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "canebrake",
+   "country": "timber",
+   "hunter": "hh-19-thomas",
+   "place": {
+    "x": 119.94,
+    "y": 21.83
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-20",
+   "seed": "biomes-2",
+   "when": "autumn",
+   "settlement": "mina",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-20-thomas",
+   "place": {
+    "x": 21.14,
+    "y": -42.51
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 66,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.36
+  },
+  {
+   "id": "hh-21",
+   "seed": "biomes-2",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-21-thomas",
+   "place": {
+    "x": 90.04,
+    "y": -16.23
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 36,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.5
+  },
+  {
+   "id": "hh-22",
+   "seed": "biomes-2",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-22-thomas",
+   "place": {
+    "x": 78.05,
+    "y": -12.97
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 62,
+   "placeGame": 1,
+   "shots": 7,
+   "missed": 0,
+   "kills": 7,
+   "food": 35,
+   "quarry": {
+    "deer": 7
+   },
+   "hides": 7,
+   "foodPerHour": 1.69
+  },
+  {
+   "id": "hh-23",
+   "seed": "biomes-2",
+   "when": "autumn",
+   "settlement": "liberty",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-23-thomas",
+   "place": {
+    "x": 157.353,
+    "y": -37.603
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 24,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 1.33
+  },
+  {
+   "id": "hh-24",
+   "seed": "biomes-2",
+   "when": "autumn",
+   "settlement": "matagorda",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-24-thomas",
+   "place": {
+    "x": 89.93,
+    "y": 43.64
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 352,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 0.26
+  },
+  {
+   "id": "hh-25",
+   "seed": "biomes-2",
+   "when": "autumn",
+   "settlement": "gonzales",
+   "stand": "tallgrass-prairie",
+   "country": "prairie",
+   "hunter": "hh-25-thomas",
+   "place": {
+    "x": -7.68,
+    "y": 6.23
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 124,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 0.73
+  },
+  {
+   "id": "hh-26",
+   "seed": "biomes-2",
+   "when": "autumn",
+   "settlement": "matagorda",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-26-thomas",
+   "place": {
+    "x": 88.51,
+    "y": 46.95
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 38,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "bear": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.37
+  },
+  {
+   "id": "hh-27",
+   "seed": "biomes-2",
+   "when": "autumn",
+   "settlement": "gonzales",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-27-thomas",
+   "place": {
+    "x": 4.037,
+    "y": -3.537
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 63,
+   "placeGame": 1,
+   "shots": 7,
+   "missed": 0,
+   "kills": 7,
+   "food": 35,
+   "quarry": {
+    "deer": 7
+   },
+   "hides": 7,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-28",
+   "seed": "biomes-2",
+   "when": "autumn",
+   "settlement": "gonzales",
+   "stand": "tallgrass-prairie",
+   "country": "prairie",
+   "hunter": "hh-28-thomas",
+   "place": {
+    "x": 1.48,
+    "y": 1.17
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 73,
+   "placeGame": 0.4,
+   "shots": 6,
+   "missed": 1,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.23
+  },
+  {
+   "id": "hh-29",
+   "seed": "biomes-2",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-29-thomas",
+   "place": {
+    "x": 76.24,
+    "y": -17.2
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-30",
+   "seed": "biomes-2",
+   "when": "autumn",
+   "settlement": "victoria",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-30-thomas",
+   "place": {
+    "x": 36.74,
+    "y": 44.54
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 44,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "cattle": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.05
+  },
+  {
+   "id": "hh-1",
+   "seed": "biomes-2",
+   "when": "winter",
+   "settlement": "matagorda",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-1-thomas",
+   "place": {
+    "x": 88.6,
+    "y": 52.85
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 24,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 1.33
+  },
+  {
+   "id": "hh-2",
+   "seed": "biomes-2",
+   "when": "winter",
+   "settlement": "liberty",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-2-thomas",
+   "place": {
+    "x": 169.52,
+    "y": -37.54
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "bear": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-3",
+   "seed": "biomes-2",
+   "when": "winter",
+   "settlement": "mina",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-3-thomas",
+   "place": {
+    "x": 8.29,
+    "y": -37.66
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 66,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.36
+  },
+  {
+   "id": "hh-4",
+   "seed": "biomes-2",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-4-thomas",
+   "place": {
+    "x": 80.7,
+    "y": -16.64
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 36,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.5
+  },
+  {
+   "id": "hh-5",
+   "seed": "biomes-2",
+   "when": "winter",
+   "settlement": "matagorda",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-5-thomas",
+   "place": {
+    "x": 91.85,
+    "y": 46.24
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 48,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.88
+  },
+  {
+   "id": "hh-6",
+   "seed": "biomes-2",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "water",
+   "country": "timber",
+   "hunter": "hh-6-thomas",
+   "place": {
+    "x": 108.74,
+    "y": 29.17
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-7",
+   "seed": "biomes-2",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "water",
+   "country": "timber",
+   "hunter": "hh-7-thomas",
+   "place": {
+    "x": 116.59,
+    "y": 17.97
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 0.2,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {},
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-8",
+   "seed": "biomes-2",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-8-thomas",
+   "place": {
+    "x": 79.85,
+    "y": -26.25
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-9",
+   "seed": "biomes-2",
+   "when": "winter",
+   "settlement": "liberty",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-9-thomas",
+   "place": {
+    "x": 164.39,
+    "y": -41.39
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 78,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.15
+  },
+  {
+   "id": "hh-10",
+   "seed": "biomes-2",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-10-thomas",
+   "place": {
+    "x": 86.5,
+    "y": -25.51
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 78,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.15
+  },
+  {
+   "id": "hh-11",
+   "seed": "biomes-2",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-11-thomas",
+   "place": {
+    "x": 116.266,
+    "y": 28.834
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 24,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 1.33
+  },
+  {
+   "id": "hh-12",
+   "seed": "biomes-2",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-12-thomas",
+   "place": {
+    "x": 113.36,
+    "y": 33.89
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-13",
+   "seed": "biomes-2",
+   "when": "winter",
+   "settlement": "mina",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-13-thomas",
+   "place": {
+    "x": 0.58,
+    "y": -42.43
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 66,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "bear": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.36
+  },
+  {
+   "id": "hh-14",
+   "seed": "biomes-2",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-14-thomas",
+   "place": {
+    "x": 106.05,
+    "y": 25.93
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 48,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.88
+  },
+  {
+   "id": "hh-15",
+   "seed": "biomes-2",
+   "when": "winter",
+   "settlement": "gonzales",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-15-thomas",
+   "place": {
+    "x": -1.36,
+    "y": -1.53
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "bear": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-16",
+   "seed": "biomes-2",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-16-thomas",
+   "place": {
+    "x": 80.423,
+    "y": -21.573
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-17",
+   "seed": "biomes-2",
+   "when": "winter",
+   "settlement": "liberty",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-17-thomas",
+   "place": {
+    "x": 157.27,
+    "y": -34.05
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "bear": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-18",
+   "seed": "biomes-2",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-18-thomas",
+   "place": {
+    "x": 73.81,
+    "y": -26.71
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "bear": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-19",
+   "seed": "biomes-2",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "canebrake",
+   "country": "timber",
+   "hunter": "hh-19-thomas",
+   "place": {
+    "x": 119.94,
+    "y": 21.83
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-20",
+   "seed": "biomes-2",
+   "when": "winter",
+   "settlement": "mina",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-20-elena",
+   "place": {
+    "x": 21.14,
+    "y": -42.51
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 66,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.36
+  },
+  {
+   "id": "hh-21",
+   "seed": "biomes-2",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-21-thomas",
+   "place": {
+    "x": 90.04,
+    "y": -16.23
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-22",
+   "seed": "biomes-2",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-22-thomas",
+   "place": {
+    "x": 78.05,
+    "y": -12.97
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-23",
+   "seed": "biomes-2",
+   "when": "winter",
+   "settlement": "liberty",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-23-thomas",
+   "place": {
+    "x": 157.353,
+    "y": -37.603
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 24,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 1.33
+  },
+  {
+   "id": "hh-24",
+   "seed": "biomes-2",
+   "when": "winter",
+   "settlement": "matagorda",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-24-thomas",
+   "place": {
+    "x": 89.93,
+    "y": 43.64
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 48,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.88
+  },
+  {
+   "id": "hh-25",
+   "seed": "biomes-2",
+   "when": "winter",
+   "settlement": "gonzales",
+   "stand": "tallgrass-prairie",
+   "country": "prairie",
+   "hunter": "hh-25-thomas",
+   "place": {
+    "x": -7.68,
+    "y": 6.23
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 36,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.5
+  },
+  {
+   "id": "hh-26",
+   "seed": "biomes-2",
+   "when": "winter",
+   "settlement": "matagorda",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-26-thomas",
+   "place": {
+    "x": 88.51,
+    "y": 46.95
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "bear": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-27",
+   "seed": "biomes-2",
+   "when": "winter",
+   "settlement": "gonzales",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-27-thomas",
+   "place": {
+    "x": 4.037,
+    "y": -3.537
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-28",
+   "seed": "biomes-2",
+   "when": "winter",
+   "settlement": "gonzales",
+   "stand": "tallgrass-prairie",
+   "country": "prairie",
+   "hunter": "hh-28-thomas",
+   "place": {
+    "x": 1.48,
+    "y": 1.17
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 72,
+   "placeGame": 0.4,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.25
+  },
+  {
+   "id": "hh-29",
+   "seed": "biomes-2",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-29-thomas",
+   "place": {
+    "x": 76.24,
+    "y": -17.2
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-30",
+   "seed": "biomes-2",
+   "when": "winter",
+   "settlement": "victoria",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-30-thomas",
+   "place": {
+    "x": 36.74,
+    "y": 44.54
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 42,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "cattle": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.14
+  },
+  {
+   "id": "hh-1",
+   "seed": "biomes-3",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-1-thomas",
+   "place": {
+    "x": 107,
+    "y": 35.47
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 61,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "bear": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.48
+  },
+  {
+   "id": "hh-2",
+   "seed": "biomes-3",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-2-thomas",
+   "place": {
+    "x": 112.32,
+    "y": 26.31
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 86,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.05
+  },
+  {
+   "id": "hh-3",
+   "seed": "biomes-3",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-3-thomas",
+   "place": {
+    "x": 88.18,
+    "y": -10.38
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-4",
+   "seed": "biomes-3",
+   "when": "autumn",
+   "settlement": "matagorda",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-4-thomas",
+   "place": {
+    "x": 88.16,
+    "y": 54.36
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 76,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 27.6,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 1.09
+  },
+  {
+   "id": "hh-5",
+   "seed": "biomes-3",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "canebrake",
+   "country": "timber",
+   "hunter": "hh-5-thomas",
+   "place": {
+    "x": 119.99,
+    "y": 22.01
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 38,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.37
+  },
+  {
+   "id": "hh-6",
+   "seed": "biomes-3",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-6-thomas",
+   "place": {
+    "x": 83.76,
+    "y": -29.2
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 39,
+   "placeGame": 0.45,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.31
+  },
+  {
+   "id": "hh-7",
+   "seed": "biomes-3",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-7-thomas",
+   "place": {
+    "x": 80.55,
+    "y": -17.24
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 38,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 27.6,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 2.18
+  },
+  {
+   "id": "hh-8",
+   "seed": "biomes-3",
+   "when": "autumn",
+   "settlement": "gonzales",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-8-thomas",
+   "place": {
+    "x": 5.77,
+    "y": -2.21
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 56,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 27.6,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 1.48
+  },
+  {
+   "id": "hh-9",
+   "seed": "biomes-3",
+   "when": "autumn",
+   "settlement": "gonzales",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-9-thomas",
+   "place": {
+    "x": -1.46,
+    "y": -8.6
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 133,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 0.68
+  },
+  {
+   "id": "hh-10",
+   "seed": "biomes-3",
+   "when": "autumn",
+   "settlement": "liberty",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-10-thomas",
+   "place": {
+    "x": 163.3,
+    "y": -36.4
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 85,
+   "placeGame": 0.25,
+   "shots": 7,
+   "missed": 0,
+   "kills": 7,
+   "food": 35,
+   "quarry": {
+    "deer": 7
+   },
+   "hides": 7,
+   "foodPerHour": 1.24
+  },
+  {
+   "id": "hh-11",
+   "seed": "biomes-3",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-11-thomas",
+   "place": {
+    "x": 91.7,
+    "y": -17.81
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 90,
+   "placeGame": 0.25,
+   "shots": 7,
+   "missed": 0,
+   "kills": 7,
+   "food": 35,
+   "quarry": {
+    "deer": 7
+   },
+   "hides": 7,
+   "foodPerHour": 1.17
+  },
+  {
+   "id": "hh-12",
+   "seed": "biomes-3",
+   "when": "autumn",
+   "settlement": "matagorda",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-12-thomas",
+   "place": {
+    "x": 95.03,
+    "y": 44.19
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 87,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.03
+  },
+  {
+   "id": "hh-13",
+   "seed": "biomes-3",
+   "when": "autumn",
+   "settlement": "liberty",
+   "stand": "longleaf",
+   "country": "savanna",
+   "hunter": "hh-13-thomas",
+   "place": {
+    "x": 165.327,
+    "y": -43.323
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 68,
+   "placeGame": 0.8,
+   "shots": 7,
+   "missed": 1,
+   "kills": 6,
+   "food": 24,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 1.06
+  },
+  {
+   "id": "hh-14",
+   "seed": "biomes-3",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-14-thomas",
+   "place": {
+    "x": 76.2,
+    "y": -17.08
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 93,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 0.97
+  },
+  {
+   "id": "hh-15",
+   "seed": "biomes-3",
+   "when": "autumn",
+   "settlement": "mina",
+   "stand": "tallgrass-prairie",
+   "country": "prairie",
+   "hunter": "hh-15-thomas",
+   "place": {
+    "x": 3.703,
+    "y": -39.693
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 34,
+   "placeGame": 0.7,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.65
+  },
+  {
+   "id": "hh-16",
+   "seed": "biomes-3",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-16-thomas",
+   "place": {
+    "x": 98.18,
+    "y": 26.16
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 32,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.81
+  },
+  {
+   "id": "hh-17",
+   "seed": "biomes-3",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-17-thomas",
+   "place": {
+    "x": 76.96,
+    "y": -24.82
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 124,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 0.73
+  },
+  {
+   "id": "hh-18",
+   "seed": "biomes-3",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-18-thomas",
+   "place": {
+    "x": 101.96,
+    "y": 29.33
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 106,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 0.85
+  },
+  {
+   "id": "hh-19",
+   "seed": "biomes-3",
+   "when": "autumn",
+   "settlement": "gonzales",
+   "stand": "tallgrass-prairie",
+   "country": "prairie",
+   "hunter": "hh-19-thomas",
+   "place": {
+    "x": -0.7,
+    "y": -2.34
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 79,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.14
+  },
+  {
+   "id": "hh-20",
+   "seed": "biomes-3",
+   "when": "autumn",
+   "settlement": "mina",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-20-thomas",
+   "place": {
+    "x": 20.233,
+    "y": -42.293
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 167,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 0.54
+  },
+  {
+   "id": "hh-21",
+   "seed": "biomes-3",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-21-thomas",
+   "place": {
+    "x": 88.9,
+    "y": -28.26
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 140,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 0.64
+  },
+  {
+   "id": "hh-22",
+   "seed": "biomes-3",
+   "when": "autumn",
+   "settlement": "gonzales",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-22-thomas",
+   "place": {
+    "x": -8.563,
+    "y": 1.717
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 147,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 0.61
+  },
+  {
+   "id": "hh-23",
+   "seed": "biomes-3",
+   "when": "autumn",
+   "settlement": "mina",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-23-thomas",
+   "place": {
+    "x": 18.53,
+    "y": -35.36
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "bear": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-24",
+   "seed": "biomes-3",
+   "when": "autumn",
+   "settlement": "liberty",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-24-thomas",
+   "place": {
+    "x": 157.383,
+    "y": -34.913
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 67,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.34
+  },
+  {
+   "id": "hh-25",
+   "seed": "biomes-3",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-25-thomas",
+   "place": {
+    "x": 86.68,
+    "y": -23.27
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 65,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "bear": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.38
+  },
+  {
+   "id": "hh-26",
+   "seed": "biomes-3",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-26-thomas",
+   "place": {
+    "x": 106.88,
+    "y": 25.81
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 49,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.84
+  },
+  {
+   "id": "hh-27",
+   "seed": "biomes-3",
+   "when": "autumn",
+   "settlement": "matagorda",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-27-thomas",
+   "place": {
+    "x": 79.47,
+    "y": 53.05
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 75,
+   "placeGame": 0.5,
+   "shots": 7,
+   "missed": 0,
+   "kills": 7,
+   "food": 35,
+   "quarry": {
+    "deer": 7
+   },
+   "hides": 7,
+   "foodPerHour": 1.4
+  },
+  {
+   "id": "hh-28",
+   "seed": "biomes-3",
+   "when": "autumn",
+   "settlement": "victoria",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-28-thomas",
+   "place": {
+    "x": 35.08,
+    "y": 39.63
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 154,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 0.58
+  },
+  {
+   "id": "hh-29",
+   "seed": "biomes-3",
+   "when": "autumn",
+   "settlement": "matagorda",
+   "stand": "live-oak",
+   "country": "savanna",
+   "hunter": "hh-29-thomas",
+   "place": {
+    "x": 93.6,
+    "y": 51.02
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 111,
+   "placeGame": 0.8,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "mustang": 6
+   },
+   "hides": 6,
+   "foodPerHour": 0.81
+  },
+  {
+   "id": "hh-30",
+   "seed": "biomes-3",
+   "when": "autumn",
+   "settlement": "liberty",
+   "stand": "longleaf",
+   "country": "savanna",
+   "hunter": "hh-30-thomas",
+   "place": {
+    "x": 162.27,
+    "y": -44.77
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 72,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.25
+  },
+  {
+   "id": "hh-1",
+   "seed": "biomes-3",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-1-thomas",
+   "place": {
+    "x": 107,
+    "y": 35.47
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "bear": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-2",
+   "seed": "biomes-3",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-2-thomas",
+   "place": {
+    "x": 112.32,
+    "y": 26.31
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-3",
+   "seed": "biomes-3",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-3-thomas",
+   "place": {
+    "x": 88.18,
+    "y": -10.38
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-4",
+   "seed": "biomes-3",
+   "when": "winter",
+   "settlement": "matagorda",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-4-thomas",
+   "place": {
+    "x": 88.16,
+    "y": 54.36
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 27.6,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 2.76
+  },
+  {
+   "id": "hh-5",
+   "seed": "biomes-3",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "canebrake",
+   "country": "timber",
+   "hunter": "hh-5-thomas",
+   "place": {
+    "x": 119.99,
+    "y": 22.01
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-6",
+   "seed": "biomes-3",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-6-thomas",
+   "place": {
+    "x": 83.76,
+    "y": -29.2
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 36,
+   "placeGame": 0.45,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.5
+  },
+  {
+   "id": "hh-7",
+   "seed": "biomes-3",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-7-thomas",
+   "place": {
+    "x": 80.55,
+    "y": -17.24
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 27.6,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 2.76
+  },
+  {
+   "id": "hh-8",
+   "seed": "biomes-3",
+   "when": "winter",
+   "settlement": "gonzales",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-8-thomas",
+   "place": {
+    "x": 5.77,
+    "y": -2.21
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 27.6,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 2.76
+  },
+  {
+   "id": "hh-9",
+   "seed": "biomes-3",
+   "when": "winter",
+   "settlement": "gonzales",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-9-thomas",
+   "place": {
+    "x": -1.46,
+    "y": -8.6
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 66,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.36
+  },
+  {
+   "id": "hh-10",
+   "seed": "biomes-3",
+   "when": "winter",
+   "settlement": "liberty",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-10-thomas",
+   "place": {
+    "x": 163.3,
+    "y": -36.4
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 78,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.15
+  },
+  {
+   "id": "hh-11",
+   "seed": "biomes-3",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-11-thomas",
+   "place": {
+    "x": 91.7,
+    "y": -17.81
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 78,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.15
+  },
+  {
+   "id": "hh-12",
+   "seed": "biomes-3",
+   "when": "winter",
+   "settlement": "matagorda",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-12-thomas",
+   "place": {
+    "x": 95.03,
+    "y": 44.19
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 42,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.14
+  },
+  {
+   "id": "hh-13",
+   "seed": "biomes-3",
+   "when": "winter",
+   "settlement": "liberty",
+   "stand": "longleaf",
+   "country": "savanna",
+   "hunter": "hh-13-thomas",
+   "place": {
+    "x": 165.327,
+    "y": -43.323
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 66,
+   "placeGame": 0.8,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 24,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 1.09
+  },
+  {
+   "id": "hh-14",
+   "seed": "biomes-3",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-14-thomas",
+   "place": {
+    "x": 76.2,
+    "y": -17.08
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-15",
+   "seed": "biomes-3",
+   "when": "winter",
+   "settlement": "mina",
+   "stand": "tallgrass-prairie",
+   "country": "prairie",
+   "hunter": "hh-15-thomas",
+   "place": {
+    "x": 3.703,
+    "y": -39.693
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 0.7,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-16",
+   "seed": "biomes-3",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-16-thomas",
+   "place": {
+    "x": 98.18,
+    "y": 26.16
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-17",
+   "seed": "biomes-3",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-17-thomas",
+   "place": {
+    "x": 76.96,
+    "y": -24.82
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-18",
+   "seed": "biomes-3",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-18-thomas",
+   "place": {
+    "x": 101.96,
+    "y": 29.33
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-19",
+   "seed": "biomes-3",
+   "when": "winter",
+   "settlement": "gonzales",
+   "stand": "tallgrass-prairie",
+   "country": "prairie",
+   "hunter": "hh-19-thomas",
+   "place": {
+    "x": -0.7,
+    "y": -2.34
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 36,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.5
+  },
+  {
+   "id": "hh-20",
+   "seed": "biomes-3",
+   "when": "winter",
+   "settlement": "mina",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-20-thomas",
+   "place": {
+    "x": 20.233,
+    "y": -42.293
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-21",
+   "seed": "biomes-3",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-21-elena",
+   "place": {
+    "x": 88.9,
+    "y": -28.26
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-22",
+   "seed": "biomes-3",
+   "when": "winter",
+   "settlement": "gonzales",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-22-thomas",
+   "place": {
+    "x": -8.563,
+    "y": 1.717
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-23",
+   "seed": "biomes-3",
+   "when": "winter",
+   "settlement": "mina",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-23-thomas",
+   "place": {
+    "x": 18.53,
+    "y": -35.36
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "bear": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-24",
+   "seed": "biomes-3",
+   "when": "winter",
+   "settlement": "liberty",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-24-thomas",
+   "place": {
+    "x": 157.383,
+    "y": -34.913
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-25",
+   "seed": "biomes-3",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-25-thomas",
+   "place": {
+    "x": 86.68,
+    "y": -23.27
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "bear": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-26",
+   "seed": "biomes-3",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-26-thomas",
+   "place": {
+    "x": 106.88,
+    "y": 25.81
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-27",
+   "seed": "biomes-3",
+   "when": "winter",
+   "settlement": "matagorda",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-27-thomas",
+   "place": {
+    "x": 79.47,
+    "y": 53.05
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 66,
+   "placeGame": 0.5,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.36
+  },
+  {
+   "id": "hh-28",
+   "seed": "biomes-3",
+   "when": "winter",
+   "settlement": "victoria",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-28-thomas",
+   "place": {
+    "x": 35.08,
+    "y": 39.63
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-29",
+   "seed": "biomes-3",
+   "when": "winter",
+   "settlement": "matagorda",
+   "stand": "live-oak",
+   "country": "savanna",
+   "hunter": "hh-29-thomas",
+   "place": {
+    "x": 93.6,
+    "y": 51.02
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 0.8,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "mustang": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-30",
+   "seed": "biomes-3",
+   "when": "winter",
+   "settlement": "liberty",
+   "stand": "longleaf",
+   "country": "savanna",
+   "hunter": "hh-30-thomas",
+   "place": {
+    "x": 162.27,
+    "y": -44.77
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-1",
+   "seed": "biomes-4",
+   "when": "autumn",
+   "settlement": "mina",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-1-thomas",
+   "place": {
+    "x": 14.963,
+    "y": -41.473
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 55,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 1,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.64
+  },
+  {
+   "id": "hh-2",
+   "seed": "biomes-4",
+   "when": "autumn",
+   "settlement": "gonzales",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-2-thomas",
+   "place": {
+    "x": -2.65,
+    "y": -9.16
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 36,
+   "placeGame": 0.8,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.5
+  },
+  {
+   "id": "hh-3",
+   "seed": "biomes-4",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-3-thomas",
+   "place": {
+    "x": 115.19,
+    "y": 25.2
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 63,
+   "placeGame": 1,
+   "shots": 7,
+   "missed": 0,
+   "kills": 7,
+   "food": 35,
+   "quarry": {
+    "deer": 7
+   },
+   "hides": 7,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-4",
+   "seed": "biomes-4",
+   "when": "autumn",
+   "settlement": "matagorda",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-4-thomas",
+   "place": {
+    "x": 79.31,
+    "y": 52.54
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 176,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 0.51
+  },
+  {
+   "id": "hh-5",
+   "seed": "biomes-4",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-5-thomas",
+   "place": {
+    "x": 110.52,
+    "y": 22.11
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-6",
+   "seed": "biomes-4",
+   "when": "autumn",
+   "settlement": "liberty",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-6-thomas",
+   "place": {
+    "x": 163.14,
+    "y": -38.15
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 44,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.05
+  },
+  {
+   "id": "hh-7",
+   "seed": "biomes-4",
+   "when": "autumn",
+   "settlement": "mina",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-7-thomas",
+   "place": {
+    "x": -1.07,
+    "y": -47.32
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-8",
+   "seed": "biomes-4",
+   "when": "autumn",
+   "settlement": "matagorda",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-8-thomas",
+   "place": {
+    "x": 85.25,
+    "y": 52.26
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 176,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 27.6,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 0.47
+  },
+  {
+   "id": "hh-9",
+   "seed": "biomes-4",
+   "when": "autumn",
+   "settlement": "gonzales",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-9-thomas",
+   "place": {
+    "x": -0.85,
+    "y": 1.62
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 63,
+   "placeGame": 1,
+   "shots": 7,
+   "missed": 0,
+   "kills": 7,
+   "food": 35,
+   "quarry": {
+    "deer": 7
+   },
+   "hides": 7,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-10",
+   "seed": "biomes-4",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-10-thomas",
+   "place": {
+    "x": 74.753,
+    "y": -21.253
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 66,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 24,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 1.09
+  },
+  {
+   "id": "hh-11",
+   "seed": "biomes-4",
+   "when": "autumn",
+   "settlement": "liberty",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-11-thomas",
+   "place": {
+    "x": 161.26,
+    "y": -41.77
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 65,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.38
+  },
+  {
+   "id": "hh-12",
+   "seed": "biomes-4",
+   "when": "autumn",
+   "settlement": "gonzales",
+   "stand": "tallgrass-prairie",
+   "country": "prairie",
+   "hunter": "hh-12-thomas",
+   "place": {
+    "x": -1.37,
+    "y": -1.49
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 35,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.57
+  },
+  {
+   "id": "hh-13",
+   "seed": "biomes-4",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-13-thomas",
+   "place": {
+    "x": 76.82,
+    "y": -15.81
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 79,
+   "placeGame": 0.45,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.14
+  },
+  {
+   "id": "hh-14",
+   "seed": "biomes-4",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-14-thomas",
+   "place": {
+    "x": 114.9,
+    "y": 19.4
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 34,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.65
+  },
+  {
+   "id": "hh-15",
+   "seed": "biomes-4",
+   "when": "autumn",
+   "settlement": "gonzales",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-15-thomas",
+   "place": {
+    "x": 3.25,
+    "y": 3.54
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 281,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 0.32
+  },
+  {
+   "id": "hh-16",
+   "seed": "biomes-4",
+   "when": "autumn",
+   "settlement": "matagorda",
+   "stand": "salt-prairie",
+   "country": "prairie",
+   "hunter": "hh-16-thomas",
+   "place": {
+    "x": 83.254,
+    "y": 55.674
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 68,
+   "placeGame": 0.8,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.32
+  },
+  {
+   "id": "hh-17",
+   "seed": "biomes-4",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-17-thomas",
+   "place": {
+    "x": 87.35,
+    "y": -31.26
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 39,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.31
+  },
+  {
+   "id": "hh-18",
+   "seed": "biomes-4",
+   "when": "autumn",
+   "settlement": "liberty",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-18-thomas",
+   "place": {
+    "x": 165.577,
+    "y": -44.153
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 84,
+   "placeGame": 0.45,
+   "shots": 7,
+   "missed": 0,
+   "kills": 7,
+   "food": 35,
+   "quarry": {
+    "deer": 7
+   },
+   "hides": 7,
+   "foodPerHour": 1.25
+  },
+  {
+   "id": "hh-19",
+   "seed": "biomes-4",
+   "when": "autumn",
+   "settlement": "victoria",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-19-thomas",
+   "place": {
+    "x": 27.527,
+    "y": 43.287
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 31,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 7,
+   "food": 35,
+   "quarry": {
+    "deer": 7
+   },
+   "hides": 7,
+   "foodPerHour": 3.39
+  },
+  {
+   "id": "hh-20",
+   "seed": "biomes-4",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-20-thomas",
+   "place": {
+    "x": 80.5,
+    "y": -16.85
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 24,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 1.33
+  },
+  {
+   "id": "hh-21",
+   "seed": "biomes-4",
+   "when": "autumn",
+   "settlement": "liberty",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-21-thomas",
+   "place": {
+    "x": 158.16,
+    "y": -43.19
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 32,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "bear": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.81
+  },
+  {
+   "id": "hh-22",
+   "seed": "biomes-4",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-22-thomas",
+   "place": {
+    "x": 89.81,
+    "y": -21.56
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 104,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "bear": 6
+   },
+   "hides": 6,
+   "foodPerHour": 0.87
+  },
+  {
+   "id": "hh-23",
+   "seed": "biomes-4",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "canebrake",
+   "country": "timber",
+   "hunter": "hh-23-thomas",
+   "place": {
+    "x": 118.06,
+    "y": 17.88
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 61,
+   "placeGame": 1,
+   "shots": 7,
+   "missed": 0,
+   "kills": 7,
+   "food": 35,
+   "quarry": {
+    "bear": 7
+   },
+   "hides": 7,
+   "foodPerHour": 1.72
+  },
+  {
+   "id": "hh-24",
+   "seed": "biomes-4",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-24-thomas",
+   "place": {
+    "x": 105.53,
+    "y": 17.95
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 50,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.8
+  },
+  {
+   "id": "hh-25",
+   "seed": "biomes-4",
+   "when": "autumn",
+   "settlement": "mina",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-25-thomas",
+   "place": {
+    "x": 7.15,
+    "y": -52.92
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 41,
+   "placeGame": 0.9,
+   "shots": 7,
+   "missed": 0,
+   "kills": 7,
+   "food": 35,
+   "quarry": {
+    "deer": 7
+   },
+   "hides": 7,
+   "foodPerHour": 2.56
+  },
+  {
+   "id": "hh-26",
+   "seed": "biomes-4",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-26-thomas",
+   "place": {
+    "x": 87.28,
+    "y": -10.43
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 27.6,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 2.76
+  },
+  {
+   "id": "hh-27",
+   "seed": "biomes-4",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-27-thomas",
+   "place": {
+    "x": 81.23,
+    "y": -13.53
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 63,
+   "placeGame": 1,
+   "shots": 7,
+   "missed": 0,
+   "kills": 7,
+   "food": 35,
+   "quarry": {
+    "deer": 7
+   },
+   "hides": 7,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-28",
+   "seed": "biomes-4",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-28-thomas",
+   "place": {
+    "x": 90.88,
+    "y": -13.4
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 56,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.61
+  },
+  {
+   "id": "hh-29",
+   "seed": "biomes-4",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-29-thomas",
+   "place": {
+    "x": 102.07,
+    "y": 28.75
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 36,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 2.5
+  },
+  {
+   "id": "hh-30",
+   "seed": "biomes-4",
+   "when": "autumn",
+   "settlement": "matagorda",
+   "stand": "salt-prairie",
+   "country": "prairie",
+   "hunter": "hh-30-thomas",
+   "place": {
+    "x": 96.453,
+    "y": 49.563
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 97,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 0.93
+  },
+  {
+   "id": "hh-1",
+   "seed": "biomes-4",
+   "when": "winter",
+   "settlement": "mina",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-1-thomas",
+   "place": {
+    "x": 14.963,
+    "y": -41.473
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-2",
+   "seed": "biomes-4",
+   "when": "winter",
+   "settlement": "gonzales",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-2-thomas",
+   "place": {
+    "x": -2.65,
+    "y": -9.16
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 36,
+   "placeGame": 0.8,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.5
+  },
+  {
+   "id": "hh-3",
+   "seed": "biomes-4",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-3-thomas",
+   "place": {
+    "x": 115.19,
+    "y": 25.2
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-4",
+   "seed": "biomes-4",
+   "when": "winter",
+   "settlement": "matagorda",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-4-thomas",
+   "place": {
+    "x": 79.31,
+    "y": 52.54
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 48,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.88
+  },
+  {
+   "id": "hh-5",
+   "seed": "biomes-4",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-5-thomas",
+   "place": {
+    "x": 110.52,
+    "y": 22.11
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-6",
+   "seed": "biomes-4",
+   "when": "winter",
+   "settlement": "liberty",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-6-thomas",
+   "place": {
+    "x": 163.14,
+    "y": -38.15
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 42,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.14
+  },
+  {
+   "id": "hh-7",
+   "seed": "biomes-4",
+   "when": "winter",
+   "settlement": "mina",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-7-thomas",
+   "place": {
+    "x": -1.07,
+    "y": -47.32
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-8",
+   "seed": "biomes-4",
+   "when": "winter",
+   "settlement": "matagorda",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-8-thomas",
+   "place": {
+    "x": 85.25,
+    "y": 52.26
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 36,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 27.6,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 2.3
+  },
+  {
+   "id": "hh-9",
+   "seed": "biomes-4",
+   "when": "winter",
+   "settlement": "gonzales",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-9-thomas",
+   "place": {
+    "x": -0.85,
+    "y": 1.62
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-10",
+   "seed": "biomes-4",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-10-thomas",
+   "place": {
+    "x": 74.753,
+    "y": -21.253
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 24,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 1.33
+  },
+  {
+   "id": "hh-11",
+   "seed": "biomes-4",
+   "when": "winter",
+   "settlement": "liberty",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-11-thomas",
+   "place": {
+    "x": 161.26,
+    "y": -41.77
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-12",
+   "seed": "biomes-4",
+   "when": "winter",
+   "settlement": "gonzales",
+   "stand": "tallgrass-prairie",
+   "country": "prairie",
+   "hunter": "hh-12-thomas",
+   "place": {
+    "x": -1.37,
+    "y": -1.49
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-13",
+   "seed": "biomes-4",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-13-thomas",
+   "place": {
+    "x": 76.82,
+    "y": -15.81
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 0.45,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 24,
+   "quarry": {
+    "waterfowl": 6
+   },
+   "hides": 0,
+   "foodPerHour": 1.33
+  },
+  {
+   "id": "hh-14",
+   "seed": "biomes-4",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-14-thomas",
+   "place": {
+    "x": 114.9,
+    "y": 19.4
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-15",
+   "seed": "biomes-4",
+   "when": "winter",
+   "settlement": "gonzales",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-15-thomas",
+   "place": {
+    "x": 3.25,
+    "y": 3.54
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-16",
+   "seed": "biomes-4",
+   "when": "winter",
+   "settlement": "matagorda",
+   "stand": "salt-prairie",
+   "country": "prairie",
+   "hunter": "hh-16-thomas",
+   "place": {
+    "x": 83.254,
+    "y": 55.674
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 36,
+   "placeGame": 0.8,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.5
+  },
+  {
+   "id": "hh-17",
+   "seed": "biomes-4",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-17-thomas",
+   "place": {
+    "x": 87.35,
+    "y": -31.26
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 36,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.5
+  },
+  {
+   "id": "hh-18",
+   "seed": "biomes-4",
+   "when": "winter",
+   "settlement": "liberty",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-18-thomas",
+   "place": {
+    "x": 165.577,
+    "y": -44.153
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 72,
+   "placeGame": 0.45,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.25
+  },
+  {
+   "id": "hh-19",
+   "seed": "biomes-4",
+   "when": "winter",
+   "settlement": "victoria",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-19-thomas",
+   "place": {
+    "x": 27.527,
+    "y": 43.287
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-20",
+   "seed": "biomes-4",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-20-thomas",
+   "place": {
+    "x": 80.5,
+    "y": -16.85
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 24,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 1.33
+  },
+  {
+   "id": "hh-21",
+   "seed": "biomes-4",
+   "when": "winter",
+   "settlement": "liberty",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-21-thomas",
+   "place": {
+    "x": 158.16,
+    "y": -43.19
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "bear": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-22",
+   "seed": "biomes-4",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-22-thomas",
+   "place": {
+    "x": 89.81,
+    "y": -21.56
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 66,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "bear": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.36
+  },
+  {
+   "id": "hh-23",
+   "seed": "biomes-4",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "canebrake",
+   "country": "timber",
+   "hunter": "hh-23-thomas",
+   "place": {
+    "x": 118.06,
+    "y": 17.88
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "bear": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-24",
+   "seed": "biomes-4",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-24-thomas",
+   "place": {
+    "x": 105.53,
+    "y": 17.95
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 48,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.88
+  },
+  {
+   "id": "hh-25",
+   "seed": "biomes-4",
+   "when": "winter",
+   "settlement": "mina",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-25-thomas",
+   "place": {
+    "x": 7.15,
+    "y": -52.92
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 36,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.5
+  },
+  {
+   "id": "hh-26",
+   "seed": "biomes-4",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-26-thomas",
+   "place": {
+    "x": 87.28,
+    "y": -10.43
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 27.6,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 2.76
+  },
+  {
+   "id": "hh-27",
+   "seed": "biomes-4",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-27-thomas",
+   "place": {
+    "x": 81.23,
+    "y": -13.53
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-28",
+   "seed": "biomes-4",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-28-thomas",
+   "place": {
+    "x": 90.88,
+    "y": -13.4
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-29",
+   "seed": "biomes-4",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-29-thomas",
+   "place": {
+    "x": 102.07,
+    "y": 28.75
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-30",
+   "seed": "biomes-4",
+   "when": "winter",
+   "settlement": "matagorda",
+   "stand": "salt-prairie",
+   "country": "prairie",
+   "hunter": "hh-30-thomas",
+   "place": {
+    "x": 96.453,
+    "y": 49.563
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-1",
+   "seed": "biomes-5",
+   "when": "autumn",
+   "settlement": "matagorda",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-1-thomas",
+   "place": {
+    "x": 96.97,
+    "y": 44.82
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 89,
+   "placeGame": 0.25,
+   "shots": 7,
+   "missed": 0,
+   "kills": 7,
+   "food": 35,
+   "quarry": {
+    "deer": 7
+   },
+   "hides": 7,
+   "foodPerHour": 1.18
+  },
+  {
+   "id": "hh-2",
+   "seed": "biomes-5",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-2-thomas",
+   "place": {
+    "x": 85.67,
+    "y": -25
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 147,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 0.61
+  },
+  {
+   "id": "hh-3",
+   "seed": "biomes-5",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "water",
+   "country": "timber",
+   "hunter": "hh-3-thomas",
+   "place": {
+    "x": 111.747,
+    "y": 23.467
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 82,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 24,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 0.88
+  },
+  {
+   "id": "hh-4",
+   "seed": "biomes-5",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-4-thomas",
+   "place": {
+    "x": 81.23,
+    "y": -24.92
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 73,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 27.6,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 1.13
+  },
+  {
+   "id": "hh-5",
+   "seed": "biomes-5",
+   "when": "autumn",
+   "settlement": "gonzales",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-5-thomas",
+   "place": {
+    "x": 1.78,
+    "y": -9.23
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 226,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 0.4
+  },
+  {
+   "id": "hh-6",
+   "seed": "biomes-5",
+   "when": "autumn",
+   "settlement": "gonzales",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-6-thomas",
+   "place": {
+    "x": -3.823,
+    "y": -10.397
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 40,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.25
+  },
+  {
+   "id": "hh-7",
+   "seed": "biomes-5",
+   "when": "autumn",
+   "settlement": "liberty",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-7-thomas",
+   "place": {
+    "x": 158.7,
+    "y": -29.13
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 53,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.7
+  },
+  {
+   "id": "hh-8",
+   "seed": "biomes-5",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-8-thomas",
+   "place": {
+    "x": 107.02,
+    "y": 25.73
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 31,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.9
+  },
+  {
+   "id": "hh-9",
+   "seed": "biomes-5",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-9-thomas",
+   "place": {
+    "x": 90.89,
+    "y": -16.82
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 55,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 1,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.64
+  },
+  {
+   "id": "hh-10",
+   "seed": "biomes-5",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-10-thomas",
+   "place": {
+    "x": 80.84,
+    "y": -29.18
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 165,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 24,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 0.44
+  },
+  {
+   "id": "hh-11",
+   "seed": "biomes-5",
+   "when": "autumn",
+   "settlement": "mina",
+   "stand": "tallgrass-prairie",
+   "country": "prairie",
+   "hunter": "hh-11-thomas",
+   "place": {
+    "x": 3.09,
+    "y": -39.95
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 67,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 24,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 1.07
+  },
+  {
+   "id": "hh-12",
+   "seed": "biomes-5",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-12-thomas",
+   "place": {
+    "x": 80.78,
+    "y": -15.29
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 34,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 2.65
+  },
+  {
+   "id": "hh-13",
+   "seed": "biomes-5",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-13-thomas",
+   "place": {
+    "x": 79.507,
+    "y": -9.493
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 24,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 1.33
+  },
+  {
+   "id": "hh-14",
+   "seed": "biomes-5",
+   "when": "autumn",
+   "settlement": "matagorda",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-14-thomas",
+   "place": {
+    "x": 88.474,
+    "y": 45.356
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 36,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.5
+  },
+  {
+   "id": "hh-15",
+   "seed": "biomes-5",
+   "when": "autumn",
+   "settlement": "mina",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-15-thomas",
+   "place": {
+    "x": 1.79,
+    "y": -36.23
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 40,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.25
+  },
+  {
+   "id": "hh-16",
+   "seed": "biomes-5",
+   "when": "autumn",
+   "settlement": "victoria",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-16-thomas",
+   "place": {
+    "x": 29.11,
+    "y": 51.49
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 38,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 27.6,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 2.18
+  },
+  {
+   "id": "hh-17",
+   "seed": "biomes-5",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-17-thomas",
+   "place": {
+    "x": 76.05,
+    "y": -30.28
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 188,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 0.48
+  },
+  {
+   "id": "hh-18",
+   "seed": "biomes-5",
+   "when": "autumn",
+   "settlement": "gonzales",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-18-thomas",
+   "place": {
+    "x": 5.89,
+    "y": -6.62
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 55,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 1,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.64
+  },
+  {
+   "id": "hh-19",
+   "seed": "biomes-5",
+   "when": "autumn",
+   "settlement": "matagorda",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-19-thomas",
+   "place": {
+    "x": 80.61,
+    "y": 51.26
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 35,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.57
+  },
+  {
+   "id": "hh-20",
+   "seed": "biomes-5",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-20-thomas",
+   "place": {
+    "x": 105.54,
+    "y": 19.84
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 166,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 0.54
+  },
+  {
+   "id": "hh-21",
+   "seed": "biomes-5",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-21-thomas",
+   "place": {
+    "x": 114.213,
+    "y": 27.197
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 36,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 27.6,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 2.3
+  },
+  {
+   "id": "hh-22",
+   "seed": "biomes-5",
+   "when": "autumn",
+   "settlement": "gonzales",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-22-thomas",
+   "place": {
+    "x": 3.84,
+    "y": 2.44
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 24,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 1.33
+  },
+  {
+   "id": "hh-23",
+   "seed": "biomes-5",
+   "when": "autumn",
+   "settlement": "matagorda",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-23-thomas",
+   "place": {
+    "x": 85.49,
+    "y": 51.88
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 85,
+   "placeGame": 0.25,
+   "shots": 7,
+   "missed": 0,
+   "kills": 7,
+   "food": 35,
+   "quarry": {
+    "deer": 7
+   },
+   "hides": 7,
+   "foodPerHour": 1.24
+  },
+  {
+   "id": "hh-24",
+   "seed": "biomes-5",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-24-thomas",
+   "place": {
+    "x": 100.27,
+    "y": 24.98
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 39,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.31
+  },
+  {
+   "id": "hh-25",
+   "seed": "biomes-5",
+   "when": "autumn",
+   "settlement": "columbia",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-25-thomas",
+   "place": {
+    "x": 99.2,
+    "y": 29.78
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 33,
+   "placeGame": 1,
+   "shots": 7,
+   "missed": 0,
+   "kills": 7,
+   "food": 35,
+   "quarry": {
+    "deer": 7
+   },
+   "hides": 7,
+   "foodPerHour": 3.18
+  },
+  {
+   "id": "hh-26",
+   "seed": "biomes-5",
+   "when": "autumn",
+   "settlement": "liberty",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-26-thomas",
+   "place": {
+    "x": 154.98,
+    "y": -40.95
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 42,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 27.6,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 1.97
+  },
+  {
+   "id": "hh-27",
+   "seed": "biomes-5",
+   "when": "autumn",
+   "settlement": "liberty",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-27-thomas",
+   "place": {
+    "x": 166.22,
+    "y": -39.7
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 81,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.11
+  },
+  {
+   "id": "hh-28",
+   "seed": "biomes-5",
+   "when": "autumn",
+   "settlement": "san-felipe",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-28-thomas",
+   "place": {
+    "x": 84.47,
+    "y": -11.52
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-29",
+   "seed": "biomes-5",
+   "when": "autumn",
+   "settlement": "liberty",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-29-thomas",
+   "place": {
+    "x": 165.73,
+    "y": -36.7
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 43,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.09
+  },
+  {
+   "id": "hh-30",
+   "seed": "biomes-5",
+   "when": "autumn",
+   "settlement": "mina",
+   "stand": "pine",
+   "country": "timber",
+   "hunter": "hh-30-thomas",
+   "place": {
+    "x": 15.58,
+    "y": -35
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-1",
+   "seed": "biomes-5",
+   "when": "winter",
+   "settlement": "matagorda",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-1-thomas",
+   "place": {
+    "x": 96.97,
+    "y": 44.82
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 24,
+   "quarry": {
+    "waterfowl": 6
+   },
+   "hides": 0,
+   "foodPerHour": 1.33
+  },
+  {
+   "id": "hh-2",
+   "seed": "biomes-5",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-2-thomas",
+   "place": {
+    "x": 85.67,
+    "y": -25
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-3",
+   "seed": "biomes-5",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "water",
+   "country": "timber",
+   "hunter": "hh-3-thomas",
+   "place": {
+    "x": 111.747,
+    "y": 23.467
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 24,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 1.33
+  },
+  {
+   "id": "hh-4",
+   "seed": "biomes-5",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-4-thomas",
+   "place": {
+    "x": 81.23,
+    "y": -24.92
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 27.6,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 2.76
+  },
+  {
+   "id": "hh-5",
+   "seed": "biomes-5",
+   "when": "winter",
+   "settlement": "gonzales",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-5-thomas",
+   "place": {
+    "x": 1.78,
+    "y": -9.23
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 36,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.5
+  },
+  {
+   "id": "hh-6",
+   "seed": "biomes-5",
+   "when": "winter",
+   "settlement": "gonzales",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-6-thomas",
+   "place": {
+    "x": -3.823,
+    "y": -10.397
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-7",
+   "seed": "biomes-5",
+   "when": "winter",
+   "settlement": "liberty",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-7-thomas",
+   "place": {
+    "x": 158.7,
+    "y": -29.13
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 48,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.88
+  },
+  {
+   "id": "hh-8",
+   "seed": "biomes-5",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-8-thomas",
+   "place": {
+    "x": 107.02,
+    "y": 25.73
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-9",
+   "seed": "biomes-5",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-9-thomas",
+   "place": {
+    "x": 90.89,
+    "y": -16.82
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-10",
+   "seed": "biomes-5",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-10-thomas",
+   "place": {
+    "x": 80.84,
+    "y": -29.18
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 24,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 1.33
+  },
+  {
+   "id": "hh-11",
+   "seed": "biomes-5",
+   "when": "winter",
+   "settlement": "mina",
+   "stand": "tallgrass-prairie",
+   "country": "prairie",
+   "hunter": "hh-11-thomas",
+   "place": {
+    "x": 3.09,
+    "y": -39.95
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 66,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 24,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 1.09
+  },
+  {
+   "id": "hh-12",
+   "seed": "biomes-5",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-12-thomas",
+   "place": {
+    "x": 80.78,
+    "y": -15.29
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-13",
+   "seed": "biomes-5",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-13-thomas",
+   "place": {
+    "x": 79.507,
+    "y": -9.493
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 24,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 1.33
+  },
+  {
+   "id": "hh-14",
+   "seed": "biomes-5",
+   "when": "winter",
+   "settlement": "matagorda",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-14-thomas",
+   "place": {
+    "x": 88.474,
+    "y": 45.356
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-15",
+   "seed": "biomes-5",
+   "when": "winter",
+   "settlement": "mina",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-15-thomas",
+   "place": {
+    "x": 1.79,
+    "y": -36.23
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-16",
+   "seed": "biomes-5",
+   "when": "winter",
+   "settlement": "victoria",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-16-thomas",
+   "place": {
+    "x": 29.11,
+    "y": 51.49
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 27.6,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 2.76
+  },
+  {
+   "id": "hh-17",
+   "seed": "biomes-5",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-17-thomas",
+   "place": {
+    "x": 76.05,
+    "y": -30.28
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 36,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 2.5
+  },
+  {
+   "id": "hh-18",
+   "seed": "biomes-5",
+   "when": "winter",
+   "settlement": "gonzales",
+   "stand": "post-oak",
+   "country": "savanna",
+   "hunter": "hh-18-thomas",
+   "place": {
+    "x": 5.89,
+    "y": -6.62
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-19",
+   "seed": "biomes-5",
+   "when": "winter",
+   "settlement": "matagorda",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-19-thomas",
+   "place": {
+    "x": 80.61,
+    "y": 51.26
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-20",
+   "seed": "biomes-5",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-20-thomas",
+   "place": {
+    "x": 105.54,
+    "y": 19.84
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 78,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.15
+  },
+  {
+   "id": "hh-21",
+   "seed": "biomes-5",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-21-thomas",
+   "place": {
+    "x": 114.213,
+    "y": 27.197
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 27.6,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 2.76
+  },
+  {
+   "id": "hh-22",
+   "seed": "biomes-5",
+   "when": "winter",
+   "settlement": "gonzales",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-22-thomas",
+   "place": {
+    "x": 3.84,
+    "y": 2.44
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 24,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 1.33
+  },
+  {
+   "id": "hh-23",
+   "seed": "biomes-5",
+   "when": "winter",
+   "settlement": "matagorda",
+   "stand": "creek",
+   "country": "timber",
+   "hunter": "hh-23-thomas",
+   "place": {
+    "x": 85.49,
+    "y": 51.88
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 78,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.15
+  },
+  {
+   "id": "hh-24",
+   "seed": "biomes-5",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-24-thomas",
+   "place": {
+    "x": 100.27,
+    "y": 24.98
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-25",
+   "seed": "biomes-5",
+   "when": "winter",
+   "settlement": "columbia",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-25-thomas",
+   "place": {
+    "x": 99.2,
+    "y": 29.78
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-26",
+   "seed": "biomes-5",
+   "when": "winter",
+   "settlement": "liberty",
+   "stand": "bottomland",
+   "country": "timber",
+   "hunter": "hh-26-thomas",
+   "place": {
+    "x": 154.98,
+    "y": -40.95
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 27.6,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 2.76
+  },
+  {
+   "id": "hh-27",
+   "seed": "biomes-5",
+   "when": "winter",
+   "settlement": "liberty",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-27-thomas",
+   "place": {
+    "x": 166.22,
+    "y": -39.7
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 78,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.15
+  },
+  {
+   "id": "hh-28",
+   "seed": "biomes-5",
+   "when": "winter",
+   "settlement": "san-felipe",
+   "stand": "bottomland-cane",
+   "country": "timber",
+   "hunter": "hh-28-thomas",
+   "place": {
+    "x": 84.47,
+    "y": -11.52
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 54,
+   "placeGame": 1,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "deer": 6
+   },
+   "hides": 6,
+   "foodPerHour": 1.67
+  },
+  {
+   "id": "hh-29",
+   "seed": "biomes-5",
+   "when": "winter",
+   "settlement": "liberty",
+   "stand": "coastal-prairie",
+   "country": "prairie",
+   "hunter": "hh-29-thomas",
+   "place": {
+    "x": 165.73,
+    "y": -36.7
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 0.25,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "waterfowl": 6
+   },
+   "hides": 0,
+   "foodPerHour": 3
+  },
+  {
+   "id": "hh-30",
+   "seed": "biomes-5",
+   "when": "winter",
+   "settlement": "mina",
+   "stand": "pine",
+   "country": "timber",
+   "hunter": "hh-30-thomas",
+   "place": {
+    "x": 15.58,
+    "y": -35
+   },
+   "sent": 6,
+   "done": 6,
+   "ticks": 30,
+   "placeGame": 0.9,
+   "shots": 6,
+   "missed": 0,
+   "kills": 6,
+   "food": 30,
+   "quarry": {
+    "turkey": 6
+   },
+   "hides": 0,
+   "foodPerHour": 3
+  }
+ ]
+}
