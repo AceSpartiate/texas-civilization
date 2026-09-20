@@ -612,3 +612,57 @@ east of the place, the bridge over Vince's Bayou, the fords at Gonzales and on C
   2026-09-19 (§10.1).
 - `ceiling:` the ferries are drawn still: nothing crosses on them, and a family on the road is not drawn waiting for the boat.
 - `ceiling:` the road is drawn across a ford and under a bridge as before; at a ferry the river is laid back over it.
+
+---
+
+## 11. The places past the box (2026-09-19)
+
+Owner, by multiple choice: the places past the old box. The colonies' box is where the game is played; the country round it was
+drawn on 2026-09-18 (§8) with no place or road in it at all, so the war arrived from nowhere. Five places, five roads and six
+crossings now stand outside it, and one fault inside it is mended.
+
+### 11.1 Robbins's ferry, inside the box
+
+The Trinity could be crossed only at the Atascosito crossing, three miles above Liberty. The Old San Antonio Road crossed it
+120 miles higher, at Robbins's ferry (`HIST-TEX-162`), and with no window there the road from Washington to Nacogdoches was
+laid the length of the Trinity and back: **199.3 miles, now 141.6**. Robbins's ferry is a window of the Trinity at the 1936
+marker, and a ferry like the river's others.
+
+### 11.2 The country outside
+
+| Place | What it is | Claim |
+|---|---|---|
+| Matamoros | the Mexican army's base on the lower Rio Grande, where Urrea's division set out from | `HIST-TEX-158` |
+| San Patricio | the Irish colony on the Nueces, where the Camino Real from Goliad to Laredo crossed; Urrea surprised Johnson there on February 27, 1836 | `HIST-TEX-159` |
+| Laredo | the old villa on the north bank of the Rio Grande, the Camino Real's other end | `HIST-TEX-160` |
+| The Presidio del Río Grande | San Juan Bautista at present Guerrero, Coahuila, where Santa Anna's army came up to the river | `HIST-TEX-161` |
+| Gaines's ferry | the Sabine crossing of the Old San Antonio Road, the way in from the United States | `HIST-TEX-163` |
+
+Their crossings: **Paso de Francia** on the Rio Grande, six miles south-east of the presidio, where Santa Anna crossed into
+Texas in February 1836; **the ferry at Matamoros**; **the crossing at San Patricio** on the Nueces; **Gaines's ferry** on the
+Sabine; and the fords where the Camino Real from the presidio comes down to **the Nueces** and **the Frio**, which the record
+names no crossing for (`FIC-GONZ-090`). Each stands on the river the outside country draws
+(`public/terrain/outside-province.json.gz`), not on the box's own water, and each is marked `outside` in the map.
+
+### 11.3 Drawn, never walked
+
+A road outside the box is kind `outside`, and `walked` in `sim/colonies-map.mjs` keeps every one of them out of the graph that
+`findWay` and `findPath` build. Nothing about the game changes: no family can walk to Matamoros, no rider carries word to
+Laredo, no refuge or shop or express stop moved. A place outside is kind `distant`: its name is drawn on the map and nothing
+else, because the library has no art for a Mexican town and a settler's cabin at Matamoros would be a lie.
+
+- `ceiling:` the five roads are straight legs between their places and their crossings (`FIC-GONZ-093`), not least-cost lines:
+  the heights and water the routing reads stop at the box's edge.
+- `ceiling:` Laredo's own crossing of the Rio Grande is not drawn - the town is on the Texas bank and nothing on the Mexican
+  side of it is drawn for a road to reach.
+- `ceiling:` Fort Lipantitlán, three miles up the Nueces from San Patricio, is not drawn; nor are Burr's ferry and Niblett's
+  Bluff on the Sabine, or Goliad's road south to Refugio's coast.
+- `ceiling:` no art for a distant place ([ART_REQUESTS](ART_REQUESTS.md), 2026-09-19).
+
+### 11.4 Checks
+
+`tests/crossings.test.mjs` has the outside country's own test - the places at the record's points, every crossing on the river
+that country draws and on a road, no town outside, and `findWay`/`findPath` refusing to reach Matamoros, Gaines's ferry or
+Laredo - and `tests/colonies-map.test.mjs` has the Trinity's two windows. Each was proven by injection. A family's lane may no
+longer wade a big river even where the easiest ground would (sim/colonies-region.mjs), which is what the Trinity's new window
+turned up at Liberty.

@@ -936,7 +936,10 @@ const clampTo = (value, limits) => Math.max(limits.min, Math.min(limits.max, val
 // both. Without this the formations are drawn correctly and off-screen.
 const battlePoints = world => (world.battle?.formations || []).map(formation => ({ x: formation.x, y: formation.y }));
 function framingFor(world) {
-  const sites = sitesOf(world), home = world.map?.sites?.[homeOf(world)];
+  // The country outside the box (docs/MAP_ACCURACY.md §11) is drawn where it is, but it never frames a view: framing the
+  // region on Matamoros, 250 miles south of the colonies, would shrink the settlements to nothing. The map still zooms out
+  // to the whole drawn country by hand.
+  const sites = sitesOf(world).filter(site => !site.outside), home = world.map?.sites?.[homeOf(world)];
   const fighting = battlePoints(world);
   if (world.role === 'host') {
     const focus = world.host?.focus;
@@ -2246,6 +2249,9 @@ export function drawWorld(world) {
     // A road junction is a shape in the network, not a place: it must never draw a building.
     if (site.kind === 'junction') continue;
     const q = camera.toScreen(site), settlement = site.kind === 'town' || site.id === 'gonzales';
+    // A place of the country outside the box (docs/MAP_ACCURACY.md §11): Matamoros, Laredo, San Patricio, the presidio.
+    // Its name is drawn and nothing else - the map has no art for a Mexican town, and a settler's cabin would be a lie.
+    const distant = site.kind === 'distant';
     // A colony fifteen miles across is fifty pixels wide at province scale, and sixteen
     // holdings drawn inside it are one brown smudge with the labels piled on top. Another
     // family's homestead is drawn only once it would be legible on its own; the student's
@@ -2358,11 +2364,11 @@ export function drawWorld(world) {
     // A crossing is named as a landing is, the three named crossings of the big rivers (`stage`) as they always were, and a ford
     // the record does not name only close in.
     const crossing = CROSSING_KINDS.includes(site.kind) && site.id !== 'ford' && !site.stage;
-    const worthNaming = settlement || ownLand || (camera.scale >= HOMESTEAD_LEGIBLE && (site.id === 'ford' || (crossing ? camera.scale >= (site.claimId?.startsWith('FIC') ? FORD_LEGIBLE : LANDING_LEGIBLE) : camera.named && site.kind !== 'camp' && (!NAMED_CLOSE.includes(site.kind) || camera.scale >= LANDING_LEGIBLE))));
+    const worthNaming = settlement || distant || ownLand || (camera.scale >= HOMESTEAD_LEGIBLE && (site.id === 'ford' || (crossing ? camera.scale >= (site.claimId?.startsWith('FIC') ? FORD_LEGIBLE : LANDING_LEGIBLE) : camera.named && site.kind !== 'camp' && (!NAMED_CLOSE.includes(site.kind) || camera.scale >= LANDING_LEGIBLE))));
     // A place name goes above its buildings. Below is where the family stands, and a
     // homestead's own name landing on top of four people and an ox is unreadable.
     if (worthNaming) {
-      const roof = site.id === 'ford' || crossing ? (site.kind === 'ferry' ? camera.figure * 1.6 + 6 : -10) : camera.figure * (settlement ? SIZE.settlementCabin * 1.5 : SIZE.cabin) + 6;
+      const roof = distant ? 0 : site.id === 'ford' || crossing ? (site.kind === 'ferry' ? camera.figure * 1.6 + 6 : -10) : camera.figure * (settlement ? SIZE.settlementCabin * 1.5 : SIZE.cabin) + 6;
       // A family's own place is "Home". The map was generated when every household was
       // called Family N and it is fetched once a class, so it cannot follow a rename -
       // but nobody calls their own house by its number, and this is the one label that

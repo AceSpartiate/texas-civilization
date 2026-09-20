@@ -41,6 +41,30 @@ beside a 24-thread busy loop it passed 10/10. **Seen in those suites:** `pace.te
 failed 7 of 10 (fixed the same day, above) and `save-cadence.test.mjs` *"a page is sent a snapshot"* 1 of 10 (fixed the same day, above), both real-time tests of their own. No
 product code changed.
 
+**The places past the box, and Robbins's ferry, 2026-09-19:** [MAP_ACCURACY.md](docs/MAP_ACCURACY.md) §11,
+`HIST-TEX-158` to `-163`, `FIC-GONZ-093`. Owner, by multiple choice: the places past the old box. **Inside the box:** the
+Trinity could be crossed only at the Atascosito crossing above Liberty, so the road from Washington to Nacogdoches was laid
+the length of the river and back - 199.3 miles. Robbins's ferry, the Old San Antonio Road's own crossing at the 1936 marker,
+is a window of the Trinity now and that road is **141.6 miles**. **Outside the box:** Matamoros, San Patricio, Laredo, the
+Presidio del Río Grande and Gaines's ferry stand where the record puts them, with five roads - Urrea's up from Matamoros, the
+Camino Real from Goliad by San Patricio to Laredo, the Camino Real from the presidio over Paso de Francia to Béxar, and the
+Old San Antonio Road east to the Sabine - and their crossings: Paso de Francia, the ferry at Matamoros, the crossing at San
+Patricio, Gaines's ferry, and the fords where the Camino Real comes down to the Nueces and the Frio. A road outside is kind
+`outside` and a place kind `distant`: `walked` (sim/colonies-map.mjs) keeps every one of them out of `findWay` and
+`findPath`, so nobody walks to Matamoros, no rider carries word to Laredo, and no shop, refuge or express stop moved. A
+distant place is drawn as its name only - the library has no art for a Mexican town, and the request is in ART_REQUESTS.
+**Two faults this turned up, both fixed:** a family's lane was laid over the easiest ground *after* the river check, so it
+could swing across a meander and back (found at Liberty, where the family could then not choose its own house site); and the
+region framed itself on every site, so Matamoros would have shrunk the colonies to nothing - the outside country is drawn
+where it is and never frames a view (found by `node scripts/map-outside-browser-proof.mjs`, which failed on it and passes
+now). The map was rebuilt (its hash in `tests/map-outside.test.mjs` updated with the reason); no save version moved.
+`tests/crossings.test.mjs` +1 and `tests/colonies-map.test.mjs` amended, proven by four injections, each rebuilding the map
+and putting it back byte for byte ([evidence](docs/evidence/crossings/outside-injections.json)). One test changed: the
+old-map camp test times the march from the man's arrival event, because a man who reaches Harrisburg in the hour the army
+marches on follows it the same tick and is never seen standing there. Checks: `npm test` 766, `npm run test:crossings`, the
+map-accuracy and map-outside proofs. Not done: Fort Lipantitlán, Burr's ferry, Niblett's Bluff, Laredo's own crossing of the
+Rio Grande, and art for a distant place. Same computer only.
+
 **Beeson's bank and the Atascosito road's own crossing, 2026-09-19:** [MAP_ACCURACY.md](docs/MAP_ACCURACY.md) §10.1,
 `HIST-TEX-156`, `HIST-TEX-157`. Owner, by multiple choice: Beeson's bank next. Beeson's crossing stood at Columbus's official
 point, which is on the *Gonzales* side of the river the map draws, though Houston's army "camped on the east bank of the

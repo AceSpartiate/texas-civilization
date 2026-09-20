@@ -87,6 +87,28 @@ into the existing pipeline, and how it will be checked. When a request is delive
 
 ---
 
+## Request 2026-09-19 — the places past the box
+
+**Status: open; nothing drawn, and no stand-in.** Owner, 2026-09-19, by multiple choice: the places past the old box. Five
+places outside the colonies now stand on the map ([MAP_ACCURACY.md](MAP_ACCURACY.md) §11): **Matamoros** and **Laredo** on the
+Rio Grande, the **Presidio del Río Grande** (San Juan Bautista at present Guerrero, Coahuila), **San Patricio** on the Nueces,
+and **Gaines's ferry** on the Sabine. Each is drawn as its name and nothing more.
+
+- **Why no stand-in.** The library's settlement art is an Anglo colonist's cabin and its town art is the colonies'. A cabin at
+  Matamoros or at the presidio would say something false about the place - these are a Mexican river port, a Spanish presidio
+  and mission, an Irish colony's village and a ferry landing on the border - and the standing rule is that missing art is never
+  left silently wrong. A name alone is honest: the map says a place is there and claims nothing about what it looked like.
+- **References.** `HISTORY.md` `HIST-TEX-158` to `-163`.
+- **What.** In the frontier-v1 style (the `places` preamble in [art-prompts.json](art-prompts.json)), seen from a little above
+  as the towns are, small enough to read at province zoom:
+  - `town-mexican-river` — a low adobe and stone town on a river bank: flat-roofed houses, a church tower, a wharf or landing.
+  - `presidio-spanish` — a square walled presidio with a corner bastion and a mission church beside it.
+  - `village-irish-colony` — a handful of jacales and log houses round a small chapel, on a low bluff over a river.
+  - `ferry-landing` — a landing on a big river: a cut bank, a plank ramp, a shed and a rope post, without the boat (the boat is
+    the ferry art above).
+- **Where it goes.** `public/atlas` as the towns are, drawn for a place of kind `distant` in `public/app.js`, which today draws
+  the name only.
+
 ## Request 2026-09-19 — the ferry flatboat
 
 **Status: open; stand-in in use (see *Stand-ins in use* above).** Owner, 2026-09-18: "when the various rivers and creeks are

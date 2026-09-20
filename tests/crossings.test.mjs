@@ -5,7 +5,10 @@
 // water; the ferry's wait is checked on a class; and the army's dated camps are checked to hold with the ferries' waits in them.
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { gunzipSync } from 'node:zlib';
+import { readFileSync } from 'node:fs';
 import { coloniesMap, isStage } from '../sim/colonies-map.mjs';
+import { findPath } from '../sim/geography.mjs';
 import { milesFrom, realTerrain } from '../sim/terrain-data.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { beginTravel, progressTravel, validateWorld } from '../sim/world.mjs';
@@ -25,9 +28,54 @@ const toSegment = (p, a, b) => {
 };
 const toLine = (p, points) => points.slice(1).reduce((best, q, i) => Math.min(best, toSegment(p, points[i], q)), Infinity);
 const roads = map.roads.filter(road => ['road', 'crossing'].includes(road.kind));
-const crossings = Object.values(map.places).filter(place => ['ford', 'ferry', 'bridge'].includes(place.kind));
+// The box's own crossings. The country outside the box has its own roads, its own rivers and its own test below.
+const crossings = Object.values(map.places).filter(place => ['ford', 'ferry', 'bridge'].includes(place.kind) && !place.outside);
 const drawnAt = place => place.over || place;
 const water = name => map.watercourses.filter(course => course.name === name);
+
+test('the country outside the box is drawn and never walked: its places, its crossings on its rivers, and no road into the graph', () => {
+  // Owner, 2026-09-19: the places past the old box. Matamoros and the road up to San Patricio, the Camino Real to Laredo and
+  // from the Presidio del Río Grande, and the Old San Antonio Road east to Gaines's ferry (HIST-TEX-158 to -163).
+  const outside = JSON.parse(gunzipSync(readFileSync(new URL('../public/terrain/outside-province.json.gz', import.meta.url))).toString('utf8'));
+  const riverLines = name => outside.rivers.filter(river => river.name === name)
+    .map(river => { const flat = river.levels[0]; const points = []; for (let i = 0; i < flat.length; i += 2) points.push({ x: flat[i] / 100, y: flat[i + 1] / 100 }); return points; });
+  const RECORD = [
+    ['matamoros', 'distant', 'HIST-TEX-158', -97.50417, 25.87972],
+    ['san-patricio', 'distant', 'HIST-TEX-159', -97.776421, 27.9771416],
+    ['laredo', 'distant', 'HIST-TEX-160', -99.49028, 27.52361],
+    ['presidio-rio-grande', 'distant', 'HIST-TEX-161', -100.37694, 28.30833],
+    // The crossings stand on the river the country outside draws, which is why they are not at the record's point to the yard.
+    ['paso-de-francia', 'ford', 'HIST-TEX-161', -100.30721, 28.24683],
+    ['matamoros-crossing', 'ferry', 'FIC-GONZ-091', -97.50417, 25.87972],
+    ['san-patricio-crossing', 'ford', 'HIST-TEX-159', -97.776421, 27.9771416],
+    ['gaines-ferry', 'ferry', 'HIST-TEX-163', -93.7537667, 31.4621167],
+  ];
+  for (const [id, kind, claimId, lon, lat] of RECORD) {
+    const place = map.places[id];
+    assert.ok(place, `${id} is not a place`);
+    assert.equal(place.kind, kind, `${id} is a ${place.kind}`);
+    assert.equal(place.claimId, claimId, `${id} names ${place.claimId}`);
+    assert.equal(place.outside, true, `${id} is not marked as outside the box`);
+    const off = distance(place, at(lon, lat));
+    assert.ok(off <= 3, `${id} is ${off.toFixed(2)} miles from where the record puts it`);
+  }
+  // Every crossing outside is on the river it names, as that country draws it, and on a road that goes over it.
+  const roadsOutside = map.roads.filter(road => road.kind === 'outside');
+  assert.ok(roadsOutside.length >= 5, `${roadsOutside.length} roads outside the box`);
+  for (const place of Object.values(map.places).filter(one => one.outside && one.water)) {
+    assert.ok(riverLines(place.water).some(points => toLine(place, points) <= 0.2), `${place.id} is not on the ${place.water} the country outside draws`);
+    assert.ok(roadsOutside.some(road => toLine(place, road.points) <= 0.05), `${place.id} is on no road outside the box`);
+  }
+  // Nothing of the box's is drawn as outside, and no place outside is a town: a town would take the word and a family's trade.
+  assert.ok(!Object.values(map.places).some(place => place.outside && place.kind === 'town'), 'a place outside the box is a town');
+  assert.ok(Object.values(map.places).filter(place => place.kind === 'town').every(place => !place.outside), 'a town is marked outside');
+  // And none of it is walked: the roads outside are not in the graph, so no way to Matamoros is ever found.
+  const world = createGonzalesWorld('crossings-outside', 5, { map: 'colonies' });
+  assert.equal(findWay(world, 'goliad', 'matamoros', 'foot'), null, 'a family can walk to Matamoros');
+  assert.equal(findWay(world, 'nacogdoches', 'gaines-ferry', 'foot'), null, "a family can walk to Gaines's ferry");
+  assert.equal(findPath(world.map, 'san-felipe', 'laredo'), null, 'the word can be carried to Laredo');
+  assert.ok(findWay(world, 'goliad', 'victoria', 'foot'), 'the box\'s own roads still carry');
+});
 
 test("Beeson's stands on the east bank where the army camped, and the Atascosito road crosses nine miles below it", () => {
   // Owner, 2026-09-19. Until then Beeson's stood at Columbus's official point, on the Gonzales side of the river the map

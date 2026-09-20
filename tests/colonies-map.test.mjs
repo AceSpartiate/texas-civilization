@@ -50,7 +50,9 @@ test('the five towns the research moved stand at their 1835 sites, and Liberty h
   const off = distance(crossing, map.places.liberty);
   assert.ok(off > 2.2 && off < 4, `the Atascosito crossing is ${off.toFixed(2)} miles from Liberty`);
   assert.ok(crossing.y < map.places.liberty.y, 'the Atascosito crossing is not north of Liberty');
-  assert.deepEqual(Object.keys(map.crossings).filter(key => key.endsWith(':Trinity River')), ['atascosito-crossing:Trinity River']);
+  // The Old San Antonio Road's own crossing of the Trinity, Robbins's ferry, was opened 2026-09-19 (HIST-TEX-162): before it the
+  // road from Washington to Nacogdoches was dragged 120 miles south to cross at the Atascosito crossing.
+  assert.deepEqual(Object.keys(map.crossings).filter(key => key.endsWith(':Trinity River')).sort(), ['atascosito-crossing:Trinity River', 'robbins-ferry:Trinity River']);
   const road = (from, to) => map.roads.find(r => r.from === from && r.to === to);
   for (const [from, to] of [['harrisburg', 'atascosito-crossing'], ['atascosito-crossing', 'liberty'], ['harrisburg', 'lynchburg'], ['lynchburg', 'liberty'], ['liberty', 'nacogdoches']]) {
     assert.ok(road(from, to), `no road from ${from} to ${to}`);

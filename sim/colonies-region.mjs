@@ -141,7 +141,9 @@ export function buildColoniesRegion(random, playerCount) {
       // A crossing (docs/MAP_ACCURACY.md §10): the water it is over (null for open water), which way it lies across it, whether
       // the word and the fleeing families stop there (`stage`), and where its road meets the water when it stands off it (`over`).
       ...(place.water !== undefined && { water: place.water, waterKind: place.waterKind, across: place.across, ...(place.span && { span: place.span }), ...(place.oblique && { oblique: place.oblique }) }),
-      ...(place.stage && { stage: true }), ...(place.over && { over: { x: place.over.x, y: place.over.y } }) };
+      ...(place.stage && { stage: true }), ...(place.over && { over: { x: place.over.x, y: place.over.y } }),
+      // A place of the country outside the box, drawn and never walked to (sim/colonies-map.mjs `walked`).
+      ...(place.outside && { outside: true }) };
   }
   for (const road of built.roads) {
     const id = `route-${road.from}-${road.to}`;
@@ -170,7 +172,15 @@ export function buildColoniesRegion(random, playerCount) {
     // A road split for an earlier family's track has its junction twice; look past repeats, not just the nearest few.
     const seen = new Set();
     const distinct = vertices.filter(v => { const key = `${v.point.x},${v.point.y}`; if (seen.has(key)) return false; seen.add(key); return true; });
-    return distinct.slice(0, 200).find(v => !barriers.crosses(spot, v.point)) || null;
+    // Not only clear in a straight line: the lane actually laid from it must not wade a big river either. A join across a
+    // meander was found at Liberty on 2026-09-19, where the lane over the easiest ground crossed the Trinity and back, and
+    // the family could then not choose its own house site ("No wagon can be brought to that spot").
+    return distinct.slice(0, 200).find(v => !barriers.crosses(spot, v.point) && laneClear(v.point, spot)) || null;
+  };
+  /** Whether a wagon lane can be laid between these two without crossing a big river. */
+  const laneClear = (from, to) => {
+    const lane = layLane(from, to, 'biomes');
+    return Boolean(lane) && lane.slice(1).every((point, i) => !barriers.crosses(lane[i], point));
   };
   const level = point => {
     const step = 0.0625, run = 2 * step * 1609.344;
@@ -247,8 +257,11 @@ export function buildColoniesRegion(random, playerCount) {
       splitAt(best.routeId, best.vertex, joinId);
     }
     // The lane in from the road over the easiest ground for a wagon (sim/ground.mjs); straight only if the land offers no way round.
+    // The easiest ground is not allowed to wade a big river: `nearestReachable` keeps the join on the family's own bank, but the
+    // lane laid between them can still swing across a meander (found 2026-09-19 at Liberty, a lane over the Trinity and back).
     const join = { x: sites[joinId].x, y: sites[joinId].y };
-    const lane = layLane(join, home, 'biomes') || [join, { x: home.x, y: home.y }];
+    const laid = layLane(join, home, 'biomes');
+    const lane = (laid && laid.slice(1).every((point, i) => !barriers.crosses(laid[i], point)) ? laid : null) || [join, { x: home.x, y: home.y }];
     routes[`route-${joinId}-${home.id}`] = { id: `route-${joinId}-${home.id}`, from: joinId, to: home.id, kind: 'track', points: lane };
     terrain.push({ id: `field-${index + 1}`, kind: 'field', ownerHouseholdId: `hh-${index + 1}`, points: [
       { x: round(home.x + 0.04), y: round(home.y + 0.03) }, { x: round(home.x + 0.29), y: round(home.y + 0.03) },

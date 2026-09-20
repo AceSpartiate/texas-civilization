@@ -1,0 +1,40 @@
+{
+ "record": "The places past the box: each test proven by injecting the regression it guards (docs/MAP_ACCURACY.md §11.4)",
+ "date": "2026-09-20",
+ "mapRestored": true,
+ "injections": [
+  {
+   "name": "the Trinity opened only at the Atascosito crossing",
+   "threw": null,
+   "failed": [
+    "the five towns the research moved stand at their 1835 sites, and Liberty has the roads it rea",
+    "every place a road meets a river or creek the map draws has a crossing on that road, and ever",
+    "the box's own files are byte for byte what they were"
+   ]
+  },
+  {
+   "name": "a crossing outside left off its river",
+   "threw": null,
+   "failed": [
+    "the country outside the box is drawn and never walked: its places, its crossings on its river",
+    "the box's own files are byte for byte what they were"
+   ]
+  },
+  {
+   "name": "the roads outside the box put into the graph",
+   "threw": null,
+   "failed": [
+    "the country outside the box is drawn and never walked: its places, its crossings on its river"
+   ]
+  },
+  {
+   "name": "a place outside the box made a town",
+   "threw": null,
+   "failed": [
+    "every settlement can be reached by road from Gonzales, by a way no shorter than the crow flie",
+    "the country outside the box is drawn and never walked: its places, its crossings on its river",
+    "the box's own files are byte for byte what they were"
+   ]
+  }
+ ]
+}

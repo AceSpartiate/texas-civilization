@@ -26,6 +26,14 @@ export const isCrossing = site => CROSSING_KINDS.includes(site?.kind) || site?.k
  */
 export const isStage = site => site?.kind === 'crossing' || site?.stage === true;
 
+/**
+ * A road anybody actually travels. The roads of the country outside the box (kind `outside`, 2026-09-19: Matamoros, the
+ * Camino Real to Laredo and from the Presidio del Río Grande, the Old San Antonio Road to Gaines's ferry) are drawn to show
+ * where the war came from and are never walked: they are straight legs over ground the game does not model, and putting them
+ * in the graph would send families and the word off the map. `ceiling:` nobody travels outside the box.
+ */
+export const walked = route => route?.kind !== 'outside';
+
 /** The colony settlements families can start near (docs/COLONIES.md §5.1). */
 export const startsOf = map => Object.values(map.places).filter(place => place.start);
 

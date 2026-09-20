@@ -517,14 +517,18 @@ test('a class saved before the march\'s houses were places keeps the army at Ber
   untilMoment(world, 'houston-harrisburg');
   assert.equal(man.travel?.from, 'bernardo'); assert.equal(man.travel?.to, 'harrisburg');
   const road = groundLeft(man.travel), setOut = world.minute;
-  until(world, () => !man.travel, 400);
-  assert.equal(man.location.siteId, 'harrisburg');
+  // Timed from the arrival itself, not from standing still at Harrisburg: a man who gets there in the hour the army marches on
+  // follows it the same tick (`catchUpCamp`) and is never seen idle there. Which man this class deals, and so whether he is an
+  // hour early or an hour late, moved with the map on 2026-09-19.
+  const reached = () => world.events.find(event => event.actorId === man.id && event.type === 'arrival' && /Harrisburg/.test(event.text));
+  until(world, () => reached(), 400);
+  assert.ok(reached(), 'the man never reached Harrisburg');
   // Changed 2026-09-18 with the day on the road (sim/travel.mjs `roadTicks`). This said the army was at Harrisburg before
   // it marched for Lynchburg: sixty-three miles in forty-two hours, thirty-six miles a day, which no forced march made
   // (Houston's fifty-five took four days, `HIST-TEX-088`, `HIST-TEX-093`) and which held only while a walker went
   // seventy-two miles a day in the long ticks. At a day's march it is three days, and there before the battle.
   // 2026-09-19: the army's days are a forced march's (`FORCED_MARCH_HOURS`, owner by multiple choice).
-  const days = (world.minute - setOut) / 1440, allowed = road / milesADay(WALK_SPEED, false, FORCED_MARCH_HOURS) + calendarMinutes(world) / 1440;
+  const days = (reached().minute - setOut) / 1440, allowed = road / milesADay(WALK_SPEED, false, FORCED_MARCH_HOURS) + calendarMinutes(world) / 1440;
   assert.ok(days <= allowed + 1e-9, `the march of ${road.toFixed(1)} miles took ${days.toFixed(2)} days, more than a forced march allows (${allowed.toFixed(2)})`);
   untilMoment(world, 'houston-lynchburg');
   until(world, () => man.location.siteId === 'lynchburg' && !man.travel, 400);

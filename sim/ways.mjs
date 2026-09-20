@@ -17,6 +17,7 @@ import { groundAlong, landAround, onRealLand, segmentPace } from './ground.mjs';
 import { distanceToPolyline } from './terrain.mjs';
 import { woodsRule } from './woods.mjs';
 import { ferryMiles } from './travel.mjs';
+import { walked } from './colonies-map.mjs';
 
 /**
  * How far from where they are anybody strikes out across country to a road or a place, in miles.
@@ -116,6 +117,8 @@ export function findWay(world, fromSiteId, toSiteId, modeId = 'foot', { ferries:
   const edges = new Map();
   const add = (a, edge) => { if (!edges.has(a)) edges.set(a, []); edges.get(a).push(edge); };
   for (const route of Object.values(routes)) {
+    // The outside country's roads are drawn, not walked (sim/colonies-map.mjs `walked`).
+    if (!walked(route)) continue;
     for (const forward of [true, false]) {
       const segments = legPace(route, forward, modeId);
       const cost = segments.reduce((sum, s) => sum + s.length * segmentPace(s.length, s.ground, modeId), 0)

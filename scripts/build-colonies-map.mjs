@@ -21,8 +21,8 @@
 //     about seven miles upriver of it on the far bank (HIST-GONZ-008), measured along the real river.
 //   - Every place a road meets drawn water is a ford, a ferry or a bridge (2026-09-19, docs/MAP_ACCURACY.md §10): the record's
 //     crossing where there is one (HIST-TEX-140 to -155), else the game's (FIC-GONZ-090, -091).
-import { mkdirSync, writeFileSync } from 'node:fs';
-import { gzipSync } from 'node:zlib';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { gunzipSync, gzipSync } from 'node:zlib';
 import { milesFrom, realTerrain } from '../sim/terrain-data.mjs';
 import { joinReaches } from './terrain/lines.mjs';
 import { BEXAR_LAYOUT, bexarToSite } from '../public/bexar-layout.js';
@@ -72,6 +72,8 @@ const PLACES = [
   ['columbus-crossing', "Beeson's crossing", 'crossing', -96.5352167, 29.7043667, 'HIST-TEX-157', false],
   // The Atascosito road's own crossing of the Colorado, nine miles below Columbus: 29°40' N, 96°27' W (TSHA, HIST-TEX-156).
   ['lower-colorado-crossing', 'The lower Colorado crossing', 'ford', -96.45, 29.6666667, 'HIST-TEX-156', false],
+  // Robbins's ferry, the Old San Antonio Road's crossing of the Trinity: the 1936 marker on the west bank (HIST-TEX-162).
+  ['robbins-ferry', "Robbins's ferry", 'ferry', -95.701596, 31.074923, 'HIST-TEX-162', false],
   // Houston's camp west of the Brazos opposite Groce's plantation, March 30 - April 12, 1836: the 1990 THC marker "Sam Houston's
   // Camp West of the Brazos", Austin County (UTM 14 779049 E 3324235 N, converted). A marker, not a surveyed campsite; the
   // river has moved since (HIST-TEX-086).
@@ -96,8 +98,10 @@ const CROSSINGS = {
   'Colorado River': ['la-grange-crossing', 'columbus-crossing', 'lower-colorado-crossing', 'mina', 'matagorda'],
   // Groce's ferry, from the camp to Bernardo: the river nearest the ferry's marker on the east bank (HIST-TEX-088).
   'Brazos River': ['san-felipe', 'washington', 'columbia', 'brazoria', 'bernardo'],
-  // The Atascosito road crossed about three miles north of Liberty, not at the town (HIST-TEX-025).
-  'Trinity River': ['atascosito-crossing'],
+  // The Atascosito road crossed about three miles north of Liberty, not at the town (HIST-TEX-025); the Old San Antonio Road
+  // crossed 120 miles above it at Robbins's ferry, which until 2026-09-19 the map had no window for, so the road to
+  // Nacogdoches was dragged the length of the Trinity to cross at the Atascosito crossing (HIST-TEX-162).
+  'Trinity River': ['atascosito-crossing', 'robbins-ferry'],
   'San Antonio River': ['goliad', 'bexar'],
 };
 // Watercourses that slow a road across them but are not barriers. Where the record gives a road's crossing of one - Lynch's
@@ -618,6 +622,8 @@ const PLACE_CROSSINGS = {
   'atascosito-crossing': ['ferry', 'Trinity River', 'HIST-TEX-152'],
   // Burnam's ferry at the La Bahía crossing near La Grange (HIST-TEX-145).
   'la-grange-crossing': ['ferry', 'Colorado River', 'HIST-TEX-145'],
+  // Robbins's ferry on the Trinity, at the crossing of the San Antonio and La Bahía roads (HIST-TEX-162).
+  'robbins-ferry': ['ferry', 'Trinity River', 'HIST-TEX-162'],
   // Beeson's ferry at Columbus (HIST-TEX-146), its place on the east bank at the marker, where the army camped (HIST-TEX-157).
   'columbus-crossing': ['ferry', 'Colorado River', 'HIST-TEX-146'],
   // The Atascosito road's own crossing, nine miles below Columbus (HIST-TEX-156). Nothing read names a ferry or a ferryman
@@ -868,6 +874,111 @@ for (const place of crossingPlaces) {
   places[id] = { id, name: `The ${kind} on ${onWater(place.water)}`, kind, ...common, across: lying(kind), ...oblique(kind), claimId: 'FIC-GONZ-090' };
 }
 for (const [id, [kind]] of Object.entries(PLACE_CROSSINGS)) if (places[id].kind !== kind) throw new Error(`${id} was met by no road`);
+
+// ---- The country outside the box ---------------------------------------------------------------
+//
+// Where the war came from, drawn but not walked (owner, 2026-09-19): Matamoros and Urrea's road up to San Patricio, the
+// Camino Real from Goliad by San Patricio to Laredo, the Presidio del Río Grande and Paso de Francia where Santa Anna's
+// army crossed into Texas, and the Old San Antonio Road east from Nacogdoches to Gaines's ferry on the Sabine.
+//
+// `ceiling:` these roads are straight legs between their places, not least-cost lines over the ground: the heights and the
+// water the box's routing reads (`route`) stop at the box's edge, and the country outside is a drawing layer
+// (public/terrain/outside-*.gz, docs/MAP_ACCURACY.md §8). Their courses are the game's (`FIC-GONZ-093`), their ends and
+// their river crossings the record's.
+//
+// `ceiling:` a road of kind `outside` is drawn and never travelled: sim/ways.mjs and sim/geography.mjs leave it out of the
+// graph, so nothing about a family's journeys, the word's relays or the flight east changes. Nobody walks to Matamoros.
+const OUTSIDE_PLACES = [
+  ['matamoros', 'Matamoros', 'distant', -97.50417, 25.87972, 'HIST-TEX-158'],
+  ['san-patricio', 'San Patricio', 'distant', -97.776421, 27.9771416, 'HIST-TEX-159'],
+  ['laredo', 'Laredo', 'distant', -99.49028, 27.52361, 'HIST-TEX-160'],
+  ['presidio-rio-grande', 'The Presidio del Río Grande', 'distant', -100.37694, 28.30833, 'HIST-TEX-161'],
+];
+/** The crossings of the outside roads: [id, name, kind, river, lon, lat, claim]. Each is snapped to the river the map draws. */
+const OUTSIDE_CROSSINGS = [
+  // Paso de Francia, "six miles southeast of the presidio", where Santa Anna's army crossed in February 1836 (HIST-TEX-161).
+  ['paso-de-francia', 'Paso de Francia', 'ford', 'Rio Grande', -100.30721, 28.24683, 'HIST-TEX-161'],
+  // The Rio Grande at Matamoros, which Urrea's division crossed in February 1836 (HIST-TEX-158): a ferry by the rule of 1827
+  // (HIST-TEX-140, FIC-GONZ-091), nothing read naming a ferryman.
+  ['matamoros-crossing', 'The ferry at Matamoros', 'ferry', 'Rio Grande', -97.50417, 25.87972, 'FIC-GONZ-091'],
+  // ceiling: Laredo's own crossing of the Rio Grande is not drawn. The town stands on the north bank and the roads the map
+  // has end there; nothing on the Mexican side of it is drawn for a road to go to.
+  // The Nueces at San Patricio, where the Camino Real and the Atascosito road crossed (HIST-TEX-159).
+  ['san-patricio-crossing', 'The crossing at San Patricio', 'ford', 'Nueces River', -97.776421, 27.9771416, 'HIST-TEX-159'],
+  // Gaines's ferry on the Sabine, the Old San Antonio Road's crossing and the way in from the United States: the marker at
+  // the crossing, 31°27.727' N, 93°45.226' W (HIST-TEX-163).
+  ['gaines-ferry', "Gaines's ferry", 'ferry', 'Sabine River', -93.7537667, 31.4621167, 'HIST-TEX-163'],
+];
+/** [from, to, name, the crossings it goes over, in order from `from`]. */
+const OUTSIDE_ROADS = [
+  ['matamoros', 'san-patricio', 'The road up from Matamoros', ['matamoros-crossing', 'san-patricio-crossing']],
+  ['san-patricio', 'goliad', 'The Camino Real from Goliad to Laredo', []],
+  ['san-patricio', 'laredo', 'The Camino Real from Goliad to Laredo', []],
+  ['presidio-rio-grande', 'bexar', 'The Camino Real from the Presidio del Río Grande', ['paso-de-francia']],
+  ['nacogdoches', 'gaines-ferry', 'The Old San Antonio Road to the Sabine', []],
+];
+{
+  // The rivers the country outside the box draws (scripts/build-outside.mjs), in hundredths of a mile, finest band first.
+  const outside = JSON.parse(gunzipSync(readFileSync('public/terrain/outside-province.json.gz')).toString('utf8'));
+  const riverLines = name => outside.rivers.filter(river => river.name === name)
+    .map(river => { const flat = river.levels[0]; const points = []; for (let i = 0; i < flat.length; i += 2) points.push({ x: flat[i] / 100, y: flat[i + 1] / 100 }); return points; });
+  const nearestOnLines = (lines, point) => {
+    let best = null;
+    for (const points of lines) for (let i = 1; i < points.length; i++) {
+      const a = points[i - 1], b = points[i], dx = b.x - a.x, dy = b.y - a.y, length = dx * dx + dy * dy;
+      const t = length ? Math.max(0, Math.min(1, ((point.x - a.x) * dx + (point.y - a.y) * dy) / length)) : 0;
+      const q = { x: a.x + dx * t, y: a.y + dy * t, direction: Math.atan2(dy, dx) };
+      if (!best || distance(q, point) < distance(best, point)) best = q;
+    }
+    return best;
+  };
+  for (const [id, name, kind, lon, lat, claimId] of OUTSIDE_PLACES) {
+    const p = at(lon, lat);
+    places[id] = { id, name, kind, x: round(p.x), y: round(p.y), claimId, outside: true };
+  }
+  for (const [id, name, kind, river, lon, lat, claimId] of OUTSIDE_CROSSINGS) {
+    const point = at(lon, lat), lines = riverLines(river);
+    if (!lines.length) throw new Error(`The country outside the box draws no ${river}`);
+    const onRiver = nearestOnLines(lines, point);
+    if (distance(onRiver, point) > 3) throw new Error(`${name} is ${distance(onRiver, point).toFixed(1)} miles from the ${river} the map draws`);
+    places[id] = {
+      id, name, kind, x: round(onRiver.x), y: round(onRiver.y), claimId,
+      water: river, waterKind: 'river', across: round(onRiver.direction + (kind === 'ferry' ? Math.PI / 2 : 0)), outside: true,
+    };
+  }
+  for (const [from, to, name, over] of OUTSIDE_ROADS) {
+    const ends = [places[from], ...over.map(id => places[id]), places[to]];
+    for (const end of ends) if (!end) throw new Error(`${name}: a place is missing`);
+    let points = ends.map(p => ({ x: p.x, y: p.y }));
+    // Every other river of the outside country this road goes over is a ford of the game's, as a road coming down to unnamed
+    // water inside the box is (`FIC-GONZ-090`): the Camino Real from the presidio crossed the Nueces and the Frio on its way
+    // to Béxar, and no name for either crossing was found. The ford goes into the road's line where the road meets the water.
+    const found = [];
+    for (const river of [...new Set(outside.rivers.map(one => one.name))]) {
+      for (const line of riverLines(river)) {
+        for (let i = 1; i < points.length; i++) for (let j = 1; j < line.length; j++) {
+          const hit = intersect(points[i - 1], points[i], line[j - 1], line[j]);
+          if (!hit) continue;
+          if (ends.some(place => distance(place, hit) < 3)) continue;
+          if (found.some(one => distance(one, hit) < 0.5)) continue;
+          found.push({ river, x: hit.x, y: hit.y, direction: hit.direction, leg: i, at: distance(points[i - 1], hit) });
+        }
+      }
+    }
+    for (const hit of found.sort((a, b) => b.leg - a.leg || b.at - a.at)) {
+      const id = placeId(`ford-${slug(hit.river)}`);
+      places[id] = {
+        id, name: `The ford on ${onWater(hit.river)}`, kind: 'ford', x: round(hit.x), y: round(hit.y), claimId: 'FIC-GONZ-090',
+        water: hit.river, waterKind: 'river', across: round(hit.direction), outside: true,
+      };
+      points = [...points.slice(0, hit.leg), { x: places[id].x, y: places[id].y }, ...points.slice(hit.leg)];
+      console.log(`  a ford on ${onWater(hit.river)} where ${name} comes down to it`);
+    }
+    const miles = points.slice(1).reduce((sum, p, i) => sum + distance(p, points[i]), 0);
+    roads.push({ id: `road-${from}-${to}`, from, to, name, kind: 'outside', points, miles: round(miles) });
+    console.log(`${name}: ${from} to ${to}${over.length ? ` over ${over.join(', ')}` : ''}, ${miles.toFixed(1)} miles, outside the box`);
+  }
+}
 
 const output = {
   kind: 'texas-colonies-map', version: 1, builtFrom: 'scripts/build-colonies-map.mjs over public/terrain',

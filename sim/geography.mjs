@@ -14,6 +14,7 @@
 
 import { createRelief, sampleReliefGrid } from './terrain.mjs';
 import { buildProvince } from './texas.mjs';
+import { walked } from './colonies-map.mjs';
 
 const distance = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
 const segmentsCross = (a, b, p, q) => {
@@ -255,6 +256,8 @@ export function findPath(map, fromSiteId, toSiteId) {
   if (fromSiteId === toSiteId) return null;
   const neighbours = new Map();
   for (const route of Object.values(map.routes)) {
+    // The outside country's roads are drawn, not walked (sim/colonies-map.mjs `walked`): no rider carries word to Matamoros.
+    if (!walked(route)) continue;
     if (!neighbours.has(route.from)) neighbours.set(route.from, []);
     if (!neighbours.has(route.to)) neighbours.set(route.to, []);
     neighbours.get(route.from).push({ to: route.to, route, forward: true });
