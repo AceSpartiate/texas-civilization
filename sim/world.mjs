@@ -13,8 +13,8 @@ import { GAME } from './hunting.mjs';
 import { bringAlong, hasWords, holderOf, keepWithRiders, leaveBehind, modeWith, NOUN } from './keeping.mjs';
 import { SERVING_ACTIONS, recallFromService, servingWhy, winterInvalid } from './winter.mjs';
 import { answerCourier } from './alamo.mjs';
-import { advanceFlight, flee, flightProjection, scrapeInvalid, stayHome } from './scrape.mjs';
-import { answerRoad, registerRoadChores } from './road.mjs';
+import { advanceFlight, flee, flightProjection, scrapeInvalid, share, stayHome } from './scrape.mjs';
+import { answerRoad, rainyDay, registerRoadChores } from './road.mjs';
 // The road's chores join the one table here, once every module above is made (sim/road.mjs says why not at its own load).
 registerRoadChores();
 import { REPEATED, advanceAuto, noteOrder, setAuto } from './auto.mjs';
@@ -24,7 +24,7 @@ import { advanceTown, createTownspeople, observedBy } from './town.mjs';
 import { GOODS, advanceOffers, makeOffer, offersFor, respondToOffer } from './trade.mjs';
 import { buildGonzalesRegion, findPath, polylineLength } from './geography.mjs';
 import { advanceEncounters, askRider, carriedInPerson, encounterProjection, leaveRider, riderName, spotName } from './encounters.mjs';
-import { DEFAULT_MODE, MODES, modeOf, moveOnGround, propertyId, RIDER_SPEED, ridesAllHours, roadHours, roadTicks } from './travel.mjs';
+import { DEFAULT_MODE, HIGH_WATER_TIMES, MODES, WADE_WRONG_MINUTES, WADE_WRONG_SHARE, fordMinutes, modeOf, moveOnGround, propertyId, RIDER_SPEED, ridesAllHours, roadHours, roadTicks } from './travel.mjs';
 import { paceOf } from './ground.mjs';
 import { findWay } from './ways.mjs';
 import { STATES as IMPROVEMENT_STATES, improvementProjection } from './improvements.mjs';
@@ -364,10 +364,53 @@ export function beginTravel(world, entity, destination, causeId, purpose = 'visi
   const apart = gap > STANDING_APART_MILES;
   const pace = path.pace ? path.pace.map(([segment, factor]) => [segment + (apart ? 1 : 0), factor])
     : paceOf(points, path.ground && (apart ? [null, ...path.ground] : path.ground), mode.id);
-  entity.travel = { from, to: destination, points, progress: 0, distance, speed: riding ? RIDER_SPEED : mode.speed * wagonSpeedShare(world, entity, mode.id), mode: mode.id, purpose, causeId: departure, ...(pace.length && { pace }) };
+  // The fords on the way and how far along the road each is (sim/travel.mjs): the wade is already in the pace, and this is
+  // what lets the road say what happened at the water when the river is up.
+  const fords = (path.fords || []).map(id => world.map.sites[id]).filter(Boolean)
+    .map(site => ({ id: site.id, waterKind: site.waterKind || 'river', at: alongAt(points, site.over || site) }))
+    .filter(ford => Number.isFinite(ford.at)).sort((a, b) => a.at - b.at);
+  entity.travel = { from, to: destination, points, progress: 0, distance, speed: riding ? RIDER_SPEED : mode.speed * wagonSpeedShare(world, entity, mode.id), mode: mode.id, purpose, causeId: departure, ...(pace.length && { pace }), ...(fords.length && { fords }) };
   if (!riding) leaveBehind(world, entity, mode);
   entity.location = { ...points[0], siteId: null }; entity.task = 'travel';
   if (!riding) harness(world, entity, mode, path, departure);
+}
+/** How far along a line a point stands, in miles: the nearest place on it, measured from the start. */
+function alongAt(points, point) {
+  let best = Infinity, at = NaN, walked = 0;
+  for (let i = 1; i < points.length; i++) {
+    const a = points[i - 1], b = points[i], dx = b.x - a.x, dy = b.y - a.y, length = Math.hypot(dx, dy);
+    const t = length ? Math.max(0, Math.min(1, ((point.x - a.x) * dx + (point.y - a.y) * dy) / (length * length))) : 0;
+    const q = { x: a.x + dx * t, y: a.y + dy * t }, off = Math.hypot(q.x - point.x, q.y - point.y);
+    if (off < best) { best = off; at = walked + length * t; }
+    walked += length;
+  }
+  return at;
+}
+/**
+ * The water at a ford this traveller has just come down to (owner, 2026-09-19: "a wade that can go wrong", and high water
+ * costs more). The ordinary wade is in the pace of the road already; this is what the river being up adds. On a day it rains
+ * (sim/road.mjs `rainyDay`) the wade takes `HIGH_WATER_TIMES` as long, and at `WADE_WRONG_SHARE` of those crossings it goes
+ * wrong: the extra hour of it is `WADE_WRONG_MINUTES`, and whoever is wading pays for it in miles as well as minutes.
+ *
+ * The share is hashed from the class, the person, the crossing and the day (`share`), never drawn from a stream: the same
+ * class replays the same, and a student who saves and reloads gets the river they had.
+ * ceiling: only the traveller is held up. Nothing they carry is lost, and nobody is turned back to the near bank.
+ */
+function wadeAt(world, entity, ford) {
+  const travel = entity.travel, day = Math.floor(world.minute / 1440);
+  if (!rainyDay(world, day)) return;
+  const site = world.map.sites[ford.id], name = site?.name || 'the water';
+  const wrong = share(world, entity.id, `wade:${ford.id}:${day}`) < WADE_WRONG_SHARE;
+  const minutes = fordMinutes(travel.mode, ford.waterKind) * (HIGH_WATER_TIMES - 1) + (wrong ? WADE_WRONG_MINUTES : 0);
+  travel.waitUntil = Math.max(travel.waitUntil || 0, world.minute + minutes);
+  if (entity.kind === 'person' && entity.householdId) entity.exertion = Math.min(EXERTION_CAP, Math.round(((entity.exertion || 0) + (wrong ? 1 : 0.25)) * 10000) / 10000);
+  record(world, 'consequence', {
+    actorId: entity.id, householdId: entity.householdId, importance: wrong ? 2 : 1, claimId: 'FIC-GONZ-094',
+    text: wrong
+      ? `The water is up at ${name.replace(/^The /, 'the ')}. ${entity.name} was swept off the crossing and had to go up the bank to find a place to get over: an hour and more lost.`
+      : `The water is up at ${name.replace(/^The /, 'the ')}. ${entity.name} waded it slowly.`,
+    causes: travel.causeId ? [travel.causeId] : [],
+  });
 }
 /** How many farming ticks' worth of road the next tick carries for this traveller (sim/travel.mjs `roadTicks`). */
 export const roadTicksFor = (world, entity) => roadTicks(calendarMinutes(world), ridesAllHours(entity), roadHours(entity.travel));
@@ -379,6 +422,11 @@ export function progressTravel(world, entity, units = 1) {
   // null and the route is still theirs - but the ground stops going past. Nulling `travel`
   // instead would put an entity nowhere, which `validateWorld` rightly refuses.
   if (travel.halted) return;
+  // Held at a ford while the water is up (`wadeAt`): the road does not go past until the crossing is made.
+  if (travel.waitUntil) {
+    if (world.minute < travel.waitUntil) return;
+    delete travel.waitUntil;
+  }
   const wasAt = travel.progress;
   // How fast the ground goes past is a fact about the land and the horse, not about the
   // lesson: three miles in an hour of 1835 in every phase (sim/clock.mjs, docs/COLONIES.md
@@ -424,6 +472,11 @@ export function progressTravel(world, entity, units = 1) {
     // Shoes on foot and a saddle on the horse take some of it off (sim/shops.mjs).
     const cost = (travel.progress - wasAt) * modeOf(travel).exertion * gearExertionShare(world, entity, modeOf(travel).id);
     entity.exertion = Math.min(EXERTION_CAP, Math.round(((entity.exertion || 0) + cost) * 10000) / 10000);
+  }
+  // The fords come down to this tick's stretch of road: each is waded as it is reached (`wadeAt`).
+  for (const ford of travel.fords || []) {
+    if (ford.at <= wasAt || ford.at > travel.progress) continue;
+    wadeAt(world, entity, ford);
   }
   entity.location = { ...pointAt(travel.points, travel.progress), siteId: null };
   if (!travel.loggedProgress && !travel.silent) {

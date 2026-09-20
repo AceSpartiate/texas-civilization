@@ -120,8 +120,32 @@ export const roadHours = travel => travel?.forced ? FORCED_MARCH_HOURS : ROAD_HO
 export const FERRY_MINUTES = 60;
 /** The ferry's wait as miles of this way of going: the same hour whoever waits, laid on the road as going (sim/ways.mjs). */
 export const ferryMiles = modeId => FERRY_MINUTES / FARMING_TICK_MINUTES * (MODES[modeId] || MODES[DEFAULT_MODE]).speed;
-/** What every way of going is told of the ferries, on the control (`describe`). */
-const FERRY_WORDS = 'Over a ferry, an hour waiting for the boat.';
+/**
+ * The wade at a ford, in minutes (`FIC-GONZ-094`). Owner, 2026-09-19, by multiple choice: fording should cost "a wade that
+ * can go wrong", and high water should cost more. A ford was a place the road came down to water shallow enough to walk a
+ * team through, not a free stretch of road: people took their shoes off, carried what would spoil above the water, and led
+ * the stock over one at a time. Nothing read times an ordinary crossing, so these are the game's own, set against the
+ * ferry's hour: a river's ford a third of it, a creek's a twelfth.
+ *
+ * The ox and wagon pay double - the load is the thing that has to be got across dry - and a rider three quarters, because
+ * the horse does the wading. What a class is planning for is this ordinary wade; the river being up is what meets them on
+ * the road (`HIGH_WATER_TIMES`, sim/world.mjs).
+ */
+export const FORD_MINUTES = Object.freeze({ river: 20, creek: 5 });
+const FORD_SHARE = Object.freeze({ foot: 1, horse: 0.75, wagon: 2 });
+/** The wade at one ford for this way of going, in minutes: longer with the wagon, shorter on the horse. */
+export const fordMinutes = (modeId, waterKind) => Math.round((waterKind === 'creek' ? FORD_MINUTES.creek : FORD_MINUTES.river) * (FORD_SHARE[modeId] ?? 1));
+/** The wade as miles of this way of going, laid on the road as going (sim/ways.mjs), as the ferry's wait is. */
+export const fordMiles = (modeId, waterKind) => fordMinutes(modeId, waterKind) / FARMING_TICK_MINUTES * (MODES[modeId] || MODES[DEFAULT_MODE]).speed;
+/**
+ * A ford with the water up: the wade takes this many times as long, and at `WADE_WRONG_SHARE` of them it goes wrong (the
+ * traveller is carried off their feet, or the team baulks and the load has to come off and be brought over a piece at a
+ * time). The water is up on a day it rains (sim/road.mjs `rainyDay`, `FIC-GONZ-049`) - the spring of 1836 was "unusually
+ * wet and the rivers swollen" (`HIST-TEX-071`) - and the rest is the game's own (`FIC-GONZ-094`).
+ */
+export const HIGH_WATER_TIMES = 3, WADE_WRONG_SHARE = 0.25, WADE_WRONG_MINUTES = 60;
+/** What every way of going is told of the ferries and the fords, on the control (`describe`). */
+const FERRY_WORDS = 'Over a ferry, an hour waiting for the boat; over a ford, a wade, and longer when the water is up.';
 
 export const MODES = Object.freeze({
   foot: Object.freeze({

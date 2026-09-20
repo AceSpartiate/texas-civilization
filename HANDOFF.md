@@ -41,6 +41,29 @@ beside a 24-thread busy loop it passed 10/10. **Seen in those suites:** `pace.te
 failed 7 of 10 (fixed the same day, above) and `save-cadence.test.mjs` *"a page is sent a snapshot"* 1 of 10 (fixed the same day, above), both real-time tests of their own. No
 product code changed.
 
+**A ford is a wade now, and the water can be up, 2026-09-19:** [MAP_ACCURACY.md](docs/MAP_ACCURACY.md) §10.7,
+`FIC-GONZ-094`. The owner asked in play - *"to ford a river, shouldn't characters have to wade?"* - and chose by multiple
+choice: a wade that can go wrong, and high water costing more. A ford cost nothing at all until now; only a ferry's hour was
+paid. A river's ford is twenty minutes on foot, fifteen on the horse, forty with the ox and wagon, a creek's a quarter of
+that, laid into the pace of the road as the ferry's wait is, so a class plans for it and the travel control says so. A bridge
+still costs nothing. On a day it rains the water is up: the wade takes three times as long, the family is told at the water,
+and one crossing in four goes wrong - *"swept off the crossing and had to go up the bank to find a place to get over"* - for
+an hour more and a tired traveller. The share is hashed from the class, the person, the crossing and the day, so a class
+replays the same. The army's dated camps, the word's relays and the Runaway Scrape's own flooded waits are untouched.
+**Two things in the weather had to be mended for this to be honest:** the rain share was one day in two all year, which is the
+*spring* of 1836 and far too wet for the autumn a class opens in (March and April keep it; the rest of the year is one day in
+five, `RAIN_SHARE_ORDINARY`), and the day was hashed straight into `share`, which is FNV-1a and runs in streaks - one class
+had twenty rainy days together, another none in its first twenty - so the day is mixed before it is hashed. Neither showed
+while only the wagon's bogging read the weather. Measured over thirty families: the median family's way to town crosses **no
+ford at all** and the worst crosses four, twenty-five minutes on a journey of nearly three hours; a long road like Liberty to
+Gonzales wades fifteen. `tests/crossings.test.mjs` +1, proven by five injections
+([wade-injections.json](docs/evidence/crossings/wade-injections.json)). Three tests changed with it: the ferry test takes the
+fords' wade off before it measures the hour, the ways test measures the going against the road without its waits (a way
+across country may miss a ford, which is a saving and not a fault), and the host-view test now asks whether a trader keeps a
+shop rather than matching the shape of their id - Marta Ibarra's is `town-ibarra`, and the old pattern passed only by luck of
+which family dealt when. `npm test` 772. Not done: nothing a traveller carries is lost in a bad wade, nobody is turned back
+to the near bank, and every ford of a kind wades alike. Same computer only.
+
 **The crossings audited, and two rules of placement mended (2026-09-19).** Owner: *"go through all of the bridges and fords.
 ensure that they're actually placed correctly so that they cross the rivers."* Every crossing was checked against the built
 map by a script that is part of the repository now - `node scripts/crossings-audit.mjs` (`--flagged`, `--json`, `--region`) -

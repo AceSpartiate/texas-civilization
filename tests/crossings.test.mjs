@@ -14,9 +14,10 @@ import { milesFrom, realTerrain } from '../sim/terrain-data.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { beginTravel, progressTravel, validateWorld } from '../sim/world.mjs';
 import { findWay } from '../sim/ways.mjs';
-import { FERRY_MINUTES, FARMING_TICK_MINUTES, FORCED_MARCH_HOURS, MODES, ferryMiles, groundLeft, milesAnHour, propertyId } from '../sim/travel.mjs';
+import { FERRY_MINUTES, FARMING_TICK_MINUTES, FORCED_MARCH_HOURS, MODES, ferryMiles, fordMinutes, groundLeft, milesAnHour, propertyId } from '../sim/travel.mjs';
 import { HOUSTON_CAMPS } from '../sim/houston.mjs';
 import { crossingsAlong } from '../sim/scrape.mjs';
+import { rainyDay } from '../sim/road.mjs';
 import { settle } from './support/settled.mjs';
 
 const map = coloniesMap();
@@ -371,6 +372,53 @@ function journey(mode, { ferries = true } = {}) {
   return { world, travel, open, ticks };
 }
 
+/** One walk from Liberty to Harrisburg, on a day of the class's own weather: what the water did, and how long it took. */
+function crossOnce(seed, wet) {
+  const world = createGonzalesWorld(seed, 5, { map: 'colonies' });
+  world.status = 'running';
+  // A day of the kind wanted: the class's weather is its own (sim/road.mjs `rainyDay`), so the day is looked for, not set.
+  let day = 0;
+  while (day < 400 && rainyDay(world, day) !== wet) day++;
+  world.minute = day * 1440 + 6 * 60;
+  const person = Object.values(world.entities).find(entity => entity.principal);
+  person.chore = null; person.task = 'rest'; person.travel = null;
+  person.location = { x: world.map.sites.liberty.x, y: world.map.sites.liberty.y, siteId: 'liberty' };
+  beginTravel(world, person, 'harrisburg', null, 'errand', 'foot');
+  const from = world.minute;
+  let ticks = 0;
+  while (person.travel && ticks < 5000) { world.minute += FARMING_TICK_MINUTES; progressTravel(world, person); ticks++; }
+  return { world, minutes: world.minute - from, said: world.events.filter(event => event.claimId === 'FIC-GONZ-094').map(event => event.text) };
+}
+
+test('a ford costs a wade, and the water being up costs more and can go wrong', () => {
+  // Owner, 2026-09-19, by multiple choice: fording should cost "a wade that can go wrong", and high water should cost more
+  // (`FIC-GONZ-094`, sim/travel.mjs `FORD_MINUTES`, sim/world.mjs `wadeAt`).
+  assert.deepEqual([fordMinutes('foot', 'river'), fordMinutes('horse', 'river'), fordMinutes('wagon', 'river'), fordMinutes('foot', 'creek')], [20, 15, 40, 5]);
+  for (const mode of ['foot', 'horse', 'wagon']) {
+    assert.match(MODES[mode].describe, /over a ford, a wade/, `${mode}: the control does not say what a ford costs`);
+  }
+  // The wade is in the pace of the road, so a way that wades costs that much more going than the same way without it.
+  const world = colonies();
+  for (const mode of ['foot', 'horse', 'wagon']) {
+    const over = findWay(world, 'san-felipe', 'harrisburg', mode), dry = findWay(world, 'san-felipe', 'harrisburg', mode, { ferries: false });
+    assert.ok(over.fords?.length >= 3, `${mode}: the way from San Felipe to Harrisburg wades ${over.fords?.length || 0} fords`);
+    const waded = over.fords.reduce((sum, id) => sum + fordMinutes(mode, map.places[id]?.waterKind), 0);
+    const ferried = (over.ferries || []).length * FERRY_MINUTES;
+    const longer = (groundLeft({ ...over, progress: 0, distance: over.distance }) - groundLeft({ ...dry, progress: 0, distance: dry.distance })) / MODES[mode].speed * FARMING_TICK_MINUTES;
+    assert.ok(Math.abs(longer - (waded + ferried)) < 0.2, `${mode}: the crossings cost ${longer.toFixed(1)} minutes, not the ${(waded + ferried).toFixed(1)} of their wades and waits`);
+  }
+  // On a day it rains the water is up: the wade takes HIGH_WATER_TIMES as long, and the family is told so at the water.
+  const fair = crossOnce('wade-fair', false), wet = crossOnce('wade-wet', true);
+  assert.equal(fair.said.length, 0, 'a family was told of high water on a fair day');
+  assert.ok(wet.said.length >= 1, 'the water was never up on a day it rained');
+  assert.ok(wet.minutes > fair.minutes, `the crossing in high water took ${wet.minutes} minutes against ${fair.minutes} in fair weather`);
+  // Some of those crossings go wrong, and are said differently; the share is hashed, so the same class crosses the same way twice.
+  const wrong = wet.said.filter(text => /swept off the crossing/.test(text));
+  assert.ok(wrong.length >= 1 && wrong.length < wet.said.length, `${wrong.length} of ${wet.said.length} crossings in high water went wrong`);
+  assert.deepEqual(crossOnce('wade-wet', true).said, wet.said, 'the same class did not cross the same way twice');
+  assert.ok(wet.said.every(text => /The water is up at /.test(text)), `the water was not named: ${wet.said[0]}`);
+});
+
 test('a ferry costs an hour\'s wait, whoever waits, and is said on the control and in the travel words', () => {
   assert.equal(FERRY_MINUTES, 60);
   for (const mode of ['foot', 'horse', 'wagon']) {
@@ -378,12 +426,15 @@ test('a ferry costs an hour\'s wait, whoever waits, and is said on the control a
     const path = findWay(over.world, 'san-felipe', 'harrisburg', mode);
     assert.ok(path.ferries?.includes('san-felipe-ferry'), `${mode}: the way from San Felipe to Harrisburg does not go over the San Felipe ferry`);
     // The wait is the ferry's miles of this way of going, laid on the stretch it stands on: an hour at the mode's pace.
-    const waited = (over.open - without.open) / MODES[mode].speed * FARMING_TICK_MINUTES;
+    // The fords on the same way are waded now (2026-09-19, FIC-GONZ-094), and their wade is in the same pace: taken off here,
+    // so what is left is the ferries' own hour.
+    const waded = (path.fords || []).reduce((sum, id) => sum + fordMinutes(mode, map.places[id]?.waterKind), 0);
+    const waited = (over.open - without.open) / MODES[mode].speed * FARMING_TICK_MINUTES - waded;
     // The pace is kept to three places, so to a tenth of a minute.
     assert.ok(Math.abs(waited - FERRY_MINUTES * path.ferries.length) < 0.1, `${mode}: the ferries cost ${waited} minutes, not ${FERRY_MINUTES} each`);
     assert.ok(Math.abs(ferryMiles(mode) - milesAnHour(MODES[mode].speed) * FERRY_MINUTES / 60) < 1e-9, `${mode}: a ferry's miles are not an hour's going`);
     // And the journey, stepped, arrives that much later, to the tick.
-    const late = (over.ticks - without.ticks) * FARMING_TICK_MINUTES;
+    const late = (over.ticks - without.ticks) * FARMING_TICK_MINUTES - waded;
     assert.ok(Math.abs(late - FERRY_MINUTES * path.ferries.length) <= FARMING_TICK_MINUTES, `${mode}: arrived ${late} minutes later over the ferries`);
     assert.match(MODES[mode].describe, /ferry, an hour waiting for the boat/, `${mode}: the control does not say what a ferry costs`);
   }

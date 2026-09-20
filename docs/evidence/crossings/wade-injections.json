@@ -1,0 +1,37 @@
+{
+ "record": "The wade at a ford: each test proven by injecting the regression it guards (docs/MAP_ACCURACY.md §10.7)",
+ "date": "2026-09-20",
+ "injections": [
+  {
+   "name": "a ford costs nothing to wade",
+   "failed": [
+    "a ford costs a wade, and the water being up costs more and can go wrong",
+    "a ferry costs an hour's wait, whoever waits, and is said on the control and in the travel wor"
+   ]
+  },
+  {
+   "name": "the wagon wades as quickly as a man",
+   "failed": [
+    "a ford costs a wade, and the water being up costs more and can go wrong"
+   ]
+  },
+  {
+   "name": "high water costs no more",
+   "failed": [
+    "a ford costs a wade, and the water being up costs more and can go wrong"
+   ]
+  },
+  {
+   "name": "a wade never goes wrong",
+   "failed": [
+    "a ford costs a wade, and the water being up costs more and can go wrong"
+   ]
+  },
+  {
+   "name": "the water is up whatever the weather",
+   "failed": [
+    "a ford costs a wade, and the water being up costs more and can go wrong"
+   ]
+  }
+ ]
+}

@@ -28,6 +28,7 @@
 // `household.flight` (sim/scrape.mjs), and every field this module adds to it is absent until it happens, so no saved class
 // changes and no save version moves.
 import { CHORES, COIN, abandonChore, reales, registerChores } from './chores.mjs';
+import { dateOf } from './clock.mjs';
 import { record } from './events.mjs';
 import { canAnswerCalls, householdName, mainPersonId, tooYoung } from './family.mjs';
 import { WAGON_SPEED, WALK_SPEED, propertyId } from './travel.mjs';
@@ -46,6 +47,15 @@ const round = value => Math.round(value * 100) / 100;
 
 /** Rain: the share of days it rains on the road (`FIC-GONZ-049`; the record says the spring was unusually wet, not which days). */
 export const RAIN_SHARE = 0.5;
+/**
+ * And the share of days it rains the rest of the year (`FIC-GONZ-094`, 2026-09-19). Half of all days is the spring of 1836,
+ * which the record calls unusually wet and which is what the road east was measured against; the autumn the class opens in
+ * was not that, and a ford reads the weather on every crossing now, which the wagon's bogging never did. Nothing read gives
+ * a rain count for those months, so one day in five is the game's own.
+ */
+export const RAIN_SHARE_ORDINARY = 0.2;
+/** The months the record calls wet: March and April of 1836, the Runaway Scrape's own weather. */
+const WET_MONTHS = [2, 3];
 /** On a rain day a family moving with its wagon bogs at this share, rolled once a day. */
 export const BOG_SHARE = 0.5;
 /** Unloading and digging the wagon out takes this long, in hours of 1836. */
@@ -160,8 +170,17 @@ export function pursuit(world, point) {
   return nearest;
 }
 
-/** Whether it rains on this day of the calendar: the class's own weather, the same for every family in it. */
-export const rainyDay = (world, day) => share(world, 'weather', `rain:${day}`) < RAIN_SHARE;
+/**
+ * Whether it rains on this day of the calendar: the class's own weather, the same for every family in it.
+ *
+ * The day is mixed before it is hashed (2026-09-19). `share` is FNV-1a, and over keys that differ by one digit it runs in
+ * streaks: one class had twenty rainy days together and another none in its first twenty, at a share meant to be one day in
+ * two. It was hard to see while only the wagon's bogging read it; a ford in high water reads it on every crossing.
+ */
+export const rainyDay = (world, day) => {
+  const wet = WET_MONTHS.includes(dateOf(world, day * DAY).getUTCMonth());
+  return share(world, 'weather', `rain:${Math.imul(day + 1, 2654435761) >>> 0}`) < (wet ? RAIN_SHARE : RAIN_SHARE_ORDINARY);
+};
 export const dayOf = minute => Math.floor(minute / DAY);
 export const weatherOf = world => rainyDay(world, dayOf(world.minute)) ? 'rain' : 'fair';
 

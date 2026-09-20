@@ -110,7 +110,12 @@ test('a student is sent exactly what it was before: its own people, who it can s
     const hidden = [...everyone].filter(id => !view.others.some(other => other.id === id) && !view.entities.some(own => own.id === id) && !dealtWith.has(id));
     assert.ok(hidden.length > everyone.size / 2, `${householdId} could see most of the class`);
     for (const id of hidden) assert.ok(!wire.includes(`"${id}"`), `${householdId} was sent ${id}, whom it cannot see`);
-    for (const id of dealtWith) assert.ok(/^town-(store|shop|smith|tanner|mill|keeper)/.test(id) || world.entities[id]?.town, `${householdId} kept the id of ${id}, who is no shop`);
+    // Whoever it is, they keep a shop: a keeper is known by their counter, not by the shape of their id. Marta Ibarra's is
+    // `town-ibarra`, and the name pattern this once tested for let her through only by luck of which family dealt when.
+    for (const id of dealtWith) {
+      const keeper = world.entities[id];
+      assert.ok(keeper?.shopSpot || keeper?.deals?.length, `${householdId} kept the id of ${id}, who keeps no shop`);
+    }
   }
 });
 

@@ -576,6 +576,9 @@ Nothing else moved: the map's other places, roads and waters are as they were, a
   and as an hour of the day's road in the long ticks. `findWay` (`sim/ways.mjs`) counts it when choosing the way and returns
   `ferries`. Said on the travel control ("Over a ferry, an hour waiting for the boat.") and in the departure ("The way goes over
   the San Felipe ferry, with a wait for the boat.").
+- **A ford is a wade** (`FORD_MINUTES`, `fordMiles`; `FIC-GONZ-094`, owner 2026-09-19): twenty minutes over a river on
+  foot, forty with the ox and wagon, a quarter of that over a creek, laid on the road the same way; three times as long when
+  the water is up, and one crossing in four goes wrong then. §10.7 has it. A bridge costs nothing.
 - **Not for a rider with word** (`findPath`): the mails and public messengers crossed free (`HIST-TEX-140`), and the expresses'
   waits are calibrated on the letters (`HIST-TEX-006`).
 - **Not for the flight of the spring**, whose families wait at the flooded crossings by their own rule (`CROSSING_HOURS`,
@@ -728,6 +731,43 @@ laying a bad bridge, which is the rule working. `npm test` 768 pass; `npm run te
   (Dry Creek, Bear Branch, Arnold Branch, Bowie Creek and the rest) will all move when that road is laid again, and the
   audit should be run over it afterwards.
 ---
+
+### 10.7 The wade at a ford (owner, 2026-09-19)
+
+Asked by the owner in play - *"to ford a river, shouldn't characters have to wade?"* - and chosen by multiple choice: a ford
+should cost **a wade that can go wrong**, and **high water should cost more**. Until then a ford cost nothing at all; only a
+ferry's hour was paid.
+
+| | On foot | On the horse | With the ox and wagon |
+|---|---:|---:|---:|
+| A river's ford | 20 min | 15 min | 40 min |
+| A creek's ford | 5 min | 4 min | 10 min |
+
+The wade is laid into the pace of the road the same way the ferry's wait is (`sim/ways.mjs`), so a class plans for it: the
+travel control says *"over a ford, a wade, and longer when the water is up"*, and a way that wades ten creeks costs those
+minutes. A **bridge costs nothing**, which is what a bridge is for.
+
+**The water being up** is met on the road, not planned for. On a day it rains (`rainyDay`) a ford takes three times as long
+and the family is told at the water - *"The water is up at the ford on Mill Creek. Elias waded it slowly."* - and **one
+crossing in four goes wrong**: *"Elias was swept off the crossing and had to go up the bank to find a place to get over: an
+hour and more lost."* Whoever wades pays in tiredness as well as minutes. The share is hashed from the class, the person, the
+crossing and the day, so the same class crosses the same way twice and a reload changes nothing.
+
+**The weather behind it** (`FIC-GONZ-094`). Two things were mended to make this honest. The rain share was one day in two all
+year, which is the *spring* of 1836 - "unusually wet and the rivers swollen" (`HIST-TEX-071`) - and far too wet for the
+autumn a class opens in: March and April keep it, the rest of the year is one day in five. And the day was hashed straight
+into `share`, which is FNV-1a and runs in streaks over keys that differ by one digit: one class had twenty rainy days
+together and another none in its first twenty. The day is mixed before it is hashed now. Neither was visible while only the
+wagon's bogging on the road east read the weather; a ford reads it on every crossing.
+
+- `ceiling:` only the traveller is held up. Nothing they carry is lost and nobody is turned back to the near bank.
+- `ceiling:` the army's dated camps and the word's relays do not wade: the army's marches are dated to the record
+  (`tests/crossings.test.mjs`), and a rider with word and the Runaway Scrape's flight keep their own waits.
+- `ceiling:` the wade is the same at every ford of its kind: no ford is deeper or easier than another.
+
+Checks: `tests/crossings.test.mjs`, *a ford costs a wade, and the water being up costs more and can go wrong*, proven by five
+injections ([wade-injections.json](evidence/crossings/wade-injections.json)) - the ford made free, the wagon made as quick as
+a man, high water made ordinary, the wade never going wrong, and the water up whatever the weather.
 
 ## 11. The places past the box (2026-09-19)
 
