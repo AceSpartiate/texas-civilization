@@ -65,6 +65,8 @@ const files = new Map([
   ['/field-art.js', ['../public/field-art.js', 'text/javascript']],
   ['/gonzales-art.js', ['../public/gonzales-art.js', 'text/javascript']],
   ['/landscape-art.js', ['../public/landscape-art.js', 'text/javascript']],
+  // The weather, drawn: rain, a norther, a storm, fog and high water (docs/WEATHER.md, public/weather-art.js).
+  ['/weather-art.js', ['../public/weather-art.js', 'text/javascript']],
   ['/woods-view.js', ['../public/woods-view.js', 'text/javascript']],
   ['/house-plot.js', ['../public/house-plot.js', 'text/javascript']],
   ['/family-panel.js', ['../public/family-panel.js', 'text/javascript']],

@@ -1,0 +1,168 @@
+{
+  "record": "perf-render",
+  "label": "probe-norther",
+  "date": "2026-09-20",
+  "browser": "152.0.7977.83",
+  "cpuThrottle": 6,
+  "phaseSeconds": 20,
+  "tickMs": 1000,
+  "viewport": "1366x768 @1x",
+  "views": {
+    "land": {
+      "scale": 2131.6,
+      "rafPerSecond": 53.5,
+      "paintedFramesPerSecond": 10,
+      "msPerPaintedFrame": {
+        "mean": 16.4,
+        "p95": 18.9
+      },
+      "snapshots": 21,
+      "groundDrawnPerSecond": 0.1,
+      "groundDrawnBecause": {
+        "land": 1,
+        "art or tiles": 1
+      },
+      "msPerSnapshot": {
+        "mean": 35.7,
+        "p95": 43.8,
+        "max": 199.9
+      },
+      "longTasksPerMinute": 5.7,
+      "longTaskMsPerMinute": 1007,
+      "mainThreadBusyPercent": 37.5,
+      "scriptPercent": 20.7,
+      "layoutPlusStylePercent": 2.1,
+      "layoutsPerSecond": 1.7,
+      "elementsCreatedPerMinute": 2000,
+      "nodesInsertedPerMinute": 3579,
+      "domNodes": {
+        "before": 3277,
+        "after": 1428
+      },
+      "heapMB": [
+        14,
+        16.9,
+        13.5,
+        12.7,
+        14.9,
+        12.9,
+        18.1
+      ],
+      "profiledMs": 21059,
+      "topSelfTime": [
+        {
+          "name": "drawImage :0",
+          "ms": 937,
+          "perSecond": 44.4
+        },
+        {
+          "name": "drawWorld app.js:2193",
+          "ms": 465,
+          "perSecond": 22.1
+        },
+        {
+          "name": "translate :0",
+          "ms": 299,
+          "perSecond": 14.2
+        },
+        {
+          "name": "strokeText :0",
+          "ms": 195,
+          "perSecond": 9.3
+        },
+        {
+          "name": "draw town-art.js:68",
+          "ms": 176,
+          "perSecond": 8.3
+        },
+        {
+          "name": "drawSprite art.js:122",
+          "ms": 173,
+          "perSecond": 8.2
+        },
+        {
+          "name": "fillText :0",
+          "ms": 148,
+          "perSecond": 7
+        },
+        {
+          "name": "homeOf app.js:80",
+          "ms": 104,
+          "perSecond": 4.9
+        },
+        {
+          "name": "(garbage collector) :0",
+          "ms": 96,
+          "perSecond": 4.6
+        },
+        {
+          "name": "save :0",
+          "ms": 89,
+          "perSecond": 4.2
+        },
+        {
+          "name": "Document.createElement :22",
+          "ms": 78,
+          "perSecond": 3.7
+        },
+        {
+          "name": "animateMap app.js:4962",
+          "ms": 72,
+          "perSecond": 3.4
+        },
+        {
+          "name": "(anonymous) app.js:2532",
+          "ms": 69,
+          "perSecond": 3.3
+        },
+        {
+          "name": "applyDrawState map-base.js:61",
+          "ms": 67,
+          "perSecond": 3.2
+        },
+        {
+          "name": "caption app.js:602",
+          "ms": 56,
+          "perSecond": 2.6
+        }
+      ],
+      "topElementCreators": [
+        {
+          "at": "element app.js:83:65 < app.js:3674:68 < renderVisits app.js:3674:39",
+          "perMinute": 478
+        },
+        {
+          "at": "element app.js:83:65 < app.js:2774:92 < renderHousehold app.js:2774:66",
+          "perMinute": 327
+        },
+        {
+          "at": "element app.js:83:65 < app.js:2772:108 < renderHousehold app.js:2772:81",
+          "perMinute": 256
+        },
+        {
+          "at": "element app.js:83:65 < app.js:3073:20 < renderTravelModes app.js:3071:35",
+          "perMinute": 256
+        },
+        {
+          "at": "element app.js:83:65 < app.js:2698:16 < renderHousehold app.js:2697:42",
+          "perMinute": 171
+        },
+        {
+          "at": "element app.js:83:65 < app.js:2704:20 < renderHousehold app.js:2697:42",
+          "perMinute": 171
+        },
+        {
+          "at": "element app.js:83:65 < app.js:2742:16 < renderHousehold app.js:2752:5",
+          "perMinute": 85
+        },
+        {
+          "at": "element app.js:83:65 < renderHousehold app.js:2756:16 < render app.js:4684:31",
+          "perMinute": 85
+        }
+      ]
+    }
+  },
+  "loadToRunningMs": 972,
+  "weather": "norther",
+  "pageErrors": []
+}

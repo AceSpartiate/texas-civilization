@@ -12,6 +12,7 @@ import { drawTownGround, townDrawables } from '/town-art.js';
 import { renderInterior, clearInteriorChoice } from '/interior.js';
 import { TOWN_LAYOUTS, townPoint } from '/town-layouts.js';
 import {drawWater,drawRoad,drawCrossing,drawFerry,crossingAngle} from '/landscape-art.js';
+import { drawFogShape, drawHighWater, drawWeatherAir, drawWeatherVeil, drawWetGround, weatherGroundKey, weatherMix, weatherShown, weatherSpans, windLean } from '/weather-art.js';
 import { drawHousePlot, plotted, renderHousePlot } from '/house-plot.js';
 import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesVisible, woodsLayersFor, woodsShown } from '/woods-view.js';
 import { bindEnding, renderEnding } from '/ending.js';
@@ -386,19 +387,20 @@ function homesteadCamp(ctx, x, y, size, id = '') {
 // Open-grown post oak: a broad canopy on a short trunk (HIST-GONZ-012). Kept as the
 // fallback for when the nature sheet has not loaded, or has failed to.
 const TIMBER_TREES = ['oak-broad', 'oak-spreading', 'pecan'];
-function postOak(ctx, x, y, size, tint = 0) {
+function postOak(ctx, x, y, size, tint = 0, lean = 0) {
   // A whole number: a woods site passes a fractional tint, which indexed no tree and no green, and its stand was drawn as
   // three brown discs (found 2026-09-14).
   tint = Math.round(tint);
-  if (animated(ctx, `${TIMBER_TREES[((tint % 3) + 3) % 3]}-wind`, x, y, size, tint)) return;
-  if (drawSprite(ctx, TIMBER_TREES[((tint % 3) + 3) % 3], x, y, size)) return;
+  if (animated(ctx, `${TIMBER_TREES[((tint % 3) + 3) % 3]}-wind`, x, y, size, tint, { lean })) return;
+  if (drawSprite(ctx, TIMBER_TREES[((tint % 3) + 3) % 3], x, y, size, { lean })) return;
   ctx.fillStyle = '#6a4a33';
   ctx.fillRect(x - size * .09, y - size * .5, size * .18, size * .5);
   const greens = ['#5f8a48', '#6d9a52', '#57803f'];
   // A negative tint must not index off the end: an undefined fill silently keeps the trunk colour.
   ctx.fillStyle = greens[((tint % greens.length) + greens.length) % greens.length];
+  // The shapeless fallback tree leans by carrying its crown over, which is all a stack of discs can do.
   for (const [dx, dy, r] of [[-.42, -1.12, .46], [.4, -1.10, .44], [0, -1.36, .54], [0, -1.0, .48]]) {
-    ctx.beginPath(); ctx.arc(x + dx * size, y + dy * size, r * size, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.arc(x + (dx + lean * -dy) * size, y + dy * size, r * size, 0, Math.PI * 2); ctx.fill();
   }
 }
 // Worm-rail fence: the frontier fence, split rails stacked in a zigzag. `fence-rail` was
@@ -1682,6 +1684,14 @@ function drawGroundDetail(ctx, world, camera) {
   const levels = scatterLevels(viewMiles, { finest: 0.01, across: SCATTER_ACROSS });
   const figure = camera.figure;
   const scattered = [];
+  // A norther is a wind before it is a temperature, and this is where it shows: the grass and the trees lean with it.
+  // Read at each thing's own place, so the lean thins out across a region boundary instead of stopping at a line. Only
+  // when there is a wind to read, so a fair day pays nothing for it (public/weather-art.js `windLean`).
+  // ceiling: the lean is fixed while the ground is kept, so the trees hold a steady bend rather than working in the gusts;
+  // it turns when the day does. Trees swayed on each frame over the kept ground is the way out, and is the same ceiling
+  // the kept ground already carries for the oaks' own wind.
+  const wind = world.weather && weatherShown(world.weather) ? world.weather : null;
+  const leanAt = wind ? x => windLean(weatherMix(wind, x, world.minute)) : null;
   // Nothing wild stands in ground the family has cleared (sim/fields.mjs): no oak in the corn, no scrub in the rows.
   // Only plots near the view are checked, so the Host's thirty families cost no more per tree than one family's land does.
   const near = PLOT_SIDE * 2;
@@ -1767,7 +1777,7 @@ function drawGroundDetail(ctx, world, camera) {
         const own = groundClassAt(landGrid, wx, wy);
         const ground = outsideGrid && own === DEFAULT_GROUND ? groundClassAt(outsideGrid, wx, wy) : own;
         const timber = (hasWoods && inWoods(wx, wy)) || (!landWoods && groundClass(ground).timber === true);
-        scattered.push({ share: item.share, seed: cx + cy, alpha: alpha * detail, timber, ground, point });
+        scattered.push({ share: item.share, seed: cx + cy, alpha: alpha * detail, timber, ground, point, lean: leanAt ? leanAt(wx) : 0 });
       }
     }
   }
@@ -1781,7 +1791,7 @@ function drawGroundDetail(ctx, world, camera) {
       const sizeName = ['pole', 'log', 'large'][tree.size];
       const sizedTree = `${tree.kind.picture}-${sizeName}`;
       const deliveredSizes = tree.kind.sized ?? ['pine-loblolly', 'cedar', 'mesquite', 'live-oak', 'elm'].includes(tree.kind.picture);
-      scattered.push({ tree: deliveredSizes ? sizedTree : tree.kind.picture, height, point, seed: Math.round(tree.x * 1e5), alpha: treesShown });
+      scattered.push({ tree: deliveredSizes ? sizedTree : tree.kind.picture, height, point, seed: Math.round(tree.x * 1e5), alpha: treesShown, lean: leanAt ? leanAt(tree.x) : 0 });
     }
     // What the family has felled: a stump, and a log lying beside it while any are left to haul (sim/felling.mjs).
     // stand-in: hardwood stumps use the nearest post-oak or cottonwood stump, and every felled trunk uses
@@ -1806,9 +1816,9 @@ function drawGroundDetail(ctx, world, camera) {
     ctx.globalAlpha = was * alpha; draw(); ctx.globalAlpha = was;
   };
   // One mark of the ground, from its class's table entry, or the entry's shape while the art has not loaded.
-  const plain = (share, point, ground) => {
+  const plain = (share, point, ground, lean = 0) => {
     const mark = markFor(ground, share);
-    if (mark.sprite && drawSprite(ctx, mark.sprite, point.x, point.y, figure * mark.size)) return;
+    if (mark.sprite && drawSprite(ctx, mark.sprite, point.x, point.y, figure * mark.size, { lean })) return;
     if (mark.fallback === 'rock') {
       ctx.fillStyle = '#b9b7a4';
       ctx.beginPath(); ctx.ellipse(point.x, point.y, figure * .17, figure * .12, 0, 0, Math.PI * 2); ctx.fill();
@@ -1816,28 +1826,29 @@ function drawGroundDetail(ctx, world, camera) {
       ctx.fillStyle = '#7c8f5c';
       ctx.beginPath(); ctx.ellipse(point.x, point.y - figure * .12, figure * .26, figure * .2, 0, 0, Math.PI * 2); ctx.fill();
     } else if (mark.fallback === 'tuft') {
-      // A tuft of bunch grass (HIST-GONZ-017).
+      // A tuft of bunch grass (HIST-GONZ-017). In a wind the whole tuft goes over with it: the blades already fan, and
+      // the wind bends the fan, which is what a norther does to a prairie and costs nothing to draw.
       ctx.strokeStyle = share < .5 ? '#93a066' : '#87975d';
       ctx.lineWidth = Math.max(.7, figure * .07); ctx.lineCap = 'round';
       ctx.beginPath();
-      for (const lean of [-.22, 0, .22]) {
-        ctx.moveTo(point.x + lean * figure * .3, point.y);
-        ctx.lineTo(point.x + lean * figure * .9, point.y - figure * .26);
+      for (const fan of [-.22, 0, .22]) {
+        ctx.moveTo(point.x + fan * figure * .3, point.y);
+        ctx.lineTo(point.x + fan * figure * .9 + lean * figure * .26, point.y - figure * .26);
       }
       ctx.stroke();
     }
   };
-  for (const { share, seed, timber, point, tree, height, alpha, ground } of scattered) {
+  for (const { share, seed, timber, point, tree, height, alpha, ground, lean = 0 } of scattered) {
     if (tree) {
-      faded(alpha, () => { if (!drawSprite(ctx, tree, point.x, point.y, height)) postOak(ctx, point.x, point.y, height, seed); });
+      faded(alpha, () => { if (!drawSprite(ctx, tree, point.x, point.y, height, { lean })) postOak(ctx, point.x, point.y, height, seed, lean); });
     } else if (timber && share < .5) {
       // A scattered oak in the timber, handing over to the real trees where the land's trees are drawn.
-      faded(alpha * (1 - treesShown), () => postOak(ctx, point.x, point.y, figure * SIZE.timberTree, seed));
-      faded(alpha * treesShown, () => plain(share, point, ground));
+      faded(alpha * (1 - treesShown), () => postOak(ctx, point.x, point.y, figure * SIZE.timberTree, seed, lean));
+      faded(alpha * treesShown, () => plain(share, point, ground, lean));
     } else if (share < .055 && loneOaks > 0) {
-      faded(alpha * loneOaks, () => postOak(ctx, point.x, point.y, figure * SIZE.loneTree, seed));
-      faded(alpha * (1 - loneOaks), () => plain(share, point, ground));
-    } else faded(alpha, () => plain(share, point, ground));
+      faded(alpha * loneOaks, () => postOak(ctx, point.x, point.y, figure * SIZE.loneTree, seed, lean));
+      faded(alpha * (1 - loneOaks), () => plain(share, point, ground, lean));
+    } else faded(alpha, () => plain(share, point, ground, lean));
   }
 }
 /** A course's box in miles, worked out once a course: most of the colonies' water is off screen at any zoom that shows it. */
@@ -2113,7 +2124,7 @@ function drawHolding(ctx, world, camera) {
  * tile, the map fetched). Twelve frames a second of people walking no longer repaint the country under them.
  */
 const mapBase = { canvas: null, key: null, state: null, time: 0, audited: null };
-const GROUND_KEY_PARTS = ['art or tiles', 'land', 'pick', 'map', 'width', 'height', 'camera', 'camera', 'zoom'];
+const GROUND_KEY_PARTS = ['art or tiles', 'land', 'pick', 'weather', 'map', 'width', 'height', 'camera', 'camera', 'zoom'];
 /** The ground audit's comparison: how much of the ground drawn afresh differs from the kept one (`window.__groundAudit`). */
 function auditGround(fresh, kept, world) {
   const a = fresh.getContext('2d').getImageData(0, 0, fresh.width, fresh.height).data, b = kept.getContext('2d').getImageData(0, 0, kept.width, kept.height).data;
@@ -2128,6 +2139,47 @@ function auditGround(fresh, kept, world) {
 }
 let mapBaseEpoch = 0;
 function invalidateMapBase() { mapBaseEpoch++; }
+/**
+ * The water courses in view as screen polylines, for the weather to lay high water and fog along (public/weather-art.js).
+ * The same courses the map already draws - the real land's rivers at this zoom's band, and the invented map's creeks and
+ * rivers - and no others, so the flood is on the water the student can see and nowhere else.
+ *
+ * Cut to the view and thinned as it goes: a river across the colonies is thousands of points, and what is laid along it
+ * here is a soft stroke tens of pixels wide, which cannot show a point closer than a few pixels to the last one. Whole
+ * runs off the screen are dropped rather than converted. This runs when the ground is drawn, never on a frame that only
+ * moves people.
+ */
+const COURSE_STEP = 6;
+function weatherCourses(world, camera, canvas) {
+  const landHere = levelsOf(world);
+  const courses = [
+    ...(world.map?.terrain || []).filter(feature => (feature.kind === 'creek' || (feature.kind === 'river' && !landHere)) && feature.points?.length > 1)
+      .map(feature => ({ points: feature.points, ...WATER[feature.kind] })),
+    ...(landHere ? levelRivers(landHere, camera) : []),
+  ];
+  const out = [];
+  for (const course of courses) {
+    const width = Math.max(2, waterWidth(course.miles, camera.scale, course.floor));
+    // How far off the screen a point may lie and still matter: the widest wash laid along it (the fog's nine times the
+    // channel) reaches back in from that far.
+    const pad = width * 10 + 60;
+    const box = lineBox(course.points), miles = pad / camera.scale;
+    const topLeft = camera.toWorld({ x: 0, y: 0 }), bottomRight = camera.toWorld({ x: canvas.width, y: canvas.height });
+    if (box.maxX < topLeft.x - miles || box.minX > bottomRight.x + miles || box.maxY < topLeft.y - miles || box.minY > bottomRight.y + miles) continue;
+    let piece = [], last = null;
+    const close = () => { if (piece.length > 1) out.push({ points: piece, width }); piece = []; };
+    for (const point of course.points) {
+      const q = camera.toScreen(point);
+      if (q.x < -pad || q.y < -pad || q.x > canvas.width + pad || q.y > canvas.height + pad) { close(); last = null; continue; }
+      if (last && Math.abs(q.x - last.x) + Math.abs(q.y - last.y) < COURSE_STEP) continue;
+      piece.push(q); last = q;
+    }
+    close();
+  }
+  return out;
+}
+/** The fog's shape, drawn with the ground and laid down each frame at the strength the hour leaves it. */
+const fogBase = { canvas: null, shapes: 0 };
 /**
  * How many minutes of 1835 the last tick stood for, read from two snapshots in a row (sim/clock.mjs runs two clocks on the
  * real land). It decides whether a journey is watchable or is left to the fog (public/map-base.js `outOfSight`).
@@ -2154,7 +2206,16 @@ export function drawWorld(world) {
   const pick = surveyLooking() && plotPick ? JSON.stringify([plotJob, plotPick.point, plotPick.facts?.can ?? null, plotPick.facts?.plotId ?? null]) : null;
   // The woods' revision is not in it: a tree felled anywhere in the class moves it, and what changes on the ground is the tile
   // that comes after, whose arrival draws the ground again (`redrawForArrival`).
-  const baseKey = [mapBaseEpoch, groundInputs(world), pick, world.map, canvas.width, canvas.height, camera.cx, camera.cy, camera.scale];
+  // The weather in the ground is the high water on the rivers, the wet earth and the lean the wind puts on the trees
+  // (public/weather-art.js). It is quantised, so a day that holds costs nothing and a water level falling a thousandth an
+  // hour does not redraw the country; a day that turns redraws it once, which is what `since` then fades in over.
+  const weather = world.weather && weatherShown(world.weather) ? world.weather : null;
+  // The view cut into spans of one weather each - one span for a student, who is inside a single region, and a dozen for
+  // the Host looking at four hundred miles across all three. Worked out once and used by all three passes.
+  const weatherNow = weather
+    ? weatherSpans(weather, world.minute, camera.toWorld({ x: 0, y: 0 }).x, camera.toWorld({ x: canvas.width, y: 0 }).x, canvas.width)
+    : null;
+  const baseKey =[mapBaseEpoch, groundInputs(world), pick, weather ? weatherGroundKey(weather) : '', world.map, canvas.width, canvas.height, camera.cx, camera.cy, camera.scale];
   // `ground` is the context the ground is drawn into this frame, or null when the kept ground is still right.
   let ground = null, audit = null;
   if (!sameLayerKey(mapBase.key, baseKey)) {
@@ -2437,11 +2498,36 @@ export function drawWorld(world) {
     }) });
     shownObserved.push(entity.id);
   }
+  // The weather in the ground, last of everything under the people: the rivers run full and brown over the roads and the
+  // fords they have shut, and the wet earth darkened with the grass, the track and the field together rather than under a
+  // flat grey sheet. Both are the kept ground's, so a day that holds costs nothing (public/weather-art.js).
+  if (ground && weather) {
+    const courses = weatherCourses(world, camera, canvas);
+    const drawn = drawHighWater(ground, courses, course => {
+      // The level where this course runs, read at its own middle: a river crossing a region boundary takes what it meets.
+      const middle = course.points[Math.floor(course.points.length / 2)];
+      return weatherMix(weather, camera.toWorld(middle).x, world.minute).water;
+    });
+    drawWetGround(ground, weatherNow);
+    if (!audit) {
+      // The fog's shape into a layer of its own, so the veil is one drawImage a frame at the morning's own strength and
+      // the ground beneath it is not redrawn every time the hour moves.
+      fogBase.canvas ??= document.createElement('canvas');
+      if (fogBase.canvas.width !== canvas.width || fogBase.canvas.height !== canvas.height) { fogBase.canvas.width = canvas.width; fogBase.canvas.height = canvas.height; }
+      fogBase.shapes = drawFogShape(fogBase.canvas.getContext('2d'), fogBase.canvas, weatherNow, courses);
+      window.__weatherGround = { courses: courses.length, flooded: drawn, fog: fogBase.shapes, key: weatherGroundKey(weather) };
+    }
+  } else if (ground && !audit) { fogBase.shapes = 0; window.__weatherGround = null; }
   // The ground goes down whole, and the drawing state it ended in is carried over, as when it was drawn on this canvas.
   if (ground && !audit) mapBase.state = readDrawState(ground);
   if (audit) auditGround(audit, mapBase.canvas, world);
   main.setTransform(1, 0, 0, 1, 0, 0); main.globalAlpha = 1; main.globalCompositeOperation = 'source-over';
   main.drawImage(mapBase.canvas, 0, 0);
+  // The veil: the fog on the bottoms at the strength the hour leaves it, and the shadow a rain cloud lays on the country.
+  // Here, and not at the end, on purpose. Everything a student is entitled to see - a person, a house, a marker, a name -
+  // is drawn after this line and at full strength, so the fog can never hide a fact. What a family knows is the server's
+  // (VISION.md), and fog is scenery.
+  if (weatherNow) drawWeatherVeil(main, weatherNow, fogBase.shapes ? fogBase.canvas : null, world.minute);
   applyDrawState(main, mapBase.state);
   standing.sort((a, b) => a.y - b.y);
   for (const item of standing) item.draw();
@@ -2479,6 +2565,19 @@ export function drawWorld(world) {
   window.__viewObserved = shownObserved;
   // The stake goes in over everything else on the ground, so the place being looked at is never hidden under a road or a cow.
   drawSitePick(ctx, world, camera);
+  // The air, over everything: the rain actually falling in front of the reader, the dust and leaves a norther drives north
+  // to south, a distant storm's lightning, and the colour the light has gone. Thin enough to see the whole country
+  // through - it says what the day is, it never hides what is in it (public/weather-art.js).
+  if (weatherNow) {
+    const layers = drawWeatherAir(ctx, weatherNow, { time: animationTime, scale: camera.scale, still: reducedMotion.matches });
+    main.globalAlpha = 1; main.globalCompositeOperation = 'source-over';
+    // Presentation evidence, on the same contract as `__viewEntities`: what the weather drew this frame, read by proofs
+    // and by nothing in the application. There is no weather text anywhere, so this is the only way to ask.
+    window.__weatherDrawn = { spans: weatherNow.length, layers, fog: fogBase.shapes, minute: world.minute, mix: weatherNow.map(span => ({
+      x: Math.round(span.x), rain: +span.mix.rain.toFixed(2), storm: +span.mix.storm.toFixed(2), norther: +span.mix.norther.toFixed(2),
+      fog: +span.mix.fog.toFixed(2), water: +span.mix.water.toFixed(2), wind: [+span.mix.wind.x.toFixed(2), +span.mix.wind.y.toFixed(2)],
+    })) };
+  } else window.__weatherDrawn = null;
   const travellers = entities.filter(entity => entity.travel);
   const here = entities.filter(entity => entity.location.siteId).map(entity => `${entity.name} (${entity.task || entity.kind})`);
   const journey = travellers.map(entity => `${entity.name} is on the road to ${placeName(world, entity.travel.to)}, about ${Math.round((entity.travel.progress || 0) / (entity.travel.distance || 1) * 100)}% of the way.`).join(' ');

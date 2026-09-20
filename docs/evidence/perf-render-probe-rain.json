@@ -1,0 +1,168 @@
+{
+  "record": "perf-render",
+  "label": "probe-rain",
+  "date": "2026-09-20",
+  "browser": "152.0.7977.83",
+  "cpuThrottle": 6,
+  "phaseSeconds": 20,
+  "tickMs": 1000,
+  "viewport": "1366x768 @1x",
+  "views": {
+    "land": {
+      "scale": 2131.6,
+      "rafPerSecond": 53.3,
+      "paintedFramesPerSecond": 9.8,
+      "msPerPaintedFrame": {
+        "mean": 16.1,
+        "p95": 18.5
+      },
+      "snapshots": 22,
+      "groundDrawnPerSecond": 0.1,
+      "groundDrawnBecause": {
+        "land": 1,
+        "art or tiles": 1
+      },
+      "msPerSnapshot": {
+        "mean": 36.9,
+        "p95": 39.6,
+        "max": 219.8
+      },
+      "longTasksPerMinute": 5.7,
+      "longTaskMsPerMinute": 1054,
+      "mainThreadBusyPercent": 37.6,
+      "scriptPercent": 20.5,
+      "layoutPlusStylePercent": 2.1,
+      "layoutsPerSecond": 1.7,
+      "elementsCreatedPerMinute": 2046,
+      "nodesInsertedPerMinute": 3677,
+      "domNodes": {
+        "before": 3272,
+        "after": 1557
+      },
+      "heapMB": [
+        16.6,
+        11,
+        9.9,
+        15.8,
+        14,
+        12.4,
+        11.1
+      ],
+      "profiledMs": 21084,
+      "topSelfTime": [
+        {
+          "name": "drawImage :0",
+          "ms": 973,
+          "perSecond": 46.1
+        },
+        {
+          "name": "drawWorld app.js:2193",
+          "ms": 415,
+          "perSecond": 19.6
+        },
+        {
+          "name": "translate :0",
+          "ms": 301,
+          "perSecond": 14.3
+        },
+        {
+          "name": "strokeText :0",
+          "ms": 204,
+          "perSecond": 9.7
+        },
+        {
+          "name": "drawSprite art.js:122",
+          "ms": 170,
+          "perSecond": 8.1
+        },
+        {
+          "name": "draw town-art.js:68",
+          "ms": 146,
+          "perSecond": 6.9
+        },
+        {
+          "name": "fillText :0",
+          "ms": 134,
+          "perSecond": 6.4
+        },
+        {
+          "name": "(garbage collector) :0",
+          "ms": 110,
+          "perSecond": 5.2
+        },
+        {
+          "name": "save :0",
+          "ms": 97,
+          "perSecond": 4.6
+        },
+        {
+          "name": "Document.createElement :22",
+          "ms": 80,
+          "perSecond": 3.8
+        },
+        {
+          "name": "homeOf app.js:80",
+          "ms": 80,
+          "perSecond": 3.8
+        },
+        {
+          "name": "applyDrawState map-base.js:61",
+          "ms": 74,
+          "perSecond": 3.5
+        },
+        {
+          "name": "animateMap app.js:4962",
+          "ms": 68,
+          "perSecond": 3.2
+        },
+        {
+          "name": "(anonymous) app.js:2532",
+          "ms": 58,
+          "perSecond": 2.8
+        },
+        {
+          "name": "animated app.js:52",
+          "ms": 51,
+          "perSecond": 2.4
+        }
+      ],
+      "topElementCreators": [
+        {
+          "at": "element app.js:83:65 < app.js:3674:68 < renderVisits app.js:3674:39",
+          "perMinute": 477
+        },
+        {
+          "at": "element app.js:83:65 < app.js:2774:92 < renderHousehold app.js:2774:66",
+          "perMinute": 338
+        },
+        {
+          "at": "element app.js:83:65 < app.js:2772:108 < renderHousehold app.js:2772:81",
+          "perMinute": 264
+        },
+        {
+          "at": "element app.js:83:65 < app.js:3073:20 < renderTravelModes app.js:3071:35",
+          "perMinute": 264
+        },
+        {
+          "at": "element app.js:83:65 < app.js:2698:16 < renderHousehold app.js:2697:42",
+          "perMinute": 176
+        },
+        {
+          "at": "element app.js:83:65 < app.js:2704:20 < renderHousehold app.js:2697:42",
+          "perMinute": 176
+        },
+        {
+          "at": "element app.js:83:65 < app.js:2742:16 < renderHousehold app.js:2752:5",
+          "perMinute": 88
+        },
+        {
+          "at": "element app.js:83:65 < renderHousehold app.js:2756:16 < render app.js:4684:31",
+          "perMinute": 88
+        }
+      ]
+    }
+  },
+  "loadToRunningMs": 848,
+  "weather": "rain",
+  "pageErrors": []
+}

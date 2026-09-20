@@ -1,0 +1,168 @@
+{
+  "record": "perf-render",
+  "label": "probe-fog",
+  "date": "2026-09-20",
+  "browser": "152.0.7977.83",
+  "cpuThrottle": 6,
+  "phaseSeconds": 20,
+  "tickMs": 1000,
+  "viewport": "1366x768 @1x",
+  "views": {
+    "land": {
+      "scale": 2131.6,
+      "rafPerSecond": 57.9,
+      "paintedFramesPerSecond": 9.3,
+      "msPerPaintedFrame": {
+        "mean": 16.4,
+        "p95": 19.6
+      },
+      "snapshots": 21,
+      "groundDrawnPerSecond": 0.1,
+      "groundDrawnBecause": {
+        "land": 1,
+        "art or tiles": 1
+      },
+      "msPerSnapshot": {
+        "mean": 37.6,
+        "p95": 51.3,
+        "max": 202.4
+      },
+      "longTasksPerMinute": 11.4,
+      "longTaskMsPerMinute": 1250,
+      "mainThreadBusyPercent": 39.2,
+      "scriptPercent": 20,
+      "layoutPlusStylePercent": 2.4,
+      "layoutsPerSecond": 1.4,
+      "elementsCreatedPerMinute": 1874,
+      "nodesInsertedPerMinute": 3399,
+      "domNodes": {
+        "before": 3565,
+        "after": 1555
+      },
+      "heapMB": [
+        10.5,
+        13.9,
+        10.7,
+        16.1,
+        12.5,
+        15.7,
+        13.8
+      ],
+      "profiledMs": 21098,
+      "topSelfTime": [
+        {
+          "name": "drawImage :0",
+          "ms": 923,
+          "perSecond": 43.7
+        },
+        {
+          "name": "drawWorld app.js:2193",
+          "ms": 428,
+          "perSecond": 20.3
+        },
+        {
+          "name": "translate :0",
+          "ms": 260,
+          "perSecond": 12.3
+        },
+        {
+          "name": "drawSprite art.js:122",
+          "ms": 194,
+          "perSecond": 9.2
+        },
+        {
+          "name": "strokeText :0",
+          "ms": 188,
+          "perSecond": 8.9
+        },
+        {
+          "name": "draw town-art.js:68",
+          "ms": 163,
+          "perSecond": 7.7
+        },
+        {
+          "name": "fillText :0",
+          "ms": 135,
+          "perSecond": 6.4
+        },
+        {
+          "name": "animateMap app.js:4962",
+          "ms": 125,
+          "perSecond": 5.9
+        },
+        {
+          "name": "(garbage collector) :0",
+          "ms": 96,
+          "perSecond": 4.6
+        },
+        {
+          "name": "sitesOf app.js:65",
+          "ms": 89,
+          "perSecond": 4.2
+        },
+        {
+          "name": "homeOf app.js:80",
+          "ms": 88,
+          "perSecond": 4.2
+        },
+        {
+          "name": "(anonymous) :5",
+          "ms": 84,
+          "perSecond": 4
+        },
+        {
+          "name": "Document.createElement :22",
+          "ms": 74,
+          "perSecond": 3.5
+        },
+        {
+          "name": "applyDrawState map-base.js:61",
+          "ms": 72,
+          "perSecond": 3.4
+        },
+        {
+          "name": "save :0",
+          "ms": 67,
+          "perSecond": 3.2
+        }
+      ],
+      "topElementCreators": [
+        {
+          "at": "element app.js:83:65 < app.js:3674:68 < renderVisits app.js:3674:39",
+          "perMinute": 398
+        },
+        {
+          "at": "element app.js:83:65 < app.js:2774:92 < renderHousehold app.js:2774:66",
+          "perMinute": 321
+        },
+        {
+          "at": "element app.js:83:65 < app.js:2772:108 < renderHousehold app.js:2772:81",
+          "perMinute": 247
+        },
+        {
+          "at": "element app.js:83:65 < app.js:3073:20 < renderTravelModes app.js:3071:35",
+          "perMinute": 247
+        },
+        {
+          "at": "element app.js:83:65 < app.js:2698:16 < renderHousehold app.js:2697:42",
+          "perMinute": 165
+        },
+        {
+          "at": "element app.js:83:65 < app.js:2704:20 < renderHousehold app.js:2697:42",
+          "perMinute": 165
+        },
+        {
+          "at": "element app.js:83:65 < app.js:2742:16 < renderHousehold app.js:2752:5",
+          "perMinute": 82
+        },
+        {
+          "at": "element app.js:83:65 < renderHousehold app.js:2756:16 < render app.js:4684:31",
+          "perMinute": 82
+        }
+      ]
+    }
+  },
+  "loadToRunningMs": 791,
+  "weather": "fog",
+  "pageErrors": []
+}

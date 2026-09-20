@@ -1,0 +1,1257 @@
+{
+  "record": "weather-browser",
+  "label": "after",
+  "date": "2026-09-20",
+  "live": false,
+  "browser": "152.0.7977.83",
+  "viewport": "1366x768 @1x",
+  "shots": [
+    {
+      "day": "fair",
+      "why": "nothing to report: the day the others are read against",
+      "view": "yard",
+      "file": "docs/evidence/weather/weather-fair-yard.png",
+      "camera": {
+        "scale": 4736.8
+      },
+      "weather": null,
+      "ground": null,
+      "description": "Juniper the ox is on the road to Family 1 home, about 96% of the way. Bess the mare is on the road to Family 1 home, about 96% of the way. Family wagon is on the road to Family 1 home, about 96% of the way. Bartolo Weatherby is on the road to Family 1 home, about 96% of the way. Sarah Weatherby is on the road to Family 1 home, about 96% of the way.",
+      "entities": 5,
+      "houses": 0
+    },
+    {
+      "day": "fair",
+      "why": "nothing to report: the day the others are read against",
+      "view": "county",
+      "file": "docs/evidence/weather/weather-fair-county.png",
+      "camera": {
+        "scale": 335.3
+      },
+      "weather": null,
+      "ground": null,
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "entities": 5,
+      "houses": 0
+    },
+    {
+      "day": "fair",
+      "why": "nothing to report: the day the others are read against",
+      "view": "country",
+      "file": "docs/evidence/weather/weather-fair-country.png",
+      "camera": {
+        "scale": 33
+      },
+      "weather": null,
+      "ground": null,
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "entities": 5,
+      "houses": 0
+    },
+    {
+      "day": "rain",
+      "why": "rain falling, the light flat and grey, the ground dark with it, the creeks up",
+      "view": "yard",
+      "file": "docs/evidence/weather/weather-rain-yard.png",
+      "camera": {
+        "scale": 4736.8
+      },
+      "weather": {
+        "spans": 1,
+        "layers": 3,
+        "fog": 0,
+        "minute": 780,
+        "mix": [
+          {
+            "x": 0,
+            "rain": 1,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.55,
+            "wind": [
+              -0.18,
+              -0.3
+            ]
+          }
+        ]
+      },
+      "ground": {
+        "courses": 1,
+        "flooded": 1,
+        "fog": 0,
+        "key": "28|89|rain:6:4:21|rain:6:4:21|rain:6:4:21"
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "entities": 5,
+      "houses": 0
+    },
+    {
+      "day": "rain",
+      "why": "rain falling, the light flat and grey, the ground dark with it, the creeks up",
+      "view": "county",
+      "file": "docs/evidence/weather/weather-rain-county.png",
+      "camera": {
+        "scale": 335.3
+      },
+      "weather": {
+        "spans": 1,
+        "layers": 3,
+        "fog": 0,
+        "minute": 780,
+        "mix": [
+          {
+            "x": 0,
+            "rain": 1,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.55,
+            "wind": [
+              -0.18,
+              -0.3
+            ]
+          }
+        ]
+      },
+      "ground": {
+        "courses": 5,
+        "flooded": 5,
+        "fog": 0,
+        "key": "28|89|rain:6:4:21|rain:6:4:21|rain:6:4:21"
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "entities": 5,
+      "houses": 0
+    },
+    {
+      "day": "rain",
+      "why": "rain falling, the light flat and grey, the ground dark with it, the creeks up",
+      "view": "country",
+      "file": "docs/evidence/weather/weather-rain-country.png",
+      "camera": {
+        "scale": 33
+      },
+      "weather": {
+        "spans": 1,
+        "layers": 3,
+        "fog": 0,
+        "minute": 780,
+        "mix": [
+          {
+            "x": 0,
+            "rain": 1,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.55,
+            "wind": [
+              -0.18,
+              -0.3
+            ]
+          }
+        ]
+      },
+      "ground": {
+        "courses": 40,
+        "flooded": 40,
+        "fog": 0,
+        "key": "28|89|rain:6:4:21|rain:6:4:21|rain:6:4:21"
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "entities": 5,
+      "houses": 0
+    },
+    {
+      "day": "norther",
+      "why": "the record's own signature: the wind hard out of the north, the sky clear, the light thin and blue",
+      "view": "yard",
+      "file": "docs/evidence/weather/weather-norther-yard.png",
+      "camera": {
+        "scale": 4736.8
+      },
+      "weather": {
+        "spans": 1,
+        "layers": 5,
+        "fog": 0,
+        "minute": 780,
+        "mix": [
+          {
+            "x": 0,
+            "rain": 0,
+            "storm": 0,
+            "norther": 1,
+            "fog": 0,
+            "water": 0.2,
+            "wind": [
+              0,
+              1
+            ]
+          }
+        ]
+      },
+      "ground": {
+        "courses": 1,
+        "flooded": 0,
+        "fog": 0,
+        "key": "28|89|norther:2:10:0|norther:2:10:0|norther:2:10:0"
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "entities": 5,
+      "houses": 0
+    },
+    {
+      "day": "norther",
+      "why": "the record's own signature: the wind hard out of the north, the sky clear, the light thin and blue",
+      "view": "county",
+      "file": "docs/evidence/weather/weather-norther-county.png",
+      "camera": {
+        "scale": 335.3
+      },
+      "weather": {
+        "spans": 1,
+        "layers": 5,
+        "fog": 0,
+        "minute": 780,
+        "mix": [
+          {
+            "x": 0,
+            "rain": 0,
+            "storm": 0,
+            "norther": 1,
+            "fog": 0,
+            "water": 0.2,
+            "wind": [
+              0,
+              1
+            ]
+          }
+        ]
+      },
+      "ground": {
+        "courses": 5,
+        "flooded": 0,
+        "fog": 0,
+        "key": "28|89|norther:2:10:0|norther:2:10:0|norther:2:10:0"
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "entities": 5,
+      "houses": 0
+    },
+    {
+      "day": "norther",
+      "why": "the record's own signature: the wind hard out of the north, the sky clear, the light thin and blue",
+      "view": "country",
+      "file": "docs/evidence/weather/weather-norther-country.png",
+      "camera": {
+        "scale": 33
+      },
+      "weather": {
+        "spans": 1,
+        "layers": 5,
+        "fog": 0,
+        "minute": 780,
+        "mix": [
+          {
+            "x": 0,
+            "rain": 0,
+            "storm": 0,
+            "norther": 1,
+            "fog": 0,
+            "water": 0.2,
+            "wind": [
+              0,
+              1
+            ]
+          }
+        ]
+      },
+      "ground": {
+        "courses": 40,
+        "flooded": 0,
+        "fog": 0,
+        "key": "28|89|norther:2:10:0|norther:2:10:0|norther:2:10:0"
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "entities": 5,
+      "houses": 0
+    },
+    {
+      "day": "storm",
+      "why": "heavier rain, a dark sky, lightning seen at a distance",
+      "view": "yard",
+      "file": "docs/evidence/weather/weather-storm-yard.png",
+      "camera": {
+        "scale": 4736.8
+      },
+      "weather": {
+        "spans": 1,
+        "layers": 4,
+        "fog": 0,
+        "minute": 780,
+        "mix": [
+          {
+            "x": 0,
+            "rain": 1,
+            "storm": 1,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.85,
+            "wind": [
+              -0.38,
+              0.7
+            ]
+          }
+        ]
+      },
+      "ground": {
+        "courses": 1,
+        "flooded": 1,
+        "fog": 0,
+        "key": "28|89|storm:9:8:4|storm:9:8:4|storm:9:8:4"
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "entities": 5,
+      "houses": 0
+    },
+    {
+      "day": "storm",
+      "why": "heavier rain, a dark sky, lightning seen at a distance",
+      "view": "county",
+      "file": "docs/evidence/weather/weather-storm-county.png",
+      "camera": {
+        "scale": 335.3
+      },
+      "weather": {
+        "spans": 1,
+        "layers": 4,
+        "fog": 0,
+        "minute": 780,
+        "mix": [
+          {
+            "x": 0,
+            "rain": 1,
+            "storm": 1,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.85,
+            "wind": [
+              -0.38,
+              0.7
+            ]
+          }
+        ]
+      },
+      "ground": {
+        "courses": 5,
+        "flooded": 5,
+        "fog": 0,
+        "key": "28|89|storm:9:8:4|storm:9:8:4|storm:9:8:4"
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "entities": 5,
+      "houses": 0
+    },
+    {
+      "day": "storm",
+      "why": "heavier rain, a dark sky, lightning seen at a distance",
+      "view": "country",
+      "file": "docs/evidence/weather/weather-storm-country.png",
+      "camera": {
+        "scale": 33
+      },
+      "weather": {
+        "spans": 1,
+        "layers": 4,
+        "fog": 0,
+        "minute": 780,
+        "mix": [
+          {
+            "x": 0,
+            "rain": 1,
+            "storm": 1,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.85,
+            "wind": [
+              -0.38,
+              0.7
+            ]
+          }
+        ]
+      },
+      "ground": {
+        "courses": 40,
+        "flooded": 40,
+        "fog": 0,
+        "key": "28|89|storm:9:8:4|storm:9:8:4|storm:9:8:4"
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "entities": 5,
+      "houses": 0
+    },
+    {
+      "day": "fog",
+      "why": "a low veil on the bottoms and the river, and nothing hidden under it",
+      "view": "yard",
+      "file": "docs/evidence/weather/weather-fog-yard.png",
+      "camera": {
+        "scale": 4736.8
+      },
+      "weather": {
+        "spans": 1,
+        "layers": 0,
+        "fog": 1,
+        "minute": 440,
+        "mix": [
+          {
+            "x": 0,
+            "rain": 0,
+            "storm": 0,
+            "norther": 0,
+            "fog": 1,
+            "water": 0.3,
+            "wind": [
+              0,
+              0.05
+            ]
+          }
+        ]
+      },
+      "ground": {
+        "courses": 1,
+        "flooded": 1,
+        "fog": 1,
+        "key": "28|89|fog:3:1:0|fog:3:1:0|fog:3:1:0"
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "entities": 5,
+      "houses": 0
+    },
+    {
+      "day": "fog",
+      "why": "a low veil on the bottoms and the river, and nothing hidden under it",
+      "view": "county",
+      "file": "docs/evidence/weather/weather-fog-county.png",
+      "camera": {
+        "scale": 335.3
+      },
+      "weather": {
+        "spans": 1,
+        "layers": 0,
+        "fog": 5,
+        "minute": 440,
+        "mix": [
+          {
+            "x": 0,
+            "rain": 0,
+            "storm": 0,
+            "norther": 0,
+            "fog": 1,
+            "water": 0.3,
+            "wind": [
+              0,
+              0.05
+            ]
+          }
+        ]
+      },
+      "ground": {
+        "courses": 5,
+        "flooded": 5,
+        "fog": 5,
+        "key": "28|89|fog:3:1:0|fog:3:1:0|fog:3:1:0"
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "entities": 5,
+      "houses": 0
+    },
+    {
+      "day": "fog",
+      "why": "a low veil on the bottoms and the river, and nothing hidden under it",
+      "view": "country",
+      "file": "docs/evidence/weather/weather-fog-country.png",
+      "camera": {
+        "scale": 33
+      },
+      "weather": {
+        "spans": 1,
+        "layers": 0,
+        "fog": 40,
+        "minute": 440,
+        "mix": [
+          {
+            "x": 0,
+            "rain": 0,
+            "storm": 0,
+            "norther": 0,
+            "fog": 1,
+            "water": 0.3,
+            "wind": [
+              0,
+              0.05
+            ]
+          }
+        ]
+      },
+      "ground": {
+        "courses": 40,
+        "flooded": 40,
+        "fog": 40,
+        "key": "28|89|fog:3:1:0|fog:3:1:0|fog:3:1:0"
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "entities": 5,
+      "houses": 0
+    },
+    {
+      "day": "three-regions",
+      "why": "three weathers on one map: storm in the west, rain in the middle, fair in the east - blended, not three rectangles",
+      "view": "yard",
+      "file": "docs/evidence/weather/weather-three-regions-yard.png",
+      "camera": {
+        "scale": 4736.8
+      },
+      "weather": {
+        "spans": 12,
+        "layers": 25,
+        "fog": 0,
+        "minute": 780,
+        "mix": [
+          {
+            "x": 0,
+            "rain": 0.61,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.4,
+            "wind": [
+              -0.12,
+              -0.13
+            ]
+          },
+          {
+            "x": 114,
+            "rain": 0.61,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.4,
+            "wind": [
+              -0.12,
+              -0.13
+            ]
+          },
+          {
+            "x": 228,
+            "rain": 0.6,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.4,
+            "wind": [
+              -0.12,
+              -0.13
+            ]
+          },
+          {
+            "x": 342,
+            "rain": 0.6,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.4,
+            "wind": [
+              -0.12,
+              -0.13
+            ]
+          },
+          {
+            "x": 455,
+            "rain": 0.6,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.4,
+            "wind": [
+              -0.12,
+              -0.13
+            ]
+          },
+          {
+            "x": 569,
+            "rain": 0.6,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.4,
+            "wind": [
+              -0.12,
+              -0.13
+            ]
+          },
+          {
+            "x": 683,
+            "rain": 0.6,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.4,
+            "wind": [
+              -0.12,
+              -0.13
+            ]
+          },
+          {
+            "x": 797,
+            "rain": 0.59,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.4,
+            "wind": [
+              -0.12,
+              -0.13
+            ]
+          },
+          {
+            "x": 911,
+            "rain": 0.59,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.4,
+            "wind": [
+              -0.12,
+              -0.13
+            ]
+          },
+          {
+            "x": 1025,
+            "rain": 0.59,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.4,
+            "wind": [
+              -0.12,
+              -0.13
+            ]
+          },
+          {
+            "x": 1138,
+            "rain": 0.59,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.39,
+            "wind": [
+              -0.12,
+              -0.13
+            ]
+          },
+          {
+            "x": 1252,
+            "rain": 0.59,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.39,
+            "wind": [
+              -0.12,
+              -0.13
+            ]
+          }
+        ]
+      },
+      "ground": {
+        "courses": 1,
+        "flooded": 1,
+        "fog": 0,
+        "key": "28|89|storm:9:9:2|rain:6:3:19|fair:1:0:0"
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "entities": 5,
+      "houses": 0
+    },
+    {
+      "day": "three-regions",
+      "why": "three weathers on one map: storm in the west, rain in the middle, fair in the east - blended, not three rectangles",
+      "view": "county",
+      "file": "docs/evidence/weather/weather-three-regions-county.png",
+      "camera": {
+        "scale": 335.3
+      },
+      "weather": {
+        "spans": 12,
+        "layers": 25,
+        "fog": 0,
+        "minute": 780,
+        "mix": [
+          {
+            "x": 0,
+            "rain": 0.74,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.47,
+            "wind": [
+              -0.15,
+              -0.16
+            ]
+          },
+          {
+            "x": 114,
+            "rain": 0.72,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.46,
+            "wind": [
+              -0.15,
+              -0.16
+            ]
+          },
+          {
+            "x": 228,
+            "rain": 0.69,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.45,
+            "wind": [
+              -0.14,
+              -0.15
+            ]
+          },
+          {
+            "x": 342,
+            "rain": 0.67,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.43,
+            "wind": [
+              -0.13,
+              -0.15
+            ]
+          },
+          {
+            "x": 455,
+            "rain": 0.64,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.42,
+            "wind": [
+              -0.13,
+              -0.14
+            ]
+          },
+          {
+            "x": 569,
+            "rain": 0.61,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.41,
+            "wind": [
+              -0.12,
+              -0.14
+            ]
+          },
+          {
+            "x": 683,
+            "rain": 0.58,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.39,
+            "wind": [
+              -0.12,
+              -0.13
+            ]
+          },
+          {
+            "x": 797,
+            "rain": 0.56,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.38,
+            "wind": [
+              -0.11,
+              -0.12
+            ]
+          },
+          {
+            "x": 911,
+            "rain": 0.53,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.36,
+            "wind": [
+              -0.11,
+              -0.12
+            ]
+          },
+          {
+            "x": 1025,
+            "rain": 0.5,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.35,
+            "wind": [
+              -0.1,
+              -0.11
+            ]
+          },
+          {
+            "x": 1138,
+            "rain": 0.47,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.34,
+            "wind": [
+              -0.1,
+              -0.1
+            ]
+          },
+          {
+            "x": 1252,
+            "rain": 0.44,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.32,
+            "wind": [
+              -0.09,
+              -0.1
+            ]
+          }
+        ]
+      },
+      "ground": {
+        "courses": 5,
+        "flooded": 5,
+        "fog": 0,
+        "key": "28|89|storm:9:9:2|rain:6:3:19|fair:1:0:0"
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "entities": 5,
+      "houses": 0
+    },
+    {
+      "day": "three-regions",
+      "why": "three weathers on one map: storm in the west, rain in the middle, fair in the east - blended, not three rectangles",
+      "view": "country",
+      "file": "docs/evidence/weather/weather-three-regions-country.png",
+      "camera": {
+        "scale": 33
+      },
+      "weather": {
+        "spans": 12,
+        "layers": 18,
+        "fog": 0,
+        "minute": 780,
+        "mix": [
+          {
+            "x": 0,
+            "rain": 1,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.6,
+            "wind": [
+              -0.2,
+              -0.22
+            ]
+          },
+          {
+            "x": 114,
+            "rain": 1,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.6,
+            "wind": [
+              -0.2,
+              -0.22
+            ]
+          },
+          {
+            "x": 228,
+            "rain": 1,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.6,
+            "wind": [
+              -0.2,
+              -0.22
+            ]
+          },
+          {
+            "x": 342,
+            "rain": 1,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.6,
+            "wind": [
+              -0.2,
+              -0.22
+            ]
+          },
+          {
+            "x": 455,
+            "rain": 0.94,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.57,
+            "wind": [
+              -0.19,
+              -0.21
+            ]
+          },
+          {
+            "x": 569,
+            "rain": 0.74,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.47,
+            "wind": [
+              -0.15,
+              -0.16
+            ]
+          },
+          {
+            "x": 683,
+            "rain": 0.46,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.33,
+            "wind": [
+              -0.09,
+              -0.1
+            ]
+          },
+          {
+            "x": 797,
+            "rain": 0.19,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.2,
+            "wind": [
+              -0.04,
+              -0.04
+            ]
+          },
+          {
+            "x": 911,
+            "rain": 0.02,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.11,
+            "wind": [
+              0,
+              0
+            ]
+          },
+          {
+            "x": 1025,
+            "rain": 0,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.1,
+            "wind": [
+              0,
+              0
+            ]
+          },
+          {
+            "x": 1138,
+            "rain": 0,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.1,
+            "wind": [
+              0,
+              0
+            ]
+          },
+          {
+            "x": 1252,
+            "rain": 0,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.1,
+            "wind": [
+              0,
+              0
+            ]
+          }
+        ]
+      },
+      "ground": {
+        "courses": 40,
+        "flooded": 27,
+        "fog": 0,
+        "key": "28|89|storm:9:9:2|rain:6:3:19|fair:1:0:0"
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "entities": 5,
+      "houses": 0
+    },
+    {
+      "day": "high-water",
+      "why": "a fair day after a wet week: the rivers still full and brown and the bottoms dark",
+      "view": "yard",
+      "file": "docs/evidence/weather/weather-high-water-yard.png",
+      "camera": {
+        "scale": 4736.8
+      },
+      "weather": {
+        "spans": 1,
+        "layers": 0,
+        "fog": 0,
+        "minute": 780,
+        "mix": [
+          {
+            "x": 0,
+            "rain": 0,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 1,
+            "wind": [
+              0,
+              0
+            ]
+          }
+        ]
+      },
+      "ground": {
+        "courses": 1,
+        "flooded": 1,
+        "fog": 0,
+        "key": "28|89|fair:10:0:0|fair:10:0:0|fair:10:0:0"
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "entities": 5,
+      "houses": 0
+    },
+    {
+      "day": "high-water",
+      "why": "a fair day after a wet week: the rivers still full and brown and the bottoms dark",
+      "view": "county",
+      "file": "docs/evidence/weather/weather-high-water-county.png",
+      "camera": {
+        "scale": 335.3
+      },
+      "weather": {
+        "spans": 1,
+        "layers": 0,
+        "fog": 0,
+        "minute": 780,
+        "mix": [
+          {
+            "x": 0,
+            "rain": 0,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 1,
+            "wind": [
+              0,
+              0
+            ]
+          }
+        ]
+      },
+      "ground": {
+        "courses": 5,
+        "flooded": 5,
+        "fog": 0,
+        "key": "28|89|fair:10:0:0|fair:10:0:0|fair:10:0:0"
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "entities": 5,
+      "houses": 0
+    },
+    {
+      "day": "high-water",
+      "why": "a fair day after a wet week: the rivers still full and brown and the bottoms dark",
+      "view": "country",
+      "file": "docs/evidence/weather/weather-high-water-country.png",
+      "camera": {
+        "scale": 33
+      },
+      "weather": {
+        "spans": 1,
+        "layers": 0,
+        "fog": 0,
+        "minute": 780,
+        "mix": [
+          {
+            "x": 0,
+            "rain": 0,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 1,
+            "wind": [
+              0,
+              0
+            ]
+          }
+        ]
+      },
+      "ground": {
+        "courses": 40,
+        "flooded": 40,
+        "fog": 0,
+        "key": "28|89|fair:10:0:0|fair:10:0:0|fair:10:0:0"
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "entities": 5,
+      "houses": 0
+    },
+    {
+      "day": "arriving",
+      "why": "a norther a quarter of an hour old: it comes up rather than flicking on",
+      "view": "yard",
+      "file": "docs/evidence/weather/weather-arriving-yard.png",
+      "camera": {
+        "scale": 4736.8
+      },
+      "weather": {
+        "spans": 1,
+        "layers": 5,
+        "fog": 0,
+        "minute": 555,
+        "mix": [
+          {
+            "x": 0,
+            "rain": 0,
+            "storm": 0,
+            "norther": 0.17,
+            "fog": 0,
+            "water": 0.2,
+            "wind": [
+              0,
+              0.17
+            ]
+          }
+        ]
+      },
+      "ground": {
+        "courses": 1,
+        "flooded": 0,
+        "fog": 0,
+        "key": "28|89|norther:2:10:0|norther:2:10:0|norther:2:10:0"
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "entities": 5,
+      "houses": 0
+    },
+    {
+      "day": "arriving",
+      "why": "a norther a quarter of an hour old: it comes up rather than flicking on",
+      "view": "county",
+      "file": "docs/evidence/weather/weather-arriving-county.png",
+      "camera": {
+        "scale": 335.3
+      },
+      "weather": {
+        "spans": 1,
+        "layers": 5,
+        "fog": 0,
+        "minute": 555,
+        "mix": [
+          {
+            "x": 0,
+            "rain": 0,
+            "storm": 0,
+            "norther": 0.17,
+            "fog": 0,
+            "water": 0.2,
+            "wind": [
+              0,
+              0.17
+            ]
+          }
+        ]
+      },
+      "ground": {
+        "courses": 5,
+        "flooded": 0,
+        "fog": 0,
+        "key": "28|89|norther:2:10:0|norther:2:10:0|norther:2:10:0"
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "entities": 5,
+      "houses": 0
+    },
+    {
+      "day": "arriving",
+      "why": "a norther a quarter of an hour old: it comes up rather than flicking on",
+      "view": "country",
+      "file": "docs/evidence/weather/weather-arriving-country.png",
+      "camera": {
+        "scale": 33
+      },
+      "weather": {
+        "spans": 1,
+        "layers": 5,
+        "fog": 0,
+        "minute": 555,
+        "mix": [
+          {
+            "x": 0,
+            "rain": 0,
+            "storm": 0,
+            "norther": 0.17,
+            "fog": 0,
+            "water": 0.2,
+            "wind": [
+              0,
+              0.17
+            ]
+          }
+        ]
+      },
+      "ground": {
+        "courses": 40,
+        "flooded": 0,
+        "fog": 0,
+        "key": "28|89|norther:2:10:0|norther:2:10:0|norther:2:10:0"
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "entities": 5,
+      "houses": 0
+    }
+  ],
+  "errors": [],
+  "descriptionsByDay": [
+    "Juniper the ox is on the road to Family # home, about #% of the way. Bess the mare is on the road to Family # home, about #% of the way. Family wagon is on the road to Family # home, about #% of the way. Bartolo Weatherby is on the road to Family # home, about #% of the way. Sarah Weatherby is on the road to Family # home, about #% of the way.",
+    "At Family # home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work)."
+  ],
+  "noWeatherWords": true,
+  "sheets": [
+    "docs/evidence/weather/weather-sheet-yard.png",
+    "docs/evidence/weather/weather-sheet-county.png",
+    "docs/evidence/weather/weather-sheet-country.png"
+  ]
+}
