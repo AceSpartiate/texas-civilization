@@ -14,10 +14,12 @@ import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/worl
 import { CHORES, FETCH_LOGS, choresFor, logwoodGround } from '../sim/chores.mjs';
 import { holdingOf } from '../sim/grants.mjs';
 import { siteFactsFor, choosing } from '../sim/homesite.mjs';
-import { GAME, huntFacts, huntingPlace, quarryAt, quarryGame, quarryWords, stillTicks } from '../sim/hunting.mjs';
+import { GAME, WATERFOWL_MILES, huntFacts, huntingPlace, quarryAt, quarryGame, quarryWords, stillTicks, westOfTheLavaca } from '../sim/hunting.mjs';
 import { FENCE_TICKS, FENCE_TICKS_A_MILE, fenceWork, fenceWords, plotsOf } from '../sim/fields.mjs';
 import { FETCH_LOGS_MILES, fetchesLogs, soundLogsNear, thinkFor } from '../sim/neighbours.mjs';
-import { STANDS, WOODS_SOURCE_2016 } from '../sim/woods.mjs';
+import { CREEK_GALLERY_MILES, CREEK_STRIP_MILES, STANDS, WOODS_SOURCE_2016, gridStandAt, patchAt, patchCover, standAt } from '../sim/woods.mjs';
+import { landAround } from '../sim/ground.mjs';
+import { coloniesMap } from '../sim/colonies-map.mjs';
 import { dateOf } from '../sim/clock.mjs';
 
 const WINTER = [10, 11, 0, 1, 2];
@@ -98,7 +100,11 @@ test('the quarry a place holds is fixed by its ground and the season, and deer a
   assert.equal(quarryAt(STANDS.dunes.quarry, 'open', false, 0, 1, 1), null);
   assert.equal(quarryAt(STANDS['salt-prairie'].quarry, 'open', false, 9, 1, 1), 'deer');
   for (const id of Object.keys(GAME)) assert.ok(STANDS && GAME[id].a && GAME[id].meat > 0 && GAME[id].covers.length, id);
-  for (const id of ['waterfowl', 'bison']) assert.deepEqual([...GAME[id].months].sort((a, b) => a - b), [...WINTER].sort((a, b) => a - b), `${id} is winter game`);
+  assert.deepEqual([...GAME.waterfowl.months].sort((a, b) => a - b), [...WINTER].sort((a, b) => a - b), 'ducks and geese are winter game');
+  // The buffalo's months are the sources' and not the ducks': north "in April or May", south again in September and
+  // October (Berlandier through Hornaday, `HIST-TEX-201`), so October to April and never the summer.
+  assert.deepEqual([...GAME.bison.months].sort((a, b) => a - b), [0, 1, 2, 3, 9, 10, 11]);
+  for (const month of [4, 5, 6, 7, 8]) assert.ok(!GAME.bison.months.includes(month), `a buffalo in month ${month}`);
   // Said as the season has it.
   assert.equal(quarryWords(STANDS['salt-prairie'].quarry, 9), 'Ducks and geese come in the winter.');
   assert.equal(quarryWords(STANDS['salt-prairie'].quarry, 11), 'Ducks and geese keep to it.');
@@ -164,6 +170,86 @@ test('in the winter the ducks and geese sit on the coast in numbers, and the wai
   const { frames, events } = huntAt(world, poor.household, poor.point);
   assert.equal(frames.filter(frame => frame.still).length, 1, 'waited longer than a tick for the ducks');
   assert.equal(events.find(event => event.type === 'hunt-kill')?.quarry, 'waterfowl');
+});
+
+test('the wild herds keep west of the Lavaca, and the ducks and geese to the water (2026-09-19)', () => {
+  // docs/BIOMES.md §7.1 wrote these limits into its table - wild cattle and mustangs "west of the Lavaca", bison "north and
+  // west of the Colorado" - and they were lost when it became a flat list, so a wild cow or a mustang came to one prairie
+  // hunt in three in the Austin colony. Woodman, 1835, of the wild horses: "Within the organized settlements they are not
+  // numerous" (`HIST-TEX-200`); of the fowl, they are on "the waters near the coast" (`HIST-TEX-202`).
+  const places = coloniesMap().places;
+  // West: Béxar, Goliad, Refugio, Victoria, and the two frontier settlements, Gonzales and Mina. East: the settled Brazos.
+  for (const [id, west] of [['bexar', true], ['goliad', true], ['refugio', true], ['victoria', true], ['gonzales', true], ['mina', true],
+    ['san-felipe', false], ['columbia', false], ['brazoria', false], ['washington', false], ['liberty', false], ['matagorda', false], ['harrisburg', false], ['nacogdoches', false]]) {
+    assert.equal(westOfTheLavaca(places[id]), west, `${id} west of the Lavaca`);
+  }
+  const world = onTheLand('biome-game-range');
+  const winter = Date.UTC(1835, 11, 1, 8);
+  world.minute += Math.round((winter - dateOf(world, world.minute).getTime()) / 60000);
+  const wet = new Set(['marsh', 'salt-prairie', 'cypress-swamp']);
+  let herds = 0, east = 0, fowlDry = 0, fowlWet = 0, seen = 0;
+  for (const { point, facts } of huntingPlaces(world)) {
+    seen++;
+    const WESTERN = ['cattle', 'mustang', 'bison', 'pronghorn', 'javelina'];
+    const anyHerd = WESTERN.some(id => facts.quarry?.includes(id));
+    if (anyHerd) { herds++; assert.ok(westOfTheLavaca(point), `a wild herd east of the Lavaca: ${facts.quarry}`); } else if (!westOfTheLavaca(point)) east++;
+    assert.ok(!WESTERN.includes(facts.comes) || westOfTheLavaca(point), `${facts.comes} east of the Lavaca`);
+    if (facts.quarry?.includes('waterfowl')) {
+      const near = landAround().nearestWater(point, () => true, WATERFOWL_MILES);
+      if (near || wet.has(facts.stand)) fowlWet++; else fowlDry++;
+    }
+  }
+  assert.ok(seen > 200, `${seen} places`);
+  assert.ok(herds > 0 && east > 0, `${herds} places with a wild herd, ${east} east of the Lavaca without one`);
+  assert.ok(fowlWet > 0, 'no ducks and geese by the water in December');
+  assert.equal(fowlDry, 0, 'ducks and geese on dry ground a quarter mile from any water');
+});
+
+test('a running creek as big as a bayou carries a belt of timber, not a fringe (2026-09-19)', () => {
+  // docs/BIOMES.md §4.6 measured Harrisburg - "with no strip at all its timber within three miles falls from 14 in 100 to
+  // none, so the strip must not simply be removed" - and the width it chose took it to 5. Buffalo, Brays, Sims, Berry and
+  // Hunting bayous all run there all year, and the town sawed lumber by steam. Almonte, 1834, of the Brazos plains: "strips
+  // of thick forest containing good wood for the construction of houses" (p. 202, `HIST-TEX-094`).
+  const land = landAround();
+  const biomes = { rule: 'biomes', nearCreek: land.nearCreek };
+  // A named running creek through the coastal prairie carries timber a belt's width out; the fringe alone would not reach.
+  const fringeOnly = { rule: 'biomes', nearCreek: (point, miles, flow) => (flow === 'gallery' ? false : land.nearCreek(point, miles, flow)) };
+  const harrisburg = coloniesMap().places.harrisburg;
+  const share = options => {
+    let timber = 0, n = 0;
+    for (let dx = -3; dx <= 3; dx += 1 / 8) for (let dy = -3; dy <= 3; dy += 1 / 8) {
+      if (dx * dx + dy * dy > 9) continue;
+      const patch = patchAt({ x: harrisburg.x + dx, y: harrisburg.y + dy }, options);
+      if (patch.stand === 'water' || patch.stand === 'none') continue;
+      n++; if (patchCover(patch) === 'timber') timber++;
+    }
+    return timber / n;
+  };
+  const now = share(biomes), fringe = share(fringeOnly);
+  assert.ok(fringe < 0.07, `the fringe alone leaves Harrisburg ${(100 * fringe).toFixed(0)} in 100 timber`);
+  assert.ok(now >= 0.09 && now <= 0.2, `Harrisburg is ${(100 * now).toFixed(0)} in 100 timber within three miles`);
+  // The belt is the named creek's: a place a belt's width from Buffalo Bayou and no nearer any other water is creek timber.
+  let found = null;
+  for (let dx = -3; dx <= 3 && !found; dx += 1 / 16) for (let dy = -3; dy <= 3; dy += 1 / 16) {
+    const point = { x: harrisburg.x + dx, y: harrisburg.y + dy };
+    if (gridStandAt(point) !== 'coastal-prairie') continue;
+    if (!land.nearCreek(point, CREEK_GALLERY_MILES, 'gallery') || land.nearCreek(point, CREEK_STRIP_MILES, 'perennial')) continue;
+    found = point; break;
+  }
+  assert.ok(found, 'no coastal prairie in a named creek\'s belt but outside the fringe');
+  assert.equal(standAt(found, biomes), 'creek', 'the belt of a named running creek is creek timber');
+  assert.equal(standAt(found, fringeOnly), 'coastal-prairie', 'and without it the ground is bare prairie');
+  // The hills keep their thin fringe: a creek there runs in a limestone channel (Olmsted p. 445, `HIST-TEX-102`), so a
+  // hill-savanna place in a named creek's belt but outside the fringe is still savanna, not creek timber.
+  let hills = null;
+  for (let i = -260; i <= -40 && !hills; i++) for (let j = -60; j <= 60; j++) {
+    const point = { x: i * 0.25, y: j * 0.25 };
+    if (gridStandAt(point) !== 'hill-savanna') continue;
+    if (!land.nearCreek(point, CREEK_GALLERY_MILES, 'gallery') || land.nearCreek(point, CREEK_STRIP_MILES, 'perennial')) continue;
+    hills = point; break;
+  }
+  assert.ok(hills, 'no hill savanna in a named creek\'s belt but outside the fringe');
+  assert.notEqual(standAt(hills, biomes), 'creek', 'the Hill Country keeps a fringe on its creeks, not a belt');
 });
 
 test('a class of the old rules keeps its deer: no quarry, the old yield, and a hunting place stored before is still read', () => {

@@ -1,8 +1,9 @@
 {
  "record": "Regressions injected into the biome-game rules, one at a time: docs/BIOME_GAMEPLAY.md §6",
- "date": "2026-09-19",
+ "date": "2026-09-20",
  "files": [
   "tests/biome-game.test.mjs",
+  "tests/biomes.test.mjs",
   "tests/hunt-land.test.mjs",
   "tests/house-plot.test.mjs",
   "tests/improvements.test.mjs",
@@ -67,6 +68,56 @@
    ]
   },
   {
+   "name": "the stand's quarry not cut to the place it is asked about",
+   "file": "sim/hunting.mjs",
+   "failed": [
+    "the wild herds keep west of the Lavaca, and the ducks and geese to the water"
+   ]
+  },
+  {
+   "name": "the wild herds and the buffalo roam every country",
+   "file": "sim/hunting.mjs",
+   "failed": [
+    "the wild herds keep west of the Lavaca, and the ducks and geese to the water"
+   ]
+  },
+  {
+   "name": "the Lavaca line read from the wrong bank",
+   "file": "sim/hunting.mjs",
+   "failed": [
+    "the wild herds keep west of the Lavaca, and the ducks and geese to the water"
+   ]
+  },
+  {
+   "name": "ducks and geese on dry prairie away from any water",
+   "file": "sim/hunting.mjs",
+   "failed": [
+    "the wild herds keep west of the Lavaca, and the ducks and geese to the water"
+   ]
+  },
+  {
+   "name": "the buffalo given the ducks' own months",
+   "file": "sim/hunting.mjs",
+   "failed": [
+    "the quarry a place holds is fixed by its ground and the season, and deer are everywhere game is"
+   ]
+  },
+  {
+   "name": "a named creek's belt no wider than a branch's fringe",
+   "file": "sim/woods.mjs",
+   "failed": [
+    "a running creek as big as a bayou carries a belt of timber, not a fringe"
+   ]
+  },
+  {
+   "name": "the Hill Country's creeks given a belt too",
+   "file": "sim/woods.mjs",
+   "failed": [
+    "a running creek as big as a bayou carries a belt of timber, not a fringe",
+    "the Hill Country is a savanna with cedar on its breaks, not a wood"
+   ]
+  },
+  {
    "name": "a hunting place naming no known quarry is accepted",
    "file": "sim/world.mjs",
    "failed": [
@@ -78,6 +129,7 @@
    "file": "sim/chores.mjs",
    "failed": [
     "a family can fetch logs from the nearest timber with the ox and wagon, told the cost in hours and miles",
+    "a team left at the timber by somebody called away is walked out to and driven home with a load, by a student or the director",
     "families nobody plays on the real land fell, haul and raise houses of pieces, and a family with no timber of its own fetches its logs"
    ]
   },

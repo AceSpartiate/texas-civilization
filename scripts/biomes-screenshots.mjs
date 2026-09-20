@@ -33,6 +33,8 @@ const VIEWS = [
   ['bexar-fields', { x: place('bexar').x + 0.3, y: place('bexar').y + 2.5 }, 60],
   ['gonzales', place('gonzales'), 60],
   ['coastal-prairie-harrisburg', at(-95.2, 29.75), 30],
+  // Added 2026-09-19 for the creek galleries: Harrisburg on Buffalo Bayou, where the timber a running bayou carries shows.
+  ['buffalo-bayou-harrisburg', place('harrisburg'), 150],
   ['piney-woods-nacogdoches', at(-94.65, 31.6), 30],
   ['big-thicket', at(-94.45, 30.45), 12],
   ['lost-pines-bastrop', at(-97.32, 30.11), 30],

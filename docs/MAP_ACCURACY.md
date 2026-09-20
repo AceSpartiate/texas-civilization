@@ -476,6 +476,16 @@ the Alamo cleared to fields. Built from [BIOMES](BIOMES.md) §7; what was built,
   woods round the compound gone; a tan band of fields along the river; the galleries of Alazán and Apache creeks, which run all
   year, still west of the town), Béxar's fields, Gonzales, Harrisburg's coastal prairie, the Piney Woods and the Big Thicket, the
   Lost Pines, the Hill Country (the cedar breaks darker at the Balcones), South Texas past the Nueces, and pines close up.
+- **Amended 2026-09-19** ([BIOMES §14](BIOMES.md#14-criticised-and-corrected-2026-09-19), `FIC-GONZ-121`): a running creek
+  big enough to carry a name on the map keeps a belt of timber 0.14 mile either side through the plains, where every running
+  creek alike had kept a fringe of 0.045 and Harrisburg had been left with 5 in 100 timber within three miles against the
+  2016 grid's 13. **No terrain file changed**: the strip is worked out at run time from the creeks the map draws
+  (`standAt`, `sim/woods.mjs`), so `colonies-woods.*`, `colonies-land.*` and the outside layer are byte for byte as §9 left
+  them and `tests/map-outside.test.mjs`'s hashes stand. What changes is the woods tiles, which read the strip: before and
+  after at `docs/evidence/biomes/crit-{before,after}-buffalo-bayou-harrisburg.png`, looked at. **Known wrong and not mended:**
+  the twenty square miles of `fields` round Béxar and the 0.7-mile ring round every other town are three to four times any
+  documented acreage (`HIST-TEX-203`, `HIST-TEX-204`), and mending them does want `colonies-woods.*` and `colonies-land.*`
+  rebuilt.
 
 ## 10. The crossings: a ford, a ferry or a bridge where a road meets water (2026-09-19)
 

@@ -9,7 +9,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
-const FILES = ['tests/biome-game.test.mjs', 'tests/hunt-land.test.mjs', 'tests/house-plot.test.mjs', 'tests/improvements.test.mjs', 'tests/chores.test.mjs', 'tests/hunting.test.mjs'];
+const FILES = ['tests/biome-game.test.mjs', 'tests/biomes.test.mjs', 'tests/hunt-land.test.mjs', 'tests/house-plot.test.mjs', 'tests/improvements.test.mjs', 'tests/chores.test.mjs', 'tests/hunting.test.mjs'];
 const INJECTIONS = [
   { name: 'ducks and buffalo in every month', file: 'sim/hunting.mjs', from: '(!GAME[id].months || GAME[id].months.includes(month))', to: 'true' },
   { name: 'the quarry ignores the cover it keeps to', file: 'sim/hunting.mjs', from: 'GAME[id] && GAME[id].covers.includes(cover) &&', to: 'GAME[id] &&' },
@@ -18,13 +18,25 @@ const INJECTIONS = [
   { name: 'every kill brings a hide', file: 'sim/chores.mjs', from: 'if (kill.hide) household.resources.hides = (household.resources.hides ?? 0) + kill.hide;', to: 'household.resources.hides = (household.resources.hides ?? 0) + 1;' },
   { name: 'a deer drawn for any quarry', file: 'sim/chores.mjs', from: "if (step.quarry && (!state.ground?.quarry || state.ground.quarry === 'deer'))", to: 'if (step.quarry)' },
   { name: 'ducks and geese wait as long as the ground', file: 'sim/hunting.mjs', from: 'Math.max(game, GAME[quarryId]?.flocks || 0)', to: 'game' },
-  { name: 'an old class given the biomes\' quarry', file: 'sim/hunting.mjs', from: "const quarry = rule === 'biomes' ? stand.quarry || [] : null;", to: "const quarry = standOf(here.stand).quarry || [];" },
+  { name: 'an old class given the biomes\' quarry', file: 'sim/hunting.mjs', from: "const quarry = rule === 'biomes' ? (stand.quarry || []).filter(id => inRange(id, point, here.stand, near)) : null;", to: "const quarry = (stand.quarry || []).filter(id => inRange(id, point, here.stand, near));" },
+  // The country of each quarry, and the belt on a named creek (2026-09-19, the critique of the biomes).
+  { name: 'the stand\'s quarry not cut to the place it is asked about', file: 'sim/hunting.mjs', from: '(stand.quarry || []).filter(id => inRange(id, point, here.stand, near))', to: '(stand.quarry || [])' },
+  { name: 'the wild herds and the buffalo roam every country', file: 'sim/hunting.mjs', from: "if (range === 'west-of-the-lavaca') return westOfTheLavaca(point);", to: "if (range === 'west-of-the-lavaca') return true;" },
+  { name: 'the Lavaca line read from the wrong bank', file: 'sim/hunting.mjs', from: 'for (const at of crossings) if (at > point.x) east++;', to: 'for (const at of crossings) if (at < point.x) east++;' },
+  { name: 'ducks and geese on dry prairie away from any water', file: 'sim/hunting.mjs', from: 'return WET_STANDS.has(stand) || (near !== null && near <= WATERFOWL_MILES);', to: 'return true;' },
+  { name: 'the buffalo given the ducks\' own months', file: 'sim/hunting.mjs', from: 'const BISON_MONTHS = Object.freeze([9, 10, 11, 0, 1, 2, 3]);', to: 'const BISON_MONTHS = WINTER;' },
+  { name: 'a named creek\'s belt no wider than a branch\'s fringe', file: 'sim/woods.mjs', from: 'export const CREEK_GALLERY_MILES = 0.14;', to: 'export const CREEK_GALLERY_MILES = CREEK_STRIP_MILES;' },
+  { name: 'the Hill Country\'s creeks given a belt too', file: 'sim/woods.mjs', from: "const GALLERY_STRIP = new Set(['tallgrass-prairie',", to: "const GALLERY_STRIP = new Set(['hill-savanna', 'tallgrass-prairie'," },
   { name: 'a hunting place naming no known quarry is accepted', file: 'sim/world.mjs', from: ' || (hunted.quarry !== undefined && !GAME[hunted.quarry])', to: '' },
   { name: 'the logs fetched never reach the pile', file: 'sim/chores.mjs', from: 'stackLogs(household, { wall: state.logs });', to: '' },
-  { name: 'logs fetched however the family asked to go', file: 'sim/chores.mjs', from: 'if (chore.forceMode) modeId = chore.forceMode;', to: '' },
+  // The text this one replaces moved on 2026-09-19 when a team left at the timber was fetched home (the mode became a
+  // function); the injection had gone stale and stopped the whole harness, which is why this record was out of date.
+  { name: 'logs fetched however the family asked to go', file: 'sim/chores.mjs', from: "if (chore.forceMode) modeId = typeof chore.forceMode === 'function' ? chore.forceMode(world, household) : chore.forceMode;", to: '' },
   { name: 'asking the cost writes the timber into the map', file: 'sim/chores.mjs', from: 'const wood = logwoodGround(world, household, false), home', to: 'const wood = logwoodGround(world, household), home' },
-  { name: 'fetching logs offered without an axe', file: 'sim/chores.mjs', from: "if (household.tools?.axe === undefined) return { can: false, why: 'Felling wants an axe, and there is none in the house.' };\r\n  const wagon", to: 'const wagon' },
-  { name: 'a family with no timber of its own always builds a jacal', file: 'sim/neighbours.mjs', from: '\r\n    && !fetchesLogs(world, household, homeSite);', to: ';' },
+  // Matched a line at a time since 2026-09-19: these two spanned a line break and carried \r\n, and this repository's files
+  // are LF, so they matched nothing and stopped the harness before it could write its record.
+  { name: 'fetching logs offered without an axe', file: 'sim/chores.mjs', from: "if (household.tools?.axe === undefined) return { can: false, why: 'Felling wants an axe", to: "if (false) return { can: false, why: 'Felling wants an axe" },
+  { name: 'a family with no timber of its own always builds a jacal', file: 'sim/neighbours.mjs', from: '&& !fetchesLogs(world, household, homeSite)', to: '&& true' },
   { name: 'a fence costs the same however far the rails come', file: 'sim/fields.mjs', from: 'ticks: FENCE_TICKS + Math.round(FENCE_TICKS_A_MILE * far)', to: 'ticks: FENCE_TICKS' },
   { name: 'the fence chore ignores the country', file: 'sim/chores.mjs', from: "const ticks = step.work === 'well' ? wellTicks(household) : fence ? fence.ticks :", to: "const ticks = step.work === 'well' ? wellTicks(household) : fence ? 8 :" },
 ];

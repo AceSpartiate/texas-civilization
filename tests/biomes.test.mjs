@@ -212,8 +212,10 @@ test('a class made in the week of 2026-09-15 opens on its own grid, its felled t
 });
 
 test('a family with no timber on its land still raises a house: a jacal, which wants no logs', () => {
-  // A Matagorda family on marsh and coastal prairie: no log timber anywhere on its holding.
-  const world = createGonzalesWorld('fell-tiles-2', 5, { map: 'colonies' });
+  // A Matagorda family on marsh and coastal prairie: no log timber anywhere on its holding. (The seed was `fell-tiles-2`
+  // until 2026-09-19, when the named creeks' wider galleries put a belt of timber on that holding; `fell-tiles-1`'s
+  // Matagorda family is still without.)
+  const world = createGonzalesWorld('fell-tiles-1', 5, { map: 'colonies' });
   world.status = 'running';
   for (let tick = 0; tick < 200 && Object.values(world.households).some(h => h.arriving); tick++) stepWorld(world);
   const household = world.households['hh-1'], bounds = holdingOf(world, household).bounds;

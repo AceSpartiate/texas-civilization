@@ -2,9 +2,11 @@
 
 **Status: research, 2026-09-19; built the same day (§13).** This was the research half of the owner's request below; the
 second session built §7 from it, and §13 says what was built, where it differs, and what is left. A third session made the
-balance and gameplay changes the new biomes call for: [BIOME_GAMEPLAY](BIOME_GAMEPLAY.md). Read it with `docs/WOODS_AND_BUILDING.md` (the woods as built), `docs/MAP_ACCURACY.md` §5 and §8
+balance and gameplay changes the new biomes call for: [BIOME_GAMEPLAY](BIOME_GAMEPLAY.md). A fourth criticised all three and
+mended two things: **§14, and read it before trusting §4.6, §5, §6.2 or §7.1's quarry column.** Read it with
+`docs/WOODS_AND_BUILDING.md` (the woods as built), `docs/MAP_ACCURACY.md` §5 and §8
 (the land classes and the country outside the box), and the claims it registers in `HISTORY.md`: `HIST-TEX-094` to
-`HIST-TEX-108` and `FIC-GONZ-060` to `FIC-GONZ-063`.
+`HIST-TEX-108`, `HIST-TEX-200` to `-204`, `FIC-GONZ-060` to `FIC-GONZ-063` and `FIC-GONZ-120`, `-121`.
 
 ---
 
@@ -903,3 +905,165 @@ coast and stayed about 0.9-1 inland. No family is stuck: a jacal wants no logs (
 - Art (docs/ART_REQUESTS.md, three requests of 2026-09-19).
 - The acequias drawn; Corn Bend and the plantations' fields; the LANDFIRE model PDFs (§2) before any trees-an-acre is claimed.
 - `colonies-province.json.gz` was not rebuilt: its cover belts are the 2016 land's, drawn only while the land's classes load.
+- ~~Everything above, unexamined.~~ **Criticised 2026-09-19: §14.**
+
+---
+
+## 14. Criticised and corrected, 2026-09-19
+
+Owner, 2026-09-19: *"dedicate a sub agent to brutally criticize the various biomes and improve them."* A fourth session read
+§1-§13, the code they became and the sources again, measured the country and the classes, mended two things that change what
+a family can do, and left the rest named. What changed in play is
+[BIOME_GAMEPLAY §8](BIOME_GAMEPLAY.md#8-criticised-and-corrected-2026-09-19); the new claims are `HIST-TEX-200` to `-204` and
+`FIC-GONZ-120`, `-121`. Same computer only (Windows, node, headless Chrome); not LAN or district acceptance.
+
+### 14.1 What was wrong, worst first
+
+**1. The quarry's country was written in §7.1 and thrown away in the build. Mended.** §7.1's quarry column carried
+geography — "wild cattle and mustangs *west of the Lavaca*", "bison *north and west of the Colorado, seasonal, rare*",
+"turkey *near water*", a live oak motte *"on sand"* — and the build turned the column into a flat array of ids, which cannot
+hold a qualifier. Measured consequence: **170 of 447 autumn prairie kills** in six classes of thirty were a wild cow or a
+mustang, all of them east of the Lavaca at San Felipe, Columbia, Matagorda and Liberty; and every coastal-prairie place in
+the box, up to sixty miles inland, held a one-tick duck hunt in winter. Worse, the fix and the fault are in the same page of
+the same book: `HIST-TEX-109` quotes Woodman's wildfowl from p. 59-60 and his wild horses from p. 60, and **the next sentence
+on p. 60 says "Within the organized settlements they are not numerous, and are rapidly diminishing"** — read for the herds,
+not read for the limit. The 1830s wild-herd accounts the research leans on (Dewees, Smithwick, Kuykendall) are all of
+1820-1825; Berlandier has the buffalo gone from the colonized districts since 1828 (`HIST-TEX-200`, `HIST-TEX-201`). Mended:
+`FIC-GONZ-120`.
+
+**2. §4.6 set the creek rule its own test and shipped it failed. Mended.** §4.6 measured Harrisburg and wrote: *"with no
+strip at all its timber within three miles falls from 14 in 100 to none, so the strip must not simply be removed."* The
+width it then chose — one fringe, 0.045 mile either side, for every running creek alike — took Harrisburg to **5 in 100**,
+although Buffalo, Brays, Sims, Berry, Hunting and Vince bayous all run there all year and the town sawed lumber by steam.
+Across the box the creek strip now makes **1 point of timber in 100 where it once made 15 to 24**: the rule was not narrowed,
+it was very nearly deleted. Mended by letting the belt follow the size of the water: `FIC-GONZ-121`.
+
+**3. Thirty-seven square miles of invented cropland, and the documents say a few thousand acres. NOT mended.** The build
+lays **19.95 square miles — 12,768 acres — of stand `fields` round Béxar**, and **0.7 mile of solid field round each of
+sixteen other towns, 985 acres apiece**. Against that: Almonte, 1834, verbatim, "All the land under cultivation around Bexar
+is irrigated, and as much as fourteen leagues square *could* be cultivated in a similar manner" (p. 187 — the fourteen
+leagues are the potential); the seven acequias at their height watered **3,500 acres**; in **1850** only **5,062 of 135,182
+acres** in farms in the *whole county* had been tilled, and **as late as 1858 three-quarters of Bexar County was still
+prairie** (TSHA). The map draws 3.6 times the acequias' maximum and 2.5 times the county's tillage fourteen years later.
+For the colony towns it is worse: William Fairfax Gray stood in Washington-on-the-Brazos on **14 February 1836** and wrote
+that it was *"laid out in the woods; about a dozen wretched cabins or shanties constitute the city ... only one well defined
+street, which consists of an opening cut out of the woods. The stumps still standing."* San Felipe, the largest, was "about
+200, three general stores, two taverns, a hotel, a blacksmith shop, and some forty or fifty log cabins" in 1828, in a "five-
+league expanse of prairie and woodland". §5.2's rule — "every town clears its own streets and lots and a ring of gardens and
+small fields about a quarter mile beyond its last lot" — became 0.7 mile of unbroken `fields`, with no trees and no game, at
+Velasco, Lynchburg, Anahuac and Nacogdoches alike. `HIST-TEX-203`, `HIST-TEX-204`. **Not mended**, because it means
+rebuilding `public/terrain/colonies-woods.*` and `colonies-land.*` while two other sessions are moving those files, and
+because "clear them to fields" was the owner's own choice by multiple choice (§1) and narrowing it is theirs to make. It is
+the top item left.
+
+**4. Fifteen of the twenty-six stands never carry a family's house.** Measured over 180 families in six classes: the houses
+stand in `coastal-prairie` (63), `bottomland-cane` (34), `bottomland` (20), `post-oak` (20), `creek` (16),
+`tallgrass-prairie` (11), `pine` (4), `salt-prairie` (3), `canebrake` (3), `live-oak` (2), `longleaf` (1) — and three in
+`water`, which is its own small fault. Nothing at all in `mesquite-savanna`, `chaparral`, `mixedgrass-prairie`,
+`hill-savanna`, `cedar-brake`, `cross-timbers`, `thicket`, `cypress-swamp`, `thorn-riparian`, `palm-grove`, `dunes`, `marsh`,
+`fields`, `creek-draw` or `bank`. So the most carefully argued half of this research — the Nueces line, the mesquite/chaparral
+split, the palms, the thorn riparian, the cedar breaks, Béxar's fields — touches no family in play and is **map decoration**:
+right and worth having, but it is scenery, and §8's table of who loses timber reads as gameplay when eleven of its thirteen
+towns have no family. `palm-grove` is **0 cells inside the box**. That is not an argument for cutting them; it is an argument
+for saying plainly which stands are for the eye and which are underfoot.
+
+**5. The `game` scale, argued stand by stand through §4 and §7.1, has five values and most stands share one.** The wait is
+`stillTicks = min(5, ceil(1 / max(0.2, game)))`, so: 1 tick at game 1; **2 ticks for anything from 0.5 to 0.9**; 3 at 0.4;
+4 at 0.25-0.3; 5 at anything 0.2 or below. Counted: **15 of the 26 stands wait exactly two ticks** — mesquite prairie,
+chaparral, hill savanna, post oak, pine, longleaf, live oak, cross timbers, cypress swamp, the Big Thicket, cedar brake,
+creek timber, the brush country's river woods, the palm grove and a dry creek's trees are all the same afternoon — and four
+more (tallgrass prairie, salt prairie, dunes, fields) are all the same five. §6.3's careful 0.5 against 0.6 against 0.8
+cannot be felt. `docs/BIOME_GAMEPLAY.md` §4 found the top of this ("the wait is already capped at five ticks, the same as
+0.2") and left it; the bottom of it — that a cedar brake and a mesquite prairie are indistinguishable — was not said. **Not
+mended:** widening the scale means longer hunts everywhere or a second lever (the yield, or how often a close shot offers),
+and that is a balance decision for the owner, not a correction.
+
+**6. §6.2's "1836 expectation" column has no source.** It sits in a table beside measured shares and reads like evidence.
+A search of TPWD, TSHA, Texas A&M, NatureServe and LANDFIRE's own reference conditions finds **no published figure for what
+share of the Post Oak Belt was closed woods before settlement, nor for the Blackland Prairie's tree cover**. TPWD gives
+canopy *classes* ("generally 10% or less woody canopy cover" for grassland; "10-25%" for parkland; "71-100%" for forest) but
+never how much land fell in each. The column should be marked invented like everything else in §7.1, or struck.
+
+**7. The creek rule rests on a modern hydrography layer, and §4.6 does not say so.** Whether a creek "runs all year" is
+USGS's present-day flow attribute. `docs/COLONIES.md` §9 records the limitation — "USGS's perennial streams describe the
+present, not 1835" — and §4.6, which builds a whole vegetation rule on it, does not repeat it. It would be easy to assume
+1836's streams were wetter and widen everything: **that finding does not exist.** No published work says modern
+perennial/intermittent labels misrepresent 1830s Texas flow. What is documented is narrower and points both ways: 63 of 281
+historically significant Texas springs have failed since the 1800s and the San Antonio and San Pedro springs went to
+"intermittent and meager flow" after 1891 (TPWD; Edwards Aquifer Website), while Wilcox & Huang (2010) reportedly find
+Edwards Plateau baseflow has roughly *doubled* in 85 years as grassland went to woodland — not verified here, the publisher
+refused the fetch, and it should be read before anyone widens a Hill Country creek. This is why `FIC-GONZ-121`'s belt is laid
+in the plains only and marked `ceiling:`.
+
+**8. The Nueces line does a regional job with one ray test.** Every LANDFIRE thornscrub cell north-east of the Nueces becomes
+`mesquite-savanna`, wherever it is. Measured 2026-09-19: of 7,277 square miles of mesquite prairie and chaparral in the box,
+**3,074 are in EPA 33b (the Southern Post Oak Savanna), 258 in 32b, 88 in 32a, 102 in 34a — the *humid* Gulf coastal prairie
+near Matagorda and Harrisburg — and 19 in 34h, the barrier islands and coastal marshes.** §3.2 contemplated 33b and 34b and
+says so; 34a and 34h it did not. The symptom in play was a **Matagorda family hunting antelope**, which `FIC-GONZ-120` now
+stops by holding the antelope and the javelina west of the Lavaca with the rest; the cause is in the grid and wants a
+rebuild that files thornscrub in 34a, 34c and 34h as the prairie or marsh round it (recorded on `FIC-GONZ-060`).
+
+**9. The longleaf pine savanna is drawn as closed timber.** §4.1 asks for "a lighter, grassier wash with tall, straight,
+widely spaced pines - an open woods a rider can see through", and §7.1's cover column says "timber/open by density". Measured:
+**90 in 100 of longleaf patches are timber** by the game's own test (ten log-sized trees an acre), against 88 for the pine
+woods and 90 for the bottomland. For going, clearing, choosing a house site and the timber's edge in a hunt, the openest
+woods in Texas is the closest thing the map has to a river bottom. 3,318 square miles of the box. **Not mended:** the fix is
+the stand's shares, and changing a stand's shares moves its patches and so the trees a class made today has felled
+(`BIOME_GAMEPLAY` §4 declined the same change in the Hill Country for the same reason). It wants either a new woods id or
+an admission that `TIMBER_TREES_PER_ACRE` is one number doing three jobs.
+
+**10. Béxar's documented timbered fringe is eleven patches.** §5.1 rightly keeps "a fringe of bank trees one patch wide on
+the river and San Pedro Creek" — the pecans the Texians fought under at Concepción. `BANK_MILES` is 0.04, narrower than a
+patch is wide, and the whole `bank` stand comes to **11 samples in a half-mile sweep of the box**. The test at
+`tests/biomes.test.mjs` counts bank patches along the river and passes; nobody standing in the fields would see a line of
+trees.
+
+**11. Every Big Thicket acreage is a back-projection, the earliest from 1936.** §4.1 takes the Thicket's bounds from
+Wikipedia and draws a rectangle. The standard "3.5 million acres" is Parks and Cory's 3,350,000 (1936), of a survey the NPS
+itself calls "little more than a checklist of species in the region based on incomplete research"; McLeod (1972) maps
+2,000,000; UNESCO gives "2-3 million acres"; the bear-hunters' vernacular thicket was "about forty miles long and twenty
+miles across at its widest". **There is no contemporary 1830s measurement.** The rectangle is already `FIC-GONZ-060`; what
+needs saying is that no acreage here can be attributed to the Handbook of Texas, and a classroom phrasing should be "between
+two and three and a half million acres, by later reconstructions".
+
+**12. Small faults found in passing.** Three of 180 families' houses stand in a patch whose stand is `water`. The class
+study's quarry tally (`scripts/biome-balance-study.mjs`) reads the kill out of the event text with a regular expression that
+only matches "ducks and geese", so `byCountry.quarry` in the class records is empty for every other animal (the hunting
+bench, which reads `event.quarry`, is right and is what §5.1 and §8.1 use). `scripts/biome-game-injections.mjs` had two
+injections whose text had moved and two more written with `\r\n` against LF files, so the harness threw before writing its
+record and `docs/evidence/biome-game-injections.json` was stale — mended, and all **23 injections now run and are caught**.
+`tests/host-view.test.mjs` scanned a student's whole payload for any id it could not see, with no allowance for the
+`traderId` a town errand has kept on a family's own chore since 2026-09-19; any change of timing would have tripped it, and
+this branch's did — mended, and the allowance is itself guarded.
+
+### 14.2 What was verified, and what a subagent got wrong
+
+Read again in full for this session, not through a search: **Woodman, *Guide to Texas Emigrants* (1835)** — the buffalo,
+wild horse, deer, turkey and wildfowl passages on pp. 59-60, quoted verbatim in `HIST-TEX-200` to `-202`. **Almonte's
+Statistical Report (SWHQ 28:3, 1925)** — all five passages `HIST-TEX-094`, `-098`, `-099` rest on, **verbatim and correct**,
+including "All the land under cultivation around Bexar is irrigated, and as much as fourteen leagues square could be
+cultivated in a similar manner" (p. 187) and "The plains in Brazos are intercepted every fifteen or twenty miles by strips of
+thick forest containing good wood for the construction of houses" (p. 202). A research subagent reported that sentence and
+that volume as *not found*; it was wrong on both counts, the item is on archive.org with full text, and the claims stand.
+**TSHA *Bexar County*** and **TSHA *San Felipe de Austin*** — quoted verbatim in `HIST-TEX-203` and `-204`. **Gray's diary
+for 14 February 1836** — verbatim.
+
+Not verified, and said so: the phrase `HIST-TEX-110` gives as Woodman's, the country "in general is a prairie country, having
+all the streams skirted by timber", did not appear in this session's full-text pass of the book. `HIST-TEX-110` locates it at
+about p. 177 by the search, which is inside the testimonial letters rather than Woodman's own chapters; the pass most likely
+truncated before it. It is **not** called into question here, but it should be checked before it is quoted to a class.
+
+### 14.3 Evidence
+
+- Tests: two added to `tests/biome-game.test.mjs` (the quarry's country and the season; the belt a named creek carries),
+  `tests/biomes.test.mjs` and `tests/host-view.test.mjs` amended; 767 pass (765 on the branch's base).
+- Injections: `node scripts/biome-game-injections.mjs`, 23 injected and 23 caught, eight of them new and each caught by its
+  own new test ([record](evidence/biome-game-injections.json)).
+- Balance: `node scripts/biome-balance-study.mjs hunt 6 30 crit-{before,after}` and `... 6 30 3 crit-{before,after}` on the
+  same six seeds — [hunt before](evidence/biome-hunt-crit-before.json), [after](evidence/biome-hunt-crit-after.json),
+  [class before](evidence/biome-balance-crit-before.json), [after](evidence/biome-balance-crit-after.json).
+- Screenshots looked at: `docs/evidence/biomes/crit-{before,after}-*.png`, twelve views each; the one that changes is
+  `buffalo-bayou-harrisburg`.
+- **No terrain file was rebuilt**; nothing in `public/terrain` changed, and `tests/map-outside.test.mjs`'s hashes stand. No
+  save version moved: a class already on `biomes-1836` gains the belt's timber and loses no standing tree, because the belt
+  only turns prairie patches into creek patches and never the other way, so every felled tree is still found by its id.

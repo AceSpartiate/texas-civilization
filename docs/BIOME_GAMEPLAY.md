@@ -280,3 +280,104 @@ same prices). It sells its cotton again: finals 25, 56, 26, 74, 67 and 1, ranks 
 - Art: the quarry other than the deer, and the fetch-logs icon ([ART_REQUESTS](ART_REQUESTS.md), 2026-09-19).
 - For the owner: a stock economy (cattle on the prairie, hogs on the mast, `HIST-TEX-112`). The families nobody plays buying
   powder and the stay-home family's cotton were fixed the same day (§5.3).
+
+---
+
+## 8. Criticised and corrected, 2026-09-19
+
+Owner: *"dedicate a sub agent to brutally criticize the various biomes and improve them."* The whole criticism, including what
+was not mended, is [BIOMES §14](BIOMES.md#14-criticised-and-corrected-2026-09-19). Two things changed in play, both because
+`docs/BIOMES.md` §7.1's own table said one thing and the build did another.
+
+### 8.1 The quarry's country (`HIST-TEX-200` to `-202`, `FIC-GONZ-120`)
+
+§7.1 wrote geography into its quarry column — "wild cattle and mustangs **west of the Lavaca**", "bison **north and west of
+the Colorado**, seasonal, rare", "turkey **near water**", "live oak motte **on sand**" — and every one of those qualifiers was
+lost when the column became a flat array of quarry ids. The result: **170 of 447 autumn prairie kills in six classes of thirty
+were a wild cow or a mustang**, at San Felipe, Columbia, Matagorda and Liberty, and every coastal-prairie place in the box
+held a one-tick duck hunt in winter whether or not there was any water within forty miles.
+
+The sources, read again for this (a full pass of Woodman, and Almonte's report verbatim):
+
+- Woodman, *Guide to Texas Emigrants* (1835), p. 60, of the wild horses — the sentence after the one §2 took: **"Within the
+  organized settlements they are not numerous, and are rapidly diminishing."** And of the buffalo: **"Buffalo are seldom seen
+  near the coast."**
+- Berlandier, through Hornaday (1889, pp. 381-82): the buffalo gone from the colonists' country **"from whence they have
+  disappeared since 1828"**, while bands **"remain stationary throughout the whole year"** on the Guadalupe and the Colorado;
+  north **"in April or May"**, south again **"in September and October"**.
+- Woodman, p. 59: **"In the winter season, the waters near the coast are literally covered with wild fowl"**, and p. 60,
+  **"Geese and ducks resort in great numbers to the interior waters."** Every wildfowl passage read is about water.
+
+So a quarry may now carry a **range** as well as a cover and a season (`GAME[...].range`, `inRange`, `sim/hunting.mjs`):
+
+| Range | Which | What it means |
+| --- | --- | --- |
+| `west-of-the-lavaca` | buffalo, mustang, wild cow, antelope, javelina | west of the Lavaca as the map draws it (`westOfTheLavaca`: a ray due east crosses the river an odd number of times, the river run on due north from its head and due south from its mouth). Béxar, Goliad, Refugio, Victoria and the two frontier settlements, Gonzales and Mina, are west of it; San Felipe, Columbia, Brazoria, Washington, Matagorda, Harrisburg, Liberty and Nacogdoches are east. |
+| `by-water` | ducks and geese | water running within a quarter mile (`WATERFOWL_MILES`), or marsh, salt prairie or cypress swamp, which are water themselves. |
+
+The buffalo's months are its own now, October to April (`BISON_MONTHS`), not the ducks' November to March.
+
+**The hunting bench, six classes of thirty, the same seeds** (`node scripts/biome-balance-study.mjs hunt 6 30 <label>`;
+[before](evidence/biome-hunt-crit-before.json), [after](evidence/biome-hunt-crit-after.json)). 1,080 hunts a season:
+
+| | Before | After |
+| --- | ---: | ---: |
+| Wild cows killed (autumn + winter) | 42 | 6 |
+| Mustangs | 54 | 6 |
+| Buffalo | 6 | 6 |
+| Ducks and geese (winter) | 132 | 72 |
+| Deer | 564 | 696 |
+| Turkey / bear | 180 / 90 | 198 / 84 |
+| Food a hunt, autumn / winter | 4.99 / 4.81 | 4.99 / 4.83 |
+| Food an hour, autumn / winter | 1.69 / 2.22 | 1.70 / 2.23 |
+
+Every wild cow and mustang left is at Gonzales or Victoria, west of the line. **Food did not move**, and that is worth
+knowing: a wild cow makes twelve food and a deer ten, but one person on foot carries five either way, so the wild herds were
+never worth more at the house than a deer — they were a story told in the wrong country, not a ration.
+
+### 8.2 The belt on a bayou (`FIC-GONZ-121`)
+
+§4.6 gave every running creek one narrow fringe, 0.045 mile either side, and measured Harrisburg as the test it had to pass:
+*"with no strip at all its timber within three miles falls from 14 in 100 to none, so the strip must not simply be removed"*.
+The width it chose took Harrisburg to **5 in 100** — although Buffalo, Brays, Sims, Berry, Hunting and Vince bayous all run
+there all year, and the town sawed lumber by steam (`HIST-TEX-110`). Almonte, 1834, verbatim: *"The plains in Brazos are
+intercepted every fifteen or twenty miles by strips of thick forest containing good wood for the construction of houses"*
+(p. 202). A running creek now carries a belt as wide as the creek is big: **0.14 mile either side on a creek big enough to
+carry a name on the map**, the old fringe on an unnamed branch, nothing on an intermittent prairie creek, and never a belt in
+the Hill Country, whose creeks run in limestone and keep "a thin belt of wood" (Olmsted p. 445).
+
+Timber within three miles, before → after: **Harrisburg 5 → 12** (the 2016 grid had 13), Lynchburg 3 → 6, Béxar 7 → 9,
+Refugio 14 → 16, Anahuac 23 → 26, San Felipe 32 → 34, Liberty 31 → 32, Columbia 42 → 44, Washington 43 → 44, Gonzales 46 → 47,
+Brazoria 67 → 68; Victoria, Matagorda, Mina, Goliad, Velasco and Nacogdoches unchanged. By ecoregion the coastal prairie
+(34a) goes 6 → 9 in 100 and the post oak (33b) 27 → 29, both inside §6.2's own expectations.
+
+Looked at: [before](evidence/biomes/crit-before-buffalo-bayou-harrisburg.png) and
+[after](evidence/biomes/crit-after-buffalo-bayou-harrisburg.png) — Buffalo Bayou east of Harrisburg is bare prairie in the
+first and a closed belt of timber in the second, with Brays and Sims the same, and the rest of the country unchanged.
+
+### 8.3 What it did to a class
+
+**The class study, six classes of thirty over three periods, the same seeds** (`node scripts/biome-balance-study.mjs 6 30 3
+<label>`; [before](evidence/biome-balance-crit-before.json), [after](evidence/biome-balance-crit-after.json)). The houses are
+the check that matters: **177 log houses, 2 jacales and 1 family still choosing, before and after alike** — nobody was left
+unable to build, and nobody who had to build a jacal before now escapes it.
+
+| | Before | After |
+| --- | ---: | ---: |
+| Sound logs standing within a mile of the house, median | 1,574 | 2,116 |
+| Families under a cabin's fifty logs | 29 | 21 |
+| Families that had to fetch logs with the ox and wagon | 24 | 17 |
+| Houses: log / jacal / none | 177 / 2 / 1 | 177 / 2 / 1 |
+| House lived in, median tick | 99 | 98 |
+| Ticks short of food, median of 829 | 66.5 | 67 |
+| Food in the house, median family's mean | 39.3 | 36.1 |
+| Final number, median / mean | 60 / 65.1 | 53.5 / 64.1 |
+
+By settlement, the median sound logs within a mile: Victoria 529 → 2,109, San Felipe 1,403 → 2,285, Liberty 1,119 → 1,668,
+Matagorda 609 → 1,110, Columbia 2,282 → 2,402, Gonzales 1,879 → 2,001, Mina 2,675 → 2,715. The timber-poorest coast gained
+most, which is where the bayous are. Victoria's median ticks short of food fall 141 → 71 and Matagorda's 101 → 96; Mina's
+171 does not move, and is still the worst family in the class.
+
+**The country a family's house stands in shifts** with the belt: 31 of 180 families move from *prairie* to *timber* in the
+study's own three-way split, because a house is built near water and the water's timber is now wider than a house lot. That
+is the change working, not a bug, but it is why the prairie and timber rows of §5.2 cannot be read straight against these.
