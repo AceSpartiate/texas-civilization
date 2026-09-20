@@ -754,7 +754,7 @@ hour and more lost."* Whoever wades pays in tiredness as well as minutes. The sh
 crossing and the day, so the same class crosses the same way twice and a reload changes nothing.
 
 **The weather behind it** (`FIC-GONZ-094`). Two things were mended to make this honest. The rain share was one day in two all
-year, which is the *spring* of 1836 - "unusually wet and the rivers swollen" (`HIST-TEX-071`) - and far too wet for the
+year, which is the *spring* of 1836 - "unusually wet and the rivers swollen" (`HIST-TEX-068`) - and far too wet for the
 autumn a class opens in: March and April keep it, the rest of the year is one day in five. And the day was hashed straight
 into `share`, which is FNV-1a and runs in streaks over keys that differ by one digit: one class had twenty rainy days
 together and another none in its first twenty. The day is mixed before it is hashed now. Neither was visible while only the
