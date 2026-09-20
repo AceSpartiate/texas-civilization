@@ -61,7 +61,8 @@ now). The map was rebuilt (its hash in `tests/map-outside.test.mjs` updated with
 `tests/crossings.test.mjs` +1 and `tests/colonies-map.test.mjs` amended, proven by four injections, each rebuilding the map
 and putting it back byte for byte ([evidence](docs/evidence/crossings/outside-injections.json)). One test changed: the
 old-map camp test times the march from the man's arrival event, because a man who reaches Harrisburg in the hour the army
-marches on follows it the same tick and is never seen standing there. Checks: `npm test` 766, `npm run test:crossings`, the
+marches on follows it the same tick and is never seen standing there. The whole-game proof presses the "!" again when the rider
+who brought the word is still standing there and its conversation opens before the call, as a student would. Checks: `npm test` 766, `npm run test:crossings`, the
 map-accuracy and map-outside proofs. Not done: Fort Lipantitlán, Burr's ferry, Niblett's Bluff, Laredo's own crossing of the
 Rio Grande, and art for a distant place. Same computer only.
 

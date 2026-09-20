@@ -1,25 +1,25 @@
 {
   "record": "solo-game-browser",
-  "date": "2026-09-19",
+  "date": "2026-09-20",
   "verdict": "PASS",
   "browser": "152.0.7977.83",
   "task": "Solo Mode end to end: the real solo server dealing on the real land; a solo game played from its dealt start to the road home through all three periods, the solo class view continuing it; a new game dealt after the end.",
   "environment": "Same computer: an in-process solo classroom at 100 ms a tick with five families, four automatic, and headless Chrome; server/main.mjs --solo run for real only to check what it deals. Not the launcher's window, a real phone or a weak computer.",
   "checks": [
     "server/main.mjs --solo deals its game on the real land of the colonies (5 families, running)",
-    "the solo game opens joined as hh-1 in san-felipe, rolled and running, no join form, no Start press; the other four families automatic",
+    "the solo game opens joined as hh-1 in columbia, rolled and running, no join form, no Start press; the other four families automatic",
     "the solo class view opens from its Host address with the game already running",
-    "the family arrived and the house site was chosen on its grant at (87.7696, -12.4896)",
-    "3 of the family set to auto from the panel: Alvin Proofwright, Emeterio Proofwright, Zadok Proofwright",
-    "3 orders given from the panel and taken",
-    "the call came (\"An express has brought word to San Felipe that the Mexican troops are at Gonzales. The com…\") and Alvin Proofwright was sent from the one menu",
-    "the first period ended on its own at minute 113880: interim standings on both pages, no winner named (459 ticks, 50.1 s)",
+    "the family arrived and the house site was chosen on its grant at (112.2196, 27.2104)",
+    "5 of the family set to auto from the panel: Gregorio Proofwright, Serafina Proofwright, Marcela Proofwright, Lavinia Proofwright, Prudence Proofwright",
+    "5 orders given from the panel and taken",
+    "the call came (\"Volunteers from Columbia and the lower Brazos are to gather at James Kerr's on the Lavaca …\") and Gregorio Proofwright was sent from the one menu",
+    "the first period ended on its own at minute 113880: interim standings on both pages, no winner named (465 ticks, 50.4 s)",
     "the Host continued the class into the winter: period 2 opens on 1836-01-25",
-    "Alvin Proofwright was sent to enlist auxiliary from the panel",
-    "the second period ended on its own at minute 241560 (195 ticks, 22.5 s)",
+    "Gregorio Proofwright was sent to enlist auxiliary from the panel",
+    "the second period ended on its own at minute 241560 (195 ticks, 21.6 s)",
     "the Host continued the class into the spring: period 3 opens on 1836-03-14",
     "told to leave, the \"!\" opened the card and the family left for lynchburg with what fit; the farm burned behind it",
-    "the game ended on the road home at minute 302520: the final reckoning on both pages, the Host naming who finished first (390 ticks, 43.5 s)",
+    "the game ended on the road home at minute 302520: the final reckoning on both pages, the Host naming who finished first (643 ticks, 70.9 s)",
     "after the ending, a new solo game is dealt with the old pages open, and opens joined and running from the beginning",
     "no page errors on any page across the whole solo game"
   ],
@@ -31,36 +31,48 @@
     },
     "periods": {
       "first": {
-        "ticks": 459,
-        "seconds": 50.1,
+        "ticks": 465,
+        "seconds": 50.4,
         "endedAtMinute": 113880
       },
       "second": {
         "ticks": 195,
-        "seconds": 22.5,
+        "seconds": 21.6,
         "endedAtMinute": 241560
       },
       "third": {
-        "ticks": 390,
-        "seconds": 43.5,
+        "ticks": 643,
+        "seconds": 70.9,
         "endedAtMinute": 302520
       }
     },
     "family": [
-      "Alvin Proofwright (father, 43)",
-      "Emeterio Proofwright (son, 12)",
-      "Zadok Proofwright (son, 11)",
-      "Pablo Proofwright (son, 9)",
-      "Enos Proofwright (son, 3)"
+      "Gregorio Proofwright (father, 40)",
+      "Serafina Proofwright (mother, 32)",
+      "Marcela Proofwright (daughter, 12)",
+      "Lavinia Proofwright (daughter, 11)",
+      "Prudence Proofwright (daughter, 10)",
+      "Ruperto Proofwright (son, 9)",
+      "Pablo Proofwright (son, 8)",
+      "Petra Proofwright (daughter, 7)",
+      "Docia Proofwright (daughter, 3)",
+      "Mateo Proofwright (son, 1)"
     ],
     "onAuto": [
-      "Alvin Proofwright",
-      "Emeterio Proofwright",
-      "Zadok Proofwright"
+      "Gregorio Proofwright",
+      "Serafina Proofwright",
+      "Marcela Proofwright",
+      "Lavinia Proofwright",
+      "Prudence Proofwright"
     ],
     "orders": [
       {
         "id": "hh-1-parent-1",
+        "key": "cut-lane",
+        "took": true
+      },
+      {
+        "id": "hh-1-parent-2",
         "key": "cut-lane",
         "took": true
       },
@@ -73,23 +85,28 @@
         "id": "hh-1-child-2",
         "key": "cut-lane",
         "took": true
+      },
+      {
+        "id": "hh-1-child-3",
+        "key": "cut-lane",
+        "took": true
       }
     ],
     "call": {
-      "text": "An express has brought word to San Felipe that the Mexican troops are at Gonzales. The committee asks the men to turn out, and the District of Washington is already turning out to march to Gonzales as fast as it can. Does somebody from your family go?",
-      "sent": "Alvin Proofwright"
+      "text": "Volunteers from Columbia and the lower Brazos are to gather at James Kerr's on the Lavaca and go on from there. Does somebody from your family go?",
+      "sent": "Gregorio Proofwright"
     },
     "winter": {
       "key": "enlist-auxiliary",
       "id": "hh-1-parent-1",
-      "name": "Alvin Proofwright"
+      "name": "Gregorio Proofwright"
     },
     "winterOutcome": {
       "voted": false,
       "service": {
         "kind": "auxiliary-year",
         "status": "serving",
-        "since": 176400,
+        "since": 179280,
         "siteId": "san-felipe",
         "acres": 320
       }
@@ -99,12 +116,12 @@
       "card": "The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer within the day, or the family packs w"
     },
     "ending": {
-      "host": "THE END OF THE STORY × How the families finished the Proofwright family finished first, with a final number of 132. Family Road miles from Gonzales Heard of the cannon Who went Coin Glory Land Final the Proofwright family 111 October 3 Alvin Proofwright 0 reales 115 16 reales 132 Ignacio's family (n",
-      "family": "THE END OF THE STORY × the Proofwright family COIN IN THE HOUSE 0 reales GLORY 115 FINAL NUMBER 132 0 reales, counted as 1 real × (1 + 115 glory) + 16 reales of land (320 acres promised) = 132 Our story The family lived 111 road miles from Gonzales. Word that soldiers had come for the cannon reached",
-      "flight": "returning",
+      "host": "THE END OF THE STORY × How the families finished the Proofwright family finished first, with a final number of 54. Family Road miles from Gonzales Heard of the cannon Who went Coin Glory Land Final the Proofwright family 155 October 2 Gregorio Proofwright 0 reales 37 16 reales 54 Nicolás's family (n",
+      "family": "THE END OF THE STORY × the Proofwright family COIN IN THE HOUSE 0 reales GLORY 37 FINAL NUMBER 54 0 reales, counted as 1 real × (1 + 37 glory) + 16 reales of land (320 acres promised) = 54 Our story The family lived 155 road miles from Gonzales. Word that soldiers had come for the cannon reached the",
+      "flight": "fled",
       "minute": 302520
     },
-    "totalSeconds": 116.1
+    "totalSeconds": 142.9
   },
   "screenshots": [
     "docs/evidence/solo-game-at-work.png",

@@ -80,7 +80,15 @@ export async function playWholeGame(ctx) {
   await untilLive(ctx, async () => world().status === 'ended' || (await student.evaluate(() => window.__familyPanel?.some(row => row.needs.includes('call')))), { label: 'the settlement\'s call or the end of the first period' });
   if (world().status !== 'ended') {
     const caller = await student.evaluate(() => window.__familyPanel.find(row => row.needs.includes('call')).id);
-    await student.locator(`.panel-row[data-entity-id="${caller}"] .panel-attention`).click();
+    // The "!" opens the first thing waiting on that person (`openNeed`). When the rider who brought the word is still standing
+    // with them, that is the conversation, not the call: the student closes it and presses "!" again, so the proof does too.
+    // Seen 2026-09-19, when the map's roads moved and the rider was still there as the call opened.
+    for (let press = 0; press < 3; press++) {
+      await student.locator(`.panel-row[data-entity-id="${caller}"] .panel-attention`).click();
+      const opened = await student.evaluate(() => window.__needOpened?.kind);
+      if (opened === 'call') break;
+      await student.locator('#encounter-close').click({ timeout: 5000 }).catch(() => {});
+    }
     await student.waitForFunction(() => !document.querySelector('#call-menu').hidden, null, { timeout: 5000 });
     const text = await student.locator('#call-menu-text').textContent();
     const input = student.locator('#call-menu input:not([disabled])').first();
