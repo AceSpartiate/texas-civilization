@@ -91,6 +91,95 @@ These call exactly the code the buttons call. One caveat found by measuring: do 
 the output of `--start` (or `--solo`). The server it leaves running inherits the console handle,
 so a parent that redirects and waits will wait for the whole lesson. Ask `--status` instead.
 
+### The window's face — 2026-09-20
+
+Owner, 2026-09-20: *"use this image to update the launcher and how it looks"*, with a mockup of the window they
+wanted, and then the art for it the same day — a title painting and eight cast button plates. The window is now a
+painting with things drawn on it rather than a stack of grey boxes. **No function moved, and none was lost**: start
+and stop, the class view, a player window, the two copies, Play Solo, updates, the progress bar, the notice line and
+the uninstall link are all still there and all still do exactly what they did.
+
+**Where the art lives.** `launcher/art/` — `background.png` (1086 × 1448) and ten `button-*.png` (2172 × 724 each,
+except the stop sign at 1774 × 887 and the update badge at 1536 × 1024). Every one is an **`<EmbeddedResource>`** in `TexasRevolution.Launcher.csproj`, read from
+the assembly's manifest stream exactly as `Branding.cs` reads the emblem. That is not a preference. The launcher
+updates *itself*: `Updater.cs` downloads the release's setup program and `UpdateSwap` puts the new **single
+executable** in place of the old one, so art left as loose files beside the exe would survive an install and vanish on
+the first *update* — and nobody would find out until a classroom did. The cost is the download: the self-contained
+setup is **79.5 MB** where it was about 62 MB, and roughly 19 MB of that is the new art. Proved by publishing the way
+`scripts/package.ps1` does, copying the one exe into a temporary folder with none of the repository beside it, and
+opening it: the painting and all eight plates were there.
+
+**The painting is cropped, never squashed** (`launcher/TitleScene.cs`). It is 3:4 and the window is taller and
+narrower, so it is scaled to cover and the overflow is cut, anchored 36% down — everything worth seeing is in the top
+half and what is lost is foreground grass. Over it go two washes, dark from the top and dark from the bottom, because
+the painting is pale parchment at the top left and dark cloud at the top right, and cream lettering laid straight on
+it would read against one half and vanish against the other. The scene is rendered once to a bitmap the size of the
+client area, and **every control paints its own slice of that bitmap behind itself** (`Scene.Backdrop`): WinForms has
+no real transparency, and `BackColor = Transparent` half-works over a custom-painted parent, which is worse than not
+working.
+
+**The plates keep their own shape.** A straight plate is 5.47 wide to 1 tall; the stop sign is 2.55 to 1, because its
+torn flag hangs off the left end. The layout works out one width that makes the whole column fit the window and gives
+each plate its own height from that, so nothing is stretched. At start-up each plate is trimmed to the sign, resampled
+once to 1600 pixels wide, and its black field **flooded away from the edge inwards** so the chamfered corners and the
+torn flag sit on the painting rather than in a black box (`launcher/PlateArt.cs`). The threshold is per picture and
+was measured, not guessed: the seven straight plates lie on textured dark stone no brighter than their own darkest
+interior, so their flood is held to the near-black that only appears in the corners; the stop sign lies on pure black
+while its darkest weathered red is luminance 19, so it is flooded harder. **Flooding the stop sign at the straight
+plates' threshold was what made the owner report "I can sort of see through it"** — the flood crept through the sign's
+dark veins and the one-pixel softening pass then took most of the red field down to about two-thirds opacity.
+Border-flooding, not colour-keying, is what keeps a dark patch *inside* a sign opaque.
+
+The one exception is **`button-update-available.png`**, which the owner delivered as RGBA with a real alpha channel.
+It is cut to what its own alpha covers and composited as it is: no flood, no key, `FloodBelow` of 0 in
+`PlateArt.Cuts`. Flooding it would eat the darks in its red field for no gain, because its shape is already in the
+file. It is the state, not the action: "Check for updates" keeps its slate plate for the ordinary case, and the same
+button wears the badge once `Updates.LatestAsync` has found a newer release, so a teacher opening the launcher sees
+at a glance that there is something to take. Its roundel and exclamation mark overhang its left edge, so its row gets
+80% of the column's width and the overhang hangs into the margin, exactly as the stop sign's flag does. Because the
+badge is nearly twice as tall as the plate it replaces, the column's width is worked out from the plates the window
+is *actually carrying* rather than from a constant — which is why every plate shrinks a little the moment an update
+appears, and then holds that size.
+
+**A plate that does not apply is not on the window.** Owner: *"there's no reason for us to see the greyed out plates
+when they're not being used... Have them appear and disappear (expand and condense) instead."* The four that need a
+running class — the class view, a player window and the two copies — are absent until one is running and expand into
+place over about a fifth of a second as it starts; the primary plate swaps *Start the class* for the *Stop the class*
+sign. The distinction that matters is **does not apply yet** against **busy for a moment**: while the server is
+starting, or an update is installing, the plates already on screen stay exactly where they are and simply stop
+answering, because a window that rearranges itself under a teacher's hand mid-click is worse than a button that waits.
+The column's size is worked out from the running state, the one with the most on it, and then held, so a plate never
+changes size as plates come and go. The movement follows `SystemInformation.UIEffectsEnabled`; with effects off it is
+a plain show and hide. Keyboard focus never lands on a plate that is not on the window.
+
+**Size.** Owner: *"Looked better when it was bigger."* The window takes nine tenths of the working area's height on
+the screen it opens on and derives its width from that, in the proportion the layout was drawn in; on a 4K panel at
+150% that is about 610 × 1240 ordinary pixels. Every measurement on the window — the masthead's face, the rules, the
+class code, the plates, the gaps — is a share of the window's width, so a bigger window is the same window bigger and
+not the same furniture with more painting round it. It is clamped to the desk space Windows reports and never grows
+off the bottom of the screen, and below about 780 ordinary pixels of height the masthead gives its room back to the
+plates. The size and place a teacher leaves it at are kept as four numbers in
+`%LOCALAPPDATA%\TexasRevolution\window.txt`, which the uninstall already removes with the rest of that folder; a
+remembered place on a monitor that has since been unplugged is ignored.
+
+**Nothing about how it looks may put a dialog in front of a teacher.** `TitleScene`, `PlateArt` and `Branding` each
+return null rather than throw, and a window with no art is a plain coloured one with drawn plates that still works.
+Under that, every custom paint swallows rather than bubbles — a paint that throws throws again on the very next
+paint, which is a stream of Windows error dialogs — and `Program.Main` catches what is left and appends it to
+`data/launcher-error.txt`, where [recovery](RECOVERY.md) already looks. This was not hypothetical: an early version of
+this work read `Control.Font` back and disposed whatever came out, which the first time round disposes
+`Control.DefaultFont` — a static shared with every control in the process, including the dialog WinForms puts up when
+something goes wrong, so the failure it caused was the failure it then could not report. The owner saw those dialogs.
+
+**Evidence, on this computer only** (`docs/evidence/launcher/`): `launcher-stopped.png` and `launcher-running.png`,
+both taken from the packaged single executable running in a temporary folder with no `art` directory beside it;
+`launcher-laptop-height.png`, the running window squeezed to 704 pixels tall — what a 1366 × 768 panel leaves — with
+all seven plates, the notice and the uninstall link still on it; and `launcher-keyboard-focus.png`, two tabs from the
+top, showing the gold focus ring on a plate. High-DPI was exercised by moving the window between a 150% monitor and a
+100% one, which re-fits it. `ceiling:` it is not proved on a real 1366 × 768 machine, only by squeezing the window to
+that height on this one, and `scripts/verify-launcher.ps1` tests the launch protocol rather than the window, so none
+of the above is held by a gate.
+
 ### Uninstalling from the launcher, and a launcher older than its game — 2026-09-17
 
 **Uninstall Texas Revolution…**, in small text at the bottom of the launcher (owner: *"an uninstall button that remove

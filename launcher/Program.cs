@@ -69,8 +69,47 @@ internal static class Program
                 "Texas Revolution", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         ApplicationConfiguration.Initialize();
-        Application.Run(new LauncherForm());
+        // Nothing about how this window looks may put a dialog in front of a teacher. Since
+        // 2026-09-20 the window is a painting and eight cast plates, all of them decoded at
+        // start-up, and an image that cannot be read has to end in plain colour and a line in
+        // the error file rather than in Windows' crash box - which is modal, which arrives
+        // before the teacher has done anything, and which says nothing they can act on.
+        // The launcher is built to fall back at each step (TitleScene, PlateArt, Branding all
+        // return null rather than throw); this is the net under that, not a substitute for it.
+        Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+        Application.ThreadException += (_, problem) => WriteDown(problem.Exception);
+        AppDomain.CurrentDomain.UnhandledException += (_, problem) => WriteDown(problem.ExceptionObject as Exception);
+        try { Application.Run(new LauncherForm()); }
+        catch (Exception error) { WriteDown(error); return 3; }
         return 0;
+    }
+
+    /// <summary>
+    /// Put a failure where a support person already looks, and say nothing on screen.
+    /// </summary>
+    /// <remarks>
+    /// <c>data/launcher-error.txt</c> is the file <c>scripts/launch.ps1</c> writes and
+    /// <see href="../docs/RECOVERY.md">recovery</see> reads, so a window that fell over leaves
+    /// its reason in the same place a server that would not start leaves its own. It is appended
+    /// to rather than replaced, and the next launch rewrites it from scratch.
+    /// </remarks>
+    internal static void NoteQuietly(Exception? error) => WriteDown(error);
+
+    private static void WriteDown(Exception? error)
+    {
+        if (error is null) return;
+        try
+        {
+            var beside = Path.Combine(AppPaths.Root, "data");
+            var folder = Directory.Exists(beside)
+                ? beside
+                : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "TexasRevolution");
+            Directory.CreateDirectory(folder);
+            File.AppendAllText(Path.Combine(folder, "launcher-error.txt"),
+                $"{Environment.NewLine}The launcher window struck a problem at {DateTime.Now:yyyy-MM-dd HH:mm:ss}. "
+                + $"The class itself is not affected.{Environment.NewLine}{error}{Environment.NewLine}");
+        }
+        catch { /* a machine that will not let us write it down is not made better by a dialog */ }
     }
 
     /// <summary>

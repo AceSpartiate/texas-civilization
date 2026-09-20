@@ -87,6 +87,48 @@ into the existing pipeline, and how it will be checked. When a request is delive
 
 ---
 
+## Request 2026-09-20 — the launcher's remaining plates — **Delivered 2026-09-20**
+
+**Status: delivered the same day it was asked for; nothing on that window is a stand-in.** The owner drew the launcher window on
+2026-09-20 and had the art made for it the same day: the title painting (`launcher/art/background.png`)
+and eight cast plates (`launcher/art/button-*.png`), all in hand and all shipping. Two things the window
+needs are not among them.
+
+- **Why.** The launcher's "Check for updates" plate becomes **Update to v2026.09.20.2** the moment GitHub
+  has a newer build, and there is no plate that says that. It is drawn in code instead, in the same shape
+  and in the amber the mockup uses for a warning - which is honest but is not the owner's hand, and it is
+  the one button on that window that does not match the rest. The same drawn plate is what the window falls
+  back to if a plate cannot be read at all, so it earns its keep either way.
+- **What.**
+  - `button-update-available.png` - the same cast plate as the other seven (2172 x 724, the sign inside the
+    same box: x 136, y 161, 1902 x 348, on a black field), but **amber or brass** rather than slate, with a
+    downward arrow into a tray at the left where the others have their mark, a chevron at the right, and
+    **no words**: the version changes with every release, so the launcher writes the line itself over the
+    plate. If words are wanted in the art instead, "Update available" is the one phrase that is always true.
+  - Optional, and only if it is easy: the seven marks as cut art (`icon-people`, `-monitor`, `-person`,
+    `-clipboard`, `-link`, `-swords`, `-gear`) for the drawn fallback. Nothing needs them while every plate
+    is cast; they exist for the day one cannot be read.
+- **Where it goes.** `launcher/art/`, embedded by `launcher/TexasRevolution.Launcher.csproj` like the rest.
+  In `launcher/LauncherForm.cs`, `LookForUpdateAsync` sets `_updates.Plate = null` to get the drawn plate;
+  point it at the new art instead and let `PlateButton` draw the version over it (the plate has no words, so
+  nothing is being covered). Delete the stand-in rows.
+- **Check.** Beside "Check for updates" and "Play Solo" at the same width it reads as one of the set.
+
+**Delivered 2026-09-20.** `launcher/art/button-update-available.png` (1536 x 1024): a red badge reading UPDATE
+AVAILABLE in gold, with a gold download arrow in a roundel that overhangs its left edge and a red exclamation mark
+above the roundel. It carries its own words, so the launcher writes nothing over it and the version stays in the
+button's `Text` and in the line of news below - the same arrangement as every other plate.
+
+Two things about it differ from the other nine and are worth keeping in mind if it is ever replaced. It is **RGBA
+with a real alpha channel** where the others are opaque pictures on a black field, so it is composited as it is and
+must never be flooded or keyed (`FloodBelow` is 0 in `PlateArt.Cuts`). And the roundel **overhangs the badge's left
+edge**, so its row is given 80% of the column's width and the overhang is allowed to hang into the margin, the way
+the stop sign's torn flag is.
+
+The optional cut marks were **not needed and were not made**. While every plate is cast, nothing draws them; the
+stroke marks in `TitleScene.DrawGlyph` exist only for a plate whose art cannot be read, which is a fallback rather
+than a stand-in, and they are marked `ceiling:` rather than `stand-in:` for that reason.
+
 ## Request 2026-09-19 — the places past the box
 
 **Status: open; nothing drawn, and no stand-in.** Owner, 2026-09-19, by multiple choice: the places past the old box. Five

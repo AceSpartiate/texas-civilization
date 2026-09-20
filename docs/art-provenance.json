@@ -707,6 +707,31 @@
     "whereItAppears": "The executable, and from there Explorer, the taskbar, the Start menu entry and the desktop shortcut, plus the title bar of every window the launcher opens.",
     "note": "Decorative, and not a historical illustration. It is a general Texas emblem: the Alamo it shows is San Antonio in 1836, a different place and a later year than the Gonzales afternoon this prototype simulates. Nothing in the game reads it and it makes no historical claim."
   },
+  "launcherTitlePainting": {
+    "file": "launcher/art/background.png",
+    "origin": "Supplied by the owner, 2026-09-20, after they drew a mockup of the launcher window and asked for it to be built. Handed over as a 1086 x 1448 opaque PNG with no lettering on it.",
+    "postProcessing": "None. It is embedded in the launcher executable exactly as delivered and drawn scaled-to-cover, cropped at the sides and anchored 36% down so the sky, the flag and the chapel stay on the window. It is never stretched.",
+    "whereItAppears": "Behind everything on the launcher window (launcher/TitleScene.cs). Nowhere else; the game itself does not read it.",
+    "whatItShows": "The Alamo chapel at sunset under a heavy sky, a Lone Star flag on a rough timber pole, a field cannon on a spoked wheel at the right, a river in the middle distance, a column of silhouetted frontiersmen with long rifles at the lower left, and the left edge dissolving into cracked parchment carrying the outline of Texas and a star.",
+    "note": "Decorative, and not a historical illustration, on the same terms as the emblem. The Alamo it shows is San Antonio, a different place and a later year than the Gonzales afternoon this prototype simulates; the masthead beneath it says Gonzales, 1835 because that is where the game is. Nothing in the simulation reads this picture and it makes no historical claim. The words COME AND TAKE IT in the window's top right corner are drawn by the launcher, not by the painting, and are part of the owner's mockup rather than a caption on the picture."
+  },
+  "launcherButtonPlates": {
+    "files": [
+      "launcher/art/button-start-the-class.png",
+      "launcher/art/button-stop-the-class.png",
+      "launcher/art/button-open-class-view.png",
+      "launcher/art/button-open-a-player-window.png",
+      "launcher/art/button-copy-the-class-code.png",
+      "launcher/art/button-copy-the-join-address.png",
+      "launcher/art/button-play-solo.png",
+      "launcher/art/button-check-for-updates.png",
+      "launcher/art/button-update-available.png"
+    ],
+    "origin": "Supplied by the owner, 2026-09-20, in three deliveries: seven plates first; then the stop sign, once it was pointed out that a green plate reading Start the class must never be the button that stops one; then the update badge, for the state rather than the action - the same button wearing a different face once a check has found a newer release. Each file name is the words cast into that plate.",
+    "postProcessing": "None to the files. At start-up the launcher trims each one to the sign (the seven straight plates all sit within a pixel or two of x 136, y 161, 1902 x 348; the stop sign, a different picture at 1774 x 887, sits at x 30, y 96, 1715 x 674), resamples it once to 1600 pixels wide, and floods the black field away from the edge inwards so the chamfered corners and the stop sign's torn flag sit on the painting rather than in a black box. See launcher/PlateArt.cs.",
+    "whereItAppears": "The buttons of the launcher window. The label and the mark are part of the picture, so the launcher writes nothing over a plate; the button's Text is still set, for the keyboard and the accessibility tree.",
+    "note": "Decorative. The stop sign's torn Lone Star flag and its stop-hand roundel are design, not a depiction of an event.", "alphaNote": "button-update-available.png is the only one of the ten delivered with a real alpha channel (1536 x 1024, RGBA). It is cut to what its own alpha covers and composited as it is; it is never flooded or keyed, which would eat the darks in its red field. The other nine are opaque pictures on a black field and are flooded from the border inwards instead."
+  },
   "setupIcon": {
     "file": "launcher/TexasRevolutionSetup.ico",
     "source": "launcher/setup-icon-source.png",

@@ -39,6 +39,35 @@ public static class Branding
         if (Emblem.Value is { } icon) form.Icon = icon;
     }
 
+    private const string PaintingResource = "TexasRevolution.Launcher.art.background.png";
+
+    private static readonly Lazy<Image?> TitlePainting = new(() =>
+    {
+        try
+        {
+            using var stream = typeof(Branding).Assembly.GetManifestResourceStream(PaintingResource);
+            if (stream is null) return null;
+            // Copied off the resource stream first: Image keeps the stream it was made from, and a
+            // manifest stream that is disposed under it turns every later draw into an exception.
+            using var memory = new MemoryStream();
+            stream.CopyTo(memory);
+            memory.Position = 0;
+            return Image.FromStream(memory, useEmbeddedColorManagement: false, validateImageData: false) is { } image
+                ? new Bitmap(image)
+                : null;
+        }
+        catch { return null; }
+    });
+
+    /// <summary>
+    /// The launcher's title painting - the owner's own, supplied 2026-09-20 - or null if it
+    /// cannot be read, in which case the window paints itself in plain colour instead.
+    /// </summary>
+    public static Image? Painting
+    {
+        get { try { return TitlePainting.Value; } catch { return null; } }
+    }
+
     /// <summary>
     /// Write the plain emblem beside an installed copy and return its path, or null if it
     /// could not be written. A shortcut pointing at a missing icon file shows a blank
