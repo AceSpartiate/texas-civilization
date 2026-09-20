@@ -15,6 +15,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { resolve } from 'node:path';
 import { meetFamily } from './support/meet-family.mjs';
+import { holdWeather, installWeatherStub, stubWeather } from './support/weather-stub.mjs';
 
 // `--root <dir>` measures another copy of the game (an export of an earlier commit) with this script, for a before and after.
 const rootArg = process.argv.indexOf('--root');
@@ -27,6 +28,11 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const arg = (name, fallback) => { const i = process.argv.indexOf(`--${name}`); return i > 0 ? process.argv[i + 1] : fallback; };
 const LABEL = arg('label', 'run'), RATE = Number(arg('rate', 6)), PHASE_S = Number(arg('phase', 30)), TICK_MS = Number(arg('tick', 1000));
 const VIEWS = (arg('views', 'default,land,town,whole')).split(',');
+// `--weather rain|norther|storm|fog`, or three of them as `storm/rain/fair`, measures a day of that weather (public/weather-art.js, docs/WEATHER.md): the weather
+// is held on the snapshot the way scripts/weather-browser-proof.mjs holds it, because the simulation side of it is being
+// built in parallel and `projectWorld` does not carry `world.weather` yet. Without the flag the day is fair, which is what
+// a build from before the weather is compared against. A build that does not draw weather simply ignores the field.
+const WEATHER = arg('weather', null);
 
 // Installed before any page script: counts what the page does without touching the game's own code.
 const INSTRUMENT = () => {
@@ -72,6 +78,7 @@ try {
   const game = app.newSoloGame('Perf reader');
   const context = await browser.newContext({ viewport: { width: 1366, height: 768 }, deviceScaleFactor: 1 });
   await context.addInitScript(INSTRUMENT);
+  if (WEATHER) await installWeatherStub(context);
   const page = await context.newPage();
   page.on('pageerror', error => errors.push(error.message));
   const cdp = await context.newCDPSession(page);
@@ -84,6 +91,10 @@ try {
   // The last name and How We Look, where the build asks for them (a build before 2026-09-17 does not).
   await meetFamily(page, 'Measure', { timeout: 20000 });
   for (const id of ['#journal-close', '#wagon-done', '#tutorial-skip']) if (await page.locator(id).isVisible().catch(() => false)) await page.locator(id).click().catch(() => {});
+  // The whole country in one weather, its rivers well up: the worst a day can cost. Carried on every snapshot
+  // (scripts/support/weather-stub.mjs), so the kept ground sees one steady day rather than one flickering on and off.
+  if (WEATHER) await holdWeather(page, stubWeather(WEATHER), WEATHER.includes('fog') ? 7 * 60 + 20 : null);
+  result.weather = WEATHER;
   await page.waitForTimeout(3000);
 
   const metrics = async () => Object.fromEntries((await cdp.send('Performance.getMetrics')).metrics.map(m => [m.name, m.value]));

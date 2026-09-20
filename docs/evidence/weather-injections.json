@@ -1,0 +1,172 @@
+{
+  "record": "weather-injections",
+  "date": "2026-09-20",
+  "files": [
+    "tests/weather-art.test.mjs"
+  ],
+  "injections": [
+    {
+      "name": "the regions are three rectangles with hard edges",
+      "file": "public/weather-art.js",
+      "failed": [
+        "a region boundary is a blend, not a line: the two weathers are half and half where they meet",
+        "rain thins out across a boundary instead of stopping at it"
+      ]
+    },
+    {
+      "name": "the blend is a straight ramp, and creases at each end of the band",
+      "file": "public/weather-art.js",
+      "failed": [
+        "the blend between regions has no crease in it"
+      ]
+    },
+    {
+      "name": "a norther brings rain and a flat grey sky, as the popular image has it",
+      "file": "public/weather-art.js",
+      "failed": [
+        "a norther is a wind and a cold clear sky, and it brings no rain of its own",
+        "a norther that brought its rain is drawn wet; every other day of one is clear"
+      ]
+    },
+    {
+      "name": "the wind blows the way it came from, so a norther drives things back up to the north",
+      "file": "public/weather-art.js",
+      "failed": [
+        "a norther is a wind and a cold clear sky, and it brings no rain of its own",
+        "a wind blows the way it comes from: north is down the screen, and the compass goes round clockwise"
+      ]
+    },
+    {
+      "name": "a day flicks on at its first minute instead of coming up over an hour and a half",
+      "file": "public/weather-art.js",
+      "failed": [
+        "a day comes up over its first hour and a half rather than flicking on",
+        "what is drawn into the kept ground does not change with the clock"
+      ]
+    },
+    {
+      "name": "the fog hangs about all afternoon instead of burning off by nine",
+      "file": "public/weather-art.js",
+      "failed": [
+        "the fog burns off by the hour the record says, and never comes back in the afternoon"
+      ]
+    },
+    {
+      "name": "the clock past midnight is read as a running total, so the thirtieth morning is an afternoon",
+      "file": "public/weather-art.js",
+      "failed": [
+        "the fog burns off by the hour the record says, and never comes back in the afternoon"
+      ]
+    },
+    {
+      "name": "the fog can be drawn to opacity, and hides what a student is entitled to see",
+      "file": "public/weather-art.js",
+      "failed": [
+        "the fog is a veil and never a curtain: it cannot be drawn to opacity"
+      ]
+    },
+    {
+      "name": "a tree in a light air leans as hard as one in a gale",
+      "file": "public/weather-art.js",
+      "failed": [
+        "the trees lean with the wind, and no further than a tree bends"
+      ]
+    },
+    {
+      "name": "the ground is drawn again for a river falling a thousandth",
+      "file": "public/weather-art.js",
+      "failed": [
+        "the kept ground is drawn again when the day turns, and not when the rivers fall a thousandth"
+      ]
+    },
+    {
+      "name": "the day's own fade is in the ground's key, so the whole country is redrawn twelve times a second",
+      "file": "public/weather-art.js",
+      "failed": [
+        "the kept ground is drawn again when the day turns, and not when the rivers fall a thousandth"
+      ]
+    },
+    {
+      "name": "a fair, dry, still day is drawn anyway",
+      "file": "public/weather-art.js",
+      "failed": [
+        "a fair, dry, still day draws nothing at all"
+      ]
+    },
+    {
+      "name": "a river still in flood on a fair day is not drawn",
+      "file": "public/weather-art.js",
+      "failed": [
+        "a fair, dry, still day draws nothing at all"
+      ]
+    },
+    {
+      "name": "every view is cut into a dozen spans, even a family standing on its own land",
+      "file": "public/weather-art.js",
+      "failed": [
+        "a view inside one weather is laid down in one piece; only a view across a boundary is cut up"
+      ]
+    },
+    {
+      "name": "the spans stop short of the right-hand edge of the view",
+      "file": "public/weather-art.js",
+      "failed": [
+        "a view inside one weather is laid down in one piece; only a view across a boundary is cut up"
+      ]
+    },
+    {
+      "name": "the tile is drawn for a wind a quarter of the compass off the one blowing",
+      "file": "public/weather-art.js",
+      "failed": [
+        "the wind a tile is drawn for is the wind that is blowing, to within a step of the compass"
+      ]
+    },
+    {
+      "name": "a norther that brought its rain is drawn dry, like every other day of one",
+      "file": "public/weather-art.js",
+      "failed": [
+        "a norther that brought its rain is drawn wet; every other day of one is clear"
+      ]
+    },
+    {
+      "name": "the page shuts a ford at a level the simulation does not",
+      "file": "public/weather-art.js",
+      "failed": [
+        "the page draws the same river the simulation is running"
+      ]
+    },
+    {
+      "name": "the page draws one of the three countries under another name",
+      "file": "public/weather-art.js",
+      "failed": [
+        "the three weights always make one whole country, wherever you stand",
+        "a norther is a wind and a cold clear sky, and it brings no rain of its own",
+        "the trees lean with the wind, and no further than a tree bends",
+        "a fair, dry, still day draws nothing at all",
+        "the page draws the same river the simulation is running",
+        "what is drawn into the kept ground does not change with the clock"
+      ]
+    },
+    {
+      "name": "the wind step can run off the end of the compass, or go negative, as a cache key",
+      "file": "public/weather-art.js",
+      "failed": [
+        "the wind a tile is drawn for is the wind that is blowing, to within a step of the compass"
+      ]
+    },
+    {
+      "name": "the kept ground is drawn from a weather that fades, so it stands stale all day",
+      "file": "public/weather-art.js",
+      "failed": [
+        "what is drawn into the kept ground does not change with the clock"
+      ]
+    },
+    {
+      "name": "the rain is drawn at one size however close the camera is",
+      "file": "public/weather-art.js",
+      "failed": [
+        "the rain is drawn nearer the eye the closer the camera is"
+      ]
+    }
+  ]
+}

@@ -318,3 +318,76 @@ same file (default 9.2 fps, 23 ms a frame); it has no *after* beside it measured
 Found while measuring, not changed: watching somebody close up redraws the whole ground 2.5 to 3.5 times a second in either
 build, because the camera moves with them and the ground's key holds the camera. A ground drawn larger than the view and
 moved, as the gesture's quick frame is, would be the way out.
+
+## The weather, drawn — 2026-09-20
+
+Owner: *"Weather should be a visual thing... Players should see the weather. If implemented correctly, no text should be
+required."* `public/weather-art.js` draws the five kinds of day `docs/WEATHER.md` sets out. The renderer already paints
+twelve times a second over a country four hundred miles wide, so the whole design of it is about cost.
+
+**Where each piece lives, and what it costs.**
+
+| Drawn | Where | Cost |
+|---|---|---|
+| High water on the rivers; the lean the wind puts on the trees and the grass | the **kept ground** (`mapBase`), keyed on `weatherGroundKey` | nothing on a frame that only moves people. The key is quantised — the kind, the water to a tenth, the wind force to a tenth — so a river falling a thousandth an hour does **not** redraw the country, and a day that turns redraws it once |
+| The fog's shape, banked along the water | a **companion layer**, filled when the ground is | one `drawImage` a frame, its alpha the morning's (`fogFade`) |
+| Falling rain, a storm's rain, the dust a norther drives | the **air**, over everything | **one `fillRect` per layer**, with a repeating pattern at a whole-pixel offset. Two to three layers a frame. Not a particle system |
+| The wet, darkened earth; the flat grey; the cold blue; the cloud shadow | the veil (under the figures) and the air (over them) | **one fill each**, as a linear gradient across the view where the regions differ |
+
+**Three things had to be got right or it was not affordable, and each was found by measuring.**
+
+1. **The pattern must not carry a transform.** Turning the pattern to the wind and scaling it for depth cost more than
+   everything else on the map put together: a storm over Gonzales took the frame from 14 ms to 64 and the loop fell to
+   six frames a second. The wind's direction and the layer's depth are now **drawn into the tile** (`tileFor`), so the
+   fill is a plain repeat. A day has one wind, so a class builds three or six small tiles and keeps them.
+2. **A composite other than `source-over` costs even when the fill is empty.** Setting `multiply` and `screen` on every
+   frame, for washes whose alpha was zero on that kind of day, slowed *everything else drawn afterwards* — `drawSprite`
+   went from 8 to 26 ms a second. Both are now behind a test for whether there is anything to draw.
+3. **A view inside one weather is laid down in one piece.** A pattern cannot be masked by a gradient without compositing
+   a whole screen, so `weatherSpans` gives one span for any view whose two edges are in the same weather — which is every
+   student's, four miles across a region a hundred and thirty miles wide — and twelve only for the Host's whole country.
+
+**And one thing had to be got right or it was silently wrong.** The kept ground is redrawn only when `weatherGroundKey`
+moves, and that key deliberately leaves `since` out so a day fading in does not redraw the whole country twelve times a
+second. The wet earth was at first drawn into the ground *from the faded weather* — so it was laid down once, at the
+strength of the one frame that drew it, and stood stale for the rest of the day. **The project's own ground audit found
+it** (`window.__groundAudit` in `public/app.js`, run by `scripts/farm-browser-proof.mjs`): a difference over the whole
+screen, 6.1% of pixels on the first tick and falling to 0.9% by the fifth as the day came up. The fix is a fade-free
+reading, `weatherMix(..., { fade: false })`, for **everything** drawn into the ground — the high water, the fog's shape
+and the lean on the trees — and the wet earth moved onto the page's own canvas, where it is drawn every frame with the
+veil. `tests/weather-art.test.mjs` now holds that: what the ground is drawn from must not move with the clock. This is
+the exact failure `groundInputs`' own `ceiling:` warns about, and it is worth reading that note before drawing anything
+else into the ground.
+
+**Before and after.** *Before* is `7bc0f5f` exported and measured by the same script (`--root`). Same computer, headless
+Chrome, CPU throttled 6×, 1366×768, 15 families, 1 s ticks, 30 s a view.
+`node scripts/perf-render-measure.mjs --label <name> [--weather storm|storm/rain/fair]`.
+[before](evidence/perf-render-weather-before.json), [live](evidence/perf-render-weather-after-live.json),
+[storm](evidence/perf-render-weather-after-storm.json), [three regions](evidence/perf-render-weather-after-three.json).
+
+*live* is the class's own opening day as the server sends it — the Guadalupe up in the west, rain over the centre, a fair
+east, so the Host's view straddles two weathers. *storm* is a storm over the whole country with its rivers at 0.8.
+*three* is a storm in the west, rain in the centre and a fair east.
+
+| View | ms / frame (mean / p95) — before | live | storm | three regions |
+|---|---|---|---|---|
+| default (scale 402) | 13.4 / 14.9 | 14.4 / 16.2 | 14.4 / 16.2 | 13.7 / 15.8 |
+| land (scale 2132) | 14.8 / 17.1 | 15.6 / 18.0 | 15.3 / 17.8 | 15.1 / 17.4 |
+| town (scale 960) | 13.7 / 15.6 | 14.4 / 16.4 | 14.1 / 16.1 | 14.1 / 15.7 |
+| whole (scale 3.6) | 6.0 / 6.9 | 6.9 / 7.8 | 6.3 / 7.1 | 6.9 / 7.7 |
+
+**No day costs more than a millisecond a frame.** Painted frames a second are 9.9–10.4 in every build and on every day,
+against 10.1–10.4 before; the ground is redrawn 0 to 0.3 times a second in every one of them, which is what it was
+before — **the weather did not add a single redraw of the country**. There were no page errors.
+
+Honesty about the conditions: these are one run each on a machine that had other sessions on it, and the spread between
+runs of the *same* build is a few tenths of a millisecond. The claim they support is "no measurable regression on a fair
+day and about a millisecond and a half on the worst one", not a figure to three decimal places.
+
+**How the weather is proved by eye.** `node scripts/weather-browser-proof.mjs` puts a class into each kind of day at
+three zooms and writes `docs/evidence/weather/`. Every day it photographs is a **real day of a real class**, taken from
+`weatherOn` in `sim/weather.mjs` on the seed every measure uses, and the first of them — `live` — is photographed with
+nothing injected at all. The rest are days further into the class than a proof can sit and wait for, so their weather is
+computed by the simulation and put on the snapshot as it is parsed (`scripts/support/weather-stub.mjs`); what stands in
+is the delivery, not the weather. `shut` is the one exception and says so in the record: no day of this class quite
+reaches `WATER_SHUT`, so one river is raised by hand to show what a shut ford looks like.

@@ -113,8 +113,13 @@ export async function loadArt({ all = false, sheets = [] } = {}) {
 
 /** Draw a frame by its ground anchor. Height refers to the pose family's logical
  * reference height; tightly cropped poses do not resize the person between frames.
- * Returns its screen width, or 0 for a fallback. */
-export function drawSprite(ctx, name, x, y, height, { flip = false, alpha = 1, anchor } = {}) {
+ * Returns its screen width, or 0 for a fallback.
+ *
+ * `lean` bends the frame about its own ground anchor - a shear, so the foot stays where it was put and the top goes over,
+ * which is what a tree in a wind does and what a rotation would not do. It is the norther's (public/weather-art.js
+ * `windLean`), and it is undone exactly: the inverse shear composes back to the identity in whole numbers. Nothing calls
+ * it for a person; a figure leaning in the wind would be animation, not weather. */
+export function drawSprite(ctx, name, x, y, height, { flip = false, alpha = 1, anchor, lean = 0 } = {}) {
   const frame = art.frames[name];
   const image = frame && art.images[frame.sheet];
   if (!image || !(height > 0)) {
@@ -128,9 +133,11 @@ export function drawSprite(ctx, name, x, y, height, { flip = false, alpha = 1, a
   const was = ctx.globalAlpha;
   if (alpha !== 1) ctx.globalAlpha = was * Math.max(0, Math.min(1, alpha));
   ctx.translate(x, y);
+  if (lean) ctx.transform(1, 0, lean, 1, 0, 0);
   if (flip) ctx.scale(-1, 1);
   ctx.drawImage(image, frame.x, frame.y, frame.w, frame.h, -width * (anchor?.[0] ?? frame.anchorX), -drawnHeight * (anchor?.[1] ?? frame.anchorY), width, drawnHeight);
   if (flip) ctx.scale(-1, 1);
+  if (lean) ctx.transform(1, 0, -lean, 1, 0, 0);
   ctx.translate(-x, -y);
   ctx.globalAlpha = was;
   return width;
@@ -221,7 +228,7 @@ function hashKey(key) {
  * Looping clips can be de-synchronised by seed. One-shots always begin at their start.
  */
 export function drawClip(ctx, name, x, y, height, {
-  timeMs = 0, seed = 0, paused = false, reducedMotion = false, flip = false, alpha = 1,
+  timeMs = 0, seed = 0, paused = false, reducedMotion = false, flip = false, alpha = 1, lean = 0,
 } = {}) {
   const clip = art.clips[name];
   const duration = clipDuration(clip);
@@ -232,6 +239,9 @@ export function drawClip(ctx, name, x, y, height, {
   const motion = sample.motion;
   ctx.save();
   ctx.translate(x + motion.x * height * (flip ? -1 : 1) * (clip.recoilSign || 1), y + motion.y * height);
+  // The wind's bend, about the clip's own ground anchor and before its own motion, so a swaying oak sways from where the
+  // norther has already put it (public/weather-art.js `windLean`).
+  if (lean) ctx.transform(1, 0, lean, 1, 0, 0);
   if (flip) ctx.scale(-1, 1);
   ctx.rotate(motion.rotation);
   ctx.scale(motion.scaleX, motion.scaleY);
