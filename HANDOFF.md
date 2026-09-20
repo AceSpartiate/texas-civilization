@@ -41,6 +41,45 @@ beside a 24-thread busy loop it passed 10/10. **Seen in those suites:** `pace.te
 failed 7 of 10 (fixed the same day, above) and `save-cadence.test.mjs` *"a page is sent a snapshot"* 1 of 10 (fixed the same day, above), both real-time tests of their own. No
 product code changed.
 
+**WHERE THIS STOOD WHEN THE SESSION STOPPED, 2026-09-20.** Read this first; the entries below it are finished work.
+
+**1. The weather is half built.** `sim/weather.mjs` is written, on main, and `npm test` is 772/772 (commit `506d472`). It has
+the five kinds of day, the three countries (`REGION_BOUNDS`, cut at x=55 and x=152), the rain shares by month and region
+anchored on Fort Jesup's counted rain days, the norther that crosses all three and reaches the east a day later, the storms
+and fogs, about two dozen dated days from the record in `WRITTEN`, and a `water` level per region that rises with rain
+(saturating, so a flood wants days of it) and falls 0.18 a day. Measured over three classes: the water is high on a fifth to
+a half of days and a ford is shut on **0 to 4 days of 210**, which is the shape the record has. `sim/road.mjs`'s `rainyDay`
+and `weatherOf` are thin readers over it and a family's bog reads the country it stands in; the hashed `share` moved to
+`sim/shares.mjs` to break the cycle that created (`scrape.mjs` still exports it).
+**Still to do, in order:** (a) the wade at a ford should read `water` rather than "is it raining today" — `wadeAt` in
+`sim/world.mjs` still reads `rainyDay`, and `WATER_SHUT` (0.85) is not enforced anywhere yet, so no ford ever closes;
+(b) put `world.weather` into the projection in the shape the drawing agent was given — `{ day, bounds: { westOf, eastOf },
+regions: { west|centre|east: { kind, water, since, wet, wind: { from, force } } } }`; (c) tests, each proven by injection,
+and a `FIC-GONZ-131`/`-132`/`-133` claim pass in HISTORY.md (the research registered them as *recorded, not built* — they
+now need marking built, with the numbers that were actually used); (d) docs/WEATHER.md §10 marked as built where it is, and
+a HANDOFF entry of its own; (e) the six road tests that changed are commented with why, but the whole thing has had **no
+injection proof yet**.
+
+**2. Three agents were running when the session stopped.**
+- **The launcher's face — finished, not merged.** Branch `worktree-agent-a27a1b80e37ae0e45`, commit `f8268be`. Rewrites the
+  window around the owner's painting and ten plates, embeds the art in the executable (the setup goes 62 MB → 79.5 MB),
+  hides a plate that does not apply instead of greying it, and names two real bugs it fixed: the stop sign went
+  see-through because its darkest red sat under the black-flood threshold, and the error dialogs the owner kept dismissing
+  came from `ApplyFonts` disposing `Control.DefaultFont`. **Merge it, look at its screenshots, then release.** Two plates
+  arrived after it finished and are on main but **not wired up**: `button-update-available.png` and `button-up-to-date.png`
+  (the owner: the up-to-date one shows after a check finds nothing and returns to the ordinary plate after a moment).
+- **The animals of 1836** (whether an antelope belongs anywhere near the colonies) — still running, claims
+  `HIST-TEX-260`+/`FIC-GONZ-170`+.
+- **The weather drawn on the map** (no text; the student sees the rain, the norther, the high water) — still running, claims
+  `HIST-TEX-280`+/`FIC-GONZ-190`+. It is coding against the projection shape in (1b), which **does not exist yet**.
+
+**3. Claim numbers in use, so nothing collides:** mine to `HIST-TEX-163` and `FIC-GONZ-095`; the weather research holds
+`HIST-TEX-220`-`238` and `FIC-GONZ-130`-`136`; the launcher `240`+/`150`+; the animals `260`+/`170`+; the weather drawing
+`280`+/`190`+.
+
+**4. The last release is v2026.09.20.2** (the town fields). Everything since — the coast, the weather model, the art — is on
+main and **not released**.
+
 **The coast filed right, 2026-09-20:** [BIOMES.md](docs/BIOMES.md) §16, `FIC-GONZ-095`. The biome critique's eighth
 finding, taken next by the owner: the Nueces line asked one question of a cell - which side of the river it lay - so every
 LANDFIRE thornscrub setting north-east of it was drawn as mesquite savanna wherever it stood, including the humid Gulf
