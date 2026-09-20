@@ -3,18 +3,18 @@
   "date": "2026-09-20",
   "sameComputerOnly": true,
   "pass": [
-    "the page asking about a place on the land is told what would come: \"Mesquite prairie a quarter mile west of the house. Poor ground: a long wait for anything to come. Deer, mustangs, antelope, javelina and turkey keep to it. Waiting here, a mustang: five food, all one can carry, and the hide.\"",
-    "the shot is asked about the place's quarry, \"Alvin Proofwright is downwind of a mustang, with a shot to take. It is not a close one.\", and no deer is drawn for it",
-    "the family is told what was brought down: \"Alvin Proofwright brought down a mustang: 5 food came home, and the hide. The rest, 9 food, was more than Alvin Proofwright could carry and was left where it fell.\"",
+    "the page asking about a place on the land is told what would come: \"Creek timber, at the edge of the timber, a quarter mile south-west of the house. Good ground for deer: the wait should not be long. Deer and turkey keep to it. Waiting here, a turkey: four food.\"",
+    "the shot is asked about the place's quarry, \"Alvin Proofwright is downwind of a turkey, with a shot to take. It is not a close one.\", and no deer is drawn for it",
+    "the family is told what was brought down: \"Alvin Proofwright brought down a turkey: 5 food came home. The rest, 0.6 food, was more than Alvin Proofwright could carry and was left where it fell.\"",
     "the family panel offers \"Fetch logs from the timber\": \"Costs the ox and wagon for about 2 hours, to the timber on Dry Fork, beside the house.\", its glyph painted",
     "a cleared plot says how its fence would go up: \"Ten acres of prairie beside the house, cleared, with no fence. Rails split from the timber at hand: about 3 hours.\"",
     "no page errors anywhere in the run"
   ],
   "hunt": {
-    "words": "Mesquite prairie a quarter mile west of the house. Poor ground: a long wait for anything to come. Deer, mustangs, antelope, javelina and turkey keep to it. Waiting here, a mustang: five food, all one can carry, and the hide.",
-    "asked": "Alvin Proofwright is downwind of a mustang, with a shot to take. It is not a close one.",
+    "words": "Creek timber, at the edge of the timber, a quarter mile south-west of the house. Good ground for deer: the wait should not be long. Deer and turkey keep to it. Waiting here, a turkey: four food.",
+    "asked": "Alvin Proofwright is downwind of a turkey, with a shot to take. It is not a close one.",
     "drawnDeer": false,
-    "kill": "Alvin Proofwright brought down a mustang: 5 food came home, and the hide. The rest, 9 food, was more than Alvin Proofwright could carry and was left where it fell."
+    "kill": "Alvin Proofwright brought down a turkey: 5 food came home. The rest, 0.6 food, was more than Alvin Proofwright could carry and was left where it fell."
   },
   "fetchLogs": {
     "name": "Fetch logs from the timber",

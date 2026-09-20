@@ -85,7 +85,8 @@
    "name": "the Lavaca line read from the wrong bank",
    "file": "sim/hunting.mjs",
    "failed": [
-    "the wild herds keep west of the Lavaca, and the ducks and geese to the water"
+    "the wild herds keep west of the Lavaca, and the ducks and geese to the water",
+    "the antelope keeps to its own country, and that country is nowhere a family lives"
    ]
   },
   {
@@ -97,6 +98,56 @@
   },
   {
    "name": "the buffalo given the ducks' own months",
+   "file": "sim/hunting.mjs",
+   "failed": [
+    "the quarry a place holds is fixed by its ground and the season, and deer are everywhere game is"
+   ]
+  },
+  {
+   "name": "the antelope back on the mesquite prairie",
+   "file": "sim/woods.mjs",
+   "failed": [
+    "the wild herds keep west of the Lavaca, and the ducks and geese to the water",
+    "the antelope keeps to its own country, and that country is nowhere a family lives"
+   ]
+  },
+  {
+   "name": "the antelope back on the hill country tops",
+   "file": "sim/woods.mjs",
+   "failed": [
+    "the antelope keeps to its own country, and that country is nowhere a family lives"
+   ]
+  },
+  {
+   "name": "the antelope taken out of its own country too",
+   "file": "sim/woods.mjs",
+   "failed": [
+    "the antelope keeps to its own country, and that country is nowhere a family lives"
+   ]
+  },
+  {
+   "name": "the buffalo as common on the grass as the deer",
+   "file": "sim/hunting.mjs",
+   "failed": [
+    "the quarry a place holds is fixed by its ground and the season, and deer are everywhere game is"
+   ]
+  },
+  {
+   "name": "the mustang stopped dead at the Lavaca again",
+   "file": "sim/hunting.mjs",
+   "failed": [
+    "the wild herds keep west of the Lavaca, and the ducks and geese to the water"
+   ]
+  },
+  {
+   "name": "the mustang east of the Lavaca at its full weight",
+   "file": "sim/hunting.mjs",
+   "failed": [
+    "the wild herds keep west of the Lavaca, and the ducks and geese to the water"
+   ]
+  },
+  {
+   "name": "the deer on the open prairie worth no more than a wild herd",
    "file": "sim/hunting.mjs",
    "failed": [
     "the quarry a place holds is fixed by its ground and the season, and deer are everywhere game is"

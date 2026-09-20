@@ -3,10 +3,13 @@
 **Status: research, 2026-09-19; built the same day (§13).** This was the research half of the owner's request below; the
 second session built §7 from it, and §13 says what was built, where it differs, and what is left. A third session made the
 balance and gameplay changes the new biomes call for: [BIOME_GAMEPLAY](BIOME_GAMEPLAY.md). A fourth criticised all three and
-mended two things: **§14, and read it before trusting §4.6, §5, §6.2 or §7.1's quarry column.** Read it with
+mended two things: **§14, and read it before trusting §4.6, §5, §6.2 or §7.1's quarry column.** A fifth checked the
+**bestiary** animal by animal against the 1835-36 record at the owner's asking and took the antelope out of the colonies:
+**§16, which is now the authority on §7.1's quarry column.** Read it with
 `docs/WOODS_AND_BUILDING.md` (the woods as built), `docs/MAP_ACCURACY.md` §5 and §8
 (the land classes and the country outside the box), and the claims it registers in `HISTORY.md`: `HIST-TEX-094` to
-`HIST-TEX-108`, `HIST-TEX-200` to `-204`, `FIC-GONZ-060` to `FIC-GONZ-063` and `FIC-GONZ-120`, `-121`.
+`HIST-TEX-108`, `HIST-TEX-200` to `-204`, `HIST-TEX-260` to `-265`, `FIC-GONZ-060` to `FIC-GONZ-063`, `FIC-GONZ-120`, `-121`
+and `FIC-GONZ-170` to `-172`.
 
 ---
 
@@ -560,13 +563,13 @@ Trees per acre are log-sized trees; every figure not marked LANDFIRE is invented
 
 | Stand | Filed from | Patch classes: share, trees an acre | Trees, most common first | Cover | Game | Quarry |
 | --- | --- | --- | --- | --- | --- | --- |
-| `tallgrass-prairie` | 14220, 14230, 14290 | grass 59/60 at 0; motte 1/60 at 3 large | bur oak, post oak, elm, hackberry | open | 0.2 | deer at edges; bison (north and west of the Colorado, seasonal, rare) |
-| `coastal-prairie` | 14340 | grass 79/80; motte 1/80 at 3 large | live oak; ash, linden on the Trinity | open | 0.25 | deer at edges; waterfowl in winter; wild cattle and mustangs west of the Lavaca |
+| `tallgrass-prairie` | 14220, 14230, 14290 | grass 59/60 at 0; motte 1/60 at 3 large | bur oak, post oak, elm, hackberry | open | 0.2 | deer, on the open grass as well as the edges (§16); bison west of the Lavaca, September to April, **rare in earnest since 2026-09-20** |
+| `coastal-prairie` | 14340 | grass 79/80; motte 1/80 at 3 large | live oak; ash, linden on the Trinity | open | 0.25 | deer, on the open grass as well as the edges (§16); waterfowl in winter within a quarter mile of water; wild cattle west of the Lavaca; **mustangs west of it, and thin east of it since 2026-09-20** |
 | `salt-prairie` | 14860 | grass | none | open | 0.15 | waterfowl |
 | `dunes` | 14370, 31 | grass and bare sand | none | open (sand) | 0.05 | none |
-| `mixedgrass-prairie` | 11320, 11490, 11480, 10940, 15040 | grass 49/50; mesquite 1/50 at 2 pole | mesquite | open | 0.3 | bison, pronghorn, deer on the streams |
-| `mesquite-savanna` | 14380, 14400, 14420; 13900 and 13920 north-east of the Nueces | grass 70 at 0; scattered mesquite 18 at 4 pole; thicket 10 (brush); live oak motte 2 at 15 (on sand) | mesquite; live oak on sand | open (thicket patches brush) | 0.5 | deer, mustangs, pronghorn, javelina at thickets, turkey near water |
-| `chaparral` | 13900, 13920 in the Nueces Strip and Mexico; 14390, 11110 | thicket 45 (brush); mesquite 25 at 15 pole; grass 30 | mesquite (no logs) | brush | 0.5 | javelina, deer, turkey near water |
+| `mixedgrass-prairie` | 11320, 11490, 11480, 10940, 15040 | grass 49/50; mesquite 1/50 at 2 pole | mesquite | open | 0.3 | bison (rare), **pronghorn**, deer on the streams |
+| `mesquite-savanna` | 14380, 14400, 14420; 13900 and 13920 north-east of the Nueces | grass 70 at 0; scattered mesquite 18 at 4 pole; thicket 10 (brush); live oak motte 2 at 15 (on sand) | mesquite; live oak on sand | open (thicket patches brush) | 0.5 | deer, mustangs, javelina at thickets, turkey near water — **no pronghorn since 2026-09-20** (§16) |
+| `chaparral` | 13900, 13920 in the Nueces Strip and Mexico; 14390, 11110 | thicket 45 (brush); mesquite 25 at 15 pole; grass 30 | mesquite (no logs) | brush | 0.5 | javelina, deer, turkey near water, **pronghorn on the grass patches since 2026-09-20** (§16) |
 | `post-oak` | 15190, 14100, 13040 | as now (LANDFIRE 15190: open mature 58 at 6; closed 18 at 30; early 14; thicket 6; open young 4 at 2) | post oak, blackjack, hickory | as now | 0.7 | deer, turkey, bear in the draws |
 | `cross-timbers` | 13080 | closed 40 at 30; open 45 at 8; early 15 | blackjack, post oak | as now | 0.6 | deer, turkey, bison at the western edge |
 | `pine` | 13710, 13780, 13580, 14580 outside the Big Thicket | as now | loblolly, shortleaf, post oak, blackjack | as now | 0.7 | deer, turkey, bear |
@@ -579,7 +582,7 @@ Trees per acre are log-sized trees; every figure not marked LANDFIRE is invented
 | `thorn-riparian` | 14760, 11550 outside the delta | closed 55 at 25; open 30 at 10; gap 15 | hackberry, cedar elm, Mexican ash, anacua, cypress by water | timber/open | 0.9 | deer, turkey, javelina |
 | `palm-grove` | 14760 in EPA 34f and on the river below about 98°W | palm 45 at 30; riparian 35 at 20; open 20 | Texas palm, ebony, hackberry | timber (palms give no wall logs) | 0.8 | deer, javelina, waterfowl |
 | `live-oak` | 13380, 13390 | motte 40 at 25 large; grass 60 | live oak, hackberry | open/timber | 0.6 | deer, turkey, mustangs |
-| `hill-savanna` | 13830; Mexico above 800 m (oaks, not cedar) | open 75 at 3 large; motte 20 at 25; cedar 5 at 30 pole | live oak, Texas oak, cedar elm, cedar, pecan by water | open mostly | 0.5 | deer and turkey in the breaks, bison and pronghorn on the tops, bear |
+| `hill-savanna` | 13830; Mexico above 800 m (oaks, not cedar) | open 75 at 3 large; motte 20 at 25; cedar 5 at 30 pole | live oak, Texas oak, cedar elm, cedar, pecan by water | open mostly | 0.5 | deer and turkey in the breaks, bison (rare) on the tops, bear — **no pronghorn since 2026-09-20** (§16) |
 | `cedar-brake` | 15230, 15240, 13930 | closed 60 at 40 pole-log; open 40 at 8 | cedar, Texas oak, cedar elm | timber | 0.8 | deer, turkey, bear |
 | `marsh` | 14900, 14950 | marsh | none | marsh | 0.3 | waterfowl |
 | `fields` | the town farmland envelopes (§5) | field | none | open | 0.1 | none |
@@ -1118,3 +1121,96 @@ matches.
 
 `ceiling:` this is still LANDFIRE's map of settings read through EPA's ecoregions, not a survey of 1836; what changed is that
 the Nueces line no longer overrides the country a cell actually stands in.
+## 17. The bestiary checked against the record (owner, 2026-09-20)
+
+Owner: *"do a check on what animals live in Texas, back then of course. Because I've never heard of Antelope in Texas."*
+They were right, and the reason is worth keeping. Claims: `HIST-TEX-260` to `-265`, `FIC-GONZ-170` to `-172`; what changed
+in play and what it measured is [BIOME_GAMEPLAY §9](BIOME_GAMEPLAY.md#9-the-bestiary-checked-against-the-record-2026-09-20).
+
+### 17.1 The antelope: the verdict
+
+**It does not belong anywhere a class's family can hunt, and it is now out.** Three things settle it, and none of them is an
+argument from silence alone:
+
+1. **The two contemporary enumerations of Texas game do not name it.** Woodman's *Guide to Texas Emigrants* (1835),
+   pp. 59-60 — the chapter actually headed *Wild Fowl and Animals* — and Holley's *Texas* (1836), the whole of her
+   *Zoology*, pp. 94-100, both read end to end on 2026-09-20. Between them they name ducks, geese, brant, swan, deer,
+   wild turkey, black bear, wolf, prairie wolf, panther, leopard, wildcat, pecari, feral hog, mustang, jack, jenny, mule,
+   buffalo, "the moose", fox, raccoon, opossum, rabbit and squirrel. **Neither names an antelope.** These are the two books
+   an emigrant of 1835 read about Texas game, and they are the game's own sources for nearly everything else here.
+2. **Every dated sighting is far west or south-west of the colonies.** Olmsted's "one small herd of antelope" is on the
+   frontier road west of San Antonio in the "dwarf forest of prickly shrubs" (p. 313), and his others are in "the grassed
+   region below the chaparral wilderness, extending to the coast" at Corpus Christi (p. 443). Bartlett's "Thousands of deer
+   and antelope", January 1, 1853, are between the Rio Grande and Corpus (Bailey 1905, p. 67). Bailey's own 1899-1902
+   records reach no further east than Alice, San Diego, Cotulla, Rock Springs and Henrietta (pp. 67-68).
+3. **The modern authorities put the aboriginal range west of the colonies and say why.** TSHA: "Before the European
+   settlement of West Texas, antelope ranged over all of Texas west of the ninety-seventh meridian", and by 1900 "as far
+   east as Alice". Davis and Schmidly: "Formerly distributed over the western two-thirds of Texas, as far eastward as
+   Robertson County in the north and Kenedy County in southern Texas", and it is "an animal of the plains... it inhabits
+   areas where both its sight and its running will be unimpaired by woodland vegetation."
+
+**The one account that troubles it.** Smithwick, walking up the Lavaca to DeWitt's station in 1827: "There were herds of
+fine, fat deer, and **antelope enough to set one wild** who had never killed anything bigger than a raccoon" (p. 14). It is
+first-hand and it is on the Lavaca. It is also dictated at ninety-two, seventy-two years after the fact, eight years before
+the class's year, and it sits on the page where Smithwick is deflating Sterling Robertson's recruiting promise of "wild
+horses, cattle, turkeys, buffalo, deer and antelope by the drove" (p. 9) — whose wording it echoes. `HIST-TEX-015` took the
+deer out of this very sentence in 2026-09-14 and passed over the antelope. One recollection of that kind does not outweigh
+two contemporary enumerations that omit the animal and a century of range data that never reaches the Brazos.
+
+**What was done.** The antelope's country is now its **stands** and not a line: `chaparral` and `mixedgrass-prairie` only,
+both of which stand west of 97.4°W in this grid — which is Olmsted's and Bartlett's country and nobody's home. It came off
+`mesquite-savanna` (which runs east to 95°W in this grid, which is how the Matagorda antelope of §14.1 happened) and off
+`hill-savanna` (the *eastern* Edwards Plateau, from Béxar to Mina; Bailey's nearest plateau antelope is thirty miles
+north-west of Rock Springs, a hundred and twenty miles further west and seventy years later).
+
+### 17.2 Every animal the game uses, one at a time
+
+"Where" is by the game's own stands. "Verdict" says what was done on 2026-09-20.
+
+| Animal | Was it here, 1835-36? | Where the record puts it | Season | Eaten? | Verdict |
+|---|---|---|---|---|---|
+| **antelope** | **No, not in the colonies** | west of San Antonio, the Nueces Strip, the western plains; no account east of the Frio (`HIST-TEX-260`) | — | yes, where it was | **Removed** from `mesquite-savanna` and `hill-savanna`; kept on `chaparral` and `mixedgrass-prairie`, which no family reaches |
+| **buffalo** | Barely. Gone from the colonized districts "since 1828" (Berlandier); documented near Gonzales April 1828 (`HIST-GONZ-013`) | the interior and the frontier grass; "seldom seen near the coast" (Woodman p. 60, Holley p. 99); not on the coast east of the Brazos mouth (Allen, in Hornaday p. 381) | south "in September and October", north "in April or May" (Berlandier) | very much so; robes traded | **Made rare** (weight 1 → 0.1) and **September added** to its months. Still west of the Lavaca only |
+| **wild cattle** | Not inside the settlements | Dewees's are of 1822 and of the upper Brazos, fifty miles past the nearest settlement; Olmsted's of 1854 between the Cibolo and the Medina | all year | yes | **Unchanged**: still stopped at the Lavaca. Almonte counted 25,000 head running loose on the Brazos alone — a cow on a colonist's prairie is stock, and shooting it is theft (`HIST-TEX-263`) |
+| **mustang** | Yes, but thin inside the settlements | "abound particularly on the river Nueces, and far in the interior", but "Within the organized settlements they are **not numerous**" (Woodman p. 60); **Dilue Harris had them feeding near the house at Stafford's Point in 1834** | all year | yes, as the fallback: "Failing to secure more choice game, there were always mustangs to fall back on" (Smithwick pp. 18-19) | **Restored east of the Lavaca at a fifteenth of its western weight** (`FIC-GONZ-170`) |
+| **javelina** | Occasionally, on the frontier | "on the frontiers, in considerable gangs" (Holley p. 95); "occasionally met with in small gangs. They are of no value" (Woodman p. 60); killing hunters' dogs on the upper Brazos in 1822 (Dewees) | all year | poorly attested as food | **Unchanged.** Measured at 7 places of 911 at Goliad and 5 of 850 at Refugio — already rare, and the record's "more dangerous than any other wild animal in Texas" is a hazard the game has no place for |
+| **bear** | **Yes, and in the colonies** | "frequents the forests and cane-brakes, and is a favorite object of the hunt" (Holley p. 95); **Dilue Harris, 1835: a man "found a place in his back fence where bears had passed through"** at Stafford's Point; Smithwick went bear hunting at McNeal's "out on the gulf prairie" below Columbia | autumn and winter in both first-hand accounts; not restricted here | yes, and the skins as bedding | **Unchanged.** Best-documented large quarry in the colonies. Holley's "very rarely below San Felipe" (p. 96) is contradicted by two dated local accounts and is not followed |
+| **turkey** | Yes, everywhere | "Deer and wild turkies are common every where" (Woodman p. 60); flocks (Holley p. 100) | **fat in winter when the deer are lean** (Kuykendall, 1822) | the mainstay for months in 1822 | **Unchanged.** The winter fat/lean fact is proposed and not built (§9.4) |
+| **deer** | Yes, and into the fields | "found in every part of Texas in great abundance... **even in the settlements... they often come upon the plantations of farmers, and feed in company with the cattle**" (Holley p. 99); Dilue Harris, 1834, "Wild horses and deer would feed near the house" | all year; lean in winter | constantly; 90,000 skins from Nacogdoches alone in 1834 | **Worth 2 not 1 on open ground** away from timber's edge |
+| **ducks and geese** | Yes, in winter, on water | "the waters near the coast are literally covered with wild fowl" (Woodman p. 59); "frequent **the rivers and sea shore**" (Holley p. 100) | November to March, as built | yes | **Unchanged.** Holley p. 100 is added as further support for the by-water rule |
+
+### 17.3 What is missing, and how often the settlers mention it
+
+Every one of these is better attested in the colonies than the antelope ever was. Claims `HIST-TEX-264` and `-265`; none is
+built, and §9.4 of BIOME_GAMEPLAY says why.
+
+| Missing | Who says so |
+|---|---|
+| **squirrel, rabbit, raccoon, opossum** | Holley pp. 99-100 ("in great abundance"); Smithwick p. 78, squirrels in the pecans at San Felipe; Dilue Harris p. 97, "venison, **and small game**"; Olmsted p. 313, rabbits and hares "almost momentarily" |
+| **feral hogs** | Holley p. 96, "frequently met with... descended from the domestic swine"; Almonte, 110,000 head on the mast in 1834 |
+| **fish** | Woodman p. 59, redfish in Galveston Bay taking the hook "with all the voracity of the pike"; Holley pp. 101-102, a dozen named kinds and turtle; Kuykendall VII p. 52, "Innumerable perch, trout, and other scaly fry" in the colony's own brooks |
+| **oysters** | Woodman p. 59: "Oyster beds are frequent along the coast, and at most of the inlets... may be conveniently gathered" |
+| **honey and bee trees** | Dewees, "a vast quantity of bee trees about here"; Kuykendall, "Bees were plentiful, and we were rarely without honey", and bee-hunting "richly rewarded the pioneer"; Smithwick's first Texas meal, "dried venison sopped in honey" |
+| **quail, prairie hen, pigeon, dove** | Holley p. 100, "very plentiful" |
+| **panther, wolf, coyote** | Holley pp. 94-95; Dilue Harris's wolves round the camp in December 1833; Smithwick's panther on the Colorado |
+| **alligators, rattlesnakes** | Holley pp. 102-103; Smithwick p. 13, the Karankawas "lived mostly on fish and alligators" |
+| **the family's own cattle, hogs and horses** | Almonte 1834: about 75,000 cattle and 110,000 hogs in the two American departments (`HIST-TEX-263`); recorded and unbuilt since 2026-09-19 (`HIST-TEX-112`) |
+
+### 17.4 What was checked and left alone
+
+The javelina's weight (already rare in play), the bear (best-documented of all), the turkey, the wild cow's gate, the
+waterfowl's months and its quarter-mile of water, and every yield in `GAME`. Each is named in §16.2 with the reason.
+
+`ceiling:` the antelope is kept in `GAME` and on two stands nobody lives in, rather than deleted, so the world stays honest
+where the map draws country outside the settled box and a later arc can take people west. Grep `pronghorn` to find it.
+
+`ceiling:` the game still has no idea what a settler ate between deer — small game, hogs, fish, oysters, honey — and that
+is now the biggest documented gap in the bestiary rather than an unknown one (`HIST-TEX-265`, `FIC-GONZ-172`).
+
+### 17.5 One thing for the vegetation session, not this one
+
+`mesquite-savanna` reaches **95.01°W** in this grid and `live-oak` reaches **94.00°W** — the coast at Galveston. That is the
+misfiling §14.1 found and the owner is mending separately (LANDFIRE thornscrub inside EPA 34a and 34g/h/i). The bestiary no
+longer depends on it: the antelope is held by stands that stop at 97.4°W, and the mustang east of the Lavaca is thin by
+rule rather than by which stand a coastal cell happens to carry. But `live-oak` on the Galveston coast still offers a
+mustang there, and if a coastal cell's cover is what is wrong, that is the vegetation fix and not an animal one.

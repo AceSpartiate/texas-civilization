@@ -4,7 +4,13 @@
 the research and the map (§13 there is what the second session built); this is what the new biomes change in the game, why,
 and what it did to the balance, measured before and after. Read it with [WOODS_AND_BUILDING.md](WOODS_AND_BUILDING.md)
 (hunting, felling, the house), [LAND_GRANTS.md](LAND_GRANTS.md) §5 (clearing and fencing) and the claims it registers in
-[HISTORY.md](../HISTORY.md): `HIST-TEX-109` to `HIST-TEX-112` and `FIC-GONZ-065` to `FIC-GONZ-067`.
+[HISTORY.md](../HISTORY.md): `HIST-TEX-109` to `HIST-TEX-112`, `HIST-TEX-260` to `-265`, `FIC-GONZ-065` to `FIC-GONZ-067`
+and `FIC-GONZ-170` to `-172`.
+
+**Amended 2026-09-20 (§9): the bestiary checked animal by animal.** The owner asked whether the animals a hunt can bring
+were really in Texas then. The antelope was not, anywhere a family lives, and is out; the buffalo is rare; the mustang is
+back inside the settlements but thin; the deer is the commonest thing on the open prairie. §9 is the authority on the
+weights in §3.1.
 
 Same computer only (Windows, node, headless Chrome for the browser proofs); nothing here is LAN or district acceptance.
 
@@ -56,10 +62,14 @@ Gonzales country hunt, build and fence exactly as they did. **No save version mo
 - **Rule.** Every place a family can hunt holds one quarry, from the list its stand holds (`STANDS[...].quarry`,
   `sim/woods.mjs`), fixed by its patch of ground (a sixteenth of a mile), the patch's cover and the month (`quarryAt`,
   `sim/hunting.mjs`). Of the quarry the ground could hold - the right cover (bear and turkey in timber or brush, buffalo only on
-  open ground, javelina in brush), in their months (ducks and geese and buffalo November to March) - the patch's own hashed
-  share picks one by weight: deer 3 (1 out on open ground away from any timber's edge), turkey and javelina 2, ducks and geese
-  3, the rest 1. A deer is what comes where nothing else fits: deer were "found in every part of Texas". No die: the same place
-  holds the same quarry in the same season, and a student who looks about the land learns where the turkeys roost.
+  open ground, javelina in brush), in their months (ducks and geese November to March, buffalo September to April) - the
+  patch's own hashed share picks one by weight: deer 3 (**2** out on open ground away from any timber's edge), turkey and
+  javelina 2, ducks and geese 3, the **buffalo 0.1**, the rest 1, each **multiplied by the share its country leaves it**
+  (`rangeShare`: 1 at home, 0 outside, 0.15 for a mustang inside the settlements). A deer is what comes where nothing else
+  fits: deer were "found in every part of Texas". No die: the same place holds the same quarry in the same season, and a
+  student who looks about the land learns where the turkeys roost. **The weights in this paragraph were corrected against
+  the record on 2026-09-20 — see §9**; as first built the open-prairie deer was 1 and the buffalo 1, which made a buffalo
+  the other half of every open prairie hunt at Gonzales.
 - **What it gives** (`GAME`): the kill's food by the hunter's hand, of which one person on foot carries five and the rest is
   left where it fell, and its hide for the tanner:
 
@@ -381,3 +391,137 @@ most, which is where the bayous are. Victoria's median ticks short of food fall 
 **The country a family's house stands in shifts** with the belt: 31 of 180 families move from *prairie* to *timber* in the
 study's own three-way split, because a house is built near water and the water's timber is now wider than a house lot. That
 is the change working, not a bug, but it is why the prairie and timber rows of §5.2 cannot be read straight against these.
+
+---
+
+## 9. The bestiary checked against the record (2026-09-20)
+
+Owner: *"do a check on what animals live in Texas, back then of course. Because I've never heard of Antelope in Texas."*
+The research, animal by animal, with the quotations and the page numbers, is
+[BIOMES §16](BIOMES.md#16-the-bestiary-checked-against-the-record-owner-2026-09-20). This section is what changed in play,
+what it measured, and what was deliberately left. Claims `HIST-TEX-260` to `-265` and `FIC-GONZ-170` to `-172`.
+
+### 9.1 What changed
+
+| | Before | After | Why |
+|---|---|---|---|
+| **antelope** | quarry on `mesquite-savanna` and `hill-savanna`, held west of the Lavaca | quarry on `chaparral` and `mixedgrass-prairie` only, no `range` at all | Neither Woodman (1835) nor Holley (1836) names the animal in their chapters on Texas game; every dated sighting is west of the Frio (`HIST-TEX-260`). The two stands it keeps stop at 97.4°W and no settled place in the box holds either |
+| **buffalo** | `weight: 1`, months October–April | `weight: 0.1`, months **September**–April | Berlandier has the herds gone from the colonized districts "since 1828" and returning south "in September and October"; Kuykendall killed one near Independence in 1822 and "found no more during our residence there" (`HIST-TEX-262`) |
+| **mustang** | stopped dead at the Lavaca | full weight west, **0.15 east** (`THIN`) | Woodman's sentence is "not numerous", not "none", and Dilue Harris had wild horses feeding near the house at Stafford's Point in 1834 (`HIST-TEX-261`) |
+| **deer on open ground** | `OPEN_DEER_WEIGHT` 1 | **2** | Holley: "even in the settlements, they are so plentiful and tame, that they often come upon the plantations of farmers, and feed in company with the cattle" (`HIST-TEX-261`) |
+| **a quarry's country** | a gate: in or out (`inRange`) | a **share** of its weight (`rangeShare`) | so "not numerous" can be said at all (`FIC-GONZ-170`) |
+
+Nothing else moved. The bear, the turkey, the javelina, the wild cow, the waterfowl and every yield in `GAME` were checked
+and left, each for a reason given in BIOMES §16.2.
+
+### 9.2 What a family meets now, by settlement
+
+Every place within a mile of each town, on a patch grid, asked what a hunt there would bring in October and in January
+(`huntingPlace().comes`, the game's own path). Only the rows that moved are shown; Washington, Brazoria and Nacogdoches did
+not move at all.
+
+| Town | Autumn, before | Autumn, after |
+|---|---|---|
+| **Goliad** | deer 328, mustang 165, **antelope 122**, turkey 53, cattle 49, bear 14, bison 8, javelina 7 | deer 459, mustang 171, turkey 53, cattle 41, bear 14, javelina 7, bison 1 |
+| **Refugio** | deer 328, mustang 117, turkey 100, cattle 70, **antelope 63**, bear 34, javelina 5 | deer 425, mustang 106, turkey 100, cattle 47, bear 34, javelina 5 |
+| **Béxar** | deer 284, **bison 160**, turkey 54, **antelope 7**, bear 5 | deer 433, turkey 54, **bison 14**, bear 5, antelope 4 |
+| **Gonzales** | deer 392, **bison 217**, turkey 82, bear 50 | deer 592, turkey 82, bear 50, **bison 17** |
+| **Mina** | deer 470, turkey 173, bear 65, bison 9 | deer 478, turkey 173, bear 65, bison 1 |
+| **Victoria** | deer 272, mustang 194, cattle 186, turkey 58, bear 31 | deer 377, mustang 152, cattle 123, turkey 58, bear 31 |
+| **San Felipe** | deer 720, turkey 18, bear 9 | deer 677, **mustang 43**, turkey 18, bear 9 |
+| **Columbia** | deer 524, turkey 153, bear 64 | deer 502, turkey 153, bear 64, **mustang 22** |
+| **Liberty** | deer 706, turkey 36, bear 7 | deer 663, **mustang 43**, turkey 36, bear 7 |
+| **Harrisburg** | deer 652, turkey 44 | deer 622, turkey 44, **mustang 30** |
+| **Matagorda** | deer 484, turkey 62, bear 37 | deer 482, turkey 62, bear 37, **mustang 2** |
+
+**The antelope is gone from every family's country.** The four remaining at Béxar are on nineteen cells of genuine
+mixed-grass prairie within a mile of the town — north-west of it, which is the direction Olmsted's herd lay — and no class
+settles a family at Béxar. Gonzales's buffalo falls from 27 in 100 places to 2; Béxar's from 20 in 100 to 2.
+
+### 9.3 Balance, measured before and after
+
+`scripts/biome-balance-study.mjs`, six classes of thirty on the real land, the same seeds on the base commit and on this
+branch. Records: [hunting before](evidence/biome-hunt-bestiary-before.json),
+[hunting after](evidence/biome-hunt-bestiary-after.json), [class before](evidence/biome-balance-bestiary-before.json),
+[class after](evidence/biome-balance-bestiary-after.json).
+
+**The hunting bench** (1,080 hunts a season, one grown hand on the best ground within a mile, six times):
+
+| Country | Ticks a hunt | Food a hunt | Food an hour (mean) | Hides a hunt |
+|---|---|---|---|---|
+| **Autumn**, all | 12.19 → 12.19 | 5.03 → 5.03 | **1.67 → 1.67** | 0.84 → 0.84 |
+| prairie | 13.07 → 13.07 | 5.11 → 5.11 | 1.57 → 1.57 | 0.96 → 0.96 |
+| savanna | 13.48 → 13.48 | 5.05 → 5.05 | 1.51 → 1.51 | 0.80 → 0.80 |
+| timber | 11.57 → 11.57 | 4.99 → 4.99 | 1.75 → 1.75 | 0.80 → 0.80 |
+| **Winter**, all | 7.23 → 7.31 | 4.86 → 4.87 | **2.25 → 2.23** | 0.75 → 0.78 |
+| prairie | 7.31 → 7.64 | 4.83 → 4.88 | 2.26 → 2.19 | 0.69 → 0.80 |
+| savanna | 7.52 → 7.52 | 4.94 → 4.94 | 2.22 → 2.22 | 0.78 → 0.78 |
+| timber | 7.13 → 7.13 | 4.85 → 4.85 | 2.25 → 2.25 | 0.77 → 0.77 |
+
+What comes home, over both seasons: **deer 1,481 → 1,480, turkey 399 → 399, bear 195 → 195, waterfowl 72 → 42, mustang
+18 → 43, cattle 6 → 18, buffalo 6 → 0.** The only real shift is on the **winter coastal prairie**, where a heavier deer
+takes some patches from the ducks and geese — the ducks come in one tick and a deer does not, so food an hour there falls
+**2.26 → 2.19, three per cent**, while food a *hunt* rises 4.83 → 4.88 and hides rise 0.69 → 0.80. That is the trade the
+record asks for and it is small.
+
+**The class study**, six classes of thirty over three periods, every family run by the neighbours' director:
+
+| | Before | After |
+|---|---|---|
+| Ticks short of food (median of 180) | 65.5 | **65.5** |
+| Families ever short of food | 137 | **137** |
+| House lived in (median tick) | 98 | **98** |
+| Mean food held (median) | 37.405 | **37.405** |
+| Final number (median, mean) | 62, 66.16 | **62, 66.16** |
+| Hunter's ticks (mean) | 57.42 | 57.59 |
+| Shots, missed (mean) | 10.31, 4.93 | 10.32, 4.91 |
+
+Unchanged to the digit in every country and at every settlement — Columbia 117.5 ticks short both ways, Matagorda 103.5,
+Gonzales 80, Mina 49, San Felipe 5, Liberty 4.5 — with only the hunter's time moving by three tenths of a tick.
+**Nobody is left unable to feed themselves. What changed is what comes home, not how much.**
+
+### 9.4 Proposed and not built, on purpose
+
+The record for each of these is good — `HIST-TEX-264`, `-265` — and better than the antelope's ever was. None is built,
+because each is a new **kind** of work rather than a correction to the quarry, and the hunt this game has is a still-hunt:
+walk out, work in, wait downwind for hours, take or hold one shot. `FIC-GONZ-172`.
+
+- **Small game — squirrel, rabbit, raccoon, opossum.** The biggest gap. Holley has them "in great abundance"; Smithwick
+  shot squirrels in the pecans at San Felipe; Dilue Harris's family ate "venison, and small game". *Would be:* a
+  `smallgame` quarry, `a squirrel or two`, meat 2, no hide, covers timber and brush, weight 2, all year, everywhere the
+  deer is. *Why not:* a squirrel makes two food where a deer makes ten, so simply adding it makes hunting **worse** and
+  moves the first period's food, which is another session's balance. It also wants its own shorter work, not a three-hour
+  wait downwind. **Measure first:** ticks short of food by country, and Mina and Matagorda in particular.
+- **Feral hogs.** Holley p. 96; Almonte's 110,000 head on the mast. *Would be:* the stock economy of `HIST-TEX-112`, which
+  is already recorded and unbuilt, rather than a quarry — a hog in the woods is somebody's, or was.
+- **Fish, oysters, honey.** Three different day's works with three different tools, seasons and refusals: a line in a creek
+  (Kuykendall's "innumerable perch, trout"), an oyster bed at low water on the coast (Woodman, "may be conveniently
+  gathered"), a bee tree felled (Kuykendall, bee-hunting "richly rewarded the pioneer"). Each would give the coast and the
+  bottoms something the prairie has not, which is the right shape; none is a change to `GAME`.
+- **The turkey fat and the deer lean in winter.** Kuykendall, near Independence in 1822: "The deer were lean but the
+  turkies were fat and fine and constituted, for several months, the most valuable part of our subsistence." *Would be:* a
+  month-dependent yield. *Why not:* `killYield` has no month, so it is a signature change through `sim/chores.mjs`, and it
+  is a **new rule** rather than a corrected number. It is the best single unbuilt idea in this list.
+- **Panther, wolf, coyote, alligator, rattlesnake.** The game has no risk to a person out on the land, by design
+  (`FIC-GONZ-008`: no hidden punitive RNG). A wolf that can hurt somebody is a change to *that* rule, not to a bestiary.
+
+### 9.5 Tests and proof
+
+- `tests/biome-game.test.mjs` gains **"the antelope keeps to its own country, and that country is nowhere a family lives"**
+  — the two stands that hold it, that no settled stand does, that every cell of either is west of the Lavaca and west of
+  97.4°W read off the grid itself, and that no town stands in one — and three new assertions inside the two tests that
+  already existed: the buffalo under an eighth of the deer on the open winter tallgrass; the mustang held but thin east of
+  the Lavaca, against the same ground at full weight; and the deer half again commoner than a mustang on the open coastal
+  prairie. 773 tests pass (772 before).
+- **Injections** (`scripts/biome-game-injections.mjs`, [record](evidence/biome-game-injections.json)): **30 injected, 30
+  caught.** Seven are this session's — the antelope back on the mesquite prairie, the antelope back on the hill country
+  tops, *the antelope taken out of its own country too*, the buffalo as common on the grass as the deer, the mustang
+  stopped dead at the Lavaca again, the mustang east of the Lavaca at its full weight, and the deer on the open prairie
+  worth no more than a wild herd. Five older injections had **gone stale** when `inRange` became `rangeShare` and would
+  have stopped the harness; each was rewritten against the line as it now stands and still catches its own test.
+- **Browser** (same computer, headless Chrome; not LAN): `npm run test:biome-game` passes its six checks
+  ([record](evidence/biome-game-browser.json)); the page's own request for a place now reads *"Creek timber, at the edge of
+  the timber, a quarter mile south-west of the house. Good ground for deer: the wait should not be long. Deer and turkey
+  keep to it. Waiting here, a turkey: four food."* where on 2026-09-19 the same seed read *"Deer, mustangs, antelope,
+  javelina and turkey keep to it."* `npm run test:hunt` passes all fifteen checks, including the `blue-search` pose that
+  §6 recorded as failing on 2026-09-19.

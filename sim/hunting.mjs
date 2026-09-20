@@ -41,28 +41,44 @@ export const EDGE_GAME = 0.2;
  * `-109`. ceiling: a kill bigger than one person carries leaves the rest where it fell; bringing the ox out to it is the way out.
  */
 const WINTER = Object.freeze([10, 11, 0, 1, 2]);
-/** The buffalo's months: Berlandier has them going north "in April or May" and back south in September and October (`HIST-TEX-201`). */
-const BISON_MONTHS = Object.freeze([9, 10, 11, 0, 1, 2, 3]);
+/**
+ * The buffalo's months: Berlandier, read whole 2026-09-20, has them going north "in April or May" and coming back "to the
+ * southern regions **in September and October**" (`HIST-TEX-201`, `HIST-TEX-260`). September is theirs by his own sentence
+ * and was left out when the months were first written; a herd already south in September is south in September.
+ */
+const BISON_MONTHS = Object.freeze([8, 9, 10, 11, 0, 1, 2, 3]);
 export const GAME = Object.freeze({
   deer: Object.freeze({ a: 'a deer', meat: 10, hide: 1, covers: ['timber', 'brush', 'open'], weight: 3 }),
   turkey: Object.freeze({ a: 'a turkey', meat: 4, hide: 0, covers: ['timber', 'brush'], weight: 2 }),
   bear: Object.freeze({ a: 'a bear', meat: 12, hide: 1, covers: ['timber', 'brush'], weight: 1 }),
-  bison: Object.freeze({ a: 'a buffalo', meat: 20, hide: 1, covers: ['open'], months: BISON_MONTHS, range: 'west-of-the-lavaca', weight: 1 }),
-  pronghorn: Object.freeze({ a: 'an antelope', meat: 6, hide: 1, covers: ['open'], range: 'west-of-the-lavaca', weight: 1 }),
+  // Rare, and deliberately so: Berlandier has the herds gone from the colonized districts "since 1828" and Kuykendall, who
+  // found one on New Year's Creek in January 1822, "found no more during our residence there" (`HIST-TEX-262`). A buffalo
+  // on the frontier grass is a thing that happens, not the other half of every prairie hunt.
+  bison: Object.freeze({ a: 'a buffalo', meat: 20, hide: 1, covers: ['open'], months: BISON_MONTHS, range: 'west-of-the-lavaca', weight: 0.1 }),
+  // No range of its own: the antelope's country **is** the stands that hold it (`chaparral` and `mixedgrass-prairie`,
+  // sim/woods.mjs), and neither reaches a settled place. See `HIST-TEX-260` and the note below.
+  pronghorn: Object.freeze({ a: 'an antelope', meat: 6, hide: 1, covers: ['open'], weight: 1 }),
   mustang: Object.freeze({ a: 'a mustang', meat: 10, hide: 1, covers: ['open', 'brush'], range: 'west-of-the-lavaca', weight: 1 }),
   cattle: Object.freeze({ a: 'a wild cow', meat: 12, hide: 1, covers: ['open', 'brush'], range: 'west-of-the-lavaca', weight: 1 }),
   javelina: Object.freeze({ a: 'a javelina', meat: 4, hide: 1, covers: ['brush'], range: 'west-of-the-lavaca', weight: 2 }),
   waterfowl: Object.freeze({ a: 'ducks and geese', meat: 4, hide: 0, covers: ['open', 'timber'], months: WINTER, range: 'by-water', flocks: 1, weight: 3 }),
 });
-/** What a deer is worth on the open ground away from any timber's edge: it feeds out of the cover, and is seldom far out. */
-const OPEN_DEER_WEIGHT = 1;
+/**
+ * What a deer is worth on the open ground away from any timber's edge. It feeds out of the cover, and the sources put it
+ * out there with the stock: Holley, 1836, of the deer, "even in the settlements, they are so plentiful and tame, that they
+ * often come upon the plantations of farmers, and feed in company with the cattle" (p. 99), and Dilue Harris, on the open
+ * prairie at Stafford's Point in 1834, "Wild horses and deer would feed near the house" (`HIST-TEX-261`). Two, not one, so
+ * the open prairie is the deer's as well - the long wait there is `game`, not which animal comes.
+ */
+const OPEN_DEER_WEIGHT = 2;
 
 /**
- * Where a quarry is found, over and above the stand that holds it (`GAME[...].range`, 2026-09-19). docs/BIOMES.md §7.1 wrote
- * these limits into its own table - "wild cattle and mustangs **west of the Lavaca**", "bison **north and west of the
- * Colorado**, seasonal, rare", "waterfowl **in winter**" - and they were lost when the table became a flat list of ids, so a
- * wild cow or a mustang came to one prairie hunt in three at San Felipe, Columbia and Liberty, and ducks sat on dry prairie
- * forty miles from any water. The sources are plainest on two lines:
+ * Where a quarry is found, over and above the stand that holds it (`GAME[...].range`, 2026-09-19; **a share and not a gate
+ * since 2026-09-20**, `FIC-GONZ-170`). docs/BIOMES.md §7.1 wrote these limits into its own table - "wild cattle and mustangs
+ * **west of the Lavaca**", "bison **north and west of the Colorado**, seasonal, rare", "waterfowl **in winter**" - and they
+ * were lost when the table became a flat list of ids, so a wild cow or a mustang came to one prairie hunt in three at San
+ * Felipe, Columbia and Liberty, and ducks sat on dry prairie forty miles from any water. The sources are plainest on two
+ * lines:
  *
  *   `west-of-the-lavaca`     Woodman, 1835, of the wild horses: they "abound particularly on the river Nueces, and far in the
  *                            interior", but "Within the organized settlements they are not numerous, and are rapidly
@@ -73,17 +89,32 @@ const OPEN_DEER_WEIGHT = 1;
  *                            Gonzales, the frontier, keeps its buffalo and the Brazos does not (`HIST-TEX-200`,
  *                            `HIST-TEX-201`). **The Lavaca is the line** - §7.1's own, taken from the river the map draws,
  *                            and stricter for the buffalo than §7.1's Colorado (`FIC-GONZ-120`). It leaves the wild herds to
- *                            Béxar, Goliad, Refugio, Victoria, Gonzales and Mina, and takes them from San Felipe, Columbia,
- *                            Brazoria, Washington, Matagorda and Liberty. The **antelope and the javelina** are held to the
- *                            same country, and for the same reason: Holley puts the "Pecari or Mexican hog" on the
- *                            frontiers (p. 95) and Olmsted's one small herd of antelope is west of San Antonio
- *                            (`HIST-TEX-104`). Without it a Matagorda family hunted antelope, because LANDFIRE files a
- *                            hundred square miles of thornscrub inside EPA 34a and 34h, the humid coastal prairie and the
- *                            barrier islands, and the Nueces line files all of it as mesquite prairie (`HIST-TEX-200`).
+ *                            Béxar, Goliad, Refugio, Victoria, Gonzales and Mina, and thins them at San Felipe, Columbia,
+ *                            Brazoria, Washington, Matagorda and Liberty.
+ *
+ *                            **Not a gate for the mustang (2026-09-20).** Woodman's own sentence says "not numerous", not
+ *                            "none", and Dilue Harris, on the prairie at Stafford's Point between the Brazos and Buffalo
+ *                            Bayou in 1834, wrote "Wild horses and deer would feed near the house", and of a lost horse that
+ *                            "he must have gotten with the mustangs" (`HIST-TEX-261`). So east of the Lavaca a mustang is
+ *                            `THIN` and not absent - about one patch in seven of what the same ground holds west of it. The
+ *                            **wild cow** stays a gate: no account read puts unowned cattle inside the colonies in 1835, and
+ *                            Almonte counted 25,000 head running loose in the Brazos department alone, so a cow on a
+ *                            colonist's prairie is somebody's stock and shooting it is theft, not hunting (`HIST-TEX-263`).
+ *                            The **javelina** stays a gate too: Holley puts the "Pecari or Mexican hog" on the frontiers
+ *                            (p. 95) and Woodman has it "occasionally met with in small gangs" (p. 60) (`HIST-TEX-264`).
  *   `by-water`               Woodman, 1835: "In the winter season, the waters near the coast are literally covered with wild
- *                            fowl" (p. 59), and "Geese and ducks resort in great numbers to the interior waters" (p. 60). The
- *                            fowl are on the water, coast or inland, and not on the dry prairie between (`HIST-TEX-202`).
+ *                            fowl" (p. 59), and "Geese and ducks resort in great numbers to the interior waters" (p. 60);
+ *                            Holley, 1836, has them "frequent the rivers and sea shore" (p. 100). The fowl are on the water,
+ *                            coast or inland, and not on the dry prairie between (`HIST-TEX-202`, `HIST-TEX-265`).
  *                            A quarter of a mile is the game's reading of "on the water" (`FIC-GONZ-120`).
+ *
+ * **The antelope has no range here at all, and that is the correction of 2026-09-20** (`HIST-TEX-260`, `FIC-GONZ-171`). The
+ * Lavaca was far too generous a line: it left the antelope at Goliad, where a hunt in eight brought one, and at Refugio and
+ * Béxar. Neither of the two contemporary enumerations of Texas game names the animal at all - Woodman's own chapter (pp.
+ * 59-60) and Holley's zoology (pp. 94-100) both list buffalo, deer, bear, peccary, wolf, panther, wildcat, wild horse,
+ * turkey, duck, goose, brant, swan, raccoon, opossum, rabbit, squirrel and fox, and no antelope - and every dated sighting
+ * is far west or south-west of the colonies. So the antelope is not held by a line but by its **stands**: `chaparral` and
+ * `mixedgrass-prairie` only, neither of which reaches any settled place in the box (`quarryAt`, and the test that proves it).
  */
 export const WATERFOWL_MILES = 0.25;
 /** Marsh and swamp are water themselves, whatever the map's courses say runs near. */
@@ -124,12 +155,19 @@ export function westOfTheLavaca(point) {
   return east % 2 === 1;
 }
 
-/** Whether the quarry that wants a range finds one at this place. `near` says how far the nearest water is, in miles. */
-function inRange(id, point, stand, near) {
+/**
+ * What share of its own weight a quarry that wants a range keeps at this place: 1 in its own country, 0 outside it, and
+ * `THIN` where the sources say a thing is there but "not numerous" (the mustang inside the settlements, above). `near` says
+ * how far the nearest water is, in miles. A share of 0 takes the quarry off the place's list altogether.
+ */
+export const THIN = 0.15;
+/** Which quarry the Lavaca thins rather than stops: the mustang alone (`HIST-TEX-261`). */
+const THINNED_EAST = new Set(['mustang']);
+function rangeShare(id, point, stand, near) {
   const range = GAME[id]?.range;
-  if (!range) return true;
-  if (range === 'west-of-the-lavaca') return westOfTheLavaca(point);
-  return WET_STANDS.has(stand) || (near !== null && near <= WATERFOWL_MILES);
+  if (!range) return 1;
+  if (range === 'west-of-the-lavaca') return westOfTheLavaca(point) ? 1 : (THINNED_EAST.has(id) ? THIN : 0);
+  return WET_STANDS.has(stand) || (near !== null && near <= WATERFOWL_MILES) ? 1 : 0;
 }
 
 /** A number in [0, 1) fixed for a patch: which of the quarry that could come there is the one that does. */
@@ -166,14 +204,22 @@ export function huntingPlace(world, point) {
   const edge = around.some(cover => (cover === 'timber') !== timberHere);
   const stand = standOf(here.stand, countsTrees(rule) ? rule : 'landfire');
   const game = Math.min(1, (stand.game ?? 0) + (edge ? EDGE_GAME : 0));
-  // What the stand holds, less what this particular place is out of the range of (`inRange`): the wild herds west of the
-  // Guadalupe, the ducks and geese on the water.
+  // What the stand holds, less what this particular place is out of the range of, and thinned where the sources thin it
+  // (`rangeShare`): the wild herds west of the Lavaca, the mustang thin inside the settlements, the fowl on the water.
   const near = rule === 'biomes' ? landAround().nearestWater(point, () => true, WATERFOWL_MILES)?.distance ?? null : null;
-  const quarry = rule === 'biomes' ? (stand.quarry || []).filter(id => inRange(id, point, here.stand, near)) : null;
+  let quarry = null, shares = null;
+  if (rule === 'biomes') {
+    shares = new Map();
+    for (const id of stand.quarry || []) {
+      const share = rangeShare(id, point, here.stand, near);
+      if (share > 0) shares.set(id, share);
+    }
+    quarry = [...shares.keys()];
+  }
   return {
     ...here, name: stand.name, quarry, edge, game: Math.round(game * 100) / 100,
     // Which of them a hunter waiting here would see (`quarryAt`): the biomes only; every other class's hunt finds a deer.
-    ...(quarry && { comes: quarryAt(quarry, here.cover, edge, monthOf(world), px, py) }),
+    ...(quarry && { comes: quarryAt(quarry, here.cover, edge, monthOf(world), px, py, shares) }),
   };
 }
 
@@ -186,12 +232,14 @@ const monthOf = world => dateOf(world, world.minute || 0).getUTCMonth();
  * share picks one by weight (`GAME`), so the same place always brings the same quarry in the same season and a student who
  * looks about their land learns where the turkeys roost and where the ducks come in; nothing is left to chance on the day
  * (`FIC-GONZ-008`). A deer can be met anywhere game is - "found in every part of Texas" (`HIST-TEX-103`) - and out on open
- * ground away from the edge of any timber it is seldom (`OPEN_DEER_WEIGHT`).
+ * ground away from the edge of any timber it is worth less than in cover (`OPEN_DEER_WEIGHT`). `shares` is what each quarry
+ * keeps of its weight at this place (`rangeShare`); absent, each keeps all of it.
  */
-export function quarryAt(quarry, cover, edge, month, px, py) {
+export function quarryAt(quarry, cover, edge, month, px, py, shares = null) {
   if (!quarry?.length) return null;
   const could = quarry.filter(id => GAME[id] && GAME[id].covers.includes(cover) && (!GAME[id].months || GAME[id].months.includes(month)))
-    .map(id => [id, id === 'deer' && cover === 'open' && !edge ? OPEN_DEER_WEIGHT : GAME[id].weight]);
+    .map(id => [id, (id === 'deer' && cover === 'open' && !edge ? OPEN_DEER_WEIGHT : GAME[id].weight) * (shares?.get(id) ?? 1)])
+    .filter(([, weight]) => weight > 0);
   // Deer keep to every country that holds any game at all.
   if (!could.length) return 'deer';
   const total = could.reduce((sum, [, weight]) => sum + weight, 0);

@@ -180,8 +180,10 @@ export const STANDS = Object.freeze({
     classes: [klass('grass', 49 / 50, 0, null), klass('mesquite', 1 / 50, 2, 'pole')],
     kinds: [['mesquite', 1]],
   },
+  // The antelope came off this stand on 2026-09-20 (`HIST-TEX-260`): the mesquite prairie runs east to 95°W in this grid,
+  // and holding the antelope to the Lavaca still left it at Goliad, Refugio and Béxar, where no account puts one.
   'mesquite-savanna': {
-    name: 'mesquite prairie', game: 0.5, quarry: ['deer', 'mustang', 'pronghorn', 'javelina', 'turkey'],
+    name: 'mesquite prairie', game: 0.5, quarry: ['deer', 'mustang', 'javelina', 'turkey'],
     note: 'LANDFIRE 14380, 14400, 14420, and the thornscrub north-east of the Nueces. Olmsted p. 267: "a mesquit prairie".',
     classes: [
       klass('grass', 0.7, 0, null), klass('scattered mesquite', 0.18, 4, 'pole'), klass('thicket', 0.1, 0, null, { cover: 'brush' }),
@@ -189,8 +191,13 @@ export const STANDS = Object.freeze({
     ],
     kinds: [['mesquite', 1]],
   },
+  // The antelope's own country, with the mixed-grass prairie (2026-09-20, `HIST-TEX-260`): Olmsted met "one small herd of
+  // antelope" among the "dwarf forest of prickly shrubs" on the frontier road west of San Antonio (p. 313) and puts them
+  // with the mustangs and hares in "the grassed region below the chaparral wilderness, extending to the coast" (p. 443);
+  // Bartlett, crossing from the Rio Grande to Corpus in December 1852, found "Thousands of deer and antelope" on the same
+  // prairies (Bailey 1905, p. 67). They come on this stand's `grass` patches, which is where those accounts put them.
   chaparral: {
-    name: 'chaparral', game: 0.5, quarry: ['javelina', 'deer', 'turkey'],
+    name: 'chaparral', game: 0.5, quarry: ['javelina', 'deer', 'turkey', 'pronghorn'],
     note: 'LANDFIRE 13900, 13920 south-west of the Nueces and in Mexico; 14390, 11110. Olmsted p. 284: "the great chaparral desert".',
     classes: [klass('thicket', 0.45, 0, null, { cover: 'brush' }), klass('mesquite', 0.25, 15, 'pole', { cover: 'brush' }), klass('grass', 0.3, 0, null)],
     kinds: [['mesquite', 1]],
@@ -268,8 +275,12 @@ export const STANDS = Object.freeze({
     classes: [klass('motte', 0.4, 25, 'large'), klass('grass', 0.6, 0, null)],
     kinds: [['live-oak', 0.7], ['hackberry', 0.3]],
   },
+  // The antelope came off the tops on 2026-09-20 (`HIST-TEX-260`): the hills in this box are the *eastern* Edwards Plateau,
+  // from Béxar to Mina, and the nearest dated antelope on the plateau is Bailey's, thirty miles north-west of Rock Springs,
+  // a hundred and twenty miles further west and seventy years later. The buffalo stays, rare: Berlandier hunted them with
+  // the Comanches "on open lands northwest of San Antonio" in 1828 (`HIST-TEX-104`).
   'hill-savanna': {
-    name: 'hill country savanna', game: 0.5, quarry: ['deer', 'turkey', 'bison', 'pronghorn', 'bear'],
+    name: 'hill country savanna', game: 0.5, quarry: ['deer', 'turkey', 'bison', 'bear'],
     note: 'LANDFIRE 13830: open grass with oak mottes; cedar on the breaks (HIST-TEX-102).',
     classes: [
       klass('open', 0.75, 3, 'large'), klass('motte', 0.2, 25, 'large', { kinds: [['live-oak', 0.6], ['texas-oak', 0.2], ['cedar-elm', 0.2]] }),
