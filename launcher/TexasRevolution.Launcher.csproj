@@ -60,6 +60,25 @@
   </ItemGroup>
 
   <!--
+    The launcher's face: the owner's title painting and the eight cast button plates, supplied
+    2026-09-20 (art/background.png, art/button-*.png).
+
+    Embedded rather than copied beside the executable, for three reasons. The installed program
+    is a single self-contained file and an art folder next to it is one more thing an update
+    swap, an antivirus quarantine or a helpful teacher can lose. Nothing else reads these files,
+    so there is no reason for them to be on disk. And a resource inside the assembly cannot be
+    half-written: it is either there or the launcher falls back to plain colour, which is what
+    TitleScene and PlateButton are written to do.
+
+    The cost is honest and worth saying: about 15 MB on top of the ~60 MB self-contained
+    download. scripts/package.ps1 publishes this project, so it carries them with no change
+    there; a working copy's `dotnet build` carries them too, which is how they are looked at.
+  -->
+  <ItemGroup>
+    <EmbeddedResource Include="art\*.png" LogicalName="TexasRevolution.Launcher.art.%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <!--
     The game, carried inside the setup file.
 
     It is built by scripts/package.ps1 just before this project is published, and it holds
