@@ -1,0 +1,37 @@
+{
+  "record": "The crossings audit of 2026-09-19: each new test proven by injecting the regression it guards (docs/MAP_ACCURACY.md §10.6)",
+  "date": "2026-09-20T03:46:48.801Z",
+  "map": "67a873b77b7f539db811917c4065f0ca19ee4f476080638968f1027d04a96668",
+  "mapRestored": true,
+  "results": [
+    {
+      "guards": "squarest",
+      "injected": "the crossing put back at the middle meeting of its run instead of the squarest",
+      "file": "scripts/build-colonies-map.mjs",
+      "failed": [
+        "squarest"
+      ],
+      "alone": true
+    },
+    {
+      "guards": "heads",
+      "injected": "the head of a watercourse allowed to carry a crossing again (TIP_MILES 0)",
+      "file": "scripts/build-colonies-map.mjs",
+      "failed": [
+        "heads"
+      ],
+      "alone": true
+    },
+    {
+      "guards": "dry",
+      "injected": "a ford's own two miles of creek no longer kept on a class's map (CREEK_AT_CROSSING 0)",
+      "file": "sim/colonies-region.mjs",
+      "failed": [
+        "dry"
+      ],
+      "alone": true
+    }
+  ],
+  "allAlone": true,
+  "restoredAndPassing": true
+}

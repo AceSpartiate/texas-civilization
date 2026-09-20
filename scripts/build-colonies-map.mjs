@@ -638,12 +638,27 @@ const intersect = (a, b, c, d) => {
   const den = r.x * s.y - r.y * s.x;
   if (Math.abs(den) < 1e-12) return null;
   const t = ((c.x - a.x) * s.y - (c.y - a.y) * s.x) / den, u = ((c.x - a.x) * r.y - (c.y - a.y) * r.x) / den;
-  return t >= 0 && t <= 1 && u >= 0 && u <= 1 ? { x: a.x + t * r.x, y: a.y + t * r.y, t, direction: Math.atan2(s.y, s.x) } : null;
+  return t >= 0 && t <= 1 && u >= 0 && u <= 1 ? { x: a.x + t * r.x, y: a.y + t * r.y, t, u, direction: Math.atan2(s.y, s.x) } : null;
 };
 const boxOf = points => points.reduce((box, p) => ({ minX: Math.min(box.minX, p.x), minY: Math.min(box.minY, p.y), maxX: Math.max(box.maxX, p.x), maxY: Math.max(box.maxY, p.y) }), { minX: Infinity, minY: Infinity, maxX: -Infinity, maxY: -Infinity });
 const drawnBoxes = drawn.map(course => boxOf(course.points));
+// ceiling: 85 of the drawn courses are two points under a fiftieth of a mile long - what joining and simplifying the reaches
+// left behind. A creek one draws a dot of water a dozen metres across; a river one is skipped, the page drawing rivers from
+// the province's levels. No crossing stands on one (checked, scripts/crossings-audit.mjs), and the audit and the tests
+// ignore them. Dropping them would move the `watercourses` array and belongs to whoever next rebuilds the water.
+/** How far along each drawn course each of its points lies, so a meeting can be placed along the water as well as the road. */
+const drawnAlongs = drawn.map(course => course.points.reduce((run, p, i) => (run.push(i ? run[i - 1] + distance(p, course.points[i - 1]) : 0), run), []));
+/**
+ * How near the end of a drawn watercourse a meeting may lie and still be a crossing (2026-09-19, the crossings audit).
+ * Nearer than this the road only nicks the last few yards of the line - the head of a branch, the tip of a slough - and
+ * does not go over the water at all: the water stops at the road, and a ford drawn there stands on the end of a creek that
+ * goes nowhere. Two were found that way, on Bear Branch and on East Branch Mad Island Slough, and one on Little Vince Bayou.
+ * A twentieth of a mile is four times the hundredth every point is rounded to and well under the fortieth a creek is
+ * simplified by, so a real crossing near a head cannot fall inside it.
+ */
+const TIP_MILES = 0.05;
 const CROSSED = ['road', 'crossing'];
-/** Every meeting of a road with drawn water: the road, the water, where, how far along the road, and the water's direction there. */
+/** Every meeting of a road with drawn water: the road, the water, where, how far along the road, and both directions there. */
 function meetings(road) {
   const found = [], box = boxOf(road.points);
   let along = 0;
@@ -651,19 +666,43 @@ function meetings(road) {
   drawn.forEach((course, index) => {
     const w = drawnBoxes[index];
     if (w.maxX < box.minX || w.minX > box.maxX || w.maxY < box.minY || w.minY > box.maxY) return;
+    const water = drawnAlongs[index], length = water.at(-1);
     along = 0;
     for (let i = 1; i < road.points.length; i++) {
       const a = road.points[i - 1], b = road.points[i];
       for (let j = 1; j < course.points.length; j++) {
         const hit = intersect(a, b, course.points[j - 1], course.points[j]);
-        if (hit) found.push({ road, water: course.name, waterKind: course.kind, x: hit.x, y: hit.y, along: along + lengths[i - 1] * hit.t, direction: hit.direction });
+        if (!hit) continue;
+        // Not at the very end of the line: there the road passes the water's head, it does not cross it.
+        const down = water[j - 1] + (water[j] - water[j - 1]) * hit.u;
+        if (Math.min(down, length - down) < TIP_MILES) continue;
+        found.push({ road, water: course.name, waterKind: course.kind, x: hit.x, y: hit.y, along: along + lengths[i - 1] * hit.t, direction: hit.direction, roadDirection: Math.atan2(b.y - a.y, b.x - a.x) });
       }
       along += lengths[i - 1];
     }
   });
   return found;
 }
-/** One road's meetings with one water, chained into its crossings: each the middle meeting of a run no gap in which is longer than CHAIN_MILES. */
+/**
+ * How squarely the road meets the water at a meeting: one straight across, nothing at all lying along it.
+ */
+const squareness = hit => Math.abs(Math.sin(hit.direction - hit.roadDirection));
+/**
+ * One road's meetings with one water, chained into its crossings: a run is meetings no gap in which is longer than
+ * CHAIN_MILES along the road, and the crossing is the **squarest** meeting of it (2026-09-19, the crossings audit).
+ *
+ * It was the middle meeting, and on a road laid along a creek bottom the middle of a braid is a graze: the road and the
+ * creek lying together for a mile, the ford drawn square across a water the road is running *in*. The road to Gonzales from
+ * the Colorado met Brushy Creek seven times in a mile and a quarter and its ford stood on a meeting of three degrees; the
+ * squarest of the seven is ninety. The squarest meeting is where the road actually goes over. A run of one is unchanged,
+ * and a tie keeps the earliest along the road, so nothing depends on the order the courses were found in.
+*
+ * ceiling: this moves the ford, it does not unbraid the road. A road that meets a creek once and at eight degrees - the
+ * roads from Gonzales in Ben Branch, which run in it for half a mile - has no squarer meeting to be moved to, and the ford
+ * on Brushy Creek sits on a hairpin fifty yards long. The cause is the routing: a CREEK cell costs a quarter mile of extra
+ * effort (`route`), so a creek bottom is the cheapest line over the ground and the road takes it. Charging a creek more
+ * would move roads all over the map, which is a road decision and wants its own pass (docs/MAP_ACCURACY.md §10.6).
+ */
 function crossingsOf(road) {
   const byWater = new Map();
   for (const hit of meetings(road)) { if (!byWater.has(hit.water)) byWater.set(hit.water, []); byWater.get(hit.water).push(hit); }
@@ -671,7 +710,7 @@ function crossingsOf(road) {
   for (const hits of byWater.values()) {
     hits.sort((a, b) => a.along - b.along);
     let run = [hits[0]];
-    const close = () => { out.push({ ...run[Math.floor((run.length - 1) / 2)], meetings: run.length }); };
+    const close = () => { out.push({ ...run.reduce((best, hit) => (squareness(hit) > squareness(best) + 1e-9 ? hit : best)), meetings: run.length }); };
     for (const hit of hits.slice(1)) {
       if (hit.along - run.at(-1).along > CHAIN_MILES) { close(); run = [hit]; } else run.push(hit);
     }

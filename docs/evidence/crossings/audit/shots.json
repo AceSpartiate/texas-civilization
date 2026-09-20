@@ -1,0 +1,1556 @@
+{
+  "result": "PASS",
+  "date": "2026-09-20T03:34:37.810Z",
+  "sameComputerOnly": true,
+  "shots": [
+    {
+      "siteId": "ford-ben-branch",
+      "kind": "ford",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-ben-branch-over.png"
+    },
+    {
+      "siteId": "ford-ben-branch",
+      "kind": "ford",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-ben-branch-about.png"
+    },
+    {
+      "siteId": "ford-ben-branch",
+      "kind": "ford",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-ben-branch-round.png"
+    },
+    {
+      "siteId": "ford-brushy-creek",
+      "kind": "ford",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-brushy-creek-over.png"
+    },
+    {
+      "siteId": "ford-brushy-creek",
+      "kind": "ford",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-brushy-creek-about.png"
+    },
+    {
+      "siteId": "ford-brushy-creek",
+      "kind": "ford",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-brushy-creek-round.png"
+    },
+    {
+      "siteId": "columbus-crossing",
+      "kind": "ferry",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/columbus-crossing-over.png"
+    },
+    {
+      "siteId": "columbus-crossing",
+      "kind": "ferry",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/columbus-crossing-about.png"
+    },
+    {
+      "siteId": "columbus-crossing",
+      "kind": "ferry",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/columbus-crossing-round.png"
+    },
+    {
+      "siteId": "ford-little-bernard-creek",
+      "kind": "ford",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-little-bernard-creek-over.png"
+    },
+    {
+      "siteId": "ford-little-bernard-creek",
+      "kind": "ford",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-little-bernard-creek-about.png"
+    },
+    {
+      "siteId": "ford-little-bernard-creek",
+      "kind": "ford",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-little-bernard-creek-round.png"
+    },
+    {
+      "siteId": "ford-linney-creek",
+      "kind": "ford",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-linney-creek-over.png"
+    },
+    {
+      "siteId": "ford-linney-creek",
+      "kind": "ford",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-linney-creek-about.png"
+    },
+    {
+      "siteId": "ford-linney-creek",
+      "kind": "ford",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-linney-creek-round.png"
+    },
+    {
+      "siteId": "ford-old-river-drain",
+      "kind": "ford",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-old-river-drain-over.png"
+    },
+    {
+      "siteId": "ford-old-river-drain",
+      "kind": "ford",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-old-river-drain-about.png"
+    },
+    {
+      "siteId": "ford-old-river-drain",
+      "kind": "ford",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-old-river-drain-round.png"
+    },
+    {
+      "siteId": "ford-josie-bayou",
+      "kind": "ford",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-josie-bayou-over.png"
+    },
+    {
+      "siteId": "ford-josie-bayou",
+      "kind": "ford",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-josie-bayou-about.png"
+    },
+    {
+      "siteId": "ford-josie-bayou",
+      "kind": "ford",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-josie-bayou-round.png"
+    },
+    {
+      "siteId": "ford-stevens-creek",
+      "kind": "ford",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-stevens-creek-over.png"
+    },
+    {
+      "siteId": "ford-stevens-creek",
+      "kind": "ford",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-stevens-creek-about.png"
+    },
+    {
+      "siteId": "ford-stevens-creek",
+      "kind": "ford",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-stevens-creek-round.png"
+    },
+    {
+      "siteId": "ford-dry-creek-2",
+      "kind": "ford",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-dry-creek-2-over.png"
+    },
+    {
+      "siteId": "ford-dry-creek-2",
+      "kind": "ford",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-dry-creek-2-about.png"
+    },
+    {
+      "siteId": "ford-dry-creek-2",
+      "kind": "ford",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-dry-creek-2-round.png"
+    },
+    {
+      "siteId": "ford-sandy-creek",
+      "kind": "ford",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-sandy-creek-over.png"
+    },
+    {
+      "siteId": "ford-sandy-creek",
+      "kind": "ford",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-sandy-creek-about.png"
+    },
+    {
+      "siteId": "ford-sandy-creek",
+      "kind": "ford",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-sandy-creek-round.png"
+    },
+    {
+      "siteId": "ford-reed-creek",
+      "kind": "ford",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-reed-creek-over.png"
+    },
+    {
+      "siteId": "ford-reed-creek",
+      "kind": "ford",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-reed-creek-about.png"
+    },
+    {
+      "siteId": "ford-reed-creek",
+      "kind": "ford",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-reed-creek-round.png"
+    },
+    {
+      "siteId": "ford-clear-creek",
+      "kind": "ford",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-clear-creek-over.png"
+    },
+    {
+      "siteId": "ford-clear-creek",
+      "kind": "ford",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-clear-creek-about.png"
+    },
+    {
+      "siteId": "ford-clear-creek",
+      "kind": "ford",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-clear-creek-round.png"
+    },
+    {
+      "siteId": "ford",
+      "kind": "ford",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-over.png"
+    },
+    {
+      "siteId": "ford",
+      "kind": "ford",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-about.png"
+    },
+    {
+      "siteId": "ford",
+      "kind": "ford",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-round.png"
+    },
+    {
+      "siteId": "la-grange-crossing",
+      "kind": "ferry",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 219,
+        "y": 555
+      },
+      "path": "docs/evidence/crossings/audit/la-grange-crossing-over.png"
+    },
+    {
+      "siteId": "la-grange-crossing",
+      "kind": "ferry",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 484,
+        "y": 458
+      },
+      "path": "docs/evidence/crossings/audit/la-grange-crossing-about.png"
+    },
+    {
+      "siteId": "la-grange-crossing",
+      "kind": "ferry",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 582,
+        "y": 421
+      },
+      "path": "docs/evidence/crossings/audit/la-grange-crossing-round.png"
+    },
+    {
+      "siteId": "lower-colorado-crossing",
+      "kind": "ford",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/lower-colorado-crossing-over.png"
+    },
+    {
+      "siteId": "lower-colorado-crossing",
+      "kind": "ford",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/lower-colorado-crossing-about.png"
+    },
+    {
+      "siteId": "lower-colorado-crossing",
+      "kind": "ford",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/lower-colorado-crossing-round.png"
+    },
+    {
+      "siteId": "mina-ford",
+      "kind": "ford",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/mina-ford-over.png"
+    },
+    {
+      "siteId": "mina-ford",
+      "kind": "ford",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/mina-ford-about.png"
+    },
+    {
+      "siteId": "mina-ford",
+      "kind": "ford",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/mina-ford-round.png"
+    },
+    {
+      "siteId": "matagorda-ferry",
+      "kind": "ferry",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/matagorda-ferry-over.png"
+    },
+    {
+      "siteId": "matagorda-ferry",
+      "kind": "ferry",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/matagorda-ferry-about.png"
+    },
+    {
+      "siteId": "matagorda-ferry",
+      "kind": "ferry",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/matagorda-ferry-round.png"
+    },
+    {
+      "siteId": "victoria-ferry",
+      "kind": "ferry",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/victoria-ferry-over.png"
+    },
+    {
+      "siteId": "victoria-ferry",
+      "kind": "ferry",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/victoria-ferry-about.png"
+    },
+    {
+      "siteId": "victoria-ferry",
+      "kind": "ferry",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/victoria-ferry-round.png"
+    },
+    {
+      "siteId": "san-felipe-ferry",
+      "kind": "ferry",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/san-felipe-ferry-over.png"
+    },
+    {
+      "siteId": "san-felipe-ferry",
+      "kind": "ferry",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/san-felipe-ferry-about.png"
+    },
+    {
+      "siteId": "san-felipe-ferry",
+      "kind": "ferry",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/san-felipe-ferry-round.png"
+    },
+    {
+      "siteId": "robinsons-ferry",
+      "kind": "ferry",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/robinsons-ferry-over.png"
+    },
+    {
+      "siteId": "robinsons-ferry",
+      "kind": "ferry",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/robinsons-ferry-about.png"
+    },
+    {
+      "siteId": "robinsons-ferry",
+      "kind": "ferry",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/robinsons-ferry-round.png"
+    },
+    {
+      "siteId": "groces-ferry",
+      "kind": "ferry",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/groces-ferry-over.png"
+    },
+    {
+      "siteId": "groces-ferry",
+      "kind": "ferry",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/groces-ferry-about.png"
+    },
+    {
+      "siteId": "groces-ferry",
+      "kind": "ferry",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/groces-ferry-round.png"
+    },
+    {
+      "siteId": "brighams-ferry",
+      "kind": "ferry",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/brighams-ferry-over.png"
+    },
+    {
+      "siteId": "brighams-ferry",
+      "kind": "ferry",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/brighams-ferry-about.png"
+    },
+    {
+      "siteId": "brighams-ferry",
+      "kind": "ferry",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/brighams-ferry-round.png"
+    },
+    {
+      "siteId": "atascosito-crossing",
+      "kind": "ferry",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/atascosito-crossing-over.png"
+    },
+    {
+      "siteId": "atascosito-crossing",
+      "kind": "ferry",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/atascosito-crossing-about.png"
+    },
+    {
+      "siteId": "atascosito-crossing",
+      "kind": "ferry",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/atascosito-crossing-round.png"
+    },
+    {
+      "siteId": "harrisburg-ferry",
+      "kind": "ferry",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/harrisburg-ferry-over.png"
+    },
+    {
+      "siteId": "harrisburg-ferry",
+      "kind": "ferry",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/harrisburg-ferry-about.png"
+    },
+    {
+      "siteId": "harrisburg-ferry",
+      "kind": "ferry",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/harrisburg-ferry-round.png"
+    },
+    {
+      "siteId": "lynchs-ferry",
+      "kind": "ferry",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/lynchs-ferry-over.png"
+    },
+    {
+      "siteId": "lynchs-ferry",
+      "kind": "ferry",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/lynchs-ferry-about.png"
+    },
+    {
+      "siteId": "lynchs-ferry",
+      "kind": "ferry",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/lynchs-ferry-round.png"
+    },
+    {
+      "siteId": "vinces-bridge",
+      "kind": "bridge",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "bridge",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/vinces-bridge-over.png"
+    },
+    {
+      "siteId": "vinces-bridge",
+      "kind": "bridge",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "bridge",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/vinces-bridge-about.png"
+    },
+    {
+      "siteId": "vinces-bridge",
+      "kind": "bridge",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "bridge",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/vinces-bridge-round.png"
+    },
+    {
+      "siteId": "lower-ford",
+      "kind": "ford",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/lower-ford-over.png"
+    },
+    {
+      "siteId": "lower-ford",
+      "kind": "ford",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/lower-ford-about.png"
+    },
+    {
+      "siteId": "lower-ford",
+      "kind": "ford",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/lower-ford-round.png"
+    },
+    {
+      "siteId": "bexar-ford",
+      "kind": "ford",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/bexar-ford-over.png"
+    },
+    {
+      "siteId": "bexar-ford",
+      "kind": "ford",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/bexar-ford-about.png"
+    },
+    {
+      "siteId": "bexar-ford",
+      "kind": "ford",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/bexar-ford-round.png"
+    },
+    {
+      "siteId": "ferry-san-jacinto-river",
+      "kind": "ferry",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ferry-san-jacinto-river-over.png"
+    },
+    {
+      "siteId": "ferry-san-jacinto-river",
+      "kind": "ferry",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ferry-san-jacinto-river-about.png"
+    },
+    {
+      "siteId": "ferry-san-jacinto-river",
+      "kind": "ferry",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ferry",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ferry-san-jacinto-river-round.png"
+    },
+    {
+      "siteId": "ford-peach-creek",
+      "kind": "ford",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-peach-creek-over.png"
+    },
+    {
+      "siteId": "ford-peach-creek",
+      "kind": "ford",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-peach-creek-about.png"
+    },
+    {
+      "siteId": "ford-peach-creek",
+      "kind": "ford",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-peach-creek-round.png"
+    },
+    {
+      "siteId": "ford-mill-creek",
+      "kind": "ford",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-mill-creek-over.png"
+    },
+    {
+      "siteId": "ford-mill-creek",
+      "kind": "ford",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-mill-creek-about.png"
+    },
+    {
+      "siteId": "ford-mill-creek",
+      "kind": "ford",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-mill-creek-round.png"
+    },
+    {
+      "siteId": "ford-cypress-creek",
+      "kind": "ford",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-cypress-creek-over.png"
+    },
+    {
+      "siteId": "ford-cypress-creek",
+      "kind": "ford",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-cypress-creek-about.png"
+    },
+    {
+      "siteId": "ford-cypress-creek",
+      "kind": "ford",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-cypress-creek-round.png"
+    },
+    {
+      "siteId": "ford-navidad-river",
+      "kind": "ford",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-navidad-river-over.png"
+    },
+    {
+      "siteId": "ford-navidad-river",
+      "kind": "ford",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-navidad-river-about.png"
+    },
+    {
+      "siteId": "ford-navidad-river",
+      "kind": "ford",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-navidad-river-round.png"
+    },
+    {
+      "siteId": "ford-lavaca-river",
+      "kind": "ford",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-lavaca-river-over.png"
+    },
+    {
+      "siteId": "ford-lavaca-river",
+      "kind": "ford",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-lavaca-river-about.png"
+    },
+    {
+      "siteId": "ford-lavaca-river",
+      "kind": "ford",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-lavaca-river-round.png"
+    },
+    {
+      "siteId": "ford-san-bernard-river",
+      "kind": "ford",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-san-bernard-river-over.png"
+    },
+    {
+      "siteId": "ford-san-bernard-river",
+      "kind": "ford",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-san-bernard-river-about.png"
+    },
+    {
+      "siteId": "ford-san-bernard-river",
+      "kind": "ford",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-san-bernard-river-round.png"
+    },
+    {
+      "siteId": "ford-caney-creek",
+      "kind": "ford",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-caney-creek-over.png"
+    },
+    {
+      "siteId": "ford-caney-creek",
+      "kind": "ford",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-caney-creek-about.png"
+    },
+    {
+      "siteId": "ford-caney-creek",
+      "kind": "ford",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-caney-creek-round.png"
+    },
+    {
+      "siteId": "ford-garcitas-creek",
+      "kind": "ford",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-garcitas-creek-over.png"
+    },
+    {
+      "siteId": "ford-garcitas-creek",
+      "kind": "ford",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-garcitas-creek-about.png"
+    },
+    {
+      "siteId": "ford-garcitas-creek",
+      "kind": "ford",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-garcitas-creek-round.png"
+    },
+    {
+      "siteId": "ford-new-year-creek",
+      "kind": "ford",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-new-year-creek-over.png"
+    },
+    {
+      "siteId": "ford-new-year-creek",
+      "kind": "ford",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-new-year-creek-about.png"
+    },
+    {
+      "siteId": "ford-new-year-creek",
+      "kind": "ford",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-new-year-creek-round.png"
+    },
+    {
+      "siteId": "ford-garcitas-creek-3",
+      "kind": "ford",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-garcitas-creek-3-over.png"
+    },
+    {
+      "siteId": "ford-garcitas-creek-3",
+      "kind": "ford",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-garcitas-creek-3-about.png"
+    },
+    {
+      "siteId": "ford-garcitas-creek-3",
+      "kind": "ford",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-garcitas-creek-3-round.png"
+    },
+    {
+      "siteId": "ford-lake-bayou-2",
+      "kind": "ford",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-lake-bayou-2-over.png"
+    },
+    {
+      "siteId": "ford-lake-bayou-2",
+      "kind": "ford",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-lake-bayou-2-about.png"
+    },
+    {
+      "siteId": "ford-lake-bayou-2",
+      "kind": "ford",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-lake-bayou-2-round.png"
+    },
+    {
+      "siteId": "ford-dry-run",
+      "kind": "ford",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-dry-run-over.png"
+    },
+    {
+      "siteId": "ford-dry-run",
+      "kind": "ford",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-dry-run-about.png"
+    },
+    {
+      "siteId": "ford-dry-run",
+      "kind": "ford",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-dry-run-round.png"
+    },
+    {
+      "siteId": "ford-little-whiteoak-bayou",
+      "kind": "ford",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-little-whiteoak-bayou-over.png"
+    },
+    {
+      "siteId": "ford-little-whiteoak-bayou",
+      "kind": "ford",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-little-whiteoak-bayou-about.png"
+    },
+    {
+      "siteId": "ford-little-whiteoak-bayou",
+      "kind": "ford",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-little-whiteoak-bayou-round.png"
+    },
+    {
+      "siteId": "ford-bear-branch",
+      "kind": "ford",
+      "zoom": "over",
+      "scale": 647.4,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-bear-branch-over.png"
+    },
+    {
+      "siteId": "ford-bear-branch",
+      "kind": "ford",
+      "zoom": "about",
+      "scale": 239.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-bear-branch-about.png"
+    },
+    {
+      "siteId": "ford-bear-branch",
+      "kind": "ford",
+      "zoom": "round",
+      "scale": 88.8,
+      "drawnAt": {
+        "kind": "ford",
+        "x": 640,
+        "y": 400
+      },
+      "path": "docs/evidence/crossings/audit/ford-bear-branch-round.png"
+    }
+  ],
+  "errors": []
+}

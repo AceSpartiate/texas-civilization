@@ -1,0 +1,162 @@
+id                               kind    water                       x       y       onWater  onRoad  roads  verdict
+-------------------------------  ------  --------------------------  ------  ------  -------  ------  -----  -------
+la-grange-crossing               ferry   Colorado River              35.16   -28.31  0        0       2      ok     
+columbus-crossing                ferry   Colorado River              56.38   -14.7   0.087    0       2      ok     
+    · 0.09 mi off its water
+lower-colorado-crossing          ford    Colorado River              61.43   -12.12  0.015    0       2      ok     
+ford                             ford    Guadalupe River             0.89    -0.48   0.029    0       2      ok     
+atascosito-crossing              ferry   Trinity River               159.71  -41.63  0.026    0       4      ok     
+harrisburg-ferry                 ferry   Buffalo Bayou               132.37  -16.24  0.005    0.001   2      ok     
+vinces-bridge                    bridge  Vince Bayou                 135.65  -15.65  0.006    0       1      ok     
+lynchs-ferry                     ferry   (open water)                144.16  -18.78  -        0.002   1      ok     
+victoria-ferry                   ferry   Guadalupe River             27.36   47.28   0.005    0.001   2      ok     
+lower-ford                       ford    San Antonio River           5.77    57.61   0.001    0.002   2      ok     
+san-felipe-ferry                 ferry   Brazos River                82.99   -21.87  0.004    0.004   1      ok     
+bexar-ford                       ford    San Antonio River           -61.45  4.44    0.004    0       1      ok     
+brighams-ferry                   ferry   Brazos River                115.2   29.96   0.001    0.001   2      ok     
+robinsons-ferry                  ferry   Brazos River                79.62   -57.49  0.001    0.004   1      ok     
+matagorda-ferry                  ferry   Colorado River              89.98   55.14   0.003    0.005   1      ok     
+mina-ford                        ford    Colorado River              9.02    -42.52  0.006    0       1      ok     
+groces-ferry                     ferry   Brazos River                82.87   -36.87  0.001    0       1      ok     
+ford-peach-creek                 ford    Peach Creek                 10.6    -4.4    0.005    0       2      ok     
+ford-berry-creek                 ford    Berry Creek                 3.38    -0.44   0.003    0       3      ok     
+ford-kerr-creek                  ford    Kerr Creek                  2.94    -0.69   0.002    0       3      ok     
+ford-denton-creek                ford    Denton Creek                8.63    -3.01   0.003    0       2      ok     
+ford-valley-branch               ford    Valley Branch               12.66   -6.53   0.001    0.001   2      ok     
+ford-vanham-creek                ford    Vanham Creek                11.29   -4.91   0.004    0       2      ok     
+ford-mitchell-creek              ford    Mitchell Creek              6.16    -2.16   0.004    0       2      ok     
+ford-tinsley-creek               ford    Tinsley Creek               1.88    -0.69   0.003    0       3      ok     
+ford-ben-branch                  ford    Ben Branch                  12.86   -6.73   0.001    0.002   2      FLAG   
+    ! cross: road-gonzales-la-grange-crossing meets the Ben Branch at 8°, along it rather than over it
+    ! cross: road-gonzales-columbus-crossing meets the Ben Branch at 8°, along it rather than over it
+ford-little-bernard-creek        ford    Little Bernard Creek        71.88   -23.31  0.003    0       2      ok     
+    · road-la-grange-crossing-san-felipe meets the Little Bernard Creek 3 times over 0.99 mi, all one crossing
+    · road-san-felipe-mina meets the Little Bernard Creek 3 times over 0.99 mi, all one crossing
+ford-new-year-creek              ford    New Year Creek              61.01   -50.76  0.006    0       1      ok     
+ford-dry-creek                   ford    Dry Creek                   24.22   49.16   0.001    0       2      ok     
+ford-boggy-creek                 ford    Boggy Creek                 21      49.88   0.006    0       2      ok     
+ford-rocky-creek                 ford    Rocky Creek                 30.78   9.84    0.003    0.002   1      ok     
+ford-willow-creek                ford    Willow Creek                27.94   38.5    0.001    0       1      ok     
+ford-lavaca-river                ford    Lavaca River                31.31   2.74    0        0       1      ok     
+ford-garcitas-creek              ford    Garcitas Creek              27.94   35.59   0.002    0       1      ok     
+ford-lavaca-river-2              ford    Lavaca River                40.79   28.84   0.005    0       1      ok     
+ford-placedo-creek               ford    Placedo Creek               29.88   45.12   0.004    0       1      ok     
+ford-garcitas-creek-2            ford    Garcitas Creek              34.22   39.41   0.002    0       1      ok     
+ford-navidad-river               ford    Navidad River               43.97   24.66   0.001    0.005   1      ok     
+ford-allens-creek                ford    Allens Creek                79.71   -18.33  0.002    0.001   1      ok     
+ford-san-bernard-river           ford    San Bernard River           73.01   -12.26  0.004    0       1      ok     
+ford-middle-bernard-creek        ford    Middle Bernard Creek        66.36   -12.19  0.004    0       1      ok     
+ford-east-bernard-creek          ford    East Bernard Creek          76.11   -15.36  0        0       1      ok     
+ford-allens-creek-2              ford    Allens Creek                79.33   -18.58  0.007    0       1      ok     
+ford-san-bernard-river-2         ford    San Bernard River           71.93   -14.44  0        0       1      ok     
+ford-east-bernard-creek-2        ford    East Bernard Creek          75.99   -16.19  0.003    0       1      ok     
+ford-coushatta-creek             ford    Coushatta Creek             67.66   -14.56  0        0       1      ok     
+ford-brays-bayou                 ford    Brays Bayou                 130.49  -15.89  0        0.003   1      ok     
+ford-bessies-creek               ford    Bessies Creek               88.87   -21.44  0.004    0       1      ok     
+ford-irons-creek                 ford    Irons Creek                 86.62   -21.76  0.001    0.004   1      ok     
+ford-bell-bottom-creek           ford    Bell Bottom Creek           89.38   -21.44  0.003    0       1      ok     
+ford-linney-creek                ford    Linney Creek                156.43  -39.55  0.003    0       1      ok     
+    · met at 29°
+ford-greens-bayou                ford    Greens Bayou                136.13  -19.88  0.002    0       1      ok     
+ford-west-prong-old-river        ford    West Prong Old River        152.61  -35.74  0.006    0       1      ok     
+ford-french-bayou                ford    French Bayou                159     -41     0        0       1      ok     
+ferry-san-jacinto-river          ferry   San Jacinto River           143.16  -26.78  0.006    0       1      ok     
+ford-hunting-bayou               ford    Hunting Bayou               135.39  -19.14  0.007    0       1      ok     
+ford-carpenters-bayou            ford    Carpenters Bayou            139.4   -23.02  0.001    0       1      ok     
+ford-big-bayou                   ford    Big Bayou                   160.56  -40.71  0.002    0       2      ok     
+ford-sims-bayou                  ford    Sims Bayou                  134.12  -15.51  0        0.004   1      ok     
+ford-patrick-bayou               ford    Patrick Bayou               141.98  -16.61  0.001    0       1      ok     
+ford-old-river-drain             ford    Old River Drain             156.81  -34.56  0.002    0       1      ok     
+    · met at 22°
+ford-west-prong-old-river-2      ford    West Prong Old River        154.62  -32.12  0.001    0       1      ok     
+ford-east-prong-old-river        ford    East Prong Old River        155.27  -33.02  0.005    0       1      ok     
+ford-josie-bayou                 ford    Josie Bayou                 164.81  -43.3   0.006    0.007   1      ok     
+    · met at 24°
+ford-wood-spring-creek           ford    Wood Spring Creek           163.56  -41.44  0.004    0       1      ok     
+ford-dullnig-creek               ford    Dullnig Creek               -12.15  2.56    0.001    0       1      ok     
+ford-stevens-creek               ford    Stevens Creek               -3.41   2.72    0.005    0.002   1      ok     
+    · road-ford-bexar meets the Stevens Creek 7 times over 1.82 mi, all one crossing
+ford-liberty-creek               ford    Liberty Creek               -10.52  2.6     0.001    0.002   1      ok     
+ford-boggy-creek-2               ford    Boggy Creek                 11.19   7.77    0.002    0       1      ok     
+ford-rocky-creek-2               ford    Rocky Creek                 10.5    6.75    0.003    0       1      ok     
+ford-peach-creek-2               ford    Peach Creek                 9.43    5.18    0.002    0       1      ok     
+ford-garcitas-creek-3            ford    Garcitas Creek              25.44   34.12   0.004    0       1      ok     
+ford-kokernot-branch             ford    Kokernot Branch             9.72    5.72    0.002    0       1      ok     
+ford-mound-creek                 ford    Mound Creek                 100.45  9.7     0.001    0       1      ok     
+ford-allens-creek-3              ford    Allens Creek                84.52   -11.98  0.001    0       1      ok     
+ford-buffalo-camp-bayou          ford    Buffalo Camp Bayou          120.26  31.51   0        0       1      ok     
+ford-caney-creek                 ford    Caney Creek                 100.64  36.49   0.003    0.004   1      ok     
+ford-bell-creek                  ford    Bell Creek                  109.48  24.52   0.005    0       1      ok     
+ford-live-oak-bayou              ford    Live Oak Bayou              98.99   38.51   0.005    0       1      ok     
+ford-san-bernard-river-3         ford    San Bernard River           108.06  26.1    0.002    0       1      ok     
+ford-linnville-bayou             ford    Linnville Bayou             102.39  34.23   0.002    0.003   1      ok     
+ford-big-boggy-creek             ford    Big Boggy Creek             92.76   47.49   0.002    0       1      ok     
+ford-peyton-creek                ford    Peyton Creek                94.76   44.37   0.003    0.001   1      ok     
+ford-pin-oak-creek               ford    Pin Oak Creek               22.83   -41.05  0.003    0       1      ok     
+ford-alum-creek                  ford    Alum Creek                  14.91   -42.81  0.003    0       1      ok     
+ford-copperas-creek              ford    Copperas Creek              11.74   -42.51  0        0       1      ok     
+ford-gravelly-creek              ford    Gravelly Creek              20.52   -42.44  0.003    0       1      ok     
+ford-j-d-creek                   ford    J D Creek                   18.38   -42.44  0.003    0       1      ok     
+ford-gills-branch                ford    Gills Branch                9.69    -42.67  0        0.004   1      ok     
+ford-spaulding                   ford    Spaulding                   22.08   -41.56  0.003    0       1      ok     
+ford-caney-creek-2               ford    Caney Creek                 78.31   -38.91  0.002    0       1      ok     
+ford-mill-creek                  ford    Mill Creek                  80.89   -24.86  0.004    0       2      ok     
+ford-spring-branch               ford    Spring Branch               76.94   -43.28  0.002    0       1      ok     
+ford-piney-creek                 ford    Piney Creek                 79.49   -32.14  0.002    0.003   1      ok     
+ford-ives-creek                  ford    Ives Creek                  79.31   -32.63  0.004    0       1      ok     
+ford-doe-run                     ford    Doe Run                     78.44   -53.96  0.001    0       1      ok     
+ford-gibbs-creek                 ford    Gibbs Creek                 78.06   -39.34  0.004    0       1      ok     
+ford-browning-branch             ford    Browning Branch             76.98   -42.4   0.004    0.002   1      ok     
+ford-new-year-creek-2            ford    New Year Creek              76.76   -45.13  0.004    0       1      ok     
+ford-bullinger-creek             ford    Bullinger Creek             81.87   -22.13  0.001    0       2      ok     
+ford-mill-creek-2                ford    Mill Creek                  107.18  -48.94  0.004    0       1      ok     
+ford-dry-creek-2                 ford    Dry Creek                   109.75  -48.44  0.001    0       1      ok     
+    · road-washington-nacogdoches meets the Dry Creek 3 times over 1.86 mi, all one crossing
+ford-rocky-creek-3               ford    Rocky Creek                 87.04   -53.46  0.001    0       1      ok     
+ford-sulphur-branch              ford    Sulphur Branch              104.23  -49.4   0.002    0.001   1      ok     
+ford-walnut-creek                ford    Walnut Creek                95.41   -50.81  0.001    0       1      ok     
+ford-lake-bayou                  ford    Lake Bayou                  161.19  -44.68  0.002    0       1      ok     
+ford-lake-bayou-2                ford    Lake Bayou                  162.95  -47.95  0.002    0       1      ok     
+ford-birch-creek                 ford    Birch Creek                 98.55   -50.56  0.004    0       1      ok     
+ford-bear-branch                 ford    Bear Branch                 116.85  -48.44  0.001    0       1      ok     
+ford-bowie-creek                 ford    Bowie Creek                 155.46  -42.31  0.003    0       1      ok     
+ford-luce-bayou                  ford    Luce Bayou                  145.41  -43.19  0.001    0       1      ok     
+ford-arnold-branch               ford    Arnold Branch               102.69  -49.94  0.003    0       1      ok     
+ford-magnolia-branch             ford    Magnolia Branch             112.74  -48.56  0.003    0       1      ok     
+ford-beason-creek                ford    Beason Creek                89.74   -52.39  0.001    0.003   1      ok     
+ford-redmond-creek               ford    Redmond Creek               163.44  -33.73  0        0       1      ok     
+ford-spinks-creek                ford    Spinks Creek                166.06  -29.39  0.001    0       1      ok     
+ford-lavaca-river-3              ford    Lavaca River                53.96   46.06   0.003    0       1      ok     
+ford-placedo-creek-2             ford    Placedo Creek               31.66   47.31   0.001    0       1      ok     
+ford-garcitas-creek-4            ford    Garcitas Creek              46.1    46.69   0.002    0       1      ok     
+ford-tres-palacios-river         ford    Tres Palacios River         79.18   48.81   0.004    0       1      ok     
+ford-west-branch-colorado-river  ford    West Branch Colorado River  87.8    53.8    0.005    0       1      ok     
+ford-cashs-creek                 ford    Cashs Creek                 77.03   48.4    0.002    0.005   1      ok     
+ford-johnsons-timber-slough      ford    Johnsons Timber Slough      80.48   49.11   0.001    0       1      ok     
+ford-little-robbins-slough       ford    Little Robbins Slough       85.55   53.69   0.003    0       1      ok     
+ford-brushy-creek                ford    Brushy Creek                6.06    -26.37  0        0       1      FLAG   
+    ! cross: the road road-mina-gonzales stays on one bank here
+ford-sandy-creek                 ford    Sandy Creek                 7.06    -31.68  0.002    0       1      ok     
+    · road-mina-gonzales meets the Sandy Creek 7 times over 2.40 mi, all one crossing
+ford-cedar-creek                 ford    Cedar Creek                 7.76    -37.76  0        0       1      ok     
+ford-reed-creek                  ford    Reed Creek                  1.94    -14.07  0.001    0       1      ok     
+    · road-mina-gonzales meets the Reed Creek 9 times over 3.13 mi, all one crossing
+ford-waterhole-branch            ford    Waterhole Branch            7.56    -33.29  0.004    0       1      ok     
+ford-sandy-fork                  ford    Sandy Fork                  1.94    -13.29  0        0       1      ok     
+ford-dry-run                     ford    Dry Run                     2.19    -9.44   0.002    0       1      ok     
+ford-piney-creek-2               ford    Piney Creek                 80.6    -31.23  0        0.002   1      ok     
+ford-clear-creek                 ford    Clear Creek                 85.05   -38.68  0        0       1      ok     
+    · met at 22°
+ford-threemile-creek             ford    Threemile Creek             88.61   -39.81  0        0       1      ok     
+ford-mound-creek-2               ford    Mound Creek                 90.21   -39.81  0.001    0       1      ok     
+ford-little-cypress-creek        ford    Little Cypress Creek        105.94  -36.34  0.005    0       1      ok     
+ford-cypress-creek               ford    Cypress Creek               109.92  -31.83  0.003    0       2      ok     
+ford-little-whiteoak-bayou       ford    Little Whiteoak Bayou       124.8   -24.45  0.005    0       1      ok     
+· road-harrisburg-lynchburg passes the head of Little Vince Bayou at 135.68, -15.68: the water stops at the road, so no crossing (TIP_MILES)
+· road-washington-nacogdoches passes the head of Bear Branch at 119.54, -48.33: the water stops at the road, so no crossing (TIP_MILES)
+· road-matagorda-victoria passes the head of East Branch Mad Island Slough at 82.61, 51.24: the water stops at the road, so no crossing (TIP_MILES)
+A class of 5: 175 creeks drawn, 0 crossings with no water under them.
+A class of 30: 200 creeks drawn, 0 crossings with no water under them.
+
+138 crossings (125 fords, 12 ferries, 1 bridges); 212 meetings of a road with drawn water in 163 runs.
+2 flagged, 10 with a note, 0 meetings uncovered.

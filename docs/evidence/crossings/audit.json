@@ -1,0 +1,2878 @@
+{
+  "built": "public/terrain/colonies-map.json.gz",
+  "date": "2026-09-20T03:54:00.393Z",
+  "tolerances": {
+    "ON_WATER": 0.16,
+    "ON_ROAD": 0.16,
+    "TIGHT": 0.03,
+    "BANK": 0.2,
+    "NEAR_DUPLICATE": 0.35,
+    "CHAIN_MILES": 1.5
+  },
+  "counts": {
+    "crossings": 138,
+    "fords": 125,
+    "ferries": 12,
+    "bridges": 1,
+    "roads": 36,
+    "watercourses": 561,
+    "degenerateWatercourses": 86,
+    "meetings": 212,
+    "runs": 163,
+    "tips": 3,
+    "flagged": 2,
+    "noted": 10,
+    "uncovered": 0
+  },
+  "uncovered": [],
+  "regions": [
+    {
+      "families": 5,
+      "creeksDrawn": 175,
+      "dry": []
+    },
+    {
+      "families": 30,
+      "creeksDrawn": 200,
+      "dry": []
+    }
+  ],
+  "crossings": [
+    {
+      "id": "la-grange-crossing",
+      "name": "The Colorado crossing",
+      "kind": "ferry",
+      "water": "Colorado River",
+      "waterKind": "river",
+      "x": 35.16,
+      "y": -28.31,
+      "off": 0.69,
+      "claimId": "HIST-TEX-145",
+      "onWater": 0,
+      "onRoad": 0,
+      "roads": [
+        "road-gonzales-la-grange-crossing",
+        "road-la-grange-crossing-goliad"
+      ],
+      "meetings": 8,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "columbus-crossing",
+      "name": "Beeson's crossing",
+      "kind": "ferry",
+      "water": "Colorado River",
+      "waterKind": "river",
+      "x": 56.38,
+      "y": -14.7,
+      "off": 0,
+      "claimId": "HIST-TEX-146",
+      "onWater": 0.087,
+      "onRoad": 0,
+      "roads": [
+        "road-columbus-crossing-san-felipe",
+        "road-gonzales-columbus-crossing"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": [
+        "0.09 mi off its water"
+      ]
+    },
+    {
+      "id": "lower-colorado-crossing",
+      "name": "The lower Colorado crossing",
+      "kind": "ford",
+      "water": "Colorado River",
+      "waterKind": "river",
+      "x": 61.43,
+      "y": -12.12,
+      "off": 0,
+      "claimId": "HIST-TEX-156",
+      "onWater": 0.015,
+      "onRoad": 0,
+      "roads": [
+        "road-victoria-lower-colorado-crossing",
+        "road-lower-colorado-crossing-san-felipe"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford",
+      "name": "The ford",
+      "kind": "ford",
+      "water": "Guadalupe River",
+      "waterKind": "river",
+      "x": 0.89,
+      "y": -0.48,
+      "off": 0,
+      "claimId": "HIST-GONZ-007",
+      "onWater": 0.029,
+      "onRoad": 0,
+      "roads": [
+        "road-ford-bexar",
+        "road-gonzales-ford"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "atascosito-crossing",
+      "name": "The Atascosito crossing",
+      "kind": "ferry",
+      "water": "Trinity River",
+      "waterKind": "river",
+      "x": 159.71,
+      "y": -41.63,
+      "off": 0,
+      "claimId": "HIST-TEX-152",
+      "onWater": 0.026,
+      "onRoad": 0,
+      "roads": [
+        "road-harrisburg-atascosito-crossing",
+        "road-atascosito-crossing-liberty",
+        "road-lynchburg-liberty",
+        "road-washington-nacogdoches"
+      ],
+      "meetings": 3,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "harrisburg-ferry",
+      "name": "The Harrisburg ferry",
+      "kind": "ferry",
+      "water": "Buffalo Bayou",
+      "waterKind": "river",
+      "x": 132.37,
+      "y": -16.24,
+      "off": 0,
+      "claimId": "HIST-TEX-151",
+      "onWater": 0.005,
+      "onRoad": 0.001,
+      "roads": [
+        "road-harrisburg-atascosito-crossing",
+        "road-burnetts-harrisburg"
+      ],
+      "meetings": 2,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "vinces-bridge",
+      "name": "Vince's bridge",
+      "kind": "bridge",
+      "water": "Vince Bayou",
+      "waterKind": "creek",
+      "x": 135.65,
+      "y": -15.65,
+      "off": 0,
+      "claimId": "HIST-TEX-153",
+      "onWater": 0.006,
+      "onRoad": 0,
+      "roads": [
+        "road-harrisburg-lynchburg"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "lynchs-ferry",
+      "name": "Lynch's ferry",
+      "kind": "ferry",
+      "water": null,
+      "waterKind": "river",
+      "x": 144.16,
+      "y": -18.78,
+      "off": 0,
+      "claimId": "HIST-TEX-150",
+      "onWater": null,
+      "onRoad": 0.002,
+      "roads": [
+        "road-harrisburg-lynchburg"
+      ],
+      "meetings": 0,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "victoria-ferry",
+      "name": "The ferry at Victoria",
+      "kind": "ferry",
+      "water": "Guadalupe River",
+      "waterKind": "river",
+      "x": 27.36,
+      "y": 47.28,
+      "off": 0,
+      "claimId": "FIC-GONZ-091",
+      "onWater": 0.005,
+      "onRoad": 0.001,
+      "roads": [
+        "road-la-grange-crossing-goliad",
+        "road-goliad-victoria"
+      ],
+      "meetings": 2,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "lower-ford",
+      "name": "The lower ford",
+      "kind": "ford",
+      "water": "San Antonio River",
+      "waterKind": "river",
+      "x": 5.77,
+      "y": 57.61,
+      "off": 0,
+      "claimId": "HIST-TEX-148",
+      "onWater": 0.001,
+      "onRoad": 0.002,
+      "roads": [
+        "road-la-grange-crossing-goliad",
+        "road-goliad-victoria"
+      ],
+      "meetings": 2,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "san-felipe-ferry",
+      "name": "The San Felipe ferry",
+      "kind": "ferry",
+      "water": "Brazos River",
+      "waterKind": "river",
+      "x": 82.99,
+      "y": -21.87,
+      "off": 0,
+      "claimId": "HIST-TEX-142",
+      "onWater": 0.004,
+      "onRoad": 0.004,
+      "roads": [
+        "road-san-felipe-harrisburg"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "bexar-ford",
+      "name": "The ford at Béxar",
+      "kind": "ford",
+      "water": "San Antonio River",
+      "waterKind": "river",
+      "x": -61.45,
+      "y": 4.44,
+      "off": 0,
+      "claimId": "HIST-TEX-149",
+      "onWater": 0.004,
+      "onRoad": 0,
+      "roads": [
+        "road-ford-bexar"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "brighams-ferry",
+      "name": "Brigham's ferry",
+      "kind": "ferry",
+      "water": "Brazos River",
+      "waterKind": "river",
+      "x": 115.2,
+      "y": 29.96,
+      "off": 0,
+      "claimId": "HIST-TEX-144",
+      "onWater": 0.001,
+      "onRoad": 0.001,
+      "roads": [
+        "road-brazoria-velasco",
+        "road-columbia-brazoria"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "robinsons-ferry",
+      "name": "Robinson's ferry",
+      "kind": "ferry",
+      "water": "Brazos River",
+      "waterKind": "river",
+      "x": 79.62,
+      "y": -57.49,
+      "off": 0,
+      "claimId": "HIST-TEX-143",
+      "onWater": 0.001,
+      "onRoad": 0.004,
+      "roads": [
+        "road-washington-nacogdoches"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "matagorda-ferry",
+      "name": "The ferry at Matagorda",
+      "kind": "ferry",
+      "water": "Colorado River",
+      "waterKind": "river",
+      "x": 89.98,
+      "y": 55.14,
+      "off": 0,
+      "claimId": "FIC-GONZ-091",
+      "onWater": 0.003,
+      "onRoad": 0.005,
+      "roads": [
+        "road-matagorda-victoria"
+      ],
+      "meetings": 2,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "mina-ford",
+      "name": "The ford at Mina",
+      "kind": "ford",
+      "water": "Colorado River",
+      "waterKind": "river",
+      "x": 9.02,
+      "y": -42.52,
+      "off": 0,
+      "claimId": "HIST-TEX-147",
+      "onWater": 0.006,
+      "onRoad": 0,
+      "roads": [
+        "road-mina-gonzales"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "groces-ferry",
+      "name": "Groce's ferry",
+      "kind": "ferry",
+      "water": "Brazos River",
+      "waterKind": "river",
+      "x": 82.87,
+      "y": -36.87,
+      "off": 0,
+      "claimId": "HIST-TEX-088",
+      "onWater": 0.001,
+      "onRoad": 0,
+      "roads": [
+        "road-groces-bernardo"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-peach-creek",
+      "name": "The ford on Peach Creek",
+      "kind": "ford",
+      "water": "Peach Creek",
+      "waterKind": "creek",
+      "x": 10.6,
+      "y": -4.4,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.005,
+      "onRoad": 0,
+      "roads": [
+        "road-gonzales-la-grange-crossing",
+        "road-gonzales-columbus-crossing"
+      ],
+      "meetings": 2,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-berry-creek",
+      "name": "The ford on Berry Creek",
+      "kind": "ford",
+      "water": "Berry Creek",
+      "waterKind": "creek",
+      "x": 3.38,
+      "y": -0.44,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.003,
+      "onRoad": 0,
+      "roads": [
+        "road-gonzales-la-grange-crossing",
+        "road-gonzales-columbus-crossing",
+        "road-gonzales-victoria"
+      ],
+      "meetings": 3,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-kerr-creek",
+      "name": "The ford on Kerr Creek",
+      "kind": "ford",
+      "water": "Kerr Creek",
+      "waterKind": "creek",
+      "x": 2.94,
+      "y": -0.69,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.002,
+      "onRoad": 0,
+      "roads": [
+        "road-gonzales-la-grange-crossing",
+        "road-gonzales-victoria",
+        "road-gonzales-columbus-crossing"
+      ],
+      "meetings": 3,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-denton-creek",
+      "name": "The ford on Denton Creek",
+      "kind": "ford",
+      "water": "Denton Creek",
+      "waterKind": "creek",
+      "x": 8.63,
+      "y": -3.01,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.003,
+      "onRoad": 0,
+      "roads": [
+        "road-gonzales-la-grange-crossing",
+        "road-gonzales-columbus-crossing"
+      ],
+      "meetings": 2,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-valley-branch",
+      "name": "The ford on Valley Branch",
+      "kind": "ford",
+      "water": "Valley Branch",
+      "waterKind": "creek",
+      "x": 12.66,
+      "y": -6.53,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.001,
+      "onRoad": 0.001,
+      "roads": [
+        "road-gonzales-la-grange-crossing",
+        "road-gonzales-columbus-crossing"
+      ],
+      "meetings": 2,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-vanham-creek",
+      "name": "The ford on Vanham Creek",
+      "kind": "ford",
+      "water": "Vanham Creek",
+      "waterKind": "creek",
+      "x": 11.29,
+      "y": -4.91,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.004,
+      "onRoad": 0,
+      "roads": [
+        "road-gonzales-la-grange-crossing",
+        "road-gonzales-columbus-crossing"
+      ],
+      "meetings": 2,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-mitchell-creek",
+      "name": "The ford on Mitchell Creek",
+      "kind": "ford",
+      "water": "Mitchell Creek",
+      "waterKind": "creek",
+      "x": 6.16,
+      "y": -2.16,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.004,
+      "onRoad": 0,
+      "roads": [
+        "road-gonzales-la-grange-crossing",
+        "road-gonzales-columbus-crossing"
+      ],
+      "meetings": 2,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-tinsley-creek",
+      "name": "The ford on Tinsley Creek",
+      "kind": "ford",
+      "water": "Tinsley Creek",
+      "waterKind": "creek",
+      "x": 1.88,
+      "y": -0.69,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.003,
+      "onRoad": 0,
+      "roads": [
+        "road-gonzales-la-grange-crossing",
+        "road-gonzales-victoria",
+        "road-gonzales-columbus-crossing"
+      ],
+      "meetings": 3,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-ben-branch",
+      "name": "The ford on Ben Branch",
+      "kind": "ford",
+      "water": "Ben Branch",
+      "waterKind": "creek",
+      "x": 12.86,
+      "y": -6.73,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.001,
+      "onRoad": 0.002,
+      "roads": [
+        "road-gonzales-la-grange-crossing",
+        "road-gonzales-columbus-crossing"
+      ],
+      "meetings": 2,
+      "verdict": "FLAG",
+      "flags": [
+        "cross: road-gonzales-la-grange-crossing meets the Ben Branch at 8°, along it rather than over it",
+        "cross: road-gonzales-columbus-crossing meets the Ben Branch at 8°, along it rather than over it"
+      ],
+      "notes": []
+    },
+    {
+      "id": "ford-little-bernard-creek",
+      "name": "The ford on Little Bernard Creek",
+      "kind": "ford",
+      "water": "Little Bernard Creek",
+      "waterKind": "creek",
+      "x": 71.88,
+      "y": -23.31,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.003,
+      "onRoad": 0,
+      "roads": [
+        "road-san-felipe-mina",
+        "road-la-grange-crossing-san-felipe"
+      ],
+      "meetings": 6,
+      "verdict": "ok",
+      "flags": [],
+      "notes": [
+        "road-la-grange-crossing-san-felipe meets the Little Bernard Creek 3 times over 0.99 mi, all one crossing",
+        "road-san-felipe-mina meets the Little Bernard Creek 3 times over 0.99 mi, all one crossing"
+      ]
+    },
+    {
+      "id": "ford-new-year-creek",
+      "name": "The ford on New Year Creek",
+      "kind": "ford",
+      "water": "New Year Creek",
+      "waterKind": "creek",
+      "x": 61.01,
+      "y": -50.76,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.006,
+      "onRoad": 0,
+      "roads": [
+        "road-washington-la-grange-crossing"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-dry-creek",
+      "name": "The ford on Dry Creek",
+      "kind": "ford",
+      "water": "Dry Creek",
+      "waterKind": "creek",
+      "x": 24.22,
+      "y": 49.16,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.001,
+      "onRoad": 0,
+      "roads": [
+        "road-goliad-victoria",
+        "road-la-grange-crossing-goliad"
+      ],
+      "meetings": 2,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-boggy-creek",
+      "name": "The ford on Boggy Creek",
+      "kind": "ford",
+      "water": "Boggy Creek",
+      "waterKind": "creek",
+      "x": 21,
+      "y": 49.88,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.006,
+      "onRoad": 0,
+      "roads": [
+        "road-la-grange-crossing-goliad",
+        "road-goliad-victoria"
+      ],
+      "meetings": 2,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-rocky-creek",
+      "name": "The ford on Rocky Creek",
+      "kind": "ford",
+      "water": "Rocky Creek",
+      "waterKind": "creek",
+      "x": 30.78,
+      "y": 9.84,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.003,
+      "onRoad": 0.002,
+      "roads": [
+        "road-la-grange-crossing-goliad"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-willow-creek",
+      "name": "The ford on Willow Creek",
+      "kind": "ford",
+      "water": "Willow Creek",
+      "waterKind": "creek",
+      "x": 27.94,
+      "y": 38.5,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.001,
+      "onRoad": 0,
+      "roads": [
+        "road-la-grange-crossing-goliad"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-lavaca-river",
+      "name": "The ford on the Lavaca River",
+      "kind": "ford",
+      "water": "Lavaca River",
+      "waterKind": "river",
+      "x": 31.31,
+      "y": 2.74,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0,
+      "onRoad": 0,
+      "roads": [
+        "road-la-grange-crossing-goliad"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-garcitas-creek",
+      "name": "The ford on Garcitas Creek",
+      "kind": "ford",
+      "water": "Garcitas Creek",
+      "waterKind": "creek",
+      "x": 27.94,
+      "y": 35.59,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.002,
+      "onRoad": 0,
+      "roads": [
+        "road-la-grange-crossing-goliad"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-lavaca-river-2",
+      "name": "The ford on the Lavaca River",
+      "kind": "ford",
+      "water": "Lavaca River",
+      "waterKind": "river",
+      "x": 40.79,
+      "y": 28.84,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.005,
+      "onRoad": 0,
+      "roads": [
+        "road-victoria-lower-colorado-crossing"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-placedo-creek",
+      "name": "The ford on Placedo Creek",
+      "kind": "ford",
+      "water": "Placedo Creek",
+      "waterKind": "creek",
+      "x": 29.88,
+      "y": 45.12,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.004,
+      "onRoad": 0,
+      "roads": [
+        "road-victoria-lower-colorado-crossing"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-garcitas-creek-2",
+      "name": "The ford on Garcitas Creek",
+      "kind": "ford",
+      "water": "Garcitas Creek",
+      "waterKind": "creek",
+      "x": 34.22,
+      "y": 39.41,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.002,
+      "onRoad": 0,
+      "roads": [
+        "road-victoria-lower-colorado-crossing"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-navidad-river",
+      "name": "The ford on the Navidad River",
+      "kind": "ford",
+      "water": "Navidad River",
+      "waterKind": "river",
+      "x": 43.97,
+      "y": 24.66,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.001,
+      "onRoad": 0.005,
+      "roads": [
+        "road-victoria-lower-colorado-crossing"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-allens-creek",
+      "name": "The ford on Allens Creek",
+      "kind": "ford",
+      "water": "Allens Creek",
+      "waterKind": "creek",
+      "x": 79.71,
+      "y": -18.33,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.002,
+      "onRoad": 0.001,
+      "roads": [
+        "road-lower-colorado-crossing-san-felipe"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-san-bernard-river",
+      "name": "The ford on the San Bernard River",
+      "kind": "ford",
+      "water": "San Bernard River",
+      "waterKind": "river",
+      "x": 73.01,
+      "y": -12.26,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.004,
+      "onRoad": 0,
+      "roads": [
+        "road-lower-colorado-crossing-san-felipe"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-middle-bernard-creek",
+      "name": "The ford on Middle Bernard Creek",
+      "kind": "ford",
+      "water": "Middle Bernard Creek",
+      "waterKind": "creek",
+      "x": 66.36,
+      "y": -12.19,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.004,
+      "onRoad": 0,
+      "roads": [
+        "road-lower-colorado-crossing-san-felipe"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-east-bernard-creek",
+      "name": "The ford on East Bernard Creek",
+      "kind": "ford",
+      "water": "East Bernard Creek",
+      "waterKind": "creek",
+      "x": 76.11,
+      "y": -15.36,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0,
+      "onRoad": 0,
+      "roads": [
+        "road-lower-colorado-crossing-san-felipe"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-allens-creek-2",
+      "name": "The ford on Allens Creek",
+      "kind": "ford",
+      "water": "Allens Creek",
+      "waterKind": "creek",
+      "x": 79.33,
+      "y": -18.58,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.007,
+      "onRoad": 0,
+      "roads": [
+        "road-columbus-crossing-san-felipe"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-san-bernard-river-2",
+      "name": "The ford on the San Bernard River",
+      "kind": "ford",
+      "water": "San Bernard River",
+      "waterKind": "river",
+      "x": 71.93,
+      "y": -14.44,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0,
+      "onRoad": 0,
+      "roads": [
+        "road-columbus-crossing-san-felipe"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-east-bernard-creek-2",
+      "name": "The ford on East Bernard Creek",
+      "kind": "ford",
+      "water": "East Bernard Creek",
+      "waterKind": "creek",
+      "x": 75.99,
+      "y": -16.19,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.003,
+      "onRoad": 0,
+      "roads": [
+        "road-columbus-crossing-san-felipe"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-coushatta-creek",
+      "name": "The ford on Coushatta Creek",
+      "kind": "ford",
+      "water": "Coushatta Creek",
+      "waterKind": "creek",
+      "x": 67.66,
+      "y": -14.56,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0,
+      "onRoad": 0,
+      "roads": [
+        "road-columbus-crossing-san-felipe"
+      ],
+      "meetings": 2,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-brays-bayou",
+      "name": "The ford on Brays Bayou",
+      "kind": "ford",
+      "water": "Brays Bayou",
+      "waterKind": "creek",
+      "x": 130.49,
+      "y": -15.89,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0,
+      "onRoad": 0.003,
+      "roads": [
+        "road-san-felipe-harrisburg"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-bessies-creek",
+      "name": "The ford on Bessies Creek",
+      "kind": "ford",
+      "water": "Bessies Creek",
+      "waterKind": "creek",
+      "x": 88.87,
+      "y": -21.44,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.004,
+      "onRoad": 0,
+      "roads": [
+        "road-san-felipe-harrisburg"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-irons-creek",
+      "name": "The ford on Irons Creek",
+      "kind": "ford",
+      "water": "Irons Creek",
+      "waterKind": "creek",
+      "x": 86.62,
+      "y": -21.76,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.001,
+      "onRoad": 0.004,
+      "roads": [
+        "road-san-felipe-harrisburg"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-bell-bottom-creek",
+      "name": "The ford on Bell Bottom Creek",
+      "kind": "ford",
+      "water": "Bell Bottom Creek",
+      "waterKind": "creek",
+      "x": 89.38,
+      "y": -21.44,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.003,
+      "onRoad": 0,
+      "roads": [
+        "road-san-felipe-harrisburg"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-linney-creek",
+      "name": "The ford on Linney Creek",
+      "kind": "ford",
+      "water": "Linney Creek",
+      "waterKind": "creek",
+      "x": 156.43,
+      "y": -39.55,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.003,
+      "onRoad": 0,
+      "roads": [
+        "road-harrisburg-atascosito-crossing"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": [
+        "met at 29°"
+      ]
+    },
+    {
+      "id": "ford-greens-bayou",
+      "name": "The ford on Greens Bayou",
+      "kind": "ford",
+      "water": "Greens Bayou",
+      "waterKind": "creek",
+      "x": 136.13,
+      "y": -19.88,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.002,
+      "onRoad": 0,
+      "roads": [
+        "road-harrisburg-atascosito-crossing"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-west-prong-old-river",
+      "name": "The ford on the West Prong Old River",
+      "kind": "ford",
+      "water": "West Prong Old River",
+      "waterKind": "creek",
+      "x": 152.61,
+      "y": -35.74,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.006,
+      "onRoad": 0,
+      "roads": [
+        "road-harrisburg-atascosito-crossing"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-french-bayou",
+      "name": "The ford on French Bayou",
+      "kind": "ford",
+      "water": "French Bayou",
+      "waterKind": "creek",
+      "x": 159,
+      "y": -41,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0,
+      "onRoad": 0,
+      "roads": [
+        "road-harrisburg-atascosito-crossing"
+      ],
+      "meetings": 2,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ferry-san-jacinto-river",
+      "name": "The ferry on the San Jacinto River",
+      "kind": "ferry",
+      "water": "San Jacinto River",
+      "waterKind": "river",
+      "x": 143.16,
+      "y": -26.78,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.006,
+      "onRoad": 0,
+      "roads": [
+        "road-harrisburg-atascosito-crossing"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-hunting-bayou",
+      "name": "The ford on Hunting Bayou",
+      "kind": "ford",
+      "water": "Hunting Bayou",
+      "waterKind": "creek",
+      "x": 135.39,
+      "y": -19.14,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.007,
+      "onRoad": 0,
+      "roads": [
+        "road-harrisburg-atascosito-crossing"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-carpenters-bayou",
+      "name": "The ford on Carpenters Bayou",
+      "kind": "ford",
+      "water": "Carpenters Bayou",
+      "waterKind": "creek",
+      "x": 139.4,
+      "y": -23.02,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.001,
+      "onRoad": 0,
+      "roads": [
+        "road-harrisburg-atascosito-crossing"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-big-bayou",
+      "name": "The ford on Big Bayou",
+      "kind": "ford",
+      "water": "Big Bayou",
+      "waterKind": "creek",
+      "x": 160.56,
+      "y": -40.71,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.002,
+      "onRoad": 0,
+      "roads": [
+        "road-atascosito-crossing-liberty",
+        "road-lynchburg-liberty"
+      ],
+      "meetings": 2,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-sims-bayou",
+      "name": "The ford on Sims Bayou",
+      "kind": "ford",
+      "water": "Sims Bayou",
+      "waterKind": "creek",
+      "x": 134.12,
+      "y": -15.51,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0,
+      "onRoad": 0.004,
+      "roads": [
+        "road-harrisburg-lynchburg"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-patrick-bayou",
+      "name": "The ford on Patrick Bayou",
+      "kind": "ford",
+      "water": "Patrick Bayou",
+      "waterKind": "creek",
+      "x": 141.98,
+      "y": -16.61,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.001,
+      "onRoad": 0,
+      "roads": [
+        "road-harrisburg-lynchburg"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-old-river-drain",
+      "name": "The ford on Old River Drain",
+      "kind": "ford",
+      "water": "Old River Drain",
+      "waterKind": "creek",
+      "x": 156.81,
+      "y": -34.56,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.002,
+      "onRoad": 0,
+      "roads": [
+        "road-lynchburg-liberty"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": [
+        "met at 22°"
+      ]
+    },
+    {
+      "id": "ford-west-prong-old-river-2",
+      "name": "The ford on the West Prong Old River",
+      "kind": "ford",
+      "water": "West Prong Old River",
+      "waterKind": "creek",
+      "x": 154.62,
+      "y": -32.12,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.001,
+      "onRoad": 0,
+      "roads": [
+        "road-lynchburg-liberty"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-east-prong-old-river",
+      "name": "The ford on the East Prong Old River",
+      "kind": "ford",
+      "water": "East Prong Old River",
+      "waterKind": "creek",
+      "x": 155.27,
+      "y": -33.02,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.005,
+      "onRoad": 0,
+      "roads": [
+        "road-lynchburg-liberty"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-josie-bayou",
+      "name": "The ford on Josie Bayou",
+      "kind": "ford",
+      "water": "Josie Bayou",
+      "waterKind": "creek",
+      "x": 164.81,
+      "y": -43.3,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.006,
+      "onRoad": 0.007,
+      "roads": [
+        "road-liberty-nacogdoches"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": [
+        "met at 24°"
+      ]
+    },
+    {
+      "id": "ford-wood-spring-creek",
+      "name": "The ford on Wood Spring Creek",
+      "kind": "ford",
+      "water": "Wood Spring Creek",
+      "waterKind": "creek",
+      "x": 163.56,
+      "y": -41.44,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.004,
+      "onRoad": 0,
+      "roads": [
+        "road-liberty-nacogdoches"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-dullnig-creek",
+      "name": "The ford on Dullnig Creek",
+      "kind": "ford",
+      "water": "Dullnig Creek",
+      "waterKind": "creek",
+      "x": -12.15,
+      "y": 2.56,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.001,
+      "onRoad": 0,
+      "roads": [
+        "road-ford-bexar"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-stevens-creek",
+      "name": "The ford on Stevens Creek",
+      "kind": "ford",
+      "water": "Stevens Creek",
+      "waterKind": "creek",
+      "x": -3.41,
+      "y": 2.72,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.005,
+      "onRoad": 0.002,
+      "roads": [
+        "road-ford-bexar"
+      ],
+      "meetings": 7,
+      "verdict": "ok",
+      "flags": [],
+      "notes": [
+        "road-ford-bexar meets the Stevens Creek 7 times over 1.82 mi, all one crossing"
+      ]
+    },
+    {
+      "id": "ford-liberty-creek",
+      "name": "The ford on Liberty Creek",
+      "kind": "ford",
+      "water": "Liberty Creek",
+      "waterKind": "creek",
+      "x": -10.52,
+      "y": 2.6,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.001,
+      "onRoad": 0.002,
+      "roads": [
+        "road-ford-bexar"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-boggy-creek-2",
+      "name": "The ford on Boggy Creek",
+      "kind": "ford",
+      "water": "Boggy Creek",
+      "waterKind": "creek",
+      "x": 11.19,
+      "y": 7.77,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.002,
+      "onRoad": 0,
+      "roads": [
+        "road-gonzales-victoria"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-rocky-creek-2",
+      "name": "The ford on Rocky Creek",
+      "kind": "ford",
+      "water": "Rocky Creek",
+      "waterKind": "creek",
+      "x": 10.5,
+      "y": 6.75,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.003,
+      "onRoad": 0,
+      "roads": [
+        "road-gonzales-victoria"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-peach-creek-2",
+      "name": "The ford on Peach Creek",
+      "kind": "ford",
+      "water": "Peach Creek",
+      "waterKind": "creek",
+      "x": 9.43,
+      "y": 5.18,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.002,
+      "onRoad": 0,
+      "roads": [
+        "road-gonzales-victoria"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-garcitas-creek-3",
+      "name": "The ford on Garcitas Creek",
+      "kind": "ford",
+      "water": "Garcitas Creek",
+      "waterKind": "creek",
+      "x": 25.44,
+      "y": 34.12,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.004,
+      "onRoad": 0,
+      "roads": [
+        "road-gonzales-victoria"
+      ],
+      "meetings": 3,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-kokernot-branch",
+      "name": "The ford on Kokernot Branch",
+      "kind": "ford",
+      "water": "Kokernot Branch",
+      "waterKind": "creek",
+      "x": 9.72,
+      "y": 5.72,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.002,
+      "onRoad": 0,
+      "roads": [
+        "road-gonzales-victoria"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-mound-creek",
+      "name": "The ford on Mound Creek",
+      "kind": "ford",
+      "water": "Mound Creek",
+      "waterKind": "creek",
+      "x": 100.45,
+      "y": 9.7,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.001,
+      "onRoad": 0,
+      "roads": [
+        "road-san-felipe-columbia"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-allens-creek-3",
+      "name": "The ford on Allens Creek",
+      "kind": "ford",
+      "water": "Allens Creek",
+      "waterKind": "creek",
+      "x": 84.52,
+      "y": -11.98,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.001,
+      "onRoad": 0,
+      "roads": [
+        "road-san-felipe-columbia"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-buffalo-camp-bayou",
+      "name": "The ford on Buffalo Camp Bayou",
+      "kind": "ford",
+      "water": "Buffalo Camp Bayou",
+      "waterKind": "creek",
+      "x": 120.26,
+      "y": 31.51,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0,
+      "onRoad": 0,
+      "roads": [
+        "road-brazoria-velasco"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-caney-creek",
+      "name": "The ford on Caney Creek",
+      "kind": "ford",
+      "water": "Caney Creek",
+      "waterKind": "creek",
+      "x": 100.64,
+      "y": 36.49,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.003,
+      "onRoad": 0.004,
+      "roads": [
+        "road-columbia-matagorda"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-bell-creek",
+      "name": "The ford on Bell Creek",
+      "kind": "ford",
+      "water": "Bell Creek",
+      "waterKind": "creek",
+      "x": 109.48,
+      "y": 24.52,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.005,
+      "onRoad": 0,
+      "roads": [
+        "road-columbia-matagorda"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-live-oak-bayou",
+      "name": "The ford on Live Oak Bayou",
+      "kind": "ford",
+      "water": "Live Oak Bayou",
+      "waterKind": "creek",
+      "x": 98.99,
+      "y": 38.51,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.005,
+      "onRoad": 0,
+      "roads": [
+        "road-columbia-matagorda"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-san-bernard-river-3",
+      "name": "The ford on the San Bernard River",
+      "kind": "ford",
+      "water": "San Bernard River",
+      "waterKind": "river",
+      "x": 108.06,
+      "y": 26.1,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.002,
+      "onRoad": 0,
+      "roads": [
+        "road-columbia-matagorda"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-linnville-bayou",
+      "name": "The ford on Linnville Bayou",
+      "kind": "ford",
+      "water": "Linnville Bayou",
+      "waterKind": "creek",
+      "x": 102.39,
+      "y": 34.23,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.002,
+      "onRoad": 0.003,
+      "roads": [
+        "road-columbia-matagorda"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-big-boggy-creek",
+      "name": "The ford on Big Boggy Creek",
+      "kind": "ford",
+      "water": "Big Boggy Creek",
+      "waterKind": "creek",
+      "x": 92.76,
+      "y": 47.49,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.002,
+      "onRoad": 0,
+      "roads": [
+        "road-columbia-matagorda"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-peyton-creek",
+      "name": "The ford on Peyton Creek",
+      "kind": "ford",
+      "water": "Peyton Creek",
+      "waterKind": "creek",
+      "x": 94.76,
+      "y": 44.37,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.003,
+      "onRoad": 0.001,
+      "roads": [
+        "road-columbia-matagorda"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-pin-oak-creek",
+      "name": "The ford on Pin Oak Creek",
+      "kind": "ford",
+      "water": "Pin Oak Creek",
+      "waterKind": "creek",
+      "x": 22.83,
+      "y": -41.05,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.003,
+      "onRoad": 0,
+      "roads": [
+        "road-san-felipe-mina"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-alum-creek",
+      "name": "The ford on Alum Creek",
+      "kind": "ford",
+      "water": "Alum Creek",
+      "waterKind": "creek",
+      "x": 14.91,
+      "y": -42.81,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.003,
+      "onRoad": 0,
+      "roads": [
+        "road-san-felipe-mina"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-copperas-creek",
+      "name": "The ford on Copperas Creek",
+      "kind": "ford",
+      "water": "Copperas Creek",
+      "waterKind": "creek",
+      "x": 11.74,
+      "y": -42.51,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0,
+      "onRoad": 0,
+      "roads": [
+        "road-san-felipe-mina"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-gravelly-creek",
+      "name": "The ford on Gravelly Creek",
+      "kind": "ford",
+      "water": "Gravelly Creek",
+      "waterKind": "creek",
+      "x": 20.52,
+      "y": -42.44,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.003,
+      "onRoad": 0,
+      "roads": [
+        "road-san-felipe-mina"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-j-d-creek",
+      "name": "The ford on J D Creek",
+      "kind": "ford",
+      "water": "J D Creek",
+      "waterKind": "creek",
+      "x": 18.38,
+      "y": -42.44,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.003,
+      "onRoad": 0,
+      "roads": [
+        "road-san-felipe-mina"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-gills-branch",
+      "name": "The ford on Gills Branch",
+      "kind": "ford",
+      "water": "Gills Branch",
+      "waterKind": "creek",
+      "x": 9.69,
+      "y": -42.67,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0,
+      "onRoad": 0.004,
+      "roads": [
+        "road-san-felipe-mina"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-spaulding",
+      "name": "The ford on Spaulding",
+      "kind": "ford",
+      "water": "Spaulding",
+      "waterKind": "creek",
+      "x": 22.08,
+      "y": -41.56,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.003,
+      "onRoad": 0,
+      "roads": [
+        "road-san-felipe-mina"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-caney-creek-2",
+      "name": "The ford on Caney Creek",
+      "kind": "ford",
+      "water": "Caney Creek",
+      "waterKind": "creek",
+      "x": 78.31,
+      "y": -38.91,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.002,
+      "onRoad": 0,
+      "roads": [
+        "road-san-felipe-washington"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-mill-creek",
+      "name": "The ford on Mill Creek",
+      "kind": "ford",
+      "water": "Mill Creek",
+      "waterKind": "creek",
+      "x": 80.89,
+      "y": -24.86,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.004,
+      "onRoad": 0,
+      "roads": [
+        "road-san-felipe-washington",
+        "road-san-felipe-groces"
+      ],
+      "meetings": 2,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-spring-branch",
+      "name": "The ford on Spring Branch",
+      "kind": "ford",
+      "water": "Spring Branch",
+      "waterKind": "creek",
+      "x": 76.94,
+      "y": -43.28,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.002,
+      "onRoad": 0,
+      "roads": [
+        "road-san-felipe-washington"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-piney-creek",
+      "name": "The ford on Piney Creek",
+      "kind": "ford",
+      "water": "Piney Creek",
+      "waterKind": "creek",
+      "x": 79.49,
+      "y": -32.14,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.002,
+      "onRoad": 0.003,
+      "roads": [
+        "road-san-felipe-washington"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-ives-creek",
+      "name": "The ford on Ives Creek",
+      "kind": "ford",
+      "water": "Ives Creek",
+      "waterKind": "creek",
+      "x": 79.31,
+      "y": -32.63,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.004,
+      "onRoad": 0,
+      "roads": [
+        "road-san-felipe-washington"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-doe-run",
+      "name": "The ford on Doe Run",
+      "kind": "ford",
+      "water": "Doe Run",
+      "waterKind": "creek",
+      "x": 78.44,
+      "y": -53.96,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.001,
+      "onRoad": 0,
+      "roads": [
+        "road-san-felipe-washington"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-gibbs-creek",
+      "name": "The ford on Gibbs Creek",
+      "kind": "ford",
+      "water": "Gibbs Creek",
+      "waterKind": "creek",
+      "x": 78.06,
+      "y": -39.34,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.004,
+      "onRoad": 0,
+      "roads": [
+        "road-san-felipe-washington"
+      ],
+      "meetings": 2,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-browning-branch",
+      "name": "The ford on Browning Branch",
+      "kind": "ford",
+      "water": "Browning Branch",
+      "waterKind": "creek",
+      "x": 76.98,
+      "y": -42.4,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.004,
+      "onRoad": 0.002,
+      "roads": [
+        "road-san-felipe-washington"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-new-year-creek-2",
+      "name": "The ford on New Year Creek",
+      "kind": "ford",
+      "water": "New Year Creek",
+      "waterKind": "creek",
+      "x": 76.76,
+      "y": -45.13,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.004,
+      "onRoad": 0,
+      "roads": [
+        "road-san-felipe-washington"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-bullinger-creek",
+      "name": "The ford on Bullinger Creek",
+      "kind": "ford",
+      "water": "Bullinger Creek",
+      "waterKind": "creek",
+      "x": 81.87,
+      "y": -22.13,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.001,
+      "onRoad": 0,
+      "roads": [
+        "road-san-felipe-washington",
+        "road-san-felipe-groces"
+      ],
+      "meetings": 2,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-mill-creek-2",
+      "name": "The ford on Mill Creek",
+      "kind": "ford",
+      "water": "Mill Creek",
+      "waterKind": "creek",
+      "x": 107.18,
+      "y": -48.94,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.004,
+      "onRoad": 0,
+      "roads": [
+        "road-washington-nacogdoches"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-dry-creek-2",
+      "name": "The ford on Dry Creek",
+      "kind": "ford",
+      "water": "Dry Creek",
+      "waterKind": "creek",
+      "x": 109.75,
+      "y": -48.44,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.001,
+      "onRoad": 0,
+      "roads": [
+        "road-washington-nacogdoches"
+      ],
+      "meetings": 3,
+      "verdict": "ok",
+      "flags": [],
+      "notes": [
+        "road-washington-nacogdoches meets the Dry Creek 3 times over 1.86 mi, all one crossing"
+      ]
+    },
+    {
+      "id": "ford-rocky-creek-3",
+      "name": "The ford on Rocky Creek",
+      "kind": "ford",
+      "water": "Rocky Creek",
+      "waterKind": "creek",
+      "x": 87.04,
+      "y": -53.46,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.001,
+      "onRoad": 0,
+      "roads": [
+        "road-washington-nacogdoches"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-sulphur-branch",
+      "name": "The ford on Sulphur Branch",
+      "kind": "ford",
+      "water": "Sulphur Branch",
+      "waterKind": "creek",
+      "x": 104.23,
+      "y": -49.4,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.002,
+      "onRoad": 0.001,
+      "roads": [
+        "road-washington-nacogdoches"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-walnut-creek",
+      "name": "The ford on Walnut Creek",
+      "kind": "ford",
+      "water": "Walnut Creek",
+      "waterKind": "creek",
+      "x": 95.41,
+      "y": -50.81,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.001,
+      "onRoad": 0,
+      "roads": [
+        "road-washington-nacogdoches"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-lake-bayou",
+      "name": "The ford on Lake Bayou",
+      "kind": "ford",
+      "water": "Lake Bayou",
+      "waterKind": "creek",
+      "x": 161.19,
+      "y": -44.68,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.002,
+      "onRoad": 0,
+      "roads": [
+        "road-washington-nacogdoches"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-lake-bayou-2",
+      "name": "The ford on Lake Bayou",
+      "kind": "ford",
+      "water": "Lake Bayou",
+      "waterKind": "creek",
+      "x": 162.95,
+      "y": -47.95,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.002,
+      "onRoad": 0,
+      "roads": [
+        "road-washington-nacogdoches"
+      ],
+      "meetings": 2,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-birch-creek",
+      "name": "The ford on Birch Creek",
+      "kind": "ford",
+      "water": "Birch Creek",
+      "waterKind": "creek",
+      "x": 98.55,
+      "y": -50.56,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.004,
+      "onRoad": 0,
+      "roads": [
+        "road-washington-nacogdoches"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-bear-branch",
+      "name": "The ford on Bear Branch",
+      "kind": "ford",
+      "water": "Bear Branch",
+      "waterKind": "creek",
+      "x": 116.85,
+      "y": -48.44,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.001,
+      "onRoad": 0,
+      "roads": [
+        "road-washington-nacogdoches"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-bowie-creek",
+      "name": "The ford on Bowie Creek",
+      "kind": "ford",
+      "water": "Bowie Creek",
+      "waterKind": "creek",
+      "x": 155.46,
+      "y": -42.31,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.003,
+      "onRoad": 0,
+      "roads": [
+        "road-washington-nacogdoches"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-luce-bayou",
+      "name": "The ford on Luce Bayou",
+      "kind": "ford",
+      "water": "Luce Bayou",
+      "waterKind": "creek",
+      "x": 145.41,
+      "y": -43.19,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.001,
+      "onRoad": 0,
+      "roads": [
+        "road-washington-nacogdoches"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-arnold-branch",
+      "name": "The ford on Arnold Branch",
+      "kind": "ford",
+      "water": "Arnold Branch",
+      "waterKind": "creek",
+      "x": 102.69,
+      "y": -49.94,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.003,
+      "onRoad": 0,
+      "roads": [
+        "road-washington-nacogdoches"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-magnolia-branch",
+      "name": "The ford on Magnolia Branch",
+      "kind": "ford",
+      "water": "Magnolia Branch",
+      "waterKind": "creek",
+      "x": 112.74,
+      "y": -48.56,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.003,
+      "onRoad": 0,
+      "roads": [
+        "road-washington-nacogdoches"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-beason-creek",
+      "name": "The ford on Beason Creek",
+      "kind": "ford",
+      "water": "Beason Creek",
+      "waterKind": "creek",
+      "x": 89.74,
+      "y": -52.39,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.001,
+      "onRoad": 0.003,
+      "roads": [
+        "road-washington-nacogdoches"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-redmond-creek",
+      "name": "The ford on Redmond Creek",
+      "kind": "ford",
+      "water": "Redmond Creek",
+      "waterKind": "creek",
+      "x": 163.44,
+      "y": -33.73,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0,
+      "onRoad": 0,
+      "roads": [
+        "road-liberty-anahuac"
+      ],
+      "meetings": 2,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-spinks-creek",
+      "name": "The ford on Spinks Creek",
+      "kind": "ford",
+      "water": "Spinks Creek",
+      "waterKind": "creek",
+      "x": 166.06,
+      "y": -29.39,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.001,
+      "onRoad": 0,
+      "roads": [
+        "road-liberty-anahuac"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-lavaca-river-3",
+      "name": "The ford on the Lavaca River",
+      "kind": "ford",
+      "water": "Lavaca River",
+      "waterKind": "river",
+      "x": 53.96,
+      "y": 46.06,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.003,
+      "onRoad": 0,
+      "roads": [
+        "road-matagorda-victoria"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-placedo-creek-2",
+      "name": "The ford on Placedo Creek",
+      "kind": "ford",
+      "water": "Placedo Creek",
+      "waterKind": "creek",
+      "x": 31.66,
+      "y": 47.31,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.001,
+      "onRoad": 0,
+      "roads": [
+        "road-matagorda-victoria"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-garcitas-creek-4",
+      "name": "The ford on Garcitas Creek",
+      "kind": "ford",
+      "water": "Garcitas Creek",
+      "waterKind": "creek",
+      "x": 46.1,
+      "y": 46.69,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.002,
+      "onRoad": 0,
+      "roads": [
+        "road-matagorda-victoria"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-tres-palacios-river",
+      "name": "The ford on the Tres Palacios River",
+      "kind": "ford",
+      "water": "Tres Palacios River",
+      "waterKind": "creek",
+      "x": 79.18,
+      "y": 48.81,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.004,
+      "onRoad": 0,
+      "roads": [
+        "road-matagorda-victoria"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-west-branch-colorado-river",
+      "name": "The ford on the West Branch Colorado River",
+      "kind": "ford",
+      "water": "West Branch Colorado River",
+      "waterKind": "creek",
+      "x": 87.8,
+      "y": 53.8,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.005,
+      "onRoad": 0,
+      "roads": [
+        "road-matagorda-victoria"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-cashs-creek",
+      "name": "The ford on Cashs Creek",
+      "kind": "ford",
+      "water": "Cashs Creek",
+      "waterKind": "creek",
+      "x": 77.03,
+      "y": 48.4,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.002,
+      "onRoad": 0.005,
+      "roads": [
+        "road-matagorda-victoria"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-johnsons-timber-slough",
+      "name": "The ford on Johnsons Timber Slough",
+      "kind": "ford",
+      "water": "Johnsons Timber Slough",
+      "waterKind": "creek",
+      "x": 80.48,
+      "y": 49.11,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.001,
+      "onRoad": 0,
+      "roads": [
+        "road-matagorda-victoria"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-little-robbins-slough",
+      "name": "The ford on Little Robbins Slough",
+      "kind": "ford",
+      "water": "Little Robbins Slough",
+      "waterKind": "creek",
+      "x": 85.55,
+      "y": 53.69,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.003,
+      "onRoad": 0,
+      "roads": [
+        "road-matagorda-victoria"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-brushy-creek",
+      "name": "The ford on Brushy Creek",
+      "kind": "ford",
+      "water": "Brushy Creek",
+      "waterKind": "creek",
+      "x": 6.06,
+      "y": -26.37,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0,
+      "onRoad": 0,
+      "roads": [
+        "road-mina-gonzales"
+      ],
+      "meetings": 7,
+      "verdict": "FLAG",
+      "flags": [
+        "cross: the road road-mina-gonzales stays on one bank here"
+      ],
+      "notes": []
+    },
+    {
+      "id": "ford-sandy-creek",
+      "name": "The ford on Sandy Creek",
+      "kind": "ford",
+      "water": "Sandy Creek",
+      "waterKind": "creek",
+      "x": 7.06,
+      "y": -31.68,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.002,
+      "onRoad": 0,
+      "roads": [
+        "road-mina-gonzales"
+      ],
+      "meetings": 7,
+      "verdict": "ok",
+      "flags": [],
+      "notes": [
+        "road-mina-gonzales meets the Sandy Creek 7 times over 2.40 mi, all one crossing"
+      ]
+    },
+    {
+      "id": "ford-cedar-creek",
+      "name": "The ford on Cedar Creek",
+      "kind": "ford",
+      "water": "Cedar Creek",
+      "waterKind": "creek",
+      "x": 7.76,
+      "y": -37.76,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0,
+      "onRoad": 0,
+      "roads": [
+        "road-mina-gonzales"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-reed-creek",
+      "name": "The ford on Reed Creek",
+      "kind": "ford",
+      "water": "Reed Creek",
+      "waterKind": "creek",
+      "x": 1.94,
+      "y": -14.07,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.001,
+      "onRoad": 0,
+      "roads": [
+        "road-mina-gonzales"
+      ],
+      "meetings": 9,
+      "verdict": "ok",
+      "flags": [],
+      "notes": [
+        "road-mina-gonzales meets the Reed Creek 9 times over 3.13 mi, all one crossing"
+      ]
+    },
+    {
+      "id": "ford-waterhole-branch",
+      "name": "The ford on Waterhole Branch",
+      "kind": "ford",
+      "water": "Waterhole Branch",
+      "waterKind": "creek",
+      "x": 7.56,
+      "y": -33.29,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.004,
+      "onRoad": 0,
+      "roads": [
+        "road-mina-gonzales"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-sandy-fork",
+      "name": "The ford on Sandy Fork",
+      "kind": "ford",
+      "water": "Sandy Fork",
+      "waterKind": "creek",
+      "x": 1.94,
+      "y": -13.29,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0,
+      "onRoad": 0,
+      "roads": [
+        "road-mina-gonzales"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-dry-run",
+      "name": "The ford on Dry Run",
+      "kind": "ford",
+      "water": "Dry Run",
+      "waterKind": "creek",
+      "x": 2.19,
+      "y": -9.44,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.002,
+      "onRoad": 0,
+      "roads": [
+        "road-mina-gonzales"
+      ],
+      "meetings": 3,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-piney-creek-2",
+      "name": "The ford on Piney Creek",
+      "kind": "ford",
+      "water": "Piney Creek",
+      "waterKind": "creek",
+      "x": 80.6,
+      "y": -31.23,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0,
+      "onRoad": 0.002,
+      "roads": [
+        "road-san-felipe-groces"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-clear-creek",
+      "name": "The ford on Clear Creek",
+      "kind": "ford",
+      "water": "Clear Creek",
+      "waterKind": "creek",
+      "x": 85.05,
+      "y": -38.68,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0,
+      "onRoad": 0,
+      "roads": [
+        "road-bernardo-donohos"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": [
+        "met at 22°"
+      ]
+    },
+    {
+      "id": "ford-threemile-creek",
+      "name": "The ford on Threemile Creek",
+      "kind": "ford",
+      "water": "Threemile Creek",
+      "waterKind": "creek",
+      "x": 88.61,
+      "y": -39.81,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0,
+      "onRoad": 0,
+      "roads": [
+        "road-donohos-mccarleys"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-mound-creek-2",
+      "name": "The ford on Mound Creek",
+      "kind": "ford",
+      "water": "Mound Creek",
+      "waterKind": "creek",
+      "x": 90.21,
+      "y": -39.81,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.001,
+      "onRoad": 0,
+      "roads": [
+        "road-donohos-mccarleys"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-little-cypress-creek",
+      "name": "The ford on Little Cypress Creek",
+      "kind": "ford",
+      "water": "Little Cypress Creek",
+      "waterKind": "creek",
+      "x": 105.94,
+      "y": -36.34,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.005,
+      "onRoad": 0,
+      "roads": [
+        "road-roberts-burnetts"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-cypress-creek",
+      "name": "The ford on Cypress Creek",
+      "kind": "ford",
+      "water": "Cypress Creek",
+      "waterKind": "creek",
+      "x": 109.92,
+      "y": -31.83,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.003,
+      "onRoad": 0,
+      "roads": [
+        "road-burnetts-harrisburg",
+        "road-roberts-burnetts"
+      ],
+      "meetings": 1,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    },
+    {
+      "id": "ford-little-whiteoak-bayou",
+      "name": "The ford on Little Whiteoak Bayou",
+      "kind": "ford",
+      "water": "Little Whiteoak Bayou",
+      "waterKind": "creek",
+      "x": 124.8,
+      "y": -24.45,
+      "off": 0,
+      "claimId": "FIC-GONZ-090",
+      "onWater": 0.005,
+      "onRoad": 0,
+      "roads": [
+        "road-burnetts-harrisburg"
+      ],
+      "meetings": 2,
+      "verdict": "ok",
+      "flags": [],
+      "notes": []
+    }
+  ],
+  "passedTheHead": [
+    {
+      "road": "road-harrisburg-lynchburg",
+      "water": "Little Vince Bayou",
+      "x": 135.68,
+      "y": -15.68
+    },
+    {
+      "road": "road-washington-nacogdoches",
+      "water": "Bear Branch",
+      "x": 119.54,
+      "y": -48.33
+    },
+    {
+      "road": "road-matagorda-victoria",
+      "water": "East Branch Mad Island Slough",
+      "x": 82.61,
+      "y": 51.24
+    }
+  ]
+}

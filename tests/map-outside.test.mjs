@@ -62,7 +62,15 @@ const BOX_FILES = {
   // Rebuilt again 2026-09-19 for the places past the box (docs/MAP_ACCURACY.md §11): Robbins's ferry opened as a window of the
   // Trinity, so the Old San Antonio Road crosses where the record puts it, and the country outside drawn - Matamoros, San
   // Patricio, Laredo, the Presidio del Río Grande, Gaines's ferry, their roads and their crossings. Was bb08abb6...ce9e33b.
-  'colonies-map.json.gz': 'cf35e37fba2e37451e0972f543b3dcbef38b1ec8d938624f2e055f38fb322024',
+  // Rebuilt again 2026-09-19 for the crossings audit (docs/MAP_ACCURACY.md §10.6): a crossing now stands at the **squarest**
+  // meeting of its road with its water instead of the middle one of a run, which on a road laid along a creek bottom was a
+  // graze - nine fords moved 0.17 to 1.16 miles, the ford on Brushy Creek from a meeting of three degrees to one of ninety;
+  // and a meeting inside the last twentieth of a mile of a drawn line is the road passing the water's head, not a crossing -
+  // two fords went, on Bear Branch and on East Branch Mad Island Slough. Every road is byte for byte what it was, and so are
+  // the crossing windows and all 561 watercourses (checked by decoding both). Was bb08abb6...ce9e33b.
+  // Built again after the two were merged, 2026-09-19: the places past the box and the audit's two rules of placement
+  // together. Was cf35e37f... on the one branch and 67a873b7... on the other.
+  'colonies-map.json.gz': '9a60fdb6d18b70343c4957e6fed853477d17845b9a07c44f9fa40c8996e04a01',
   'colonies-province.json.gz': '8ef9b839a6f03b82a1ef81e832eb3d483cd7761e8f4eef32eea33b3508883dc7',
   'colonies-water.json.gz': '22900ae34954db4225fba11e1e977beab6161e4d53d84b5ebc923089e3162c44',
   // The biomes of 1836 (2026-09-19). The grid a class of the week before was made on is kept as it was, beside it, and read
