@@ -398,7 +398,7 @@ is the change working, not a bug, but it is why the prairie and timber rows of �
 
 Owner: *"do a check on what animals live in Texas, back then of course. Because I've never heard of Antelope in Texas."*
 The research, animal by animal, with the quotations and the page numbers, is
-[BIOMES §16](BIOMES.md#16-the-bestiary-checked-against-the-record-owner-2026-09-20). This section is what changed in play,
+[BIOMES §17](BIOMES.md#17-the-bestiary-checked-against-the-record-owner-2026-09-20). This section is what changed in play,
 what it measured, and what was deliberately left. Claims `HIST-TEX-260` to `-265` and `FIC-GONZ-170` to `-172`.
 
 ### 9.1 What changed
