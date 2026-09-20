@@ -58,6 +58,16 @@ export const BIG_THICKET = Object.freeze({ south: 30.1, north: 30.9, west: -95.0
 export const CANE_BOTTOMS = Object.freeze({ ecoregions: ['34c'], lower33f: 29.6 });
 /** The delta's palm groves: riparian woods in EPA 34f, or by the Rio Grande east of this longitude (§4.11). */
 export const PALM_DELTA = Object.freeze({ ecoregion: '34f', east: -98.0, riverMiles: 1.5 });
+/**
+ * Where LANDFIRE's thornscrub is not mesquite prairie at all, whatever side of the Nueces it lies (`FIC-GONZ-095`, 2026-09-20,
+ * the criticism of the biomes §14.1 item 8). The Nueces line asks one question of a cell - which side of the river - and every
+ * thornscrub cell north-east of it became mesquite savanna wherever it stood, including **102 square miles in EPA 34a, the
+ * humid Gulf coastal prairie at Matagorda and Harrisburg, and 19 in 34h, the barrier islands and the coastal marshes**. The
+ * coast of 1836 was tall grass to the water (`HIST-TEX-097`, `HIST-TEX-096`), not brush country; the brush came with the
+ * overgrazing that followed. So on the humid coast and its floodplains thornscrub is the prairie round it, and on the barrier
+ * islands and the bays' margins it is the saline prairie.
+ */
+export const NOT_THORNSCRUB = Object.freeze({ 'coastal-prairie': ['34a', '34c'], 'salt-prairie': ['34g', '34h', '34i'] });
 
 const standOfModel = new Map();
 for (const [stand, models] of Object.entries(BY_MODEL)) for (const model of models) standOfModel.set(model, stand);
@@ -71,6 +81,9 @@ export const modelOf = row => row.bps_model === '-9999' ? '-9999' : row.bps_mode
 export function standOfSetting(model, place) {
   const stand = standOfModel.get(model);
   if (!stand) return undefined;
+  if (stand === 'mesquite-savanna' || stand === 'chaparral') {
+    for (const [instead, ecoregions] of Object.entries(NOT_THORNSCRUB)) if (ecoregions.includes(place.eco)) return instead;
+  }
   if (THORNSCRUB.includes(model) && place.southWestOfNueces) return 'chaparral';
   if (THICKET_PINE.includes(model) && place.lat >= BIG_THICKET.south && place.lat <= BIG_THICKET.north && place.lon >= BIG_THICKET.west
     && place.lon <= BIG_THICKET.east && BIG_THICKET.ecoregions.includes(place.eco)) return 'thicket';

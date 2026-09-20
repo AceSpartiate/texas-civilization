@@ -41,6 +41,20 @@ beside a 24-thread busy loop it passed 10/10. **Seen in those suites:** `pace.te
 failed 7 of 10 (fixed the same day, above) and `save-cadence.test.mjs` *"a page is sent a snapshot"* 1 of 10 (fixed the same day, above), both real-time tests of their own. No
 product code changed.
 
+**The coast filed right, 2026-09-20:** [BIOMES.md](docs/BIOMES.md) §16, `FIC-GONZ-095`. The biome critique's eighth
+finding, taken next by the owner: the Nueces line asked one question of a cell - which side of the river it lay - so every
+LANDFIRE thornscrub setting north-east of it was drawn as mesquite savanna wherever it stood, including the humid Gulf
+coastal prairie at Matagorda and Harrisburg and the barrier islands. The coast of 1836 was tall grass to the water
+(`HIST-TEX-096`, `HIST-TEX-097`); the brush came with the overgrazing after. A mesquite or chaparral setting in EPA 34a or
+34c is coastal prairie now, and in 34g, 34h or 34i saline prairie; 33b and 34b keep theirs, which the research contemplated
+and said so. Measured by decoding the grid before and after: **127.0 square miles moved** - 106.6 to coastal prairie, 18.9 to
+saline prairie, 1.5 of chaparral - and nothing else in it. `colonies-woods.*`, `colonies-land.*` and the country outside the
+box were rebuilt (78 s for the outside; the raw data is at `C:UserszachwTexasDataaw`), so the ring of the box's own
+classes at the outside's edge still matches, and their hashes in `tests/map-outside.test.mjs` carry the reason. No save
+version moved. `tests/biomes.test.mjs` holds the rule for each ecoregion and one of the cells it moved. `npm test` 772. The
+animals themselves - whether an antelope belongs anywhere near the colonies at all - are a separate session's. Same computer
+only.
+
 **The town fields cut to the record, 2026-09-20:** [BIOMES.md](docs/BIOMES.md) §15, `HIST-TEX-203`, `HIST-TEX-204`,
 `FIC-GONZ-062`. The biome critique's largest finding, put to the owner by multiple choice and answered *cut them to the
 record*: the map laid **twenty square miles - 12,768 acres - of solid field round Béxar**, three and a half times the 3,500

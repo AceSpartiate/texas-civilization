@@ -61,6 +61,15 @@ test('the country of 1836 stands where the research puts it, and every biome is 
     // Alamo, not twenty square miles. A mile east of the Alamo is the prairie the county still was in 1858.
     ['the prairie a mile east of the Alamo', -98.47, 29.426, 'tallgrass-prairie'],
   ]) assert.equal(gridStandAt(at(lon, lat)), stand, name);
+  // The coast filed right (2026-09-20, `FIC-GONZ-095`): LANDFIRE's thornscrub in the humid Gulf coastal prairie and on the
+  // barrier islands was drawn as mesquite prairie until then - 127 square miles of it, which is why a Matagorda family could
+  // hunt an antelope. The rule, and one of the cells it moved, on the coastal prairie north-west of Harrisburg.
+  for (const [eco, stand] of [['34a', 'coastal-prairie'], ['34c', 'coastal-prairie'], ['34g', 'salt-prairie'], ['34h', 'salt-prairie'], ['34i', 'salt-prairie'],
+    // 33b and 34b keep theirs: the research contemplated the post oak savanna and the subhumid coast and said so (§3.2).
+    ['33b', 'mesquite-savanna'], ['34b', 'mesquite-savanna']]) {
+    for (const model of ['13900', '13920', '14380']) assert.equal(standOfSetting(model, { lon: -96, lat: 29, eco }), stand, `LANDFIRE ${model} in EPA ${eco}`);
+  }
+  assert.equal(gridStandAt({ x: 90.94, y: -42.56 }), 'coastal-prairie', 'the coastal prairie north-west of Harrisburg is drawn as mesquite');
   // The ten settings the week of 2026-09-15 filed under the wrong stand (docs/BIOMES.md §6.3).
   const plain = { lon: -97, lat: 30, eco: '' };
   for (const [model, stand] of [['14800', 'cypress-swamp'], ['13230', 'thicket'], ['15060', 'thicket'], ['13930', 'cedar-brake'], ['15230', 'cedar-brake'],

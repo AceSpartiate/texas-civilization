@@ -53,8 +53,12 @@ const BOX_FILES = {
   // town's ring from 0.7 mile to a quarter, about 130 acres apiece instead of 985 (HIST-TEX-204). Nothing else in the grids
   // moved: the stands, the creeks' belts and the ecoregions are what they were, and no felled tree's id is lost, because a
   // patch that was field had no trees in it to lose.
-  'colonies-land.bin.gz': 'd7641535b132adab6eb6b1cee2fd15d449123d96d3d95af89c6a219e7e3a61eb',
-  'colonies-land.json.gz': '113d688d1becbfd54fab136483e35f7f3609af3d8e374cb3736f30de6bec4242',
+  // Rebuilt again 2026-09-20, the coast filed right (docs/BIOMES.md §16): LANDFIRE's thornscrub inside the humid Gulf coastal
+  // prairie and on the barrier islands was drawn as mesquite prairie - 127 square miles of it, 106.6 now coastal prairie and
+  // 18.9 saline prairie (FIC-GONZ-095). The country outside the box was built again with it, so its edge ring still carries
+  // the box's own classes.
+  'colonies-land.bin.gz': '723175505f26f728017ed18cc473e026917d5918170672854e45967ffc0f6857',
+  'colonies-land.json.gz': '1d0fc8969aacaa8530404325cea0f7ffd40db54f4c62791df5132b28332c4b4e',
   // Rebuilt on purpose on main the same day, the march east's four houses made places (HIST-TEX-088); the outside layer does
   // not read it. Was 872c0ef1...965a4.
   // Rebuilt on purpose 2026-09-19 for the crossings (docs/MAP_ACCURACY.md §10): a ford, ferry or bridge wherever a road meets
@@ -85,8 +89,12 @@ const BOX_FILES = {
   // town's ring from 0.7 mile to a quarter, about 130 acres apiece instead of 985 (HIST-TEX-204). Nothing else in the grids
   // moved: the stands, the creeks' belts and the ecoregions are what they were, and no felled tree's id is lost, because a
   // patch that was field had no trees in it to lose.
-  'colonies-woods.bin.gz': 'df9f420ff207bf63e5eb6996212d483a52ffe5c58e1b16bf34dad7b1835d2193',
-  'colonies-woods.json.gz': '9b851d28525042b78712ec55fe61bc4c7386389e44e09a28d8c87cd590058bc0',
+  // Rebuilt again 2026-09-20, the coast filed right (docs/BIOMES.md §16): LANDFIRE's thornscrub inside the humid Gulf coastal
+  // prairie and on the barrier islands was drawn as mesquite prairie - 127 square miles of it, 106.6 now coastal prairie and
+  // 18.9 saline prairie (FIC-GONZ-095). The country outside the box was built again with it, so its edge ring still carries
+  // the box's own classes.
+  'colonies-woods.bin.gz': '73bebb09ee06f686efb01e6139ddd6fefdc16111ba5a195fc0677be7b2907f96',
+  'colonies-woods.json.gz': 'a9abbbea3910239119f558cd228ab03231bfee689c48e879ff1bfc4c7135dcee',
   'colonies-woods-2016.bin.gz': '16221666bf6757126faba1b8237fd82b42618aa277c36265da80ff6abeca067a',
   'colonies-woods-2016.json.gz': '66bf252a4d8161564866def57ba1c1680bf4075b30e8dee9ccb156fb43ab3e1e',
 };

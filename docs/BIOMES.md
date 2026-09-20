@@ -1091,3 +1091,30 @@ and the prairie a mile east of it.
 
 `ceiling:` the fields are still a solid class with no trees and no game, laid by a rule rather than a survey; what the record
 gives is an acreage and a corridor, not an outline. `ceiling:` the acequias themselves are still not drawn.
+
+---
+
+## 16. The coast filed right (owner, 2026-09-20)
+
+§14.1's eighth finding, taken next: **the Nueces line asked one question of a cell — which side of the river it lay — and
+every LANDFIRE thornscrub cell north-east of it became mesquite savanna wherever it stood**, including the humid Gulf coastal
+prairie at Matagorda and Harrisburg and the barrier islands. The coast of 1836 was tall grass to the water
+(`HIST-TEX-096`, `HIST-TEX-097`); the brush came with the overgrazing that followed. The symptom in play was a Matagorda
+family hunting an antelope.
+
+`NOT_THORNSCRUB` in `scripts/terrain/biomes.mjs` (`FIC-GONZ-095`): a mesquite-savanna or chaparral setting in
+
+- **EPA 34a and 34c** — the northern humid coastal prairies and their floodplains — is **coastal prairie**;
+- **EPA 34g, 34h and 34i** — the bays' margins, the barrier islands and the coastal marshes — is **saline prairie**.
+
+33b (the southern post oak savanna) and 34b (the *subhumid* southern coast) keep their mesquite: §3.2 contemplated both and
+said so, and Holley and Olmsted put mesquite grass and scattered mesquite across that country.
+
+Measured by decoding the grid before and after: **127.0 square miles moved** — 106.6 mesquite savanna to coastal prairie,
+18.9 mesquite savanna to saline prairie, and 1.5 of chaparral the same way. That is the critique's own count (102 in 34a,
+19 in 34h) with the floodplains and the other marsh ecoregions added. Nothing else in the grid moved. The country outside the
+box was rebuilt with it, so the same rule runs down the lower coast and the ring of the box's own classes at its edge still
+matches.
+
+`ceiling:` this is still LANDFIRE's map of settings read through EPA's ecoregions, not a survey of 1836; what changed is that
+the Nueces line no longer overrides the country a cell actually stands in.
