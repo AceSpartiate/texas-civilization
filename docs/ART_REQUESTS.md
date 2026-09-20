@@ -41,6 +41,7 @@ does not have:
 | A traveller faster than a walk can be drawn is a canvas-drawn pin: a round disc with the family panel's `portrait-<figure>` clipped inside it (itself a Claude-drawn stand-in), ringed rust for the principal, ink for the family, grey for somebody else's and slate for a courier, on a short point to the ground, with the road ahead in canvas dots. A beast or wagon on the road by itself is its own standing sprite (`horse-chestnut`, `ox-brown`, `wagon-covered`) on a smaller disc; their initial while no sheet has loaded | `drawTravelMarkers` in `public/app.js`; the rule in `MARKER_ABOVE`/`wantsMarker` in `public/motion.js` | Request 2026-09-19 — the traveller's marker | `marker-pin` (the pin and its ring, portrait-less) and `marker-dot`, drawn over by the same portrait; `drawTravelMarkers` lays the sprites down instead of its strokes |
 | A ferry is the library's `ferry-raft` (round logs lashed with a rope rail) drawn at the near landing, standing in for a plank flatboat; the ferry rope bank to bank, its two posts and the trodden landings are canvas strokes, and the river is laid back over the road between the landings | `drawFerry` in `public/landscape-art.js`, called for every `ferry` place by `drawWorld` in `public/app.js` | Request 2026-09-19 — the ferry flatboat | `ferry-flatboat` (and `-laden`) where the raft is drawn, `ferry-post` for the posts |
 | **No stand-in: nothing is drawn.** The army's crossing of the Brazos at Groce's on the steamboat Yellow Stone, April 12–13, 1836, is said only in words ("The army is crossing the Brazos on the steamboat Yellow Stone. She came up the river for cotton under Captain John E. Ross, and General Houston has taken her to carry the men, the horses and the wagons over the flood."); no boat is on the river. Words-only is the deliberate state: the library has nothing near a steamboat (the `skiff` and `ferry-raft` would say the wrong thing), and a wrong picture of a named boat is worse than none | `sim/houston.mjs` (the words) | Request 2026-09-18 — the steamboat Yellow Stone | `steamboat-moored`, `steamboat-steam`, `steamboat-laden`, drawn on the Brazos at Groce's ferry |
+| A tree or a tuft in a norther is the library's own upright sprite sheared about its foot, so it leans; nothing streams, and smoke is not drawn at all | `windLean` in `public/weather-art.js`, applied by `postOak` and `drawGroundDetail` in `public/app.js` and by `lean` in `public/art.js` | Request 2026-09-20 — the country in a norther | `oak-broad-wind`, `oak-spreading-wind`, `pecan-wind`, `grass-tuft-wind`, `smoke-streaming` |
 
 ## Claude-drawn stand-ins (replace with Astra's)
 
@@ -84,6 +85,42 @@ Open requests, newest first. Each one says why it is needed, what exactly to del
 into the existing pipeline, and how it will be checked. When a request is delivered, mark it
 **Delivered** with the date and move the details into [ART_MANIFEST.md](ART_MANIFEST.md) by running
 `npm run build:art`; do not delete it from here.
+
+---
+
+## Request 2026-09-20 — the country in a norther: trees and grass bent by the wind
+
+**Status: open; stand-in in use (see *Stand-ins in use* above).** Owner, 2026-09-20: "Weather should be a visual thing...
+Players should see the weather. If implemented correctly, no text should be required." The weather is drawn
+([docs/WEATHER.md](WEATHER.md), `public/weather-art.js`), and a norther is the kind the record makes most of: Gray at San
+Felipe on 25 February 1836, "the wind **chopped suddenly round to the north**, and there commenced what is familiarly
+called in this country **a norther**, by which is always understood a hard and cold blow from the north."
+
+- **Why.** A norther has no rain and no cloud to draw (`HIST-TEX-229`; Almonte has "clear" or "clear and pleasant" every
+  morning of one), so what carries it is the **wind in the country**: the trees and the grass going over with it. Every
+  tree the library has stands straight. The page bends them by shearing the sprite about its own foot, which works — it
+  is what the shots in `docs/evidence/weather/` show — but a sheared painting is a leaning silhouette, not a tree in a
+  gale: the crown does not stream, the branches do not part, and the leaves do not lift off the windward side. At the
+  closest zoom that shows.
+- **References.** `HISTORY.md` `HIST-TEX-221`, `HIST-TEX-229`; [docs/WEATHER.md](WEATHER.md) §4.1, which is Gray's own
+  paragraph and is worth reading before drawing this.
+- **What.** In the frontier-v1 `nature` style, the same three trees the map already scatters, each in one more pose —
+  bent hard to the viewer's right, as if the wind came out of the page:
+  - `oak-broad-wind`, `oak-spreading-wind`, `pecan-wind` — the trunk leaning about a sixth of its height off vertical,
+    the crown pulled downwind and thinned on the windward side, a few leaves leaving the crown to the right.
+  - `grass-tuft-wind` — the tuft's blades laid over nearly flat to the right, not merely fanned.
+  - `smoke-streaming` — a chimney's or a campfire's smoke lying flat and low instead of rising, about three figure
+    widths long, thinning as it goes. Nothing in the library draws smoke; a norther over a house or a camp is the place
+    a class will look for it first.
+- **Scale and anchor.** Exactly those of the sprites they stand beside (`oak-broad`, `grass-tuft`), so a tree does not
+  change size when the wind gets up; `smoke-streaming` anchors at the chimney top or the fire, at its upwind end.
+- **How it plugs in.** Add to the `nature` sheet, `npm run build:art`. In `postOak` and the tuft in `drawGroundDetail`
+  (`public/app.js`), pick the `-wind` sprite when `windLean(...)` is past about half of `MAX_LEAN` and drop the shear to
+  what is left over, so light airs still bend a little and a gale uses the drawn pose. Delete the stand-in row.
+  **Keep the rule the stand-in proved**: the lean must be read at each thing's own place on the map
+  (`weatherMix(weather, wx, minute)`), not once for the view, or it stops at a region boundary in a straight line.
+- **Check.** Beside the upright `oak-broad` at the same height the trunk is the same thickness and the crown the same
+  mass; at the county zoom, a stand of them reads as wind and not as a different kind of tree.
 
 ---
 

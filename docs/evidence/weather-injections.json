@@ -24,7 +24,8 @@
       "name": "a norther brings rain and a flat grey sky, as the popular image has it",
       "file": "public/weather-art.js",
       "failed": [
-        "a norther is a wind and a cold clear sky, and it brings no rain of its own"
+        "a norther is a wind and a cold clear sky, and it brings no rain of its own",
+        "a norther that brought its rain is drawn wet; every other day of one is clear"
       ]
     },
     {
@@ -110,6 +111,45 @@
       "file": "public/weather-art.js",
       "failed": [
         "a view inside one weather is laid down in one piece; only a view across a boundary is cut up"
+      ]
+    },
+    {
+      "name": "the tile is drawn for a wind a quarter of the compass off the one blowing",
+      "file": "public/weather-art.js",
+      "failed": [
+        "the wind a tile is drawn for is the wind that is blowing, to within a step of the compass"
+      ]
+    },
+    {
+      "name": "a norther that brought its rain is drawn dry, like every other day of one",
+      "file": "public/weather-art.js",
+      "failed": [
+        "a norther that brought its rain is drawn wet; every other day of one is clear"
+      ]
+    },
+    {
+      "name": "the page shuts a ford at a level the simulation does not",
+      "file": "public/weather-art.js",
+      "failed": [
+        "the page draws the same river the simulation is running"
+      ]
+    },
+    {
+      "name": "the page draws one of the three countries under another name",
+      "file": "public/weather-art.js",
+      "failed": [
+        "the three weights always make one whole country, wherever you stand",
+        "a norther is a wind and a cold clear sky, and it brings no rain of its own",
+        "the trees lean with the wind, and no further than a tree bends",
+        "a fair, dry, still day draws nothing at all",
+        "the page draws the same river the simulation is running"
+      ]
+    },
+    {
+      "name": "the wind step can run off the end of the compass, or go negative, as a cache key",
+      "file": "public/weather-art.js",
+      "failed": [
+        "the wind a tile is drawn for is the wind that is blowing, to within a step of the compass"
       ]
     },
     {

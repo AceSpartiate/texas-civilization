@@ -153,6 +153,9 @@ export function weatherMix(weather, x, minute) {
  * ceiling on the oaks' wind says the same).
  */
 export const MAX_LEAN = 0.44;
+// stand-in: docs/ART_REQUESTS.md, request 2026-09-20 - the country in a norther. Every tree and tuft the library has
+// stands straight, so a norther bends the library's own upright sprite about its foot instead. The crown does not stream
+// and no smoke lies flat; `oak-broad-wind` and the rest replace this.
 export function windLean(mix) {
   const force = Math.hypot(mix.wind.x, mix.wind.y);
   if (!(force > 0.02)) return 0;

@@ -3,7 +3,8 @@
 **Status: research, 2026-09-20. Nothing here is built.** This is the record and a proposal; the owner implements. Read it with
 `sim/road.mjs` (`RAIN_SHARE`, `rainyDay`, the wagon in the mud), `sim/world.mjs` (`wadeAt`, the ford in high water),
 `docs/MAP_ACCURACY.md` §10.7 (the wade), `docs/ROAD_EAST.md`, and the claims it registers in `HISTORY.md`:
-`HIST-TEX-220` to `HIST-TEX-238` and `FIC-GONZ-130` to `FIC-GONZ-136`.
+`HIST-TEX-220` to `HIST-TEX-238` and `FIC-GONZ-130` to `FIC-GONZ-136`, and - for the drawing, built 2026-09-20 -
+`FIC-GONZ-190` and `FIC-GONZ-191`.
 
 It is structured as `docs/BIOMES.md` is: what was asked, how to read the sources, the dated record, the record by kind of
 weather, the ordinary climate as a stated basis for inference, what the game has now, the proposed model, what not to build,
@@ -1068,6 +1069,45 @@ carrying its claim ID so a teacher can show where it comes from:
   `water: 0`, and every existing class then opens on a world that is right rather than wrong. `sim/trade.mjs` is the worked
   example and `CLAUDE.md` is explicit. The one thing to watch: a class already past 29 September would start dry where the
   record has the Guadalupe up — a *less* accurate world, not a wrong one. Default it and leave it.
+
+---
+
+### 10.8 How it is drawn, and that it is never written — built 2026-09-20
+
+**§10.6 above proposed one line a day. The owner decided otherwise on 2026-09-20, after this research was merged:**
+
+> "Weather should be a visual thing. Update the game via a sub-agent so that we don't need text to explain the weather to
+> players. Players should see the weather. If implemented correctly, no text should be required."
+
+So **there is no weather line, no label, no icon and no panel**, and §10.6's wordings are not built and should not be.
+What a class is told about the weather is nothing; what it is shown is `public/weather-art.js`, and the claims are
+`FIC-GONZ-190` (how each kind is drawn) and `FIC-GONZ-191` (the regions blended, and a river over its banks).
+
+The family's own journal is untouched: a wade that went wrong or a wagon bogged is still recorded, because that is what
+happened to **them**, not a description of the sky.
+
+| Kind | What a student sees, and nothing else |
+| --- | --- |
+| `fair` | nothing at all. The day the others are read against, and it costs the page nothing to draw |
+| `rain` | rain falling in two layers, the light flat and grey, the ground and the roads and the fields darkened together under it, the creeks running fuller and browner |
+| `storm` | the same, harder and much darker, and lightning banked in the far sky at the top of the view — **at a distance, never a bolt among the people** |
+| `norther` | **a wind, and a clear sky.** The trees and the grass lean with it, dust and the last leaves stream north to south down the screen, the light goes thin and blue and a little brighter. **No rain and no cloud** (§3.3, `HIST-TEX-228`) — except on the day the simulation marks `wet`, which draws its rain too |
+| `fog` | a pale veil lying on the bottoms and banked along the water, thinning through the morning and gone by half past nine (§3.2, Gray's "Cleared off about 9 o'clock") |
+| `water` | the rivers fuller and brown, the low ground along them dark and soaked; **past the level that shuts a ford, out of their banks altogether, with drift on the water** |
+
+**Two rules in it are not decoration and must survive any later change.**
+
+1. **The fog is drawn under the people, the houses, the markers and the names.** It is scenery, never knowledge: what a
+   family may know is decided on the server (`VISION.md`), and a veil on the page that hid a person or a marker would be
+   the client deciding. `FOG_CEILING` caps it well below opaque as well, and a test holds both.
+2. **A river at or past `WATER_SHUT` must read at a glance**, because that is the level at which a family walks down to a
+   crossing and is turned back. A river the page drew as ordinary while the simulation had shut its ford would be the
+   worst failure this drawing can have; `tests/weather-art.test.mjs` holds the page's two water levels to
+   `sim/weather.mjs`'s so they cannot drift apart.
+
+The cost, measured before and after with `scripts/perf-render-measure.mjs`, is in `docs/PERFORMANCE_RENDER.md`, "The
+weather, drawn". The pictures are in `docs/evidence/weather/`, written by `scripts/weather-browser-proof.mjs`, and every
+day in them is a real day of a real class taken from `weatherOn`.
 
 ---
 

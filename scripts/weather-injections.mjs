@@ -24,8 +24,8 @@ const INJECTIONS = [
   // docs/WEATHER.md §3.3: the Alamo siege was cold and CLEAR. A norther drawn wet is the popular image, not the record.
   {
     name: 'a norther brings rain and a flat grey sky, as the popular image has it',
-    from: "else if (region.kind === 'norther') { mix.norther += up; mix.cold += up; }",
-    to: "else if (region.kind === 'norther') { mix.norther += up; mix.cold += up; mix.rain += up; mix.flat += up; }",
+    from: '      mix.norther += up; mix.cold += up;',
+    to: '      mix.norther += up; mix.cold += up; mix.rain += up; mix.flat += up;',
   },
   {
     name: 'the wind blows the way it came from, so a norther drives things back up to the north',
@@ -70,12 +70,12 @@ const INJECTIONS = [
   },
   {
     name: 'a fair, dry, still day is drawn anyway',
-    from: "return region && (region.kind !== 'fair' || (region.water || 0) > 0.25 || (region.wind?.force || 0) > 0.2);",
+    from: "return region && (region.kind !== 'fair' || (region.water || 0) > WATER_HIGH * 0.75 || (region.wind?.force || 0) > 0.2);",
     to: 'return Boolean(region);',
   },
   {
     name: 'a river still in flood on a fair day is not drawn',
-    from: "return region && (region.kind !== 'fair' || (region.water || 0) > 0.25 || (region.wind?.force || 0) > 0.2);",
+    from: "return region && (region.kind !== 'fair' || (region.water || 0) > WATER_HIGH * 0.75 || (region.wind?.force || 0) > 0.2);",
     to: "return region && region.kind !== 'fair';",
   },
   // Every student's view is inside one region; cutting it up anyway is the cost this test exists to stop.
@@ -93,6 +93,21 @@ const INJECTIONS = [
     name: 'the tile is drawn for a wind a quarter of the compass off the one blowing',
     from: '  return ((Math.round(angle / (Math.PI * 2) * WIND_STEPS) % WIND_STEPS) + WIND_STEPS) % WIND_STEPS;',
     to: '  return ((Math.round(angle / (Math.PI * 2) * WIND_STEPS) + 4) % WIND_STEPS + WIND_STEPS) % WIND_STEPS;',
+  },
+  {
+    name: 'a norther that brought its rain is drawn dry, like every other day of one',
+    from: '      if (region.wet) { mix.rain += up * 0.8; mix.flat += up * 0.55; }',
+    to: '',
+  },
+  {
+    name: 'the page shuts a ford at a level the simulation does not',
+    from: 'export const WATER_HIGH = 0.3, WATER_SHUT = 0.85;',
+    to: 'export const WATER_HIGH = 0.3, WATER_SHUT = 0.7;',
+  },
+  {
+    name: 'the page draws one of the three countries under another name',
+    from: "export const REGIONS = Object.freeze(['west', 'centre', 'east']);",
+    to: "export const REGIONS = Object.freeze(['west', 'middle', 'east']);",
   },
   {
     name: 'the wind step can run off the end of the compass, or go negative, as a cache key',
