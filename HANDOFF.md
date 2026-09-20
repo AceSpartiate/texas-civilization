@@ -41,6 +41,49 @@ beside a 24-thread busy loop it passed 10/10. **Seen in those suites:** `pace.te
 failed 7 of 10 (fixed the same day, above) and `save-cadence.test.mjs` *"a page is sent a snapshot"* 1 of 10 (fixed the same day, above), both real-time tests of their own. No
 product code changed.
 
+**The crossings audited, and two rules of placement mended (2026-09-19).** Owner: *"go through all of the bridges and fords.
+ensure that they're actually placed correctly so that they cross the rivers."* Every crossing was checked against the built
+map by a script that is part of the repository now - `node scripts/crossings-audit.mjs` (`--flagged`, `--json`, `--region`) -
+which asks of each whether it stands on the water it names, on its road, and whether the road goes bank to bank through it
+rather than along it; the table is [audit.txt](docs/evidence/crossings/audit.txt). Forty-three were looked at on the page
+(`node scripts/crossings-browser-proof.mjs --audit`, shots in `docs/evidence/crossings/audit/`, read by eye). Two faults, both
+in `scripts/build-colonies-map.mjs`: a crossing was the **middle** meeting of a chained run, which on a road laid along a creek
+bottom is a graze - the ford on Brushy Creek stood on a meeting of three degrees with one of ninety a third of a mile off -
+and is the **squarest** meeting now, moving nine fords 0.17 to 1.16 miles; and a meeting inside the last twentieth of a mile of
+a drawn line is the road passing the water's **head**, so two fords on the tips of Bear Branch and East Branch Mad Island
+Slough are gone. Every road, every crossing window and all 561 watercourses came through byte for byte; `saveVersion` is not
+bumped. `tests/crossings.test.mjs` +3, each proven by injection (`docs/evidence/crossings/audit-injections.json`), and the six
+that were there still prove out. Written up as [MAP_ACCURACY.md](docs/MAP_ACCURACY.md) §10.6, claimed as `FIC-GONZ-110`; **no
+1835 source was read for this pass and it makes no historical claim**. After the merge with the places past the box the audit
+reads 125 crossings in the box, 2 flagged and 0 uncovered; the six crossings outside the box are set aside, checked by their
+own test. Left standing with `ceiling:`: two crossings are still a graze because the **road** runs in the creek bottom (a
+routing decision - a creek cell costs a quarter mile of extra effort - and its own pass), and 86 degenerate two-point
+watercourses no crossing depends on.
+
+**The biomes criticised, and two things mended (2026-09-19).** Owner: criticise the biomes brutally and improve them. The
+criticism is [BIOMES.md](docs/BIOMES.md) §14 and what it changed in play is [BIOME_GAMEPLAY.md](docs/BIOME_GAMEPLAY.md) §8.
+Two faults were the same fault twice - the research wrote a rule and the build shipped something else. §7.1's quarry column
+carried geography ("wild cattle and mustangs west of the Lavaca", "bison north and west of the Colorado") and lost it when the
+column became a flat array of ids, so 170 of 447 autumn prairie kills were a wild cow or a mustang inside the Austin colony
+and every coastal-prairie place had a one-tick duck hunt forty miles from water; Woodman's own next sentence, on the page the
+registry already quotes, says the wild horses were "not numerous" within the settlements. A quarry carries a country now as
+well as a cover and a season (`HIST-TEX-200` to `-202`, `FIC-GONZ-120`): buffalo, mustang, wild cow, antelope and javelina
+west of the Lavaca as the map draws it, ducks and geese within a quarter mile of water, the buffalo's months October to April.
+And §4.6 measured Harrisburg as the test its creek rule had to pass - "the strip must not simply be removed" - then chose a
+width that took Harrisburg to 5 in 100 timber where the 2016 grid had 13, with six running bayous through it: a running creek
+big enough to carry a name keeps a belt 0.14 mile either side through the plains now, never in the Hill Country
+(`FIC-GONZ-121`). Measured on six classes of thirty, same seeds: wild cows 42 → 6, mustangs 54 → 6, winter ducks 132 → 72,
+deer 564 → 696, food a hunt unchanged; median sound logs within a mile 1,574 → 2,116, families under a cabin's fifty logs
+29 → 21, houses the same to the family. No terrain file was rebuilt and no save version moved. 23 injections, 23 caught;
+`test:hunt` now passes in full. **Left named and not mended, worst first:** twenty square miles of `fields` round Béxar and
+0.7 mile round every other town, three to four times any documented acreage (`HIST-TEX-203`, `-204`) - mending it wants
+`colonies-woods.*` and `colonies-land.*` rebuilt, and "clear them to fields" was the owner's own choice, so it is the owner's
+to reopen; LANDFIRE thornscrub filed as mesquite prairie inside the humid coastal prairie and on the barrier islands; longleaf
+savanna drawn at 90 in 100 timber; a hunting-wait scale on which 15 of 26 stands are indistinguishable; and §6.2's "1836
+expectation" column, for which no published figure was found in any source searched. Also flagged for checking before it is
+quoted to a class: the phrase `HIST-TEX-110` gives as Woodman's, "having all the streams skirted by timber", was not found in
+a full-text pass.
+
 **The places past the box, and Robbins's ferry, 2026-09-19:** [MAP_ACCURACY.md](docs/MAP_ACCURACY.md) §11,
 `HIST-TEX-158` to `-163`, `FIC-GONZ-093`. Owner, by multiple choice: the places past the old box. **Inside the box:** the
 Trinity could be crossed only at the Atascosito crossing above Liberty, so the road from Washington to Nacogdoches was laid
