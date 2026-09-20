@@ -68,8 +68,14 @@ injection proof yet**.
   came from `ApplyFonts` disposing `Control.DefaultFont`. **Merge it, look at its screenshots, then release.** Two plates
   arrived after it finished and are on main but **not wired up**: `button-update-available.png` and `button-up-to-date.png`
   (the owner: the up-to-date one shows after a check finds nothing and returns to the ordinary plate after a moment).
-- **The animals of 1836** (whether an antelope belongs anywhere near the colonies) — still running, claims
-  `HIST-TEX-260`+/`FIC-GONZ-170`+.
+- **The animals of 1836 — finished and merged** (2026-09-20). The owner was right: neither contemporary enumeration of
+  Texas game names the antelope, and every dated sighting is far west of the colonies. It now belongs to `chaparral` and
+  `mixedgrass-prairie` alone, both stopping at 97.4°W; the buffalo is rare and gains September; the mustang is back east of
+  the Lavaca at a thin weight; a range is a share of a quarry's weight now rather than a gate (`rangeShare`); the deer is
+  worth 2 on open ground. `HIST-TEX-260` to `-265`, `FIC-GONZ-170` to `-172`; the research is BIOMES §17 and what it changed
+  is BIOME_GAMEPLAY §9. 773 tests, 30 injections all caught, and the class study unchanged to the digit. **Left unbuilt and
+  written down:** small game, feral hogs, fish, oysters, honey, the fat winter turkey, the predators. It also notes two
+  coastal cover cells for me: `mesquite-savanna` reaching 95.01°W and `live-oak` 94.00°W.
 - **The weather drawn on the map** (no text; the student sees the rain, the norther, the high water) — still running, claims
   `HIST-TEX-280`+/`FIC-GONZ-190`+. It is coding against the projection shape in (1b), which **does not exist yet**.
 
