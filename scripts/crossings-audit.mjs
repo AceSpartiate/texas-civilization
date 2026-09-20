@@ -48,7 +48,11 @@ const CROSSING_KINDS = ['ford', 'ferry', 'bridge'];
 const map = coloniesMap();
 const land = realTerrain();
 const roads = map.roads.filter(road => ['road', 'crossing'].includes(road.kind));
-const crossings = Object.values(map.places).filter(place => CROSSING_KINDS.includes(place.kind));
+// The crossings of the country outside the box (docs/MAP_ACCURACY.md §11, 2026-09-19) are not audited here: they stand on
+// rivers this map does not draw (the outside layer does) and on roads of kind `outside` that nobody walks. Audited against
+// what they are actually drawn from, in tests/crossings.test.mjs, "the country outside the box is drawn and never walked".
+const outside = Object.values(map.places).filter(place => CROSSING_KINDS.includes(place.kind) && place.outside);
+const crossings = Object.values(map.places).filter(place => CROSSING_KINDS.includes(place.kind) && !place.outside);
 /** Where a crossing is drawn: `over` for a place that stands off its water, else its own point (public/app.js). */
 const drawnAt = place => place.over || place;
 
@@ -349,5 +353,6 @@ if (process.argv.includes('--json')) {
   for (const region of regions) console.log(`A class of ${region.families}: ${region.creeksDrawn} creeks drawn, ${region.dry.length} crossings with no water under them.`);
   console.log(`\n${report.counts.crossings} crossings (${report.counts.fords} fords, ${report.counts.ferries} ferries, ${report.counts.bridges} bridges); ${report.counts.meetings} meetings of a road with drawn water in ${report.counts.runs} runs.`);
   console.log(`${flagged.length} flagged, ${noted.length} with a note, ${uncovered.length} meetings uncovered.`);
+  if (outside.length) console.log(`${outside.length} crossings of the country outside the box are not audited here: ${outside.map(place => place.id).join(', ')}.`);
 }
 process.exitCode = flagged.length || uncovered.length ? 1 : 0;

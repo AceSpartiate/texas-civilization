@@ -628,6 +628,12 @@ east of the place, the bridge over Vince's Bayou, the fords at Gonzales and on C
 
 ### 10.6 The audit: every crossing checked, and two rules mended (2026-09-19)
 
+**Rerun after the merge, the same day.** The places past the box (§11) laid the Old San Antonio Road again over Robbins's
+ferry, which took its old southern creek crossings off the map: the audit now reads **125 crossings in the box** (111 fords,
+13 ferries, Vince's bridge), 2 flagged - the two grazes below - and 0 meetings uncovered. The six crossings of the country
+outside the box are set aside by the audit and checked by their own test, because they stand on rivers this map does not draw
+and on roads nobody walks.
+
 Owner: *"dedicate a sub agent to go through all of the bridges and fords. ensure that they're actually placed correctly so
 that they cross the rivers."* All 136 crossings were audited against the built map and a good many were looked at on the
 page. `FIC-GONZ-110`. **Nothing historical was found or claimed by this pass: no 1835 source was read for it and none is
