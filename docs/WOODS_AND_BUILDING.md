@@ -162,7 +162,12 @@ because there's no woods. thats okay"*; and, by multiple choice, the woods round
   the hunt brings the quarry its place holds, fixed by the patch, its cover and the month, said before the hunter goes, and
   only a deer is drawn. **Amended again 2026-09-19** (§8 there, `FIC-GONZ-120`): a quarry may also have a country of its own —
   the buffalo, the mustang, the wild cow, the antelope and the javelina west of the Lavaca, the ducks and geese within a
-  quarter mile of water — so the stand says what could be there and the place says what is.
+  quarter mile of water — so the stand says what could be there and the place says what is. **Amended again 2026-09-20**
+  ([BIOMES](BIOMES.md) §16, [BIOME_GAMEPLAY](BIOME_GAMEPLAY.md) §9, `HIST-TEX-260`, `FIC-GONZ-170`, `-171`), when the owner
+  asked whether these animals were really in Texas then: a country is now a **share** of a quarry's weight and not a gate, so
+  the mustang is thin inside the settlements rather than absent; the **antelope has no country line at all** and is quarry only
+  on the chaparral and the mixed-grass prairie, neither of which reaches a settled place; and the buffalo is rare where it
+  is at all.
 - **A class made from 2026-09-15 to 2026-09-19** recorded `landfire-2016` and keeps reading that grid, byte for byte
   (`public/terrain/colonies-woods-2016.*`, rule `landfire`, `STANDS_2016`): its felled trees are found by their ids where they
   stood. A new class records `biomes-1836`. No save version moved (§7).
