@@ -14,7 +14,8 @@ import { bringAlong, hasWords, holderOf, keepWithRiders, leaveBehind, modeWith, 
 import { SERVING_ACTIONS, recallFromService, servingWhy, winterInvalid } from './winter.mjs';
 import { answerCourier } from './alamo.mjs';
 import { advanceFlight, flee, flightProjection, scrapeInvalid, share, stayHome } from './scrape.mjs';
-import { answerRoad, rainyDay, registerRoadChores } from './road.mjs';
+import { answerRoad, registerRoadChores } from './road.mjs';
+import { WATER_HIGH, WATER_SHUT, waterAt, weatherAt, weatherOn } from './weather.mjs';
 // The road's chores join the one table here, once every module above is made (sim/road.mjs says why not at its own load).
 registerRoadChores();
 import { REPEATED, advanceAuto, noteOrder, setAuto } from './auto.mjs';
@@ -388,20 +389,44 @@ function alongAt(points, point) {
 }
 /**
  * The water at a ford this traveller has just come down to (owner, 2026-09-19: "a wade that can go wrong", and high water
- * costs more). The ordinary wade is in the pace of the road already; this is what the river being up adds. On a day it rains
- * (sim/road.mjs `rainyDay`) the wade takes `HIGH_WATER_TIMES` as long, and at `WADE_WRONG_SHARE` of those crossings it goes
- * wrong: the extra hour of it is `WADE_WRONG_MINUTES`, and whoever is wading pays for it in miles as well as minutes.
+ * costs more). The ordinary wade is in the pace of the road already; this is what the river being up adds.
+ *
+ * What it reads is how high the river is running (`water`, sim/weather.mjs), not whether it rained today: a river stays up
+ * for days after the rain that raised it, which is why Gray could have "quite summer heat" on the bay while the Brazos was
+ * still swelling at Groce's forty miles off (`HIST-TEX-068`, `HIST-TEX-237`). Past `WATER_HIGH` the wade takes up to
+ * `HIGH_WATER_TIMES` as long and may go wrong, both scaled by how high the water is; past `WATER_SHUT` a river's ford is
+ * **not to be crossed at all** and whoever came down to it waits on the bank for the water to fall - "sudden rains made the
+ * Medina unfordable" on 21 February 1836 (`HIST-TEX-237`), and Mill Creek was "still too high to ford" for three days.
  *
  * The share is hashed from the class, the person, the crossing and the day (`share`), never drawn from a stream: the same
  * class replays the same, and a student who saves and reloads gets the river they had.
- * ceiling: only the traveller is held up. Nothing they carry is lost, and nobody is turned back to the near bank.
+ * ceiling: a creek's ford never shuts, only a river's. Nothing a traveller carries is lost in a bad wade, and the waiting is
+ * the traveller's own: a family does not go round by a ferry instead, which is what the record has some of them do.
  */
 function wadeAt(world, entity, ford) {
   const travel = entity.travel, day = Math.floor(world.minute / 1440);
-  if (!rainyDay(world, day)) return;
   const site = world.map.sites[ford.id], name = site?.name || 'the water';
-  const wrong = share(world, entity.id, `wade:${ford.id}:${day}`) < WADE_WRONG_SHARE;
-  const minutes = fordMinutes(travel.mode, ford.waterKind) * (HIGH_WATER_TIMES - 1) + (wrong ? WADE_WRONG_MINUTES : 0);
+  // How high the river is running where the ford is, not whether it rained today (sim/weather.mjs `water`, `FIC-GONZ-133`):
+  // a river stays up for days after the rain that raised it, which is what Gray's fine warm days above a swollen Brazos are.
+  const water = waterAt(world, site || entity.location, day);
+  if (water < WATER_HIGH) return;
+  // The river is over the crossing: nobody is fording it today. Waited out on the bank, a day at a time.
+  if (water >= WATER_SHUT && ford.waterKind !== 'creek') {
+    travel.waitUntil = Math.max(travel.waitUntil || 0, (day + 1) * 1440);
+    travel.progress = Math.max(0, ford.at - 0.01);
+    entity.location = { ...pointAt(travel.points, travel.progress), siteId: null };
+    if (travel.shutAt !== day) {
+      travel.shutAt = day;
+      record(world, 'consequence', {
+        actorId: entity.id, householdId: entity.householdId, importance: 2, claimId: 'FIC-GONZ-133',
+        text: `The water is over the crossing at ${name.replace(/^The /, 'the ')}. Nobody is fording it today: ${entity.name} waits on the bank for it to fall.`,
+        causes: travel.causeId ? [travel.causeId] : [],
+      });
+    }
+    return;
+  }
+  const wrong = share(world, entity.id, `wade:${ford.id}:${day}`) < WADE_WRONG_SHARE * (water / WATER_SHUT);
+  const minutes = fordMinutes(travel.mode, ford.waterKind) * (HIGH_WATER_TIMES - 1) * (water / WATER_SHUT) + (wrong ? WADE_WRONG_MINUTES : 0);
   travel.waitUntil = Math.max(travel.waitUntil || 0, world.minute + minutes);
   if (entity.kind === 'person' && entity.householdId) entity.exertion = Math.min(EXERTION_CAP, Math.round(((entity.exertion || 0) + (wrong ? 1 : 0.25)) * 10000) / 10000);
   record(world, 'consequence', {
@@ -925,6 +950,11 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   const encounter = encounterProjection(world, householdId, role);
   const armies = armiesSeen(world, householdId, role);
   const view = { tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: mapForPage(world.map) }), household: household && projectHousehold(world, household), entities, others, offers, encounter, events, work, travelModes, land, wagon, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role),
+    // The weather, region by region (sim/weather.mjs, docs/WEATHER.md): what kind of day it is in each of the three
+    // countries, how high their rivers are running, and where the wind is from. The page draws it and says nothing
+    // (owner, 2026-09-20: "Players should see the weather. If implemented correctly, no text should be required"), so the
+    // whole map goes to every page - the Host looks at all three countries at once, and a student's family may be in any.
+    weather: weatherOn(world),
     // The army, once there is one: where it is, how many went, and which of them are this family's (sim/army.mjs).
     ...(world.army && householdId ? { army: armyProjection(world, householdId) } : {}),
     // The armies standing in the country, as far as this page may know of them (sim/armies.mjs): the page draws their camps

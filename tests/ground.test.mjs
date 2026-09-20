@@ -89,6 +89,9 @@ test('walking up a lane takes longer than its miles would on the road, both ways
   assert.deepEqual(outbound.ground, [...inbound.ground].reverse().map(g => [-g[0], g[1], g[2], g[3], g[4]]), 'the climb one way is the descent the other');
   const walker = { id: 'walker', name: 'Walker', kind: 'person', householdId: null, location: { x: world.map.sites[lane.from].x, y: world.map.sites[lane.from].y, siteId: lane.from }, travel: null, health: { condition: 'well' } };
   world.entities.walker = walker;
+  // On a day the rivers are down: what is under test is the going, and a class opens with the Guadalupe up
+  // (sim/weather.mjs `WATER_AT_OPENING`, `HIST-TEX-225`), which would put a wade on top of it at every ford on the way.
+  world.minute += 10 * 1440;
   beginTravel(world, walker, household.homeSiteId, null, 'visit');
   assert.ok(walker.travel.pace?.length, 'the journey carries its going');
   const expected = Math.ceil(groundLeft(walker.travel) / walker.travel.speed - 1e-9);

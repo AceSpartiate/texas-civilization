@@ -17,7 +17,7 @@ import { findWay } from '../sim/ways.mjs';
 import { FERRY_MINUTES, FARMING_TICK_MINUTES, FORCED_MARCH_HOURS, MODES, ferryMiles, fordMinutes, groundLeft, milesAnHour, propertyId } from '../sim/travel.mjs';
 import { HOUSTON_CAMPS } from '../sim/houston.mjs';
 import { crossingsAlong } from '../sim/scrape.mjs';
-import { rainyDay } from '../sim/road.mjs';
+import { WATER_HIGH, WATER_SHUT, waterAt } from '../sim/weather.mjs';
 import { settle } from './support/settled.mjs';
 
 const map = coloniesMap();
@@ -372,22 +372,36 @@ function journey(mode, { ferries = true } = {}) {
   return { world, travel, open, ticks };
 }
 
-/** One walk from Liberty to Harrisburg, on a day of the class's own weather: what the water did, and how long it took. */
-function crossOnce(seed, wet) {
+/**
+ * One walk from Liberty to Harrisburg with the rivers at the level wanted: what the water did, and how long it took.
+ * `want` is 'down' (below `WATER_HIGH`), 'up' (between the two lines) or 'over' (past `WATER_SHUT`, when a river's ford is
+ * not to be crossed at all).
+ */
+function crossOnce(seed, want, from = 'liberty', to = 'harrisburg') {
   const world = createGonzalesWorld(seed, 5, { map: 'colonies' });
   world.status = 'running';
-  // A day of the kind wanted: the class's weather is its own (sim/road.mjs `rainyDay`), so the day is looked for, not set.
+  // The class's weather is its own (sim/weather.mjs), so a day of the kind wanted is looked for rather than set.
+  // At the fords this road actually crosses, which are not all in one country: the water is the region's (sim/weather.mjs).
+  const onTheWay = (findWay(world, from, to, 'foot').fords || []).map(id => world.map.sites[id]);
+  const level = day => Math.max(...onTheWay.map(site => waterAt(world, site, day)));
+  // 'up' looks for a river well up rather than barely over the line: the wade grows with the water, and at a creek just
+  // past WATER_HIGH it is a few minutes, which a twenty-minute tick swallows.
+  // Only a river's ford shuts, so the flood is looked for on the rivers of the way.
+  const rivers = onTheWay.filter(site => site.waterKind !== 'creek');
+  const overLevel = day => (rivers.length ? Math.max(...rivers.map(site => waterAt(world, site, day))) : 0);
+  const wanted = day => (want === 'down' ? level(day) < WATER_HIGH : want === 'up' ? level(day) >= 0.6 && level(day) < WATER_SHUT : overLevel(day) >= WATER_SHUT);
   let day = 0;
-  while (day < 400 && rainyDay(world, day) !== wet) day++;
+  while (day < 400 && !wanted(day)) day++;
+  if (day >= 400) return null;
   world.minute = day * 1440 + 6 * 60;
   const person = Object.values(world.entities).find(entity => entity.principal);
   person.chore = null; person.task = 'rest'; person.travel = null;
-  person.location = { x: world.map.sites.liberty.x, y: world.map.sites.liberty.y, siteId: 'liberty' };
-  beginTravel(world, person, 'harrisburg', null, 'errand', 'foot');
-  const from = world.minute;
+  person.location = { x: world.map.sites[from].x, y: world.map.sites[from].y, siteId: from };
+  beginTravel(world, person, to, null, 'errand', 'foot');
+  const began = world.minute;
   let ticks = 0;
   while (person.travel && ticks < 5000) { world.minute += FARMING_TICK_MINUTES; progressTravel(world, person); ticks++; }
-  return { world, minutes: world.minute - from, said: world.events.filter(event => event.claimId === 'FIC-GONZ-094').map(event => event.text) };
+  return { world, minutes: world.minute - began, said: world.events.filter(event => event.claimId === 'FIC-GONZ-094').map(event => event.text) };
 }
 
 test('a ford costs a wade, and the water being up costs more and can go wrong', () => {
@@ -407,16 +421,33 @@ test('a ford costs a wade, and the water being up costs more and can go wrong', 
     const longer = (groundLeft({ ...over, progress: 0, distance: over.distance }) - groundLeft({ ...dry, progress: 0, distance: dry.distance })) / MODES[mode].speed * FARMING_TICK_MINUTES;
     assert.ok(Math.abs(longer - (waded + ferried)) < 0.2, `${mode}: the crossings cost ${longer.toFixed(1)} minutes, not the ${(waded + ferried).toFixed(1)} of their wades and waits`);
   }
-  // On a day it rains the water is up: the wade takes HIGH_WATER_TIMES as long, and the family is told so at the water.
-  const fair = crossOnce('wade-fair', false), wet = crossOnce('wade-wet', true);
-  assert.equal(fair.said.length, 0, 'a family was told of high water on a fair day');
-  assert.ok(wet.said.length >= 1, 'the water was never up on a day it rained');
-  assert.ok(wet.minutes > fair.minutes, `the crossing in high water took ${wet.minutes} minutes against ${fair.minutes} in fair weather`);
+  // The wade reads how high the rivers are running, not today's sky (sim/weather.mjs `water`, `FIC-GONZ-133`): a river stays
+  // up for days after the rain that raised it. With the water down nothing is said at a ford; with it up the wade is longer
+  // and the family is told at the water.
+  const down = crossOnce('wade-fair', 'down'), wet = crossOnce('wade-wet', 'up');
+  assert.ok(down && wet, 'no class ran its rivers down, or up');
+  assert.equal(down.said.length, 0, 'a family was told of high water on a river that was down');
+  assert.ok(wet.said.length >= 1, 'the water was never up at a ford');
+  assert.ok(wet.minutes > down.minutes, `the crossing in high water took ${wet.minutes} minutes against ${down.minutes} with the rivers down`);
   // Some of those crossings go wrong, and are said differently; the share is hashed, so the same class crosses the same way twice.
   const wrong = wet.said.filter(text => /swept off the crossing/.test(text));
   assert.ok(wrong.length >= 1 && wrong.length < wet.said.length, `${wrong.length} of ${wet.said.length} crossings in high water went wrong`);
-  assert.deepEqual(crossOnce('wade-wet', true).said, wet.said, 'the same class did not cross the same way twice');
+  assert.deepEqual(crossOnce('wade-wet', 'up').said, wet.said, 'the same class did not cross the same way twice');
   assert.ok(wet.said.every(text => /The water is up at /.test(text)), `the water was not named: ${wet.said[0]}`);
+  // Past `WATER_SHUT` a river's ford is not to be crossed at all: whoever came down to it waits on the bank, and is told so
+  // once, not every tick ("sudden rains made the Medina unfordable", 21 February 1836, `HIST-TEX-237`).
+  // A river over its crossing is rare by design - nought to four days in a class of two hundred - so a few classes are
+  // looked at to find one.
+  let flood = null;
+  // Over the ford at Gonzales and the one at Béxar, which are river fords: a creek's never shuts.
+  // Over the ford on the San Bernard, a river ford in the wetter middle country: a creek's ford never shuts, and the west's
+  // rivers, in twelve classes of four hundred days, never came within two hundredths of the line.
+  for (let seed = 1; seed <= 12 && !flood; seed++) flood = crossOnce(`wade-flood-${seed}`, 'over', 'gonzales', 'san-felipe');
+  assert.ok(flood, 'no class of twelve ran a river over its crossing in four hundred days');
+  const shut = flood.world.events.filter(event => event.claimId === 'FIC-GONZ-133');
+  assert.ok(shut.length >= 1, 'a river over its crossing was forded anyway');
+  assert.match(shut[0].text, /The water is over the crossing at .*Nobody is fording it today/);
+  assert.equal(new Set(shut.map(event => event.text)).size, shut.length, 'the same crossing was said shut twice in a day');
 });
 
 test('a ferry costs an hour\'s wait, whoever waits, and is said on the control and in the travel words', () => {
