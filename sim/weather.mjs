@@ -165,8 +165,10 @@ function northerOn(world, day) {
     if (dayShare(world, 'norther', began) >= NORTHER_SHARE[month]) continue;
     const days = NORTHER_DAYS[Math.floor(dayShare(world, 'norther-days', began) * NORTHER_DAYS.length)];
     for (const region of REGIONS) {
-      const from = region === 'east' ? began + 1 : began;
-      if (day >= from && day < from + days) holding[region] = { began, force: region === 'east' ? 0.7 : 1 };
+      // `arrived` is the day the cold reached this country, which in the east is the day after it began: the rain a norther
+      // carries comes with the front, so it is the day it arrives here - not the day it set out - that can be wet.
+      const arrived = region === 'east' ? began + 1 : began;
+      if (day >= arrived && day < arrived + days) holding[region] = { began, arrived, force: region === 'east' ? 0.7 : 1 };
     }
   }
   return holding;
@@ -175,7 +177,7 @@ function northerOn(world, day) {
 /** One region's kind of day, before the water is worked out. */
 function kindOn(world, day, region, written, norther, yesterday) {
   if (written?.[region]) return { kind: written[region].kind, claimId: written[region].claimId };
-  if (norther[region]) return { kind: 'norther', began: norther[region].began, force: norther[region].force };
+  if (norther[region]) return { kind: 'norther', arrived: norther[region].arrived, force: norther[region].force };
   const { month } = monthDayOf(world, day);
   const wet = inWetSpring(monthDayOf(world, day)) ? WET_SPRING.times : 1;
   if (dayShare(world, `rain:${region}`, day) < RAIN_SHARE[region][month] * wet) {
@@ -201,9 +203,10 @@ export function weatherOn(world, day = dayOf(world.minute)) {
     const regions = {};
     for (const region of REGIONS) {
       const was = before?.regions[region];
-      const { kind, claimId, began, force } = kindOn(world, d, region, written, norther, was?.kind);
-      // A norther's first day may carry its rain with it, as the norther of 20 November did (`FIC-GONZ-132`).
-      const wet = kind === 'norther' && began === d && dayShare(world, `norther-rain:${region}`, d) < 0.35;
+      const { kind, claimId, arrived, force } = kindOn(world, d, region, written, norther, was?.kind);
+      // The day a norther reaches a country it may carry its rain with it, as the norther of 20 November did
+      // (`FIC-GONZ-132`). In the east that is the day after it began, which is the day the front gets there.
+      const wet = kind === 'norther' && arrived === d && dayShare(world, `norther-rain:${region}`, d) < 0.35;
       const rise = WATER_RISE[wet ? 'rain' : kind] ?? 0;
       // A river already up rises less for the same rain: the rise is on the room left in it, so a flood wants days of rain
       // rather than one. The fall is plain, and about three fair days take a river off a wet one.

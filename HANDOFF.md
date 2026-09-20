@@ -51,8 +51,6 @@ clean detached worktree. **The release is [v2026.09.20.3](https://github.com/Ace
 191.7 MB → 212.4 MB, which is the art embedded in the executable.
 
 **2. What is left open, in the order I would take it.**
-- **The weather model has had no injection proof of its own.** The drawing has 22 and they all caught; `sim/weather.mjs`
-  has tests but the regressions they guard were never injected, which `CLAUDE.md` says is not evidence yet. Take this first.
 - **`button-up-to-date.png` is on main and not wired.** `button-update-available.png` is. The owner asked that the
   up-to-date plate show after a check finds nothing and **return to the ordinary plate after a moment**.
 - **`FIC-GONZ-135` is part built:** weather costs the road (the wade, the shut ford, the bog) but not the hunt — no rain
@@ -82,7 +80,8 @@ cold and *clear*, on Almonte's own thermometer. Each region carries a **water le
 Past `WATER_HIGH` the wade at a ford costs more and goes wrong more often, both scaled by how high the water is; past
 `WATER_SHUT` (0.85) **a river's ford is shut** and whoever came down to it waits on the bank — "sudden rains made the
 Medina unfordable", 21 February 1836. Measured over three classes: the water is high on a fifth to a half of days and a
-ford is shut on **0 to 4 days of 210**, which is the shape the record has. Two numbers moved under measurement and both are
+ford is shut on a **median of 3 days of 210** - 19% of classes on none at all, the worst of 200 on 16, and country by
+country a day in 110 in the centre - which is the shape the record has. Two numbers moved under measurement and both are
 recorded in the doc: the rise saturates (straight addition shut 62 days of 210) and the wet spring multiplier came down
 1.6 → 1.35 when a ten-day wet run contradicted Gray's fine mid-March. The wet spring now begins **21 March**, not 1 March;
 its citation was `HIST-TEX-068` all along and my `-071` was wrong, corrected in `sim/travel.mjs`, MAP_ACCURACY and HISTORY.
@@ -96,6 +95,23 @@ shut line drawn brown and out of its banks with drift on it. The three regions b
 switching at a line. 18 new tests, **22 of 22 injections caught**, ~1 ms a frame worst case (`docs/PERFORMANCE_RENDER.md`),
 33 screenshots under `docs/evidence/weather/`. `FIC-GONZ-136` (a line a day, in words) is marked **superseded, not built**,
 and WEATHER.md §10.6 says why. Same computer only.
+
+**The weather model's own proof, 2026-09-20:** `tests/weather.test.mjs` (9 tests), `scripts/weather-model-injections.mjs`,
+`docs/evidence/weather-model-injections.json`. The model shipped read by the road, the wade and the drawing, each with
+tests of its own, and with none of its own behaviour held down: `CLAUDE.md` says a test is not evidence until the
+regression it guards has been injected and seen to fail. Nine tests now hold the record's own days (every row of
+`WRITTEN`, on three classes, with the claim each carries), that cold is shared across the map and rain is not, that the
+rain share is the month's and the country's (checked against `RAIN_SHARE` itself over 60 classes of January - the one
+month the record writes nothing into), that a river falls exactly `WATER_FALL` on a dry day and can stand up under a fine
+sky, that the rise saturates, that the wet spring begins on 21 March and the middle of it stays fine, that a class
+replays and that its rain does not run in streaks, that a place reads its own country through `weatherAt` on a real
+class, and that a fog wants a wet day behind it while a norther does not come in July. **27 regressions injected, 27
+caught.** Writing them found two faults, both fixed here: **a norther could only carry its rain where it began**, so in
+two hundred days no norther ever reached the east wet - it is the day the front *arrives* that can be wet, which in the
+east is the day after - and my own first draft of the seasonal test counted summer over a class that never reaches May,
+which is a test that checks nothing. The measured shut-day figure is corrected everywhere it appears: not "0 to 4 days of
+210" from three classes but a **median of 3 over 200 classes**, none at all in 19% of them and 16 in the worst. 800
+tests. Same computer only.
 
 **The launcher's face, 2026-09-20:** `launcher/TitleScene.cs`, `launcher/PlateArt.cs`, `launcher/SceneControls.cs`, the
 owner's painting and ten plates under `launcher/art/`. It registers **no claim ID**: nothing in it is a statement about

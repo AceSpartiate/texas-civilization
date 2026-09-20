@@ -1,0 +1,213 @@
+{
+  "record": "weather-model-injections",
+  "date": "2026-09-20",
+  "files": [
+    "tests/weather.test.mjs"
+  ],
+  "injections": [
+    {
+      "name": "a day written for the whole country is given to one region only",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "the record's own days are the days a class meets, in the country the record names"
+      ]
+    },
+    {
+      "name": "the coin is tossed first and the record only consulted when it has nothing to say",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "the record's own days are the days a class meets, in the country the record names"
+      ]
+    },
+    {
+      "name": "a written day is drawn from the record but no longer says which page it came off",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "the record's own days are the days a class meets, in the country the record names",
+        "cold is shared across the map and rain is not",
+        "a fog is the morning after a wet day, and a norther is not rolled out of season"
+      ]
+    },
+    {
+      "name": "the written days are read a month out, so the record lands on the wrong days entirely",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "the record's own days are the days a class meets, in the country the record names",
+        "how often it rains is the month's share and the country's"
+      ]
+    },
+    {
+      "name": "one coin a day for the whole country, which is what the model replaced",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "cold is shared across the map and rain is not"
+      ]
+    },
+    {
+      "name": "a norther is rolled country by country, so the cold stops at a line on the map",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "cold is shared across the map and rain is not"
+      ]
+    },
+    {
+      "name": "the cold never reaches the east at all",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "cold is shared across the map and rain is not",
+        "where a place stands decides whose weather it gets, and a class reads it through the map"
+      ]
+    },
+    {
+      "name": "one rain table for the whole map: the east is as dry as Bexar",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "how often it rains is the month's share and the country's"
+      ]
+    },
+    {
+      "name": "the month is read off by one, so every month rains at the month before it",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "how often it rains is the month's share and the country's"
+      ]
+    },
+    {
+      "name": "a river falls straight back to nothing the day the rain stops",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "a river remembers the rain that raised it, and falls back over days"
+      ]
+    },
+    {
+      "name": "the water is today's sky again: up while it rains and down the moment it stops",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "a river remembers the rain that raised it, and falls back over days",
+        "where a place stands decides whose weather it gets, and a class reads it through the map"
+      ]
+    },
+    {
+      "name": "the class opens on empty rivers, with the Guadalupe down on 29 September 1835",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "where a place stands decides whose weather it gets, and a class reads it through the map"
+      ]
+    },
+    {
+      "name": "the rise is added straight on, which shut a ford on 62 days of 210",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "the rise saturates, so a flood wants days of rain and a ford is shut a few days a class"
+      ]
+    },
+    {
+      "name": "a river can be shut by one wet day, because the rise is taken to the shut line at once",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "the rise saturates, so a flood wants days of rain and a ford is shut a few days a class"
+      ]
+    },
+    {
+      "name": "the wet spring begins on 1 March and rains through Gray's ten fine warm days",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "the wet spring begins on 21 March, and the middle of March stays fine"
+      ]
+    },
+    {
+      "name": "the wet spring is not applied at all, and the spring of 1836 is an ordinary one",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "the wet spring begins on 21 March, and the middle of March stays fine"
+      ]
+    },
+    {
+      "name": "the wet spring runs the whole of March and April, ends included, whatever the day",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "the wet spring begins on 21 March, and the middle of March stays fine"
+      ]
+    },
+    {
+      "name": "the day is hashed unmixed, and FNV-1a runs the weather in streaks",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "a river remembers the rain that raised it, and falls back over days",
+        "the rise saturates, so a flood wants days of rain and a ford is shut a few days a class",
+        "the wet spring begins on 21 March, and the middle of March stays fine",
+        "a class replays its own weather, two classes differ, and neither runs in streaks",
+        "where a place stands decides whose weather it gets, and a class reads it through the map",
+        "a fog is the morning after a wet day, and a norther is not rolled out of season"
+      ]
+    },
+    {
+      "name": "the weather is drawn from a stream, so a class does not replay and a reload is a different day",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "cold is shared across the map and rain is not",
+        "a class replays its own weather, two classes differ, and neither runs in streaks"
+      ]
+    },
+    {
+      "name": "the class's own seed is left out, so every class in the district gets the same weather",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "how often it rains is the month's share and the country's",
+        "the wet spring begins on 21 March, and the middle of March stays fine",
+        "a class replays its own weather, two classes differ, and neither runs in streaks",
+        "a fog is the morning after a wet day, and a norther is not rolled out of season"
+      ]
+    },
+    {
+      "name": "the line between two countries is off by a mile, and a place on it reads the wrong one",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "where a place stands decides whose weather it gets, and a class reads it through the map"
+      ]
+    },
+    {
+      "name": "the map is read the wrong way round, and Bexar gets Nacogdoches' weather",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "where a place stands decides whose weather it gets, and a class reads it through the map"
+      ]
+    },
+    {
+      "name": "a ford is called shut at a level the wade does not treat as shut",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "where a place stands decides whose weather it gets, and a class reads it through the map"
+      ]
+    },
+    {
+      "name": "a norther can only bring its rain where it began, so it reaches the east dry every time",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "where a place stands decides whose weather it gets, and a class reads it through the map"
+      ]
+    },
+    {
+      "name": "a norther that brought its rain with it is not counted as rain falling",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "where a place stands decides whose weather it gets, and a class reads it through the map"
+      ]
+    },
+    {
+      "name": "a fog rises on any morning, wet day behind it or not",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "a fog is the morning after a wet day, and a norther is not rolled out of season"
+      ]
+    },
+    {
+      "name": "northers come as often in July as in January",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "the wet spring begins on 21 March, and the middle of March stays fine",
+        "a fog is the morning after a wet day, and a norther is not rolled out of season"
+      ]
+    }
+  ]
+}
