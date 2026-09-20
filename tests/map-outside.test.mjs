@@ -56,7 +56,10 @@ const BOX_FILES = {
   // drawn water, the creeks drawn round the march east, and six roads laid again through their crossings. Every other place,
   // road and watercourse is as it was (checked by decoding both); the province built from it is byte for byte the one built
   // from the map before. Was 920d3294...ce39ce.
-  'colonies-map.json.gz': '649deb2f2d721cd17318ead8ce23b157787e47fc46aded03b74b6ce595e8adcb',
+  // Rebuilt again 2026-09-19 for Beeson's bank (docs/MAP_ACCURACY.md §10.1): Beeson's crossing stood at the marker on the east
+  // bank where the army camped, the Atascosito road laid over its own crossing nine miles below Columbus, and the mail road
+  // from Beeson's to San Felipe named. Was 649deb2f...5e8adcb.
+  'colonies-map.json.gz': 'bb08abb676d2829c5e473ff2c718d7002f1f35ff03299489fce9f7f31ce9e33b',
   'colonies-province.json.gz': '8ef9b839a6f03b82a1ef81e832eb3d483cd7761e8f4eef32eea33b3508883dc7',
   'colonies-water.json.gz': '22900ae34954db4225fba11e1e977beab6161e4d53d84b5ebc923089e3162c44',
   // The biomes of 1836 (2026-09-19). The grid a class of the week before was made on is kept as it was, beside it, and read

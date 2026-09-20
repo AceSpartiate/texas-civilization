@@ -66,7 +66,12 @@ const PLACES = [
   // The plaza of the 1834 plat (King Park); the official point is 0.61 miles north of it (HIST-TEX-025).
   ['refugio', 'Refugio', 'town', -97.274887, 28.296482, 'HIST-TEX-025', false],
   ['la-grange-crossing', 'The Colorado crossing', 'crossing', -96.876647, 29.9055033, 'HIST-TEX-008', false],
-  ['columbus-crossing', "Beeson's crossing", 'crossing', -96.5396933, 29.7066232, 'FIC-GONZ-027', false],
+  // Beeson's: the 1993 marker "Beason's (Beeson's) Crossing" in Beason's Park - "Sam Houston's Army, camped on the east bank
+  // of the Colorado River opposite Beason's crossing" (HIST-TEX-157). The town's official point, 0.31 miles north-west, is on
+  // the Gonzales side of the river the map draws, and the army camped over the water from it.
+  ['columbus-crossing', "Beeson's crossing", 'crossing', -96.5352167, 29.7043667, 'HIST-TEX-157', false],
+  // The Atascosito road's own crossing of the Colorado, nine miles below Columbus: 29°40' N, 96°27' W (TSHA, HIST-TEX-156).
+  ['lower-colorado-crossing', 'The lower Colorado crossing', 'ford', -96.45, 29.6666667, 'HIST-TEX-156', false],
   // Houston's camp west of the Brazos opposite Groce's plantation, March 30 - April 12, 1836: the 1990 THC marker "Sam Houston's
   // Camp West of the Brazos", Austin County (UTM 14 779049 E 3324235 N, converted). A marker, not a surveyed campsite; the
   // river has moved since (HIST-TEX-086).
@@ -88,7 +93,7 @@ const PLACES = [
 const BARRIERS = ['Guadalupe River', 'Colorado River', 'Brazos River', 'Trinity River', 'San Antonio River'];
 const CROSSINGS = {
   'Guadalupe River': ['ford', 'victoria'],
-  'Colorado River': ['la-grange-crossing', 'columbus-crossing', 'mina', 'matagorda'],
+  'Colorado River': ['la-grange-crossing', 'columbus-crossing', 'lower-colorado-crossing', 'mina', 'matagorda'],
   // Groce's ferry, from the camp to Bernardo: the river nearest the ferry's marker on the east bank (HIST-TEX-088).
   'Brazos River': ['san-felipe', 'washington', 'columbia', 'brazoria', 'bernardo'],
   // The Atascosito road crossed about three miles north of Liberty, not at the town (HIST-TEX-025).
@@ -108,8 +113,13 @@ const ROADS = [
   ['washington', 'la-grange-crossing', 'The La Bahía road'],
   ['la-grange-crossing', 'goliad', 'The La Bahía road'],
   ['goliad', 'victoria', 'The Atascosito road'],
-  ['victoria', 'columbus-crossing', 'The Atascosito road'],
-  ['columbus-crossing', 'san-felipe', 'The Atascosito road'],
+  // The road ran "from Refugio and Goliad to the Atascosito Crossing on the Colorado River, on to the Brazos near San Felipe
+  // de Austin" (TSHA, HIST-TEX-156): over the Colorado nine miles below Columbus, not at Beeson's.
+  ['victoria', 'lower-colorado-crossing', 'The Atascosito road'],
+  ['lower-colorado-crossing', 'san-felipe', 'The Atascosito road'],
+  // Mail route 13 of 1835 ran "San Felipe, by Beason's and Daniel's, to Gonzales" (Holley, HIST-TEX-146): the way Houston's
+  // army took from Beeson's to San Felipe on March 26-28, 1836.
+  ['columbus-crossing', 'san-felipe', "The mail road by Beeson's"],
   ['san-felipe', 'harrisburg', 'The Atascosito road'],
   ['harrisburg', 'atascosito-crossing', 'The Atascosito road'],
   ['atascosito-crossing', 'liberty', 'The Atascosito road'],
@@ -232,6 +242,12 @@ function nearestOn(name, p) {
   let best = null, d = Infinity;
   for (const q of riverPoints(name)) { const e = distance(p, q); if (e < d) { d = e; best = q; } }
   return { point: best, distance: d };
+}
+// The Atascosito road's own crossing of the Colorado (HIST-TEX-156): the river nearest the record's point, which is given to
+// the minute. Stood at the point itself it is a quarter mile and more off the water, and the road crosses beside it.
+{
+  const onRiver = nearestOn('Colorado River', places['lower-colorado-crossing']).point;
+  Object.assign(places['lower-colorado-crossing'], { x: round(onRiver.x), y: round(onRiver.y) });
 }
 // The ford: the Guadalupe nearest the town.
 const ford = nearestOn('Guadalupe River', places.gonzales).point;
@@ -602,11 +618,11 @@ const PLACE_CROSSINGS = {
   'atascosito-crossing': ['ferry', 'Trinity River', 'HIST-TEX-152'],
   // Burnam's ferry at the La Bahía crossing near La Grange (HIST-TEX-145).
   'la-grange-crossing': ['ferry', 'Colorado River', 'HIST-TEX-145'],
-  // Beeson's ferry at Columbus (HIST-TEX-146). ceiling: the Atascosito road's own crossing of the Colorado was nine miles below
-  // Columbus (TSHA, Atascosito Crossing); the map's Atascosito road goes over at Beeson's, and the place stands at Columbus's
-  // official point, west of the river the map draws, where Houston's camp of March 1836 was on the east bank (HIST-TEX-087). A
-  // place and a road for the lower crossing, and the camp over the river, are the way out.
+  // Beeson's ferry at Columbus (HIST-TEX-146), its place on the east bank at the marker, where the army camped (HIST-TEX-157).
   'columbus-crossing': ['ferry', 'Colorado River', 'HIST-TEX-146'],
+  // The Atascosito road's own crossing, nine miles below Columbus (HIST-TEX-156). Nothing read names a ferry or a ferryman
+  // there, and the road's name for it is a crossing: a ford, as the roads' other unnamed crossings are (FIC-GONZ-090).
+  'lower-colorado-crossing': ['ford', 'Colorado River', 'HIST-TEX-156'],
 };
 
 const slug = text => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');

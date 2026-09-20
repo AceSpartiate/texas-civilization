@@ -41,6 +41,21 @@ beside a 24-thread busy loop it passed 10/10. **Seen in those suites:** `pace.te
 failed 7 of 10 (fixed the same day, above) and `save-cadence.test.mjs` *"a page is sent a snapshot"* 1 of 10 (fixed the same day, above), both real-time tests of their own. No
 product code changed.
 
+**Beeson's bank and the Atascosito road's own crossing, 2026-09-19:** [MAP_ACCURACY.md](docs/MAP_ACCURACY.md) §10.1,
+`HIST-TEX-156`, `HIST-TEX-157`. Owner, by multiple choice: Beeson's bank next. Beeson's crossing stood at Columbus's official
+point, which is on the *Gonzales* side of the river the map draws, though Houston's army "camped on the east bank of the
+Colorado River opposite Beason's crossing" (the 1993 marker in Beason's Park). Its place now stands at that marker, 0.31 miles
+south-east and over the water, so the camp of March 19-26 is on the east bank and the road from Gonzales crosses by the ferry
+to reach it. The Atascosito road went over at Beeson's; its own crossing was nine miles below Columbus at 29°40' N, 96°27' W
+(TSHA), which is now a place of its own - *The lower Colorado crossing* (`lower-colorado-crossing`), a ford at the river
+nearest that point, opened as a window of the Colorado - and the road from Victoria goes over it to San Felipe. Beeson's keeps
+its road east as **The mail road by Beeson's**, mail route 13 of 1835 ("San Felipe, by Beason's and Daniel's, to Gonzales",
+`HIST-TEX-146`), the way the army took on March 26-28. `public/terrain/colonies-map.json.gz` was rebuilt (its hash in
+`tests/map-outside.test.mjs` updated with the reason); 51 roads where there were 50, and nothing else moved. No save version
+moved: a class saved before keeps its own map. `tests/crossings.test.mjs` +1, proven by three injections, each of which
+rebuilt the map and put it back byte for byte ([evidence](docs/evidence/crossings/beesons-injections.json)). Checks: `npm test`
+765, `npm run test:crossings` and the map-accuracy proof. Same computer only.
+
 **Fords, ferries and a bridge wherever a road meets the water, 2026-09-19:** [MAP_ACCURACY.md](docs/MAP_ACCURACY.md)
 §10, `HIST-TEX-140` to `-155`, `FIC-GONZ-090` to `-092`. Owner: "we're going to have to have assets ford, or build
 bridges (where they historically were)". Every place a road on the map meets a river or creek is a `ford`, `ferry` or

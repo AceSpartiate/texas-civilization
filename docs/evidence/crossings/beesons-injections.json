@@ -1,0 +1,32 @@
+{
+ "record": "Beeson's bank and the lower Colorado crossing: each test proven by injecting the regression it guards (docs/MAP_ACCURACY.md §10.1)",
+ "date": "2026-09-20",
+ "mapRestored": true,
+ "injections": [
+  {
+   "name": "Beeson's back at the town's point",
+   "threw": null,
+   "failed": [
+    "Beeson's stands on the east bank where the army camped, and the Atascosito road crosses nine ",
+    "each crossing the record gives is at its place, of its kind, and on its road and its water",
+    "the box's own files are byte for byte what they were"
+   ]
+  },
+  {
+   "name": "the Atascosito road back over Beeson's",
+   "threw": null,
+   "failed": [
+    "Beeson's stands on the east bank where the army camped, and the Atascosito road crosses nine ",
+    "the box's own files are byte for byte what they were"
+   ]
+  },
+  {
+   "name": "the lower crossing left off the river",
+   "threw": null,
+   "failed": [
+    "Beeson's stands on the east bank where the army camped, and the Atascosito road crosses nine ",
+    "the box's own files are byte for byte what they were"
+   ]
+  }
+ ]
+}

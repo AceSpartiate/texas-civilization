@@ -33,6 +33,8 @@ export const campClock = world => world.director?.arrival ? 1080 : 0;
 /** Where Houston's army was camped, and from when (`HIST-TEX-066`): the milestone of the same date moves the army (`followCamp`). */
 export const HOUSTON_CAMPS = Object.freeze([
   { from: march(11), siteId: 'gonzales' },
+  // Beeson's, March 19-26 1836: the place stands at the marker on the east bank, where the army camped and the Mexicans were
+  // two miles west of the river (`HIST-TEX-157`, 2026-09-19).
   { from: march(17), siteId: 'columbus-crossing' },
   { from: march(28, 12), siteId: 'san-felipe' },
   // Groce's, on the west bank opposite Bernardo, from the evening of March 30 (`HIST-TEX-075`, `HIST-TEX-086`).

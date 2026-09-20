@@ -29,6 +29,39 @@ const crossings = Object.values(map.places).filter(place => ['ford', 'ferry', 'b
 const drawnAt = place => place.over || place;
 const water = name => map.watercourses.filter(course => course.name === name);
 
+test("Beeson's stands on the east bank where the army camped, and the Atascosito road crosses nine miles below it", () => {
+  // Owner, 2026-09-19. Until then Beeson's stood at Columbus's official point, on the Gonzales side of the river the map
+  // draws, though Houston's army "camped on the east bank of the Colorado River opposite Beason's crossing" (HIST-TEX-157);
+  // and the Atascosito road went over at Beeson's, not at its own crossing nine miles below Columbus (HIST-TEX-156).
+  const colorado = water('Colorado River');
+  // How many times a line between two points crosses the drawn river: odd when the river is between them.
+  const between = (a, b) => colorado.reduce((count, course) => count + course.points.slice(1).filter((q, i) => {
+    const p = course.points[i], r = { x: b.x - a.x, y: b.y - a.y }, s = { x: q.x - p.x, y: q.y - p.y };
+    const den = r.x * s.y - r.y * s.x;
+    if (Math.abs(den) < 1e-12) return false;
+    const t = ((p.x - a.x) * s.y - (p.y - a.y) * s.x) / den, u = ((p.x - a.x) * r.y - (p.y - a.y) * r.x) / den;
+    return t > 0 && t < 1 && u > 0 && u < 1;
+  }).length, 0);
+  const beesons = map.places['columbus-crossing'], lower = map.places['lower-colorado-crossing'];
+  assert.equal(between(map.places.gonzales, beesons) % 2, 1, "the Colorado is not between Gonzales and Beeson's: the camp is on the wrong bank");
+  assert.equal(between(map.places['san-felipe'], beesons) % 2, 0, "the Colorado is between San Felipe and Beeson's: the camp is on the wrong bank");
+  // The road the army took east from the camp does not cross the river again; the road it came by does.
+  const mail = map.roads.find(road => road.id === 'road-columbus-crossing-san-felipe');
+  assert.equal(mail.name, "The mail road by Beeson's", 'the road east from Beeson\'s is the mail road (HIST-TEX-146)');
+  assert.equal(between(map.places['san-felipe'], beesons), 0, 'the mail road east crosses the Colorado');
+  // The Atascosito road goes over at its own crossing, and nowhere near Beeson's.
+  for (const id of ['road-victoria-lower-colorado-crossing', 'road-lower-colorado-crossing-san-felipe']) {
+    const road = map.roads.find(r => r.id === id);
+    assert.ok(road, `${id} is not a road`);
+    assert.equal(road.name, 'The Atascosito road');
+  }
+  assert.ok(!map.roads.some(road => road.name === 'The Atascosito road' && [road.from, road.to].includes('columbus-crossing')), "the Atascosito road still goes by Beeson's");
+  assert.ok(toLine(drawnAt(lower), map.roads.find(r => r.id === 'road-lower-colorado-crossing-san-felipe').points) <= 0.05, 'the lower crossing is not on the Atascosito road');
+  const apart = distance(drawnAt(lower), drawnAt(beesons));
+  assert.ok(apart > 4 && apart < 9, `the lower crossing is ${apart.toFixed(1)} miles from Beeson's in a straight line, for nine by the river`);
+  assert.ok(drawnAt(lower).y > drawnAt(beesons).y, 'the lower crossing is not below Beeson\'s');
+});
+
 test('each crossing the record gives is at its place, of its kind, and on its road and its water', () => {
   // [id, kind, claim, lon, lat, within miles]: the record's point, or the town the crossing is at.
   const RECORD = [
@@ -44,7 +77,9 @@ test('each crossing the record gives is at its place, of its kind, and on its ro
     ['lower-ford', 'ford', 'HIST-TEX-148', -97.3830, 28.6476, 1], // "the lower ford", on the Victoria road
     ['bexar-ford', 'ford', 'HIST-TEX-149', -98.4936282, 29.4241219, 1],
     ['mina-ford', 'ford', 'HIST-TEX-147', -97.3152701, 30.1104947, 1], // Smithwick's ford at Mina
-    ['columbus-crossing', 'ferry', 'HIST-TEX-146', -96.5396933, 29.7066232, 0.5], // Beeson's ferry, at Columbus
+    ['columbus-crossing', 'ferry', 'HIST-TEX-146', -96.5352167, 29.7043667, 0.15], // Beeson's ferry, at the 1993 marker
+    // "29°40' N, 96°27' W", nine miles below Columbus (TSHA): a coordinate given to the minute, about a mile either way.
+    ['lower-colorado-crossing', 'ford', 'HIST-TEX-156', -96.45, 29.6666667, 1],
     ['la-grange-crossing', 'ferry', 'HIST-TEX-145', -96.876647, 29.9055033, 1], // Burnam's ferry, near La Grange
     ['atascosito-crossing', 'ferry', 'HIST-TEX-152', -94.7954784, 30.057993, 4], // three miles above Liberty
   ];
@@ -61,7 +96,7 @@ test('each crossing the record gives is at its place, of its kind, and on its ro
   // The places the map already had stay where they were: Gonzales's ford at the river nearest the town, the three named
   // crossings at their towns' points, drawn where their roads meet the river.
   assert.deepEqual([map.places.ford.x, map.places.ford.y], [0.89, -0.48], 'the ford at Gonzales moved');
-  assert.ok(distance(map.places['columbus-crossing'], at(-96.5396933, 29.7066232)) < 0.01, 'Beeson\'s moved');
+  assert.ok(distance(map.places['columbus-crossing'], at(-96.5352167, 29.7043667)) < 0.01, 'Beeson\'s moved off the marker');
   assert.ok(distance(map.places['la-grange-crossing'], at(-96.876647, 29.9055033)) < 0.01, 'the Colorado crossing moved');
   // Lynch's ferry is the ferry at Lynchburg; Groce's is on Groce's road to Bernardo.
   assert.ok(distance(map.places['lynchs-ferry'], map.places.lynchburg) < 0.6, 'Lynch\'s ferry is not by Lynchburg');

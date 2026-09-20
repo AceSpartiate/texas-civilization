@@ -191,8 +191,8 @@ chosen on arrival (`docs/LAND_GRANTS.md` §8.2).
   of the rivers at the real confluence (the origin). `HIST-GONZ-015`'s "two miles west of Gonzales" is re-checked against
   the measured distance, about 1.3 miles, and corrected in `HISTORY.md` if the data does not bear it out.
 - **Roads** are a graph between the settlements along the documented routes (`HIST-TEX-008`): the La Bahía road
-  (Washington – the Colorado crossing near La Grange – Goliad), the Atascosito road (Goliad and Victoria – the Colorado –
-  San Felipe – Harrisburg – Liberty), and connecting roads where the letters show traffic (Gonzales – the Colorado at
+  (Washington – the Colorado crossing near La Grange – Goliad), the Atascosito road (Goliad and Victoria – its own crossing of
+  the Colorado nine miles below Columbus, `HIST-TEX-156` – San Felipe – Harrisburg – Liberty), and connecting roads where the letters show traffic (Gonzales – the Colorado at
   Moore's – San Felipe, `HIST-TEX-006`; Gonzales – Béxar; Gonzales – Victoria; San Felipe – Columbia – Brazoria –
   Velasco; Columbia – Matagorda; San Felipe – Mina). **Every course is laid by least-cost routing over the real
   terrain between its settlements** and marked `FIC-GONZ-027`: no surveyed 1835 course was found. Rivers are crossed

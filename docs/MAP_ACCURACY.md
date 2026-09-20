@@ -499,7 +499,8 @@ water, a ferry's rope along its road), and for a ferry met slantwise how much lo
 | The ford at Béxar | San Antonio | ford | where the road from Gonzales meets the reconstructed river | `HIST-TEX-149` | documented (secondary): a ford for horses and wagons, a footbridge for people |
 | The ford at Mina | Colorado | ford | where the road to Gonzales meets the river | `HIST-TEX-147` | documented (Smithwick) |
 | The Colorado crossing (Burnam's ferry) | Colorado | ferry, a stage | its place stays at La Grange's point; the ferry is drawn 0.7 mi off where both roads meet the river | `HIST-TEX-145` | documented; its date and the marker's site disputed |
-| Beeson's crossing (Beeson's ferry) | Colorado | ferry, a stage | its place stays at Columbus's point; drawn 0.25 mi east where the road meets the river | `HIST-TEX-146` | documented |
+| Beeson's crossing (Beeson's ferry) | Colorado | ferry, a stage | at the 1993 marker in Beason's Park, on the east bank where the army camped (2026-09-19); the road from Gonzales goes over the river to it | `HIST-TEX-146`, `HIST-TEX-157` | documented |
+| The lower Colorado crossing | Colorado | ford | the river nearest 29°40' N, 96°27' W, nine miles below Columbus, where the Atascosito road now goes over (2026-09-19) | `HIST-TEX-156` | crossing documented; a ford is the game's (`FIC-GONZ-090`) |
 | The ferry at Matagorda | Colorado | ferry | where the road west meets the river | `FIC-GONZ-091` | nothing found at the town |
 | The ferry at Victoria | Guadalupe | ferry | where both roads meet the river | `FIC-GONZ-091` | none named before 1839 (`HIST-TEX-154`) |
 | The San Felipe ferry | Brazos | ferry | where the road east meets the river | `HIST-TEX-142` | documented; landing not located |
@@ -539,6 +540,21 @@ is dealt as it was.
 byte for byte the province built from the map before - it reads the towns and the rivers, which did not change. (Rebuilt from
 either map it is `4a33a972…`, not the `8ef9b839…` the repository ships: the shipped province predates something else in the
 chain, and was left as it is.)
+
+**Beeson's bank and the Atascosito road's own crossing (owner, 2026-09-19).** Two things the crossings left open are mended:
+
+- **Beeson's crossing** stood at Columbus's official point, which is on the *Gonzales* side of the river the map draws, though
+  Houston's army camped on the east bank (`HIST-TEX-157`). Its place now stands at the 1993 marker in Beason's Park,
+  0.31 miles south-east and over the water, so the army's camp of March 19-26 is on the east bank as the record has it, and
+  the road from Gonzales crosses the river by the ferry to reach it. The ferry is drawn at the place, which lies a tenth of a
+  mile off the drawn river.
+- **The Atascosito road** went over at Beeson's; its own crossing was nine miles below Columbus (`HIST-TEX-156`). That
+  crossing is a place now (`lower-colorado-crossing`, *The lower Colorado crossing*), a ford at the river nearest the
+  record's point, opened as a window of the Colorado, and the road from Victoria goes over it to San Felipe. Beeson's keeps
+  its road east under its own name: **The mail road by Beeson's**, mail route 13 of 1835, "San Felipe, by Beason's and
+  Daniel's, to Gonzales" (`HIST-TEX-146`) - the way Houston's army took to San Felipe on March 26-28.
+
+Nothing else moved: the map's other places, roads and waters are as they were, and the three stages are still the three.
 
 ### 10.2 What a crossing costs
 
@@ -592,8 +608,7 @@ east of the place, the bridge over Vince's Bayou, the fords at Gonzales and on C
 - `ceiling:` a ferry's wait is an hour by day and by night; the ferryman was bound to cross only from sunrise to ten at night.
 - `ceiling:` no ferriage is charged (above).
 - `ceiling:` the game's fords are where its roads come down to the water, not where 1835 crossed; the Lavaca, the Navidad and
-  the San Bernard crossings of the Atascosito road were not found. The Atascosito road's own crossing of the Colorado, nine
-  miles below Columbus, is not on the map; Beeson's stands at Columbus's official point, west of the river the map draws, where
-  Houston's camp of March 1836 was on the east bank.
+  the San Bernard crossings of the Atascosito road were not found. Its Colorado crossing and Beeson's bank were mended on
+  2026-09-19 (§10.1).
 - `ceiling:` the ferries are drawn still: nothing crosses on them, and a family on the road is not drawn waiting for the boat.
 - `ceiling:` the road is drawn across a ford and under a bridge as before; at a ferry the river is laid back over it.
