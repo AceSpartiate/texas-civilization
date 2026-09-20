@@ -1067,3 +1067,27 @@ truncated before it. It is **not** called into question here, but it should be c
 - **No terrain file was rebuilt**; nothing in `public/terrain` changed, and `tests/map-outside.test.mjs`'s hashes stand. No
   save version moved: a class already on `biomes-1836` gains the belt's timber and loses no standing tree, because the belt
   only turns prairie patches into creek patches and never the other way, so every felled tree is still found by its id.
+
+---
+
+## 15. The town fields cut to the record (owner, 2026-09-20)
+
+§14.1's third and largest finding — twenty square miles of invented cropland — put to the owner by multiple choice and
+answered: **cut them to the record**. `scripts/terrain/biomes.mjs`, and `colonies-woods.*` and `colonies-land.*` rebuilt.
+
+| | Before | After | What the record says |
+|---|---:|---:|---|
+| Béxar's fields | 19.95 sq mi, 12,768 acres | **5.5 sq mi, 3,520 acres** | the seven acequias "extended 15 miles and irrigated 3,500 acres" (`HIST-TEX-203`) |
+| The river's band, either side | 0.5 mi | **0.12 mi** | a band on the river, the creek and the ditches |
+| San Pedro Creek | 0.35 mi | **0.08 mi** | |
+| The Alamo's fields | 0.8 mi | **0.25 mi** | |
+| Each mission's | 0.5 mi | **0.15 mi** | San José's "about 600 acres", San Juan's "over 500" |
+| Every other town's ring | 0.7 mi, 985 acres | **0.25 mi, about 130 acres** | "about a quarter mile beyond its last lot" (COLONIES.md §5.2); villages of a dozen to fifty cabins (`HIST-TEX-204`) |
+
+A mile east of the Alamo is tallgrass prairie now, which is what Bexar County still mostly was in 1858. Measured on six
+classes of thirty over three periods, the same seeds: **178 log houses and 2 jacals**, nobody left unable to build; ticks
+short of food 67 → 65.5; the house lived in at tick 98. `tests/biomes.test.mjs` holds both facts — the fields at the Alamo,
+and the prairie a mile east of it.
+
+`ceiling:` the fields are still a solid class with no trees and no game, laid by a rule rather than a survey; what the record
+gives is an acreage and a corridor, not an outline. `ceiling:` the acequias themselves are still not drawn.

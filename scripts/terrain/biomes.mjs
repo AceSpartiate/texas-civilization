@@ -125,21 +125,28 @@ export const CANE_TAKES = Object.freeze(['coastal-prairie', 'tallgrass-prairie',
  * side, San Pedro Creek from its springs, and the Alamo's own fields north and east of the compound.
  */
 export const BEXAR_FIELDS = Object.freeze({
-  // Half a mile either side of the river's line: with its bends, the envelope is one to two and a half miles wide.
-  river: { name: 'San Antonio River', north: 29.478, south: 29.31, miles: 0.5 },
-  creek: { name: 'San Pedro Creek', springs: { lon: -98.497, lat: 29.445 }, miles: 0.35 },
+  // Narrowed 2026-09-20 (owner, by multiple choice: cut them to the record). The seven acequias "extended 15 miles and
+  // irrigated 3,500 acres" at their height (`HIST-TEX-203`), and a fifth of a mile either side of fifteen miles of river is
+  // about that. It was half a mile either side until then, which made twenty square miles - 12,768 acres - of solid field.
+  river: { name: 'San Antonio River', north: 29.478, south: 29.31, miles: 0.12 },
+  creek: { name: 'San Pedro Creek', springs: { lon: -98.497, lat: 29.445 }, miles: 0.08 },
   // The Alamo about half a mile east of the plaza; its fields three-quarters of a mile out (TxPAN).
-  alamo: { eastOfPlaza: 0.45, miles: 0.8 },
+  alamo: { eastOfPlaza: 0.45, miles: 0.25 },
   // Each mission "ringed with farmland irrigated by a comprehensive system of acequias" (TSHA, *Bexar County*): Concepción,
   // San José, San Juan and Espada, half a mile round each (their positions are today's, NPS).
   missions: [
     { name: 'Concepción', lon: -98.4925, lat: 29.3903 }, { name: 'San José', lon: -98.4797, lat: 29.3617 },
     { name: 'San Juan', lon: -98.4553, lat: 29.3344 }, { name: 'Espada', lon: -98.4636, lat: 29.3183 },
   ],
-  missionMiles: 0.5,
+  missionMiles: 0.15,
 });
-/** Every other town's cleared ring of streets, lots, gardens and small fields, miles from its middle (§5.2, `FIC-GONZ-062`). */
-export const TOWN_RING_MILES = 0.7;
+/**
+ * Every other town's cleared ring of streets, lots, gardens and small fields, miles from its middle (§5.2, `FIC-GONZ-062`).
+ * Cut from 0.7 to a quarter mile on 2026-09-20 (owner, by multiple choice), which is what §5.2 asked for in the first place:
+ * 0.7 made 985 acres of solid field at each of sixteen towns, and these were villages of a dozen to fifty cabins with the
+ * stumps still standing in their one street in February 1836 (`HIST-TEX-204`).
+ */
+export const TOWN_RING_MILES = 0.25;
 
 /** Mexico (§4.12, `HIST-TEX-108`): chaparral, but the delta plain round Matamoros, the south bank's river woods, and the Sierra's oaks. */
 export const MEXICO = Object.freeze({ deltaEast: -98.0, deltaBelowMetres: 30, riverMiles: 0.25, oaksAboveMetres: 800 });

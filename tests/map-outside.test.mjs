@@ -48,8 +48,13 @@ const BOX_FILES = {
   // Rebuilt on purpose 2026-09-19 for the biomes of 1836 (docs/BIOMES.md): the woods grid re-filed from LANDFIRE and the land's
   // classes one a biome, five bits of a cell where there were four. Relief, water and the edge of the data are cell for cell
   // as they were (checked by decoding both). Were dd7bf095...adc6adb and a327b651...95c2e.
-  'colonies-land.bin.gz': '65f44999f8d78565b49a1fd64437959949343e10c71752db78e490820c82ca6a',
-  'colonies-land.json.gz': '675d9a49129a8a1292bc8105dbe65aa116736baf37838af4bdaeb2db9f3508a4',
+  // Rebuilt on purpose 2026-09-20, the town fields cut to the record (owner, by multiple choice; docs/BIOMES.md §15): Béxar's
+  // fields from twenty square miles to 5.5 - the 3,500 acres the seven acequias watered (HIST-TEX-203) - and every other
+  // town's ring from 0.7 mile to a quarter, about 130 acres apiece instead of 985 (HIST-TEX-204). Nothing else in the grids
+  // moved: the stands, the creeks' belts and the ecoregions are what they were, and no felled tree's id is lost, because a
+  // patch that was field had no trees in it to lose.
+  'colonies-land.bin.gz': 'd7641535b132adab6eb6b1cee2fd15d449123d96d3d95af89c6a219e7e3a61eb',
+  'colonies-land.json.gz': '113d688d1becbfd54fab136483e35f7f3609af3d8e374cb3736f30de6bec4242',
   // Rebuilt on purpose on main the same day, the march east's four houses made places (HIST-TEX-088); the outside layer does
   // not read it. Was 872c0ef1...965a4.
   // Rebuilt on purpose 2026-09-19 for the crossings (docs/MAP_ACCURACY.md §10): a ford, ferry or bridge wherever a road meets
@@ -75,8 +80,13 @@ const BOX_FILES = {
   'colonies-water.json.gz': '22900ae34954db4225fba11e1e977beab6161e4d53d84b5ebc923089e3162c44',
   // The biomes of 1836 (2026-09-19). The grid a class of the week before was made on is kept as it was, beside it, and read
   // by that class alone: its old hashes are now colonies-woods-2016's.
-  'colonies-woods.bin.gz': '65205bbb9e66ae64d33c47ecd2dff430641593c3eb11d6b67e855f54eecc4c87',
-  'colonies-woods.json.gz': '0f50376bbca82aa92a74442b4f20f95801ff4464e2788133efe8ce9c36c777aa',
+  // Rebuilt on purpose 2026-09-20, the town fields cut to the record (owner, by multiple choice; docs/BIOMES.md §15): Béxar's
+  // fields from twenty square miles to 5.5 - the 3,500 acres the seven acequias watered (HIST-TEX-203) - and every other
+  // town's ring from 0.7 mile to a quarter, about 130 acres apiece instead of 985 (HIST-TEX-204). Nothing else in the grids
+  // moved: the stands, the creeks' belts and the ecoregions are what they were, and no felled tree's id is lost, because a
+  // patch that was field had no trees in it to lose.
+  'colonies-woods.bin.gz': 'df9f420ff207bf63e5eb6996212d483a52ffe5c58e1b16bf34dad7b1835d2193',
+  'colonies-woods.json.gz': '9b851d28525042b78712ec55fe61bc4c7386389e44e09a28d8c87cd590058bc0',
   'colonies-woods-2016.bin.gz': '16221666bf6757126faba1b8237fd82b42618aa277c36265da80ff6abeca067a',
   'colonies-woods-2016.json.gz': '66bf252a4d8161564866def57ba1c1680bf4075b30e8dee9ccb156fb43ab3e1e',
 };

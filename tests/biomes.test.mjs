@@ -56,7 +56,10 @@ test('the country of 1836 stands where the research puts it, and every biome is 
     ['longleaf in the south-east', -94.204, 30.809, 'longleaf'],
     ['the Cross Timbers at their southern end', -97.304, 31.809, 'cross-timbers'],
     ['cypress in the Neches lowlands', -94.019, 30.054, 'cypress-swamp'],
-    ['the fields east of the Alamo', -98.48, 29.426, 'fields'],
+    ['the fields at the Alamo', -98.4861, 29.426, 'fields'],
+    // Cut to the record 2026-09-20 (owner; HIST-TEX-203): the fields are a band on the river, the creek, the missions and the
+    // Alamo, not twenty square miles. A mile east of the Alamo is the prairie the county still was in 1858.
+    ['the prairie a mile east of the Alamo', -98.47, 29.426, 'tallgrass-prairie'],
   ]) assert.equal(gridStandAt(at(lon, lat)), stand, name);
   // The ten settings the week of 2026-09-15 filed under the wrong stand (docs/BIOMES.md §6.3).
   const plain = { lon: -97, lat: 30, eco: '' };

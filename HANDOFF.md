@@ -41,6 +41,25 @@ beside a 24-thread busy loop it passed 10/10. **Seen in those suites:** `pace.te
 failed 7 of 10 (fixed the same day, above) and `save-cadence.test.mjs` *"a page is sent a snapshot"* 1 of 10 (fixed the same day, above), both real-time tests of their own. No
 product code changed.
 
+**The town fields cut to the record, 2026-09-20:** [BIOMES.md](docs/BIOMES.md) §15, `HIST-TEX-203`, `HIST-TEX-204`,
+`FIC-GONZ-062`. The biome critique's largest finding, put to the owner by multiple choice and answered *cut them to the
+record*: the map laid **twenty square miles - 12,768 acres - of solid field round Béxar**, three and a half times the 3,500
+acres the seven acequias watered at their height and two and a half times what had been tilled in the whole county by 1850,
+in a county still three-quarters prairie in 1858; and **0.7 mile of field round each of sixteen other towns, 985 acres
+apiece**, at villages of a dozen to fifty cabins whose one street still had the stumps in it in February 1836. Béxar's band
+is now a fifth of a mile either side of the river (0.12), San Pedro Creek's 0.08, the Alamo's quarter mile, each mission's
+0.15: **5.5 square miles, 3,520 acres**, against the record's 3,500. Every other town's ring is **a quarter mile**, about 130
+acres - which is what [COLONIES.md](docs/COLONIES.md) §5.2 asked for in the first place. A mile east of the Alamo is
+tallgrass prairie now. `public/terrain/colonies-woods.*` and `colonies-land.*` were rebuilt from the raw LANDFIRE and EPA
+data (still on disk at `C:\Users\zachw\TexasData\raw`, 4.6 GB, listed in `docs/evidence/outside-data.json`), and their four
+hashes in `tests/map-outside.test.mjs` are updated with the reason. **No save version moved and no felled tree is lost**: a
+patch that was field had no trees in it to lose, so the change only puts trees and game back. Measured on six classes of
+thirty over three periods, same seeds: **178 log houses and 2 jacals**, nobody left unable to build; ticks short of food
+67 → 65.5. `tests/biomes.test.mjs` holds both facts now - the fields at the Alamo, and the prairie a mile east of it. Checks:
+`npm test` 772, `test:biome-game`, `test:farm`, `test:hunt` and `test:alamo`, and twelve shots in
+`docs/evidence/biomes/fields-after-*.png`, looked at. `ceiling:` the fields are still a class with no trees and no game, laid
+by a rule rather than a survey, and the acequias are still not drawn. Same computer only.
+
 **A ford is a wade now, and the water can be up, 2026-09-19:** [MAP_ACCURACY.md](docs/MAP_ACCURACY.md) §10.7,
 `FIC-GONZ-094`. The owner asked in play - *"to ford a river, shouldn't characters have to wade?"* - and chose by multiple
 choice: a wade that can go wrong, and high water costing more. A ford cost nothing at all until now; only a ferry's hour was
