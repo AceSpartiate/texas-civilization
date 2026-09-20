@@ -59,7 +59,13 @@ const BOX_FILES = {
   // Rebuilt again 2026-09-19 for Beeson's bank (docs/MAP_ACCURACY.md §10.1): Beeson's crossing stood at the marker on the east
   // bank where the army camped, the Atascosito road laid over its own crossing nine miles below Columbus, and the mail road
   // from Beeson's to San Felipe named. Was 649deb2f...5e8adcb.
-  'colonies-map.json.gz': 'bb08abb676d2829c5e473ff2c718d7002f1f35ff03299489fce9f7f31ce9e33b',
+  // Rebuilt again 2026-09-19 for the crossings audit (docs/MAP_ACCURACY.md §10.6): a crossing now stands at the **squarest**
+  // meeting of its road with its water instead of the middle one of a run, which on a road laid along a creek bottom was a
+  // graze - nine fords moved 0.17 to 1.16 miles, the ford on Brushy Creek from a meeting of three degrees to one of ninety;
+  // and a meeting inside the last twentieth of a mile of a drawn line is the road passing the water's head, not a crossing -
+  // two fords went, on Bear Branch and on East Branch Mad Island Slough. Every road is byte for byte what it was, and so are
+  // the crossing windows and all 561 watercourses (checked by decoding both). Was bb08abb6...ce9e33b.
+  'colonies-map.json.gz': '67a873b77b7f539db811917c4065f0ca19ee4f476080638968f1027d04a96668',
   'colonies-province.json.gz': '8ef9b839a6f03b82a1ef81e832eb3d483cd7761e8f4eef32eea33b3508883dc7',
   'colonies-water.json.gz': '22900ae34954db4225fba11e1e977beab6161e4d53d84b5ebc923089e3162c44',
   // The biomes of 1836 (2026-09-19). The grid a class of the week before was made on is kept as it was, beside it, and read

@@ -17,12 +17,45 @@ const require = createRequire(import.meta.url), { chromium } = require(process.e
 const app = createClassroom({ playerCount: 8, worldFactory: (seed, n) => createWorld(seed, n, { map: 'colonies' }) });
 const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
 const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
-const out = 'docs/evidence/crossings';
+// `--audit` (2026-09-19): the same camera over every crossing the audit flags and a spread of the ones it passes, so they
+// can be looked at rather than counted. The shots go to docs/evidence/crossings/audit/, the proof's own to its own place.
+const auditing = process.argv.includes('--audit');
+const out = auditing ? 'docs/evidence/crossings/audit' : 'docs/evidence/crossings';
 mkdirSync(out, { recursive: true });
 // [site, kind]: Cypress Creek's ford is found by its water, the build names it.
 // The lower Colorado crossing is here for the Atascosito road's own ford, laid 2026-09-19 nine miles below Beeson's.
-const CROSSINGS = [['ford', 'ford'], ['groces-ferry', 'ferry'], ['lynchs-ferry', 'ferry'], ['columbus-crossing', 'ferry'], ['lower-colorado-crossing', 'ford'], ['Cypress Creek', 'ford'], ['vinces-bridge', 'bridge']];
-const ZOOMS = [['near', 1400], ['close', 420], ['county', 60]];
+const PROOF = [['ford', 'ford'], ['groces-ferry', 'ferry'], ['lynchs-ferry', 'ferry'], ['columbus-crossing', 'ferry'], ['lower-colorado-crossing', 'ford'], ['Cypress Creek', 'ford'], ['vinces-bridge', 'bridge']];
+/**
+ * What the audit wants looked at: every crossing it flags, and a spread of the ones it passes - each kind, each barrier
+ * river, the tidal water, a creek at a confluence, a road met at a fair angle and one met slantwise, and the far corners of
+ * the map. Taken from `node scripts/crossings-audit.mjs --json` so the flagged list is never out of date with the map.
+ */
+const SPREAD = [
+  'ford', 'la-grange-crossing', 'columbus-crossing', 'lower-colorado-crossing', 'mina-ford', 'matagorda-ferry',
+  'victoria-ferry', 'san-felipe-ferry', 'robinsons-ferry', 'groces-ferry', 'brighams-ferry', 'columbia-ferry',
+  'atascosito-crossing', 'harrisburg-ferry', 'lynchs-ferry', 'vinces-bridge', 'lower-ford', 'bexar-ford',
+  'ferry-san-jacinto-river', 'ford-peach-creek', 'ford-mill-creek', 'ford-cypress-creek', 'ford-little-bernard-creek',
+  'ford-stevens-creek', 'ford-reed-creek', 'ford-navidad-river', 'ford-lavaca-river', 'ford-san-bernard-river',
+  'ford-clear-creek', 'ford-linney-creek', 'ford-caney-creek', 'ford-garcitas-creek', 'ford-new-year-creek',
+  // The nine the audit moved to the squarest meeting of their run on 2026-09-19, so each is looked at where it now stands,
+  // and Bear Branch, whose road-end nick two miles further on stopped being a crossing the same day.
+  'ford-stevens-creek', 'ford-garcitas-creek-3', 'ford-dry-creek-2', 'ford-lake-bayou-2', 'ford-brushy-creek',
+  'ford-sandy-creek', 'ford-reed-creek', 'ford-dry-run', 'ford-little-whiteoak-bayou', 'ford-bear-branch',
+];
+const ZOOMS = auditing ? [['over', 700], ['about', 250], ['round', 90]] : [['near', 1400], ['close', 420], ['county', 60]];
+let CROSSINGS = PROOF;
+if (auditing) {
+  const { execFileSync } = await import('node:child_process');
+  // The audit exits 1 when it has a finding, which is the case this mode exists for: its output is read either way.
+  const audit = JSON.parse((() => {
+    try { return execFileSync(process.execPath, ['scripts/crossings-audit.mjs', '--json'], { encoding: 'utf8', maxBuffer: 1 << 28 }); }
+    catch (error) { if (error.stdout) return error.stdout; throw error; }
+  })());
+  const byId = new Map(audit.crossings.map(crossing => [crossing.id, crossing]));
+  const wanted = [...new Set([...audit.crossings.filter(c => c.verdict === 'FLAG').map(c => c.id), ...audit.crossings.filter(c => c.notes.length).map(c => c.id), ...SPREAD])];
+  CROSSINGS = wanted.filter(id => byId.has(id)).map(id => [id, byId.get(id).kind]);
+  console.log(`${CROSSINGS.length} crossings to look at: ${audit.counts.flagged} flagged, ${audit.counts.noted} noted, the rest a spread.`);
+}
 const shots = [];
 try {
   const page = await browser.newPage({ viewport: { width: 1280, height: 800 } }), errors = [];
@@ -65,6 +98,6 @@ try {
     }
   }
   assert.deepEqual(errors, []);
-  writeFileSync(`${out}/proof.json`, JSON.stringify({ result: 'PASS', date: new Date().toISOString(), sameComputerOnly: true, shots, errors }, null, 2));
+  writeFileSync(`${out}/${auditing ? 'shots' : 'proof'}.json`, JSON.stringify({ result: 'PASS', date: new Date().toISOString(), sameComputerOnly: true, shots, errors }, null, 2));
   console.log(`PASS: ${shots.length} screenshots in ${out}`);
 } finally { await browser.close(); await app.close(); }

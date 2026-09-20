@@ -15,14 +15,23 @@ const build = () => execFileSync(process.execPath, ['scripts/build-colonies-map.
 const TESTS = {
   place: 'each crossing the record gives is at its place',
   every: 'every place a road meets a river or creek',
+  // The three the crossings audit added on 2026-09-19 are proven in audit-injections.mjs beside this; named here so an
+  // injection that also broke one of them could not pass unnoticed as "alone".
+  squarest: 'a crossing stands where its road goes over the water',
+  heads: 'no crossing stands on the head or the mouth',
+  dry: 'a crossing has its water drawn under it',
   ferry: 'a ferry costs an hour',
   others: 'a rider with word and the flight',
   army: 'the army keeps its dated camps',
   old: 'a class saved before the crossings',
 };
 const INJECTIONS = [
+  // 29.72333, not the 29.72533 this used until 2026-09-19: the crossings audit gave the build a rule that a meeting inside
+  // the last twentieth of a mile of a drawn line is the road passing the water's head and no crossing (`TIP_MILES`), and at
+  // 29.72533 the injected marker lies off the end of Vince Bayou altogether, so the build now refuses it instead of laying
+  // a bad bridge. At 29.72333 it is still four tenths of a mile up the bayou, and a tenth clear of its end.
   { guards: 'place', what: "Vince's bridge laid four tenths of a mile up the bayou from its marker", file: 'scripts/build-colonies-map.mjs',
-    from: "['vinces-bridge', \"Vince's bridge\", 'bridge', 'Vince Bayou', -95.22015, 29.71933,", to: "['vinces-bridge', \"Vince's bridge\", 'bridge', 'Vince Bayou', -95.22015, 29.72533," },
+    from: "['vinces-bridge', \"Vince's bridge\", 'bridge', 'Vince Bayou', -95.22015, 29.71933,", to: "['vinces-bridge', \"Vince's bridge\", 'bridge', 'Vince Bayou', -95.22015, 29.72333," },
   { guards: 'every', what: 'the road from Roberts\' to Burnett\'s given no crossings of its creeks', file: 'scripts/build-colonies-map.mjs',
     from: "  for (const road of crossedRoads()) for (const crossing of crossingsOf(road)) {\r\n    if (!BARRIERS.includes(crossing.water)) found.push(",
     to: "  for (const road of crossedRoads()) for (const crossing of crossingsOf(road)) {\r\n    if (road.id === 'road-roberts-burnetts') continue;\r\n    if (!BARRIERS.includes(crossing.water)) found.push(" },

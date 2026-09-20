@@ -486,7 +486,7 @@ what is the game's, `FIC-GONZ-090` to `-092`.
 
 ### 10.1 What the map has
 
-**135 crossings: 122 fords, 12 ferries, one bridge** (`scripts/build-colonies-map.mjs`, the section *The crossings*). Every road,
+**138 crossings: 125 fords, 12 ferries, one bridge** (`scripts/build-colonies-map.mjs`, the section *The crossings*). Every road,
 and Gonzales's short way to its ford, is intersected with every river and creek the map draws. Each meeting is a crossing:
 a place of kind `ford`, `ferry` or `bridge` standing on the road where it meets the water, with the water's name (`water`,
 null for open water), `waterKind` (`river` or `creek`), which way it lies (`across`: a ford or bridge straight over the
@@ -512,7 +512,10 @@ water, a ferry's rope along its road), and for a ferry met slantwise how much lo
 | Lynch's ferry | San Jacinto | ferry | the middle of the water the road spans at the present ferry, 0.1 mi from it | `HIST-TEX-150` | documented |
 | Vince's bridge | Vince Bayou | bridge | on the road from Harrisburg to Lynchburg, 0.1 mi from the 1912 marker | `HIST-TEX-153` | documented; site disputed by some |
 | The ferry on the San Jacinto River | San Jacinto | ferry | where the Atascosito road from Harrisburg meets it, eight miles above Lynch's | `FIC-GONZ-090` | nothing found |
-| 118 fords on creeks, bayous, sloughs and the lesser rivers ("The ford on Peach Creek") | | ford | where each road comes down to the water | `FIC-GONZ-090` | nothing found; the army's camps on Peach, Mill and Cypress creeks are documented, how they crossed is not (`HIST-TEX-155`) |
+| 123 fords on creeks, bayous, sloughs and the lesser rivers ("The ford on Peach Creek") | | ford | where each road goes over the water most squarely (§10.6) | `FIC-GONZ-090`, `FIC-GONZ-110` | nothing found; the army's camps on Peach, Mill and Cypress creeks are documented, how they crossed is not (`HIST-TEX-155`) |
+
+The counts on this line are the built map's, recounted 2026-09-19 by `scripts/crossings-audit.mjs`. They read 135 (122 fords)
+when this section was written, which was five fords short of what the build was already making; §10.6 has the audited numbers.
 
 **The three named crossings are `stage`s.** The Colorado crossing, Beeson's and the Atascosito crossing were `crossing` places;
 they are ferries now and keep their ids, names and points, marked `stage: true`, so the expresses still stop there
@@ -612,3 +615,99 @@ east of the place, the bridge over Vince's Bayou, the fords at Gonzales and on C
   2026-09-19 (§10.1).
 - `ceiling:` the ferries are drawn still: nothing crosses on them, and a family on the road is not drawn waiting for the boat.
 - `ceiling:` the road is drawn across a ford and under a bridge as before; at a ferry the river is laid back over it.
+
+### 10.6 The audit: every crossing checked, and two rules mended (2026-09-19)
+
+Owner: *"dedicate a sub agent to go through all of the bridges and fords. ensure that they're actually placed correctly so
+that they cross the rivers."* All 136 crossings were audited against the built map and a good many were looked at on the
+page. `FIC-GONZ-110`. **Nothing historical was found or claimed by this pass: no 1835 source was read for it and none is
+cited.** What changed is where an invented ford stands, not what was there.
+
+**The audit is a script, and repeatable:** `node scripts/crossings-audit.mjs` (`--flagged` for the findings only, `--json`
+for a machine, `--region` to add the class's own map). It reads `public/terrain/colonies-map.json.gz` through
+`sim/colonies-map.mjs` and nothing else, so it checks the map a class is served rather than the build's working data, and it
+asks six questions of every crossing, one column each:
+
+| | what it asks | tolerance, and why |
+|---|---|---|
+| water | the drawn point is on the watercourse it names | 0.16 mi: `CONFLUENCE_MILES` (0.15, how far a place may stand from its meeting before the crossing is drawn at `over`) plus the hundredth every coordinate is rounded to. A crossing straight off an intersection should be inside 0.03, and one that is not is reported as such rather than hidden inside the tolerance. Courses under a twentieth of a mile do not count: the map carries 85 two-point leavings of joining and simplifying the reaches, and standing on a dot is not standing on water |
+| road | the drawn point is on a road | the same |
+| cross | the road goes bank to bank **at** the crossing, not alongside it or over a clipped meander | the road a fifth of a mile either side must lie on opposite sides of the water's own line there, cut back to half the gap to the next meeting so a braided run's neighbour cannot answer for it; and the two lines must meet at 20° or more, since a ford is drawn as an ellipse square across the water and at less than that the road is lying along it |
+| names | the water it names is the water it sits on, not a neighbour whose line is nearer | a named water more than 0.03 mi off while another is inside it |
+| cover | every meeting of a road with drawn water has a crossing, and every crossing has a meeting | exact |
+| once | one crossing where a road crosses one water once, and no two crossings for one meeting | 0.35 mi, past the build's own `CONFLUENCE_MILES` |
+
+The table of all 138, one row each with its verdict, is
+[evidence/crossings/audit.txt](evidence/crossings/audit.txt) (and [audit.json](evidence/crossings/audit.json) for a machine),
+written by that script over the map as it now stands.
+
+**What it found.** Seven crossings flagged, of 136. Two faults, both in `scripts/build-colonies-map.mjs`:
+
+- **A ford in the middle of a braid.** A road laid over the least effort follows a creek bottom and crosses and recrosses
+  it; the crossing was the **middle** meeting of that run, which on a braided stretch is a graze. The ford on Brushy Creek
+  stood on a meeting of **three degrees** — drawn square across a creek the road was running *in* — with a meeting of ninety
+  a third of a mile away. The crossing is now the **squarest** meeting of its run (`crossingsOf`), ties to the earliest
+  along the road. Nine fords moved 0.17 to 1.16 miles: Brushy Creek 3°→90°, Sandy Creek 9°→72°, Little Whiteoak Bayou
+  19°→54°, Dry Run 18°→51°, Dry Creek 28°→61°, Reed Creek 35°→49°, Stevens Creek 37°→78°, Garcitas Creek 45°→55°, Lake
+  Bayou 57°→61°. The Colorado crossing lost its `oblique` with the direction now read at its own meeting (1.04, under the
+  1.05 that earns one).
+- **A ford on the tip of a creek that goes nowhere.** Bear Branch ended dead at the road to Nacogdoches and East Branch Mad
+  Island Slough at the road from Matagorda, and a ford was drawn on each: the water arrives at the road and vanishes. A
+  meeting inside the last twentieth of a mile of a drawn line is the road passing the water's **head**, not going over it
+  (`TIP_MILES`, in `meetings`). Those two fords are gone, and a third nick, where the road from Harrisburg to Lynchburg
+  passes the head of Little Vince Bayou, no longer counts as a meeting at all.
+
+**What did not change.** Decoded before and after: **all 51 roads byte for byte**, the crossing windows byte for byte, all
+561 watercourses byte for byte, and every other place. 179 places → 177; ten crossings changed, nine of them by moving.
+`colonies-map.json.gz` `bb08abb6…` → `67a873b7…` (`tests/map-outside.test.mjs` holds the new hash, with the reason).
+`saveVersion` is **not** bumped: a class saved before keeps its own map, crossings and all.
+
+**A false alarm worth writing down.** The audit first flagged sixteen crossings as drawn on dry ground, because a class's
+own map (`sim/colonies-region.mjs`) keeps a river only within `KEPT_ROUND_SETTLEMENT` of a settled town. It is not so: on
+the real land the page draws a **river** from the province's detail levels and skips the class's own river features
+entirely (`drawTerrain`, `public/app.js`: `if (feature.kind === 'river' && levelsOf(world)) continue`). Only a **creek**
+comes from the class's terrain, and `CREEK_AT_CROSSING` already keeps two miles of it round every ford. Nothing is dry, on
+a class of five or of thirty — and the test below now holds that, each kind against the layer that actually draws it.
+
+**Looked at, not only counted** (same computer only, headless Chrome; not a LAN or district test):
+`node scripts/crossings-browser-proof.mjs --audit` takes the Host to every flagged crossing, every noted one and a spread
+across the map, kinds and waters, at 700, 250 and 90 pixels a mile, and writes `docs/evidence/crossings/audit/*.png` with
+`shots.json`. 129 shots of 43 crossings were taken (`shots.json` lists them all); the twenty-four kept in the repository are
+the ones actually read by eye, the rest deleted rather than carry sixty megabytes of screenshot - rerun the script for the
+whole set. What that showed: Brushy
+Creek and Ben Branch drawn *on* the road for a mile with the ford in the middle of it; Bear Branch and the Mad Island
+slough stopping dead at the road under their fords; and, on the other side, Groce's, Lynch's, the Harrisburg, San Felipe,
+Victoria and Matagorda ferries with the raft on the water and the rope bank to bank, Vince's bridge over its bayou,
+Beeson's raft at the east landing, and the ford at Béxar where the road from Gonzales cuts the reconstructed river.
+
+**Checks.** Three tests added to `tests/crossings.test.mjs` (now 10), each proven by injecting the regression it guards and
+watching it fail alone ([evidence/crossings/audit-injections.json](evidence/crossings/audit-injections.json), 3 of 3; the
+script is [evidence/crossings/audit-injections.mjs](evidence/crossings/audit-injections.mjs)):
+
+| check | injected |
+|---|---|
+| A crossing stands at the squarest meeting of its run, not the middle one — the five the record places keep their own points | the crossing put back at the middle meeting |
+| No crossing stands within `TIP_MILES` of the head or the mouth of the water it names, and nothing stands where a road nicks an end | `TIP_MILES` set to 0 |
+| Every crossing has its water drawn under it on the map a class is served: a creek from the class's terrain, a river from the province's levels | `CREEK_AT_CROSSING` set to 0 |
+
+The existing *every place a road meets water has a crossing* test now knows the head rule too, and the `place` injection in
+[evidence/crossings/injections.mjs](evidence/crossings/injections.mjs) moves Vince's bridge to 29.72333 rather than
+29.72533 — at the old point the injected marker lies off the end of the bayou and the build now **refuses** it instead of
+laying a bad bridge, which is the rule working. `npm test` 768 pass; `npm run test:crossings` PASS.
+
+**Left undone.**
+
+- `ceiling:` **a road laid along a creek bottom is still laid along it.** Two crossings are still a graze because their
+  road meets that water once and at eight degrees: the ford on Ben Branch (the roads from Gonzales to the Colorado and to
+  Beeson's, which run in the branch for half a mile) and the ford on Brushy Creek, whose squarest meeting is on a hairpin
+  fifty yards long. The fault is the road, not the crossing: the router charges a creek cell only a quarter mile of extra
+  effort, so a valley floor is the cheapest line. Charging more would move roads all over the map, which is a road
+  decision and not this pass's. Grep `ceiling:` in `scripts/build-colonies-map.mjs`.
+- `ceiling:` **85 watercourses are two points under a fiftieth of a mile long**, left by `joinReaches` and `simplify`; a
+  creek one draws a dot of water a dozen metres across, a river one is skipped by the levels. No crossing depends on one
+  (checked), and the audit and the tests ignore them. Dropping them is a `build-colonies-map` change that would move the
+  `watercourses` array and is left for whoever next rebuilds the water.
+- **The Trinity crossing of the Washington–Nacogdoches road is the owner's**, being mended with Robbins' Ferry as a Trinity
+  window in the work past the old map box; this pass left it and the `CROSSINGS` window list alone. Its creek crossings
+  (Dry Creek, Bear Branch, Arnold Branch, Bowie Creek and the rest) will all move when that road is laid again, and the
+  audit should be run over it afterwards.

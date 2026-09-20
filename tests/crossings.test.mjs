@@ -5,6 +5,9 @@
 // water; the ferry's wait is checked on a class; and the army's dated camps are checked to hold with the ferries' waits in them.
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { gunzipSync } from 'node:zlib';
+import { decodeProvince } from '../public/land-levels.js';
 import { coloniesMap, isStage } from '../sim/colonies-map.mjs';
 import { milesFrom, realTerrain } from '../sim/terrain-data.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
@@ -28,6 +31,52 @@ const roads = map.roads.filter(road => ['road', 'crossing'].includes(road.kind))
 const crossings = Object.values(map.places).filter(place => ['ford', 'ferry', 'bridge'].includes(place.kind));
 const drawnAt = place => place.over || place;
 const water = name => map.watercourses.filter(course => course.name === name);
+const lengthOf = course => course.points.slice(1).reduce((sum, p, i) => sum + distance(p, course.points[i]), 0);
+/**
+ * The courses of a water that are lines and not leavings: the built map carries 85 courses of two points under a fiftieth
+ * of a mile long, where joining and simplifying the reaches left a dot. Standing on one of those is not standing on water.
+ */
+const realCourses = name => water(name).filter(course => lengthOf(course) >= 0.05);
+/**
+ * The crossings audit of 2026-09-19 (`scripts/crossings-audit.mjs`, docs/MAP_ACCURACY.md §10.6). Every crossing on the built
+ * map was checked - on its water, on its road, the road really bank to bank through it - and two faults were found and
+ * mended in `scripts/build-colonies-map.mjs`. These are the build's own constants; the tests below hold both rules.
+ */
+const TIP_MILES = 0.05;        // nearer the end of a drawn line than this, the road passes the water's head: no crossing
+const CHAIN_MILES = 1.5;       // meetings of one road with one water closer than this along the road are one crossing
+/** Every meeting of a road with a watercourse the map draws, with how squarely the two lines meet there. */
+function meetingsOf(road, course) {
+  const found = [], down = course.points.reduce((run, p, i) => (run.push(i ? run[i - 1] + distance(p, course.points[i - 1]) : 0), run), []);
+  let road_along = 0;
+  for (let i = 1; i < road.points.length; i++) {
+    const a = road.points[i - 1], b = road.points[i], leg = distance(a, b);
+    for (let j = 1; j < course.points.length; j++) {
+      const c = course.points[j - 1], d = course.points[j];
+      const r = { x: b.x - a.x, y: b.y - a.y }, s = { x: d.x - c.x, y: d.y - c.y }, den = r.x * s.y - r.y * s.x;
+      if (Math.abs(den) < 1e-12) continue;
+      const t = ((c.x - a.x) * s.y - (c.y - a.y) * s.x) / den, u = ((c.x - a.x) * r.y - (c.y - a.y) * r.x) / den;
+      if (t < 0 || t > 1 || u < 0 || u > 1) continue;
+      const along = down[j - 1] + (down[j] - down[j - 1]) * u;
+      found.push({
+        x: a.x + t * r.x, y: a.y + t * r.y, road: road_along + leg * t, toEnd: Math.min(along, down.at(-1) - along),
+        square: Math.abs(Math.sin(Math.atan2(s.y, s.x) - Math.atan2(r.y, r.x))),
+      });
+    }
+    road_along += leg;
+  }
+  return found.sort((a, b) => a.road - b.road);
+}
+/** Those meetings chained as the build chains them: a run is meetings no gap in which is longer than CHAIN_MILES. */
+function runsOf(meetings) {
+  if (!meetings.length) return [];
+  const out = [];
+  let run = [meetings[0]];
+  for (const hit of meetings.slice(1)) {
+    if (hit.road - run.at(-1).road > CHAIN_MILES) { out.push(run); run = [hit]; } else run.push(hit);
+  }
+  out.push(run);
+  return out;
+}
 
 test("Beeson's stands on the east bank where the army camped, and the Atascosito road crosses nine miles below it", () => {
   // Owner, 2026-09-19. Until then Beeson's stood at Columbus's official point, on the Gonzales side of the river the map
@@ -106,15 +155,20 @@ test('each crossing the record gives is at its place, of its kind, and on its ro
 });
 
 test('every place a road meets a river or creek the map draws has a crossing on that road, and every crossing is on a road and its water', () => {
-  let met = 0;
+  let met = 0, heads = 0;
   for (const road of roads) {
     for (const course of map.watercourses) {
+      const down = course.points.reduce((run, p, i) => (run.push(i ? run[i - 1] + distance(p, course.points[i - 1]) : 0), run), []);
       for (let i = 1; i < road.points.length; i++) for (let j = 1; j < course.points.length; j++) {
         const a = road.points[i - 1], b = road.points[i], c = course.points[j - 1], d = course.points[j];
         const r = { x: b.x - a.x, y: b.y - a.y }, s = { x: d.x - c.x, y: d.y - c.y }, den = r.x * s.y - r.y * s.x;
         if (Math.abs(den) < 1e-12) continue;
         const t = ((c.x - a.x) * s.y - (c.y - a.y) * s.x) / den, u = ((c.x - a.x) * r.y - (c.y - a.y) * r.x) / den;
         if (t < 0 || t > 1 || u < 0 || u > 1) continue;
+        // Inside the last few yards of the drawn line the road passes the water's head, it does not go over it, and the
+        // build makes no crossing there (`TIP_MILES`, 2026-09-19; the test below holds that rule on its own).
+        const along = down[j - 1] + (down[j] - down[j - 1]) * u;
+        if (Math.min(along, down.at(-1) - along) < TIP_MILES) { heads++; continue; }
         met++;
         const hit = { x: a.x + t * r.x, y: a.y + t * r.y };
         // A road that wanders along a creek bottom meets it again and again, and those meetings are one crossing (the
@@ -126,6 +180,9 @@ test('every place a road meets a river or creek the map draws has a crossing on 
     }
   }
   assert.ok(met > 150, `the roads meet the water ${met} times`);
+  // How many meetings the head rule throws out is the next test's business, not this one's; counted here only so a rule
+  // that quietly swallowed everything would show.
+  assert.ok(heads < 10, `${heads} meetings are inside the head or the mouth of their line`);
   for (const place of crossings) {
     assert.ok(roads.some(road => toLine(drawnAt(place), road.points) <= 0.05), `${place.id} is on no road`);
     if (place.water) assert.ok(water(place.water).some(course => toLine(drawnAt(place), course.points) <= 0.1), `${place.id} is not on the ${place.water}`);
@@ -135,6 +192,105 @@ test('every place a road meets a river or creek the map draws has a crossing on 
   for (const place of crossings.filter(p => p.claimId === 'FIC-GONZ-090')) {
     assert.equal(place.kind, ['San Jacinto River', 'Buffalo Bayou'].includes(place.water) ? 'ferry' : 'ford', `${place.id}`);
   }
+});
+
+test('a crossing stands where its road goes over the water, not where it runs along it: the squarest meeting of its run', () => {
+  // The crossings audit, 2026-09-19. A road laid over the least effort follows a creek bottom for a mile at a time and
+  // crosses and recrosses it; the crossing was the middle meeting of that run, which is a graze - the ford drawn square
+  // across a water the road is running *in*. The ford on Brushy Creek stood on a meeting of three degrees with one of
+  // ninety a third of a mile away; the ford on Sandy Creek on nine degrees with seventy-two two thirds of a mile away.
+  // The rule, stated as the build states it: the crossing's drawn point **is** the squarest meeting of its run. Every
+  // coordinate on the map is rounded to a hundredth of a mile, so a fiftieth is the whole honest slack - except for the
+  // five crossings the map already had, whose points are the record's and stay where the record puts them (PLACE_CROSSINGS
+  // in the build). One of those is drawn at its meeting through `over` only when it stands further off than
+  // CONFLUENCE_MILES; nearer than that it is drawn at its own point, as Beeson's is, 0.09 miles from the water.
+  const RECORD_PLACED = new Set(['ford', 'atascosito-crossing', 'la-grange-crossing', 'columbus-crossing', 'lower-colorado-crossing']);
+  const CONFLUENCE_MILES = 0.15;
+  let checked = 0;
+  for (const place of crossings) {
+    if (!place.water) continue; // open water the map draws as the sea (Lynch's ferry) is not a line to meet
+    const point = drawnAt(place);
+    for (const road of roads) {
+      if (toLine(point, road.points) > 0.05) continue;
+      for (const course of realCourses(place.water)) {
+        // The run the crossing was made from: one of its meetings is where the crossing stands. A road that merely passes
+        // near a crossing another road made, and meets the water its own few hundredths of a mile off, is not this road.
+        for (const run of runsOf(meetingsOf(road, course)).filter(run => run.some(hit => distance(hit, point) <= 0.02))) {
+          checked++;
+          const squarest = run.reduce((best, hit) => (hit.square > best.square ? hit : best));
+          const degrees = hit => (Math.asin(Math.min(1, hit.square)) * 180 / Math.PI).toFixed(0);
+          const here = run.reduce((best, hit) => (distance(hit, point) < distance(best, point) ? hit : best));
+          assert.ok(distance(squarest, point) <= (RECORD_PLACED.has(place.id) ? CONFLUENCE_MILES : 0.02),
+            `${place.id} stands ${distance(squarest, point).toFixed(2)} miles from where ${road.id} most squarely goes over the ${place.water}: it is on a meeting of ${degrees(here)}° and the squarest of the ${run.length} in its run is ${degrees(squarest)}°`);
+        }
+      }
+    }
+  }
+  assert.ok(checked >= 120, `only ${checked} crossings were matched to a run of meetings`);
+});
+
+test('no crossing stands on the head or the mouth of the water it names: there the road passes the water, it does not go over it', () => {
+  // The crossings audit, 2026-09-19. Bear Branch ended dead at the road to Nacogdoches and East Branch Mad Island Slough at
+  // the road from Matagorda, and a ford was drawn on each - on the tip of a creek that goes nowhere, the water arriving at
+  // the road and vanishing. Both roads cross that water properly elsewhere or not at all; neither nick is a crossing now.
+  for (const place of crossings) {
+    if (!place.water) continue;
+    const point = drawnAt(place);
+    for (const course of realCourses(place.water)) {
+      const down = course.points.reduce((run, p, i) => (run.push(i ? run[i - 1] + distance(p, course.points[i - 1]) : 0), run), []);
+      let best = { d: Infinity };
+      for (let i = 1; i < course.points.length; i++) {
+        const d = toSegment(point, course.points[i - 1], course.points[i]);
+        if (d < best.d) {
+          const a = course.points[i - 1], b = course.points[i], dx = b.x - a.x, dy = b.y - a.y, l = dx * dx + dy * dy;
+          const u = l ? Math.max(0, Math.min(1, ((point.x - a.x) * dx + (point.y - a.y) * dy) / l)) : 0;
+          best = { d, along: down[i - 1] + (down[i] - down[i - 1]) * u };
+        }
+      }
+      if (best.d > 0.1) continue; // a different reach of the same water, nowhere near this crossing
+      const toEnd = Math.min(best.along, down.at(-1) - best.along);
+      assert.ok(toEnd >= TIP_MILES, `${place.id} stands ${toEnd.toFixed(3)} miles from where the drawn ${place.water} ends`);
+    }
+  }
+  // And the other way about: wherever a road does nick the end of a drawn line, nothing was put there. Found by looking
+  // rather than by name, so the rule is held on whatever roads the map has rather than on the three the audit happened to
+  // find. At least one must exist, or the rule has quietly stopped applying to anything.
+  let nicked = 0;
+  for (const road of roads) {
+    for (const course of map.watercourses) {
+      if (lengthOf(course) < 0.05) continue;
+      for (const nick of meetingsOf(road, course).filter(hit => hit.toEnd < TIP_MILES)) {
+        nicked++;
+        const there = crossings.find(place => place.water === course.name && distance(drawnAt(place), nick) <= 0.2);
+        assert.ok(!there, `${there?.id} stands where ${road.id} nicks the end of ${course.name} at ${nick.x.toFixed(2)}, ${nick.y.toFixed(2)}`);
+      }
+    }
+  }
+  assert.ok(nicked >= 1, 'no road nicks the end of any drawn watercourse: the head rule is guarding nothing');
+});
+
+test('a crossing has its water drawn under it on the map a class is served, so none is drawn on dry ground', () => {
+  // The crossings audit, 2026-09-19. A class is not sent the built map: `sim/colonies-region.mjs` keeps a creek within
+  // KEPT_ROUND_SETTLEMENT of a settled town and for CREEK_AT_CROSSING miles round each ford, and the page draws a **river**
+  // from the province's own detail levels instead (`drawTerrain`, public/app.js: a river feature of the class's terrain is
+  // skipped when the land has levels). So a ford on a creek nobody settles near is drawn on bare grass unless the ford's
+  // own two miles of creek are kept. Checked on a class of five, which keeps the least water.
+  const world = settle(createGonzalesWorld('crossings-dry', 5, { map: 'colonies' }));
+  const creeks = world.map.terrain.filter(feature => feature.kind === 'creek');
+  const province = decodeProvince(JSON.parse(gunzipSync(readFileSync(new URL('../public/terrain/colonies-province.json.gz', import.meta.url))).toString('utf8')));
+  let onCreeks = 0, onRivers = 0;
+  for (const site of Object.values(world.map.sites).filter(site => ['ford', 'ferry', 'bridge'].includes(site.kind))) {
+    if (!site.water) continue; // Lynch's ferry spans open water the map draws as the sea, measured bank to bank by `span`
+    const point = drawnAt(site);
+    const lines = site.waterKind === 'creek'
+      ? creeks.filter(feature => feature.name === site.water).map(feature => feature.points)
+      : province.rivers.filter(river => river.name === site.water).map(river => river.levels[0]).filter(Boolean);
+    assert.ok(lines.length, `${site.id}: a class is sent no ${site.water} at all`);
+    const off = Math.min(...lines.map(points => toLine(point, points)));
+    assert.ok(off <= 0.25, `${site.id} is ${off.toFixed(2)} miles from the ${site.water} a class is sent: it is drawn on dry ground`);
+    if (site.waterKind === 'creek') onCreeks++; else onRivers++;
+  }
+  assert.ok(onCreeks > 100 && onRivers >= 10, `${onCreeks} crossings on creeks and ${onRivers} on rivers were checked`);
 });
 
 let shared = null;
