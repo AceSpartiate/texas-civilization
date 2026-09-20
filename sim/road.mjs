@@ -29,6 +29,7 @@
 // changes and no save version moves.
 import { CHORES, COIN, abandonChore, reales, registerChores } from './chores.mjs';
 import { dateOf } from './clock.mjs';
+import { REGIONS, rainingAt, weatherAt, weatherOn } from './weather.mjs';
 import { record } from './events.mjs';
 import { canAnswerCalls, householdName, mainPersonId, tooYoung } from './family.mjs';
 import { WAGON_SPEED, WALK_SPEED, propertyId } from './travel.mjs';
@@ -45,7 +46,12 @@ const march = (day, hour = 6) => MARCH_1 + (day - 1) * DAY + hour * 60;
 const april = (day, hour = 6) => APRIL_1 + (day - 1) * DAY + hour * 60;
 const round = value => Math.round(value * 100) / 100;
 
-/** Rain: the share of days it rains on the road (`FIC-GONZ-049`; the record says the spring was unusually wet, not which days). */
+/**
+ * Rain: the share of days it rains on the road. Kept for a class saved before 2026-09-20 to read, and for nothing else: the
+ * weather is `sim/weather.mjs` now, where the share is the month's and the country's (`FIC-GONZ-132`) and the rivers carry
+ * a water level that remembers the days before (`FIC-GONZ-133`). The one-day-in-two here stood in for the wet spring
+ * (`HIST-TEX-068`) and was two to three times any measured frequency, for every month of the year.
+ */
 export const RAIN_SHARE = 0.5;
 /**
  * And the share of days it rains the rest of the year (`FIC-GONZ-094`, 2026-09-19). Half of all days is the spring of 1836,
@@ -177,12 +183,22 @@ export function pursuit(world, point) {
  * streaks: one class had twenty rainy days together and another none in its first twenty, at a share meant to be one day in
  * two. It was hard to see while only the wagon's bogging read it; a ford in high water reads it on every crossing.
  */
-export const rainyDay = (world, day) => {
-  const wet = WET_MONTHS.includes(dateOf(world, day * DAY).getUTCMonth());
-  return share(world, 'weather', `rain:${Math.imul(day + 1, 2654435761) >>> 0}`) < (wet ? RAIN_SHARE : RAIN_SHARE_ORDINARY);
-};
+/** Whether rain is falling on this family where it stands (sim/weather.mjs), which is what bogs a wagon. */
+const wetWhere = (world, household, day) => { const where = standsAt(world, household); return where ? rainingAt(world, where, day) : false; };
+const raining = one => one.kind === 'rain' || one.kind === 'storm' || (one.kind === 'norther' && one.wet);
+export const rainyDay = (world, day) => REGIONS.some(region => raining(weatherOn(world, day).regions[region]));
 export const dayOf = minute => Math.floor(minute / DAY);
-export const weatherOf = world => rainyDay(world, dayOf(world.minute)) ? 'rain' : 'fair';
+/** What the day is where this family stands: its own country's weather (sim/weather.mjs), not the whole map's. */
+export const weatherOf = (world, household) => {
+  const where = household && standsAt(world, household);
+  return where ? weatherAt(world, where).kind : weatherOn(world).regions.centre.kind;
+};
+/** Where a family is, for the weather: whoever of it is on the road, else its own home. */
+function standsAt(world, household) {
+  const leader = people(world, household).find(person => person.travel) || people(world, household)[0];
+  if (leader?.location && Number.isFinite(leader.location.x)) return leader.location;
+  return world.map.sites[household.homeSiteId] || null;
+}
 
 const GONE = ['dead', 'captured'];
 const people = (world, household) => household.members.map(id => world.entities[id]).filter(one => one && !GONE.includes(one.health?.condition));
@@ -215,7 +231,7 @@ const tell = (world, household, text, extra = {}) => record(world, 'consequence'
  */
 export const ROAD_ASKS = {
   bog: {
-    text: (world, household) => `The wagon is fast in the mud${weatherOf(world) === 'rain' ? ', and it is still raining' : ''}. The ox cannot pull it out alone.`,
+    text: (world, household) => `The wagon is fast in the mud${['rain', 'storm'].includes(weatherOf(world, household)) ? ', and it is still raining' : ''}. The ox cannot pull it out alone.`,
     fallback: ['dig', 'wait', 'abandon'],
     options: (world, household) => [
       { id: 'dig', label: 'Unload and dig it out', note: `${digHours(household)} hours${oxSpent(household) ? ', with the ox already spent' : ''}. Everybody grown is worn by it, and the ox is spent and goes at half pace for a day after.` },
@@ -457,11 +473,11 @@ export function advanceRoad(world, household) {
       for (const one of withFamily(world, household).people) if (canAnswerCalls(one)) one.exertion = Math.round(((one.exertion || 0) + DIG_MILES) * 10000) / 10000;
       for (const one of [...withFamily(world, household).people, ...withFamily(world, household).beasts]) if (one.travel) one.travel.speed = WAGON_SPEED * SPENT_PACE;
       tell(world, household, `After ${hours} hours the wagon came out of the mud and was loaded again. Everybody who dug is worn by it, and the ox is spent: the wagon goes at half pace for a day.`);
-    } else if (flight.bog.waiting && day > flight.bog.day && !rainyDay(world, day)) {
+    } else if (flight.bog.waiting && day > flight.bog.day && !wetWhere(world, household, day)) {
       delete flight.bog;
       tell(world, household, 'The ground has dried enough; the ox drew the wagon out and the family went on.');
     }
-  } else if (moving && !flight.crossing && !camp && !flight.ask && wagonWith(world, household) && rainyDay(world, day) && flight.bogDay !== day) {
+  } else if (moving && !flight.crossing && !camp && !flight.ask && wagonWith(world, household) && wetWhere(world, household, day) && flight.bogDay !== day) {
     flight.bogDay = day;
     if (share(world, household.id, `bog:${day}`) < BOG_SHARE) {
       flight.bog = { minute: world.minute, day };
@@ -505,7 +521,7 @@ export function roadProjection(world, household) {
   if (!flight || !['fled', 'refuged'].includes(flight.status)) return {};
   const camp = people(world, household).find(one => one.chore && CHORES[one.chore.id]?.road);
   return {
-    weather: weatherOf(world),
+    weather: weatherOf(world, household),
     ...(flight.bog && { bogged: { freeing: Boolean(flight.bog.freeing), waiting: Boolean(flight.bog.waiting) } }),
     ...(Number.isFinite(flight.oxSpentUntil) && { oxSpent: true }),
     ...(camp && { camp: CHORES[camp.chore.id].name }),

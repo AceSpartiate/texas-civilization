@@ -141,7 +141,7 @@ export const fordMiles = (modeId, waterKind) => fordMinutes(modeId, waterKind) /
  * A ford with the water up: the wade takes this many times as long, and at `WADE_WRONG_SHARE` of them it goes wrong (the
  * traveller is carried off their feet, or the team baulks and the load has to come off and be brought over a piece at a
  * time). The water is up on a day it rains (sim/road.mjs `rainyDay`, `FIC-GONZ-049`) - the spring of 1836 was "unusually
- * wet and the rivers swollen" (`HIST-TEX-071`) - and the rest is the game's own (`FIC-GONZ-094`).
+ * wet and the rivers swollen" (`HIST-TEX-068`) - and the rest is the game's own (`FIC-GONZ-094`).
  */
 export const HIGH_WATER_TIMES = 3, WADE_WRONG_SHARE = 0.25, WADE_WRONG_MINUTES = 60;
 /** What every way of going is told of the ferries and the fords, on the control (`describe`). */

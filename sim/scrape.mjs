@@ -15,6 +15,7 @@
 import { record } from './events.mjs';
 import { ruin } from './improvements.mjs';
 import { findWay } from './ways.mjs';
+import { share } from './shares.mjs';
 import { WAGON_SPEED, WALK_SPEED, propertyId } from './travel.mjs';
 import { frailty } from './army.mjs';
 import { canAnswerCalls, householdName } from './family.mjs';
@@ -73,12 +74,9 @@ export const CAPTURED_AT_HOME = 0.5;
  */
 export const SICK_PER_DAY = 0.004, SICK_DAYS = 5, DEATH_PER_SICK_DAY = 0.02;
 
-/** A share in [0, 1) that is always the same for this class, this person and this question. */
-export function share(world, personId, question) {
-  let hash = 0x811c9dc5;
-  for (const char of `${world.seed}:${personId}:${question}`) { hash ^= char.charCodeAt(0); hash = Math.imul(hash, 0x01000193) >>> 0; }
-  return hash / 0x100000000;
-}
+// The hashed share lives in sim/shares.mjs since 2026-09-20, because the weather needs it and the weather is read by
+// sim/ways.mjs, which this module imports. It is exported from here still: this is where everything has always asked for it.
+export { share };
 
 const settlementOf = household => household.settlementId || 'gonzales';
 const people = (world, household) => household.members.map(id => world.entities[id]).filter(Boolean);

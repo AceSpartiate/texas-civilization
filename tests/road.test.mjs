@@ -15,8 +15,9 @@ import { calendarMinutes } from '../sim/clock.mjs';
 import { CHORES } from '../sim/chores.mjs';
 import { WAGON_SPEED, WALK_SPEED } from '../sim/travel.mjs';
 import { share } from '../sim/scrape.mjs';
-import { BOG_SHARE, DIG_MILES, PRISONER_SHARE, SPENT_PACE, WARNING_MILES, OVERTAKEN_MILES, columnHead, columns, dayOf, rainyDay, pursuit } from '../sim/road.mjs';
+import { BOG_SHARE, DIG_MILES, PRISONER_SHARE, SPENT_PACE, WARNING_MILES, OVERTAKEN_MILES, columnHead, columns, dayOf, pursuit, weatherOf } from '../sim/road.mjs';
 import { GLORY_WEIGHT, distanceMultiplier } from '../sim/glory.mjs';
+import { REFUGES } from '../sim/scrape.mjs';
 import { findPath } from '../sim/geography.mjs';
 import { waitingOn, whereWords } from '../sim/host.mjs';
 import { needsOf } from '../public/family-panel.js';
@@ -64,9 +65,9 @@ test('rain bogs the wagon: the family is halted and asked, the calendar holds wh
   const world = spring();
   const household = fled(world);
   const person = main(world, household);
-  until(world, () => household.flight.bog, 20);
+  until(world, () => household.flight.bog, 200);
   assert.ok(household.flight.bog, 'the wagon never bogged on a rain day');
-  assert.equal(rainyDay(world, dayOf(world.minute)), true, 'it bogged on a dry day');
+  assert.equal(['rain', 'storm'].includes(weatherOf(world, household)), true, 'it bogged on a dry day');
   assert.ok(share(world, household.id, `bog:${dayOf(world.minute)}`) < BOG_SHARE, 'it bogged against its share');
   assert.ok(travellers(world, household).every(one => one.travel.halted), 'the family went on with the wagon in the mud');
   const shown = view(world, household.id).flight;
@@ -96,7 +97,8 @@ test('rain bogs the wagon: the family is halted and asked, the calendar holds wh
   stepWorld(world);
   assert.ok(travellers(world, household).every(one => !one.travel.halted), 'the family stayed halted once the wagon was free');
   assert.ok(person.travel.progress > held, 'the family did not go on');
-  until(world, () => !Number.isFinite(household.flight.oxSpentUntil), 10);
+  // The ox rests, and nothing has bogged it again: the weather can be wet several days together (sim/weather.mjs, 2026-09-20).
+  until(world, () => !Number.isFinite(household.flight.oxSpentUntil) && !household.flight.bog, 80);
   for (const one of travellers(world, household)) assert.equal(one.travel.speed, WAGON_SPEED, `${one.name} still goes at half pace after the ox rested`);
   validateWorld(world);
 });
@@ -105,20 +107,20 @@ test('a bogged family can wait for a dry day, or leave the wagon and go on on fo
   // Waiting.
   let world = spring();
   let household = fled(world);
-  until(world, () => household.flight.bog, 20);
+  until(world, () => household.flight.bog, 200);
   const bogDay = household.flight.bog.day;
   applyAction(world, household.id, { action: 'road-answer', entityId: main(world, household).id, option: 'wait' });
   assert.equal(household.flight.bog.waiting, true);
   assert.equal(view(world, household.id).flight.bogged.waiting, true);
   until(world, () => !household.flight.bog, 40);
   assert.equal(household.flight.bog, undefined, 'the ground never dried');
-  assert.ok(dayOf(world.minute) > bogDay && !rainyDay(world, dayOf(world.minute)), 'the wagon came free on a rain day, or the same day');
+  assert.ok(dayOf(world.minute) > bogDay && !['rain', 'storm'].includes(weatherOf(world, household)), 'the wagon came free on a rain day, or the same day');
   assert.equal(household.flight.oxSpentUntil, undefined, 'waiting spent the ox');
   assert.ok(world.events.some(event => event.householdId === household.id && /ground has dried/.test(event.text)));
   // Leaving the wagon.
   world = spring();
   household = fled(world);
-  until(world, () => household.flight.bog, 20);
+  until(world, () => household.flight.bog, 200);
   const wagon = world.entities[`${household.id}-wagon`], ox = world.entities[`${household.id}-animal`], horse = world.entities[`${household.id}-horse`];
   const grown = people(world, household).filter(one => one.kin?.role === 'father' || one.kin?.role === 'mother' || one.age >= 16).length;
   const carried = view(world, household.id).flight.ask.options.find(option => option.id === 'abandon').note;
@@ -292,7 +294,7 @@ test('families nobody plays dig out, hunt from the camp when short, and press on
   household.resources = { ...household.resources, food: 12, powder: 3, money: 0 };
   until(world, () => household.flight?.status === 'fled', 12);
   assert.equal(household.flight?.status, 'fled', 'the director never fled its family');
-  until(world, () => household.flight.bog, 20);
+  until(world, () => household.flight.bog, 200);
   assert.ok(household.flight.bog, 'the director\'s wagon never bogged');
   until(world, () => !household.flight.ask, 6);
   assert.equal(household.flight.ask, undefined, 'the director never answered the bog');
@@ -302,21 +304,29 @@ test('families nobody plays dig out, hunt from the camp when short, and press on
   assert.equal(calendarMinutes(world), 240, 'a family nobody plays held the calendar');
   // Short of food with a shot in the house, one grown hand hunts from the camp.
   until(world, () => household.flight.crossing, 200);
+  // A shot in the house as well as the hunger: the condition under test is both, and on the longer road of the weather of
+  // 2026-09-20 this family had spent its three shots hunting before it got here.
   household.resources.food = 1;
-  until(world, () => people(world, household).some(one => one.chore?.id === 'hunt-road'), 12);
+  household.resources.powder = 3;
+  // Given time for the wagon to be out of the mud: a bogged family digs before it hunts, and since 2026-09-20 the weather
+  // is its own country's, so the wet stretch it is standing in may hold a few days (sim/weather.mjs).
+  until(world, () => people(world, household).some(one => one.chore?.id === 'hunt-road'), 60);
   assert.ok(people(world, household).some(one => one.chore?.id === 'hunt-road'), 'the director did not hunt from the camp when short');
   assert.equal(people(world, household).filter(one => one.chore?.id === 'hunt-road').length, 1, 'two went hunting at once');
   // Warned at the refuge, it goes on east.
   until(world, () => household.flight.status === 'refuged', 400);
-  assert.equal(household.flight.refuge, 'san-felipe');
-  until(world, () => household.flight.refuge !== 'san-felipe', 2000);
+  // Whichever refuge it made first - which one depends on how long the road took it, and the weather of 2026-09-20 makes
+  // that vary - the point is that being warned there sends it on east rather than leaving it sitting.
+  const first = household.flight.refuge;
+  assert.ok(REFUGES.includes(first), `the director refuged nowhere: ${first}`);
+  until(world, () => household.flight.refuge !== first, 2000);
   assert.ok(['lynchburg', 'liberty', 'nacogdoches'].includes(household.flight.refuge), `the director did not press on east when warned: ${household.flight.refuge}`);
   assert.equal(household.flight.overtaken, undefined);
   // An absent family is answered the tick after it is asked.
   const absent = spring();
   const theirs = fled(absent);
   absent.households['hh-1'].absent = true;
-  until(absent, () => theirs.flight.bog, 20);
+  until(absent, () => theirs.flight.bog, 200);
   assert.ok(theirs.flight.bog);
   assert.equal(calendarMinutes(absent), 240, 'an absent family held the calendar');
   stepWorld(absent);
@@ -325,7 +335,7 @@ test('families nobody plays dig out, hunt from the camp when short, and press on
   // A main person on auto likewise.
   const auto = spring();
   const ours = fled(auto, { auto: true });
-  until(auto, () => ours.flight.bog, 20);
+  until(auto, () => ours.flight.bog, 200);
   stepWorld(auto);
   assert.equal(ours.flight.ask, undefined, 'a family whose main person is on auto was not answered at once');
   assert.match(auto.events.find(event => event.householdId === ours.id && event.decision === 'road-bog-dig')?.text || '', /deciding for itself/);
@@ -374,7 +384,7 @@ test('the Host\'s words for the road, and a saved road that cannot be is refused
   const household = fled(world);
   const person = main(world, household);
   assert.equal(whereWords(world, person, household), 'on the road east to San Felipe de Austin');
-  until(world, () => household.flight.bog, 20);
+  until(world, () => household.flight.bog, 200);
   assert.equal(whereWords(world, person, household), 'bogged in the mud on the road east to San Felipe de Austin');
   household.flight.ask = { id: 'landslide', openedTick: 1 };
   assert.throws(() => validateWorld(world), /Invalid road question/);
