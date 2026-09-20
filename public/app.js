@@ -12,7 +12,7 @@ import { drawTownGround, townDrawables } from '/town-art.js';
 import { renderInterior, clearInteriorChoice } from '/interior.js';
 import { TOWN_LAYOUTS, townPoint } from '/town-layouts.js';
 import {drawWater,drawRoad,drawCrossing,drawFerry,crossingAngle} from '/landscape-art.js';
-import { drawFogShape, drawHighWater, drawWeatherAir, drawWeatherVeil, drawWetGround, weatherGroundKey, weatherMix, weatherShown, weatherSpans, windLean } from '/weather-art.js';
+import { drawFogShape, drawHighWater, drawWeatherAir, drawWeatherVeil, drawWetGround, farEmphasis, weatherGroundKey, weatherMix, weatherShown, weatherSpans, windLean } from '/weather-art.js';
 import { drawHousePlot, plotted, renderHousePlot } from '/house-plot.js';
 import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesVisible, woodsLayersFor, woodsShown } from '/woods-view.js';
 import { bindEnding, renderEnding } from '/ending.js';
@@ -2508,14 +2508,14 @@ export function drawWorld(world) {
       const middle = course.points[Math.floor(course.points.length / 2)];
       return weatherMix(weather, camera.toWorld(middle).x, world.minute).water;
     });
-    drawWetGround(ground, weatherNow);
+    drawWetGround(ground, weatherNow, farEmphasis(camera.scale));
     if (!audit) {
       // The fog's shape into a layer of its own, so the veil is one drawImage a frame at the morning's own strength and
       // the ground beneath it is not redrawn every time the hour moves.
       fogBase.canvas ??= document.createElement('canvas');
       if (fogBase.canvas.width !== canvas.width || fogBase.canvas.height !== canvas.height) { fogBase.canvas.width = canvas.width; fogBase.canvas.height = canvas.height; }
       fogBase.shapes = drawFogShape(fogBase.canvas.getContext('2d'), fogBase.canvas, weatherNow, courses);
-      window.__weatherGround = { courses: courses.length, flooded: drawn, fog: fogBase.shapes, key: weatherGroundKey(weather) };
+      window.__weatherGround = { courses: courses.length, flooded: drawn.drawn, over: drawn.shut, fog: fogBase.shapes, key: weatherGroundKey(weather) };
     }
   } else if (ground && !audit) { fogBase.shapes = 0; window.__weatherGround = null; }
   // The ground goes down whole, and the drawing state it ended in is carried over, as when it was drawn on this canvas.
@@ -2527,7 +2527,7 @@ export function drawWorld(world) {
   // Here, and not at the end, on purpose. Everything a student is entitled to see - a person, a house, a marker, a name -
   // is drawn after this line and at full strength, so the fog can never hide a fact. What a family knows is the server's
   // (VISION.md), and fog is scenery.
-  if (weatherNow) drawWeatherVeil(main, weatherNow, fogBase.shapes ? fogBase.canvas : null, world.minute);
+  if (weatherNow) drawWeatherVeil(main, weatherNow, fogBase.shapes ? fogBase.canvas : null, world.minute, farEmphasis(camera.scale));
   applyDrawState(main, mapBase.state);
   standing.sort((a, b) => a.y - b.y);
   for (const item of standing) item.draw();

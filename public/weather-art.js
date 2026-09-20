@@ -18,7 +18,7 @@
 //     the figures, the houses, the markers and the names, and they are drawn at full strength over it.
 //
 // The contract this draws from is the snapshot's `world.weather`, and it adds nothing to it:
-//   { day, bounds: { westOf, eastOf }, regions: { west|middle|east: { kind, water, wind: { from, force }, since } } }
+//   { day, bounds: { westOf, eastOf }, regions: { west|centre|east: { kind, water, wind: { from, force }, since } } }
 // `kind` is one of `fair` `rain` `norther` `storm` `fog`; `water` is 0 ordinary to 1 in flood; `wind.from` is the bearing
 // the wind comes FROM in radians, clockwise from north, so 0 is a norther; `since` is the minute the kind began.
 // No weather in the snapshot draws nothing at all, which is the correct empty value for every class saved before it.
@@ -32,7 +32,7 @@
 //     cost nothing on a frame that only moves people. The fog's veil is one drawImage whose alpha is the morning's.
 
 export const KINDS = Object.freeze(['fair', 'rain', 'norther', 'storm', 'fog']);
-export const REGIONS = Object.freeze(['west', 'middle', 'east']);
+export const REGIONS = Object.freeze(['west', 'centre', 'east']);
 
 /**
  * How wide the hand-over between two weather regions is, in map miles.
@@ -66,15 +66,15 @@ export function smoothStep(edge0, edge1, value) {
  */
 export function regionWeights(weather, x) {
   const westOf = weather?.bounds?.westOf, eastOf = weather?.bounds?.eastOf;
-  if (!Number.isFinite(westOf) || !Number.isFinite(eastOf) || !Number.isFinite(x)) return { west: 0, middle: 1, east: 0 };
+  if (!Number.isFinite(westOf) || !Number.isFinite(eastOf) || !Number.isFinite(x)) return { west: 0, centre: 1, east: 0 };
   const half = BLEND_MILES / 2;
-  // `west` fades out across the first line, `east` fades in across the second, and the middle is whatever is left over.
+  // `west` fades out across the first line, `east` fades in across the second, and the centre is whatever is left over.
   const west = 1 - smoothStep(westOf - half, westOf + half, x);
   const east = smoothStep(eastOf - half, eastOf + half, x);
   // Two lines closer together than the blend would overlap and give more than one; share what is left rather than clip.
   const over = west + east;
-  if (over > 1) return { west: west / over, middle: 0, east: east / over };
-  return { west, middle: 1 - over, east };
+  if (over > 1) return { west: west / over, centre: 0, east: east / over };
+  return { west, centre: 1 - over, east };
 }
 
 /** 0 while the kind is still arriving, 1 once it is fully up. Missing `since` (an old class, a written-in day) is fully up. */
@@ -130,8 +130,14 @@ export function weatherMix(weather, x, minute) {
     mix.wind.x += vector.x * force * up; mix.wind.y += vector.y * force * up;
     if (region.kind === 'rain') { mix.rain += up; mix.flat += up; }
     else if (region.kind === 'storm') { mix.storm += up; mix.rain += up; mix.flat += up; }
-    else if (region.kind === 'norther') { mix.norther += up; mix.cold += up; }
-    else if (region.kind === 'fog') mix.fog += up;
+    else if (region.kind === 'norther') {
+      mix.norther += up; mix.cold += up;
+      // A norther's first day may carry its rain with it, and the record has one: 20 November 1835 at Béxar, Maverick's
+      // "Thermometer 42° with rain and wind" (sim/weather.mjs `wet`, `FIC-GONZ-132`). Drawn as both at once - the driven
+      // dust and the lean, with rain falling through them and the light half out - because that is what it was. Every
+      // other day of a norther is clear, which is the record's own insistence (§3.3).
+      if (region.wet) { mix.rain += up * 0.8; mix.flat += up * 0.55; }
+    } else if (region.kind === 'fog') mix.fog += up;
   }
   return mix;
 }
@@ -185,7 +191,7 @@ export function weatherShown(weather) {
   if (!weather?.regions) return false;
   return REGIONS.some(name => {
     const region = weather.regions[name];
-    return region && (region.kind !== 'fair' || (region.water || 0) > 0.25 || (region.wind?.force || 0) > 0.2);
+    return region && (region.kind !== 'fair' || (region.water || 0) > WATER_HIGH * 0.75 || (region.wind?.force || 0) > 0.2);
   });
 }
 
@@ -236,6 +242,17 @@ const roll = (n, salt) => {
  * continuous size, so the tiles are built once each and kept.
  */
 export function zoomBand(scale) { return scale >= 160 ? 2 : scale >= 12 ? 1 : 0; }
+
+/**
+ * How much harder the LIGHT has to work the further back the camera is.
+ *
+ * Falling rain is drawn in the air, at a size the eye can see, and from four hundred miles away there is no size at
+ * which a raindrop reads: the Host's map showed a faint scatter of specks and almost no weather at all (seen
+ * 2026-09-20). What does read from that far is what a rain cloud does to the country under it - the colour out of it,
+ * the ground darker, the rivers brown - so the washes are laid on harder as the camera pulls back and settle to their
+ * own strength by the time a county fills the screen.
+ */
+export const farEmphasis = scale => 1 + 0.6 * (1 - smoothStep(4, 44, scale || 0));
 
 /** How many ways the wind may be baked into a tile: a norther and a squall are different tiles, a degree of wind is not. */
 export const WIND_STEPS = 16;
@@ -400,33 +417,50 @@ export function washAcross(ctx, spans, [r, g, b], alphaOf) {
  * high"; the channel itself run fuller, over its own banks; and the water gone brown, because a river in flood carries
  * the country down with it - Harris on the Trinity, "Drift wood covered the water as far as we could see".
  */
+export const WATER_HIGH = 0.3, WATER_SHUT = 0.85;
 export function drawHighWater(ctx, courses, waterAt) {
-  let drawn = 0;
+  let drawn = 0, shut = 0;
   for (const course of courses) {
     const water = waterAt(course);
-    if (!(water > 0.25)) continue;
-    const rise = smoothStep(0.25, 1, water);
+    if (!(water > WATER_HIGH * 0.75)) continue;
+    const rise = smoothStep(WATER_HIGH * 0.75, 1, water);
+    // Past WATER_SHUT the ford is not to be crossed at all (sim/weather.mjs), and that is the one level of the river a
+    // student has to be able to read at a glance, because it is the one that stops them. Over its banks: the channel
+    // doubled, the bottoms flooded out to twice again, and drift on the water.
+    const over = smoothStep(WATER_SHUT - 0.08, Math.min(1, WATER_SHUT + 0.1), water);
     const points = course.points;
     if (!(points?.length > 1)) continue;
     ctx.lineCap = 'round'; ctx.lineJoin = 'round';
     const line = () => { ctx.beginPath(); points.forEach((p, i) => (i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y))); };
     const was = ctx.globalAlpha;
-    // The bottoms: a wide, soft, dark band of soaked ground either side of the channel.
-    ctx.globalAlpha = was * 0.3 * rise;
-    ctx.strokeStyle = '#5c6446'; ctx.lineWidth = course.width * (2.2 + rise * 2.6);
+    // The bottoms: a wide, soft, dark band of soaked ground either side of the channel, and wider again once the river
+    // is out of them - Gray's approach to the Trinity, "a boggy, miry, nasty prairie... subject to overflow".
+    ctx.globalAlpha = was * (0.3 + 0.22 * over) * rise;
+    ctx.strokeStyle = '#5c6446'; ctx.lineWidth = course.width * (2.2 + rise * 2.6 + over * 5);
     line(); ctx.stroke();
     // The water itself, run fuller and gone brown with what it is carrying. Wider than the channel was drawn, always:
     // a stroke narrower than the water left a blue core showing through a river in flood (seen 2026-09-20).
     ctx.globalAlpha = was * (0.55 + 0.4 * rise);
-    ctx.strokeStyle = '#8a7444'; ctx.lineWidth = course.width * (1.3 + rise * 0.6);
+    ctx.strokeStyle = '#8a7444'; ctx.lineWidth = course.width * (1.3 + rise * 0.6 + over * 1.9);
     line(); ctx.stroke();
     ctx.globalAlpha = was * 0.45 * rise;
-    ctx.strokeStyle = '#a78d53'; ctx.lineWidth = course.width * (0.7 + rise * 0.35);
+    ctx.strokeStyle = '#a78d53'; ctx.lineWidth = course.width * (0.7 + rise * 0.35 + over * 1.1);
     line(); ctx.stroke();
+    // Drift, once it is over: Harris on the Trinity, "Drift wood covered the water as far as we could see." Dashes on
+    // the water, laid along it, which cost one more stroke and are what says a river is carrying the country away.
+    if (over > 0.05) {
+      const wide = course.width * (1 + over * 1.6);
+      ctx.globalAlpha = was * 0.5 * over;
+      ctx.strokeStyle = '#6b5530'; ctx.lineWidth = Math.max(1, wide * 0.13);
+      ctx.setLineDash([Math.max(3, wide * 0.6), Math.max(6, wide * 1.7)]);
+      line(); ctx.stroke();
+      ctx.setLineDash([]);
+      shut++;
+    }
     ctx.globalAlpha = was;
     drawn++;
   }
-  return drawn;
+  return { drawn, shut };
 }
 
 /**
@@ -435,11 +469,11 @@ export function drawHighWater(ctx, courses, waterAt) {
  * and keep their own colours, rather than being greyed out under a flat sheet.
  */
 export const WET = Object.freeze([150, 163, 174]);
-export function drawWetGround(ctx, spans) {
+export function drawWetGround(ctx, spans, emphasis = 1) {
   if (!spans.some(span => span.mix.rain > 0.02 || span.mix.storm > 0.02)) return 0;
   const was = ctx.globalCompositeOperation, alpha = ctx.globalAlpha;
   ctx.globalCompositeOperation = 'multiply'; ctx.globalAlpha = 1;
-  const drawn = washAcross(ctx, spans, WET, mix => 0.34 * clamp01(mix.rain * 0.7 + mix.storm * 0.3));
+  const drawn = washAcross(ctx, spans, WET, mix => Math.min(0.55, 0.34 * emphasis) * clamp01(mix.rain * 0.7 + mix.storm * 0.3));
   ctx.globalCompositeOperation = was; ctx.globalAlpha = alpha;
   return drawn;
 }
@@ -488,7 +522,7 @@ export function drawFogShape(ctx, canvas, spans, courses) {
  * server's).
  */
 export const FOG_CEILING = 0.55;
-export function drawWeatherVeil(ctx, spans, fog, minute) {
+export function drawWeatherVeil(ctx, spans, fog, minute, emphasis = 1) {
   const hour = fogFade(minute);
   if (fog && hour > 0.01) {
     const was = ctx.globalAlpha;
@@ -499,7 +533,7 @@ export function drawWeatherVeil(ctx, spans, fog, minute) {
   }
   // A rain cloud's shadow: the light gone flat, the colour out of the country. Under the figures, so a person in the rain
   // is still a person and not a silhouette.
-  washAcross(ctx, spans, [93, 106, 114], mix => 0.19 * mix.flat + 0.15 * mix.storm);
+  washAcross(ctx, spans, [93, 106, 114], mix => (0.19 * mix.flat + 0.15 * mix.storm) * emphasis);
 }
 
 /**
@@ -509,7 +543,7 @@ export function drawWeatherVeil(ctx, spans, fog, minute) {
  * the rain hangs rather than falls and the lightning never flashes.
  */
 export function drawWeatherAir(ctx, spans, { time = 0, scale = 1, still = false } = {}) {
-  const band = zoomBand(scale);
+  const band = zoomBand(scale), emphasis = farEmphasis(scale);
   let layers = 0;
   for (const span of spans) {
     const mix = span.mix;
@@ -542,8 +576,12 @@ export function drawWeatherAir(ctx, spans, { time = 0, scale = 1, still = false 
   //  - rain and storm: flat and grey, the colour drained out.
   //  - a norther: thin and blue, and CLEAR. A little brightness with it, because the air behind a front is hard and
   //    bright, not gloomy - which is the whole difference between a norther and a wet day, and the record insists on it.
-  layers += washAcross(ctx, spans, [120, 134, 146], mix => 0.1 * mix.flat + 0.13 * mix.storm);
-  layers += washAcross(ctx, spans, [122, 160, 206], mix => 0.18 * mix.cold);
+  layers += washAcross(ctx, spans, [120, 134, 146], mix => (0.1 * mix.flat + 0.13 * mix.storm) * emphasis);
+  // The cold light takes only a little of the far emphasis, and the brightening none of it. What thickens with distance
+  // is CLOUD - a rain cloud's shadow on four hundred miles of country is a real thing to see - and a norther has none:
+  // bleaching the whole country for one made the Host's map look fogged, which is the opposite of what the record says a
+  // norther's sky is (seen 2026-09-20).
+  layers += washAcross(ctx, spans, [122, 160, 206], mix => 0.18 * mix.cold * (1 + (emphasis - 1) * 0.35));
   // The brightening behind a front, and the blend only where there is one to draw: setting a composite other than
   // source-over on a canvas costs even when the fill that follows is empty, and a rain day has no cold light in it.
   if (spans.some(span => span.mix.cold > 0.02)) {

@@ -10,9 +10,12 @@
 // drawing's.
 
 /** The five kinds as a proof asks for them, each over the whole country. `water` and `wind` are the day's own. */
-export const stubWeather = (kind, { water = 0.8, force = kind === 'norther' ? 1 : 0.35, from = 0, westOf = 140, eastOf = 260 } = {}) => {
-  const region = { kind, water, wind: { from, force }, since: 0 };
-  return { day: 1, bounds: { westOf, eastOf }, regions: { west: region, middle: region, east: region } };
+export const stubWeather = (kinds, { water = 0.8, from = 0, westOf = 55, eastOf = 152 } = {}) => {
+  // One kind for the whole country, or three separated by a slash - `storm/rain/fair` - for the Host's map, where the
+  // three countries differ and the drawing has to blend between them.
+  const [west, centre = west, east = centre] = String(kinds).split('/');
+  const of = kind => ({ kind, water, since: 0, wet: false, wind: { from, force: kind === 'norther' ? 1 : kind === 'storm' ? 0.7 : kind === 'rain' ? 0.3 : 0.15 } });
+  return { day: 1, bounds: { westOf, eastOf }, regions: { west: of(west), centre: of(centre), east: of(east) } };
 };
 
 /**

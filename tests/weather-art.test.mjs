@@ -12,9 +12,10 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   BLEND_MILES, FADE_MINUTES, FOG_CEILING, MAX_LEAN, REGIONS,
-  WIND_STEPS,
+  WIND_STEPS, WATER_HIGH, WATER_SHUT,
   fogFade, regionWeights, sinceFade, smoothStep, weatherGroundKey, weatherMix, weatherShown, weatherSpans, windLean, windStep, windVector, zoomBand,
 } from '../public/weather-art.js';
+import { WATER_HIGH as SIM_WATER_HIGH, WATER_SHUT as SIM_WATER_SHUT, REGIONS as SIM_REGIONS } from '../sim/weather.mjs';
 
 /** A world's weather on the contract the server sends (docs/WEATHER.md §10): three regions across a map 400 miles wide. */
 const weatherOf = (kinds, extra = {}) => ({
@@ -25,17 +26,18 @@ const weatherOf = (kinds, extra = {}) => ({
     water: extra[name]?.water ?? 0,
     wind: extra[name]?.wind ?? { from: 0, force: kinds[name] === 'norther' ? 1 : 0 },
     since: extra[name]?.since ?? 0,
+    wet: extra[name]?.wet ?? false,
   }])),
 });
 
 test('a region boundary is a blend, not a line: the two weathers are half and half where they meet', () => {
-  const weather = weatherOf({ west: 'rain', middle: 'fair', east: 'fair' });
+  const weather = weatherOf({ west: 'rain', centre: 'fair', east: 'fair' });
   const at = regionWeights(weather, 140);
   assert.ok(Math.abs(at.west - 0.5) < 0.01, `half the west at the line, got ${at.west}`);
-  assert.ok(Math.abs(at.middle - 0.5) < 0.01, `half the middle at the line, got ${at.middle}`);
+  assert.ok(Math.abs(at.centre - 0.5) < 0.01, `half the centre at the line, got ${at.centre}`);
   // Well either side of the band it is wholly one country.
   assert.ok(regionWeights(weather, 140 - BLEND_MILES).west > 0.99);
-  assert.ok(regionWeights(weather, 140 + BLEND_MILES).middle > 0.99);
+  assert.ok(regionWeights(weather, 140 + BLEND_MILES).centre > 0.99);
   // And it changes all the way across, so no student ever sees rain stop at a vertical edge.
   let previous = 1;
   for (let x = 140 - BLEND_MILES / 2; x <= 140 + BLEND_MILES / 2; x += 1) {
@@ -47,26 +49,26 @@ test('a region boundary is a blend, not a line: the two weathers are half and ha
 });
 
 test('the three weights always make one whole country, wherever you stand', () => {
-  const weather = weatherOf({ west: 'storm', middle: 'rain', east: 'fog' });
+  const weather = weatherOf({ west: 'storm', centre: 'rain', east: 'fog' });
   for (let x = -40; x <= 440; x += 7) {
     const at = regionWeights(weather, x);
-    assert.ok(Math.abs(at.west + at.middle + at.east - 1) < 1e-9, `at ${x} the weights are ${JSON.stringify(at)}`);
+    assert.ok(Math.abs(at.west + at.centre + at.east - 1) < 1e-9, `at ${x} the weights are ${JSON.stringify(at)}`);
     for (const name of REGIONS) assert.ok(at[name] >= 0 && at[name] <= 1);
   }
 });
 
 test('rain thins out across a boundary instead of stopping at it', () => {
-  const weather = weatherOf({ west: 'rain', middle: 'fair', east: 'fair' });
+  const weather = weatherOf({ west: 'rain', centre: 'fair', east: 'fair' });
   const deep = weatherMix(weather, 60, 600), line = weatherMix(weather, 140, 600), beyond = weatherMix(weather, 200, 600);
   assert.ok(deep.rain > 0.99, 'raining hard in the west');
   assert.ok(line.rain > 0.4 && line.rain < 0.6, `half rain on the line, got ${line.rain}`);
-  assert.equal(beyond.rain, 0, 'and dry well inside the middle');
+  assert.equal(beyond.rain, 0, 'and dry well inside the centre');
 });
 
 test('a norther is a wind and a cold clear sky, and it brings no rain of its own', () => {
   // docs/WEATHER.md §3.3: "The Alamo siege was cold and CLEAR, not cold and wet." Almonte has "day clear", "clear and
   // pleasant", "clear", "weather clear" for 1-5 March. A norther drawn as a wet day is the popular image, not the record.
-  const mix = weatherMix(weatherOf({ west: 'norther', middle: 'norther', east: 'norther' }), 200, 600);
+  const mix = weatherMix(weatherOf({ west: 'norther', centre: 'norther', east: 'norther' }), 200, 600);
   assert.equal(mix.rain, 0, 'no rain in a norther');
   assert.equal(mix.storm, 0);
   assert.equal(mix.flat, 0, 'and the light does not go flat and grey - that is a rain day');
@@ -117,7 +119,7 @@ test('the fog is a veil and never a curtain: it cannot be drawn to opacity', () 
 });
 
 test('the trees lean with the wind, and no further than a tree bends', () => {
-  const norther = weatherMix(weatherOf({ west: 'norther', middle: 'norther', east: 'norther' }), 200, 600);
+  const norther = weatherMix(weatherOf({ west: 'norther', centre: 'norther', east: 'norther' }), 200, 600);
   const lean = windLean(norther);
   assert.ok(Math.abs(lean) > 0.1, `a norther bends the country, got ${lean}`);
   assert.ok(Math.abs(lean) <= MAX_LEAN + 1e-9, 'and never past the limit');
@@ -148,14 +150,14 @@ test('a fair, dry, still day draws nothing at all', () => {
   assert.equal(weatherShown({ regions: {} }), false);
   assert.equal(weatherShown(weatherOf({ east: 'fog' })), true);
   // A fair day after a wet week still has its rivers up, and that is worth drawing.
-  assert.equal(weatherShown(weatherOf({}, { middle: { water: 0.8 } })), true);
+  assert.equal(weatherShown(weatherOf({}, { centre: { water: 0.8 } })), true);
 });
 
 test('a view inside one weather is laid down in one piece; only a view across a boundary is cut up', () => {
   // The cheapness of the whole thing rests here. Falling rain is a pattern, and a pattern cannot be masked by a gradient
   // without compositing a whole screen; so it is laid down once for a view in one weather - which is every student's,
   // four miles across a region a hundred and thirty miles wide - and in spans only for the Host's whole country.
-  const weather = weatherOf({ west: 'rain', middle: 'fair', east: 'storm' });
+  const weather = weatherOf({ west: 'rain', centre: 'fair', east: 'storm' });
   assert.equal(weatherSpans(weather, 600, 58, 62, 1366).length, 1, "a family's own land is one span");
   assert.equal(weatherSpans(weather, 600, 300, 330, 1366).length, 1, 'so is a view deep inside the east');
   const whole = weatherSpans(weather, 600, 0, 400, 1366);
@@ -207,4 +209,27 @@ test('the wind a tile is drawn for is the wind that is blowing, to within a step
     const off = Math.abs(Math.atan2(Math.sin(apart), Math.cos(apart)));
     assert.ok(off <= Math.PI / WIND_STEPS + 1e-9, `${angle} is ${off} from step ${step}`);
   }
+});
+
+test('the page draws the same river the simulation is running', () => {
+  // The drawing cannot import the simulation - it is a browser module - so it carries the two levels that matter as its
+  // own numbers, and this is what keeps them honest. A river the page drew as ordinary while the simulation had shut its
+  // ford would be the worst failure this whole piece of work can have: a student would walk down to a crossing that
+  // looked passable and be told no, with nothing on the map to explain it.
+  assert.equal(WATER_HIGH, SIM_WATER_HIGH, 'the level a wade starts costing at');
+  assert.equal(WATER_SHUT, SIM_WATER_SHUT, 'the level a ford shuts at');
+  // And the same three countries, by the same names, or the page would draw one region's weather over another's ground.
+  assert.deepEqual([...REGIONS], [...SIM_REGIONS]);
+});
+
+test('a norther that brought its rain is drawn wet; every other day of one is clear', () => {
+  // sim/weather.mjs sets `wet` on a norther's first day at a share, and the record has one: Maverick at Bexar,
+  // 20 November 1835, "Thermometer 42 with rain and wind" (`FIC-GONZ-132`).
+  const dry = weatherMix(weatherOf({ west: 'norther' }), 20, 600);
+  const wet = weatherMix(weatherOf({ west: 'norther' }, { west: { wet: true } }), 20, 600);
+  assert.equal(dry.rain, 0, 'a norther is clear');
+  assert.ok(wet.rain > 0.5, `a wet one is not, got ${wet.rain}`);
+  assert.ok(wet.norther > 0.99 && wet.cold > 0.99, 'and it is still a norther: the wind and the cold are undiminished');
+  assert.ok(wet.flat > 0.4, 'with the light half out of it');
+  assert.ok(wet.flat < 0.8, 'but not a rain day, which would put it all out');
 });
