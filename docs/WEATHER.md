@@ -3,7 +3,7 @@
 **Status: research, 2026-09-20. Nothing here is built.** This is the record and a proposal; the owner implements. Read it with
 `sim/road.mjs` (`RAIN_SHARE`, `rainyDay`, the wagon in the mud), `sim/world.mjs` (`wadeAt`, the ford in high water),
 `docs/MAP_ACCURACY.md` §10.7 (the wade), `docs/ROAD_EAST.md`, and the claims it registers in `HISTORY.md`:
-`HIST-TEX-220` to `HIST-TEX-234` and `FIC-GONZ-130` to `FIC-GONZ-136`.
+`HIST-TEX-220` to `HIST-TEX-238` and `FIC-GONZ-130` to `FIC-GONZ-136`.
 
 It is structured as `docs/BIOMES.md` is: what was asked, how to read the sources, the dated record, the record by kind of
 weather, the ordinary climate as a stated basis for inference, what the game has now, the proposed model, what not to build,
