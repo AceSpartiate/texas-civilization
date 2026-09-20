@@ -46,8 +46,8 @@ finished work.
 
 **1. Everything through the weather and the launcher is built, merged, released.** Main is green at **791 tests, 0 fail**,
 `check-doc-links` 693, and the browser proofs `test:crossings`, `test:solo-game`, `test:hunt` and `test:farm` all pass on a
-clean detached worktree. **The release is [v2026.09.20.4](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.20.4)**
-— the weather model's own proof and the green up-to-date plate, on top of v2026.09.20.3's coast, animals, weather model,
+clean detached worktree. **The release is [v2026.09.20.5](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.20.5)**
+— what a family ate between deer, on top of .4's weather proof and green plate and .3's coast, animals, weather model,
 weather drawn and launcher face. Setup 191.7 MB → 212.4 MB at .3, which is the art embedded in the executable.
 
 **2. What is left open, in the order I would take it.**
