@@ -113,7 +113,7 @@ export function windVector(wind) {
  * drawing thins it for the hour; `water` how high the rivers run; `wind` the screen vector to drive things along, its
  * length the force; `flat` how far the light has gone flat and grey; `cold` how far it has gone thin and blue.
  */
-export function weatherMix(weather, x, minute) {
+export function weatherMix(weather, x, minute, { fade = true } = {}) {
   const mix = { rain: 0, storm: 0, norther: 0, fog: 0, water: 0, wind: { x: 0, y: 0 }, flat: 0, cold: 0 };
   if (!weather?.regions) return mix;
   const weights = regionWeights(weather, x);
@@ -123,7 +123,12 @@ export function weatherMix(weather, x, minute) {
     // The water level is the state of the rivers, not of the sky: it is already days old by the time it matters and it
     // does not fade in with today's kind.
     mix.water += weight * clamp01(region.water || 0);
-    const up = weight * sinceFade(region, minute);
+    // `fade: false` is for anything drawn into the KEPT ground, which is redrawn only when `weatherGroundKey` moves and
+    // that key deliberately leaves `since` out. A fade in the ground would be drawn once, at the strength of the one
+    // frame that drew it, and then stand there stale for the rest of the day - which is exactly what the ground audit
+    // caught on 2026-09-20 (`window.__groundAudit`, scripts/farm-browser-proof.mjs), a whole-screen difference falling
+    // tick by tick as the day came up. What fades is drawn on the page's own canvas, every frame.
+    const up = weight * (fade ? sinceFade(region, minute) : 1);
     if (!(up > 0)) continue;
     const force = clamp01(region.wind?.force ?? (region.kind === 'norther' ? 1 : 0));
     const vector = windVector(region.wind);
@@ -204,15 +209,15 @@ export function weatherShown(weather) {
  * `most` where it straddles a boundary, which is the Host looking at the whole country. This is what keeps a pattern
  * that cannot be masked cheaply from costing a full-screen composite: it is laid down once, not per pixel.
  */
-export function weatherSpans(weather, minute, leftMiles, rightMiles, width, most = 12) {
-  const left = weatherMix(weather, leftMiles, minute), right = weatherMix(weather, rightMiles, minute);
+export function weatherSpans(weather, minute, leftMiles, rightMiles, width, most = 12, options) {
+  const left = weatherMix(weather, leftMiles, minute, options), right = weatherMix(weather, rightMiles, minute, options);
   const same = ['rain', 'storm', 'norther', 'fog', 'water', 'flat', 'cold'].every(key => Math.abs(left[key] - right[key]) < 0.02)
     && Math.abs(left.wind.x - right.wind.x) < 0.05 && Math.abs(left.wind.y - right.wind.y) < 0.05;
   if (same) return [{ x: 0, width, mix: left }];
   const spans = [];
   for (let i = 0; i < most; i++) {
     const at = leftMiles + (rightMiles - leftMiles) * ((i + 0.5) / most);
-    spans.push({ x: width * i / most, width: width / most + 1, mix: weatherMix(weather, at, minute) });
+    spans.push({ x: width * i / most, width: width / most + 1, mix: weatherMix(weather, at, minute, options) });
   }
   return spans;
 }
@@ -484,6 +489,9 @@ export function drawWetGround(ctx, spans, emphasis = 1) {
 /**
  * The fog's own shape, into the kept ground's companion layer: a low veil that lies in the bottoms and along the water,
  * thickest on the river and thinning as the land rises away from it. `courses` are the water courses in screen points.
+ *
+ * `spans` here must be the FADE-FREE ones (`weatherMix(..., { fade: false })`), because this is baked with the kept
+ * ground: the hour's own thinning is applied when the layer is laid down (`drawWeatherVeil`), every frame.
  *
  * Maverick, at Béxar on 6 November 1835, says where fog comes from and it is not the sky: "A great fog this morning,
  * arising by evaporation from the river (spring water)." So it is drawn from the rivers outward. A view with no water in

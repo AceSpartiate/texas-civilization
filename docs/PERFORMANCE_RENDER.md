@@ -329,10 +329,10 @@ twelve times a second over a country four hundred miles wide, so the whole desig
 
 | Drawn | Where | Cost |
 |---|---|---|
-| High water on the rivers; the wet, darkened earth; the lean the wind puts on the trees and the grass | the **kept ground** (`mapBase`), keyed on `weatherGroundKey` | nothing on a frame that only moves people. The key is quantised — the kind, the water to a tenth, the wind force to a tenth — so a river falling a thousandth an hour does **not** redraw the country, and a day that turns redraws it once |
+| High water on the rivers; the lean the wind puts on the trees and the grass | the **kept ground** (`mapBase`), keyed on `weatherGroundKey` | nothing on a frame that only moves people. The key is quantised — the kind, the water to a tenth, the wind force to a tenth — so a river falling a thousandth an hour does **not** redraw the country, and a day that turns redraws it once |
 | The fog's shape, banked along the water | a **companion layer**, filled when the ground is | one `drawImage` a frame, its alpha the morning's (`fogFade`) |
 | Falling rain, a storm's rain, the dust a norther drives | the **air**, over everything | **one `fillRect` per layer**, with a repeating pattern at a whole-pixel offset. Two to three layers a frame. Not a particle system |
-| The flat grey, the cold blue, the cloud shadow, the wet multiply | the air and the veil | **one fill each**, as a linear gradient across the view where the regions differ |
+| The wet, darkened earth; the flat grey; the cold blue; the cloud shadow | the veil (under the figures) and the air (over them) | **one fill each**, as a linear gradient across the view where the regions differ |
 
 **Three things had to be got right or it was not affordable, and each was found by measuring.**
 
@@ -347,6 +347,18 @@ twelve times a second over a country four hundred miles wide, so the whole desig
    a whole screen, so `weatherSpans` gives one span for any view whose two edges are in the same weather — which is every
    student's, four miles across a region a hundred and thirty miles wide — and twelve only for the Host's whole country.
 
+**And one thing had to be got right or it was silently wrong.** The kept ground is redrawn only when `weatherGroundKey`
+moves, and that key deliberately leaves `since` out so a day fading in does not redraw the whole country twelve times a
+second. The wet earth was at first drawn into the ground *from the faded weather* — so it was laid down once, at the
+strength of the one frame that drew it, and stood stale for the rest of the day. **The project's own ground audit found
+it** (`window.__groundAudit` in `public/app.js`, run by `scripts/farm-browser-proof.mjs`): a difference over the whole
+screen, 6.1% of pixels on the first tick and falling to 0.9% by the fifth as the day came up. The fix is a fade-free
+reading, `weatherMix(..., { fade: false })`, for **everything** drawn into the ground — the high water, the fog's shape
+and the lean on the trees — and the wet earth moved onto the page's own canvas, where it is drawn every frame with the
+veil. `tests/weather-art.test.mjs` now holds that: what the ground is drawn from must not move with the clock. This is
+the exact failure `groundInputs`' own `ceiling:` warns about, and it is worth reading that note before drawing anything
+else into the ground.
+
 **Before and after.** *Before* is `7bc0f5f` exported and measured by the same script (`--root`). Same computer, headless
 Chrome, CPU throttled 6×, 1366×768, 15 families, 1 s ticks, 30 s a view.
 `node scripts/perf-render-measure.mjs --label <name> [--weather storm|storm/rain/fair]`.
@@ -359,14 +371,14 @@ east, so the Host's view straddles two weathers. *storm* is a storm over the who
 
 | View | ms / frame (mean / p95) — before | live | storm | three regions |
 |---|---|---|---|---|
-| default (scale 402) | 13.8 / 15.6 | 14.3 / 15.6 | 14.3 / 16.5 | 14.0 / 15.8 |
-| land (scale 2132) | 14.9 / 17.4 | 15.4 / 17.6 | 15.6 / 17.8 | 15.3 / 17.7 |
-| town (scale 960) | 13.9 / 16.0 | 14.7 / 16.7 | 14.3 / 16.1 | 14.2 / 16.4 |
-| whole (scale 3.6) | 6.0 / 6.7 | 7.8 / 8.6 | 6.3 / 7.2 | 6.8 / 8.1 |
+| default (scale 402) | 13.4 / 14.9 | 14.4 / 16.2 | 14.4 / 16.2 | 13.7 / 15.8 |
+| land (scale 2132) | 14.8 / 17.1 | 15.6 / 18.0 | 15.3 / 17.8 | 15.1 / 17.4 |
+| town (scale 960) | 13.7 / 15.6 | 14.4 / 16.4 | 14.1 / 16.1 | 14.1 / 15.7 |
+| whole (scale 3.6) | 6.0 / 6.9 | 6.9 / 7.8 | 6.3 / 7.1 | 6.9 / 7.7 |
 
-**The worst day costs about 1.8 ms a frame, and most cost half of that.** Painted frames a second are 10.1–10.3 in every
-build and on every day, against 10.0–10.3 before; the ground is redrawn 0 to 0.3 times a second in every one of them,
-which is what it was before — the weather did not add a single redraw of the country. There were no page errors.
+**No day costs more than a millisecond a frame.** Painted frames a second are 9.9–10.4 in every build and on every day,
+against 10.1–10.4 before; the ground is redrawn 0 to 0.3 times a second in every one of them, which is what it was
+before — **the weather did not add a single redraw of the country**. There were no page errors.
 
 Honesty about the conditions: these are one run each on a machine that had other sessions on it, and the spread between
 runs of the *same* build is a few tenths of a millisecond. The claim they support is "no measurable regression on a fair

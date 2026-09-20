@@ -233,3 +233,32 @@ test('a norther that brought its rain is drawn wet; every other day of one is cl
   assert.ok(wet.flat > 0.4, 'with the light half out of it');
   assert.ok(wet.flat < 0.8, 'but not a rain day, which would put it all out');
 });
+
+test('what is drawn into the kept ground does not change with the clock', () => {
+  // The kept ground is redrawn only when `weatherGroundKey` moves, and that key deliberately leaves `since` out, so a
+  // day fading in does not redraw the whole country twelve times a second. Anything drawn into the ground from a faded
+  // mix is therefore drawn once, at the strength of the one frame that drew it, and stands stale for the rest of the
+  // day. The project's own ground audit caught exactly that on 2026-09-20 (`window.__groundAudit` in public/app.js,
+  // run by scripts/farm-browser-proof.mjs): a whole-screen difference, falling tick by tick as the day came up.
+  //
+  // `{ fade: false }` is the fade-free reading the ground uses. It must agree with the key: same key, same picture.
+  const weather = weatherOf({ west: 'norther', centre: 'rain', east: 'storm' }, {
+    west: { since: 600, wind: { from: 0, force: 1 } }, centre: { since: 600, water: 0.7 }, east: { since: 600, water: 0.9 },
+  });
+  const steady = { fade: false };
+  for (const x of [20, 140, 200, 300]) {
+    const early = weatherMix(weather, x, 600, steady), late = weatherMix(weather, x, 600 + FADE_MINUTES * 3, steady);
+    assert.deepEqual(early, late, `at ${x} the ground's weather moved with the clock`);
+    // And it is the day at full strength, not the day at nothing.
+    const full = weatherMix(weather, x, 600 + FADE_MINUTES * 3);
+    assert.deepEqual(early, full, `at ${x} the ground's weather is not the day fully up`);
+  }
+  // The lean on the trees is read the same way, and is the reason this matters most: it is a shape in the kept ground.
+  assert.equal(
+    windLean(weatherMix(weather, 20, 600, steady)),
+    windLean(weatherMix(weather, 20, 600 + FADE_MINUTES, steady)),
+    'a tree in the kept ground must not bend further as the hour goes on',
+  );
+  // With the fade left on - which is what everything drawn on the page's own canvas uses - it does come up.
+  assert.ok(weatherMix(weather, 200, 600).rain < weatherMix(weather, 200, 600 + FADE_MINUTES).rain);
+});

@@ -417,7 +417,7 @@
         "spans": 1,
         "layers": 3,
         "fog": 0,
-        "minute": 260,
+        "minute": 280,
         "mix": [
           {
             "x": 0,
@@ -2852,10 +2852,10 @@
         "fog": 0,
         "key": "55|152|norther:5:10:0|norther:3:10:0|norther:0:7:0"
       },
-      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work). Also here: Perla Zamarripa.",
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
       "entities": 5,
       "houses": 0,
-      "labels": 161
+      "labels": 133
     }
   ],
   "errors": [],

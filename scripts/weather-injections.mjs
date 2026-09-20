@@ -86,8 +86,8 @@ const INJECTIONS = [
   },
   {
     name: 'the spans stop short of the right-hand edge of the view',
-    from: '    spans.push({ x: width * i / most, width: width / most + 1, mix: weatherMix(weather, at, minute) });',
-    to: '    spans.push({ x: width * i / most, width: width / most - 2, mix: weatherMix(weather, at, minute) });',
+    from: '    spans.push({ x: width * i / most, width: width / most + 1, mix: weatherMix(weather, at, minute, options) });',
+    to: '    spans.push({ x: width * i / most, width: width / most - 2, mix: weatherMix(weather, at, minute, options) });',
   },
   {
     name: 'the tile is drawn for a wind a quarter of the compass off the one blowing',
@@ -113,6 +113,11 @@ const INJECTIONS = [
     name: 'the wind step can run off the end of the compass, or go negative, as a cache key',
     from: '  return ((Math.round(angle / (Math.PI * 2) * WIND_STEPS) % WIND_STEPS) + WIND_STEPS) % WIND_STEPS;',
     to: '  return Math.round(angle / (Math.PI * 2) * WIND_STEPS);',
+  },
+  {
+    name: 'the kept ground is drawn from a weather that fades, so it stands stale all day',
+    from: '    const up = weight * (fade ? sinceFade(region, minute) : 1);',
+    to: '    const up = weight * sinceFade(region, minute);',
   },
   {
     name: 'the rain is drawn at one size however close the camera is',

@@ -40,7 +40,8 @@
       "name": "a day flicks on at its first minute instead of coming up over an hour and a half",
       "file": "public/weather-art.js",
       "failed": [
-        "a day comes up over its first hour and a half rather than flicking on"
+        "a day comes up over its first hour and a half rather than flicking on",
+        "what is drawn into the kept ground does not change with the clock"
       ]
     },
     {
@@ -142,7 +143,8 @@
         "a norther is a wind and a cold clear sky, and it brings no rain of its own",
         "the trees lean with the wind, and no further than a tree bends",
         "a fair, dry, still day draws nothing at all",
-        "the page draws the same river the simulation is running"
+        "the page draws the same river the simulation is running",
+        "what is drawn into the kept ground does not change with the clock"
       ]
     },
     {
@@ -150,6 +152,13 @@
       "file": "public/weather-art.js",
       "failed": [
         "the wind a tile is drawn for is the wind that is blowing, to within a step of the compass"
+      ]
+    },
+    {
+      "name": "the kept ground is drawn from a weather that fades, so it stands stale all day",
+      "file": "public/weather-art.js",
+      "failed": [
+        "what is drawn into the kept ground does not change with the clock"
       ]
     },
     {

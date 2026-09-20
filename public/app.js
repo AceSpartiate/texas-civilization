@@ -13,6 +13,8 @@ import { renderInterior, clearInteriorChoice } from '/interior.js';
 import { TOWN_LAYOUTS, townPoint } from '/town-layouts.js';
 import {drawWater,drawRoad,drawCrossing,drawFerry,crossingAngle} from '/landscape-art.js';
 import { drawFogShape, drawHighWater, drawWeatherAir, drawWeatherVeil, drawWetGround, farEmphasis, weatherGroundKey, weatherMix, weatherShown, weatherSpans, windLean } from '/weather-art.js';
+/** The weather with the day fully up, for everything drawn into the kept ground (public/weather-art.js `weatherMix`). */
+const STEADY = Object.freeze({ fade: false });
 import { drawHousePlot, plotted, renderHousePlot } from '/house-plot.js';
 import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesVisible, woodsLayersFor, woodsShown } from '/woods-view.js';
 import { bindEnding, renderEnding } from '/ending.js';
@@ -1691,7 +1693,9 @@ function drawGroundDetail(ctx, world, camera) {
   // it turns when the day does. Trees swayed on each frame over the kept ground is the way out, and is the same ceiling
   // the kept ground already carries for the oaks' own wind.
   const wind = world.weather && weatherShown(world.weather) ? world.weather : null;
-  const leanAt = wind ? x => windLean(weatherMix(wind, x, world.minute)) : null;
+  // Fade-free (`STEADY`): this is drawn into the kept ground, which is redrawn only when the day turns, so a lean that
+  // came up over an hour and a half would be frozen at whatever it was in the one frame that drew it.
+  const leanAt = wind ? x => windLean(weatherMix(wind, x, world.minute, STEADY)) : null;
   // Nothing wild stands in ground the family has cleared (sim/fields.mjs): no oak in the corn, no scrub in the rows.
   // Only plots near the view are checked, so the Host's thirty families cost no more per tree than one family's land does.
   const near = PLOT_SIDE * 2;
@@ -2215,6 +2219,10 @@ export function drawWorld(world) {
   const weatherNow = weather
     ? weatherSpans(weather, world.minute, camera.toWorld({ x: 0, y: 0 }).x, camera.toWorld({ x: canvas.width, y: 0 }).x, canvas.width)
     : null;
+  // The same spans with the day fully up, for what is drawn into the kept ground: see the ground pass below.
+  const weatherSteady = weather
+    ? weatherSpans(weather, world.minute, camera.toWorld({ x: 0, y: 0 }).x, camera.toWorld({ x: canvas.width, y: 0 }).x, canvas.width, 12, STEADY)
+    : null;
   const baseKey =[mapBaseEpoch, groundInputs(world), pick, weather ? weatherGroundKey(weather) : '', world.map, canvas.width, canvas.height, camera.cx, camera.cy, camera.scale];
   // `ground` is the context the ground is drawn into this frame, or null when the kept ground is still right.
   let ground = null, audit = null;
@@ -2498,23 +2506,28 @@ export function drawWorld(world) {
     }) });
     shownObserved.push(entity.id);
   }
-  // The weather in the ground, last of everything under the people: the rivers run full and brown over the roads and the
-  // fords they have shut, and the wet earth darkened with the grass, the track and the field together rather than under a
-  // flat grey sheet. Both are the kept ground's, so a day that holds costs nothing (public/weather-art.js).
+  // The weather in the kept ground, last of everything under the people: the rivers run full and brown over the roads and
+  // over the fords they have shut, and the fog's shape is banked along the water in a layer of its own. Both are the kept
+  // ground's, so a day that holds costs nothing (public/weather-art.js).
+  //
+  // Both are drawn from the FADE-FREE weather (`weatherSteady`), which is what `weatherGroundKey` keys on. Anything here
+  // that changed with the clock would be drawn once, at the strength of the frame that drew it, and stand stale until the
+  // camera moved. That is exactly what the ground audit found (`window.__groundAudit`) when the wet earth was drawn here:
+  // a whole-screen difference falling tick by tick as the day came up. The wet earth is now drawn with the veil, on the
+  // page's own canvas, every frame.
   if (ground && weather) {
     const courses = weatherCourses(world, camera, canvas);
     const drawn = drawHighWater(ground, courses, course => {
       // The level where this course runs, read at its own middle: a river crossing a region boundary takes what it meets.
       const middle = course.points[Math.floor(course.points.length / 2)];
-      return weatherMix(weather, camera.toWorld(middle).x, world.minute).water;
+      return weatherMix(weather, camera.toWorld(middle).x, world.minute, STEADY).water;
     });
-    drawWetGround(ground, weatherNow, farEmphasis(camera.scale));
     if (!audit) {
       // The fog's shape into a layer of its own, so the veil is one drawImage a frame at the morning's own strength and
       // the ground beneath it is not redrawn every time the hour moves.
       fogBase.canvas ??= document.createElement('canvas');
       if (fogBase.canvas.width !== canvas.width || fogBase.canvas.height !== canvas.height) { fogBase.canvas.width = canvas.width; fogBase.canvas.height = canvas.height; }
-      fogBase.shapes = drawFogShape(fogBase.canvas.getContext('2d'), fogBase.canvas, weatherNow, courses);
+      fogBase.shapes = drawFogShape(fogBase.canvas.getContext('2d'), fogBase.canvas, weatherSteady, courses);
       window.__weatherGround = { courses: courses.length, flooded: drawn.drawn, over: drawn.shut, fog: fogBase.shapes, key: weatherGroundKey(weather) };
     }
   } else if (ground && !audit) { fogBase.shapes = 0; window.__weatherGround = null; }
@@ -2527,7 +2540,13 @@ export function drawWorld(world) {
   // Here, and not at the end, on purpose. Everything a student is entitled to see - a person, a house, a marker, a name -
   // is drawn after this line and at full strength, so the fog can never hide a fact. What a family knows is the server's
   // (VISION.md), and fog is scenery.
-  if (weatherNow) drawWeatherVeil(main, weatherNow, fogBase.shapes ? fogBase.canvas : null, world.minute, farEmphasis(camera.scale));
+  if (weatherNow) {
+    // The wet, darkened earth belongs here rather than in the kept ground: it comes up with the day, and the ground is
+    // drawn only when the day turns. A multiply, so the grass, the track and the field darken together and keep their own
+    // colours instead of being greyed out under a flat sheet, and it is over the ground image and under every figure.
+    drawWetGround(main, weatherNow, farEmphasis(camera.scale));
+    drawWeatherVeil(main, weatherNow, fogBase.shapes ? fogBase.canvas : null, world.minute, farEmphasis(camera.scale));
+  }
   applyDrawState(main, mapBase.state);
   standing.sort((a, b) => a.y - b.y);
   for (const item of standing) item.draw();
