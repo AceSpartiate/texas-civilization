@@ -41,9 +41,10 @@ kinds of record, and they are not equally good:
      from about 30 October to 30 November 1835.
    - **Juan Nepomuceno Almonte**, on Santa Anna's staff, gives a thermometer reading nearly every morning of the Alamo
      siege, 23 February to 5 March 1836, with wind and sky.
-   - **William Fairfax Gray**, in the colonies from early February to late April 1836 — "In the morning the thermometer
-     was down to 33 degrees" (§7.2). **His diary could not be read here** (§13), and exactly one entry of it is quoted in
-     this document. It is the largest single thing still missing.
+   - **William Fairfax Gray**, riding through the colonies from 31 January to 24 April 1836, writes the weather **most
+     days** and reads a thermometer twice — 35 °F at San Felipe on 26 February, 33 °F at Washington on 1 March. **His is
+     the densest record of the period and the only one in the colonies** (§3.2), and it covers the two months the Béxar
+     diaries do not.
 2. **Letters and official reports** that mention weather in passing because it was in the way — Austin's report of
    30 November 1835, Houston's San Jacinto report of 25 April 1836, Hall on the muddy coast road. These are dated and
    trustworthy for the fact, vague about the degree.
@@ -97,6 +98,7 @@ whether the day falls inside the game's window (29 September 1835 - about 25 Apr
 | **Dec 7, 1835 (night)** | Béxar | "The weather **exceedingly cold and wet**." (Johnson's official report) | cold rain | `docs/battle-research/bexar-storming.md` |
 | **Dec 8, 1835** | Béxar | "**Cold and wet**, with but little firing." (Johnson) | cold rain | `docs/battle-research/bexar-storming.md` |
 | **Dec 10, 1835 (dawn)** | Béxar | "About Sun Rise Dec 10th their fireing sudently ceased **it was foggy**" | fog at dawn | `docs/battle-research/bexar-storming.md` |
+| **December 1835** | the lower Brazos | "Everything was at a standstill and times very gloomy. **The Brazos river was so low the steamboat couldn't go up.**" | **a low river — a dry autumn** | Dilue Rose Harris |
 | **Feb 13, 1836** | Santa Anna's army on the march — **where is disputed** (§5.1) | "by February 13, an estimated **15-16 inches (38-41 cm) of snow** had fallen"; hypothermia among recruits from the tropics | **snow, the only one in the record** | Wikipedia, *Battle of the Alamo*; already `HIST-TEX-053` (proposed) |
 | **Feb 21, 1836** | the Medina, 25 miles from Béxar | "The raid had to be called off when **sudden rains made the Medina unfordable**." | rain, river unfordable | Wikipedia, *Siege of the Alamo* |
 | **Feb 23-25, 1836** | Béxar | Almonte records no weather on the 23rd or 24th; before the 25th it had been "**shirt sleeve**" weather | mild | Almonte; the Alamo; Siege of Béxar Descendants |
@@ -120,11 +122,92 @@ whether the day falls inside the game's window (29 September 1835 - about 25 Apr
 | **Mar 31 - Apr 14, 1836** | Groce's, on the Brazos | "The **unrelenting rainy weather** swelled the Brazos and threatened flooding" while Houston's army camped there | prolonged rain, river up | already `HIST-TEX-068` |
 | **Apr 14, 1836 (evening)** | between the Brazos and Harrisburg | "The sun had already set when we resumed the march over a **muddy prairie**. The night was dark... **our piece of artillery bogged at every turn of the wheel**." | mud on the prairie at night | Delgado |
 | **Apr 17, 1836 (night)** | between Harrisburg and New Washington | a bridge "rendered still more dangerous by **darkness and rain**"; "Shortly after ten o'clock at night a **violent storm** set in; darkness caused us to wander from our course... requiring every man to stand in the ranks **without shelter from the rain**." | **a dated violent night storm** | Delgado |
-| **Apr 21, 1836** | San Jacinto | **No source read here records the weather on the day of the battle.** Delgado's account of the 21st mentions none; the fighting began about 3:30-4:30 p.m. | — (see §3.3) | Delgado; TSHA; Wikipedia |
+| **Apr 21, 1836** | San Jacinto | **No source read here records the weather on the day of the battle.** Delgado's account of the 21st mentions none; the fighting began about 3:30-4:30 p.m. | — (see §3.4) | Delgado; TSHA; Wikipedia |
 | **Apr 22-25, 1836** | the San Jacinto battleground | the Mexican prisoners were kept "starving, **sleeping in the mud**, and exposed to **frequent and heavy showers**" | showers | Delgado |
 | **Apr 25, 1836** | the whole campaign, looking back | "For several days previous to the action, our troops were engaged in forced marches, **exposed to excessive rains**, and the additional inconvenience of **extremely bad roads**" | the April characterised | Houston's official report |
 
-### 3.2 What that adds up to
+### 3.2 Gray's diary: a near-daily series for the colonies, 31 January - 24 April 1836
+
+**This is the densest weather record of the period and it is in the colonies, not at Béxar.** William Fairfax Gray rode
+from Nacogdoches to San Felipe, sat through the Convention at Washington-on-the-Brazos, and went east with the Runaway
+Scrape, writing the weather most days and reading a thermometer twice.
+
+**What was read, and how far it is verified.** The text is the SMU edition — *The Diary of William Fairfax Gray, from
+Virginia to Texas, 1835-1837*, ed. Paul Lack, William P. Clements Center for Southwest Studies, 1997 — which SMU put on
+the web page by page and has since taken down (the live URL is a 404). It was read through the Wayback Machine. **Page
+numbers below are the 1997 edition's, printed on each web page; they are not the 1909 Gray, Dillaye & Co. pagination**, and
+no 1909 copy could be reached (§13).
+
+**This session could not re-read the Wayback pages itself: the Internet Archive went offline part-way through this work
+and every route to it returned 503 or "Temporarily Offline".** So the series below is verified indirectly, and the
+verification is strong enough to record:
+
+1. **Two passages match, word for word, sources this session read directly and early.** The Alamo's own page says "by
+   March 8 Gray proclaimed 'Fine weather'" — and the series has **March 8: "Fine weather."** Washington on the Brazos's
+   site prints the whole 1 March passage — and the series has it identically, down to "This is the second regular norther
+   that I have experienced."
+2. **It agrees with Almonte's independent thermometer at Béxar, date by date, in a way nobody could arrange backwards.**
+   Almonte, 25 February: "A strong north wind commenced at **nine at night**." Gray, 150 miles away, the same night: "At
+   night the wind **chopped suddenly round to the north**." Almonte 29 February: warm, 55°. Gray 29 February: "A warm
+   day". Almonte 1 March: 36° and "day clear". Gray 1 March: 33° and a gale. Almonte 2 March: "clear and pleasant". Gray
+   2 March: "clear and cold, but the cold somewhat moderated". Almonte 3 March: "clear". Gray 3 March: "clear and cold,
+   but became more moderate as the day advanced". **Five days running, two observers, two thermometers, one weather.**
+
+| Date, 1836 | Place | What Gray wrote | p. |
+| --- | --- | --- | --- |
+| **Jan 31** | near Nacogdoches | "A fine, clear, frosty morning, with a cold northwest wind." | 78 |
+| **Feb 2** | Nacogdoches | "The weather for the two last days has been very fine, cool, but clear, dry and elastic, like fine autumn weather in Virginia. I wear no overcoat." | 80 |
+| **Feb 3** | Nacogdoches | "Another fine day, but warmer than yesterday; **three white frosts and then a rain is the rule here**, so we may expect rain tomorrow." Later: "Weather warm and cloudy, threatening rain." | 80, 83 |
+| **Feb 4** | Nacogdoches | "It rained hard from noon until midnight... They trudged to it on foot through rain and mud" | 84 |
+| **Feb 5** | Nacogdoches | "It continued wet and cold all the forenoon." | 86 |
+| **Feb 10** | the Trinity crossing | "we crossed the Trinity, which we approached through a **boggy, miry, nasty prairie**, or rather marsh, of several miles extent, which is **subject to overflow when the river is high**"; the river "runs rapidly between steep banks, some twenty or twenty-five feet above the present stage of the river, which is **somewhat up**"; "The weather for several days has been very warm, and indicating rain"; "we were met by a **storm of thunder, lightning and rain**. The thunder was heavy, and the storm in all respects equal to what we have in Virginia in July and August." | 93-94 |
+| **Feb 11** | the Bedias | "the rain of yesterday had **swollen it very much**"; a creek "which had **flowed out beyond its banks upwards of 100 yards**" | 94 |
+| **Feb 14** | Washington | "A clear and cold morning." | 98 |
+| **Feb 15** | Washington | the Post came in "with his mail completely wet, he having just swam Mill Creek" | 99 |
+| **Feb 16** | Mill Creek to San Felipe | "Crossed Mill Creek on a log, and drove the horses through the stream, which was **still too high to ford**. The road was wet and miry" | 100 |
+| **Feb 17** | San Felipe | "it has come on to **rain hard**" | 102 |
+| **Feb 18** | San Felipe | "It rained hard last night, but this morning, like yesterday, was **very foggy**. Cleared off about 9 o'clock." | 102 |
+| **Feb 21** | on the road | "A **heavy storm of rain** came on in the night, which beat on me where I slept." | 107 |
+| **Feb 22** | New Year's Creek | "The morning was clear and beautiful, the air mild"; but crossing the creek "I got very wet, coat pockets, boots and saddle bags all full of water", and the Yegua "would also be up" | 108-109 |
+| **Feb 25** | Mill Creek | "found Mill Creek **very high**", crossed by pirogue and swam the horses | 109 |
+| **Feb 25** | San Felipe | **the definition of a norther, in period words — see §4.1** | 110 |
+| **Feb 26** | San Felipe | "This morning it was **excessively cold** for this southern region. Yesterday it was summer heat. I put the **thermometer** out in the porch and **it fell to thirty-five degrees**." | 110 |
+| **Feb 27** | on the road | "The wind yesterday and today blew hard from the north, right in my face -- a most uncomfortable ride." | 111 |
+| **Feb 28** | on the road | "Cold and drizzling." | 111 |
+| **Feb 29** | Washington | "A warm day, threatening rain from the south." | 111 |
+| **Mar 1** | Washington | the gale with hail, **33 degrees** — §7.2 | 112 |
+| **Mar 2** | Washington | "The morning clear and cold, but the cold somewhat moderated." | 115 |
+| **Mar 3** | Washington | "Morning clear and cold, but became more moderate as the day advanced." | 116 |
+| **Mar 8** | Washington | "Fine weather." | 118 |
+| **Mar 9** | Washington | "Weather warm and fine." | 119 |
+| **Mar 10** | Washington | "Fine weather" | 120 |
+| **Mar 12** | Washington | "Weather warm and pleasant." | 121 |
+| **Mar 14** | Washington | "The weather is gloomy and warm, indicating rain. The wind is from the south, and **the wild geese are mustering for the North**." | 121-122 |
+| **Mar 17** | Washington | "Fine, mild weather." At night, "It rained a little in the night, but not enough to wet me." | 124, 126 |
+| **Mar 18** | leaving Washington | "This morning was cloudy and drizzly." And the Scrape on the road: "Many persons, moving eastward... some in wagons, some in carts, and some on foot" | 126 |
+| **Mar 21** | on the road | "rather cold lodging" | 136 |
+| **Mar 22** | toward Galveston Bay | "Weather lowering." | 138 |
+| **Mar 23** | near Galveston Bay | "the clouds, which had been lowering for some days, poured down a **heavy rain**. The wind from the northeast blew a regular **equinoctial storm**, and being near the Bay of Galveston, it came up heavy and cold." | 139 |
+| **Mar 24** | near Galveston Bay | "The rain has abated, but the wind is still strong from the northeast; cold and cloudy." | 139 |
+| **Mar 28** | | "Weather cloudy and rainy." | 142 |
+| **Mar 31** | | "Weather very warm -- quite summer heat." | 144 |
+| **Apr 2** | | "Very warm weather." | 144 |
+| **Apr 3** | | "The wind sprang up from the north early in the morning, and continued to blow gently and pleasantly until night, when it became calm. The moon rose bright and clear" | 145 |
+| **Apr 4** | a ferry | "At the ferry were large crowds, all seeking a passage across... with their wives, children, Negroes, horses, carts, wagons, and droves of cattle"; "The wind was ahead" | 146 |
+| **Apr 8** | Galveston Island | "a fresh breeze from the south brought the waves in with a noise resembling a great waterfall" | 149 |
+| **Apr 9** | Galveston Island | "The wind, all this week, has been fresh from the south." | 150 |
+| **Apr 10** | Galveston Island | "During the past night it has **rained, and a strong norther has sprung up**. Our vessel has swung from her groundings... unable to get out for the head wind." | 151 |
+| **Apr 11** | Galveston Island | "The **gale still continued** too strong to make it prudent to venture out in our little boat." | 152 |
+| **Apr 19** | Anahuac to the Neches | "This morning a **heavy fog**." | 158 |
+| **Apr 22** | the Neches | "We had to swim a number of little bayous, running out from the Naches, which is now **so full as to overflow its banks**... **This is the first instance of this kind of overflow I have seen in Texas.**" | 160 |
+| **Apr 23** | Sabine, Ballou's ferry | "passing for several miles through the **worst road I have encountered in Texas**. In one place we came upon a poor ox, **bogged in the middle of the road**. His head and a small part of his body was above the mud." | 161 |
+| **Apr 24** | Sabine | "Owing to the **crowd of families** now here, we could not conveniently cross the ferry today" | 162 |
+
+**Gray records no weather on 21 April**, nor on 20 April; he was on the lower Neches, two hundred miles east of San
+Jacinto, and his entries for those days are silent (§3.4). From **25 April he is in Louisiana**, and his heavy rains of
+27-29 April are east of the Sabine and are **not** Texas weather.
+
+### 3.3 What that adds up to
 
 - **Almost every scene the game already stages has dated weather in the record** — Gonzales (fog), Concepción (fog), the
   Grass Fight (a cold, wide, deep creek), the storming of Béxar (fog, a norther, two cold wet nights), the Alamo siege
@@ -145,8 +228,25 @@ whether the day falls inside the game's window (29 September 1835 - about 25 Apr
   TSHA's "very raw and excessively cold" at San Patricio on the same nights. That is the single best piece of evidence in
   this whole file for the proposal in §10.2: **a norther is regional, not local, and it arrives within a day across
   300 miles.**
+- **The Runaway Scrape's water was the Trinity, not the San Jacinto** — and the game should know it. The two eyewitnesses
+  agree independently. At **Lynch's ferry on the San Jacinto** the problem was **the crowd**: Dilue Rose Harris, "There
+  were fully five thousand people at the ferry... **We waited three days before we crossed**", and she records **no
+  weather there at all**. At the **Trinity** the problem was **the flood**: "Our hardships began at the Trinity. **The
+  river was rising** and there was a struggle to see who should cross first. Measles, sore eyes, whooping cough, and every
+  other disease that man, woman, or child is heir to, broke out among us... **the water broke over the banks above where
+  we were and ran around us. We were several hours surrounded by water**... **Drift wood covered the water as far as we
+  could see**... We crossed a bridge that was under water. As soon as we crossed, a man with a cart and oxen drove on the
+  bridge, and it broke down, drowning the oxen... **It took four days to get everything out of the water.**" Gray, going
+  the same way seven weeks earlier, had already described the Trinity approach as "a **boggy, miry, nasty prairie**, or
+  rather marsh, of several miles extent, **which is subject to overflow when the river is high**". **If the game models
+  the flight east, the flood belongs on the Trinity and the queue belongs on the San Jacinto.**
+- **The bogging the game already models is Harris's, and it is on the open prairie, not at a crossing.** "When we got
+  about half across the prairie Uncle Ned's wagon bogged. The negro men driving the carts tried to go around the big wagon
+  one at a time until the four carts were fast in the mud... put all the oxen to the wagon, but could not move it... They
+  had to be unloaded and pulled out." `sim/road.mjs` already carries this in its header. What it does not yet carry is the
+  fact that the mud was there because the ground was already soaked (§10.4).
 
-### 3.3 Did it rain on April 21?
+### 3.4 Did it rain on April 21?
 
 **Not in any source read here.** This deserves a flat answer because the question was asked directly.
 
@@ -156,6 +256,9 @@ whether the day falls inside the game's window (29 September 1835 - about 25 Apr
   siesta and the attack at 4:30 p.m., and mentions **no weather at all**, having mentioned it freely for the 14th and 17th.
 - TSHA's *San Jacinto, Battle of* and Wikipedia's article contain no weather sentence for the 21st.
 - The showers in Delgado's account begin **after** the battle, over the prisoners.
+- **Gray, who wrote the weather nearly every day for three months (§3.2), wrote none on 20 or 21 April.** He was on the
+  lower Neches, far to the east, so his silence is weak evidence about San Jacinto — but his 19 April "heavy fog" and his
+  22 April Neches in flood bracket the days, and neither mentions rain falling.
 
 **Inference (basis: the two accounts that do mention weather on adjacent days, and the fact that an afternoon attack across
 open prairie succeeded):** the afternoon of 21 April was most likely not raining. The game should make **April 21 a fair
@@ -167,15 +270,37 @@ day**, and mark it as inference, not as a recorded observation.
 
 ### 4.1 What a norther was, in the words of the period
 
-The record gives the shape of one exactly:
+**A settler explained it to his diary on 25 February 1836, and it is worth the whole section.** Gray, at San Felipe, the
+day the first of the two great late-February northers arrived (§3.2, p. 110):
+
+> "Yesterday the weather was warm and cloudy, indicating rain. All the forenoon today we were met by a strong south
+> breeze, blowing a drizzling rain in our faces. About noon the drizzle ceased, and it was so warm that I rode in my shirt
+> sleeves. **It was summer heat.** At night **the wind chopped suddenly round to the north**, and there commenced what is
+> familiarly called in this country **a norther, by which is always understood a hard and cold blow from the north. It
+> generally lasts for two or three days, and is sometimes so excessively cold that persons have been known to freeze to
+> death in crossing the prairies. Long observation has taught them to expect a norther between the 20th of February and
+> 1st of March, and that generally closes the winter.**"
+
+That single paragraph gives the game almost everything it needs: **the warm south wind before it, the sudden shift at
+night, two or three days' duration, the danger to a person caught out on the prairie, and a settlers' rule of thumb about
+when the last one comes.** It is also period speech, and could go into a character's mouth nearly unaltered.
+
+The rest of the record gives the shape of one exactly:
 
 - **It arrives at a named hour.** "A strong north wind commenced at **nine at night**" (Almonte, Feb 25). "a norther blew up"
   at about 7 a.m. (Maverick, Nov 5).
 - **The drop is large and fast.** "bringing the thermometer down **20°, from 75° to 55°**" within a day (Maverick, Nov 5).
   At the Alamo: "shirt sleeve" weather before the evening of the 25th, **39 °F** the next morning (Almonte).
-- **It lasts two to four days and then lets go.** Almonte's siege: strong north wind the 25th night, 39° the 26th, 39° the
-  27th, "abated somewhat" 40° the 28th, 55° the 29th. Maverick's worst spell: 42° on the 20th, 36½° the 21st, "very cold"
-  the 22nd, 28° the 23rd, 31° the 24th, 30° the 25th, "improving" the 26th, 54° the 28th. **Eight days from onset to fine.**
+- **It lasts two to three days and then lets go** — which is Gray's own figure, and the record bears him out. Almonte's
+  siege: strong north wind the 25th night, 39° the 26th, 39° the 27th, "abated somewhat" 40° the 28th, 55° the 29th. Gray,
+  for the same spell: 35° on the 26th, wind hard from the north on the 27th, "cold and drizzling" the 28th, "a warm day"
+  the 29th. **Both say four days.** Maverick's worst spell was longer: 42° on the 20th, 36½° the 21st, "very cold" the
+  22nd, 28° the 23rd, 31° the 24th, 30° the 25th, "improving" the 26th, 54° the 28th — **eight days from onset to fine**,
+  which is why the sources call November 1835 unusual.
+- **Two thermometers, two places, the same two northers.** In the norther of 25-28 February: **Béxar 39 °F** on the 26th
+  (Almonte), **San Felipe 35 °F** the same morning (Gray). In the second, on 1 March: **Béxar 36 °F**, **Washington
+  33 °F**. **The colonies were three to four degrees colder than Béxar in both**, which is the ordinary order for latitude
+  and is worth keeping if the game ever varies cold by region.
 - **It can come with rain and it can come dry, and it can come violently.** Nov 20: "Thermometer 42° **with rain and
   wind**." Feb 26 - Mar 5 at Béxar: norther after norther with a clear sky and no rain mentioned once. But the same second
   norther reached **Washington-on-the-Brazos** as a gale "accompanied by **lightning, thunder, rain and hail**" (Gray,
@@ -192,7 +317,7 @@ Counting from the two diaries, inside the days they actually cover:
 | --- | --- | --- | --- |
 | about Oct 30 - Nov 30, 1835 (Maverick, Béxar) | 32 | the "first norther this fall" about Oct 30; Nov 5; Nov 20 | 3 in 32 days, about one every 10-11 days |
 | Feb 23 - Mar 5, 1836 (Almonte, Béxar) | 12 | Feb 25 evening; Feb 29 midnight | 2 in 12 days, about one every 6 days |
-| about Feb 1 - Feb 29, 1836 (Gray, in Texas) | about 28 | "This is the **second regular norther** that I have experienced" | 2 in about 4 weeks, about one every 14 days |
+| 31 Jan - 23 Apr 1836 (Gray, in the colonies) | 83 | **25 February** ("there commenced... a norther"); **the night of 29 February** ("the second regular norther that I have experienced"); **10 April** at Galveston ("a strong norther has sprung up"), still blowing on the 11th. Plus "a cold northwest wind" on 31 January, which he does not call a norther. | 3 in 83 days, about one every 28 days |
 
 `ceiling:` these are short windows, and the diarists name only the ones worth naming — Gray's own word is "**regular**
 norther", which says plainly that he was not counting every wind shift. It is not a frequency for the season. It is,
@@ -207,7 +332,9 @@ The only Texas temperatures in the record for the whole period:
 | **28** (after sunrise; water froze indoors) | Nov 23, 1835 | Béxar |
 | 30 | Nov 25, 1835 | Béxar |
 | 31 | Nov 24, 1835 | Béxar |
+| **33** (morning, the Convention's opening day) | Mar 1, 1836 | **Washington-on-the-Brazos** |
 | 34 (night, and "1 Reaumur") | Mar 1, 1836 | Béxar |
+| **35** (morning, in the porch) | Feb 26, 1836 | **San Felipe** |
 | 34 (morning) | Mar 2, 1836 | Béxar |
 | 36 (morning) | Mar 1, 1836 | Béxar |
 | 36½ (morning) | Nov 21, 1835 | Béxar |
@@ -339,7 +466,7 @@ None was found, and none is invented.** Where it was looked for:
 | TSHA *Handbook of Texas*, *Tornadoes* | Quantified data **begins 1916**. Its earliest 19th-century item is anecdotal and undated past the month: "According to one account, a tornado in the Cedar Creek community in **May 1868** 'blew cattle into the air, lodging them in trees.'" Nothing before 1868, nothing on 1835-36. |
 | Wikipedia, *List of Texas tornadoes* | Says records run "since **1878**, the year with the first recorded instance in the state", but **its own earliest dated entry is 26 January 1879** and no 1878 Texas event was found anywhere. Treat "1878" as unsupported. |
 | Grazulis, *Significant Tornadoes 1680-1991* | **Exists; not readable from here.** Every Grazulis-derived compilation that was readable gives the same earliest Texas entry. |
-| *Telegraph and Texas Register*, 1835-36 | **Not searchable from here.** The Portal to Texas History holds the digitised run, but its full-text search sits behind a bot-check that was not answered (§13). **This is the one gap worth closing by hand**, and it is the only place a small unrecorded Texas storm of 1835-36 would plausibly surface. |
+| *Telegraph and Texas Register*, 1835-36 | **Sampled, not swept.** The Portal's full-text search is behind a bot-check that was not answered, but its item and `/ocr/` pages are open, so **four 1836 editorial pages were read** — San Felipe, 20 and 27 February, 12 and 24 March — and **none carries any weather remark at all**, tornado or otherwise (§13). Four issues cannot support a negative about the run. **This is the one gap worth closing by hand.** |
 
 **The earliest individually documented Texas tornado found is 26 January 1879, near Lockhart** — "Grazulis estimates that an F2 tornado struck near Lockhart, TX. 40 homes were damaged or destroyed and one child was killed. 15 others were injured" (Tornado Talk, attributing it to Grazulis). That is **forty-three years after this game ends.**
 
@@ -368,11 +495,15 @@ one night**, dated, and in the colonies rather than at Béxar.
 3. TSHA's *Convention of 1836*: "The convention met on March 1, 1836, in **near-freezing weather** in an unfinished
    building."
 
-**Two honest caveats.** The site that carries the Gray quotation dates the norther to "the night of February 29th" and
-prints the quotation without its own date line, and **the printed 1909 diary could not be read from here** (§13) — so the
-date rests on the page's framing plus the three corroborations above, which is strong but is not the printed page. And
-Gray's "the second regular norther that I have experienced" counts only his own time in Texas, which began in early
-February; it is **not** a count of the winter's northers.
+**The date is now firm.** The passage is Gray's entry **for 1 March 1836** (SMU 1997 edition, p. 112, §3.2), describing the
+night just past — so the gale fell on the night of **29 February - 1 March**, which is exactly how Washington on the
+Brazos's own site frames it. It is also the same night Almonte, at Béxar, recorded the wind changing to the north at
+midnight. The same entry goes on: "Notwithstanding the cold, the members of the Convention... met today in **an unfinished
+house, without doors or windows. In lieu of glass, cotton cloth was stretched across the windows**, which partially
+excluded the cold wind."
+
+**One caveat remains.** Gray's "the second regular norther that I have experienced" counts only his own weeks in Texas,
+which began on 31 January, and his own word is "**regular**"; it is **not** a count of the winter's northers.
 
 **Use:** this is the warrant for the `storm` kind existing at all (§10.1), and it is the model for what a `storm` is — a
 norther arriving violently rather than quietly. It also shows that **hail is in the record and a tornado is not**, which is
@@ -703,9 +834,12 @@ this research found.**
 1. **One coin for a country 400 miles across.** The map runs 93.5-100.5°W. On the present model it rains at Nacogdoches and
    at Béxar, 280 miles apart, on exactly the same days and never on different ones. The record contradicts this directly:
    on the night of 26-27 February 1836 it rained continuously at San Patricio while Almonte, at Béxar, wrote "day clear".
-2. **Two seasons, and the wrong two.** March and April wet, everything else one day in five. The record's *worst* month is
-   **November 1835**, which the present model treats as an ordinary dry month. Austin, on the 30th, called it "the most
-   inclement, wet, and cold spell of weather known in this country for many years".
+2. **Two seasons, and the wrong two, with the wrong boundaries.** March and April wet at one day in two, everything else
+   one day in five. Three things are wrong with that. The record's *worst* month is **November 1835** — Austin on the 30th
+   called it "the most inclement, wet, and cold spell of weather known in this country for many years", and Fort Jesup
+   counted **17 rain days in 30** — and the present model treats it as an ordinary dry month. **The first seventeen days
+   of March were fine**, by Gray's diary, so the wet season starts a fortnight late. And **one day in two is two to three
+   times any measured rain frequency**, modern or 1835-36.
 3. **There is no cold.** The most characteristic weather of a Texas winter — the norther — is not modelled at all, although
    it is the best-documented weather in the whole period (§4) and it is what a colonial family actually had to prepare for.
 4. **High water is decided by today's rain.** A river is up because of what fell upstream one to three days ago, and it
@@ -747,12 +881,17 @@ a day is what a class can hold in its head, and it is what every `weatherOf` cal
 
 This is the part the record actually decides, so it is worth stating why.
 
-> **A norther is shared; rain is not.** On 26-27 February 1836 the same cold air is in Almonte's thermometer at Béxar
-> (39 °F, "day clear") and in TSHA's San Patricio ("very raw and excessively cold," continuous rain) on the same nights
-> 120 miles away. On 1 March the same spell is at **36 °F at Béxar** and is "near-freezing weather" at
-> **Washington-on-the-Brazos**, 150 miles east, where the Convention sat in an unfinished building. The cold crossed the
-> whole country, twice, in the two weeks the record covers best. **The rain did not**: Béxar's sky was clear on both nights
-> San Patricio's rain fell.
+> **A norther is shared. Rain is sometimes shared and sometimes not.**
+>
+> **Shared, four times over.** On 25 February the north wind reaches Béxar at nine at night (Almonte) and San Felipe the
+> same night (Gray). On the 26th it is **39 °F at Béxar, 35 °F at San Felipe**, and at **San Patricio** the night is "very
+> raw and excessively cold" with continuous rain. On 1 March it is **36 °F at Béxar, 33 °F at Washington-on-the-Brazos**,
+> 150 miles east, where the Convention sat in an unfinished house with cotton cloth over the windows. And on **21
+> February** a heavy storm of rain fell in the night at Washington on the same day sudden rains made the **Medina**
+> unfordable at Béxar. **Four dated crossings of the whole country, in the two weeks the record covers best.**
+>
+> **Not shared.** Béxar's sky was "day clear" on both nights San Patricio's rain fell. Gray had ten fine warm days at
+> Washington from 8 to 17 March. **Cold crosses the map; rain does not have to.**
 
 | Region | Settlements | Character |
 | --- | --- | --- |
@@ -804,19 +943,43 @@ point: **the weather a class meets on the day of a battle is the weather that wa
 | Dec 5, 1835 | west | `fog` at dawn, and a `norther` | `HIST-TEX-223` |
 | Dec 7-8, 1835 | west | `rain`, cold | `HIST-TEX-223` |
 | Dec 10, 1835 | west | `fog` at dawn | `HIST-TEX-223` |
-| Feb 21, 1836 | west | `rain` — the Medina unfordable | `HIST-TEX-227` |
-| Feb 25-28, 1836 | all | `norther`, arriving at nine at night on the 25th; clear and cold behind it | `HIST-TEX-229` |
+| Feb 10, 1836 | centre | `storm` — "a storm of thunder, lightning and rain" on the prairie by the Trinity; the river "somewhat up" | `HIST-TEX-237` |
+| Feb 16-18, 1836 | centre | `rain`; Mill Creek "still too high to ford"; **`fog` on the morning of the 18th, cleared about 9 o'clock** | `HIST-TEX-237` |
+| **Feb 21, 1836** | **all** | `rain` — "a heavy storm of rain came on in the night" at Washington **and** "sudden rains made the Medina unfordable" at Béxar, **the same day, 170 miles apart** | `HIST-TEX-227`, `HIST-TEX-237` |
+| Feb 25-28, 1836 | all | `norther`, arriving at nine at night on the 25th after "summer heat"; 35 °F at San Felipe on the 26th and 39 °F at Béxar; clear and cold behind it | `HIST-TEX-229`, `HIST-TEX-237` |
 | Feb 29 - Mar 3, 1836 | all | a second `norther` from midnight on the 29th — **arriving in the `centre` as a `storm`**: a gale with lightning, thunder, rain and hail, then 33 °F at Washington and 36 °F at Béxar on the morning of the 1st, then cold and clear | `HIST-TEX-228`, `HIST-TEX-229`, `HIST-TEX-236` |
 | Mar 4-5, 1836 | west | `fair`, moderating to 68 °F at mid-day on the 5th | `HIST-TEX-228` |
 | Mar 13, 1836 | west | the prairie rain-soaked | `HIST-TEX-230` |
+| **Mar 8-17, 1836** | **centre** | **`fair` and warm, ten days of it** — "Fine weather", "Weather warm and fine", "Weather warm and pleasant", "Fine, mild weather". **The wet spring had not started yet** | `HIST-TEX-237` |
 | Mar 19, 1836 | west | `fog` (Fannin leaves Goliad) | `HIST-TEX-063`, `HIST-TEX-230` |
-| Mar 21 - Apr 14, 1836 | all | the wet spring: rain well above the ordinary share, the rivers up | `HIST-TEX-068`, `HIST-TEX-230` |
+| Mar 18, 1836 | centre | "cloudy and drizzly" — the Scrape on the road | `HIST-TEX-237` |
+| **Mar 23-24, 1836** | centre | **`storm`** — "a regular **equinoctial storm**" off Galveston Bay, heavy rain, wind hard from the north-east, "cold and cloudy" on the 24th | `HIST-TEX-237` |
+| Mar 21 - Apr 14, 1836 | all | the wet spring: rain well above the ordinary share, the rivers up. **Begins about 21-23 March, not 1 March** | `HIST-TEX-068`, `HIST-TEX-230`, `HIST-TEX-237` |
+| Mar 28, 1836 | centre | `rain` — "Weather cloudy and rainy" | `HIST-TEX-237` |
+| Mar 31 - Apr 3, 1836 | centre | `fair` and "quite summer heat" — **a warm break inside the wet spring**, while Houston's army sat at Groce's in the rain | `HIST-TEX-237`, `HIST-TEX-068` |
+| Apr 10-11, 1836 | centre | **`norther`** at Galveston — "it has rained, and a strong norther has sprung up"; "The gale still continued" on the 11th | `HIST-TEX-237` |
 | Apr 14, 1836 | centre | the prairie mud, with no rain falling | `HIST-TEX-231` |
 | Apr 17, 1836 | centre | `storm` after ten at night | `HIST-TEX-231` |
-| Apr 21, 1836 | centre | `fair` — **inference**, and marked as such (§3.3) | `FIC-GONZ-134` |
+| Apr 19, 1836 | east | `fog` — "This morning a heavy fog" | `HIST-TEX-237` |
+| Apr 21, 1836 | centre | `fair` — **inference**, and marked as such (§3.4) | `FIC-GONZ-134` |
+| Apr 22, 1836 | east | the Neches "so full as to overflow its banks" — "the first instance of this kind of overflow I have seen in Texas" | `HIST-TEX-237` |
 | Apr 22-25, 1836 | centre | `rain`, showers | `HIST-TEX-231` |
+| Apr 23-24, 1836 | east | the Sabine road "the worst road I have encountered in Texas", an ox bogged in the middle of it; the ferry blocked by "the crowd of families" | `HIST-TEX-237` |
 
 San Patricio, on the night of 26-27 February, is the evidence for §10.2 and not a place a class goes; it needs no region.
+
+**Two things this table says that the game's present model gets badly wrong, and they are worth saying plainly.**
+
+1. **The wet spring starts about 21-23 March, not 1 March.** `WET_MONTHS = [2, 3]` makes all of March and April wet at one
+   day in two. Gray, in the middle of the colonies, has **ten fine warm days from 8 to 17 March** — "Fine weather",
+   "Weather warm and fine", "Weather warm and pleasant", "Fine, mild weather" — and the turn comes with the drizzle of the
+   18th and the equinoctial storm of the 23rd. **The first seventeen days of March were not the Runaway Scrape's weather.**
+2. **And it is not unrelenting once it starts.** Gray has "Weather very warm -- quite summer heat" on 31 March and "Very
+   warm weather" on 2 April, and a clear calm moonlit night on the 3rd — in the same days `HIST-TEX-068` has "unrelenting
+   rainy weather" swelling the Brazos at Groce's, forty miles away. **Both can be true**: a river stays up for days after
+   the rain that raised it (§10.4), and Groce's is on the Brazos while Gray was on the bay. But a model that makes every
+   day of April rain is not what the one daily diary of that April says. **Rain days, a water level that decays slowly,
+   and fair days in between — that is the shape.**
 
 ### 10.4 Water: the state the game is missing
 
@@ -840,10 +1003,20 @@ The impassable ford is **not invented**: "sudden rains made the Medina unfordabl
 the Runaway Scrape's five thousand people waiting three days at Lynch's ferry is what a country whose fords have shut looks
 like. The threshold and the numbers are the game's own (`FIC-GONZ-133`).
 
+**One river should be special, and the record says which.** The Runaway Scrape's flood was **the Trinity**, not the San
+Jacinto (§3.3). Harris: "Our hardships began at the Trinity. The river was rising... the water broke over the banks above
+where we were and ran around us... Drift wood covered the water as far as we could see... It took four days to get
+everything out of the water." Gray, seven weeks earlier, had already called the Trinity's approach "a boggy, miry, nasty
+prairie, or rather marsh, of several miles extent, which is subject to overflow when the river is high." Meanwhile at
+**Lynch's ferry on the San Jacinto** neither diarist records weather at all — the delay there was **five thousand people**
+waiting three days. **So: flood the Trinity and queue the San Jacinto.** If only one river in the game ever gets a flood
+of its own, make it the Trinity; if only one crossing ever gets a queue, make it Lynch's.
+
 `ceiling:` one water level per region, not per river. A real river crests a day or two after the rain and falls over a week,
 and the Brazos and the Guadalupe do not rise together. Per-river water wants a catchment for each, and a catchment wants
 upstream rain the map does not draw. The way out: if the game ever draws where a river rises, give each barrier river its
-own `water` fed by its own region.
+own `water` fed by its own region — and give the Trinity a slower fall than the rest, because that is what the record
+describes.
 
 ### 10.5 What each kind does to what the game already models
 
@@ -946,6 +1119,8 @@ All of them are **recorded, not built**. `HISTORY.md` carries the full text and 
 | `HIST-TEX-234` | The modern normals and the tree rings, as a **declared basis for inference** |
 | `HIST-TEX-235` | The Fort Jesup and Fort Towson registers — **rain days in the actual months** |
 | `HIST-TEX-236` | Gray's norther with hail, Washington-on-the-Brazos, 29 February - 1 March 1836 |
+| `HIST-TEX-237` | **Gray's near-daily weather series for the colonies, 31 January - 24 April 1836** |
+| `HIST-TEX-238` | Dilue Rose Harris: the Trinity was the flood, Lynch's ferry was the queue |
 | `FIC-GONZ-130` | That a day has one kind, and that there are five |
 | `FIC-GONZ-131` | Three regions, a norther that crosses all three, and the water level |
 | `FIC-GONZ-132` | The shares by month, and the wet spring as a named multiplier |
@@ -966,15 +1141,18 @@ changes nothing under `sim/`. It is a one-word fix in a comment and should go in
 ## 13. Looked for and not found, or not read
 
 **Gated, and deliberately not forced.** The **Portal to Texas History** (`texashistory.unt.edu`) served an "I'm not a
-robot" bot-check to every route tried, including a real browser. **That check was not answered**, so nothing behind it was
-read. What is behind it and would be worth having:
+robot" bot-check to its **search and browse**, and that check was not answered. Its **individual item and `/ocr/` pages are
+not gated**, so four 1836 *Telegraph and Texas Register* editorial pages were read directly (below). What stays behind the
+gate:
 
-- **The *Telegraph and Texas Register* for 1835-36, full-text searchable.** This is the single biggest gap in this
-  document. It is where a small unrecorded gale, flood or storm in the colonies would surface, and it is where §7's
-  tornado negative could be turned from "not in the compilations" into "not in the newspaper either". `HIST-TEX-020` and
-  `docs/battle-research/bexar-storming.md` both record earlier sessions hitting the same wall.
-- **The *Southwestern Historical Quarterly* run**, including Almonte's full journal (below) and Dilue Rose Harris's
-  reminiscences in the *Quarterly* volumes 4 and 7.
+- **A full-text sweep of the *Telegraph and Texas Register* for 1835-36.** This is now the single biggest gap in this
+  document. Four issues were read page by page — **San Felipe, 20 and 27 February, 12 and 24 March 1836**
+  (`metapth47883`, `metapth47887`, `metapth47889`, `metapth47891`, each at `/m1/2/ocr/`) — and **none carries a weather,
+  storm, flood or norther remark**; they are war news, the militia ordinance, the Convention, and Mrs. Dickinson's account
+  of the Alamo. **That is a sample, not a sweep**, and it cannot support "the paper carried no weather in 1835-36". Other
+  1835-36 ark IDs located but not read: `metapth47871` (9 Jan 1836), `metapth47874` (16 Jan), `metapth47880` (30 Jan).
+  `HIST-TEX-020` and `docs/battle-research/bexar-storming.md` record earlier sessions hitting the same wall.
+- **The *Southwestern Historical Quarterly* run**, including Almonte's full journal (below).
 
 **Exists, not readable from here:**
 
@@ -983,17 +1161,13 @@ read. What is behind it and would be worth having:
   at Sons of DeWitt Colony. **The missing weeks are 1-22 February (the march to Béxar) and 7 March - 16 April (the pursuit
   east, Harrisburg, New Washington, San Jacinto) — a daily weather record covering exactly the part of the campaign this
   document is thinnest on.** Getting it would be the highest-value single action anyone could take on this subject.
-- **William Fairfax Gray, *From Virginia to Texas, 1835* (1909).** Tried and failed, 2026-09-20, after downloading was
-  allowed: archive.org holds only the lending-restricted 1965 reprint (`fromvirginiatote0000will`) and its search-inside
-  endpoint answers "Item not available"; an archive.org catalogue search for any other copy found none; HathiTrust
-  (`chi.082928577`) returns "Blocked from HathiTrust"; Google Books (`c0REAQAAMAAJ`) returns HTTP 403 on its plain-text
-  download; Rice's TEI edition returns 403; the Portal to Texas History is behind the bot-check. **Only the one quotation
-  in §7.2 was read**, from Washington on the Brazos's own site. Gray carried a thermometer, read it, and was in the
-  colonies from early February to late April 1836 — **this is the best unread source for the subject and would very likely
-  close most of §3's March-April gap on its own.** It would take a library copy of the 1909 printing, or a TSHA Digital
-  Library membership, or someone answering the Portal's bot-check by hand.
-- **Dilue Rose Harris's reminiscences**, *Quarterly of the TSHA* vols 4 and 7. Quoted secondhand in `HIST-TEX-069` to
-  `-071` already; **not read here for weather**.
+- **The 1909 first edition of Gray** — *From Virginia to Texas, 1835*, Gray, Dillaye & Co. **Not reached.** Archive.org
+  holds only the lending-restricted 1965 reprint (`fromvirginiatote0000will`) and its search-inside answers "Item not
+  available"; a catalogue search found no other copy; HathiTrust (`chi.082928577`) returns "Blocked from HathiTrust";
+  Google Books (`c0REAQAAMAAJ`) returns 403 on its plain-text download and 429 on its API; Rice's TEI edition 301s to a
+  403. **The diary itself was read** — see §3.2 — but in the **1997 SMU edition**, so **every Gray page number in this
+  document is that edition's, not the 1909 printing's.** Anyone citing Gray to a class from a library copy will find
+  different page numbers and the same words.
 - **Grazulis, *Significant Tornadoes 1680-1991*** — not digitised anywhere reachable.
 - **Ludlum, *Early American Hurricanes 1492-1870*** — not quotable online; nothing direct for 1835 or 1836. Roth cites it
   and Roth was read, so this is covered at one remove.
@@ -1030,11 +1204,19 @@ everything below sits in this session's scratch directory
 
 - **Any dated Texas tornado, whirlwind or waterspout in 1835 or 1836.** §7.1.
 - **Any Texas tropical cyclone between 29 September 1835 and 25 April 1836.** §6.1.
-- **Any weather observation at all for the colonies between about 11 December 1835 and 13 February 1836.** This is the
-  document's real hole: **two months of the class's winter with nothing in it.** Maverick stops on 30 November, the
-  storming ends 10 December, and nothing is dated again until the snow on the Mexican army. Fort Jesup's monthly counts
-  (§8.8) cover it — 6 rain days in December, 13 in January — and are all there is.
-- **Any weather on 21 April 1836.** §3.3.
+- **Any dated weather observation in the colonies between 11 December 1835 and 30 January 1836.** This is the document's
+  remaining hole: **seven weeks of the class's winter with nothing dated in it.** Maverick stops on 30 November, the
+  storming ends 10 December, Gray does not reach Nacogdoches until 31 January, and Harris dates by month. What covers it:
+  Harris's **"The Brazos river was so low the steamboat couldn't go up"** for December, and Fort Jesup's monthly counts
+  (§8.8) — 6 rain days in December, 13 in January. **Those two agree**: a dry December, a wetter January.
+- **Any weather in Dilue Rose Harris's account of October or November 1835.** Both sections were read in full and contain
+  **none**; her Part III (*Quarterly* vol. VII, pp. 214-222) is "Retrospection", jumps to 1838, and has nothing for
+  1835-36 either. Her weather is all March and April 1836.
+- **Rain at Lynch's ferry.** A modern retelling of the Runaway Scrape has a storm on the night the refugees crossed the
+  San Jacinto. **Harris's published text does not say that.** At Lynch's she records the three-day wait, the five thousand
+  people and the near-riot, and **no weather at all**; the storm, the flood, the dark and the sickness are at the
+  **Trinity**, days later (§3.3). If a rain-at-Lynch's-ferry line is circulating, it is a modern writer's, not hers.
+- **Any weather on 21 April 1836.** §3.4.
 - **Any 1830s instrumental observer at Natchitoches, Nacogdoches or Matamoros.** Fort Jesup is effectively the
   Natchitoches record.
 - **Any Texas-specific temperature reconstruction for the early nineteenth century**, and any quantified statement from
@@ -1049,11 +1231,20 @@ winter the class plays through.
 
 ### 13.2 What a subagent got wrong, and how it was caught
 
-Three subagents did breadth work for this document and each was checked. One reported that Almonte's journal contains **no
-evidence of thermometer readings** and that it could not verify a single entry. That is wrong: the journal's daily
-thermometer readings were then found and read verbatim, and they are the backbone of §3 and §4. The lesson `docs/BIOMES.md`
-§14.2 already recorded holds here too — **a subagent's negative is a lead, not a finding.** Every quotation in this
-document was read at its source by this session, except where §13 says plainly that it was not.
+Four subagents did breadth work for this document and each was checked.
+
+**One was wrong in the way the project was warned about.** It reported that Almonte's journal contains **no evidence of
+thermometer readings** and that it could not verify a single entry. That is false: the journal's daily thermometer
+readings were then found and read verbatim by this session, and they are the backbone of §3 and §4. The lesson
+`docs/BIOMES.md` §14.2 already recorded holds here too — **a subagent's negative is a lead, not a finding.**
+
+**One found the thing everyone else had failed to reach**, and its Gray series (§3.2) is the largest single contribution
+to this document. It was not taken on trust: §3.2 sets out the two verbatim matches with sources this session had already
+read independently, and the five consecutive days on which the series agrees with Almonte's thermometer at Béxar.
+**Unhappily the Internet Archive went offline before the Wayback pages could be re-read here**, so §3.2 is the one part of
+this document whose sources this session did not open with its own hands, and it says so at its head.
+
+Everything else was read at its source by this session, except where §13 says plainly that it was not.
 
 ---
 
@@ -1073,9 +1264,21 @@ document was read at its source by this session, except where §13 says plainly 
   [sonsofdewittcolony.org/delgadosanj.htm](http://www.sonsofdewittcolony.org/delgadosanj.htm), read 2026-09-20.
 - **Sam Houston, official report of the battle of San Jacinto, 25 April 1836.**
   [texasbob.com/txdoc/texdoc15.html](https://texasbob.com/txdoc/texdoc15.html), read 2026-09-20.
-- **William Fairfax Gray, diary, 29 February - 1 March 1836**, one entry only, at
-  [wheretexasbecametexas.org/day-one-of-the-convention-of-1836/](https://wheretexasbecametexas.org/day-one-of-the-convention-of-1836/),
-  read 2026-09-20. Caveats in §7.2.
+- **William Fairfax Gray, diary, 31 January - 24 April 1836**, read page by page (pp. 78-165), 2026-09-20. The text is
+  *The Diary of William Fairfax Gray, from Virginia to Texas, 1835-1837*, ed. Paul Lack, William P. Clements Center for
+  Southwest Studies, SMU, 1997, which SMU published page by page at `sites.smu.edu/swcenter/FairfaxGray/` — **now a 404**,
+  and read through the Wayback Machine (captures of 2022-11-08 and, for the pages that capture is missing, 2007-06-25).
+  **Page numbers in §3.2 are the 1997 edition's.** The 1 March entry was separately read at
+  [wheretexasbecametexas.org/day-one-of-the-convention-of-1836/](https://wheretexasbecametexas.org/day-one-of-the-convention-of-1836/)
+  and matches word for word. **Verification status is set out in §3.2**: the Internet Archive went offline during this
+  work, so this session could not re-read the Wayback pages itself, and the series rests on two verbatim matches with
+  sources it did read plus five days of agreement with Almonte's independent thermometer.
+- **Dilue Rose Harris, "The Reminiscences of Mrs. Dilue Harris", Part II**, *The Quarterly of the Texas State Historical
+  Association* vol. IV, pp. 155-189 (Part I, pp. 85-127, and Part III, vol. VII, pp. 214-222, also read), from the
+  Internet Archive's scan of the *Quarterly*
+  ([archive.org/details/quarterlyoftexas4190texa](https://archive.org/details/quarterlyoftexas4190texa)), cross-checked
+  against the Sons of DeWitt Colony transcription, 2026-09-20. Her quotations here agree with those already in
+  `HIST-TEX-069` to `-071`, which is an internal check on both.
 - **U.S. Army Surgeon-General, *Meteorological Register for Twelve Years, from 1831 to 1842*** (Washington: C. Alexander,
   1851), [archive.org/details/meteorologicalre00unitrich](https://archive.org/details/meteorologicalre00unitrich). Monthly
   tables read from the page scans; year-end summaries re-read in the OCR text, 2026-09-20. §8.8.
