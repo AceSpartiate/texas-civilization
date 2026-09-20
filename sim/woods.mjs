@@ -58,6 +58,19 @@ export const CREEK_TIMBER_MILES = 0.1;
  * trees (`creek-draw`); through the prairies and the mesquite, none.
  */
 export const CREEK_STRIP_MILES = 0.045;
+/**
+ * And how wide the belt is on a running creek big enough to carry a name on the map - a bayou or a main creek (amended
+ * 2026-09-19). One rule for every running creek, an eighth of a mile of trees all told, left Harrisburg with 5 in 100 timber
+ * within three miles where the 2016 grid had 13, although Buffalo, Brays, Sims, Berry, Hunting and Vince bayous all run
+ * through it and the town sawed lumber by steam: docs/BIOMES.md §4.6 measured that very place and warned that the strip
+ * "must not simply be removed", and the width it chose removed it. Almonte, 1834, of the Brazos plains: "The plains in Brazos
+ * are intercepted every fifteen or twenty miles by strips of thick forest containing good wood for the construction of
+ * houses" (p. 202, `HIST-TEX-094`); TPWD puts the pre-settlement timber of the prairie belts in the bottoms of the larger
+ * rivers and creeks. A small unnamed branch keeps its fringe; a dry prairie creek still keeps nothing (`HIST-TEX-094`).
+ * ceiling: "named on the map" is USGS's naming, a modern hand, used here only as a stand-in for the size of the stream; the
+ * General Land Office's bearing trees would give the true belt.
+ */
+export const CREEK_GALLERY_MILES = 0.14;
 /** A river or running creek through a town's fields keeps a line of trees on its bank this far out (docs/BIOMES.md §5.1). */
 export const BANK_MILES = 0.04;
 /** A patch with at least this many log-sized trees an acre is timber for the going, clearing and the house site. */
@@ -406,6 +419,13 @@ export const countsTrees = rule => rule === 'biomes' || rule === 'landfire';
 /** Under the biomes, the stands a creek that runs all year carries its timber through; the brush country's is its own river woods. */
 const PERENNIAL_STRIP = new Set(['tallgrass-prairie', 'coastal-prairie', 'mixedgrass-prairie', 'mesquite-savanna', 'chaparral', 'post-oak', 'cross-timbers', 'hill-savanna']);
 const THORN_STRIP = new Set(['mesquite-savanna', 'chaparral']);
+/**
+ * And the stands where a named running creek carries a belt and not a fringe (`CREEK_GALLERY_MILES`): the plains, whose
+ * creeks run in wide alluvial bottoms - Almonte's "strips of thick forest" on the Brazos plains, Harrisburg's bayous. Not
+ * the Hill Country: a creek there runs in a limestone channel and keeps "a thin belt of wood" (Olmsted p. 445), and
+ * widening it would put the hills back at two in five timber, which `HIST-TEX-102` says they were not.
+ */
+const GALLERY_STRIP = new Set(['tallgrass-prairie', 'coastal-prairie', 'mixedgrass-prairie', 'mesquite-savanna', 'chaparral', 'post-oak', 'cross-timbers']);
 /** And the stands an intermittent creek keeps a few trees in. Through the prairies and the mesquite it keeps none. */
 const DRAW_STRIP = new Set(['post-oak', 'cross-timbers', 'hill-savanna']);
 const STRIP_2016 = new Set(['prairie', 'post-oak', 'hill-savanna', 'brush']);
@@ -426,7 +446,11 @@ export function standAt(point, { rule = 'biomes', nearCreek = null, timberAt = n
   if (!nearCreek) return stand;
   if (rule === 'landfire') return STRIP_2016.has(stand) && nearCreek(point, CREEK_TIMBER_MILES) ? 'creek' : stand;
   if (stand === 'fields') return nearCreek(point, BANK_MILES, 'bank') ? 'bank' : stand;
-  if (PERENNIAL_STRIP.has(stand) && nearCreek(point, CREEK_STRIP_MILES, 'perennial')) return THORN_STRIP.has(stand) ? 'thorn-riparian' : 'creek';
+  // A running creek carries timber as wide as the creek is big: a belt on a named bayou or main creek, a fringe on an
+  // unnamed branch (`CREEK_GALLERY_MILES`, `CREEK_STRIP_MILES`).
+  if (PERENNIAL_STRIP.has(stand) && ((GALLERY_STRIP.has(stand) && nearCreek(point, CREEK_GALLERY_MILES, 'gallery')) || nearCreek(point, CREEK_STRIP_MILES, 'perennial'))) {
+    return THORN_STRIP.has(stand) ? 'thorn-riparian' : 'creek';
+  }
   if (DRAW_STRIP.has(stand) && nearCreek(point, CREEK_STRIP_MILES, 'intermittent')) return 'creek-draw';
   return stand;
 }

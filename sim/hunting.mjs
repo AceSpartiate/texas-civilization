@@ -16,6 +16,7 @@ import { choosing } from './homesite.mjs';
 import { whereFromHouse } from './survey.mjs';
 import { QUARRY, countsTrees, patchAt, patchCover, standOf, woodsRule, PATCH_MILES } from './woods.mjs';
 import { distanceToPolyline } from './terrain.mjs';
+import { realTerrain } from './terrain-data.mjs';
 import { dateOf } from './clock.mjs';
 
 /** How much better the edge of timber is for game than the middle of a stand, added to its game, most 1. */
@@ -40,19 +41,96 @@ export const EDGE_GAME = 0.2;
  * `-109`. ceiling: a kill bigger than one person carries leaves the rest where it fell; bringing the ox out to it is the way out.
  */
 const WINTER = Object.freeze([10, 11, 0, 1, 2]);
+/** The buffalo's months: Berlandier has them going north "in April or May" and back south in September and October (`HIST-TEX-201`). */
+const BISON_MONTHS = Object.freeze([9, 10, 11, 0, 1, 2, 3]);
 export const GAME = Object.freeze({
   deer: Object.freeze({ a: 'a deer', meat: 10, hide: 1, covers: ['timber', 'brush', 'open'], weight: 3 }),
   turkey: Object.freeze({ a: 'a turkey', meat: 4, hide: 0, covers: ['timber', 'brush'], weight: 2 }),
   bear: Object.freeze({ a: 'a bear', meat: 12, hide: 1, covers: ['timber', 'brush'], weight: 1 }),
-  bison: Object.freeze({ a: 'a buffalo', meat: 20, hide: 1, covers: ['open'], months: WINTER, weight: 1 }),
-  pronghorn: Object.freeze({ a: 'an antelope', meat: 6, hide: 1, covers: ['open'], weight: 1 }),
-  mustang: Object.freeze({ a: 'a mustang', meat: 10, hide: 1, covers: ['open', 'brush'], weight: 1 }),
-  cattle: Object.freeze({ a: 'a wild cow', meat: 12, hide: 1, covers: ['open', 'brush'], weight: 1 }),
-  javelina: Object.freeze({ a: 'a javelina', meat: 4, hide: 1, covers: ['brush'], weight: 2 }),
-  waterfowl: Object.freeze({ a: 'ducks and geese', meat: 4, hide: 0, covers: ['open', 'timber'], months: WINTER, flocks: 1, weight: 3 }),
+  bison: Object.freeze({ a: 'a buffalo', meat: 20, hide: 1, covers: ['open'], months: BISON_MONTHS, range: 'west-of-the-lavaca', weight: 1 }),
+  pronghorn: Object.freeze({ a: 'an antelope', meat: 6, hide: 1, covers: ['open'], range: 'west-of-the-lavaca', weight: 1 }),
+  mustang: Object.freeze({ a: 'a mustang', meat: 10, hide: 1, covers: ['open', 'brush'], range: 'west-of-the-lavaca', weight: 1 }),
+  cattle: Object.freeze({ a: 'a wild cow', meat: 12, hide: 1, covers: ['open', 'brush'], range: 'west-of-the-lavaca', weight: 1 }),
+  javelina: Object.freeze({ a: 'a javelina', meat: 4, hide: 1, covers: ['brush'], range: 'west-of-the-lavaca', weight: 2 }),
+  waterfowl: Object.freeze({ a: 'ducks and geese', meat: 4, hide: 0, covers: ['open', 'timber'], months: WINTER, range: 'by-water', flocks: 1, weight: 3 }),
 });
 /** What a deer is worth on the open ground away from any timber's edge: it feeds out of the cover, and is seldom far out. */
 const OPEN_DEER_WEIGHT = 1;
+
+/**
+ * Where a quarry is found, over and above the stand that holds it (`GAME[...].range`, 2026-09-19). docs/BIOMES.md §7.1 wrote
+ * these limits into its own table - "wild cattle and mustangs **west of the Lavaca**", "bison **north and west of the
+ * Colorado**, seasonal, rare", "waterfowl **in winter**" - and they were lost when the table became a flat list of ids, so a
+ * wild cow or a mustang came to one prairie hunt in three at San Felipe, Columbia and Liberty, and ducks sat on dry prairie
+ * forty miles from any water. The sources are plainest on two lines:
+ *
+ *   `west-of-the-lavaca`     Woodman, 1835, of the wild horses: they "abound particularly on the river Nueces, and far in the
+ *                            interior", but "Within the organized settlements they are not numerous, and are rapidly
+ *                            diminishing" (p. 60); Holley puts the wild horses between the Guadalupe and the Nueces (p. 21).
+ *                            Of the buffalo, Woodman: "Buffalo are seldom seen near the coast" (p. 60); Berlandier, through
+ *                            Hornaday, has them gone from the colonized districts since 1828, while keeping bands that
+ *                            "remain stationary throughout the whole year" on the Guadalupe and the Colorado - which is why
+ *                            Gonzales, the frontier, keeps its buffalo and the Brazos does not (`HIST-TEX-200`,
+ *                            `HIST-TEX-201`). **The Lavaca is the line** - §7.1's own, taken from the river the map draws,
+ *                            and stricter for the buffalo than §7.1's Colorado (`FIC-GONZ-120`). It leaves the wild herds to
+ *                            Béxar, Goliad, Refugio, Victoria, Gonzales and Mina, and takes them from San Felipe, Columbia,
+ *                            Brazoria, Washington, Matagorda and Liberty. The **antelope and the javelina** are held to the
+ *                            same country, and for the same reason: Holley puts the "Pecari or Mexican hog" on the
+ *                            frontiers (p. 95) and Olmsted's one small herd of antelope is west of San Antonio
+ *                            (`HIST-TEX-104`). Without it a Matagorda family hunted antelope, because LANDFIRE files a
+ *                            hundred square miles of thornscrub inside EPA 34a and 34h, the humid coastal prairie and the
+ *                            barrier islands, and the Nueces line files all of it as mesquite prairie (`HIST-TEX-200`).
+ *   `by-water`               Woodman, 1835: "In the winter season, the waters near the coast are literally covered with wild
+ *                            fowl" (p. 59), and "Geese and ducks resort in great numbers to the interior waters" (p. 60). The
+ *                            fowl are on the water, coast or inland, and not on the dry prairie between (`HIST-TEX-202`).
+ *                            A quarter of a mile is the game's reading of "on the water" (`FIC-GONZ-120`).
+ */
+export const WATERFOWL_MILES = 0.25;
+/** Marsh and swamp are water themselves, whatever the map's courses say runs near. */
+const WET_STANDS = new Set(['marsh', 'salt-prairie', 'cypress-swamp']);
+
+let lavaca = null;
+/**
+ * Whether a place lies west of the Lavaca, from the river the map draws: a ray due east crosses it an odd number of times
+ * from the west bank. The river is run on due north from its head and due south from its mouth, so the country above it and
+ * the coast below it fall on its own side. ceiling: the drawn bank is the line, so two neighbours on opposite banks are in
+ * different countries for the wild herds - which is what a frontier on a river is.
+ */
+export function westOfTheLavaca(point) {
+  if (!lavaca) {
+    const segments = [];
+    let north = null, south = null;
+    for (const course of realTerrain().courses) {
+      if (course.name !== 'Lavaca River') continue;
+      for (let i = 1; i < course.points.length; i++) segments.push([course.points[i - 1], course.points[i]]);
+      for (const p of course.points) { if (!north || p.y < north.y) north = p; if (!south || p.y > south.y) south = p; }
+    }
+    if (north) segments.push([{ x: north.x, y: -10000 }, north], [south, { x: south.x, y: 10000 }]);
+    lavaca = { segments, at: new Map() };
+  }
+  const key = Math.round(point.y * 64);
+  let crossings = lavaca.at.get(key);
+  if (!crossings) {
+    const y = key / 64;
+    crossings = [];
+    for (const [a, b] of lavaca.segments) {
+      if ((a.y > y) === (b.y > y)) continue;
+      crossings.push(a.x + (b.x - a.x) * ((y - a.y) / (b.y - a.y)));
+    }
+    lavaca.at.set(key, crossings);
+  }
+  let east = 0;
+  for (const at of crossings) if (at > point.x) east++;
+  return east % 2 === 1;
+}
+
+/** Whether the quarry that wants a range finds one at this place. `near` says how far the nearest water is, in miles. */
+function inRange(id, point, stand, near) {
+  const range = GAME[id]?.range;
+  if (!range) return true;
+  if (range === 'west-of-the-lavaca') return westOfTheLavaca(point);
+  return WET_STANDS.has(stand) || (near !== null && near <= WATERFOWL_MILES);
+}
 
 /** A number in [0, 1) fixed for a patch: which of the quarry that could come there is the one that does. */
 function patchShare(px, py) {
@@ -88,7 +166,10 @@ export function huntingPlace(world, point) {
   const edge = around.some(cover => (cover === 'timber') !== timberHere);
   const stand = standOf(here.stand, countsTrees(rule) ? rule : 'landfire');
   const game = Math.min(1, (stand.game ?? 0) + (edge ? EDGE_GAME : 0));
-  const quarry = rule === 'biomes' ? stand.quarry || [] : null;
+  // What the stand holds, less what this particular place is out of the range of (`inRange`): the wild herds west of the
+  // Guadalupe, the ducks and geese on the water.
+  const near = rule === 'biomes' ? landAround().nearestWater(point, () => true, WATERFOWL_MILES)?.distance ?? null : null;
+  const quarry = rule === 'biomes' ? (stand.quarry || []).filter(id => inRange(id, point, here.stand, near)) : null;
   return {
     ...here, name: stand.name, quarry, edge, game: Math.round(game * 100) / 100,
     // Which of them a hunter waiting here would see (`quarryAt`): the biomes only; every other class's hunt finds a deer.

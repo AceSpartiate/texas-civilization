@@ -102,9 +102,15 @@ test('a student is sent exactly what it was before: its own people, who it can s
     assert.ok(view.entities.every(entity => entity.householdId === householdId), `${householdId} was sent another family's people as its own`);
     // The fog is real: most of the class is not in this family's payload at all.
     const wire = JSON.stringify(view);
-    const hidden = [...everyone].filter(id => !view.others.some(other => other.id === id) && !view.entities.some(own => own.id === id));
+    // Except the keeper of a shop the family itself dealt at: since 2026-09-19 a town errand keeps `traderId` on the
+    // family's own chore, beside the keeper's name in plain words, all the way home. It is the family's own record of its
+    // own business, not another family's. (Found 2026-09-19: the test's wire scan had no allowance for it, and any change
+    // of timing that let an errand finish inside the 150 ticks would have tripped it.)
+    const dealtWith = new Set(view.entities.flatMap(own => own.chore?.traderId ? [own.chore.traderId] : []));
+    const hidden = [...everyone].filter(id => !view.others.some(other => other.id === id) && !view.entities.some(own => own.id === id) && !dealtWith.has(id));
     assert.ok(hidden.length > everyone.size / 2, `${householdId} could see most of the class`);
     for (const id of hidden) assert.ok(!wire.includes(`"${id}"`), `${householdId} was sent ${id}, whom it cannot see`);
+    for (const id of dealtWith) assert.ok(/^town-(store|shop|smith|tanner|mill|keeper)/.test(id) || world.entities[id]?.town, `${householdId} kept the id of ${id}, who is no shop`);
   }
 });
 

@@ -174,10 +174,13 @@ export function landAround(box) { // eslint-disable-line no-unused-vars
    * a patch of ten or more log-sized trees an acre is timber and mesquite is brush; under the old rule timber is along the
    * water (HIST-GONZ-012). Either way steep open ground is broken and grown up in brush.
    */
-  // `flow` (sim/woods.mjs `standAt`): 'perennial' a creek that runs all year, 'intermittent' one that does not, 'bank' any
-  // river or creek that runs all year; none, any creek at all (the 2016 rule's strip; docs/BIOMES.md §4.6).
+  // `flow` (sim/woods.mjs `standAt`): 'perennial' a creek that runs all year, 'gallery' one of those big enough to carry a
+  // name on the map (a bayou or a main creek, whose bottom carried a belt of timber, not a fringe: docs/BIOMES.md §4.6 as
+  // amended 2026-09-19), 'intermittent' one that does not run all year, 'bank' any river or creek that runs all year; none,
+  // any creek at all (the 2016 rule's strip).
   const FLOWS = {
     perennial: info => info.kind === 'creek' && info.perennial,
+    gallery: info => info.kind === 'creek' && info.perennial && Boolean(info.name),
     intermittent: info => info.kind === 'creek' && !info.perennial,
     bank: info => info.perennial,
   };

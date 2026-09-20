@@ -150,12 +150,19 @@ because there's no woods. thats okay"*; and, by multiple choice, the woods round
   mesquite prairie, chaparral, post oak, cross timbers, pine, longleaf, the Big Thicket, bottomland (with cane in the coastal
   bottoms), canebrake, cypress swamp, creek timber, the brush country's river woods, palm groves, live oak mottes, hill country
   savanna, cedar brake, marsh, fields, water. The table in §4.1 is the 2016 grid's and stays true for a class made that week.
-- **Creek timber only where a creek runs all year**: a perennial creek keeps a strip one or two patches wide (`CREEK_STRIP_MILES`,
-  0.045 either side); an intermittent one through post oak, cross timbers or the hills a few scattered trees (`creek-draw`, open
-  ground); through the prairies and the mesquite, none. A river through a town's fields keeps a line of bank trees (`bank`).
+- **Creek timber only where a creek runs all year, and as wide as the creek is big**: a running creek big enough to carry a
+  name on the map — a bayou or a main creek — keeps a belt 0.14 mile either side through the plains (`CREEK_GALLERY_MILES`,
+  `GALLERY_STRIP`, amended 2026-09-19: Almonte's "strips of thick forest" on the Brazos plains, `FIC-GONZ-121`); an unnamed
+  running branch, and any running creek in the Hill Country, keeps a fringe one or two patches wide (`CREEK_STRIP_MILES`,
+  0.045 either side); an intermittent creek through post oak, cross timbers or the hills a few scattered trees (`creek-draw`,
+  open ground); through the prairies and the mesquite, none. A river through a town's fields keeps a line of bank trees
+  (`bank`). `ceiling:` whether a creek runs all year is USGS's word for today, not 1835 (`docs/COLONIES.md` §9), and "named
+  on the map" is USGS's naming standing in for the size of the stream.
 - **Each stand says what may be hunted there** (`quarry`). **Amended the same day** ([BIOME_GAMEPLAY](BIOME_GAMEPLAY.md) §3.1):
   the hunt brings the quarry its place holds, fixed by the patch, its cover and the month, said before the hunter goes, and
-  only a deer is drawn.
+  only a deer is drawn. **Amended again 2026-09-19** (§8 there, `FIC-GONZ-120`): a quarry may also have a country of its own —
+  the buffalo, the mustang, the wild cow, the antelope and the javelina west of the Lavaca, the ducks and geese within a
+  quarter mile of water — so the stand says what could be there and the place says what is.
 - **A class made from 2026-09-15 to 2026-09-19** recorded `landfire-2016` and keeps reading that grid, byte for byte
   (`public/terrain/colonies-woods-2016.*`, rule `landfire`, `STANDS_2016`): its felled trees are found by their ids where they
   stood. A new class records `biomes-1836`. No save version moved (§7).

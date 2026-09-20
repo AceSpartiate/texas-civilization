@@ -1,0 +1,118 @@
+{
+  "label": "crit-before",
+  "date": "2026-09-20",
+  "sameComputerOnly": true,
+  "browser": "152.0.7977.83",
+  "viewport": "1280x800",
+  "shots": [
+    {
+      "name": "whole",
+      "scale": 3.03,
+      "centre": {
+        "x": 28.38,
+        "y": -31.62
+      },
+      "path": "docs/evidence/biomes/crit-before-whole.png"
+    },
+    {
+      "name": "bexar-alamo-close",
+      "scale": 239.77,
+      "centre": {
+        "x": -61.18,
+        "y": 4.55
+      },
+      "path": "docs/evidence/biomes/crit-before-bexar-alamo-close.png"
+    },
+    {
+      "name": "bexar-fields",
+      "scale": 59.7,
+      "centre": {
+        "x": -61.33,
+        "y": 7.1
+      },
+      "path": "docs/evidence/biomes/crit-before-bexar-fields.png"
+    },
+    {
+      "name": "gonzales",
+      "scale": 59.7,
+      "centre": {
+        "x": 1.11,
+        "y": -0.74
+      },
+      "path": "docs/evidence/biomes/crit-before-gonzales.png"
+    },
+    {
+      "name": "coastal-prairie-harrisburg",
+      "scale": 32.9,
+      "centre": {
+        "x": 136.84,
+        "y": -17.84
+      },
+      "path": "docs/evidence/biomes/crit-before-coastal-prairie-harrisburg.png"
+    },
+    {
+      "name": "buffalo-bayou-harrisburg",
+      "scale": 161.17,
+      "centre": {
+        "x": 132.11,
+        "y": -15.97
+      },
+      "path": "docs/evidence/biomes/crit-before-buffalo-bayou-harrisburg.png"
+    },
+    {
+      "name": "piney-woods-nacogdoches",
+      "scale": 32.9,
+      "centre": {
+        "x": 169.98,
+        "y": -145.26
+      },
+      "path": "docs/evidence/biomes/crit-before-piney-woods-nacogdoches.png"
+    },
+    {
+      "name": "big-thicket",
+      "scale": 12.19,
+      "centre": {
+        "x": 182.03,
+        "y": -66.05
+      },
+      "path": "docs/evidence/biomes/crit-before-big-thicket.png"
+    },
+    {
+      "name": "lost-pines-bastrop",
+      "scale": 32.9,
+      "centre": {
+        "x": 9.09,
+        "y": -42.64
+      },
+      "path": "docs/evidence/biomes/crit-before-lost-pines-bastrop.png"
+    },
+    {
+      "name": "hill-country",
+      "scale": 12.19,
+      "centre": {
+        "x": -55.98,
+        "y": -45.39
+      },
+      "path": "docs/evidence/biomes/crit-before-hill-country.png"
+    },
+    {
+      "name": "south-texas",
+      "scale": 8.19,
+      "centre": {
+        "x": -74.06,
+        "y": 109.58
+      },
+      "path": "docs/evidence/biomes/crit-before-south-texas.png"
+    },
+    {
+      "name": "pine-close",
+      "scale": 1432.56,
+      "centre": {
+        "x": 160.94,
+        "y": -128.04
+      },
+      "path": "docs/evidence/biomes/crit-before-pine-close.png"
+    }
+  ],
+  "errors": []
+}
