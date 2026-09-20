@@ -51,8 +51,6 @@ clean detached worktree. **The release is [v2026.09.20.3](https://github.com/Ace
 191.7 MB → 212.4 MB, which is the art embedded in the executable.
 
 **2. What is left open, in the order I would take it.**
-- **`button-up-to-date.png` is on main and not wired.** `button-update-available.png` is. The owner asked that the
-  up-to-date plate show after a check finds nothing and **return to the ordinary plate after a moment**.
 - **`FIC-GONZ-135` is part built:** weather costs the road (the wade, the shut ford, the bog) but not the hunt — no rain
   making a hunt worse, no fog making it better, no wet powder. `docs/WEATHER.md` §10.5.
 - **Two crossings still graze a bank** because the road runs in the creek bottom for a stretch; the crossings audit says so
@@ -112,6 +110,21 @@ east is the day after - and my own first draft of the seasonal test counted summ
 which is a test that checks nothing. The measured shut-day figure is corrected everywhere it appears: not "0 to 4 days of
 210" from three classes but a **median of 3 over 200 classes**, none at all in 19% of them and 16 in the worst. 800
 tests. Same computer only.
+
+**The plate that says you are current, 2026-09-20:** `launcher/PlateArt.cs`, `launcher/LauncherForm.cs`, the owner's
+`button-up-to-date.png`. The last of the ten plates to be wired. A check the teacher asked for that finds nothing now
+wears the green badge with the tick, and **after four seconds the button goes back to the ordinary "Check for updates"
+slate** - the owner: "After an appropriate amount of time, it should go back to default." The quiet look on the way into
+the launcher still says and shows nothing, because a teacher opening this two minutes before a lesson did not ask. The
+badge never covers the amber one: if an update is waiting, or turns up while the green badge is on screen, the news
+outranks the reassurance and the badge leaves the amber plate alone. The plate is cut to its own alpha (1881 x 836,
+RGBA, box measured off the file at 14,108,1849 x 591) exactly as the amber badge is, so nothing is keyed out of it. One
+fault fixed on the way: the column's worst-case height counted whichever plate `_updates` happened to be wearing, so the
+**whole column resized the moment a badge appeared**; both badges are now counted at their tallest and nothing moves.
+Evidence, photographed off this machine with the branch forced and the exe standing in a staged installation:
+[launcher-up-to-date.png](docs/evidence/launcher/launcher-up-to-date.png) with the badge up, and
+[launcher-up-to-date-after.png](docs/evidence/launcher/launcher-up-to-date-after.png) six seconds later with the slate
+plate back. Same computer only.
 
 **The launcher's face, 2026-09-20:** `launcher/TitleScene.cs`, `launcher/PlateArt.cs`, `launcher/SceneControls.cs`, the
 owner's painting and ten plates under `launcher/art/`. It registers **no claim ID**: nothing in it is a statement about

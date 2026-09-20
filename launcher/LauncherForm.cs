@@ -14,7 +14,7 @@ namespace TexasRevolution.Launcher;
 ///
 /// <para><b>What it looks like, and why (2026-09-20).</b> The owner drew the window they wanted
 /// and then had the art made for it: a painting behind everything (<see cref="TitleScene"/>) and
-/// eight cast plates with their labels and marks already in them (<see cref="PlateArt"/>). So
+/// ten cast plates with their labels and marks already in them (<see cref="PlateArt"/>). So
 /// this window is a stack of things drawn on one picture rather than a stack of grey boxes, and
 /// the three rules that follow from that are worth naming:</para>
 ///
@@ -78,6 +78,10 @@ public sealed class LauncherForm : Form, IBackdrop
 
     private readonly System.Windows.Forms.Timer _poll = new() { Interval = 1500 };
     private readonly System.Windows.Forms.Timer _reveal = new() { Interval = 16 };
+    // "After an appropriate amount of time, it should go back to default" (owner, 2026-09-20, of the
+    // plate that says the game is up to date). Four seconds: long enough to read a badge you were
+    // waiting for, short enough that the window is not still claiming it half a lesson later.
+    private readonly System.Windows.Forms.Timer _upToDate = new() { Interval = 4000 };
     private readonly Dictionary<PlateButton, float> _shown = new();
     private Bitmap? _backdrop;
     private Size _backdropFor = Size.Empty;
@@ -148,6 +152,7 @@ public sealed class LauncherForm : Form, IBackdrop
 
         _reveal.Tick += (_, _) => StepReveal();
         _poll.Tick += async (_, _) => await RefreshAsync();
+        _upToDate.Tick += (_, _) => WearOrdinaryUpdatePlate();
         Load += async (_, _) =>
         {
             FitToScreen(honourSaved: true);
@@ -163,6 +168,7 @@ public sealed class LauncherForm : Form, IBackdrop
             RememberPlace();
             _poll.Stop();
             _reveal.Stop();
+            _upToDate.Stop();
             // A playtest server this window started goes with it, through the same graceful
             // stop as a class. Not awaited: the script outlives the window, and a solo game is
             // a scratch pad with nothing in it worth holding the window open for.
@@ -341,6 +347,7 @@ public sealed class LauncherForm : Form, IBackdrop
             _ownFonts.Clear();
             _poll.Dispose();
             _reveal.Dispose();
+            _upToDate.Dispose();
             _tips.Dispose();
         }
         base.Dispose(disposing);
@@ -584,6 +591,7 @@ public sealed class LauncherForm : Form, IBackdrop
         {
             PlateArt.Stop => 0.885f,
             PlateArt.UpdateAvailable => 0.80f,
+            PlateArt.UpToDate => 0.86f,
             _ => button == _power || button == _solo ? 1f : 0.88f,
         };
         return (share, PlateArt.AspectOf(art));
@@ -595,10 +603,13 @@ public sealed class LauncherForm : Form, IBackdrop
     /// <remarks>
     /// That is the class running: seven plates up and the stop sign - the tallest the primary row
     /// ever is - in the first of them. Working the column's width out from this and not from the
-    /// state on screen is what stops a plate changing size as plates come and go. It is measured
-    /// from the plates the window is actually carrying, because two of them change picture: the
-    /// primary between start and stop, and updates between "Check for updates" and the badge,
-    /// which is nearly twice as tall as the plate it replaces.
+    /// state on screen is what stops a plate changing size as plates come and go.
+    ///
+    /// <para>Two of the plates change picture, and both are counted at their tallest rather than at
+    /// the one they happen to be wearing: the primary between start and stop, and updates between
+    /// "Check for updates" and either badge - the amber one, which is nearly twice as tall as the
+    /// plate it replaces, or the green one that says the game is current. Counting the plate on
+    /// screen instead made the whole column resize the moment a badge appeared.</para>
     /// </remarks>
     private float WorstCaseColumn()
     {
@@ -607,7 +618,9 @@ public sealed class LauncherForm : Form, IBackdrop
         {
             var (share, aspect) = button == _power
                 ? (0.885f, PlateArt.AspectOf(PlateArt.Stop))
-                : Shape(button);
+                : button == _updates
+                    ? (0.80f, Math.Min(PlateArt.AspectOf(PlateArt.UpdateAvailable), PlateArt.AspectOf(PlateArt.UpToDate)))
+                    : Shape(button);
             total += share / Math.Max(0.5f, aspect);
         }
         return Math.Max(0.3f, total);
@@ -902,6 +915,25 @@ public sealed class LauncherForm : Form, IBackdrop
         catch { Say($"Windows would not let go of the clipboard. The {what} is {value}"); }
     }
 
+    /// <summary>
+    /// Put the slate "Check for updates" plate back after the green badge has had its moment.
+    /// </summary>
+    /// <remarks>
+    /// Never over the amber one. If a check ran while an update was already waiting - or one is
+    /// found between the badge going up and this firing - the news outranks the reassurance, and
+    /// this leaves it alone.
+    /// </remarks>
+    private void WearOrdinaryUpdatePlate()
+    {
+        _upToDate.Stop();
+        if (_available is not null || _updates.Plate != PlateArt.UpToDate) return;
+        _updates.Text = "Check for updates";
+        _updates.Plate = "button-check-for-updates";
+        _updates.Accent = Palette.ButtonFill;
+        LayoutStack();
+        _updates.Invalidate();
+    }
+
     /// <summary>Look, and then - if there is something - offer to install it.</summary>
     private async Task UpdatesClickedAsync()
     {
@@ -925,7 +957,19 @@ public sealed class LauncherForm : Form, IBackdrop
                 if (announce) Say($"This is a working copy rather than an installed release. The latest published is {release.Tag}.");
                 break;
             case false:
-                if (announce) Say($"Up to date — {release.Tag}.");
+                if (announce)
+                {
+                    Say($"Up to date — {release.Tag}.");
+                    // The owner's green badge, for as long as it is news. Only when the teacher
+                    // asked: the quiet look on the way in says nothing and should show nothing.
+                    _updates.Text = $"Up to date — {release.Tag}";
+                    _updates.Plate = PlateArt.UpToDate;
+                    _updates.Accent = Palette.StartGreen;
+                    LayoutStack();
+                    _updates.Invalidate();
+                    _upToDate.Stop();
+                    _upToDate.Start();
+                }
                 break;
             case true:
                 _available = release;

@@ -70,7 +70,7 @@ internal static class Program
 
         ApplicationConfiguration.Initialize();
         // Nothing about how this window looks may put a dialog in front of a teacher. Since
-        // 2026-09-20 the window is a painting and eight cast plates, all of them decoded at
+        // 2026-09-20 the window is a painting and ten cast plates, all of them decoded at
         // start-up, and an image that cannot be read has to end in plain colour and a line in
         // the error file rather than in Windows' crash box - which is modal, which arrives
         // before the teacher has done anything, and which says nothing they can act on.

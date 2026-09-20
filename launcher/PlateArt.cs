@@ -13,7 +13,7 @@ namespace TexasRevolution.Launcher;
 ///
 /// <list type="number">
 /// <item><b>Trimmed to the sign.</b> The black field is not part of the art. The seven straight
-/// plates were measured and all eight sit within a pixel or two of the same box, so the box is a
+/// plates were measured and all seven sit within a pixel or two of the same box, so the box is a
 /// constant rather than something computed per plate at every start-up.</item>
 /// <item><b>Resampled once</b> to a master sixteen hundred pixels wide - more than the widest
 /// plate this window will ever draw, on the largest screen at the highest scaling - and the
@@ -31,7 +31,7 @@ namespace TexasRevolution.Launcher;
 /// with it so the keyboard, the narrator and the accessibility tree still have the words.</para>
 ///
 /// <para>ceiling: one master per plate at a fixed width, and every button scales from it at paint
-/// time. Eight masters is about seventeen megabytes of memory, held for the life of the window,
+/// time. Ten masters is about twenty megabytes of memory, held for the life of the window,
 /// and no measurable paint cost at this size. If plates are ever wanted much larger, cache a
 /// scaled copy per drawn size instead of raising this.</para>
 /// </remarks>
@@ -40,6 +40,8 @@ internal static class PlateArt
     public const string Stop = "button-stop-the-class";
 
     public const string UpdateAvailable = "button-update-available";
+
+    public const string UpToDate = "button-up-to-date";
 
     /// <summary>
     /// Where the sign sits inside its picture, and how dark its field is.
@@ -58,10 +60,14 @@ internal static class PlateArt
     {
         // A red sign with a torn Lone Star flag over its left end, on pure black: 1774 x 887.
         [Stop] = new Cut(new Rectangle(30, 96, 1715, 674), 13),
-        // The only one of the ten delivered with real transparency (1536 x 1024, RGBA). It needs no
+        // One of the two delivered with real transparency (1536 x 1024, RGBA). It needs no
         // key at all: it is cut to what its own alpha covers - the badge, the overhanging roundel,
         // the exclamation mark above it and the warm glow round the lot - and composited as it is.
         [UpdateAvailable] = new Cut(new Rectangle(10, 228, 1513, 515), 0),
+        // The answer to the other one: the same badge shape saying the game is current (1881 x 836,
+        // RGBA, supplied 2026-09-20). Like the amber badge it carries its own alpha, so the box is
+        // what that alpha covers - measured off the file, not guessed - and nothing is keyed out.
+        [UpToDate] = new Cut(new Rectangle(14, 108, 1849, 591), 0),
     };
 
     private static Cut CutFor(string name) => Cuts.TryGetValue(name, out var cut) ? cut : Straight;
@@ -121,7 +127,7 @@ internal static class PlateArt
         // while its darkest weathered red is 19, so it is flooded harder - and must be, because
         // its outline is a torn flag. Flooding the stop sign at the straight plates' threshold was
         // tried first and washed the whole red field half-transparent.
-        // The update badge came with an alpha channel and is left alone.
+        // The two update badges came with an alpha channel and are left alone.
         if (cut.FloodBelow > 0)
             try { KeyFromBorder(master, cut.FloodBelow); } catch { /* an unkeyed plate is still a plate */ }
         return master;
