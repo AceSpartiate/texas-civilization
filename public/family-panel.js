@@ -27,6 +27,10 @@ export const PANEL_SUMMARIES = Object.freeze({
   'hunt-timber': 'Go out to the nearest timber or brush to hunt, and carry home what they can.',
   'hunt-land': 'Hunt at a place you choose on the family’s own land, and carry home what they can.',
   'practise-shooting': 'Spend an afternoon and two powder shooting at a mark to steady their aim.',
+  'take-small-game': 'An hour after squirrels and rabbits in the timber: one shot, and nobody comes home empty.',
+  'fish-the-water': 'Sit down at the water with a line and bring home what is on it, with no powder and no knack needed.',
+  'gather-oysters': 'Walk down to the beds along the shore and gather what can be carried home.',
+  'cut-bee-tree': 'Take the axe to the tree the bees are working, and bring the honey home.',
   'sell-cotton': 'Carry the cotton to the store in town and trade it for food or coin.',
   'fetch-powder': 'Go to the store in town and buy powder and lead.',
   'fetch-seed': 'Go to the store in town and buy seed.',
@@ -93,6 +97,10 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
   // Fetching logs from the timber (sim/chores.mjs, docs/BIOME_GAMEPLAY.md §3.2): no frame yet. stand-in: docs/ART_REQUESTS.md,
   // request 2026-09-19 - the logs fetched from the timber; a glyph drawn by `drawGlyph` until `icon-fetch-logs` is registered.
   ['fetch-logs', { glyph: 'fetch-logs' }],
+  // What a family ate between deer (sim/gathering.mjs, docs/BIOMES.md §17.3): no frames yet. stand-in: docs/ART_REQUESTS.md,
+  // request 2026-09-20 - the gathering icons; each is a glyph drawn by `drawGlyph` until `icon-<key>` is registered.
+  ['take-small-game', { glyph: 'small-game' }], ['fish-the-water', { glyph: 'fish' }],
+  ['gather-oysters', { glyph: 'oysters' }], ['cut-bee-tree', { glyph: 'bee-tree' }],
 ]));
 /** The camp's work, the chores a man serving with Houston's army is offered (sim/camp.mjs); the only work a serving row shows. */
 export const CAMP_CHORES = Object.freeze(['camp-drill', 'camp-forage', 'camp-guard', 'camp-scout']);
@@ -523,6 +531,43 @@ function drawGlyph(ctx, glyph, size) {
     for (const y of [14, 20, 26]) { ctx.beginPath(); ctx.arc(40, y, 2.5, 0, Math.PI * 2); ctx.fill(); }
     ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(6, 31); ctx.lineTo(42, 31); ctx.stroke();
     ctx.lineWidth = 2.5; for (const x of [14, 34]) { ctx.beginPath(); ctx.arc(x, 38, 6, 0, Math.PI * 2); ctx.stroke(); }
+  } else if (glyph === 'small-game') {
+    // A squirrel on a branch, its tail up: the hour's work, not the day's (sim/gathering.mjs).
+    ctx.strokeStyle = '#3a2a18';
+    ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(4, 40); ctx.lineTo(44, 40); ctx.stroke();
+    ctx.fillStyle = '#8a6a3d';
+    ctx.beginPath(); ctx.ellipse(22, 30, 9, 7, -0.3, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.arc(31, 23, 5, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(34, 19); ctx.lineTo(36, 14); ctx.lineTo(31, 17); ctx.closePath(); ctx.fill();
+    ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(14, 33); ctx.quadraticCurveTo(6, 26, 12, 14); ctx.stroke();
+  } else if (glyph === 'fish') {
+    // A fish over the water, and the line that took it.
+    ctx.strokeStyle = '#41556b'; ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.moveTo(4, 40); ctx.quadraticCurveTo(12, 35, 20, 40); ctx.quadraticCurveTo(28, 45, 36, 40); ctx.quadraticCurveTo(40, 38, 44, 40); ctx.stroke();
+    ctx.fillStyle = '#7f96a8';
+    ctx.beginPath(); ctx.ellipse(24, 24, 13, 7, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(10, 24); ctx.lineTo(2, 17); ctx.lineTo(2, 31); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#e9dcb8'; ctx.beginPath(); ctx.arc(32, 22, 2, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = '#3a2a18'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(38, 4); ctx.lineTo(34, 20); ctx.stroke();
+  } else if (glyph === 'oysters') {
+    // Two shells open on the sand, at low water.
+    ctx.strokeStyle = '#3a2a18'; ctx.lineWidth = 2.5;
+    ctx.fillStyle = '#b9ae96';
+    ctx.beginPath(); ctx.ellipse(17, 26, 11, 8, -0.35, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(32, 33, 9, 7, 0.3, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#e9dcb8';
+    ctx.beginPath(); ctx.ellipse(17, 26, 6, 4, -0.35, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = '#41556b'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(4, 12); ctx.quadraticCurveTo(14, 7, 24, 12); ctx.quadraticCurveTo(34, 17, 44, 12); ctx.stroke();
+  } else if (glyph === 'bee-tree') {
+    // The trunk, the hollow the bees are working, and one bee.
+    ctx.strokeStyle = '#3a2a18';
+    ctx.fillStyle = '#8a6a3d'; ctx.fillRect(18, 10, 12, 32);
+    ctx.fillStyle = '#c9a227';
+    ctx.beginPath(); ctx.ellipse(24, 24, 5, 7, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(24, 18); ctx.lineTo(24, 30); ctx.stroke();
+    ctx.fillStyle = '#3a2a18'; ctx.beginPath(); ctx.arc(38, 16, 3, 0, Math.PI * 2); ctx.fill();
+    ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(36, 12); ctx.lineTo(40, 12); ctx.stroke();
   } else {
     ctx.beginPath(); ctx.arc(24, 24, 6, 0, Math.PI * 2); ctx.fill();
   }

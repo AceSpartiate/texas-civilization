@@ -56,8 +56,12 @@ weather drawn and launcher face. Setup 191.7 MB → 212.4 MB at .3, which is the
 - **Two crossings still graze a bank** because the road runs in the creek bottom for a stretch; the crossings audit says so
   and it is a routing decision, not a bug in the ford.
 - **Two coastal cover cells are mine to look at:** `mesquite-savanna` reaching 95.01°W and `live-oak` 94.00°W.
-- **Unbuilt and written down by the bestiary:** small game, feral hogs, fish, oysters, honey, the fat winter turkey, the
-  predators. Longleaf is still drawn at 90% timber and the hunting-wait scale is still the old one.
+- **Left of the bestiary:** the **feral hogs** (they belong to the stock economy of `HIST-TEX-112`) and the **predators**
+  (not built on purpose: `FIC-GONZ-008` says there is no hidden risk to a person out on the land). Everything else of it
+  was built on 2026-09-20. Longleaf is still drawn at 90% timber and the hunting-wait scale is still the old one.
+- **A line in the water on the road east.** The four gathering works are all done at home, so a family on the flight to
+  the Sabine still starves; that is where the hunger the study still shows at Columbia and Matagorda actually is
+  (docs/BIOME_GAMEPLAY.md §10.4). The road already has chores of its own (`hunt-road`), so this is a small piece of work.
 - **Weather follow-ups named by the research and not done:** the Fort Jesup manuscript daily forms (they start in the right
   month and would replace inference with observation), a *Telegraph and Texas Register* sweep, and §6.2's unsourced column.
 
@@ -110,6 +114,30 @@ east is the day after - and my own first draft of the seasonal test counted summ
 which is a test that checks nothing. The measured shut-day figure is corrected everywhere it appears: not "0 to 4 days of
 210" from three classes but a **median of 3 over 200 classes**, none at all in 19% of them and 16 in the worst. 800
 tests. Same computer only.
+
+**What a family ate between deer, 2026-09-20:** [BIOME_GAMEPLAY.md](docs/BIOME_GAMEPLAY.md) §10,
+[BIOMES.md](docs/BIOMES.md) §17.3, `sim/gathering.mjs`, `FIC-GONZ-173` to `-177`. The owner, asked which of the
+bestiary's unbuilt list to take: **"all three"**. So the game now has the food the record is full of and it had no idea
+about. **Take small game** is an hour in the timber with the rifle: one shot, two food, and the knack the long shot wants
+is **not needed for it** - which is who the record has bringing it home ("venison, *and small game*"). **Fish the creek**
+wants water that runs all year within three miles: two hours, three food, no powder, no tool, no knack. **Gather
+oysters** is the coast's alone - the biomes' own salt prairie and dunes - two hours and three food for nothing at all.
+**Cut a bee tree** wants timber and the axe: an afternoon and four food of honey. Four rules hold them together: **the
+country decides** (the bee tree is open to 95% of families, the beds to 6%, and no family inland is ever shown one),
+**nothing can go wrong** (the hunt can miss and these cannot), **none wants the knack**, and each is a **walk** out over
+the family's own ground rather than a journey down a road. Small game is deliberately not a quarry in `GAME`: putting a
+squirrel in the draw would have taken places from the deer and made the long hunt worse, which is the fault
+BIOME_GAMEPLAY §9.4 named when it declined to build it - the deer's draw is untouched and its tests pass unchanged. And
+`killYield` takes the month now: in December, January and February a **turkey is worth half as much again and a deer a
+quarter less** (Kuykendall, 1822: "The deer were lean but the turkies were fat and fine"). **Measured, six classes of
+thirty families over three periods** (`scripts/biome-balance-study.mjs`, before/after in docs/evidence): the median
+family is short of food on **8.5 ticks where it was on 65.5**, food in hand 37.4 → 40.6, shots fired 10.3 → 6.5, ticks
+spent hunting 57.6 → 33.8, and **the final number moves by less than a fifth of a point** - it fed people without
+inflating the game. The families nobody plays fall back on these works too, one person at a time, which is the answer to
+the fault §5.2 measured on 2026-09-19: a family that fired its last shot in November used to sit at no food for the rest
+of the class. **What it does not reach, and it is written down rather than averaged away:** Columbia and Matagorda barely
+moved, because their hunger is the **flight east** and not the farm - all four works are done at home. 807 tests, 22 of
+22 injections caught, `npm run test:hunt` passing. Same computer only.
 
 **The plate that says you are current, 2026-09-20:** `launcher/PlateArt.cs`, `launcher/LauncherForm.cs`, the owner's
 `button-up-to-date.png`. The last of the ten plates to be wired. A check the teacher asked for that finds nothing now

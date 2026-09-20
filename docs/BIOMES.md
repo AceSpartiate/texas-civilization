@@ -1179,10 +1179,17 @@ north-west of Rock Springs, a hundred and twenty miles further west and seventy 
 | **deer** | Yes, and into the fields | "found in every part of Texas in great abundance... **even in the settlements... they often come upon the plantations of farmers, and feed in company with the cattle**" (Holley p. 99); Dilue Harris, 1834, "Wild horses and deer would feed near the house" | all year; lean in winter | constantly; 90,000 skins from Nacogdoches alone in 1834 | **Worth 2 not 1 on open ground** away from timber's edge |
 | **ducks and geese** | Yes, in winter, on water | "the waters near the coast are literally covered with wild fowl" (Woodman p. 59); "frequent **the rivers and sea shore**" (Holley p. 100) | November to March, as built | yes | **Unchanged.** Holley p. 100 is added as further support for the by-water rule |
 
-### 17.3 What is missing, and how often the settlers mention it
+### 17.3 What is missing, and how often the settlers mention it — and what was built the same evening
 
-Every one of these is better attested in the colonies than the antelope ever was. Claims `HIST-TEX-264` and `-265`; none is
-built, and §9.4 of BIOME_GAMEPLAY says why.
+Every one of these is better attested in the colonies than the antelope ever was. Claims `HIST-TEX-264` and `-265`.
+
+**Built 2026-09-20**, the owner having answered *"all three"* when asked which of them to build: **the small game, the
+fish, the oysters, the honey** (four short works of their own, `FIC-GONZ-173` to `-176`, `sim/gathering.mjs`) and **the
+winter turkey and the lean deer** (`FIC-GONZ-177`). What each gives, where the country allows it and what it did to a
+class is [BIOME_GAMEPLAY §10](BIOME_GAMEPLAY.md#10-what-a-family-ate-between-deer-built-2026-09-20); the short of it is
+that the median family is now short of food on 8.5 ticks of a class where it was on 65.5, and the final number did not
+move. **Still not built, and named in the table below:** the feral hogs, the quail and pigeon, the alligators and
+rattlesnakes, the predators, and the family's own stock.
 
 | Missing | Who says so |
 |---|---|
@@ -1204,8 +1211,11 @@ waterfowl's months and its quarter-mile of water, and every yield in `GAME`. Eac
 `ceiling:` the antelope is kept in `GAME` and on two stands nobody lives in, rather than deleted, so the world stays honest
 where the map draws country outside the settled box and a later arc can take people west. Grep `pronghorn` to find it.
 
-`ceiling:` the game still has no idea what a settler ate between deer — small game, hogs, fish, oysters, honey — and that
-is now the biggest documented gap in the bestiary rather than an unknown one (`HIST-TEX-265`, `FIC-GONZ-172`).
+~~`ceiling:` the game still has no idea what a settler ate between deer — small game, hogs, fish, oysters, honey — and that
+is now the biggest documented gap in the bestiary rather than an unknown one~~ — **closed the same evening** for the small
+game, the fish, the oysters and the honey (`FIC-GONZ-173` to `-176`); the hogs remain, with the rest of the stock economy
+(`HIST-TEX-112`). What is left of the gap is named in [BIOME_GAMEPLAY §10.4](BIOME_GAMEPLAY.md#104-what-it-did-not-reach-and-why):
+a family on the road east is still short, because all four works are done at home.
 
 ### 17.5 One thing for the vegetation session, not this one
 

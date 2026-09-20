@@ -41,6 +41,22 @@ function onTheLand(seed, families = 30) {
   // And everybody, the ox and the wagon brought over to the house site and standing there.
   const moving = () => Object.values(world.entities).some(entity => entity.householdId && entity.travel);
   for (let tick = 0; tick < 100 && moving(); tick++) stepWorld(world);
+  // Anybody the director had sent to town before the families were taken off it is standing in that town with nothing to
+  // do: stopping the errand does not walk them back, and every test below begins "this person is at home and free" - a
+  // hunter standing in Gonzales is refused the work with "X is not at home". They are put at their own house, as
+  // tests/support/settled.mjs puts a family on its land, rather than walked home: walking them costs two hundred ticks of
+  // the class's own clock, which moves the calendar under the tests that are about the season (found 2026-09-20).
+  for (const household of Object.values(world.households)) {
+    const home = world.map.sites[household.homeSiteId];
+    for (const id of household.members) {
+      const person = world.entities[id];
+      if (home && !person.travel && person.location?.siteId !== household.homeSiteId) {
+        person.location = { x: home.x, y: home.y, siteId: household.homeSiteId };
+        person.task = 'rest';
+      }
+    }
+  }
+  validateWorld(world);
   return world;
 }
 /** The places on every holding of a class, with what a hunt there would find. */

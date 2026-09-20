@@ -34,7 +34,9 @@ export const FOOD_KEPT_PER_PERSON = 3;
 /** Shots the family keeps in the house: with fewer, somebody goes to town for powder and lead. */
 export const POWDER_KEPT = 2;
 /** Work one person does alone; a family never puts two of its people on the same one at once. */
-export const ONE_AT_A_TIME = Object.freeze(['hunt-timber', 'hunt-land', 'haul-logs', 'fetch-logs', 'fetch-seed', 'fetch-powder', 'sell-cotton', 'sell-food', 'mend-hoe', 'replace-hoe', 'fence-plot', 'survey-plot', 'dig-well', 'hunt-road', 'tend-sick', 'trade-crossing']);
+/** The four short works a family falls back on when the house is short of food (sim/gathering.mjs). */
+export const FORAGE_WORK = Object.freeze(['take-small-game', 'fish-the-water', 'gather-oysters', 'cut-bee-tree']);
+export const ONE_AT_A_TIME = Object.freeze([...FORAGE_WORK, 'hunt-timber', 'hunt-land', 'haul-logs', 'fetch-logs', 'fetch-seed', 'fetch-powder', 'sell-cotton', 'sell-food', 'mend-hoe', 'replace-hoe', 'fence-plot', 'survey-plot', 'dig-well', 'hunt-road', 'tend-sick', 'trade-crossing']);
 /** Plots a family nobody plays keeps, its first patch among them: enough to feed it, and a harvest it can carry in. */
 export const NEIGHBOUR_PLOTS = 3;
 /** The house it chooses, best first, where its tools allow. */
@@ -212,6 +214,10 @@ export function thinkFor(world, household, { project, act }) {
   const doing = id => people.filter(person => person.chore?.id === id).length;
   const busy = new Set(ONE_AT_A_TIME.filter(id => doing(id) > 0));
   const hunters = doing('hunt-timber') + doing('hunt-land');
+  // Somebody already out after food of any kind: the hunt, or one of the four short works (sim/gathering.mjs). A hungry
+  // family sends one person after food and keeps the rest on the house and the field; four lines below would otherwise
+  // each send their own body the same afternoon.
+  const foraging = FORAGE_WORK.reduce((count, id) => count + doing(id), 0);
   // A class whose woods come from the land hunts its own land (sim/hunting.mjs); every other class goes to the timber as it did.
   const huntChore = countsTrees(woodsRule(world)) ? 'hunt-land' : 'hunt-timber';
   // Its plots, as its own land line shows them, and the house they are walked to from.
@@ -248,6 +254,13 @@ export function thinkFor(world, household, { project, act }) {
       // Food first when the family is short, then the crop, the house, the tools, the fence, and the trips to town
       // a farm needs: seed when there is none to plant, cotton to the store once there is some.
       food < people.length * FOOD_KEPT_PER_PERSON && hunters === 0 && (resources.powder || 0) >= 1 && huntChore,
+      // And when the house is short and there is no shot in it - or the one hunter is already out - the four works that
+      // cost no powder and cannot fail (sim/gathering.mjs, `FIC-GONZ-173` to `-176`). This is the answer to the fault
+      // §5.2 of docs/BIOME_GAMEPLAY.md measured on 2026-09-19: a family that fired its last shot in November "sat at no
+      // food for the rest of the class". A line in the creek and a walk to the oyster beds were always there.
+      ...(food < people.length * FOOD_KEPT_PER_PERSON && hunters === 0 && foraging === 0
+        ? ['fish-the-water', 'gather-oysters', (resources.powder || 0) >= POWDER_KEPT && 'take-small-game', 'cut-bee-tree']
+        : []),
       // Powder bought before the last shot is gone, in food or coin, while there is still food to pay with: measured
       // 2026-09-19, a family that never went for powder fired its three shots by November and sat at no food for the rest
       // of the class (docs/BIOME_GAMEPLAY.md §5.2).

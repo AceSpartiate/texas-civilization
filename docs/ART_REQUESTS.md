@@ -18,6 +18,7 @@ does not have:
 
 | Stand-in | Where | Standing in for | Replace with |
 | --- | --- | --- | --- |
+| Four glyph icons drawn in code (a squirrel on a branch, a fish over the water, two shells on the sand, a bee tree) | `drawGlyph` in `public/family-panel.js` | Request 2026-09-20 — the gathering icons | `icon-take-small-game`, `icon-fish-the-water`, `icon-gather-oysters`, `icon-cut-bee-tree` |
 | The six drawn towns' documented buildings the library cannot draw (frame buildings, the Whiteside Hotel, the Round Top House, jacales, Mina's stockade, Liberty's court room) | `sim/town-layouts.mjs`, drawn by `public/town-art.js` | Request 2026-09-16 — the buildings the towns' research found | the requested buildings |
 | A new town's shops are the nearest buildings the library has, two trades sharing a sprite | `SHOP_SPRITES` in `sim/shops.mjs`, drawn in `drawWorld` in `public/app.js` | Request 2026-09-16 — the shops of the towns | `shop-*` buildings, one per trade |
 | Whole jacal stage sprites; `lean-to` shed frame; procedural double chimney; no separate interior floor/loft display | `drawHousePlot` in `public/house-plot.js` | Request 2026-09-15 — the house plot's pieces | Jacal modules, shed frame, double chimney, and separately registered floor and loft overlays |
@@ -954,3 +955,21 @@ The stand-ins above are already in place, so delivery means replacing them:
   a father, children of different ages and a baby, each readable as who they are; a lone mother
   picked out as the principal at a glance; a rider stopping north and south of a road.
 - Identity: the same person looks like the same person across idle, walk, vertical and task sheets.
+
+## Request 2026-09-20 — the gathering icons
+
+- **Why.** Four new works went on the family panel on 2026-09-20 — small game, a line in the water, the oyster beds and a
+  bee tree (`sim/gathering.mjs`, docs/BIOMES.md §17.3) — and the panel's other twenty-odd actions are illustrated icons.
+  These four are strokes drawn in code until their frames land, which is the standing practice and is marked `stand-in:`
+  in `public/family-panel.js`.
+- **What.** One icon per action, square, transparent, a single strong silhouette in the illustrated palette with a thin
+  dark outline, reading at 34 and 38 CSS pixels (deliver at 128 by 128) and still at 40 per cent opacity. Named
+  `icon-<key>`: `take-small-game` (a squirrel on a branch with its tail up, or a rabbit — the hour's work, not the
+  day's), `fish-the-water` (a fish on a line over water), `gather-oysters` (two opened shells on wet sand, water behind),
+  `cut-bee-tree` (a hollow trunk with comb in it and a bee). Period-appropriate: a line and a hook, not a rod and reel;
+  an axe, not a saw.
+- **How it plugs in.** `PANEL_ICONS` in `public/family-panel.js` maps each key to `{ glyph: … }` today; registering the
+  frames and naming `{ sprite: 'icon-<key>' }` there is the whole swap. `tests/family-panel.test.mjs` fails if an icon
+  names a frame the atlas does not have.
+- **Check.** The four beside the hunt's own icons at 38 pixels are told apart without their popups, and the oyster and
+  the bee tree read as *food* rather than as *shore* and *tree*.

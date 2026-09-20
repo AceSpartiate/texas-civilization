@@ -89,6 +89,10 @@ the principal for the orders only a principal may be given (`applyAction` in `si
 | Hunt in the timber (`hunt-timber`) | Go out to the nearest timber or brush to hunt, and carry home what they can. |
 | Hunt on our land (`hunt-land`) | Hunt at a place you choose on the family's own land, and carry home what they can. |
 | Practise at the mark (`practise-shooting`) | Spend an afternoon and two powder shooting at a mark to steady their aim. |
+| Take small game (`take-small-game`, 2026-09-20, [BIOMES](BIOMES.md) §17.3) | An hour after squirrels and rabbits in the timber: one shot, and nobody comes home empty. |
+| Fish the creek (`fish-the-water`, 2026-09-20) | Sit down at the water with a line and bring home what is on it, with no powder and no knack needed. |
+| Gather oysters (`gather-oysters`, 2026-09-20) | Walk down to the beds along the shore and gather what can be carried home. **Only on the coast.** |
+| Cut a bee tree (`cut-bee-tree`, 2026-09-20) | Take the axe to the tree the bees are working, and bring the honey home. |
 | Mend the hoe (`mend-hoe`) | Set the worn hoe right again at home. |
 | Fell trees (`fell-trees`) | Fell the trees at a place in timber you choose on the family's land. |
 | Haul logs to the house (`haul-logs`) | Bring the felled logs lying out to the house. |

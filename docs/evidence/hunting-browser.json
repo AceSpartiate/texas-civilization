@@ -33,10 +33,10 @@
     "nothing moves while it waits: three ticks passed and the work had not gone a step further",
     "the family answers, and the hunt goes on",
     "a student watches four named stages of a hunt, not one: \"reading the ground at the edge of the timber\", \"working up through the timber\", \"waiting downwind, and still\", \"downwind, with the shot there to take\", \"letting it come closer\", \"the shot\"",
-    "and is painted working through the trees, not standing on one spot (106 places, 37px apart on screen)",
+    "and is painted working through the trees, not standing on one spot (110 places, 37px apart on screen)",
     "the hunter's own poses change with the stages: blue-search, blue-idle-s, blue-carry, blue-walk",
     "and they are drawn carrying something home, which the carry cycle had never been used for outside the harvest",
-    "on the road he is a figure, walking out (1008 frames) and carrying home (1004), drawn at no more than 0.73 of his heights a second, under 1, at 20.4 pixels a mile",
+    "on the road he is a figure, walking out (1025 frames) and carrying home (1002), drawn at no more than 0.73 of his heights a second, under 1, at 20.4 pixels a mile",
     "the shot is a puff of smoke in the trees; the server removes the projected deer after it",
     "no soldier appears in the timber: the militia firing sheets were not borrowed for a civilian",
     "no page errors anywhere in the run"
@@ -52,7 +52,7 @@
       "the shot",
       "carrying it home from the timber"
     ],
-    "placesPaintedInTheTimber": 106,
+    "placesPaintedInTheTimber": 110,
     "screenSpreadPixels": 37,
     "clipsBound": [
       "blue-carry",
@@ -77,8 +77,8 @@
     "smokeDrawn": true,
     "road": {
       "markerBelow": 1,
-      "walkingOutFrames": 1008,
-      "carryingHomeFrames": 1004,
+      "walkingOutFrames": 1025,
+      "carryingHomeFrames": 1002,
       "pixelsAMile": 20.4,
       "figurePixels": 7,
       "mostHeightsASecond": 0.728

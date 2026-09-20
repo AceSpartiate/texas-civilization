@@ -252,9 +252,28 @@ export function quarryAt(quarry, cover, edge, month, px, py, shares = null) {
  * What a kill of this quarry brings home for this hand: the meat they can carry, and the hide whatever the load. `carry` is
  * what one person carries; `skillYield` the hunter's hand on the meat (sim/chores.mjs `yieldFor`).
  */
-export function killYield(quarryId, carry, skillYield) {
+/**
+ * What the winter did to a kill, as a share of its ordinary meat (`FIC-GONZ-177`, docs/BIOMES.md §17.3).
+ *
+ * Kuykendall, near Independence in 1822, of the months either side of the new year: "The deer were **lean** but the
+ * turkies were **fat** and fine and constituted, for several months, the most valuable part of our subsistence"
+ * (`HIST-TEX-264`). So the turkey is worth half as much again in the winter and the deer a quarter less, and a family
+ * that hunts through Christmas is better off looking for the birds - which is what the man who lived it wrote down.
+ *
+ * Nothing else in `GAME` moves: the bear is denned, the buffalo is not in the colonies at all, and no source read says
+ * what the winter did to a javelina.
+ */
+export const WINTER_MONTHS = Object.freeze([11, 0, 1]);
+export const WINTER_YIELD = Object.freeze({ turkey: 1.5, deer: 0.75 });
+export const winterShare = (quarryId, month) => (WINTER_MONTHS.includes(month) && WINTER_YIELD[quarryId]) || 1;
+
+export function killYield(quarryId, carry, skillYield, month = null) {
   const game = GAME[quarryId] || GAME.deer;
-  const meat = skillYield(game.meat);
+  // The winter is not the same animal (sim/gathering.mjs `winterShare`, `FIC-GONZ-177`). Kuykendall, near Independence:
+  // "The deer were lean but the turkies were fat and fine and constituted, for several months, the most valuable part of
+  // our subsistence." So a turkey taken in December, January or February is worth half as much again and a deer a
+  // quarter less, and a family that hunts through Christmas does better to look for the birds.
+  const meat = skillYield(game.meat * (month === null ? 1 : winterShare(quarryId, month)));
   const carried = Math.min(meat, carry);
   return { meat, carried, left: Math.round((meat - carried) * 10000) / 10000, hide: game.hide };
 }

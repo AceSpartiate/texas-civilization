@@ -1,0 +1,168 @@
+{
+  "record": "gathering-injections",
+  "date": "2026-09-20",
+  "files": [
+    "tests/gathering.test.mjs"
+  ],
+  "injections": [
+    {
+      "name": "the oyster beds are offered wherever a family lives, forty miles inland included",
+      "file": "sim/gathering.mjs",
+      "failed": [
+        "the country decides what a family can gather, and says so when it cannot"
+      ]
+    },
+    {
+      "name": "salt water is any water, so a creek in the timber is an oyster bed",
+      "file": "sim/gathering.mjs",
+      "failed": [
+        "the country decides what a family can gather, and says so when it cannot",
+        "the beds are on salt ground, and the line wants water that runs all year"
+      ]
+    },
+    {
+      "name": "a bee tree can be cut on the open prairie, where there is no tree",
+      "file": "sim/gathering.mjs",
+      "failed": [
+        "the country decides what a family can gather, and says so when it cannot"
+      ]
+    },
+    {
+      "name": "a line goes into a creek that is dry half the year",
+      "file": "sim/gathering.mjs",
+      "failed": [
+        "the country decides what a family can gather, and says so when it cannot"
+      ]
+    },
+    {
+      "name": "a family fishes water thirty miles from the house",
+      "file": "sim/gathering.mjs",
+      "failed": [
+        "the country decides what a family can gather, and says so when it cannot"
+      ]
+    },
+    {
+      "name": "a refusal says nothing, so a student is shown a work that will not run and no reason",
+      "file": "sim/gathering.mjs",
+      "failed": [
+        "the country decides what a family can gather, and says so when it cannot"
+      ]
+    },
+    {
+      "name": "the control quotes food the work does not actually bring home",
+      "file": "sim/gathering.mjs",
+      "failed": [
+        "the country decides what a family can gather, and says so when it cannot"
+      ]
+    },
+    {
+      "name": "a day at the water brings home nothing at all",
+      "file": "sim/gathering.mjs",
+      "failed": [
+        "somebody sent to the water comes home with food, and nothing about it can go wrong"
+      ]
+    },
+    {
+      "name": "small game is taken with no powder in the house",
+      "file": "sim/gathering.mjs",
+      "failed": [
+        "small game costs a shot, and the knack the long hunt wants is not needed for it"
+      ]
+    },
+    {
+      "name": "the shot costs nothing, so the powder never runs out",
+      "file": "sim/chores.mjs",
+      "failed": [
+        "small game costs a shot, and the knack the long hunt wants is not needed for it"
+      ]
+    },
+    {
+      "name": "a bee tree is cut with no axe in the house",
+      "file": "sim/gathering.mjs",
+      "failed": [
+        "a bee tree wants an axe, and the oyster beds want nothing at all"
+      ]
+    },
+    {
+      "name": "the walk to the water is asked of the roads, which do not go to a creek bank",
+      "file": "sim/chores.mjs",
+      "failed": [
+        "the four works go on foot to a place, and carry no numbers a student never reads"
+      ]
+    },
+    {
+      "name": "every gathering work sets out for the timber, wherever its own place is",
+      "file": "sim/chores.mjs",
+      "failed": [
+        "the four works go on foot to a place, and carry no numbers a student never reads"
+      ]
+    },
+    {
+      "name": "four more numbers a student never reads, for every person, every tick",
+      "file": "sim/chores.mjs",
+      "failed": [
+        "the four works go on foot to a place, and carry no numbers a student never reads"
+      ]
+    },
+    {
+      "name": "the control says nothing about what a gathering work costs",
+      "file": "sim/chores.mjs",
+      "failed": [
+        "the four works go on foot to a place, and carry no numbers a student never reads"
+      ]
+    },
+    {
+      "name": "the winter is the same as the summer: no fat turkey, no lean deer",
+      "file": "sim/hunting.mjs",
+      "failed": [
+        "a turkey is fat in the winter and a deer is lean, and nothing else moves"
+      ]
+    },
+    {
+      "name": "the winter is given to every animal, the denned bear included",
+      "file": "sim/hunting.mjs",
+      "failed": [
+        "a turkey is fat in the winter and a deer is lean, and nothing else moves"
+      ]
+    },
+    {
+      "name": "the winter holds all year, so a turkey is fat in July",
+      "file": "sim/hunting.mjs",
+      "failed": [
+        "a turkey is fat in the winter and a deer is lean, and nothing else moves"
+      ]
+    },
+    {
+      "name": "a kill that does not know the date is given the winter anyway",
+      "file": "sim/hunting.mjs",
+      "failed": [
+        "a turkey is fat in the winter and a deer is lean, and nothing else moves"
+      ]
+    },
+    {
+      "name": "the work says nothing when somebody comes home with the catch",
+      "file": "sim/chores.mjs",
+      "failed": [
+        "somebody sent to the water comes home with food, and nothing about it can go wrong",
+        "small game costs a shot, and the knack the long hunt wants is not needed for it",
+        "a bee tree wants an axe, and the oyster beds want nothing at all"
+      ]
+    },
+    {
+      "name": "every gathering work is said in the same words, so a squirrel is a perch",
+      "file": "sim/chores.mjs",
+      "failed": [
+        "somebody sent to the water comes home with food, and nothing about it can go wrong",
+        "small game costs a shot, and the knack the long hunt wants is not needed for it",
+        "a bee tree wants an axe, and the oyster beds want nothing at all"
+      ]
+    },
+    {
+      "name": "what came home is said with the claim of another work entirely",
+      "file": "sim/chores.mjs",
+      "failed": [
+        "somebody sent to the water comes home with food, and nothing about it can go wrong"
+      ]
+    }
+  ]
+}

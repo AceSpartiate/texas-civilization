@@ -22,6 +22,7 @@ import { heavyWorkPace, tooYoung, tooYoungWhy } from './family.mjs';
 import { castVote, joinService, servingWhy, winterOffered, winterRefusal } from './winter.mjs';
 import { houstonCamp } from './houston.mjs';
 import { record } from './events.mjs';
+import { dateOf } from './clock.mjs';
 import { purseHeld, purseOf, recordTrade, traderAt } from './town.mjs';
 import { carryCapacity, DEFAULT_MODE, MODES, propertyId } from './travel.mjs';
 import {
@@ -34,6 +35,7 @@ import { OVERLAND_REACH } from './ways.mjs';
 import { moreFields, plotWorkRefusal, stakePlot, stroll, strollTarget } from './survey.mjs';
 import { choosing, cutLaneSpell, digWell, lanePoint, laneRefusal, laneState, waterBurden, wellRefusal, wellTicks } from './homesite.mjs';
 import { GAME, huntingPlace, huntRefusal, killYield, placeWord, quarryGame, stillTicks } from './hunting.mjs';
+import { FORAGE, FORAGE_REACH, fishingWater, forageFacts, onSaltWater } from './gathering.mjs';
 import { fellRefusal, fellTicks, fellTree, logsLeftOut, logsLying, nextTree, oxFree, recordFelling, stackLogs, takeUpLogs } from './felling.mjs';
 import { KINDS, countsTrees, woodsRule } from './woods.mjs';
 import { TRADES, counterOptions, counterRefusal, rifleTrue, spendRifleShot, takeCounter, tradesAt } from './shops.mjs';
@@ -821,6 +823,153 @@ CHORES['hunt-land'] = {
   steps: CHORES['hunt-timber'].steps,
 };
 
+// ---- what a family ate between deer (sim/gathering.mjs, docs/BIOMES.md §17.3) ------------------
+//
+// Four short works, none of which can go wrong and two of which want no knack at all. They are
+// offered only where the country holds them, so a family on the coast sees the oyster beds and a
+// family on the prairie does not, and the one on a timbered creek sees the fish and the bee tree.
+// Each finds its own place - the water, the shore, the family's own cover - rather than asking the
+// student to choose one on the map, because the hunt already asks that and once is enough.
+
+/** The cover within reach of the house, as the hunt itself reads it, or null where there is none. */
+function forageCover(world, household) {
+  const ground = huntingGround(world, household, false);
+  if (ground) return ground.cover === 'brush' ? 'brush' : 'timber';
+  const home = world.map.sites[household.homeSiteId];
+  return home ? groundAt(world, home) === 'prairie' ? null : groundAt(world, home) : null;
+}
+/** What this family could gather, work by work: the facts sim/gathering.mjs decides, with the house's own ground in them. */
+export function forageFor(world, household, kind) {
+  const home = world.map.sites[household.homeSiteId];
+  if (!home) return { can: false, why: 'The family has no house yet.' };
+  return forageFacts(world, household, kind, home, {
+    cover: forageCover(world, household),
+    axe: household.tools?.axe !== undefined,
+    powder: !dryHouse(household),
+  });
+}
+/**
+ * Where a family fishes: the nearest water that runs all year, kept as a site of its own,
+ * `water-<household>`, which moves when the house does. The site stands on the bank the house's
+ * side, which is where somebody sits down with a line.
+ */
+function fishingSite(world, household, keep = true) {
+  const home = world.map.sites[household.homeSiteId];
+  if (!home) return null;
+  const id = `water-${household.id}`;
+  const same = site => site && site.fromX === home.x && site.fromY === home.y;
+  if (same(world.map.sites[id])) return world.map.sites[id];
+  const water = fishingWater(world, home);
+  if (!water) return null;
+  const round3 = value => Math.round(value * 1000) / 1000;
+  const name = water.name ? `${/River$/.test(water.name) ? 'The ' : ''}${water.name}` : water.kind === 'river' ? 'The river' : 'The creek';
+  const site = {
+    id, name, kind: 'water', fishing: true, ownerHouseholdId: household.id,
+    x: round3(water.x), y: round3(water.y), fromX: home.x, fromY: home.y,
+  };
+  return keep ? keepSite(world, site) : site;
+}
+/** Where a family gathers oysters: the nearest water at all, which on salt ground is the bay. Kept as `shore-<household>`. */
+function shoreSite(world, household, keep = true) {
+  const home = world.map.sites[household.homeSiteId];
+  if (!home || !onRealLand(world) || !onSaltWater(world, home)) return null;
+  const id = `shore-${household.id}`;
+  const same = site => site && site.fromX === home.x && site.fromY === home.y;
+  if (same(world.map.sites[id])) return world.map.sites[id];
+  const box = { minX: home.x - FORAGE_REACH - 1, minY: home.y - FORAGE_REACH - 1, maxX: home.x + FORAGE_REACH + 1, maxY: home.y + FORAGE_REACH + 1 };
+  const water = landAround(box).nearestWater(home, () => true, FORAGE_REACH);
+  if (!water) return null;
+  const round3 = value => Math.round(value * 1000) / 1000;
+  const site = {
+    id, name: 'The oyster beds', kind: 'water', shore: true, ownerHouseholdId: household.id,
+    x: round3(water.at.x), y: round3(water.at.y), fromX: home.x, fromY: home.y,
+  };
+  return keep ? keepSite(world, site) : site;
+}
+/** Which claim each of the four works is: docs/BIOMES.md §17.3, HISTORY.md. */
+const FORAGE_CLAIMS = Object.freeze({ smallgame: 'FIC-GONZ-173', fish: 'FIC-GONZ-174', oysters: 'FIC-GONZ-175', honey: 'FIC-GONZ-176' });
+/**
+ * Where a gathering work goes, written onto the chore as it begins.
+ *
+ * It is a **walk** and not a journey: the hunt on the family's own land already walks out to a place
+ * overland (`stroll`, sim/survey.mjs) rather than taking a road between sites, and there is no road to
+ * a creek bank or an oyster bed. Writing `ground` onto the chore is what puts every `travel` step of
+ * these four onto that branch.
+ */
+function forageGround(world, household, kind) {
+  const home = world.map.sites[household.homeSiteId];
+  if (!home) return null;
+  if (kind === 'fish') {
+    const site = fishingSite(world, household, false);
+    return site && { x: site.x, y: site.y, name: site.name };
+  }
+  if (kind === 'oysters') {
+    const site = shoreSite(world, household, false);
+    return site && { x: site.x, y: site.y, name: site.name };
+  }
+  const cover = huntingGround(world, household, false);
+  return cover ? { x: cover.x, y: cover.y, cover: cover.cover === 'brush' ? 'the brush' : 'the timber', name: cover.name } : null;
+}
+const forageBegin = kind => (world, household, entity) => {
+  const ground = forageGround(world, household, kind);
+  if (ground) entity.chore.ground = ground;
+};
+const forageOffered = kind => (world, household) => forageFor(world, household, kind).can;
+/** Said on the control before anybody is sent: the hours, where they would go, and the powder if it takes one. */
+function forageCost(world, household, choreId) {
+  const chore = CHORES[choreId], facts = forageFor(world, household, chore.forage), hours = FORAGE[chore.forage].hours;
+  const where = facts.where ? `, ${facts.where}${facts.miles > 0.2 ? ` ${facts.miles} miles off` : ''}` : '';
+  const powder = FORAGE[chore.forage].powder ? `, ${SHOT_COST} powder` : '';
+  return `${hours} ${hours === 1 ? 'hour' : 'hours'}${where}${powder}`;
+}
+
+CHORES['take-small-game'] = {
+  name: 'Take small game', skill: 'hunting', where: 'home', hauls: true, forage: 'smallgame',
+  offered: forageOffered('smallgame'), begin: forageBegin('smallgame'),
+  needs: { powder: SHOT_COST },
+  describe: 'An hour in the timber or the brush with the rifle, after squirrels and rabbits. It is nothing like the long wait for a deer: nobody has to have the knack, nothing is stalked, and nobody comes home empty — but a squirrel or two is a squirrel or two.',
+  steps: [
+    { travel: 'timber', doing: 'out after small game in {cover}' },
+    { work: 3, doing: 'looking for squirrels in {cover}' },
+    { consume: { powder: SHOT_COST } },
+    { forage: 'smallgame', produce: { food: FORAGE.smallgame.food } },
+    { travel: 'home', doing: 'carrying it home from {cover}' },
+  ],
+};
+CHORES['fish-the-water'] = {
+  name: 'Fish the creek', skill: 'hands', where: 'home', hauls: true, forage: 'fish',
+  offered: forageOffered('fish'), begin: forageBegin('fish'),
+  describe: 'Down to the water with a line, and back with what is on it. It costs no powder and wants no knack: "Innumerable perch, trout, and other scaly fry" is what a settler wrote of the colony\'s own brooks, and a child can sit on a bank.',
+  steps: [
+    { travel: 'water', doing: 'walking down to {water}' },
+    { work: 6, doing: 'fishing {water}' },
+    { forage: 'fish', produce: { food: FORAGE.fish.food } },
+    { travel: 'home', doing: 'carrying the catch home from {water}' },
+  ],
+};
+CHORES['gather-oysters'] = {
+  name: 'Gather oysters', skill: 'hands', where: 'home', hauls: true, forage: 'oysters',
+  offered: forageOffered('oysters'), begin: forageBegin('oysters'),
+  describe: 'Out to the beds along the shore at low water, and home with as much as can be carried. Only the coast has them, and they cost nothing but the walk: "Oyster beds are frequent along the coast... may be conveniently gathered."',
+  steps: [
+    { travel: 'shore', doing: 'walking down to the beds along the shore' },
+    { work: 6, doing: 'gathering oysters at the beds' },
+    { forage: 'oysters', produce: { food: FORAGE.oysters.food } },
+    { travel: 'home', doing: 'carrying the oysters home from the shore' },
+  ],
+};
+CHORES['cut-bee-tree'] = {
+  name: 'Cut a bee tree', skill: 'hands', where: 'home', hauls: true, forage: 'honey', heavy: true,
+  offered: forageOffered('honey'), begin: forageBegin('honey'),
+  describe: 'Find the tree the bees are working and take the axe to it. Honey was the only sweet a family had, and the men who wrote about this country were rarely without it — but it costs a tree and an afternoon, and the bees are not glad.',
+  steps: [
+    { travel: 'timber', doing: 'out looking for a bee tree in {cover}' },
+    { work: 6, doing: 'cutting the bee tree' },
+    { forage: 'honey', produce: { food: FORAGE.honey.food } },
+    { travel: 'home', doing: 'carrying the honey home from {cover}' },
+  ],
+};
+
 export const toolState = wear => wear >= TOOL_LIFE ? 'worn' : 'sound';
 /** A price as a student reads it: "2 food", "1 real", "2 food, 1 seed". */
 const costWords = set => Object.entries(set).map(([resource, amount]) => resource === 'money' ? reales(amount) : `${amount} ${resource}`).join(', ');
@@ -905,8 +1054,8 @@ export const HUNT_BEARINGS = 32;
 export const HUNT_STEP = 0.125;
 /** How far into the cover a bearing is read, in steps, to choose the one that leads deepest in. */
 const HUNT_DEPTH_STEPS = 4;
-export function huntingGround(world, household) {
-  return coverGround(world, household, `hunt-${household.id}`, ground => ground !== 'prairie', { hunting: true });
+export function huntingGround(world, household, keep = true) {
+  return coverGround(world, household, `hunt-${household.id}`, ground => ground !== 'prairie', { hunting: true }, keep);
 }
 /**
  * Where a family fetches logs when its own land has too few (`fetch-logs`, docs/BIOME_GAMEPLAY.md §3.2): the edge of the
@@ -1199,11 +1348,17 @@ export function choresFor(world, household, entity, logsOut = null) {
     // freight this channel is not for.
     // The hunt on the family's own land goes on foot, so the mode's carry on the control would be wrong for it: its
     // description says what comes home instead, and the channel is spared the number (tests/family.test.mjs).
-    const full = chore.hauls && !chore.huntLand ? haulFor(entity, id) : null;
+    // The four gathering works go on foot for the same reason, and what each brings home is a fixed thing said in its own
+    // words on the control - "a squirrel or two", "perch and trout" - so they are spared it too. Four chores' worth of
+    // haul for every person in the family is most of a kilobyte a tick for a number that never changes.
+    const full = chore.hauls && !chore.huntLand && !chore.forage ? haulFor(entity, id) : null;
     const haul = full && { resource: full.resource, got: full.got };
     // What this one actually costs this family today, and what the field would give back.
     // Fetching logs costs the ox and wagon for as long as the nearest timber is far: said in hours and miles (`fetchLogsFacts`).
-    const cost = chore.fetchesLogs ? fetchLogsFacts(world, household).cost || '' : chore.needsAny ? chore.needsAny.map(costWords).join(' or ') : costWords(needsOf(household, chore));
+    const cost = chore.fetchesLogs ? fetchLogsFacts(world, household).cost || ''
+      // The four gathering works cost hours and a walk rather than a resource, and one of them costs a shot as well.
+      : chore.forage ? forageCost(world, household, id)
+      : chore.needsAny ? chore.needsAny.map(costWords).join(' or ') : costWords(needsOf(household, chore));
     const crop = chore.wantsWagon
       ? { grown: round(yieldFor(standingCrop(household), entity.skills?.[chore.skill] ?? 1)), share: harvestShare(household) }
       : null;
@@ -1370,7 +1525,8 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
     // A step that belongs to an answer nobody gave is not this hunt's step.
     if (step.when && !step.when.some(flag => (state.flags || []).includes(flag))) continue;
     if (step.doing) state.doing = step.doing.replace('{town}', world.map.sites[townOf(household)]?.name || 'town').replace('{cover}', state.ground?.cover || coverWord(world, household))
-      .replace('{logwood}', () => (logwoodGround(world, household, false)?.name || 'the timber').replace(/^The /, 'the '));
+      .replace('{logwood}', () => (logwoodGround(world, household, false)?.name || 'the timber').replace(/^The /, 'the '))
+      .replace('{water}', () => (fishingSite(world, household, false)?.name || 'The creek').replace(/^The /, 'the '));
     if (step.walk) {
       // Inside the homestead. The person's canonical site is unchanged - they are still
       // at home - but they stand where the work is.
@@ -1398,6 +1554,9 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       const destination = step.travel === 'home' ? household.homeSiteId
         : step.travel === 'timber' ? timberFor(world, household)
         : step.travel === 'logwood' ? logwoodGround(world, household)?.id
+        // The water a family fishes and the shore it gathers on, each found from the house (sim/gathering.mjs).
+        : step.travel === 'water' ? fishingSite(world, household)?.id
+        : step.travel === 'shore' ? shoreSite(world, household)?.id
         : step.travel === 'town' ? townOf(household)
         // Houston's camp is wherever it is when they set out (sim/houston.mjs).
         : step.travel === 'houston-camp' ? houstonCamp(world) : step.travel;
@@ -1452,7 +1611,9 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       // makes, what one person carries of it and its hide, and the family is told what was brought down.
       const quarry = state.ground?.quarry && GAME[state.ground.quarry] ? state.ground.quarry : null;
       if (quarry) {
-        const kill = killYield(quarry, chore.hauls ? carryCapacity(state.mode) : Infinity, amount => yieldFor(amount, skill));
+        // The month goes in with it: a turkey is fat in the winter and a deer lean (sim/hunting.mjs `winterShare`).
+        const month = dateOf(world, world.minute || 0).getUTCMonth();
+        const kill = killYield(quarry, chore.hauls ? carryCapacity(state.mode) : Infinity, amount => yieldFor(amount, skill), month);
         household.resources.food = round((household.resources.food ?? 0) + kill.carried);
         if (kill.hide) household.resources.hides = (household.resources.hides ?? 0) + kill.hide;
         const hide = kill.hide ? `, and ${quarry === 'bear' ? 'the skin' : quarry === 'bison' ? 'the robe' : 'the hide'}` : '';
@@ -1752,6 +1913,17 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
         if (kept > 0 && chore.hauls && state.mode === 'wagon') {
           const wagon = world.entities[propertyId(household.id, 'wagon')];
           if (wagon) wagon.laden = true;
+        }
+        // What was gathered, said in the words of the thing itself rather than as a number of food
+        // (sim/gathering.mjs, `FIC-GONZ-173` to `-176`). Nothing here can fail, so this is the only
+        // event these four works record: no miss, no refusal at the water, no empty-handed walk.
+        if (step.forage) {
+          const work = FORAGE[step.forage];
+          record(world, 'forage', {
+            actorId: entity.id, householdId: household.id, importance: 1, forage: step.forage, food: kept,
+            claimId: FORAGE_CLAIMS[step.forage],
+            text: `${entity.name} brought home ${work.what}: ${kept} food.`,
+          });
         }
       }
       continue;

@@ -480,29 +480,36 @@ Unchanged to the digit in every country and at every settlement — Columbia 117
 Gonzales 80, Mina 49, San Felipe 5, Liberty 4.5 — with only the hunter's time moving by three tenths of a tick.
 **Nobody is left unable to feed themselves. What changed is what comes home, not how much.**
 
-### 9.4 Proposed and not built, on purpose
+### 9.4 Proposed and not built, on purpose — then built the same evening (2026-09-20)
 
-The record for each of these is good — `HIST-TEX-264`, `-265` — and better than the antelope's ever was. None is built,
-because each is a new **kind** of work rather than a correction to the quarry, and the hunt this game has is a still-hunt:
-walk out, work in, wait downwind for hours, take or hold one shot. `FIC-GONZ-172`.
+**Read §10 for what was built.** This section was written earlier on 2026-09-20 and put to the owner, who answered
+*"all three"*: the small game, the fish, the oysters, the honey and the winter turkey were built that evening
+(`FIC-GONZ-173` to `-177`, `sim/gathering.mjs`, §10 below). It is left here as written because the reasoning in it is
+**why they were built the way they were** — four short works of their own rather than new quarry in `GAME`, so that the
+squirrel never enters the deer's draw and the long hunt is exactly what it was. Two of its entries are still unbuilt and
+still on purpose: the **feral hogs** and the **predators**, marked below.
 
-- **Small game — squirrel, rabbit, raccoon, opossum.** The biggest gap. Holley has them "in great abundance"; Smithwick
+The record for each of these is good — `HIST-TEX-264`, `-265` — and better than the antelope's ever was. None was built
+at the time, because each is a new **kind** of work rather than a correction to the quarry, and the hunt this game has is
+a still-hunt: walk out, work in, wait downwind for hours, take or hold one shot. `FIC-GONZ-172`.
+
+- **Small game — squirrel, rabbit, raccoon, opossum. BUILT (`FIC-GONZ-173`), as its own work and not as a quarry.** The biggest gap. Holley has them "in great abundance"; Smithwick
   shot squirrels in the pecans at San Felipe; Dilue Harris's family ate "venison, and small game". *Would be:* a
   `smallgame` quarry, `a squirrel or two`, meat 2, no hide, covers timber and brush, weight 2, all year, everywhere the
   deer is. *Why not:* a squirrel makes two food where a deer makes ten, so simply adding it makes hunting **worse** and
   moves the first period's food, which is another session's balance. It also wants its own shorter work, not a three-hour
   wait downwind. **Measure first:** ticks short of food by country, and Mina and Matagorda in particular.
-- **Feral hogs.** Holley p. 96; Almonte's 110,000 head on the mast. *Would be:* the stock economy of `HIST-TEX-112`, which
+- **Feral hogs. STILL NOT BUILT.** Holley p. 96; Almonte's 110,000 head on the mast. *Would be:* the stock economy of `HIST-TEX-112`, which
   is already recorded and unbuilt, rather than a quarry — a hog in the woods is somebody's, or was.
-- **Fish, oysters, honey.** Three different day's works with three different tools, seasons and refusals: a line in a creek
+- **Fish, oysters, honey. BUILT (`FIC-GONZ-174` to `-176`).** Three different day's works with three different tools, seasons and refusals: a line in a creek
   (Kuykendall's "innumerable perch, trout"), an oyster bed at low water on the coast (Woodman, "may be conveniently
   gathered"), a bee tree felled (Kuykendall, bee-hunting "richly rewarded the pioneer"). Each would give the coast and the
   bottoms something the prairie has not, which is the right shape; none is a change to `GAME`.
-- **The turkey fat and the deer lean in winter.** Kuykendall, near Independence in 1822: "The deer were lean but the
+- **The turkey fat and the deer lean in winter. BUILT (`FIC-GONZ-177`): `killYield` takes the month now.** Kuykendall, near Independence in 1822: "The deer were lean but the
   turkies were fat and fine and constituted, for several months, the most valuable part of our subsistence." *Would be:* a
   month-dependent yield. *Why not:* `killYield` has no month, so it is a signature change through `sim/chores.mjs`, and it
   is a **new rule** rather than a corrected number. It is the best single unbuilt idea in this list.
-- **Panther, wolf, coyote, alligator, rattlesnake.** The game has no risk to a person out on the land, by design
+- **Panther, wolf, coyote, alligator, rattlesnake. STILL NOT BUILT, and the owner agreed on 2026-09-20.** The game has no risk to a person out on the land, by design
   (`FIC-GONZ-008`: no hidden punitive RNG). A wolf that can hurt somebody is a change to *that* rule, not to a bestiary.
 
 ### 9.5 Tests and proof
@@ -525,3 +532,91 @@ walk out, work in, wait downwind for hours, take or hold one shot. `FIC-GONZ-172
   keep to it. Waiting here, a turkey: four food."* where on 2026-09-19 the same seed read *"Deer, mustangs, antelope,
   javelina and turkey keep to it."* `npm run test:hunt` passes all fifteen checks, including the `blue-search` pose that
   §6 recorded as failing on 2026-09-19.
+
+---
+
+## 10. What a family ate between deer, built 2026-09-20
+
+Owner, asked which of §9.4's list to build: **"all three"** — the gathering, the small game and the winter turkey. This is
+what was built, what it measured, and the one thing it did not reach. `FIC-GONZ-173` to `-177`, `sim/gathering.mjs`,
+`tests/gathering.test.mjs`, [injections](evidence/gathering-injections.json) (22 of 22 caught).
+
+### 10.1 The four works
+
+| Work | Where it is offered | Hours | Food | Costs | Wants the knack? |
+|---|---|---|---|---|---|
+| **Take small game** (`take-small-game`) | Timber or brush within reach of the house | 1 | 2 | one shot | **No** |
+| **Fish the creek** (`fish-the-water`) | Perennial water within 3 miles | 2 | 3 | nothing | **No** |
+| **Gather oysters** (`gather-oysters`) | Salt ground within 3 miles — `salt-prairie` or `dunes` | 2 | 3 | nothing | **No** |
+| **Cut a bee tree** (`cut-bee-tree`) | Timber within reach, and the axe | 2 | 4 | the axe, and a tree | **No** |
+
+Four rules hold them together, and each is the point of them:
+
+1. **The country decides.** Measured over six classes of thirty families on the real land: small game and the line are open
+   to every family (a colony grant was riverfront land almost by definition, which is the record's own doing and not the
+   game's), the bee tree to **95%** — a family standing on open prairie with no timber in reach is refused it — and the
+   oyster beds to **6%**, the families at Matagorda and no one else. **No family inland is ever shown a bed.**
+2. **Nothing can go wrong.** The hunt can miss; these cannot. That is what makes them the food a family falls back on
+   rather than a second hunt, and it is why the balance below moves the way it does.
+3. **Three of the four want no powder, and none wants the knack.** `steadyHand` is what the long shot wants; a person the
+   hunt would refuse still brings home perch. That is who the record has bringing it home.
+4. **They are walks, not journeys.** Each finds its own place from the house and strolls out to it overland, as the hunt on
+   the family's own land does. Asking the map for a road to a creek bank is how they first failed.
+
+Small game is deliberately **not** a quarry in `GAME`: §9.4 was right that putting a squirrel in the draw would take
+places away from the deer and make the long hunt worse. The deer's draw is untouched, and `tests/biome-game.test.mjs`
+passes unchanged.
+
+### 10.2 The winter turkey and the lean deer
+
+`killYield` takes the month now. In December, January and February a turkey is worth **×1.5** and a deer **×0.75**
+(`winterShare`, sim/hunting.mjs). Nothing else in `GAME` moves, and a kill that does not know the date is the kill it
+always was. §9.4 called this "the best single unbuilt idea in this list"; the signature change it was waiting for is four
+characters long.
+
+### 10.3 What it did to a class, measured
+
+The families nobody plays now fall back on these works when the house is short of food — one person at a time, as with the
+hunt. Six classes of thirty families, three periods, against the same study run before the change
+([before](evidence/biome-balance-bestiary-after.json), [after](evidence/biome-balance-gathering-after.json)):
+
+| | Before | After |
+|---|---|---|
+| Ticks short of food, median family | **65.5** | **8.5** |
+| Families short at all | 137 of 180 | 110 of 180 |
+| Food in hand, median | 37.4 | 40.6 |
+| Food at the end of period 1, median | 22.9 | 28.4 |
+| Shots fired, mean | 10.3 | 6.5 |
+| Shots missed, mean | 4.9 | 2.8 |
+| Ticks spent hunting, mean | 57.6 | 33.8 |
+| Final number, median / mean | 62 / 66.16 | 60.5 / **66.34** |
+| Houses lived in | 180/180 | 180/180 |
+
+**The hunger is gone and the score is not.** The median family is short of food for an eighth as long, and the final
+number moves by less than a fifth of a point either way — so this fed people rather than inflating the game. The hunt is
+used a third less, which is the real change in character and is worth watching: the still-hunt is now a choice rather than
+the only way to eat. By country: the timber 65.5 → 5.5 hungry ticks, the prairie 89 → 40, the savanna 41 → 36.
+
+### 10.4 What it did not reach, and why
+
+**Columbia (117.5 → 109) and Matagorda (103.5 → 100.5) barely moved**, and the reason is worth writing down rather than
+averaging away: those families end the class with no food at all after a period 1 that was fine — hh-14 at Matagorda ended
+period 1 with 166 food and was still short on 101 ticks. **The hunger is the flight east, not the farm.** All four works
+are `where: 'home'`, and a family camped on the road to the Sabine is nowhere near its own creek. The road has its own
+chores already (`hunt-road`, sim/road.mjs, docs/ROAD_EAST.md), so **a line in the water on the road east is the obvious
+next thing** and is not built.
+
+Still unbuilt from §9.4 and still on purpose: the **feral hogs** (the stock economy of `HIST-TEX-112`) and the
+**predators** (`FIC-GONZ-008`: the game has no hidden risk to a person out on the land).
+
+### 10.5 Tests and proof
+
+- `tests/gathering.test.mjs`, 7 tests: the country deciding (four classes of thirty, every refusal reasoned), the beds on
+  salt ground, somebody sent to the water coming home with food and the class replaying it exactly, small game costing a
+  shot and not the knack, the bee tree wanting an axe, the walk being a walk and carrying no numbers the channel does not
+  need, and the winter turkey.
+- **Injections** (`scripts/gathering-injections.mjs`, [record](evidence/gathering-injections.json)): **22 injected, 22
+  caught.** One of them is not hypothetical: the first version of the test only checked that the fishing trip set out for
+  *somewhere*, and the injection that sent a fisher to a stand of post oaks was not caught until the test was made to
+  check it set out for **the water**.
+- 807 tests pass (800 before). `npm run test:hunt` passes all fifteen of its checks on the same computer.
