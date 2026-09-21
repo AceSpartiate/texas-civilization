@@ -32,6 +32,7 @@
 // Invented entire. Nothing here asserts anything about 1835, so the block of `HIST-TEX` numbers set
 // aside for it is deliberately unused; docs/LESSON.md §7 says so.
 import { record } from './events.mjs';
+import { CHORES } from './chores.mjs';
 import { choosing } from './homesite.mjs';
 import { houseSettled } from './houses.mjs';
 import { clearedPlots, plotsOf, sownPlots } from './fields.mjs';
@@ -76,6 +77,14 @@ const HOUSE_WORK = Object.freeze([
   'plan-house', 'place-piece', 'remove-piece',
   'chore:build-house', 'chore:cut-lane', 'fell-trees', 'chore:haul-logs', 'chore:fetch-logs',
 ]);
+
+/**
+ * Every work a family can be given, for the one step that is about giving an order rather than about the work itself.
+ *
+ * Built from `CHORES` rather than written out, so a work added later is on this list the day it exists and the step
+ * cannot quietly go empty again.
+ */
+const ANY_WORK = Object.freeze([...HOUSE_WORK, ...Object.keys(CHORES).map(id => `chore:${id}`)]);
 
 /** Which of the family's people are out hunting: used to know a hunt has been made and come home from. */
 const HUNTS = new Set(['hunt-land', 'hunt-timber']);
@@ -126,8 +135,13 @@ export const STEPS = Object.freeze([
     id: 'order',
     title: 'Put somebody to work',
     first: 'put somebody to work.',
-    says: () => 'Choose one of your family on the left, then choose a work for them. Start them on the house.',
-    allow: () => HOUSE_WORK,
+    // **Any work at all.** Found when the two halves of the guided start first ran together (2026-09-21): with the
+    // house's own work allowed and nothing else, the bar at this step was **empty**, because a house cannot be started
+    // until its place and its plan are chosen and those are not bar work. A student was told "choose a work for them"
+    // and could press nothing, which is the exact confusion this lesson exists to end. This step is about learning to
+    // give an order; the next one is about the house, and it names it.
+    says: () => 'Choose one of your family on the left, then choose any work for them at the bottom of the screen. That is how everyone in the family is told what to do.',
+    allow: () => ANY_WORK,
     done: (world, household) => household.members.some(id => world.entities[id]?.chore),
     did: () => 'Somebody is at work. Every person in the family is given their orders that way.',
   },

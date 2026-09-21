@@ -106,8 +106,21 @@ test('the server refuses what is not this step\'s work, in words a child can rea
   advanceLessons(world);
   const person = hands(world, household)[0];
   assert.equal(lessonOf(world, 'hh-1').step, 'order');
-  assert.throws(() => send(world, 'hh-1', { action: 'chore', entityId: person.id, chore: 'hunt-timber' }), /Not yet - first, put somebody to work\./);
-  assert.equal(person.chore, null, 'a refused order moved nothing');
+  // **The step about giving an order allows any work at all**, and deliberately. Found when the two halves of the
+  // guided start first ran together (2026-09-21): with only the house's own work allowed, the bar at this step was
+  // empty - a house cannot be started until its place and plan are chosen, and neither of those is bar work - so a
+  // student was told to choose a work and could press nothing.
+  const atOrder = new Set(lessonOf(world, 'hh-1').allow);
+  assert.ok(atOrder.has('chore:hunt-timber') && atOrder.has('chore:build-house'), 'the order step leaves nothing to press');
+  send(world, 'hh-1', { action: 'chore', entityId: person.id, chore: 'hunt-timber' });
+  assert.ok(person.chore, 'the order step refused an order, which is the one thing it must not do');
+
+  // From the house on, the lesson is strict again: one thing at a time, and the rest refused in words.
+  advanceLessons(world);
+  assert.equal(lessonOf(world, 'hh-1').step, 'house', 'giving an order did not finish the order step');
+  const other = hands(world, household).find(one => one.id !== person.id && !one.chore);
+  assert.throws(() => send(world, 'hh-1', { action: 'chore', entityId: other.id, chore: 'hunt-timber' }), /Not yet - first, get the house up\./);
+  assert.equal(other.chore, null, 'a refused order moved nothing');
   // The list on the page and the gate on the server are the same list, and the server is the one that holds.
   const allow = new Set(lessonOf(world, 'hh-1').allow);
   assert.ok(!allow.has('chore:hunt-timber'));

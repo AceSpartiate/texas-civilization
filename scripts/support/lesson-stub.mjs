@@ -31,8 +31,10 @@ export const stubStep = (at, did = null) => stubLesson(STUB_STEPS[at - 1].step,
   { index: at, of: STUB_STEPS.length, title: STUB_STEPS[at - 1].title, says: STUB_STEPS[at - 1].says, did, allow: STUB_STEPS[at - 1].allow });
 
 /**
- * Install on a Playwright context BEFORE any page script runs. Afterwards `holdLesson(page, lesson)` sets the step, and
- * `null` takes it away; every snapshot from then on carries it, including the one being parsed when it was set.
+ * Install on a Playwright context BEFORE any page script runs. Afterwards `holdLesson(page, lesson)` sets the step,
+ * `null` takes the stub away so the **server's own** lesson shows through, and `'none'` takes the lesson away
+ * altogether - which is what a family already on its land looks like, and the only way to see that state now that the
+ * server really does send one (2026-09-21, when the two halves of the guided start met).
  */
 export async function installLessonStub(context) {
   await context.addInitScript(() => {
@@ -40,7 +42,10 @@ export async function installLessonStub(context) {
     const parse = JSON.parse;
     JSON.parse = function (...args) {
       const value = parse.apply(this, args);
-      if (value && typeof value === 'object' && value.world && window.__lessonStub) value.world.lesson = window.__lessonStub;
+      if (value && typeof value === 'object' && value.world && window.__lessonStub) {
+        if (window.__lessonStub === 'none') delete value.world.lesson;
+        else value.world.lesson = window.__lessonStub;
+      }
       return value;
     };
   });
@@ -52,7 +57,7 @@ export async function holdLesson(page, lesson) {
     window.__lessonStub = one;
     const world = window.__snapshot?.world;
     if (!world) return;
-    if (one) world.lesson = one; else delete world.lesson;
+    if (one && one !== 'none') world.lesson = one; else delete world.lesson;
   }, lesson);
   // The page redraws on the snapshot it is holding, so the strip and the bar are the step's before this returns.
   await page.evaluate(() => { if (window.__snapshot) window.__render?.(window.__snapshot); });

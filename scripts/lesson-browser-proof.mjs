@@ -113,7 +113,30 @@ try {
   await page.waitForFunction(id => document.querySelector('.panel-row[data-focused=true]')?.dataset.entityId === id, focusedId, { timeout: 15000 });
 
   // ------------------------------------------------------------------------------------------------- the guided start
-  assert.equal(await page.locator('#lesson').isHidden(), true, 'a lesson is drawn for a class the server sent none for');
+  // **The server's own lesson, before any stub touches it.** Both halves of the guided start were built at once, in two
+  // worktrees, against the contract in docs/LESSON.md; this is the first place they meet. What is held here is that the
+  // page draws the step the *server* sent - step one of ten, the arrival - and not a shape the page made up.
+  await page.locator('#lesson').waitFor({ state: 'visible', timeout: 15000 });
+  const served = await page.evaluate(() => ({
+    step: document.querySelector('#lesson-step').textContent,
+    title: document.querySelector('#lesson-title').textContent,
+    says: document.querySelector('#lesson-says').textContent,
+    pips: document.querySelectorAll('#lesson-pips .lesson-pip').length,
+  }));
+  // Whichever step the class has actually reached - this proof's own setup walks the family in and chooses its house
+  // site, which finishes the first step - but it must be one of the ten and it must be the server's.
+  const reached = /STEP\s*(\d+)\s*OF\s*(\d+)/i.exec(served.step);
+  assert.ok(reached, `the step the server sent read "${served.step}"`);
+  assert.ok(Number(reached[1]) >= 1 && Number(reached[1]) <= 10, `the class is on step ${reached[1]}`);
+  assert.equal(Number(reached[2]), 10, 'the lesson is not ten steps long');
+  assert.equal(served.pips, 10, 'the server sent ten steps and the page drew a different number of pips');
+  assert.ok(served.title.length > 0 && served.says.length > 0, 'the step the server sent arrived with no words on it');
+  ok(`the server's own lesson is on the screen: "${served.step} - ${served.title}"`);
+
+  // And with no lesson at all - a family already on its land, or a class that has finished the ten - nothing is drawn.
+  await holdLesson(page, 'none');
+  await page.waitForFunction(() => document.querySelector('#lesson').hidden, null, { timeout: 10000 });
+  ok('no lesson, nothing drawn');
   const open = await page.evaluate(() => document.querySelector('.panel-row[data-focused=true] .panel-icon:not([aria-disabled=true])[data-action=chore]')?.dataset.key);
   assert.ok(open, 'the server offers this family no work, so this proof would prove nothing');
   const step = { ...stubStep(2, 'Your family reached their land.'), allow: [`chore:${open}`] };
@@ -173,13 +196,37 @@ try {
   ok(`a shut icon sends nothing and says what to do instead: "${measured.shutSays}"`);
 
   // Pressing the one that is open sends the order, and the server's own glow comes back on it.
-  await page.locator(`.panel-row[data-focused=true] .panel-icon[data-key="${open}"]`).click();
-  await page.waitForFunction(key => document.querySelector(`.panel-row[data-focused=true] .panel-icon[data-key="${key}"]`)?.dataset.active === 'true', open, { timeout: 20000 });
-  measured.ordered = { key: open, revisionMoved: (await page.evaluate(() => window.__snapshot.revision)) > before };
-  ok(`the one open icon sends its order and the server's glow comes back on it (${open})`);
+  //
+  // **The stub comes off first.** Everything above is about the drawing, and a stub is the right way to put a step on the
+  // screen at will. This is about the order actually going through, and the server has a lesson of its own now: an order
+  // the page thinks is open but the step does not allow is refused, which is exactly the rule working. So the page is
+  // handed back the server's own step and the icon pressed is one the server itself has left open.
+  await holdLesson(page, null);
+  await page.waitForFunction(() => window.__snapshot?.world?.lesson?.allow?.length > 0, null, { timeout: 20000 });
+  // Whoever the step leaves work open on - not necessarily the person the bar happens to be showing. A step names one
+  // piece of work, and which of the family may do it is the family's own business (a child cannot be sent).
+  const whoCanWork = await page.evaluate(() => {
+    for (const row of document.querySelectorAll('.panel-row')) {
+      const icon = row.querySelector('.panel-icon[data-action=chore]:not([aria-disabled=true])');
+      if (icon) return { entityId: row.dataset.entityId, key: icon.dataset.key };
+    }
+    return null;
+  });
+  assert.ok(whoCanWork, `the step the server sent leaves nothing open on anybody: ${JSON.stringify(await page.evaluate(() => window.__snapshot?.world?.lesson))}`);
+  if (whoCanWork.entityId !== await page.evaluate(() => document.querySelector('.panel-row[data-focused=true]')?.dataset.entityId)) {
+    await page.locator(`.panel-focus[data-focus="${whoCanWork.entityId}"]`).click();
+    await page.waitForFunction(id => document.querySelector('.panel-row[data-focused=true]')?.dataset.entityId === id, whoCanWork.entityId, { timeout: 15000 });
+  }
+  const serverOpen = whoCanWork.key;
+  assert.ok(serverOpen, 'the step the server sent leaves nothing on this person to press, so this proof would prove nothing');
+  await page.locator(`.panel-row[data-focused=true] .panel-icon[data-key="${serverOpen}"]`).click();
+  await page.waitForFunction(key => document.querySelector(`.panel-row[data-focused=true] .panel-icon[data-key="${key}"]`)?.dataset.active === 'true', serverOpen, { timeout: 20000 });
+  measured.ordered = { key: serverOpen, revisionMoved: (await page.evaluate(() => window.__snapshot.revision)) > before };
+  assert.equal(await page.evaluate(() => (document.querySelector('#error').textContent || '').trim()), '', 'the order the step allowed was refused');
+  ok(`the one icon the server's own step leaves open sends its order, and the glow comes back on it (${serverOpen})`);
 
   // --------------------------------------------------------------------------------------- the keyboard and the folding
-  await holdLesson(page, null);
+  await holdLesson(page, 'none');
   await page.waitForFunction(() => document.querySelector('#lesson').hidden, null, { timeout: 10000 });
   await page.evaluate(() => document.querySelector('.panel-row[data-focused=true] .panel-icon')?.focus());
   measured.keyboard = await page.evaluate(() => ({
