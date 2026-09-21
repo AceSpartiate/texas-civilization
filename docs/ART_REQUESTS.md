@@ -18,6 +18,7 @@ does not have:
 
 | Stand-in | Where | Standing in for | Replace with |
 | --- | --- | --- | --- |
+| Six glyph icons drawn in code (a stick horse, crossed sticks and chips, birds off an ear of corn, eggs in a nest, a pail of water, a bigger child with a smaller one on the hip) | `drawGlyph` in `public/family-panel.js` | Request 2026-09-21 — the children's icons | `icon-child-play`, `icon-child-kindling`, `icon-child-birds`, `icon-child-eggs`, `icon-child-water`, `icon-child-mind` |
 | A trash can drawn in code with a pen — a lid with a handle, a tapering body, two lines down it | `DrawBin` in `launcher/SoloGameDialog.cs` | Request 2026-09-21 — the Play Solo menu's trash can | `icon-delete-save` |
 | Four glyph icons drawn in code (a squirrel on a branch, a fish over the water, two shells on the sand, a bee tree) | `drawGlyph` in `public/family-panel.js` | Request 2026-09-20 — the gathering icons | `icon-take-small-game`, `icon-fish-the-water`, `icon-gather-oysters`, `icon-cut-bee-tree` |
 | Three glyph icons drawn in code (a long-horned cow, a hog with its snout in the mast, a rider's hat over the grass) | `drawGlyph` in `public/family-panel.js` | Request 2026-09-20 — the stock icons | `icon-butcher-beef`, `icon-butcher-hog`, `icon-look-to-stock` |
@@ -1017,6 +1018,31 @@ The stand-ins above are already in place, so delivery means replacing them:
   names a frame the atlas does not have.
 - **Check.** The cow and the hog are told apart at 38 pixels without their popups, and neither reads as the deer of the
   hunt's own icon.
+
+## Request 2026-09-21 — the children's icons
+
+- **Why.** A child under ten had an empty action bar until 2026-09-21, when the owner gave them works of their own
+  ([FAMILY_CREATION.md](FAMILY_CREATION.md) §3's amendment, `sim/children.mjs`): play, kindling, keeping the birds off the
+  corn, the eggs, carrying water, and minding the younger ones. Six new keys on the family panel, drawn today as strokes
+  in code and marked `stand-in:` in `public/family-panel.js`.
+- **What.** One icon per work, square, transparent, a single strong silhouette in the illustrated palette with a thin dark
+  outline, reading at 34 and 38 CSS pixels (deliver at 128 by 128) and still at 40 per cent opacity. Named `icon-<key>`:
+  - `child-play` — a stick horse, or a hoop and stick: **the one icon that must not look like a job.**
+  - `child-kindling` — an armful of bark, chips and dead sticks. **No axe anywhere in the frame**; that is the rule this
+    icon carries, and a hatchet in a child's hand would say the opposite of what the work is.
+  - `child-birds` — blackbirds going up off a standing ear of corn.
+  - `child-eggs` — two or three eggs in a nest of straw, or a small basket of them.
+  - `child-water` — a wooden pail with a bail, water in it.
+  - `child-mind` — a bigger child with a smaller one on the hip. **A child minding, not an adult**: the difference in
+    height is the whole content of the picture.
+- **The rule the set has to keep.** These are **children's** works. Wherever a figure appears it reads as a child — smaller
+  head-to-body ratio, the rule the people stand-ins already proved. Nothing in the set holds a tool with an edge, and
+  nothing in the set holds a gun.
+- **How it plugs in.** `PANEL_ICONS` in `public/family-panel.js` maps each key to `{ glyph: … }` today; registering the
+  frames and naming `{ sprite: 'icon-<key>' }` there is the whole swap. `tests/family-panel.test.mjs` fails if an icon
+  names a frame the atlas does not have.
+- **Check.** `child-play` is told from the five jobs at 38 pixels without its popup, and `child-mind` is not mistaken for
+  a mother and baby.
 
 ## Request, 2026-09-21 — the Play Solo menu's trash can
 

@@ -101,11 +101,18 @@ export function furnitureShares(household, housed) {
  * Whether this person is doing heavy work at home with a baby to mind: a parent, a living child
  * under two at home, and no cradle. It never stops the work - it slows it, and says so.
  *
- * ceiling: nobody else in the family minds the baby. An older child or the other parent standing
- * idle at home would, and counting that is the obvious refinement if the slowdown bites in play.
+ * Since 2026-09-21 a child of seven or more who has been *set to* minding the younger ones lifts it while they are at it
+ * (`child-mind`, sim/children.mjs, docs/FAMILY_CREATION.md §3's amendment) - the same relief the cradle gives, and the one
+ * effect the children's small jobs have on anything the simulation already counted. The chore's id is written out rather
+ * than imported: sim/children.mjs imports sim/chores.mjs, which imports this file, and one restated string is cheaper than
+ * making that arrow exist. `tests/children.test.mjs` fails if the id ever moves.
+ *
+ * ceiling: only a child actually set to it counts. The other parent standing idle at home does not, and counting that is
+ * still the obvious refinement if the slowdown bites in play.
  */
 export function mindingBaby(world, household, entity) {
   if (hasPiece(household, 'cradle')) return false;
+  if (household.members.some(id => world.entities[id]?.chore?.id === 'child-mind')) return false;
   if (!['father', 'mother'].includes(entity.kin?.role)) return false;
   return household.members.some(id => {
     const person = world.entities[id];

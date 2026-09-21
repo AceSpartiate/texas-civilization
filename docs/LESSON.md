@@ -103,6 +103,11 @@ knows the game is theirs.
 - **The family's own housekeeping and the things between families**: naming, the main person, the auto switch,
   appearance, setting something out in the house, calling off work, answering work, speaking to a rider, travelling,
   making and answering trade offers, and helping raise a neighbour's walls.
+- **The children's own works** (added 2026-09-21, `sim/children.mjs`, `docs/FAMILY_CREATION.md` §3's amendment): the six
+  things a person under ten may be set to. **Not one of them is a step of this lesson and not one of them ever could
+  be** — the lesson teaches building, clearing, planting, selling, hunting and the well, and a child under ten can do
+  none of those. A lesson that refused a five-year-old their hour of play because the house was not raised yet would be
+  refusing the one thing that family member is for.
 
 Two more exemptions are not in the list because they are conditions rather than actions. An order to somebody who has
 **joined the army, the garrison or the expedition** is never the lesson's business — they are not at home to be taught,

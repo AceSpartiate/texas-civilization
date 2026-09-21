@@ -164,7 +164,10 @@ test('a family is rolled once, and before anything happens to it', () => {
   validateWorld(world);
 });
 
-test('a child under ten is not sent anywhere, and the controls say so', () => {
+// Amended 2026-09-21 (docs/FAMILY_CREATION.md §3): a child under ten now has works of their own (sim/children.mjs), and
+// what this test still holds is the other two thirds of the 2026-09-12 rule - not on a road, and not set to a grown
+// person's work. The children's own works are tested in tests/children.test.mjs.
+test('a child under ten is not sent anywhere and cannot be given a grown person\'s work, and the controls say so', () => {
   let world = null, child = null;
   for (let n = 0; n < 40 && !child; n++) {
     world = lobby(`young-${n}`, 5);
@@ -174,7 +177,10 @@ test('a child under ten is not sent anywhere, and the controls say so', () => {
   assert.ok(child, 'no class produced a young child to test with');
   const household = world.households[child.householdId];
   const why = new RegExp(`${child.name} is too young`);
-  assert.ok(choresFor(world, household, child).every(chore => !chore.can && why.test(chore.why)), 'the work controls offer a small child a job');
+  // Every work on the row that is not one of the children's own is refused, and says so by name. A child old enough for
+  // their own works sees only those (`childBar` in sim/chores.mjs), so on those rows this holds vacuously and the rule it
+  // guards - that no grown person's work is ever offered to a child - is the same rule either way.
+  assert.ok(choresFor(world, household, child).every(chore => chore.id.startsWith('child-') || (!chore.can && why.test(chore.why))), 'the work controls offer a small child a grown person\'s job');
   assert.ok(travelModesFor(world, child).every(mode => !mode.can && why.test(mode.why)), 'the travel controls offer a small child a road');
   assert.throws(() => applyAction(world, household.id, { action: 'chore', entityId: child.id, chore: 'plant-field' }), why);
   assert.throws(() => applyAction(world, household.id, { action: 'travel', entityId: child.id, destination: 'gonzales' }), why);
