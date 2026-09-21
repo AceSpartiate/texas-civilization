@@ -347,7 +347,7 @@ they are not; in the long ticks nearly everybody on the road is.
 
 ## Request 2026-09-18 — the Alamo's faces seen from the south
 
-**Status: open; stand-in in use (see *Stand-ins in use* above).** Owner, 2026-09-18: "bring the Alamo complex into the same
+**Status: delivered 2026-09-21.** `alamo-face-strips.png` supplies distinct straight-on limestone, room-range, gate, convento and roofless-church south elevations. Owner, 2026-09-18: "bring the Alamo complex into the same
 art style as the rest of the game. ensure it matches the dimensions of the historical building." The map now draws the
 compound at its true footprint (`HIST-TEX-090` to `-092`, [ALAMO_LAYOUT.md](ALAMO_LAYOUT.md) "On the map"): every building a
 box on its plan, as tall as its true height times the towns' `DRAWN_HEIGHT`, with a flat parapeted roof, and the face turned
@@ -663,7 +663,7 @@ south-facing like the other buildings, with a ground-contact shadow and no paint
 
 ## Request 2026-09-16 — driving the ox wagon
 
-**Status: open; the person's own figure sits on the side-view wagon.** Owner's playtest, 2026-09-16: "characters don't actually
+**Status: partially delivered 2026-09-21.** `people-wagon-drivers.png` supplies compositing-ready south/east/west/north seated driver layers for the original rust, teal, elder and blue cast. The second cast and child/adolescent coverage remain open. Owner's playtest, 2026-09-16: "characters don't actually
 sit on the horse when using it ... Same thing for the Ox and Wagon." Whoever takes the ox and wagon was drawn walking in front
 of it; they are now their own standing figure cut off at the waist and put on the front of the wagon, with the ox drawn
 separately ahead. Nothing hitches the ox to the wagon, and going north or south the wagon is still side-on.

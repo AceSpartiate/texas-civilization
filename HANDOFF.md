@@ -1,5 +1,7 @@
 # Claude handoff — Astra foundation
 
+**Alamo elevations and wagon drivers, 2026-09-21:** `alamo-face-strips.png` supplies five historically distinct south-facing compound surfaces without changing the measured footprint or destructible wall state. `people-wagon-drivers.png` supplies sixteen wagon/ox compositing layers for the original cast in four directions. Read `docs/ART_DELIVERY_2026-09-21-ALAMO-FACE-STRIPS.md` and `docs/ART_DELIVERY_2026-09-21-WAGON-DRIVERS.md`. Second-cast driver layers remain open.
+
 **Three faults the first screenshots of the guided start showed, and one the server still has, 2026-09-21 (later the same
 day):** [FAMILY_PANEL.md](docs/FAMILY_PANEL.md) §12.8–§12.10. The two halves met on main; the screenshots of them together
 were read back and three things on the page were wrong.
@@ -321,10 +323,12 @@ finished work.
 
 **1. Everything through the weather and the launcher is built, merged, released.** Main is green at **791 tests, 0 fail**,
 `check-doc-links` 693, and the browser proofs `test:crossings`, `test:solo-game`, `test:hunt` and `test:farm` all pass on a
-clean detached worktree. **The release is [v2026.09.21.3](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.21.3)** —
-**everything the class of 2026-09-21 asked for**: the guided start (both halves), the screen given back to the game,
-the ability bar bottom-middle, travellers too fast to follow going out of sight, and a disconnected student picking
-their own name off a list. 858 tests. **Astra's art wiring is still out with its agent** and will be the next release.
+clean detached worktree. **The release is [v2026.09.21.4](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.21.4)** —
+Astra's nine batches wired (the painted norther, the turkey, the towns' real buildings, the plank ferries and the
+*Yellow Stone*, ten more trees, the second cast's walking and speaking), on top of .3's **everything the class of
+2026-09-21 asked for**: the guided start (both halves), the screen given back to the game, the ability bar
+bottom-middle, travellers too fast to follow going out of sight, and a disconnected student picking their own name off
+a list. **866 tests, and all four agents merged.**
 The previous one was [v2026.09.21.2](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.21.2)
 — the cold on the road east and Astra's 53 action icons, on top of .1's stock, 09.20.7's sky in the hunt, .6's line in the river, .5's four works at home, .4's
 weather proof and green plate, and .3's coast, animals, weather model, weather drawn and launcher face. Setup 191.7 MB → 212.4 MB at .3, which is the art embedded in the executable.
