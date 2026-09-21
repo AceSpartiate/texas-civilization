@@ -128,6 +128,10 @@ try {
   await page.waitForTimeout(1500);
   assert.equal(await page.locator('#surname').isHidden(), true, 'the last name was asked for again');
   assert.equal(await page.locator('#looks').isHidden(), true, 'the looks were asked for again');
+  // The wagon panel is up on a reloaded lobby page, and since 2026-09-21 a panel that covers the family's column dims
+  // what it covers (`#panel-backdrop`, docs/FAMILY_PANEL.md §12.11). The dim takes the click meant for the journal, so
+  // this proof has been failing here since that pass; it is put away first, the way a student would.
+  if (await page.locator('#wagon-done').isVisible()) await page.locator('#wagon-done').click();
   if (await page.locator('#family-journal').getAttribute('data-open') !== 'true') await page.locator('#journal-toggle').click();
   await page.locator('#family-kin li').first().waitFor({ state: 'visible' });
   assert.equal(await page.locator('#family-journal input[data-rename], #family-journal select').count(), 0, 'the journal still edits names or looks');

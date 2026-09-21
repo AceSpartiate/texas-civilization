@@ -21,9 +21,16 @@
 </div>
 <section id="creation-begin" hidden aria-labelledby="creation-begin-title">
   <h2 id="creation-begin-title">Your family</h2>
-  <p>You are one family among the settlers of Texas in the autumn of 1835. You will roll for who they are, name them, and
-    choose how the parents look. After that the country is yours to work: the field, the timber, the town, and whatever the
-    year brings.</p>
+  <!-- Only the four steps this card can promise. The wagon and the stock choice are a class's lobby and do not exist in
+       Play Solo (measured 2026-09-21), so they are explained on their own panel, where they are real. -->
+  <p>You are one family among the settlers of Texas in the autumn of 1835. First you make them, in four steps: roll the die
+    for who they are, give the family a last name, name each of them, and choose how the parents look.</p>
+  <!-- True since the forced tutorial of 2026-09-21 (docs/LESSON.md): the server refuses every order that is not the step
+       the family is on, so the old line "after that the country is yours to work" promised a freedom the simulation does
+       not give for the first hour. -->
+  <p class="creation-begin-after">From the moment the wagon starts in, the game walks you through the farm one task at a
+    time - the house, the field, the crop, the town, the hunt and the well - and will not let you jump ahead. The country
+    is yours to work once that is done.</p>
   <button type="button" id="creation-begin-button">Begin</button>
 </section>
 <!-- Everybody's first name, on one card, already filled in with the names the game dealt (owner, 2026-09-17). -->
@@ -31,6 +38,10 @@
   <span class="eyebrow" id="names-family"></span>
   <h2 id="names-title">Name each of them</h2>
   <form id="names-form">
+    <!-- Every box is already filled in with the name the game dealt, so nothing here is required. Said out loud since
+         2026-09-21: a card headed "Name each of them" with ten filled boxes reads as ten things to do. -->
+    <p id="names-hint">Step 3 of 4. They are already named: change any you like, or press Continue and keep them. You can
+      rename anybody later on the family panel.</p>
     <ul id="names-list"></ul>
     <p id="names-error" role="alert"></p>
     <button id="names-done" type="submit">Continue</button>
@@ -208,10 +219,13 @@
          the way: a student who would rather just start farming says so once and it goes. -->
     <!-- The die a family is rolled with (docs/FAMILY_CREATION.md). What the number means
          is deliberately written nowhere a student can read it. -->
+    <!-- "STEP 1 OF 4", not "BEFORE THE CLASS BEGINS": the die is rolled in Play Solo too, where there is no class
+         (2026-09-21). What the number means stays unwritten; that it is thrown once does not. -->
     <section id="family-roll" hidden aria-labelledby="family-roll-title">
-      <span class="eyebrow">BEFORE THE CLASS BEGINS</span>
+      <span class="eyebrow">STEP 1 OF 4</span>
       <h2 id="family-roll-title">Roll for your family</h2>
-      <p id="family-roll-text">Roll the die to find out who your family is.</p>
+      <p id="family-roll-text">The die decides how many are in your family and who they are. It is thrown once. There is no
+        second roll, so the family it gives you is the family you play.</p>
       <div id="family-die" class="family-die" aria-hidden="true">20</div>
       <p id="family-roll-result" role="status"></p>
       <button type="button" id="roll-family">Roll the die</button>
@@ -229,13 +243,22 @@
         <span class="eyebrow">BEFORE THE CLASS BEGINS</span>
         <h2 id="wagon-load-title">Pack the wagon</h2>
       </header>
-      <p id="wagon-load-text">What you load is what your family has. Anything left out is not coming.</p>
+      <!-- "Anything left out is not coming" was true of the wagon and false of the game: every blacksmith sells the axe,
+           broadaxe, froe and auger, and the store sells seed and powder (sim/shops.mjs), which the item lines here have
+           said all along ("more has to be bought in Gonzales"). What cannot be bought back is the things for the house.
+           And the panel never said the choice closes the moment the teacher presses Start (`wagonProjection` sends
+           nothing once the class runs). Both corrected 2026-09-21. -->
+      <p id="wagon-load-text">What you load is what the family arrives with. Tools, seed and powder can be bought in a
+        town later, if there is coin; the things for the house cannot be bought anywhere.</p>
+      <p id="wagon-when">You can change all of this until your teacher presses Start. After that the wagon is packed.</p>
       <p id="wagon-room" role="status"></p>
-      <!-- Whether the family drives stock in, which decides how much land it holds (docs/LAND_GRANTS.md). -->
+      <!-- Whether the family drives stock in: how much land it holds (docs/LAND_GRANTS.md) and the herd itself
+           (docs/STOCK.md), both stated here since 2026-09-21. -->
       <fieldset id="wagon-stock" hidden>
         <legend>Stock, and the land it brings</legend>
         <label><input type="radio" name="wagon-stock" value="no"> <span id="stock-no-text"></span></label>
         <label><input type="radio" name="wagon-stock" value="yes"> <span id="stock-yes-text"></span></label>
+        <p id="wagon-stock-why" role="alert"></p>
       </fieldset>
       <ul id="wagon-items"></ul>
       <p id="wagon-note" role="alert"></p>
@@ -337,12 +360,17 @@
     <button id="ending-open" hidden>How it ended</button>
     <!-- Naming the family (owner, 2026-09-17): once the die is rolled, a family with no last name is asked for one. It cannot
          be closed until it is answered; the class goes on underneath, as it does with any open question. -->
+    <!-- The last name is set once (sim/family.mjs `nameFamily` refuses a second one), which until 2026-09-21 a student only
+         found out by trying; and the list of names under the box carried no words saying what it was. -->
     <section id="surname" hidden role="dialog" aria-modal="true" aria-labelledby="surname-title">
-      <span class="eyebrow">YOUR FAMILY</span>
+      <span class="eyebrow">STEP 2 OF 4</span>
       <h2 id="surname-title">Name your family</h2>
       <form id="surname-form">
         <label for="surname-input">Family Last Name</label>
         <input id="surname-input" maxlength="24" autocomplete="off" spellcheck="false" required>
+        <p id="surname-hint">Everybody in the family carries it. It is chosen once and cannot be changed afterwards; first
+          names can be changed at any time, on the family panel.</p>
+        <p id="surname-people-label">Your family:</p>
         <p id="surname-people"></p>
         <p id="surname-error" role="alert"></p>
         <button id="surname-save" type="submit">Name the family</button>
@@ -350,11 +378,15 @@
     </section>
     <!-- How We Look (public/appearance.js): next after the last name, one parent at a time, with a picture for every choice.
          Required, with the defaults already chosen, so Done is enough. -->
+    <!-- The eyebrow said only the role, so a second parent coming up after Done was an unannounced second screen; and the
+         note said appearance decides nothing but not that it is chosen once, nor that the children are not asked for
+         (sim/appearance.mjs `appearanceRefusal`, `childAppearance`). Both corrected 2026-09-21. -->
     <section id="looks" hidden role="dialog" aria-modal="true" aria-labelledby="looks-title">
       <span class="eyebrow" id="looks-role"></span>
       <h2 id="looks-title">How we look</h2>
       <form id="looks-form">
-        <div id="looks-top"><canvas id="looks-preview" width="160" height="160" aria-hidden="true"></canvas><p id="looks-note">Choose how they look. Nothing about a person depends on it.</p></div>
+        <p id="looks-step"></p>
+        <div id="looks-top"><canvas id="looks-preview" width="160" height="160" aria-hidden="true"></canvas><p id="looks-note">Nothing about a person depends on how they look - it changes nothing in the game. Chosen once, and kept. The children are not asked for: they take after their parents.</p></div>
         <div id="looks-parts"></div>
         <p id="looks-error" role="alert"></p>
         <button id="looks-done" type="submit">Done</button>

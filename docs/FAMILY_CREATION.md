@@ -4,6 +4,10 @@
 changing `sim/family.mjs`, the join flow, chores that depend on who does them, or anything that
 decides who can be sent to fight.
 
+**The words on the wizard's screens were reviewed 2026-09-21** — the amendment at the foot of this file is the record of
+what each screen must say, and `tests/creation-words.test.mjs` holds it. Read it before changing a sentence on
+`#family-roll`, `#surname`, `#names`, `#looks` or `#wagon-load`.
+
 ---
 
 ## 1. What the owner asked for
@@ -304,3 +308,57 @@ A family that has not rolled and can no longer - a Solo game kept from before th
 never move. `tests/solo.test.mjs` (the hold, and the family that cannot be made) and `npm run test:solo` (tick 0 after two
 study-pace ticks and more, the die still offered, then the world going on once the family is made) each failed with the hold
 taken out.
+
+## Amendment, 2026-09-21 — the words and the choices of the wizard
+
+The opening tutorial was repaired on 2026-09-21 ([TUTORIAL_USABILITY_HANDOFF.md](TUTORIAL_USABILITY_HANDOFF.md)) and its
+last line said the wizard still had to be reviewed. This is that review, held to the same rule:
+
+> The screen may not name a thing it cannot point at, may not rely on a prerequisite it has not said out loud, and may not
+> say anything the simulation does not actually do.
+
+**The five-step order is untouched** (title, die, last name, first names, looks) — it is the owner's, 2026-09-17. No rule
+of the simulation moved, no number moved, and no save version moved. What changed is what the screen says, and one thing
+the server sends so the screen can say it. Claims `FIC-GONZ-240` and `-241`.
+
+### What was wrong, and what each screen says now
+
+| Where | What was wrong | What it says now |
+| --- | --- | --- |
+| `#creation-begin` | *"After that the country is yours to work: the field, the timber, the town."* **Untrue since the day before**: `lessonRefusal` refuses every order that is not the family's current step, and the town is the eighth of ten. | The four steps of making the family, then: the game walks you through the farm one task at a time and will not let you jump ahead; the country is yours once that is done. The wagon is not promised here, because Play Solo has no wagon panel (below). |
+| `#family-roll` | Eyebrow **BEFORE THE CLASS BEGINS** — there is no class in Play Solo, where the die is also rolled. The panel never said the roll is taken once. | **STEP 1 OF 4**; "The die decides how many are in your family and who they are. It is thrown once. There is no second roll." **The mapping is still written nowhere** (§2), and `tests/creation-words.test.mjs` refuses the words *parent*, *children* and *lone* on that panel. |
+| `#surname` | `nameFamily` refuses a second last name and the box never said so; the list of names under the input had no label at all. | **STEP 2 OF 4**; "Everybody in the family carries it. It is chosen once and cannot be changed afterwards; first names can be changed at any time, on the family panel." The list is headed **Your family:**. |
+| `#names` | Headed *"Name each of them"* over boxes that were already filled in — ten jobs where there were none. An emptied box was skipped silently, leaving a box showing a name nobody had. | "Step 3 of 4. They are already named: change any you like, or press Continue and keep them." An emptied box is put back to the dealt name. |
+| `#looks` | Said appearance decides nothing (true, and kept), but not that it is **set once** (`appearanceRefusal`), nor that the children are not asked for. A second parent came up after Done with nothing having said a second screen existed — the same fault as the tutorial's hidden map click. | "Nothing about a person depends on how they look — it changes nothing in the game. Chosen once, and kept. The children are not asked for: they take after their parents." And a line: **Step 4 of 4. Parent 1 of 2. Done brings up the next parent.** The total counts every parent, not the ones still waiting, so it does not shrink. |
+| `#wagon-stock` | Offered the acres and the two wagon spaces and **never said the family arrives with animals**. Since 2026-09-20 the choice brings `OPENING_HERD` — six cattle and twelve hogs that feed themselves and feed the family ([STOCK.md](STOCK.md) §3) — which is the larger half of what the choice does. | `grantProjection` now sends `stockChoice.herd`, and the panel prints the server's numbers: the acres, "about 26 times as much land", the two wagon spaces, and "The family arrives with 6 cattle and 12 hogs, which feed themselves on the range and feed the family." Nothing is written into the page. |
+| `#wagon-load` | *"Anything left out is not coming."* Every town keeps a blacksmith selling the axe, broadaxe, froe and auger, and the store sells seed and powder (`sim/shops.mjs`) — the item lines on this very panel already said *"more has to be bought in Gonzales"*. And the panel never said the choice closes when the teacher presses Start. | "What you load is what the family arrives with. Tools, seed and powder can be bought in a town later, if there is coin; the things for the house cannot be bought anywhere." Plus: "You can change all of this until your teacher presses Start." |
+| The load buttons | A loaded thing's button read **Loaded** — a state, not an action — and pressing it took the thing out. A hidden second interaction. | It reads **Take out**. The screen-reader label was already right and is unchanged. |
+| `stockChoice.why` | Projected and never displayed; the two radios were greyed with no reason given. | Shown in `#wagon-stock-why`. Marked `ceiling:` — `stockRefusal` asked without an answer cannot refuse while the panel is up, so it is unreachable today and is wired so the next refusal does not arrive invisible. |
+
+### What was found and deliberately not changed
+
+- **Play Solo never packs the wagon and never chooses its land.** Measured: `wagonProjection` and `grantProjection` both
+  send nothing once `world.status !== 'lobby'`, and a Solo game opens `running` (`newSoloGame`, and the 2026-09-18 hold
+  keeps its *clock* at zero, not its status). So a Solo player gets `defaultLoad`, no stock, and **a labor of 177 acres**
+  where a class student may hold 4,606. This is a real divergence from the owner's *"the experience in solo vs live class
+  should be the same"* (2026-09-17), but closing it means inventing a lobby, or a ready gate, for a game that has none —
+  a design decision, not a wording one. It is written up in `HANDOFF.md` as the next thing to ask about. Until then the
+  title card does not promise a wagon step, because in Solo there is none.
+- **A class whose Host presses Start early loses the choice in silence.** The panel now says when it closes; it does not
+  warn as the moment approaches, and it vanishes rather than saying it has gone.
+- **The die still explains nothing about the number.** That is §2 and is the owner's.
+
+### Evidence
+
+`npm test`: **876 passed, zero failed** (869 before). Seven new tests in `tests/creation-words.test.mjs`, each proven by
+injecting the mistake it guards: `node scripts/creation-words-injections.mjs`, **16 of 16 caught**,
+[record](evidence/creation-words-injections.json). The harness converts its patterns to the working copy's CRLF before
+matching and throws unless each is found exactly once.
+
+Browser: `npm run test:creation` (`scripts/creation-browser-proof.mjs`, new — it was referenced by
+`tests/creation.test.mjs` and `scripts/support/meet-family.mjs` and had never been written). **9 checks at 1366×768**,
+[record](evidence/creation-browser.json), screenshots `creation-title.png`, `-die`, `-surname`, `-names`, `-looks`,
+`-wagon`. Every check runs with the panel it measures visible and refuses an element with an empty box, because a hidden
+element overlaps nothing and would pass against broken code. Break-drilled three ways — the old **Loaded** label, an
+over-wide wagon panel, and a display-none step line — and it failed each time. Same computer only; no LAN or district
+claim, and Play Solo is not covered.

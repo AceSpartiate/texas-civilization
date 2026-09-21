@@ -4329,11 +4329,19 @@ function renderWagonLoad(world) {
   if (shape === wagonShown) return;
   wagonShown = shape;
   $('#wagon-room').textContent = `${wagon.used} of ${space} space filled, ${space - wagon.used} left.`;
-  // Driving stock in: what each answer brings, in acres and wagon space, before it is chosen (FIC-GONZ-008).
+  // Driving stock in: what each answer brings, in acres, animals and wagon space, before it is chosen (FIC-GONZ-008).
+  // The herd itself was built on 2026-09-20 (docs/STOCK.md) and this panel went on offering only the acres and the wagon
+  // cost, so the largest thing the choice did was never said where the choice was made. The numbers are the server's
+  // (`stockChoice.herd`), never written here.
   $('#wagon-stock').hidden = !choice;
   if (choice) {
-    $('#stock-no-text').textContent = `No stock. The family holds a labor of land, ${choice.laborAcres} acres.`;
-    $('#stock-yes-text').textContent = `Drive cattle and hogs in. The family holds a league and a labor, ${choice.stockAcres.toLocaleString('en-US')} acres, and the herd's keep takes ${choice.space} spaces of the wagon.`;
+    $('#stock-no-text').textContent = `No stock. The family holds a labor of land, ${choice.laborAcres} acres, and brings no animals.`;
+    const herd = choice.herd ? ` The family arrives with ${choice.herd.cattle} cattle and ${choice.herd.hogs} hogs, which feed themselves on the range and feed the family.` : '';
+    $('#stock-yes-text').textContent = `Drive cattle and hogs in. The family holds a league and a labor, ${choice.stockAcres.toLocaleString('en-US')} acres - about ${Math.round(choice.stockAcres / choice.laborAcres)} times as much land - and the herd's keep takes ${choice.space} spaces of the wagon.${herd}`;
+    // The server's own sentence when the choice is shut, rather than two controls greyed for no stated reason.
+    // ceiling: `stockRefusal` asked without an answer cannot refuse while the panel is up, so this is unreachable today;
+    // it is wired because a silently dead control is how the next refusal would arrive invisible.
+    $('#wagon-stock-why').textContent = choice.can ? '' : choice.why || '';
     for (const radio of document.querySelectorAll('#wagon-stock input')) {
       radio.checked = (radio.value === 'yes') === Boolean(household.stock);
       radio.disabled = !choice.can;
@@ -4366,7 +4374,9 @@ function renderWagonLoad(world) {
         control('+', item.id, count + 1, `${item.id}-more`, { 'aria-label': `One more: ${item.name}`, ...(count >= item.most && { disabled: 'true' }) }),
       );
     } else {
-      controls.append(control(count ? 'Loaded' : 'Load', item.id, count ? 0 : 1, `${item.id}-toggle`, { 'aria-pressed': String(Boolean(count)), 'aria-label': `${item.name}: ${count ? 'loaded, press to take it out' : 'not loaded, press to load it'}` }));
+      // The label says what pressing does, not what the thing is. "Loaded" named a state, and pressing it took the thing
+      // out - the same hidden second interaction the map click was in the tutorial (2026-09-21).
+      controls.append(control(count ? 'Take out' : 'Load', item.id, count ? 0 : 1, `${item.id}-toggle`, { 'aria-pressed': String(Boolean(count)), 'aria-label': `${item.name}: ${count ? 'loaded, press to take it out' : 'not loaded, press to load it'}` }));
     }
     li.append(controls, element('span', item.describe, 'wagon-describe'));
     return li;

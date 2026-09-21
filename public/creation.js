@@ -134,7 +134,10 @@ export function bindCreation({ command, refresh, family }) {
       for (const person of book?.people || []) {
         const input = $(`#name-${CSS.escape(person.id)}`);
         const typed = input?.value.trim();
-        if (!typed || typed === (person.given || person.name)) continue;
+        // An emptied box keeps the name the game dealt - the server would refuse a blank - so the box is put back to what
+        // the world actually holds rather than left showing a name nobody has (2026-09-21).
+        if (!typed) { if (input) input.value = person.given || person.name; continue; }
+        if (typed === (person.given || person.name)) continue;
         await actions.command({ action: 'rename', entityId: person.id, name: typed });
       }
       remember('named', true);

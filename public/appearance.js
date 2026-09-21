@@ -33,11 +33,26 @@ const make = (tag, text, className) => {
 
 /** The parent still to be chosen for, oldest role first (the father, then the mother). */
 const waiting = family => (family?.people || []).filter(person => person.choices && !person.chosen);
+/** Every parent of the family, answered or not: the fixed total the "Parent 1 of 2" line counts against. */
+const parentsOf = family => (family?.people || []).filter(person => person.choices);
+/** Where this parent stands among all of them, for the pop-up's own counter. */
+const placeOf = (family, id) => {
+  const all = parentsOf(family);
+  return { index: Math.max(0, all.findIndex(person => person.id === id)), of: all.length };
+};
 
-function draw(person) {
+function draw(person, { index = 0, of = 1 } = {}) {
   const box = document.querySelector('#looks');
   document.querySelector('#looks-title').textContent = `How ${person.given || person.name} looks`;
   document.querySelector('#looks-role').textContent = person.role ? capital(person.role) : '';
+  // Which parent of how many, and what Done does next. A family with two parents showed the father, took Done, and put the
+  // mother up with nothing having said there was a second screen (2026-09-21) - the same fault as the map click. Counted
+  // over every parent of the family, not over the ones still waiting, so the total does not shrink as they are answered.
+  const step = document.querySelector('#looks-step');
+  if (step) {
+    const last = index + 1 >= of;
+    step.textContent = `Step 4 of 4. ${of > 1 ? `Parent ${index + 1} of ${of}. ` : ''}Done ${last ? 'finishes your family' : 'brings up the next parent'}.`;
+  }
   drawLooks(document.querySelector('#looks-preview'), picked, person.sex);
   const rows = document.querySelector('#looks-parts');
   rows.replaceChildren(...PARTS.map(([part, label]) => {
@@ -75,7 +90,7 @@ export function renderLooks(family, { blocked = false } = {}) {
     showing = next.id;
     picked = { ...next.appearance };
     document.querySelector('#looks-error').textContent = '';
-    draw(next);
+    draw(next, placeOf(family, next.id));
   }
   if (box.hidden) { box.hidden = false; setTimeout(() => box.querySelector('.looks-option[aria-pressed="true"]')?.focus(), 0); }
 }
@@ -90,8 +105,9 @@ export function bindLooks({ command, refresh, family }) {
     const option = event.target.closest('button[data-part]');
     if (!option || !picked) return;
     picked = { ...picked, [option.dataset.part]: option.dataset.value };
-    const person = waiting(actions.family()).find(one => one.id === showing);
-    if (person) { draw(person); document.querySelector(`#looks-parts button[data-part="${option.dataset.part}"][data-value="${CSS.escape(option.dataset.value)}"]`)?.focus(); }
+    const book = actions.family();
+    const person = waiting(book).find(one => one.id === showing);
+    if (person) { draw(person, placeOf(book, person.id)); document.querySelector(`#looks-parts button[data-part="${option.dataset.part}"][data-value="${CSS.escape(option.dataset.value)}"]`)?.focus(); }
   });
   document.querySelector('#looks-form')?.addEventListener('submit', async event => {
     event.preventDefault();

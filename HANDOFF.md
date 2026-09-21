@@ -29,6 +29,58 @@ guessed among several open chores by row order — the exact fault its ranking w
   gives it no height, so it covered nothing and read as clean, which is worse than not asking. Those four are the next
   thing to point this study at.
 
+**The family-creation wizard's words, 2026-09-21:** the last item on the tutorial pass's own next-work list
+([TUTORIAL_USABILITY_HANDOFF.md](docs/TUTORIAL_USABILITY_HANDOFF.md)), done and written up as a dated amendment in
+[FAMILY_CREATION.md](docs/FAMILY_CREATION.md). The five-step order is untouched — it is the owner's. **No rule, number or
+save version moved**; the one simulation change is that `grantProjection` now sends `stockChoice.herd` so the page can
+print the server's numbers instead of its own. Claims `FIC-GONZ-240`, `-241`. Four faults were the point of it:
+
+- **The title card promised freedom the server had begun refusing the day before.** *"After that the country is yours to
+  work: the field, the timber, the town"* — `lessonRefusal` refuses every order that is not the family's current step,
+  and the town is step 8 of 10. It now says the game walks you through the farm one task at a time and will not let you
+  jump ahead.
+- **The stock choice never said the family arrives with animals.** It decides a labor (177 acres) or a league and a labor
+  (4,606) *and*, since 2026-09-20, a herd of six cattle and twelve hogs that feeds itself and feeds the family
+  ([STOCK.md](docs/STOCK.md)). The panel had gone on offering only the acres and the two wagon spaces. This is the same
+  shape of fault as the tutorial's sale that promised coin the store pays in food.
+- **"Anything left out is not coming" is false**, and the item lines on that same panel already contradicted it: every
+  town keeps a blacksmith selling the axe, broadaxe, froe and auger, and the store sells seed and powder
+  (`sim/shops.mjs`). What genuinely cannot be bought back is the things for the house, and that is what it says now.
+- **A hidden second interaction, and a hidden second screen.** A loaded thing's button read **Loaded** — a state, not an
+  action — and pressing it took the thing out; it reads **Take out**. And a family with two parents met the mother after
+  pressing Done with nothing having said a second screen existed; the pop-up now reads *Step 4 of 4. Parent 1 of 2. Done
+  brings up the next parent*, counted over every parent so the total does not shrink.
+
+Also: every step is numbered 1–4; the last name says it is set once and that first names are not; the names card says
+every box is already filled in and an emptied box is put back rather than left showing a name nobody has; the looks
+pop-up says it is chosen once and that the children are not asked for. **The die still explains nothing about the
+number** — `docs/FAMILY_CREATION.md` §2 — and a test refuses the words *parent*, *children* and *lone* on that panel.
+
+- **Evidence:** `npm test` **876 passed, zero failed** (869 before). Seven new tests in `tests/creation-words.test.mjs`,
+  each proven by injecting the mistake it guards — `node scripts/creation-words-injections.mjs`, **16 of 16 caught**,
+  [record](docs/evidence/creation-words-injections.json); the harness converts its patterns to the working copy's CRLF
+  and throws unless each is found exactly once. `npm run test:creation` — **9 checks at 1366×768**,
+  [record](docs/evidence/creation-browser.json). `scripts/creation-browser-proof.mjs` is new: it was referenced by
+  `tests/creation.test.mjs` and `scripts/support/meet-family.mjs` and had never been written. Every check runs with the
+  panel it measures visible and refuses an element with an empty box, and it was break-drilled three ways (the old
+  **Loaded** label, an over-wide panel, a display-none step line) and failed each time. Same computer only.
+- **One pre-existing red proof repaired, and it was not mine.** `npm run test:looks` had been failing since the
+  panel-backdrop change of 2026-09-21: the dim over the family's column took the click meant for the Journal button.
+  Confirmed by running it against the clean tree at `4f96879`, where it fails identically. The proof now puts the wagon
+  panel away first, the way a student would. **8 checks pass.**
+
+**Open, and needs the owner rather than Claude — Play Solo never packs its wagon or chooses its land.** Measured:
+`wagonProjection` and `grantProjection` both send nothing once `world.status !== 'lobby'`, and `newSoloGame` opens a
+Solo world `running` (the 2026-09-18 hold freezes its *clock* at tick 0, not its status). So a Play Solo player never
+sees the wagon panel or the stock radios at all: they get `defaultLoad`, no herd, and **a labor of 177 acres** where a
+class student may hold 4,606 — a 26-fold difference in land, decided by a screen they are never shown. That contradicts
+the owner's *"the experience in solo vs live class should be the same"* (2026-09-17), but closing it means inventing a
+lobby or a ready gate for a game that has none, which is a design decision. Until it is taken, the title card
+deliberately does not promise a wagon step. Two smaller ones left alone for the same reason: a class whose Host presses
+Start early loses the stock choice (the panel now says *when* it closes but does not warn as the moment nears, and it
+vanishes rather than saying it has gone); and `stockChoice.why` is unreachable today — it is now displayed anyway, marked
+`ceiling:`, so the next refusal does not arrive invisible.
+
 **Opening tutorial usability repair:** Read [TUTORIAL_USABILITY_HANDOFF.md](docs/TUTORIAL_USABILITY_HANDOFF.md) first for the complete change list, evidence and follow-up work. The guide now chooses actions by objective, locates the correct person's control with a named button, explains placement and waiting, opens unanswered work questions, and shows completion. Map actions retain the working bare-command path and also accept chore-prefixed aliases. This corrects the older prefix diagnosis below: actual map confirmation already sent the bare action. Full suite: **868 passed**; browser guide proof: **17 checks passed**, including phone layout. The user expressly authorized changes to earlier UI restrictions.
 
 **Mounted family cast, 2026-09-21:** The registered frontier library now contains **1,149 measured sprites across 81 sheets and 434 validated clips**. Six `people-mounted-cast*` atlases add 96 frames and 24 authored clips for all eight established identities riding the same chestnut horse east/west, south and north. Read `docs/ART_DELIVERY_2026-09-21-MOUNTED-FAMILY.md`. These full mounted sprites are ready to replace the current cropped-person-over-horse composite.

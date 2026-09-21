@@ -49,8 +49,13 @@ clearing time except the timber-to-prairie ratio; what bringing stock costs.
   - The labor more for early settlers does not apply: these families came in 1835. A single man's quarter is not
     modelled because no family rolls as a single man.
 - **Chosen in the lobby.** The wagon-load panel has two choices, *No stock* and *Drive cattle and hogs in*, each
-  stating the acres it brings and the wagon space it costs (`bring-stock`). A family whose load was packed before
-  there was any choosing (an old save, or a family auto-rolled at Start) brings none.
+  stating the acres it brings and the wagon space it costs (`bring-stock`). **Amended 2026-09-21**: each also states
+  **the herd it brings** — `stockChoice.herd`, the server's `OPENING_HERD` — because since 2026-09-20 the choice brings
+  a real herd and the panel went on naming only the land (`FIC-GONZ-241`, `docs/FAMILY_CREATION.md`, amendment
+  2026-09-21). A family whose load was packed before there was any choosing (an old save, or a family auto-rolled at
+  Start) brings none. **A Play Solo game never offers this panel at all** — it opens `running`, and both
+  `wagonProjection` and `grantProjection` are lobby-only — so a Solo family always holds a labor. Open, and written up
+  in `HANDOFF.md`.
 - **What stock costs** (`FIC-GONZ-025`): a family driving stock arrives with fewer provisions — the wagon has
   two spaces fewer — because the herd is fed on the road. ~~Stock do nothing else yet.~~ **Since 2026-09-20 the herd is
   a herd**: it feeds itself on the range and the mast, calves in the spring, is killed for meat, strays if nobody rides
