@@ -1265,7 +1265,7 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
   if (choreId === 'clear-plot' && !plotsOf(world, household).some(plot => plot.state === 'staked')) return { can: false, why: 'There is no staked ground to clear. Survey ten acres first.' };
   if (choreId === 'fence-plot' && !plotsOf(world, household).some(plot => plot.state === 'cleared' && plot.fence !== 'sound')) return { can: false, why: 'Every cleared plot is fenced.' };
   if (chore.field === 'bare' && !clearedOf(household)) return { can: false, why: 'There is no cleared ground to plant. Clear a staked plot first.' };
-  if (chore.house) { const why = buildRefusal(household); if (why) return { can: false, why }; }
+  if (chore.house) { const why = buildRefusal(household, world); if (why) return { can: false, why }; }
   if (choreId === 'practise-shooting' && (entity.skills?.hunting ?? 1) >= SKILL_CAP) {
     return { can: false, why: `${entity.name} already shoots as well as anyone on this land.` };
   }
@@ -1744,7 +1744,7 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       return;
     }
     // Said in the words of whatever part of the house the family has got to.
-    if (step.houseWork) state.doing = chore.helps ? `helping raise the walls` : stageOf(household);
+    if (step.houseWork) state.doing = chore.helps ? `helping raise the walls` : stageOf(household, world);
     if (step.clearWork) {
       const plot = plotsOf(world, household).find(candidate => candidate.id === state.plotId);
       state.doing = plot?.ground === 'timber' ? 'felling timber on the clearing' : plot?.ground === 'brush' ? 'grubbing out brush' : 'breaking prairie sod';

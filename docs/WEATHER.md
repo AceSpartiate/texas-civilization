@@ -868,7 +868,7 @@ leave the rest out.** Three claims carry it — `FIC-GONZ-130` (the day's kind),
 | 10.2 three regions, a norther across all three | **Built.** `REGIONS`, `REGION_BOUNDS` (x=55, x=152), `NORTHER_DAYS`. |
 | 10.3 the days written in | **Built.** `WRITTEN`, about two dozen dated rows, each carrying its source's claim ID. |
 | 10.4 water that remembers | **Built,** with one correction to what is below: the rise **saturates** (`was.water + rise * (1 - was.water)`) and `WATER_SHUT` is **0.85**, not 0.8. Straight addition put 62 days of 210 over the shut line, which the record does not support; saturating it gives a median of **3 days of 210** over 200 classes, none at all in 19% of them and 16 in the worst (measured 2026-09-20, `tests/weather.test.mjs`). One further fault was found by that test file and fixed: a norther could only carry rain where it began, so **no norther ever reached the east wet**; it is the day the front *arrives* in a country that can be wet, which in the east is the day after. |
-| 10.5 what a kind costs | **Built for the road, the hunt and the cold.** The road: the wade at a ford reads `water`, a river's ford shuts past `WATER_SHUT`, the bog waits for the ground to dry. The hunt (2026-09-20, same day): the wait downwind takes the sky as well as the ground (`HUNT_WAIT`), and a damp charge costs the certainty that waiting buys (`powderDamp`) — §10.5's own note below. The cold (2026-09-21): a norther doubles a person's weight in the day's sickness, for somebody on the road east or camped with no roof up. **Still not built from that row:** rain stopping roofing and daubing. |
+| 10.5 what a kind costs | **Built for the road, the hunt and the cold.** The road: the wade at a ford reads `water`, a river's ford shuts past `WATER_SHUT`, the bog waits for the ground to dry. The hunt (2026-09-20, same day): the wait downwind takes the sky as well as the ground (`HUNT_WAIT`), and a damp charge costs the certainty that waiting buys (`powderDamp`) — §10.5's own note below. The cold (2026-09-21): a norther doubles a person's weight in the day's sickness, for somebody on the road east or camped with no roof up. The roofing and the daubing (2026-09-21): rain holds up the two kinds of house work that lay mud or put a roof on, passes over them rather than stopping the house, and touches nothing else (`rainHold`, `FIC-GONZ-290`, `HIST-TEX-390`). **That row is now built.** What is still not: a storm's "nothing outdoors" and a norther's "nothing needing still hands", both wider rules of their own. |
 | 10.6 a line a day | **Not built, and deliberately.** See the note in that section. |
 | 10.7 where it lives, and the save | **Built.** `saveVersion` did not move. |
 | 10.8 how it is drawn | **Built.** `public/weather-art.js`. |
@@ -1044,7 +1044,7 @@ describes.
 | **the road east** | — | as now | the family stands still an hour or two, in the open | exertion, not delay | the first hours of the morning lost |
 | **travel generally** | — | — | an hour or two lost | — | a late start |
 | **hunting** | — | **worse**: wet powder (`FIC-GONZ-135`) | none | game lies up; worse | **better**: the approach is hidden |
-| **felling and building** | — | no roofing and no daubing; felling unaffected | nothing outdoors | felling fine; nothing needing still hands | a late start |
+| **felling and building** | — | **built:** no roofing and no daubing; felling unaffected | *not built:* nothing outdoors — a storm holds the same two as rain | *not built:* felling fine; nothing needing still hands | a late start |
 | **the family's people** | — | — | exertion | **cold**: exertion, and a health cost for anyone on the road or camped without shelter | — |
 | **the armies and their dates** | — | — | — | — | — |
 | **the Alamo** | the siege is cold and **clear**, per Almonte | — | — | Feb 25-28 and Feb 29-Mar 3 written in | — |
@@ -1094,6 +1094,59 @@ Harris's Runaway Scrape, where "many persons died" of "**disease, cold, rain and
   fell sick on it, **nobody died of it**, and the cold at home fired **not once** — by the northers every family had its
   cabin up. The rule is a weight on a road already hard, not a new way to lose people.
 - `ceiling:` a norther's cold is the same on its first day and its third, and the same at Nacogdoches as at Béxar.
+
+**The roofing and the daubing — built 2026-09-21.** The last unbuilt row of §10.5 and the last unbuilt line of
+`FIC-GONZ-135`. As built, in `sim/weather.mjs` (`RAIN_HOLDS`, `rainHold`, `rainingOn`) and `sim/houseplot.mjs` (a `wet`
+tag on each stage, `weatherHold`):
+
+- **The rule is one function over a day and a kind of work.** `rainHold(here, work)` returns the reason a wet sky holds
+  that work up, or null. It knows two kinds and no others — `daub`, the mud that "would wash out of it before it set",
+  and `roof`, which "would go on wet" — and it is wet on a rain day, in a storm, and under a norther that brought its
+  rain (`rainingOn`, which is what `rainingAt` now reads). A **dry norther does not hold the roof.** Named and tested on
+  its own for the reason the cold work found out the hard way: a rule with a name went from 4 of 12 injections caught to
+  11 of 12.
+- **Ten stages carry the tag and no more.** A pen's `roof` and its `chink`; a jacal's `wattle` and `thatch`; the
+  passage's roof, the shed room's roof, the porch's roof; the stick-and-mud chimney. **Not held:** felling and hauling
+  (`FIC-GONZ-135`'s own "felling unaffected"), the sills, all ten courses, framing a shed room, the puncheon floor, a
+  loft under a roof already on, and the stone chimney. A test asserts the whole table both ways, and a second test asserts
+  that any stage whose *own words* say roof, thatch, clapboard, daub, chink or clay carries the tag — so the sentence on
+  the panel and the rule underneath it cannot drift apart.
+- **Held, not stopped.** A wet stage is **passed over**: `nextStage(pieces, here)` takes the next piece the family *can*
+  work on, so a family whose pen is at the roof frames its shed room instead and comes back to the roof when the rain
+  stops. The house stands still only when the rain is on everything left of it — and then the chore ends, the family's
+  land line says *"It is raining: the roof would go on wet — putting on the rafters and riving the clapboards on the
+  round-log pen waits for a dry day"*, and the same sentence is written into the story once, not once a tick.
+- **The student is told before anybody is sent** (`FIC-GONZ-008`): the refusal rides on `houseProjection`'s `why`, the
+  work control's own line reads *"waiting for the rain to stop"*, and nothing here is a die. The sky is `weatherOn`'s
+  hashed share, so the same class on the same day gets the same answer.
+- **A house chosen whole is not held at all.** The four houses of `sim/houses.mjs` are one bar of work covering felling,
+  hauling, the walls, the roof and the daubing together; there is no roofing stage in that bar to hold, and stopping the
+  bar would stop the felling, which this row says rain does not. Only a house built piece by piece has stages the sky can
+  tell apart. `ceiling:` undo that the day the four houses get stages of their own.
+- **It is fiction, and it was checked first.** `HIST-TEX-390`: Smithwick never uses the word *daub*; Jordan's *Texas Log
+  Buildings* has a whole section on chinking and **not one word about weather**; the only explicit rule found anywhere is
+  the NPS's, and it names *sun, heat and frost*, not rain; and Lewis and Clark's party at Fort Clatsop roofed and daubed
+  through a fortnight of continuous rain. **No source read supports this rule and one primary source is against it.** It
+  is built because the owner asked for it and because a class watching mud go onto a wall in a downpour would not believe
+  it — and it is registered as `FIC-GONZ-290`, not dressed up as history.
+- **Measured**, four classes of thirty run to the end of all three periods, before and after (`docs/evidence/biome-balance-rain-before.json`,
+  `-after.json`): **every family still gets a roof, 120/120 before and after, and every one of them inside the first
+  period.** The median family lives in its house at tick **95.5 → 99** (about seventy minutes of class time), the
+  ninetieth percentile at **136 → 137**, and the worst-hit family of the four hundred and eighty at **239 → 255**. Hungry
+  ticks move **4.5 → 5** and the final number, the glory and the coin do not move at all. **21 stoppages over the four
+  classes; 20 of 120 families met one.** 33 regressions injected, 33 caught.
+- `ceiling:` **the measurement is of a dry week and must not be read as a season.** A class raises its house in the first
+  six days — 29 September to about 4 October — and the wet share over the families' own land in that window is **.098**.
+  November's shares are .40 in the west, .47 in the centre and .57 in the east (§8.2), and the wet spring multiplies March
+  by 1.35: a family still roofing in November would meet this rule **four times as often**, and nothing here has been
+  measured in that month because nothing in the game builds a house then. If the lesson or the director ever pushes house
+  work past October, run the study again before assuming these numbers.
+- `ceiling:` daub already laid never washes out on the next wet day; only the laying of it waits, which is the half of the
+  real behaviour `HIST-TEX-390` says *is* supportable and is not built.
+- `ceiling:` a hard north wind at a gable is not a still hand, and §10.5's norther column ("nothing needing still hands")
+  is a row of its own and is still not built.
+- `ceiling:` §10.5's storm column says "nothing outdoors". That is **not** built either. A storm holds the same two kinds
+  of work a rain day holds and no more, because it is rain, and the wider rule is a separate decision.
 
 ### 10.6 What a class sees, and is told — NOT BUILT, superseded 2026-09-20
 
@@ -1231,6 +1284,8 @@ All of them are **recorded, not built**. `HISTORY.md` carries the full text and 
 | `FIC-GONZ-134` | The written-in days, and the two of them that are inference |
 | `FIC-GONZ-135` | What weather costs a family's work and people |
 | `FIC-GONZ-136` | What a class is told |
+| `HIST-TEX-390` | **A negative, registered 2026-09-21:** no source read says a house had to be daubed or roofed in dry weather, and Lewis and Clark's party did both through a fortnight of rain |
+| `FIC-GONZ-290` | Rain holds up the roofing and the daubing, and nothing else |
 
 ### 12.1 A mis-citation found on the way, and not fixed here
 

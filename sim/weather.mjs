@@ -231,11 +231,42 @@ export function weatherOn(world, day = dayOf(world.minute)) {
 
 /** The weather where this point stands, today or on a day given. */
 export const weatherAt = (world, point, day = dayOf(world.minute)) => weatherOn(world, day).regions[regionAt(point)];
+/**
+ * Whether rain is falling on a day of this kind: a rain day, a storm, or a norther that brought its rain with it. Taken
+ * off a day's own record so the rule can be asked of a day nobody is standing in - which is how it is tested.
+ */
+export const rainingOn = here => Boolean(here) && (here.kind === 'rain' || here.kind === 'storm' || (here.kind === 'norther' && Boolean(here.wet)));
 /** Whether rain is falling where this point stands: a rain day, a storm, or a norther that brought its rain with it. */
-export const rainingAt = (world, point, day = dayOf(world.minute)) => {
-  const here = weatherAt(world, point, day);
-  return here.kind === 'rain' || here.kind === 'storm' || (here.kind === 'norther' && here.wet);
-};
+export const rainingAt = (world, point, day = dayOf(world.minute)) => rainingOn(weatherAt(world, point, day));
+
+/**
+ * The work a wet sky holds up, and the reason in the family's own words (`FIC-GONZ-290`, docs/WEATHER.md §10.5).
+ *
+ * Two pieces of house work want the sky off them and the rest do not. **Mud laid up wet washes out of the wall before it
+ * sets** - the chinking "stopped and plastered" between the logs of a Texas log house (`HIST-GONZ-025`), the cat-and-clay
+ * of a stick-and-mud chimney (`HIST-GONZ-029`), the daub of a jacal's woven wall (`HIST-GONZ-026`). And **a roof goes on
+ * wet** - riven clapboards weighted with poles (`HIST-GONZ-030`), or thatch, laid over rafters in the rain.
+ *
+ * Everything else a family does to a house is as good wet as dry, and the model already says so: felling is unaffected
+ * (§10.5). Sills, courses, framing, a puncheon floor, a loft under a roof already on, a stone chimney - none of them is
+ * held. `ceiling:` the daub already laid never washes out on the next wet day; only the laying of it waits. `ceiling:` a
+ * dry norther does not hold the roof, though a hard north wind at a gable would; §10.5's "nothing needing still hands" is
+ * a row of its own and is not built.
+ */
+export const RAIN_HOLDS = Object.freeze({
+  daub: 'the mud would wash out of it before it set',
+  roof: 'the roof would go on wet',
+});
+/** The kinds of work `RAIN_HOLDS` knows, for anything that wants to check a tag is one of them. */
+export const WET_WORK = Object.freeze(Object.keys(RAIN_HOLDS));
+/**
+ * Why a wet sky holds up work of this kind today, or null. `here` is a day's weather in one country (`weatherAt`), and
+ * `work` is what the hands are at - `daub`, `roof`, or anything else at all, which the rain does not stop.
+ *
+ * This is the whole rule, in one function, on purpose: the cold work went from 4 of 12 injections caught to 11 of 12 by
+ * naming its rule and testing that rather than testing whether somebody happened to fall ill (docs/WEATHER.md §10.5).
+ */
+export const rainHold = (here, work) => (work && RAIN_HOLDS[work] && rainingOn(here) ? RAIN_HOLDS[work] : null);
 /** How high the rivers are running where this point stands, 0 to 1. */
 export const waterAt = (world, point, day = dayOf(world.minute)) => weatherAt(world, point, day).water;
 /** Whether a river's ford is over: the water is up past `WATER_SHUT` and nobody is crossing today. */

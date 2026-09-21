@@ -1,0 +1,308 @@
+{
+  "record": "rain-work-injections",
+  "date": "2026-09-21",
+  "files": [
+    "tests/rain-work.test.mjs"
+  ],
+  "injections": [
+    {
+      "name": "a storm is not counted as rain, so the one day a family should not be roofing is the one day it may",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "rain is falling on three of the six skies the model makes, and a dry norther is not one of them",
+        "the rule holds daubing and roofing on a wet day and holds nothing else, ever",
+        "rain never holds a course, a sill or a felled log, so a house still goes up in a wet week"
+      ]
+    },
+    {
+      "name": "a norther that brought its rain is read as a dry one, and the roof goes on under it",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "rain is falling on three of the six skies the model makes, and a dry norther is not one of them",
+        "the rule holds daubing and roofing on a wet day and holds nothing else, ever",
+        "the house stands still only when the rain is on everything left of it"
+      ]
+    },
+    {
+      "name": "a dry norther counts as rain, and half the winter stops the house for weather that is not falling",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "rain is falling on three of the six skies the model makes, and a dry norther is not one of them",
+        "the rule holds daubing and roofing on a wet day and holds nothing else, ever",
+        "the house stands still only when the rain is on everything left of it"
+      ]
+    },
+    {
+      "name": "a fog counts as rain, though a fog is the one wet morning nothing is falling out of",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "rain is falling on three of the six skies the model makes, and a dry norther is not one of them",
+        "the rule holds daubing and roofing on a wet day and holds nothing else, ever"
+      ]
+    },
+    {
+      "name": "no sky read is taken for a wet sky, so a caller with no world holds everything",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "rain is falling on three of the six skies the model makes, and a dry norther is not one of them",
+        "the rule holds daubing and roofing on a wet day and holds nothing else, ever",
+        "a wet sky passes over the work it holds and the family turns to the next piece it can",
+        "the same class on the same day gets the same answer, and no save version moved"
+      ]
+    },
+    {
+      "name": "the rain holds every kind of work there is, which is the whole-house stop this rule was written not to be",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "the rule holds daubing and roofing on a wet day and holds nothing else, ever",
+        "a wet sky passes over the work it holds and the family turns to the next piece it can",
+        "rain never holds a course, a sill or a felled log, so a house still goes up in a wet week"
+      ]
+    },
+    {
+      "name": "the rain holds nothing at all: the rule is there and is never true",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "the rule holds daubing and roofing on a wet day and holds nothing else, ever",
+        "a wet sky passes over the work it holds and the family turns to the next piece it can",
+        "rain never holds a course, a sill or a felled log, so a house still goes up in a wet week",
+        "the house stands still only when the rain is on everything left of it",
+        "what a family is short of is what it is told, and the rain is only the answer when it is the whole answer",
+        "a spell caught by the rain stops the work, says so once, and takes nothing off the pile",
+        "a family cannot be set to roof a pen in the rain, is told why, and can the moment it clears",
+        "the same class on the same day gets the same answer, and no save version moved"
+      ]
+    },
+    {
+      "name": "the roof is held and the daubing is not, so half the rule quietly goes missing",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "the rule holds daubing and roofing on a wet day and holds nothing else, ever",
+        "a wet sky passes over the work it holds and the family turns to the next piece it can",
+        "rain never holds a course, a sill or a felled log, so a house still goes up in a wet week",
+        "the house stands still only when the rain is on everything left of it",
+        "what a family is short of is what it is told, and the rain is only the answer when it is the whole answer",
+        "a spell caught by the rain stops the work, says so once, and takes nothing off the pile",
+        "a family cannot be set to roof a pen in the rain, is told why, and can the moment it clears",
+        "the same class on the same day gets the same answer, and no save version moved"
+      ]
+    },
+    {
+      "name": "the sky is not read at all and the work alone decides, so a roof never goes on in any weather",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "the rule holds daubing and roofing on a wet day and holds nothing else, ever",
+        "a wet sky passes over the work it holds and the family turns to the next piece it can",
+        "the house stands still only when the rain is on everything left of it",
+        "what a family is short of is what it is told, and the rain is only the answer when it is the whole answer",
+        "a spell caught by the rain stops the work, says so once, and takes nothing off the pile",
+        "a family cannot be set to roof a pen in the rain, is told why, and can the moment it clears",
+        "the same class on the same day gets the same answer, and no save version moved"
+      ]
+    },
+    {
+      "name": "both faults are given the same words, so a family cannot tell the mud from the roof",
+      "file": "sim/weather.mjs",
+      "failed": [
+        "the two faults are told apart in the words, because they are different faults"
+      ]
+    },
+    {
+      "name": "the chinking is not tagged, so the one stage with the word daub in its name is the one the rain misses",
+      "file": "sim/houseplot.mjs",
+      "failed": [
+        "exactly the mud and the roofs are tagged, piece by piece and stage by stage",
+        "every stage that says it is mud or a roof in its own words carries the tag"
+      ]
+    },
+    {
+      "name": "the pen's roof is not tagged, so the stage this whole rule was built for goes on in the rain",
+      "file": "sim/houseplot.mjs",
+      "failed": [
+        "exactly the mud and the roofs are tagged, piece by piece and stage by stage",
+        "every stage that says it is mud or a roof in its own words carries the tag",
+        "a wet sky passes over the work it holds and the family turns to the next piece it can",
+        "the house stands still only when the rain is on everything left of it",
+        "what a family is short of is what it is told, and the rain is only the answer when it is the whole answer",
+        "a spell caught by the rain stops the work, says so once, and takes nothing off the pile",
+        "a family cannot be set to roof a pen in the rain, is told why, and can the moment it clears",
+        "the same class on the same day gets the same answer, and no save version moved"
+      ]
+    },
+    {
+      "name": "a jacal's thatch and its daubed wall are untagged, so the one house a family with no axe can build ignores the sky",
+      "file": "sim/houseplot.mjs",
+      "failed": [
+        "exactly the mud and the roofs are tagged, piece by piece and stage by stage",
+        "every stage that says it is mud or a roof in its own words carries the tag"
+      ]
+    },
+    {
+      "name": "the stick-and-mud chimney is untagged, though clay laid up in the open is exactly what the rule is about",
+      "file": "sim/houseplot.mjs",
+      "failed": [
+        "exactly the mud and the roofs are tagged, piece by piece and stage by stage",
+        "every stage that says it is mud or a roof in its own words carries the tag",
+        "a wet sky passes over the work it holds and the family turns to the next piece it can",
+        "rain never holds a course, a sill or a felled log, so a house still goes up in a wet week",
+        "the house stands still only when the rain is on everything left of it",
+        "what a family is short of is what it is told, and the rain is only the answer when it is the whole answer",
+        "a spell caught by the rain stops the work, says so once, and takes nothing off the pile",
+        "a family cannot be set to roof a pen in the rain, is told why, and can the moment it clears",
+        "the same class on the same day gets the same answer, and no save version moved"
+      ]
+    },
+    {
+      "name": "the shed room's roof is untagged while the pen's is not, so the rule stops at the pens",
+      "file": "sim/houseplot.mjs",
+      "failed": [
+        "exactly the mud and the roofs are tagged, piece by piece and stage by stage",
+        "every stage that says it is mud or a roof in its own words carries the tag"
+      ]
+    },
+    {
+      "name": "the porch roof is untagged, and the one piece nobody notices is the one that drifts",
+      "file": "sim/houseplot.mjs",
+      "failed": [
+        "exactly the mud and the roofs are tagged, piece by piece and stage by stage",
+        "every stage that says it is mud or a roof in its own words carries the tag"
+      ]
+    },
+    {
+      "name": "the passage roof is untagged, so a dog-run is roofed over in the rain between two pens that were not",
+      "file": "sim/houseplot.mjs",
+      "failed": [
+        "exactly the mud and the roofs are tagged, piece by piece and stage by stage",
+        "every stage that says it is mud or a roof in its own words carries the tag"
+      ]
+    },
+    {
+      "name": "a tag is misspelt, which holds nothing and says nothing: the silent failure this tagging invites",
+      "file": "sim/houseplot.mjs",
+      "failed": [
+        "exactly the mud and the roofs are tagged, piece by piece and stage by stage",
+        "every stage that says it is mud or a roof in its own words carries the tag"
+      ]
+    },
+    {
+      "name": "the sills are tagged as roofing, so rain stops a house before its walls are up",
+      "file": "sim/houseplot.mjs",
+      "failed": [
+        "exactly the mud and the roofs are tagged, piece by piece and stage by stage",
+        "rain never holds a course, a sill or a felled log, so a house still goes up in a wet week"
+      ]
+    },
+    {
+      "name": "every course of the walls is held by rain, which is the felling-and-walls half the record says is unaffected",
+      "file": "sim/houseplot.mjs",
+      "failed": [
+        "exactly the mud and the roofs are tagged, piece by piece and stage by stage",
+        "rain never holds a course, a sill or a felled log, so a house still goes up in a wet week"
+      ]
+    },
+    {
+      "name": "the stone chimney is held by rain as the stick-and-mud one is, though stone is the choice that is not mud",
+      "file": "sim/houseplot.mjs",
+      "failed": [
+        "exactly the mud and the roofs are tagged, piece by piece and stage by stage"
+      ]
+    },
+    {
+      "name": "a held stage stops the house instead of being passed over, so one wet roof idles every other piece",
+      "file": "sim/houseplot.mjs",
+      "failed": [
+        "a wet sky passes over the work it holds and the family turns to the next piece it can"
+      ]
+    },
+    {
+      "name": "the sky is dropped on the way in, so everything reads as a fair day and nothing is ever held",
+      "file": "sim/houseplot.mjs",
+      "failed": [
+        "a wet sky passes over the work it holds and the family turns to the next piece it can",
+        "the house stands still only when the rain is on everything left of it",
+        "what a family is short of is what it is told, and the rain is only the answer when it is the whole answer",
+        "a spell caught by the rain stops the work, says so once, and takes nothing off the pile",
+        "a family cannot be set to roof a pen in the rain, is told why, and can the moment it clears",
+        "the same class on the same day gets the same answer, and no save version moved"
+      ]
+    },
+    {
+      "name": "nothing names what the sky is holding, so a house stands still and the family is told only that it cannot build",
+      "file": "sim/houseplot.mjs",
+      "failed": [
+        "a wet sky passes over the work it holds and the family turns to the next piece it can",
+        "rain never holds a course, a sill or a felled log, so a house still goes up in a wet week",
+        "the house stands still only when the rain is on everything left of it",
+        "what a family is short of is what it is told, and the rain is only the answer when it is the whole answer",
+        "a spell caught by the rain stops the work, says so once, and takes nothing off the pile",
+        "a family cannot be set to roof a pen in the rain, is told why, and can the moment it clears",
+        "the same class on the same day gets the same answer, and no save version moved"
+      ]
+    },
+    {
+      "name": "the refusal says it is raining but not which stage of which piece is waiting on it",
+      "file": "sim/houseplot.mjs",
+      "failed": [
+        "the house stands still only when the rain is on everything left of it"
+      ]
+    },
+    {
+      "name": "the spell is stopped by the rain and the family is never told why the house stopped",
+      "file": "sim/houseplot.mjs",
+      "failed": [
+        "a spell caught by the rain stops the work, says so once, and takes nothing off the pile"
+      ]
+    },
+    {
+      "name": "a spell in the rain goes in anyway and the stage takes its logs, which is the hold doing nothing at all",
+      "file": "sim/houseplot.mjs",
+      "failed": [
+        "a spell caught by the rain stops the work, says so once, and takes nothing off the pile"
+      ]
+    },
+    {
+      "name": "the sky is read on the map's own origin rather than over the family's land, so every family gets one weather",
+      "file": "sim/houses.mjs",
+      "failed": [
+        "the sky a house is read against is the one over the family's own land",
+        "a family cannot be set to roof a pen in the rain, is told why, and can the moment it clears"
+      ]
+    },
+    {
+      "name": "a family with no place yet reads as standing in the rain, which refuses a house nobody has sited",
+      "file": "sim/houses.mjs",
+      "failed": [
+        "the sky a house is read against is the one over the family's own land",
+        "the same class on the same day gets the same answer, and no save version moved"
+      ]
+    },
+    {
+      "name": "the chore is refused for rain but the work control never says the sky, so the student is refused without a reason",
+      "file": "sim/houses.mjs",
+      "failed": [
+        "a family cannot be set to roof a pen in the rain, is told why, and can the moment it clears"
+      ]
+    },
+    {
+      "name": "the chore reads no sky at all, so a family is sent to a roof the spell will then stop them on",
+      "file": "sim/chores.mjs",
+      "failed": [
+        "a family cannot be set to roof a pen in the rain, is told why, and can the moment it clears"
+      ]
+    },
+    {
+      "name": "the land line reads no sky, so the panel says the family may build on a day the server will refuse",
+      "file": "sim/houses.mjs",
+      "failed": [
+        "a family cannot be set to roof a pen in the rain, is told why, and can the moment it clears"
+      ]
+    },
+    {
+      "name": "a house chosen whole is held by the rain too, which stops the felling the record says it does not",
+      "file": "sim/houses.mjs",
+      "failed": [
+        "a house chosen whole is not held by the rain, because it has no roofing stage to hold"
+      ]
+    }
+  ]
+}
