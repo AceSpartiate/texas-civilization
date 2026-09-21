@@ -171,6 +171,15 @@ export function activeKey(entity, { homeId = null, main = false, homesteads = []
 const firstSentence = text => (String(text || '').match(/^.*?[.!?](?=\s|$)/)?.[0] || String(text || '')).trim();
 
 /**
+ * The server's reason for refusing one entry of `world.work`, with the one refusal it deliberately sends only once put
+ * back: a refusal the land hunt shares with the timber hunt rides on the timber hunt alone (sim/chores.mjs `choresFor`).
+ * Read by the icons and by `rowReason`, so the row's one line and the icon a student hovers can never disagree.
+ */
+const whyOf = (entry, offered) => (entry.id === 'hunt-land' && !entry.can && !entry.why
+  ? offered.find(other => other.id === 'hunt-timber')?.why
+  : entry.why);
+
+/**
  * Every icon on one person's row, in order: their work, then the main person's orders, then calling off the work.
  *
  * `offered` is `world.work[id]` as the server sent it; `catalogue` the chore catalogue by id (names, descriptions, costs);
@@ -197,12 +206,10 @@ export function panelActions({ entity, offered = [], catalogue = new Map(), main
     ...(entity.chore ? [{ key: 'stop-chore', kind: 'order', name: ORDER_NAMES['stop-chore'], summary: PANEL_SUMMARIES['stop-chore'], note: '', why: '', can: settable, active: false }] : [])];
   }
   const active = activeKey(entity, { homeId, main, homesteads });
-  // A refusal the land hunt shares with the timber hunt is sent once, on the timber hunt (sim/chores.mjs `choresFor`).
-  const sharedWhy = entry => entry.id === 'hunt-land' && !entry.can && !entry.why ? offered.find(other => other.id === 'hunt-timber')?.why : entry.why;
   const icons = [];
   for (const entry of offered) {
     const spec = catalogue.get?.(entry.id) || {};
-    const why = sharedWhy(entry);
+    const why = whyOf(entry, offered);
     if (!entry.can && NOT_A_CHOICE.test(why || '') && active !== entry.id) continue;
     // What it costs and what it brings, from the server's numbers; putting them side by side is formatting.
     const haul = entry.haul && Number.isFinite(carry)
@@ -244,14 +251,39 @@ export function panelActions({ entity, offered = [], catalogue = new Map(), main
 }
 
 /**
- * When every icon on a row is refused for one and the same reason and nothing is going on - a child under ten, somebody on
- * the road in - the row says the reason once instead of a line of dimmed pictures. Null when the icons should be shown. A
- * row busy with a chore always has its open call-off icon, so what they are doing is never collapsed away.
+ * The one line a person who can do nothing shows in place of a bar (docs/FAMILY_PANEL.md §14, owner 2026-09-21: "one line
+ * saying why, in the person's own terms"). Null whenever the icons should be shown. A row busy with a chore always has its
+ * open call-off icon, so what they are doing is never collapsed away.
+ *
+ * **Nothing here writes a sentence.** Every line this returns is one the server sent, word for word: `tooYoungWhy` and
+ * `servingWhy` from sim/family.mjs and sim/winter.mjs, the per-chore `why` from `choreAvailability`. The page's only job
+ * is to pick which of them is the reason about *this person* rather than about a field or a hoe - and that is the one the
+ * server put on every piece of work it offered them. The orders beside the work (travel, rest, call off) carry no reason
+ * of their own, so they are not read while there is work to read.
+ *
+ * **A bar the guided start has shut is not this.** `sim/lesson.mjs` refuses in `applyAction` and leaves `world.work`
+ * alone, so a step that shuts the bar leaves every icon `can: true` and `icons.some(icon => icon.can)` sends this back
+ * null - a student mid-lesson reads the step's own words on the icons, never "there is nothing for them to do". A child
+ * under ten in the same tick still gets their own line, because the server really did refuse them.
+ *
+ * `entity` and `offered` are the row's person and `world.work[id]` as the server sent it. They are read for one case only:
+ * somebody dead or captured, whose row `panelActions` empties outright, so no icon is left to carry the reason the server
+ * did send with the work it refused them.
+ * ceiling: the dead and the captured share one sentence, `choreAvailability`'s "This person cannot work.", which does not
+ * name them the way every other line here does. The way out is the server's own wording, not a sentence invented here.
+ * ceiling: a row refused for several different reasons at once keeps its line of dimmed pictures, each carrying its own;
+ * one line cannot say two things, and the reasons are read on the icons as they always were.
  */
-export function rowReason(icons) {
-  if (!icons.length || icons.some(icon => icon.can)) return null;
-  const reasons = new Set(icons.map(icon => icon.why));
-  return reasons.size === 1 && [...reasons][0] ? [...reasons][0] : null;
+export function rowReason(icons, { offered = [], entity = null } = {}) {
+  if (icons.some(icon => icon.can)) return null;
+  const only = list => {
+    const reasons = new Set(list.map(one => one.why || ''));
+    return list.length && reasons.size === 1 ? [...reasons][0] || null : null;
+  };
+  const chores = icons.filter(icon => icon.kind === 'chore');
+  if (chores.length) return only(chores);
+  if (icons.length) return only(icons);
+  return gone(entity) ? only(offered.map(entry => ({ why: entry.can ? '' : whyOf(entry, offered) }))) : null;
 }
 
 /**

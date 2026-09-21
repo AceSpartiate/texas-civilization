@@ -1,0 +1,35 @@
+{
+  "record": "panel-silence-screen-injections",
+  "date": "2026-09-21",
+  "proof": "scripts/panel-silence-browser-proof.mjs",
+  "injections": [
+    {
+      "name": "the line is drawn on every row, so the main person is told the same thing twice - on their row and in their bar",
+      "file": "public/app.js",
+      "failed": [
+        "and it is not said twice: their own row stays quiet while the bar carries it"
+      ]
+    },
+    {
+      "name": "the row reads its reason from the icons alone, so somebody dead or captured is a face, a name and nothing",
+      "file": "public/app.js",
+      "failed": [
+        "Patience Proofwright: their row still says why - \"null\"",
+        "Patience Proofwright: and it is the server's own sentence for them"
+      ]
+    },
+    {
+      "name": "the line is drawn in the row but folded out of sight, which is the empty bar again with extra steps",
+      "file": "public/style.css",
+      "failed": [
+        "Simeon Proofwright: the reason is really drawn on their row",
+        "Petra Proofwright: the reason is really drawn on their row",
+        "Obed Proofwright: the reason is really drawn on their row",
+        "Delia Proofwright: the reason is really drawn on their row",
+        "Patience Proofwright: their row still says why - \"This person cannot work.\"",
+        "and in the same tick a child the server really refused still shows their own line",
+        "the children’s lines are untouched by any of it"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "record": "panel-silence-injections",
+  "date": "2026-09-21",
+  "files": [
+    "tests/panel-silence.test.mjs",
+    "tests/family-panel.test.mjs"
+  ],
+  "injections": [
+    {
+      "name": "a row with work still open is collapsed to one line, so somebody at work loses their glow and their call-off",
+      "file": "public/family-panel.js",
+      "failed": [
+        "a row of one refusal says it once; a busy row keeps its glowing icon and its way to call off the work",
+        "somebody at work is not somebody with nothing to do: the glow and the way to call it off stay"
+      ]
+    },
+    {
+      "name": "the line is read from every icon at once, so the orders’ blank reasons drown the work’s and the main person says nothing",
+      "file": "public/family-panel.js",
+      "failed": [
+        "somebody away on the road shows the road, in the server’s words"
+      ]
+    },
+    {
+      "name": "a blank reason counts as a reason, so a row shows an empty line where it should show none",
+      "file": "public/family-panel.js",
+      "failed": [
+        "a class that is not running is not a fact about the person, and shows no line"
+      ]
+    },
+    {
+      "name": "a row refused for two different reasons picks the first, so a student is told the wrong one and loses the other",
+      "file": "public/family-panel.js",
+      "failed": [
+        "a row refused for several different reasons keeps its icons, each with its own",
+        "a class that is not running is not a fact about the person, and shows no line"
+      ]
+    },
+    {
+      "name": "the dead and the captured, whose row has no icons at all, are read like everybody else and stay silent",
+      "file": "public/family-panel.js",
+      "failed": [
+        "somebody dead or captured has no icons at all, and their row still says why"
+      ]
+    },
+    {
+      "name": "the page writes its own sentence for a row with nothing on it, instead of the one the server sent",
+      "file": "public/family-panel.js",
+      "failed": [
+        "somebody dead or captured has no icons at all, and their row still says why"
+      ]
+    },
+    {
+      "name": "the one refused icon of a serving row is not read, so a man shut in the Alamo has a row that says nothing",
+      "file": "public/family-panel.js",
+      "failed": [
+        "somebody serving says what the server says, and a man with work at the camp says nothing"
+      ]
+    },
+    {
+      "name": "the land hunt’s shared refusal is read as a blank, so a child under ten has two reasons and is given none",
+      "file": "public/family-panel.js",
+      "failed": [
+        "a child under ten shows the server’s own sentence, and it is the sentence the server sent",
+        "somebody at work is not somebody with nothing to do: the glow and the way to call it off stay",
+        "somebody dead or captured has no icons at all, and their row still says why",
+        "somebody away on the road shows the road, in the server’s words",
+        "a bar the guided start has shut is not a person with nothing to do",
+        "every line the panel shows is a sentence the server sent, over a whole family and a played day"
+      ]
+    }
+  ]
+}
