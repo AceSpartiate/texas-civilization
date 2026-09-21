@@ -51438,14 +51438,14 @@
     {
       "id": "family-cast",
       "scope": "Families and riders",
-      "delivered": "One cast of four: a man (rust, reserved for the principal), a woman (teal), an elder man and an adolescent; no children.",
-      "remaining": "Requested 2026-09-12 in docs/ART_REQUESTS.md: children (girl, boy, small child, an infant in a basket), a second cast (a woman in the principal rust, a second woman, a younger man, an adolescent girl), the rider dismounting, remounting and talking on foot beside a tethered horse, and N/S dialogue facings for riders and the existing cast."
+      "delivered": "Two casts of four and four children: rust and rust-woman reserved for the principal, teal and indigo, elder and ochre, blue and blue-girl, each with cardinal walking, work, carry, care, search, trade, sowing, repair, rest and injury; a girl, a boy, a small child and an infant; speaking and listening poses for both casts, drawn since 2026-09-21; mounted courier listening and speaking, and the same north and south.",
+      "remaining": "The rider dismounting, remounting and talking on foot beside a tethered horse (courier-dismount is delivered and not yet bound); every cast figure mounted on the family horse and seated driving the ox wagon; layered people for the chosen looks."
     },
     {
       "id": "animals",
       "scope": "Animals",
-      "delivered": "Ox/chestnut horse/cow/pig cardinal walking and four-pose grazing; white-tailed deer idle, alert, bound and drinking cycles; alternate animals have idle breathing only.",
-      "remaining": "Cream ox/grey horse/sheep/chicken locomotion, other livestock grazing and drinking, flight and load/harness behavior. Do not substitute a different coat mid-journey."
+      "delivered": "Ox/chestnut horse/cow/pig cardinal walking and four-pose grazing; white-tailed deer idle, alert, bound and drinking cycles; eastern wild turkey forage, alert, bound and wing-display cycles; alternate animals have idle breathing only.",
+      "remaining": "The rest of the game of 1836 (bear, javelina, antelope, buffalo, geese, mustang, wild cattle), which is words only until each lands; cream ox/grey horse/sheep/chicken locomotion, other livestock grazing and drinking, flight and load/harness behavior. Do not substitute a different coat mid-journey."
     },
     {
       "id": "artillery-service",
@@ -51457,7 +51457,7 @@
       "id": "structural-states",
       "scope": "Buildings and environment",
       "delivered": "Modular intact/ruined/breached pieces, Alamo door/chest opening pairs and collapse sequence; ground-anchor wind and separate effects.",
-      "remaining": "Continuous door/gate hinge rig, construction/repair progression, crown-only tree rig, boat rowing/poling and ferry loading. Building stillness is intentional; condition changes require simulation state."
+      "remaining": "Continuous door/gate hinge rig, construction/repair progression, crown-only tree rig, boat rowing/poling and ferry loading, and the Yellow Stone under way. Building stillness is intentional; condition changes require simulation state."
     },
     {
       "id": "cast-registration",

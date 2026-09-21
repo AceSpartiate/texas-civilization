@@ -1,0 +1,284 @@
+{
+  "record": "art-wiring-injections",
+  "date": "2026-09-21",
+  "delivery": "2026-09-21",
+  "injections": [
+    {
+      "name": "a quarry with no art of its own is given a place anyway, so a bear is drawn as whatever loads",
+      "file": "sim/hunting.mjs",
+      "tests": [
+        "tests/biome-game.test.mjs"
+      ],
+      "failed": [
+        "a hunt brings the quarry its place holds: what it gives comes home, the deer and the turkey are drawn, and the family is told"
+      ]
+    },
+    {
+      "name": "the turkey is delivered and still not drawn, as it was the day the sheet landed",
+      "file": "sim/hunting.mjs",
+      "tests": [
+        "tests/biome-game.test.mjs"
+      ],
+      "failed": [
+        "a hunt brings the quarry its place holds: what it gives comes home, the deer and the turkey are drawn, and the family is told"
+      ]
+    },
+    {
+      "name": "every quarry is drawn as a deer, whatever the words say it is",
+      "file": "sim/chores.mjs",
+      "tests": [
+        "tests/biome-game.test.mjs"
+      ],
+      "failed": [
+        "a hunt brings the quarry its place holds: what it gives comes home, the deer and the turkey are drawn, and the family is told"
+      ]
+    },
+    {
+      "name": "the drawn list is not consulted at all, so every quarry gets a place",
+      "file": "sim/chores.mjs",
+      "tests": [
+        "tests/biome-game.test.mjs"
+      ],
+      "failed": [
+        "a hunt brings the quarry its place holds: what it gives comes home, the deer and the turkey are drawn, and the family is told"
+      ]
+    },
+    {
+      "name": "a mother who is the principal is drawn as a man in a rust coat, as she was before the second cast",
+      "file": "public/motion.js",
+      "tests": [
+        "tests/motion-binding.test.mjs"
+      ],
+      "failed": [
+        "the second cast is drawn: a family of distinct people, a mother who is principal in her own rust, and a child smaller"
+      ]
+    },
+    {
+      "name": "the principal's own figure is dealt to neighbours, so the mark stops meaning \"this is you\"",
+      "file": "public/motion.js",
+      "tests": [
+        "tests/motion-binding.test.mjs"
+      ],
+      "failed": [
+        "the second cast is drawn: a family of distinct people, a mother who is principal in her own rust, and a child smaller"
+      ]
+    },
+    {
+      "name": "the second cast is registered and never dealt: a family is four copies of two figures again",
+      "file": "public/motion.js",
+      "tests": [
+        "tests/motion-binding.test.mjs"
+      ],
+      "failed": [
+        "the second cast is drawn: a family of distinct people, a mother who is principal in her own rust, and a child smaller"
+      ]
+    },
+    {
+      "name": "an adolescent girl is drawn as a grown woman, as she was before blue-girl",
+      "file": "public/motion.js",
+      "tests": [
+        "tests/motion-binding.test.mjs"
+      ],
+      "failed": [
+        "the second cast is drawn: a family of distinct people, a mother who is principal in her own rust, and a child smaller"
+      ]
+    },
+    {
+      "name": "the delivered speaking cycle is never drawn: a person talking stands in their idle pose",
+      "file": "public/motion.js",
+      "tests": [
+        "tests/motion-binding.test.mjs"
+      ],
+      "failed": [
+        "somebody a rider has stopped is drawn talking with him, in the delivered speaking and listening poses"
+      ]
+    },
+    {
+      "name": "front and back listening are swapped, so somebody listening to a rider above them turns away",
+      "file": "public/motion.js",
+      "tests": [
+        "tests/motion-binding.test.mjs"
+      ],
+      "failed": [
+        "somebody a rider has stopped is drawn talking with him, in the delivered speaking and listening poses"
+      ]
+    },
+    {
+      "name": "a back view is mirrored like an east-facing one",
+      "file": "public/motion.js",
+      "tests": [
+        "tests/motion-binding.test.mjs"
+      ],
+      "failed": [
+        "somebody a rider has stopped is drawn talking with him, in the delivered speaking and listening poses"
+      ]
+    },
+    {
+      "name": "somebody else's family is drawn out of a meeting this student is not in",
+      "file": "public/motion.js",
+      "tests": [
+        "tests/motion-binding.test.mjs"
+      ],
+      "failed": [
+        "somebody a rider has stopped is drawn talking with him, in the delivered speaking and listening poses"
+      ]
+    },
+    {
+      "name": "the listener reads the last line of all, so the rider always speaks last and they never do",
+      "file": "sim/encounters.mjs",
+      "tests": [
+        "tests/encounters.test.mjs"
+      ],
+      "failed": [
+        "the person the rider stopped is turned toward him too, and speaks only while they are saying something"
+      ]
+    },
+    {
+      "name": "the listener is given the rider's own speaking, so both mouth his lines",
+      "file": "sim/encounters.mjs",
+      "tests": [
+        "tests/encounters.test.mjs"
+      ],
+      "failed": [
+        "the person the rider stopped is turned toward him too, and speaks only while they are saying something"
+      ]
+    },
+    {
+      "name": "the two of them are turned away from each other",
+      "file": "sim/encounters.mjs",
+      "tests": [
+        "tests/encounters.test.mjs"
+      ],
+      "failed": [
+        "a rider is turned toward the listener, north or south when they are above or below"
+      ]
+    },
+    {
+      "name": "nothing of the meeting reaches the family's own page, as it did not before",
+      "file": "sim/world.mjs",
+      "tests": [
+        "tests/encounters.test.mjs"
+      ],
+      "failed": [
+        "the person the rider stopped is turned toward him too, and speaks only while they are saying something"
+      ]
+    },
+    {
+      "name": "the post oak goes back to the generic broad oak, and its delivered sizes are drawn by nothing",
+      "file": "sim/woods.mjs",
+      "tests": [
+        "tests/art-library.test.mjs",
+        "tests/woods-view.test.mjs"
+      ],
+      "failed": [
+        "each tile is the woods themselves: the trees in it, its patches and its shade of timber"
+      ]
+    },
+    {
+      "name": "a tree is bound to a picture the library does not have",
+      "file": "sim/woods.mjs",
+      "tests": [
+        "tests/art-library.test.mjs",
+        "tests/woods-view.test.mjs"
+      ],
+      "failed": [
+        "every sprite the simulation names is a frame the library actually has",
+        "each tile is the woods themselves: the trees in it, its patches and its shade of timber"
+      ]
+    },
+    {
+      "name": "the tall grass is delivered and the prairie keeps standing in for it",
+      "file": "public/ground-classes.js",
+      "tests": [
+        "tests/art-library.test.mjs",
+        "tests/woods-view.test.mjs"
+      ],
+      "failed": [
+        "every sprite the simulation names is a frame the library actually has"
+      ]
+    },
+    {
+      "name": "a town building is bound to a sprite the library does not have",
+      "file": "sim/town-layouts.mjs",
+      "tests": [
+        "tests/art-library.test.mjs",
+        "tests/woods-view.test.mjs"
+      ],
+      "failed": [
+        "every sprite the simulation names is a frame the library actually has"
+      ]
+    },
+    {
+      "name": "the Round Top House goes back to a storehouse drawn tall, and its own painted building is drawn by nothing",
+      "file": "sim/town-layouts.mjs",
+      "tests": [
+        "tests/art-library.test.mjs",
+        "tests/woods-view.test.mjs"
+      ],
+      "failed": [
+        "every frame of a delivered sheet is drawn somewhere, or is written down here as knowingly not drawn"
+      ]
+    },
+    {
+      "name": "the Yellow Stone stays on the river all spring instead of her own fortnight",
+      "file": "sim/houston.mjs",
+      "tests": [
+        "tests/armies.test.mjs"
+      ],
+      "failed": [
+        "the steamboat Yellow Stone lies at the Brazos crossing for her own fortnight, and for no other day of the class"
+      ]
+    },
+    {
+      "name": "she is carrying the army before Houston has taken her",
+      "file": "sim/houston.mjs",
+      "tests": [
+        "tests/armies.test.mjs"
+      ],
+      "failed": [
+        "the steamboat Yellow Stone lies at the Brazos crossing for her own fortnight, and for no other day of the class"
+      ]
+    },
+    {
+      "name": "she is moored at a camp rather than in the water between the two banks",
+      "file": "sim/houston.mjs",
+      "tests": [
+        "tests/armies.test.mjs"
+      ],
+      "failed": [
+        "the steamboat Yellow Stone lies at the Brazos crossing for her own fortnight, and for no other day of the class"
+      ]
+    },
+    {
+      "name": "a class whose map has only one bank is given a crossing anyway",
+      "file": "sim/houston.mjs",
+      "tests": [
+        "tests/armies.test.mjs"
+      ],
+      "failed": [
+        "the steamboat Yellow Stone lies at the Brazos crossing for her own fortnight, and for no other day of the class"
+      ]
+    },
+    {
+      "name": "the boat is not put on the army, so no page is ever told she is there",
+      "file": "sim/armies.mjs",
+      "tests": [
+        "tests/armies.test.mjs"
+      ],
+      "failed": [
+        "the steamboat Yellow Stone lies at the Brazos crossing for her own fortnight, and for no other day of the class"
+      ]
+    },
+    {
+      "name": "the ferry goes back to the round-log raft, and the plank flatboat is drawn by nothing",
+      "file": "public/landscape-art.js",
+      "tests": [
+        "tests/art-library.test.mjs",
+        "tests/woods-view.test.mjs"
+      ],
+      "failed": [
+        "every frame of a delivered sheet is drawn somewhere, or is written down here as knowingly not drawn"
+      ]
+    }
+  ]
+}

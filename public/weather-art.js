@@ -158,9 +158,10 @@ export function weatherMix(weather, x, minute, { fade = true } = {}) {
  * ceiling on the oaks' wind says the same).
  */
 export const MAX_LEAN = 0.44;
-// stand-in: docs/ART_REQUESTS.md, request 2026-09-20 - the country in a norther. Every tree and tuft the library has
-// stands straight, so a norther bends the library's own upright sprite about its foot instead. The crown does not stream
-// and no smoke lies flat; `oak-broad-wind` and the rest replace this.
+// The shear is now the LESSER wind's alone. Astra's gale poses landed on 2026-09-21
+// (docs/ART_DELIVERY_2026-09-21-WEATHER-NORTHER.md) and a hard norther is drawn with them instead (`galePose` below); a
+// storm, a rainy blow and the light air of a fair day still bend the library's own upright sprite about its foot, which
+// is what the stand-in proved a wind has to do to be seen at all.
 export function windLean(mix) {
   const force = Math.hypot(mix.wind.x, mix.wind.y);
   if (!(force > 0.02)) return 0;
@@ -172,6 +173,62 @@ export function windLean(mix) {
   const across = Math.abs(mix.wind.x) > 0.12 ? mix.wind.x : (mix.wind.y > 0 ? 0.85 : -0.85);
   return clamp01(force) * MAX_LEAN * Math.max(-1, Math.min(1, across));
 }
+
+/**
+ * The painted gale, and where it takes over from the shear.
+ *
+ * Astra delivered five silhouettes of the country in a hard north wind on 2026-09-21: three trees driven over, a
+ * flattened grass tuft and low streaming smoke (docs/ART_DELIVERY_2026-09-21-WEATHER-NORTHER.md). They are painted at one
+ * strength - a gale, not a range of winds - so they are used where the wind IS that, and nowhere else. The delivery note
+ * is explicit about it: "the renderer to choose the authored gale pose while continuing to derive local wind strength and
+ * residual motion from simulation state."
+ *
+ * `galeForce` is the smaller of two things, and both have to be true for a pose that was painted for a norther:
+ *   - how far the norther has arrived at this point (`mix.norther`, which is the region's weight times its fade, so a
+ *     day coming up over an hour and a half comes up in the trees too, and a point half-way across the eighteen-mile
+ *     blend counts half);
+ *   - how hard the wind is blowing there (the mix's own vector, which a storm can raise as high as 0.7).
+ * A storm is therefore never a gale, however hard it blows, because no norther is arriving: a tree driven flat under a
+ * black sky and falling rain would be the wrong picture, and the lean the storm already gets is the right one.
+ *
+ * `GALE` sits below the 0.7 the east of the country blows in a norther (sim/weather.mjs: 1 in the west and centre, 0.7
+ * in the east) and above what half a blend or half a fade can reach, so the whole of a norther's country takes the pose
+ * and its edges hand back to the shear. The number is the game's own: `FIC-GONZ-201`.
+ */
+export const GALE = 0.62;
+export function galeForce(mix) {
+  return Math.min(clamp01(mix?.norther || 0), Math.hypot(mix?.wind?.x || 0, mix?.wind?.y || 0));
+}
+export function inGale(mix) { return galeForce(mix) >= GALE; }
+/**
+ * The authored pose for an upright sprite: only the four the delivery painted. Anything else the map scatters - a pine, a
+ * cedar, a mesquite, prickly pear, reeds, and every sized tree of `trees-colonies-1` and `-2` - has no gale pose and
+ * keeps the shear at every strength of wind.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-20 - the country in a norther. A pine in a hard norther is still the
+ * library's own upright pine sheared about its foot. More gale silhouettes replace it, one sprite at a time.
+ *
+ * The names collide with four one-frame `*-wind` CLIPS that predate the delivery and hold the upright sprite swaying
+ * (public/assets/frontier-v1/animation.json). Frames and clips are separate tables in public/art.js, so `drawSprite`
+ * takes the painted gale and `drawClip` the old sway; every caller here means the frame.
+ */
+export const GALE_POSES = Object.freeze({
+  // `weather-norther`, 2026-09-21.
+  'oak-broad': 'oak-broad-wind',
+  'oak-spreading': 'oak-spreading-wind',
+  pecan: 'pecan-wind',
+  'grass-tuft': 'grass-tuft-wind',
+  // `biome-ground-bexar` the same day carried two more of exactly the same kind - "two cane clumps and a wind pose, tall
+  // prairie grass and a wind pose" - so the canebrake and the tallgrass prairie go over in a norther with everything else.
+  'grass-tall': 'grass-tall-wind',
+  'cane-1': 'cane-wind',
+  'cane-2': 'cane-wind',
+});
+/** The gale pose to draw this sprite as, or null to draw it upright and sheared by `windLean`. */
+export function galePose(sprite, mix) {
+  return inGale(mix) ? (GALE_POSES[sprite] || null) : null;
+}
+/** The smoke of a fire in a hard norther: lying flat and streaming, rather than rising. */
+export const GALE_SMOKE = 'smoke-streaming';
 
 /**
  * What of the weather is drawn into the kept ground, as one string: the high water on the rivers, the lean on the trees

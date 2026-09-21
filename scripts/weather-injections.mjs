@@ -52,6 +52,42 @@ const INJECTIONS = [
     from: 'export const FOG_CEILING = 0.55;',
     to: 'export const FOG_CEILING = 1;',
   },
+  // Astra's gale poses, 2026-09-21: painted at one strength, so where they are used is the whole of the wiring.
+  {
+    name: 'a storm blowing hard is drawn in the gale pose, so trees go flat under falling rain',
+    from: '  return Math.min(clamp01(mix?.norther || 0), Math.hypot(mix?.wind?.x || 0, mix?.wind?.y || 0));',
+    to: '  return Math.hypot(mix?.wind?.x || 0, mix?.wind?.y || 0);',
+  },
+  {
+    name: 'the gale pose flicks on at the first minute of a norther instead of coming up with the day',
+    from: '  return Math.min(clamp01(mix?.norther || 0), Math.hypot(mix?.wind?.x || 0, mix?.wind?.y || 0));',
+    to: '  return mix?.norther > 0 ? 1 : 0;',
+  },
+  {
+    name: "the gale line is set above the wind the east of the country blows, so the east's own norther is never painted",
+    from: 'export const GALE = 0.62;',
+    to: 'export const GALE = 0.85;',
+  },
+  {
+    name: 'the gale line is set so low that half a blend takes the pose, and the gale stops at a vertical edge',
+    from: 'export const GALE = 0.62;',
+    to: 'export const GALE = 0.3;',
+  },
+  {
+    name: 'anything upright is given the broad oak\'s gale pose, so a pine in a norther is drawn as an oak',
+    from: '  return inGale(mix) ? (GALE_POSES[sprite] || null) : null;',
+    to: "  return inGale(mix) ? (GALE_POSES[sprite] || 'oak-broad-wind') : null;",
+  },
+  {
+    name: 'any breath of wind at all takes the painted gale pose',
+    from: 'export function inGale(mix) { return galeForce(mix) >= GALE; }',
+    to: 'export function inGale(mix) { return galeForce(mix) > 0; }',
+  },
+  {
+    name: 'the grass keeps standing up in a gale: its painted pose is never reached',
+    from: "  'grass-tuft': 'grass-tuft-wind',\n",
+    to: '',
+  },
   {
     name: 'a tree in a light air leans as hard as one in a gale',
     from: '  return clamp01(force) * MAX_LEAN * Math.max(-1, Math.min(1, across));',
@@ -132,12 +168,18 @@ const run = () => { const result = spawnSync(process.execPath, ['--test', ...FIL
 const clean = run();
 if (clean.length) throw new Error(`The tests fail before any injection: ${clean.join('; ')}`);
 const record = [];
+// The injections are written with plain newlines; the working tree on Windows is checked out with CRLF
+// (`core.autocrlf=true`), so a multi-line `from` matched nothing and the script stopped before it had injected anything.
+// The line ending is the file's own, both ways, so the file is put back byte for byte whichever it is.
+const asFileEndings = (text, eol) => (eol === '\r\n' ? text.replace(/\r?\n/g, '\r\n') : text.replace(/\r\n/g, '\n'));
 for (const injection of INJECTIONS) {
   const file = injection.file || FILE;
   const original = readFileSync(file, 'utf8');
-  const count = original.split(injection.from).length - 1;
+  const eol = original.includes('\r\n') ? '\r\n' : '\n';
+  const from = asFileEndings(injection.from, eol), to = asFileEndings(injection.to, eol);
+  const count = original.split(from).length - 1;
   if (count !== 1) throw new Error(`${injection.name}: the text to replace is in ${file} ${count} times`);
-  writeFileSync(file, original.replace(injection.from, injection.to));
+  writeFileSync(file, original.replace(from, to));
   let failed;
   try { failed = run(); } finally { writeFileSync(file, original); }
   record.push({ name: injection.name, file, failed });

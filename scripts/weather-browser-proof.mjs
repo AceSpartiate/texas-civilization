@@ -77,6 +77,9 @@ const DAYS = [
 // A family's own yard, its county, and the whole country. `out` is how many wheel steps back from the closest the map goes.
 const VIEWS = [
   { id: 'yard', at: 'home', out: 0 },
+  // Far enough back that the scattered timber oaks are drawn, close enough that they can be told apart: this is where a
+  // gale pose on a tree can be seen at all.
+  { id: 'timber', at: 'home', out: 7 },
   { id: 'county', at: 'home', out: 16 },
   // The whole country the Host looks at: the map's own Out button, as scripts/perf-render-measure.mjs presses it for its
   // `whole` view, because four hundred miles is further back than the wheel gets in a reasonable number of steps.
@@ -140,6 +143,9 @@ try {
         camera: window.__camera && { scale: Math.round(window.__camera.scale * 10) / 10 },
         weather: window.__weatherDrawn,
         ground: window.__weatherGround,
+        // How many things in the ground took Astra's painted gale pose rather than the shear (public/app.js
+        // `drawGroundDetail`, delivered 2026-09-21). Zero on every day that is not a hard norther.
+        gale: window.__galeDrawn,
         // What the page says in words, which must not have become a weather line.
         description: document.querySelector('#world-description')?.textContent || '',
         entities: (window.__viewEntities || []).length,
@@ -150,7 +156,7 @@ try {
       const png = await page.locator('#world-map').evaluate(canvas => canvas.toDataURL('image/png').split(',')[1]);
       writeFileSync(file, Buffer.from(png, 'base64'));
       record.shots.push({ day: day.id, view: view.id, file, ...seen, png });
-      console.log(`${day.id.padEnd(12)} ${view.id.padEnd(8)} scale ${String(seen.camera?.scale).padStart(8)} | spans ${seen.weather?.spans ?? '-'} layers ${seen.weather?.layers ?? '-'} fog ${seen.weather?.fog ?? '-'} | rivers up ${seen.ground?.flooded ?? '-'}/${seen.ground?.courses ?? '-'} over their banks ${seen.ground?.over ?? '-'} | ${seen.entities} people, ${seen.houses} houses`);
+      console.log(`${day.id.padEnd(12)} ${view.id.padEnd(8)} scale ${String(seen.camera?.scale).padStart(8)} | spans ${seen.weather?.spans ?? '-'} layers ${seen.weather?.layers ?? '-'} fog ${seen.weather?.fog ?? '-'} | gale ${seen.gale?.poses ?? '-'}/${seen.gale?.scattered ?? '-'} | rivers up ${seen.ground?.flooded ?? '-'}/${seen.ground?.courses ?? '-'} over their banks ${seen.ground?.over ?? '-'} | ${seen.entities} people, ${seen.houses} houses`);
     }
   }
 

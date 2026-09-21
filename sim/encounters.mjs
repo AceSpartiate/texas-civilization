@@ -661,12 +661,44 @@ export function facingOf(world, carrier) {
   if (!encounter) return null;
   const listener = world.entities[encounter.listenerId];
   if (!listener) return null;
-  const said = encounter.said.at(-1);
+  return turnedToward(world, encounter, carrier, listener, 'rider');
+}
+/**
+ * The same two facts for the person the rider stopped, so that a conversation looks like a conversation from both sides.
+ *
+ * Astra delivered speaking and listening poses for the first cast on 2026-09-14 and for the second on 2026-09-21, and
+ * until now nothing on either sheet was ever drawn: only the rider had a `facing` and a `speaking`, so the settler he had
+ * reined in for stood in their idle pose with their back to him as often as not. The rule is exactly the rider's, and
+ * reversed: `speaking` is the short window after a line THIS person said, so waiting to be answered reads as listening,
+ * which is also the truthful pose.
+ *
+ * Both exist only while a meeting is open, and neither says a word about what is being carried: `said.speaker` is read
+ * for who spoke, never for what was spoken.
+ */
+export function listeningOf(world, person) {
+  const encounter = Object.values(world.encounters || {}).find(e => e.listenerId === person.id && e.status === 'open');
+  if (!encounter) return null;
+  const carrier = world.entities[encounter.carrierId];
+  if (!carrier) return null;
+  return turnedToward(world, encounter, person, carrier, 'listener');
+}
+/**
+ * Which way `person` is turned to face `other`, and whether they have said something lately.
+ *
+ * The line read is the last one THIS speaker said, not the last line of all. For the rider that is the same line and the
+ * same answer it always was, because a question and its answer are one action and the rider's answer is always last. For
+ * the person asking it, "the last line of all" would have been the rider's answer a moment later and they would never
+ * have been drawn speaking at all - the delivered speaking frames would have stayed unused for the same reason the
+ * listening ones did. A question and an answer share a minute in this game, so for that window both figures are drawn
+ * talking, which is what a conversation looks like from across a field.
+ */
+function turnedToward(world, encounter, person, other, speaker) {
+  const said = [...encounter.said].reverse().find(line => line.speaker === speaker);
   return {
-    // Turned toward the listener: north or south when they are mostly above or below, since there is art for it.
-    facing: Math.abs(listener.location.y - carrier.location.y) > Math.abs(listener.location.x - carrier.location.x) * 1.2
-      ? (listener.location.y < carrier.location.y ? 'n' : 's')
-      : listener.location.x < carrier.location.x ? 'w' : 'e',
-    speaking: said?.speaker === 'rider' && world.minute - said.minute < attention(world, SPEAKING_MINUTES, encounter.householdId),
+    // Turned toward the other: north or south when they are mostly above or below, since there is art for it.
+    facing: Math.abs(other.location.y - person.location.y) > Math.abs(other.location.x - person.location.x) * 1.2
+      ? (other.location.y < person.location.y ? 'n' : 's')
+      : other.location.x < person.location.x ? 'w' : 'e',
+    speaking: Boolean(said) && world.minute - said.minute < attention(world, SPEAKING_MINUTES, encounter.householdId),
   };
 }

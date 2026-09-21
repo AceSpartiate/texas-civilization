@@ -12,7 +12,7 @@ import { drawTownGround, townDrawables } from '/town-art.js';
 import { renderInterior, clearInteriorChoice } from '/interior.js';
 import { TOWN_LAYOUTS, townPoint } from '/town-layouts.js';
 import {drawWater,drawRoad,drawCrossing,drawFerry,crossingAngle} from '/landscape-art.js';
-import { drawFogShape, drawHighWater, drawWeatherAir, drawWeatherVeil, drawWetGround, farEmphasis, weatherGroundKey, weatherMix, weatherShown, weatherSpans, windLean } from '/weather-art.js';
+import { GALE_POSES, GALE_SMOKE, drawFogShape, drawHighWater, drawWeatherAir, drawWeatherVeil, drawWetGround, farEmphasis, inGale, weatherGroundKey, weatherMix, weatherShown, weatherSpans, windLean } from '/weather-art.js';
 /** The weather with the day fully up, for everything drawn into the kept ground (public/weather-art.js `weatherMix`). */
 const STEADY = Object.freeze({ fade: false });
 import { drawHousePlot, plotted, renderHousePlot } from '/house-plot.js';
@@ -290,7 +290,32 @@ function deerFallback(ctx, x, y, size, flip = false) {
   ctx.beginPath(); ctx.moveTo(size * .38, -size * .92); ctx.lineTo(size * .34, -size * 1.02); ctx.moveTo(size * .44, -size * .92); ctx.lineTo(size * .46, -size * 1.02); ctx.stroke();
   ctx.restore();
 }
-function miniDeer(ctx, x, y, size, { flip = false, alert = false, seed = 0 } = {}) {
+function turkeyFallback(ctx, x, y, size, flip = false) {
+  ctx.save();
+  ctx.translate(x, y); if (flip) ctx.scale(-1, 1);
+  groundShadow(ctx, 0, 0, size * .34);
+  ctx.fillStyle = '#4a3a28'; ctx.strokeStyle = '#2a2117'; ctx.lineWidth = Math.max(.7, size * .04);
+  for (const leg of [-.08, .1]) { ctx.beginPath(); ctx.moveTo(size * leg, -size * .3); ctx.lineTo(size * leg, 0); ctx.stroke(); }
+  ctx.beginPath(); ctx.ellipse(0, -size * .48, size * .34, size * .22, .12, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(-size * .3, -size * .5); ctx.lineTo(-size * .58, -size * .84); ctx.lineTo(-size * .5, -size * .3); ctx.closePath(); ctx.fill(); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(size * .24, -size * .6); ctx.quadraticCurveTo(size * .44, -size * .82, size * .36, -size * .94); ctx.lineWidth = Math.max(1, size * .08); ctx.stroke();
+  ctx.fillStyle = '#9e5a4e'; ctx.beginPath(); ctx.ellipse(size * .36, -size * .98, size * .08, size * .06, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.restore();
+}
+/**
+ * The quarry a hunter is waiting on, drawn as the species the SERVER named (`chore.quarry.kind`, sim/chores.mjs
+ * `quarryPoint`). The page never chooses what animal is there and never puts one anywhere: a quarry with no picture is
+ * sent no place at all (`DRAWN_GAME` in sim/hunting.mjs), so there is nothing here to draw and nothing is drawn.
+ */
+const QUARRY_SIZE = Object.freeze({ deer: 1.1, turkey: .63 });
+function miniQuarry(ctx, x, y, size, { kind = 'deer', flip = false, alert = false, seed = 0 } = {}) {
+  if (kind === 'turkey') {
+    // Foraging while the hunter is still coming; head up the moment the family is asked whether to take the shot, which
+    // is the turkey's own tell and the same contract the deer's alert pose has.
+    if (animated(ctx, alert ? 'turkey-alert' : 'turkey-forage', x, y, size, seed, { flip })) return;
+    turkeyFallback(ctx, x, y, size, flip);
+    return;
+  }
   if (animated(ctx, alert ? 'deer-alert' : 'deer-idle', x, y, size, seed, { flip })) return;
   deerFallback(ctx, x, y, size, flip);
 }
@@ -389,12 +414,19 @@ function homesteadCamp(ctx, x, y, size, id = '') {
 // Open-grown post oak: a broad canopy on a short trunk (HIST-GONZ-012). Kept as the
 // fallback for when the nature sheet has not loaded, or has failed to.
 const TIMBER_TREES = ['oak-broad', 'oak-spreading', 'pecan'];
-function postOak(ctx, x, y, size, tint = 0, lean = 0) {
+/** How many painted gale poses have been laid down, ever: `drawGroundDetail` reports the difference over its own pass. */
+let galeDrawn = 0;
+function postOak(ctx, x, y, size, tint = 0, lean = 0, gale = false) {
   // A whole number: a woods site passes a fractional tint, which indexed no tree and no green, and its stand was drawn as
   // three brown discs (found 2026-09-14).
   tint = Math.round(tint);
-  if (animated(ctx, `${TIMBER_TREES[((tint % 3) + 3) % 3]}-wind`, x, y, size, tint, { lean })) return;
-  if (drawSprite(ctx, TIMBER_TREES[((tint % 3) + 3) % 3], x, y, size, { lean })) return;
+  const tree = TIMBER_TREES[((tint % 3) + 3) % 3];
+  // A hard norther is the painted gale pose, and no shear over it: the frame is already bent, and shearing it again
+  // would lay it on the ground (public/weather-art.js `galePose`). The sway clip of the same name is the upright tree
+  // and is what every lesser wind still gets.
+  if (gale && GALE_POSES[tree] && drawSprite(ctx, GALE_POSES[tree], x, y, size)) { galeDrawn++; return; }
+  if (animated(ctx, `${tree}-wind`, x, y, size, tint, { lean })) return;
+  if (drawSprite(ctx, tree, x, y, size, { lean })) return;
   ctx.fillStyle = '#6a4a33';
   ctx.fillRect(x - size * .09, y - size * .5, size * .18, size * .5);
   const greens = ['#5f8a48', '#6d9a52', '#57803f'];
@@ -864,7 +896,10 @@ const SIZE = {
   cabin: 3.3, settlementCabin: 2.5, camp: 2.1,
   timberTree: 1.95, loneTree: 2.05, sapling: 1.15, scrub: 1.0, stump: 1.0, logPile: 1.2,
   tuft: .6, rock: .5, crop: .95,
-  ox: 1.45, horse: 1.5, wagon: 1.55, deer: 1.1,
+  ox: 1.45, horse: 1.5, wagon: 1.55,
+  // The Yellow Stone: a hundred and thirty feet of steamboat, drawn taller than the cabins on the bank she lies against.
+  steamboat: 4.2,
+  // The quarry's own sizes are `QUARRY_SIZE`, which is by species: a turkey is not a deer's height.
 };
 // null means the camera follows the family. Dragging or zooming takes manual control
 // until the player presses Follow, so the view is never yanked away mid-gesture.
@@ -1675,7 +1710,8 @@ const groundDetailOpacity = scale => ramp(scale, 28, 40);
 function drawGroundDetail(ctx, world, camera) {
   // Fades in as the camera comes down to a few miles across, rather than appearing whole at one scale.
   const detail = groundDetailOpacity(camera.scale);
-  if (detail <= 0) return;
+  if (detail <= 0) { window.__galeDrawn = null; return; }
+  const galeWas = galeDrawn;
   const canvas = ctx.canvas;
   const topLeft = camera.toWorld({ x: 0, y: 0 }), bottomRight = camera.toWorld({ x: canvas.width, y: canvas.height });
   const viewMiles = Math.max(bottomRight.x - topLeft.x, bottomRight.y - topLeft.y);
@@ -1695,7 +1731,11 @@ function drawGroundDetail(ctx, world, camera) {
   const wind = world.weather && weatherShown(world.weather) ? world.weather : null;
   // Fade-free (`STEADY`): this is drawn into the kept ground, which is redrawn only when the day turns, so a lean that
   // came up over an hour and a half would be frozen at whatever it was in the one frame that drew it.
-  const leanAt = wind ? x => windLean(weatherMix(wind, x, world.minute, STEADY)) : null;
+  //
+  // One mix a thing, and both answers read off it: how far it leans, and whether the wind here is the hard norther
+  // Astra painted poses for (public/weather-art.js `inGale`). A second `weatherMix` for the second answer would have
+  // doubled the cost of the whole scatter.
+  const windAt = wind ? x => weatherMix(wind, x, world.minute, STEADY) : null;
   // Nothing wild stands in ground the family has cleared (sim/fields.mjs): no oak in the corn, no scrub in the rows.
   // Only plots near the view are checked, so the Host's thirty families cost no more per tree than one family's land does.
   const near = PLOT_SIDE * 2;
@@ -1781,7 +1821,8 @@ function drawGroundDetail(ctx, world, camera) {
         const own = groundClassAt(landGrid, wx, wy);
         const ground = outsideGrid && own === DEFAULT_GROUND ? groundClassAt(outsideGrid, wx, wy) : own;
         const timber = (hasWoods && inWoods(wx, wy)) || (!landWoods && groundClass(ground).timber === true);
-        scattered.push({ share: item.share, seed: cx + cy, alpha: alpha * detail, timber, ground, point, lean: leanAt ? leanAt(wx) : 0 });
+        const mix = windAt ? windAt(wx) : null;
+        scattered.push({ share: item.share, seed: cx + cy, alpha: alpha * detail, timber, ground, point, lean: mix ? windLean(mix) : 0, gale: mix ? inGale(mix) : false });
       }
     }
   }
@@ -1794,17 +1835,20 @@ function drawGroundDetail(ctx, world, camera) {
       const point = camera.toScreen(tree), height = figure * SIZE.timberTree * TREE_SIZES[tree.size] * (tree.kind.scale || 1);
       const sizeName = ['pole', 'log', 'large'][tree.size];
       const sizedTree = `${tree.kind.picture}-${sizeName}`;
-      const deliveredSizes = tree.kind.sized ?? ['pine-loblolly', 'cedar', 'mesquite', 'live-oak', 'elm'].includes(tree.kind.picture);
-      scattered.push({ tree: deliveredSizes ? sizedTree : tree.kind.picture, height, point, seed: Math.round(tree.x * 1e5), alpha: treesShown, lean: leanAt ? leanAt(tree.x) : 0 });
+      const deliveredSizes = tree.kind.sized ?? ['pine-loblolly', 'cedar', 'mesquite', 'live-oak', 'elm', 'post-oak', 'blackjack', 'pecan', 'hackberry', 'sweetgum'].includes(tree.kind.picture);
+      const mix = windAt ? windAt(tree.x) : null;
+      scattered.push({ tree: deliveredSizes ? sizedTree : tree.kind.picture, height, point, seed: Math.round(tree.x * 1e5), alpha: treesShown, lean: mix ? windLean(mix) : 0, gale: mix ? inGale(mix) : false });
     }
-    // What the family has felled: a stump, and a log lying beside it while any are left to haul (sim/felling.mjs).
-    // stand-in: hardwood stumps use the nearest post-oak or cottonwood stump, and every felled trunk uses
-    // `log-fallen`. Pine has its delivered stump. Request 2026-09-15 - the trees of the colonies.
+    // What the family has felled: a stump, and a log lying beside it while any are left to haul (sim/felling.mjs). The
+    // trunk is `log-fallen-hardwood` (trees-colonies-2, 2026-09-21) where a hardwood was cut and the softer `log-fallen`
+    // where a pine or a cottonwood was.
+    // stand-in: hardwood stumps still use the nearest post-oak or cottonwood stump. Pine has its delivered stump.
+    // Request 2026-09-15 - the trees of the colonies.
     const stumps = stumpsVisible(camera, canvas, woodsCatalogue);
     for (const stump of stumps) {
-      const point = camera.toScreen(stump), pine = ['loblolly', 'shortleaf'].includes(stump.kind.id), soft = ['cottonwood', 'sycamore'].includes(stump.kind.id);
+      const point = camera.toScreen(stump), pine = ['loblolly', 'shortleaf', 'longleaf'].includes(stump.kind.id), soft = ['cottonwood', 'sycamore', 'willow'].includes(stump.kind.id);
       scattered.push({ tree: stump.kind.stump || (pine ? 'stump-pine-loblolly' : soft ? 'stump-cottonwood' : 'stump-post-oak'), height: figure * SIZE.stump, point, seed: 0, alpha: treesShown });
-      if (stump.left > 0) scattered.push({ tree: 'log-fallen', height: figure * SIZE.stump * .8, point: { x: point.x + figure * .35, y: point.y + figure * .08 }, seed: 0, alpha: treesShown });
+      if (stump.left > 0) scattered.push({ tree: pine || soft ? 'log-fallen' : 'log-fallen-hardwood', height: figure * SIZE.stump * .8, point: { x: point.x + figure * .35, y: point.y + figure * .08 }, seed: 0, alpha: treesShown });
     }
     window.__stumpsDrawn = stumps.length;
   } else if (landWoods) window.__stumpsDrawn = 0;
@@ -1820,8 +1864,11 @@ function drawGroundDetail(ctx, world, camera) {
     ctx.globalAlpha = was * alpha; draw(); ctx.globalAlpha = was;
   };
   // One mark of the ground, from its class's table entry, or the entry's shape while the art has not loaded.
-  const plain = (share, point, ground, lean = 0) => {
+  const plain = (share, point, ground, lean = 0, gale = false) => {
     const mark = markFor(ground, share);
+    // The painted gale pose where the wind is a hard norther and the library has one for this mark - the grass tuft, so
+    // far - drawn straight, because the pose is already flattened (public/weather-art.js `GALE_POSES`).
+    if (gale && GALE_POSES[mark.sprite] && drawSprite(ctx, GALE_POSES[mark.sprite], point.x, point.y, figure * mark.size)) { galeDrawn++; return; }
     if (mark.sprite && drawSprite(ctx, mark.sprite, point.x, point.y, figure * mark.size, { lean })) return;
     if (mark.fallback === 'rock') {
       ctx.fillStyle = '#b9b7a4';
@@ -1842,18 +1889,24 @@ function drawGroundDetail(ctx, world, camera) {
       ctx.stroke();
     }
   };
-  for (const { share, seed, timber, point, tree, height, alpha, ground, lean = 0 } of scattered) {
+  for (const { share, seed, timber, point, tree, height, alpha, ground, lean = 0, gale = false } of scattered) {
     if (tree) {
-      faded(alpha, () => { if (!drawSprite(ctx, tree, point.x, point.y, height, { lean })) postOak(ctx, point.x, point.y, height, seed, lean); });
+      faded(alpha, () => {
+        if (gale && GALE_POSES[tree] && drawSprite(ctx, GALE_POSES[tree], point.x, point.y, height)) { galeDrawn++; return; }
+        if (!drawSprite(ctx, tree, point.x, point.y, height, { lean })) postOak(ctx, point.x, point.y, height, seed, lean, gale);
+      });
     } else if (timber && share < .5) {
       // A scattered oak in the timber, handing over to the real trees where the land's trees are drawn.
-      faded(alpha * (1 - treesShown), () => postOak(ctx, point.x, point.y, figure * SIZE.timberTree, seed, lean));
-      faded(alpha * treesShown, () => plain(share, point, ground, lean));
+      faded(alpha * (1 - treesShown), () => postOak(ctx, point.x, point.y, figure * SIZE.timberTree, seed, lean, gale));
+      faded(alpha * treesShown, () => plain(share, point, ground, lean, gale));
     } else if (share < .055 && loneOaks > 0) {
-      faded(alpha * loneOaks, () => postOak(ctx, point.x, point.y, figure * SIZE.loneTree, seed, lean));
-      faded(alpha * (1 - loneOaks), () => plain(share, point, ground, lean));
-    } else faded(alpha, () => plain(share, point, ground, lean));
+      faded(alpha * loneOaks, () => postOak(ctx, point.x, point.y, figure * SIZE.loneTree, seed, lean, gale));
+      faded(alpha * (1 - loneOaks), () => plain(share, point, ground, lean, gale));
+    } else faded(alpha, () => plain(share, point, ground, lean, gale));
   }
+  // What the last ground drawn did with the wind: how many things took a painted gale pose and how many were sheared
+  // upright sprites. Read by scripts/weather-browser-proof.mjs, which photographs the same ground.
+  window.__galeDrawn = { poses: galeDrawn - galeWas, scattered: scattered.length, gale: scattered.some(item => item.gale) };
 }
 /** A course's box in miles, worked out once a course: most of the colonies' water is off screen at any zoom that shows it. */
 const courseBoxes = new WeakMap();
@@ -2475,14 +2528,16 @@ export function drawWorld(world) {
       : meetingFor(world, entity) ? { list: pending, kind: 'meeting', glyph: '…', tone: '#41556b' }
       : entity.chore?.ask ? { list: pending, kind: 'asking', glyph: '?', tone: '#7a4726' }
       : null;
-    // The deer this person is hunting, where the server put it (sim/chores.mjs `quarryPoint`), facing the way it stands.
+    // The quarry this person is hunting, where the server put it (sim/chores.mjs `quarryPoint`) and the species it said,
+    // facing the way it stands. A class saved before the quarry carried a kind has none, and is a deer as it always was.
     const quarry = entity.chore?.quarry;
     if (quarry) {
+      const kind = quarry.kind || 'deer';
       const spot = camera.toScreen(quarry);
-      standing.push({ y: spot.y, draw: () => miniDeer(ctx, spot.x, spot.y, camera.figure * SIZE.deer, {
-        flip: spot.x < point.x, alert: Boolean(entity.chore.ask), seed: entity.id,
+      standing.push({ y: spot.y, draw: () => miniQuarry(ctx, spot.x, spot.y, camera.figure * (QUARRY_SIZE[kind] || QUARRY_SIZE.deer), {
+        kind, flip: spot.x < point.x, alert: Boolean(entity.chore.ask), seed: entity.id,
       }) });
-      window.__quarryDrawn = { id: entity.id, x: spot.x, y: spot.y };
+      window.__quarryDrawn = { id: entity.id, kind, x: spot.x, y: spot.y };
     }
     standing.push({ y: point.y, draw: () => drawEntity(ctx, entity, point, roomForNames, camera.figure, {
       selected: entity.id === chosen?.id, mark, entities,
@@ -2497,8 +2552,9 @@ export function drawWorld(world) {
     // in their own coat, the deer they are hunting beside them - because the teacher is not somebody glimpsing a stranger.
     if (host && (point.x < -margin || point.y < -margin || point.x > canvas.width + margin || point.y > canvas.height + margin)) continue;
     if (host && entity.chore?.quarry) {
+      const kind = entity.chore.quarry.kind || 'deer';
       const spot = camera.toScreen(entity.chore.quarry);
-      standing.push({ y: spot.y, draw: () => miniDeer(ctx, spot.x, spot.y, camera.figure * SIZE.deer, { flip: spot.x < point.x, seed: entity.id }) });
+      standing.push({ y: spot.y, draw: () => miniQuarry(ctx, spot.x, spot.y, camera.figure * (QUARRY_SIZE[kind] || QUARRY_SIZE.deer), { kind, flip: spot.x < point.x, seed: entity.id }) });
     }
     standing.push({ y: point.y, draw: () => drawEntity(ctx, { ...entity, health: { condition: entity.condition } }, point, roomForNames, camera.figure, {
       selected: entity.id === chosen?.id, mark: null, labels, observed: !host, ground, scale: camera.scale,
@@ -2564,8 +2620,29 @@ export function drawWorld(world) {
   // off, so a man who joined an army is drawn among an army (owner, 2026-09-17).
   window.__armiesDrawn = (world.armies || []).map(army => {
     const at = camera.toScreen(army);
-    const how = drawArmy(ctx, army, at, { scale: camera.scale, figure: camera.figure, time: animationTime, draw: (clip, x, y, size, key, options) => animated(ctx, clip, x, y, size, key, options), mini: miniPerson });
-    return { id: army.id, side: army.side, ours: army.ours, strength: army.strength, how, x: Math.round(at.x), y: Math.round(at.y) };
+    // A camp fire in a hard norther: the smoke does not rise, it lies over and streams away, which is Astra's
+    // `smoke-streaming` (public/weather-art.js `GALE_SMOKE`). Read at the camp's own place, so a camp in a country the
+    // norther has not reached keeps its rising puffs. The camp is drawn on the page's canvas every frame, not into the
+    // kept ground, so this one reads the weather with its fade (no `STEADY`) and the smoke goes over as the day comes up.
+    const campMix = weather ? weatherMix(weather, army.x, world.minute) : null;
+    const how = drawArmy(ctx, army, at, {
+      scale: camera.scale, figure: camera.figure, time: animationTime,
+      draw: (clip, x, y, size, key, options) => animated(ctx, clip, x, y, size, key, options), mini: miniPerson,
+      smoke: campMix && inGale(campMix) ? (x, y, size) => drawSprite(ctx, GALE_SMOKE, x, y, size) : null,
+    });
+    // The steamboat Yellow Stone on the Brazos at Groce's, in the fortnight of the record's own (sim/houston.mjs
+    // `yellowStone`, `HIST-TEX-089`): loading cotton for Captain Ross until the army takes her on April 12, then lying at
+    // the bank with her plank out while she carries the men, the horses and the wagons over the flood. Where she is and
+    // what she is doing are the server's; the page chooses only which delivered pose says it.
+    // ceiling: she is drawn at the bank and never under way. The under-way and army-laden paddle loops are not delivered,
+    // and docs/ART_DELIVERY_2026-09-21-RIVER-TRANSPORT.md says they must not be inferred from the still-paddle frames.
+    let boat = null;
+    if (army.boat && how === 'camp') {
+      const bank = camera.toScreen(army.boat);
+      boat = army.boat.state === 'crossing' ? 'steamboat-gangplank' : 'steamboat-cotton-moored';
+      if (!animated(ctx, boat, bank.x, bank.y, camera.figure * SIZE.steamboat, army.id)) boat = null;
+    }
+    return { id: army.id, side: army.side, ours: army.ours, strength: army.strength, how, boat, x: Math.round(at.x), y: Math.round(at.y) };
   });
   window.__viewFormations = drawFormations(ctx, world.battle, camera.toScreen, camera.named, world.tick, camera.figure);
   canvas.dataset.formationIds = window.__viewFormations.join(' ');

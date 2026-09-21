@@ -17,18 +17,31 @@ export function visualVariant(id, principal = false) {
 /**
  * Which figure somebody is drawn as, from who they are.
  *
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-12, priorities 1 and 2. The library has one
- * cast - `rust` a man, `teal` a woman, `elder` an older man, `blue` an adolescent - and no
- * children, so a person is drawn as the nearest figure it has: a woman or girl as `teal`, a
- * boy as `blue`, a man as `elder`, the principal in `rust` whoever they are. Replace with
- * `rust-woman`, `indigo`, `ochre`, `blue-girl`, `girl`, `boy` and `smallchild` when
- * they are delivered. Somebody with no stated sex - the founding four, the town, a class saved
- * before rolling - keeps the old choice by id, which is what they have always looked like.
+ * The second cast is complete since Astra's north/south walk and dialogue sheets landed on 2026-09-21
+ * (docs/ART_DELIVERY_2026-09-21-CAST2-VERTICAL.md, `-CAST2-DIALOGUE.md`), so the family is no longer four copies of two
+ * figures: a woman is `teal` or `indigo`, a man `elder` or `ochre`, an adolescent girl `blue-girl` and a boy `blue`,
+ * chosen by the same stable hash of the id that has always chosen a neighbour's coat. Two of each, so a mother and a
+ * grown daughter standing in the same yard are not the same person twice.
+ *
+ * **A mother who is the principal is drawn as a woman in the principal's own colour** (`rust-woman`), which is what the
+ * request asked for and what could not be done with one rust figure: until today a student playing a mother watched a man
+ * in a rust coat do everything she ordered. `rust-woman` is kept out of the pool exactly as `rust` is, so no neighbour can
+ * wear either and the mark still means "this is you".
+ *
+ * Somebody with no stated sex - the founding four, a town's keeper, a class saved before families were rolled - keeps the
+ * old choice by id, which is what they have always looked like.
  */
+export const WOMEN = ['teal', 'indigo'], MEN = ['elder', 'ochre'];
+const fromPool = (pool, id) => {
+  let hash = 0;
+  for (const char of String(id)) hash = (Math.imul(hash, 31) + char.charCodeAt(0)) >>> 0;
+  return pool[hash % pool.length];
+};
 export function castVariant(entity, observed = false) {
-  if (entity.principal && !observed) return PRINCIPAL_VARIANT;
-  if (entity.sex === 'female') return 'teal';
-  if (entity.sex === 'male') return ['adult', undefined, null].includes(entity.band) ? 'elder' : 'blue';
+  const grown = ['adult', undefined, null].includes(entity.band);
+  if (entity.principal && !observed) return entity.sex === 'female' ? 'rust-woman' : PRINCIPAL_VARIANT;
+  if (entity.sex === 'female') return grown ? fromPool(WOMEN, entity.id) : 'blue-girl';
+  if (entity.sex === 'male') return grown ? fromPool(MEN, entity.id) : 'blue';
   return visualVariant(entity.id);
 }
 /**
@@ -235,6 +248,17 @@ function grownClip(entity, observed) {
   // this project never chose.
   if (STILL_CONDITIONS.includes(condition)) return { id: `${variant}-idle-s`, frozen: true, upright: true };
   if (entity.carrier) return carrierClip(entity);
+  // Standing talking with a rider who has reined in. The server says which - and only while the meeting is open
+  // (sim/encounters.mjs `listeningOf`) - so nothing here invents a conversation. Every cast figure has these three poses:
+  // a two-frame east-facing speaking cycle, mirrored for west, and a front and a back listening pose. There is no
+  // east-facing listening pose on any sheet, so somebody listening to a rider beside them is drawn facing the camera,
+  // which is what the delivery painted and reads correctly at map scale.
+  // ceiling: `speak` is the east cycle whichever way they are turned; a person speaking to somebody above or below them
+  // is drawn side on. A vertical speaking cycle is nobody's request yet.
+  if (!observed && entity.speaking) return { id: `${variant}-speak` };
+  // Not frozen: the listening frame is one pose and the renderer's own breathing is what keeps it alive, which is what
+  // the delivery note asked for. `upright`, because a back view is never mirrored.
+  if (!observed && entity.facing) return { id: `${variant}-listen-${entity.facing === 'n' ? 'n' : 's'}`, upright: true };
   if (entity.kind === 'animal') {
     // A class saved before there were horses has no `species` on anything, and every
     // animal in it is an ox - so the absent field reads correctly as one.

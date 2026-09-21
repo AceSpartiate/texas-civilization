@@ -10,7 +10,7 @@
 // **No new history and no invented numbers.** An army's strength here is the count of men the simulation actually holds in
 // it - this class's own volunteers - and never a figure for the whole force, which the record gives and the game does not
 // model. A Mexican column has no strength at all: what is known of it is where its head is on its dated march.
-import { houstonCamp, campName } from './houston.mjs';
+import { houstonCamp, campName, yellowStone } from './houston.mjs';
 import { columnHead, columns } from './road.mjs';
 
 /** How near an army has to be for a family to see it, in miles. Beyond that it is not on their map at all. */
@@ -59,6 +59,10 @@ export function armiesNow(world, householdId = null) {
     if (!where) continue;
     const existing = found.find(army => army.id === service.id);
     const entry = existing || { id: service.id, name: service.kind === 'houston' ? `Houston's army at ${campName(world)}` : service.name, side: 'texian', ...where, strength: 0, ours: 0 };
+    // The steamboat Yellow Stone at the Brazos crossing while the army is at Groce's (sim/houston.mjs `yellowStone`,
+    // `HIST-TEX-089`). She travels with the army because she is only ever drawn where the army is: a page that may not see
+    // this army is told nothing about her either.
+    if (!existing && service.kind === 'houston') { const boat = yellowStone(world); if (boat) entry.boat = boat; }
     entry.strength += men.length;
     entry.ours += men.filter(mine).length;
     if (!existing) found.push(entry);

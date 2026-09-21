@@ -5,6 +5,9 @@ import { fileURLToPath } from 'node:url';
 import { buildManifest, decodeRgba, root, SHEETS } from '../scripts/build-atlas-manifest.mjs';
 import { pending } from '../scripts/art-deliveries/index.mjs';
 import { GROUND_CLASSES } from '../public/ground-classes.js';
+import { GALE_POSES } from '../public/weather-art.js';
+import { KINDS, SIZES } from '../sim/woods.mjs';
+import { TOWN_LAYOUTS } from '../sim/town-layouts.mjs';
 
 const manifest = JSON.parse(readFileSync(root + 'atlas.json', 'utf8'));
 const expected = Object.values(SHEETS).flat().filter(Boolean);
@@ -57,6 +60,115 @@ test('every frame is a usable sprite: inside its sheet, non-empty, and standing 
       || a.frame.y + a.frame.h <= b.frame.y || b.frame.y + b.frame.h <= a.frame.y;
     assert.ok(apart, `${a.name} and ${b.name} overlap in ${a.frame.sheet}`);
   }
+});
+
+/**
+ * Every name the data hands the renderer has to be a frame the library really has.
+ *
+ * A delivery is wired by changing a name in a table - a tree's `picture`, a mark's `sprite`, a town building's `sprite` -
+ * and a name that is a letter out draws nothing at all, silently, with the fallback shape standing in its place. Nothing
+ * else in the project would notice. Written when Astra's trees-colonies-2, town-buildings-researched and
+ * biome-ground-bexar sheets were wired in on 2026-09-21, which moved about forty of these names at once.
+ */
+test('every sprite the simulation names is a frame the library actually has', () => {
+  const names = new Set(Object.keys(manifest.frames));
+  const missing = [];
+  // The trees of the woods: each kind's picture, at its three sizes where its art is `sized`, and its stump.
+  for (const [id, kind] of Object.entries(KINDS)) {
+    for (const want of kind.sized ? SIZES.map(size => `${kind.picture}-${size}`) : [kind.picture]) if (!names.has(want)) missing.push(`tree ${id} -> ${want}`);
+    if (kind.stump && !names.has(kind.stump)) missing.push(`tree ${id} stump -> ${kind.stump}`);
+  }
+  // The scattered marks of every class of ground.
+  for (const [id, klass] of Object.entries(GROUND_CLASSES)) for (const mark of klass.marks) if (mark.sprite && !names.has(mark.sprite)) missing.push(`ground ${id} -> ${mark.sprite}`);
+  // Every building and wall piece of every town drawn from its research.
+  for (const [id, layout] of Object.entries(TOWN_LAYOUTS)) {
+    for (const building of layout.buildings) if (!names.has(building.sprite)) missing.push(`${id} -> ${building.sprite}`);
+    for (const wall of layout.walls || []) for (const piece of [wall.sprite, wall.breach]) if (piece && !names.has(piece)) missing.push(`${id} wall -> ${piece}`);
+  }
+  // Each country wears its own plants (`biome-ground-bexar`, 2026-09-21). Checked class by class, because a class quietly
+  // put back on a stand-in would leave the frame in use somewhere else and nothing else here would notice.
+  const WEARS = {
+    'tallgrass-prairie': 'grass-tall', longleaf: 'grass-tall', canebrake: 'cane-1', thicket: 'palmetto',
+    'cypress-swamp': 'cypress-knees', marsh: 'marsh-cordgrass', 'salt-prairie': 'marsh-cordgrass', sand: 'dune-grass',
+    chaparral: 'thicket-thorn-1', brush: 'yucca', 'mesquite-savanna': 'thicket-thorn-2', 'thorn-riparian': 'thicket-thorn-1',
+  };
+  for (const [id, sprite] of Object.entries(WEARS)) {
+    if (!GROUND_CLASSES[id].marks.some(mark => mark.sprite === sprite)) missing.push(`ground ${id} no longer wears ${sprite}`);
+  }
+  // The norther's painted gale poses stand for sprites the ground really scatters, and are frames themselves.
+  const scattered = new Set([...Object.values(GROUND_CLASSES).flatMap(klass => klass.marks.map(mark => mark.sprite)), 'oak-broad', 'oak-spreading', 'pecan']);
+  for (const [upright, pose] of Object.entries(GALE_POSES)) {
+    if (!names.has(pose)) missing.push(`gale ${upright} -> ${pose}`);
+    if (!scattered.has(upright)) missing.push(`gale pose for ${upright}, which nothing draws`);
+  }
+  assert.deepEqual(missing, []);
+});
+
+/**
+ * A delivered sheet that nothing draws is the failure this test exists to stop.
+ *
+ * On 2026-09-21 Astra delivered nine batches at once. Eight of them were registered in `atlas.json`, measured, validated,
+ * written up in delivery notes - and drawn by nothing at all, for a day, with no test anywhere the poorer for it. The
+ * library cannot tell the difference between art in the game and art in a folder, so this does: every frame of a sheet
+ * whose binding is a literal sprite or clip name must be named somewhere in `sim/` or `public/` outside a comment, or be
+ * listed here as knowingly not drawn with the reason why.
+ *
+ * The two `people-cast2-*` sheets are not listed: their frames are reached through `${variant}-${pose}` templates that no
+ * text search can see, and tests/motion-binding.test.mjs holds them instead by asking `castVariant` for every figure a
+ * rolled family can produce and requiring each pose's clip to exist.
+ */
+const NOT_DRAWN = Object.freeze({
+  // The hunt has two projected states for a quarry - standing, and alert while the family is asked about the shot - so
+  // the two cycles that would need a third and a fourth are registered and wait for one. The bound (running) frames want
+  // a missed-shot state the simulation does not project; the wing display wants a spring gobbler's strut it has no
+  // season for.
+  'turkey-bound-1': 'no missed-shot state is projected', 'turkey-bound-2': 'no missed-shot state is projected',
+  'turkey-bound-3': 'no missed-shot state is projected', 'turkey-bound-4': 'no missed-shot state is projected',
+  'turkey-display-1': 'no strutting state is projected', 'turkey-display-2': 'no strutting state is projected',
+  'turkey-display-3': 'no strutting state is projected', 'turkey-display-4': 'no strutting state is projected',
+  // Victoria has one Round Top House and Liberty one court room; the second view of each is for a layout that wants it
+  // turned, and Mina's gate is drawn open because nothing in the game ever shuts it.
+  'round-top-house-weathered': 'Victoria has one Round Top House',
+  'liberty-court-room-side': 'Liberty has one court room, drawn front on',
+  'mina-stockade': 'the gate is drawn open; nothing in the game shuts it',
+  // The map says where a ferry is, never who is on the water at this moment.
+  'ferry-flatboat-laden': 'nothing says a wagon is aboard',
+  // The Yellow Stone is drawn in the two states the record gives her at Groce's: cotton, then the plank out.
+  'steamboat-moored-1': 'she is never simply lying at anchor', 'steamboat-moored-2': 'she is never simply lying at anchor',
+  // The pieces exist; the courses do not. Where each ditch ran is a researched line and a claim ID, not a sprite
+  // (docs/ART_REQUESTS.md, request 2026-09-19 - Bexar's fields and acequias).
+  'acequia-straight': 'no acequia courses are laid yet', 'acequia-bend': 'no acequia courses are laid yet',
+  'acequia-crossing': 'no acequia courses are laid yet', 'fence-brush': 'no acequia courses are laid yet',
+});
+test('every frame of a delivered sheet is drawn somewhere, or is written down here as knowingly not drawn', () => {
+  const clips = JSON.parse(readFileSync(root + 'animation.json', 'utf8')).clips;
+  const here = fileURLToPath(new URL('../', import.meta.url));
+  const files = ['sim', 'public'].flatMap(dir => readdirSync(here + dir).filter(name => /\.m?js$/.test(name)).map(name => `${here}${dir}/${name}`));
+  // Comments do not count. A sprite named only in a note about why it is not used yet is exactly the case this catches.
+  const strip = text => text.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/(^|[^:])\/\/[^\n]*/g, '$1 ');
+  const source = files.map(file => strip(readFileSync(file, 'utf8'))).join('\n');
+  // Whole names only: `mina-stockade-house` is an id in a layout and is not a use of the frame `mina-stockade`.
+  const named = name => new RegExp(`${name}(?![-\\w])`).test(source);
+  const clipsWith = name => Object.entries(clips).filter(([, clip]) => clip.frames.some(frame => frame.sprite === name)).map(([id]) => id);
+  const bound = name => {
+    if (named(name)) return true;
+    if (clipsWith(name).some(named)) return true;
+    // A tree's three sizes are drawn as `${picture}-${size}`, so its picture being named is the binding.
+    const sized = /^(.*)-(pole|log|large)$/.exec(name);
+    return Boolean(sized && named(sized[1]));
+  };
+  const SHEETS = ['weather-norther', 'wildlife-turkey', 'trees-colonies-2', 'town-buildings-researched',
+    'ferry-flatboat', 'steamboat-moored', 'biome-ground-bexar'];
+  const unbound = [], stale = [];
+  for (const sheet of SHEETS) {
+    for (const [name, frame] of Object.entries(manifest.frames)) {
+      if (frame.sheet !== sheet) continue;
+      if (bound(name)) { if (NOT_DRAWN[name]) stale.push(`${name} is drawn after all: take it off the list`); continue; }
+      if (!NOT_DRAWN[name]) unbound.push(`${sheet}: ${name} is registered and drawn by nothing`);
+    }
+  }
+  assert.deepEqual(unbound, []);
+  assert.deepEqual(stale, []);
 });
 
 // The library is an enhancement, never a dependency. If the sheets fail to arrive the

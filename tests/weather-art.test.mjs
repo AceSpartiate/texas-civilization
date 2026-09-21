@@ -11,9 +11,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  BLEND_MILES, FADE_MINUTES, FOG_CEILING, MAX_LEAN, REGIONS,
+  BLEND_MILES, FADE_MINUTES, FOG_CEILING, GALE, GALE_POSES, MAX_LEAN, REGIONS,
   WIND_STEPS, WATER_HIGH, WATER_SHUT,
-  fogFade, regionWeights, sinceFade, smoothStep, weatherGroundKey, weatherMix, weatherShown, weatherSpans, windLean, windStep, windVector, zoomBand,
+  fogFade, galeForce, galePose, inGale, regionWeights, sinceFade, smoothStep, weatherGroundKey, weatherMix, weatherShown, weatherSpans, windLean, windStep, windVector, zoomBand,
 } from '../public/weather-art.js';
 import { WATER_HIGH as SIM_WATER_HIGH, WATER_SHUT as SIM_WATER_SHUT, REGIONS as SIM_REGIONS } from '../sim/weather.mjs';
 
@@ -127,6 +127,60 @@ test('the trees lean with the wind, and no further than a tree bends', () => {
   // Half the force is about half the bend: the lean follows the wind rather than switching on with it.
   const half = windLean(weatherMix(weatherOf({ west: 'norther' }, { west: { wind: { from: 0, force: 0.5 } } }), 60, 600));
   assert.ok(Math.abs(Math.abs(half) - Math.abs(lean) / 2) < 0.02, `half a wind is half a lean, got ${half} against ${lean}`);
+});
+
+test('a hard norther is drawn in the painted gale pose, and every lesser wind is still the shear', () => {
+  // Astra's gale silhouettes, 2026-09-21 (docs/ART_DELIVERY_2026-09-21-WEATHER-NORTHER.md): painted at ONE strength, so
+  // they belong to a norther blowing at its own force and to nothing else.
+  const hard = weatherMix(weatherOf({ west: 'norther', centre: 'norther', east: 'norther' }), 200, 600);
+  assert.ok(inGale(hard), `a norther at full force is a gale, got ${galeForce(hard)}`);
+  assert.equal(galePose('oak-broad', hard), 'oak-broad-wind');
+  assert.equal(galePose('grass-tuft', hard), 'grass-tuft-wind');
+  // The east of the country blows 0.7 in a norther (sim/weather.mjs), and it takes the pose too.
+  const east = weatherMix(weatherOf({ east: 'norther' }, { east: { wind: { from: 0, force: 0.7 } } }), 340, 600);
+  assert.ok(inGale(east), `the east's own norther is a gale, got ${galeForce(east)}`);
+  // A storm blows 0.7 and is never a gale: a tree driven flat under falling rain would be the wrong picture, and the
+  // storm's own lean is the right one.
+  const storm = weatherMix(weatherOf({ centre: 'storm' }, { centre: { wind: { from: 1.2, force: 0.7 } } }), 200, 600);
+  assert.equal(galeForce(storm), 0, 'no norther is arriving in a storm');
+  assert.equal(galePose('oak-broad', storm), null, 'so a storm keeps the shear');
+  assert.ok(Math.abs(windLean(storm)) > 0.05, 'and the shear is really there to keep');
+  // A fair day's light air bends a little and poses nothing.
+  const fair = weatherMix(weatherOf({}, { centre: { wind: { from: 2, force: 0.15 } } }), 200, 600);
+  assert.equal(galePose('oak-broad', fair), null);
+});
+
+test('only the things the gale was painted for take a pose; everything else in the timber keeps the shear', () => {
+  const hard = weatherMix(weatherOf({ west: 'norther', centre: 'norther', east: 'norther' }), 200, 600);
+  assert.deepEqual(Object.keys(GALE_POSES).sort(), ['cane-1', 'cane-2', 'grass-tall', 'grass-tuft', 'oak-broad', 'oak-spreading', 'pecan']);
+  assert.equal(galePose('grass-tall', hard), 'grass-tall-wind');
+  assert.equal(galePose('cane-2', hard), 'cane-wind');
+  // ceiling: a pine, a cedar, a mesquite and the rest of the scatter are still sheared uprights in a norther.
+  for (const upright of ['pine-loblolly-large', 'cedar-pole', 'mesquite-pole', 'prickly-pear', 'reeds', 'scrub', 'rocks']) {
+    assert.equal(galePose(upright, hard), null, `${upright} has no painted gale pose`);
+  }
+  assert.ok(Math.abs(windLean(hard)) > 0.1, 'and the shear they fall back on is still a real bend');
+});
+
+test('the gale comes up with the day and thins out across a boundary, as the lean does', () => {
+  // The pose must not flick on at the first minute of a norther, or switch at a vertical line: both are the same
+  // failure the blend and the fade were built to stop, applied to a sprite instead of a wash.
+  //
+  // The fade is read wherever the weather is read WITH it, which is everything drawn on the page's own canvas each
+  // frame - the camp fire's streaming smoke, today. The scattered ground is drawn into the KEPT ground from the
+  // fade-free mix (`STEADY` in public/app.js), so out there the pose turns when the day turns, which is the ceiling the
+  // lean already carries and says so: one lean for the whole view, fixed while the ground is kept.
+  const weather = weatherOf({ centre: 'norther' }, { centre: { since: 600 } });
+  assert.ok(!inGale(weatherMix(weather, 200, 600)), 'nothing at the first minute of it');
+  assert.ok(!inGale(weatherMix(weather, 200, 600 + FADE_MINUTES * 0.4)), 'nor when it is not yet half up');
+  assert.ok(inGale(weatherMix(weather, 200, 600 + FADE_MINUTES)), 'and the pose once the norther has arrived');
+  // Across the western boundary at x=140: the country's own norther, the fair west beyond it.
+  const wide = weatherOf({ centre: 'norther' });
+  assert.ok(inGale(weatherMix(wide, 140 + BLEND_MILES, 600)), 'wholly in the norther');
+  assert.ok(!inGale(weatherMix(wide, 140, 600)), 'half and half at the line takes no pose');
+  assert.ok(!inGale(weatherMix(wide, 140 - BLEND_MILES, 600)), 'and the fair country beyond it none');
+  // The threshold sits below the weakest norther and above half of the strongest.
+  assert.ok(GALE > 0.5 && GALE < 0.7, `the gale line is ${GALE}`);
 });
 
 test('the kept ground is drawn again when the day turns, and not when the rivers fall a thousandth', () => {

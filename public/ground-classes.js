@@ -40,8 +40,9 @@ export const GROUND_CLASSES = Object.freeze({
   brush: { colour: [180, 172, 129], alpha: .32, marks: [
     { upTo: .08, sprite: 'rocks', size: .5, fallback: 'rock' },
     { upTo: .34, sprite: 'mesquite-pole', size: 1.3, fallback: 'bush' },
-    { upTo: .58, sprite: 'prickly-pear', size: 1.0, fallback: 'bush' },
-    { upTo: .8, sprite: 'scrub', size: 1.0, fallback: 'bush' },
+    { upTo: .54, sprite: 'prickly-pear', size: 1.0, fallback: 'bush' },
+    { upTo: .62, sprite: 'yucca', size: 1.1, fallback: 'bush' },
+    { upTo: .8, sprite: 'thicket-thorn-1', size: 1.0, fallback: 'bush' },
     { upTo: 1, sprite: 'grass-tuft', size: .6, fallback: 'tuft' },
   ] },
   'hill-country': { colour: [194, 184, 145], alpha: .45, marks: [
@@ -51,31 +52,32 @@ export const GROUND_CLASSES = Object.freeze({
     { upTo: 1, sprite: 'grass-tuft', size: .55, fallback: 'tuft' },
   ] },
   marsh: { colour: [150, 176, 150], alpha: .45, marks: [
-    { upTo: .45, sprite: 'reeds', size: .9, fallback: 'tuft' },
+    { upTo: .45, sprite: 'marsh-cordgrass', size: .9, fallback: 'tuft' },
     { upTo: 1, sprite: 'grass-tuft', size: .6, fallback: 'tuft' },
   ] },
   sand: { colour: [230, 220, 180], alpha: .5, marks: [
     { upTo: .12, sprite: 'rocks', size: .45, fallback: 'rock' },
-    { upTo: .22, sprite: 'grass-tuft', size: .5, fallback: 'tuft' },
+    { upTo: .22, sprite: 'dune-grass', size: .55, fallback: 'tuft' },
     { upTo: 1, sprite: null, size: 0, fallback: null },
   ] },
   // The biomes of 1836 (docs/BIOMES.md §7.2, 2026-09-19): each country its own wash, so the blackland, the coastal prairie,
   // the mesquite and the thicket no longer read as one pale green. Colours are the research's proposals, pushed apart; every
   // wash was made stronger the same day (about .3 to about .5) so the country's colour shows over the relief's green tint, the
   // hillshade still laid over it.
-  // stand-in: docs/ART_REQUESTS.md, request 2026-09-19 - the country of 1836. Tall grass is `grass-tuft` drawn larger, cane is
-  // `reeds` at twice the size, the palm the `sapling` drawn tall, palmetto and the thorn thicket `scrub`, yucca the
-  // `prickly-pear`, cordgrass `reeds`, a town's fields `crop-stubble` and fallow tufts, until their own art lands.
+  // Astra's `biome-ground-bexar` sheet landed 2026-09-21 and these countries now wear their own plants: tall grass, cane,
+  // palmetto, the thorn thicket in two forms, Spanish dagger, marsh cordgrass, dune grass and cypress knees.
+  // stand-in: docs/ART_REQUESTS.md, request 2026-09-19 - the country of 1836. Still standing in: the palm grove's palms are
+  // the `sapling` drawn tall, and a town's fields are `crop-stubble` and fallow tufts, until their own art lands.
   'tallgrass-prairie': { colour: [212, 190, 118], alpha: .5, marks: [
     { upTo: .04, sprite: 'rocks', size: .5, fallback: 'rock' },
     { upTo: .07, sprite: 'scrub', size: 1.0, fallback: 'bush' },
-    { upTo: 1, sprite: 'grass-tuft', size: .85, fallback: 'tuft' },
+    { upTo: 1, sprite: 'grass-tall', size: .8, fallback: 'tuft' },
   ] },
   'coastal-prairie': { colour: [180, 198, 122], alpha: .5, marks: [
     { upTo: .03, sprite: 'rocks', size: .45, fallback: 'rock' },
     { upTo: .05, sprite: 'live-oak-pole', size: 1.3, fallback: 'bush' },
-    { upTo: .1, sprite: 'reeds', size: .8, fallback: 'tuft' },
-    { upTo: 1, sprite: 'grass-tuft', size: .75, fallback: 'tuft' },
+    { upTo: .1, sprite: 'marsh-cordgrass', size: .8, fallback: 'tuft' },
+    { upTo: 1, sprite: 'grass-tall', size: .7, fallback: 'tuft' },
   ] },
   'mixedgrass-prairie': { colour: [216, 202, 150], alpha: .5, marks: [
     { upTo: .14, sprite: 'rocks', size: .5, fallback: 'rock' },
@@ -85,21 +87,25 @@ export const GROUND_CLASSES = Object.freeze({
   ] },
   'salt-prairie': { colour: [206, 204, 172], alpha: .5, marks: [
     { upTo: .3, sprite: 'grass-tuft', size: .45, fallback: 'tuft' },
-    { upTo: .42, sprite: 'reeds', size: .7, fallback: 'tuft' },
+    { upTo: .42, sprite: 'marsh-cordgrass', size: .7, fallback: 'tuft' },
     { upTo: 1, sprite: null, size: 0, fallback: null },
   ] },
   'mesquite-savanna': { colour: [196, 176, 120], alpha: .5, marks: [
     { upTo: .05, sprite: 'rocks', size: .5, fallback: 'rock' },
     { upTo: .2, sprite: 'mesquite-pole', size: 1.3, fallback: 'bush' },
     { upTo: .3, sprite: 'prickly-pear', size: 1.0, fallback: 'bush' },
-    { upTo: .36, sprite: 'scrub', size: 1.0, fallback: 'bush' },
+    { upTo: .36, sprite: 'thicket-thorn-2', size: 1.0, fallback: 'bush' },
     { upTo: 1, sprite: 'grass-tuft', size: .7, fallback: 'tuft' },
   ] },
+  // Olmsted's "dwarf forest of prickly shrubs": the thorn thicket in its two forms, mesquite, prickly pear and the
+  // Spanish dagger, on thin grass.
   chaparral: { colour: [140, 142, 100], alpha: .5, marks: [
     { upTo: .05, sprite: 'rocks', size: .5, fallback: 'rock' },
-    { upTo: .45, sprite: 'scrub', size: 1.1, fallback: 'bush' },
+    { upTo: .28, sprite: 'thicket-thorn-1', size: 1.1, fallback: 'bush' },
+    { upTo: .45, sprite: 'thicket-thorn-2', size: 1.05, fallback: 'bush' },
     { upTo: .65, sprite: 'mesquite-pole', size: 1.3, fallback: 'bush' },
-    { upTo: .8, sprite: 'prickly-pear', size: 1.0, fallback: 'bush' },
+    { upTo: .78, sprite: 'prickly-pear', size: 1.0, fallback: 'bush' },
+    { upTo: .86, sprite: 'yucca', size: 1.1, fallback: 'bush' },
     { upTo: 1, sprite: 'grass-tuft', size: .55, fallback: 'tuft' },
   ] },
   'cross-timbers': { colour: [138, 156, 96], alpha: .48, marks: [
@@ -107,21 +113,26 @@ export const GROUND_CLASSES = Object.freeze({
     { upTo: .3, sprite: 'scrub', size: 1.0, fallback: 'bush' },
     { upTo: 1, sprite: 'grass-tuft', size: .55, fallback: 'tuft' },
   ] },
+  // The longleaf floor is bluestem, waist high and open under the pines: the tall grass, not the prairie's bunch tuft.
   longleaf: { colour: [120, 140, 90], alpha: .48, timber: true, marks: [
     { upTo: .04, sprite: 'rocks', size: .45, fallback: 'rock' },
-    { upTo: 1, sprite: 'grass-tuft', size: .8, fallback: 'tuft' },
+    { upTo: 1, sprite: 'grass-tall', size: .75, fallback: 'tuft' },
   ] },
+  // The Big Thicket's floor: palmetto under the timber, with cane in the wetter breaks.
   thicket: { colour: [70, 98, 64], alpha: .55, timber: true, marks: [
+    { upTo: .3, sprite: 'palmetto', size: .95, fallback: 'bush' },
     { upTo: .5, sprite: 'scrub', size: 1.0, fallback: 'bush' },
-    { upTo: .6, sprite: 'reeds', size: 1.4, fallback: 'tuft' },
+    { upTo: .6, sprite: 'cane-2', size: 1.3, fallback: 'tuft' },
     { upTo: 1, sprite: 'grass-tuft', size: .55, fallback: 'tuft' },
   ] },
   canebrake: { colour: [150, 170, 90], alpha: .5, marks: [
-    { upTo: .7, sprite: 'reeds', size: 1.8, fallback: 'tuft' },
-    { upTo: 1, sprite: 'grass-tuft', size: .7, fallback: 'tuft' },
+    { upTo: .4, sprite: 'cane-1', size: 1.5, fallback: 'tuft' },
+    { upTo: .7, sprite: 'cane-2', size: 1.4, fallback: 'tuft' },
+    { upTo: 1, sprite: 'grass-tall', size: .7, fallback: 'tuft' },
   ] },
   'cypress-swamp': { colour: [90, 110, 90], alpha: .52, timber: true, marks: [
-    { upTo: .4, sprite: 'reeds', size: .9, fallback: 'tuft' },
+    { upTo: .25, sprite: 'cypress-knees', size: .55, fallback: 'bush' },
+    { upTo: .4, sprite: 'marsh-cordgrass', size: .9, fallback: 'tuft' },
     { upTo: 1, sprite: null, size: 0, fallback: null },
   ] },
   'cedar-brake': { colour: [105, 120, 95], alpha: .52, timber: true, marks: [
@@ -136,7 +147,7 @@ export const GROUND_CLASSES = Object.freeze({
     { upTo: 1, sprite: 'grass-tuft', size: .6, fallback: 'tuft' },
   ] },
   'thorn-riparian': { colour: [125, 138, 90], alpha: .48, timber: true, marks: [
-    { upTo: .3, sprite: 'scrub', size: 1.0, fallback: 'bush' },
+    { upTo: .3, sprite: 'thicket-thorn-1', size: 1.0, fallback: 'bush' },
     { upTo: .4, sprite: 'mesquite-pole', size: 1.2, fallback: 'bush' },
     { upTo: 1, sprite: 'grass-tuft', size: .6, fallback: 'tuft' },
   ] },

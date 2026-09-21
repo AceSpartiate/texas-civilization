@@ -65,6 +65,18 @@ export const GAME = Object.freeze({
   waterfowl: Object.freeze({ a: 'ducks and geese', meat: 4, hide: 0, covers: ['open', 'timber'], months: WINTER, range: 'by-water', flocks: 1, weight: 3 }),
 });
 /**
+ * Which quarry the page has a picture of, and can therefore be given a place to stand (`quarryPoint` in sim/chores.mjs).
+ *
+ * The rule the deer set on 2026-09-15 and the turkey keeps: a quarry with no art of its own is given **no place at all**,
+ * because a deer drawn where the words say a bear is a worse picture than no animal. `wildlife-deer` landed 2026-09-15,
+ * `wildlife-turkey` on 2026-09-21; the bear, the javelina, the antelope, the buffalo, the geese, the mustang and the wild
+ * cow are still words only.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-19 - the game of 1836. The rule itself is `FIC-GONZ-201`.
+ */
+export const DRAWN_GAME = Object.freeze(['deer', 'turkey']);
+/** Whether a hunt for this quarry may be drawn. A class of the old rules has no quarry at all, and hunts a deer. */
+export const gameDrawn = quarryId => DRAWN_GAME.includes(quarryId || 'deer');
+/**
  * What a deer is worth on the open ground away from any timber's edge. It feeds out of the cover, and the sources put it
  * out there with the stock: Holley, 1836, of the deer, "even in the settlements, they are so plentiful and tame, that they
  * often come upon the plantations of farmers, and feed in company with the cattle" (p. 99), and Dilue Harris, on the open
@@ -297,8 +309,8 @@ export function quarryYieldWords(quarryId, carry = 5) {
 /**
  * The quarry in the family's words: "Deer, turkey and bear keep to it." Nothing for a class of the old rules. What comes only
  * in some months is said so out of them: "Ducks and geese come in the winter." `month` is the class's (0 January).
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-19 - the game of 1836. No picture: every quarry but the deer is words only,
- * and the hunt brings the place's own quarry (`quarryAt`), drawn only when it is a deer.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-19 - the game of 1836. The deer and the turkey are drawn (`DRAWN_GAME`);
+ * every other quarry is words only, and the hunt brings the place's own quarry (`quarryAt`) with no place to be drawn at.
  */
 export function quarryWords(quarry, month = null) {
   if (!quarry) return '';

@@ -79,6 +79,34 @@ export const houstonCamp = world => [...HOUSTON_CAMPS].reverse().find(camp => wo
 export const GROCES_FROM = march(30, 12);
 export const atGroces = world => world.minute >= GROCES_FROM + campClock(world) && ['groces', 'bernardo', 'san-felipe'].includes(houstonCamp(world));
 /**
+ * The steamboat *Yellow Stone*, drawn since 2026-09-21 (`steamboat-moored`, docs/ART_DELIVERY_2026-09-21-RIVER-TRANSPORT.md).
+ *
+ * She is a real vessel and this is her own dated fortnight, so she is put where the record puts her and nowhere else. She
+ * "came up the river for cotton under Captain John E. Ross" (the army's own word in `HOUSTON_WORD.brazos`) and lay at
+ * Groce's landing; from April 12 Houston took her, and she carried the men, the horses and the wagons over the flooded
+ * Brazos on the 12th and 13th (`HIST-TEX-089`). She is therefore drawn only while the army is at Groce's or Bernardo, and
+ * she is gone from the map when the army marches east on the 14th.
+ *
+ * Her place is the middle of the water between the two camps - Groce's on the west bank and Bernardo on the east - which
+ * is the crossing itself. A class whose map has neither place (saved before they were places, 2026-09-17 and -18) has no
+ * crossing to draw and gets no boat, exactly as `houstonCamp` gives it no camp there.
+ *
+ * Where the picture goes and for how long is the game's own: `FIC-GONZ-200`.
+ */
+export const YELLOW_STONE_TAKEN = april(12), YELLOW_STONE_GONE = april(14);
+export function yellowStone(world) {
+  const clock = campClock(world);
+  if (world.minute < GROCES_FROM + clock || world.minute >= YELLOW_STONE_GONE + clock) return null;
+  const west = world.map?.sites?.groces, east = world.map?.sites?.bernardo;
+  if (!west || !east) return null;
+  const round = value => Math.round(value * 1e4) / 1e4;
+  return {
+    x: round((west.x + east.x) / 2), y: round((west.y + east.y) / 2),
+    // What she is doing, which is the only thing the page is told and the only thing it may draw.
+    state: world.minute >= YELLOW_STONE_TAKEN + clock ? 'crossing' : 'cotton',
+  };
+}
+/**
  * The camp's name in words: the place; Groce's above San Felipe on a map saved before Groce's was a place; and Bernardo said as
  * Groce's plantation, since the name alone tells a class nothing (the army's camp there was by Groce's house, `HIST-TEX-089`).
  */
@@ -217,7 +245,7 @@ export const HOUSTON_WORD = Object.freeze({
   goliadDefeat: 'Word has come that Fannin was caught on the open prairie near Goliad and has surrendered his whole command to Urrea. Many of the men are leaving the army to see to their families.',
   sanFelipe: 'The army has fallen back to the Brazos. San Felipe is burned, and Houston is camped above it at Groce\'s, drilling the men.',
   massacre: 'It is said the prisoners taken with Fannin were marched out of Goliad on Palm Sunday and shot, some four hundred of them. A few got away.',
-  // April 12 (`HIST-TEX-089`). ceiling: words only; the boat is not drawn (docs/ART_REQUESTS.md, the Yellow Stone).
+  // April 12 (`HIST-TEX-089`). The boat herself is drawn at the crossing from 2026-09-21 (`yellowStone`).
   marchEast: 'The army has left Groce\'s and is marching east on the road to Harrisburg. Tonight it is camped at Donoho\'s, a few miles on.',
   brazos: 'The army is crossing the Brazos on the steamboat Yellow Stone. She came up the river for cotton under Captain John E. Ross, and General Houston has taken her to carry the men, the horses and the wagons over the flood.',
   santaAnnaBrazos:'Santa Anna has crossed the Brazos at Fort Bend with about seven hundred men and is making for Harrisburg and the government.',

@@ -1414,10 +1414,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 
 - **Wagons/carts:** N/S wagon/carts, articulated hitch/yoke and crew pushing/loading. Current oblique rig translates along any route without pretending to turn in 3D.
 - **People:** N/S work/dialogue action poses, turns, climbing, swimming, assisted walking/stretcher pairs, individual civilian riding/dismounting and final mounted cross-sheet registration. Dedicated mounted courier and dragoon travel already exist.
-- **Families and riders:** Requested 2026-09-12 in docs/ART_REQUESTS.md: children (girl, boy, small child, an infant in a basket), a second cast (a woman in the principal rust, a second woman, a younger man, an adolescent girl), the rider dismounting, remounting and talking on foot beside a tethered horse, and N/S dialogue facings for riders and the existing cast.
-- **Animals:** Cream ox/grey horse/sheep/chicken locomotion, other livestock grazing and drinking, flight and load/harness behavior. Do not substitute a different coat mid-journey.
+- **Families and riders:** The rider dismounting, remounting and talking on foot beside a tethered horse (courier-dismount is delivered and not yet bound); every cast figure mounted on the family horse and seated driving the ox wagon; layered people for the chosen looks.
+- **Animals:** The rest of the game of 1836 (bear, javelina, antelope, buffalo, geese, mustang, wild cattle), which is words only until each lands; cream ox/grey horse/sheep/chicken locomotion, other livestock grazing and drinking, flight and load/harness behavior. Do not substitute a different coat mid-journey.
 - **Cannons and soldiers:** Limber/unlimber, elevated aim, mounted firing and remounting. Gun recoil is whole-carriage translation, not an articulated barrel rig.
-- **Buildings and environment:** Continuous door/gate hinge rig, construction/repair progression, crown-only tree rig, boat rowing/poling and ferry loading. Building stillness is intentional; condition changes require simulation state.
+- **Buildings and environment:** Continuous door/gate hinge rig, construction/repair progression, crown-only tree rig, boat rowing/poling and ferry loading, and the Yellow Stone under way. Building stillness is intentional; condition changes require simulation state.
 - **Production finish:** Generated pose proportions can drift between sheets. Hand-register additional transitions and final cast/period uniform variants as the game defines them. These are prototype assets, not exact historical portraits.
 
 ## Excluded art

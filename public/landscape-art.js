@@ -70,8 +70,15 @@ export function crossingAngle(site,features,toScreen){
  * A ferry: the rope stretched bank to bank on a post at each end, and the boat lying at one bank on it (`HIST-TEX-140`: "a
  * flat raft-like barge" on "a bank-to-bank cable"; Lynch's "a flatboat service with a hand-pulled rope", `HIST-TEX-150`).
  * `length` is the span in pixels, `angle` the way across the water.
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-19 - the ferry flatboat. The boat is the library's `ferry-raft` (logs lashed
- * with a rope rail), standing in for a plank flatboat; the rope and the posts are canvas strokes.
+ *
+ * The boat is `ferry-flatboat` and the posts `ferry-post`, both delivered 2026-09-21
+ * (docs/ART_DELIVERY_2026-09-21-RIVER-TRANSPORT.md): a square-ended sawn-plank cable flatboat with apron ramps, and a
+ * braced bank post with the rope made fast to it, which is the 1829-30s ferry the request asked for rather than the
+ * emergency log raft (`ferry-raft`) that stood in for it. The rope between the posts is still canvas strokes, because it
+ * spans whatever width the map's own river is here and no sprite can.
+ * ceiling: the boat lies at the near bank whatever is crossing. `ferry-flatboat-laden` - the same boat with a covered
+ * wagon, an ox team and the ferryman working the cable - is registered and unused, because nothing on this map says who
+ * is on the water at this moment; a crossing that knew would draw it.
  */
 export function drawFerry(ctx,x,y,length,angle,figure,road=0){
   const half=length/2,post=Math.max(2,length*.035),dx=Math.cos(angle),dy=Math.sin(angle);
@@ -84,12 +91,20 @@ export function drawFerry(ctx,x,y,length,angle,figure,road=0){
   ctx.globalAlpha=1;
   // The rope: a slack double line, darker beneath.
   for(const [color,width,sag] of [['#4d3b26',Math.max(1.6,length*.016),.035],['#a88a5a',Math.max(.8,length*.008),.03]]){ctx.strokeStyle=color;ctx.lineWidth=width;ctx.beginPath();ctx.moveTo(-half,0);ctx.quadraticCurveTo(0,length*sag,half,0);ctx.stroke();}
-  // The posts it is made fast to.
-  for(const s of [-1,1]){ctx.fillStyle='#59452d';ctx.fillRect(s*half-post/2,-post*2.2,post,post*2.6);ctx.fillStyle='#c1a170';ctx.fillRect(s*half-post/2,-post*2.2,post*.7,post*.6);}
   ctx.restore();
+  // The posts the rope is made fast to, upright whatever way the river runs - a sprite has no business being rotated with
+  // the water - and the drawn strokes beneath them while the sheet has not arrived.
+  const postHeight=Math.max(6,Math.min(length*.22,figure*1.1));
+  for(const s of [-1,1]){
+    const px=x+s*dx*half,py=y+s*dy*half;
+    if(drawSprite(ctx,'ferry-post',px,py,postHeight))continue;
+    ctx.save();ctx.translate(px,py);ctx.rotate(angle);
+    ctx.fillStyle='#59452d';ctx.fillRect(-post/2,-post*2.2,post,post*2.6);ctx.fillStyle='#c1a170';ctx.fillRect(-post/2,-post*2.2,post*.7,post*.6);
+    ctx.restore();
+  }
   // The boat at the near landing, upright whatever way the river runs.
   const bx=x-dx*half*.55,by=y-dy*half*.55,height=Math.max(8,Math.min(length*.45,figure*2.4));
-  drawSprite(ctx,'ferry-raft',bx,by+height*.35,height);
+  if(!drawSprite(ctx,'ferry-flatboat',bx,by+height*.35,height))drawSprite(ctx,'ferry-raft',bx,by+height*.35,height);
 }
 export function drawCrossing(ctx,x,y,length,angle,bridge=false){
   ctx.save();ctx.translate(x,y);ctx.rotate(angle);const half=length/2,wide=Math.max(4,length*.12);

@@ -18,6 +18,7 @@ import { createWorld, dispatchReport } from '../sim/world.mjs';
 import { establishTruth } from '../sim/knowledge.mjs';
 import { CONVERSATIONS } from '../sim/encounters.mjs';
 import { findPath } from '../sim/geography.mjs';
+import { meetFamily } from './support/meet-family.mjs';
 
 const TOPIC = 'cannon-request';
 const TRUTH = 'A Mexican detachment has reached the Guadalupe opposite Gonzales to reclaim the cannon. Local settlers have refused to return it.';
@@ -83,6 +84,10 @@ try {
     await page.locator('input[name=code]').fill(app.state.sessionCode);
     await page.getByRole('button', { name: 'Join', exact: true }).click();
     await page.waitForFunction(() => window.__snapshot?.world.householdId);
+    // The family is made the way a student makes one before the world is seen (scripts/support/meet-family.mjs). Without
+    // it the creation curtain stays over the map for the whole run: every assertion about the world still passed, because
+    // they read the projection, but nothing on the page could be clicked and no picture of the map was of the map.
+    await meetFamily(page, `Relay ${i}`);
     pages[(await snapshot(page)).world.householdId] = page;
   }
   await host.waitForFunction(() => window.__snapshot.connected === 5);
@@ -176,6 +181,34 @@ try {
   assert.ok(invitation.drawn.includes(invitation.carrier), 'the rider was not painted this frame');
   assert.ok(invitation.marks.some(mark => mark.id === invitation.listener && mark.kind === 'meeting'),
     `nobody was marked as having a rider waiting: ${JSON.stringify(invitation.marks)}`);
+  // The two of them drawn talking: the rider turned toward the person he stopped, and that person in their own delivered
+  // listening or speaking pose rather than standing idle (sim/encounters.mjs `listeningOf`, delivered 2026-09-21). The
+  // poses are held down by tests/motion-binding.test.mjs and tests/encounters.test.mjs; this is the picture of them.
+  record.meeting = await page.evaluate(listener => {
+    const entity = window.__snapshot.world.entities.find(e => e.id === listener);
+    const rider = window.__snapshot.world.others.find(e => e.id === window.__snapshot.world.encounter.carrierId);
+    return { listener: { facing: entity?.facing, speaking: entity?.speaking }, rider: { facing: rider?.facing, speaking: rider?.speaking } };
+  }, invitation.listener);
+  assert.ok(record.meeting.listener.facing, 'the person the rider stopped is not turned toward him');
+  mkdirSync('docs/evidence', { recursive: true });
+  // Taken close enough to see two people talking: the cards are put away, the map taken in, and then dragged so the
+  // rider is in the middle of it (`__drawnAt`, in screen pixels).
+  for (const id of ['#selection-close', '#journal-close']) {
+    if (await page.locator(id).isVisible().catch(() => false)) await page.locator(id).click().catch(() => {});
+  }
+  const canvas = await page.locator('#world-map').boundingBox();
+  await page.mouse.move(canvas.x + canvas.width / 2, canvas.y + canvas.height / 2);
+  for (let i = 0; i < 22; i++) { await page.mouse.wheel(0, -100); await page.waitForTimeout(20); }
+  await page.waitForTimeout(500);
+  const rider = await page.evaluate(id => window.__drawnAt?.[id] || null, invitation.carrier);
+  if (rider) {
+    await page.mouse.move(canvas.x + canvas.width / 2, canvas.y + canvas.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(canvas.x + canvas.width - rider.x, canvas.y + canvas.height - rider.y, { steps: 12 });
+    await page.mouse.up();
+    await page.waitForTimeout(500);
+  }
+  await page.locator('#world-map').screenshot({ path: 'docs/evidence/encounter-poses.png' });
   // And it belongs to one named person. A rider stopped somebody in particular, and the
   // whole rule the encounter system turns on is that the person who was at the door is the
   // person who heard it - so the control must not be offered on their sister. The server

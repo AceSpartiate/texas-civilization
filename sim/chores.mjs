@@ -34,7 +34,7 @@ import { distanceToPolyline } from './terrain.mjs';
 import { OVERLAND_REACH } from './ways.mjs';
 import { moreFields, plotWorkRefusal, stakePlot, stroll, strollTarget } from './survey.mjs';
 import { choosing, cutLaneSpell, digWell, lanePoint, laneRefusal, laneState, waterBurden, wellRefusal, wellTicks } from './homesite.mjs';
-import { GAME, huntWait, huntingPlace, huntRefusal, killYield, placeWord, powderDamp, quarryGame, stillTicks } from './hunting.mjs';
+import { GAME, gameDrawn, huntWait, huntingPlace, huntRefusal, killYield, placeWord, powderDamp, quarryGame, stillTicks } from './hunting.mjs';
 import { weatherAt } from './weather.mjs';
 import { FORAGE, FORAGE_REACH, fishingWater, forageFacts, onSaltWater } from './gathering.mjs';
 import { BEEF_FAMILIES, BEEF_FOOD, BEEF_KEPT, BEEF_MILES, LOOKED_TO_DAYS, PORK_FOOD, butcherRefusal, divideBeef, herdOf, herdWords, killHog, lookedToStock } from './stock.mjs';
@@ -1085,16 +1085,17 @@ function stalkPoint(world, entity, where) {
 }
 
 /**
- * Where the deer stands (`HIST-TEX-015`): ahead of the hunter, the way into the cover, far enough that it is not a close
+ * Where the quarry stands (`HIST-TEX-015`): ahead of the hunter, the way into the cover, far enough that it is not a close
  * shot, or half as far once they have waited. The server places it, so the renderer never invents where an animal is.
- * The client draws the projected quarry with registered deer art; this function remains its sole position authority.
+ * The client draws the projected quarry with the registered art for `kind`; this function remains its sole position
+ * authority, and `kind` is the species the simulation already chose (`quarryAt` in sim/hunting.mjs), never the page's.
  */
 const QUARRY_MILES = Object.freeze({ far: 0.065, near: 0.035 });
-function quarryPoint(world, entity, range) {
+function quarryPoint(world, entity, range, kind = 'deer') {
   const site = entity.chore?.ground || world.map.sites[entity.location.siteId];
   const toward = site?.toward || { x: 0, y: -1 };
   const miles = QUARRY_MILES[range] ?? QUARRY_MILES.far;
-  return { kind: 'deer', x: round(entity.location.x + toward.x * miles), y: round(entity.location.y + toward.y * miles) };
+  return { kind, x: round(entity.location.x + toward.x * miles), y: round(entity.location.y + toward.y * miles) };
 }
 
 /**
@@ -1715,9 +1716,10 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       // place for as long as it takes. Keeping them separate made a hunt half again as
       // long as it had been before any of this was visible.
     }
-    // Only a deer is drawn. stand-in: docs/ART_REQUESTS.md, request 2026-09-19 - the game of 1836: any other quarry is words
-    // only until its art exists, so it is given no place to be drawn at, rather than a deer's picture where the words say a bear.
-    if (step.quarry && (!state.ground?.quarry || state.ground.quarry === 'deer')) state.quarry = quarryPoint(world, entity, step.quarry);
+    // The deer and, since Astra's sheet of 2026-09-21, the turkey are drawn (`DRAWN_GAME` in sim/hunting.mjs).
+    // stand-in: docs/ART_REQUESTS.md, request 2026-09-19 - the game of 1836: any other quarry is words only until its art
+    // exists, so it is given no place to be drawn at, rather than a deer's picture where the words say a bear.
+    if (step.quarry && gameDrawn(state.ground?.quarry)) state.quarry = quarryPoint(world, entity, step.quarry, state.ground?.quarry || 'deer');
     if (step.shot) {
       // The one moment of a hunt, and the only thing drawn of it is smoke in the trees.
       // Recorded because it is a thing that happened in a place at a time: a shot carries,

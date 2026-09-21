@@ -434,6 +434,37 @@ test('a rider says a line and then waits, rather than mouthing it for a quarter 
   assert.equal(rider().carrier, true);
 });
 
+test('the person the rider stopped is turned toward him too, and speaks only while they are saying something', () => {
+  // The other half of the pose above. Astra delivered speaking and listening frames for the first cast on 2026-09-14 and
+  // for the second on 2026-09-21, and nothing had ever drawn one: only the rider carried a facing, so the settler he had
+  // reined in for stood in their idle pose with their back to him. `listeningOf` gives them the rider's own two facts,
+  // reversed, and the projection carries them on the family's own person.
+  const world = briefed('listening');
+  soloDispatch(world, 'hh-2');
+  for (let i = 0; i < 40 && !openFor(world, 'hh-2'); i++) stepWorld(world);
+  const encounter = openFor(world, 'hh-2');
+  const mine = () => projectWorld(world, 'hh-2', 'student', { includeMap: false });
+  const listener = () => mine().entities.find(e => e.id === encounter.listenerId);
+  const rider = () => mine().others.find(o => o.id === encounter.carrierId);
+  assert.ok(['e', 'w', 'n', 's'].includes(listener().facing), 'they are turned toward the rider');
+  // They face each other: the rider's facing and theirs are opposite sides of the same line.
+  assert.equal(listener().facing, { e: 'w', w: 'e', n: 's', s: 'n' }[rider().facing], 'the two of them are looking at each other');
+  assert.equal(listener().speaking, false, 'the rider has the opening line, so they are listening');
+  assert.equal(rider().speaking, true);
+  applyAction(world, 'hh-2', { action: 'ask-rider', entityId: encounter.listenerId, lineId: 'crossing' });
+  assert.equal(listener().speaking, true, 'asking a question is speaking');
+  advance(world, 3);
+  assert.equal(listener().speaking, false, 'and then they are waiting for the answer');
+  // Nobody else in the family is in a conversation, and nothing about one reaches them.
+  for (const person of mine().entities.filter(e => e.kind === 'person' && e.id !== encounter.listenerId)) {
+    assert.equal(person.facing, undefined, `${person.name} is not in this meeting`);
+    assert.equal(person.speaking, undefined);
+  }
+  applyAction(world, 'hh-2', { action: 'leave-rider', entityId: encounter.listenerId });
+  assert.equal(listener().facing, undefined, 'and once the rider has gone there is no conversation to be in');
+  assert.equal(listener().speaking, undefined);
+});
+
 // ---------------------------------------------------------------------------------
 // Step 2: onward delivery and relays.
 //

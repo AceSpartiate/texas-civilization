@@ -1,10 +1,10 @@
 {
   "record": "The biome game in a browser: docs/BIOME_GAMEPLAY.md §6",
-  "date": "2026-09-20",
+  "date": "2026-09-21",
   "sameComputerOnly": true,
   "pass": [
     "the page asking about a place on the land is told what would come: \"Creek timber, at the edge of the timber, a quarter mile south-west of the house. Good ground for deer: the wait should not be long. Deer and turkey keep to it. Waiting here, a turkey: four food.\"",
-    "the shot is asked about the place's quarry, \"Alvin Proofwright is downwind of a turkey, with a shot to take. It is not a close one.\", and no deer is drawn for it",
+    "the shot is asked about the place's quarry, \"Alvin Proofwright is downwind of a turkey, with a shot to take. It is not a close one.\", and the turkey is drawn as a turkey",
     "the family is told what was brought down: \"Alvin Proofwright brought down a turkey: 5 food came home. The rest, 0.6 food, was more than Alvin Proofwright could carry and was left where it fell.\"",
     "the family panel offers \"Fetch logs from the timber\": \"Costs the ox and wagon for about 2 hours, to the timber on Dry Fork, beside the house.\", its glyph painted",
     "a cleared plot says how its fence would go up: \"Ten acres of prairie beside the house, cleared, with no fence. Rails split from the timber at hand: about 3 hours.\"",
@@ -13,7 +13,13 @@
   "hunt": {
     "words": "Creek timber, at the edge of the timber, a quarter mile south-west of the house. Good ground for deer: the wait should not be long. Deer and turkey keep to it. Waiting here, a turkey: four food.",
     "asked": "Alvin Proofwright is downwind of a turkey, with a shot to take. It is not a close one.",
-    "drawnDeer": false,
+    "quarry": "turkey",
+    "drawn": {
+      "id": "hh-1-parent-1",
+      "kind": "turkey",
+      "x": -389.3684210526317,
+      "y": 1525.6315789473686
+    },
     "kill": "Alvin Proofwright brought down a turkey: 5 food came home. The rest, 0.6 food, was more than Alvin Proofwright could carry and was left where it fell."
   },
   "fetchLogs": {

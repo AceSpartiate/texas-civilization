@@ -39,8 +39,13 @@ function tent(ctx, x, y, size, colours) {
   ctx.fill();
 }
 
-/** A fire, with its smoke leaning the way the wind of the day leans it. */
-function fire(ctx, x, y, size, time) {
+/**
+ * A fire. `smoke` is the page's own painted streaming smoke, passed only when the wind over this camp is a hard norther
+ * (public/weather-art.js `GALE_SMOKE`, delivered 2026-09-21): then the smoke does not rise off the fire at all, it lies
+ * over and streams away south, which is what a norther does to a cook fire and what the rising puffs cannot show.
+ * Everything else about the fire is the same on every day.
+ */
+function fire(ctx, x, y, size, time, smoke = null) {
   ctx.strokeStyle = '#6b563a';
   ctx.lineWidth = Math.max(1, size * 0.08);
   ctx.beginPath();
@@ -54,6 +59,8 @@ function fire(ctx, x, y, size, time) {
   ctx.quadraticCurveTo(x, y - size * (0.75 * flicker), x + size * 0.2, y - size * 0.05);
   ctx.closePath();
   ctx.fill();
+  // The smoke of the day it is. In a norther it is laid over the fire and streams off it; otherwise it goes up in puffs.
+  if (smoke && smoke(x + size * 0.45, y - size * 0.55, size * 1.1)) return;
   ctx.fillStyle = 'rgba(226,222,210,0.35)';
   for (let i = 0; i < 3; i++) {
     const t = ((time / 900) + i / 3) % 1;
@@ -68,14 +75,14 @@ function fire(ctx, x, y, size, time) {
  * the page's own person drawing: `draw(clip, x, y, size, key, options)` returns false when the art has not arrived, so the
  * camp falls back to the plain figures the map already uses for anybody.
  */
-export function drawArmy(ctx, army, at, { scale, figure, time = 0, draw = null, mini = null }) {
+export function drawArmy(ctx, army, at, { scale, figure, time = 0, draw = null, mini = null, smoke = null }) {
   const colours = army.side === 'mexican' ? MEXICAN : TEXIAN;
   if (scale < CAMP_SCALE) { drawArmyMark(ctx, army, at, colours, Math.max(11, Math.min(20, figure))); return 'mark'; }
   const size = Math.max(10, Math.min(46, figure * 1.1));
   // The tents behind, the fire in the middle, the men in front of it: a camp read at a glance.
   const tents = army.side === 'mexican' ? 2 : 3;
   for (let i = 0; i < tents; i++) tent(ctx, at.x + (i - (tents - 1) / 2) * size * 1.5, at.y - size * 0.55, size, colours);
-  fire(ctx, at.x, at.y, size * 0.7, time);
+  fire(ctx, at.x, at.y, size * 0.7, time, smoke);
   const men = menDrawn(army.strength ?? CAMP_MEN);
   const role = army.side === 'mexican' ? 'regular' : 'volunteer';
   for (let index = 0; index < men; index++) {
