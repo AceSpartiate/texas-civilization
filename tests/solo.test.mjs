@@ -3,7 +3,7 @@
 // nobody else can reach, and that can never be the teacher's real class.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, rmSync } from 'node:fs';
+import { existsSync, mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createClassroom } from '../server/app.mjs';
@@ -232,5 +232,68 @@ test('only solo games can be continued: a bad id, a missing game and the wrong k
     const plainCall = caller(await plain.app.listen());
     assert.notEqual((await plainCall('/api/solo/games', { key: plain.app.state.hostKey })).status, 200, 'a class lists games');
     assert.notEqual((await plainCall('/api/solo', { key: plain.app.state.hostKey, continue: before })).status, 200, 'a class continues a solo game');
+  } finally { await soloRoom.dispose(); await plain.dispose(); }
+});
+
+// Deleting one (owner, 2026-09-21: "I need a way to delete solo games"; by multiple choice, a trash can beside each save
+// in the Play Solo menu, asked about once, and the game *set aside* rather than destroyed).
+test('a deleted solo game leaves the list and is kept on the disk, and the game being held goes too', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'texas-solo-delete-'));
+  const app = createClassroom({
+    seed: 'solo-delete', playerCount: 5, savePath: join(dir, 'save.json'), tickMs: 10000, solo: true,
+    worldFactory: (seed, count) => createGonzalesWorld(seed, count, { neighbours: true }),
+  });
+  const call = caller(await app.listen());
+  const key = app.state.hostKey;
+  const games = join(dir, 'games');
+  try {
+    await call('/api/solo', { key });
+    const first = app.state.sessionId;
+    await call('/api/solo', { key });
+    const second = app.state.sessionId;
+    assert.deepEqual(new Set((await call('/api/solo/games', { key })).body.games.map(game => game.id)), new Set([first, second]));
+
+    // A game with a file of its own: the file moves, it leaves the list, and nothing about the game being held changes.
+    const gone = await call('/api/solo/games/delete', { key, id: first });
+    assert.equal(gone.status, 200, JSON.stringify(gone.body));
+    assert.deepEqual(gone.body, { deleted: first, already: false });
+    assert.equal(app.state.sessionId, second, 'deleting another game changed the game being held');
+    assert.deepEqual((await call('/api/solo/games', { key })).body.games.map(game => game.id), [second]);
+    assert.equal(existsSync(join(games, `${first}.json`)), false, 'the deleted game is still where the list reads from');
+    assert.equal(existsSync(join(games, 'deleted', `${first}.json`)), true, 'the deleted game was destroyed rather than set aside');
+    // Asked twice - two clicks on the same trash can - says the same thing and breaks nothing.
+    assert.deepEqual((await call('/api/solo/games/delete', { key, id: first })).body, { deleted: first, already: true });
+
+    // The game being *held* has no file of its own yet. It still leaves the list, and the server goes on holding it:
+    // the owner's choice was that deleting is not a special case for the live game (2026-09-21).
+    const held = await call('/api/solo/games/delete', { key, id: second });
+    assert.equal(held.status, 200, JSON.stringify(held.body));
+    assert.deepEqual((await call('/api/solo/games', { key })).body.games, [], 'the game being held stayed in the list after it was deleted');
+    assert.equal(app.state.sessionId, second, 'deleting the live game interrupted the server that was holding it');
+    assert.equal(existsSync(join(games, 'deleted', `${second}.json`)), true, 'the live game was not kept when it was deleted');
+    // And it cannot be continued back into the list by accident.
+    assert.deepEqual((await call('/api/solo/games', { key })).body.games, []);
+  } finally { await app.close(); rmSync(dir, { recursive: true, force: true }); }
+});
+
+test('deleting is refused without the Host key, for anything that is not an id, and on a class', async () => {
+  const soloRoom = classroom({ solo: true });
+  const plain = classroom();
+  try {
+    const call = caller(await soloRoom.app.listen());
+    const key = soloRoom.app.state.hostKey;
+    await call('/api/solo', { key });
+    const live = soloRoom.app.state.sessionId;
+    assert.equal((await call('/api/solo/games/delete', { key: 'not-the-key', id: live })).status, 403, 'anybody on this computer may delete a game');
+    // Nothing a caller sends is allowed to become part of a path.
+    for (const id of ['../save', 'games/../../save', '', 'a', null, 42]) {
+      const refused = await call('/api/solo/games/delete', { key, id });
+      assert.notEqual(refused.status, 200, `deleting "${id}" was not refused`);
+      assert.match(refused.body.error, /not a saved solo game/);
+    }
+    assert.equal((await call('/api/solo/games/delete', { key, id: 'nothere-000' })).body.error, 'That saved solo game is not there.');
+    assert.deepEqual((await call('/api/solo/games', { key })).body.games.map(game => game.id), [live], 'a refused delete took a game away anyway');
+    const plainCall = caller(await plain.app.listen());
+    assert.notEqual((await plainCall('/api/solo/games/delete', { key: plain.app.state.hostKey, id: live })).status, 200, 'a class deletes a solo game');
   } finally { await soloRoom.dispose(); await plain.dispose(); }
 });

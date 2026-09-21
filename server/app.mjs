@@ -2,7 +2,7 @@ import { markPlayed } from '../sim/neighbours.mjs';
 import { record } from '../sim/events.mjs';
 import http from 'node:http';
 import { randomBytes, createHash, createHmac, timingSafeEqual } from 'node:crypto';
-import { readFileSync, readdirSync, realpathSync, statSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, readdirSync, realpathSync, renameSync, statSync } from 'node:fs';
 import { basename, dirname, isAbsolute, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { etagFor, fileFacts, notModified, PIN_LENGTH, PINNED_CACHE, REVALIDATE_CACHE, sendBody } from './delivery.mjs';
@@ -445,7 +445,16 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
    * when the server starts over a game left in the live save (server/main.mjs). Only solo games are ever in that folder,
    * so a class's save cannot be listed or continued from here.
    *
-   * ceiling: every solo game is kept for good; a Delete beside each game is the way out if the folder grows.
+   * **Deleting one (owner, 2026-09-21: "I need a way to delete solo games", by multiple choice a trash can beside each
+   * save in the Play Solo menu, asked about once, and *set aside* rather than destroyed).** The file moves to
+   * `games/deleted/`, which the listing never reads - it takes only `*.json` from `gamesDir` itself, so a folder inside
+   * it is invisible to it without a rule of its own. Nothing is thrown away: a game deleted by a mis-click is still on
+   * the disk and can be put back by hand.
+   *
+   * The game the server is *holding* is not a special case, by the owner's decision: deleting it sets its file aside
+   * and the server goes on holding the world until something replaces it. What the listing does is drop any id that has
+   * a file in `deleted/`, so the live game leaves the list when it is deleted, as a student would expect, without the
+   * server having to be interrupted. That also survives a restart, which a note kept in memory would not.
    */
   const SOLO_TICKET_MS = 120000;
   const soloTickets = new Map();
@@ -473,6 +482,9 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     if (!gamesDir || !Object.keys(state.clients).length) return;
     writeSave(join(gamesDir, `${state.sessionId}.json`), { ...state, soloSavedAt: new Date().toISOString() });
   }
+  /** Where a deleted game is set aside. Inside `gamesDir`, and so never read by the listing, which takes only `*.json`. */
+  const deletedDir = gamesDir ? join(gamesDir, 'deleted') : null;
+  const wasDeleted = id => Boolean(deletedDir) && existsSync(join(deletedDir, `${id}.json`));
   function soloGames() {
     if (!solo) throw new Error('This is not a Play Solo server.');
     const games = new Map();
@@ -487,7 +499,33 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     }
     const live = Object.keys(state.clients).length && soloSummary(state, new Date().toISOString());
     if (live) games.set(live.id, live);
+    // The game being held is listed from memory, not from a file, so deleting it has to be remembered somewhere the
+    // listing looks: the game set aside is that record.
+    for (const id of [...games.keys()]) if (wasDeleted(id)) games.delete(id);
     return [...games.values()].sort((a, b) => b.savedAt.localeCompare(a.savedAt));
+  }
+  /**
+   * Set one saved solo game aside. Refuses anything that is not a solo server or not an id, so a path can never be
+   * built out of what a caller sent; the id is matched against `SOLO_GAME_ID` before it is ever joined to a folder.
+   *
+   * A game that is only being held - never yet written to its own file - has nothing to move, and is recorded as
+   * deleted by writing the game itself aside. Either way the answer is the same and the listing drops it.
+   */
+  function deleteSoloGame(id) {
+    if (!solo) throw new Error('This is not a Play Solo server.');
+    if (typeof id !== 'string' || !SOLO_GAME_ID.test(id)) throw new Error('That is not a saved solo game.');
+    if (!gamesDir) throw new Error('This solo server keeps no games.');
+    if (wasDeleted(id)) return { deleted: id, already: true };
+    const kept = join(gamesDir, `${id}.json`);
+    mkdirSync(deletedDir, { recursive: true });
+    // ceiling: a deleted game that is still the one being held is written to `games/` again the next time another game
+    // takes its place (`keepSoloGame`). The file set aside keeps it out of the list, so nothing is offered that was
+    // deleted; what is left behind is one file's worth of disk. Emptying `deleted/` on a timer would be the way out if
+    // a folder of playtests ever grows enough to matter.
+    if (existsSync(kept)) renameSync(kept, join(deletedDir, `${id}.json`));
+    else if (id === state.sessionId && Object.keys(state.clients).length) writeSave(join(deletedDir, `${id}.json`), { ...state, soloSavedAt: new Date().toISOString() });
+    else throw new Error('That saved solo game is not there.');
+    return { deleted: id, already: false };
   }
   /** Hand the player a one-use link into whatever game is now live; the last game's pages belong to a session that is gone. */
   function soloEntry(credential, householdId) {
@@ -617,6 +655,12 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         const input = await body(req);
         if (!equal(input.key, state.hostKey)) return json(res, 403, { error: 'Host key required.' });
         return json(res, 200, { games: soloGames() });
+      }
+      // One saved solo game set aside, from the trash can beside it in the Play Solo menu (owner, 2026-09-21).
+      if (solo && req.method === 'POST' && url.pathname === '/api/solo/games/delete') {
+        const input = await body(req);
+        if (!equal(input.key, state.hostKey)) return json(res, 403, { error: 'Host key required.' });
+        return json(res, 200, deleteSoloGame(input.id));
       }
       // A new solo game, or a saved one continued, asked for with the Host key the solo server wrote to its own data folder.
       if (solo && req.method === 'POST' && url.pathname === '/api/solo') {

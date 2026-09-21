@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    A picture of the Play Solo menu, so the trash can added on 2026-09-21 is something that can be
+    looked at rather than only reasoned about.
+
+    It compiles the two launcher files it needs rather than referencing the launcher project: the
+    launcher is a self-contained WinExe carrying about 15 MB of embedded art and a WebView2
+    dependency, and none of that is wanted to draw one dialog. `Branding` is stubbed by the flag
+    below for the same reason - it reads an embedded icon this build has not got.
+
+    Run: dotnet run, project scripts/solo-dialog-shot, passing the path to write.
+  -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>TexasRevolution.Launcher</RootNamespace>
+    <DefineConstants>$(DefineConstants);DIALOG_SHOT</DefineConstants>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="../../launcher/SoloGameDialog.cs" />
+  </ItemGroup>
+
+</Project>

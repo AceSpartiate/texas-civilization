@@ -1596,3 +1596,22 @@ Reordered on 2026-09-09 for the map-first decision. **Re-read on 2026-09-12, whe
 9. **The direction this replaced, for the record.** The owner's direction of 2026-09-11: not a zip. An installer that puts a launcher on the machine, offers a desktop shortcut and otherwise lives in the Start menu. In the launcher, a **Start server** button that becomes **Stop** while it runs; a **Check for updates** button that updates the game from this repository's releases, and ideally notices an update without being asked; a teacher presentation window **in its own frame rather than a browser tab**, with its own controls for maximising and moving between monitors; a button that opens a player window in the default browser; and a button that copies the join URL. No Cloudflare and no service needing an account — GitHub's own releases API answers unauthenticated for a public repository, which is exactly the update check this needs and costs nothing. The honest obstacles are that an unsigned installer will meet SmartScreen the way the unpacked zip met the Mark of the Web, and that a window of its own means either WebView2, which Windows 11 already has, or shipping a browser, which the package cannot afford. Decide that before building.
 
 Build strong foundations, not unfinished breadth.
+
+**Deleting a solo game, 2026-09-21.** Owner: *"I need a way to delete solo games."* The code had named this as its own way
+out since September — a `ceiling:` on the saved-games store reading *"every solo game is kept for good; a Delete beside each
+game is the way out if the folder grows."* Asked where it should live, the owner said the menu that appears on **Play Solo**,
+with *"a little trash can emblem"* beside each save. So every row of that list now carries one. It asks once, naming the
+family, and the server **sets the game aside** rather than destroying it: the file moves to `data/solo/games/deleted/`,
+which the listing never reads, so a mis-click costs nothing that cannot be undone by hand. The game the server is *holding*
+is deletable too, with no special case — it leaves the list, and the server goes on holding the world until something
+replaces it. See [DEPLOYMENT.md](docs/DEPLOYMENT.md) §Solo Mode.
+
+- **Evidence:** `tests/solo.test.mjs` (four tests) and `docs/evidence/solo-games-injections.json` — 8 of 8 caught, plus two
+  recorded as *not provable over HTTP*: the `if (!solo)` guards inside `soloGames` and `deleteSoloGame` sit behind a route
+  the `solo` flag already bolts, so removing one changes nothing a test can see. Kept as defence in depth, and the record
+  says why they cannot be shown to matter rather than quietly counting them as passes. That file also writes down the
+  "four injections" this doc has claimed since 2026-09-17 with nothing on disk to show for it.
+- **Not proved:** nothing ever *clicked* the trash can. `scripts/solo-dialog-shot` draws the dialog to
+  `docs/evidence/solo-dialog.png` and I read it; the hit region, the confirmation and the row disappearing rest on that
+  picture and on the server's own tests. UI automation of this dialog is still the gap it has always been.
+- The emblem is drawn with a pen in `DrawBin` (`stand-in:`); the request for Astra's is in `docs/ART_REQUESTS.md`.

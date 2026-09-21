@@ -18,6 +18,7 @@ does not have:
 
 | Stand-in | Where | Standing in for | Replace with |
 | --- | --- | --- | --- |
+| A trash can drawn in code with a pen — a lid with a handle, a tapering body, two lines down it | `DrawBin` in `launcher/SoloGameDialog.cs` | Request 2026-09-21 — the Play Solo menu's trash can | `icon-delete-save` |
 | Four glyph icons drawn in code (a squirrel on a branch, a fish over the water, two shells on the sand, a bee tree) | `drawGlyph` in `public/family-panel.js` | Request 2026-09-20 — the gathering icons | `icon-take-small-game`, `icon-fish-the-water`, `icon-gather-oysters`, `icon-cut-bee-tree` |
 | Three glyph icons drawn in code (a long-horned cow, a hog with its snout in the mast, a rider's hat over the grass) | `drawGlyph` in `public/family-panel.js` | Request 2026-09-20 — the stock icons | `icon-butcher-beef`, `icon-butcher-hog`, `icon-look-to-stock` |
 | A new town's shops are the nearest buildings the library has, two trades sharing a sprite | `SHOP_SPRITES` in `sim/shops.mjs`, drawn in `drawWorld` in `public/app.js` | Request 2026-09-16 — the shops of the towns | `shop-*` buildings, one per trade |
@@ -1016,3 +1017,29 @@ The stand-ins above are already in place, so delivery means replacing them:
   names a frame the atlas does not have.
 - **Check.** The cow and the hog are told apart at 38 pixels without their popups, and neither reads as the deer of the
   hunt's own icon.
+
+## Request, 2026-09-21 — the Play Solo menu's trash can
+
+**What it is for.** The owner: *"When I click Play Solo a menu appears. This menu has the saves. That's where a little
+trash can emblem should appear and let me delete the save."* One emblem at the end of each row of the saved-games list in
+the launcher's Play Solo dialog (`launcher/SoloGameDialog.cs`). Pressing it asks once and then sets that game aside.
+
+**Name:** `icon-delete-save`.
+
+**Size:** 16×16 and 32×32, PNG with transparency. The row is 30px tall and the emblem is drawn in a 34px-wide cell at the
+end of it, so it must read at 16px and stay square.
+
+**Two states, both wanted:** at rest, and under the pointer. At rest it is the colour of the row's own text — near-black
+on the pale list, near-white on the selected green row — so it must be supplied as a *shape* that can be tinted, or as
+two files. Under the pointer it goes to the game's warning red (`#963420`).
+
+**What it should look like.** A frontier object rather than a modern office bin: a lidded pail or a stave bucket would sit
+better with the rest of this launcher than a cylindrical wheelie bin. It has to be unmistakably "throw this away" at 16px,
+which is the whole difficulty — a bucket alone reads as water. A lid lifted slightly, or a handle, is probably what
+separates them.
+
+**Where it will be drawn:** on a pale parchment list (`#F6F0E1`) and on a selected green row (`#4A6850`). No drop shadow;
+it sits inside a row, not on the map.
+
+**Until it lands:** drawn with a pen in `DrawBin`, listed under *Stand-ins in use* above. A picture of the menu as it
+stands is `evidence/solo-dialog.png`.

@@ -719,7 +719,7 @@ public sealed class LauncherForm : Form, IBackdrop
             string? continueId = null;
             if (games.Count > 0)
             {
-                using var choice = new SoloGameDialog(games);
+                using var choice = new SoloGameDialog(games, id => _server.DeleteSoloGameAsync(id));
                 if (choice.ShowDialog(this) != DialogResult.OK) { Say("Play Solo was cancelled."); return; }
                 continueId = choice.ContinueId;
             }

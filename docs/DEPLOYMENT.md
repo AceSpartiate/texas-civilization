@@ -214,10 +214,33 @@ server starts over a game left in its live save (`server/main.mjs`). **Play Solo
 (`POST /api/solo/games` with the solo Host key), and, if there is any, asks **New game** or **Continue** with the newest
 selected (`launcher/SoloGameDialog.cs`); Continue reopens that game where it was left (`POST /api/solo` with `continue`),
 a paused game running again. Only solo games are in that folder, so a class cannot be continued from here. Headless:
-`TexasRevolution.exe --solo --list` and `--solo --continue <id>`. Proved: `tests/solo.test.mjs` (two tests, four injections);
+`TexasRevolution.exe --solo --list` and `--solo --continue <id>`. Proved: `tests/solo.test.mjs`;
 on this computer the built launcher against a scratch data folder dealt two games, listed three (one kept from the live
 save at start), continued the oldest on its own date, and after a stop and restart listed it again, paused. `ceiling:` the
-dialog itself was not driven by UI automation, and games are never deleted (a Delete beside each is the way out).
+dialog itself is not driven by UI automation.
+
+**Deleting one, 2026-09-21.** Owner: *"I need a way to delete solo games"*, and asked where it should live: *"When I click
+Play Solo a menu appears. This menu has the saves. That's where a little trash can emblem should appear and let me delete
+the save."* So each row of that list carries a trash can at the end of it. Pressing it asks once, naming the family, and
+says where the game goes; the server then **sets it aside** rather than destroying it (`POST /api/solo/games/delete` with
+the solo Host key → `deleteSoloGame` in `server/app.mjs`). The file moves to `data/solo/games/deleted/`, which the listing
+never reads — it takes only `*.json` from `games/` itself — so a game deleted by a mis-click is still on the disk and can
+be put back by hand.
+
+The game the server is **holding** is not a special case, by the owner's decision: deleting it sets its state aside and
+the server goes on holding the world until something replaces it. What makes it leave the list is that the listing drops
+any id with a file in `deleted/` — the live game is listed from memory rather than from a file, so there has to be
+somewhere the listing can look, and that also survives a restart where a note kept in memory would not.
+
+Proved: `tests/solo.test.mjs` (four tests) and [`evidence/solo-games-injections.json`](evidence/solo-games-injections.json)
+— **8 of 8 caught**, with two more recorded as *not provable over HTTP*: the `if (!solo)` guards inside `soloGames` and
+`deleteSoloGame` are second locks on a door the route already bolts, so removing one changes nothing a test can see. They
+are kept as defence in depth and the record says why they cannot be shown to matter. `ceiling:` a deleted game that is
+still the one being held is written to `games/` again next time another game replaces it; the file set aside keeps it out
+of the list, and what is left behind is one file's worth of disk. **Not proved:** the trash can was never *clicked* by a
+test — the dialog is drawn to a picture ([`evidence/solo-dialog.png`](evidence/solo-dialog.png), by
+`scripts/solo-dialog-shot`) and read by eye. The hit region, the confirmation and the row disappearing are held up by
+nothing but that picture and the server's own tests.
 
 
 **Play Solo** on the launcher is for the owner trying the game, not for a class. One

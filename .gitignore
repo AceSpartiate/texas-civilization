@@ -15,5 +15,7 @@ docs/evidence/preflight-*.json
 # Launcher build output.
 launcher/bin/
 launcher/obj/
+scripts/solo-dialog-shot/bin/
+scripts/solo-dialog-shot/obj/
 
 launcher/payload.zip

@@ -1,0 +1,78 @@
+{
+  "record": "solo-games-injections",
+  "date": "2026-09-21",
+  "files": [
+    "tests/solo.test.mjs"
+  ],
+  "injections": [
+    {
+      "name": "a class can delete a solo game, so a teacher's save is reachable from the playtest door",
+      "file": "server/app.mjs",
+      "failed": [],
+      "expect": "may pass: the route itself is gated by `solo` before this function can be reached, so nothing sent over HTTP can tell this second lock from the first. It is kept as defence in depth, and this line records that it is not independently provable."
+    },
+    {
+      "name": "the id a caller sends is joined to a folder without being checked, so \"../save\" names a file outside the games",
+      "file": "server/app.mjs",
+      "failed": [
+        "deleting is refused without the Host key, for anything that is not an id, and on a class"
+      ]
+    },
+    {
+      "name": "anybody on this computer may delete a game, because the Host key is not asked for",
+      "file": "server/app.mjs",
+      "failed": [
+        "deleting is refused without the Host key, for anything that is not an id, and on a class"
+      ]
+    },
+    {
+      "name": "the game the server is holding stays in the list after it is deleted, because the listing never asks what was set aside",
+      "file": "server/app.mjs",
+      "failed": [
+        "a deleted solo game leaves the list and is kept on the disk, and the game being held goes too"
+      ]
+    },
+    {
+      "name": "the game is left where the listing reads from, so deleting shows in nothing",
+      "file": "server/app.mjs",
+      "failed": [
+        "a deleted solo game leaves the list and is kept on the disk, and the game being held goes too"
+      ]
+    },
+    {
+      "name": "a game that has never been written to a file cannot be deleted at all, which is every game being played",
+      "file": "server/app.mjs",
+      "failed": [
+        "a deleted solo game leaves the list and is kept on the disk, and the game being held goes too"
+      ]
+    },
+    {
+      "name": "a second press on the same trash can is an error rather than the same answer",
+      "file": "server/app.mjs",
+      "failed": [
+        "a deleted solo game leaves the list and is kept on the disk, and the game being held goes too"
+      ]
+    },
+    {
+      "name": "a class lists solo games",
+      "file": "server/app.mjs",
+      "failed": [],
+      "expect": "may pass: the route itself is gated by `solo` before this function can be reached, so nothing sent over HTTP can tell this second lock from the first. It is kept as defence in depth, and this line records that it is not independently provable."
+    },
+    {
+      "name": "the game being played is not kept when another takes its place, so a new game throws the last one away",
+      "file": "server/app.mjs",
+      "failed": [
+        "every solo game is kept: a new game keeps the last, the list names each, and continuing opens it where it was",
+        "a deleted solo game leaves the list and is kept on the disk, and the game being held goes too"
+      ]
+    },
+    {
+      "name": "continuing a game deals it again instead of opening the one that was saved",
+      "file": "server/app.mjs",
+      "failed": [
+        "every solo game is kept: a new game keeps the last, the list names each, and continuing opens it where it was"
+      ]
+    }
+  ]
+}

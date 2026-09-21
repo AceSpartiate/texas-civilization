@@ -225,6 +225,30 @@ public sealed class ServerControl
         catch (Exception error) { return (null, error.Message); }
     }
 
+    /// <summary>
+    /// Set one saved solo game aside, from the trash can beside it in the Play Solo menu (owner, 2026-09-21: "I need a
+    /// way to delete solo games"). The game is moved to a folder the list never reads, not destroyed, so a mis-click
+    /// costs nothing that cannot be put back by hand. Returns the reason it could not be done, or null when it was.
+    /// </summary>
+    public async Task<string?> DeleteSoloGameAsync(string id)
+    {
+        var info = AppPaths.Resolve(solo: true);
+        if (info is null) return "Could not find the Play Solo folder.";
+        var hostUrl = AppPaths.HostUrl(info);
+        var hash = hostUrl?.LastIndexOf('#') ?? -1;
+        if (hostUrl is null || hash < 0) return "The solo server has not written its Host address yet.";
+        try
+        {
+            using var content = new StringContent(JsonSerializer.Serialize(new { key = hostUrl[(hash + 1)..].Trim(), id }), Encoding.UTF8, "application/json");
+            using var cancel = new CancellationTokenSource(TimeSpan.FromSeconds(60));
+            using var response = await SoloHttp.PostAsync($"http://127.0.0.1:{info.Port}/api/solo/games/delete", content, cancel.Token);
+            using var document = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
+            if (response.IsSuccessStatusCode) return null;
+            return document.RootElement.TryGetProperty("error", out var error) ? error.GetString() : $"The solo server answered {(int)response.StatusCode}.";
+        }
+        catch (Exception error) { return error.Message; }
+    }
+
     private static readonly HttpClient SoloHttp = new() { Timeout = TimeSpan.FromSeconds(90) };
 
     private static async Task<(bool Ok, string Output)> RunScriptAsync(string script, string arguments)
