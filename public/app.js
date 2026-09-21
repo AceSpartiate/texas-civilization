@@ -5056,11 +5056,16 @@ function render(snapshot) {
  * themselves rather than kept as a flag, so a panel that opens some other way cannot forget to dim behind it - and a
  * panel that is only hidden, as these are, cannot leave the screen dimmed with nothing on it.
  *
- * Only these three: each covers the left of the screen and none of them needs the map underneath. The panels that ask
- * for a place on the map (`#site-choose`, `#survey-choose`) must never be given this, because dimming the map means
- * covering the very thing the student has been told to tap.
+ * Only the two house panels. The panels that ask for a place on the map (`#site-choose`, `#survey-choose`) must never be
+ * given this, because dimming the map means covering the very thing the student has been told to tap.
+ *
+ * `#wagon-load` was here for a few hours on 2026-09-21 and was taken out again. It stands in the same corner and covers
+ * the same column, but it is a **lobby** step: the class has not started, no order can be given to anybody, so the dim
+ * has nothing to explain - and it cost the Journal, which the looks proof caught by trying to press it while the wagon
+ * was open. The owner's decision was about a panel that covers the family *while the family can be worked*; this is not
+ * one, and a dim that only takes things away is not worth having.
  */
-const COVERING = ['#house-plan', '#house-plot', '#wagon-load'];
+const COVERING = ['#house-plan', '#house-plot'];
 function renderPanelBackdrop() {
   const covering = COVERING.some(one => $(one) && !$(one).hidden);
   const backdrop = $('#panel-backdrop');

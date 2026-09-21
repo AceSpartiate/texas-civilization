@@ -608,6 +608,9 @@ class played on until the study was pointed at the other two.
   want to give somebody an order."*, and the dim closes it. The strip stays above the dim, because it is the
   instruction. The two panels that ask for a place on the **map** are deliberately excluded: dimming the map there would
   cover the very thing the student has been told to tap.
+  `#wagon-load` was given the dim too for a few hours and taken out again: it stands in the same corner and covers the
+  same column, but it is a **lobby** step where no order can be given to anybody, so the dim had nothing to explain and
+  cost the Journal. `npm run test:looks` caught it by pressing that button.
 - **The names under the icons landed on the map's buttons.** While a lesson runs, each icon carries its name below it;
   the rightmost names sat on *Journal* and *Land*, and on a phone — where the bar scrolls sideways — they were clipped
   away entirely, because a box that scrolls shows nothing drawn outside it. The bar rides 30px higher while a lesson

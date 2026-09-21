@@ -60,7 +60,7 @@ const coverage = page => page.evaluate(selector => {
     // A panel that dims the map behind it is covering the family on purpose and says so in words (renderPanelBackdrop
     // in public/app.js). That is the answer to this study, not another instance of the fault, so it is counted apart:
     // what is looked for here is a control hidden by something that never admits to hiding it.
-    const dimmed = '#panel-backdrop,#house-plan,#house-plot,#wagon-load';
+    const dimmed = '#panel-backdrop,#house-plan,#house-plot';
     let deliberate = document.body.dataset.panel === 'true';
     const over = points.map(([x, y]) => {
       if (x < 0 || y < 0 || x > innerWidth || y > innerHeight) { deliberate = false; return 'off the screen'; }
