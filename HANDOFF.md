@@ -1,5 +1,10 @@
 # Claude handoff — Astra foundation
 
+**Released as [v2026.09.21.8](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.21.8)** on
+2026-09-21, verified on the clean tree at `3f91610` (920 passed). All six agents of that day are merged: the children's
+works, the line an empty bar shows, Astra's last four art batches, rain on the roofing and daubing, the four panels the
+overlap study could not reach, and the four browser gates that had been broken since before any of it.
+
 ## Open, and found while merging the last agent — 2026-09-21
 
 **In the lobby, nobody's bar carries anything at all.** `npm run test:family-panel` fails after the merge, and the
