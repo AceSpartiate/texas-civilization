@@ -34,7 +34,8 @@ import { distanceToPolyline } from './terrain.mjs';
 import { OVERLAND_REACH } from './ways.mjs';
 import { moreFields, plotWorkRefusal, stakePlot, stroll, strollTarget } from './survey.mjs';
 import { choosing, cutLaneSpell, digWell, lanePoint, laneRefusal, laneState, waterBurden, wellRefusal, wellTicks } from './homesite.mjs';
-import { GAME, huntingPlace, huntRefusal, killYield, placeWord, quarryGame, stillTicks } from './hunting.mjs';
+import { GAME, huntWait, huntingPlace, huntRefusal, killYield, placeWord, powderDamp, quarryGame, stillTicks } from './hunting.mjs';
+import { weatherAt } from './weather.mjs';
 import { FORAGE, FORAGE_REACH, fishingWater, forageFacts, onSaltWater } from './gathering.mjs';
 import { fellRefusal, fellTicks, fellTree, logsLeftOut, logsLying, nextTree, oxFree, recordFelling, stackLogs, takeUpLogs } from './felling.mjs';
 import { KINDS, countsTrees, woodsRule } from './woods.mjs';
@@ -94,6 +95,13 @@ export function autoChoice(world, household, entity) {
  * barely does, so **how a family travelled decides whether it can shoot straight**. That is
  * the chain VISION.md §21 asks for, made out of parts that already existed.
  */
+/**
+ * Where a hunt's weather is read: the place on the family's own land the hunter went to, or - for the camp hunt on the
+ * road east, whose `ground` is a word and not a point - wherever they are standing.
+ */
+export const huntPoint = entity =>
+  (Number.isFinite(entity.chore?.ground?.x) ? entity.chore.ground : entity.location);
+
 export const steadyHand = entity =>
   entity.health?.condition !== 'tired' && (entity.skills?.hunting ?? 1) >= 2;
 
@@ -315,10 +323,12 @@ export const ASKS = {
     doing: 'downwind, with the shot there to take',
     fallback: 'take',
     // The quarry the place holds on the biomes (sim/hunting.mjs `quarryAt`); a deer everywhere else, as it always was.
-    text: entity => `${entity.name} is downwind of ${GAME[entity.chore?.ground?.quarry]?.a || 'a deer'}, with a shot to take. It is not a close one.`,
+    text: (entity, world) => `${entity.name} is downwind of ${GAME[entity.chore?.ground?.quarry]?.a || 'a deer'}, with a shot to take. It is not a close one.${world && powderDamp(world, huntPoint(entity)) ? ' The rain is on the powder.' : ''}`,
     options: (entity, world, household) => [
       { id: 'take', label: 'Take the shot', note: `One powder. ${(rifleTrue(household) && entity.health?.condition !== 'tired' ? null : unsteadyBecause(entity)) || `${entity.name} is steady, and it is within reach${rifleTrue(household) && !steadyHand(entity) ? ', with the rifle put in order' : ''}`}` },
-      { id: 'wait', label: 'Wait for it to come closer', note: 'One powder, three more hours, and then the shot is a certainty' },
+      // The certainty waiting buys is a dry day's (`powderDamp`): a student is told what the rain takes away from it
+      // before they choose, which is `FIC-GONZ-008`'s rule about visible risk applied to the weather.
+      { id: 'wait', label: 'Wait for it to come closer', note: powderDamp(world, huntPoint(entity)) ? `One powder, three more hours, and the rain is on the powder: ${(rifleTrue(household) && entity.health?.condition !== 'tired') || steadyHand(entity) ? 'a steady hand can still be sure of it' : 'even close it may not fire'}` : 'One powder, three more hours, and then the shot is a certainty' },
       { id: 'leave', label: 'Leave it and come home', note: 'Nothing spent, nothing to carry, and the rest of the day is the family\u2019s' },
     ],
   },
@@ -1593,16 +1603,22 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       return;
     }
     if (step.strike) {
-      // Whether the shot went home, decided by the person and the range and nothing else.
-      // Waiting closed the range, so somebody who waited connects whatever their state.
-      const close = (state.flags || []).includes('wait');
+      // Whether the shot went home, decided by the person, the range and the sky, and nothing else.
+      // Waiting closed the range, so somebody who waited connects whatever their state - **unless the powder is damp**
+      // (`powderDamp`, sim/hunting.mjs, `FIC-GONZ-135`). Smithwick: "our only care being to keep our powder dry". In the
+      // rain the close shot wants the steady hand the long one wants, or a rifle the gunsmith has put in order. There is
+      // still no die in any of it: the same person on the same day does the same thing.
+      const damp = powderDamp(world, huntPoint(entity), Math.floor(world.minute / 1440));
+      const close = (state.flags || []).includes('wait') && !damp;
       // A rifle the gunsmith put in order makes the long shot for a hand without the knack; tired is still tired (sim/shops.mjs).
       const trueRifle = rifleTrue(household) && entity.health?.condition !== 'tired';
       if (!close && !steadyHand(entity) && !trueRifle) {
         state.flags = [...(state.flags || []), 'empty'];
         record(world, 'consequence', {
           actorId: entity.id, householdId: household.id, importance: 2,
-          text: `${entity.name} fired and missed \u2014 ${unsteadyBecause(entity)}. The afternoon is gone.`,
+          text: damp
+            ? `${entity.name}'s powder had taken the wet and the rifle would not fire. The afternoon is gone.`
+            : `${entity.name} fired and missed \u2014 ${unsteadyBecause(entity)}. The afternoon is gone.`,
         });
         continue;
       }
@@ -1674,7 +1690,10 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
         if (fence.how === 'mesquite') state.doing = 'cutting mesquite posts and brush';
         else if (fence.how === 'hauled') state.doing = 'carrying rails from the timber';
       }
-      const ticks = step.work === 'well' ? wellTicks(household) : fence ? fence.ticks : step.stalk === 'still' && state.ground ? stillTicks(quarryGame(state.ground.game, state.ground.quarry), step.work) : step.work;
+      // The wait downwind is the ground's and the sky's together (sim/hunting.mjs `huntWait`, `FIC-GONZ-135`): game lies
+      // up in the rain and a fog hides the approach.
+      const sky = step.stalk === 'still' && state.ground ? huntWait(weatherAt(world, huntPoint(entity)).kind) : 1;
+      const ticks = step.work === 'well' ? wellTicks(household) : fence ? fence.ticks : step.stalk === 'still' && state.ground ? stillTicks(quarryGame(state.ground.game, state.ground.quarry), step.work, sky) : step.work;
       const burden = chore.heavy && chore.where === 'home' ? waterBurden(household) : 1;
       // A parent with a baby at home and no cradle does heavy work slower, and it says so (sim/furniture.mjs).
       const baby = chore.heavy && chore.where === 'home' && entity.location.siteId === household.homeSiteId && mindingBaby(world, household, entity) ? BABY_BURDEN : 1;

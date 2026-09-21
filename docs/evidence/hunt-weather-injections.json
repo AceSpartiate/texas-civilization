@@ -1,0 +1,154 @@
+{
+  "record": "hunt-weather-injections",
+  "date": "2026-09-21",
+  "files": [
+    "tests/hunt-weather.test.mjs"
+  ],
+  "injections": [
+    {
+      "name": "the sky does nothing to the wait downwind, as it did until today",
+      "file": "sim/hunting.mjs",
+      "failed": [
+        "the wait downwind is the ground and the sky together: longer in rain, shorter in a fog",
+        "the rain takes away the certainty that waiting buys, and says which it was"
+      ]
+    },
+    {
+      "name": "rain is good hunting weather and a fog is bad, which is backwards",
+      "file": "sim/hunting.mjs",
+      "failed": [
+        "the wait downwind is the ground and the sky together: longer in rain, shorter in a fog",
+        "the rain takes away the certainty that waiting buys, and says which it was"
+      ]
+    },
+    {
+      "name": "a storm is kinder to a hunter than ordinary rain",
+      "file": "sim/hunting.mjs",
+      "failed": [
+        "the wait downwind is the ground and the sky together: longer in rain, shorter in a fog"
+      ]
+    },
+    {
+      "name": "a fair day is weighted like any other, so the plain day is not the baseline",
+      "file": "sim/hunting.mjs",
+      "failed": [
+        "the wait downwind is the ground and the sky together: longer in rain, shorter in a fog",
+        "a steady hand keeps its powder dry, and the sky never touches the armies"
+      ]
+    },
+    {
+      "name": "a sky nobody has a number for lengthens the wait rather than leaving it alone",
+      "file": "sim/hunting.mjs",
+      "failed": [
+        "the wait downwind is the ground and the sky together: longer in rain, shorter in a fog"
+      ]
+    },
+    {
+      "name": "the weather is applied and the ground is not, so every country hunts alike",
+      "file": "sim/hunting.mjs",
+      "failed": [
+        "the wait downwind is the ground and the sky together: longer in rain, shorter in a fog"
+      ]
+    },
+    {
+      "name": "the wait can come out at no ticks at all in a fog on the best ground",
+      "file": "sim/hunting.mjs",
+      "failed": [
+        "the wait downwind is the ground and the sky together: longer in rain, shorter in a fog"
+      ]
+    },
+    {
+      "name": "the hunt is never told what the sky is, so the multiplier is computed and thrown away",
+      "file": "sim/chores.mjs",
+      "failed": [
+        "the rain takes away the certainty that waiting buys, and says which it was"
+      ]
+    },
+    {
+      "name": "the powder stays dry in the rain, and waiting is a certainty whatever the sky",
+      "file": "sim/chores.mjs",
+      "failed": [
+        "the rain takes away the certainty that waiting buys, and says which it was"
+      ]
+    },
+    {
+      "name": "the powder is damp on every day of the year, fair ones included",
+      "file": "sim/hunting.mjs",
+      "failed": [
+        "the family is told what the sky is doing to the hunt before anybody is sent",
+        "the rain takes away the certainty that waiting buys, and says which it was"
+      ]
+    },
+    {
+      "name": "a norther that carried no rain is counted as wet, because the kind is read instead of the rain",
+      "file": "sim/hunting.mjs",
+      "failed": [
+        "the family is told what the sky is doing to the hunt before anybody is sent"
+      ]
+    },
+    {
+      "name": "a steady hand is beaten by the rain like anybody else, so the knack stops meaning anything",
+      "file": "sim/chores.mjs",
+      "failed": [
+        "a steady hand keeps its powder dry, and the sky never touches the armies"
+      ]
+    },
+    {
+      "name": "a damp charge is reported as a miss, so the family never learns what went wrong",
+      "file": "sim/chores.mjs",
+      "failed": [
+        "the rain takes away the certainty that waiting buys, and says which it was"
+      ]
+    },
+    {
+      "name": "the sky is never mentioned on the control, so the rain is a surprise",
+      "file": "sim/hunting.mjs",
+      "failed": [
+        "the family is told what the sky is doing to the hunt before anybody is sent",
+        "a steady hand keeps its powder dry, and the sky never touches the armies"
+      ]
+    },
+    {
+      "name": "a fair day is remarked on like weather, so every day reads as an event",
+      "file": "sim/hunting.mjs",
+      "failed": [
+        "the family is told what the sky is doing to the hunt before anybody is sent"
+      ]
+    },
+    {
+      "name": "the words are written beside the numbers instead of read off them, and drift from what the hunt does",
+      "file": "sim/hunting.mjs",
+      "failed": [
+        "the family is told what the sky is doing to the hunt before anybody is sent"
+      ]
+    },
+    {
+      "name": "the powder clause is said on every weather day, wet or not",
+      "file": "sim/hunting.mjs",
+      "failed": [
+        "the family is told what the sky is doing to the hunt before anybody is sent"
+      ]
+    },
+    {
+      "name": "the place says nothing of the sky, though the hunt reads it",
+      "file": "sim/hunting.mjs",
+      "failed": [
+        "the family is told what the sky is doing to the hunt before anybody is sent"
+      ]
+    },
+    {
+      "name": "the shot still promises a certainty in the rain, and the student finds out afterwards",
+      "file": "sim/chores.mjs",
+      "failed": [
+        "the rain takes away the certainty that waiting buys, and says which it was"
+      ]
+    },
+    {
+      "name": "the question itself never says the rain is on the powder",
+      "file": "sim/chores.mjs",
+      "failed": [
+        "the rain takes away the certainty that waiting buys, and says which it was"
+      ]
+    }
+  ]
+}

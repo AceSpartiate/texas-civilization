@@ -86,7 +86,11 @@ function huntBench(world, when) {
     const row = out[household.id];
     const mine = world.events.slice(row.events0).filter(e => e.householdId === household.id);
     row.shots = mine.filter(e => e.type === 'hunt').length;
-    row.missed = mine.filter(e => / fired and missed /.test(e.text || '')).length;
+    // A shot that did not go home, however it failed. Since 2026-09-20 a damp charge in the rain says so in its own
+    // words (`FIC-GONZ-135`, sim/chores.mjs) and was silently dropping out of this count, which made the hunt look as
+    // though it had got easier on the day it got harder.
+    row.missed = mine.filter(e => / fired and missed | would not fire/.test(e.text || '')).length;
+    row.misfired = mine.filter(e => / would not fire/.test(e.text || '')).length;
     // What came home: said by the kill's own record where the rules say it, or a deer's five before they did.
     const kills = mine.filter(e => e.type === 'hunt-kill');
     row.kills = kills.length || row.shots - row.missed;
@@ -190,11 +194,14 @@ for (let s = 0; s < seeds; s++) {
     const row = per[f.householdId];
     const mine = events.filter(e => e.householdId === f.householdId);
     const shots = mine.filter(e => e.type === 'hunt');
-    const missed = mine.filter(e => e.type === 'consequence' && / fired and missed /.test(e.text));
+    const missed = mine.filter(e => e.type === 'consequence' && / fired and missed | would not fire/.test(e.text));
     const quarry = {};
     for (const e of mine) { const m = /brought down (?:a |an )?([a-z ]+?)(?: and| on|,|\.)/.exec(e.text || ''); if (m && e.type === 'hunt-kill') quarry[m[1]] = (quarry[m[1]] || 0) + 1; }
+    // Told apart because they are different faults: a long shot from an unsteady hand, and a charge that had taken the
+    // wet in the rain (`FIC-GONZ-135`, 2026-09-20).
+    const misfired = mine.filter(e => / would not fire/.test(e.text || ''));
     Object.assign(row, {
-      shots: shots.length, missed: missed.length, quarry,
+      shots: shots.length, missed: missed.length, misfired: misfired.length, quarry,
       end: { money: f.money, glory: f.glory, land: f.land, final: f.final, food: r2(world.households[f.householdId].resources.food ?? 0) },
       meanFood: row.foodTicks ? r2(row.foodSum / row.foodTicks) : null,
     });
@@ -221,7 +228,7 @@ function summary(list) {
     minFoodMedian: median(list.map(r => r.minFood ?? 0)), meanFoodMedian: median(list.map(r => r.meanFood ?? 0)),
     p1FoodMedian: median(list.map(r => r.p1.food)), p1ClearedMedian: median(list.map(r => r.p1.cleared)), p1FencedMedian: median(list.map(r => r.p1.fenced)),
     fenceTicksMedian: median(list.flatMap(r => r.p1.fenceTicks || [])), fetchedFamilies: list.filter(r => r.p1.fetched > 0).length,
-    shotsMean: mean(list.map(r => r.shots)), missedMean: mean(list.map(r => r.missed)), huntTicksMean: mean(list.map(r => r.huntTicks)),
+    shotsMean: mean(list.map(r => r.shots)), missedMean: mean(list.map(r => r.missed)), misfiredMean: mean(list.map(r => r.misfired || 0)), huntTicksMean: mean(list.map(r => r.huntTicks)),
     huntTicksPerShot: r2(list.reduce((a, r) => a + r.huntTicks, 0) / Math.max(1, list.reduce((a, r) => a + r.shots, 0))),
     quarry,
     moneyMedian: median(list.map(r => r.end.money)), gloryMedian: median(list.map(r => r.end.glory)), finalMedian: median(list.map(r => r.end.final)),

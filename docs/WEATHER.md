@@ -868,7 +868,7 @@ leave the rest out.** Three claims carry it — `FIC-GONZ-130` (the day's kind),
 | 10.2 three regions, a norther across all three | **Built.** `REGIONS`, `REGION_BOUNDS` (x=55, x=152), `NORTHER_DAYS`. |
 | 10.3 the days written in | **Built.** `WRITTEN`, about two dozen dated rows, each carrying its source's claim ID. |
 | 10.4 water that remembers | **Built,** with one correction to what is below: the rise **saturates** (`was.water + rise * (1 - was.water)`) and `WATER_SHUT` is **0.85**, not 0.8. Straight addition put 62 days of 210 over the shut line, which the record does not support; saturating it gives a median of **3 days of 210** over 200 classes, none at all in 19% of them and 16 in the worst (measured 2026-09-20, `tests/weather.test.mjs`). One further fault was found by that test file and fixed: a norther could only carry rain where it began, so **no norther ever reached the east wet**; it is the day the front *arrives* in a country that can be wet, which in the east is the day after. |
-| 10.5 what a kind costs | **Built for the road** — the wade at a ford reads `water`, a river's ford shuts past `WATER_SHUT`, the bog waits for the ground to dry. **Not built for the hunt:** rain making a hunt worse, fog making it better, wet powder (`FIC-GONZ-135`). |
+| 10.5 what a kind costs | **Built for the road and for the hunt.** The road: the wade at a ford reads `water`, a river's ford shuts past `WATER_SHUT`, the bog waits for the ground to dry. The hunt (2026-09-20, same day): the wait downwind takes the sky as well as the ground (`HUNT_WAIT`), and a damp charge costs the certainty that waiting buys (`powderDamp`) — §10.5's own note below. **Still not built from that row:** rain stopping roofing and daubing, and the norther's health cost to somebody camped without shelter. |
 | 10.6 a line a day | **Not built, and deliberately.** See the note in that section. |
 | 10.7 where it lives, and the save | **Built.** `saveVersion` did not move. |
 | 10.8 how it is drawn | **Built.** `public/weather-art.js`. |
@@ -1053,8 +1053,31 @@ describes.
 weather. `docs/MAP_ACCURACY.md` already holds that line, and `VISION.md`'s rule that the director preserves the outcome is
 the reason. Weather changes what a *family* meets; it never changes what history did.
 
-**Hunting in the rain.** The warrant is thin but real: Smithwick, crossing swollen streams on foot, wrote that "our only
-care being to keep our powder dry". The penalty is the game's own (`FIC-GONZ-135`); the concern is the period's.
+**Hunting in the rain — built 2026-09-20.** The warrant is thin but real: Smithwick, crossing swollen streams on foot,
+wrote that "our only care being to keep our powder dry". The penalty is the game's own (`FIC-GONZ-135`); the concern is
+the period's. As built, in `sim/hunting.mjs`:
+
+- **The wait downwind takes the sky as well as the ground** (`HUNT_WAIT`, read by `stillTicks`): ×1.5 in rain, ×1.8 in a
+  storm, ×1.4 in a norther, **×0.6 in a fog** — the one kind of day that is *good* hunting weather, because the approach
+  is hidden, which is how the Texians got within musket shot at Concepción. The ground still decides most of it: the
+  poorest country in a fog is a longer wait than the best country in rain.
+- **A damp charge costs the certainty that waiting buys** (`powderDamp`, which is `rainingAt` — so a norther that carried
+  no rain does not count). On a dry day a hunter who lets the quarry come close cannot miss; in the rain that guarantee
+  is gone and the shot wants the steady hand the *long* shot wants, or a rifle the gunsmith has put in order. So **the
+  knack is what keeps your powder dry**, which is the right shape. The family is told which fault it was: "his powder had
+  taken the wet and the rifle would not fire", not "fired and missed".
+- **No die in any of it** (`FIC-GONZ-008`), and the control says it before anybody is sent: `skyWords` reads the wait off
+  `HUNT_WAIT` and the powder off `rainingAt`, so the words cannot drift from what the hunt actually does, and the shot's
+  own question says *"The rain is on the powder"* with the `wait` option's note changed to match.
+- **Measured** over six classes of thirty families, three periods: a hunt takes **5.89 ticks a shot against 5.17**, about
+  **0.73 charges a class take the wet**, the median family's hungry ticks move **4 → 5** (the four gathering works absorb
+  it), and the final number, the glory and the houses do not move. One thing the measuring found: the balance study
+  counted misses by the words " fired and missed ", so a damp charge was silently dropping out of the count and the hunt
+  looked as though it had got *easier* on the day it got harder. It counts both now, and tells them apart.
+
+`ceiling:` one multiplier a kind, the same everywhere and in every month; a norther's first bitter day is worse than its
+third and nothing here knows that. And the sky is read at the place the hunter walked to rather than at the house, which
+no test can tell apart: the two are a few hundred yards into one weather region.
 
 ### 10.6 What a class sees, and is told — NOT BUILT, superseded 2026-09-20
 

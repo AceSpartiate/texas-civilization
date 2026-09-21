@@ -51,8 +51,8 @@ clean detached worktree. **The release is [v2026.09.20.6](https://github.com/Ace
 .3's coast, animals, weather model, weather drawn and launcher face. Setup 191.7 MB → 212.4 MB at .3, which is the art embedded in the executable.
 
 **2. What is left open, in the order I would take it.**
-- **`FIC-GONZ-135` is part built:** weather costs the road (the wade, the shut ford, the bog) but not the hunt — no rain
-  making a hunt worse, no fog making it better, no wet powder. `docs/WEATHER.md` §10.5.
+- **What is left of `FIC-GONZ-135`:** rain stopping roofing and daubing, and the norther's health cost to somebody camped
+  without shelter. The road and the hunt are both built (2026-09-20).
 - **Two crossings still graze a bank** because the road runs in the creek bottom for a stretch; the crossings audit says so
   and it is a routing decision, not a bug in the ford.
 - **Two coastal cover cells are mine to look at:** `mesquite-savanna` reaching 95.01°W and `live-oak` 94.00°W.
@@ -113,6 +113,24 @@ east is the day after - and my own first draft of the seasonal test counted summ
 which is a test that checks nothing. The measured shut-day figure is corrected everywhere it appears: not "0 to 4 days of
 210" from three classes but a **median of 3 over 200 classes**, none at all in 19% of them and 16 in the worst. 800
 tests. Same computer only.
+
+**The sky in the hunt, 2026-09-20:** [WEATHER.md](docs/WEATHER.md) §10.5, `sim/hunting.mjs` `HUNT_WAIT` and `powderDamp`,
+`tests/hunt-weather.test.mjs`, `FIC-GONZ-135`. The weather shipped reading through to the road and the river crossings
+and **not to a family's own work** - the sky meant nothing to somebody standing on their own land. Now: the **wait
+downwind takes the sky as well as the ground** (×1.5 rain, ×1.8 storm, ×1.4 norther, **×0.6 fog** - the one kind of day
+that is good hunting weather, because the approach is hidden), and a **damp charge costs the certainty that waiting
+buys** - on a wet day the close shot wants the steady hand the long shot wants, or a rifle the gunsmith has put in order,
+so **the knack is what keeps your powder dry**. The family is told which fault it was ("his powder had taken the wet and
+the rifle would not fire", not "fired and missed"). **No die in any of it**, and the control says the sky before anybody
+is sent: `skyWords` reads the wait off `HUNT_WAIT` and the powder off `rainingAt`, so the words cannot drift from the
+numbers, and the shot's own question and its `wait` note change in the rain. **Measured**, six classes of thirty over
+three periods: a hunt takes **5.89 ticks a shot against 5.17**, about **0.73 charges a class take the wet**, the median
+family's hungry ticks move **4 → 5** because the four gathering works absorb it, and the final number, the glory and the
+houses do not move. **One thing the measuring found and fixed:** `scripts/biome-balance-study.mjs` counted misses by the
+words " fired and missed ", so a damp charge dropped silently out of the count and the hunt looked as though it had got
+*easier* on the day it got harder; it counts both now and tells them apart. 813 tests; 20 regressions injected, 20
+caught, and two of those were only caught after the tests were made to read the wait through a real hunt rather than off
+the table. Same computer only.
 
 **A line in the river on the road east, 2026-09-20:** [ROAD_EAST.md](docs/ROAD_EAST.md) §3, `sim/road.mjs` `fish-road`,
 `FIC-GONZ-178`. The hole the gathering study measured the same evening and could not reach: the camp hunt wants powder

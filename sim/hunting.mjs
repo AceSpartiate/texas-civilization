@@ -18,6 +18,7 @@ import { QUARRY, countsTrees, patchAt, patchCover, standOf, woodsRule, PATCH_MIL
 import { distanceToPolyline } from './terrain.mjs';
 import { realTerrain } from './terrain-data.mjs';
 import { dateOf } from './clock.mjs';
+import { rainingAt, weatherAt } from './weather.mjs';
 
 /** How much better the edge of timber is for game than the middle of a stand, added to its game, most 1. */
 export const EDGE_GAME = 0.2;
@@ -313,8 +314,37 @@ export function quarryWords(quarry, month = null) {
   return [here.length && `${list(here)} keep to it.`, away.length && `${list(away)} come in the winter.`].filter(Boolean).join(' ');
 }
 
-/** How many ticks the hunter waits still for the deer to come, where the ground is this good: one on the best, five on the poorest. */
-export const stillTicks = (game, base = 1) => Math.min(5 * base, Math.ceil(base / Math.max(0.2, game)));
+/**
+ * What the sky does to a hunt (`FIC-GONZ-135`, docs/WEATHER.md §10.5), as a multiplier on the wait downwind.
+ *
+ * **Rain and a norther make it worse and fog makes it better**, and both directions are the period's concern rather than
+ * the game's invention: game lies up in weather, while a fog hides the approach - which is how the Texians got within
+ * musket shot at Concepción and how the night of 1-2 October was got through at Gonzales (`HIST-TEX-224`). **The sizes
+ * are the game's own**: a wait half again as long in the rain, nearly twice in a storm, two thirds of it in a fog.
+ *
+ * ceiling: one multiplier a kind, the same everywhere and in every month. A norther's first bitter day is worse than its
+ * third, and nothing here knows that.
+ *
+ * `stillTicks` is how many ticks the hunter waits still for the quarry to come: one on the best ground, five on the
+ * poorest, and then the sky's own multiplier over it.
+ */
+export const HUNT_WAIT = Object.freeze({ fair: 1, fog: 0.6, rain: 1.5, storm: 1.8, norther: 1.4 });
+export const huntWait = kind => HUNT_WAIT[kind] ?? 1;
+
+/**
+ * Whether the powder will not stay dry where this hunter is standing: a rain day, a storm, or a norther that carried its
+ * rain with it (`rainingAt`).
+ *
+ * Smithwick, crossing swollen streams: "our only care being to keep our powder dry". What it costs is **the certainty
+ * that waiting buys**: on a dry day a hunter who lets the quarry come close cannot miss, and in the rain that guarantee
+ * is gone - the shot then wants the same steady hand the long shot wants, or a rifle the gunsmith has put in order. It
+ * is not a die: the same person on the same day does the same thing (`FIC-GONZ-008`), and the control says so before
+ * anybody is sent.
+ */
+export const powderDamp = (world, point, day) => Boolean(point) && rainingAt(world, point, day);
+
+export const stillTicks = (game, base = 1, weather = 1) =>
+  Math.max(1, Math.round(Math.min(5 * base, Math.ceil(base / Math.max(0.2, game))) * weather));
 
 const inWater = (world, point) => {
   if (onRealLand(world)) {
@@ -353,9 +383,28 @@ export function huntFacts(world, household, point) {
   // What would come here, and what it would bring home: the control says it before anybody is sent (docs/BIOME_GAMEPLAY.md §3).
   const comes = place.comes ? `Waiting here, ${quarryYieldWords(place.comes)}.` : '';
   const flocking = place.comes && GAME[place.comes].flocks && quarryGame(place.game, place.comes) > place.game;
-  const words = [where, flocking ? 'Ducks and geese sit on the water in numbers: the wait is short.' : GAME_WORDS.find(([least]) => place.game >= least)[1], quarryWords(place.quarry, monthOf(world)), comes].filter(Boolean).join(' ');
+  const words = [where, flocking ? 'Ducks and geese sit on the water in numbers: the wait is short.' : GAME_WORDS.find(([least]) => place.game >= least)[1], quarryWords(place.quarry, monthOf(world)), comes, skyWords(world, point)].filter(Boolean).join(' ');
   return { can: true, stand: place.stand, cover: place.cover, edge: place.edge, game: place.game, ...(place.quarry && { quarry: place.quarry }), ...(place.comes && { comes: place.comes }), words };
 }
+
+/**
+ * What today's sky does to a hunt here, in the family's own words, or '' on a fair day (`FIC-GONZ-135`).
+ *
+ * Both halves are read off the numbers themselves rather than written beside them - the wait from `huntWait` and the
+ * powder from `rainingAt` - so the words cannot drift from what the hunt actually does, which is a thing this codebase
+ * has had happen to it before.
+ */
+export function skyWords(world, point, day = undefined) {
+  const here = weatherAt(world, point, day ?? dayOfWorld(world));
+  const wait = huntWait(here.kind);
+  const named = { rain: 'It is raining', storm: 'A storm is over it', norther: 'A norther is blowing', fog: 'A fog lies on it' }[here.kind];
+  if (!named) return '';
+  const going = wait > 1 ? 'the game lies up and the wait is longer' : wait < 1 ? 'the approach is hidden and the wait is short' : null;
+  const powder = rainingAt(world, point, day ?? dayOfWorld(world)) ? 'the powder will not stay dry, and even a close shot may not fire' : null;
+  const both = [going, powder].filter(Boolean);
+  return both.length ? `${named}: ${both.join(', and ')}.` : `${named}.`;
+}
+const dayOfWorld = world => Math.floor((world.minute || 0) / 1440);
 
 /** What the hunt says the hunter is in: "the bottomland timber", "the prairie". */
 export const placeWord = place => `the ${place.name || standOf(place.stand, 'landfire').name || 'open ground'}`;
