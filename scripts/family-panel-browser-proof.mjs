@@ -110,8 +110,15 @@ try {
   ok(`every icon (${drawn.icons.length}) and mark (${drawn.marks.length}) is drawn from a frame, none a glyph or type (drawn by: ${madeBy.join(', ')})`);
 
   // ------------------------------------------------------------------------------------------------------ hover, in words
-  const father = rows[0].id;
+  // **The main person's row, not the first one.** Since the ability bar of 2026-09-21 (§12) only the main person's
+  // icons are drawn at all - that is the whole point of it - so a row nobody has chosen has no icon to hover, and this
+  // section spent thirty seconds waiting on an element that cannot exist. What it is about is the words in the popup,
+  // which belong to whichever row carries the bar.
+  const father = await page.evaluate(() => document.querySelector('.panel-row[data-focused=true]')?.dataset.entityId);
+  assert.ok(father, 'no row carries the bar, so there is no icon on this screen to hover');
   const fatherIcon = page.locator(`.panel-row[data-entity-id="${father}"] .panel-icon[data-key="rest"]`);
+  const hisKeys = await page.evaluate(id => [...document.querySelectorAll(`.panel-row[data-entity-id="${id}"] .panel-icon`)].map(one => one.dataset.key), father);
+  assert.ok(hisKeys.includes('rest'), `the main person's bar carries no Rest; it carries ${hisKeys.length ? hisKeys.join(', ') : 'nothing at all'}`);
   await fatherIcon.hover();
   await page.locator('#panel-tip').waitFor({ state: 'visible' });
   const tip = { name: await page.locator('#panel-tip-name').textContent(), summary: await page.locator('#panel-tip-summary').textContent() };

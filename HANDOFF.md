@@ -1,5 +1,24 @@
 # Claude handoff — Astra foundation
 
+## Open, and found while merging the last agent — 2026-09-21
+
+**In the lobby, nobody's bar carries anything at all.** `npm run test:family-panel` fails after the merge, and the
+message it fails with now says why: *the main person's bar carries no Rest; it carries nothing at all*. That section of
+the proof runs **before** it presses Start (the start is at line ~142, the hover at ~113), so it is measuring a class in
+its lobby — and the page draws **zero** `.panel-icon` for every row, the focused one included.
+
+**Why this matters rather than being a proof to patch.** `LOBBY_ACTIONS` exists precisely so that *"a family may set its
+own people to work while the class fills up"* (`sim/world.mjs`). If no row carries an icon in the lobby, that is no
+longer reachable from the panel, and it would be a regression from the ability bar of 2026-09-21 (`FIC-GONZ-220`), which
+draws only the main person's group. It is **not** proved to be a regression yet: what is proved is that the DOM has no
+icons there. Either the page is not treating anybody as main in the lobby, or `panelActions` is returning an empty list
+for a family still travelling in.
+
+**Where to start:** `renderFamilyPanel` in `public/app.js` (~3387 `focusFor`, ~3404 `const focused`, ~3452
+`panelActions({ main: focused })`) and `panelActions` in `public/family-panel.js` (~250, `if (main)`). Ask the page for
+`focusedId` and the row's `main` flag in the lobby before changing anything. The proof was left failing on purpose, with
+a sentence that names the fault instead of a thirty-second timeout on an element that cannot exist.
+
 ## Where everything is, end of 2026-09-21
 
 **On main and released:** v2026.09.21.4 (Astra's art in the game), .5 (the screen stops standing on itself), .6

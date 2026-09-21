@@ -621,7 +621,14 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
    ground this was meant to give back, so each icon carries its own small shadow over the country instead.
    It rides above the map's own buttons rather than beside them: at 1366 wide there is not room for both across the
    bottom, and the buttons are the older furniture. */
-.panel-icons{pointer-events:auto;min-width:0}
+/* The group takes no clicks; its icons do. The bar was given 30px of bottom padding on 2026-09-21 so that the names
+   drawn under the icons fall inside the box that scrolls on a phone - and that padding is still part of the element,
+   so it swallowed three of the five points of Journal, Land, Gonzales, Béxar, + and - beneath it, the centre among
+   them. Found by a click on "Land" that the camera never answered.
+   ceiling: a phone scrolls this row by dragging an icon rather than the space under it. Dragging the padding does
+   nothing now. The way out is a wrapper that scrolls with the padding inside it, if a class ever tries to drag there. */
+.panel-icons{pointer-events:none;min-width:0}
+.panel-icon{pointer-events:auto}
 /* Only the main person's group is drawn, so everybody else's reason cannot live inside it. It has a line of its own in
    `.panel-body` now - `.panel-why` below, owner 2026-09-21, after a class asked why a child had nothing. */
 .panel-row:not([data-focused=true]) .panel-icons{display:none}

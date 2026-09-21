@@ -64,8 +64,7 @@
           "centreBlockedBy": "#world-map",
           "by": [
             "#world-map",
-            "#selection",
-            "#family-rows"
+            "#selection"
           ]
         }
       ],
@@ -150,8 +149,8 @@
           },
           "onScreen": true,
           "points": 5,
-          "blocked": 3,
-          "centreBlockedBy": "#family-rows",
+          "blocked": 2,
+          "centreBlockedBy": null,
           "by": [
             "#family-rows"
           ]
@@ -167,8 +166,8 @@
           },
           "onScreen": true,
           "points": 5,
-          "blocked": 3,
-          "centreBlockedBy": "#family-rows",
+          "blocked": 1,
+          "centreBlockedBy": null,
           "by": [
             "#family-rows"
           ]
@@ -184,8 +183,8 @@
           },
           "onScreen": true,
           "points": 5,
-          "blocked": 3,
-          "centreBlockedBy": "#family-rows",
+          "blocked": 2,
+          "centreBlockedBy": null,
           "by": [
             "#family-rows"
           ]
@@ -201,8 +200,8 @@
           },
           "onScreen": true,
           "points": 5,
-          "blocked": 3,
-          "centreBlockedBy": "#family-rows",
+          "blocked": 1,
+          "centreBlockedBy": null,
           "by": [
             "#family-rows"
           ]
@@ -218,8 +217,8 @@
           },
           "onScreen": true,
           "points": 5,
-          "blocked": 3,
-          "centreBlockedBy": "#family-rows",
+          "blocked": 1,
+          "centreBlockedBy": null,
           "by": [
             "#family-rows"
           ]
@@ -235,8 +234,8 @@
           },
           "onScreen": true,
           "points": 5,
-          "blocked": 3,
-          "centreBlockedBy": "#family-rows",
+          "blocked": 2,
+          "centreBlockedBy": null,
           "by": [
             "#family-rows"
           ]
@@ -575,8 +574,7 @@
           "centreBlockedBy": "#world-map",
           "by": [
             "#world-map",
-            "#selection",
-            "#family-rows"
+            "#selection"
           ]
         }
       ],
@@ -661,8 +659,8 @@
           },
           "onScreen": true,
           "points": 5,
-          "blocked": 3,
-          "centreBlockedBy": "#family-rows",
+          "blocked": 2,
+          "centreBlockedBy": null,
           "by": [
             "#family-rows"
           ]
@@ -678,8 +676,8 @@
           },
           "onScreen": true,
           "points": 5,
-          "blocked": 3,
-          "centreBlockedBy": "#family-rows",
+          "blocked": 1,
+          "centreBlockedBy": null,
           "by": [
             "#family-rows"
           ]
@@ -695,25 +693,8 @@
           },
           "onScreen": true,
           "points": 5,
-          "blocked": 3,
-          "centreBlockedBy": "#family-rows",
-          "by": [
-            "#family-rows"
-          ]
-        },
-        {
-          "control": "#map-nav",
-          "label": "Gonzales",
-          "box": {
-            "x": 239,
-            "y": 792,
-            "w": 47,
-            "h": 44
-          },
-          "onScreen": true,
-          "points": 5,
-          "blocked": 3,
-          "centreBlockedBy": "#family-rows",
+          "blocked": 2,
+          "centreBlockedBy": null,
           "by": [
             "#family-rows"
           ]
@@ -729,8 +710,8 @@
           },
           "onScreen": true,
           "points": 5,
-          "blocked": 3,
-          "centreBlockedBy": "#family-rows",
+          "blocked": 1,
+          "centreBlockedBy": null,
           "by": [
             "#family-rows"
           ]
@@ -746,8 +727,8 @@
           },
           "onScreen": true,
           "points": 5,
-          "blocked": 3,
-          "centreBlockedBy": "#family-rows",
+          "blocked": 2,
+          "centreBlockedBy": null,
           "by": [
             "#family-rows"
           ]
@@ -1678,8 +1659,8 @@
             },
             "onScreen": true,
             "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#family-rows",
+            "blocked": 2,
+            "centreBlockedBy": null,
             "by": [
               "#family-rows"
             ]
@@ -1695,8 +1676,8 @@
             },
             "onScreen": true,
             "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#family-rows",
+            "blocked": 2,
+            "centreBlockedBy": null,
             "by": [
               "#family-rows"
             ]
@@ -1712,8 +1693,8 @@
             },
             "onScreen": true,
             "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#family-rows",
+            "blocked": 2,
+            "centreBlockedBy": null,
             "by": [
               "#family-rows"
             ]
@@ -1729,8 +1710,8 @@
             },
             "onScreen": true,
             "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#family-rows",
+            "blocked": 2,
+            "centreBlockedBy": null,
             "by": [
               "#family-rows"
             ]
@@ -1746,8 +1727,8 @@
             },
             "onScreen": true,
             "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#family-rows",
+            "blocked": 1,
+            "centreBlockedBy": null,
             "by": [
               "#family-rows"
             ]
@@ -1763,8 +1744,8 @@
             },
             "onScreen": true,
             "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#family-rows",
+            "blocked": 1,
+            "centreBlockedBy": null,
             "by": [
               "#family-rows"
             ]
@@ -1780,8 +1761,8 @@
             },
             "onScreen": true,
             "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#family-rows",
+            "blocked": 2,
+            "centreBlockedBy": null,
             "by": [
               "#family-rows"
             ]
@@ -2089,7 +2070,7 @@
             "label": "!",
             "box": {
               "x": 36,
-              "y": 301,
+              "y": 303,
               "w": 30,
               "h": 30
             },
@@ -2098,7 +2079,8 @@
             "blocked": 5,
             "centreBlockedBy": "#call-menu-text",
             "by": [
-              "#call-menu-text"
+              "#call-menu-text",
+              "#call-menu"
             ]
           },
           {
@@ -2124,7 +2106,7 @@
             "label": "!",
             "box": {
               "x": 36,
-              "y": 349,
+              "y": 351,
               "w": 30,
               "h": 30
             },
@@ -2134,7 +2116,7 @@
             "centreBlockedBy": "#call-menu-rows",
             "by": [
               "#call-menu-rows",
-              "#call-menu-how"
+              "#call-menu"
             ]
           },
           {
@@ -2271,8 +2253,8 @@
             },
             "onScreen": true,
             "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#family-rows",
+            "blocked": 2,
+            "centreBlockedBy": null,
             "by": [
               "#family-rows"
             ]
@@ -2288,8 +2270,8 @@
             },
             "onScreen": true,
             "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#family-rows",
+            "blocked": 2,
+            "centreBlockedBy": null,
             "by": [
               "#family-rows"
             ]
@@ -2305,8 +2287,8 @@
             },
             "onScreen": true,
             "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#family-rows",
+            "blocked": 2,
+            "centreBlockedBy": null,
             "by": [
               "#family-rows"
             ]
@@ -2322,8 +2304,8 @@
             },
             "onScreen": true,
             "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#family-rows",
+            "blocked": 2,
+            "centreBlockedBy": null,
             "by": [
               "#family-rows"
             ]
@@ -2339,8 +2321,8 @@
             },
             "onScreen": true,
             "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#family-rows",
+            "blocked": 1,
+            "centreBlockedBy": null,
             "by": [
               "#family-rows"
             ]
@@ -2356,8 +2338,8 @@
             },
             "onScreen": true,
             "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#family-rows",
+            "blocked": 1,
+            "centreBlockedBy": null,
             "by": [
               "#family-rows"
             ]
@@ -2373,8 +2355,8 @@
             },
             "onScreen": true,
             "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#family-rows",
+            "blocked": 2,
+            "centreBlockedBy": null,
             "by": [
               "#family-rows"
             ]
@@ -2653,7 +2635,7 @@
             "label": "!",
             "box": {
               "x": 36,
-              "y": 301,
+              "y": 303,
               "w": 30,
               "h": 30
             },
@@ -2689,7 +2671,7 @@
             "label": "!",
             "box": {
               "x": 36,
-              "y": 349,
+              "y": 351,
               "w": 30,
               "h": 30
             },
@@ -2783,8 +2765,8 @@
             },
             "onScreen": true,
             "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#family-rows",
+            "blocked": 2,
+            "centreBlockedBy": null,
             "by": [
               "#family-rows"
             ]
@@ -2800,8 +2782,8 @@
             },
             "onScreen": true,
             "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#family-rows",
+            "blocked": 2,
+            "centreBlockedBy": null,
             "by": [
               "#family-rows"
             ]
@@ -2817,8 +2799,8 @@
             },
             "onScreen": true,
             "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#family-rows",
+            "blocked": 1,
+            "centreBlockedBy": null,
             "by": [
               "#family-rows"
             ]
@@ -2834,8 +2816,8 @@
             },
             "onScreen": true,
             "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#family-rows",
+            "blocked": 1,
+            "centreBlockedBy": null,
             "by": [
               "#family-rows"
             ]
@@ -2851,8 +2833,8 @@
             },
             "onScreen": true,
             "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#family-rows",
+            "blocked": 1,
+            "centreBlockedBy": null,
             "by": [
               "#family-rows"
             ]
@@ -2868,8 +2850,8 @@
             },
             "onScreen": true,
             "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#family-rows",
+            "blocked": 1,
+            "centreBlockedBy": null,
             "by": [
               "#family-rows"
             ]
@@ -2885,8 +2867,8 @@
             },
             "onScreen": true,
             "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#family-rows",
+            "blocked": 2,
+            "centreBlockedBy": null,
             "by": [
               "#family-rows"
             ]
@@ -3304,8 +3286,8 @@
             },
             "onScreen": true,
             "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#family-rows",
+            "blocked": 1,
+            "centreBlockedBy": null,
             "by": [
               "#family-rows"
             ]
@@ -3321,8 +3303,8 @@
             },
             "onScreen": true,
             "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#family-rows",
+            "blocked": 1,
+            "centreBlockedBy": null,
             "by": [
               "#family-rows"
             ]
@@ -3338,8 +3320,8 @@
             },
             "onScreen": true,
             "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#family-rows",
+            "blocked": 1,
+            "centreBlockedBy": null,
             "by": [
               "#family-rows"
             ]
@@ -3355,8 +3337,8 @@
             },
             "onScreen": true,
             "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#family-rows",
+            "blocked": 2,
+            "centreBlockedBy": null,
             "by": [
               "#family-rows"
             ]
@@ -3372,8 +3354,8 @@
             },
             "onScreen": true,
             "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#family-rows",
+            "blocked": 2,
+            "centreBlockedBy": null,
             "by": [
               "#family-rows"
             ]
@@ -3389,8 +3371,8 @@
             },
             "onScreen": true,
             "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#family-rows",
+            "blocked": 2,
+            "centreBlockedBy": null,
             "by": [
               "#family-rows"
             ]
@@ -3406,8 +3388,8 @@
             },
             "onScreen": true,
             "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#family-rows",
+            "blocked": 2,
+            "centreBlockedBy": null,
             "by": [
               "#family-rows"
             ]
