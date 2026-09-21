@@ -2,6 +2,9 @@ import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { createClassroom } from '../server/app.mjs';
+// docs/FAMILY_PANEL.md §12 (owner, 2026-09-21): a person's work is on the screen only while they are the family's main
+// person, so this proof chooses them first, as a student does.
+import { asMain } from './support/main-person.mjs';
 import { createWorld } from '../sim/world.mjs';
 import { keepFoundingFamilies } from '../tests/support/settled.mjs';
 const require = createRequire(import.meta.url);
@@ -73,6 +76,7 @@ try {
   assert.equal(offer.toEntityId, 'hh-2-elena');
   await choose('hh-1-thomas');
   // Thomas's "Plant the field" on the family panel (docs/FAMILY_PANEL.md).
+  await asMain(page, 'hh-1-thomas');
   const work = page.locator('.panel-row[data-entity-id="hh-1-thomas"] .panel-icon[data-key="plant-field"]');
   await work.focus();
   await page.evaluate(() => { window.__workBefore = document.activeElement; });

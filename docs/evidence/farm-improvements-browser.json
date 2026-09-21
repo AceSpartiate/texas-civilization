@@ -1,6 +1,6 @@
 {
   "record": "farm-improvements-browser",
-  "date": "2026-09-20",
+  "date": "2026-09-21",
   "browser": "152.0.7977.83",
   "ownerDirection": "\"players should be able to clear any piece of land on their land ... and create more plots through an action called Survey.\" (2026-09-13)",
   "checks": [
@@ -9,7 +9,7 @@
     "ten acres chosen on the map and cleared are drawn as field: \"Ten acres of prairie a quarter mile south of the house, staked. 10 spells of clearing, with the hoe.\"",
     "rails are drawn round the plot a family fenced, and only that one",
     "the land is the first thing in the list of what the family has: \"Their land: 20 acres cleared in 2 plots, 1 fenced.\"",
-    "the ground stayed right while the land changed: 51 snapshots checked against a fresh drawing, none stale; drawn 36 times ({\"first\":1,\"art or tiles\":3,\"camera\":3,\"zoom\":12,\"pick\":6,\"land\":11})",
+    "the ground stayed right while the land changed: 52 snapshots checked against a fresh drawing, none stale; drawn 36 times ({\"first\":1,\"art or tiles\":3,\"camera\":3,\"zoom\":12,\"pick\":6,\"land\":11})",
     "no page errors anywhere in the run"
   ],
   "measured": {

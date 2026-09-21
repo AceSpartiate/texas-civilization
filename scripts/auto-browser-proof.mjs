@@ -18,6 +18,9 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { createClassroom } from '../server/app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { meetFamily } from './support/meet-family.mjs';
+// docs/FAMILY_PANEL.md §12 (owner, 2026-09-21): a person's work is on the screen only while they are the family's main
+// person, so this proof chooses them first, as a student does.
+import { asMain } from './support/main-person.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -91,6 +94,7 @@ try {
   await shot(page, 'switch-on');
 
   // ------------------------------------------------------------------- a hunt from the panel: decided alone, and repeated
+  await asMain(page, hunterId);
   await page.locator(`.panel-row[data-entity-id="${hunterId}"] .panel-icon[data-key="hunt-timber"]`).click();
   // The server's answer: the order taken (the icon glows) or refused (its sentence on the error line).
   const answer = await page.waitForFunction(id => {

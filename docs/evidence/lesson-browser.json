@@ -1,0 +1,214 @@
+{
+  "record": "lesson-browser",
+  "date": "2026-09-21",
+  "browser": "152.0.7977.83",
+  "screen": {
+    "width": 1366,
+    "height": 768
+  },
+  "task": "The owner after the class of 2026-09-21: the UI covered too much of a Chromebook screen; a character’s abilities are hidden unless they are the main one and sit bottom middle, spaced out; and the tutorial is an integrated, forced, one-task-at-a-time part of the game.",
+  "environment": "Same computer: a local classroom server and headless Chrome at 1366x768. Not a physical LAN, a Chromebook, a classroom or a touch screen.",
+  "checks": [
+    "the main person's work is bottom middle at 1366x768: 19 icons, centred at 683, 74px up, 10px apart, 9.4% of the screen",
+    "a person who is not the main one has no work on the screen",
+    "the star moves the bar: it is now hh-1-parent-2's 19 icons, still centred at 683",
+    "the step is the server's words and has no control at all: \"Put somebody to work\" - Press the axe at the bottom of the screen to start work on the house. (6% of the screen)",
+    "the skippable walk-through is put away while the class is being led",
+    "the step leaves one thing to press of 19, rings it, and dims the rest",
+    "a shut icon sends nothing and says what to do instead: \"Not this yet. Press the axe at the bottom of the screen to start work on the house.\"",
+    "the one open icon sends its order and the server's glow comes back on it (plant-field)",
+    "the bar is still a row of buttons in reading order, each named and each showing its sentence on focus: \"Survey ten acres. Walk out to a place you choose on your lan…\"",
+    "folded, the column is 102px instead of 312px and the bar is untouched (21 icons)",
+    "no page errors anywhere in the run"
+  ],
+  "measured": {
+    "bar": {
+      "entityId": "hh-1-parent-1",
+      "centre": 683,
+      "width": 928,
+      "fromBottom": 74,
+      "rows": 2,
+      "count": 19,
+      "smallestGap": 10,
+      "iconSize": 48,
+      "share": 9.4
+    },
+    "otherPeopleIconsOnScreen": 0,
+    "strip": {
+      "step": "STEP 2 OF 10",
+      "title": "Put somebody to work",
+      "says": "Press the axe at the bottom of the screen to start work on the house.",
+      "did": "Your family reached their land.",
+      "read": "STEP 2 OF 10. Put somebody to work. Press the axe at the bottom of the screen to start work on the house. Your family reached their land.",
+      "pips": 10,
+      "filled": 1,
+      "buttons": 0,
+      "centre": 683,
+      "share": 6
+    },
+    "step": [
+      {
+        "key": "survey-plot",
+        "shut": true,
+        "pointed": false,
+        "pressable": false,
+        "opacity": 0.28
+      },
+      {
+        "key": "plant-field",
+        "shut": false,
+        "pointed": true,
+        "pressable": true,
+        "opacity": 1
+      },
+      {
+        "key": "harvest-field",
+        "shut": true,
+        "pointed": false,
+        "pressable": false,
+        "opacity": 0.28
+      },
+      {
+        "key": "fence-plot",
+        "shut": true,
+        "pointed": false,
+        "pressable": false,
+        "opacity": 0.28
+      },
+      {
+        "key": "build-house",
+        "shut": true,
+        "pointed": false,
+        "pressable": false,
+        "opacity": 0.28
+      },
+      {
+        "key": "hunt-timber",
+        "shut": true,
+        "pointed": false,
+        "pressable": false,
+        "opacity": 0.28
+      },
+      {
+        "key": "practise-shooting",
+        "shut": true,
+        "pointed": false,
+        "pressable": false,
+        "opacity": 0.28
+      },
+      {
+        "key": "visit-shop",
+        "shut": true,
+        "pointed": false,
+        "pressable": false,
+        "opacity": 0.28
+      },
+      {
+        "key": "make-furniture",
+        "shut": true,
+        "pointed": false,
+        "pressable": false,
+        "opacity": 0.28
+      },
+      {
+        "key": "buy-furniture",
+        "shut": true,
+        "pointed": false,
+        "pressable": false,
+        "opacity": 0.28
+      },
+      {
+        "key": "hunt-land",
+        "shut": true,
+        "pointed": false,
+        "pressable": false,
+        "opacity": 0.28
+      },
+      {
+        "key": "take-small-game",
+        "shut": true,
+        "pointed": false,
+        "pressable": false,
+        "opacity": 0.28
+      },
+      {
+        "key": "fish-the-water",
+        "shut": true,
+        "pointed": false,
+        "pressable": false,
+        "opacity": 0.28
+      },
+      {
+        "key": "cut-bee-tree",
+        "shut": true,
+        "pointed": false,
+        "pressable": false,
+        "opacity": 0.28
+      },
+      {
+        "key": "travel-gonzales",
+        "shut": true,
+        "pointed": false,
+        "pressable": false,
+        "opacity": 0.28
+      },
+      {
+        "key": "travel-home",
+        "shut": true,
+        "pointed": false,
+        "pressable": false,
+        "opacity": 0.28
+      },
+      {
+        "key": "visit",
+        "shut": true,
+        "pointed": false,
+        "pressable": false,
+        "opacity": 0.28
+      },
+      {
+        "key": "work",
+        "shut": true,
+        "pointed": false,
+        "pressable": false,
+        "opacity": 0.28
+      },
+      {
+        "key": "rest",
+        "shut": true,
+        "pointed": false,
+        "pressable": false,
+        "opacity": 0.28
+      }
+    ],
+    "shutRefusedByTheBrowser": true,
+    "shutSays": "Not this yet. Press the axe at the bottom of the screen to start work on the house.",
+    "ordered": {
+      "key": "plant-field",
+      "revisionMoved": true
+    },
+    "keyboard": {
+      "focused": "panel-icon",
+      "label": "Survey ten acres. Walk out to a place you choose on your land and stake out ten acres. Gregorio Proofwright is already at the field with the seed.",
+      "tipShown": true
+    },
+    "folded": {
+      "bodiesOnScreen": 0,
+      "facesOnScreen": 6,
+      "column": 102,
+      "barIcons": 21,
+      "columnBefore": 312
+    }
+  },
+  "screenshots": [
+    "test-results/lesson-bar.png",
+    "test-results/lesson-step.png",
+    "test-results/lesson-folded.png"
+  ],
+  "notProved": [
+    "The lesson itself: `world.lesson` is stubbed (scripts/support/lesson-stub.mjs) because the server side is being built in parallel. What is proved is that the page reads the contract and adds nothing to it.",
+    "A real Chromebook, its GPU or its touchpad: this is desktop Chrome at the same pixel size.",
+    "Touch. The icons are 48px and spaced 10px, which is the size a fingertip wants, but nothing here pressed one with a finger.",
+    "Every step of the lesson. One step is held and pressed; tests/lesson-screen.test.mjs walks the rules over the family’s whole bar."
+  ]
+}

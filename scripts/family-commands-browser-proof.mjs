@@ -29,6 +29,9 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, stepWorld } from '../sim/world.mjs';
 import { pickSite } from '../sim/neighbours.mjs';
 import { meetFamily } from './support/meet-family.mjs';
+// docs/FAMILY_PANEL.md §12 (owner, 2026-09-21): a person's work is on the screen only while they are the family's main
+// person, so this proof chooses them first, as a student does.
+import { asMain } from './support/main-person.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -121,7 +124,10 @@ try {
   const firstPanel = await page.evaluate(() => window.__familyPanel);
   assert.equal(firstPanel.find(row => row.focused)?.id, principalId, 'before anybody is chosen, the main person is not the principal');
   assert.equal(await page.locator(`.panel-row[data-entity-id="${principalId}"] .panel-focus`).getAttribute('aria-pressed'), 'true');
-  ok(`before anybody is chosen the main person is the principal (${principalId}), starred on the panel`);
+  // And the household holds nothing: a class that has chosen nobody sends nothing new on the tick (§11.3). Asked here, at
+  // the top, rather than beside the star below, because since §12 this proof chooses people as it goes to reach their work.
+  assert.equal(world().households['hh-1'].mainId, undefined, 'the server holds a main person before anybody chose one');
+  ok(`before anybody is chosen the main person is the principal (${principalId}), starred on the panel, and the household holds nobody`);
 
   // ------------------------------------------------------------------------------------------------------------ the rider
   await post('/api/command', { id: `proof-start-${crypto.randomUUID()}`, action: 'start' }, hostCookie);
@@ -220,6 +226,7 @@ try {
       }, { id, preferred, errands, wantErrand, principalId, tried: [...tried] });
       if (!key) break;
       tried.add(key);
+      await asMain(page, id);
       await page.locator(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="${key}"]`).click();
       presses++;
       // The server's answer: the order taken (the icon glows) or refused (its sentence on the error line).
@@ -233,6 +240,10 @@ try {
       break;
     }
   }
+  // Back to the principal. Working about the place and resting are the main person's alone (§11.3), so their icons are on
+  // whoever is main - and since §12 that is the only bar drawn. Ordering somebody else after the principal was set to work
+  // takes the principal's *work* icon off the screen, and with it the glow that says what they are doing.
+  await asMain(page, principalId);
   const orderable = plan.map(entry => entry.id);
   const notGlowing = plan.filter(entry => !entry.glowed);
   assert.deepEqual(notGlowing, [], `pressed and never glowed: ${JSON.stringify(notGlowing)} (server: ${JSON.stringify(notGlowing.map(({ id }) => world().entities[id].chore))})`);
@@ -264,6 +275,7 @@ try {
     return { id: icon.dataset.entityId, key: icon.dataset.key, shown: icon.dataset.note };
   });
   assert.ok(stale, 'no refused icon on the panel to press');
+  await asMain(page, stale.id);
   await page.locator(`.panel-row[data-entity-id="${stale.id}"] .panel-icon[data-key="${stale.key}"]`).click();
   await page.waitForFunction(() => (document.querySelector('#error')?.textContent || '').trim().length > 0, null, { timeout: 10000 });
   stale.server = (await page.locator('#error').textContent()).trim();
@@ -281,6 +293,7 @@ try {
   if (!toStop) {
     toStop = await page.evaluate(ids => ids.find(id => document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="stop-chore"]`)), finished);
     assert.ok(toStop, 'nobody at work to call off and nobody finished');
+    await asMain(page, toStop);
     await page.locator(`.panel-row[data-entity-id="${toStop}"] .panel-icon[data-key="stop-chore"]`).click();
     await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"]`)?.dataset.idle === 'true', toStop, { timeout: 15000 });
   }
@@ -319,6 +332,7 @@ try {
   const book = await page.evaluate(async () => (await (await fetch('/api/family')).json()).family.people);
   const tradedWith = principalId;
   const neighbour = app.state.world.households['hh-2'].principalId;
+  await asMain(page, principalId);
   await page.locator(`.panel-row[data-entity-id="${principalId}"] .panel-icon[data-key="travel-gonzales"]`).click();
   await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="travel-gonzales"]`)?.dataset.active === 'true'
     || window.__snapshot.world.entities.find(e => e.id === id)?.location?.siteId === 'gonzales', principalId, { timeout: 15000 });
@@ -349,7 +363,10 @@ try {
   // The main person is the server's (docs/FAMILY_PANEL.md §11.3): the star sends `set-main`, the household holds it, and the
   // journeys, the yard and rest move to that row - the principal's row loses them, and the server refuses him in words.
   const mother = book.find(person => person.role === 'mother')?.id || book.find(person => person.id !== principalId).id;
-  assert.equal(world().households['hh-1'].mainId, undefined, 'the server holds a main person before anybody chose one');
+  // The household has been sent a main person by now, because since §12 the work above is reached by choosing whoever is to
+  // do it; that the household holds nobody until somebody chooses is asked at the top of this run instead. Back to the
+  // principal, so what the star proves below is that choosing the mother *moves* the journeys, the yard and rest to her row.
+  await asMain(page, principalId);
   assert.ok(await page.locator(`.panel-row[data-entity-id="${principalId}"] .panel-icon[data-key="travel-gonzales"]`).count(), 'the principal, main until somebody is chosen, has no journey icon');
   await page.locator(`.panel-row[data-entity-id="${mother}"] .panel-focus`).click();
   await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"]`)?.dataset.focused === 'true', mother);

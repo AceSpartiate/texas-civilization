@@ -422,3 +422,121 @@ one behind the parent, **the main person's switch** decides, a family by hand be
 - **Proof.** `tests/auto.test.mjs` (six tests, each proven by injection: fourteen regressions, each failing only its test) and
   `npm run test:auto` (`scripts/auto-browser-proof.mjs`, same computer): the word pressed, the server holding it, a hunt from
   the panel decided alone with no "!" and repeated, off and nobody going again, nothing scrolling sideways at 400 px.
+
+---
+
+## 12. The screen given back, and the guided start — owner 2026-09-21, built the same day
+
+> "the ui covered too much of their screen. the abilities for each character needs to be hidden unless they're selected as
+> the main. their abilities should be bottom middle of the screen and spaced out in such a way as to maximize the
+> visibility of the screen."
+>
+> "we need to have the tutorial be an integrated forced part of the game ... one task at a time, guided by the ui and
+> unavoidable."
+>
+> — after a real class played on Chromebooks, 2026-09-21
+
+This amends §4, §7 and §11.1 in **where a person's work is drawn** and in **what the walk-through is**. Nothing about which
+orders a person may be given has moved: that is still the server's (`world.household.mainId`, `applyAction`, §11.3).
+`FIC-GONZ-220`, `FIC-GONZ-221`, `FIC-GONZ-222`.
+
+### 12.1 What was measured, before and after
+
+Measured in the browser at **1366×768** — the Chromebook the school buys — by rasterising every part of the page that
+paints over the map and counting the covered pixels once (`npm run measure:screen`, `docs/evidence/screen-measure-*.json`).
+
+| | Covered | The left column reaches |
+| --- | --- | --- |
+| Before, in the lobby | **33.4%** | **584 px**, and three of six family rows were hidden behind the walk-through card |
+| After, in the lobby | **28.3%** | **264 px** (the family rows); 380 px counting the walk-through card, which is unchanged |
+| After, with a lesson running | 31.9% | 264 px, and **all six rows in sight** where three had been covered |
+| After, folded (**Hide names**) | — | **102 px** |
+
+The "with a lesson" figure is higher than the lobby's for an honest reason worth keeping: the rows that used to be *hidden*
+behind the walk-through card are now *visible*, so they are charged to the interface for the first time. The number a
+student feels is the second column.
+
+### 12.2 The ability bar
+
+- **Only the main person's icons are drawn.** Every row still holds its own group in the page — so a row's icons are still
+  that person's, to the page and to a screen reader — and the stylesheet draws only `.panel-row[data-focused=true]
+  .panel-icons`. Choosing another main person (the star, a double press on a portrait) moves the bar to theirs.
+- **Bottom middle**, centred on the screen, 48 px icons 10 px apart, wrapping upward when a principal's twenty will not fit
+  in one line. **Nothing is drawn behind them**: a panel across the bottom would cover exactly the ground this was meant to
+  give back, so each icon carries its own small shadow over the country instead.
+- It rides **above** the map's own buttons rather than beside them: at 1366 px there is not room for both across the bottom,
+  and the buttons are the older furniture.
+- Everything §4 and §11 say still holds — the hover and focus popup, the server's refusal in its own words, the glow that is
+  the projection's, the keyboard order, the sideways scroll on a phone.
+
+### 12.3 Hide names
+
+The `ceiling:` §7 wrote on 2026-09-16 is paid. **Hide names** folds every row to its portrait — which is what a glance down
+the column is for, the idle mark and the "!" — and leaves the bar alone, because a fold that took the work away would leave
+a student with nothing to press. Remembered per browser and nowhere else.
+
+The star, the auto switch and House fold away with the rest of the row, so while the panel is folded the main person is
+changed by the **double press on a portrait** §11.3 already gives (`chooseFocus`), and the "!" is still its own button over
+the corner of the face. `ceiling:` a student who only ever folds the panel never meets the star; unfolding is one press and
+the fold is remembered per browser, so nothing is lost for good.
+
+### 12.4 The guided start
+
+The lesson is the **server's**, and arrives whole on every snapshot:
+
+```js
+world.lesson = {
+  step: 'arrive' | 'order' | 'house' | 'survey' | 'clear' | 'plant' | 'harvest' | 'sell' | 'hunt' | 'well' | 'done',
+  index: 3, of: 10,
+  title: 'Put somebody to work',
+  says: 'One sentence telling the student what to do next.',
+  did: 'What just happened, or null',
+  allow: ['chore:build-house'],   // every action id the student may take now
+  done: false,                    // when the lesson is over, `world.lesson` is absent entirely
+}
+```
+
+- **The page decides nothing about it.** `public/lesson.js` has no memory, no timer and no Next — so the one thing a page
+  must never do, tell a student they have finished something the world has not seen, it cannot do. There is no control on
+  the strip at all; a test counts them and fails at one.
+- **The strip** stands over the top middle of the map: the step's number, its title, its one sentence, a `✓` line for what
+  just happened, and a run of pips filled to the step behind the one the world says we are on. The lines the page shouts —
+  an error, a save fault — move below it while it stands.
+- **What is shut.** Every icon on the bar that `allow` does not name is dimmed, carries `aria-disabled`, and its popup says
+  *"Not this yet. …"* with the step's own sentence rather than a refusal. The one that is named gets a ring and a caret; the
+  button itself never moves, because a control a student has to hit with a Chromebook touchpad must hold still.
+- **An empty `allow` shuts everything** — that is the step where the only thing to do is watch the wagon come in. **A
+  missing `allow` shuts nothing**: a server older than the contract, or one that has not decided, must not lock a student
+  out on the page's guess, and the server refuses in words either way.
+- Three spellings of an id are accepted (`chore:plant-field`, `order:rest`, a bare `travel-gonzales`), because the contract
+  only worked one of them. Accepting more than the server sends cannot open anything the server refuses.
+- **The card's own journey is shut by the same rule.** *Go there*, on the person's card, is the `visit` icon reached another
+  way, so it reads `allow` too (`shutByLesson` in `public/app.js`): a student led to one step must not find a second way
+  round it. What is a *question* rather than an order — a rider, a call, an army's question, work that has stopped to ask —
+  is never shut: the lesson decides what a student may start, not what they may answer.
+- **The older, skippable walk-through is not offered while a lesson stands.** Two lessons at once is worse than either.
+- The Host has no family and is given no lesson; one sent anyway is not drawn.
+
+### 12.5 Gates
+
+| Gate | What it means |
+| --- | --- |
+| The map is the game | At 1366×768 the interface covers under a third of the screen and the left column reaches under 300 px; folded, under 110 px. |
+| One person's work at a time | No icon belonging to anybody but the main person has a box on the screen; the star moves the bar. |
+| Bottom middle, spaced out | The bar is centred within a pixel or two of the screen's middle, near its bottom, its icons at least 44 px and at least 6 px apart. |
+| Folding keeps the work | With the names folded the faces and the bar are both still there. |
+| The lesson is the world's | The strip is the server's words, carries no control, and goes the tick `world.lesson` does. |
+| One thing to press | Under a step, exactly the icons `allow` names can be pressed; the rest are plainly shut and say the step's sentence; the one asked for is ringed. |
+| Nothing new is decided in the page | `public/lesson.js` has no memory and no timer, and a shut icon sends nothing. |
+
+### 12.6 What is not proved
+
+`world.lesson` is **stubbed** in the proof (`scripts/support/lesson-stub.mjs`) because `projectWorld` does not carry it yet;
+that side was being built in parallel on 2026-09-21. What is proved is that the page reads the contract and adds nothing to
+it. Nothing here was seen on a real Chromebook, a touch screen or a classroom network: the proof is headless Chrome at the
+same pixel size on the same computer.
+
+### 12.7 Stand-ins
+
+`stand-in:` the caret over the ringed icon, the ring itself and the lesson's pips are drawn in CSS, not art. The request is
+in [ART_REQUESTS.md](ART_REQUESTS.md) (2026-09-21 — the guided start's marks) and listed there under *Stand-ins in use*.

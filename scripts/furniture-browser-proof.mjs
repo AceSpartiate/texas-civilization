@@ -10,6 +10,9 @@ import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { createClassroom } from '../server/app.mjs';
+// docs/FAMILY_PANEL.md §12 (owner, 2026-09-21): a person's work is on the screen only while they are the family's main
+// person, so this proof chooses them first, as a student does.
+import { asMain } from './support/main-person.mjs';
 import { createSettledWorld, keepFoundingFamilies } from '../tests/support/settled.mjs';
 
 const require = createRequire(import.meta.url);
@@ -45,6 +48,7 @@ try {
 
   // The icon, with its sentence.
   const worker = 'hh-1-elena';
+  await asMain(page, worker);
   const icon = page.locator(`.panel-row[data-entity-id="${worker}"] .panel-icon[data-key="make-furniture"]`);
   await icon.waitFor({ state: 'visible' });
   observed.icon = `${await icon.getAttribute('data-name')}: ${await icon.getAttribute('data-summary') || ''}`;

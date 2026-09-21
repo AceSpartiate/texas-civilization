@@ -57,6 +57,8 @@
     "measure:navigation": "node scripts/perf-navigation-measure.mjs",
     "balance": "node scripts/balance-study.mjs",
     "balance:biomes": "node scripts/biome-balance-study.mjs",
-    "test:biome-game": "node scripts/biome-game-browser-proof.mjs"
+    "test:biome-game": "node scripts/biome-game-browser-proof.mjs",
+    "test:lesson": "node scripts/lesson-browser-proof.mjs",
+    "measure:screen": "node scripts/screen-measure.mjs"
   }
 }

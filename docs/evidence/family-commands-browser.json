@@ -1,6 +1,6 @@
 {
   "record": "family-commands-browser",
-  "date": "2026-09-18",
+  "date": "2026-09-21",
   "verdict": "PASS",
   "browser": "152.0.7977.83",
   "task": "docs/FAMILY_PANEL.md §11: orders from the panel in a press each, idle shown, an \"!\" for every person something waits on that takes the camera there and opens it, a main person held by the server (set-main) whose row alone has the journeys, and one menu for a call with a tick per person who may answer.",
@@ -10,7 +10,7 @@
     "A second class on the real land is played in process to the morning San Felipe’s call reaches hh-1 and handed to the browser in the lobby (as scripts/army-browser-proof.mjs hands over a class played to the muster); the browser then starts it and answers the call."
   ],
   "checks": [
-    "before anybody is chosen the main person is the principal (hh-1-parent-1), starred on the panel",
+    "before anybody is chosen the main person is the principal (hh-1-parent-1), starred on the panel, and the household holds nobody",
     "a rider stopped for hh-1-child-1: an \"!\" on that row alone (\"Ned Falk has stopped to speak with Jasper Proofwright. And 1 more. Go to Jasper Proofwright and answer.\"); pressing it took the camera to them (0.000 mi) and opened the conversation, the keyboard on \"encounter\"",
     "letting the rider ride on clears the \"!\"",
     "a call to the family marks the 4 people the server lets answer it; pressing hh-1-child-2's \"!\" opened the one menu for it (\"A neighbour is at the door. They are carrying food to the people gathering near Gonzales, and ask whether somebody from your family can help take it.\") with a row each, the keyboard on hh-1-parent-1's",
@@ -279,6 +279,9 @@
           "make-furniture",
           "buy-furniture",
           "hunt-land",
+          "take-small-game",
+          "fish-the-water",
+          "cut-bee-tree",
           "travel-gonzales",
           "travel-home",
           "visit",
@@ -300,7 +303,7 @@
       "overflow": 0,
       "mark": {
         "x": 36,
-        "y": 82,
+        "y": 106,
         "width": 30
       },
       "markOnScreen": true,

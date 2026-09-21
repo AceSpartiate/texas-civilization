@@ -39,6 +39,10 @@ does not have:
 | Béxar's fields are the `fields` wash with stubble and fallow scattered on it; **the acequias are not drawn** and no brush fence stands | `fields` in `public/ground-classes.js`; the envelope in `scripts/terrain/biomes.mjs` `BEXAR_FIELDS` | Request 2026-09-19 — Béxar's fields and acequias | `acequia`, `field-irrigated`, `fence-brush`, laid by `public/bexar-layout.js` |
 | **No stand-in: words only.** Since 2026-09-19 (docs/BIOME_GAMEPLAY.md §3.1) a hunt on a class of the biomes brings the quarry its place holds - turkey, bear, buffalo, antelope, mustang, javelina, ducks and geese, a wild cow, or a deer - and says so before it goes ("Waiting here, a turkey: four food."), at the shot ("downwind of a bear") and in the record ("brought down a buffalo"). Only a deer is drawn: any other quarry is given no place to be drawn at (`chore.quarry` stays unset), because a deer drawn where the words say a bear would be a wrong picture | `quarryAt` and `GAME` in `sim/hunting.mjs`; the drawing is decided where `quarryPoint` is called in `sim/chores.mjs` | Request 2026-09-19 — the game of 1836 | `wildlife-turkey`, `-bear`, `-javelina`, `-pronghorn`, `-bison`, `-geese`, `-mustang`, `-cattle`; then `quarryPoint` gives every quarry its place and `miniDeer` picks the sheet by `quarry.kind` |
 | The panel icon for fetching logs from the timber is a canvas glyph: three logs laid across a wagon bed on two wheels, in the panel's brown | `PANEL_ICONS` (`glyph`) and `drawGlyph` in `public/family-panel.js` | Request 2026-09-19 — the logs fetched from the timber | `icon-fetch-logs` |
+| A traveller faster than a walk can be drawn is a canvas-drawn pin: a round disc with the family panel's `portrait-<figure>` clipped inside it (itself a Claude-drawn stand-in), ringed rust for the principal, ink for the family, grey for somebody else's and slate for a courier, on a short point to the ground, with the road ahead in canvas dots. A beast or wagon on the road by itself is its own standing sprite (`horse-chestnut`, `ox-brown`, `wagon-covered`) on a smaller disc; their initial while no sheet has loaded | `drawTravelMarkers` in `public/app.js`; the rule in `MARKER_ABOVE`/`wantsMarker` in `public/motion.js` | Request 2026-09-19 — the traveller's marker | `marker-pin` (the pin and its ring, portrait-less) and `marker-dot`, drawn over by the same portrait; `drawTravelMarkers` lays the sprites down instead of its strokes |
+| The mark that leads a student to the one thing to press is CSS: a triangular caret over the icon, a rust box-shadow ring round it, and ten coloured bars for the lesson’s steps | `.panel-icon[data-pointed=true]` and `.lesson-pip` in `public/style.css`; the pips built by `renderLesson` in `public/app.js` | Request 2026-09-21 — the guided start’s marks | `lesson-point`, `lesson-ring`, `lesson-pip`, `lesson-pip-done` |
+
+
 | A tree or a tuft in a norther is the library's own upright sprite sheared about its foot, so it leans; nothing streams, and smoke is not drawn at all | `windLean` in `public/weather-art.js`, applied by `postOak` and `drawGroundDetail` in `public/app.js` and by `lean` in `public/art.js` | Request 2026-09-20 — the country in a norther | `oak-broad-wind`, `oak-spreading-wind`, `pecan-wind`, `grass-tuft-wind`, `smoke-streaming` |
 
 ## Claude-drawn stand-ins (replace with Astra's)
@@ -84,6 +88,32 @@ into the existing pipeline, and how it will be checked. When a request is delive
 `npm run build:art`; do not delete it from here.
 
 ---
+
+## Request 2026-09-21 — the guided start's marks
+
+**Status: open; CSS stand-ins in use since 2026-09-21 (see *Stand-ins in use* above).** After a real class played on
+Chromebooks the owner asked for the tutorial to be "an integrated forced part of the game ... one task at a time, guided by
+the ui and unavoidable" ([FAMILY_PANEL.md](FAMILY_PANEL.md) §12). The screen now leads a student to one icon on the ability
+bar at the bottom middle. The three marks that do the leading are CSS, not art.
+
+- **Why.** These are the marks a seven-year-old reader looks at instead of the sentence. A CSS triangle and a coloured
+  box-shadow read as a web page beside icons Astra painted, and at the bottom of a busy map the ring has to win against
+  grass, trees and a wagon without hiding the icon it is round.
+- **What.** Three small pieces, transparent, in the illustrated palette with the thin dark outline the action icons have,
+  drawn to read over open country (deliver at 96 by 96 unless said otherwise):
+  - `lesson-point` — a pointing mark that sits **above** an icon and aims down at it: a small painted hand, a carved
+    signpost finger or a feathered dart, in the rust the game already uses for "attend to this", `#c2582c`. It is drawn
+    about 20 CSS pixels tall over a 48-pixel icon, and it bobs; the icon under it never moves.
+  - `lesson-ring` — a frame that goes **round** a 48-pixel icon without covering it: a painted rope, a rust-tooled border
+    or a wreath of rails, transparent inside, delivered as a nine-slice or as a single 72 by 72 frame the icon sits inside.
+  - `lesson-pip` and `lesson-pip-done` — the two states of one step-marker in the strip's run of ten, about 10 by 6 CSS
+    pixels: a stake in the ground and a stake with a rail on it, say, or a plain unfilled and filled tally mark. No text.
+- **How it plugs in.** Registered through `npm run build:art`. The bar's `.panel-icon[data-pointed=true]` takes
+  `lesson-ring` in place of its box-shadow and `lesson-point` in place of its `::after` triangle (a canvas over the button,
+  as `panelMark` in `public/app.js` already does for the row's marks); `renderLesson` draws the pips from the two frames in
+  place of the two `.lesson-pip` colours. The accessible names carry the words either way and do not change.
+- **Check.** At 1366 by 768 over grass, over a road and over a wagon, the ring is told apart from the server's own gold glow
+  (`data-active`, "doing this now") at a glance, and the pointed icon's own picture is still readable inside it.
 
 ## Request 2026-09-20 — the country in a norther: trees and grass bent by the wind
 

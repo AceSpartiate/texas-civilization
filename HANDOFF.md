@@ -1,5 +1,48 @@
 # Claude handoff — Astra foundation
 
+**The screen given back, and the guided start on it, 2026-09-21:** A real class played this on Chromebooks on 2026-09-21
+and three things went wrong on screen. Two of them belong to the page rather than the world: [FAMILY_PANEL.md](docs/FAMILY_PANEL.md) §12,
+`public/lesson.js`, `FIC-GONZ-220` to `-222`. Measured at **1366×768**, the Chromebook the school buys, by rasterising
+every part of the page that paints over the map and counting the covered pixels once (`npm run measure:screen`):
+**33.4% covered before, 28.3% after**, and the family column down the left **584 px → 264 px**, or **102 px** with the new
+**Hide names** folded. Three of six family rows used to be hidden behind the walk-through card; all six are in sight now.
+
+- **A person's work is drawn only while they are the family's main person**, and it stands across the **bottom middle** of
+  the screen — 48 px icons 10 px apart, one line where they fit, wrapping upward where they do not, with **nothing drawn
+  behind them**, because a panel across the bottom would cover exactly the ground this was meant to give back. Every row
+  still holds its own icon group in the page, so a row's icons are still that person's to the page and to a screen reader;
+  the stylesheet draws only `.panel-row[data-focused=true] .panel-icons`. **Nothing about which orders a person may be
+  given moved**: that is still `world.household.mainId` and `applyAction`'s gate. The star moves the bar.
+- **Hide names** folds the panel to a column of faces and leaves the bar alone. This is the `ceiling:` §7 wrote on
+  2026-09-16, paid on the first day the covered ground mattered.
+- **The guided start is the world's.** `public/lesson.js` reads `world.lesson` — `step`, `index`/`of`, `title`, `says`,
+  `did`, `allow` — and **decides nothing**: no memory, no timer, no Next, so the one thing a page must never do (tell a
+  student they have finished something the world has not seen) it cannot do. A strip over the top middle says the step; on
+  the bar every icon `allow` does not name is dimmed and says *"Not this yet. …"* with the step's own sentence instead of
+  a refusal, and the one it does name gets a ring and a caret that bobs over a button which never moves. An **empty**
+  `allow` shuts everything (the step where the only thing to do is watch the wagon come in); a **missing** `allow` shuts
+  nothing. The older skippable walk-through is not offered while a lesson stands.
+- **Proof.** `tests/lesson-screen.test.mjs` (8 tests), `scripts/lesson-injections.mjs` — **17 regressions injected, 17
+  caught** (`docs/evidence/lesson-injections.json`); `npm run test:lesson` (`scripts/lesson-browser-proof.mjs`, 11 checks
+  at 1366×768, four screenshots) and `npm run measure:screen`. Suite **832, 0 fail**; `check-doc-links` 730.
+- **`world.lesson` is stubbed** (`scripts/support/lesson-stub.mjs`, on the model of the weather stub) because
+  `projectWorld` does not carry it yet — that side was being built in parallel the same day. What is proved is that the
+  page reads the contract and adds nothing to it. `server/app.mjs` serves `/lesson.js`; no `saveVersion` moved and no
+  field was invented.
+- **Ten browser proofs were changed, not because they were wrong but because the interaction is:** a proof that *presses*
+  somebody's icon now chooses them first, as a student does (`scripts/support/main-person.mjs`, `asMain`); one that only
+  *reads* an icon's words does not, because choosing somebody starts the camera watching them, and a proof of motion would
+  then be measuring the wrong thing. **Rerun and green on this build:** `test:family-panel`, `test:family-commands`,
+  `test:auto`, `test:hunt`, `test:shops`, `test:farm`, and the new `test:lesson`. `test:family-commands` (23 checks) and
+  `test:farm` each wanted a second run: the first hit a real-time flake of their own, a town errand that never stopped to
+  ask inside four minutes and a kept-ground audit that went stale while another agent's proof had the CPU. **`test:travel`, `test:camp` and
+  `test:furniture` fail - and fail identically on `68c4d56` with `public/` and `server/app.mjs` restored, so they were
+  already broken before this work**: travel never samples the wagon as drawn, camp's seed deals no father at home, and
+  furniture never walks `meetFamily`, so the title curtain swallows its first press. Not fixed here. `test:whole-game`,
+  `test:trade-animation` and `test:winter` carry the same one-line patch and were **not** rerun.
+- `stand-in:` the ring, the caret and the lesson's pips are CSS. `docs/ART_REQUESTS.md`, request 2026-09-21 — the guided
+  start's marks.
+
 **The guided beginning, the world's half, 2026-09-21:** A real class played this on Chromebooks today. It ran, and the
 students **could not work out how to farm, or build a house, or do anything else.** The owner's answer is a tutorial that
 is "an integrated forced part of the game... one task at a time, guided by the ui and unavoidable". Built:

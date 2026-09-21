@@ -1,0 +1,517 @@
+{
+  "record": "screen-measure",
+  "label": "after",
+  "date": "2026-09-21",
+  "screen": {
+    "width": 1366,
+    "height": 768
+  },
+  "browser": "152.0.7977.83",
+  "scenes": {
+    "lobby": {
+      "covered": 296525,
+      "share": 0.2826502638482186,
+      "boxes": [
+        {
+          "selector": "#session",
+          "x": 12,
+          "y": 12,
+          "w": 252,
+          "h": 38
+        },
+        {
+          "selector": "#world",
+          "x": 12,
+          "y": 56,
+          "w": 198,
+          "h": 31
+        },
+        {
+          "selector": "#food",
+          "x": 12,
+          "y": 93,
+          "w": 78,
+          "h": 31
+        },
+        {
+          "selector": "#supplies",
+          "x": 12,
+          "y": 130,
+          "w": 248,
+          "h": 31
+        },
+        {
+          "selector": "#wagon-open",
+          "x": 12,
+          "y": 167,
+          "w": 189,
+          "h": 34
+        },
+        {
+          "selector": "#house-open",
+          "x": 12,
+          "y": 207,
+          "w": 117,
+          "h": 34
+        },
+        {
+          "selector": ".panel-row .panel-portrait",
+          "x": 12,
+          "y": 273,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-portrait",
+          "x": 12,
+          "y": 326,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-portrait",
+          "x": 12,
+          "y": 379,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-portrait",
+          "x": 12,
+          "y": 432,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-portrait",
+          "x": 12,
+          "y": 485,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-portrait",
+          "x": 12,
+          "y": 538,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-body",
+          "x": 57,
+          "y": 273,
+          "w": 255,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-body",
+          "x": 57,
+          "y": 326,
+          "w": 255,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-body",
+          "x": 57,
+          "y": 379,
+          "w": 254,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-body",
+          "x": 57,
+          "y": 432,
+          "w": 254,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-body",
+          "x": 57,
+          "y": 485,
+          "w": 221,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-body",
+          "x": 57,
+          "y": 538,
+          "w": 255,
+          "h": 48
+        },
+        {
+          "selector": ".panel-icons",
+          "x": 282,
+          "y": 646,
+          "w": 802,
+          "h": 48
+        },
+        {
+          "selector": "#family-collapse",
+          "x": 12,
+          "y": 249,
+          "w": 83,
+          "h": 20
+        },
+        {
+          "selector": "#tutorial",
+          "x": 12,
+          "y": 428,
+          "w": 368,
+          "h": 200
+        },
+        {
+          "selector": "#selection",
+          "x": 899,
+          "y": 323,
+          "w": 260,
+          "h": 315
+        },
+        {
+          "selector": "#map-tools",
+          "x": 909,
+          "y": 710,
+          "w": 443,
+          "h": 44
+        }
+      ],
+      "leftColumnWidth": 380
+    },
+    "chosen": {
+      "covered": 302421,
+      "share": 0.28827038341874084,
+      "boxes": [
+        {
+          "selector": "#session",
+          "x": 12,
+          "y": 12,
+          "w": 252,
+          "h": 38
+        },
+        {
+          "selector": "#world",
+          "x": 12,
+          "y": 56,
+          "w": 198,
+          "h": 31
+        },
+        {
+          "selector": "#food",
+          "x": 12,
+          "y": 93,
+          "w": 78,
+          "h": 31
+        },
+        {
+          "selector": "#supplies",
+          "x": 12,
+          "y": 130,
+          "w": 248,
+          "h": 31
+        },
+        {
+          "selector": "#wagon-open",
+          "x": 12,
+          "y": 167,
+          "w": 189,
+          "h": 34
+        },
+        {
+          "selector": "#house-open",
+          "x": 12,
+          "y": 207,
+          "w": 117,
+          "h": 34
+        },
+        {
+          "selector": ".panel-row .panel-portrait",
+          "x": 12,
+          "y": 273,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-portrait",
+          "x": 12,
+          "y": 326,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-portrait",
+          "x": 12,
+          "y": 379,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-portrait",
+          "x": 12,
+          "y": 432,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-portrait",
+          "x": 12,
+          "y": 485,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-portrait",
+          "x": 12,
+          "y": 538,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-body",
+          "x": 57,
+          "y": 273,
+          "w": 255,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-body",
+          "x": 57,
+          "y": 326,
+          "w": 255,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-body",
+          "x": 57,
+          "y": 379,
+          "w": 254,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-body",
+          "x": 57,
+          "y": 432,
+          "w": 254,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-body",
+          "x": 57,
+          "y": 485,
+          "w": 221,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-body",
+          "x": 57,
+          "y": 538,
+          "w": 255,
+          "h": 48
+        },
+        {
+          "selector": ".panel-icons",
+          "x": 282,
+          "y": 646,
+          "w": 802,
+          "h": 48
+        },
+        {
+          "selector": "#family-collapse",
+          "x": 12,
+          "y": 249,
+          "w": 83,
+          "h": 20
+        },
+        {
+          "selector": "#tutorial",
+          "x": 12,
+          "y": 428,
+          "w": 368,
+          "h": 200
+        },
+        {
+          "selector": "#selection",
+          "x": 709,
+          "y": 192,
+          "w": 260,
+          "h": 315
+        },
+        {
+          "selector": "#map-tools",
+          "x": 775,
+          "y": 710,
+          "w": 577,
+          "h": 44
+        }
+      ],
+      "leftColumnWidth": 380
+    },
+    "lesson": {
+      "covered": 334359,
+      "share": 0.31871396870424595,
+      "boxes": [
+        {
+          "selector": "#session",
+          "x": 12,
+          "y": 12,
+          "w": 252,
+          "h": 38
+        },
+        {
+          "selector": "#world",
+          "x": 12,
+          "y": 56,
+          "w": 198,
+          "h": 31
+        },
+        {
+          "selector": "#food",
+          "x": 12,
+          "y": 93,
+          "w": 78,
+          "h": 31
+        },
+        {
+          "selector": "#supplies",
+          "x": 12,
+          "y": 130,
+          "w": 248,
+          "h": 31
+        },
+        {
+          "selector": "#wagon-open",
+          "x": 12,
+          "y": 167,
+          "w": 189,
+          "h": 34
+        },
+        {
+          "selector": "#house-open",
+          "x": 12,
+          "y": 207,
+          "w": 117,
+          "h": 34
+        },
+        {
+          "selector": ".panel-row .panel-portrait",
+          "x": 12,
+          "y": 273,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-portrait",
+          "x": 12,
+          "y": 326,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-portrait",
+          "x": 12,
+          "y": 379,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-portrait",
+          "x": 12,
+          "y": 432,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-portrait",
+          "x": 12,
+          "y": 485,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-portrait",
+          "x": 12,
+          "y": 538,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-body",
+          "x": 57,
+          "y": 273,
+          "w": 255,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-body",
+          "x": 57,
+          "y": 326,
+          "w": 255,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-body",
+          "x": 57,
+          "y": 379,
+          "w": 254,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-body",
+          "x": 57,
+          "y": 432,
+          "w": 254,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-body",
+          "x": 57,
+          "y": 485,
+          "w": 221,
+          "h": 48
+        },
+        {
+          "selector": ".panel-row .panel-body",
+          "x": 57,
+          "y": 538,
+          "w": 255,
+          "h": 48
+        },
+        {
+          "selector": ".panel-icons",
+          "x": 282,
+          "y": 646,
+          "w": 802,
+          "h": 48
+        },
+        {
+          "selector": "#family-collapse",
+          "x": 12,
+          "y": 249,
+          "w": 83,
+          "h": 20
+        },
+        {
+          "selector": "#lesson",
+          "x": 411,
+          "y": 10,
+          "w": 544,
+          "h": 115
+        },
+        {
+          "selector": "#selection",
+          "x": 709,
+          "y": 192,
+          "w": 260,
+          "h": 315
+        },
+        {
+          "selector": "#map-tools",
+          "x": 775,
+          "y": 710,
+          "w": 577,
+          "h": 44
+        }
+      ],
+      "leftColumnWidth": 264
+    }
+  },
+  "pageErrors": []
+}

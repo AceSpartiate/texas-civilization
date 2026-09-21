@@ -17,6 +17,9 @@ import { createSettledWorld, keepFoundingFamilies } from '../tests/support/settl
 // (docs/SETTLING_IN.md step 2). This proves the work, not the arrival - tests/arrival.test.mjs does that.
 import { visualVariant, MARKER_BELOW } from '../public/motion.js';
 import { meetFamily } from './support/meet-family.mjs';
+// docs/FAMILY_PANEL.md §12 (owner, 2026-09-21): a person's work is on the screen only while they are the family's main
+// person, so this proof chooses them first, as a student does.
+import { asMain } from './support/main-person.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -58,6 +61,7 @@ try {
   // Before anybody sets out: a hand that has never had the knack can be taught one, and
   // the price of the lesson is on the button.
   // His work is on his row of the family panel (docs/FAMILY_PANEL.md); the price is in the icon's popup.
+  await asMain(page, 'hh-1-mateo');
   const mateo = key => page.locator(`.panel-row[data-entity-id="hh-1-mateo"] .panel-icon[data-key="${key}"]`);
   const mark = `${await mateo('practise-shooting').getAttribute('data-name')}: ${await mateo('practise-shooting').getAttribute('data-note')}`;
   assert.match(mark, /2 powder/, `the mark does not state its price: "${mark}"`);

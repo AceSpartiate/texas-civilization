@@ -1,0 +1,131 @@
+{
+  "record": "lesson-injections",
+  "date": "2026-09-21",
+  "files": [
+    "tests/lesson-screen.test.mjs"
+  ],
+  "injections": [
+    {
+      "name": "the page remembers the last step it saw, and so can decide a step is finished",
+      "file": "public/lesson.js",
+      "failed": [
+        "nothing in the lesson module can say a step is finished"
+      ]
+    },
+    {
+      "name": "a lesson that says it is done is drawn anyway, so the strip outlives the lesson",
+      "file": "public/lesson.js",
+      "failed": [
+        "a lesson is drawn only while the world says there is one, and never on the Host"
+      ]
+    },
+    {
+      "name": "the teacher is led by the hand through a lesson meant for a student",
+      "file": "public/lesson.js",
+      "failed": [
+        "a lesson is drawn only while the world says there is one, and never on the Host"
+      ]
+    },
+    {
+      "name": "an empty allow is taken for \"no opinion\", so the waiting step lets a student walk into a refusal",
+      "file": "public/lesson.js",
+      "failed": [
+        "an empty allow shuts everything; a missing allow shuts nothing"
+      ]
+    },
+    {
+      "name": "a server that sends no allow at all shuts the student out of everything",
+      "file": "public/lesson.js",
+      "failed": [
+        "an empty allow shuts everything; a missing allow shuts nothing"
+      ]
+    },
+    {
+      "name": "a chore is written as an order, so nothing the contract spells is matched",
+      "file": "public/lesson.js",
+      "failed": [
+        "a step allows exactly what it names, in any of the spellings a server would write"
+      ]
+    },
+    {
+      "name": "an allowed id is matched as a piece of a word, so hunt-land opens hunt-timber too",
+      "file": "public/lesson.js",
+      "failed": [
+        "a step allows exactly what it names, in any of the spellings a server would write"
+      ]
+    },
+    {
+      "name": "the step shuts nothing at all, and every icon on the bar stays open",
+      "file": "public/lesson.js",
+      "failed": [
+        "an empty allow shuts everything; a missing allow shuts nothing",
+        "a step allows exactly what it names, in any of the spellings a server would write",
+        "the icon pointed at is one the server is already offering, and there is at most one",
+        "against the real simulation: a step shuts the family’s whole bar but the work it asks for"
+      ]
+    },
+    {
+      "name": "the ring is put on an icon the server has already refused",
+      "file": "public/lesson.js",
+      "failed": [
+        "the icon pointed at is one the server is already offering, and there is at most one"
+      ]
+    },
+    {
+      "name": "the ring is put on the first icon of the bar, whatever the step asked for",
+      "file": "public/lesson.js",
+      "failed": [
+        "the icon pointed at is one the server is already offering, and there is at most one"
+      ]
+    },
+    {
+      "name": "a step with nothing open on this row still rings something",
+      "file": "public/lesson.js",
+      "failed": [
+        "the icon pointed at is one the server is already offering, and there is at most one"
+      ]
+    },
+    {
+      "name": "the pips are filled to where the student is going rather than where they are",
+      "file": "public/lesson.js",
+      "failed": [
+        "the words are the server’s, and the page counts nothing"
+      ]
+    },
+    {
+      "name": "the count runs past the end of the lesson, so a student reads \"step 14 of 10\"",
+      "file": "public/lesson.js",
+      "failed": [
+        "the words are the server’s, and the page counts nothing"
+      ]
+    },
+    {
+      "name": "a step with no numbers says \"step null of null\" instead of what to do",
+      "file": "public/lesson.js",
+      "failed": [
+        "the words are the server’s, and the page counts nothing"
+      ]
+    },
+    {
+      "name": "a step where nothing has just happened writes the word \"null\" on the screen",
+      "file": "public/lesson.js",
+      "failed": [
+        "the words are the server’s, and the page counts nothing"
+      ]
+    },
+    {
+      "name": "a shut icon scolds instead of saying the one thing to do",
+      "file": "public/lesson.js",
+      "failed": [
+        "a shut icon says the one thing to do instead, and never scolds"
+      ]
+    },
+    {
+      "name": "what the strip reads out leaves out the one sentence of what to do",
+      "file": "public/lesson.js",
+      "failed": [
+        "the words are the server’s, and the page counts nothing"
+      ]
+    }
+  ]
+}

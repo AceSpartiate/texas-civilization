@@ -6,6 +6,9 @@
 // two pages, and the proof's own recorders. Everything pressed is pressed as a student or the Host presses it.
 import assert from 'node:assert/strict';
 import { projectWorld } from '../../sim/world.mjs';
+// docs/FAMILY_PANEL.md §12 (owner, 2026-09-21): a person's work is on the screen only while they are the family's main
+// person, so this proof chooses them first, as a student does.
+import { asMain } from './main-person.mjs';
 import { pickSite } from '../../sim/neighbours.mjs';
 
 /**
@@ -66,6 +69,7 @@ export async function playWholeGame(ctx) {
   for (const id of household().members) {
     const key = await student.evaluate(id => [...document.querySelectorAll(`.panel-row[data-entity-id="${id}"] .panel-icon:not([aria-disabled="true"])[data-action="chore"]`)].map(b => b.dataset.key).find(k => !['hunt-land', 'fell-trees', 'survey-plot'].includes(k)) || null, id);
     if (!key) continue;
+    await asMain(student, id);
     await student.locator(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="${key}"]`).click();
     const took = await student.waitForFunction(({ id, key }) => document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="${key}"]`)?.dataset.active === 'true' || (document.querySelector('#error')?.textContent || '').trim() || null, { id, key }, { timeout: 8000 }).then(h => h.jsonValue()).catch(() => 'no answer');
     given.push({ id, key, took });
@@ -125,6 +129,7 @@ export async function playWholeGame(ctx) {
   let winterOrder = null;
   await untilLive(ctx, async () => world().status === 'ended' || (winterOrder = await student.evaluate(keys => { for (const key of keys) { const button = document.querySelector(`.panel-icon[data-key="${key}"]:not([aria-disabled="true"])`); if (button) return { key, id: button.closest('.panel-row').dataset.entityId }; } return null; }, winterKeys)), { label: 'a winter order to be offered' });
   if (winterOrder) {
+    await asMain(student, winterOrder.id);
     await student.locator(`.panel-row[data-entity-id="${winterOrder.id}"] .panel-icon[data-key="${winterOrder.key}"]`).click();
     await student.waitForFunction(({ id, key }) => document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="${key}"]`)?.dataset.active === 'true', winterOrder, { timeout: 10000 });
     measured.winter = { ...winterOrder, name: world().entities[winterOrder.id].name };
