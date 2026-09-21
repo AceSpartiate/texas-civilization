@@ -16,6 +16,7 @@ import { projectWorld } from '../sim/world.mjs';
 import { choreCatalogue } from '../sim/chores.mjs';
 import { panelActions } from '../public/family-panel.js';
 import { actionIdOf, allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '../public/lesson.js';
+import { ALWAYS, STEPS, actionId } from '../sim/lesson.mjs';
 
 const catalogue = new Map(choreCatalogue().map(chore => [chore.id, chore]));
 const lesson = (extra = {}) => ({ step: 'order', index: 2, of: 10, title: 'Put somebody to work', says: 'Press the axe.', did: null, allow: ['chore:build-house'], done: false, ...extra });
@@ -44,16 +45,41 @@ test('an empty allow shuts everything; a missing allow shuts nothing', () => {
   assert.equal(allowsIcon(null, { key: 'anything', kind: 'chore' }), true, 'a class with no lesson had its work shut');
 });
 
-test('a step allows exactly what it names, in any of the spellings a server would write', () => {
-  const step = lesson({ allow: ['chore:build-house', 'order:rest', 'travel-gonzales'] });
+test('an icon carries the id the server matches on, and the three journeys are one action', () => {
+  // `actionId` in sim/lesson.mjs is the authority: a chore is `chore:<id>`, everything else is the action's own name, and
+  // Travel to Gonzales, Return home and Go to a neighbour's homestead all send `travel`.
   assert.equal(actionIdOf({ key: 'build-house', kind: 'chore' }), 'chore:build-house');
-  assert.equal(actionIdOf({ key: 'rest', kind: 'order' }), 'order:rest');
+  assert.equal(actionIdOf({ key: 'rest', kind: 'order' }), 'rest');
+  assert.equal(actionIdOf({ key: 'work', kind: 'order' }), 'work');
+  assert.equal(actionIdOf({ key: 'stop-chore', kind: 'order' }), 'stop-chore');
+  for (const key of ['travel-gonzales', 'travel-home', 'visit']) assert.equal(actionIdOf({ key, kind: 'order' }), 'travel', `${key} is not sent as travel`);
+  assert.equal(actionIdOf({ key: 'visit', kind: 'order', visit: true }), 'travel');
+  assert.equal(actionIdOf({ key: 'travel-gonzales', kind: 'order', destination: 'gonzales' }), 'travel');
+  assert.equal(actionIdOf(null), '');
+});
+
+test('what the lesson always allows is never dimmed: the journeys, the yard and rest', () => {
+  // `ALWAYS` in sim/lesson.mjs is carried in every step's `allow`, and the page read `order:<key>`, which matches nothing
+  // the server sends - so every journey, Work about the place and Rest were dimmed on every step (found 2026-09-21).
+  const always = ['rename', 'set-main', 'work', 'rest', 'travel', 'stop-chore', 'answer-chore', 'flee'];
+  const step = lesson({ allow: [...always, 'chore:build-house'] });
+  for (const key of ['travel-gonzales', 'travel-home', 'visit']) {
+    assert.equal(allowsIcon(step, { key, kind: 'order' }), true, `${key} was dimmed although the lesson always allows travel`);
+  }
+  for (const key of ['work', 'rest', 'stop-chore']) assert.equal(allowsIcon(step, { key, kind: 'order' }), true, `${key} was dimmed`);
   assert.equal(allowsIcon(step, { key: 'build-house', kind: 'chore' }), true);
-  assert.equal(allowsIcon(step, { key: 'rest', kind: 'order' }), true, 'an order written the way the contract writes a chore');
-  assert.equal(allowsIcon(step, { key: 'travel-gonzales', kind: 'order' }), true, 'a bare id');
-  // And nothing else. A step that let one more thing through is a step that lets a student meet a refusal.
-  for (const key of ['plant-field', 'hunt-timber', 'dig-well', 'stop-chore', 'travel-home', 'work']) {
-    assert.equal(allowsIcon(step, { key, kind: key === 'plant-field' || key === 'hunt-timber' || key === 'dig-well' ? 'chore' : 'order' }), false, `${key} was let through`);
+  // And the work the step does not name is still shut.
+  for (const key of ['plant-field', 'hunt-timber', 'dig-well']) assert.equal(allowsIcon(step, { key, kind: 'chore' }), false, `${key} was let through`);
+});
+
+test('a step allows exactly what it names, in either spelling the server writes', () => {
+  // sim/lesson.mjs writes some of its own work bare - `['survey-plot']`, `['clear-plot', 'fence-plot']`, `['hunt-land',
+  // 'chore:hunt-timber']` - so both are read, or the page would dim the very work the step is asking for.
+  const step = lesson({ allow: ['chore:build-house', 'survey-plot'] });
+  assert.equal(allowsIcon(step, { key: 'build-house', kind: 'chore' }), true);
+  assert.equal(allowsIcon(step, { key: 'survey-plot', kind: 'chore' }), true, 'work the step names bare was dimmed');
+  for (const key of ['plant-field', 'hunt-timber', 'dig-well', 'clear-plot']) {
+    assert.equal(allowsIcon(step, { key, kind: 'chore' }), false, `${key} was let through`);
   }
   // A name that merely contains an allowed one is not that one.
   assert.equal(allowsIcon(lesson({ allow: ['chore:hunt-land'] }), { key: 'hunt', kind: 'chore' }), false);
@@ -110,6 +136,32 @@ test('nothing in the lesson module can say a step is finished', () => {
   const one = lesson();
   assert.deepEqual(lessonWords(one), lessonWords(one), 'the same step read twice gave two answers');
   assert.deepEqual(lessonWords(one), lessonWords({ ...one }), 'the words depend on which object the step arrived in');
+});
+
+test('the id an icon carries is the id the server matches on, for every icon the bar can hold', () => {
+  // The one way a student meets a refusal the screen did not show them is the screen and the gate spelling an action
+  // differently. `actionId` in sim/lesson.mjs is what `lessonRefusal` looks up; `actionIdOf` here is what the page dims
+  // by. This walks every shape `panelIcon` in public/app.js builds and holds the two to the same answer.
+  const sent = [
+    [{ key: 'plant-field', kind: 'chore' }, { action: 'chore', chore: 'plant-field' }],
+    [{ key: 'survey-plot', kind: 'chore', onMap: true }, { action: 'chore', chore: 'survey-plot' }],
+    [{ key: 'travel-gonzales', kind: 'order', destination: 'gonzales' }, { action: 'travel', destination: 'gonzales' }],
+    [{ key: 'travel-home', kind: 'order', destination: 'home' }, { action: 'travel', destination: 'home-1' }],
+    [{ key: 'visit', kind: 'order', visit: true }, { action: 'travel', destination: 'home-2' }],
+    [{ key: 'work', kind: 'order' }, { action: 'work' }],
+    [{ key: 'rest', kind: 'order' }, { action: 'rest' }],
+    [{ key: 'stop-chore', kind: 'order' }, { action: 'stop-chore' }],
+    [{ key: 'winter-recall', kind: 'order' }, { action: 'winter-recall' }],
+  ];
+  for (const [icon, input] of sent) assert.equal(actionIdOf(icon), actionId(input), `the page and the server spell ${icon.key} differently`);
+  // And everything the lesson always allows really is read as allowed on every one of its steps.
+  const everyStep = STEPS.map(step => ({ step: step.id, index: 1, of: STEPS.length, title: 'x', says: 'y', allow: [...ALWAYS, ...step.allow()] }));
+  for (const step of everyStep) {
+    for (const [icon] of sent.filter(([one]) => one.kind === 'order')) {
+      assert.equal(allowsIcon(step, icon), ALWAYS.includes(actionIdOf(icon)) || step.allow.includes(actionIdOf(icon)),
+        `${icon.key} is read wrongly on the ${step.step} step`);
+    }
+  }
 });
 
 test('against the real simulation: a step shuts the family’s whole bar but the work it asks for', () => {

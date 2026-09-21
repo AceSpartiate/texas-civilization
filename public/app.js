@@ -608,6 +608,40 @@ function caption(ctx, text, x, y) {
   ctx.strokeText(text, x, y);
   ctx.fillStyle = '#26382e'; ctx.fillText(text, x, y);
 }
+/**
+ * The names on the map, laid out so they do not pile on each other.
+ *
+ * A family standing together - the four of them round the wagon on their own land - drew four names in the same few
+ * pixels, and a Chromebook screenshot of it is a smear of text over the one thing the student was meant to be looking at
+ * (found 2026-09-21). Each name is placed where it asks to be; one that would land on a name already placed steps down a
+ * line at a time, and is left undrawn if it still has nowhere to sit. Nothing is lost by dropping it: the person is still
+ * there to press, still marked, and still named on the family panel. Earlier names win, which is the order the drawing
+ * already sorted people into - nearest the front first.
+ *
+ * Returns what was drawn and what was dropped, on the same contract as `__viewEntities`: read by proofs and by nothing in
+ * the application.
+ */
+const LABEL_STEPS = 3;
+function layOutCaptions(ctx, labels, placeFont) {
+  const placed = [];
+  const drawn = [], dropped = [];
+  for (const label of labels) {
+    ctx.font = label.font || placeFont;
+    const line = Math.max(11, Number.parseInt(ctx.font, 10) || 13);
+    const half = ctx.measureText(label.name).width / 2 + 3;
+    let box = null;
+    for (let step = 0; step <= LABEL_STEPS && !box; step++) {
+      const y = label.y + step * (line + 2);
+      const want = { left: label.x - half, right: label.x + half, top: y - line, bottom: y + 4, y };
+      if (!placed.some(one => want.left < one.right && one.left < want.right && want.top < one.bottom && one.top < want.bottom)) box = want;
+    }
+    if (!box) { dropped.push(label.name); continue; }
+    placed.push(box);
+    caption(ctx, label.name, label.x, box.y);
+    drawn.push({ name: label.name, x: Math.round(label.x), y: Math.round(box.y), steppedDown: Math.round(box.y - label.y) });
+  }
+  return { drawn, dropped };
+}
 function drawTaskMark(ctx, { x, y, size, glyph = '!', tone = '#c2582c' }) {
   const mark = Math.max(9, Math.min(26, size * .34));
   const top = y - mark * 1.1, bob = reducedMotion.matches ? 0 : Math.sin(animationTime / 260) * mark * .25;
@@ -2561,7 +2595,7 @@ export function drawWorld(world) {
   for (const item of standing) item.draw();
   drawTravelMarkers(ctx, markers, camera, canvas);
   const placeFont = `${Math.round(Math.max(11, Math.min(16, camera.scale * 1.1)))}px system-ui`;
-  for (const label of labels) { ctx.font = label.font || placeFont; caption(ctx, label.name, label.x, label.y); }
+  window.__labelsDrawn = layOutCaptions(ctx, labels, placeFont);
   for (const mark of pending) drawTaskMark(ctx, mark);
   // Who was marked as having somebody waiting on them, and why. Presentation evidence on
   // the same contract as `__viewEntities` and `__drawnAt`: read by proofs and by nothing
@@ -3842,8 +3876,40 @@ function renderSelection(world) {
   // Trading stays shut until the class is running, because the neighbour it is addressed
   // to may not have joined yet. An offer to an empty chair is not a trade.
   renderTrade(world, chosen, running);
+  renderCardFold(world, chosen);
   positionSelection(world, chosen);
 }
+/**
+ * The card folded while a step of the guided start is running (owner's coordinator, 2026-09-21: "during a lesson the step
+ * card is the one thing that must be readable").
+ *
+ * *Going by* and the list of neighbours are the card's two tallest blocks - three stamps, a paragraph and a dropdown,
+ * about 250 px of the right of a Chromebook screen. **Nothing is shut:** the server allows `travel` on every step of the
+ * lesson on purpose (`ALWAYS` in sim/lesson.mjs), so a page that put them out of reach would be stopping what the world
+ * permits. They are folded, with a press to open them, and they are simply open when no step is running.
+ */
+let cardUnfolded = null;
+function renderCardFold(world, chosen) {
+  const panel = $('#selection'), more = $('#selection-more');
+  if (!panel || !more) return;
+  const stepRunning = Boolean(lessonShowing(world));
+  const foldable = stepRunning && [$('#selection-travel'), $('#visit-row')].some(part => part && !part.hidden);
+  if (cardUnfolded && cardUnfolded !== chosen.id) cardUnfolded = null;
+  const folded = foldable && cardUnfolded !== chosen.id;
+  setData(panel, 'detail', folded ? 'folded' : 'open');
+  if (more.hidden !== !foldable) more.hidden = !foldable;
+  if (!foldable) return;
+  more.setAttribute('aria-expanded', String(!folded));
+  const words = folded ? 'Going by, and the neighbours' : 'Put that away';
+  if (more.textContent !== words) { more.textContent = words; more.setAttribute('aria-label', words); }
+}
+$('#selection-more')?.addEventListener('click', () => {
+  const world = window.__snapshot?.world;
+  const chosen = world && selectedEntity(world);
+  if (!chosen) return;
+  cardUnfolded = cardUnfolded === chosen.id ? null : chosen.id;
+  renderSelection(world);
+});
 /**
  * The boxes the card is placed among, measured once and again only when something about them changes size - never on every
  * frame. Placing the card read five boxes and wrote its position on every animation frame, which forced the browser to lay
@@ -3863,7 +3929,11 @@ function placementBoxes() {
     family: family && !family.hidden ? family.getBoundingClientRect() : null,
     // The ability bar (owner, 2026-09-21) stands across the bottom middle; the card beside a person is kept off it, as it
     // is kept off the map's own buttons.
-    controls: ['#journal-toggle', '#map-nav', '.panel-row[data-focused=true] .panel-icons', '#lesson'].map(selector => document.querySelector(selector)?.getBoundingClientRect()).filter(box => box?.height),
+    controls: ['#journal-toggle', '#map-nav', '.panel-row[data-focused=true] .panel-icons'].map(selector => document.querySelector(selector)?.getBoundingClientRect()).filter(box => box?.height),
+    // The guided start's strip is **overhead**, not underfoot: it stands across the top middle, so the card is kept
+    // *below* it rather than above it. Counting it among the controls pushed the card up to the top of the screen and
+    // straight under the strip, which is the one thing that has to stay readable while a step is running (2026-09-21).
+    overhead: ['#lesson'].map(selector => document.querySelector(selector)?.getBoundingClientRect()).filter(box => box?.height),
   };
   if (!placement.observer && typeof ResizeObserver === 'function') {
     placement.observer = new ResizeObserver(() => { placement.boxes = null; });
@@ -3878,7 +3948,7 @@ function positionSelection(world, chosen = selectedEntity(world)) {
   // Beside the person on a wide screen; docked on a phone, where a floating card would
   // simply cover the family it is describing.
   const canvas = $('#world-map'), spot = drawnAt.get(chosen.id);
-  const { rect, panelWidth, panelHeight, family: familyBox, controls } = placementBoxes();
+  const { rect, panelWidth, panelHeight, family: familyBox, controls, overhead } = placementBoxes();
   const docked = rect.width < 760 || !spot;
   if (docked !== placement.docked) {
     placement.docked = docked; placement.left = null; placement.top = null;
@@ -3894,7 +3964,13 @@ function positionSelection(world, chosen = selectedEntity(world)) {
   // Never down over the row of buttons along the bottom: clamped to the canvas alone, a person standing low on a wide
   // screen put this card over Family, Follow and Land, and the journal could not be opened (found 2026-09-14).
   const floor = Math.min(rect.height, ...controls.map(box => box.top - rect.top));
-  const top = `${Math.round(Math.max(8, Math.min(floor - panelHeight - 8, spot.y * scaleY - panelHeight / 2)))}px`;
+  // And never up under the guided start's strip: only the part of it the card would actually stand in front of counts, so
+  // a card out at the right edge is not pushed down for a strip that ends in the middle.
+  const at = Number.parseInt(left, 10);
+  const roof = Math.max(8, ...overhead
+    .filter(box => at < box.right - rect.left && box.left - rect.left < at + panelWidth)
+    .map(box => box.bottom - rect.top + 8));
+  const top = `${Math.round(Math.max(roof, Math.min(floor - panelHeight - 8, spot.y * scaleY - panelHeight / 2)))}px`;
   // Written only when it changes: a style written every frame is a layout every frame.
   if (left !== placement.left) { panel.style.left = left; placement.left = left; }
   if (top !== placement.top) { panel.style.top = top; placement.top = top; }
