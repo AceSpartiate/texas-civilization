@@ -1,5 +1,8 @@
 # Claude handoff — Astra foundation
 
+**Released as [v2026.09.21.5](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.21.5)** on
+2026-09-21, verified on the clean tree at `b2e184c` (869 passed).
+
 **What was drawn over what, 2026-09-21:** [FAMILY_PANEL.md §12.11](docs/FAMILY_PANEL.md). Nothing had ever asked whether
 two pieces of this interface land on the same pixels. `npm run study:overlap` asks the browser — for every control a
 student can press it samples that control's own points and asks `elementFromPoint` what is on top — at 1366×768,
@@ -603,7 +606,8 @@ coastal prairie at Matagorda and Harrisburg and the barrier islands. The coast o
 34c is coastal prairie now, and in 34g, 34h or 34i saline prairie; 33b and 34b keep theirs, which the research contemplated
 and said so. Measured by decoding the grid before and after: **127.0 square miles moved** - 106.6 to coastal prairie, 18.9 to
 saline prairie, 1.5 of chaparral - and nothing else in it. `colonies-woods.*`, `colonies-land.*` and the country outside the
-box were rebuilt (78 s for the outside; the raw data is at `C:UserszachwTexasDataaw`), so the ring of the box's own
+box were rebuilt (78 s for the outside; the raw data is at `C:UserszachwTexasData
+aw`), so the ring of the box's own
 classes at the outside's edge still matches, and their hashes in `tests/map-outside.test.mjs` carry the reason. No save
 version moved. `tests/biomes.test.mjs` holds the rule for each ecoregion and one of the cells it moved. `npm test` 772. The
 animals themselves - whether an antelope belongs anywhere near the colonies at all - are a separate session's. Same computer
