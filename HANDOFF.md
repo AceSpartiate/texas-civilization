@@ -3,6 +3,44 @@
 **Released as [v2026.09.21.5](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.21.5)** on
 2026-09-21, verified on the clean tree at `b2e184c` (869 passed).
 
+**The four panels the overlap study could not reach, 2026-09-21:** [FAMILY_PANEL.md §12.12](docs/FAMILY_PANEL.md).
+§12.11 asked the browser what is drawn over what and **left four panels out** — `#site-choose`, `#survey-choose`,
+`#encounter`, `#call-menu` — because an earlier turn of that script simply unhid them, and an empty panel has almost no
+height, so it covered nothing and the run read as clean. Each is reached now in a real state with the server's own
+content in it, on two classes on the real land played in process. `npm run study:overlap` reports, `npm run test:panels`
+gates, both from one instrument (`scripts/support/panel-states.mjs`), at 1366×768, 1024×768 and 390×844.
+
+- **All four were drawn over the guided start's own strip**, which §12.11 had already ruled against in words: *the strip
+  stays above the dim, because it is the instruction*. The call's menu covered "Show placement controls" **outright** at
+  1024 (264×94px of the strip) and two of its five points at 1366; the meeting took the middle out of it at every size
+  and covered **all** of `#lesson-help` and `#lesson-action` on a phone; and on a phone `#site-choose` was drawn
+  **entirely behind the strip**, while the strip covered `#survey-choose`'s own "Not now" — a panel whose one button a
+  student could not press. All four take their top, or their height, from `--lesson-room` now: **0px shared, all three
+  sizes.** The meeting costs about 62px of conversation on a Chromebook (520×538 → 520×476) in a panel that scrolled
+  already.
+- **Two things are the owner's to decide and were deliberately not chosen.** (1) The **meeting and the ability bar**
+  want the same pixels: 520×48px at 1366 with **14** controls wholly covered, thirteen of them the meeting's own doing
+  (eight icons of the main person's work and the five controls of the docked card under it); 520×42px and **22** at
+  1024, where it reaches the family's column too. It cannot be nudged — the column (316px) + a 520px meeting + the 544px
+  strip is 1380px of a 1366px screen. The ways out are a shorter meeting that scrolls sooner, a bar that hides while a
+  rider talks, or the §12.11 answer (cover, dim, say so). (2) The **two placement panels and the family's column** want
+  the same pixels: 304px of width and their whole height at 1366 and at 1024. `#site-choose` covers **ten** controls of
+  the column outright — "Hide names" and the father's and mother's whole rows — and `#survey-choose` covers "Plan a
+  house". These two are the pair §12.11 excluded from the dim on purpose, because dimming the map would hide the very
+  thing the student has been told to tap; moving them right fits at 1366 and not at 1024.
+- **Recorded, phone only:** the ability bar's 30px bottom padding takes **three of five points, centre included**, of
+  every map button (`Journal`, `Land`, `Gonzales`, `Béxar`, `+`, `−`). Found because a `force` click on "Land" inside
+  this study's own instrument was swallowed by the bar and the camera never moved.
+- **Evidence:** `docs/evidence/panels-browser.json` (**9 checks**, three at each of three sizes),
+  `docs/evidence/panels-overlap-injections.json` (**5 of 5 caught, each by the check written for it** — three faults put
+  back one at a time, plus two that make a panel *vacuous*: never unhidden, and drawn with its one button never shown),
+  and the `fourPanels` section of `docs/evidence/screen-overlap.json`, `-1024.json`, `-390.json`. Screenshots
+  `test-results/panels-*.png` were looked at by eye before any number was believed. `npm test` **879**, unchanged.
+- **Not proved:** same computer only, headless Chrome, no LAN, no Chromebook, no touch screen, no classroom. One family
+  and one seed per panel; `ceiling:` the cabin is raised and the guided start's step set in process for the stake, the
+  way `test:family-commands` hands over a housed class. The two contested pairs are measured, not fixed — what is clean
+  is the guided start, not the screen.
+
 **The family-creation wizard as a thing on a screen, 2026-09-21:** [FAMILY_PANEL.md §13](docs/FAMILY_PANEL.md). §12.11
 asked what was drawn over what on the screen a student plays the *game* on, and stopped at the curtain. The same question
 of the five steps in front of it — the title, the die, the last name, everybody's first names, each parent's looks — and
@@ -62,10 +100,9 @@ guessed among several open chores by row order — the exact fault its ranking w
   working copy, so every injection missed — and three of its injections were still written against the `pointedKey`
   Astra replaced. Both repaired; it is **23 of 23** now. A flaky check in the lesson proof (the summary on focus, about
   one run in three) was focusing and reading in two calls with a redraw able to land between them; it reads in one now.
-- **Left alone on purpose:** on a **phone only**, the docked person card covers a portrait's star. And the study does
-  not yet reach `#site-choose`, `#survey-choose`, `#encounter` or `#call-menu` in a real state — unhiding an empty panel
-  gives it no height, so it covered nothing and read as clean, which is worse than not asking. Those four are the next
-  thing to point this study at.
+- **Left alone on purpose:** on a **phone only**, the docked person card covers a portrait's star. The four panels this
+  study could not reach — `#site-choose`, `#survey-choose`, `#encounter`, `#call-menu` — were reached and measured later
+  the same day; see §12.12 and the section above.
 
 **The family-creation wizard's words, 2026-09-21:** the last item on the tutorial pass's own next-work list
 ([TUTORIAL_USABILITY_HANDOFF.md](docs/TUTORIAL_USABILITY_HANDOFF.md)), done and written up as a dated amendment in
@@ -1565,7 +1602,16 @@ npm.cmd run test:creation
 npm.cmd run test:looks
 npm.cmd run study:creation
 node scripts/creation-overlap-injections.mjs
+npm.cmd run test:panels
+npm.cmd run study:overlap
+node scripts/panels-overlap-injections.mjs
 ```
+
+`test:panels` and `study:overlap` are the four panels the overlap study could not reach (FAMILY_PANEL.md §12.12):
+`#site-choose`, `#survey-choose`, `#encounter` and `#call-menu`, each reached in a real state with the server's own
+content in it. `study:overlap` takes a width and a height (`node scripts/screen-overlap-study.mjs 1024 768`) and defaults
+to the Chromebook; `test:panels` walks all three sizes itself and takes about five minutes.
+`scripts/panels-overlap-injections.mjs` runs that proof six more times and takes about half an hour.
 
 `test:creation` and `study:creation` are the family-creation wizard as a thing on a screen (FAMILY_PANEL.md §13);
 `study:creation` takes a width and a height (`node scripts/creation-overlap-study.mjs 390 844`) and defaults to the
