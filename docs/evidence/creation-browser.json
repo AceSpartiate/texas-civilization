@@ -1,0 +1,69 @@
+{
+  "record": "The family-creation wizard walked in a browser at the classroom screen (2026-09-21)",
+  "date": "2026-09-21",
+  "verdict": "PASS",
+  "viewport": {
+    "width": 1366,
+    "height": 768
+  },
+  "note": "Same computer, headless Chrome, one student joined to a real class. Every check runs with the panel it measures visible: a hidden panel has an empty box and would pass against broken code. Play Solo is NOT covered here - a Solo game runs from its first tick, so `wagonProjection` sends nothing and a Solo player never sees the wagon panel or the stock choice at all. No LAN or district claim.",
+  "checks": [
+    "the title card says what comes next and fits the Chromebook: \"Your family You are one family among the settlers of Texas in the autumn of 1835. First you make them, in four steps: ro...\"",
+    "the die panel numbers itself and says the roll is taken once, without saying what it means: \"STEP 1 OF 4 Roll for your family The die decides how many are in your family and who they are. It is thrown once. There is no second roll, so the family it gives you is the family you play. 20 Roll the die\"",
+    "the last name box says it is set once and labels the family it names (Anselmo, Charity, Emeterio)",
+    "the names card says nothing is required, every box holds the dealt name, and an emptied box comes back as \"Anselmo\"",
+    "the looks pop-up counts the parents (Step 4 of 4. Parent 1 of 2. Done brings up the next parent.) and says appearance decides nothing, is chosen once, and skips the children",
+    "the looks counter keeps its total over every parent (Step 4 of 4. Parent 1 of 2. Done brings up the next parent. | Step 4 of 4. Parent 2 of 2. Done finishes your family.)",
+    "the wagon panel says the land, the herd and the deadline, its load buttons say what pressing does, and Done packing is reachable at 1366x768",
+    "reloaded, the world is there with nothing asked again; a new tab sees the title screen and then the world, and no step is asked twice",
+    "no page errors"
+  ],
+  "observed": {
+    "titleCard": "Your family You are one family among the settlers of Texas in the autumn of 1835. First you make them, in four steps: roll the die for who they are, give the family a last name, name each of them, and choose how the parents look. From the moment the wagon starts in, the game walks you through the farm one task at a time - the house, the field, the crop, the town, the hunt and the well - and will not let you jump ahead. The country is yours to work once that is done. Begin",
+    "diePanel": "STEP 1 OF 4 Roll for your family The die decides how many are in your family and who they are. It is thrown once. There is no second roll, so the family it gives you is the family you play. 20 Roll the die",
+    "surnamePanel": "STEP 2 OF 4 Name your family Family Last Name Everybody in the family carries it. It is chosen once and cannot be changed afterwards; first names can be changed at any time, on the family panel. YOUR FAMILY: Anselmo, Charity, Emeterio Name the family",
+    "surnamePeople": "Anselmo, Charity, Emeterio",
+    "surnamePreview": "Anselmo Halloran, Charity Halloran, Emeterio Halloran",
+    "namesHint": "Step 3 of 4. They are already named: change any you like, or press Continue and keep them. You can rename anybody later on the family panel.",
+    "nameBoxes": [
+      "Anselmo",
+      "Charity",
+      "Emeterio"
+    ],
+    "emptiedBoxBecame": "Anselmo",
+    "parents": 2,
+    "looksStep": "Step 4 of 4. Parent 1 of 2. Done brings up the next parent.",
+    "looksNote": "Nothing about a person depends on how they look - it changes nothing in the game. Chosen once, and kept. The children are not asked for: they take after their parents.",
+    "looksStep1": "Step 4 of 4. Parent 1 of 2. Done brings up the next parent.",
+    "looksStep2": "Step 4 of 4. Parent 2 of 2. Done finishes your family.",
+    "wagonText": "What you load is what the family arrives with. Tools, seed and powder can be bought in a town later, if there is coin; the things for the house cannot be bought anywhere.",
+    "wagonWhen": "You can change all of this until your teacher presses Start. After that the wagon is packed.",
+    "stockNo": "No stock. The family holds a labor of land, 177 acres, and brings no animals.",
+    "stockYes": "Drive cattle and hogs in. The family holds a league and a labor, 4,606 acres - about 26 times as much land - and the herd's keep takes 2 spaces of the wagon. The family arrives with 6 cattle and 12 hogs, which feed themselves on the range and feed the family.",
+    "toggleBefore": "Take out",
+    "toggleAfter": "Load",
+    "wagonBox": {
+      "panel": {
+        "x": 12,
+        "y": 64,
+        "width": 400,
+        "height": 618
+      },
+      "control": {
+        "x": 27,
+        "y": 624.28125,
+        "width": 123.640625,
+        "height": 44
+      }
+    },
+    "newTabCard": "Your family You are one family among the settlers of Texas in the autumn of 1835. First you make them, in four steps: roll the die for who they are, give the family a last name, name each of them, and choose how the parents look. From the moment the wagon starts in, the game walks you through the farm one task at a time - the house, the field, the crop, the town, the hunt and the well - and will not let you jump ahead. The country is yours to work once that is done. Begin"
+  },
+  "screenshots": [
+    "docs/evidence/creation-title.png",
+    "docs/evidence/creation-die.png",
+    "docs/evidence/creation-surname.png",
+    "docs/evidence/creation-names.png",
+    "docs/evidence/creation-looks.png",
+    "docs/evidence/creation-wagon.png"
+  ]
+}

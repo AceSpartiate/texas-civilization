@@ -378,6 +378,10 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot,body[data-pa
 #wagon-stock legend{font-weight:650;font-size:14px;padding:0 4px}
 #wagon-stock label{display:flex;gap:6px;align-items:flex-start;font-size:14px;line-height:1.4;margin-top:4px}
 #wagon-stock input{margin-top:3px}
+/* When the choice closes, and the server's sentence when it is shut (2026-09-21). */
+#wagon-when{font-size:13px;color:#6c6046}
+#wagon-stock-why{margin:6px 0 0;font-size:13px;color:#8a3b22}
+#wagon-stock-why:empty{display:none}
 #wagon-done{margin-top:8px;background:#4b3e28;border-color:#6b5836}
 #wagon-open{position:absolute;left:12px;top:64px;z-index:8;min-height:34px;padding:5px 12px;font-size:13px;background:#4b3e28;border-color:#6b5836}
 @media (max-width:760px){#wagon-load{left:8px;right:8px;width:auto;top:56px}}
@@ -661,6 +665,9 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot,body[data-pa
 #surname-form{display:flex;flex-direction:column;gap:8px}
 #surname-form label{font-weight:600;color:#5a4a2e}
 #surname-input{font-size:18px;padding:6px 8px}
+/* What the choice does, beside the choice (2026-09-21): the last name is set once, and the list under the box is labelled. */
+#surname-hint{margin:0;font-size:13px;color:#6c6046;line-height:1.4}
+#surname-people-label{margin:0;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:#7a6d52}
 #surname-people{margin:0;font-size:13px;color:#6c6046;min-height:1em}
 #surname-error{margin:0;font-size:13px;color:#8a2c1c;min-height:0}
 #surname-error:empty{display:none}
@@ -668,7 +675,10 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot,body[data-pa
 #looks h2{font-size:22px;margin:2px 0 8px;color:#4b3e28}
 #looks-top{display:flex;gap:12px;align-items:center}
 #looks-preview{width:120px;height:120px;border:1px solid #9c8259;border-radius:6px;flex:none}
-#looks-note{margin:0;font-size:13px;color:#6c6046}
+#looks-note{margin:0;font-size:13px;color:#6c6046;line-height:1.4}
+/* Which parent this is, of how many: a second parent coming up after Done was an unannounced second screen (2026-09-21). */
+#looks-step{margin:0 0 8px;font-size:13px;font-weight:650;color:#5a4a2e}
+#looks-step:empty{display:none}
 .looks-part{border:none;margin:8px 0 0;padding:0}
 .looks-part legend{font-weight:600;color:#5a4a2e;font-size:13px;padding:0;margin-bottom:4px}
 .looks-options{display:flex;flex-wrap:wrap;gap:6px}
@@ -694,6 +704,9 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot,body[data-pa
 #creation-begin{position:fixed;left:50%;top:auto;bottom:12vh;transform:translateX(-50%);z-index:41;width:min(30rem,calc(100% - 32px));background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259;border-radius:10px;box-shadow:0 5px 0 #6b583638,0 18px 45px #32291950;padding:16px 20px 18px;color:#3b3221}
 #creation-begin h2{font-size:22px;margin:0 0 8px;color:#4b3e28}
 #creation-begin p{margin:0;font-size:14.5px;line-height:1.5}
+#creation-begin p+p{margin-top:9px}
+/* What the guided beginning actually does, said on the title card since 2026-09-21 (docs/LESSON.md). */
+.creation-begin-after{color:#5a4a2e}
 #creation-begin-button{margin-top:12px;width:100%;min-height:44px;font-size:16px;background:#4b3e28;border-color:#6b5836;color:#fdf0dd}
 /* Joining a class is the title screen's own card, so a student sees the game's name first (owner, 2026-09-17). */
 body[data-creating=true] #join,body[data-creating=true] #rejoin{position:relative;z-index:41;margin:38vh auto 0;background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259}
@@ -701,6 +714,8 @@ body[data-creating=true] #join,body[data-creating=true] #rejoin{position:relativ
 body[data-creating=true] #family-roll,body[data-creating=true] #surname,body[data-creating=true] #looks,#names{z-index:41}
 #names{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:41;width:min(30rem,calc(100% - 32px));max-height:min(80vh,44rem);overflow-y:auto;background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259;border-radius:10px;box-shadow:0 5px 0 #6b583638,0 18px 45px #32291950;padding:14px 18px 18px;color:#3b3221}
 #names h2{font-size:22px;margin:2px 0 10px;color:#4b3e28}
+/* Nothing on this card is required: every box is already the name the game dealt (2026-09-21). */
+#names-hint{margin:0 0 10px;font-size:13px;color:#6c6046;line-height:1.4}
 #names-list{list-style:none;margin:0;padding:0}
 .names-row{display:grid;grid-template-columns:8.5rem 1fr;gap:8px;align-items:center;padding:5px 0;border-top:1px solid #ddcda3}
 .names-row:first-child{border-top:none}

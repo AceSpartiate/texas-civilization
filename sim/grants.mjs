@@ -21,6 +21,7 @@
 // A class saved before grants has none stored. Its layout is worked out from its own map the
 // same way, which gives it exactly the land a new class on that map would have, so no save
 // version moved; and nothing in such a class drove stock, so it holds a labor.
+import { OPENING_HERD } from './stock.mjs';
 import { STOCK_SPACE, WAGON_SPACE, spaceOf } from './wagon.mjs';
 
 export const LABOR_ACRES = 177.1;
@@ -142,12 +143,18 @@ export function setStock(world, household, stock) {
   if (stock) household.stock = true; else delete household.stock;
 }
 
-/** For the family's own panel: what it holds, and in the lobby whether that can still change. */
+/**
+ * For the family's own panel: what it holds, and in the lobby whether that can still change.
+ *
+ * `herd` is what the choice actually brings as well as the acres (`OPENING_HERD`, docs/STOCK.md §3). Until 2026-09-21 the
+ * panel offered the land and the wagon cost and never said the family arrived with animals at all, which was the choice's
+ * largest effect since the herd was built on 2026-09-20 - a screen relying on a consequence it had not said out loud.
+ */
 export function grantProjection(world, household) {
   const holding = holdingOf(world, household);
   if (world.status !== 'lobby' || !household.load) return { grant: holding };
   const why = stockRefusal(world, household);
-  return { grant: holding, stockChoice: { can: !why, ...(why && { why }), laborAcres: Math.round(LABOR_ACRES), stockAcres: grantAcres(grantOf(world, household)), space: STOCK_SPACE } };
+  return { grant: holding, stockChoice: { can: !why, ...(why && { why }), laborAcres: Math.round(LABOR_ACRES), stockAcres: grantAcres(grantOf(world, household)), space: STOCK_SPACE, herd: { ...OPENING_HERD } } };
 }
 
 /** A stored grant is a real rectangle round the house, and a stock mark is `true` or absent. */

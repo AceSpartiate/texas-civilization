@@ -8,6 +8,7 @@ import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
 import { LABOR_SIDE, LEAGUE_AND_LABOR_ACRES, HOUSE_CLEARANCE, areaAcres, grantOf, holdingOf, layOutGrants } from '../sim/grants.mjs';
+import { OPENING_HERD } from '../sim/stock.mjs';
 import { STOCK_SPACE, WAGON_SPACE, spaceOf } from '../sim/wagon.mjs';
 
 const land = (world, id = 'hh-1') => projectWorld(world, id, 'student', { includeMap: false }).land;
@@ -84,8 +85,9 @@ test('driving stock is chosen in the lobby, costs wagon space, and is refused on
   assert.equal(spaceOf(household.load), WAGON_SPACE - STOCK_SPACE);
   assert.throws(() => applyAction(world, 'hh-1', { action: 'load-wagon', item: 'provisions', amount: barrels() + 1 }), /no room.*with the stock to feed/);
   assert.throws(() => stock(world, 'yes'), /yes or no/);
-  // The land line says what each answer brings before it is chosen (FIC-GONZ-008).
-  assert.deepEqual({ ...land(world).stockChoice }, { can: true, laborAcres: 177, stockAcres: 4606, space: STOCK_SPACE });
+  // The land line says what each answer brings before it is chosen (FIC-GONZ-008): the acres, the wagon cost, and since
+  // 2026-09-21 the herd itself, which is the other half of what the choice does (docs/STOCK.md §3).
+  assert.deepEqual({ ...land(world).stockChoice }, { can: true, laborAcres: 177, stockAcres: 4606, space: STOCK_SPACE, herd: { ...OPENING_HERD } });
   world.status = 'running';
   assert.throws(() => stock(world, false), /class has begun/);
   assert.equal(land(world).stockChoice, undefined, 'nothing to choose once the class runs, and nothing sent for it');

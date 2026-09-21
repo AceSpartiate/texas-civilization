@@ -1,0 +1,123 @@
+{
+  "record": "creation-words-injections",
+  "date": "2026-09-21",
+  "note": "The words and the choices of the family-creation wizard (2026-09-21). Every injection is a sentence the wizard actually carried before this pass, or the code that made one true, put back.",
+  "files": [
+    "tests/creation-words.test.mjs"
+  ],
+  "injections": [
+    {
+      "name": "the title card goes back to its pre-tutorial promise (the field, the timber, the town, at once)",
+      "file": "public/index.html",
+      "failed": [
+        "the title card does not promise the freedom the guided beginning refuses"
+      ]
+    },
+    {
+      "name": "the title card drops the sentence saying the game walks the student through the farm",
+      "file": "public/index.html",
+      "failed": [
+        "the title card does not promise the freedom the guided beginning refuses"
+      ]
+    },
+    {
+      "name": "the stock choice stops carrying the herd it brings, so the panel can only say the acres again",
+      "file": "sim/grants.mjs",
+      "failed": [
+        "the stock choice says the land and the herd it brings, in the server’s own numbers"
+      ]
+    },
+    {
+      "name": "the wagon panel stops saying the family arrives with animals",
+      "file": "public/app.js",
+      "failed": [
+        "the stock choice says the land and the herd it brings, in the server’s own numbers"
+      ]
+    },
+    {
+      "name": "the wagon panel writes the herd numbers itself instead of reading the server’s",
+      "file": "public/app.js",
+      "failed": [
+        "the stock choice says the land and the herd it brings, in the server’s own numbers"
+      ]
+    },
+    {
+      "name": "\"Anything left out is not coming\", which the blacksmith and the store contradict",
+      "file": "public/index.html",
+      "failed": [
+        "the wagon panel does not say a thing left out can never be had, because the towns sell some of it"
+      ]
+    },
+    {
+      "name": "the wagon panel stops saying when the choice closes",
+      "file": "public/index.html",
+      "failed": [
+        "the wagon panel does not say a thing left out can never be had, because the towns sell some of it"
+      ]
+    },
+    {
+      "name": "the die panel goes back to saying nothing about the roll being taken once",
+      "file": "public/index.html",
+      "failed": [
+        "the die says it is thrown once, and still does not say what the number means"
+      ]
+    },
+    {
+      "name": "the die panel gives away the mapping the owner keeps hidden",
+      "file": "public/index.html",
+      "failed": [
+        "the die says it is thrown once, and still does not say what the number means"
+      ]
+    },
+    {
+      "name": "the last name box stops saying it is set once",
+      "file": "public/index.html",
+      "failed": [
+        "what is set once says so where it is chosen, and what is not says that too"
+      ]
+    },
+    {
+      "name": "the looks pop-up stops saying the looks are chosen once and the children are not asked for",
+      "file": "public/index.html",
+      "failed": [
+        "what is set once says so where it is chosen, and what is not says that too"
+      ]
+    },
+    {
+      "name": "the names card stops saying every box is already filled in",
+      "file": "public/index.html",
+      "failed": [
+        "every step of the wizard says which step it is, in the order creationStep walks",
+        "what is set once says so where it is chosen, and what is not says that too"
+      ]
+    },
+    {
+      "name": "the die panel loses its step number",
+      "file": "public/index.html",
+      "failed": [
+        "every step of the wizard says which step it is, in the order creationStep walks"
+      ]
+    },
+    {
+      "name": "the looks pop-up loses its step line, so a second parent is an unannounced second screen",
+      "file": "public/appearance.js",
+      "failed": [
+        "every step of the wizard says which step it is, in the order creationStep walks"
+      ]
+    },
+    {
+      "name": "the looks counter goes back to counting only the parents still waiting, so the total shrinks after the first Done",
+      "file": "public/appearance.js",
+      "failed": [
+        "every step of the wizard says which step it is, in the order creationStep walks"
+      ]
+    },
+    {
+      "name": "an emptied name box is skipped silently again, leaving a box showing a name nobody has",
+      "file": "public/creation.js",
+      "failed": [
+        "an emptied name box is put back to the name the world holds, so no box shows a name nobody has"
+      ]
+    }
+  ]
+}
