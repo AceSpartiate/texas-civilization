@@ -1,0 +1,1227 @@
+{
+  "record": "creation-overlap",
+  "date": "2026-09-21",
+  "screen": {
+    "width": 390,
+    "height": 844
+  },
+  "seed": "wizard-17",
+  "finger": 44,
+  "stages": [
+    {
+      "stage": "title-join",
+      "how": "the title screen, the join form on it",
+      "panel": "#join",
+      "real": true,
+      "focusOnArrival": "the page itself",
+      "focusOnArrivalInside": false,
+      "panelBox": {
+        "x": 0,
+        "y": 101,
+        "w": 390,
+        "h": 494
+      },
+      "panelFits": true,
+      "scrolls": 0,
+      "endOfStep": {
+        "control": "#join",
+        "label": "Join",
+        "box": {
+          "x": 33,
+          "y": 423,
+          "w": 324,
+          "h": 44
+        },
+        "below": -128,
+        "inView": true
+      },
+      "controls": 4,
+      "covered": [],
+      "tooSmallForAFinger": [],
+      "offScreen": [],
+      "scrolledOutOfTheCard": [],
+      "tightestGap": {
+        "gap": 14,
+        "between": [
+          "#join",
+          "#join"
+        ],
+        "labels": [
+          "Your name",
+          "Class code"
+        ]
+      },
+      "pageScrollsSideways": 0,
+      "pageScrollsDown": 101,
+      "announced": {
+        "role": null,
+        "modal": null,
+        "labelledBy": null,
+        "heading": null,
+        "errorLine": [
+          "#join-error"
+        ]
+      },
+      "behindTheCurtain": [],
+      "endOfStepScrolledTo": {
+        "control": "#join",
+        "label": "Join",
+        "box": {
+          "x": 33,
+          "y": 423,
+          "w": 324,
+          "h": 44
+        },
+        "below": -128,
+        "inView": true
+      },
+      "keyboard": {
+        "order": [
+          "#join",
+          "#join",
+          "#join",
+          "#rejoin-toggle",
+          "the page itself",
+          "#join",
+          "#join",
+          "#join",
+          "#rejoin-toggle",
+          "the page itself",
+          "#join",
+          "#join",
+          "#join",
+          "#rejoin-toggle",
+          "the page itself",
+          "#join",
+          "#join",
+          "#join",
+          "#rejoin-toggle",
+          "the page itself",
+          "#join",
+          "#join",
+          "#join",
+          "#rejoin-toggle",
+          "#join",
+          "#join",
+          "#join",
+          "#rejoin-toggle",
+          "the page itself",
+          "#join"
+        ],
+        "escaped": null,
+        "wrapped": true
+      }
+    },
+    {
+      "stage": "title-begin",
+      "how": "joined, the way in",
+      "panel": "#creation-begin",
+      "real": true,
+      "focusOnArrival": "#creation-begin",
+      "focusOnArrivalInside": true,
+      "panelBox": {
+        "x": 10,
+        "y": 553,
+        "w": 370,
+        "h": 241
+      },
+      "panelFits": true,
+      "scrolls": 0,
+      "endOfStep": {
+        "control": "#creation-begin-button",
+        "label": "Begin",
+        "box": {
+          "x": 31,
+          "y": 730,
+          "w": 328,
+          "h": 44
+        },
+        "below": -19,
+        "inView": true
+      },
+      "controls": 1,
+      "covered": [],
+      "tooSmallForAFinger": [],
+      "offScreen": [],
+      "scrolledOutOfTheCard": [],
+      "tightestGap": null,
+      "pageScrollsSideways": 0,
+      "pageScrollsDown": 1,
+      "announced": {
+        "role": "dialog",
+        "modal": "true",
+        "labelledBy": "creation-begin-title",
+        "heading": "Your family",
+        "errorLine": []
+      },
+      "behindTheCurtain": [],
+      "endOfStepScrolledTo": {
+        "control": "#creation-begin-button",
+        "label": "Begin",
+        "box": {
+          "x": 31,
+          "y": 730,
+          "w": 328,
+          "h": 44
+        },
+        "below": -19,
+        "inView": true
+      },
+      "keyboard": {
+        "order": [
+          "#creation-begin-button",
+          "the page itself",
+          "#creation-begin-button",
+          "the page itself",
+          "#creation-begin-button",
+          "the page itself",
+          "#creation-begin-button",
+          "#creation-begin-button",
+          "the page itself",
+          "#creation-begin-button",
+          "the page itself",
+          "#creation-begin-button",
+          "the page itself",
+          "#creation-begin-button",
+          "the page itself",
+          "#creation-begin-button",
+          "#creation-begin-button",
+          "the page itself",
+          "#creation-begin-button",
+          "the page itself",
+          "#creation-begin-button",
+          "the page itself",
+          "#creation-begin-button",
+          "the page itself",
+          "#creation-begin-button",
+          "#creation-begin-button",
+          "the page itself",
+          "#creation-begin-button",
+          "the page itself",
+          "#creation-begin-button"
+        ],
+        "escaped": null,
+        "wrapped": true
+      }
+    },
+    {
+      "stage": "die",
+      "how": "the twenty-sided die, before it is rolled",
+      "panel": "#family-roll",
+      "real": true,
+      "focusOnArrival": "#family-roll",
+      "focusOnArrivalInside": true,
+      "panelBox": {
+        "x": 35,
+        "y": 279,
+        "w": 320,
+        "h": 285
+      },
+      "panelFits": true,
+      "scrolls": 0,
+      "endOfStep": {
+        "control": "#roll-family",
+        "label": "Roll the die",
+        "box": {
+          "x": 142,
+          "y": 506,
+          "w": 106,
+          "h": 44
+        },
+        "below": -15,
+        "inView": true
+      },
+      "controls": 1,
+      "covered": [],
+      "tooSmallForAFinger": [],
+      "offScreen": [],
+      "scrolledOutOfTheCard": [],
+      "tightestGap": null,
+      "pageScrollsSideways": 0,
+      "pageScrollsDown": 1,
+      "announced": {
+        "role": "dialog",
+        "modal": "true",
+        "labelledBy": "family-roll-title",
+        "heading": "Roll for your family",
+        "errorLine": [
+          "#family-roll-result"
+        ]
+      },
+      "behindTheCurtain": [],
+      "endOfStepScrolledTo": {
+        "control": "#roll-family",
+        "label": "Roll the die",
+        "box": {
+          "x": 142,
+          "y": 506,
+          "w": 106,
+          "h": 44
+        },
+        "below": -15,
+        "inView": true
+      },
+      "keyboard": {
+        "order": [
+          "#roll-family",
+          "the page itself",
+          "#roll-family",
+          "#roll-family",
+          "the page itself",
+          "#roll-family",
+          "the page itself",
+          "#roll-family",
+          "the page itself",
+          "#roll-family",
+          "the page itself",
+          "#roll-family",
+          "#roll-family",
+          "the page itself",
+          "#roll-family",
+          "the page itself",
+          "#roll-family",
+          "the page itself",
+          "#roll-family",
+          "the page itself",
+          "#roll-family",
+          "#roll-family",
+          "the page itself",
+          "#roll-family",
+          "the page itself",
+          "#roll-family",
+          "the page itself",
+          "#roll-family",
+          "the page itself",
+          "#roll-family"
+        ],
+        "escaped": null,
+        "wrapped": true
+      }
+    },
+    {
+      "stage": "die-rolled",
+      "how": "the die rolled, the family read out",
+      "panel": "#family-roll",
+      "real": true,
+      "focusOnArrival": "#family-roll",
+      "focusOnArrivalInside": true,
+      "panelBox": {
+        "x": 35,
+        "y": 269,
+        "w": 320,
+        "h": 306
+      },
+      "panelFits": true,
+      "scrolls": 0,
+      "endOfStep": {
+        "control": "#roll-family",
+        "label": "Meet your family",
+        "box": {
+          "x": 122,
+          "y": 516,
+          "w": 145,
+          "h": 44
+        },
+        "below": -15,
+        "inView": true
+      },
+      "controls": 1,
+      "covered": [],
+      "tooSmallForAFinger": [],
+      "offScreen": [],
+      "scrolledOutOfTheCard": [],
+      "tightestGap": null,
+      "pageScrollsSideways": 0,
+      "pageScrollsDown": 1,
+      "announced": {
+        "role": "dialog",
+        "modal": "true",
+        "labelledBy": "family-roll-title",
+        "heading": "Roll for your family",
+        "errorLine": [
+          "#family-roll-result"
+        ]
+      },
+      "behindTheCurtain": [],
+      "endOfStepScrolledTo": {
+        "control": "#roll-family",
+        "label": "Meet your family",
+        "box": {
+          "x": 122,
+          "y": 516,
+          "w": 145,
+          "h": 44
+        },
+        "below": -15,
+        "inView": true
+      },
+      "keyboard": {
+        "order": [
+          "#roll-family",
+          "the page itself",
+          "#roll-family",
+          "the page itself",
+          "#roll-family",
+          "the page itself",
+          "#roll-family",
+          "the page itself",
+          "#roll-family",
+          "#roll-family",
+          "the page itself",
+          "#roll-family",
+          "the page itself",
+          "#roll-family",
+          "the page itself",
+          "#roll-family",
+          "the page itself",
+          "#roll-family",
+          "#roll-family",
+          "the page itself",
+          "#roll-family",
+          "the page itself",
+          "#roll-family",
+          "the page itself",
+          "#roll-family",
+          "the page itself",
+          "#roll-family",
+          "#roll-family",
+          "the page itself",
+          "#roll-family"
+        ],
+        "escaped": null,
+        "wrapped": true
+      }
+    },
+    {
+      "stage": "surname",
+      "how": "the family's last name",
+      "panel": "#surname",
+      "real": true,
+      "focusOnArrival": "#surname-input",
+      "focusOnArrivalInside": true,
+      "panelBox": {
+        "x": 16,
+        "y": 284,
+        "w": 358,
+        "h": 276
+      },
+      "panelFits": true,
+      "scrolls": 0,
+      "endOfStep": {
+        "control": "#surname-save",
+        "label": "Name the family",
+        "box": {
+          "x": 35,
+          "y": 497,
+          "w": 320,
+          "h": 44
+        },
+        "below": -19,
+        "inView": true
+      },
+      "controls": 2,
+      "covered": [],
+      "tooSmallForAFinger": [],
+      "offScreen": [],
+      "scrolledOutOfTheCard": [],
+      "tightestGap": {
+        "gap": 53.7,
+        "between": [
+          "#surname-input",
+          "#surname-save"
+        ],
+        "labels": [
+          "",
+          "Name the family"
+        ]
+      },
+      "pageScrollsSideways": 0,
+      "pageScrollsDown": 1,
+      "announced": {
+        "role": "dialog",
+        "modal": "true",
+        "labelledBy": "surname-title",
+        "heading": "Name your family",
+        "errorLine": [
+          "#surname-error"
+        ]
+      },
+      "behindTheCurtain": [],
+      "endOfStepScrolledTo": {
+        "control": "#surname-save",
+        "label": "Name the family",
+        "box": {
+          "x": 35,
+          "y": 497,
+          "w": 320,
+          "h": 44
+        },
+        "below": -19,
+        "inView": true
+      },
+      "keyboard": {
+        "order": [
+          "#surname-input",
+          "#surname-save",
+          "the page itself",
+          "#surname-input",
+          "#surname-save",
+          "the page itself",
+          "#surname-input",
+          "#surname-save",
+          "#surname-input",
+          "#surname-save",
+          "the page itself",
+          "#surname-input",
+          "#surname-save",
+          "the page itself",
+          "#surname-input",
+          "#surname-save",
+          "the page itself",
+          "#surname-input",
+          "#surname-save",
+          "the page itself",
+          "#surname-input",
+          "#surname-save",
+          "#surname-input",
+          "#surname-save",
+          "the page itself",
+          "#surname-input",
+          "#surname-save",
+          "the page itself",
+          "#surname-input",
+          "#surname-save"
+        ],
+        "escaped": null,
+        "wrapped": true
+      }
+    },
+    {
+      "stage": "surname-error",
+      "how": "the last name refused",
+      "panel": "#surname",
+      "real": true,
+      "focusOnArrival": "#surname-save",
+      "focusOnArrivalInside": true,
+      "panelBox": {
+        "x": 16,
+        "y": 284,
+        "w": 358,
+        "h": 276
+      },
+      "panelFits": true,
+      "scrolls": 0,
+      "endOfStep": {
+        "control": "#surname-save",
+        "label": "Name the family",
+        "box": {
+          "x": 35,
+          "y": 497,
+          "w": 320,
+          "h": 44
+        },
+        "below": -19,
+        "inView": true
+      },
+      "controls": 2,
+      "covered": [],
+      "tooSmallForAFinger": [],
+      "offScreen": [],
+      "scrolledOutOfTheCard": [],
+      "tightestGap": {
+        "gap": 53.7,
+        "between": [
+          "#surname-input",
+          "#surname-save"
+        ],
+        "labels": [
+          "",
+          "Name the family"
+        ]
+      },
+      "pageScrollsSideways": 0,
+      "pageScrollsDown": 1,
+      "announced": {
+        "role": "dialog",
+        "modal": "true",
+        "labelledBy": "surname-title",
+        "heading": "Name your family",
+        "errorLine": [
+          "#surname-error"
+        ]
+      },
+      "behindTheCurtain": [],
+      "endOfStepScrolledTo": {
+        "control": "#surname-save",
+        "label": "Name the family",
+        "box": {
+          "x": 35,
+          "y": 497,
+          "w": 320,
+          "h": 44
+        },
+        "below": -19,
+        "inView": true
+      },
+      "keyboard": {
+        "order": [
+          "#surname-input",
+          "#surname-save",
+          "the page itself",
+          "#surname-input",
+          "#surname-save",
+          "#surname-input",
+          "#surname-save",
+          "the page itself",
+          "#surname-input",
+          "#surname-save",
+          "the page itself",
+          "#surname-input",
+          "#surname-save",
+          "the page itself",
+          "#surname-input",
+          "#surname-save",
+          "the page itself",
+          "#surname-input",
+          "#surname-save",
+          "#surname-input",
+          "#surname-save",
+          "the page itself",
+          "#surname-input",
+          "#surname-save",
+          "the page itself",
+          "#surname-input",
+          "#surname-save",
+          "the page itself",
+          "#surname-input",
+          "#surname-save"
+        ],
+        "escaped": null,
+        "wrapped": true
+      }
+    },
+    {
+      "stage": "names",
+      "how": "everybody's first names, a family of 10",
+      "panel": "#names",
+      "real": true,
+      "focusOnArrival": "#names",
+      "focusOnArrivalInside": true,
+      "panelBox": {
+        "x": 16,
+        "y": 84,
+        "w": 358,
+        "h": 675
+      },
+      "panelFits": true,
+      "scrolls": 230,
+      "endOfStep": {
+        "control": "#names-done",
+        "label": "Continue",
+        "box": {
+          "x": 35,
+          "y": 697,
+          "w": 320,
+          "h": 44
+        },
+        "below": -19,
+        "inView": true
+      },
+      "controls": 11,
+      "covered": [],
+      "tooSmallForAFinger": [],
+      "offScreen": [],
+      "scrolledOutOfTheCard": [
+        {
+          "control": "#name-hh-1-child-6",
+          "label": "Mateo",
+          "box": {
+            "x": 35,
+            "y": 715,
+            "w": 320,
+            "h": 44
+          }
+        },
+        {
+          "control": "#name-hh-1-child-7",
+          "label": "Paulita",
+          "box": {
+            "x": 35,
+            "y": 790,
+            "w": 320,
+            "h": 44
+          }
+        },
+        {
+          "control": "#name-hh-1-child-8",
+          "label": "Winnie",
+          "box": {
+            "x": 35,
+            "y": 866,
+            "w": 320,
+            "h": 44
+          }
+        }
+      ],
+      "tightestGap": {
+        "gap": 13.9,
+        "between": [
+          "#name-hh-1-child-5",
+          "#names-done"
+        ],
+        "labels": [
+          "",
+          "Continue"
+        ]
+      },
+      "pageScrollsSideways": 0,
+      "pageScrollsDown": 1,
+      "announced": {
+        "role": "dialog",
+        "modal": "true",
+        "labelledBy": "names-title",
+        "heading": "Name each of them",
+        "errorLine": [
+          "#names-error"
+        ]
+      },
+      "behindTheCurtain": [],
+      "endOfStepScrolledTo": {
+        "control": "#names-done",
+        "label": "Continue",
+        "box": {
+          "x": 35,
+          "y": 697,
+          "w": 320,
+          "h": 44
+        },
+        "below": -19,
+        "inView": true
+      },
+      "keyboard": {
+        "order": [
+          "#name-hh-1-parent-1",
+          "#name-hh-1-parent-2",
+          "#name-hh-1-child-1",
+          "#name-hh-1-child-2",
+          "#name-hh-1-child-3",
+          "#name-hh-1-child-4",
+          "#name-hh-1-child-5",
+          "#name-hh-1-child-6",
+          "#name-hh-1-child-7",
+          "#name-hh-1-child-8",
+          "#names-done",
+          "#name-hh-1-parent-1",
+          "#name-hh-1-parent-2",
+          "#name-hh-1-child-1",
+          "#name-hh-1-child-2",
+          "#name-hh-1-child-3",
+          "#name-hh-1-child-4",
+          "#name-hh-1-child-5",
+          "#name-hh-1-child-6",
+          "#name-hh-1-child-7",
+          "#name-hh-1-child-8",
+          "#names-done",
+          "the page itself",
+          "#name-hh-1-parent-1",
+          "#name-hh-1-parent-2",
+          "#name-hh-1-child-1",
+          "#name-hh-1-child-2",
+          "#name-hh-1-child-3",
+          "#name-hh-1-child-4",
+          "#name-hh-1-child-5"
+        ],
+        "escaped": null,
+        "wrapped": true
+      }
+    },
+    {
+      "stage": "looks-first",
+      "how": "the first parent's looks, the list of parts",
+      "panel": "#looks",
+      "real": true,
+      "focusOnArrival": "#looks-parts",
+      "focusOnArrivalInside": true,
+      "panelBox": {
+        "x": 12,
+        "y": 12,
+        "w": 366,
+        "h": 820
+      },
+      "panelFits": true,
+      "scrolls": 144,
+      "endOfStep": {
+        "control": "#looks-done",
+        "label": "Done",
+        "box": {
+          "x": 29,
+          "y": 771,
+          "w": 332,
+          "h": 44
+        },
+        "below": -17,
+        "inView": true
+      },
+      "controls": 24,
+      "covered": [],
+      "tooSmallForAFinger": [],
+      "offScreen": [],
+      "scrolledOutOfTheCard": [
+        {
+          "control": "#looks-parts",
+          "label": "Hat",
+          "box": {
+            "x": 29,
+            "y": 830,
+            "w": 66,
+            "h": 76
+          }
+        },
+        {
+          "control": "#looks-parts",
+          "label": "Beard",
+          "box": {
+            "x": 103,
+            "y": 830,
+            "w": 66,
+            "h": 76
+          }
+        }
+      ],
+      "tightestGap": {
+        "gap": 8,
+        "between": [
+          "#looks-parts",
+          "#looks-parts"
+        ],
+        "labels": [
+          "Fair",
+          "Light"
+        ]
+      },
+      "pageScrollsSideways": 0,
+      "pageScrollsDown": 1,
+      "announced": {
+        "role": "dialog",
+        "modal": "true",
+        "labelledBy": "looks-title",
+        "heading": "How Hollis looks",
+        "errorLine": [
+          "#looks-error"
+        ]
+      },
+      "behindTheCurtain": [],
+      "endOfStepScrolledTo": {
+        "control": "#looks-done",
+        "label": "Done",
+        "box": {
+          "x": 29,
+          "y": 771,
+          "w": 332,
+          "h": 44
+        },
+        "below": -17,
+        "inView": true
+      },
+      "keyboard": {
+        "order": [
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-done",
+          "the page itself",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts"
+        ],
+        "escaped": null,
+        "wrapped": true
+      }
+    },
+    {
+      "stage": "looks-second",
+      "how": "the second parent's looks, the list of parts",
+      "panel": "#looks",
+      "real": true,
+      "focusOnArrival": "#looks",
+      "focusOnArrivalInside": true,
+      "panelBox": {
+        "x": 12,
+        "y": 12,
+        "w": 366,
+        "h": 820
+      },
+      "panelFits": true,
+      "scrolls": 156,
+      "endOfStep": {
+        "control": "#looks-done",
+        "label": "Done",
+        "box": {
+          "x": 29,
+          "y": 771,
+          "w": 332,
+          "h": 44
+        },
+        "below": -17,
+        "inView": true
+      },
+      "controls": 24,
+      "covered": [],
+      "tooSmallForAFinger": [],
+      "offScreen": [],
+      "scrolledOutOfTheCard": [
+        {
+          "control": "#looks-parts",
+          "label": "Bonnet",
+          "box": {
+            "x": 29,
+            "y": 830,
+            "w": 66,
+            "h": 88
+          }
+        },
+        {
+          "control": "#looks-parts",
+          "label": "Hair pinned up",
+          "box": {
+            "x": 103,
+            "y": 830,
+            "w": 66,
+            "h": 88
+          }
+        }
+      ],
+      "tightestGap": {
+        "gap": 8,
+        "between": [
+          "#looks-parts",
+          "#looks-parts"
+        ],
+        "labels": [
+          "Fair",
+          "Light"
+        ]
+      },
+      "pageScrollsSideways": 0,
+      "pageScrollsDown": 1,
+      "announced": {
+        "role": "dialog",
+        "modal": "true",
+        "labelledBy": "looks-title",
+        "heading": "How Sarah looks",
+        "errorLine": [
+          "#looks-error"
+        ]
+      },
+      "behindTheCurtain": [],
+      "endOfStepScrolledTo": {
+        "control": "#looks-done",
+        "label": "Done",
+        "box": {
+          "x": 29,
+          "y": 771,
+          "w": 332,
+          "h": 44
+        },
+        "below": -17,
+        "inView": true
+      },
+      "keyboard": {
+        "order": [
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-done",
+          "the page itself",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts",
+          "#looks-parts"
+        ],
+        "escaped": null,
+        "wrapped": true
+      }
+    },
+    {
+      "stage": "wagon",
+      "how": "packing the wagon, after the curtain",
+      "panel": "#wagon-load",
+      "real": true,
+      "focusOnArrival": "the page itself",
+      "focusOnArrivalInside": false,
+      "panelBox": {
+        "x": 8,
+        "y": 56,
+        "w": 374,
+        "h": 694
+      },
+      "panelFits": true,
+      "scrolls": 879,
+      "endOfStep": {
+        "control": "#wagon-done",
+        "label": "Done packing",
+        "box": {
+          "x": 23,
+          "y": 692,
+          "w": 344,
+          "h": 44
+        },
+        "below": -14,
+        "inView": true
+      },
+      "controls": 22,
+      "covered": [],
+      "tooSmallForAFinger": [],
+      "offScreen": [],
+      "scrolledOutOfTheCard": [
+        {
+          "control": "#wagon-items",
+          "label": "Loaded",
+          "box": {
+            "x": 307,
+            "y": 703,
+            "w": 60,
+            "h": 44
+          }
+        },
+        {
+          "control": "#wagon-items",
+          "label": "Loaded",
+          "box": {
+            "x": 307,
+            "y": 781,
+            "w": 60,
+            "h": 44
+          }
+        },
+        {
+          "control": "#wagon-items",
+          "label": "Load",
+          "box": {
+            "x": 321,
+            "y": 851,
+            "w": 46,
+            "h": 44
+          }
+        },
+        {
+          "control": "#wagon-items",
+          "label": "Load",
+          "box": {
+            "x": 321,
+            "y": 920,
+            "w": 46,
+            "h": 44
+          }
+        },
+        {
+          "control": "#wagon-items",
+          "label": "Load",
+          "box": {
+            "x": 321,
+            "y": 990,
+            "w": 46,
+            "h": 44
+          }
+        },
+        {
+          "control": "#wagon-items",
+          "label": "Loaded",
+          "box": {
+            "x": 307,
+            "y": 1054,
+            "w": 60,
+            "h": 44
+          }
+        },
+        {
+          "control": "#wagon-items",
+          "label": "Loaded",
+          "box": {
+            "x": 307,
+            "y": 1113,
+            "w": 60,
+            "h": 44
+          }
+        },
+        {
+          "control": "#wagon-items",
+          "label": "Load",
+          "box": {
+            "x": 321,
+            "y": 1172,
+            "w": 46,
+            "h": 44
+          }
+        },
+        {
+          "control": "#wagon-items",
+          "label": "Load",
+          "box": {
+            "x": 321,
+            "y": 1237,
+            "w": 46,
+            "h": 44
+          }
+        },
+        {
+          "control": "#wagon-items",
+          "label": "Load",
+          "box": {
+            "x": 321,
+            "y": 1301,
+            "w": 46,
+            "h": 44
+          }
+        },
+        {
+          "control": "#wagon-items",
+          "label": "Load",
+          "box": {
+            "x": 321,
+            "y": 1360,
+            "w": 46,
+            "h": 44
+          }
+        },
+        {
+          "control": "#wagon-items",
+          "label": "Load",
+          "box": {
+            "x": 321,
+            "y": 1419,
+            "w": 46,
+            "h": 44
+          }
+        },
+        {
+          "control": "#wagon-items",
+          "label": "Load",
+          "box": {
+            "x": 321,
+            "y": 1483,
+            "w": 46,
+            "h": 44
+          }
+        }
+      ],
+      "tightestGap": {
+        "gap": 8,
+        "between": [
+          "#wagon-stock",
+          "#wagon-stock"
+        ],
+        "labels": [
+          "No stock. The family",
+          "Drive cattle and hog"
+        ]
+      },
+      "pageScrollsSideways": 0,
+      "pageScrollsDown": 1,
+      "announced": {
+        "role": null,
+        "modal": null,
+        "labelledBy": "wagon-load-title",
+        "heading": "Pack the wagon",
+        "errorLine": [
+          "#wagon-room",
+          "#wagon-note"
+        ]
+      },
+      "behindTheCurtain": [],
+      "endOfStepScrolledTo": {
+        "control": "#wagon-done",
+        "label": "Done packing",
+        "box": {
+          "x": 23,
+          "y": 691,
+          "w": 344,
+          "h": 44
+        },
+        "below": -14,
+        "inView": true
+      },
+      "keyboard": {
+        "order": [
+          "#wagon-stock",
+          "#wagon-items",
+          "#wagon-items",
+          "#wagon-items",
+          "#wagon-items",
+          "#wagon-items",
+          "#wagon-items",
+          "#wagon-items",
+          "#wagon-items",
+          "#wagon-items",
+          "#wagon-items",
+          "#wagon-items",
+          "#wagon-items",
+          "#wagon-items",
+          "#wagon-items",
+          "#wagon-items",
+          "#wagon-items",
+          "#wagon-items",
+          "#wagon-items",
+          "#wagon-items",
+          "#wagon-done",
+          "#family",
+          "#family",
+          "#family",
+          "#family",
+          "#family",
+          "#family",
+          "#family",
+          "#family",
+          "#family"
+        ],
+        "escaped": null,
+        "wrapped": false
+      }
+    }
+  ],
+  "notMeasured": [],
+  "pageErrors": []
+}

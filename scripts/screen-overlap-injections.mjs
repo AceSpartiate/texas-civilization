@@ -47,7 +47,10 @@ const run = () => {
   const result = spawnSync(process.execPath, [PROOF], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, env: process.env });
   const output = `${result.stdout}${result.stderr}`;
   if (!result.status) return { failed: false, passes: [...output.matchAll(/^PASS (.+)$/gm)].length };
-  const said = /AssertionError[^\n]*: ([^\n]+)/.exec(output) || /Error: ([^\n]+)/.exec(output);
+  // Not greedy: an assertion whose own sentence contains a colon was otherwise recorded by whatever followed its *last*
+  // colon, and so read as caught by another check. None of the four below has ever contained one; the companion harness
+  // scripts/creation-overlap-injections.mjs had three that did, which is how this was found.
+  const said = /AssertionError[^\n]*?: ([^\n]+)/.exec(output) || /Error: ([^\n]+)/.exec(output);
   // A proof that fell over without saying why is not a caught injection, and hiding that behind a tidy sentence is how
   // a harness comes to prove nothing: the last of what it printed is kept instead.
   return { failed: true, why: said ? said[1].trim() : `the proof failed without a sentence: ${output.trim().split('\n').slice(-6).join(' / ')}`, passes: [...output.matchAll(/^PASS (.+)$/gm)].length };

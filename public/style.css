@@ -277,7 +277,7 @@ body[data-lesson=true] #call-menu{top:126px;max-height:min(62vh,520px);z-index:1
    says the family is behind it, and the dim itself closes it. The strip stays above the dim, because it is the
    instruction; the map's own buttons and the ability bar go under, because they are not reachable and should not look it. */
 #panel-backdrop{position:absolute;inset:0;z-index:12;background:#29251b73}
-body[data-panel=true] #house-plan,body[data-panel=true] #house-plot,body[data-panel=true] #wagon-load{z-index:13}
+body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 .panel-behind{margin:8px 0 0;font-size:12.5px;color:#6c6046;font-style:italic}
 @media (max-width:760px){
   /* A phone puts the family across the top rather than down the side, so there is no room to the right of the column and
@@ -359,30 +359,34 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot,body[data-pa
 
 /* Packing the wagon: the same paper as the roll and the walk-through, on the left above the
    walk-through's corner, and scrolling inside itself so it never pushes the map away. */
-#wagon-load{position:absolute;left:12px;top:64px;z-index:8;width:min(25rem,calc(100% - 24px));max-height:calc(100% - 150px);overflow:auto;background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259;border-radius:8px;box-shadow:0 5px 0 #6b583638,0 18px 45px #32291950;padding:12px 14px 13px;color:#3b3427}
+/* Above the ability bar, which is fixed to the bottom middle at z-index 9 and ran straight across "Done packing"
+   (measured 2026-09-21, npm run study:creation, the wagon stage at 1366x768). The wagon is a step of the wizard and
+   the bar behind it cannot be used until the class starts, so the step wins the pixels. */
+#wagon-load{position:absolute;left:12px;top:64px;z-index:10;width:min(25rem,calc(100% - 24px));max-height:calc(100% - 150px);display:flex;flex-direction:column;overflow:hidden;background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259;border-radius:8px;box-shadow:0 5px 0 #6b583638,0 18px 45px #32291950;padding:12px 14px 13px;color:#3b3427}
 #wagon-load h2{font-size:19px;margin:2px 0 0;color:#4b3e28}
 #wagon-load p{margin:6px 0 0;font-size:14px;line-height:1.45}
 #wagon-room{font-weight:650;color:#4b3e28}
-#wagon-items{list-style:none;margin:8px 0 0;padding:0}
+#wagon-load>*{flex:none}
+#wagon-items{list-style:none;margin:8px 0 0;padding:0;overflow-y:auto;min-height:0;flex:1 1 auto}
 #wagon-items li{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center;padding:7px 0;border-top:1px solid #d3c299}
 #wagon-items li[data-loaded=true] .wagon-name{font-weight:650}
 .wagon-name{font-size:14px;color:#3b3427}
 .wagon-describe{grid-column:1;font-size:12px;color:#6c6046;line-height:1.35}
 .wagon-controls{grid-row:1 / span 2;grid-column:2;display:flex;align-items:center;gap:4px}
-.wagon-controls button{min-height:32px;min-width:32px;padding:3px 8px;font-size:13px;background:#f3ead2;color:#3f3524;border-color:#b09a6d}
+.wagon-controls button{min-height:44px;min-width:44px;padding:3px 8px;font-size:13px;background:#f3ead2;color:#3f3524;border-color:#b09a6d}
 .wagon-controls button[aria-pressed=true]{background:#7a4726;border-color:#5d3419;color:#fdf0dd}
 .wagon-controls button:disabled{opacity:.45;cursor:not-allowed}
 .wagon-count{min-width:1.6em;text-align:center;font-weight:650}
 #wagon-note{color:#8a3b22;min-height:1.2em}
 #wagon-stock{margin:8px 0 0;padding:6px 8px 8px;border:1px solid #d3c299;border-radius:6px}
 #wagon-stock legend{font-weight:650;font-size:14px;padding:0 4px}
-#wagon-stock label{display:flex;gap:6px;align-items:flex-start;font-size:14px;line-height:1.4;margin-top:4px}
+#wagon-stock label{display:flex;gap:8px;align-items:center;font-size:14px;line-height:1.4;margin-top:8px;min-height:44px;padding:11px 4px}
 #wagon-stock input{margin-top:3px}
 /* When the choice closes, and the server's sentence when it is shut (2026-09-21). */
 #wagon-when{font-size:13px;color:#6c6046}
 #wagon-stock-why{margin:6px 0 0;font-size:13px;color:#8a3b22}
 #wagon-stock-why:empty{display:none}
-#wagon-done{margin-top:8px;background:#4b3e28;border-color:#6b5836}
+#wagon-done{flex:none;margin-top:8px;width:100%;min-height:44px;background:#4b3e28;border-color:#6b5836}
 #wagon-open{position:absolute;left:12px;top:64px;z-index:8;min-height:34px;padding:5px 12px;font-size:13px;background:#4b3e28;border-color:#6b5836}
 @media (max-width:760px){#wagon-load{left:8px;right:8px;width:auto;top:56px}}
 
@@ -664,15 +668,22 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot,body[data-pa
 #surname h2{font-size:22px;margin:4px 0 10px;color:#4b3e28}
 #surname-form{display:flex;flex-direction:column;gap:8px}
 #surname-form label{font-weight:600;color:#5a4a2e}
-#surname-input{font-size:18px;padding:6px 8px}
+/* 44px is the smallest target a finger reliably hits, and the wizard is the first thing a finger meets. Measured at
+   1366x768, 1024x768 and 390x844 on 2026-09-21 (scripts/creation-overlap-study.mjs, docs/FAMILY_PANEL.md §13): the last
+   name's box was 37px, the naming card's boxes 36px, Continue 43px, the wagon's + and - 32px and its stock rows 20px. */
+#surname-input{font-size:18px;padding:6px 8px;min-height:44px}
 /* What the choice does, beside the choice (2026-09-21): the last name is set once, and the list under the box is labelled. */
 #surname-hint{margin:0;font-size:13px;color:#6c6046;line-height:1.4}
 #surname-people-label{margin:0;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:#7a6d52}
 #surname-people{margin:0;font-size:13px;color:#6c6046;min-height:1em}
 #surname-error{margin:0;font-size:13px;color:#8a2c1c;min-height:0}
 #surname-error:empty{display:none}
-#looks{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:31;width:min(560px,calc(100% - 24px));max-height:calc(100% - 24px);overflow-y:auto;background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259;border-radius:8px;box-shadow:0 5px 0 #6b583638,0 18px 45px #32291950;padding:12px 16px 16px;color:#3b3221}
+#looks{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:31;width:min(560px,calc(100% - 24px));max-height:calc(100% - 24px);display:flex;flex-direction:column;overflow:hidden;background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259;border-radius:8px;box-shadow:0 5px 0 #6b583638,0 18px 45px #32291950;padding:12px 16px 16px;color:#3b3221}
 #looks h2{font-size:22px;margin:2px 0 8px;color:#4b3e28}
+#looks>*{flex:none}
+#looks-form{display:flex;flex-direction:column;min-height:0;flex:1 1 auto;overflow:hidden}
+#looks-form>*{flex:none}
+#looks-parts{overflow-y:auto;min-height:0;flex:1 1 auto;padding-bottom:6px}
 #looks-top{display:flex;gap:12px;align-items:center}
 #looks-preview{width:120px;height:120px;border:1px solid #9c8259;border-radius:6px;flex:none}
 #looks-note{margin:0;font-size:13px;color:#6c6046;line-height:1.4}
@@ -681,7 +692,7 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot,body[data-pa
 #looks-step:empty{display:none}
 .looks-part{border:none;margin:8px 0 0;padding:0}
 .looks-part legend{font-weight:600;color:#5a4a2e;font-size:13px;padding:0;margin-bottom:4px}
-.looks-options{display:flex;flex-wrap:wrap;gap:6px}
+.looks-options{display:flex;flex-wrap:wrap;gap:8px}
 .looks-option{display:flex;flex-direction:column;align-items:center;gap:2px;padding:3px;min-height:0;background:#fbf4e2;border:2px solid #d8c69c;border-radius:6px;color:#3b3221;font-size:11px;width:66px}
 .looks-option canvas{width:52px;height:52px;border-radius:4px}
 .looks-option:hover,.looks-option:focus{background:#f3ead2;color:#3b3221}
@@ -689,7 +700,11 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot,body[data-pa
 .looks-option span{line-height:1.1;text-align:center}
 #looks-error{margin:6px 0 0;font-size:13px;color:#8a2c1c}
 #looks-error:empty{display:none}
-#looks-done{margin-top:10px;width:100%}
+/* The last row of choices sat 2.7px above Done once both wizard passes of 2026-09-21 were merged - a 66x88 picture
+   button with the end-of-step button right under it, which is a mis-tap waiting to happen on a touchscreen. The
+   separation is the scrolling list's own bottom padding as well as this margin, so a row scrolled to the fold keeps
+   its distance too. */
+#looks-done{flex:none;margin-top:14px;width:100%;min-height:44px}
 #family-kin .kin-row{padding:4px 0;border-bottom:1px solid #ddcda3;list-style:none}
 
 /* The curtain over the whole page while a family is made (public/creation.js): the scene, the game's name, and whichever step
@@ -712,18 +727,25 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot,body[data-pa
 body[data-creating=true] #join,body[data-creating=true] #rejoin{position:relative;z-index:41;margin:38vh auto 0;background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259}
 /* Every step's card stands above the curtain. */
 body[data-creating=true] #family-roll,body[data-creating=true] #surname,body[data-creating=true] #looks,#names{z-index:41}
-#names{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:41;width:min(30rem,calc(100% - 32px));max-height:min(80vh,44rem);overflow-y:auto;background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259;border-radius:10px;box-shadow:0 5px 0 #6b583638,0 18px 45px #32291950;padding:14px 18px 18px;color:#3b3221}
+#names{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:41;width:min(30rem,calc(100% - 32px));max-height:min(80vh,44rem);display:flex;flex-direction:column;overflow:hidden;background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259;border-radius:10px;box-shadow:0 5px 0 #6b583638,0 18px 45px #32291950;padding:14px 18px 18px;color:#3b3221}
 #names h2{font-size:22px;margin:2px 0 10px;color:#4b3e28}
 /* Nothing on this card is required: every box is already the name the game dealt (2026-09-21). */
 #names-hint{margin:0 0 10px;font-size:13px;color:#6c6046;line-height:1.4}
-#names-list{list-style:none;margin:0;padding:0}
+#names>*{flex:none}
+#names-form{display:flex;flex-direction:column;min-height:0;flex:1 1 auto}
+#names-list{list-style:none;margin:0;padding:0;overflow-y:auto;min-height:0;flex:1 1 auto}
 .names-row{display:grid;grid-template-columns:8.5rem 1fr;gap:8px;align-items:center;padding:5px 0;border-top:1px solid #ddcda3}
 .names-row:first-child{border-top:none}
 .names-row label{font-size:13px;color:#5a4a2e}
-.names-row input{font:inherit;font-size:15px;padding:6px 8px;border:1px solid #9c8259;border-radius:5px;background:#fffdf6;color:#3b3221;width:100%}
-#names-error{margin:6px 0 0;font-size:13px;color:#8a2c1c}
+.names-row input{font:inherit;font-size:15px;padding:6px 8px;border:1px solid #9c8259;border-radius:5px;background:#fffdf6;color:#3b3221;width:100%;min-height:44px}
+#names-error{flex:none;margin:6px 0 0;font-size:13px;color:#8a2c1c}
 #names-error:empty{display:none}
-#names-done{margin-top:12px;width:100%;min-height:42px;background:#4b3e28;border-color:#6b5836;color:#fdf0dd}
+/* The button that ends a step is the card's own footer, and the list above it is what scrolls. A family of ten - the
+   largest the twenty-sided die makes - pushed Continue 137px past the fold at a phone's height, and raising every box to
+   44px would have pushed it past on a Chromebook too. A sticky button was tried first and sat on top of the last child's
+   name box, which is the fault it was meant to cure; a footer outside the scroll box cannot cover anything.
+   The error line sits with the button, so a refusal is read whatever the list is scrolled to. */
+#names-done{flex:none;margin-top:12px;width:100%;min-height:44px;background:#4b3e28;border-color:#6b5836;color:#fdf0dd}
 @media (max-width:760px){
   #creation-begin{bottom:6vh;width:calc(100% - 20px)}
   .names-row{grid-template-columns:1fr;gap:2px}

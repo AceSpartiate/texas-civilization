@@ -3,6 +3,44 @@
 **Released as [v2026.09.21.5](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.21.5)** on
 2026-09-21, verified on the clean tree at `b2e184c` (869 passed).
 
+**The family-creation wizard as a thing on a screen, 2026-09-21:** [FAMILY_PANEL.md §13](docs/FAMILY_PANEL.md). §12.11
+asked what was drawn over what on the screen a student plays the *game* on, and stopped at the curtain. The same question
+of the five steps in front of it — the title, the die, the last name, everybody's first names, each parent's looks — and
+of the wagon after them. `npm run study:creation` reports, `npm run test:creation` gates, both from one instrument
+(`scripts/support/creation-geometry.mjs`), at 1366×768, 1024×768 and 390×844, with a family of **ten** — two parents and
+eight children, the largest the twenty-sided die makes.
+
+- **Nothing was covered and nothing was off the screen** at any size, which is the one thing that was already right.
+- **The modal was not modal.** Tab walked off *every* step onto `#world-map` and, from the last name onwards, **89**
+  controls of a world the student cannot see, while `#surname`, `#names` and `#looks` each told a screen reader
+  `aria-modal="true"`. The world behind the curtain is `inert` now: **0** reachable, every step, every size.
+- **Focus never arrived on a card.** The die disables its own button while it tumbles and a browser blurs a control it
+  has just disabled, so focus landed on nothing with no way back but Tab from the top of the document. The card takes
+  focus when its step arrives and is given it back whenever focus falls to nothing.
+- **22 targets under 44px** at 1366×768 — the last name's box 37, the naming boxes 36, Continue 43, the wagon's `+`/`−`
+  32, its stock rows 20 — and two pairs a finger cannot tell apart (6px, 4px). **0** under 44px now.
+- **"Done packing" sat 771px down the wagon's list.** `#names`, `#looks` and `#wagon-load` are a scrolling list with a
+  footer now; the button that ends a step and the line that announces a refusal are outside what scrolls. A *sticky*
+  button was tried first and sat on top of the last child's name box — the fault it was meant to cure.
+- **Evidence:** `docs/evidence/creation-overlap.json`, `-1024.json`, `-390.json`; `creation-browser.json` (4 checks over
+  24 step-and-size measurements); `creation-overlap-injections.json` — **7 of 7 caught, each by the check written for
+  it**. Three first read as caught-by-another-check because the harness's failure-sentence pattern was **greedy**: an
+  assertion whose own sentence held a colon was recorded by whatever followed its *last* colon.
+  `scripts/screen-overlap-injections.mjs` had the same latent read and is fixed with it. `npm test` **869**.
+- **`npm run test:looks` and `npm run test:family` had been failing since the dim shipped this morning** and nobody ran
+  them: the dim behind a covering panel is over the Journal button and Chrome refuses a click through it, which is the
+  dim working. Both put the wagon away first now, the way a student does — **8 checks** and **13**. Eleven other proofs
+  click `#journal-toggle` and were not run here; any that reaches that line with the wagon open has the same fault
+  waiting.
+- **Three gates were already broken and are still broken**, each failing identically on the tree before this work
+  (`4f96879`): `test:family-panel` (*"the middle of a phone screen is not the map: DIV"*), `test:family-commands`
+  (*"only 2 people could be given work; this seed was chosen for a large family"*) and `test:furniture` (times out on
+  `.panel-focus[data-focus="hh-1-elena"]`). None of the three is this work's, and none was repaired here.
+  `npm run test:lesson` still passes.
+- **Not proved:** same computer only; no real screen reader was run (NVDA, JAWS, ChromeVox have not been near it); the
+  join form and the wagon-that-opens-by-itself are the two places focus still starts on the page itself, both recorded
+  in §13.4 rather than chased. No claim ID was spent — nothing here invents anything, it is where things are drawn.
+
 **What was drawn over what, 2026-09-21:** [FAMILY_PANEL.md §12.11](docs/FAMILY_PANEL.md). Nothing had ever asked whether
 two pieces of this interface land on the same pixels. `npm run study:overlap` asks the browser — for every control a
 student can press it samples that control's own points and asks `elementFromPoint` what is on top — at 1366×768,
@@ -1523,9 +1561,15 @@ npm.cmd run test:browser
 npm.cmd run test:information
 npm.cmd run test:relay
 npm.cmd run test:slice
+npm.cmd run test:creation
+npm.cmd run test:looks
+npm.cmd run study:creation
+node scripts/creation-overlap-injections.mjs
 ```
 
-The bundled Playwright observed here is 1.62.1; Chrome was 152.0.7977.76. `TEST_ADDRESS` can override detected LAN address for a specific test. Tests start isolated temporary servers on ephemeral ports and preserve the ordinary classroom save. Browser tests use five isolated contexts; five tabs in one ordinary profile share cookies and are not five students. No remote asset requests occurred during the slice proof.
+`test:creation` and `study:creation` are the family-creation wizard as a thing on a screen (FAMILY_PANEL.md §13);
+`study:creation` takes a width and a height (`node scripts/creation-overlap-study.mjs 390 844`) and defaults to the
+Chromebook. The bundled Playwright observed here is 1.62.1; Chrome was 152.0.7977.76. `TEST_ADDRESS` can override detected LAN address for a specific test. Tests start isolated temporary servers on ephemeral ports and preserve the ordinary classroom save. Browser tests use five isolated contexts; five tabs in one ordinary profile share cookies and are not five students. No remote asset requests occurred during the slice proof.
 
 `test:browser` writes current A/B evidence into `test-results/`; `test:information` and `test:slice` write their JSON records into `docs/evidence/`. Initial acceptance records for A/B are retained separately. To refresh capacity timing evidence explicitly:
 
