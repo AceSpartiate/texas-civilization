@@ -1,5 +1,32 @@
 # Claude handoff — Astra foundation
 
+## Where everything is, end of 2026-09-21
+
+**On main and released:** v2026.09.21.4 (Astra's art in the game), .5 (the screen stops standing on itself), .6
+(deleting solo games), .7 (Play Solo asks what a class asks). Since .7 and **not yet released**: the house step saying
+to choose a house, rain holding the roof and the daub, and the line an empty bar shows. `npm test` **904**, doc links
+**785**.
+
+**Four agents were still running when the session ended.** Each is on its own worktree branch and has been told not to
+push and not to merge. Merge them one at a time, run `npm test` after each, and expect the interesting faults to be in
+the merge itself rather than on any branch — three of the four wizard faults on 2026-09-21 existed only where two
+branches met, and two more appeared when the rain work met the panel work.
+
+| Branch | What it was asked for | What it will collide with |
+| --- | --- | --- |
+| art wiring | Astra's four unwired batches: mounted family, mustang and *Yellow Stone*, Alamo face strips, wagon drivers | the drawing code in `public/app.js` |
+| screen overlap | the four panels the overlap study cannot reach honestly — `#site-choose`, `#survey-choose`, `#encounter` (which the stylesheet puts where the ability bar lives), `#call-menu` | `public/app.js`, `public/style.css`, `scripts/screen-overlap-study.mjs` |
+| broken proofs | `test:family-panel`, `test:family-commands`, `test:furniture`, and `test:road` — all broken before 2026-09-21 | the proofs themselves; possibly the product |
+| children's work | play and the small jobs a frontier child did, in a module of its own (`sim/children.mjs`) so it registers rather than edits `sim/chores.mjs` | `public/family-panel.js` glyphs; the panel line above |
+
+**The sweep the owner asked for comes after all four are merged:** every life stage and situation — soldier, sick,
+captured, travelling, fled, a family that has left for the east — checked so that each person's bar says something true
+about that person. Their words: *"This philosophy should be followed logically and dynamically throughout the
+experience of the game."* The panel work above is the first half of it; what remains is the audit.
+
+**Do not trust a harness that reports a number.** Five were found unable to run on 2026-09-21, every one of them
+reporting success while matching nothing. Run one before relying on it, and read the count.
+
 **Released as [v2026.09.21.5](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.21.5)** on
 2026-09-21, verified on the clean tree at `b2e184c` (869 passed).
 
