@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **783 usable sprites, 53 PNG atlases, 330 clips** (166 pose cycles; 4 layered rigs).
+Generated from the shipped library: **944 usable sprites, 66 PNG atlases, 377 clips** (183 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -13,10 +13,13 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | Atlas | Frames | Size | PNG bytes |
 | --- | ---: | --- | ---: |
 | artillery-service | 16 | 1254 × 1254 | 1171440 |
+| biome-ground-bexar | 16 | 1254 × 1254 | 2215982 |
 | people-cast2-carry | 12 | 1254 × 1254 | 1294419 |
+| people-cast2-dialogue | 16 | 1254 × 1254 | 867662 |
 | people-cast2-care | 16 | 1254 × 1254 | 1382974 |
 | people-cast2-search-trade | 16 | 1254 × 1254 | 1289372 |
 | people-cast2-tasks | 16 | 1254 × 1254 | 1471967 |
+| people-cast2-vertical | 16 | 1254 × 1254 | 816027 |
 | people-cast2-walk | 16 | 1254 × 1254 | 1288383 |
 | people-cast2-work | 16 | 1254 × 1254 | 1279315 |
 | people-cast2-idle | 16 | 1254 × 1254 | 1103935 |
@@ -25,15 +28,25 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-children-walk | 12 | 1254 × 1254 | 1127437 |
 | people-children-care | 12 | 1254 × 1254 | 1425070 |
 | land-clearing | 16 | 1254 × 1254 | 904975 |
+| icons-family-actions-1 | 16 | 1254 × 1254 | 2324769 |
+| icons-family-actions-2 | 13 | 1254 × 1254 | 1706833 |
+| icons-family-service | 16 | 1254 × 1254 | 1734840 |
+| icons-family-subsistence | 8 | 1774 × 887 | 2248974 |
 | house-modules | 16 | 1448 × 1086 | 1837997 |
 | courier-dismount | 16 | 1254 × 1254 | 1219584 |
 | courier-encounters-vertical | 16 | 1254 × 1254 | 1034014 |
 | people-dialogue | 16 | 1254 × 1254 | 1237850 |
+| ferry-flatboat | 3 | 1254 × 1254 | 203701 |
+| steamboat-moored | 4 | 1254 × 1254 | 799173 |
 | houses-settling | 16 | 1254 × 1254 | 1507240 |
 | animal-stock | 16 | 1254 × 1254 | 946031 |
 | home-furnishings | 16 | 1254 × 1254 | 1795581 |
 | home-interiors | 4 | 1254 × 1254 | 1850877 |
+| town-buildings-researched | 16 | 1254 × 1254 | 2122682 |
 | trees-colonies-1 | 16 | 1254 × 1254 | 1626976 |
+| trees-colonies-2 | 16 | 1254 × 1254 | 1902468 |
+| weather-norther | 5 | 1536 × 1024 | 1669037 |
+| wildlife-turkey | 16 | 1254 × 1254 | 1247109 |
 | wildlife-deer | 16 | 1254 × 1254 | 1223203 |
 | courier-encounters | 16 | 1254 × 1254 | 1697901 |
 | alamo-facades | 4 | 1254 × 1254 | 1715808 |
@@ -86,6 +99,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | regular-roundshot-carry | artillery-service | regular-gun-shot-carry |
 | regular-lanyard-pull | artillery-service | regular-gun-fire |
 | regular-cover-ears | artillery-service | regular-gun-fire |
+| palmetto | biome-ground-bexar | State artwork; no motion required |
+| cypress-knees | biome-ground-bexar | State artwork; no motion required |
+| cane-1 | biome-ground-bexar | State artwork; no motion required |
+| cane-2 | biome-ground-bexar | State artwork; no motion required |
+| cane-wind | biome-ground-bexar | cane-wind |
+| grass-tall | biome-ground-bexar | State artwork; no motion required |
+| grass-tall-wind | biome-ground-bexar | grass-tall-wind |
+| thicket-thorn-1 | biome-ground-bexar | State artwork; no motion required |
+| thicket-thorn-2 | biome-ground-bexar | State artwork; no motion required |
+| yucca | biome-ground-bexar | State artwork; no motion required |
+| marsh-cordgrass | biome-ground-bexar | State artwork; no motion required |
+| dune-grass | biome-ground-bexar | State artwork; no motion required |
+| acequia-straight | biome-ground-bexar | State artwork; no motion required |
+| acequia-bend | biome-ground-bexar | State artwork; no motion required |
+| acequia-crossing | biome-ground-bexar | State artwork; no motion required |
+| fence-brush | biome-ground-bexar | State artwork; no motion required |
 | rust-woman-carry-1 | people-cast2-carry | rust-woman-carry |
 | rust-woman-carry-2 | people-cast2-carry | rust-woman-carry |
 | rust-woman-carry-3 | people-cast2-carry | rust-woman-carry |
@@ -98,6 +127,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | blue-girl-carry-1 | people-cast2-carry | blue-girl-carry |
 | blue-girl-carry-2 | people-cast2-carry | blue-girl-carry |
 | blue-girl-carry-3 | people-cast2-carry | blue-girl-carry |
+| rust-woman-speak-1 | people-cast2-dialogue | rust-woman-speak |
+| rust-woman-speak-2 | people-cast2-dialogue | rust-woman-speak |
+| rust-woman-listen-s | people-cast2-dialogue | rust-woman-listen-s |
+| rust-woman-listen-n | people-cast2-dialogue | rust-woman-listen-n |
+| indigo-speak-1 | people-cast2-dialogue | indigo-speak |
+| indigo-speak-2 | people-cast2-dialogue | indigo-speak |
+| indigo-listen-s | people-cast2-dialogue | indigo-listen-s |
+| indigo-listen-n | people-cast2-dialogue | indigo-listen-n |
+| ochre-speak-1 | people-cast2-dialogue | ochre-speak |
+| ochre-speak-2 | people-cast2-dialogue | ochre-speak |
+| ochre-listen-s | people-cast2-dialogue | ochre-listen-s |
+| ochre-listen-n | people-cast2-dialogue | ochre-listen-n |
+| blue-girl-speak-1 | people-cast2-dialogue | blue-girl-speak |
+| blue-girl-speak-2 | people-cast2-dialogue | blue-girl-speak |
+| blue-girl-listen-s | people-cast2-dialogue | blue-girl-listen-s |
+| blue-girl-listen-n | people-cast2-dialogue | blue-girl-listen-n |
 | rust-woman-rest-pose | people-cast2-care | rust-woman-rest |
 | rust-woman-injured-pose | people-cast2-care | rust-woman-injured-rest |
 | rust-woman-care-1 | people-cast2-care | rust-woman-care |
@@ -146,6 +191,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | blue-girl-sow-2 | people-cast2-tasks | blue-girl-sow |
 | blue-girl-repair-1 | people-cast2-tasks | blue-girl-repair |
 | blue-girl-repair-2 | people-cast2-tasks | blue-girl-repair |
+| rust-woman-walk-s-1 | people-cast2-vertical | rust-woman-walk-s |
+| rust-woman-walk-s-2 | people-cast2-vertical | rust-woman-walk-s |
+| rust-woman-walk-n-1 | people-cast2-vertical | rust-woman-walk-n |
+| rust-woman-walk-n-2 | people-cast2-vertical | rust-woman-walk-n |
+| indigo-walk-s-1 | people-cast2-vertical | indigo-walk-s |
+| indigo-walk-s-2 | people-cast2-vertical | indigo-walk-s |
+| indigo-walk-n-1 | people-cast2-vertical | indigo-walk-n |
+| indigo-walk-n-2 | people-cast2-vertical | indigo-walk-n |
+| ochre-walk-s-1 | people-cast2-vertical | ochre-walk-s |
+| ochre-walk-s-2 | people-cast2-vertical | ochre-walk-s |
+| ochre-walk-n-1 | people-cast2-vertical | ochre-walk-n |
+| ochre-walk-n-2 | people-cast2-vertical | ochre-walk-n |
+| blue-girl-walk-s-1 | people-cast2-vertical | blue-girl-walk-s |
+| blue-girl-walk-s-2 | people-cast2-vertical | blue-girl-walk-s |
+| blue-girl-walk-n-1 | people-cast2-vertical | blue-girl-walk-n |
+| blue-girl-walk-n-2 | people-cast2-vertical | blue-girl-walk-n |
 | rust-woman-walk-1 | people-cast2-walk | rust-woman-walk |
 | rust-woman-walk-2 | people-cast2-walk | rust-woman-walk |
 | rust-woman-walk-3 | people-cast2-walk | rust-woman-walk |
@@ -262,6 +323,59 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | clearing-brush-dry | land-clearing | State artwork; no motion required |
 | clearing-ash | land-clearing | State artwork; no motion required |
 | clearing-branches | land-clearing | State artwork; no motion required |
+| icon-survey-plot | icons-family-actions-1 | State artwork; no motion required |
+| icon-cut-lane | icons-family-actions-1 | State artwork; no motion required |
+| icon-dig-well | icons-family-actions-1 | State artwork; no motion required |
+| icon-plant-field | icons-family-actions-1 | State artwork; no motion required |
+| icon-harvest-field | icons-family-actions-1 | State artwork; no motion required |
+| icon-clear-plot | icons-family-actions-1 | State artwork; no motion required |
+| icon-fence-plot | icons-family-actions-1 | State artwork; no motion required |
+| icon-build-house | icons-family-actions-1 | State artwork; no motion required |
+| icon-help-raise | icons-family-actions-1 | State artwork; no motion required |
+| icon-hunt-timber | icons-family-actions-1 | State artwork; no motion required |
+| icon-hunt-land | icons-family-actions-1 | State artwork; no motion required |
+| icon-practise-shooting | icons-family-actions-1 | State artwork; no motion required |
+| icon-sell-cotton | icons-family-actions-1 | State artwork; no motion required |
+| icon-fetch-powder | icons-family-actions-1 | State artwork; no motion required |
+| icon-fetch-seed | icons-family-actions-1 | State artwork; no motion required |
+| icon-sell-food | icons-family-actions-1 | State artwork; no motion required |
+| icon-mend-hoe | icons-family-actions-2 | State artwork; no motion required |
+| icon-replace-hoe | icons-family-actions-2 | State artwork; no motion required |
+| icon-visit-shop | icons-family-actions-2 | State artwork; no motion required |
+| icon-make-furniture | icons-family-actions-2 | State artwork; no motion required |
+| icon-buy-furniture | icons-family-actions-2 | State artwork; no motion required |
+| icon-fell-trees | icons-family-actions-2 | State artwork; no motion required |
+| icon-haul-logs | icons-family-actions-2 | State artwork; no motion required |
+| icon-travel-gonzales | icons-family-actions-2 | State artwork; no motion required |
+| icon-travel-home | icons-family-actions-2 | State artwork; no motion required |
+| icon-visit | icons-family-actions-2 | State artwork; no motion required |
+| icon-work | icons-family-actions-2 | State artwork; no motion required |
+| icon-rest | icons-family-actions-2 | State artwork; no motion required |
+| icon-stop-chore | icons-family-actions-2 | State artwork; no motion required |
+| icon-enlist-regular | icons-family-service | State artwork; no motion required |
+| icon-enlist-auxiliary | icons-family-service | State artwork; no motion required |
+| icon-join-garrison | icons-family-service | State artwork; no motion required |
+| icon-join-matamoros | icons-family-service | State artwork; no motion required |
+| icon-go-vote | icons-family-service | State artwork; no motion required |
+| icon-winter-recall | icons-family-service | State artwork; no motion required |
+| icon-join-relief | icons-family-service | State artwork; no motion required |
+| icon-join-houston | icons-family-service | State artwork; no motion required |
+| icon-camp-drill | icons-family-service | State artwork; no motion required |
+| icon-camp-forage | icons-family-service | State artwork; no motion required |
+| icon-camp-guard | icons-family-service | State artwork; no motion required |
+| icon-camp-scout | icons-family-service | State artwork; no motion required |
+| icon-hunt-road | icons-family-service | State artwork; no motion required |
+| icon-tend-sick | icons-family-service | State artwork; no motion required |
+| icon-trade-crossing | icons-family-service | State artwork; no motion required |
+| icon-fetch-logs | icons-family-service | State artwork; no motion required |
+| icon-take-small-game | icons-family-subsistence | State artwork; no motion required |
+| icon-fish-the-water | icons-family-subsistence | State artwork; no motion required |
+| icon-fish-road | icons-family-subsistence | State artwork; no motion required |
+| icon-gather-oysters | icons-family-subsistence | State artwork; no motion required |
+| icon-cut-bee-tree | icons-family-subsistence | State artwork; no motion required |
+| icon-butcher-beef | icons-family-subsistence | State artwork; no motion required |
+| icon-butcher-hog | icons-family-subsistence | State artwork; no motion required |
+| icon-look-to-stock | icons-family-subsistence | State artwork; no motion required |
 | house-round-sill | house-modules | State artwork; no motion required |
 | house-round-low-walls | house-modules | State artwork; no motion required |
 | house-round-full-walls | house-modules | State artwork; no motion required |
@@ -326,6 +440,13 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | blue-speak-e-2 | people-dialogue | blue-speak-e, blue-speak |
 | blue-listen-s-pose | people-dialogue | blue-listen-s |
 | blue-listen-n-pose | people-dialogue | blue-listen-n |
+| ferry-flatboat | ferry-flatboat | ferry-flatboat-idle |
+| ferry-flatboat-laden | ferry-flatboat | ferry-flatboat-laden-idle |
+| ferry-post | ferry-flatboat | State artwork; no motion required |
+| steamboat-moored-1 | steamboat-moored | steamboat-moored |
+| steamboat-moored-2 | steamboat-moored | steamboat-moored |
+| steamboat-moored-3 | steamboat-moored | steamboat-gangplank |
+| steamboat-moored-4 | steamboat-moored | steamboat-cotton-moored |
 | house-round-log-site | houses-settling | State artwork; no motion required |
 | house-round-log-walls | houses-settling | State artwork; no motion required |
 | house-round-log-roofing | houses-settling | State artwork; no motion required |
@@ -378,6 +499,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | interior-hewn-log | home-interiors | State artwork; no motion required |
 | interior-dog-run | home-interiors | State artwork; no motion required |
 | interior-jacal | home-interiors | State artwork; no motion required |
+| building-frame-one-storey | town-buildings-researched | State artwork; no motion required |
+| building-frame-storey-half | town-buildings-researched | State artwork; no motion required |
+| building-frame-two-storey | town-buildings-researched | State artwork; no motion required |
+| whiteside-hotel | town-buildings-researched | State artwork; no motion required |
+| round-top-house | town-buildings-researched | State artwork; no motion required |
+| round-top-house-weathered | town-buildings-researched | State artwork; no motion required |
+| jacal-upright-post | town-buildings-researched | State artwork; no motion required |
+| jacal-broad | town-buildings-researched | State artwork; no motion required |
+| jacal-poor | town-buildings-researched | State artwork; no motion required |
+| jacal-ramada | town-buildings-researched | State artwork; no motion required |
+| mina-stockade | town-buildings-researched | State artwork; no motion required |
+| mina-stockade-open | town-buildings-researched | State artwork; no motion required |
+| liberty-court-room | town-buildings-researched | State artwork; no motion required |
+| liberty-court-room-side | town-buildings-researched | State artwork; no motion required |
+| building-frame-shop | town-buildings-researched | State artwork; no motion required |
+| building-frame-residence | town-buildings-researched | State artwork; no motion required |
 | pine-loblolly-pole | trees-colonies-1 | pine-loblolly-pole-wind |
 | pine-loblolly-log | trees-colonies-1 | pine-loblolly-log-wind |
 | pine-loblolly-large | trees-colonies-1 | pine-loblolly-large-wind |
@@ -394,6 +531,43 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | elm-pole | trees-colonies-1 | elm-pole-wind |
 | elm-log | trees-colonies-1 | elm-log-wind |
 | elm-large | trees-colonies-1 | elm-large-wind |
+| post-oak-pole | trees-colonies-2 | post-oak-pole-wind |
+| post-oak-log | trees-colonies-2 | post-oak-log-wind |
+| post-oak-large | trees-colonies-2 | post-oak-large-wind |
+| blackjack-pole | trees-colonies-2 | blackjack-pole-wind |
+| blackjack-log | trees-colonies-2 | blackjack-log-wind |
+| blackjack-large | trees-colonies-2 | blackjack-large-wind |
+| pecan-pole | trees-colonies-2 | pecan-pole-wind |
+| pecan-log | trees-colonies-2 | pecan-log-wind |
+| pecan-large | trees-colonies-2 | pecan-large-wind |
+| hackberry-pole | trees-colonies-2 | hackberry-pole-wind |
+| hackberry-log | trees-colonies-2 | hackberry-log-wind |
+| hackberry-large | trees-colonies-2 | hackberry-large-wind |
+| sweetgum-pole | trees-colonies-2 | sweetgum-pole-wind |
+| sweetgum-log | trees-colonies-2 | sweetgum-log-wind |
+| sweetgum-large | trees-colonies-2 | sweetgum-large-wind |
+| log-fallen-hardwood | trees-colonies-2 | State artwork; no motion required |
+| oak-broad-wind | weather-norther | State artwork; no motion required |
+| oak-spreading-wind | weather-norther | State artwork; no motion required |
+| pecan-wind | weather-norther | State artwork; no motion required |
+| grass-tuft-wind | weather-norther | State artwork; no motion required |
+| smoke-streaming | weather-norther | smoke-streaming |
+| turkey-forage-1 | wildlife-turkey | turkey-forage |
+| turkey-forage-2 | wildlife-turkey | turkey-forage |
+| turkey-forage-3 | wildlife-turkey | turkey-forage |
+| turkey-forage-4 | wildlife-turkey | turkey-forage |
+| turkey-alert-1 | wildlife-turkey | turkey-alert |
+| turkey-alert-2 | wildlife-turkey | turkey-alert |
+| turkey-alert-3 | wildlife-turkey | turkey-alert |
+| turkey-alert-4 | wildlife-turkey | turkey-alert |
+| turkey-bound-1 | wildlife-turkey | turkey-bound |
+| turkey-bound-2 | wildlife-turkey | turkey-bound |
+| turkey-bound-3 | wildlife-turkey | turkey-bound |
+| turkey-bound-4 | wildlife-turkey | turkey-bound |
+| turkey-display-1 | wildlife-turkey | turkey-display |
+| turkey-display-2 | wildlife-turkey | turkey-display |
+| turkey-display-3 | wildlife-turkey | turkey-display |
+| turkey-display-4 | wildlife-turkey | turkey-display |
 | deer-idle-1 | wildlife-deer | deer-idle |
 | deer-idle-2 | wildlife-deer | deer-idle |
 | deer-idle-3 | wildlife-deer | deer-idle |
@@ -864,10 +1038,24 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | regular-gun-ram | Pose cycle | 4 | 1160 | one-shot | east; west by mirroring |
 | regular-gun-shot-carry | Pose cycle | 2 | 840 | yes | east; west by mirroring |
 | regular-gun-fire | Pose cycle | 2 | 1060 | one-shot | east; west by mirroring |
+| cane-wind | Still state | 1 | 900 | yes | not applicable |
+| grass-tall-wind | Still state | 1 | 900 | yes | not applicable |
 | rust-woman-carry | Pose cycle | 4 | 760 | yes | east; west by mirroring |
 | indigo-carry | Pose cycle | 4 | 760 | yes | east; west by mirroring |
 | ochre-carry | Pose cycle | 4 | 760 | yes | east; west by mirroring |
 | blue-girl-carry | Pose cycle | 4 | 760 | yes | east; west by mirroring |
+| rust-woman-speak | Pose cycle | 2 | 1650 | yes | east; west by mirroring |
+| rust-woman-listen-s | breathe | 1 | 2200 | yes | south |
+| rust-woman-listen-n | breathe | 1 | 2200 | yes | north |
+| indigo-speak | Pose cycle | 2 | 1650 | yes | east; west by mirroring |
+| indigo-listen-s | breathe | 1 | 2200 | yes | south |
+| indigo-listen-n | breathe | 1 | 2200 | yes | north |
+| ochre-speak | Pose cycle | 2 | 1650 | yes | east; west by mirroring |
+| ochre-listen-s | breathe | 1 | 2200 | yes | south |
+| ochre-listen-n | breathe | 1 | 2200 | yes | north |
+| blue-girl-speak | Pose cycle | 2 | 1650 | yes | east; west by mirroring |
+| blue-girl-listen-s | breathe | 1 | 2200 | yes | south |
+| blue-girl-listen-n | breathe | 1 | 2200 | yes | north |
 | rust-woman-rest | breathe | 1 | 2500 | yes | east; west by mirroring |
 | rust-woman-injured-rest | breathe | 1 | 3000 | yes | east; west by mirroring |
 | rust-woman-care | Pose cycle | 2 | 840 | yes | east; west by mirroring |
@@ -896,6 +1084,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | ochre-repair | Pose cycle | 2 | 720 | yes | east; west by mirroring |
 | blue-girl-sow | Pose cycle | 2 | 720 | yes | east; west by mirroring |
 | blue-girl-repair | Pose cycle | 2 | 720 | yes | east; west by mirroring |
+| rust-woman-walk-s | Pose cycle | 2 | 440 | yes | south |
+| rust-woman-walk-n | Pose cycle | 2 | 440 | yes | north |
+| indigo-walk-s | Pose cycle | 2 | 440 | yes | south |
+| indigo-walk-n | Pose cycle | 2 | 440 | yes | north |
+| ochre-walk-s | Pose cycle | 2 | 440 | yes | south |
+| ochre-walk-n | Pose cycle | 2 | 440 | yes | north |
+| blue-girl-walk-s | Pose cycle | 2 | 440 | yes | south |
+| blue-girl-walk-n | Pose cycle | 2 | 440 | yes | north |
 | rust-woman-walk | Pose cycle | 4 | 720 | yes | east; west by mirroring |
 | indigo-walk | Pose cycle | 4 | 720 | yes | east; west by mirroring |
 | ochre-walk | Pose cycle | 4 | 720 | yes | east; west by mirroring |
@@ -990,6 +1186,11 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | blue-speak | Pose cycle | 2 | 1400 | yes | east; west by mirroring |
 | blue-listen-s | breathe | 1 | 2200 | yes | south |
 | blue-listen-n | breathe | 1 | 2200 | yes | north |
+| ferry-flatboat-idle | rock | 1 | 3400 | yes | east; west by mirroring |
+| ferry-flatboat-laden-idle | rock | 1 | 3400 | yes | east; west by mirroring |
+| steamboat-moored | Pose cycle | 2 | 2200 | yes | east; west by mirroring |
+| steamboat-gangplank | Still state | 1 | 1600 | yes | east; west by mirroring |
+| steamboat-cotton-moored | drift | 1 | 1600 | yes | east; west by mirroring |
 | cattle-longhorn-red-idle | breathe | 1 | 2200 | yes | east; west by mirroring |
 | cattle-longhorn-red-graze | Pose cycle | 6 | 5100 | yes | east; west by mirroring |
 | cattle-longhorn-pied-idle | breathe | 1 | 2200 | yes | east; west by mirroring |
@@ -1015,6 +1216,30 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | elm-pole-wind | sway | 1 | 3800 | yes | not applicable |
 | elm-log-wind | sway | 1 | 3800 | yes | not applicable |
 | elm-large-wind | sway | 1 | 3800 | yes | not applicable |
+| post-oak-pole-wind | sway | 1 | 3800 | yes | not applicable |
+| post-oak-log-wind | sway | 1 | 3800 | yes | not applicable |
+| post-oak-large-wind | sway | 1 | 3800 | yes | not applicable |
+| blackjack-pole-wind | sway | 1 | 3800 | yes | not applicable |
+| blackjack-log-wind | sway | 1 | 3800 | yes | not applicable |
+| blackjack-large-wind | sway | 1 | 3800 | yes | not applicable |
+| pecan-pole-wind | sway | 1 | 3800 | yes | not applicable |
+| pecan-log-wind | sway | 1 | 3800 | yes | not applicable |
+| pecan-large-wind | sway | 1 | 3800 | yes | not applicable |
+| hackberry-pole-wind | sway | 1 | 3800 | yes | not applicable |
+| hackberry-log-wind | sway | 1 | 3800 | yes | not applicable |
+| hackberry-large-wind | sway | 1 | 3800 | yes | not applicable |
+| sweetgum-pole-wind | sway | 1 | 3800 | yes | not applicable |
+| sweetgum-log-wind | sway | 1 | 3800 | yes | not applicable |
+| sweetgum-large-wind | sway | 1 | 3800 | yes | not applicable |
+| oak-broad-wind | sway | 1 | 3800 | yes | not applicable |
+| oak-spreading-wind | sway | 1 | 3800 | yes | not applicable |
+| pecan-wind | sway | 1 | 3800 | yes | not applicable |
+| grass-tuft-wind | sway | 1 | 3800 | yes | not applicable |
+| smoke-streaming | drift | 1 | 1100 | yes | not applicable |
+| turkey-forage | Pose cycle | 4 | 1440 | yes | east; west by mirroring |
+| turkey-alert | Pose cycle | 4 | 1440 | yes | east; west by mirroring |
+| turkey-bound | Pose cycle | 4 | 600 | yes | east; west by mirroring |
+| turkey-display | Pose cycle | 4 | 1040 | yes | east; west by mirroring |
 | deer-idle | Pose cycle | 4 | 2800 | yes | east; west by mirroring |
 | deer-alert | Pose cycle | 4 | 2600 | yes | east; west by mirroring |
 | deer-bound | Pose cycle | 4 | 720 | yes | east; west by mirroring |
@@ -1152,14 +1377,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | regular-fire-reload | Pose cycle | 4 | 2470 | one-shot | east; west by mirroring |
 | regular-surrender | Pose cycle | 2 | 1300 | one-shot | east; west by mirroring |
 | regular-injured-rest | breathe | 1 | 2700 | yes | east; west by mirroring |
-| oak-broad-wind | sway | 1 | 3800 | yes | not applicable |
-| oak-spreading-wind | sway | 1 | 3800 | yes | not applicable |
 | cottonwood-wind | sway | 1 | 3800 | yes | not applicable |
-| pecan-wind | sway | 1 | 3800 | yes | not applicable |
 | sapling-wind | sway | 1 | 3800 | yes | not applicable |
 | reeds-wind | sway | 1 | 3800 | yes | not applicable |
 | scrub-wind | sway | 1 | 3800 | yes | not applicable |
-| grass-tuft-wind | sway | 1 | 3800 | yes | not applicable |
 | corn-young-wind | sway | 1 | 3800 | yes | not applicable |
 | corn-mature-wind | sway | 1 | 3800 | yes | not applicable |
 | cotton-young-wind | sway | 1 | 3800 | yes | not applicable |

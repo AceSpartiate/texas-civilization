@@ -22,8 +22,6 @@ export const root = fileURLToPath(new URL('../public/assets/claude-standins/', i
 export const WEB_ROOT = '/assets/claude-standins/';
 
 const MARKS = 'Request 2026-09-16 — the family panel’s marks';
-const WINTER = 'Request 2026-09-16 — the winter’s icons';
-const ICONS = 'Request 2026-09-15 — action icons for the family panel';
 const PORTRAITS = 'Request 2026-09-15 — face portraits for the family panel';
 const TOOLS = 'Request 2026-09-12 (second) — interiors and furnishings: the wagon’s tools';
 
@@ -36,17 +34,11 @@ export const SHEETS = {
   'claude-marks': { cell: 96, request: MARKS, replaceWith: '96 by 96, transparent, no text', frames: [
     'mark-need', 'mark-need-rider', 'mark-main', 'mark-idle', 'mark-auto-off', 'mark-auto-on',
   ] },
-  'claude-icons-winter': { cell: 128, request: WINTER, replaceWith: '128 by 128, transparent, one silhouette, reads dimmed to 40 per cent', frames: [
-    'icon-enlist-regular', 'icon-enlist-auxiliary', 'icon-join-garrison', 'icon-join-matamoros', 'icon-go-vote', 'icon-winter-recall',
-    'icon-join-relief', 'icon-join-houston',
-  ] },
-  'claude-icons-actions': { cell: 128, request: ICONS, replaceWith: '128 by 128, transparent, one silhouette, reads dimmed to 40 per cent', frames: [
-    'icon-survey-plot', 'icon-cut-lane', 'icon-dig-well', 'icon-plant-field', 'icon-harvest-field', 'icon-clear-plot', 'icon-fence-plot',
-    'icon-build-house', 'icon-help-raise', 'icon-hunt-timber', 'icon-hunt-land', 'icon-practise-shooting', 'icon-sell-cotton',
-    'icon-fetch-powder', 'icon-fetch-seed', 'icon-sell-food', 'icon-mend-hoe', 'icon-replace-hoe', 'icon-fell-trees', 'icon-haul-logs',
-    'icon-travel-gonzales', 'icon-travel-home', 'icon-visit', 'icon-work', 'icon-rest', 'icon-stop-chore',
-    'icon-visit-shop', 'icon-make-furniture', 'icon-buy-furniture',
-  ] },
+  // **Retired 2026-09-21.** `claude-icons-winter` (the winter's eight) and `claude-icons-actions` (twenty-nine of the
+  // family panel's) are gone: Astra delivered all 53 action icons that day
+  // (docs/ART_DELIVERY_2026-09-21-FAMILY-ACTION-ICONS.md), her frames win in the loader, and the rule for a stand-in is
+  // that it is deleted the moment the real art lands. The rules they proved are kept in the request itself: one
+  // silhouette, a thin dark outline, and readable dimmed to 40 per cent at 34-38 CSS pixels.
   'claude-portraits': { cell: 192, request: PORTRAITS, replaceWith: '192 by 192, head and shoulders facing the viewer, matching the sheet figure', frames: [
     'portrait-rust', 'portrait-teal', 'portrait-elder', 'portrait-blue', 'portrait-rust-woman', 'portrait-indigo', 'portrait-ochre',
     'portrait-blue-girl', 'portrait-girl', 'portrait-boy', 'portrait-smallchild', 'portrait-infant',

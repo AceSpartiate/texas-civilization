@@ -41,7 +41,11 @@ const spring = () => structuredClone(shared ??= (() => {
   beginThirdPeriod(world); world.status = 'running';
   return world;
 })());
-const grownMen = world => Object.values(world.entities).filter(one => one.householdId && one.kind === 'person' && one.health.condition === 'well' && one.sex === 'male' && (one.age ?? 0) >= 16 && !one.service && !one.travel && one.location.siteId === world.households[one.householdId].homeSiteId);
+// Grown men who could ride to the camp. Not filtered on being well: since 2026-09-20 a norther on the road east counts
+// towards the day's sickness (`COLD_WEIGHT`, `FIC-GONZ-135`), so by the spring a few of any class are laid up at any
+// moment, and a test that wanted five men in five families found four. `serve` puts the man it takes on his feet, which
+// is the fixture's own premise - a sick man does not ride to Houston's camp.
+const grownMen = world => Object.values(world.entities).filter(one => one.householdId && one.kind === 'person' && !['dead', 'captured'].includes(one.health.condition) && one.sex === 'male' && (one.age ?? 0) >= 16 && !one.service && !one.travel && one.location.siteId === world.households[one.householdId].homeSiteId);
 // A man at work at home may still be sent: `serve` puts down whatever he was doing, as an order does. Since clearing timber
 // leaves logs lying (sim/improvements.mjs, 2026-09-17) more of the neighbours are busy hauling, and a test that wanted six
 // idle men found four.
@@ -49,6 +53,7 @@ const grownMen = world => Object.values(world.entities).filter(one => one.househ
 const serve = (world, person, { played = true, ...extra } = {}) => {
   const siteId = houstonCamp(world), site = world.map.sites[siteId];
   person.travel = null; person.chore = null; person.task = 'rest';
+  person.health = { condition: 'well' };
   person.location = { x: site.x, y: site.y, siteId };
   person.service = { kind: 'houston', status: 'serving', since: world.minute, siteId, ...extra };
   if (played) world.households[person.householdId].played = true; else delete world.households[person.householdId].played;

@@ -20,7 +20,6 @@ does not have:
 | --- | --- | --- | --- |
 | Four glyph icons drawn in code (a squirrel on a branch, a fish over the water, two shells on the sand, a bee tree) | `drawGlyph` in `public/family-panel.js` | Request 2026-09-20 — the gathering icons | `icon-take-small-game`, `icon-fish-the-water`, `icon-gather-oysters`, `icon-cut-bee-tree` |
 | Three glyph icons drawn in code (a long-horned cow, a hog with its snout in the mast, a rider's hat over the grass) | `drawGlyph` in `public/family-panel.js` | Request 2026-09-20 — the stock icons | `icon-butcher-beef`, `icon-butcher-hog`, `icon-look-to-stock` |
-| The six drawn towns' documented buildings the library cannot draw (frame buildings, the Whiteside Hotel, the Round Top House, jacales, Mina's stockade, Liberty's court room) | `sim/town-layouts.mjs`, drawn by `public/town-art.js` | Request 2026-09-16 — the buildings the towns' research found | the requested buildings |
 | A new town's shops are the nearest buildings the library has, two trades sharing a sprite | `SHOP_SPRITES` in `sim/shops.mjs`, drawn in `drawWorld` in `public/app.js` | Request 2026-09-16 — the shops of the towns | `shop-*` buildings, one per trade |
 | Whole jacal stage sprites; `lean-to` shed frame; procedural double chimney; no separate interior floor/loft display | `drawHousePlot` in `public/house-plot.js` | Request 2026-09-15 — the house plot's pieces | Jacal modules, shed frame, double chimney, and separately registered floor and loft overlays |
 | Generic `chapel` and `adobe-flat` silhouettes represent San Fernando and the Governor's Palace | `public/bexar-layout.js` | Request 2026-09-14 — Béxar civic architecture | Researched 1836 civic façades in the existing illustrated style |
@@ -28,7 +27,7 @@ does not have:
 | A child in an unavailable action pose is a grown figure drawn smaller (90% at 10–17, 70% at 5–9, 55% at 2–4, 45% an infant). Idle, cardinal walking, rest and injured-rest use delivered `girl`, `boy`, `smallchild` and `infant` art | `CHILD_POSES` and `entityClip` in `public/motion.js` | Request 2026-09-12, priority 1 — children | Any later child-specific action poses. **Keep the scaling**: the delivered sheets fill their cells and need it |
 | A person's appearance - a parent's chosen, a child's taken after the parents - is shown only in words in the family book ("olive skin, black hair, rust clothes, a beard"); the figure on the map is still chosen by sex and age | `public/appearance.js`, `sim/appearance.mjs` | Request below — layered people art | Layered or palette-swappable sheets for the whole cast |
 | A saddlebag house's interior is drawn on the dog-run's picture (`interior-dog-run`, drawn wide), with its own ten spots measured there — by each hearth at the outer ends where that picture draws them, each back wall, window, pen and door — and nothing set in the passage the picture shows | `INTERIORS.saddlebag` in `sim/interior-data.mjs`, drawn by `public/interior.js` | Request 2026-09-12 (second) — interiors and furnishings: a saddlebag interior | `interior-saddlebag`; re-measure the spots on it, the hearths at the central chimney |
-| Five priority tree kinds use delivered size-specific art: pine, cedar, mesquite, live oak and elm. Shortleaf temporarily shares loblolly art; post oak, blackjack and the remaining hardwoods still use their nearest original broadleaf tree | `KINDS` picture in `sim/woods.mjs`, drawn by `drawGroundDetail` in `public/app.js` | Request 2026-09-15 — the trees of the colonies | `post-oak` and `blackjack` at three sizes; remaining species-specific hardwoods are later breadth |
+| Five priority tree kinds use delivered size-specific art: pine, cedar, mesquite, live oak and elm. Shortleaf temporarily shares loblolly art; less common hardwoods without their own delivered sheet still use their nearest original broadleaf tree | `KINDS` picture in `sim/woods.mjs`, drawn by `drawGroundDetail` in `public/app.js` | Request 2026-09-15 — the trees of the colonies | species-specific later breadth beyond the delivered post oak, blackjack, pecan, hackberry and sweetgum sets |
 | Anybody of a family riding the family horse is their own figure's idle pose (`seatedClip`), facing the way they go, cut off below the waist and drawn over the back of the family's walking horse (`horse-walk`, `-n`, `-s`); the horse is not drawn again. It replaced the courier rider on 2026-09-16, which read as a stranger on the horse | `seatOf`, `seatedClip`, `seatLayout` in `public/motion.js`; `drawSeated` in `public/app.js` | Request 2026-09-14 — family members on horseback | Each cast figure mounted on the family's chestnut, walking in four directions |
 | Whoever drives the ox and wagon is their own figure's idle pose, cut off below the waist, sitting at the front of the side-view wagon (`wagon-travel`) with the ox (`ox-walk`, `-n`, `-s`) ahead; the ox and wagon are not drawn again. Going north or south the wagon stays side-on and the ox is above or below it | `wagonDriverId`, `seatOf`, `seatLayout` in `public/motion.js`; `drawSeated` in `public/app.js` | Request 2026-09-16 — driving the ox wagon | An ox team hitched to the wagon with a seated driver, in four directions, for every cast figure |
 | A rider never gets down to talk: they speak from the saddle, turned east, west, north or south toward the listener (the vertical dialogue delivered 2026-09-14 is in use) | `carrierClip` in `public/motion.js` | Request 2026-09-12, priority 3 | `courier-dismount` (delivered 2026-09-14, registered, not yet bound: it needs the encounter to know when a rider has got down and where the horse stands) |
@@ -41,8 +40,6 @@ does not have:
 | **No stand-in: words only.** Since 2026-09-19 (docs/BIOME_GAMEPLAY.md §3.1) a hunt on a class of the biomes brings the quarry its place holds - turkey, bear, buffalo, antelope, mustang, javelina, ducks and geese, a wild cow, or a deer - and says so before it goes ("Waiting here, a turkey: four food."), at the shot ("downwind of a bear") and in the record ("brought down a buffalo"). Only a deer is drawn: any other quarry is given no place to be drawn at (`chore.quarry` stays unset), because a deer drawn where the words say a bear would be a wrong picture | `quarryAt` and `GAME` in `sim/hunting.mjs`; the drawing is decided where `quarryPoint` is called in `sim/chores.mjs` | Request 2026-09-19 — the game of 1836 | `wildlife-turkey`, `-bear`, `-javelina`, `-pronghorn`, `-bison`, `-geese`, `-mustang`, `-cattle`; then `quarryPoint` gives every quarry its place and `miniDeer` picks the sheet by `quarry.kind` |
 | The panel icon for fetching logs from the timber is a canvas glyph: three logs laid across a wagon bed on two wheels, in the panel's brown | `PANEL_ICONS` (`glyph`) and `drawGlyph` in `public/family-panel.js` | Request 2026-09-19 — the logs fetched from the timber | `icon-fetch-logs` |
 | A traveller faster than a walk can be drawn is a canvas-drawn pin: a round disc with the family panel's `portrait-<figure>` clipped inside it (itself a Claude-drawn stand-in), ringed rust for the principal, ink for the family, grey for somebody else's and slate for a courier, on a short point to the ground, with the road ahead in canvas dots. A beast or wagon on the road by itself is its own standing sprite (`horse-chestnut`, `ox-brown`, `wagon-covered`) on a smaller disc; their initial while no sheet has loaded | `drawTravelMarkers` in `public/app.js`; the rule in `MARKER_ABOVE`/`wantsMarker` in `public/motion.js` | Request 2026-09-19 — the traveller's marker | `marker-pin` (the pin and its ring, portrait-less) and `marker-dot`, drawn over by the same portrait; `drawTravelMarkers` lays the sprites down instead of its strokes |
-| A ferry is the library's `ferry-raft` (round logs lashed with a rope rail) drawn at the near landing, standing in for a plank flatboat; the ferry rope bank to bank, its two posts and the trodden landings are canvas strokes, and the river is laid back over the road between the landings | `drawFerry` in `public/landscape-art.js`, called for every `ferry` place by `drawWorld` in `public/app.js` | Request 2026-09-19 — the ferry flatboat | `ferry-flatboat` (and `-laden`) where the raft is drawn, `ferry-post` for the posts |
-| **No stand-in: nothing is drawn.** The army's crossing of the Brazos at Groce's on the steamboat Yellow Stone, April 12–13, 1836, is said only in words ("The army is crossing the Brazos on the steamboat Yellow Stone. She came up the river for cotton under Captain John E. Ross, and General Houston has taken her to carry the men, the horses and the wagons over the flood."); no boat is on the river. Words-only is the deliberate state: the library has nothing near a steamboat (the `skiff` and `ferry-raft` would say the wrong thing), and a wrong picture of a named boat is worse than none | `sim/houston.mjs` (the words) | Request 2026-09-18 — the steamboat Yellow Stone | `steamboat-moored`, `steamboat-steam`, `steamboat-laden`, drawn on the Brazos at Groce's ferry |
 | A tree or a tuft in a norther is the library's own upright sprite sheared about its foot, so it leans; nothing streams, and smoke is not drawn at all | `windLean` in `public/weather-art.js`, applied by `postOak` and `drawGroundDetail` in `public/app.js` and by `lean` in `public/art.js` | Request 2026-09-20 — the country in a norther | `oak-broad-wind`, `oak-spreading-wind`, `pecan-wind`, `grass-tuft-wind`, `smoke-streaming` |
 
 ## Claude-drawn stand-ins (replace with Astra's)
@@ -66,9 +63,8 @@ can never be mistaken for hers:
 
 | Request | Claude-drawn file (frame names) | Where it plugs in | What Astra should deliver to replace it |
 | --- | --- | --- | --- |
+| ~~Request 2026-09-16 — the winter's icons~~ and ~~Request 2026-09-15 — action icons~~ | **Retired 2026-09-21**: Astra delivered all 53 action icons ([delivery](ART_DELIVERY_2026-09-21-FAMILY-ACTION-ICONS.md)), her frames win in the loader, and the stand-ins, their SVGs and their entries in `SHEETS` are deleted. The rule they proved is kept in the contracts: one silhouette, a thin dark outline, readable dimmed to 40 per cent at 34–38 CSS pixels. | — | — |
 | Request 2026-09-16 — the family panel's marks | `claude-marks.png`: `mark-need`, `mark-need-rider`, `mark-main`, `mark-idle`, `mark-auto-off`, `mark-auto-on` | `panelMark`/`paintMark` in `public/app.js` (a canvas in `.panel-attention`, `.panel-star`, `.panel-idle-mark`, `.panel-focus` and `.panel-auto`; the type shows only while no frame is drawn, `data-drawn`), `drawMark` in `public/family-panel.js` | The five marks at 96 by 96, transparent, no text; `mark-auto` in its two states as `mark-auto-off` and `mark-auto-on` (dim brown; green `#4f7a3a`) |
-| Request 2026-09-16 — the winter's icons | `claude-icons-winter.png`: `icon-enlist-regular`, `icon-enlist-auxiliary`, `icon-join-garrison`, `icon-join-matamoros`, `icon-go-vote`, `icon-winter-recall`, `icon-join-relief`, `icon-join-houston` | `PANEL_ICONS` in `public/family-panel.js` (every key names `icon-<key>`) | The eight icons at 128 by 128 in the action-icon contract, reading at 38 pixels and dimmed to 40 per cent |
-| Request 2026-09-15 — action icons for the family panel | `claude-icons-actions.png`: `icon-<key>` for `survey-plot`, `cut-lane`, `dig-well`, `plant-field`, `harvest-field`, `clear-plot`, `fence-plot`, `build-house`, `help-raise`, `hunt-timber`, `hunt-land`, `practise-shooting`, `sell-cotton`, `fetch-powder`, `fetch-seed`, `sell-food`, `mend-hoe`, `replace-hoe`, `fell-trees`, `haul-logs`, `travel-gonzales`, `travel-home`, `visit`, `work`, `rest`, `stop-chore`, and three the contract did not list but the panel has, `visit-shop`, `make-furniture`, `buy-furniture` | `PANEL_ICONS` and `drawIcon` in `public/family-panel.js`; the four drawn glyphs and the fitted scene sprites are gone (a dot remains for a sheet that has not arrived) | All twenty-nine at 128 by 128, one silhouette each, per the contract; the three extra keys need icons too |
 | Request 2026-09-15 — face portraits for the family panel | `claude-portraits.png`: `portrait-rust`, `portrait-teal`, `portrait-elder`, `portrait-blue`, `portrait-rust-woman`, `portrait-indigo`, `portrait-ochre`, `portrait-blue-girl`, `portrait-girl`, `portrait-boy`, `portrait-smallchild`, `portrait-infant` | `drawPortrait` in `public/family-panel.js` (draws `portrait-<figure>` for the figure `castVariant`/`childFigure` choose; without one it still crops the idle clip, the older stand-in) | Twelve head-and-shoulders portraits at 192 by 192 matching the sheet figures exactly; Claude's are one parameterised drawing dressed after each figure and are the first to replace |
 | Request 2026-09-17 — the armies on the map (owner: "there was no army. they were just off in the middle of no where") | Not a sheet: the tents, the fire and the flag are drawn in canvas by public/army-view.js; the men are the militia and regular figures the battles already use | public/app.js draws each army the server sends (sim/armies.mjs): a camp with its men close up, a flag far off | A camp: three or four wedge tents, a cook fire with a pot, stacked arms and a colour on a pole, at 192 by 192, in the map art's own light; then drawArmy lays her sprites down instead of its strokes |
 | Request 2026-09-17 — the title screen (owner, 2026-09-17: "a professional game introduction experience") | Not a sheet: drawn in canvas by `drawIntroScene` in `public/intro-art.js` (a Texas evening looking east: sky, hills, timber, a river, a cabin with its chimney, the wagon and ox, a rail fence, the family in the grass) | `public/creation.js`: the scene behind the title "Family: Texas 1835/36" and every step of making a family | One painting of that view, 1600 by 900 or larger, that can be cropped to any screen shape, with the lower third quiet enough for the cards to read over it; `drawIntroScene` is then one `drawImage` |
@@ -92,7 +88,7 @@ into the existing pipeline, and how it will be checked. When a request is delive
 
 ## Request 2026-09-20 — the country in a norther: trees and grass bent by the wind
 
-**Status: open; stand-in in use (see *Stand-ins in use* above).** Owner, 2026-09-20: "Weather should be a visual thing...
+**Status: delivered 2026-09-21.** `weather-norther.png` supplies `oak-broad-wind`, `oak-spreading-wind`, `pecan-wind`, `grass-tuft-wind`, and `smoke-streaming` as genuine-alpha painted sprites. Owner, 2026-09-20: "Weather should be a visual thing...
 Players should see the weather. If implemented correctly, no text should be required." The weather is drawn
 ([docs/WEATHER.md](WEATHER.md), `public/weather-art.js`), and a norther is the kind the record makes most of: Gray at San
 Felipe on 25 February 1836, "the wind **chopped suddenly round to the north**, and there commenced what is familiarly
@@ -191,7 +187,7 @@ and **Gaines's ferry** on the Sabine. Each is drawn as its name and nothing more
 
 ## Request 2026-09-19 — the ferry flatboat
 
-**Status: open; stand-in in use (see *Stand-ins in use* above).** Owner, 2026-09-18: "when the various rivers and creeks are
+**Status: delivered 2026-09-21.** `ferry-flatboat.png` supplies the empty and laden plank flatboats plus the bank post on genuine transparency. Owner, 2026-09-18: "when the various rivers and creeks are
 added, we're going to have to have assets ford, or build bridges (where they historically were)"; chosen the same day, every
 place a road crosses a river or creek gets a ford, a ferry or a bridge ([MAP_ACCURACY.md](MAP_ACCURACY.md) §10). Twelve of
 the map's crossings are ferries - Lynch's, Groce's, the San Felipe ferry, Robinson's, Brigham's, Burnam's (the Colorado
@@ -226,7 +222,7 @@ and on the San Jacinto. Each is drawn now as the library's `ferry-raft` at the n
 
 ## Request 2026-09-19 — the country of 1836: trees and ground cover
 
-**Status: open; stand-ins in use (see *Stand-ins in use* above).** Owner, 2026-09-19: the map brought in line with the
+**Status: partially delivered 2026-09-21.** `biome-ground-bexar.png` supplies palmetto, cypress knees, two cane variants and wind pose, tall grass and wind pose, two thorn-thicket variants, yucca, marsh cordgrass and dune grass. The size-specific longleaf, sabal palm, bald cypress, magnolia and beech trees remain open. Owner, 2026-09-19: the map brought in line with the
 natural biomes of Texas (docs/BIOMES.md, built the same day).
 
 - **Why.** The map shows each natural region of 1836. Longleaf pine, the Texas palm, bald cypress, river cane, tall prairie
@@ -247,7 +243,7 @@ natural biomes of Texas (docs/BIOMES.md, built the same day).
 
 ## Request 2026-09-19 — Béxar's fields and acequias
 
-**Status: open; the fields' wash and stubble in use, the acequias not drawn (see *Stand-ins in use* above).** The owner decided
+**Status: partially delivered 2026-09-21.** `biome-ground-bexar.png` supplies compatible straight, bend and plank-crossing acequia pieces plus the period brush fence. Irrigated young/mature crop rows and the fallow-field fill remain open. The owner decided
 (2026-09-19, by multiple choice) that the Alamo stood among irrigated fields, not woods; the map now has no woods round it.
 
 - **Why.** The fields need to look like Béxar's labores, not the colonies' log-fenced plots, and the acequias are what made
@@ -261,7 +257,7 @@ natural biomes of Texas (docs/BIOMES.md, built the same day).
 
 ## Request 2026-09-19 — the game of 1836
 
-**Status: open; words only (see *Stand-ins in use* above).**
+**Status: partially delivered 2026-09-21.** `wildlife-turkey.png` supplies sixteen forage, alert, bound and wing-display frames for the turkey. Bear, javelina, pronghorn, bison, geese, mustang and wild cattle remain open.
 
 - **Why.** The quarry a hunt finds should be the country's (`HIST-TEX-103`, `HIST-TEX-104`): turkey in the bottoms, bear in
   the canebrakes and the thicket, javelina in the chaparral, pronghorn and bison on the western grass, waterfowl on the coast.
@@ -356,7 +352,7 @@ south to the camera painted. The camera looks north, so the church's carved fron
 
 ## Request 2026-09-18 — the steamboat Yellow Stone
 
-**Status: open; no stand-in — the crossing is said in words and nothing is drawn (see *Stand-ins in use* above).** Owner-approved
+**Status: partially delivered 2026-09-21.** `steamboat-moored.png` supplies four researched Yellow Stone states: two moored smoke beats, gangplank extended, and cotton laden. The underway and army-laden paddle loops remain open. Owner-approved
 2026-09-18. On April 12–13, 1836 Houston's army crossed the Brazos at Groce's ferry, above San Felipe, on the steamboat
 Yellow Stone, which had come up the river for cotton ([HOUSTON_CAMP.md](HOUSTON_CAMP.md), `sim/houston.mjs`, `HIST-TEX-086`).
 A student with a man in the army reads "The army is crossing the Brazos on the steamboat Yellow Stone. She came up the river for cotton under Captain John E. Ross, and General Houston has taken her to carry the men, the horses and the wagons over the flood." and sees an empty river.
@@ -536,7 +532,7 @@ portraits, so each is the top of the person's map figure drawn large, which is l
 
 ## Request 2026-09-15 — action icons for the family panel
 
-**Status: open; Claude-drawn stand-ins in use since 2026-09-16 (see *Claude-drawn stand-ins* above); before that, the nearest library pictures and drawn glyphs.** Every action a student can give a person is now an
+**Status: delivered 2026-09-21.** Four transparent atlases now supply all 53 current `PANEL_ICONS` keys, including the later service, road, subsistence, gathering and stock actions. See [delivery note](ART_DELIVERY_2026-09-21-FAMILY-ACTION-ICONS.md). Every action a student can give a person is now an
 icon on that person's row ([FAMILY_PANEL.md](FAMILY_PANEL.md) §4, §6). The stand-ins are scene sprites shrunk into a square,
 so several read poorly at 38 pixels (a barrel, a crate and sacks look alike) and four are plain drawn glyphs.
 
@@ -570,7 +566,7 @@ so several read poorly at 38 pixels (a barrel, a crate and sacks look alike) and
 
 ## Request 2026-09-15 — the trees of the colonies
 
-**Status: partially delivered 2026-09-15.** `trees-colonies-1.png` supplies loblolly pine, cedar, mesquite, live oak and elm
+**Status: substantially delivered 2026-09-21.** `trees-colonies-1.png` supplies loblolly pine, cedar, mesquite, live oak and elm; `trees-colonies-2.png` adds post oak, blackjack, pecan, hackberry and sweetgum at pole/log/large sizes plus a felled hardwood log. Shortleaf pine and later species breadth remain.
 at pole, log and large sizes, plus a pine stump. The owner asked for realistic woods (docs/WOODS_AND_BUILDING.md §4). The map now
 draws every tree where it stands on the real land, of its kind: loblolly pine round Bastrop and in the east, live oak in the
 coastal bottoms, post oak and blackjack on the savanna, pecan, elm and hackberry by the water, cedar in the hills, mesquite
@@ -607,7 +603,7 @@ Delivered in `wildlife-deer`: four-frame idle, alert, bound and drinking cycles.
 
 ## Request 2026-09-16 — the buildings the towns' research found
 
-**Status: open; each is the nearest building the library has.** The six towns drawn from `docs/town-research/` (docs/TOWNS.md
+**Status: delivered 2026-09-21.** `town-buildings-researched.png` supplies five frame-building variants, Whiteside Hotel, two Round Top House views, four jacales/ramada, open and closed Mina stockades, and two Liberty court-room views. The six towns drawn from `docs/town-research/` (docs/TOWNS.md
 §9) name buildings the library cannot draw. In the frontier-v1 style and the scale of `house-hewn-log` and `trading-house`,
 south-facing like the other buildings, with a ground-contact shadow and no painted transparency:
 
@@ -808,7 +804,7 @@ into this request when that chapter's build reaches them, in the contract format
 
 ## Request 2026-09-12 — families that look like who they are, and a rider who gets down
 
-**Status: partly delivered.** 2026-09-14: children's idle, east walk, rest and injured-rest (`people-children-idle`, `-walk`, `-care`), in use; the rider's vertical dialogue (`courier-encounters-vertical`), in use; the dismount, remount, on-foot and waiting-horse sheet (`courier-dismount`), registered and not yet bound; speaking and listening poses for the first cast (`people-dialogue`), registered and not yet bound. 2026-09-15: children's north/south walk sheet is delivered and in use. The second cast has idle, east/west walk, work, carry, care and search/trade. **2026-09-20:** `people-cast2-tasks` adds sowing and repair. North/south walking and dialogue remain before the whole appearance stand-in can change. See [latest delivery](ART_DELIVERY_2026-09-20-CAST2-TASKS.md).
+**Status: delivered for the requested family cast.** 2026-09-14: children's idle, east walk, rest and injured-rest (`people-children-idle`, `-walk`, `-care`), in use; the rider's vertical dialogue (`courier-encounters-vertical`), in use; the dismount, remount, on-foot and waiting-horse sheet (`courier-dismount`), registered and not yet bound; speaking and listening poses for the first cast (`people-dialogue`), registered and not yet bound. 2026-09-15: children's north/south walk sheet is delivered and in use. The second cast has idle, east/west and north/south walk, work, carry, care, search/trade, dialogue/listening, sowing and repair. See [vertical delivery](ART_DELIVERY_2026-09-21-CAST2-VERTICAL.md), [dialogue delivery](ART_DELIVERY_2026-09-21-CAST2-DIALOGUE.md), and [task delivery](ART_DELIVERY_2026-09-20-CAST2-TASKS.md).
 
 ### Why
 

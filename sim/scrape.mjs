@@ -14,6 +14,7 @@
 // the sickness are this game's own (`FIC-GONZ-046`); the record gives the days towns were found empty and no count of the dead.
 import { record } from './events.mjs';
 import { findStockAgain, leaveStock } from './stock.mjs';
+import { weatherAt } from './weather.mjs';
 import { ruin } from './improvements.mjs';
 import { findWay } from './ways.mjs';
 import { share } from './shares.mjs';
@@ -74,6 +75,35 @@ export const CAPTURED_AT_HOME = 0.5;
  * each day sick carries this chance of dying. Both are weighted by hidden strength and health like every risk.
  */
 export const SICK_PER_DAY = 0.004, SICK_DAYS = 5, DEATH_PER_SICK_DAY = 0.02;
+/**
+ * What a norther does to somebody out in it, as a multiplier on their weight in the day's sickness (`FIC-GONZ-135`,
+ * docs/WEATHER.md §10.5).
+ *
+ * Dilue Rose Harris's Runaway Scrape is where the record puts this and nowhere else: "many persons died" of "**disease,
+ * cold, rain and hunger**" (`HIST-TEX-065`, `HIST-TEX-069`), and her own family's road is measles and whooping cough at
+ * a flooded Trinity in February and March. **Hunger already doubles the weight here; cold now doubles it too**, which
+ * is the same sentence made mechanical. Rain is the third word and is deliberately *not* here: a wet day on the road is
+ * the mud and the bog (`FIC-GONZ-049`), and doubling the sickness for half the spring as well would make the road a
+ * lottery rather than a journey.
+ *
+ * It reaches **only somebody the cold can get at**: on the road east, or camped on their own land with no roof up. A
+ * family in its own cabin in a norther is cold and nothing more, which is the line `FIC-GONZ-135` draws.
+ */
+export const COLD_WEIGHT = 2;
+
+/**
+ * How heavily the day's sickness falls on one person: their own frailty, doubled for a small child, doubled again if
+ * there is nothing to eat, and doubled again by a norther they have no roof against (`COLD_WEIGHT`).
+ *
+ * A function rather than a line inside the road's loop, because **the rule is the thing worth holding**: the road rolls
+ * it and so does a family camped on its own land (sim/routines.mjs `coldAtHome`), and they must not drift apart. Written
+ * out on 2026-09-21, when twelve injected regressions found only four tests looking at any of this.
+ */
+export const sicknessWeight = (person, { hungry = false, cold = false } = {}) =>
+  frailty(person) * ((person.age ?? 30) < 6 ? 2 : 1) * (hungry ? 2 : 1) * (cold ? COLD_WEIGHT : 1);
+
+/** Whether the sky where somebody is standing is one the cold gets through: a norther, and nothing else. */
+export const coldSky = (world, point, day) => Boolean(point) && weatherAt(world, point, day).kind === 'norther';
 
 // The hashed share lives in sim/shares.mjs since 2026-09-20, because the weather needs it and the weather is read by
 // sim/ways.mjs, which this module imports. It is exported from here still: this is where everything has always asked for it.
@@ -254,10 +284,15 @@ export function advanceFlight(world, minutes) {
     const day = Math.floor(world.minute / DAY);
     if (flight.status !== 'home' && day !== flight.sickDay) {
       flight.sickDay = day;
+      // A norther over the road: the cold of "disease, cold, rain and hunger" (`COLD_WEIGHT`, `FIC-GONZ-135`). Read
+      // where the family actually is, which on a flight across four hundred miles is not where it set out from.
+      const where = alive[0]?.location || world.map.sites[household.homeSiteId];
+      const cold = coldSky(world, where, day);
+      if (cold && !flight.coldDay) { flight.coldDay = day; tell(world, household, 'A norther came down on the road, and the family has no roof to get under.', { importance: 2, claimId: 'FIC-GONZ-135' }); }
       // Somebody nursing the sick today (sim/road.mjs `tend-sick`, `FIC-GONZ-052`): nobody in their care dies; the mending comes when the day's nursing is done.
       const tended = alive.some(person => person.chore?.id === 'tend-sick');
       for (const person of alive) {
-        const weight = frailty(person) * ((person.age ?? 30) < 6 ? 2 : 1) * (hungry ? 2 : 1);
+        const weight = sicknessWeight(person, { hungry, cold });
         if (person.health.condition === 'sick') {
           if (!tended && share(world, person.id, `sick-death:${day}`) < 1 - (1 - DEATH_PER_SICK_DAY) ** weight) {
             person.health = { condition: 'dead' }; person.travel = null; person.task = 'rest';

@@ -622,14 +622,28 @@
       "sheet": "people-cast2-vertical",
       "promptId": "frontier-v1/people-cast2-vertical",
       "tool": "built-in image_gen.imagegen",
-      "mode": "generate",
+      "mode": "generate + precise-object-edit",
       "referenced_image_paths": [
         "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png"
       ],
-      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-8a669c4d-ed59-4f02-8b96-100f184a7233.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c395-3ad7-7712-9cb1-3380d00241d6/exec-817fa204-d601-4d81-ace9-1695505dcec6.png",
       "runtimeFile": "public/assets/frontier-v1/atlases/people-cast2-vertical.png",
-      "postProcessing": "None. Generated PNG copied unchanged; only read-only validation.",
-      "review": "Accepted as identity-consistent south and north walk pairs with visibly opposed steps and transparent separation."
+      "postProcessing": "None. Accepted generated PNG copied unchanged; only read-only validation.",
+      "review": "Accepted after spacing correction: 1254 x 1254 RGBA, 78.649% fully transparent pixels, no visible outer-edge pixels, sixteen identity-consistent front/back poses and eight authored two-frame clips. Each directional pair has opposite footfalls and arm swing.",
+      "generationHistory": [
+        {
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c395-3ad7-7712-9cb1-3380d00241d6/exec-2b03f7f3-49e6-4ab5-bcfe-8e65934d7afe.png",
+          "reference": "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png",
+          "prompt": "Use case: historical-scene. Asset type: production 2D character sprite atlas for a top-down three-quarter-view Texas 1835 storybook game. Create a NEW north/south walking sheet for the four exact character identities in the input reference. Do not repair or reuse any previous rejected vertical sheet. Preserve the four established people exactly. Square 1254 x 1254 PNG with genuine RGBA transparency, strict four columns by four rows, sixteen complete isolated full-body figures. Rows are rust-woman, indigo, ochre and blue-girl. Columns are south/front left-foot-forward, south/front right-foot-forward, north/back left-foot-forward, north/back right-foot-forward. Opposite leg silhouettes and arm swing must be unmistakable in each pair. No repeated foot pose, side-facing figure, checkerboard, background, grid, text, shadow, ground, scenery, prop, weapon, crop or overlap.",
+          "result": "Rejected for spacing: real alpha and correct poses, but visible art touched the outer canvas and several cell boundaries."
+        },
+        {
+          "prompt": "Use case: precise-object-edit. Change ONLY the size and spacing of the sixteen existing complete figures. Uniformly shrink EACH figure to 82% of its current size independently inside its OWN existing cell, then center it in that same cell. Keep the canvas exactly 1254 x 1254 and keep the exact 4 columns x 4 rows order. Preserve all identities, costumes, colors, line work, front/back directions and existing walking poses, including opposite footfalls and arm swing. No artwork may touch the outer canvas edge or an adjacent figure. Output genuine RGBA transparency with no checkerboard, background, grid, labels, text, shadows, ground, props, scenery, extra people, crops or overlaps.",
+          "reference": "C:/Users/zachw/.codex/generated_images/01a0c395-3ad7-7712-9cb1-3380d00241d6/exec-2b03f7f3-49e6-4ab5-bcfe-8e65934d7afe.png",
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c395-3ad7-7712-9cb1-3380d00241d6/exec-817fa204-d601-4d81-ace9-1695505dcec6.png",
+          "result": "Accepted; preserves the generated gait and creates clean separation for atlas extraction."
+        }
+      ]
     },
     {
       "sheet": "house-modules",
@@ -704,6 +718,203 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/people-cast2-tasks.png",
       "postProcessing": "None. Generated PNG copied unchanged; only read-only validation.",
       "review": "Accepted as sixteen identity-consistent figures with distinct two-frame sowing and hoe-repair actions, isolated on true transparency."
+    },
+    {
+      "sheet": "people-cast2-dialogue",
+      "promptId": "frontier-v1/people-cast2-dialogue",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c395-e323-73b2-af6b-938e27414484/exec-3aa1a9b0-c485-42f7-a179-c982c363f145.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-cast2-dialogue.png",
+      "postProcessing": "None. The accepted PNG is the built-in spacing-edit output copied unchanged; only read-only RGBA and atlas-layout validation were performed.",
+      "review": "Accepted after visual review and measured atlas validation: sixteen identity-consistent figures, two clearly distinct east-facing speech poses and south/north listening poses on genuine transparency.",
+      "generationHistory": [
+        {
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c395-e323-73b2-af6b-938e27414484/exec-b154b1df-7cc4-4dc7-adca-291217a03e9d.png",
+          "reference": "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png",
+          "result": "Rejected for delivery: figures visually touched logical row boundaries despite correct identities and poses."
+        },
+        {
+          "prompt": "Use case: precise-object-edit. Edit ONLY the spacing and scale of this exact 4x4 dialogue sprite atlas. Within EACH of the sixteen existing equal logical cells, uniformly shrink that cell's one complete character to 88% of its current size and recenter it horizontally and vertically inside the SAME cell. Preserve every character identity, face, skin tone, clothing, color, outline, pose, orientation, hand gesture, expression, row order, and column order exactly. Preserve final canvas at exactly 1254 x 1254 pixels. Create at least 12 pixels of fully transparent gutter on every side of every logical cell, especially between rows and at the outer canvas edges. Do not move any character into another cell. Do not redraw or invent poses. Keep background genuinely transparent RGBA alpha zero. No grid, checkerboard, text, shadow, ground, props, speech bubbles, or extra people. This is a layout-spacing correction only.",
+          "reference": "C:/Users/zachw/.codex/generated_images/01a0c395-e323-73b2-af6b-938e27414484/exec-b154b1df-7cc4-4dc7-adca-291217a03e9d.png",
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c395-e323-73b2-af6b-938e27414484/exec-3aa1a9b0-c485-42f7-a179-c982c363f145.png",
+          "result": "Accepted: dialogue gestures preserved and sprite scale reduced to improve logical-cell separation."
+        }
+      ]
+    },
+    {
+      "sheet": "weather-norther",
+      "promptId": "frontier-v1/weather-norther",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/nature.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ad0755f5-1262-497e-a6f3-65caff933899.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/weather-norther.png",
+      "postProcessing": "None. The accepted built-in spacing edit was copied unchanged; only read-only validation.",
+      "review": "Accepted as five separated, downwind silhouettes on genuine RGBA transparency; the final sixth grid cell remains clear.",
+      "generationHistory": [
+        {
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-5bf13212-4211-4d63-82ba-c1792fd58af8.png",
+          "result": "Rejected for delivery: detached leaves crossed the logical tree-cell boundary."
+        },
+        {
+          "prompt": "Edit the supplied sprite atlas only to increase spacing and ensure strict cell containment. Preserve each of the five painted subjects in style, identity, pose, detail, and alpha transparency. Keep a strict 3-column by 2-row layout. Pull every branch and detached leaf inward enough to leave transparent gutters at both sides of each cell boundary. Keep grass bottom-left, smoke bottom-middle, and bottom-right empty. Remove detached leaves crossing a boundary. No backdrop, glow, grid, labels, shadow, ground plane, scenery, or watermark.",
+          "reference": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-5bf13212-4211-4d63-82ba-c1792fd58af8.png",
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3cb70a74-345f-4a57-b078-35fbff33634b.png",
+          "result": "Rejected after measured validation: source used a 3x2 layout while the registry requires four columns for sparse sheets."
+        },
+        {
+          "prompt": "Re-layout the five preserved subjects into a strict four-column by two-row production grid with cells 4, 7, and 8 empty and at least twenty transparent pixels inside each boundary.",
+          "reference": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3cb70a74-345f-4a57-b078-35fbff33634b.png",
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ad0755f5-1262-497e-a6f3-65caff933899.png",
+          "result": "Accepted: 79.7% clear alpha, zero overlap pixels trimmed, all objects retained."
+        }
+      ]
+    },
+    {
+      "sheet": "icons-family-actions-1",
+      "promptId": "frontier-v1/icons-family-actions-1",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c395-fb73-7722-9646-234189c7e074/exec-e314e267-ffa8-4b25-8958-92794880c69f.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/icons-family-actions-1.png",
+      "postProcessing": "None. Generated PNG copied unchanged; only read-only validation.",
+      "review": "Accepted as distinct period-plausible action silhouettes on genuine alpha with explicit reading-order mapping."
+    },
+    {
+      "sheet": "icons-family-actions-2",
+      "promptId": "frontier-v1/icons-family-actions-2",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c395-fb73-7722-9646-234189c7e074/exec-2a5cb4a3-f971-459f-be8e-ef7879d04e2d.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/icons-family-actions-2.png",
+      "postProcessing": "None. Generated PNG copied unchanged; only read-only validation.",
+      "review": "Accepted as distinct period-plausible action silhouettes on genuine alpha with explicit reading-order mapping."
+    },
+    {
+      "sheet": "icons-family-service",
+      "promptId": "frontier-v1/icons-family-service",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c395-fb73-7722-9646-234189c7e074/exec-d657bf4c-9d32-4407-8deb-8f27074b49f1.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/icons-family-service.png",
+      "postProcessing": "None. Generated PNG copied unchanged; only read-only validation.",
+      "review": "Accepted as distinct period-plausible action silhouettes on genuine alpha with explicit reading-order mapping."
+    },
+    {
+      "sheet": "icons-family-subsistence",
+      "promptId": "frontier-v1/icons-family-subsistence",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c395-fb73-7722-9646-234189c7e074/exec-77af2b0a-742a-4229-be8f-74af3e8b42de.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/icons-family-subsistence.png",
+      "postProcessing": "None. Generated PNG copied unchanged; only read-only validation.",
+      "review": "Accepted as eight distinct readable subsistence actions in a fully occupied 4-by-2 atlas."
+    },
+    {
+      "sheet": "biome-ground-bexar",
+      "promptId": "frontier-v1/biome-ground-bexar",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/nature.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-64002d55-fa72-44da-824f-009738ebde26.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/biome-ground-bexar.png",
+      "postProcessing": "None. Generated PNG copied unchanged; only read-only atlas validation.",
+      "review": "Accepted as sixteen semantically distinct, well-separated environmental sprites with genuine transparency."
+    },
+    {
+      "sheet": "ferry-flatboat",
+      "promptId": "frontier-v1/ferry-flatboat",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/transport.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c3a7-e504-7523-9a9d-f7e5b2c5869e/exec-ae903c8f-1205-4b78-b8df-a9362f105161.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/ferry-flatboat.png",
+      "postProcessing": "None. Accepted built-in spacing edit copied unchanged; validation is read-only.",
+      "review": "Accepted: empty and laden plank flatboats read distinctly from the legacy log raft; ferry post and cable turns remain isolated on genuine transparency.",
+      "generationHistory": [
+        {
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c3a7-e504-7523-9a9d-f7e5b2c5869e/exec-a58deb74-03bd-4ed3-adab-b9abc616116e.png",
+          "result": "Rejected for delivery because the three subjects did not obey four-column cell boundaries."
+        },
+        {
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c3a7-e504-7523-9a9d-f7e5b2c5869e/exec-ae903c8f-1205-4b78-b8df-a9362f105161.png",
+          "result": "Accepted after spacing edit and isolated manifest validation."
+        }
+      ]
+    },
+    {
+      "sheet": "steamboat-moored",
+      "promptId": "frontier-v1/steamboat-yellow-stone-moored",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/transport.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c3a7-e504-7523-9a9d-f7e5b2c5869e/exec-d0799919-d444-4321-9b4c-1b50568bcca0.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/steamboat-moored.png",
+      "postProcessing": "None. Built-in output copied unchanged; validation is read-only.",
+      "review": "Accepted after a spacing edit as the moored-state subset: four registered sidewheeler frames with still paddles, two smoke beats, gangplank and cotton load.",
+      "generationHistory": [
+        {
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c3a7-e504-7523-9a9d-f7e5b2c5869e/exec-35215b63-8234-41a4-9051-ec89270d826a.png",
+          "result": "Rejected for delivery: bottom-left gangplank crossed the vertical cell boundary by 331 visible pixels."
+        },
+        {
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c3a7-e504-7523-9a9d-f7e5b2c5869e/exec-d0799919-d444-4321-9b4c-1b50568bcca0.png",
+          "result": "Accepted after spacing edit and isolated manifest validation."
+        }
+      ]
+    },
+    {
+      "sheet": "town-buildings-researched",
+      "promptId": "frontier-v1/town-buildings-researched",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Use case: historical-scene. Asset type: production sprite atlas for a 1835 Texas Revolution top-down town simulation. The two input images are style, palette, scale, outline, lighting and elevated-camera references only; create new historically distinct buildings. Produce one square 1254x1254 PNG, exactly 4 columns x 4 rows, sixteen isolated south-facing building sprites in strict reading order. TRUE transparent RGBA background; no checkerboard, scenery, terrain islands, labels, people, flags, signs, props outside buildings, borders, cell lines, or painted transparency. Keep every complete sprite wholly within its equal cell with at least 18px transparent gutter, ground-contact shadow contained inside the cell, consistent baseline and miniature world scale. Warm hand-illustrated frontier-v1 style: dark earthy brown outlines, restrained ochre wood and mud, weathered materials, clear readable silhouettes, slight elevated front-right view and upper-left light, not photoreal and not fantasy.\nRow 1: (1) small one-storey sawn-timber frame building, pale weathered clapboard siding, shingle gable roof, glazed sash window and plank door; (2) storey-and-a-half frame store, taller clapboard walls, attic window in gable, shingle roof, sash windows, plank door; (3) two-storey four-room frame house resembling an early plain Texas civic residence, symmetrical clapboard front, two windows below and two above, centered door, simple shingle roof; (4) Whiteside Hotel of San Felipe: broad storey-and-a-half LOG dog-run house with two rooms flanking a clearly open central passage under one long roof, stick-and-mud chimney at each outer end, rough clapboards/shingles, no porch railing.\nRow 2: (1) Round Top House of Victoria: round fortified two-level log or timber structure, heavy vertical-plank door, first-level gun slits, squat defensible silhouette, conical or polygonal shingled roof; (2) same Round Top House alternate weathered angle/condition, still round and fortified with gun slits and heavy door; (3) small upright-post jacal, sticks visible through pale mud daub, thatch gable roof, little door and tiny window; (4) broader jacal variant, uneven upright-post mud walls and thicker thatch roof.\nRow 3: (1) narrow poorer jacal, patchy mud daub exposing woven sticks, low thatch roof; (2) jacal with a distinct open brush ramada attached at the front/side, ramada supported by thin posts, hut itself intact; (3) Mina frontier stockade: freestanding compact square enclosure of sharpened vertical logs with a visible gated front and a small log cabin enclosed within, read as one complete compound from the elevated view; (4) same Mina stockade alternate with gate open and enclosed cabin visible, compact complete compound.\nRow 4: (1) Liberty Casa Consistorial, a small plain 22-foot-square hewn-log court room, centered plank door, two modest windows, shingle gable roof, civic but unornamented; (2) same Liberty court room alternate side-facing door/window arrangement; (3) simple clapboard commercial building variant with broad double plank shop door and two glazed sash windows; (4) modest one-storey frame residence variant with clapboards, one plank door, two sash windows and a small rear chimney.\nHistorical constraints: early 1830s Texas frontier construction; no Victorian trim, balconies, modern glass storefronts, brick rowhouse styling, stone castle towers, fantasy palisades, cannons, smoke, vegetation, roads, or background. Round Top House must read round and fortified, not as a normal square storehouse. Whiteside must visibly retain the open dog-run passage and two end chimneys. Stockade must be a complete enclosure, not loose fence segments. Output actual transparent alpha.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/buildings.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/architecture-extra.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c3a8-0bfc-7c70-83c3-234327ddda52/exec-de2ca61f-9999-47fb-89de-c1d6838fb8e8.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/town-buildings-researched.png",
+      "postProcessing": "None. Original built-in imagegen PNG copied byte-for-byte; read-only alpha and atlas-bound validation only.",
+      "review": "Sixteen clean south-facing structures. Distinct frames, Whiteside dog-run, two Round Top variants, four jacales, two Mina stockades, two Liberty court-room views, and two additional frame-building variants."
+    },
+    {
+      "sheet": "trees-colonies-2",
+      "promptId": "frontier-v1/trees-colonies-2",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/trees-colonies-1.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c3a7-bfaf-7a62-b3f9-02d1b87a23b4/exec-f34e77ef-eacf-47d5-ad53-855f0cb1745c.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/trees-colonies-2.png",
+      "postProcessing": "None. Generated original copied unchanged; only read-only validation.",
+      "review": "Accepted as sixteen separated true-alpha sprites. Post oak and blackjack have complete pole/log/large progressions; pecan, hackberry and sweetgum add distinct three-size hardwood families; the last cell is a reusable felled hardwood log."
+    },
+    {
+      "sheet": "wildlife-turkey",
+      "promptId": "frontier-v1/wildlife-turkey",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/wildlife-deer.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a5126cf4-4e9a-4c09-a655-546d13adf5bd.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/wildlife-turkey.png",
+      "postProcessing": "None. Generated PNG copied unchanged; only read-only atlas validation.",
+      "review": "Accepted as one identity-consistent eastern wild turkey with readable forage, alert, bound, and display cycles."
     }
   ],
   "rejectedAttempts": [

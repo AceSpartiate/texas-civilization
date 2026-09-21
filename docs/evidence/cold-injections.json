@@ -1,0 +1,94 @@
+{
+  "record": "cold-injections",
+  "date": "2026-09-21",
+  "files": [
+    "tests/cold.test.mjs"
+  ],
+  "injections": [
+    {
+      "name": "the cold does nothing at all, as it did until today",
+      "file": "sim/scrape.mjs",
+      "failed": [
+        "the weight is frailty, childhood, hunger and cold, and cold is the only one of them that is weather"
+      ]
+    },
+    {
+      "name": "a norther is a death sentence rather than a risk: the weight is taken ten times over",
+      "file": "sim/scrape.mjs",
+      "failed": [
+        "the weight is frailty, childhood, hunger and cold, and cold is the only one of them that is weather"
+      ]
+    },
+    {
+      "name": "the cold is never counted in the day's sickness, though it is worked out",
+      "file": "sim/scrape.mjs",
+      "failed": [
+        "the weight is frailty, childhood, hunger and cold, and cold is the only one of them that is weather"
+      ]
+    },
+    {
+      "name": "the family is never told a norther came down on the road",
+      "file": "sim/scrape.mjs",
+      "failed": [
+        "the cold reaches the road east, is told once, and never touches the armies' dates"
+      ]
+    },
+    {
+      "name": "the family is told of the cold on every norther day of the road, over and over",
+      "file": "sim/scrape.mjs",
+      "failed": [
+        "the cold reaches the road east, is told once, and never touches the armies' dates"
+      ]
+    },
+    {
+      "name": "the sky is read where the family set out from rather than where it has got to",
+      "file": "sim/scrape.mjs",
+      "failed": [],
+      "expect": "may pass: a family in the first days of its flight is still in the country it left"
+    },
+    {
+      "name": "every kind of day is counted as cold, so the road is a lottery for half the spring",
+      "file": "sim/scrape.mjs",
+      "failed": [
+        "a norther is the only sky the cold gets through"
+      ]
+    },
+    {
+      "name": "rain is counted as cold too, which is the word the claim leaves out on purpose",
+      "file": "sim/scrape.mjs",
+      "failed": [
+        "a norther is the only sky the cold gets through"
+      ]
+    },
+    {
+      "name": "a family under its own roof is made sick by the weather like anybody else",
+      "file": "sim/routines.mjs",
+      "failed": [
+        "a family camped on its own land is reached by a norther; one under its own roof is not",
+        "the cold reaches the road east, is told once, and never touches the armies' dates"
+      ]
+    },
+    {
+      "name": "the cold at home reads the day from the clock rather than counting ticks",
+      "file": "sim/routines.mjs",
+      "failed": [
+        "a family camped on its own land is reached by a norther; one under its own roof is not",
+        "the cold reaches the road east, is told once, and never touches the armies' dates"
+      ]
+    },
+    {
+      "name": "a roofless family is made sick in any weather, not only under a norther",
+      "file": "sim/routines.mjs",
+      "failed": [
+        "a family camped on its own land is reached by a norther; one under its own roof is not"
+      ]
+    },
+    {
+      "name": "the cold at home is scaled by the tick as well as rolled once a day, so canvas is safer than a roof",
+      "file": "sim/routines.mjs",
+      "failed": [
+        "a family camped on its own land is reached by a norther; one under its own roof is not"
+      ]
+    }
+  ]
+}

@@ -1,5 +1,9 @@
 # Claude handoff — Astra foundation
 
+**World-art expansion, 2026-09-21:** The registered frontier library now contains **944 measured sprites across 66 sheets and 377 validated clips**. New deliveries add sixteen biome/Béxar ground details, sixteen animated wild-turkey frames, sixteen researched town buildings, sixteen additional colony-tree assets, an empty/laden ferry and post, and four moored *Yellow Stone* states. Read `docs/ART_DELIVERY_2026-09-21-BIOME-GROUND-BEXAR.md`, `docs/ART_DELIVERY_2026-09-21-WILDLIFE-TURKEY.md`, `docs/ART_DELIVERY_2026-09-21-TOWN-BUILDINGS.md`, `docs/ART_DELIVERY_2026-09-21-TREES-COLONIES-2.md`, and `docs/ART_DELIVERY_2026-09-21-RIVER-TRANSPORT.md`. `docs/ART_REQUESTS.md` records the remaining gaps rather than claiming the larger biome and steamboat requests are wholly finished.
+
+**Art production update, 2026-09-21:** The frontier library now contains **873 measured sprites across 60 sheets and 351 validated clips**. This batch closes the second cast's north/south walk and conversation poses, replaces every current family-panel placeholder with 53 named action icons, and adds authored norther silhouettes for three trees, grass, and streaming smoke. Start with `docs/ART_DELIVERY_2026-09-21-CAST2-VERTICAL.md`, `docs/ART_DELIVERY_2026-09-21-CAST2-DIALOGUE.md`, `docs/ART_DELIVERY_2026-09-21-FAMILY-ACTION-ICONS.md`, and `docs/ART_DELIVERY_2026-09-21-WEATHER-NORTHER.md`. The delivery modules under `scripts/art-deliveries/` are the source of truth for cell maps, animation names, prompts, and provenance. `node scripts/register-delivered-art.mjs` followed by `npm run build:art` reproduces the generated registry.
+
 **Second-cast sowing and repair art, 2026-09-20:** [`people-cast2-tasks`](docs/ART_DELIVERY_2026-09-20-CAST2-TASKS.md) adds sixteen accepted transparent poses and eight authored clips for all four second-cast identities. Atlas checks: 59.6% clear alpha, zero overlap trimming, 100% retained. Library: **783 sprites, 53 atlases, 330 clips**. North/south walking and dialogue still block switching the full appearance assignment to this cast.
 
 **The snapshot test on a barrier, 2026-09-19:** `tests/save-cadence.test.mjs` *"a page is sent a snapshot when what it sees
@@ -53,8 +57,13 @@ clean detached worktree. **The release is [v2026.09.21.1](https://github.com/Ace
 weather proof and green plate, and .3's coast, animals, weather model, weather drawn and launcher face. Setup 191.7 MB → 212.4 MB at .3, which is the art embedded in the executable.
 
 **2. What is left open, in the order I would take it.**
-- **What is left of `FIC-GONZ-135`:** rain stopping roofing and daubing, and the norther's health cost to somebody camped
-  without shelter. The road and the hunt are both built (2026-09-20).
+- **What is left of `FIC-GONZ-135`:** rain stopping roofing and daubing. The road, the hunt and the cold are built.
+- **Astra's delivery of 2026-09-21 is registered and mostly unwired.** Nine batches landed while the stock was being
+  built: 53 action icons (wired, and the Claude stand-ins for them deleted), and **eight more that are in the atlas and
+  drawn by nothing yet** - `weather-norther` (five painted wind silhouettes, for the weather the page draws),
+  `wildlife-turkey` (sixteen frames), `trees-colonies-2`, `town-buildings-researched`, `river-transport` (a plank ferry
+  and the Yellow Stone), `biome-ground-bexar`, and the second cast's `vertical` and `dialogue` sheets. Each has a
+  delivery note in docs/. **This is the largest open thing in the project.**
 - **Two crossings still graze a bank** because the road runs in the creek bottom for a stretch; the crossings audit says so
   and it is a routing decision, not a bug in the ford.
 - **Two coastal cover cells are mine to look at:** `mesquite-savanna` reaching 95.01°W and `live-oak` 94.00°W.
@@ -115,6 +124,28 @@ east is the day after - and my own first draft of the seasonal test counted summ
 which is a test that checks nothing. The measured shut-day figure is corrected everywhere it appears: not "0 to 4 days of
 210" from three classes but a **median of 3 over 200 classes**, none at all in 19% of them and 16 in the worst. 800
 tests. Same computer only.
+
+**The cold, 2026-09-21:** [WEATHER.md](docs/WEATHER.md) §10.5, `sim/scrape.mjs` `COLD_WEIGHT`, `sim/routines.mjs`
+`coldAtHome`, `tests/cold.test.mjs`, `FIC-GONZ-135`. The last unbuilt row of the weather, and the only place the record
+puts it: Harris's Runaway Scrape, where "many persons died" of "**disease, cold, rain and hunger**". A norther now
+**doubles a person's weight in the day's sickness**, exactly as hunger already did and by the same hashed share, and it
+reaches **only somebody the cold can get at** - on the road east, or camped on their own land with no roof up. A family
+in its own cabin is cold and nothing more, which is the line the claim draws and the reason a roof is worth having
+before the winter. **Rain is left out on purpose**: a wet day on the road is already the mud and the bog, and doubling
+the sickness for half the spring as well would make the road a lottery rather than a journey. **Measured** over a class
+of twenty run to the end: fourteen families met a norther on the road, five people fell sick on it, **nobody died of
+it**, and the cold at home fired not once - by the northers every family had its cabin up. **The rule is a function now** - `sicknessWeight` and `coldSky` - because the first draft of
+its tests asserted that the cold *happened* rather than that it made a difference, and of twelve injected regressions
+caught four. Rewritten against the rule itself: 11 of 12 caught, and the one that is not is marked unfalsifiable in the
+script (a family in the first days of its flight is still in the country it left). **Two faults the injections found:**
+the cold at home was scaled by the tick's own minutes *and* rolled once a day, which made a family under canvas about
+seventy times safer than one on the road in the same weather - forty days of northers over a class of twenty cost
+nothing at all - and two guards turned out to be belt and braces, which is now said in the code rather than guarded by
+an injection that cannot fail. **Three test fixtures had to be mended**, all the same way: `tests/camp.test.mjs` wanted
+five *well* men in five families, and `tests/alamo.test.mjs` picked the first grown person of a Gonzales family and got
+a sick man's wife, refused for being a woman. The road's cold leaves a few of any class laid up, so those fixtures name
+what they actually want - a man who may ride - and the Alamo's own assertion is now that the family cannot see the
+**death**, not that the man is well. Same computer only.
 
 **An art delivery that rode in on the stock's commit, 2026-09-20:**
 [ART_DELIVERY_2026-09-20-CAST2-TASKS.md](docs/ART_DELIVERY_2026-09-20-CAST2-TASKS.md),

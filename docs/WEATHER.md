@@ -868,7 +868,7 @@ leave the rest out.** Three claims carry it — `FIC-GONZ-130` (the day's kind),
 | 10.2 three regions, a norther across all three | **Built.** `REGIONS`, `REGION_BOUNDS` (x=55, x=152), `NORTHER_DAYS`. |
 | 10.3 the days written in | **Built.** `WRITTEN`, about two dozen dated rows, each carrying its source's claim ID. |
 | 10.4 water that remembers | **Built,** with one correction to what is below: the rise **saturates** (`was.water + rise * (1 - was.water)`) and `WATER_SHUT` is **0.85**, not 0.8. Straight addition put 62 days of 210 over the shut line, which the record does not support; saturating it gives a median of **3 days of 210** over 200 classes, none at all in 19% of them and 16 in the worst (measured 2026-09-20, `tests/weather.test.mjs`). One further fault was found by that test file and fixed: a norther could only carry rain where it began, so **no norther ever reached the east wet**; it is the day the front *arrives* in a country that can be wet, which in the east is the day after. |
-| 10.5 what a kind costs | **Built for the road and for the hunt.** The road: the wade at a ford reads `water`, a river's ford shuts past `WATER_SHUT`, the bog waits for the ground to dry. The hunt (2026-09-20, same day): the wait downwind takes the sky as well as the ground (`HUNT_WAIT`), and a damp charge costs the certainty that waiting buys (`powderDamp`) — §10.5's own note below. **Still not built from that row:** rain stopping roofing and daubing, and the norther's health cost to somebody camped without shelter. |
+| 10.5 what a kind costs | **Built for the road, the hunt and the cold.** The road: the wade at a ford reads `water`, a river's ford shuts past `WATER_SHUT`, the bog waits for the ground to dry. The hunt (2026-09-20, same day): the wait downwind takes the sky as well as the ground (`HUNT_WAIT`), and a damp charge costs the certainty that waiting buys (`powderDamp`) — §10.5's own note below. The cold (2026-09-21): a norther doubles a person's weight in the day's sickness, for somebody on the road east or camped with no roof up. **Still not built from that row:** rain stopping roofing and daubing. |
 | 10.6 a line a day | **Not built, and deliberately.** See the note in that section. |
 | 10.7 where it lives, and the save | **Built.** `saveVersion` did not move. |
 | 10.8 how it is drawn | **Built.** `public/weather-art.js`. |
@@ -1078,6 +1078,22 @@ the period's. As built, in `sim/hunting.mjs`:
 `ceiling:` one multiplier a kind, the same everywhere and in every month; a norther's first bitter day is worse than its
 third and nothing here knows that. And the sky is read at the place the hunter walked to rather than at the house, which
 no test can tell apart: the two are a few hundred yards into one weather region.
+
+**The cold — built 2026-09-21.** The last unbuilt row of §10.5, and the only place the record puts it: Dilue Rose
+Harris's Runaway Scrape, where "many persons died" of "**disease, cold, rain and hunger**" (`HIST-TEX-065`,
+`HIST-TEX-069`). As built, in `sim/scrape.mjs` (`COLD_WEIGHT`) and `sim/routines.mjs` (`coldAtHome`):
+
+- **A norther doubles a person's weight in the day's sickness**, exactly as hunger already did — the same hashed share,
+  the same constants, the same words, so a class has one way of falling ill and not two.
+- **It reaches only somebody the cold can get at**: on the road east, or camped on their own land with **no roof up**. A
+  family in its own cabin is cold and nothing more, which is the line the claim draws and the reason a roof is worth
+  having before the winter.
+- **Rain is the third word of that sentence and is deliberately left out.** A wet day on the road is already the mud and
+  the bog (`FIC-GONZ-049`); doubling the sickness for half the spring as well would make the road a lottery.
+- **Measured** over a class of twenty families run to the end: fourteen families met a norther on the road, five people
+  fell sick on it, **nobody died of it**, and the cold at home fired **not once** — by the northers every family had its
+  cabin up. The rule is a weight on a road already hard, not a new way to lose people.
+- `ceiling:` a norther's cold is the same on its first day and its third, and the same at Nacogdoches as at Béxar.
 
 ### 10.6 What a class sees, and is told — NOT BUILT, superseded 2026-09-20
 

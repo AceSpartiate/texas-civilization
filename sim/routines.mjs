@@ -4,6 +4,8 @@ import { housekeepingSaving } from './family.mjs';
 import { shelterOf } from './houses.mjs';
 import { furnitureShares } from './furniture.mjs';
 import { advanceStock } from './stock.mjs';
+import { SICK_DAYS, SICK_PER_DAY, coldSky, sicknessWeight } from './scrape.mjs';
+import { share } from './shares.mjs';
 import { campRestShare } from './shops.mjs';
 
 // Fatigue, and the only thing that mends it.
@@ -37,6 +39,10 @@ export const REST_MILES_PER_MINUTE = 0.075;
 export function advanceRoutine(world, minutes) {
   const days = minutes / 1440;
   for (const household of Object.values(world.households)) {
+    // The cold, for a family still under canvas on its own land when a norther comes through (`FIC-GONZ-135`,
+    // sim/scrape.mjs `COLD_WEIGHT`). On the road it is the third word of "disease, cold, rain and hunger"; at home it is
+    // the reason a roof is worth having before the winter, and it reaches nobody who has one.
+    coldAtHome(world, household);
     // The herd, which belongs to days in exactly this way: the calves come in the spring, the pigs off the autumn mast,
     // and what nobody has ridden out after drifts off the range (sim/stock.mjs, `HIST-TEX-112`). It costs nothing to
     // keep - "the pasturage is sufficiently good to dispense with feeding live stock" - so there is no eating here.
@@ -93,4 +99,49 @@ function restAndTire(world, entity, minutes) {
       text: `${entity.name} has rested and is fit again.`,
     });
   }
+}
+
+/**
+ * A norther over a family that has no roof up yet.
+ *
+ * The same rule as the road's (sim/scrape.mjs): the same hashed share, the same weights, the same words - so a class
+ * has one way of falling sick and not two. It reaches **only a family whose shelter is a camp**, which on its own land
+ * means the cabin is not up; a family in its own house is cold and nothing more, which is the line `FIC-GONZ-135`
+ * draws. Rolled once a day, on the first tick of it.
+ *
+ * ceiling: there is no sickness at home in any other weather. This is the one the record puts somewhere - "many persons
+ * died" of "disease, cold, rain and hunger" - and a general model of who falls ill on a frontier farm is a different
+ * thing, and a grimmer one than this game is.
+ */
+function coldAtHome(world, household) {
+  // The road rolls its own (sim/scrape.mjs), and a family on it must not be rolled twice for one day. **This is belt
+  // and braces**: the loop below only looks at people standing at the family's own house, and nobody on the road is.
+  // Taking it away changes no outcome, which is why no injection guards it (scripts/cold-injections.mjs says so).
+  if (household.flight && household.flight.status !== 'home') return;
+  const home = world.map.sites[household.homeSiteId];
+  if (!home || shelterOf(world, household).kind !== 'camp') return;
+  const day = Math.floor((world.minute || 0) / 1440);
+  if (household.coldDay === day) return;
+  household.coldDay = day;
+  if (!coldSky(world, home, day)) return;
+  const hungry = (household.resources?.food ?? 0) <= 0;
+  let said = false;
+  for (const id of household.members) {
+    const person = world.entities[id];
+    if (!person || person.location?.siteId !== household.homeSiteId) continue;
+    if (!['well', 'tired'].includes(person.health?.condition)) continue;
+    const weight = sicknessWeight(person, { hungry, cold: true });
+    // The day's chance, not the tick's: this is rolled once a day (`coldDay`), exactly as the road's is, and scaling it
+    // by the tick's own minutes as well made a family under canvas in a norther about seventy times safer than one on
+    // the road in the same weather. Found 2026-09-21 by a test that put a roofless family through forty days of it and
+    // watched nothing whatever happen.
+    if (share(world, person.id, `cold-sick:${day}`) >= 1 - (1 - SICK_PER_DAY) ** weight) continue;
+    person.health = { condition: 'sick', recoversAt: world.minute + SICK_DAYS * 1440 };
+    record(world, 'consequence', {
+      actorId: person.id, householdId: household.id, importance: 2, claimId: 'FIC-GONZ-135',
+      text: `${person.name} has fallen sick: a norther came through and the family has no roof up yet.`,
+    });
+    said = true;
+  }
+  return said;
 }

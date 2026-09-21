@@ -33,7 +33,12 @@ const winter = () => structuredClone(shared ??= (() => {
   return world;
 })());
 const grown = world => Object.values(world.entities).filter(person => person.householdId && person.kind === 'person' && person.health.condition === 'well' && (person.age ?? 30) >= 16);
-const men = world => grown(world).filter(person => person.sex === 'male');
+// The men of a class, for the tests that send somebody to the Alamo. **Not filtered on being well**: since 2026-09-21 a
+// norther counts towards the day's sickness (`COLD_WEIGHT`, `FIC-GONZ-135`), and in this class the one man of the first
+// Gonzales family is laid up by the winter. A man who is ill may still be sent - that is the game's own rule - and
+// these tests are about what happens to him at Béxar, not about who is well.
+const men = world => Object.values(world.entities).filter(person => person.householdId && person.kind === 'person'
+  && person.sex === 'male' && (person.age ?? 30) >= 16 && !['dead', 'captured'].includes(person.health.condition));
 const women = world => grown(world).filter(person => person.sex === 'female' && person.kin?.role === 'mother');
 /** Put somebody where they serve, as if they had walked there. */
 const serve = (world, person, kind, siteId) => {
@@ -101,11 +106,17 @@ test('on the days riders went out a played person inside is asked once; about on
 test('anybody who has heard Travis\'s letter may ride for Gonzales; whoever is there by two on the 27th is inside on March 1, and those after turn home', () => {
   const world = winter();
   untilMoment(world, 'alamo-siege');
-  const gonzales = Object.values(world.households).find(household => household.settlementId === 'gonzales');
-  const far = Object.values(world.households).find(household => household.settlementId !== 'gonzales');
-  assert.ok(gonzales && far, 'the class has no Gonzales family and no family elsewhere');
-  const near = grown(world).find(person => person.householdId === gonzales.id);
-  const away = grown(world).find(person => person.householdId === far.id);
+  // A family **with a grown man in it**, not simply the first one dealt to Gonzales. The relief is the men's in
+  // 1835 (the game refuses a woman in those words), and since 2026-09-21 a norther counts towards the day's sickness
+  // (`COLD_WEIGHT`, `FIC-GONZ-135`) - so in this class the one man of the first Gonzales family is laid up, and what
+  // this test picked next was his wife, refused for being a woman. A man who is ill may still be offered the relief, which
+  // is the game's own rule and not this test's business.
+  const hands = men(world);
+  const gonzales = Object.values(world.households).find(household => household.settlementId === 'gonzales' && hands.some(person => person.householdId === household.id));
+  const far = Object.values(world.households).find(household => household.settlementId !== 'gonzales' && hands.some(person => person.householdId === household.id));
+  assert.ok(gonzales && far, 'the class has no Gonzales family and no family elsewhere with anybody well to send');
+  const near = hands.find(person => person.householdId === gonzales.id);
+  const away = hands.find(person => person.householdId === far.id);
   untilMoment(world, 'travis-gonzales');
   assert.ok((view(world, gonzales.id).work[near.id] || []).some(entry => entry.id === 'join-relief' && entry.can), 'a Gonzales family that heard the letter could not send anybody');
   assert.ok(!(view(world, far.id).work[away.id] || []).some(entry => entry.id === 'join-relief'), 'a family that had not heard the letter was offered the relief');
@@ -138,13 +149,15 @@ test('on March 6 every man inside dies and every woman is spared, and no family 
   assert.equal(woman.service.fate, 'spared');
   assert.ok(world.glory[man.householdId].awards[`alamo:${man.id}`]?.role === 'fought', 'a man who fell earned no glory for it');
   assert.ok(world.glory[woman.householdId].awards[`alamo:${woman.id}`]?.role === 'present');
-  assert.equal(view(world, man.householdId).entities.find(e => e.id === man.id).health.condition, 'well', 'the family saw the death before any word came');
+  // Not dead, rather than well: the man sent may have been laid up by a norther before he rode (`COLD_WEIGHT`), and
+  // what this holds is that **the family cannot see the death** until the word comes, not what else ails him.
+  assert.notEqual(view(world, man.householdId).entities.find(e => e.id === man.id).health.condition, 'dead', 'the family saw the death before any word came');
   assert.doesNotMatch(JSON.stringify(view(world, man.householdId)), /"fate"/, 'the fate rode the wire');
   untilMoment(world, 'survivors-leave');
   assert.equal(woman.travel?.to, world.households[woman.householdId].homeSiteId, 'the spared woman did not start home');
   untilMoment(world, 'fall-rumour');
   assert.equal(world.knowledge.households[man.householdId]['alamo-fall']?.status, 'rumor', 'Gonzales did not hear the rumour on the 11th');
-  assert.equal(man.health.condition, 'well', 'a rumour made the death true');
+  assert.notEqual(man.health.condition, 'dead', 'a rumour made the death true');
   untilMoment(world, 'fall-confirmed');
   assert.equal(man.health.condition, 'dead', 'the confirmed word did not make the death true for Gonzales');
   assert.equal(farMan.health.condition, 'well', 'a family away from Gonzales saw the death before its word came');
