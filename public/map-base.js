@@ -253,35 +253,12 @@ export function aroundHole(view, hole) {
 export const landUpscale = grid => { const cells = grid.columns * grid.rows; return cells * 16 <= 1.5e6 ? 4 : cells * 4 <= 1.5e6 ? 2 : 1; };
 
 /**
- * How near a journey's two ends somebody is still drawn (miles), and how far a tick may carry them before the middle of the
- * journey is left unwatched.
+ * Whether the server has somebody away on the road: gone, and with no point on the map to draw them at.
  *
- * Owner, 2026-09-17, playtesting: "when i sent someone to join the army, they zipped excessively fast across the map", and
- * then: "what if we used fog of war to hide teleporting the character to their destination so they could walk slower, but
- * still appear to arrive on time? ... hide long distance travel on the class view?" In the winter and the spring a tick is
- * twelve hours (sim/clock.mjs `CALENDAR_SCALE`), so a walking man crosses about thirty-six miles in the fifth of a second a
- * tick is drawn in. The clock and the real distances are left alone; the long middle of such a journey is not watched.
- *
- * At the farming scale a tick is twenty minutes and a walk is a mile, which is a walk a student can follow: nothing is
- * hidden there, and a family crossing its own land is watched from end to end as it always was.
+ * This is read, never decided. Between 2026-09-17 and 2026-09-21 the page worked out for itself which travellers were too
+ * fast to watch, out of a position the server had already sent it - and it hid only the long middle of such a journey, so
+ * at four or twelve hours a tick a student watched the figure appear, jump the whole two-and-a-half-mile window in one
+ * step, and vanish. The rule is now the server's, and covers the whole journey (sim/sight.mjs `tooFastToFollow`,
+ * `FIC-GONZ-230`): somebody away arrives here with no `location` at all, which is why every drawing filter tests for one.
  */
-export const IN_SIGHT_MILES = 2.5, WATCHABLE_MILES_A_TICK = 2;
-/** A tick of the farming clock, in minutes of 1835 (sim/clock.mjs TICK_MINUTES): what a travelling speed is measured against. */
-export const FARMING_TICK_MINUTES = 20;
-/**
- * Whether somebody is out of sight on the long middle of a journey. `minutesATick` is how many minutes of 1835 the last tick
- * stood for, which the page reads from two snapshots in a row; without it nothing is hidden.
- */
-export function outOfSight(entity, minutesATick = 0) {
-  const travel = entity?.travel;
-  if (!travel?.points?.length || !Number.isFinite(travel.distance)) return false;
-  // The server says how many miles its next tick carries this journey (sim/world.mjs `milesATick`): a tick longer than an
-  // hour carries a share of a day on the road, not every hour of it at the pace (sim/travel.mjs `roadTicks`), and the page
-  // must not work that out again. Without it (a class saved and served before it was sent), the old reading: a speed is
-  // miles a farming tick, and a tick of the compressed calendar carries that many times over.
-  if (!(minutesATick > 0)) return false;
-  const milesATick = Number.isFinite(travel.step) ? travel.step : travel.speed * (minutesATick / FARMING_TICK_MINUTES);
-  if (!(milesATick > WATCHABLE_MILES_A_TICK)) return false;
-  const gone = travel.progress ?? 0, left = travel.distance - gone;
-  return Math.min(gone, left) > IN_SIGHT_MILES;
-}
+export const away = entity => Boolean(entity?.travel?.away);

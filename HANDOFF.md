@@ -1,5 +1,37 @@
 # Claude handoff — Astra foundation
 
+**Too fast to follow means away, 2026-09-21:** owner, after a real class played it on Chromebooks: "students saw
+characters moving too fast. i thought we were going to use fog of war for that? if they're moving too fast then players
+shouldn't be able to follow them until they arrive." **The decision moved to the server.** `sim/sight.mjs`
+`tooFastToFollow` asks how far one tick would carry *this* traveller — their pace times the calendar (`milesATick`),
+never the phase — and past `WATCHABLE_MILES_A_TICK` (**3 miles**, the same number as `ROAD_WINDOW_MILES`, which is the
+stretch of road the page is given so it can draw somebody *sliding* down it between two ticks; its own `ceiling:` had
+already named this bug) `sim/world.mjs` `seenTravel` projects them with **`location: null`** and a `travel` of `from`,
+`to`, `distance`, `mode`, `away`, `miles`, `due` and `back` — **no points, no progress, no speed, no step**. The page
+cannot draw what it was not sent, so `outOfSight`, `IN_SIGHT_MILES` and the client's own copy of the rule are gone from
+`public/map-base.js`; every drawing filter is now "did the server send a place". It covers the **whole journey**, not its
+middle: the 2026-09-17 rule kept 2.5 miles at each end, and at four or twelve hours a tick one tick is longer than that
+window, so what a student saw was the figure appear, jump the window in one step and vanish. **Somebody who is not moving
+is never away** — a rider reined in to speak (`halted`), a family bogged, waiting at a ferry or camped on the road east
+(`sim/road.mjs` sets `halted`), anybody on a bank while the water is over a crossing (`waitUntil`). **The Host is
+unfiltered**, as `docs/HOST_PAGE.md` says: the teacher is sent every traveller where they truly are and the class panel
+still reads "Amos on the road to Gonzales" while the student's card reads "Away on the road to Gonzales · about 96 miles
+off · should be there about October 8". The same words are on the family panel row (`sim/chores.mjs`) and in the page's
+spoken description. **Nothing in the farming day changed** (a walk 1 mile a tick, the family horse 1.67, the ox wagon
+0.65, a courier 2.6): the hunt's walk out, the arrival, a ride into Gonzales and a rider coming up to a door are all
+watched end to end, and the walk of the news hour sits exactly on the line. Also fixed, found by the proof: pressing the
+portrait of somebody away left the camera with nobody to frame and threw on every painted frame. **Nothing is stored and
+`saveVersion` did not move.** 831 tests (+7, `tests/travel-sight.test.mjs`); **twenty-one regressions injected one at a time
+and every one caught** (`node scripts/travel-sight-injections.mjs`,
+[evidence](docs/evidence/travel-sight-injections.json)); browser proof `npm run test:travel-sight` — two classes, the
+same person walking the same road, one at twenty minutes a tick and one at four hours, a student page and the teacher's
+page on each, 12 checks and no page errors ([record](docs/evidence/travel-sight.json),
+[screenshots](docs/evidence/travel-sight/)). `test:hunt`, `test:farm`, `test:crossings` and `test:solo-game` all pass
+(`solo-game` on the second run; the first hit the known call-menu flake noted in `scripts/support/whole-game.mjs`).
+**`npm run test:road` fails at the bog, and fails identically on a clean HEAD — pre-existing, not this work.** The rule,
+the reason for the number and the ceilings are [docs/MAP_ACCURACY.md](docs/MAP_ACCURACY.md) §12, `FIC-GONZ-230` and
+`FIC-GONZ-231`. **Same computer only.**
+
 **The screen given back, and the guided start on it, 2026-09-21:** A real class played this on Chromebooks on 2026-09-21
 and three things went wrong on screen. Two of them belong to the page rather than the world: [FAMILY_PANEL.md](docs/FAMILY_PANEL.md) §12,
 `public/lesson.js`, `FIC-GONZ-220` to `-222`. Measured at **1366×768**, the Chromebook the school buys, by rasterising
@@ -169,7 +201,9 @@ weather proof and green plate, and .3's coast, animals, weather model, weather d
 
 **3. Claim numbers in use, so nothing collides:** mine to `HIST-TEX-163` and `FIC-GONZ-095`; the weather research
 `HIST-TEX-220`-`238` and `FIC-GONZ-130`-`136`; the launcher `240`+/`150`+; the animals `260`+/`170`+; the weather drawing
-`280`+/`190`+ (it used `FIC-GONZ-190` and `-191`).
+`280`+/`190`+ (it used `FIC-GONZ-190` and `-191`); travel out of sight `HIST-TEX-330`-`339`/`FIC-GONZ-230`-`239` (it used
+`FIC-GONZ-230` and `-231`, and no `HIST-TEX-330`: the paces and the day on the road are unchanged and still rest on
+`HIST-TEX-093` and `FIC-GONZ-059`).
 
 **The weather of 1835-36, built and drawn, 2026-09-20:** [WEATHER.md](docs/WEATHER.md) §10 (1,350 lines of research under
 it), `sim/weather.mjs`, `public/weather-art.js`, `HIST-TEX-220` to `-238`, `FIC-GONZ-130` to `-134`, `-190`, `-191`. A day

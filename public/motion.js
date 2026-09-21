@@ -414,7 +414,8 @@ export const MARKER_STALE_MS = 250;
 /**
  * The miles the server says a tick carries this journey (sim/world.mjs `milesATick`, sent as `step`); without it (a class
  * saved before it was sent) a speed is miles a farming tick, carried as many times over as the last tick was longer
- * (public/map-base.js `outOfSight` reads it the same way).
+ * (it is only needed for a class saved and served before `step` was sent; whether a journey may be watched at all is the
+ * server's, sim/sight.mjs).
  */
 export function travelMilesATick(travel, minutesATick = 0) {
   if (!travel) return 0;

@@ -22,7 +22,8 @@ import { heavyWorkPace, tooYoung, tooYoungWhy } from './family.mjs';
 import { castVote, joinService, servingWhy, winterOffered, winterRefusal } from './winter.mjs';
 import { houstonCamp } from './houston.mjs';
 import { record } from './events.mjs';
-import { dateOf } from './clock.mjs';
+import { calendarMinutes, dateOf } from './clock.mjs';
+import { awayProjection, milesATick, tooFastToFollow } from './sight.mjs';
 import { purseHeld, purseOf, recordTrade, traderAt } from './town.mjs';
 import { carryCapacity, DEFAULT_MODE, MODES, propertyId } from './travel.mjs';
 import {
@@ -1217,7 +1218,15 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
   if (tooYoung(entity)) return { can: false, why: tooYoungWhy(entity) };
   if (entity.chore) return { can: false, why: `${entity.name} is already ${entity.chore.doing}.` };
   // The road's own chores (sim/road.mjs) are for somebody travelling east with the family, or camped with it at the refuge.
-  if (entity.travel && !chore.road) return { can: false, why: `${entity.name} is on the road.` };
+  // Somebody the class's clock is carrying faster than a student can follow is not on the map at all (sim/sight.mjs,
+  // owner 2026-09-21). Their row on the family panel is the one place a student is certain to look for them, so it says
+  // what became of them rather than the bare "on the road" that would now read as a person who had vanished.
+  if (entity.travel && !chore.road) {
+    if (!tooFastToFollow(entity.travel, milesATick(world, entity), world.minute)) return { can: false, why: `${entity.name} is on the road.` };
+    const to = world.map?.sites?.[entity.travel.to]?.name || 'where they were sent';
+    const away = awayProjection(world, entity.travel, { milesATick: milesATick(world, entity), minutes: calendarMinutes(world) });
+    return { can: false, why: `${entity.name} is away on the road to ${to}, about ${away.miles} miles off, and should be ${away.back}.` };
+  }
   // A chore kept in its own module carries its own refusal (`refuse`), asked here so this table never imports that module.
   if (chore.refuse) { const why = chore.refuse(world, household, entity, chore); if (why) return { can: false, why }; }
   if (entity.task === 'help') return { can: false, why: `${entity.name} is away helping.` };

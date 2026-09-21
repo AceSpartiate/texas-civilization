@@ -293,31 +293,30 @@ test('the land\'s pictures are made by one pure function, off the page\'s main t
   assert.match(server, /\['\/smooth-worker\.js', \['\.\.\/public\/smooth-worker\.js', 'text\/javascript'\]\]/, 'the server does not serve the worker client');
 });
 
-test('a long journey is out of sight in the middle, and a short one is watched all the way', async () => {
-  // Owner, 2026-09-17, playtesting: "when i sent someone to join the army, they zipped excessively fast across the map", then
-  // "what if we used fog of war to hide teleporting the character to their destination ... hide long distance travel on the
-  // class view?" In the winter and spring a tick is twelve hours (sim/clock.mjs), so a walker crosses about 36 miles in the
-  // fifth of a second a tick is drawn in. The clock is left alone; the long middle of a journey is not watched.
-  const { IN_SIGHT_MILES, WATCHABLE_MILES_A_TICK, outOfSight } = await import('../public/map-base.js');
-  // A campaign tick is twelve hours, in which a walker at three miles an hour crosses thirty-six; a farming tick is twenty
-  // minutes, which is a mile, and is watched from end to end as it always was.
-  const CAMPAIGN = 720, FARMING = 20, WALK = 1;
-  const road = points => ({ points, distance: 40, speed: WALK });
-  const on = (progress, distance = 40) => ({ travel: { points: [{ x: 0, y: 0 }, { x: 40, y: 0 }], distance, progress, speed: WALK } });
-  assert.equal(outOfSight({ travel: null }, CAMPAIGN), false, 'somebody standing still went out of sight');
-  assert.equal(outOfSight({ travel: road([]) }, CAMPAIGN), false, 'a journey with no line went out of sight');
-  assert.equal(outOfSight(on(0), CAMPAIGN), false, 'somebody setting out was not watched');
-  assert.equal(outOfSight(on(IN_SIGHT_MILES - 0.1), CAMPAIGN), false, 'somebody still near home was not watched');
-  assert.equal(outOfSight(on(IN_SIGHT_MILES + 0.1), CAMPAIGN), true, 'the middle of a long journey is watched');
-  assert.equal(outOfSight(on(38), CAMPAIGN), false, 'somebody walking in at the far end was not watched');
-  assert.equal(outOfSight(on(40), CAMPAIGN), false, 'somebody arriving was not watched');
-  // A short journey - one end of a family's land to the other - is watched the whole way.
-  for (const progress of [0, 1, 2, 3]) assert.equal(outOfSight(on(progress, 4), CAMPAIGN), false, `a four-mile walk went out of sight at ${progress}`);
+test('the page never decides for itself who may be watched: it draws whoever the server sent a place for', async () => {
+  // Owner, 2026-09-21, after a class on Chromebooks: "students saw characters moving too fast... if they're moving too fast
+  // then players shouldn't be able to follow them until they arrive." From 2026-09-17 to 2026-09-21 the page worked this out
+  // for itself, out of a position the server had already handed it, and hid only the long middle of a fast journey - so at
+  // four or twelve hours a tick the figure appeared, jumped the whole window in one step and vanished. The rule is the
+  // server's now (sim/sight.mjs, tests/travel-sight.test.mjs) and the page only reads it.
+  const page = await import('../public/map-base.js');
+  assert.equal(typeof page.outOfSight, 'undefined', 'the page still works out for itself who is out of sight');
+  assert.equal(page.away({ travel: { away: true, to: 'gonzales' } }), true, 'somebody the server sent away is not read as away');
+  assert.equal(page.away({ travel: { points: [], progress: 0 } }), false, 'somebody on a watched road was read as away');
+  assert.equal(page.away({ location: { x: 0, y: 0 } }), false, 'somebody standing still was read as away');
+  assert.equal(page.away(null), false, 'nobody was read as away');
   const app = readFileSync(new URL('../public/app.js', import.meta.url), 'utf8');
-  assert.match(app, /entitiesOf\(world\)\.filter\(entity => entity\.location && !outOfSight\(entity, minutesATick\)\)/, 'the map draws somebody who is out of sight');
-  assert.match(app, /observedOf\(world\)\.filter\(entity => entity\.location && !outOfSight\(entity, minutesATick\)\)/, 'a neighbour out of sight is drawn');
+  // The one filter, and no second opinion beside it: somebody away arrives with no `location` at all.
+  assert.match(app, /const entities = entitiesOf\(world\)\.filter\(entity => entity\.location\);/, 'the map filters its own people some other way');
+  assert.match(app, /const observed = observedOf\(world\)\.filter\(entity => entity\.location\);/, 'the map filters other people some other way');
+  assert.equal(/outOfSight/.test(app), false, 'the page still carries the old client-side rule');
+  // What a student is told instead, on the card: where they went, how far is left, and roughly when they get there.
+  assert.match(app, /Away on the road to \$\{placeName\(world, chosen\.travel\.to\)\} · about \$\{chosen\.travel\.miles\} miles off · should be \$\{chosen\.travel\.back\}/, 'the card does not say what became of somebody away');
   assert.match(app, /minutesATick = world\.minute - lastTickSeen\.minute/, 'the page does not know how long a tick stood for');
-  assert.match(app, /out of sight, \$\{Math\.max\(1, Math\.round\(\(chosen\.travel\.distance \|\| 0\) - \(chosen\.travel\.progress \|\| 0\)\)\)\} miles to go/, 'the card does not say where they are');
+  // Pressing the portrait of somebody away used to leave the camera with nobody to frame and nothing to fall back on, and
+  // the frame threw on every painted frame (found 2026-09-21 by scripts/travel-sight-proof.mjs).
+  assert.match(app, /const watched = watchedId \? entitiesOf\(world\)\.find\(entity => entity\.id === watchedId && entity\.location\) : null;/,
+    'the camera still tries to follow somebody with no place to be followed at');
 });
 
 // The ground is drawn again only when what it is drawn from changed (2026-09-18). Until then every snapshot, and every click,

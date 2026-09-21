@@ -12,6 +12,7 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { beginTravel, milesATick, progressTravel, projectWorld } from '../sim/world.mjs';
 import { CALENDAR_SCALE, calendarMinutes } from '../sim/clock.mjs';
 import { HORSE_SPEED, MODES, RIDER_SPEED, WALK_SPEED, WAGON_SPEED, milesADay, milesAnHour, roadTicks } from '../sim/travel.mjs';
+import { WATCHABLE_MILES_A_TICK } from '../sim/sight.mjs';
 import { settle } from './support/settled.mjs';
 
 let shared = null;
@@ -91,14 +92,27 @@ test('somebody sent riding goes at the family horse\'s pace, a rider with word a
   const start = person.travel.points[0];
   Object.assign(person.travel, { points: [start, { x: start.x + 200, y: start.y }], distance: 200, progress: 0 });
   delete person.travel.pace;
+  // Past WATCHABLE_MILES_A_TICK the page is sent no road at all: he is away, and a step it could draw him along would be a
+  // position he is not entitled to (sim/sight.mjs, `FIC-GONZ-230`). The server still moves him at the phase's own pace.
   for (const [phase, share] of [['home', 1], ['news', 3], ['gathering', 3.5], ['campaign', 10.5]]) {
     world.director.phase = phase;
-    const shown = projectWorld(world, household.id, 'student', { includeMap: false }).entities.find(entity => entity.id === person.id).travel;
-    near(shown.step, HORSE_SPEED * share, `the projected step in a ${phase} tick`);
-    near(milesATick(world, person), shown.step, 'the projection and the server disagree');
+    // Held on a bank at a creek he waded last tick, he is standing still and stays in sight whatever the calendar is doing
+    // (sim/sight.mjs; tests/travel-sight.test.mjs holds that carve-out). The pace is what is being measured here.
+    delete person.travel.waitUntil;
+    const shown = projectWorld(world, household.id, 'student', { includeMap: false }).entities.find(entity => entity.id === person.id);
+    const step = HORSE_SPEED * share;
+    near(milesATick(world, person), step, `the server's own step in a ${phase} tick`);
+    if (step > WATCHABLE_MILES_A_TICK) {
+      assert.equal(shown.travel.away, true, `at ${step.toFixed(2)} miles a ${phase} tick he is still drawn`);
+      assert.equal(shown.location, null, `away, and still sent a place in the ${phase} tick`);
+      for (const key of ['points', 'progress', 'speed', 'step']) assert.ok(!(key in shown.travel), `away, and still sent ${key}`);
+    } else {
+      near(shown.travel.step, step, `the projected step in a ${phase} tick`);
+      assert.ok(shown.travel.points.length && shown.location, `watchable, and not drawn in the ${phase} tick`);
+    }
     const was = person.travel.progress;
     world.minute += calendarMinutes(world); progressTravel(world, person);
-    near(person.travel.progress - was, shown.step, `the ${phase} tick moved him other than the projection said`);
+    near(person.travel.progress - was, step, `the ${phase} tick moved him other than the server said`);
   }
   // A rider carrying word is the courier, not the family horse.
   const other = colonies(), rider = other.entities[person.id];
