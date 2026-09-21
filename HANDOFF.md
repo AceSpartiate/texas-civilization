@@ -220,7 +220,11 @@ finished work.
 
 **1. Everything through the weather and the launcher is built, merged, released.** Main is green at **791 tests, 0 fail**,
 `check-doc-links` 693, and the browser proofs `test:crossings`, `test:solo-game`, `test:hunt` and `test:farm` all pass on a
-clean detached worktree. **The release is [v2026.09.21.2](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.21.2)**
+clean detached worktree. **The release is [v2026.09.21.3](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.21.3)** —
+**everything the class of 2026-09-21 asked for**: the guided start (both halves), the screen given back to the game,
+the ability bar bottom-middle, travellers too fast to follow going out of sight, and a disconnected student picking
+their own name off a list. 858 tests. **Astra's art wiring is still out with its agent** and will be the next release.
+The previous one was [v2026.09.21.2](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.21.2)
 — the cold on the road east and Astra's 53 action icons, on top of .1's stock, 09.20.7's sky in the hunt, .6's line in the river, .5's four works at home, .4's
 weather proof and green plate, and .3's coast, animals, weather model, weather drawn and launcher face. Setup 191.7 MB → 212.4 MB at .3, which is the art embedded in the executable.
 
