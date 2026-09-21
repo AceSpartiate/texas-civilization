@@ -7,6 +7,7 @@ import { record } from './events.mjs';
 import { reportsFor, deliverReports } from './knowledge.mjs';
 import { advanceRoutine } from './routines.mjs';
 import { calendarMinutes } from './clock.mjs';
+import { awayProjection, milesATick, roadTicksFor, tooFastToFollow } from './sight.mjs';
 import { advanceDirectors, handleChoice, handleMarch, handleRumor, directorProjection } from './directors.mjs';
 import { abandonChore, advanceChores, answerChore, askProjection, beginChore, CHORES, choresFor, skillsFor, SKILL_CAP, toolState } from './chores.mjs';
 import { GAME } from './hunting.mjs';
@@ -25,7 +26,7 @@ import { advanceTown, createTownspeople, observedBy } from './town.mjs';
 import { GOODS, advanceOffers, makeOffer, offersFor, respondToOffer } from './trade.mjs';
 import { buildGonzalesRegion, findPath, polylineLength } from './geography.mjs';
 import { advanceEncounters, askRider, carriedInPerson, encounterProjection, leaveRider, riderName, spotName } from './encounters.mjs';
-import { DEFAULT_MODE, HIGH_WATER_TIMES, MODES, WADE_WRONG_MINUTES, WADE_WRONG_SHARE, fordMinutes, modeOf, moveOnGround, propertyId, RIDER_SPEED, ridesAllHours, roadHours, roadTicks } from './travel.mjs';
+import { DEFAULT_MODE, HIGH_WATER_TIMES, MODES, WADE_WRONG_MINUTES, WADE_WRONG_SHARE, fordMinutes, modeOf, moveOnGround, propertyId, RIDER_SPEED } from './travel.mjs';
 import { paceOf } from './ground.mjs';
 import { findWay } from './ways.mjs';
 import { STATES as IMPROVEMENT_STATES, improvementProjection } from './improvements.mjs';
@@ -437,10 +438,32 @@ function wadeAt(world, entity, ford) {
     causes: travel.causeId ? [travel.causeId] : [],
   });
 }
-/** How many farming ticks' worth of road the next tick carries for this traveller (sim/travel.mjs `roadTicks`). */
-export const roadTicksFor = (world, entity) => roadTicks(calendarMinutes(world), ridesAllHours(entity), roadHours(entity.travel));
-/** Miles the next tick carries this traveller over open road: what the server says a tick is worth, projected for the page. */
-export const milesATick = (world, entity) => entity.travel ? entity.travel.speed * roadTicksFor(world, entity) : 0;
+// How far the next tick carries a traveller, kept in sim/sight.mjs with the rule that reads it, and named here as it
+// always has been: `progressTravel` below, sim/time.mjs and the tests all ask world.mjs for it.
+export { roadTicksFor, milesATick } from './sight.mjs';
+/**
+ * Where one of a family's own people is, as that family is allowed to see it.
+ *
+ * Standing still, or on a road slow enough to follow: their point on the map and the road under them, as it always was.
+ * On a road that one tick would carry them further down than the page can draw a walk (sim/sight.mjs `tooFastToFollow`,
+ * owner 2026-09-21): **nothing**. No point, no route, no progress, no pace - only where they were going, how far is left
+ * and roughly when they get there. The page cannot draw what it is not sent, so there is no client-side rule to get
+ * wrong and nothing for a student to read out of a payload (`VISION.md` §4).
+ *
+ * The Host is not filtered here and never was: the teacher sees the class where it truly is (sim/overview.mjs).
+ */
+export function seenTravel(world, entity) {
+  const travel = entity.travel;
+  if (!travel) return { location: entity.location, travel: null };
+  const step = milesATick(world, entity);
+  if (tooFastToFollow(travel, step, world.minute)) {
+    return {
+      location: null,
+      travel: { from: travel.from, to: travel.to, distance: travel.distance, mode: travel.mode, ...awayProjection(world, travel, { milesATick: step, minutes: calendarMinutes(world) }) },
+    };
+  }
+  return { location: entity.location, travel: { from: travel.from, to: travel.to, points: travel.points, progress: travel.progress, distance: travel.distance, speed: travel.speed, step, mode: travel.mode } };
+}
 export function progressTravel(world, entity, units = 1) {
   const travel = entity.travel; if (!travel) return;
   // A rider who has stopped to speak with somebody is still on a journey - `siteId` stays
@@ -922,7 +945,7 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   visibleEvents.reverse();
   const knownIds = new Set(visibleEvents.map(e => e.id));
   const events = visibleEvents.map(e => ({ id: e.id, type: e.type, minute: e.minute, text: e.text, actorId: e.actorId, householdId: e.householdId, causes: e.causes.filter(id => knownIds.has(id)) }));
-  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, ...(e.given && { given: e.given }), kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.sex && { sex: e.sex }), ...(Number.isFinite(e.age) && { age: e.age, band: ageBand(e.age) }), location: e.location, travel: e.travel ? { from: e.travel.from, to: e.travel.to, points: e.travel.points, progress: e.travel.progress, distance: e.travel.distance, speed: e.travel.speed, step: milesATick(world, e), mode: e.travel.mode } : null, health: e.health, task: e.task, skills: e.skills, chore: e.chore?.ask ? { ...e.chore, ask: askProjection(world, household, e) } : e.chore, condition: e.condition, species: e.species, laden: e.laden, borrowedBy: e.borrowedBy, ...(e.marks && { marks: e.marks }), ...(e.service && { service: { kind: e.service.kind, status: e.service.status, siteId: e.service.siteId, ...(e.service.acres && { acres: e.service.acres }), ...(e.service.besieged && { besieged: true }), ...(e.service.riding && { riding: true }), ...(e.service.courier === 'open' && { courier: 'open' }), ...(e.service.drilled && { drilled: e.service.drilled }), ...(e.service.bound && { bound: true }), ...(e.service.leave === 'open' && { leave: 'open' }), ...(e.service.road === 'open' && { road: 'open' }) } }), ...(e.voted && { voted: true }), ...(e.auto && { auto: true }) }));
+  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, ...(e.given && { given: e.given }), kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.sex && { sex: e.sex }), ...(Number.isFinite(e.age) && { age: e.age, band: ageBand(e.age) }), ...seenTravel(world, e), health: e.health, task: e.task, skills: e.skills, chore: e.chore?.ask ? { ...e.chore, ask: askProjection(world, household, e) } : e.chore, condition: e.condition, species: e.species, laden: e.laden, borrowedBy: e.borrowedBy, ...(e.marks && { marks: e.marks }), ...(e.service && { service: { kind: e.service.kind, status: e.service.status, siteId: e.service.siteId, ...(e.service.acres && { acres: e.service.acres }), ...(e.service.besieged && { besieged: true }), ...(e.service.riding && { riding: true }), ...(e.service.courier === 'open' && { courier: 'open' }), ...(e.service.drilled && { drilled: e.service.drilled }), ...(e.service.bound && { bound: true }), ...(e.service.leave === 'open' && { leave: 'open' }), ...(e.service.road === 'open' && { road: 'open' }) } }), ...(e.voted && { voted: true }), ...(e.auto && { auto: true }) }));
   // What each person could be asked to do, with the reason for anything refused, is
   // computed on the server. The client must never decide for itself what is possible:
   // that is the same rule as fog of war, applied to a control instead of a fact.

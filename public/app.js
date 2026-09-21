@@ -20,7 +20,7 @@ import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesVisible, woo
 import { bindEnding, renderEnding } from '/ending.js';
 import { bindLooks, renderLooks } from '/appearance.js';
 import { bindCreation, creationStep, renderCreation, showTitle } from '/creation.js';
-import { aroundHole, groundInputs, applyDrawState, canvasRatio, creekOpacity, distanceToSegments, ramp, readDrawState, sameLayerKey, scatterItem, scatterLevels, segmentsNear, setText, smoothCover, WATER, waterWidth, landPictureData, landUpscale, outOfSight } from '/map-base.js';
+import { aroundHole, groundInputs, applyDrawState, canvasRatio, creekOpacity, distanceToSegments, ramp, readDrawState, sameLayerKey, scatterItem, scatterLevels, segmentsNear, setText, smoothCover, WATER, waterWidth, landPictureData, landUpscale, away } from '/map-base.js';
 import { canSmoothOffThread, smoothOffThread, toBitmap } from '/smooth-worker.js';
 import { DEFAULT_GROUND, groundClass, groundClassAt, markFor } from '/ground-classes.js';
 import { decodeLand, decodeOutside, decodeProvince, emptyMiddle, landWeights, lineBand, tileGrid, withoutClaims } from '/land-levels.js';
@@ -996,7 +996,11 @@ function cameraFor(world, canvas, now = performance.now()) {
   // their drawn position rather than their last reported one, so the view walks with them
   // instead of jumping once a tick. At the frame's own moment (`drawWorld`), the moment they are drawn at, so the person
   // watched stands still in the middle rather than a few pixels ahead of it by however long the ground took to draw.
-  const watched = watchedId ? entitiesOf(world).find(entity => entity.id === watchedId) : null;
+  // Somebody away on the road has no place to be watched at (sim/sight.mjs): the camera gives the family frame back rather
+  // than holding on a person who is not on the map. Without the `location` test `raw` below was null and the frame threw,
+  // once a student pressed the portrait of somebody the class's clock had carried out of sight (found 2026-09-21 by
+  // scripts/travel-sight-proof.mjs).
+  const watched = watchedId ? entitiesOf(world).find(entity => entity.id === watchedId && entity.location) : null;
   const at = watched?.location
     ? motionProjection.position(watched, now, reducedMotion.matches || world.status !== 'running')
     : null;
@@ -2186,7 +2190,9 @@ function weatherCourses(world, camera, canvas) {
 const fogBase = { canvas: null, shapes: 0 };
 /**
  * How many minutes of 1835 the last tick stood for, read from two snapshots in a row (sim/clock.mjs runs two clocks on the
- * real land). It decides whether a journey is watchable or is left to the fog (public/map-base.js `outOfSight`).
+ * real land). It scales a traveller's drawn speed for the marker (public/motion.js `travellerSpeed`) for a class saved and
+ * served before the server sent `step`. Whether a journey may be watched at all is no longer asked here: the server sends
+ * somebody away on the road with no position (sim/sight.mjs).
  */
 let minutesATick = 0, lastTickSeen = null;
 function noteTick(world) {
@@ -2445,10 +2451,12 @@ export function drawWorld(world) {
       labels.push({ name: ownLand ? 'Home' : (host && landBySite.get(site.id)?.name) || site.name, x: q.x, y: q.y - Math.max(12, roof) });
     }
   }
-  const entities = entitiesOf(world).filter(entity => entity.location && !outOfSight(entity, minutesATick));
+  // Somebody away on the road is sent no `location` at all (sim/world.mjs `seenTravel`): there is nothing here to draw
+  // them at, and nothing to decide - the server already decided.
+  const entities = entitiesOf(world).filter(entity => entity.location);
   // Everyone else standing where your family is standing. Drawn plainly, never with a
   // request mark and never with a selection ring that implies you can order them.
-  const observed = observedOf(world).filter(entity => entity.location && !outOfSight(entity, minutesATick));
+  const observed = observedOf(world).filter(entity => entity.location);
   drawnAt.clear();
   seatedDrawn.clear();
   const chosen = selectedEntity(world);
@@ -2599,7 +2607,11 @@ export function drawWorld(world) {
   } else window.__weatherDrawn = null;
   const travellers = entities.filter(entity => entity.travel);
   const here = entities.filter(entity => entity.location.siteId).map(entity => `${entity.name} (${entity.task || entity.kind})`);
-  const journey = travellers.map(entity => `${entity.name} is on the road to ${placeName(world, entity.travel.to)}, about ${Math.round((entity.travel.progress || 0) / (entity.travel.distance || 1) * 100)}% of the way.`).join(' ');
+  // Somebody away on the road is not in `entities` at all - the server sent no position for them (sim/sight.mjs) - so the
+  // spoken description reads them off the whole roster, and says they are gone rather than dropping them out of the world.
+  const gone = entitiesOf(world).filter(entity => away(entity))
+    .map(entity => `${entity.name} is away on the road to ${placeName(world, entity.travel.to)}, about ${entity.travel.miles} miles off, and should be ${entity.travel.back}.`).join(' ');
+  const journey = `${travellers.map(entity => `${entity.name} is on the road to ${placeName(world, entity.travel.to)}, about ${Math.round((entity.travel.progress || 0) / (entity.travel.distance || 1) * 100)}% of the way.`).join(' ')}${gone ? ` ${gone}` : ''}`.trim();
   const settled = here.length ? `At ${placeName(world, entities.find(e => e.location.siteId)?.location.siteId)}: ${here.join(', ')}.` : '';
   const met = observed.length
     ? ` Also here: ${observed.map(e => `${e.name}${e.resident ? ` of ${placeName(world, e.location?.siteId)}` : ''}`).join(', ')}.`
@@ -2720,7 +2732,7 @@ function renderHousehold(world) {
     // The second way in to a conversation, and the one that works without the canvas.
     const meeting = meetingFor(world, entity);
     if (meeting) li.dataset.task = 'meeting';
-    const button = element('button', `${entity.name}: ${entity.task || 'resting'}, ${entity.travel ? `on the road to ${placeName(world, entity.travel.to)}` : placeName(world, entity.location?.siteId)}, ${entity.health?.condition || 'well'}${taskFor(world, entity) ? '. Someone is asking for help.' : ''}${meeting ? '. A rider has stopped to speak with them.' : ''}${entity.chore?.ask ? '. Waiting on your word.' : ''}`);
+    const button = element('button', `${entity.name}: ${entity.task || 'resting'}, ${entity.travel ? `${away(entity) ? 'away ' : ''}on the road to ${placeName(world, entity.travel.to)}` : placeName(world, entity.location?.siteId)}, ${entity.health?.condition || 'well'}${taskFor(world, entity) ? '. Someone is asking for help.' : ''}${meeting ? '. A rider has stopped to speak with them.' : ''}${entity.chore?.ask ? '. Waiting on your word.' : ''}`);
     button.dataset.select = entity.id;
     li.append(button); return li;
   }));
@@ -3734,9 +3746,11 @@ function renderSelection(world) {
   } else $('#selection-state').textContent = chosen.chore
     ? `${chosen.chore.doing} · ${chosen.health?.condition || 'well'}`
     : chosen.travel
-      // Out of sight on the long middle of a journey (public/map-base.js `outOfSight`): the card is where it is said.
-      ? `On the road to ${placeName(world, chosen.travel.to)} · ${Math.round((chosen.travel.progress || 0) / (chosen.travel.distance || 1) * 100)}%`
-        + (outOfSight(chosen, minutesATick) ? ` · out of sight, ${Math.max(1, Math.round((chosen.travel.distance || 0) - (chosen.travel.progress || 0)))} miles to go` : '')
+      // Away on the road, too fast to follow (sim/sight.mjs): the card is where a student is told so, and it says the same
+      // three things their row on the panel does - where they went, how far is left, and roughly when they get there.
+      ? away(chosen)
+        ? `Away on the road to ${placeName(world, chosen.travel.to)} · about ${chosen.travel.miles} miles off · should be ${chosen.travel.back}`
+        : `On the road to ${placeName(world, chosen.travel.to)} · ${Math.round((chosen.travel.progress || 0) / (chosen.travel.distance || 1) * 100)}%`
       : `${chosen.task || 'resting'} · ${placeName(world, chosen.location?.siteId)} · ${chosen.health?.condition === 'wounded' ? `${chosen.health.grade || 'badly'} wounded` : chosen.health?.condition || 'well'}`;
   // A lasting mark from a wound (sim/army.mjs `WOUND_GRADES`): part of who this person is now, so it stays on their card.
   if (chosen.marks?.length && world.role !== 'host') $('#selection-state').textContent += ` · ${chosen.marks.join(', ')}`;

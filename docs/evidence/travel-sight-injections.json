@@ -1,0 +1,165 @@
+{
+  "record": "travel-sight-injections",
+  "date": "2026-09-21",
+  "files": [
+    "tests/travel-sight.test.mjs",
+    "tests/map-base.test.mjs",
+    "tests/travel-speed.test.mjs"
+  ],
+  "injections": [
+    {
+      "name": "the line is back where the 2026-09-17 rule had it, and a walk in the news hour is hidden",
+      "file": "sim/sight.mjs",
+      "failed": [
+        "the line is how far the figure would jump, not what the clock says, and it is where this page stops drawing a walk"
+      ]
+    },
+    {
+      "name": "the line is read as \"at it and over\", so a walk of exactly an hour goes out of sight",
+      "file": "sim/sight.mjs",
+      "failed": [
+        "the line is how far the figure would jump, not what the clock says, and it is where this page stops drawing a walk"
+      ]
+    },
+    {
+      "name": "the rule asks what phase the class is in instead of how far the figure would jump",
+      "file": "sim/sight.mjs",
+      "failed": [
+        "the line is how far the figure would jump, not what the clock says, and it is where this page stops drawing a walk",
+        "a journey too fast to follow is sent with no place, no road, no progress and no pace",
+        "a family still knows who is away, where they went and roughly when they are back",
+        "somebody who is not moving is never away, however fast the calendar is running",
+        "somebody sent riding goes at the family horse's pace, a rider with word at the courier's, and the page is told what a tick carries"
+      ]
+    },
+    {
+      "name": "somebody held on a bank while the water is up is hidden, though they have not moved for days",
+      "file": "sim/sight.mjs",
+      "failed": [
+        "somebody who is not moving is never away, however fast the calendar is running"
+      ]
+    },
+    {
+      "name": "a rider reined in to speak with somebody vanishes in the middle of the sentence",
+      "file": "sim/sight.mjs",
+      "failed": [
+        "somebody who is not moving is never away, however fast the calendar is running"
+      ]
+    },
+    {
+      "name": "the family is not told how far is left",
+      "file": "sim/sight.mjs",
+      "failed": [
+        "a family still knows who is away, where they went and roughly when they are back"
+      ]
+    },
+    {
+      "name": "the arrival is rounded down instead of counted in whole ticks, so they are due before they can be there",
+      "file": "sim/sight.mjs",
+      "failed": [
+        "a family still knows who is away, where they went and roughly when they are back"
+      ]
+    },
+    {
+      "name": "somebody an hour off is given a date instead of an hour",
+      "file": "sim/sight.mjs",
+      "failed": [
+        "a family still knows who is away, where they went and roughly when they are back"
+      ]
+    },
+    {
+      "name": "an hour and a quarter is said as \"about an hours\"",
+      "file": "sim/sight.mjs",
+      "failed": [
+        "a family still knows who is away, where they went and roughly when they are back"
+      ]
+    },
+    {
+      "name": "somebody back this afternoon is given a date, which a student cannot use",
+      "file": "sim/sight.mjs",
+      "failed": [
+        "a family still knows who is away, where they went and roughly when they are back"
+      ]
+    },
+    {
+      "name": "working out what to say writes it into the world, so a save carries a projection",
+      "file": "sim/sight.mjs",
+      "failed": [
+        "nothing about this is stored, so a class saved before it opens unchanged"
+      ]
+    },
+    {
+      "name": "somebody away is still handed their place on the map",
+      "file": "sim/world.mjs",
+      "failed": [
+        "a journey too fast to follow is sent with no place, no road, no progress and no pace",
+        "somebody sent riding goes at the family horse's pace, a rider with word at the courier's, and the page is told what a tick carries"
+      ]
+    },
+    {
+      "name": "somebody away is still handed the road and how far along it they are",
+      "file": "sim/world.mjs",
+      "failed": [
+        "a journey too fast to follow is sent with no place, no road, no progress and no pace",
+        "somebody sent riding goes at the family horse's pace, a rider with word at the courier's, and the page is told what a tick carries"
+      ]
+    },
+    {
+      "name": "only the long middle of a journey is hidden, as it was before: the ends are still drawn, one jump each",
+      "file": "sim/world.mjs",
+      "failed": [
+        "a journey too fast to follow is sent with no place, no road, no progress and no pace",
+        "somebody sent riding goes at the family horse's pace, a rider with word at the courier's, and the page is told what a tick carries"
+      ]
+    },
+    {
+      "name": "the teacher is filtered like a family, and loses the travellers on the class view",
+      "file": "sim/overview.mjs",
+      "failed": [
+        "the Host is not a family: the teacher still sees the class where it truly is"
+      ]
+    },
+    {
+      "name": "the family panel says only \"is on the road\" for somebody who is no longer anywhere on the map",
+      "file": "sim/chores.mjs",
+      "failed": [
+        "a family still knows who is away, where they went and roughly when they are back"
+      ]
+    },
+    {
+      "name": "the page cannot tell who the server sent away",
+      "file": "public/map-base.js",
+      "failed": [
+        "the page never decides for itself who may be watched: it draws whoever the server sent a place for"
+      ]
+    },
+    {
+      "name": "the page works out for itself who may be watched, from what it was sent",
+      "file": "public/app.js",
+      "failed": [
+        "the page never decides for itself who may be watched: it draws whoever the server sent a place for"
+      ]
+    },
+    {
+      "name": "a neighbour the server sent no place for is drawn anyway, at wherever the page last had them",
+      "file": "public/app.js",
+      "failed": [
+        "the page never decides for itself who may be watched: it draws whoever the server sent a place for"
+      ]
+    },
+    {
+      "name": "the camera goes on following somebody away, with no place left to frame them at",
+      "file": "public/app.js",
+      "failed": [
+        "the page never decides for itself who may be watched: it draws whoever the server sent a place for"
+      ]
+    },
+    {
+      "name": "the card says nothing of somebody away, so a student is left with a person who has simply gone",
+      "file": "public/app.js",
+      "failed": [
+        "the page never decides for itself who may be watched: it draws whoever the server sent a place for"
+      ]
+    }
+  ]
+}

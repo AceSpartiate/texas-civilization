@@ -1,0 +1,114 @@
+{
+  "record": "travel-sight-browser",
+  "date": "2026-09-21",
+  "ownerDirection": "Owner, 2026-09-21, after a real class on Chromebooks: \"students saw characters moving too fast. i thought we were going to use fog of war for that? if they're moving too fast then players shouldn't be able to follow them until they arrive.\"",
+  "how": "node scripts/travel-sight-proof.mjs: two classes on the real land, five families, a student page and the teacher's page open on each, both sending the same person on foot from their own land to Gonzales. The first runs the farming day (twenty minutes a tick); the second is played in process to October 3 first, so it runs the gathering (four hours a tick). Headless Chrome 1280x850 on this computer.",
+  "threshold": {
+    "milesATick": 3
+  },
+  "slow": {
+    "person": "hh-1-thomas",
+    "seen": {
+      "minute": 260,
+      "tickMs": 2500,
+      "location": {
+        "x": 120.32631858005077,
+        "y": 23.995699116156167,
+        "siteId": null
+      },
+      "away": false,
+      "travel": {
+        "to": "gonzales",
+        "miles": null,
+        "back": null,
+        "progress": 0.7716049382716049,
+        "step": 1,
+        "points": 273
+      },
+      "drawn": {
+        "x": 640,
+        "y": 395
+      },
+      "card": "On the road to Gonzales · 0%",
+      "row": "Nicolás is on the road.",
+      "spoken": "At Family 1 home: Drusilla (work), Benita (rest), Ruperto (rest), Juniper the ox (animal), Bess the mare (animal), Family wagon (wagon). Nicolás is on the road to Gonzales, about 0% of the way."
+    },
+    "teacher": {
+      "location": {
+        "x": 120.3263,
+        "y": 23.9957,
+        "siteId": null
+      },
+      "road": 6,
+      "progress": 0.7716,
+      "drawn": true,
+      "where": [
+        "on the road to Gonzales",
+        "at home: working",
+        "at home",
+        "at home"
+      ]
+    }
+  },
+  "fast": {
+    "person": "hh-1-thomas",
+    "seen": {
+      "minute": 7800,
+      "tickMs": 2500,
+      "location": null,
+      "away": true,
+      "travel": {
+        "to": "gonzales",
+        "miles": 95,
+        "back": "there about October 8",
+        "progress": null,
+        "step": null,
+        "points": 0
+      },
+      "drawn": null,
+      "card": "Away on the road to Gonzales · about 95 miles off · should be there about October 8",
+      "row": "Amos is away on the road to Gonzales, about 95 miles off, and should be there about October 8.",
+      "spoken": "At Family 1 home: Mahala (work), Delia (rest), Ruperto (rest), Juniper the ox (animal), Bess the mare (animal), Family wagon (wagon). Also here: Ned Falk, Willa Hines. Amos is away on the road to Gonzales, about 95 miles off, and should be there about October 8."
+    },
+    "teacher": {
+      "location": {
+        "x": 79.3299,
+        "y": -18.5799,
+        "siteId": null
+      },
+      "road": 9,
+      "progress": 8.8541,
+      "drawn": false,
+      "where": [
+        "on the road to Gonzales",
+        "at home: working",
+        "at home",
+        "at home"
+      ]
+    }
+  },
+  "screenshots": [
+    "docs/evidence/travel-sight/slow-student.png",
+    "docs/evidence/travel-sight/slow-host.png",
+    "docs/evidence/travel-sight/fast-student.png",
+    "docs/evidence/travel-sight/fast-host.png"
+  ],
+  "pass": [
+    "at twenty minutes a tick the walker is on the map, 1 mile a tick, and the page draws them",
+    "and the card says how far along the road they are: \"On the road to Gonzales · 0%\"",
+    "the teacher sees the same walker on the same road",
+    "at four hours a tick the server sends no place for them at all",
+    "and no road, no progress and no pace with it",
+    "so the page draws nobody: there is no figure to skate across the map",
+    "the card says what became of them: \"Away on the road to Gonzales · about 95 miles off · should be there about October 8\"",
+    "their row on the family panel says the same: \"Amos is away on the road to Gonzales, about 95 miles off, and should be there about October 8.\"",
+    "and the page says it aloud for a screen reader: \"At Family 1 home: Mahala (work), Delia (rest), Ruperto (rest), Juniper the ox (animal), Bess the mare (animal), Family w\"",
+    "the teacher is not a family and still has them on the road at {\"x\":79.3299,\"y\":-18.5799,\"siteId\":null}",
+    "and the teacher's class panel says where they are: \"on the road to Gonzales\"",
+    "the pages raised no errors"
+  ],
+  "limitations": [
+    "Same computer, headless Chrome. Nothing here is a Chromebook, a classroom projector or a physical LAN.",
+    "On foot at two of the four calendars. The horse, the ox wagon and a courier at every calendar are the same rule on other numbers (tests/travel-sight.test.mjs)."
+  ]
+}

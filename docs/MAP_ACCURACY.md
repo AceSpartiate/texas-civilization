@@ -820,3 +820,136 @@ that country draws and on a road, no town outside, and `findWay`/`findPath` refu
 Laredo - and `tests/colonies-map.test.mjs` has the Trinity's two windows. Each was proven by injection. A family's lane may no
 longer wade a big river even where the easiest ground would (sim/colonies-region.mjs), which is what the Trinity's new window
 turned up at Liberty.
+
+## 12. Who a family may watch on this map (2026-09-21)
+
+A real class played the game on Chromebooks on 2026-09-21, and the owner said afterwards:
+
+> "students saw characters moving too fast. i thought we were going to use fog of war for that? if they're moving too fast
+> then players shouldn't be able to follow them until they arrive."
+
+He is right, and the second sentence is the rule. This section is what was decided and why. The code is `sim/sight.mjs`;
+the claims are `FIC-GONZ-230` (the rule) and `FIC-GONZ-231` (where the line falls). No documented claim was needed: the
+paces and the day on the road are unchanged, and go on resting on `HIST-TEX-093` and `FIC-GONZ-059`.
+
+### 12.1 What was already there, and why it was not enough
+
+Nothing about the simulation was wrong. A man walks three miles in an hour of 1835 in every phase, and what changes between
+phases is the calendar: a tick stands for twenty minutes, an hour, four hours or twelve (`sim/clock.mjs`). So one tick
+carries a walker one mile in the farming day and **ten and a half** in the campaign, and the page draws that stride in the
+nine and a half real seconds a Study tick lasts. That is the whole complaint.
+
+Two answers were already in the project:
+
+- **2026-09-17, `outOfSight` in `public/map-base.js`.** The long *middle* of a fast journey was not drawn: a traveller more
+  than 2.5 miles from both ends, while a tick carried them more than two miles. It hid the middle and **kept the ends**,
+  and at four or twelve hours a tick one tick is longer than the 2.5-mile window - so what a student actually saw was the
+  figure appear, jump the entire window in a single step, and vanish. Worse, the page worked it out **for itself**, out of
+  a position the server had already sent it. That is the thing `VISION.md` §4 exists to forbid.
+- **2026-09-18, the marker (`MARKER_ABOVE`, `public/motion.js`).** Past 1.2 of their own drawn heights a real second a
+  traveller is a token on a dotted route instead of a running figure. That is right and it **stays**. But it is a rule
+  about how close the camera is, and it cannot help when the ground itself runs out: a token that crosses the country in
+  four ticks is no more followable than a skating man.
+
+### 12.2 The rule
+
+> **While one tick would carry a traveller more than `WATCHABLE_MILES_A_TICK` miles of road, that traveller is *away*: the
+> server sends no position for them at all, and the family is told where they went, how far is left and roughly when they
+> get there. They come back into sight when they arrive.**
+
+Four things are worth saying about it.
+
+**It is the server's.** `sim/world.mjs` `seenTravel` decides it, and somebody away is projected with `location: null` and a
+`travel` that carries `from`, `to`, `distance`, `mode`, `away`, `miles`, `due` and `back` - **no `points`, no `progress`,
+no `speed`, no `step`**. The page cannot draw what it was not sent, so there is no client rule left to get wrong, and
+nothing in a student's payload that they were not entitled to. Every drawing filter on the page is now simply "did the
+server send a place for them".
+
+**It is the whole journey, not its middle.** The owner's own words: not followable *until they arrive*. An end window only
+makes sense if a tick is shorter than the window, and at the calendars where this rule bites it never is.
+
+**Somebody who is not moving is never away.** A rider reined in to speak with somebody (`travel.halted`) is standing in
+front of them; a family bogged in the mud, waiting at a ferry or camped to hunt on the road east sets `halted` too
+(`sim/road.mjs`); somebody held on a bank while the water is over a crossing (`travel.waitUntil`, `sim/world.mjs` `wadeAt`)
+may sit there for days. None of them jumps anywhere, all of them are worth watching, and all of them stay drawn.
+
+**The Host is not a family.** The teacher's map is unfiltered and always was (`sim/overview.mjs`, `docs/HOST_PAGE.md`):
+the Host is sent every traveller's true point and the road under them, and the class panel says "on the road to Gonzales"
+in `whereWords` as it always did. This is the first place where the teacher's map and a student's genuinely differ in what
+is *on* them, which is exactly what the Host page is for.
+
+### 12.3 Where the line falls, and why it is three miles
+
+The measure is **how far the figure would jump** - the miles the next tick carries *this* traveller, which is their pace
+times the calendar (`sim/world.mjs` `milesATick`) - and **never what phase the class is in**. The same four-hour tick
+carries an ox wagon 2.3 miles and a courier 31.
+
+Three miles, because that is where this project's own drawing stops sliding a figure and starts jumping it.
+`ROAD_WINDOW_MILES` (`sim/overview.mjs`) is three: it is the stretch of road that rides along beside a traveller so the
+page can draw them *sliding* down it between two ticks, and it was set at three because "nobody goes further than a rider's
+7.8 miles an hour times a twenty-minute tick (2.6 miles), so a window that reaches past that either way loses nothing that
+is drawn". Its own `ceiling:` names today's bug in advance: "a traveller put further along than this in one step is drawn
+jumping to where they are rather than sliding there". Three miles a tick is also one hour's walking, and an hour a tick
+(`WATCHED_TICK_MINUTES`) is the longest tick the travel model still counts hour by hour; past it the clock stops modelling
+a journey and starts rationing a day's road across ticks (`sim/travel.mjs` `roadTicks`). `tests/travel-sight.test.mjs`
+holds the line equal to `ROAD_WINDOW_MILES`, so the two can never drift apart.
+
+What that lets through, calendar by calendar, in miles of road one tick carries:
+
+| | farming day (20 min) | news (1 hour) | gathering (4 hours) | campaign (12 hours) |
+| --- | --- | --- | --- | --- |
+| on foot | 1 · watched | 3 · watched | 3.5 · **away** | 10.5 · **away** |
+| the family's horse | 1.67 · watched | 5 · **away** | 5.83 · **away** | 17.5 · **away** |
+| the ox and wagon | 0.65 · watched | 1.95 · watched | 2.28 · watched | 6.83 · **away** |
+| a courier, riding all hours | 2.6 · watched | 7.8 · **away** | 31.2 · **away** | 93.6 · **away** |
+
+**Nothing changes in the farming day**, which is where a class spends its first thirteen minutes and where everything a
+student is taught to watch happens: the hunt's walk out to the timber, the wagon coming in on the arrival, a walk across
+the family's own land, a ride into Gonzales, and a rider coming up to the door. The walk of the news hour sits exactly on
+the line and stays drawn. A courier is only ever hidden on the long open legs; a rider **within sight** of a family is
+inside `SIGHT_MILES` and his first tick can never carry him past halfway (`sim/world.mjs` `progressTravel`, the `stretched`
+rule), so the approach a conversation needs is untouched.
+
+### 12.4 What a student sees instead
+
+Their person does not disappear from the family; they disappear from the **map**. In three places, all from the server's
+own numbers:
+
+- **the card**: `Away on the road to Gonzales · about 96 miles off · should be there about October 8`;
+- **their row on the family panel**: `Amos is away on the road to Gonzales, about 96 miles off, and should be there about
+  October 8.` (`sim/chores.mjs`, the refusal that row already showed as "is on the road");
+- **the page's spoken description**, for a screen reader, in the same words.
+
+`back` is in the family's own terms and never a clock face: "there within the hour", "there in about three hours", or a
+date once it is past today's business. The arrival is counted in whole ticks, the way `sim/time.mjs` counts the Host's list
+of what is coming, so the two cannot drift apart - and it is an estimate, because a shut ford can hold it a day.
+
+The camera gives the family frame back rather than holding on somebody who is not on the map; pressing the portrait of
+somebody away used to leave the frame with nobody to centre on and threw on every painted frame (found by the browser
+proof, 2026-09-21).
+
+### 12.5 Nothing is stored
+
+No field of the world changed and `saveVersion` did not move. This is a projection, computed fresh on every tick from the
+calendar the class is running; a class saved before 2026-09-21 opens exactly as it did, and a class on the invented
+Gonzales country runs one twenty-minute clock and can never reach the line at all.
+
+### 12.6 Checks
+
+`tests/travel-sight.test.mjs` (7) holds the rule, the line, the table above, the carve-outs, the words, the Host's
+unfiltered view and that nothing is stored; `tests/map-base.test.mjs` holds that the page no longer decides any of it;
+`tests/travel-speed.test.mjs` holds the projection against what the server actually moves. **Twenty-one regressions were
+injected one at a time** and each was caught: `node scripts/travel-sight-injections.mjs`,
+[docs/evidence/travel-sight-injections.json](evidence/travel-sight-injections.json). The browser proof is `npm run
+test:travel-sight` ([record](evidence/travel-sight.json), [screenshots](evidence/travel-sight/)): the same person walking
+the same road to Gonzales in two classes, one on the farming day and one at the gathering, with the teacher's page open on
+both.
+
+- `ceiling:` one number for people, riders, beasts and the wagon. It is a fact about the drawing rather than about the
+  traveller, so one number is right until something is drawn to a different scale from everything else.
+- `ceiling:` a neighbour's rider is never put away, because `observedBy` only ever sends one who is already within sight
+  and the `stretched` rule keeps his approach watchable. A courier who could be seen from miles off would want the same
+  rule applied to `others`.
+- `ceiling:` nobody is drawn setting out or walking in at the far end. That is the owner's choice and the simplest thing
+  that is true; a two- or three-tick window at each end, once a tick is short enough for a window to mean anything, is the
+  way back if a class ever misses the departure.
