@@ -41,21 +41,40 @@ export function lessonShowing(world) {
  */
 export const lessonLocks = lesson => Boolean(lesson) && Array.isArray(lesson.allow);
 
-/** An icon's action in the lesson's own words: a chore is `chore:<id>`, everything else is the order it sends. */
-export const actionIdOf = icon => (icon?.kind === 'chore' ? `chore:${icon.key}` : `order:${icon.key}`);
+/**
+ * The three icons that are one action to the server: Travel to Gonzales, Return home and Go to a neighbour's homestead all
+ * send `travel` (`panelIcon` in public/app.js; `sim/lesson.mjs` `actionId`). They are on the lesson's `ALWAYS`, so a
+ * student may wander mid-lesson, and a page that shut them would be stopping something the world permits.
+ */
+const JOURNEYS = new Set(['visit', 'travel-gonzales', 'travel-home']);
+
+/**
+ * An icon's action id, written exactly as the server writes it (`actionId` in sim/lesson.mjs): a chore is `chore:<id>`,
+ * a journey is `travel` whichever of the three it is, and everything else is the order's own name.
+ *
+ * This has to agree with the server or the screen and the gate disagree, which is the one way a student meets a refusal
+ * the screen did not show them. It read `order:<key>` until 2026-09-21, which matched nothing the server sends, so every
+ * journey, the yard and rest were dimmed on every step although the server allows all of them throughout.
+ */
+export const actionIdOf = icon => {
+  if (!icon) return '';
+  if (icon.kind === 'chore') return `chore:${icon.key}`;
+  if (icon.destination || icon.visit || JOURNEYS.has(icon.key)) return 'travel';
+  return String(icon.key);
+};
 
 /**
  * Whether the lesson lets this icon be pressed now.
  *
- * The contract writes an id as `chore:build-house`; the orders that are not chores have no worked example in it, so all
- * three spellings a reasonable server would use are accepted - `order:rest`, `chore:rest` and the bare `rest`. Accepting
- * more than the server sends cannot open anything the server refuses: the server is the one that enforces `allow`, and
- * this only decides what the screen dims.
+ * The id the server matches on is `actionIdOf`. The bare key is accepted as well because `sim/lesson.mjs` writes some of
+ * its own steps that way - `['survey-plot']`, `['clear-plot', 'fence-plot']`, `['hunt-land', 'chore:hunt-timber']` - and
+ * a page that read those strictly would dim the very work the step is asking for. Accepting more than the server sends
+ * can never open something the server refuses: the server enforces `allow`, and this only decides what the screen dims.
  */
 export function allowsIcon(lesson, icon) {
   if (!lessonLocks(lesson) || !icon) return true;
   const key = icon.key;
-  return lesson.allow.some(entry => entry === actionIdOf(icon) || entry === key || entry === `chore:${key}` || entry === `order:${key}`);
+  return lesson.allow.some(entry => entry === actionIdOf(icon) || entry === key || entry === `chore:${key}`);
 }
 
 /** What a shut icon says when it is hovered, focused or pressed: never a scolding, always the one thing to do instead. */

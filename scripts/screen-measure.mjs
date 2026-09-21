@@ -113,7 +113,16 @@ try {
     await page.waitForTimeout(700);
     record.scenes.lesson = await coverage(page);
     await page.screenshot({ path: `test-results/screen-${label}-lesson.png` });
-    await holdLesson(page, null);
+    // And with nobody chosen, which is what a student who has not pressed a face sees: the strip, the rows and the bar,
+    // and no card at all. Both are recorded because the card is a quarter of the right of the screen and whether it is
+    // open is the student's doing, not the interface's.
+    if (await page.locator('#selection-close').isVisible()) {
+      await page.locator('#selection-close').click();
+      await page.waitForTimeout(500);
+      record.scenes.lessonNoCard = await coverage(page);
+      await page.screenshot({ path: `test-results/screen-${label}-lesson-no-card.png` });
+    }
+    await holdLesson(page, 'none').catch(() => holdLesson(page, null));
   }
   record.pageErrors = errors;
   for (const [name, scene] of Object.entries(record.scenes)) {

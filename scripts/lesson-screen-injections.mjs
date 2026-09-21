@@ -38,14 +38,32 @@ const INJECTIONS = [
     to: 'export const lessonLocks = lesson => Boolean(lesson);',
   },
   {
-    name: 'a chore is written as an order, so nothing the contract spells is matched',
-    from: "export const actionIdOf = icon => (icon?.kind === 'chore' ? `chore:${icon.key}` : `order:${icon.key}`);",
-    to: 'export const actionIdOf = icon => `order:${icon?.key}`;',
+    name: 'a chore is written the way the page used to write an order, so nothing the server sends is matched',
+    from: "  if (icon.kind === 'chore') return `chore:${icon.key}`;",
+    to: "  if (icon.kind === 'chore') return `order:${icon.key}`;",
+  },
+  {
+    // The bug of 2026-09-21: the page spelled every order `order:<key>`, which matches nothing sim/lesson.mjs sends, so
+    // the journeys, the yard and rest were dimmed on every step although `ALWAYS` allows all of them throughout.
+    name: 'an order is spelled order:<key>, which is nothing the server sends, so what is always allowed is dimmed',
+    from: '  return String(icon.key);',
+    to: '  return `order:${icon.key}`;',
+  },
+  {
+    name: 'the three journeys are read as three actions, so a lesson dims travel although it always allows it',
+    from: "  if (icon.destination || icon.visit || JOURNEYS.has(icon.key)) return 'travel';",
+    to: '',
   },
   {
     name: 'an allowed id is matched as a piece of a word, so hunt-land opens hunt-timber too',
-    from: '  return lesson.allow.some(entry => entry === actionIdOf(icon) || entry === key || entry === `chore:${key}` || entry === `order:${key}`);',
+    from: '  return lesson.allow.some(entry => entry === actionIdOf(icon) || entry === key || entry === `chore:${key}`);',
     to: '  return lesson.allow.some(entry => String(entry).includes(key) || key.includes(String(entry).split(\':\').pop()));',
+  },
+  {
+    // sim/lesson.mjs writes some of its own steps bare - `['survey-plot']`, `['clear-plot', 'fence-plot']`.
+    name: 'only the chore: spelling is read, so the page dims the very work the step is asking for',
+    from: '  return lesson.allow.some(entry => entry === actionIdOf(icon) || entry === key || entry === `chore:${key}`);',
+    to: '  return lesson.allow.some(entry => entry === actionIdOf(icon));',
   },
   {
     name: 'the step shuts nothing at all, and every icon on the bar stays open',

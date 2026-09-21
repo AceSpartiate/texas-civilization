@@ -1,5 +1,5 @@
 {
-  "record": "lesson-injections",
+  "record": "lesson-screen-injections",
   "date": "2026-09-21",
   "files": [
     "tests/lesson-screen.test.mjs"
@@ -41,17 +41,44 @@
       ]
     },
     {
-      "name": "a chore is written as an order, so nothing the contract spells is matched",
+      "name": "a chore is written the way the page used to write an order, so nothing the server sends is matched",
       "file": "public/lesson.js",
       "failed": [
-        "a step allows exactly what it names, in any of the spellings a server would write"
+        "an icon carries the id the server matches on, and the three journeys are one action",
+        "the id an icon carries is the id the server matches on, for every icon the bar can hold"
+      ]
+    },
+    {
+      "name": "an order is spelled order:<key>, which is nothing the server sends, so what is always allowed is dimmed",
+      "file": "public/lesson.js",
+      "failed": [
+        "an icon carries the id the server matches on, and the three journeys are one action",
+        "the id an icon carries is the id the server matches on, for every icon the bar can hold"
+      ]
+    },
+    {
+      "name": "the three journeys are read as three actions, so a lesson dims travel although it always allows it",
+      "file": "public/lesson.js",
+      "failed": [
+        "an icon carries the id the server matches on, and the three journeys are one action",
+        "what the lesson always allows is never dimmed: the journeys, the yard and rest",
+        "the id an icon carries is the id the server matches on, for every icon the bar can hold"
       ]
     },
     {
       "name": "an allowed id is matched as a piece of a word, so hunt-land opens hunt-timber too",
       "file": "public/lesson.js",
       "failed": [
-        "a step allows exactly what it names, in any of the spellings a server would write"
+        "what the lesson always allows is never dimmed: the journeys, the yard and rest",
+        "a step allows exactly what it names, in either spelling the server writes",
+        "the id an icon carries is the id the server matches on, for every icon the bar can hold"
+      ]
+    },
+    {
+      "name": "only the chore: spelling is read, so the page dims the very work the step is asking for",
+      "file": "public/lesson.js",
+      "failed": [
+        "a step allows exactly what it names, in either spelling the server writes"
       ]
     },
     {
@@ -59,7 +86,8 @@
       "file": "public/lesson.js",
       "failed": [
         "an empty allow shuts everything; a missing allow shuts nothing",
-        "a step allows exactly what it names, in any of the spellings a server would write",
+        "what the lesson always allows is never dimmed: the journeys, the yard and rest",
+        "a step allows exactly what it names, in either spelling the server writes",
         "the icon pointed at is one the server is already offering, and there is at most one",
         "against the real simulation: a step shuts the family’s whole bar but the work it asks for"
       ]

@@ -448,13 +448,15 @@ paints over the map and counting the covered pixels once (`npm run measure:scree
 | | Covered | The left column reaches |
 | --- | --- | --- |
 | Before, in the lobby | **33.4%** | **584 px**, and three of six family rows were hidden behind the walk-through card |
-| After, in the lobby | **28.3%** | **264 px** (the family rows); 380 px counting the walk-through card, which is unchanged |
-| After, with a lesson running | 31.9% | 264 px, and **all six rows in sight** where three had been covered |
+| After, in the lobby | **28.1%** | **264 px** (the family rows); 380 px counting the walk-through card, which is unchanged |
+| After, with a lesson running and a person chosen | **27.7%** | 264 px, and **all six rows in sight** where three had been covered |
+| After, with a lesson running and nobody chosen | **23.9%** | 264 px |
 | After, folded (**Hide names**) | — | **102 px** |
 
-The "with a lesson" figure is higher than the lobby's for an honest reason worth keeping: the rows that used to be *hidden*
-behind the walk-through card are now *visible*, so they are charged to the interface for the first time. The number a
-student feels is the second column.
+Two of those rows are new since the first pass, and both are measured because both are real: whether the card beside a
+person is open is the student's doing, not the interface's, so the last row is what a student who has just joined and
+pressed nothing actually sees. The figures moved from 28.3 / 31.9 after the three faults in §12.8 were fixed — the bar's
+second row went, and the card's journey block folded.
 
 ### 12.2 The ability bar
 
@@ -540,3 +542,48 @@ same pixel size on the same computer.
 
 `stand-in:` the caret over the ringed icon, the ring itself and the lesson's pips are drawn in CSS, not art. The request is
 in [ART_REQUESTS.md](ART_REQUESTS.md) (2026-09-21 — the guided start's marks) and listed there under *Stand-ins in use*.
+
+### 12.8 Three things the first screenshots showed — 2026-09-21, the same day
+
+The two halves of the guided start met on main and the first Chromebook screenshots of them together were read back. Three
+faults, all of them the page's:
+
+- **Two bars.** The row was capped at 58rem and wrapped: sixteen icons along the bottom and three floating above and left
+  of them, one of them ringed. To a student that is two bars, which is the opposite of what §12.2 says. The row now never
+  wraps, may use the whole width bar a gutter, and the icons give up a little size before anything else does
+  (`flex: 0 1 48px` with a floor). Nineteen icons sit on one line at 48 px with 8 px between them, and the bar went from
+  **9.4% of the screen to 4.8%**. The proof now asserts one line and **one group of icons on the screen at all**, which is
+  the check that would have caught it: "nineteen icons" passed straight through two bars.
+  `ceiling:` past about thirty-three icons on one person the floor is reached and the row would run off the screen edge at
+  1366 px. The longest row this game deals is a principal's twenty-one.
+- **The card pushed up under the step.** The guided start's strip was counted among the controls the card has to stay
+  *above* — and it stands across the **top**, so the card was shoved to the top of the screen and straight under the one
+  thing that has to stay readable. The strip is now **overhead** rather than underfoot in `placementBoxes`, and only the
+  part of it the card would actually stand in front of counts, so a card out at the right edge is not pushed down for a
+  strip that ends in the middle.
+- **The card's journey block ate the right quarter.** *Going by* — three stamps and a paragraph — and the list of
+  neighbours are the card's two tallest blocks. While a step is running the card opens **folded**: the person, their
+  state and their questions, with *Going by, and the neighbours* one press away. **Nothing is shut.** `sim/lesson.mjs`
+  puts `travel` on `ALWAYS` on purpose, so a student may wander mid-lesson; a page that put it out of reach would be
+  stopping what the world permits. The card is **3.8% of the screen folded against 10.3% open**.
+
+### 12.9 The id an icon carries is the id the server matches on
+
+`actionIdOf` wrote `order:<key>` for everything that was not a chore. **The server sends no such id.** `actionId` in
+`sim/lesson.mjs` writes a chore as `chore:<id>` and everything else as the action's own name, and the three journeys —
+Travel to Gonzales, Return home, Go to a neighbour's homestead — are **one** action, `travel`. So the page dimmed every
+journey, *Work about the place* and *Rest* on every step, although `ALWAYS` allows all of them throughout. The page now
+spells an icon exactly as the server does, and a test walks every shape `panelIcon` builds and holds `actionIdOf` and the
+server's own `actionId` to the same answer.
+
+The bare key is still read as well, because `sim/lesson.mjs` writes some of its own steps that way. **See the handoff:**
+six of those bare names are chores, and the gate cannot match them — the lesson refuses the very work the step asks for.
+That is the server's to fix; the page needs no change when it lands.
+
+### 12.10 Names that piled on each other
+
+A family standing together round the wagon drew four names in the same few pixels. Each name is now placed where it asks
+to be; one that would land on a name already placed **steps down a line**, up to three times, and is left undrawn if it
+still has nowhere to sit. Nothing is lost by dropping one: the person is still there to press, still marked, and still
+named on the family panel. `layOutCaptions` in `public/app.js`; what was drawn and what was dropped is on
+`window.__labelsDrawn`, the same contract as `__viewEntities`.

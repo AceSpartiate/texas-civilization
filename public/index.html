@@ -149,6 +149,11 @@
     <div id="selection" hidden role="dialog" aria-label="Give an instruction">
       <div id="selection-head"><span id="selection-name"></span><button id="selection-close" aria-label="Close">×</button></div>
       <p id="selection-state"></p>
+      <!-- While a step of the guided start is running, the card opens with the person and their questions and nothing
+           else: the step is the one thing that has to be readable, and "Going by" and the list of neighbours are a
+           quarter of the right of a Chromebook screen. Nothing is shut - the server allows travel throughout the lesson
+           (sim/lesson.mjs ALWAYS) - it is one press away. -->
+      <button type="button" id="selection-more" hidden aria-expanded="false" aria-controls="selection-travel">More</button>
       <p id="selection-task" hidden></p>
       <!-- Somebody outside the family is asking this person for something. It is built
            from what the server sent - the question, and each answer with its own price -

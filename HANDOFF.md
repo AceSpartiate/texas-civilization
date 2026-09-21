@@ -1,5 +1,49 @@
 # Claude handoff — Astra foundation
 
+**Three faults the first screenshots of the guided start showed, and one the server still has, 2026-09-21 (later the same
+day):** [FAMILY_PANEL.md](docs/FAMILY_PANEL.md) §12.8–§12.10. The two halves met on main; the screenshots of them together
+were read back and three things on the page were wrong.
+
+- **Two bars.** The ability bar was capped at 58rem and wrapped — sixteen icons along the bottom, three floating above and
+  left of them, one of them ringed. To a student that is two bars. The row never wraps now, may use the whole width bar a
+  gutter, and the icons give up a little size before anything else does; nineteen sit on one line at 48 px, 8 px apart,
+  and the bar went from **9.4% of the screen to 4.8%**. The proof asserts one line **and one group of icons on the screen
+  at all** — its old "nineteen icons" check passed straight through two bars.
+- **The card was pushed up under the step.** The strip was counted among the controls the card must stay *above*, and it
+  stands across the **top**: the card was shoved to the top of the screen and under the one thing that has to stay
+  readable. The strip is **overhead** now, not underfoot, and only the part of it the card would really stand in front of
+  counts.
+- **The card's journey block ate the right quarter.** While a step is running the card opens **folded** — the person,
+  their state and their questions — with *Going by, and the neighbours* one press away. **3.8% of the screen folded
+  against 10.3% open.** Nothing is shut: `travel` is on the lesson's `ALWAYS` on purpose.
+- **And the id an icon carried was not the id the server matches on.** `actionIdOf` wrote `order:<key>`, which
+  `sim/lesson.mjs` never sends, so every journey, *Work about the place* and *Rest* were dimmed on **every** step although
+  `ALWAYS` allows them throughout. The page spells an icon exactly as `actionId` does now — a chore `chore:<id>`, the
+  three journeys all `travel` — and a test walks every shape `panelIcon` builds and holds the two to the same answer.
+- **Names no longer pile up.** A family round the wagon drew four names in the same few pixels; each now steps down a line
+  rather than landing on one already placed, and is left undrawn if it still has nowhere to sit (`layOutCaptions`).
+- Measured again at 1366×768: **28.1%** covered in the lobby, **27.7%** with a step running and a person chosen, **23.9%**
+  with a step running and nobody chosen — which is what a student who has just joined and pressed nothing sees.
+  849 tests, 0 fail; **20 regressions injected into `public/lesson.js`, 20 caught**; `npm run test:lesson` 14 checks with
+  four screenshots at 1366×768.
+
+**Left open, and it is the server's: six steps name a chore in a way the gate cannot match.** `actionId` turns a student's
+order into `chore:<id>`, but `STEPS` writes `'survey-plot'`, `'clear-plot'`, `'fence-plot'`, `'hunt-land'` and
+`'fell-trees'` bare, so `lessonRefusal` refuses the very work the step is asking for:
+
+| Step | `allow` has | a student sends |
+| --- | --- | --- |
+| house | `fell-trees` | `chore:fell-trees` |
+| survey | `survey-plot` | `chore:survey-plot` |
+| clear | `clear-plot`, `fence-plot` | `chore:clear-plot`, `chore:fence-plot` |
+| harvest | `fence-plot` | `chore:fence-plot` |
+| hunt | `hunt-land` | `chore:hunt-land` |
+
+The survey, clear and hunt steps have no other way to be finished, so a class reaching **survey** stops there: the screen
+rings the stake, the student presses it, and the gate answers *"Not yet - first, stake out a field."* `choose-site`,
+`plan-house`, `place-piece` and `remove-piece` are bare correctly — they are not chores. The page reads the bare spelling
+as well, on purpose, so the **screen** is already right; it needs no change when the prefix lands.
+
 **The screen given back, and the guided start on it, 2026-09-21:** A real class played this on Chromebooks on 2026-09-21
 and three things went wrong on screen. Two of them belong to the page rather than the world: [FAMILY_PANEL.md](docs/FAMILY_PANEL.md) §12,
 `public/lesson.js`, `FIC-GONZ-220` to `-222`. Measured at **1366×768**, the Chromebook the school buys, by rasterising

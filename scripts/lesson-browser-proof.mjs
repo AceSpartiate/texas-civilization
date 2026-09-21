@@ -80,6 +80,9 @@ try {
       count: icons.length, smallestGap: gaps.length ? Math.min(...gaps) : null, iconSize: icons.length ? Math.round(icons[0].width) : 0,
       // How much of the screen the bar itself takes, which is what "maximise the visibility of the screen" is about.
       share: Math.round(box.width * box.height / (innerWidth * innerHeight) * 1000) / 10,
+      // How many groups of icons have a box on the screen at all. One bar means one group; a second anywhere is a second
+      // bar to a student, however the page got there (2026-09-21: nineteen icons wrapped to 16 + 3 and read as two).
+      groupsOnScreen: [...document.querySelectorAll('.panel-icons')].filter(one => one.getBoundingClientRect().width > 0).length,
     };
   });
   const focusedId = await page.evaluate(() => document.querySelector('.panel-row[data-focused=true]').dataset.entityId);
@@ -90,7 +93,12 @@ try {
   assert.ok(bar.fromBottom > 0 && bar.fromBottom < SCREEN.height / 4, `the bar is not at the bottom: ${bar.fromBottom}px up`);
   assert.ok(bar.smallestGap >= 6, `the icons are not spaced out: the smallest gap is ${bar.smallestGap}px`);
   assert.ok(bar.iconSize >= 44, `an icon is smaller than a fingertip: ${bar.iconSize}px`);
-  ok(`the main person's work is bottom middle at 1366x768: ${bar.count} icons, centred at ${bar.centre}, ${bar.fromBottom}px up, ${bar.smallestGap}px apart, ${bar.share}% of the screen`);
+  // **One bar, not two.** Until 2026-09-21 a 58rem cap wrapped a nineteen-icon row to sixteen and three, and the three
+  // floated above the rest: to a student, two bars. Both halves of that are held down - every icon on one line, and only
+  // one group of icons with a box on the screen anywhere.
+  assert.equal(bar.rows, 1, `the bar is ${bar.rows} rows of icons, which reads as ${bar.rows} bars`);
+  assert.equal(bar.groupsOnScreen, 1, `${bar.groupsOnScreen} groups of icons are on the screen at once`);
+  ok(`the main person's work is one row bottom middle at 1366x768: ${bar.count} icons on ${bar.rows} line, centred at ${bar.centre}, ${bar.fromBottom}px up, ${bar.smallestGap}px apart, ${bar.iconSize}px each, ${bar.share}% of the screen`);
 
   // Nobody else's work is on the screen at all.
   const elsewhere = await page.evaluate(id => [...document.querySelectorAll('.panel-icon')]
@@ -177,6 +185,39 @@ try {
   assert.deepEqual(measured.step.filter(icon => icon.pointed).map(icon => icon.key), [open]);
   assert.ok(measured.step.filter(icon => icon.shut).every(icon => icon.opacity < 0.5), 'a shut icon is not plainly shut');
   ok(`the step leaves one thing to press of ${measured.step.length}, rings it, and dims the rest`);
+
+  // **Nothing stands on the step.** While a step is running the strip is the one thing that has to be readable, and the
+  // card beside a person was being pushed up under it: the guided start was counted among the controls the card has to
+  // stay above, and it is overhead, not underfoot (2026-09-21). And the card's own journey block - three stamps, a
+  // paragraph and a list of neighbours, 250 px of the right of a Chromebook screen - is put away while the step starts
+  // nobody on a road.
+  await page.locator(`.panel-portrait[data-portrait="${focusedId}"]`).click();
+  await page.locator('#selection').waitFor({ state: 'visible', timeout: 10000 });
+  await page.waitForTimeout(500);
+  const cardNow = () => page.evaluate(() => {
+    const box = node => { const one = node?.getBoundingClientRect(); return one && one.width ? { left: Math.round(one.left), top: Math.round(one.top), right: Math.round(one.right), bottom: Math.round(one.bottom) } : null; };
+    const shown = selector => Boolean(box(document.querySelector(selector))?.bottom);
+    const card = box(document.querySelector('#selection')), strip = box(document.querySelector('#lesson'));
+    const over = card && strip && card.left < strip.right && strip.left < card.right && card.top < strip.bottom && strip.top < card.bottom;
+    return { card, strip, over, travelShown: shown('#selection-travel'), visitShown: shown('#visit-row'), more: document.querySelector('#selection-more')?.textContent || null,
+      share: card ? Math.round((card.right - card.left) * (card.bottom - card.top) / (innerWidth * innerHeight) * 1000) / 10 : 0 };
+  });
+  measured.card = { folded: await cardNow() };
+  assert.equal(measured.card.folded.over, false, `the card stands on the step: card ${JSON.stringify(measured.card.folded.card)}, strip ${JSON.stringify(measured.card.folded.strip)}`);
+  assert.equal(measured.card.folded.travelShown, false, 'the "Going by" block is open on the card while a step is running');
+  assert.equal(measured.card.folded.visitShown, false, 'the neighbours list is open on the card while a step is running');
+  assert.ok(measured.card.folded.more, 'nothing on the card says how to get the folded part back');
+  // **Folded, not shut.** The server allows `travel` on every step of the lesson on purpose (`ALWAYS` in sim/lesson.mjs),
+  // so what the card puts away has to be one press from coming back, or the page would be stopping what the world permits.
+  await page.locator('#selection-more').click();
+  await page.waitForFunction(() => document.querySelector('#selection-travel')?.getBoundingClientRect().height > 0, null, { timeout: 5000 });
+  measured.card.opened = await cardNow();
+  assert.equal(measured.card.opened.travelShown, true);
+  assert.ok(measured.card.opened.share > measured.card.folded.share, 'the card did not grow when its journey block came back');
+  assert.equal(measured.card.opened.over, false, 'the opened card stands on the step');
+  await page.locator('#selection-more').click();
+  await page.waitForFunction(() => !(document.querySelector('#selection-travel')?.getBoundingClientRect().height > 0), null, { timeout: 5000 });
+  ok(`the card is clear of the step and folds its journey block away: ${measured.card.folded.share}% of the screen against ${measured.card.opened.share}% open, top at ${measured.card.folded.card.top} under a strip ending at ${measured.card.folded.strip.bottom}, and one press brings it back`);
   await shoot(page, 'step');
 
   // Pressing a shut one sends nothing and says the one thing to do instead.
