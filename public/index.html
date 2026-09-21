@@ -75,7 +75,10 @@
       <!-- The family panel (docs/FAMILY_PANEL.md, owner 2026-09-15): father, mother, then the children oldest first, each
            with a portrait that takes the camera to them, a name that saves itself, and an icon for every action the server
            offers them now. Built by renderFamilyPanel in public/app.js from the projection; nothing in it decides anything. -->
+      <!-- The panel folds to a column of faces (owner, 2026-09-21: the interface covered too much of a Chromebook screen).
+           This is the way out the ceiling in docs/FAMILY_PANEL.md §7 named. -->
       <section id="family-panel" aria-label="Your family's people" hidden>
+        <button type="button" id="family-collapse" aria-expanded="true" aria-controls="family-rows">Hide names</button>
         <ol id="family-rows"></ol>
       </section>
       <!-- The Host's live page (docs/HOST_PAGE.md, owner 2026-09-16): the class family by family in words, and the Rumor
@@ -281,6 +284,18 @@
       <p id="site-text"></p>
       <p id="site-note" role="alert"></p>
       <button type="button" id="site-build" hidden>Set the house here</button>
+    </section>
+
+    <!-- The guided start (public/lesson.js, owner 2026-09-21): one task at a time, over the map, unavoidable. Everything
+         in it is the server's `world.lesson` - where the student is, the one sentence of what to do, what just happened -
+         and there is no control on it at all, because only the world says a step is finished. -->
+    <section id="lesson" hidden aria-labelledby="lesson-title">
+      <span class="eyebrow" id="lesson-step"></span>
+      <h2 id="lesson-title"></h2>
+      <p id="lesson-says"></p>
+      <p id="lesson-did" hidden></p>
+      <div id="lesson-pips" aria-hidden="true"></div>
+      <p id="lesson-read" class="sr-only" role="status"></p>
     </section>
 
     <section id="tutorial" hidden aria-labelledby="tutorial-title">

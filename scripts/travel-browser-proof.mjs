@@ -74,6 +74,9 @@ try {
 
   // --------------------------------------------------- what a trip would bring home, said
   // The hunt is an icon on Thomas's row of the family panel, and what it would bring home is in its popup (docs/FAMILY_PANEL.md).
+  // Nobody is made the main person here, though §12 draws only the main person's bar: this reads the icon's own words and
+  // never presses it, and an attribute is there to be read whether or not the icon is on the screen. Choosing him would
+  // start the camera watching him, and the measurement below is of the wagon moving *across the screen*.
   const hunt = page.locator('.panel-row[data-entity-id="hh-1-thomas"] .panel-icon[data-key=hunt-timber]');
   const onFoot = await hunt.getAttribute('data-note');
   await page.locator('#travel-modes button[data-mode=wagon]').click();

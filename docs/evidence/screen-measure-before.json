@@ -1,0 +1,406 @@
+{
+  "record": "screen-measure",
+  "label": "before",
+  "date": "2026-09-21",
+  "screen": {
+    "width": 1366,
+    "height": 768
+  },
+  "browser": "152.0.7977.83",
+  "scenes": {
+    "lobby": {
+      "covered": 350689,
+      "share": 0.3342798697535383,
+      "boxes": [
+        {
+          "selector": "#session",
+          "x": 12,
+          "y": 12,
+          "w": 252,
+          "h": 38
+        },
+        {
+          "selector": "#world",
+          "x": 12,
+          "y": 56,
+          "w": 198,
+          "h": 31
+        },
+        {
+          "selector": "#food",
+          "x": 12,
+          "y": 93,
+          "w": 78,
+          "h": 31
+        },
+        {
+          "selector": "#supplies",
+          "x": 12,
+          "y": 130,
+          "w": 248,
+          "h": 31
+        },
+        {
+          "selector": "#wagon-open",
+          "x": 12,
+          "y": 167,
+          "w": 189,
+          "h": 34
+        },
+        {
+          "selector": "#house-open",
+          "x": 12,
+          "y": 207,
+          "w": 117,
+          "h": 34
+        },
+        {
+          "selector": ".panel-row .panel-portrait",
+          "x": 12,
+          "y": 249,
+          "w": 56,
+          "h": 56
+        },
+        {
+          "selector": ".panel-row .panel-portrait",
+          "x": 12,
+          "y": 385,
+          "w": 56,
+          "h": 56
+        },
+        {
+          "selector": ".panel-row .panel-portrait",
+          "x": 12,
+          "y": 465,
+          "w": 56,
+          "h": 56
+        },
+        {
+          "selector": ".panel-row .panel-portrait",
+          "x": 12,
+          "y": 544,
+          "w": 56,
+          "h": 56
+        },
+        {
+          "selector": ".panel-row .panel-portrait",
+          "x": 12,
+          "y": 610,
+          "w": 56,
+          "h": 56
+        },
+        {
+          "selector": ".panel-row .panel-portrait",
+          "x": 12,
+          "y": 689,
+          "w": 56,
+          "h": 56
+        },
+        {
+          "selector": ".panel-row .panel-body",
+          "x": 65,
+          "y": 249,
+          "w": 519,
+          "h": 132
+        },
+        {
+          "selector": ".panel-row .panel-body",
+          "x": 65,
+          "y": 385,
+          "w": 323,
+          "h": 74
+        },
+        {
+          "selector": ".panel-row .panel-body",
+          "x": 65,
+          "y": 465,
+          "w": 299,
+          "h": 74
+        },
+        {
+          "selector": ".panel-row .panel-body",
+          "x": 65,
+          "y": 544,
+          "w": 299,
+          "h": 61
+        },
+        {
+          "selector": ".panel-row .panel-body",
+          "x": 65,
+          "y": 610,
+          "w": 266,
+          "h": 74
+        },
+        {
+          "selector": ".panel-row .panel-body",
+          "x": 65,
+          "y": 689,
+          "w": 367,
+          "h": 74
+        },
+        {
+          "selector": ".panel-icons",
+          "x": 74,
+          "y": 290,
+          "w": 501,
+          "h": 85
+        },
+        {
+          "selector": ".panel-icons",
+          "x": 74,
+          "y": 427,
+          "w": 305,
+          "h": 28
+        },
+        {
+          "selector": ".panel-icons",
+          "x": 74,
+          "y": 507,
+          "w": 281,
+          "h": 28
+        },
+        {
+          "selector": ".panel-icons",
+          "x": 74,
+          "y": 572,
+          "w": 281,
+          "h": 28
+        },
+        {
+          "selector": ".panel-icons",
+          "x": 74,
+          "y": 652,
+          "w": 248,
+          "h": 28
+        },
+        {
+          "selector": ".panel-icons",
+          "x": 74,
+          "y": 731,
+          "w": 349,
+          "h": 28
+        },
+        {
+          "selector": "#tutorial",
+          "x": 12,
+          "y": 504,
+          "w": 368,
+          "h": 200
+        },
+        {
+          "selector": "#selection",
+          "x": 899,
+          "y": 387,
+          "w": 260,
+          "h": 315
+        },
+        {
+          "selector": "#map-tools",
+          "x": 909,
+          "y": 710,
+          "w": 443,
+          "h": 44
+        }
+      ],
+      "leftColumnWidth": 380
+    },
+    "chosen": {
+      "covered": 356585,
+      "share": 0.3398999893240605,
+      "boxes": [
+        {
+          "selector": "#session",
+          "x": 12,
+          "y": 12,
+          "w": 252,
+          "h": 38
+        },
+        {
+          "selector": "#world",
+          "x": 12,
+          "y": 56,
+          "w": 198,
+          "h": 31
+        },
+        {
+          "selector": "#food",
+          "x": 12,
+          "y": 93,
+          "w": 78,
+          "h": 31
+        },
+        {
+          "selector": "#supplies",
+          "x": 12,
+          "y": 130,
+          "w": 248,
+          "h": 31
+        },
+        {
+          "selector": "#wagon-open",
+          "x": 12,
+          "y": 167,
+          "w": 189,
+          "h": 34
+        },
+        {
+          "selector": "#house-open",
+          "x": 12,
+          "y": 207,
+          "w": 117,
+          "h": 34
+        },
+        {
+          "selector": ".panel-row .panel-portrait",
+          "x": 12,
+          "y": 249,
+          "w": 56,
+          "h": 56
+        },
+        {
+          "selector": ".panel-row .panel-portrait",
+          "x": 12,
+          "y": 385,
+          "w": 56,
+          "h": 56
+        },
+        {
+          "selector": ".panel-row .panel-portrait",
+          "x": 12,
+          "y": 465,
+          "w": 56,
+          "h": 56
+        },
+        {
+          "selector": ".panel-row .panel-portrait",
+          "x": 12,
+          "y": 544,
+          "w": 56,
+          "h": 56
+        },
+        {
+          "selector": ".panel-row .panel-portrait",
+          "x": 12,
+          "y": 610,
+          "w": 56,
+          "h": 56
+        },
+        {
+          "selector": ".panel-row .panel-portrait",
+          "x": 12,
+          "y": 689,
+          "w": 56,
+          "h": 56
+        },
+        {
+          "selector": ".panel-row .panel-body",
+          "x": 65,
+          "y": 249,
+          "w": 519,
+          "h": 132
+        },
+        {
+          "selector": ".panel-row .panel-body",
+          "x": 65,
+          "y": 385,
+          "w": 323,
+          "h": 74
+        },
+        {
+          "selector": ".panel-row .panel-body",
+          "x": 65,
+          "y": 465,
+          "w": 299,
+          "h": 74
+        },
+        {
+          "selector": ".panel-row .panel-body",
+          "x": 65,
+          "y": 544,
+          "w": 299,
+          "h": 61
+        },
+        {
+          "selector": ".panel-row .panel-body",
+          "x": 65,
+          "y": 610,
+          "w": 266,
+          "h": 74
+        },
+        {
+          "selector": ".panel-row .panel-body",
+          "x": 65,
+          "y": 689,
+          "w": 367,
+          "h": 74
+        },
+        {
+          "selector": ".panel-icons",
+          "x": 74,
+          "y": 290,
+          "w": 501,
+          "h": 85
+        },
+        {
+          "selector": ".panel-icons",
+          "x": 74,
+          "y": 427,
+          "w": 305,
+          "h": 28
+        },
+        {
+          "selector": ".panel-icons",
+          "x": 74,
+          "y": 507,
+          "w": 281,
+          "h": 28
+        },
+        {
+          "selector": ".panel-icons",
+          "x": 74,
+          "y": 572,
+          "w": 281,
+          "h": 28
+        },
+        {
+          "selector": ".panel-icons",
+          "x": 74,
+          "y": 652,
+          "w": 248,
+          "h": 28
+        },
+        {
+          "selector": ".panel-icons",
+          "x": 74,
+          "y": 731,
+          "w": 349,
+          "h": 28
+        },
+        {
+          "selector": "#tutorial",
+          "x": 12,
+          "y": 504,
+          "w": 368,
+          "h": 200
+        },
+        {
+          "selector": "#selection",
+          "x": 709,
+          "y": 192,
+          "w": 260,
+          "h": 315
+        },
+        {
+          "selector": "#map-tools",
+          "x": 775,
+          "y": 710,
+          "w": 577,
+          "h": 44
+        }
+      ],
+      "leftColumnWidth": 380
+    }
+  },
+  "pageErrors": [],
+  "note": "leftColumnWidth recomputed 2026-09-21 with the metric the after run uses: only what is anchored to the left gutter (x < 40) counts, so the centred ability bar is not read as a column."
+}

@@ -21,6 +21,9 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { rollFamily, stepWorld } from '../sim/world.mjs';
 import { beginSecondPeriod, beginThirdPeriod } from '../sim/periods.mjs';
 import { meetFamily } from './support/meet-family.mjs';
+// docs/FAMILY_PANEL.md §12 (owner, 2026-09-21): a person's work is on the screen only while they are the family's main
+// person, so this proof chooses them first, as a student does.
+import { asMain } from './support/main-person.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -80,6 +83,7 @@ try {
   const person = household.members.map(id => world().entities[id]).find(one => one.kin?.role === 'father');
   assert.ok(person && person.health.condition === 'well', 'the first family has no father at home to send');
   const me = () => world().entities[person.id];
+  await asMain(student, person.id);
   const icon = key => student.locator(`.panel-icon[data-entity-id="${person.id}"][data-key="${key}"]`);
   await icon('join-houston').waitFor({ state: 'visible', timeout: 30000 });
   await icon('join-houston').click();

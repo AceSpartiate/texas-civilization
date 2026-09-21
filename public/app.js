@@ -4,6 +4,7 @@ import { drawArmy } from '/army-view.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, seatedClip, seatLayout, mounted, MOUNTED_HEIGHT, castVariant, childFigure, MarkerFade, travellerSpeed, routeIndexAfter, sameJourney } from '/motion.js';
 import { familyRows, PRESENCE_LABELS, storyView, spotlightBanner } from '/live-page.js';
 import { autoLabel, callMenu, callPlan, drawIcon, drawMark, drawPortrait, focusFor, isIdle, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, standing, RENAME_PAUSE_MS } from '/family-panel.js';
+import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
 import {drawBexarGround,bexarDrawables} from '/bexar-art.js';
 import {alamoOnMap,bexarToSite} from '/bexar-layout.js';
 import {plotArt} from '/field-art.js';
@@ -3225,6 +3226,9 @@ function renderFamilyPanel(world) {
   const land = world.land;
   const house = Boolean(land?.interior?.kind);
   const army = new Set((world.army?.ours || []).map(one => one.id));
+  // The guided start, as the server sent it this tick (public/lesson.js). Absent when there is no lesson, and then nothing
+  // below shuts anything: the panel is exactly what it was.
+  const lesson = lessonShowing(world), lessonNote = lockedNote(lesson);
   for (const [id, row] of panelRows) if (!byId.has(id)) { row.item.remove(); panelRows.delete(id); }
   const seen = [];
   order.forEach((id, at) => {
@@ -3283,6 +3287,11 @@ function renderFamilyPanel(world) {
     const carry = world.travelModes?.[id]?.find(mode => mode.id === modeFor(id))?.carry;
     const icons = panelActions({ entity, offered: world.work?.[id] || [], catalogue: choreCache || new Map(), main: focused, homeId, homesteads,
       atHome: entity.location?.siteId === homeId, settable, carry });
+    // The guided start shuts everything the step does not allow, and rings the one it asks for (public/lesson.js). It is
+    // read here rather than decided here: `allow` is the server's list and the server refuses anything else in words.
+    const shutting = lessonLocks(lesson);
+    const pointed = focused ? pointedKey(lesson, icons) : null;
+    const lessonFor = key => (shutting ? { shut: !allowsIcon(lesson, icons.find(one => one.key === key)), note: lessonNote, pointed: key === pointed } : null);
     const reason = rowReason(icons);
     // No switch on a child too young to be sent, who has nothing for auto to repeat or answer. Only that case: somebody on
     // the road or in the ranks has a reason on their row too, and theirs is the switch auto-fight is for.
@@ -3293,7 +3302,7 @@ function renderFamilyPanel(world) {
     setData(row.item, 'idle', String(idle));
     if (row.idle.hidden !== !idle) row.idle.hidden = !idle;
     seen.push({ id, need: need?.kind || null, needs: needs.map(one => one.kind), idle, focused, auto: onAuto });
-    const key = JSON.stringify([reason, icons]);
+    const key = JSON.stringify([reason, icons, shutting ? [lesson.step, lesson.allow, pointed] : null]);
     if (row.iconsKey !== key) {
       row.iconsKey = key;
       row.icons.setAttribute('aria-label', `What ${entity.name} can do`);
@@ -3303,7 +3312,7 @@ function renderFamilyPanel(world) {
       const wanted = reason ? [row.icons.querySelector('.panel-reason') || element('span', '', 'panel-reason')] : icons.map(icon => {
         const button = kept.get(icon.key) || panelIcon(id, icon);
         kept.delete(icon.key);
-        describeIcon(button, icon);
+        describeIcon(button, icon, lessonFor(icon.key));
         return button;
       });
       if (reason) wanted[0].textContent = reason;
@@ -3577,13 +3586,16 @@ function panelRow(id) {
   auto.dataset.auto = id;
   auto.setAttribute('aria-pressed', 'false');
   tools.append(idle, house, auto, focus);
+  // The ability bar (owner, 2026-09-21): the icons are a child of the row, not of the row's body, so the names can be
+  // folded away without folding away the work, and so a row whose person is not the main one can hide them on their own.
+  // Where they are *drawn* is the stylesheet's: the main person's group is taken to the bottom middle of the screen.
   const icons = element('div', '', 'panel-icons');
   icons.setAttribute('role', 'group');
   // What the person has become, under their name: its own line so it wraps on a phone instead of pushing the star off the row.
   const note = element('span', '', 'panel-standing');
   note.hidden = true;
-  body.append(label, input, tools, note, icons);
-  item.append(portrait, attention, body);
+  body.append(label, input, tools, note);
+  item.append(portrait, attention, body, icons);
   const row = { item, portrait, canvas, label, input, icons, attention, idle, house, focus, auto, note, face: null, iconsKey: null };
   panelRows.set(id, row);
   return row;
@@ -3619,18 +3631,27 @@ function panelIcon(entityId, icon) {
   button.append(canvas);
   return button;
 }
-/** What an icon says this tick: its name, sentence and note, whether it is open, and whether it glows. */
-function describeIcon(button, icon) {
+/**
+ * What an icon says this tick: its name, sentence and note, whether it is open, and whether it glows.
+ *
+ * `lesson` is how the guided start sees this icon (public/lesson.js): `shut` while the step does not allow it, `pointed`
+ * on the one the step is asking for. A shut icon is shut the way a refused one is - dimmed, still focusable, still able
+ * to say why - because the student is meant to read it, and because the server refuses it in words either way.
+ */
+function describeIcon(button, icon, lesson = null) {
   button.dataset.name = icon.name;
   button.dataset.summary = icon.summary;
+  const shut = Boolean(lesson?.shut);
   // Somebody at this already is not refused it: they are doing it, and the popup says so rather than giving the busy reason.
-  const note = icon.active ? 'Doing this now.' : icon.can ? icon.note : icon.why;
+  const note = icon.active ? 'Doing this now.' : shut ? lesson.note : icon.can ? icon.note : icon.why;
   button.dataset.note = note;
   // Refused, but still focusable and hoverable so its reason can be read: `aria-disabled`, not `disabled`.
-  if (icon.can) button.removeAttribute('aria-disabled'); else button.setAttribute('aria-disabled', 'true');
+  if (icon.can && !shut) button.removeAttribute('aria-disabled'); else button.setAttribute('aria-disabled', 'true');
+  setData(button, 'shut', shut ? 'true' : '');
+  setData(button, 'pointed', lesson?.pointed ? 'true' : '');
   button.dataset.active = String(icon.active);
   if (icon.active) button.setAttribute('aria-current', 'true'); else button.removeAttribute('aria-current');
-  button.setAttribute('aria-label', [`${icon.name}.`, icon.summary, note].filter(Boolean).join(' '));
+  button.setAttribute('aria-label', [`${icon.name}.`, icon.summary, note, lesson?.pointed ? 'This is the step to do now.' : ''].filter(Boolean).join(' '));
 }
 /** The small popup over an icon: what it is, its one sentence, and the server's price or reason. */
 function showPanelTip(button) {
@@ -3649,6 +3670,36 @@ function showPanelTip(button) {
   tip.style.top = `${below + tip.offsetHeight < stage.height - 8 ? below : Math.max(8, above)}px`;
 }
 function hidePanelTip() { panelTipFor = null; const tip = $('#panel-tip'); if (tip) tip.hidden = true; }
+/**
+ * Folding the panel down to a column of faces (owner, 2026-09-21: the interface covered too much of a Chromebook screen).
+ *
+ * This is the way out the ceiling in docs/FAMILY_PANEL.md §7 named, now that the ground it covered has turned out to
+ * matter in play. It folds the names, roles and tools away and leaves the portraits, which are what a glance down the
+ * column is for - who is idle, who has an "!" - and the main person's work stays where it is, at the bottom middle of
+ * the screen, because that is the one thing a folded panel must not take away. Remembered per browser; a browser that
+ * refuses storage simply opens unfolded, which is the smaller harm.
+ */
+const COLLAPSE_KEY = 'tr_family_panel_folded';
+function panelFolded() { try { return localStorage.getItem(COLLAPSE_KEY) === 'yes'; } catch { return false; } }
+function setPanelFolded(folded) {
+  const panel = $('#family-panel'), button = $('#family-collapse');
+  if (!panel || !button) return;
+  setData(panel, 'collapsed', String(folded));
+  button.setAttribute('aria-expanded', String(!folded));
+  button.textContent = folded ? 'Show names' : 'Hide names';
+  const words = folded ? 'Show each person’s name and tools beside their face' : 'Fold the family down to a column of faces, to see more of the map';
+  button.setAttribute('aria-label', words);
+  button.title = words;
+  // The card beside a person is placed among the panel's box, which has just changed size.
+  placement.boxes = null;
+}
+$('#family-collapse')?.addEventListener('click', () => {
+  const folded = $('#family-panel')?.dataset.collapsed !== 'true';
+  try { localStorage.setItem(COLLAPSE_KEY, folded ? 'yes' : 'no'); } catch { /* a private window is allowed to forget */ }
+  setPanelFolded(folded);
+});
+// After the module body, so the placement boxes this clears already exist.
+queueMicrotask(() => setPanelFolded(panelFolded()));
 $('#family-panel')?.addEventListener('pointerover', event => { const icon = event.target.closest('.panel-icon'); if (icon) showPanelTip(icon); });
 $('#family-panel')?.addEventListener('pointerout', event => { const icon = event.target.closest('.panel-icon'); if (icon && !icon.contains(event.relatedTarget)) hidePanelTip(); });
 $('#family-panel')?.addEventListener('focusin', event => { const icon = event.target.closest('.panel-icon'); if (icon) showPanelTip(icon); else hidePanelTip(); });
@@ -3760,7 +3811,9 @@ function renderSelection(world) {
     if (button.id === 'listen-rider') continue;
     const destination = button.dataset.destination === 'home' ? homeOf(world) : button.dataset.destination;
     button.hidden = !commands;
-    button.disabled = !settable || Boolean(chosen.travel) || (action === 'travel' && (!destination || chosen.location?.siteId === destination));
+    // The card's own journey ("Go there", to a neighbour's homestead) is the `visit` icon by another route, so the guided
+    // start shuts it with the same rule (public/lesson.js): a student led to one step must not find a second way round it.
+    button.disabled = !settable || Boolean(chosen.travel) || (action === 'travel' && (!destination || chosen.location?.siteId === destination || shutByLesson(world, 'visit')));
   }
   // Somebody is standing in front of this person waiting to be spoken to. The button is
   // theirs and nobody else's: a rider stopped one named person, and that is who can listen.
@@ -3794,11 +3847,13 @@ function placementBoxes() {
   placement.boxes = {
     viewport: `${innerWidth}x${innerHeight}`, rect, panelWidth: panel.offsetWidth, panelHeight: panel.offsetHeight,
     family: family && !family.hidden ? family.getBoundingClientRect() : null,
-    controls: ['#journal-toggle', '#map-nav'].map(selector => $(selector)?.getBoundingClientRect()).filter(box => box?.height),
+    // The ability bar (owner, 2026-09-21) stands across the bottom middle; the card beside a person is kept off it, as it
+    // is kept off the map's own buttons.
+    controls: ['#journal-toggle', '#map-nav', '.panel-row[data-focused=true] .panel-icons', '#lesson'].map(selector => document.querySelector(selector)?.getBoundingClientRect()).filter(box => box?.height),
   };
   if (!placement.observer && typeof ResizeObserver === 'function') {
     placement.observer = new ResizeObserver(() => { placement.boxes = null; });
-    for (const element of [canvas, panel, family, $('#journal-toggle'), $('#map-nav')]) if (element) placement.observer.observe(element);
+    for (const element of [canvas, panel, family, $('#journal-toggle'), $('#map-nav'), $('#lesson')]) if (element) placement.observer.observe(element);
     window.addEventListener('resize', () => { placement.boxes = null; });
   }
   return placement.boxes;
@@ -4343,13 +4398,56 @@ $('#site-build')?.addEventListener('click', async () => {
 $('#house-open')?.addEventListener('click', () => { housePlanOpen = true; houseShown = ''; if (window.__snapshot) render(window.__snapshot); $('#house-close')?.focus(); });
 $('#plot-close')?.addEventListener('click', () => { housePlanOpen = false; if (window.__snapshot) render(window.__snapshot); $('#house-open')?.focus(); });
 $('#house-close')?.addEventListener('click', () => { housePlanOpen = false; if (window.__snapshot) render(window.__snapshot); $('#house-open')?.focus(); });
+/**
+ * The guided start over the map (public/lesson.js, owner 2026-09-21): one task at a time, said in the server's words,
+ * with no control of its own.
+ *
+ * There is deliberately nothing here to press. A Next button would be the page saying a step is finished, and the world
+ * is what says that: the strip is replaced whole on every snapshot and goes when `world.lesson` goes. It is rewritten
+ * only when its words change, because it is redrawn on every tick like everything else on this page.
+ */
+let lessonKey = null;
+function renderLesson(world) {
+  const panel = $('#lesson');
+  if (!panel) return;
+  const words = lessonWords(lessonShowing(world));
+  document.body.dataset.lesson = String(Boolean(words));
+  if (!words) { panel.hidden = true; lessonKey = null; return; }
+  panel.hidden = false;
+  const key = JSON.stringify(words);
+  if (lessonKey === key) return;
+  lessonKey = key;
+  $('#lesson-step').textContent = words.eyebrow;
+  $('#lesson-title').textContent = words.title;
+  $('#lesson-says').textContent = words.says;
+  $('#lesson-did').textContent = words.did;
+  $('#lesson-did').hidden = !words.did;
+  // One pip a step, filled up to where the world says the student is. Type only: it repeats the numbers already said.
+  const pips = $('#lesson-pips');
+  if (words.of && pips.children.length !== words.of) pips.replaceChildren(...Array.from({ length: words.of }, () => element('span', '', 'lesson-pip')));
+  if (!words.of) pips.replaceChildren();
+  [...pips.children].forEach((pip, at) => setData(pip, 'done', String(at < words.done)));
+  // Said once, as a status, for somebody who cannot see the ring round the icon.
+  $('#lesson-read').textContent = lessonAnnouncement(words);
+}
+/**
+ * Whether the guided start shuts one action now, for a control that is not an icon on the ability bar (public/lesson.js).
+ * The same reading as the bar's, so the two cannot disagree; the server refuses either of them in words regardless.
+ */
+function shutByLesson(world, key, kind = 'order') {
+  const lesson = lessonShowing(world);
+  return lessonLocks(lesson) && !allowsIcon(lesson, { key, kind });
+}
 function renderTutorial(world) {
   const panel = $('#tutorial');
   // A rider standing in the yard outranks a lesson in how to hold a hoe, and the two use
   // the same corner of the screen.
   // The die comes first: the walk-through sets people to work, and a family that has been
   // set to work can no longer be rolled.
+  // The offered walk-through is the old, skippable one. Where the server is leading the class itself (`world.lesson`),
+  // it is not offered at all: two lessons at once is worse than either.
   const busy = world.role === 'host' || !world.householdId || world.encounter?.status === 'open' || familyCache?.canRoll || ['rolling', 'rolled'].includes(rollState) || wagonOpen || housePlanOpen
+    || Boolean(lessonShowing(world))
     // The house site comes before the walk-through's work: it waits until the family has said where the house stands.
     || Boolean(world.land?.choosingSite);
   if (busy || tutorialStep === 'gone' || (tutorialStep === null && tutorialSeen(world))) { panel.hidden = true; return; }
@@ -4643,6 +4741,9 @@ function render(snapshot) {
   $('#lifecycle').hidden = !snapshot.lifecycle;
   $('#lifecycle').textContent = snapshot.lifecycle?.message || '';
   window.__snapshot = snapshot;
+  // For a proof that changes the snapshot in the page's hand and needs it drawn without waiting for a tick - a lobby does
+  // not tick at all (scripts/support/lesson-stub.mjs). Nothing in the page ever calls it.
+  window.__render = render;
   window.__received.push({ revision: snapshot.revision, tick: snapshot.world.tick });
   if (window.__received.length > 2000) window.__received.shift();
   $('#join').hidden = true; $('#rejoin').hidden = true; $('#game').hidden = false;
@@ -4700,7 +4801,7 @@ function render(snapshot) {
   // A snapshot that lands while a hand is on the map is drawn when the hand stops (`handOnMap`), not in the middle of the
   // gesture: a whole draw there is the stall a student feels as the map sticking under their finger.
   if (creating) { /* the curtain is up: nothing of the world is drawn */ } else if (performance.now() < handOnMapUntil) requestMapDraw(); else drawWorld(world);
-  renderInteriorPanel(world); renderHousehold(world); renderKnowledge(world); renderEncounter(world); renderFamilyRoll(world); renderWagonLoad(world); renderHousePlan(world); renderSite(world); renderSurvey(world); renderTutorial(world);
+  renderInteriorPanel(world); renderHousehold(world); renderKnowledge(world); renderEncounter(world); renderFamilyRoll(world); renderWagonLoad(world); renderHousePlan(world); renderSite(world); renderSurvey(world); renderLesson(world); renderTutorial(world);
 }
 function showJoin(message) {
   events?.close(); events = null;

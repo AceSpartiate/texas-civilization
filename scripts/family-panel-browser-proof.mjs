@@ -13,6 +13,9 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { createClassroom } from '../server/app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { meetFamily } from './support/meet-family.mjs';
+// docs/FAMILY_PANEL.md §12 (owner, 2026-09-21): a person's work is on the screen only while they are the family's main
+// person, so this proof chooses them first, as a student does.
+import { asMain } from './support/main-person.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -140,6 +143,7 @@ try {
     const icon = document.querySelector('.panel-icon[data-key="practise-shooting"]:not([aria-disabled="true"])');
     return icon?.dataset.entityId || null;
   }, null, { timeout: 15000 }).then(handle => handle.jsonValue());
+  await asMain(page, worker);
   const practise = page.locator(`.panel-row[data-entity-id="${worker}"] .panel-icon[data-key="practise-shooting"]`);
   const powderBefore = await page.evaluate(() => window.__snapshot.world.household.resources.powder);
   await practise.click();
@@ -171,6 +175,10 @@ try {
 
   // --------------------------------------------------------------------------------- the portrait takes the camera there
   const youngest = rows.at(-1).id;
+  // Back out first. Choosing the practising worker as the main person (§12: their work has to be on the screen to be
+  // pressed) took the camera to them and zoomed it to the stop, and a camera already at the stop cannot zoom in again.
+  for (let step = 0; step < 4; step++) await page.locator('#map-nav [data-view=out]').click();
+  await page.waitForTimeout(400);
   const before = await page.evaluate(() => window.__camera);
   await page.locator(`.panel-portrait[data-portrait="${youngest}"]`).click();
   await page.waitForFunction(id => document.querySelector('#map-nav [data-view=follow]')?.textContent.startsWith('Watching'), youngest);
@@ -189,7 +197,7 @@ try {
   await page.screenshot({ path: 'test-results/family-panel-portrait.png' });
 
   // ---------------------------------------------------------------------------------- every name, saved without a button
-  assert.equal(await page.locator('#family-panel button:not(.panel-portrait):not(.panel-icon):not(.panel-attention):not(.panel-focus):not(.panel-house):not(.panel-auto)').count(), 0, 'the panel has a button that is not a portrait, an icon, or one of the §11 controls (the "!", the star, House, auto)');
+  assert.equal(await page.locator('#family-panel button:not(.panel-portrait):not(.panel-icon):not(.panel-attention):not(.panel-focus):not(.panel-house):not(.panel-auto):not(#family-collapse)').count(), 0, 'the panel has a button that is not a portrait, an icon, one of the §11 controls (the "!", the star, House, auto) or §12\u2019s Hide names');
   assert.equal(await page.locator('#family-journal .name-row button, #family-name-form button').count(), 0, 'the family book still has Rename buttons');
   const newNames = ['Asa', 'Keziah', 'Hiram', 'Delia', 'Obed', 'Minerva', 'Levi', 'Soledad', 'Jonas', 'Effie'];
   const renamed = {};
