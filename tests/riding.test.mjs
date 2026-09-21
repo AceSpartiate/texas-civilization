@@ -47,15 +47,124 @@ test('somebody on the horse sits on it; the horse, a walker, somebody hurt and a
 test('the rider is drawn as themselves, sitting up, facing the way they go, in a pose the library holds', () => {
   const principal = person('hh-1-thomas', { principal: true });
   for (const direction of ['n', 's', 'e', 'w']) {
-    const clip = seatedClip(principal, direction);
+    // `null` asks for the person alone rather than the delivered rig: the figure-only path, which draws a person at a
+    // person's height (public/app.js `miniPerson`).
+    const clip = seatedClip(principal, direction, null);
     assert.equal(clip.id, `rust-idle-${direction}`, 'the principal keeps the rust coat on the horse');
     assert.ok(clips[clip.id], `${clip.id} is not in the library`);
     for (const child of [{ band: 'child', sex: 'female' }, { band: 'child', sex: 'male' }, { band: 'small' }, { band: 'infant' }, { sex: 'female', band: 'adult' }]) {
-      const id = seatedClip(person('hh-1-x', child), direction).id;
+      const id = seatedClip(person('hh-1-x', child), direction, null).id;
       assert.ok(clips[id], `${id} is not in the library`);
     }
   }
 });
+
+/**
+ * Astra's mounted family and seated drivers (2026-09-21), which replaced the composite for everybody they cover.
+ *
+ * What this holds, and what it cost to learn: for a whole year of this project's life an "it is delivered" test was a
+ * test that the *frame existed*, and eight batches sat in `atlas.json` drawn by nothing. So every assertion here is about
+ * a choice the drawing code makes - which clip, at what height, with what under it - and not about the library's contents.
+ * The photograph that it reaches the screen is scripts/riding-browser-proof.mjs.
+ */
+test("the eight riders and the four drivers Astra painted are what is drawn, and nobody else's layer is invented", async () => {
+  const { RIDING_FIGURES, DRIVING_FIGURES, MOUNTED_HEIGHT, SEAT, seatFigure } = await import('../public/motion.js');
+  const SIZES = { horse: 1.5, ox: 1.45, wagon: 1.55 };
+  // Every figure a rolled family can actually produce, so a figure added to the cast and forgotten here is caught.
+  const cast = new Set();
+  for (const sex of ['male', 'female', undefined]) for (const band of ['adult', 'youth', 'child', 'small', 'infant']) for (const principal of [false, true]) {
+    for (let n = 0; n < 40; n++) cast.add(seatFigure(person(`hh-${n}-${sex}-${band}`, { sex, band, principal })));
+  }
+  assert.ok([...RIDING_FIGURES, ...DRIVING_FIGURES].every(figure => cast.has(figure)), 'a delivered figure nobody can be drawn as');
+
+  for (const figure of RIDING_FIGURES) for (const direction of ['e', 'w', 's', 'n']) {
+    const clip = seatedClipFor(figure, direction);
+    // West is the east cycle mirrored, as every other east cycle in this project is; north and south are painted and are
+    // never mirrored, which is what `upright` means everywhere else in public/motion.js.
+    assert.equal(clip.id, `${figure}-ride-${direction === 'w' ? 'e' : direction}`, `${figure} riding ${direction}`);
+    assert.ok(clips[clip.id], `${clip.id} is not in the library`);
+    assert.equal(clip.whole, true, `${clip.id} is drawn as a whole horse-and-rider`);
+    assert.equal(clip.upright, direction === 'n' || direction === 's' ? true : undefined, `${direction}: mirrored the wrong way`);
+  }
+  for (const figure of DRIVING_FIGURES) for (const direction of ['s', 'e', 'w', 'n']) {
+    const clip = seatedClipFor(figure, direction, 'wagon');
+    assert.equal(clip.id, `${figure}-wagon-driver-${direction}`);
+    assert.ok(clips[clip.id], `${clip.id} is not in the library`);
+    assert.equal(clip.seated, true, 'a delivered driver is a whole seated figure, not one cut at the hip');
+    assert.equal(clip.upright, true, 'every heading is painted, so a driver is never mirrored');
+  }
+  // Nobody Astra has not painted is given a layer that does not exist. The second cast's drivers are the open request.
+  for (const figure of cast) {
+    if (!RIDING_FIGURES.includes(figure)) for (const direction of ['e', 'w', 's', 'n']) {
+      const clip = seatedClipFor(figure, direction, 'horse');
+      assert.ok(!clip.whole && clips[clip.id], `${figure} riding draws ${clip.id}, which the library does not hold`);
+    }
+    if (!DRIVING_FIGURES.includes(figure)) for (const direction of ['e', 'w', 's', 'n']) {
+      const clip = seatedClipFor(figure, direction, 'wagon');
+      assert.ok(!clip.seated && clips[clip.id], `${figure} driving draws ${clip.id}, which the library does not hold`);
+    }
+  }
+  for (const direction of ['e', 'w', 'n', 's']) {
+    // The painted rig: one part, standing on the hooves, at the height a rider and horse have always been drawn - and no
+    // horse under it, because the horse is in the picture.
+    const rig = seatLayout('horse', direction, SIZES, 1, MOUNTED_HEIGHT);
+    assert.deepEqual(rig, [{ part: 'rider', dx: 0, dy: 0, height: MOUNTED_HEIGHT, whole: true }], `${direction}: the painted rig is not drawn as one`);
+    assert.equal(rig.some(part => part.part === 'horse'), false, 'a second horse is drawn under the painted one');
+    // The seated driver stands on the footboard and none of it is cut away; the wagon and the team are unchanged.
+    const drove = seatLayout('wagon', direction, SIZES, 1, 1), driver = drove.find(part => part.part === 'rider');
+    assert.equal(driver.seated, true);
+    assert.equal(driver.shown, undefined, 'a whole seated driver is clipped at the hip');
+    const hip = driver.dy - driver.height * SEAT.driverHip;
+    assert.ok(Math.abs(hip - -SIZES.wagon * SEAT.wagonSeat) < 1e-9, `${direction}: the driver's hip is not on the wagon's seat (${hip})`);
+    assert.ok(driver.dy < 0, `${direction}: the driver's boots are on the road, not the footboard`);
+    assert.deepEqual(drove.map(part => part.part), seatLayout('wagon', direction, SIZES, 1, 0).map(part => part.part), 'the delivered driver changed the depth order');
+    assert.deepEqual(drove.filter(part => part.part !== 'rider'), seatLayout('wagon', direction, SIZES, 1, 0).filter(part => part.part !== 'rider'), 'the delivered driver moved the wagon or the team');
+  }
+});
+/**
+ * That the page asks for the delivered art at all.
+ *
+ * Everything above is a pure function, and a pure function can be perfectly right while the renderer never calls it: that
+ * is precisely how eight of Astra's batches came to be registered, measured, written up and drawn by nothing. public/app.js
+ * cannot be imported into node, so this reads it - weak evidence, kept narrow, and standing in for what only
+ * scripts/riding-browser-proof.mjs really proves by photographing the canvas.
+ */
+test('the page asks the seat for its own art, and gives the delivered rig its own height', () => {
+  const app = readFileSync(fileURLToPath(new URL('../public/app.js', import.meta.url)), 'utf8');
+  assert.match(app, /const delivered = seatedClip\(entity, direction, seat\);/, 'the page no longer asks the seat which art it has');
+  assert.match(app, /const ready = Boolean\(delivered\.whole \|\| delivered\.seated\) && clipReady\(delivered\.id\);/,
+    'the page no longer checks the library really holds the delivered art before laying out for it');
+  assert.match(app, /seatLayout\(seat, direction, SIZE, figureScale\(entity\), ready \? \(seat === 'horse' \? MOUNTED_HEIGHT : 1\) : 0\)/,
+    'the delivered rig is no longer given a mount’s height, or the composite is no longer the fallback');
+  assert.match(app, /if \(part\.part === 'rider' && \(part\.whole \|\| part\.seated\)\)/, 'the whole rig is no longer drawn whole');
+  assert.match(app, /const clip = seatedClip\(entity, direction, null\);/, 'the composite no longer asks for the person alone');
+});
+
+/**
+ * What `seatedClip` gives somebody who is really drawn as `figure`.
+ *
+ * Nobody chooses their own figure: `castVariant` rolls one out of the person's id, so a test that wants each delivered
+ * identity has to find a person the roll actually produces. Rolling until it does is also the check that every delivered
+ * identity is one a family can really be dealt - the loop throws if a figure is unreachable, which is what "art for a
+ * person the game never makes" would look like.
+ */
+function seatedClipFor(figure, direction, seat = 'horse') {
+  const WHO = {
+    rust: { sex: 'male', band: 'adult', principal: true }, 'rust-woman': { sex: 'female', band: 'adult', principal: true },
+    teal: { sex: 'female', band: 'adult' }, indigo: { sex: 'female', band: 'adult' },
+    elder: { sex: 'male', band: 'adult' }, ochre: { sex: 'male', band: 'adult' },
+    blue: { sex: 'male', band: 'youth' }, 'blue-girl': { sex: 'female', band: 'youth' },
+    girl: { sex: 'female', band: 'child' }, boy: { sex: 'male', band: 'child' },
+    smallchild: { band: 'small' }, infant: { band: 'infant' },
+  };
+  const who = WHO[figure];
+  assert.ok(who, `${figure} is not a figure this test knows how to make a person for`);
+  for (let n = 0; n < 500; n++) {
+    const clip = seatedClip(person(`hh-${n}-x`, who), direction, seat);
+    if (clip.id.startsWith(`${figure}-`)) return clip;
+  }
+  throw new Error(`no rolled person is ever drawn as ${figure}`);
+}
 
 test('the rider sits on the mount: up on its back or the wagon seat, cut below the waist, the mount drawn first or in front', () => {
   for (const direction of ['e', 'w', 'n', 's']) {

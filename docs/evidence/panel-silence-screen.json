@@ -27,26 +27,26 @@
       {
         "name": "Simeon Proofwright",
         "focused": false,
-        "icons": 0,
-        "open": 0,
-        "line": "Simeon Proofwright is too young to be sent.",
-        "barLine": "Simeon Proofwright is too young to be sent."
+        "icons": 5,
+        "open": 5,
+        "line": null,
+        "barLine": null
       },
       {
         "name": "Petra Proofwright",
         "focused": false,
-        "icons": 0,
-        "open": 0,
-        "line": "Petra Proofwright is too young to be sent.",
-        "barLine": "Petra Proofwright is too young to be sent."
+        "icons": 5,
+        "open": 5,
+        "line": null,
+        "barLine": null
       },
       {
         "name": "Obed Proofwright",
         "focused": false,
-        "icons": 0,
-        "open": 0,
-        "line": "Obed Proofwright is too young to be sent.",
-        "barLine": "Obed Proofwright is too young to be sent."
+        "icons": 1,
+        "open": 1,
+        "line": null,
+        "barLine": null
       },
       {
         "name": "Delia Proofwright",

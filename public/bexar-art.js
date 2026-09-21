@@ -3,6 +3,7 @@ import {drawRoad,drawWater} from '/landscape-art.js';
 import {DRAWN_HEIGHT} from '/town-layouts.js';
 import {BEXAR_LAYOUT as town,alamoToBexar} from '/bexar-layout.js';
 import {alamoMassing} from '/alamo-layout.js';
+import {ALAMO_FACES,STOREYS,blockFace,openingFace,wallFace} from '/alamo-faces.js';
 
 const corners=r=>[{x:r.x,y:r.y},{x:r.x+r.width,y:r.y},{x:r.x+r.width,y:r.y+r.height},{x:r.x,y:r.y+r.height}];
 function polygon(ctx,points,fill,stroke,width=1){ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.closePath();if(fill){ctx.fillStyle=fill;ctx.fill();}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=width;ctx.stroke();}}
@@ -21,8 +22,8 @@ export function drawBexarGround(ctx,project,pixelsPerFoot,{river=true}={}){
  * plan-true, so a building stands on the ground it covered. What is drawn as the towns draw it:
  * - **Height** is its true height times `DRAWN_HEIGHT`, the factor every town building is drawn at (sim/town-layouts.mjs),
  *   so the church's 22½ ft walls stand as tall as San Fernando's sprite beside the plaza.
- * - **Walls and faces** carry the library's own painted limestone (`alamo-wall-intact`) and the palisade its stakes
- *   (`alamo-palisade`), cut from the sprites and laid on each face at the art's own proportion - not stretched - once the
+ * - **Walls and faces** carry Astra's own straight-on south elevations (public/alamo-faces.js, delivered 2026-09-21) and the palisade
+ *   its stakes (`alamo-palisade`), laid on each face at the art's own proportion - not stretched - once the
  *   faces are big enough to show it. A wall is drawn as the solid it is: its top, the face turned to the camera and the end
  *   turned to it, so a wall running north and south stands as a column of stone and not a floating line.
  * - **Roofs** are the flat, parapeted terrado roofs the adobe and stone sprites have, in their colours; the rooms of a range
@@ -35,35 +36,53 @@ export function drawBexarGround(ctx,project,pixelsPerFoot,{river=true}={}){
  */
 const PALETTE={face:'#ccb489',cap:'#e4d6b1',roof:'#d9c8a0',roofWell:'#c9b58c',seam:'#ad9870',line:'#4b3a26',door:'#3b2c1e',viga:'#6b4a2c',
   shadow:'rgba(56,40,20,.26)',endFace:'#b9a179',timber:'#7c5c3a',timberCap:'#9b7b52',plaza:'#ccb985',plazaEdge:'#a59063',pen:'#b9a171',church:'#b8a177'};
-// Each art's painted face, as fractions of its frame: the part laid on a wall face.
-// stand-in: docs/ART_REQUESTS.md, request 2026-09-18 - the Alamo's faces seen from the south. Every stone face is the wall
-// module's painted face cut and repeated, the gate a dark opening, until straight-on face strips are drawn.
-const FACE_ART={stone:{sprite:'alamo-wall-intact',u:[.04,.96],v:[.2,.88]},timber:{sprite:'alamo-palisade',u:[.04,.96],v:[.03,.9]}};
+// Each art's painted face, as fractions of its frame: the part of it laid on a wall face. **Which** of Astra's five
+// south-facing elevations goes on what is public/alamo-faces.js and is held by tests/alamo-faces.test.mjs; this file only
+// lays it. A strip delivered for this is its whole frame; the palisade module, painted as a sprite, has a gutter to cut.
+const FACE_UV={[ALAMO_FACES.palisade]:{u:[.04,.96],v:[.03,.9]}};
+const face=sprite=>({sprite,...(FACE_UV[sprite]||{u:[0,1],v:[0,1]})});
+// What of the compound's painted surfaces was actually laid on the canvas this pass, for the proofs (`__alamoDrawn.faces`).
+// A sprite only gets in here when drawSprite returned a width, so a sheet that failed to load cannot put its name in it.
+const facesDrawn=new Set();
 const TEXTURED=.12; // pixels a foot: about 630 a mile. Nearer than this a face shows its stones.
 const MASSING=alamoMassing(town.alamo.layout);
-// The art laid along a face from `a` to `b` (on the screen, at the ground), `rise` pixels high, one copy of the art after another.
-function faceArt(ctx,art,a,b,rise){
+// The art laid along a face from `a` to `b` (on the screen, at the ground), `rise` pixels high, one copy of the art after
+// another - or, with `once`, a single copy stretched over the whole run, which is what one gate passage wants.
+function faceArt(ctx,art,a,b,rise,once=false){
   const frame=spriteFrame(art.sprite),length=Math.hypot(b.x-a.x,b.y-a.y);if(!frame||rise<3||length<2)return;
-  const u0=art.u[0]*frame.w,u1=art.u[1]*frame.w,v0=art.v[0]*frame.h,v1=art.v[1]*frame.h,piece=rise*(u1-u0)/(v1-v0);
+  const u0=art.u[0]*frame.w,u1=art.u[1]*frame.w,v0=art.v[0]*frame.h,v1=art.v[1]*frame.h,piece=once?length:rise*(u1-u0)/(v1-v0);
   for(let s=0;s<length;s+=piece){
     const f=s/length,g=Math.min(1,(s+piece)/length),e=(s+piece)/length,S={x:a.x+(b.x-a.x)*f,y:a.y+(b.y-a.y)*f},G={x:a.x+(b.x-a.x)*g,y:a.y+(b.y-a.y)*g},E={x:a.x+(b.x-a.x)*e,y:a.y+(b.y-a.y)*e};
     ctx.save();ctx.beginPath();ctx.moveTo(S.x,S.y);ctx.lineTo(G.x,G.y);ctx.lineTo(G.x,G.y-rise);ctx.lineTo(S.x,S.y-rise);ctx.closePath();ctx.clip();
     const ax=(E.x-S.x)/(u1-u0),ay=(E.y-S.y)/(u1-u0),dv=rise/(v1-v0);
     ctx.transform(ax,ay,0,dv,S.x-ax*u0,S.y-rise-ay*u0-dv*v0);
-    drawSprite(ctx,art.sprite,0,0,frame.logicalHeight||frame.h,{anchor:[0,0]});ctx.restore();
+    if(drawSprite(ctx,art.sprite,0,0,frame.logicalHeight||frame.h,{anchor:[0,0]}))facesDrawn.add(art.sprite);ctx.restore();
   }
 }
 const lift=(p,r)=>({x:p.x,y:p.y-r});
+// The gate strip, one copy at its own proportion, centred between `a` and `b` along the face that runs `sw` to `se`.
+function gateArt(ctx,a,b,sw,se,rise){
+  const frame=spriteFrame(openingFace());if(!frame)return;
+  const dx=se.x-sw.x,dy=se.y-sw.y,run=Math.hypot(dx,dy);if(run<2)return;
+  const half=rise*(frame.w/frame.h)/2,ux=dx/run,uy=dy/run,cx=(a.x+b.x)/2,cy=(a.y+b.y)/2;
+  faceArt(ctx,face(openingFace()),{x:cx-ux*half,y:cy-uy*half},{x:cx+ux*half,y:cy+uy*half},rise,true);
+}
 function drawBlock(ctx,block,convert,ppf){
   const r=block.height*DRAWN_HEIGHT*ppf,close=ppf>=TEXTURED,line=ppf>.5?1.4:1;
   const nw=convert({x:block.x0,y:block.y0}),ne=convert({x:block.x1,y:block.y0}),se=convert({x:block.x1,y:block.y1}),sw=convert({x:block.x0,y:block.y1});
   const shadow={x:r*.22,y:r*.05};polygon(ctx,[sw,se,ne,nw].map(p=>({x:p.x+shadow.x,y:p.y+shadow.y})),PALETTE.shadow);
   // The south face, the one the camera sees, with the gate through it.
   polygon(ctx,[sw,se,lift(se,r),lift(sw,r)],PALETTE.face);
-  if(close)faceArt(ctx,FACE_ART.stone,sw,se,r);
-  for(const o of block.openings){const a=convert({x:o.x0,y:block.y1}),b=convert({x:o.x1,y:block.y1});polygon(ctx,[a,b,lift(b,r*.72),lift(a,r*.72)],PALETTE.door,PALETTE.line,line);}
+  if(close)faceArt(ctx,face(blockFace(block)),sw,se,r);
+  for(const o of block.openings){const a=convert({x:o.x0,y:block.y1}),b=convert({x:o.x1,y:block.y1});
+    polygon(ctx,[a,b,lift(b,r*.72),lift(a,r*.72)],PALETTE.door,PALETTE.line,line);
+    // One gate passage, centred on the opening the layout gives and drawn at the strip's own proportion, so the painted
+    // way through lines up with the way through. The dark opening stays under it and is what shows without the sheet.
+    // ceiling: the strip carries a little wall either side of its passage, so it covers a few feet of the room front on
+    // each hand. A passage cut to the opening's own width would need the art's own opening measured out of its pixels.
+    if(close)gateArt(ctx,a,b,sw,se,r);}
   // Beam ends under the parapet, as the adobe and stone sprites have them; a storey more shows a second row.
-  if(close&&r>12){const storeys=block.height>=16?2:1;ctx.fillStyle=PALETTE.viga;
+  if(close&&r>12){const storeys=block.height>=STOREYS?2:1;ctx.fillStyle=PALETTE.viga;
     for(let k=1;k<=storeys;k++){const y=-r*(k/storeys)+r*.1,step=Math.max(6,r*.42/storeys);
       for(let x=sw.x+step/2;x<se.x-step/3;x+=step){if(block.openings.some(o=>{const a=convert({x:o.x0,y:block.y1}).x,b=convert({x:o.x1,y:block.y1}).x;return x>a-2&&x<b+2;}))continue;ctx.fillRect(x-r*.02,sw.y+y,Math.max(1,r*.04),Math.max(1,r*.035));}}}
   // The flat roof with its parapet round a slightly sunken middle, and the rooms of a range seamed across it.
@@ -88,11 +107,13 @@ function drawWall(ctx,wall,convert,ppf){
   if(Math.abs(eb.x-ea.x)>.5)polygon(ctx,[ea,eb,lift(eb,r),lift(ea,r)],timber?PALETTE.timber:PALETTE.endFace,PALETTE.line,line*.8);
   polygon(ctx,[ba,bb,fb,fa].map(p=>lift(p,r)),timber?PALETTE.timberCap:PALETTE.cap,PALETTE.line,line*.8);
   if(Math.abs(fb.x-fa.x)>1){polygon(ctx,[fa,fb,lift(fb,r),lift(fa,r)],timber?PALETTE.timber:PALETTE.face);
-    if(close)faceArt(ctx,timber?FACE_ART.timber:FACE_ART.stone,fa.x<fb.x?fa:fb,fa.x<fb.x?fb:fa,r);
+    // The roofless church's shell wears its own unfinished 1836 wall; every other stone run wears the plain limestone.
+    if(close)faceArt(ctx,face(wallFace(wall)),fa.x<fb.x?fa:fb,fa.x<fb.x?fb:fa,r);
     polygon(ctx,[fa,fb,lift(fb,r),lift(fa,r)],null,PALETTE.line,line);}
 }
 function alamoDrawables(ctx,convert,ppf){
   const items=[];
+  facesDrawn.clear();
   items.push({y:-Infinity,draw:()=>{
     // Open ground solid and edged, as Béxar's own plazas are (drawBexarGround): no tuft or tree of the map shows through it.
     for(const floor of MASSING.floors){const points=floor.points.map(convert),open=floor.kind==='plaza'||floor.kind==='east-court';
@@ -103,7 +124,8 @@ function alamoDrawables(ctx,convert,ppf){
   // A building stands in front of the outer wall it is built along: the low barrack's front is the south wall.
   for(const block of MASSING.blocks)items.push({y:convert({x:block.x0,y:block.y1}).y+2*ppf,draw:()=>drawBlock(ctx,block,convert,ppf)});
   // Presentation evidence for proofs (scripts/alamo-style-shots.mjs): what of the compound this frame draws, and how close.
-  globalThis.__alamoDrawn={blocks:MASSING.blocks.length,walls:MASSING.walls.length,floors:MASSING.floors.length,pixelsPerFoot:ppf,textured:ppf>=TEXTURED,drawnHeight:DRAWN_HEIGHT};
+  // `faces` is read after the items above have been drawn, so it is a getter and not a copy taken before any of them ran.
+  globalThis.__alamoDrawn={blocks:MASSING.blocks.length,walls:MASSING.walls.length,floors:MASSING.floors.length,pixelsPerFoot:ppf,textured:ppf>=TEXTURED,drawnHeight:DRAWN_HEIGHT,get faces(){return [...facesDrawn].sort();}};
   return items;
 }
 export function bexarDrawables(ctx,project,pixelsPerFoot,{alamo=true,bankTrees=true,alamoProject=null}={}){

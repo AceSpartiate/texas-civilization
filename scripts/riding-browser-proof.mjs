@@ -1,5 +1,12 @@
 // Somebody on the horse sits on it, and somebody driving the ox and wagon sits on the wagon: proved in a real browser.
 //
+// Since Astra's mounted family and seated wagon drivers landed (2026-09-21) what that means has changed, and this proof
+// is the photograph of the change: a rider is ONE painted frame of a person on the chestnut horse, not a figure cropped
+// at the hip over a separately drawn horse, and a driver is a whole seated figure with reins and a goad on the wagon the
+// renderer still draws. Both are read off `window.__seatedDrawn`, whose `art` is the delivered clip or null, and checked
+// against `window.__animationClips`, which a clip only enters when `drawClip` actually returned a width - so a sheet that
+// failed to load cannot pass this.
+//
 // Owner's playtest, 2026-09-16: "characters don't actually sit on the horse when using it ... Same thing for the Ox and
 // Wagon." The rules are pure functions in public/motion.js (`seatOf`, `carriedWithRider`, `seatLayout`) and are tested in
 // tests/riding.test.mjs; what only a browser can answer is whether the page draws them - the person's own figure over the
@@ -53,6 +60,27 @@ try {
     const response = await fetch('/api/command', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: `proof-${Math.random().toString(36).slice(2)}`, ...body }) });
     return { status: response.status, body: await response.json() };
   }, input);
+  /**
+   * Wait until the page is really drawing this person on this seat, zooming in until it is.
+   *
+   * A traveller crossing the screen faster than a walk can be drawn is a **marker** and no figure at all (public/motion.js
+   * `MARKER_ABOVE`), so on a wide view `__seatedDrawn` is simply empty and every assertion below would be made about
+   * nothing. That is the shape of mistake this project keeps finding - a check run in a state where the fault cannot
+   * appear - so the wait is also the proof that the rider is on the screen before anything is measured.
+   */
+  const onScreen = async (id, seat) => {
+    // The class is held while the rider is looked at, which is a state a real class is in every time a teacher stops it -
+    // and the only state in which somebody crossing the country on horseback is a figure rather than a marker.
+    await post('/api/command', { id: `proof-pause-${crypto.randomUUID()}`, action: 'pause' }, hostCookie);
+    await page.waitForFunction(() => window.__snapshot.world.status === 'paused');
+    await page.waitForFunction(who => window.__seatedDrawn?.[who.id]?.seat === who.seat, { id, seat }, { timeout: 20000 });
+    const marker = await page.evaluate(who => window.__travelMarkers?.get(who)?.heightsPerSecond ?? 0, id);
+    ok(`${id} is drawn as a figure on the map, not as a travel marker (${marker.toFixed(2)} heights a second)`, marker < 1);
+  };
+  const running = async () => {
+    await post('/api/command', { id: `proof-resume-${crypto.randomUUID()}`, action: 'resume' }, hostCookie);
+    await page.waitForFunction(() => window.__snapshot.world.status === 'running');
+  };
   // A close crop round the rider and their mount, from where the page says it drew them, with the card closed.
   const closeUp = async (id, path) => {
     await page.locator('#selection-close').click().catch(() => {});
@@ -76,19 +104,26 @@ try {
   assert.equal(rode.status, 200, JSON.stringify(rode.body));
   await page.waitForFunction(() => window.__snapshot.world.entities.find(e => e.id === 'hh-1-thomas')?.travel?.mode === 'horse');
   await page.locator('.panel-portrait[data-portrait="hh-1-thomas"]').click();
-  await page.waitForFunction(() => window.__seatedDrawn?.['hh-1-thomas']?.seat === 'horse');
+  await onScreen('hh-1-thomas', 'horse');
   await page.waitForTimeout(900);
-  const horse = await page.evaluate(() => ({ seated: window.__seatedDrawn['hh-1-thomas'], drawn: Object.keys(window.__drawnAt), clips: [...window.__animationClips] }));
-  const riderPart = horse.seated.parts.find(part => part.part === 'rider'), horsePart = horse.seated.parts.find(part => part.part === 'horse');
-  ok('the person sent on the horse is drawn sitting on it', Boolean(riderPart && horsePart));
-  ok(`their feet are up on the horse's back, not on the road (${horsePart.y - riderPart.y}px above the horse's hooves), and they are cut off below the waist`, riderPart.y < horsePart.y - horsePart.height * 0.25 && riderPart.shown < 1);
+  const horse = await page.evaluate(() => ({ seated: window.__seatedDrawn['hh-1-thomas'], drawn: Object.keys(window.__drawnAt), clips: [...window.__animationClips],
+    // The fault cannot show in a hidden canvas: the map's own box, so a drawn height is a height on a screen somebody has.
+    canvas: [document.querySelector('#world-map').getBoundingClientRect().width, document.querySelector('#world-map').getBoundingClientRect().height] }));
+  const riderPart = horse.seated.parts.find(part => part.part === 'rider');
+  // `hh-1-thomas` is this family's principal, so he is always the rust figure: the clip is named, not guessed.
+  const ridden = `rust-ride-${['n', 's'].includes(horse.seated.direction) ? horse.seated.direction : 'e'}`;
+  ok(`the person sent on the horse is drawn as one painted horse-and-rider (${horse.seated.art})`, horse.seated.art === ridden && riderPart?.whole === true);
+  ok('and not as a figure cropped at the hip laid over a separate horse', horse.seated.parts.length === 1 && riderPart.shown === undefined);
+  ok(`the frame really painted this tick, at ${riderPart.height}px on the canvas`, horse.clips.includes(ridden) && riderPart.height > 8 && horse.canvas.some(size => size > 0));
   ok('the horse is not drawn a second time walking beside them', !horse.drawn.includes('hh-1-horse'));
-  ok(`drawn as themselves, not as the courier: ${horse.clips.filter(clip => /^rust-idle|^horse-walk/.test(clip)).join(', ')}`,
-    horse.clips.some(clip => /^rust-idle-/.test(clip)) && horse.clips.some(clip => /^horse-walk/.test(clip)) && !horse.clips.some(clip => /^mounted-courier/.test(clip)));
+  ok(`and no separate horse cycle is drawn under him at all: ${horse.clips.filter(clip => /^horse-|^rust-idle|^mounted-courier/.test(clip)).join(', ') || 'none'}`,
+    !horse.clips.some(clip => /^horse-walk|^horse-chestnut|^mounted-courier|^rust-idle/.test(clip)));
   mkdirSync('docs/evidence', { recursive: true });
   await closeUp('hh-1-thomas', 'docs/evidence/riding-horse.png');
 
-  // The second person is told who has it, and the server refuses the order anyway.
+  // The second person is told who has it, and the server refuses the order anyway - with the class running, because a
+  // held class refuses every order for its own reason and would answer this one without ever reading the horse.
+  await running();
   const refused = await page.evaluate(() => window.__snapshot.world.travelModes['hh-1-rosa'].find(mode => mode.id === 'horse'));
   ok(`a second person is told who has the horse: "${refused.why}"`, refused.can === false && refused.why === `${names['hh-1-thomas']} has the horse.`);
   const forged = await command({ action: 'chore', entityId: 'hh-1-rosa', chore: 'hunt-timber', mode: 'horse' });
@@ -99,12 +134,17 @@ try {
   assert.equal(drove.status, 200, JSON.stringify(drove.body));
   await page.waitForFunction(() => window.__snapshot.world.entities.find(e => e.id === 'hh-1-mateo')?.travel?.mode === 'wagon');
   await page.locator('.panel-portrait[data-portrait="hh-1-mateo"]').click();
-  await page.waitForFunction(() => window.__seatedDrawn?.['hh-1-mateo']?.seat === 'wagon');
+  await onScreen('hh-1-mateo', 'wagon');
   await page.waitForTimeout(900);
-  const wagon = await page.evaluate(() => ({ seated: window.__seatedDrawn['hh-1-mateo'], drawn: Object.keys(window.__drawnAt), clips: [...window.__animationClips] }));
+  const wagon = await page.evaluate(() => ({ seated: window.__seatedDrawn['hh-1-mateo'], drawn: Object.keys(window.__drawnAt), clips: [...window.__animationClips],
+    canvas: [document.querySelector('#world-map').getBoundingClientRect().width, document.querySelector('#world-map').getBoundingClientRect().height] }));
   const driver = wagon.seated.parts.find(part => part.part === 'rider'), box = wagon.seated.parts.find(part => part.part === 'wagon'), ox = wagon.seated.parts.find(part => part.part === 'ox');
   ok('the person driving the ox and wagon is drawn on the wagon, with the ox in front', Boolean(driver && box && ox));
-  ok(`sitting up on the wagon's seat, not walking on the road (feet ${box.y - driver.y}px above the wagon's wheels)`, driver.y < box.y - driver.height * 0.15 && driver.shown < 1);
+  // `hh-1-mateo` is dealt the `blue` figure by the stable hash of his id, which is one of the four Astra painted driving.
+  const driven = `blue-wagon-driver-${wagon.seated.direction}`;
+  ok(`drawn as Astra's whole seated driver with his reins and goad (${wagon.seated.art})`, wagon.seated.art === driven && driver.seated === true && driver.shown === undefined);
+  ok(`the frame really painted this tick, at ${driver.height}px on the canvas`, wagon.clips.includes(driven) && driver.height > 8 && wagon.canvas.some(size => size > 0));
+  ok(`sitting up on the wagon's seat, not walking on the road (feet ${box.y - driver.y}px above the wagon's wheels)`, driver.y < box.y - driver.height * 0.15);
   ok('the ox and the wagon are not drawn again by themselves', !wagon.drawn.includes('hh-1-animal') && !wagon.drawn.includes('hh-1-wagon'));
   ok(`with the ox walking and the wagon rolling: ${wagon.clips.filter(clip => /^ox-walk|^wagon-/.test(clip)).join(', ')}`,
     wagon.clips.some(clip => /^ox-walk/.test(clip)) && wagon.clips.some(clip => /^wagon-.*travel$/.test(clip)));
@@ -121,9 +161,11 @@ try {
     checks: pass,
     measured: { horse: horse.seated, wagon: wagon.seated },
     screenshots: ['docs/evidence/riding-horse.png', 'docs/evidence/riding-wagon.png'],
+    delivered: { ridden: horse.seated.art, driven: wagon.seated.art },
     notProved: [
       'Same computer only: one browser and the server on one machine. Nothing here is LAN or district evidence.',
-      'That the stand-in reads well at every zoom and in every direction; the screenshots are one zoom, the direction the road happened to run.',
+      'That the delivered art reads well at every zoom and in every direction; the screenshots are one zoom, the direction the road happened to run, and one of the three painted headings.',
+      'The second cast driving and a child on the horse, which are still the composite stand-in because those layers are not delivered: no run here put either on a mount.',
       'That two students, on two devices, racing for the one horse are both answered correctly at the same instant: the server refuses the second order (tests/keeping.test.mjs), but no two-device race was run.',
     ],
   }, null, 2) + '\n');

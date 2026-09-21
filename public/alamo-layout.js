@@ -118,7 +118,7 @@ export function alamoMassing(layout=ALAMO_LAYOUT){
     if(!room||!CHURCH.test(room.id)){walls.push({id:w.id,a:w.a,b:w.b,thickness:w.thickness,height:w.heightFeet,material:w.material});continue;}
     // The church's outline: a foot at a time, kept where one side is church and the other is not.
     const dx=w.b.x-w.a.x,dy=w.b.y-w.a.y,length=Math.hypot(dx,dy),nx=-dy/length,ny=dx/length,off=w.thickness/2+.5;
-    let run=null;const close=()=>{if(run&&run.to-run.from>.5)walls.push({id:`${w.id}@${run.from.toFixed(0)}`,a:{x:w.a.x+dx*run.from/length,y:w.a.y+dy*run.from/length},b:{x:w.a.x+dx*run.to/length,y:w.a.y+dy*run.to/length},thickness:w.thickness,height:w.heightFeet,material:w.material});run=null;};
+    let run=null;const close=()=>{if(run&&run.to-run.from>.5)walls.push({id:`${w.id}@${run.from.toFixed(0)}`,a:{x:w.a.x+dx*run.from/length,y:w.a.y+dy*run.from/length},b:{x:w.a.x+dx*run.to/length,y:w.a.y+dy*run.to/length},thickness:w.thickness,height:w.heightFeet,material:w.material,kind:'church'});run=null;};
     for(let s=0;s<=length;s+=.5){
       const p={x:w.a.x+dx*s/length,y:w.a.y+dy*s/length},outline=inside({x:p.x+nx*off,y:p.y+ny*off})!==inside({x:p.x-nx*off,y:p.y-ny*off});
       if(outline){if(!run)run={from:Math.max(0,s-.25),to:s};run.to=Math.min(length,s+.25);}else close();

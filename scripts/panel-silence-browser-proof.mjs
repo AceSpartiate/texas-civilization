@@ -177,7 +177,12 @@ try {
   let rows = await rowsOf();
   measured.rows = rows.map(row => ({ name: row.name, focused: row.focused, icons: row.icons, open: row.open, line: row.line, barLine: row.barLine }));
   const young = rows.filter(row => row.tooYoung);
-  check(young.length >= 2, `this class deals ${young.length} children under ten, so the fault being measured is really on the screen`);
+  // Two when this was written, because every child under ten was refused everything. Since the children's works of
+  // 2026-09-21 (`sim/children.mjs`) a child of two and over has a bar of their own, so what is left refused is the
+  // infants - usually one in a family. One is enough to measure the fault, and the prisoner below is measured too; what
+  // this guard is for is that the row really is on the screen with really nothing on it, which the checks inside the
+  // loop assert one by one.
+  check(young.length >= 1, `this class deals ${young.length} of the family refused everything, so the fault being measured is really on the screen`);
   for (const row of young) {
     // The fault could appear: this row's icon group is not drawn at all, so without a line it is a face and a name.
     check(!row.groupDrawn, `${row.name}: the icon group is not drawn on their row, which is the empty bar being measured`);

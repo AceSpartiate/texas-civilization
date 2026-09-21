@@ -69,11 +69,11 @@ export const GAME = Object.freeze({
  *
  * The rule the deer set on 2026-09-15 and the turkey keeps: a quarry with no art of its own is given **no place at all**,
  * because a deer drawn where the words say a bear is a worse picture than no animal. `wildlife-deer` landed 2026-09-15,
- * `wildlife-turkey` on 2026-09-21; the bear, the javelina, the antelope, the buffalo, the geese, the mustang and the wild
- * cow are still words only.
+ * `wildlife-turkey` and `wildlife-mustang` on 2026-09-21; the bear, the javelina, the antelope, the buffalo, the geese and
+ * the wild cow are still words only.
  * stand-in: docs/ART_REQUESTS.md, request 2026-09-19 - the game of 1836. The rule itself is `FIC-GONZ-201`.
  */
-export const DRAWN_GAME = Object.freeze(['deer', 'turkey']);
+export const DRAWN_GAME = Object.freeze(['deer', 'turkey', 'mustang']);
 /** Whether a hunt for this quarry may be drawn. A class of the old rules has no quarry at all, and hunts a deer. */
 export const gameDrawn = quarryId => DRAWN_GAME.includes(quarryId || 'deer');
 /**

@@ -159,31 +159,87 @@ export function carriedWithRider(entity, entities = []) {
   }
   return false;
 }
-/** The person's own figure sitting up, facing the way they go: the idle pose of the figure they are always drawn as. */
-export function seatedClip(entity, direction = 'e') {
-  const figure = (!entity.carrier && childFigure(entity)) || castVariant(entity);
+/**
+ * The eight identities Astra painted on horseback (`people-mounted-cast*`, 2026-09-21,
+ * docs/ART_DELIVERY_2026-09-21-MOUNTED-FAMILY.md): the whole rider and the whole chestnut horse in one frame, with legs,
+ * boots, stirrups and reins, in place of the cropped person laid over a separate horse. Four walk frames each, east (west
+ * mirrored), south and north.
+ *
+ * The children's figures - `girl`, `boy`, `smallchild`, `infant` - are **not** in this delivery, so a child sent on the
+ * horse keeps the composite (`seatLayout` without `whole`). That is a real case: a girl of twelve may be sent on it.
+ */
+export const RIDING_FIGURES = Object.freeze(['rust', 'teal', 'elder', 'blue', 'rust-woman', 'indigo', 'ochre', 'blue-girl']);
+/**
+ * The four original-cast identities Astra painted driving (`people-wagon-drivers`, 2026-09-21,
+ * docs/ART_DELIVERY_2026-09-21-WAGON-DRIVERS.md): a seated figure with connected reins and a short ox goad and no bench,
+ * wagon, team or ground, composited over the wagon the renderer already draws.
+ *
+ * **The second cast's driver layers are not delivered and are not invented**: `rust-woman`, `indigo`, `ochre` and
+ * `blue-girl` - and every child's figure - keep the standing pose cut at the hip until their own layers land.
+ */
+export const DRIVING_FIGURES = Object.freeze(['rust', 'teal', 'elder', 'blue']);
+/** Which figure somebody is drawn as on a mount: their own child's figure if they have one, else their cast figure. */
+export const seatFigure = entity => (!entity.carrier && childFigure(entity)) || castVariant(entity);
+/**
+ * What is drawn for somebody on a mount, and whether it is the whole rig or only them.
+ *
+ * `whole` says the frame is the mount and the person together, so `seatLayout` draws nothing under it and the caller
+ * mirrors it for west as it mirrors every other east-facing cycle. `seated` says the frame is a complete seated figure
+ * standing on its own base rather than a standing figure to be cut off at the hip.
+ */
+export function seatedClip(entity, direction = 'e', seat = 'horse') {
+  const figure = seatFigure(entity);
   const facing = ['n', 's', 'e', 'w'].includes(direction) ? direction : 'e';
+  // No west sheet: west is the east cycle mirrored, which the caller's `flip` does. North and south are painted and are
+  // never mirrored, which is what `upright` means everywhere else in this file.
+  if (seat === 'horse' && RIDING_FIGURES.includes(figure)) {
+    return { id: `${figure}-ride-${facing === 'w' ? 'e' : facing}`, whole: true, ...(facing === 'n' || facing === 's' ? { upright: true } : {}) };
+  }
+  // Each heading is painted, west included, so a driver is never mirrored. Not frozen: the delivery registers one held
+  // breathing frame and the renderer's own breath is what keeps it alive.
+  if (seat === 'wagon' && DRIVING_FIGURES.includes(figure)) return { id: `${figure}-wagon-driver-${facing}`, upright: true, seated: true };
   // The infant's sheet has no back view.
   const pose = figure === 'infant' && facing === 'n' ? 'idle-s' : `idle-${facing}`;
   return { id: `${figure}-${pose}`, upright: true, frozen: true };
 }
 /**
- * Where each part of a rider and their mount is drawn, in a person's heights from the point the server gives them, and in
- * the order to draw them. `sizes` are the mounts' drawn heights as a person is 1 (public/app.js `SIZE`).
+ * Where the parts of a seat are drawn, in a person's heights from the point the server gives them.
  *
- * Each part is `{ part: 'horse'|'ox'|'wagon'|'rider', dx, dy, height, shown? }`: `dx` is along the way they face (mirrored
- * for west by the caller's `flip`), `dy` down the screen to the part's ground line; `shown`, on the rider, is how much
- * of their height is drawn, from the top of the head down - the rest would be inside the saddle
- * or behind the wagon's box.
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-14 (on horseback) and 2026-09-16 (driving the ox wagon). The numbers
- * fit the delivered horse, ox and wagon sheets; mounted and driving figures replace all of it.
+ * `horseBack`, `horseBackUpright`, `wagonSeat`, `hip` and `overlap` belong to the **composite stand-in**: where a standing
+ * figure's hip has to land on the mount, and how much of them is drawn before the saddle or the wagon's box would swallow
+ * the rest. `driverHeight` is one of Astra's seated driver layers as a standing person is 1, and `driverHip` where the hip
+ * sits up that layer from its own base - the boot soles on the footboard, which is what the frame stands on.
+ * ceiling: the driver's two are read off the delivered sheet by eye and proved by a photograph
+ * (scripts/riding-browser-proof.mjs, docs/evidence/riding-wagon.png), not measured out of the pixels. A seat anchor in the
+ * manifest would settle them.
  */
-export const SEAT = Object.freeze({ horseBack: 0.57, horseBackUpright: 0.6, wagonSeat: 0.44, hip: 0.44, overlap: 0.07 });
-export function seatLayout(seat, direction = 'e', { horse = 1.5, ox = 1.45, wagon = 1.55 } = {}, rider = 1) {
+export const SEAT = Object.freeze({ horseBack: 0.57, horseBackUpright: 0.6, wagonSeat: 0.44, hip: 0.44, overlap: 0.07, driverHeight: 0.92, driverHip: 0.42 });
+/**
+ * Where each part of a rider and their mount is drawn, and in the order to draw them. `sizes` are the mounts' drawn heights
+ * as a person is 1 (public/app.js `SIZE`).
+ *
+ * Each part is `{ part: 'horse'|'ox'|'wagon'|'rider', dx, dy, height, shown?, whole?, seated? }`: `dx` is along the way
+ * they face (mirrored for west by the caller's `flip`), `dy` down the screen to the part's ground line; `shown`, on a
+ * rider of the composite, is how much of their height is drawn from the top of the head down.
+ *
+ * `delivered` is how tall the delivered art for this seat is drawn, as a person is 1, or **0 for the composite stand-in**:
+ * the rider's own figure laid over a separately drawn mount, which is still what a child on the horse and a second-cast
+ * driver get (`RIDING_FIGURES`, `DRIVING_FIGURES`). `seatedClip` is what decides which of the two a person is given.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-14 (on horseback) and 2026-09-16 (driving the ox wagon), both narrowed
+ * on 2026-09-21 to exactly the figures Astra has not painted on a mount.
+ */
+export function seatLayout(seat, direction = 'e', { horse = 1.5, ox = 1.45, wagon = 1.55 } = {}, rider = 1, delivered = 0) {
   const vertical = direction === 'n' || direction === 's';
   // The rider's feet are put where their hip lands on the seat, and they are cut a little below the hip.
   const sitting = (seatHeight, dx = 0) => ({ part: 'rider', dx, dy: -seatHeight + SEAT.hip * rider, height: rider, shown: 1 - SEAT.hip + SEAT.overlap });
   if (seat === 'horse') {
+    // Astra's mounted frames (2026-09-21) are the horse and the person on it painted as one, so there is nothing to lay
+    // under them and nothing to cut: one part, standing on the hooves, at the height a rider and horse are drawn
+    // (`MOUNTED_HEIGHT`), which is the height the click target and the travel marker already use.
+    // ceiling: `rider` is not applied, so an adolescent rides at the same drawn height as their father - the horse is most
+    // of that height and a horse does not shrink under a younger rider, and the sheets draw the adolescent as an
+    // adolescent. A youth-sized rig would need a second set of frames, which is nobody's request.
+    if (delivered > 0) return [{ part: 'rider', dx: 0, dy: 0, height: delivered, whole: true }];
     const on = sitting(horse * (vertical ? SEAT.horseBackUpright : SEAT.horseBack), vertical ? 0 : -0.05 * horse);
     const mount = { part: 'horse', dx: 0, dy: 0, height: horse };
     // Coming toward the camera the horse's head and shoulders are in front of the rider.
@@ -192,7 +248,11 @@ export function seatLayout(seat, direction = 'e', { horse = 1.5, ox = 1.45, wago
   if (seat === 'wagon') {
     const box = { part: 'wagon', dx: vertical ? 0 : -0.55 * wagon, dy: 0, height: wagon };
     const team = { part: 'ox', dx: vertical ? 0 : 0.95 * ox, dy: vertical ? (direction === 'n' ? -0.5 : 0.5) * ox : 0, height: ox };
-    const driver = sitting(wagon * SEAT.wagonSeat, vertical ? 0 : box.dx + 0.42 * wagon);
+    const dx = vertical ? 0 : box.dx + 0.42 * wagon;
+    // A delivered driver layer is a whole seated figure with its own boots: it stands on the footboard rather than being
+    // a standing figure cut at the hip, so its base goes where its hip lands on the seat and none of it is clipped away.
+    const seated = { part: 'rider', dx, dy: -wagon * SEAT.wagonSeat + SEAT.driverHip * SEAT.driverHeight * rider, height: SEAT.driverHeight * rider, seated: true };
+    const driver = delivered > 0 ? seated : sitting(wagon * SEAT.wagonSeat, dx);
     // Going away the ox is further off and drawn first; coming toward the camera it is nearer and drawn last.
     return direction === 's' ? [box, driver, team] : [team, box, driver];
   }
@@ -229,8 +289,10 @@ export function childFigure(entity) {
   return null;
 }
 export function entityClip(entity, observed = false) {
-  // In the saddle: their own figure sitting up, which public/app.js puts on the horse (`seatLayout`).
-  if (!observed && seatOf(entity) === 'horse') return seatedClip(entity, travelDirection(entity) || 'e');
+  // In the saddle: their own figure sitting up, which public/app.js puts on the horse (`seatLayout`). The person alone and
+  // at a person's height, because this is the figure-only path (public/app.js `miniPerson`); the whole painted rig is
+  // asked for by name in `drawSeated`, which knows it has a mount's height to give it.
+  if (!observed && seatOf(entity) === 'horse') return seatedClip(entity, travelDirection(entity) || 'e', null);
   const clip = grownClip(entity, observed);
   const young = entity.kind === 'person' && !entity.carrier && childFigure(entity);
   if (!young) return clip;

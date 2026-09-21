@@ -54,12 +54,46 @@ try {
   const p1=await tile.evaluate(c=>c.toDataURL());await catalog.waitForTimeout(310);const p2=await tile.evaluate(c=>c.toDataURL());assert.notEqual(p1,p2,'authored walk changes pixels');
   await catalog.locator('#catalog-play').click();
   await catalog.waitForTimeout(100);const held=await tile.evaluate(c=>c.toDataURL());await catalog.waitForTimeout(300);assert.equal(await tile.evaluate(c=>c.toDataURL()),held);
+  // Astra's four deliveries of the evening of 2026-09-21, each painting real ink in a real browser: the mounted family,
+  // the seated wagon drivers, the mustang and the Yellow Stone under way, and the Alamo's south elevations. A blank tile
+  // is the thing to catch - a sheet that 404s, a frame measured outside its atlas - and a count of tiles would not: the
+  // tile is built from the manifest whether or not the picture behind it arrives. Which of these the GAME draws is held
+  // elsewhere (tests/art-library.test.mjs, tests/riding.test.mjs, scripts/riding-browser-proof.mjs,
+  // scripts/alamo-style-shots.mjs); this is only that the library can put them on a canvas.
+  // The tile is drawn on an opaque background, so counting opaque pixels counts the background and would pass on a blank
+  // tile - the shape of check this project keeps having to throw away. What is counted is pixels that differ from the
+  // tile's own corner, and the control below shows the number really does go to nothing when the picture is not there.
+  const inked = async (page,kind,name)=>{
+    await page.locator('#catalog-kind').selectOption(kind==='clip'?'clip':'sprite');
+    await page.locator('#catalog-search').fill(name);
+    const cell=page.locator(`[data-${kind}="${name}"] canvas`);
+    await cell.waitFor({state:'visible',timeout:10000});
+    await cell.scrollIntoViewIfNeeded();await page.waitForTimeout(250);
+    const box=await cell.boundingBox();
+    assert.ok(box && box.width>20 && box.height>20,`${name} has no box on the screen: ${JSON.stringify(box)}`);
+    return cell.evaluate(c=>{const d=c.getContext('2d').getImageData(0,0,c.width,c.height).data;
+      const r=d[0],g=d[1],b=d[2];let n=0;
+      for(let i=0;i<d.length;i+=4)if(d[i+3]>24&&(Math.abs(d[i]-r)+Math.abs(d[i+1]-g)+Math.abs(d[i+2]-b))>24)n++;
+      return n;});
+  };
+  const DELIVERED=[['clip','rust-ride-e'],['clip','blue-girl-ride-n'],['clip','blue-wagon-driver-w'],['clip','mustang-graze'],['clip','steamboat-laden'],['sprite','alamo-face-church-south'],['sprite','alamo-face-gate']];
+  const deliveries={};
+  for(const [kind,name] of DELIVERED){deliveries[name]=await inked(catalog,kind,name);assert.ok(deliveries[name]>2000,`${name} drew ${deliveries[name]} pixels of its own in the catalog`);}
+  // The control: the same page with one atlas refused. Its tile must go to nothing, or the count above means nothing.
+  const dark=await browser.newPage({viewport:{width:1440,height:1000}});capture(dark);
+  await dark.route('**/atlases/people-mounted-cast1-e.png*',route=>route.abort());
+  await dark.goto(`${url}/art-catalog.html`);await dark.waitForFunction(()=>window.__catalog?.clips>90);
+  const withheld=await inked(dark,'clip','rust-ride-e'),neighbour=await inked(dark,'clip','blue-girl-ride-n');
+  assert.ok(withheld<deliveries['rust-ride-e']/10,`a refused sheet still drew ${withheld} pixels (against ${deliveries['rust-ride-e']})`);
+  assert.ok(neighbour>2000,`refusing one sheet blanked another: blue-girl-ride-n drew ${neighbour}`);
+  await dark.close();
+  await catalog.locator('#catalog-kind').selectOption('clip');
   await catalog.locator('#catalog-search').fill('wagon');await catalog.screenshot({path:'test-results/art-wagon-rig.png'});
   await catalog.locator('#catalog-search').fill('');await catalog.screenshot({path:'test-results/art-workshop.png'});
   await catalog.locator('#catalog-reduced').check();await catalog.locator('#catalog-play').click();
   const reducedTile=catalog.locator('[data-clip="rust-walk"] canvas');await reducedTile.scrollIntoViewIfNeeded();await catalog.waitForTimeout(100);
   const still=await reducedTile.evaluate(c=>c.toDataURL());await catalog.waitForTimeout(300);assert.equal(await reducedTile.evaluate(c=>c.toDataURL()),still,'reduced motion uses stable poses');
   assert.deepEqual(errors,[]);assert.deepEqual(external,[]);
-  const result={result:'PASS',date:new Date().toISOString(),browser:await browser.version(),catalog:await catalog.evaluate(()=>window.__catalog),actualAnimatedPixels:true,pauseFreezesPixels:true,reducedMotionStable:true,phoneNoOverflow:true,journalKeyboard:true,externalRequests:external.length,observedDrawMs:perf.drawMs,errors};
+  const result={result:'PASS',date:new Date().toISOString(),browser:await browser.version(),catalog:await catalog.evaluate(()=>window.__catalog),actualAnimatedPixels:true,pauseFreezesPixels:true,reducedMotionStable:true,phoneNoOverflow:true,journalKeyboard:true,externalRequests:external.length,observedDrawMs:perf.drawMs,deliveredPixels:deliveries,withheldSheetPixels:withheld,errors};
   mkdirSync('docs/evidence',{recursive:true});writeFileSync('docs/evidence/art-browser.json',JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result,null,2));
 } finally {await browser.close();await app.close();}
