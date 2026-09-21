@@ -10,6 +10,12 @@
 // points and ask `document.elementFromPoint` what is actually on top there. A control none of whose points belong to
 // it is covered, and the thing covering it is named.
 //
+// Four panels used to be left out of it, and the reason was worth keeping: `#site-choose`, `#survey-choose`,
+// `#encounter` and `#call-menu` each want a state the guided-start class never reaches, and an earlier turn of this
+// script simply unhid them - an empty panel has almost no height, so it covered nothing and the run read as clean.
+// Since 2026-09-21 they are reached with the server's own content in them (scripts/support/panel-states.mjs), on a
+// second class on the real land, and each one is asserted to be really drawn before any of its numbers are believed.
+//
 // Run: node scripts/screen-overlap-study.mjs            -> docs/evidence/screen-overlap.json
 //      node scripts/screen-overlap-study.mjs 390 844    -> at a phone's size
 import { mkdirSync, writeFileSync } from 'node:fs';
@@ -17,6 +23,7 @@ import { createRequire } from 'node:module';
 import { createClassroom } from '../server/app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { meetFamily } from './support/meet-family.mjs';
+import { measureFourPanels } from './support/panel-states.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -84,6 +91,8 @@ const coverage = page => page.evaluate(selector => {
 }, CONTROLS);
 
 const record = [];
+/** The four panels §12.11 left out, once they have been reached in a real state. */
+let panels = [];
 /** Controls a student cannot press at all, because the browser itself refuses to send the click to them. */
 const blocked = [];
 const study = async (page, state, how) => {
@@ -211,12 +220,6 @@ try {
     await page.waitForTimeout(300);
   }
 
-  // **Not asked here, and it should be.** The panels that ask for a place on the map (`#site-choose`, `#survey-choose`),
-  // the meeting (`#encounter`, which the stylesheet puts at bottom:64px, right where the ability bar is) and the call's
-  // menu (`#call-menu`, top:60px, right where the lesson strip is) all want a state this study does not reach yet. An
-  // earlier turn of this script simply unhid them: an empty panel has almost no height, so it covered nothing and the
-  // run read as clean. That is worse than not asking, so it was taken out rather than left to reassure.
-
   const drawn = await labels(page);
   console.log('');
   for (const label of drawn) console.log(`  label "${label.name}" at ${label.x},${label.y} ${label.w}x${label.h}: ${label.clippedBy ? `CLIPPED by ${label.clippedBy.element} (${label.clippedBy.overflow}, its bottom ${label.clippedBy.edge.bottom})` : label.iconScrolledOutOfView ? 'its icon is scrolled out of the bar, and the name goes with it' : 'not clipped'}${label.offScreen ? ', OFF THE BOTTOM' : ''}${label.over.length ? `, drawn over ${label.over.join(', ')}` : ''}`);
@@ -224,13 +227,40 @@ try {
   const clipped = await clipping(page);
   console.log(`\nthe bar's own box: ${clipped.clippedBy.length ? `clipped by ${clipped.clippedBy.map(one => `${one.element} (${one.overflowX}/${one.overflowY})`).join(', ')}` : 'clips nothing'}; ${clipped.roomBelow}px below an icon, ${clipped.roomAbove}px above`);
 
+  // --------------------------------------------------------------- the four panels this study could not reach honestly
+  // `#site-choose`, `#survey-choose`, `#encounter` and `#call-menu` want a state the class above never gets to. An
+  // earlier turn of this script simply unhid them: an empty panel has almost no height, so it covered nothing and the
+  // run read as clean, which is worse than not asking. They are reached with the server's own content in them now
+  // (scripts/support/panel-states.mjs), and every one of them is asserted to be really drawn before its numbers are
+  // believed. The class is a different one - on the **real land**, played to the morning the settlement's call arrives -
+  // because three of the four only exist there.
+  panels = await measureFourPanels(browser, SCREEN);
+  for (const one of panels) {
+    console.log(`\n${one.state} (${one.how})`);
+    if (!one.measured.real) { console.log(`  NOT REACHED: ${one.panel} is not drawn, or is too small to be a panel (${JSON.stringify(one.measured.panelBox)}) - nothing below this is a measurement`); continue; }
+    const say = entry => `${entry.control}${entry.label ? ` "${entry.label}"` : ''} under ${entry.by.join(', ')}`;
+    console.log(`  ${one.panel} is ${one.measured.panelBox.w}x${one.measured.panelBox.h} at ${one.measured.panelBox.x},${one.measured.panelBox.y}, ${one.measured.ownControls} controls of its own, ${one.measured.panelFits ? 'wholly on the screen' : 'OFF THE SCREEN'}`);
+    for (const [what, against] of Object.entries(one.measured.against)) {
+      if (against?.shares) console.log(`  shares ${against.overlapWidth}x${against.overlapHeight}px with the ${what} (${JSON.stringify(against.box)})`);
+    }
+    for (const entry of one.measured.covered) console.log(`  COVERED   ${say(entry)}`);
+    for (const entry of one.measured.partly) console.log(`  partly    ${say(entry)} (${entry.blocked} of ${entry.points} points${entry.centreBlockedBy ? ', centre too' : ', centre clear'})`);
+    for (const entry of one.measured.offScreen) console.log(`  OFFSCREEN ${entry.control} "${entry.label}" at ${entry.box.x},${entry.box.y}`);
+    if (one.measured.ownControlsCovered.length) console.log(`  ITS OWN CONTROLS COVERED: ${one.measured.ownControlsCovered.join(', ')}`);
+    if (!one.measured.covered.length && !one.measured.partly.length && !one.measured.offScreen.length) console.log('  nothing covered');
+  }
+
   const summary = {
     record: 'screen-overlap', date: new Date().toISOString().slice(0, 10), screen: SCREEN,
     controls: CONTROLS, states: record, bar: clipped, labels: drawn, unpressable: blocked, pageErrors: errors,
+    fourPanels: panels,
   };
   writeFileSync(`docs/evidence/screen-overlap${SCREEN.width === 1366 ? '' : `-${SCREEN.width}`}.json`, `${JSON.stringify(summary, null, 2)}\n`);
   const total = record.reduce((sum, one) => sum + one.covered.length, 0);
-  console.log(`\n${total} controls wholly covered across ${record.length} states; wrote docs/evidence/screen-overlap${SCREEN.width === 1366 ? '' : `-${SCREEN.width}`}.json`);
+  const panelTotal = panels.reduce((sum, one) => sum + (one.measured.real ? one.measured.covered.length : 0), 0);
+  const unreached = panels.filter(one => !one.measured.real).map(one => one.panel);
+  console.log(`\n${total} controls wholly covered across ${record.length} states; ${panelTotal} across the four panels${unreached.length ? `, of which ${unreached.join(', ')} WERE NOT REACHED and prove nothing` : ' (all four really drawn)'}`);
+  console.log(`wrote docs/evidence/screen-overlap${SCREEN.width === 1366 ? '' : `-${SCREEN.width}`}.json`);
 } finally {
   await browser.close();
   await app.close();

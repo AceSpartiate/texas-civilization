@@ -1,0 +1,53 @@
+{
+  "record": "panels-overlap-injections",
+  "date": "2026-09-21",
+  "proof": "scripts/panels-browser-proof.mjs",
+  "cleanChecks": 9,
+  "injections": [
+    {
+      "name": "the call's menu goes back to guessing the strip's height, where it covered \"Show placement controls\" outright at 1024",
+      "file": "public/style.css",
+      "expect": "#call-menu is drawn over the guided start",
+      "caught": true,
+      "forItsOwnReason": true,
+      "why": "1366x768: #call-menu is drawn over the guided start by 93x94px, and the strip is the instruction",
+      "checksPassedFirst": 2
+    },
+    {
+      "name": "the meeting grows up past the strip again, taking the middle out of the guided start's one control",
+      "file": "public/style.css",
+      "expect": "#encounter is drawn over the guided start",
+      "caught": true,
+      "forItsOwnReason": true,
+      "why": "1366x768: #encounter is drawn over the guided start by 133x53px, and the strip is the instruction",
+      "checksPassedFirst": 2
+    },
+    {
+      "name": "the two placement panels go back to a fixed top on a phone, where the strip covered \"Not now\" outright",
+      "file": "public/style.css",
+      "expect": "its own controls #survey-cancel",
+      "caught": true,
+      "forItsOwnReason": true,
+      "why": "390x844: #survey-choose cannot be used - its own controls #survey-cancel under #lesson-action, #lesson-did have something drawn over them",
+      "checksPassedFirst": 7
+    },
+    {
+      "name": "the panel that asks where the house stands is never unhidden - the empty panel this whole file exists to stop reading as clean",
+      "file": "public/app.js",
+      "expect": "#site-choose was never drawn",
+      "caught": true,
+      "forItsOwnReason": true,
+      "why": "1366x768: #site-choose was never drawn, or is too small to be a panel: {\"x\":0,\"y\":0,\"w\":0,\"h\":0} - an empty panel covers nothing and would read as clean",
+      "checksPassedFirst": 0
+    },
+    {
+      "name": "the panel is drawn but its one button never is, so it is a panel a student cannot use and a measurement of nothing",
+      "file": "public/app.js",
+      "expect": "carries no control a student could press",
+      "caught": true,
+      "forItsOwnReason": true,
+      "why": "1366x768: #site-choose is drawn but carries no control a student could press, so it is not the panel this measures",
+      "checksPassedFirst": 0
+    }
+  ]
+}

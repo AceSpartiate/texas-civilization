@@ -627,10 +627,109 @@ Evidence: `docs/evidence/screen-overlap.json`, `-1024.json`, `-390.json` (0 cont
 `docs/evidence/screen-overlap-injections.json` (4 of 4 caught, each by the check written for it).
 
 **Still true and not fixed:** on a **phone only**, the docked person card covers a portrait's star. The classroom is
-1366×768 Chromebooks, so it is recorded rather than chased. The study also does not yet reach `#site-choose`,
-`#survey-choose`, `#encounter` or `#call-menu` in a real state — an earlier turn of it simply unhid them, and an empty
-panel has almost no height, so it covered nothing and the run read as clean. That is worse than not asking, and it was
-taken out rather than left to reassure.
+1366×768 Chromebooks, so it is recorded rather than chased. The four panels this section could not reach — `#site-choose`,
+`#survey-choose`, `#encounter` and `#call-menu` — are reached and measured in §12.12.
+
+### 12.12 The four panels the overlap study could not reach — 2026-09-21
+
+§12.11 asked the browser, rather than the stylesheet, what is drawn over what, and **four panels were excluded from it**:
+the two that ask for a place on the map (`#site-choose`, `#survey-choose`), the meeting (`#encounter`) and the call's one
+menu (`#call-menu`). The reason was a good one and is worth keeping in front of whoever reads this next. An earlier turn
+of that script simply unhid them; **an empty panel has almost no height, so it covered nothing and the run read as
+clean** — worse than not asking. They are reached now, each in a real state with the server's own content in it, and the
+first thing every check does is ask whether there is a panel on the screen at all.
+
+`scripts/support/panel-states.mjs` is the one instrument, shared by the study that reports (`npm run study:overlap`) and
+the gate that refuses (`npm run test:panels`), so the numbers in the evidence and the numbers held to are the same
+numbers — the arrangement §13 built for the wizard, and for the same reason. Two classes on the **real land**, played in
+process: one to the morning its settlement's call reaches the family while a rider is standing with somebody of it (which
+hands over `#encounter`, `#call-menu` and `#site-choose` at once, because on the real land they really do arrive
+together), and one a step further on, with the house site chosen, the cabin up and the guided start on the step that asks
+for the stake — the only state in which a student is offered the control that opens `#survey-choose`, because the lesson
+shuts every other icon until its own step comes round.
+
+#### 12.12.1 What was measured, and what was wrong
+
+At 1366×768, 1024×768 and 390×844. **Every one of the four was drawn over the guided start's own strip**, which is the
+rule §12.11 wrote in words when it said *the strip stays above the dim, because it is the instruction*. The owner's bet
+before the run was the meeting and the ability bar; that turned out to be true as well, and to be the one thing here that
+is not a repair.
+
+| What | Measured | Now |
+| --- | --- | --- |
+| The call's menu over the instruction | `top:126px` was a guess at the height of a strip that has since moved and grown. 440×328 at 463,126: **93×94px** of the strip at 1366 and **264×94px** at 1024, where it covered "Show placement controls" **outright**. | It starts below the strip by the strip's own measured height (`--lesson-room`, the number §12.11 already gives the family's column on a phone). 0px shared at all three sizes. |
+| The meeting over the instruction | Anchored at the bottom and growing up, 520×**538** reached y=166 and took two of the five points of "Show placement controls" including its centre at 1366, three at 1024, and **all of `#lesson-help` and `#lesson-action`** on a phone — the guided start's only control, unpressable while a rider stood. | Its `max-height` has a third term that stops it at the strip's bottom. 520×**476** on a Chromebook: about 62px less conversation, in a panel that already scrolled. |
+| The phone: every panel inside the strip | The strip is `top:8px` and as tall as its words; `#call-menu` sat at 104, `#encounter` at 96, both placement panels at 56 — all three fixed numbers, all three inside it. `#site-choose` was drawn **entirely behind the strip**, so its words could not be read at all, and the strip covered `#survey-choose`'s own **"Not now"**: a panel whose one button a student could not press. | All four take their top from `--lesson-room`. `#site-choose` is 374×240 below the strip, with "Set the house here" on it and the server's description of the ground in it. |
+
+Evidence: `docs/evidence/screen-overlap.json`, `-1024.json`, `-390.json` (the `fourPanels` section),
+`docs/evidence/panels-browser.json`, `docs/evidence/panels-overlap-injections.json`, and the screenshots
+`test-results/panels-*.png`, which were looked at by eye before any number here was believed.
+
+#### 12.12.2 Two things that are the owner's to decide, not mine
+
+Both are recorded with arithmetic rather than settled, because settling either one means giving something up.
+
+- **The meeting and the ability bar want the same pixels.** `#encounter` is 520 wide and runs straight across the bar,
+  **520×48px** of it at 1366. Fourteen controls are wholly covered while it stands and **thirteen of them are its own
+  doing**: eight icons of the main person's work — *Go to a shop in town*, *Make furniture*, *Buy furniture*, *Fell
+  trees*, *Fetch logs*, *Hunt on our land*, *Take small game*, *Fish the creek* — and the five controls of the docked
+  person card underneath it, including the "Listen to…" button the meeting was opened from. At 1024 it is **520×42px**
+  and **twenty-two**, because there the meeting reaches the family's column as well (**64×390px** of it). It is not a
+  placement that can be nudged: at 1366×768 the family's column (316px), a 520px meeting and the 544px strip come to
+  **1380px of a 1366px screen**, and a 476px meeting standing on a bottom margin of 64px against a bar whose top is at
+  y=616 leaves nowhere to go. The ways out are all decisions: a shorter meeting that scrolls sooner, a bar that hides
+  itself while a rider is talking, or the §12.11 answer — let it cover them, dim what it covers and say so in words. The
+  last is the precedent, and the dim is why "Choose a house" is allowed to cover the whole column.
+- **The two placement panels and the family's column want the same pixels.** `#site-choose` is 384×220 and
+  `#survey-choose` 384×159, both at `left:12px; top:64px`, and each shares **304px of width and its whole height** with
+  the column at 1366 and at 1024. The site panel covers **ten** controls of it outright — "Hide names", and the father's
+  and mother's whole rows: name, star, auto, idle and the "!" that says somebody needs the student — and the stake panel
+  covers "Plan a house". These two
+  are the pair §12.11 **deliberately excluded from the dim**, because dimming the map would cover the very thing the
+  student has just been told to tap, so the §12.11 answer is not available to them. Moving them right is available at
+  1366 (316 + 384 + 544 = 1244 of 1366) and **not** at 1024 (304 + 384 + 544 = 1232 of 1024), where they would land on
+  the strip instead — which is the fault this section just repaired. A rule that holds at one width and not at the next
+  is not a rule.
+
+#### 12.12.3 Recorded, phone only
+
+- **The ability bar's bottom padding takes clicks meant for the map's own buttons.** At 390 the bar drops 30px and pads
+  30px back so a lesson's names stay inside the box that scrolls (§12.11), and that padding lies over `Journal`, `Land`,
+  `Gonzales`, `Béxar`, `+` and `−`: **three of five points each, centre included**. It is not cosmetic — a `force` click
+  on "Land" in the first turn of this study's own instrument was swallowed by the bar and the camera never moved, which
+  is how it was found. The classroom is 1366×768, so it is recorded rather than chased, and the instrument sends its
+  camera presses to the element rather than to the pixel and says so.
+- The docked person card and the meeting overlap heavily at 390 (374×239px). Neither covers the other's own controls.
+
+#### 12.12.4 Gates
+
+`npm run test:panels` is **9 checks** — three at each of three sizes — over four panels reached in a real state: that
+each is really drawn, big enough to be a panel, carries a control a student could press and words the server put in it;
+that each fits the screen and has nothing over its own controls; and that none of them shares a pixel with the guided
+start or covers a word of it. `docs/evidence/panels-overlap-injections.json` is **5 of 5 caught, each by the check
+written for it**: the three faults put back one at a time, and two that make a panel *vacuous* rather than wrong — a
+panel never unhidden, and a panel drawn with its one button never shown. Those last two matter most here, because reading
+an empty panel as clean is the mistake this whole section exists to stop repeating. `npm test` is **879** and is
+untouched: nothing here changes a rule of the world.
+
+#### 12.12.5 What is not proved
+
+- **Same computer only.** Headless Chrome, a local classroom server, one browser. No LAN, no Chromebook, no touch screen
+  and no classroom.
+- **One family, one seed, one lesson step per panel.** `ceiling:` the cabin is put up and the guided start's step is set
+  in process for the stake, the way `scripts/family-commands-browser-proof.mjs` hands over a housed class, because
+  raising a house takes an afternoon of the world. What the panel *says* is still the server's, every word of it. The
+  steps between arriving and the stake are not walked, and neither is a family of one parent or a name long enough to
+  wrap a row.
+- **The two contested pairs above are measured, not fixed.** Anything that reads this as "the overlap study is clean
+  now" has read it wrong: what is clean is the guided start.
+- **A class past the guided start is unchanged, by arithmetic and not by a check.** `--lesson-room` is *removed* when
+  there is no lesson, so the meeting's third `max-height` term falls back to `100vh - 82px` — 686px on a Chromebook,
+  which `min()` never picks over 70vh — and the three phone rules are inside `body[data-lesson=true]`. Nothing here
+  measures that state, because the lesson is on for all ten of a class's first steps and that is where these panels are
+  met.
+- **No claim ID was needed.** Nothing here invents or changes anything historical or fictional; it is only where things
+  are drawn. `FIC-GONZ-270`–`279` were set aside for this work and none was spent.
 
 ## 13. The family-creation wizard as a thing on a screen — 2026-09-21
 

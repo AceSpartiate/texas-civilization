@@ -198,8 +198,17 @@ button:hover:enabled{background:#60673e}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 
 /* The meeting itself: two people and what passed between them. Never modal, never
-   animated open, and it holds its own scroll so the map keeps its height. */
-#encounter{position:absolute;left:50%;transform:translateX(-50%);bottom:64px;z-index:22;width:min(520px,calc(100% - 24px));max-height:min(70vh,620px);overflow-y:auto;background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259;border-radius:8px;box-shadow:0 5px 0 #6b583638,0 18px 45px #32291950;padding:14px 16px 16px}
+   animated open, and it holds its own scroll so the map keeps its height.
+   It is anchored at the bottom and grows upward, so what it grows into is the guided start's strip: at 1366x768 a
+   538px-tall meeting reached y=166 and took the middle out of "Show placement controls", centre and all
+   (docs/evidence/screen-overlap.json). The third term stops it at the strip's own bottom - `--lesson-room` is the
+   strip's measured height and the property is removed when there is no lesson, so a class past the guided start is
+   unchanged. It costs about 62px of conversation on a Chromebook, and the panel already scrolled.
+   **What this does not touch**: the meeting still runs straight across the ability bar - 520x48px at 1366, eight of the
+   main person's icons and the five controls of the card under it, wholly covered. That is not a placement to be fixed:
+   the family's column, a 520px meeting and a 544px strip come to 1380px of a 1366px screen. It is written up with its
+   arithmetic for the owner in §12.12 and deliberately not decided here. */
+#encounter{position:absolute;left:50%;transform:translateX(-50%);bottom:64px;z-index:22;width:min(520px,calc(100% - 24px));max-height:min(70vh,620px,calc(100vh - 82px - var(--lesson-room,0px)));overflow-y:auto;background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259;border-radius:8px;box-shadow:0 5px 0 #6b583638,0 18px 45px #32291950;padding:14px 16px 16px}
 #encounter-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;border-bottom:1px solid #c5b286;padding-bottom:7px}
 #encounter-head h2{font-size:21px;margin:1px 0 0;color:#4b3e28}
 #encounter-close{background:none;border:none;color:#756342;font-size:24px;min-height:0;padding:0 4px}
@@ -268,8 +277,14 @@ body[data-lesson=true] .panel-icon[data-shut=true]::before{display:none}
 body[data-lesson=true] #error,body[data-lesson=true] #save-fault,body[data-lesson=true] #lifecycle,body[data-lesson=true] #host-notice{top:118px}
 /* The call's one menu (§11.2) opens at the top middle too, and a call outranks the lesson rather than hiding under it.
    The strip moved to the right and above the dimmed panels on 2026-09-21, so the menu is lifted over it again here: it
-   outranked the strip by being the higher number before that move, and nothing about a call changed. */
-body[data-lesson=true] #call-menu{top:126px;max-height:min(62vh,520px);z-index:15}
+   outranked the strip by being the higher number before that move, and nothing about a call changed.
+   **Below the strip, not over it (§12.12).** Outranking it was only ever about which one wins where they meet; a menu
+   drawn across the instruction is the fault §12.11 named when it said the strip stays above the dim *because it is the
+   instruction*. `126px` was a guess at the old centred strip's height, and the strip is taller than that: at 1024 the
+   menu covered "Show placement controls" outright, and at 1366 it took two of its five points and its centre
+   (docs/evidence/screen-overlap-1024.json). `--lesson-room` is the strip's own measured height, written by renderLesson
+   and zero the moment there is no lesson - the same number §12.11 gave the family's column on a phone. */
+body[data-lesson=true] #call-menu{top:calc(18px + var(--lesson-room,116px));max-height:min(62vh,520px);z-index:15}
 /* Panels that want the whole screen (owner, 2026-09-21): choosing a house, planning it piece by piece, packing the wagon.
    Each is drawn where the family's own column is, and a class found that out the hard way - the guided start said "assign
    a family member to build it" over a panel that had every portrait underneath it (docs/evidence/screen-overlap.json:
@@ -290,7 +305,15 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
   #lesson h2{font-size:15px}
   #lesson p{font-size:13px}
   body[data-lesson=true] #error,body[data-lesson=true] #save-fault,body[data-lesson=true] #lifecycle,body[data-lesson=true] #host-notice{top:108px}
-  body[data-lesson=true] #call-menu{top:104px;max-height:52vh}
+  /* Everything that opens at the top of a phone goes under the strip by the strip's own height, for the reason the
+     column already does. Each of these four was measured standing *inside* it (docs/evidence/screen-overlap-390.json):
+     the meeting covered the guided start's only control outright, so did the call's menu, `#site-choose` was drawn
+     entirely behind the strip so its words could not be read at all, and the strip covered `#survey-choose`'s own
+     "Not now" - a panel whose one button a student could not press. The fixed tops they had (104, 96, 56) were guesses
+     at a height that varies with what the step says; this is the height itself. */
+  body[data-lesson=true] #call-menu{top:calc(14px + var(--lesson-room,90px));max-height:52vh}
+  body[data-lesson=true] #encounter{top:calc(14px + var(--lesson-room,82px))}
+  body[data-lesson=true] #site-choose,body[data-lesson=true] #survey-choose{top:calc(14px + var(--lesson-room,90px))}
 }
 
 /* The pace ladder, under the teacher's other controls and quieter than them: it changes
