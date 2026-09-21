@@ -15,7 +15,9 @@ import { calendarMinutes } from '../sim/clock.mjs';
 import { CHORES } from '../sim/chores.mjs';
 import { WAGON_SPEED, WALK_SPEED } from '../sim/travel.mjs';
 import { share } from '../sim/scrape.mjs';
-import { BOG_SHARE, DIG_MILES, PRISONER_SHARE, SPENT_PACE, WARNING_MILES, OVERTAKEN_MILES, columnHead, columns, dayOf, pursuit, weatherOf } from '../sim/road.mjs';
+import { BOG_SHARE, ROAD_FISH_FOOD, DIG_MILES, PRISONER_SHARE, SPENT_PACE, WARNING_MILES, OVERTAKEN_MILES, columnHead, columns, dayOf, pursuit, weatherOf } from '../sim/road.mjs';
+import { WATER_HIGH, WATER_SHUT, waterAt } from '../sim/weather.mjs';
+import { FORAGE } from '../sim/gathering.mjs';
 import { GLORY_WEIGHT, distanceMultiplier } from '../sim/glory.mjs';
 import { REFUGES } from '../sim/scrape.mjs';
 import { findPath } from '../sim/geography.mjs';
@@ -394,5 +396,103 @@ test('the Host\'s words for the road, and a saved road that cannot be is refused
   household.flight.bog = { minute: world.minute };
   assert.throws(() => validateWorld(world), /Invalid bog/);
   household.flight.bog = { minute: world.minute, day: dayOf(world.minute) };
+  validateWorld(world);
+});
+
+test('with no powder and no coin, a line in the river at the crossing is what a family on the road has left', () => {
+  // Measured 2026-09-20 (docs/BIOME_GAMEPLAY.md §10.4): the four works a family does at home took the median family's
+  // hungry ticks from 65.5 to 8.5 and did nothing whatever for Columbia and Matagorda, because their hunger is this road.
+  // The camp hunt wants powder and the trade wants coin; this wants neither. `FIC-GONZ-178`.
+  const world = spring();
+  const household = fled(world);
+  const person = main(world, household);
+  const offered = () => (view(world, household.id).work[person.id] || []).find(entry => entry.id === 'fish-road');
+  // Out on the road between crossings there is no water to put a line in, and it says so.
+  const dry = offered();
+  assert.ok(dry, 'the line was not listed on the road at all');
+  assert.equal(dry.can, false, 'a line went into the ground somewhere between two rivers');
+  assert.match(dry.why, /no water to put a line in/);
+  until(world, () => household.flight.crossing || household.flight.status === 'refuged', 400);
+  const waiting = Boolean(household.flight.crossing) || household.flight.status === 'refuged';
+  assert.ok(waiting, 'the family never reached a crossing or a refuge');
+  const where = world.map.sites[household.flight.crossing?.siteId] || person.location;
+  const flooded = waterAt(world, where) >= WATER_SHUT;
+  const entry = offered();
+  assert.ok(entry, 'the line was not even listed on the road');
+  if (flooded) {
+    // Dilue Harris at the Trinity: drift wood "as far as we could see", and the families in the bottom that night
+    // "without fire or anything to eat". A flooded river is why they are waiting; it must not also be where they are fed.
+    assert.equal(entry.can, false, 'a line went into a river that was over its banks');
+    assert.match(entry.why, /over its banks|drift/);
+  } else {
+    assert.equal(entry.can, true, `the line was refused: ${entry.why}`);
+    // It costs nothing: no powder and no coin, which is the whole point of it.
+    household.resources = { ...household.resources, powder: 0, money: 0, food: 1 };
+    assert.equal(offered().can, true, 'a family with no powder and no coin could not fish');
+    const food = household.resources.food;
+    applyAction(world, household.id, { action: 'chore', entityId: person.id, chore: 'fish-road' });
+    until(world, () => !person.chore, 60);
+    assert.equal(person.chore, null, 'the line never came out of the water');
+    // What a pair of hands brings out of the river is `ROAD_FISH_FOOD` by that person's own skill, as every produce is.
+    assert.ok(household.resources.food >= food + ROAD_FISH_FOOD, `the food went ${food} to ${household.resources.food}`);
+    assert.equal(household.resources.powder, 0, 'the line burned powder');
+    assert.equal(household.resources.money, 0, 'the line cost coin');
+    assert.ok(world.events.some(event => event.claimId === 'FIC-GONZ-178' && /out of the river at the camp/.test(event.text)),
+      'the family was not told what came out of the river');
+  }
+  // And it is less than the same hours bring at the family's own creek: five thousand people are on the same bank.
+  assert.ok(ROAD_FISH_FOOD < FORAGE.fish.food, 'the road fed a family as well as its own creek did');
+
+  // The flood, held whichever way this class's own river happened to be running above. The weather of a day is a pure
+  // function of the class and the day (sim/weather.mjs), so a day when this river is over its banks is looked for and the
+  // clock is moved to it to *read* the offer - nothing is stepped and the minute is put back. Dilue Harris at the Trinity:
+  // drift wood "as far as we could see", and the families in the bottom that night "without fire or anything to eat".
+  const minute = world.minute, crossing = household.flight.crossing;
+  // The river the family is waiting at, put at a crossing this class does run over its banks: the west is the driest of
+  // the three countries and this class never floods the Colorado at La Grange, while the Brazos at San Felipe goes over
+  // about one day in a hundred (measured over 200 classes, docs/WEATHER.md §10).
+  const flood = world.map.sites['san-felipe'];
+  let over = -1;
+  for (let day = dayOf(world.minute); day < dayOf(world.minute) + 400 && over < 0; day++) {
+    if (waterAt(world, flood, day) >= WATER_SHUT) over = day;
+  }
+  assert.ok(over > 0, 'this class never ran the Brazos over its banks in four hundred days');
+  // A river merely **up** is still fished. The flight east happens in the wet spring, so a line that closed whenever the
+  // water was high would be shut exactly when a family needs it; only a river over its banks stops it.
+  let high = -1;
+  for (let day = dayOf(world.minute); day < dayOf(world.minute) + 400 && high < 0; day++) {
+    const level = waterAt(world, flood, day);
+    if (level >= WATER_HIGH && level < WATER_SHUT) high = day;
+  }
+  assert.ok(high > 0, 'this class never ran the Brazos up without flooding it');
+  household.flight.crossing = { siteId: 'san-felipe', until: world.minute + DAY };
+  world.minute = high * DAY + 12 * 60;
+  const up = offered();
+  world.minute = over * DAY + 12 * 60;
+  const shut = offered();
+  world.minute = minute;
+  household.flight.crossing = crossing;
+  assert.equal(up.can, true, `a line was refused at a river that was merely up: ${up.why}`);
+  assert.equal(shut.can, false, 'a line went into a river that was over its banks');
+  assert.match(shut.why, /over its banks|drift/);
+  validateWorld(world);
+});
+
+test('a family nobody plays puts a line in the river when it has neither powder nor coin', () => {
+  const world = spring({ neighbours: true });
+  // The director answers the order to leave for every family nobody plays, so the flight is its own doing here.
+  const household = world.households['hh-1'];
+  until(world, () => household.flight?.status === 'fled', 600);
+  assert.equal(household.flight?.status, 'fled', 'the director never took the family out of Gonzales');
+  household.resources = { ...household.resources, food: 0, powder: 0, money: 0 };
+  // The director's road think sends one person after food a day (sim/neighbours.mjs): with no powder for the camp hunt and
+  // no coin for the trade, the line is the only one of the three it can reach.
+  let fished = false;
+  for (let tick = 0; tick < 600 && !fished && world.status === 'running'; tick++) {
+    stepWorld(world);
+    fished ||= people(world, household).some(one => one.chore?.id === 'fish-road')
+      || world.events.some(event => event.householdId === household.id && event.claimId === 'FIC-GONZ-178');
+  }
+  assert.ok(fished, 'a family with nothing was never sent to the water on the road east');
   validateWorld(world);
 });

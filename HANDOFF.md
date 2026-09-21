@@ -59,9 +59,8 @@ weather drawn and launcher face. Setup 191.7 MB → 212.4 MB at .3, which is the
 - **Left of the bestiary:** the **feral hogs** (they belong to the stock economy of `HIST-TEX-112`) and the **predators**
   (not built on purpose: `FIC-GONZ-008` says there is no hidden risk to a person out on the land). Everything else of it
   was built on 2026-09-20. Longleaf is still drawn at 90% timber and the hunting-wait scale is still the old one.
-- **A line in the water on the road east.** The four gathering works are all done at home, so a family on the flight to
-  the Sabine still starves; that is where the hunger the study still shows at Columbia and Matagorda actually is
-  (docs/BIOME_GAMEPLAY.md §10.4). The road already has chores of its own (`hunt-road`), so this is a small piece of work.
+- **What is left of the road's hunger** after the line went in (Columbia 31 ticks, Matagorda 33, from 109 and 100.5): the
+  days between the crossings, and the days the river is in flood. Both are honest, and neither is obviously wrong.
 - **Weather follow-ups named by the research and not done:** the Fort Jesup manuscript daily forms (they start in the right
   month and would replace inference with observation), a *Telegraph and Texas Register* sweep, and §6.2's unsourced column.
 
@@ -114,6 +113,22 @@ east is the day after - and my own first draft of the seasonal test counted summ
 which is a test that checks nothing. The measured shut-day figure is corrected everywhere it appears: not "0 to 4 days of
 210" from three classes but a **median of 3 over 200 classes**, none at all in 19% of them and 16 in the worst. 800
 tests. Same computer only.
+
+**A line in the river on the road east, 2026-09-20:** [ROAD_EAST.md](docs/ROAD_EAST.md) §3, `sim/road.mjs` `fish-road`,
+`FIC-GONZ-178`. The hole the gathering study measured the same evening and could not reach: the camp hunt wants powder
+and the trade among the camped families wants coin, so **a family that fled with neither had no way at all to eat**, and
+that is where Columbia's and Matagorda's hunger actually was - not on their farms. At a crossing or at a refuge (the
+family is standing at the water, and every refuge the flight makes for is on a river) two hours with a line brings back
+**2 food** for nothing at all. Two and not three, which is what the same hours bring at the family's own creek: five
+thousand people were camped on the same bank. **Refused while the river is over its banks** - Dilue Harris's flooded
+Trinity, drift wood "as far as we could see" and the families in the bottom that night "without fire or anything to eat",
+is why they were hungry and must not also be where they are fed - but **a river merely up is still fished**, because the
+flight is in the wet spring and a line that shut with the water would be shut exactly when it is wanted. The director
+uses it after the camp hunt and before the trade. **Measured**, six classes of thirty over three periods: Columbia
+**109 → 31** hungry ticks, Matagorda **100.5 → 33**, Gonzales 52.5 → 6, the median family 8.5 → 4 - and the final number,
+the glory and the hunting **do not move at all**. 809 tests; 11 regressions injected, 11 caught, and two of them were
+only caught after the test was made to assert what its own comments already claimed (that the line is refused out on the
+road between rivers, and that a river merely up is still fished). Same computer only.
 
 **What a family ate between deer, 2026-09-20:** [BIOME_GAMEPLAY.md](docs/BIOME_GAMEPLAY.md) §10,
 [BIOMES.md](docs/BIOMES.md) §17.3, `sim/gathering.mjs`, `FIC-GONZ-173` to `-177`. The owner, asked which of the

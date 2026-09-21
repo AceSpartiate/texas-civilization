@@ -161,6 +161,9 @@ export function thinkFor(world, household, { project, act }) {
       const offer = (person, chore) => (view.work?.[person.id] || []).find(entry => entry.id === chore && entry.can);
       const send = chore => { const hand = free.find(person => offer(person, chore)); return hand ? attempt({ action: 'chore', entityId: hand.id, chore }) : false; };
       if (short && (resources.powder || 0) >= 1 && !busy('hunt-road')) send('hunt-road');
+      // With no powder for the camp hunt, a line in the river at the crossing: it costs nothing, and it is the only food
+      // a family with neither powder nor coin can get on the road (sim/road.mjs `fish-road`, `FIC-GONZ-178`).
+      if (short && !busy('hunt-road') && !busy('fish-road')) send('fish-road');
       if (people.some(person => person.health?.condition === 'sick') && !busy('tend-sick')) send('tend-sick');
       if (short && (resources.money || 0) >= 1 && !busy('trade-crossing')) send('trade-crossing');
     }

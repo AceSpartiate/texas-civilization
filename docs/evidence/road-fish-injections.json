@@ -1,0 +1,89 @@
+{
+  "record": "road-fish-injections",
+  "date": "2026-09-21",
+  "files": [
+    "tests/road.test.mjs"
+  ],
+  "injections": [
+    {
+      "name": "a line goes in anywhere on the road, miles from any water",
+      "file": "sim/road.mjs",
+      "failed": [
+        "with no powder and no coin, a line in the river at the crossing is what a family on the road has left"
+      ]
+    },
+    {
+      "name": "a line goes into a river that is over its banks and thick with drift",
+      "file": "sim/road.mjs",
+      "failed": [
+        "with no powder and no coin, a line in the river at the crossing is what a family on the road has left"
+      ]
+    },
+    {
+      "name": "the flood is read at the level a ford is merely high, so the line is refused most of the spring",
+      "file": "sim/road.mjs",
+      "failed": [
+        "with no powder and no coin, a line in the river at the crossing is what a family on the road has left"
+      ]
+    },
+    {
+      "name": "the river is read where the family is standing rather than at the crossing it waits at",
+      "file": "sim/road.mjs",
+      "failed": [
+        "with no powder and no coin, a line in the river at the crossing is what a family on the road has left"
+      ],
+      "expect": "may pass: the two are usually in one country"
+    },
+    {
+      "name": "the line burns a charge of powder, which is the thing the family has none of",
+      "file": "sim/road.mjs",
+      "failed": [
+        "with no powder and no coin, a line in the river at the crossing is what a family on the road has left",
+        "a family nobody plays puts a line in the river when it has neither powder nor coin"
+      ]
+    },
+    {
+      "name": "the line costs a real, which is the other thing the family has none of",
+      "file": "sim/road.mjs",
+      "failed": [
+        "with no powder and no coin, a line in the river at the crossing is what a family on the road has left",
+        "a family nobody plays puts a line in the river when it has neither powder nor coin"
+      ]
+    },
+    {
+      "name": "nothing comes out of the river",
+      "file": "sim/road.mjs",
+      "failed": [
+        "with no powder and no coin, a line in the river at the crossing is what a family on the road has left"
+      ]
+    },
+    {
+      "name": "the road feeds a family as well as its own creek does",
+      "file": "sim/road.mjs",
+      "failed": [
+        "with no powder and no coin, a line in the river at the crossing is what a family on the road has left"
+      ]
+    },
+    {
+      "name": "the family is never told what came out of the river",
+      "file": "sim/road.mjs",
+      "failed": [
+        "with no powder and no coin, a line in the river at the crossing is what a family on the road has left"
+      ]
+    },
+    {
+      "name": "the director never sends anybody to the water, so a family with nothing starves as it did",
+      "file": "sim/neighbours.mjs",
+      "failed": [
+        "a family nobody plays puts a line in the river when it has neither powder nor coin"
+      ]
+    },
+    {
+      "name": "the director fishes only when it has powder, which is exactly when it does not need to",
+      "file": "sim/neighbours.mjs",
+      "failed": [
+        "a family nobody plays puts a line in the river when it has neither powder nor coin"
+      ]
+    }
+  ]
+}

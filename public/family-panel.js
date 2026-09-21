@@ -31,6 +31,7 @@ export const PANEL_SUMMARIES = Object.freeze({
   'fish-the-water': 'Sit down at the water with a line and bring home what is on it, with no powder and no knack needed.',
   'gather-oysters': 'Walk down to the beds along the shore and gather what can be carried home.',
   'cut-bee-tree': 'Take the axe to the tree the bees are working, and bring the honey home.',
+  'fish-road': 'Sit at the water while the family waits at the crossing, and take food out of the river.',
   'sell-cotton': 'Carry the cotton to the store in town and trade it for food or coin.',
   'fetch-powder': 'Go to the store in town and buy powder and lead.',
   'fetch-seed': 'Go to the store in town and buy seed.',
@@ -99,7 +100,7 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
   ['fetch-logs', { glyph: 'fetch-logs' }],
   // What a family ate between deer (sim/gathering.mjs, docs/BIOMES.md §17.3): no frames yet. stand-in: docs/ART_REQUESTS.md,
   // request 2026-09-20 - the gathering icons; each is a glyph drawn by `drawGlyph` until `icon-<key>` is registered.
-  ['take-small-game', { glyph: 'small-game' }], ['fish-the-water', { glyph: 'fish' }],
+  ['take-small-game', { glyph: 'small-game' }], ['fish-the-water', { glyph: 'fish' }], ['fish-road', { glyph: 'fish' }],
   ['gather-oysters', { glyph: 'oysters' }], ['cut-bee-tree', { glyph: 'bee-tree' }],
 ]));
 /** The camp's work, the chores a man serving with Houston's army is offered (sim/camp.mjs); the only work a serving row shows. */

@@ -29,7 +29,7 @@
 // changes and no save version moves.
 import { CHORES, COIN, abandonChore, reales, registerChores } from './chores.mjs';
 import { dateOf } from './clock.mjs';
-import { REGIONS, rainingAt, weatherAt, weatherOn } from './weather.mjs';
+import { REGIONS, WATER_SHUT, rainingAt, waterAt, weatherAt, weatherOn } from './weather.mjs';
 import { record } from './events.mjs';
 import { canAnswerCalls, householdName, mainPersonId, tooYoung } from './family.mjs';
 import { WAGON_SPEED, WALK_SPEED, propertyId } from './travel.mjs';
@@ -82,6 +82,11 @@ export const PRISONER_SHARE = 0.5;
 export const CAMP_FOOD_PER_REAL = 2;
 /** The food a hunt from the camp brings in when the shot goes home, before skill. */
 export const CAMP_HUNT_FOOD = 6;
+/**
+ * What a line in the river brings back at a crossing or a refuge: less than the same two hours bring at the family's own
+ * creek (three, sim/gathering.mjs), because five thousand people are camped on the same bank (`HIST-TEX-238`).
+ */
+export const ROAD_FISH_FOOD = 2;
 
 /**
  * The Mexican columns as the refugees felt them: a head moving between dated places, the dates the settlements' own
@@ -561,6 +566,18 @@ export function roadChoreRefusal(world, household, entity, chore) {
   // 'campsite', not 'camp': that key is Houston's camp work (sim/camp.mjs), which the army's march breaks off.
   if (chore.campsite && !(flight.crossing || flight.status === 'refuged')) return 'There are no other families camped here to trade with; there are at a crossing or a refuge.';
   if (chore.nurses && !people(world, household).some(one => one.health?.condition === 'sick')) return 'Nobody of the family is sick.';
+  // A line goes in where there is water to put it in: at a crossing the family is standing at the river, and every refuge
+  // the flight makes for stands on one - San Felipe and Washington on the Brazos, Lynchburg on the San Jacinto, Liberty on
+  // the Trinity, Nacogdoches on its creeks.
+  if (chore.water) {
+    if (!(flight.crossing || flight.status === 'refuged')) return 'There is no water to put a line in here; there is at a crossing and at the refuges.';
+    // And not while it is over its banks. Dilue Harris at the Trinity: the water "broke over the banks above where we were
+    // and ran around us", "drift wood covered the water as far as we could see", and the families in the bottom stayed the
+    // night "without fire or anything to eat" (`HIST-TEX-238`). A flooded river is why they are waiting and why they are
+    // hungry, and it must not also be where they are fed.
+    const where = world.map.sites[flight.crossing?.siteId] || entity.location;
+    if (waterAt(world, where) >= WATER_SHUT) return 'The river is over its banks and thick with drift; nothing will take a line today.';
+  }
   return null;
 }
 
@@ -591,6 +608,19 @@ const roadChores = () => ({
       { when: ['carrying'], work: 1, doing: 'carrying it back to the camp' },
       { when: ['empty'], work: 1, doing: 'coming back to the camp with nothing' },
     ],
+  },
+  // The food a family with neither powder nor coin can still get. Measured 2026-09-20 (docs/BIOME_GAMEPLAY.md §10.4): the
+  // four gathering works at home took the median family's hungry ticks from 65.5 to 8.5, and did nothing at all for
+  // Columbia and Matagorda, whose hunger is this road and not their farm. `FIC-GONZ-178`.
+  'fish-road': {
+    name: 'Put a line in the river', skill: 'hands', where: 'road', road: true, halts: true, water: true, refuse: roadChoreRefusal,
+    describe: `The family is stopped at the water anyway. A line costs no powder and no coin and wants no knack, and brings back ${ROAD_FISH_FOOD} food — less than the same hours at the family's own creek, because everybody else on the road is camped on the same bank. Not while the river is over its banks.`,
+    begin: haltFamily,
+    steps: [
+      { work: 6, doing: 'sat at the water with a line' },
+      { produce: { food: ROAD_FISH_FOOD } },
+    ],
+    done: (world, household, entity) => tell(world, household, `${entity.name} took ${ROAD_FISH_FOOD} food out of the river at the camp.`, { claimId: 'FIC-GONZ-178', actorId: entity.id }),
   },
   'tend-sick': {
     name: 'Nurse the sick', skill: 'hands', where: 'road', road: true, halts: true, nurses: true, refuse: roadChoreRefusal,

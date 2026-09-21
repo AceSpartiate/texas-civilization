@@ -93,6 +93,7 @@ the principal for the orders only a principal may be given (`applyAction` in `si
 | Fish the creek (`fish-the-water`, 2026-09-20) | Sit down at the water with a line and bring home what is on it, with no powder and no knack needed. |
 | Gather oysters (`gather-oysters`, 2026-09-20) | Walk down to the beds along the shore and gather what can be carried home. **Only on the coast.** |
 | Cut a bee tree (`cut-bee-tree`, 2026-09-20) | Take the axe to the tree the bees are working, and bring the honey home. |
+| Put a line in the river (`fish-road`, 2026-09-20, [ROAD_EAST](ROAD_EAST.md)) | Sit at the water while the family waits at the crossing, and take food out of the river. **On the road east only.** |
 | Mend the hoe (`mend-hoe`) | Set the worn hoe right again at home. |
 | Fell trees (`fell-trees`) | Fell the trees at a place in timber you choose on the family's land. |
 | Haul logs to the house (`haul-logs`) | Bring the felled logs lying out to the house. |

@@ -599,12 +599,21 @@ the only way to eat. By country: the timber 65.5 → 5.5 hungry ticks, the prair
 
 ### 10.4 What it did not reach, and why
 
+**Built the same evening; this section is what asked for it.** `fish-road` (`FIC-GONZ-178`, sim/road.mjs,
+docs/ROAD_EAST.md): at a crossing or a refuge, two hours with a line for two food, no powder and no coin, and refused
+while the river is over its banks. Measured the same way: **Columbia 109 → 31 hungry ticks, Matagorda 100.5 → 33**,
+Gonzales 52.5 → 6, the median family 8.5 → 4 — and the final number, the glory and the hunting do not move at all
+([study](evidence/biome-balance-road-fish-after.json)). What is left is the days between the crossings and the days the
+river is in flood.
+
+The finding that asked for it, as it was written:
+
 **Columbia (117.5 → 109) and Matagorda (103.5 → 100.5) barely moved**, and the reason is worth writing down rather than
 averaging away: those families end the class with no food at all after a period 1 that was fine — hh-14 at Matagorda ended
 period 1 with 166 food and was still short on 101 ticks. **The hunger is the flight east, not the farm.** All four works
 are `where: 'home'`, and a family camped on the road to the Sabine is nowhere near its own creek. The road has its own
-chores already (`hunt-road`, sim/road.mjs, docs/ROAD_EAST.md), so **a line in the water on the road east is the obvious
-next thing** and is not built.
+chores already (`hunt-road`, sim/road.mjs, docs/ROAD_EAST.md), so **a line in the water on the road east** was the obvious
+next thing, and was built that evening.
 
 Still unbuilt from §9.4 and still on purpose: the **feral hogs** (the stock economy of `HIST-TEX-112`) and the
 **predators** (`FIC-GONZ-008`: the game has no hidden risk to a person out on the land).

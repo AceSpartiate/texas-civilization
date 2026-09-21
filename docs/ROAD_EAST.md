@@ -44,7 +44,18 @@ Each row is **chosen by default; the owner may change it.** The grounding is wha
   east to San Felipe de Austin*. Dug out: `flight.oxSpentUntil`, every traveller's `travel.speed` at half the wagon's, the
   diggers' `exertion` up by `DIG_MILES` (so a tired hand misses the next shot); rested a day later. Left: the wagon and ox
   keep a halted `travel` with `purpose: 'lost'` and `condition: 'lost'` where they stood, the people walk (`mode: 'foot'`).
-- **The camp**: a road chore with `halts` (`hunt-road`, `tend-sick`) halts the family through its `begin` hook and the
+- **A line in the river** (`fish-road`, 2026-09-20, `FIC-GONZ-178`). The camp hunt wants powder and the trade wants coin,
+  so a family that fled with neither could not eat at all. At a crossing or at a refuge - the family is standing at the
+  water, and every refuge the flight makes for is on a river - two hours with a line brings back `ROAD_FISH_FOOD` (2)
+  food for nothing. Two and not the three the same hours bring at the family's own creek, because five thousand people
+  are camped on the same bank (`HIST-TEX-238`); and **refused while the river is over its banks** (`WATER_SHUT`,
+  sim/weather.mjs), because Dilue Harris's flooded Trinity is why those families were hungry and must not be where they
+  are fed. A river merely up is still fished: the flight is in the wet spring, and a line that shut with the water would
+  be shut exactly when it is wanted. **Measured** over six classes of thirty families: Columbia 109 → 31 hungry ticks,
+  Matagorda 100.5 → 33, Gonzales 52.5 → 6, the median family 8.5 → 4, and the final number, the glory and the hunting do
+  not move at all ([study](evidence/biome-balance-road-fish-after.json), [injections](evidence/road-fish-injections.json),
+  11 of 11 caught).
+- **The camp**: a road chore with `halts` (`hunt-road`, `tend-sick`, `fish-road`) halts the family through its `begin` hook and the
   family goes on the tick it ends; `trade-crossing` needs no halt (the family is already waiting). A road chore runs while
   its person's travel is halted (`advanceChore`), is offered only on the road (`choresFor`), and refuses in words through
   its own `refuse` hook (`roadChoreRefusal`: not on the road; the wagon in the mud; nobody sick; no families camped here).
@@ -55,8 +66,9 @@ Each row is **chosen by default; the owner may change it.** The grounding is wha
 - **Who decides**: `answerRoad` (action `road-answer`, `option`), `roadAutoAnswer` (the fallback, first open) used by
   `advanceAuto` for an absent family or a main person on auto, by `advanceRoad` after `ROAD_PATIENCE_TICKS`, and by the
   neighbours' director from the projection's own `fallback` through `applyAction`. The director also sends one grown hand
-  to hunt from the camp when food is short and there is a shot in the house, nurses whoever is sick, and buys food with a
-  real at a crossing - none of it while a column is near or the wagon is in the mud.
+  to hunt from the camp when food is short and there is a shot in the house, **puts a line in the river when there is no
+  shot**, nurses whoever is sick, and buys food with a real at a crossing - none of it while a column is near or the wagon
+  is in the mud.
 - **The calendar** holds at the farming scale only while a played family has a road question open (`deciding`), never
   for the road itself.
 - **The page**: the flight card on the road (`renderFlight`) says where the family is, the weather, the mud, the camp and
@@ -101,3 +113,7 @@ Each row is **chosen by default; the owner may change it.** The grounding is wha
 - `ceiling:` the death skipped while somebody nurses is not proved by injection - it is a roll at 2 in 100 a day and no
   seed was searched for a patient whose share would die that day.
 - `ceiling:` coin is not taken by the army; a purse taken is the way out if the owner wants it.
+- `ceiling:` the line goes in at a crossing or a refuge and nowhere else, though the road crosses bayous the whole way;
+  the two are where the family is standing still, which is what makes them the places it can fish. The hunger left at
+  Columbia and Matagorda after it (31 and 33 ticks, from 109 and 100.5) is the days between the crossings and the days
+  the river is in flood.
