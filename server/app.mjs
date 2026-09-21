@@ -1,4 +1,5 @@
 import { markPlayed } from '../sim/neighbours.mjs';
+import { record } from '../sim/events.mjs';
 import http from 'node:http';
 import { randomBytes, createHash, createHmac, timingSafeEqual } from 'node:crypto';
 import { readFileSync, readdirSync, realpathSync, statSync } from 'node:fs';
@@ -243,6 +244,18 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
   // ever arrives through a proxy.
   const REJOIN_TRIES = 5, REJOIN_COOLDOWN_MS = 30000;
   const rejoinTries = new Map();
+  /** How long this address must wait, as the refusal a page shows, or null when it may try. */
+  function rejoinCooldown(address) {
+    const now = Date.now();
+    for (const [seen, tries] of rejoinTries) if (now - tries.at >= REJOIN_COOLDOWN_MS) rejoinTries.delete(seen);
+    const attempt = rejoinTries.get(address);
+    if (!attempt || attempt.count < REJOIN_TRIES) return null;
+    return { error: `Too many tries. Wait ${Math.ceil((REJOIN_COOLDOWN_MS - (now - attempt.at)) / 1000)} seconds and try again.` };
+  }
+  const countRejoinTry = address => rejoinTries.set(address, { count: (rejoinTries.get(address)?.count || 0) + 1, at: Date.now() });
+  const clearRejoinTries = address => rejoinTries.delete(address);
+  /** One line on the class's own public record, which is what the Host page reads (`projectWorld`, role 'host'). */
+  const tellClass = (world, text) => record(world, 'presence', { visibility: 'public', importance: 2, claimId: 'FIC-GONZ-186', text });
   function identify(req) {
     const host = cookie(req, hostCookie());
     if (equal(host, state.hostKey)) return { role: 'host' };
@@ -634,16 +647,16 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       if (req.method === 'POST' && url.pathname === '/api/rejoin') {
         const supplied = readKey((await body(req)).key);
         const address = req.socket.remoteAddress || 'unknown';
-        const now = Date.now();
-        for (const [seen, tries] of rejoinTries) if (now - tries.at >= REJOIN_COOLDOWN_MS) rejoinTries.delete(seen);
-        const attempt = rejoinTries.get(address);
-        if (attempt && attempt.count >= REJOIN_TRIES) return json(res, 429, { error: 'Too many tries. Wait ' + Math.ceil((REJOIN_COOLDOWN_MS - (now - attempt.at)) / 1000) + ' seconds, then try again.' });
+        // The same cooldown the away list and the claim meet, kept in one place since 2026-09-21 so the three doors
+        // into a class cannot drift apart.
+        const cooling = rejoinCooldown(address);
+        if (cooling) return json(res, 429, cooling);
         const found = supplied.length === KEY_LENGTH && Object.entries(state.clients).find(([, client]) => equal(familyKey(client.householdId), supplied));
         if (!found) {
-          rejoinTries.set(address, { count: (attempt?.count || 0) + 1, at: now });
+          countRejoinTry(address);
           return json(res, 403, { error: 'That family key does not match any family in this class. Check the letters and try again.' });
         }
-        rejoinTries.delete(address);
+        clearRejoinTries(address);
         const [previousHash, client] = found;
         // A family being played right now is not a family that got locked out. Refusing
         // here is what stops a key read off a neighbour's screen from evicting them.
@@ -652,6 +665,63 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         // the old device is signed out rather than quietly sharing an identity.
         const credential = token();
         commit(s => { const record = s.clients[previousHash]; delete s.clients[previousHash]; s.clients[hash(credential)] = record; });
+        res.setHeader('Set-Cookie', setCookie(studentCookie(), credential, 604800));
+        return json(res, 200, snapshot({ role: 'student', ...state.clients[hash(credential)] }));
+      }
+      /**
+       * Coming back without knowing anything: the families whose student is away, by the name that student chose.
+       *
+       * **Why this exists.** A class of real students ran on 2026-09-21 and one of them was disconnected and could not
+       * get back in, because getting back in wanted the family key off a screen they no longer had. A twelve-year-old
+       * on a school Chromebook - which is often a guest session that keeps no cookie - has no id, no key and no way to
+       * know either. So: they read their own name off a list and tap it (`FIC-GONZ-186`).
+       *
+       * **What guards it.** The class code, which is the same door a join goes through and is on the Host's screen; the
+       * same per-address cooldown a guessed key meets; and **only families nobody is playing are listed at all**, so a
+       * family in front of its own student can never be taken from them. The Host is told publicly when a family moves
+       * device (`/api/claim`).
+       *
+       * ceiling: a student in the room can pick up a classmate's family while that classmate is away, and the guard
+       * against it is the teacher seeing it happen rather than the server refusing it. Naming each family's own student
+       * is what makes the list usable by a child, and it is the same information the teacher already reads aloud.
+       */
+      if (req.method === 'POST' && url.pathname === '/api/away') {
+        const asked = await body(req);
+        const address = req.socket.remoteAddress || 'unknown';
+        const cooling = rejoinCooldown(address);
+        if (cooling) return json(res, 429, cooling);
+        if (asked.code !== state.sessionCode) { countRejoinTry(address); return json(res, 403, { error: 'Check the class code on the Host screen.' }); }
+        clearRejoinTries(address);
+        const here = streaming();
+        const families = Object.values(state.clients)
+          .filter(client => client.householdId && !here.has(client.householdId))
+          .map(client => ({ householdId: client.householdId, name: client.name, family: householdName(state.world, state.world.households[client.householdId]) }))
+          .sort((a, b) => a.name.localeCompare(b.name));
+        return json(res, 200, { families });
+      }
+      /** That one is me: the family is moved to this device, as a rejoin does, without anybody having to know a key. */
+      if (req.method === 'POST' && url.pathname === '/api/claim') {
+        const asked = await body(req);
+        const address = req.socket.remoteAddress || 'unknown';
+        const cooling = rejoinCooldown(address);
+        if (cooling) return json(res, 429, cooling);
+        if (asked.code !== state.sessionCode) { countRejoinTry(address); return json(res, 403, { error: 'Check the class code on the Host screen.' }); }
+        const found = Object.entries(state.clients).find(([, client]) => client.householdId === asked.householdId);
+        if (!found) { countRejoinTry(address); return json(res, 404, { error: 'No family in this class is waiting for that name.' }); }
+        clearRejoinTries(address);
+        const [previousHash, client] = found;
+        // The same refusal the key path gives, and for the same reason: a family being played is not a family that got
+        // locked out, and this must never take one out from under the student holding it.
+        if (streaming().has(client.householdId)) return json(res, 409, { error: 'Someone is already playing that family. If that is you on another device, close it there first.' });
+        const credential = token();
+        commit(s => {
+          const record = s.clients[previousHash];
+          delete s.clients[previousHash];
+          s.clients[hash(credential)] = record;
+          // The teacher is told, on the class's own public record, because the one thing this design trades away is
+          // that a classmate could pick up an away family, and the answer to that is that it is never quiet.
+          tellClass(s.world, `${client.name} came back to the class on another device.`);
+        });
         res.setHeader('Set-Cookie', setCookie(studentCookie(), credential, 604800));
         return json(res, 200, snapshot({ role: 'student', ...state.clients[hash(credential)] }));
       }

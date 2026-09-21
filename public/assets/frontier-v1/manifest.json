@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 66,
-    "sprites": 944,
-    "clips": 377,
-    "poseCycles": 183,
+    "sheets": 70,
+    "sprites": 1008,
+    "clips": 389,
+    "poseCycles": 195,
     "rigs": 4
   },
   "entrypoints": {
@@ -3537,6 +3537,130 @@
         ]
       }
     },
+    "travel-markers": {
+      "image": "atlases/travel-markers.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1343435,
+      "sha256": "3e4bef7623a2c9ba0377bdfa0b1c381a8c9db536d2d430094d2f7e10d4f06060",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.656208,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              33,
+              385
+            ],
+            "columns": [
+              [
+                40,
+                307
+              ],
+              [
+                342,
+                609
+              ],
+              [
+                644,
+                911
+              ],
+              [
+                946,
+                1214
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              416,
+              594
+            ],
+            "columns": [
+              [
+                84,
+                265
+              ],
+              [
+                387,
+                567
+              ],
+              [
+                688,
+                869
+              ],
+              [
+                991,
+                1172
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              629,
+              934
+            ],
+            "columns": [
+              [
+                69,
+                277
+              ],
+              [
+                371,
+                580
+              ],
+              [
+                673,
+                883
+              ],
+              [
+                975,
+                1184
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              956,
+              1191
+            ],
+            "columns": [
+              [
+                58,
+                290
+              ],
+              [
+                358,
+                590
+              ],
+              [
+                661,
+                893
+              ],
+              [
+                962,
+                1195
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "trees-colonies-1": {
       "image": "atlases/trees-colonies-1.png",
       "width": 1254,
@@ -3841,6 +3965,378 @@
               [
                 412,
                 762
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "wildlife-bear-javelina": {
+      "image": "atlases/wildlife-bear-javelina.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1249275,
+      "sha256": "504d579c7559c5891e8c662ad8ea292de4249df9dc803bdb62652892610ae15f",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.670267,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              124,
+              366
+            ],
+            "columns": [
+              [
+                23,
+                304
+              ],
+              [
+                348,
+                609
+              ],
+              [
+                649,
+                941
+              ],
+              [
+                971,
+                1235
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              453,
+              710
+            ],
+            "columns": [
+              [
+                35,
+                312
+              ],
+              [
+                337,
+                610
+              ],
+              [
+                619,
+                937
+              ],
+              [
+                962,
+                1242
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              793,
+              961
+            ],
+            "columns": [
+              [
+                55,
+                274
+              ],
+              [
+                360,
+                588
+              ],
+              [
+                665,
+                911
+              ],
+              [
+                994,
+                1228
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              1015,
+              1184
+            ],
+            "columns": [
+              [
+                60,
+                298
+              ],
+              [
+                357,
+                599
+              ],
+              [
+                643,
+                921
+              ],
+              [
+                977,
+                1225
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "wildlife-bison-pronghorn": {
+      "image": "atlases/wildlife-bison-pronghorn.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1471318,
+      "sha256": "2787d7af8fc5dd1fe46d97cd4866bd0964335276e0450221bee421fa46ac4bd1",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.623484,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              97,
+              328
+            ],
+            "columns": [
+              [
+                18,
+                302
+              ],
+              [
+                334,
+                615
+              ],
+              [
+                641,
+                934
+              ],
+              [
+                960,
+                1245
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              378,
+              613
+            ],
+            "columns": [
+              [
+                16,
+                311
+              ],
+              [
+                328,
+                626
+              ],
+              [
+                641,
+                942
+              ],
+              [
+                957,
+                1247
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              655,
+              913
+            ],
+            "columns": [
+              [
+                33,
+                296
+              ],
+              [
+                348,
+                611
+              ],
+              [
+                660,
+                936
+              ],
+              [
+                976,
+                1236
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              954,
+              1202
+            ],
+            "columns": [
+              [
+                32,
+                287
+              ],
+              [
+                327,
+                612
+              ],
+              [
+                623,
+                931
+              ],
+              [
+                966,
+                1239
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "wildlife-geese-cattle": {
+      "image": "atlases/wildlife-geese-cattle.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1282538,
+      "sha256": "a054249a543a264643606481cb4b259309a4ffa949db41ad20ffe648ba9be234",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.690095,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              101,
+              310
+            ],
+            "columns": [
+              [
+                18,
+                312
+              ],
+              [
+                353,
+                606
+              ],
+              [
+                643,
+                892
+              ],
+              [
+                964,
+                1239
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              358,
+              599
+            ],
+            "columns": [
+              [
+                35,
+                315
+              ],
+              [
+                328,
+                623
+              ],
+              [
+                642,
+                931
+              ],
+              [
+                989,
+                1238
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              673,
+              895
+            ],
+            "columns": [
+              [
+                37,
+                311
+              ],
+              [
+                350,
+                626
+              ],
+              [
+                646,
+                951
+              ],
+              [
+                970,
+                1239
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              955,
+              1183
+            ],
+            "columns": [
+              [
+                30,
+                312
+              ],
+              [
+                346,
+                620
+              ],
+              [
+                630,
+                949
+              ],
+              [
+                949,
+                1240
               ]
             ]
           }
@@ -22317,6 +22813,518 @@
       "locationKits": [],
       "promptId": "frontier-v1/town-buildings-researched"
     },
+    "marker-pin-rust": {
+      "sheet": "travel-markers",
+      "x": 40,
+      "y": 33,
+      "w": 267,
+      "h": 352,
+      "anchorX": 0.4963,
+      "anchorY": 0.929,
+      "label": "marker pin rust",
+      "kind": "travel-markers",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          42,
+          35,
+          263,
+          348
+        ],
+        "visiblePixels": 33954,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/travel-markers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/travel-markers"
+    },
+    "marker-pin-ink": {
+      "sheet": "travel-markers",
+      "x": 342,
+      "y": 35,
+      "w": 267,
+      "h": 350,
+      "anchorX": 0.4963,
+      "anchorY": 0.9286,
+      "label": "marker pin ink",
+      "kind": "travel-markers",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          344,
+          37,
+          263,
+          346
+        ],
+        "visiblePixels": 33668,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/travel-markers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/travel-markers"
+    },
+    "marker-pin-grey": {
+      "sheet": "travel-markers",
+      "x": 644,
+      "y": 34,
+      "w": 267,
+      "h": 351,
+      "anchorX": 0.4963,
+      "anchorY": 0.9288,
+      "label": "marker pin grey",
+      "kind": "travel-markers",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          646,
+          36,
+          263,
+          347
+        ],
+        "visiblePixels": 33891,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/travel-markers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/travel-markers"
+    },
+    "marker-pin-slate": {
+      "sheet": "travel-markers",
+      "x": 946,
+      "y": 34,
+      "w": 268,
+      "h": 351,
+      "anchorX": 0.4981,
+      "anchorY": 0.9288,
+      "label": "marker pin slate",
+      "kind": "travel-markers",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          948,
+          36,
+          264,
+          347
+        ],
+        "visiblePixels": 33990,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/travel-markers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/travel-markers"
+    },
+    "marker-dot-rust": {
+      "sheet": "travel-markers",
+      "x": 84,
+      "y": 417,
+      "w": 181,
+      "h": 177,
+      "anchorX": 0.4834,
+      "anchorY": 0.9266,
+      "label": "marker dot rust",
+      "kind": "travel-markers",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          86,
+          419,
+          177,
+          173
+        ],
+        "visiblePixels": 24146,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/travel-markers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/travel-markers"
+    },
+    "marker-dot-ink": {
+      "sheet": "travel-markers",
+      "x": 387,
+      "y": 416,
+      "w": 180,
+      "h": 178,
+      "anchorX": 0.4833,
+      "anchorY": 0.927,
+      "label": "marker dot ink",
+      "kind": "travel-markers",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          389,
+          418,
+          176,
+          174
+        ],
+        "visiblePixels": 24135,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/travel-markers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/travel-markers"
+    },
+    "marker-dot-grey": {
+      "sheet": "travel-markers",
+      "x": 688,
+      "y": 416,
+      "w": 181,
+      "h": 178,
+      "anchorX": 0.4862,
+      "anchorY": 0.927,
+      "label": "marker dot grey",
+      "kind": "travel-markers",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          690,
+          418,
+          177,
+          174
+        ],
+        "visiblePixels": 24263,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/travel-markers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/travel-markers"
+    },
+    "marker-dot-slate": {
+      "sheet": "travel-markers",
+      "x": 991,
+      "y": 416,
+      "w": 181,
+      "h": 178,
+      "anchorX": 0.4834,
+      "anchorY": 0.927,
+      "label": "marker dot slate",
+      "kind": "travel-markers",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          993,
+          418,
+          177,
+          174
+        ],
+        "visiblePixels": 24281,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/travel-markers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/travel-markers"
+    },
+    "marker-end-rust": {
+      "sheet": "travel-markers",
+      "x": 69,
+      "y": 630,
+      "w": 208,
+      "h": 304,
+      "anchorX": 0.4976,
+      "anchorY": 0.9276,
+      "label": "marker end rust",
+      "kind": "travel-markers",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          71,
+          632,
+          204,
+          300
+        ],
+        "visiblePixels": 27037,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/travel-markers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/travel-markers"
+    },
+    "marker-end-ink": {
+      "sheet": "travel-markers",
+      "x": 371,
+      "y": 630,
+      "w": 209,
+      "h": 304,
+      "anchorX": 0.4976,
+      "anchorY": 0.9276,
+      "label": "marker end ink",
+      "kind": "travel-markers",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          373,
+          632,
+          205,
+          300
+        ],
+        "visiblePixels": 27100,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/travel-markers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/travel-markers"
+    },
+    "marker-end-grey": {
+      "sheet": "travel-markers",
+      "x": 673,
+      "y": 630,
+      "w": 210,
+      "h": 304,
+      "anchorX": 0.4952,
+      "anchorY": 0.9276,
+      "label": "marker end grey",
+      "kind": "travel-markers",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          675,
+          632,
+          206,
+          300
+        ],
+        "visiblePixels": 27244,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/travel-markers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/travel-markers"
+    },
+    "marker-end-slate": {
+      "sheet": "travel-markers",
+      "x": 975,
+      "y": 629,
+      "w": 209,
+      "h": 305,
+      "anchorX": 0.4976,
+      "anchorY": 0.9279,
+      "label": "marker end slate",
+      "kind": "travel-markers",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          977,
+          631,
+          205,
+          301
+        ],
+        "visiblePixels": 27163,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/travel-markers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/travel-markers"
+    },
+    "marker-hoof-rust": {
+      "sheet": "travel-markers",
+      "x": 58,
+      "y": 957,
+      "w": 232,
+      "h": 233,
+      "anchorX": 0.4914,
+      "anchorY": 0.927,
+      "label": "marker hoof rust",
+      "kind": "travel-markers",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          60,
+          959,
+          228,
+          229
+        ],
+        "visiblePixels": 40901,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/travel-markers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/travel-markers"
+    },
+    "marker-hoof-ink": {
+      "sheet": "travel-markers",
+      "x": 358,
+      "y": 956,
+      "w": 232,
+      "h": 234,
+      "anchorX": 0.4957,
+      "anchorY": 0.9274,
+      "label": "marker hoof ink",
+      "kind": "travel-markers",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          360,
+          958,
+          228,
+          230
+        ],
+        "visiblePixels": 41140,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/travel-markers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/travel-markers"
+    },
+    "marker-hoof-grey": {
+      "sheet": "travel-markers",
+      "x": 661,
+      "y": 957,
+      "w": 232,
+      "h": 233,
+      "anchorX": 0.4957,
+      "anchorY": 0.927,
+      "label": "marker hoof grey",
+      "kind": "travel-markers",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          663,
+          959,
+          228,
+          229
+        ],
+        "visiblePixels": 40857,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/travel-markers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/travel-markers"
+    },
+    "marker-hoof-slate": {
+      "sheet": "travel-markers",
+      "x": 962,
+      "y": 957,
+      "w": 233,
+      "h": 234,
+      "anchorX": 0.4936,
+      "anchorY": 0.9274,
+      "label": "marker hoof slate",
+      "kind": "travel-markers",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          964,
+          959,
+          229,
+          230
+        ],
+        "visiblePixels": 41278,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/travel-markers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/travel-markers"
+    },
     "pine-loblolly-pole": {
       "sheet": "trees-colonies-1",
       "x": 102,
@@ -23562,6 +24570,1638 @@
       ],
       "locationKits": [],
       "promptId": "frontier-v1/weather-norther"
+    },
+    "bear-forage-1": {
+      "sheet": "wildlife-bear-javelina",
+      "x": 23,
+      "y": 163,
+      "w": 281,
+      "h": 203,
+      "anchorX": 0.6121,
+      "anchorY": 0.9261,
+      "label": "bear forage 1",
+      "kind": "wildlife-bear-javelina",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          25,
+          165,
+          277,
+          199
+        ],
+        "visiblePixels": 38406,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-bear-javelina.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "bear-forage"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-bear-javelina"
+    },
+    "bear-forage-2": {
+      "sheet": "wildlife-bear-javelina",
+      "x": 348,
+      "y": 162,
+      "w": 261,
+      "h": 201,
+      "anchorX": 0.5556,
+      "anchorY": 0.9303,
+      "label": "bear forage 2",
+      "kind": "wildlife-bear-javelina",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          350,
+          164,
+          257,
+          197
+        ],
+        "visiblePixels": 36207,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-bear-javelina.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "bear-forage"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-bear-javelina"
+    },
+    "bear-forage-3": {
+      "sheet": "wildlife-bear-javelina",
+      "x": 649,
+      "y": 169,
+      "w": 292,
+      "h": 190,
+      "anchorX": 0.3887,
+      "anchorY": 0.9263,
+      "label": "bear forage 3",
+      "kind": "wildlife-bear-javelina",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          651,
+          171,
+          288,
+          186
+        ],
+        "visiblePixels": 34781,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-bear-javelina.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "bear-forage"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-bear-javelina"
+    },
+    "bear-forage-4": {
+      "sheet": "wildlife-bear-javelina",
+      "x": 971,
+      "y": 124,
+      "w": 264,
+      "h": 240,
+      "anchorX": 0.4167,
+      "anchorY": 0.9333,
+      "label": "bear forage 4",
+      "kind": "wildlife-bear-javelina",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          973,
+          126,
+          260,
+          236
+        ],
+        "visiblePixels": 36492,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-bear-javelina.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "bear-forage"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-bear-javelina"
+    },
+    "bear-alert-bound-1": {
+      "sheet": "wildlife-bear-javelina",
+      "x": 35,
+      "y": 453,
+      "w": 277,
+      "h": 255,
+      "anchorX": 0.4007,
+      "anchorY": 0.9294,
+      "label": "bear alert bound 1",
+      "kind": "wildlife-bear-javelina",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          37,
+          455,
+          273,
+          251
+        ],
+        "visiblePixels": 39749,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-bear-javelina.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "bear-alert-bound"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-bear-javelina"
+    },
+    "bear-alert-bound-2": {
+      "sheet": "wildlife-bear-javelina",
+      "x": 337,
+      "y": 510,
+      "w": 273,
+      "h": 193,
+      "anchorX": 0.3645,
+      "anchorY": 0.9275,
+      "label": "bear alert bound 2",
+      "kind": "wildlife-bear-javelina",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          339,
+          512,
+          269,
+          189
+        ],
+        "visiblePixels": 30965,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-bear-javelina.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "bear-alert-bound"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-bear-javelina"
+    },
+    "bear-alert-bound-3": {
+      "sheet": "wildlife-bear-javelina",
+      "x": 619,
+      "y": 503,
+      "w": 318,
+      "h": 176,
+      "anchorX": 0.4654,
+      "anchorY": 0.9261,
+      "label": "bear alert bound 3",
+      "kind": "wildlife-bear-javelina",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          621,
+          505,
+          314,
+          172
+        ],
+        "visiblePixels": 30857,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-bear-javelina.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "bear-alert-bound"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-bear-javelina"
+    },
+    "bear-alert-bound-4": {
+      "sheet": "wildlife-bear-javelina",
+      "x": 962,
+      "y": 516,
+      "w": 280,
+      "h": 194,
+      "anchorX": 0.3589,
+      "anchorY": 0.9278,
+      "label": "bear alert bound 4",
+      "kind": "wildlife-bear-javelina",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          964,
+          518,
+          276,
+          190
+        ],
+        "visiblePixels": 33097,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-bear-javelina.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "bear-alert-bound"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-bear-javelina"
+    },
+    "javelina-forage-1": {
+      "sheet": "wildlife-bear-javelina",
+      "x": 55,
+      "y": 811,
+      "w": 219,
+      "h": 146,
+      "anchorX": 0.5114,
+      "anchorY": 0.9247,
+      "label": "javelina forage 1",
+      "kind": "wildlife-bear-javelina",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          57,
+          813,
+          215,
+          142
+        ],
+        "visiblePixels": 21255,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-bear-javelina.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "javelina-forage"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-bear-javelina"
+    },
+    "javelina-forage-2": {
+      "sheet": "wildlife-bear-javelina",
+      "x": 360,
+      "y": 813,
+      "w": 228,
+      "h": 144,
+      "anchorX": 0.4868,
+      "anchorY": 0.9236,
+      "label": "javelina forage 2",
+      "kind": "wildlife-bear-javelina",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          362,
+          815,
+          224,
+          140
+        ],
+        "visiblePixels": 21629,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-bear-javelina.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "javelina-forage"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-bear-javelina"
+    },
+    "javelina-forage-3": {
+      "sheet": "wildlife-bear-javelina",
+      "x": 665,
+      "y": 812,
+      "w": 246,
+      "h": 145,
+      "anchorX": 0.3455,
+      "anchorY": 0.9379,
+      "label": "javelina forage 3",
+      "kind": "wildlife-bear-javelina",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          667,
+          814,
+          242,
+          141
+        ],
+        "visiblePixels": 21707,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-bear-javelina.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "javelina-forage"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-bear-javelina"
+    },
+    "javelina-forage-4": {
+      "sheet": "wildlife-bear-javelina",
+      "x": 994,
+      "y": 793,
+      "w": 234,
+      "h": 168,
+      "anchorX": 0.3654,
+      "anchorY": 0.9286,
+      "label": "javelina forage 4",
+      "kind": "wildlife-bear-javelina",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          996,
+          795,
+          230,
+          164
+        ],
+        "visiblePixels": 21551,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-bear-javelina.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "javelina-forage"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-bear-javelina"
+    },
+    "javelina-alert-run-1": {
+      "sheet": "wildlife-bear-javelina",
+      "x": 60,
+      "y": 1015,
+      "w": 238,
+      "h": 169,
+      "anchorX": 0.3277,
+      "anchorY": 0.929,
+      "label": "javelina alert run 1",
+      "kind": "wildlife-bear-javelina",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          62,
+          1017,
+          234,
+          165
+        ],
+        "visiblePixels": 21474,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-bear-javelina.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "javelina-alert-run"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-bear-javelina"
+    },
+    "javelina-alert-run-2": {
+      "sheet": "wildlife-bear-javelina",
+      "x": 357,
+      "y": 1032,
+      "w": 242,
+      "h": 148,
+      "anchorX": 0.2397,
+      "anchorY": 0.9257,
+      "label": "javelina alert run 2",
+      "kind": "wildlife-bear-javelina",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          359,
+          1034,
+          238,
+          144
+        ],
+        "visiblePixels": 19115,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-bear-javelina.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "javelina-alert-run"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-bear-javelina"
+    },
+    "javelina-alert-run-3": {
+      "sheet": "wildlife-bear-javelina",
+      "x": 643,
+      "y": 1026,
+      "w": 278,
+      "h": 145,
+      "anchorX": 0.0827,
+      "anchorY": 0.9241,
+      "label": "javelina alert run 3",
+      "kind": "wildlife-bear-javelina",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          645,
+          1028,
+          274,
+          141
+        ],
+        "visiblePixels": 19577,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-bear-javelina.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "javelina-alert-run"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-bear-javelina"
+    },
+    "javelina-alert-run-4": {
+      "sheet": "wildlife-bear-javelina",
+      "x": 977,
+      "y": 1031,
+      "w": 248,
+      "h": 153,
+      "anchorX": 0.4073,
+      "anchorY": 0.9281,
+      "label": "javelina alert run 4",
+      "kind": "wildlife-bear-javelina",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          979,
+          1033,
+          244,
+          149
+        ],
+        "visiblePixels": 21075,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-bear-javelina.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "javelina-alert-run"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-bear-javelina"
+    },
+    "bison-idle-1": {
+      "sheet": "wildlife-bison-pronghorn",
+      "x": 18,
+      "y": 113,
+      "w": 284,
+      "h": 215,
+      "anchorX": 0.4842,
+      "anchorY": 0.9256,
+      "label": "bison idle 1",
+      "kind": "wildlife-bison-pronghorn",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          20,
+          115,
+          280,
+          211
+        ],
+        "visiblePixels": 40538,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-bison-pronghorn.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "bison-idle"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-bison-pronghorn"
+    },
+    "bison-idle-2": {
+      "sheet": "wildlife-bison-pronghorn",
+      "x": 334,
+      "y": 116,
+      "w": 281,
+      "h": 212,
+      "anchorX": 0.4822,
+      "anchorY": 0.9292,
+      "label": "bison idle 2",
+      "kind": "wildlife-bison-pronghorn",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          336,
+          118,
+          277,
+          208
+        ],
+        "visiblePixels": 39344,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-bison-pronghorn.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "bison-idle"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-bison-pronghorn"
+    },
+    "bison-idle-3": {
+      "sheet": "wildlife-bison-pronghorn",
+      "x": 641,
+      "y": 110,
+      "w": 293,
+      "h": 218,
+      "anchorX": 0.4522,
+      "anchorY": 0.9266,
+      "label": "bison idle 3",
+      "kind": "wildlife-bison-pronghorn",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          643,
+          112,
+          289,
+          214
+        ],
+        "visiblePixels": 40559,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-bison-pronghorn.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "bison-idle"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-bison-pronghorn"
+    },
+    "bison-idle-4": {
+      "sheet": "wildlife-bison-pronghorn",
+      "x": 960,
+      "y": 97,
+      "w": 285,
+      "h": 231,
+      "anchorX": 0.3649,
+      "anchorY": 0.9481,
+      "label": "bison idle 4",
+      "kind": "wildlife-bison-pronghorn",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          962,
+          99,
+          281,
+          227
+        ],
+        "visiblePixels": 40057,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-bison-pronghorn.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "bison-idle"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-bison-pronghorn"
+    },
+    "bison-run-1": {
+      "sheet": "wildlife-bison-pronghorn",
+      "x": 16,
+      "y": 378,
+      "w": 295,
+      "h": 235,
+      "anchorX": 0.3627,
+      "anchorY": 0.9532,
+      "label": "bison run 1",
+      "kind": "wildlife-bison-pronghorn",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          18,
+          380,
+          291,
+          231
+        ],
+        "visiblePixels": 41178,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-bison-pronghorn.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "bison-run"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-bison-pronghorn"
+    },
+    "bison-run-2": {
+      "sheet": "wildlife-bison-pronghorn",
+      "x": 328,
+      "y": 381,
+      "w": 298,
+      "h": 231,
+      "anchorX": 0.1728,
+      "anchorY": 0.9524,
+      "label": "bison run 2",
+      "kind": "wildlife-bison-pronghorn",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          330,
+          383,
+          294,
+          227
+        ],
+        "visiblePixels": 38948,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-bison-pronghorn.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "bison-run"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-bison-pronghorn"
+    },
+    "bison-run-3": {
+      "sheet": "wildlife-bison-pronghorn",
+      "x": 641,
+      "y": 385,
+      "w": 301,
+      "h": 225,
+      "anchorX": 0.4419,
+      "anchorY": 0.9289,
+      "label": "bison run 3",
+      "kind": "wildlife-bison-pronghorn",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          643,
+          387,
+          297,
+          221
+        ],
+        "visiblePixels": 39210,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-bison-pronghorn.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "bison-run"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-bison-pronghorn"
+    },
+    "bison-run-4": {
+      "sheet": "wildlife-bison-pronghorn",
+      "x": 957,
+      "y": 396,
+      "w": 290,
+      "h": 217,
+      "anchorX": 0.4724,
+      "anchorY": 0.9309,
+      "label": "bison run 4",
+      "kind": "wildlife-bison-pronghorn",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          959,
+          398,
+          286,
+          213
+        ],
+        "visiblePixels": 36087,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-bison-pronghorn.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "bison-run"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-bison-pronghorn"
+    },
+    "pronghorn-idle-1": {
+      "sheet": "wildlife-bison-pronghorn",
+      "x": 33,
+      "y": 734,
+      "w": 263,
+      "h": 178,
+      "anchorX": 0.4639,
+      "anchorY": 0.927,
+      "label": "pronghorn idle 1",
+      "kind": "wildlife-bison-pronghorn",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          35,
+          736,
+          259,
+          174
+        ],
+        "visiblePixels": 24659,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-bison-pronghorn.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "pronghorn-idle"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-bison-pronghorn"
+    },
+    "pronghorn-idle-2": {
+      "sheet": "wildlife-bison-pronghorn",
+      "x": 348,
+      "y": 734,
+      "w": 263,
+      "h": 179,
+      "anchorX": 0.4601,
+      "anchorY": 0.9274,
+      "label": "pronghorn idle 2",
+      "kind": "wildlife-bison-pronghorn",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          350,
+          736,
+          259,
+          175
+        ],
+        "visiblePixels": 24847,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-bison-pronghorn.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "pronghorn-idle"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-bison-pronghorn"
+    },
+    "pronghorn-idle-3": {
+      "sheet": "wildlife-bison-pronghorn",
+      "x": 660,
+      "y": 733,
+      "w": 276,
+      "h": 179,
+      "anchorX": 0.3225,
+      "anchorY": 0.933,
+      "label": "pronghorn idle 3",
+      "kind": "wildlife-bison-pronghorn",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          662,
+          735,
+          272,
+          175
+        ],
+        "visiblePixels": 24480,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-bison-pronghorn.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "pronghorn-idle"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-bison-pronghorn"
+    },
+    "pronghorn-idle-4": {
+      "sheet": "wildlife-bison-pronghorn",
+      "x": 976,
+      "y": 655,
+      "w": 260,
+      "h": 258,
+      "anchorX": 0.3673,
+      "anchorY": 0.9574,
+      "label": "pronghorn idle 4",
+      "kind": "wildlife-bison-pronghorn",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          978,
+          657,
+          256,
+          254
+        ],
+        "visiblePixels": 25250,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-bison-pronghorn.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "pronghorn-idle"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-bison-pronghorn"
+    },
+    "pronghorn-bound-1": {
+      "sheet": "wildlife-bison-pronghorn",
+      "x": 32,
+      "y": 954,
+      "w": 255,
+      "h": 248,
+      "anchorX": 0.3451,
+      "anchorY": 0.9355,
+      "label": "pronghorn bound 1",
+      "kind": "wildlife-bison-pronghorn",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          34,
+          956,
+          251,
+          244
+        ],
+        "visiblePixels": 23768,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-bison-pronghorn.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "pronghorn-bound"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-bison-pronghorn"
+    },
+    "pronghorn-bound-2": {
+      "sheet": "wildlife-bison-pronghorn",
+      "x": 327,
+      "y": 966,
+      "w": 285,
+      "h": 227,
+      "anchorX": 0.0842,
+      "anchorY": 0.9295,
+      "label": "pronghorn bound 2",
+      "kind": "wildlife-bison-pronghorn",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          329,
+          968,
+          281,
+          223
+        ],
+        "visiblePixels": 23021,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-bison-pronghorn.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "pronghorn-bound"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-bison-pronghorn"
+    },
+    "pronghorn-bound-3": {
+      "sheet": "wildlife-bison-pronghorn",
+      "x": 623,
+      "y": 956,
+      "w": 308,
+      "h": 222,
+      "anchorX": 0.4286,
+      "anchorY": 0.9279,
+      "label": "pronghorn bound 3",
+      "kind": "wildlife-bison-pronghorn",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          625,
+          958,
+          304,
+          218
+        ],
+        "visiblePixels": 23318,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-bison-pronghorn.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "pronghorn-bound"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-bison-pronghorn"
+    },
+    "pronghorn-bound-4": {
+      "sheet": "wildlife-bison-pronghorn",
+      "x": 966,
+      "y": 961,
+      "w": 273,
+      "h": 239,
+      "anchorX": 0.3883,
+      "anchorY": 0.954,
+      "label": "pronghorn bound 4",
+      "kind": "wildlife-bison-pronghorn",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          968,
+          963,
+          269,
+          235
+        ],
+        "visiblePixels": 24248,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-bison-pronghorn.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "pronghorn-bound"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-bison-pronghorn"
+    },
+    "geese-rest-1": {
+      "sheet": "wildlife-geese-cattle",
+      "x": 18,
+      "y": 137,
+      "w": 294,
+      "h": 165,
+      "anchorX": 0.25,
+      "anchorY": 0.9394,
+      "label": "geese rest 1",
+      "kind": "wildlife-geese-cattle",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          20,
+          139,
+          290,
+          161
+        ],
+        "visiblePixels": 20281,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-geese-cattle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "geese-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-geese-cattle"
+    },
+    "geese-rest-2": {
+      "sheet": "wildlife-geese-cattle",
+      "x": 353,
+      "y": 166,
+      "w": 253,
+      "h": 144,
+      "anchorX": 0.6186,
+      "anchorY": 0.9236,
+      "label": "geese rest 2",
+      "kind": "wildlife-geese-cattle",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          355,
+          168,
+          249,
+          140
+        ],
+        "visiblePixels": 19249,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-geese-cattle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "geese-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-geese-cattle"
+    },
+    "geese-rest-3": {
+      "sheet": "wildlife-geese-cattle",
+      "x": 643,
+      "y": 101,
+      "w": 249,
+      "h": 203,
+      "anchorX": 0.7008,
+      "anchorY": 0.9507,
+      "label": "geese rest 3",
+      "kind": "wildlife-geese-cattle",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          645,
+          103,
+          245,
+          199
+        ],
+        "visiblePixels": 18287,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-geese-cattle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "geese-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-geese-cattle"
+    },
+    "geese-rest-4": {
+      "sheet": "wildlife-geese-cattle",
+      "x": 964,
+      "y": 144,
+      "w": 275,
+      "h": 159,
+      "anchorX": 0.6327,
+      "anchorY": 0.9371,
+      "label": "geese rest 4",
+      "kind": "wildlife-geese-cattle",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          966,
+          146,
+          271,
+          155
+        ],
+        "visiblePixels": 20252,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-geese-cattle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "geese-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-geese-cattle"
+    },
+    "geese-flight-1": {
+      "sheet": "wildlife-geese-cattle",
+      "x": 35,
+      "y": 358,
+      "w": 280,
+      "h": 233,
+      "anchorX": 0.5625,
+      "anchorY": 0.927,
+      "label": "geese flight 1",
+      "kind": "wildlife-geese-cattle",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          37,
+          360,
+          276,
+          229
+        ],
+        "visiblePixels": 23785,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-geese-cattle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "geese-flight"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-geese-cattle"
+    },
+    "geese-flight-2": {
+      "sheet": "wildlife-geese-cattle",
+      "x": 328,
+      "y": 406,
+      "w": 295,
+      "h": 180,
+      "anchorX": 0.5746,
+      "anchorY": 0.9278,
+      "label": "geese flight 2",
+      "kind": "wildlife-geese-cattle",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          330,
+          408,
+          291,
+          176
+        ],
+        "visiblePixels": 20412,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-geese-cattle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "geese-flight"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-geese-cattle"
+    },
+    "geese-flight-3": {
+      "sheet": "wildlife-geese-cattle",
+      "x": 642,
+      "y": 414,
+      "w": 289,
+      "h": 185,
+      "anchorX": 0.5934,
+      "anchorY": 0.9297,
+      "label": "geese flight 3",
+      "kind": "wildlife-geese-cattle",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          644,
+          416,
+          285,
+          181
+        ],
+        "visiblePixels": 20649,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-geese-cattle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "geese-flight"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-geese-cattle"
+    },
+    "geese-flight-4": {
+      "sheet": "wildlife-geese-cattle",
+      "x": 989,
+      "y": 360,
+      "w": 249,
+      "h": 239,
+      "anchorX": 0.5944,
+      "anchorY": 0.9289,
+      "label": "geese flight 4",
+      "kind": "wildlife-geese-cattle",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          991,
+          362,
+          245,
+          235
+        ],
+        "visiblePixels": 23778,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-geese-cattle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "geese-flight"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-geese-cattle"
+    },
+    "wild-cattle-graze-1": {
+      "sheet": "wildlife-geese-cattle",
+      "x": 37,
+      "y": 711,
+      "w": 274,
+      "h": 181,
+      "anchorX": 0.4544,
+      "anchorY": 0.9282,
+      "label": "wild cattle graze 1",
+      "kind": "wildlife-geese-cattle",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          39,
+          713,
+          270,
+          177
+        ],
+        "visiblePixels": 25353,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-geese-cattle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "wild-cattle-graze"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-geese-cattle"
+    },
+    "wild-cattle-graze-2": {
+      "sheet": "wildlife-geese-cattle",
+      "x": 350,
+      "y": 721,
+      "w": 276,
+      "h": 171,
+      "anchorX": 0.337,
+      "anchorY": 0.9298,
+      "label": "wild cattle graze 2",
+      "kind": "wildlife-geese-cattle",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          352,
+          723,
+          272,
+          167
+        ],
+        "visiblePixels": 24702,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-geese-cattle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "wild-cattle-graze"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-geese-cattle"
+    },
+    "wild-cattle-graze-3": {
+      "sheet": "wildlife-geese-cattle",
+      "x": 646,
+      "y": 702,
+      "w": 305,
+      "h": 193,
+      "anchorX": 0.3443,
+      "anchorY": 0.9275,
+      "label": "wild cattle graze 3",
+      "kind": "wildlife-geese-cattle",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          648,
+          704,
+          301,
+          189
+        ],
+        "visiblePixels": 26428,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-geese-cattle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "wild-cattle-graze"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-geese-cattle"
+    },
+    "wild-cattle-graze-4": {
+      "sheet": "wildlife-geese-cattle",
+      "x": 970,
+      "y": 673,
+      "w": 269,
+      "h": 222,
+      "anchorX": 0.3792,
+      "anchorY": 0.9279,
+      "label": "wild cattle graze 4",
+      "kind": "wildlife-geese-cattle",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          972,
+          675,
+          265,
+          218
+        ],
+        "visiblePixels": 25724,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-geese-cattle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "wild-cattle-graze"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-geese-cattle"
+    },
+    "wild-cattle-run-1": {
+      "sheet": "wildlife-geese-cattle",
+      "x": 30,
+      "y": 955,
+      "w": 282,
+      "h": 228,
+      "anchorX": 0.3759,
+      "anchorY": 0.9342,
+      "label": "wild cattle run 1",
+      "kind": "wildlife-geese-cattle",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          32,
+          957,
+          278,
+          224
+        ],
+        "visiblePixels": 25296,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-geese-cattle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "wild-cattle-run"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-geese-cattle"
+    },
+    "wild-cattle-run-2": {
+      "sheet": "wildlife-geese-cattle",
+      "x": 346,
+      "y": 960,
+      "w": 274,
+      "h": 222,
+      "anchorX": 0.4252,
+      "anchorY": 0.9279,
+      "label": "wild cattle run 2",
+      "kind": "wildlife-geese-cattle",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          348,
+          962,
+          270,
+          218
+        ],
+        "visiblePixels": 25420,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-geese-cattle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "wild-cattle-run"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-geese-cattle"
+    },
+    "wild-cattle-run-3": {
+      "sheet": "wildlife-geese-cattle",
+      "x": 630,
+      "y": 968,
+      "w": 319,
+      "h": 207,
+      "anchorX": 0.4514,
+      "anchorY": 0.9275,
+      "label": "wild cattle run 3",
+      "kind": "wildlife-geese-cattle",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          632,
+          970,
+          317,
+          203
+        ],
+        "visiblePixels": 24599,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-geese-cattle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "wild-cattle-run"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-geese-cattle"
+    },
+    "wild-cattle-run-4": {
+      "sheet": "wildlife-geese-cattle",
+      "x": 949,
+      "y": 957,
+      "w": 291,
+      "h": 219,
+      "anchorX": 0.3866,
+      "anchorY": 0.9269,
+      "label": "wild cattle run 4",
+      "kind": "wildlife-geese-cattle",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          950,
+          959,
+          288,
+          215
+        ],
+        "visiblePixels": 22622,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-geese-cattle.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "wild-cattle-run"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-geese-cattle"
     },
     "turkey-forage-1": {
       "sheet": "wildlife-turkey",
@@ -43076,6 +45716,294 @@
       "motion": "drift",
       "direction": "not applicable"
     },
+    "bear-forage": {
+      "frames": [
+        {
+          "sprite": "bear-forage-1",
+          "duration": 520
+        },
+        {
+          "sprite": "bear-forage-2",
+          "duration": 520
+        },
+        {
+          "sprite": "bear-forage-3",
+          "duration": 520
+        },
+        {
+          "sprite": "bear-forage-4",
+          "duration": 520
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "bear-alert-bound": {
+      "frames": [
+        {
+          "sprite": "bear-alert-bound-1",
+          "duration": 230
+        },
+        {
+          "sprite": "bear-alert-bound-2",
+          "duration": 230
+        },
+        {
+          "sprite": "bear-alert-bound-3",
+          "duration": 230
+        },
+        {
+          "sprite": "bear-alert-bound-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "javelina-forage": {
+      "frames": [
+        {
+          "sprite": "javelina-forage-1",
+          "duration": 480
+        },
+        {
+          "sprite": "javelina-forage-2",
+          "duration": 480
+        },
+        {
+          "sprite": "javelina-forage-3",
+          "duration": 480
+        },
+        {
+          "sprite": "javelina-forage-4",
+          "duration": 480
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "javelina-alert-run": {
+      "frames": [
+        {
+          "sprite": "javelina-alert-run-1",
+          "duration": 170
+        },
+        {
+          "sprite": "javelina-alert-run-2",
+          "duration": 170
+        },
+        {
+          "sprite": "javelina-alert-run-3",
+          "duration": 170
+        },
+        {
+          "sprite": "javelina-alert-run-4",
+          "duration": 170
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "bison-idle": {
+      "frames": [
+        {
+          "sprite": "bison-idle-1",
+          "duration": 720
+        },
+        {
+          "sprite": "bison-idle-2",
+          "duration": 720
+        },
+        {
+          "sprite": "bison-idle-3",
+          "duration": 720
+        },
+        {
+          "sprite": "bison-idle-4",
+          "duration": 720
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "bison-run": {
+      "frames": [
+        {
+          "sprite": "bison-run-1",
+          "duration": 180
+        },
+        {
+          "sprite": "bison-run-2",
+          "duration": 180
+        },
+        {
+          "sprite": "bison-run-3",
+          "duration": 180
+        },
+        {
+          "sprite": "bison-run-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "pronghorn-idle": {
+      "frames": [
+        {
+          "sprite": "pronghorn-idle-1",
+          "duration": 680
+        },
+        {
+          "sprite": "pronghorn-idle-2",
+          "duration": 680
+        },
+        {
+          "sprite": "pronghorn-idle-3",
+          "duration": 680
+        },
+        {
+          "sprite": "pronghorn-idle-4",
+          "duration": 680
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "pronghorn-bound": {
+      "frames": [
+        {
+          "sprite": "pronghorn-bound-1",
+          "duration": 165
+        },
+        {
+          "sprite": "pronghorn-bound-2",
+          "duration": 165
+        },
+        {
+          "sprite": "pronghorn-bound-3",
+          "duration": 165
+        },
+        {
+          "sprite": "pronghorn-bound-4",
+          "duration": 165
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "geese-rest": {
+      "frames": [
+        {
+          "sprite": "geese-rest-1",
+          "duration": 560
+        },
+        {
+          "sprite": "geese-rest-2",
+          "duration": 560
+        },
+        {
+          "sprite": "geese-rest-3",
+          "duration": 560
+        },
+        {
+          "sprite": "geese-rest-4",
+          "duration": 560
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east-oriented flock; state cycle, no translation"
+    },
+    "geese-flight": {
+      "frames": [
+        {
+          "sprite": "geese-flight-1",
+          "duration": 180
+        },
+        {
+          "sprite": "geese-flight-2",
+          "duration": 180
+        },
+        {
+          "sprite": "geese-flight-3",
+          "duration": 180
+        },
+        {
+          "sprite": "geese-flight-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "wild-cattle-graze": {
+      "frames": [
+        {
+          "sprite": "wild-cattle-graze-1",
+          "duration": 680
+        },
+        {
+          "sprite": "wild-cattle-graze-2",
+          "duration": 680
+        },
+        {
+          "sprite": "wild-cattle-graze-3",
+          "duration": 680
+        },
+        {
+          "sprite": "wild-cattle-graze-4",
+          "duration": 680
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "wild-cattle-run": {
+      "frames": [
+        {
+          "sprite": "wild-cattle-run-1",
+          "duration": 190
+        },
+        {
+          "sprite": "wild-cattle-run-2",
+          "duration": 190
+        },
+        {
+          "sprite": "wild-cattle-run-3",
+          "duration": 190
+        },
+        {
+          "sprite": "wild-cattle-run-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "turkey-forage": {
       "frames": [
         {
@@ -51468,7 +54396,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 66,
+    "sourceCount": 70,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

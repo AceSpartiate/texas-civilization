@@ -259,3 +259,103 @@ test('a teacher can look up one family key, and a student can look up none', asy
     assert.equal(recovered.body.world.householdId, 'hh-4');
   } finally { await dispose(); }
 });
+
+// A class of real students ran on 2026-09-21 and one of them was disconnected and could not get back in, because
+// getting back in wanted a family key off a screen they no longer had. A school Chromebook is often a guest session
+// that keeps no cookie, and a twelve-year-old has no id, no key and no way to know either. So they read their own name
+// off a list of the families whose student is away, and tap it (`FIC-GONZ-186`).
+test('a student who knows nothing but the class code and their own name comes back to their family', async () => {
+  const { app, dispose } = classroom();
+  const call = caller(await app.listen());
+  try {
+    const code = app.state.sessionCode;
+    const families = await fiveFamilies(call, app);
+    const mine = families[2], myHousehold = mine.body.world.householdId;
+    assert.ok(myHousehold, 'the join did not say which family it was');
+
+    // Everybody is away at this moment: nobody has a stream open, which is what a class looks like a second after Start
+    // when a page is reloading. The list names each family by the name its student typed.
+    const away = await call('/api/away', { code });
+    assert.equal(away.status, 200);
+    assert.equal(away.body.families.length, 5, JSON.stringify(away.body));
+    const me = away.body.families.find(entry => entry.householdId === myHousehold);
+    assert.ok(me, 'the away list does not have my family in it');
+    assert.equal(me.name, 'Family 2', 'the list names the student rather than the family id');
+    assert.ok(me.family && typeof me.family === 'string', 'the list does not say which family that is');
+    assert.ok(!JSON.stringify(away.body).includes('familyKey'), 'the away list gave away a family key');
+
+    // The wrong class code is refused in the same words a join is, and counts against the same cooldown.
+    const wrongCode = await call('/api/away', { code: 'NOPE' });
+    assert.equal(wrongCode.status, 403);
+    assert.match(wrongCode.body.error, /class code/);
+
+    // A device that has never seen this class: no cookie, no key, no id. It taps the name.
+    const back = await call('/api/claim', { code, householdId: myHousehold });
+    assert.equal(back.status, 200, JSON.stringify(back.body));
+    assert.ok(back.cookie, 'coming back set no cookie, so the next request is a stranger again');
+    assert.equal(back.body.world.householdId, myHousehold, 'the student came back to somebody else\u2019s family');
+    // And the old device is signed out: one credential per family, as the key path has always done.
+    const old = await call('/api/state', null, mine.cookie);
+    assert.equal(old.status, 401, 'the family was left signed in on the device that lost it');
+    const now = await call('/api/state', null, back.cookie);
+    assert.equal(now.status, 200);
+    assert.equal(now.body.world.householdId, myHousehold);
+
+    // The teacher is told, on the class's own public record: this is the one thing the design trades away, and it is
+    // never quiet.
+    const said = app.state.world.events.filter(event => event.visibility === 'public' && /came back to the class/.test(event.text || ''));
+    assert.equal(said.length, 1, JSON.stringify(said));
+    assert.equal(said[0].claimId, 'FIC-GONZ-186');
+    assert.match(said[0].text, /Family 2/);
+  } finally { await dispose(); }
+});
+
+test('a family somebody is playing is not on the away list and cannot be taken from them', async () => {
+  const { app, dispose } = classroom();
+  const port = await app.listen();
+  const call = caller(port);
+  try {
+    const code = app.state.sessionCode;
+    const families = await fiveFamilies(call, app);
+    const playing = families[1], playingId = playing.body.world.householdId;
+    const stream = await openStream(port, playing.cookie);
+    try {
+      await delay(50);
+      const away = await call('/api/away', { code });
+      assert.ok(!away.body.families.some(entry => entry.householdId === playingId), 'a family being played was offered to anybody who asked');
+      // And asking for it anyway is refused in the words the key path uses.
+      const taken = await call('/api/claim', { code, householdId: playingId });
+      assert.equal(taken.status, 409, JSON.stringify(taken.body));
+      assert.match(taken.body.error, /already playing that family/);
+      // The student holding it is untouched.
+      const still = await call('/api/state', null, playing.cookie);
+      assert.equal(still.status, 200, 'the student playing was signed out by somebody else asking');
+    } finally { await stream.close(); }
+  } finally { await dispose(); }
+});
+
+test('coming back wants the class code, and working through codes shuts the door', async () => {
+  // Its own classroom, because the cooldown is per address and this test deliberately trips it.
+  const { app, dispose } = classroom();
+  const call = caller(await app.listen());
+  try {
+    const families = await fiveFamilies(call, app);
+    const wanted = families[0].body.world.householdId;
+    // Claiming wants the code as much as the list does: knowing a household id is not knowing the class.
+    const noCode = await call('/api/claim', { code: 'NOPE', householdId: wanted });
+    assert.equal(noCode.status, 403, JSON.stringify(noCode.body));
+    assert.match(noCode.body.error, /class code/);
+    // And a run of wrong codes costs what a run of guessed keys costs: the door shuts, so the class's names cannot be
+    // scraped by working through codes.
+    let shut = null;
+    for (let tries = 0; tries < 6 && !shut; tries++) {
+      const again = await call('/api/away', { code: 'NOPE' });
+      if (again.status === 429) shut = again;
+    }
+    assert.ok(shut, 'a wrong class code can be tried for ever');
+    assert.match(shut.body.error, /Too many tries/);
+    // Shut for everything that door guards, the right code included, until it reopens.
+    const rightCode = await call('/api/away', { code: app.state.sessionCode });
+    assert.equal(rightCode.status, 429, 'the cooldown let the next try through');
+  } finally { await dispose(); }
+});

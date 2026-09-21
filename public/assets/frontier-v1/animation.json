@@ -3050,6 +3050,294 @@
       "motion": "drift",
       "direction": "not applicable"
     },
+    "bear-forage": {
+      "frames": [
+        {
+          "sprite": "bear-forage-1",
+          "duration": 520
+        },
+        {
+          "sprite": "bear-forage-2",
+          "duration": 520
+        },
+        {
+          "sprite": "bear-forage-3",
+          "duration": 520
+        },
+        {
+          "sprite": "bear-forage-4",
+          "duration": 520
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "bear-alert-bound": {
+      "frames": [
+        {
+          "sprite": "bear-alert-bound-1",
+          "duration": 230
+        },
+        {
+          "sprite": "bear-alert-bound-2",
+          "duration": 230
+        },
+        {
+          "sprite": "bear-alert-bound-3",
+          "duration": 230
+        },
+        {
+          "sprite": "bear-alert-bound-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "javelina-forage": {
+      "frames": [
+        {
+          "sprite": "javelina-forage-1",
+          "duration": 480
+        },
+        {
+          "sprite": "javelina-forage-2",
+          "duration": 480
+        },
+        {
+          "sprite": "javelina-forage-3",
+          "duration": 480
+        },
+        {
+          "sprite": "javelina-forage-4",
+          "duration": 480
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "javelina-alert-run": {
+      "frames": [
+        {
+          "sprite": "javelina-alert-run-1",
+          "duration": 170
+        },
+        {
+          "sprite": "javelina-alert-run-2",
+          "duration": 170
+        },
+        {
+          "sprite": "javelina-alert-run-3",
+          "duration": 170
+        },
+        {
+          "sprite": "javelina-alert-run-4",
+          "duration": 170
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "bison-idle": {
+      "frames": [
+        {
+          "sprite": "bison-idle-1",
+          "duration": 720
+        },
+        {
+          "sprite": "bison-idle-2",
+          "duration": 720
+        },
+        {
+          "sprite": "bison-idle-3",
+          "duration": 720
+        },
+        {
+          "sprite": "bison-idle-4",
+          "duration": 720
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "bison-run": {
+      "frames": [
+        {
+          "sprite": "bison-run-1",
+          "duration": 180
+        },
+        {
+          "sprite": "bison-run-2",
+          "duration": 180
+        },
+        {
+          "sprite": "bison-run-3",
+          "duration": 180
+        },
+        {
+          "sprite": "bison-run-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "pronghorn-idle": {
+      "frames": [
+        {
+          "sprite": "pronghorn-idle-1",
+          "duration": 680
+        },
+        {
+          "sprite": "pronghorn-idle-2",
+          "duration": 680
+        },
+        {
+          "sprite": "pronghorn-idle-3",
+          "duration": 680
+        },
+        {
+          "sprite": "pronghorn-idle-4",
+          "duration": 680
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "pronghorn-bound": {
+      "frames": [
+        {
+          "sprite": "pronghorn-bound-1",
+          "duration": 165
+        },
+        {
+          "sprite": "pronghorn-bound-2",
+          "duration": 165
+        },
+        {
+          "sprite": "pronghorn-bound-3",
+          "duration": 165
+        },
+        {
+          "sprite": "pronghorn-bound-4",
+          "duration": 165
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "geese-rest": {
+      "frames": [
+        {
+          "sprite": "geese-rest-1",
+          "duration": 560
+        },
+        {
+          "sprite": "geese-rest-2",
+          "duration": 560
+        },
+        {
+          "sprite": "geese-rest-3",
+          "duration": 560
+        },
+        {
+          "sprite": "geese-rest-4",
+          "duration": 560
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east-oriented flock; state cycle, no translation"
+    },
+    "geese-flight": {
+      "frames": [
+        {
+          "sprite": "geese-flight-1",
+          "duration": 180
+        },
+        {
+          "sprite": "geese-flight-2",
+          "duration": 180
+        },
+        {
+          "sprite": "geese-flight-3",
+          "duration": 180
+        },
+        {
+          "sprite": "geese-flight-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "wild-cattle-graze": {
+      "frames": [
+        {
+          "sprite": "wild-cattle-graze-1",
+          "duration": 680
+        },
+        {
+          "sprite": "wild-cattle-graze-2",
+          "duration": 680
+        },
+        {
+          "sprite": "wild-cattle-graze-3",
+          "duration": 680
+        },
+        {
+          "sprite": "wild-cattle-graze-4",
+          "duration": 680
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "wild-cattle-run": {
+      "frames": [
+        {
+          "sprite": "wild-cattle-run-1",
+          "duration": 190
+        },
+        {
+          "sprite": "wild-cattle-run-2",
+          "duration": 190
+        },
+        {
+          "sprite": "wild-cattle-run-3",
+          "duration": 190
+        },
+        {
+          "sprite": "wild-cattle-run-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "turkey-forage": {
       "frames": [
         {

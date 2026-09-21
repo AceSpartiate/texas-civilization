@@ -1,5 +1,7 @@
 # Claude handoff — Astra foundation
 
+**Wildlife and travel-marker expansion, 2026-09-21:** The registered frontier library now contains **1,008 measured sprites across 70 sheets and 389 validated clips**. Three new wildlife atlases add 48 animation frames and 12 authored clips for black bear, javelina, bison, pronghorn, geese and rangy wild cattle. `travel-markers.png` adds sixteen painted marker components in the principal, family, other-household and courier colors. The wildlife request now lacks only the wild mustang. Read `docs/ART_DELIVERY_2026-09-21-BEAR-JAVELINA.md`, `docs/ART_DELIVERY_2026-09-21-WILDLIFE-BISON-PRONGHORN.md`, `docs/ART_DELIVERY_2026-09-21-WILDLIFE-GEESE-CATTLE.md`, and `docs/ART_DELIVERY_2026-09-21-TRAVEL-MARKERS.md`.
+
 **World-art expansion, 2026-09-21:** The registered frontier library now contains **944 measured sprites across 66 sheets and 377 validated clips**. New deliveries add sixteen biome/Béxar ground details, sixteen animated wild-turkey frames, sixteen researched town buildings, sixteen additional colony-tree assets, an empty/laden ferry and post, and four moored *Yellow Stone* states. Read `docs/ART_DELIVERY_2026-09-21-BIOME-GROUND-BEXAR.md`, `docs/ART_DELIVERY_2026-09-21-WILDLIFE-TURKEY.md`, `docs/ART_DELIVERY_2026-09-21-TOWN-BUILDINGS.md`, `docs/ART_DELIVERY_2026-09-21-TREES-COLONIES-2.md`, and `docs/ART_DELIVERY_2026-09-21-RIVER-TRANSPORT.md`. `docs/ART_REQUESTS.md` records the remaining gaps rather than claiming the larger biome and steamboat requests are wholly finished.
 
 **Art production update, 2026-09-21:** The frontier library now contains **873 measured sprites across 60 sheets and 351 validated clips**. This batch closes the second cast's north/south walk and conversation poses, replaces every current family-panel placeholder with 53 named action icons, and adds authored norther silhouettes for three trees, grass, and streaming smoke. Start with `docs/ART_DELIVERY_2026-09-21-CAST2-VERTICAL.md`, `docs/ART_DELIVERY_2026-09-21-CAST2-DIALOGUE.md`, `docs/ART_DELIVERY_2026-09-21-FAMILY-ACTION-ICONS.md`, and `docs/ART_DELIVERY_2026-09-21-WEATHER-NORTHER.md`. The delivery modules under `scripts/art-deliveries/` are the source of truth for cell maps, animation names, prompts, and provenance. `node scripts/register-delivered-art.mjs` followed by `npm run build:art` reproduces the generated registry.
@@ -60,6 +62,10 @@ computer. Four things came back, and they are now the project's priorities, abov
    abilities belong **bottom-middle, spaced out to maximise what can be seen**.
 4. **Characters moved too fast to follow.** The owner: "if they're moving too fast then players shouldn't be able to
    follow them until they arrive" - the fog of war answer, decided at the projection rather than on the page.
+
+**5. A student was disconnected and could not get back in**, because getting back in wanted a family key off a screen
+they no longer had. **Built the same day** (see the entry below): they pick their own name off a list of the families
+whose student is away. `FIC-GONZ-186`.
 
 Four agents were set on these on 2026-09-21, each in its own worktree, with the lesson's contract fixed between the two
 halves of it before they started (`view.lesson`, in the prompts and in docs/LESSON.md when it lands): **the art wiring**
@@ -144,6 +150,23 @@ east is the day after - and my own first draft of the seasonal test counted summ
 which is a test that checks nothing. The measured shut-day figure is corrected everywhere it appears: not "0 to 4 days of
 210" from three classes but a **median of 3 over 200 classes**, none at all in 19% of them and 16 in the worst. 800
 tests. Same computer only.
+
+**Coming back without knowing anything, 2026-09-21:** `server/app.mjs` (`/api/away`, `/api/claim`),
+`tests/rejoin.test.mjs`, `FIC-GONZ-186`. A class ran and **a student was disconnected and could not get back in**: the
+way back wanted the eight-letter family key, off a screen they no longer had. A school Chromebook is often a guest
+session that keeps no cookie, and a twelve-year-old has no id, no key and no way to know either. The owner, asked how
+it should work, chose **"pick yourself from a list"**. So: with the class code - the same door a join goes through, and
+it is on the Host's screen - a device asks for the families **whose student is away**, each named by the name that
+student typed ("Ana - the Beeson family"), and taps its own. The family moves to that device exactly as the key path
+moves it, the old device is signed out, and **the Host is told on the class's public record**: "Ana came back to the
+class on another device." What guards it: the class code; the same five-tries-then-thirty-seconds cooldown a guessed
+key meets, now shared by all three doors; and **a family somebody is playing is never listed and can never be taken** -
+the key path's own refusal, in the same words. `ceiling:` a student in the room can pick up a classmate's family while
+that classmate is away, and what stands against that is the teacher seeing it happen rather than the server refusing
+it - naming each family's own student is what makes the list usable by a child. 827 tests; 11 regressions injected, 11
+caught, and two of those were only caught after the test was made to try claiming without the code and to work through
+wrong codes until the door shut. **The student's side of it is the screen agent's**: it owns `public/`, and has been
+sent the contract.
 
 **The cold, 2026-09-21:** [WEATHER.md](docs/WEATHER.md) §10.5, `sim/scrape.mjs` `COLD_WEIGHT`, `sim/routines.mjs`
 `coldAtHome`, `tests/cold.test.mjs`, `FIC-GONZ-135`. The last unbuilt row of the weather, and the only place the record

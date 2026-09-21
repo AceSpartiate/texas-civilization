@@ -915,6 +915,58 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/wildlife-turkey.png",
       "postProcessing": "None. Generated PNG copied unchanged; only read-only atlas validation.",
       "review": "Accepted as one identity-consistent eastern wild turkey with readable forage, alert, bound, and display cycles."
+    },
+    {
+      "sheet": "travel-markers",
+      "promptId": "frontier-v1/travel-markers",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/icons-family-actions-1.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-36a352c6-9a1f-4809-8665-5e111c483df3.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/travel-markers.png",
+      "postProcessing": "None. Generated PNG copied unchanged; only read-only atlas validation.",
+      "review": "Accepted as four consistent color families with transparent portrait/ring centers and distinct pin, dot, destination and hoof silhouettes."
+    },
+    {
+      "sheet": "wildlife-bear-javelina",
+      "promptId": "frontier-v1/wildlife-bear-javelina",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate from style reference",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/wildlife-deer.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c44d-1811-75f0-9114-bbaa7beaaa36/exec-ea8178bb-cf35-491c-9d2b-e741194d2fa5.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/wildlife-bear-javelina.png",
+      "postProcessing": "None. Generated PNG copied unchanged; only read-only atlas validation.",
+      "review": "Accepted as a consistent adult black bear and a distinct, smaller collared peccary. Both species have readable calm and locomotion sequences on true alpha."
+    },
+    {
+      "sheet": "wildlife-bison-pronghorn",
+      "promptId": "frontier-v1/wildlife-bison-pronghorn",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/wildlife-deer.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c44d-440d-7482-96d4-bf5e96e8c5c2/exec-cfcf2284-a29f-4da3-b0b3-ea2f995339cc.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/wildlife-bison-pronghorn.png",
+      "postProcessing": "None. Generated PNG copied byte-for-byte; only read-only alpha and atlas-bound validation.",
+      "review": "Accepted as distinct historically plausible bison and pronghorn silhouettes with readable calm and locomotion cycles, genuine transparency, complete anatomy, and strict cell separation."
+    },
+    {
+      "sheet": "wildlife-geese-cattle",
+      "promptId": "frontier-v1/wildlife-geese-cattle",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate from style reference",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/wildlife-deer.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c44d-660e-7541-a11f-2d35bd5c40a5/exec-0e7dcf82-0423-4a79-8d8a-edd27d470c42.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/wildlife-geese-cattle.png",
+      "postProcessing": "None. Generated PNG copied unchanged; only read-only atlas validation.",
+      "review": "Accepted as compact goose flock resting and flight states plus one consistent rangy feral longhorn cow with grazing, alert and running beats."
     }
   ],
   "rejectedAttempts": [

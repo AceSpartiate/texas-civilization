@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **944 usable sprites, 66 PNG atlases, 377 clips** (183 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1008 usable sprites, 70 PNG atlases, 389 clips** (195 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -43,9 +43,13 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | home-furnishings | 16 | 1254 × 1254 | 1795581 |
 | home-interiors | 4 | 1254 × 1254 | 1850877 |
 | town-buildings-researched | 16 | 1254 × 1254 | 2122682 |
+| travel-markers | 16 | 1254 × 1254 | 1343435 |
 | trees-colonies-1 | 16 | 1254 × 1254 | 1626976 |
 | trees-colonies-2 | 16 | 1254 × 1254 | 1902468 |
 | weather-norther | 5 | 1536 × 1024 | 1669037 |
+| wildlife-bear-javelina | 16 | 1254 × 1254 | 1249275 |
+| wildlife-bison-pronghorn | 16 | 1254 × 1254 | 1471318 |
+| wildlife-geese-cattle | 16 | 1254 × 1254 | 1282538 |
 | wildlife-turkey | 16 | 1254 × 1254 | 1247109 |
 | wildlife-deer | 16 | 1254 × 1254 | 1223203 |
 | courier-encounters | 16 | 1254 × 1254 | 1697901 |
@@ -515,6 +519,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | liberty-court-room-side | town-buildings-researched | State artwork; no motion required |
 | building-frame-shop | town-buildings-researched | State artwork; no motion required |
 | building-frame-residence | town-buildings-researched | State artwork; no motion required |
+| marker-pin-rust | travel-markers | State artwork; no motion required |
+| marker-pin-ink | travel-markers | State artwork; no motion required |
+| marker-pin-grey | travel-markers | State artwork; no motion required |
+| marker-pin-slate | travel-markers | State artwork; no motion required |
+| marker-dot-rust | travel-markers | State artwork; no motion required |
+| marker-dot-ink | travel-markers | State artwork; no motion required |
+| marker-dot-grey | travel-markers | State artwork; no motion required |
+| marker-dot-slate | travel-markers | State artwork; no motion required |
+| marker-end-rust | travel-markers | State artwork; no motion required |
+| marker-end-ink | travel-markers | State artwork; no motion required |
+| marker-end-grey | travel-markers | State artwork; no motion required |
+| marker-end-slate | travel-markers | State artwork; no motion required |
+| marker-hoof-rust | travel-markers | State artwork; no motion required |
+| marker-hoof-ink | travel-markers | State artwork; no motion required |
+| marker-hoof-grey | travel-markers | State artwork; no motion required |
+| marker-hoof-slate | travel-markers | State artwork; no motion required |
 | pine-loblolly-pole | trees-colonies-1 | pine-loblolly-pole-wind |
 | pine-loblolly-log | trees-colonies-1 | pine-loblolly-log-wind |
 | pine-loblolly-large | trees-colonies-1 | pine-loblolly-large-wind |
@@ -552,6 +572,54 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | pecan-wind | weather-norther | State artwork; no motion required |
 | grass-tuft-wind | weather-norther | State artwork; no motion required |
 | smoke-streaming | weather-norther | smoke-streaming |
+| bear-forage-1 | wildlife-bear-javelina | bear-forage |
+| bear-forage-2 | wildlife-bear-javelina | bear-forage |
+| bear-forage-3 | wildlife-bear-javelina | bear-forage |
+| bear-forage-4 | wildlife-bear-javelina | bear-forage |
+| bear-alert-bound-1 | wildlife-bear-javelina | bear-alert-bound |
+| bear-alert-bound-2 | wildlife-bear-javelina | bear-alert-bound |
+| bear-alert-bound-3 | wildlife-bear-javelina | bear-alert-bound |
+| bear-alert-bound-4 | wildlife-bear-javelina | bear-alert-bound |
+| javelina-forage-1 | wildlife-bear-javelina | javelina-forage |
+| javelina-forage-2 | wildlife-bear-javelina | javelina-forage |
+| javelina-forage-3 | wildlife-bear-javelina | javelina-forage |
+| javelina-forage-4 | wildlife-bear-javelina | javelina-forage |
+| javelina-alert-run-1 | wildlife-bear-javelina | javelina-alert-run |
+| javelina-alert-run-2 | wildlife-bear-javelina | javelina-alert-run |
+| javelina-alert-run-3 | wildlife-bear-javelina | javelina-alert-run |
+| javelina-alert-run-4 | wildlife-bear-javelina | javelina-alert-run |
+| bison-idle-1 | wildlife-bison-pronghorn | bison-idle |
+| bison-idle-2 | wildlife-bison-pronghorn | bison-idle |
+| bison-idle-3 | wildlife-bison-pronghorn | bison-idle |
+| bison-idle-4 | wildlife-bison-pronghorn | bison-idle |
+| bison-run-1 | wildlife-bison-pronghorn | bison-run |
+| bison-run-2 | wildlife-bison-pronghorn | bison-run |
+| bison-run-3 | wildlife-bison-pronghorn | bison-run |
+| bison-run-4 | wildlife-bison-pronghorn | bison-run |
+| pronghorn-idle-1 | wildlife-bison-pronghorn | pronghorn-idle |
+| pronghorn-idle-2 | wildlife-bison-pronghorn | pronghorn-idle |
+| pronghorn-idle-3 | wildlife-bison-pronghorn | pronghorn-idle |
+| pronghorn-idle-4 | wildlife-bison-pronghorn | pronghorn-idle |
+| pronghorn-bound-1 | wildlife-bison-pronghorn | pronghorn-bound |
+| pronghorn-bound-2 | wildlife-bison-pronghorn | pronghorn-bound |
+| pronghorn-bound-3 | wildlife-bison-pronghorn | pronghorn-bound |
+| pronghorn-bound-4 | wildlife-bison-pronghorn | pronghorn-bound |
+| geese-rest-1 | wildlife-geese-cattle | geese-rest |
+| geese-rest-2 | wildlife-geese-cattle | geese-rest |
+| geese-rest-3 | wildlife-geese-cattle | geese-rest |
+| geese-rest-4 | wildlife-geese-cattle | geese-rest |
+| geese-flight-1 | wildlife-geese-cattle | geese-flight |
+| geese-flight-2 | wildlife-geese-cattle | geese-flight |
+| geese-flight-3 | wildlife-geese-cattle | geese-flight |
+| geese-flight-4 | wildlife-geese-cattle | geese-flight |
+| wild-cattle-graze-1 | wildlife-geese-cattle | wild-cattle-graze |
+| wild-cattle-graze-2 | wildlife-geese-cattle | wild-cattle-graze |
+| wild-cattle-graze-3 | wildlife-geese-cattle | wild-cattle-graze |
+| wild-cattle-graze-4 | wildlife-geese-cattle | wild-cattle-graze |
+| wild-cattle-run-1 | wildlife-geese-cattle | wild-cattle-run |
+| wild-cattle-run-2 | wildlife-geese-cattle | wild-cattle-run |
+| wild-cattle-run-3 | wildlife-geese-cattle | wild-cattle-run |
+| wild-cattle-run-4 | wildlife-geese-cattle | wild-cattle-run |
 | turkey-forage-1 | wildlife-turkey | turkey-forage |
 | turkey-forage-2 | wildlife-turkey | turkey-forage |
 | turkey-forage-3 | wildlife-turkey | turkey-forage |
@@ -1236,6 +1304,18 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | pecan-wind | sway | 1 | 3800 | yes | not applicable |
 | grass-tuft-wind | sway | 1 | 3800 | yes | not applicable |
 | smoke-streaming | drift | 1 | 1100 | yes | not applicable |
+| bear-forage | Pose cycle | 4 | 2080 | yes | east; west by mirroring |
+| bear-alert-bound | Pose cycle | 4 | 920 | yes | east; west by mirroring |
+| javelina-forage | Pose cycle | 4 | 1920 | yes | east; west by mirroring |
+| javelina-alert-run | Pose cycle | 4 | 680 | yes | east; west by mirroring |
+| bison-idle | Pose cycle | 4 | 2880 | yes | east; west by mirroring |
+| bison-run | Pose cycle | 4 | 720 | yes | east; west by mirroring |
+| pronghorn-idle | Pose cycle | 4 | 2720 | yes | east; west by mirroring |
+| pronghorn-bound | Pose cycle | 4 | 660 | yes | east; west by mirroring |
+| geese-rest | Pose cycle | 4 | 2240 | yes | east-oriented flock; state cycle, no translation |
+| geese-flight | Pose cycle | 4 | 720 | yes | east; west by mirroring |
+| wild-cattle-graze | Pose cycle | 4 | 2720 | yes | east; west by mirroring |
+| wild-cattle-run | Pose cycle | 4 | 760 | yes | east; west by mirroring |
 | turkey-forage | Pose cycle | 4 | 1440 | yes | east; west by mirroring |
 | turkey-alert | Pose cycle | 4 | 1440 | yes | east; west by mirroring |
 | turkey-bound | Pose cycle | 4 | 600 | yes | east; west by mirroring |

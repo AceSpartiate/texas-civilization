@@ -1,0 +1,88 @@
+{
+  "record": "comeback-injections",
+  "date": "2026-09-21",
+  "files": [
+    "tests/rejoin.test.mjs"
+  ],
+  "injections": [
+    {
+      "name": "the away list names families a student is sitting in front of, so a classmate can take one",
+      "file": "server/app.mjs",
+      "failed": [
+        "a family somebody is playing is not on the away list and cannot be taken from them"
+      ]
+    },
+    {
+      "name": "a family being played can be claimed out from under the student holding it",
+      "file": "server/app.mjs",
+      "failed": [
+        "a family somebody is playing is not on the away list and cannot be taken from them"
+      ]
+    },
+    {
+      "name": "anybody on the network may read the class's away list without the class code",
+      "file": "server/app.mjs",
+      "failed": [
+        "a student who knows nothing but the class code and their own name comes back to their family",
+        "coming back wants the class code, and working through codes shuts the door"
+      ]
+    },
+    {
+      "name": "anybody on the network may claim a family without the class code",
+      "file": "server/app.mjs",
+      "failed": [
+        "coming back wants the class code, and working through codes shuts the door"
+      ]
+    },
+    {
+      "name": "the away list hands out family keys as well as names",
+      "file": "server/app.mjs",
+      "failed": [
+        "a student who knows nothing but the class code and their own name comes back to their family"
+      ]
+    },
+    {
+      "name": "the list gives ids and not the name the student typed, which is the one thing they know",
+      "file": "server/app.mjs",
+      "failed": [
+        "a student who knows nothing but the class code and their own name comes back to their family"
+      ]
+    },
+    {
+      "name": "coming back sets no cookie, so the very next request is a stranger again",
+      "file": "server/app.mjs",
+      "failed": [
+        "a student who knows nothing but the class code and their own name comes back to their family"
+      ]
+    },
+    {
+      "name": "the old device keeps the family too, so two students hold one ledger",
+      "file": "server/app.mjs",
+      "failed": [
+        "a student who knows nothing but the class code and their own name comes back to their family"
+      ]
+    },
+    {
+      "name": "the teacher is never told that a family moved to another device",
+      "file": "server/app.mjs",
+      "failed": [
+        "a student who knows nothing but the class code and their own name comes back to their family"
+      ]
+    },
+    {
+      "name": "the teacher is told privately, where the Host page cannot see it",
+      "file": "server/app.mjs",
+      "failed": [
+        "a student who knows nothing but the class code and their own name comes back to their family"
+      ]
+    },
+    {
+      "name": "a wrong class code costs nothing, so the away list can be scraped by trying codes",
+      "file": "server/app.mjs",
+      "failed": [
+        "coming back wants the class code, and working through codes shuts the door"
+      ],
+      "expect": "may pass: these tests try a wrong code once, and the cooldown bites at five"
+    }
+  ]
+}

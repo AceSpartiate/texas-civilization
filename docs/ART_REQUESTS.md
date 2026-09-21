@@ -39,7 +39,6 @@ does not have:
 | Béxar's fields are the `fields` wash with stubble and fallow scattered on it; **the acequias are not drawn** and no brush fence stands | `fields` in `public/ground-classes.js`; the envelope in `scripts/terrain/biomes.mjs` `BEXAR_FIELDS` | Request 2026-09-19 — Béxar's fields and acequias | `acequia`, `field-irrigated`, `fence-brush`, laid by `public/bexar-layout.js` |
 | **No stand-in: words only.** Since 2026-09-19 (docs/BIOME_GAMEPLAY.md §3.1) a hunt on a class of the biomes brings the quarry its place holds - turkey, bear, buffalo, antelope, mustang, javelina, ducks and geese, a wild cow, or a deer - and says so before it goes ("Waiting here, a turkey: four food."), at the shot ("downwind of a bear") and in the record ("brought down a buffalo"). Only a deer is drawn: any other quarry is given no place to be drawn at (`chore.quarry` stays unset), because a deer drawn where the words say a bear would be a wrong picture | `quarryAt` and `GAME` in `sim/hunting.mjs`; the drawing is decided where `quarryPoint` is called in `sim/chores.mjs` | Request 2026-09-19 — the game of 1836 | `wildlife-turkey`, `-bear`, `-javelina`, `-pronghorn`, `-bison`, `-geese`, `-mustang`, `-cattle`; then `quarryPoint` gives every quarry its place and `miniDeer` picks the sheet by `quarry.kind` |
 | The panel icon for fetching logs from the timber is a canvas glyph: three logs laid across a wagon bed on two wheels, in the panel's brown | `PANEL_ICONS` (`glyph`) and `drawGlyph` in `public/family-panel.js` | Request 2026-09-19 — the logs fetched from the timber | `icon-fetch-logs` |
-| A traveller faster than a walk can be drawn is a canvas-drawn pin: a round disc with the family panel's `portrait-<figure>` clipped inside it (itself a Claude-drawn stand-in), ringed rust for the principal, ink for the family, grey for somebody else's and slate for a courier, on a short point to the ground, with the road ahead in canvas dots. A beast or wagon on the road by itself is its own standing sprite (`horse-chestnut`, `ox-brown`, `wagon-covered`) on a smaller disc; their initial while no sheet has loaded | `drawTravelMarkers` in `public/app.js`; the rule in `MARKER_ABOVE`/`wantsMarker` in `public/motion.js` | Request 2026-09-19 — the traveller's marker | `marker-pin` (the pin and its ring, portrait-less) and `marker-dot`, drawn over by the same portrait; `drawTravelMarkers` lays the sprites down instead of its strokes |
 | A tree or a tuft in a norther is the library's own upright sprite sheared about its foot, so it leans; nothing streams, and smoke is not drawn at all | `windLean` in `public/weather-art.js`, applied by `postOak` and `drawGroundDetail` in `public/app.js` and by `lean` in `public/art.js` | Request 2026-09-20 — the country in a norther | `oak-broad-wind`, `oak-spreading-wind`, `pecan-wind`, `grass-tuft-wind`, `smoke-streaming` |
 
 ## Claude-drawn stand-ins (replace with Astra's)
@@ -257,7 +256,7 @@ natural biomes of Texas (docs/BIOMES.md, built the same day).
 
 ## Request 2026-09-19 — the game of 1836
 
-**Status: partially delivered 2026-09-21.** `wildlife-turkey.png` supplies sixteen forage, alert, bound and wing-display frames for the turkey. Bear, javelina, pronghorn, bison, geese, mustang and wild cattle remain open.
+**Status: substantially delivered 2026-09-21.** The wildlife sheets now supply animated deer, turkey, bear, javelina, pronghorn, bison, geese and wild cattle. The wild mustang remains open.
 
 - **Why.** The quarry a hunt finds should be the country's (`HIST-TEX-103`, `HIST-TEX-104`): turkey in the bottoms, bear in
   the canebrakes and the thicket, javelina in the chaparral, pronghorn and bison on the western grass, waterfowl on the coast.
@@ -287,7 +286,7 @@ order is on the family panel with no icon art.
 - **Check.** At 38 CSS pixels it is told apart from `icon-fell-trees`, `icon-haul-logs` and the wagon's travel icon.
 ## Request 2026-09-19 — the traveller's marker
 
-**Status: open; stand-in in use (see *Stand-ins in use* above).** Owner, 2026-09-18, playtesting Solo: "when i sent my main
+**Status: delivered 2026-09-21.** `travel-markers.png` supplies painted rust, ink, grey-green and slate portrait pins, route dots, destination rings and hoofprints with transparent centers. Owner, 2026-09-18, playtesting Solo: "when i sent my main
 character to gonzales on foot he ran inhumanly fast". The pace is right and the clock and the figures' size stay; the owner
 chose, by multiple choice, "Marker when fast": once somebody would cross the screen faster than a walk can be drawn (more than
 1.2 of their own heights a real second, `MARKER_ABOVE` in `public/motion.js`), they are drawn as a marker moving along a
