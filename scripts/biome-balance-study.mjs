@@ -8,9 +8,12 @@
 //
 // Run: node scripts/biome-balance-study.mjs [seeds] [families] [periods] [label]
 //   → writes docs/evidence/biome-balance-<label>.json
+// A fifth argument `rolled` rolls every family before the class begins, as Start rolls every joined one (server/app.mjs),
+// so the families have the ages and children a class's families do; without it they are the founding four, who have no
+// stated ages at all.
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
-import { applyAction, stepWorld } from '../sim/world.mjs';
+import { applyAction, rollFamily, stepWorld } from '../sim/world.mjs';
 import { autoChoice } from '../sim/chores.mjs';
 import { huntingPlace } from '../sim/hunting.mjs';
 import { huntPlaces } from '../sim/neighbours.mjs';
@@ -23,6 +26,7 @@ import { holdingOf } from '../sim/grants.mjs';
 import { landAround } from '../sim/ground.mjs';
 import { patchAt, patchCover, woodsRule } from '../sim/woods.mjs';
 import * as fields from '../sim/fields.mjs';
+import { tooYoung } from '../sim/family.mjs';
 const { clearedPlots, plotsOf } = fields;
 const fenceWork = fields.fenceWork;
 
@@ -31,6 +35,7 @@ const bench = process.argv[2] === 'hunt';
 const args = bench ? process.argv.slice(3) : process.argv.slice(2);
 const seeds = Number(args[0] || 3), families = Number(args[1] || 30), periods = bench ? 1 : Number(args[2] || 1);
 const label = (bench ? args[2] : args[3]) || 'run';
+const rolled = !bench && args[4] === 'rolled';
 
 /** The country a house stands in, in three kinds: the stand's cover and whether any timber is near. */
 const OPEN = new Set(['tallgrass-prairie', 'coastal-prairie', 'salt-prairie', 'mixedgrass-prairie', 'dunes', 'fields', 'marsh', 'prairie']);
@@ -147,12 +152,15 @@ if (bench) {
 for (let s = 0; s < seeds; s++) {
   const seed = `biomes-${s}`;
   const world = createGonzalesWorld(seed, families, { map: 'colonies', neighbours: true });
+  if (rolled) for (const household of Object.values(world.households)) rollFamily(world, household);
   world.status = 'running';
   const land = landAround();
   const rule = woodsRule(world);
   const per = {};
   for (const household of Object.values(world.households)) {
-    per[household.id] = { id: household.id, seed, settlement: household.settlementId, stock: Boolean(household.stock), hungryTicks: 0, minFood: Infinity, huntTicks: 0, foodTicks: 0, foodSum: 0 };
+    // How many of its people are under ten as the class opens (sim/family.mjs `tooYoung`): the children-as-workers study, 2026-09-21.
+    const young = household.members.filter(id => tooYoung(world.entities[id])).length;
+    per[household.id] = { id: household.id, seed, settlement: household.settlementId, stock: Boolean(household.stock), young, hungryTicks: 0, minFood: Infinity, huntTicks: 0, foodTicks: 0, foodSum: 0 };
   }
   const watch = () => {
     for (const household of Object.values(world.households)) {
@@ -236,7 +244,8 @@ function summary(list) {
   };
 }
 const by = key => Object.fromEntries([...new Set(rows.map(r => r[key]))].sort().map(k => [k, summary(rows.filter(r => r[key] === k))]));
-const result = { record: 'The biome balance study: docs/BIOME_GAMEPLAY.md §5', label, date: new Date().toISOString().slice(0, 10), seeds, families, periods, all: summary(rows), byCountry: by('country'), bySettlement: by('settlement'), byStand: by('stand'), rows };
-console.log(JSON.stringify({ all: result.all, byCountry: result.byCountry, bySettlement: result.bySettlement }, null, 1));
+const withYoung = { none: summary(rows.filter(r => !r.young)), some: summary(rows.filter(r => r.young > 0)) };
+const result = { record: 'The biome balance study: docs/BIOME_GAMEPLAY.md §5', label, date: new Date().toISOString().slice(0, 10), seeds, families, periods, rolled, all: summary(rows), withYoung, byCountry: by('country'), bySettlement: by('settlement'), byStand: by('stand'), rows };
+console.log(JSON.stringify({ all: result.all, withYoung, byCountry: result.byCountry, bySettlement: result.bySettlement }, null, 1));
 mkdirSync('docs/evidence', { recursive: true });
 writeFileSync(`docs/evidence/biome-balance-${label}.json`, `${JSON.stringify(result, null, 1)}\n`);

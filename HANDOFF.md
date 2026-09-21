@@ -332,13 +332,31 @@ on the axe or the rifle**.
   `sim/furniture.mjs` — one line in `mindingBaby`. `sim/lesson.mjs` — the six ids on `ALWAYS`, because a lesson that
   refused a five-year-old their hour because the house was not raised would be refusing the one thing that family member
   is for.
-- **Found and not fixed, and it matters for balance.** `advanceRoutine` (`sim/routines.mjs`) counts **anybody** at home
-  whose `task` is `'work'` and who is not on a chore as a hand that feeds the family — **an infant included**. So a
-  family's children have always been feeding it by standing about, and setting one to their own work *stops* that for
-  as long as the work lasts, costing a hundredth or two of a food. That is the routine's rule and not the children's, it
-  predates this work, and fixing it (excluding `tooYoung` from `workers`) would take about two food a day off most
-  families in the class — a balance change nobody asked for, on the week a real class is the test. **Written down rather
-  than done**, and the test harness works around it explicitly.
+- **Suspected, measured, and not so** (corrected the same day, `FIC-GONZ-313`). This entry first said `advanceRoutine`
+  (`sim/routines.mjs`) fed every family from its under-tens standing about, and that excluding `tooYoung` from `workers`
+  would take about two food a day off most families. **Measured instead of read:** six classes of thirty families over
+  three periods, every family rolled as Start rolls a class (`node scripts/biome-balance-study.mjs 6 30 3 <label>
+  rolled`), with and without the exclusion — **identical to the tick**: median family short of food on 56.5 ticks,
+  161 of 180 ever short, median glory 31.5, no family's result different
+  ([before](docs/evidence/biome-balance-children-work-rolled-before.json),
+  [after](docs/evidence/biome-balance-children-work-rolled-after.json)). **Why:** a rolled person is founded
+  `task: adult ? 'work' : 'rest'` with `adult` at sixteen (`addPerson`, `sim/world.mjs`), a child under ten is refused
+  the `'work'` order (`sim/world.mjs`, the `tooYoung` gate), a child's work sets `'work'` only while `chore` is set (which
+  `workers` already excludes) and puts them to rest when it ends. A probe of a rolled class found all 76 under-tens at
+  rest from arrival on. **The "nine-year-old worker" was the test's own:** `aged()` in `tests/children.test.mjs` rewrites
+  the oldest child's age, and in both seeds that child was founded 16 or 17 and on `'work'`. The comment there now says
+  so; the line it guards is still needed. **The filter was not added** — it would change nothing a class can reach.
+  **Two ways a young person can still count, both left for the owner:** (1) moving the camp while somebody is mid-chore
+  clears the chore but keeps `'work'` through `settle` (`sim/homesite.mjs`, marked `ceiling:`); (2) a child of ten to
+  fifteen may be set to `'work'` and then counts a full food a day like a grown hand — a rule, not a leak, and
+  `tooYoung` would not reach it anyway.
+- **Found by the same measuring, and bigger: the balance study had never measured a family a student plays.**
+  `scripts/biome-balance-study.mjs` plays unrolled founding-four families, who have no ages. Rolled (the new fifth
+  argument `rolled`), the same six classes are far hungrier: median ticks short of food **56.5 against 4.5**, median
+  glory **31.5 against 56**, final **32.5 against 61.5**. Every earlier balance figure from that harness in this file —
+  "8.5 ticks where it was 65.5" among them — describes families nobody plays. Part of the gap may be the neighbours'
+  director, which was tuned on the founding four, so this is a lead and not a verdict; **not investigated**, and it is the
+  week a real class plays rolled families.
 - **Evidence.** `npm test` **890**, from 880. Ten new tests in `tests/children.test.mjs`, each named for a rule and not
   an event; `node scripts/children-injections.mjs`, **24 of 24 caught**,
   `docs/evidence/children-injections.json` — two of them first read as **MISSED** and both were real holes in the tests

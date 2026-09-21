@@ -58,10 +58,11 @@ function adds(seed, choreId, age) {
   for (; ticks < 80 && doing.kid.chore; ticks++) stepWorld(doing.world);
   assert.equal(doing.kid.chore ?? null, null, `${choreId} never finished`);
   const idle = build();
-  // The child stands idle rather than working: `advanceRoutine` counts anybody at home whose task is 'work' and who is not
-  // on a chore as a hand that feeds the family - a child under ten included, which is a rule of sim/routines.mjs and not of
-  // this one, and is written up in HANDOFF.md. Without this the control family is fed by a nine-year-old doing nothing, and
-  // the difference lands on the children's works as though they had cost the family its supper.
+  // The child stands idle rather than working. `aged` rewrites the family's *oldest* child to this age, and in both seeds
+  // used here that child was founded sixteen or seventeen - a grown hand, on 'work' (sim/world.mjs `addPerson`). Left so,
+  // the control family is fed by a "nine-year-old" who was founded an adult, and the difference lands on the children's
+  // works as though they had cost the family its supper. A child founded under ten starts at rest and cannot be set to
+  // work, so in a real class this line is what is true already (`FIC-GONZ-313`, measured 2026-09-21).
   idle.kid.task = 'rest';
   for (let t = 0; t < ticks; t++) stepWorld(idle.world);
   const delta = {};

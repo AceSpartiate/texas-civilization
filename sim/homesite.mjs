@@ -115,6 +115,10 @@ export function chooseSite(world, household, point) {
     if (nowhere) continue;
     if (!entity.travel && entity.location.siteId === household.homeSiteId) {
       // Whatever was in hand at the mark is left: the family is moving its camp.
+      // ceiling: the chore goes but the 'work' it set stays, and rides `settle` to the new camp, so whoever was mid-chore -
+      // a child under ten at one of their own works included - counts afterwards as a hand in `advanceRoutine` until their
+      // next order (`FIC-GONZ-313`). `abandonChore` would put them to rest instead, but that changes the move for grown
+      // hands too, which is a balance decision; do it when the owner wants the move to cost the afternoon's work.
       if (entity.chore) { entity.chore = null; }
       const settle = { x: round(x + entity.location.x - mark.x), y: round(y + entity.location.y - mark.y), ...(entity.kind === 'person' && { task: entity.task === 'travel' ? 'rest' : entity.task }) };
       const pace = paceOf(over, overGround, 'wagon');
