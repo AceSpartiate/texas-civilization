@@ -79,7 +79,9 @@ export const houstonCamp = world => [...HOUSTON_CAMPS].reverse().find(camp => wo
 export const GROCES_FROM = march(30, 12);
 export const atGroces = world => world.minute >= GROCES_FROM + campClock(world) && ['groces', 'bernardo', 'san-felipe'].includes(houstonCamp(world));
 /**
- * The steamboat *Yellow Stone*, drawn since 2026-09-21 (`steamboat-moored`, docs/ART_DELIVERY_2026-09-21-RIVER-TRANSPORT.md).
+ * The steamboat *Yellow Stone*, drawn since 2026-09-21: `steamboat-cotton-moored` at the landing and, once the army has
+ * her, `steamboat-laden` under way in the middle of the flood (docs/ART_DELIVERY_2026-09-21-RIVER-TRANSPORT.md and
+ * `-MUSTANG-YELLOW-STONE.md`).
  *
  * She is a real vessel and this is her own dated fortnight, so she is put where the record puts her and nowhere else. She
  * "came up the river for cotton under Captain John E. Ross" (the army's own word in `HOUSTON_WORD.brazos`) and lay at

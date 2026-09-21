@@ -3,6 +3,81 @@
 **Released as [v2026.09.21.5](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.21.5)** on
 2026-09-21, verified on the clean tree at `b2e184c` (869 passed).
 
+**Astra's last four deliveries of 2026-09-21, wired: what was registered and drawn by nothing, and now is.** The four
+batches that landed after the nine were measured, validated, written up — and nothing in the game placed one frame of
+them. They are in play:
+
+1. **A rider is one painted picture of a person on a horse** (`people-mounted-cast1/2-e/s/n`, 96 frames, 24 clips). All
+   eight identities — `rust`, `teal`, `elder`, `blue`, `rust-woman`, `indigo`, `ochre`, `blue-girl` — ride the chestnut
+   east (west mirrored), south and north, with legs, boots, stirrups and reins, in place of a standing figure cropped at
+   the hip and laid over a separately drawn horse. `seatedClip(entity, direction, 'horse')` returns it, `seatLayout`
+   answers with **one part and no horse under it**, and the rig is drawn at `MOUNTED_HEIGHT`, the height a rider and
+   horse have always been drawn at, so nothing about the click target, the label or the travel marker moves.
+   **Still the composite:** a child on the horse (`girl`, `boy`, `smallchild`, `infant`), whose mounted sheets are not
+   delivered — a real case, since a girl of twelve may be sent on it.
+2. **A driver is a whole seated figure with reins and a goad** (`people-wagon-drivers`, 16 frames). `rust`, `teal`,
+   `elder` and `blue` in all four headings, composited over the wagon and team the renderer still draws itself, standing
+   on the footboard and **not clipped at the hip**. `SEAT.driverHeight`/`driverHip` place it, read off the sheet by eye
+   and proved by photograph, not measured out of the pixels — marked `ceiling:`. **The second cast's driver layers are
+   not delivered and are not invented:** `rust-woman`, `indigo`, `ochre`, `blue-girl` and every child keep the stand-in,
+   and that row in `docs/ART_REQUESTS.md` is narrowed to exactly them rather than deleted.
+3. **A mustang is a picture** (`wildlife-mustang`). `DRAWN_GAME` is `['deer', 'turkey', 'mustang']`; the graze and alert
+   cycles keep the deer's contract exactly — foraging while the hunter comes, head up the moment the family is asked
+   about the shot. The bear, javelina, antelope, buffalo, geese and wild cattle are still words only, given no place to
+   stand rather than a deer's picture.
+4. **The *Yellow Stone* is under way** (`steamboat-laden`). `crossing` is the only thing the server says about her beyond
+   `cotton`, and the place it gives her is the **middle of the water** between Groce's and Bernardo — so the pose that
+   matches it is the army-laden loop under way, not a plank out at a bank. `steamboat-gangplank` (`steamboat-moored-3`)
+   was drawn there until today and is now on the written-down list with that reason: an exchange, and the honest one.
+5. **The Alamo wears five painted elevations** (`alamo-face-strips`). Plain limestone on the outer and pen walls; the
+   one-storey room front on the west range, the low barrack, the quarters, the store, the hospital, the kitchen, the
+   sacristy and the powder store; the two-storey convento end on the long barrack alone (the same 16 ft the beam-end
+   rows already read); the gate passage over the one opening the massing carries; the roofless church's own unfinished
+   wall on the shell `alamoMassing` cuts out of the nave. The palisade keeps its stakes. **Nothing of the compound
+   moved:** the footprint, the heights, the openings and the destructible north wall are asserted unchanged
+   (`tests/alamo-faces.test.mjs`). The choice is a pure module, `public/alamo-faces.js`, so it can be asked the same
+   questions the renderer asks.
+
+**What is deliberately not drawn, and why.** Thirteen frames, each on the `NOT_DRAWN` list in
+`tests/art-library.test.mjs` with its reason, and the test fails **both ways** — a listed frame quietly drawn, or a
+delivered frame drawn by nothing: the **eight mustang gallop beats** (no fleeing or missed-shot state is projected — the
+turkey's bound frames are up there for the same reason); the **four `steamboat-steam` beats** (nothing projects her
+steaming light, and a return trip invented to have something to draw is not in the record at this hour); and
+**`steamboat-moored-3`**, above.
+
+**What is measured.** `npm test` is **885, 0 fail** (879 before). Injections: **25 of 25 caught**
+(`node scripts/mounted-wiring-injections.mjs`, `docs/evidence/mounted-wiring-injections.json`). Browser:
+`npm run test:riding` photographs the painted rider and the seated driver and records the clip each was drawn from
+(`docs/evidence/riding-horse.png`, `riding-wagon.png`, `riding-browser.json`); `node scripts/alamo-style-shots.mjs faces`
+asserts all five elevations were **laid** on the compound, not merely chosen (`docs/evidence/alamo-faces.json`,
+`facesLaid`); `npm run test:art` counts the pixels each delivery paints in the catalog **against a control page with one
+atlas refused**, which reads 1,022 against 46,454 — the number means something because it goes to nothing when the
+picture is withheld.
+
+**Two things this cost, both worth keeping.** (1) A new `public/*.js` module the page imports is a **401**, because the
+server serves named routes and not a folder; the whole module graph then fails and every page is a blank join form with
+no error anywhere in `npm test`. `public/alamo-faces.js` did exactly that, and it was found twenty minutes later by a
+browser proof that could not type its own name. `tests/asset-http.test.mjs` now walks every absolute import in `public/`
+and asks the server for it. (2) `scripts/riding-browser-proof.mjs` was waiting for `__seatedDrawn` on a **running** class,
+where somebody crossing the country on horseback is a travel marker and no figure at all — the check was being made in a
+state where the fault could not appear. It holds the class while it looks, and says out loud that the figure is on the
+screen and not a marker.
+
+**Claim IDs used:** `FIC-GONZ-260` (the *Yellow Stone* carrying the army is drawn under way, amending `FIC-GONZ-200`),
+`FIC-GONZ-261` (the mustang joins the quarry the map may draw, amending `FIC-GONZ-201`) and `FIC-GONZ-262` (which painted
+elevation each part of the Alamo wears), all in `HISTORY.md`. **No `HIST-TEX-` claim was needed:** nothing here is a new
+reading of a source. The mounted family and the seated drivers make no claim at all — they are the figures this game
+already draws, doing what the server already said they were doing.
+
+**What is not proved.** The mustang and the *Yellow Stone* have **no browser proof of their own**: both are proved only
+by `npm test` and by the catalog pixels, and nobody has watched a hunt bring up a mustang or seen her on the Brazos on a
+real canvas. `npm run test:hunt` still passes and still hunts a deer; **`npm run test:armies` does not run at all** — it
+dies on the wagon-load screen intercepting a click, before it reaches anything about the boat, and it was doing that
+before this work started. The boat's drawn height is one number and each frame is normalised to it, so her hull breathes about a tenth
+as her smoke column grows — which the moored clip has always done; a `logicalHeight` for the boat sheets in
+`scripts/build-atlas-manifest.mjs` is the way out and would re-measure the accepted moored art with it. Same computer
+only throughout.
+
 **The family-creation wizard as a thing on a screen, 2026-09-21:** [FAMILY_PANEL.md §13](docs/FAMILY_PANEL.md). §12.11
 asked what was drawn over what on the screen a student plays the *game* on, and stopped at the curtain. The same question
 of the five steps in front of it — the title, the die, the last name, everybody's first names, each parent's looks — and
@@ -121,11 +196,11 @@ vanishes rather than saying it has gone); and `stockChoice.why` is unreachable t
 
 **Opening tutorial usability repair:** Read [TUTORIAL_USABILITY_HANDOFF.md](docs/TUTORIAL_USABILITY_HANDOFF.md) first for the complete change list, evidence and follow-up work. The guide now chooses actions by objective, locates the correct person's control with a named button, explains placement and waiting, opens unanswered work questions, and shows completion. Map actions retain the working bare-command path and also accept chore-prefixed aliases. This corrects the older prefix diagnosis below: actual map confirmation already sent the bare action. Full suite: **868 passed**; browser guide proof: **17 checks passed**, including phone layout. The user expressly authorized changes to earlier UI restrictions.
 
-**Mounted family cast, 2026-09-21:** The registered frontier library now contains **1,149 measured sprites across 81 sheets and 434 validated clips**. Six `people-mounted-cast*` atlases add 96 frames and 24 authored clips for all eight established identities riding the same chestnut horse east/west, south and north. Read `docs/ART_DELIVERY_2026-09-21-MOUNTED-FAMILY.md`. These full mounted sprites are ready to replace the current cropped-person-over-horse composite.
+**Mounted family cast, 2026-09-21:** The registered frontier library now contains **1,149 measured sprites across 81 sheets and 434 validated clips**. Six `people-mounted-cast*` atlases add 96 frames and 24 authored clips for all eight established identities riding the same chestnut horse east/west, south and north. Read `docs/ART_DELIVERY_2026-09-21-MOUNTED-FAMILY.md`. Wired the same day: they replaced the cropped-person-over-horse composite for all eight, which now survives only for a child on the horse.
 
-**Mustang and Yellow Stone motion, 2026-09-21:** `wildlife-mustang.png` completes the requested wildlife with sixteen graze, alert and gallop frames. `steamboat-steam.png` and `steamboat-laden.png` complete the named steamboat's empty and army-laden underway animation states. Read `docs/ART_DELIVERY_2026-09-21-MUSTANG-YELLOW-STONE.md`. All 24 frames passed isolated alpha and retention validation.
+**Mustang and Yellow Stone motion, 2026-09-21:** `wildlife-mustang.png` completes the requested wildlife with sixteen graze, alert and gallop frames. `steamboat-steam.png` and `steamboat-laden.png` complete the named steamboat's empty and army-laden underway animation states. Read `docs/ART_DELIVERY_2026-09-21-MUSTANG-YELLOW-STONE.md`. All 24 frames passed isolated alpha and retention validation. Wired the same day: the mustang grazes and is alert in a hunt, and the laden loop is the Brazos crossing; the empty-deck loop is written down as knowingly not drawn.
 
-**Alamo elevations and wagon drivers, 2026-09-21:** `alamo-face-strips.png` supplies five historically distinct south-facing compound surfaces without changing the measured footprint or destructible wall state. `people-wagon-drivers.png` supplies sixteen wagon/ox compositing layers for the original cast in four directions. Read `docs/ART_DELIVERY_2026-09-21-ALAMO-FACE-STRIPS.md` and `docs/ART_DELIVERY_2026-09-21-WAGON-DRIVERS.md`. Second-cast driver layers remain open.
+**Alamo elevations and wagon drivers, 2026-09-21:** `alamo-face-strips.png` supplies five historically distinct south-facing compound surfaces without changing the measured footprint or destructible wall state. `people-wagon-drivers.png` supplies sixteen wagon/ox compositing layers for the original cast in four directions. Read `docs/ART_DELIVERY_2026-09-21-ALAMO-FACE-STRIPS.md` and `docs/ART_DELIVERY_2026-09-21-WAGON-DRIVERS.md`. Both wired the same day; second-cast driver layers remain open and are named as the open request.
 
 **Three faults the first screenshots of the guided start showed, and one the server still has, 2026-09-21 (later the same
 day):** [FAMILY_PANEL.md](docs/FAMILY_PANEL.md) §12.8–§12.10. The two halves met on main; the screenshots of them together

@@ -1,0 +1,281 @@
+{
+  "record": "mounted-wiring-injections",
+  "date": "2026-09-21",
+  "delivery": "2026-09-21 (mounted family, wagon drivers, mustang and Yellow Stone under way, Alamo face strips)",
+  "injections": [
+    {
+      "name": "the mounted family is delivered and still not drawn, as it was the day the six sheets landed",
+      "file": "public/motion.js",
+      "tests": [
+        "tests/riding.test.mjs",
+        "tests/art-library.test.mjs"
+      ],
+      "failed": [
+        "every frame of a delivered sheet is drawn somewhere, or is written down here as knowingly not drawn"
+      ]
+    },
+    {
+      "name": "only the first cast rides its own horse, so half of a rolled family is a cropped figure over a horse again",
+      "file": "public/motion.js",
+      "tests": [
+        "tests/riding.test.mjs",
+        "tests/art-library.test.mjs"
+      ],
+      "failed": [
+        "every frame of a delivered sheet is drawn somewhere, or is written down here as knowingly not drawn"
+      ]
+    },
+    {
+      "name": "a child is given a mounted sheet nobody painted, so a girl of twelve on the horse draws nothing at all",
+      "file": "public/motion.js",
+      "tests": [
+        "tests/riding.test.mjs",
+        "tests/art-library.test.mjs"
+      ],
+      "failed": [
+        "the eight riders and the four drivers Astra painted are what is drawn, and nobody else's layer is invented"
+      ]
+    },
+    {
+      "name": "a rider going north is mirrored like an east-facing one, so they ride away backwards",
+      "file": "public/motion.js",
+      "tests": [
+        "tests/riding.test.mjs",
+        "tests/art-library.test.mjs"
+      ],
+      "failed": [
+        "the eight riders and the four drivers Astra painted are what is drawn, and nobody else's layer is invented"
+      ]
+    },
+    {
+      "name": "west asks for a west sheet, which was never painted: east is the one that is mirrored",
+      "file": "public/motion.js",
+      "tests": [
+        "tests/riding.test.mjs",
+        "tests/art-library.test.mjs"
+      ],
+      "failed": [
+        "the eight riders and the four drivers Astra painted are what is drawn, and nobody else's layer is invented"
+      ]
+    },
+    {
+      "name": "the old horse is left under the painted one, so a rider rides two horses",
+      "file": "public/motion.js",
+      "tests": [
+        "tests/riding.test.mjs",
+        "tests/art-library.test.mjs"
+      ],
+      "failed": [
+        "the eight riders and the four drivers Astra painted are what is drawn, and nobody else's layer is invented"
+      ]
+    },
+    {
+      "name": "the page asks for the person alone and puts them on the horse, so the delivered rig is drawn by nothing",
+      "file": "public/app.js",
+      "tests": [
+        "tests/riding.test.mjs",
+        "tests/art-library.test.mjs"
+      ],
+      "failed": [
+        "the page asks the seat for its own art, and gives the delivered rig its own height"
+      ]
+    },
+    {
+      "name": "the painted rig is drawn at a person's height, so the horse under the rider is a toy again",
+      "file": "public/app.js",
+      "tests": [
+        "tests/riding.test.mjs",
+        "tests/art-library.test.mjs"
+      ],
+      "failed": [
+        "the page asks the seat for its own art, and gives the delivered rig its own height"
+      ]
+    },
+    {
+      "name": "the drivers are delivered and still not drawn: a driver is a standing figure cut off at the hip again",
+      "file": "public/motion.js",
+      "tests": [
+        "tests/riding.test.mjs",
+        "tests/art-library.test.mjs"
+      ],
+      "failed": [
+        "every frame of a delivered sheet is drawn somewhere, or is written down here as knowingly not drawn"
+      ]
+    },
+    {
+      "name": "second-cast driver layers are inferred, and a woman in indigo driving draws nothing",
+      "file": "public/motion.js",
+      "tests": [
+        "tests/riding.test.mjs",
+        "tests/art-library.test.mjs"
+      ],
+      "failed": [
+        "the eight riders and the four drivers Astra painted are what is drawn, and nobody else's layer is invented"
+      ]
+    },
+    {
+      "name": "the whole seated driver is cut at the hip like the stand-in, so his boots and the goad are clipped away",
+      "file": "public/motion.js",
+      "tests": [
+        "tests/riding.test.mjs",
+        "tests/art-library.test.mjs"
+      ],
+      "failed": [
+        "the eight riders and the four drivers Astra painted are what is drawn, and nobody else's layer is invented"
+      ]
+    },
+    {
+      "name": "a driver is mirrored for west, though every heading of him is painted",
+      "file": "public/motion.js",
+      "tests": [
+        "tests/riding.test.mjs",
+        "tests/art-library.test.mjs"
+      ],
+      "failed": [
+        "every frame of a delivered sheet is drawn somewhere, or is written down here as knowingly not drawn",
+        "the eight riders and the four drivers Astra painted are what is drawn, and nobody else's layer is invented"
+      ]
+    },
+    {
+      "name": "the mustang is delivered and still not drawn, as it was the day the sheet landed",
+      "file": "sim/hunting.mjs",
+      "tests": [
+        "tests/biome-game.test.mjs",
+        "tests/art-library.test.mjs"
+      ],
+      "failed": [
+        "a hunt brings the quarry its place holds: what it gives comes home, the deer, the turkey and the mustang are drawn, and the family is told"
+      ]
+    },
+    {
+      "name": "the page has no mustang of its own, so a mustang hunt draws a deer where the words say a mustang",
+      "file": "public/app.js",
+      "tests": [
+        "tests/art-library.test.mjs"
+      ],
+      "failed": [
+        "every frame of a delivered sheet is drawn somewhere, or is written down here as knowingly not drawn"
+      ]
+    },
+    {
+      "name": "she goes back to the plank out at a bank, in the middle of the water, and the army-laden loop is drawn by nothing",
+      "file": "public/app.js",
+      "tests": [
+        "tests/art-library.test.mjs"
+      ],
+      "failed": [
+        "every frame of a delivered sheet is drawn somewhere, or is written down here as knowingly not drawn"
+      ]
+    },
+    {
+      "name": "the empty-deck loop is inferred for the cotton days, when she is lying at Groce's landing and not under way",
+      "file": "public/app.js",
+      "tests": [
+        "tests/art-library.test.mjs"
+      ],
+      "failed": [
+        "every frame of a delivered sheet is drawn somewhere, or is written down here as knowingly not drawn"
+      ]
+    },
+    {
+      "name": "every stone face goes back to the wall module cut and repeated, and the painted limestone is drawn by nothing",
+      "file": "public/alamo-faces.js",
+      "tests": [
+        "tests/alamo-faces.test.mjs",
+        "tests/art-library.test.mjs"
+      ],
+      "failed": [
+        "every frame of a delivered sheet is drawn somewhere, or is written down here as knowingly not drawn"
+      ]
+    },
+    {
+      "name": "a face is bound to a strip the library does not have",
+      "file": "public/alamo-faces.js",
+      "tests": [
+        "tests/alamo-faces.test.mjs",
+        "tests/art-library.test.mjs"
+      ],
+      "failed": [
+        "every one of the five delivered elevations is worn by something the compound actually has, and every surface wears one",
+        "every sprite the simulation names is a frame the library actually has",
+        "every frame of a delivered sheet is drawn somewhere, or is written down here as knowingly not drawn"
+      ]
+    },
+    {
+      "name": "every range is drawn one storey, so the two-storey convento end is drawn by nothing",
+      "file": "public/alamo-faces.js",
+      "tests": [
+        "tests/alamo-faces.test.mjs",
+        "tests/art-library.test.mjs"
+      ],
+      "failed": [
+        "every one of the five delivered elevations is worn by something the compound actually has, and every surface wears one"
+      ]
+    },
+    {
+      "name": "the roofless church wears the plain limestone, and its own unfinished wall is drawn by nothing",
+      "file": "public/alamo-faces.js",
+      "tests": [
+        "tests/alamo-faces.test.mjs",
+        "tests/art-library.test.mjs"
+      ],
+      "failed": [
+        "every one of the five delivered elevations is worn by something the compound actually has, and every surface wears one"
+      ]
+    },
+    {
+      "name": "the massing stops saying which runs are the church's shell, so nothing can wear the church wall",
+      "file": "public/alamo-layout.js",
+      "tests": [
+        "tests/alamo-faces.test.mjs",
+        "tests/art-library.test.mjs"
+      ],
+      "failed": [
+        "every one of the five delivered elevations is worn by something the compound actually has, and every surface wears one"
+      ]
+    },
+    {
+      "name": "the gate is a dark opening again, and the painted passage is drawn by nothing",
+      "file": "public/bexar-art.js",
+      "tests": [
+        "tests/alamo-faces.test.mjs",
+        "tests/art-library.test.mjs"
+      ],
+      "failed": [
+        "the compound renderer asks which face each part wears, and lays the gate over the opening"
+      ]
+    },
+    {
+      "name": "a roofed range is no longer asked which front it wears, so every one of them is a room range",
+      "file": "public/bexar-art.js",
+      "tests": [
+        "tests/alamo-faces.test.mjs",
+        "tests/art-library.test.mjs"
+      ],
+      "failed": [
+        "the compound renderer asks which face each part wears, and lays the gate over the opening"
+      ]
+    },
+    {
+      "name": "the new module the page imports is not served, so every page in the class is a blank join form",
+      "file": "server/app.mjs",
+      "tests": [
+        "tests/asset-http.test.mjs"
+      ],
+      "failed": [
+        "every module the page imports by an absolute path is served"
+      ]
+    },
+    {
+      "name": "what the compound actually laid stops being recorded, so the browser proof reads an empty list and passes",
+      "file": "public/bexar-art.js",
+      "tests": [
+        "tests/alamo-faces.test.mjs",
+        "tests/art-library.test.mjs"
+      ],
+      "failed": [
+        "the compound renderer asks which face each part wears, and lays the gate over the opening"
+      ]
+    }
+  ]
+}

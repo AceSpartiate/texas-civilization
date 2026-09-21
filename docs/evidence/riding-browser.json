@@ -1,17 +1,22 @@
 {
   "record": "riding-browser",
-  "date": "2026-09-19",
+  "date": "2026-09-21",
   "browser": "152.0.7977.83",
   "ownerDirection": "\"characters don't actually sit on the horse when using it. More than one character is able to use each mode of transportation even if it's already in use, that shouldn't be the case. A character should actually sit on the horse when using it. Same thing for the Ox and Wagon.\"",
   "checks": [
-    "the person sent on the horse is drawn sitting on it",
-    "their feet are up on the horse's back, not on the road (21px above the horse's hooves), and they are cut off below the waist",
+    "hh-1-thomas is drawn as a figure on the map, not as a travel marker (0.00 heights a second)",
+    "the person sent on the horse is drawn as one painted horse-and-rider (rust-ride-e)",
+    "and not as a figure cropped at the hip laid over a separate horse",
+    "the frame really painted this tick, at 89px on the canvas",
     "the horse is not drawn a second time walking beside them",
-    "drawn as themselves, not as the courier: horse-walk, rust-idle-e",
+    "and no separate horse cycle is drawn under him at all: none",
     "a second person is told who has the horse: \"Bartolo has the horse.\"",
     "and an order for it sent anyway is refused by the server: 400 \"Bartolo has the horse.\"",
+    "hh-1-mateo is drawn as a figure on the map, not as a travel marker (0.00 heights a second)",
     "the person driving the ox and wagon is drawn on the wagon, with the ox in front",
-    "sitting up on the wagon's seat, not walking on the road (feet 12px above the wagon's wheels)",
+    "drawn as Astra's whole seated driver with his reins and goad (blue-wagon-driver-w)",
+    "the frame really painted this tick, at 46px on the canvas",
+    "sitting up on the wagon's seat, not walking on the road (feet 15px above the wagon's wheels)",
     "the ox and the wagon are not drawn again by themselves",
     "with the ox walking and the wagon rolling: ox-walk, wagon-travel",
     "no page errors anywhere in the run"
@@ -20,44 +25,40 @@
     "horse": {
       "seat": "horse",
       "direction": "e",
+      "art": "rust-ride-e",
       "parts": [
         {
-          "part": "horse",
+          "part": "rider",
           "x": 890,
           "y": 594,
-          "height": 74
-        },
-        {
-          "part": "rider",
-          "x": 886,
-          "y": 573,
-          "height": 50,
-          "shown": 0.6300000000000001
+          "height": 89,
+          "whole": true
         }
       ]
     },
     "wagon": {
       "seat": "wagon",
       "direction": "w",
+      "art": "blue-wagon-driver-w",
       "parts": [
         {
           "part": "ox",
-          "x": 821,
-          "y": 593,
+          "x": 822,
+          "y": 594,
           "height": 72
         },
         {
           "part": "wagon",
-          "x": 931,
-          "y": 593,
+          "x": 932,
+          "y": 594,
           "height": 77
         },
         {
           "part": "rider",
-          "x": 899,
-          "y": 581,
-          "height": 50,
-          "shown": 0.6300000000000001
+          "x": 900,
+          "y": 579,
+          "height": 46,
+          "seated": true
         }
       ]
     }
@@ -66,9 +67,14 @@
     "docs/evidence/riding-horse.png",
     "docs/evidence/riding-wagon.png"
   ],
+  "delivered": {
+    "ridden": "rust-ride-e",
+    "driven": "blue-wagon-driver-w"
+  },
   "notProved": [
     "Same computer only: one browser and the server on one machine. Nothing here is LAN or district evidence.",
-    "That the stand-in reads well at every zoom and in every direction; the screenshots are one zoom, the direction the road happened to run.",
+    "That the delivered art reads well at every zoom and in every direction; the screenshots are one zoom, the direction the road happened to run, and one of the three painted headings.",
+    "The second cast driving and a child on the horse, which are still the composite stand-in because those layers are not delivered: no run here put either on a mount.",
     "That two students, on two devices, racing for the one horse are both answered correctly at the same instant: the server refuses the second order (tests/keeping.test.mjs), but no two-device race was run."
   ]
 }

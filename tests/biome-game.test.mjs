@@ -153,10 +153,10 @@ test('the control says what would come to a place and what it would bring home, 
   assert.match(deer.facts.words, /Waiting here, a deer: five food, all one can carry, and the hide\.$/);
 });
 
-test('a hunt brings the quarry its place holds: what it gives comes home, the deer and the turkey are drawn, and the family is told', () => {
+test('a hunt brings the quarry its place holds: what it gives comes home, the deer, the turkey and the mustang are drawn, and the family is told', () => {
   const world = onTheLand('biome-game-hunt');
   const places = huntingPlaces(world);
-  for (const kind of ['turkey', 'deer', 'bear']) {
+  for (const kind of ['turkey', 'deer', 'mustang', 'bear']) {
     const place = places.find(entry => entry.facts.comes === kind && !entry.household.played2);
     assert.ok(place, `no ${kind}`);
     place.household.played2 = true;
@@ -177,9 +177,10 @@ test('a hunt brings the quarry its place holds: what it gives comes home, the de
     assert.match(kill.text, new RegExp(`brought down ${GAME[kind].a}: `));
     assert.equal(hides, GAME[kind].hide, `${kind}'s hide`);
     assert.ok(household.resources.food >= food + kill.food - 1, `${kind}: the food did not come home`);
-    // What is drawn is what has a picture, and it is drawn AS ITSELF. `wildlife-deer` landed 2026-09-15 and
-    // `wildlife-turkey` on 2026-09-21; the bear has none, so it is given no place to be drawn at rather than a deer's
-    // picture where the words say a bear (stand-in: docs/ART_REQUESTS.md, 2026-09-19 - the game of 1836; `DRAWN_GAME`).
+    // What is drawn is what has a picture, and it is drawn AS ITSELF. `wildlife-deer` landed 2026-09-15,
+    // `wildlife-turkey` and `wildlife-mustang` on 2026-09-21; the bear has none, so it is given no place to be drawn at
+    // rather than a deer's picture where the words say a bear (stand-in: docs/ART_REQUESTS.md, 2026-09-19 - the game of
+    // 1836; `DRAWN_GAME`).
     if (gameDrawn(kind)) {
       const drawn = frames.filter(frame => frame.quarry);
       assert.ok(drawn.length, `${GAME[kind].a} was not drawn at all`);
@@ -189,9 +190,9 @@ test('a hunt brings the quarry its place holds: what it gives comes home, the de
     } else assert.ok(frames.every(frame => frame.quarry === undefined), `a picture was drawn where the words say ${GAME[kind].a}`);
   }
   // The rule itself, so a quarry cannot be quietly added to the drawn list without art.
-  assert.deepEqual([...DRAWN_GAME], ['deer', 'turkey']);
+  assert.deepEqual([...DRAWN_GAME], ['deer', 'turkey', 'mustang']);
   assert.equal(gameDrawn(undefined), true, 'a class of the old rules hunts a deer and draws one');
-  for (const words of ['bear', 'bison', 'javelina', 'pronghorn', 'mustang', 'cattle', 'waterfowl']) assert.equal(gameDrawn(words), false);
+  for (const words of ['bear', 'bison', 'javelina', 'pronghorn', 'cattle', 'waterfowl']) assert.equal(gameDrawn(words), false);
 });
 
 test('in the winter the ducks and geese sit on the coast in numbers, and the wait for them is short', () => {

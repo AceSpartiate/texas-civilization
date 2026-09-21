@@ -8,6 +8,7 @@ import { GROUND_CLASSES } from '../public/ground-classes.js';
 import { GALE_POSES } from '../public/weather-art.js';
 import { KINDS, SIZES } from '../sim/woods.mjs';
 import { TOWN_LAYOUTS } from '../sim/town-layouts.mjs';
+import { ALAMO_FACES } from '../public/alamo-faces.js';
 
 const manifest = JSON.parse(readFileSync(root + 'atlas.json', 'utf8'));
 const expected = Object.values(SHEETS).flat().filter(Boolean);
@@ -95,6 +96,10 @@ test('every sprite the simulation names is a frame the library actually has', ()
   for (const [id, sprite] of Object.entries(WEARS)) {
     if (!GROUND_CLASSES[id].marks.some(mark => mark.sprite === sprite)) missing.push(`ground ${id} no longer wears ${sprite}`);
   }
+  // Every surface the Alamo's compound is drawn with (public/alamo-faces.js). tests/alamo-faces.test.mjs holds which one
+  // goes on what; this holds that each is a frame the library really has, because a name a letter out draws nothing at
+  // all, silently, with a flat wash standing in its place.
+  for (const sprite of Object.values(ALAMO_FACES)) if (!names.has(sprite)) missing.push(`alamo face -> ${sprite}`);
   // The norther's painted gale poses stand for sprites the ground really scatters, and are frames themselves.
   const scattered = new Set([...Object.values(GROUND_CLASSES).flatMap(klass => klass.marks.map(mark => mark.sprite)), 'oak-broad', 'oak-spreading', 'pecan']);
   for (const [upright, pose] of Object.entries(GALE_POSES)) {
@@ -133,14 +138,26 @@ const NOT_DRAWN = Object.freeze({
   'mina-stockade': 'the gate is drawn open; nothing in the game shuts it',
   // The map says where a ferry is, never who is on the water at this moment.
   'ferry-flatboat-laden': 'nothing says a wagon is aboard',
-  // The Yellow Stone is drawn in the two states the record gives her at Groce's: cotton, then the plank out.
+  // The Yellow Stone has two projected states and no more (sim/houston.mjs `yellowStone`): `cotton`, lying at Groce's
+  // landing for Captain Ross, and `crossing`, which the server places in the middle of the water between the two banks
+  // with the army aboard - `steamboat-laden`, under way. So the still-water beats and the plank-out beat have no moment
+  // to be drawn in. `steamboat-moored-3` was drawn for `crossing` until 2026-09-21, at a point that is not a bank.
   'steamboat-moored-1': 'she is never simply lying at anchor', 'steamboat-moored-2': 'she is never simply lying at anchor',
+  'steamboat-moored-3': 'the crossing is projected in the middle of the water, not at a bank with the plank out',
+  'steamboat-steam-1': 'nothing projects her steaming light', 'steamboat-steam-2': 'nothing projects her steaming light',
+  'steamboat-steam-3': 'nothing projects her steaming light', 'steamboat-steam-4': 'nothing projects her steaming light',
+  // The hunt projects a quarry standing, and alert while the family is asked about the shot. Nothing says it broke and
+  // ran: there is no missed-shot state, which is the same reason the turkey's bound frames are up there.
+  'mustang-gallop-1': 'no fleeing or missed-shot state is projected', 'mustang-gallop-2': 'no fleeing or missed-shot state is projected',
+  'mustang-gallop-3': 'no fleeing or missed-shot state is projected', 'mustang-gallop-4': 'no fleeing or missed-shot state is projected',
+  'mustang-gallop-5': 'no fleeing or missed-shot state is projected', 'mustang-gallop-6': 'no fleeing or missed-shot state is projected',
+  'mustang-gallop-7': 'no fleeing or missed-shot state is projected', 'mustang-gallop-8': 'no fleeing or missed-shot state is projected',
   // The pieces exist; the courses do not. Where each ditch ran is a researched line and a claim ID, not a sprite
   // (docs/ART_REQUESTS.md, request 2026-09-19 - Bexar's fields and acequias).
   'acequia-straight': 'no acequia courses are laid yet', 'acequia-bend': 'no acequia courses are laid yet',
   'acequia-crossing': 'no acequia courses are laid yet', 'fence-brush': 'no acequia courses are laid yet',
 });
-test('every frame of a delivered sheet is drawn somewhere, or is written down here as knowingly not drawn', () => {
+test('every frame of a delivered sheet is drawn somewhere, or is written down here as knowingly not drawn', async () => {
   const clips = JSON.parse(readFileSync(root + 'animation.json', 'utf8')).clips;
   const here = fileURLToPath(new URL('../', import.meta.url));
   const files = ['sim', 'public'].flatMap(dir => readdirSync(here + dir).filter(name => /\.m?js$/.test(name)).map(name => `${here}${dir}/${name}`));
@@ -150,15 +167,39 @@ test('every frame of a delivered sheet is drawn somewhere, or is written down he
   // Whole names only: `mina-stockade-house` is an id in a layout and is not a use of the frame `mina-stockade`.
   const named = name => new RegExp(`${name}(?![-\\w])`).test(source);
   const clipsWith = name => Object.entries(clips).filter(([, clip]) => clip.frames.some(frame => frame.sprite === name)).map(([id]) => id);
+  /**
+   * The clips a seat really asks for, got by asking `seatedClip` itself.
+   *
+   * `${figure}-ride-${direction}` and `${figure}-wagon-driver-${direction}` are built out of pieces, and no text search can
+   * see a name that is never written down. Rather than excuse those four sheets from this test, the enumeration below runs
+   * the real function over every figure a rolled family can produce and every heading, and a clip it never returns stays
+   * unbound. It proves the *choice*, not the drawing: that public/app.js `drawSeated` then puts it on the screen is what
+   * scripts/riding-browser-proof.mjs photographs.
+   */
+  const { seatedClip, seatFigure } = await import('../public/motion.js');
+  const asked = new Set();
+  for (const sex of ['male', 'female', undefined]) for (const band of ['adult', 'youth', 'child', 'small', 'infant']) for (const principal of [false, true]) {
+    for (let n = 0; n < 40; n++) for (const seat of ['horse', 'wagon', null]) for (const direction of ['e', 'w', 'n', 's']) {
+      asked.add(seatedClip({ id: `hh-${n}-x`, kind: 'person', health: { condition: 'well' }, sex, band, principal }, direction, seat).id);
+    }
+  }
+  void seatFigure;
   const bound = name => {
     if (named(name)) return true;
-    if (clipsWith(name).some(named)) return true;
+    const inClips = clipsWith(name);
+    if (inClips.some(named)) return true;
+    if (inClips.some(id => asked.has(id))) return true;
     // A tree's three sizes are drawn as `${picture}-${size}`, so its picture being named is the binding.
     const sized = /^(.*)-(pole|log|large)$/.exec(name);
     return Boolean(sized && named(sized[1]));
   };
   const SHEETS = ['weather-norther', 'wildlife-turkey', 'trees-colonies-2', 'town-buildings-researched',
-    'ferry-flatboat', 'steamboat-moored', 'biome-ground-bexar'];
+    'ferry-flatboat', 'steamboat-moored', 'biome-ground-bexar',
+    // Astra's deliveries of 2026-09-21, wired the same day: the mounted family, the seated wagon drivers, the mustang,
+    // the Yellow Stone under way, and the Alamo's south-facing elevations.
+    'people-mounted-cast1-e', 'people-mounted-cast1-s', 'people-mounted-cast1-n',
+    'people-mounted-cast2-e', 'people-mounted-cast2-s', 'people-mounted-cast2-n',
+    'people-wagon-drivers', 'wildlife-mustang', 'steamboat-steam', 'steamboat-laden', 'alamo-face-strips'];
   const unbound = [], stale = [];
   for (const sheet of SHEETS) {
     for (const [name, frame] of Object.entries(manifest.frames)) {

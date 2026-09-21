@@ -6,8 +6,15 @@
 // at a town's streets (400 px a mile), at a street's length (1,500) and at the closest the map allows. At Béxar the view is
 // dragged so the Alamo compound is in the middle; at Gonzales, so the general store and the houses round it are.
 // Writes docs/evidence/alamo-<label>-<place>-<zoom>.png and docs/evidence/alamo-<label>.json.
+//
+// Since Astra's five south-facing elevation strips landed (2026-09-21) this is also the proof that they are laid on the
+// compound and not merely chosen: `window.__alamoDrawn.faces` is what `drawSprite` really painted, and at the closest zoom
+// all five must be in it. A check made at a zoom too far out to texture a face would pass against any mistake at all, so
+// the assertion is made only where `textured` is true and fails rather than skip if it is not.
+import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { mkdirSync, writeFileSync } from 'node:fs';
+import { ALAMO_FACES } from '../public/alamo-faces.js';
 import { createClassroom } from '../server/app.mjs';
 import { createWorld } from '../sim/world.mjs';
 
@@ -62,6 +69,13 @@ try {
     await page.locator('#world-map').screenshot({ path });
     shots.push({ place, zoom, scale: +(await page.evaluate(() => window.__camera.scale)).toFixed(2), path, ...(place === 'bexar' && { alamoDrawn: await page.evaluate(() => window.__alamoDrawn || null) }) });
   }
-  writeFileSync(`${out}/alamo-${label}.json`, JSON.stringify({ result: errors.length ? 'FAIL' : 'PASS', label, date: new Date().toISOString(), sameComputerOnly: true, shots, errors }, null, 2) + '\n');
+  // Astra's elevations, on the compound, at the zoom that shows them. `textured` is asserted first: a face is drawn flat
+  // below 0.12 pixels a foot, and a check run there could not tell a wrong face from a missing one.
+  const closest = shots.find(shot => shot.place === 'bexar' && shot.zoom === 'closest');
+  assert.ok(closest?.alamoDrawn?.textured, `the compound was not drawn close enough to show a face (${JSON.stringify(closest?.alamoDrawn)})`);
+  const laid = closest.alamoDrawn.faces || [];
+  const wanted = [...new Set(Object.values(ALAMO_FACES))].sort();
+  assert.deepEqual([...laid].sort(), wanted, `the compound laid ${laid.join(', ') || 'nothing'}`);
+  writeFileSync(`${out}/alamo-${label}.json`, JSON.stringify({ result: errors.length ? 'FAIL' : 'PASS', label, date: new Date().toISOString(), sameComputerOnly: true, facesLaid: laid, shots, errors }, null, 2) + '\n');
   console.log(`${errors.length ? 'FAIL' : 'PASS'} (${label}): ${shots.length} screenshots`, errors);
 } finally { await browser.close(); await app.close(); }

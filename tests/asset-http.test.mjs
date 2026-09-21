@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import http from 'node:http';
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { basename, join, resolve, relative, isAbsolute, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -112,4 +112,34 @@ test('art routes serve public modules and atlas bytes without exposing private f
     removeFixture(assetsRoot, fixture);
     removeFixture(tmpdir(), privateFixture);
   }
+});
+
+/**
+ * Every module the page loads by an absolute path is actually served.
+ *
+ * The server serves the page's scripts from a table of named routes, not a folder, which is what keeps `server/` and
+ * `data/` off the wire. The cost of that is silent: a new file under `public/` that an existing one imports is a 401, the
+ * whole module graph fails to evaluate, and the page is a blank join form with no error anywhere in `npm test`. That is
+ * exactly what happened on 2026-09-21 when `public/alamo-faces.js` was added - the map stopped drawing for everybody, and
+ * it was found by a browser proof that could not fill in its own name. This is the cheap version of that.
+ */
+test('every module the page imports by an absolute path is served', async () => {
+  const app = createClassroom({ seed: 'served-modules', playerCount: 5 });
+  const port = await app.listen(0, '127.0.0.1');
+  try {
+    const files = readdirSync(publicRoot).filter(name => /\.m?js$/.test(name));
+    const wanted = new Set();
+    for (const name of files) {
+      const source = readFileSync(join(publicRoot, name), 'utf8');
+      for (const match of source.matchAll(/(?:from|import)\s*\(?\s*'(\/[\w./-]+\.m?js)'/g)) wanted.add(match[1]);
+    }
+    assert.ok(wanted.size > 8, `no absolute module imports were found in public/ (${wanted.size})`);
+    const missing = [];
+    for (const path of [...wanted].sort()) {
+      const response = await request(port, path);
+      if (response.status !== 200) missing.push(`${path} -> ${response.status}`);
+      else if (!/javascript/.test(response.headers['content-type'] || '')) missing.push(`${path} -> ${response.headers['content-type']}`);
+    }
+    assert.deepEqual(missing, [], 'the page imports these and the server does not serve them');
+  } finally { await app.close(); }
 });

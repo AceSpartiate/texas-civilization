@@ -151,6 +151,21 @@ export function clipInfo(name) {
   const clip = art.clips[name];
   return clip ? structuredClone(clip) : null;
 }
+/**
+ * Whether this clip can be drawn right now - and if it cannot because its sheet has not arrived, asking for the sheet.
+ *
+ * `hasSprite` only reports, and `drawSprite` asks only when something tries to draw. A caller that has to choose its whole
+ * layout before it draws anything (public/app.js `drawSeated` chooses between one painted horse-and-rider and the old
+ * rider-over-horse composite) would otherwise never ask, and so would never be able to answer yes.
+ */
+export function clipReady(name) {
+  const sprite = art.clips[name]?.frames?.[0]?.sprite;
+  const frame = typeof sprite === 'string' ? art.frames[sprite] : null;
+  if (!frame) return false;
+  if (art.images[frame.sheet]) return true;
+  requestSheet(frame.sheet);
+  return false;
+}
 
 function neutralMotion() { return { x: 0, y: 0, rotation: 0, scaleX: 1, scaleY: 1, alpha: 1 }; }
 function clipDuration(clip) {

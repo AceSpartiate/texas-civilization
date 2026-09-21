@@ -1,5 +1,5 @@
 // Renderers consume the server's permitted projection. They never advance simulation state.
-import { drawSprite, drawClip, clipInfo, hasSprite, loadArt, onArtReady, pickSprite, spriteFrame } from '/art.js';
+import { drawSprite, drawClip, clipInfo, clipReady, hasSprite, loadArt, onArtReady, pickSprite, spriteFrame } from '/art.js';
 import { drawArmy } from '/army-view.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, seatedClip, seatLayout, mounted, MOUNTED_HEIGHT, castVariant, childFigure, MarkerFade, travellerSpeed, routeIndexAfter, sameJourney } from '/motion.js';
 import { familyRows, PRESENCE_LABELS, storyView, spotlightBanner } from '/live-page.js';
@@ -308,8 +308,19 @@ function turkeyFallback(ctx, x, y, size, flip = false) {
  * `quarryPoint`). The page never chooses what animal is there and never puts one anywhere: a quarry with no picture is
  * sent no place at all (`DRAWN_GAME` in sim/hunting.mjs), so there is nothing here to draw and nothing is drawn.
  */
-const QUARRY_SIZE = Object.freeze({ deer: 1.1, turkey: .63 });
+// A mustang stands taller than a deer: it is a horse, drawn near the family's own horse's height (`SIZE.horse`).
+const QUARRY_SIZE = Object.freeze({ deer: 1.1, turkey: .63, mustang: 1.45 });
 function miniQuarry(ctx, x, y, size, { kind = 'deer', flip = false, alert = false, seed = 0 } = {}) {
+  if (kind === 'mustang') {
+    // Astra's `wildlife-mustang` (2026-09-21): grazing while the hunter is still coming, head up the moment the family is
+    // asked whether to take the shot - the deer's contract exactly. The eight gallop beats have no state to be drawn in.
+    if (animated(ctx, alert ? 'mustang-alert' : 'mustang-graze', x, y, size, seed, { flip })) return;
+    // ceiling: the fallback is the library's own saddle horse, and then the procedural horse shape under it - the right
+    // animal in the wrong coat, which is what every fallback in this file is. A dun mustang shape of its own is nobody's
+    // request; it is only ever seen if the wildlife sheet fails to load at all.
+    miniAnimal(ctx, x, y, size, { id: `quarry-${seed}`, kind: 'animal', species: 'horse' }, flip);
+    return;
+  }
   if (kind === 'turkey') {
     // Foraging while the hunter is still coming; head up the moment the family is asked whether to take the shot, which
     // is the turkey's own tell and the same contract the deer's alert pose has.
@@ -484,11 +495,21 @@ const shotSince = new Map();
 // Who was drawn sitting on what this frame, and where each part of them went, for the proofs (docs/evidence/riding-browser.json).
 const seatedDrawn = new Map();
 /**
- * Somebody on the horse, or driving the ox and wagon, drawn as one: the mount, and their own figure sitting on it
- * (public/motion.js `seatLayout`). The ox and wagon and the ridden horse are not drawn again by themselves.
- * stand-in: docs/ART_REQUESTS.md, requests 2026-09-14 (family members on horseback) and 2026-09-16 (driving the ox wagon).
+ * Somebody on the horse, or driving the ox and wagon, drawn as one. The ox and wagon and the ridden horse are not drawn
+ * again by themselves (public/motion.js `seatLayout`).
+ *
+ * Since Astra's mounted family and wagon drivers landed (2026-09-21) there are two ways this is done, and `seatedClip`
+ * chooses between them:
+ * - **The delivered art.** A rider and the chestnut horse under them are one painted frame, four beats of a walk, drawn
+ *   at the height a rider and horse have always been drawn at. A driver is a whole seated figure with reins and a goad,
+ *   standing on the footboard, composited over the wagon and team the renderer still draws itself.
+ * - **The composite stand-in**, which is what it was before: the top of a standing figure laid over a separately drawn
+ *   mount and cut below the hip. It is still what a child on the horse gets, and a second-cast driver, because neither
+ *   is in the delivery - and what anybody gets while the sheet is still on its way (`clipReady`).
+ * stand-in: docs/ART_REQUESTS.md, requests 2026-09-14 (family members on horseback) and 2026-09-16 (driving the ox wagon):
+ * narrowed, not retired, to the children on the horse and the second cast driving.
  */
-function drawSeated(ctx, x, y, size, entity, seat, entities, flip) {
+function drawSeated(ctx, x, y, size, entity, seat, entities, flip, gait) {
   const direction = travelDirection(entity) || 'e';
   const vertical = direction === 'n' || direction === 's';
   const along = vertical ? 1 : flip ? -1 : 1;
@@ -498,14 +519,22 @@ function drawSeated(ctx, x, y, size, entity, seat, entities, flip) {
     ox: own.find(other => other.kind === 'animal' && other.species !== 'horse'),
     wagon: own.find(other => other.kind === 'wagon'),
   };
+  // Asked before anything is drawn, because the whole layout depends on the answer: one painted rig has no horse under it
+  // and nothing to clip. A sheet still on its way answers no and is asked for, so the next frame can answer yes.
+  const delivered = seatedClip(entity, direction, seat);
+  const ready = Boolean(delivered.whole || delivered.seated) && clipReady(delivered.id);
   const drawn = [];
-  for (const part of seatLayout(seat, direction, SIZE, figureScale(entity))) {
+  for (const part of seatLayout(seat, direction, SIZE, figureScale(entity), ready ? (seat === 'horse' ? MOUNTED_HEIGHT : 1) : 0)) {
     const px = x + part.dx * size * along, py = y + part.dy * size, height = part.height * size;
-    if (part.part === 'rider') {
+    if (part.part === 'rider' && (part.whole || part.seated)) {
+      // Drawn entire and standing on its own ground line: the painted rig already has its legs, or the driver their boots.
+      // A ridden east cycle is mirrored for west as every other east cycle is; a painted north or south one never is.
+      animated(ctx, delivered.id, px, py, height, entity.id, { flip: delivered.upright ? false : flip, gait: part.whole ? gait : undefined });
+    } else if (part.part === 'rider') {
       // Their own figure from the head down to just below the waist; the rest would be inside the saddle or the box.
       ctx.save();
       ctx.beginPath(); ctx.rect(px - height * 2, py - height * 1.5, height * 4, height * (.5 + part.shown)); ctx.clip();
-      const clip = seatedClip(entity, direction);
+      const clip = seatedClip(entity, direction, null);
       if (!animated(ctx, clip.id, px, py, height, entity.id, { paused: true })) miniPerson(ctx, px, py, size, { ...entity, travel: null, flip });
       ctx.restore();
     } else {
@@ -515,9 +544,12 @@ function drawSeated(ctx, x, y, size, entity, seat, entities, flip) {
       if (part.part === 'wagon') miniWagon(ctx, px, py, height, moving, flip);
       else miniAnimal(ctx, px, py, height, moving, flip);
     }
-    drawn.push({ part: part.part, x: Math.round(px), y: Math.round(py), height: Math.round(height), ...(part.shown && { shown: part.shown }) });
+    drawn.push({ part: part.part, x: Math.round(px), y: Math.round(py), height: Math.round(height), ...(part.shown && { shown: part.shown }),
+      ...(part.whole && { whole: true }), ...(part.seated && { seated: true }) });
   }
-  seatedDrawn.set(entity.id, { seat, direction, parts: drawn });
+  // `art` is the delivered clip if one was drawn, and null while the composite stand-in stands in for it: the one fact a
+  // proof needs to tell "Astra's painted rider" from "a cropped figure over a horse" without reading pixels.
+  seatedDrawn.set(entity.id, { seat, direction, art: ready ? delivered.id : null, parts: drawn });
 }
 function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
   // The horse is under its rider, and the ox and wagon under their driver, drawn with them (public/motion.js `seatOf`).
@@ -615,7 +647,7 @@ function drawFigure(ctx, entity, x, y, size, height, seat, alpha, marks) {
   const gait = entity.travel && !entity.travel.halted && !entity.facing && marks.ground && marks.scale > 0
     ? { id: entity.id, at: marks.ground, bodyMiles: height * (onFoot ? figureScale(entity) : 1) / marks.scale, stride: onFoot ? STRIDE.foot : STRIDE.hoof }
     : null;
-  if (seat) drawSeated(ctx, x, y, size, entity, seat, marks.entities || [], flip);
+  if (seat) drawSeated(ctx, x, y, size, entity, seat, marks.entities || [], flip, gait);
   else if (entity.kind === 'person') miniPerson(ctx, x, y, mounted(entity) ? height : size, { ...entity, observed: marks.observed, flip, gait });
   else if (entity.kind === 'animal') miniAnimal(ctx, x, y, height, { ...entity, gait }, flip);
   else if (entity.kind === 'wagon') miniWagon(ctx, x, y, height, { ...entity, gait }, flip);
@@ -2674,15 +2706,23 @@ export function drawWorld(world) {
       smoke: campMix && inGale(campMix) ? (x, y, size) => drawSprite(ctx, GALE_SMOKE, x, y, size) : null,
     });
     // The steamboat Yellow Stone on the Brazos at Groce's, in the fortnight of the record's own (sim/houston.mjs
-    // `yellowStone`, `HIST-TEX-089`): loading cotton for Captain Ross until the army takes her on April 12, then lying at
-    // the bank with her plank out while she carries the men, the horses and the wagons over the flood. Where she is and
-    // what she is doing are the server's; the page chooses only which delivered pose says it.
-    // ceiling: she is drawn at the bank and never under way. The under-way and army-laden paddle loops are not delivered,
-    // and docs/ART_DELIVERY_2026-09-21-RIVER-TRANSPORT.md says they must not be inferred from the still-paddle frames.
+    // `yellowStone`, `HIST-TEX-089`): loading cotton for Captain Ross until the army takes her on April 12, then under way
+    // in the middle of the flood with the men, the horses and the wagons on her deck. Where she is and what she is doing
+    // are the server's; the page chooses only which delivered pose says it.
+    // Under way from 2026-09-21: `steamboat-laden` (docs/ART_DELIVERY_2026-09-21-MUSTANG-YELLOW-STONE.md) is the army
+    // crossing - militia with their rifles, a few horses and one wagon on the deck, the paddle turning and a bow wave -
+    // and `crossing` is the only thing the server ever says about her beyond `cotton`. The place it gives her is the
+    // middle of the water between Groce's and Bernardo, so the pose that matches it is the one under way, not the plank
+    // out at a bank: `steamboat-gangplank` is off the map from today and is written down in tests/art-library.test.mjs
+    // with that reason. `steamboat-steam`, the empty-deck loop, is written down there too - nothing projects her steaming
+    // light, and a return trip invented to have something to draw is not in the record at this hour.
+    // ceiling: her drawn height is one number (`SIZE.steamboat`) and each frame is normalised to it, so the hull breathes
+    // about a tenth as her smoke column grows - which the moored clip has always done. A `logicalHeight` for the boat
+    // sheets in scripts/build-atlas-manifest.mjs is the way out, and would re-measure the accepted moored art with it.
     let boat = null;
     if (army.boat && how === 'camp') {
       const bank = camera.toScreen(army.boat);
-      boat = army.boat.state === 'crossing' ? 'steamboat-gangplank' : 'steamboat-cotton-moored';
+      boat = army.boat.state === 'crossing' ? 'steamboat-laden' : 'steamboat-cotton-moored';
       if (!animated(ctx, boat, bank.x, bank.y, camera.figure * SIZE.steamboat, army.id)) boat = null;
     }
     return { id: army.id, side: army.side, ours: army.ours, strength: army.strength, how, boat, x: Math.round(at.x), y: Math.round(at.y) };
