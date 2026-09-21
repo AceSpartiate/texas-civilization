@@ -717,6 +717,11 @@ untouched: nothing here changes a rule of the world.
   wrap a row.
 - **The two contested pairs above are measured, not fixed.** Anything that reads this as "the overlap study is clean
   now" has read it wrong: what is clean is the guided start.
+- **A class past the guided start is unchanged, by arithmetic and not by a check.** `--lesson-room` is *removed* when
+  there is no lesson, so the meeting's third `max-height` term falls back to `100vh - 82px` — 686px on a Chromebook,
+  which `min()` never picks over 70vh — and the three phone rules are inside `body[data-lesson=true]`. Nothing here
+  measures that state, because the lesson is on for all ten of a class's first steps and that is where these panels are
+  met.
 - **No claim ID was needed.** Nothing here invents or changes anything historical or fictional; it is only where things
   are drawn. `FIC-GONZ-270`–`279` were set aside for this work and none was spent.
 
