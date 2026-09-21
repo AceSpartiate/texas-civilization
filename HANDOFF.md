@@ -191,6 +191,108 @@ beside a 24-thread busy loop it passed 10/10. **Seen in those suites:** `pace.te
 failed 7 of 10 (fixed the same day, above) and `save-cadence.test.mjs` *"a page is sent a snapshot"* 1 of 10 (fixed the same day, above), both real-time tests of their own. No
 product code changed.
 
+**Astra's delivery of 2026-09-21, wired: eight batches that were drawn by nothing, and now are.** The nine batches that
+landed while the stock was being built were registered, measured and written up, and only the 53 action icons were
+actually drawn by the game. The other eight are in play:
+
+1. **The norther is painted, not sheared** (`weather-norther`). A hard north wind now draws Astra's own gale poses and
+   drops the shear with them; every lesser wind — a storm, a rainy blow, the light air of a fair day — keeps the shear,
+   which is the rule the stand-in proved. `GALE = 0.62` on the smaller of *how far the norther has arrived here* and
+   *how hard it blows here* (`FIC-GONZ-201`): under the 0.7 the east of the country blows in a norther and over what half
+   a blend or half a fade can reach, so a **storm is never drawn as a gale** however hard it blows and the edge of a
+   norther's country hands back to the shear instead of stopping at a line. Seven poses are bound, not five: `weather-norther`
+   carried the broad oak, the spreading oak, the pecan, the grass tuft and streaming smoke, and `biome-ground-bexar` the
+   same day carried a cane wind pose and a tall-grass one. The smoke is the only frame with no drawing site of its own, so
+   it went where the map's only fire is: an army's camp fire in a norther streams instead of rising (`public/army-view.js`).
+   **Still sheared in a gale:** pine, cedar, mesquite, live oak, elm, scrub, reeds, prickly pear and every sized tree — the
+   row in `docs/ART_REQUESTS.md` is narrowed to exactly those, not deleted.
+2. **A turkey is a picture** (`wildlife-turkey`). `quarryPoint` carries the species the simulation already chose, and the
+   page draws that species or nothing: `DRAWN_GAME` is `['deer', 'turkey']` and the bear, javelina, antelope, buffalo,
+   geese, mustang and wild cattle are still words only, given no place to stand rather than a deer's picture. The server
+   remains the sole authority on where a quarry is; the page chooses only which sheet says it.
+3. **Ten tree kinds have their own art** (`trees-colonies-2`). Post oak, blackjack, pecan, hackberry and sweetgum at
+   pole/log/large; the other oaks (water, bur, white, Texas) take the post oak's rather than the generic broad oak, and
+   hickory, walnut and ash the pecan's. A felled hardwood trunk is `log-fallen-hardwood`; pine and cottonwood keep
+   `log-fallen`. Beech and magnolia are still the broad oak, and shortleaf and longleaf still the loblolly.
+4. **The towns' researched buildings** (`town-buildings-researched`). San Felipe's Cooper & Chieves saloon and the
+   Whiteside Hotel, Victoria's Round Top House and its jacal variety, Columbia's Brown house and Kelsey's store,
+   Liberty's court room, Washington's two-storey frame, Matagorda's frame town, and the jacales of Nacogdoches, Goliad
+   and Refugio. **Mina's stockade is one painted compound** where it was 27 `palisade` pieces and a `gate` run round a
+   square, with the ground inside it still held against the filler houses. Two stand-ins in `sim/town-layouts.mjs` are
+   **not** retired and say so: the Harrisburg steam mill and Nacogdoches's two-storey Stone House, neither of which this
+   delivery covers.
+5. **The ferry is a plank flatboat and the *Yellow Stone* is on the river** (`ferry-flatboat`, `steamboat-moored`). Every
+   ferry crossing draws `ferry-flatboat` at the near landing with a `ferry-post` at each bank; the rope between them is
+   still canvas strokes, because it spans whatever width the map's river is there. The *Yellow Stone* is drawn in the
+   middle of the water between Groce's and Bernardo, in her cotton state while she is Captain Ross's and with her plank
+   out from 12 April while she is carrying the army over, and gone when it marches east on the 14th (`FIC-GONZ-200`,
+   `HIST-TEX-089`). She is **never drawn under way**: that loop is not delivered and the delivery note forbids inferring
+   it. She rides on the army in the projection, so a page that may not see the army is told nothing about her.
+6. **The countries wear their own plants** (`biome-ground-bexar`, twelve of sixteen frames). Tall grass on the tallgrass
+   prairie and under the longleaf; cane in the canebrake and the thicket; palmetto under the Big Thicket timber; the
+   thorn thicket and Spanish dagger in the chaparral, the brush and the mesquite prairie; marsh cordgrass in the marsh,
+   the salt prairie and the cypress swamp; cypress knees in the swamp; dune grass on the sand.
+7. **The second cast is the family** (`people-cast2-vertical`). A woman is `teal` or `indigo`, a man `elder` or `ochre`,
+   an adolescent girl `blue-girl` and a boy `blue`, by the same stable hash that has always chosen a neighbour's coat —
+   and **a mother who is the principal is `rust-woman`**, a woman in the principal's own colour, which is what the
+   request was for and what one rust figure could not do. Both principal figures stay out of the pool, so the mark still
+   means "this is you". That row is **deleted** from *Stand-ins in use*.
+8. **A conversation looks like one from both sides** (`people-cast2-dialogue`). The speaking and listening frames of both
+   casts had never been drawn, because only the RIDER carried a `facing` and a `speaking`: the settler he had reined in
+   for stood in their idle pose with their back to him. `listeningOf` in `sim/encounters.mjs` gives that person the
+   rider's own two facts reversed, and `grownClip` draws `${variant}-speak`, `-listen-n` or `-listen-s`. One thing had to
+   change for it to be reachable at all: both now read **the last line that speaker said**, not the last line of all,
+   because a question and its answer are one action and the rider always answers — so the asker would never have been
+   drawn speaking. For the rider the answer is identical; a question and an answer share a minute, so for that window
+   both figures are drawn talking, which is what a conversation looks like from across a field.
+
+**What is measured.** `npm test` is **832, 0 fail** (824 before). Injections: **27 of 27 caught**
+(`node scripts/art-wiring-injections.mjs`, `docs/evidence/art-wiring-injections.json`) across the turkey, the second
+cast, the conversation, the trees, the towns, the ferry and the Yellow Stone; and the weather's own script is now **29 of
+29** (`docs/evidence/weather-injections.json`), seven of them new and about the gale. Two new tests are worth naming:
+*every sprite the simulation names is a frame the library actually has* — a `picture` or a `sprite` a letter out draws
+nothing at all, silently, and this delivery moved about forty of those names — and *every frame of a delivered sheet is
+drawn somewhere, or is written down here as knowingly not drawn*, which is the defect this whole session existed to fix,
+turned into a test. Eighteen frames are on that written-down list with their reasons: the turkey's bound and display
+cycles (no missed-shot and no strutting state is projected), the Round Top House's weathered variant and Liberty's side
+view (one of each building), Mina's closed gate (nothing shuts it), the laden ferry (nothing says a wagon is aboard), the
+two plain moored *Yellow Stone* beats (she is never simply at anchor), and the four Béxar pieces below.
+
+**What of the delivery is still unwired, and why.** **The acequias and the brush fence** (`acequia-straight`, `-bend`,
+`-crossing`, `fence-brush`). The art is registered and correct; what is missing is not a binding but a **layout** — where
+each ditch ran round Béxar, which is a researched course and a claim ID, not a sprite. Inventing the lines of the Alamo
+madre and the San Pedro acequia to have something to draw would be exactly the thing this project does not do, so the
+row in `docs/ART_REQUESTS.md` now says the art has landed and names the layout as the open work.
+
+**Seen and fixed in passing:** `scripts/weather-injections.mjs` matched its multi-line replacements with plain newlines
+against a working tree checked out CRLF (`core.autocrlf=true`), so on Windows it threw on the first injection and had
+never run here; it now matches the file's own line ending both ways. `scripts/relay-browser-proof.mjs` never made its
+families, so the creation curtain stayed over the map for the whole run — every assertion passed, because they read the
+projection, but nothing on the page could be clicked and the proof died at `#journal-toggle`. It calls `meetFamily` now
+and passes end to end, and photographs the meeting into `docs/evidence/encounter-poses.png`.
+
+**Browser proofs, looked at.** `test:towns` (15 checks), `test:biome-game` (6), `test:crossings` (21 shots), `test:relay`,
+and `scripts/weather-browser-proof.mjs` at four zooms across ten days (40 shots, `docs/evidence/weather/`). What the
+pictures show: the grass on a norther day is the painted flattened tuft streaming south, against upright tufts on the
+fair day photographed beside it, under a thin blue light; a wild turkey with its blue-red bare head stands ahead of the
+hunter in `docs/evidence/biome-game/quarry-turkey.png`; the Whiteside Hotel is its own broad log building with a dog-run
+and two chimneys and Cooper & Chieves is a white clapboard frame beside the log town; Victoria's Round Top House is a
+round drum among the jacales; Mina's stockade is one palisaded compound with its gate open and the cabin inside it; and
+Lynch's ferry is a low plank flatboat at the landing with a post at each bank. Same computer, headless Chrome; nothing
+here is a Chromebook or a LAN measurement.
+
+**Performance:** `docs/PERFORMANCE_RENDER.md` has a new section and it is honest about a measurement that failed. The
+gale path is *cheaper* than the shear it replaces (no `ctx.transform` pair over a pose already bent, and no clip sample
+for a timber oak), and a fair day pays one `Math.min` and one `Math.hypot` a scattered thing, read off the mix the lean
+was already reading. The two runs taken on this build put the **fair** day — the one doing less work — 20 ms a frame
+*slower* than the norther, because the machine was running browsers and suites; no before-and-after figure is claimed
+from them. What they do hold is the count that matters: **the ground is redrawn 0 to 0.2 times a second on both**, as on
+every build since the kept ground was built, and there were no page errors.
+
+**Claim IDs used:** `FIC-GONZ-200` (where the *Yellow Stone* is drawn and in which state) and `FIC-GONZ-201` (which wind
+is a painted gale, and which quarry may be drawn). `HIST-TEX-300`–`-319` were not needed: nothing new about 1836 was
+asserted, only where existing facts are drawn.
+
 **A CLASS PLAYED IT, 2026-09-21. Read this before anything else.** The owner ran real students on Chromebooks. **It ran
 well** - the server, the launcher and the map all held up, which is the first time that has been tested outside this
 computer. Four things came back, and they are now the project's priorities, above everything in the open list below:
@@ -214,7 +316,6 @@ halves of it before they started (`view.lesson`, in the prompts and in docs/LESS
 (Astra's eight unwired batches), **the lesson's world side** (`sim/`), **the lesson's screen side with the UI's
 footprint and the ability bar** (`public/`), and **what a student may see of somebody travelling fast**. Claim blocks:
 art `FIC-GONZ-200`+/`HIST-TEX-300`+, lesson-sim `210`+/`310`+, screen `220`+/`320`+, travel `230`+/`330`+.
-
 **WHERE THIS STOOD WHEN THE SESSION STOPPED, 2026-09-20 (evening).** Read this first; the entries below it are
 finished work.
 
@@ -230,12 +331,11 @@ weather proof and green plate, and .3's coast, animals, weather model, weather d
 
 **2. What is left open, in the order I would take it.**
 - **What is left of `FIC-GONZ-135`:** rain stopping roofing and daubing. The road, the hunt and the cold are built.
-- **Astra's delivery of 2026-09-21 is registered and mostly unwired.** Nine batches landed while the stock was being
-  built: 53 action icons (wired, and the Claude stand-ins for them deleted), and **eight more that are in the atlas and
-  drawn by nothing yet** - `weather-norther` (five painted wind silhouettes, for the weather the page draws),
-  `wildlife-turkey` (sixteen frames), `trees-colonies-2`, `town-buildings-researched`, `river-transport` (a plank ferry
-  and the Yellow Stone), `biome-ground-bexar`, and the second cast's `vertical` and `dialogue` sheets. Each has a
-  delivery note in docs/. **This is the largest open thing in the project.**
+- ~~**Astra's delivery of 2026-09-21 is registered and mostly unwired.**~~ **Done 2026-09-21**, all nine batches: see
+  *Astra's delivery of 2026-09-21, wired* above. What is left of it is **the acequias and the brush fence round Bexar** -
+  the art is registered and correct, and what is missing is the layout, which is a researched course and a claim ID
+  rather than a binding. Eighteen other frames are deliberately not drawn and are listed with their reasons in
+  `tests/art-library.test.mjs` (`NOT_DRAWN`), which fails if one of them is quietly drawn after all.
 - **Two crossings still graze a bank** because the road runs in the creek bottom for a stretch; the crossings audit says so
   and it is a routing decision, not a bug in the ford.
 - **Two coastal cover cells are mine to look at:** `mesquite-savanna` reaching 95.01°W and `live-oak` 94.00°W.

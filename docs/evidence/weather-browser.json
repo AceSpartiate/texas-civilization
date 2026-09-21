@@ -1,7 +1,7 @@
 {
   "record": "weather-browser",
-  "label": "after",
-  "date": "2026-09-20",
+  "label": "astra-gale",
+  "date": "2026-09-21",
   "seed": "perf-render-1",
   "browser": "152.0.7977.83",
   "viewport": "1366x768 @1x",
@@ -81,7 +81,7 @@
         },
         "east": {
           "kind": "rain",
-          "water": 0.25,
+          "water": 0.392,
           "since": 60480,
           "wet": false,
           "wind": {
@@ -199,9 +199,9 @@
         },
         "east": {
           "kind": "norther",
-          "water": 0.258,
+          "water": 0.579,
           "since": 53280,
-          "wet": false,
+          "wet": true,
           "wind": {
             "from": 0,
             "force": 0.7
@@ -238,7 +238,7 @@
         },
         "east": {
           "kind": "rain",
-          "water": 0.303,
+          "water": 0.409,
           "since": 63360,
           "wet": false,
           "wind": {
@@ -401,6 +401,11 @@
         "fog": 0,
         "key": "55|152|fair:6:2:34|rain:3:3:43|fair:3:2:25"
       },
+      "gale": {
+        "poses": 0,
+        "scattered": 696,
+        "gale": false
+      },
       "description": "Juniper the ox is on the road to Family 1 home, about 96% of the way. Bess the mare is on the road to Family 1 home, about 96% of the way. Family wagon is on the road to Family 1 home, about 96% of the way. Bartolo Weatherby is on the road to Family 1 home, about 96% of the way. Sarah Weatherby is on the road to Family 1 home, about 96% of the way.",
       "entities": 5,
       "houses": 0,
@@ -408,10 +413,10 @@
     },
     {
       "day": "live",
-      "view": "county",
-      "file": "docs/evidence/weather/weather-live-county.png",
+      "view": "timber",
+      "file": "docs/evidence/weather/weather-live-timber.png",
       "camera": {
-        "scale": 335.3
+        "scale": 1487
       },
       "weather": {
         "spans": 1,
@@ -434,11 +439,60 @@
         ]
       },
       "ground": {
+        "courses": 1,
+        "flooded": 1,
+        "over": 0,
+        "fog": 0,
+        "key": "55|152|fair:6:2:34|rain:3:3:43|fair:3:2:25"
+      },
+      "gale": {
+        "poses": 0,
+        "scattered": 3834,
+        "gale": false
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "entities": 5,
+      "houses": 0,
+      "labels": 133
+    },
+    {
+      "day": "live",
+      "view": "county",
+      "file": "docs/evidence/weather/weather-live-county.png",
+      "camera": {
+        "scale": 335.3
+      },
+      "weather": {
+        "spans": 1,
+        "layers": 3,
+        "fog": 0,
+        "minute": 380,
+        "mix": [
+          {
+            "x": 0,
+            "rain": 1,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.3,
+            "wind": [
+              0.24,
+              0.19
+            ]
+          }
+        ]
+      },
+      "ground": {
         "courses": 5,
         "flooded": 5,
         "over": 0,
         "fog": 0,
         "key": "55|152|fair:6:2:34|rain:3:3:43|fair:3:2:25"
+      },
+      "gale": {
+        "poses": 0,
+        "scattered": 233,
+        "gale": false
       },
       "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
       "entities": 5,
@@ -456,7 +510,7 @@
         "spans": 12,
         "layers": 7,
         "fog": 0,
-        "minute": 340,
+        "minute": 460,
         "mix": [
           {
             "x": 0,
@@ -611,6 +665,7 @@
         "fog": 0,
         "key": "55|152|fair:6:2:34|rain:3:3:43|fair:3:2:25"
       },
+      "gale": null,
       "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
       "entities": 5,
       "houses": 0,
@@ -650,6 +705,55 @@
         "fog": 0,
         "key": "55|152|fog:3:2:18|fair:1:2:19|norther:0:7:0"
       },
+      "gale": {
+        "poses": 0,
+        "scattered": 696,
+        "gale": false
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "entities": 5,
+      "houses": 0,
+      "labels": 133
+    },
+    {
+      "day": "fair",
+      "view": "timber",
+      "file": "docs/evidence/weather/weather-fair-timber.png",
+      "camera": {
+        "scale": 1487
+      },
+      "weather": {
+        "spans": 1,
+        "layers": 0,
+        "fog": 0,
+        "minute": 5100,
+        "mix": [
+          {
+            "x": 0,
+            "rain": 0,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.12,
+            "wind": [
+              -0.11,
+              -0.1
+            ]
+          }
+        ]
+      },
+      "ground": {
+        "courses": 1,
+        "flooded": 0,
+        "over": 0,
+        "fog": 0,
+        "key": "55|152|fog:3:2:18|fair:1:2:19|norther:0:7:0"
+      },
+      "gale": {
+        "poses": 0,
+        "scattered": 3834,
+        "gale": false
+      },
       "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
       "entities": 5,
       "houses": 0,
@@ -688,6 +792,11 @@
         "over": 0,
         "fog": 0,
         "key": "55|152|fog:3:2:18|fair:1:2:19|norther:0:7:0"
+      },
+      "gale": {
+        "poses": 0,
+        "scattered": 233,
+        "gale": false
       },
       "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
       "entities": 5,
@@ -860,6 +969,7 @@
         "fog": 253,
         "key": "55|152|fog:3:2:18|fair:1:2:19|norther:0:7:0"
       },
+      "gale": null,
       "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
       "entities": 5,
       "houses": 0,
@@ -897,7 +1007,56 @@
         "flooded": 1,
         "over": 0,
         "fog": 0,
-        "key": "55|152|fog:1:2:49|rain:5:3:42|rain:3:3:41"
+        "key": "55|152|fog:1:2:49|rain:5:3:42|rain:4:3:41"
+      },
+      "gale": {
+        "poses": 0,
+        "scattered": 696,
+        "gale": false
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "entities": 5,
+      "houses": 0,
+      "labels": 133
+    },
+    {
+      "day": "rain",
+      "view": "timber",
+      "file": "docs/evidence/weather/weather-rain-timber.png",
+      "camera": {
+        "scale": 1487
+      },
+      "weather": {
+        "spans": 1,
+        "layers": 3,
+        "fog": 0,
+        "minute": 61260,
+        "mix": [
+          {
+            "x": 0,
+            "rain": 1,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.48,
+            "wind": [
+              0.25,
+              0.17
+            ]
+          }
+        ]
+      },
+      "ground": {
+        "courses": 1,
+        "flooded": 1,
+        "over": 0,
+        "fog": 0,
+        "key": "55|152|fog:1:2:49|rain:5:3:42|rain:4:3:41"
+      },
+      "gale": {
+        "poses": 0,
+        "scattered": 3834,
+        "gale": false
       },
       "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
       "entities": 5,
@@ -936,7 +1095,12 @@
         "flooded": 5,
         "over": 0,
         "fog": 0,
-        "key": "55|152|fog:1:2:49|rain:5:3:42|rain:3:3:41"
+        "key": "55|152|fog:1:2:49|rain:5:3:42|rain:4:3:41"
+      },
+      "gale": {
+        "poses": 0,
+        "scattered": 233,
+        "gale": false
       },
       "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
       "entities": 5,
@@ -1070,7 +1234,7 @@
             "storm": 0,
             "norther": 0,
             "fog": 0,
-            "water": 0.38,
+            "water": 0.44,
             "wind": [
               0.26,
               0.14
@@ -1082,7 +1246,7 @@
             "storm": 0,
             "norther": 0,
             "fog": 0,
-            "water": 0.25,
+            "water": 0.39,
             "wind": [
               0.28,
               0.12
@@ -1094,7 +1258,7 @@
             "storm": 0,
             "norther": 0,
             "fog": 0,
-            "water": 0.25,
+            "water": 0.39,
             "wind": [
               0.28,
               0.12
@@ -1107,8 +1271,9 @@
         "flooded": 136,
         "over": 0,
         "fog": 253,
-        "key": "55|152|fog:1:2:49|rain:5:3:42|rain:3:3:41"
+        "key": "55|152|fog:1:2:49|rain:5:3:42|rain:4:3:41"
       },
+      "gale": null,
       "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
       "entities": 5,
       "houses": 0,
@@ -1148,6 +1313,55 @@
         "fog": 0,
         "key": "55|152|norther:5:10:0|norther:3:10:0|norther:0:7:0"
       },
+      "gale": {
+        "poses": 48,
+        "scattered": 696,
+        "gale": true
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "entities": 5,
+      "houses": 0,
+      "labels": 133
+    },
+    {
+      "day": "norther",
+      "view": "timber",
+      "file": "docs/evidence/weather/weather-norther-timber.png",
+      "camera": {
+        "scale": 1487
+      },
+      "weather": {
+        "spans": 1,
+        "layers": 5,
+        "fog": 0,
+        "minute": 3660,
+        "mix": [
+          {
+            "x": 0,
+            "rain": 0,
+            "storm": 0,
+            "norther": 1,
+            "fog": 0,
+            "water": 0.29,
+            "wind": [
+              0,
+              1
+            ]
+          }
+        ]
+      },
+      "ground": {
+        "courses": 1,
+        "flooded": 1,
+        "over": 0,
+        "fog": 0,
+        "key": "55|152|norther:5:10:0|norther:3:10:0|norther:0:7:0"
+      },
+      "gale": {
+        "poses": 564,
+        "scattered": 3834,
+        "gale": true
+      },
       "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
       "entities": 5,
       "houses": 0,
@@ -1186,6 +1400,11 @@
         "over": 0,
         "fog": 0,
         "key": "55|152|norther:5:10:0|norther:3:10:0|norther:0:7:0"
+      },
+      "gale": {
+        "poses": 217,
+        "scattered": 233,
+        "gale": true
       },
       "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
       "entities": 5,
@@ -1358,6 +1577,7 @@
         "fog": 0,
         "key": "55|152|norther:5:10:0|norther:3:10:0|norther:0:7:0"
       },
+      "gale": null,
       "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
       "entities": 5,
       "houses": 0,
@@ -1397,6 +1617,55 @@
         "fog": 0,
         "key": "55|152|norther:7:10:0|norther:5:10:0|fair:1:2:40"
       },
+      "gale": {
+        "poses": 48,
+        "scattered": 696,
+        "gale": true
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "entities": 5,
+      "houses": 0,
+      "labels": 133
+    },
+    {
+      "day": "norther-wet",
+      "view": "timber",
+      "file": "docs/evidence/weather/weather-norther-wet-timber.png",
+      "camera": {
+        "scale": 1487
+      },
+      "weather": {
+        "spans": 1,
+        "layers": 8,
+        "fog": 0,
+        "minute": 2220,
+        "mix": [
+          {
+            "x": 0,
+            "rain": 0.8,
+            "storm": 0,
+            "norther": 1,
+            "fog": 0,
+            "water": 0.47,
+            "wind": [
+              0,
+              1
+            ]
+          }
+        ]
+      },
+      "ground": {
+        "courses": 1,
+        "flooded": 1,
+        "over": 0,
+        "fog": 0,
+        "key": "55|152|norther:7:10:0|norther:5:10:0|fair:1:2:40"
+      },
+      "gale": {
+        "poses": 564,
+        "scattered": 3834,
+        "gale": true
+      },
       "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
       "entities": 5,
       "houses": 0,
@@ -1435,6 +1704,11 @@
         "over": 0,
         "fog": 0,
         "key": "55|152|norther:7:10:0|norther:5:10:0|fair:1:2:40"
+      },
+      "gale": {
+        "poses": 217,
+        "scattered": 233,
+        "gale": true
       },
       "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
       "entities": 5,
@@ -1607,6 +1881,7 @@
         "fog": 0,
         "key": "55|152|norther:7:10:0|norther:5:10:0|fair:1:2:40"
       },
+      "gale": null,
       "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
       "entities": 5,
       "houses": 0,
@@ -1644,7 +1919,56 @@
         "flooded": 1,
         "over": 0,
         "fog": 0,
-        "key": "55|152|norther:1:10:0|storm:6:7:34|norther:3:7:0"
+        "key": "55|152|norther:1:10:0|storm:6:7:34|norther:6:7:0"
+      },
+      "gale": {
+        "poses": 0,
+        "scattered": 696,
+        "gale": false
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "entities": 5,
+      "houses": 0,
+      "labels": 133
+    },
+    {
+      "day": "storm",
+      "view": "timber",
+      "file": "docs/evidence/weather/weather-storm-timber.png",
+      "camera": {
+        "scale": 1487
+      },
+      "weather": {
+        "spans": 1,
+        "layers": 4,
+        "fog": 0,
+        "minute": 54060,
+        "mix": [
+          {
+            "x": 0,
+            "rain": 1,
+            "storm": 1,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.62,
+            "wind": [
+              0.63,
+              -0.3
+            ]
+          }
+        ]
+      },
+      "ground": {
+        "courses": 1,
+        "flooded": 1,
+        "over": 0,
+        "fog": 0,
+        "key": "55|152|norther:1:10:0|storm:6:7:34|norther:6:7:0"
+      },
+      "gale": {
+        "poses": 0,
+        "scattered": 3834,
+        "gale": false
       },
       "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
       "entities": 5,
@@ -1683,7 +2007,12 @@
         "flooded": 5,
         "over": 0,
         "fog": 0,
-        "key": "55|152|norther:1:10:0|storm:6:7:34|norther:3:7:0"
+        "key": "55|152|norther:1:10:0|storm:6:7:34|norther:6:7:0"
+      },
+      "gale": {
+        "poses": 0,
+        "scattered": 233,
+        "gale": false
       },
       "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
       "entities": 5,
@@ -1699,7 +2028,7 @@
       },
       "weather": {
         "spans": 12,
-        "layers": 42,
+        "layers": 46,
         "fog": 0,
         "minute": 54060,
         "mix": [
@@ -1813,11 +2142,11 @@
           },
           {
             "x": 1025,
-            "rain": 0.55,
+            "rain": 0.91,
             "storm": 0.55,
             "norther": 0.45,
             "fog": 0,
-            "water": 0.46,
+            "water": 0.6,
             "wind": [
               0.35,
               0.15
@@ -1825,11 +2154,11 @@
           },
           {
             "x": 1138,
-            "rain": 0,
+            "rain": 0.8,
             "storm": 0,
             "norther": 1,
             "fog": 0,
-            "water": 0.26,
+            "water": 0.58,
             "wind": [
               0,
               0.7
@@ -1837,11 +2166,11 @@
           },
           {
             "x": 1252,
-            "rain": 0,
+            "rain": 0.8,
             "storm": 0,
             "norther": 1,
             "fog": 0,
-            "water": 0.26,
+            "water": 0.58,
             "wind": [
               0,
               0.7
@@ -1854,8 +2183,9 @@
         "flooded": 137,
         "over": 0,
         "fog": 0,
-        "key": "55|152|norther:1:10:0|storm:6:7:34|norther:3:7:0"
+        "key": "55|152|norther:1:10:0|storm:6:7:34|norther:6:7:0"
       },
+      "gale": null,
       "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
       "entities": 5,
       "houses": 0,
@@ -1893,7 +2223,56 @@
         "flooded": 1,
         "over": 0,
         "fog": 1,
-        "key": "55|152|fair:0:2:10|fog:4:2:6|rain:3:3:31"
+        "key": "55|152|fair:0:2:10|fog:4:2:6|rain:4:3:31"
+      },
+      "gale": {
+        "poses": 0,
+        "scattered": 696,
+        "gale": false
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "entities": 5,
+      "houses": 0,
+      "labels": 133
+    },
+    {
+      "day": "fog",
+      "view": "timber",
+      "file": "docs/evidence/weather/weather-fog-timber.png",
+      "camera": {
+        "scale": 1487
+      },
+      "weather": {
+        "spans": 1,
+        "layers": 0,
+        "fog": 1,
+        "minute": 63800,
+        "mix": [
+          {
+            "x": 0,
+            "rain": 0,
+            "storm": 0,
+            "norther": 0,
+            "fog": 1,
+            "water": 0.43,
+            "wind": [
+              -0.1,
+              0.12
+            ]
+          }
+        ]
+      },
+      "ground": {
+        "courses": 1,
+        "flooded": 1,
+        "over": 0,
+        "fog": 1,
+        "key": "55|152|fair:0:2:10|fog:4:2:6|rain:4:3:31"
+      },
+      "gale": {
+        "poses": 0,
+        "scattered": 3834,
+        "gale": false
       },
       "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
       "entities": 5,
@@ -1932,7 +2311,12 @@
         "flooded": 5,
         "over": 0,
         "fog": 5,
-        "key": "55|152|fair:0:2:10|fog:4:2:6|rain:3:3:31"
+        "key": "55|152|fair:0:2:10|fog:4:2:6|rain:4:3:31"
+      },
+      "gale": {
+        "poses": 0,
+        "scattered": 233,
+        "gale": false
       },
       "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
       "entities": 5,
@@ -2066,7 +2450,7 @@
             "storm": 0,
             "norther": 0,
             "fog": 0.55,
-            "water": 0.37,
+            "water": 0.42,
             "wind": [
               0.03,
               -0.04
@@ -2078,7 +2462,7 @@
             "storm": 0,
             "norther": 0,
             "fog": 0,
-            "water": 0.3,
+            "water": 0.41,
             "wind": [
               0.19,
               -0.23
@@ -2090,7 +2474,7 @@
             "storm": 0,
             "norther": 0,
             "fog": 0,
-            "water": 0.3,
+            "water": 0.41,
             "wind": [
               0.19,
               -0.23
@@ -2103,8 +2487,9 @@
         "flooded": 135,
         "over": 0,
         "fog": 253,
-        "key": "55|152|fair:0:2:10|fog:4:2:6|rain:3:3:31"
+        "key": "55|152|fair:0:2:10|fog:4:2:6|rain:4:3:31"
       },
+      "gale": null,
       "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
       "entities": 5,
       "houses": 0,
@@ -2144,10 +2529,59 @@
         "fog": 0,
         "key": "55|152|fair:3:2:44|rain:8:3:9|rain:5:3:9"
       },
-      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "gale": {
+        "poses": 0,
+        "scattered": 696,
+        "gale": false
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work). Also here: Perla Zamarripa.",
       "entities": 5,
       "houses": 0,
-      "labels": 133
+      "labels": 161
+    },
+    {
+      "day": "high-water",
+      "view": "timber",
+      "file": "docs/evidence/weather/weather-high-water-timber.png",
+      "camera": {
+        "scale": 1487
+      },
+      "weather": {
+        "spans": 1,
+        "layers": 3,
+        "fog": 0,
+        "minute": 169260,
+        "mix": [
+          {
+            "x": 0,
+            "rain": 1,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.84,
+            "wind": [
+              -0.26,
+              0.14
+            ]
+          }
+        ]
+      },
+      "ground": {
+        "courses": 1,
+        "flooded": 1,
+        "over": 1,
+        "fog": 0,
+        "key": "55|152|fair:3:2:44|rain:8:3:9|rain:5:3:9"
+      },
+      "gale": {
+        "poses": 0,
+        "scattered": 3834,
+        "gale": false
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work). Also here: Perla Zamarripa.  Bartolo Weatherby has met a rider, who has stopped to speak with them.",
+      "entities": 5,
+      "houses": 0,
+      "labels": 233
     },
     {
       "day": "high-water",
@@ -2183,10 +2617,15 @@
         "fog": 0,
         "key": "55|152|fair:3:2:44|rain:8:3:9|rain:5:3:9"
       },
-      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "gale": {
+        "poses": 0,
+        "scattered": 233,
+        "gale": false
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work). Also here: Perla Zamarripa.  Bartolo Weatherby has met a rider, who has stopped to speak with them.",
       "entities": 5,
       "houses": 0,
-      "labels": 133
+      "labels": 233
     },
     {
       "day": "high-water",
@@ -2354,10 +2793,11 @@
         "fog": 0,
         "key": "55|152|fair:3:2:44|rain:8:3:9|rain:5:3:9"
       },
-      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "gale": null,
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work). Also here: Perla Zamarripa.  Bartolo Weatherby has met a rider, who has stopped to speak with them.",
       "entities": 5,
       "houses": 0,
-      "labels": 133
+      "labels": 233
     },
     {
       "day": "shut",
@@ -2393,10 +2833,59 @@
         "fog": 0,
         "key": "55|152|fair:10:2:44|rain:10:3:9|rain:10:3:9"
       },
-      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "gale": {
+        "poses": 0,
+        "scattered": 696,
+        "gale": false
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work). Also here: Perla Zamarripa.  Bartolo Weatherby has met a rider, who has stopped to speak with them.",
       "entities": 5,
       "houses": 0,
-      "labels": 133
+      "labels": 233
+    },
+    {
+      "day": "shut",
+      "view": "timber",
+      "file": "docs/evidence/weather/weather-shut-timber.png",
+      "camera": {
+        "scale": 1487
+      },
+      "weather": {
+        "spans": 1,
+        "layers": 3,
+        "fog": 0,
+        "minute": 169260,
+        "mix": [
+          {
+            "x": 0,
+            "rain": 1,
+            "storm": 0,
+            "norther": 0,
+            "fog": 0,
+            "water": 0.95,
+            "wind": [
+              -0.26,
+              0.14
+            ]
+          }
+        ]
+      },
+      "ground": {
+        "courses": 1,
+        "flooded": 1,
+        "over": 1,
+        "fog": 0,
+        "key": "55|152|fair:10:2:44|rain:10:3:9|rain:10:3:9"
+      },
+      "gale": {
+        "poses": 0,
+        "scattered": 3834,
+        "gale": false
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work). Also here: Perla Zamarripa.  Bartolo Weatherby has met a rider, who has stopped to speak with them.",
+      "entities": 5,
+      "houses": 0,
+      "labels": 233
     },
     {
       "day": "shut",
@@ -2432,10 +2921,15 @@
         "fog": 0,
         "key": "55|152|fair:10:2:44|rain:10:3:9|rain:10:3:9"
       },
-      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "gale": {
+        "poses": 0,
+        "scattered": 233,
+        "gale": false
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work). Also here: Perla Zamarripa.  Bartolo Weatherby has met a rider, who has stopped to speak with them.",
       "entities": 5,
       "houses": 0,
-      "labels": 133
+      "labels": 233
     },
     {
       "day": "shut",
@@ -2603,10 +3097,11 @@
         "fog": 0,
         "key": "55|152|fair:10:2:44|rain:10:3:9|rain:10:3:9"
       },
-      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "gale": null,
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work). Also here: Perla Zamarripa.  Bartolo Weatherby has met a rider, who has stopped to speak with them.",
       "entities": 5,
       "houses": 0,
-      "labels": 133
+      "labels": 233
     },
     {
       "day": "arriving",
@@ -2642,10 +3137,59 @@
         "fog": 0,
         "key": "55|152|norther:5:10:0|norther:3:10:0|norther:0:7:0"
       },
-      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "gale": {
+        "poses": 48,
+        "scattered": 696,
+        "gale": true
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work). Also here: Perla Zamarripa.  Bartolo Weatherby has met a rider, who has stopped to speak with them.",
       "entities": 5,
       "houses": 0,
-      "labels": 133
+      "labels": 233
+    },
+    {
+      "day": "arriving",
+      "view": "timber",
+      "file": "docs/evidence/weather/weather-arriving-timber.png",
+      "camera": {
+        "scale": 1487
+      },
+      "weather": {
+        "spans": 1,
+        "layers": 5,
+        "fog": 0,
+        "minute": 2895,
+        "mix": [
+          {
+            "x": 0,
+            "rain": 0,
+            "storm": 0,
+            "norther": 1,
+            "fog": 0,
+            "water": 0.29,
+            "wind": [
+              0,
+              1
+            ]
+          }
+        ]
+      },
+      "ground": {
+        "courses": 1,
+        "flooded": 1,
+        "over": 0,
+        "fog": 0,
+        "key": "55|152|norther:5:10:0|norther:3:10:0|norther:0:7:0"
+      },
+      "gale": {
+        "poses": 564,
+        "scattered": 3834,
+        "gale": true
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work). Also here: Perla Zamarripa.  Bartolo Weatherby has met a rider, who has stopped to speak with them.",
+      "entities": 5,
+      "houses": 0,
+      "labels": 233
     },
     {
       "day": "arriving",
@@ -2681,10 +3225,15 @@
         "fog": 0,
         "key": "55|152|norther:5:10:0|norther:3:10:0|norther:0:7:0"
       },
-      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "gale": {
+        "poses": 217,
+        "scattered": 233,
+        "gale": true
+      },
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work). Also here: Perla Zamarripa.  Bartolo Weatherby has met a rider, who has stopped to speak with them.",
       "entities": 5,
       "houses": 0,
-      "labels": 133
+      "labels": 233
     },
     {
       "day": "arriving",
@@ -2852,10 +3401,11 @@
         "fog": 0,
         "key": "55|152|norther:5:10:0|norther:3:10:0|norther:0:7:0"
       },
-      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+      "gale": null,
+      "description": "At Family 1 home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work). Also here: Perla Zamarripa.  Bartolo Weatherby has met a rider, who has stopped to speak with them.",
       "entities": 5,
       "houses": 0,
-      "labels": 133
+      "labels": 233
     }
   ],
   "errors": [],
@@ -2873,10 +3423,13 @@
   "noWeatherWords": true,
   "descriptionsByDay": [
     "Juniper the ox is on the road to Family # home, about #% of the way. Bess the mare is on the road to Family # home, about #% of the way. Family wagon is on the road to Family # home, about #% of the way. Bartolo Weatherby is on the road to Family # home, about #% of the way. Sarah Weatherby is on the road to Family # home, about #% of the way.",
-    "At Family # home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work)."
+    "At Family # home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work).",
+    "At Family # home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work). Also here: Perla Zamarripa.",
+    "At Family # home: Juniper the ox (rest), Bess the mare (rest), Family wagon (rest), Bartolo Weatherby (work), Sarah Weatherby (work). Also here: Perla Zamarripa.  Bartolo Weatherby has met a rider, who has stopped to speak with them."
   ],
   "sheets": [
     "docs/evidence/weather/weather-sheet-yard.png",
+    "docs/evidence/weather/weather-sheet-timber.png",
     "docs/evidence/weather/weather-sheet-county.png",
     "docs/evidence/weather/weather-sheet-country.png"
   ]

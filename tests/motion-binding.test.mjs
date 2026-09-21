@@ -184,24 +184,61 @@ test('somebody sent on the family horse is drawn riding it, and the horse is not
   assert.ok(entityClip(person({ health: { condition: 'wounded' }, travel: { ...south, mode: 'horse' } })).id.endsWith('injured-rest'));
 });
 
-test('until the art exists, a person is drawn as the nearest figure the library has, and a child smaller', async () => {
-  // stand-in: docs/ART_REQUESTS.md, request 2026-09-12. When the requested cast is delivered this
-  // test changes with it; the rules it guards - the principal keeps the mark, a child is drawn
-  // smaller, every binding names a clip that exists - do not.
-  const { castVariant, figureScale, FIGURE_SCALE } = await import('../public/motion.js');
-  // An id whose hash would not already give the right figure, so the choice is seen to come from who they are.
-  const id = 'hh-1-parent-2';
-  assert.equal(visualVariant(id), 'blue', 'the fixture id must hash to neither teal nor elder');
-  const someone = extra => ({ id, kind: 'person', health: { condition: 'well' }, task: 'rest', ...extra });
-  assert.equal(castVariant(someone({ principal: true, sex: 'female', band: 'adult' })), PRINCIPAL_VARIANT, 'a mother who is the principal keeps the mark');
-  assert.equal(castVariant(someone({ principal: true, sex: 'female', band: 'adult' }), true), 'teal', 'and another family’s principal never wears it');
-  assert.equal(castVariant(someone({ sex: 'female', band: 'adult' })), 'teal');
-  assert.equal(castVariant(someone({ sex: 'female', band: 'small' })), 'teal');
-  assert.equal(castVariant(someone({ sex: 'male', band: 'adult' })), 'elder');
-  assert.equal(castVariant(someone({ sex: 'male', band: 'youth' })), 'blue');
-  assert.equal(castVariant(someone({ sex: 'male', band: 'child' })), 'blue');
+test('somebody a rider has stopped is drawn talking with him, in the delivered speaking and listening poses', async () => {
+  // Astra delivered these for the first cast on 2026-09-14 and the second on 2026-09-21, and until today nothing drew
+  // one: the server told the page which way the RIDER was turned and said nothing about the person he had reined in for,
+  // so they stood in their idle pose. `listeningOf` in sim/encounters.mjs is the other half of `facingOf`.
+  const { castVariant } = await import('../public/motion.js');
+  const variant = visualVariant('hh-1-rosa');
+  assert.equal(entityClip(person({ speaking: true, facing: 'e' })).id, `${variant}-speak`, 'saying something is the speaking cycle');
+  assert.equal(entityClip(person({ facing: 'n' })).id, `${variant}-listen-n`, 'a rider above them is listened to with the back view');
+  for (const facing of ['s', 'e', 'w']) {
+    assert.equal(entityClip(person({ facing })).id, `${variant}-listen-s`, 'and every other way with the front view: no sheet has an east-facing listener');
+  }
+  // A back view is never mirrored, and a listening pose is not frozen - the renderer's breathing is what keeps it alive,
+  // which is what docs/ART_DELIVERY_2026-09-21-CAST2-DIALOGUE.md asked for.
+  assert.equal(entityClip(person({ facing: 'n' })).upright, true);
+  assert.equal(entityClip(person({ facing: 'n' })).frozen, undefined);
+  // A conversation outranks what they were doing, and is refused for somebody else's family: an observed person's pose
+  // is never read off a meeting this student is not in.
+  assert.equal(entityClip(person({ facing: 'e', chore: { doing: 'breaking the rows' } })).id, `${variant}-listen-s`);
+  assert.ok(!entityClip(person({ speaking: true, facing: 'e', observed: true }), true).id.endsWith('-speak'));
+  // Being hurt still outranks a conversation: a hurt person is drawn hurt whatever else is going on.
+  assert.equal(entityClip(person({ speaking: true, facing: 'e', health: { condition: 'minor-injury' } })).id, `${variant}-injured-rest`);
+  // Every figure a family can be drawn as has all three poses in the library.
+  for (const sex of ['male', 'female']) for (const band of ['adult', 'youth']) for (const principal of [false, true]) {
+    const who = castVariant(person({ sex, band, principal }));
+    for (const pose of ['speak', 'listen-s', 'listen-n']) assert.ok(clips[`${who}-${pose}`], `${who}-${pose} is not in the library`);
+  }
+});
+
+test('the second cast is drawn: a family of distinct people, a mother who is principal in her own rust, and a child smaller', async () => {
+  // Astra's second cast was completed on 2026-09-21 (north/south walking and dialogue), so this is no longer the
+  // stand-in's rule but the delivered one. What it guards is unchanged: the principal keeps the mark, nobody else may
+  // wear it, a child is drawn smaller, and every binding names a clip the library holds.
+  const { castVariant, figureScale, FIGURE_SCALE, WOMEN, MEN } = await import('../public/motion.js');
+  const someone = (id, extra = {}) => ({ id, kind: 'person', health: { condition: 'well' }, task: 'rest', ...extra });
+  const woman = { sex: 'female', band: 'adult' }, man = { sex: 'male', band: 'adult' };
+  // The principal's own colour, and a mother who is the principal is drawn as a woman wearing it.
+  assert.equal(castVariant(someone('hh-1-parent-1', { principal: true, ...man })), PRINCIPAL_VARIANT);
+  assert.equal(castVariant(someone('hh-1-parent-2', { principal: true, ...woman })), 'rust-woman', 'a mother who is the principal is a woman in the principal\u2019s rust');
+  assert.ok(castVariant(someone('hh-1-parent-2', { principal: true, ...woman })).startsWith(PRINCIPAL_VARIANT), 'and it is still the mark');
+  // Nobody else may be dealt either of the principal's two figures.
+  for (const pool of [WOMEN, MEN]) for (const figure of pool) assert.ok(!figure.startsWith(PRINCIPAL_VARIANT), `${figure} is in a pool and wears the mark`);
+  assert.equal(castVariant(someone('hh-1-parent-2', { principal: true, ...woman }), true), castVariant(someone('hh-1-parent-2', woman)), 'another family\u2019s principal is drawn as anybody else');
+  // Two women and two men, so a family is not four copies of two figures; and the choice is who they are, not chance.
+  assert.deepEqual([...WOMEN].sort(), ['indigo', 'teal']);
+  assert.deepEqual([...MEN].sort(), ['elder', 'ochre']);
+  const women = new Set(), men = new Set();
+  for (let i = 0; i < 40; i++) { women.add(castVariant(someone(`hh-${i}-mother`, woman))); men.add(castVariant(someone(`hh-${i}-father`, man))); }
+  assert.deepEqual([...women].sort(), ['indigo', 'teal'], 'both women are dealt');
+  assert.deepEqual([...men].sort(), ['elder', 'ochre'], 'both men are dealt');
+  assert.equal(castVariant(someone('hh-1-rosa', woman)), castVariant(someone('hh-1-rosa', woman)), 'and the same person is the same figure every tick');
+  // An adolescent has her own figure now, where she used to be drawn as a grown woman.
+  assert.equal(castVariant(someone('hh-1-daughter', { sex: 'female', band: 'youth' })), 'blue-girl');
+  assert.equal(castVariant(someone('hh-1-son', { sex: 'male', band: 'youth' })), 'blue');
   // Nobody with no stated sex changes how they look.
-  assert.equal(castVariant(someone({ id: 'hh-1-elena' })), visualVariant('hh-1-elena'));
+  assert.equal(castVariant(someone('hh-1-elena')), visualVariant('hh-1-elena'));
 
   const order = ['adult', 'youth', 'child', 'small', 'infant'].map(band => figureScale({ band }));
   for (let i = 1; i < order.length; i++) assert.ok(order[i] < order[i - 1], `a younger band is not drawn smaller: ${order}`);

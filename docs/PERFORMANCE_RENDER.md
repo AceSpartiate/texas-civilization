@@ -391,3 +391,31 @@ nothing injected at all. The rest are days further into the class than a proof c
 computed by the simulation and put on the snapshot as it is parsed (`scripts/support/weather-stub.mjs`); what stands in
 is the delivery, not the weather. `shut` is the one exception and says so in the record: no day of this class quite
 reaches `WATER_SHUT`, so one river is raised by hand to show what a shut ford looks like.
+
+## Astra's painted gale, and what a measurement could not say — 2026-09-21
+
+The norther stopped shearing upright sprites and started drawing Astra's own gale poses where the wind is hard
+(`GALE_POSES` in `public/weather-art.js`, `FIC-GONZ-201`). What that adds to the scattered ground is **one `Math.min`
+and one `Math.hypot` a thing** (`inGale`), read off the `weatherMix` the lean was already reading — a second mix for
+the second answer would have doubled the cost of the whole scatter, so both come off one. What it **removes** on a
+norther is a `ctx.transform` pair a thing (the shear is not applied over a pose that is already bent) and, for a
+timber oak, a whole clip sample: `postOak` draws the painted frame instead of sampling the one-frame sway clip. The
+gale path is therefore cheaper than the shear it replaces, and a fair day pays two arithmetic operations a thing.
+
+**The measurement cannot support a number, and says so.** `node scripts/perf-render-measure.mjs --label gale-after
+--weather norther` and the same script on a fair day were run back to back on this build
+([norther](evidence/perf-render-gale-after.json), [fair](evidence/perf-render-gale-fair.json)). The *fair* run — the
+one doing **less** work — came out slower in every view (50.6 ms a painted frame at the `default` view against 30.1 on
+the norther), because the machine was running browsers and test suites at the time. Run-to-run noise of twenty
+milliseconds a frame swamps anything this change could cost, so **no before-and-after figure is claimed from it**. The
+numbers in the 2026-09-20 table above were taken on a quiet machine and are the ones to compare a future build with.
+
+What the two runs **do** hold, because it is a count and not a time: **the ground was redrawn 0 to 0.2 times a second**
+in both, exactly as on every build since the kept ground was built, and there were **no page errors** in either. The
+gale changes what a mark is drawn as, never how often the country is drawn — `weatherGroundKey` already carries the
+kind and the wind's force to a tenth, so the day that turns on the gale is the day that already redrew the ground once.
+
+`scripts/weather-browser-proof.mjs` now photographs a fourth zoom (`timber`, seven wheel steps out from the closest)
+and records `window.__galeDrawn` — how many things took a painted pose and how many were scattered — on every shot.
+On the two norther days it is 48 of 696 at the yard, 564 of 3,834 in the timber and 217 of 233 at the county; on the
+fair, rain, storm, fog and high-water days it is **0** at every zoom, which is the whole rule in one column.

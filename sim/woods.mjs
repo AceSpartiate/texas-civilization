@@ -320,16 +320,19 @@ export function standOf(stand, rule = 'biomes') {
 const kind = (name, logs, use, fell, picture, look = {}) => Object.freeze({ name, logs: Object.freeze(logs), use, fell, picture, sized: false, scale: 1, stump: 'stump-post-oak', ...look });
 const SIZED = { sized: true };
 export const KINDS = Object.freeze({
-  'post-oak': kind('post oak', [1, 2, 2], 'sill', 1, 'oak-broad'),
-  blackjack: kind('blackjack oak', [1, 1, 2], 'poor', 1, 'oak-broad'),
-  hickory: kind('hickory', [1, 2, 2], 'wall', 1.2, 'pecan'),
+  // `trees-colonies-2`, 2026-09-21: post oak, blackjack, pecan, hackberry and sweetgum now have their own pole, log and
+  // large art (docs/ART_DELIVERY_2026-09-21-TREES-COLONIES-2.md). The other oaks take the post oak's - they are oaks, and
+  // it is nearer than the generic broadleaf they had - and the hickory, walnut and ash the pecan's, as they always did.
+  'post-oak': kind('post oak', [1, 2, 2], 'sill', 1, 'post-oak', SIZED),
+  blackjack: kind('blackjack oak', [1, 1, 2], 'poor', 1, 'blackjack', SIZED),
+  hickory: kind('hickory', [1, 2, 2], 'wall', 1.2, 'pecan', SIZED),
   'live-oak': kind('live oak', [0, 1, 1], 'sill', 1.5, 'live-oak', SIZED),
-  'water-oak': kind('water oak', [1, 2, 3], 'wall', 1, 'oak-broad'),
-  pecan: kind('pecan', [1, 2, 2], 'wall', 1.2, 'pecan'),
-  walnut: kind('walnut', [1, 2, 2], 'wall', 1.2, 'pecan'),
+  'water-oak': kind('water oak', [1, 2, 3], 'wall', 1, 'post-oak', SIZED),
+  pecan: kind('pecan', [1, 2, 2], 'wall', 1.2, 'pecan', SIZED),
+  walnut: kind('walnut', [1, 2, 2], 'wall', 1.2, 'pecan', SIZED),
   elm: kind('elm', [1, 2, 2], 'poor', 1, 'elm', SIZED),
-  ash: kind('ash', [1, 2, 3], 'wall', 1, 'pecan'),
-  hackberry: kind('hackberry', [1, 1, 2], 'poor', 0.8, 'oak-broad'),
+  ash: kind('ash', [1, 2, 3], 'wall', 1, 'pecan', SIZED),
+  hackberry: kind('hackberry', [1, 1, 2], 'poor', 0.8, 'hackberry', SIZED),
   cottonwood: kind('cottonwood', [2, 3, 3], 'poor', 0.6, 'cottonwood', { stump: 'stump-cottonwood' }),
   sycamore: kind('sycamore', [1, 2, 3], 'poor', 1, 'cottonwood', { stump: 'stump-cottonwood' }),
   cedar: kind('cedar', [1, 1, 2], 'sill', 0.8, 'cedar', SIZED),
@@ -338,13 +341,13 @@ export const KINDS = Object.freeze({
   mesquite: kind('mesquite', [0, 0, 0], 'none', 0.6, 'mesquite', SIZED),
   // The biomes of 1836 (docs/BIOMES.md §7.1, 2026-09-19). stand-in: docs/ART_REQUESTS.md, request 2026-09-19 - the country of
   // 1836: longleaf is drawn as the loblolly, bald cypress as the cedar a third taller, the palm as the sapling drawn twice as
-  // tall, beech, magnolia, sweetgum and bur oak as the broad oak, until their own art lands.
-  'bur-oak': kind('bur oak', [1, 2, 2], 'sill', 1.1, 'oak-broad'),
+  // tall, and beech and magnolia as the broad oak, until their own art lands. Sweetgum and the remaining oaks have theirs.
+  'bur-oak': kind('bur oak', [1, 2, 2], 'sill', 1.1, 'post-oak', SIZED),
   longleaf: kind('longleaf pine', [2, 3, 4], 'wall', 0.8, 'pine-loblolly', { sized: true, scale: 1.25, stump: 'stump-pine-loblolly' }),
   beech: kind('beech', [1, 2, 3], 'poor', 1.1, 'oak-broad'),
   magnolia: kind('magnolia', [1, 2, 2], 'poor', 1, 'oak-broad'),
-  'white-oak': kind('white oak', [1, 2, 3], 'sill', 1.1, 'oak-broad'),
-  sweetgum: kind('sweetgum', [1, 2, 3], 'poor', 0.9, 'oak-broad'),
+  'white-oak': kind('white oak', [1, 2, 3], 'sill', 1.1, 'post-oak', SIZED),
+  sweetgum: kind('sweetgum', [1, 2, 3], 'poor', 0.9, 'sweetgum', SIZED),
   'bald-cypress': kind('bald cypress', [2, 3, 4], 'sill', 1, 'cedar', { sized: true, scale: 1.35 }),
   tupelo: kind('tupelo', [1, 2, 2], 'poor', 0.9, 'elm', SIZED),
   'cedar-elm': kind('cedar elm', [1, 1, 2], 'poor', 1, 'elm', SIZED),
@@ -352,7 +355,7 @@ export const KINDS = Object.freeze({
   ebony: kind('Texas ebony', [0, 1, 1], 'poor', 1.3, 'oak-spreading'),
   willow: kind('willow', [1, 2, 2], 'poor', 0.6, 'cottonwood', { stump: 'stump-cottonwood' }),
   palm: kind('Texas palm', [0, 1, 1], 'poor', 0.8, 'sapling', { scale: 2 }),
-  'texas-oak': kind('Texas oak', [1, 1, 2], 'poor', 1, 'oak-broad'),
+  'texas-oak': kind('Texas oak', [1, 1, 2], 'poor', 1, 'post-oak', SIZED),
 });
 export const SIZES = Object.freeze(['pole', 'log', 'large']);
 

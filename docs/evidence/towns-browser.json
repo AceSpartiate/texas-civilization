@@ -1,12 +1,12 @@
 {
   "record": "The towns of the colonies, drawn in a browser: docs/TOWNS.md §5b",
-  "date": "2026-09-17",
+  "date": "2026-09-21",
   "verdict": "PASS",
   "note": "Same computer only. A 30-family class on the colonies map, served live; the Host page went to each drawn town from its Go to list. No LAN or district claim.",
   "checks": [
     "San Felipe de Austin: 46 buildings drawn at 1357 px a mile; 10 keepers' buildings named; 10 people drawn there",
     "Victoria: 36 buildings drawn at 1357 px a mile; 3 keepers' buildings named; 3 people drawn there",
-    "Mina: 55 buildings drawn at 1357 px a mile; 5 keepers' buildings named; 5 people drawn there",
+    "Mina: 27 buildings drawn at 1357 px a mile; 5 keepers' buildings named; 5 people drawn there",
     "Matagorda: 46 buildings drawn at 1357 px a mile; 4 keepers' buildings named; 4 people drawn there",
     "Columbia: 18 buildings drawn at 1357 px a mile; 9 keepers' buildings named; 9 people drawn there",
     "Liberty: 11 buildings drawn at 1357 px a mile; 4 keepers' buildings named; 4 people drawn there",
@@ -101,7 +101,7 @@
       "keepersDrawn": 3
     },
     "mina": {
-      "drawn": 55,
+      "drawn": 27,
       "scale": 1357.1428571428573,
       "shops": [
         {

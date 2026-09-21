@@ -55,7 +55,9 @@ const grid = (xs, ys, width) => [
   ...xs.map(([name, x]) => ({ name, width, points: [{ x, y: ys[0][1] }, { x, y: ys.at(-1)[1] }] })),
   ...ys.map(([name, y]) => ({ name, width, points: [{ x: xs[0][1], y }, { x: xs.at(-1)[1], y }] })),
 ];
-const withFill = (named, fill) => [...named, ...dwellings(fill.prefix, { ...fill, taken: named })];
+// `fill.taken` is ground that holds no building of its own but must still keep the filler off it - the inside of Mina's
+// stockade, which used to be held by the palisade pieces themselves.
+const withFill = (named, fill) => [...named, ...dwellings(fill.prefix, { ...fill, taken: [...named, ...(fill.taken || [])] })];
 
 // ---------------------------------------------------------------------------------------------- San Felipe de Austin
 // docs/town-research/san-felipe.md §7. The frame is invented there, north unresolved; it is turned here so the river side
@@ -71,14 +73,16 @@ const SF_NAMED = [
   { id: 'sf-smithwick-cabin', sprite: 'cabin-small', x: 900, y: 1990, height: 20 },
   { id: 'sf-smithy', sprite: 'shed-open', x: 1010, y: 2000, height: 18, label: 'The smithy', trade: 'blacksmith' },
   { id: 'sf-peyton-tavern', sprite: 'house-dog-run', x: 1180, y: 2010, height: 26, label: 'Peyton’s tavern', trade: 'tavern' },
-  // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - a frame building. The only frame building in town in 1828.
-  { id: 'sf-cooper-chieves', sprite: 'trading-house', x: 1330, y: 2000, height: 26, label: 'Cooper & Chieves, saloon' },
+  // The only frame building in town in 1828 (`town-buildings-researched`, 2026-09-21).
+  { id: 'sf-cooper-chieves', sprite: 'building-frame-shop', x: 1330, y: 2000, height: 26, label: 'Cooper & Chieves, saloon' },
   { id: 'sf-dinsmore-store', sprite: 'trading-house', x: 950, y: 1800, height: 24, label: 'Dinsmore’s store' },
   { id: 'sf-white-store', sprite: 'trading-house', x: 1120, y: 1795, height: 24, label: 'White’s store', trade: 'store' },
   { id: 'sf-cotton-plant', sprite: 'cabin-small', x: 1290, y: 1790, height: 20, label: 'The Cotton Plant' },
   { id: 'sf-cotten-house', sprite: 'house-round-log', x: 1380, y: 1785, height: 22 },
-  // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - a storey-and-a-half log house. The Whiteside Hotel, drawn taller.
-  { id: 'sf-whiteside-hotel', sprite: 'house-dog-run', x: 1560, y: 1790, height: 34, label: 'Whiteside Hotel' },
+  // The Whiteside Hotel: its own broad log building with the open dog-run passage and a chimney at each end, researched
+  // and drawn for this spot (`town-buildings-researched`, 2026-09-21). It was `house-dog-run` stretched to 34 feet; the
+  // painted building is the right shape, so it goes back to the height the research gives it.
+  { id: 'sf-whiteside-hotel', sprite: 'whiteside-hotel', x: 1560, y: 1790, height: 28, label: 'Whiteside Hotel' },
   { id: 'sf-alcalde-office', sprite: 'house-dog-run', x: 1590, y: 1600, height: 26, label: 'The alcalde’s office' },
   { id: 'sf-farmers-hotel', sprite: 'house-dog-run', x: 1800, y: 2050, height: 28, label: 'Farmer’s Hotel' },
   { id: 'sf-huff-store', sprite: 'trading-house', x: 1700, y: 2060, height: 24 },
@@ -122,8 +126,8 @@ const VIC_Y = [['Calle Libertad', 900], ['Calle Artiaga', 1237], ['Calle Chovel'
 const VIC_NAMED = [
   { id: 'vic-first-church', sprite: 'chapel', x: 5060, y: 2500, height: 28, label: 'The church' },
   { id: 'vic-deleon-house', sprite: 'house-hewn-log', x: 5120, y: 2360, height: 24, label: 'Martín De León’s house' },
-  // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the Round Top House. A round fortified house; a storehouse drawn tall.
-  { id: 'vic-round-top', sprite: 'storehouse', x: 4900, y: 2190, height: 30, label: 'Round Top House' },
+  // Victoria's own landmark, painted round with its gun slits and heavy door (`town-buildings-researched`, 2026-09-21).
+  { id: 'vic-round-top', sprite: 'round-top-house', x: 4900, y: 2190, height: 26, label: 'Round Top House' },
   { id: 'vic-linn-house', sprite: 'trading-house', x: 4560, y: 2180, height: 24, label: 'Linn’s store', trade: 'store' },
   { id: 'vic-school', sprite: 'cabin-wide', x: 4750, y: 2620, height: 20, label: 'The school' },
   { id: 'vic-ayuntamiento', sprite: 'house-hewn-log', x: 4400, y: 1400, height: 24 },
@@ -136,8 +140,9 @@ const VICTORIA = {
     { label: 'Plaza de la Constitución', x: 4667, y: 1267, width: 278, height: 278 },
     { label: 'Square for government buildings', x: 4330, y: 1267, width: 278, height: 278 },
   ],
-  // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - a jacal row. The one jacal the library has, at varied heights.
-  buildings: withFill(VIC_NAMED, { prefix: 'vic-jacal', origin: { x: 4300, y: 900 }, module: 337.3, block: 277.8, lots: 2, centre: { x: 4806, y: 2418 }, count: 30, rows: [0, 7], columns: [0, 4], skipBlocks: [[1, 4], [1, 1], [0, 1]], sprites: ['house-jacal', 'house-jacal', 'house-hewn-log', 'house-jacal', 'shed-open'], height: 18 }),
+  // Four jacales in variety and a brush ramada (`town-buildings-researched`, 2026-09-21), for the town whose houses the
+  // research found were mostly jacales; one hewn-log house among them, as before.
+  buildings: withFill(VIC_NAMED, { prefix: 'vic-jacal', origin: { x: 4300, y: 900 }, module: 337.3, block: 277.8, lots: 2, centre: { x: 4806, y: 2418 }, count: 30, rows: [0, 7], columns: [0, 4], skipBlocks: [[1, 4], [1, 1], [0, 1]], sprites: ['jacal-upright-post', 'jacal-broad', 'house-hewn-log', 'jacal-poor', 'jacal-ramada'], height: 18 }),
 };
 
 // ---------------------------------------------------------------------------------------------- Mina
@@ -145,19 +150,19 @@ const VICTORIA = {
 // its documented block, stopping at Farm Street.
 const MINA_X = [['Water', 3787], ['Pecan', 4171], ['Jefferson', 4567], ['Hill', 4958], ['Haysel', 5349]];
 const MINA_Y = [['Farm', 2804], ['Spring', 3199], ['Chestnut', 3600], ['Pine', 3984], ['Walnut', 4370], ['Austin', 4770], ['Government', 5146]];
-// stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - a frontier log stockade. `palisade` run in a square with a `gate`.
-const STOCKADE = (() => {
-  const pieces = [], left = 3900, top = 4100, side = 168, step = 28;
-  for (let i = 0; i <= side / step; i++) {
-    for (const [x, y] of [[left + i * step, top], [left + i * step, top + side], [left, top + i * step], [left + side, top + i * step]]) {
-      if (x === left + side / 2 && y === top + side) continue;
-      pieces.push({ id: `mina-stockade-${pieces.length + 1}`, sprite: 'palisade', x, y, height: 14 });
-    }
-  }
-  pieces.push({ id: 'mina-stockade-gate', sprite: 'gate', x: left + side / 2, y: top + side, height: 14 });
-  pieces.push({ id: 'mina-stockade-house', sprite: 'house-hewn-log', x: left + side / 2, y: top + side / 2 + 20, height: 22, label: 'The stockade' });
-  return pieces;
-})();
+// The whole palisaded compound with its cabin standing inside it, as one painted building (`town-buildings-researched`,
+// 2026-09-21). It was 27 `palisade` pieces and a `gate` run round a square with a `house-hewn-log` in the middle, which
+// read as a fence somebody had left in a field. The gate is drawn open: Mina in 1835 is a town going about its business,
+// and `mina-stockade` - the same compound shut - is registered for a day the game ever has one. Nothing shuts it today.
+// ceiling: `height` 30 is chosen so the compound is drawn about as wide as its 168 surveyed feet at the town's own
+// exaggeration (`DRAWN_HEIGHT` times the frame's own proportion), rather than as tall as a 14-foot palisade would be.
+const STOCKADE_LEFT = 3900, STOCKADE_TOP = 4100, STOCKADE_SIDE = 168;
+const STOCKADE = [
+  { id: 'mina-stockade-house', sprite: 'mina-stockade-open', x: STOCKADE_LEFT + STOCKADE_SIDE / 2, y: STOCKADE_TOP + STOCKADE_SIDE, height: 30, label: 'The stockade' },
+];
+// The ground inside the palisade, so no house is platted where the pieces used to hold the lots against the filler.
+const STOCKADE_GROUND = [[0, 0], [1, 0], [0, 1], [1, 1], [0.5, 0.5]]
+  .map(([fx, fy]) => ({ x: STOCKADE_LEFT + fx * STOCKADE_SIDE, y: STOCKADE_TOP + fy * STOCKADE_SIDE }));
 const MINA_NAMED = [
   ...STOCKADE,
   { id: 'mina-webber-lot', sprite: 'cabin-small', x: 3440, y: 3650, height: 20 },
@@ -172,7 +177,7 @@ const MINA = {
     { label: 'Plaza de la Constitución', x: 3817, y: 4795, width: 333, height: 333 },
     { label: 'Municipal buildings', x: 4206, y: 4795, width: 333, height: 333 },
   ],
-  buildings: withFill(MINA_NAMED, { prefix: 'mina-house', origin: { x: 3787, y: 2804 }, module: 388.9, block: 333.3, lots: 2, centre: { x: 3984, y: 4180 }, count: 22, rows: [0, 6], columns: [0, 4], skipBlocks: [[0, 3], [0, 5], [1, 5]] }),
+  buildings: withFill(MINA_NAMED, { prefix: 'mina-house', origin: { x: 3787, y: 2804 }, module: 388.9, block: 333.3, lots: 2, centre: { x: 3984, y: 4180 }, count: 22, rows: [0, 6], columns: [0, 4], skipBlocks: [[0, 3], [0, 5], [1, 5]], taken: STOCKADE_GROUND }),
 };
 
 // ---------------------------------------------------------------------------------------------- Matagorda
@@ -199,8 +204,9 @@ const MATAGORDA = {
     { label: 'Public Square', x: 2180, y: 2280, width: 833, height: 833 },
     { label: 'Burying Ground', x: 7250, y: 1780, width: 600, height: 600 },
   ],
-  // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - a frame building. The frame town of imported lumber, in log.
-  buildings: withFill(MAT_NAMED, { prefix: 'mat-house', origin: { x: -333, y: 1165 }, module: 416.7, block: 333, lots: 2, centre: { x: 1900, y: 4300 }, count: 36, rows: [0, 8], columns: [0, 9], skipBlocks: [[6, 2], [6, 3], [7, 2], [7, 3]], sprites: ['cabin-small', 'house-hewn-log', 'trading-house', 'cabin-weathered', 'house-round-log'] }),
+  // The frame town of imported lumber, now in frame (`town-buildings-researched`, 2026-09-21): clapboard residences and
+  // shops of one storey and a storey and a half, with hewn log among them for the older houses.
+  buildings: withFill(MAT_NAMED, { prefix: 'mat-house', origin: { x: -333, y: 1165 }, module: 416.7, block: 333, lots: 2, centre: { x: 1900, y: 4300 }, count: 36, rows: [0, 8], columns: [0, 9], skipBlocks: [[6, 2], [6, 3], [7, 2], [7, 3]], sprites: ['building-frame-residence', 'building-frame-one-storey', 'house-hewn-log', 'building-frame-storey-half', 'building-frame-shop'] }),
 };
 
 // ---------------------------------------------------------------------------------------------- Columbia
@@ -209,10 +215,10 @@ const MATAGORDA = {
 const COL_X = [['17th Street', 0], ['16th Street', 407], ['Broad Street', 836], ['15th Street', 1260], ['14th Street', 1657]];
 const COL_Y = [['Jefferson Street', 0], ['Hamilton Street', 400], ['Brazos Avenue', 810], ['Clay Street', 1224], ['Bernard Street', 1617], ['Jackson Street', 2011]];
 const COL_NAMED = [
-  // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - a two-storey frame house. The Senate house, in frame-hall.
-  { id: 'col-senate-house', sprite: 'frame-hall', x: 190, y: 900, height: 26, label: 'Brown house · the Senate' },
-  // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - a frame building. Kelsey's storey-and-a-half clapboard store.
-  { id: 'col-kelsey-store', sprite: 'trading-house', x: 190, y: 720, height: 22, label: 'Kelsey’s store · the House', trade: 'store' },
+  // The Brown house, where the Senate sat: two rooms below and two above (`town-buildings-researched`, 2026-09-21).
+  { id: 'col-senate-house', sprite: 'building-frame-two-storey', x: 190, y: 900, height: 26, label: 'Brown house · the Senate' },
+  // Kelsey's storey-and-a-half clapboard store, where the House sat.
+  { id: 'col-kelsey-store', sprite: 'building-frame-storey-half', x: 190, y: 720, height: 22, label: 'Kelsey’s store · the House', trade: 'store' },
   { id: 'col-bell-hotel', sprite: 'frame-hall', x: 620, y: 760, height: 30, label: 'Bell’s hotel' },
   { id: 'col-courthouse', sprite: 'timber-hall', x: 900, y: 900, height: 24, label: 'The courthouse' },
   { id: 'col-alcalde-office', sprite: 'cabin-small', x: 1030, y: 880, height: 18 },
@@ -236,8 +242,9 @@ const COLUMBIA = {
 const LIB_X = [['Fonda', 0], ['Crockett', 389], ['Austin', 778], ['Milam', 1167], ['Travis', 1556], ['Main', 1944], ['Fannin', 2333], ['San Jacinto', 2722]];
 const LIB_Y = [['Grand', 0], ['Webster', 389], ['Cos', 778], ['Trinity', 1167], ['Liberty', 1556], ['Jefferson', 1944], ['Santa Anna', 2333], ['Washington', 2722]];
 const LIB_NAMED = [
-  // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - a small hewn-log court room, 22 feet square. `cabin-small`.
-  { id: 'lib-casa-consistorial', sprite: 'cabin-small', x: 1750, y: 1361, height: 14, label: 'Casa Consistorial · the court room' },
+  // The 22-foot-square hewn-log court room, researched and drawn for this spot (`town-buildings-researched`, 2026-09-21).
+  // `liberty-court-room-side` is the same room seen end on and is registered for a layout that ever wants it turned.
+  { id: 'lib-casa-consistorial', sprite: 'liberty-court-room', x: 1750, y: 1361, height: 14, label: 'Casa Consistorial · the court room' },
   { id: 'lib-store', sprite: 'trading-house', x: 2010, y: 1420, height: 18, label: 'The store', trade: 'store' },
   ...[[2010, 1000], [2010, 1180], [2010, 1700], [2010, 1880], [1300, 1050], [1650, 1050], [2000, 1050], [1500, 1300], [1500, 1480]]
     .map(([x, y], i) => ({ id: `lib-house-${i + 1}`, sprite: DWELLINGS[i % DWELLINGS.length], x, y, height: 20 - (i % 3) * 2, filler: true })),
@@ -311,8 +318,10 @@ const WASHINGTON = {
   ],
   squares: [],
   buildings: [
-    // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the buildings the towns' research found. A two-storey frame, unfinished.
-    { id: 'wash-frame-unfinished', sprite: 'frame-hall', x: 40, y: -50, height: 28, label: 'Byars & Mercer’s frame' },
+    // Byars & Mercer's two-storey frame (`town-buildings-researched`, 2026-09-21).
+    // ceiling: it is drawn finished. Nothing in the library or the layout says half-built, and a building with its studs
+    // still open wants its own frame; the research has it unfinished in March 1836.
+    { id: 'wash-frame-unfinished', sprite: 'building-frame-two-storey', x: 40, y: -50, height: 28, label: 'Byars & Mercer’s frame' },
     { id: 'wash-byars-smithy', sprite: 'timber-shop', x: 90, y: 90, height: 16, label: 'Byars’s smithy' },
     { id: 'wash-morris-cabin', sprite: 'house-round-log', x: 300, y: 80, height: 16 },
     { id: 'wash-kenney-house', sprite: 'house-hewn-log', x: -280, y: 120, height: 18 },
@@ -469,9 +478,10 @@ const NACOGDOCHES = {
     { id: 'nac-smithy', sprite: 'shed-open', x: 100, y: 260, height: 12, label: 'A smithy' },
     ...alongRoad('nac-store', [{ x: -420, y: -300 }, { x: -56, y: -13 }, { x: 627, y: 239 }], { count: 6, spacing: 190, setback: 55, sprites: ['trading-house', 'timber-shop', 'trading-house'], height: 18 }),
     ...alongRoad('nac-frame', [{ x: 700, y: 270 }, { x: 1224, y: 474 }, { x: 1600, y: 620 }], { count: 8, spacing: 130, setback: 70, sprites: ['timber-hall', 'house-dog-run'], height: 18 }),
-    // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - jacales in variety. Houses of upright logs and mud.
-    ...alongRoad('nac-palisade', NAC_PILAR, { count: 12, spacing: 150, setback: 60, sprites: ['house-jacal'], height: 14 }),
-    ...alongRoad('nac-old', [{ x: -1090, y: -720 }, { x: -750, y: -530 }, { x: -499, y: -373 }], { count: 8, spacing: 90, setback: 60, sprites: ['house-jacal', 'adobe-flat'], height: 14 }),
+    // Houses of upright logs and mud (`town-buildings-researched`, 2026-09-21): the palisado row is the jacal of set
+    // upright posts, which is what "palisado" means here, with the poorer and broader kinds among the older street.
+    ...alongRoad('nac-palisade', NAC_PILAR, { count: 12, spacing: 150, setback: 60, sprites: ['jacal-upright-post'], height: 14 }),
+    ...alongRoad('nac-old', [{ x: -1090, y: -720 }, { x: -750, y: -530 }, { x: -499, y: -373 }], { count: 8, spacing: 90, setback: 60, sprites: ['jacal-broad', 'adobe-flat', 'jacal-poor'], height: 14 }),
     ...scatter('nac-log', { centre: { x: 200, y: 100 }, radius: 1400, count: 10, sprites: ['cabin-small', 'house-hewn-log'], height: 14, within: (x, y) => Math.hypot(x - 200, y - 100) > 800 }),
   ],
 };
@@ -500,7 +510,9 @@ const REFUGIO = {
     { id: 'ref-scott', sprite: 'house-jacal', x: -560, y: 760, height: 14, filler: true },
     { id: 'ref-power-town-house', sprite: 'house-jacal', x: -620, y: 1900, height: 15, label: 'Colonel Power’s town house' },
     { id: 'ref-quirk', sprite: 'cabin-small', x: -300, y: 540, height: 16 },
-    ...scatter('ref-hut', { centre: { x: -700, y: 700 }, radius: 1000, count: 20, sprites: ['adobe-flat', 'house-jacal', 'adobe-flat', 'house-jacal', 'adobe-tile'], height: 14, exclude: [REFUGIO_PLAZA, { x: -800, y: 880, width: 110, height: 190 }] }),
+    // The huts round the mission, in the jacal variety delivered 2026-09-21; the named houses above keep the one jacal
+    // they have always been drawn as, so a student who knows Colonel Power's town house still knows it.
+    ...scatter('ref-hut', { centre: { x: -700, y: 700 }, radius: 1000, count: 20, sprites: ['adobe-flat', 'jacal-broad', 'adobe-flat', 'jacal-poor', 'adobe-tile', 'jacal-ramada'], height: 14, exclude: [REFUGIO_PLAZA, { x: -800, y: 880, width: 110, height: 190 }] }),
   ],
 };
 
@@ -529,8 +541,8 @@ const GOLIAD = {
     { id: 'gol-espiritu-santo', sprite: 'roofless-church-shell', x: -1498, y: -3113, height: 20, label: 'Mission Espíritu Santo (ruin)' },
     { id: 'gol-zaragoza', sprite: 'stone-tile-house', x: -38, y: 420, height: 14, label: 'The Zaragoza house' },
     ...[[-60, 480], [-150, 390], [30, 500], [150, 480], [260, 470], [440, 430]].map(([x, y], i) => ({ id: `gol-stone-${i + 1}`, sprite: 'stone-tile-house', x, y, height: 14, filler: true })),
-    // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - jacales in variety.
-    ...scatter('gol-jacal', { centre: { x: 0, y: 500 }, radius: 900, count: 36, sprites: ['house-jacal', 'house-jacal', 'adobe-flat'], height: 13, exclude: [{ x: 20, y: 20, width: 355, height: 338 }], within: (x, y) => y > 380 || x < -40 }),
+    // Jacales in variety (`town-buildings-researched`, 2026-09-21), with the flat-roofed adobe among them as before.
+    ...scatter('gol-jacal', { centre: { x: 0, y: 500 }, radius: 900, count: 36, sprites: ['jacal-broad', 'jacal-upright-post', 'adobe-flat', 'jacal-poor', 'jacal-ramada'], height: 13, exclude: [{ x: 20, y: 20, width: 355, height: 338 }], within: (x, y) => y > 380 || x < -40 }),
   ],
 };
 

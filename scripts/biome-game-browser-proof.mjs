@@ -82,6 +82,17 @@ try {
   assert.match(facts.words, /Waiting here, (a|an|ducks) [a-z ]+: [a-z]+ food/);
   ok(`the page asking about a place on the land is told what would come: "${facts.words}"`);
 
+  // The map taken in to the family's own yard before the hunt is ordered, so the quarry is a picture rather than four
+  // pixels of a county when it is photographed. The cards are put away for the same reason.
+  for (const id of ['#tutorial-skip', '#journal-close', '#wagon-done']) {
+    if (await page.locator(id).isVisible().catch(() => false)) await page.locator(id).click().catch(() => {});
+  }
+  await page.locator('#map-nav [data-view="home"]').click().catch(() => {});
+  const map = await page.locator('#world-map').boundingBox();
+  await page.mouse.move(map.x + map.width / 2, map.y + map.height / 2);
+  for (let i = 0; i < 22; i++) { await page.mouse.wheel(0, -100); await page.waitForTimeout(20); }
+  await page.waitForTimeout(400);
+
   // ------------------------------------------------------------------ the hunt asks about that quarry
   const command = input => page.evaluate(async body => { const response = await fetch('/api/command', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }); return { status: response.status, body: await response.json() }; }, { id: `proof-${crypto.randomUUID()}`, ...input });
   const sent = await command({ action: 'hunt-land', entityId: principal, x: pick.point.x, y: pick.point.y });
@@ -94,12 +105,35 @@ try {
   // Answered at once, before the family's patience runs out: wait for it to come closer, which makes the kill certain.
   const answer = await command({ action: 'answer-chore', entityId: principal, option: 'wait' });
   assert.equal(answer.status, 200, JSON.stringify(answer.body));
-  // Watched on the page while it comes closer: a deer is drawn only for a deer.
+  // Watched on the page while it comes closer. Each quarry is drawn as ITSELF or not at all: the deer since 2026-09-15
+  // and the turkey since Astra's sheet of 2026-09-21; anything else is words only and is given no place to stand.
   await page.waitForTimeout(1500);
   const drawn = await page.evaluate(() => window.__quarryDrawn || null);
-  if (facts.comes === 'deer') assert.ok(drawn, 'the deer was not drawn');
-  else assert.equal(drawn, null, `a deer was drawn for ${quarryName}`);
-  ok(`the shot is asked about the place's quarry, "${asked}", and ${facts.comes === 'deer' ? 'the deer is drawn' : 'no deer is drawn for it'}`);
+  const hasArt = ['deer', 'turkey'].includes(facts.comes);
+  if (hasArt) {
+    assert.ok(drawn, `${quarryName} was not drawn`);
+    assert.equal(drawn.kind, facts.comes, `${quarryName} was drawn as a ${drawn.kind}`);
+    // The picture itself, so somebody can look at it: the hunter, and the quarry the words name, in one frame. The
+    // person's own card is put away first, or it stands between the reader and the thing being photographed; and the map
+    // is dragged so that the place the quarry was drawn at (`__quarryDrawn`, in screen pixels) is in the middle of it -
+    // a hunter goes out to the edge of the cover and is off the screen the family's own yard fills.
+    // The class is held while the picture is taken: panning takes a second of real time and the hunt is over in a tick
+    // or two, so without this the quarry has been shot and carried home before the camera reaches it.
+    await post('/api/command', { id: `proof-pause-${crypto.randomUUID()}`, action: 'pause' }, hostCookie);
+    await page.waitForFunction(() => window.__snapshot?.world.status === 'paused');
+    if (await page.locator('#selection-close').isVisible().catch(() => false)) await page.locator('#selection-close').click().catch(() => {});
+    const canvas = await page.locator('#world-map').boundingBox();
+    const centre = { x: canvas.x + canvas.width / 2, y: canvas.y + canvas.height / 2 };
+    await page.mouse.move(centre.x, centre.y);
+    await page.mouse.down();
+    await page.mouse.move(centre.x - (drawn.x - canvas.width / 2), centre.y - (drawn.y - canvas.height / 2), { steps: 12 });
+    await page.mouse.up();
+    await page.waitForTimeout(500);
+    await page.screenshot({ path: `docs/evidence/biome-game/quarry-${facts.comes}.png` });
+    await post('/api/command', { id: `proof-resume-${crypto.randomUUID()}`, action: 'resume' }, hostCookie);
+    await page.waitForFunction(() => window.__snapshot?.world.status === 'running');
+  } else assert.equal(drawn, null, `a picture was drawn for ${quarryName}`);
+  ok(`the shot is asked about the place's quarry, "${asked}", and ${hasArt ? `the ${facts.comes} is drawn as a ${drawn.kind}` : 'nothing is drawn for it'}`);
   await until(() => world().events.some(event => event.householdId === 'hh-1' && event.type === 'hunt-kill'), 'the kill', 120000);
   const kill = world().events.find(event => event.householdId === 'hh-1' && event.type === 'hunt-kill');
   assert.equal(kill.quarry, facts.comes);
@@ -134,7 +168,7 @@ try {
 
   assert.deepEqual(errors, [], `page errors: ${errors.join(' | ')}`);
   ok('no page errors anywhere in the run');
-  record = { record: 'The biome game in a browser: docs/BIOME_GAMEPLAY.md §6', date: new Date().toISOString().slice(0, 10), sameComputerOnly: true, pass, hunt: { words: facts.words, asked, drawnDeer: Boolean(drawn), kill: kill.text }, fetchLogs, fence: fence.words };
+  record = { record: 'The biome game in a browser: docs/BIOME_GAMEPLAY.md §6', date: new Date().toISOString().slice(0, 10), sameComputerOnly: true, pass, hunt: { words: facts.words, asked, quarry: facts.comes, drawn, kill: kill.text }, fetchLogs, fence: fence.words };
 } finally {
   await browser.close();
   await app.close?.();

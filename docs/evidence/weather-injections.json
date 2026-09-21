@@ -1,6 +1,6 @@
 {
   "record": "weather-injections",
-  "date": "2026-09-20",
+  "date": "2026-09-21",
   "files": [
     "tests/weather-art.test.mjs"
   ],
@@ -10,7 +10,8 @@
       "file": "public/weather-art.js",
       "failed": [
         "a region boundary is a blend, not a line: the two weathers are half and half where they meet",
-        "rain thins out across a boundary instead of stopping at it"
+        "rain thins out across a boundary instead of stopping at it",
+        "the gale comes up with the day and thins out across a boundary, as the lean does"
       ]
     },
     {
@@ -41,6 +42,7 @@
       "file": "public/weather-art.js",
       "failed": [
         "a day comes up over its first hour and a half rather than flicking on",
+        "the gale comes up with the day and thins out across a boundary, as the lean does",
         "what is drawn into the kept ground does not change with the clock"
       ]
     },
@@ -63,6 +65,57 @@
       "file": "public/weather-art.js",
       "failed": [
         "the fog is a veil and never a curtain: it cannot be drawn to opacity"
+      ]
+    },
+    {
+      "name": "a storm blowing hard is drawn in the gale pose, so trees go flat under falling rain",
+      "file": "public/weather-art.js",
+      "failed": [
+        "a hard norther is drawn in the painted gale pose, and every lesser wind is still the shear"
+      ]
+    },
+    {
+      "name": "the gale pose flicks on at the first minute of a norther instead of coming up with the day",
+      "file": "public/weather-art.js",
+      "failed": [
+        "the gale comes up with the day and thins out across a boundary, as the lean does"
+      ]
+    },
+    {
+      "name": "the gale line is set above the wind the east of the country blows, so the east's own norther is never painted",
+      "file": "public/weather-art.js",
+      "failed": [
+        "a hard norther is drawn in the painted gale pose, and every lesser wind is still the shear",
+        "the gale comes up with the day and thins out across a boundary, as the lean does"
+      ]
+    },
+    {
+      "name": "the gale line is set so low that half a blend takes the pose, and the gale stops at a vertical edge",
+      "file": "public/weather-art.js",
+      "failed": [
+        "the gale comes up with the day and thins out across a boundary, as the lean does"
+      ]
+    },
+    {
+      "name": "anything upright is given the broad oak's gale pose, so a pine in a norther is drawn as an oak",
+      "file": "public/weather-art.js",
+      "failed": [
+        "only the things the gale was painted for take a pose; everything else in the timber keeps the shear"
+      ]
+    },
+    {
+      "name": "any breath of wind at all takes the painted gale pose",
+      "file": "public/weather-art.js",
+      "failed": [
+        "the gale comes up with the day and thins out across a boundary, as the lean does"
+      ]
+    },
+    {
+      "name": "the grass keeps standing up in a gale: its painted pose is never reached",
+      "file": "public/weather-art.js",
+      "failed": [
+        "a hard norther is drawn in the painted gale pose, and every lesser wind is still the shear",
+        "only the things the gale was painted for take a pose; everything else in the timber keeps the shear"
       ]
     },
     {
@@ -142,6 +195,9 @@
         "the three weights always make one whole country, wherever you stand",
         "a norther is a wind and a cold clear sky, and it brings no rain of its own",
         "the trees lean with the wind, and no further than a tree bends",
+        "a hard norther is drawn in the painted gale pose, and every lesser wind is still the shear",
+        "only the things the gale was painted for take a pose; everything else in the timber keeps the shear",
+        "the gale comes up with the day and thins out across a boundary, as the lean does",
         "a fair, dry, still day draws nothing at all",
         "the page draws the same river the simulation is running",
         "what is drawn into the kept ground does not change with the clock"
