@@ -5,25 +5,24 @@
 works, the line an empty bar shows, Astra's last four art batches, rain on the roofing and daubing, the four panels the
 overlap study could not reach, and the four browser gates that had been broken since before any of it.
 
-## Open, and found while merging the last agent — 2026-09-21
+## Corrected: the lobby bar is not empty — 2026-09-21
 
-**In the lobby, nobody's bar carries anything at all.** `npm run test:family-panel` fails after the merge, and the
-message it fails with now says why: *the main person's bar carries no Rest; it carries nothing at all*. That section of
-the proof runs **before** it presses Start (the start is at line ~142, the hover at ~113), so it is measuring a class in
-its lobby — and the page draws **zero** `.panel-icon` for every row, the focused one included.
+**I wrote this up as a possible regression and it is not one.** `npm run test:family-panel` failed after the merge in a
+section that runs *before* it presses Start, and the page draws no `.panel-icon` for any row there — which I reported as
+"nobody's bar carries anything in the lobby", with `LOBBY_ACTIONS` as the reason it might matter.
 
-**Why this matters rather than being a proof to patch.** `LOBBY_ACTIONS` exists precisely so that *"a family may set its
-own people to work while the class fills up"* (`sim/world.mjs`). If no row carries an icon in the lobby, that is no
-longer reachable from the panel, and it would be a regression from the ability bar of 2026-09-21 (`FIC-GONZ-220`), which
-draws only the main person's group. It is **not** proved to be a regression yet: what is proved is that the DOM has no
-icons there. Either the page is not treating anybody as main in the lobby, or `panelActions` is returning an empty list
-for a family still travelling in.
+Asked properly, the page says otherwise. In the lobby the whole family is still driving in, so every one of the eight
+works the server offers the principal is refused *"Elias Proofwright is on the road."* — and since the same day's panel
+work (§14) a bar where nothing is open is replaced by that one sentence. The bar is not empty; it says why. My first
+probe counted `.panel-icon` and never looked for `.panel-reason`, which is the thing that had replaced them.
 
-**Where to start:** `renderFamilyPanel` in `public/app.js` (~3387 `focusFor`, ~3404 `const focused`, ~3452
-`panelActions({ main: focused })`) and `panelActions` in `public/family-panel.js` (~250, `if (main)`). Ask the page for
-`focusedId` and the row's `main` flag in the lobby before changing anything. The proof was left failing on purpose, with
-a sentence that names the fault instead of a thirty-second timeout on an element that cannot exist.
+Nothing in the game was wrong and nothing was changed to fix it. The proof's hover section simply ran in a state where
+no icon can exist, and waited thirty seconds for one; it now asserts the lobby's line where it used to stand, and does
+its hovering after the class has started and the family is home.
 
+**The lesson worth keeping is about the instrument, not the game.** A probe that counts the thing it expects will report
+zero when something else has taken its place, and zero reads like a fault. Ask what *is* there, not only whether what you
+expected is.
 ## Where everything is, end of 2026-09-21
 
 **On main and released:** v2026.09.21.4 (Astra's art in the game), .5 (the screen stops standing on itself), .6

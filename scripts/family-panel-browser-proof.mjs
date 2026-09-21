@@ -109,7 +109,28 @@ try {
   measured.art = { icons: drawn.icons.length, marks: drawn.marks.length, madeBy };
   ok(`every icon (${drawn.icons.length}) and mark (${drawn.marks.length}) is drawn from a frame, none a glyph or type (drawn by: ${madeBy.join(', ')})`);
 
-  // ------------------------------------------------------------------------------------------------------ hover, in words
+  // -------------------------------------------------------------------------------- in the lobby, the bar says why
+  // The whole family is still driving in here (docs/SETTLING_IN.md step 2), so nobody can be given an order and there is
+  // no icon on the screen to hover. Since 2026-09-21 that is not an empty bar: it carries the server's own sentence
+  // (§14). The hover section that used to stand here ran in this state and waited thirty seconds for a button that
+  // cannot exist; it now runs after the class has started and the family is home, below.
+  const lobbyBar = await page.evaluate(() => {
+    const row = document.querySelector('.panel-row[data-focused=true]');
+    return { icons: row.querySelectorAll('.panel-icon').length, line: row.querySelector('.panel-icons .panel-reason')?.textContent || '' };
+  });
+  assert.equal(lobbyBar.icons, 0, 'somebody could be given an order while the family is still on the road in');
+  assert.match(lobbyBar.line, /is on the road\.$/, `the bar of a family still driving in says "${lobbyBar.line}"`);
+  ok(`in the lobby the bar is not empty, it says why: "${lobbyBar.line}"`);
+
+  // ------------------------------------------------------------------------------------- press an icon; glow; stop glowing
+  await post('/api/command', { id: `proof-start-${crypto.randomUUID()}`, action: 'start' }, hostCookie);
+  await page.waitForFunction(() => window.__snapshot?.world.status === 'running');
+  // The family drives in first (docs/SETTLING_IN.md step 2): nothing is done at home from the road.
+  await page.waitForFunction(() => {
+    const world = window.__snapshot.world;
+    return world.entities.filter(e => e.kind === 'person').every(e => !e.travel);
+  }, null, { timeout: 30000 });
+  // ------------------------------------------------------------------- hover, in words: now that there are icons
   // **The main person's row, not the first one.** Since the ability bar of 2026-09-21 (§12) only the main person's
   // icons are drawn at all - that is the whole point of it - so a row nobody has chosen has no icon to hover, and this
   // section spent thirty seconds waiting on an element that cannot exist. What it is about is the words in the popup,
@@ -138,14 +159,6 @@ try {
   ok('focusing an icon from the keyboard shows the same popup, and Escape puts it away');
   await page.screenshot({ path: 'test-results/family-panel-lobby.png' });
 
-  // ------------------------------------------------------------------------------------- press an icon; glow; stop glowing
-  await post('/api/command', { id: `proof-start-${crypto.randomUUID()}`, action: 'start' }, hostCookie);
-  await page.waitForFunction(() => window.__snapshot?.world.status === 'running');
-  // The family drives in first (docs/SETTLING_IN.md step 2): nothing is done at home from the road.
-  await page.waitForFunction(() => {
-    const world = window.__snapshot.world;
-    return world.entities.filter(e => e.kind === 'person').every(e => !e.travel);
-  }, null, { timeout: 30000 });
   const worker = await page.waitForFunction(() => {
     const icon = document.querySelector('.panel-icon[data-key="practise-shooting"]:not([aria-disabled="true"])');
     return icon?.dataset.entityId || null;
