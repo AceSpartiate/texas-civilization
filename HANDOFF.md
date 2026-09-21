@@ -1649,6 +1649,10 @@ Reordered on 2026-09-09 for the map-first decision. **Re-read on 2026-09-12, whe
 
 Build strong foundations, not unfinished breadth.
 
+**Released as [v2026.09.21.6](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.21.6)** on
+2026-09-21, verified on the clean tree at `5c3a63f` (878 passed): deleting a solo game, the wizard's words, and the dim
+taken back off the wagon panel.
+
 **Deleting a solo game, 2026-09-21.** Owner: *"I need a way to delete solo games."* The code had named this as its own way
 out since September — a `ceiling:` on the saved-games store reading *"every solo game is kept for good; a Delete beside each
 game is the way out if the folder grows."* Asked where it should live, the owner said the menu that appears on **Play Solo**,
