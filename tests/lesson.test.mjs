@@ -378,3 +378,42 @@ test('a stored lesson is a step that exists, and a world holding anything else i
   validateWorld(free);
   assert.equal(lessonOf(free, 'hh-1'), undefined);
 });
+
+// A forced lesson that cannot be finished is worse than a loose one, and the sale is where a class could have stuck:
+// the storekeeper's purse holds two reales (`docs/MONEY_AND_GLORY.md`, the owner's own choice) and the store pays in
+// food as readily as in coin, so a student who carried their crop to town and came home with meal had sold it and the
+// step would not have known. Found 2026-09-21 while merging the two halves.
+test('the sale is finished by the crop leaving the house, not only by coin coming back', () => {
+  const world = started('lesson-sold');
+  const household = world.households['hh-1'];
+  until(world, () => !household.arriving);
+  // Stand the family on the sell step, with a crop in the house and not a real to its name.
+  household.lesson = { step: 'sell' };
+  household.resources = { ...household.resources, money: 0, cotton: 3, food: 10 };
+  advanceLessons(world);
+  assert.equal(lessonOf(world, 'hh-1').step, 'sell', 'the step finished before anything was sold');
+
+  // Somebody is at the store, and the cotton goes out of the house for food rather than for coin.
+  const person = hands(world, household)[0];
+  person.chore = { id: 'visit-shop', step: 0, wait: 0, doing: 'at the store' };
+  advanceLessons(world);
+  household.resources = { ...household.resources, cotton: 0, food: 16 };
+  advanceLessons(world);
+  assert.equal(household.resources.money, 0, 'this test is about a sale that brought back no coin');
+  assert.notEqual(lessonOf(world, 'hh-1')?.step, 'sell', 'a crop sold for food did not finish the step');
+  validateWorld(world);
+});
+
+test('what leaves the house down the family is not a sale', () => {
+  const world = started('lesson-eaten');
+  const household = world.households['hh-1'];
+  until(world, () => !household.arriving);
+  household.lesson = { step: 'sell' };
+  household.resources = { ...household.resources, money: 0, cotton: 3, food: 10 };
+  advanceLessons(world);
+  // Nobody is at a store; the food simply goes down, as it does every day of a class.
+  household.resources = { ...household.resources, food: 4 };
+  advanceLessons(world);
+  assert.equal(lessonOf(world, 'hh-1').step, 'sell', 'eating the larder was counted as selling the crop');
+  validateWorld(world);
+});

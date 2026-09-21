@@ -88,6 +88,8 @@ const ANY_WORK = Object.freeze([...HOUSE_WORK, ...Object.keys(CHORES).map(id => 
 
 /** Which of the family's people are out hunting: used to know a hunt has been made and come home from. */
 const HUNTS = new Set(['hunt-land', 'hunt-timber']);
+/** The errands that are a sale, for the same watching: what left the house went in trade and not down the family. */
+const SELLS = new Set(['sell-cotton', 'sell-food']);
 
 /** How long the closing card stands before the lesson is gone from the projection entirely, in minutes of 1835. */
 export const LESSON_DONE_MINUTES = 180;
@@ -104,7 +106,17 @@ const broken = household => clearedPlots(household).length > 1;
 const harvested = household => (household.field?.state ?? 'bare') === 'bare' && (household.field?.changedTick ?? 0) > 0;
 const planted = household => sownPlots(household).length > 0 || harvested(household);
 /** Sold, in the only way that leaves a mark the world keeps: coin in the house, which every family starts with none of. */
-const sold = household => (household.resources?.money ?? 0) > 0;
+/**
+ * The crop sold.
+ *
+ * **Coin, or the crop gone out of the house in trade.** Coin alone was the first rule, and it can strand a class: the
+ * storekeeper's purse holds two reales (docs/MONEY_AND_GLORY.md, the owner's own choice), the store pays in food as
+ * readily as in coin, and a forced lesson that cannot be finished is worse than one finished loosely. The owner's
+ * sentence is "farmed and **sold** a crop of their choosing", and a student who carried cotton to the store and came
+ * home with food has sold their crop. So either finishes it, and the step's words still ask for coin, which is what is
+ * counted at the end.
+ */
+const sold = household => (household.resources?.money ?? 0) > 0 || household.lesson?.sold === true;
 /** Somebody went out after game and came home, whatever the shot did; or there is a hide in the house to show for one. */
 const hunted = household => household.lesson?.hunted === true || (household.resources?.hides ?? 0) > 0;
 /** Water at the door: the well is dug, or the house stands close enough to running water that nobody would dig one. */
@@ -198,7 +210,8 @@ export const STEPS = Object.freeze([
     title: 'Sell it in town',
     first: 'sell what you grew.',
     says: () => 'Send somebody to town, to the store, and sell what you grew for coin. Coin is scarce in this country and it is counted at the end.',
-    allow: () => ['chore:visit-shop'],
+    // The trip to town, and the two errands that are the sale itself where a class has them.
+    allow: () => ['chore:visit-shop', 'chore:sell-cotton', 'chore:sell-food', 'shop-counter', 'cotton-counter'],
     done: (world, household) => sold(household),
     did: () => 'There is coin in the house that the family grew out of its own ground.',
   },
@@ -338,6 +351,25 @@ export function advanceLesson(world, household) {
   const out = household.members.some(id => HUNTS.has(world.entities[id]?.chore?.id));
   if (out) state.hunting = true;
   else if (state.hunting) { delete state.hunting; state.hunted = true; }
+  // And the sale, watched the same way and for the same reason: coin alone can strand a class, because the
+  // storekeeper's purse holds two reales and the store pays in food as readily as in coin. A crop that has left the
+  // house in trade has been sold, whatever came back for it. Watched rather than counted, because what came back may
+  // be food, which the family also eats.
+  if (state.step === 'sell') {
+    // **Each good on its own**, because cotton sold *for* food raises the larder while the crop leaves: a single total
+    // would read that as nothing having happened, which is how the first draft of this missed it.
+    const atTheStore = household.members.some(id => {
+      const doing = world.entities[id]?.chore?.id;
+      return doing === 'visit-shop' || SELLS.has(doing);
+    });
+    state.had ??= {};
+    for (const good of ['cotton', 'food']) {
+      const now = household.resources?.[good] ?? 0;
+      if (state.had[good] === undefined) state.had[good] = now;
+      else if (atTheStore && now < state.had[good] - 0.5) state.sold = true;
+      else if (now > state.had[good]) state.had[good] = now;
+    }
+  }
   let index = indexOf(state.step);
   while (index < STEPS.length && STEPS[index].done(world, household)) index++;
   if (index >= STEPS.length) {

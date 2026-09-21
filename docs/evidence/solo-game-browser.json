@@ -7,19 +7,18 @@
   "environment": "Same computer: an in-process solo classroom at 100 ms a tick with five families, four automatic, and headless Chrome; server/main.mjs --solo run for real only to check what it deals. Not the launcher's window, a real phone or a weak computer.",
   "checks": [
     "server/main.mjs --solo deals its game on the real land of the colonies (5 families, running)",
-    "the solo game opens joined as hh-1 in columbia, rolled and running, no join form, no Start press; the other four families automatic",
+    "the solo game opens joined as hh-1 in matagorda, rolled and running, no join form, no Start press; the other four families automatic",
     "the solo class view opens from its Host address with the game already running",
-    "the family arrived and the house site was chosen on its grant at (113.57, 33.8404)",
-    "3 of the family set to auto from the panel: Thomas Proofwright, Refugia Proofwright, Marcela Proofwright",
-    "3 orders given from the panel and taken",
-    "the call came (\"Volunteers from Columbia and the lower Brazos are to gather at James Kerr's on the Lavaca …\") and Thomas Proofwright was sent from the one menu",
-    "the first period ended on its own at minute 113920: interim standings on both pages, no winner named (461 ticks, 50.1 s)",
+    "the family arrived and the house site was chosen on its grant at (82.3396, 51.1796)",
+    "2 of the family set to auto from the panel: Hollis Proofwright, Elena Proofwright",
+    "2 orders given from the panel and taken",
+    "the call came (\"The committee at Matagorda asks the volunteers of the town and the country east of it to g…\") and Hollis Proofwright was sent from the one menu",
+    "the first period ended on its own at minute 113880: interim standings on both pages, no winner named (441 ticks, 49.2 s)",
     "the Host continued the class into the winter: period 2 opens on 1836-01-25",
-    "Thomas Proofwright was sent to enlist auxiliary from the panel",
     "the second period ended on its own at minute 241560 (195 ticks, 21.6 s)",
     "the Host continued the class into the spring: period 3 opens on 1836-03-14",
     "told to leave, the \"!\" opened the card and the family left for lynchburg with what fit; the farm burned behind it",
-    "the game ended on the road home at minute 302520: the final reckoning on both pages, the Host naming who finished first (445 ticks, 48.9 s)",
+    "the game ended on the road home at minute 302460: the final reckoning on both pages, the Host naming who finished first (299 ticks, 33.3 s)",
     "after the ending, a new solo game is dealt with the old pages open, and opens joined and running from the beginning",
     "no page errors on any page across the whole solo game"
   ],
@@ -31,9 +30,9 @@
     },
     "periods": {
       "first": {
-        "ticks": 461,
-        "seconds": 50.1,
-        "endedAtMinute": 113920
+        "ticks": 441,
+        "seconds": 49.2,
+        "endedAtMinute": 113880
       },
       "second": {
         "ticks": 195,
@@ -41,24 +40,22 @@
         "endedAtMinute": 241560
       },
       "third": {
-        "ticks": 445,
-        "seconds": 48.9,
-        "endedAtMinute": 302520
+        "ticks": 299,
+        "seconds": 33.3,
+        "endedAtMinute": 302460
       }
     },
     "family": [
-      "Thomas Proofwright (father, 32)",
-      "Refugia Proofwright (mother, 38)",
-      "Marcela Proofwright (daughter, 16)",
-      "Ramona Proofwright (daughter, 8)",
-      "Delia Proofwright (daughter, 4)",
-      "Enos Proofwright (son, 1)",
-      "Lavinia Proofwright (daughter, 0)"
+      "Hollis Proofwright (father, 28)",
+      "Elena Proofwright (mother, 33)",
+      "Eli Proofwright (son, 7)",
+      "Paulita Proofwright (daughter, 5)",
+      "Rosa Proofwright (daughter, 2)",
+      "Zadok Proofwright (son, 0)"
     ],
     "onAuto": [
-      "Thomas Proofwright",
-      "Refugia Proofwright",
-      "Marcela Proofwright"
+      "Hollis Proofwright",
+      "Elena Proofwright"
     ],
     "orders": [
       {
@@ -70,43 +67,24 @@
         "id": "hh-1-parent-2",
         "key": "cut-lane",
         "took": true
-      },
-      {
-        "id": "hh-1-child-1",
-        "key": "cut-lane",
-        "took": true
       }
     ],
     "call": {
-      "text": "Volunteers from Columbia and the lower Brazos are to gather at James Kerr's on the Lavaca and go on from there. Does somebody from your family go?",
-      "sent": "Thomas Proofwright"
+      "text": "The committee at Matagorda asks the volunteers of the town and the country east of it to gather at James Kerr's on the Lavaca as speedily as they can. The town is badly armed and its men are few. Does somebody from your family go?",
+      "sent": "Hollis Proofwright"
     },
-    "winter": {
-      "key": "enlist-auxiliary",
-      "id": "hh-1-parent-1",
-      "name": "Thomas Proofwright"
-    },
-    "winterOutcome": {
-      "voted": false,
-      "service": {
-        "kind": "auxiliary-year",
-        "status": "serving",
-        "since": 180000,
-        "siteId": "san-felipe",
-        "acres": 320
-      }
-    },
+    "winterOutcome": null,
     "flight": {
       "refuge": "lynchburg",
       "card": "The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer within the day, or the family packs w"
     },
     "ending": {
-      "host": "THE END OF THE STORY × How the families finished the Proofwright family finished first, with a final number of 75. Family Road miles from Gonzales Heard of the cannon Who went Coin Glory Land Final the Proofwright family 162 October 2 Thomas Proofwright 0 reales 58 16 reales 75 Cipriano's family (no",
-      "family": "THE END OF THE STORY × the Proofwright family COIN IN THE HOUSE 0 reales GLORY 58 FINAL NUMBER 75 0 reales, counted as 1 real × (1 + 58 glory) + 16 reales of land (320 acres promised) = 75 Our story The family lived 162 road miles from Gonzales. Word that soldiers had come for the cannon reached the",
+      "host": "THE END OF THE STORY × How the families finished the Proofwright family finished first, with a final number of 1. Family Road miles from Gonzales Heard of the cannon Who went Coin Glory Land Final the Proofwright family 125 October 1 Elena Proofwright 0 reales -4 — 1 Jethro's family (nobody played t",
+      "family": "THE END OF THE STORY × the Proofwright family COIN IN THE HOUSE 0 reales GLORY -4 FINAL NUMBER 1 0 reales, counted as 1 real × (1 + -4 glory, counted as 0) = 1 Our story The family lived 125 road miles from Gonzales. Word that soldiers had come for the cannon reached them on October 1. They were tol",
       "flight": "returning",
-      "minute": 302520
+      "minute": 302460
     },
-    "totalSeconds": 120.6
+    "totalSeconds": 104.10000000000001
   },
   "screenshots": [
     "docs/evidence/solo-game-at-work.png",
