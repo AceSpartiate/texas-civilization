@@ -46,9 +46,9 @@ finished work.
 
 **1. Everything through the weather and the launcher is built, merged, released.** Main is green at **791 tests, 0 fail**,
 `check-doc-links` 693, and the browser proofs `test:crossings`, `test:solo-game`, `test:hunt` and `test:farm` all pass on a
-clean detached worktree. **The release is [v2026.09.20.6](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.20.6)**
-— the line in the river on the road east, on top of .5's four works at home, .4's weather proof and green plate, and
-.3's coast, animals, weather model, weather drawn and launcher face. Setup 191.7 MB → 212.4 MB at .3, which is the art embedded in the executable.
+clean detached worktree. **The release is [v2026.09.20.7](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.20.7)**
+— the sky in the hunt, on top of .6's line in the river, .5's four works at home, .4's weather proof and green plate,
+and .3's coast, animals, weather model, weather drawn and launcher face. Setup 191.7 MB → 212.4 MB at .3, which is the art embedded in the executable.
 
 **2. What is left open, in the order I would take it.**
 - **What is left of `FIC-GONZ-135`:** rain stopping roofing and daubing, and the norther's health cost to somebody camped
