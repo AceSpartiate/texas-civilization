@@ -40,6 +40,10 @@ gates, both from one instrument (`scripts/support/panel-states.mjs`), at 1366×7
   and one seed per panel; `ceiling:` the cabin is raised and the guided start's step set in process for the stake, the
   way `test:family-commands` hands over a housed class. The two contested pairs are measured, not fixed — what is clean
   is the guided start, not the screen.
+- **`npm run test:lesson` and `npm run test:relay` still pass** with these moves in. **`npm run test:travel-sight` is a
+  fourth gate that was already broken** and is not this work's: it fails identically on `66dbd3e`, the tree before this,
+  with *"their row on the family panel says the same: 'Not this yet. Choose a place on your own land for the house…'"* —
+  the guided start's refusal reaching the row's own line. Add it to the three named in §13.5.
 
 **The family-creation wizard as a thing on a screen, 2026-09-21:** [FAMILY_PANEL.md §13](docs/FAMILY_PANEL.md). §12.11
 asked what was drawn over what on the screen a student plays the *game* on, and stopped at the curtain. The same question
