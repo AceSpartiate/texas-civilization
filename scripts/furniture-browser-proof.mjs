@@ -13,6 +13,11 @@ import { createClassroom } from '../server/app.mjs';
 // docs/FAMILY_PANEL.md §12 (owner, 2026-09-21): a person's work is on the screen only while they are the family's main
 // person, so this proof chooses them first, as a student does.
 import { asMain } from './support/main-person.mjs';
+// The title screen and the family made on it (public/creation.js, owner 2026-09-17). This proof pressed straight through to
+// the panel and the curtain swallowed the press: `#creation-scene`, the canvas behind Begin, took every click at
+// `.panel-focus`. The panel is drawn under it and reads as visible, so the failure was a timeout on a button nobody could
+// have pressed rather than anything about furniture. A student presses Begin first; so does this now.
+import { meetFamily } from './support/meet-family.mjs';
 import { createSettledWorld, keepFoundingFamilies } from '../tests/support/settled.mjs';
 
 const require = createRequire(import.meta.url);
@@ -43,8 +48,21 @@ try {
   await page.getByRole('button', { name: 'Join', exact: true }).click();
   await page.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
   for (let i = 2; i <= 5; i++) await post('/api/join', { name: `Reader ${i}`, code: app.state.sessionCode });
+  // The title screen, and whatever of the family the page still asks for. These families were founded with their names
+  // (`keepFoundingFamilies`), so nothing here is rolled; it is the curtain that has to come down.
+  await meetFamily(page);
+  // The wagon opens by itself in the lobby, and a covering panel dims what is under it (docs/FAMILY_PANEL.md §12.11), so a
+  // press aimed at the panel would be refused through the dim. It is put away first, the way a student does.
+  for (const button of ['#wagon-done', '#tutorial-skip']) {
+    if (await page.locator(button).isVisible()) await page.locator(button).click({ timeout: 5000 }).catch(() => {});
+  }
   await post('/api/command', { id: `proof-start-${crypto.randomUUID()}`, action: 'start' }, hostCookie);
   await page.waitForFunction(() => window.__snapshot?.world.status === 'running');
+  await page.locator('#family-panel').waitFor({ state: 'visible' });
+  // This family is settled on its land with a roof up, so `sim/lesson.mjs` never starts a lesson on it (`beginsAt`) and
+  // nothing here is gated by a step. Asserted rather than assumed: a lesson standing would shut `make-furniture` and the
+  // failure below would read as a missing icon.
+  assert.equal(await page.evaluate(() => window.__snapshot?.world.lesson ?? null), null, 'a lesson stands on a family that was settled before it began');
 
   // The icon, with its sentence.
   const worker = 'hh-1-elena';

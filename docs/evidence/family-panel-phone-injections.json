@@ -1,0 +1,28 @@
+{
+  "record": "family-panel-phone-injections",
+  "date": "2026-09-21",
+  "file": "public/style.css",
+  "proof": "scripts/family-panel-browser-proof.mjs",
+  "note": "docs/FAMILY_PANEL.md §7 on a phone, read on a grid of 288 points instead of at one. Each injection breaks one of the grid’s checks in the phone block of the stylesheet; `checksBeforeIt` is how many of the proof’s checks still passed, which for every one of these should be the eleven that run before the phone is opened. Same computer only.",
+  "clean": 14,
+  "injections": [
+    {
+      "name": "a phone opens every row at once instead of one, so six name boxes run down the map",
+      "guards": "openRows, strays",
+      "checksBeforeIt": 11,
+      "failed": "on a phone more than one row is open"
+    },
+    {
+      "name": "a folded row draws its face out over the map instead of in the column",
+      "guards": "strays",
+      "checksBeforeIt": 11,
+      "failed": "a row of the panel is on top of the screen outside the column of faces and outside the one open row: CANVAS at 250,417; CANVAS at 250,517; CANVAS at 250,550; BUTTON.panel-portrait at 250,583; CANVAS at 250,617"
+    },
+    {
+      "name": "the work bar keeps desktop-sized icons on a phone and wraps to several lines up the map - the fault §12 fixed on 2026-09-21",
+      "guards": "mapShare",
+      "checksBeforeIt": 11,
+      "failed": "below the guided start's strip the map is the top thing at only 18% of 192 sampled points"
+    }
+  ]
+}

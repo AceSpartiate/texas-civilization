@@ -1,6 +1,6 @@
 {
   "record": "The road east, in a browser: docs/ROAD_EAST.md",
-  "date": "2026-09-18",
+  "date": "2026-09-21",
   "verdict": "PASS",
   "note": "Same computer only. A real class on the colonies map with rolled families, played in process through two periods and continued into the spring, the seed chosen for rain on the first family's first days on the road; served live at a tick every second and a half. The pursuit was reached by running the paused class on in process to the days Santa Anna's column nears San Felipe. No LAN or district claim.",
   "checks": [
@@ -13,6 +13,10 @@
     "no page errors"
   ],
   "observed": {
+    "bogAfter": {
+      "seconds": 152,
+      "tick": 679
+    },
     "bogNeed": "road",
     "bogCard": "The family is on the road east for San Felipe de Austin. It is raining. The wagon is fast in the mud. The wagon is fast in the mud, and it is still raining. The ox cannot pull it out alone. Unload and dig it out 8 hours. Everybody grown is worn by it, and the ox is spent and goes at half pace for a day after. Wait for the ground to dry Nothing spent. The family sits where it is until a dry day, and the Mexican army does not wait. Leave the wagon and go on on foot The wagon and the ox stay in the mud. The family carries 2.5 room’s worth (food first) and the rest is lost; on foot it goes faster.",
     "bogAnswers": [
@@ -45,11 +49,11 @@
       "on the road east to San Felipe de Austin"
     ],
     "pursuitReached": {
-      "tick": 945,
+      "tick": 934,
       "danger": {
         "id": "santa-anna",
         "name": "Santa Anna’s column",
-        "miles": 19.66,
+        "miles": 19.5,
         "towardName": "San Felipe de Austin",
         "minute": 269520,
         "asked": true

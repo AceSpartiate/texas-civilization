@@ -17,6 +17,10 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { rollFamily, stepWorld } from '../sim/world.mjs';
 import { beginSecondPeriod, beginThirdPeriod } from '../sim/periods.mjs';
 import { meetFamily } from './support/meet-family.mjs';
+// docs/FAMILY_PANEL.md §12 (owner, 2026-09-21): a person's work is drawn only while they are the family's main person, so
+// a proof that presses somebody's icon chooses them first, as a student does. Ten proofs were given this on 2026-09-21;
+// this one presses "Hunt from the camp" on a row that is not the main person's and was not among them.
+import { asMain } from './support/main-person.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -93,7 +97,27 @@ try {
   ok('told to leave, the family loaded the wagon and set out for San Felipe');
 
   // ---------------------------------------------------------------------------------------------- the bog, and digging out
-  await student.waitForFunction(() => window.__snapshot?.world.flight?.ask?.id === 'bog', null, { timeout: 60000 });
+  // This waited **sixty seconds**, and the road does not work that fast. Stepped in process the wagon sticks 35 ticks
+  // after the family sets out - 52 seconds at a tick every second and a half - and served to a browser it took **154**,
+  // because the bog is rolled once a day against the weather where the family actually is, and a student who spends a
+  // few ticks filling in the flee form is a different number of days along the road when each rain day arrives. Which
+  // day it sticks on therefore moves with how long a human (or a proof) takes to press Confirm, by whole days at a time.
+  // Nothing in the simulation is wrong; the sixty seconds were never enough, and the failure read as a bare
+  // `waitForFunction` timeout that said nothing about the road at all.
+  //
+  // So: the server's own world is watched instead of the page's copy of it, the ceiling is the ten minutes the pursuit
+  // below already allows rather than a number cut close to one measurement, and the flight is in the message.
+  // ceiling: this is generous rather than exact, because the exact answer wants the flee to happen on a known tick, and
+  // that would mean the proof pressing Confirm for the student instead of filling the form as one does. The way out, if
+  // this ever wants to be quick, is `app.setPace` up to the bog and back, as the pursuit does.
+  const bogWait = Date.now();
+  while (household().flight?.ask?.id !== 'bog') {
+    assert.ok(household().flight?.status === 'fled', `the family left the road before the wagon ever bogged: ${JSON.stringify(household().flight)}`);
+    assert.ok(Date.now() - bogWait < 600000, `no bog in ten minutes: ${JSON.stringify(household().flight)}`);
+    await new Promise(resolve => setTimeout(resolve, 50));
+  }
+  observed.bogAfter = { seconds: Math.round((Date.now() - bogWait) / 1000), tick: world().tick };
+  await student.waitForFunction(() => window.__snapshot?.world.flight?.ask?.id === 'bog', null, { timeout: 20000 });
   assert.ok(household().flight.bog, 'the wagon is not in the mud');
   const attention = student.locator(`[data-attention="${main}"]`);
   await attention.waitFor({ state: 'visible', timeout: 15000 });
@@ -123,6 +147,9 @@ try {
   // Looked up by id each time: the server's world object is replaced between ticks, so a person held from before is stale.
   const hunterId = (household().members.map(id => world().entities[id]).find(one => one.id !== main && one.kind === 'person' && (one.kin?.role === 'father' || one.kin?.role === 'mother' || one.age >= 16)) || world().entities[main]).id;
   const hunter = () => world().entities[hunterId];
+  // The hunter is chosen before their work is pressed (§12): until they are the family's main person their icons are in
+  // the page but drawn nowhere, and this read as a sixty-second timeout on a button Chrome could see and not press.
+  await asMain(student, hunterId);
   await student.waitForFunction(id => { const icon = document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="hunt-road"]`); return icon && !icon.disabled; }, hunterId, { timeout: 60000 });
   await student.locator(`.panel-row[data-entity-id="${hunterId}"] .panel-icon[data-key="hunt-road"]`).click();
   await student.waitForFunction(id => window.__snapshot?.world.entities.find(e => e.id === id)?.chore?.id === 'hunt-road', hunterId, { timeout: 15000 });
@@ -130,6 +157,9 @@ try {
   assert.ok(household().members.map(id => world().entities[id]).filter(one => one.travel).every(one => one.travel.halted), 'the family went on while the hunter was out');
   observed.huntGlow = await student.evaluate(id => document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="hunt-road"]`)?.dataset.active, hunterId);
   assert.equal(observed.huntGlow, 'true', 'the hunt icon does not glow');
+  // The star goes back where the rest of this run expects it: the road's "!" is raised on the family's main person, and
+  // the warning at San Felipe below is pressed on `main`.
+  await asMain(student, main);
   await student.locator(`.panel-row[data-entity-id="${main}"] .panel-portrait`).click();
   await student.waitForFunction(() => /halted: hunt from the camp/i.test(document.querySelector('#selection-flight')?.innerText || ''), null, { timeout: 15000 });
   observed.hostCamped = (await hostRow(host))?.people?.map(p => p.where);

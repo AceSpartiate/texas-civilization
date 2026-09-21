@@ -247,24 +247,80 @@ try {
   // A rider may have come to the door while the family was being made; the card is closed before the panel is measured.
   if (await small.locator('#selection-close').isVisible()) await small.locator('#selection-close').click();
   await small.waitForTimeout(600);
+  // docs/FAMILY_PANEL.md §7, the phone rule in the owner's own words: the panel "takes no more than the left portrait
+  // column and one row, so the map stays visible".
+  //
+  // Read at one point - 60% across, 55% down - until 2026-09-21, and that point stopped measuring the rule the day the
+  // guided beginning shipped. A phone has no room beside the column, so the strip goes across the top and the column
+  // starts below it by the strip's own measured height (`--lesson-room`, §12.11). The whole column moved down 220px and
+  // the one open row - which §7 allows, and which is the only thing that was ever under the probe - landed on it. Where
+  // the column sits is not the rule. How much it takes is, and a single point could never have said.
+  //
+  // So the rule is read on a grid of 288 points over the whole screen. Every point one of the panel's **rows** is on top
+  // of has to be in the portrait column or inside the one open row - anything else is the panel spread over the map,
+  // which is what §7 forbids - and below the strip the map has to still be the top thing at most of what is left.
   const phoneLayout = await small.evaluate(() => {
     const box = element => element.getBoundingClientRect();
+    const name = el => el ? `${el.tagName}${el.id ? '#' + el.id : ''}${typeof el.className === 'string' && el.className ? '.' + el.className.trim().split(/\s+/).join('.') : ''}` : 'nothing';
     const panel = box(document.querySelector('#family-panel'));
     const open = [...document.querySelectorAll('.panel-row')].filter(row => getComputedStyle(row.querySelector('.panel-body')).display !== 'none');
-    const centre = document.elementFromPoint(window.innerWidth * .6, window.innerHeight * .55);
+    // The column of faces: it starts at the panel's own left edge and is one portrait wide. Taken as the widest portrait
+    // from the panel's left rather than as the rightmost portrait edge, because the rightmost edge would follow a
+    // portrait that had been pushed out over the map and call the move legal.
+    const columnRight = panel.left + Math.max(...[...document.querySelectorAll('.panel-portrait')].map(node => box(node).width));
+    // The guided start's strip runs right across the top of a phone and its height is its step's own sentence
+    // (docs/FAMILY_PANEL.md §12.11). Counting the screen it takes into this proof's number would make the number the
+    // lesson's rather than the panel's, and would move with whichever step the family happened to reach - which is a
+    // flake, not a measurement. So the map's share is asked of the screen the strip leaves.
+    const strip = document.querySelector('#lesson');
+    const stripBottom = strip && !strip.hidden ? box(strip).bottom : 0;
+    const openRow = open.length === 1 ? box(open[0]) : null;
+    const grid = [];
+    for (let gx = 0; gx < 12; gx++) for (let gy = 0; gy < 24; gy++) {
+      const x = (gx + .5) * window.innerWidth / 12, y = (gy + .5) * window.innerHeight / 24;
+      const top = document.elementFromPoint(x, y);
+      // The work bar is a child of its person's row in the page and drawn at the bottom middle of the screen (§12): it is
+      // the panel's in the DOM and not in the column, so it is counted as itself rather than as the column spreading.
+      grid.push({ x: Math.round(x), y: Math.round(y), what: name(top), map: top?.id === 'world-map',
+        bar: Boolean(top?.closest?.('.panel-icons')), row: Boolean(top?.closest?.('.panel-row')), panel: Boolean(top?.closest?.('#family-panel')) });
+    }
+    // §7 is a rule about **rows**: every point a row holds outside the column of faces has to be inside the one open
+    // row. The row is taken whole, so a name box or a button drawn beside the portrait is inside it, as §7 means it to
+    // be. A second row opening, or a folded row drawing its body, is what this fails on.
+    // Two things in the panel are deliberately not rows and are counted rather than judged here: the work bar, which §12
+    // sends to the bottom middle of every screen, and the panel's own Hide names, which folds the column. Both have
+    // their own rule and their own instrument (`npm run study:overlap`).
+    const strays = grid.filter(point => point.row && !point.bar && point.x > columnRight && !(openRow && point.y >= openRow.top && point.y <= openRow.bottom))
+      .map(point => `${point.what} at ${point.x},${point.y}`);
+    const chrome = [...new Set(grid.filter(point => point.panel && !point.row && !point.bar).map(point => point.what))];
+    const below = grid.filter(point => point.y > stripBottom);
+    // Where the work bar actually is, recorded rather than asserted: §12 is its rule and `npm run study:overlap` is its
+    // instrument. Its top here says how much of the bottom of a phone it takes.
+    const barPoints = grid.filter(point => point.bar);
+    const bar = barPoints.length ? { points: barPoints.length, top: Math.min(...barPoints.map(point => point.y)) } : null;
     // How much of the screen the panel's visible parts actually cover.
     const covered = [...document.querySelectorAll('.panel-portrait, .panel-body')].filter(el => getComputedStyle(el).display !== 'none')
       .map(box).filter(rect => rect.bottom > panel.top && rect.top < panel.bottom).reduce((sum, rect) => sum + rect.width * Math.max(0, Math.min(rect.bottom, panel.bottom) - Math.max(rect.top, panel.top)), 0);
-    return { panel: { x: panel.x, y: panel.y, width: panel.width, height: panel.height }, openRows: open.length, centre: centre?.id || centre?.tagName, covered: covered / (window.innerWidth * window.innerHeight),
+    return { panel: { x: panel.x, y: panel.y, width: panel.width, height: panel.height }, openRows: open.length,
+      columnRight: Math.round(columnRight), openRow: openRow && { y: Math.round(openRow.y), height: Math.round(openRow.height) },
+      stripBottom: Math.round(stripBottom), sampled: below.length,
+      mapShare: below.filter(point => point.map).length / below.length, strays: [...new Set(strays)], bar, chrome,
+      covered: covered / (window.innerWidth * window.innerHeight),
       pageScrolls: document.documentElement.scrollWidth > window.innerWidth };
   });
   measured.phone = phoneLayout;
+  // The picture is taken before anything is asserted: a phone layout that fails is exactly the one worth looking at.
+  await small.screenshot({ path: 'test-results/family-panel-phone.png' });
   assert.equal(phoneLayout.openRows, 1, 'on a phone more than one row is open');
-  assert.equal(phoneLayout.centre, 'world-map', `the middle of a phone screen is not the map: ${phoneLayout.centre}`);
+  assert.deepEqual(phoneLayout.strays, [], `a row of the panel is on top of the screen outside the column of faces and outside the one open row: ${phoneLayout.strays.join('; ')}`);
+  // ceiling: a floor of two fifths rather than a measured number. Of the screen the guided start leaves, the map is the
+  // top thing at about three fifths; the rest is the column, the open row and the work bar across the bottom. Two fifths
+  // is where the map has stopped being what the page is. The way out, if a real phone ever matters, is
+  // `npm run study:overlap` at 390px, which asks the same question of every control a student can press.
+  assert.ok(phoneLayout.mapShare > 0.4, `below the guided start's strip the map is the top thing at only ${Math.round(phoneLayout.mapShare * 100)}% of ${phoneLayout.sampled} sampled points`);
   assert.ok(phoneLayout.covered < 0.3, `the panel covers ${Math.round(phoneLayout.covered * 100)}% of a phone screen`);
   assert.equal(phoneLayout.pageScrolls, false, 'the page scrolls sideways on a phone');
-  ok(`on a 400 px phone the panel is a column of portraits with one row open, covering ${Math.round(phoneLayout.covered * 100)}% of the screen, and the map is under the middle`);
-  await small.screenshot({ path: 'test-results/family-panel-phone.png' });
+  ok(`on a 400 px phone the panel is a column of portraits with one row open, taking ${Math.round(phoneLayout.covered * 100)}% of the screen and no row outside the column and that row, with the map on top at ${Math.round(phoneLayout.mapShare * 100)}% of the ${phoneLayout.sampled} points the guided start leaves`);
   // Another portrait opens that person's row instead.
   const second = ids[1];
   await small.locator(`.panel-portrait[data-portrait="${second}"]`).click();
