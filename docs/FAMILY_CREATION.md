@@ -117,6 +117,10 @@ Visible, in the family book beside each name. Invented (`FIC-GONZ-021`), and req
 call or be sent on a journey, and the control says so. Every other rule about age waits on the
 owner.
 
+> **Amended 2026-09-21 — the first third of that rule is gone. See the amendment at the foot of this file,
+> *What a child under ten can be set to*.** A child under ten now has works of their own — play, and five small jobs at
+> the house — and the other two thirds stand: not on a road, and not to answer for the family.
+
 ---
 
 ## 4. The hidden stats
@@ -362,3 +366,103 @@ Browser: `npm run test:creation` (`scripts/creation-browser-proof.mjs`, new — 
 element overlaps nothing and would pass against broken code. Break-drilled three ways — the old **Loaded** label, an
 over-wide wagon panel, and a display-none step line — and it failed each time. Same computer only; no LAN or district
 claim, and Play Solo is not covered.
+
+## Amendment, 2026-09-21 — what a child under ten can be set to
+
+**Owner:** *"Children should have action bars too. They should be able to play, and other things that kids would do."* And
+the principle it comes from, the same day: *"When I switch characters, the action bar at the bottom should switch to that
+person's bar. It shouldn't (unless there's a good reason) stop another character from doing their action… This philosophy
+should be followed logically and dynamically throughout the experience of the game."*
+
+**What the 2026-09-12 rule now is.** §3 said a person under ten may "not to work, not on a road, not to answer for the
+family". **The first third is amended; the other two stand.** A child under ten is still never sent on a road and still
+cannot answer for the family — not a call, not a march, not a vote, not a rumor, and not the fighting (§5, which stays at
+sixteen). What they now have is **works of their own**: play, and the small jobs a frontier child really did close to the
+house.
+
+**Why.** Under the old rule a child could do nothing at all. `choreAvailability` refused every chore and `applyAction`
+refused every order but a rename, a rest and a word with a rider, so a child's row on the family panel collapsed to one
+line saying they were too young (`rowReason`). The owner switched to a child, found an empty bar, and asked for this. The
+owner then chose **"play, and the small jobs a frontier child really did close to the house"** by multiple choice, over
+*play only* and over *everything an adult does, more slowly* — **explicitly because an eight-year-old should not be put on
+the axe or the rifle.**
+
+### The six works, and the ages
+
+`sim/children.mjs`, a module of its own, registered into the one chore table through `registerChores` exactly as
+`sim/camp.mjs` and `sim/road.mjs` are. Claims `FIC-GONZ-300` to `-305`; the history is `HIST-TEX-400` to `-403`.
+
+| From | Work | What it is | What it adds to the family's store |
+| --- | --- | --- | --- |
+| **2** | **Play** (`child-play`) | An hour that is theirs: the creek, a stick horse, the other children. | **Nothing, on purpose** — and it writes the child's hour into the family's record, in one of six lines. |
+| **5** | **Gather kindling** (`child-kindling`) | An hour round the yard and the wood pile after bark, chips and dead sticks. **No axe: nothing is cut, only picked up.** | Nothing. |
+| **5** | **Keep the birds off the corn** (`child-birds`) | Two hours at the edge of the field with a stick and a loud voice. Offered only while a crop is standing. | Nothing — deliberately; see below. |
+| **5** | **Gather the eggs** (`child-eggs`) | Twenty minutes round the yard and under the house after the hens' nests. | **Food.** Three tenths at five, rising to half a food at nine. **Once a day.** |
+| **7** | **Carry water** (`child-water`) | An hour with a pail between the water and the house. | Nothing. |
+| **7** | **Mind the younger ones** (`child-mind`) | Two hours with the little ones. Offered only where somebody smaller is at home. | **Lifts the baby off the parents** while it lasts — `BABY_BURDEN`, the relief a cradle gives. |
+
+- **An infant under two has nothing, and that is the decision, not an oversight.** Their row keeps the adult works, every
+  one refused for the same reason, which is what `rowReason` collapses into one line. **The wording of that line is a
+  separate hand's** (2026-09-21) and is deliberately not touched here; what this amendment guarantees is that the row a
+  line is needed for still *has* one reason to say, and that every other age has icons instead.
+- **Ten closes all six.** At ten the family's whole work opens (`SENT_FROM_AGE`) and the game does not offer a
+  fifteen-year-old on this frontier an afternoon off.
+- **Every threshold is invented** (`FIC-GONZ-301`). `HIST-TEX-400` puts children at small jobs from about four or five and
+  at more of them from six or seven, and that is as fine as any source read gets. Two thresholds rather than five, because
+  a table nobody can hold in their head is not a rule.
+- Somebody the game knows **no age for** — the founding four's children — is passed over exactly as `tooYoung` passes over
+  them. No class saved before ages existed gains or loses a thing.
+
+### Does a child's work produce anything, and why
+
+**Two of the six do; four do not, and each of those four says so on its own control.**
+
+- `food`, `seed`, `powder`, `cotton`, `money` and `logs` are the whole ledger. Of the six works **only the eggs are any of
+  them**, and eggs are food, which is what they are. Water carried, kindling brought in and birds driven off the corn have
+  no column, and **inventing `water` and `kindling` so a child could add to a number would be inventing a resource where
+  none is needed** — and a number no rule reads is exactly the freight this codebase has been bitten by before.
+- **Minding is the second, and it invented nothing at all.** The simulation already had the effect and already had the
+  number: a parent with a baby under two at home and no cradle does heavy work at home at `BABY_BURDEN` of the time. A
+  child set to minding cancels it while they are at it, the same as a cradle. An existing effect gained a second way of
+  being relieved.
+- **The corn is the deliberate omission.** Birds off a standing crop is a real effect and `harvestShare` is where it would
+  go. It is left out because a harvest that depended on a child at the field edge would make a child's work **compulsory**,
+  and the owner asked for something a child *can* do, not a post the family has to staff.
+- **The eggs are held small on purpose:** half a food a day at most, for the whole family, against a household that eats
+  about three a person. No family is ever better off putting its eight-year-old on the eggs than its father in the timber.
+
+### What this does not change
+
+Nothing about the roll, the names, the looks, the hidden stats, who answers a call, who may be sent to fight, or the
+housekeeping and strength effects of §4. **No number of the simulation moved and no save version moved**:
+`household.eggsDay` is absent until a family's children have gathered eggs, and absent reads as "not today".
+
+### Gates
+
+| Gate | What it means |
+| --- | --- |
+| The ladder decides | Every age 0–17 gets exactly the works in the table, and nobody else gets any. |
+| The bar switches | A child of eight sees their own works and no adult work; an infant sees the adult works refused, all for one reason, so their row still has something to say. |
+| Nobody is stopped | Setting a child to their own work changes nothing about what anybody else in the family may be set to, and does not call their work off. |
+| The server holds the gate | An order for a work above a child's age is refused **in words** even when it was never on their row. |
+| Off the land, and armed | No child's work has a travel step, and none costs powder or needs the axe or the hoe. |
+| Four add nothing | Measured against an identical family stepped the same number of ticks: play, kindling, the birds and the water move no resource at all. |
+| The eggs | Exactly `eggsFor` reaches the house, once a day, more for an older child, and the second try is refused in words. |
+| Minding | The parents' baby burden lifts while a child minds, and comes back the tick the minding stops. |
+| The lesson | The guided beginning never refuses a child their own work. |
+| Claims registered | `FIC-GONZ-300` to `-305`, `HIST-TEX-400` to `-403`. |
+
+### Evidence
+
+`npm test`: **890 passed, zero failed** (880 before). Ten new tests in `tests/children.test.mjs`, each named for a rule
+rather than an event. Injections: `node scripts/children-injections.mjs`, **24 of 24 caught**,
+[record](evidence/children-injections.json). The harness converts its patterns to the working copy's CRLF before matching
+and throws unless each is found exactly once. Two of the twenty-four first read as **MISSED** and both were real gaps in
+the tests, not in the harness: the play line was being checked against the bare *"finished:"* event every chore writes,
+so a work that told the family nothing still looked told; and the replay check compared **one** hour, which a draw from
+`Math.random()` matches one time in six — it compares four hours now.
+
+**Not proven.** No browser proof was run: the six icons are Claude-drawn glyph stand-ins
+([ART_REQUESTS.md](ART_REQUESTS.md), request 2026-09-21) and nothing about the panel's layout changed, but *that a real
+child's row renders its six icons on a 1366×768 Chromebook has not been seen*. Same computer only in any case; no LAN and
+no district claim.

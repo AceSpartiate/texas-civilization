@@ -1216,7 +1216,9 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
   if (!chore) return { can: false, why: 'No such work.' };
   if (entity.kind !== 'person' || entity.householdId !== household.id) return { can: false, why: 'Not one of your family.' };
   if (entity.health.condition === 'dead' || entity.health.condition === 'captured') return { can: false, why: 'This person cannot work.' };
-  if (tooYoung(entity)) return { can: false, why: tooYoungWhy(entity) };
+  // A child under ten is refused every work but the children's own (`chore.child`, sim/children.mjs), which carry their own
+  // age ladder in their own `refusal` (owner, 2026-09-21; docs/FAMILY_CREATION.md §3's amendment).
+  if (tooYoung(entity) && !chore.child) return { can: false, why: tooYoungWhy(entity) };
   if (entity.chore) return { can: false, why: `${entity.name} is already ${entity.chore.doing}.` };
   // The road's own chores (sim/road.mjs) are for somebody travelling east with the family, or camped with it at the refuge.
   // Somebody the class's clock is carrying faster than a student can follow is not on the map at all (sim/sight.mjs,
@@ -1392,6 +1394,10 @@ export function choresFor(world, household, entity, logsOut = null) {
   // Nor felling where the trees are not counted one by one, nor hauling with nothing lying out (sim/felling.mjs).
   const counted = countsTrees(woodsRule(world));
   const lying = counted && (logsOut ??= logsLeftOut(world, household)) > 0;
+  // A child under ten with works of their own (`chore.child`, sim/children.mjs) has a row of those and nothing else. Asked of
+  // the table rather than of that module, so no arrow from this file to it has to exist; its works answer their own age
+  // ladder in their own `offered`.
+  const childBar = tooYoung(entity) && Object.values(CHORES).some(other => other.child && other.offered(world, household, entity));
   const list = Object.entries(CHORES).filter(([id, chore]) => !(chore.house && settled) && !(chore.helps && !visiting) && !(chore.well && !wantsWell) && !(chore.lane && !wantsLane)
     && !(chore.plotWork && !wants[id])
     && !(chore.fells && !counted) && !(chore.hauling && !lying) && !(chore.fetchesLogs && !counted)
@@ -1411,6 +1417,10 @@ export function choresFor(world, household, entity, logsOut = null) {
     // A chore kept in its own module says who sees it (`registerChores`); and somebody serving sees only the camp's work,
     // not thirty refusals saying they are away (sim/camp.mjs).
     && !(chore.offered && !chore.offered(world, household, entity))
+    // A child with works of their own (sim/children.mjs) sees only those, not thirty refusals saying they are too young.
+    // A person too young even for those - an infant - keeps the refusals, so their row still says why it is empty
+    // (`rowReason`, public/family-panel.js).
+    && !(childBar && !chore.child)
     && !(entity.service?.status === 'serving' && !chore.camp)
     // Nor survey or plot work before the class has begun, which would be a refusal for every person on every lobby tick.
     && !((chore.survey || chore.plotWork || chore.huntLand || chore.fells || chore.fetchesLogs) && world.status === 'lobby')).map(([id, chore]) => {

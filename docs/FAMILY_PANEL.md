@@ -203,6 +203,11 @@ Neither exists, and neither blocks the panel (`CLAUDE.md`, missing art). Both ar
   beside a person is kept clear of it when there is room. A child under ten, or somebody still on the road in, whose every
   icon is refused for one reason, shows that reason once instead of a row of dimmed pictures — in the bar at the bottom of
   the screen if they are the main person, and on their own row if they are not (**§14**, owner 2026-09-21).
+  beside a person is kept clear of it when there is room. Somebody whose every icon is refused for one reason — somebody
+  still on the road in, or an **infant under two** — shows that reason once instead of a row of dimmed pictures
+  (`rowReason`). **Since 2026-09-21 a child of two to nine has a row of icons of their own** and is not collapsed: the
+  children's six works (`sim/children.mjs`, [FAMILY_CREATION.md](FAMILY_CREATION.md) §3's amendment), and nothing else —
+  a child's row never carries an adult's work, refused or otherwise.
   `ceiling:` the panel covers the left of the map on a wide screen, and a family of ten fills its height; a collapse control
   (portraits only, as on a phone) is the way out if the covered ground turns out to matter in play.
 - **A phone (under 760 px wide):** the panel collapses to a column of portraits. The chosen person's row opens beside it with

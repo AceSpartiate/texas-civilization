@@ -22,6 +22,9 @@ registerRoadChores();
 import { advanceLesson, advanceLessons, lessonInvalid, lessonProjection, lessonRefusal } from './lesson.mjs';
 import { REPEATED, advanceAuto, noteOrder, setAuto } from './auto.mjs';
 import { advanceCamp, answerCampQuestion, campInvalid } from './camp.mjs';
+// The children's own works (sim/children.mjs, docs/FAMILY_CREATION.md §3's amendment of 2026-09-21). Imported here as well
+// as for its gates, because importing it is what registers them into the chore table.
+import { childAction, childrenInvalid } from './children.mjs';
 import { hostLiveProjection } from './host.mjs';
 import { advanceTown, createTownspeople, observedBy } from './town.mjs';
 import { GOODS, advanceOffers, makeOffer, offersFor, respondToOffer } from './trade.mjs';
@@ -779,9 +782,11 @@ function applyOneAction(world, householdId, input) {
   if (world.status === 'lobby' && !LOBBY_ACTIONS.has(input.action)) throw new Error('Your neighbours are still arriving. You can see to your own family now; anything between families waits for the class to begin.');
   if (!entity || entity.householdId !== householdId || entity.kind !== 'person') throw new Error('Choose one of your family.');
   if (entity.health.condition === 'dead' || entity.health.condition === 'captured') throw new Error('This person cannot act.');
-  // A child under ten is not sent anywhere (`docs/FAMILY_CREATION.md` §3): not to work, not
-  // on a road, not to answer for the family. They can still be named, rest, and be spoken to.
-  if (tooYoung(entity) && !['rename', 'rest', 'ask-rider', 'leave-rider'].includes(input.action)) throw new Error(tooYoungWhy(entity));
+  // A child under ten is not sent anywhere (`docs/FAMILY_CREATION.md` §3): not on a road, not to answer for the family.
+  // They can still be named, rest, and be spoken to - and, since the owner's amendment of 2026-09-21, be set to the
+  // children's own works and call them off again (`childAction`, sim/children.mjs), which are the only work in the game
+  // that never leaves the family's own land and never touches an axe or a gun.
+  if (tooYoung(entity) && !['rename', 'rest', 'ask-rider', 'leave-rider'].includes(input.action) && !childAction(input)) throw new Error(tooYoungWhy(entity));
   // The student's main person (sim/family.mjs `mainPersonId`, docs/FAMILY_PANEL.md §11.3): one at a time, anybody of the
   // family who can act and is old enough to be sent - refused above, in the words every order gets. Choosing another recalls
   // nobody: whoever was main stays in the army or on their road; only who may be given the next order moves.
@@ -1197,6 +1202,8 @@ export function validateWorld(world) {
   if (badFlight) throw new Error(badFlight);
   const badCamp = campInvalid(world);
   if (badCamp) throw new Error(badCamp);
+  const badChildren = childrenInvalid(world);
+  if (badChildren) throw new Error(badChildren);
   const events = new Set(world.events.map(e => e.id));
   if (events.size !== world.events.length || world.events.some(e => e.causes.some(id => !events.has(id)))) throw new Error('Invalid event graph');
   if (world.nextEventId !== world.events.length + 1) throw new Error('Event sequence would duplicate an ID');

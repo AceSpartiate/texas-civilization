@@ -165,6 +165,53 @@ eight children, the largest the twenty-sided die makes.
   join form and the wagon-that-opens-by-itself are the two places focus still starts on the page itself, both recorded
   in §13.4 rather than chased. No claim ID was spent — nothing here invents anything, it is where things are drawn.
 
+**The family's children have something to do, 2026-09-21:** [FAMILY_CREATION.md §3's amendment](docs/FAMILY_CREATION.md),
+`sim/children.mjs`. The owner switched to a child on the family panel and found an empty bar: *"Children should have
+action bars too. They should be able to play, and other things that kids would do."* A person under ten could do
+**nothing** — the 2026-09-12 rule, working exactly as written. The owner amended the first third of it by multiple
+choice, over *play only* and over *everything an adult does, more slowly*, **because an eight-year-old should not be put
+on the axe or the rifle**.
+
+- **Six works in a module of their own**, registered through `registerChores` the way `sim/camp.mjs` and `sim/road.mjs`
+  are: **play** from 2; **gather kindling**, **keep the birds off the corn** and **gather the eggs** from 5; **carry
+  water** and **mind the younger ones** from 7; and all six close at 10, where the family's own work opens. **An infant
+  under two has nothing, deliberately.** Every threshold is invented (`FIC-GONZ-301`) against a general-frontier source
+  that says "four or five" and "six or seven" and no more (`HIST-TEX-400`).
+- **Two of the six produce; four do not, and each of those four says so on its own control.** The eggs put a little food
+  in the house, once a day, more for an older child — `food` is the only column any of these works is, and poultry on a
+  Texas farm is Holley 1836 (`HIST-TEX-401`). Minding cancels `BABY_BURDEN` on the parents while it lasts, **which
+  invented nothing**: the simulation already had that effect and already had the number, and a cradle already cancelled
+  it. Water, kindling and the birds add nothing: they have no column, and inventing `water` and `kindling` would be
+  inventing a resource where none is needed. **The corn is the deliberate one** — a harvest that depended on a child at
+  the field edge would make a child's work compulsory, which is the opposite of what was asked for.
+- **Nothing takes a child off the family's own land and nothing arms them.** Every work is `where: 'home'` with no travel
+  step, none costs powder, none needs the axe or the hoe, and the other two thirds of the 2026-09-12 rule stand: not on
+  a road, not answering for the family, not sent to the fighting.
+- **Shared files, touched as little as possible.** `sim/chores.mjs` — **three small blocks and no new import**: one
+  `&& !chore.child` on the too-young refusal, one `childBar` const beside the other hoisted conditions, one term in the
+  `choresFor` filter. `sim/world.mjs` — the order gate takes `childAction`, plus `childrenInvalid` on the validator.
+  `sim/furniture.mjs` — one line in `mindingBaby`. `sim/lesson.mjs` — the six ids on `ALWAYS`, because a lesson that
+  refused a five-year-old their hour because the house was not raised would be refusing the one thing that family member
+  is for.
+- **Found and not fixed, and it matters for balance.** `advanceRoutine` (`sim/routines.mjs`) counts **anybody** at home
+  whose `task` is `'work'` and who is not on a chore as a hand that feeds the family — **an infant included**. So a
+  family's children have always been feeding it by standing about, and setting one to their own work *stops* that for
+  as long as the work lasts, costing a hundredth or two of a food. That is the routine's rule and not the children's, it
+  predates this work, and fixing it (excluding `tooYoung` from `workers`) would take about two food a day off most
+  families in the class — a balance change nobody asked for, on the week a real class is the test. **Written down rather
+  than done**, and the test harness works around it explicitly.
+- **Evidence.** `npm test` **890**, from 880. Ten new tests in `tests/children.test.mjs`, each named for a rule and not
+  an event; `node scripts/children-injections.mjs`, **24 of 24 caught**,
+  `docs/evidence/children-injections.json` — two of them first read as **MISSED** and both were real holes in the tests
+  (the play line was being matched against the bare *"finished:"* event every chore writes, and the replay check
+  compared one hour where `Math.random()` coincides a sixth of the time; it compares four now). Three existing tests were
+  updated rather than worked around: `tests/family-roll.test.mjs` held the *old* rule and now holds the two thirds of it
+  that stand, `tests/chores.test.mjs` excludes `chore.child` from an adult's count, and `tests/family-panel.test.mjs`
+  wanted a summary sentence and an icon for each of the six.
+- **Not proved.** **No browser proof was run.** The six icons are Claude-drawn glyph stand-ins (`docs/ART_REQUESTS.md`,
+  request 2026-09-21 — the children's icons) and no layout changed, but *nobody has seen a child's row render its icons
+  on a Chromebook*. Same computer only; no LAN and no district claim.
+
 **What was drawn over what, 2026-09-21:** [FAMILY_PANEL.md §12.11](docs/FAMILY_PANEL.md). Nothing had ever asked whether
 two pieces of this interface land on the same pixels. `npm run study:overlap` asks the browser — for every control a
 student can press it samples that control's own points and asks `elementFromPoint` what is on top — at 1366×768,

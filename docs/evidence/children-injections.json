@@ -1,0 +1,203 @@
+{
+  "record": "children-injections",
+  "date": "2026-09-21",
+  "note": "What a family’s children can be set to (2026-09-21). Every injection is a rule of sim/children.mjs, or of the four gates it is wired through, taken back out.",
+  "files": [
+    "tests/children.test.mjs"
+  ],
+  "injections": [
+    {
+      "name": "play is offered from birth, so an infant has a bar after all",
+      "file": "sim/children.mjs",
+      "failed": [
+        "the rule: the age ladder decides which of the children’s works a person has, and nobody else has any",
+        "the rule: a child of eight has a bar of their own and no adult work on it; an infant has none and keeps the one reason that says why",
+        "the rule: the server holds the age gate, not the page - an order for a work above a child’s age is refused in words",
+        "the rule: the lesson never refuses a child their own work, and a saved class with one holds together"
+      ]
+    },
+    {
+      "name": "the ladder is flattened: every work from five, the pail and the baby included",
+      "file": "sim/children.mjs",
+      "failed": [
+        "the rule: the age ladder decides which of the children’s works a person has, and nobody else has any",
+        "the rule: the server holds the age gate, not the page - an order for a work above a child’s age is refused in words"
+      ]
+    },
+    {
+      "name": "the band never closes, so a father of forty has a Play button",
+      "file": "sim/children.mjs",
+      "failed": [
+        "the rule: the age ladder decides which of the children’s works a person has, and nobody else has any",
+        "the rule: the server holds the age gate, not the page - an order for a work above a child’s age is refused in words"
+      ]
+    },
+    {
+      "name": "a person the game knows no age for is given the whole of a child’s bar",
+      "file": "sim/children.mjs",
+      "failed": [
+        "the rule: the age ladder decides which of the children’s works a person has, and nobody else has any"
+      ]
+    },
+    {
+      "name": "the band ends at ten inclusive, so a ten-year-old keeps the children’s works",
+      "file": "sim/children.mjs",
+      "failed": [
+        "the rule: the age ladder decides which of the children’s works a person has, and nobody else has any",
+        "the rule: the server holds the age gate, not the page - an order for a work above a child’s age is refused in words"
+      ]
+    },
+    {
+      "name": "the chore table refuses a child every work again, which is the empty bar the owner hit",
+      "file": "sim/chores.mjs",
+      "failed": [
+        "the rule: a child of eight has a bar of their own and no adult work on it; an infant has none and keeps the one reason that says why",
+        "the rule: the server holds the age gate, not the page - an order for a work above a child’s age is refused in words",
+        "the rule: setting a child to their own work stops nobody else in the family doing theirs",
+        "the rule: no work of a child’s leaves the family’s own land, and none of them touches an axe or a gun",
+        "the rule: the eggs are the one thing a child adds to the family’s store, once a day, and an older child finds more",
+        "the rule: a child minding the younger ones lifts the baby off the parents, exactly as a cradle does",
+        "the rule: the four works that say they add nothing to the family’s store add nothing, and play writes the child’s hour into the record",
+        "the rule: the lesson never refuses a child their own work, and a saved class with one holds together"
+      ]
+    },
+    {
+      "name": "the adult works are left on a child’s row: thirty dimmed pictures saying \"too young\" beside the Play button",
+      "file": "sim/chores.mjs",
+      "failed": [
+        "the rule: a child of eight has a bar of their own and no adult work on it; an infant has none and keeps the one reason that says why",
+        "the rule: nothing hidden about a child reaches the class, and the panel has a picture for every work"
+      ]
+    },
+    {
+      "name": "the adult works are hidden from an infant too, so their row goes blank and has no reason left to show",
+      "file": "sim/chores.mjs",
+      "failed": [
+        "the rule: a child of eight has a bar of their own and no adult work on it; an infant has none and keeps the one reason that says why"
+      ]
+    },
+    {
+      "name": "the bird-scaring and the minding are offered whatever the family has, as a dimmed refusal on every tick",
+      "file": "sim/children.mjs",
+      "failed": [
+        "the rule: the server holds the age gate, not the page - an order for a work above a child’s age is refused in words"
+      ]
+    },
+    {
+      "name": "the order gate is closed again, so nothing a child is offered can actually be sent",
+      "file": "sim/world.mjs",
+      "failed": [
+        "the rule: the server holds the age gate, not the page - an order for a work above a child’s age is refused in words",
+        "the rule: setting a child to their own work stops nobody else in the family doing theirs",
+        "the rule: no work of a child’s leaves the family’s own land, and none of them touches an axe or a gun",
+        "the rule: the eggs are the one thing a child adds to the family’s store, once a day, and an older child finds more",
+        "the rule: a child minding the younger ones lifts the baby off the parents, exactly as a cradle does",
+        "the rule: the four works that say they add nothing to the family’s store add nothing, and play writes the child’s hour into the record",
+        "the rule: the lesson never refuses a child their own work, and a saved class with one holds together"
+      ]
+    },
+    {
+      "name": "the age ladder is checked only when the row is drawn, and an order sent straight to the server is taken",
+      "file": "sim/children.mjs",
+      "failed": [
+        "the rule: the server holds the age gate, not the page - an order for a work above a child’s age is refused in words"
+      ]
+    },
+    {
+      "name": "a child who has grown out of the band can still be set to play",
+      "file": "sim/children.mjs",
+      "failed": [
+        "the rule: the server holds the age gate, not the page - an order for a work above a child’s age is refused in words"
+      ]
+    },
+    {
+      "name": "a child’s work takes them off the family’s own land, which is the half of the 2026-09-12 rule that stands",
+      "file": "sim/children.mjs",
+      "failed": [
+        "the rule: setting a child to their own work stops nobody else in the family doing theirs",
+        "the rule: no work of a child’s leaves the family’s own land, and none of them touches an axe or a gun",
+        "the rule: the eggs are the one thing a child adds to the family’s store, once a day, and an older child finds more",
+        "the rule: a child minding the younger ones lifts the baby off the parents, exactly as a cradle does",
+        "the rule: the four works that say they add nothing to the family’s store add nothing, and play writes the child’s hour into the record",
+        "the rule: the lesson never refuses a child their own work, and a saved class with one holds together"
+      ]
+    },
+    {
+      "name": "the hens lay all day: the nests can be gone round over and over for as much food as the family likes",
+      "file": "sim/children.mjs",
+      "failed": [
+        "the rule: the eggs are the one thing a child adds to the family’s store, once a day, and an older child finds more"
+      ]
+    },
+    {
+      "name": "every child brings in the same eggs, so a five-year-old is as good at it as a nine-year-old",
+      "file": "sim/children.mjs",
+      "failed": [
+        "the rule: the eggs are the one thing a child adds to the family’s store, once a day, and an older child finds more"
+      ]
+    },
+    {
+      "name": "the day is stamped but the eggs never reach the house",
+      "file": "sim/children.mjs",
+      "failed": [
+        "the rule: the eggs are the one thing a child adds to the family’s store, once a day, and an older child finds more"
+      ]
+    },
+    {
+      "name": "the eggs are gathered and the day is never stamped, so the once-a-day rule is unreachable",
+      "file": "sim/children.mjs",
+      "failed": [
+        "the rule: the eggs are the one thing a child adds to the family’s store, once a day, and an older child finds more"
+      ]
+    },
+    {
+      "name": "a child minding the baby does nothing for the parents: the cradle is the only relief again",
+      "file": "sim/furniture.mjs",
+      "failed": [
+        "the rule: a child minding the younger ones lifts the baby off the parents, exactly as a cradle does"
+      ]
+    },
+    {
+      "name": "the relief outlives the minding: having a child of seven in the house is enough, for ever",
+      "file": "sim/furniture.mjs",
+      "failed": [
+        "the rule: a child minding the younger ones lifts the baby off the parents, exactly as a cradle does"
+      ]
+    },
+    {
+      "name": "play quietly feeds the family, which is the thing it is most important that it does not do",
+      "file": "sim/children.mjs",
+      "failed": [
+        "the rule: the four works that say they add nothing to the family’s store add nothing, and play writes the child’s hour into the record"
+      ]
+    },
+    {
+      "name": "the hour a child spends at play leaves nothing in the family’s record at all",
+      "file": "sim/children.mjs",
+      "failed": [
+        "the rule: the four works that say they add nothing to the family’s store add nothing, and play writes the child’s hour into the record"
+      ]
+    },
+    {
+      "name": "the hour is drawn from a stream, so a class does not replay and a reload tells a different story",
+      "file": "sim/children.mjs",
+      "failed": [
+        "the rule: the four works that say they add nothing to the family’s store add nothing, and play writes the child’s hour into the record"
+      ]
+    },
+    {
+      "name": "the guided beginning refuses a child their hour because the house is not raised yet",
+      "file": "sim/lesson.mjs",
+      "failed": [
+        "the rule: the lesson never refuses a child their own work, and a saved class with one holds together"
+      ]
+    },
+    {
+      "name": "a saved class saying a one-year-old was at play opens without a word",
+      "file": "sim/children.mjs",
+      "failed": [
+        "the rule: the lesson never refuses a child their own work, and a saved class with one holds together"
+      ]
+    }
+  ]
+}

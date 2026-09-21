@@ -51,11 +51,16 @@ function row(world, household, id, { main = false } = {}) {
 const nobodyCanDoAnything = row => assert.equal(row.icons.some(icon => icon.can), false,
   `this row still has ${row.icons.filter(icon => icon.can).length} things open, so the fault being measured cannot appear`);
 
-test('a child under ten shows the server’s own sentence, and it is the sentence the server sent', () => {
+test('somebody the server refuses everything shows its own sentence, and it is the sentence the server sent', () => {
   const { world, household } = classroom();
   const book = projectFamily(world, household.id);
-  const young = book.people.filter(person => tooYoung(world.entities[person.id]));
-  assert.ok(young.length, 'this seed deals no child under ten, so nothing here is being measured');
+  // **Rewritten on the day the children got their own works** (owner, 2026-09-21; `sim/children.mjs`). This test was
+  // written when a child under ten could do nothing at all, and read every one of them. From play at two and the small
+  // jobs at five, a child of two to nine has a bar of their own - so the people the server still refuses everything to
+  // are the infants. The rule this test is about has not moved an inch: whoever is refused everything says why, once,
+  // in the server's own words. Who that is has moved, and the test follows it rather than pinning it.
+  const young = book.people.filter(person => person.age < 2 && tooYoung(world.entities[person.id]));
+  assert.ok(young.length, 'this seed deals no infant, so nothing here is being measured');
   for (const person of young) {
     const measured = row(world, household, person.id);
     nobodyCanDoAnything(measured);
@@ -66,9 +71,13 @@ test('a child under ten shows the server’s own sentence, and it is the sentenc
     for (const icon of measured.icons) assert.equal(icon.why, measured.reason, `${icon.key} carried a different reason`);
     assert.match(measured.reason, new RegExp(`^${world.entities[person.id].name}\\b`), 'the line does not name the child it is about');
   }
-  // And an infant is one of them: the youngest of all is not a separate case with a separate sentence.
-  const infant = book.people.find(person => person.age === 0);
-  if (infant) assert.equal(row(world, household, infant.id).reason, tooYoungWhy(world.entities[infant.id]));
+  // And the other half of the same rule: a child old enough for the children's works has a bar, so says nothing.
+  const child = book.people.find(person => person.age >= 2 && tooYoung(world.entities[person.id]));
+  if (child) {
+    const measured = row(world, household, child.id);
+    assert.ok(measured.icons.some(icon => icon.can), `${child.name} is old enough for the children's works and was offered none`);
+    assert.equal(measured.reason, null, 'a child with work of their own was told they are too young to be sent');
+  }
 });
 
 test('somebody old enough, with work open, shows no line at all', () => {
@@ -173,9 +182,12 @@ test('a bar the guided start has shut is not a person with nothing to do', () =>
   // The server has refused none of it, so the row is not silent and says nothing about having nothing to do.
   assert.equal(open.reason, null, 'a bar the guided start shut was called a person with nothing to do');
   assert.ok(open.icons.some(icon => icon.can), 'the lesson reached into `can`, which is the server’s');
-  // And in the very same tick, under the very same step, a child the server really did refuse still gets their own line.
-  const child = projectFamily(world, household.id).people.find(person => tooYoung(world.entities[person.id]));
-  assert.ok(child, 'this seed deals no child under ten, so the two cases cannot be told apart here');
+  // And in the very same tick, under the very same step, somebody the server really did refuse still gets their own
+  // line. An infant, since the children's works of 2026-09-21 gave everybody of two and over a bar of their own: the
+  // pair this test exists to tell apart is a bar the *page* shut against a person the *server* refused, and the infant
+  // is now the plainest case of the second.
+  const child = projectFamily(world, household.id).people.find(person => person.age < 2 && tooYoung(world.entities[person.id]));
+  assert.ok(child, 'this seed deals no infant, so the two cases cannot be told apart here');
   assert.equal(row(world, household, child.id).reason, tooYoungWhy(world.entities[child.id]));
 });
 
@@ -238,5 +250,7 @@ test('every line the panel shows is a sentence the server sent, over a whole fam
       assert.equal(icons.some(icon => icon.can), false, 'a line was shown on a row that still had something open');
     }
   }
-  assert.ok(lines > 20, `only ${lines} lines were shown over a played day, which is too few to be a sweep`);
+  // Twenty before the children's works of 2026-09-21; every child of two and over now has a bar and says nothing, which
+  // is the point of them. What this number guards is that the sweep really swept - not how silent the family is.
+  assert.ok(lines > 12, `only ${lines} lines were shown over a played day, which is too few to be a sweep`);
 });

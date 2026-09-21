@@ -55,6 +55,11 @@ import { clearedPlots, plotsOf, sownPlots } from './fields.mjs';
  * (sim/headless.mjs) and which every other class makes in the lobby, where there is no lesson.
  */
 export const ALWAYS = Object.freeze([
+  // And the children's own works (sim/children.mjs, docs/FAMILY_CREATION.md §3's amendment of 2026-09-21). The lesson
+  // teaches the student one farm task at a time; not one of them is a task a child under ten can be set to, so a lesson
+  // that refused a five-year-old's hour of play because the house was not raised yet would be refusing the one thing that
+  // family member is for. Written out rather than built from the module, which would make this file import it.
+  'chore:child-play', 'chore:child-kindling', 'chore:child-birds', 'chore:child-eggs', 'chore:child-water', 'chore:child-mind',
   'rename', 'set-main', 'set-auto', 'set-appearance', 'place-item', 'work', 'rest', 'travel',
   'stop-chore', 'answer-chore', 'ask-rider', 'leave-rider',
   'roll-family', 'load-wagon', 'bring-stock',

@@ -62,6 +62,13 @@ export const PANEL_SUMMARIES = Object.freeze({
   'camp-forage': 'Spend a day out for the mess, bringing beef and corn in to the camp.',
   'camp-guard': 'Stand a night on the camp guard.',
   'camp-scout': 'Ride out with the scouts for a day to find the enemy, which wants a horse and can bring them back hurt.',
+  // What a family's children can be set to (sim/children.mjs, docs/FAMILY_CREATION.md §3's amendment of 2026-09-21).
+  'child-play': 'Let them have the hour to themselves, which makes nothing and is the point of it.',
+  'child-kindling': 'Send them round the yard for bark, chips and dead sticks for the fire, with no axe.',
+  'child-birds': 'Set them at the edge of the field to drive the blackbirds off the standing crop.',
+  'child-eggs': 'Send them round the hens’ nests, which brings a little food into the house once a day.',
+  'child-water': 'Send them between the water and the house with a pail all morning.',
+  'child-mind': 'Set them to watch the little ones, which takes the baby off a parent while it lasts.',
   'travel-gonzales': 'Go into the town of Gonzales and stay there until sent somewhere else.',
   'travel-home': 'Come back to the family’s own land.',
   visit: 'Choose a neighbour’s homestead and go there, to trade or to help raise their walls.',
@@ -108,6 +115,11 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
   // The family's own stock (sim/stock.mjs, docs/STOCK.md): no frames yet. stand-in: docs/ART_REQUESTS.md, request
   // 2026-09-20 - the stock icons; glyphs drawn by `drawGlyph` until `icon-<key>` is registered.
   ['butcher-beef', { glyph: 'beef' }], ['butcher-hog', { glyph: 'hog' }], ['look-to-stock', { glyph: 'range' }],
+  // What the family's children do (sim/children.mjs, docs/FAMILY_CREATION.md §3's amendment of 2026-09-21): no frames yet.
+  // stand-in: docs/ART_REQUESTS.md, request 2026-09-21 - the children's icons; each is a glyph drawn by `drawGlyph` until
+  // `icon-<key>` is registered, which `drawIcon` then prefers.
+  ['child-play', { glyph: 'play' }], ['child-kindling', { glyph: 'kindling' }], ['child-birds', { glyph: 'birds' }],
+  ['child-eggs', { glyph: 'eggs' }], ['child-water', { glyph: 'water-pail' }], ['child-mind', { glyph: 'mind' }],
 ]));
 /** The camp's work, the chores a man serving with Houston's army is offered (sim/camp.mjs); the only work a serving row shows. */
 export const CAMP_CHORES = Object.freeze(['camp-drill', 'camp-forage', 'camp-guard', 'camp-scout']);
@@ -642,6 +654,61 @@ function drawGlyph(ctx, glyph, size) {
     ctx.fillRect(16, 18, 16, 5);
     ctx.strokeStyle = '#6f7a4a'; ctx.lineWidth = 2.5;
     for (const x of [8, 14, 34, 40]) { ctx.beginPath(); ctx.moveTo(x, 44); ctx.quadraticCurveTo(x - 2, 38, x + 1, 33); ctx.stroke(); }
+  } else if (glyph === 'play') {
+    // A stick horse: the hour that is the child's own (sim/children.mjs).
+    ctx.strokeStyle = '#3a2a18';
+    ctx.lineWidth = 3.5; ctx.beginPath(); ctx.moveTo(30, 12); ctx.lineTo(14, 42); ctx.stroke();
+    ctx.fillStyle = '#8a6a3d';
+    ctx.beginPath(); ctx.moveTo(24, 16); ctx.lineTo(30, 4); ctx.lineTo(40, 8); ctx.lineTo(40, 18); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#e9dcb8'; ctx.beginPath(); ctx.arc(34, 11, 1.8, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = '#8a6a3d'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(26, 14); ctx.quadraticCurveTo(20, 18, 22, 26); ctx.stroke();
+  } else if (glyph === 'kindling') {
+    // An armful of chips and dead sticks, crossed, and no axe anywhere near them.
+    ctx.strokeStyle = '#8a6a3d'; ctx.lineWidth = 3.5;
+    ctx.beginPath(); ctx.moveTo(8, 38); ctx.lineTo(38, 16); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(10, 16); ctx.lineTo(40, 38); ctx.stroke();
+    ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(6, 27); ctx.lineTo(42, 27); ctx.stroke();
+    ctx.fillStyle = '#6a5136';
+    for (const [x, y] of [[16, 42], [24, 44], [32, 42]]) { ctx.beginPath(); ctx.ellipse(x, y, 4, 2, 0, 0, Math.PI * 2); ctx.fill(); }
+  } else if (glyph === 'birds') {
+    // Two birds going up off a standing ear of corn.
+    ctx.strokeStyle = '#3a2a18'; ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.moveTo(6, 12); ctx.quadraticCurveTo(11, 7, 16, 12); ctx.quadraticCurveTo(21, 7, 26, 12); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(24, 22); ctx.quadraticCurveTo(28, 18, 32, 22); ctx.quadraticCurveTo(36, 18, 40, 22); ctx.stroke();
+    ctx.fillStyle = '#6f7a4a';
+    ctx.beginPath(); ctx.moveTo(18, 44); ctx.lineTo(18, 30); ctx.stroke();
+    ctx.strokeStyle = '#6f7a4a'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(20, 44); ctx.lineTo(20, 28); ctx.stroke();
+    ctx.fillStyle = '#c9a227'; ctx.beginPath(); ctx.ellipse(20, 30, 5, 9, 0, 0, Math.PI * 2); ctx.fill();
+  } else if (glyph === 'eggs') {
+    // Three eggs in a nest of straw.
+    ctx.strokeStyle = '#8a6a3d'; ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.arc(24, 28, 16, 0, Math.PI); ctx.stroke();
+    for (const x of [10, 24, 38]) { ctx.beginPath(); ctx.moveTo(x, 30); ctx.lineTo(x + (x < 24 ? -4 : x > 24 ? 4 : 0), 24); ctx.stroke(); }
+    ctx.fillStyle = '#e9dcb8';
+    for (const [x, y] of [[17, 26], [31, 26], [24, 20]]) { ctx.beginPath(); ctx.ellipse(x, y, 5, 6.5, 0, 0, Math.PI * 2); ctx.fill(); }
+    ctx.strokeStyle = '#8a6a3d'; ctx.lineWidth = 1.5;
+    for (const [x, y] of [[17, 26], [31, 26], [24, 20]]) { ctx.beginPath(); ctx.ellipse(x, y, 5, 6.5, 0, 0, Math.PI * 2); ctx.stroke(); }
+  } else if (glyph === 'water-pail') {
+    // A pail with a bail, and the water in it.
+    ctx.strokeStyle = '#3a2a18'; ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.arc(24, 18, 11, Math.PI, Math.PI * 2); ctx.stroke();
+    ctx.fillStyle = '#8a6a3d';
+    ctx.beginPath(); ctx.moveTo(12, 18); ctx.lineTo(36, 18); ctx.lineTo(32, 42); ctx.lineTo(16, 42); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#41556b';
+    ctx.beginPath(); ctx.moveTo(14, 24); ctx.lineTo(34, 24); ctx.lineTo(32, 40); ctx.lineTo(16, 40); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = '#3a2a18'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(12, 18); ctx.lineTo(36, 18); ctx.stroke();
+  } else if (glyph === 'mind') {
+    // A bigger child with a smaller one on their hip.
+    ctx.fillStyle = '#d9b48a';
+    ctx.beginPath(); ctx.arc(18, 12, 6, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#6a5136';
+    ctx.beginPath(); ctx.moveTo(12, 20); ctx.lineTo(24, 20); ctx.lineTo(26, 44); ctx.lineTo(10, 44); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#d9b48a';
+    ctx.beginPath(); ctx.arc(33, 22, 4.5, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#8a6a3d';
+    ctx.beginPath(); ctx.ellipse(33, 32, 6, 8, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = '#6a5136'; ctx.lineWidth = 3; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(22, 26); ctx.lineTo(31, 30); ctx.stroke();
   } else {
     ctx.beginPath(); ctx.arc(24, 24, 6, 0, Math.PI * 2); ctx.fill();
   }

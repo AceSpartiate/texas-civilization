@@ -11,7 +11,7 @@ survey stake at the `order` step while the strip said to choose a house plan.
 **Usability update:** [TUTORIAL_USABILITY_HANDOFF.md](TUTORIAL_USABILITY_HANDOFF.md) supersedes earlier screen restrictions: a contextual navigation button now locates the relevant control, without completing a step or issuing work. Objective-specific recommendations replace first-permitted-action highlighting. Completion is visible without locking controls. Selling guidance accepts food or coin, matching the current server rule. Both bare placement commands and chore-prefixed variants are accepted for map work.
 
 **Status: the world's half built 2026-09-21.** `sim/lesson.mjs`, `tests/lesson.test.mjs`,
-[injections](evidence/lesson-injections.json) (36 of 36 caught). Claims `FIC-GONZ-210` to `-215`. The screen's half —
+[injections](evidence/lesson-injections.json) (38 of 39 caught; the one that misses is a gap in the tests, named in the record). Claims `FIC-GONZ-210` to `-215`. The screen's half —
 the card, the greying, the arrow onto the control being asked for — is `public/`'s and is built against the contract in
 §3 below.
 
@@ -103,6 +103,11 @@ knows the game is theirs.
 - **The family's own housekeeping and the things between families**: naming, the main person, the auto switch,
   appearance, setting something out in the house, calling off work, answering work, speaking to a rider, travelling,
   making and answering trade offers, and helping raise a neighbour's walls.
+- **The children's own works** (added 2026-09-21, `sim/children.mjs`, `docs/FAMILY_CREATION.md` §3's amendment): the six
+  things a person under ten may be set to. **Not one of them is a step of this lesson and not one of them ever could
+  be** — the lesson teaches building, clearing, planting, selling, hunting and the well, and a child under ten can do
+  none of those. A lesson that refused a five-year-old their hour of play because the house was not raised yet would be
+  refusing the one thing that family member is for.
 
 Two more exemptions are not in the list because they are conditions rather than actions. An order to somebody who has
 **joined the army, the garrison or the expedition** is never the lesson's business — they are not at home to be taught,
