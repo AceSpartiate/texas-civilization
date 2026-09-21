@@ -61,6 +61,8 @@
     "balance:biomes": "node scripts/biome-balance-study.mjs",
     "test:biome-game": "node scripts/biome-game-browser-proof.mjs",
     "test:lesson": "node scripts/lesson-browser-proof.mjs",
-    "measure:screen": "node scripts/screen-measure.mjs"
+    "measure:screen": "node scripts/screen-measure.mjs",
+    "test:creation": "node scripts/creation-browser-proof.mjs",
+    "study:creation": "node scripts/creation-overlap-study.mjs"
   }
 }

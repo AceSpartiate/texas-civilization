@@ -67,6 +67,10 @@ try {
   ok(`the die is rolled in the page, and the family is the server's: "${rolled}", ${family.people.length} people, every one a Hollis`);
 
   // ------------------------------------------------------- the book answers the question
+  // The wagon is up for a family that has not packed, and since 2026-09-21 a panel that covers the family dims the map
+  // behind it (docs/FAMILY_PANEL.md §12.11). The dim lies over the Journal button and Chrome refuses a click through it,
+  // which is the dim working. The wagon is put away first, the way a student puts it away.
+  if (await page.locator('#wagon-done').isVisible()) await page.locator('#wagon-done').click();
   if (await page.locator('#family-journal').getAttribute('data-open') !== 'true') await page.locator('#journal-toggle').click();
   await page.locator('#family-kin .kin-row').first().waitFor({ state: 'visible' });
   const rows = await page.locator('#family-kin .kin-row').evaluateAll(items => items.map(item => ({

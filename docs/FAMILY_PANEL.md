@@ -622,3 +622,88 @@ Evidence: `docs/evidence/screen-overlap.json`, `-1024.json`, `-390.json` (0 cont
 `#survey-choose`, `#encounter` or `#call-menu` in a real state — an earlier turn of it simply unhid them, and an empty
 panel has almost no height, so it covered nothing and the run read as clean. That is worse than not asking, and it was
 taken out rather than left to reassure.
+
+## 13. The family-creation wizard as a thing on a screen — 2026-09-21
+
+§12.11 asked what was drawn over what on the screen a student plays the *game* on. It stopped at the curtain. This is the
+same question asked of the five steps in front of it — the title, the die, the family's last name, everybody's first
+names, each parent's looks — and of the wagon that follows them, which is the first thing a finger in that classroom ever
+meets. The order of the five steps is the owner's and is unchanged; nothing here is about what the wizard says or asks.
+
+`scripts/creation-overlap-study.mjs` (`npm run study:creation`) reports what it finds; `scripts/creation-browser-proof.mjs`
+(`npm run test:creation`) refuses to pass when it finds a fault. Both read from one instrument,
+`scripts/support/creation-geometry.mjs`, so the numbers in the evidence and the numbers the gate holds to are the same
+numbers. The family is rolled from a seed whose first household rolls a **twenty** — two parents and eight children, the
+largest family the die makes — because the naming card is the one part of the wizard whose height is the family's.
+
+### 13.1 What was measured, and what was wrong
+
+At 1366×768, 1024×768 and 390×844, every step. **Nothing was covered and nothing was off the screen at any size** — the
+one thing that was already right. Five things were not:
+
+| What | Measured | Now |
+| --- | --- | --- |
+| The world behind the curtain was never sealed | Tab walked off **every** step onto `#world-map` and, from the last name onwards, **89** controls of a world the student cannot even see. `#surname`, `#names` and `#looks` each told a screen reader `aria-modal="true"`, and it was not true. | Everything of `.map-stage` that is not one of the wizard's own cards is `inert` while the curtain is up. **0** reachable at every step and every size. |
+| Focus never arrived on a step's card | The die **disables its own button while it tumbles**, and a browser blurs a control it has just disabled: focus landed on nothing, with no way back but Tab from the top of the document. A screen reader was never given the step's heading. | The card takes focus when its step arrives, and is given it back whenever focus falls to nothing. Measured on the card at every step but the join form. |
+| Targets under a finger | The last name's box **37px**, the naming card's boxes **36px**, Continue **43px**, the wagon's `+` and `−` **32px**, its stock rows **20px**. 22 targets under 44px at 1366×768. | **0** under 44px at all three sizes. |
+| Two targets a finger cannot tell apart | The looks options **6px** apart; the wagon's two stock rows **4px**. | 8px everywhere. |
+| The button that ends a step, below its own fold | **Done packing** sat **771px** down the wagon's list — a student had to scroll the whole load to find it. Continue was **137px** past the fold at a phone's height with a family of ten, and raising every box to 44px would have pushed it past on a Chromebook too. | `#names`, `#looks` and `#wagon-load` are a scrolling list with a **footer**: the button and the line that announces a refusal are outside what scrolls. Every step's button is on its card as the card opens, at every size. |
+
+A **sticky** button was tried before the footer and is worth recording as a wrong answer: it sat on top of the last
+child's name box, which is the fault it was meant to cure.
+
+### 13.2 The instrument, and the ways it lied first
+
+- **A hidden control has a box of zero size.** It overlaps nothing, is never off the screen and is never too small, so a
+  card whose controls are all invisible reads as perfectly clean. Two guards: every stage asserts its own card is really
+  drawn and big enough to be one (`real`), and every step names the smallest number of controls a student must be able to
+  press. The seventh injection makes the looks options invisible, and it is the control count that catches it.
+- **A `position:fixed` box is not clipped by an ancestor that scrolls**, so a naive ancestor walk reports clipping that
+  does not happen. `clipBoxOf` stops its walk at the first `position:fixed` box for exactly that reason.
+- A third, found by running it: **a control scrolled out of a box that scrolls is reachable, not covered.** The first run
+  called 24 controls of the wagon covered or off the screen, and every one of them was the list simply scrolling. Points
+  past the edge of the card, or of the list on it, are not sampled at all now. Every number here was checked against
+  screenshots looked at by eye before any of it was believed (`test-results/creation-*.png`).
+
+### 13.3 Gates
+
+`npm run test:creation` is **4 checks** over **24 step-and-size measurements** (eight steps × three sizes), each holding
+ten rules. Evidence `docs/evidence/creation-browser.json`; the study's own record is
+`docs/evidence/creation-overlap.json`, `-1024.json` and `-390.json`. `docs/evidence/creation-overlap-injections.json` is
+**7 of 7 caught, each by the check written for it** — and three of them first read as caught-by-another-check for a
+reason worth keeping: the harness's failure-sentence pattern was greedy, so an assertion whose own sentence contained a
+colon was recorded by whatever followed its *last* colon. `scripts/screen-overlap-injections.mjs` had the same latent
+read and is fixed with it. `npm test` is **869**.
+
+### 13.4 What is not proved
+
+- **Same computer only.** No LAN and no district claim, and no classroom has met any of this.
+- **No real assistive technology was run.** What is proved is that each card carries a heading that names it, carries a
+  line with `role="alert"`, takes focus when its step arrives, and that Tab cannot leave it. NVDA, JAWS and ChromeVox
+  have not been near it.
+- **The join form is not focused on arrival**, at any size. It is the only step where focus starts on the page itself.
+  The whole page at that moment *is* the form and its first box is the first thing Tab reaches, so it is recorded rather
+  than chased.
+- **The wagon is not focused when it opens by itself.** Pressing "Repack the wagon" focuses it; the wagon that comes up
+  on its own after the curtain does not, so a student on a keyboard tabs past the map to reach it. It is a panel of the
+  world rather than a card of the wizard, and it is left to whoever next opens `docs/SETTLING_IN.md`.
+- **No claim ID was needed.** Nothing here invents or changes anything historical or fictional; it is only where things
+  are drawn. `FIC-GONZ-250`–`259` and `HIST-TEX-350`–`359` were set aside for this work and none was spent.
+- `ceiling:` the study walks the wizard once per size with one family. A family of one parent and no children — the other
+  end of the die — is never measured, and neither is a name long enough to wrap a row.
+
+### 13.5 Three gates that were already broken, and are not mine
+
+Found while running the proofs around this work, and **checked against the tree before it** — each fails identically at
+`4f96879`:
+
+- `npm run test:family-panel`: *"the middle of a phone screen is not the map: DIV"*.
+- `npm run test:family-commands`: *"only 2 people could be given work; this seed was chosen for a large family"*.
+- `npm run test:furniture`: times out clicking `.panel-focus[data-focus="hh-1-elena"]`.
+
+Two more had the same cause and **were** repaired here, because they are the family's own gates: `npm run test:looks`
+and `npm run test:family` both clicked **Journal** through the dim that §12.11 put behind a covering panel, and Chrome
+refuses a click through it — which is the dim working. Both put the wagon away first now; **8 checks** and **13**.
+Eleven other proofs click `#journal-toggle` (`army`, `art`, `browser`, `farm`, `furniture`, `hunt`, `relay` ×3,
+`trade-animation`, `travel`) and were not run here; any of them that reaches that line with the wagon open has the same
+fault waiting.

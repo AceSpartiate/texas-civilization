@@ -1,0 +1,71 @@
+{
+  "record": "creation-overlap-injections",
+  "date": "2026-09-21",
+  "proof": "scripts/creation-browser-proof.mjs",
+  "cleanChecks": 4,
+  "injections": [
+    {
+      "name": "the world behind the curtain is left reachable, as it was until 2026-09-21: Tab walked off every step onto the map and as many as 89 controls of a world the student cannot see",
+      "file": "public/creation.js",
+      "expect": "Tab leaves the",
+      "caught": true,
+      "forItsOwnReason": true,
+      "why": "Tab leaves the title-begin at 1366x768 card for the world behind the curtain, onto #world-map",
+      "checksPassedFirst": 0
+    },
+    {
+      "name": "nothing puts focus on the card a step arrives on, so a keyboard starts at the top of the document and a screen reader never reads the step's heading",
+      "file": "public/creation.js",
+      "expect": "focus does not arrive on the",
+      "caught": true,
+      "forItsOwnReason": true,
+      "why": "focus does not arrive on the title-begin at 1366x768 card: it is on the page itself",
+      "checksPassedFirst": 0
+    },
+    {
+      "name": "the wagon goes back to scrolling as a whole, so Done packing sits 771px down a list a student must scroll to the end of",
+      "file": "public/style.css",
+      "expect": "below the fold of its own card",
+      "caught": true,
+      "forItsOwnReason": true,
+      "why": "the button that ends the wagon at 1366x768 step is below the fold of its own card: #wagon-done \"Done packing\" is 892px past it",
+      "checksPassedFirst": 0
+    },
+    {
+      "name": "the box the family's last name is typed into goes back to 37px, under the 44px a finger needs",
+      "file": "public/style.css",
+      "expect": "smaller than a finger",
+      "caught": true,
+      "forItsOwnReason": true,
+      "why": "a control of the surname at 1366x768 card is smaller than a finger (44px): #surname-input \"\" 382x37",
+      "checksPassedFirst": 0
+    },
+    {
+      "name": "the looks options go back to 6px apart, closer than a finger can tell two targets apart",
+      "file": "public/style.css",
+      "expect": "apart, closer than the",
+      "caught": true,
+      "forItsOwnReason": true,
+      "why": "two controls of the looks-first at 1366x768 card are only 6px apart, closer than the 8px a finger needs between them (#looks-parts and #looks-parts)",
+      "checksPassedFirst": 0
+    },
+    {
+      "name": "the curtain is drawn over the cards that stand on it, so every control of every step is covered by the scene behind it",
+      "file": "public/style.css",
+      "expect": "is drawn over a control of the",
+      "caught": true,
+      "forItsOwnReason": true,
+      "why": "something is drawn over a control of the title-begin at 1366x768 card: #creation-begin-button \"Begin\" under #creation-scene",
+      "checksPassedFirst": 0
+    },
+    {
+      "name": "the list of parts on the looks card is made invisible - the way this check would go vacuous, since a control nothing draws covers nothing, is never off the screen and is never too small",
+      "file": "public/style.css",
+      "expect": "fewer than the",
+      "caught": true,
+      "forItsOwnReason": true,
+      "why": "the looks-first at 1366x768 card has 1 controls on it, fewer than the 10 a student must be able to press",
+      "checksPassedFirst": 0
+    }
+  ]
+}

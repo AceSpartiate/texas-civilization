@@ -128,6 +128,11 @@ try {
   await page.waitForTimeout(1500);
   assert.equal(await page.locator('#surname').isHidden(), true, 'the last name was asked for again');
   assert.equal(await page.locator('#looks').isHidden(), true, 'the looks were asked for again');
+  // The wagon comes up for a family that has not packed, and since 2026-09-21 a panel that covers the family dims the map
+  // behind it (docs/FAMILY_PANEL.md §12.11). The dim is over the Journal button, and Chrome refuses a click through it -
+  // which is the dim working. This proof had been failing on that line since the dim shipped; the wagon is put away
+  // first, the way a student puts it away.
+  if (await page.locator('#wagon-done').isVisible()) await page.locator('#wagon-done').click();
   if (await page.locator('#family-journal').getAttribute('data-open') !== 'true') await page.locator('#journal-toggle').click();
   await page.locator('#family-kin li').first().waitFor({ state: 'visible' });
   assert.equal(await page.locator('#family-journal input[data-rename], #family-journal select').count(), 0, 'the journal still edits names or looks');

@@ -17,7 +17,56 @@ import { drawIntroScene } from './intro-art.js';
 
 let actions = null;
 /** Where this page has got to: the title screen is behind it once `begun`, the names once `named`. Kept per family. */
-const state = { begun: false, named: false, householdId: null, drawn: false };
+const state = { begun: false, named: false, householdId: null, drawn: false, focused: null };
+
+/**
+ * The cards of the wizard that live inside the map's own stage rather than beside it. They are drawn *above* the curtain
+ * (public/style.css, `body[data-creating=true]`), so sealing the world behind it has to leave them out.
+ */
+const WIZARD_CARDS = new Set(['family-roll', 'surname', 'looks']);
+
+/**
+ * While the curtain is up, the world behind it is `inert`: not focusable, not clickable, not read out. Measured
+ * 2026-09-21 (docs/FAMILY_PANEL.md §13, `scripts/creation-overlap-study.mjs`): without this, Tab walked off every step of
+ * the wizard onto the map canvas and as many as 89 controls of a world the student cannot even see, while `#surname`,
+ * `#names` and `#looks` each told a screen reader `aria-modal="true"`. `inert` is the browser's own answer and needs no
+ * key handling of ours.
+ *
+ * The lines that announce a fault are left out as well: they hold nothing to focus, and a live region inside an inert
+ * subtree is not announced.
+ */
+function sealTheCurtain(up) {
+  const stage = document.querySelector('.map-stage');
+  if (!stage) return;
+  for (const node of stage.children) {
+    const role = node.getAttribute('role');
+    if (WIZARD_CARDS.has(node.id) || role === 'alert' || role === 'status') continue;
+    node.inert = up;
+  }
+}
+
+/**
+ * When a step arrives, focus goes to its card, so that a screen reader reads the card's own heading and a keyboard starts
+ * inside it. Only on a change of step: `renderCreation` runs on every tick, and a card that took focus back every tick
+ * would be a card nobody could type in. A card whose own field is focused by the page (the last name) is left alone.
+ *
+ * Two things this has to survive, both measured on 2026-09-21:
+ *   - The card is not always drawn on the tick its step arrives: the die and the looks are shown by their own render, one
+ *     tick later. So the step is only marked announced once the card is really there, and until then this tries again.
+ *   - Focus can fall off the page altogether. Pressing the die disables its own button while it tumbles, and a browser
+ *     blurs a control it has just disabled: focus landed on nothing, with no way back but Tab from the top of the
+ *     document. Whenever focus has fallen to nothing while a step is up, it is brought back to the card.
+ */
+function announceStep(step, card) {
+  const key = `${step}:${card?.dataset.entityId || ''}`;
+  const adrift = !document.activeElement || document.activeElement === document.body;
+  if (state.focused === key && !adrift) return;
+  if (!card || card.hidden) return;
+  state.focused = key;
+  if (card.contains(document.activeElement)) return;
+  if (!card.hasAttribute('tabindex')) card.setAttribute('tabindex', '-1');
+  card.focus({ preventScroll: true });
+}
 const $ = selector => document.querySelector(selector);
 const element = (tag, text, className) => { const node = document.createElement(tag); if (text !== undefined) node.textContent = text; if (className) node.className = className; return node; };
 
@@ -67,6 +116,7 @@ export function showTitle() {
   veil.hidden = false;
   veil.dataset.step = 'join';
   document.body.dataset.creating = 'true';
+  sealTheCurtain(true);
   if (!state.drawn) { state.drawn = true; drawIntroScene($('#creation-scene')); }
   $('#creation-begin').hidden = true;
   $('#names').hidden = true;
@@ -83,11 +133,14 @@ export function renderCreation(world, family) {
   // proof on a phone, 2026-09-17).
   $('#creation-begin').hidden = step !== 'begin';
   $('#names').hidden = step !== 'names';
-  if (!step) return null;
+  // Nothing of the world behind the curtain may be tabbed to, clicked or read out while a step is up.
+  sealTheCurtain(Boolean(step));
+  if (!step) { state.focused = null; return null; }
   if (!state.drawn) { state.drawn = true; drawIntroScene($('#creation-scene')); }
   // The title screen is the whole of the first two steps; after that the scene is a quiet band behind the cards.
   veil.dataset.step = step;
   if (step === 'names') renderNames(family);
+  announceStep(step, $({ join: '#join', begin: '#creation-begin', roll: '#family-roll', surname: '#surname', names: '#names', looks: '#looks' }[step]));
   return step;
 }
 
