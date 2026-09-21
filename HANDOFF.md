@@ -1,5 +1,7 @@
 # Claude handoff — Astra foundation
 
+**Second-cast sowing and repair art, 2026-09-20:** [`people-cast2-tasks`](docs/ART_DELIVERY_2026-09-20-CAST2-TASKS.md) adds sixteen accepted transparent poses and eight authored clips for all four second-cast identities. Atlas checks: 59.6% clear alpha, zero overlap trimming, 100% retained. Library: **783 sprites, 53 atlases, 330 clips**. North/south walking and dialogue still block switching the full appearance assignment to this cast.
+
 **The snapshot test on a barrier, 2026-09-19:** `tests/save-cadence.test.mjs` *"a page is sent a snapshot when what it sees
 changed or it sent the order"* slept 500 ms after each order for a broadcast `broadcastSoon` may hold back 200 ms, and
 failed once in 10 loaded full suites (*"the family that gave the order was not shown it"*). Now it waits on conditions, and
@@ -56,9 +58,9 @@ and .3's coast, animals, weather model, weather drawn and launcher face. Setup 1
 - **Two crossings still graze a bank** because the road runs in the creek bottom for a stretch; the crossings audit says so
   and it is a routing decision, not a bug in the ford.
 - **Two coastal cover cells are mine to look at:** `mesquite-savanna` reaching 95.01°W and `live-oak` 94.00°W.
-- **Left of the bestiary:** the **feral hogs** (they belong to the stock economy of `HIST-TEX-112`) and the **predators**
-  (not built on purpose: `FIC-GONZ-008` says there is no hidden risk to a person out on the land). Everything else of it
-  was built on 2026-09-20. Longleaf is still drawn at 90% timber and the hunting-wait scale is still the old one.
+- **Left of the bestiary:** the **predators** (not built on purpose: `FIC-GONZ-008` says there is no hidden risk to a
+  person out on the land). The feral hogs arrived with the stock on 2026-09-20 - they are the hogs a family left on the
+  range when it fled, gone wild in the timber (`FIC-GONZ-184`). Longleaf is still drawn at 90% timber and the hunting-wait scale is still the old one.
 - **What is left of the road's hunger** after the line went in (Columbia 31 ticks, Matagorda 33, from 109 and 100.5): the
   days between the crossings, and the days the river is in flood. Both are honest, and neither is obviously wrong.
 - **Weather follow-ups named by the research and not done:** the Fort Jesup manuscript daily forms (they start in the right
@@ -113,6 +115,29 @@ east is the day after - and my own first draft of the seasonal test counted summ
 which is a test that checks nothing. The measured shut-day figure is corrected everywhere it appears: not "0 to 4 days of
 210" from three classes but a **median of 3 over 200 classes**, none at all in 19% of them and 16 in the worst. 800
 tests. Same computer only.
+
+**The family's own stock, 2026-09-20:** [STOCK.md](docs/STOCK.md), `sim/stock.mjs`, `FIC-GONZ-180` to `-185`. Owner,
+asked what stock should do: *"a herd that feeds you, **and the stock can be lost**."* Until this it was a boolean chosen
+in the lobby that decided the size of a land grant and **nothing else**, in a country Almonte counted **75,000 cattle
+and 110,000 hogs** in - and the biome study had found **0 of 180 families with any stock at all**. Now: a herd of
+**6 cattle and 12 hogs** that **costs nothing to keep** (Holley: "the pasturage is sufficiently good to dispense with
+feeding live stock"), calves in the spring and farrows on the autumn mast, and can be killed - **a beef is 40 food of
+which a family keeps 15 and the rest goes to the nearest families, because it cannot be kept** ("when one man butchered
+a beef, he divided with his neighbors", and both records say so), while **a hog is 12 and all of it keeps**, salted
+down, which is why the colonies ran two hogs to every cow. And it is lost: a herd nobody rides after strays every month,
+and **the flight east leaves the whole herd on the range** - fifteen of twenty families left six or seven cattle and
+twenty-two hogs standing there. A family that comes home finds half the cattle and a quarter of the hogs, **and the
+hogs that lived have gone wild in the timber**, which is where the bestiary's feral hogs come from. Families nobody play
+now drive stock in at three in four and keep a breeding herd. **Measured**, six classes of thirty over three periods:
+food and the final number barely move (hungry ticks 5 → 4, final median 60.5 → 61.5) - but **the land does**: sound logs
+within reach go 2,127 → 13,690 and the families that must fetch logs 16 → 2, because three families in four now hold a
+league and a labor rather than a labor. **That is the 1825 law's own rule being exercised for the first time**
+(`HIST-GONZ-036`), and it is written down in STOCK.md §4 rather than buried; two tests that are about a family short of
+timber now say "no stock in this class" out loud. **A latent bug it exposed and fixed:** `burnFarm` set
+`household.stock = false`, which `grantInvalid` forbids - it had never run, because no director family had ever had
+stock. 820 tests; 26 regressions injected, 26 caught, and four of those were only caught after the tests were made to
+require a neighbour near enough to share a beef with, to bound the increase to a season's, and to check the pork
+actually arrived. Same computer only.
 
 **The sky in the hunt, 2026-09-20:** [WEATHER.md](docs/WEATHER.md) §10.5, `sim/hunting.mjs` `HUNT_WAIT` and `powderDamp`,
 `tests/hunt-weather.test.mjs`, `FIC-GONZ-135`. The weather shipped reading through to the road and the river crossings

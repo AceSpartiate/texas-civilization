@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **767 usable sprites, 52 PNG atlases, 322 clips** (158 pose cycles; 4 layered rigs).
+Generated from the shipped library: **783 usable sprites, 53 PNG atlases, 330 clips** (166 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -16,6 +16,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-cast2-carry | 12 | 1254 × 1254 | 1294419 |
 | people-cast2-care | 16 | 1254 × 1254 | 1382974 |
 | people-cast2-search-trade | 16 | 1254 × 1254 | 1289372 |
+| people-cast2-tasks | 16 | 1254 × 1254 | 1471967 |
 | people-cast2-walk | 16 | 1254 × 1254 | 1288383 |
 | people-cast2-work | 16 | 1254 × 1254 | 1279315 |
 | people-cast2-idle | 16 | 1254 × 1254 | 1103935 |
@@ -129,6 +130,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | blue-girl-search-2 | people-cast2-search-trade | blue-girl-search |
 | blue-girl-trade-1 | people-cast2-search-trade | blue-girl-trade |
 | blue-girl-trade-2 | people-cast2-search-trade | blue-girl-trade |
+| rust-woman-sow-1 | people-cast2-tasks | rust-woman-sow |
+| rust-woman-sow-2 | people-cast2-tasks | rust-woman-sow |
+| rust-woman-repair-1 | people-cast2-tasks | rust-woman-repair |
+| rust-woman-repair-2 | people-cast2-tasks | rust-woman-repair |
+| indigo-sow-1 | people-cast2-tasks | indigo-sow |
+| indigo-sow-2 | people-cast2-tasks | indigo-sow |
+| indigo-repair-1 | people-cast2-tasks | indigo-repair |
+| indigo-repair-2 | people-cast2-tasks | indigo-repair |
+| ochre-sow-1 | people-cast2-tasks | ochre-sow |
+| ochre-sow-2 | people-cast2-tasks | ochre-sow |
+| ochre-repair-1 | people-cast2-tasks | ochre-repair |
+| ochre-repair-2 | people-cast2-tasks | ochre-repair |
+| blue-girl-sow-1 | people-cast2-tasks | blue-girl-sow |
+| blue-girl-sow-2 | people-cast2-tasks | blue-girl-sow |
+| blue-girl-repair-1 | people-cast2-tasks | blue-girl-repair |
+| blue-girl-repair-2 | people-cast2-tasks | blue-girl-repair |
 | rust-woman-walk-1 | people-cast2-walk | rust-woman-walk |
 | rust-woman-walk-2 | people-cast2-walk | rust-woman-walk |
 | rust-woman-walk-3 | people-cast2-walk | rust-woman-walk |
@@ -871,6 +888,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | blue-girl-care | Pose cycle | 2 | 840 | yes | east; west by mirroring |
 | blue-girl-search | Pose cycle | 2 | 1800 | yes | east; west by mirroring |
 | blue-girl-trade | Pose cycle | 2 | 1200 | yes | east; west by mirroring |
+| rust-woman-sow | Pose cycle | 2 | 720 | yes | east; west by mirroring |
+| rust-woman-repair | Pose cycle | 2 | 720 | yes | east; west by mirroring |
+| indigo-sow | Pose cycle | 2 | 720 | yes | east; west by mirroring |
+| indigo-repair | Pose cycle | 2 | 720 | yes | east; west by mirroring |
+| ochre-sow | Pose cycle | 2 | 720 | yes | east; west by mirroring |
+| ochre-repair | Pose cycle | 2 | 720 | yes | east; west by mirroring |
+| blue-girl-sow | Pose cycle | 2 | 720 | yes | east; west by mirroring |
+| blue-girl-repair | Pose cycle | 2 | 720 | yes | east; west by mirroring |
 | rust-woman-walk | Pose cycle | 4 | 720 | yes | east; west by mirroring |
 | indigo-walk | Pose cycle | 4 | 720 | yes | east; west by mirroring |
 | ochre-walk | Pose cycle | 4 | 720 | yes | east; west by mirroring |

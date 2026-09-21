@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 52,
-    "sprites": 767,
-    "clips": 322,
-    "poseCycles": 158,
+    "sheets": 53,
+    "sprites": 783,
+    "clips": 330,
+    "poseCycles": 166,
     "rigs": 4
   },
   "entrypoints": {
@@ -516,6 +516,130 @@
               [
                 1000,
                 1140
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "people-cast2-tasks": {
+      "image": "atlases/people-cast2-tasks.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1471967,
+      "sha256": "fc77fcef9c4da173f258a7cc5843a8131b54030f555a6d0ce249bb7e5677a319",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.596153,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              21,
+              322
+            ],
+            "columns": [
+              [
+                69,
+                293
+              ],
+              [
+                351,
+                611
+              ],
+              [
+                665,
+                917
+              ],
+              [
+                969,
+                1217
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              327,
+              631
+            ],
+            "columns": [
+              [
+                70,
+                279
+              ],
+              [
+                366,
+                619
+              ],
+              [
+                670,
+                915
+              ],
+              [
+                978,
+                1221
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              637,
+              932
+            ],
+            "columns": [
+              [
+                86,
+                262
+              ],
+              [
+                386,
+                600
+              ],
+              [
+                671,
+                911
+              ],
+              [
+                979,
+                1219
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              942,
+              1222
+            ],
+            "columns": [
+              [
+                65,
+                248
+              ],
+              [
+                368,
+                597
+              ],
+              [
+                684,
+                920
+              ],
+              [
+                993,
+                1222
               ]
             ]
           }
@@ -8230,6 +8354,566 @@
       ],
       "locationKits": [],
       "promptId": "frontier-v1/people-cast2-search-trade"
+    },
+    "rust-woman-sow-1": {
+      "sheet": "people-cast2-tasks",
+      "x": 69,
+      "y": 22,
+      "w": 224,
+      "h": 296,
+      "anchorX": 0.442,
+      "anchorY": 0.9291,
+      "logicalHeight": 301,
+      "label": "rust woman sow 1",
+      "kind": "people-cast2-tasks",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          71,
+          24,
+          220,
+          292
+        ],
+        "visiblePixels": 37716,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-tasks.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-sow"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-tasks"
+    },
+    "rust-woman-sow-2": {
+      "sheet": "people-cast2-tasks",
+      "x": 351,
+      "y": 24,
+      "w": 260,
+      "h": 294,
+      "anchorX": 0.3769,
+      "anchorY": 0.9286,
+      "logicalHeight": 301,
+      "label": "rust woman sow 2",
+      "kind": "people-cast2-tasks",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          353,
+          26,
+          256,
+          290
+        ],
+        "visiblePixels": 38739,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-tasks.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-sow"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-tasks"
+    },
+    "rust-woman-repair-1": {
+      "sheet": "people-cast2-tasks",
+      "x": 665,
+      "y": 21,
+      "w": 252,
+      "h": 301,
+      "anchorX": 0.369,
+      "anchorY": 0.9302,
+      "logicalHeight": 301,
+      "label": "rust woman repair 1",
+      "kind": "people-cast2-tasks",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          667,
+          23,
+          248,
+          297
+        ],
+        "visiblePixels": 40489,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-tasks.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-repair"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-tasks"
+    },
+    "rust-woman-repair-2": {
+      "sheet": "people-cast2-tasks",
+      "x": 969,
+      "y": 24,
+      "w": 248,
+      "h": 298,
+      "anchorX": 0.373,
+      "anchorY": 0.9295,
+      "logicalHeight": 301,
+      "label": "rust woman repair 2",
+      "kind": "people-cast2-tasks",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          971,
+          26,
+          244,
+          294
+        ],
+        "visiblePixels": 39075,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-tasks.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-repair"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-tasks"
+    },
+    "indigo-sow-1": {
+      "sheet": "people-cast2-tasks",
+      "x": 70,
+      "y": 335,
+      "w": 209,
+      "h": 294,
+      "anchorX": 0.5072,
+      "anchorY": 0.9286,
+      "logicalHeight": 304,
+      "label": "indigo sow 1",
+      "kind": "people-cast2-tasks",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          72,
+          337,
+          205,
+          290
+        ],
+        "visiblePixels": 37814,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-tasks.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-sow"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-tasks"
+    },
+    "indigo-sow-2": {
+      "sheet": "people-cast2-tasks",
+      "x": 366,
+      "y": 337,
+      "w": 253,
+      "h": 293,
+      "anchorX": 0.4032,
+      "anchorY": 0.9283,
+      "logicalHeight": 304,
+      "label": "indigo sow 2",
+      "kind": "people-cast2-tasks",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          368,
+          339,
+          249,
+          289
+        ],
+        "visiblePixels": 38018,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-tasks.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-sow"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-tasks"
+    },
+    "indigo-repair-1": {
+      "sheet": "people-cast2-tasks",
+      "x": 670,
+      "y": 327,
+      "w": 245,
+      "h": 304,
+      "anchorX": 0.3898,
+      "anchorY": 0.9276,
+      "logicalHeight": 304,
+      "label": "indigo repair 1",
+      "kind": "people-cast2-tasks",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          672,
+          329,
+          241,
+          300
+        ],
+        "visiblePixels": 40590,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-tasks.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-repair"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-tasks"
+    },
+    "indigo-repair-2": {
+      "sheet": "people-cast2-tasks",
+      "x": 978,
+      "y": 336,
+      "w": 243,
+      "h": 295,
+      "anchorX": 0.4033,
+      "anchorY": 0.9288,
+      "logicalHeight": 304,
+      "label": "indigo repair 2",
+      "kind": "people-cast2-tasks",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          980,
+          338,
+          239,
+          291
+        ],
+        "visiblePixels": 38337,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-tasks.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-repair"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-tasks"
+    },
+    "ochre-sow-1": {
+      "sheet": "people-cast2-tasks",
+      "x": 86,
+      "y": 638,
+      "w": 176,
+      "h": 290,
+      "anchorX": 0.3949,
+      "anchorY": 0.9276,
+      "logicalHeight": 295,
+      "label": "ochre sow 1",
+      "kind": "people-cast2-tasks",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          88,
+          640,
+          172,
+          286
+        ],
+        "visiblePixels": 31867,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-tasks.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-sow"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-tasks"
+    },
+    "ochre-sow-2": {
+      "sheet": "people-cast2-tasks",
+      "x": 386,
+      "y": 641,
+      "w": 214,
+      "h": 287,
+      "anchorX": 0.3294,
+      "anchorY": 0.9268,
+      "logicalHeight": 295,
+      "label": "ochre sow 2",
+      "kind": "people-cast2-tasks",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          388,
+          643,
+          210,
+          283
+        ],
+        "visiblePixels": 29909,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-tasks.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-sow"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-tasks"
+    },
+    "ochre-repair-1": {
+      "sheet": "people-cast2-tasks",
+      "x": 671,
+      "y": 637,
+      "w": 240,
+      "h": 295,
+      "anchorX": 0.3771,
+      "anchorY": 0.9322,
+      "logicalHeight": 295,
+      "label": "ochre repair 1",
+      "kind": "people-cast2-tasks",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          673,
+          639,
+          236,
+          291
+        ],
+        "visiblePixels": 36224,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-tasks.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-repair"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-tasks"
+    },
+    "ochre-repair-2": {
+      "sheet": "people-cast2-tasks",
+      "x": 979,
+      "y": 643,
+      "w": 240,
+      "h": 289,
+      "anchorX": 0.3792,
+      "anchorY": 0.9273,
+      "logicalHeight": 295,
+      "label": "ochre repair 2",
+      "kind": "people-cast2-tasks",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          981,
+          645,
+          236,
+          285
+        ],
+        "visiblePixels": 34542,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-tasks.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-repair"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-tasks"
+    },
+    "blue-girl-sow-1": {
+      "sheet": "people-cast2-tasks",
+      "x": 65,
+      "y": 944,
+      "w": 183,
+      "h": 274,
+      "anchorX": 0.5437,
+      "anchorY": 0.927,
+      "logicalHeight": 280,
+      "label": "blue girl sow 1",
+      "kind": "people-cast2-tasks",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          67,
+          946,
+          179,
+          270
+        ],
+        "visiblePixels": 30945,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-tasks.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-sow"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-tasks"
+    },
+    "blue-girl-sow-2": {
+      "sheet": "people-cast2-tasks",
+      "x": 368,
+      "y": 943,
+      "w": 229,
+      "h": 275,
+      "anchorX": 0.417,
+      "anchorY": 0.9273,
+      "logicalHeight": 280,
+      "label": "blue girl sow 2",
+      "kind": "people-cast2-tasks",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          370,
+          945,
+          225,
+          271
+        ],
+        "visiblePixels": 31816,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-tasks.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-sow"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-tasks"
+    },
+    "blue-girl-repair-1": {
+      "sheet": "people-cast2-tasks",
+      "x": 684,
+      "y": 942,
+      "w": 236,
+      "h": 279,
+      "anchorX": 0.3644,
+      "anchorY": 0.9319,
+      "logicalHeight": 280,
+      "label": "blue girl repair 1",
+      "kind": "people-cast2-tasks",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          686,
+          944,
+          232,
+          275
+        ],
+        "visiblePixels": 36730,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-tasks.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-repair"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-tasks"
+    },
+    "blue-girl-repair-2": {
+      "sheet": "people-cast2-tasks",
+      "x": 993,
+      "y": 942,
+      "w": 229,
+      "h": 280,
+      "anchorX": 0.3908,
+      "anchorY": 0.9286,
+      "logicalHeight": 280,
+      "label": "blue girl repair 2",
+      "kind": "people-cast2-tasks",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          995,
+          944,
+          225,
+          276
+        ],
+        "visiblePixels": 34897,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-cast2-tasks.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-repair"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-cast2-tasks"
     },
     "rust-woman-walk-1": {
       "sheet": "people-cast2-walk",
@@ -33164,6 +33848,134 @@
       "motion": "none",
       "direction": "east; west by mirroring"
     },
+    "rust-woman-sow": {
+      "frames": [
+        {
+          "sprite": "rust-woman-sow-1",
+          "duration": 360
+        },
+        {
+          "sprite": "rust-woman-sow-2",
+          "duration": 360
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "rust-woman-repair": {
+      "frames": [
+        {
+          "sprite": "rust-woman-repair-1",
+          "duration": 360
+        },
+        {
+          "sprite": "rust-woman-repair-2",
+          "duration": 360
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "indigo-sow": {
+      "frames": [
+        {
+          "sprite": "indigo-sow-1",
+          "duration": 360
+        },
+        {
+          "sprite": "indigo-sow-2",
+          "duration": 360
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "indigo-repair": {
+      "frames": [
+        {
+          "sprite": "indigo-repair-1",
+          "duration": 360
+        },
+        {
+          "sprite": "indigo-repair-2",
+          "duration": 360
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ochre-sow": {
+      "frames": [
+        {
+          "sprite": "ochre-sow-1",
+          "duration": 360
+        },
+        {
+          "sprite": "ochre-sow-2",
+          "duration": 360
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ochre-repair": {
+      "frames": [
+        {
+          "sprite": "ochre-repair-1",
+          "duration": 360
+        },
+        {
+          "sprite": "ochre-repair-2",
+          "duration": 360
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-girl-sow": {
+      "frames": [
+        {
+          "sprite": "blue-girl-sow-1",
+          "duration": 360
+        },
+        {
+          "sprite": "blue-girl-sow-2",
+          "duration": 360
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-girl-repair": {
+      "frames": [
+        {
+          "sprite": "blue-girl-repair-1",
+          "duration": 360
+        },
+        {
+          "sprite": "blue-girl-repair-2",
+          "duration": 360
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "rust-woman-walk": {
       "frames": [
         {
@@ -43316,7 +44128,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 53,
+    "sourceCount": 54,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

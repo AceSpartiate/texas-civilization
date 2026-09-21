@@ -1,0 +1,202 @@
+{
+  "record": "stock-injections",
+  "date": "2026-09-21",
+  "files": [
+    "tests/stock.test.mjs"
+  ],
+  "injections": [
+    {
+      "name": "a class saved before today opens with no stock, whatever its family chose in the lobby",
+      "file": "sim/stock.mjs",
+      "failed": [
+        "the herd is the lobby choice a family already made, and no save version moved for it",
+        "the works are offered to a family that has a herd and to no other, and cost it nothing to keep",
+        "calves come in the spring and pigs off the autumn mast, and nothing comes in between",
+        "a herd nobody rides out after strays, and a day on the range stops it for a month",
+        "a beef is divided with the neighbours because it cannot be kept; a hog is salted down and kept",
+        "nobody drives cattle ahead of an army: the herd is left, and half the cattle are there to be found"
+      ]
+    },
+    {
+      "name": "every family has a herd, including the ones that drove none in",
+      "file": "sim/stock.mjs",
+      "failed": [
+        "the herd is the lobby choice a family already made, and no save version moved for it"
+      ]
+    },
+    {
+      "name": "the herd is one object shared by every family that reads it",
+      "file": "sim/stock.mjs",
+      "failed": [
+        "calves come in the spring and pigs off the autumn mast, and nothing comes in between",
+        "a herd nobody rides out after strays, and a day on the range stops it for a month",
+        "a beef is divided with the neighbours because it cannot be kept; a hog is salted down and kept",
+        "a class replays its own herds, and a family nobody plays drives stock in and keeps a breeding herd"
+      ]
+    },
+    {
+      "name": "calves are dropped in every month of the year",
+      "file": "sim/stock.mjs",
+      "failed": [
+        "calves come in the spring and pigs off the autumn mast, and nothing comes in between",
+        "a herd nobody rides out after strays, and a day on the range stops it for a month"
+      ]
+    },
+    {
+      "name": "the hogs farrow all year, mast or no mast",
+      "file": "sim/stock.mjs",
+      "failed": [
+        "calves come in the spring and pigs off the autumn mast, and nothing comes in between"
+      ]
+    },
+    {
+      "name": "the calving is put in the autumn and the mast in the spring",
+      "file": "sim/stock.mjs",
+      "failed": [
+        "a herd nobody rides out after strays, and a day on the range stops it for a month"
+      ]
+    },
+    {
+      "name": "nothing is ever born at all",
+      "file": "sim/stock.mjs",
+      "failed": [
+        "calves come in the spring and pigs off the autumn mast, and nothing comes in between",
+        "a herd nobody rides out after strays, and a day on the range stops it for a month"
+      ]
+    },
+    {
+      "name": "a herd nobody rides after loses nothing: the open range keeps itself",
+      "file": "sim/stock.mjs",
+      "failed": [
+        "a herd nobody rides out after strays, and a day on the range stops it for a month"
+      ]
+    },
+    {
+      "name": "the ride round the range buys nothing, and stock strays whatever anybody does",
+      "file": "sim/stock.mjs",
+      "failed": [
+        "calves come in the spring and pigs off the autumn mast, and nothing comes in between",
+        "a herd nobody rides out after strays, and a day on the range stops it for a month"
+      ]
+    },
+    {
+      "name": "the day on the range is never written down, so it holds for nothing",
+      "file": "sim/stock.mjs",
+      "failed": [
+        "a herd nobody rides out after strays, and a day on the range stops it for a month"
+      ]
+    },
+    {
+      "name": "hogs stray as readily as cattle, though they keep to the timber they feed in",
+      "file": "sim/stock.mjs",
+      "failed": [
+        "a herd nobody rides out after strays, and a day on the range stops it for a month"
+      ]
+    },
+    {
+      "name": "the herd is counted every day rather than on the first of the month, so a month of straying happens thirty times",
+      "file": "sim/stock.mjs",
+      "failed": [
+        "calves come in the spring and pigs off the autumn mast, and nothing comes in between"
+      ]
+    },
+    {
+      "name": "the family keeps the whole beef, four hundred pounds of it, in September",
+      "file": "sim/stock.mjs",
+      "failed": [
+        "a beef is divided with the neighbours because it cannot be kept; a hog is salted down and kept"
+      ]
+    },
+    {
+      "name": "the neighbours are sent the meat and never told where it came from",
+      "file": "sim/stock.mjs",
+      "failed": [
+        "a beef is divided with the neighbours because it cannot be kept; a hog is salted down and kept"
+      ]
+    },
+    {
+      "name": "the beef is divided and the family it came from is not told at all",
+      "file": "sim/stock.mjs",
+      "failed": [
+        "a beef is divided with the neighbours because it cannot be kept; a hog is salted down and kept"
+      ]
+    },
+    {
+      "name": "a beef is killed and no cow leaves the range",
+      "file": "sim/stock.mjs",
+      "failed": [
+        "a beef is divided with the neighbours because it cannot be kept; a hog is salted down and kept"
+      ]
+    },
+    {
+      "name": "a hog is killed and no hog leaves the timber",
+      "file": "sim/stock.mjs",
+      "failed": [
+        "a beef is divided with the neighbours because it cannot be kept; a hog is salted down and kept"
+      ]
+    },
+    {
+      "name": "the pork spoils like beef, so nothing a family kills ever keeps",
+      "file": "sim/stock.mjs",
+      "failed": [
+        "a beef is divided with the neighbours because it cannot be kept; a hog is salted down and kept"
+      ]
+    },
+    {
+      "name": "the meat never reaches the larder: the work says it happened and produces nothing",
+      "file": "sim/chores.mjs",
+      "failed": [
+        "a beef is divided with the neighbours because it cannot be kept; a hog is salted down and kept"
+      ]
+    },
+    {
+      "name": "the family drives its cattle to the Sabine ahead of the army",
+      "file": "sim/stock.mjs",
+      "failed": [
+        "nobody drives cattle ahead of an army: the herd is left, and half the cattle are there to be found"
+      ]
+    },
+    {
+      "name": "what was left on the range is never written down, so nothing can be found again",
+      "file": "sim/stock.mjs",
+      "failed": [
+        "nobody drives cattle ahead of an army: the herd is left, and half the cattle are there to be found"
+      ]
+    },
+    {
+      "name": "a family that comes home finds every head it left",
+      "file": "sim/stock.mjs",
+      "failed": [
+        "nobody drives cattle ahead of an army: the herd is left, and half the cattle are there to be found"
+      ]
+    },
+    {
+      "name": "the hogs come back better than the cattle, though they have been loose on the mast",
+      "file": "sim/stock.mjs",
+      "failed": [
+        "nobody drives cattle ahead of an army: the herd is left, and half the cattle are there to be found"
+      ]
+    },
+    {
+      "name": "the stock left on the range can be found over and over",
+      "file": "sim/stock.mjs",
+      "failed": [
+        "nobody drives cattle ahead of an army: the herd is left, and half the cattle are there to be found"
+      ]
+    },
+    {
+      "name": "the director deals stock to nobody, as it did until today",
+      "file": "sim/neighbours.mjs",
+      "failed": [
+        "a class replays its own herds, and a family nobody plays drives stock in and keeps a breeding herd"
+      ]
+    },
+    {
+      "name": "the director deals stock to every family, so nobody is ever short of grazing land",
+      "file": "sim/neighbours.mjs",
+      "failed": [
+        "a class replays its own herds, and a family nobody plays drives stock in and keeps a breeding herd"
+      ]
+    }
+  ]
+}

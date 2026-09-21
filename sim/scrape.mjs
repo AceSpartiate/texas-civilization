@@ -13,6 +13,7 @@
 // Every date a settlement was told to leave, every day the armies passed, the room in the wagon, the wait at a crossing and
 // the sickness are this game's own (`FIC-GONZ-046`); the record gives the days towns were found empty and no count of the dead.
 import { record } from './events.mjs';
+import { findStockAgain, leaveStock } from './stock.mjs';
 import { ruin } from './improvements.mjs';
 import { findWay } from './ways.mjs';
 import { share } from './shares.mjs';
@@ -129,7 +130,11 @@ export function burnFarm(world, household, { watching }) {
   for (const good of Object.keys(FLIGHT_SPACE)) if (household.resources) household.resources[good] = 0;
   household.furniture = {};
   delete household.interior;
-  if (household.stock) household.stock = false;
+  // The stock mark is `true` or absent and never `false` (sim/grants.mjs `grantInvalid`), and it is the *land grant's*
+  // mark - what the family holds, which the burning does not change. What the stock itself does is `leaveStock`.
+  // **Found 2026-09-20:** this line wrote `false` and made the world invalid. It had never run, because until that day
+  // no family nobody plays ever drove stock in (0 of 180 in the study), and a played family that fled was rarer still.
+  delete household.herdLookedDay;
   household.flight = { ...household.flight, burned: world.minute };
   // A student's house burning is a moment most of the class would miss (owner, 2026-09-16): the Host's camera goes to it.
   if (household.played) spotlight(world, { key: `burned:${household.id}`, text: `The Texas army sets fire to ${householdName(world, household)}'s house and field at ${world.map.sites[household.homeSiteId]?.name || 'their land'}, so the Mexican army will find nothing to use.`, siteId: household.homeSiteId, claimId: 'HIST-TEX-065', householdId: household.id });
@@ -183,6 +188,10 @@ export function flee(world, household, { take = {}, refuge }) {
   }
   household.flight = { ...household.flight, status: 'fled', refuge, leftMinute: world.minute, mode, took: take, crossed: [] };
   burnFarm(world, household, { watching: true });
+  // The herd stays where it is (sim/stock.mjs, `FIC-GONZ-184`): nobody drives cattle ahead of an army, and the hogs are
+  // in the timber. It is the largest single thing a family loses by going, and it is written down rather than quietly
+  // becoming nothing.
+  leaveStock(world, household);
   household.resources = { ...household.resources, ...Object.fromEntries(Object.entries(take).map(([good, amount]) => [good, amount])), money: kept.money ?? 0 };
   return departure;
 }
@@ -269,6 +278,9 @@ export function advanceFlight(world, minutes) {
     if (flight.status === 'returning' && !travellers.length) {
       flight.status = 'home'; flight.homeMinute = world.minute;
       tell(world, household, 'The family is home. The house and the field are burned, and what was not carried away is gone. They begin again with what they brought.');
+      // And whatever is still on the range of the herd they could not drive (sim/stock.mjs `findStockAgain`): half the
+      // cattle, a quarter of the hogs, and the rest gone wild in the timber.
+      findStockAgain(world, household);
     }
   }
 }

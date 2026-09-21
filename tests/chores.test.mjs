@@ -148,11 +148,14 @@ test('what a person may be asked to do is decided on the server, with a reason',
   // And fetching logs from the timber with the wagon, where the trees are not counted one by one (docs/BIOME_GAMEPLAY.md §3.2).
   // And the four gathering works, which are offered only where the country holds them (sim/gathering.mjs, 2026-09-20): this
   // family's land has no oyster bed, so it is not offered one, and that is the whole point of them. They are counted below.
-  assert.equal(offered.length, Object.keys(CHORES).filter(id => !CHORES[id].house && !CHORES[id].helps && !CHORES[id].well && !CHORES[id].lane && !CHORES[id].fells && !CHORES[id].fetchesLogs && !CHORES[id].hauling && !CHORES[id].winter && !CHORES[id].road && !CHORES[id].camp && !CHORES[id].directorOnly && !CHORES[id].forage && id !== 'clear-plot').length + offered.filter(entry => CHORES[entry.id].forage).length, 'every chore is accounted for, refused or not');
+  // And the stock's three (sim/stock.mjs), which a family with no herd is not shown at all: this family drove none in.
+  assert.equal(offered.length, Object.keys(CHORES).filter(id => !CHORES[id].house && !CHORES[id].helps && !CHORES[id].well && !CHORES[id].lane && !CHORES[id].fells && !CHORES[id].fetchesLogs && !CHORES[id].hauling && !CHORES[id].winter && !CHORES[id].road && !CHORES[id].camp && !CHORES[id].directorOnly && !CHORES[id].forage && !CHORES[id].stock && id !== 'clear-plot').length + offered.filter(entry => CHORES[entry.id].forage || CHORES[entry.id].stock).length, 'every chore is accounted for, refused or not');
   // What a family ate between deer: the country decides which of the four a family is even shown. This one is inland with
   // timber about it, so the small game and the bee tree are there and **the oyster bed is not** - a family shown a bed
   // forty miles from salt water is the fault this holds. Whether the creek is within reach is this house's own business
   // and is tested where the water is (tests/gathering.test.mjs).
+  // A family that brought no stock is offered nothing about stock: not a refusal, an absence.
+  assert.equal(offered.filter(entry => CHORES[entry.id].stock).length, 0, 'a family with no herd was offered a beef to kill');
   const gathering = offered.filter(entry => CHORES[entry.id].forage).map(entry => entry.id);
   assert.ok(!gathering.includes('gather-oysters'), 'an inland family was offered the oyster beds');
   for (const id of ['take-small-game', 'cut-bee-tree']) assert.ok(gathering.includes(id), `${id} was not offered where there is timber`);

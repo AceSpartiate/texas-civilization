@@ -253,6 +253,11 @@ test('a chimney waits for the sills and a loft for the roof, and the world canno
 test('families nobody plays on the real land fell, haul and raise houses of pieces, and a family with no timber of its own fetches its logs', () => {
   const world = createGonzalesWorld('site-neighbours', 5, { map: 'colonies', neighbours: true });
   world.status = 'running';
+  // No stock in this class, said out loud: a family that drives stock in holds a league and a labor rather than a labor
+  // (docs/LAND_GRANTS.md), which is four times the land and nearly always has its own timber - and this test is about
+  // the family that has none and fetches its logs. The director has dealt stock to three families in four since
+  // 2026-09-20 (sim/neighbours.mjs `dealStock`), which is the shape Almonte's herds imply and why it has to be said.
+  for (const household of Object.values(world.households)) household.herd = { cattle: 0, hogs: 0 };
   for (let tick = 0; tick < 300; tick++) stepWorld(world);
   validateWorld(world);
   const households = Object.values(world.households);

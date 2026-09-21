@@ -32,6 +32,9 @@ export const PANEL_SUMMARIES = Object.freeze({
   'gather-oysters': 'Walk down to the beds along the shore and gather what can be carried home.',
   'cut-bee-tree': 'Take the axe to the tree the bees are working, and bring the honey home.',
   'fish-road': 'Sit at the water while the family waits at the crossing, and take food out of the river.',
+  'butcher-beef': 'Kill a beef: the family keeps what it can and the neighbours get the rest, because it will not keep.',
+  'butcher-hog': 'Kill a hog and salt it down, which is meat that keeps.',
+  'look-to-stock': 'Ride the range and through the timber after the stock, and mark the calves.',
   'sell-cotton': 'Carry the cotton to the store in town and trade it for food or coin.',
   'fetch-powder': 'Go to the store in town and buy powder and lead.',
   'fetch-seed': 'Go to the store in town and buy seed.',
@@ -102,6 +105,9 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
   // request 2026-09-20 - the gathering icons; each is a glyph drawn by `drawGlyph` until `icon-<key>` is registered.
   ['take-small-game', { glyph: 'small-game' }], ['fish-the-water', { glyph: 'fish' }], ['fish-road', { glyph: 'fish' }],
   ['gather-oysters', { glyph: 'oysters' }], ['cut-bee-tree', { glyph: 'bee-tree' }],
+  // The family's own stock (sim/stock.mjs, docs/STOCK.md): no frames yet. stand-in: docs/ART_REQUESTS.md, request
+  // 2026-09-20 - the stock icons; glyphs drawn by `drawGlyph` until `icon-<key>` is registered.
+  ['butcher-beef', { glyph: 'beef' }], ['butcher-hog', { glyph: 'hog' }], ['look-to-stock', { glyph: 'range' }],
 ]));
 /** The camp's work, the chores a man serving with Houston's army is offered (sim/camp.mjs); the only work a serving row shows. */
 export const CAMP_CHORES = Object.freeze(['camp-drill', 'camp-forage', 'camp-guard', 'camp-scout']);
@@ -569,6 +575,41 @@ function drawGlyph(ctx, glyph, size) {
     ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(24, 18); ctx.lineTo(24, 30); ctx.stroke();
     ctx.fillStyle = '#3a2a18'; ctx.beginPath(); ctx.arc(38, 16, 3, 0, Math.PI * 2); ctx.fill();
     ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(36, 12); ctx.lineTo(40, 12); ctx.stroke();
+  } else if (glyph === 'beef') {
+    // A long-horned cow standing side-on: the beef on the range.
+    ctx.strokeStyle = '#3a2a18';
+    ctx.fillStyle = '#8a6a3d';
+    ctx.beginPath(); ctx.ellipse(23, 26, 13, 8, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(37, 20, 5, 4, 0.3, 0, Math.PI * 2); ctx.fill();
+    ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.moveTo(36, 16); ctx.quadraticCurveTo(31, 10, 34, 8); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(40, 16); ctx.quadraticCurveTo(45, 10, 42, 8); ctx.stroke();
+    ctx.lineWidth = 3;
+    for (const x of [15, 22, 29]) { ctx.beginPath(); ctx.moveTo(x, 33); ctx.lineTo(x, 42); ctx.stroke(); }
+    ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(10, 22); ctx.lineTo(6, 34); ctx.stroke();
+  } else if (glyph === 'hog') {
+    // A hog with its snout down in the mast.
+    ctx.strokeStyle = '#3a2a18';
+    ctx.fillStyle = '#9a8272';
+    ctx.beginPath(); ctx.ellipse(24, 24, 13, 8, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(37, 27, 6, 5, 0.4, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#3a2a18'; ctx.beginPath(); ctx.arc(42, 30, 2, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#9a8272'; ctx.beginPath(); ctx.moveTo(33, 21); ctx.lineTo(36, 14); ctx.lineTo(39, 21); ctx.closePath(); ctx.fill();
+    ctx.lineWidth = 3;
+    for (const x of [17, 24, 30]) { ctx.beginPath(); ctx.moveTo(x, 31); ctx.lineTo(x, 40); ctx.stroke(); }
+    ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(11, 20); ctx.quadraticCurveTo(6, 18, 8, 14); ctx.stroke();
+    // The mast it is feeding on.
+    ctx.fillStyle = '#8a6a3d';
+    for (const [x, y] of [[12, 42], [18, 44], [24, 42]]) { ctx.beginPath(); ctx.ellipse(x, y, 2.5, 3.5, 0, 0, Math.PI * 2); ctx.fill(); }
+  } else if (glyph === 'range') {
+    // A rider's hat over open grass: the day out after the stock.
+    ctx.strokeStyle = '#3a2a18';
+    ctx.fillStyle = '#6a5136';
+    ctx.beginPath(); ctx.ellipse(24, 26, 18, 5, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(24, 18, 8, 9, 0, Math.PI, Math.PI * 2); ctx.fill();
+    ctx.fillRect(16, 18, 16, 5);
+    ctx.strokeStyle = '#6f7a4a'; ctx.lineWidth = 2.5;
+    for (const x of [8, 14, 34, 40]) { ctx.beginPath(); ctx.moveTo(x, 44); ctx.quadraticCurveTo(x - 2, 38, x + 1, 33); ctx.stroke(); }
   } else {
     ctx.beginPath(); ctx.arc(24, 24, 6, 0, Math.PI * 2); ctx.fill();
   }

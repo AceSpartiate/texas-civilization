@@ -19,6 +19,7 @@ does not have:
 | Stand-in | Where | Standing in for | Replace with |
 | --- | --- | --- | --- |
 | Four glyph icons drawn in code (a squirrel on a branch, a fish over the water, two shells on the sand, a bee tree) | `drawGlyph` in `public/family-panel.js` | Request 2026-09-20 — the gathering icons | `icon-take-small-game`, `icon-fish-the-water`, `icon-gather-oysters`, `icon-cut-bee-tree` |
+| Three glyph icons drawn in code (a long-horned cow, a hog with its snout in the mast, a rider's hat over the grass) | `drawGlyph` in `public/family-panel.js` | Request 2026-09-20 — the stock icons | `icon-butcher-beef`, `icon-butcher-hog`, `icon-look-to-stock` |
 | The six drawn towns' documented buildings the library cannot draw (frame buildings, the Whiteside Hotel, the Round Top House, jacales, Mina's stockade, Liberty's court room) | `sim/town-layouts.mjs`, drawn by `public/town-art.js` | Request 2026-09-16 — the buildings the towns' research found | the requested buildings |
 | A new town's shops are the nearest buildings the library has, two trades sharing a sprite | `SHOP_SPRITES` in `sim/shops.mjs`, drawn in `drawWorld` in `public/app.js` | Request 2026-09-16 — the shops of the towns | `shop-*` buildings, one per trade |
 | Whole jacal stage sprites; `lean-to` shed frame; procedural double chimney; no separate interior floor/loft display | `drawHousePlot` in `public/house-plot.js` | Request 2026-09-15 — the house plot's pieces | Jacal modules, shed frame, double chimney, and separately registered floor and loft overlays |
@@ -807,7 +808,7 @@ into this request when that chapter's build reaches them, in the contract format
 
 ## Request 2026-09-12 — families that look like who they are, and a rider who gets down
 
-**Status: partly delivered.** 2026-09-14: children's idle, east walk, rest and injured-rest (`people-children-idle`, `-walk`, `-care`), in use; the rider's vertical dialogue (`courier-encounters-vertical`), in use; the dismount, remount, on-foot and waiting-horse sheet (`courier-dismount`), registered and not yet bound; speaking and listening poses for the first cast (`people-dialogue`), registered and not yet bound. 2026-09-15: children's north/south walk sheet is delivered and in use. The second cast now has idle, east/west walk, work, carry, care and search/trade. Sowing/repair, north/south walking and dialogue remain before the whole appearance stand-in can change. See [delivery details](ART_DELIVERY_2026-09-15-ART-BATCH.md).
+**Status: partly delivered.** 2026-09-14: children's idle, east walk, rest and injured-rest (`people-children-idle`, `-walk`, `-care`), in use; the rider's vertical dialogue (`courier-encounters-vertical`), in use; the dismount, remount, on-foot and waiting-horse sheet (`courier-dismount`), registered and not yet bound; speaking and listening poses for the first cast (`people-dialogue`), registered and not yet bound. 2026-09-15: children's north/south walk sheet is delivered and in use. The second cast has idle, east/west walk, work, carry, care and search/trade. **2026-09-20:** `people-cast2-tasks` adds sowing and repair. North/south walking and dialogue remain before the whole appearance stand-in can change. See [latest delivery](ART_DELIVERY_2026-09-20-CAST2-TASKS.md).
 
 ### Why
 
@@ -973,3 +974,19 @@ The stand-ins above are already in place, so delivery means replacing them:
   names a frame the atlas does not have.
 - **Check.** The four beside the hunt's own icons at 38 pixels are told apart without their popups, and the oyster and
   the bee tree read as *food* rather than as *shore* and *tree*.
+
+## Request 2026-09-20 — the stock icons
+
+- **Why.** The family's own stock became a herd on 2026-09-20 ([STOCK.md](STOCK.md)) and put three works on the family
+  panel. They are strokes drawn in code until their frames land, marked `stand-in:` in `public/family-panel.js`.
+- **What.** One icon per action, square, transparent, a single strong silhouette in the illustrated palette with a thin
+  dark outline, reading at 34 and 38 CSS pixels (deliver at 128 by 128) and still at 40 per cent opacity. Named
+  `icon-<key>`: `butcher-beef` (a long-horned cow of the period — a Spanish criollo beast, lean and rangy, not a modern
+  Hereford), `butcher-hog` (a razorback hog with its snout down in acorns, not a fat pink pig), `look-to-stock` (a rider
+  on the range, or a hat and a coiled rope over open grass). **No blood and no butchery**: these name the work, and the
+  work is a family feeding itself.
+- **How it plugs in.** `PANEL_ICONS` in `public/family-panel.js` maps each key to `{ glyph: … }` today; registering the
+  frames and naming `{ sprite: 'icon-<key>' }` there is the whole swap. `tests/family-panel.test.mjs` fails if an icon
+  names a frame the atlas does not have.
+- **Check.** The cow and the hog are told apart at 38 pixels without their popups, and neither reads as the deer of the
+  hunt's own icon.

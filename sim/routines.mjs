@@ -3,6 +3,7 @@ import { record } from './events.mjs';
 import { housekeepingSaving } from './family.mjs';
 import { shelterOf } from './houses.mjs';
 import { furnitureShares } from './furniture.mjs';
+import { advanceStock } from './stock.mjs';
 import { campRestShare } from './shops.mjs';
 
 // Fatigue, and the only thing that mends it.
@@ -36,6 +37,10 @@ export const REST_MILES_PER_MINUTE = 0.075;
 export function advanceRoutine(world, minutes) {
   const days = minutes / 1440;
   for (const household of Object.values(world.households)) {
+    // The herd, which belongs to days in exactly this way: the calves come in the spring, the pigs off the autumn mast,
+    // and what nobody has ridden out after drifts off the range (sim/stock.mjs, `HIST-TEX-112`). It costs nothing to
+    // keep - "the pasturage is sufficiently good to dispense with feeding live stock" - so there is no eating here.
+    advanceStock(world, household);
     const present = household.members.map(id => world.entities[id]).filter(e => e.location.siteId === household.homeSiteId && e.health.condition !== 'dead');
     // Someone on a chore is paid by the chore's own yield. Counting them here as well
     // would pay a family twice for the same afternoon's work.

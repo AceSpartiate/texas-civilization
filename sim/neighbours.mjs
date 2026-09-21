@@ -16,6 +16,9 @@ import { tooYoung } from './family.mjs';
 import { siteFacts } from './ground.mjs';
 import { overlaps, squareOf } from './fields.mjs';
 import { CHORES, logwoodGround } from './chores.mjs';
+import { LOOKED_TO_DAYS, herdOf } from './stock.mjs';
+import { share } from './shares.mjs';
+import { STOCK_SPACE, WAGON_SPACE, spaceOf } from './wagon.mjs';
 import { COTTON_SEED_PER_PLOT, SEED_PER_PLOT } from './improvements.mjs';
 import { huntingPlace } from './hunting.mjs';
 import { packFlight } from './scrape.mjs';
@@ -31,12 +34,49 @@ export const THINK_EVERY = 3;
 export const TRADE_VALUE = Object.freeze({ food: 1, cotton: 1, seed: 2, powder: 3, money: 3 });
 /** Food per person the family keeps back before it will trade food away or stop hunting. */
 export const FOOD_KEPT_PER_PERSON = 3;
+/** What one person eats in a day (sim/routines.mjs), and how few days' food left is worth killing a beast over. */
+export const EATEN_A_DAY = 0.35, KILL_WITHIN_DAYS = 2;
+/** The breeding herd a family nobody plays will not eat into, whatever else happens (`FIC-GONZ-185`). */
+export const KEEP_CATTLE = 4, KEEP_HOGS = 6;
 /** Shots the family keeps in the house: with fewer, somebody goes to town for powder and lead. */
 export const POWDER_KEPT = 2;
 /** Work one person does alone; a family never puts two of its people on the same one at once. */
+/**
+ * What a family nobody plays drove in behind its wagon, dealt once and never again.
+ *
+ * Hashed from the class and the family, never drawn from a stream, so a class replays the same herds.
+ */
+export const STOCK_SHARE = 0.75;
+function dealStock(world, household) {
+  const real = world.households?.[household.id];
+  if (!real || real.herd !== undefined || real.stock !== undefined) return;
+  if (share(world, real.id, 'drove-stock-in') >= STOCK_SHARE) { real.herd = { cattle: 0, hogs: 0 }; return; }
+  // Stock costs two spaces in the wagon, and half the default loads are packed to within one of full. A family that
+  // wanted stock carried less, which is `FIC-GONZ-025`'s own rule said the other way round: a barrel of meal comes out
+  // to make room, and if even that will not do it the family drives nothing in.
+  const room = () => WAGON_SPACE - STOCK_SPACE - spaceOf(real.load);
+  for (let tries = 0; tries < 4 && room() < 0; tries++) {
+    const barrels = (real.load || []).find(entry => entry.id === 'provisions');
+    if (!barrels || barrels.amount < 1) break;
+    if (barrels.amount === 1) real.load = real.load.filter(entry => entry.id !== 'provisions');
+    else real.load = real.load.map(entry => (entry.id === 'provisions' ? { ...entry, amount: entry.amount - 1 } : entry));
+  }
+  if (room() < 0) { real.herd = { cattle: 0, hogs: 0 }; return; }
+  real.stock = true;
+}
+/** Whether this family's herd is about to start straying: the ride is worth a day before it does, not after. */
+function strayingSoon(world, household) {
+  const real = world.households?.[household.id];
+  if (!real) return false;
+  const herd = herdOf(real);
+  if (!herd.cattle && !herd.hogs) return false;
+  const day = Math.floor((world.minute || 0) / 1440);
+  return !Number.isFinite(real.herdLookedDay) || day - real.herdLookedDay >= LOOKED_TO_DAYS - 3;
+}
+
 /** The four short works a family falls back on when the house is short of food (sim/gathering.mjs). */
 export const FORAGE_WORK = Object.freeze(['take-small-game', 'fish-the-water', 'gather-oysters', 'cut-bee-tree']);
-export const ONE_AT_A_TIME = Object.freeze([...FORAGE_WORK, 'hunt-timber', 'hunt-land', 'haul-logs', 'fetch-logs', 'fetch-seed', 'fetch-powder', 'sell-cotton', 'sell-food', 'mend-hoe', 'replace-hoe', 'fence-plot', 'survey-plot', 'dig-well', 'hunt-road', 'tend-sick', 'trade-crossing']);
+export const ONE_AT_A_TIME = Object.freeze([...FORAGE_WORK, 'butcher-beef', 'butcher-hog', 'look-to-stock', 'hunt-timber', 'hunt-land', 'haul-logs', 'fetch-logs', 'fetch-seed', 'fetch-powder', 'sell-cotton', 'sell-food', 'mend-hoe', 'replace-hoe', 'fence-plot', 'survey-plot', 'dig-well', 'hunt-road', 'tend-sick', 'trade-crossing']);
 /** Plots a family nobody plays keeps, its first patch among them: enough to feed it, and a harvest it can carry in. */
 export const NEIGHBOUR_PLOTS = 3;
 /** The house it chooses, best first, where its tools allow. */
@@ -209,6 +249,13 @@ export function thinkFor(world, household, { project, act }) {
     if (choice && land.house?.plan !== choice) attempt({ action: 'plan-house', layout: choice });
   }
 
+  // What this family drove in behind its wagon. A student chooses in the lobby; a family nobody plays never chose at all,
+  // and the study of 2026-09-19 found the result: **0 of 180 families had stock**, in a country Almonte counted 75,000
+  // cattle and 110,000 hogs in (`HIST-TEX-263`). So the director deals it, once, by the class's own hash: three families
+  // in four drove stock in, which is the shape those counts imply. The default wagon load is exactly the fourteen spaces
+  // that leaves room for it (sim/wagon.mjs), so nothing is taken out of the wagon to make room.
+  dealStock(world, view.household);
+
   const idle = people.filter(person => !tooYoung(person) && !person.chore && !person.travel
     && person.health?.condition !== 'dead' && person.health?.condition !== 'captured');
   // One person at a time on a one-person errand, and a hunt only with a shot in the house: a family short of food sent
@@ -253,6 +300,9 @@ export function thinkFor(world, household, { project, act }) {
     const can = chore => Boolean(available({ person: person.id, chore }));
     const food = view.household.resources.food || 0;
     const resources = view.household.resources;
+    // Short of food is one thing; **down to the last day or two** is another, and only the second is worth killing a
+    // beast for. `EATEN_A_DAY` is `advanceRoutine`'s own figure.
+    const hungry = food < people.length * EATEN_A_DAY * KILL_WITHIN_DAYS;
     const plan = [
       // Food first when the family is short, then the crop, the house, the tools, the fence, and the trips to town
       // a farm needs: seed when there is none to plant, cotton to the store once there is some.
@@ -264,6 +314,15 @@ export function thinkFor(world, household, { project, act }) {
       ...(food < people.length * FOOD_KEPT_PER_PERSON && hunters === 0 && foraging === 0
         ? ['fish-the-water', 'gather-oysters', (resources.powder || 0) >= POWDER_KEPT && 'take-small-game', 'cut-bee-tree']
         : []),
+      // **The family's own stock last, and only down to a breeding herd.** A herd is capital: it feeds a family off its
+      // increase for years and is gone in a month if eaten. Measured 2026-09-20 with the stock first in this list and
+      // no floor under it: over a whole class 15 beeves and 33 hogs were killed across twenty families and only three
+      // families had any stock left at the end, every one of them down to a single cow. So: only when the house is down
+      // to its last day or two (`hungry`, not the larder's own `FOOD_KEPT_PER_PERSON`), only after everything wild has
+      // been tried, and never below `KEEP_CATTLE` and `KEEP_HOGS` head. A hog is killed before a beef: it is less meat
+      // and all of it keeps, where most of a beef goes to the neighbours (sim/stock.mjs).
+      hungry && herdOf(view.household).hogs > KEEP_HOGS && 'butcher-hog',
+      hungry && herdOf(view.household).cattle > KEEP_CATTLE && 'butcher-beef',
       // Powder bought before the last shot is gone, in food or coin, while there is still food to pay with: measured
       // 2026-09-19, a family that never went for powder fired its three shots by November and sat at no food for the rest
       // of the class (docs/BIOME_GAMEPLAY.md §5.2).
@@ -274,6 +333,8 @@ export function thinkFor(world, household, { project, act }) {
       land.logs?.lying > 0 && 'haul-logs',
       moreLogs && fellAt().length && 'fell-trees',
       moreLogs && !fellAt().length && 'fetch-logs',
+      // The range ridden before the month is out, so nothing strays. A herd nobody looks to is the one that goes.
+      strayingSoon(world, view.household) && 'look-to-stock',
       'dig-well', 'mend-hoe', 'cut-lane',
       view.household.field?.state === 'planted' && unfenced && 'fence-plot',
       // Seed enough for the family's own crop: cotton wants more a plot than corn (sim/improvements.mjs). Measured 2026-09-16: with

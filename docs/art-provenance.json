@@ -691,6 +691,19 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/artillery-service.png",
       "postProcessing": "None. Generated PNG copied unchanged; only read-only validation.",
       "review": "Accepted as matching eight-pose volunteer and regular cannon-service sets, with tools wholly inside isolated cells."
+    },
+    {
+      "sheet": "people-cast2-tasks",
+      "promptId": "frontier-v1/people-cast2-tasks",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-5b9e3844-5b5d-4d7d-b02b-637d2ebe472b.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-cast2-tasks.png",
+      "postProcessing": "None. Generated PNG copied unchanged; only read-only validation.",
+      "review": "Accepted as sixteen identity-consistent figures with distinct two-frame sowing and hoe-repair actions, isolated on true transparency."
     }
   ],
   "rejectedAttempts": [
@@ -730,7 +743,8 @@
     "origin": "Supplied by the owner, 2026-09-20, in three deliveries: seven plates first; then the stop sign, once it was pointed out that a green plate reading Start the class must never be the button that stops one; then the update badge, for the state rather than the action - the same button wearing a different face once a check has found a newer release. Each file name is the words cast into that plate.",
     "postProcessing": "None to the files. At start-up the launcher trims each one to the sign (the seven straight plates all sit within a pixel or two of x 136, y 161, 1902 x 348; the stop sign, a different picture at 1774 x 887, sits at x 30, y 96, 1715 x 674), resamples it once to 1600 pixels wide, and floods the black field away from the edge inwards so the chamfered corners and the stop sign's torn flag sit on the painting rather than in a black box. See launcher/PlateArt.cs.",
     "whereItAppears": "The buttons of the launcher window. The label and the mark are part of the picture, so the launcher writes nothing over a plate; the button's Text is still set, for the keyboard and the accessibility tree.",
-    "note": "Decorative. The stop sign's torn Lone Star flag and its stop-hand roundel are design, not a depiction of an event.", "alphaNote": "button-update-available.png is the only one of the ten delivered with a real alpha channel (1536 x 1024, RGBA). It is cut to what its own alpha covers and composited as it is; it is never flooded or keyed, which would eat the darks in its red field. The other nine are opaque pictures on a black field and are flooded from the border inwards instead."
+    "note": "Decorative. The stop sign's torn Lone Star flag and its stop-hand roundel are design, not a depiction of an event.",
+    "alphaNote": "button-update-available.png is the only one of the ten delivered with a real alpha channel (1536 x 1024, RGBA). It is cut to what its own alpha covers and composited as it is; it is never flooded or keyed, which would eat the darks in its red field. The other nine are opaque pictures on a black field and are flooded from the border inwards instead."
   },
   "setupIcon": {
     "file": "launcher/TexasRevolutionSetup.ico",

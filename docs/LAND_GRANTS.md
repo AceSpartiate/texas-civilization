@@ -52,8 +52,10 @@ clearing time except the timber-to-prairie ratio; what bringing stock costs.
   stating the acres it brings and the wagon space it costs (`bring-stock`). A family whose load was packed before
   there was any choosing (an old save, or a family auto-rolled at Start) brings none.
 - **What stock costs** (`FIC-GONZ-025`): a family driving stock arrives with fewer provisions — the wagon has
-  two spaces fewer — because the herd is fed on the road. Stock do nothing else yet. `ceiling:` no herding,
-  increase, sale or slaughter; the wandering-stock loss in an unfenced field stays as it is for everyone.
+  two spaces fewer — because the herd is fed on the road. ~~Stock do nothing else yet.~~ **Since 2026-09-20 the herd is
+  a herd**: it feeds itself on the range and the mast, calves in the spring, is killed for meat, strays if nobody rides
+  after it, and is left behind in the Runaway Scrape — [STOCK.md](STOCK.md), `FIC-GONZ-180` to `-185`. `ceiling:` no
+  sale and no cattle drive; the wandering-stock loss in an unfenced field stays as it is for everyone.
 - **Fixed from the start.** *As built:* every family's grant is laid out when the world is made, at the size a
   stock-raising family holds, and never moves (`household.grant` is its bounds). A family without stock holds a
   labor round its house inside it. So the stock choice changes how much a family holds and never where anybody's

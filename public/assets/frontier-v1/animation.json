@@ -498,6 +498,134 @@
       "motion": "none",
       "direction": "east; west by mirroring"
     },
+    "rust-woman-sow": {
+      "frames": [
+        {
+          "sprite": "rust-woman-sow-1",
+          "duration": 360
+        },
+        {
+          "sprite": "rust-woman-sow-2",
+          "duration": 360
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "rust-woman-repair": {
+      "frames": [
+        {
+          "sprite": "rust-woman-repair-1",
+          "duration": 360
+        },
+        {
+          "sprite": "rust-woman-repair-2",
+          "duration": 360
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "indigo-sow": {
+      "frames": [
+        {
+          "sprite": "indigo-sow-1",
+          "duration": 360
+        },
+        {
+          "sprite": "indigo-sow-2",
+          "duration": 360
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "indigo-repair": {
+      "frames": [
+        {
+          "sprite": "indigo-repair-1",
+          "duration": 360
+        },
+        {
+          "sprite": "indigo-repair-2",
+          "duration": 360
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ochre-sow": {
+      "frames": [
+        {
+          "sprite": "ochre-sow-1",
+          "duration": 360
+        },
+        {
+          "sprite": "ochre-sow-2",
+          "duration": 360
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ochre-repair": {
+      "frames": [
+        {
+          "sprite": "ochre-repair-1",
+          "duration": 360
+        },
+        {
+          "sprite": "ochre-repair-2",
+          "duration": 360
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-girl-sow": {
+      "frames": [
+        {
+          "sprite": "blue-girl-sow-1",
+          "duration": 360
+        },
+        {
+          "sprite": "blue-girl-sow-2",
+          "duration": 360
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-girl-repair": {
+      "frames": [
+        {
+          "sprite": "blue-girl-repair-1",
+          "duration": 360
+        },
+        {
+          "sprite": "blue-girl-repair-2",
+          "duration": 360
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "rust-woman-walk": {
       "frames": [
         {

@@ -94,6 +94,9 @@ the principal for the orders only a principal may be given (`applyAction` in `si
 | Gather oysters (`gather-oysters`, 2026-09-20) | Walk down to the beds along the shore and gather what can be carried home. **Only on the coast.** |
 | Cut a bee tree (`cut-bee-tree`, 2026-09-20) | Take the axe to the tree the bees are working, and bring the honey home. |
 | Put a line in the river (`fish-road`, 2026-09-20, [ROAD_EAST](ROAD_EAST.md)) | Sit at the water while the family waits at the crossing, and take food out of the river. **On the road east only.** |
+| Kill a beef (`butcher-beef`, 2026-09-20, [STOCK](STOCK.md)) | Kill a beef: the family keeps what it can and the neighbours get the rest, because it will not keep. |
+| Kill a hog (`butcher-hog`, 2026-09-20) | Kill a hog and salt it down, which is meat that keeps. |
+| Ride the range after the stock (`look-to-stock`, 2026-09-20) | Ride the range and through the timber after the stock, and mark the calves. |
 | Mend the hoe (`mend-hoe`) | Set the worn hoe right again at home. |
 | Fell trees (`fell-trees`) | Fell the trees at a place in timber you choose on the family's land. |
 | Haul logs to the house (`haul-logs`) | Bring the felled logs lying out to the house. |

@@ -37,6 +37,7 @@ import { choosing, cutLaneSpell, digWell, lanePoint, laneRefusal, laneState, wat
 import { GAME, huntWait, huntingPlace, huntRefusal, killYield, placeWord, powderDamp, quarryGame, stillTicks } from './hunting.mjs';
 import { weatherAt } from './weather.mjs';
 import { FORAGE, FORAGE_REACH, fishingWater, forageFacts, onSaltWater } from './gathering.mjs';
+import { BEEF_FAMILIES, BEEF_FOOD, BEEF_KEPT, BEEF_MILES, LOOKED_TO_DAYS, PORK_FOOD, butcherRefusal, divideBeef, herdOf, herdWords, killHog, lookedToStock } from './stock.mjs';
 import { fellRefusal, fellTicks, fellTree, logsLeftOut, logsLying, nextTree, oxFree, recordFelling, stackLogs, takeUpLogs } from './felling.mjs';
 import { KINDS, countsTrees, woodsRule } from './woods.mjs';
 import { TRADES, counterOptions, counterRefusal, rifleTrue, spendRifleShot, takeCounter, tradesAt } from './shops.mjs';
@@ -932,6 +933,62 @@ function forageCost(world, household, choreId) {
   const powder = FORAGE[chore.forage].powder ? `, ${SHOT_COST} powder` : '';
   return `${hours} ${hours === 1 ? 'hour' : 'hours'}${where}${powder}`;
 }
+
+// ---- the family's own stock (sim/stock.mjs, docs/STOCK.md) ----------------------------------
+//
+// Cattle on the range and hogs in the timber, which feed themselves - "the pasturage is
+// sufficiently good to dispense with feeding live stock" - so there is no daily work here at all.
+// What there is: a beef killed and divided with the neighbours because it cannot be kept, a hog
+// killed and salted down because it can, and a day on the range after the ones that have strayed.
+
+/** The families a share of a beef reaches: the nearest few, within `BEEF_MILES` of this one's house. */
+function beefNeighbours(world, household) {
+  const home = world.map.sites[household.homeSiteId];
+  if (!home) return [];
+  return Object.values(world.households)
+    .filter(other => other.id !== household.id && other.homeSiteId && world.map.sites[other.homeSiteId] && !other.flight)
+    .map(other => ({ other, miles: Math.hypot(world.map.sites[other.homeSiteId].x - home.x, world.map.sites[other.homeSiteId].y - home.y) }))
+    .filter(entry => entry.miles <= BEEF_MILES)
+    .sort((a, b) => a.miles - b.miles)
+    .slice(0, BEEF_FAMILIES)
+    .map(entry => entry.other);
+}
+const stockRefusalFor = kind => (world, household) => butcherRefusal(household, kind);
+CHORES['butcher-beef'] = {
+  name: 'Kill a beef', skill: 'hands', where: 'home', heavy: true, stock: 'cattle',
+  offered: (world, household) => herdOf(household).cattle > 0,
+  refusal: stockRefusalFor('cattle'),
+  describe: `A day's work, and a great deal of meat: ${BEEF_FOOD} food off one beef, of which the family can keep ${BEEF_KEPT}. The rest cannot be kept in this country and goes to the nearest families, as everybody's did — "when one man butchered a beef, he divided with his neighbors". One cow fewer on the range.`,
+  steps: [
+    { walk: 'field', doing: 'bringing a beef up from the range' },
+    { work: 6, doing: 'killing and dressing the beef' },
+    { stock: 'beef' },
+    { walk: 'yard', doing: 'carrying the meat in' },
+  ],
+};
+CHORES['butcher-hog'] = {
+  name: 'Kill a hog', skill: 'hands', where: 'home', heavy: true, stock: 'hogs',
+  offered: (world, household) => herdOf(household).hogs > 0,
+  refusal: stockRefusalFor('hogs'),
+  describe: `Half a day, and ${PORK_FOOD} food — less than a beef, and **all of it keeps**, because it is salted down. That is why the colonies ran two hogs to every cow. One hog fewer in the timber.`,
+  steps: [
+    { walk: 'field', doing: 'out to the timber after a hog' },
+    { work: 4, doing: 'killing the hog and salting it down' },
+    { stock: 'pork' },
+    { walk: 'yard', doing: 'carrying the pork in' },
+  ],
+};
+CHORES['look-to-stock'] = {
+  name: 'Ride the range after the stock', skill: 'hands', where: 'home', stock: 'look',
+  offered: (world, household) => herdOf(household).cattle + herdOf(household).hogs > 0,
+  describe: `A day out on the range and through the timber: the stock is counted, the calves are marked, and nothing strays for ${LOOKED_TO_DAYS} days. A herd nobody rides out after loses head every month, because a league of grazing land is open range and always was.`,
+  steps: [
+    { walk: 'field', doing: 'setting out to look to the stock' },
+    { work: 6, doing: 'riding the range after the stock' },
+    { stock: 'look' },
+    { walk: 'yard', doing: 'coming in from the range' },
+  ],
+};
 
 CHORES['take-small-game'] = {
   name: 'Take small game', skill: 'hunting', where: 'home', hauls: true, forage: 'smallgame',
@@ -1908,6 +1965,15 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
         });
       }
       continue;
+    }
+    if (step.stock) {
+      // The three of them in one place (sim/stock.mjs): the beef divided, the hog salted down, the range ridden. The
+      // first two fall through to the ordinary produce rule so the carrying cap is decided in one place for every chore.
+      if (step.stock === 'look') { lookedToStock(world, household, entity); continue; }
+      const kept = step.stock === 'beef'
+        ? divideBeef(world, household, entity, beefNeighbours(world, household))
+        : killHog(world, household, entity);
+      step = { produce: { food: kept } };
     }
     if (step.produce) {
       // What a trip brings home is what they can carry home. The kill is the kill; how

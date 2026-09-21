@@ -68,6 +68,10 @@ test('the camp\'s work is on a serving man\'s row and nobody else\'s; three days
   assert.deepEqual(work(world, man).map(entry => entry.id), [...CAMP_CHORES]);
   assert.deepEqual(work(world, man).filter(entry => entry.id !== 'camp-scout').map(entry => entry.can), [true, true, true], JSON.stringify(work(world, man)));
   assert.ok(!work(world, home).some(entry => entry.id.startsWith('camp-')), 'the camp\'s work was offered at home');
+  // Freed first: this assertion is about the camp's own rule, and a man already at work is refused for being at work
+  // before anything about Houston is reached. What the director has the neighbours doing changes under this test
+  // whenever the director learns a new kind of work (2026-09-20: the stock).
+  if (home.chore) applyAction(world, home.householdId, { action: 'stop-chore', entityId: home.id });
   assert.throws(() => order(world, home, 'camp-drill'), /not with General Houston's army/);
   assert.doesNotMatch(JSON.stringify(view(world, home.householdId)), /camp-/, 'the camp rode a family\'s wire with nobody serving');
   // A day's drill, said and counted: the first of the camp's work is the one supporting award.
