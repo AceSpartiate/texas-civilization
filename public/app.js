@@ -4569,20 +4569,99 @@ $('#house-close')?.addEventListener('click', () => { housePlanOpen = false; if (
  * The guided start over the map (public/lesson.js, owner 2026-09-21): one task at a time, said in the server's words,
  * with no control of its own.
  *
- * There is deliberately nothing here to press. A Next button would be the page saying a step is finished, and the world
- * is what says that: the strip is replaced whole on every snapshot and goes when `world.lesson` goes. It is rewritten
+ * The guide button locates an existing control; it never advances a lesson. The world
+ * is what says a step is finished. The strip is rewritten
  * only when its words change, because it is redrawn on every tick like everything else on this page.
  */
 let lessonKey = null;
+let lessonTarget = null;
+/**
+ * How much room the strip is taking, for the one screen where nothing can be put beside it. On a phone the family is a
+ * band across the top rather than a column down the side, so the strip and the family want the same place; the column
+ * starts below the strip instead, by this much. Zero - the property removed - the moment there is no lesson, so a class
+ * that has finished the ten gets its whole screen back.
+ */
+const lessonRoom = () => {
+  const panel = $('#lesson');
+  if (!panel || panel.hidden) { document.body.style.removeProperty('--lesson-room'); return; }
+  document.body.style.setProperty('--lesson-room', `${Math.round(panel.getBoundingClientRect().height)}px`);
+};
+addEventListener('resize', lessonRoom);
+function guideLesson(world) {
+  const lesson = lessonShowing(world), help = $('#lesson-help'), action = $('#lesson-action');
+  lessonTarget = null;
+  action.hidden = true;
+  help.textContent = '';
+  if (!lesson) return;
+  const reveal = (target, label, text) => {
+    lessonTarget = target; action.textContent = label; action.hidden = false; help.textContent = text;
+  };
+  if (world.status === 'paused') { help.textContent = 'The class is paused. Work continues when the teacher resumes.'; return; }
+  // A map placement or a question already in progress takes precedence over starting more work.
+  for (const [selector, text] of [
+    ['#site-choose', 'Click a spot inside your land on the map, review the site, then press “Set the house here”.'],
+    ['#survey-choose', 'Click the ground on the map. Review the highlighted place, then confirm it in the placement panel.'],
+    ['#house-plot', 'Choose a house plan here first. Then close the plan and assign someone to gather logs or build.'],
+    ['#house-plan', 'Choose a house here first. Then assign a family member to build it.'],
+  ]) {
+    const panel = $(selector);
+    if (panel && !panel.hidden) {
+      reveal(panel, 'Show placement controls', text); return;
+    }
+  }
+  const asking = world.entities?.find(person => world.household?.members?.includes(person.id) && person.chore?.ask);
+  if (asking) {
+    reveal({ person: asking.id, question: true }, `Answer ${asking.given || asking.name}`, 'Work is waiting for your answer. Open the question to continue.'); return;
+  }
+  if (['order', 'house'].includes(lesson.step) && !world.land?.house && lesson.allow?.includes('plan-house') && !$('#house-open')?.hidden) {
+    reveal({ open: '#house-open' }, 'Choose your house plan', 'Before anyone can build, choose a plan. Then assign an adult to gather materials and build it.'); return;
+  }
+  const rows = [...panelRows.values()].sort((a, b) => Number(b.item.dataset.focused === 'true') - Number(a.item.dataset.focused === 'true'));
+  for (const row of rows) {
+    const buttons = [...row.icons.querySelectorAll('.panel-icon')];
+    const icons = buttons.map(button => ({ key: button.dataset.key, kind: button.dataset.chore ? 'chore' : 'order', can: button.getAttribute('aria-disabled') !== 'true', active: button.dataset.active === 'true' }));
+    const key = pointedKey(lesson, icons);
+    const button = buttons.find(one => one.dataset.key === key);
+    if (button) {
+      const person = world.entities.find(one => one.id === button.dataset.entityId);
+      reveal({ person: button.dataset.entityId, key }, `Show ${button.dataset.name}`, `Select ${person?.given || person?.name || 'your family member'}, then press “${button.dataset.name}” in the bottom bar. This button finds it for you.`);
+      return;
+    }
+  }
+  const busy = world.entities?.find(person => world.household?.members?.includes(person.id) && person.chore);
+  help.textContent = world.status === 'paused' ? 'The class is paused. Work continues when the teacher resumes.'
+    : world.land?.arriving ? 'Your wagon is travelling to your land. The next instruction appears when it arrives.'
+    : busy ? `${busy.given || busy.name} is working. Watch their progress, or select another adult to help. A ! beside a portrait means they need an answer.`
+    : 'Select an adult’s portrait, then read the named actions at the bottom. Unavailable actions explain what is missing when selected.';
+}
+$('#lesson-action')?.addEventListener('click', async () => {
+  const target = lessonTarget;
+  if (!target) return;
+  if (target.open) { $(target.open)?.click(); return; }
+  if (target.person) {
+    if (target.question) { openNeed(target.person); return; }
+    await chooseFocus(target.person);
+    goToPerson(target.person);
+    const button = panelRows.get(target.person)?.icons.querySelector(`[data-key="${target.key}"]`);
+    button?.scrollIntoView({ block: 'nearest', inline: 'center' });
+    button?.focus();
+    if (button) showPanelTip(button);
+  } else {
+    target.scrollIntoView({ block: 'nearest' });
+    const control = target.querySelector('button:not([hidden]):not(:disabled)');
+    control?.focus();
+  }
+});
 function renderLesson(world) {
   const panel = $('#lesson');
   if (!panel) return;
-  const words = lessonWords(lessonShowing(world));
+  const words = lessonWords(lessonShowing(world) || (world.role !== 'host' && world.lesson?.done ? world.lesson : null));
   document.body.dataset.lesson = String(Boolean(words));
-  if (!words) { panel.hidden = true; lessonKey = null; return; }
+  if (!words) { panel.hidden = true; lessonKey = null; lessonRoom(); return; }
   panel.hidden = false;
+  guideLesson(world);
   const key = JSON.stringify(words);
-  if (lessonKey === key) return;
+  if (lessonKey === key) { lessonRoom(); return; }
   lessonKey = key;
   $('#lesson-step').textContent = words.eyebrow;
   $('#lesson-title').textContent = words.title;
@@ -4596,6 +4675,7 @@ function renderLesson(world) {
   [...pips.children].forEach((pip, at) => setData(pip, 'done', String(at < words.done)));
   // Said once, as a status, for somebody who cannot see the ring round the icon.
   $('#lesson-read').textContent = lessonAnnouncement(words);
+  lessonRoom();
 }
 /**
  * Whether the guided start shuts one action now, for a control that is not an icon on the ability bar (public/lesson.js).
@@ -4969,7 +5049,32 @@ function render(snapshot) {
   // gesture: a whole draw there is the stall a student feels as the map sticking under their finger.
   if (creating) { /* the curtain is up: nothing of the world is drawn */ } else if (performance.now() < handOnMapUntil) requestMapDraw(); else drawWorld(world);
   renderInteriorPanel(world); renderHousehold(world); renderKnowledge(world); renderEncounter(world); renderFamilyRoll(world); renderWagonLoad(world); renderHousePlan(world); renderSite(world); renderSurvey(world); renderLesson(world); renderTutorial(world);
+  renderPanelBackdrop();
 }
+/**
+ * The dim behind a panel that stands where the family's own column is (owner, 2026-09-21). It is read off the panels
+ * themselves rather than kept as a flag, so a panel that opens some other way cannot forget to dim behind it - and a
+ * panel that is only hidden, as these are, cannot leave the screen dimmed with nothing on it.
+ *
+ * Only these three: each covers the left of the screen and none of them needs the map underneath. The panels that ask
+ * for a place on the map (`#site-choose`, `#survey-choose`) must never be given this, because dimming the map means
+ * covering the very thing the student has been told to tap.
+ */
+const COVERING = ['#house-plan', '#house-plot', '#wagon-load'];
+function renderPanelBackdrop() {
+  const covering = COVERING.some(one => $(one) && !$(one).hidden);
+  const backdrop = $('#panel-backdrop');
+  if (backdrop) backdrop.hidden = !covering;
+  document.body.dataset.panel = String(covering);
+}
+// The dim is pressed to close, which is what a student tries first. The wagon is not closed this way: what it packs is
+// the family's whole outfit, and "Done packing" is the answer it is waiting for.
+$('#panel-backdrop')?.addEventListener('click', () => {
+  if ($('#wagon-load') && !$('#wagon-load').hidden) return;
+  housePlanOpen = false;
+  if (window.__snapshot) render(window.__snapshot);
+  $('#house-open')?.focus();
+});
 function showJoin(message) {
   events?.close(); events = null;
   $('#game').hidden = true; $('#rejoin').hidden = true; $('#join').hidden = hostPage;

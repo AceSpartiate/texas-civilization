@@ -587,3 +587,38 @@ to be; one that would land on a name already placed **steps down a line**, up to
 still has nowhere to sit. Nothing is lost by dropping one: the person is still there to press, still marked, and still
 named on the family panel. `layOutCaptions` in `public/app.js`; what was drawn and what was dropped is on
 `window.__labelsDrawn`, the same contract as `__viewEntities`.
+
+### 12.11 What was drawn over what — owner 2026-09-21
+
+Every piece of this interface is positioned on its own: a strip at the top, the column down the left, the bar across the
+bottom middle, panels that open at `left:12px; top:64px`, a card that follows a person round the map. Nothing had ever
+asked whether two of them land on the same pixels. `scripts/screen-overlap-study.mjs` asks the browser rather than the
+stylesheet — for every control a student can press it samples the control's own points and asks `elementFromPoint` what
+is on top — at 1366×768, 1024×768 and 390×844. Three things were wrong, and all three were invisible at the size the
+class played on until the study was pointed at the other two.
+
+- **The guided start stood on the family.** Centred, the strip covered the left-hand column at anything under about
+  1180px wide: at 1024 it covered the father's star outright, and at a phone's width Chrome *refused a click* on
+  "Choose a house" because the strip was over it. It is **top right** now, its left edge held clear of a column that is
+  at most 19rem or 44% of a narrow screen, so the two cannot share a pixel at any width. A phone has no room beside the
+  column, so there the column starts below the strip instead, by the strip's own measured height (`--lesson-room`).
+- **A panel over the family never admitted it.** "Choose a house" covers the whole column — twenty-eight controls at
+  1366×768 — while the step's own words say to assign a family member to build it. It still covers them, by the owner's
+  decision, but honestly: the map behind goes **dim**, the panel says *"Your family is behind this. Close it when you
+  want to give somebody an order."*, and the dim closes it. The strip stays above the dim, because it is the
+  instruction. The two panels that ask for a place on the **map** are deliberately excluded: dimming the map there would
+  cover the very thing the student has been told to tap.
+- **The names under the icons landed on the map's buttons.** While a lesson runs, each icon carries its name below it;
+  the rightmost names sat on *Journal* and *Land*, and on a phone — where the bar scrolls sideways — they were clipped
+  away entirely, because a box that scrolls shows nothing drawn outside it. The bar rides 30px higher while a lesson
+  names its icons, and on a phone the box drops and pads back by 30px so the icons do not move and the names are inside
+  what scrolls.
+
+Evidence: `docs/evidence/screen-overlap.json`, `-1024.json`, `-390.json` (0 controls covered at both desktop sizes),
+`docs/evidence/screen-overlap-injections.json` (4 of 4 caught, each by the check written for it).
+
+**Still true and not fixed:** on a **phone only**, the docked person card covers a portrait's star. The classroom is
+1366×768 Chromebooks, so it is recorded rather than chased. The study also does not yet reach `#site-choose`,
+`#survey-choose`, `#encounter` or `#call-menu` in a real state — an earlier turn of it simply unhid them, and an empty
+panel has almost no height, so it covered nothing and the run read as clean. That is worse than not asking, and it was
+taken out rather than left to reassure.

@@ -1,5 +1,37 @@
 # Claude handoff — Astra foundation
 
+**What was drawn over what, 2026-09-21:** [FAMILY_PANEL.md §12.11](docs/FAMILY_PANEL.md). Nothing had ever asked whether
+two pieces of this interface land on the same pixels. `npm run study:overlap` asks the browser — for every control a
+student can press it samples that control's own points and asks `elementFromPoint` what is on top — at 1366×768,
+1024×768 and 390×844. Three faults, all invisible at the size the class played on until the other two sizes were asked:
+the guided start covered the family's column at anything under about **1180px wide** (at a phone's width Chrome
+*refused a click* on "Choose a house" through it); "Choose a house" covered the whole column — **28 controls** — while
+the step's own words said to assign a family member; and the names drawn under the icons sat on the *Journal* and *Land*
+buttons, and were clipped away entirely on a phone. Fixed: the strip is top right and bounded off the column, the
+covering panels **dim what they cover and say so in words**, and the bar rides 30px higher while it names its icons.
+Also fixed in passing: the ring pointed at the survey stake while the words said to choose a house plan (`pointedKey`
+guessed among several open chores by row order — the exact fault its ranking was written to remove).
+
+- **Evidence:** `docs/evidence/screen-overlap.json`, `-1024.json`, `-390.json` — **0 controls covered** at both desktop
+  sizes. `docs/evidence/screen-overlap-injections.json` — **4 of 4 caught, each by the check written for it**, after
+  two of them first read as MISSED for good reasons worth keeping: one check ran while no lesson was showing (a hidden
+  strip has a box of nothing, which overlaps nothing) and one measured only the icon that happened to be named rather
+  than the bar's room. `npm run test:lesson` is **20 checks**; `npm test` is **868**.
+- **Two harnesses were not running at all.** `scripts/lesson-screen-injections.mjs` matched LF patterns against a CRLF
+  working copy, so every injection missed — and three of its injections were still written against the `pointedKey`
+  Astra replaced. Both repaired; it is **23 of 23** now. A flaky check in the lesson proof (the summary on focus, about
+  one run in three) was focusing and reading in two calls with a redraw able to land between them; it reads in one now.
+- **Left alone on purpose:** on a **phone only**, the docked person card covers a portrait's star. And the study does
+  not yet reach `#site-choose`, `#survey-choose`, `#encounter` or `#call-menu` in a real state — unhiding an empty panel
+  gives it no height, so it covered nothing and read as clean, which is worse than not asking. Those four are the next
+  thing to point this study at.
+
+**Opening tutorial usability repair:** Read [TUTORIAL_USABILITY_HANDOFF.md](docs/TUTORIAL_USABILITY_HANDOFF.md) first for the complete change list, evidence and follow-up work. The guide now chooses actions by objective, locates the correct person's control with a named button, explains placement and waiting, opens unanswered work questions, and shows completion. Map actions retain the working bare-command path and also accept chore-prefixed aliases. This corrects the older prefix diagnosis below: actual map confirmation already sent the bare action. Full suite: **868 passed**; browser guide proof: **17 checks passed**, including phone layout. The user expressly authorized changes to earlier UI restrictions.
+
+**Mounted family cast, 2026-09-21:** The registered frontier library now contains **1,149 measured sprites across 81 sheets and 434 validated clips**. Six `people-mounted-cast*` atlases add 96 frames and 24 authored clips for all eight established identities riding the same chestnut horse east/west, south and north. Read `docs/ART_DELIVERY_2026-09-21-MOUNTED-FAMILY.md`. These full mounted sprites are ready to replace the current cropped-person-over-horse composite.
+
+**Mustang and Yellow Stone motion, 2026-09-21:** `wildlife-mustang.png` completes the requested wildlife with sixteen graze, alert and gallop frames. `steamboat-steam.png` and `steamboat-laden.png` complete the named steamboat's empty and army-laden underway animation states. Read `docs/ART_DELIVERY_2026-09-21-MUSTANG-YELLOW-STONE.md`. All 24 frames passed isolated alpha and retention validation.
+
 **Alamo elevations and wagon drivers, 2026-09-21:** `alamo-face-strips.png` supplies five historically distinct south-facing compound surfaces without changing the measured footprint or destructible wall state. `people-wagon-drivers.png` supplies sixteen wagon/ox compositing layers for the original cast in four directions. Read `docs/ART_DELIVERY_2026-09-21-ALAMO-FACE-STRIPS.md` and `docs/ART_DELIVERY_2026-09-21-WAGON-DRIVERS.md`. Second-cast driver layers remain open.
 
 **Three faults the first screenshots of the guided start showed, and one the server still has, 2026-09-21 (later the same

@@ -9,19 +9,25 @@
   "task": "The owner after the class of 2026-09-21: the UI covered too much of a Chromebook screen; a character’s abilities are hidden unless they are the main one and sit bottom middle, spaced out; and the tutorial is an integrated, forced, one-task-at-a-time part of the game.",
   "environment": "Same computer: a local classroom server and headless Chrome at 1366x768. Not a physical LAN, a Chromebook, a classroom or a touch screen.",
   "checks": [
-    "the main person's work is one row bottom middle at 1366x768: 19 icons on 1 line, centred at 683, 74px up, 8px apart, 48px each, 4.8% of the screen",
+    "the main person's work is one row bottom middle at 1366x768: 19 icons on 1 line, centred at 683, 104px up, 8px apart, 48px each, 4.8% of the screen",
     "a person who is not the main one has no work on the screen",
     "the star moves the bar: it is now hh-1-parent-2's 19 icons, still centred at 683",
     "the server's own lesson is on the screen: \"STEP 2 OF 10 - Put somebody to work\"",
     "no lesson, nothing drawn",
-    "the step is the server's words and has no control at all: \"Put somebody to work\" - Press the axe at the bottom of the screen to start work on the house. (6% of the screen)",
+    "the guide selects the person and focuses the named action without issuing work or skipping the lesson",
+    "the step keeps the server's words and a navigation control: \"Put somebody to work\" - Press the axe at the bottom of the screen to start work on the house. (11% of the screen)",
     "the skippable walk-through is put away while the class is being led",
     "the step leaves one thing to press of 19, rings it, and dims the rest",
-    "the card is clear of the step and folds its journey block away: 3.3% of the screen against 10.3% open, top at 312 under a strip ending at 125, and one press brings it back",
+    "the card is clear of the step and folds its journey block away: 3.3% of the screen against 10.3% open, top at 312 under a strip ending at 223, and one press brings it back",
     "a shut icon sends nothing and says what to do instead: \"Not this yet. Press the axe at the bottom of the screen to start work on the house.\"",
     "the one icon the server's own step leaves open sends its order, and the glow comes back on it (plant-field)",
     "the bar is still a row of buttons in reading order, each named and each showing its sentence on focus: \"Survey ten acres. Walk out to a place you choose on your lan…\"",
     "folded, the column is 102px instead of 312px and the bar is untouched (21 icons)",
+    "the guided start keeps off the family's column at 1366 and at 1024, where it used to cover the father's star",
+    "the bar leaves 46px under it for the names it draws, clear of the map's own buttons (longest: \"Buy furniture from the carpenter\")",
+    "the house panel dims the family behind it, says \"Your family is behind this. Close it when you want to give somebody an order.\", keeps the step on screen, and the dim closes it",
+    "completion is visible and releases tutorial locks",
+    "the guide fits a 390px phone viewport",
     "no page errors anywhere in the run"
   ],
   "measured": {
@@ -29,7 +35,7 @@
       "entityId": "hh-1-parent-1",
       "centre": 683,
       "width": 1056,
-      "fromBottom": 74,
+      "fromBottom": 104,
       "rows": 1,
       "count": 19,
       "smallestGap": 8,
@@ -46,9 +52,9 @@
       "read": "STEP 2 OF 10. Put somebody to work. Press the axe at the bottom of the screen to start work on the house. Your family reached their land.",
       "pips": 10,
       "filled": 1,
-      "buttons": 0,
-      "centre": 683,
-      "share": 6
+      "buttons": 1,
+      "centre": 1082,
+      "share": 11
     },
     "step": [
       {
@@ -194,10 +200,10 @@
           "bottom": 448
         },
         "strip": {
-          "left": 411,
+          "left": 810,
           "top": 10,
-          "right": 955,
-          "bottom": 125
+          "right": 1354,
+          "bottom": 223
         },
         "over": false,
         "travelShown": false,
@@ -213,10 +219,10 @@
           "bottom": 727
         },
         "strip": {
-          "left": 411,
+          "left": 810,
           "top": 10,
-          "right": 955,
-          "bottom": 125
+          "right": 1354,
+          "bottom": 223
         },
         "over": false,
         "travelShown": true,
@@ -242,15 +248,70 @@
       "column": 102,
       "barIcons": 21,
       "columnBefore": 312
+    },
+    "apart": [
+      {
+        "where": "1366x768",
+        "strip": {
+          "x": 810,
+          "y": 10,
+          "width": 544,
+          "height": 193.109375,
+          "top": 10,
+          "right": 1354,
+          "bottom": 203.109375,
+          "left": 810
+        },
+        "overlapWidth": -494,
+        "overlapHeight": 191
+      },
+      {
+        "where": "1024x768",
+        "strip": {
+          "x": 468,
+          "y": 10,
+          "width": 544,
+          "height": 193.109375,
+          "top": 10,
+          "right": 1012,
+          "bottom": 203.109375,
+          "left": 468
+        },
+        "overlapWidth": -152,
+        "overlapHeight": 191
+      }
+    ],
+    "names": {
+      "lineHeight": 16,
+      "labelWidth": 68,
+      "icons": 21,
+      "roomUnderTheBar": 46,
+      "roomToTheScreenEdge": 104,
+      "longest": "Buy furniture from the carpenter",
+      "overTheButtons": true
+    },
+    "dim": {
+      "backdrop": true,
+      "body": "true",
+      "says": "Your family is behind this. Close it when you want to give somebody an order.",
+      "stripStillUp": true
+    },
+    "phone": {
+      "x": 8,
+      "y": 8,
+      "width": 374,
+      "height": 218.375
     }
   },
   "screenshots": [
     "test-results/lesson-bar.png",
     "test-results/lesson-step.png",
-    "test-results/lesson-folded.png"
+    "test-results/lesson-folded.png",
+    "test-results/lesson-dimmed.png",
+    "test-results/lesson-phone.png"
   ],
   "notProved": [
-    "The lesson itself: `world.lesson` is stubbed (scripts/support/lesson-stub.mjs) because the server side is being built in parallel. What is proved is that the page reads the contract and adds nothing to it.",
+    "All ten steps through browser clicks: this proof uses the real server for opening and an order, and controlled snapshots for specific guide states. The simulation suite exercises progression separately.",
     "A real Chromebook, its GPU or its touchpad: this is desktop Chrome at the same pixel size.",
     "Touch. The icons are 48px and spaced 10px, which is the size a fingertip wants, but nothing here pressed one with a finger.",
     "Every step of the lesson. One step is held and pressed; tests/lesson-screen.test.mjs walks the rules over the family’s whole bar."

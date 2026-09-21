@@ -98,6 +98,29 @@ test('the icon pointed at is one the server is already offering, and there is at
   assert.equal(pointedKey(lesson({ allow: [] }), icons), null);
   // No lesson: nothing is pointed at, and nothing is shut.
   assert.equal(pointedKey(null, icons), null);
+  // Already doing it: the ring is a thing to press, and pressing what is under way says nothing to the server.
+  assert.equal(pointedKey(lesson(), icons.map(icon => (icon.key === 'build-house' ? { ...icon, active: true } : icon))), null);
+});
+
+/**
+ * The ring and the words are one instruction, and a class of 2026-09-21 was shown two: at `order`, where the step allows
+ * every chore because the step is "put somebody to work", the ring sat on the survey stake - step four's job - while the
+ * strip above it said to choose a house plan first. The ring is the one a student follows.
+ *
+ * The rule that replaced the guess: point at this step's own work, and where there is none on this row, point at
+ * something only when there is exactly one thing to point at. One open action cannot be the wrong one.
+ */
+test('where nothing on the row is the step\'s own work, one open action is pointed at and several are not', () => {
+  const chores = keys => keys.map(key => ({ key, kind: 'chore', can: true }));
+  // The screenshot's case: the whole bar open at `order`, none of it house work, no plan chosen yet.
+  const everything = lesson({ allow: ['chore:survey-plot', 'chore:plant-field', 'chore:hunt-land', 'chore:visit-shop'] });
+  assert.equal(pointedKey(everything, chores(['survey-plot', 'plant-field', 'hunt-land', 'visit-shop'])), null,
+    'the ring picked one of several unrelated chores by where it sits in the row, which is what the ranking exists to stop');
+  // One thing open is unambiguous, whatever step it belongs to: there is nothing else it could mean.
+  assert.equal(pointedKey(lesson({ allow: ['chore:survey-plot'] }), chores(['survey-plot'])), 'survey-plot');
+  // And the step's own work still outranks everything, including when more is open than the step asks for.
+  assert.equal(pointedKey(everything, chores(['survey-plot', 'plant-field'])), null);
+  assert.equal(pointedKey(lesson({ step: 'plant', allow: ['chore:plant-field', 'chore:survey-plot'] }), chores(['survey-plot', 'plant-field'])), 'plant-field');
 });
 
 test('the words are the server’s, and the page counts nothing', () => {

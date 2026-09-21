@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1008 usable sprites, 70 PNG atlases, 389 clips** (195 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1149 usable sprites, 81 PNG atlases, 434 clips** (224 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -12,6 +12,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 
 | Atlas | Frames | Size | PNG bytes |
 | --- | ---: | --- | ---: |
+| alamo-face-strips | 5 | 1659 × 948 | 928904 |
 | artillery-service | 16 | 1254 × 1254 | 1171440 |
 | biome-ground-bexar | 16 | 1254 × 1254 | 2215982 |
 | people-cast2-carry | 12 | 1254 × 1254 | 1294419 |
@@ -33,6 +34,15 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | icons-family-service | 16 | 1254 × 1254 | 1734840 |
 | icons-family-subsistence | 8 | 1774 × 887 | 2248974 |
 | house-modules | 16 | 1448 × 1086 | 1837997 |
+| people-mounted-cast1-e | 16 | 1254 × 1254 | 1086305 |
+| people-mounted-cast1-s | 16 | 1254 × 1254 | 1213409 |
+| people-mounted-cast1-n | 16 | 1254 × 1254 | 1283689 |
+| people-mounted-cast2-e | 16 | 1254 × 1254 | 1197211 |
+| people-mounted-cast2-s | 16 | 1254 × 1254 | 1115115 |
+| people-mounted-cast2-n | 16 | 1254 × 1254 | 1472500 |
+| wildlife-mustang | 16 | 1254 × 1254 | 1311610 |
+| steamboat-steam | 4 | 1254 × 1254 | 1044017 |
+| steamboat-laden | 4 | 1254 × 1254 | 1151494 |
 | courier-dismount | 16 | 1254 × 1254 | 1219584 |
 | courier-encounters-vertical | 16 | 1254 × 1254 | 1034014 |
 | people-dialogue | 16 | 1254 × 1254 | 1237850 |
@@ -46,6 +56,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | travel-markers | 16 | 1254 × 1254 | 1343435 |
 | trees-colonies-1 | 16 | 1254 × 1254 | 1626976 |
 | trees-colonies-2 | 16 | 1254 × 1254 | 1902468 |
+| people-wagon-drivers | 16 | 1254 × 1254 | 1460212 |
 | weather-norther | 5 | 1536 × 1024 | 1669037 |
 | wildlife-bear-javelina | 16 | 1254 × 1254 | 1249275 |
 | wildlife-bison-pronghorn | 16 | 1254 × 1254 | 1471318 |
@@ -87,6 +98,11 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 
 | Sprite ID | Atlas | Animation clips |
 | --- | --- | --- |
+| alamo-face-limestone | alamo-face-strips | State artwork; no motion required |
+| alamo-face-rooms | alamo-face-strips | State artwork; no motion required |
+| alamo-face-gate | alamo-face-strips | State artwork; no motion required |
+| alamo-face-convento | alamo-face-strips | State artwork; no motion required |
+| alamo-face-church-south | alamo-face-strips | State artwork; no motion required |
 | volunteer-rammer-carry-1 | artillery-service | volunteer-gun-ram |
 | volunteer-rammer-carry-2 | artillery-service | volunteer-gun-ram |
 | volunteer-ram-1 | artillery-service | volunteer-gun-ram |
@@ -396,6 +412,126 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | house-chimney-stick | house-modules | State artwork; no motion required |
 | house-chimney-stone | house-modules | State artwork; no motion required |
 | house-floor-loft | house-modules | State artwork; no motion required |
+| rust-ride-e-1 | people-mounted-cast1-e | rust-ride-e |
+| rust-ride-e-2 | people-mounted-cast1-e | rust-ride-e |
+| rust-ride-e-3 | people-mounted-cast1-e | rust-ride-e |
+| rust-ride-e-4 | people-mounted-cast1-e | rust-ride-e |
+| teal-ride-e-1 | people-mounted-cast1-e | teal-ride-e |
+| teal-ride-e-2 | people-mounted-cast1-e | teal-ride-e |
+| teal-ride-e-3 | people-mounted-cast1-e | teal-ride-e |
+| teal-ride-e-4 | people-mounted-cast1-e | teal-ride-e |
+| elder-ride-e-1 | people-mounted-cast1-e | elder-ride-e |
+| elder-ride-e-2 | people-mounted-cast1-e | elder-ride-e |
+| elder-ride-e-3 | people-mounted-cast1-e | elder-ride-e |
+| elder-ride-e-4 | people-mounted-cast1-e | elder-ride-e |
+| blue-ride-e-1 | people-mounted-cast1-e | blue-ride-e |
+| blue-ride-e-2 | people-mounted-cast1-e | blue-ride-e |
+| blue-ride-e-3 | people-mounted-cast1-e | blue-ride-e |
+| blue-ride-e-4 | people-mounted-cast1-e | blue-ride-e |
+| rust-ride-s-1 | people-mounted-cast1-s | rust-ride-s |
+| rust-ride-s-2 | people-mounted-cast1-s | rust-ride-s |
+| rust-ride-s-3 | people-mounted-cast1-s | rust-ride-s |
+| rust-ride-s-4 | people-mounted-cast1-s | rust-ride-s |
+| teal-ride-s-1 | people-mounted-cast1-s | teal-ride-s |
+| teal-ride-s-2 | people-mounted-cast1-s | teal-ride-s |
+| teal-ride-s-3 | people-mounted-cast1-s | teal-ride-s |
+| teal-ride-s-4 | people-mounted-cast1-s | teal-ride-s |
+| elder-ride-s-1 | people-mounted-cast1-s | elder-ride-s |
+| elder-ride-s-2 | people-mounted-cast1-s | elder-ride-s |
+| elder-ride-s-3 | people-mounted-cast1-s | elder-ride-s |
+| elder-ride-s-4 | people-mounted-cast1-s | elder-ride-s |
+| blue-ride-s-1 | people-mounted-cast1-s | blue-ride-s |
+| blue-ride-s-2 | people-mounted-cast1-s | blue-ride-s |
+| blue-ride-s-3 | people-mounted-cast1-s | blue-ride-s |
+| blue-ride-s-4 | people-mounted-cast1-s | blue-ride-s |
+| rust-ride-n-1 | people-mounted-cast1-n | rust-ride-n |
+| rust-ride-n-2 | people-mounted-cast1-n | rust-ride-n |
+| rust-ride-n-3 | people-mounted-cast1-n | rust-ride-n |
+| rust-ride-n-4 | people-mounted-cast1-n | rust-ride-n |
+| teal-ride-n-1 | people-mounted-cast1-n | teal-ride-n |
+| teal-ride-n-2 | people-mounted-cast1-n | teal-ride-n |
+| teal-ride-n-3 | people-mounted-cast1-n | teal-ride-n |
+| teal-ride-n-4 | people-mounted-cast1-n | teal-ride-n |
+| elder-ride-n-1 | people-mounted-cast1-n | elder-ride-n |
+| elder-ride-n-2 | people-mounted-cast1-n | elder-ride-n |
+| elder-ride-n-3 | people-mounted-cast1-n | elder-ride-n |
+| elder-ride-n-4 | people-mounted-cast1-n | elder-ride-n |
+| blue-ride-n-1 | people-mounted-cast1-n | blue-ride-n |
+| blue-ride-n-2 | people-mounted-cast1-n | blue-ride-n |
+| blue-ride-n-3 | people-mounted-cast1-n | blue-ride-n |
+| blue-ride-n-4 | people-mounted-cast1-n | blue-ride-n |
+| rust-woman-ride-e-1 | people-mounted-cast2-e | rust-woman-ride-e |
+| rust-woman-ride-e-2 | people-mounted-cast2-e | rust-woman-ride-e |
+| rust-woman-ride-e-3 | people-mounted-cast2-e | rust-woman-ride-e |
+| rust-woman-ride-e-4 | people-mounted-cast2-e | rust-woman-ride-e |
+| indigo-ride-e-1 | people-mounted-cast2-e | indigo-ride-e |
+| indigo-ride-e-2 | people-mounted-cast2-e | indigo-ride-e |
+| indigo-ride-e-3 | people-mounted-cast2-e | indigo-ride-e |
+| indigo-ride-e-4 | people-mounted-cast2-e | indigo-ride-e |
+| ochre-ride-e-1 | people-mounted-cast2-e | ochre-ride-e |
+| ochre-ride-e-2 | people-mounted-cast2-e | ochre-ride-e |
+| ochre-ride-e-3 | people-mounted-cast2-e | ochre-ride-e |
+| ochre-ride-e-4 | people-mounted-cast2-e | ochre-ride-e |
+| blue-girl-ride-e-1 | people-mounted-cast2-e | blue-girl-ride-e |
+| blue-girl-ride-e-2 | people-mounted-cast2-e | blue-girl-ride-e |
+| blue-girl-ride-e-3 | people-mounted-cast2-e | blue-girl-ride-e |
+| blue-girl-ride-e-4 | people-mounted-cast2-e | blue-girl-ride-e |
+| rust-woman-ride-s-1 | people-mounted-cast2-s | rust-woman-ride-s |
+| rust-woman-ride-s-2 | people-mounted-cast2-s | rust-woman-ride-s |
+| rust-woman-ride-s-3 | people-mounted-cast2-s | rust-woman-ride-s |
+| rust-woman-ride-s-4 | people-mounted-cast2-s | rust-woman-ride-s |
+| indigo-ride-s-1 | people-mounted-cast2-s | indigo-ride-s |
+| indigo-ride-s-2 | people-mounted-cast2-s | indigo-ride-s |
+| indigo-ride-s-3 | people-mounted-cast2-s | indigo-ride-s |
+| indigo-ride-s-4 | people-mounted-cast2-s | indigo-ride-s |
+| ochre-ride-s-1 | people-mounted-cast2-s | ochre-ride-s |
+| ochre-ride-s-2 | people-mounted-cast2-s | ochre-ride-s |
+| ochre-ride-s-3 | people-mounted-cast2-s | ochre-ride-s |
+| ochre-ride-s-4 | people-mounted-cast2-s | ochre-ride-s |
+| blue-girl-ride-s-1 | people-mounted-cast2-s | blue-girl-ride-s |
+| blue-girl-ride-s-2 | people-mounted-cast2-s | blue-girl-ride-s |
+| blue-girl-ride-s-3 | people-mounted-cast2-s | blue-girl-ride-s |
+| blue-girl-ride-s-4 | people-mounted-cast2-s | blue-girl-ride-s |
+| rust-woman-ride-n-1 | people-mounted-cast2-n | rust-woman-ride-n |
+| rust-woman-ride-n-2 | people-mounted-cast2-n | rust-woman-ride-n |
+| rust-woman-ride-n-3 | people-mounted-cast2-n | rust-woman-ride-n |
+| rust-woman-ride-n-4 | people-mounted-cast2-n | rust-woman-ride-n |
+| indigo-ride-n-1 | people-mounted-cast2-n | indigo-ride-n |
+| indigo-ride-n-2 | people-mounted-cast2-n | indigo-ride-n |
+| indigo-ride-n-3 | people-mounted-cast2-n | indigo-ride-n |
+| indigo-ride-n-4 | people-mounted-cast2-n | indigo-ride-n |
+| ochre-ride-n-1 | people-mounted-cast2-n | ochre-ride-n |
+| ochre-ride-n-2 | people-mounted-cast2-n | ochre-ride-n |
+| ochre-ride-n-3 | people-mounted-cast2-n | ochre-ride-n |
+| ochre-ride-n-4 | people-mounted-cast2-n | ochre-ride-n |
+| blue-girl-ride-n-1 | people-mounted-cast2-n | blue-girl-ride-n |
+| blue-girl-ride-n-2 | people-mounted-cast2-n | blue-girl-ride-n |
+| blue-girl-ride-n-3 | people-mounted-cast2-n | blue-girl-ride-n |
+| blue-girl-ride-n-4 | people-mounted-cast2-n | blue-girl-ride-n |
+| mustang-graze-1 | wildlife-mustang | mustang-graze |
+| mustang-graze-2 | wildlife-mustang | mustang-graze |
+| mustang-graze-3 | wildlife-mustang | mustang-graze |
+| mustang-graze-4 | wildlife-mustang | mustang-graze |
+| mustang-alert-1 | wildlife-mustang | mustang-alert |
+| mustang-alert-2 | wildlife-mustang | mustang-alert |
+| mustang-alert-3 | wildlife-mustang | mustang-alert |
+| mustang-alert-4 | wildlife-mustang | mustang-alert |
+| mustang-gallop-1 | wildlife-mustang | mustang-gallop |
+| mustang-gallop-2 | wildlife-mustang | mustang-gallop |
+| mustang-gallop-3 | wildlife-mustang | mustang-gallop |
+| mustang-gallop-4 | wildlife-mustang | mustang-gallop |
+| mustang-gallop-5 | wildlife-mustang | mustang-gallop |
+| mustang-gallop-6 | wildlife-mustang | mustang-gallop |
+| mustang-gallop-7 | wildlife-mustang | mustang-gallop |
+| mustang-gallop-8 | wildlife-mustang | mustang-gallop |
+| steamboat-steam-1 | steamboat-steam | steamboat-steam |
+| steamboat-steam-2 | steamboat-steam | steamboat-steam |
+| steamboat-steam-3 | steamboat-steam | steamboat-steam |
+| steamboat-steam-4 | steamboat-steam | steamboat-steam |
+| steamboat-laden-1 | steamboat-laden | steamboat-laden |
+| steamboat-laden-2 | steamboat-laden | steamboat-laden |
+| steamboat-laden-3 | steamboat-laden | steamboat-laden |
+| steamboat-laden-4 | steamboat-laden | steamboat-laden |
 | courier-dismount-1 | courier-dismount | courier-dismount |
 | courier-dismount-2 | courier-dismount | courier-dismount |
 | courier-dismount-3 | courier-dismount | courier-dismount |
@@ -567,6 +703,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | sweetgum-log | trees-colonies-2 | sweetgum-log-wind |
 | sweetgum-large | trees-colonies-2 | sweetgum-large-wind |
 | log-fallen-hardwood | trees-colonies-2 | State artwork; no motion required |
+| rust-wagon-driver-s | people-wagon-drivers | rust-wagon-driver-s |
+| rust-wagon-driver-e | people-wagon-drivers | rust-wagon-driver-e |
+| rust-wagon-driver-w | people-wagon-drivers | rust-wagon-driver-w |
+| rust-wagon-driver-n | people-wagon-drivers | rust-wagon-driver-n |
+| teal-wagon-driver-s | people-wagon-drivers | teal-wagon-driver-s |
+| teal-wagon-driver-e | people-wagon-drivers | teal-wagon-driver-e |
+| teal-wagon-driver-w | people-wagon-drivers | teal-wagon-driver-w |
+| teal-wagon-driver-n | people-wagon-drivers | teal-wagon-driver-n |
+| elder-wagon-driver-s | people-wagon-drivers | elder-wagon-driver-s |
+| elder-wagon-driver-e | people-wagon-drivers | elder-wagon-driver-e |
+| elder-wagon-driver-w | people-wagon-drivers | elder-wagon-driver-w |
+| elder-wagon-driver-n | people-wagon-drivers | elder-wagon-driver-n |
+| blue-wagon-driver-s | people-wagon-drivers | blue-wagon-driver-s |
+| blue-wagon-driver-e | people-wagon-drivers | blue-wagon-driver-e |
+| blue-wagon-driver-w | people-wagon-drivers | blue-wagon-driver-w |
+| blue-wagon-driver-n | people-wagon-drivers | blue-wagon-driver-n |
 | oak-broad-wind | weather-norther | State artwork; no motion required |
 | oak-spreading-wind | weather-norther | State artwork; no motion required |
 | pecan-wind | weather-norther | State artwork; no motion required |
@@ -1228,6 +1380,35 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | infant-idle-w | breathe | 1 | 3000 | yes | west |
 | infant-idle-e | breathe | 1 | 3000 | yes | east |
 | clearing-smoulder | Pose cycle | 4 | 2000 | yes | stationary |
+| rust-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
+| teal-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
+| elder-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
+| blue-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
+| rust-ride-s | Pose cycle | 4 | 920 | yes | south |
+| teal-ride-s | Pose cycle | 4 | 920 | yes | south |
+| elder-ride-s | Pose cycle | 4 | 920 | yes | south |
+| blue-ride-s | Pose cycle | 4 | 920 | yes | south |
+| rust-ride-n | Pose cycle | 4 | 920 | yes | north |
+| teal-ride-n | Pose cycle | 4 | 920 | yes | north |
+| elder-ride-n | Pose cycle | 4 | 920 | yes | north |
+| blue-ride-n | Pose cycle | 4 | 920 | yes | north |
+| rust-woman-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
+| indigo-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
+| ochre-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
+| blue-girl-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
+| rust-woman-ride-s | Pose cycle | 4 | 920 | yes | south |
+| indigo-ride-s | Pose cycle | 4 | 920 | yes | south |
+| ochre-ride-s | Pose cycle | 4 | 920 | yes | south |
+| blue-girl-ride-s | Pose cycle | 4 | 920 | yes | south |
+| rust-woman-ride-n | Pose cycle | 4 | 920 | yes | north |
+| indigo-ride-n | Pose cycle | 4 | 920 | yes | north |
+| ochre-ride-n | Pose cycle | 4 | 920 | yes | north |
+| blue-girl-ride-n | Pose cycle | 4 | 920 | yes | north |
+| mustang-graze | Pose cycle | 4 | 2480 | yes | east; west by mirroring |
+| mustang-alert | Pose cycle | 4 | 2080 | yes | east; west by mirroring |
+| mustang-gallop | Pose cycle | 8 | 1080 | yes | east; west by mirroring |
+| steamboat-steam | Pose cycle | 4 | 1320 | yes | east; west by mirroring |
+| steamboat-laden | Pose cycle | 4 | 1440 | yes | east; west by mirroring |
 | courier-dismount | Pose cycle | 4 | 2050 | one-shot | east; west by mirroring |
 | courier-remount | Pose cycle | 4 | 2050 | one-shot | east; west by mirroring |
 | courier-onfoot-listen | Pose cycle | 3 | 2050 | yes | east; west by mirroring |
@@ -1299,6 +1480,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | sweetgum-pole-wind | sway | 1 | 3800 | yes | not applicable |
 | sweetgum-log-wind | sway | 1 | 3800 | yes | not applicable |
 | sweetgum-large-wind | sway | 1 | 3800 | yes | not applicable |
+| rust-wagon-driver-s | breathe | 1 | 2200 | yes | south |
+| rust-wagon-driver-e | breathe | 1 | 2200 | yes | east |
+| rust-wagon-driver-w | breathe | 1 | 2200 | yes | west |
+| rust-wagon-driver-n | breathe | 1 | 2200 | yes | north |
+| teal-wagon-driver-s | breathe | 1 | 2200 | yes | south |
+| teal-wagon-driver-e | breathe | 1 | 2200 | yes | east |
+| teal-wagon-driver-w | breathe | 1 | 2200 | yes | west |
+| teal-wagon-driver-n | breathe | 1 | 2200 | yes | north |
+| elder-wagon-driver-s | breathe | 1 | 2200 | yes | south |
+| elder-wagon-driver-e | breathe | 1 | 2200 | yes | east |
+| elder-wagon-driver-w | breathe | 1 | 2200 | yes | west |
+| elder-wagon-driver-n | breathe | 1 | 2200 | yes | north |
+| blue-wagon-driver-s | breathe | 1 | 2200 | yes | south |
+| blue-wagon-driver-e | breathe | 1 | 2200 | yes | east |
+| blue-wagon-driver-w | breathe | 1 | 2200 | yes | west |
+| blue-wagon-driver-n | breathe | 1 | 2200 | yes | north |
 | oak-broad-wind | sway | 1 | 3800 | yes | not applicable |
 | oak-spreading-wind | sway | 1 | 3800 | yes | not applicable |
 | pecan-wind | sway | 1 | 3800 | yes | not applicable |

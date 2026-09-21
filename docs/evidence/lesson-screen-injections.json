@@ -100,10 +100,18 @@
       ]
     },
     {
-      "name": "the ring is put on the first icon of the bar, whatever the step asked for",
+      "name": "the ring is put on work the person is already doing, so a started step still looks unstarted",
       "file": "public/lesson.js",
       "failed": [
         "the icon pointed at is one the server is already offering, and there is at most one"
+      ]
+    },
+    {
+      "name": "the ring is put on the first icon of the bar, whatever the step asked for",
+      "file": "public/lesson.js",
+      "failed": [
+        "the icon pointed at is one the server is already offering, and there is at most one",
+        "where nothing on the row is the step's own work, one open action is pointed at and several are not"
       ]
     },
     {
@@ -153,6 +161,20 @@
       "file": "public/lesson.js",
       "failed": [
         "the words are the server’s, and the page counts nothing"
+      ]
+    },
+    {
+      "name": "at `order` the ring falls back to the first chore in the row, so it sat on the survey stake while the words said to choose a house plan",
+      "file": "public/lesson.js",
+      "failed": [
+        "where nothing on the row is the step's own work, one open action is pointed at and several are not"
+      ]
+    },
+    {
+      "name": "the ring is the first thing on the row the step happens to allow, which is list order again",
+      "file": "public/lesson.js",
+      "failed": [
+        "where nothing on the row is the step's own work, one open action is pointed at and several are not"
       ]
     }
   ]

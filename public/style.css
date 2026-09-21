@@ -32,7 +32,9 @@ button:disabled{opacity:.4;cursor:default}
 .hud{position:absolute;top:12px;display:flex;flex-direction:column;gap:6px;align-items:flex-start;pointer-events:none;max-width:44%}
 .hud>*{pointer-events:auto}
 #hud-left{left:12px}
-#hud-right{right:12px;align-items:flex-end;text-align:right}
+/* The lesson strip shares this corner now, and "reconnecting" must never be the thing it hides. Only the right-hand
+   column is lifted: the left one is the family, which a dimmed panel is meant to cover. */
+#hud-right{right:12px;align-items:flex-end;text-align:right;z-index:15}
 #session,#world,#food,#supplies,#connection{background:var(--shade);color:#f2f0e2;border-radius:20px;padding:5px 13px;font-size:13px;white-space:nowrap}
 #session{font-weight:650;font-size:15px}
 #connection:empty,#world:empty,#food:empty,#supplies:empty,#session:empty{display:none}
@@ -237,9 +239,14 @@ button:hover:enabled{background:#60673e}
 @media (max-width:760px){#tutorial{left:8px;right:8px;bottom:8px;width:auto}}
 
 /* The guided start (public/lesson.js, owner 2026-09-21): one task at a time, over the top of the map where a projector
-   shows it too, and small - it says one sentence and carries no control at all, because the world is what says a step is
-   finished. It is a strip rather than a card for the same reason the icons lost their panel: the map is the game. */
-#lesson{position:absolute;z-index:10;left:50%;top:10px;transform:translateX(-50%);width:min(34rem,calc(100% - 24px));
+   shows it too, and small - it says one sentence and carries one control, which finds the thing the words name and never
+   finishes a step. It is a strip rather than a card for the same reason the icons lost their panel: the map is the game.
+   **Top right, never over the family (owner, 2026-09-21).** Centred, it landed on the left-hand column at anything under
+   about 1180px wide: at 1024 it covered the father's star outright, and at a phone's width Chrome refused a click on
+   "Choose a house" because the strip was on top of it (docs/evidence/screen-overlap-1024.json, -390.json). The left edge
+   is held clear of the column - which is at most 19rem, or 44% of a narrow screen - and the strip keeps to the right of
+   it, so the two cannot share a pixel at any width down to the phone rule below. */
+#lesson{position:absolute;z-index:14;top:10px;right:12px;left:min(328px,calc(44% + 12px));width:auto;max-width:34rem;margin-left:auto;
   background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259;border-left:5px solid #c2582c;border-radius:8px;
   box-shadow:0 4px 0 #6b583630,0 12px 30px #32291955;padding:8px 14px 9px;color:#3b3427;text-align:left}
 #lesson h2{font-family:Georgia,serif;font-size:17px;margin:1px 0 0;color:#4b3e28}
@@ -247,16 +254,39 @@ button:hover:enabled{background:#60673e}
 #lesson-step{display:block;color:#7a6a49}
 #lesson-did{color:#4f6b3f;font-size:12.5px;font-style:italic}
 #lesson-did::before{content:'✓ '}
+#lesson-help{font-size:13px;color:#4d4637;border-top:1px solid #d8c8a2;padding-top:6px}
+#lesson-help:empty{display:none}
+#lesson-action{margin-top:7px;background:#704020;color:#fff9e9;padding:8px 12px;min-height:40px;border-radius:5px}
+/* Teach the vocabulary without requiring a hover over unfamiliar pictures. */
+body[data-lesson=true] .panel-icon[data-pointed=true]::before,body[data-lesson=true] .panel-icon[data-active=true]::before{content:attr(data-name);position:absolute;top:100%;left:50%;transform:translateX(-50%);font-size:10px;line-height:1.15;width:68px;text-align:center;color:#fff9e9;background:#30291feb;border-radius:3px;padding:2px;pointer-events:none}
+body[data-lesson=true] .panel-icon[data-shut=true]::before{display:none}
 #lesson-pips{display:flex;gap:3px;margin-top:7px}
 .lesson-pip{flex:1 1 0;height:4px;border-radius:2px;background:#d8c8a2}
 .lesson-pip[data-done=true]{background:#c2582c}
 /* The lines the page shouts - an error, a save fault, the lifecycle - share this corner, so while a lesson stands they
    move below it rather than over it. */
 body[data-lesson=true] #error,body[data-lesson=true] #save-fault,body[data-lesson=true] #lifecycle,body[data-lesson=true] #host-notice{top:118px}
-/* The call's one menu (§11.2) opens at the top middle too, and a call outranks the lesson rather than hiding under it. */
-body[data-lesson=true] #call-menu{top:126px;max-height:min(62vh,520px)}
+/* The call's one menu (§11.2) opens at the top middle too, and a call outranks the lesson rather than hiding under it.
+   The strip moved to the right and above the dimmed panels on 2026-09-21, so the menu is lifted over it again here: it
+   outranked the strip by being the higher number before that move, and nothing about a call changed. */
+body[data-lesson=true] #call-menu{top:126px;max-height:min(62vh,520px);z-index:15}
+/* Panels that want the whole screen (owner, 2026-09-21): choosing a house, planning it piece by piece, packing the wagon.
+   Each is drawn where the family's own column is, and a class found that out the hard way - the guided start said "assign
+   a family member to build it" over a panel that had every portrait underneath it (docs/evidence/screen-overlap.json:
+   twenty-eight controls covered at 1366x768). They are honest about it now instead: the map behind goes dim, the panel
+   says the family is behind it, and the dim itself closes it. The strip stays above the dim, because it is the
+   instruction; the map's own buttons and the ability bar go under, because they are not reachable and should not look it. */
+#panel-backdrop{position:absolute;inset:0;z-index:12;background:#29251b73}
+body[data-panel=true] #house-plan,body[data-panel=true] #house-plot,body[data-panel=true] #wagon-load{z-index:13}
+.panel-behind{margin:8px 0 0;font-size:12.5px;color:#6c6046;font-style:italic}
 @media (max-width:760px){
-  #lesson{left:8px;right:8px;top:8px;width:auto;transform:none;padding:6px 10px 7px}
+  /* A phone puts the family across the top rather than down the side, so there is no room to the right of the column and
+     the strip stays over it - at the top, where it covered the column outright and Chrome refused a click on "Choose a
+     house" through it. The bottom of the screen is already three deep here (the bar, the docked card, the walk-through),
+     so the strip keeps the top and the column starts *below* it: `--lesson-room` is the strip's own measured height,
+     written by renderLesson, and zero when there is no lesson. */
+  #lesson{left:8px;right:8px;top:8px;bottom:auto;max-width:none;width:auto;margin-left:0;transform:none;padding:6px 10px 7px}
+  #hud-left{top:calc(12px + var(--lesson-room,0px))}
   #lesson h2{font-size:15px}
   #lesson p{font-size:13px}
   body[data-lesson=true] #error,body[data-lesson=true] #save-fault,body[data-lesson=true] #lifecycle,body[data-lesson=true] #host-notice{top:108px}
@@ -568,6 +598,10 @@ body[data-lesson=true] #call-menu{top:126px;max-height:min(62vh,520px)}
    phone does, which wants the caret moved out of the scrolling box first. */
 .panel-row[data-focused=true] .panel-icons{position:fixed;z-index:9;left:50%;bottom:74px;transform:translateX(-50%);
   display:flex;flex-wrap:nowrap;justify-content:center;align-items:flex-end;gap:8px;width:max-content;max-width:calc(100vw - 24px)}
+/* While a lesson names the icons underneath them, the bar rides 30px higher: the name drawn under the rightmost icons
+   landed on the Journal and Land buttons otherwise (docs/evidence/screen-overlap.json, "drawn over #map-nav"). It is the
+   same bar in the same place the rest of the time. */
+@media (min-width:761px){body[data-lesson=true] .panel-row[data-focused=true] .panel-icons{bottom:104px}}
 .panel-icon{position:relative;flex:0 1 48px;width:48px;min-width:30px;height:auto;aspect-ratio:1;min-height:0;padding:2px;border-radius:8px;border:1px solid #b09a6d;background:#f3ead2;box-shadow:0 2px 7px #29251b70}
 .panel-icon:hover:enabled{background:#fff6dc}
 .panel-icon canvas{display:block;width:100%;height:100%;pointer-events:none}
@@ -599,7 +633,7 @@ body[data-lesson=true] #call-menu{top:126px;max-height:min(62vh,520px)}
   /* A phone: a column of portraits, only the chosen person's name beside it, and the main person's work along the bottom
      as on every other screen, scrolling sideways when it will not fit. */
   #hud-left{bottom:auto}
-  #family-panel{flex-basis:100%;max-height:calc(100vh - 290px);max-width:calc(100vw - 24px)}
+  #family-panel{flex-basis:100%;max-height:calc(100vh - 290px - var(--lesson-room,0px));max-width:calc(100vw - 24px)}
   #family-rows{gap:4px}
   .panel-portrait{width:44px;height:44px}
   .panel-attention{left:26px;top:-4px;width:24px;height:24px;font-size:15px}
@@ -607,7 +641,11 @@ body[data-lesson=true] #call-menu{top:126px;max-height:min(62vh,520px)}
   .panel-row:not([data-expanded=true]) .panel-body{display:none}
   .panel-body{max-width:calc(100vw - 80px)}
   .panel-name{max-width:9rem}
-  .panel-row[data-focused=true] .panel-icons{bottom:64px;gap:6px;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;max-width:calc(100vw - 16px);padding-top:16px;margin-bottom:-16px}
+  /* The box scrolls sideways here, and a box that scrolls shows nothing drawn outside it. The caret over the pointed
+     icon was already given its room with `padding-top`; the name drawn *under* an icon during a lesson was not, and was
+     cut off entirely at this width (docs/evidence/screen-overlap-390.json). It gets the same treatment below: the box
+     drops 30px lower and pads 30px back, so the icons do not move and the name is inside the box that scrolls. */
+  .panel-row[data-focused=true] .panel-icons{bottom:34px;gap:6px;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;max-width:calc(100vw - 16px);padding-top:16px;margin-bottom:-16px;padding-bottom:30px}
   /* A phone scrolls the row rather than shrinking it to nothing, so the icons keep their size and the caret over the one
      the step asks for keeps its room inside the scrolling box. */
   .panel-icon{flex:none;width:38px;min-width:38px}

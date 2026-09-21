@@ -987,6 +987,201 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/wildlife-geese-cattle.png",
       "postProcessing": "None. Generated PNG copied unchanged; only read-only atlas validation.",
       "review": "Accepted as compact goose flock resting and flight states plus one consistent rangy feral longhorn cow with grazing, alert and running beats."
+    },
+    {
+      "sheet": "alamo-face-strips",
+      "promptId": "frontier-v1/alamo-face-strips",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + edit",
+      "prompt": "Use case: historical-scene. Asset type: transparent production architectural sprite atlas for the 1836 Alamo. Create a 4 columns by 2 rows atlas containing five isolated straight-on wall elevation strips, matching the supplied Alamo modules warm hand-painted limestone, dark olive-brown contour, weathering and upper-left light. Top row: seamless plain limestone face; one-storey room-range front with patched plaster, plank door, barred window and beam ends; open gate passage under timber lintel; two-storey convento end with lower door, upper window and beam-end floor line. Bottom cell 1: long roofless 1836 church south side with rough unfinished top and small high openings. Remaining cells transparent. No visible roof tops, three-quarter perspective, ground, modern church parapet, flags, people, cannon, text or scenery.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/alamo-modules.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3958233e-fd6a-4e32-81b5-c0863cffcff0.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/alamo-face-strips.png",
+      "postProcessing": "None. Accepted built-in spacing edit copied unchanged; only read-only validation.",
+      "review": "Accepted as five distinct, straight-on historical elevation strips with the church wholly contained in its sparse-grid cell.",
+      "edits": [
+        {
+          "prompt": "Edit only the layout. Preserve all five wall designs. Uniformly shrink and reposition the roofless church wall so every pixel fits inside bottom-row cell 1 of the strict 4x2 grid, leaving the other bottom cells transparent.",
+          "reference": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-fa8d2002-3bfa-40a3-9316-3d6c09e6e8f6.png",
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3958233e-fd6a-4e32-81b5-c0863cffcff0.png",
+          "result": "Accepted after church strip was scaled wholly inside cell 5."
+        }
+      ]
+    },
+    {
+      "sheet": "people-mounted-cast1-e",
+      "promptId": "frontier-v1/people-mounted-cast1-e",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + precise-object-edit",
+      "prompt": "Create a strict 4x4 transparent mounted-family sprite atlas in the established hand-inked painted Texas 1835 style. Four named cast identities are rows; four distinct horse-walk footfalls are columns. Every person rides astride with complete legs, boots and stirrups on the same chestnut courier horse. Preserve identity, period clothing, scale and ground anchor. Genuine RGBA; no background, grid, text, shadows, crop, overlap or modern equipment.",
+      "referenced_image_paths": [
+        "public/assets/frontier-v1/atlases/people-walk.png",
+        "public/assets/frontier-v1/atlases/people-vertical.png",
+        "public/assets/frontier-v1/atlases/courier-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c4b1-991e-73e1-a80a-d76fa533b7d1/exec-c04ebec7-fafd-4a68-bd8f-188f4ab261b2.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-mounted-cast1-e.png",
+      "postProcessing": "None. Accepted built-in imagegen PNG copied byte-for-byte; only read-only validation.",
+      "review": "Accepted after a built-in uniform spacing correction; true RGBA and sixteen isolated complete riders.",
+      "edits": [
+        {
+          "prompt": "Change only size and spacing: independently scale each of sixteen complete east-facing horse-and-rider figures to 78% in its own cell. Preserve exact art, identity, pose and order. Keep 1254x1254 RGBA and generous transparent gutters.",
+          "reference": "C:/Users/zachw/.codex/generated_images/01a0c4b1-991e-73e1-a80a-d76fa533b7d1/exec-f3b808e8-d97b-4045-9a99-686ec35c3179.png",
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c4b1-991e-73e1-a80a-d76fa533b7d1/exec-c04ebec7-fafd-4a68-bd8f-188f4ab261b2.png",
+          "result": "Accepted with safe gutters."
+        }
+      ]
+    },
+    {
+      "sheet": "people-mounted-cast1-s",
+      "promptId": "frontier-v1/people-mounted-cast1-s",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Create a strict 4x4 transparent mounted-family sprite atlas in the established hand-inked painted Texas 1835 style. Four named cast identities are rows; four distinct horse-walk footfalls are columns. Every person rides astride with complete legs, boots and stirrups on the same chestnut courier horse. Preserve identity, period clothing, scale and ground anchor. Genuine RGBA; no background, grid, text, shadows, crop, overlap or modern equipment.",
+      "referenced_image_paths": [
+        "public/assets/frontier-v1/atlases/people-walk.png",
+        "public/assets/frontier-v1/atlases/people-vertical.png",
+        "public/assets/frontier-v1/atlases/courier-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c4b1-991e-73e1-a80a-d76fa533b7d1/exec-d26c2106-6a29-4ea8-be21-463648dd5f82.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-mounted-cast1-s.png",
+      "postProcessing": "None. Accepted built-in imagegen PNG copied byte-for-byte; only read-only validation.",
+      "review": "Accepted as generated; true RGBA and sixteen isolated complete riders."
+    },
+    {
+      "sheet": "people-mounted-cast1-n",
+      "promptId": "frontier-v1/people-mounted-cast1-n",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Create a strict 4x4 transparent mounted-family sprite atlas in the established hand-inked painted Texas 1835 style. Four named cast identities are rows; four distinct horse-walk footfalls are columns. Every person rides astride with complete legs, boots and stirrups on the same chestnut courier horse. Preserve identity, period clothing, scale and ground anchor. Genuine RGBA; no background, grid, text, shadows, crop, overlap or modern equipment.",
+      "referenced_image_paths": [
+        "public/assets/frontier-v1/atlases/people-walk.png",
+        "public/assets/frontier-v1/atlases/people-vertical.png",
+        "public/assets/frontier-v1/atlases/courier-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c4b1-991e-73e1-a80a-d76fa533b7d1/exec-242c805e-b422-4873-b717-18f362cdfe69.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-mounted-cast1-n.png",
+      "postProcessing": "None. Accepted built-in imagegen PNG copied byte-for-byte; only read-only validation.",
+      "review": "Accepted as generated; true RGBA and sixteen isolated complete riders."
+    },
+    {
+      "sheet": "people-mounted-cast2-e",
+      "promptId": "frontier-v1/people-mounted-cast2-e",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + precise-object-edit",
+      "prompt": "Create a strict 4x4 transparent mounted-family sprite atlas in the established hand-inked painted Texas 1835 style. Four named cast identities are rows; four distinct horse-walk footfalls are columns. Every person rides astride with complete legs, boots and stirrups on the same chestnut courier horse. Preserve identity, period clothing, scale and ground anchor. Genuine RGBA; no background, grid, text, shadows, crop, overlap or modern equipment.",
+      "referenced_image_paths": [
+        "public/assets/frontier-v1/atlases/people-cast2-walk.png",
+        "public/assets/frontier-v1/atlases/people-cast2-vertical.png",
+        "public/assets/frontier-v1/atlases/courier-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c4b1-991e-73e1-a80a-d76fa533b7d1/exec-27e5bedd-af14-4430-9d43-c71f65329de7.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-mounted-cast2-e.png",
+      "postProcessing": "None. Accepted built-in imagegen PNG copied byte-for-byte; only read-only validation.",
+      "review": "Accepted after a built-in uniform spacing correction; true RGBA and sixteen isolated complete riders.",
+      "edits": [
+        {
+          "prompt": "Change only size and spacing: independently scale each of sixteen complete east-facing horse-and-rider figures to 78% in its own cell. Preserve exact art, identity, pose and order. Keep 1254x1254 RGBA and generous transparent gutters.",
+          "reference": "C:/Users/zachw/.codex/generated_images/01a0c4b1-991e-73e1-a80a-d76fa533b7d1/exec-6e52c755-39bb-4e84-9d91-6a15564b7f6f.png",
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c4b1-991e-73e1-a80a-d76fa533b7d1/exec-27e5bedd-af14-4430-9d43-c71f65329de7.png",
+          "result": "Accepted with safe gutters."
+        }
+      ]
+    },
+    {
+      "sheet": "people-mounted-cast2-s",
+      "promptId": "frontier-v1/people-mounted-cast2-s",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Create a strict 4x4 transparent mounted-family sprite atlas in the established hand-inked painted Texas 1835 style. Four named cast identities are rows; four distinct horse-walk footfalls are columns. Every person rides astride with complete legs, boots and stirrups on the same chestnut courier horse. Preserve identity, period clothing, scale and ground anchor. Genuine RGBA; no background, grid, text, shadows, crop, overlap or modern equipment.",
+      "referenced_image_paths": [
+        "public/assets/frontier-v1/atlases/people-cast2-walk.png",
+        "public/assets/frontier-v1/atlases/people-cast2-vertical.png",
+        "public/assets/frontier-v1/atlases/courier-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c4b1-991e-73e1-a80a-d76fa533b7d1/exec-f8678b1b-8c75-41a7-9bec-4a00f3e698ea.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-mounted-cast2-s.png",
+      "postProcessing": "None. Accepted built-in imagegen PNG copied byte-for-byte; only read-only validation.",
+      "review": "Accepted as generated; true RGBA and sixteen isolated complete riders."
+    },
+    {
+      "sheet": "people-mounted-cast2-n",
+      "promptId": "frontier-v1/people-mounted-cast2-n",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Create a strict 4x4 transparent mounted-family sprite atlas in the established hand-inked painted Texas 1835 style. Four named cast identities are rows; four distinct horse-walk footfalls are columns. Every person rides astride with complete legs, boots and stirrups on the same chestnut courier horse. Preserve identity, period clothing, scale and ground anchor. Genuine RGBA; no background, grid, text, shadows, crop, overlap or modern equipment.",
+      "referenced_image_paths": [
+        "public/assets/frontier-v1/atlases/people-cast2-walk.png",
+        "public/assets/frontier-v1/atlases/people-cast2-vertical.png",
+        "public/assets/frontier-v1/atlases/courier-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c4b1-991e-73e1-a80a-d76fa533b7d1/exec-29dc7fa9-8ae4-4dcf-95cc-aad38786e3e7.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-mounted-cast2-n.png",
+      "postProcessing": "None. Accepted built-in imagegen PNG copied byte-for-byte; only read-only validation.",
+      "review": "Accepted as generated; true RGBA and sixteen isolated complete riders."
+    },
+    {
+      "sheet": "wildlife-mustang",
+      "promptId": "frontier-v1/wildlife-mustang",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Use case: historical-scene. Asset type: production transparent animated wildlife sprite atlas. Input images: wildlife-deer is the exact style, outline, lighting, scale and grid reference; animal-motion is the horse anatomy reference. Draw one consistent rangy dun-brown wild Texas mustang stallion in sixteen east-facing frames in a strict 4 by 4 grid: four grazing beats, four alert beats, and eight gallop beats. Dark dorsal stripe, black mane and tail, lean frontier condition, unshod and untacked. Match the warm hand-painted storybook wildlife art. Identical scale and registration, feet near 86 percent of each cell, clear gutters and genuine transparent alpha. No shadow, ground, scenery, grid, label, text or watermark.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/wildlife-deer.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/animal-motion.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c4b1-e7e5-71f0-b631-08f7716cecea/exec-1abd6cbe-cdf9-4287-aa63-7c5f6035a165.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/wildlife-mustang.png",
+      "postProcessing": "None. Generated PNG copied unchanged; validation is read-only.",
+      "review": "Accepted as one rough, untacked mustang with distinct graze, alert and eight-frame gallop coverage."
+    },
+    {
+      "sheet": "steamboat-steam",
+      "promptId": "frontier-v1/steamboat-yellow-stone-steam",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Use case: historical-scene. Asset type: production transparent animated vehicle sprite atlas. Match the accepted Yellow Stone moored atlas exactly. Draw the same 1836 side-wheel steamboat under way with an empty main deck in four registered frames in a strict 2 by 2 grid, bow east. Animate paddle phases, compact churn, modest bow wave and two-chimney smoke; keep the hull steady. Genuine transparency; no people, cargo, flag, lettering, river, shore, sky, painted water, grid, labels, text, later Texas deck, gingerbread or stern wheel.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/steamboat-moored.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c4b1-e7e5-71f0-b631-08f7716cecea/exec-bef3343a-2d26-4cb9-940b-a4372358ea57.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/steamboat-steam.png",
+      "postProcessing": "None. Generated PNG copied unchanged; validation is read-only.",
+      "review": "Accepted as four registered empty-deck underway states with turning paddle, churn, bow wave and progressive smoke."
+    },
+    {
+      "sheet": "steamboat-laden",
+      "promptId": "frontier-v1/steamboat-yellow-stone-laden",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + edit",
+      "prompt": "Use case: historical-scene. Asset type: production transparent animated vehicle sprite atlas. Match the accepted Yellow Stone moored atlas exactly. Draw the same 1836 side-wheel steamboat under way carrying Sam Houston's crowded Texian army in four registered frames in a strict 2 by 2 grid, bow east. Animate paddle phases, compact churn, modest bow wave and smoke; keep the hull steady. Deck: frontier militia in varied civilian clothing with upright rifles, a few horses and one wagon. Genuine transparency; no formal uniforms, flag, lettering, river, shore, sky, painted water, grid, labels, text, later Texas deck, gingerbread or stern wheel.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/steamboat-moored.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c4b1-e7e5-71f0-b631-08f7716cecea/exec-f1c126c2-c8a0-4ed9-a6ef-cbd82cdf6f82.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/steamboat-laden.png",
+      "postProcessing": "None. Accepted built-in alpha correction copied unchanged; validation is read-only.",
+      "review": "Accepted as four army-laden underway states with compact frontier crowd, horses, wagon, paddle/churn changes and no baked checkerboard.",
+      "edits": [
+        {
+          "prompt": "Edit only to remove accidental checkerboard rectangles beneath the hulls and restore genuine transparent alpha there. Preserve the four laden boats and animation states; retain only narrow organic churn and bow-wave strokes beneath the hull.",
+          "reference": "C:/Users/zachw/.codex/generated_images/01a0c4b1-e7e5-71f0-b631-08f7716cecea/exec-1f80facd-c167-4da2-b6c0-977dc30b1332.png",
+          "result": "Accepted after checkerboard artifacts beneath all hulls were restored to genuine alpha."
+        }
+      ]
+    },
+    {
+      "sheet": "people-wagon-drivers",
+      "promptId": "frontier-v1/people-wagon-drivers",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate with two project references",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c4b1-bf5a-7a01-a980-e8baee7bf876/exec-4d464c1d-34ad-4a20-8afd-312f1fd8302f.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-wagon-drivers.png",
+      "prompt": "Use case: historical-scene. Asset type: production transparent character-layer sprite atlas for an elevated three-quarter-view 1835 Texas classroom game. Image 1 is the strict identity, clothing, proportions, outline, palette, shading, and sprite-scale reference. Image 2 is ONLY a style and wagon-seat geometry reference; DO NOT draw any wagon, wheel, ox, harness, cargo, or wagon part. Create a square 1254 by 1254 PNG with genuine RGBA alpha transparency, strict 4 columns by 4 rows, exactly sixteen isolated SEATED DRIVER figures, one centered in each equal cell, generous fully transparent gutters, no overlap or cropping, no grid, labels, text, checkerboard, scenery, ground, shadows, extra people, horses, wagons, wheels, oxen, or floating duplicate equipment. Preserve these exact Image 1 identities by row: ROW 1 rust-shirt bearded adult man with broad brown hat, black neckerchief, suspenders and tan trousers; ROW 2 brown-skinned adult woman with pinned dark hair, muted teal blouse, cream apron and ochre skirt; ROW 3 elderly dark-skinned man with gray beard, brown hat, cream shirt, olive waistcoat and brown trousers; ROW 4 clean-shaven younger man with tousled dark hair, muted blue shirt, suspenders and tan trousers. Every person is shown seated on an INVISIBLE wagon bench, complete from head through hips and bent knees/boots where visible, with hands naturally controlling two thin brown leather reins that exit toward the direction of travel and a short period-plausible wooden ox goad held low in one hand. Reins and goad must stay connected to hands and fully inside each cell. Fixed column directions in EVERY row: COLUMN 1 faces SOUTH/toward viewer, seated frontal three-quarter posture, reins extend downward; COLUMN 2 faces EAST/screen-right in clear side view, reins extend right; COLUMN 3 faces WEST/screen-left in true side view, reins extend left; COLUMN 4 faces NORTH/away from viewer in clear full back view, reins extend upward. Do not mirror-identify clothing errors; preserve hats, hair, beard, apron, suspenders, and waistcoat consistently through every direction. These are composited OVER an existing wagon, so keep the lower silhouette compact, no visible chair or bench, and no background vehicle. Same head size and apparent scale across all sixteen cells, consistent seated hip anchor and bottom baseline within every row. Warm hand-painted miniature storybook game art with dark brown crisp contours, simple readable forms, muted rust/teal/ochre/olive/blue palette, dignified historically plausible clothing. True transparent alpha in every empty pixel; no matte.",
+      "postProcessing": "None. Accepted RGBA PNG copied byte-for-byte from the built-in imagegen output.",
+      "review": "Accepted as sixteen vehicle-free seated driver layers: four original-cast identities by south/east/west/north heading, with attached reins and short goad."
     }
   ]
 }

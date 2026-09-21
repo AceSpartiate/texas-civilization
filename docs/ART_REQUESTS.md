@@ -287,7 +287,7 @@ natural biomes of Texas (docs/BIOMES.md, built the same day).
 
 ## Request 2026-09-19 — the game of 1836
 
-**Status: substantially delivered 2026-09-21.** The wildlife sheets now supply animated deer, turkey, bear, javelina, pronghorn, bison, geese and wild cattle. The wild mustang remains open.
+**Status: delivered 2026-09-21.** The wildlife sheets now supply animated deer, turkey, bear, javelina, pronghorn, bison, geese, wild cattle and wild mustang.
 
 - **Why.** The quarry a hunt finds should be the country's (`HIST-TEX-103`, `HIST-TEX-104`): turkey in the bottoms, bear in
   the canebrakes and the thicket, javelina in the chaparral, pronghorn and bison on the western grass, waterfowl on the coast.
@@ -382,7 +382,7 @@ south to the camera painted. The camera looks north, so the church's carved fron
 
 ## Request 2026-09-18 — the steamboat Yellow Stone
 
-**Status: partially delivered 2026-09-21.** `steamboat-moored.png` supplies four researched Yellow Stone states: two moored smoke beats, gangplank extended, and cotton laden. The underway and army-laden paddle loops remain open. Owner-approved
+**Status: delivered 2026-09-21.** `steamboat-moored.png` supplies four researched Yellow Stone states; `steamboat-steam.png` and `steamboat-laden.png` add empty and army-laden underway paddle/smoke loops. Owner-approved
 2026-09-18. On April 12–13, 1836 Houston's army crossed the Brazos at Groce's ferry, above San Felipe, on the steamboat
 Yellow Stone, which had come up the river for cotton ([HOUSTON_CAMP.md](HOUSTON_CAMP.md), `sim/houston.mjs`, `HIST-TEX-086`).
 A student with a man in the army reads "The army is crossing the Brazos on the steamboat Yellow Stone. She came up the river for cotton under Captain John E. Ross, and General Houston has taken her to carry the men, the horses and the wagons over the flood." **and, since 2026-09-21, sees her**: `steamboat-cotton-moored` at the crossing between Groce's and Bernardo while the army drills there, `steamboat-gangplank` from April 12 while she carries it over, and gone from the map when it marches east on the 14th (`yellowStone` in `sim/houston.mjs`, carried on the army by `sim/armies.mjs`, drawn in `public/app.js`). She is never drawn under way.
@@ -685,7 +685,7 @@ separately ahead. Nothing hitches the ox to the wagon, and going north or south 
 
 ## Request 2026-09-14 — family members on horseback
 
-**Status: open; the person's own figure sits on the family horse** (since 2026-09-16; before that the courier rider stood in,
+**Status: delivered 2026-09-21.** Six `people-mounted-cast*` atlases supply 96 frames and 24 authored east/south/north riding clips for all eight established identities; east mirrors west. The person's own figure now rides the family horse
 and the owner saw a stranger riding). Found in play: a person sent on the horse was drawn walking with the horse beside them.
 They are now drawn in the saddle as themselves, cut off at the waist over the horse's back, which reads as sitting but has no
 legs astride and no hands on the reins.

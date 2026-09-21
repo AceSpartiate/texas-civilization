@@ -220,6 +220,10 @@
     <!-- Packing the wagon (docs/SETTLING_IN.md step 3). What is on the list, what each thing
          takes and what it does come from the server's catalogue; whether a change is allowed is
          the server's answer, and its sentence is what the student reads when it is not. -->
+    <!-- The dim behind a panel that covers the family's own column (owner, 2026-09-21). Pressing it closes the panel,
+         which is what a student tries first; the panel says so in words as well, because a dim on its own teaches nobody. -->
+    <div id="panel-backdrop" hidden></div>
+
     <section id="wagon-load" hidden aria-labelledby="wagon-load-title">
       <header>
         <span class="eyebrow">BEFORE THE CLASS BEGINS</span>
@@ -250,6 +254,7 @@
       <ul id="house-options"></ul>
       <p id="house-note" role="alert"></p>
       <button type="button" id="house-close">Close</button>
+      <p class="panel-behind">Your family is behind this. Close it when you want to give somebody an order.</p>
     </section>
     <!-- The house plot (public/house-plot.js, docs/WOODS_AND_BUILDING.md §6.2): a family on the real land plans its house
          piece by piece. What every piece needs and does comes from the server's catalogue; where it may go, from the server. -->
@@ -265,6 +270,7 @@
       <p id="plot-note" role="alert"></p>
       <ul id="plot-palette" class="plot-palette"></ul>
       <button type="button" id="plot-close">Close</button>
+      <p class="panel-behind">Your family is behind this. Close it when you want to give somebody an order.</p>
     </section>
 
     <!-- Where the house stands, on the real land (docs/LAND_GRANTS.md §8.2, sim/homesite.mjs). What a place is like, and
@@ -298,6 +304,8 @@
       <span class="eyebrow" id="lesson-step"></span>
       <h2 id="lesson-title"></h2>
       <p id="lesson-says"></p>
+      <p id="lesson-help"></p>
+      <button type="button" id="lesson-action" hidden>Show the next action</button>
       <p id="lesson-did" hidden></p>
       <div id="lesson-pips" aria-hidden="true"></div>
       <p id="lesson-read" class="sr-only" role="status"></p>

@@ -75,7 +75,7 @@ export const ALWAYS = Object.freeze([
  */
 const HOUSE_WORK = Object.freeze([
   'plan-house', 'place-piece', 'remove-piece',
-  'chore:build-house', 'chore:cut-lane', 'fell-trees', 'chore:haul-logs', 'chore:fetch-logs',
+  'chore:build-house', 'chore:cut-lane', 'fell-trees', 'chore:fell-trees', 'chore:haul-logs', 'chore:fetch-logs',
 ]);
 
 /**
@@ -171,7 +171,7 @@ export const STEPS = Object.freeze([
     title: 'Stake out a field',
     first: 'stake out ten acres.',
     says: () => 'Choose a place on your own land and send somebody to survey it. Ten acres, staked out, is where the field begins.',
-    allow: () => ['survey-plot'],
+    allow: () => ['survey-plot', 'chore:survey-plot'],
     done: staked,
     did: () => 'Ten acres are staked out.',
   },
@@ -180,7 +180,7 @@ export const STEPS = Object.freeze([
     title: 'Clear the ground',
     first: 'clear the ground you staked.',
     says: () => 'Staked ground is not a field yet. Send the family to clear the plot: timber is three times the work of prairie, and fencing it keeps the loose stock out of the crop.',
-    allow: () => ['clear-plot', 'fence-plot'],
+    allow: () => ['clear-plot', 'chore:clear-plot', 'fence-plot', 'chore:fence-plot'],
     done: (world, household) => broken(household),
     did: () => 'The ground is broken and ready for seed.',
   },
@@ -201,7 +201,7 @@ export const STEPS = Object.freeze([
     // it would be a family standing about. Fencing is the thing worth doing while they wait, and it
     // is worth a third of the harvest: stock in this colony ran loose and ate what was not fenced.
     says: () => 'Send somebody to bring the crop in when it is ripe. While it stands, rails round the plot are worth having: loose stock take a third of an unfenced crop.',
-    allow: () => ['chore:harvest-field', 'fence-plot', 'chore:visit-shop'],
+    allow: () => ['chore:harvest-field', 'fence-plot', 'chore:fence-plot', 'chore:visit-shop'],
     done: (world, household) => harvested(household),
     did: () => 'The crop is in the house.',
   },
@@ -209,18 +209,18 @@ export const STEPS = Object.freeze([
     id: 'sell',
     title: 'Sell it in town',
     first: 'sell what you grew.',
-    says: () => 'Send somebody to town, to the store, and sell what you grew for coin. Coin is scarce in this country and it is counted at the end.',
+    says: () => 'Send somebody to town, to the store, and sell some of your crop. Payment in food or coin both count. Choose the sale at the store counter when your family member arrives.',
     // The trip to town, and the two errands that are the sale itself where a class has them.
     allow: () => ['chore:visit-shop', 'chore:sell-cotton', 'chore:sell-food', 'shop-counter', 'cotton-counter'],
     done: (world, household) => sold(household),
-    did: () => 'There is coin in the house that the family grew out of its own ground.',
+    did: () => 'Your family sold its crop at the store.',
   },
   {
     id: 'hunt',
     title: 'Go out after game',
     first: 'go out after game.',
     says: () => 'Choose a place on your own land and send somebody hunting. Timber by the water is the best ground and open prairie the poorest; a shot costs powder, and the store sells more.',
-    allow: () => ['hunt-land', 'chore:hunt-timber', 'chore:visit-shop'],
+    allow: () => ['hunt-land', 'chore:hunt-land', 'chore:hunt-timber', 'chore:visit-shop'],
     done: (world, household) => hunted(household),
     did: () => 'Somebody has been out after game and come home.',
   },

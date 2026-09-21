@@ -168,9 +168,18 @@ try {
   assert.equal(measured.strip.pips, 10);
   assert.equal(measured.strip.filled, 1);
   // The one rule the strip exists to keep: only the world says a step is finished, so there is nothing here to press.
-  assert.equal(measured.strip.buttons, 0, 'the guided start has a control on it, which is the page deciding a step is done');
+  assert.equal(measured.strip.buttons, 1, 'the guide has one navigation control');
+  const commands = [];
+  const capture = request => { if (request.url().endsWith('/api/command')) commands.push(request.postDataJSON()); };
+  page.on('request', capture);
+  await page.locator('#lesson-action').click();
+  await page.waitForFunction(key => document.activeElement?.dataset.key === key, open);
+  page.off('request', capture);
+  assert.ok(commands.every(command => command.action === 'set-main'), 'the guide issued work or advanced a step');
+  assert.equal(await page.locator('#lesson-step').textContent(), 'STEP 2 OF 10');
+  ok('the guide selects the person and focuses the named action without issuing work or skipping the lesson');
   assert.match(measured.strip.read, /STEP 2 OF 10\./);
-  ok(`the step is the server's words and has no control at all: "${measured.strip.title}" - ${measured.strip.says} (${measured.strip.share}% of the screen)`);
+  ok(`the step keeps the server's words and a navigation control: "${measured.strip.title}" - ${measured.strip.says} (${measured.strip.share}% of the screen)`);
   // The old, skippable walk-through is not offered underneath it.
   assert.equal(await page.locator('#tutorial').isHidden(), true, 'the skippable walk-through is offered under the lesson');
   ok('the skippable walk-through is put away while the class is being led');
@@ -269,11 +278,21 @@ try {
   // --------------------------------------------------------------------------------------- the keyboard and the folding
   await holdLesson(page, 'none');
   await page.waitForFunction(() => document.querySelector('#lesson').hidden, null, { timeout: 10000 });
-  await page.evaluate(() => document.querySelector('.panel-row[data-focused=true] .panel-icon')?.focus());
-  measured.keyboard = await page.evaluate(() => ({
-    focused: document.activeElement?.className, label: document.activeElement?.getAttribute('aria-label'),
-    tipShown: !document.querySelector('#panel-tip').hidden,
-  }));
+  // Focused in one call and read in the next, this check failed about one run in three: the page redraws on every tick,
+  // and a redraw between the two replaces the icon, taking the focus and the summary with it. Focusing and reading in
+  // the same turn of the page's own thread cannot fall in that gap; the retries are for a redraw landing on the focus
+  // itself, and the last reading is kept either way so a failure still says what was on the screen.
+  const onFocus = async () => page.evaluate(() => {
+    const icon = document.querySelector('.panel-row[data-focused=true] .panel-icon');
+    if (!icon) return { focused: null, label: null, tipShown: false };
+    icon.focus();
+    return { focused: document.activeElement?.className, label: document.activeElement?.getAttribute('aria-label'), tipShown: !document.querySelector('#panel-tip').hidden };
+  });
+  measured.keyboard = await onFocus();
+  for (let tries = 0; tries < 8 && !measured.keyboard.tipShown; tries++) {
+    await page.waitForTimeout(250);
+    measured.keyboard = await onFocus();
+  }
   assert.equal(measured.keyboard.focused, 'panel-icon', 'an icon on the bar cannot be reached with the keyboard');
   assert.ok(measured.keyboard.label?.length > 10, 'an icon on the bar has no accessible name');
   assert.equal(measured.keyboard.tipShown, true, 'the summary does not show on focus, only on hover');
@@ -298,6 +317,111 @@ try {
   await shoot(page, 'folded');
   await page.locator('#family-collapse').click();
 
+  // ------------------------------------------------------------- the strip and the family never share a pixel
+  // Centred, the strip landed on the left-hand column at anything under about 1180px wide: at 1024 it covered the
+  // father's star outright, and at a phone's width Chrome refused a click on "Choose a house" through it
+  // (docs/evidence/screen-overlap-1024.json, scripts/screen-overlap-study.mjs). Both widths are asked here, because the
+  // fault was invisible at the one the class played on.
+  // The step must be standing, or there is no strip: a hidden panel has a box of nothing, which overlaps nothing, and
+  // the check would pass however wrong the stylesheet was. That is how this check first read as clean against a strip
+  // put deliberately back in the middle.
+  await holdLesson(page, step);
+  const apart = async where => {
+    const boxes = await page.evaluate(() => ({
+      strip: document.querySelector('#lesson').getBoundingClientRect().toJSON(),
+      column: document.querySelector('#hud-left').getBoundingClientRect().toJSON(),
+    }));
+    assert.ok(boxes.strip.width > 100 && boxes.strip.height > 20, `at ${where} there is no strip on the screen to ask about`);
+    assert.ok(boxes.column.width > 100 && boxes.column.height > 20, `at ${where} there is no family column on the screen to ask about`);
+    const over = Math.min(boxes.strip.right, boxes.column.right) - Math.max(boxes.strip.left, boxes.column.left);
+    const down = Math.min(boxes.strip.bottom, boxes.column.bottom) - Math.max(boxes.strip.top, boxes.column.top);
+    assert.ok(over <= 0 || down <= 0, `at ${where} the guided start is drawn over the family's own column by ${Math.round(over)}x${Math.round(down)}px`);
+    return { where, strip: boxes.strip, overlapWidth: Math.round(over), overlapHeight: Math.round(down) };
+  };
+  measured.apart = [await apart('1366x768')];
+  await page.setViewportSize({ width: 1024, height: 768 });
+  await page.waitForTimeout(300);
+  measured.apart.push(await apart('1024x768'));
+  ok(`the guided start keeps off the family's column at 1366 and at 1024, where it used to cover the father's star`);
+  await page.setViewportSize(SCREEN);
+  await page.waitForTimeout(300);
+
+  // ------------------------------------------------------------------- a panel over the family admits to being there
+  // "Choose a house" covers the whole column - twenty-eight controls at this size - while the step's own words say to
+  // assign a family member. It is allowed to, now, but it dims what it covers and says so in words (owner, 2026-09-21).
+  // ------------------------------------------------------------------ the name under an icon lands on nothing else
+  // The lesson draws each icon's name under it, so a student need not hover an unfamiliar picture to learn what it is.
+  // A `::before` cannot be found with `elementFromPoint` - it covers nothing and nothing covers it - so its box is
+  // worked out from the icon's and the pseudo-element's own used size, as scripts/screen-overlap-study.mjs does. The
+  // rightmost names sat on the Journal and Land buttons until the bar was lifted while a lesson stands.
+  // Asked of **every** icon in the bar, not only the one named at this moment. Which icon a step points at is the
+  // step's business and changes from class to class; whether the bar has room under it for a name is the stylesheet's,
+  // and it is the rightmost icons - the ones over the Journal and Land buttons - that the fault was found on. Measuring
+  // only the icon that happens to be named let a bar put deliberately back in the wrong place read as clean.
+  measured.names = await page.evaluate(() => {
+    const nav = document.querySelector('#map-nav').getBoundingClientRect();
+    const named = document.querySelector('.panel-icon[data-pointed=true],.panel-icon[data-active=true]');
+    if (!named) return [];
+    const style = getComputedStyle(named, '::before');
+    const width = parseFloat(style.width), height = parseFloat(style.height) + parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
+    const bar = document.querySelector('.panel-row[data-focused=true] .panel-icons').getBoundingClientRect();
+    const icons = [...document.querySelectorAll('.panel-row[data-focused=true] .panel-icon')];
+    const widest = icons.filter(icon => (icon.dataset.name || '').length).sort((a, b) => b.dataset.name.length - a.dataset.name.length)[0];
+    return {
+      lineHeight: Math.round(height), labelWidth: Math.round(width), icons: icons.length,
+      // The name is drawn under the icon, so what has to be free is the strip of screen between the bottom of the bar
+      // and the first thing below it - here the map's own buttons, and the bottom edge of the screen.
+      roomUnderTheBar: Math.round(nav.top - bar.bottom), roomToTheScreenEdge: Math.round(innerHeight - bar.bottom),
+      longest: widest?.dataset.name || null,
+      overTheButtons: icons.some(icon => {
+        const box = icon.getBoundingClientRect();
+        return box.left + box.width / 2 + width / 2 > nav.left && box.bottom < nav.bottom;
+      }),
+    };
+  });
+  // Three lines of a long name - "Buy furniture from the carpenter" is four words in a 68px box - plus its padding.
+  const WANTED = 40;
+  assert.ok(measured.names.icons > 4, 'too few icons on the bar to say anything about the end of it');
+  assert.ok(measured.names.lineHeight > 0, 'no icon is named, so this proves nothing about where the names go');
+  assert.ok(measured.names.overTheButtons, 'no icon on this bar reaches the map buttons, so this check cannot see the fault it was written for');
+  assert.ok(measured.names.roomUnderTheBar >= WANTED, `a name under the bar is drawn over the map's own buttons: ${measured.names.roomUnderTheBar}px of room where ${WANTED} is wanted`);
+  assert.ok(measured.names.roomToTheScreenEdge >= WANTED, `a name under the bar is drawn off the bottom of the screen: ${measured.names.roomToTheScreenEdge}px of room where ${WANTED} is wanted`);
+  ok(`the bar leaves ${measured.names.roomUnderTheBar}px under it for the names it draws, clear of the map's own buttons (longest: "${measured.names.longest}")`);
+
+  // The step has to be standing for this: what is asked is that the dim covers the family and *not* the instruction.
+  if (await page.locator('#house-open').isVisible()) {
+    await page.locator('#house-open').click();
+    await page.locator('#house-plan,#house-plot').first().waitFor({ state: 'visible', timeout: 10000 });
+    measured.dim = await page.evaluate(() => ({
+      backdrop: !document.querySelector('#panel-backdrop').hidden,
+      body: document.body.dataset.panel,
+      says: [...document.querySelectorAll('#house-plan .panel-behind,#house-plot .panel-behind')].filter(one => one.getBoundingClientRect().width > 0).map(one => one.textContent.trim())[0] || null,
+      stripStillUp: !document.querySelector('#lesson').hidden,
+    }));
+    assert.equal(measured.dim.backdrop, true, 'a panel stands over the family with nothing to show it is there');
+    assert.equal(measured.dim.body, 'true');
+    assert.ok(measured.dim.says && /family/i.test(measured.dim.says), 'the panel covers the family and never says so');
+    assert.equal(measured.dim.stripStillUp, true, 'the dim swallowed the instruction as well');
+    await shoot(page, 'dimmed');
+    // The dim is pressed to close, which is the first thing a student tries.
+    await page.locator('#panel-backdrop').click();
+    await page.waitForFunction(() => document.querySelector('#panel-backdrop').hidden, null, { timeout: 10000 });
+    assert.equal(await page.evaluate(() => document.body.dataset.panel), 'false');
+    ok(`the house panel dims the family behind it, says "${measured.dim.says}", keeps the step on screen, and the dim closes it`);
+  }
+
+  await holdLesson(page, { ...step, step: 'done', title: 'The land is yours', says: 'Your farm is ready. Choose what your family does next.', done: true });
+  assert.equal(await page.locator('#lesson').isVisible(), true, 'completion vanished without telling the player');
+  assert.equal(await page.locator('#lesson-action').isHidden(), true, 'completion still offers tutorial work');
+  assert.equal(await page.locator('.panel-icon[data-shut=true]').count(), 0, 'completion still locks actions');
+  ok('completion is visible and releases tutorial locks');
+  await page.setViewportSize({ width: 390, height: 844 });
+  await holdLesson(page, step);
+  measured.phone = await page.locator('#lesson').boundingBox();
+  assert.ok(measured.phone.x >= 0 && measured.phone.x + measured.phone.width <= 390, 'guide overflows a phone');
+  await shoot(page, 'phone');
+  ok('the guide fits a 390px phone viewport');
+
   assert.deepEqual(errors, [], `page errors: ${errors.join(' | ')}`);
   ok('no page errors anywhere in the run');
 
@@ -313,7 +437,7 @@ try {
     measured,
     screenshots: shots,
     notProved: [
-      'The lesson itself: `world.lesson` is stubbed (scripts/support/lesson-stub.mjs) because the server side is being built in parallel. What is proved is that the page reads the contract and adds nothing to it.',
+      'All ten steps through browser clicks: this proof uses the real server for opening and an order, and controlled snapshots for specific guide states. The simulation suite exercises progression separately.',
       'A real Chromebook, its GPU or its touchpad: this is desktop Chrome at the same pixel size.',
       'Touch. The icons are 48px and spaced 10px, which is the size a fingertip wants, but nothing here pressed one with a finger.',
       'Every step of the lesson. One step is held and pressed; tests/lesson-screen.test.mjs walks the rules over the family’s whole bar.',

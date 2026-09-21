@@ -1,0 +1,44 @@
+{
+  "record": "screen-overlap-injections",
+  "date": "2026-09-21",
+  "proof": "scripts/lesson-browser-proof.mjs",
+  "cleanChecks": 20,
+  "injections": [
+    {
+      "name": "the guided start goes back to the middle of the screen, where it covered the family at 1024 and blocked \"Choose a house\" on a phone",
+      "file": "public/style.css",
+      "expect": "drawn over the family",
+      "caught": true,
+      "forItsOwnReason": true,
+      "why": "at 1024x768 the guided start is drawn over the family's own column by 76x191px",
+      "checksPassedFirst": 14
+    },
+    {
+      "name": "the bar stays where it is while a lesson names the icons, so the names land on the map's own buttons",
+      "file": "public/style.css",
+      "expect": "of room where",
+      "caught": true,
+      "forItsOwnReason": true,
+      "why": "16px of room where 40 is wanted",
+      "checksPassedFirst": 15
+    },
+    {
+      "name": "a panel stands over the whole family with nothing behind it to show that it does",
+      "file": "public/app.js",
+      "expect": "a panel stands over the family with nothing to show it is there",
+      "caught": true,
+      "forItsOwnReason": true,
+      "why": "a panel stands over the family with nothing to show it is there",
+      "checksPassedFirst": 16
+    },
+    {
+      "name": "the panel dims the family but never says in words that the family is behind it",
+      "file": "public/style.css",
+      "expect": "the panel covers the family and never says so",
+      "caught": true,
+      "forItsOwnReason": true,
+      "why": "the panel covers the family and never says so",
+      "checksPassedFirst": 16
+    }
+  ]
+}

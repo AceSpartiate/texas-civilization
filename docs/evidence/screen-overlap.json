@@ -1,0 +1,558 @@
+{
+  "record": "screen-overlap",
+  "date": "2026-09-21",
+  "screen": {
+    "width": 1366,
+    "height": 768
+  },
+  "controls": "button:not([hidden]):not(:disabled),.panel-icon,.panel-focus,.panel-name,#lesson-says,#lesson-help",
+  "states": [
+    {
+      "state": "guided-start",
+      "how": "the real server, the real lesson, nothing opened",
+      "covered": [],
+      "partly": [
+        {
+          "control": "#family-collapse",
+          "label": "Hide names",
+          "box": {
+            "x": 12,
+            "y": 209,
+            "w": 83,
+            "h": 2
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 4,
+          "centreBlockedBy": null,
+          "by": [
+            "#world-map"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 586,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 2,
+          "centreBlockedBy": null,
+          "by": [
+            "#world-map"
+          ]
+        }
+      ],
+      "offScreen": [
+        {
+          "control": "#family",
+          "label": "Asa Proofwright: work, Family 1 home, we",
+          "box": {
+            "x": 20,
+            "y": 1492,
+            "w": 29,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Josefa Proofwright: work, Family 1 home,",
+          "box": {
+            "x": 20,
+            "y": 1555,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Paulita Proofwright: rest, Family 1 home",
+          "box": {
+            "x": 20,
+            "y": 1618,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Prudence Proofwright: rest, Family 1 hom",
+          "box": {
+            "x": 20,
+            "y": 1681,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Ramona Proofwright: rest, Family 1 home,",
+          "box": {
+            "x": 20,
+            "y": 1744,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Zadok Proofwright: rest, Family 1 home, ",
+          "box": {
+            "x": 20,
+            "y": 1807,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Pablo Proofwright: rest, Family 1 home, ",
+          "box": {
+            "x": 20,
+            "y": 1870,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Docia Proofwright: rest, Family 1 home, ",
+          "box": {
+            "x": 20,
+            "y": 1933,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        }
+      ],
+      "dimmedOnPurpose": 0
+    },
+    {
+      "state": "person-card",
+      "how": "a portrait pressed, the card open where the page puts it",
+      "covered": [],
+      "partly": [
+        {
+          "control": "#family-collapse",
+          "label": "Hide names",
+          "box": {
+            "x": 12,
+            "y": 209,
+            "w": 83,
+            "h": 2
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 4,
+          "centreBlockedBy": null,
+          "by": [
+            "#world-map"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 586,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 2,
+          "centreBlockedBy": null,
+          "by": [
+            "#world-map"
+          ]
+        }
+      ],
+      "offScreen": [
+        {
+          "control": "#family",
+          "label": "Asa Proofwright: work, Family 1 home, we",
+          "box": {
+            "x": 20,
+            "y": 1492,
+            "w": 29,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Josefa Proofwright: work, Family 1 home,",
+          "box": {
+            "x": 20,
+            "y": 1555,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Paulita Proofwright: rest, Family 1 home",
+          "box": {
+            "x": 20,
+            "y": 1618,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Prudence Proofwright: rest, Family 1 hom",
+          "box": {
+            "x": 20,
+            "y": 1681,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Ramona Proofwright: rest, Family 1 home,",
+          "box": {
+            "x": 20,
+            "y": 1744,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Zadok Proofwright: rest, Family 1 home, ",
+          "box": {
+            "x": 20,
+            "y": 1807,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Pablo Proofwright: rest, Family 1 home, ",
+          "box": {
+            "x": 20,
+            "y": 1870,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Docia Proofwright: rest, Family 1 home, ",
+          "box": {
+            "x": 20,
+            "y": 1933,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        }
+      ],
+      "dimmedOnPurpose": 0
+    },
+    {
+      "state": "house-plan",
+      "how": "the real \"Choose a house\" button pressed",
+      "covered": [],
+      "partly": [],
+      "offScreen": [
+        {
+          "control": "#house-options",
+          "label": "Build this",
+          "box": {
+            "x": 27,
+            "y": -214,
+            "w": 79,
+            "h": 32
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Asa Proofwright: work, Family 1 home, we",
+          "box": {
+            "x": 20,
+            "y": 1492,
+            "w": 29,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Josefa Proofwright: work, Family 1 home,",
+          "box": {
+            "x": 20,
+            "y": 1555,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Paulita Proofwright: rest, Family 1 home",
+          "box": {
+            "x": 20,
+            "y": 1618,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Prudence Proofwright: rest, Family 1 hom",
+          "box": {
+            "x": 20,
+            "y": 1681,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Ramona Proofwright: rest, Family 1 home,",
+          "box": {
+            "x": 20,
+            "y": 1744,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Zadok Proofwright: rest, Family 1 home, ",
+          "box": {
+            "x": 20,
+            "y": 1807,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Pablo Proofwright: rest, Family 1 home, ",
+          "box": {
+            "x": 20,
+            "y": 1870,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Docia Proofwright: rest, Family 1 home, ",
+          "box": {
+            "x": 20,
+            "y": 1933,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        }
+      ],
+      "dimmedOnPurpose": 53
+    }
+  ],
+  "bar": {
+    "clippedBy": [
+      {
+        "element": "#family-panel",
+        "overflowX": "auto",
+        "overflowY": "auto"
+      }
+    ],
+    "roomBelow": 104,
+    "roomAbove": 616
+  },
+  "labels": [
+    {
+      "name": "Work about the place",
+      "x": 1069,
+      "y": 664,
+      "w": 68,
+      "h": 27,
+      "offScreen": false,
+      "clippedBy": null,
+      "over": []
+    }
+  ],
+  "unpressable": [],
+  "pageErrors": []
+}

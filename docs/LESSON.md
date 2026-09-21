@@ -1,5 +1,15 @@
 # The guided beginning
 
+**What is drawn over what:** [FAMILY_PANEL.md §12.11](FAMILY_PANEL.md) — the strip is top right and never on the family's
+column; a panel that covers the column dims what it covers and says so; the names under the icons are clear of the map's
+own buttons. Measured by `npm run study:overlap` at three screen sizes, gated by `npm run test:lesson`.
+
+**The ring and the words are one instruction.** `pointedKey` ranks by the step's own work and, where nothing on the row
+is that, points at something only when there is exactly one thing to point at. Guessing among several put the ring on the
+survey stake at the `order` step while the strip said to choose a house plan.
+
+**Usability update:** [TUTORIAL_USABILITY_HANDOFF.md](TUTORIAL_USABILITY_HANDOFF.md) supersedes earlier screen restrictions: a contextual navigation button now locates the relevant control, without completing a step or issuing work. Objective-specific recommendations replace first-permitted-action highlighting. Completion is visible without locking controls. Selling guidance accepts food or coin, matching the current server rule. Both bare placement commands and chore-prefixed variants are accepted for map work.
+
 **Status: the world's half built 2026-09-21.** `sim/lesson.mjs`, `tests/lesson.test.mjs`,
 [injections](evidence/lesson-injections.json) (36 of 36 caught). Claims `FIC-GONZ-210` to `-215`. The screen's half —
 the card, the greying, the arrow onto the control being asked for — is `public/`'s and is built against the contract in

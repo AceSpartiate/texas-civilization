@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 70,
-    "sprites": 1008,
-    "clips": 389,
-    "poseCycles": 195,
+    "sheets": 81,
+    "sprites": 1149,
+    "clips": 434,
+    "poseCycles": 224,
     "rigs": 4
   },
   "entrypoints": {
@@ -26,6 +26,68 @@
     "authority": "Rendering never changes world state. No frame callbacks cause outcomes. Purge concealed actors; snap across time jumps. Buildings stay still."
   },
   "sheets": {
+    "alamo-face-strips": {
+      "image": "atlases/alamo-face-strips.png",
+      "width": 1659,
+      "height": 948,
+      "bytes": 928904,
+      "sha256": "ffac0d1ad2c24f42964f26655bb24e0ef52554604897ef5e8b5e98194b682b01",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.752559,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              81,
+              408
+            ],
+            "columns": [
+              [
+                33,
+                450
+              ],
+              [
+                474,
+                836
+              ],
+              [
+                875,
+                1251
+              ],
+              [
+                1289,
+                1627
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              668,
+              784
+            ],
+            "columns": [
+              [
+                41,
+                460
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "artillery-service": {
       "image": "atlases/artillery-service.png",
       "width": 1254,
@@ -2503,6 +2565,990 @@
         ]
       }
     },
+    "people-mounted-cast1-e": {
+      "image": "atlases/people-mounted-cast1-e.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1086305,
+      "sha256": "84e3512b6a1a3593b5c05722e078cde8f4d3b23ddb6dbdb0d80c98b79c679a9b",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.732831,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              104,
+              309
+            ],
+            "columns": [
+              [
+                75,
+                300
+              ],
+              [
+                362,
+                587
+              ],
+              [
+                658,
+                886
+              ],
+              [
+                956,
+                1176
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              391,
+              601
+            ],
+            "columns": [
+              [
+                75,
+                307
+              ],
+              [
+                362,
+                590
+              ],
+              [
+                657,
+                892
+              ],
+              [
+                955,
+                1181
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              674,
+              888
+            ],
+            "columns": [
+              [
+                73,
+                305
+              ],
+              [
+                360,
+                594
+              ],
+              [
+                657,
+                891
+              ],
+              [
+                955,
+                1181
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              962,
+              1165
+            ],
+            "columns": [
+              [
+                73,
+                306
+              ],
+              [
+                362,
+                594
+              ],
+              [
+                657,
+                892
+              ],
+              [
+                954,
+                1181
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "people-mounted-cast1-s": {
+      "image": "atlases/people-mounted-cast1-s.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1213409,
+      "sha256": "250851390bbf70632c360b17b9debb146f3d7637e7fef30f3d7e9d1bccb97e5c",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.696165,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              3,
+              317
+            ],
+            "columns": [
+              [
+                105,
+                254
+              ],
+              [
+                416,
+                565
+              ],
+              [
+                710,
+                854
+              ],
+              [
+                1002,
+                1146
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              317,
+              632
+            ],
+            "columns": [
+              [
+                103,
+                256
+              ],
+              [
+                414,
+                569
+              ],
+              [
+                709,
+                859
+              ],
+              [
+                999,
+                1156
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              629,
+              943
+            ],
+            "columns": [
+              [
+                106,
+                258
+              ],
+              [
+                413,
+                565
+              ],
+              [
+                711,
+                858
+              ],
+              [
+                1001,
+                1153
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              943,
+              1250
+            ],
+            "columns": [
+              [
+                105,
+                257
+              ],
+              [
+                413,
+                565
+              ],
+              [
+                711,
+                860
+              ],
+              [
+                997,
+                1154
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "people-mounted-cast1-n": {
+      "image": "atlases/people-mounted-cast1-n.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1283689,
+      "sha256": "603e57e415fba27bdd6669bfe865468bf1636d2d50289531b98ca33102a6473c",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.662361,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              9,
+              315
+            ],
+            "columns": [
+              [
+                73,
+                280
+              ],
+              [
+                401,
+                593
+              ],
+              [
+                712,
+                906
+              ],
+              [
+                1028,
+                1220
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              318,
+              628
+            ],
+            "columns": [
+              [
+                73,
+                279
+              ],
+              [
+                401,
+                592
+              ],
+              [
+                713,
+                907
+              ],
+              [
+                1028,
+                1220
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              629,
+              940
+            ],
+            "columns": [
+              [
+                70,
+                281
+              ],
+              [
+                400,
+                594
+              ],
+              [
+                712,
+                907
+              ],
+              [
+                1028,
+                1223
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              941,
+              1242
+            ],
+            "columns": [
+              [
+                73,
+                280
+              ],
+              [
+                400,
+                593
+              ],
+              [
+                712,
+                907
+              ],
+              [
+                1028,
+                1220
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "people-mounted-cast2-e": {
+      "image": "atlases/people-mounted-cast2-e.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1197211,
+      "sha256": "049beac4e6cf69578a0cc65214691655319dc3157254524765283003927d8296",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.696074,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              80,
+              295
+            ],
+            "columns": [
+              [
+                39,
+                285
+              ],
+              [
+                352,
+                592
+              ],
+              [
+                655,
+                897
+              ],
+              [
+                960,
+                1203
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              374,
+              607
+            ],
+            "columns": [
+              [
+                37,
+                288
+              ],
+              [
+                345,
+                598
+              ],
+              [
+                653,
+                904
+              ],
+              [
+                959,
+                1210
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              679,
+              910
+            ],
+            "columns": [
+              [
+                39,
+                289
+              ],
+              [
+                343,
+                598
+              ],
+              [
+                651,
+                905
+              ],
+              [
+                956,
+                1211
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              982,
+              1205
+            ],
+            "columns": [
+              [
+                39,
+                290
+              ],
+              [
+                345,
+                598
+              ],
+              [
+                651,
+                903
+              ],
+              [
+                958,
+                1209
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "people-mounted-cast2-s": {
+      "image": "atlases/people-mounted-cast2-s.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1115115,
+      "sha256": "8dc2eebef70378a75190f1b9d3e0c726e7c3777455c790d6ec3f48acaa23d2b3",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.722057,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              8,
+              320
+            ],
+            "columns": [
+              [
+                119,
+                269
+              ],
+              [
+                406,
+                557
+              ],
+              [
+                696,
+                846
+              ],
+              [
+                983,
+                1132
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              320,
+              632
+            ],
+            "columns": [
+              [
+                117,
+                269
+              ],
+              [
+                408,
+                559
+              ],
+              [
+                695,
+                850
+              ],
+              [
+                983,
+                1133
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              633,
+              941
+            ],
+            "columns": [
+              [
+                118,
+                271
+              ],
+              [
+                405,
+                560
+              ],
+              [
+                693,
+                845
+              ],
+              [
+                985,
+                1132
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              945,
+              1248
+            ],
+            "columns": [
+              [
+                116,
+                269
+              ],
+              [
+                406,
+                556
+              ],
+              [
+                694,
+                848
+              ],
+              [
+                985,
+                1133
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "people-mounted-cast2-n": {
+      "image": "atlases/people-mounted-cast2-n.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1472500,
+      "sha256": "5e2a4b2633fb89f311da44d32fff36b58b87611d81c43e97e5a2ff67eb541f5e",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.616747,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              15,
+              317
+            ],
+            "columns": [
+              [
+                53,
+                284
+              ],
+              [
+                362,
+                594
+              ],
+              [
+                676,
+                910
+              ],
+              [
+                992,
+                1224
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              320,
+              627
+            ],
+            "columns": [
+              [
+                52,
+                286
+              ],
+              [
+                365,
+                600
+              ],
+              [
+                675,
+                913
+              ],
+              [
+                993,
+                1225
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              635,
+              941
+            ],
+            "columns": [
+              [
+                54,
+                286
+              ],
+              [
+                366,
+                600
+              ],
+              [
+                677,
+                912
+              ],
+              [
+                993,
+                1227
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              943,
+              1240
+            ],
+            "columns": [
+              [
+                54,
+                286
+              ],
+              [
+                367,
+                598
+              ],
+              [
+                675,
+                912
+              ],
+              [
+                994,
+                1228
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "wildlife-mustang": {
+      "image": "atlases/wildlife-mustang.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1311610,
+      "sha256": "48a236b94214768e4642b44219a9a32f90799b780962313259f71d5a71403515",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.657874,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              133,
+              306
+            ],
+            "columns": [
+              [
+                26,
+                286
+              ],
+              [
+                339,
+                600
+              ],
+              [
+                649,
+                913
+              ],
+              [
+                962,
+                1226
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              345,
+              620
+            ],
+            "columns": [
+              [
+                25,
+                301
+              ],
+              [
+                340,
+                614
+              ],
+              [
+                653,
+                925
+              ],
+              [
+                963,
+                1239
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              679,
+              905
+            ],
+            "columns": [
+              [
+                4,
+                305
+              ],
+              [
+                313,
+                615
+              ],
+              [
+                625,
+                941
+              ],
+              [
+                941,
+                1244
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              980,
+              1195
+            ],
+            "columns": [
+              [
+                7,
+                302
+              ],
+              [
+                317,
+                613
+              ],
+              [
+                627,
+                928
+              ],
+              [
+                947,
+                1242
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "steamboat-steam": {
+      "image": "atlases/steamboat-steam.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1044017,
+      "sha256": "e2453672d455e08bc520ae9a3409be24e24757aaac5307509457a55d2bd0722c",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.719563,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              160,
+              551
+            ],
+            "columns": [
+              [
+                16,
+                600
+              ],
+              [
+                640,
+                1242
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              746,
+              1137
+            ],
+            "columns": [
+              [
+                17,
+                601
+              ],
+              [
+                642,
+                1240
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "steamboat-laden": {
+      "image": "atlases/steamboat-laden.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1151494,
+      "sha256": "2d08798cb055c3f2ec089797fb02ecd3aacb032258970d2bc8f8e892bd359ed1",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.692356,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              190,
+              562
+            ],
+            "columns": [
+              [
+                10,
+                608
+              ],
+              [
+                657,
+                1245
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              757,
+              1144
+            ],
+            "columns": [
+              [
+                11,
+                609
+              ],
+              [
+                656,
+                1247
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "courier-dismount": {
       "image": "atlases/courier-dismount.png",
       "width": 1254,
@@ -3903,6 +4949,130 @@
               [
                 969,
                 1224
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "people-wagon-drivers": {
+      "image": "atlases/people-wagon-drivers.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1460212,
+      "sha256": "ea29de92502021ad58aef7dffaaf2647e8943f81d32ad35062d7ee73a1a3b123",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.630167,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              0,
+              315
+            ],
+            "columns": [
+              [
+                77,
+                315
+              ],
+              [
+                409,
+                626
+              ],
+              [
+                646,
+                839
+              ],
+              [
+                962,
+                1169
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              315,
+              616
+            ],
+            "columns": [
+              [
+                75,
+                314
+              ],
+              [
+                418,
+                625
+              ],
+              [
+                636,
+                834
+              ],
+              [
+                965,
+                1187
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              619,
+              928
+            ],
+            "columns": [
+              [
+                78,
+                322
+              ],
+              [
+                429,
+                626
+              ],
+              [
+                639,
+                830
+              ],
+              [
+                954,
+                1177
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              928,
+              1242
+            ],
+            "columns": [
+              [
+                77,
+                325
+              ],
+              [
+                445,
+                626
+              ],
+              [
+                639,
+                822
+              ],
+              [
+                955,
+                1172
               ]
             ]
           }
@@ -8115,6 +9285,176 @@
     }
   },
   "assets": {
+    "alamo-face-limestone": {
+      "sheet": "alamo-face-strips",
+      "x": 33,
+      "y": 202,
+      "w": 417,
+      "h": 206,
+      "anchorX": 0.4988,
+      "anchorY": 0.9272,
+      "label": "alamo face limestone",
+      "kind": "alamo-face-strips",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          35,
+          204,
+          413,
+          202
+        ],
+        "visiblePixels": 82479,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-face-strips.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [
+        "alamo"
+      ],
+      "promptId": "frontier-v1/alamo-face-strips"
+    },
+    "alamo-face-rooms": {
+      "sheet": "alamo-face-strips",
+      "x": 474,
+      "y": 184,
+      "w": 362,
+      "h": 224,
+      "anchorX": 0.5014,
+      "anchorY": 0.9286,
+      "label": "alamo face rooms",
+      "kind": "alamo-face-strips",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          476,
+          186,
+          358,
+          220
+        ],
+        "visiblePixels": 77781,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-face-strips.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [
+        "alamo"
+      ],
+      "promptId": "frontier-v1/alamo-face-strips"
+    },
+    "alamo-face-gate": {
+      "sheet": "alamo-face-strips",
+      "x": 875,
+      "y": 169,
+      "w": 376,
+      "h": 239,
+      "anchorX": 0.4987,
+      "anchorY": 0.9289,
+      "label": "alamo face gate",
+      "kind": "alamo-face-strips",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          877,
+          171,
+          372,
+          235
+        ],
+        "visiblePixels": 60882,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-face-strips.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [
+        "alamo"
+      ],
+      "promptId": "frontier-v1/alamo-face-strips"
+    },
+    "alamo-face-convento": {
+      "sheet": "alamo-face-strips",
+      "x": 1289,
+      "y": 81,
+      "w": 338,
+      "h": 327,
+      "anchorX": 0.5,
+      "anchorY": 0.9297,
+      "label": "alamo face convento",
+      "kind": "alamo-face-strips",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1291,
+          83,
+          334,
+          323
+        ],
+        "visiblePixels": 106429,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-face-strips.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [
+        "alamo"
+      ],
+      "promptId": "frontier-v1/alamo-face-strips"
+    },
+    "alamo-face-church-south": {
+      "sheet": "alamo-face-strips",
+      "x": 41,
+      "y": 668,
+      "w": 419,
+      "h": 116,
+      "anchorX": 0.5,
+      "anchorY": 0.9224,
+      "label": "alamo face church south",
+      "kind": "alamo-face-strips",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          43,
+          670,
+          415,
+          112
+        ],
+        "visiblePixels": 39078,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-face-strips.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [
+        "alamo"
+      ],
+      "promptId": "frontier-v1/alamo-face-strips"
+    },
     "volunteer-rammer-carry-1": {
       "sheet": "artillery-service",
       "x": 49,
@@ -18633,6 +19973,4182 @@
       "locationKits": [],
       "promptId": "frontier-v1/house-modules"
     },
+    "rust-ride-e-1": {
+      "sheet": "people-mounted-cast1-e",
+      "x": 75,
+      "y": 104,
+      "w": 225,
+      "h": 205,
+      "anchorX": 0.5156,
+      "anchorY": 0.9415,
+      "logicalHeight": 205,
+      "label": "rust ride e 1",
+      "kind": "people-mounted-cast1-e",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          77,
+          106,
+          221,
+          201
+        ],
+        "visiblePixels": 19169,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-ride-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-e"
+    },
+    "rust-ride-e-2": {
+      "sheet": "people-mounted-cast1-e",
+      "x": 362,
+      "y": 104,
+      "w": 225,
+      "h": 205,
+      "anchorX": 0.5156,
+      "anchorY": 0.9561,
+      "logicalHeight": 205,
+      "label": "rust ride e 2",
+      "kind": "people-mounted-cast1-e",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          364,
+          106,
+          221,
+          201
+        ],
+        "visiblePixels": 19184,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-ride-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-e"
+    },
+    "rust-ride-e-3": {
+      "sheet": "people-mounted-cast1-e",
+      "x": 658,
+      "y": 104,
+      "w": 228,
+      "h": 205,
+      "anchorX": 0.5,
+      "anchorY": 0.9317,
+      "logicalHeight": 205,
+      "label": "rust ride e 3",
+      "kind": "people-mounted-cast1-e",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          660,
+          106,
+          224,
+          201
+        ],
+        "visiblePixels": 19218,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-ride-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-e"
+    },
+    "rust-ride-e-4": {
+      "sheet": "people-mounted-cast1-e",
+      "x": 956,
+      "y": 104,
+      "w": 220,
+      "h": 205,
+      "anchorX": 0.525,
+      "anchorY": 0.9268,
+      "logicalHeight": 205,
+      "label": "rust ride e 4",
+      "kind": "people-mounted-cast1-e",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          958,
+          106,
+          216,
+          201
+        ],
+        "visiblePixels": 18815,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-ride-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-e"
+    },
+    "teal-ride-e-1": {
+      "sheet": "people-mounted-cast1-e",
+      "x": 75,
+      "y": 391,
+      "w": 232,
+      "h": 210,
+      "anchorX": 0.5259,
+      "anchorY": 0.9286,
+      "logicalHeight": 210,
+      "label": "teal ride e 1",
+      "kind": "people-mounted-cast1-e",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          77,
+          393,
+          228,
+          206
+        ],
+        "visiblePixels": 20435,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-ride-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-e"
+    },
+    "teal-ride-e-2": {
+      "sheet": "people-mounted-cast1-e",
+      "x": 362,
+      "y": 392,
+      "w": 228,
+      "h": 209,
+      "anchorX": 0.5197,
+      "anchorY": 0.9474,
+      "logicalHeight": 210,
+      "label": "teal ride e 2",
+      "kind": "people-mounted-cast1-e",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          364,
+          394,
+          224,
+          205
+        ],
+        "visiblePixels": 20059,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-ride-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-e"
+    },
+    "teal-ride-e-3": {
+      "sheet": "people-mounted-cast1-e",
+      "x": 657,
+      "y": 392,
+      "w": 235,
+      "h": 209,
+      "anchorX": 0.5,
+      "anchorY": 0.9378,
+      "logicalHeight": 210,
+      "label": "teal ride e 3",
+      "kind": "people-mounted-cast1-e",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          659,
+          394,
+          231,
+          205
+        ],
+        "visiblePixels": 20368,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-ride-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-e"
+    },
+    "teal-ride-e-4": {
+      "sheet": "people-mounted-cast1-e",
+      "x": 955,
+      "y": 392,
+      "w": 226,
+      "h": 209,
+      "anchorX": 0.5243,
+      "anchorY": 0.9282,
+      "logicalHeight": 210,
+      "label": "teal ride e 4",
+      "kind": "people-mounted-cast1-e",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          957,
+          394,
+          222,
+          205
+        ],
+        "visiblePixels": 19733,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-ride-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-e"
+    },
+    "elder-ride-e-1": {
+      "sheet": "people-mounted-cast1-e",
+      "x": 73,
+      "y": 675,
+      "w": 232,
+      "h": 213,
+      "anchorX": 0.5129,
+      "anchorY": 0.9296,
+      "logicalHeight": 214,
+      "label": "elder ride e 1",
+      "kind": "people-mounted-cast1-e",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          75,
+          677,
+          228,
+          209
+        ],
+        "visiblePixels": 20723,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-ride-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-e"
+    },
+    "elder-ride-e-2": {
+      "sheet": "people-mounted-cast1-e",
+      "x": 360,
+      "y": 674,
+      "w": 234,
+      "h": 214,
+      "anchorX": 0.5043,
+      "anchorY": 0.9533,
+      "logicalHeight": 214,
+      "label": "elder ride e 2",
+      "kind": "people-mounted-cast1-e",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          362,
+          676,
+          230,
+          210
+        ],
+        "visiblePixels": 20602,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-ride-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-e"
+    },
+    "elder-ride-e-3": {
+      "sheet": "people-mounted-cast1-e",
+      "x": 657,
+      "y": 676,
+      "w": 234,
+      "h": 212,
+      "anchorX": 0.5021,
+      "anchorY": 0.9292,
+      "logicalHeight": 214,
+      "label": "elder ride e 3",
+      "kind": "people-mounted-cast1-e",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          659,
+          678,
+          230,
+          208
+        ],
+        "visiblePixels": 20667,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-ride-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-e"
+    },
+    "elder-ride-e-4": {
+      "sheet": "people-mounted-cast1-e",
+      "x": 955,
+      "y": 677,
+      "w": 226,
+      "h": 211,
+      "anchorX": 0.5265,
+      "anchorY": 0.9336,
+      "logicalHeight": 214,
+      "label": "elder ride e 4",
+      "kind": "people-mounted-cast1-e",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          957,
+          679,
+          222,
+          207
+        ],
+        "visiblePixels": 19748,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-ride-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-e"
+    },
+    "blue-ride-e-1": {
+      "sheet": "people-mounted-cast1-e",
+      "x": 73,
+      "y": 962,
+      "w": 233,
+      "h": 203,
+      "anchorX": 0.5021,
+      "anchorY": 0.9261,
+      "logicalHeight": 203,
+      "label": "blue ride e 1",
+      "kind": "people-mounted-cast1-e",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          75,
+          964,
+          229,
+          199
+        ],
+        "visiblePixels": 19959,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-ride-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-e"
+    },
+    "blue-ride-e-2": {
+      "sheet": "people-mounted-cast1-e",
+      "x": 362,
+      "y": 962,
+      "w": 232,
+      "h": 203,
+      "anchorX": 0.4978,
+      "anchorY": 0.9261,
+      "logicalHeight": 203,
+      "label": "blue ride e 2",
+      "kind": "people-mounted-cast1-e",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          364,
+          964,
+          228,
+          199
+        ],
+        "visiblePixels": 19630,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-ride-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-e"
+    },
+    "blue-ride-e-3": {
+      "sheet": "people-mounted-cast1-e",
+      "x": 657,
+      "y": 963,
+      "w": 235,
+      "h": 202,
+      "anchorX": 0.5064,
+      "anchorY": 0.9307,
+      "logicalHeight": 203,
+      "label": "blue ride e 3",
+      "kind": "people-mounted-cast1-e",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          659,
+          965,
+          231,
+          198
+        ],
+        "visiblePixels": 19620,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-ride-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-e"
+    },
+    "blue-ride-e-4": {
+      "sheet": "people-mounted-cast1-e",
+      "x": 954,
+      "y": 963,
+      "w": 227,
+      "h": 202,
+      "anchorX": 0.5286,
+      "anchorY": 0.9257,
+      "logicalHeight": 203,
+      "label": "blue ride e 4",
+      "kind": "people-mounted-cast1-e",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          956,
+          965,
+          223,
+          198
+        ],
+        "visiblePixels": 19052,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-ride-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-e"
+    },
+    "rust-ride-s-1": {
+      "sheet": "people-mounted-cast1-s",
+      "x": 105,
+      "y": 3,
+      "w": 149,
+      "h": 314,
+      "anchorX": 0.5638,
+      "anchorY": 0.965,
+      "logicalHeight": 314,
+      "label": "rust ride s 1",
+      "kind": "people-mounted-cast1-s",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          107,
+          5,
+          145,
+          310
+        ],
+        "visiblePixels": 23824,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-ride-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-s"
+    },
+    "rust-ride-s-2": {
+      "sheet": "people-mounted-cast1-s",
+      "x": 416,
+      "y": 5,
+      "w": 149,
+      "h": 311,
+      "anchorX": 0.5638,
+      "anchorY": 0.9678,
+      "logicalHeight": 314,
+      "label": "rust ride s 2",
+      "kind": "people-mounted-cast1-s",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          418,
+          7,
+          145,
+          307
+        ],
+        "visiblePixels": 23660,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-ride-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-s"
+    },
+    "rust-ride-s-3": {
+      "sheet": "people-mounted-cast1-s",
+      "x": 710,
+      "y": 5,
+      "w": 144,
+      "h": 312,
+      "anchorX": 0.4792,
+      "anchorY": 0.9295,
+      "logicalHeight": 314,
+      "label": "rust ride s 3",
+      "kind": "people-mounted-cast1-s",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          712,
+          7,
+          140,
+          308
+        ],
+        "visiblePixels": 23626,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-ride-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-s"
+    },
+    "rust-ride-s-4": {
+      "sheet": "people-mounted-cast1-s",
+      "x": 1002,
+      "y": 3,
+      "w": 144,
+      "h": 314,
+      "anchorX": 0.4063,
+      "anchorY": 0.9618,
+      "logicalHeight": 314,
+      "label": "rust ride s 4",
+      "kind": "people-mounted-cast1-s",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1004,
+          5,
+          140,
+          310
+        ],
+        "visiblePixels": 23547,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-ride-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-s"
+    },
+    "teal-ride-s-1": {
+      "sheet": "people-mounted-cast1-s",
+      "x": 103,
+      "y": 317,
+      "w": 153,
+      "h": 312,
+      "anchorX": 0.5719,
+      "anchorY": 0.9647,
+      "logicalHeight": 313,
+      "label": "teal ride s 1",
+      "kind": "people-mounted-cast1-s",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          105,
+          319,
+          149,
+          309
+        ],
+        "visiblePixels": 25262,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-ride-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-s"
+    },
+    "teal-ride-s-2": {
+      "sheet": "people-mounted-cast1-s",
+      "x": 414,
+      "y": 318,
+      "w": 155,
+      "h": 312,
+      "anchorX": 0.5548,
+      "anchorY": 0.9647,
+      "logicalHeight": 313,
+      "label": "teal ride s 2",
+      "kind": "people-mounted-cast1-s",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          416,
+          320,
+          151,
+          308
+        ],
+        "visiblePixels": 25126,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-ride-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-s"
+    },
+    "teal-ride-s-3": {
+      "sheet": "people-mounted-cast1-s",
+      "x": 709,
+      "y": 319,
+      "w": 150,
+      "h": 313,
+      "anchorX": 0.55,
+      "anchorY": 0.9681,
+      "logicalHeight": 313,
+      "label": "teal ride s 3",
+      "kind": "people-mounted-cast1-s",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          711,
+          321,
+          146,
+          310
+        ],
+        "visiblePixels": 25204,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-ride-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-s"
+    },
+    "teal-ride-s-4": {
+      "sheet": "people-mounted-cast1-s",
+      "x": 999,
+      "y": 318,
+      "w": 157,
+      "h": 313,
+      "anchorX": 0.4172,
+      "anchorY": 0.9712,
+      "logicalHeight": 313,
+      "label": "teal ride s 4",
+      "kind": "people-mounted-cast1-s",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1001,
+          320,
+          153,
+          311
+        ],
+        "visiblePixels": 25785,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-ride-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-s"
+    },
+    "elder-ride-s-1": {
+      "sheet": "people-mounted-cast1-s",
+      "x": 106,
+      "y": 629,
+      "w": 152,
+      "h": 313,
+      "anchorX": 0.5395,
+      "anchorY": 0.9681,
+      "logicalHeight": 313,
+      "label": "elder ride s 1",
+      "kind": "people-mounted-cast1-s",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          108,
+          631,
+          148,
+          309
+        ],
+        "visiblePixels": 24932,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-ride-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-s"
+    },
+    "elder-ride-s-2": {
+      "sheet": "people-mounted-cast1-s",
+      "x": 413,
+      "y": 631,
+      "w": 152,
+      "h": 311,
+      "anchorX": 0.5691,
+      "anchorY": 0.9582,
+      "logicalHeight": 313,
+      "label": "elder ride s 2",
+      "kind": "people-mounted-cast1-s",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          415,
+          633,
+          148,
+          307
+        ],
+        "visiblePixels": 24629,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-ride-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-s"
+    },
+    "elder-ride-s-3": {
+      "sheet": "people-mounted-cast1-s",
+      "x": 711,
+      "y": 632,
+      "w": 147,
+      "h": 311,
+      "anchorX": 0.551,
+      "anchorY": 0.9678,
+      "logicalHeight": 313,
+      "label": "elder ride s 3",
+      "kind": "people-mounted-cast1-s",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          713,
+          634,
+          143,
+          308
+        ],
+        "visiblePixels": 24236,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-ride-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-s"
+    },
+    "elder-ride-s-4": {
+      "sheet": "people-mounted-cast1-s",
+      "x": 1001,
+      "y": 631,
+      "w": 152,
+      "h": 312,
+      "anchorX": 0.4112,
+      "anchorY": 0.9615,
+      "logicalHeight": 313,
+      "label": "elder ride s 4",
+      "kind": "people-mounted-cast1-s",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1003,
+          631,
+          148,
+          313
+        ],
+        "visiblePixels": 24931,
+        "trimmedPixels": 1,
+        "retainedFraction": 0.99996
+      },
+      "source": "atlases/people-mounted-cast1-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-ride-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-s"
+    },
+    "blue-ride-s-1": {
+      "sheet": "people-mounted-cast1-s",
+      "x": 105,
+      "y": 943,
+      "w": 152,
+      "h": 307,
+      "anchorX": 0.5658,
+      "anchorY": 0.9609,
+      "logicalHeight": 307,
+      "label": "blue ride s 1",
+      "kind": "people-mounted-cast1-s",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          107,
+          945,
+          148,
+          303
+        ],
+        "visiblePixels": 22994,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-ride-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-s"
+    },
+    "blue-ride-s-2": {
+      "sheet": "people-mounted-cast1-s",
+      "x": 413,
+      "y": 943,
+      "w": 152,
+      "h": 303,
+      "anchorX": 0.5691,
+      "anchorY": 0.9571,
+      "logicalHeight": 307,
+      "label": "blue ride s 2",
+      "kind": "people-mounted-cast1-s",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          415,
+          945,
+          148,
+          299
+        ],
+        "visiblePixels": 22985,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-ride-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-s"
+    },
+    "blue-ride-s-3": {
+      "sheet": "people-mounted-cast1-s",
+      "x": 711,
+      "y": 943,
+      "w": 149,
+      "h": 307,
+      "anchorX": 0.5537,
+      "anchorY": 0.9642,
+      "logicalHeight": 307,
+      "label": "blue ride s 3",
+      "kind": "people-mounted-cast1-s",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          713,
+          945,
+          145,
+          303
+        ],
+        "visiblePixels": 22800,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-ride-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-s"
+    },
+    "blue-ride-s-4": {
+      "sheet": "people-mounted-cast1-s",
+      "x": 997,
+      "y": 943,
+      "w": 157,
+      "h": 307,
+      "anchorX": 0.4108,
+      "anchorY": 0.9577,
+      "logicalHeight": 307,
+      "label": "blue ride s 4",
+      "kind": "people-mounted-cast1-s",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          999,
+          943,
+          153,
+          305
+        ],
+        "visiblePixels": 23687,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-ride-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-s"
+    },
+    "rust-ride-n-1": {
+      "sheet": "people-mounted-cast1-n",
+      "x": 73,
+      "y": 9,
+      "w": 207,
+      "h": 306,
+      "anchorX": 0.3454,
+      "anchorY": 0.9444,
+      "logicalHeight": 306,
+      "label": "rust ride n 1",
+      "kind": "people-mounted-cast1-n",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          75,
+          11,
+          203,
+          302
+        ],
+        "visiblePixels": 29408,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-ride-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-n"
+    },
+    "rust-ride-n-2": {
+      "sheet": "people-mounted-cast1-n",
+      "x": 401,
+      "y": 11,
+      "w": 192,
+      "h": 300,
+      "anchorX": 0.401,
+      "anchorY": 0.9567,
+      "logicalHeight": 306,
+      "label": "rust ride n 2",
+      "kind": "people-mounted-cast1-n",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          403,
+          13,
+          188,
+          296
+        ],
+        "visiblePixels": 28069,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-ride-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-n"
+    },
+    "rust-ride-n-3": {
+      "sheet": "people-mounted-cast1-n",
+      "x": 712,
+      "y": 11,
+      "w": 194,
+      "h": 304,
+      "anchorX": 0.3634,
+      "anchorY": 0.9276,
+      "logicalHeight": 306,
+      "label": "rust ride n 3",
+      "kind": "people-mounted-cast1-n",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          714,
+          13,
+          190,
+          300
+        ],
+        "visiblePixels": 27587,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-ride-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-n"
+    },
+    "rust-ride-n-4": {
+      "sheet": "people-mounted-cast1-n",
+      "x": 1028,
+      "y": 10,
+      "w": 192,
+      "h": 300,
+      "anchorX": 0.3516,
+      "anchorY": 0.93,
+      "logicalHeight": 306,
+      "label": "rust ride n 4",
+      "kind": "people-mounted-cast1-n",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1030,
+          12,
+          188,
+          296
+        ],
+        "visiblePixels": 27917,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-ride-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-n"
+    },
+    "teal-ride-n-1": {
+      "sheet": "people-mounted-cast1-n",
+      "x": 73,
+      "y": 318,
+      "w": 206,
+      "h": 309,
+      "anchorX": 0.3495,
+      "anchorY": 0.9515,
+      "logicalHeight": 309,
+      "label": "teal ride n 1",
+      "kind": "people-mounted-cast1-n",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          75,
+          320,
+          202,
+          305
+        ],
+        "visiblePixels": 30610,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-ride-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-n"
+    },
+    "teal-ride-n-2": {
+      "sheet": "people-mounted-cast1-n",
+      "x": 401,
+      "y": 319,
+      "w": 191,
+      "h": 305,
+      "anchorX": 0.3979,
+      "anchorY": 0.941,
+      "logicalHeight": 309,
+      "label": "teal ride n 2",
+      "kind": "people-mounted-cast1-n",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          403,
+          321,
+          187,
+          301
+        ],
+        "visiblePixels": 29280,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-ride-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-n"
+    },
+    "teal-ride-n-3": {
+      "sheet": "people-mounted-cast1-n",
+      "x": 713,
+      "y": 320,
+      "w": 194,
+      "h": 308,
+      "anchorX": 0.3531,
+      "anchorY": 0.9286,
+      "logicalHeight": 309,
+      "label": "teal ride n 3",
+      "kind": "people-mounted-cast1-n",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          715,
+          322,
+          190,
+          304
+        ],
+        "visiblePixels": 29119,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-ride-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-n"
+    },
+    "teal-ride-n-4": {
+      "sheet": "people-mounted-cast1-n",
+      "x": 1028,
+      "y": 319,
+      "w": 192,
+      "h": 303,
+      "anchorX": 0.3594,
+      "anchorY": 0.9274,
+      "logicalHeight": 309,
+      "label": "teal ride n 4",
+      "kind": "people-mounted-cast1-n",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1030,
+          321,
+          188,
+          299
+        ],
+        "visiblePixels": 29162,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-ride-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-n"
+    },
+    "elder-ride-n-1": {
+      "sheet": "people-mounted-cast1-n",
+      "x": 70,
+      "y": 629,
+      "w": 211,
+      "h": 311,
+      "anchorX": 0.3507,
+      "anchorY": 0.9453,
+      "logicalHeight": 311,
+      "label": "elder ride n 1",
+      "kind": "people-mounted-cast1-n",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          72,
+          631,
+          207,
+          307
+        ],
+        "visiblePixels": 30623,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-ride-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-n"
+    },
+    "elder-ride-n-2": {
+      "sheet": "people-mounted-cast1-n",
+      "x": 400,
+      "y": 632,
+      "w": 194,
+      "h": 305,
+      "anchorX": 0.4021,
+      "anchorY": 0.9541,
+      "logicalHeight": 311,
+      "label": "elder ride n 2",
+      "kind": "people-mounted-cast1-n",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          402,
+          634,
+          190,
+          301
+        ],
+        "visiblePixels": 29023,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-ride-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-n"
+    },
+    "elder-ride-n-3": {
+      "sheet": "people-mounted-cast1-n",
+      "x": 712,
+      "y": 635,
+      "w": 195,
+      "h": 304,
+      "anchorX": 0.3615,
+      "anchorY": 0.9276,
+      "logicalHeight": 311,
+      "label": "elder ride n 3",
+      "kind": "people-mounted-cast1-n",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          714,
+          637,
+          191,
+          300
+        ],
+        "visiblePixels": 28352,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-ride-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-n"
+    },
+    "elder-ride-n-4": {
+      "sheet": "people-mounted-cast1-n",
+      "x": 1028,
+      "y": 632,
+      "w": 195,
+      "h": 303,
+      "anchorX": 0.3564,
+      "anchorY": 0.9406,
+      "logicalHeight": 311,
+      "label": "elder ride n 4",
+      "kind": "people-mounted-cast1-n",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1030,
+          634,
+          191,
+          299
+        ],
+        "visiblePixels": 28744,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-ride-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-n"
+    },
+    "blue-ride-n-1": {
+      "sheet": "people-mounted-cast1-n",
+      "x": 73,
+      "y": 944,
+      "w": 207,
+      "h": 298,
+      "anchorX": 0.3454,
+      "anchorY": 0.9497,
+      "logicalHeight": 299,
+      "label": "blue ride n 1",
+      "kind": "people-mounted-cast1-n",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          75,
+          946,
+          203,
+          294
+        ],
+        "visiblePixels": 28710,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-ride-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-n"
+    },
+    "blue-ride-n-2": {
+      "sheet": "people-mounted-cast1-n",
+      "x": 400,
+      "y": 942,
+      "w": 193,
+      "h": 296,
+      "anchorX": 0.3964,
+      "anchorY": 0.9426,
+      "logicalHeight": 299,
+      "label": "blue ride n 2",
+      "kind": "people-mounted-cast1-n",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          402,
+          944,
+          189,
+          292
+        ],
+        "visiblePixels": 27400,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-ride-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-n"
+    },
+    "blue-ride-n-3": {
+      "sheet": "people-mounted-cast1-n",
+      "x": 712,
+      "y": 943,
+      "w": 195,
+      "h": 299,
+      "anchorX": 0.3615,
+      "anchorY": 0.9298,
+      "logicalHeight": 299,
+      "label": "blue ride n 3",
+      "kind": "people-mounted-cast1-n",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          714,
+          945,
+          191,
+          295
+        ],
+        "visiblePixels": 26952,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-ride-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-n"
+    },
+    "blue-ride-n-4": {
+      "sheet": "people-mounted-cast1-n",
+      "x": 1028,
+      "y": 941,
+      "w": 192,
+      "h": 297,
+      "anchorX": 0.362,
+      "anchorY": 0.9394,
+      "logicalHeight": 299,
+      "label": "blue ride n 4",
+      "kind": "people-mounted-cast1-n",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1030,
+          943,
+          188,
+          293
+        ],
+        "visiblePixels": 26958,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast1-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-ride-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast1-n"
+    },
+    "rust-woman-ride-e-1": {
+      "sheet": "people-mounted-cast2-e",
+      "x": 39,
+      "y": 80,
+      "w": 246,
+      "h": 213,
+      "anchorX": 0.5061,
+      "anchorY": 0.9296,
+      "logicalHeight": 214,
+      "label": "rust woman ride e 1",
+      "kind": "people-mounted-cast2-e",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          41,
+          82,
+          242,
+          209
+        ],
+        "visiblePixels": 22816,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-ride-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-e"
+    },
+    "rust-woman-ride-e-2": {
+      "sheet": "people-mounted-cast2-e",
+      "x": 352,
+      "y": 80,
+      "w": 240,
+      "h": 214,
+      "anchorX": 0.5021,
+      "anchorY": 0.9299,
+      "logicalHeight": 214,
+      "label": "rust woman ride e 2",
+      "kind": "people-mounted-cast2-e",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          354,
+          82,
+          236,
+          210
+        ],
+        "visiblePixels": 22191,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-ride-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-e"
+    },
+    "rust-woman-ride-e-3": {
+      "sheet": "people-mounted-cast2-e",
+      "x": 655,
+      "y": 81,
+      "w": 242,
+      "h": 214,
+      "anchorX": 0.3946,
+      "anchorY": 0.9486,
+      "logicalHeight": 214,
+      "label": "rust woman ride e 3",
+      "kind": "people-mounted-cast2-e",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          657,
+          83,
+          238,
+          210
+        ],
+        "visiblePixels": 22589,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-ride-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-e"
+    },
+    "rust-woman-ride-e-4": {
+      "sheet": "people-mounted-cast2-e",
+      "x": 960,
+      "y": 82,
+      "w": 243,
+      "h": 212,
+      "anchorX": 0.5247,
+      "anchorY": 0.9292,
+      "logicalHeight": 214,
+      "label": "rust woman ride e 4",
+      "kind": "people-mounted-cast2-e",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          962,
+          84,
+          239,
+          208
+        ],
+        "visiblePixels": 22531,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-ride-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-e"
+    },
+    "indigo-ride-e-1": {
+      "sheet": "people-mounted-cast2-e",
+      "x": 37,
+      "y": 374,
+      "w": 251,
+      "h": 232,
+      "anchorX": 0.512,
+      "anchorY": 0.9267,
+      "logicalHeight": 232,
+      "label": "indigo ride e 1",
+      "kind": "people-mounted-cast2-e",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          39,
+          376,
+          247,
+          228
+        ],
+        "visiblePixels": 25313,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-ride-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-e"
+    },
+    "indigo-ride-e-2": {
+      "sheet": "people-mounted-cast2-e",
+      "x": 345,
+      "y": 375,
+      "w": 253,
+      "h": 232,
+      "anchorX": 0.504,
+      "anchorY": 0.9267,
+      "logicalHeight": 232,
+      "label": "indigo ride e 2",
+      "kind": "people-mounted-cast2-e",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          347,
+          377,
+          249,
+          228
+        ],
+        "visiblePixels": 24912,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-ride-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-e"
+    },
+    "indigo-ride-e-3": {
+      "sheet": "people-mounted-cast2-e",
+      "x": 653,
+      "y": 375,
+      "w": 251,
+      "h": 230,
+      "anchorX": 0.3904,
+      "anchorY": 0.9304,
+      "logicalHeight": 232,
+      "label": "indigo ride e 3",
+      "kind": "people-mounted-cast2-e",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          655,
+          377,
+          247,
+          226
+        ],
+        "visiblePixels": 25536,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-ride-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-e"
+    },
+    "indigo-ride-e-4": {
+      "sheet": "people-mounted-cast2-e",
+      "x": 959,
+      "y": 376,
+      "w": 251,
+      "h": 230,
+      "anchorX": 0.5179,
+      "anchorY": 0.9261,
+      "logicalHeight": 232,
+      "label": "indigo ride e 4",
+      "kind": "people-mounted-cast2-e",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          961,
+          378,
+          247,
+          226
+        ],
+        "visiblePixels": 25182,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-ride-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-e"
+    },
+    "ochre-ride-e-1": {
+      "sheet": "people-mounted-cast2-e",
+      "x": 39,
+      "y": 680,
+      "w": 250,
+      "h": 229,
+      "anchorX": 0.512,
+      "anchorY": 0.9301,
+      "logicalHeight": 230,
+      "label": "ochre ride e 1",
+      "kind": "people-mounted-cast2-e",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          41,
+          682,
+          246,
+          225
+        ],
+        "visiblePixels": 24683,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-ride-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-e"
+    },
+    "ochre-ride-e-2": {
+      "sheet": "people-mounted-cast2-e",
+      "x": 343,
+      "y": 680,
+      "w": 255,
+      "h": 230,
+      "anchorX": 0.5059,
+      "anchorY": 0.9261,
+      "logicalHeight": 230,
+      "label": "ochre ride e 2",
+      "kind": "people-mounted-cast2-e",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          345,
+          682,
+          251,
+          226
+        ],
+        "visiblePixels": 24551,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-ride-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-e"
+    },
+    "ochre-ride-e-3": {
+      "sheet": "people-mounted-cast2-e",
+      "x": 651,
+      "y": 679,
+      "w": 254,
+      "h": 230,
+      "anchorX": 0.4173,
+      "anchorY": 0.9261,
+      "logicalHeight": 230,
+      "label": "ochre ride e 3",
+      "kind": "people-mounted-cast2-e",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          653,
+          681,
+          250,
+          226
+        ],
+        "visiblePixels": 24925,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-ride-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-e"
+    },
+    "ochre-ride-e-4": {
+      "sheet": "people-mounted-cast2-e",
+      "x": 956,
+      "y": 680,
+      "w": 255,
+      "h": 230,
+      "anchorX": 0.5137,
+      "anchorY": 0.9261,
+      "logicalHeight": 230,
+      "label": "ochre ride e 4",
+      "kind": "people-mounted-cast2-e",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          958,
+          682,
+          251,
+          226
+        ],
+        "visiblePixels": 24932,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-ride-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-e"
+    },
+    "blue-girl-ride-e-1": {
+      "sheet": "people-mounted-cast2-e",
+      "x": 39,
+      "y": 984,
+      "w": 251,
+      "h": 221,
+      "anchorX": 0.502,
+      "anchorY": 0.9276,
+      "logicalHeight": 223,
+      "label": "blue girl ride e 1",
+      "kind": "people-mounted-cast2-e",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          41,
+          986,
+          247,
+          217
+        ],
+        "visiblePixels": 24268,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-ride-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-e"
+    },
+    "blue-girl-ride-e-2": {
+      "sheet": "people-mounted-cast2-e",
+      "x": 345,
+      "y": 983,
+      "w": 253,
+      "h": 222,
+      "anchorX": 0.5059,
+      "anchorY": 0.9279,
+      "logicalHeight": 223,
+      "label": "blue girl ride e 2",
+      "kind": "people-mounted-cast2-e",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          347,
+          985,
+          249,
+          218
+        ],
+        "visiblePixels": 24317,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-ride-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-e"
+    },
+    "blue-girl-ride-e-3": {
+      "sheet": "people-mounted-cast2-e",
+      "x": 651,
+      "y": 982,
+      "w": 252,
+      "h": 223,
+      "anchorX": 0.3988,
+      "anchorY": 0.9552,
+      "logicalHeight": 223,
+      "label": "blue girl ride e 3",
+      "kind": "people-mounted-cast2-e",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          653,
+          984,
+          248,
+          219
+        ],
+        "visiblePixels": 24666,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-ride-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-e"
+    },
+    "blue-girl-ride-e-4": {
+      "sheet": "people-mounted-cast2-e",
+      "x": 958,
+      "y": 982,
+      "w": 251,
+      "h": 223,
+      "anchorX": 0.5239,
+      "anchorY": 0.9283,
+      "logicalHeight": 223,
+      "label": "blue girl ride e 4",
+      "kind": "people-mounted-cast2-e",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          960,
+          984,
+          247,
+          219
+        ],
+        "visiblePixels": 24343,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-ride-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-e"
+    },
+    "rust-woman-ride-s-1": {
+      "sheet": "people-mounted-cast2-s",
+      "x": 119,
+      "y": 10,
+      "w": 150,
+      "h": 310,
+      "anchorX": 0.4633,
+      "anchorY": 0.9645,
+      "logicalHeight": 310,
+      "label": "rust woman ride s 1",
+      "kind": "people-mounted-cast2-s",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          121,
+          12,
+          146,
+          306
+        ],
+        "visiblePixels": 24030,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-ride-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-s"
+    },
+    "rust-woman-ride-s-2": {
+      "sheet": "people-mounted-cast2-s",
+      "x": 406,
+      "y": 9,
+      "w": 151,
+      "h": 307,
+      "anchorX": 0.4603,
+      "anchorY": 0.9609,
+      "logicalHeight": 310,
+      "label": "rust woman ride s 2",
+      "kind": "people-mounted-cast2-s",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          408,
+          11,
+          147,
+          303
+        ],
+        "visiblePixels": 23498,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-ride-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-s"
+    },
+    "rust-woman-ride-s-3": {
+      "sheet": "people-mounted-cast2-s",
+      "x": 696,
+      "y": 9,
+      "w": 150,
+      "h": 306,
+      "anchorX": 0.6367,
+      "anchorY": 0.9641,
+      "logicalHeight": 310,
+      "label": "rust woman ride s 3",
+      "kind": "people-mounted-cast2-s",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          698,
+          11,
+          146,
+          302
+        ],
+        "visiblePixels": 23775,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-ride-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-s"
+    },
+    "rust-woman-ride-s-4": {
+      "sheet": "people-mounted-cast2-s",
+      "x": 983,
+      "y": 8,
+      "w": 149,
+      "h": 308,
+      "anchorX": 0.4564,
+      "anchorY": 0.9545,
+      "logicalHeight": 310,
+      "label": "rust woman ride s 4",
+      "kind": "people-mounted-cast2-s",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          985,
+          10,
+          145,
+          304
+        ],
+        "visiblePixels": 23898,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-ride-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-s"
+    },
+    "indigo-ride-s-1": {
+      "sheet": "people-mounted-cast2-s",
+      "x": 117,
+      "y": 324,
+      "w": 152,
+      "h": 308,
+      "anchorX": 0.4704,
+      "anchorY": 0.961,
+      "logicalHeight": 311,
+      "label": "indigo ride s 1",
+      "kind": "people-mounted-cast2-s",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          119,
+          326,
+          148,
+          304
+        ],
+        "visiblePixels": 24412,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-ride-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-s"
+    },
+    "indigo-ride-s-2": {
+      "sheet": "people-mounted-cast2-s",
+      "x": 408,
+      "y": 320,
+      "w": 151,
+      "h": 309,
+      "anchorX": 0.447,
+      "anchorY": 0.9612,
+      "logicalHeight": 311,
+      "label": "indigo ride s 2",
+      "kind": "people-mounted-cast2-s",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          410,
+          322,
+          147,
+          305
+        ],
+        "visiblePixels": 23978,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-ride-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-s"
+    },
+    "indigo-ride-s-3": {
+      "sheet": "people-mounted-cast2-s",
+      "x": 695,
+      "y": 324,
+      "w": 155,
+      "h": 305,
+      "anchorX": 0.6226,
+      "anchorY": 0.9607,
+      "logicalHeight": 311,
+      "label": "indigo ride s 3",
+      "kind": "people-mounted-cast2-s",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          697,
+          326,
+          151,
+          301
+        ],
+        "visiblePixels": 24028,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-ride-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-s"
+    },
+    "indigo-ride-s-4": {
+      "sheet": "people-mounted-cast2-s",
+      "x": 983,
+      "y": 320,
+      "w": 150,
+      "h": 311,
+      "anchorX": 0.4567,
+      "anchorY": 0.9678,
+      "logicalHeight": 311,
+      "label": "indigo ride s 4",
+      "kind": "people-mounted-cast2-s",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          985,
+          322,
+          146,
+          307
+        ],
+        "visiblePixels": 24303,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-ride-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-s"
+    },
+    "ochre-ride-s-1": {
+      "sheet": "people-mounted-cast2-s",
+      "x": 118,
+      "y": 633,
+      "w": 153,
+      "h": 308,
+      "anchorX": 0.4542,
+      "anchorY": 0.961,
+      "logicalHeight": 308,
+      "label": "ochre ride s 1",
+      "kind": "people-mounted-cast2-s",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          120,
+          635,
+          149,
+          304
+        ],
+        "visiblePixels": 23115,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-ride-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-s"
+    },
+    "ochre-ride-s-2": {
+      "sheet": "people-mounted-cast2-s",
+      "x": 405,
+      "y": 634,
+      "w": 155,
+      "h": 306,
+      "anchorX": 0.4484,
+      "anchorY": 0.9608,
+      "logicalHeight": 308,
+      "label": "ochre ride s 2",
+      "kind": "people-mounted-cast2-s",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          407,
+          636,
+          151,
+          302
+        ],
+        "visiblePixels": 23082,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-ride-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-s"
+    },
+    "ochre-ride-s-3": {
+      "sheet": "people-mounted-cast2-s",
+      "x": 693,
+      "y": 634,
+      "w": 152,
+      "h": 305,
+      "anchorX": 0.648,
+      "anchorY": 0.9639,
+      "logicalHeight": 308,
+      "label": "ochre ride s 3",
+      "kind": "people-mounted-cast2-s",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          695,
+          636,
+          148,
+          301
+        ],
+        "visiblePixels": 22939,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-ride-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-s"
+    },
+    "ochre-ride-s-4": {
+      "sheet": "people-mounted-cast2-s",
+      "x": 985,
+      "y": 634,
+      "w": 147,
+      "h": 306,
+      "anchorX": 0.4524,
+      "anchorY": 0.9641,
+      "logicalHeight": 308,
+      "label": "ochre ride s 4",
+      "kind": "people-mounted-cast2-s",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          987,
+          636,
+          143,
+          302
+        ],
+        "visiblePixels": 22650,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-ride-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-s"
+    },
+    "blue-girl-ride-s-1": {
+      "sheet": "people-mounted-cast2-s",
+      "x": 116,
+      "y": 945,
+      "w": 153,
+      "h": 303,
+      "anchorX": 0.4673,
+      "anchorY": 0.9637,
+      "logicalHeight": 303,
+      "label": "blue girl ride s 1",
+      "kind": "people-mounted-cast2-s",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          118,
+          947,
+          149,
+          299
+        ],
+        "visiblePixels": 23832,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-ride-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-s"
+    },
+    "blue-girl-ride-s-2": {
+      "sheet": "people-mounted-cast2-s",
+      "x": 406,
+      "y": 946,
+      "w": 150,
+      "h": 301,
+      "anchorX": 0.4633,
+      "anchorY": 0.9635,
+      "logicalHeight": 303,
+      "label": "blue girl ride s 2",
+      "kind": "people-mounted-cast2-s",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          408,
+          948,
+          146,
+          297
+        ],
+        "visiblePixels": 23238,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-ride-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-s"
+    },
+    "blue-girl-ride-s-3": {
+      "sheet": "people-mounted-cast2-s",
+      "x": 694,
+      "y": 946,
+      "w": 154,
+      "h": 302,
+      "anchorX": 0.6396,
+      "anchorY": 0.9636,
+      "logicalHeight": 303,
+      "label": "blue girl ride s 3",
+      "kind": "people-mounted-cast2-s",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          696,
+          948,
+          150,
+          298
+        ],
+        "visiblePixels": 23257,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-ride-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-s"
+    },
+    "blue-girl-ride-s-4": {
+      "sheet": "people-mounted-cast2-s",
+      "x": 985,
+      "y": 945,
+      "w": 148,
+      "h": 303,
+      "anchorX": 0.4426,
+      "anchorY": 0.9571,
+      "logicalHeight": 303,
+      "label": "blue girl ride s 4",
+      "kind": "people-mounted-cast2-s",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          987,
+          947,
+          144,
+          299
+        ],
+        "visiblePixels": 23439,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-ride-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-s"
+    },
+    "rust-woman-ride-n-1": {
+      "sheet": "people-mounted-cast2-n",
+      "x": 53,
+      "y": 15,
+      "w": 231,
+      "h": 300,
+      "anchorX": 0.2814,
+      "anchorY": 0.9567,
+      "logicalHeight": 302,
+      "label": "rust woman ride n 1",
+      "kind": "people-mounted-cast2-n",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          55,
+          17,
+          227,
+          296
+        ],
+        "visiblePixels": 30532,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-ride-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-n"
+    },
+    "rust-woman-ride-n-2": {
+      "sheet": "people-mounted-cast2-n",
+      "x": 362,
+      "y": 15,
+      "w": 232,
+      "h": 300,
+      "anchorX": 0.3039,
+      "anchorY": 0.94,
+      "logicalHeight": 302,
+      "label": "rust woman ride n 2",
+      "kind": "people-mounted-cast2-n",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          364,
+          17,
+          228,
+          296
+        ],
+        "visiblePixels": 30569,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-ride-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-n"
+    },
+    "rust-woman-ride-n-3": {
+      "sheet": "people-mounted-cast2-n",
+      "x": 676,
+      "y": 15,
+      "w": 234,
+      "h": 302,
+      "anchorX": 0.2521,
+      "anchorY": 0.9404,
+      "logicalHeight": 302,
+      "label": "rust woman ride n 3",
+      "kind": "people-mounted-cast2-n",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          678,
+          17,
+          230,
+          298
+        ],
+        "visiblePixels": 31038,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-ride-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-n"
+    },
+    "rust-woman-ride-n-4": {
+      "sheet": "people-mounted-cast2-n",
+      "x": 992,
+      "y": 15,
+      "w": 232,
+      "h": 301,
+      "anchorX": 0.3384,
+      "anchorY": 0.9568,
+      "logicalHeight": 302,
+      "label": "rust woman ride n 4",
+      "kind": "people-mounted-cast2-n",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          994,
+          17,
+          228,
+          297
+        ],
+        "visiblePixels": 30356,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-ride-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-n"
+    },
+    "indigo-ride-n-1": {
+      "sheet": "people-mounted-cast2-n",
+      "x": 52,
+      "y": 322,
+      "w": 234,
+      "h": 304,
+      "anchorX": 0.2692,
+      "anchorY": 0.9342,
+      "logicalHeight": 307,
+      "label": "indigo ride n 1",
+      "kind": "people-mounted-cast2-n",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          54,
+          324,
+          230,
+          300
+        ],
+        "visiblePixels": 31339,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-ride-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-n"
+    },
+    "indigo-ride-n-2": {
+      "sheet": "people-mounted-cast2-n",
+      "x": 365,
+      "y": 322,
+      "w": 235,
+      "h": 304,
+      "anchorX": 0.2979,
+      "anchorY": 0.9375,
+      "logicalHeight": 307,
+      "label": "indigo ride n 2",
+      "kind": "people-mounted-cast2-n",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          367,
+          324,
+          231,
+          300
+        ],
+        "visiblePixels": 31095,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-ride-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-n"
+    },
+    "indigo-ride-n-3": {
+      "sheet": "people-mounted-cast2-n",
+      "x": 675,
+      "y": 320,
+      "w": 238,
+      "h": 307,
+      "anchorX": 0.2437,
+      "anchorY": 0.9381,
+      "logicalHeight": 307,
+      "label": "indigo ride n 3",
+      "kind": "people-mounted-cast2-n",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          677,
+          322,
+          234,
+          303
+        ],
+        "visiblePixels": 31927,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-ride-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-n"
+    },
+    "indigo-ride-n-4": {
+      "sheet": "people-mounted-cast2-n",
+      "x": 993,
+      "y": 321,
+      "w": 232,
+      "h": 305,
+      "anchorX": 0.3168,
+      "anchorY": 0.9377,
+      "logicalHeight": 307,
+      "label": "indigo ride n 4",
+      "kind": "people-mounted-cast2-n",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          995,
+          323,
+          228,
+          301
+        ],
+        "visiblePixels": 30986,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-ride-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-n"
+    },
+    "ochre-ride-n-1": {
+      "sheet": "people-mounted-cast2-n",
+      "x": 54,
+      "y": 636,
+      "w": 232,
+      "h": 305,
+      "anchorX": 0.2672,
+      "anchorY": 0.941,
+      "logicalHeight": 306,
+      "label": "ochre ride n 1",
+      "kind": "people-mounted-cast2-n",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          56,
+          638,
+          228,
+          301
+        ],
+        "visiblePixels": 30491,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-ride-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-n"
+    },
+    "ochre-ride-n-2": {
+      "sheet": "people-mounted-cast2-n",
+      "x": 366,
+      "y": 635,
+      "w": 234,
+      "h": 306,
+      "anchorX": 0.312,
+      "anchorY": 0.9641,
+      "logicalHeight": 306,
+      "label": "ochre ride n 2",
+      "kind": "people-mounted-cast2-n",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          368,
+          637,
+          230,
+          302
+        ],
+        "visiblePixels": 30917,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-ride-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-n"
+    },
+    "ochre-ride-n-3": {
+      "sheet": "people-mounted-cast2-n",
+      "x": 677,
+      "y": 635,
+      "w": 235,
+      "h": 305,
+      "anchorX": 0.2532,
+      "anchorY": 0.9344,
+      "logicalHeight": 306,
+      "label": "ochre ride n 3",
+      "kind": "people-mounted-cast2-n",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          679,
+          637,
+          231,
+          301
+        ],
+        "visiblePixels": 31158,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-ride-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-n"
+    },
+    "ochre-ride-n-4": {
+      "sheet": "people-mounted-cast2-n",
+      "x": 993,
+      "y": 636,
+      "w": 234,
+      "h": 305,
+      "anchorX": 0.312,
+      "anchorY": 0.9639,
+      "logicalHeight": 306,
+      "label": "ochre ride n 4",
+      "kind": "people-mounted-cast2-n",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          995,
+          638,
+          230,
+          301
+        ],
+        "visiblePixels": 30480,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-ride-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-n"
+    },
+    "blue-girl-ride-n-1": {
+      "sheet": "people-mounted-cast2-n",
+      "x": 54,
+      "y": 943,
+      "w": 232,
+      "h": 294,
+      "anchorX": 0.278,
+      "anchorY": 0.9592,
+      "logicalHeight": 297,
+      "label": "blue girl ride n 1",
+      "kind": "people-mounted-cast2-n",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          56,
+          945,
+          228,
+          290
+        ],
+        "visiblePixels": 30014,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-ride-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-n"
+    },
+    "blue-girl-ride-n-2": {
+      "sheet": "people-mounted-cast2-n",
+      "x": 367,
+      "y": 943,
+      "w": 231,
+      "h": 295,
+      "anchorX": 0.2987,
+      "anchorY": 0.9356,
+      "logicalHeight": 297,
+      "label": "blue girl ride n 2",
+      "kind": "people-mounted-cast2-n",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          369,
+          945,
+          227,
+          291
+        ],
+        "visiblePixels": 29710,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-ride-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-n"
+    },
+    "blue-girl-ride-n-3": {
+      "sheet": "people-mounted-cast2-n",
+      "x": 675,
+      "y": 943,
+      "w": 237,
+      "h": 297,
+      "anchorX": 0.2574,
+      "anchorY": 0.9562,
+      "logicalHeight": 297,
+      "label": "blue girl ride n 3",
+      "kind": "people-mounted-cast2-n",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          677,
+          945,
+          233,
+          293
+        ],
+        "visiblePixels": 30575,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-ride-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-n"
+    },
+    "blue-girl-ride-n-4": {
+      "sheet": "people-mounted-cast2-n",
+      "x": 994,
+      "y": 944,
+      "w": 234,
+      "h": 295,
+      "anchorX": 0.3034,
+      "anchorY": 0.939,
+      "logicalHeight": 297,
+      "label": "blue girl ride n 4",
+      "kind": "people-mounted-cast2-n",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          996,
+          946,
+          230,
+          291
+        ],
+        "visiblePixels": 29870,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-mounted-cast2-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-ride-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-mounted-cast2-n"
+    },
+    "mustang-graze-1": {
+      "sheet": "wildlife-mustang",
+      "x": 26,
+      "y": 133,
+      "w": 260,
+      "h": 172,
+      "anchorX": 0.55,
+      "anchorY": 0.9244,
+      "label": "mustang graze 1",
+      "kind": "wildlife-mustang",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          28,
+          135,
+          256,
+          168
+        ],
+        "visiblePixels": 26887,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-mustang.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mustang-graze"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-mustang"
+    },
+    "mustang-graze-2": {
+      "sheet": "wildlife-mustang",
+      "x": 339,
+      "y": 133,
+      "w": 261,
+      "h": 173,
+      "anchorX": 0.5479,
+      "anchorY": 0.9249,
+      "label": "mustang graze 2",
+      "kind": "wildlife-mustang",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          341,
+          135,
+          257,
+          169
+        ],
+        "visiblePixels": 26937,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-mustang.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mustang-graze"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-mustang"
+    },
+    "mustang-graze-3": {
+      "sheet": "wildlife-mustang",
+      "x": 649,
+      "y": 133,
+      "w": 264,
+      "h": 172,
+      "anchorX": 0.5511,
+      "anchorY": 0.9244,
+      "label": "mustang graze 3",
+      "kind": "wildlife-mustang",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          651,
+          135,
+          260,
+          168
+        ],
+        "visiblePixels": 27021,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-mustang.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mustang-graze"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-mustang"
+    },
+    "mustang-graze-4": {
+      "sheet": "wildlife-mustang",
+      "x": 962,
+      "y": 133,
+      "w": 264,
+      "h": 172,
+      "anchorX": 0.5511,
+      "anchorY": 0.9302,
+      "label": "mustang graze 4",
+      "kind": "wildlife-mustang",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          964,
+          135,
+          260,
+          168
+        ],
+        "visiblePixels": 27033,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-mustang.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mustang-graze"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-mustang"
+    },
+    "mustang-alert-1": {
+      "sheet": "wildlife-mustang",
+      "x": 25,
+      "y": 353,
+      "w": 276,
+      "h": 267,
+      "anchorX": 0.4457,
+      "anchorY": 0.9588,
+      "label": "mustang alert 1",
+      "kind": "wildlife-mustang",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          27,
+          355,
+          272,
+          263
+        ],
+        "visiblePixels": 31847,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-mustang.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mustang-alert"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-mustang"
+    },
+    "mustang-alert-2": {
+      "sheet": "wildlife-mustang",
+      "x": 340,
+      "y": 350,
+      "w": 274,
+      "h": 270,
+      "anchorX": 0.4526,
+      "anchorY": 0.9593,
+      "label": "mustang alert 2",
+      "kind": "wildlife-mustang",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          342,
+          352,
+          270,
+          266
+        ],
+        "visiblePixels": 32316,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-mustang.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mustang-alert"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-mustang"
+    },
+    "mustang-alert-3": {
+      "sheet": "wildlife-mustang",
+      "x": 653,
+      "y": 345,
+      "w": 272,
+      "h": 275,
+      "anchorX": 0.4449,
+      "anchorY": 0.9345,
+      "label": "mustang alert 3",
+      "kind": "wildlife-mustang",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          655,
+          347,
+          268,
+          271
+        ],
+        "visiblePixels": 32676,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-mustang.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mustang-alert"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-mustang"
+    },
+    "mustang-alert-4": {
+      "sheet": "wildlife-mustang",
+      "x": 963,
+      "y": 349,
+      "w": 276,
+      "h": 271,
+      "anchorX": 0.3859,
+      "anchorY": 0.9373,
+      "label": "mustang alert 4",
+      "kind": "wildlife-mustang",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          965,
+          351,
+          272,
+          267
+        ],
+        "visiblePixels": 32347,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-mustang.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mustang-alert"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-mustang"
+    },
+    "mustang-gallop-1": {
+      "sheet": "wildlife-mustang",
+      "x": 4,
+      "y": 689,
+      "w": 301,
+      "h": 216,
+      "anchorX": 0.4767,
+      "anchorY": 0.9259,
+      "label": "mustang gallop 1",
+      "kind": "wildlife-mustang",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          6,
+          691,
+          297,
+          212
+        ],
+        "visiblePixels": 26247,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-mustang.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mustang-gallop"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-mustang"
+    },
+    "mustang-gallop-2": {
+      "sheet": "wildlife-mustang",
+      "x": 313,
+      "y": 679,
+      "w": 302,
+      "h": 225,
+      "anchorX": 0.404,
+      "anchorY": 0.9289,
+      "label": "mustang gallop 2",
+      "kind": "wildlife-mustang",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          315,
+          681,
+          298,
+          221
+        ],
+        "visiblePixels": 27547,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-mustang.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mustang-gallop"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-mustang"
+    },
+    "mustang-gallop-3": {
+      "sheet": "wildlife-mustang",
+      "x": 625,
+      "y": 683,
+      "w": 316,
+      "h": 202,
+      "anchorX": 0.4525,
+      "anchorY": 0.9257,
+      "label": "mustang gallop 3",
+      "kind": "wildlife-mustang",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          627,
+          685,
+          313,
+          198
+        ],
+        "visiblePixels": 27893,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-mustang.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mustang-gallop"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-mustang"
+    },
+    "mustang-gallop-4": {
+      "sheet": "wildlife-mustang",
+      "x": 941,
+      "y": 688,
+      "w": 303,
+      "h": 212,
+      "anchorX": 0.7129,
+      "anchorY": 0.9292,
+      "label": "mustang gallop 4",
+      "kind": "wildlife-mustang",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          942,
+          690,
+          300,
+          208
+        ],
+        "visiblePixels": 27210,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-mustang.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mustang-gallop"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-mustang"
+    },
+    "mustang-gallop-5": {
+      "sheet": "wildlife-mustang",
+      "x": 7,
+      "y": 980,
+      "w": 295,
+      "h": 213,
+      "anchorX": 0.4966,
+      "anchorY": 0.9671,
+      "label": "mustang gallop 5",
+      "kind": "wildlife-mustang",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          9,
+          982,
+          291,
+          209
+        ],
+        "visiblePixels": 25628,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-mustang.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mustang-gallop"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-mustang"
+    },
+    "mustang-gallop-6": {
+      "sheet": "wildlife-mustang",
+      "x": 317,
+      "y": 983,
+      "w": 296,
+      "h": 206,
+      "anchorX": 0.4932,
+      "anchorY": 0.9272,
+      "label": "mustang gallop 6",
+      "kind": "wildlife-mustang",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          319,
+          985,
+          292,
+          202
+        ],
+        "visiblePixels": 24701,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-mustang.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mustang-gallop"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-mustang"
+    },
+    "mustang-gallop-7": {
+      "sheet": "wildlife-mustang",
+      "x": 627,
+      "y": 984,
+      "w": 301,
+      "h": 211,
+      "anchorX": 0.4286,
+      "anchorY": 0.9289,
+      "label": "mustang gallop 7",
+      "kind": "wildlife-mustang",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          629,
+          986,
+          297,
+          207
+        ],
+        "visiblePixels": 26738,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-mustang.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mustang-gallop"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-mustang"
+    },
+    "mustang-gallop-8": {
+      "sheet": "wildlife-mustang",
+      "x": 947,
+      "y": 980,
+      "w": 295,
+      "h": 213,
+      "anchorX": 0.5,
+      "anchorY": 0.9671,
+      "label": "mustang gallop 8",
+      "kind": "wildlife-mustang",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          949,
+          982,
+          291,
+          209
+        ],
+        "visiblePixels": 25632,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wildlife-mustang.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mustang-gallop"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wildlife-mustang"
+    },
+    "steamboat-steam-1": {
+      "sheet": "steamboat-steam",
+      "x": 16,
+      "y": 185,
+      "w": 584,
+      "h": 365,
+      "anchorX": 0.5017,
+      "anchorY": 0.9315,
+      "label": "steamboat steam 1",
+      "kind": "steamboat-steam",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          18,
+          187,
+          580,
+          361
+        ],
+        "visiblePixels": 83192,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/steamboat-steam.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "steamboat-steam"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/steamboat-steam"
+    },
+    "steamboat-steam-2": {
+      "sheet": "steamboat-steam",
+      "x": 640,
+      "y": 160,
+      "w": 602,
+      "h": 391,
+      "anchorX": 0.5017,
+      "anchorY": 0.9361,
+      "label": "steamboat steam 2",
+      "kind": "steamboat-steam",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          642,
+          162,
+          598,
+          387
+        ],
+        "visiblePixels": 91763,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/steamboat-steam.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "steamboat-steam"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/steamboat-steam"
+    },
+    "steamboat-steam-3": {
+      "sheet": "steamboat-steam",
+      "x": 17,
+      "y": 746,
+      "w": 584,
+      "h": 388,
+      "anchorX": 0.494,
+      "anchorY": 0.9304,
+      "label": "steamboat steam 3",
+      "kind": "steamboat-steam",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          19,
+          748,
+          580,
+          384
+        ],
+        "visiblePixels": 89611,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/steamboat-steam.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "steamboat-steam"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/steamboat-steam"
+    },
+    "steamboat-steam-4": {
+      "sheet": "steamboat-steam",
+      "x": 642,
+      "y": 746,
+      "w": 598,
+      "h": 391,
+      "anchorX": 0.4967,
+      "anchorY": 0.9309,
+      "label": "steamboat steam 4",
+      "kind": "steamboat-steam",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          644,
+          748,
+          594,
+          387
+        ],
+        "visiblePixels": 90711,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/steamboat-steam.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "steamboat-steam"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/steamboat-steam"
+    },
+    "steamboat-laden-1": {
+      "sheet": "steamboat-laden",
+      "x": 10,
+      "y": 218,
+      "w": 598,
+      "h": 343,
+      "anchorX": 0.5418,
+      "anchorY": 0.9271,
+      "label": "steamboat laden 1",
+      "kind": "steamboat-laden",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          12,
+          220,
+          594,
+          339
+        ],
+        "visiblePixels": 104835,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/steamboat-laden.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "steamboat-laden"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/steamboat-laden"
+    },
+    "steamboat-laden-2": {
+      "sheet": "steamboat-laden",
+      "x": 657,
+      "y": 190,
+      "w": 588,
+      "h": 372,
+      "anchorX": 0.5374,
+      "anchorY": 0.9274,
+      "label": "steamboat laden 2",
+      "kind": "steamboat-laden",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          659,
+          192,
+          584,
+          368
+        ],
+        "visiblePixels": 108167,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/steamboat-laden.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "steamboat-laden"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/steamboat-laden"
+    },
+    "steamboat-laden-3": {
+      "sheet": "steamboat-laden",
+      "x": 11,
+      "y": 800,
+      "w": 598,
+      "h": 343,
+      "anchorX": 0.556,
+      "anchorY": 0.9271,
+      "label": "steamboat laden 3",
+      "kind": "steamboat-laden",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          13,
+          802,
+          594,
+          339
+        ],
+        "visiblePixels": 103630,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/steamboat-laden.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "steamboat-laden"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/steamboat-laden"
+    },
+    "steamboat-laden-4": {
+      "sheet": "steamboat-laden",
+      "x": 656,
+      "y": 757,
+      "w": 591,
+      "h": 387,
+      "anchorX": 0.5381,
+      "anchorY": 0.9276,
+      "label": "steamboat laden 4",
+      "kind": "steamboat-laden",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          658,
+          759,
+          587,
+          383
+        ],
+        "visiblePixels": 112284,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/steamboat-laden.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "steamboat-laden"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/steamboat-laden"
+    },
     "courier-dismount-1": {
       "sheet": "courier-dismount",
       "x": 39,
@@ -24408,6 +29924,566 @@
       "clips": [],
       "locationKits": [],
       "promptId": "frontier-v1/trees-colonies-2"
+    },
+    "rust-wagon-driver-s": {
+      "sheet": "people-wagon-drivers",
+      "x": 77,
+      "y": 9,
+      "w": 238,
+      "h": 306,
+      "anchorX": 0.6366,
+      "anchorY": 0.9575,
+      "logicalHeight": 307,
+      "label": "rust wagon driver s",
+      "kind": "people-wagon-drivers",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          79,
+          11,
+          234,
+          302
+        ],
+        "visiblePixels": 33601,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-wagon-drivers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "rust-wagon-driver-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-wagon-drivers"
+    },
+    "rust-wagon-driver-e": {
+      "sheet": "people-wagon-drivers",
+      "x": 409,
+      "y": 13,
+      "w": 217,
+      "h": 295,
+      "anchorX": 0.5714,
+      "anchorY": 0.9288,
+      "logicalHeight": 307,
+      "label": "rust wagon driver e",
+      "kind": "people-wagon-drivers",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          411,
+          15,
+          213,
+          291
+        ],
+        "visiblePixels": 26660,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-wagon-drivers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "rust-wagon-driver-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-wagon-drivers"
+    },
+    "rust-wagon-driver-w": {
+      "sheet": "people-wagon-drivers",
+      "x": 646,
+      "y": 13,
+      "w": 193,
+      "h": 295,
+      "anchorX": 0.3549,
+      "anchorY": 0.939,
+      "logicalHeight": 307,
+      "label": "rust wagon driver w",
+      "kind": "people-wagon-drivers",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          648,
+          15,
+          189,
+          291
+        ],
+        "visiblePixels": 25623,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-wagon-drivers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "rust-wagon-driver-w"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-wagon-drivers"
+    },
+    "rust-wagon-driver-n": {
+      "sheet": "people-wagon-drivers",
+      "x": 962,
+      "y": 0,
+      "w": 207,
+      "h": 307,
+      "anchorX": 0.5024,
+      "anchorY": 0.9316,
+      "logicalHeight": 307,
+      "label": "rust wagon driver n",
+      "kind": "people-wagon-drivers",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          964,
+          2,
+          203,
+          303
+        ],
+        "visiblePixels": 31930,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-wagon-drivers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "rust-wagon-driver-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-wagon-drivers"
+    },
+    "teal-wagon-driver-s": {
+      "sheet": "people-wagon-drivers",
+      "x": 75,
+      "y": 325,
+      "w": 239,
+      "h": 291,
+      "anchorX": 0.6736,
+      "anchorY": 0.9519,
+      "logicalHeight": 295,
+      "label": "teal wagon driver s",
+      "kind": "people-wagon-drivers",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          77,
+          327,
+          235,
+          287
+        ],
+        "visiblePixels": 33966,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-wagon-drivers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "teal-wagon-driver-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-wagon-drivers"
+    },
+    "teal-wagon-driver-e": {
+      "sheet": "people-wagon-drivers",
+      "x": 418,
+      "y": 326,
+      "w": 207,
+      "h": 286,
+      "anchorX": 0.5097,
+      "anchorY": 0.9336,
+      "logicalHeight": 295,
+      "label": "teal wagon driver e",
+      "kind": "people-wagon-drivers",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          420,
+          328,
+          203,
+          282
+        ],
+        "visiblePixels": 30783,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-wagon-drivers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "teal-wagon-driver-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-wagon-drivers"
+    },
+    "teal-wagon-driver-w": {
+      "sheet": "people-wagon-drivers",
+      "x": 636,
+      "y": 326,
+      "w": 198,
+      "h": 286,
+      "anchorX": 0.4697,
+      "anchorY": 0.9336,
+      "logicalHeight": 295,
+      "label": "teal wagon driver w",
+      "kind": "people-wagon-drivers",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          638,
+          328,
+          194,
+          282
+        ],
+        "visiblePixels": 30428,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-wagon-drivers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "teal-wagon-driver-w"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-wagon-drivers"
+    },
+    "teal-wagon-driver-n": {
+      "sheet": "people-wagon-drivers",
+      "x": 965,
+      "y": 315,
+      "w": 222,
+      "h": 295,
+      "anchorX": 0.3941,
+      "anchorY": 0.939,
+      "logicalHeight": 295,
+      "label": "teal wagon driver n",
+      "kind": "people-wagon-drivers",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          967,
+          317,
+          218,
+          291
+        ],
+        "visiblePixels": 33326,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-wagon-drivers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "teal-wagon-driver-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-wagon-drivers"
+    },
+    "elder-wagon-driver-s": {
+      "sheet": "people-wagon-drivers",
+      "x": 78,
+      "y": 626,
+      "w": 244,
+      "h": 302,
+      "anchorX": 0.623,
+      "anchorY": 0.9503,
+      "logicalHeight": 302,
+      "label": "elder wagon driver s",
+      "kind": "people-wagon-drivers",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          80,
+          628,
+          240,
+          298
+        ],
+        "visiblePixels": 35247,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-wagon-drivers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "elder-wagon-driver-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-wagon-drivers"
+    },
+    "elder-wagon-driver-e": {
+      "sheet": "people-wagon-drivers",
+      "x": 429,
+      "y": 629,
+      "w": 197,
+      "h": 290,
+      "anchorX": 0.5051,
+      "anchorY": 0.9276,
+      "logicalHeight": 302,
+      "label": "elder wagon driver e",
+      "kind": "people-wagon-drivers",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          431,
+          631,
+          193,
+          286
+        ],
+        "visiblePixels": 27875,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-wagon-drivers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "elder-wagon-driver-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-wagon-drivers"
+    },
+    "elder-wagon-driver-w": {
+      "sheet": "people-wagon-drivers",
+      "x": 639,
+      "y": 630,
+      "w": 191,
+      "h": 288,
+      "anchorX": 0.4869,
+      "anchorY": 0.9271,
+      "logicalHeight": 302,
+      "label": "elder wagon driver w",
+      "kind": "people-wagon-drivers",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          641,
+          632,
+          187,
+          284
+        ],
+        "visiblePixels": 27175,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-wagon-drivers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "elder-wagon-driver-w"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-wagon-drivers"
+    },
+    "elder-wagon-driver-n": {
+      "sheet": "people-wagon-drivers",
+      "x": 954,
+      "y": 619,
+      "w": 223,
+      "h": 299,
+      "anchorX": 0.509,
+      "anchorY": 0.9298,
+      "logicalHeight": 302,
+      "label": "elder wagon driver n",
+      "kind": "people-wagon-drivers",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          956,
+          621,
+          219,
+          295
+        ],
+        "visiblePixels": 32503,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-wagon-drivers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "elder-wagon-driver-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-wagon-drivers"
+    },
+    "blue-wagon-driver-s": {
+      "sheet": "people-wagon-drivers",
+      "x": 77,
+      "y": 942,
+      "w": 248,
+      "h": 300,
+      "anchorX": 0.625,
+      "anchorY": 0.95,
+      "logicalHeight": 310,
+      "label": "blue wagon driver s",
+      "kind": "people-wagon-drivers",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          79,
+          944,
+          244,
+          296
+        ],
+        "visiblePixels": 31355,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-wagon-drivers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "blue-wagon-driver-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-wagon-drivers"
+    },
+    "blue-wagon-driver-e": {
+      "sheet": "people-wagon-drivers",
+      "x": 445,
+      "y": 943,
+      "w": 181,
+      "h": 290,
+      "anchorX": 0.4945,
+      "anchorY": 0.9276,
+      "logicalHeight": 310,
+      "label": "blue wagon driver e",
+      "kind": "people-wagon-drivers",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          447,
+          945,
+          177,
+          286
+        ],
+        "visiblePixels": 24974,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-wagon-drivers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "blue-wagon-driver-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-wagon-drivers"
+    },
+    "blue-wagon-driver-w": {
+      "sheet": "people-wagon-drivers",
+      "x": 639,
+      "y": 944,
+      "w": 183,
+      "h": 289,
+      "anchorX": 0.4399,
+      "anchorY": 0.9273,
+      "logicalHeight": 310,
+      "label": "blue wagon driver w",
+      "kind": "people-wagon-drivers",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          641,
+          946,
+          179,
+          285
+        ],
+        "visiblePixels": 24545,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-wagon-drivers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "blue-wagon-driver-w"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-wagon-drivers"
+    },
+    "blue-wagon-driver-n": {
+      "sheet": "people-wagon-drivers",
+      "x": 955,
+      "y": 928,
+      "w": 217,
+      "h": 310,
+      "anchorX": 0.3571,
+      "anchorY": 0.9387,
+      "logicalHeight": 310,
+      "label": "blue wagon driver n",
+      "kind": "people-wagon-drivers",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          957,
+          930,
+          213,
+          306
+        ],
+        "visiblePixels": 30725,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-wagon-drivers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "procedural-motion"
+      ],
+      "clips": [
+        "blue-wagon-driver-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-wagon-drivers"
     },
     "oak-broad-wind": {
       "sheet": "weather-norther",
@@ -44588,6 +50664,718 @@
       "motion": "none",
       "direction": "stationary"
     },
+    "rust-ride-e": {
+      "frames": [
+        {
+          "sprite": "rust-ride-e-1",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-ride-e-2",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-ride-e-3",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-ride-e-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "teal-ride-e": {
+      "frames": [
+        {
+          "sprite": "teal-ride-e-1",
+          "duration": 230
+        },
+        {
+          "sprite": "teal-ride-e-2",
+          "duration": 230
+        },
+        {
+          "sprite": "teal-ride-e-3",
+          "duration": 230
+        },
+        {
+          "sprite": "teal-ride-e-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "elder-ride-e": {
+      "frames": [
+        {
+          "sprite": "elder-ride-e-1",
+          "duration": 230
+        },
+        {
+          "sprite": "elder-ride-e-2",
+          "duration": 230
+        },
+        {
+          "sprite": "elder-ride-e-3",
+          "duration": 230
+        },
+        {
+          "sprite": "elder-ride-e-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-ride-e": {
+      "frames": [
+        {
+          "sprite": "blue-ride-e-1",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-ride-e-2",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-ride-e-3",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-ride-e-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "rust-ride-s": {
+      "frames": [
+        {
+          "sprite": "rust-ride-s-1",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-ride-s-2",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-ride-s-3",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-ride-s-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "teal-ride-s": {
+      "frames": [
+        {
+          "sprite": "teal-ride-s-1",
+          "duration": 230
+        },
+        {
+          "sprite": "teal-ride-s-2",
+          "duration": 230
+        },
+        {
+          "sprite": "teal-ride-s-3",
+          "duration": 230
+        },
+        {
+          "sprite": "teal-ride-s-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "elder-ride-s": {
+      "frames": [
+        {
+          "sprite": "elder-ride-s-1",
+          "duration": 230
+        },
+        {
+          "sprite": "elder-ride-s-2",
+          "duration": 230
+        },
+        {
+          "sprite": "elder-ride-s-3",
+          "duration": 230
+        },
+        {
+          "sprite": "elder-ride-s-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "blue-ride-s": {
+      "frames": [
+        {
+          "sprite": "blue-ride-s-1",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-ride-s-2",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-ride-s-3",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-ride-s-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "rust-ride-n": {
+      "frames": [
+        {
+          "sprite": "rust-ride-n-1",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-ride-n-2",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-ride-n-3",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-ride-n-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "teal-ride-n": {
+      "frames": [
+        {
+          "sprite": "teal-ride-n-1",
+          "duration": 230
+        },
+        {
+          "sprite": "teal-ride-n-2",
+          "duration": 230
+        },
+        {
+          "sprite": "teal-ride-n-3",
+          "duration": 230
+        },
+        {
+          "sprite": "teal-ride-n-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "elder-ride-n": {
+      "frames": [
+        {
+          "sprite": "elder-ride-n-1",
+          "duration": 230
+        },
+        {
+          "sprite": "elder-ride-n-2",
+          "duration": 230
+        },
+        {
+          "sprite": "elder-ride-n-3",
+          "duration": 230
+        },
+        {
+          "sprite": "elder-ride-n-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "blue-ride-n": {
+      "frames": [
+        {
+          "sprite": "blue-ride-n-1",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-ride-n-2",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-ride-n-3",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-ride-n-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "rust-woman-ride-e": {
+      "frames": [
+        {
+          "sprite": "rust-woman-ride-e-1",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-woman-ride-e-2",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-woman-ride-e-3",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-woman-ride-e-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "indigo-ride-e": {
+      "frames": [
+        {
+          "sprite": "indigo-ride-e-1",
+          "duration": 230
+        },
+        {
+          "sprite": "indigo-ride-e-2",
+          "duration": 230
+        },
+        {
+          "sprite": "indigo-ride-e-3",
+          "duration": 230
+        },
+        {
+          "sprite": "indigo-ride-e-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ochre-ride-e": {
+      "frames": [
+        {
+          "sprite": "ochre-ride-e-1",
+          "duration": 230
+        },
+        {
+          "sprite": "ochre-ride-e-2",
+          "duration": 230
+        },
+        {
+          "sprite": "ochre-ride-e-3",
+          "duration": 230
+        },
+        {
+          "sprite": "ochre-ride-e-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-girl-ride-e": {
+      "frames": [
+        {
+          "sprite": "blue-girl-ride-e-1",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-girl-ride-e-2",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-girl-ride-e-3",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-girl-ride-e-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "rust-woman-ride-s": {
+      "frames": [
+        {
+          "sprite": "rust-woman-ride-s-1",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-woman-ride-s-2",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-woman-ride-s-3",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-woman-ride-s-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "indigo-ride-s": {
+      "frames": [
+        {
+          "sprite": "indigo-ride-s-1",
+          "duration": 230
+        },
+        {
+          "sprite": "indigo-ride-s-2",
+          "duration": 230
+        },
+        {
+          "sprite": "indigo-ride-s-3",
+          "duration": 230
+        },
+        {
+          "sprite": "indigo-ride-s-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "ochre-ride-s": {
+      "frames": [
+        {
+          "sprite": "ochre-ride-s-1",
+          "duration": 230
+        },
+        {
+          "sprite": "ochre-ride-s-2",
+          "duration": 230
+        },
+        {
+          "sprite": "ochre-ride-s-3",
+          "duration": 230
+        },
+        {
+          "sprite": "ochre-ride-s-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "blue-girl-ride-s": {
+      "frames": [
+        {
+          "sprite": "blue-girl-ride-s-1",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-girl-ride-s-2",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-girl-ride-s-3",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-girl-ride-s-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "rust-woman-ride-n": {
+      "frames": [
+        {
+          "sprite": "rust-woman-ride-n-1",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-woman-ride-n-2",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-woman-ride-n-3",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-woman-ride-n-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "indigo-ride-n": {
+      "frames": [
+        {
+          "sprite": "indigo-ride-n-1",
+          "duration": 230
+        },
+        {
+          "sprite": "indigo-ride-n-2",
+          "duration": 230
+        },
+        {
+          "sprite": "indigo-ride-n-3",
+          "duration": 230
+        },
+        {
+          "sprite": "indigo-ride-n-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "ochre-ride-n": {
+      "frames": [
+        {
+          "sprite": "ochre-ride-n-1",
+          "duration": 230
+        },
+        {
+          "sprite": "ochre-ride-n-2",
+          "duration": 230
+        },
+        {
+          "sprite": "ochre-ride-n-3",
+          "duration": 230
+        },
+        {
+          "sprite": "ochre-ride-n-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "blue-girl-ride-n": {
+      "frames": [
+        {
+          "sprite": "blue-girl-ride-n-1",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-girl-ride-n-2",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-girl-ride-n-3",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-girl-ride-n-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "mustang-graze": {
+      "frames": [
+        {
+          "sprite": "mustang-graze-1",
+          "duration": 620
+        },
+        {
+          "sprite": "mustang-graze-2",
+          "duration": 620
+        },
+        {
+          "sprite": "mustang-graze-3",
+          "duration": 620
+        },
+        {
+          "sprite": "mustang-graze-4",
+          "duration": 620
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "mustang-alert": {
+      "frames": [
+        {
+          "sprite": "mustang-alert-1",
+          "duration": 520
+        },
+        {
+          "sprite": "mustang-alert-2",
+          "duration": 520
+        },
+        {
+          "sprite": "mustang-alert-3",
+          "duration": 520
+        },
+        {
+          "sprite": "mustang-alert-4",
+          "duration": 520
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "mustang-gallop": {
+      "frames": [
+        {
+          "sprite": "mustang-gallop-1",
+          "duration": 135
+        },
+        {
+          "sprite": "mustang-gallop-2",
+          "duration": 135
+        },
+        {
+          "sprite": "mustang-gallop-3",
+          "duration": 135
+        },
+        {
+          "sprite": "mustang-gallop-4",
+          "duration": 135
+        },
+        {
+          "sprite": "mustang-gallop-5",
+          "duration": 135
+        },
+        {
+          "sprite": "mustang-gallop-6",
+          "duration": 135
+        },
+        {
+          "sprite": "mustang-gallop-7",
+          "duration": 135
+        },
+        {
+          "sprite": "mustang-gallop-8",
+          "duration": 135
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "steamboat-steam": {
+      "frames": [
+        {
+          "sprite": "steamboat-steam-1",
+          "duration": 330
+        },
+        {
+          "sprite": "steamboat-steam-2",
+          "duration": 330
+        },
+        {
+          "sprite": "steamboat-steam-3",
+          "duration": 330
+        },
+        {
+          "sprite": "steamboat-steam-4",
+          "duration": 330
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "rock",
+      "direction": "east; west by mirroring"
+    },
+    "steamboat-laden": {
+      "frames": [
+        {
+          "sprite": "steamboat-laden-1",
+          "duration": 360
+        },
+        {
+          "sprite": "steamboat-laden-2",
+          "duration": 360
+        },
+        {
+          "sprite": "steamboat-laden-3",
+          "duration": 360
+        },
+        {
+          "sprite": "steamboat-laden-4",
+          "duration": 360
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "rock",
+      "direction": "east; west by mirroring"
+    },
     "courier-dismount": {
       "frames": [
         {
@@ -45655,6 +52443,198 @@
       "authored": false,
       "motion": "sway",
       "direction": "not applicable"
+    },
+    "rust-wagon-driver-s": {
+      "frames": [
+        {
+          "sprite": "rust-wagon-driver-s",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "rust-wagon-driver-e": {
+      "frames": [
+        {
+          "sprite": "rust-wagon-driver-e",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east"
+    },
+    "rust-wagon-driver-w": {
+      "frames": [
+        {
+          "sprite": "rust-wagon-driver-w",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "west"
+    },
+    "rust-wagon-driver-n": {
+      "frames": [
+        {
+          "sprite": "rust-wagon-driver-n",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
+    },
+    "teal-wagon-driver-s": {
+      "frames": [
+        {
+          "sprite": "teal-wagon-driver-s",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "teal-wagon-driver-e": {
+      "frames": [
+        {
+          "sprite": "teal-wagon-driver-e",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east"
+    },
+    "teal-wagon-driver-w": {
+      "frames": [
+        {
+          "sprite": "teal-wagon-driver-w",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "west"
+    },
+    "teal-wagon-driver-n": {
+      "frames": [
+        {
+          "sprite": "teal-wagon-driver-n",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
+    },
+    "elder-wagon-driver-s": {
+      "frames": [
+        {
+          "sprite": "elder-wagon-driver-s",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "elder-wagon-driver-e": {
+      "frames": [
+        {
+          "sprite": "elder-wagon-driver-e",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east"
+    },
+    "elder-wagon-driver-w": {
+      "frames": [
+        {
+          "sprite": "elder-wagon-driver-w",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "west"
+    },
+    "elder-wagon-driver-n": {
+      "frames": [
+        {
+          "sprite": "elder-wagon-driver-n",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
+    },
+    "blue-wagon-driver-s": {
+      "frames": [
+        {
+          "sprite": "blue-wagon-driver-s",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "blue-wagon-driver-e": {
+      "frames": [
+        {
+          "sprite": "blue-wagon-driver-e",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east"
+    },
+    "blue-wagon-driver-w": {
+      "frames": [
+        {
+          "sprite": "blue-wagon-driver-w",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "west"
+    },
+    "blue-wagon-driver-n": {
+      "frames": [
+        {
+          "sprite": "blue-wagon-driver-n",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
     },
     "oak-broad-wind": {
       "frames": [
@@ -48985,6 +55965,11 @@
         "cannon-bronze-w",
         "roundshot",
         "tent",
+        "alamo-face-limestone",
+        "alamo-face-rooms",
+        "alamo-face-gate",
+        "alamo-face-convento",
+        "alamo-face-church-south",
         "alamo-church-front-1836",
         "alamo-church-front-inside",
         "alamo-church-front-cracked",
@@ -54396,7 +61381,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 70,
+    "sourceCount": 81,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

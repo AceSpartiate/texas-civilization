@@ -84,7 +84,8 @@ export function lockedNote(lesson) {
 }
 
 /**
- * The one icon the screen points at: the first of this person's icons that is open and that the lesson allows.
+ * The one icon the screen points at: an available action serving the current objective.
+ * Being allowed (for example resting or travelling home) does not make an action the objective.
  *
  * Null when the lesson shuts nothing, and null when nothing on this row is both open and allowed - which is the step
  * whose work is somewhere else (a house plan, a place tapped on the map) or the step that is only waiting. The page never
@@ -92,7 +93,22 @@ export function lockedNote(lesson) {
  */
 export function pointedKey(lesson, icons = []) {
   if (!lessonLocks(lesson)) return null;
-  return icons.find(icon => icon.can && allowsIcon(lesson, icon))?.key || null;
+  const priorities = {
+    arrive: [], order: ['build-house', 'cut-lane', 'fetch-logs', 'fell-trees'],
+    house: ['build-house', 'haul-logs', 'fetch-logs', 'fell-trees', 'cut-lane'],
+    survey: ['survey-plot'], clear: ['clear-plot', 'fence-plot'],
+    plant: ['plant-field', 'visit-shop'], harvest: ['harvest-field', 'fence-plot'],
+    sell: ['sell-cotton', 'sell-food', 'visit-shop'], hunt: ['hunt-land', 'hunt-timber', 'visit-shop'],
+    well: ['dig-well'],
+  };
+  const available = icons.filter(icon => icon.can && !icon.active && allowsIcon(lesson, icon));
+  for (const key of priorities[lesson.step] || []) if (available.some(icon => icon.key === key)) return key;
+  // Nothing on this row is this step's own work. One open action is unambiguous and is pointed at; several are not, and
+  // choosing the first of them is exactly the fault this ranking was written to remove. It came back here on 2026-09-21:
+  // at `order`, where every chore is allowed and none of the house work can begin until a plan is chosen, the ring sat
+  // on the survey stake - step four's job - while the words above it said to choose a house plan. Two instructions at
+  // once, and the ring is the one a student follows.
+  return available.length === 1 ? available[0].key : null;
 }
 
 /**

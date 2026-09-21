@@ -70,20 +70,27 @@ const INJECTIONS = [
     from: '  if (!lessonLocks(lesson) || !icon) return true;',
     to: '  return true;\n  // eslint-disable-next-line no-unreachable\n  if (!lessonLocks(lesson) || !icon) return true;',
   },
+  // These four are written against the ranked `pointedKey` of 2026-09-21. The three they replace were written against the
+  // one-liner it grew out of, and were never brought forward when it was rewritten: they matched nothing.
   {
     name: 'the ring is put on an icon the server has already refused',
-    from: '  return icons.find(icon => icon.can && allowsIcon(lesson, icon))?.key || null;',
-    to: '  return icons.find(icon => allowsIcon(lesson, icon))?.key || null;',
+    from: '  const available = icons.filter(icon => icon.can && !icon.active && allowsIcon(lesson, icon));',
+    to: '  const available = icons.filter(icon => !icon.active && allowsIcon(lesson, icon));',
+  },
+  {
+    name: 'the ring is put on work the person is already doing, so a started step still looks unstarted',
+    from: '  const available = icons.filter(icon => icon.can && !icon.active && allowsIcon(lesson, icon));',
+    to: '  const available = icons.filter(icon => icon.can && allowsIcon(lesson, icon));',
   },
   {
     name: 'the ring is put on the first icon of the bar, whatever the step asked for',
-    from: '  return icons.find(icon => icon.can && allowsIcon(lesson, icon))?.key || null;',
+    from: '  for (const key of priorities[lesson.step] || []) if (available.some(icon => icon.key === key)) return key;',
     to: '  return icons.find(icon => icon.can)?.key || null;',
   },
   {
     name: 'a step with nothing open on this row still rings something',
-    from: '  if (!lessonLocks(lesson)) return null;\n  return icons.find(icon => icon.can && allowsIcon(lesson, icon))?.key || null;',
-    to: '  return icons.find(icon => icon.can)?.key || null;',
+    from: '  const available = icons.filter(icon => icon.can && !icon.active && allowsIcon(lesson, icon));\n  for (const key of priorities[lesson.step] || [])',
+    to: '  const available = icons.filter(icon => icon.can && !icon.active && allowsIcon(lesson, icon));\n  if (!available.length) return icons.find(icon => icon.can)?.key || null;\n  for (const key of priorities[lesson.step] || [])',
   },
   {
     name: 'the pips are filled to where the student is going rather than where they are',
@@ -115,6 +122,18 @@ const INJECTIONS = [
     from: "  return [words.eyebrow ? `${words.eyebrow}.` : '', words.title ? `${words.title}.` : '', words.says, words.did].filter(Boolean).join(' ');",
     to: "  return [words.eyebrow ? `${words.eyebrow}.` : '', words.title ? `${words.title}.` : ''].filter(Boolean).join(' ');",
   },
+  // The ring and the words must be one instruction. Both ways of guessing are put back here: the one that shipped on
+  // 2026-09-21 (the first chore in the row, whatever it is) and the plainest one (the first thing allowed at all).
+  {
+    name: 'at `order` the ring falls back to the first chore in the row, so it sat on the survey stake while the words said to choose a house plan',
+    from: '  return available.length === 1 ? available[0].key : null;',
+    to: "  return lesson.step === 'order' ? available.find(icon => icon.kind === 'chore')?.key || null : null;",
+  },
+  {
+    name: 'the ring is the first thing on the row the step happens to allow, which is list order again',
+    from: '  return available.length === 1 ? available[0].key : null;',
+    to: '  return available[0]?.key || null;',
+  },
 ];
 
 const failing = output => [...output.matchAll(/^✖ (.+?) \(\d/gm)].map(match => match[1]).filter((name, i, all) => name !== 'failing tests:' && all.indexOf(name) === i);
@@ -126,9 +145,16 @@ const record = [];
 for (const injection of INJECTIONS) {
   const file = injection.file || FILE;
   const original = readFileSync(file, 'utf8');
-  const count = original.split(injection.from).length - 1;
+  // The patterns above are written with plain newlines; a working copy on Windows has CRLF, and a pattern that cannot
+  // match is a harness that quietly proves nothing. (This script could not have run at all on this machine until
+  // 2026-09-21, when public/lesson.js became CRLF and every injection stopped matching - the same fault the art wiring
+  // found in its own harness a day earlier.)
+  const CR = String.fromCharCode(13), LF = String.fromCharCode(10);
+  const ends = text => (original.includes(CR + LF) ? text.split(LF).join(CR + LF) : text);
+  const from = ends(injection.from), to = ends(injection.to);
+  const count = original.split(from).length - 1;
   if (count !== 1) throw new Error(`${injection.name}: the text to replace is in ${file} ${count} times`);
-  writeFileSync(file, original.replace(injection.from, injection.to));
+  writeFileSync(file, original.replace(from, to));
   let failed;
   try { failed = run(); } finally { writeFileSync(file, original); }
   record.push({ name: injection.name, file, failed });
