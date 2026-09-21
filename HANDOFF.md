@@ -1,5 +1,28 @@
 # Claude handoff — Astra foundation
 
+**The guided beginning, the world's half, 2026-09-21:** A real class played this on Chromebooks today. It ran, and the
+students **could not work out how to farm, or build a house, or do anything else.** The owner's answer is a tutorial that
+is "an integrated forced part of the game... one task at a time, guided by the ui and unavoidable". Built:
+[LESSON.md](docs/LESSON.md), `sim/lesson.mjs`, `tests/lesson.test.mjs` (11 tests),
+[36 of 36 injections caught](docs/evidence/lesson-injections.json), `FIC-GONZ-210` to `-215`. A student's own family is
+walked through **ten steps** — arrive and choose the house site, put somebody to work, get the house up, survey ten
+acres, clear them, plant a crop **of the student's own choosing**, bring it in, sell it in town for coin, hunt, dig the
+well — and **`applyAction` refuses every order that is not that step's**, in words ("Not yet — first, put somebody to
+work."). The page greys the rest out from the same `allow` list and decides nothing: the same rule as fog of war. Each
+step finishes because the world says so, each family has its own lesson and its own pace, and the Host's clock is
+untouched. **No `saveVersion` moved**: `household.lesson` is absent on every class saved before, and the empty value is
+worked out from what the family has — a family still coming in starts at the beginning, a family already standing on its
+own land never gets a lesson at all. 824 → 835 tests, 0 fail.
+
+**What is open on it.** (1) **The screen's half is a second agent's** and is built against the contract in
+[LESSON.md](docs/LESSON.md) §3 — the card, the greying, the arrow onto the control being asked for. (2) **The browser
+proofs have not been re-run against it.** `npm test` does not run them, and any proof that joins as a student and then
+orders work out of the lesson's order (`test:farm`, `test:hunt`, `test:solo-game`, `test:whole-game`) will now be
+refused. They need a pass once the screen's half lands; `taught()` in `tests/support/settled.mjs` is what a fixture that
+is not about the lesson should use. (3) The decisions the owner may want to change are listed in
+[LESSON.md](docs/LESSON.md) §6 — chiefly that **the well step stands down where the house has running water within
+carrying distance**, which is the one place the built thing does not literally satisfy the owner's sentence.
+
 **Wildlife and travel-marker expansion, 2026-09-21:** The registered frontier library now contains **1,008 measured sprites across 70 sheets and 389 validated clips**. Three new wildlife atlases add 48 animation frames and 12 authored clips for black bear, javelina, bison, pronghorn, geese and rangy wild cattle. `travel-markers.png` adds sixteen painted marker components in the principal, family, other-household and courier colors. The wildlife request now lacks only the wild mustang. Read `docs/ART_DELIVERY_2026-09-21-BEAR-JAVELINA.md`, `docs/ART_DELIVERY_2026-09-21-WILDLIFE-BISON-PRONGHORN.md`, `docs/ART_DELIVERY_2026-09-21-WILDLIFE-GEESE-CATTLE.md`, and `docs/ART_DELIVERY_2026-09-21-TRAVEL-MARKERS.md`.
 
 **World-art expansion, 2026-09-21:** The registered frontier library now contains **944 measured sprites across 66 sheets and 377 validated clips**. New deliveries add sixteen biome/Béxar ground details, sixteen animated wild-turkey frames, sixteen researched town buildings, sixteen additional colony-tree assets, an empty/laden ferry and post, and four moored *Yellow Stone* states. Read `docs/ART_DELIVERY_2026-09-21-BIOME-GROUND-BEXAR.md`, `docs/ART_DELIVERY_2026-09-21-WILDLIFE-TURKEY.md`, `docs/ART_DELIVERY_2026-09-21-TOWN-BUILDINGS.md`, `docs/ART_DELIVERY_2026-09-21-TREES-COLONIES-2.md`, and `docs/ART_DELIVERY_2026-09-21-RIVER-TRANSPORT.md`. `docs/ART_REQUESTS.md` records the remaining gaps rather than claiming the larger biome and steamboat requests are wholly finished.

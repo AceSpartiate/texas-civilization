@@ -32,6 +32,20 @@ export function settle(world) {
 export const createSettledWorld = (seed, count) => settle(createGonzalesWorld(seed, count));
 
 /**
+ * Every family already walked through the guided beginning (sim/lesson.mjs, docs/LESSON.md).
+ *
+ * For a test whose subject is not the lesson but which needs a family a student has actually joined:
+ * joining marks a family played, and a played family that is still coming in to its land is gated to
+ * one step at a time. `{ step: 'done' }` with no minute on it is a lesson that is over and shows no
+ * closing card - the same state a family reaches by finishing it, and the state `lessonInvalid`
+ * accepts from any save.
+ */
+export function taught(world) {
+  for (const household of Object.values(world.households)) household.lesson = { step: 'done' };
+  return world;
+}
+
+/**
  * For the browser proofs that follow the founding family (Thomas, Elena, Rosa, Mateo) through travel, a hunt, a trade or
  * the slice: each family is named before Start, with the name it already shows. The server rolls a new family at Start for
  * every student who joined and left the family untouched (docs/FAMILY_CREATION.md), and keeps one that has been named or set

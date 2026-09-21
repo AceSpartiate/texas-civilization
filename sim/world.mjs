@@ -18,6 +18,7 @@ import { answerRoad, registerRoadChores } from './road.mjs';
 import { WATER_HIGH, WATER_SHUT, waterAt, weatherAt, weatherOn } from './weather.mjs';
 // The road's chores join the one table here, once every module above is made (sim/road.mjs says why not at its own load).
 registerRoadChores();
+import { advanceLesson, advanceLessons, lessonInvalid, lessonProjection, lessonRefusal } from './lesson.mjs';
 import { REPEATED, advanceAuto, noteOrder, setAuto } from './auto.mjs';
 import { advanceCamp, answerCampQuestion, campInvalid } from './camp.mjs';
 import { hostLiveProjection } from './host.mjs';
@@ -572,6 +573,9 @@ export function stepWorld(world) {
   advanceDirectors(world, { beginTravel, dispatchReport });
   // Whatever somebody rode to the army marches with them (sim/keeping.mjs), once the army has moved.
   keepWithRiders(world);
+  // Each student's own guided beginning moves on by what the tick actually did (sim/lesson.mjs): a house that now
+  // stands, ground now cleared, a crop now in. Last, so a step is never called finished a tick before it is.
+  advanceLessons(world);
   // Families nobody plays decide last, from what the tick has left them able to see, through the actions a student sends.
   advanceNeighbours(world, { project: id => projectWorld(world, id, 'student', { includeMap: false }), apply: (id, input) => applyAction(world, id, input) });
 }
@@ -707,7 +711,23 @@ export function advanceRelays(world) {
  * news that prompts them has arrived.
  */
 export const LOBBY_ACTIONS = new Set(['survey-plot', 'hunt-land', 'fell-trees', 'place-piece', 'remove-piece', 'clear-plot', 'fence-plot','roll-family', 'set-appearance', 'load-wagon', 'bring-stock', 'plan-house', 'chore', 'stop-chore', 'answer-chore', 'rename', 'work', 'rest', 'travel', 'set-main', 'set-auto']);
+/**
+ * One order from a student's family.
+ *
+ * The guided beginning is read first and refuses before anything moves (sim/lesson.mjs,
+ * docs/LESSON.md): while a family is being walked through its first ten steps, the server - not the
+ * page - is what says an order is not this step's. Then the order itself, and then the lesson moves
+ * on as far as the order carried it, because a step can be finished by an order as well as by a
+ * tick.
+ */
 export function applyAction(world, householdId, input) {
+  const household = world.households[householdId];
+  const notYet = lessonRefusal(world, household, input);
+  if (notYet) throw new Error(notYet);
+  applyOneAction(world, householdId, input);
+  advanceLesson(world, household);
+}
+function applyOneAction(world, householdId, input) {
   const entity = world.entities[input.entityId];
   const household = world.households[householdId];
   if (input.action === 'rename' && !input.entityId) { rename(world, household, input); return; }
@@ -949,12 +969,17 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   const offers = offersFor(world, householdId);
   const encounter = encounterProjection(world, householdId, role);
   const armies = armiesSeen(world, householdId, role);
+  // The guided beginning, for a student's own family and nobody else's (sim/lesson.mjs, docs/LESSON.md): which step this
+  // family is on, what it is being asked to do, and every action the server will let through while it is. Absent once the
+  // lesson is over, which is how the page knows the game is the student's now.
+  const lesson = household && role !== 'host' ? lessonProjection(world, household) : null;
   const view = { tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: mapForPage(world.map) }), household: household && projectHousehold(world, household), entities, others, offers, encounter, events, work, travelModes, land, wagon, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role),
     // The weather, region by region (sim/weather.mjs, docs/WEATHER.md): what kind of day it is in each of the three
     // countries, how high their rivers are running, and where the wind is from. The page draws it and says nothing
     // (owner, 2026-09-20: "Players should see the weather. If implemented correctly, no text should be required"), so the
     // whole map goes to every page - the Host looks at all three countries at once, and a student's family may be in any.
     weather: weatherOn(world),
+    ...(lesson && { lesson }),
     // The army, once there is one: where it is, how many went, and which of them are this family's (sim/army.mjs).
     ...(world.army && householdId ? { army: armyProjection(world, householdId) } : {}),
     // The armies standing in the country, as far as this page may know of them (sim/armies.mjs): the page draws their camps
@@ -1065,7 +1090,9 @@ export function validateWorld(world) {
     for (const wear of Object.values(household.tools)) if (!Number.isInteger(wear) || wear < 0) throw new Error('Invalid tool condition');
     // Absent on a class saved before the wagon was packed by choice (sim/wagon.mjs), which is the
     // correct empty value: it has what it was founded with. So no save version moved.
-    const badLoad = loadInvalid(household) || houseInvalid(world, household) || grantInvalid(world, household) || siteInvalid(world, household) || plotsInvalid(world, household);
+    // Absent on every class saved before the guided beginning (sim/lesson.mjs), which is the correct empty value: a family
+    // standing in its own house has nothing to be walked through, so no save version moved.
+    const badLoad = loadInvalid(household) || houseInvalid(world, household) || grantInvalid(world, household) || siteInvalid(world, household) || plotsInvalid(world, household) || lessonInvalid(world, household);
     if (badLoad) throw new Error(badLoad);
     // Absent on a class nobody has named, which is the correct empty value and why no save
     // version moved. Present, it is a name somebody typed and has to stay one.
