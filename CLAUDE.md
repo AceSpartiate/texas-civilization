@@ -16,6 +16,7 @@ Read these before substantial changes:
 12. `docs/TOWNS.md` before changing what a town's shops sell or buy, who keeps them, or what a purchase does — a variety of trades in every town, core everywhere and documented extras in the larger towns, kept by invented people, are owner-decided (2026-09-16).
 13. `docs/STOCK.md` before touching a family's cattle or hogs, the lobby stock choice, or what a family loses by fleeing — the herd that feeds itself, is divided with the neighbours and is left on the range in the Scrape is owner-decided (2026-09-20).
 14. `docs/HOST_PAGE.md` before changing the Host's page while a class runs, presence, or what happens to a family whose student has gone — the class panel in words, the Rumor Mill, the spotlight and absent families becoming the director's are owner-decided (2026-09-16) and amend `VISION.md` §18.
+15. `docs/LESSON.md` before touching `sim/lesson.mjs`, what a student may do in their first hour, or the order of arriving, building, clearing, planting, selling, hunting and the well — a forced tutorial the server holds the gate on, one step at a time, each student at their own pace, is owner-decided (2026-09-21) after a real class could not work out how to farm or build.
 
 The active next phase is Gonzales/core usability and deployment hardening, described in `HANDOFF.md`. `CLAUDE_DEVELOPMENT_ROADMAP.md` is reference for later work, not an instruction to build every arc now.
 

@@ -18,6 +18,7 @@ import { siteFacts } from '../sim/ground.mjs';
 import { chooseRefusal, LANE_TICKS_PER_MILE, laneRefusal, laneState, siteFactsFor, waterBurden, wellTicks } from '../sim/homesite.mjs';
 import { findPath } from '../sim/geography.mjs';
 import { paceOf } from '../sim/ground.mjs';
+import { taught } from './support/settled.mjs';
 import { groundLeft } from '../sim/travel.mjs';
 import { realTerrain } from '../sim/terrain-data.mjs';
 import { createClassroom } from '../server/app.mjs';
@@ -317,7 +318,10 @@ test('families nobody plays choose a site out of the bottom and near water, and 
 
 test('a family asks the server about its own land only, and every browser is told when a homestead moves', async () => {
   const dir = mkdtempSync(join(tmpdir(), 'texas-site-'));
-  const app = createClassroom({ seed: 'site-http', savePath: join(dir, 'save.json'), tickMs: 10, worldFactory: (seed, count) => createGonzalesWorld(seed, count, { map: 'colonies' }) });
+  // This test is about the map a browser is sent, not about the guided beginning (sim/lesson.mjs, docs/LESSON.md), which
+  // would refuse the hunt below until the house stood. Every family is marked as having been through it, exactly as
+  // tests/support/settled.mjs puts a family on its land, so that what is measured here is the homesteads and nothing else.
+  const app = createClassroom({ seed: 'site-http', savePath: join(dir, 'save.json'), tickMs: 10, worldFactory: (seed, count) => taught(createGonzalesWorld(seed, count, { map: 'colonies' })) });
   const port = await app.listen();
   const base = `http://127.0.0.1:${port}`;
   try {
