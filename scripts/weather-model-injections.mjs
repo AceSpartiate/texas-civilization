@@ -145,8 +145,10 @@ const INJECTIONS = [
   },
   {
     name: 'a norther that brought its rain with it is not counted as rain falling',
-    from: "  return here.kind === 'rain' || here.kind === 'storm' || (here.kind === 'norther' && here.wet);",
-    to: "  return here.kind === 'rain' || here.kind === 'storm';",
+    // Rewritten 2026-09-21: the rain-on-the-roof work moved this rule out of `rainingAt` into `rainingOn`, and left
+    // this injection matching nothing.
+    from: "export const rainingOn = here => Boolean(here) && (here.kind === 'rain' || here.kind === 'storm' || (here.kind === 'norther' && Boolean(here.wet)));",
+    to: "export const rainingOn = here => Boolean(here) && (here.kind === 'rain' || here.kind === 'storm');",
   },
   // 9. The fog, and the norther out of season.
   {
@@ -170,9 +172,15 @@ const record = [];
 for (const injection of INJECTIONS) {
   const file = injection.file || FILE;
   const original = readFileSync(file, 'utf8');
-  const count = original.split(injection.from).length - 1;
+  // The patterns above are written with plain newlines; this working copy is CRLF, so every pattern that spans two
+  // lines matches nothing without this. That is not a hypothetical: it stopped this harness dead partway through, and
+  // it is the fifth harness in this repository found unable to run for exactly this reason (2026-09-21).
+  const CR = String.fromCharCode(13), LF = String.fromCharCode(10);
+  const ends = text => (original.includes(CR + LF) ? text.split(LF).join(CR + LF) : text);
+  const from = ends(injection.from), to = ends(injection.to);
+  const count = original.split(from).length - 1;
   if (count !== 1) throw new Error(`${injection.name}: the text to replace is in ${file} ${count} times`);
-  writeFileSync(file, original.replace(injection.from, injection.to));
+  writeFileSync(file, original.replace(from, to));
   let failed;
   try { failed = run(); } finally { writeFileSync(file, original); }
   record.push({ name: injection.name, file, failed });

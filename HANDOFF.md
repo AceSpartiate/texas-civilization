@@ -1775,3 +1775,15 @@ chosen it. A solo game now opens in a lobby of its own and the player's own **Do
   `npm run test:solo-game` plays a whole solo game through all three periods and the ending, 15 checks.
 - **Two old owner decisions are amended by this**, and both are marked where they were written: `docs/DEPLOYMENT.md`
   ("already running", 2026-09-17) and `docs/LAND_GRANTS.md` (the open gap the agent recorded this morning).
+
+**Five harnesses found unable to run, 2026-09-21.** Every one of them reported success while matching nothing, which is
+the worst failure a proof can have. `scripts/lesson-screen-injections.mjs` and `scripts/weather-model-injections.mjs`
+matched LF patterns against a CRLF working copy; `scripts/lesson-injections.mjs` went stale when the sale rule changed
+the same day, so every injection after it was skipped; three injections in the screen harness were still written against
+a `pointedKey` that had been rewritten; and one in the weather harness against a `rainingAt` the rain work had moved into
+`rainingOn`. All repaired: lesson-screen **23 of 23**, lesson **38 of 39**, weather-model **27 of 27**.
+
+The pattern is worth naming, because it will happen again: **an injection harness is code that nothing tests.** It only
+runs when somebody runs it, it reports a number either way, and a pattern that has drifted from the code it points at
+fails *open*. Two defences are now in every harness here - the `ends` helper for CRLF, and a throw when a pattern does
+not match exactly once - and the second is what found four of these five.
