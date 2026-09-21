@@ -116,6 +116,15 @@ which is a test that checks nothing. The measured shut-day figure is corrected e
 210" from three classes but a **median of 3 over 200 classes**, none at all in 19% of them and 16 in the worst. 800
 tests. Same computer only.
 
+**An art delivery that rode in on the stock's commit, 2026-09-20:**
+[ART_DELIVERY_2026-09-20-CAST2-TASKS.md](docs/ART_DELIVERY_2026-09-20-CAST2-TASKS.md),
+`public/assets/frontier-v1/atlases/people-cast2-tasks.png`. Astra's second-cast sowing and repair poses - sixteen
+transparent frames for `rust-woman`, `indigo`, `ochre` and `blue-girl`, a two-frame sowing cycle and a two-frame repair
+cycle each, 59.6% transparent, eight authored clips. It was registered on disk earlier in the session and never
+committed, and `git add -A` swept it into the stock's commit (`fd94446`), whose message says nothing about it. **Said
+here rather than rewritten**, because the commit is pushed. The library now holds 783 sprites across 53 atlases and 330
+clips; **still open:** second-cast north/south walking and dialogue.
+
 **The family's own stock, 2026-09-20:** [STOCK.md](docs/STOCK.md), `sim/stock.mjs`, `FIC-GONZ-180` to `-185`. Owner,
 asked what stock should do: *"a herd that feeds you, **and the stock can be lost**."* Until this it was a boolean chosen
 in the lobby that decided the size of a land grant and **nothing else**, in a country Almonte counted **75,000 cattle
