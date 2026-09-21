@@ -23,9 +23,13 @@
 // ceiling: a stone chimney is not refused where no stone is near; the land has no rock layer. A stone chimney costs more
 // work and is otherwise a stick-and-mud one until weather and fire read it.
 // ceiling: a porch does nothing yet; weather will read it.
+// ceiling: the double chimney is not held by rain though the stick-and-mud one is. `HIST-TEX-017` gives Smithwick's "big
+// double chimney" and says nothing of what it was laid up in, and a chimney the game cannot call cat-and-clay is not one
+// it will stop for rain. Tag it `wet: 'daub'` the day a source says it was mud.
 import { record } from './events.mjs';
 import { improvementsOf, setImprovement } from './improvements.mjs';
 import { USE_ORDER } from './felling.mjs';
+import { rainHold } from './weather.mjs';
 
 /** The house plot is this many eight-foot cells wide and deep. */
 export const PLOT_COLUMNS = 8;
@@ -35,12 +39,19 @@ export const TWO_HANDED_ABOVE = 6;
 /** Work is counted in thirds of a spell, so one person on a two-handed course puts in a third. */
 const THIRDS = 3;
 
+/**
+ * A stage's `wet` tag is what a wet sky does to it (`sim/weather.mjs` `rainHold`, `FIC-GONZ-290`): `daub` where mud is
+ * laid up and would wash out before it set, `roof` where a roof goes on and would go on wet. **Every other stage is
+ * untagged and the rain does not touch it** - felling, sills, the courses, framing, a floor, a loft under a roof already
+ * on, a stone chimney. The tag sits on the stage and not on the piece because a pen is both: its walls go up in any
+ * weather and its roof and its daubing do not.
+ */
 const course = (n, work) => ({ id: `course-${n}`, doing: `raising the walls, course ${n} of 10`, work, logs: { wall: 4 }, ...(n > TWO_HANDED_ABOVE && { hands: 2 }) });
 const logPen = (courseWork) => [
   { id: 'sills', doing: 'laying the sills', work: 2, logs: { sill: 4 } },
   ...Array.from({ length: 10 }, (_, i) => course(i + 1, courseWork)),
-  { id: 'roof', doing: 'putting on the rafters and riving the clapboards', work: 6, logs: { wall: 6 } },
-  { id: 'chink', doing: 'chinking and daubing the walls', work: 2 },
+  { id: 'roof', doing: 'putting on the rafters and riving the clapboards', work: 6, logs: { wall: 6 }, wet: 'roof' },
+  { id: 'chink', doing: 'chinking and daubing the walls', work: 2, wet: 'daub' },
 ];
 const piece = fields => Object.freeze({ ...fields, stages: Object.freeze(fields.stages.map(stage => Object.freeze(stage))) });
 
@@ -68,21 +79,21 @@ export const PIECES = Object.freeze({
     does: 'Holds three. No logs and no axe: rest mends at 90 in 100, and 1 in 100 of the food spoils a day.',
     stages: [
       { id: 'posts', doing: 'cutting and setting the posts', work: 3 },
-      { id: 'wattle', doing: 'weaving the walls and daubing them with mud', work: 6 },
-      { id: 'thatch', doing: 'thatching the roof', work: 5 },
+      { id: 'wattle', doing: 'weaving the walls and daubing them with mud', work: 6, wet: 'daub' },
+      { id: 'thatch', doing: 'thatching the roof', work: 5, wet: 'roof' },
     ],
   }),
   passage: piece({
     id: 'passage', name: 'Open passage', w: 1, h: 2, place: 'between', needs: ['axe'],
     describe: 'An open breezeway between two pens in a row, under one roof with them: the dog-run.',
     does: 'A cool place to keep things: food spoils half as fast in the pens beside it.',
-    stages: [{ id: 'roof', doing: 'roofing over the passage', work: 4, logs: { wall: 4 } }],
+    stages: [{ id: 'roof', doing: 'roofing over the passage', work: 4, logs: { wall: 4 }, wet: 'roof' }],
   }),
   chimney: piece({
     id: 'chimney', name: 'Stick-and-mud chimney', w: 1, h: 1, place: 'end', needs: [],
     describe: 'A chimney of sticks laid up in clay against the end wall of a pen.',
     does: 'A fire indoors: rest mends 10 in 100 better in that pen. Sticks and clay catch fire (weather and fire will read it).',
-    stages: [{ id: 'build', doing: 'laying up the chimney in sticks and clay', work: 4 }],
+    stages: [{ id: 'build', doing: 'laying up the chimney in sticks and clay', work: 4, wet: 'daub' }],
   }),
   'chimney-stone': piece({
     id: 'chimney-stone', name: 'Stone chimney', w: 1, h: 1, place: 'end', needs: [],
@@ -102,14 +113,14 @@ export const PIECES = Object.freeze({
     does: 'Holds two more, and keeps the stores: food spoils a third less.',
     stages: [
       { id: 'frame', doing: 'framing the shed room', work: 4, logs: { any: 6 } },
-      { id: 'roof', doing: 'roofing the shed room', work: 3, logs: { any: 4 } },
+      { id: 'roof', doing: 'roofing the shed room', work: 3, logs: { any: 4 }, wet: 'roof' },
     ],
   }),
   porch: piece({
     id: 'porch', name: 'Porch', w: 2, h: 1, place: 'front', needs: ['axe'],
     describe: 'A roofed gallery along the front of a pen.',
     does: 'A shaded place to work. Nothing yet: weather will read it.',
-    stages: [{ id: 'roof', doing: 'setting the porch posts and roof', work: 4, logs: { any: 4 } }],
+    stages: [{ id: 'roof', doing: 'setting the porch posts and roof', work: 4, logs: { any: 4 }, wet: 'roof' }],
   }),
   loft: piece({
     id: 'loft', name: 'Loft', w: 2, h: 2, place: 'in', needs: ['axe'], after: 'roof',
@@ -209,12 +220,36 @@ function readyToStart(pieces, p) {
   return pens.every(pen => penPast(pen, 'walls'));
 }
 
-/** The next stage anybody can work on, pens first, then the rest in the order placed: `{ piece, stage }` or null. */
-export function nextStage(pieces) {
+/** Every stage anybody could start now, pens first, then the rest in the order placed. */
+function* startable(pieces) {
   const order = [...pensOf(pieces), ...pieces.filter(p => !PIECES[p.type].pen)];
   for (const p of order) {
     if (pieceDone(p) || !readyToStart(pieces, p)) continue;
-    return { piece: p, stage: PIECES[p.type].stages[p.stage] };
+    yield { piece: p, stage: PIECES[p.type].stages[p.stage] };
+  }
+}
+
+/**
+ * The next stage anybody can work on, pens first, then the rest in the order placed: `{ piece, stage }` or null.
+ *
+ * `here` is the day's weather where the house stands (`weatherAt`), and where it is wet the stages a wet sky holds up are
+ * **passed over, not stopped** (`FIC-GONZ-290`): a family whose roof cannot go on today frames the shed room instead, and
+ * comes back to the roof when the rain does. Called without a sky - every caller that has no world, and every class before
+ * this - nothing is held and the order is exactly what it always was.
+ */
+export function nextStage(pieces, here = null) {
+  for (const next of startable(pieces)) if (!rainHold(here, next.stage.wet)) return next;
+  return null;
+}
+
+/**
+ * The first stage the sky is holding up on this plot, or null: `{ piece, stage, why }`. What the family is told, and the
+ * reason the house stands still on a day when the pile is full and the tools are in the house.
+ */
+export function weatherHold(pieces, here) {
+  for (const next of startable(pieces)) {
+    const why = rainHold(here, next.stage.wet);
+    if (why) return { ...next, why };
   }
   return null;
 }
@@ -226,8 +261,8 @@ export function nextStage(pieces) {
  * what the very next spell of work needed - so a family hauled eleven logs in and the house still would not go up (owner,
  * 2026-09-17: "say what the next house stage needs"). Null when nothing can be started.
  */
-export function stageWants(pieces) {
-  const next = nextStage(pieces);
+export function stageWants(pieces, here = null) {
+  const next = nextStage(pieces, here);
   if (!next) return null;
   const logs = next.stage.logs || {};
   // Logs are wanted once, at the start of a stage: a stage part done has already taken them off the pile.
@@ -269,13 +304,25 @@ function takeLogs(pile, logs = {}) {
   for (const use of [...USE_ORDER].reverse()) { const taken = Math.min(any, pile[use]); pile[use] -= taken; any -= taken; }
 }
 
-/** Why the house cannot be worked on now, or null: nothing planned, all built, a tool missing, or logs short. */
-export function plotBuildRefusal(household) {
+/**
+ * Why the house cannot be worked on now, or null: nothing planned, all built, a tool missing, logs short, or the sky on
+ * the only work left (`FIC-GONZ-290`).
+ *
+ * The rain is the answer only when it is the whole answer. Logs are checked against the stage the family would actually
+ * be working on, so on a wet day with an empty pile the reason given is the rain - which is right, because the roof would
+ * not go on with the logs at the door either. Nothing here refuses felling or hauling, so the wet day is still the day to
+ * bring the logs in.
+ */
+export function plotBuildRefusal(household, here = null) {
   const pieces = household.house?.pieces || [];
   if (!pensOf(pieces).length) return 'Place a pen on the house plot first.';
   if (pieces.every(pieceDone)) return 'The house is built.';
-  const next = nextStage(pieces);
-  if (!next) return 'Nothing can be started until the pens are further up.';
+  const next = nextStage(pieces, here);
+  if (!next) {
+    const held = weatherHold(pieces, here);
+    if (held) return `${rainWords(pieces, held)} Nothing else on the house can be begun until it clears.`;
+    return 'Nothing can be started until the pens are further up.';
+  }
   const missing = PIECES[next.piece.type].needs.filter(tool => household.tools?.[tool] === undefined);
   if (missing.length) return `${pieceWords(pieces, next.piece)} wants ${missing.map(tool => tool === 'axe' ? 'a felling axe' : `a ${tool}`).join(' and ')}.`.replace(/^t/, 'T');
   if (next.piece.progress === 0) {
@@ -285,14 +332,28 @@ export function plotBuildRefusal(household) {
   return null;
 }
 
+/** What the sky is holding up, in the family's words: "It is raining: the roof would go on wet on the round-log pen." */
+export function rainWords(pieces, held) {
+  return `It is raining: ${held.why} — ${held.stage.doing} on ${pieceWords(pieces, held.piece)} waits for a dry day.`;
+}
+
 /**
- * One spell of one person's work on the house. `hands` is how many people are on it now, the family's and neighbours'.
- * Returns true when the house is finished, or when the work must stop (logs short): the chore then stops.
+ * One spell of one person's work on the house. `hands` is how many people are on it now, the family's and neighbours';
+ * `here` is the day's weather where the house stands, or null where nothing reads it.
+ *
+ * Returns true when the house is finished, or when the work must stop - logs short, or the rain on the only work left
+ * (`FIC-GONZ-290`): the chore then stops, and the family is told which it was.
  */
-export function plotBuildSpell(world, household, entity, hands) {
+export function plotBuildSpell(world, household, entity, hands, here = null) {
   const pieces = household.house.pieces;
-  const next = nextStage(pieces);
-  if (!next) return true;
+  const next = nextStage(pieces, here);
+  if (!next) {
+    const held = weatherHold(pieces, here);
+    if (held) {
+      record(world, 'consequence', { actorId: entity?.id, householdId: household.id, importance: 2, claimId: 'FIC-GONZ-290', text: `Work on the house stopped. ${rainWords(pieces, held)}` });
+    }
+    return true;
+  }
   const { piece: p, stage } = next;
   if (p.progress === 0) {
     const short = logsShort(household.logs, stage.logs);

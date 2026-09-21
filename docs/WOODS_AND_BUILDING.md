@@ -278,6 +278,15 @@ went onto it when it started. `stageWants` in `sim/houseplot.mjs`, worded by `ne
 
 A neighbour standing on the plot while any pen's walls are going up can help (the raising as now, per course).
 
+**The sky, added 2026-09-21** (`FIC-GONZ-290`, `docs/WEATHER.md` §10.5). Two of those stages want the rain off them: the
+ones that **lay mud** — a pen's chinking, a jacal's daubed wall, the stick-and-mud chimney — and the ones that **put a
+roof on** — the rafters and clapboards, the thatch, the passage, the shed room, the porch. On a rain day, in a storm, or
+under a norther that brought its rain with it, those stages are **passed over**: the family works the next piece it can,
+and the house stands still only when the rain is on everything left, with the land line saying which stage of which piece
+is waiting. **Felling, hauling, the sills, the ten courses, framing, the floor, the loft and the stone chimney go on in
+any weather** — the record is plain that felling did, and `HIST-TEX-390` records honestly that **no source says the mud
+and the roof waited for a dry day**: that half is the game's, not the period's.
+
 ### 6.4 Drawn
 
 The plot is drawn as its pieces, each at its stage. `stand-in:` a pen is the `house-round-log` / `house-hewn-log` /

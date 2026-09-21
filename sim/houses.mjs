@@ -27,15 +27,33 @@
 // registered (`HIST-GONZ-029` to `031`).
 // ceiling: nothing wears or spends a building tool. A felling axe is needed, not used up; the
 // tool model wears only the hoe (`TOOL_LIFE` in sim/chores.mjs).
+// ceiling: **rain holds up no part of one of the four houses above** (`FIC-GONZ-290`, docs/WEATHER.md §10.5). A house
+// chosen whole is one bar of work covering felling, hauling, the walls, the roof and the daubing together, and there is
+// no roofing stage in it to hold: stopping the bar would stop the felling too, which the rain does not. Only a house
+// built piece by piece (sim/houseplot.mjs) has stages the sky can tell apart, and only there is the rain read. Undo this
+// the day the four houses get stages of their own.
 import { record } from './events.mjs';
 import { householdName } from './family.mjs';
 import { improvementsOf, setImprovement } from './improvements.mjs';
 import { CAMP_REST_SHARE, CAMP_SPOILAGE_PER_DAY } from './settling.mjs';
 import {
   PIECES, PLANS, PLAN_IDS, nextStage, pieceDone, pieceWords, placeRefusal, planPieces, plotBuildRefusal, plotBuildSpell,
-  plotInvalid, plotLayout, plotNeeds, plotPhase, plotRaising, plotShelter, stageWants,
+  plotInvalid, plotLayout, plotNeeds, plotPhase, plotRaising, plotShelter, stageWants, weatherHold,
 } from './houseplot.mjs';
+import { weatherAt } from './weather.mjs';
 import { countsTrees, woodsRule } from './woods.mjs';
+
+/**
+ * The day's weather where this family's house stands, or null before it has a place - which is the answer every caller
+ * without a world gets too, and means "no sky is being read", not "fair".
+ *
+ * A house is built at the family's own homestead, so the sky is read there and nowhere else (`FIC-GONZ-290`). The hunt
+ * reads its sky where the hunter walked to (`huntPoint`); the house has no such question.
+ */
+export const skyAtHome = (world, household) => {
+  const home = world?.map?.sites?.[household?.homeSiteId];
+  return home ? weatherAt(world, home) : null;
+};
 
 /**
  * Whether this family's house is planned piece by piece on the house plot (sim/houseplot.mjs, docs/WOODS_AND_BUILDING.md
@@ -116,13 +134,17 @@ export function phaseOf(household) {
   return share >= 1 ? 'finished' : share < RAISING_FROM ? 'site' : share < RAISING_TO ? 'walls' : 'roofing';
 }
 
-export function stageOf(household) {
+export function stageOf(household, world = null) {
   const plan = houseOf(household);
   if (!plan) return null;
   if (pieced(household)) {
     if (houseBuilt(household)) return 'finished';
-    const next = nextStage(plan.pieces);
-    return next ? `${next.stage.doing} on ${pieceWords(plan.pieces, next.piece)}` : 'waiting on the pens';
+    // The sky as well as the plot: on a wet day the stages the rain holds up are passed over, so the line a person's own
+    // control shows is the work they are actually doing and not the roof that is waiting (`FIC-GONZ-290`).
+    const here = skyAtHome(world, household);
+    const next = nextStage(plan.pieces, here);
+    if (next) return `${next.stage.doing} on ${pieceWords(plan.pieces, next.piece)}`;
+    return weatherHold(plan.pieces, here) ? 'waiting for the rain to stop' : 'waiting on the pens';
   }
   const share = plan.work / HOUSES[plan.layout].work;
   if (share >= 1) return 'finished';
@@ -289,10 +311,10 @@ export function editPlot(world, household, input) {
 }
 
 /** Why nobody in this family can work on the house right now, or null. Read by `choreAvailability`. */
-export function buildRefusal(household) {
+export function buildRefusal(household, world = null) {
   const plan = houseOf(household);
   if (!plan) return 'Choose a house to build first.';
-  if (pieced(household)) return plotBuildRefusal(household);
+  if (pieced(household)) return plotBuildRefusal(household, skyAtHome(world, household));
   if (houseBuilt(household)) return 'The house is built.';
   const missing = HOUSES[plan.layout].needs.filter(tool => household.tools?.[tool] === undefined);
   if (missing.length) return `The ${HOUSES[plan.layout].name.toLowerCase()} wants ${missing.map(tool => tool === 'axe' ? 'a felling axe' : `a ${tool}`).join(' and ')}.`;
@@ -307,7 +329,7 @@ export function buildRefusal(household) {
 export function buildSpell(world, household, entity) {
   const plan = houseOf(household);
   if (!plan || houseBuilt(household)) return true;
-  if (pieced(household)) return plotBuildSpell(world, household, entity, handsOn(world, household));
+  if (pieced(household)) return plotBuildSpell(world, household, entity, handsOn(world, household), skyAtHome(world, household));
   plan.work += 1;
   if (!houseBuilt(household)) return false;
   setImprovement(world, household, 'cabin', 'sound');
@@ -370,7 +392,7 @@ export function houseProjection(world, household) {
     const planned = plotShelter(pieces, { built: false });
     return {
       plot: true,
-      ...(plan && { house: { plan: plan.plan, pieces: pieces.map(p => [p.type, p.x, p.y, p.stage, p.progress]), stage: stageOf(household), phase: phaseOf(household), ...(!houseBuilt(household) && { wants: stageWants(pieces), why: buildRefusal(household) }) } }),
+      ...(plan && { house: { plan: plan.plan, pieces: pieces.map(p => [p.type, p.x, p.y, p.stage, p.progress]), stage: stageOf(household, world), phase: phaseOf(household), ...(!houseBuilt(household) && { wants: stageWants(pieces, skyAtHome(world, household)), why: buildRefusal(household, world) }) } }),
       ...(shelter.layout && { home: { restShare: shelter.restShare, spoilagePerDay: shelter.spoilagePerDay, ...(shelter.crowded && { crowded: true }) } }),
       // What the whole plan would do and still wants, so the plot says it while it is being laid out and built.
       ...(pieces.length && { planned: { ...(planned || {}), ...plotNeeds(pieces) } }),
@@ -379,7 +401,7 @@ export function houseProjection(world, household) {
   }
   const choosing = !houseBuilt(household) && !(plan && plan.work > 0) && !(!plan && improvementsOf(household).cabin === 'sound');
   return {
-    ...(plan && { house: { layout: plan.layout, work: plan.work, total: HOUSES[plan.layout].work, stage: stageOf(household), phase: phaseOf(household) } }),
+    ...(plan && { house: { layout: plan.layout, work: plan.work, total: HOUSES[plan.layout].work, stage: stageOf(household, world), phase: phaseOf(household) } }),
     // What the finished house does for the family, in numbers, on its own land line (`FIC-GONZ-008`).
     ...(shelter.layout && { home: { restShare: shelter.restShare, spoilagePerDay: shelter.spoilagePerDay, ...(shelter.crowded && { crowded: true }) } }),
     ...(choosing && { choices: HOUSE_IDS.map(id => { const why = planRefusal(world, household, id); return why ? { id, can: false, why } : { id, can: true }; }) }),

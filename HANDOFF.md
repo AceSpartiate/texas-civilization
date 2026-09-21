@@ -3,6 +3,45 @@
 **Released as [v2026.09.21.5](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.21.5)** on
 2026-09-21, verified on the clean tree at `b2e184c` (869 passed).
 
+**Rain on the roofing and the daubing, 2026-09-21 — the last row of the weather work:**
+[WEATHER.md §10.5](docs/WEATHER.md), `FIC-GONZ-290`, `HIST-TEX-390`. `FIC-GONZ-135`'s last unbuilt line, and with it
+every row of §10.5 that claim covers.
+
+- **The rule is `rainHold(here, work)` in `sim/weather.mjs`**, with `RAIN_HOLDS` naming the two kinds of work a wet sky
+  holds and the reason for each: `daub` ("the mud would wash out of it before it set") and `roof` ("the roof would go on
+  wet"). Wet means a rain day, a storm, or a norther that brought its rain (`rainingOn`, which `rainingAt` now reads); a
+  **dry norther does not hold the roof**. Ten stages in `sim/houseplot.mjs` carry a `wet` tag and no others — a pen's
+  roof and chinking, a jacal's wattle and thatch, the passage, the shed room's roof, the porch, the stick-and-mud
+  chimney. **Felling, hauling, the sills, all ten courses, framing, the floor, the loft and the stone chimney are
+  untouched.**
+- **Held, not stopped.** `nextStage(pieces, here)` passes over a held stage, so a family whose roof cannot go on frames
+  its shed room instead. The house stands still only when the rain is on everything left; then the chore ends and the
+  family is told which stage of which piece is waiting, once. The refusal is on the land line before anybody is sent
+  (`FIC-GONZ-008`), and no die is anywhere in it.
+- **A house chosen whole is not held at all.** The four of `sim/houses.mjs` are one bar of work with no roofing stage in
+  it, and stopping the bar would stop the felling. `ceiling:` in that file.
+- **It is fiction and it was checked first.** `HIST-TEX-390`: Smithwick never uses the word *daub*, Jordan's *Texas Log
+  Buildings* has a whole section on chinking and not one word about weather, the only explicit rule found anywhere (NPS
+  Preservation Brief 26) names *sun, heat and frost*, and Lewis and Clark roofed and daubed through a fortnight of
+  Pacific rain. No source supports this rule and one primary source is against it. It is built because the owner asked
+  for it, and registered as fiction rather than dressed as history.
+- **Cost, measured before and against after** — four classes of thirty run to the end of all three periods,
+  `docs/evidence/biome-balance-rain-before.json` and `-after.json`. **Every family still gets a roof: 120/120 before and
+  after, all inside the first period.** Median tick the family lived in its house **95.5 → 99**; p90 **136 → 137**; the
+  worst family of 120 **239 → 255**. Hungry ticks **4.5 → 5**. Final number, glory and coin unmoved. **21 stoppages over
+  the four classes, 20 of 120 families met one.**
+- **`npm test` 879 → 893.** `tests/rain-work.test.mjs` (14), proven by `node scripts/rain-work-injections.mjs`:
+  **33 of 33 caught** (`docs/evidence/rain-work-injections.json`). That harness handles CRLF, which
+  `scripts/weather-model-injections.mjs` still does not.
+- **What could not be proved.** The measurement is of a **dry week**: a class raises its house 29 September to about
+  4 October, and the wet share over the families' own land in that window is **.098**. November is .40/.47/.57 by region
+  and the wet spring multiplies March by 1.35 — a family still roofing then would meet this four times as often, and
+  **nothing in the game builds a house in November, so nothing measured it**. Re-run the study before pushing house work
+  past October. No browser proof was run: nothing was drawn and no transport or projection shape changed.
+- **Files touched:** `sim/weather.mjs`, `sim/houseplot.mjs`, `sim/houses.mjs`, `sim/chores.mjs` (two call sites),
+  `tests/rain-work.test.mjs`, `scripts/rain-work-injections.mjs`, `HISTORY.md`, `docs/WEATHER.md`,
+  `docs/WOODS_AND_BUILDING.md`, this file.
+
 **The family-creation wizard as a thing on a screen, 2026-09-21:** [FAMILY_PANEL.md §13](docs/FAMILY_PANEL.md). §12.11
 asked what was drawn over what on the screen a student plays the *game* on, and stopped at the curtain. The same question
 of the five steps in front of it — the title, the die, the last name, everybody's first names, each parent's looks — and
