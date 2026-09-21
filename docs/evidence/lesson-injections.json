@@ -62,9 +62,7 @@
     {
       "name": "a family whose student has gone is gated, so the director cannot move it at all",
       "file": "sim/lesson.mjs",
-      "failed": [
-        "a family whose student has gone is run by the director and is never gated, and takes up its lesson where it was when they come back"
-      ]
+      "failed": []
     },
     {
       "name": "a family on the road east is still being taught to dig a well on the land it left",
@@ -129,6 +127,7 @@
       "name": "the house step passes before there is a roof over the family",
       "file": "sim/lesson.mjs",
       "failed": [
+        "the server refuses what is not this step's work, in words a child can read, and allows what is",
         "each student goes at their own pace: two families of one class are on two different steps, and the clock is nobody's",
         "the whole of it, played through: the family ends with a house, a field it cleared, the crop it chose, coin for it, and a hunt",
         "a family whose student has gone is run by the director and is never gated, and takes up its lesson where it was when they come back"
@@ -159,7 +158,16 @@
       "name": "the crop counts as sold before a real of coin has come into the house",
       "file": "sim/lesson.mjs",
       "failed": [
-        "the whole of it, played through: the family ends with a house, a field it cleared, the crop it chose, coin for it, and a hunt"
+        "the whole of it, played through: the family ends with a house, a field it cleared, the crop it chose, coin for it, and a hunt",
+        "the sale is finished by the crop leaving the house, not only by coin coming back",
+        "what leaves the house down the family is not a sale"
+      ]
+    },
+    {
+      "name": "only coin finishes the sale again, so a crop the store paid for in food strands the class at the counter",
+      "file": "sim/lesson.mjs",
+      "failed": [
+        "the sale is finished by the crop leaving the house, not only by coin coming back"
       ]
     },
     {
@@ -200,7 +208,8 @@
         "the whole of it, played through: the family ends with a house, a field it cleared, the crop it chose, coin for it, and a hunt",
         "on the real land the family chooses where the house stands before anything else, and digs the well where one is wanted",
         "the hunt counts when the hunter comes home, whatever the shot did, and never before they have gone",
-        "a family whose student has gone is run by the director and is never gated, and takes up its lesson where it was when they come back"
+        "a family whose student has gone is run by the director and is never gated, and takes up its lesson where it was when they come back",
+        "the sale is finished by the crop leaving the house, not only by coin coming back"
       ]
     },
     {
@@ -248,7 +257,9 @@
         "each student goes at their own pace: two families of one class are on two different steps, and the clock is nobody's",
         "the whole of it, played through: the family ends with a house, a field it cleared, the crop it chose, coin for it, and a hunt",
         "on the real land the family chooses where the house stands before anything else, and digs the well where one is wanted",
-        "a family whose student has gone is run by the director and is never gated, and takes up its lesson where it was when they come back"
+        "a family whose student has gone is run by the director and is never gated, and takes up its lesson where it was when they come back",
+        "the sale is finished by the crop leaving the house, not only by coin coming back",
+        "what leaves the house down the family is not a sale"
       ]
     },
     {
@@ -302,6 +313,20 @@
       "file": "sim/lesson.mjs",
       "failed": [
         "a stored lesson is a step that exists, and a world holding anything else is refused"
+      ]
+    },
+    {
+      "name": "the house step asks the family to keep at a house before one has been chosen, which nobody on the bar can be set to",
+      "file": "sim/lesson.mjs",
+      "failed": [
+        "the step that asks for the house says to choose one first, until one is chosen"
+      ]
+    },
+    {
+      "name": "the step tells the family to choose a house and never says where that is done",
+      "file": "sim/lesson.mjs",
+      "failed": [
+        "the step that asks for the house says to choose one first, until one is chosen"
       ]
     }
   ]

@@ -417,3 +417,39 @@ test('what leaves the house down the family is not a sale', () => {
   assert.equal(lessonOf(world, 'hh-1').step, 'sell', 'eating the larder was counted as selling the crop');
   validateWorld(world);
 });
+
+/**
+ * Owner, 2026-09-21: *"When I have the mom start to cut the road, and then I switch to the Dad, he can't start working
+ * on the house? That isn't right."*
+ *
+ * Reproduced in a browser, and it is not about switching: the father can be given orders perfectly well. What happens
+ * is that setting anybody to work finishes the `order` step, which opens `house` - and `house` said "keep the family at
+ * the house until it stands" from the moment it opened, whether or not a house had been chosen. Until one is, every
+ * icon on every person is either shut by this step or refused by the server with "Choose a house to build first", so
+ * the step's own sentence asks for the one thing nobody on the bar can be set to.
+ *
+ * The reason was on the screen twice over - inside the icon, and in the guide's second line - and neither is the
+ * sentence a student is reading. So the step says the prerequisite itself now.
+ */
+test('the step that asks for the house says to choose one first, until one is chosen', () => {
+  const world = started('lesson-house-words');
+  const household = world.households['hh-1'];
+  until(world, () => !household.arriving);
+  household.lesson = { step: 'house' };
+  assert.equal(household.house, undefined, 'this test is about a family that has not chosen a house');
+
+  const before = lessonProjection(world, household);
+  assert.equal(before.step, 'house');
+  assert.match(before.says, /Choose a house first/, 'the step asked the family to keep at a house that does not exist yet');
+  assert.match(before.says, /on the left/, 'the step says to choose a house without saying where that is done');
+  assert.doesNotMatch(before.says, /Keep the family at the house/);
+
+  // With a house chosen, the step is the one it always was.
+  household.house = { layout: 'round-log', work: 0 };
+  const after = lessonProjection(world, household);
+  assert.match(after.says, /Keep the family at the house until it stands/);
+  assert.doesNotMatch(after.says, /Choose a house first/);
+  // And either way the step allows the plan to be chosen, or the sentence would be asking for something it forbids.
+  assert.ok(before.allow.includes('plan-house'), 'the step tells the family to choose a house and does not allow it');
+  validateWorld(world);
+});

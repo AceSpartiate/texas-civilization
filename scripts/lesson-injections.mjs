@@ -105,8 +105,16 @@ const INJECTIONS = [
   },
   {
     name: 'the crop counts as sold before a real of coin has come into the house',
-    from: 'const sold = household => (household.resources?.money ?? 0) > 0;',
-    to: 'const sold = household => (household.resources?.money ?? 0) >= 0;',
+    from: 'const sold = household => (household.resources?.money ?? 0) > 0 || household.lesson?.sold === true;',
+    to: 'const sold = household => (household.resources?.money ?? 0) >= 0 || household.lesson?.sold === true;',
+  },
+  {
+    // This half was added on 2026-09-21 because the store's purse holds two reales and pays the rest in food: a sale
+    // that brought back no coin left the class standing at the counter for good. It had no injection of its own, and
+    // the one above had gone stale against it - this whole harness had been unable to run since.
+    name: 'only coin finishes the sale again, so a crop the store paid for in food strands the class at the counter',
+    from: 'const sold = household => (household.resources?.money ?? 0) > 0 || household.lesson?.sold === true;',
+    to: 'const sold = household => (household.resources?.money ?? 0) > 0;',
   },
   {
     name: 'a hunt counts the moment somebody sets out, whether or not they ever come home',
@@ -200,6 +208,19 @@ const INJECTIONS = [
     name: 'anything at all may be stored as a lesson',
     from: '  if (typeof lesson !== \'object\' || lesson === null || Array.isArray(lesson)) return \'Invalid lesson\';',
     to: '',
+  },
+  // The owner's own report, 2026-09-21: the house step asked the family to keep at a house nobody had chosen, so every
+  // icon on every person was either shut by the step or refused by the server, and the step's sentence asked for the
+  // one thing nobody could be set to.
+  {
+    name: 'the house step asks the family to keep at a house before one has been chosen, which nobody on the bar can be set to',
+    from: "    says: (world, household) => (houseOf(household)\n      ? 'Keep the family at the house until it stands. Set more than one of them to it and it goes faster; until there is a roof they camp by the wagon.'\n      : 'Choose a house first: the \"Choose a house\" button is on the left, above your family. Then set somebody to build it, and more than one of them makes it go faster.'),",
+    to: "    says: () => 'Keep the family at the house until it stands. Set more than one of them to it and it goes faster; until there is a roof they camp by the wagon.',",
+  },
+  {
+    name: 'the step tells the family to choose a house and never says where that is done',
+    from: "      : 'Choose a house first: the \"Choose a house\" button is on the left, above your family. Then set somebody to build it, and more than one of them makes it go faster.'),",
+    to: "      : 'Choose a house first. Then set somebody to build it, and more than one of them makes it go faster.'),",
   },
 ];
 

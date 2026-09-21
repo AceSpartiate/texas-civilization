@@ -34,7 +34,7 @@
 import { record } from './events.mjs';
 import { CHORES } from './chores.mjs';
 import { choosing } from './homesite.mjs';
-import { houseSettled } from './houses.mjs';
+import { houseOf, houseSettled } from './houses.mjs';
 import { clearedPlots, plotsOf, sownPlots } from './fields.mjs';
 
 /**
@@ -161,7 +161,17 @@ export const STEPS = Object.freeze([
     id: 'house',
     title: 'Get the house up',
     first: 'get the house up.',
-    says: () => 'Keep the family at the house until it stands. Set more than one of them to it and it goes faster; until there is a roof they camp by the wagon.',
+    // **What this step says depends on whether a house has been chosen** (owner, 2026-09-21: "When I have the mom start
+    // to cut the road, and then I switch to the Dad, he can't start working on the house? That isn't right"). It said
+    // "keep the family at the house until it stands" from the moment the step opened - and until a plan is chosen there
+    // is no house to keep them at: every icon on every person is either shut by this step or refused by the server with
+    // "Choose a house to build first". Reproduced in a browser: the father's whole bar came down to Travel, Rest and
+    // Work about the place, none of which is this step, and the step's own sentence asked for the one thing nobody
+    // could be set to. The reason was on the screen twice - inside the icon, and in the guide's second line - but never
+    // in the sentence the student was reading.
+    says: (world, household) => (houseOf(household)
+      ? 'Keep the family at the house until it stands. Set more than one of them to it and it goes faster; until there is a roof they camp by the wagon.'
+      : 'Choose a house first: the "Choose a house" button is on the left, above your family. Then set somebody to build it, and more than one of them makes it go faster.'),
     allow: () => HOUSE_WORK,
     done: (world, household) => houseSettled(household),
     did: () => 'The house stands. The family sleeps under its own roof tonight.',
