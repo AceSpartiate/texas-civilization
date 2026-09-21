@@ -47,6 +47,26 @@ beside a 24-thread busy loop it passed 10/10. **Seen in those suites:** `pace.te
 failed 7 of 10 (fixed the same day, above) and `save-cadence.test.mjs` *"a page is sent a snapshot"* 1 of 10 (fixed the same day, above), both real-time tests of their own. No
 product code changed.
 
+**A CLASS PLAYED IT, 2026-09-21. Read this before anything else.** The owner ran real students on Chromebooks. **It ran
+well** - the server, the launcher and the map all held up, which is the first time that has been tested outside this
+computer. Four things came back, and they are now the project's priorities, above everything in the open list below:
+
+1. **Nobody could work out how to play.** "students couldn't figure out how to farm, or build a house, etc." The owner's
+   answer: **the tutorial becomes an integrated, forced part of the game** - no freedom until the family has arrived and
+   been walked through each major function, "one task at a time, guided by the ui and unavoidable", and by the end each
+   student, at their own pace, has **built a house, farmed and sold a crop of their choosing, hunted, and dug a well**.
+2. **The UI covered too much of the screen.** A Chromebook is 1366x768 and the panels ate it.
+3. **A character's abilities must be hidden unless that character is the selected/main one**, and the selected one's
+   abilities belong **bottom-middle, spaced out to maximise what can be seen**.
+4. **Characters moved too fast to follow.** The owner: "if they're moving too fast then players shouldn't be able to
+   follow them until they arrive" - the fog of war answer, decided at the projection rather than on the page.
+
+Four agents were set on these on 2026-09-21, each in its own worktree, with the lesson's contract fixed between the two
+halves of it before they started (`view.lesson`, in the prompts and in docs/LESSON.md when it lands): **the art wiring**
+(Astra's eight unwired batches), **the lesson's world side** (`sim/`), **the lesson's screen side with the UI's
+footprint and the ability bar** (`public/`), and **what a student may see of somebody travelling fast**. Claim blocks:
+art `FIC-GONZ-200`+/`HIST-TEX-300`+, lesson-sim `210`+/`310`+, screen `220`+/`320`+, travel `230`+/`330`+.
+
 **WHERE THIS STOOD WHEN THE SESSION STOPPED, 2026-09-20 (evening).** Read this first; the entries below it are
 finished work.
 
