@@ -3,6 +3,31 @@
 **Released as [v2026.09.21.5](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.21.5)** on
 2026-09-21, verified on the clean tree at `b2e184c` (869 passed).
 
+**Four broken gates, and the game was right in all four, 2026-09-21:** [FAMILY_PANEL.md §13.6](docs/FAMILY_PANEL.md).
+`test:family-panel`, `test:family-commands` and `test:furniture` had been failing since before the guided start went in
+(verified at `68c4d56` and `4f96879`), and `test:road` was failing at the bog. Each was asked the same question —
+**is the proof wrong, or is the product?** — and in each the proof was measuring a rule an owner decision had replaced,
+or a screen that had moved under it. **Nothing in `sim/` or `public/` was changed.** `npm test` **879**, unmoved.
+
+- **`test:furniture`** never walked `meetFamily`, so the title screen's canvas took its first press — a timeout on a
+  button that was on the screen and could not be pressed. **5 checks.**
+- **`test:family-commands`** was measuring §11's "the whole family at work at once" *through the guided beginning*,
+  which forbids exactly that. Its class is `taught` now, and the section says out loud that no lesson stands before it
+  counts. **23 checks; 7 of 10 set to work.** A real student is not caught by this: in a real class the house is **not**
+  up on arrival, so the step after *order* is *house*, which asks for the whole family.
+- **`test:family-panel`** read §7's phone rule at **one point**, and the guided start's strip pushed the column 220px
+  down until the one open row §7 allows sat under it. Read on a **grid of 288 points** now. **14 checks**, and
+  **3 of 3 injections caught, each by the check written for it** (`scripts/family-panel-phone-injections.mjs`,
+  [evidence](docs/evidence/family-panel-phone-injections.json)).
+- **`test:road`** waited **60 seconds** for a bog that takes **154** when served to a browser — the roll is once a day
+  against the weather where the family is, so the day it sticks on moves with how long somebody takes to press Confirm.
+  Past it, it pressed *Hunt from the camp* on a row that was not the main person's (§12). **7 checks.** **The road's
+  simulation was never at fault**: stepped in process it bogs this family every time.
+
+**Not proved:** same computer only, headless Chrome, no LAN and no district claim. No real phone: the 400×800 context is
+Chrome. No claim ID was spent — nothing here invents anything. The guided start's strip takes about a third of a 400px
+phone screen; that is §12.11's and the overlap study's, recorded here and not chased.
+
 **The family-creation wizard as a thing on a screen, 2026-09-21:** [FAMILY_PANEL.md §13](docs/FAMILY_PANEL.md). §12.11
 asked what was drawn over what on the screen a student plays the *game* on, and stopped at the curtain. The same question
 of the five steps in front of it — the title, the die, the last name, everybody's first names, each parent's looks — and
@@ -36,7 +61,8 @@ eight children, the largest the twenty-sided die makes.
   (`4f96879`): `test:family-panel` (*"the middle of a phone screen is not the map: DIV"*), `test:family-commands`
   (*"only 2 people could be given work; this seed was chosen for a large family"*) and `test:furniture` (times out on
   `.panel-focus[data-focus="hh-1-elena"]`). None of the three is this work's, and none was repaired here.
-  `npm run test:lesson` still passes.
+  `npm run test:lesson` still passes. **(All three, and `test:road`, were repaired later the same day — see *Four
+  broken gates* at the top of this file. In every one the proof was wrong and the game was right.)**
 - **Not proved:** same computer only; no real screen reader was run (NVDA, JAWS, ChromeVox have not been near it); the
   join form and the wagon-that-opens-by-itself are the two places focus still starts on the page itself, both recorded
   in §13.4 rather than chased. No claim ID was spent — nothing here invents anything, it is where things are drawn.

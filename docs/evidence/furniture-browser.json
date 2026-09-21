@@ -1,6 +1,6 @@
 {
   "record": "Furniture, in a browser: docs/SETTLING_IN.md build step 6",
-  "date": "2026-09-16",
+  "date": "2026-09-21",
   "verdict": "PASS",
   "note": "Same computer only. A student started Make furniture from the family panel, chose a piece at the question, watched the trip to the timber and back, and found the piece in the family book. Buying from the carpenter is proved in tests/furniture.test.mjs. No LAN or district claim.",
   "checks": [

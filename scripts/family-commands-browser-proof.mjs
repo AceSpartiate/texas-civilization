@@ -32,6 +32,9 @@ import { meetFamily } from './support/meet-family.mjs';
 // docs/FAMILY_PANEL.md §12 (owner, 2026-09-21): a person's work is on the screen only while they are the family's main
 // person, so this proof chooses them first, as a student does.
 import { asMain } from './support/main-person.mjs';
+// docs/LESSON.md (owner, 2026-09-21): while the guided beginning runs the server allows one step's work and refuses the
+// rest. §11, which this proves, is about the farm a student already has the run of. See `housedClass` below.
+import { taught } from '../tests/support/settled.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -48,10 +51,22 @@ async function pressMark(page, id, how = 'click') {
 }
 const shot = async (page, name) => { const path = `docs/evidence/family-commands-${name}.png`; await page.screenshot({ path }); shots.push(path); };
 
+/**
+ * Every family housed, and every family past the guided beginning.
+ *
+ * `taught` is the whole of the second line, and it is not a convenience. §11 is about the run of a farm the student
+ * already has: one press a person, the whole family at work at once. The guided beginning (docs/LESSON.md, owner
+ * 2026-09-21) deliberately forbids exactly that while it runs - one task at a time, and `applyAction` refuses the rest in
+ * words - so this section, written in September 16's world, measured a rule September 21 replaced. What it read as was
+ * "only 2 people could be given work": the first order finished the *order* step, the *house* step was already done
+ * because these cabins stand, and the family landed on *survey*, whose one allowed work wants a place chosen on the map -
+ * which this section deliberately never does. Nothing was wrong with the game. A family whose house is up and whose
+ * lesson is over is the state every student reaches and the state §11 describes, so the class starts there.
+ */
 function housedClass(seed, playerCount) {
   const world = createGonzalesWorld(seed, playerCount);
   for (const household of Object.values(world.households)) household.improvements = { ...(household.improvements || {}), cabin: 'sound' };
-  return world;
+  return taught(world);
 }
 /**
  * A class on the real land, played in process to the morning its settlement's call reaches hh-1 - the one call a family may
@@ -201,6 +216,12 @@ try {
   // ----------------------------------------------------------------------------------------- the whole family, set to work
   await page.waitForFunction(() => window.__snapshot.world.entities.filter(e => e.kind === 'person').every(e => !e.travel), null, { timeout: 60000 });
   await page.waitForTimeout(600);
+  // Asked out loud, because the whole of this section is only true of a family with the run of its own farm: a guided
+  // beginning standing here would shut every work but one step's and the count below would read as a small family rather
+  // than as a gate (which is what it read as from 2026-09-21 until this line was written). `housedClass` teaches them
+  // first; this is the check that it kept doing so.
+  assert.equal(await page.evaluate(() => window.__snapshot?.world.lesson ?? null), null,
+    'a guided beginning is running on this family, so it is gated to one step’s work and §11 cannot be measured here');
   // Who the panel shows idle before anybody is given anything.
   measured.idleBeforeOrders = (await page.evaluate(() => window.__familyPanel)).filter(row => row.idle).map(row => row.id);
   // One press a person, top to bottom. The principal goes to work about the place; the next grown person to town for seed,
@@ -247,7 +268,7 @@ try {
   const orderable = plan.map(entry => entry.id);
   const notGlowing = plan.filter(entry => !entry.glowed);
   assert.deepEqual(notGlowing, [], `pressed and never glowed: ${JSON.stringify(notGlowing)} (server: ${JSON.stringify(notGlowing.map(({ id }) => world().entities[id].chore))})`);
-  assert.ok(orderable.length >= 4, `only ${orderable.length} people could be given work; this seed was chosen for a large family`);
+  assert.ok(orderable.length >= 4, `only ${orderable.length} people could be given work; this seed was chosen for a large family. Refused: ${JSON.stringify(refusals)}`);
   // Everybody given work, still at it, is not idle; the panel says so of every row at once.
   await page.waitForTimeout(600);
   const busyPanel = await page.evaluate(() => window.__familyPanel);

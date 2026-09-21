@@ -704,12 +704,69 @@ Found while running the proofs around this work, and **checked against the tree 
 - `npm run test:family-commands`: *"only 2 people could be given work; this seed was chosen for a large family"*.
 - `npm run test:furniture`: times out clicking `.panel-focus[data-focus="hh-1-elena"]`.
 
+**All three repaired, 2026-09-21 — and in all three the proof was wrong, not the game.** §13.6 below has each one.
+
 Two more had the same cause and **were** repaired here, because they are the family's own gates: `npm run test:looks`
 and `npm run test:family` both clicked **Journal** through the dim that §12.11 put behind a covering panel, and Chrome
 refuses a click through it — which is the dim working. Both put the wagon away first now; **8 checks** and **13**.
 Eleven other proofs click `#journal-toggle` (`army`, `art`, `browser`, `farm`, `furniture`, `hunt`, `relay` ×3,
 `trade-animation`, `travel`) and were not run here; any of them that reaches that line with the wagon open has the same
 fault waiting.
+
+### 13.6 Those three gates repaired, and a fourth — 2026-09-21
+
+Each of the four was asked the same question first: **is the proof wrong, or is the game?** In all four the game was
+right and the proof was measuring a rule the owner had already replaced, or a screen that had already moved under it.
+Nothing in `sim/` or `public/` was changed for any of them. `npm test` **879**, unmoved, because nothing they touch is
+in the suite.
+
+- **`test:furniture` — the title curtain.** The proof joined and pressed straight at the family panel. Since
+  2026-09-17 the title screen comes first, and `#creation-scene` — the canvas behind **Begin** — takes every click while
+  it stands. The panel is drawn under it and reads to Chrome as *visible*, so the failure was a sixty-second timeout on
+  a button nobody could have pressed. Every other proof walks `meetFamily`; this one never did. It does now, puts the
+  wagon away as `test:looks` learned to, and **says out loud that no lesson stands on a family settled before the
+  lesson existed** — so a gate can never be mistaken for a missing icon here. **5 checks.**
+
+- **`test:family-commands` — §11 measured through the guided beginning.** "Only 2 people could be given work" was not a
+  small family. The class is one whose cabins stand, and the family was still *arriving*, so `sim/lesson.mjs` started it
+  at **arrive**; the first order finished **order**; **house** was already done because the cabin stands, so the family
+  landed on **survey**, whose one allowed work wants a place chosen on the map — which this section deliberately never
+  does. Every later press was refused in the lesson's own words: *"Not yet - first, stake out ten acres."* The game did
+  exactly what [LESSON.md](LESSON.md) says. §11 is about the run of a farm a student already has, which is the state
+  every student reaches, so the class is `taught` now (`tests/support/settled.mjs`, written for this) and the section
+  **asserts that no lesson stands** before it counts. **23 checks; 7 of 10 people set to work.**
+  *A real student is not caught by this:* in a real class the house does **not** stand on arrival, so the step after
+  **order** is **house**, whose own sentence is "Set more than one of them to it and it goes faster". The whole family
+  can be put to work there. Only a class with cabins raised before the wagons came in — which is a test world and not a
+  game — skips over it.
+
+- **`test:family-panel` — one point that stopped being over the map.** §7 says the panel on a phone "takes no more than
+  the left portrait column and one row, so the map stays visible", and that was read at a **single point**, 60% across
+  and 55% down. §12.11 gave a phone the guided start's strip across the top and started the column below it by the
+  strip's own height (`--lesson-room`): the column moved down 220px and the one open row — which §7 allows — landed
+  under the probe. The panel was taking **7.5%** of the screen the whole time. Where the column sits was never the rule.
+  It is read on a **grid of 288 points** now: every point a *row* holds outside the column of faces must be inside the
+  one open row, and below the strip the map must be the top thing at more than two fifths of what is left (it is at
+  **57%**). The work bar and **Hide names** are counted rather than judged — they are §12's and the overlap study's.
+  **14 checks.**
+  Proven by injection, which is the only reason a bigger instrument is worth anything:
+  `scripts/family-panel-phone-injections.mjs`, [evidence](evidence/family-panel-phone-injections.json) — **3 of 3
+  caught, each by the check written for it**: every row opening at once (caught by `openRows`), a folded row drawing its
+  face out over the map (by `strays`, with `openRows` still 1), and the work bar keeping desktop-sized icons and
+  wrapping up the map — the fault §12 fixed on 2026-09-21 — (by the map's share, 18% against a floor of 40%).
+
+- **`test:road` — two faults, neither the road's.** Reported failing "at a bog", and it was **two** things.
+  (1) The proof waited **sixty seconds** for the wagon to stick. Stepped in process it sticks 35 ticks out — 52 seconds
+  at a tick every second and a half — and *served to a browser it took 154*, because the bog is rolled once a day
+  against the weather where the family actually is, so a student who spends a few ticks filling in the flee form is a
+  different number of days along when each rain day comes. Which day it sticks on moves with how long somebody takes to
+  press Confirm, **by whole days**. The wait is the ten minutes the pursuit below it already allowed, it watches the
+  server's own world, and the flight is in the message instead of a bare `waitForFunction` timeout that said nothing.
+  (2) Past the bog it pressed **Hunt from the camp** on a row that is not the main person's — §12 again, and this proof
+  was not one of the ten given `asMain` on 2026-09-21. It chooses the hunter first now and puts the star back after,
+  because the road's "!" is raised on the main person and the warning at San Felipe is pressed on them. **7 checks.**
+  **The simulation was never at fault**: `stepWorld` bogs this family on a rain day exactly as
+  [ROAD_EAST.md](ROAD_EAST.md) describes, every time it is asked.
 
 ### 13.5 What the merge of the two wizard passes cost, 2026-09-21
 
