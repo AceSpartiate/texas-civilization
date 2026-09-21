@@ -1715,3 +1715,21 @@ replaces it. See [DEPLOYMENT.md](docs/DEPLOYMENT.md) §Solo Mode.
   `docs/evidence/solo-dialog.png` and I read it; the hit region, the confirmation and the row disappearing rest on that
   picture and on the server's own tests. UI automation of this dialog is still the gap it has always been.
 - The emblem is drawn with a pen in `DrawBin` (`stand-in:`); the request for Astra's is in `docs/ART_REQUESTS.md`.
+
+**Play Solo asks what a class asks, 2026-09-21.** Found by the wizard-words agent and decided by the owner by multiple
+choice — *"Ask, the way a class does."* A solo game opened `running`, and both `wagonProjection` and `grantProjection`
+are sent **only in the lobby**, so the solo player was never offered the wagon or the stock choice at all: a solo family
+always held a **labor of land, 177 acres**, where a student in a class who drives stock in holds a **league and a labor,
+4,606**, and arrives with six cattle and twelve hogs. The owner had been playtesting the small grant with nobody having
+chosen it. A solo game now opens in a lobby of its own and the player's own **Done packing** is the Start.
+
+- `begin-solo` is a student action the server accepts **only on a solo server and only in the lobby**. A class has a
+  teacher and this is not a second way to start one; both halves of that are held by a test and by an injection.
+- The page is told it is a solo game by one boolean on the snapshot (`solo: true`) rather than a role of its own — a
+  solo player is a student in every other way.
+- Evidence: `tests/solo.test.mjs` (six tests) and `docs/evidence/solo-games-injections.json` — **12 of 12 caught**, the
+  two `if (!solo)` second locks still recorded as not provable over HTTP. `npm run test:solo` now walks the wizard, reads
+  the stock choice's own words back (*"Drive cattle and hogs in…"*), presses Done packing and watches the world start;
+  `npm run test:solo-game` plays a whole solo game through all three periods and the ending, 15 checks.
+- **Two old owner decisions are amended by this**, and both are marked where they were written: `docs/DEPLOYMENT.md`
+  ("already running", 2026-09-17) and `docs/LAND_GRANTS.md` (the open gap the agent recorded this morning).

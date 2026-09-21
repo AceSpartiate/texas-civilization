@@ -245,8 +245,16 @@ nothing but that picture and the server's own tests.
 
 **Play Solo** on the launcher is for the owner trying the game, not for a class. One
 click starts a solo server if none is running (or reuses it), deals a **fresh game**, joins one
-player, rolls that family, starts the class, and opens that player's page **already joined** in
-a window of its own. No class code, no join form, no Host Start. The other families of the class
+player, and opens that player's page **already joined** in
+a window of its own. No class code, no join form, no teacher.
+
+**It asks what a class asks (owner, 2026-09-21, by multiple choice: "Ask, the way a class does").** The game opens in a
+**lobby of its own** rather than running, so the player meets the same two questions a student meets — what the wagon
+carries, and whether the family drives stock in, which decides a labor of land (177 acres) or a league and a labor
+(4,606) and whether the family arrives with six cattle and twelve hogs. Both panels are sent only in the lobby, so a
+solo game that opened `running` was never asked either, and a solo family always held the small grant with nobody having
+chosen it. The player's own **Done packing** is the Start (`begin-solo`, a student action the server accepts only on a
+solo server and only in the lobby); a class still has a teacher, and this is not another way to start one. The other families of the class
 are there as automatic neighbours, exactly as in a class nobody else joined. The window has
 **Class view** (the solo Host page, for inspecting what the teacher would see), **New solo game**,
 and developer tools. Closing the launcher stops a solo server it started, through the same

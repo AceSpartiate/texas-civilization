@@ -1,20 +1,27 @@
 {
-  "recordedAt": "2026-09-19T02:56:14.647Z",
+  "recordedAt": "2026-09-21T18:46:13.447Z",
   "scope": "same computer, headless Chrome",
   "command": "npm run test:solo",
   "pass": [
-    "npm run solo opens the player page already joined as hh-1, the class running, no join form, no ticket in the address",
-    "the world waits while the family is made (tick 0 after 21 s, the die still offered) and goes on once it is (tick 1)",
+    "npm run solo opens the player page already joined as hh-1, in its own lobby, no join form, no ticket in the address",
+    "Play Solo asks what a class asks: the wagon, and the stock choice in its own words - \"Drive cattle and hogs in. The family holds a league and a la…\"",
+    "the world waits while the family is made and packed (tick 0 after 21 s, the die still offered) and Done packing starts it (tick 1)",
     "the play link is one use: opening it again is refused",
     "the solo class view opens from its Host address: running, 1 family joined",
     "the solo server does not answer on this computer's network address (Ethernet 4), only on 127.0.0.1",
-    "a second npm run solo reuses the running solo server, deals a new game (new session) and opens it joined",
+    "a second npm run solo reuses the running solo server, deals a new game (new session) and opens it joined, in its own lobby",
     "a real class running from the same data folder is untouched: same session, same code, save unchanged; solo saved to solo\\classroom.json on its own port",
     "the solo server stops gracefully from its class view and releases its save lock",
     "no page errors"
   ],
   "observed": {
-    "play": "http://127.0.0.1:59585/solo/enter?ticket=…",
+    "play": "http://127.0.0.1:65165/solo/enter?ticket=…",
+    "asked": {
+      "wagon": true,
+      "stock": 2,
+      "says": "Drive cattle and hogs in. The family holds a league and a labor, 4,606 acres - about 26 times as much land - and the herd's keep takes 2 spaces of the wagon. The family arrives with 6 cattle and 12 hogs, which feed themselves on the range and feed the family.",
+      "tick": 0
+    },
     "held": {
       "waitedMs": 21000,
       "tickWhileMaking": 0,

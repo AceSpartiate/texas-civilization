@@ -54,6 +54,36 @@
       ]
     },
     {
+      "name": "a solo game opens running again, so the wagon and the stock choice are never offered and the family holds a labor nobody chose",
+      "file": "server/app.mjs",
+      "failed": [
+        "one solo request gives a joined family in its own lobby among automatic neighbours, with its own die still to roll",
+        "a solo game holds its clock while the family is being made, and goes on the moment it is made",
+        "only a solo player may begin their own game, only once, and never a class"
+      ]
+    },
+    {
+      "name": "a student of a real class can start it themselves, without the teacher",
+      "file": "server/app.mjs",
+      "failed": [
+        "only a solo player may begin their own game, only once, and never a class"
+      ]
+    },
+    {
+      "name": "a game already begun can be begun again, which rolls the family a second time",
+      "file": "server/app.mjs",
+      "failed": [
+        "only a solo player may begin their own game, only once, and never a class"
+      ]
+    },
+    {
+      "name": "the page is never told it is a solo game, so its Done packing cannot be the Start",
+      "file": "server/app.mjs",
+      "failed": [
+        "one solo request gives a joined family in its own lobby among automatic neighbours, with its own die still to roll"
+      ]
+    },
+    {
       "name": "a class lists solo games",
       "file": "server/app.mjs",
       "failed": [],

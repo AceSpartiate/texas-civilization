@@ -4409,7 +4409,15 @@ $('#wagon-stock')?.addEventListener('change', async event => {
     if (window.__snapshot) render(window.__snapshot);
   }
 });
-$('#wagon-done')?.addEventListener('click', () => { wagonPacking = false; if (window.__snapshot) render(window.__snapshot); $('#wagon-open')?.focus(); });
+// Play Solo has no teacher to press Start, so this button is the Start (owner, 2026-09-21). In a class it only puts the
+// panel away, exactly as before: the teacher decides when the class begins.
+$('#wagon-done')?.addEventListener('click', async () => {
+  wagonPacking = false;
+  const solo = window.__snapshot?.solo, lobby = window.__snapshot?.world?.status === 'lobby';
+  if (solo && lobby) await api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, action: 'begin-solo' });
+  if (window.__snapshot) render(window.__snapshot);
+  $('#wagon-open')?.focus();
+});
 $('#wagon-open')?.addEventListener('click', () => { wagonPacking = true; wagonShown = ''; if (window.__snapshot) render(window.__snapshot); $('#wagon-done')?.focus(); });
 /**
  * Choosing the house (docs/SETTLING_IN.md step 4).

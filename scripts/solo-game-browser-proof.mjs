@@ -73,7 +73,9 @@ try {
   const student = await (await browser.newContext({ reducedMotion: 'reduce', viewport: { width: 1440, height: 950 } })).newPage();
   student.on('pageerror', error => errors.push(`student: ${error.message}`));
   await student.goto(url + game.path);
-  await student.waitForFunction(() => window.__snapshot?.world?.householdId === 'hh-1' && window.__snapshot.world.status === 'running', null, { timeout: 30000 });
+  // Its own lobby, not running (owner, 2026-09-21): a solo game is asked what it packs and whether it drives stock in,
+  // the questions a class is asked, and the player's own Done packing below is the Start.
+  await student.waitForFunction(() => window.__snapshot?.world?.householdId === 'hh-1' && window.__snapshot.world.status === 'lobby', null, { timeout: 30000 });
   const seen = await student.evaluate(() => ({ joinHidden: document.querySelector('#join')?.hidden, path: location.pathname + location.search, rolled: Boolean(window.__snapshot.world.household) }));
   assert.equal(seen.joinHidden, true, 'a join form');
   assert.equal(seen.path, '/', 'the ticket left in the address bar');
@@ -81,9 +83,10 @@ try {
   await meetFamily(student);
   if (await student.locator('#journal-close').isVisible()) await student.locator('#journal-close').click();
   if (await student.locator('#wagon-done').isVisible()) await student.locator('#wagon-done').click();
+  await student.waitForFunction(() => window.__snapshot.world.status === 'running', null, { timeout: 30000 });
   if (await student.locator('#tutorial-skip').isVisible()) await student.locator('#tutorial-skip').click();
   assert.equal(Object.values(world().households).filter(h => h.played).length, 1, 'more than one family is played');
-  ok(`the solo game opens joined as hh-1 in ${world().households['hh-1'].settlementId}, rolled and running, no join form, no Start press; the other four families automatic`);
+  ok(`the solo game opens joined as hh-1 in ${world().households['hh-1'].settlementId}, rolled, and running once the wagon was packed, no join form, no teacher's Start; the other four families automatic`);
 
   const host = await (await browser.newContext({ reducedMotion: 'reduce', viewport: { width: 1440, height: 950 } })).newPage();
   host.on('pageerror', error => errors.push(`host: ${error.message}`));
@@ -101,9 +104,9 @@ try {
   const again = await (await browser.newContext({ reducedMotion: 'reduce', viewport: { width: 1440, height: 950 } })).newPage();
   again.on('pageerror', error => errors.push(`again: ${error.message}`));
   await again.goto(url + next.path);
-  await again.waitForFunction(() => window.__snapshot?.world?.householdId === 'hh-1' && window.__snapshot.world.status === 'running' && !window.__snapshot.world.ending, null, { timeout: 30000 });
+  await again.waitForFunction(() => window.__snapshot?.world?.householdId === 'hh-1' && window.__snapshot.world.status === 'lobby' && !window.__snapshot.world.ending, null, { timeout: 30000 });
   assert.equal(world().period ?? 1, 1, 'the new game did not start at the beginning');
-  ok('after the ending, a new solo game is dealt with the old pages open, and opens joined and running from the beginning');
+  ok('after the ending, a new solo game is dealt with the old pages open, and opens joined in its own lobby from the beginning');
 
   assert.deepEqual(errors, [], `page errors: ${errors.join(' | ')}`);
   ok('no page errors on any page across the whole solo game');

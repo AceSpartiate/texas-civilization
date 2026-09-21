@@ -29,7 +29,7 @@ const caller = port => async (path, data, cookie) => {
   return { status: response.status, body, location: response.headers.get('location'), cookie: response.headers.get('set-cookie')?.split(';')[0] };
 };
 
-test('one solo request gives a joined, running family among automatic neighbours, with its own die still to roll', async () => {
+test('one solo request gives a joined family in its own lobby among automatic neighbours, with its own die still to roll', async () => {
   const { app, dispose } = classroom({ solo: true });
   const call = caller(await app.listen());
   try {
@@ -43,7 +43,12 @@ test('one solo request gives a joined, running family among automatic neighbours
     const mine = await call('/api/state', null, enter.cookie);
     assert.equal(mine.status, 200);
     assert.equal(mine.body.world.householdId, 'hh-1');
-    assert.equal(mine.body.world.status, 'running', 'no Start press was needed');
+    // In the lobby, not running (owner, 2026-09-21): the wagon and the stock choice are sent only in the lobby, so a
+    // solo game that opened `running` never asked either question and always held a labor of land.
+    assert.equal(mine.body.world.status, 'lobby', 'a solo game opened running, where it is never asked what it packs');
+    assert.ok(mine.body.world.wagon, 'the solo player is never asked what the family packs');
+    assert.ok(mine.body.world.land?.stockChoice, 'the solo player is never asked whether the family drives stock in');
+    assert.equal(mine.body.solo, true, 'the page cannot tell it is a solo game, so it cannot know its Done packing is the Start');
     const state = app.state;
     assert.equal(Object.keys(state.clients).length, 1, 'exactly one player joined');
     // The die is the player's (owner, 2026-09-17: "when did i roll for family size?"), and may be rolled although the class runs.
@@ -68,7 +73,7 @@ test('a solo game holds its clock while the family is being made, and goes on th
     const cookie = (await call(`/solo/enter?ticket=${new URL(game.body.playUrl).searchParams.get('ticket')}`)).cookie;
     const command = async (id, input) => assert.equal((await call('/api/command', { id, ...input }, cookie)).status, 200, id);
     await wait();
-    assert.equal(app.state.world.status, 'running');
+    assert.equal(app.state.world.status, 'lobby');
     assert.equal(app.state.world.tick, 0, 'the world went on while the page was opening');
     assert.equal(rollRefusal(app.state.world, app.state.world.households['hh-1']), null, 'the die closed before the player came to it');
     await command('hold-roll', { action: 'roll-family' });
@@ -84,8 +89,45 @@ test('a solo game holds its clock while the family is being made, and goes on th
       await command(`hold-looks-${parent.id}`, { action: 'set-appearance', entityId: parent.id, ...Object.fromEntries(LOOK_PARTS.map(part => [part, choices[part][0]])) });
     }
     await wait();
-    assert.ok(app.state.world.tick > 0, 'the world did not go on once the family was made');
+    // The family is made, and the world still waits - it is in its own lobby now, where the wagon and the stock choice
+    // are asked (owner, 2026-09-21). The player's own Done packing is what starts it.
+    assert.equal(app.state.world.tick, 0, 'the world went on before the player had packed the wagon');
+    assert.equal(familyMaking(app.state.world, app.state.world.households['hh-1']), false, 'the family is not made, so this proves nothing about the lobby');
+    await command('hold-begin-solo', { action: 'begin-solo' });
+    assert.equal(app.state.world.status, 'running');
+    await wait();
+    assert.ok(app.state.world.tick > 0, 'the world did not go on once the player had packed the wagon');
   } finally { await dispose(); }
+});
+
+// Owner, 2026-09-21, by multiple choice: Play Solo asks what a class asks. "There is no teacher, so the player's own
+// Done packing is the Start" is the whole of the mechanism, and it is solo's alone.
+test('only a solo player may begin their own game, only once, and never a class', async () => {
+  const soloRoom = classroom({ solo: true });
+  const plain = classroom();
+  try {
+    const call = caller(await soloRoom.app.listen());
+    const game = await call('/api/solo', { key: soloRoom.app.state.hostKey });
+    const cookie = (await call(`/solo/enter?ticket=${new URL(game.body.playUrl).searchParams.get('ticket')}`)).cookie;
+    assert.equal(soloRoom.app.state.world.status, 'lobby');
+    const first = await call('/api/command', { id: 'begin-once', action: 'begin-solo' }, cookie);
+    assert.equal(first.status, 200, JSON.stringify(first.body));
+    assert.equal(soloRoom.app.state.world.status, 'running');
+    // Pressed again - a second click, or a page that sends it twice - says so and changes nothing.
+    const again = await call('/api/command', { id: 'begin-twice', action: 'begin-solo' }, cookie);
+    assert.notEqual(again.status, 200, 'a game already begun was begun again');
+    assert.match(again.body.error, /already begun/);
+
+    // A class has a teacher, and this is not a second way to start one.
+    const plainCall = caller(await plain.app.listen());
+    const joined = await plainCall('/api/join', { name: 'Student', code: plain.app.state.sessionCode });
+    assert.equal(joined.status, 200);
+    const student = joined.cookie;
+    const refused = await plainCall('/api/command', { id: 'begin-class', action: 'begin-solo' }, student);
+    assert.notEqual(refused.status, 200, 'a student started a class the teacher had not started');
+    assert.match(refused.body.error, /teacher/);
+    assert.equal(plain.app.state.world.status, 'lobby', 'a refused begin started the class anyway');
+  } finally { await soloRoom.dispose(); await plain.dispose(); }
 });
 
 test('a family that can no longer roll is not held, or its world would never move', () => {

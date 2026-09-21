@@ -53,9 +53,12 @@ clearing time except the timber-to-prairie ratio; what bringing stock costs.
   **the herd it brings** — `stockChoice.herd`, the server's `OPENING_HERD` — because since 2026-09-20 the choice brings
   a real herd and the panel went on naming only the land (`FIC-GONZ-241`, `docs/FAMILY_CREATION.md`, amendment
   2026-09-21). A family whose load was packed before there was any choosing (an old save, or a family auto-rolled at
-  Start) brings none. **A Play Solo game never offers this panel at all** — it opens `running`, and both
-  `wagonProjection` and `grantProjection` are lobby-only — so a Solo family always holds a labor. Open, and written up
-  in `HANDOFF.md`.
+  Start) brings none. **Play Solo offers this panel too, since 2026-09-21.** It used not to: a solo
+  game opened `running`, and both `wagonProjection` and `grantProjection` are lobby-only, so a Solo family always held a
+  labor of land that nobody had chosen — the owner had been playtesting the small grant without it being anyone's
+  decision. By multiple choice (owner, 2026-09-21: *"Ask, the way a class does"*) a solo game now opens in a lobby of
+  its own, is asked both questions, and is started by the player's own **Done packing** (`begin-solo`), because there is
+  no teacher to press Start.
 - **What stock costs** (`FIC-GONZ-025`): a family driving stock arrives with fewer provisions — the wagon has
   two spaces fewer — because the herd is fed on the road. ~~Stock do nothing else yet.~~ **Since 2026-09-20 the herd is
   a herd**: it feeds itself on the range and the mast, calves in the spring, is killed for meat, strays if nobody rides

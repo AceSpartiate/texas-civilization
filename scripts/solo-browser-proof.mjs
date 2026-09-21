@@ -75,12 +75,16 @@ try {
   page.on('pageerror', error => errors.push(error.message));
   await page.goto(first.play);
   await page.waitForFunction(() => window.__snapshot?.world?.householdId === 'hh-1', null, { timeout: 60000 });
-  const seen = await page.evaluate(() => ({ status: window.__snapshot.world.status, path: location.pathname + location.search, joinHidden: document.querySelector('#join')?.hidden, familyKey: Boolean(window.__snapshot.familyKey) }));
-  assert.equal(seen.status, 'running', 'the class is running with no Start press');
+  const seen = await page.evaluate(() => ({ status: window.__snapshot.world.status, solo: window.__snapshot.solo, path: location.pathname + location.search, joinHidden: document.querySelector('#join')?.hidden, familyKey: Boolean(window.__snapshot.familyKey) }));
+  // In its own lobby, not running (owner, 2026-09-21). A solo game opened `running` until then, and the wagon and the
+  // stock choice are sent only in the lobby - so the player was never asked either, and always held a labor of land
+  // where a student who drives stock in holds a league and a labor.
+  assert.equal(seen.status, 'lobby', 'the solo game opened running, where it is never asked what it packs');
+  assert.equal(seen.solo, true, 'the page cannot tell it is a solo game, so it cannot know its Done packing is the Start');
   assert.equal(seen.path, '/', 'the one-use ticket is not left in the address bar');
   assert.equal(seen.joinHidden, true, 'no join form');
   assert.ok(seen.familyKey, 'the page is a family, not a visitor');
-  ok('npm run solo opens the player page already joined as hh-1, the class running, no join form, no ticket in the address');
+  ok('npm run solo opens the player page already joined as hh-1, in its own lobby, no join form, no ticket in the address');
   // Held while the family is made (owner, 2026-09-18, by multiple choice: "hold"): two of the study pace's ticks and more go
   // by, and the world has not moved and the die is still the player's - the world's second tick used to close it.
   const holdMs = PACES.study * 2 + 2000;
@@ -89,9 +93,29 @@ try {
   assert.equal(held.tick, 0, 'the world went on before the family was made');
   assert.equal(held.canRoll, true, 'the die was closed before the player came to it');
   await meetFamily(page, 'Proofwright', { timeout: 30000 });
+
+  // ------------------------------------------------- the questions a class is asked, asked here too, and the Start
+  // The wagon and the stock choice are what a solo game never used to see. The stock choice is the one that matters:
+  // it decides a labor of land or a league and a labor, and whether the family arrives with six cattle and twelve hogs.
+  await page.locator('#wagon-load').waitFor({ state: 'visible', timeout: 30000 });
+  observed.asked = await page.evaluate(() => ({
+    wagon: !document.querySelector('#wagon-load').hidden,
+    stock: [...document.querySelectorAll('#wagon-stock input[name=wagon-stock]')].length,
+    says: (document.querySelector('#stock-yes-text')?.textContent || '').trim(),
+    tick: window.__snapshot.world.tick,
+  }));
+  assert.equal(observed.asked.wagon, true, 'the solo player is never asked what the family packs');
+  assert.equal(observed.asked.stock, 2, 'the solo player is never asked whether the family drives stock in');
+  assert.match(observed.asked.says, /cattle/i, 'the stock choice does not say what the family arrives with');
+  assert.equal(observed.asked.tick, 0, 'the world went on while the player was still packing');
+  ok(`Play Solo asks what a class asks: the wagon, and the stock choice in its own words - "${observed.asked.says.slice(0, 60)}…"`);
+
+  // No teacher to press Start, so Done packing is the Start.
+  await page.locator('#wagon-done').click();
+  await page.waitForFunction(() => window.__snapshot.world.status === 'running', null, { timeout: 30000 });
   await page.waitForFunction(() => window.__snapshot.world.tick > 0, null, { timeout: 60000 });
   observed.held = { waitedMs: holdMs, tickWhileMaking: held.tick, tickAfter: await page.evaluate(() => window.__snapshot.world.tick) };
-  ok(`the world waits while the family is made (tick 0 after ${holdMs / 1000} s, the die still offered) and goes on once it is (tick ${observed.held.tickAfter})`);
+  ok(`the world waits while the family is made and packed (tick 0 after ${holdMs / 1000} s, the die still offered) and Done packing starts it (tick ${observed.held.tickAfter})`);
 
   const used = await context.newPage();
   const reused = await used.goto(first.play);
@@ -129,8 +153,10 @@ try {
   assert.notEqual(secondSession, firstSession, 'with a new game');
   const again = await context.newPage();
   await again.goto(second.play);
-  await again.waitForFunction(() => window.__snapshot?.world?.householdId === 'hh-1' && window.__snapshot.world.status === 'running', null, { timeout: 60000 });
-  ok('a second npm run solo reuses the running solo server, deals a new game (new session) and opens it joined');
+  // A new game is a new lobby, as the first one was: the wagon and the stock choice are asked again (owner,
+  // 2026-09-21), so what is waited for here is the game opening joined, not the world moving.
+  await again.waitForFunction(() => window.__snapshot?.world?.householdId === 'hh-1' && window.__snapshot.world.status === 'lobby', null, { timeout: 60000 });
+  ok('a second npm run solo reuses the running solo server, deals a new game (new session) and opens it joined, in its own lobby');
 
   // ------------------------------------------------------------------ the real class, untouched
   assert.equal(real.state.sessionId, realBefore.sessionId);

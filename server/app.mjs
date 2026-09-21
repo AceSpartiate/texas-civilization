@@ -278,6 +278,9 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     // spread one tick's movement across it. Without it the client guesses one second and a
     // slower class walks for a second and then stands still for the rest of the tick.
     const payload = { sessionId: state.sessionId, connected: connected(), tickMs: pace, fault: runtimeFault && structuredClone(runtimeFault), lifecycle: lifecycle && structuredClone(lifecycle), world: projectWorld(state.world, identity.householdId, identity.role, { includeMap: false, copy }), mapId: state.sessionId, ...(state.world.map.revision && { mapRevision: state.world.map.revision }), ...(state.world.woods?.revision && { woodsRevision: state.world.woods.revision }) };
+    // A page has to know it is a solo game: there is no teacher on it, so its own "Done packing" is the Start
+    // (owner, 2026-09-21). One boolean rather than a role of its own - a solo player is a student in every other way.
+    if (solo) payload.solo = true;
     if (identity.role === 'host') Object.assign(payload, { sessionCode: state.sessionCode, joinUrls, canStop: Boolean(onStopRequested), presence: presence() });
     // A household is told its own key and no other. The Host page deliberately carries
     // none of them, because a teacher's screen is sometimes a projector.
@@ -579,7 +582,13 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       // Not rolled: the player rolls their own family, as a student does (owner, 2026-09-17: "when did i roll for family
       // size?"). A family somebody plays may roll while the class runs (sim/family.mjs `rollRefusal`), which is what lets Play
       // Solo deal a game that is already going and still leave the die to the player.
-      s.world.status = 'running';
+      //
+      // **In the lobby, not running (owner, 2026-09-21).** A solo game opened `running` until then, and the wagon and the
+      // stock choice are sent only in the lobby - so the solo player never saw either, and always held a labor of land
+      // where a student who drives stock in holds a league and a labor. The owner had been playtesting a grant nobody
+      // chose. Play Solo asks the same questions a class does now; the player's own "Done packing" is the Start
+      // (`begin-solo`), because there is no teacher to press it.
+      s.world.status = 'lobby';
     });
     return soloEntry(credential, identity.householdId);
   }
@@ -918,6 +927,23 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
               if (s.world.status === 'running') s.world.status = 'paused';
               stopping = true;
             } else throw new Error('Host action unavailable');
+          } else if (input.action === 'begin-solo') {
+            // Play Solo has no teacher to press Start, so the player's own "Done packing" is the Start (owner,
+            // 2026-09-21). Until then a solo game opened `running`, which meant the wagon and the stock choice - both
+            // sent only in the lobby - never appeared at all, and a solo family silently held a labor of land where a
+            // student in a class who drives stock in holds a league and a labor. The owner was playtesting a grant
+            // nobody had chosen.
+            //
+            // Solo only, and lobby only. A class has a teacher and this is not another way to start one.
+            if (!solo) throw new Error('Only the teacher starts a class.');
+            if (s.world.status !== 'lobby') throw new Error('This game has already begun.');
+            // The same courtesy the teacher's Start does: a family that never rolled is rolled for, so the family that
+            // plays is a rolled one. There is no "five have joined" guard here - one player is the whole class.
+            for (const client of Object.values(s.clients)) {
+              const household = s.world.households[client.householdId];
+              if (household && rollRefusal(s.world, household) === null) rollFamily(s.world, household);
+            }
+            s.world.status = 'running';
           } else {
             // The lobby is not dead time. A family may set its own people to work while
             // the class fills up, and none of it moves until the teacher starts; which

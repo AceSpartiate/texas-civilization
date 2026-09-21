@@ -49,6 +49,27 @@ const INJECTIONS = [
     from: "    if (wasDeleted(id)) return { deleted: id, already: true };\n",
     to: '',
   },
+  // Play Solo asking what a class asks (owner, 2026-09-21).
+  {
+    name: 'a solo game opens running again, so the wagon and the stock choice are never offered and the family holds a labor nobody chose',
+    from: "      s.world.status = 'lobby';",
+    to: "      s.world.status = 'running';",
+  },
+  {
+    name: 'a student of a real class can start it themselves, without the teacher',
+    from: "            if (!solo) throw new Error('Only the teacher starts a class.');\n",
+    to: '',
+  },
+  {
+    name: 'a game already begun can be begun again, which rolls the family a second time',
+    from: "            if (s.world.status !== 'lobby') throw new Error('This game has already begun.');\n",
+    to: '',
+  },
+  {
+    name: 'the page is never told it is a solo game, so its Done packing cannot be the Start',
+    from: '    if (solo) payload.solo = true;\n',
+    to: '',
+  },
   // The list and the continuing it was built for (owner, 2026-09-17), which had no record of its own until now.
   {
     name: 'a class lists solo games',
