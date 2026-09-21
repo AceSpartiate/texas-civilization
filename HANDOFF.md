@@ -1716,6 +1716,9 @@ replaces it. See [DEPLOYMENT.md](docs/DEPLOYMENT.md) §Solo Mode.
   picture and on the server's own tests. UI automation of this dialog is still the gap it has always been.
 - The emblem is drawn with a pen in `DrawBin` (`stand-in:`); the request for Astra's is in `docs/ART_REQUESTS.md`.
 
+**Released as [v2026.09.21.7](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.21.7)** on
+2026-09-21, verified on the clean tree at `4190758` (879 passed).
+
 **Play Solo asks what a class asks, 2026-09-21.** Found by the wizard-words agent and decided by the owner by multiple
 choice — *"Ask, the way a class does."* A solo game opened `running`, and both `wagonProjection` and `grantProjection`
 are sent **only in the lobby**, so the solo player was never offered the wagon or the stock choice at all: a solo family
