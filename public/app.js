@@ -3408,14 +3408,24 @@ function renderFamilyPanel(world) {
     }
     // The icons, from the server's own lists. The journeys, the yard and rest are on the main person's row: the server's rule.
     const carry = world.travelModes?.[id]?.find(mode => mode.id === modeFor(id))?.carry;
-    const icons = panelActions({ entity, offered: world.work?.[id] || [], catalogue: choreCache || new Map(), main: focused, homeId, homesteads,
+    const offered = world.work?.[id] || [];
+    const icons = panelActions({ entity, offered, catalogue: choreCache || new Map(), main: focused, homeId, homesteads,
       atHome: entity.location?.siteId === homeId, settable, carry });
     // The guided start shuts everything the step does not allow, and rings the one it asks for (public/lesson.js). It is
     // read here rather than decided here: `allow` is the server's list and the server refuses anything else in words.
     const shutting = lessonLocks(lesson);
     const pointed = focused ? pointedKey(lesson, icons) : null;
     const lessonFor = key => (shutting ? { shut: !allowsIcon(lesson, icons.find(one => one.key === key)), note: lessonNote, pointed: key === pointed } : null);
-    const reason = rowReason(icons);
+    // Why this person can do nothing at all, in the server's own words (docs/FAMILY_PANEL.md §14, owner 2026-09-21).
+    // `offered` and `entity` are read for the row `panelActions` empties outright - somebody dead or captured - which has
+    // no icon left to carry a reason. A bar the guided start has shut is not this: those icons are still `can`.
+    const reason = rowReason(icons, { offered, entity });
+    // The main person's icon group *is* the bar at the bottom of the screen, and it shows the line there. Everybody else's
+    // group is not drawn at all (public/style.css), so their line goes on the row, which is where a student looks for them.
+    // This is the way out the stylesheet's ceiling named, asked for by a class on 2026-09-21.
+    const silence = focused ? '' : reason || '';
+    if (row.why.textContent !== silence) row.why.textContent = silence;
+    if (row.why.hidden !== !silence) row.why.hidden = !silence;
     // No switch on a child too young to be sent, who has nothing for auto to repeat or answer. Only that case: somebody on
     // the road or in the ranks has a reason on their row too, and theirs is the switch auto-fight is for.
     const noSwitch = Boolean(reason && /too young/.test(reason));
@@ -3424,7 +3434,7 @@ function renderFamilyPanel(world) {
     const idle = isIdle(entity, icons, { withArmy: army.has(id) });
     setData(row.item, 'idle', String(idle));
     if (row.idle.hidden !== !idle) row.idle.hidden = !idle;
-    seen.push({ id, need: need?.kind || null, needs: needs.map(one => one.kind), idle, focused, auto: onAuto });
+    seen.push({ id, need: need?.kind || null, needs: needs.map(one => one.kind), idle, focused, auto: onAuto, reason: reason || null, why: silence || null });
     const key = JSON.stringify([reason, icons, shutting ? [lesson.step, lesson.allow, pointed] : null]);
     if (row.iconsKey !== key) {
       row.iconsKey = key;
@@ -3717,9 +3727,13 @@ function panelRow(id) {
   // What the person has become, under their name: its own line so it wraps on a phone instead of pushing the star off the row.
   const note = element('span', '', 'panel-standing');
   note.hidden = true;
-  body.append(label, input, tools, note);
+  // Why this person can do nothing at all, under that (docs/FAMILY_PANEL.md §14, owner 2026-09-21): a line of its own in
+  // the body, so a child under ten shows a face, a name and the server's reason rather than a face, a name and nothing.
+  const why = element('span', '', 'panel-why');
+  why.hidden = true;
+  body.append(label, input, tools, note, why);
   item.append(portrait, attention, body, icons);
-  const row = { item, portrait, canvas, label, input, icons, attention, idle, house, focus, auto, note, face: null, iconsKey: null };
+  const row = { item, portrait, canvas, label, input, icons, attention, idle, house, focus, auto, note, why, face: null, iconsKey: null };
   panelRows.set(id, row);
   return row;
 }

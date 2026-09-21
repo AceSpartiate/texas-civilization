@@ -1,0 +1,87 @@
+{
+  "record": "panel-silence-screen",
+  "date": "2026-09-21",
+  "seed": "panel-silence",
+  "screen": {
+    "width": 1366,
+    "height": 768
+  },
+  "measured": {
+    "rows": [
+      {
+        "name": "Barnabas Proofwright",
+        "focused": true,
+        "icons": 19,
+        "open": 15,
+        "line": null,
+        "barLine": null
+      },
+      {
+        "name": "Patience Proofwright",
+        "focused": false,
+        "icons": 0,
+        "open": 0,
+        "line": "This person cannot work.",
+        "barLine": "This person cannot work."
+      },
+      {
+        "name": "Simeon Proofwright",
+        "focused": false,
+        "icons": 0,
+        "open": 0,
+        "line": "Simeon Proofwright is too young to be sent.",
+        "barLine": "Simeon Proofwright is too young to be sent."
+      },
+      {
+        "name": "Petra Proofwright",
+        "focused": false,
+        "icons": 0,
+        "open": 0,
+        "line": "Petra Proofwright is too young to be sent.",
+        "barLine": "Petra Proofwright is too young to be sent."
+      },
+      {
+        "name": "Obed Proofwright",
+        "focused": false,
+        "icons": 0,
+        "open": 0,
+        "line": "Obed Proofwright is too young to be sent.",
+        "barLine": "Obed Proofwright is too young to be sent."
+      },
+      {
+        "name": "Delia Proofwright",
+        "focused": false,
+        "icons": 0,
+        "open": 0,
+        "line": "Delia Proofwright is too young to be sent.",
+        "barLine": "Delia Proofwright is too young to be sent."
+      }
+    ],
+    "captured": {
+      "name": "Patience Proofwright",
+      "icons": 0,
+      "line": "This person cannot work.",
+      "sent": [
+        "This person cannot work."
+      ]
+    },
+    "lessonShut": {
+      "icons": 19,
+      "open": 0,
+      "barLine": null,
+      "line": null
+    },
+    "away": {
+      "name": "Barnabas Proofwright",
+      "barLine": "Barnabas Proofwright is on the road.",
+      "barBox": {
+        "left": 580,
+        "top": 665,
+        "right": 786,
+        "bottom": 694
+      },
+      "line": null,
+      "icons": 0
+    }
+  }
+}

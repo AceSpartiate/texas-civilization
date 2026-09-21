@@ -201,7 +201,8 @@ Neither exists, and neither blocks the panel (`CLAUDE.md`, missing art). Both ar
 - **Wide screens:** a column down the left of the map under the status lines, every row showing portrait, name and icons, at
   most 36rem wide. It scrolls inside itself when a large family does not fit, and never covers the map's buttons; the card
   beside a person is kept clear of it when there is room. A child under ten, or somebody still on the road in, whose every
-  icon is refused for one reason, shows that reason once instead of a row of dimmed pictures.
+  icon is refused for one reason, shows that reason once instead of a row of dimmed pictures — in the bar at the bottom of
+  the screen if they are the main person, and on their own row if they are not (**§14**, owner 2026-09-21).
   `ceiling:` the panel covers the left of the map on a wide screen, and a family of ten fills its height; a collapse control
   (portraits only, as on a phone) is the way out if the covered ground turns out to matter in play.
 - **A phone (under 760 px wide):** the panel collapses to a column of portraits. The chosen person's row opens beside it with
@@ -726,3 +727,113 @@ Both wizard passes were right on their own branch and wrong together, which is t
   was about. Gaps are cut to the clipping ancestor before they are measured. The two traps the instrument's author had
   already found and written down are (a) a hidden card has a box of zero size and reads as clean, and (b) a `position:
   fixed` box is not clipped by an ancestor that scrolls.
+
+---
+
+## 14. A person who can do nothing says why — owner 2026-09-21, built the same day
+
+The owner, after playing:
+
+> "When I switch characters, the action bar at the bottom should switch to that person's bar. It shouldn't (unless there's
+> a good reason) stop another character from doing their action… This philosophy should be followed logically and
+> dynamically throughout the experience of the game."
+
+Asked what an empty bar should show, they chose, by multiple choice, **one line saying why, in the person's own terms** —
+their example, *"Docia is under two; she is carried."* They rejected a row of greyed icons and they rejected leaving it
+blank.
+
+This is the `ceiling:` written into `public/style.css` on 2026-09-21 paid on the first day a class asked for it:
+
+> the one-line reason a whole row is refused (`rowReason`, §7) lives inside the icon group, so a child under ten now
+> shows a face and a name and no reason… The way out is a line of its own in `.panel-body`, if a class asks why a child
+> has nothing.
+
+### 14.1 Where the line goes
+
+| Whose row | Where the line is | Why there |
+| --- | --- | --- |
+| The **main person** | in the bar at the bottom middle of the screen, in place of the icons (`.panel-reason`) | their icon group *is* the bar (§12.2); that is where a student is looking when they switch to somebody and nothing appears |
+| **Everybody else** | on their own row, under their name (`.panel-why`) | their icon group is not drawn at all, so the row is the only place they have |
+
+It is never in both at once: the main person's row stays quiet while the bar carries it.
+
+### 14.2 The page writes none of the sentences
+
+Every line is the server's own refusal, word for word — `tooYoungWhy` (`sim/family.mjs`), `servingWhy`
+(`sim/winter.mjs`), and the per-chore `why` from `choreAvailability` (`sim/chores.mjs`). The page's only judgement is
+**which** of them is the reason about *this person* rather than about a field or a hoe, and that is the one the server
+put on **every** piece of work it offered them. `rowReason(icons, { offered, entity })` in `public/family-panel.js`:
+
+1. Anything on the bar still open → **no line**. The icons are shown as they always were.
+2. Otherwise, the reason shared by **every** work icon, if they share one.
+3. With no work icons at all (somebody serving, whose row is one *Send for them*), the reason shared by every icon.
+4. With no icons at all — the row `panelActions` empties, which is only somebody **dead or captured** — the reason the
+   server sent with the work it refused them, read from `world.work[id]`.
+
+The one refusal the server deliberately sends only once — the land hunt's, which rides on the timber hunt
+(`sim/chores.mjs` `choresFor`) — is put back by `whyOf` before any of this, in the same place the icons read it, so the
+row's line and the icon a student hovers can never disagree.
+
+### 14.3 Every situation that leaves a bar empty, and the line it now shows
+
+Found by sweeping a played class person by person and tick by tick, not by listing them from memory.
+
+| Situation | The line comes from | What it reads |
+| --- | --- | --- |
+| A child under ten | `tooYoungWhy` | *"Simeon Proofwright is too young to be sent."* |
+| An infant | `tooYoungWhy` — the same rule, not a second one | *"Delia Proofwright is too young to be sent."* |
+| Dead, or captured | `choreAvailability` | *"This person cannot work."* |
+| On the road anywhere | `choreAvailability` | *"Barnabas Proofwright is on the road."* |
+| Away, carried faster than a student can follow (`sim/sight.mjs`) | `choreAvailability` | *"…is away on the road to Gonzales, about 12 miles off, and should be back…"* |
+| Shut in the Alamo, or ridden for it | the serving row's own sentence (`panelActions`) | *"…is shut in the Alamo."* |
+| Serving, and marching with the camp (`sim/houston.mjs` `followCamp`) | the camp's work, refused for the road | *"…is on the road."* |
+
+Three situations named when this was asked for turn out **not** to leave a bar empty, and are left alone:
+
+- **Serving in a garrison or with the army, at rest.** Their row has *Send for them*, which is open, so there is a bar.
+- **Sick.** Sickness refuses no work at all (`sim/routines.mjs` sets the condition and nothing else); a sick person's bar
+  is full, and the family panel is not where a sickness is read.
+- **A family that has fled east.** Everybody old enough has the road's own chores (`sim/road.mjs`); only the children
+  under ten go quiet, with the line they always have.
+
+### 14.4 What is not said, and why
+
+`ceiling:` **a row refused for several different reasons keeps its line of dimmed pictures.** One line cannot say two
+things. The case that deals it is a family halted on the road east: the work at home is refused because the person is on
+the road, the work on the road because the wagon is fast in the mud, and choosing between those two would be the page
+deciding which of the server's sentences is truer. That row is not an *empty* bar — it is a full one, each icon carrying
+its own reason on hover, which is where every refusal in this game is read.
+
+`ceiling:` **the dead and the captured share one sentence that does not name them** — `choreAvailability`'s *"This person
+cannot work."* Every other line here names the person. The way out is the server's own wording, not a sentence invented
+in the page.
+
+`ceiling:` **on a phone the line follows the body it lives in**, so only the opened row shows it
+(`.panel-row:not([data-expanded=true]) .panel-body`). The screen this was built for is 1366x768.
+
+### 14.5 The one thing that had to be told apart
+
+The guided start **shuts** icons and the server **refuses** them, and on a screen those look the same. They are not the
+same situation and must not get the same sentence. `sim/lesson.mjs` refuses in `applyAction` and leaves `world.work`
+alone, so a step that shuts the whole bar leaves every icon `can: true` — and rule 1 above sends the line back null. A
+student mid-lesson reads the step's own words on the icons and is never told there is nothing for that person to do,
+while a child under ten **in the same tick** still gets their own line, because the server really did refuse them. Held
+by *a bar the guided start has shut is not a person with nothing to do* in `tests/panel-silence.test.mjs` and by four
+checks in the browser proof.
+
+### 14.6 Gates
+
+| Gate | What it means |
+| --- | --- |
+| The sentence is the server's | Every line shown is found word for word among the refusals the server sent for that person; swept over a played day. |
+| A bar with anything open says nothing | Somebody at work keeps their glowing icon and their way to call it off — the one case where a whole bar really does share one reason. |
+| A shut lesson bar is not an empty bar | With a step shutting everything the icons stay and no line appears, and a child the server refused still gets theirs in the same tick. |
+| The main person's line is in the bar | And their own row stays quiet, so it is never said twice. |
+| A row with no icons still speaks | Somebody dead or captured is read from `world.work`, not from icons they do not have. |
+
+`npm test` (`tests/panel-silence.test.mjs`, ten tests); `node scripts/panel-silence-injections.mjs` — **8 of 8 caught**,
+[docs/evidence/panel-silence-injections.json](evidence/panel-silence-injections.json); `npm run test:panel-silence` —
+**39 checks** at 1366x768, [docs/evidence/panel-silence-screen.json](evidence/panel-silence-screen.json); and
+`node scripts/panel-silence-browser-proof.mjs --inject` — **3 of 3 caught**,
+[docs/evidence/panel-silence-screen-injections.json](evidence/panel-silence-screen-injections.json).
+Claims `FIC-GONZ-310` to `-312`.

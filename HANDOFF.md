@@ -41,6 +41,40 @@ every row of §10.5 that claim covers.
 - **Files touched:** `sim/weather.mjs`, `sim/houseplot.mjs`, `sim/houses.mjs`, `sim/chores.mjs` (two call sites),
   `tests/rain-work.test.mjs`, `scripts/rain-work-injections.mjs`, `HISTORY.md`, `docs/WEATHER.md`,
   `docs/WOODS_AND_BUILDING.md`, this file.
+**A person who can do nothing says why, 2026-09-21:** [FAMILY_PANEL.md §14](docs/FAMILY_PANEL.md). The owner, after
+hitting it: *"When I switch characters, the action bar at the bottom should switch to that person's bar… This philosophy
+should be followed logically and dynamically throughout the experience of the game."* Asked what an empty bar should
+show, they chose **one line saying why, in the person's own terms**, over a row of greyed icons and over leaving it
+blank. This is the `ceiling:` `public/style.css` wrote on 2026-09-21 paid on the first day a class asked for it: the
+one-line reason lived *inside* the icon group, and only the main person's group is drawn, so a child under ten was a
+face, a name and nothing.
+
+- **Where it goes.** The main person's line is in the bar at the bottom middle, in place of the icons; everybody else's
+  is a line of its own in their row (`.panel-why`, the way out that ceiling named). Never both — no student is told the
+  same thing twice.
+- **The page writes none of the sentences.** `rowReason(icons, { offered, entity })` returns the reason the server put
+  on **every** piece of work it offered that person — `tooYoungWhy`, `servingWhy`, the per-chore `why` — and nothing
+  when anything on the bar is still open. Somebody dead or captured has no icons at all, so theirs is read from
+  `world.work` itself. Swept over a played day: every line shown was found word for word in what the server sent.
+- **The lesson and a refusal look the same and are not.** `sim/lesson.mjs` refuses in `applyAction` and leaves
+  `world.work` alone, so a step that shuts the whole bar leaves every icon `can: true` and no line appears — while a
+  child the server really refused gets theirs **in the same tick**. Both halves are held by tests and by the browser.
+- **Found by sweeping a played class, not by listing:** a child under ten, an infant, the dead, the captured, anybody on
+  a road, anybody away too fast to follow, a man shut in the Alamo or ridden for it, a man marching with the camp.
+  Three that were expected and turn out **not** to empty a bar, and were left alone: somebody serving at rest (their
+  *Send for them* is open), somebody sick (sickness refuses no work at all), and a family fled east (the adults have the
+  road's own chores).
+- **Evidence:** `tests/panel-silence.test.mjs` (10 tests) in `npm test` **890**;
+  `docs/evidence/panel-silence-injections.json` — **8 of 8 caught**, one of them only after a test was added to give it
+  something to fail: the injection first caught nothing, because no test yet had a row whose every refusal was wordless; `npm run test:panel-silence` — **39 checks**
+  at 1366×768, `docs/evidence/panel-silence-screen.json`, screenshot `test-results/panel-silence.png`; and
+  `node scripts/panel-silence-browser-proof.mjs --inject` — **3 of 3 caught**,
+  `docs/evidence/panel-silence-screen-injections.json`. Claims `FIC-GONZ-310` to `-312`.
+- **Not proved:** same computer only; no phone size was measured, and on a phone the line follows the body it lives in,
+  so only the opened row shows it (`ceiling:` in §14.4). A row refused for **several different reasons** keeps its
+  dimmed icons rather than choosing between the server's sentences — the case is a family halted on the road east, and
+  it is a `ceiling:` held by a test, not an oversight. `npm run test:family-panel` was already broken before this work
+  and was not touched; these checks are in a proof of their own for that reason.
 
 **The family-creation wizard as a thing on a screen, 2026-09-21:** [FAMILY_PANEL.md §13](docs/FAMILY_PANEL.md). §12.11
 asked what was drawn over what on the screen a student plays the *game* on, and stopped at the curtain. The same question
