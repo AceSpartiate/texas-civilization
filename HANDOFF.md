@@ -1,5 +1,56 @@
 # Claude handoff — Astra foundation
 
+## "Resume tutorial": five real minutes to take the X back — 2026-09-22 (unreleased)
+
+**Owner:** *"After closing the tutorial, show a small 'Resume tutorial' button for five real minutes from the original
+dismissal, including across reloads. Resume existing progress; quietly show dismissal/resumption to the teacher. Phones are
+not officially supported—prioritize desktop and Chromebook."* Astra's `docs/HOUSE_SELECTION_HANDOFF.md` adds: same step,
+never reset progress or extend the original window. Recorded verbatim in [LESSON.md](docs/LESSON.md) §1, second amendment,
+which replaces yesterday's `ceiling:` that the X was for good.
+
+- **The X keeps the step.** `stopLesson` now stores `{ step: 'done', from, at, stopped: true, stoppedAt, resumeBy }` and
+  keeps every marker the steps had gathered (it used to replace the whole object). `stoppedAt` is real server
+  milliseconds; `resumeBy = stoppedAt + LESSON_RESUME_MS` (5 min, `sim/lesson.mjs`), fixed at the first press. A second X
+  after a resume keeps both, so the window is always the first press's.
+- **`resume-lesson`** (`resumeLesson`): the family's own student only (Host, another family's student and an absent,
+  director-run family are refused), only while stopped by the X, only before `resumeBy`. Restores `step: from` with every
+  marker plus `resumed: true`; the gate applies again, and `applyAction` walks it on at once if the step's work was done
+  meanwhile. On `ALWAYS` only so a wrong sender hears the true reason, not "Not yet".
+- **Real clock, injectable.** `applyAction(world, id, input, { now, resumeWindowMs })`, `projectWorld(…, { now })`, and
+  `createClassroom({ now, lessonResumeMs })` in `server/app.mjs`; a real class passes neither and gets `Date.now` and 5 min.
+- **Projection:** `world.lessonResume = { until, ms }` while the window is open, absent otherwise and never to the Host.
+- **Screen:** `#lesson-resume`, a small "Resume tutorial" button top right where the strip was (119×36 px). The page counts
+  `ms` down on its own clock from receipt (earliest deadline kept per window), so it disappears on time with no reload, even
+  in a paused class, whatever the Chromebook's clock says. The military card now stands below it too. The X's question now
+  says *"For five minutes, a “Resume tutorial” button can bring it back."*
+- **Host:** a quiet italic line on the family's class-panel row — *stopped the guided start at step 3* / *resumed the guided
+  start: on step 3 of 10* / *…, after resuming it once* (`lessonHostWords`, passed into `familiesOverview` as `guidedOf`;
+  importing the lesson into `sim/host.mjs` closed an import loop through `sim/chores.mjs` that crashed the server at start,
+  caught by `npm run test:lesson`, not by `npm test`). Events `lesson-stopped` / `lesson-resumed` are written with
+  `visibility: 'host'`, `about: <household>` and no `householdId`, so no family's journal carries them. No banner or sound.
+  [HOST_PAGE.md](docs/HOST_PAGE.md) §2.5.
+- **Saves:** no `saveVersion` change. An old stop without `from`/`stoppedAt`/`resumeBy` is "window long gone": no offer, and
+  `resume-lesson` is refused. `validateWorld` checks the new fields (from only on a stop and naming a real step; both times
+  together, finite, in order; `resumed` true or absent).
+
+Evidence (same computer, headless Chrome): `npm test` **949 passed, 0 failed** (940 before; 9 new in
+`tests/lesson.test.mjs`, and `tests/host-page.test.mjs` asserts the row's line). `node scripts/lesson-injections.mjs`
+**55 of 56 caught** — all 10 new ones caught; the one miss is the older absent-family gap already named in the record. The
+harness now checks every pattern before it runs (`--check` does only that). The host-page assertion was seen to fail with
+the line removed from `public/live-page.js`. `npm run test:lesson` **33 checks**: X, confirm, "Resume tutorial" measured at
+1366×768 and 1024×768 (on the screen, reachable, sharing pixels with nothing), a reload keeps it with the same window, the
+press brings the strip back on the same step (`house`) with the bar shut again, a second X offers it inside the first
+window, and with the test server's clock moved past the window the button goes without a reload. The proof failed when the
+button was made to send the wrong order. `npm run test:panels` **15 checks** pass. `npm run study:overlap` at 1366 and 1024
+has a new *resume-offered* state: the button covers nothing and nothing covers it (the other covered controls are the same
+family-column rows as before). **Not proved:** a Chromebook, touch, a LAN, a real five-minute wait, or the page's own
+countdown hiding the button while no snapshot arrives (the proof's expiry came through a snapshot).
+
+**For the owner:** (1) the window counts from the first X even if the student resumes and stops again — as asked; (2) the
+Host's "stopped" line stays for the rest of the class, and the line goes when a resumed family finishes; (3) there is no
+teacher control to reopen a family's guided start after the five minutes; (4) five minutes is one constant
+(`LESSON_RESUME_MS`).
+
 ## The roll is the family — 2026-09-22 (released in v2026.09.22.2)
 
 **Released as [v2026.09.22.2](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.22.2)** on 2026-09-22, from `c25414f`.

@@ -14,7 +14,8 @@
         "on the real land the family chooses where the house stands before anything else, and digs the well where one is wanted",
         "a family whose student has gone is run by the director and is never gated, and takes up its lesson where it was when they come back",
         "stopping the guided start opens the gate: an order the step refused a moment ago now goes through",
-        "a student can stop only their own family's guided start"
+        "a student can stop only their own family's guided start",
+        "\"Resume tutorial\" puts the family back on the step it stopped on, with everything it had gathered, and the gate shuts again"
       ]
     },
     {
@@ -26,7 +27,8 @@
         "on the real land the family chooses where the house stands before anything else, and digs the well where one is wanted",
         "a family whose student has gone is run by the director and is never gated, and takes up its lesson where it was when they come back",
         "stopping the guided start opens the gate: an order the step refused a moment ago now goes through",
-        "a student can stop only their own family's guided start"
+        "a student can stop only their own family's guided start",
+        "\"Resume tutorial\" puts the family back on the step it stopped on, with everything it had gathered, and the gate shuts again"
       ]
     },
     {
@@ -57,7 +59,16 @@
         "stopping the guided start opens the gate: an order the step refused a moment ago now goes through",
         "after the X the page is sent no lesson at all, not even the closing card",
         "a student can stop only their own family's guided start",
-        "a stopped lesson survives a save and reload, and stays stopped"
+        "a stopped lesson survives a save and reload, and stays stopped",
+        "\"Resume tutorial\" puts the family back on the step it stopped on, with everything it had gathered, and the gate shuts again",
+        "\"Resume tutorial\" is refused once five real minutes have passed since the X, however few minutes of 1835 went by",
+        "a second X after a resume does not start another five minutes: the window is the first press's",
+        "a student can take up only their own family's guided start again, and never one whose student has gone",
+        "the Host cannot take up anybody's guided start again",
+        "the window survives a save and reload, and a stop saved before the window existed has none",
+        "the page is offered the resume only while the window is open, and only the family that stopped",
+        "the Host's class panel says quietly that a family stopped and resumed the guided start; no student is told",
+        "a family that did the step's work while the guided start was off is walked on from it when it comes back"
       ]
     },
     {
@@ -138,7 +149,12 @@
         "the server refuses what is not this step's work, in words a child can read, and allows what is",
         "each student goes at their own pace: two families of one class are on two different steps, and the clock is nobody's",
         "the whole of it, played through: the family ends with a house, a field it cleared, the crop it chose, coin for it, and a hunt",
-        "a family whose student has gone is run by the director and is never gated, and takes up its lesson where it was when they come back"
+        "a family whose student has gone is run by the director and is never gated, and takes up its lesson where it was when they come back",
+        "\"Resume tutorial\" puts the family back on the step it stopped on, with everything it had gathered, and the gate shuts again",
+        "\"Resume tutorial\" is refused once five real minutes have passed since the X, however few minutes of 1835 went by",
+        "a second X after a resume does not start another five minutes: the window is the first press's",
+        "the window survives a save and reload, and a stop saved before the window existed has none",
+        "the Host's class panel says quietly that a family stopped and resumed the guided start; no student is told"
       ]
     },
     {
@@ -217,7 +233,8 @@
         "on the real land the family chooses where the house stands before anything else, and digs the well where one is wanted",
         "the hunt counts when the hunter comes home, whatever the shot did, and never before they have gone",
         "a family whose student has gone is run by the director and is never gated, and takes up its lesson where it was when they come back",
-        "the sale is finished by the crop leaving the house, not only by coin coming back"
+        "the sale is finished by the crop leaving the house, not only by coin coming back",
+        "a family that did the step's work while the guided start was off is walked on from it when it comes back"
       ]
     },
     {
@@ -241,7 +258,8 @@
       "failed": [
         "each student goes at their own pace: two families of one class are on two different steps, and the clock is nobody's",
         "the whole of it, played through: the family ends with a house, a field it cleared, the crop it chose, coin for it, and a hunt",
-        "a family whose student has gone is run by the director and is never gated, and takes up its lesson where it was when they come back"
+        "a family whose student has gone is run by the director and is never gated, and takes up its lesson where it was when they come back",
+        "a family that did the step's work while the guided start was off is walked on from it when it comes back"
       ]
     },
     {
@@ -269,7 +287,8 @@
         "the sale is finished by the crop leaving the house, not only by coin coming back",
         "what leaves the house down the family is not a sale",
         "after the X the page is sent no lesson at all, not even the closing card",
-        "a student can stop only their own family's guided start"
+        "a student can stop only their own family's guided start",
+        "\"Resume tutorial\" puts the family back on the step it stopped on, with everything it had gathered, and the gate shuts again"
       ]
     },
     {
@@ -346,7 +365,16 @@
         "stopping the guided start opens the gate: an order the step refused a moment ago now goes through",
         "after the X the page is sent no lesson at all, not even the closing card",
         "a student can stop only their own family's guided start",
-        "a stopped lesson survives a save and reload, and stays stopped"
+        "a stopped lesson survives a save and reload, and stays stopped",
+        "\"Resume tutorial\" puts the family back on the step it stopped on, with everything it had gathered, and the gate shuts again",
+        "\"Resume tutorial\" is refused once five real minutes have passed since the X, however few minutes of 1835 went by",
+        "a second X after a resume does not start another five minutes: the window is the first press's",
+        "a student can take up only their own family's guided start again, and never one whose student has gone",
+        "the Host cannot take up anybody's guided start again",
+        "the window survives a save and reload, and a stop saved before the window existed has none",
+        "the page is offered the resume only while the window is open, and only the family that stopped",
+        "the Host's class panel says quietly that a family stopped and resumed the guided start; no student is told",
+        "a family that did the step's work while the guided start was off is walked on from it when it comes back"
       ]
     },
     {
@@ -356,7 +384,16 @@
         "stopping the guided start opens the gate: an order the step refused a moment ago now goes through",
         "after the X the page is sent no lesson at all, not even the closing card",
         "a student can stop only their own family's guided start",
-        "a stopped lesson survives a save and reload, and stays stopped"
+        "a stopped lesson survives a save and reload, and stays stopped",
+        "\"Resume tutorial\" puts the family back on the step it stopped on, with everything it had gathered, and the gate shuts again",
+        "\"Resume tutorial\" is refused once five real minutes have passed since the X, however few minutes of 1835 went by",
+        "a second X after a resume does not start another five minutes: the window is the first press's",
+        "a student can take up only their own family's guided start again, and never one whose student has gone",
+        "the Host cannot take up anybody's guided start again",
+        "the window survives a save and reload, and a stop saved before the window existed has none",
+        "the page is offered the resume only while the window is open, and only the family that stopped",
+        "the Host's class panel says quietly that a family stopped and resumed the guided start; no student is told",
+        "a family that did the step's work while the guided start was off is walked on from it when it comes back"
       ]
     },
     {
@@ -364,7 +401,9 @@
       "file": "sim/lesson.mjs",
       "failed": [
         "after the X the page is sent no lesson at all, not even the closing card",
-        "a stopped lesson survives a save and reload, and stays stopped"
+        "a stopped lesson survives a save and reload, and stays stopped",
+        "the window survives a save and reload, and a stop saved before the window existed has none",
+        "the page is offered the resume only while the window is open, and only the family that stopped"
       ]
     },
     {
@@ -394,6 +433,83 @@
       "file": "sim/lesson.mjs",
       "failed": [
         "a stopped lesson survives a save and reload, and stays stopped"
+      ]
+    },
+    {
+      "name": "the X throws away what the family had gathered: resuming starts the step with nothing",
+      "file": "sim/lesson.mjs",
+      "failed": [
+        "\"Resume tutorial\" puts the family back on the step it stopped on, with everything it had gathered, and the gate shuts again"
+      ]
+    },
+    {
+      "name": "resuming puts the family back at the beginning rather than on the step it stopped on",
+      "file": "sim/lesson.mjs",
+      "failed": [
+        "\"Resume tutorial\" puts the family back on the step it stopped on, with everything it had gathered, and the gate shuts again",
+        "\"Resume tutorial\" is refused once five real minutes have passed since the X, however few minutes of 1835 went by",
+        "a second X after a resume does not start another five minutes: the window is the first press's",
+        "the window survives a save and reload, and a stop saved before the window existed has none",
+        "the Host's class panel says quietly that a family stopped and resumed the guided start; no student is told"
+      ]
+    },
+    {
+      "name": "the window never shuts: the guided start can be taken up again an hour after the X",
+      "file": "sim/lesson.mjs",
+      "failed": [
+        "\"Resume tutorial\" is refused once five real minutes have passed since the X, however few minutes of 1835 went by",
+        "a second X after a resume does not start another five minutes: the window is the first press's",
+        "the page is offered the resume only while the window is open, and only the family that stopped"
+      ]
+    },
+    {
+      "name": "every X starts five new minutes, so pressing it again after a resume stretches the window",
+      "file": "sim/lesson.mjs",
+      "failed": [
+        "a second X after a resume does not start another five minutes: the window is the first press's"
+      ]
+    },
+    {
+      "name": "the resume takes up whichever family the order names, so one student can restart another family’s lesson",
+      "file": "sim/world.mjs",
+      "failed": [
+        "a student can take up only their own family's guided start again, and never one whose student has gone"
+      ]
+    },
+    {
+      "name": "anybody may resume a lesson: the Host, and the director on behalf of a family whose student has gone",
+      "file": "sim/lesson.mjs",
+      "failed": [
+        "a student can take up only their own family's guided start again, and never one whose student has gone",
+        "the Host cannot take up anybody's guided start again"
+      ]
+    },
+    {
+      "name": "a stop saved before the window existed can be taken up again, as if its window had never shut",
+      "file": "sim/lesson.mjs",
+      "failed": [
+        "the window survives a save and reload, and a stop saved before the window existed has none"
+      ]
+    },
+    {
+      "name": "the page is offered the resume after the window has shut, so the button never goes away",
+      "file": "sim/lesson.mjs",
+      "failed": [
+        "the page is offered the resume only while the window is open, and only the family that stopped"
+      ]
+    },
+    {
+      "name": "the Host’s class panel is never told a family stopped or resumed the guided start",
+      "file": "sim/world.mjs",
+      "failed": [
+        "the Host's class panel says quietly that a family stopped and resumed the guided start; no student is told"
+      ]
+    },
+    {
+      "name": "the record of a stop is written into the family’s own journal, not kept for the Host",
+      "file": "sim/lesson.mjs",
+      "failed": [
+        "the Host's class panel says quietly that a family stopped and resumed the guided start; no student is told"
       ]
     }
   ]

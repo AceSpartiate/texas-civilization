@@ -34,6 +34,12 @@
 // student's alone (`stopLesson`), and stores the family as finished with `stopped: true`, so the gate is open and the
 // projection's `lesson` is absent from then on. The gate is still the server's for as long as a family keeps it.
 //
+// **Amended again 2026-09-22: five minutes to change their mind.** The owner: "After closing the tutorial, show a small
+// 'Resume tutorial' button for five real minutes from the original dismissal, including across reloads. Resume existing
+// progress; quietly show dismissal/resumption to the teacher." So the X keeps the step it was pressed on and the real
+// time it was pressed (`stoppedAt`, server milliseconds), `resume-lesson` puts the family back on that step inside
+// `LESSON_RESUME_MS` of the **first** press, and the Host's class panel says so in words (`lessonHostWords`).
+//
 // Invented entire. Nothing here asserts anything about 1835, so the block of `HIST-TEX` numbers set
 // aside for it is deliberately unused; docs/LESSON.md §7 says so.
 import { record } from './events.mjs';
@@ -75,6 +81,9 @@ export const ALWAYS = Object.freeze([
   // And the X on the strip (owner, 2026-09-22: "i should be able to X off the tutorial to stop it and just do what i
   // want"). A lesson that could refuse the order to stop itself would be the unavoidable thing the owner has taken back.
   'stop-lesson',
+  // And taking it back up (owner, later on 2026-09-22). Only a stopped family can, and a stopped family has no gate; it is
+  // here so that anybody else who sends it is told the true reason, not "Not yet".
+  'resume-lesson',
 ]);
 
 /**
@@ -106,6 +115,17 @@ const SELLS = new Set(['sell-cotton', 'sell-food']);
 
 /** How long the closing card stands before the lesson is gone from the projection entirely, in minutes of 1835. */
 export const LESSON_DONE_MINUTES = 180;
+
+/**
+ * How long after the X a student may still take the guided start back up, in **real** milliseconds (owner, 2026-09-22:
+ * "five real minutes from the original dismissal, including across reloads").
+ *
+ * Real time and not the world's clock: the world's minutes run at the Host's pace and stop when the class is paused, and
+ * the owner's window is five minutes of the student's afternoon. It is read off the server's clock, which the caller hands
+ * in (`now`), so a test can hold it still or jump it; `server/app.mjs` takes both the clock and this window as options.
+ * It is fixed at the moment of the first press (`resumeBy`), so changing it never moves a window already open.
+ */
+export const LESSON_RESUME_MS = 5 * 60 * 1000;
 
 const staked = (world, household) => plotsOf(world, household).length > 1;
 const broken = household => clearedPlots(household).length > 1;
@@ -418,16 +438,84 @@ export function advanceLesson(world, household) {
  * behalf. Once stopped the family is stored as finished (`step: 'done'`) with `stopped: true`, so the gate opens, the
  * projection's `lesson` key is gone at once with no closing card, and a save carries it (`lessonInvalid`).
  *
- * ceiling: stopping is for good. A "restart the guided start" button would need the step the family had reached kept
- * beside `stopped` (or worked out again from the family's state, as every step's `done` already can), an action that
- * clears `stopped`, and a decision about whether a family that has already done steps out of order is walked back
- * through them. Nothing has asked for it; the owner's word was "stop it".
+ * **Nothing is thrown away** (owner, 2026-09-22: "Resume existing progress"). The step it was on is kept as `from`, and
+ * every marker the steps have gathered - the hunt watched, the sale watched - stays beside it. `stoppedAt` is the real
+ * time of the **first** press and `resumeBy` the end of its window; a second X after a resume keeps both, so pressing
+ * the X again never buys another five minutes.
  */
-export function stopLesson(world, household) {
+export function stopLesson(world, household, { now = Date.now(), windowMs = LESSON_RESUME_MS } = {}) {
   if (!household || household.absent || !household.played) throw new Error('Only a family’s own student can stop its guided start.');
   const step = stepOf(world, household);
   if (!step || step === 'done') throw new Error('There is no guided start running to stop.');
-  household.lesson = { step: 'done', at: world.minute, stopped: true };
+  const { at, ...kept } = household.lesson || {};
+  const first = Number.isFinite(kept.stoppedAt) && Number.isFinite(kept.resumeBy);
+  household.lesson = {
+    ...kept, step: 'done', from: step, at: world.minute, stopped: true,
+    stoppedAt: first ? kept.stoppedAt : now, resumeBy: first ? kept.resumeBy : now + windowMs,
+  };
+  // For the Host alone: no household on it, so no family's journal carries it, and nothing public, so no student's does.
+  record(world, 'lesson-stopped', {
+    visibility: 'host', about: household.id, claimId: 'FIC-GONZ-210',
+    text: `The family stopped the guided start at step ${indexOf(step) + 1} of ${STEPS.length}${kept.resumed ? ', having taken it up again once' : ''}.`,
+  });
+}
+
+/**
+ * Whether this family may take its stopped guided start back up right now: stopped by the X (never finished), on a step
+ * that exists, and inside the window of the first press. An old save's stop carries no `resumeBy` and is not resumable:
+ * "stopped, window long gone" is what it was.
+ */
+function resumable(world, household, now) {
+  const lesson = household?.lesson;
+  return teachable(world, household) && lesson?.stopped === true && lesson.step === 'done' && indexOf(lesson.from) >= 0
+    && Number.isFinite(lesson.resumeBy) && now < lesson.resumeBy;
+}
+
+/**
+ * The page's offer to take the guided start back up, while there is one: when the window closes by the server's clock
+ * (`until`) and how long that is from now (`ms`), which the page counts down from the moment it hears it, so a
+ * Chromebook whose own clock is wrong still takes the button away on time. Null for everybody else and after the window.
+ */
+export function lessonResumeOffer(world, household, now = Date.now()) {
+  if (!resumable(world, household, now)) return null;
+  return { until: household.lesson.resumeBy, ms: household.lesson.resumeBy - now };
+}
+
+/**
+ * "Resume tutorial" (owner, 2026-09-22): the family is put back on the step it stopped on, with everything it had
+ * gathered, and the gate applies again from this order on. The same rule as the X for who may send it - the family's
+ * own student, never the Host, never the director for a family whose student has gone.
+ *
+ * `applyAction` moves the lesson on straight after, as after any order, so a family that did the step's work while the
+ * lesson was off is walked forward exactly as it would have been: every step completes when the world says so.
+ */
+export function resumeLesson(world, household, { now = Date.now() } = {}) {
+  if (!household || household.absent || !household.played) throw new Error('Only a family’s own student can take up its guided start again.');
+  const lesson = household.lesson;
+  if (lesson?.stopped !== true) throw new Error('There is no stopped guided start to take up again.');
+  if (!resumable(world, household, now)) throw new Error('It is too late to take the guided start up again.');
+  const { step, from, at, stopped, ...kept } = lesson;
+  household.lesson = { ...kept, step: from, resumed: true };
+  record(world, 'lesson-resumed', {
+    visibility: 'host', about: household.id, claimId: 'FIC-GONZ-210',
+    text: `The family took the guided start up again at step ${indexOf(from) + 1} of ${STEPS.length}.`,
+  });
+}
+
+/**
+ * The guided start as the Host's class panel says it, for one family: only once its student has pressed the X or taken
+ * it back up, and never louder than a line of words (owner, 2026-09-22: "quietly show dismissal/resumption to the
+ * teacher"). Null otherwise - a family working through its steps, or one that finished them, needs no line.
+ */
+export function lessonHostWords(household) {
+  const lesson = household?.lesson;
+  if (!household?.played || !lesson) return null;
+  if (lesson.stopped) {
+    const at = indexOf(lesson.from);
+    return `stopped the guided start${at >= 0 ? ` at step ${at + 1}` : ''}${lesson.resumed ? ', after resuming it once' : ''}`;
+  }
+  if (lesson.resumed && indexOf(lesson.step) >= 0) return `resumed the guided start: on step ${indexOf(lesson.step) + 1} of ${STEPS.length}`;
+  return null;
 }
 
 /** Every family's lesson, once a tick. */
@@ -442,10 +530,15 @@ export function lessonInvalid(world, household) {
   if (typeof lesson !== 'object' || lesson === null || Array.isArray(lesson)) return 'Invalid lesson';
   if (lesson.step !== 'done' && indexOf(lesson.step) < 0) return 'Invalid lesson step';
   if (lesson.at !== undefined && (!Number.isFinite(lesson.at) || lesson.at < 0)) return 'Invalid lesson ending';
-  for (const marker of ['hunting', 'hunted', 'stopped']) {
+  for (const marker of ['hunting', 'hunted', 'stopped', 'resumed']) {
     if (lesson[marker] !== undefined && lesson[marker] !== true) return 'Invalid lesson marker';
   }
   // Stopped is a way of being finished, never a step still running with the gate half open.
   if (lesson.stopped && lesson.step !== 'done') return 'Invalid lesson step';
+  // The step the X was pressed on, and the real time of the first press and the end of its window (2026-09-22). All three
+  // are absent on a stop saved before then, which is a stop whose window is long gone.
+  if (lesson.from !== undefined && (!lesson.stopped || indexOf(lesson.from) < 0)) return 'Invalid lesson step';
+  if ((lesson.stoppedAt === undefined) !== (lesson.resumeBy === undefined)) return 'Invalid lesson window';
+  if (lesson.stoppedAt !== undefined && (!Number.isFinite(lesson.stoppedAt) || !Number.isFinite(lesson.resumeBy) || lesson.resumeBy < lesson.stoppedAt)) return 'Invalid lesson window';
   return null;
 }

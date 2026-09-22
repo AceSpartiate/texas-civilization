@@ -11,10 +11,11 @@ survey stake at the `order` step while the strip said to choose a house plan.
 **Usability update:** [TUTORIAL_USABILITY_HANDOFF.md](TUTORIAL_USABILITY_HANDOFF.md) supersedes earlier screen restrictions: a contextual navigation button now locates the relevant control, without completing a step or issuing work. Objective-specific recommendations replace first-permitted-action highlighting. Completion is visible without locking controls. Selling guidance accepts food or coin, matching the current server rule. Both bare placement commands and chore-prefixed variants are accepted for map work.
 
 **Status: the world's half built 2026-09-21; the X added 2026-09-22.** `sim/lesson.mjs`, `tests/lesson.test.mjs`,
-[injections](evidence/lesson-injections.json) (45 of 46 caught; the one that misses is a gap in the tests, named in the record). Claims `FIC-GONZ-210` to `-215`. The screen's half —
+[injections](evidence/lesson-injections.json) (55 of 56 caught; the one that misses is a gap in the tests, named in the record). Claims `FIC-GONZ-210` to `-215`. The screen's half —
 the card, the greying, the arrow onto the control being asked for — is `public/`'s and is built against the contract in
 §3 below. **The guided start is no longer unavoidable:** since 2026-09-22 every student and every solo player can X it
-off at any step, for good, for their own family (§1, amendment).
+off at any step, for their own family (§1, amendment), and for five real minutes after the first X can take it back up
+on the same step with **Resume tutorial** (§1, second amendment).
 
 ---
 
@@ -53,9 +54,10 @@ X it off at any step. Once off it stays off for that family, and nothing is refu
 
 As built:
 
-- **The X** is top right of the strip (`#lesson-stop`, 36 px, accessible name "Stop the guided start"). Because it cannot
-  be undone it asks once, inline in the strip — *"Stop the guided start? You won’t be walked through the rest, and it
-  can’t be turned back on."* **Yes, stop it** / **Keep going** — never `window.confirm`. Focus lands on *Keep going*.
+- **The X** is top right of the strip (`#lesson-stop`, 36 px, accessible name "Stop the guided start"). It asks once,
+  inline in the strip — since the second amendment *"Stop the guided start? You won’t be walked through the rest. For
+  five minutes, a “Resume tutorial” button can bring it back."* **Yes, stop it** / **Keep going** — never
+  `window.confirm`. Focus lands on *Keep going*.
 - **The server does it.** The X sends `stop-lesson`, which is on `ALWAYS` (a lesson that could refuse the order to stop
   itself would be the unavoidable thing the owner took back). `stopLesson` stores `household.lesson = { step: 'done',
   at, stopped: true }`: the gate opens, and the projection's `lesson` key is **absent** at once — no closing card.
@@ -63,9 +65,52 @@ As built:
   stop nobody's lesson but their own whatever the order carries. The Host has no household and is refused (and the Host's
   own command branch never reaches `applyAction` at all). A family whose student has gone is refused too: the director
   runs it and never presses the X on anybody's behalf. A family with no lesson running is refused in words.
-- **For good.** `ceiling:` in `stopLesson` names what a "restart the guided start" button would need.
+- ~~**For good.**~~ Replaced the same day by the second amendment below: the X can be taken back for five real minutes.
 - **The old walk-through is not offered in its place.** The page remembers it as seen when the X is pressed, so a student
   who has just said "let me do what I want" is not handed the older "New to this?" card instead.
+
+### Second amendment, 2026-09-22: "Resume tutorial"
+
+The owner, verbatim:
+
+> "After closing the tutorial, show a small 'Resume tutorial' button for five real minutes from the original dismissal,
+> including across reloads. Resume existing progress; quietly show dismissal/resumption to the teacher. Phones are not
+> officially supported—prioritize desktop and Chromebook."
+
+Astra's handoff of the same day (`docs/HOUSE_SELECTION_HANDOFF.md`) adds: resume the same step, never reset progress or
+extend the original window; persist expiry through reloads; show dismissed/resumed status quietly in Host progress. This
+replaces yesterday's `ceiling:` that the X was for good.
+
+As built:
+
+- **The X keeps the step.** `stopLesson` stores `{ step: 'done', from: <the step>, at, stopped: true, stoppedAt,
+  resumeBy }` and keeps every marker the steps had gathered (the hunt and the sale watched). `stoppedAt` is the **real**
+  time of the press, in server milliseconds; `resumeBy` is `stoppedAt + LESSON_RESUME_MS`, fixed at that moment.
+- **Real time, from the server.** `LESSON_RESUME_MS` (`sim/lesson.mjs`) is five minutes. The world's minutes run at the
+  Host's pace and stop when the class is paused, so they are never used for this. The clock is handed in: `applyAction(…,
+  { now, resumeWindowMs })` and `projectWorld(…, { now })`, and `createClassroom({ now, lessonResumeMs })` in
+  `server/app.mjs` takes both as options so a test or a proof can hold or jump the clock. A real class passes neither.
+- **`resume-lesson`**, applied by `resumeLesson`: the family's own student only (the same rule as the X — the Host, another
+  family's student and the director for an absent family are refused), only while stopped by the X (a finished lesson is
+  not), and only before `resumeBy`. It puts back `step: from` with every marker and `resumed: true`, and the gate applies
+  from that order on. `applyAction` moves the lesson on straight after, so a family that did the step's work while it was
+  off is walked forward as it would have been. It is on `ALWAYS` only so that anybody else who sends it hears the true
+  reason rather than "Not yet".
+- **The window is the first press's.** A second X after a resume keeps `stoppedAt` and `resumeBy`: pressing it again never
+  buys more time. Inside the first window the student may stop and resume as often as they like.
+- **The page** is sent `lessonResume: { until, ms }` while the window is open and nothing after. `#lesson-resume`, a small
+  "Resume tutorial" button, stands where the strip was (top right, 36 px high). The page counts `ms` down on its own clock
+  from the moment it heard it, so the button goes when the window does with no reload, even in a paused class where no
+  snapshot comes, and a Chromebook whose clock is wrong makes no difference. It survives a reload because the server holds
+  the window. The press only asks; the strip returns when the next snapshot carries the lesson.
+- **The teacher is told quietly.** The Host's class panel carries a line under the family's name — *stopped the guided start
+  at step 3*, *resumed the guided start: on step 3 of 10*, *stopped the guided start at step 4, after resuming it once* —
+  and nothing for a family that did neither (`lessonHostWords`, `docs/HOST_PAGE.md` §2.5). No banner, sound, alert or
+  live region. Each stop and resume is also written into the world's events as `lesson-stopped` / `lesson-resumed` with
+  `visibility: 'host'` and `about: <household>` and **no** `householdId`, so no family's journal (its own included) and no
+  public record carries it.
+- **Old saves.** A stop saved before today has no `from`, `stoppedAt` or `resumeBy`: stopped, window long gone, no offer
+  and `resume-lesson` refused. **No save version moved.**
 
 ## 2. The ten steps
 
@@ -160,17 +205,22 @@ gets the lesson from its first tick.
 `validateWorld` refuses a stored lesson naming a step that does not exist, so a save cannot carry one. It accepts
 `stopped: true` (2026-09-22) on a finished lesson only: `stopped` must be `true` or absent, and a stopped lesson standing
 on a step is refused. **No save version moved for the X either** — an old save has no `stopped` field, and absent means
-"never stopped", which is what every family in it was.
+"never stopped", which is what every family in it was. Nor for **Resume tutorial** (second amendment): `from` is accepted
+only on a stopped lesson and only naming a real step, `stoppedAt` and `resumeBy` only together, finite, and in order, and
+`resumed` only as `true`. A stop saved without them is a stop whose window has long gone.
 
 ## 6. Ceilings, and the decisions the owner may want to change
 
-- **`ceiling:` the X is for good** (2026-09-22). There is no way back into the guided start for a family that stopped it.
-  A restart button would need the step reached kept beside `stopped` (or worked out again from the family's state, as
-  every step's `done` already can), an action that clears it, and a decision on whether a family that did steps out of
-  order is walked back through them. The owner's word was "stop it"; nothing has asked for a restart.
-- **The Host is not told when a student presses the X.** Nothing is recorded in the journal or on the class panel. A
-  teacher who wants to know which students left the guided start early would need an event and a line on the Host's page
-  (`docs/HOST_PAGE.md`).
+- ~~**`ceiling:` the X is for good**~~ Replaced 2026-09-22 by the owner's second amendment (§1): five real minutes from
+  the first X to press **Resume tutorial**. After that the X is for good again; there is no teacher's control to reopen
+  a family's guided start. A Host command that clears `stopped` for one family is the way out if a teacher asks for it.
+- ~~**The Host is not told when a student presses the X.**~~ Done 2026-09-22: a line on the class panel and a Host-only
+  event (§1, second amendment).
+- **The resume window is counted by the page once heard.** The server sends how many milliseconds are left; the page
+  takes the button away when they run out. A page that loses its connection keeps the button up until its own count ends,
+  and a press after the server's window is refused in words (*"It is too late to take the guided start up again."*).
+- **The Host's line stays after the window.** *Stopped the guided start at step N* stands on the row for the rest of the
+  class, and the line goes when a resumed family finishes the ten (the finished lesson keeps no trace of the stop).
 
 - **`ceiling:` the well stands down where running water is close.** The owner's sentence says every student ends with a
   well. `sim/homesite.mjs` only offers one where the house is far enough from year-round water to be carrying it, and
@@ -210,6 +260,7 @@ unused: a tutorial makes no historical claim, and registering one would be regis
 | The world | `sim/lesson.mjs` (steps, gate, projection, validation); `sim/world.mjs` (`applyAction` reads the gate first, `stepWorld` moves the lesson on last, `projectWorld` sends it, `validateWorld` checks it) |
 | The screen | `public/` — the other half, built against §3 |
 | The X | `sim/lesson.mjs` `stopLesson` and `ALWAYS`; `sim/world.mjs` `applyOneAction`; `#lesson-stop` and `#lesson-stop-ask` in `public/index.html`, `public/style.css`, `public/app.js` |
-| Tests | `tests/lesson.test.mjs`, 19 tests (5 for the X) |
-| Evidence | [lesson-injections.json](evidence/lesson-injections.json) — 46 regressions injected, 45 caught (all 7 for the X caught; the miss is the older absent-family gap named in the record); [lesson-browser.json](evidence/lesson-browser.json) — `npm run test:lesson` presses the X, confirms, and sees the strip go, a refused order accepted, and the strip stay gone after a reload |
+| Resume tutorial | `sim/lesson.mjs` `LESSON_RESUME_MS`, `resumeLesson`, `lessonResumeOffer`, `lessonHostWords`; `sim/world.mjs` (`applyAction`'s `realTime`, `projectWorld`'s `now` and `lessonResume`); `sim/host.mjs` `familiesOverview` (`guided`); `server/app.mjs` `createClassroom({ now, lessonResumeMs })`; `#lesson-resume` and `renderLessonResume` in `public/index.html`, `public/style.css`, `public/app.js`; `.host-guided` in `public/live-page.js` and `renderHostLive` |
+| Tests | `tests/lesson.test.mjs`, 28 tests (5 for the X, 9 for Resume tutorial) |
+| Evidence | [lesson-injections.json](evidence/lesson-injections.json) — 56 regressions injected, 55 caught (all 7 for the X and all 10 for Resume tutorial caught; the miss is the older absent-family gap named in the record); [lesson-browser.json](evidence/lesson-browser.json) — `npm run test:lesson` presses the X, confirms, sees the strip go and "Resume tutorial" in its place, a refused order accepted, the button still there after a reload, the strip back on the same step when it is pressed, a second X inside the first window, and the button gone without a reload when the test server's clock passes the window |
 | Claims | `FIC-GONZ-210` to `-215` in [HISTORY.md](../HISTORY.md) |

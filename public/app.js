@@ -3528,7 +3528,9 @@ function renderHostLive(snapshot, host) {
       if (row.waiting) { const waiting = element('span', `${row.waiting} waiting`, 'host-waiting'); waiting.title = `${row.waiting} thing${row.waiting === 1 ? '' : 's'} wait${row.waiting === 1 ? 's' : ''} unanswered on this family`; head.append(waiting); }
       const people = element('ul', '', 'host-people');
       people.append(...row.people.map(person => { const line = element('li', ''); line.append(element('span', `${person.name} `), element('span', person.where)); return line; }));
-      item.append(head, people);
+      // The guided start, only when the student stopped it or took it back up (owner, 2026-09-22): a line of words, never
+      // a banner, a sound or an alert, and not a live region either - the teacher reads it when they look.
+      item.append(head, ...(row.guided ? [element('p', row.guided, 'host-guided')] : []), people);
       return item;
     }));
   }
@@ -4748,7 +4750,7 @@ function askStopLesson(asking) {
   if (!ask || ask.hidden === !asking) return;
   ask.hidden = !asking;
   $('#lesson-stop').setAttribute('aria-expanded', String(asking));
-  if (!asking) $('#lesson-stop-words').textContent = 'Stop the guided start? You won’t be walked through the rest, and it can’t be turned back on.';
+  if (!asking) $('#lesson-stop-words').textContent = 'Stop the guided start? You won’t be walked through the rest. For five minutes, a “Resume tutorial” button can bring it back.';
   lessonRoom();
 }
 $('#lesson-stop')?.addEventListener('click', () => {
@@ -4772,7 +4774,41 @@ $('#lesson-stop-yes')?.addEventListener('click', async () => {
     lessonStopping = false; $('#lesson-stop-yes').disabled = false;
   }
 });
+/**
+ * "Resume tutorial" (owner, 2026-09-22: "show a small 'Resume tutorial' button for five real minutes from the original
+ * dismissal, including across reloads"). The server says whether there is an offer and how many milliseconds are left of
+ * it (`world.lessonResume`, sim/lesson.mjs `lessonResumeOffer`); the page counts that down on its own clock from the
+ * moment it heard it, so the button goes when the window does even while the class is paused and no snapshot comes, and a
+ * Chromebook whose clock is wrong makes no difference. The earliest deadline heard for one window is kept: a page drawn
+ * again from an older snapshot cannot stretch it. The press only asks; the strip comes back when the server's next
+ * snapshot carries the lesson.
+ */
+let resumeUntil = null, resumeDeadline = Infinity, resumeTimer = null, lessonResuming = false;
+function renderLessonResume(world) {
+  const button = $('#lesson-resume');
+  if (!button) return;
+  const offer = world?.role !== 'host' && !lessonShowing(world) ? world?.lessonResume : null;
+  clearTimeout(resumeTimer); resumeTimer = null;
+  if (!offer || !(offer.ms > 0)) { button.hidden = true; resumeUntil = null; resumeDeadline = Infinity; return; }
+  if (offer.until !== resumeUntil) { resumeUntil = offer.until; resumeDeadline = Infinity; }
+  resumeDeadline = Math.min(resumeDeadline, performance.now() + offer.ms);
+  const left = resumeDeadline - performance.now();
+  button.hidden = left <= 0;
+  if (left > 0) resumeTimer = setTimeout(() => { button.hidden = true; }, left);
+}
+$('#lesson-resume')?.addEventListener('click', async () => {
+  if (lessonResuming) return;
+  lessonResuming = true; $('#lesson-resume').disabled = true;
+  try {
+    await api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, action: 'resume-lesson' });
+  } catch (error) {
+    say(error.message);
+  } finally {
+    lessonResuming = false; $('#lesson-resume').disabled = false;
+  }
+});
 function renderLesson(world) {
+  renderLessonResume(world);
   const panel = $('#lesson');
   if (!panel) return;
   const words = lessonWords(lessonShowing(world) || (world.role !== 'host' && world.lesson?.done ? world.lesson : null));
@@ -4893,7 +4929,7 @@ function renderMilitaryNotice(world) {
   write('#military-go', notice.action);
   $('#military-next').hidden = notices.length < 2;
   // Below the guided start and below an open land chooser, never over either one's words or buttons (panels proof, 390px).
-  const above = ['#lesson', '#site-choose', '#survey-choose'].map(selector => $(selector)).filter(one => one && !one.hidden);
+  const above = ['#lesson', '#lesson-resume', '#site-choose', '#survey-choose'].map(selector => $(selector)).filter(one => one && !one.hidden);
   const top = Math.max(44, ...above.map(one => one.getBoundingClientRect().bottom + 8));
   panel.style.top = `${top}px`;
   // On a phone the card is as wide as the screen, so it starts right of the family's faces and their "!": it must never

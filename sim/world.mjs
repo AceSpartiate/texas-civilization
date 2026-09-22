@@ -19,7 +19,7 @@ import { answerRoad, registerRoadChores } from './road.mjs';
 import { WATER_HIGH, WATER_SHUT, waterAt, weatherAt, weatherOn } from './weather.mjs';
 // The road's chores join the one table here, once every module above is made (sim/road.mjs says why not at its own load).
 registerRoadChores();
-import { advanceLesson, advanceLessons, lessonInvalid, lessonProjection, lessonRefusal, stopLesson } from './lesson.mjs';
+import { advanceLesson, advanceLessons, lessonHostWords, lessonInvalid, lessonProjection, lessonRefusal, lessonResumeOffer, resumeLesson, stopLesson } from './lesson.mjs';
 import { REPEATED, advanceAuto, noteOrder, setAuto } from './auto.mjs';
 import { advanceCamp, answerCampQuestion, campInvalid } from './camp.mjs';
 // The children's own works (sim/children.mjs, docs/FAMILY_CREATION.md §3's amendment of 2026-09-21). Imported here as well
@@ -749,20 +749,26 @@ export const LOBBY_ACTIONS = new Set(['survey-plot', 'hunt-land', 'fell-trees', 
  * page - is what says an order is not this step's. Then the order itself, and then the lesson moves
  * on as far as the order carried it, because a step can be finished by an order as well as by a
  * tick.
+ *
+ * `realTime` is the server's own clock, for the one thing in the world measured in the student's minutes rather than
+ * 1835's: the five minutes after the X in which the guided start can be taken back up (sim/lesson.mjs
+ * `LESSON_RESUME_MS`). `now` is real milliseconds; `resumeWindowMs` the length of that window. Nothing else reads it.
  */
-export function applyAction(world, householdId, input) {
+export function applyAction(world, householdId, input, realTime = {}) {
   const household = world.households[householdId];
   const notYet = lessonRefusal(world, household, input);
   if (notYet) throw new Error(notYet);
-  applyOneAction(world, householdId, input);
+  applyOneAction(world, householdId, input, realTime);
   advanceLesson(world, household);
 }
-function applyOneAction(world, householdId, input) {
+function applyOneAction(world, householdId, input, { now = Date.now(), resumeWindowMs } = {}) {
   const entity = world.entities[input.entityId];
   const household = world.households[householdId];
   if (input.action === 'rename' && !input.entityId) { rename(world, household, input); return; }
-  // The X on the guided start (sim/lesson.mjs `stopLesson`): the family's own, and it names nobody in it.
-  if (input.action === 'stop-lesson') { stopLesson(world, household); return; }
+  // The X on the guided start (sim/lesson.mjs `stopLesson`): the family's own, and it names nobody in it. And taking it
+  // back up inside the five real minutes after (`resumeLesson`), by the same rule.
+  if (input.action === 'stop-lesson') { stopLesson(world, household, { now, ...(resumeWindowMs !== undefined && { windowMs: resumeWindowMs }) }); return; }
+  if (input.action === 'resume-lesson') { resumeLesson(world, household, { now }); return; }
   if (input.action === 'roll-family') { rollFamily(world, household); return; }
   // Packing the wagon is the household's, like the roll, and names nobody in it.
   if (input.action === 'load-wagon') { setLoad(world, household, input.item, input.amount); return; }
@@ -951,7 +957,7 @@ function projectHousehold(world, household) {
   const main = mainPersonId(world, household);
   return { ...shown, ...(main !== household.principalId && { mainId: main }) };
 }
-export function projectWorld(world, householdId, role, { includeMap = true, copy = true } = {}) {
+export function projectWorld(world, householdId, role, { includeMap = true, copy = true, now = Date.now() } = {}) {
   const household = world.households[householdId];
   // The last few a family can see, not every one it has ever seen.
   //
@@ -1013,6 +1019,9 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   // family is on, what it is being asked to do, and every action the server will let through while it is. Absent once the
   // lesson is over, which is how the page knows the game is the student's now.
   const lesson = household && role !== 'host' ? lessonProjection(world, household) : null;
+  // And, for the five real minutes after the X, the offer to take it back up (owner, 2026-09-22): when the window shuts by
+  // the server's clock and how long that is from now. Absent the rest of the time, which is the whole of the page's cue.
+  const lessonResume = household && role !== 'host' && !lesson ? lessonResumeOffer(world, household, now) : null;
   const view = { tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: mapForPage(world.map) }), household: household && projectHousehold(world, household), entities, others, offers, encounter, events, work, travelModes, land, wagon, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role),
     // The weather, region by region (sim/weather.mjs, docs/WEATHER.md): what kind of day it is in each of the three
     // countries, how high their rivers are running, and where the wind is from. The page draws it and says nothing
@@ -1020,6 +1029,7 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
     // whole map goes to every page - the Host looks at all three countries at once, and a student's family may be in any.
     weather: weatherOn(world),
     ...(lesson && { lesson }),
+    ...(lessonResume && { lessonResume }),
     // The army, once there is one: where it is, how many went, and which of them are this family's (sim/army.mjs).
     ...(world.army && householdId ? { army: armyProjection(world, householdId) } : {}),
     // The armies standing in the country, as far as this page may know of them (sim/armies.mjs): the page draws their camps
@@ -1030,7 +1040,7 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
     // Every family's land as it truly stands, and where the army is, for the Host's map only (sim/overview.mjs).
     ...(overview && { overview: { lands: overview.lands, ...(overview.army && { army: overview.army }) } }),
     // The Host's live page (sim/host.mjs): the class in words, the Rumor Mill and the spotlight. Never a student's.
-    ...(role === 'host' && { live: hostLiveProjection(world) }),
+    ...(role === 'host' && { live: hostLiveProjection(world, lessonHostWords) }),
     // The end of the game, and only once it has ended: each family's coin and glory revealed, and the
     // Host's closing view (sim/ending.mjs, docs/MONEY_AND_GLORY.md steps 4-5).
     ...endingProjection(world, householdId, role),

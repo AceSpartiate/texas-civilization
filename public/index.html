@@ -334,14 +334,14 @@
          server's `world.lesson` - where the student is, the one sentence of what to do, what just happened - and nothing
          on it finishes a step, because only the world says a step is finished. The X stops the whole guided start for this
          family (owner, 2026-09-22: "i should be able to X off the tutorial to stop it and just do what i want"); it asks
-         once, here in the strip, because it cannot be undone. -->
+         once, here in the strip, and for five real minutes after, "Resume tutorial" can take it back up (below). -->
     <section id="lesson" hidden aria-labelledby="lesson-title">
       <button type="button" id="lesson-stop" class="lesson-stop-control" aria-label="Stop the guided start" title="Stop the guided start">×</button>
       <span class="eyebrow" id="lesson-step"></span>
       <h2 id="lesson-title"></h2>
       <p id="lesson-says"></p>
       <div id="lesson-stop-ask" hidden role="group" aria-labelledby="lesson-stop-words">
-        <p id="lesson-stop-words">Stop the guided start? You won’t be walked through the rest, and it can’t be turned back on.</p>
+        <p id="lesson-stop-words">Stop the guided start? You won’t be walked through the rest. For five minutes, a “Resume tutorial” button can bring it back.</p>
         <button type="button" id="lesson-stop-yes" class="lesson-stop-control">Yes, stop it</button>
         <button type="button" id="lesson-stop-no" class="lesson-stop-control">Keep going</button>
       </div>
@@ -351,6 +351,10 @@
       <div id="lesson-pips" aria-hidden="true"></div>
       <p id="lesson-read" class="sr-only" role="status"></p>
     </section>
+    <!-- Where the strip was, for five real minutes after the X (owner, 2026-09-22: "show a small 'Resume tutorial' button
+         for five real minutes from the original dismissal, including across reloads"). Shown only while the server's
+         snapshot carries `lessonResume`; it takes itself away when the window ends, with no reload. -->
+    <button type="button" id="lesson-resume" hidden title="Take the guided start up again, on the step where you stopped it">Resume tutorial</button>
 
     <section id="tutorial" hidden aria-labelledby="tutorial-title">
       <header>

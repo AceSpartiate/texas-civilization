@@ -555,7 +555,7 @@
               "control": "#reports",
               "label": "Read what Silas Roe said",
               "box": {
-                "x": 1866,
+                "x": 1873,
                 "y": 963,
                 "w": 139,
                 "h": 44
@@ -726,7 +726,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 182,
+                "y": 184,
                 "w": 32,
                 "h": 32
               },
@@ -762,7 +762,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 235,
+                "y": 237,
                 "w": 32,
                 "h": 32
               },
@@ -822,7 +822,7 @@
               "control": "#reports",
               "label": "Read what Silas Roe said",
               "box": {
-                "x": 1873,
+                "x": 1860,
                 "y": 963,
                 "w": 139,
                 "h": 44
@@ -1672,7 +1672,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 185,
+                "y": 182,
                 "w": 32,
                 "h": 32
               },
@@ -1708,7 +1708,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 238,
+                "y": 235,
                 "w": 32,
                 "h": 32
               },
@@ -2017,7 +2017,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 182,
+                "y": 183,
                 "w": 32,
                 "h": 32
               },
@@ -2053,7 +2053,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 235,
+                "y": 236,
                 "w": 32,
                 "h": 32
               },
@@ -2153,7 +2153,7 @@
               "control": "#reports",
               "label": "Read what Silas Roe said",
               "box": {
-                "x": 1873,
+                "x": 1860,
                 "y": 963,
                 "w": 139,
                 "h": 44
@@ -3083,7 +3083,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 303,
+                "y": 300,
                 "w": 30,
                 "h": 30
               },
@@ -3092,8 +3092,7 @@
               "blocked": 5,
               "centreBlockedBy": "#call-menu-text",
               "by": [
-                "#call-menu-text",
-                "#call-menu"
+                "#call-menu-text"
               ]
             },
             {
@@ -3119,7 +3118,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 351,
+                "y": 348,
                 "w": 30,
                 "h": 30
               },
@@ -3129,7 +3128,7 @@
               "centreBlockedBy": "#call-menu-rows",
               "by": [
                 "#call-menu-rows",
-                "#call-menu"
+                "#call-menu-how"
               ]
             },
             {
@@ -3774,8 +3773,9 @@
               "blocked": 4,
               "centreBlockedBy": null,
               "by": [
-                "#world-map",
-                "#selection"
+                "#family-collapse",
+                "#family-rows",
+                "#world-map"
               ]
             },
             {
@@ -3793,7 +3793,7 @@
               "centreBlockedBy": null,
               "by": [
                 "#selection-name",
-                "#selection"
+                "#selection-head"
               ]
             },
             {

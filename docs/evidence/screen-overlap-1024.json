@@ -1,6 +1,6 @@
 {
   "record": "screen-overlap",
-  "date": "2026-09-21",
+  "date": "2026-09-22",
   "screen": {
     "width": 1024,
     "height": 768
@@ -10,7 +10,356 @@
     {
       "state": "guided-start",
       "how": "the real server, the real lesson, nothing opened",
-      "covered": [],
+      "covered": [
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 533,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#family-rows",
+          "by": [
+            "#family-rows",
+            "#world-map"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-5",
+          "label": "",
+          "box": {
+            "x": 110,
+            "y": 538,
+            "w": 95,
+            "h": 22
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#family-rows",
+          "by": [
+            "#family-rows"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 537,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#family-rows",
+          "by": [
+            "#family-rows",
+            "#world-map"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 537,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#family-rows",
+          "by": [
+            "#family-rows",
+            "#world-map"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 586,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#family-rows",
+          "by": [
+            "#family-rows"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-6",
+          "label": "",
+          "box": {
+            "x": 143,
+            "y": 591,
+            "w": 63,
+            "h": 22
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#family-rows",
+          "by": [
+            "#family-rows"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 590,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#family-rows",
+          "by": [
+            "#family-rows"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 590,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#family-rows",
+          "by": [
+            "#family-rows"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 639,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#family-rows",
+          "by": [
+            "#family-rows",
+            "#world-map"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-7",
+          "label": "",
+          "box": {
+            "x": 137,
+            "y": 644,
+            "w": 69,
+            "h": 22
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#family-rows",
+          "by": [
+            "#family-rows"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 643,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#family-rows",
+          "by": [
+            "#family-rows"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 643,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#family-rows",
+          "by": [
+            "#family-rows"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 692,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#world-map",
+          "by": [
+            "#world-map"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-8",
+          "label": "",
+          "box": {
+            "x": 137,
+            "y": 697,
+            "w": 69,
+            "h": 22
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#world-map",
+          "by": [
+            "#world-map"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 696,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#world-map",
+          "by": [
+            "#world-map"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 696,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#world-map",
+          "by": [
+            "#world-map"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 745,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen",
+            "#world-map"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-9",
+          "label": "",
+          "box": {
+            "x": 104,
+            "y": 750,
+            "w": 101,
+            "h": 22
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#world-map",
+          "by": [
+            "#world-map",
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 749,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#world-map",
+          "by": [
+            "#world-map",
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 749,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#world-map",
+          "by": [
+            "#world-map",
+            "off the screen"
+          ]
+        }
+      ],
       "partly": [
         {
           "control": "#family-collapse",
@@ -31,29 +380,573 @@
         },
         {
           "control": "#family-rows",
-          "label": "★idle",
+          "label": "Take small game",
           "box": {
-            "x": 12,
-            "y": 586,
-            "w": 48,
-            "h": 48
+            "x": 941,
+            "y": 558,
+            "w": 76,
+            "h": 98
           },
           "onScreen": true,
           "points": 5,
           "blocked": 2,
           "centreBlockedBy": null,
           "by": [
-            "#family-rows"
+            "#world-map"
           ]
         }
       ],
       "offScreen": [
         {
+          "control": "#family-rows",
+          "label": "Cut a bee tree",
+          "box": {
+            "x": 1025,
+            "y": 558,
+            "w": 76,
+            "h": 98
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "Travel to Gonzales",
+          "box": {
+            "x": 1109,
+            "y": 558,
+            "w": 76,
+            "h": 98
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "Return home",
+          "box": {
+            "x": 1193,
+            "y": 558,
+            "w": 76,
+            "h": 98
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "Go to a neighbour’s homestead",
+          "box": {
+            "x": 1277,
+            "y": 558,
+            "w": 76,
+            "h": 98
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "Work about the place",
+          "box": {
+            "x": 1361,
+            "y": 558,
+            "w": 76,
+            "h": 98
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "Rest",
+          "box": {
+            "x": 1445,
+            "y": 558,
+            "w": 76,
+            "h": 98
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 798,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-10",
+          "label": "",
+          "box": {
+            "x": 104,
+            "y": 806,
+            "w": 101,
+            "h": 22
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 805,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 805,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 851,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-11",
+          "label": "",
+          "box": {
+            "x": 137,
+            "y": 856,
+            "w": 69,
+            "h": 22
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 855,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 855,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 904,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-12",
+          "label": "",
+          "box": {
+            "x": 137,
+            "y": 909,
+            "w": 69,
+            "h": 22
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 908,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 908,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 957,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-13",
+          "label": "",
+          "box": {
+            "x": 137,
+            "y": 962,
+            "w": 69,
+            "h": 22
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 961,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 961,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 1010,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-14",
+          "label": "",
+          "box": {
+            "x": 104,
+            "y": 1015,
+            "w": 101,
+            "h": 22
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 1014,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 1014,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 1063,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-15",
+          "label": "",
+          "box": {
+            "x": 104,
+            "y": 1067,
+            "w": 136,
+            "h": 22
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 256,
+            "y": 1066,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 1127,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-16",
+          "label": "",
+          "box": {
+            "x": 205,
+            "y": 1131,
+            "w": 69,
+            "h": 22
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 1130,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
           "control": "#family",
           "label": "Asa Proofwright: work, Family 1 home, we",
           "box": {
             "x": 20,
-            "y": 1492,
+            "y": 1968,
             "w": 29,
             "h": 44
           },
@@ -70,7 +963,7 @@
           "label": "Josefa Proofwright: work, Family 1 home,",
           "box": {
             "x": 20,
-            "y": 1555,
+            "y": 2031,
             "w": 26,
             "h": 44
           },
@@ -87,7 +980,7 @@
           "label": "Paulita Proofwright: rest, Family 1 home",
           "box": {
             "x": 20,
-            "y": 1618,
+            "y": 2094,
             "w": 26,
             "h": 44
           },
@@ -104,7 +997,7 @@
           "label": "Prudence Proofwright: rest, Family 1 hom",
           "box": {
             "x": 20,
-            "y": 1681,
+            "y": 2157,
             "w": 26,
             "h": 44
           },
@@ -121,7 +1014,7 @@
           "label": "Ramona Proofwright: rest, Family 1 home,",
           "box": {
             "x": 20,
-            "y": 1744,
+            "y": 2220,
             "w": 26,
             "h": 44
           },
@@ -138,7 +1031,7 @@
           "label": "Zadok Proofwright: rest, Family 1 home, ",
           "box": {
             "x": 20,
-            "y": 1807,
+            "y": 2283,
             "w": 26,
             "h": 44
           },
@@ -155,7 +1048,7 @@
           "label": "Pablo Proofwright: rest, Family 1 home, ",
           "box": {
             "x": 20,
-            "y": 1870,
+            "y": 2346,
             "w": 26,
             "h": 44
           },
@@ -172,7 +1065,177 @@
           "label": "Docia Proofwright: rest, Family 1 home, ",
           "box": {
             "x": 20,
-            "y": 1933,
+            "y": 2409,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Delia Proofwright: rest, Family 1 home, ",
+          "box": {
+            "x": 20,
+            "y": 2472,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Effie Proofwright: rest, Family 1 home, ",
+          "box": {
+            "x": 20,
+            "y": 2535,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Marcos Proofwright: rest, Family 1 home,",
+          "box": {
+            "x": 20,
+            "y": 2598,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Jonas Proofwright: rest, Family 1 home, ",
+          "box": {
+            "x": 20,
+            "y": 2661,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Loreta Proofwright: rest, Family 1 home,",
+          "box": {
+            "x": 20,
+            "y": 2724,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Petra Proofwright: rest, Family 1 home, ",
+          "box": {
+            "x": 20,
+            "y": 2787,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Nieves Proofwright: rest, Family 1 home,",
+          "box": {
+            "x": 20,
+            "y": 2850,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Hiram Proofwright: rest, Family 1 home, ",
+          "box": {
+            "x": 20,
+            "y": 2913,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Ruperto Proofwright: rest, Family 1 home",
+          "box": {
+            "x": 20,
+            "y": 2976,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Winnie Proofwright: rest, Family 1 home,",
+          "box": {
+            "x": 20,
+            "y": 3039,
             "w": 26,
             "h": 44
           },
@@ -190,7 +1253,356 @@
     {
       "state": "person-card",
       "how": "a portrait pressed, the card open where the page puts it",
-      "covered": [],
+      "covered": [
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 533,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#family-rows",
+          "by": [
+            "#family-rows",
+            "#world-map"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-5",
+          "label": "",
+          "box": {
+            "x": 110,
+            "y": 538,
+            "w": 95,
+            "h": 22
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#family-rows",
+          "by": [
+            "#family-rows"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 537,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#family-rows",
+          "by": [
+            "#family-rows",
+            "#world-map"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 537,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#family-rows",
+          "by": [
+            "#family-rows",
+            "#world-map"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 586,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#family-rows",
+          "by": [
+            "#family-rows"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-6",
+          "label": "",
+          "box": {
+            "x": 143,
+            "y": 591,
+            "w": 63,
+            "h": 22
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#family-rows",
+          "by": [
+            "#family-rows"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 590,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#family-rows",
+          "by": [
+            "#family-rows"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 590,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#family-rows",
+          "by": [
+            "#family-rows"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 639,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#family-rows",
+          "by": [
+            "#family-rows",
+            "#world-map"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-7",
+          "label": "",
+          "box": {
+            "x": 137,
+            "y": 644,
+            "w": 69,
+            "h": 22
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#family-rows",
+          "by": [
+            "#family-rows"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 643,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#family-rows",
+          "by": [
+            "#family-rows"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 643,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#family-rows",
+          "by": [
+            "#family-rows"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 692,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#world-map",
+          "by": [
+            "#world-map"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-8",
+          "label": "",
+          "box": {
+            "x": 137,
+            "y": 697,
+            "w": 69,
+            "h": 22
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#world-map",
+          "by": [
+            "#world-map"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 696,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#world-map",
+          "by": [
+            "#world-map"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 696,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#world-map",
+          "by": [
+            "#world-map"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 745,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen",
+            "#world-map"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-9",
+          "label": "",
+          "box": {
+            "x": 104,
+            "y": 750,
+            "w": 101,
+            "h": 22
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#world-map",
+          "by": [
+            "#world-map",
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 749,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#world-map",
+          "by": [
+            "#world-map",
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 749,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#world-map",
+          "by": [
+            "#world-map",
+            "off the screen"
+          ]
+        }
+      ],
       "partly": [
         {
           "control": "#family-collapse",
@@ -211,29 +1623,573 @@
         },
         {
           "control": "#family-rows",
-          "label": "★idle",
+          "label": "Take small game",
           "box": {
-            "x": 12,
-            "y": 586,
-            "w": 48,
-            "h": 48
+            "x": 941,
+            "y": 558,
+            "w": 76,
+            "h": 98
           },
           "onScreen": true,
           "points": 5,
           "blocked": 2,
           "centreBlockedBy": null,
           "by": [
-            "#family-rows"
+            "#world-map"
           ]
         }
       ],
       "offScreen": [
         {
+          "control": "#family-rows",
+          "label": "Cut a bee tree",
+          "box": {
+            "x": 1025,
+            "y": 558,
+            "w": 76,
+            "h": 98
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "Travel to Gonzales",
+          "box": {
+            "x": 1109,
+            "y": 558,
+            "w": 76,
+            "h": 98
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "Return home",
+          "box": {
+            "x": 1193,
+            "y": 558,
+            "w": 76,
+            "h": 98
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "Go to a neighbour’s homestead",
+          "box": {
+            "x": 1277,
+            "y": 558,
+            "w": 76,
+            "h": 98
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "Work about the place",
+          "box": {
+            "x": 1361,
+            "y": 558,
+            "w": 76,
+            "h": 98
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "Rest",
+          "box": {
+            "x": 1445,
+            "y": 558,
+            "w": 76,
+            "h": 98
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 798,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-10",
+          "label": "",
+          "box": {
+            "x": 104,
+            "y": 806,
+            "w": 101,
+            "h": 22
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 805,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 805,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 851,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-11",
+          "label": "",
+          "box": {
+            "x": 137,
+            "y": 856,
+            "w": 69,
+            "h": 22
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 855,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 855,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 904,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-12",
+          "label": "",
+          "box": {
+            "x": 137,
+            "y": 909,
+            "w": 69,
+            "h": 22
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 908,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 908,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 957,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-13",
+          "label": "",
+          "box": {
+            "x": 137,
+            "y": 962,
+            "w": 69,
+            "h": 22
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 961,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 961,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 1010,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-14",
+          "label": "",
+          "box": {
+            "x": 104,
+            "y": 1015,
+            "w": 101,
+            "h": 22
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 1014,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 1014,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 1063,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-15",
+          "label": "",
+          "box": {
+            "x": 104,
+            "y": 1067,
+            "w": 136,
+            "h": 22
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 256,
+            "y": 1066,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 1127,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-16",
+          "label": "",
+          "box": {
+            "x": 205,
+            "y": 1131,
+            "w": 69,
+            "h": 22
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 1130,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
           "control": "#family",
           "label": "Asa Proofwright: work, Family 1 home, we",
           "box": {
             "x": 20,
-            "y": 1492,
+            "y": 1968,
             "w": 29,
             "h": 44
           },
@@ -250,7 +2206,7 @@
           "label": "Josefa Proofwright: work, Family 1 home,",
           "box": {
             "x": 20,
-            "y": 1555,
+            "y": 2031,
             "w": 26,
             "h": 44
           },
@@ -267,7 +2223,7 @@
           "label": "Paulita Proofwright: rest, Family 1 home",
           "box": {
             "x": 20,
-            "y": 1618,
+            "y": 2094,
             "w": 26,
             "h": 44
           },
@@ -284,7 +2240,7 @@
           "label": "Prudence Proofwright: rest, Family 1 hom",
           "box": {
             "x": 20,
-            "y": 1681,
+            "y": 2157,
             "w": 26,
             "h": 44
           },
@@ -301,7 +2257,7 @@
           "label": "Ramona Proofwright: rest, Family 1 home,",
           "box": {
             "x": 20,
-            "y": 1744,
+            "y": 2220,
             "w": 26,
             "h": 44
           },
@@ -318,7 +2274,7 @@
           "label": "Zadok Proofwright: rest, Family 1 home, ",
           "box": {
             "x": 20,
-            "y": 1807,
+            "y": 2283,
             "w": 26,
             "h": 44
           },
@@ -335,7 +2291,7 @@
           "label": "Pablo Proofwright: rest, Family 1 home, ",
           "box": {
             "x": 20,
-            "y": 1870,
+            "y": 2346,
             "w": 26,
             "h": 44
           },
@@ -352,7 +2308,177 @@
           "label": "Docia Proofwright: rest, Family 1 home, ",
           "box": {
             "x": 20,
-            "y": 1933,
+            "y": 2409,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Delia Proofwright: rest, Family 1 home, ",
+          "box": {
+            "x": 20,
+            "y": 2472,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Effie Proofwright: rest, Family 1 home, ",
+          "box": {
+            "x": 20,
+            "y": 2535,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Marcos Proofwright: rest, Family 1 home,",
+          "box": {
+            "x": 20,
+            "y": 2598,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Jonas Proofwright: rest, Family 1 home, ",
+          "box": {
+            "x": 20,
+            "y": 2661,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Loreta Proofwright: rest, Family 1 home,",
+          "box": {
+            "x": 20,
+            "y": 2724,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Petra Proofwright: rest, Family 1 home, ",
+          "box": {
+            "x": 20,
+            "y": 2787,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Nieves Proofwright: rest, Family 1 home,",
+          "box": {
+            "x": 20,
+            "y": 2850,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Hiram Proofwright: rest, Family 1 home, ",
+          "box": {
+            "x": 20,
+            "y": 2913,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Ruperto Proofwright: rest, Family 1 home",
+          "box": {
+            "x": 20,
+            "y": 2976,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Winnie Proofwright: rest, Family 1 home,",
+          "box": {
+            "x": 20,
+            "y": 3039,
             "w": 26,
             "h": 44
           },
@@ -370,9 +2496,557 @@
     {
       "state": "house-plan",
       "how": "the real \"Choose a house\" button pressed",
-      "covered": [],
+      "covered": [
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 758,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen",
+            "#panel-backdrop"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-10",
+          "label": "",
+          "box": {
+            "x": 104,
+            "y": 766,
+            "w": 101,
+            "h": 22
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 765,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen",
+            "nothing"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 765,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen",
+            "nothing"
+          ]
+        }
+      ],
       "partly": [],
       "offScreen": [
+        {
+          "control": "#family-rows",
+          "label": "Cut a bee tree",
+          "box": {
+            "x": 1025,
+            "y": 558,
+            "w": 76,
+            "h": 98
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "Travel to Gonzales",
+          "box": {
+            "x": 1109,
+            "y": 558,
+            "w": 76,
+            "h": 98
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "Return home",
+          "box": {
+            "x": 1193,
+            "y": 558,
+            "w": 76,
+            "h": 98
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "Go to a neighbour’s homestead",
+          "box": {
+            "x": 1277,
+            "y": 558,
+            "w": 76,
+            "h": 98
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "Work about the place",
+          "box": {
+            "x": 1361,
+            "y": 558,
+            "w": 76,
+            "h": 98
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "Rest",
+          "box": {
+            "x": 1445,
+            "y": 558,
+            "w": 76,
+            "h": 98
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 811,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-11",
+          "label": "",
+          "box": {
+            "x": 137,
+            "y": 816,
+            "w": 69,
+            "h": 22
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 815,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 815,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 864,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-12",
+          "label": "",
+          "box": {
+            "x": 137,
+            "y": 869,
+            "w": 69,
+            "h": 22
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 868,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 868,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 917,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-13",
+          "label": "",
+          "box": {
+            "x": 137,
+            "y": 922,
+            "w": 69,
+            "h": 22
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 921,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 921,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 970,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-14",
+          "label": "",
+          "box": {
+            "x": 104,
+            "y": 975,
+            "w": 101,
+            "h": 22
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 974,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 974,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 1023,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-15",
+          "label": "",
+          "box": {
+            "x": 104,
+            "y": 1027,
+            "w": 136,
+            "h": 22
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 256,
+            "y": 1026,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 1087,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-16",
+          "label": "",
+          "box": {
+            "x": 205,
+            "y": 1091,
+            "w": 69,
+            "h": 22
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 1090,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
         {
           "control": "#house-options",
           "label": "Build this",
@@ -395,7 +3069,7 @@
           "label": "Asa Proofwright: work, Family 1 home, we",
           "box": {
             "x": 20,
-            "y": 1492,
+            "y": 1968,
             "w": 29,
             "h": 44
           },
@@ -412,7 +3086,7 @@
           "label": "Josefa Proofwright: work, Family 1 home,",
           "box": {
             "x": 20,
-            "y": 1555,
+            "y": 2031,
             "w": 26,
             "h": 44
           },
@@ -429,7 +3103,7 @@
           "label": "Paulita Proofwright: rest, Family 1 home",
           "box": {
             "x": 20,
-            "y": 1618,
+            "y": 2094,
             "w": 26,
             "h": 44
           },
@@ -446,7 +3120,7 @@
           "label": "Prudence Proofwright: rest, Family 1 hom",
           "box": {
             "x": 20,
-            "y": 1681,
+            "y": 2157,
             "w": 26,
             "h": 44
           },
@@ -463,7 +3137,7 @@
           "label": "Ramona Proofwright: rest, Family 1 home,",
           "box": {
             "x": 20,
-            "y": 1744,
+            "y": 2220,
             "w": 26,
             "h": 44
           },
@@ -480,7 +3154,7 @@
           "label": "Zadok Proofwright: rest, Family 1 home, ",
           "box": {
             "x": 20,
-            "y": 1807,
+            "y": 2283,
             "w": 26,
             "h": 44
           },
@@ -497,7 +3171,7 @@
           "label": "Pablo Proofwright: rest, Family 1 home, ",
           "box": {
             "x": 20,
-            "y": 1870,
+            "y": 2346,
             "w": 26,
             "h": 44
           },
@@ -514,7 +3188,177 @@
           "label": "Docia Proofwright: rest, Family 1 home, ",
           "box": {
             "x": 20,
-            "y": 1933,
+            "y": 2409,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Delia Proofwright: rest, Family 1 home, ",
+          "box": {
+            "x": 20,
+            "y": 2472,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Effie Proofwright: rest, Family 1 home, ",
+          "box": {
+            "x": 20,
+            "y": 2535,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Marcos Proofwright: rest, Family 1 home,",
+          "box": {
+            "x": 20,
+            "y": 2598,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Jonas Proofwright: rest, Family 1 home, ",
+          "box": {
+            "x": 20,
+            "y": 2661,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Loreta Proofwright: rest, Family 1 home,",
+          "box": {
+            "x": 20,
+            "y": 2724,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Petra Proofwright: rest, Family 1 home, ",
+          "box": {
+            "x": 20,
+            "y": 2787,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Nieves Proofwright: rest, Family 1 home,",
+          "box": {
+            "x": 20,
+            "y": 2850,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Hiram Proofwright: rest, Family 1 home, ",
+          "box": {
+            "x": 20,
+            "y": 2913,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Ruperto Proofwright: rest, Family 1 home",
+          "box": {
+            "x": 20,
+            "y": 2976,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Winnie Proofwright: rest, Family 1 home,",
+          "box": {
+            "x": 20,
+            "y": 3039,
             "w": 26,
             "h": 44
           },
@@ -527,32 +3371,1218 @@
           ]
         }
       ],
-      "dimmedOnPurpose": 53
+      "dimmedOnPurpose": 63
+    },
+    {
+      "state": "resume-offered",
+      "how": "the X pressed and confirmed; \"Resume tutorial\" where the strip was",
+      "covered": [
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 586,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#family-rows",
+          "by": [
+            "#family-rows"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-6",
+          "label": "",
+          "box": {
+            "x": 143,
+            "y": 591,
+            "w": 63,
+            "h": 22
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#family-rows",
+          "by": [
+            "#family-rows"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 590,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#family-rows",
+          "by": [
+            "#family-rows"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 590,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#family-rows",
+          "by": [
+            "#family-rows"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 639,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#family-rows",
+          "by": [
+            "#family-rows"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-7",
+          "label": "",
+          "box": {
+            "x": 137,
+            "y": 644,
+            "w": 69,
+            "h": 22
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#family-rows",
+          "by": [
+            "#family-rows"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 643,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#family-rows",
+          "by": [
+            "#family-rows"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 643,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#family-rows",
+          "by": [
+            "#family-rows"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 692,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#world-map",
+          "by": [
+            "#world-map",
+            "#family-rows"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-8",
+          "label": "",
+          "box": {
+            "x": 137,
+            "y": 697,
+            "w": 69,
+            "h": 22
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#world-map",
+          "by": [
+            "#world-map",
+            "#family-rows"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 696,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#world-map",
+          "by": [
+            "#world-map",
+            "#family-rows"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 696,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#world-map",
+          "by": [
+            "#world-map",
+            "#family-rows"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 745,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen",
+            "#world-map"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-9",
+          "label": "",
+          "box": {
+            "x": 104,
+            "y": 750,
+            "w": 101,
+            "h": 22
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#world-map",
+          "by": [
+            "#world-map",
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 749,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#world-map",
+          "by": [
+            "#world-map",
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 749,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "#world-map",
+          "by": [
+            "#world-map",
+            "off the screen"
+          ]
+        }
+      ],
+      "partly": [
+        {
+          "control": "#family-collapse",
+          "label": "Hide names",
+          "box": {
+            "x": 12,
+            "y": 209,
+            "w": 83,
+            "h": 2
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 4,
+          "centreBlockedBy": null,
+          "by": [
+            "#world-map"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "Take small game",
+          "box": {
+            "x": 941,
+            "y": 598,
+            "w": 76,
+            "h": 98
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 2,
+          "centreBlockedBy": null,
+          "by": [
+            "#world-map"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 533,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": true,
+          "points": 5,
+          "blocked": 2,
+          "centreBlockedBy": null,
+          "by": [
+            "#world-map"
+          ]
+        }
+      ],
+      "offScreen": [
+        {
+          "control": "#family-rows",
+          "label": "Cut a bee tree",
+          "box": {
+            "x": 1025,
+            "y": 598,
+            "w": 76,
+            "h": 98
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "Travel to Gonzales",
+          "box": {
+            "x": 1109,
+            "y": 598,
+            "w": 76,
+            "h": 98
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "Return home",
+          "box": {
+            "x": 1193,
+            "y": 598,
+            "w": 76,
+            "h": 98
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "Go to a neighbour’s homestead",
+          "box": {
+            "x": 1277,
+            "y": 598,
+            "w": 76,
+            "h": 98
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "Work about the place",
+          "box": {
+            "x": 1361,
+            "y": 598,
+            "w": 76,
+            "h": 98
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "Rest",
+          "box": {
+            "x": 1445,
+            "y": 598,
+            "w": 76,
+            "h": 98
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 798,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-10",
+          "label": "",
+          "box": {
+            "x": 104,
+            "y": 806,
+            "w": 101,
+            "h": 22
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 805,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 805,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 851,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-11",
+          "label": "",
+          "box": {
+            "x": 137,
+            "y": 856,
+            "w": 69,
+            "h": 22
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 855,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 855,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 904,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-12",
+          "label": "",
+          "box": {
+            "x": 137,
+            "y": 909,
+            "w": 69,
+            "h": 22
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 908,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 908,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 957,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-13",
+          "label": "",
+          "box": {
+            "x": 137,
+            "y": 962,
+            "w": 69,
+            "h": 22
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 961,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 961,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 1010,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-14",
+          "label": "",
+          "box": {
+            "x": 104,
+            "y": 1015,
+            "w": 101,
+            "h": 22
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "auto",
+          "box": {
+            "x": 249,
+            "y": 1014,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 1014,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 1063,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-15",
+          "label": "",
+          "box": {
+            "x": 104,
+            "y": 1067,
+            "w": 136,
+            "h": 22
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 256,
+            "y": 1066,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "★idle",
+          "box": {
+            "x": 12,
+            "y": 1127,
+            "w": 48,
+            "h": 48
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#panel-name-hh-1-child-16",
+          "label": "",
+          "box": {
+            "x": 205,
+            "y": 1131,
+            "w": 69,
+            "h": 22
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family-rows",
+          "label": "☆",
+          "box": {
+            "x": 279,
+            "y": 1130,
+            "w": 26,
+            "h": 24
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Asa Proofwright: work, Family 1 home, we",
+          "box": {
+            "x": 20,
+            "y": 1968,
+            "w": 29,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Josefa Proofwright: work, Family 1 home,",
+          "box": {
+            "x": 20,
+            "y": 2031,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Paulita Proofwright: rest, Family 1 home",
+          "box": {
+            "x": 20,
+            "y": 2094,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Prudence Proofwright: rest, Family 1 hom",
+          "box": {
+            "x": 20,
+            "y": 2157,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Ramona Proofwright: rest, Family 1 home,",
+          "box": {
+            "x": 20,
+            "y": 2220,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Zadok Proofwright: rest, Family 1 home, ",
+          "box": {
+            "x": 20,
+            "y": 2283,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Pablo Proofwright: rest, Family 1 home, ",
+          "box": {
+            "x": 20,
+            "y": 2346,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Docia Proofwright: rest, Family 1 home, ",
+          "box": {
+            "x": 20,
+            "y": 2409,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Delia Proofwright: rest, Family 1 home, ",
+          "box": {
+            "x": 20,
+            "y": 2472,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Effie Proofwright: rest, Family 1 home, ",
+          "box": {
+            "x": 20,
+            "y": 2535,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Marcos Proofwright: rest, Family 1 home,",
+          "box": {
+            "x": 20,
+            "y": 2598,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Jonas Proofwright: rest, Family 1 home, ",
+          "box": {
+            "x": 20,
+            "y": 2661,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Loreta Proofwright: rest, Family 1 home,",
+          "box": {
+            "x": 20,
+            "y": 2724,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Petra Proofwright: rest, Family 1 home, ",
+          "box": {
+            "x": 20,
+            "y": 2787,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Nieves Proofwright: rest, Family 1 home,",
+          "box": {
+            "x": 20,
+            "y": 2850,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Hiram Proofwright: rest, Family 1 home, ",
+          "box": {
+            "x": 20,
+            "y": 2913,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Ruperto Proofwright: rest, Family 1 home",
+          "box": {
+            "x": 20,
+            "y": 2976,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        },
+        {
+          "control": "#family",
+          "label": "Winnie Proofwright: rest, Family 1 home,",
+          "box": {
+            "x": 20,
+            "y": 3039,
+            "w": 26,
+            "h": 44
+          },
+          "onScreen": false,
+          "points": 5,
+          "blocked": 5,
+          "centreBlockedBy": "off the screen",
+          "by": [
+            "off the screen"
+          ]
+        }
+      ],
+      "dimmedOnPurpose": 0
     }
   ],
   "bar": {
     "clippedBy": [
+      {
+        "element": ".panel-icons",
+        "overflowX": "auto",
+        "overflowY": "hidden"
+      },
       {
         "element": "#family-panel",
         "overflowX": "auto",
         "overflowY": "auto"
       }
     ],
-    "roomBelow": 104,
-    "roomAbove": 616
+    "roomBelow": 112,
+    "roomAbove": 558
   },
-  "labels": [
-    {
-      "name": "Work about the place",
-      "x": 898,
-      "y": 664,
-      "w": 68,
-      "h": 27,
-      "offScreen": false,
-      "clippedBy": null,
-      "over": []
-    }
-  ],
+  "labels": [],
   "unpressable": [],
   "pageErrors": [],
   "fourPanels": [
@@ -576,304 +4606,6 @@
         "words": "A MEETINGTemperance and Silas Roe × Had it from Ned Falk at the fork of the road · through 6 hands out of Gonzales · 1.0 hours on the road ·",
         "lessonRoom": "210px",
         "covered": [
-          {
-            "control": "#family-collapse",
-            "label": "Hide names",
-            "box": {
-              "x": 12,
-              "y": 169,
-              "w": 83,
-              "h": 20
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 5,
-            "centreBlockedBy": "#site-choose",
-            "by": [
-              "#site-choose",
-              "#site-text"
-            ]
-          },
-          {
-            "control": "#family-rows",
-            "label": "Practise at the mark",
-            "box": {
-              "x": 264,
-              "y": 622,
-              "w": 42,
-              "h": 42
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 5,
-            "centreBlockedBy": "#encounter-asks",
-            "by": [
-              "#encounter-asks",
-              "#encounter"
-            ]
-          },
-          {
-            "control": "#family-rows",
-            "label": "Go to a shop in town",
-            "box": {
-              "x": 314,
-              "y": 622,
-              "w": 42,
-              "h": 42
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 5,
-            "centreBlockedBy": "#encounter-asks",
-            "by": [
-              "#encounter-asks"
-            ]
-          },
-          {
-            "control": "#family-rows",
-            "label": "Make furniture",
-            "box": {
-              "x": 365,
-              "y": 622,
-              "w": 42,
-              "h": 42
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 5,
-            "centreBlockedBy": "#encounter-asks",
-            "by": [
-              "#encounter-asks"
-            ]
-          },
-          {
-            "control": "#family-rows",
-            "label": "Buy furniture from the carpenter",
-            "box": {
-              "x": 415,
-              "y": 622,
-              "w": 42,
-              "h": 42
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 5,
-            "centreBlockedBy": "#encounter-asks",
-            "by": [
-              "#encounter-asks"
-            ]
-          },
-          {
-            "control": "#family-rows",
-            "label": "Fell trees",
-            "box": {
-              "x": 466,
-              "y": 622,
-              "w": 42,
-              "h": 42
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 5,
-            "centreBlockedBy": "#encounter-asks",
-            "by": [
-              "#encounter-asks"
-            ]
-          },
-          {
-            "control": "#family-rows",
-            "label": "Fetch logs from the timber",
-            "box": {
-              "x": 516,
-              "y": 622,
-              "w": 42,
-              "h": 42
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 5,
-            "centreBlockedBy": "#encounter-asks",
-            "by": [
-              "#encounter-asks"
-            ]
-          },
-          {
-            "control": "#family-rows",
-            "label": "Hunt on our land",
-            "box": {
-              "x": 566,
-              "y": 622,
-              "w": 42,
-              "h": 42
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 5,
-            "centreBlockedBy": "#encounter-asks",
-            "by": [
-              "#encounter-asks"
-            ]
-          },
-          {
-            "control": "#family-rows",
-            "label": "Take small game",
-            "box": {
-              "x": 617,
-              "y": 622,
-              "w": 42,
-              "h": 42
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 5,
-            "centreBlockedBy": "#encounter-asks",
-            "by": [
-              "#encounter-asks"
-            ]
-          },
-          {
-            "control": "#family-rows",
-            "label": "Fish the creek",
-            "box": {
-              "x": 667,
-              "y": 622,
-              "w": 42,
-              "h": 42
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 5,
-            "centreBlockedBy": "#encounter-asks",
-            "by": [
-              "#encounter-asks"
-            ]
-          },
-          {
-            "control": "#family-rows",
-            "label": "Cut a bee tree",
-            "box": {
-              "x": 718,
-              "y": 622,
-              "w": 42,
-              "h": 42
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 5,
-            "centreBlockedBy": "#encounter-asks",
-            "by": [
-              "#encounter-asks",
-              "#encounter"
-            ]
-          },
-          {
-            "control": "#family-rows",
-            "label": "auto",
-            "box": {
-              "x": 249,
-              "y": 250,
-              "w": 26,
-              "h": 24
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 5,
-            "centreBlockedBy": "#encounter",
-            "by": [
-              "#encounter",
-              "#encounter-head",
-              "#encounter-title"
-            ]
-          },
-          {
-            "control": "#family-rows",
-            "label": "☆",
-            "box": {
-              "x": 279,
-              "y": 250,
-              "w": 26,
-              "h": 24
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 5,
-            "centreBlockedBy": "#encounter-head",
-            "by": [
-              "#encounter-head",
-              "#encounter-title"
-            ]
-          },
-          {
-            "control": "#family-rows",
-            "label": "auto",
-            "box": {
-              "x": 249,
-              "y": 306,
-              "w": 26,
-              "h": 24
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 5,
-            "centreBlockedBy": "#encounter",
-            "by": [
-              "#encounter",
-              "#encounter-origin"
-            ]
-          },
-          {
-            "control": "#family-rows",
-            "label": "☆",
-            "box": {
-              "x": 279,
-              "y": 306,
-              "w": 26,
-              "h": 24
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 5,
-            "centreBlockedBy": "#encounter-origin",
-            "by": [
-              "#encounter-origin",
-              "#encounter"
-            ]
-          },
-          {
-            "control": "#family-rows",
-            "label": "auto",
-            "box": {
-              "x": 249,
-              "y": 359,
-              "w": 26,
-              "h": 24
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 5,
-            "centreBlockedBy": "#encounter",
-            "by": [
-              "#encounter",
-              "#encounter-said"
-            ]
-          },
-          {
-            "control": "#family-rows",
-            "label": "☆",
-            "box": {
-              "x": 279,
-              "y": 359,
-              "w": 26,
-              "h": 24
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 5,
-            "centreBlockedBy": "#encounter-said",
-            "by": [
-              "#encounter-said"
-            ]
-          },
           {
             "control": "#selection-close",
             "label": "×",
@@ -983,8 +4715,8 @@
             "control": "#family-rows",
             "label": "!",
             "box": {
-              "x": 39,
-              "y": 182,
+              "x": 44,
+              "y": 184,
               "w": 32,
               "h": 32
             },
@@ -993,42 +4725,9 @@
             "blocked": 4,
             "centreBlockedBy": null,
             "by": [
-              "#site-choose",
-              "#family-rows"
-            ]
-          },
-          {
-            "control": "#family-rows",
-            "label": "Work on the house",
-            "box": {
-              "x": 214,
-              "y": 622,
-              "w": 42,
-              "h": 42
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 2,
-            "centreBlockedBy": null,
-            "by": [
-              "#encounter"
-            ]
-          },
-          {
-            "control": "#family-rows",
-            "label": "Travel to Gonzales",
-            "box": {
-              "x": 768,
-              "y": 622,
-              "w": 42,
-              "h": 42
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 2,
-            "centreBlockedBy": null,
-            "by": [
-              "#encounter"
+              "#family-collapse",
+              "#family-rows",
+              "#world-map"
             ]
           },
           {
@@ -1052,8 +4751,8 @@
             "control": "#family-rows",
             "label": "!",
             "box": {
-              "x": 39,
-              "y": 235,
+              "x": 44,
+              "y": 237,
               "w": 32,
               "h": 32
             },
@@ -1062,7 +4761,8 @@
             "blocked": 4,
             "centreBlockedBy": null,
             "by": [
-              "#family-rows"
+              "#family-rows",
+              "#world-map"
             ]
           }
         ],
@@ -1145,12 +4845,34 @@
             "box": {
               "x": 12,
               "y": 12,
-              "w": 304,
-              "h": 606
+              "w": 248,
+              "h": 516
             },
-            "overlapWidth": 64,
-            "overlapHeight": 390,
+            "overlapWidth": 8,
+            "overlapHeight": 300,
             "shares": true
+          },
+          "faces": {
+            "box": {
+              "x": 12,
+              "y": 193,
+              "w": 48,
+              "h": 207
+            },
+            "overlapWidth": -192,
+            "overlapHeight": 172,
+            "shares": false
+          },
+          "fold": {
+            "box": {
+              "x": 12,
+              "y": 169,
+              "w": 90,
+              "h": 20
+            },
+            "overlapWidth": -150,
+            "overlapHeight": -39,
+            "shares": false
           },
           "strip": {
             "box": {
@@ -1163,17 +4885,7 @@
             "overlapHeight": -8,
             "shares": false
           },
-          "bar": {
-            "box": {
-              "x": 12,
-              "y": 622,
-              "w": 1000,
-              "h": 42
-            },
-            "overlapWidth": 520,
-            "overlapHeight": 42,
-            "shares": true
-          },
+          "bar": null,
           "card": {
             "box": {
               "x": 469,
@@ -1186,6 +4898,10 @@
             "shares": true
           }
         }
+      },
+      "afterwards": {
+        "meetingShut": true,
+        "barDrawn": true
       }
     },
     {
@@ -1209,21 +4925,21 @@
         "lessonRoom": "210px",
         "covered": [
           {
-            "control": "#family-collapse",
-            "label": "Hide names",
+            "control": "#selection-call",
+            "label": "Stay homeJethro stays, and the farm keep",
             "box": {
-              "x": 12,
-              "y": 169,
-              "w": 83,
-              "h": 20
+              "x": 528,
+              "y": 547,
+              "w": 234,
+              "h": 66
             },
             "onScreen": true,
             "points": 5,
             "blocked": 5,
-            "centreBlockedBy": "#site-choose",
+            "centreBlockedBy": "#family-rows",
             "by": [
-              "#site-choose",
-              "#site-text"
+              "#family-rows",
+              "#call-menu"
             ]
           }
         ],
@@ -1249,7 +4965,7 @@
             "control": "#family-rows",
             "label": "!",
             "box": {
-              "x": 39,
+              "x": 44,
               "y": 184,
               "w": 32,
               "h": 32
@@ -1259,8 +4975,9 @@
             "blocked": 4,
             "centreBlockedBy": null,
             "by": [
-              "#site-choose",
-              "#family-rows"
+              "#family-collapse",
+              "#family-rows",
+              "#world-map"
             ]
           },
           {
@@ -1284,7 +5001,7 @@
             "control": "#family-rows",
             "label": "!",
             "box": {
-              "x": 39,
+              "x": 44,
               "y": 237,
               "w": 32,
               "h": 32
@@ -1294,58 +5011,8 @@
             "blocked": 4,
             "centreBlockedBy": null,
             "by": [
-              "#family-rows"
-            ]
-          },
-          {
-            "control": "#family-rows",
-            "label": "☆",
-            "box": {
-              "x": 279,
-              "y": 250,
-              "w": 26,
-              "h": 24
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#call-menu",
-            "by": [
-              "#call-menu"
-            ]
-          },
-          {
-            "control": "#family-rows",
-            "label": "☆",
-            "box": {
-              "x": 279,
-              "y": 306,
-              "w": 26,
-              "h": 24
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#call-menu",
-            "by": [
-              "#call-menu"
-            ]
-          },
-          {
-            "control": "#family-rows",
-            "label": "☆",
-            "box": {
-              "x": 279,
-              "y": 359,
-              "w": 26,
-              "h": 24
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#call-menu",
-            "by": [
-              "#call-menu"
+              "#family-rows",
+              "#world-map"
             ]
           },
           {
@@ -1377,34 +5044,98 @@
             },
             "onScreen": true,
             "points": 5,
-            "blocked": 3,
+            "blocked": 4,
             "centreBlockedBy": "#call-menu-stay",
             "by": [
               "#call-menu-stay",
               "#call-menu-rows",
-              "#call-menu"
-            ]
-          },
-          {
-            "control": "#selection-call",
-            "label": "Stay homeJethro stays, and the farm keep",
-            "box": {
-              "x": 528,
-              "y": 547,
-              "w": 234,
-              "h": 66
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 1,
-            "centreBlockedBy": null,
-            "by": [
-              "#call-menu"
+              "#call-menu",
+              "#family-rows"
             ]
           }
         ],
         "offScreen": [],
         "scrolledOutOfItsBox": [
+          {
+            "control": "#family-rows",
+            "label": "Take small game",
+            "box": {
+              "x": 1025,
+              "y": 558,
+              "w": 76,
+              "h": 98
+            }
+          },
+          {
+            "control": "#family-rows",
+            "label": "Fish the creek",
+            "box": {
+              "x": 1109,
+              "y": 558,
+              "w": 76,
+              "h": 98
+            }
+          },
+          {
+            "control": "#family-rows",
+            "label": "Cut a bee tree",
+            "box": {
+              "x": 1193,
+              "y": 558,
+              "w": 76,
+              "h": 98
+            }
+          },
+          {
+            "control": "#family-rows",
+            "label": "Travel to Gonzales",
+            "box": {
+              "x": 1277,
+              "y": 558,
+              "w": 76,
+              "h": 98
+            }
+          },
+          {
+            "control": "#family-rows",
+            "label": "Return home",
+            "box": {
+              "x": 1361,
+              "y": 558,
+              "w": 76,
+              "h": 98
+            }
+          },
+          {
+            "control": "#family-rows",
+            "label": "Go to a neighbour’s homestead",
+            "box": {
+              "x": 1445,
+              "y": 558,
+              "w": 76,
+              "h": 98
+            }
+          },
+          {
+            "control": "#family-rows",
+            "label": "Now: Work about the place",
+            "box": {
+              "x": 1529,
+              "y": 558,
+              "w": 76,
+              "h": 98
+            }
+          },
+          {
+            "control": "#family-rows",
+            "label": "Rest",
+            "box": {
+              "x": 1613,
+              "y": 558,
+              "w": 76,
+              "h": 98
+            }
+          },
           {
             "control": "#reports",
             "label": "Read what Silas Roe said",
@@ -1472,12 +5203,34 @@
             "box": {
               "x": 12,
               "y": 12,
-              "w": 304,
-              "h": 606
+              "w": 248,
+              "h": 516
             },
-            "overlapWidth": 24,
-            "overlapHeight": 328,
-            "shares": true
+            "overlapWidth": -32,
+            "overlapHeight": 300,
+            "shares": false
+          },
+          "faces": {
+            "box": {
+              "x": 12,
+              "y": 193,
+              "w": 48,
+              "h": 207
+            },
+            "overlapWidth": -232,
+            "overlapHeight": 172,
+            "shares": false
+          },
+          "fold": {
+            "box": {
+              "x": 12,
+              "y": 169,
+              "w": 90,
+              "h": 20
+            },
+            "overlapWidth": -190,
+            "overlapHeight": -39,
+            "shares": false
           },
           "strip": {
             "box": {
@@ -1493,13 +5246,13 @@
           "bar": {
             "box": {
               "x": 12,
-              "y": 622,
+              "y": 541,
               "w": 1000,
-              "h": 42
+              "h": 123
             },
             "overlapWidth": 440,
-            "overlapHeight": -66,
-            "shares": false
+            "overlapHeight": 15,
+            "shares": true
           },
           "card": {
             "box": {
@@ -1524,8 +5277,8 @@
         "panel": "#site-choose",
         "real": true,
         "panelBox": {
-          "x": 12,
-          "y": 64,
+          "x": 110,
+          "y": 228,
           "w": 384,
           "h": 220
         },
@@ -1534,25 +5287,8 @@
         "ownControlsCovered": [],
         "words": "YOUR LAND Where the house stands The house will stand on open ground, 1 feet above Turtle Bayou. Water that runs all year is 0.32 miles off ",
         "lessonRoom": "210px",
-        "covered": [
-          {
-            "control": "#family-collapse",
-            "label": "Hide names",
-            "box": {
-              "x": 12,
-              "y": 169,
-              "w": 83,
-              "h": 20
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 5,
-            "centreBlockedBy": "#site-text",
-            "by": [
-              "#site-text",
-              "#site-choose"
-            ]
-          },
+        "covered": [],
+        "partly": [
           {
             "control": "#family-rows",
             "label": "★idle",
@@ -1564,156 +5300,31 @@
             },
             "onScreen": true,
             "points": 5,
-            "blocked": 5,
-            "centreBlockedBy": "#site-choose",
+            "blocked": 2,
+            "centreBlockedBy": null,
             "by": [
-              "#site-choose",
-              "#site-text",
-              "#site-build"
+              "#family-rows"
             ]
           },
           {
             "control": "#family-rows",
             "label": "!",
             "box": {
-              "x": 39,
+              "x": 44,
               "y": 182,
               "w": 32,
               "h": 32
             },
             "onScreen": true,
             "points": 5,
-            "blocked": 5,
-            "centreBlockedBy": "#site-text",
+            "blocked": 4,
+            "centreBlockedBy": null,
             "by": [
-              "#site-text"
+              "#family-collapse",
+              "#family-rows",
+              "#world-map"
             ]
           },
-          {
-            "control": "#panel-name-hh-1-thomas",
-            "label": "",
-            "box": {
-              "x": 107,
-              "y": 201,
-              "w": 136,
-              "h": 22
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 5,
-            "centreBlockedBy": "#site-text",
-            "by": [
-              "#site-text",
-              "#site-choose"
-            ]
-          },
-          {
-            "control": "#family-rows",
-            "label": "auto",
-            "box": {
-              "x": 248,
-              "y": 200,
-              "w": 26,
-              "h": 24
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 5,
-            "centreBlockedBy": "#site-text",
-            "by": [
-              "#site-text",
-              "#site-choose"
-            ]
-          },
-          {
-            "control": "#family-rows",
-            "label": "★",
-            "box": {
-              "x": 278,
-              "y": 200,
-              "w": 26,
-              "h": 24
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 5,
-            "centreBlockedBy": "#site-text",
-            "by": [
-              "#site-text",
-              "#site-choose"
-            ]
-          },
-          {
-            "control": "#family-rows",
-            "label": "!",
-            "box": {
-              "x": 39,
-              "y": 235,
-              "w": 32,
-              "h": 32
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 5,
-            "centreBlockedBy": "#site-build",
-            "by": [
-              "#site-build"
-            ]
-          },
-          {
-            "control": "#panel-name-hh-1-elena",
-            "label": "",
-            "box": {
-              "x": 113,
-              "y": 251,
-              "w": 131,
-              "h": 22
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 5,
-            "centreBlockedBy": "#site-build",
-            "by": [
-              "#site-build",
-              "#site-choose"
-            ]
-          },
-          {
-            "control": "#family-rows",
-            "label": "auto",
-            "box": {
-              "x": 249,
-              "y": 250,
-              "w": 26,
-              "h": 24
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 5,
-            "centreBlockedBy": "#site-choose",
-            "by": [
-              "#site-choose"
-            ]
-          },
-          {
-            "control": "#family-rows",
-            "label": "☆",
-            "box": {
-              "x": 279,
-              "y": 250,
-              "w": 26,
-              "h": 24
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 5,
-            "centreBlockedBy": "#site-choose",
-            "by": [
-              "#site-choose"
-            ]
-          }
-        ],
-        "partly": [
           {
             "control": "#family-rows",
             "label": "★idle",
@@ -1725,16 +5336,113 @@
             },
             "onScreen": true,
             "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#site-build",
+            "blocked": 1,
+            "centreBlockedBy": null,
             "by": [
-              "#site-build",
-              "#site-choose"
+              "#family-rows"
+            ]
+          },
+          {
+            "control": "#family-rows",
+            "label": "!",
+            "box": {
+              "x": 44,
+              "y": 235,
+              "w": 32,
+              "h": 32
+            },
+            "onScreen": true,
+            "points": 5,
+            "blocked": 4,
+            "centreBlockedBy": null,
+            "by": [
+              "#family-rows",
+              "#world-map"
             ]
           }
         ],
         "offScreen": [],
         "scrolledOutOfItsBox": [
+          {
+            "control": "#family-rows",
+            "label": "Take small game",
+            "box": {
+              "x": 1025,
+              "y": 558,
+              "w": 76,
+              "h": 98
+            }
+          },
+          {
+            "control": "#family-rows",
+            "label": "Fish the creek",
+            "box": {
+              "x": 1109,
+              "y": 558,
+              "w": 76,
+              "h": 98
+            }
+          },
+          {
+            "control": "#family-rows",
+            "label": "Cut a bee tree",
+            "box": {
+              "x": 1193,
+              "y": 558,
+              "w": 76,
+              "h": 98
+            }
+          },
+          {
+            "control": "#family-rows",
+            "label": "Travel to Gonzales",
+            "box": {
+              "x": 1277,
+              "y": 558,
+              "w": 76,
+              "h": 98
+            }
+          },
+          {
+            "control": "#family-rows",
+            "label": "Return home",
+            "box": {
+              "x": 1361,
+              "y": 558,
+              "w": 76,
+              "h": 98
+            }
+          },
+          {
+            "control": "#family-rows",
+            "label": "Go to a neighbour’s homestead",
+            "box": {
+              "x": 1445,
+              "y": 558,
+              "w": 76,
+              "h": 98
+            }
+          },
+          {
+            "control": "#family-rows",
+            "label": "Now: Work about the place",
+            "box": {
+              "x": 1529,
+              "y": 558,
+              "w": 76,
+              "h": 98
+            }
+          },
+          {
+            "control": "#family-rows",
+            "label": "Rest",
+            "box": {
+              "x": 1613,
+              "y": 558,
+              "w": 76,
+              "h": 98
+            }
+          },
           {
             "control": "#reports",
             "label": "Read what Silas Roe said",
@@ -1802,12 +5510,34 @@
             "box": {
               "x": 12,
               "y": 12,
-              "w": 304,
-              "h": 606
+              "w": 248,
+              "h": 516
             },
-            "overlapWidth": 304,
+            "overlapWidth": 150,
             "overlapHeight": 220,
             "shares": true
+          },
+          "faces": {
+            "box": {
+              "x": 12,
+              "y": 193,
+              "w": 48,
+              "h": 207
+            },
+            "overlapWidth": -50,
+            "overlapHeight": 172,
+            "shares": false
+          },
+          "fold": {
+            "box": {
+              "x": 12,
+              "y": 169,
+              "w": 90,
+              "h": 20
+            },
+            "overlapWidth": -8,
+            "overlapHeight": -39,
+            "shares": false
           },
           "strip": {
             "box": {
@@ -1816,19 +5546,19 @@
               "w": 544,
               "h": 210
             },
-            "overlapWidth": -72,
-            "overlapHeight": 156,
+            "overlapWidth": 26,
+            "overlapHeight": -8,
             "shares": false
           },
           "bar": {
             "box": {
               "x": 12,
-              "y": 622,
+              "y": 541,
               "w": 1000,
-              "h": 42
+              "h": 123
             },
             "overlapWidth": 384,
-            "overlapHeight": -338,
+            "overlapHeight": -93,
             "shares": false
           },
           "card": null
@@ -1845,8 +5575,8 @@
         "panel": "#survey-choose",
         "real": true,
         "panelBox": {
-          "x": 12,
-          "y": 64,
+          "x": 110,
+          "y": 250,
           "w": 384,
           "h": 159
         },
@@ -1855,44 +5585,8 @@
         "ownControlsCovered": [],
         "words": "SURVEY Where Nicolás surveys That runs over ground the family has already cleared. Survey it Not now",
         "lessonRoom": "232px",
-        "covered": [
-          {
-            "control": "#house-open",
-            "label": "Plan a house",
-            "box": {
-              "x": 12,
-              "y": 167,
-              "w": 99,
-              "h": 34
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 5,
-            "centreBlockedBy": "#survey-cancel",
-            "by": [
-              "#survey-cancel",
-              "#survey-choose"
-            ]
-          }
-        ],
+        "covered": [],
         "partly": [
-          {
-            "control": "#family-collapse",
-            "label": "Hide names",
-            "box": {
-              "x": 12,
-              "y": 209,
-              "w": 83,
-              "h": 20
-            },
-            "onScreen": true,
-            "points": 5,
-            "blocked": 3,
-            "centreBlockedBy": "#survey-choose",
-            "by": [
-              "#survey-choose"
-            ]
-          },
           {
             "control": "#family-rows",
             "label": "★idle",
@@ -1914,8 +5608,8 @@
             "control": "#family-rows",
             "label": "!",
             "box": {
-              "x": 39,
-              "y": 223,
+              "x": 44,
+              "y": 225,
               "w": 32,
               "h": 32
             },
@@ -1925,7 +5619,79 @@
             "centreBlockedBy": null,
             "by": [
               "#family-collapse",
-              "#family-rows"
+              "#family-rows",
+              "#world-map"
+            ]
+          },
+          {
+            "control": "#family-rows",
+            "label": "Buy furniture from the carpenter",
+            "box": {
+              "x": 689,
+              "y": 558,
+              "w": 76,
+              "h": 98
+            },
+            "onScreen": true,
+            "points": 5,
+            "blocked": 2,
+            "centreBlockedBy": null,
+            "by": [
+              "#military-notice",
+              "#military-go"
+            ]
+          },
+          {
+            "control": "#family-rows",
+            "label": "Fell trees",
+            "box": {
+              "x": 773,
+              "y": 558,
+              "w": 76,
+              "h": 98
+            },
+            "onScreen": true,
+            "points": 5,
+            "blocked": 2,
+            "centreBlockedBy": null,
+            "by": [
+              "#military-go",
+              "#military-message"
+            ]
+          },
+          {
+            "control": "#family-rows",
+            "label": "Fetch logs from the timber",
+            "box": {
+              "x": 857,
+              "y": 558,
+              "w": 76,
+              "h": 98
+            },
+            "onScreen": true,
+            "points": 5,
+            "blocked": 2,
+            "centreBlockedBy": null,
+            "by": [
+              "#military-message"
+            ]
+          },
+          {
+            "control": "#family-rows",
+            "label": "Hunt on our land",
+            "box": {
+              "x": 941,
+              "y": 558,
+              "w": 71,
+              "h": 98
+            },
+            "onScreen": true,
+            "points": 5,
+            "blocked": 2,
+            "centreBlockedBy": null,
+            "by": [
+              "#military-message",
+              "#military-notice"
             ]
           },
           {
@@ -1949,8 +5715,8 @@
             "control": "#family-rows",
             "label": "!",
             "box": {
-              "x": 39,
-              "y": 276,
+              "x": 44,
+              "y": 278,
               "w": 32,
               "h": 32
             },
@@ -1959,12 +5725,103 @@
             "blocked": 4,
             "centreBlockedBy": null,
             "by": [
-              "#family-rows"
+              "#family-rows",
+              "#world-map"
             ]
           }
         ],
         "offScreen": [],
         "scrolledOutOfItsBox": [
+          {
+            "control": "#family-rows",
+            "label": "Take small game",
+            "box": {
+              "x": 1025,
+              "y": 558,
+              "w": 76,
+              "h": 98
+            }
+          },
+          {
+            "control": "#family-rows",
+            "label": "Fish the creek",
+            "box": {
+              "x": 1109,
+              "y": 558,
+              "w": 76,
+              "h": 98
+            }
+          },
+          {
+            "control": "#family-rows",
+            "label": "Gather oysters",
+            "box": {
+              "x": 1193,
+              "y": 558,
+              "w": 76,
+              "h": 98
+            }
+          },
+          {
+            "control": "#family-rows",
+            "label": "Cut a bee tree",
+            "box": {
+              "x": 1277,
+              "y": 558,
+              "w": 76,
+              "h": 98
+            }
+          },
+          {
+            "control": "#family-rows",
+            "label": "Travel to Gonzales",
+            "box": {
+              "x": 1361,
+              "y": 558,
+              "w": 76,
+              "h": 98
+            }
+          },
+          {
+            "control": "#family-rows",
+            "label": "Return home",
+            "box": {
+              "x": 1445,
+              "y": 558,
+              "w": 76,
+              "h": 98
+            }
+          },
+          {
+            "control": "#family-rows",
+            "label": "Go to a neighbour’s homestead",
+            "box": {
+              "x": 1529,
+              "y": 558,
+              "w": 76,
+              "h": 98
+            }
+          },
+          {
+            "control": "#family-rows",
+            "label": "Now: Work about the place",
+            "box": {
+              "x": 1613,
+              "y": 558,
+              "w": 76,
+              "h": 98
+            }
+          },
+          {
+            "control": "#family-rows",
+            "label": "Rest",
+            "box": {
+              "x": 1697,
+              "y": 558,
+              "w": 76,
+              "h": 98
+            }
+          },
           {
             "control": "#reports",
             "label": "Read what Silas Roe said",
@@ -2032,12 +5889,34 @@
             "box": {
               "x": 12,
               "y": 12,
-              "w": 304,
-              "h": 606
+              "w": 248,
+              "h": 516
             },
-            "overlapWidth": 304,
+            "overlapWidth": 150,
             "overlapHeight": 159,
             "shares": true
+          },
+          "faces": {
+            "box": {
+              "x": 12,
+              "y": 233,
+              "w": 48,
+              "h": 207
+            },
+            "overlapWidth": -50,
+            "overlapHeight": 159,
+            "shares": false
+          },
+          "fold": {
+            "box": {
+              "x": 12,
+              "y": 209,
+              "w": 90,
+              "h": 20
+            },
+            "overlapWidth": -8,
+            "overlapHeight": -21,
+            "shares": false
           },
           "strip": {
             "box": {
@@ -2046,19 +5925,19 @@
               "w": 544,
               "h": 232
             },
-            "overlapWidth": -72,
-            "overlapHeight": 159,
+            "overlapWidth": 26,
+            "overlapHeight": -8,
             "shares": false
           },
           "bar": {
             "box": {
               "x": 12,
-              "y": 624,
+              "y": 541,
               "w": 1000,
-              "h": 40
+              "h": 123
             },
             "overlapWidth": 384,
-            "overlapHeight": -401,
+            "overlapHeight": -132,
             "shares": false
           },
           "card": null
@@ -2067,6 +5946,12 @@
           "x": 512,
           "y": 500.52217277888644
         }
+      },
+      "afterwards": {
+        "foldedBefore": false,
+        "foldedDuring": true,
+        "panelShut": true,
+        "foldedAfter": false
       },
       "pageErrors": []
     }

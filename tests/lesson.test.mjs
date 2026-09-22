@@ -17,7 +17,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
-import { ALWAYS, LESSON_DONE_MINUTES, STEPS, actionId, advanceLessons, lessonInvalid, lessonProjection, lessonRefusal } from '../sim/lesson.mjs';
+import { ALWAYS, LESSON_DONE_MINUTES, LESSON_RESUME_MS, STEPS, actionId, advanceLessons, lessonInvalid, lessonProjection, lessonRefusal } from '../sim/lesson.mjs';
 import { RIPEN_TICKS } from '../sim/chores.mjs';
 import { clearedPlots, plotsOf } from '../sim/fields.mjs';
 import { houseSettled } from '../sim/houses.mjs';
@@ -535,4 +535,137 @@ test('a stopped lesson survives a save and reload, and stays stopped', () => {
     reopened.households['hh-1'].lesson = bad;
     assert.throws(() => validateWorld(reopened), /lesson/i, `${JSON.stringify(bad)} was accepted`);
   }
+});
+
+// ------------------------------------------------------------------------------------------- "Resume tutorial"
+// Owner, 2026-09-22: "After closing the tutorial, show a small 'Resume tutorial' button for five real minutes from the
+// original dismissal, including across reloads. Resume existing progress; quietly show dismissal/resumption to the
+// teacher." Real time is the server's, handed in (`now`), so every clock here is held still or jumped on purpose.
+const T0 = 1_800_000_000_000;
+/** An order sent at a moment of the server's real clock. */
+const sendAt = (world, householdId, input, now) => applyAction(world, householdId, input, { now });
+const resumeOf = (world, householdId, now, role = 'student') => projectWorld(world, householdId, role, { includeMap: false, now }).lessonResume;
+
+test('"Resume tutorial" puts the family back on the step it stopped on, with everything it had gathered, and the gate shuts again', () => {
+  const { world, household } = atTheHouse('lesson-resume-same');
+  // Progress the steps gather as they go: a sale watched, the stock of each good it was watched against.
+  household.lesson = { step: 'house', sold: true, had: { cotton: 4, food: 9 } };
+  const person = hands(world, household)[0];
+  sendAt(world, 'hh-1', { action: 'stop-lesson' }, T0);
+  assert.equal(household.lesson.from, 'house', 'the X did not keep the step it was pressed on');
+  sendAt(world, 'hh-1', { action: 'chore', entityId: person.id, chore: 'hunt-timber' }, T0 + 1000);
+  sendAt(world, 'hh-1', { action: 'stop-chore', entityId: person.id }, T0 + 2000);
+  sendAt(world, 'hh-1', { action: 'resume-lesson' }, T0 + 60_000);
+  assert.equal(household.lesson.step, 'house', `the family came back on ${household.lesson.step}, not the step it stopped on`);
+  assert.equal(household.lesson.stopped, undefined);
+  assert.equal(household.lesson.sold, true, 'what the family had gathered was thrown away by the X');
+  assert.deepEqual(household.lesson.had, { cotton: 4, food: 9 });
+  assert.equal(lessonOf(world, 'hh-1').step, 'house');
+  assert.throws(() => sendAt(world, 'hh-1', { action: 'chore', entityId: person.id, chore: 'hunt-timber' }, T0 + 61_000), /Not yet/, 'the gate stayed open after the resume');
+  validateWorld(world);
+});
+
+test('"Resume tutorial" is refused once five real minutes have passed since the X, however few minutes of 1835 went by', () => {
+  assert.equal(LESSON_RESUME_MS, 5 * 60 * 1000);
+  const { world, household } = atTheHouse('lesson-resume-late');
+  sendAt(world, 'hh-1', { action: 'stop-lesson' }, T0);
+  assert.throws(() => sendAt(world, 'hh-1', { action: 'resume-lesson' }, T0 + LESSON_RESUME_MS), /too late/);
+  assert.equal(household.lesson.stopped, true, 'a refused resume changed the lesson');
+  // And a moment inside it is not refused, with no world time having passed at all: the window is the server's clock.
+  sendAt(world, 'hh-1', { action: 'resume-lesson' }, T0 + LESSON_RESUME_MS - 1);
+  assert.equal(household.lesson.step, 'house');
+});
+
+test('a second X after a resume does not start another five minutes: the window is the first press\'s', () => {
+  const { world, household } = atTheHouse('lesson-resume-once');
+  sendAt(world, 'hh-1', { action: 'stop-lesson' }, T0);
+  sendAt(world, 'hh-1', { action: 'resume-lesson' }, T0 + 4 * 60_000);
+  sendAt(world, 'hh-1', { action: 'stop-lesson' }, T0 + 4.5 * 60_000);
+  assert.equal(household.lesson.stoppedAt, T0, 'the second X moved the time of the first');
+  assert.equal(household.lesson.resumeBy, T0 + LESSON_RESUME_MS, 'the second X opened a new window');
+  assert.throws(() => sendAt(world, 'hh-1', { action: 'resume-lesson' }, T0 + LESSON_RESUME_MS + 1), /too late/);
+  // Inside the first press's window it still can, as often as the student likes.
+  sendAt(world, 'hh-1', { action: 'resume-lesson' }, T0 + LESSON_RESUME_MS - 10);
+  assert.equal(household.lesson.step, 'house');
+});
+
+test('a student can take up only their own family\'s guided start again, and never one whose student has gone', () => {
+  const { world, household } = atTheHouse('lesson-resume-other');
+  sendAt(world, 'hh-1', { action: 'stop-lesson' }, T0);
+  // What a student sends is applied to their own household (server/app.mjs), whatever the order names.
+  assert.throws(() => sendAt(world, 'hh-2', { action: 'resume-lesson', householdId: 'hh-1', entityId: household.members[0] }, T0 + 1000), /no stopped guided start/);
+  assert.equal(household.lesson.stopped, true, 'another family’s student took this family’s guided start back up');
+  household.absent = true;
+  assert.throws(() => sendAt(world, 'hh-1', { action: 'resume-lesson' }, T0 + 2000), /own student/);
+  assert.equal(household.lesson.stopped, true, 'the director took up the guided start for a family whose student has gone');
+});
+
+test('the Host cannot take up anybody\'s guided start again', () => {
+  const { world, household } = atTheHouse('lesson-resume-host');
+  sendAt(world, 'hh-1', { action: 'stop-lesson' }, T0);
+  for (const nobody of [null, undefined, 'host']) {
+    assert.throws(() => sendAt(world, nobody, { action: 'resume-lesson' }, T0 + 1000), /own student/, `the Host (${nobody}) resumed a lesson`);
+  }
+  assert.equal(household.lesson.stopped, true);
+});
+
+test('the window survives a save and reload, and a stop saved before the window existed has none', () => {
+  const { world, household } = atTheHouse('lesson-resume-save');
+  sendAt(world, 'hh-1', { action: 'stop-lesson' }, T0);
+  const reopened = JSON.parse(JSON.stringify(world));
+  validateWorld(reopened);
+  assert.deepEqual(reopened.households['hh-1'].lesson, household.lesson);
+  assert.equal(resumeOf(reopened, 'hh-1', T0 + 30_000)?.until, T0 + LESSON_RESUME_MS, 'the reopened class forgot the window');
+  sendAt(reopened, 'hh-1', { action: 'resume-lesson' }, T0 + 30_000);
+  assert.equal(reopened.households['hh-1'].lesson.step, 'house');
+  validateWorld(reopened);
+  // A class saved yesterday, with the X pressed and no time on it: stopped, the window long gone.
+  const old = JSON.parse(JSON.stringify(world));
+  old.households['hh-1'].lesson = { step: 'done', at: 10, stopped: true };
+  validateWorld(old);
+  assert.throws(() => sendAt(old, 'hh-1', { action: 'resume-lesson' }, T0), /too late/, 'an old save’s stop could be taken back up');
+  // And a save cannot carry half a window, or one that ends before it began.
+  for (const bad of [{ stoppedAt: T0 }, { resumeBy: T0 }, { stoppedAt: T0, resumeBy: T0 - 1 }, { from: 'nowhere', stoppedAt: T0, resumeBy: T0 + 1 }]) {
+    old.households['hh-1'].lesson = { step: 'done', at: 10, stopped: true, ...bad };
+    assert.throws(() => validateWorld(old), /lesson/i, `${JSON.stringify(bad)} was accepted`);
+  }
+});
+
+test('the page is offered the resume only while the window is open, and only the family that stopped', () => {
+  const { world } = atTheHouse('lesson-resume-offer');
+  assert.equal(resumeOf(world, 'hh-1', T0), undefined, 'offered before the X');
+  sendAt(world, 'hh-1', { action: 'stop-lesson' }, T0);
+  assert.deepEqual(resumeOf(world, 'hh-1', T0 + 1000), { until: T0 + LESSON_RESUME_MS, ms: LESSON_RESUME_MS - 1000 });
+  assert.equal(resumeOf(world, 'hh-1', T0 + LESSON_RESUME_MS), undefined, 'still offered when the window has shut');
+  assert.equal(resumeOf(world, 'hh-2', T0 + 1000), undefined, 'offered to a family that never stopped');
+  assert.equal(resumeOf(world, null, T0 + 1000, 'host'), undefined, 'offered to the Host');
+  // Taken up, the strip is back and the offer is gone.
+  sendAt(world, 'hh-1', { action: 'resume-lesson' }, T0 + 2000);
+  assert.equal(resumeOf(world, 'hh-1', T0 + 3000), undefined, 'offered while the lesson is running again');
+});
+
+test('the Host\'s class panel says quietly that a family stopped and resumed the guided start; no student is told', () => {
+  const { world } = atTheHouse('lesson-resume-host-words');
+  const row = id => projectWorld(world, null, 'host', { includeMap: false }).live.families.find(family => family.id === id);
+  assert.equal(row('hh-1').guided, undefined, 'a family working through its steps has a line');
+  sendAt(world, 'hh-1', { action: 'stop-lesson' }, T0);
+  assert.equal(row('hh-1').guided, 'stopped the guided start at step 3');
+  sendAt(world, 'hh-1', { action: 'resume-lesson' }, T0 + 1000);
+  assert.equal(row('hh-1').guided, 'resumed the guided start: on step 3 of 10');
+  assert.equal(row('hh-2').guided, undefined);
+  // Written down for the Host alone: no family's journal carries either line, not even the family's own.
+  const written = world.events.filter(event => ['lesson-stopped', 'lesson-resumed'].includes(event.type));
+  assert.deepEqual(written.map(event => [event.type, event.visibility, event.about, event.householdId]), [['lesson-stopped', 'host', 'hh-1', undefined], ['lesson-resumed', 'host', 'hh-1', undefined]]);
+  for (const id of ['hh-1', 'hh-2']) assert.equal(view(world, id).events.some(event => written.some(one => one.id === event.id)), false, `${id}'s journal carries the Host's record`);
+});
+
+test('a family that did the step\'s work while the guided start was off is walked on from it when it comes back', () => {
+  const { world, household } = atTheHouse('lesson-resume-moved');
+  household.lesson = { step: 'hunt' };
+  household.resources.hides = 0;
+  sendAt(world, 'hh-1', { action: 'stop-lesson' }, T0);
+  household.resources.hides = 1;
+  sendAt(world, 'hh-1', { action: 'resume-lesson' }, T0 + 1000);
+  assert.notEqual(household.lesson.step, 'hunt', 'the family was put back on a step the world says it has done');
+  assert.equal(household.lesson.stopped, undefined);
 });
