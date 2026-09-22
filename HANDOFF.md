@@ -1,6 +1,8 @@
 # Claude handoff — Astra foundation
 
-## The roll is the family — 2026-09-22 (unreleased)
+## The roll is the family — 2026-09-22 (released in v2026.09.22.2)
+
+**Released as [v2026.09.22.2](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.22.2)** on 2026-09-22, from `c25414f`.
 
 **Owner:** *"change the family rolls. if i roll a 20, there should be 18 kids. if i roll a 4 it's two parents and 2 kids. each
 number over 4 is another kid."* By multiple choice for 1 to 3: **"The roll is the family"** — the number is how many people
