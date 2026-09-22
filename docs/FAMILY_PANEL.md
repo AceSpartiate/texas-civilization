@@ -667,6 +667,9 @@ Evidence: `docs/evidence/screen-overlap.json`, `-1024.json`, `-390.json` (the `f
 
 #### 12.12.2 Two things that are the owner's to decide, not mine
 
+**Both decided by the owner, 2026-09-22, and built — see §12.13.** The meeting: *"The bar steps aside."* The placement
+panels: *"The column folds to faces."* What follows is the arithmetic the choice was made over, kept as it was.
+
 Both are recorded with arithmetic rather than settled, because settling either one means giving something up.
 
 - **The meeting and the ability bar want the same pixels.** `#encounter` is 520 wide and runs straight across the bar,
@@ -721,8 +724,8 @@ untouched: nothing here changes a rule of the world.
   raising a house takes an afternoon of the world. What the panel *says* is still the server's, every word of it. The
   steps between arriving and the stake are not walked, and neither is a family of one parent or a name long enough to
   wrap a row.
-- **The two contested pairs above are measured, not fixed.** Anything that reads this as "the overlap study is clean
-  now" has read it wrong: what is clean is the guided start.
+- ~~**The two contested pairs above are measured, not fixed.**~~ Decided and built 2026-09-22 (§12.13). What is still
+  open is the meeting over the family's column — the whole of it on a phone, 8px of it at 1024 — which nobody has chosen.
 - **A class past the guided start is unchanged, by arithmetic and not by a check.** `--lesson-room` is *removed* when
   there is no lesson, so the meeting's third `max-height` term falls back to `100vh - 82px` — 686px on a Chromebook,
   which `min()` never picks over 70vh — and the three phone rules are inside `body[data-lesson=true]`. Nothing here
@@ -730,6 +733,52 @@ untouched: nothing here changes a rule of the world.
   met.
 - **No claim ID was needed.** Nothing here invents or changes anything historical or fictional; it is only where things
   are drawn. `FIC-GONZ-270`–`279` were set aside for this work and none was spent.
+
+### 12.13 The bar steps aside, and the column folds to faces — owner 2026-09-22
+
+The owner chose between §12.12.2's ways out by multiple choice:
+
+- **The meeting:** *"The bar steps aside — While a rider is talking, the ability bar is not drawn. Answering the rider is
+  the whole of what that moment is for, and the bar comes back the instant the meeting closes."*
+- **The placement panels:** *"The column folds to faces — While you are choosing a place, the family column collapses to
+  its narrow strip of portraits — a state that already exists as 'Hide names' — and opens again afterwards."*
+
+**As built** (`renderScreenMoments` in `public/app.js`, the last rules of `public/style.css`). Both are read off the
+panels themselves, like the §12.11 dim, so no route in can forget them — and one nearly did: `openNeed`, the panel's own
+"!", opens the meeting by calling `renderEncounter` directly and never reaches the render that sets the dim, so the flag
+is set inside `renderEncounter`.
+
+- `body[data-meeting=true]` hides the focused row's `.panel-icons`. **The selector is the whole of the focused row's**,
+  because the rule as first written — `body[data-meeting=true] .panel-icons` — loses on specificity to the rule that
+  places the bar: the flag was set, the bar stayed, and only the measurement showed it. That mistake is the second
+  injection in the record below.
+- `body[data-placing=true]` is raised while `#site-choose` or `#survey-choose` is open. On the change — never on every
+  draw, so a student who presses Show names mid-placement is not folded again at the next tick — the column is folded
+  with the very function Hide names uses, so the button says Show names while it lasts. Afterwards the student's own
+  remembered choice is restored, not "open".
+- The panel then stands **beside the faces**, at the folded strip's own measured corner (`--place-left`, `--place-top`),
+  and **below the guided start's strip** wherever the strip reaches lower than the faces begin. §12.12.2's objection to
+  moving these panels right was arithmetic about a **316px** column: folded, the strip is **94px** at 1366 and the panel
+  fits beside it; at 1024 the strip wraps deep enough that the panel is put under it, which the first turn of this did
+  not do and `test:panels` refused — 26×51px inside the strip.
+
+**Measured** (`docs/evidence/panels-browser.json`, same computer): the meeting shares **nothing** with the bar at all
+three sizes, where it shared 520×48px and 520×42px. The site and stake panels share **nothing** with the faces or the
+fold button at any size, where they shared 304px of the column's width. `#hud-left`'s own box still reads 150px of
+overlap at 1366 and that is right: its width is its longest status line, and what is under the panel there is empty.
+The gate measures the faces themselves (`#family-rows`, `#family-collapse`), not `#family-panel` — which on a phone is a
+full-width flex box and read 268px of empty box as covered.
+
+**Gates.** `npm run test:panels` is **15 checks** now: the two moments are asserted at each size, each with its other
+half — that the bar **is back, drawn and of real size** once the meeting shuts (a hidden bar and a bar that was never
+there both have no box, so the absence alone proves nothing), and that the column is folded during the stake **and open
+again** after "Not now". [panels-injections.json](evidence/panels-injections.json) records seven regressions
+put back one at a time. One check was corrected on its first run: it counted the family's own parts overlapping each
+other — the "!" on a portrait's corner, a round badge's corner points landing on the map, under all four panels alike —
+as the placement panel covering them. It now counts by what is on top.
+
+**Not proved.** Same computer only. The fold is shown opening again after "Not now", not after a house site is really
+set. The meeting over the family's column — the whole column on a phone — is still open and nobody has chosen it.
 
 ## 13. The family-creation wizard as a thing on a screen — 2026-09-21
 

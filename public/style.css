@@ -786,3 +786,13 @@ body[data-creating=true] #family-roll,body[data-creating=true] #surname,body[dat
   .names-row{grid-template-columns:1fr;gap:2px}
 }
 
+/* Two moments that take the screen from the family's own furniture (owner, 2026-09-22; renderScreenMoments in app.js).
+   While a rider talks the ability bar is not drawn: the meeting and the bar wanted the same bottom middle, 520x48px of it
+   at 1366. While a place is chosen the column is folded to faces by the script, and the panel that asks for the place
+   stands to the right of the faces instead of over them. */
+/* The whole of the focused row's selector, because anything shorter loses to the rule that places the bar. */
+body[data-meeting=true] .panel-row[data-focused=true] .panel-icons{display:none}
+/* Beside the faces and below the status lines above them: --place-left and --place-top are the folded strip's own
+   measured corner (renderScreenMoments), so this holds at every size without a number written for each. */
+body[data-placing=true] #site-choose,body[data-placing=true] #survey-choose{left:var(--place-left,12px);top:var(--place-top,64px);right:auto;
+  width:min(24rem,calc(100% - var(--place-left,12px) - 12px));max-height:calc(100% - var(--place-top,64px) - 12px);overflow-y:auto}

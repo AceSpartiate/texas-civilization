@@ -5,6 +5,22 @@
 works, the line an empty bar shows, Astra's last four art batches, rain on the roofing and daubing, the four panels the
 overlap study could not reach, and the four browser gates that had been broken since before any of it.
 
+## The bar steps aside, and the column folds to faces — 2026-09-22
+
+The owner decided both of the contested pairs below (§ "Two things are the owner's to decide") by multiple choice:
+*"The bar steps aside"* while a rider talks, and *"The column folds to faces"* while a place is chosen. Built in
+`renderScreenMoments` (`public/app.js`) and the last rules of `public/style.css`; the whole account, with the numbers it
+was chosen over, is [docs/FAMILY_PANEL.md §12.13](docs/FAMILY_PANEL.md).
+
+- **Measured, same computer:** the meeting shares nothing with the ability bar at 1366, 1024 or 390 (it shared 520×48px
+  and 520×42px), and the bar is back, drawn and of real size, the moment the meeting shuts. The site and stake panels
+  share nothing with the folded faces at any size (they shared 304px of the column's width), stand below the guided
+  start where it reaches lower, and the names open again after "Not now".
+- **Gate:** `npm run test:panels` 9 → **15 checks**; `node scripts/panels-injections.mjs` puts seven regressions back
+  one at a time, including the rule as first written, which lost on specificity and left the bar standing
+  ([panels-injections.json](docs/evidence/panels-injections.json)).
+- **Still open, nobody has chosen it:** the meeting over the family's column — the whole column on a phone, 8px at 1024.
+
 ## Corrected: the lobby bar is not empty — 2026-09-21
 
 **I wrote this up as a possible regression and it is not one.** `npm run test:family-panel` failed after the merge in a
@@ -237,7 +253,7 @@ gates, both from one instrument (`scripts/support/panel-states.mjs`), at 1366×7
   student could not press. All four take their top, or their height, from `--lesson-room` now: **0px shared, all three
   sizes.** The meeting costs about 62px of conversation on a Chromebook (520×538 → 520×476) in a panel that scrolled
   already.
-- **Two things are the owner's to decide and were deliberately not chosen.** (1) The **meeting and the ability bar**
+- **Two things were the owner's to decide** — **decided and built 2026-09-22** (section above). (1) The **meeting and the ability bar**
   want the same pixels: 520×48px at 1366 with **14** controls wholly covered, thirteen of them the meeting's own doing
   (eight icons of the main person's work and the five controls of the docked card under it); 520×42px and **22** at
   1024, where it reaches the family's column too. It cannot be nudged — the column (316px) + a 520px meeting + the 544px
