@@ -69,6 +69,8 @@ overlap study could not reach, and the four browser gates that had been broken s
 
 ## The bar steps aside, and the column folds to faces — 2026-09-22
 
+**Released as [v2026.09.22.1](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.22.1)** on 2026-09-22, from `62261a6`, together with the military pacing (`b780534`) and the guided start's X. The new family roll was not in it.
+
 The owner decided both of the contested pairs below (§ "Two things are the owner's to decide") by multiple choice:
 *"The bar steps aside"* while a rider talks, and *"The column folds to faces"* while a place is chosen. Built in
 `renderScreenMoments` (`public/app.js`) and the last rules of `public/style.css`; the whole account, with the numbers it
