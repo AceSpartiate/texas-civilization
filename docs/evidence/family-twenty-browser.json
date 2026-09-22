@@ -1,0 +1,108 @@
+{
+  "record": "family-twenty-browser",
+  "date": "2026-09-22",
+  "seed": "twenty-4",
+  "environment": "Same computer: a local classroom server and headless Chrome. Not a physical LAN, a classroom, a Chromebook or a real phone.",
+  "pass": [
+    "the server rolls this family a 20",
+    "the names card holds all 20 names and its Continue can be reached at 1366 by 768",
+    "at 1366 by 768 twenty rows scroll inside a 304 px panel that ends at 568 px, and the map is on top at 82% of the screen",
+    "the youngest child, last of twenty, scrolls into view inside the panel and nothing covers them",
+    "with the class running at 1366 by 768, the panel ends at 528 px above the ability bar at 541 px, and the youngest child's portrait can be pressed",
+    "with the class running at 1440 by 950, the panel ends at 710 px above the ability bar at 723 px, and the youngest child's portrait can be pressed",
+    "with the class running at 1024 by 768, the panel ends at 528 px above the ability bar at 541 px, and the youngest child's portrait can be pressed",
+    "on a 400 px phone twenty rows stay in the column (22% of the screen), the last scrolls into view, and the map is on top at 45% of the screen below the guided start",
+    "no page error in either"
+  ],
+  "measured": {
+    "nameBoxes": 20,
+    "namesDone": {
+      "x": 462,
+      "y": 628.1953125,
+      "width": 442,
+      "height": 44
+    },
+    "desktop": {
+      "rows": 20,
+      "panel": {
+        "left": 12,
+        "top": 247,
+        "width": 304,
+        "bottom": 568
+      },
+      "scrolls": true,
+      "scrollHeight": 1241,
+      "clientHeight": 321,
+      "mapShare": 0.8177083333333334,
+      "stripBottom": 0,
+      "panelShare": 0.109375,
+      "pageScrolls": false,
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      }
+    },
+    "desktopLast": {
+      "inside": true,
+      "onTop": true,
+      "scrollTop": 916,
+      "id": "hh-1-child-18"
+    },
+    "bar-1366x768": {
+      "panelBottom": 528,
+      "barTop": 541,
+      "barLeft": 12,
+      "overlapsBar": false,
+      "lastOnTop": true,
+      "covering": "CANVAS."
+    },
+    "bar-1440x950": {
+      "panelBottom": 710,
+      "barTop": 723,
+      "barLeft": 12,
+      "overlapsBar": false,
+      "lastOnTop": true,
+      "covering": "CANVAS."
+    },
+    "bar-1024x768": {
+      "panelBottom": 528,
+      "barTop": 541,
+      "barLeft": 12,
+      "overlapsBar": false,
+      "lastOnTop": true,
+      "covering": "CANVAS."
+    },
+    "phone": {
+      "rows": 20,
+      "panel": {
+        "left": 12,
+        "top": 364,
+        "width": 376,
+        "bottom": 637
+      },
+      "scrolls": true,
+      "scrollHeight": 968,
+      "clientHeight": 273,
+      "mapShare": 0.453125,
+      "stripBottom": 245,
+      "panelShare": 0.21875,
+      "pageScrolls": false,
+      "viewport": {
+        "width": 400,
+        "height": 800
+      }
+    },
+    "phoneLast": {
+      "inside": true,
+      "onTop": true,
+      "scrollTop": 691,
+      "id": "hh-1-child-18"
+    }
+  },
+  "screenshots": [
+    "test-results/family-twenty-names.png",
+    "test-results/family-twenty-desktop.png",
+    "test-results/family-twenty-desktop-last.png",
+    "test-results/family-twenty-phone.png"
+  ]
+}

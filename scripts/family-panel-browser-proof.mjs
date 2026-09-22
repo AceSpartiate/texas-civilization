@@ -230,7 +230,9 @@ try {
   // ---------------------------------------------------------------------------------- every name, saved without a button
   assert.equal(await page.locator('#family-panel button:not(.panel-portrait):not(.panel-icon):not(.panel-attention):not(.panel-focus):not(.panel-house):not(.panel-auto):not(#family-collapse)').count(), 0, 'the panel has a button that is not a portrait, an icon, one of the §11 controls (the "!", the star, House, auto) or §12\u2019s Hide names');
   assert.equal(await page.locator('#family-journal .name-row button, #family-name-form button').count(), 0, 'the family book still has Rename buttons');
-  const newNames = ['Asa', 'Keziah', 'Hiram', 'Delia', 'Obed', 'Minerva', 'Levi', 'Soledad', 'Jonas', 'Effie'];
+  // Twenty, because a family may now be twenty (owner, 2026-09-22: the number rolled is the family); this seed rolls fourteen.
+  const newNames = ['Asa', 'Keziah', 'Hiram', 'Delia', 'Obed', 'Minerva', 'Levi', 'Soledad', 'Jonas', 'Effie',
+    'Silas', 'Orpha', 'Enos', 'Tomasa', 'Zadok', 'Lavinia', 'Ruperto', 'Nieves', 'Hollis', 'Docia'];
   const renamed = {};
   const ids = rows.map(person => person.id);
   for (const [at, id] of ids.entries()) {

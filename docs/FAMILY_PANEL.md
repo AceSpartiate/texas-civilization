@@ -742,7 +742,15 @@ meets. The order of the five steps is the owner's and is unchanged; nothing here
 (`npm run test:creation`) refuses to pass when it finds a fault. Both read from one instrument,
 `scripts/support/creation-geometry.mjs`, so the numbers in the evidence and the numbers the gate holds to are the same
 numbers. The family is rolled from a seed whose first household rolls a **twenty** — two parents and eight children, the
-largest family the die makes — because the naming card is the one part of the wizard whose height is the family's.
+largest family the die makes — because the naming card is the one part of the wizard whose height is the family's. *Since
+the owner's roll of 2026-09-22 ([FAMILY_CREATION.md](FAMILY_CREATION.md) §2) the same seed's twenty is two parents and
+eighteen children, and `npm run test:creation` passed with all twenty boxes on the card.*
+
+> **Amended 2026-09-22 — where the column stops.** A family of twenty fills the column to its foot, and the foot was 150px
+> up, set for the bar of 48px pictures; the bar of 98px tiles (the usability pass of 2026-09-21) reaches about 195px, 235px
+> under a lesson, and the youngest children's portraits were under the father's work (`npm run test:family-panel` with its
+> seed now rolling fourteen, and `npm run test:family-twenty`). On a screen wider than 760px the column now stops at 200px,
+> 240px while a lesson is showing (`public/style.css`, `ceiling:`). A phone was already clear.
 
 ### 13.1 What was measured, and what was wrong
 

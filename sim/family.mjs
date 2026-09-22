@@ -32,7 +32,7 @@ import { appearanceOf, choicesFor, isParent, lookChosen, looksWords } from './ap
  *
  * This is the household nobody rolled: every household before a student joins, every
  * household nobody joins, and every class saved before rolling existed. A family a student
- * plays is rolled (`rolledPeople`, below) and may be one to six people.
+ * plays is rolled (`rolledPeople`, below) and is as many people as the die shows: one to twenty since 2026-09-22.
  */
 export const HOUSEHOLD_SHAPE = Object.freeze([
   { key: 'thomas', role: 'father' },
@@ -132,7 +132,8 @@ export function kinFor(householdId) {
 // ---------------------------------------------------------------- the rolled family
 //
 // Owner direction, 2026-09-12, specified in docs/FAMILY_CREATION.md: a student rolls one
-// die when joining, and the face decides the family (a twenty-sided die since 2026-09-14; the size itself before). Everything below is invented and
+// die when joining, and the face decides the family (a twenty-sided die since 2026-09-14; since 2026-09-22 the number is
+// the family's size again, as it was on six sides). Everything below is invented and
 // registered as `FIC-GONZ-021`. It is all derived from the world's seed and the household,
 // so a saved class reloads to the same family and a replay is exact, and nothing a student
 // can see predicts it.
@@ -143,6 +144,19 @@ const bell = text => (unit(`${text}:a`) + unit(`${text}:b`) + unit(`${text}:c`) 
 
 /** The die: twenty-sided since 2026-09-14 (owner). A class rolled before on a six-sided die keeps `household.die` absent. */
 export const FAMILY_DIE = 20;
+/**
+ * Which table a roll is read on. Three have been used, and a saved class keeps its own, so a family is never re-read into a
+ * different shape (no save version moved for any of them):
+ *   - `d6`, 2026-09-12 to -14: one six-sided die, the number the family's size. `household.die` absent.
+ *   - `d20-faces`, 2026-09-14 to -22: twenty sides, each face a set family (`FAMILY_FACES`). `household.die` 20, no table.
+ *   - `d20-size`, since 2026-09-22 (owner: "if i roll a 20, there should be 18 kids. if i roll a 4 it's two parents and 2
+ *     kids. each number over 4 is another kid"; and by multiple choice, "The roll is the family"): twenty sides, the number
+ *     the family's size again. `household.die` 20 and `household.rollTable` 'd20-size'.
+ */
+export const FAMILY_TABLE = 'd20-size';
+export const FAMILY_TABLES = Object.freeze(['d6', 'd20-faces', 'd20-size']);
+/** The table this household's roll is read on: its own mark, or what the die it was rolled on says. */
+export const tableOf = household => household?.rollTable ?? (household?.die === 20 ? 'd20-faces' : 'd6');
 /** A roll as it is said: "a 6", but "an 8", "an 11", "an 18". */
 /** Names in a sentence: "Marcos", "Marcos and Levi", "Marcos, Levi and Delia" - a family of eight children read "and" seven times. */
 export const listWords = names => names.length < 3 ? names.join(' and ') : `${names.slice(0, -1).join(', ')} and ${names.at(-1)}`;
@@ -150,7 +164,7 @@ export const rolledWords = roll => `${[8, 11, 18].includes(roll) ? 'an' : 'a'} $
 export const familyRoll = (seed, householdId) => 1 + (hashOf(`${seed}:${householdId}:family-roll`) % FAMILY_DIE);
 
 /**
- * What each face of the twenty-sided die makes, as [parents, children] (owner, 2026-09-14: bigger frontier families, and
+ * What each face made on the 2026-09-14 table, `d20-faces`, kept for classes rolled then, as [parents, children] (owner, 2026-09-14: bigger frontier families, and
  * fewer lone parents). One to five a lone parent with none to four children; six to twenty both parents with none to
  * eight, three to five most often. Set against the record that a white American woman bore about 6.5 children in 1830 and
  * 6.1 in 1840, a fifth of them dying in their first year, so a family still growing has three to five living and a large one
@@ -162,18 +176,22 @@ export const FAMILY_FACES = Object.freeze([
 ]);
 
 /**
- * What a roll makes. **Never explained in the game** - the owner's direction is that a
- * student sees the dice and then the family, and works out the rest or does not. `die` is 6 only for a class rolled before
- * 2026-09-14, where the number was the family's size: three or less one parent, four or more two.
+ * What a roll makes, on the table named (`tableOf` a household). **Never explained in the game** - the owner's direction is
+ * that a student sees the dice and then the family, and works out the rest or does not.
+ *
+ * On `d20-size` (now) and `d6` (the first) the number is the family: three or less one parent and the rest children, four
+ * or more both parents and the rest children - the owner's own words of 2026-09-12, "three or less leaves the family with
+ * one parent and the associated number of kids", carried up a twenty-sided die. A 20 is two parents and eighteen children.
  */
-export function compositionFor(roll, die = FAMILY_DIE) {
-  if (die === 6) {
-    if (!Number.isInteger(roll) || roll < 1 || roll > 6) throw new Error('A die shows one to six.');
-    return roll <= 3 ? { parents: 1, children: roll - 1 } : { parents: 2, children: roll - 2 };
+export function compositionFor(roll, table = FAMILY_TABLE) {
+  if (!FAMILY_TABLES.includes(table)) throw new Error(`No family table ${table}.`);
+  const most = table === 'd6' ? 6 : FAMILY_DIE;
+  if (!Number.isInteger(roll) || roll < 1 || roll > most) throw new Error(`A die shows one to ${most === 6 ? 'six' : 'twenty'}.`);
+  if (table === 'd20-faces') {
+    const [parents, children] = FAMILY_FACES[roll - 1];
+    return { parents, children };
   }
-  if (!Number.isInteger(roll) || roll < 1 || roll > FAMILY_DIE) throw new Error('A die shows one to twenty.');
-  const [parents, children] = FAMILY_FACES[roll - 1];
-  return { parents, children };
+  return roll <= 3 ? { parents: 1, children: roll - 1 } : { parents: 2, children: roll - 2 };
 }
 
 /**
@@ -209,10 +227,19 @@ export function dealTraits(seed, id, sex, age) {
  * 18. A child was born when the mother was 17 to 42 - for a lone father, a mother two years
  * younger than him - and no two children share an age. If the parents are too young for
  * that many children, the parents are older.
+ *
+ * And, since 2026-09-22, if they are too old they are younger. A roll of 20 is eighteen children, and eighteen different
+ * ages from 0 to 17, all born when the mother was 17 to 42, is only possible for a mother of 34 to 42: one child a year for
+ * eighteen years, the eldest born when she was seventeen. Past fifteen children a mother of 45 has too few years left in
+ * the window, so both parents are brought down into it by the same amount. No family on the earlier tables (eight children
+ * at most) is moved by this, so the ages dealt for those rolls are what they always were. It is the very edge of what a
+ * mother could bear and far past what one usually did (docs/FAMILY_CREATION.md §2); it is what the owner's roll makes.
  */
 export const PARENT_AGES = Object.freeze([20, 45]);
 export const MOTHER_AT_BIRTH = Object.freeze([17, 42]);
 export const CHILD_MAX_AGE = 17;
+/** The youngest a father is at a child's birth (2026-09-22). A lone father is always old enough: his children's mother is two years younger. */
+export const FATHER_AT_BIRTH = 18;
 function agesFor(seed, householdId, parents, loneSex, children) {
   let first = PARENT_AGES[0] + (hashOf(`${seed}:${householdId}:age-1`) % (PARENT_AGES[1] - PARENT_AGES[0] + 1));
   let second = parents === 2 ? clamp(first + (hashOf(`${seed}:${householdId}:age-2`) % 17) - 8, [18, PARENT_AGES[1]]) : null;
@@ -224,8 +251,25 @@ function agesFor(seed, householdId, parents, loneSex, children) {
     first += raise;
     if (second !== null) second += raise;
   }
+  // The oldest mother with room for this many different ages: her 17th to her 42nd year, cut to children of 0 to 17.
+  const oldest = MOTHER_AT_BIRTH[1] + CHILD_MAX_AGE + 1 - children;
+  if (motherOf() > oldest) {
+    const lower = motherOf() - oldest;
+    first -= lower;
+    if (second !== null) second -= lower;
+  }
   const mother = motherOf();
-  const low = Math.max(0, mother - MOTHER_AT_BIRTH[1]), high = Math.min(CHILD_MAX_AGE, mother - MOTHER_AT_BIRTH[0]);
+  const low = Math.max(0, mother - MOTHER_AT_BIRTH[1]);
+  let high = Math.min(CHILD_MAX_AGE, mother - MOTHER_AT_BIRTH[0]);
+  // And a father who was a grown man at every birth (2026-09-22). Checked only of the mother before, which a family of two
+  // or three children never showed; eighteen children to a mother of 34 and a father of 26 would have made him nine at the
+  // eldest's. Where he is too young for this many, he is the one made older - to a year older than the mother at most, so
+  // the two stay within eight years of each other.
+  if (parents === 2) {
+    const fatherHigh = first - FATHER_AT_BIRTH;
+    if (fatherHigh < high && fatherHigh - low + 1 < children) first += Math.min(high, low + children - 1) - fatherHigh;
+    high = Math.min(high, first - FATHER_AT_BIRTH);
+  }
   const possible = [];
   for (let age = low; age <= high; age++) possible.push(age);
   const kids = possible
@@ -243,8 +287,8 @@ function agesFor(seed, householdId, parents, loneSex, children) {
  * otherwise, because the historical calls are put to the principal and a lone mother is the
  * person the neighbour would ask. A lone parent is a man or a woman with equal chance.
  */
-export function rolledPeople(seed, householdId, index, roll) {
-  const { parents, children } = compositionFor(roll);
+export function rolledPeople(seed, householdId, index, roll, table = FAMILY_TABLE) {
+  const { parents, children } = compositionFor(roll, table);
   const loneSex = parents === 1 ? (hashOf(`${seed}:${householdId}:lone-parent`) % 2 ? 'female' : 'male') : null;
   const ages = agesFor(seed, householdId, parents, loneSex, children);
   const deal = nameDealer(seed);

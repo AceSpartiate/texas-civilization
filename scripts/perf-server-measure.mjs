@@ -13,7 +13,7 @@
 // server's time), and the server's own `timings` record splits each tick into step / clone / validate / save /
 // project / stringify. Event-loop delay and utilisation are the main thread's own.
 //
-// Run: node scripts/perf-server-measure.mjs [--label before] [--ticks 12] [--only solo|class] [--busy 1]
+// Run: node scripts/perf-server-measure.mjs [--label before] [--ticks 12] [--only solo|class] [--busy 1] [--rolled]
 //   --busy N   N extra threads spinning in this process while it measures - a stand-in for the browser sharing a weak
 //              laptop with the Play Solo server. Hold the whole process to two logical processors from PowerShell:
 //                $p = Start-Process node -ArgumentList 'scripts/perf-server-measure.mjs','--busy','1' -PassThru -NoNewWindow
@@ -79,7 +79,7 @@ if (isMainThread) {
   const { createClassroom } = await import('../server/app.mjs');
   const { writeSave } = await import('../server/storage.mjs');
   const { createGonzalesWorld } = await import('../sim/gonzales.mjs');
-  const { stepWorld } = await import('../sim/world.mjs');
+  const { stepWorld, rollFamily } = await import('../sim/world.mjs');
   const { beginNextPeriod, periodOf } = await import('../sim/periods.mjs');
 
   const arg = (name, fallback) => { const i = process.argv.indexOf(`--${name}`); return i >= 0 ? process.argv[i + 1] : fallback; };
@@ -87,6 +87,9 @@ if (isMainThread) {
   const TICKS = Number(arg('ticks', 12));
   const only = arg('only', null);
   const busy = Number(arg('busy', 0));
+  // --rolled: every family rolled as a class's Start rolls it (2026-09-22: the number is the family, one to twenty people), so the
+  // world holds about ten and a half people a family instead of the founding four.
+  const rolled = process.argv.includes('--rolled');
   const round = value => Math.round(value * 100) / 100;
   const mean = list => list.length ? list.reduce((a, b) => a + b, 0) / list.length : 0;
   const hash = value => createHash('sha256').update(value).digest('hex');
@@ -96,6 +99,7 @@ if (isMainThread) {
   /** One world, played forward by the simulation alone, captured at four points in the game. */
   function checkpoints(families) {
     const world = createGonzalesWorld(`perf-${families}`, families, { map: 'colonies', neighbours: true });
+    if (rolled) for (const household of Object.values(world.households)) rollFamily(world, household);
     world.status = 'running';
     const taken = [];
     const take = name => taken.push({ name, tick: world.tick, period: periodOf(world), world: structuredClone(world) });
@@ -184,7 +188,7 @@ if (isMainThread) {
     const part = key => round(mean(ticks.map(r => r[key] || 0)));
     const total = ticks.map(r => partsOf(r).reduce((a, b) => a + b, 0));
     const result = {
-      scenario, point: point.name, worldTick: point.tick, families, students, host,
+      scenario, point: point.name, worldTick: point.tick, families, students, host, people: Object.values(point.world.entities).filter(entity => entity.kind === 'person' && entity.householdId && entity.health?.condition !== 'dead').length,
       tickMs, ticks: ticks.length,
       // Before 2026-09-17's change a commit cloned the class (`clone`) and `save` serialised and wrote it; after, it is
       // serialised once (`serialise`) and `save` is the write and fsync alone.
@@ -200,7 +204,7 @@ if (isMainThread) {
     return result;
   }
 
-  const machine = { cpu: cpus()[0].model, logicalProcessors: cpus().length, node: process.version, busyThreads: busy, affinityNote: process.env.PERF_AFFINITY || null };
+  const machine = { cpu: cpus()[0].model, logicalProcessors: cpus().length, node: process.version, busyThreads: busy, rolled, affinityNote: process.env.PERF_AFFINITY || null };
   console.log(JSON.stringify(machine));
   const results = [];
   for (const [scenario, families, students, host, tickMs] of [['solo', 15, 1, true, 1000], ['class', 30, 30, true, 1500]]) {
