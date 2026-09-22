@@ -103,6 +103,15 @@
     <!-- Something happened that most of the class would miss: the Host's camera has gone there, and this says what. -->
     <div id="host-spotlight" role="status" hidden><span id="host-spotlight-date"></span><span id="host-spotlight-text"></span><button type="button" id="host-spotlight-back">Whole class</button></div>
     <p id="panel-tip" role="tooltip" hidden><span id="panel-tip-name"></span><span id="panel-tip-summary"></span><span id="panel-tip-note"></span></p>
+    <section id="military-notice" hidden aria-label="Messages and military service">
+      <button type="button" id="military-toggle" aria-expanded="true" aria-controls="military-message">Messages</button>
+      <div id="military-message">
+        <strong id="military-title"></strong>
+        <p id="military-words" role="status"></p>
+        <button type="button" id="military-go"></button>
+        <button type="button" id="military-next">Next message</button>
+      </div>
+    </section>
     <div id="hud-right" class="hud">
       <span id="connection" role="status"></span>
       <nav id="host-controls" aria-label="Teacher controls" hidden>

@@ -17,7 +17,18 @@
 // is exactly what a faster calendar should compress.
 
 /** One tick of a person's own time, the same in every phase. Effort is paid in these. */
+import { militaryMinutes } from './military-pacing.mjs';
 export const TICK_MINUTES = 20;
+
+// Movement, encounters and the director must use the SAME calendar interval during
+// a tick, even when that tick lands on a pacing boundary. Never serialized.
+const runningSteps = new WeakMap();
+export function withCalendarStep(world, minutes, advance) {
+  const previous = runningSteps.get(world);
+  runningSteps.set(world, minutes);
+  try { return advance(); }
+  finally { if (previous === undefined) runningSteps.delete(world); else runningSteps.set(world, previous); }
+}
 
 /**
  * Minutes of 1835 that one tick stands for, by the phase the class is in, against the
@@ -56,9 +67,10 @@ export const dateOf = (world, minute) => new Date((world.director?.arrival ? Dat
  * boundaries are moments of news rather than moments a student is watching.
  */
 export function calendarMinutes(world) {
+  if (runningSteps.has(world)) return runningSteps.get(world);
   if (!world?.map?.source) return TICK_MINUTES;
-  if (deciding(world)) return TICK_MINUTES;
-  return CALENDAR_SCALE[world.director?.phase] || TICK_MINUTES;
+  const proposed = deciding(world) ? TICK_MINUTES : CALENDAR_SCALE[world.director?.phase] || TICK_MINUTES;
+  return militaryMinutes(world, proposed);
 }
 
 /**

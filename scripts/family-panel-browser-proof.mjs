@@ -136,6 +136,12 @@ try {
   // section spent thirty seconds waiting on an element that cannot exist. What it is about is the words in the popup,
   // which belong to whichever row carries the bar.
   const father = await page.evaluate(() => document.querySelector('.panel-row[data-focused=true]')?.dataset.entityId);
+  const labels = await page.locator('.panel-row[data-focused=true] .panel-icon').evaluateAll(buttons => buttons.map(button => {
+    const label = button.querySelector('.panel-action-name');
+    return { name: button.dataset.name, text: label?.textContent, height: label?.getBoundingClientRect().height || 0 };
+  }));
+  assert.ok(labels.length > 0 && labels.every(label => label.text?.includes(label.name) && label.height > 0), 'every action needs a visible name without hover');
+  ok('every action has a readable name without hovering, including unavailable actions');
   assert.ok(father, 'no row carries the bar, so there is no icon on this screen to hover');
   const fatherIcon = page.locator(`.panel-row[data-entity-id="${father}"] .panel-icon[data-key="rest"]`);
   const hisKeys = await page.evaluate(id => [...document.querySelectorAll(`.panel-row[data-entity-id="${id}"] .panel-icon`)].map(one => one.dataset.key), father);
@@ -195,6 +201,11 @@ try {
 
   // --------------------------------------------------------------------------------- the portrait takes the camera there
   const youngest = rows.at(-1).id;
+  const otherAdult = rows[0].id;
+  await page.locator(`.panel-portrait[data-portrait="${otherAdult}"]`).click();
+  await page.waitForFunction(id => (window.__snapshot.world.household.mainId || window.__snapshot.world.household.principalId) === id, otherAdult, { timeout: 4000 });
+  assert.equal(await page.locator('.panel-row[data-focused=true]').getAttribute('data-entity-id'), otherAdult, 'one portrait click must also select the action bar');
+  ok('one click selects an adult, their action bar and their map location together');
   // Back out first. Choosing the practising worker as the main person (§12: their work has to be on the screen to be
   // pressed) took the camera to them and zoomed it to the stop, and a camera already at the stop cannot zoom in again.
   for (let step = 0; step < 4; step++) await page.locator('#map-nav [data-view=out]').click();
@@ -345,6 +356,7 @@ try {
   const second = ids[1];
   await small.locator(`.panel-portrait[data-portrait="${second}"]`).click();
   await small.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"]`)?.dataset.expanded === 'true', second);
+  await small.waitForFunction(id => document.querySelector('.panel-row[data-focused=true]')?.dataset.entityId === id, second);
   await small.waitForTimeout(500);
   await small.screenshot({ path: 'test-results/family-panel-phone-open.png' });
   ok('on a phone, pressing another portrait opens that person’s row');

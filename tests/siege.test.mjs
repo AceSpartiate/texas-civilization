@@ -41,7 +41,10 @@ const siege = () => shared ??= (() => {
   const seen = { camps: {}, cards: {}, phase: {}, story: {} };
   for (const [key, camp] of [['siege', 'above'], ['to-concepcion', 'concepcion'], ['united', 'mill']]) {
     untilMinute(world, momentOf(world, key) + 1);
-    stepWorld(world);
+    // Slower military travel makes the intervening walk visible. Wait for actual
+    // arrival, not the old assumption that every camp change finishes in one tick.
+    until(world, () => world.army.camp === SIEGE_CAMPS[camp].name);
+    assert.ok(world.minute < momentOf(world, { above: 'to-concepcion', concepcion: 'united', mill: 'storm-order' }[camp]), 'the army missed its camp before the next order');
     seen.camps[camp] = { camp: world.army.camp, x: world.army.x, y: world.army.y };
   }
   seen.clothing = { furloughs: structuredClone(world.army.furloughs || {}), members: world.army.members.length };

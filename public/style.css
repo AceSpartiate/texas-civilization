@@ -267,8 +267,7 @@ button:hover:enabled{background:#60673e}
 #lesson-help:empty{display:none}
 #lesson-action{margin-top:7px;background:#704020;color:#fff9e9;padding:8px 12px;min-height:40px;border-radius:5px}
 /* Teach the vocabulary without requiring a hover over unfamiliar pictures. */
-body[data-lesson=true] .panel-icon[data-pointed=true]::before,body[data-lesson=true] .panel-icon[data-active=true]::before{content:attr(data-name);position:absolute;top:100%;left:50%;transform:translateX(-50%);font-size:10px;line-height:1.15;width:68px;text-align:center;color:#fff9e9;background:#30291feb;border-radius:3px;padding:2px;pointer-events:none}
-body[data-lesson=true] .panel-icon[data-shut=true]::before{display:none}
+/* Action names now live inside every button, including outside the tutorial. */
 #lesson-pips{display:flex;gap:3px;margin-top:7px}
 .lesson-pip{flex:1 1 0;height:4px;border-radius:2px;background:#d8c8a2}
 .lesson-pip[data-done=true]{background:#c2582c}
@@ -632,13 +631,8 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 /* Only the main person's group is drawn, so everybody else's reason cannot live inside it. It has a line of its own in
    `.panel-body` now - `.panel-why` below, owner 2026-09-21, after a class asked why a child had nothing. */
 .panel-row:not([data-focused=true]) .panel-icons{display:none}
-/* **One row, always.** It wrapped to a second line until 2026-09-21, and a 58rem cap made it wrap at nineteen icons: a
-   student saw two bars, three icons floating above the other sixteen, which is the opposite of one bar bottom middle.
-   So the row never wraps, it may use the whole width of the screen bar a gutter, and the icons give up a little size
-   before anything else does - `flex: 0 1 48px` with a floor, squares by `aspect-ratio` so they shrink evenly.
-   ceiling: past about thirty-three icons on one person the floor is reached and the row would run off the screen edge at
-   1366 px. The longest row this game deals is a principal's twenty-one. The way out is to scroll the row sideways as a
-   phone does, which wants the caret moved out of the scrolling box first. */
+/* One action row. The usability rules at the end add readable labels and bounded
+   horizontal scrolling rather than shrinking unfamiliar icons. */
 .panel-row[data-focused=true] .panel-icons{position:fixed;z-index:9;left:50%;bottom:74px;transform:translateX(-50%);
   display:flex;flex-wrap:nowrap;justify-content:center;align-items:flex-end;gap:8px;width:max-content;max-width:calc(100vw - 24px)}
 /* While a lesson names the icons underneath them, the bar rides 30px higher: the name drawn under the rightmost icons
@@ -785,6 +779,36 @@ body[data-creating=true] #family-roll,body[data-creating=true] #surname,body[dat
   #creation-begin{bottom:6vh;width:calc(100% - 20px)}
   .names-row{grid-template-columns:1fr;gap:2px}
 }
+
+
+/* Usability, 2026-09-21: readable actions on mouse, keyboard and touch. Keep one
+   bounded row; never shrink pictures into anonymous targets. Overflow is scrollable
+   from its first item, and focus/lesson navigation can reveal any later item. */
+.panel-row[data-focused=true] .panel-icons{justify-content:flex-start;align-items:stretch;overflow-x:auto;overflow-y:hidden;pointer-events:auto;padding:17px 5px 8px;scrollbar-width:thin;scrollbar-color:#b09a6d #30291f;bottom:64px;margin-bottom:0}
+.panel-icons .panel-icon{flex:0 0 76px;width:76px;min-width:76px;aspect-ratio:auto;display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px;min-height:98px}
+.panel-icons .panel-icon canvas{width:38px;height:38px;flex:none}
+.panel-action-name{display:block;font-size:11px;line-height:1.2;text-align:center;color:#362d20;overflow-wrap:anywhere;pointer-events:none}
+.panel-icon[aria-disabled=true]{opacity:.65}
+.panel-icon[data-shut=true]{opacity:.45}
+@media(max-width:760px){.panel-row[data-focused=true] .panel-icons{bottom:43px;padding-bottom:8px;margin-bottom:0}}
+/* Refused work keeps readable lettering; the picture and border show its state. */
+.panel-icon[aria-disabled=true],.panel-icon[data-shut=true]{opacity:1;filter:none;background:#d8d0b8;border-color:#93886d;box-shadow:none}
+.panel-icon[aria-disabled=true] canvas{opacity:.4;filter:grayscale(.7)}
+.panel-icon[data-active=true]{background:#fff3c4;border-color:#f0b43a}
+
+/* Nonblocking dispatch invitation: never changes the camera until the player accepts. */
+#military-notice{position:absolute;z-index:16;right:12px;width:min(330px,calc(100vw - 24px));padding:10px;background:#fff5dc;color:#3d3020;border:1px solid #987849;border-left:5px solid #a9532d;border-radius:7px;box-shadow:0 5px 18px #30291f44;font-size:13px;line-height:1.4}
+#military-notice button{min-height:36px;font-size:12px}
+#military-toggle{display:block;margin:0 0 4px auto;background:transparent;color:#65482b;border:1px solid #bca77d}
+#military-title{display:block;font-family:Georgia,serif;font-size:18px}
+#military-words{margin:6px 0 10px}
+#military-go{background:#704020;color:#fff9e9}
+#military-next{background:transparent;color:#604727;border:1px solid #bca77d}
+@media(max-width:760px){#military-notice{right:8px;width:auto;left:8px;box-sizing:border-box}}
+/* The card yields to a dialog the student has open: it points at a question, it never sits on one. A rider already
+   being listened to needs no invitation. The land choosers are not hidden behind: the card stands below them instead
+   (renderMilitaryNotice), since a family can leave a chooser open for days and must still be told. */
+body:has(#encounter:not([hidden])) #military-notice,body:has(#call-menu:not([hidden])) #military-notice{display:none}
 
 /* Two moments that take the screen from the family's own furniture (owner, 2026-09-22; renderScreenMoments in app.js).
    While a rider talks the ability bar is not drawn: the meeting and the bar wanted the same bottom middle, 520x48px of it

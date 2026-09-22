@@ -198,7 +198,7 @@ export function tellFall(world, households) {
     if (person.service.fate === 'fell') {
       Object.assign(person.service, { status: 'fell', besieged: false });
       person.health = { condition: 'dead' }; person.task = 'rest'; person.chore = null;
-      tell(world, person, `${person.name} was killed when the Alamo was stormed at dawn on March 6. No man inside the walls lived.`, { claimId: 'HIST-TEX-058' });
+      tell(world, person, `${person.name} was killed when the Alamo was stormed at dawn on March 6. The garrison was overwhelmed.`, { claimId: 'HIST-TEX-058' });
     } else {
       tell(world, person, `${person.name} was among the women spared when the Alamo fell, and was let go with Mrs. Dickinson.`, { claimId: 'HIST-TEX-058' });
     }

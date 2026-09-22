@@ -6,7 +6,7 @@ import { advanceNeighbours } from './neighbours.mjs';
 import { record } from './events.mjs';
 import { reportsFor, deliverReports } from './knowledge.mjs';
 import { advanceRoutine } from './routines.mjs';
-import { calendarMinutes } from './clock.mjs';
+import { calendarMinutes, withCalendarStep } from './clock.mjs';
 import { awayProjection, milesATick, roadTicksFor, tooFastToFollow } from './sight.mjs';
 import { advanceDirectors, handleChoice, handleMarch, handleRumor, directorProjection } from './directors.mjs';
 import { abandonChore, advanceChores, answerChore, askProjection, beginChore, CHORES, choresFor, skillsFor, SKILL_CAP, toolState } from './chores.mjs';
@@ -563,6 +563,7 @@ export function stepWorld(world) {
   // One tick of everybody's own time; on the real land the calendar it carries can be
   // longer than the twenty minutes of work in it (sim/clock.mjs, docs/COLONIES.md §5.7).
   const calendar = calendarMinutes(world);
+  return withCalendarStep(world, calendar, () => {
   world.tick++; world.minute += calendar;
   for (const entity of Object.values(world.entities)) progressTravel(world, entity);
   // A family whose last wagon wheel came in off the road this tick has arrived.
@@ -604,6 +605,7 @@ export function stepWorld(world) {
   advanceLessons(world);
   // Families nobody plays decide last, from what the tick has left them able to see, through the actions a student sends.
   advanceNeighbours(world, { project: id => projectWorld(world, id, 'student', { includeMap: false }), apply: (id, input) => applyAction(world, id, input) });
+  });
 }
 /**
  * Where this rider stops and somebody else takes the word on.

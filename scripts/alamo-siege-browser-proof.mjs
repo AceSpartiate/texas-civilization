@@ -11,6 +11,7 @@
 //
 // Same computer only: headless Chrome. Run: npm run test:alamo-siege
 import assert from 'node:assert/strict';
+import { meetFamily } from './support/meet-family.mjs';
 import { createRequire } from 'node:module';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { createClassroom } from '../server/app.mjs';
@@ -59,6 +60,7 @@ try {
   await student.locator('[name=code]').fill(app.state.sessionCode);
   await student.getByRole('button', { name: 'Join', exact: true }).click();
   await student.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
+  await meetFamily(student);
   for (let i = 2; i <= 5; i++) {
     const response = await fetch(`${url}/api/join`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: `Reader ${i}`, code: app.state.sessionCode }) });
     assert.equal(response.status, 200);
@@ -75,12 +77,20 @@ try {
   observed.row = await student.evaluate(() => [...document.querySelectorAll('.panel-reason')].map(one => one.textContent).find(text => /shut in the Alamo/.test(text)));
   assert.equal(await student.locator(`.panel-icon[data-entity-id="${father.id}"]:not([aria-disabled="true"])`).count(), 0, 'somebody shut in the Alamo has an order they can be given');
   ok(`${father.name}'s row gives no order and says why: "${observed.row}"`);
+  await student.locator('#military-notice').waitFor({ state: 'visible', timeout: 4000 });
+  assert.match(await student.locator('#military-title').innerText(), /Inside the Alamo/);
+  await student.locator('#military-go').click();
+  await student.waitForFunction(id => document.querySelector('#selection')?.dataset.entityId === id, father.id);
+  assert.equal(app.state.world.entities[father.id].service.courier, undefined, 'looking in must not volunteer');
+  ok('the siege invitation opens the right person without choosing service for them');
 
-  // The day riders go out: a "!" on the row opens the card at Travis's question.
+  // The day riders go out: the dispatch invitation reopens and leads to the live question.
   const attention = student.locator(`[data-attention="${father.id}"]`);
   await attention.waitFor({ state: 'visible', timeout: 120000 });
   // The "!" bobs, so it is pressed where it is rather than waited on to stand still.
-  await attention.click({ force: true });
+  await student.waitForFunction(() => document.querySelector('#military-title')?.textContent === 'A call for riders at the Alamo');
+  assert.equal(await student.locator('#military-toggle').getAttribute('aria-expanded'), 'true', 'a new request should reopen the invitation');
+  await student.locator('#military-go').click();
   const offer = student.locator('#selection-work [data-action="alamo-courier"][data-answer="volunteer"]');
   await offer.waitFor({ state: 'visible', timeout: 15000 });
   observed.card = (await student.locator('#selection-work').innerText()).replace(/\s+/g, ' ').trim();
@@ -88,18 +98,23 @@ try {
   assert.match(observed.card, /Travis wants riders/);
   assert.doesNotMatch(observed.card, /kill|die|death|danger|risk/i, 'the question says what an answer risks');
   await student.screenshot({ path: 'docs/evidence/alamo-siege-courier.png' });
-  ok(`the "!" opens the card at Travis's question: "${observed.card}"`);
+  ok(`the dispatch invitation opens the card at Travis's question: "${observed.card}"`);
 
   await offer.click();
   await student.waitForFunction(() => !document.querySelector('#selection-work [data-action="alamo-courier"]'), null, { timeout: 15000 });
   assert.equal(app.state.world.entities[father.id].service.courier, 'volunteered');
+  assert.notEqual(await student.locator('#military-title').textContent(), 'A call for riders at the Alamo');
   await student.waitForFunction(id => !document.querySelector(`[data-attention="${id}"]:not([hidden])`), father.id, { timeout: 15000 });
   ok('offering to ride out is taken by the server, and the "!" goes');
 
   await student.setViewportSize({ width: 400, height: 860 });
+  await student.locator('#military-toggle').click();
   await student.waitForTimeout(600);
   const overflow = await student.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   assert.ok(overflow <= 1, `the page scrolls sideways at phone width by ${overflow}px`);
+  const noticeBox = await student.locator('#military-notice').boundingBox();
+  assert.ok(noticeBox.x >= 0 && noticeBox.x + noticeBox.width <= 400, 'message invitation overflows the phone');
+  await student.screenshot({ path: 'docs/evidence/alamo-siege-phone.png' });
   ok('at phone width the page does not scroll sideways');
 
   assert.deepEqual(errors, [], `a page threw: ${errors.join(' | ')}`);
@@ -108,7 +123,7 @@ try {
     record: 'The siege of the Alamo, in a browser: docs/COLONIES.md §7f, build step 9',
     date: new Date().toISOString().slice(0, 10), verdict: 'PASS',
     note: 'Same computer only. A real class on the colonies map with rolled families, played in process through the first period and into the winter, hh-1\'s father set in the garrison at Béxar in process, and run to just after February 23; then served live: a student saw the row shut, pressed the "!" on the day riders went out, and offered to ride. No LAN or district claim.',
-    checks: pass, observed, screenshots: ['docs/evidence/alamo-siege-courier.png'],
+    checks: pass, observed, screenshots: ['docs/evidence/alamo-siege-courier.png', 'docs/evidence/alamo-siege-phone.png'],
   }, null, 2)}\n`);
   console.log(`\n${pass.length} checks passed.`);
 } finally {

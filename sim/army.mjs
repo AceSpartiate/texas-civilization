@@ -568,6 +568,8 @@ export const SIEGE_CAMPS = Object.freeze({
 export function moveCamp(world, key) {
   const army = world.army, bexar = world.map.sites[OBJECTIVE], camp = SIEGE_CAMPS[key];
   if (!army?.road || !bexar || !camp) return;
+  // An order starts a journey; it is not an arrival or a free half-day of marching.
+  army.camp = null; army.leftMinute = world.minute;
   const from = { x: army.x, y: army.y }, to = { x: bexar.x + camp.dx, y: bexar.y + camp.dy };
   // Somebody who leaves the army from here starts home from the last place it passed, as on the march.
   const at = lastPlacePassed(world);
