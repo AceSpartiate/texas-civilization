@@ -13,7 +13,7 @@
     "hovering an icon shows a small popup with one sentence: \"Rest\" - \"Sit still at home, which is the only thing that mends tiredness.\"",
     "focusing an icon from the keyboard shows the same popup, and Escape puts it away",
     "pressing \"Practise at the mark\" sets hh-1-parent-2 to it on the server, and its icon glows",
-    "it glowed through the practice (11 samples) and went out when the server said it was done (powder 3 to 1)",
+    "it glowed through the practice (14 samples) and went out when the server said it was done (powder 3 to 1)",
     "one click selects an adult, their action bar and their map location together",
     "pressing a portrait moves the camera onto that person and zooms in (scale 678 to 2605, 0.000 miles off)",
     "all 14 names changed in place and saved themselves - left by Tab, and the last by a pause in typing: Asa, Keziah, Hiram, Delia, Obed, Minerva, Levi, Soledad, Jonas, Effie, Silas, Orpha, Enos, Tomasa",
@@ -51,7 +51,7 @@
     },
     "glow": {
       "worker": "hh-1-parent-2",
-      "samplesGlowingWhileBusy": 11,
+      "samplesGlowingWhileBusy": 14,
       "powderBefore": 3,
       "powderAfter": 1
     },
@@ -71,19 +71,19 @@
     "phone": {
       "panel": {
         "x": 12,
-        "y": 382.484375,
+        "y": 381.484375,
         "width": 376,
         "height": 255
       },
       "openRows": 1,
       "columnRight": 56,
       "openRow": {
-        "y": 390,
+        "y": 389,
         "height": 44
       },
-      "stripBottom": 263,
+      "stripBottom": 262,
       "sampled": 192,
-      "mapShare": 0.453125,
+      "mapShare": 0.4479166666666667,
       "strays": [],
       "bar": {
         "points": 48,

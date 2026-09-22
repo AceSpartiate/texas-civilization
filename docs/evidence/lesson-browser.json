@@ -35,7 +35,7 @@
     "\"Yes, stop it\" sends stop-lesson once; the strip goes, the snapshot carries no lesson, nothing on the bar is shut, and the old walk-through is not offered instead",
     "at 1366x768 \"Resume tutorial\" is 119x36px at 1235,10, on the screen, reachable, and on nothing else",
     "at 1024x768 \"Resume tutorial\" is 119x36px at 893,10, on the screen, reachable, and on nothing else",
-    "an order the step refused (hunt-timber) is accepted after the X, and the server's glow comes back on it",
+    "an order the step refused (plant-field) is accepted after the X, and the server's glow comes back on it",
     "after a reload the strip stays gone and the server sends no lesson",
     "after a reload \"Resume tutorial\" is still there, with the same window: the server holds it, not the page",
     "\"Resume tutorial\" sends resume-lesson once; the strip is back on the same step (house) and the bar is shut again",
@@ -469,11 +469,11 @@
         "cut-bee-tree"
       ],
       "asks": "Stop the guided start? You won’t be walked through the rest. For five minutes, a “Resume tutorial” button can bring it back.",
-      "acceptedAfter": "hunt-timber"
+      "acceptedAfter": "plant-field"
     },
     "resume": {
-      "until": 1790093107238,
-      "msWhenStopped": 299943,
+      "until": 1790097459321,
+      "msWhenStopped": 299982,
       "chromebook": {
         "size": [
           119,

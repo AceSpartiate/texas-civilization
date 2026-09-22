@@ -555,7 +555,7 @@
               "control": "#reports",
               "label": "Read what Silas Roe said",
               "box": {
-                "x": 1873,
+                "x": 1866,
                 "y": 963,
                 "w": 139,
                 "h": 44
@@ -726,7 +726,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 184,
+                "y": 182,
                 "w": 32,
                 "h": 32
               },
@@ -762,7 +762,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 237,
+                "y": 235,
                 "w": 32,
                 "h": 32
               },
@@ -822,7 +822,7 @@
               "control": "#reports",
               "label": "Read what Silas Roe said",
               "box": {
-                "x": 1860,
+                "x": 1873,
                 "y": 963,
                 "w": 139,
                 "h": 44
@@ -1672,7 +1672,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 182,
+                "y": 185,
                 "w": 32,
                 "h": 32
               },
@@ -1708,7 +1708,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 235,
+                "y": 238,
                 "w": 32,
                 "h": 32
               },
@@ -2017,7 +2017,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 183,
+                "y": 182,
                 "w": 32,
                 "h": 32
               },
@@ -2053,7 +2053,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 236,
+                "y": 235,
                 "w": 32,
                 "h": 32
               },
@@ -2153,7 +2153,7 @@
               "control": "#reports",
               "label": "Read what Silas Roe said",
               "box": {
-                "x": 1860,
+                "x": 1873,
                 "y": 963,
                 "w": 139,
                 "h": 44
@@ -2315,7 +2315,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 223,
+                "y": 222,
                 "w": 32,
                 "h": 32
               },
@@ -2422,7 +2422,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 276,
+                "y": 275,
                 "w": 32,
                 "h": 32
               },
@@ -3083,7 +3083,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 300,
+                "y": 303,
                 "w": 30,
                 "h": 30
               },
@@ -3092,7 +3092,8 @@
               "blocked": 5,
               "centreBlockedBy": "#call-menu-text",
               "by": [
-                "#call-menu-text"
+                "#call-menu-text",
+                "#call-menu"
               ]
             },
             {
@@ -3118,7 +3119,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 348,
+                "y": 351,
                 "w": 30,
                 "h": 30
               },
@@ -3128,7 +3129,7 @@
               "centreBlockedBy": "#call-menu-rows",
               "by": [
                 "#call-menu-rows",
-                "#call-menu-how"
+                "#call-menu"
               ]
             },
             {
@@ -3773,9 +3774,8 @@
               "blocked": 4,
               "centreBlockedBy": null,
               "by": [
-                "#family-collapse",
-                "#family-rows",
-                "#world-map"
+                "#world-map",
+                "#selection"
               ]
             },
             {
@@ -3793,7 +3793,7 @@
               "centreBlockedBy": null,
               "by": [
                 "#selection-name",
-                "#selection-head"
+                "#selection"
               ]
             },
             {
