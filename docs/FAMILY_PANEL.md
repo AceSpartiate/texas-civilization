@@ -998,3 +998,15 @@ checks in the browser proof.
 `node scripts/panel-silence-browser-proof.mjs --inject` — **3 of 3 caught**,
 [docs/evidence/panel-silence-screen-injections.json](evidence/panel-silence-screen-injections.json).
 Claims `FIC-GONZ-310` to `-312`.
+
+
+## Usability amendment — 2026-09-21
+
+The owner's subsequent request grants freedom to improve usability. This supersedes the icon-only and double-click selection details above:
+
+- One portrait click (or keyboard activation) selects an eligible family member as main, opens their card, follows them, and switches the action bar. The star remains a shortcut. No chore starts from selection.
+- Young children, dead and captured members remain viewable without sending an invalid `set-main` command. Their existing card and restrictions remain; viewing them does not replace the main person.
+- Every action button contains its name. Current work begins with **Now:** and retains its glow. Unavailable work keeps readable text, with a muted picture; pressing it still explains the server's refusal.
+- The bar remains one horizontally scrollable row with stable-size targets. Keyboard focus and the lesson locator reveal offscreen actions. A phone conversation reserves the measured bar height, so its last answer is not covered.
+
+No save, simulation, historical information, or progression rules changed. The bar can still be lengthy: grouping actions is a future usability task, particularly alongside young children's card-only work.

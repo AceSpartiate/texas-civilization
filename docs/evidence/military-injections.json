@@ -1,0 +1,138 @@
+{
+  "date": "2026-09-22",
+  "note": "Same computer only. Each mutation applied by a load hook in a child process; the whole test file runs and exactly the named test must fail.",
+  "caught": 13,
+  "of": 13,
+  "checks": [
+    {
+      "name": "ownership",
+      "file": "public/military-attention.js",
+      "testFile": "tests/military-attention.test.mjs",
+      "expected": "military invitations expose only the owning household",
+      "failed": [
+        "military invitations expose only the owning household and no sealed outcome"
+      ],
+      "detected": true
+    },
+    {
+      "name": "report-leak",
+      "file": "public/military-attention.js",
+      "testFile": "tests/military-attention.test.mjs",
+      "expected": "a real rider invitation withholds",
+      "failed": [
+        "a real rider invitation withholds its message until the player listens"
+      ],
+      "detected": true
+    },
+    {
+      "name": "priority",
+      "file": "public/military-attention.js",
+      "testFile": "tests/military-attention.test.mjs",
+      "expected": "an Alamo decision precedes",
+      "failed": [
+        "an Alamo decision precedes a passive siege reminder and closes with the projected question"
+      ],
+      "detected": true
+    },
+    {
+      "name": "army-request",
+      "file": "public/military-attention.js",
+      "testFile": "tests/military-attention.test.mjs",
+      "expected": "army and Houston requests",
+      "failed": [
+        "army and Houston requests have distinct queue entries"
+      ],
+      "detected": true
+    },
+    {
+      "name": "auto-person",
+      "file": "sim/military-pacing.mjs",
+      "testFile": "tests/military-pacing.test.mjs",
+      "expected": "a live Alamo courier choice",
+      "failed": [
+        "a live Alamo courier choice gets reading time, not half-day campaign ticks"
+      ],
+      "detected": true
+    },
+    {
+      "name": "absent-family",
+      "file": "sim/military-pacing.mjs",
+      "testFile": "tests/military-pacing.test.mjs",
+      "expected": "a played military journey slows",
+      "failed": [
+        "a played military journey slows, while quiet camp and absent families stay compressible"
+      ],
+      "detected": true
+    },
+    {
+      "name": "boundary",
+      "file": "sim/military-pacing.mjs",
+      "testFile": "tests/military-pacing.test.mjs",
+      "expected": "lands on its next historical boundary",
+      "failed": [
+        "an attended military scene lands on its next historical boundary instead of skipping it"
+      ],
+      "detected": true
+    },
+    {
+      "name": "tick-clock",
+      "file": "sim/clock.mjs",
+      "testFile": "tests/military-pacing.test.mjs",
+      "expected": "all movement in a boundary tick",
+      "failed": [
+        "all movement in a boundary tick uses its original interval, and the transient clock never survives errors"
+      ],
+      "detected": true
+    },
+    {
+      "name": "jump-guard",
+      "file": "sim/time.mjs",
+      "testFile": "tests/military-pacing.test.mjs",
+      "expected": "quiet-time skipping refuses",
+      "failed": [
+        "quiet-time skipping refuses an unanswered military choice or an attended military journey"
+      ],
+      "detected": true
+    },
+    {
+      "name": "quiet-camp",
+      "file": "sim/military-pacing.mjs",
+      "testFile": "tests/military-pacing.test.mjs",
+      "expected": "an army still tagged marching",
+      "failed": [
+        "an army still tagged marching but halted in camp is quiet time, not a moving journey"
+      ],
+      "detected": true
+    },
+    {
+      "name": "released-courier",
+      "file": "sim/military-pacing.mjs",
+      "testFile": "tests/military-pacing.test.mjs",
+      "expected": "a chosen courier leaving the Alamo",
+      "failed": [
+        "a chosen courier leaving the Alamo and a recalled volunteer retain journey pacing after release"
+      ],
+      "detected": true
+    },
+    {
+      "name": "camp-arrival",
+      "file": "sim/army.mjs",
+      "testFile": "tests/military-pacing.test.mjs",
+      "expected": "a camp order starts a visible journey",
+      "failed": [
+        "a camp order starts a visible journey: it is neither an arrival nor a free tick of marching"
+      ],
+      "detected": true
+    },
+    {
+      "name": "camp-free-tick",
+      "file": "sim/army.mjs",
+      "testFile": "tests/military-pacing.test.mjs",
+      "expected": "a camp order starts a visible journey",
+      "failed": [
+        "a camp order starts a visible journey: it is neither an arrival nor a free tick of marching"
+      ],
+      "detected": true
+    }
+  ]
+}

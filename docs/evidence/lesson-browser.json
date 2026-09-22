@@ -1,7 +1,7 @@
 {
   "record": "lesson-browser",
-  "date": "2026-09-21",
-  "browser": "152.0.7977.83",
+  "date": "2026-09-22",
+  "browser": "153.0.8010.53",
   "screen": {
     "width": 1366,
     "height": 768
@@ -9,7 +9,7 @@
   "task": "The owner after the class of 2026-09-21: the UI covered too much of a Chromebook screen; a character’s abilities are hidden unless they are the main one and sit bottom middle, spaced out; and the tutorial is an integrated, forced, one-task-at-a-time part of the game.",
   "environment": "Same computer: a local classroom server and headless Chrome at 1366x768. Not a physical LAN, a Chromebook, a classroom or a touch screen.",
   "checks": [
-    "the main person's work is one row bottom middle at 1366x768: 19 icons on 1 line, centred at 683, 104px up, 8px apart, 48px each, 4.8% of the screen",
+    "the main person's work is one row bottom middle at 1366x768: 19 icons on 1 line, centred at 683, 104px up, 8px apart, 76px each, 15.7% of the screen",
     "a person who is not the main one has no work on the screen",
     "the star moves the bar: it is now hh-1-parent-2's 19 icons, still centred at 683",
     "the server's own lesson is on the screen: \"STEP 2 OF 10 - Put somebody to work\"",
@@ -24,9 +24,10 @@
     "the bar is still a row of buttons in reading order, each named and each showing its sentence on focus: \"Survey ten acres. Walk out to a place you choose on your lan…\"",
     "folded, the column is 102px instead of 312px and the bar is untouched (21 icons)",
     "the guided start keeps off the family's column at 1366 and at 1024, where it used to cover the father's star",
-    "the bar leaves 46px under it for the names it draws, clear of the map's own buttons (longest: \"Buy furniture from the carpenter\")",
+    "all action names fit inside their buttons, clear of map navigation",
     "the house panel dims the family behind it, says \"Your family is behind this. Close it when you want to give somebody an order.\", keeps the step on screen, and the dim closes it",
     "completion is visible and releases tutorial locks",
+    "on a phone the conversation answers stay above the action bar",
     "the guide fits a 390px phone viewport",
     "no page errors anywhere in the run"
   ],
@@ -34,13 +35,13 @@
     "bar": {
       "entityId": "hh-1-parent-1",
       "centre": 683,
-      "width": 1056,
+      "width": 1342,
       "fromBottom": 104,
       "rows": 1,
       "count": 19,
       "smallestGap": 8,
-      "iconSize": 48,
-      "share": 4.8,
+      "iconSize": 76,
+      "share": 15.7,
       "groupsOnScreen": 1
     },
     "otherPeopleIconsOnScreen": 0,
@@ -62,7 +63,7 @@
         "shut": true,
         "pointed": false,
         "pressable": false,
-        "opacity": 0.28
+        "opacity": 0.4
       },
       {
         "key": "plant-field",
@@ -76,119 +77,119 @@
         "shut": true,
         "pointed": false,
         "pressable": false,
-        "opacity": 0.28
+        "opacity": 0.4
       },
       {
         "key": "fence-plot",
         "shut": true,
         "pointed": false,
         "pressable": false,
-        "opacity": 0.28
+        "opacity": 0.4
       },
       {
         "key": "build-house",
         "shut": true,
         "pointed": false,
         "pressable": false,
-        "opacity": 0.28
+        "opacity": 0.4
       },
       {
         "key": "hunt-timber",
         "shut": true,
         "pointed": false,
         "pressable": false,
-        "opacity": 0.28
+        "opacity": 0.4
       },
       {
         "key": "practise-shooting",
         "shut": true,
         "pointed": false,
         "pressable": false,
-        "opacity": 0.28
+        "opacity": 0.4
       },
       {
         "key": "visit-shop",
         "shut": true,
         "pointed": false,
         "pressable": false,
-        "opacity": 0.28
+        "opacity": 0.4
       },
       {
         "key": "make-furniture",
         "shut": true,
         "pointed": false,
         "pressable": false,
-        "opacity": 0.28
+        "opacity": 0.4
       },
       {
         "key": "buy-furniture",
         "shut": true,
         "pointed": false,
         "pressable": false,
-        "opacity": 0.28
+        "opacity": 0.4
       },
       {
         "key": "hunt-land",
         "shut": true,
         "pointed": false,
         "pressable": false,
-        "opacity": 0.28
+        "opacity": 0.4
       },
       {
         "key": "take-small-game",
         "shut": true,
         "pointed": false,
         "pressable": false,
-        "opacity": 0.28
+        "opacity": 0.4
       },
       {
         "key": "fish-the-water",
         "shut": true,
         "pointed": false,
         "pressable": false,
-        "opacity": 0.28
+        "opacity": 0.4
       },
       {
         "key": "cut-bee-tree",
         "shut": true,
         "pointed": false,
         "pressable": false,
-        "opacity": 0.28
+        "opacity": 0.4
       },
       {
         "key": "travel-gonzales",
         "shut": true,
         "pointed": false,
         "pressable": false,
-        "opacity": 0.28
+        "opacity": 0.4
       },
       {
         "key": "travel-home",
         "shut": true,
         "pointed": false,
         "pressable": false,
-        "opacity": 0.28
+        "opacity": 0.4
       },
       {
         "key": "visit",
         "shut": true,
         "pointed": false,
         "pressable": false,
-        "opacity": 0.28
+        "opacity": 0.4
       },
       {
         "key": "work",
         "shut": true,
         "pointed": false,
         "pressable": false,
-        "opacity": 0.28
+        "opacity": 0.4
       },
       {
         "key": "rest",
         "shut": true,
         "pointed": false,
         "pressable": false,
-        "opacity": 0.28
+        "opacity": 0.4
       }
     ],
     "card": {
@@ -281,15 +282,134 @@
         "overlapHeight": 191
       }
     ],
-    "names": {
-      "lineHeight": 16,
-      "labelWidth": 68,
-      "icons": 21,
-      "roomUnderTheBar": 46,
-      "roomToTheScreenEdge": 104,
-      "longest": "Buy furniture from the carpenter",
-      "overTheButtons": true
-    },
+    "names": [
+      {
+        "name": "Survey ten acres",
+        "visible": true,
+        "contained": true,
+        "overlapsNavigation": false
+      },
+      {
+        "name": "Plant the field",
+        "visible": true,
+        "contained": true,
+        "overlapsNavigation": false
+      },
+      {
+        "name": "Bring in the crop",
+        "visible": true,
+        "contained": true,
+        "overlapsNavigation": false
+      },
+      {
+        "name": "Fence a cleared plot",
+        "visible": true,
+        "contained": true,
+        "overlapsNavigation": false
+      },
+      {
+        "name": "Work on the house",
+        "visible": true,
+        "contained": true,
+        "overlapsNavigation": false
+      },
+      {
+        "name": "Hunt in the timber",
+        "visible": true,
+        "contained": true,
+        "overlapsNavigation": false
+      },
+      {
+        "name": "Practise at the mark",
+        "visible": true,
+        "contained": true,
+        "overlapsNavigation": false
+      },
+      {
+        "name": "Mend the hoe",
+        "visible": true,
+        "contained": true,
+        "overlapsNavigation": false
+      },
+      {
+        "name": "Go to a shop in town",
+        "visible": true,
+        "contained": true,
+        "overlapsNavigation": false
+      },
+      {
+        "name": "Make furniture",
+        "visible": true,
+        "contained": true,
+        "overlapsNavigation": false
+      },
+      {
+        "name": "Buy furniture from the carpenter",
+        "visible": true,
+        "contained": true,
+        "overlapsNavigation": false
+      },
+      {
+        "name": "Hunt on our land",
+        "visible": true,
+        "contained": true,
+        "overlapsNavigation": false
+      },
+      {
+        "name": "Take small game",
+        "visible": true,
+        "contained": true,
+        "overlapsNavigation": false
+      },
+      {
+        "name": "Fish the creek",
+        "visible": true,
+        "contained": true,
+        "overlapsNavigation": false
+      },
+      {
+        "name": "Cut a bee tree",
+        "visible": true,
+        "contained": true,
+        "overlapsNavigation": false
+      },
+      {
+        "name": "Travel to Gonzales",
+        "visible": true,
+        "contained": true,
+        "overlapsNavigation": false
+      },
+      {
+        "name": "Return home",
+        "visible": true,
+        "contained": true,
+        "overlapsNavigation": false
+      },
+      {
+        "name": "Go to a neighbour’s homestead",
+        "visible": true,
+        "contained": true,
+        "overlapsNavigation": false
+      },
+      {
+        "name": "Work about the place",
+        "visible": true,
+        "contained": true,
+        "overlapsNavigation": false
+      },
+      {
+        "name": "Rest",
+        "visible": true,
+        "contained": true,
+        "overlapsNavigation": false
+      },
+      {
+        "name": "Call off the work",
+        "visible": true,
+        "contained": true,
+        "overlapsNavigation": false
+      }
+    ],
     "dim": {
       "backdrop": true,
       "body": "true",

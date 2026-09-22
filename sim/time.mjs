@@ -5,11 +5,19 @@ import { advanceEncounters } from './encounters.mjs';
 import { advanceRelays, milesATick, progressTravel, validateWorld } from './world.mjs';
 import { groundLeft } from './travel.mjs';
 import { calendarMinutes } from './clock.mjs';
+import { attendedMilitary, militaryDecision, militaryJourney } from './military-pacing.mjs';
 
 export function resolveTimeJump(world, requestedMinutes) {
   if (!Number.isInteger(requestedMinutes) || requestedMinutes < 0 || requestedMinutes > 60 * 24 * 60) throw new Error('Time jump must be whole minutes, at most 60 days.');
   if (world.status !== 'running') throw new Error('Time compression requires a running world.');
   const from = world.minute;
+  // Skip quiet intervals, never a student's live military decision or journey.
+  // These are derived from state, so reconnecting cannot bypass the guard.
+  // ceiling: the jump refuses outright rather than running up to the start of the protected interval. Undo with the
+  // selective quiet-time scheduler (docs/MILITARY_EXPERIENCE.md step 5), which knows where that interval begins.
+  const decision = militaryDecision(world);
+  const travelling = attendedMilitary(world).find(person => militaryJourney(world, person));
+  if (decision || travelling) return { requestedMinutes, advancedMinutes: 0, blockedBy: `military:${decision || travelling.id}`, eventId: null };
   const limit = from + requestedMinutes;
   // A jump is made of ticks, and a tick may stand for more than twenty minutes of the calendar
   // on the real land (sim/clock.mjs). Somebody's arrival is still counted in the ticks their

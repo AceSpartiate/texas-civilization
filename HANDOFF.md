@@ -1,5 +1,34 @@
 # Claude handoff — Astra foundation
 
+## Military pacing and continuity — 2026-09-22 (unreleased)
+
+Read [MILITARY_EXPERIENCE.md](docs/MILITARY_EXPERIENCE.md) next. It separates the implemented military pacing/message safeguards from the remaining local messenger, staged battle, survival/role and seamless-continuity work. The owner requires smooth uninterrupted play: no visible fast-forward, dated transition screens or forced camera cuts. Hard tick caps alone do not satisfy that requirement.
+
+Implemented: slower attended military journeys, protected reading time, historical-boundary landing, one calendar interval throughout a live tick, guards against jumping over military choices/travel, physical camp relocation without a free movement tick, and visible invitations to a rider or the family's serving person. Alamo courier choices remain the existing authoritative choices; room-by-room combat is not implemented. Earlier usability changes below remain included. No save-version change and no deployment in this pass.
+
+Validation by the session that started it: full `npm test` 930 passed; Alamo browser proof 6 checks, lesson browser proof 21 checks. Superseded by the finishing pass below.
+
+**Finished 2026-09-22 (military finishing pass).** What was left and is now done:
+
+- The injection harness `scripts/military-regression-check.mjs` ran only the selected test, so it could not see a mutation that also broke a neighbour. It now runs a clean baseline, then the whole test file per mutation, requires exactly the named test and no other to fail, and throws on a target not found exactly once. Thirteen mutations, one for every military test: **13 of 13 caught** (`docs/evidence/military-injections.json`).
+- `moveCamp`'s two new lines (clear the camp, no free tick on the order) had no test. Added `a camp order starts a visible journey` in `tests/military-pacing.test.mjs`; two mutations prove it.
+- The claim `FIC-GONZ-232` sat inside the travel-sight block (`230`-`239`). Renumbered and registered in the table as `FIC-GONZ-320` to `-322`.
+- `npm run test:panels` failed on the new message card at 390px: it lay over `#survey-cancel`, and once moved, over the family column's "!" so the rider's conversation could not be opened. The card now stands below the guided start and any open land chooser, starts right of the family's faces on a phone, and is hidden while the meeting (`#encounter`) or the call's menu is open. Both failures were seen before the fix; the proof passes after it.
+- `ceiling:` comments on the three deliberate simplifications: fixed caps for the whole class rather than a scheduler; a time jump refused outright rather than run up to the protected interval; a card of words rather than a runner walking to the person.
+
+Evidence, on a clean verify tree holding only this work (same computer, headless Chrome): full `npm test` **932 passed, 0 failed**; `node scripts/military-regression-check.mjs` **13 of 13 caught**; `npm run test:alamo-siege` **6 checks**; `npm run test:family-panel` **17 checks**; `npm run test:lesson` **21 checks**; `npm run test:panels` **9 checks**; no page errors. **Not proved:** anything on a LAN, a Chromebook or in a classroom; seamless play of any kind; the length of a class period under the new pacing; the continuation steps 1–6 of MILITARY_EXPERIENCE.md, none of which is built.
+
+**Questions for the owner:**
+
+1. Is the next build step 1 of MILITARY_EXPERIENCE.md (a server-owned local Alamo courier encounter with a runner who walks to the person), or does Gonzales/core usability stay first? It is a large piece and CLAUDE.md names usability as the active phase.
+2. The 20-minute cap for an open question slows **every** household in the class until the director's dated deadline closes it (`ceiling:` in `sim/military-pacing.mjs`). Is a longer class period acceptable while a student has a question open, or should an open question get a wall-clock budget of its own (step 4)?
+3. Each of the four Alamo courier dates asks each person once; a volunteer not chosen is not asked again. Keep, or reconsider on the next date?
+4. The fictional player fate inside the Alamo is still decided by sex (`tellFall`). Replacing it with roles is a design decision about who in a family can survive the fall; it was left unchanged.
+
+## Current usability changes (unreleased) — 2026-09-21
+
+Portraits now select an eligible person and their action bar in one click. Every action has a persistent name, and phone conversations reserve space above the bar. See [the usability handoff](docs/TUTORIAL_USABILITY_HANDOFF.md#second-usability-pass--2026-09-21) for changes, evidence, and remaining work. The release record below describes the earlier shipped build.
+
 **Released as [v2026.09.21.8](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.21.8)** on
 2026-09-21, verified on the clean tree at `3f91610` (920 passed). All six agents of that day are merged: the children's
 works, the line an empty bar shows, Astra's last four art batches, rain on the roofing and daubing, the four panels the

@@ -27,6 +27,7 @@ import { DEFAULT_GROUND, groundClass, groundClassAt, markFor } from '/ground-cla
 import { decodeLand, decodeOutside, decodeProvince, emptyMiddle, landWeights, lineBand, tileGrid, withoutClaims } from '/land-levels.js';
 import { frameTransform, gestureView, isTap, keyView, nearestSpot, reproject, tapSlop, wheelZoomFactor, worldAt, zoomAbout } from '/map-camera.js';
 const $ = selector => document.querySelector(selector);
+import { militaryNotices } from '/military-attention.js';
 const say = message => { for (const id of ['#error', '#join-error', '#rejoin-error']) { const el = $(id); if (el) el.textContent = message; } };
 const hostPage = location.pathname === '/host';
 let events;
@@ -3416,8 +3417,10 @@ function renderFamilyPanel(world) {
     const needLabel = need ? `${need.text}${needs.length > 1 ? ` And ${needs.length - 1} more.` : ''} Go to ${entity.name} and answer.` : '';
     if (need && row.attention.dataset.need !== need.kind) { row.attention.dataset.need = need.kind; paintMark(row.attention, need.kind === 'rider' ? 'mark-need-rider' : 'mark-need'); }
     if (row.attention.getAttribute('aria-label') !== needLabel) { row.attention.setAttribute('aria-label', needLabel); row.attention.title = needLabel; }
-    const portraitLabel = `${entity.name}, ${role}${age}${focused ? ', your main person' : ''}. Go to ${entity.name} on the map${need ? '; somebody is waiting on them' : ''}.`;
+    const canLead = !(entity.age < 10) && !['dead', 'captured'].includes(entity.health?.condition);
+    const portraitLabel = `${entity.name}, ${role}${age}${focused ? ', selected' : ''}. ${canLead ? 'Select and follow' : 'View'} ${entity.name}${canLead ? '; show their actions' : ''}${need ? '; somebody is waiting on them' : ''}.`;
     if (row.portrait.getAttribute('aria-label') !== portraitLabel) row.portrait.setAttribute('aria-label', portraitLabel);
+    row.portrait.setAttribute('aria-pressed', String(focused));
     const focusLabel = focused ? `Go back to ${entity.name}, your main person` : `Make ${entity.name} your main person`;
     if (row.focus.getAttribute('aria-label') !== focusLabel) { row.focus.setAttribute('aria-label', focusLabel); row.focus.title = focusLabel; row.focus.querySelector('.panel-mark-text').textContent = focused ? '★' : '☆'; row.focus.setAttribute('aria-pressed', String(focused)); }
     // The auto switch, read from the server's `auto` on the person every tick (docs/FAMILY_PANEL.md §11.7).
@@ -3805,7 +3808,7 @@ function panelIcon(entityId, icon) {
   canvas.width = canvas.height = 72;
   canvas.setAttribute('aria-hidden', 'true');
   drawIcon(canvas, icon.key, { drawSprite, spriteFrame });
-  button.append(canvas);
+  button.append(canvas, element('span', '', 'panel-action-name'));
   return button;
 }
 /**
@@ -3817,6 +3820,9 @@ function panelIcon(entityId, icon) {
  */
 function describeIcon(button, icon, lesson = null) {
   button.dataset.name = icon.name;
+  const label = button.querySelector('.panel-action-name');
+  const words = `${icon.active ? 'Now: ' : ''}${icon.name}`;
+  if (label.textContent !== words) label.textContent = words;
   button.dataset.summary = icon.summary;
   const shut = Boolean(lesson?.shut);
   // Somebody at this already is not refused it: they are doing it, and the popup says so rather than giving the busy reason.
@@ -3887,8 +3893,7 @@ $('#family-panel')?.addEventListener('scroll', () => {
   showPanelTip(panelRows.get(panelTipFor.entityId)?.icons.querySelector(`[data-key="${panelTipFor.key}"]`));
 }, true);
 document.addEventListener('keydown', event => { if (event.key === 'Escape' && panelTipFor) hidePanelTip(); });
-// A portrait pressed twice makes that person the main one, as the star does (the first press has already gone to them).
-$('#family-panel')?.addEventListener('dblclick', event => { const portrait = event.target.closest('[data-portrait]'); if (portrait) chooseFocus(portrait.dataset.portrait); });
+// Portrait selection is a single-click operation, including keyboard activation and touch.
 /** Art arrives after the page: portraits and icons drawn with a fallback are drawn again with it. */
 function repaintFamilyPanel() {
   for (const row of panelRows.values()) {
@@ -4064,11 +4069,11 @@ function placementBoxes() {
     // The guided start's strip is **overhead**, not underfoot: it stands across the top middle, so the card is kept
     // *below* it rather than above it. Counting it among the controls pushed the card up to the top of the screen and
     // straight under the strip, which is the one thing that has to stay readable while a step is running (2026-09-21).
-    overhead: ['#lesson'].map(selector => document.querySelector(selector)?.getBoundingClientRect()).filter(box => box?.height),
+    overhead: ['#lesson', '#military-notice'].map(selector => document.querySelector(selector)?.getBoundingClientRect()).filter(box => box?.height),
   };
   if (!placement.observer && typeof ResizeObserver === 'function') {
     placement.observer = new ResizeObserver(() => { placement.boxes = null; });
-    for (const element of [canvas, panel, family, $('#journal-toggle'), $('#map-nav'), $('#lesson')]) if (element) placement.observer.observe(element);
+    for (const element of [canvas, panel, family, $('#journal-toggle'), $('#map-nav'), $('#lesson'), $('#military-notice'), ...document.querySelectorAll('.panel-icons')]) if (element) placement.observer.observe(element);
     window.addEventListener('resize', () => { placement.boxes = null; });
   }
   return placement.boxes;
@@ -4083,10 +4088,17 @@ function positionSelection(world, chosen = selectedEntity(world)) {
   const docked = rect.width < 760 || !spot;
   if (docked !== placement.docked) {
     placement.docked = docked; placement.left = null; placement.top = null;
-    if (docked) { panel.dataset.docked = 'true'; panel.style.left = ''; panel.style.top = ''; } else delete panel.dataset.docked;
+    if (docked) { panel.dataset.docked = 'true'; panel.style.left = ''; panel.style.top = ''; } else { delete panel.dataset.docked; panel.style.bottom = ''; }
     placement.boxes = null;
   }
-  if (docked) return;
+  if (docked) {
+    // The labeled action bar can grow with long names: reserve its measured space,
+    // rather than covering the last answer with a fixed-height phone dock.
+    const top = Math.min(window.innerHeight, ...controls.map(box => box.top));
+    const bottom = `${Math.max(64, window.innerHeight - top + 8)}px`;
+    if (panel.style.bottom !== bottom) panel.style.bottom = bottom;
+    return;
+  }
   const scaleX = rect.width / canvas.width, scaleY = rect.height / canvas.height;
   const right = spot.x * scaleX + 26, flip = right + panelWidth > rect.width - 8;
   // And never over the family panel down the left, when there is room beside it (docs/FAMILY_PANEL.md §7).
@@ -4814,6 +4826,64 @@ $('#tutorial-skip')?.addEventListener('click', () => {
 // LIVING_INFORMATION.md's attention gate forbids outright. So the world puts up an
 // invitation - a mark over the person, a line in the roster, a prompt on the map - and
 // the student decides when to go and listen.
+let militarySession = null, militarySeen = new Set(), militaryCollapsed = false, militarySelected = null;
+function renderMilitaryNotice(world) {
+  const panel = $('#military-notice');
+  const notices = militaryNotices(world);
+  panel.hidden = !notices.length;
+  if (!notices.length) return;
+  const session = `${window.__snapshot?.sessionId}:${world.householdId}:military-notices`;
+  if (session !== militarySession) {
+    militarySession = session;
+    try { militarySeen = new Set(JSON.parse(sessionStorage.getItem(session) || '[]')); } catch { militarySeen = new Set(); }
+    militaryCollapsed = militarySeen.size > 0;
+  }
+  const fresh = notices.find(notice => !militarySeen.has(notice.id));
+  if (fresh) { militaryCollapsed = false; militarySelected = fresh.id; }
+  for (const notice of notices) militarySeen.add(notice.id);
+  try { sessionStorage.setItem(session, JSON.stringify([...militarySeen])); } catch { /* private browsers still work */ }
+  const notice = notices.find(one => one.id === militarySelected) || notices[0];
+  militarySelected = notice.id;
+  const write = (id, text) => { if ($(id).textContent !== text) $(id).textContent = text; };
+  write('#military-toggle', `${militaryCollapsed ? 'Open messages' : 'Keep playing'} · ${notices.length}`);
+  $('#military-toggle').setAttribute('aria-expanded', String(!militaryCollapsed));
+  $('#military-message').hidden = militaryCollapsed;
+  write('#military-title', notice.title);
+  write('#military-words', notice.text);
+  write('#military-go', notice.action);
+  $('#military-next').hidden = notices.length < 2;
+  // Below the guided start and below an open land chooser, never over either one's words or buttons (panels proof, 390px).
+  const above = ['#lesson', '#site-choose', '#survey-choose'].map(selector => $(selector)).filter(one => one && !one.hidden);
+  const top = Math.max(44, ...above.map(one => one.getBoundingClientRect().bottom + 8));
+  panel.style.top = `${top}px`;
+  // On a phone the card is as wide as the screen, so it starts right of the family's faces and their "!": it must never
+  // cover the other way to the same question (panels proof, 390px).
+  const faces = innerWidth < 760 ? [...document.querySelectorAll('#family-panel .panel-portrait, #family-panel .panel-attention:not([hidden])')]
+    .map(one => one.getBoundingClientRect()).filter(box => box.width && box.right < innerWidth / 2).map(box => box.right + 8) : [];
+  const left = faces.length ? `${Math.round(Math.max(...faces))}px` : '';
+  if (panel.style.left !== left) panel.style.left = left;
+}
+$('#military-toggle')?.addEventListener('click', () => {
+  militaryCollapsed = !militaryCollapsed;
+  renderMilitaryNotice(window.__snapshot?.world);
+});
+$('#military-next')?.addEventListener('click', () => {
+  const notices = militaryNotices(window.__snapshot?.world);
+  militarySelected = notices[(notices.findIndex(one => one.id === militarySelected) + 1) % notices.length]?.id;
+  renderMilitaryNotice(window.__snapshot?.world);
+});
+$('#military-go')?.addEventListener('click', async () => {
+  const world = window.__snapshot?.world;
+  const notice = militaryNotices(world).find(one => one.id === militarySelected);
+  if (!notice) return;
+  militaryCollapsed = true;
+  renderMilitaryNotice(world);
+  const person = entitiesOf(world).find(one => one.id === notice.entityId);
+  if (notice.entityId !== focusedId && person && !(person.age < 10) && !['dead', 'captured'].includes(person.health?.condition)) await chooseFocus(notice.entityId);
+  goToPerson(notice.entityId);
+  if (notice.kind === 'siege') $('#selection-close')?.focus();
+  else openNeed(notice.entityId);
+});
 let encounterOpen = false, lastEncounterId = null;
 /**
  * A conversation happens a line at a time.
@@ -5120,7 +5190,7 @@ function render(snapshot) {
   // A snapshot that lands while a hand is on the map is drawn when the hand stops (`handOnMap`), not in the middle of the
   // gesture: a whole draw there is the stall a student feels as the map sticking under their finger.
   if (creating) { /* the curtain is up: nothing of the world is drawn */ } else if (performance.now() < handOnMapUntil) requestMapDraw(); else drawWorld(world);
-  renderInteriorPanel(world); renderHousehold(world); renderKnowledge(world); renderEncounter(world); renderFamilyRoll(world); renderWagonLoad(world); renderHousePlan(world); renderSite(world); renderSurvey(world); renderLesson(world); renderTutorial(world);
+  renderInteriorPanel(world); renderHousehold(world); renderKnowledge(world); renderEncounter(world); renderFamilyRoll(world); renderWagonLoad(world); renderHousePlan(world); renderSite(world); renderSurvey(world); renderLesson(world); renderMilitaryNotice(world); renderTutorial(world);
   renderPanelBackdrop();
 }
 /**
@@ -5233,7 +5303,13 @@ document.addEventListener('click', async event => {
   // The same watch the roster starts - `cameraFor` centres on where they are drawn and zooms to at least 55 in 100 of the
   // closest zoom - so it walks with them until the student pans, zooms or presses Follow.
   const portrait = event.target.closest('[data-portrait]');
-  if (portrait) { goToPerson(portrait.dataset.portrait); return; }
+  if (portrait) {
+    const id = portrait.dataset.portrait;
+    const person = entitiesOf(window.__snapshot?.world).find(one => one.id === id);
+    if (id !== focusedId && person && !(person.age < 10) && !['dead', 'captured'].includes(person.health?.condition)) await chooseFocus(id);
+    goToPerson(id);
+    return;
+  }
   // The "!" on a row: to the person, and open what is waiting on them (docs/FAMILY_PANEL.md §11).
   const attention = event.target.closest('[data-attention]');
   if (attention) { openNeed(attention.dataset.attention); return; }

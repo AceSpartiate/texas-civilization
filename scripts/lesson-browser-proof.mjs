@@ -187,7 +187,7 @@ try {
   // The bar: one thing open, everything else plainly shut.
   measured.step = await page.evaluate(() => [...document.querySelectorAll('.panel-row[data-focused=true] .panel-icon')].map(icon => ({
     key: icon.dataset.key, shut: icon.dataset.shut === 'true', pointed: icon.dataset.pointed === 'true',
-    pressable: icon.getAttribute('aria-disabled') !== 'true', opacity: Number(getComputedStyle(icon).opacity),
+    pressable: icon.getAttribute('aria-disabled') !== 'true', opacity: Number(getComputedStyle(icon.querySelector('canvas')).opacity),
   })));
   const pressable = measured.step.filter(icon => icon.pressable);
   assert.deepEqual(pressable.map(icon => icon.key), [open], `more than the step's own work can be pressed: ${pressable.map(one => one.key)}`);
@@ -350,43 +350,21 @@ try {
   // "Choose a house" covers the whole column - twenty-eight controls at this size - while the step's own words say to
   // assign a family member. It is allowed to, now, but it dims what it covers and says so in words (owner, 2026-09-21).
   // ------------------------------------------------------------------ the name under an icon lands on nothing else
-  // The lesson draws each icon's name under it, so a student need not hover an unfamiliar picture to learn what it is.
-  // A `::before` cannot be found with `elementFromPoint` - it covers nothing and nothing covers it - so its box is
-  // worked out from the icon's and the pseudo-element's own used size, as scripts/screen-overlap-study.mjs does. The
-  // rightmost names sat on the Journal and Land buttons until the bar was lifted while a lesson stands.
-  // Asked of **every** icon in the bar, not only the one named at this moment. Which icon a step points at is the
-  // step's business and changes from class to class; whether the bar has room under it for a name is the stylesheet's,
-  // and it is the rightmost icons - the ones over the Journal and Land buttons - that the fault was found on. Measuring
-  // only the icon that happens to be named let a bar put deliberately back in the wrong place read as clean.
+  // Names now live inside the real buttons. Measure those DOM boxes, including long names,
+  // rather than estimating an obsolete pseudo-element below the bar.
   measured.names = await page.evaluate(() => {
     const nav = document.querySelector('#map-nav').getBoundingClientRect();
-    const named = document.querySelector('.panel-icon[data-pointed=true],.panel-icon[data-active=true]');
-    if (!named) return [];
-    const style = getComputedStyle(named, '::before');
-    const width = parseFloat(style.width), height = parseFloat(style.height) + parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
-    const bar = document.querySelector('.panel-row[data-focused=true] .panel-icons').getBoundingClientRect();
-    const icons = [...document.querySelectorAll('.panel-row[data-focused=true] .panel-icon')];
-    const widest = icons.filter(icon => (icon.dataset.name || '').length).sort((a, b) => b.dataset.name.length - a.dataset.name.length)[0];
-    return {
-      lineHeight: Math.round(height), labelWidth: Math.round(width), icons: icons.length,
-      // The name is drawn under the icon, so what has to be free is the strip of screen between the bottom of the bar
-      // and the first thing below it - here the map's own buttons, and the bottom edge of the screen.
-      roomUnderTheBar: Math.round(nav.top - bar.bottom), roomToTheScreenEdge: Math.round(innerHeight - bar.bottom),
-      longest: widest?.dataset.name || null,
-      overTheButtons: icons.some(icon => {
-        const box = icon.getBoundingClientRect();
-        return box.left + box.width / 2 + width / 2 > nav.left && box.bottom < nav.bottom;
-      }),
-    };
+    return [...document.querySelectorAll('.panel-row[data-focused=true] .panel-icon')].map(icon => {
+      const label = icon.querySelector('.panel-action-name');
+      const box = label?.getBoundingClientRect(), button = icon.getBoundingClientRect();
+      return { name: icon.dataset.name, visible: Boolean(box?.height),
+        contained: Boolean(box && box.top >= button.top && box.bottom <= button.bottom && box.left >= button.left && box.right <= button.right),
+        overlapsNavigation: Boolean(box && box.left < nav.right && box.right > nav.left && box.top < nav.bottom && box.bottom > nav.top) };
+    });
   });
-  // Three lines of a long name - "Buy furniture from the carpenter" is four words in a 68px box - plus its padding.
-  const WANTED = 40;
-  assert.ok(measured.names.icons > 4, 'too few icons on the bar to say anything about the end of it');
-  assert.ok(measured.names.lineHeight > 0, 'no icon is named, so this proves nothing about where the names go');
-  assert.ok(measured.names.overTheButtons, 'no icon on this bar reaches the map buttons, so this check cannot see the fault it was written for');
-  assert.ok(measured.names.roomUnderTheBar >= WANTED, `a name under the bar is drawn over the map's own buttons: ${measured.names.roomUnderTheBar}px of room where ${WANTED} is wanted`);
-  assert.ok(measured.names.roomToTheScreenEdge >= WANTED, `a name under the bar is drawn off the bottom of the screen: ${measured.names.roomToTheScreenEdge}px of room where ${WANTED} is wanted`);
-  ok(`the bar leaves ${measured.names.roomUnderTheBar}px under it for the names it draws, clear of the map's own buttons (longest: "${measured.names.longest}")`);
+  assert.ok(measured.names.length > 4, 'too few actions to prove label layout');
+  assert.ok(measured.names.every(label => label.visible && label.contained && !label.overlapsNavigation), 'action names must fit inside their buttons and stay clear of navigation');
+  ok('all action names fit inside their buttons, clear of map navigation');
 
   // The step has to be standing for this: what is asked is that the dim covers the family and *not* the instruction.
   if (await page.locator('#house-open').isVisible()) {
@@ -419,6 +397,12 @@ try {
   await holdLesson(page, step);
   measured.phone = await page.locator('#lesson').boundingBox();
   assert.ok(measured.phone.x >= 0 && measured.phone.x + measured.phone.width <= 390, 'guide overflows a phone');
+  await page.waitForFunction(() => {
+    const card = document.querySelector('#selection');
+    const bar = document.querySelector('.panel-row[data-focused=true] .panel-icons');
+    return card && !card.hidden && bar && card.getBoundingClientRect().bottom + 4 <= bar.getBoundingClientRect().top;
+  }, null, { timeout: 4000 });
+  ok('on a phone the conversation answers stay above the action bar');
   await shoot(page, 'phone');
   ok('the guide fits a 390px phone viewport');
 

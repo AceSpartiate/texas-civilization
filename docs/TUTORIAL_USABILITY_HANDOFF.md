@@ -36,3 +36,19 @@ Browser proof: **17 checks passed**, no page errors, at 1366×768 and 390×844. 
 - Reduce the nineteen-icon opening bar further with progressive disclosure after classroom observation. This pass labels the current action and provides a direct locator; the full bar remains available.
 - ~~Review the roll/name/appearance/wagon wizard separately. This repair concentrates on the farm tutorial, where the class's reported confusion occurred.~~ **Done 2026-09-21**, to this same rule: [FAMILY_CREATION.md](FAMILY_CREATION.md), amendment 2026-09-21. It found that this pass's own change had made the title card untrue (it still promised the country was yours to work), that the stock choice never said it brings a herd, that "anything left out is not coming" is contradicted by every blacksmith, and one more hidden second interaction (a **Loaded** button that unloads). `tests/creation-words.test.mjs`, 16 of 16 injections caught, `npm run test:creation` 9 checks.
 - Keep the navigation button independent of progression. Only the server's actual completed work advances a lesson; always allow live historical conversations and family responses.
+
+
+## Second usability pass — 2026-09-21
+
+Unreleased working-tree changes following the owner's request to continue improving intuitive play:
+
+1. **Portrait selection:** a single click now sends the existing `set-main` command for an eligible person, follows them, and opens their card. Previously the card could describe the mother while the bar still ordered the father; choosing the bar required a star or double-click. Removed the double-click handler. Accessible portrait names and pressed state describe selection.
+2. **Readable actions:** every button now contains its action name, on desktop and phone, during and after the lesson. Current work is prefixed **Now:**. Stable 76px targets scroll horizontally rather than shrink. Unavailable pictures are muted while lettering remains readable; server refusal explanations remain available.
+3. **Conversation clearance:** docked cards measure the actual bar and navigation bounds; the resize observer also watches action groups. Phone answers no longer sit behind the taller bar. Floating desktop cards retain their existing placement logic.
+4. **Regression proof:** family-panel browser checks now verify single-click adult selection and phone selection, and visible names for all actions. The lesson proof measures real label boxes instead of obsolete pseudo-elements and checks phone conversation/bar clearance.
+
+`public/app.js` and `public/style.css` contain the implementation. `scripts/family-panel-browser-proof.mjs` and `scripts/lesson-browser-proof.mjs` contain browser coverage. `docs/FAMILY_PANEL.md` records the intentional changes to previous UI guidance.
+
+Validation: full `npm test` **920 passed, zero failed** (`test-results/usability-suite.log`). Browser evidence is in `docs/evidence/family-panel-browser.json` and `docs/evidence/lesson-browser.json`; screenshots include `test-results/lesson-step.png`, `lesson-phone.png`, and `family-panel-phone-open.png`. Regression injections served only to isolated test browsers: restoring the old no-selection behavior fails the adult single-click assertion; hiding action names fails the visible-label assertion. Restoring the old fixed phone dock also fails the new conversation-clearance check. None of these injections changes production files. These are local Chrome checks, not classroom acceptance.
+
+Remaining work for Claude: action grouping/search remains worthwhile for long bars. Young children still use their existing cards rather than becoming the server's main person; a future separation between inspected person and main person would let their own chores occupy the same bar without changing age restrictions. The full real-map ten-step tutorial walkthrough and seasonal pacing concerns listed above remain open. Nothing was deployed or released in this pass.
