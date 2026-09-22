@@ -1225,6 +1225,32 @@
         "public/assets/frontier-v1/atlases/civilians.png",
         "public/assets/frontier-v1/atlases/wagon-rig.png"
       ]
+    },
+    {
+      "sheet": "biome-trees-fields",
+      "promptId": "frontier-v1/biome-trees-fields",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/nature.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c510440f-f4fa-4c0c-a2a0-afdf05c7ae2c.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/biome-trees-fields.png",
+      "postProcessing": "None. Generated original copied unchanged; only read-only validation.",
+      "review": "Accepted as sixteen separated true-alpha sprites. It completes longleaf pine, sabal palm and bald cypress size progressions; adds medium and large magnolia and beech; and supplies young and mature irrigated crop plots plus a reusable fallow plot."
+    },
+    {
+      "sheet": "icons-children",
+      "promptId": "frontier-v1/icons-children",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/icons-family-actions-1.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3be0dde8-4c87-474f-a52a-daab0808f431.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/icons-children.png",
+      "postProcessing": "None. Generated original copied unchanged; only read-only validation.",
+      "review": "Accepted as six distinct, period-plausible child-action icons with true transparent gutters. The kindling carries no blade; play reads as recreation; the remaining ten cells are deliberately empty."
     }
   ],
   "rejectedAttempts": [

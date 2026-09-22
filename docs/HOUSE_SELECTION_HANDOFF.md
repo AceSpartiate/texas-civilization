@@ -1,0 +1,19 @@
+# House selection and owner decisions — 2026-09-22
+
+## Implemented follow-up: second houses
+
+The earlier single-house limitation below is superseded for the colonies builder. After finishing a house, choose “Build another” on a design. The server preserves completed structures, starts the next at zero progress, and counts finished capacity across houses. The original furnishing interior remains stable. Additional houses are automatically arranged beside the current project on the homestead; independent site selection and per-building furniture controls are not yet available. One active project at a time keeps the Build house action unambiguous. The panel now shows only the house number/stage, immediate requirements and illustrated choices.
+
+The owner requested simple illustrated preset selection instead of the large component editor. `public/house-plot.js` now shows finished previews assembled from each server-catalogued plan with the same `drawHousePlot` function and sprites used in the world. The component grid and palette are hidden. Plan selection still uses the existing authoritative `plan-house` command and construction remains staged. Existing custom houses are preserved. The house chooser and early house-site/survey prompts move to the right on supported desktop layouts, away from the family column; the optional introduction moves right too.
+
+Further implementation belongs to Claude: allow multiple independently placed houses on one holding, retaining identity, construction, interiors and occupancy for each. Eight is a per-house capacity, not a household limit. Reserve indoor spaces for the youngest first; oldest overflow sleeps outside when night is implemented. Do not introduce pretend night damage now. Build and assign additional homes through the same simple preset flow. The current simulation still has one house per holding; this UI change does not claim to remove that limit.
+
+Other decisions for Claude:
+
+- Food is game balance in adult-equivalent units: ages 0–2 cost 0.25, 3–9 cost 0.5, 10–15 cost 0.75, 16+ cost 1. Preserve fractional consumption; aggregate before rounding, preferably using fixed-point quarters. These are tuning values, not nutritional advice.
+- Permit twins at a proposed 1% of births, seed-deterministic; give both their own identities and the same birth date. Remove artificial one-child-per-year spacing in generated histories without requiring twins.
+- After X dismisses the tutorial, show a small unobtrusive “Resume tutorial” button for five real minutes from dismissal. Resume the same step, never reset progress or extend the original window; persist expiry through reloads. Show dismissed/resumed status quietly in Host progress.
+- Desktop/laptop/Chromebook are supported; phones are not officially supported. Do not prioritize phone layout fixes over desktop usability.
+- Military next: implement the authoritative local Alamo runner encounter. Use a bounded real-time decision budget (initially 90 seconds, configurable, suspended during Host pause) so one unanswered choice cannot prolong the entire class indefinitely. On expiry apply the documented in-world fallback; retain a clear journal record. Preserve a single shared clock, smooth movement, and information asymmetry.
+- Reconsider an eligible volunteer at later courier dates; no repeated request on the same date, no duplicate departures, and no offer to an absent, captured, dead or already-departed person.
+- Replace sex-only fictional Alamo fate with roles, location, earlier choices and plausible routes. Meaningful survival opportunities must be offered before they close. Do not promise universal rescue, change established historical individuals’ fates, or reveal remote events before news arrives. Survival and capture rules need historical review before implementation.

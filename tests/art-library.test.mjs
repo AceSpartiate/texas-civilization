@@ -92,6 +92,7 @@ test('every sprite the simulation names is a frame the library actually has', ()
     'tallgrass-prairie': 'grass-tall', longleaf: 'grass-tall', canebrake: 'cane-1', thicket: 'palmetto',
     'cypress-swamp': 'cypress-knees', marsh: 'marsh-cordgrass', 'salt-prairie': 'marsh-cordgrass', sand: 'dune-grass',
     chaparral: 'thicket-thorn-1', brush: 'yucca', 'mesquite-savanna': 'thicket-thorn-2', 'thorn-riparian': 'thicket-thorn-1',
+    'palm-grove': 'palm-sabal-pole', fields: 'field-irrigated-young',
   };
   for (const [id, sprite] of Object.entries(WEARS)) {
     if (!GROUND_CLASSES[id].marks.some(mark => mark.sprite === sprite)) missing.push(`ground ${id} no longer wears ${sprite}`);

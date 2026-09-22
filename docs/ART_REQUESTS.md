@@ -18,8 +18,8 @@ does not have:
 
 | Stand-in | Where | Standing in for | Replace with |
 | --- | --- | --- | --- |
-| Six glyph icons drawn in code (a stick horse, crossed sticks and chips, birds off an ear of corn, eggs in a nest, a pail of water, a bigger child with a smaller one on the hip) | `drawGlyph` in `public/family-panel.js` | Request 2026-09-21 — the children's icons | `icon-child-play`, `icon-child-kindling`, `icon-child-birds`, `icon-child-eggs`, `icon-child-water`, `icon-child-mind` |
-| A trash can drawn in code with a pen — a lid with a handle, a tapering body, two lines down it | `DrawBin` in `launcher/SoloGameDialog.cs` | Request 2026-09-21 — the Play Solo menu's trash can | `icon-delete-save` |
+| ~~Six children's action glyphs drawn in code~~ | `PANEL_ICONS` in `public/family-panel.js` | Delivered 2026-09-22 in `icons-children.png` | All six keys now name their production sprite directly |
+| ~~A trash can drawn in code with a pen~~ | `DrawBin` in `launcher/SoloGameDialog.cs` | Delivered 2026-09-22 in `launcher/art/icon-delete-save.png` | Illustrated frontier pail is embedded and tinted; line drawing is packaging fallback only |
 | Four glyph icons drawn in code (a squirrel on a branch, a fish over the water, two shells on the sand, a bee tree) | `drawGlyph` in `public/family-panel.js` | Request 2026-09-20 — the gathering icons | `icon-take-small-game`, `icon-fish-the-water`, `icon-gather-oysters`, `icon-cut-bee-tree` |
 | Three glyph icons drawn in code (a long-horned cow, a hog with its snout in the mast, a rider's hat over the grass) | `drawGlyph` in `public/family-panel.js` | Request 2026-09-20 — the stock icons | `icon-butcher-beef`, `icon-butcher-hog`, `icon-look-to-stock` |
 | A new town's shops are the nearest buildings the library has, two trades sharing a sprite | `SHOP_SPRITES` in `sim/shops.mjs`, drawn in `drawWorld` in `public/app.js` | Request 2026-09-16 — the shops of the towns | `shop-*` buildings, one per trade |
@@ -28,14 +28,14 @@ does not have:
 | A child in an unavailable action pose is a grown figure drawn smaller (90% at 10–17, 70% at 5–9, 55% at 2–4, 45% an infant). Idle, cardinal walking, rest and injured-rest use delivered `girl`, `boy`, `smallchild` and `infant` art | `CHILD_POSES` and `entityClip` in `public/motion.js` | Request 2026-09-12, priority 1 — children | Any later child-specific action poses. **Keep the scaling**: the delivered sheets fill their cells and need it |
 | A person's appearance - a parent's chosen, a child's taken after the parents - is shown only in words in the family book ("olive skin, black hair, rust clothes, a beard"); the figure on the map is still chosen by sex and age | `public/appearance.js`, `sim/appearance.mjs` | Request below — layered people art | Layered or palette-swappable sheets for the whole cast |
 | A saddlebag house's interior is drawn on the dog-run's picture (`interior-dog-run`, drawn wide), with its own ten spots measured there — by each hearth at the outer ends where that picture draws them, each back wall, window, pen and door — and nothing set in the passage the picture shows | `INTERIORS.saddlebag` in `sim/interior-data.mjs`, drawn by `public/interior.js` | Request 2026-09-12 (second) — interiors and furnishings: a saddlebag interior | `interior-saddlebag`; re-measure the spots on it, the hearths at the central chimney |
-| Ten tree kinds use delivered size-specific art: pine, cedar, mesquite, live oak, elm, and (2026-09-21) post oak, blackjack, pecan, hackberry and sweetgum. Shortleaf and longleaf share loblolly art; the other oaks (water, bur, white, Texas) take the post oak's, hickory, walnut and ash the pecan's; beech and magnolia are still the generic broad oak | `KINDS` picture in `sim/woods.mjs`, drawn by `drawGroundDetail` in `public/app.js` | Request 2026-09-15 — the trees of the colonies | Shortleaf and longleaf pine, beech and magnolia, and species-specific later breadth |
+| Thirteen tree kinds use delivered species art: pine, longleaf, cedar, mesquite, live oak, elm, post oak, blackjack, pecan, hackberry, sweetgum, bald cypress and sabal palm. Magnolia and beech have medium and large frames. Shortleaf shares loblolly art; the other oaks (water, bur, white, Texas) take the post oak's, and hickory, walnut and ash the pecan's | `KINDS` picture and optional per-size `pictures` in `sim/woods.mjs`, drawn by `drawGroundDetail` in `public/app.js` | Delivered through `biome-trees-fields.png`, 2026-09-22 | Shortleaf and species-specific later breadth |
 | **A child** riding the family horse is their own figure's idle pose (`seatedClip`), facing the way they go, cut off below the waist and drawn over the back of the family's walking horse (`horse-walk`, `-n`, `-s`); the horse is not drawn again. Everybody grown or adolescent came off this row on 2026-09-21: all eight identities are Astra's own painted horse-and-rider now (`RIDING_FIGURES`), drawn as one frame at the rider's height with no horse under it | `seatOf`, `seatedClip`, `seatLayout` in `public/motion.js`; `drawSeated` in `public/app.js` | Request 2026-09-14 — family members on horseback | `girl`, `boy`, `smallchild` and `infant` mounted on the family's chestnut, east/south/north as the eight have |
 | **A second-cast driver (`rust-woman`, `indigo`, `ochre`, `blue-girl`) or a child** driving the ox and wagon is their own figure's idle pose, cut off below the waist, sitting at the front of the side-view wagon (`wagon-travel`) with the ox (`ox-walk`, `-n`, `-s`) ahead; the ox and wagon are not drawn again. The four original-cast identities came off this row on 2026-09-21: `rust`, `teal`, `elder` and `blue` are Astra's whole seated driver layers with their reins and goad, in all four headings (`DRIVING_FIGURES`). Going north or south the wagon still stays side-on and the ox is above or below it | `wagonDriverId`, `seatOf`, `seatedClip`, `seatLayout` in `public/motion.js`; `drawSeated` in `public/app.js` | Request 2026-09-16 — driving the ox wagon | Seated driver layers for `rust-woman`, `indigo`, `ochre`, `blue-girl` and the four children, on the same four headings as the delivered sixteen |
 | A rider never gets down to talk: they speak from the saddle, turned east, west, north or south toward the listener (the vertical dialogue delivered 2026-09-14 is in use). The person he stopped now answers him in their own delivered speaking and listening poses (2026-09-21), on their own feet | `carrierClip` and `grownClip` in `public/motion.js`, from `facingOf` and `listeningOf` in `sim/encounters.mjs` | Request 2026-09-12, priority 3 | `courier-dismount` (delivered 2026-09-14, registered, not yet bound: it needs the encounter to know when a rider has got down and where the horse stands) |
 | The road's three panel icons are glyphs drawn in canvas strokes: a rifle over a campfire (`hunt-road`), a figure under a blanket with a cup beside (`tend-sick`), a coin passed over a ferry's rail (`trade-crossing`) | `drawGlyph` in `public/family-panel.js`; `PANEL_ICONS` carries `glyph` and no sprite, and `drawIcon` takes `icon-<key>` the moment it is registered | Request 2026-09-16 — the road's icons | `icon-hunt-road`, `icon-tend-sick`, `icon-trade-crossing` |
 | The camp's four icons - drill, beef and corn, the guard, the scouts - are canvas glyphs (a musket at the shoulder; horns over a corn ear; a bayonet and a crescent moon; a horseshoe and a spyglass) in the panel's brown | `PANEL_ICONS` (`glyph`) and `drawGlyph` in `public/family-panel.js` | Request 2026-09-16 — the camp's icons | `icon-camp-drill`, `icon-camp-forage`, `icon-camp-guard`, `icon-camp-scout` |
-| The trees of the biomes of 1836: longleaf is the loblolly drawn a quarter taller; bald cypress the cedar a third taller; the Texas palm the `sapling` drawn twice as tall; beech and magnolia the `oak-broad`; anacua and Texas ebony the `oak-spreading`; tupelo and cedar elm the `elm`; willow the `cottonwood`. Sweetgum, white oak, bur oak and Texas oak came off this list on 2026-09-21 | `KINDS` (`picture`, `sized`, `scale`) in `sim/woods.mjs`, sent in the woods catalogue and drawn by `drawGroundDetail` in `public/app.js` | Request 2026-09-19 — the country of 1836: trees and ground cover | `pine-longleaf-*`, `cypress-bald-*`, `palm-sabal-*`, `magnolia-*`, `beech-*` |
-| The ground of the biomes of 1836: **tall grass, river cane, palmetto, the thorn thicket, Spanish dagger, marsh cordgrass, dune grass and cypress knees are Astra's own since 2026-09-21**. Still standing in: a palm grove's palms are the `sapling` drawn tall, and a town's fields are `crop-stubble` and fallow tufts | `GROUND_CLASSES` marks in `public/ground-classes.js` | Request 2026-09-19 — the country of 1836: trees and ground cover | `palm-sabal-*`, `field-irrigated`, `field-fallow` |
+| The trees of the biomes of 1836: longleaf, bald cypress, Texas sabal palm, beech and magnolia all use their delivered silhouettes. Anacua and Texas ebony still take `oak-spreading`; tupelo and cedar elm take `elm`; willow takes `cottonwood` | `KINDS` (`picture`, `pictures`, `sized`, `scale`) in `sim/woods.mjs`, sent in the woods catalogue and drawn by `drawGroundDetail` in `public/app.js` | Delivered through `biome-trees-fields.png`, 2026-09-22 | Anacua, Texas ebony, tupelo, cedar elm and willow remain species stand-ins |
+| The ground of the biomes of 1836 uses delivered tall grass, river cane, palmetto, thorn thicket, Spanish dagger, marsh cordgrass, dune grass and cypress knees. Palm groves now scatter sabal palms; town fields mix young and mature irrigated rows, fallow earth and stubble | `GROUND_CLASSES` marks in `public/ground-classes.js` | Delivered through `biome-ground-bexar.png` and `biome-trees-fields.png`, 2026-09-22 | No listed ground-cover stand-in remains |
 | Béxar's fields are the `fields` wash with stubble and fallow scattered on it; **the acequias are still not drawn** and no brush fence stands. The art for them landed 2026-09-21 (`acequia-straight`, `-bend`, `-crossing`, `fence-brush`, all registered and unused) and what is missing is now the LAYOUT: where each ditch ran, which is a researched course and a claim ID, not a sprite | `fields` in `public/ground-classes.js`; the envelope in `scripts/terrain/biomes.mjs` `BEXAR_FIELDS`; nothing yet in `public/bexar-layout.js` | Request 2026-09-19 — Béxar's fields and acequias | The acequia courses themselves, laid by `public/bexar-layout.js` from the delivered pieces |
 | **Words only for everything but the deer, the turkey and the mustang.** Since 2026-09-19 (docs/BIOME_GAMEPLAY.md §3.1) a hunt on a class of the biomes brings the quarry its place holds - turkey, bear, buffalo, antelope, mustang, javelina, ducks and geese, a wild cow, or a deer - and says so before it goes ("Waiting here, a turkey: four food."), at the shot ("downwind of a bear") and in the record ("brought down a buffalo"). The deer (2026-09-15), the turkey and the mustang (both 2026-09-21) are drawn where the server put them; every other quarry is given no place to be drawn at (`chore.quarry` stays unset), because a deer drawn where the words say a bear would be a wrong picture | `DRAWN_GAME`, `quarryAt` and `GAME` in `sim/hunting.mjs`; the drawing is decided where `quarryPoint` is called in `sim/chores.mjs`, and `miniQuarry` in `public/app.js` picks the sheet by `quarry.kind` | Request 2026-09-19 — the game of 1836 | `wildlife-bear`, `-javelina`, `-pronghorn`, `-bison`, `-geese`, `-cattle`; each one lands, its id joins `DRAWN_GAME` and nothing else has to change |
 | The panel icon for fetching logs from the timber is a canvas glyph: three logs laid across a wagon bed on two wheels, in the panel's brown | `PANEL_ICONS` (`glyph`) and `drawGlyph` in `public/family-panel.js` | Request 2026-09-19 — the logs fetched from the timber | `icon-fetch-logs` |
@@ -253,7 +253,7 @@ and on the San Jacinto. Each now draws the plank flatboat at the near landing an
 
 ## Request 2026-09-19 — the country of 1836: trees and ground cover
 
-**Status: partially delivered 2026-09-21.** `biome-ground-bexar.png` supplies palmetto, cypress knees, two cane variants and wind pose, tall grass and wind pose, two thorn-thicket variants, yucca, marsh cordgrass and dune grass. The size-specific longleaf, sabal palm, bald cypress, magnolia and beech trees remain open. Owner, 2026-09-19: the map brought in line with the
+**Status: delivered 2026-09-22.** `biome-ground-bexar.png` supplies palmetto, cypress knees, two cane variants and wind pose, tall grass and wind pose, two thorn-thicket variants, yucca, marsh cordgrass and dune grass. `biome-trees-fields.png` supplies size-specific longleaf, sabal palm and bald cypress, plus medium/large magnolia and beech. Owner, 2026-09-19: the map brought in line with the
 natural biomes of Texas (docs/BIOMES.md, built the same day).
 
 - **Why.** The map shows each natural region of 1836. Longleaf pine, the Texas palm, bald cypress, river cane, tall prairie
@@ -274,7 +274,7 @@ natural biomes of Texas (docs/BIOMES.md, built the same day).
 
 ## Request 2026-09-19 — Béxar's fields and acequias
 
-**Status: partially delivered 2026-09-21.** `biome-ground-bexar.png` supplies compatible straight, bend and plank-crossing acequia pieces plus the period brush fence. Irrigated young/mature crop rows and the fallow-field fill remain open. The owner decided
+**Status: art delivered 2026-09-22.** `biome-ground-bexar.png` supplies compatible straight, bend and plank-crossing acequia pieces plus the period brush fence. `biome-trees-fields.png` supplies irrigated young/mature crop rows and the fallow-field fill. The researched acequia layout remains implementation work. The owner decided
 (2026-09-19, by multiple choice) that the Alamo stood among irrigated fields, not woods; the map now has no woods round it.
 
 - **Why.** The fields need to look like Béxar's labores, not the colonies' log-fenced plots, and the acequias are what made
@@ -1020,6 +1020,9 @@ The stand-ins above are already in place, so delivery means replacing them:
 
 ## Request 2026-09-21 — the children's icons
 
+**Status: delivered 2026-09-22.** `icons-children.png` contains all six illustrated icons on true alpha. The atlas audit
+retained every object in full with no cell-overlap trimming. `PANEL_ICONS` now names the frames directly.
+
 - **Why.** A child under ten had an empty action bar until 2026-09-21, when the owner gave them works of their own
   ([FAMILY_CREATION.md](FAMILY_CREATION.md) §3's amendment, `sim/children.mjs`): play, kindling, keeping the birds off the
   corn, the eggs, carrying water, and minding the younger ones. Six new keys on the family panel, drawn today as strokes
@@ -1037,13 +1040,17 @@ The stand-ins above are already in place, so delivery means replacing them:
 - **The rule the set has to keep.** These are **children's** works. Wherever a figure appears it reads as a child — smaller
   head-to-body ratio, the rule the people stand-ins already proved. Nothing in the set holds a tool with an edge, and
   nothing in the set holds a gun.
-- **How it plugs in.** `PANEL_ICONS` in `public/family-panel.js` maps each key to `{ glyph: … }` today; registering the
-  frames and naming `{ sprite: 'icon-<key>' }` there is the whole swap. `tests/family-panel.test.mjs` fails if an icon
+- **How it plugs in.** `PANEL_ICONS` in `public/family-panel.js` maps each key to `{ sprite: 'icon-<key>' }`.
+  `tests/family-panel.test.mjs` fails if an icon
   names a frame the atlas does not have.
 - **Check.** `child-play` is told from the five jobs at 38 pixels without its popup, and `child-mind` is not mistaken for
   a mother and baby.
 
 ## Request, 2026-09-21 — the Play Solo menu's trash can
+
+**Status: delivered 2026-09-22.** `launcher/art/icon-delete-save.png` is a transparent, tintable frontier stave pail with
+its lid open. The Play Solo dialog embeds it and tints the same source for ordinary, selected and warning-red hover states.
+See [LAUNCHER_ART.md](LAUNCHER_ART.md) for its exact prompt and provenance.
 
 **What it is for.** The owner: *"When I click Play Solo a menu appears. This menu has the saves. That's where a little
 trash can emblem should appear and let me delete the save."* One emblem at the end of each row of the saved-games list in
@@ -1066,5 +1073,5 @@ separates them.
 **Where it will be drawn:** on a pale parchment list (`#F6F0E1`) and on a selected green row (`#4A6850`). No drop shadow;
 it sits inside a row, not on the map.
 
-**Until it lands:** drawn with a pen in `DrawBin`, listed under *Stand-ins in use* above. A picture of the menu as it
-stands is `evidence/solo-dialog.png`.
+**Fallback:** if a damaged or unusual package cannot load the embedded PNG, `DrawBin` falls back to its former pen drawing.
+A picture of the earlier menu is `evidence/solo-dialog.png`.

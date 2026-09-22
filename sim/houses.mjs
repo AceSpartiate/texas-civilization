@@ -1,3 +1,4 @@
+import { checkHousePlacement } from './house-placement.mjs';
 // The house a family chooses, raises, and then lives with.
 //
 // docs/SETTLING_IN.md §5, step 4. A family that arrives has no roof (sim/settling.mjs) and
@@ -275,10 +276,24 @@ export function planRefusal(world, household, layout) {
  * family likes until the first spell of work is done, and a record of every change of mind would
  * be noise - and, in the lobby, would stop the family being rolled (`rollRefusal`).
  */
-export function planHouse(world, household, layout) {
+export function planHouse(world, household, layout, additional = false, placement = null) {
+  const position = placement ? checkHousePlacement(world, additional ? { ...household, completedHouses: [...(household.completedHouses || []), household.house].filter(Boolean) } : household, placement) : null;
+  if (additional) {
+    if (!houseBuilt(household)) throw new Error('Finish your current house before starting another.');
+    const next = { ...household, house: undefined, improvements: { ...household.improvements, cabin: 'none' } };
+    // Validate the new plan before retaining or replacing any building.
+    const why = planRefusal(world, next, layout);
+    if (why) throw new Error(why);
+    household.completedHouses ||= [];
+    household.completedHouses.push(structuredClone(household.house));
+    household.house = plotted(world) ? { plan: layout, pieces: planPieces(layout) } : { layout, work: 0 };
+    if (position) household.house.placement = position;
+    return household.house;
+  }
   const why = planRefusal(world, household, layout);
   if (why) throw new Error(why);
   household.house = plotted(world) && !household.house?.layout ? { plan: layout, pieces: planPieces(layout) } : { layout, work: houseOf(household)?.work ?? 0 };
+  if (position) household.house.placement = position;
   return household.house;
 }
 
@@ -360,6 +375,15 @@ const sleepers = (world, household) => household.members.filter(id => {
  */
 export function shelterOf(world, household) {
   const standing = improvementsOf(household).cabin === 'sound';
+  if (standing && household.completedHouses?.length) {
+    const homes = [...household.completedHouses, household.house].filter(Boolean).map(house =>
+      house.pieces ? plotShelter(house.pieces) : house.work >= HOUSES[house.layout].work ? HOUSES[house.layout] : null).filter(Boolean);
+    const room = homes.reduce((sum, home) => sum + home.room, 0);
+    const crowded = sleepers(world, household) > room;
+    if (homes.length) return { kind: 'house', layout: household.completedHouses[0].pieces ? plotLayout(household.completedHouses[0].pieces) : household.completedHouses[0].layout,
+      room, restShare: Math.min(...homes.map(home => home.restShare)) * (crowded ? CROWDED_SHARE : 1),
+      spoilagePerDay: Math.min(...homes.map(home => home.spoilagePerDay)), ...(crowded && { crowded: true }) };
+  }
   if (standing && !household.house) return { kind: 'house', restShare: 1, spoilagePerDay: 0 };
   // A house of pieces: what its finished pens and the pieces about them give (sim/houseplot.mjs).
   const built = standing && pieced(household) ? plotShelter(household.house.pieces) : null;
@@ -392,7 +416,10 @@ export function houseProjection(world, household) {
     const planned = plotShelter(pieces, { built: false });
     return {
       plot: true,
-      ...(plan && { house: { plan: plan.plan, pieces: pieces.map(p => [p.type, p.x, p.y, p.stage, p.progress]), stage: stageOf(household, world), phase: phaseOf(household), ...(!houseBuilt(household) && { wants: stageWants(pieces, skyAtHome(world, household)), why: buildRefusal(household, world) }) } }),
+      completedHouses: (household.completedHouses || []).map(house => ({ ...house, pieces: house.pieces?.map(p => [p.type, p.x, p.y, p.stage, p.progress]) })),
+      canAddHouse: houseBuilt(household),
+      ...(houseBuilt(household) && { additionalChoices: PLAN_IDS.map(id => { const why = planRefusal(world, { ...household, house: undefined, improvements: { ...household.improvements, cabin: 'none' } }, id); return { id, can: !why, ...(why && { why }) }; }) }),
+      ...(plan && { house: { placement: plan.placement, plan: plan.plan, pieces: pieces.map(p => [p.type, p.x, p.y, p.stage, p.progress]), stage: stageOf(household, world), phase: phaseOf(household), ...(!houseBuilt(household) && { wants: stageWants(pieces, skyAtHome(world, household)), why: buildRefusal(household, world) }) } }),
       ...(shelter.layout && { home: { restShare: shelter.restShare, spoilagePerDay: shelter.spoilagePerDay, ...(shelter.crowded && { crowded: true }) } }),
       // What the whole plan would do and still wants, so the plot says it while it is being laid out and built.
       ...(pieces.length && { planned: { ...(planned || {}), ...plotNeeds(pieces) } }),
@@ -449,6 +476,14 @@ export function landView(household) {
 
 /** The house record, and what this household has seen of others, are well formed. */
 export function houseInvalid(world, household) {
+  const p = household.house?.placement;
+  if (p && (!Number.isFinite(p.x) || !Number.isFinite(p.y) || ![0,90,180,270].includes(p.rotation))) return "Invalid house placement";
+  if (household.completedHouses !== undefined) {
+    if (!Array.isArray(household.completedHouses)) return 'Invalid additional houses';
+    for (const house of household.completedHouses) {
+      if (!house || houseInvalid(world, { ...household, house, completedHouses: undefined, seenLand: {} }) || !houseBuilt({ ...household, house })) return 'Invalid completed house';
+    }
+  }
   if (pieced(household)) {
     const why = plotInvalid(household.house);
     if (why) return why;

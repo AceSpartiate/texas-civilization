@@ -340,21 +340,21 @@ export const KINDS = Object.freeze({
   shortleaf: kind('shortleaf pine', [2, 3, 3], 'wall', 0.8, 'pine-loblolly', { sized: true, stump: 'stump-pine-loblolly' }),
   mesquite: kind('mesquite', [0, 0, 0], 'none', 0.6, 'mesquite', SIZED),
   // The biomes of 1836 (docs/BIOMES.md §7.1, 2026-09-19). stand-in: docs/ART_REQUESTS.md, request 2026-09-19 - the country of
-  // 1836: longleaf is drawn as the loblolly, bald cypress as the cedar a third taller, the palm as the sapling drawn twice as
-  // tall, and beech and magnolia as the broad oak, until their own art lands. Sweetgum and the remaining oaks have theirs.
+  // The principal indicator species now have their own art. Beech and magnolia have log and large frames; their rare pole-size
+  // juveniles use the log frame at reduced scale until a botanically useful juvenile silhouette is requested.
   'bur-oak': kind('bur oak', [1, 2, 2], 'sill', 1.1, 'post-oak', SIZED),
-  longleaf: kind('longleaf pine', [2, 3, 4], 'wall', 0.8, 'pine-loblolly', { sized: true, scale: 1.25, stump: 'stump-pine-loblolly' }),
-  beech: kind('beech', [1, 2, 3], 'poor', 1.1, 'oak-broad'),
-  magnolia: kind('magnolia', [1, 2, 2], 'poor', 1, 'oak-broad'),
+  longleaf: kind('longleaf pine', [2, 3, 4], 'wall', 0.8, 'pine-longleaf', { sized: true, stump: 'stump-pine-loblolly' }),
+  beech: kind('beech', [1, 2, 3], 'poor', 1.1, 'beech-log', { pictures: ['beech-log', 'beech-log', 'beech-large'] }),
+  magnolia: kind('magnolia', [1, 2, 2], 'poor', 1, 'magnolia-log', { pictures: ['magnolia-log', 'magnolia-log', 'magnolia-large'] }),
   'white-oak': kind('white oak', [1, 2, 3], 'sill', 1.1, 'post-oak', SIZED),
   sweetgum: kind('sweetgum', [1, 2, 3], 'poor', 0.9, 'sweetgum', SIZED),
-  'bald-cypress': kind('bald cypress', [2, 3, 4], 'sill', 1, 'cedar', { sized: true, scale: 1.35 }),
+  'bald-cypress': kind('bald cypress', [2, 3, 4], 'sill', 1, 'cypress-bald', { sized: true }),
   tupelo: kind('tupelo', [1, 2, 2], 'poor', 0.9, 'elm', SIZED),
   'cedar-elm': kind('cedar elm', [1, 1, 2], 'poor', 1, 'elm', SIZED),
   anacua: kind('anacua', [0, 1, 1], 'poor', 1, 'oak-spreading'),
   ebony: kind('Texas ebony', [0, 1, 1], 'poor', 1.3, 'oak-spreading'),
   willow: kind('willow', [1, 2, 2], 'poor', 0.6, 'cottonwood', { stump: 'stump-cottonwood' }),
-  palm: kind('Texas palm', [0, 1, 1], 'poor', 0.8, 'sapling', { scale: 2 }),
+  palm: kind('Texas palm', [0, 1, 1], 'poor', 0.8, 'palm-sabal', { sized: true }),
   'texas-oak': kind('Texas oak', [1, 1, 2], 'poor', 1, 'post-oak', SIZED),
 });
 export const SIZES = Object.freeze(['pole', 'log', 'large']);

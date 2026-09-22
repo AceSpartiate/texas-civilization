@@ -1,5 +1,37 @@
 # Claude handoff — Astra foundation
 
+## House placement preview — 2026-09-22
+
+Choosing a preset now opens a translucent completed-house draft on the map. Move the pointer to position it; click to hold, Rotate (or R) in quarter turns, Move to reposition, Build here to confirm, or Cancel/Escape. Only confirmation sends `plan-house` with `placement: { x, y, rotation }`. Coordinates remain full precision. The server checks a conservative 80×64-foot envelope (swapped on quarter turns) at nine ground samples and rejects overlaps with retained houses. Both current and retained placed houses use saved coordinates on the family and Host maps. Old saves and commands without placement remain supported.
+
+The preview and built rendering share the same eight-foot grid scale and transform. Rotation currently rotates the existing 2D artwork; separate rear/side elevation sprites are not delivered. Construction workers and the furnishing interaction still use the homestead service point; independent building access/pathfinding remains follow-up work. Terrain validation samples the envelope rather than computing polygon intersection against every waterway.
+
+Validation: 20 house/plot tests passed, including coordinate/orientation persistence, invalid rotation, off-property envelope and existing-building overlap; the lesson browser regression reported 21 passing checks and no page errors. That browser regression verifies general UI health, not an end-to-end placement interaction.
+
+## Second houses and compact builder — 2026-09-22
+
+The colonies house chooser now offers “Build another” after construction finishes. `plan-house` with `additional: true` validates the new design before preserving the finished house in `household.completedHouses` and opening a fresh active project. Only one construction project runs at a time. Finished houses survive saves, remain drawn beside the active project, and contribute combined shelter capacity. The Host projection includes the retained houses. Original-home furnishings retain their original interior. The chooser contains illustrated presets, the current stage, and immediate requirements; the component grid and extended statistics are hidden.
+
+Validation: 933 tests passed in `test-results/second-house-full.log`; after the final interior/Host refinements, 15 house-plot/interior tests passed, including completing a second house through actual construction spells, persistence, and refusing another simultaneous project. The completion test initially held the weather clock at a rainy hour; advancing its clock allowed the existing weather-dependent work to finish. Separate furnishing selection for additional homes and future nightly individual sleeping assignments remain follow-up work. The retained homes currently use automatic visual spacing at the homestead, not independently surveyed sites.
+
+## Simplified house selection and owner decisions — 2026-09-22
+
+Read [HOUSE_SELECTION_HANDOFF.md](docs/HOUSE_SELECTION_HANDOFF.md). The desktop house chooser now presents illustrated preset plans using the world’s actual modular renderer, hiding the component grid and palette. House-site/survey prompts move right, away from the family column. The document records food weights, rare twins, the five-minute tutorial resume window, desktop support, all four military decisions, and the remaining multiple-house/youngest-first sleeping implementation. One house per holding remains a simulation limitation; this pass changes the interface.
+
+## Play Solo delete emblem — 2026-09-22 (unreleased)
+
+`launcher/art/icon-delete-save.png` replaces the modern line-drawn trash can with a transparent frontier stave pail whose lid is visibly open. `SoloGameDialog` embeds, scales and tints one source for ordinary rows, selected rows and warning-red hover. The old GDI line work runs only if the resource cannot load. Exact prompt and provenance are in `docs/LAUNCHER_ART.md`.
+
+## Children’s action icons — 2026-09-22 (unreleased)
+
+`icons-children.png` replaces all six code-drawn children’s work glyphs: play, kindling, shooing birds, gathering eggs, fetching water and minding a younger child. `public/family-panel.js` binds each action directly to its sprite. The kindling icon deliberately contains no blade, and play is visually distinct from work. Generation prompt and provenance live in `scripts/art-deliveries/children-icons.mjs`. The atlas audit found 80.3% clear alpha, 100% object retention and zero overlap trimming.
+
+## Biome trees and field art — 2026-09-22 (unreleased)
+
+`biome-trees-fields.png` adds sixteen production sprites in the established hand-painted style: three sizes each of longleaf pine, Texas sabal palm and bald cypress; medium/large southern magnolia and American beech; young/mature irrigated crop rows; and fallow ground. The unmodified generated source is registered in `scripts/art-deliveries/biome-trees-fields.mjs`; prompt and provenance records are rebuilt into `docs/art-prompts.json` and `docs/art-provenance.json`.
+
+The simulation now binds longleaf, palm and bald cypress to their own three-size art. Beech and magnolia use explicit per-size pictures so mature trees select their large frame. Palm-grove marks and town/Béxar field marks use the new sprites. `npm run build:art` passes with 1,165 measured frames across 82 sheets and 447 clips; the new sheet retained 100% of every measured object with zero overlap trimming. See `docs/ART_REQUESTS.md` for the remaining species stand-ins and the still-open researched acequia layout.
+
 ## Military pacing and continuity — 2026-09-22 (unreleased)
 
 Read [MILITARY_EXPERIENCE.md](docs/MILITARY_EXPERIENCE.md) next. It separates the implemented military pacing/message safeguards from the remaining local messenger, staged battle, survival/role and seamless-continuity work. The owner requires smooth uninterrupted play: no visible fast-forward, dated transition screens or forced camera cuts. Hard tick caps alone do not satisfy that requirement.

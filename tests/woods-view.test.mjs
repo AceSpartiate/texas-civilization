@@ -58,14 +58,16 @@ test('each tile is the woods themselves: the trees in it, its patches and its sh
   const names = new Set(Array.isArray(frames) ? frames.map(frame => frame.id || frame.name) : Object.keys(frames));
   // `trees-colonies-2` (2026-09-21) added the second five; the other oaks took the post oak's art and hickory, walnut and
   // ash the pecan's, which they were already drawn with unsized.
-  assert.deepEqual(Object.fromEntries(['loblolly','shortleaf','cedar','mesquite','live-oak','elm','post-oak','blackjack','pecan','hackberry','sweetgum'].map(id => [id,KINDS[id].picture])), {
-    loblolly:'pine-loblolly', shortleaf:'pine-loblolly', cedar:'cedar', mesquite:'mesquite', 'live-oak':'live-oak', elm:'elm',
+  assert.deepEqual(Object.fromEntries(['loblolly','shortleaf','longleaf','cedar','mesquite','live-oak','elm','post-oak','blackjack','pecan','hackberry','sweetgum','bald-cypress','palm'].map(id => [id,KINDS[id].picture])), {
+    loblolly:'pine-loblolly', shortleaf:'pine-loblolly', longleaf:'pine-longleaf', cedar:'cedar', mesquite:'mesquite', 'live-oak':'live-oak', elm:'elm',
     'post-oak':'post-oak', blackjack:'blackjack', pecan:'pecan', hackberry:'hackberry', sweetgum:'sweetgum',
+    'bald-cypress':'cypress-bald', palm:'palm-sabal',
   }, 'delivered tree kinds stay bound to their species-specific art');
   for (const [id, kind] of Object.entries(KINDS)) {
     // `sized` is the kind's own word for whether its art comes at three sizes; a hard-coded list of pictures here went
     // stale the day a delivery landed, which is exactly what happened on 2026-09-21.
-    if (kind.sized) for (const sizeName of ['pole','log','large']) assert.ok(names.has(`${kind.picture}-${sizeName}`), `${id} has ${sizeName} art`);
+    if (kind.pictures) for (const picture of kind.pictures) assert.ok(names.has(picture), `${id} is drawn as ${picture}, which the library has`);
+    else if (kind.sized) for (const sizeName of ['pole','log','large']) assert.ok(names.has(`${kind.picture}-${sizeName}`), `${id} has ${sizeName} art`);
     else assert.ok(names.has(kind.picture), `${id} is drawn as ${kind.picture}, which the library has`);
   }
 });

@@ -765,7 +765,7 @@ function applyOneAction(world, householdId, input) {
   // So is whether stock is driven in behind it, which decides how much land the family holds (sim/grants.mjs).
   if (input.action === 'bring-stock') { setStock(world, household, input.stock); return; }
   // So is choosing the house, which can be changed until the first spell of work goes into it.
-  if (input.action === 'plan-house') { planHouse(world, household, input.layout); return; }
+  if (input.action === 'plan-house') { planHouse(world, household, input.layout, input.additional === true, input.placement); return; }
   // How a parent looks (sim/appearance.mjs). Checked before the rules about who can act, because it is not an act:
   // nothing reads it, and a parent away or hurt still looks like somebody.
   if (input.action === 'set-appearance') { setAppearance(world, household, input); return; }

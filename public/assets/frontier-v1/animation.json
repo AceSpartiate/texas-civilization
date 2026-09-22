@@ -138,6 +138,162 @@
       "motion": "none",
       "direction": "not applicable"
     },
+    "pine-longleaf-pole-wind": {
+      "frames": [
+        {
+          "sprite": "pine-longleaf-pole",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "pine-longleaf-log-wind": {
+      "frames": [
+        {
+          "sprite": "pine-longleaf-log",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "pine-longleaf-large-wind": {
+      "frames": [
+        {
+          "sprite": "pine-longleaf-large",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "palm-sabal-pole-wind": {
+      "frames": [
+        {
+          "sprite": "palm-sabal-pole",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "palm-sabal-log-wind": {
+      "frames": [
+        {
+          "sprite": "palm-sabal-log",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "palm-sabal-large-wind": {
+      "frames": [
+        {
+          "sprite": "palm-sabal-large",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "cypress-bald-pole-wind": {
+      "frames": [
+        {
+          "sprite": "cypress-bald-pole",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "cypress-bald-log-wind": {
+      "frames": [
+        {
+          "sprite": "cypress-bald-log",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "cypress-bald-large-wind": {
+      "frames": [
+        {
+          "sprite": "cypress-bald-large",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "magnolia-log-wind": {
+      "frames": [
+        {
+          "sprite": "magnolia-log",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "magnolia-large-wind": {
+      "frames": [
+        {
+          "sprite": "magnolia-large",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "beech-log-wind": {
+      "frames": [
+        {
+          "sprite": "beech-log",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
+    "beech-large-wind": {
+      "frames": [
+        {
+          "sprite": "beech-large",
+          "duration": 3800
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "sway",
+      "direction": "not applicable"
+    },
     "rust-woman-carry": {
       "frames": [
         {

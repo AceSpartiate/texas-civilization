@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1149 usable sprites, 81 PNG atlases, 434 clips** (224 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1171 usable sprites, 83 PNG atlases, 447 clips** (224 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -15,6 +15,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | alamo-face-strips | 5 | 1659 × 948 | 928904 |
 | artillery-service | 16 | 1254 × 1254 | 1171440 |
 | biome-ground-bexar | 16 | 1254 × 1254 | 2215982 |
+| biome-trees-fields | 16 | 1254 × 1254 | 1966285 |
 | people-cast2-carry | 12 | 1254 × 1254 | 1294419 |
 | people-cast2-dialogue | 16 | 1254 × 1254 | 867662 |
 | people-cast2-care | 16 | 1254 × 1254 | 1382974 |
@@ -24,6 +25,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-cast2-walk | 16 | 1254 × 1254 | 1288383 |
 | people-cast2-work | 16 | 1254 × 1254 | 1279315 |
 | people-cast2-idle | 16 | 1254 × 1254 | 1103935 |
+| icons-children | 6 | 1254 × 1254 | 874710 |
 | people-children-vertical | 12 | 1254 × 1254 | 1163980 |
 | people-children-idle | 16 | 1254 × 1254 | 1351105 |
 | people-children-walk | 12 | 1254 × 1254 | 1127437 |
@@ -135,6 +137,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | acequia-bend | biome-ground-bexar | State artwork; no motion required |
 | acequia-crossing | biome-ground-bexar | State artwork; no motion required |
 | fence-brush | biome-ground-bexar | State artwork; no motion required |
+| pine-longleaf-pole | biome-trees-fields | pine-longleaf-pole-wind |
+| pine-longleaf-log | biome-trees-fields | pine-longleaf-log-wind |
+| pine-longleaf-large | biome-trees-fields | pine-longleaf-large-wind |
+| palm-sabal-pole | biome-trees-fields | palm-sabal-pole-wind |
+| palm-sabal-log | biome-trees-fields | palm-sabal-log-wind |
+| palm-sabal-large | biome-trees-fields | palm-sabal-large-wind |
+| cypress-bald-pole | biome-trees-fields | cypress-bald-pole-wind |
+| cypress-bald-log | biome-trees-fields | cypress-bald-log-wind |
+| cypress-bald-large | biome-trees-fields | cypress-bald-large-wind |
+| magnolia-log | biome-trees-fields | magnolia-log-wind |
+| magnolia-large | biome-trees-fields | magnolia-large-wind |
+| beech-log | biome-trees-fields | beech-log-wind |
+| beech-large | biome-trees-fields | beech-large-wind |
+| field-irrigated-young | biome-trees-fields | State artwork; no motion required |
+| field-irrigated-mature | biome-trees-fields | State artwork; no motion required |
+| field-fallow | biome-trees-fields | State artwork; no motion required |
 | rust-woman-carry-1 | people-cast2-carry | rust-woman-carry |
 | rust-woman-carry-2 | people-cast2-carry | rust-woman-carry |
 | rust-woman-carry-3 | people-cast2-carry | rust-woman-carry |
@@ -275,6 +293,12 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | blue-girl-idle-e | people-cast2-idle | blue-girl-idle-e |
 | blue-girl-idle-w | people-cast2-idle | blue-girl-idle-w |
 | blue-girl-idle-n | people-cast2-idle | blue-girl-idle-n |
+| icon-child-play | icons-children | State artwork; no motion required |
+| icon-child-kindling | icons-children | State artwork; no motion required |
+| icon-child-birds | icons-children | State artwork; no motion required |
+| icon-child-eggs | icons-children | State artwork; no motion required |
+| icon-child-water | icons-children | State artwork; no motion required |
+| icon-child-mind | icons-children | State artwork; no motion required |
 | girl-walk-s-1 | people-children-vertical | girl-walk-s |
 | girl-walk-s-2 | people-children-vertical | girl-walk-s |
 | girl-walk-n-1 | people-children-vertical | girl-walk-n |
@@ -1260,6 +1284,19 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | regular-gun-fire | Pose cycle | 2 | 1060 | one-shot | east; west by mirroring |
 | cane-wind | Still state | 1 | 900 | yes | not applicable |
 | grass-tall-wind | Still state | 1 | 900 | yes | not applicable |
+| pine-longleaf-pole-wind | sway | 1 | 3800 | yes | not applicable |
+| pine-longleaf-log-wind | sway | 1 | 3800 | yes | not applicable |
+| pine-longleaf-large-wind | sway | 1 | 3800 | yes | not applicable |
+| palm-sabal-pole-wind | sway | 1 | 3800 | yes | not applicable |
+| palm-sabal-log-wind | sway | 1 | 3800 | yes | not applicable |
+| palm-sabal-large-wind | sway | 1 | 3800 | yes | not applicable |
+| cypress-bald-pole-wind | sway | 1 | 3800 | yes | not applicable |
+| cypress-bald-log-wind | sway | 1 | 3800 | yes | not applicable |
+| cypress-bald-large-wind | sway | 1 | 3800 | yes | not applicable |
+| magnolia-log-wind | sway | 1 | 3800 | yes | not applicable |
+| magnolia-large-wind | sway | 1 | 3800 | yes | not applicable |
+| beech-log-wind | sway | 1 | 3800 | yes | not applicable |
+| beech-large-wind | sway | 1 | 3800 | yes | not applicable |
 | rust-woman-carry | Pose cycle | 4 | 760 | yes | east; west by mirroring |
 | indigo-carry | Pose cycle | 4 | 760 | yes | east; west by mirroring |
 | ochre-carry | Pose cycle | 4 | 760 | yes | east; west by mirroring |

@@ -16,6 +16,17 @@ namespace TexasRevolution.Launcher;
 /// </remarks>
 public sealed class SoloGameDialog : Form
 {
+    private static readonly Lazy<Image?> DeleteSaveIcon = new(() =>
+    {
+        try
+        {
+            using var stream = typeof(SoloGameDialog).Assembly.GetManifestResourceStream("TexasRevolution.Launcher.art.icon-delete-save.png");
+            if (stream is null) return null;
+            using var source = Image.FromStream(stream, useEmbeddedColorManagement: false, validateImageData: false);
+            return new Bitmap(source);
+        }
+        catch { return null; }
+    });
     private readonly ListBox _games = new() { Dock = DockStyle.Fill, IntegralHeight = false, BorderStyle = BorderStyle.FixedSingle };
     private readonly Button _new = new() { Text = "New game", AutoSize = true, Padding = new Padding(10, 4, 10, 4) };
     private readonly Button _continue = new() { Text = "Continue", AutoSize = true, Padding = new Padding(10, 4, 10, 4) };
@@ -121,14 +132,31 @@ public sealed class SoloGameDialog : Form
     }
 
     /// <summary>
-    /// The trash can itself: a lid, a body that tapers, and two lines down it.
-    /// stand-in: docs/ART_REQUESTS.md, "the Play Solo menu's trash can" — drawn here in GDI+ until Astra's lands.
+    /// The illustrated frontier pail, tinted to the row or warning red. The line drawing remains a safe packaging fallback.
     /// </summary>
     private static void DrawBin(Graphics graphics, Rectangle cell, bool lit, Color ink)
     {
+        var colour = lit ? Color.FromArgb(150, 52, 30) : ink;
+        if (DeleteSaveIcon.Value is { } icon)
+        {
+            var side = Math.Min(22, Math.Min(cell.Width - 8, cell.Height - 6));
+            var target = new Rectangle(cell.X + (cell.Width - side) / 2, cell.Y + (cell.Height - side) / 2, side, side);
+            var c = colour;
+            var matrix = new System.Drawing.Imaging.ColorMatrix(new[] {
+                new[] { c.R / 255f, 0f, 0f, 0f, 0f },
+                new[] { 0f, c.G / 255f, 0f, 0f, 0f },
+                new[] { 0f, 0f, c.B / 255f, 0f, 0f },
+                new[] { 0f, 0f, 0f, lit ? 1f : .78f, 0f },
+                new[] { 0f, 0f, 0f, 0f, 1f },
+            });
+            using var attributes = new System.Drawing.Imaging.ImageAttributes();
+            attributes.SetColorMatrix(matrix);
+            graphics.DrawImage(icon, target, 0, 0, icon.Width, icon.Height, GraphicsUnit.Pixel, attributes);
+            return;
+        }
         var was = graphics.SmoothingMode;
         graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-        var colour = lit ? Color.FromArgb(150, 52, 30) : Color.FromArgb(150, ink.R, ink.G, ink.B);
+        colour = lit ? colour : Color.FromArgb(150, ink.R, ink.G, ink.B);
         using var pen = new Pen(colour, lit ? 2f : 1.6f);
         var width = 14; var height = 15;
         var left = cell.X + (cell.Width - width) / 2;

@@ -115,11 +115,10 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
   // The family's own stock (sim/stock.mjs, docs/STOCK.md): no frames yet. stand-in: docs/ART_REQUESTS.md, request
   // 2026-09-20 - the stock icons; glyphs drawn by `drawGlyph` until `icon-<key>` is registered.
   ['butcher-beef', { glyph: 'beef' }], ['butcher-hog', { glyph: 'hog' }], ['look-to-stock', { glyph: 'range' }],
-  // What the family's children do (sim/children.mjs, docs/FAMILY_CREATION.md §3's amendment of 2026-09-21): no frames yet.
-  // stand-in: docs/ART_REQUESTS.md, request 2026-09-21 - the children's icons; each is a glyph drawn by `drawGlyph` until
-  // `icon-<key>` is registered, which `drawIcon` then prefers.
-  ['child-play', { glyph: 'play' }], ['child-kindling', { glyph: 'kindling' }], ['child-birds', { glyph: 'birds' }],
-  ['child-eggs', { glyph: 'eggs' }], ['child-water', { glyph: 'water-pail' }], ['child-mind', { glyph: 'mind' }],
+  // What the family's children do (sim/children.mjs, docs/FAMILY_CREATION.md §3's amendment of 2026-09-21).
+  ['child-play', { sprite: 'icon-child-play' }], ['child-kindling', { sprite: 'icon-child-kindling' }],
+  ['child-birds', { sprite: 'icon-child-birds' }], ['child-eggs', { sprite: 'icon-child-eggs' }],
+  ['child-water', { sprite: 'icon-child-water' }], ['child-mind', { sprite: 'icon-child-mind' }],
 ]));
 /** The camp's work, the chores a man serving with Houston's army is offered (sim/camp.mjs); the only work a serving row shows. */
 export const CAMP_CHORES = Object.freeze(['camp-drill', 'camp-forage', 'camp-guard', 'camp-scout']);

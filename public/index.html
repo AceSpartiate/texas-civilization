@@ -290,10 +290,18 @@
     </section>
     <!-- The house plot (public/house-plot.js, docs/WOODS_AND_BUILDING.md §6.2): a family on the real land plans its house
          piece by piece. What every piece needs and does comes from the server's catalogue; where it may go, from the server. -->
+    <section id="house-placement" hidden aria-label="Place your house">
+      <strong>Place your house</strong>
+      <p id="house-placement-note" role="status"></p>
+      <button id="house-rotate" type="button">Rotate 90°</button>
+      <button id="house-move" type="button">Move</button>
+      <button id="house-placement-confirm" type="button">Build here</button>
+      <button id="house-placement-cancel" type="button">Cancel</button>
+    </section>
     <section id="house-plot" hidden aria-labelledby="house-plot-title">
       <header>
         <span class="eyebrow">YOUR LAND</span>
-        <h2 id="house-plot-title">The house plot</h2>
+        <h2 id="house-plot-title">Choose your house</h2>
       </header>
       <div id="plot-summary"></div>
       <div id="plot-plans" class="plot-plans"></div>
@@ -302,7 +310,7 @@
       <p id="plot-note" role="alert"></p>
       <ul id="plot-palette" class="plot-palette"></ul>
       <button type="button" id="plot-close">Close</button>
-      <p class="panel-behind">Your family is behind this. Close it when you want to give somebody an order.</p>
+      <p class="panel-behind">Close this panel to give your family building orders.</p>
     </section>
 
     <!-- Where the house stands, on the real land (docs/LAND_GRANTS.md §8.2, sim/homesite.mjs). What a place is like, and

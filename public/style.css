@@ -447,6 +447,20 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 /* The house plot (public/house-plot.js). */
 #house-plot{position:absolute;left:12px;top:64px;z-index:8;width:min(34rem,calc(100% - 24px));max-height:calc(100% - 150px);overflow:auto;background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259;border-radius:8px;box-shadow:0 5px 0 #6b583638,0 18px 45px #32291950;padding:12px 14px 13px;color:#3b3427}
 #house-plot h2{font-size:19px;margin:2px 0 0;color:#4b3e28}
+#house-placement{position:absolute;right:12px;top:160px;z-index:18;width:280px;padding:12px;background:#f6efd9;border:1px solid #9c8259;border-radius:8px}
+#house-placement button{margin:3px;min-height:36px}
+@media (min-width:761px){
+  #house-plot{left:auto;right:12px;top:160px;width:340px;max-height:calc(100% - 280px)}
+  #site-choose,#survey-choose{left:auto;right:12px;top:160px;width:300px;max-height:calc(100% - 290px);overflow:auto}
+  #tutorial{left:auto;right:12px;bottom:140px}
+}
+#plot-plans{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#plot-plans .house-choice{display:flex;flex-direction:column;align-items:center;padding:6px;min-width:0}
+.house-choice canvas{width:100%;height:auto;background:#e5dfc4;border-radius:4px}
+.house-choice strong{margin-top:4px}
+.house-choice span{font-size:11px;margin-top:3px}
+#plot-summary .house-line{font-size:12px;margin:4px 0}
+#plot-grid[hidden],#plot-palette[hidden]{display:none}
 .plot-plans{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .plot-plans button,.plot-palette button,#plot-close{min-height:32px;padding:4px 10px;font-size:13px;background:#f3ead2;color:#3f3524;border-color:#b09a6d}
 .plot-plans button[aria-pressed=true],.plot-palette button[aria-pressed=true]{background:#7a4726;border-color:#5d3419;color:#fdf0dd}

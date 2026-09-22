@@ -142,7 +142,7 @@ export const GROUND_CLASSES = Object.freeze({
     { upTo: 1, sprite: 'grass-tuft', size: .5, fallback: 'tuft' },
   ] },
   'palm-grove': { colour: [120, 150, 90], alpha: .5, timber: true, marks: [
-    { upTo: .15, sprite: 'sapling', size: 2.2, fallback: 'bush' },
+    { upTo: .15, sprite: 'palm-sabal-pole', size: 1.15, fallback: 'bush' },
     { upTo: .3, sprite: 'scrub', size: .9, fallback: 'bush' },
     { upTo: 1, sprite: 'grass-tuft', size: .6, fallback: 'tuft' },
   ] },
@@ -151,11 +151,13 @@ export const GROUND_CLASSES = Object.freeze({
     { upTo: .4, sprite: 'mesquite-pole', size: 1.2, fallback: 'bush' },
     { upTo: 1, sprite: 'grass-tuft', size: .6, fallback: 'tuft' },
   ] },
-  // A town's fields (docs/BIOMES.md §5, FIC-GONZ-062): stubble and fallow, the families' own plots drawn over them as always.
+  // A town's fields (docs/BIOMES.md §5, FIC-GONZ-062): irrigated crops, stubble and fallow; families' plots still draw above.
   fields: { colour: [196, 158, 100], alpha: .55, marks: [
-    { upTo: .5, sprite: 'crop-stubble', size: .7, fallback: 'tuft' },
-    { upTo: .8, sprite: 'grass-tuft', size: .5, fallback: 'tuft' },
-    { upTo: 1, sprite: null, size: 0, fallback: null },
+    { upTo: .22, sprite: 'field-irrigated-young', size: .8, fallback: 'tuft' },
+    { upTo: .42, sprite: 'field-irrigated-mature', size: .85, fallback: 'tuft' },
+    { upTo: .68, sprite: 'field-fallow', size: .85, fallback: 'tuft' },
+    { upTo: .86, sprite: 'crop-stubble', size: .7, fallback: 'tuft' },
+    { upTo: 1, sprite: 'grass-tuft', size: .5, fallback: 'tuft' },
   ] },
   // Outside the playable land, if the data ever carries it.
   desert: { colour: [210, 191, 142], alpha: .4, marks: [

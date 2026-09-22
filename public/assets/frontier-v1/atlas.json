@@ -320,6 +320,130 @@
         ]
       }
     },
+    "biome-trees-fields": {
+      "image": "atlases/biome-trees-fields.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1966285,
+      "sha256": "63ca0a0e92ffe2c78e2ca3d7f416e803c4dee930ec4721b2a8d824c355c57fca",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.542545,
+        "cornerAlpha": [
+          1,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              6,
+              347
+            ],
+            "columns": [
+              [
+                101,
+                230
+              ],
+              [
+                388,
+                558
+              ],
+              [
+                651,
+                886
+              ],
+              [
+                985,
+                1216
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              346,
+              653
+            ],
+            "columns": [
+              [
+                63,
+                267
+              ],
+              [
+                367,
+                583
+              ],
+              [
+                687,
+                883
+              ],
+              [
+                984,
+                1212
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              640,
+              933
+            ],
+            "columns": [
+              [
+                40,
+                293
+              ],
+              [
+                354,
+                593
+              ],
+              [
+                633,
+                932
+              ],
+              [
+                984,
+                1216
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              933,
+              1221
+            ],
+            "columns": [
+              [
+                17,
+                310
+              ],
+              [
+                320,
+                614
+              ],
+              [
+                635,
+                930
+              ],
+              [
+                942,
+                1234
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "people-cast2-carry": {
       "image": "atlases/people-cast2-carry.png",
       "width": 1254,
@@ -1432,6 +1556,82 @@
                 1069
               ]
             ]
+          }
+        ]
+      }
+    },
+    "icons-children": {
+      "image": "atlases/icons-children.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 874710,
+      "sha256": "9201f27569a047c0cddb07a675c3b95136a2aba1d3cb27dbb3dd71441ff84396",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.8026,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              20,
+              363
+            ],
+            "columns": [
+              [
+                15,
+                315
+              ],
+              [
+                351,
+                617
+              ],
+              [
+                657,
+                948
+              ],
+              [
+                965,
+                1244
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              368,
+              693
+            ],
+            "columns": [
+              [
+                54,
+                287
+              ],
+              [
+                375,
+                559
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [],
+            "columns": []
+          },
+          {
+            "row": 4,
+            "yRange": [],
+            "columns": []
           }
         ]
       }
@@ -10157,6 +10357,390 @@
         "retainedFraction": 1
       }
     },
+    "pine-longleaf-pole": {
+      "sheet": "biome-trees-fields",
+      "x": 101,
+      "y": 96,
+      "w": 129,
+      "h": 245,
+      "anchorX": 0.5,
+      "anchorY": 0.9306,
+      "label": "pine longleaf pole",
+      "kind": "biome-trees-fields",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          103,
+          98,
+          125,
+          241
+        ],
+        "visiblePixels": 15328,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "pine-longleaf-log": {
+      "sheet": "biome-trees-fields",
+      "x": 388,
+      "y": 51,
+      "w": 170,
+      "h": 286,
+      "anchorX": 0.5029,
+      "anchorY": 0.9336,
+      "label": "pine longleaf log",
+      "kind": "biome-trees-fields",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          390,
+          53,
+          166,
+          282
+        ],
+        "visiblePixels": 24362,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "pine-longleaf-large": {
+      "sheet": "biome-trees-fields",
+      "x": 651,
+      "y": 6,
+      "w": 235,
+      "h": 339,
+      "anchorX": 0.5234,
+      "anchorY": 0.9499,
+      "label": "pine longleaf large",
+      "kind": "biome-trees-fields",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          653,
+          8,
+          231,
+          335
+        ],
+        "visiblePixels": 42673,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "palm-sabal-pole": {
+      "sheet": "biome-trees-fields",
+      "x": 985,
+      "y": 154,
+      "w": 231,
+      "h": 193,
+      "anchorX": 0.5022,
+      "anchorY": 0.9275,
+      "label": "palm sabal pole",
+      "kind": "biome-trees-fields",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          987,
+          156,
+          227,
+          189
+        ],
+        "visiblePixels": 26578,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "palm-sabal-log": {
+      "sheet": "biome-trees-fields",
+      "x": 63,
+      "y": 390,
+      "w": 204,
+      "h": 249,
+      "anchorX": 0.4902,
+      "anchorY": 0.9478,
+      "label": "palm sabal log",
+      "kind": "biome-trees-fields",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          65,
+          392,
+          200,
+          245
+        ],
+        "visiblePixels": 28205,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "palm-sabal-large": {
+      "sheet": "biome-trees-fields",
+      "x": 367,
+      "y": 346,
+      "w": 216,
+      "h": 301,
+      "anchorX": 0.4931,
+      "anchorY": 0.9302,
+      "label": "palm sabal large",
+      "kind": "biome-trees-fields",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          369,
+          348,
+          212,
+          297
+        ],
+        "visiblePixels": 34161,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cypress-bald-pole": {
+      "sheet": "biome-trees-fields",
+      "x": 687,
+      "y": 403,
+      "w": 196,
+      "h": 244,
+      "anchorX": 0.5026,
+      "anchorY": 0.9262,
+      "label": "cypress bald pole",
+      "kind": "biome-trees-fields",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          689,
+          405,
+          192,
+          240
+        ],
+        "visiblePixels": 23170,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cypress-bald-log": {
+      "sheet": "biome-trees-fields",
+      "x": 984,
+      "y": 364,
+      "w": 228,
+      "h": 289,
+      "anchorX": 0.5088,
+      "anchorY": 0.9273,
+      "label": "cypress bald log",
+      "kind": "biome-trees-fields",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          986,
+          366,
+          224,
+          285
+        ],
+        "visiblePixels": 36624,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cypress-bald-large": {
+      "sheet": "biome-trees-fields",
+      "x": 40,
+      "y": 640,
+      "w": 253,
+      "h": 290,
+      "anchorX": 0.5119,
+      "anchorY": 0.9276,
+      "label": "cypress bald large",
+      "kind": "biome-trees-fields",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          42,
+          642,
+          249,
+          286
+        ],
+        "visiblePixels": 43729,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "magnolia-log": {
+      "sheet": "biome-trees-fields",
+      "x": 354,
+      "y": 687,
+      "w": 239,
+      "h": 244,
+      "anchorX": 0.477,
+      "anchorY": 0.9385,
+      "label": "magnolia log",
+      "kind": "biome-trees-fields",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          356,
+          689,
+          235,
+          240
+        ],
+        "visiblePixels": 33810,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "magnolia-large": {
+      "sheet": "biome-trees-fields",
+      "x": 633,
+      "y": 657,
+      "w": 299,
+      "h": 276,
+      "anchorX": 0.495,
+      "anchorY": 0.9384,
+      "label": "magnolia large",
+      "kind": "biome-trees-fields",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          635,
+          659,
+          295,
+          272
+        ],
+        "visiblePixels": 50726,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "beech-log": {
+      "sheet": "biome-trees-fields",
+      "x": 984,
+      "y": 666,
+      "w": 232,
+      "h": 266,
+      "anchorX": 0.5065,
+      "anchorY": 0.9286,
+      "label": "beech log",
+      "kind": "biome-trees-fields",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          986,
+          668,
+          228,
+          262
+        ],
+        "visiblePixels": 37274,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "beech-large": {
+      "sheet": "biome-trees-fields",
+      "x": 17,
+      "y": 933,
+      "w": 293,
+      "h": 288,
+      "anchorX": 0.5034,
+      "anchorY": 0.9271,
+      "label": "beech large",
+      "kind": "biome-trees-fields",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          19,
+          935,
+          289,
+          284
+        ],
+        "visiblePixels": 54100,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "field-irrigated-young": {
+      "sheet": "biome-trees-fields",
+      "x": 320,
+      "y": 1015,
+      "w": 294,
+      "h": 191,
+      "anchorX": 0.5221,
+      "anchorY": 0.9267,
+      "label": "field irrigated young",
+      "kind": "biome-trees-fields",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          322,
+          1017,
+          290,
+          187
+        ],
+        "visiblePixels": 38622,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "field-irrigated-mature": {
+      "sheet": "biome-trees-fields",
+      "x": 635,
+      "y": 951,
+      "w": 295,
+      "h": 260,
+      "anchorX": 0.4559,
+      "anchorY": 0.9269,
+      "label": "field irrigated mature",
+      "kind": "biome-trees-fields",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          637,
+          953,
+          291,
+          256
+        ],
+        "visiblePixels": 51363,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "field-fallow": {
+      "sheet": "biome-trees-fields",
+      "x": 942,
+      "y": 1019,
+      "w": 292,
+      "h": 191,
+      "anchorX": 0.5017,
+      "anchorY": 0.9267,
+      "label": "field fallow",
+      "kind": "biome-trees-fields",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          944,
+          1021,
+          288,
+          187
+        ],
+        "visiblePixels": 41889,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
     "rust-woman-carry-1": {
       "sheet": "people-cast2-carry",
       "x": 136,
@@ -13653,6 +14237,150 @@
           250
         ],
         "visiblePixels": 22798,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "icon-child-play": {
+      "sheet": "icons-children",
+      "x": 15,
+      "y": 20,
+      "w": 300,
+      "h": 343,
+      "anchorX": 0.4833,
+      "anchorY": 0.9271,
+      "label": "icon child play",
+      "kind": "icons-children",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          17,
+          22,
+          296,
+          339
+        ],
+        "visiblePixels": 36825,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "icon-child-kindling": {
+      "sheet": "icons-children",
+      "x": 351,
+      "y": 84,
+      "w": 266,
+      "h": 279,
+      "anchorX": 0.5771,
+      "anchorY": 0.9283,
+      "label": "icon child kindling",
+      "kind": "icons-children",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          353,
+          86,
+          262,
+          275
+        ],
+        "visiblePixels": 51217,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "icon-child-birds": {
+      "sheet": "icons-children",
+      "x": 657,
+      "y": 32,
+      "w": 291,
+      "h": 330,
+      "anchorX": 0.4588,
+      "anchorY": 0.9485,
+      "label": "icon child birds",
+      "kind": "icons-children",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          659,
+          34,
+          287,
+          326
+        ],
+        "visiblePixels": 50864,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "icon-child-eggs": {
+      "sheet": "icons-children",
+      "x": 965,
+      "y": 137,
+      "w": 279,
+      "h": 221,
+      "anchorX": 0.4821,
+      "anchorY": 0.9276,
+      "label": "icon child eggs",
+      "kind": "icons-children",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          967,
+          139,
+          275,
+          217
+        ],
+        "visiblePixels": 45372,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "icon-child-water": {
+      "sheet": "icons-children",
+      "x": 54,
+      "y": 373,
+      "w": 233,
+      "h": 299,
+      "anchorX": 0.4356,
+      "anchorY": 0.9298,
+      "label": "icon child water",
+      "kind": "icons-children",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          56,
+          375,
+          229,
+          295
+        ],
+        "visiblePixels": 44351,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "icon-child-mind": {
+      "sheet": "icons-children",
+      "x": 375,
+      "y": 368,
+      "w": 184,
+      "h": 325,
+      "anchorX": 0.5734,
+      "anchorY": 0.9292,
+      "label": "icon child mind",
+      "kind": "icons-children",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          377,
+          370,
+          180,
+          321
+        ],
+        "visiblePixels": 38855,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

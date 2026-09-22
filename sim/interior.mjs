@@ -23,6 +23,8 @@ export { INTERIORS, INTERIOR_ART };
  * is a saddlebag, whether planned as one or free-built.
  */
 export function interiorOf(household) {
+  // Furnishings stay in the original home when another building is started.
+  if (household.completedHouses?.length) return interiorOf({ ...household, house: household.completedHouses[0], completedHouses: undefined });
   const view = landView(household);
   if (view.shelter !== 'house') return null;
   const pieces = household.house?.pieces;

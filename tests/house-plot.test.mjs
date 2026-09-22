@@ -1,3 +1,4 @@
+import { checkHousePlacement } from '../sim/house-placement.mjs';
 // The house plot: docs/WOODS_AND_BUILDING.md §6.2-6.3, build steps 5 and 6.
 //
 // A family on the real land plans its house from period plans or pieces placed on a grid, each piece saying what it
@@ -12,7 +13,7 @@ import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/worl
 import { choreAvailability } from '../sim/chores.mjs';
 import { holdingOf } from '../sim/grants.mjs';
 import { siteFactsFor } from '../sim/homesite.mjs';
-import { handsOn, helpRefusal, houseBuilt, landView, pieced, raising, shelterOf, stageOf } from '../sim/houses.mjs';
+import { buildSpell, handsOn, helpRefusal, houseBuilt, landView, pieced, raising, shelterOf, stageOf } from '../sim/houses.mjs';
 import {
   PIECES, PLANS, PLAN_IDS, TWO_HANDED_ABOVE, logsShort, nextStage, pieceDone, placeRefusal, planInvalid, planPieces, plotCatalogue,
   plotNeeds, plotShelter, stageWants,
@@ -272,4 +273,47 @@ test('families nobody plays on the real land fell, haul and raise houses of piec
   assert.ok(fetched.length > 0, 'nobody fetched logs from the timber');
   for (const h of fetched) assert.notEqual(h.house.plan, 'jacal', `${h.id} fetched logs and built a jacal`);
   assert.ok(fetched.some(houseBuilt), 'a log house raised from logs fetched in the wagon');
+});
+
+
+test('a second house preserves the first, starts empty and survives a save round trip', () => {
+  const { world, household } = onTheLand('second-house');
+  applyAction(world, household.id, { action: 'plan-house', layout: 'jacal' });
+  for (const p of household.house.pieces) { p.stage = PIECES[p.type].stages.length; p.progress = 0; }
+  household.improvements.cabin = 'sound';
+  const first = structuredClone(household.house);
+  applyAction(world, household.id, { action: 'plan-house', layout: 'jacal', additional: true });
+  assert.deepEqual(household.completedHouses, [first]);
+  assert.ok(household.house.pieces.every(p => p.stage === 0 && p.progress === 0));
+  assert.equal(shelterOf(world, household).kind, 'house');
+  assert.throws(() => applyAction(world, household.id, { action: 'plan-house', layout: 'jacal', additional: true }), /Finish/);
+  assert.deepEqual(household.completedHouses, [first]);
+  const saved = JSON.parse(JSON.stringify(world));
+  validateWorld(saved);
+  assert.deepEqual(saved.households[household.id].completedHouses, [first]);
+  const land = projectWorld(saved, household.id).land;
+  assert.equal(land.completedHouses.length, 1);
+  assert.equal(land.canAddHouse, false);
+  for (let work = 0; work < 24 * 30 && !houseBuilt(household); work++) { world.minute += 60; buildSpell(world, household, world.entities[household.principalId]); }
+  assert.equal(houseBuilt(household), true, 'the second house finishes through normal construction');
+  assert.equal(shelterOf(world, household).room, 2 * plotShelter(first.pieces).room);
+});
+
+
+test('house placement persists orientation and rejects overlaps and off-holding footprints', () => {
+  const { world, household } = onTheLand('house-ghost');
+  const bounds = holdingOf(world, household).bounds;
+  const point = grid(bounds, 15).find(p => { try { checkHousePlacement(world, household, { ...p, rotation: 90 }); return true; } catch { return false; } });
+  assert.ok(point);
+  const placement = { ...point, rotation: 90 };
+  applyAction(world, household.id, { action: 'plan-house', layout: 'jacal', placement });
+  assert.deepEqual(household.house.placement, placement);
+  assert.deepEqual(projectWorld(world, household.id).land.house.placement, placement);
+  const copy = JSON.parse(JSON.stringify(world)); validateWorld(copy);
+  assert.deepEqual(copy.households[household.id].house.placement, placement);
+  assert.throws(() => checkHousePlacement(world, household, { ...point, rotation: 45 }), /quarter-turn/);
+  assert.throws(() => checkHousePlacement(world, household, { x: bounds.minX, y: bounds.minY, rotation: 0 }));
+  const first = structuredClone(household.house);
+  household.completedHouses = [first];
+  assert.throws(() => checkHousePlacement(world, household, placement), /space/);
 });

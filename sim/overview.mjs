@@ -93,6 +93,8 @@ function overviewLand(world, household) {
     // Inside the house, read only (sim/interior.mjs): the teacher sees every family's rooms as the family has set them.
     interior: interiorProjection(household),
     view: landView(household),
+    housePlacement: household.house?.placement,
+    completedHouses: (household.completedHouses || []).map(house => ({ ...house, pieces: house.pieces?.map(p => [p.type, p.x, p.y, p.stage, p.progress]) })),
     ...(pieced(household) && { pieces: household.house.pieces.map(p => [p.type, p.x, p.y, p.stage, p.progress]) }),
     grant: holdingOf(world, household).bounds,
     ...(lane && { lane: { miles: lane.miles, cut: lane.cut } }),

@@ -1265,6 +1265,7 @@ function installMapNavigation() {
     anchor = view && { view, centre: centre(), spread: spread() };
   };
   const tapAt = point => {
+    if (housePlacement) { const view = currentView(); if (view) { housePlacement.point = worldAt(view, point, size()); housePlacement.locked = true; requestMapDraw(); } return; }
     if (siteLooking() || surveyLooking()) {
       // Looking over the family's own land for a house site or ten acres to survey: a tap is a place, not a person.
       const view = currentView();
@@ -1299,6 +1300,7 @@ function installMapNavigation() {
     beginGesture();
   });
   canvas.addEventListener('pointermove', event => {
+    if (housePlacement && !housePlacement.locked) { const view = currentView(); if (view) housePlacement.point = worldAt(view, localPoint(event), size()); requestMapDraw(); }
     if (!active.has(event.pointerId)) return;
     // A mouse let go somewhere this page never heard about.
     if (event.pointerType === 'mouse' && event.buttons === 0) { release(event, false); return; }
@@ -1902,14 +1904,13 @@ function drawGroundDetail(ctx, world, camera) {
     for (const tree of treesVisible(camera, canvas, woodsCatalogue)) {
       if (cleared.length && inCleared(tree.x, tree.y)) continue;
       if (channels.length && inWater(tree.x, tree.y)) continue;
-      // The kind's picture, its three sizes and how tall it stands are the woods catalogue's (sim/woods.mjs `KINDS`): a palm is
-      // a stand-in drawn taller than its picture, a longleaf taller than the loblolly it is drawn as.
+      // The kind's picture, optional per-size pictures, and physical height come from the woods catalogue (sim/woods.mjs `KINDS`).
       const point = camera.toScreen(tree), height = figure * SIZE.timberTree * TREE_SIZES[tree.size] * (tree.kind.scale || 1);
       const sizeName = ['pole', 'log', 'large'][tree.size];
       const sizedTree = `${tree.kind.picture}-${sizeName}`;
       const deliveredSizes = tree.kind.sized ?? ['pine-loblolly', 'cedar', 'mesquite', 'live-oak', 'elm', 'post-oak', 'blackjack', 'pecan', 'hackberry', 'sweetgum'].includes(tree.kind.picture);
       const mix = windAt ? windAt(tree.x) : null;
-      scattered.push({ tree: deliveredSizes ? sizedTree : tree.kind.picture, height, point, seed: Math.round(tree.x * 1e5), alpha: treesShown, lean: mix ? windLean(mix) : 0, gale: mix ? inGale(mix) : false });
+      scattered.push({ tree: tree.kind.pictures?.[tree.size] || (deliveredSizes ? sizedTree : tree.kind.picture), height, point, seed: Math.round(tree.x * 1e5), alpha: treesShown, lean: mix ? windLean(mix) : 0, gale: mix ? inGale(mix) : false });
     }
     // What the family has felled: a stump, and a log lying beside it while any are left to haul (sim/felling.mjs). The
     // trunk is `log-fallen-hardwood` (trees-colonies-2, 2026-09-21) where a hardwood was cut and the softer `log-fallen`
@@ -2201,6 +2202,10 @@ function splitAlong(points, miles) {
 }
 /** The place the family is looking over for its house, as a stake on its own land. */
 function drawSitePick(ctx, world, camera) {
+  if (housePlacement?.point && plotCatalogue) {
+    const plan = plotCatalogue.plans.find(p => p.id === housePlacement.command.layout);
+    if (plan) drawPlacedHouse(ctx, camera, { placement: { ...housePlacement.point, rotation: housePlacement.rotation }, pieces: plan.pieces.map(([type,x,y]) => [type,x,y,plotCatalogue.pieces.find(p => p.id === type).stageCount,0]) }, .5);
+  }
   if (!world.land?.choosingSite || !sitePick) { window.__sitePick = null; return; }
   const at = camera.toScreen(sitePick.point), size = Math.max(8, Math.min(22, camera.figure * .45));
   ctx.save();
@@ -2485,10 +2490,10 @@ export function drawWorld(world) {
         standing.push(...bexarDrawables(ctx,project,camera.scale/5280,{alamoProject:p=>{const o=alamoOnMap(p);return camera.toScreen({x:site.x+o.x,y:site.y+o.y});}}));
       }else if (ownLand && world.land?.house?.pieces && plotCatalogue) {
         // The family's house plot, piece by piece at its stage (public/house-plot.js); the camp beside it until a pen stands.
-        standing.push({ y: q.y, draw: () => { if (world.land.shelter === 'camp') homesteadCamp(ctx, q.x - size * .9, q.y + size * .35, size * .7, site.id); window.__plotPiecesDrawn = drawHousePlot(ctx, q.x, q.y, size, world.land, plotCatalogue, drawSprite); } });
+        standing.push({ y: q.y, draw: () => { if (world.land.shelter === 'camp') homesteadCamp(ctx, q.x - size * .9, q.y + size * .35, size * .7, site.id); window.__plotPiecesDrawn = drawHousePlot(ctx, q.x, q.y, size, { ...world.land, completedHouses: [], house: world.land.house.placement ? { pieces: [] } : world.land.house }, plotCatalogue, drawSprite); for (const home of [...(world.land.completedHouses || []), ...(world.land.house.placement ? [world.land.house] : [])]) { if (home.placement) drawPlacedHouse(ctx, camera, home); else drawHousePlot(ctx, q.x, q.y, size, { house: home }, plotCatalogue, drawSprite); } } });
       }else if (theirs?.pieces && plotCatalogue) {
         // The same house plot, for any family, on the Host's map.
-        standing.push({ y: q.y, draw: () => { if (theirs.view.shelter !== 'house') homesteadCamp(ctx, q.x - size * .9, q.y + size * .35, size * .7, site.id); hostLandsDrawn[site.id].pieces = drawHousePlot(ctx, q.x, q.y, size, { house: { pieces: theirs.pieces } }, plotCatalogue, drawSprite); } });
+        standing.push({ y: q.y, draw: () => { if (theirs.view.shelter !== 'house') homesteadCamp(ctx, q.x - size * .9, q.y + size * .35, size * .7, site.id); hostLandsDrawn[site.id].pieces = theirs.pieces.length; if (theirs.housePlacement) drawPlacedHouse(ctx, camera, { pieces: theirs.pieces, placement: theirs.housePlacement }); else drawHousePlot(ctx, q.x, q.y, size, { house: { pieces: theirs.pieces } }, plotCatalogue, drawSprite); for (const home of theirs.completedHouses || []) { if (home.placement) drawPlacedHouse(ctx, camera, home); else drawHousePlot(ctx, q.x, q.y, size, { house: home }, plotCatalogue, drawSprite); } } });
       }else standing.push({ y: q.y, draw: () => view ? homesteadHouse(ctx, q.x, q.y, size, site.id, view) : miniBuilding(ctx, q.x, q.y, size, true, site.id) });
       // A new town's shops, each keeper's own building at its place (sim/shops.mjs, docs/TOWNS.md). Drawn for anybody, as
       // a town's buildings are; who is standing in them is still only seen by somebody who is there.
@@ -4511,8 +4516,8 @@ function renderHousePlan(world) {
     panel.hidden = true;
     const available = !familyCache?.canRoll && !['rolling', 'rolled'].includes(rollState) && !wagonOpen;
     open.hidden = !available || housePlanOpen;
-    open.textContent = world.land.house ? 'House plot' : 'Plan a house';
-    renderHousePlot(world, plotCatalogue, { open: available && housePlanOpen, send: command => api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, ...command }), rerender: () => window.__snapshot && render(window.__snapshot) });
+    open.textContent = world.land.house ? 'Your house' : 'Choose a house';
+    renderHousePlot(world, plotCatalogue, { open: available && housePlanOpen, drawSprite, place: beginHousePlacement, send: command => api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, ...command }), rerender: () => window.__snapshot && render(window.__snapshot) });
     return;
   }
   renderHousePlot(world, plotCatalogue || { pieces: [], plans: [] }, { open: false });
@@ -5536,3 +5541,41 @@ try {
   if (hostPage && location.hash) { await api('/api/host', { key: location.hash.slice(1) }); history.replaceState(null, '', '/host'); }
   connect(await api('/api/state'));
 } catch (error) { $('#join').hidden = hostPage; $('#connection').textContent = hostPage ? 'Host access required' : 'Ready to join'; if (hostPage) say(error.message); }
+
+
+// Placement is a local draft until the player confirms one authoritative command.
+let housePlacement = null;
+function beginHousePlacement(command) {
+  housePlacement = { command, point: null, rotation: 0, locked: false };
+  housePlanOpen = false;
+  document.querySelector('#house-placement').hidden = false;
+  document.querySelector('#house-placement-note').textContent = 'Move over your land; click to hold the preview in place.';
+  if (window.__snapshot) render(window.__snapshot);
+}
+function drawPlacedHouse(ctx, camera, house, alpha = 1) {
+  const at = camera.toScreen(house.placement);
+  const cell = camera.scale * 8 / 5280;
+  ctx.save(); ctx.translate(at.x, at.y); ctx.rotate(house.placement.rotation * Math.PI / 180); ctx.globalAlpha *= alpha;
+  if (alpha < 1) { ctx.fillStyle = '#65e3dc'; ctx.strokeStyle = '#8ffff4'; ctx.lineWidth = 2; ctx.fillRect(-cell*5,-cell*4,cell*10,cell*8); ctx.strokeRect(-cell*5,-cell*4,cell*10,cell*8); }
+  drawHousePlot(ctx, 0, cell, cell / .45, { house }, plotCatalogue, drawSprite);
+  ctx.restore();
+}
+document.querySelector('#house-rotate').addEventListener('click', () => { if (housePlacement) { housePlacement.rotation = (housePlacement.rotation + 90) % 360; document.querySelector('#house-rotate').textContent = `Rotate: ${housePlacement.rotation}°`; requestMapDraw(); } });
+document.querySelector('#house-move').addEventListener('click', () => { if (housePlacement) housePlacement.locked = false; });
+document.querySelector('#house-placement-cancel').addEventListener('click', () => { housePlacement = null; document.querySelector('#house-placement').hidden = true; housePlanOpen = true; if (window.__snapshot) render(window.__snapshot); });
+document.querySelector('#house-placement-confirm').addEventListener('click', async event => {
+  if (!housePlacement?.point) { document.querySelector('#house-placement-note').textContent = 'Move onto your land and choose a spot first.'; return; }
+  const draft = housePlacement;
+  event.currentTarget.disabled = true;
+  try {
+    await api('/api/command', { id: `house-${Date.now()}-${Math.random()}`, ...draft.command, placement: { ...draft.point, rotation: draft.rotation } });
+    housePlacement = null; document.querySelector('#house-placement').hidden = true;
+  } catch (error) { document.querySelector('#house-placement-note').textContent = error.message; }
+  finally { document.querySelector('#house-placement-confirm').disabled = false; if (window.__snapshot) render(window.__snapshot); }
+});
+
+document.addEventListener('keydown', event => {
+  if (!housePlacement || event.target.closest('input,textarea,select,[contenteditable=true]')) return;
+  if (event.key.toLowerCase() === 'r') { event.preventDefault(); document.querySelector('#house-rotate').click(); }
+  if (event.key === 'Escape') { event.preventDefault(); document.querySelector('#house-placement-cancel').click(); }
+});
