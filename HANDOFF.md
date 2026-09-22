@@ -1,5 +1,58 @@
 # Claude handoff — Astra foundation
 
+## The roll is the family — 2026-09-22 (unreleased)
+
+**Owner:** *"change the family rolls. if i roll a 20, there should be 18 kids. if i roll a 4 it's two parents and 2 kids. each
+number over 4 is another kid."* By multiple choice for 1 to 3: **"The roll is the family"** — the number is how many people
+there are. Read [FAMILY_CREATION.md §2 and §3](docs/FAMILY_CREATION.md) first.
+
+- **The table** (`compositionFor`, `FAMILY_TABLE = 'd20-size'` in `sim/family.mjs`): 1–3 one parent and the rest children,
+  4 and up two parents and the rest children, so a 20 is two parents and eighteen children. A family of one to twenty, ten
+  and a half on average. `FIC-GONZ-350`.
+- **Old classes open as they were.** A new roll is marked `household.rollTable = 'd20-size'`; `die` 20 with no mark is the
+  2026-09-14 table of set families, and no `die` is six sides. `tableOf` picks the table and `validateWorld` reads each roll
+  on its own. **No save version moved.** People are stored in the save, so nothing is ever re-dealt.
+- **Ages** (`agesFor`, `FIC-GONZ-351`): eighteen different ages born when the mother was 17 to 42 fit only a mother of 34 to
+  42, so a 20 is always children aged 17 down to 0, one a year. Parents too old for the window are made younger; a father
+  is at least 18 at every birth, made older where he is not (he was checked for nothing before, and a big family made him
+  nine at his eldest's birth). No twins; no two children share an age.
+- **What was measured and left alone:** everybody eats 0.35 a day, a newborn as much as the father; the same wagon and stock
+  for any size; the four set houses hold at most eight, so nine or more are crowded (rest at 80 in 100) unless the class
+  builds from pieces, where three pens with lofts and a shed room hold twenty. Names: the son and daughter pools hold twenty
+  each, so a family never repeats a first name. `sim/children.mjs`, hidden stats, kin labels and the director scale by the
+  person with no change.
+- **Payloads.** A student's tick for a family of 20 is 23,459 bytes against 7,567 for a 4 (993 bytes a person), bounded
+  in `tests/family-roll.test.mjs`. The Host's thirty-family snapshot went from 132,587 to 210,231 bytes at the arrival
+  (159 to 331 people); the per-figure bound held (450 bytes), and the total bound in `tests/host-view.test.mjs` moved from
+  140,000 to 240,000 with the reason written beside it.
+- **Tick time**, `node scripts/perf-server-measure.mjs --rolled` (new flag; [rolled](docs/evidence/perf-server-rolled-2026-09-22.json)
+  against [founding four](docs/evidence/perf-server-founding-2026-09-22.json), run back to back on the same computer while
+  other sessions' processes were also running): the thirty-family class with 295 people took **178–332 ms a tick** (step
+  51–118, projection 48–233) against 138–202 ms with 120; a burst of thirty orders answered in a median 117–869 ms. The
+  class ticks every 1.5 s in that measure and every 9.5 s in play.
+- `tests/road.test.mjs`: the road-fishing test compared the food before and after an hour's fishing, which a family of
+  twenty eats through; it now compares against the same family left on the bank.
+
+- **A screen bug a big family found.** The family column stopped 150px above the foot of the screen, set for the old bar of
+  48px pictures; the bar of 98px tiles reaches about 195px (235px under a lesson), and a family that fills the column had its
+  youngest children's portraits under the father's work — `test:family-panel` (its seed now rolls fourteen) could not
+  press the youngest. On screens wider than 760px the column now stops at 200px, 240px under a lesson (`public/style.css`,
+  `ceiling:`; [FAMILY_PANEL.md](docs/FAMILY_PANEL.md) §13's amendment). `test:family-twenty` failed on it before the change.
+- **Proofs whose seeds now roll bigger families:** `test:family-panel` renamed ten people from a list of ten (now twenty
+  names); `test:family-commands` (its seed rolls twenty) ran out of class before its phone section and raced a question that
+  lapses in two fictional hours: the tick is 350 ms instead of 250, and the "!" is pressed the moment it shows, the errand
+  sent again if it lapsed first.
+
+Evidence: `npm test` **935 passed, 0 failed** (932 before); `node scripts/family-roll-injections.mjs` **12 of 12 caught**
+([record](docs/evidence/family-roll-injections.json)); `npm run test:family-twenty` (new) **9 checks** at 1366×768, 1440×950,
+1024×768 with the class running, and 400×800 ([record](docs/evidence/family-twenty-browser.json)); `test:family-panel` 17,
+`test:family-commands` 23, `test:creation` 9 (the names card now twenty boxes), `test:family` 11, `test:panels` 9 and
+`test:lesson` 21 checks pass; `study:overlap` and `study:creation` rewritten. Same computer, headless Chrome; no LAN,
+Chromebook or real phone.
+
+**For the owner to decide:** whether a child should eat less than a grown person (today a family of twenty eats 7 a day);
+whether twins should be dealt so a big family is not one child a year; whether the set houses need a larger one.
+
 ## The X on the guided start — 2026-09-22 (unreleased)
 
 The owner: *"i should be able to X off the tutorial to stop it and just do what i want."* Asked by multiple choice who

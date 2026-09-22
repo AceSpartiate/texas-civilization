@@ -146,7 +146,11 @@ test('the Host’s whole class stays a bounded payload, and a long road rides al
     const bytes = JSON.stringify(view).length;
     // Measured 2026-09-16: 108,999 bytes at this class's arrival and 86,473 at tick 161; 117,523 at the worst tick of
     // another thirty-family class (docs/evidence/host-view.json). Before the Host had no fog it was about 2 KB.
-    assert.ok(bytes < 140000, `the Host's snapshot ${when} is ${bytes} bytes`);
+    // Moved 2026-09-22 from 140,000: the owner's roll made the number on the die the family's size, one to twenty, and this
+    // class went from 159 people to 331. Measured then: 210,231 bytes at the arrival (132,587 on the old table) and 157,844
+    // at tick 150 (110,400). The bytes a figure did not move (450 at the arrival either way), so the growth is the people
+    // and not waste; the per-figure bound on the next line is the one that catches waste, and it stands.
+    assert.ok(bytes < 240000, `the Host's snapshot ${when} is ${bytes} bytes`);
     assert.ok(bytes / view.others.length < 520, `the Host's snapshot ${when} is ${Math.round(bytes / view.others.length)} bytes a figure`);
   }
   // Riders cross the colonies on roads far longer than the window.

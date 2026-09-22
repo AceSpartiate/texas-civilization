@@ -89,7 +89,9 @@ function playedToTheCall(seed, playerCount) {
   return world;
 }
 
-const app = createClassroom({ seed: 'commands-2', playerCount: 5, tickMs: 250, worldFactory: housedClass });
+// 350 ms a tick, from 250 (2026-09-22): this seed's family is twenty now, ordering down twenty rows takes longer, and the
+// class ended - its last tick is fixed - before the phone section was reached.
+const app = createClassroom({ seed: 'commands-2', playerCount: 5, tickMs: 350, worldFactory: housedClass });
 let app2 = null;
 const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
 const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
@@ -97,7 +99,7 @@ const errors = [];
 const post = async (path, body, cookie) => {
   const response = await fetch(url + path, { method: 'POST', headers: { 'Content-Type': 'application/json', ...(cookie && { Cookie: cookie }) }, body: JSON.stringify(body) });
   const text = await response.text();
-  assert.equal(response.status, 200, `${path}: ${response.status} ${text}`);
+  assert.equal(response.status, 200, `${path}: ${response.status} ${text} (class ${app.state.world.status} at tick ${app.state.world.tick}, ${app.state.world.minute} minutes; asker sent again ${measured.askerSentAgain || 0})`);
   return response;
 };
 mkdirSync('docs/evidence', { recursive: true });
@@ -329,12 +331,34 @@ try {
 
   // -------------------------------------------------------------------------------------------- work that stops to ask
   assert.ok(asker, 'nobody could be sent on an errand to town, so nothing will stop to ask');
-  await page.waitForFunction(id => window.__familyPanel?.find(row => row.id === id)?.need === 'asking', asker, { timeout: 240000, polling: 200 })
-    .catch(error => { throw new Error(`${asker} never stopped to ask: chore ${JSON.stringify(world().entities[asker].chore)}; ${error.message}`); });
+  // A family of twenty (owner, 2026-09-22: the number rolled is the family; this seed now rolls twenty) takes twice as long to
+  // order down the panel as the family this was written for, and a question left longer than `ASK_PATIENCE` (two fictional
+  // hours - a second and a half at this tick) is answered by the family's own default and the errand walks home. Found
+  // finished and home, the asker is sent again, so what is proved is the "!" on a question that is waiting, not the race.
+  // The "!" is pressed the moment it shows, and a question that lapsed before the press sends the errand again.
   await page.locator('#map-nav [data-view=home]').click();
   await page.waitForTimeout(300);
-  await pressMark(page, asker, 'click');
-  await page.waitForFunction(() => document.activeElement?.dataset?.action === 'answer-chore', null, { timeout: 5000 });
+  let opened = false;
+  for (let sent = 0; sent < 4 && !opened; sent++) {
+    const state = await page.waitForFunction(id => {
+      const mark = document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-attention`);
+      if (mark && !mark.hidden && mark.dataset.need === 'asking') return 'asking';
+      return window.__snapshot?.world.entities.find(e => e.id === id)?.chore ? null : 'home';
+    }, asker, { timeout: 240000, polling: 50 }).then(handle => handle.jsonValue())
+      .catch(error => { throw new Error(`${asker} never stopped to ask: chore ${JSON.stringify(world().entities[asker].chore)}; last: ${JSON.stringify(world().events.filter(e => e.actorId === asker).slice(-8).map(e => e.text))}; ${error.message}`); });
+    if (state === 'asking') {
+      await page.locator(`.panel-row[data-entity-id="${asker}"] .panel-attention`).click({ timeout: 2000 }).catch(() => {});
+      opened = await page.waitForFunction(() => document.activeElement?.dataset?.action === 'answer-chore', null, { timeout: 5000 }).then(() => true).catch(() => false);
+      if (opened) break;
+      await page.waitForFunction(id => !window.__snapshot?.world.entities.find(e => e.id === id)?.chore, asker, { timeout: 60000 });
+    }
+    const again = plan.find(entry => entry.id === asker).key;
+    measured.askerSentAgain = (measured.askerSentAgain || 0) + 1;
+    await asMain(page, asker);
+    await page.locator(`.panel-row[data-entity-id="${asker}"] .panel-icon[data-key="${again}"]`).click();
+    await page.waitForFunction(id => Boolean(window.__snapshot?.world.entities.find(e => e.id === id)?.chore), asker, { timeout: 15000 });
+  }
+  assert.ok(opened, `${asker}'s question could not be opened before it lapsed, in ${measured.askerSentAgain || 0} errands`);
   const asked = await page.evaluate(id => ({ card: document.querySelector('#selection').dataset.entityId, question: document.querySelector('#selection-work .ask-text')?.textContent,
     focused: document.activeElement.querySelector('.work-name')?.textContent || document.activeElement.textContent, watching: document.querySelector('#map-nav [data-view=follow]').textContent }), asker);
   assert.equal(asked.card, asker);

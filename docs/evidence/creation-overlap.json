@@ -1,6 +1,6 @@
 {
   "record": "creation-overlap",
-  "date": "2026-09-21",
+  "date": "2026-09-22",
   "screen": {
     "width": 1366,
     "height": 768
@@ -419,9 +419,9 @@
       "focusOnArrivalInside": true,
       "panelBox": {
         "x": 473,
-        "y": 202,
+        "y": 193,
         "w": 420,
-        "h": 363
+        "h": 382
       },
       "panelFits": true,
       "scrolls": 0,
@@ -430,7 +430,7 @@
         "label": "Name the family",
         "box": {
           "x": 492,
-          "y": 503,
+          "y": 512,
           "w": 382,
           "h": 44
         },
@@ -443,7 +443,7 @@
       "offScreen": [],
       "scrolledOutOfTheCard": [],
       "tightestGap": {
-        "gap": 140.9,
+        "gap": 159.8,
         "between": [
           "#surname-input",
           "#surname-save"
@@ -455,13 +455,13 @@
         "boxes": [
           {
             "x": 492,
-            "y": 318,
+            "y": 308,
             "w": 382,
             "h": 44
           },
           {
             "x": 492,
-            "y": 503,
+            "y": 512,
             "w": 382,
             "h": 44
           }
@@ -488,7 +488,7 @@
         "label": "Name the family",
         "box": {
           "x": 492,
-          "y": 503,
+          "y": 512,
           "w": 382,
           "h": 44
         },
@@ -541,9 +541,9 @@
       "focusOnArrivalInside": true,
       "panelBox": {
         "x": 473,
-        "y": 202,
+        "y": 193,
         "w": 420,
-        "h": 363
+        "h": 382
       },
       "panelFits": true,
       "scrolls": 0,
@@ -552,7 +552,7 @@
         "label": "Name the family",
         "box": {
           "x": 492,
-          "y": 503,
+          "y": 512,
           "w": 382,
           "h": 44
         },
@@ -565,7 +565,7 @@
       "offScreen": [],
       "scrolledOutOfTheCard": [],
       "tightestGap": {
-        "gap": 140.9,
+        "gap": 159.8,
         "between": [
           "#surname-input",
           "#surname-save"
@@ -577,13 +577,13 @@
         "boxes": [
           {
             "x": 492,
-            "y": 318,
+            "y": 308,
             "w": 382,
             "h": 44
           },
           {
             "x": 492,
-            "y": 503,
+            "y": 512,
             "w": 382,
             "h": 44
           }
@@ -610,7 +610,7 @@
         "label": "Name the family",
         "box": {
           "x": 492,
-          "y": 503,
+          "y": 512,
           "w": 382,
           "h": 44
         },
@@ -656,7 +656,7 @@
     },
     {
       "stage": "names",
-      "how": "everybody's first names, a family of 10",
+      "how": "everybody's first names, a family of 20",
       "panel": "#names",
       "real": true,
       "focusOnArrival": "#names",
@@ -668,7 +668,7 @@
         "h": 614
       },
       "panelFits": true,
-      "scrolls": 129,
+      "scrolls": 679,
       "endOfStep": {
         "control": "#names-done",
         "label": "Continue",
@@ -681,7 +681,7 @@
         "below": -19,
         "inView": true
       },
-      "controls": 11,
+      "controls": 21,
       "covered": [],
       "tooSmallForAFinger": [],
       "offScreen": [],
@@ -702,6 +702,106 @@
           "box": {
             "x": 606,
             "y": 697,
+            "w": 298,
+            "h": 44
+          }
+        },
+        {
+          "control": "#name-hh-1-child-9",
+          "label": "Docia",
+          "box": {
+            "x": 606,
+            "y": 752,
+            "w": 298,
+            "h": 44
+          }
+        },
+        {
+          "control": "#name-hh-1-child-10",
+          "label": "Orpha",
+          "box": {
+            "x": 606,
+            "y": 807,
+            "w": 298,
+            "h": 44
+          }
+        },
+        {
+          "control": "#name-hh-1-child-11",
+          "label": "Loreta",
+          "box": {
+            "x": 606,
+            "y": 862,
+            "w": 298,
+            "h": 44
+          }
+        },
+        {
+          "control": "#name-hh-1-child-12",
+          "label": "Emeterio",
+          "box": {
+            "x": 606,
+            "y": 917,
+            "w": 298,
+            "h": 44
+          }
+        },
+        {
+          "control": "#name-hh-1-child-13",
+          "label": "Marcela",
+          "box": {
+            "x": 606,
+            "y": 972,
+            "w": 298,
+            "h": 44
+          }
+        },
+        {
+          "control": "#name-hh-1-child-14",
+          "label": "Prudence",
+          "box": {
+            "x": 606,
+            "y": 1027,
+            "w": 298,
+            "h": 44
+          }
+        },
+        {
+          "control": "#name-hh-1-child-15",
+          "label": "Cayetano",
+          "box": {
+            "x": 606,
+            "y": 1082,
+            "w": 298,
+            "h": 44
+          }
+        },
+        {
+          "control": "#name-hh-1-child-16",
+          "label": "Enos",
+          "box": {
+            "x": 606,
+            "y": 1137,
+            "w": 298,
+            "h": 44
+          }
+        },
+        {
+          "control": "#name-hh-1-child-17",
+          "label": "Zadok",
+          "box": {
+            "x": 606,
+            "y": 1192,
+            "w": 298,
+            "h": 44
+          }
+        },
+        {
+          "control": "#name-hh-1-child-18",
+          "label": "Eli",
+          "box": {
+            "x": 606,
+            "y": 1247,
             "w": 298,
             "h": 44
           }
@@ -772,6 +872,16 @@
           "#name-hh-1-child-6",
           "#name-hh-1-child-7",
           "#name-hh-1-child-8",
+          "#name-hh-1-child-9",
+          "#name-hh-1-child-10",
+          "#name-hh-1-child-11",
+          "#name-hh-1-child-12",
+          "#name-hh-1-child-13",
+          "#name-hh-1-child-14",
+          "#name-hh-1-child-15",
+          "#name-hh-1-child-16",
+          "#name-hh-1-child-17",
+          "#name-hh-1-child-18",
           "#names-done",
           "#name-hh-1-parent-1",
           "#name-hh-1-parent-2",
@@ -781,17 +891,7 @@
           "#name-hh-1-child-4",
           "#name-hh-1-child-5",
           "#name-hh-1-child-6",
-          "#name-hh-1-child-7",
-          "#name-hh-1-child-8",
-          "#names-done",
-          "the page itself",
-          "#name-hh-1-parent-1",
-          "#name-hh-1-parent-2",
-          "#name-hh-1-child-1",
-          "#name-hh-1-child-2",
-          "#name-hh-1-child-3",
-          "#name-hh-1-child-4",
-          "#name-hh-1-child-5"
+          "#name-hh-1-child-7"
         ],
         "escaped": null,
         "wrapped": true
@@ -1069,24 +1169,7 @@
         "inView": true
       },
       "controls": 22,
-      "covered": [
-        {
-          "control": "#wagon-done",
-          "label": "Done packing",
-          "box": {
-            "x": 27,
-            "y": 624,
-            "w": 370,
-            "h": 44
-          },
-          "blocked": 1,
-          "points": 5,
-          "centreBlockedBy": null,
-          "by": [
-            "#family-rows"
-          ]
-        }
-      ],
+      "covered": [],
       "tooSmallForAFinger": [],
       "offScreen": [],
       "scrolledOutOfTheCard": [

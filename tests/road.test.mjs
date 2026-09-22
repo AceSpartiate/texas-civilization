@@ -427,14 +427,21 @@ test('with no powder and no coin, a line in the river at the crossing is what a 
   } else {
     assert.equal(entry.can, true, `the line was refused: ${entry.why}`);
     // It costs nothing: no powder and no coin, which is the whole point of it.
-    household.resources = { ...household.resources, powder: 0, money: 0, food: 1 };
+    household.resources = { ...household.resources, powder: 0, money: 0, food: 3 };
     assert.equal(offered().can, true, 'a family with no powder and no coin could not fish');
-    const food = household.resources.food;
+    // The family eats while the line is in, and since the owner's roll of 2026-09-22 it may be twenty people eating, so the
+    // catch is measured against the same family left on the bank for the same ticks rather than against the food before.
+    const twin = structuredClone(world);
+    const started = world.tick;
     applyAction(world, household.id, { action: 'chore', entityId: person.id, chore: 'fish-road' });
     until(world, () => !person.chore, 60);
     assert.equal(person.chore, null, 'the line never came out of the water');
+    while (twin.tick < world.tick) stepWorld(twin);
+    assert.ok(world.tick > started);
+    const without = twin.households[household.id].resources.food;
+    assert.ok(without > 0, 'the family on the bank ran out of food, so the comparison below would understate the catch');
     // What a pair of hands brings out of the river is `ROAD_FISH_FOOD` by that person's own skill, as every produce is.
-    assert.ok(household.resources.food >= food + ROAD_FISH_FOOD, `the food went ${food} to ${household.resources.food}`);
+    assert.ok(household.resources.food >= without + ROAD_FISH_FOOD, `the food went to ${household.resources.food} with the line in and ${without} without`);
     assert.equal(household.resources.powder, 0, 'the line burned powder');
     assert.equal(household.resources.money, 0, 'the line cost coin');
     assert.ok(world.events.some(event => event.claimId === 'FIC-GONZ-178' && /out of the river at the camp/.test(event.text)),
