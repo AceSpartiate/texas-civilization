@@ -153,7 +153,12 @@ const SAVE_EVERY_TICKS = 3;
 
 /** The most woods tiles one request may ask for. */
 export const WOODS_BATCH_MAX = 64;
-export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tickMs = 200, savePath, joinUrls = [], worldFactory = createWorld, onStopRequested = null, stopDelayMs = 250, solo = false, absentMs = ABSENT_MS, soloGamesDir = null, timings = null, saveWithinMs = SAVE_WITHIN_MS } = {}) {
+/**
+ * `now` is the server's real clock and `lessonResumeMs` the window after the X on the guided start (sim/lesson.mjs
+ * `LESSON_RESUME_MS`, five minutes when not given). Both are options only so a test or a browser proof can hold the clock,
+ * jump it, or shorten the window; a real class passes neither.
+ */
+export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tickMs = 200, savePath, joinUrls = [], worldFactory = createWorld, onStopRequested = null, stopDelayMs = 250, solo = false, absentMs = ABSENT_MS, soloGamesDir = null, timings = null, saveWithinMs = SAVE_WITHIN_MS, now = Date.now, lessonResumeMs } = {}) {
   if (!Number.isInteger(playerCount) || playerCount < 5 || playerCount > 30) throw new Error('Class size must be 5–30');
   if (!Number.isInteger(tickMs) || tickMs < 10 || tickMs > 10000) throw new Error('Tick interval must be 10–10000 milliseconds');
   /**
@@ -279,7 +284,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     // `tickMs` rides along because the renderer has to know how long a tick lasts to
     // spread one tick's movement across it. Without it the client guesses one second and a
     // slower class walks for a second and then stands still for the rest of the tick.
-    const payload = { sessionId: state.sessionId, connected: connected(), tickMs: pace, fault: runtimeFault && structuredClone(runtimeFault), lifecycle: lifecycle && structuredClone(lifecycle), world: projectWorld(state.world, identity.householdId, identity.role, { includeMap: false, copy }), mapId: state.sessionId, ...(state.world.map.revision && { mapRevision: state.world.map.revision }), ...(state.world.woods?.revision && { woodsRevision: state.world.woods.revision }) };
+    const payload = { sessionId: state.sessionId, connected: connected(), tickMs: pace, fault: runtimeFault && structuredClone(runtimeFault), lifecycle: lifecycle && structuredClone(lifecycle), world: projectWorld(state.world, identity.householdId, identity.role, { includeMap: false, copy, now: now() }), mapId: state.sessionId, ...(state.world.map.revision && { mapRevision: state.world.map.revision }), ...(state.world.woods?.revision && { woodsRevision: state.world.woods.revision }) };
     // A page has to know it is a solo game: there is no teacher on it, so its own "Done packing" is the Start
     // (owner, 2026-09-21). One boolean rather than a role of its own - a solo player is a student in every other way.
     if (solo) payload.solo = true;
@@ -951,7 +956,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
             // the class fills up, and none of it moves until the teacher starts; which
             // actions that means is `LOBBY_ACTIONS`, beside the actions themselves.
             if (!['running', 'lobby'].includes(s.world.status)) throw new Error('Wait until the class is running.');
-            applyAction(s.world, identity.householdId, input);
+            applyAction(s.world, identity.householdId, input, { now: now(), ...(lessonResumeMs !== undefined && { resumeWindowMs: lessonResumeMs }) });
           }
           const ledger = identity.role === 'host' ? s.hostCommands : s.clients[identity.credentialHash].commands;
           ledger.push(input.id); if (ledger.length > 256) ledger.shift();

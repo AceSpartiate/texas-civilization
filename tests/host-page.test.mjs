@@ -19,11 +19,13 @@ test('a family\'s presence word: nobody playing, here, away a moment, playing it
 
 test('the class rows carry each family\'s name, settlement, presence, how many things wait, and each person in words', () => {
   const live = { families: [
-    { id: 'hh-1', name: 'Amos\'s family', settlement: 'Columbia', played: true, waiting: 2, people: [{ name: 'Amos', role: 'father', where: 'with the army at the camp above Béxar' }] },
+    { id: 'hh-1', name: 'Amos\'s family', settlement: 'Columbia', played: true, waiting: 2, guided: 'stopped the guided start at step 4', people: [{ name: 'Amos', role: 'father', where: 'with the army at the camp above Béxar' }] },
     { id: 'hh-2', name: 'Asa\'s family', settlement: 'Liberty', waiting: 0, people: [{ name: 'Asa', role: 'father', where: 'at home: hunt in the timber' }] },
   ] };
   const rows = familyRows(live, { households: { 'hh-1': 'here' } });
   assert.deepEqual(rows.map(r => [r.id, r.presence, r.waiting, r.settlement]), [['hh-1', 'here', 2, 'Columbia'], ['hh-2', 'nobody', 0, 'Liberty']]);
+  // The guided start's line (docs/HOST_PAGE.md §2.5), passed through in the world's own words, and empty where there is none.
+  assert.deepEqual(rows.map(r => r.guided), ['stopped the guided start at step 4', '']);
   assert.deepEqual(rows[0].people, [{ name: 'Amos', role: 'father', where: 'with the army at the camp above Béxar' }]);
   assert.deepEqual(familyRows(null, null), []);
 });

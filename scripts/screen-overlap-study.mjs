@@ -227,6 +227,16 @@ try {
   const clipped = await clipping(page);
   console.log(`\nthe bar's own box: ${clipped.clippedBy.length ? `clipped by ${clipped.clippedBy.map(one => `${one.element} (${one.overflowX}/${one.overflowY})`).join(', ')}` : 'clips nothing'}; ${clipped.roomBelow}px below an icon, ${clipped.roomAbove}px above`);
 
+  // "Resume tutorial" (owner, 2026-09-22): the X pressed and confirmed, the strip gone, and the small button standing
+  // where it was for five real minutes. Measured last on this class, because the X is what gets it there.
+  if (await page.locator('#lesson-stop').isVisible()) {
+    await page.locator('#lesson-stop').click();
+    await page.locator('#lesson-stop-yes').click();
+    await page.locator('#lesson-resume').waitFor({ state: 'visible', timeout: 20000 });
+    await page.waitForTimeout(400);
+    await study(page, 'resume-offered', 'the X pressed and confirmed; "Resume tutorial" where the strip was');
+  } else console.log('\n  resume-offered NOT REACHED: there was no X to press');
+
   // --------------------------------------------------------------- the four panels this study could not reach honestly
   // `#site-choose`, `#survey-choose`, `#encounter` and `#call-menu` want a state the class above never gets to. An
   // earlier turn of this script simply unhid them: an empty panel has almost no height, so it covered nothing and the

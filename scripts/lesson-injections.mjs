@@ -156,8 +156,8 @@ const INJECTIONS = [
   {
     name: 'nothing moves the lesson on when an order is sent, so a step waits a whole tick to be noticed',
     file: 'sim/world.mjs',
-    from: '  applyOneAction(world, householdId, input);\n  advanceLesson(world, household);',
-    to: '  applyOneAction(world, householdId, input);',
+    from: '  applyOneAction(world, householdId, input, realTime);\n  advanceLesson(world, household);',
+    to: '  applyOneAction(world, householdId, input, realTime);',
   },
   {
     name: 'nothing moves the lesson on when the tick does the work',
@@ -226,12 +226,12 @@ const INJECTIONS = [
   // asked who gets it, "Everyone, always").
   {
     name: 'the order to stop the lesson is not on ALWAYS, so the lesson refuses the X on every strict step',
-    from: "  'stop-lesson',\n]);",
-    to: ']);',
+    from: "  'stop-lesson',\n",
+    to: '',
   },
   {
     name: 'the X does nothing: the family is still gated after pressing it',
-    from: "  household.lesson = { step: 'done', at: world.minute, stopped: true };",
+    from: "  household.lesson = {\n    ...kept, step: 'done', from: step, at: world.minute, stopped: true,\n    stoppedAt: first ? kept.stoppedAt : now, resumeBy: first ? kept.resumeBy : now + windowMs,\n  };",
     to: '',
   },
   {
@@ -247,24 +247,86 @@ const INJECTIONS = [
   {
     name: 'the X stops whichever family the order names, so one student can stop another family’s lesson',
     file: 'sim/world.mjs',
-    from: "  if (input.action === 'stop-lesson') { stopLesson(world, household); return; }",
-    to: "  if (input.action === 'stop-lesson') { stopLesson(world, world.households[input.householdId] || household); return; }",
+    from: "  if (input.action === 'stop-lesson') { stopLesson(world, household, {",
+    to: "  if (input.action === 'stop-lesson') { stopLesson(world, world.households[input.householdId] || household, {",
   },
   {
     name: 'a save may carry any value as the stop marker',
-    from: "  for (const marker of ['hunting', 'hunted', 'stopped']) {",
-    to: "  for (const marker of ['hunting', 'hunted']) {",
+    from: "  for (const marker of ['hunting', 'hunted', 'stopped', 'resumed']) {",
+    to: "  for (const marker of ['hunting', 'hunted', 'resumed']) {",
   },
   {
     name: 'a save may carry a stopped lesson still standing on a step, with the gate half open',
     from: "  if (lesson.stopped && lesson.step !== 'done') return 'Invalid lesson step';",
     to: '',
   },
+  // "Resume tutorial" (owner, 2026-09-22: "show a small 'Resume tutorial' button for five real minutes from the original
+  // dismissal, including across reloads. Resume existing progress; quietly show dismissal/resumption to the teacher").
+  {
+    name: 'the X throws away what the family had gathered: resuming starts the step with nothing',
+    from: "    ...kept, step: 'done', from: step, at: world.minute, stopped: true,",
+    to: "    step: 'done', from: step, at: world.minute, stopped: true,",
+  },
+  {
+    name: 'resuming puts the family back at the beginning rather than on the step it stopped on',
+    from: '  household.lesson = { ...kept, step: from, resumed: true };',
+    to: '  household.lesson = { ...kept, step: STEPS[0].id, resumed: true };',
+  },
+  {
+    name: 'the window never shuts: the guided start can be taken up again an hour after the X',
+    from: '    && Number.isFinite(lesson.resumeBy) && now < lesson.resumeBy;',
+    to: '    && Number.isFinite(lesson.resumeBy);',
+  },
+  {
+    name: 'every X starts five new minutes, so pressing it again after a resume stretches the window',
+    from: '    stoppedAt: first ? kept.stoppedAt : now, resumeBy: first ? kept.resumeBy : now + windowMs,',
+    to: '    stoppedAt: now, resumeBy: now + windowMs,',
+  },
+  {
+    name: 'the resume takes up whichever family the order names, so one student can restart another family’s lesson',
+    file: 'sim/world.mjs',
+    from: "  if (input.action === 'resume-lesson') { resumeLesson(world, household, { now }); return; }",
+    to: "  if (input.action === 'resume-lesson') { resumeLesson(world, world.households[input.householdId] || household, { now }); return; }",
+  },
+  {
+    name: 'anybody may resume a lesson: the Host, and the director on behalf of a family whose student has gone',
+    from: "  if (!household || household.absent || !household.played) throw new Error('Only a family’s own student can take up its guided start again.');",
+    to: '',
+  },
+  {
+    name: 'a stop saved before the window existed can be taken up again, as if its window had never shut',
+    from: " && indexOf(lesson.from) >= 0\n    && Number.isFinite(lesson.resumeBy) && now < lesson.resumeBy;",
+    to: "\n    && !(now >= lesson.resumeBy);",
+  },
+  {
+    name: 'the page is offered the resume after the window has shut, so the button never goes away',
+    from: '  if (!resumable(world, household, now)) return null;\n  return { until',
+    to: '  if (household?.lesson?.stopped !== true || !household.lesson.resumeBy) return null;\n  return { until',
+  },
+  {
+    name: 'the Host’s class panel is never told a family stopped or resumed the guided start',
+    file: 'sim/world.mjs',
+    from: '    ...(role === \'host\' && { live: hostLiveProjection(world, lessonHostWords) }),',
+    to: '    ...(role === \'host\' && { live: hostLiveProjection(world) }),',
+  },
+  {
+    name: 'the record of a stop is written into the family’s own journal, not kept for the Host',
+    from: "    visibility: 'host', about: household.id, claimId: 'FIC-GONZ-210',\n    text: `The family stopped",
+    to: "    visibility: 'host', about: household.id, householdId: household.id, claimId: 'FIC-GONZ-210',\n    text: `The family stopped",
+  },
 ];
 
 const failing = output => [...output.matchAll(/^✖ (.+?) \(\d/gm)].map(match => match[1]).filter((name, i, all) => name !== 'failing tests:' && all.indexOf(name) === i);
 const run = () => { const result = spawnSync(process.execPath, ['--test', ...FILES], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 }); return failing(`${result.stdout}${result.stderr}`); };
 
+// Every pattern is checked before anything runs, so a stale one fails in a second rather than forty injections in.
+for (const injection of INJECTIONS) {
+  const file = injection.file || FILE, original = readFileSync(file, 'utf8');
+  const from = original.includes('\r\n') ? injection.from.split('\n').join('\r\n') : injection.from;
+  const count = original.split(from).length - 1;
+  if (count !== 1) throw new Error(`${injection.name}: the text to replace is in ${file} ${count} times`);
+}
+if (process.argv.includes('--check')) { console.log(`all ${INJECTIONS.length} patterns found once`); process.exit(0); }
 const clean = run();
 if (clean.length) throw new Error(`The tests fail before any injection: ${clean.join('; ')}`);
 const record = [];

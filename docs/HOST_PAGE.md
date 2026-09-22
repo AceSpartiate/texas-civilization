@@ -82,6 +82,20 @@ rider's patience in `sim/encounters.mjs`). The tick after its page opens again t
 recalled, and what the director began finishes as an order would. Both changes are written into the family's record, and
 the family's own page is told (`household.absent`). `absent` is true or absent, so no saved class changes.
 
+### 2.5 The guided start, stopped and resumed (2026-09-22)
+
+The owner: *"After closing the tutorial, show a small 'Resume tutorial' button for five real minutes from the original
+dismissal, including across reloads. Resume existing progress; quietly show dismissal/resumption to the teacher."*
+
+A family's row carries **one line in words** under its name, and only once its student has pressed the X on the guided
+start or taken it back up (`guided` in `familiesOverview`, `lessonHostWords` in `sim/lesson.mjs`; `.host-guided` on the
+page): *stopped the guided start at step 3*, *resumed the guided start: on step 3 of 10*, *stopped the guided start at
+step 4, after resuming it once*. A family working through its steps, or one that finished them, has no line. It is
+quiet on purpose: small italic words, no banner, no sound, no alert, not a live region; the row is rewritten as any
+other change to it is. Each stop and resume is also written to the world's events as `lesson-stopped` /
+`lesson-resumed` with `visibility: 'host'` and `about` naming the family and no `householdId`, so neither the family's
+own journal nor any public record carries it. See [LESSON.md](LESSON.md) §1, second amendment.
+
 ## 3. Proof
 
 - `tests/absence.test.mjs` (4): the marker; the director's, questions answered at once, nothing held; back again; the
@@ -90,6 +104,8 @@ the family's own page is told (`household.absent`). `absent` is true or absent, 
 - `tests/host-live.test.mjs` (6): the panel in words and no coin or glory, nothing to a student; every word; what waits;
   the Rumor Mill; the spotlight lit, passing, and a family's own; the war's spotlights across all three periods.
 - `tests/host-page.test.mjs` (4): the page's words.
+- `tests/lesson.test.mjs`, *the Host's class panel says quietly that a family stopped and resumed the guided start; no
+  student is told* (§2.5), proven by two injections in `scripts/lesson-injections.mjs`.
 - `npm run test:host-live` (`scripts/host-live-browser-proof.mjs`, same computer): the panel; a student's page closed and
   the row reading *playing itself* after the grace while the family goes on; the page opened again and *here*; the
   spotlight at the fight at Gonzales taking the camera there and *Whole class* bringing it back; the Rumor Mill filling;
