@@ -255,10 +255,13 @@ function settleCampAnswer(world, key, entity, answer, how, { beginTravel, modeWi
 
 /** Close a question: anybody not answered for in time is decided as auto decides (sim/auto.mjs), and what that does is done. */
 export function closeCampQuestion(world, key, { beginTravel } = {}) {
-  for (const entity of Object.values(world.entities)) {
-    if (entity.service?.kind !== 'houston' || entity.service[key] !== 'open') continue;
-    settleCampAnswer(world, key, entity, autoAnswer(world, key, entity), 'silence', { beginTravel });
-  }
+  for (const entity of Object.values(world.entities)) decideCampQuestionFor(world, key, entity, { beginTravel });
+}
+
+/** Nobody answered for this one man in time: decided as auto decides. Also when the real-time budget runs out (sim/decision-budget.mjs). */
+export function decideCampQuestionFor(world, key, entity, { beginTravel } = {}) {
+  if (entity?.service?.kind !== 'houston' || entity.service[key] !== 'open') return;
+  settleCampAnswer(world, key, entity, autoAnswer(world, key, entity), 'silence', { beginTravel });
 }
 
 /** A saved camp that cannot be, or null. */

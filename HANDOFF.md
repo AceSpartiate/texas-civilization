@@ -1,5 +1,80 @@
 # Claude handoff — Astra foundation
 
+## Travis's runner, the 90-second budget and the Alamo's fates by role — 2026-09-22 (unreleased)
+
+Read [ALAMO_FATES.md](docs/ALAMO_FATES.md) (the historical review and what the game allows) and the new last section of
+[MILITARY_EXPERIENCE.md](docs/MILITARY_EXPERIENCE.md) first.
+
+**The four owner questions of the military pass below, answered by the owner on 2026-09-22** (verbatim): *"Military: build
+the real local Alamo runner encounter next. Give unanswered decisions a configurable 90-second real-time budget, suspended
+during Host pause, with a documented fallback. Reconsider eligible volunteers on later courier dates. Replace sex-only
+fictional fates with historically reviewed roles, location, choices, and plausible escape/capture outcomes. Preserve smooth
+shared-world play and delayed news."*
+
+1. *Next build step?* — The local Alamo runner encounter, now, ahead of Gonzales/core usability for this piece. **Built.**
+2. *The 20-minute cap holding the class until the dated deadline?* — A 90-second real-time budget per question. **Built.**
+3. *Ask each courier date once, or reconsider?* — Reconsider on later dates. **Built.**
+4. *The sex-decided fate?* — Replace with roles, location and choices after historical review. **Reviewed and built.**
+
+What was done:
+
+- **The historical review** ([ALAMO_FATES.md](docs/ALAMO_FATES.md); `HIST-TEX-430` to `-439`). Every fighting man still
+  inside at dawn on March 6 died, the few taken alive included; the men who ran over the walls were cut down; the people who
+  lived had left before (couriers, men cut off outside, Rose — disputed) or were noncombatants (Dickinson and her daughter,
+  the Tejana women and children, Joe), with Guerrero the one fighter who talked his way out. No courier is recorded caught
+  leaving. Sources: the TSHA Handbook (entries on the battle, the noncombatants, the Tejanos, Dickinson, Joe, each courier,
+  Rose, Crockett, de la Peña, Kimbell), the Alamo's *Joe's Account*, and Stephen L. Hardin's *Lines in the Soil; Lines on the
+  Soul* (read in full). The printed books (Todish, Lindley, Hansen, Davis, Crisp, Groneman) were cited through those, not
+  opened — say so if anybody asks.
+- **Fates by role and place** (`alamoRole`, `stormAlamo`, `tellFall` in `sim/alamo.mjs`; `FIC-GONZ-381`, `-386`). A
+  fighter (a man or boy of sixteen and up, sick or well) inside at the assault is killed; a courier chosen and gone lives; every
+  woman and child inside is spared and walks home east. A boy under sixteen is no longer killed for being male. No escape
+  over the wall, capture or disguise route is offered — the record says they failed or were not a colonist's. Delayed news
+  is unchanged: no family sees a fate before its word.
+- **Survival opportunities said before they close** (`FIC-GONZ-383`): when the rumour of Santa Anna's march comes, a family
+  with somebody in the garrison is told they can still send for them (`warnGarrison`), and the card's recall button says the
+  same; on each courier night the runner says a man sent leaves the fort, and on March 3 and 5 that the lines are closing.
+- **Travis's runner** (`sim/alamo-runner.mjs`, `FIC-GONZ-380`). The besieged stand on the compound's plaza; on each courier
+  day a runner with a stable ID walks from the reconstructed Travis quarters to each played fighter at ninety feet a tick; the
+  question opens only when he is beside them; only that family hears him (`kind: 'alamo-runner'` meeting); the answer is said
+  aloud and he walks back. The card and the "!" open the meeting, whose two buttons are the existing `alamo-courier` action.
+- **Asked again on later dates** (`courierEligible`, `FIC-GONZ-382`): once a day, every day, whatever was said before; never a
+  courier gone, the dead or captured, a woman or child, or an auto/absent family (answered at once, no runner).
+- **The 90-second budget** (`sim/decision-budget.mjs`, `FIC-GONZ-385`): for the runner, the division, the army's questions
+  and Houston's camp. Real milliseconds between the ticks the server runs (`realTimeMeter`, injectable `now`); none while
+  paused; kept in the save; `createClassroom({ decisionBudgetMs })` and `DECISION_BUDGET_MS`; "pressing" at two thirds. On
+  expiry, auto's answer at the record's share (`FIC-GONZ-048`, `FIC-GONZ-384`) with "Nobody answered for … in time, and it was
+  decided for them" in the journal; the question closes, so the class stops being slowed.
+- **No save version moved.** `decisionClock`, `courierDay`, `courierOffer`, runner entities and the `coming` state are all
+  absent on older classes, which correctly reads as nothing spent, never asked, no runner.
+
+Evidence (same computer, headless Chrome, on this branch): full `npm test` **965 passed, 0 failed** (13 new tests in
+`tests/alamo-runner.test.mjs`, 10 in `tests/decision-budget.test.mjs`, one each added to the military pacing and attention
+files; two existing Alamo/auto tests changed for the runner's `coming` step); `node scripts/military-regression-check.mjs`
+**39 of 39 mutations caught**, each failing exactly its named test in its whole file (26 new; `docs/evidence/military-injections.json`);
+`npm run test:alamo-siege` **8 checks** (runner walking in 391 → 301 → 211 → 121 → 31 → 6 ft; the meeting; a 20 s pause
+holding a 15 s budget with 5 s spent; the budget running out 14 s after Resume with its journal line; the next day's runner
+and an answer given in the meeting; 1366 × 768 layout); `npm run test:panels` **15 checks**; `npm run test:family-panel`
+**17 checks**; no page errors. The old phone check in the siege proof was replaced by the Chromebook size (phones are not supported).
+
+**Not proved:** anything on a LAN, a Chromebook device or in a classroom; whether 90 seconds is enough for a real student;
+seamless play; the runner's walk looking right at every zoom (only the server positions were measured, and one screenshot
+each at 1440 × 950 and 1366 × 768 was taken).
+
+**For the owner to decide or change:**
+
+1. **The fallback when nobody answers the runner.** Built as your standing rule `FIC-GONZ-048` — auto takes over, so about
+   one in three silent men offers and may be chosen and live. The review would equally defend **staying at one's post**
+   (Travis chose riders from men who offered; leaving would then always be the family's own act). One line in
+   `settleUnanswered` changes it. Which?
+2. **Noncombatants killed in the storming.** The record has a woman and children killed inside (`HIST-TEX-433`); the game
+   spares every woman and child. Keep the simplification?
+3. **Sixteen as the line between fighter and child** is the game's age for answering calls, not a recorded rule (boys of
+   about sixteen died with the relief; Enrique Esparza, about eight, lived). Keep?
+4. **The runner's pace** is a real-seconds jog (ninety feet a tick), which the continuity contract asks of local motion, but
+   it means the walk takes one to five ticks whatever the class's pace. Right?
+5. **Ninety seconds** is your number; nothing has measured it with students.
+
 ## The roll is the family — 2026-09-22 (released in v2026.09.22.2)
 
 **Released as [v2026.09.22.2](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.22.2)** on 2026-09-22, from `c25414f`.

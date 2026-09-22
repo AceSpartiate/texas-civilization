@@ -59,3 +59,8 @@ test('a camp order starts a visible journey: it is neither an arrival nor a free
  assert.equal(w.army.leftMinute,w.minute,'the order tick must not also march');
  assert.equal(calendarMinutes(w),120);
 });
+
+test('Travis\'s runner still crossing the plaza holds reading pace, so the question cannot be skipped before he arrives',()=>{
+ const w=scene();w.entities.p.service.courier='coming';assert.equal(calendarMinutes(w),20);
+ w.entities.p.service.courier='stays';assert.equal(calendarMinutes(w),720);
+});

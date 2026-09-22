@@ -3337,6 +3337,8 @@ function populateWork(world, chosen, running) {
         host.append(button);
       }
     }
+    // Travis's runner still crossing the plaza to them (sim/alamo-runner.mjs): the question is his to bring.
+    if (chosen.service.courier === 'coming') host.append(element('p', `One of the garrison is coming across the plaza from Colonel Travis's quarters to speak with ${chosen.name}.`, 'work-note'));
     // Travis asking for riders (sim/alamo.mjs): volunteering is no promise of being chosen.
     if (chosen.service.courier === 'open') {
       host.append(element('p', 'Travis wants riders to carry his letters out through the Mexican lines. He will choose among those who offer.', 'work-note'));
@@ -3355,6 +3357,8 @@ function populateWork(world, chosen, running) {
     recall.disabled = !running || Boolean(chosen.travel);
     host.append(recall);
     host.append(element('p', chosen.service.kind === 'regular' ? 'A regular who leaves has deserted: the family loses glory, and they will not be taken again.' : chosen.service.acres ? 'The promise of land is lost.' : 'They start home at once.', 'work-note'));
+    // The chance to leave Béxar, said before it closes (sim/alamo.mjs `warnGarrison`, docs/ALAMO_FATES.md).
+    if (chosen.service.kind === 'garrison') host.append(element('p', 'If the Mexican army comes to Béxar, the garrison will be shut in, and nobody can be sent for then.', 'work-note'));
   }
   // Everything else a person can be set to - the work, the principal's journeys, work and rest, calling off - is an icon on
   // their row of the family panel (docs/FAMILY_PANEL.md), not a list on this card.
@@ -4957,7 +4961,9 @@ function renderEncounter(world) {
   // This line is the same thing said for a screen reader, which cannot see either - and,
   // like the mark, it names who met whom and nothing at all about the news: finding that
   // out is what listening is for.
-  $('#arrival').textContent = live && world.role !== 'host' ? `${name} has met a rider. Choose ${name} and listen.` : '';
+  // Travis's runner inside the Alamo (sim/alamo-runner.mjs) is a man of the garrison on foot, waiting for an answer.
+  const runner = encounter?.kind === 'alamo-runner';
+  $('#arrival').textContent = live && world.role !== 'host' ? (runner ? `${encounter.carrierName} has come from Colonel Travis to speak with ${name}. Choose ${name} and listen.` : `${name} has met a rider. Choose ${name} and listen.`) : '';
   const panel = $('#encounter');
   panel.hidden = !encounter || !encounterOpen || world.role === 'host';
   // Every way in - the panel's "!", Listen, the mark on the map - comes through here, so the bar is told here.
@@ -4972,10 +4978,13 @@ function renderEncounter(world) {
   // because there is nothing between the family and the thing itself; the second-hand one
   // is longer because that is the point, and a student far from Gonzales should be able to
   // see at a glance that the person at their gate was told this by somebody else.
-  const chain = encounter.firsthand
-    ? `Rode from ${encounter.origin}`
-    : `Had it from ${encounter.toldBy} at ${encounter.toldAt} · ${handLabel(encounter.hands)} out of ${encounter.origin}`;
-  $('#encounter-origin').textContent = `${chain} · ${timeLabel(encounter.rodeForMinutes)} on the road · already ${timeLabel(encounter.observedAgoMinutes)} old when they set out`;
+  if (runner) $('#encounter-origin').textContent = encounter.origin;
+  else {
+    const chain = encounter.firsthand
+      ? `Rode from ${encounter.origin}`
+      : `Had it from ${encounter.toldBy} at ${encounter.toldAt} · ${handLabel(encounter.hands)} out of ${encounter.origin}`;
+    $('#encounter-origin').textContent = `${chain} · ${timeLabel(encounter.rodeForMinutes)} on the road · already ${timeLabel(encounter.observedAgoMinutes)} old when they set out`;
+  }
   // How much of the conversation has been said out loud so far.
   const lines = encounter.said;
   if (sayFor !== encounter.id) { sayFor = encounter.id; sayCount = 0; sayAt = 0; }
@@ -5021,18 +5030,29 @@ function renderEncounter(world) {
     button.disabled = world.status !== 'running';
     return button;
   }));
-  if (live) {
+  // The runner's two answers are the courier question's own (sim/alamo.mjs `answerCourier`), sent as the card sends them.
+  for (const choice of runner ? encounter.choices || [] : []) {
+    const button = element('button', choice.label, 'ask-option');
+    button.dataset.action = 'alamo-courier'; button.dataset.question = 'courier'; button.dataset.answer = choice.answer;
+    button.dataset.entityId = encounter.listenerId;
+    button.disabled = world.status !== 'running';
+    $('#encounter-asks').append(button);
+  }
+  if (live && !runner) {
     const leave = element('button', `Let ${encounter.carrierName} ride on`, 'ask-leave');
     leave.dataset.action = 'leave-rider';
     leave.dataset.entityId = encounter.listenerId;
     leave.disabled = world.status !== 'running';
     $('#encounter-asks').append(leave);
   }
-  $('#encounter-note').textContent = live
-    ? 'They will not wait for ever. Closing this does not unhear anything already said.'
-    : encounter.reason === 'unanswered' ? `${encounter.carrierName} would wait no longer and rode on.`
-      : encounter.reason === 'parted' ? `${name} and ${encounter.carrierName} were separated.`
-        : `${name} let ${encounter.carrierName} ride on.`;
+  $('#encounter-note').textContent = runner
+    ? live ? `${encounter.pressing ? `${encounter.carrierName} cannot wait much longer.` : `${encounter.carrierName} is waiting for an answer to take back.`} ${encounter.ifUnanswered || ''}`.trim()
+      : encounter.reason === 'unanswered' ? `Nobody answered ${encounter.carrierName} in time, and it was decided for ${name}. The journal says what.` : `${name} gave ${encounter.carrierName} an answer, and he has gone back to Colonel Travis.`
+    : live
+      ? 'They will not wait for ever. Closing this does not unhear anything already said.'
+      : encounter.reason === 'unanswered' ? `${encounter.carrierName} would wait no longer and rode on.`
+        : encounter.reason === 'parted' ? `${name} and ${encounter.carrierName} were separated.`
+          : `${name} let ${encounter.carrierName} ride on.`;
 }
 document.addEventListener('click', event => {
   if (!event.target.closest('[data-open-encounter]')) return;

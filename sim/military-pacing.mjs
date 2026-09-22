@@ -1,9 +1,11 @@
 // Fictional presentation pacing, not changed historical dates or marching speeds.
 // See docs/MILITARY_EXPERIENCE.md, FIC-GONZ-320 and -321. Derive from canonical state; nothing new to migrate.
 // ceiling: two fixed caps for the whole class, not the look-ahead scheduler MILITARY_EXPERIENCE.md asks for. One
-// family's open question slows every household sharing the tick, and an unanswered question holds the class at 20
-// minutes a tick until the director's own dated deadline closes it, with no wall-clock budget of its own. Undo when the selective
-// quiet-time scheduler (step 5 of that document) computes the next protected boundary across households.
+// family's open question slows every household sharing the tick. Since 2026-09-22 an unanswered question holds the class
+// at 20 minutes a tick only until its real-time budget runs out (sim/decision-budget.mjs: 90 seconds by default, not
+// counted while the Host has paused) and its documented fallback decides it, or until the director's dated deadline if
+// that comes first. Undo when the selective quiet-time scheduler (step 5 of that document) computes the next protected
+// boundary across households.
 export const MILITARY_TRAVEL_MINUTES = 120;
 export const MILITARY_DECISION_MINUTES = 20;
 
@@ -22,6 +24,9 @@ export function attendedMilitary(world) {
 export function militaryDecision(world) {
   for (const person of attendedMilitary(world)) {
     if (['courier', 'leave', 'road'].some(key => person.service?.[key] === 'open')) return person.id;
+    // Travis's runner still crossing the plaza to them (sim/alamo-runner.mjs): the question is on its way, and a half-day
+    // tick must not carry the class past it before he arrives.
+    if (person.service?.courier === 'coming') return person.id;
     if (world.army?.detachment?.asks?.[person.id] === 'open' && !world.army.detachment.closed) return person.id;
     if (Object.values(world.army?.questions || {}).some(question => !question.closed && question.asks?.[person.id] === 'open')) return person.id;
   }

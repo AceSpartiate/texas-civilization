@@ -96,7 +96,8 @@ export function waitingOn(world, household) {
   if (world.army?.detachment && !world.army.detachment.closed) for (const id of household.members) if (world.army.detachment.asks?.[id] === 'open') count++;
   for (const id of household.members) {
     const person = world.entities[id];
-    if (person?.service?.courier === 'open') count++;
+    // Travis's runner standing with them is already counted as the meeting above (sim/alamo-runner.mjs).
+    if (person?.service?.courier === 'open' && !Object.values(world.encounters || {}).some(one => one.status === 'open' && one.listenerId === person.id)) count++;
     // The army's questions to a man with Houston (sim/camp.mjs): leaving after the word of Goliad, the fork of the road.
     if (person?.service?.leave === 'open') count++;
     if (person?.service?.road === 'open') count++;

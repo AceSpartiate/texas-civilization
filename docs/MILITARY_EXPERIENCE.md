@@ -19,7 +19,7 @@ At Study pace (9.5 real seconds per tick), a ten-hour courier decision now spans
 
 The Alamo assault still resolves through `stormAlamo` in one simulation update. This pass makes existing decisions more discoverable and gives them time; it does not provide playable room-by-room combat, staged casualties, new rescue actions, or a rendered courier departure scene. The player can follow their person and answer the existing courier offer. Animation alone would not fix the missing encounter structure.
 
-Other remaining limitations: some army transitions set a position directly; `reliefEnters` snaps arriving relief to Béxar. Courier departure catches an unreachable route after declaring release. The four courier dates currently ask each person only once; a rejected volunteer is not reconsidered. Courtly phrasing and a chance roll are not sufficient agency for the final game. Outcome projection still uses delayed household knowledge, and some Alamo text/state can remain a last-known siege view after the actual fall. The existing sex-based fictional outcome rule is a prototype simplification, not a valid account of everyone inside the compound. Preserve old saves while replacing these deliberately.
+*(Superseded in part on 2026-09-22 — see "The runner, the budget and the fates" at the end: a runner now walks to the person, volunteers are asked again on later dates, the fates go by role and place, and an unanswered question has a real-time budget.)* Other remaining limitations: some army transitions set a position directly; `reliefEnters` snaps arriving relief to Béxar. Courier departure catches an unreachable route after declaring release. The four courier dates currently ask each person only once; a rejected volunteer is not reconsidered. Courtly phrasing and a chance roll are not sufficient agency for the final game. Outcome projection still uses delayed household knowledge, and some Alamo text/state can remain a last-known siege view after the actual fall. The existing sex-based fictional outcome rule is a prototype simplification, not a valid account of everyone inside the compound. Preserve old saves while replacing these deliberately.
 
 The new global pacing affects every household sharing that tick, including civilian work and consumption. The existing effort/calendar split is unchanged, so more real time also gives more effort ticks within a historical day. Rebalance only after measuring that effect, not by silently restoring fast military ticks. No claim is made that the full campaign still fits one 45-minute period.
 
@@ -79,3 +79,60 @@ Acceptance must include recorded uninterrupted play across camp-to-march, distan
 `tests/military-pacing.test.mjs` and `tests/military-attention.test.mjs` cover pacing, boundary handling, the transient tick clock, time-jump blocking, message privacy and request ordering. The three initial pacing tests were observed failing against the original implementation; a separate regression reproduced accelerated departure after release before that was repaired. `node scripts/military-regression-check.mjs` also detects seven isolated mutations (privacy, report leakage, queue priority, army requests, a changing tick clock, bypassed jump guards and a camp misread as marching); evidence is in `docs/evidence/military-injections.json`. The existing Alamo/browser proof is expanded to enter the real creation flow, open the siege invitation, find the courier request, send its real answer, and check phone bounds. Validation: full suite 930 passed, then 35 focused military tests passed after the final released-courier fix; Alamo browser 6 checks and tutorial browser 21 checks passed, without page errors. Logs are `test-results/military-full-suite.log`, `military-final-focused.log`, `military-browser.log`, and `military-lesson-browser.log`. `HANDOFF.md` records the scope and limits. The rest of this document is a continuation plan, not implemented functionality.
 
 **Finished 2026-09-22.** The injection harness was rebuilt: each mutation is still applied by a load hook in a child process, but the harness now runs the **whole** test file, requires exactly the named test to fail and no other, runs a clean baseline first, and throws when a mutation target is not found exactly once (the earlier version ran only the selected test, so it could not see a mutation that broke a neighbour too). It covers **13** mutations, one per test and two on the camp order: the seven above plus an auto person slowing the class, an absent family slowing it, a boundary stepped over, a released courier sped up, and a camp order read as an arrival or given a free tick of marching. That last pair guards a new test (`a camp order starts a visible journey`); before it, nothing failed if `moveCamp` stopped clearing the camp. **13 of 13 caught**, `docs/evidence/military-injections.json`. The pacing claims are registered as `FIC-GONZ-320` to `-322` in [HISTORY.md](../HISTORY.md) (an earlier draft used `FIC-GONZ-232`, inside the travel-sight block). The deliberate simplifications carry `ceiling:` comments in `sim/military-pacing.mjs`, `sim/time.mjs` and `public/military-attention.js`. Steps 1–6 above remain unbuilt; they need the owner's go-ahead before they displace the Gonzales/core usability phase.
+
+## The runner, the budget and the fates — built 2026-09-22
+
+Owner, 2026-09-22 (verbatim): *"Military: build the real local Alamo runner encounter next. Give unanswered decisions a
+configurable 90-second real-time budget, suspended during Host pause, with a documented fallback. Reconsider eligible
+volunteers on later courier dates. Replace sex-only fictional fates with historically reviewed roles, location, choices, and
+plausible escape/capture outcomes. Preserve smooth shared-world play and delayed news."* The historical review came first:
+[ALAMO_FATES.md](ALAMO_FATES.md).
+
+**Step 1, the local Alamo courier encounter — built, in a first form** (`sim/alamo-runner.mjs`, `FIC-GONZ-380`).
+
+- Whoever is shut in the Alamo stands at a place on the compound's main plaza (`postOf`), not at Béxar's site point, which is
+  the town's Main Plaza half a mile away. The compound is laid where the map draws it (`ALAMO_ORIGIN`, checked against
+  `public/bexar-layout.js` `alamoOnMap` by a test, since nothing under `sim/` may import the renderer).
+- On each of the four courier days, a runner — a persistent entity with a stable ID, `alamo-runner-<person id>`, the same man
+  every day — appears at the east door of the plan's reconstructed Travis / Joe quarters and walks toward the played fighter at
+  ninety feet a tick (`RUNNER_FEET_PER_TICK`; `ceiling:` a real-seconds pace, not a calendar one). The person's courier state
+  is `coming`; the question cannot be answered yet, and a live tick is held at reading pace so it cannot be skipped.
+- When he stands within six feet, a server-owned meeting opens (`world.encounters`, `kind: 'alamo-runner'`, with its own
+  ID, phase in the runner record, day, opened minute, speaker lines and the two choices). He speaks the night's call
+  (`runnerOpening`: Martin's letter on the 24th, Seguín going out on the 25th, the letters to the convention on March 3 with
+  "the Mexican lines are closer every night", letters toward Fannin on March 5 with "there may not be many more chances").
+  The family hears it; anybody else inside sees a man cross the plaza and stand by someone, and nothing he said
+  (`encounterProjection`, `observedBy`). The message card and the family panel's "!" open the meeting; its two buttons are the
+  existing `alamo-courier` action, so the card's buttons still work too.
+- An answer is said aloud, closes the meeting, and he walks back to the door and waits there. Saving and reloading at any
+  point keeps the runner, his phase and the meeting.
+- Not built: selection result as a scene, the rider's physical departure through a gate, room-by-room movement (the runner
+  walks straight across the plaza, which has no walls in the way), and the rest of step 1's list. Those remain.
+
+**Step 4, protected decision budgets — built for the military questions that exist** (`sim/decision-budget.mjs`,
+`FIC-GONZ-385`). Every military question open to a played, present person not on auto — the runner, Bowie and Fannin's
+division, the army's questions before Béxar, Houston's two camp questions — has **90 real seconds** (`DECISION_BUDGET_MS`;
+`createClassroom({ decisionBudgetMs })`; `DECISION_BUDGET_MS=` in the environment for `npm start`). The server measures real
+milliseconds between the ticks it runs (`realTimeMeter`, injectable `now`) and hands them to `stepWorld(world, { realMs })`;
+a paused class runs no ticks and the meter forgets where it was, so a Host's pause is never counted. The spent time is kept in
+the save (`world.decisionClock`, absent on older saves = nothing spent), so reconnecting does not restart it. At two thirds the
+page is told it is pressing and says what will happen. On expiry the question falls back exactly as it does at its dated
+deadline — auto's answer at the record's share, the owner's standing rule `FIC-GONZ-048` — and the journal says "Nobody
+answered for … in time, and it was decided for them". The question is then closed, so `sim/military-pacing.mjs` stops slowing
+the class for it: one unanswered question costs the class at most a minute and a half, not the rest of the dated window.
+
+**Volunteers asked again** (`FIC-GONZ-382`): every played fighter still inside is asked on each of the four days, once a day,
+whatever they said before; a volunteer passed over is reminded of it. Never a courier already gone, the dead or captured, a
+woman or child, or a family on auto or whose student has gone (answered at once, and no runner walks to them).
+
+**Fates by role and place** (`alamoRole`, `stormAlamo`, `tellFall`, `FIC-GONZ-381`, `-386`): see ALAMO_FATES.md §4. A
+fighter inside is killed; a chosen courier lives; every woman and child inside is spared. The chance to leave is said in words
+before it closes: at the rumour of Santa Anna's march (`warnGarrison`, `FIC-GONZ-383`) and on every courier night.
+
+Evidence (same computer, headless Chrome): `tests/alamo-runner.test.mjs` (13 tests) and `tests/decision-budget.test.mjs`
+(10), plus one new test each in `tests/military-pacing.test.mjs` and `tests/military-attention.test.mjs`; the injection
+harness `scripts/military-regression-check.mjs` now holds 39 mutations, each failing exactly its test in its whole file
+(`docs/evidence/military-injections.json`); `npm run test:alamo-siege` now shows the runner walking in, the meeting, a pause
+longer than the budget holding it, the budget running out after Resume with its journal line, the next day's runner and an
+answer given in the meeting, at 1440 × 950 and 1366 × 768 (`docs/evidence/alamo-siege-browser.json`). HANDOFF.md has the
+counts. Not proved: anything on a LAN, a Chromebook device or in a classroom; whether 90 seconds is the right number.
