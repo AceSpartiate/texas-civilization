@@ -771,7 +771,8 @@ Decided by the owner by multiple choice (§7e). `FIC-GONZ-044`.
   riders set down; open calls expire, open conversations close, offers lapse; everyone alive comes home off whatever road
   they were on, with their horse, ox and wagon; a wound that mends before January 25 is mended, and one that does not
   (a dangerous wound from the storming) keeps the person lying where the surgeon has them; nobody is tired, at work or
-  promised to the army. **Each family eats an ordinary winter** (0.35 a person a day, the routine's figure) **and never goes
+  promised to the army. **Each family eats an ordinary winter** (0.35 a grown person a day, the routine's figure, and a child a quarter, a half or
+  three quarters of it by age since 2026-09-22 — `eatenADay`, `docs/FAMILY_CREATION.md`) **and never goes
   below a fortnight's food**, or below what it had if it had less (`WINTER_FLOOR_DAYS`). `ceiling:` nothing else happens
   over the winter - no crop, no spoilage, no trade.
 - **The second period opens paused at dawn on January 25, 1836** (`winter-opens`) on the farming scale, so the teacher

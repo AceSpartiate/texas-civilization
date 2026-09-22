@@ -23,6 +23,7 @@ import { FORCED_MARCH_HOURS, WALK_SPEED, groundLeft, milesADay, propertyId } fro
 import { findPath } from '../sim/geography.mjs';
 import { coloniesMap } from '../sim/colonies-map.mjs';
 import { isIdle, needsOf, panelActions } from '../public/family-panel.js';
+import { THINK_EVERY } from '../sim/neighbours.mjs';
 
 const view = (world, householdId, role = 'student') => projectWorld(world, householdId, role, { includeMap: false });
 const until = (world, done, limit = 9000) => { for (let t = 0; t < limit && !done() && world.status === 'running'; t++) stepWorld(world); };
@@ -180,9 +181,15 @@ test('foraging, the guard and the scouts are each said; the scouts ride only wit
   assert.equal(work(world, man).find(entry => entry.id === 'camp-scout').can, true);
   // Outing by outing, hurt exactly when the share says, and said either way.
   assert.equal(SCOUT_HURT, 0.02);
+  // Changed 2026-09-22: outings until he is hurt or the army marches from this camp. It read until he is hurt, which held
+  // only while the man this picks happened to be hurt within a few days; once families were dealt by birth dates
+  // (FIC-GONZ-361) it picks a man the share spares, the army marched for the Colorado on his eighth outing, and the outing
+  // was left off unfinished, as `advanceCamp` rightly does. The march is tested below; this is the scouts' share.
+  const camp = houstonCamp(world);
   let outings = 0, hurtAt = null;
-  while (outings < 120 && man.health.condition === 'well') {
+  while (outings < 120 && man.health.condition === 'well' && houstonCamp(world) === camp && !man.travel) {
     order(world, man, 'camp-scout'); finish(world, man);
+    if (houstonCamp(world) !== camp || man.travel) break;
     outings++;
     assert.equal(man.service.scouted, outings);
     const hurt = scoutHurt(world, man, outings);
@@ -295,18 +302,27 @@ test('a man whose family does nothing is never idle: the director sets him to th
   assert.equal(campChoice(world, director, work(world, director)), expectedChore(director, Math.floor(world.minute / 1440)));
   // Over a dozen ticks each is set to the day's work, and set again when it is done: never a whole think without a chore.
   const busy = { [director.id]: 0, [auto.id]: 0, [absent.id]: 0 };
+  const idle = { [director.id]: 0, [auto.id]: 0, [absent.id]: 0 }, longest = { ...idle };
   for (let t = 0; t < 12; t++) {
     stepWorld(world);
-    for (const one of [director, auto, absent]) if (one.chore && CHORES[one.chore.id].camp) {
+    for (const one of [director, auto, absent]) {
+      if (!(one.chore && CHORES[one.chore.id].camp)) { idle[one.id]++; longest[one.id] = Math.max(longest[one.id], idle[one.id]); continue; }
+      idle[one.id] = 0;
       busy[one.id]++;
       const begun = world.events.filter(event => event.actorId === one.id && event.type === 'assignment' && /set out/.test(event.text)).at(-1);
       assert.equal(one.chore.id, expectedChore(one, Math.floor(begun.minute / 1440)), `${one.name} was not set to the day's work`);
     }
   }
-  // A day's work at the camp is two ticks and a family thinks every third (THINK_EVERY): a man set to work at every think is
-  // at work at least 7 of 12, when his family's turn falls last (idle the first two ticks, then one in three). It read 8 until
-  // 2026-09-19, when the class's history changed which men this picks and one's family thought on that last tick.
-  for (const one of [director, auto, absent]) assert.ok(busy[one.id] >= 7, `${one.name} sat idle at the camp: at work ${busy[one.id]} ticks of 12`);
+  // A family thinks every third tick (THINK_EVERY), and a man set to work at every think is never idle for a whole think:
+  // at most two ticks in a row, when his family's turn falls last. Changed 2026-09-22: this counted at least 7 of 12 ticks at
+  // work, which assumed every camp work takes two ticks. It does not: the guard is two ticks of work and a skilled man stands
+  // it in one (`paceFor`), and once families were dealt by birth dates (FIC-GONZ-361) the man this picks is a skilled one
+  // drawn to the guard two days running - at work 4 of 12, set to it at every think. The rule the test is named for is the
+  // idle stretch, and that is what it holds now, with at least one day's work begun at each of the four thinks.
+  for (const one of [director, auto, absent]) {
+    assert.ok(longest[one.id] < THINK_EVERY, `${one.name} sat idle at the camp for ${longest[one.id]} ticks in a row`);
+    assert.ok(busy[one.id] >= 12 / THINK_EVERY, `${one.name} sat idle at the camp: at work ${busy[one.id]} ticks of 12`);
+  }
   // The army marches for the Colorado: the work in hand is left off and said, and taken up again at the new camp.
   until(world, () => world.minute >= momentOf(world, 'houston-colorado') - 1440);
   for (const one of [director, auto, absent]) if (!one.chore) order(world, one, (one.service.drilled || 0) >= DRILL_TO_STEADY ? 'camp-forage' : 'camp-drill');
@@ -316,8 +332,19 @@ test('a man whose family does nothing is never idle: the director sets him to th
   assert.ok(world.events.some(event => [director.id, auto.id, absent.id].includes(event.actorId) && event.minute >= momentOf(world, 'houston-colorado') && /left off .* unfinished/.test(event.text)), 'the broken-off work was not said');
   until(world, () => [director, auto, absent].every(one => one.location.siteId === 'columbus-crossing' && !one.travel), 400);
   const again = { [director.id]: 0, [auto.id]: 0, [absent.id]: 0 };
-  for (let t = 0; t < 12; t++) { stepWorld(world); for (const one of [director, auto, absent]) if (one.chore && CHORES[one.chore.id].camp) again[one.id]++; }
-  for (const one of [director, auto, absent]) assert.ok(again[one.id] >= 8, `${one.name} sat idle at the new camp: at work ${again[one.id]} ticks of 12`);
+  const idleAgain = { [director.id]: 0, [auto.id]: 0, [absent.id]: 0 }, longestAgain = { ...idleAgain };
+  for (let t = 0; t < 12; t++) {
+    stepWorld(world);
+    for (const one of [director, auto, absent]) {
+      if (one.chore && CHORES[one.chore.id].camp) { again[one.id]++; idleAgain[one.id] = 0; }
+      else longestAgain[one.id] = Math.max(longestAgain[one.id], ++idleAgain[one.id]);
+    }
+  }
+  // Changed 2026-09-22 with the count above, for the same reason: at least 8 of 12 assumed two-tick work.
+  for (const one of [director, auto, absent]) {
+    assert.ok(longestAgain[one.id] < THINK_EVERY, `${one.name} sat idle at the new camp for ${longestAgain[one.id]} ticks in a row`);
+    assert.ok(again[one.id] >= 12 / THINK_EVERY, `${one.name} sat idle at the new camp: at work ${again[one.id]} ticks of 12`);
+  }
   validateWorld(world);
 });
 
@@ -326,12 +353,17 @@ test('the Host reads what he is at and what waits: "with Houston\'s army at Gonz
   const [man] = grownMen(world);
   const household = world.households[man.householdId];
   serve(world, man);
+  // What else his family has waiting is its own history's, and not this test's subject. Changed 2026-09-22: this read 0 and
+  // then 1, until families were dealt by birth dates and ate by age (FIC-GONZ-360, -361) and this class's history moved
+  // with them: the man it picks now has a wife with the director's powder question open at this moment. The rule is the
+  // same - drilling is nothing waiting, and his leave is exactly one thing more.
+  const already = waitingOn(world, household);
   assert.match(whereWords(world, man, household), /^with Houston's army at Gonzales$/);
   order(world, man, 'camp-drill');
   assert.match(whereWords(world, man, household), /^with Houston's army at Gonzales: drilling with the company$/);
-  assert.equal(waitingOn(world, household), 0);
+  assert.equal(waitingOn(world, household), already, 'drilling with the company was counted as something waiting');
   man.service.leave = 'open';
-  assert.equal(waitingOn(world, household), 1);
+  assert.equal(waitingOn(world, household), already + 1);
   delete man.service.leave;
   // Groce's, from the evening of March 30: a place of its own on the map since 2026-09-17 (`HIST-TEX-086`), where the camp stands.
   world.minute = GROCES_FROM + campClock(world); man.chore = null;

@@ -6,7 +6,7 @@ import { advanceNeighbours } from './neighbours.mjs';
 import { record } from './events.mjs';
 import { reportsFor, deliverReports } from './knowledge.mjs';
 import { advanceRoutine } from './routines.mjs';
-import { calendarMinutes, withCalendarStep } from './clock.mjs';
+import { calendarMinutes, dateOf, withCalendarStep } from './clock.mjs';
 import { awayProjection, milesATick, roadTicksFor, tooFastToFollow } from './sight.mjs';
 import { advanceDirectors, handleChoice, handleMarch, handleRumor, directorProjection } from './directors.mjs';
 import { abandonChore, advanceChores, answerChore, askProjection, beginChore, CHORES, choresFor, skillsFor, SKILL_CAP, toolState } from './chores.mjs';
@@ -143,12 +143,12 @@ export function createWorld(seed = 'gonzales', playerCount = 15, { map = 'gonzal
  * hidden `traits` exist only on a rolled family (`docs/FAMILY_CREATION.md`); a household
  * nobody rolled, and every class saved before rolling existed, simply has none.
  */
-function addPerson(world, household, site, j, { id, name, kin, adult, sex, age, traits }) {
+function addPerson(world, household, site, j, { id, name, kin, adult, sex, age, born, traits }) {
   world.entities[id] = {
     id, name, kind: 'person', householdId: household.id, depth: j === 0 ? 'detailed' : 'moderate', principal: j === 0,
     location: { x: site.x + j * .012, y: site.y + (j % 2) * .012, siteId: site.id }, travel: null, health: { condition: 'well' },
     task: adult ? 'work' : 'rest', skills: skillsFor(id), chore: null, kin, relationships: {}, propertyRefs: [`${household.id}-wagon`], commitments: [],
-    ...(sex && { sex }), ...(Number.isFinite(age) && { age }), ...(traits && { traits }),
+    ...(sex && { sex }), ...(Number.isFinite(age) && { age }), ...(born && { born }), ...(traits && { traits }),
   };
   household.members.push(id);
 }
@@ -167,7 +167,8 @@ export function rollFamily(world, household) {
   const site = world.map.sites[household.homeSiteId];
   for (const id of household.members) delete world.entities[id];
   household.members = [];
-  rolledPeople(world.seed, household.id, index, roll).forEach((person, j) => {
+  // Born counting back from the day the die is rolled, so everybody's age is their age that day (FIC-GONZ-361).
+  rolledPeople(world.seed, household.id, index, roll, FAMILY_TABLE, dateOf(world, world.minute)).forEach((person, j) => {
     addPerson(world, household, site, j, { ...person, adult: person.age >= 16 });
   });
   household.principalId = household.members[0];
@@ -1087,6 +1088,9 @@ export function validateWorld(world) {
     if (entity.purse !== undefined && (!Number.isInteger(entity.purse) || entity.purse < 0)) throw new Error('A purse holds whole reales');
     if (entity.sex !== undefined && !['male', 'female'].includes(entity.sex)) throw new Error('Invalid sex');
     if (entity.age !== undefined && (!Number.isInteger(entity.age) || entity.age < 0 || entity.age > 80)) throw new Error('Invalid age');
+    // A birth date, on everybody rolled since 2026-09-22 (sim/family.mjs `bornOf`). Absent on everybody rolled before, whose
+    // date is worked out from their age and never written back, so no save version moved.
+    if (entity.born !== undefined && (typeof entity.born !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(entity.born) || entity.age === undefined)) throw new Error('Invalid birth date');
     for (const [trait, value] of Object.entries(entity.traits || {})) {
       const range = TRAIT_RANGE[trait];
       if (!range || !Number.isInteger(value) || value < range[0] || value > range[1]) throw new Error(`Invalid hidden ${trait}`);

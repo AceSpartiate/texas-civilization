@@ -1,51 +1,88 @@
 {
   "record": "family-roll-injections",
   "date": "2026-09-22",
-  "note": "The roll is the family (owner, 2026-09-22). Every injection is a rule of the new table, of reading an old class on its own table, of the ages of a family of up to eighteen children, or of what a family of twenty is sent, taken back out.",
+  "note": "The roll is the family (owner, 2026-09-22), and what the family eats by age, its twins and the spacing of its births (owner, 2026-09-22). Every injection is a rule of the table, of reading an old class on its own table, of the birth dates of a family of up to eighteen children, of eating by age in quarters, or of twins, taken back out.",
   "files": [
-    "tests/family-roll.test.mjs"
+    "tests/family-roll.test.mjs",
+    "tests/rations.test.mjs",
+    "tests/periods.test.mjs"
   ],
   "injections": [
     {
       "name": "a 4 is read as a lone parent and three children, not two parents and two",
       "file": "sim/family.mjs",
+      "files": [
+        "tests/family-roll.test.mjs",
+        "tests/rations.test.mjs"
+      ],
       "failed": [
-        "the roll is the family: one parent on 1 to 3, both from 4, and every number over that another child"
+        "the roll is the family: one parent on 1 to 3, both from 4, and every number over that another child",
+        "a family of twenty fits the tick: what it is sent grows by the person, and nothing is sent twenty times over"
       ]
     },
     {
       "name": "new rolls are still read on the 2026-09-14 faces, so a 20 is ten people",
       "file": "sim/family.mjs",
+      "files": [
+        "tests/family-roll.test.mjs",
+        "tests/rations.test.mjs"
+      ],
       "failed": [
         "the roll is the family: one parent on 1 to 3, both from 4, and every number over that another child",
         "a class rolled on an earlier table keeps its own: the 2026-09-14 faces, and six sides",
-        "a 20 is two parents and eighteen children with their own names and ages, and it survives a save"
+        "a 20 is two parents and eighteen children with their own names and ages, and it survives a save",
+        "four bands: 0–2 eat a quarter of a grown share, 3–9 a half, 10–15 three quarters, 16 and over all of it",
+        "fractions are kept: four babies eat exactly one grown share, and a day at home takes exactly that from the store",
+        "the road east eats by age: a family with small children eats less than its head count (the winter: tests/periods.test.mjs)",
+        "the neighbours’ director reckons its larder by age: four babies are one mouth when it decides what food it can spare"
       ]
     },
     {
       "name": "a new roll is not marked with its table, so it reads as a 2026-09-14 class",
       "file": "sim/world.mjs",
+      "files": [
+        "tests/family-roll.test.mjs",
+        "tests/rations.test.mjs"
+      ],
       "failed": [
         "the roll is the family: one parent on 1 to 3, both from 4, and every number over that another child",
         "a 20 is two parents and eighteen children with their own names and ages, and it survives a save",
         "a family of twenty fits the tick: what it is sent grows by the person, and nothing is sent twenty times over",
-        "the hidden stats reach no payload: not the family’s own, not a neighbour’s, not the Host’s"
+        "the hidden stats reach no payload: not the family’s own, not a neighbour’s, not the Host’s",
+        "four bands: 0–2 eat a quarter of a grown share, 3–9 a half, 10–15 three quarters, 16 and over all of it",
+        "fractions are kept: four babies eat exactly one grown share, and a day at home takes exactly that from the store",
+        "the road east eats by age: a family with small children eats less than its head count (the winter: tests/periods.test.mjs)",
+        "the neighbours’ director reckons its larder by age: four babies are one mouth when it decides what food it can spare",
+        "twins are two people: their own ids and names, one birth date, the same age"
       ]
     },
     {
       "name": "the mark is ignored and every roll is read by its die alone",
       "file": "sim/family.mjs",
+      "files": [
+        "tests/family-roll.test.mjs",
+        "tests/rations.test.mjs"
+      ],
       "failed": [
         "the roll is the family: one parent on 1 to 3, both from 4, and every number over that another child",
         "a class rolled on an earlier table keeps its own: the 2026-09-14 faces, and six sides",
         "a 20 is two parents and eighteen children with their own names and ages, and it survives a save",
         "a family of twenty fits the tick: what it is sent grows by the person, and nothing is sent twenty times over",
-        "the hidden stats reach no payload: not the family’s own, not a neighbour’s, not the Host’s"
+        "the hidden stats reach no payload: not the family’s own, not a neighbour’s, not the Host’s",
+        "four bands: 0–2 eat a quarter of a grown share, 3–9 a half, 10–15 three quarters, 16 and over all of it",
+        "fractions are kept: four babies eat exactly one grown share, and a day at home takes exactly that from the store",
+        "the road east eats by age: a family with small children eats less than its head count (the winter: tests/periods.test.mjs)",
+        "the neighbours’ director reckons its larder by age: four babies are one mouth when it decides what food it can spare",
+        "twins are two people: their own ids and names, one birth date, the same age"
       ]
     },
     {
       "name": "a class rolled 2026-09-14 is re-read on the new table, so its ten become a family that should be twenty",
       "file": "sim/family.mjs",
+      "files": [
+        "tests/family-roll.test.mjs",
+        "tests/rations.test.mjs"
+      ],
       "failed": [
         "a class rolled on an earlier table keeps its own: the 2026-09-14 faces, and six sides"
       ]
@@ -53,6 +90,10 @@
     {
       "name": "the validator reads every saved roll on the new table",
       "file": "sim/world.mjs",
+      "files": [
+        "tests/family-roll.test.mjs",
+        "tests/rations.test.mjs"
+      ],
       "failed": [
         "a class rolled on an earlier table keeps its own: the 2026-09-14 faces, and six sides"
       ]
@@ -60,46 +101,203 @@
     {
       "name": "a save may carry any table name it likes",
       "file": "sim/world.mjs",
+      "files": [
+        "tests/family-roll.test.mjs",
+        "tests/rations.test.mjs"
+      ],
       "failed": [
         "a class rolled on an earlier table keeps its own: the 2026-09-14 faces, and six sides"
       ]
     },
     {
-      "name": "a mother too old for eighteen different ages is not made younger, so a 20 comes out with fewer children",
+      "name": "the father is never checked: a child born to a father of nine",
       "file": "sim/family.mjs",
+      "files": [
+        "tests/family-roll.test.mjs",
+        "tests/rations.test.mjs"
+      ],
       "failed": [
-        "the roll is the family: one parent on 1 to 3, both from 4, and every number over that another child",
-        "every family could exist: children fit their mother and father, and no two share an age"
+        "every family could exist: every child born to a mother of 17 to 42 and a father of 18 or more, eldest first"
       ]
     },
     {
-      "name": "the father is never checked: eighteen children to a father who was nine at the eldest’s birth",
+      "name": "the mother is not held to 42 at the last birth: a mother of 45 has a newborn",
       "file": "sim/family.mjs",
+      "files": [
+        "tests/family-roll.test.mjs",
+        "tests/rations.test.mjs"
+      ],
       "failed": [
-        "every family could exist: children fit their mother and father, and no two share an age"
-      ]
-    },
-    {
-      "name": "the father caps the children’s ages but is never made older, so a large family loses children",
-      "file": "sim/family.mjs",
-      "failed": [
-        "the roll is the family: one parent on 1 to 3, both from 4, and every number over that another child",
-        "every family could exist: children fit their mother and father, and no two share an age",
-        "the hidden stats reach no payload: not the family’s own, not a neighbour’s, not the Host’s"
+        "every family could exist: every child born to a mother of 17 to 42 and a father of 18 or more, eldest first"
       ]
     },
     {
       "name": "children are dealt from four cards a family, so the fifth son repeats the first son’s name",
       "file": "sim/family.mjs",
+      "files": [
+        "tests/family-roll.test.mjs",
+        "tests/rations.test.mjs"
+      ],
       "failed": [
-        "a 20 is two parents and eighteen children with their own names and ages, and it survives a save"
+        "a 20 is two parents and eighteen children with their own names and ages, and it survives a save",
+        "twins are two people: their own ids and names, one birth date, the same age"
       ]
     },
     {
       "name": "every person’s kin rides on the tick, the whole family carried on each of them",
       "file": "sim/world.mjs",
+      "files": [
+        "tests/family-roll.test.mjs",
+        "tests/rations.test.mjs"
+      ],
       "failed": [
         "a family of twenty fits the tick: what it is sent grows by the person, and nothing is sent twenty times over"
+      ]
+    },
+    {
+      "name": "a child of sixteen eats as a youth, three quarters of a share",
+      "file": "sim/family.mjs",
+      "files": [
+        "tests/family-roll.test.mjs",
+        "tests/rations.test.mjs"
+      ],
+      "failed": [
+        "four bands: 0–2 eat a quarter of a grown share, 3–9 a half, 10–15 three quarters, 16 and over all of it"
+      ]
+    },
+    {
+      "name": "the day’s food is rounded to whole grown shares, so a share and a half is two",
+      "file": "sim/family.mjs",
+      "files": [
+        "tests/family-roll.test.mjs",
+        "tests/rations.test.mjs"
+      ],
+      "failed": [
+        "fractions are kept: four babies eat exactly one grown share, and a day at home takes exactly that from the store"
+      ]
+    },
+    {
+      "name": "age is read as it was when the die was rolled, so nobody moves up a band on a birthday",
+      "file": "sim/family.mjs",
+      "files": [
+        "tests/family-roll.test.mjs",
+        "tests/rations.test.mjs"
+      ],
+      "failed": [
+        "a child moves up a band on the birthday, not before; somebody rolled before birth dates keeps the age they had"
+      ]
+    },
+    {
+      "name": "a birthday counts from the day after it",
+      "file": "sim/family.mjs",
+      "files": [
+        "tests/family-roll.test.mjs",
+        "tests/rations.test.mjs"
+      ],
+      "failed": [
+        "every family could exist: every child born to a mother of 17 to 42 and a father of 18 or more, eldest first",
+        "a child moves up a band on the birthday, not before; somebody rolled before birth dates keeps the age they had"
+      ]
+    },
+    {
+      "name": "the day at home is eaten by head again, a baby as a grown man",
+      "file": "sim/routines.mjs",
+      "files": [
+        "tests/family-roll.test.mjs",
+        "tests/rations.test.mjs"
+      ],
+      "failed": [
+        "fractions are kept: four babies eat exactly one grown share, and a day at home takes exactly that from the store"
+      ]
+    },
+    {
+      "name": "the road east is eaten by head",
+      "file": "sim/scrape.mjs",
+      "files": [
+        "tests/family-roll.test.mjs",
+        "tests/rations.test.mjs"
+      ],
+      "failed": [
+        "the road east eats by age: a family with small children eats less than its head count (the winter: tests/periods.test.mjs)"
+      ]
+    },
+    {
+      "name": "the winter is eaten by head",
+      "file": "sim/periods.mjs",
+      "files": [
+        "tests/periods.test.mjs"
+      ],
+      "failed": [
+        "continuing skips the winter gently: everyone home, wounds healed by the time passed, a winter eaten but never starved"
+      ]
+    },
+    {
+      "name": "the neighbours’ director reckons its larder by head",
+      "file": "sim/neighbours.mjs",
+      "files": [
+        "tests/family-roll.test.mjs",
+        "tests/rations.test.mjs"
+      ],
+      "failed": [
+        "the neighbours’ director reckons its larder by age: four babies are one mouth when it decides what food it can spare"
+      ]
+    },
+    {
+      "name": "twins are drawn from a random stream, not the seed",
+      "file": "sim/family.mjs",
+      "files": [
+        "tests/family-roll.test.mjs",
+        "tests/rations.test.mjs"
+      ],
+      "failed": [
+        "twins come from the seed, about one birth in a hundred, never three at once"
+      ]
+    },
+    {
+      "name": "twins three times as often as the owner’s one in a hundred",
+      "file": "sim/family.mjs",
+      "files": [
+        "tests/family-roll.test.mjs",
+        "tests/rations.test.mjs"
+      ],
+      "failed": [
+        "a family of twenty fits the tick: what it is sent grows by the person, and nothing is sent twenty times over",
+        "twins come from the seed, about one birth in a hundred, never three at once"
+      ]
+    },
+    {
+      "name": "a twin is given the name of the twin born before",
+      "file": "sim/family.mjs",
+      "files": [
+        "tests/family-roll.test.mjs",
+        "tests/rations.test.mjs"
+      ],
+      "failed": [
+        "twins are two people: their own ids and names, one birth date, the same age"
+      ]
+    },
+    {
+      "name": "one child a year again: every gap a year",
+      "file": "sim/family.mjs",
+      "files": [
+        "tests/family-roll.test.mjs",
+        "tests/rations.test.mjs"
+      ],
+      "failed": [
+        "a 20 is two parents and eighteen children with their own names and ages, and it survives a save",
+        "no child a year exactly: births come at natural and varying gaps, and a family of twenty is not a stair of ages"
+      ]
+    },
+    {
+      "name": "no grown child at home, so eighteen children are squeezed into eighteen years again",
+      "file": "sim/family.mjs",
+      "files": [
+        "tests/family-roll.test.mjs",
+        "tests/rations.test.mjs"
+      ],
+      "failed": [
+        "a 20 is two parents and eighteen children with their own names and ages, and it survives a save",
+        "no child a year exactly: births come at natural and varying gaps, and a family of twenty is not a stair of ages"
       ]
     }
   ]
