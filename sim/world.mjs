@@ -19,7 +19,7 @@ import { answerRoad, registerRoadChores } from './road.mjs';
 import { WATER_HIGH, WATER_SHUT, waterAt, weatherAt, weatherOn } from './weather.mjs';
 // The road's chores join the one table here, once every module above is made (sim/road.mjs says why not at its own load).
 registerRoadChores();
-import { advanceLesson, advanceLessons, lessonInvalid, lessonProjection, lessonRefusal } from './lesson.mjs';
+import { advanceLesson, advanceLessons, lessonInvalid, lessonProjection, lessonRefusal, stopLesson } from './lesson.mjs';
 import { REPEATED, advanceAuto, noteOrder, setAuto } from './auto.mjs';
 import { advanceCamp, answerCampQuestion, campInvalid } from './camp.mjs';
 // The children's own works (sim/children.mjs, docs/FAMILY_CREATION.md §3's amendment of 2026-09-21). Imported here as well
@@ -759,6 +759,8 @@ function applyOneAction(world, householdId, input) {
   const entity = world.entities[input.entityId];
   const household = world.households[householdId];
   if (input.action === 'rename' && !input.entityId) { rename(world, household, input); return; }
+  // The X on the guided start (sim/lesson.mjs `stopLesson`): the family's own, and it names nobody in it.
+  if (input.action === 'stop-lesson') { stopLesson(world, household); return; }
   if (input.action === 'roll-family') { rollFamily(world, household); return; }
   // Packing the wagon is the household's, like the roll, and names nobody in it.
   if (input.action === 'load-wagon') { setLoad(world, household, input.item, input.amount); return; }

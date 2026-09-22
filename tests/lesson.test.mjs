@@ -453,3 +453,86 @@ test('the step that asks for the house says to choose one first, until one is ch
   assert.ok(before.allow.includes('plan-house'), 'the step tells the family to choose a house and does not allow it');
   validateWorld(world);
 });
+
+// ------------------------------------------------------------------------------------------------- the X on the strip
+// Owner, 2026-09-22: "i should be able to X off the tutorial to stop it and just do what i want." Asked who gets the X,
+// the owner chose "Everyone, always": every student and every solo player, at any step, and once off it stays off for
+// that family. This amends the "unavoidable" of 2026-09-21 (docs/LESSON.md §1).
+/** Two played families standing on their land at the strict house step, where anything but the house is refused. */
+function atTheHouse(seed) {
+  const world = started(seed, { players: ['hh-1', 'hh-2'] });
+  const household = world.households['hh-1'];
+  until(world, () => !household.arriving && !world.households['hh-2'].arriving);
+  for (const id of ['hh-1', 'hh-2']) world.households[id].lesson = { step: 'house' };
+  return { world, household };
+}
+
+test('stopping the guided start opens the gate: an order the step refused a moment ago now goes through', () => {
+  const { world, household } = atTheHouse('lesson-stop-gate');
+  const person = hands(world, household)[0];
+  assert.throws(() => send(world, 'hh-1', { action: 'chore', entityId: person.id, chore: 'hunt-timber' }), /Not yet/, 'the step did not refuse, so this test would prove nothing');
+  assert.ok(ALWAYS.includes('stop-lesson'), 'the order to stop the lesson can be refused by the lesson');
+  send(world, 'hh-1', { action: 'stop-lesson' });
+  assert.equal(household.lesson.step, 'done');
+  assert.equal(household.lesson.stopped, true);
+  send(world, 'hh-1', { action: 'chore', entityId: person.id, chore: 'hunt-timber' });
+  assert.equal(person.chore?.id, 'hunt-timber', 'the order is still refused after the student stopped the lesson');
+  // And it stays off: the tick does not start it again, and nothing about the family walks it back to a step.
+  for (let tick = 0; tick < 5; tick++) stepWorld(world);
+  assert.equal(household.lesson.step, 'done');
+  assert.equal(lessonRefusal(world, household, { action: 'survey-plot' }), null);
+  validateWorld(world);
+});
+
+test('after the X the page is sent no lesson at all, not even the closing card', () => {
+  const { world } = atTheHouse('lesson-stop-view');
+  assert.equal(lessonOf(world, 'hh-1').step, 'house');
+  send(world, 'hh-1', { action: 'stop-lesson' });
+  const seen = view(world, 'hh-1');
+  assert.equal('lesson' in seen, false, `the projection still carries a lesson: ${JSON.stringify(seen.lesson)}`);
+  // A second press - a double click, a second tab - is refused in words rather than doing anything.
+  assert.throws(() => send(world, 'hh-1', { action: 'stop-lesson' }), /no guided start running/);
+});
+
+test('a student can stop only their own family\'s guided start', () => {
+  const { world, household } = atTheHouse('lesson-stop-other');
+  const other = world.households['hh-2'];
+  // What a student sends is applied to the household their own cookie names (server/app.mjs), whatever the order carries.
+  send(world, 'hh-2', { action: 'stop-lesson', householdId: 'hh-1', entityId: household.members[0] });
+  assert.equal(other.lesson.stopped, true);
+  assert.equal(household.lesson.step, 'house', 'another family’s student stopped this family’s lesson');
+  assert.equal(household.lesson.stopped, undefined);
+  assert.equal(lessonOf(world, 'hh-1').step, 'house');
+  assert.throws(() => send(world, 'hh-1', { action: 'chore', entityId: hands(world, household)[0].id, chore: 'hunt-timber' }), /Not yet/);
+  // Nor is a family whose student has gone stopped on their behalf: the director runs it and never presses the X.
+  household.absent = true;
+  assert.throws(() => send(world, 'hh-1', { action: 'stop-lesson' }), /own student/);
+  assert.equal(household.lesson.stopped, undefined);
+});
+
+test('the Host cannot stop anybody\'s guided start', () => {
+  const { world, household } = atTheHouse('lesson-stop-host');
+  // The Host has no household: a Host order that reached the world would arrive with none.
+  for (const nobody of [null, undefined, 'host']) {
+    assert.throws(() => send(world, nobody, { action: 'stop-lesson' }), /own student/, `the Host (${nobody}) stopped a lesson`);
+  }
+  assert.equal(household.lesson.step, 'house');
+  assert.equal(household.lesson.stopped, undefined);
+});
+
+test('a stopped lesson survives a save and reload, and stays stopped', () => {
+  const { world, household } = atTheHouse('lesson-stop-save');
+  send(world, 'hh-1', { action: 'stop-lesson' });
+  const reopened = JSON.parse(JSON.stringify(world));
+  validateWorld(reopened);
+  assert.deepEqual(reopened.households['hh-1'].lesson, household.lesson);
+  assert.equal(view(reopened, 'hh-1').lesson, undefined);
+  const person = hands(reopened, reopened.households['hh-1'])[0];
+  send(reopened, 'hh-1', { action: 'chore', entityId: person.id, chore: 'hunt-timber' });
+  assert.equal(person.chore?.id, 'hunt-timber', 'the reopened class put the gate back');
+  // And a save cannot carry a stop that is not a way of being finished, or a marker that is not `true`.
+  for (const bad of [{ step: 'house', stopped: true }, { step: 'done', stopped: 'yes' }]) {
+    reopened.households['hh-1'].lesson = bad;
+    assert.throws(() => validateWorld(reopened), /lesson/i, `${JSON.stringify(bad)} was accepted`);
+  }
+});

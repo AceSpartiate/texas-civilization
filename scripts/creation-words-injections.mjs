@@ -28,7 +28,7 @@ const INJECTIONS = [
   {
     name: 'the title card drops the sentence saying the game walks the student through the farm',
     file: HTML,
-    from: '  <p class="creation-begin-after">From the moment the wagon starts in, the game walks you through the farm one task at a\n    time - the house, the field, the crop, the town, the hunt and the well - and will not let you jump ahead. The country\n    is yours to work once that is done.</p>',
+    from: '  <p class="creation-begin-after">From the moment the wagon starts in, the game walks you through the farm one task at a\n    time - the house, the field, the crop, the town, the hunt and the well. The country is yours to work once that is\n    done, or at once if you press the X on the guide to stop it.</p>',
     to: '',
   },
   {

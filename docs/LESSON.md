@@ -10,10 +10,11 @@ survey stake at the `order` step while the strip said to choose a house plan.
 
 **Usability update:** [TUTORIAL_USABILITY_HANDOFF.md](TUTORIAL_USABILITY_HANDOFF.md) supersedes earlier screen restrictions: a contextual navigation button now locates the relevant control, without completing a step or issuing work. Objective-specific recommendations replace first-permitted-action highlighting. Completion is visible without locking controls. Selling guidance accepts food or coin, matching the current server rule. Both bare placement commands and chore-prefixed variants are accepted for map work.
 
-**Status: the world's half built 2026-09-21.** `sim/lesson.mjs`, `tests/lesson.test.mjs`,
-[injections](evidence/lesson-injections.json) (38 of 39 caught; the one that misses is a gap in the tests, named in the record). Claims `FIC-GONZ-210` to `-215`. The screen's half —
+**Status: the world's half built 2026-09-21; the X added 2026-09-22.** `sim/lesson.mjs`, `tests/lesson.test.mjs`,
+[injections](evidence/lesson-injections.json) (45 of 46 caught; the one that misses is a gap in the tests, named in the record). Claims `FIC-GONZ-210` to `-215`. The screen's half —
 the card, the greying, the arrow onto the control being asked for — is `public/`'s and is built against the contract in
-§3 below.
+§3 below. **The guided start is no longer unavoidable:** since 2026-09-22 every student and every solo player can X it
+off at any step, for good, for their own family (§1, amendment).
 
 ---
 
@@ -30,14 +31,41 @@ owner's instruction, verbatim:
 
 Four things in that sentence decide the whole design, and each is held by a test:
 
-- **Unavoidable.** Not a hint, not a help page, not a dismissible overlay. While a step is running the **server** refuses
-  every order that is not that step's, in words. The page greys the rest out from the same list, but the page is not
-  what holds the gate — the same rule as fog of war and as every permission in this codebase (`VISION.md` §5).
+- **Unavoidable — until the student stops it** (amended 2026-09-22, below). Not a hint, not a help page. While a step is
+  running the **server** refuses every order that is not that step's, in words. The page greys the rest out from the same
+  list, but the page is not what holds the gate — the same rule as fog of war and as every permission in this codebase
+  (`VISION.md` §5). What changed on 2026-09-22 is that the student may end the whole lesson for their family with the X;
+  while they keep it, it is exactly as strict as it was.
 - **One task at a time**, in the owner's order: arrive, delegate, build, survey, clear, plant, harvest, sell, hunt, well.
 - **Each student at their own pace.** The lesson belongs to one family, is stored on that family, and touches the Host's
   clock not at all. Fifteen families may be on fifteen different steps at once.
 - **When it's over** the family really has those things, because every step completes when the world says so — a house
   that stands, ten acres that are cleared, coin that is in the house — and never because a page said it had.
+
+### Amendment, 2026-09-22: the X
+
+The owner, verbatim:
+
+> "i should be able to X off the tutorial to stop it and just do what i want."
+
+Asked by multiple choice who gets the X, the owner chose **"Everyone, always"**: every student and every solo player can
+X it off at any step. Once off it stays off for that family, and nothing is refused any more.
+
+As built:
+
+- **The X** is top right of the strip (`#lesson-stop`, 36 px, accessible name "Stop the guided start"). Because it cannot
+  be undone it asks once, inline in the strip — *"Stop the guided start? You won’t be walked through the rest, and it
+  can’t be turned back on."* **Yes, stop it** / **Keep going** — never `window.confirm`. Focus lands on *Keep going*.
+- **The server does it.** The X sends `stop-lesson`, which is on `ALWAYS` (a lesson that could refuse the order to stop
+  itself would be the unavoidable thing the owner took back). `stopLesson` stores `household.lesson = { step: 'done',
+  at, stopped: true }`: the gate opens, and the projection's `lesson` key is **absent** at once — no closing card.
+- **Only the family's own student.** The order is applied to the household the sender's cookie names, so a student can
+  stop nobody's lesson but their own whatever the order carries. The Host has no household and is refused (and the Host's
+  own command branch never reaches `applyAction` at all). A family whose student has gone is refused too: the director
+  runs it and never presses the X on anybody's behalf. A family with no lesson running is refused in words.
+- **For good.** `ceiling:` in `stopLesson` names what a "restart the guided start" button would need.
+- **The old walk-through is not offered in its place.** The page remembers it as seen when the X is pressed, so a student
+  who has just said "let me do what I want" is not handed the older "New to this?" card instead.
 
 ## 2. The ten steps
 
@@ -87,7 +115,8 @@ An **action id** is the action's own name (`survey-plot`, `choose-site`, `hunt-l
 action (`chore:build-house`). `actionId` in `sim/lesson.mjs` is the one place that is written down.
 
 `lesson` is **absent** — not `done`, absent — for the Host, for a family nobody plays, in the lobby, for a family that
-has left for the east, and for every family that has finished. The closing card (`step: 'done'`, `done: true`) stands
+has left for the east, for every family that has finished, and — at once, with no closing card — for every family whose
+student pressed the X (§1, amendment). The closing card (`step: 'done'`, `done: true`) stands
 for `LESSON_DONE_MINUTES` — three hours of 1835 — and then the key is gone from the projection. That is how a student
 knows the game is theirs.
 
@@ -108,6 +137,7 @@ knows the game is theirs.
   be** — the lesson teaches building, clearing, planting, selling, hunting and the well, and a child under ten can do
   none of those. A lesson that refused a five-year-old their hour of play because the house was not raised yet would be
   refusing the one thing that family member is for.
+- **The X itself** (added 2026-09-22): `stop-lesson`, the order that ends the lesson for the student's own family.
 
 Two more exemptions are not in the list because they are conditions rather than actions. An order to somebody who has
 **joined the army, the garrison or the expedition** is never the lesson's business — they are not at home to be taught,
@@ -127,9 +157,20 @@ class saved mid-afternoon with its houses up is not marched back to the wagon. A
 way is not either. And a class begun after today — every family of which is on the road in at dawn on September 28 —
 gets the lesson from its first tick.
 
-`validateWorld` refuses a stored lesson naming a step that does not exist, so a save cannot carry one.
+`validateWorld` refuses a stored lesson naming a step that does not exist, so a save cannot carry one. It accepts
+`stopped: true` (2026-09-22) on a finished lesson only: `stopped` must be `true` or absent, and a stopped lesson standing
+on a step is refused. **No save version moved for the X either** — an old save has no `stopped` field, and absent means
+"never stopped", which is what every family in it was.
 
 ## 6. Ceilings, and the decisions the owner may want to change
+
+- **`ceiling:` the X is for good** (2026-09-22). There is no way back into the guided start for a family that stopped it.
+  A restart button would need the step reached kept beside `stopped` (or worked out again from the family's state, as
+  every step's `done` already can), an action that clears it, and a decision on whether a family that did steps out of
+  order is walked back through them. The owner's word was "stop it"; nothing has asked for a restart.
+- **The Host is not told when a student presses the X.** Nothing is recorded in the journal or on the class panel. A
+  teacher who wants to know which students left the guided start early would need an event and a line on the Host's page
+  (`docs/HOST_PAGE.md`).
 
 - **`ceiling:` the well stands down where running water is close.** The owner's sentence says every student ends with a
   well. `sim/homesite.mjs` only offers one where the house is far enough from year-round water to be carrying it, and
@@ -168,6 +209,7 @@ unused: a tutorial makes no historical claim, and registering one would be regis
 |---|---|
 | The world | `sim/lesson.mjs` (steps, gate, projection, validation); `sim/world.mjs` (`applyAction` reads the gate first, `stepWorld` moves the lesson on last, `projectWorld` sends it, `validateWorld` checks it) |
 | The screen | `public/` — the other half, built against §3 |
-| Tests | `tests/lesson.test.mjs`, 11 tests |
-| Evidence | [lesson-injections.json](evidence/lesson-injections.json) — 36 regressions injected, 36 caught |
+| The X | `sim/lesson.mjs` `stopLesson` and `ALWAYS`; `sim/world.mjs` `applyOneAction`; `#lesson-stop` and `#lesson-stop-ask` in `public/index.html`, `public/style.css`, `public/app.js` |
+| Tests | `tests/lesson.test.mjs`, 19 tests (5 for the X) |
+| Evidence | [lesson-injections.json](evidence/lesson-injections.json) — 46 regressions injected, 45 caught (all 7 for the X caught; the miss is the older absent-family gap named in the record); [lesson-browser.json](evidence/lesson-browser.json) — `npm run test:lesson` presses the X, confirms, and sees the strip go, a refused order accepted, and the strip stay gone after a reload |
 | Claims | `FIC-GONZ-210` to `-215` in [HISTORY.md](../HISTORY.md) |

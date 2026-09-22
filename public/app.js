@@ -4736,11 +4736,51 @@ $('#lesson-action')?.addEventListener('click', async () => {
     control?.focus();
   }
 });
+/**
+ * The X on the strip (owner, 2026-09-22: "i should be able to X off the tutorial to stop it and just do what i want";
+ * asked who gets it, "Everyone, always"). It asks once, in the strip and in plain words, because the server keeps the
+ * stop for good (sim/lesson.mjs `stopLesson`). The page decides nothing: it sends `stop-lesson`, and the strip goes when
+ * the next snapshot arrives without a lesson, exactly as it does for a family that finished the ten.
+ */
+let lessonStopping = false;
+function askStopLesson(asking) {
+  const ask = $('#lesson-stop-ask');
+  if (!ask || ask.hidden === !asking) return;
+  ask.hidden = !asking;
+  $('#lesson-stop').setAttribute('aria-expanded', String(asking));
+  if (!asking) $('#lesson-stop-words').textContent = 'Stop the guided start? You won’t be walked through the rest, and it can’t be turned back on.';
+  lessonRoom();
+}
+$('#lesson-stop')?.addEventListener('click', () => {
+  const asking = $('#lesson-stop-ask').hidden;
+  askStopLesson(asking);
+  (asking ? $('#lesson-stop-no') : $('#lesson-stop'))?.focus();
+});
+$('#lesson-stop-no')?.addEventListener('click', () => { askStopLesson(false); $('#lesson-stop')?.focus(); });
+$('#lesson-stop-yes')?.addEventListener('click', async () => {
+  if (lessonStopping) return;
+  lessonStopping = true; $('#lesson-stop-yes').disabled = true;
+  try {
+    await api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, action: 'stop-lesson' });
+    // The old walk-through is kept for a family with no lesson; one that has just said "let me do what I want" is not
+    // offered it in the lesson's place.
+    if (window.__snapshot) { rememberTutorial(window.__snapshot.world); tutorialStep = 'gone'; }
+    askStopLesson(false);
+  } catch (error) {
+    $('#lesson-stop-words').textContent = error.message;
+  } finally {
+    lessonStopping = false; $('#lesson-stop-yes').disabled = false;
+  }
+});
 function renderLesson(world) {
   const panel = $('#lesson');
   if (!panel) return;
   const words = lessonWords(lessonShowing(world) || (world.role !== 'host' && world.lesson?.done ? world.lesson : null));
   document.body.dataset.lesson = String(Boolean(words));
+  // The X is on a running step only: the closing card goes away by itself, and there is nothing left to stop.
+  const stoppable = Boolean(lessonShowing(world));
+  $('#lesson-stop').hidden = !stoppable;
+  if (!stoppable) askStopLesson(false);
   if (!words) { panel.hidden = true; lessonKey = null; lessonRoom(); return; }
   panel.hidden = false;
   guideLesson(world);

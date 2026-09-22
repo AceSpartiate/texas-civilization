@@ -1,5 +1,7 @@
 # Opening tutorial usability repair
 
+**2026-09-22:** the guided start now carries an X that stops it for the student's own family, for good (owner: "i should be able to X off the tutorial to stop it and just do what i want"; asked who gets it, "Everyone, always"). The navigation button below is unchanged and still never advances or ends a step; the X is the one control on the strip that ends the lesson, and it does so by sending `stop-lesson` to the server. See [LESSON.md](LESSON.md) §1, amendment.
+
 The owner authorized changing earlier interface decisions to make the opening understandable. This pass changes the guided farm opening after family creation; it does not redesign the family-creation wizard or accelerate the shared historical clock.
 
 ## Findings and changes

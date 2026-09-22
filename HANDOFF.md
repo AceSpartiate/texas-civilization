@@ -1,5 +1,38 @@
 # Claude handoff — Astra foundation
 
+## The X on the guided start — 2026-09-22 (unreleased)
+
+The owner: *"i should be able to X off the tutorial to stop it and just do what i want."* Asked by multiple choice who
+gets the X, the owner chose **"Everyone, always"**. This amends the "unavoidable" of 2026-09-21; recorded verbatim in
+[LESSON.md](docs/LESSON.md) §1, amendment, with every "unavoidable" in that doc brought into line.
+
+- **Server:** a new order `stop-lesson`, on `ALWAYS` in `sim/lesson.mjs`, applied by `stopLesson`. It stores
+  `household.lesson = { step: 'done', at, stopped: true }`, so the gate opens and the projection's `lesson` key is absent
+  at once (no closing card). Only the family's own student: the order acts on the household the cookie names, the Host
+  (no household) is refused, a director-run absent family is refused, and a family with no lesson running is refused in
+  words. `validateWorld` accepts `stopped: true` on a finished lesson only. **No `saveVersion` change**: absent means
+  never stopped. `ceiling:` it is for good; the comment names what a restart button would need.
+- **Screen:** an X top right of `#lesson` (36 px, "Stop the guided start"), asking once inline — *Yes, stop it* /
+  *Keep going* (focus on *Keep going*), no `window.confirm`. The eyebrow and title are padded clear of it. On success the
+  page marks the older "New to this?" walk-through as seen, so it is not offered in the lesson's place. The title card
+  (`#creation-begin`) no longer says the game "will not let you jump ahead"; it says the X stops it.
+- **Tests:** five in `tests/lesson.test.mjs` (gate opens and a refused order succeeds; no `lesson` key after; another
+  family's student cannot stop yours; save round-trip through `validateWorld`; refused for the Host). Seven injections
+  added to `scripts/lesson-injections.mjs`, **7 of 7 caught**; the whole harness is **45 of 46**, the miss being the older
+  absent-family gap already named in the record.
+- **Browser:** `npm run test:lesson` now presses the X on the server's own step, checks the question and that *Keep
+  going* sends nothing, confirms, and sees the strip go, a step-refused order (probed against the server first) accepted,
+  and the strip stay gone after a reload; the X is measured at 1366×768 and 390×844 (36×36, inside the strip, on no word,
+  reachable). A deliberately broken X (sending a wrong action) was seen to fail the proof.
+
+Evidence (same computer, headless Chrome): full `npm test` **937 passed, 0 failed**; `npm run test:lesson` **27 checks**;
+`npm run test:panels` **9 checks**; `npm run study:overlap` shows the same covered controls with and without this change
+(the X is covered by nothing). **Not proved:** a Chromebook, touch, a LAN or a classroom.
+
+**For the owner:** (1) the X cannot be undone — a restart button is a separate decision; (2) the Host is not told when a
+student presses it — an event and a line on the class panel would be the way; (3) `CLAUDE.md` item 15 still describes the
+guided start as "forced"; it was left for the owner to reword.
+
 ## Military pacing and continuity — 2026-09-22 (unreleased)
 
 Read [MILITARY_EXPERIENCE.md](docs/MILITARY_EXPERIENCE.md) next. It separates the implemented military pacing/message safeguards from the remaining local messenger, staged battle, survival/role and seamless-continuity work. The owner requires smooth uninterrupted play: no visible fast-forward, dated transition screens or forced camera cuts. Hard tick caps alone do not satisfy that requirement.

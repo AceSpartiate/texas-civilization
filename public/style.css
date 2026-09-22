@@ -266,6 +266,19 @@ button:hover:enabled{background:#60673e}
 #lesson-help{font-size:13px;color:#4d4637;border-top:1px solid #d8c8a2;padding-top:6px}
 #lesson-help:empty{display:none}
 #lesson-action{margin-top:7px;background:#704020;color:#fff9e9;padding:8px 12px;min-height:40px;border-radius:5px}
+/* The X (owner, 2026-09-22: "i should be able to X off the tutorial"). Top right of the strip, 36px - a Chromebook
+   touchpad or a fingertip, never smaller than 32 - and the eyebrow and title keep clear of it so it lands on no word. */
+#lesson-stop{position:absolute;top:4px;right:4px;width:36px;height:36px;min-height:36px;padding:0;display:grid;place-items:center;
+  background:transparent;color:#5a4a2e;border:1px solid transparent;border-radius:6px;font-size:24px;line-height:1;cursor:pointer}
+#lesson-stop:hover,#lesson-stop:focus-visible{background:#e8d9b4;border-color:#9c8259}
+#lesson-stop[hidden]{display:none}
+#lesson-step,#lesson-title{padding-right:40px}
+#lesson-stop-ask{margin-top:7px;padding:7px 9px;border:1px solid #c2582c;border-radius:6px;background:#fff3dc}
+#lesson-stop-ask[hidden]{display:none}
+#lesson-stop-ask p{margin:0 0 6px;font-weight:600}
+#lesson-stop-ask button{min-height:36px;padding:6px 12px;border-radius:5px;margin:0 6px 0 0}
+#lesson-stop-yes{background:#8a3a1c;color:#fff9e9}
+#lesson-stop-no{background:#efe3c4;color:#3b3427;border:1px solid #9c8259}
 /* Teach the vocabulary without requiring a hover over unfamiliar pictures. */
 /* Action names now live inside every button, including outside the tutorial. */
 #lesson-pips{display:flex;gap:3px;margin-top:7px}

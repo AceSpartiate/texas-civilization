@@ -32,6 +32,36 @@ const measured = {};
 const SCREEN = { width: 1366, height: 768 };
 const shots = [];
 const shoot = async (page, name) => { const path = `test-results/lesson-${name}.png`; await page.screenshot({ path }); shots.push(path); };
+/**
+ * The X on the strip (owner, 2026-09-22), measured where it stands: big enough to press on a Chromebook (32px at the
+ * least), inside the strip, on no word of it, and the thing a press at its centre actually reaches.
+ */
+let xPage = null;
+const xOnTheStrip = async where => {
+  const x = await xPage.evaluate(() => {
+    const box = one => { const r = one.getBoundingClientRect(); return { left: r.left, top: r.top, right: r.right, bottom: r.bottom, width: r.width, height: r.height }; };
+    const button = document.querySelector('#lesson-stop'), strip = document.querySelector('#lesson');
+    const at = box(button), around = box(strip);
+    // The words themselves, not their boxes: the eyebrow and title are padded clear of the X, so their boxes reach under it.
+    const words = ['#lesson-step', '#lesson-title', '#lesson-says', '#lesson-help', '#lesson-action', '#lesson-did'].flatMap(selector => {
+      const node = document.querySelector(selector);
+      if (!node || node.hidden || !node.textContent.trim()) return [];
+      const range = document.createRange(); range.selectNodeContents(node);
+      return [...range.getClientRects()].map(rect => ({ selector, left: rect.left, top: rect.top, right: rect.right, bottom: rect.bottom }));
+    });
+    const on = words.filter(word => word.left < at.right && at.left < word.right && word.top < at.bottom && at.top < word.bottom).map(word => word.selector);
+    const hit = document.elementFromPoint(at.left + at.width / 2, at.top + at.height / 2);
+    return { size: [Math.round(at.width), Math.round(at.height)], inside: at.left >= around.left && at.right <= around.right && at.top >= around.top && at.bottom <= around.bottom,
+      on, reached: hit === button || button.contains(hit), name: button.getAttribute('aria-label') };
+  });
+  assert.ok(x.size[0] >= 32 && x.size[1] >= 32, `at ${where} the X is ${x.size.join('x')}px, smaller than a Chromebook target`);
+  assert.equal(x.inside, true, `at ${where} the X hangs outside the strip`);
+  assert.deepEqual(x.on, [], `at ${where} the X is drawn on the words of ${x.on.join(', ')}`);
+  assert.equal(x.reached, true, `at ${where} something else is drawn over the X`);
+  assert.equal(x.name, 'Stop the guided start');
+  ok(`at ${where} the X is ${x.size.join('x')}px, inside the strip, on no word, reachable, and named "${x.name}"`);
+  return x;
+};
 
 const app = createClassroom({ seed: 'panel-3', playerCount: 5, tickMs: 250, worldFactory: createGonzalesWorld });
 const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
@@ -51,6 +81,7 @@ try {
   await installLessonStub(context);
   const page = await context.newPage();
   page.on('pageerror', error => errors.push(error.message));
+  xPage = page;
 
   await page.goto(url);
   await page.locator('[name=name]').fill('Chromebook');
@@ -157,7 +188,8 @@ try {
       says: document.querySelector('#lesson-says').textContent, did: document.querySelector('#lesson-did').textContent,
       read: document.querySelector('#lesson-read').textContent,
       pips: document.querySelectorAll('#lesson-pips .lesson-pip').length, filled: document.querySelectorAll('#lesson-pips .lesson-pip[data-done=true]').length,
-      buttons: strip.querySelectorAll('button,input,select,a').length,
+      // The X and its question (owner, 2026-09-22) stop the whole guided start and are counted apart: they finish no step.
+      buttons: [...strip.querySelectorAll('button,input,select,a')].filter(one => !one.classList.contains('lesson-stop-control')).length,
       centre: Math.round(box.left + box.width / 2), share: Math.round(box.width * box.height / (innerWidth * innerHeight) * 1000) / 10,
     };
   });
@@ -405,6 +437,88 @@ try {
   ok('on a phone the conversation answers stay above the action bar');
   await shoot(page, 'phone');
   ok('the guide fits a 390px phone viewport');
+  measured.stopButton = { phone: await xOnTheStrip('390x844') };
+
+  // ------------------------------------------------------------------------------------------ the X (owner, 2026-09-22)
+  // "i should be able to X off the tutorial to stop it and just do what i want." Asked who gets it: "Everyone, always".
+  // Run last, because it cannot be undone for this family. The stub comes off: this is the server's own lesson being
+  // stopped, and the server's own gate being opened.
+  await page.setViewportSize(SCREEN);
+  await holdLesson(page, null);
+  await page.waitForFunction(() => window.__snapshot?.world?.lesson?.done === false && !document.querySelector('#lesson').hidden && !document.querySelector('#lesson-stop').hidden, null, { timeout: 20000 });
+  measured.stopButton.chromebook = await xOnTheStrip('1366x768');
+  measured.stopButton.step = await page.evaluate(() => window.__snapshot.world.lesson.step);
+
+  // Orders the server's step refuses right now, asked of the server itself. The gate is read before anything moves
+  // (sim/world.mjs `applyAction`), so a refused probe changes nothing.
+  const who = await page.evaluate(() => document.querySelector('.panel-row[data-focused=true]')?.dataset.entityId);
+  // Whoever it is was set to work above, and a busy person can be given nothing else: their work is called off first
+  // (`stop-chore`, which no step refuses), so the only thing standing between them and an order is the lesson.
+  const calledOff = await page.evaluate(async entityId => {
+    if (!window.__snapshot.world.entities.find(one => one.id === entityId)?.chore) return null;
+    const response = await fetch('/api/command', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: `off-${Date.now()}`, action: 'stop-chore', entityId }) });
+    return { status: response.status, error: (await response.json()).error || '' };
+  }, who);
+  if (calledOff) assert.equal(calledOff.status, 200, `calling off the work was refused: ${calledOff.error}`);
+  await page.waitForFunction(entityId => !window.__snapshot.world.entities.find(one => one.id === entityId)?.chore
+    && !document.querySelector('.panel-row[data-focused=true] .panel-icon[data-action=chore][data-active=true]'), who, { timeout: 20000 });
+  const shutKeys = await page.evaluate(() => [...document.querySelectorAll('.panel-row[data-focused=true] .panel-icon[data-action=chore][data-shut=true]')].map(icon => icon.dataset.key));
+  const refusedByTheStep = [];
+  for (const key of shutKeys) {
+    const answer = await page.evaluate(async ([entityId, chore]) => {
+      const response = await fetch('/api/command', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: `probe-${chore}-${Date.now()}`, action: 'chore', entityId, chore }) });
+      return { status: response.status, error: (await response.json()).error || '' };
+    }, [who, key]);
+    if (answer.status === 400 && /^Not yet/.test(answer.error)) refusedByTheStep.push(key);
+  }
+  assert.ok(refusedByTheStep.length, `the server's step refuses none of this person's work, so this proof would prove nothing (${shutKeys})`);
+  measured.stopButton.refusedBefore = refusedByTheStep;
+
+  const sent = [];
+  const listen = request => { if (request.url().endsWith('/api/command')) sent.push(request.postDataJSON()?.action); };
+  page.on('request', listen);
+  // The X asks first, in the strip, and "Keep going" changes nothing.
+  await page.locator('#lesson-stop').click();
+  await page.locator('#lesson-stop-ask').waitFor({ state: 'visible', timeout: 5000 });
+  measured.stopButton.asks = await page.locator('#lesson-stop-words').textContent();
+  assert.match(measured.stopButton.asks, /Stop the guided start\?/);
+  assert.equal(await page.evaluate(() => document.activeElement?.id), 'lesson-stop-no', 'the question put the focus on the button that cannot be undone');
+  await shoot(page, 'stop-ask');
+  await page.locator('#lesson-stop-no').click();
+  await page.locator('#lesson-stop-ask').waitFor({ state: 'hidden', timeout: 5000 });
+  assert.equal(await page.locator('#lesson').isVisible(), true, '"Keep going" stopped the lesson');
+  assert.deepEqual(sent, [], '"Keep going" sent an order');
+  ok(`the X asks once, in the strip: "${measured.stopButton.asks}" - and "Keep going" sends nothing`);
+
+  await page.locator('#lesson-stop').click();
+  await page.locator('#lesson-stop-yes').click();
+  await page.waitForFunction(() => document.querySelector('#lesson').hidden && window.__snapshot?.world && !('lesson' in window.__snapshot.world), null, { timeout: 20000 });
+  page.off('request', listen);
+  assert.deepEqual(sent, ['stop-lesson'], `the X sent ${JSON.stringify(sent)}`);
+  assert.equal(await page.locator('.panel-icon[data-shut=true]').count(), 0, 'the bar is still shut after the X');
+  assert.equal(await page.locator('#tutorial').isHidden(), true, 'the old walk-through was offered in the lesson’s place');
+  ok('"Yes, stop it" sends stop-lesson once; the strip goes, the snapshot carries no lesson, nothing on the bar is shut, and the old walk-through is not offered instead');
+
+  // An order the step refused a minute ago now goes through.
+  const freed = await page.evaluate(keys => keys.find(key => {
+    const icon = document.querySelector(`.panel-row[data-focused=true] .panel-icon[data-key="${key}"]`);
+    return icon && icon.getAttribute('aria-disabled') !== 'true' && icon.dataset.active !== 'true';
+  }), refusedByTheStep);
+  assert.ok(freed, `none of the orders the step refused (${refusedByTheStep}) can be pressed now: ${JSON.stringify(await page.evaluate(() => [...document.querySelectorAll('.panel-row[data-focused=true] .panel-icon')].map(icon => [icon.dataset.key, icon.getAttribute('aria-disabled'), icon.dataset.active, icon.getAttribute('aria-label')])))}`);
+  await page.locator(`.panel-row[data-focused=true] .panel-icon[data-key="${freed}"]`).click();
+  await page.waitForFunction(key => document.querySelector(`.panel-row[data-focused=true] .panel-icon[data-key="${key}"]`)?.dataset.active === 'true', freed, { timeout: 20000 });
+  assert.equal(await page.evaluate(() => (document.querySelector('#error').textContent || '').trim()), '', 'the freed order was refused');
+  measured.stopButton.acceptedAfter = freed;
+  ok(`an order the step refused (${freed}) is accepted after the X, and the server's glow comes back on it`);
+
+  // And it stays off after a reload: the stop is the world's, not the page's.
+  await page.reload();
+  await page.waitForFunction(() => window.__snapshot?.world?.householdId === 'hh-1', null, { timeout: 30000 });
+  const revision = await page.evaluate(() => window.__snapshot.revision);
+  await page.waitForFunction(seen => window.__snapshot.revision > seen, revision, { timeout: 20000 });
+  assert.equal(await page.evaluate(() => 'lesson' in window.__snapshot.world), false, 'the lesson came back on reload');
+  assert.equal(await page.locator('#lesson').isHidden(), true, 'the strip came back on reload');
+  ok('after a reload the strip stays gone and the server sends no lesson');
 
   assert.deepEqual(errors, [], `page errors: ${errors.join(' | ')}`);
   ok('no page errors anywhere in the run');
