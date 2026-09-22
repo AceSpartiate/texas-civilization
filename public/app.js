@@ -5672,6 +5672,11 @@ reducedMotion.addEventListener('change', () => { if (window.__snapshot) drawWorl
 // The map draws immediately with its own shapes, and repaints once when the sprite
 // sheets arrive. Nothing waits on the art: a stalled or missing download costs detail,
 // never a working class.
+// Placement is a local draft until the player confirms one authoritative command. Declared above the start-up below, not
+// beside the functions that use it: a page that opens already signed in draws its first snapshot there, before the rest
+// of this file has run, and a `let` it reaches first is a ReferenceError. That froze the Host page and sent a reloading
+// student back to the join form (2026-09-22; tests/page-startup.test.mjs).
+let housePlacement = null;
 onArtReady(() => { redrawForArrival(); repaintFamilyPanel(); });
 loadArt();
 try {
@@ -5680,8 +5685,6 @@ try {
 } catch (error) { $('#join').hidden = hostPage; $('#connection').textContent = hostPage ? 'Host access required' : 'Ready to join'; if (hostPage) say(error.message); }
 
 
-// Placement is a local draft until the player confirms one authoritative command.
-let housePlacement = null;
 function beginHousePlacement(command) {
   housePlacement = { command, point: null, rotation: 0, locked: false };
   housePlanOpen = false;
