@@ -6,7 +6,7 @@
 
 **Astra’s draft release v2026.09.22.3 carries that start-up fault and was never published.** It is the owner’s to delete.
 
-## Travis's runner, the 90-second budget and the Alamo's fates by role — 2026-09-22 (unreleased)
+## Travis's runner, the 90-second budget and the Alamo's fates by role — 2026-09-22 (released in v2026.09.22.4)
 
 Read [ALAMO_FATES.md](docs/ALAMO_FATES.md) (the historical review and what the game allows) and the new last section of
 [MILITARY_EXPERIENCE.md](docs/MILITARY_EXPERIENCE.md) first.
@@ -114,7 +114,7 @@ and no artificial one-a-year spacing. Read the amendment of 2026-09-22 at the fo
 - **For the owner:** a birthday changes only eating, not the shown age or the rules of ten and sixteen; grown children at home
   give large families more fighting sons; a one-child family can never have twins. FAMILY_CREATION's amendment lists them.
 
-## "Resume tutorial": five real minutes to take the X back — 2026-09-22 (unreleased)
+## "Resume tutorial": five real minutes to take the X back — 2026-09-22 (released in v2026.09.22.4)
 
 **Owner:** *"After closing the tutorial, show a small 'Resume tutorial' button for five real minutes from the original
 dismissal, including across reloads. Resume existing progress; quietly show dismissal/resumption to the teacher. Phones are
@@ -315,7 +315,7 @@ Evidence, on a clean verify tree holding only this work (same computer, headless
 3. Each of the four Alamo courier dates asks each person once; a volunteer not chosen is not asked again. Keep, or reconsider on the next date?
 4. The fictional player fate inside the Alamo is still decided by sex (`tellFall`). Replacing it with roles is a design decision about who in a family can survive the fall; it was left unchanged.
 
-## Current usability changes (unreleased) — 2026-09-21
+## Current usability changes (released in v2026.09.22.1) — 2026-09-21
 
 Portraits now select an eligible person and their action bar in one click. Every action has a persistent name, and phone conversations reserve space above the bar. See [the usability handoff](docs/TUTORIAL_USABILITY_HANDOFF.md#second-usability-pass--2026-09-21) for changes, evidence, and remaining work. The release record below describes the earlier shipped build.
 
