@@ -1,0 +1,65 @@
+{
+  "record": "panels-injections",
+  "date": "2026-09-22",
+  "gate": "scripts/panels-browser-proof.mjs",
+  "cleanChecks": 15,
+  "injections": [
+    {
+      "name": "the bar is drawn under the meeting, because nothing hides it",
+      "file": "public/style.css",
+      "expect": "the ability bar is drawn under the meeting",
+      "caught": true,
+      "failure": "1366x768: the ability bar is drawn under the meeting, sharing 520x48px with it",
+      "checksPassedFirst": 3
+    },
+    {
+      "name": "the rule as first written: the flag is set and the bar stays, because a shorter selector loses to the one that places it",
+      "file": "public/style.css",
+      "expect": "the ability bar is drawn under the meeting",
+      "caught": true,
+      "failure": "1366x768: the ability bar is drawn under the meeting, sharing 520x48px with it",
+      "checksPassedFirst": 3
+    },
+    {
+      "name": "the bar never comes back, because the flag is only ever raised",
+      "file": "public/app.js",
+      "expect": "the ability bar did not come back",
+      "caught": true,
+      "failure": "1366x768: the meeting closed and the ability bar did not come back: {\"meetingShut\":true,\"barDrawn\":false}",
+      "checksPassedFirst": 3
+    },
+    {
+      "name": "the column is never folded for a place, so the student keeps the names and the panel keeps its distance by luck",
+      "file": "public/app.js",
+      "expect": "the column did not fold",
+      "caught": true,
+      "failure": "1366x768: the column did not fold for the stake and open again after it: {\"foldedBefore\":false,\"foldedDuring\":false,\"panelShut\":true,\"foldedAfter\":false}",
+      "checksPassedFirst": 4
+    },
+    {
+      "name": "the column folds for a place and never opens again, which takes the names away for good",
+      "file": "public/app.js",
+      "expect": "the column did not fold",
+      "caught": true,
+      "failure": "1366x768: the column did not fold for the stake and open again after it: {\"foldedBefore\":false,\"foldedDuring\":true,\"panelShut\":true,\"foldedAfter\":true}",
+      "checksPassedFirst": 4
+    },
+    {
+      "name": "the column folds but the panel stays where it was, over the faces",
+      "file": "public/style.css",
+      "expect": "is drawn over the family's",
+      "caught": true,
+      "failure": "1366x768: #site-choose is drawn over the family's faces by 48x91px",
+      "checksPassedFirst": 4
+    },
+    {
+      "name": "the panel is put beside the faces without asking where the guided start ends, which at 1024 is lower than the faces begin",
+      "file": "public/app.js",
+      "expect": "is drawn over the guided start",
+      "caught": true,
+      "failure": "1024x768: #site-choose is drawn over the guided start by 26x51px, and the strip is the instruction",
+      "checksPassedFirst": 7
+    }
+  ],
+  "environment": "Same computer: a local classroom server and headless Chrome at 1366x768, 1024x768 and 390x844."
+}

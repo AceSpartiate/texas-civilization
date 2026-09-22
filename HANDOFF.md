@@ -1,5 +1,9 @@
 # Claude handoff — Astra foundation
 
+## Release integration: v2026.09.22.3
+
+House placement, additional homes, the compact builder, biome art, children’s icons and the launcher delete emblem are committed release work. Preserve them in subsequent builds. This integrates origin/main through v2026.09.22.2, including Claude’s tutorial dismissal and family-roll updates.
+
 ## House placement preview — 2026-09-22
 
 Choosing a preset now opens a translucent completed-house draft on the map. Move the pointer to position it; click to hold, Rotate (or R) in quarter turns, Move to reposition, Build here to confirm, or Cancel/Escape. Only confirmation sends `plan-house` with `placement: { x, y, rotation }`. Coordinates remain full precision. The server checks a conservative 80×64-foot envelope (swapped on quarter turns) at nine ground samples and rejects overlaps with retained houses. Both current and retained placed houses use saved coordinates on the family and Host maps. Old saves and commands without placement remain supported.
@@ -33,6 +37,95 @@ Read [HOUSE_SELECTION_HANDOFF.md](docs/HOUSE_SELECTION_HANDOFF.md). The desktop 
 The simulation now binds longleaf, palm and bald cypress to their own three-size art. Beech and magnolia use explicit per-size pictures so mature trees select their large frame. Palm-grove marks and town/Béxar field marks use the new sprites. `npm run build:art` passes with 1,165 measured frames across 82 sheets and 447 clips; the new sheet retained 100% of every measured object with zero overlap trimming. See `docs/ART_REQUESTS.md` for the remaining species stand-ins and the still-open researched acequia layout.
 
 ## Military pacing and continuity — 2026-09-22 (unreleased)
+## The roll is the family — 2026-09-22 (released in v2026.09.22.2)
+
+**Released as [v2026.09.22.2](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.22.2)** on 2026-09-22, from `c25414f`.
+
+**Owner:** *"change the family rolls. if i roll a 20, there should be 18 kids. if i roll a 4 it's two parents and 2 kids. each
+number over 4 is another kid."* By multiple choice for 1 to 3: **"The roll is the family"** — the number is how many people
+there are. Read [FAMILY_CREATION.md §2 and §3](docs/FAMILY_CREATION.md) first.
+
+- **The table** (`compositionFor`, `FAMILY_TABLE = 'd20-size'` in `sim/family.mjs`): 1–3 one parent and the rest children,
+  4 and up two parents and the rest children, so a 20 is two parents and eighteen children. A family of one to twenty, ten
+  and a half on average. `FIC-GONZ-350`.
+- **Old classes open as they were.** A new roll is marked `household.rollTable = 'd20-size'`; `die` 20 with no mark is the
+  2026-09-14 table of set families, and no `die` is six sides. `tableOf` picks the table and `validateWorld` reads each roll
+  on its own. **No save version moved.** People are stored in the save, so nothing is ever re-dealt.
+- **Ages** (`agesFor`, `FIC-GONZ-351`): eighteen different ages born when the mother was 17 to 42 fit only a mother of 34 to
+  42, so a 20 is always children aged 17 down to 0, one a year. Parents too old for the window are made younger; a father
+  is at least 18 at every birth, made older where he is not (he was checked for nothing before, and a big family made him
+  nine at his eldest's birth). No twins; no two children share an age.
+- **What was measured and left alone:** everybody eats 0.35 a day, a newborn as much as the father; the same wagon and stock
+  for any size; the four set houses hold at most eight, so nine or more are crowded (rest at 80 in 100) unless the class
+  builds from pieces, where three pens with lofts and a shed room hold twenty. Names: the son and daughter pools hold twenty
+  each, so a family never repeats a first name. `sim/children.mjs`, hidden stats, kin labels and the director scale by the
+  person with no change.
+- **Payloads.** A student's tick for a family of 20 is 23,459 bytes against 7,567 for a 4 (993 bytes a person), bounded
+  in `tests/family-roll.test.mjs`. The Host's thirty-family snapshot went from 132,587 to 210,231 bytes at the arrival
+  (159 to 331 people); the per-figure bound held (450 bytes), and the total bound in `tests/host-view.test.mjs` moved from
+  140,000 to 240,000 with the reason written beside it.
+- **Tick time**, `node scripts/perf-server-measure.mjs --rolled` (new flag; [rolled](docs/evidence/perf-server-rolled-2026-09-22.json)
+  against [founding four](docs/evidence/perf-server-founding-2026-09-22.json), run back to back on the same computer while
+  other sessions' processes were also running): the thirty-family class with 295 people took **178–332 ms a tick** (step
+  51–118, projection 48–233) against 138–202 ms with 120; a burst of thirty orders answered in a median 117–869 ms. The
+  class ticks every 1.5 s in that measure and every 9.5 s in play.
+- `tests/road.test.mjs`: the road-fishing test compared the food before and after an hour's fishing, which a family of
+  twenty eats through; it now compares against the same family left on the bank.
+
+- **A screen bug a big family found.** The family column stopped 150px above the foot of the screen, set for the old bar of
+  48px pictures; the bar of 98px tiles reaches about 195px (235px under a lesson), and a family that fills the column had its
+  youngest children's portraits under the father's work — `test:family-panel` (its seed now rolls fourteen) could not
+  press the youngest. On screens wider than 760px the column now stops at 200px, 240px under a lesson (`public/style.css`,
+  `ceiling:`; [FAMILY_PANEL.md](docs/FAMILY_PANEL.md) §13's amendment). `test:family-twenty` failed on it before the change.
+- **Proofs whose seeds now roll bigger families:** `test:family-panel` renamed ten people from a list of ten (now twenty
+  names); `test:family-commands` (its seed rolls twenty) ran out of class before its phone section and raced a question that
+  lapses in two fictional hours: the tick is 350 ms instead of 250, and the "!" is pressed the moment it shows, the errand
+  sent again if it lapsed first.
+
+Evidence: `npm test` **935 passed, 0 failed** (932 before); `node scripts/family-roll-injections.mjs` **12 of 12 caught**
+([record](docs/evidence/family-roll-injections.json)); `npm run test:family-twenty` (new) **9 checks** at 1366×768, 1440×950,
+1024×768 with the class running, and 400×800 ([record](docs/evidence/family-twenty-browser.json)); `test:family-panel` 17,
+`test:family-commands` 23, `test:creation` 9 (the names card now twenty boxes), `test:family` 11, `test:panels` 9 and
+`test:lesson` 21 checks pass; `study:overlap` and `study:creation` rewritten. Same computer, headless Chrome; no LAN,
+Chromebook or real phone.
+
+**For the owner to decide:** whether a child should eat less than a grown person (today a family of twenty eats 7 a day);
+whether twins should be dealt so a big family is not one child a year; whether the set houses need a larger one.
+
+## The X on the guided start — 2026-09-22 (released in v2026.09.22.1)
+
+The owner: *"i should be able to X off the tutorial to stop it and just do what i want."* Asked by multiple choice who
+gets the X, the owner chose **"Everyone, always"**. This amends the "unavoidable" of 2026-09-21; recorded verbatim in
+[LESSON.md](docs/LESSON.md) §1, amendment, with every "unavoidable" in that doc brought into line.
+
+- **Server:** a new order `stop-lesson`, on `ALWAYS` in `sim/lesson.mjs`, applied by `stopLesson`. It stores
+  `household.lesson = { step: 'done', at, stopped: true }`, so the gate opens and the projection's `lesson` key is absent
+  at once (no closing card). Only the family's own student: the order acts on the household the cookie names, the Host
+  (no household) is refused, a director-run absent family is refused, and a family with no lesson running is refused in
+  words. `validateWorld` accepts `stopped: true` on a finished lesson only. **No `saveVersion` change**: absent means
+  never stopped. `ceiling:` it is for good; the comment names what a restart button would need.
+- **Screen:** an X top right of `#lesson` (36 px, "Stop the guided start"), asking once inline — *Yes, stop it* /
+  *Keep going* (focus on *Keep going*), no `window.confirm`. The eyebrow and title are padded clear of it. On success the
+  page marks the older "New to this?" walk-through as seen, so it is not offered in the lesson's place. The title card
+  (`#creation-begin`) no longer says the game "will not let you jump ahead"; it says the X stops it.
+- **Tests:** five in `tests/lesson.test.mjs` (gate opens and a refused order succeeds; no `lesson` key after; another
+  family's student cannot stop yours; save round-trip through `validateWorld`; refused for the Host). Seven injections
+  added to `scripts/lesson-injections.mjs`, **7 of 7 caught**; the whole harness is **45 of 46**, the miss being the older
+  absent-family gap already named in the record.
+- **Browser:** `npm run test:lesson` now presses the X on the server's own step, checks the question and that *Keep
+  going* sends nothing, confirms, and sees the strip go, a step-refused order (probed against the server first) accepted,
+  and the strip stay gone after a reload; the X is measured at 1366×768 and 390×844 (36×36, inside the strip, on no word,
+  reachable). A deliberately broken X (sending a wrong action) was seen to fail the proof.
+
+Evidence (same computer, headless Chrome): full `npm test` **937 passed, 0 failed**; `npm run test:lesson` **27 checks**;
+`npm run test:panels` **9 checks**; `npm run study:overlap` shows the same covered controls with and without this change
+(the X is covered by nothing). **Not proved:** a Chromebook, touch, a LAN or a classroom.
+
+**For the owner:** (1) the X cannot be undone — a restart button is a separate decision; (2) the Host is not told when a
+student presses it — an event and a line on the class panel would be the way; (3) `CLAUDE.md` item 15 still describes the
+guided start as "forced"; it was left for the owner to reword.
+
+## Military pacing and continuity — 2026-09-22 (released in v2026.09.22.1)
 
 Read [MILITARY_EXPERIENCE.md](docs/MILITARY_EXPERIENCE.md) next. It separates the implemented military pacing/message safeguards from the remaining local messenger, staged battle, survival/role and seamless-continuity work. The owner requires smooth uninterrupted play: no visible fast-forward, dated transition screens or forced camera cuts. Hard tick caps alone do not satisfy that requirement.
 
@@ -65,6 +158,24 @@ Portraits now select an eligible person and their action bar in one click. Every
 2026-09-21, verified on the clean tree at `3f91610` (920 passed). All six agents of that day are merged: the children's
 works, the line an empty bar shows, Astra's last four art batches, rain on the roofing and daubing, the four panels the
 overlap study could not reach, and the four browser gates that had been broken since before any of it.
+
+## The bar steps aside, and the column folds to faces — 2026-09-22
+
+**Released as [v2026.09.22.1](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.22.1)** on 2026-09-22, from `62261a6`, together with the military pacing (`b780534`) and the guided start's X. The new family roll was not in it.
+
+The owner decided both of the contested pairs below (§ "Two things are the owner's to decide") by multiple choice:
+*"The bar steps aside"* while a rider talks, and *"The column folds to faces"* while a place is chosen. Built in
+`renderScreenMoments` (`public/app.js`) and the last rules of `public/style.css`; the whole account, with the numbers it
+was chosen over, is [docs/FAMILY_PANEL.md §12.13](docs/FAMILY_PANEL.md).
+
+- **Measured, same computer:** the meeting shares nothing with the ability bar at 1366, 1024 or 390 (it shared 520×48px
+  and 520×42px), and the bar is back, drawn and of real size, the moment the meeting shuts. The site and stake panels
+  share nothing with the folded faces at any size (they shared 304px of the column's width), stand below the guided
+  start where it reaches lower, and the names open again after "Not now".
+- **Gate:** `npm run test:panels` 9 → **15 checks**; `node scripts/panels-injections.mjs` puts seven regressions back
+  one at a time, including the rule as first written, which lost on specificity and left the bar standing
+  ([panels-injections.json](docs/evidence/panels-injections.json)).
+- **Still open, nobody has chosen it:** the meeting over the family's column — the whole column on a phone, 8px at 1024.
 
 ## Corrected: the lobby bar is not empty — 2026-09-21
 
@@ -298,7 +409,7 @@ gates, both from one instrument (`scripts/support/panel-states.mjs`), at 1366×7
   student could not press. All four take their top, or their height, from `--lesson-room` now: **0px shared, all three
   sizes.** The meeting costs about 62px of conversation on a Chromebook (520×538 → 520×476) in a panel that scrolled
   already.
-- **Two things are the owner's to decide and were deliberately not chosen.** (1) The **meeting and the ability bar**
+- **Two things were the owner's to decide** — **decided and built 2026-09-22** (section above). (1) The **meeting and the ability bar**
   want the same pixels: 520×48px at 1366 with **14** controls wholly covered, thirteen of them the meeting's own doing
   (eight icons of the main person's work and the five controls of the docked card under it); 520×42px and **22** at
   1024, where it reaches the family's column too. It cannot be nudged — the column (316px) + a 520px meeting + the 544px

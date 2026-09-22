@@ -1,20 +1,20 @@
 {
   "record": "family-browser",
-  "date": "2026-09-21",
-  "browser": "152.0.7977.83",
+  "date": "2026-09-22",
+  "browser": "153.0.8010.53",
   "task": "HANDOFF next task 2: let a student name their own family, and make family relationships exist and be visible.",
   "started": "The first person to play this asked who the mother and the father were, and the game had no answer.",
   "checks": [
-    "the die is rolled in the page, and the family is the server's: \"You rolled an 18.\", 8 people, every one a Hollis",
-    "the book says who everybody is, and edits nothing: Alvin Hollis (father), Refugia Hollis (mother), Marcos Hollis (son), Levi Hollis (son), Delia Hollis (daughter), Jasper Hollis (son), Rufino Hollis (son), Petra Hollis (daughter)",
-    "and in sentences — \"Married to Refugia Hollis. Father to Marcos Hollis, Levi Hollis, Delia Hollis, Jasper Hollis, Rufino Hollis and Petra Hollis.\"",
+    "the die is rolled in the page, and the family is the server's: \"You rolled an 18.\", 18 people, every one a Hollis",
+    "the book says who everybody is, and edits nothing: Alvin Hollis (father), Refugia Hollis (mother), Marcos Hollis (son), Levi Hollis (son), Delia Hollis (daughter), Jasper Hollis (son), Rufino Hollis (son), Petra Hollis (daughter), Basilio Hollis (son), Andrés Hollis (son), Simeon Hollis (son), Marcela Hollis (daughter), Adela Hollis (daughter), Prudence Hollis (daughter), Chana Hollis (daughter), Teodoro Hollis (son), Obed Hollis (son), Emeterio Hollis (son)",
+    "and in sentences — \"Married to Refugia Hollis. Father to Marcos Hollis, Levi Hollis, Delia Hollis, Jasper Hollis, Rufino Hollis, Petra Hollis, Basilio Hollis, Andrés Hollis, Simeon Hollis, Marcela Hollis, Adela Hollis, Prudence Hollis, Chana Hollis, Teodoro Hollis, Obed Hollis and Emeterio Hollis.\"",
     "renaming on the panel changes the first name and keeps the last: Delia Hollis is Winnie Hollis now",
     "and the book still knows whose child they are, because a name is not an identity",
     "the family is \"The Hollis family\" on the page",
     "what a student types is cleaned before anybody else reads it: \"<b>Bad</b> 1234 😀\" became \"bBadb\"",
     "and a name with no letters in it is refused, in words",
     "and the last name, once given, is kept: a second one is refused in words",
-    "and it is fetched once: 8 ticks passed and nothing asked again (a tick is 20658 bytes without the map)",
+    "and it is fetched once: 8 ticks passed and nothing asked again (a tick is 26704 bytes without the map)",
     "no page errors anywhere in the run"
   ],
   "measured": {
@@ -23,13 +23,13 @@
         "id": "hh-1-parent-1",
         "role": "father",
         "name": "Alvin Hollis",
-        "of": "Married to Refugia Hollis. Father to Marcos Hollis, Levi Hollis, Delia Hollis, Jasper Hollis, Rufino Hollis and Petra Hollis."
+        "of": "Married to Refugia Hollis. Father to Marcos Hollis, Levi Hollis, Delia Hollis, Jasper Hollis, Rufino Hollis, Petra Hollis, Basilio Hollis, Andrés Hollis, Simeon Hollis, Marcela Hollis, Adela Hollis, Prudence Hollis, Chana Hollis, Teodoro Hollis, Obed Hollis and Emeterio Hollis."
       },
       {
         "id": "hh-1-parent-2",
         "role": "mother",
         "name": "Refugia Hollis",
-        "of": "Married to Alvin Hollis. Mother to Marcos Hollis, Levi Hollis, Delia Hollis, Jasper Hollis, Rufino Hollis and Petra Hollis."
+        "of": "Married to Alvin Hollis. Mother to Marcos Hollis, Levi Hollis, Delia Hollis, Jasper Hollis, Rufino Hollis, Petra Hollis, Basilio Hollis, Andrés Hollis, Simeon Hollis, Marcela Hollis, Adela Hollis, Prudence Hollis, Chana Hollis, Teodoro Hollis, Obed Hollis and Emeterio Hollis."
       },
       {
         "id": "hh-1-child-1",
@@ -66,9 +66,69 @@
         "role": "daughter",
         "name": "Petra Hollis",
         "of": "Daughter of Alvin Hollis and Refugia Hollis."
+      },
+      {
+        "id": "hh-1-child-7",
+        "role": "son",
+        "name": "Basilio Hollis",
+        "of": "Son of Alvin Hollis and Refugia Hollis."
+      },
+      {
+        "id": "hh-1-child-8",
+        "role": "son",
+        "name": "Andrés Hollis",
+        "of": "Son of Alvin Hollis and Refugia Hollis."
+      },
+      {
+        "id": "hh-1-child-9",
+        "role": "son",
+        "name": "Simeon Hollis",
+        "of": "Son of Alvin Hollis and Refugia Hollis."
+      },
+      {
+        "id": "hh-1-child-10",
+        "role": "daughter",
+        "name": "Marcela Hollis",
+        "of": "Daughter of Alvin Hollis and Refugia Hollis."
+      },
+      {
+        "id": "hh-1-child-11",
+        "role": "daughter",
+        "name": "Adela Hollis",
+        "of": "Daughter of Alvin Hollis and Refugia Hollis."
+      },
+      {
+        "id": "hh-1-child-12",
+        "role": "daughter",
+        "name": "Prudence Hollis",
+        "of": "Daughter of Alvin Hollis and Refugia Hollis."
+      },
+      {
+        "id": "hh-1-child-13",
+        "role": "daughter",
+        "name": "Chana Hollis",
+        "of": "Daughter of Alvin Hollis and Refugia Hollis."
+      },
+      {
+        "id": "hh-1-child-14",
+        "role": "son",
+        "name": "Teodoro Hollis",
+        "of": "Son of Alvin Hollis and Refugia Hollis."
+      },
+      {
+        "id": "hh-1-child-15",
+        "role": "son",
+        "name": "Obed Hollis",
+        "of": "Son of Alvin Hollis and Refugia Hollis."
+      },
+      {
+        "id": "hh-1-child-16",
+        "role": "son",
+        "name": "Emeterio Hollis",
+        "of": "Son of Alvin Hollis and Refugia Hollis."
       }
     ],
-    "tickBytes": 20658,
+    "tickBytes": 26704,
     "familyFetchesDuringPlay": 0,
     "ticksWatched": 8
   },

@@ -1,5 +1,7 @@
 // The guided start, on the screen (owner, 2026-09-21: "we need to have the tutorial be an integrated forced part of the
-// game ... one task at a time, guided by the ui and unavoidable").
+// game ... one task at a time, guided by the ui and unavoidable"). Amended 2026-09-22: the strip carries an X that stops
+// the whole guided start for the family (`stop-lesson`, sim/lesson.mjs `stopLesson`); the page only sends it, and the
+// strip goes when the server stops sending `world.lesson`.
 //
 // **Nothing here decides that a step is done.** The lesson is the server's: it arrives on the projection as `world.lesson`
 // and is replaced whole on every snapshot, and when the lesson is over the field is absent. This module only reads it - it

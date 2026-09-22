@@ -235,8 +235,11 @@ export const measurePanel = (page, panelSelector, controls = CONTROLS) => page.e
     .filter(([, seen]) => seen && !seen.scrolledAway && seen.onScreen && seen.blocked.length === seen.over.length && !seen.deliberate)
     .map(([one, seen]) => `${one.id ? `#${one.id}` : `${one.tagName.toLowerCase()}.${[...one.classList].join('.') || '?'}`} under ${[...new Set(seen.blocked)].join(', ')}`);
 
+  // `faces` and `fold` are the folded strip itself - the portraits and the button above them - and not `#family-panel`,
+  // which on a phone is a full-width flex box: measured as the faces, it has the placement panel over 268px of empty
+  // box (2026-09-22). `column` stays, and stays wider than both, because its width is the widest status line.
   // The three pieces of furniture the screen is fought over by, and the plain overlap rectangle of each with the panel.
-  const furniture = { column: '#hud-left', strip: '#lesson', bar: '.panel-row[data-focused=true] .panel-icons', card: '#selection' };
+  const furniture = { column: '#hud-left', faces: '#family-rows', fold: '#family-collapse', strip: '#lesson', bar: '.panel-row[data-focused=true] .panel-icons', card: '#selection' };
   const against = {};
   for (const [label, where] of Object.entries(furniture)) {
     const node = document.querySelector(where);
@@ -352,6 +355,13 @@ export async function measureFourPanels(browser, screen, { shot } = {}) {
     await page.locator('#encounter-close').click({ force: true, timeout: 3000 }).catch(() => {});
     await page.waitForFunction(() => document.querySelector('#encounter').hidden, null, { timeout: 10000 }).catch(() => {});
     await page.waitForTimeout(800);
+    // "The bar comes back the instant the meeting closes" (owner, 2026-09-22): the other half of the bar stepping aside,
+    // and the half a rule that only hid it would get wrong.
+    seen[seen.length - 1].afterwards = await page.evaluate(() => {
+      const bar = document.querySelector('.panel-row[data-focused=true] .panel-icons');
+      const box = bar?.getBoundingClientRect();
+      return { meetingShut: document.querySelector('#encounter').hidden, barDrawn: Boolean(bar) && getComputedStyle(bar).display !== 'none' && box.width > 20 && box.height > 20 };
+    });
     const call = await openCallMenu(page);
     await take(page, 'call-menu', '#call-menu', `the settlement's call, opened from ${call.who || 'nobody'}'s "!"`);
     await page.locator('#call-menu-close').click({ force: true }).catch(() => {});
@@ -368,9 +378,17 @@ export async function measureFourPanels(browser, screen, { shot } = {}) {
   try {
     const { context, page, errors } = await openClass(second.app, browser, screen, second);
     await page.waitForTimeout(1500);
+    // "Opens again afterwards" (owner, 2026-09-22): the fold is asked before, during and after, because a fold that never
+    // opened again would pass every overlap check here and take the student's names away for good.
+    const folded = () => page.evaluate(() => document.querySelector('#family-panel')?.dataset.collapsed === 'true');
+    const before = await folded();
     const survey = await openSurvey(page);
     const measured = await take(page, 'survey-choose', '#survey-choose', `the stake pressed and a place on the family's own land tapped: "${(survey.said || '').trim().slice(0, 60)}"`);
     measured.tapped = survey.tapped;
+    const during = await folded();
+    await page.locator('#survey-cancel').click({ force: true, timeout: 5000 }).catch(() => {});
+    await page.waitForFunction(() => document.querySelector('#survey-choose').hidden, null, { timeout: 10000 }).catch(() => {});
+    seen[seen.length - 1].afterwards = { foldedBefore: before, foldedDuring: during, panelShut: await page.locator('#survey-choose').isHidden(), foldedAfter: await folded() };
     seen[seen.length - 1].pageErrors = errors.slice();
     await context.close();
   } finally { await second.app.close(); }

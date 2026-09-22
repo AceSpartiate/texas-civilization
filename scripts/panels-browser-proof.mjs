@@ -69,12 +69,49 @@ try {
     const onTheStrip = seen.flatMap(one => [...one.measured.covered, ...one.measured.partly].filter(entry => entry.control === '#lesson-action' || entry.control === '#lesson-help').map(entry => `${one.panel} over ${entry.control}`));
     assert.deepEqual(onTheStrip, [], `${at}: the guided start's own words are covered: ${onTheStrip.join('; ')}`);
     ok(`${at}: none of the four is drawn over the guided start, and nothing covers a word or a control of it`);
+
+    // ------------------------------------------------------------ the bar steps aside while a rider talks, and returns
+    // Owner, 2026-09-22, by multiple choice over the numbers this file used to print as contested: "While a rider is
+    // talking, the ability bar is not drawn ... and the bar comes back the instant the meeting closes." The meeting and
+    // the bar shared 520x48px at 1366 and 520x42 at 1024. A bar hidden by `display:none` has no box, so `against.bar` is
+    // null for a bar that is gone - and also for a bar that was never there. The second assertion tells the two apart.
+    const meeting = seen.find(one => one.panel === '#encounter');
+    assert.ok(!meeting.measured.against.bar?.shares, `${at}: the ability bar is drawn under the meeting, sharing ${meeting.measured.against.bar?.overlapWidth}x${meeting.measured.against.bar?.overlapHeight}px with it`);
+    assert.ok(meeting.afterwards?.meetingShut && meeting.afterwards.barDrawn, `${at}: the meeting closed and the ability bar did not come back: ${JSON.stringify(meeting.afterwards)}`);
+    ok(`${at}: no ability bar under the meeting, and the bar is back the moment the meeting shuts`);
+
+    // ------------------------------------------------ the column folds to faces while a place is chosen, and reopens
+    // Owner, 2026-09-22: "While you are choosing a place, the family column collapses to its narrow strip of portraits -
+    // a state that already exists as 'Hide names' - and opens again afterwards." The two panels shared 304px of the
+    // column's width at every size. Held against the faces and the fold button, not `#hud-left`, whose box is as wide as
+    // its longest status line and would read the empty space beside the faces as covered.
+    for (const one of seen.filter(entry => entry.panel === '#site-choose' || entry.panel === '#survey-choose')) {
+      for (const part of ['faces', 'fold']) {
+        const against = one.measured.against[part];
+        assert.ok(against, `${at}: ${one.panel} was measured with no ${part} on the screen, so nothing here was checked`);
+        assert.ok(!against.shares, `${at}: ${one.panel} is drawn over the family's ${part} by ${against.overlapWidth}x${against.overlapHeight}px`);
+      }
+      // Counted by what is on top, not by whose control it is. The family's own parts overlap each other - the "!" sits
+      // on a portrait's corner, and a round badge's corner points land on the map - under all four panels alike, and the
+      // first run of this check read those as the placement panel covering the family.
+      const onTheFamily = [...one.measured.covered, ...one.measured.partly]
+        // Only the family's column, which is what the owner's decision was about. At 390 the docked person card is open
+        // in this state since 2026-09-22 (a portrait's first press selects) and the site panel lies over three of its
+        // controls - as the panel's old full-width place would too. That pair is recorded in the evidence, not held here.
+        .filter(entry => /^#family-|panel-/.test(entry.control))
+        .filter(entry => entry.by.some(on => on === one.panel || /^#(site|survey)-/.test(on)))
+        .map(entry => `${entry.control} "${entry.label}" under ${entry.by.join(', ')}`);
+      assert.deepEqual(onTheFamily, [], `${at}: ${one.panel} covers part of the family: ${onTheFamily.join(', ')}`);
+    }
+    const fold = seen.find(one => one.panel === '#survey-choose').afterwards;
+    assert.deepEqual(fold, { foldedBefore: false, foldedDuring: true, panelShut: true, foldedAfter: false }, `${at}: the column did not fold for the stake and open again after it: ${JSON.stringify(fold)}`);
+    ok(`${at}: both placement panels stand clear of the folded faces, and the names open again when the stake is put away`);
   }
 
   // ---------------------------------------------------------------- what is still contested, measured and not asserted
-  // Two of the faults this found are not repairs, and choosing between them is the owner's (HANDOFF.md, and
-  // docs/FAMILY_PANEL.md §12.12). They are recorded here with their numbers so that the day they are decided, the
-  // decision has arithmetic under it rather than an opinion.
+  // Two of the faults this found were not repairs, and were printed here with their numbers until the owner chose between
+  // them (2026-09-22; docs/FAMILY_PANEL.md §12.12). Both are asserted above now, and the numbers below should read
+  // "nothing" for them. What is still genuinely open is the meeting over the column, which on a phone is the whole column.
   const contested = Object.entries(measured).map(([at, seen]) => ({
     at,
     meetingOverTheBar: seen.find(one => one.panel === '#encounter')?.measured.against.bar,
@@ -82,6 +119,7 @@ try {
     siteOverTheColumn: seen.find(one => one.panel === '#site-choose')?.measured.against.column,
     surveyOverTheColumn: seen.find(one => one.panel === '#survey-choose')?.measured.against.column,
     coveredByTheMeeting: seen.find(one => one.panel === '#encounter')?.measured.covered.length ?? null,
+    siteOverTheCard: seen.find(one => one.panel === '#site-choose')?.measured.against.card,
   }));
   // A rectangle that does not overlap has a negative side, and printing that as a measurement reads as a fault that is
   // not there. Only a real overlap is given a number.
@@ -97,7 +135,9 @@ try {
     environment: 'Same computer: a local classroom server and headless Chrome. Not a physical LAN, a Chromebook, a classroom or a touch screen.',
     checks: pass, measured, contested, screenshots: shots,
     notProved: [
-      'The meeting and the ability bar still want the same pixels, and the two placement panels and the family\'s column still want the same pixels. Both are recorded with numbers and left to the owner; neither is asserted here.',
+      'The meeting still stands over the family\'s column on a phone (and by 64px at 1024). Nobody has decided that one; it is recorded with numbers, not asserted.',
+      'On a phone the site panel lies over the docked person card, three of its controls included (siteOverTheCard in contested). Its old full-width place overlapped the card too, by box arithmetic; nobody has decided which of the two should give way.',
+      'The fold is checked opening again after the stake is put away with Not now, not after a house site is actually set: setting one would end the placing and the class this walks together.',
       'One family, one seed and one lesson step per panel. A family of one parent, a long name, and the steps between arriving and the stake are not walked.',
       'No real assistive technology, no physical LAN, no Chromebook and no touch screen.',
     ],

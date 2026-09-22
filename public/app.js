@@ -4741,11 +4741,51 @@ $('#lesson-action')?.addEventListener('click', async () => {
     control?.focus();
   }
 });
+/**
+ * The X on the strip (owner, 2026-09-22: "i should be able to X off the tutorial to stop it and just do what i want";
+ * asked who gets it, "Everyone, always"). It asks once, in the strip and in plain words, because the server keeps the
+ * stop for good (sim/lesson.mjs `stopLesson`). The page decides nothing: it sends `stop-lesson`, and the strip goes when
+ * the next snapshot arrives without a lesson, exactly as it does for a family that finished the ten.
+ */
+let lessonStopping = false;
+function askStopLesson(asking) {
+  const ask = $('#lesson-stop-ask');
+  if (!ask || ask.hidden === !asking) return;
+  ask.hidden = !asking;
+  $('#lesson-stop').setAttribute('aria-expanded', String(asking));
+  if (!asking) $('#lesson-stop-words').textContent = 'Stop the guided start? You won’t be walked through the rest, and it can’t be turned back on.';
+  lessonRoom();
+}
+$('#lesson-stop')?.addEventListener('click', () => {
+  const asking = $('#lesson-stop-ask').hidden;
+  askStopLesson(asking);
+  (asking ? $('#lesson-stop-no') : $('#lesson-stop'))?.focus();
+});
+$('#lesson-stop-no')?.addEventListener('click', () => { askStopLesson(false); $('#lesson-stop')?.focus(); });
+$('#lesson-stop-yes')?.addEventListener('click', async () => {
+  if (lessonStopping) return;
+  lessonStopping = true; $('#lesson-stop-yes').disabled = true;
+  try {
+    await api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, action: 'stop-lesson' });
+    // The old walk-through is kept for a family with no lesson; one that has just said "let me do what I want" is not
+    // offered it in the lesson's place.
+    if (window.__snapshot) { rememberTutorial(window.__snapshot.world); tutorialStep = 'gone'; }
+    askStopLesson(false);
+  } catch (error) {
+    $('#lesson-stop-words').textContent = error.message;
+  } finally {
+    lessonStopping = false; $('#lesson-stop-yes').disabled = false;
+  }
+});
 function renderLesson(world) {
   const panel = $('#lesson');
   if (!panel) return;
   const words = lessonWords(lessonShowing(world) || (world.role !== 'host' && world.lesson?.done ? world.lesson : null));
   document.body.dataset.lesson = String(Boolean(words));
+  // The X is on a running step only: the closing card goes away by itself, and there is nothing left to stop.
+  const stoppable = Boolean(lessonShowing(world));
+  $('#lesson-stop').hidden = !stoppable;
+  if (!stoppable) askStopLesson(false);
   if (!words) { panel.hidden = true; lessonKey = null; lessonRoom(); return; }
   panel.hidden = false;
   guideLesson(world);
@@ -4925,6 +4965,8 @@ function renderEncounter(world) {
   $('#arrival').textContent = live && world.role !== 'host' ? `${name} has met a rider. Choose ${name} and listen.` : '';
   const panel = $('#encounter');
   panel.hidden = !encounter || !encounterOpen || world.role === 'host';
+  // Every way in - the panel's "!", Listen, the mark on the map - comes through here, so the bar is told here.
+  renderScreenMoments();
   if (panel.hidden) return;
   panel.dataset.encounterId = encounter.id;
   panel.dataset.status = encounter.status;
@@ -5016,6 +5058,7 @@ bindLooks({
 $('#encounter-close')?.addEventListener('click', () => {
   encounterOpen = false;
   $('#encounter').hidden = true;
+  renderScreenMoments();
   // Back to the control that opened it, which is on the person who was spoken to.
   const listen = $('#listen-rider');
   (listen && !listen.hidden ? listen : $('#journal-toggle'))?.focus();
@@ -5218,6 +5261,44 @@ function renderPanelBackdrop() {
   const backdrop = $('#panel-backdrop');
   if (backdrop) backdrop.hidden = !covering;
   document.body.dataset.panel = String(covering);
+  renderScreenMoments();
+}
+/**
+ * Two moments that take the screen from the family's own furniture (owner, 2026-09-22, both chosen by multiple choice
+ * over numbers `npm run test:panels` measured). Read off the panels, like the dim above, so neither can be left behind.
+ *
+ * **The bar steps aside while a rider talks.** "Answering the rider is the whole of what that moment is for, and the bar
+ * comes back the instant the meeting closes." The meeting and the ability bar both want the bottom middle: 520x48px of
+ * it at 1366, 520x42 at 1024. The bar is not drawn (`body[data-meeting=true]` in style.css); nothing it holds is lost,
+ * because every work on it is the server's and is offered again the moment the meeting shuts.
+ *
+ * **The column folds to faces while a place is chosen.** "While you are choosing a place, the family column collapses
+ * to its narrow strip of portraits - a state that already exists as 'Hide names' - and opens again afterwards." The
+ * panels that ask for a place on the map stood over 304px of the column's width at every size. The fold is the very
+ * same one the Hide names button makes, so the button says Show names while it lasts and pressing it is honoured. It is
+ * made on the change only, never on every draw - a student who opens the names mid-placement is not folded again at the
+ * next tick - and what is restored afterwards is the student's own remembered choice, not "open".
+ */
+let placingWas = false;
+function renderScreenMoments() {
+  const shown = one => Boolean($(one) && !$(one).hidden);
+  document.body.dataset.meeting = String(shown('#encounter'));
+  const placing = shown('#site-choose') || shown('#survey-choose');
+  document.body.dataset.placing = String(placing);
+  if (placing !== placingWas) { placingWas = placing; setPanelFolded(placing || panelFolded()); }
+  if (!placing) return;
+  // The folded strip's corner, measured every draw because a row's height moves with the family. Measured from the Hide
+  // names button and the faces rather than the column: the column is as wide as its widest status line, 248px at 1366,
+  // and standing clear of that would push the panel halfway across the map for the sake of a date.
+  const faces = ['#family-collapse', '#family-rows'].map(one => $(one)).filter(one => one && one.offsetParent).map(one => one.getBoundingClientRect()).filter(box => box.width > 1);
+  const game = $('#game')?.getBoundingClientRect();
+  if (!faces.length || !game) return;
+  document.body.style.setProperty('--place-left', `${Math.round(Math.max(...faces.map(box => box.right)) - game.left + 8)}px`);
+  // And never under the guided start's strip, which at 1024 wraps deep enough to reach the faces' own top: the first
+  // turn of this stood the site panel 51px inside the strip there, and `npm run test:panels` refused it.
+  const strip = $('#lesson') && !$('#lesson').hidden ? $('#lesson').getBoundingClientRect() : null;
+  const top = Math.max(Math.min(...faces.map(box => box.top)), strip && strip.height > 1 ? strip.bottom + 8 : 0);
+  document.body.style.setProperty('--place-top', `${Math.round(top - game.top)}px`);
 }
 // The dim is pressed to close, which is what a student tries first. The wagon is not closed this way: what it packs is
 // the family's whole outfit, and "Done packing" is the answer it is waiting for.

@@ -1,6 +1,6 @@
 {
   "record": "creation-words-injections",
-  "date": "2026-09-21",
+  "date": "2026-09-22",
   "note": "The words and the choices of the family-creation wizard (2026-09-21). Every injection is a sentence the wizard actually carried before this pass, or the code that made one true, put back.",
   "files": [
     "tests/creation-words.test.mjs"

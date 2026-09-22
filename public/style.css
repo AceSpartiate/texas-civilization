@@ -266,6 +266,19 @@ button:hover:enabled{background:#60673e}
 #lesson-help{font-size:13px;color:#4d4637;border-top:1px solid #d8c8a2;padding-top:6px}
 #lesson-help:empty{display:none}
 #lesson-action{margin-top:7px;background:#704020;color:#fff9e9;padding:8px 12px;min-height:40px;border-radius:5px}
+/* The X (owner, 2026-09-22: "i should be able to X off the tutorial"). Top right of the strip, 36px - a Chromebook
+   touchpad or a fingertip, never smaller than 32 - and the eyebrow and title keep clear of it so it lands on no word. */
+#lesson-stop{position:absolute;top:4px;right:4px;width:36px;height:36px;min-height:36px;padding:0;display:grid;place-items:center;
+  background:transparent;color:#5a4a2e;border:1px solid transparent;border-radius:6px;font-size:24px;line-height:1;cursor:pointer}
+#lesson-stop:hover,#lesson-stop:focus-visible{background:#e8d9b4;border-color:#9c8259}
+#lesson-stop[hidden]{display:none}
+#lesson-step,#lesson-title{padding-right:40px}
+#lesson-stop-ask{margin-top:7px;padding:7px 9px;border:1px solid #c2582c;border-radius:6px;background:#fff3dc}
+#lesson-stop-ask[hidden]{display:none}
+#lesson-stop-ask p{margin:0 0 6px;font-weight:600}
+#lesson-stop-ask button{min-height:36px;padding:6px 12px;border-radius:5px;margin:0 6px 0 0}
+#lesson-stop-yes{background:#8a3a1c;color:#fff9e9}
+#lesson-stop-no{background:#efe3c4;color:#3b3427;border:1px solid #9c8259}
 /* Teach the vocabulary without requiring a hover over unfamiliar pictures. */
 /* Action names now live inside every button, including outside the tutorial. */
 #lesson-pips{display:flex;gap:3px;margin-top:7px}
@@ -533,6 +546,16 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 #hud-left #wagon-open,#hud-left #house-open{position:static}
 /* The left column stops above the ability bar (owner, 2026-09-21), which runs across the bottom middle. */
 #hud-left{bottom:150px}
+/* 2026-09-22: 150px was the bar of 48px pictures. The usability pass of 2026-09-21 (the end of this file) made each a
+   98px tile with its name under it, 64px up - about 195px from the foot of the screen, 235px while a lesson lifts it 40px
+   more - and no family of four ever filled the column far enough down to notice. A family of twenty (the owner's roll of
+   2026-09-22) does, and its youngest children's portraits were under the father's work: scripts/family-twenty-browser-proof.mjs.
+   ceiling: two fixed heights for the bar rather than its measured one; measure it into a custom property, as --lesson-room
+   is, if the bar's tiles change height again. */
+@media (min-width:761px){
+  #hud-left{bottom:200px}
+  body[data-lesson=true] #hud-left{bottom:240px}
+}
 #family-panel{pointer-events:none;min-height:0;max-width:min(19rem,calc(100vw - 24px));overflow-y:auto;overscroll-behavior:contain;padding:2px 4px 4px 0;flex:0 1 auto;display:flex;flex-direction:column;align-items:flex-start;gap:4px}
 #family-collapse{pointer-events:auto;min-height:0;height:20px;padding:0 8px;border-radius:10px;border:1px solid #8f825b;background:var(--shade);color:#d8c9a2;font:600 9.5px/1 system-ui;letter-spacing:.09em;text-transform:uppercase;box-shadow:none}
 #family-collapse:hover:enabled{background:#4b4331;color:#f7eed5}
@@ -823,3 +846,14 @@ body[data-creating=true] #family-roll,body[data-creating=true] #surname,body[dat
    being listened to needs no invitation. The land choosers are not hidden behind: the card stands below them instead
    (renderMilitaryNotice), since a family can leave a chooser open for days and must still be told. */
 body:has(#encounter:not([hidden])) #military-notice,body:has(#call-menu:not([hidden])) #military-notice{display:none}
+
+/* Two moments that take the screen from the family's own furniture (owner, 2026-09-22; renderScreenMoments in app.js).
+   While a rider talks the ability bar is not drawn: the meeting and the bar wanted the same bottom middle, 520x48px of it
+   at 1366. While a place is chosen the column is folded to faces by the script, and the panel that asks for the place
+   stands to the right of the faces instead of over them. */
+/* The whole of the focused row's selector, because anything shorter loses to the rule that places the bar. */
+body[data-meeting=true] .panel-row[data-focused=true] .panel-icons{display:none}
+/* Beside the faces and below the status lines above them: --place-left and --place-top are the folded strip's own
+   measured corner (renderScreenMoments), so this holds at every size without a number written for each. */
+body[data-placing=true] #site-choose,body[data-placing=true] #survey-choose{left:var(--place-left,12px);top:var(--place-top,64px);right:auto;
+  width:min(24rem,calc(100% - var(--place-left,12px) - 12px));max-height:calc(100% - var(--place-top,64px) - 12px);overflow-y:auto}

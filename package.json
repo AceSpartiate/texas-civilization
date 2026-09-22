@@ -25,6 +25,7 @@
     "test:hunt": "node scripts/hunt-browser-proof.mjs",
     "test:family": "node scripts/family-browser-proof.mjs",
     "test:family-panel": "node scripts/family-panel-browser-proof.mjs",
+    "test:family-twenty": "node scripts/family-twenty-browser-proof.mjs",
     "test:army": "node scripts/army-browser-proof.mjs",
     "test:ending": "node scripts/ending-browser-proof.mjs",
     "test:looks": "node scripts/looks-browser-proof.mjs",

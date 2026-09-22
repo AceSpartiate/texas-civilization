@@ -29,7 +29,7 @@ The owner then answered four questions the same day:
 
 | Question | Owner's answer |
 | --- | --- |
-| How does the roll work? | ~~**The number rolled is the family's size.** One six-sided die.~~ **Amended 2026-09-14** (below). |
+| How does the roll work? | **The number rolled is the family's size.** One six-sided die. **Amended 2026-09-14** to twenty sides and a table of set families, and **2026-09-22** back to the size, on twenty sides (§2). |
 | Sending somebody badly suited to fight | **Hidden, and very likely fatal** — no warning, and not quite certain. |
 | The hidden stats | **Different on average by sex, and dealt per person**, so an occasional mother is a good shot and an occasional father poor at housework. |
 | Who can be sent to fight | **Parents, and children aged 16 or over.** |
@@ -38,8 +38,59 @@ The owner then answered four questions the same day:
 
 ## 2. The roll
 
-**Amended by the owner, 2026-09-14:** *"when rolling for a family, it should be a 20 sided die."* Asked what the twenty faces
-decide, the owner chose **bigger frontier families** and **fewer lone parents**:
+**Amended by the owner, 2026-09-22:** *"change the family rolls. if i roll a 20, there should be 18 kids. if i roll a 4 it's
+two parents and 2 kids. each number over 4 is another kid."* Asked by multiple choice what a 1, 2 and 3 make, the owner chose
+**"The roll is the family"**: the number rolled is how many people there are. It is the owner's first rule of 2026-09-12
+(*"three or less leaves the family with one parent and the associated number of kids"*) carried up the twenty-sided die.
+
+| Roll (d20) | Parents | Children | People |
+| --- | --- | --- | --- |
+| 1 | 1 | 0 | 1 |
+| 2 | 1 | 1 | 2 |
+| 3 | 1 | 2 | 3 |
+| 4 | 2 | 2 | 4 |
+| 5 | 2 | 3 | 5 |
+| 6–19 | 2 | roll − 2 | the roll |
+| 20 | 2 | 18 | 20 |
+
+- **What it makes.** A lone parent on three rolls in twenty, both parents on seventeen; a family of one to twenty, ten and a
+  half on average. Two parents have ten children on average, and seven rolls in twenty (14–20) give them twelve or more.
+- **What it is set against, said plainly.** A white American woman bore about 6.55 children in 1830 and 6.14 in 1840 over her
+  whole life, and about 217 in 1,000 white infants died in their first year (1850) — Haines, *Fertility and Mortality in the
+  United States*, EH.net, Table 1. So a family of that time with its children still growing had three to five living at
+  once, and seven or eight was a large family. **Ten or more children at home, which this table gives on about half its rolls,
+  was rare; eighteen, all living and all under eighteen, is far outside anything the record describes.** It needs a birth
+  every year for eighteen years and no child lost. The table is the owner's, for play, and is registered as invented
+  (`FIC-GONZ-350`); nothing in the game presents it as what Texas families were. No count of Texas colonists' children by
+  family was found.
+- **Ages for a large family (§3, amended the same day).** Eighteen different ages from 0 to 17, each born when the mother was
+  17 to 42, fit only a mother of 34 to 42 — one child a year, the eldest born when she was seventeen. So a 20 always makes
+  children of every age from newborn to seventeen, a mother of 34 to 42, and a father who was at least eighteen at the eldest's
+  birth. No rule was loosened to fit it: children still never share an age, and no twins are dealt (`FIC-GONZ-351`).
+- **Consequences that follow without new rules, stated rather than hidden:**
+  - *More people who can be sent to fight.* Every child of sixteen or more may answer a call, and a son of sixteen or more may
+    be sent to the fighting (§5). A 20 always has a sixteen- and a seventeen-year-old, so a large family often has one or two
+    sons who can be sent, and the father.
+  - *More hands, and more mouths.* Everybody eats the same share, a newborn as much as the father (`sim/routines.mjs`,
+    unchanged); everybody of ten or more can be given the family's whole work, and eight of a 20's eighteen children are ten or
+    more. Nothing was retuned for it.
+  - *The same wagon.* A large family packs the same wagon and brings the same stock (`docs/STOCK.md`) as a family of one.
+  - *Crowded houses.* The four set houses hold three (jacal), four (the cabins) and eight (the dog-run), so a family of nine or
+    more is crowded in every one of them, and sleeps at 80 in 100 of the rest a house gives (`CROWDED_SHARE`). A class that
+    builds from pieces (`docs/WOODS_AND_BUILDING.md`) can build room for twenty on its plot — three log pens with lofts and a
+    shed room, or four pens with lofts — at the logs and hours those pieces state.
+  - *Longer lists.* The family panel scrolls down the left for twenty rows; every child is on it, and the tick sent to a
+    family of twenty is about three times a family of four's (measured in `tests/family-roll.test.mjs`). `npm run
+    test:family-twenty` ([record](evidence/family-twenty-browser.json)) shows the names card's twenty boxes and its Continue,
+    and the panel scrolling to the youngest child with the map still on top, at 1366×768 and at a 400 px phone.
+- **Evidence.** `node scripts/family-roll-injections.mjs`: 12 of 12 caught ([record](evidence/family-roll-injections.json)).
+- A roll on the server, shown as a twenty-sided die with its number. `household.die` is 20 and `household.rollTable` is
+  `'d20-size'`. A class rolled on the 2026-09-14 table below has `die` 20 and no `rollTable`, and a class rolled on six sides
+  has neither; each is read on its own table (`tableOf` in `sim/family.mjs`), so every saved class opens as it was and no save
+  version moved.
+
+*The 2026-09-14 table, kept for classes rolled on it until 2026-09-22:* the owner said *"when rolling for a family, it should
+be a 20 sided die"*, and asked what the twenty faces decide, chose **bigger frontier families** and **fewer lone parents**:
 
 | Roll (d20) | Parents | Children |
 | --- | --- | --- |
@@ -58,17 +109,9 @@ decide, the owner chose **bigger frontier families** and **fewer lone parents**:
 | 19 | 2 | 7 |
 | 20 | 2 | 8 |
 
-- A lone parent on a quarter of rolls, both parents on three quarters; a family of one to ten. Two parents have 3.6 children
-  on average, three to five most often.
-- **What it is set against:** a white American woman bore about 6.55 children in 1830 and 6.14 in 1840 over her life, and
-  about 217 in 1,000 white infants died in their first year (1850) — Haines, *Fertility and Mortality in the United States*,
-  EH.net, Table 1. Parents here are 20 to 45 and their families still growing, so three to five living children is ordinary
-  and seven or eight a large family. The table itself is invented (`FIC-GONZ-021`); no count of Texas colonists' children by
-  family was found.
-- **Consequences that follow without new rules:** a large family eats more, packs the same wagon, and is crowded in any house
-  but the dog-run (which holds eight), so nine or ten are crowded everywhere.
-- A roll on the server, shown as a twenty-sided die with its number. `household.die` is 20; a class rolled before has none, and
-  its number is read on the six-sided table below, so it opens as it was and no save version moved.
+- On that table: a lone parent on a quarter of rolls, both parents on three quarters; a family of one to ten. Two parents had
+  3.6 children on average, three to five most often — set against the same Haines figures, the ordinary living family of the
+  time. `household.die` is 20 and there is no `rollTable`. The table was invented (`FIC-GONZ-021`).
 
 *The six-sided table, 2026-09-12 to 2026-09-14, kept for classes rolled then:*
 
@@ -98,7 +141,7 @@ decide, the owner chose **bigger frontier families** and **fewer lone parents**:
 - **Households nobody joins keep the default shape**, two parents and two children, as does every
   class saved before this existed. No save version moves.
 
-`VISION.md` §7 said a household holds "roughly 4–7" people. A roll of 1 is a household of one, and since 2026-09-14 a roll of 20 a household of ten.
+`VISION.md` §7 said a household holds "roughly 4–7" people. A roll of 1 is a household of one; from 2026-09-14 a roll of 20 was a household of ten, and since 2026-09-22 it is a household of twenty.
 **The owner's roll amends §7**, and the amendment is recorded there.
 
 ---
@@ -112,6 +155,13 @@ Visible, in the family book beside each name. Invented (`FIC-GONZ-021`), and req
   father the children's mother is taken to have been two years younger than him.
 - Children in one family have different ages. If the parents are too young for that many children
   to fit, the parents are older — a family is never generated that could not exist.
+- **Amended 2026-09-22, for the eighteen children a 20 now makes** (`FIC-GONZ-351`): if the parents are too *old* for that
+  many different ages to fit between the mother's 17th and 42nd years, both are made younger by the same amount; and a
+  father is at least **18 at every child's birth** — checked only of the mother before, which a family of two or three never
+  showed, but eighteen children to a mother of 34 and a father of 26 would have made him nine at the eldest's. Where he is
+  too young, he alone is made older, to a year older than the mother at most, so the two stay within eight years. A 20 is
+  therefore always children aged 17 down to 0, one a year, to a mother of 34 to 42. Twins were considered and not used:
+  the rule that no two children share an age holds for every roll.
 
 **Under ten is too young to be sent anywhere.** A person under ten cannot be given work, answer a
 call or be sent on a journey, and the control says so. Every other rule about age waits on the
@@ -228,8 +278,8 @@ Each step is shippable and provable alone.
 
 | Gate | What it means |
 | --- | --- |
-| The roll decides the family | Every roll 1–20 produces exactly the parents and children in §2 (and a class rolled on six sides still reads its old table), and the rule appears nowhere a student can read it. |
-| Families that could exist | No child is older than a mother could have borne; no two children share an age; no parent is under 18. Checked over every seed a test can afford. |
+| The roll decides the family | Every roll 1–20 produces exactly the parents and children in §2 (and a class rolled on the 2026-09-14 faces or on six sides still reads its own table), and the rule appears nowhere a student can read it. |
+| Families that could exist | No child is older than a mother could have borne or a father of eighteen could have fathered; no two children share an age; no parent is under 18. Checked over every seed a test can afford, and a 20 checked on its own. |
 | Hidden means hidden | A planted `strength`, `health` and `housework` appear in no student and no Host payload at any tick. |
 | Averages differ, people overlap | Over a large sample, men average higher strength and health and women higher housework, **and** some woman is stronger than some man and some man keeps a better house than some woman. |
 | Once, first | Rolling is refused after a rename, a chore or a journey, and is not offered twice. |
