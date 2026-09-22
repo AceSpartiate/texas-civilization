@@ -171,7 +171,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 184,
+                "y": 182,
                 "w": 32,
                 "h": 32
               },
@@ -207,7 +207,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 237,
+                "y": 235,
                 "w": 32,
                 "h": 32
               },
@@ -378,7 +378,26 @@
           "ownControlsCovered": [],
           "words": "Who goes?× An express from San Felipe has reached the Trinity with word that the Mexican troops are at Gonzales and the settlements are turn",
           "lessonRoom": "210px",
-          "covered": [],
+          "covered": [
+            {
+              "control": "#selection-call",
+              "label": "Stay homeJethro stays, and the farm keep",
+              "box": {
+                "x": 699,
+                "y": 547,
+                "w": 234,
+                "h": 66
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 5,
+              "centreBlockedBy": "#family-rows",
+              "by": [
+                "#family-rows",
+                "#call-menu"
+              ]
+            }
+          ],
           "partly": [
             {
               "control": "#family-rows",
@@ -480,39 +499,63 @@
               },
               "onScreen": true,
               "points": 5,
-              "blocked": 3,
+              "blocked": 4,
               "centreBlockedBy": "#call-menu-stay",
               "by": [
                 "#call-menu-stay",
                 "#call-menu-rows",
-                "#call-menu"
-              ]
-            },
-            {
-              "control": "#selection-call",
-              "label": "Stay homeJethro stays, and the farm keep",
-              "box": {
-                "x": 699,
-                "y": 547,
-                "w": 234,
-                "h": 66
-              },
-              "onScreen": true,
-              "points": 5,
-              "blocked": 1,
-              "centreBlockedBy": null,
-              "by": [
-                "#call-menu"
+                "#call-menu",
+                "#family-rows"
               ]
             }
           ],
           "offScreen": [],
           "scrolledOutOfItsBox": [
             {
+              "control": "#family-rows",
+              "label": "Return home",
+              "box": {
+                "x": 1361,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Go to a neighbour’s homestead",
+              "box": {
+                "x": 1445,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Now: Work about the place",
+              "box": {
+                "x": 1529,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Rest",
+              "box": {
+                "x": 1613,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
               "control": "#reports",
               "label": "Read what Silas Roe said",
               "box": {
-                "x": 1873,
+                "x": 1866,
                 "y": 963,
                 "w": 139,
                 "h": 44
@@ -617,14 +660,14 @@
             },
             "bar": {
               "box": {
-                "x": 127,
-                "y": 616,
-                "w": 1112,
-                "h": 48
+                "x": 12,
+                "y": 541,
+                "w": 1342,
+                "h": 123
               },
               "overlapWidth": 440,
-              "overlapHeight": -60,
-              "shares": false
+              "overlapHeight": 15,
+              "shares": true
             },
             "card": {
               "box": {
@@ -683,7 +726,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 185,
+                "y": 182,
                 "w": 32,
                 "h": 32
               },
@@ -719,7 +762,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 238,
+                "y": 235,
                 "w": 32,
                 "h": 32
               },
@@ -735,6 +778,46 @@
           ],
           "offScreen": [],
           "scrolledOutOfItsBox": [
+            {
+              "control": "#family-rows",
+              "label": "Return home",
+              "box": {
+                "x": 1361,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Go to a neighbour’s homestead",
+              "box": {
+                "x": 1445,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Now: Work about the place",
+              "box": {
+                "x": 1529,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Rest",
+              "box": {
+                "x": 1613,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
             {
               "control": "#reports",
               "label": "Read what Silas Roe said",
@@ -844,13 +927,13 @@
             },
             "bar": {
               "box": {
-                "x": 127,
-                "y": 616,
-                "w": 1112,
-                "h": 48
+                "x": 12,
+                "y": 541,
+                "w": 1342,
+                "h": 123
               },
-              "overlapWidth": 367,
-              "overlapHeight": -168,
+              "overlapWidth": 384,
+              "overlapHeight": -93,
               "shares": false
             },
             "card": null
@@ -917,6 +1000,77 @@
             },
             {
               "control": "#family-rows",
+              "label": "Take small game",
+              "box": {
+                "x": 1025,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 2,
+              "centreBlockedBy": null,
+              "by": [
+                "#military-notice",
+                "#military-go"
+              ]
+            },
+            {
+              "control": "#family-rows",
+              "label": "Fish the creek",
+              "box": {
+                "x": 1109,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 2,
+              "centreBlockedBy": null,
+              "by": [
+                "#military-go",
+                "#military-message"
+              ]
+            },
+            {
+              "control": "#family-rows",
+              "label": "Gather oysters",
+              "box": {
+                "x": 1193,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 2,
+              "centreBlockedBy": null,
+              "by": [
+                "#military-message"
+              ]
+            },
+            {
+              "control": "#family-rows",
+              "label": "Cut a bee tree",
+              "box": {
+                "x": 1277,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 2,
+              "centreBlockedBy": null,
+              "by": [
+                "#military-message",
+                "#military-notice"
+              ]
+            },
+            {
+              "control": "#family-rows",
               "label": "★idle",
               "box": {
                 "x": 12,
@@ -953,6 +1107,56 @@
           ],
           "offScreen": [],
           "scrolledOutOfItsBox": [
+            {
+              "control": "#family-rows",
+              "label": "Travel to Gonzales",
+              "box": {
+                "x": 1361,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Return home",
+              "box": {
+                "x": 1445,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Go to a neighbour’s homestead",
+              "box": {
+                "x": 1529,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Now: Work about the place",
+              "box": {
+                "x": 1613,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Rest",
+              "box": {
+                "x": 1697,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
             {
               "control": "#reports",
               "label": "Read what Silas Roe said",
@@ -1062,13 +1266,13 @@
             },
             "bar": {
               "box": {
-                "x": 99,
-                "y": 616,
-                "w": 1168,
-                "h": 48
+                "x": 12,
+                "y": 541,
+                "w": 1342,
+                "h": 123
               },
               "overlapWidth": 384,
-              "overlapHeight": -207,
+              "overlapHeight": -132,
               "shares": false
             },
             "card": null
@@ -1218,7 +1422,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 184,
+                "y": 182,
                 "w": 32,
                 "h": 32
               },
@@ -1254,7 +1458,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 237,
+                "y": 235,
                 "w": 32,
                 "h": 32
               },
@@ -1425,7 +1629,26 @@
           "ownControlsCovered": [],
           "words": "Who goes?× An express from San Felipe has reached the Trinity with word that the Mexican troops are at Gonzales and the settlements are turn",
           "lessonRoom": "210px",
-          "covered": [],
+          "covered": [
+            {
+              "control": "#selection-call",
+              "label": "Stay homeJethro stays, and the farm keep",
+              "box": {
+                "x": 528,
+                "y": 547,
+                "w": 234,
+                "h": 66
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 5,
+              "centreBlockedBy": "#family-rows",
+              "by": [
+                "#family-rows",
+                "#call-menu"
+              ]
+            }
+          ],
           "partly": [
             {
               "control": "#family-rows",
@@ -1527,34 +1750,98 @@
               },
               "onScreen": true,
               "points": 5,
-              "blocked": 3,
+              "blocked": 4,
               "centreBlockedBy": "#call-menu-stay",
               "by": [
                 "#call-menu-stay",
                 "#call-menu-rows",
-                "#call-menu"
-              ]
-            },
-            {
-              "control": "#selection-call",
-              "label": "Stay homeJethro stays, and the farm keep",
-              "box": {
-                "x": 528,
-                "y": 547,
-                "w": 234,
-                "h": 66
-              },
-              "onScreen": true,
-              "points": 5,
-              "blocked": 1,
-              "centreBlockedBy": null,
-              "by": [
-                "#call-menu"
+                "#call-menu",
+                "#family-rows"
               ]
             }
           ],
           "offScreen": [],
           "scrolledOutOfItsBox": [
+            {
+              "control": "#family-rows",
+              "label": "Take small game",
+              "box": {
+                "x": 1025,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Fish the creek",
+              "box": {
+                "x": 1109,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Cut a bee tree",
+              "box": {
+                "x": 1193,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Travel to Gonzales",
+              "box": {
+                "x": 1277,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Return home",
+              "box": {
+                "x": 1361,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Go to a neighbour’s homestead",
+              "box": {
+                "x": 1445,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Now: Work about the place",
+              "box": {
+                "x": 1529,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Rest",
+              "box": {
+                "x": 1613,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
             {
               "control": "#reports",
               "label": "Read what Silas Roe said",
@@ -1665,13 +1952,13 @@
             "bar": {
               "box": {
                 "x": 12,
-                "y": 622,
+                "y": 541,
                 "w": 1000,
-                "h": 42
+                "h": 123
               },
               "overlapWidth": 440,
-              "overlapHeight": -66,
-              "shares": false
+              "overlapHeight": 15,
+              "shares": true
             },
             "card": {
               "box": {
@@ -1783,6 +2070,86 @@
           "offScreen": [],
           "scrolledOutOfItsBox": [
             {
+              "control": "#family-rows",
+              "label": "Take small game",
+              "box": {
+                "x": 1025,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Fish the creek",
+              "box": {
+                "x": 1109,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Cut a bee tree",
+              "box": {
+                "x": 1193,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Travel to Gonzales",
+              "box": {
+                "x": 1277,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Return home",
+              "box": {
+                "x": 1361,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Go to a neighbour’s homestead",
+              "box": {
+                "x": 1445,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Now: Work about the place",
+              "box": {
+                "x": 1529,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Rest",
+              "box": {
+                "x": 1613,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
               "control": "#reports",
               "label": "Read what Silas Roe said",
               "box": {
@@ -1892,12 +2259,12 @@
             "bar": {
               "box": {
                 "x": 12,
-                "y": 622,
+                "y": 541,
                 "w": 1000,
-                "h": 42
+                "h": 123
               },
               "overlapWidth": 384,
-              "overlapHeight": -174,
+              "overlapHeight": -93,
               "shares": false
             },
             "card": null
@@ -1948,7 +2315,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 224,
+                "y": 223,
                 "w": 32,
                 "h": 32
               },
@@ -1960,6 +2327,77 @@
                 "#family-collapse",
                 "#family-rows",
                 "#world-map"
+              ]
+            },
+            {
+              "control": "#family-rows",
+              "label": "Buy furniture from the carpenter",
+              "box": {
+                "x": 689,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 2,
+              "centreBlockedBy": null,
+              "by": [
+                "#military-notice",
+                "#military-go"
+              ]
+            },
+            {
+              "control": "#family-rows",
+              "label": "Fell trees",
+              "box": {
+                "x": 773,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 2,
+              "centreBlockedBy": null,
+              "by": [
+                "#military-go",
+                "#military-message"
+              ]
+            },
+            {
+              "control": "#family-rows",
+              "label": "Fetch logs from the timber",
+              "box": {
+                "x": 857,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 2,
+              "centreBlockedBy": null,
+              "by": [
+                "#military-message"
+              ]
+            },
+            {
+              "control": "#family-rows",
+              "label": "Hunt on our land",
+              "box": {
+                "x": 941,
+                "y": 558,
+                "w": 71,
+                "h": 98
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 2,
+              "centreBlockedBy": null,
+              "by": [
+                "#military-message",
+                "#military-notice"
               ]
             },
             {
@@ -1984,7 +2422,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 277,
+                "y": 276,
                 "w": 32,
                 "h": 32
               },
@@ -2000,6 +2438,96 @@
           ],
           "offScreen": [],
           "scrolledOutOfItsBox": [
+            {
+              "control": "#family-rows",
+              "label": "Take small game",
+              "box": {
+                "x": 1025,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Fish the creek",
+              "box": {
+                "x": 1109,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Gather oysters",
+              "box": {
+                "x": 1193,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Cut a bee tree",
+              "box": {
+                "x": 1277,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Travel to Gonzales",
+              "box": {
+                "x": 1361,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Return home",
+              "box": {
+                "x": 1445,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Go to a neighbour’s homestead",
+              "box": {
+                "x": 1529,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Now: Work about the place",
+              "box": {
+                "x": 1613,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Rest",
+              "box": {
+                "x": 1697,
+                "y": 558,
+                "w": 76,
+                "h": 98
+              }
+            },
             {
               "control": "#reports",
               "label": "Read what Silas Roe said",
@@ -2110,12 +2638,12 @@
             "bar": {
               "box": {
                 "x": 12,
-                "y": 624,
+                "y": 541,
                 "w": 1000,
-                "h": 40
+                "h": 123
               },
               "overlapWidth": 384,
-              "overlapHeight": -215,
+              "overlapHeight": -132,
               "shares": false
             },
             "card": null
@@ -2285,7 +2813,7 @@
               "label": "×",
               "box": {
                 "x": 347,
-                "y": 375,
+                "y": 429,
                 "w": 22,
                 "h": 29
               },
@@ -2303,7 +2831,7 @@
               "label": "Going by, and the neighbours",
               "box": {
                 "x": 21,
-                "y": 445,
+                "y": 499,
                 "w": 348,
                 "h": 27
               },
@@ -2321,27 +2849,9 @@
               "label": "Go: ride for GonzalesTemperance takes th",
               "box": {
                 "x": 21,
-                "y": 563,
+                "y": 617,
                 "w": 348,
                 "h": 66
-              },
-              "onScreen": true,
-              "points": 5,
-              "blocked": 5,
-              "centreBlockedBy": "#encounter-asks",
-              "by": [
-                "#encounter-asks",
-                "#encounter"
-              ]
-            },
-            {
-              "control": "#selection-call",
-              "label": "Stay homeTemperance stays, and the farm ",
-              "box": {
-                "x": 21,
-                "y": 630,
-                "w": 348,
-                "h": 52
               },
               "onScreen": true,
               "points": 5,
@@ -2355,13 +2865,13 @@
           ],
           "partly": [
             {
-              "control": "#listen-rider",
-              "label": "Listen to Silas Roe",
+              "control": "#selection-call",
+              "label": "Stay homeTemperance stays, and the farm ",
               "box": {
                 "x": 21,
-                "y": 681,
+                "y": 684,
                 "w": 348,
-                "h": 40
+                "h": 52
               },
               "onScreen": true,
               "points": 5,
@@ -2496,12 +3006,12 @@
             "card": {
               "box": {
                 "x": 8,
-                "y": 363,
+                "y": 417,
                 "w": 374,
                 "h": 363
               },
               "overlapWidth": 374,
-              "overlapHeight": 354,
+              "overlapHeight": 300,
               "shares": true
             }
           }
@@ -2663,15 +3173,17 @@
               "label": "×",
               "box": {
                 "x": 347,
-                "y": 398,
+                "y": 342,
                 "w": 22,
                 "h": 29
               },
               "onScreen": true,
               "points": 5,
               "blocked": 5,
-              "centreBlockedBy": "#call-menu-rows",
+              "centreBlockedBy": "#call-menu",
               "by": [
+                "#call-menu",
+                "#call-menu-how",
                 "#call-menu-rows"
               ]
             },
@@ -2680,7 +3192,7 @@
               "label": "Going by, and the neighbours",
               "box": {
                 "x": 21,
-                "y": 469,
+                "y": 413,
                 "w": 348,
                 "h": 27
               },
@@ -2739,7 +3251,7 @@
               },
               "onScreen": true,
               "points": 5,
-              "blocked": 1,
+              "blocked": 2,
               "centreBlockedBy": null,
               "by": [
                 "#family-rows"
@@ -2756,7 +3268,7 @@
               },
               "onScreen": true,
               "points": 5,
-              "blocked": 1,
+              "blocked": 2,
               "centreBlockedBy": null,
               "by": [
                 "#family-rows"
@@ -2773,7 +3285,7 @@
               },
               "onScreen": true,
               "points": 5,
-              "blocked": 1,
+              "blocked": 2,
               "centreBlockedBy": null,
               "by": [
                 "#family-rows"
@@ -2790,7 +3302,7 @@
               },
               "onScreen": true,
               "points": 5,
-              "blocked": 1,
+              "blocked": 2,
               "centreBlockedBy": null,
               "by": [
                 "#family-rows"
@@ -2812,115 +3324,183 @@
               "by": [
                 "#family-rows"
               ]
+            },
+            {
+              "control": "#selection-call",
+              "label": "Go: ride for GonzalesJethro takes the fa",
+              "box": {
+                "x": 21,
+                "y": 531,
+                "w": 348,
+                "h": 66
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 2,
+              "centreBlockedBy": null,
+              "by": [
+                "#call-menu-confirm",
+                "#call-menu-stay"
+              ]
             }
           ],
           "offScreen": [],
           "scrolledOutOfItsBox": [
             {
               "control": "#family-rows",
-              "label": "",
+              "label": "Practise at the mark",
               "box": {
-                "x": -242,
-                "y": 758,
-                "w": 38,
-                "h": 38
+                "x": 423,
+                "y": 695,
+                "w": 76,
+                "h": 98
               }
             },
             {
               "control": "#family-rows",
-              "label": "",
+              "label": "Go to a shop in town",
               "box": {
-                "x": -198,
-                "y": 758,
-                "w": 38,
-                "h": 38
+                "x": 505,
+                "y": 695,
+                "w": 76,
+                "h": 98
               }
             },
             {
               "control": "#family-rows",
-              "label": "",
+              "label": "Make furniture",
               "box": {
-                "x": -154,
-                "y": 758,
-                "w": 38,
-                "h": 38
+                "x": 587,
+                "y": 695,
+                "w": 76,
+                "h": 98
               }
             },
             {
               "control": "#family-rows",
-              "label": "",
+              "label": "Buy furniture from the carpenter",
               "box": {
-                "x": -110,
-                "y": 758,
-                "w": 38,
-                "h": 38
+                "x": 669,
+                "y": 695,
+                "w": 76,
+                "h": 98
               }
             },
             {
               "control": "#family-rows",
-              "label": "",
+              "label": "Fell trees",
               "box": {
-                "x": -66,
-                "y": 758,
-                "w": 38,
-                "h": 38
+                "x": 751,
+                "y": 695,
+                "w": 76,
+                "h": 98
               }
             },
             {
               "control": "#family-rows",
-              "label": "",
+              "label": "Fetch logs from the timber",
               "box": {
-                "x": 418,
-                "y": 758,
-                "w": 38,
-                "h": 38
+                "x": 833,
+                "y": 695,
+                "w": 76,
+                "h": 98
               }
             },
             {
               "control": "#family-rows",
-              "label": "",
+              "label": "Hunt on our land",
               "box": {
-                "x": 462,
-                "y": 758,
-                "w": 38,
-                "h": 38
+                "x": 915,
+                "y": 695,
+                "w": 76,
+                "h": 98
               }
             },
             {
               "control": "#family-rows",
-              "label": "",
+              "label": "Take small game",
               "box": {
-                "x": 506,
-                "y": 758,
-                "w": 38,
-                "h": 38
+                "x": 997,
+                "y": 695,
+                "w": 76,
+                "h": 98
               }
             },
             {
               "control": "#family-rows",
-              "label": "",
+              "label": "Fish the creek",
               "box": {
-                "x": 550,
-                "y": 758,
-                "w": 38,
-                "h": 38
+                "x": 1079,
+                "y": 695,
+                "w": 76,
+                "h": 98
               }
             },
             {
               "control": "#family-rows",
-              "label": "",
+              "label": "Cut a bee tree",
               "box": {
-                "x": 594,
-                "y": 758,
-                "w": 38,
-                "h": 38
+                "x": 1161,
+                "y": 695,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Travel to Gonzales",
+              "box": {
+                "x": 1243,
+                "y": 695,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Return home",
+              "box": {
+                "x": 1325,
+                "y": 695,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Go to a neighbour’s homestead",
+              "box": {
+                "x": 1407,
+                "y": 695,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Now: Work about the place",
+              "box": {
+                "x": 1489,
+                "y": 695,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Rest",
+              "box": {
+                "x": 1571,
+                "y": 695,
+                "w": 76,
+                "h": 98
               }
             },
             {
               "control": "#reports",
               "label": "Read what Silas Roe said",
               "box": {
-                "x": 1866,
+                "x": 1873,
                 "y": 1039,
                 "w": 139,
                 "h": 44
@@ -3026,23 +3606,23 @@
             "bar": {
               "box": {
                 "x": 8,
-                "y": 742,
+                "y": 678,
                 "w": 374,
-                "h": 84
+                "h": 123
               },
               "overlapWidth": 374,
-              "overlapHeight": -184,
+              "overlapHeight": -120,
               "shares": false
             },
             "card": {
               "box": {
                 "x": 8,
-                "y": 387,
+                "y": 331,
                 "w": 374,
                 "h": 339
               },
               "overlapWidth": 374,
-              "overlapHeight": 171,
+              "overlapHeight": 227,
               "shares": true
             }
           }
@@ -3051,7 +3631,7 @@
       {
         "state": "site-choose",
         "panel": "#site-choose",
-        "how": "the family coming in to its own land, a place on it looked over: \"The house will stand on open ground, 1 feet above Turtle Bay\"",
+        "how": "the family coming in to its own land, a place on it looked over: \"The house will stand on open ground, 0 feet above Turtle Bay\"",
         "screenshot": "test-results/panels-site-choose-390.png",
         "measured": {
           "panel": "#site-choose",
@@ -3065,9 +3645,85 @@
           "panelFits": true,
           "ownControls": 1,
           "ownControlsCovered": [],
-          "words": "YOUR LAND Where the house stands The house will stand on open ground, 1 feet above Turtle Bayou. Water that runs all year is 0.32 miles off ",
+          "words": "YOUR LAND Where the house stands The house will stand on open ground, 0 feet above Turtle Bayou. Water that runs all year is 0.61 miles off ",
           "lessonRoom": "197px",
-          "covered": [],
+          "covered": [
+            {
+              "control": "#family-rows",
+              "label": "★idle",
+              "box": {
+                "x": 12,
+                "y": 358,
+                "w": 44,
+                "h": 44
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 5,
+              "centreBlockedBy": "#selection",
+              "by": [
+                "#selection",
+                "#family-rows",
+                "#selection-state"
+              ]
+            },
+            {
+              "control": "#family-rows",
+              "label": "★idle",
+              "box": {
+                "x": 12,
+                "y": 406,
+                "w": 44,
+                "h": 44
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 5,
+              "centreBlockedBy": "#selection-more",
+              "by": [
+                "#selection-more",
+                "#selection",
+                "#selection-call"
+              ]
+            },
+            {
+              "control": "#family-rows",
+              "label": "★idle",
+              "box": {
+                "x": 12,
+                "y": 454,
+                "w": 44,
+                "h": 44
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 5,
+              "centreBlockedBy": "#selection-call",
+              "by": [
+                "#selection-call",
+                "#selection"
+              ]
+            },
+            {
+              "control": "#selection-close",
+              "label": "×",
+              "box": {
+                "x": 347,
+                "y": 342,
+                "w": 22,
+                "h": 29
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 5,
+              "centreBlockedBy": "#site-text",
+              "by": [
+                "#site-text",
+                "#site-choose-title",
+                "#site-choose"
+              ]
+            }
+          ],
           "partly": [
             {
               "control": "#family-collapse",
@@ -3097,9 +3753,10 @@
               },
               "onScreen": true,
               "points": 5,
-              "blocked": 2,
-              "centreBlockedBy": null,
+              "blocked": 4,
+              "centreBlockedBy": "#selection",
               "by": [
+                "#selection",
                 "#family-rows"
               ]
             },
@@ -3118,24 +3775,7 @@
               "centreBlockedBy": null,
               "by": [
                 "#world-map",
-                "#family-rows"
-              ]
-            },
-            {
-              "control": "#family-rows",
-              "label": "★idle",
-              "box": {
-                "x": 12,
-                "y": 358,
-                "w": 44,
-                "h": 44
-              },
-              "onScreen": true,
-              "points": 5,
-              "blocked": 1,
-              "centreBlockedBy": null,
-              "by": [
-                "#family-rows"
+                "#selection"
               ]
             },
             {
@@ -3152,8 +3792,8 @@
               "blocked": 4,
               "centreBlockedBy": null,
               "by": [
-                "#world-map",
-                "#family-rows"
+                "#selection-name",
+                "#selection"
               ]
             },
             {
@@ -3201,7 +3841,7 @@
               },
               "onScreen": true,
               "points": 5,
-              "blocked": 1,
+              "blocked": 2,
               "centreBlockedBy": null,
               "by": [
                 "#family-rows"
@@ -3218,7 +3858,7 @@
               },
               "onScreen": true,
               "points": 5,
-              "blocked": 1,
+              "blocked": 2,
               "centreBlockedBy": null,
               "by": [
                 "#family-rows"
@@ -3235,7 +3875,7 @@
               },
               "onScreen": true,
               "points": 5,
-              "blocked": 1,
+              "blocked": 2,
               "centreBlockedBy": null,
               "by": [
                 "#family-rows"
@@ -3252,7 +3892,7 @@
               },
               "onScreen": true,
               "points": 5,
-              "blocked": 1,
+              "blocked": 2,
               "centreBlockedBy": null,
               "by": [
                 "#family-rows"
@@ -3274,115 +3914,200 @@
               "by": [
                 "#family-rows"
               ]
+            },
+            {
+              "control": "#selection-more",
+              "label": "Going by, and the neighbours",
+              "box": {
+                "x": 21,
+                "y": 413,
+                "w": 348,
+                "h": 27
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 3,
+              "centreBlockedBy": "#site-text",
+              "by": [
+                "#site-text",
+                "#site-choose"
+              ]
+            },
+            {
+              "control": "#selection-call",
+              "label": "Go: ride for GonzalesJethro takes the fa",
+              "box": {
+                "x": 21,
+                "y": 531,
+                "w": 348,
+                "h": 66
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 1,
+              "centreBlockedBy": null,
+              "by": [
+                "#site-choose"
+              ]
             }
           ],
           "offScreen": [],
           "scrolledOutOfItsBox": [
             {
               "control": "#family-rows",
-              "label": "",
+              "label": "Practise at the mark",
               "box": {
-                "x": -242,
-                "y": 758,
-                "w": 38,
-                "h": 38
+                "x": 423,
+                "y": 695,
+                "w": 76,
+                "h": 98
               }
             },
             {
               "control": "#family-rows",
-              "label": "",
+              "label": "Go to a shop in town",
               "box": {
-                "x": -198,
-                "y": 758,
-                "w": 38,
-                "h": 38
+                "x": 505,
+                "y": 695,
+                "w": 76,
+                "h": 98
               }
             },
             {
               "control": "#family-rows",
-              "label": "",
+              "label": "Make furniture",
               "box": {
-                "x": -154,
-                "y": 758,
-                "w": 38,
-                "h": 38
+                "x": 587,
+                "y": 695,
+                "w": 76,
+                "h": 98
               }
             },
             {
               "control": "#family-rows",
-              "label": "",
+              "label": "Buy furniture from the carpenter",
               "box": {
-                "x": -110,
-                "y": 758,
-                "w": 38,
-                "h": 38
+                "x": 669,
+                "y": 695,
+                "w": 76,
+                "h": 98
               }
             },
             {
               "control": "#family-rows",
-              "label": "",
+              "label": "Fell trees",
               "box": {
-                "x": -66,
-                "y": 758,
-                "w": 38,
-                "h": 38
+                "x": 751,
+                "y": 695,
+                "w": 76,
+                "h": 98
               }
             },
             {
               "control": "#family-rows",
-              "label": "",
+              "label": "Fetch logs from the timber",
               "box": {
-                "x": 418,
-                "y": 758,
-                "w": 38,
-                "h": 38
+                "x": 833,
+                "y": 695,
+                "w": 76,
+                "h": 98
               }
             },
             {
               "control": "#family-rows",
-              "label": "",
+              "label": "Hunt on our land",
               "box": {
-                "x": 462,
-                "y": 758,
-                "w": 38,
-                "h": 38
+                "x": 915,
+                "y": 695,
+                "w": 76,
+                "h": 98
               }
             },
             {
               "control": "#family-rows",
-              "label": "",
+              "label": "Take small game",
               "box": {
-                "x": 506,
-                "y": 758,
-                "w": 38,
-                "h": 38
+                "x": 997,
+                "y": 695,
+                "w": 76,
+                "h": 98
               }
             },
             {
               "control": "#family-rows",
-              "label": "",
+              "label": "Fish the creek",
               "box": {
-                "x": 550,
-                "y": 758,
-                "w": 38,
-                "h": 38
+                "x": 1079,
+                "y": 695,
+                "w": 76,
+                "h": 98
               }
             },
             {
               "control": "#family-rows",
-              "label": "",
+              "label": "Cut a bee tree",
               "box": {
-                "x": 594,
-                "y": 758,
-                "w": 38,
-                "h": 38
+                "x": 1161,
+                "y": 695,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Travel to Gonzales",
+              "box": {
+                "x": 1243,
+                "y": 695,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Return home",
+              "box": {
+                "x": 1325,
+                "y": 695,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Go to a neighbour’s homestead",
+              "box": {
+                "x": 1407,
+                "y": 695,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Now: Work about the place",
+              "box": {
+                "x": 1489,
+                "y": 695,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Rest",
+              "box": {
+                "x": 1571,
+                "y": 695,
+                "w": 76,
+                "h": 98
               }
             },
             {
               "control": "#reports",
               "label": "Read what Silas Roe said",
               "box": {
-                "x": 1866,
+                "x": 1873,
                 "y": 1039,
                 "w": 139,
                 "h": 44
@@ -3488,15 +4213,25 @@
             "bar": {
               "box": {
                 "x": 8,
-                "y": 742,
+                "y": 678,
                 "w": 374,
-                "h": 84
+                "h": 123
               },
               "overlapWidth": 268,
-              "overlapHeight": -195,
+              "overlapHeight": -131,
               "shares": false
             },
-            "card": null
+            "card": {
+              "box": {
+                "x": 8,
+                "y": 331,
+                "w": 374,
+                "h": 339
+              },
+              "overlapWidth": 268,
+              "overlapHeight": 216,
+              "shares": true
+            }
           }
         },
         "pageErrors": []
@@ -3504,7 +4239,7 @@
       {
         "state": "survey-choose",
         "panel": "#survey-choose",
-        "how": "the stake pressed and a place on the family's own land tapped: \"That runs over ground the family has already cleared.\"",
+        "how": "the stake pressed and a place on the family's own land tapped: \"Ten acres of prairie beside the house. Clearing it would be \"",
         "screenshot": "test-results/panels-survey-choose-390.png",
         "measured": {
           "panel": "#survey-choose",
@@ -3516,9 +4251,9 @@
             "h": 179
           },
           "panelFits": true,
-          "ownControls": 1,
+          "ownControls": 2,
           "ownControlsCovered": [],
-          "words": "SURVEY Where Nicolás surveys That runs over ground the family has already cleared. Survey it Not now",
+          "words": "SURVEY Where Nicolás surveys Ten acres of prairie beside the house. Clearing it would be 10 spells of work. Survey it Not now",
           "lessonRoom": "237px",
           "covered": [],
           "partly": [
@@ -3561,7 +4296,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 350,
+                "y": 348,
                 "w": 30,
                 "h": 30
               },
@@ -3597,7 +4332,7 @@
               "label": "!",
               "box": {
                 "x": 44,
-                "y": 398,
+                "y": 396,
                 "w": 30,
                 "h": 30
               },
@@ -3621,7 +4356,7 @@
               },
               "onScreen": true,
               "points": 5,
-              "blocked": 1,
+              "blocked": 2,
               "centreBlockedBy": null,
               "by": [
                 "#family-rows"
@@ -3638,7 +4373,7 @@
               },
               "onScreen": true,
               "points": 5,
-              "blocked": 1,
+              "blocked": 2,
               "centreBlockedBy": null,
               "by": [
                 "#family-rows"
@@ -3655,7 +4390,7 @@
               },
               "onScreen": true,
               "points": 5,
-              "blocked": 1,
+              "blocked": 2,
               "centreBlockedBy": null,
               "by": [
                 "#family-rows"
@@ -3734,122 +4469,162 @@
           "scrolledOutOfItsBox": [
             {
               "control": "#family-rows",
-              "label": "",
+              "label": "Practise at the mark",
               "box": {
-                "x": -264,
-                "y": 758,
-                "w": 38,
-                "h": 38
+                "x": 423,
+                "y": 695,
+                "w": 76,
+                "h": 98
               }
             },
             {
               "control": "#family-rows",
-              "label": "",
+              "label": "Go to a shop in town",
               "box": {
-                "x": -220,
-                "y": 758,
-                "w": 38,
-                "h": 38
+                "x": 505,
+                "y": 695,
+                "w": 76,
+                "h": 98
               }
             },
             {
               "control": "#family-rows",
-              "label": "",
+              "label": "Make furniture",
               "box": {
-                "x": -176,
-                "y": 758,
-                "w": 38,
-                "h": 38
+                "x": 587,
+                "y": 695,
+                "w": 76,
+                "h": 98
               }
             },
             {
               "control": "#family-rows",
-              "label": "",
+              "label": "Buy furniture from the carpenter",
               "box": {
-                "x": -132,
-                "y": 758,
-                "w": 38,
-                "h": 38
+                "x": 669,
+                "y": 695,
+                "w": 76,
+                "h": 98
               }
             },
             {
               "control": "#family-rows",
-              "label": "",
+              "label": "Fell trees",
               "box": {
-                "x": -88,
-                "y": 758,
-                "w": 38,
-                "h": 38
+                "x": 751,
+                "y": 695,
+                "w": 76,
+                "h": 98
               }
             },
             {
               "control": "#family-rows",
-              "label": "",
+              "label": "Fetch logs from the timber",
               "box": {
-                "x": -44,
-                "y": 758,
-                "w": 38,
-                "h": 38
+                "x": 833,
+                "y": 695,
+                "w": 76,
+                "h": 98
               }
             },
             {
               "control": "#family-rows",
-              "label": "",
+              "label": "Hunt on our land",
               "box": {
-                "x": 396,
-                "y": 758,
-                "w": 38,
-                "h": 38
+                "x": 915,
+                "y": 695,
+                "w": 76,
+                "h": 98
               }
             },
             {
               "control": "#family-rows",
-              "label": "",
+              "label": "Take small game",
               "box": {
-                "x": 440,
-                "y": 758,
-                "w": 38,
-                "h": 38
+                "x": 997,
+                "y": 695,
+                "w": 76,
+                "h": 98
               }
             },
             {
               "control": "#family-rows",
-              "label": "",
+              "label": "Fish the creek",
               "box": {
-                "x": 484,
-                "y": 758,
-                "w": 38,
-                "h": 38
+                "x": 1079,
+                "y": 695,
+                "w": 76,
+                "h": 98
               }
             },
             {
               "control": "#family-rows",
-              "label": "",
+              "label": "Gather oysters",
               "box": {
-                "x": 528,
-                "y": 758,
-                "w": 38,
-                "h": 38
+                "x": 1161,
+                "y": 695,
+                "w": 76,
+                "h": 98
               }
             },
             {
               "control": "#family-rows",
-              "label": "",
+              "label": "Cut a bee tree",
               "box": {
-                "x": 572,
-                "y": 758,
-                "w": 38,
-                "h": 38
+                "x": 1243,
+                "y": 695,
+                "w": 76,
+                "h": 98
               }
             },
             {
               "control": "#family-rows",
-              "label": "",
+              "label": "Travel to Gonzales",
               "box": {
-                "x": 616,
-                "y": 758,
-                "w": 38,
-                "h": 38
+                "x": 1325,
+                "y": 695,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Return home",
+              "box": {
+                "x": 1407,
+                "y": 695,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Go to a neighbour’s homestead",
+              "box": {
+                "x": 1489,
+                "y": 695,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Now: Work about the place",
+              "box": {
+                "x": 1571,
+                "y": 695,
+                "w": 76,
+                "h": 98
+              }
+            },
+            {
+              "control": "#family-rows",
+              "label": "Rest",
+              "box": {
+                "x": 1653,
+                "y": 695,
+                "w": 76,
+                "h": 98
               }
             },
             {
@@ -3962,19 +4737,19 @@
             "bar": {
               "box": {
                 "x": 8,
-                "y": 742,
+                "y": 678,
                 "w": 374,
-                "h": 84
+                "h": 123
               },
               "overlapWidth": 268,
-              "overlapHeight": -230,
+              "overlapHeight": -166,
               "shares": false
             },
             "card": null
           },
           "tapped": {
-            "x": 195,
-            "y": 538.5221727788864
+            "x": 107.44191016900677,
+            "y": 450.96408294789563
           }
         },
         "afterwards": {
@@ -4024,7 +4799,8 @@
         "overlapHeight": 159,
         "shares": true
       },
-      "coveredByTheMeeting": 5
+      "coveredByTheMeeting": 5,
+      "siteOverTheCard": null
     },
     {
       "at": "1024x768",
@@ -4062,7 +4838,8 @@
         "overlapHeight": 159,
         "shares": true
       },
-      "coveredByTheMeeting": 5
+      "coveredByTheMeeting": 5,
+      "siteOverTheCard": null
     },
     {
       "at": "390x844",
@@ -4100,7 +4877,18 @@
         "overlapHeight": 179,
         "shares": true
       },
-      "coveredByTheMeeting": 11
+      "coveredByTheMeeting": 10,
+      "siteOverTheCard": {
+        "box": {
+          "x": 8,
+          "y": 331,
+          "w": 374,
+          "h": 339
+        },
+        "overlapWidth": 268,
+        "overlapHeight": 216,
+        "shares": true
+      }
     }
   ],
   "screenshots": [
@@ -4119,6 +4907,7 @@
   ],
   "notProved": [
     "The meeting still stands over the family's column on a phone (and by 64px at 1024). Nobody has decided that one; it is recorded with numbers, not asserted.",
+    "On a phone the site panel lies over the docked person card, three of its controls included (siteOverTheCard in contested). Its old full-width place overlapped the card too, by box arithmetic; nobody has decided which of the two should give way.",
     "The fold is checked opening again after the stake is put away with Not now, not after a house site is actually set: setting one would end the placing and the class this walks together.",
     "One family, one seed and one lesson step per panel. A family of one parent, a long name, and the steps between arriving and the stake are not walked.",
     "No real assistive technology, no physical LAN, no Chromebook and no touch screen."

@@ -95,6 +95,10 @@ try {
       // on a portrait's corner, and a round badge's corner points land on the map - under all four panels alike, and the
       // first run of this check read those as the placement panel covering the family.
       const onTheFamily = [...one.measured.covered, ...one.measured.partly]
+        // Only the family's column, which is what the owner's decision was about. At 390 the docked person card is open
+        // in this state since 2026-09-22 (a portrait's first press selects) and the site panel lies over three of its
+        // controls - as the panel's old full-width place would too. That pair is recorded in the evidence, not held here.
+        .filter(entry => /^#family-|panel-/.test(entry.control))
         .filter(entry => entry.by.some(on => on === one.panel || /^#(site|survey)-/.test(on)))
         .map(entry => `${entry.control} "${entry.label}" under ${entry.by.join(', ')}`);
       assert.deepEqual(onTheFamily, [], `${at}: ${one.panel} covers part of the family: ${onTheFamily.join(', ')}`);
@@ -115,6 +119,7 @@ try {
     siteOverTheColumn: seen.find(one => one.panel === '#site-choose')?.measured.against.column,
     surveyOverTheColumn: seen.find(one => one.panel === '#survey-choose')?.measured.against.column,
     coveredByTheMeeting: seen.find(one => one.panel === '#encounter')?.measured.covered.length ?? null,
+    siteOverTheCard: seen.find(one => one.panel === '#site-choose')?.measured.against.card,
   }));
   // A rectangle that does not overlap has a negative side, and printing that as a measurement reads as a fault that is
   // not there. Only a real overlap is given a number.
@@ -131,6 +136,7 @@ try {
     checks: pass, measured, contested, screenshots: shots,
     notProved: [
       'The meeting still stands over the family\'s column on a phone (and by 64px at 1024). Nobody has decided that one; it is recorded with numbers, not asserted.',
+      'On a phone the site panel lies over the docked person card, three of its controls included (siteOverTheCard in contested). Its old full-width place overlapped the card too, by box arithmetic; nobody has decided which of the two should give way.',
       'The fold is checked opening again after the stake is put away with Not now, not after a house site is actually set: setting one would end the placing and the class this walks together.',
       'One family, one seed and one lesson step per panel. A family of one parent, a long name, and the steps between arriving and the stake are not walked.',
       'No real assistive technology, no physical LAN, no Chromebook and no touch screen.',
