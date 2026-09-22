@@ -201,7 +201,10 @@ test('inside the Alamo, a person on auto offers or stays at once at auto\'s shar
     assert.equal(person.service.courier, offers ? 'volunteered' : 'stays', `${person.name} on auto was not answered at once at auto's share`);
     assert.ok(!needsOf(view(world, person.householdId), person.id).some(need => need.kind === 'courier'), `a "!" waits on ${person.name}, who is on auto`);
   }
-  assert.equal(c.service.courier, 'open', 'a person by hand was answered for');
+  // By hand, Travis's runner walks to them (sim/alamo-runner.mjs) and the question opens when he is there.
+  assert.equal(c.service.courier, 'coming', 'a person by hand was answered for');
+  until(world, () => c.service.courier === 'open', 20);
+  assert.equal(c.service.courier, 'open', 'the runner never reached the person by hand');
   assert.ok(needsOf(view(world, c.householdId), c.id).some(need => need.kind === 'courier'));
   untilMoment(world, 'courier-1');
   assert.ok(['sent', 'passed'].includes(c.service.courier), `nobody answering left ${c.name} ${c.service.courier}: the offer auto would make was not made`);

@@ -7,7 +7,7 @@ import { awardGlory } from './glory.mjs';
 import { canAnswerCalls, canFight, cannotAnswerWhy, cannotFightWhy, tooYoung, tooYoungWhy } from './family.mjs';
 import { distantHouseholds, expressLeaves, startExpress } from './expresses.mjs';
 import { callOptions, expireCalls, offerCalls, settleCalls } from './calls.mjs';
-import { ALAMO_WORD, COURIER_DAYS, askCouriers, beginSiege, fightSouth, gonzalesFamilies, otherFamilies, reliefEnters, reliefRides, sendCouriers, splitSouth, stormAlamo, survivorsLeave, tellFall, tellSouth, word } from './alamo.mjs';
+import { ALAMO_WORD, COURIER_DAYS, askCouriers, beginSiege, warnGarrison, fightSouth, gonzalesFamilies, otherFamilies, reliefEnters, reliefRides, sendCouriers, splitSouth, stormAlamo, survivorsLeave, tellFall, tellSouth, word } from './alamo.mjs';
 import { SETTLEMENT_DAYS, advanceArmiesPassing, orderOut, turnHome } from './scrape.mjs';
 import { HOUSTON_WORD, catchUpCamp, fightColeto, fightSanJacinto, followCamp, goliadMassacre, takeInEnlisted, tellGoliad, tellSanJacinto } from './houston.mjs';
 import { closeCampQuestion, openCampQuestion } from './camp.mjs';
@@ -903,7 +903,7 @@ function advanceWinter(world, movement = {}) {
   });
   once(world, 'travis-news', () => sendWord(world, 'winter-travis', { truth: 'William Barret Travis has come to Béxar with about thirty horsemen, and Bowie means to hold the place.', claimId: 'HIST-TEX-051', source: 'Word from Béxar' }));
   once(world, 'crockett-news', () => sendWord(world, 'winter-crockett', { truth: 'David Crockett of Tennessee has reached Béxar with a few volunteers. Colonel Neill has gone home to his sick family, and Travis and Bowie command together.', claimId: 'HIST-TEX-051', source: 'Word from Béxar' }));
-  once(world, 'santa-anna-rumour', () => sendWord(world, 'winter-santa-anna', { truth: 'It is said Santa Anna himself has crossed the Rio Grande with a great army, through snow, and is marching on Béxar.', status: 'rumor', claimId: 'HIST-TEX-053', source: 'A rumour from the west' }));
+  once(world, 'santa-anna-rumour', () => { sendWord(world, 'winter-santa-anna', { truth: 'It is said Santa Anna himself has crossed the Rio Grande with a great army, through snow, and is marching on Béxar.', status: 'rumor', claimId: 'HIST-TEX-053', source: 'A rumour from the west' }); warnGarrison(world); });
   advanceAlamo(world, said, movement);
 }
 
@@ -914,7 +914,7 @@ function advanceAlamo(world, said, { beginTravel } = {}) {
   const alamo = { beginTravel: beginTravel || (() => {}) };
   once(world, 'alamo-siege', () => beginSiege(world, said('HIST-TEX-054', 'The Mexican army has come into Béxar. The garrison has gone into the Alamo, and a red flag flies from the church of San Fernando.')));
   COURIER_DAYS.forEach(day => {
-    once(world, `${day}-opens`, () => { if (askCouriers(world)) world.director.phase = 'news'; });
+    once(world, `${day}-opens`, () => { if (askCouriers(world, day)) world.director.phase = 'news'; });
     once(world, day, () => { sendCouriers(world, day, alamo); world.director.phase = 'campaign'; });
   });
   once(world, 'travis-gonzales', () => word(world, 'alamo-siege', gonzalesFamilies(world), { truth: ALAMO_WORD.siege, claimId: 'HIST-TEX-055', source: 'Travis\'s letter, brought to Gonzales by Albert Martin' }));

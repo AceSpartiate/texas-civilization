@@ -1,13 +1,18 @@
 // The siege and fall of the Alamo, with San Patricio and Agua Dulce: docs/COLONIES.md §7f and build step 9, decided by the
 // owner by multiple choice (2026-09-16). Researched in docs/battle-research/alamo.md (`HIST-TEX-054` to `-061`).
 //
-// - **The siege** (February 23): whoever of a family is at Béxar is shut in the Alamo with the garrison, and cannot be sent
-//   for. On the days Travis sent riders out, a played person inside is asked once whether they will carry a letter; about one
-//   volunteer in four is chosen, rides out to Gonzales, and lives.
+// - **Before it** (the rumour of about February 18): a family with somebody in the garrison is told, in words, that they can
+//   still be sent for and that nobody can be once the Mexican army is in the town (`warnGarrison`).
+// - **The siege** (February 23): whoever of a family is at Béxar is shut in the Alamo with the garrison, stands at their place
+//   inside the walls, and cannot be sent for. On each of the four days Travis sent riders out (owner, 2026-09-22: volunteers
+//   are reconsidered on later courier dates), Travis's runner walks to every played man inside who could carry a letter
+//   (sim/alamo-runner.mjs) and asks, once that day; about one volunteer in four is chosen that night, rides out to Gonzales,
+//   and lives. An answer nobody gives is decided by the documented fallback (`settleUnanswered`, docs/ALAMO_FATES.md).
 // - **The relief**: every family that has heard Travis's letter may send a grown member to Gonzales; whoever is there by two in
 //   the afternoon of February 27 rides with Kimbell and Martin and is inside the Alamo before dawn on March 1.
-// - **The fall** (March 6): every man inside is killed, as every defender was; a woman is spared with the noncombatants and
-//   comes away with Susanna Dickinson.
+// - **The fall** (March 6): by role and place, not by sex (owner, 2026-09-22; docs/ALAMO_FATES.md). Every man of fighting age
+//   still inside at the assault is killed, as every combatant was; a woman or child inside is spared with the noncombatants
+//   and comes away east as Susanna Dickinson did. Whoever was sent out as a courier is not inside, and lives.
 // - **The south**: those who went with the Matamoros men are split between Johnson's party, struck at San Patricio on
 //   February 27, and Grant's, destroyed at Agua Dulce on March 2, and rolled at each fight's recorded shares for killed,
 //   captured and escaped. The captured are prisoners at Matamoros; the escaped go to Fannin at Goliad.
@@ -19,6 +24,8 @@ import { learn, establishTruth } from './knowledge.mjs';
 import { awardGlory } from './glory.mjs';
 import { frailty } from './army.mjs';
 import { modeWith } from './keeping.mjs';
+import { canAnswerCalls } from './family.mjs';
+import { closeRunner, sendRunner, takePost } from './alamo-runner.mjs';
 
 const GONE = ['dead', 'captured'];
 const BEXAR = 'bexar', GONZALES = 'gonzales';
@@ -47,6 +54,13 @@ export const SOUTH_RATES = Object.freeze({
 });
 
 const male = person => person?.sex ? person.sex === 'male' : ['father', 'son'].includes(person?.kin?.role);
+/**
+ * What somebody inside the Alamo is there as (docs/ALAMO_FATES.md, `FIC-GONZ-381`): a **fighter** - a man or a boy of an age
+ * to answer for the family (sim/family.mjs `canAnswerCalls`, sixteen and up), however he came to be inside, sick or well -
+ * or a **noncombatant**, every woman and every younger child. It decides who Travis's runner asks to carry a letter and
+ * what the assault does to them. Not sex alone: a boy of eight is a noncombatant, as Enrique Esparza was (`HIST-TEX-433`).
+ */
+export const alamoRole = person => male(person) && canAnswerCalls(person) ? 'fighter' : 'noncombatant';
 const inService = (world, kind) => Object.values(world.entities).filter(person => person.householdId && person.service?.status === 'serving' && person.service.kind === kind && !GONE.includes(person.health?.condition));
 const householdOf = (world, person) => world.households[person.householdId];
 const tell = (world, person, text, { claimId = 'FIC-GONZ-045', importance = 3, type = 'consequence' } = {}) => record(world, type, {
@@ -74,11 +88,25 @@ export function beginSiege(world, causeId) {
       person.chore = null; person.task = 'rest';
     }
     person.service.besieged = true;
+    // ceiling: set down at their place inside the walls; the walk from the town into the fort on the afternoon of the 23rd is
+    // not drawn. The Alamo was where the garrison went (`HIST-TEX-054`), and the runner needs them there to walk to.
+    takePost(world, person);
     tell(world, person, `The Mexican army has come into Béxar under a red flag. ${person.name} is shut in the Alamo with the garrison.`, { claimId: 'HIST-TEX-054' });
   }
 }
 
-/** A day Travis sends riders out: every played person inside not yet asked is asked whether they will carry a letter. */
+/**
+ * The rumour that Santa Anna is marching on Béxar: a survival opportunity said in words before it closes (owner, 2026-09-22;
+ * `FIC-GONZ-383`). Every family with somebody in the garrison is told that they can still be sent for, and that once the
+ * Mexican army is in the town nobody will be. It promises nothing about what the army will do.
+ */
+export function warnGarrison(world) {
+  for (const person of inService(world, 'garrison')) {
+    if (person.service.besieged) continue;
+    tell(world, person, `It is said Santa Anna is marching on Béxar. ${person.name} is with the garrison there and can still be sent for. If the Mexican army reaches the town, the garrison will be shut in, and nobody can be sent for then.`, { claimId: 'FIC-GONZ-383', type: 'pressure' });
+  }
+}
+
 /**
  * The share of the garrison that offers to ride when the choice is auto's (`FIC-GONZ-048`): about a third. Some sixteen
  * couriers are known to have gone out (`HIST-TEX-055`), and with one offer in four chosen (`COURIER_CHOSEN`) that is
@@ -87,23 +115,42 @@ export function beginSiege(world, causeId) {
 export const COURIER_OFFERED = 1 / 3;
 const autoOffers = (world, person) => share(world, person.id, 'courier-offer') < COURIER_OFFERED;
 const offerSaid = (person, offers) => offers ? `${person.name} offered to carry Travis's letters out.` : `${person.name} will stay inside the walls.`;
+/** Whether Travis's runner is on the way to this person or waiting on their answer. */
+export const courierPending = person => ['coming', 'open'].includes(person?.service?.courier);
 
-export function askCouriers(world) {
+/**
+ * Whether Travis would ask this person today (owner, 2026-09-22: "Reconsider eligible volunteers on later courier dates";
+ * `FIC-GONZ-382`). A fighter shut inside, alive and not taken, not already sent out, and not already asked this day. Asked
+ * again on each later day whatever they said before - a volunteer passed over, or somebody who stayed - so the chance to
+ * go stays open until the last rider has gone.
+ */
+export function courierEligible(world, person, day) {
+  const service = person?.service;
+  // Shut inside: not a courier already sent out (released, and no longer besieged), not somebody who never got in.
+  if (!person?.householdId || service?.kind !== 'garrison' || !service.besieged) return false;
+  if (GONE.includes(person.health?.condition)) return false;
+  if (service.courierDay === day) return false;
+  return alamoRole(person) === 'fighter';
+}
+
+/** A day Travis sends riders out: his runner goes to every played fighter inside who is eligible today. */
+export function askCouriers(world, day) {
   let asked = 0;
-  for (const person of inService(world, 'garrison')) {
-    if (!person.service.besieged || person.service.courier) continue;
+  for (const person of Object.values(world.entities)) {
+    if (!courierEligible(world, person, day)) continue;
     const household = householdOf(world, person);
     if (!household?.played) continue;
+    person.service.courierDay = day;
     // On auto, or with nobody at the family's screen (sim/absence.mjs), answered the moment it is asked, at auto's share
-    // (sim/auto.mjs); nobody waits on the family.
+    // (sim/auto.mjs); nobody waits on the family, and no runner walks to somebody nobody is watching.
     if (person.auto || household.absent) {
       const offers = autoOffers(world, person);
       person.service.courier = offers ? 'volunteered' : 'stays';
+      person.service.courierOffer = offers;
       record(world, 'choice', { actorId: person.id, householdId: person.householdId, importance: 2, decision: `courier-${offers ? 'volunteer' : 'stay'}`, text: offerSaid(person, offers) });
       continue;
     }
-    person.service.courier = 'open';
-    tell(world, person, `Travis wants riders to carry letters out through the Mexican lines. ${person.name} can offer to go.`, { claimId: 'HIST-TEX-055', type: 'pressure' });
+    sendRunner(world, person, day);
     asked++;
   }
   return asked;
@@ -111,6 +158,7 @@ export function askCouriers(world) {
 
 /** Why a courier answer cannot be given, or null. */
 export function courierRefusal(person, answer) {
+  if (person?.service?.courier === 'coming') return `Travis's runner has not reached ${person.name} yet.`;
   if (person?.service?.courier !== 'open') return `${person?.name || 'Nobody'} is not being asked to ride out.`;
   if (!['volunteer', 'stay'].includes(answer)) return 'That is not one of the answers.';
   return null;
@@ -119,24 +167,49 @@ export function answerCourier(world, person, answer) {
   const why = courierRefusal(person, answer);
   if (why) throw new Error(why);
   person.service.courier = answer === 'volunteer' ? 'volunteered' : 'stays';
+  person.service.courierOffer = answer === 'volunteer';
   record(world, 'choice', { actorId: person.id, householdId: person.householdId, importance: 2, decision: `courier-${answer}`,
     text: offerSaid(person, answer === 'volunteer') });
+  closeRunner(world, person, answer);
 }
 
-/** The riders go: of those who offered, about one in four is chosen, rides out to Gonzales and lives; the asking closes. */
+/**
+ * Nobody answered the runner: the documented fallback (owner, 2026-09-22: "with a documented fallback"; docs/ALAMO_FATES.md;
+ * `FIC-GONZ-384`). Used when the decision's real-time budget runs out (`why` 'budget', sim/decision-budget.mjs) and when the
+ * riders go that night with the question still open (`why` 'deadline').
+ *
+ * The fallback is the owner's standing rule for every choice not made in time (`FIC-GONZ-048`, 2026-09-16): **auto takes
+ * over**. The person decides alone, at auto's share - about a third offer - exactly as a person on auto and a family nobody is
+ * at the screen for decide, and the army's and Houston's questions fall back the same way. One rule for every military
+ * question, said in the journal in plain words. ceiling: an earlier offer is not carried forward - a volunteer passed over
+ * who is not answered for on a later day decides afresh at the share. Staying at one's post is the alternative the historical
+ * review would also defend (docs/ALAMO_FATES.md §4, "Nobody answered"); it is the owner's to choose, not this code's.
+ */
+export function settleUnanswered(world, person, why = 'deadline') {
+  const service = person.service;
+  if (!courierPending(person)) return;
+  const offers = autoOffers(world, person);
+  service.courier = offers ? 'volunteered' : 'stays';
+  service.courierOffer = offers;
+  const when = why === 'budget' ? 'in time' : 'in time, before the riders went';
+  const text = `Nobody answered for ${person.name} ${when}, and it was decided for them, as a person on auto decides. ${offerSaid(person, offers)}`;
+  record(world, 'choice', { actorId: person.id, householdId: person.householdId, importance: 2, decision: `courier-${offers ? 'volunteer' : 'stay'}`, claimId: 'FIC-GONZ-384', text });
+  closeRunner(world, person, 'unanswered', offers);
+}
+
+/**
+ * The riders go that night: of those who offered, about one in four is chosen, slips out, rides for Gonzales and lives; the
+ * rest stay inside and will be asked again on the next day Travis sends riders. Somebody already sent is never sent twice.
+ */
 export function sendCouriers(world, day, { beginTravel }) {
   for (const person of inService(world, 'garrison')) {
     const service = person.service;
-    // Nobody answered in time: decided as auto decides (sim/auto.mjs), and an offer made this way can still be chosen tonight.
-    if (service.courier === 'open') {
-      const offers = autoOffers(world, person);
-      service.courier = offers ? 'volunteered' : 'stays';
-      tell(world, person, `Nobody answered for ${person.name} in time, and it was decided for them. ${offerSaid(person, offers)}`, { importance: 2, type: 'choice' });
-    }
+    if (!service.besieged) continue;
+    if (courierPending(person)) settleUnanswered(world, person, 'deadline');
     if (service.courier !== 'volunteered') continue;
     if (share(world, person.id, day) >= COURIER_CHOSEN) {
       service.courier = 'passed';
-      tell(world, person, `Travis chose other riders. ${person.name} stays inside the walls.`, { importance: 2 });
+      tell(world, person, `Travis chose other riders tonight. ${person.name} stays inside the walls.`, { importance: 2 });
       continue;
     }
     service.courier = 'sent';
@@ -166,15 +239,21 @@ export function reliefEnters(world) {
     person.travel = null;
     person.location = { x: site.x, y: site.y, siteId: BEXAR };
     person.service = { kind: 'garrison', status: 'serving', since: world.minute, siteId: BEXAR, besieged: true, relief: true };
+    takePost(world, person);
     tell(world, person, `${person.name} got through the Mexican lines in the dark with the Gonzales men, and is inside the Alamo.`, { claimId: 'HIST-TEX-057' });
   }
 }
 
-/** March 6: the walls are stormed. Every man inside is killed and every woman spared; nobody's family knows it yet. */
+/**
+ * March 6: the walls are stormed. What becomes of each person still inside is decided by what they are there as
+ * (`alamoRole`, `FIC-GONZ-381`), and the place they are in: a fighter inside at the assault is killed, as every combatant
+ * was (`HIST-TEX-058`, `-435`, `-436`); a noncombatant is spared (`HIST-TEX-432`, `-433`). Whoever was sent out as a courier
+ * is not inside (`service.besieged` false) and is not touched. Nobody's family knows any of it yet.
+ */
 export function stormAlamo(world, causeId) {
   for (const person of inService(world, 'garrison')) {
     if (!person.service.besieged) continue;
-    const fell = male(person);
+    const fell = alamoRole(person) === 'fighter';
     person.service.fate = fell ? 'fell' : 'spared';
     awardGlory(world, { event: 'alamo', claimId: 'HIST-TEX-058', personId: person.id, householdId: person.householdId, role: fell ? 'fought' : 'present', fromSiteId: BEXAR, causes: causeId ? [causeId] : [] });
   }
@@ -198,9 +277,11 @@ export function tellFall(world, households) {
     if (person.service.fate === 'fell') {
       Object.assign(person.service, { status: 'fell', besieged: false });
       person.health = { condition: 'dead' }; person.task = 'rest'; person.chore = null;
-      tell(world, person, `${person.name} was killed when the Alamo was stormed at dawn on March 6. The garrison was overwhelmed.`, { claimId: 'HIST-TEX-058' });
+      tell(world, person, person.service.relief
+        ? `${person.name} was killed when the Alamo was stormed at dawn on March 6, with the Gonzales men who had gone in on March 1. The garrison was overwhelmed.`
+        : `${person.name} was killed when the Alamo was stormed at dawn on March 6. The garrison was overwhelmed.`, { claimId: 'HIST-TEX-058' });
     } else {
-      tell(world, person, `${person.name} was among the women spared when the Alamo fell, and was let go with Mrs. Dickinson.`, { claimId: 'HIST-TEX-058' });
+      tell(world, person, `${person.name} was among the women and children spared when the Alamo fell. Santa Anna's officers questioned them and let them go, and ${person.name} came away east as Mrs. Dickinson did.`, { claimId: 'HIST-TEX-432' });
     }
   }
 }

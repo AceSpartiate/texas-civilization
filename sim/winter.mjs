@@ -214,7 +214,11 @@ export function winterInvalid(world) {
     const service = entity.service;
     if (service === undefined) continue;
     if (!service || !SERVICE[service.kind] || !['serving', 'released', 'deserted', 'fell', 'captured', 'prisoner'].includes(service.status)) return 'Invalid service';
-    if (service.courier !== undefined && !['open', 'volunteered', 'stays', 'passed', 'sent'].includes(service.courier)) return 'Invalid courier answer';
+    // 'coming': Travis's runner is walking to them (sim/alamo-runner.mjs). `courierDay` and `courierOffer` are absent on a class
+    // saved before volunteers were asked again on later days, which correctly reads as never asked and never offered.
+    if (service.courier !== undefined && !['coming', 'open', 'volunteered', 'stays', 'passed', 'sent'].includes(service.courier)) return 'Invalid courier answer';
+    if (service.courierDay !== undefined && !/^courier-[1-4]$/.test(service.courierDay)) return 'Invalid courier day';
+    if (service.courierOffer !== undefined && typeof service.courierOffer !== 'boolean') return 'Invalid courier offer';
     if (service.fate !== undefined && !['fell', 'spared', 'killed', 'captured', 'escaped', 'executed', 'wounded', 'unhurt'].includes(service.fate)) return 'Invalid fate';
     if (service.acres !== undefined && (!Number.isInteger(service.acres) || service.acres < 0)) return 'Invalid acres promised';
   }

@@ -14,6 +14,8 @@ import { GAME } from './hunting.mjs';
 import { bringAlong, hasWords, holderOf, keepWithRiders, leaveBehind, modeWith, NOUN } from './keeping.mjs';
 import { SERVING_ACTIONS, recallFromService, servingWhy, winterInvalid } from './winter.mjs';
 import { answerCourier } from './alamo.mjs';
+import { advanceRunners, runnerInvalid } from './alamo-runner.mjs';
+import { decisionClockInvalid, decisionPressing, spendDecisionBudget } from './decision-budget.mjs';
 import { advanceFlight, flee, flightProjection, scrapeInvalid, share, stayHome } from './scrape.mjs';
 import { answerRoad, registerRoadChores } from './road.mjs';
 import { WATER_HIGH, WATER_SHUT, waterAt, weatherAt, weatherOn } from './weather.mjs';
@@ -561,14 +563,21 @@ export function progressTravel(world, entity, units = 1) {
     record(world, 'arrival', { actorId: entity.id, householdId: entity.householdId, text: `${entity.name} arrived at ${world.map.sites[travel.to].name}.`, destination: travel.to, purpose: travel.purpose, causes: [travel.progressEventId || travel.causeId] });
   }
 }
-export function stepWorld(world) {
+export function stepWorld(world, { realMs = 0, decisionBudgetMs } = {}) {
   if (world.status !== 'running') return;
   // One tick of everybody's own time; on the real land the calendar it carries can be
   // longer than the twenty minutes of work in it (sim/clock.mjs, docs/COLONIES.md §5.7).
   const calendar = calendarMinutes(world);
   return withCalendarStep(world, calendar, () => {
   world.tick++; world.minute += calendar;
+  // The real seconds the server says passed since its last running tick are spent on every open military question, and a
+  // question out of time is decided by its documented fallback before anything moves (sim/decision-budget.mjs). A tick
+  // stepped in process carries none.
+  spendDecisionBudget(world, realMs, { budgetMs: decisionBudgetMs, beginTravel });
   for (const entity of Object.values(world.entities)) progressTravel(world, entity);
+  // Travis's runner crosses the Alamo's plaza (sim/alamo-runner.mjs): before the director, so one sent this tick is seen at
+  // the colonel's door before he takes a step, and no question opens and closes in the same update.
+  advanceRunners(world);
   // A family whose last wagon wheel came in off the road this tick has arrived.
   advanceArrivals(world);
   // What each family's people can see of the homesteads they are standing on (sim/houses.mjs).
@@ -983,7 +992,7 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   visibleEvents.reverse();
   const knownIds = new Set(visibleEvents.map(e => e.id));
   const events = visibleEvents.map(e => ({ id: e.id, type: e.type, minute: e.minute, text: e.text, actorId: e.actorId, householdId: e.householdId, causes: e.causes.filter(id => knownIds.has(id)) }));
-  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, ...(e.given && { given: e.given }), kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.sex && { sex: e.sex }), ...(Number.isFinite(e.age) && { age: e.age, band: ageBand(e.age) }), ...seenTravel(world, e), health: e.health, task: e.task, skills: e.skills, chore: e.chore?.ask ? { ...e.chore, ask: askProjection(world, household, e) } : e.chore, condition: e.condition, species: e.species, laden: e.laden, borrowedBy: e.borrowedBy, ...(e.marks && { marks: e.marks }), ...(e.service && { service: { kind: e.service.kind, status: e.service.status, siteId: e.service.siteId, ...(e.service.acres && { acres: e.service.acres }), ...(e.service.besieged && { besieged: true }), ...(e.service.riding && { riding: true }), ...(e.service.courier === 'open' && { courier: 'open' }), ...(e.service.drilled && { drilled: e.service.drilled }), ...(e.service.bound && { bound: true }), ...(e.service.leave === 'open' && { leave: 'open' }), ...(e.service.road === 'open' && { road: 'open' }) } }), ...(e.voted && { voted: true }), ...(e.auto && { auto: true }),
+  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, ...(e.given && { given: e.given }), kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.sex && { sex: e.sex }), ...(Number.isFinite(e.age) && { age: e.age, band: ageBand(e.age) }), ...seenTravel(world, e), health: e.health, task: e.task, skills: e.skills, chore: e.chore?.ask ? { ...e.chore, ask: askProjection(world, household, e) } : e.chore, condition: e.condition, species: e.species, laden: e.laden, borrowedBy: e.borrowedBy, ...(e.marks && { marks: e.marks }), ...(e.service && { service: { kind: e.service.kind, status: e.service.status, siteId: e.service.siteId, ...(e.service.acres && { acres: e.service.acres }), ...(e.service.besieged && { besieged: true }), ...(e.service.riding && { riding: true }), ...(['coming', 'open'].includes(e.service.courier) && { courier: e.service.courier }), ...(e.service.drilled && { drilled: e.service.drilled }), ...(e.service.bound && { bound: true }), ...(e.service.leave === 'open' && { leave: 'open' }), ...(e.service.road === 'open' && { road: 'open' }) } }), ...(e.voted && { voted: true }), ...(e.auto && { auto: true }), ...(e.kind === 'person' && decisionPressing(world, e.id) && { pressing: true }),
     // Which way somebody a rider has reined in for is turned, and whether they are the one talking (sim/encounters.mjs
     // `listeningOf`): the other half of the rider's own `facing`/`speaking`, so the page can draw the delivered speaking
     // and listening poses. Absent for everybody not in an open meeting, which is the correct empty value and why no save
@@ -1223,6 +1232,8 @@ export function validateWorld(world) {
   if (badFlight) throw new Error(badFlight);
   const badCamp = campInvalid(world);
   if (badCamp) throw new Error(badCamp);
+  const badRunner = runnerInvalid(world) || decisionClockInvalid(world);
+  if (badRunner) throw new Error(badRunner);
   const badChildren = childrenInvalid(world);
   if (badChildren) throw new Error(badChildren);
   const events = new Set(world.events.map(e => e.id));

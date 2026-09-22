@@ -26,3 +26,12 @@ test('army and Houston requests have distinct queue entries',()=>{
  assert.match(militaryNotices(w)[0].id,/clothing/);
  w.army.ours[0].questions[0].answer='yes';assert.equal(militaryNotices(w).length,0);
 });
+test('Travis\'s runner standing with the person is one invitation that names him and says what happens if nobody answers',()=>{
+ const w=view([{...person,service:{...person.service,courier:'open'}}]);
+ w.encounter={id:'e',kind:'alamo-runner',status:'open',listenerId:'p',carrierName:'Asa Linthicum',ifUnanswered:'If nobody answers in time, it will be decided for Elena, as a person on auto decides.'};
+ const notices=militaryNotices(w);
+ assert.equal(notices.length,1,'the runner and the question were shown as two invitations');
+ assert.equal(notices[0].kind,'courier');assert.match(notices[0].text,/Asa Linthicum/);assert.match(notices[0].text,/decided for Elena/);
+ w.entities[0].service.courier='coming';delete w.encounter;
+ assert.match(militaryNotices(w)[0].title,/runner is coming/);
+});
