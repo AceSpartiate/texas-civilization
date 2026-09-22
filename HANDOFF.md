@@ -1,5 +1,11 @@
 # Claude handoff — Astra foundation
 
+## Released as v2026.09.22.4 — 2026-09-22
+
+**[v2026.09.22.4](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.22.4)**, from `410c98f`: Astra’s house placement, second houses and frontier art; the Resume tutorial button; food by age and twins; Travis’s runner, the Alamo’s fates by role and the 90-second decision budget; and the start-up fix below, without which the Host page froze and a reloading student was sent back to the join form. 986 tests; alamo-siege 8, panels 15, family-panel 17, lesson 33, family-twenty 9.
+
+**Astra’s draft release v2026.09.22.3 carries that start-up fault and was never published.** It is the owner’s to delete.
+
 ## Travis's runner, the 90-second budget and the Alamo's fates by role — 2026-09-22 (unreleased)
 
 Read [ALAMO_FATES.md](docs/ALAMO_FATES.md) (the historical review and what the game allows) and the new last section of
@@ -75,7 +81,7 @@ each at 1440 × 950 and 1366 × 768 was taken).
    it means the walk takes one to five ticks whatever the class's pace. Right?
 5. **Ninety seconds** is your number; nothing has measured it with students.
 
-## Food by age, birth dates and twins — 2026-09-22 (unreleased)
+## Food by age, birth dates and twins — 2026-09-22 (released in v2026.09.22.4)
 
 **Owner:** *"Children's food consumption: ages 0–2 use 25% of an adult portion, 3–9 use 50%, 10–15 use 75%, and 16+ use
 100%. Preserve fractional totals. Allow seed-deterministic twins at approximately 1% of births."* Astra's handoff
@@ -181,15 +187,15 @@ Validation: 933 tests passed in `test-results/second-house-full.log`; after the 
 
 Read [HOUSE_SELECTION_HANDOFF.md](docs/HOUSE_SELECTION_HANDOFF.md). The desktop house chooser now presents illustrated preset plans using the world’s actual modular renderer, hiding the component grid and palette. House-site/survey prompts move right, away from the family column. The document records food weights, rare twins, the five-minute tutorial resume window, desktop support, all four military decisions, and the remaining multiple-house/youngest-first sleeping implementation. One house per holding remains a simulation limitation; this pass changes the interface.
 
-## Play Solo delete emblem — 2026-09-22 (unreleased)
+## Play Solo delete emblem — 2026-09-22 (released in v2026.09.22.4)
 
 `launcher/art/icon-delete-save.png` replaces the modern line-drawn trash can with a transparent frontier stave pail whose lid is visibly open. `SoloGameDialog` embeds, scales and tints one source for ordinary rows, selected rows and warning-red hover. The old GDI line work runs only if the resource cannot load. Exact prompt and provenance are in `docs/LAUNCHER_ART.md`.
 
-## Children’s action icons — 2026-09-22 (unreleased)
+## Children’s action icons — 2026-09-22 (released in v2026.09.22.4)
 
 `icons-children.png` replaces all six code-drawn children’s work glyphs: play, kindling, shooing birds, gathering eggs, fetching water and minding a younger child. `public/family-panel.js` binds each action directly to its sprite. The kindling icon deliberately contains no blade, and play is visually distinct from work. Generation prompt and provenance live in `scripts/art-deliveries/children-icons.mjs`. The atlas audit found 80.3% clear alpha, 100% object retention and zero overlap trimming.
 
-## Biome trees and field art — 2026-09-22 (unreleased)
+## Biome trees and field art — 2026-09-22 (released in v2026.09.22.4)
 
 `biome-trees-fields.png` adds sixteen production sprites in the established hand-painted style: three sizes each of longleaf pine, Texas sabal palm and bald cypress; medium/large southern magnolia and American beech; young/mature irrigated crop rows; and fallow ground. The unmodified generated source is registered in `scripts/art-deliveries/biome-trees-fields.mjs`; prompt and provenance records are rebuilt into `docs/art-prompts.json` and `docs/art-provenance.json`.
 
