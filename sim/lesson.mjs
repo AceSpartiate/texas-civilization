@@ -29,6 +29,11 @@
 //   version moved: `household.lesson` absent is worked out from what the family has, and for a
 //   family standing in its own finished house the answer is "nothing to teach".
 //
+// **Amended 2026-09-22: the student can stop it.** The owner: "i should be able to X off the tutorial to stop it and
+// just do what i want", and asked who gets the X, "Everyone, always". `stop-lesson` is on `ALWAYS`, is the family's own
+// student's alone (`stopLesson`), and stores the family as finished with `stopped: true`, so the gate is open and the
+// projection's `lesson` is absent from then on. The gate is still the server's for as long as a family keeps it.
+//
 // Invented entire. Nothing here asserts anything about 1835, so the block of `HIST-TEX` numbers set
 // aside for it is deliberately unused; docs/LESSON.md §7 says so.
 import { record } from './events.mjs';
@@ -67,6 +72,9 @@ export const ALWAYS = Object.freeze([
   'help', 'stay', 'go-see', 'stay-home', 'go-upriver', 'stay-in-town', 'turn-out', 'stay-put',
   'send-for', 'detachment-go', 'detachment-stay', 'army-answer', 'houston-answer', 'alamo-courier',
   'road-answer', 'flee', 'flight-stay', 'winter-recall',
+  // And the X on the strip (owner, 2026-09-22: "i should be able to X off the tutorial to stop it and just do what i
+  // want"). A lesson that could refuse the order to stop itself would be the unavoidable thing the owner has taken back.
+  'stop-lesson',
 ]);
 
 /**
@@ -301,6 +309,8 @@ export function lessonProjection(world, household) {
   const step = stepOf(world, household);
   if (!step) return null;
   if (step === 'done') {
+    // A family that pressed the X has no closing card: it said it was done being taught, and the key goes at once.
+    if (household.lesson?.stopped) return null;
     const at = household.lesson?.at;
     if (!Number.isFinite(at) || world.minute - at > LESSON_DONE_MINUTES) return null;
     return {
@@ -398,6 +408,28 @@ export function advanceLesson(world, household) {
   state.step = STEPS[index].id;
 }
 
+/**
+ * The student stops the guided start for their own family (owner, 2026-09-22: "i should be able to X off the tutorial to
+ * stop it and just do what i want"; asked who gets the X, "Everyone, always").
+ *
+ * Only a family's own student can send this. `applyAction` is handed the household the sender's cookie names, so a
+ * student can only ever stop their own family's lesson, whatever the order carries; the Host has no household and is
+ * refused here, as is a family whose student has gone - the director runs it and never presses the X on anybody's
+ * behalf. Once stopped the family is stored as finished (`step: 'done'`) with `stopped: true`, so the gate opens, the
+ * projection's `lesson` key is gone at once with no closing card, and a save carries it (`lessonInvalid`).
+ *
+ * ceiling: stopping is for good. A "restart the guided start" button would need the step the family had reached kept
+ * beside `stopped` (or worked out again from the family's state, as every step's `done` already can), an action that
+ * clears `stopped`, and a decision about whether a family that has already done steps out of order is walked back
+ * through them. Nothing has asked for it; the owner's word was "stop it".
+ */
+export function stopLesson(world, household) {
+  if (!household || household.absent || !household.played) throw new Error('Only a family’s own student can stop its guided start.');
+  const step = stepOf(world, household);
+  if (!step || step === 'done') throw new Error('There is no guided start running to stop.');
+  household.lesson = { step: 'done', at: world.minute, stopped: true };
+}
+
 /** Every family's lesson, once a tick. */
 export function advanceLessons(world) {
   for (const household of Object.values(world.households)) advanceLesson(world, household);
@@ -410,8 +442,10 @@ export function lessonInvalid(world, household) {
   if (typeof lesson !== 'object' || lesson === null || Array.isArray(lesson)) return 'Invalid lesson';
   if (lesson.step !== 'done' && indexOf(lesson.step) < 0) return 'Invalid lesson step';
   if (lesson.at !== undefined && (!Number.isFinite(lesson.at) || lesson.at < 0)) return 'Invalid lesson ending';
-  for (const marker of ['hunting', 'hunted']) {
+  for (const marker of ['hunting', 'hunted', 'stopped']) {
     if (lesson[marker] !== undefined && lesson[marker] !== true) return 'Invalid lesson marker';
   }
+  // Stopped is a way of being finished, never a step still running with the gate half open.
+  if (lesson.stopped && lesson.step !== 'done') return 'Invalid lesson step';
   return null;
 }

@@ -29,6 +29,12 @@
     "completion is visible and releases tutorial locks",
     "on a phone the conversation answers stay above the action bar",
     "the guide fits a 390px phone viewport",
+    "at 390x844 the X is 36x36px, inside the strip, on no word, reachable, and named \"Stop the guided start\"",
+    "at 1366x768 the X is 36x36px, inside the strip, on no word, reachable, and named \"Stop the guided start\"",
+    "the X asks once, in the strip: \"Stop the guided start? You won’t be walked through the rest, and it can’t be turned back on.\" - and \"Keep going\" sends nothing",
+    "\"Yes, stop it\" sends stop-lesson once; the strip goes, the snapshot carries no lesson, nothing on the bar is shut, and the old walk-through is not offered instead",
+    "an order the step refused (plant-field) is accepted after the X, and the server's glow comes back on it",
+    "after a reload the strip stays gone and the server sends no lesson",
     "no page errors anywhere in the run"
   ],
   "measured": {
@@ -421,6 +427,43 @@
       "y": 8,
       "width": 374,
       "height": 218.375
+    },
+    "stopButton": {
+      "phone": {
+        "size": [
+          36,
+          36
+        ],
+        "inside": true,
+        "on": [],
+        "reached": true,
+        "name": "Stop the guided start"
+      },
+      "chromebook": {
+        "size": [
+          36,
+          36
+        ],
+        "inside": true,
+        "on": [],
+        "reached": true,
+        "name": "Stop the guided start"
+      },
+      "step": "house",
+      "refusedBefore": [
+        "plant-field",
+        "harvest-field",
+        "hunt-timber",
+        "practise-shooting",
+        "visit-shop",
+        "make-furniture",
+        "buy-furniture",
+        "take-small-game",
+        "fish-the-water",
+        "cut-bee-tree"
+      ],
+      "asks": "Stop the guided start? You won’t be walked through the rest, and it can’t be turned back on.",
+      "acceptedAfter": "plant-field"
     }
   },
   "screenshots": [
@@ -428,7 +471,8 @@
     "test-results/lesson-step.png",
     "test-results/lesson-folded.png",
     "test-results/lesson-dimmed.png",
-    "test-results/lesson-phone.png"
+    "test-results/lesson-phone.png",
+    "test-results/lesson-stop-ask.png"
   ],
   "notProved": [
     "All ten steps through browser clicks: this proof uses the real server for opening and an order, and controlled snapshots for specific guide states. The simulation suite exercises progression separately.",

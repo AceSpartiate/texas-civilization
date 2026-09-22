@@ -1,6 +1,6 @@
 {
   "record": "lesson-injections",
-  "date": "2026-09-21",
+  "date": "2026-09-22",
   "files": [
     "tests/lesson.test.mjs"
   ],
@@ -12,7 +12,9 @@
         "the server refuses what is not this step's work, in words a child can read, and allows what is",
         "the whole of it, played through: the family ends with a house, a field it cleared, the crop it chose, coin for it, and a hunt",
         "on the real land the family chooses where the house stands before anything else, and digs the well where one is wanted",
-        "a family whose student has gone is run by the director and is never gated, and takes up its lesson where it was when they come back"
+        "a family whose student has gone is run by the director and is never gated, and takes up its lesson where it was when they come back",
+        "stopping the guided start opens the gate: an order the step refused a moment ago now goes through",
+        "a student can stop only their own family's guided start"
       ]
     },
     {
@@ -22,7 +24,9 @@
         "the server refuses what is not this step's work, in words a child can read, and allows what is",
         "the whole of it, played through: the family ends with a house, a field it cleared, the crop it chose, coin for it, and a hunt",
         "on the real land the family chooses where the house stands before anything else, and digs the well where one is wanted",
-        "a family whose student has gone is run by the director and is never gated, and takes up its lesson where it was when they come back"
+        "a family whose student has gone is run by the director and is never gated, and takes up its lesson where it was when they come back",
+        "stopping the guided start opens the gate: an order the step refused a moment ago now goes through",
+        "a student can stop only their own family's guided start"
       ]
     },
     {
@@ -49,7 +53,11 @@
       "failed": [
         "nothing the game itself asks a family is ever refused, on any step",
         "the whole of it, played through: the family ends with a house, a field it cleared, the crop it chose, coin for it, and a hunt",
-        "the hunt counts when the hunter comes home, whatever the shot did, and never before they have gone"
+        "the hunt counts when the hunter comes home, whatever the shot did, and never before they have gone",
+        "stopping the guided start opens the gate: an order the step refused a moment ago now goes through",
+        "after the X the page is sent no lesson at all, not even the closing card",
+        "a student can stop only their own family's guided start",
+        "a stopped lesson survives a save and reload, and stays stopped"
       ]
     },
     {
@@ -259,7 +267,9 @@
         "on the real land the family chooses where the house stands before anything else, and digs the well where one is wanted",
         "a family whose student has gone is run by the director and is never gated, and takes up its lesson where it was when they come back",
         "the sale is finished by the crop leaving the house, not only by coin coming back",
-        "what leaves the house down the family is not a sale"
+        "what leaves the house down the family is not a sale",
+        "after the X the page is sent no lesson at all, not even the closing card",
+        "a student can stop only their own family's guided start"
       ]
     },
     {
@@ -327,6 +337,63 @@
       "file": "sim/lesson.mjs",
       "failed": [
         "the step that asks for the house says to choose one first, until one is chosen"
+      ]
+    },
+    {
+      "name": "the order to stop the lesson is not on ALWAYS, so the lesson refuses the X on every strict step",
+      "file": "sim/lesson.mjs",
+      "failed": [
+        "stopping the guided start opens the gate: an order the step refused a moment ago now goes through",
+        "after the X the page is sent no lesson at all, not even the closing card",
+        "a student can stop only their own family's guided start",
+        "a stopped lesson survives a save and reload, and stays stopped"
+      ]
+    },
+    {
+      "name": "the X does nothing: the family is still gated after pressing it",
+      "file": "sim/lesson.mjs",
+      "failed": [
+        "stopping the guided start opens the gate: an order the step refused a moment ago now goes through",
+        "after the X the page is sent no lesson at all, not even the closing card",
+        "a student can stop only their own family's guided start",
+        "a stopped lesson survives a save and reload, and stays stopped"
+      ]
+    },
+    {
+      "name": "a stopped family is shown the closing card, so the strip stays up after the X",
+      "file": "sim/lesson.mjs",
+      "failed": [
+        "after the X the page is sent no lesson at all, not even the closing card",
+        "a stopped lesson survives a save and reload, and stays stopped"
+      ]
+    },
+    {
+      "name": "anybody may stop a lesson: the Host, and the director on behalf of a family whose student has gone",
+      "file": "sim/lesson.mjs",
+      "failed": [
+        "a student can stop only their own family's guided start",
+        "the Host cannot stop anybody's guided start"
+      ]
+    },
+    {
+      "name": "the X stops whichever family the order names, so one student can stop another family’s lesson",
+      "file": "sim/world.mjs",
+      "failed": [
+        "a student can stop only their own family's guided start"
+      ]
+    },
+    {
+      "name": "a save may carry any value as the stop marker",
+      "file": "sim/lesson.mjs",
+      "failed": [
+        "a stopped lesson survives a save and reload, and stays stopped"
+      ]
+    },
+    {
+      "name": "a save may carry a stopped lesson still standing on a step, with the gate half open",
+      "file": "sim/lesson.mjs",
+      "failed": [
+        "a stopped lesson survives a save and reload, and stays stopped"
       ]
     }
   ]

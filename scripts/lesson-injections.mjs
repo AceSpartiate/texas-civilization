@@ -222,6 +222,44 @@ const INJECTIONS = [
     from: "      : 'Choose a house first: the \"Choose a house\" button is on the left, above your family. Then set somebody to build it, and more than one of them makes it go faster.'),",
     to: "      : 'Choose a house first. Then set somebody to build it, and more than one of them makes it go faster.'),",
   },
+  // The X on the strip (owner, 2026-09-22: "i should be able to X off the tutorial to stop it and just do what i want";
+  // asked who gets it, "Everyone, always").
+  {
+    name: 'the order to stop the lesson is not on ALWAYS, so the lesson refuses the X on every strict step',
+    from: "  'stop-lesson',\n]);",
+    to: ']);',
+  },
+  {
+    name: 'the X does nothing: the family is still gated after pressing it',
+    from: "  household.lesson = { step: 'done', at: world.minute, stopped: true };",
+    to: '',
+  },
+  {
+    name: 'a stopped family is shown the closing card, so the strip stays up after the X',
+    from: '    if (household.lesson?.stopped) return null;',
+    to: '',
+  },
+  {
+    name: 'anybody may stop a lesson: the Host, and the director on behalf of a family whose student has gone',
+    from: "  if (!household || household.absent || !household.played) throw new Error('Only a family’s own student can stop its guided start.');",
+    to: '',
+  },
+  {
+    name: 'the X stops whichever family the order names, so one student can stop another family’s lesson',
+    file: 'sim/world.mjs',
+    from: "  if (input.action === 'stop-lesson') { stopLesson(world, household); return; }",
+    to: "  if (input.action === 'stop-lesson') { stopLesson(world, world.households[input.householdId] || household); return; }",
+  },
+  {
+    name: 'a save may carry any value as the stop marker',
+    from: "  for (const marker of ['hunting', 'hunted', 'stopped']) {",
+    to: "  for (const marker of ['hunting', 'hunted']) {",
+  },
+  {
+    name: 'a save may carry a stopped lesson still standing on a step, with the gate half open',
+    from: "  if (lesson.stopped && lesson.step !== 'done') return 'Invalid lesson step';",
+    to: '',
+  },
 ];
 
 const failing = output => [...output.matchAll(/^✖ (.+?) \(\d/gm)].map(match => match[1]).filter((name, i, all) => name !== 'failing tests:' && all.indexOf(name) === i);

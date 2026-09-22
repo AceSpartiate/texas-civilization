@@ -27,10 +27,11 @@
     for who they are, give the family a last name, name each of them, and choose how the parents look.</p>
   <!-- True since the forced tutorial of 2026-09-21 (docs/LESSON.md): the server refuses every order that is not the step
        the family is on, so the old line "after that the country is yours to work" promised a freedom the simulation does
-       not give for the first hour. -->
+       not give for the first hour. Since 2026-09-22 a student may X the guide off (docs/LESSON.md §1), and the card says
+       that too rather than "will not let you jump ahead". -->
   <p class="creation-begin-after">From the moment the wagon starts in, the game walks you through the farm one task at a
-    time - the house, the field, the crop, the town, the hunt and the well - and will not let you jump ahead. The country
-    is yours to work once that is done.</p>
+    time - the house, the field, the crop, the town, the hunt and the well. The country is yours to work once that is
+    done, or at once if you press the X on the guide to stop it.</p>
   <button type="button" id="creation-begin-button">Begin</button>
 </section>
 <!-- Everybody's first name, on one card, already filled in with the names the game dealt (owner, 2026-09-17). -->
@@ -329,13 +330,21 @@
       <button type="button" id="site-build" hidden>Set the house here</button>
     </section>
 
-    <!-- The guided start (public/lesson.js, owner 2026-09-21): one task at a time, over the map, unavoidable. Everything
-         in it is the server's `world.lesson` - where the student is, the one sentence of what to do, what just happened -
-         and there is no control on it at all, because only the world says a step is finished. -->
+    <!-- The guided start (public/lesson.js, owner 2026-09-21): one task at a time, over the map. Everything in it is the
+         server's `world.lesson` - where the student is, the one sentence of what to do, what just happened - and nothing
+         on it finishes a step, because only the world says a step is finished. The X stops the whole guided start for this
+         family (owner, 2026-09-22: "i should be able to X off the tutorial to stop it and just do what i want"); it asks
+         once, here in the strip, because it cannot be undone. -->
     <section id="lesson" hidden aria-labelledby="lesson-title">
+      <button type="button" id="lesson-stop" class="lesson-stop-control" aria-label="Stop the guided start" title="Stop the guided start">×</button>
       <span class="eyebrow" id="lesson-step"></span>
       <h2 id="lesson-title"></h2>
       <p id="lesson-says"></p>
+      <div id="lesson-stop-ask" hidden role="group" aria-labelledby="lesson-stop-words">
+        <p id="lesson-stop-words">Stop the guided start? You won’t be walked through the rest, and it can’t be turned back on.</p>
+        <button type="button" id="lesson-stop-yes" class="lesson-stop-control">Yes, stop it</button>
+        <button type="button" id="lesson-stop-no" class="lesson-stop-control">Keep going</button>
+      </div>
       <p id="lesson-help"></p>
       <button type="button" id="lesson-action" hidden>Show the next action</button>
       <p id="lesson-did" hidden></p>
