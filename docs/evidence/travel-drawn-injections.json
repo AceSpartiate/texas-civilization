@@ -1,0 +1,175 @@
+{
+  "record": "travel-drawn-injections",
+  "date": "2026-09-22",
+  "files": [
+    "tests/travel-drawn.test.mjs",
+    "tests/family-panel.test.mjs"
+  ],
+  "injections": [
+    {
+      "name": "the gait is twice what the library's cycles actually cover, so a figure may skate at twice a walk",
+      "file": "public/motion.js",
+      "failed": [
+        "the gait a figure is held to is the ground its own drawn cycle covers, and it is its mount's when it has one",
+        "the family's own land is never sped up and never faded, however long the road across it is"
+      ]
+    },
+    {
+      "name": "the gait is measured against a fixed height, so a rider is held to a walker's ground and not the horse's",
+      "file": "public/motion.js",
+      "failed": [
+        "the gait a figure is held to is the ground its own drawn cycle covers, and it is its mount's when it has one"
+      ]
+    },
+    {
+      "name": "the cap is not applied at all while the figure is in view: the schedule fades, but the walk still zips",
+      "file": "public/motion.js",
+      "failed": [
+        "walk, fade, cross, fade, walk: a hundred yards in view at each end and the middle crossed with nobody watching",
+        "the family's own land is never sped up and never faded, however long the road across it is",
+        "when the road will not pay for both, the hundred yards are kept and the land gives way - never the other way round",
+        "the schedule rides on the server's own progress, so a tick early, a tick twice and the arrival all land right"
+      ]
+    },
+    {
+      "name": "the walked stretch at each end is three hundred yards instead of the hundred the owner chose",
+      "file": "public/motion.js",
+      "failed": [
+        "walk, fade, cross, fade, walk: a hundred yards in view at each end and the middle crossed with nobody watching",
+        "the family's own land is never sped up and never faded, however long the road across it is",
+        "when the road will not pay for both, the hundred yards are kept and the land gives way - never the other way round"
+      ]
+    },
+    {
+      "name": "the figure blinks out and back instead of fading: no frame is ever part drawn",
+      "file": "public/motion.js",
+      "failed": [
+        "walk, fade, cross, fade, walk: a hundred yards in view at each end and the middle crossed with nobody watching"
+      ]
+    },
+    {
+      "name": "a journey too short for the walked ends fades anyway, so a short errand is a blink",
+      "file": "public/motion.js",
+      "failed": [
+        "the family's own land is never sped up and never faded, however long the road across it is",
+        "a journey too short to hold two walked ends and two fades is simply walked, and never blinks"
+      ]
+    },
+    {
+      "name": "the drawn place creeps a fraction ahead of the road, so somebody reaches the far end before the server does",
+      "file": "public/motion.js",
+      "failed": [
+        "the drawn arrival is the server's arrival, and nobody is ever drawn at the far end before the server puts them there"
+      ]
+    },
+    {
+      "name": "the family's own land is treated like any other road, so somebody fades while still on their own farm",
+      "file": "public/motion.js",
+      "failed": [
+        "the family's own land is never sped up and never faded, however long the road across it is",
+        "when the road will not pay for both, the hundred yards are kept and the land gives way - never the other way round"
+      ]
+    },
+    {
+      "name": "the fade-in is allowed to finish on the line rather than before it, so a figure comes back inside its own land",
+      "file": "public/motion.js",
+      "failed": [
+        "where a road leaves the family's land and where it last comes back onto it"
+      ]
+    },
+    {
+      "name": "the road is spent on the land first, so an errand that cannot pay for both zips end to end instead of fading",
+      "file": "public/motion.js",
+      "failed": [
+        "when the road will not pay for both, the hundred yards are kept and the land gives way - never the other way round"
+      ]
+    },
+    {
+      "name": "one end takes all the road that is left, and the other is given none of its own land",
+      "file": "public/motion.js",
+      "failed": [
+        "the family's own land is never sped up and never faded, however long the road across it is"
+      ]
+    },
+    {
+      "name": "a caller with no land to test - the Host, somebody else's family - is treated as being on its own land all the way",
+      "file": "public/motion.js",
+      "failed": [
+        "where a road leaves the family's land and where it last comes back onto it"
+      ]
+    },
+    {
+      "name": "the ease is fast enough to be a pop: a zoom wheel can take a figure from whole to gone in one frame",
+      "file": "public/motion.js",
+      "failed": [
+        "the zoom wheel cannot make a figure vanish between two frames: the drawn share is eased, never taken"
+      ]
+    },
+    {
+      "name": "the row says something else, not the word the owner asked for",
+      "file": "public/family-panel.js",
+      "failed": [
+        "a person on a journey says Travelling, and a person carried out of sight keeps the server's fuller sentence"
+      ]
+    },
+    {
+      "name": "somebody carried away out of sight is given the short word too, and loses how far off they are and when they are back",
+      "file": "public/family-panel.js",
+      "failed": [
+        "a person on a journey says Travelling, and a person carried out of sight keeps the server's fuller sentence"
+      ]
+    },
+    {
+      "name": "the marker's hook is put back in the page, and with it the thing the owner asked to be rid of",
+      "file": "public/app.js",
+      "failed": [
+        "the marker is gone: no disc, no pin, no portrait on a road, and nothing left of it in the page"
+      ]
+    }
+  ],
+  "browserProof": "scripts/travel-drawn-proof.mjs",
+  "browserInjections": [
+    {
+      "name": "nothing is ever faded away on the page: the figure is drawn whole through the middle of the road",
+      "file": "public/app.js",
+      "failed": [
+        "the middle is crossed wholly out of sight: 4143 painted frames with nothing of them drawn"
+      ]
+    },
+    {
+      "name": "the road is not drawn, so a traveller away in the middle leaves the map saying nothing at all",
+      "file": "public/app.js",
+      "failed": [
+        "and measured frame to frame from where they were actually drawn, over 24 pairs of frames at one camera, they cross 0.9 of their heights a second"
+      ]
+    },
+    {
+      "name": "the cap is not applied, and the figure is drawn crossing the screen at the server's own pace",
+      "file": "public/motion.js",
+      "failed": [
+        "pressed close in the server would carry them 157.89 of their heights a second; drawn, they never pass 157.895, inside the gait's 1.2"
+      ]
+    },
+    {
+      "name": "the figure is drawn where the server has them rather than where the schedule walks them",
+      "file": "public/app.js",
+      "failed": [
+        "and the figure is painted where the schedule walked it, never where the server has them: 1299 frames, the farthest 36007 px off"
+      ]
+    },
+    {
+      "name": "the row says nothing while somebody is on a journey",
+      "file": "public/family-panel.js",
+      "failed": [
+        "their row says Travelling the whole way: [\"Ramón Proofwright is on the road.\"]"
+      ]
+    },
+    {
+      "name": "the grant is read a level too high, so no road is ever on the family's own land",
+      "file": "public/app.js",
+      "failed": [
+        "and the family's own land under that road is walked in view with it: a lead of 0.057 miles, which is 0 of their own land and then the 100 yards off it"
+      ]
+    }
+  ]
+}

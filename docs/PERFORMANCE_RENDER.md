@@ -285,13 +285,19 @@ Same computer only: a throttled desktop is not a Chromebook. `ceiling:` anything
 to `groundInputs`, or it stands stale until the camera moves; the audit in the farm proof is what finds one, and it covers
 a student's own land, not the Host's map. Still to do: the household, visit and travel-mode rows rebuilt on every snapshot.
 
-## The marker when fast - 2026-09-19
+## The marker when fast - 2026-09-19 (the marker itself was withdrawn on 2026-09-22; the measurement stands)
 
-A traveller past a walk is drawn as a pin with their portrait and a dotted road ahead (`drawTravelMarkers` in
-`public/app.js`, owner's choice "Marker when fast"). The marker allocates nothing per frame beyond the one entry
-`travelMarker` hands over and its hit spot - the figure it stands in for allocated more (`{ ...entity, gait }`) - walks the
-route in place (`routeIndexAfter`) and projects its points by hand rather than through `camera.toScreen`. Once whole it
-draws no figure and plays no cycle.
+A traveller past a walk **was** drawn as a pin with their portrait and a dotted road ahead (`drawTravelMarkers` in
+`public/app.js`, owner's choice "Marker when fast"). The marker allocated nothing per frame beyond the one entry
+`travelMarker` handed over and its hit spot - the figure it stood in for allocated more (`{ ...entity, gait }`) - walked
+the route in place (`routeIndexAfter`) and projected its points by hand rather than through `camera.toScreen`. Once whole
+it drew no figure and played no cycle.
+
+**Since 2026-09-22 there is no marker** (owner: "i don't want to see icons"; docs/MAP_ACCURACY.md §12a). What is drawn in
+its place costs the same or less on the same view: the figure is faded out entirely through the middle of a long journey -
+no sprite, no cycle, no hit spot - and only the road is drawn, by `drawTravelRoads`, which keeps every allocation rule
+above and drops the disc, the pin, the portrait and the destination ring. The `traveller` view below has not been measured
+again, so read its numbers as the marker's, not as today's.
 
 `node scripts/perf-render-measure.mjs --views default,land,traveller`, with a new view, `traveller`: the main person walks to
 Gonzales and home again for the whole phase with their portrait pressed (scale 2605), so they are a marker throughout.

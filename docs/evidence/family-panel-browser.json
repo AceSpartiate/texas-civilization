@@ -8,7 +8,7 @@
     "the rows are father, mother, then the children oldest first: father 39, mother 38, daughter 20, daughter 18, son 17, daughter 15, daughter 13, daughter 11, daughter 9, son 7, son 5, son 2, daughter 1, daughter 0",
     "down the left of the map (x 12, 304 by 503)",
     "every icon (0) and mark (70) is drawn from a frame, none a glyph or type (drawn by: )",
-    "in the lobby the bar is not empty, it says why: \"Gregorio Proofwright is on the road.\"",
+    "in the lobby the bar is not empty, it says what they are doing: \"Travelling\"",
     "every action has a readable name without hovering, including unavailable actions",
     "hovering an icon shows a small popup with one sentence: \"Rest\" - \"Sit still at home, which is the only thing that mends tiredness.\"",
     "focusing an icon from the keyboard shows the same popup, and Escape puts it away",

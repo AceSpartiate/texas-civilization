@@ -1,6 +1,6 @@
 {
   "record": "panel-silence-screen",
-  "date": "2026-09-21",
+  "date": "2026-09-22",
   "seed": "panel-silence",
   "screen": {
     "width": 1366,
@@ -27,13 +27,61 @@
       {
         "name": "Simeon Proofwright",
         "focused": false,
-        "icons": 5,
-        "open": 5,
+        "icons": 14,
+        "open": 11,
         "line": null,
         "barLine": null
       },
       {
         "name": "Petra Proofwright",
+        "focused": false,
+        "icons": 14,
+        "open": 12,
+        "line": null,
+        "barLine": null
+      },
+      {
+        "name": "Obed Proofwright",
+        "focused": false,
+        "icons": 14,
+        "open": 12,
+        "line": null,
+        "barLine": null
+      },
+      {
+        "name": "Delia Proofwright",
+        "focused": false,
+        "icons": 14,
+        "open": 12,
+        "line": null,
+        "barLine": null
+      },
+      {
+        "name": "Eli Proofwright",
+        "focused": false,
+        "icons": 14,
+        "open": 12,
+        "line": null,
+        "barLine": null
+      },
+      {
+        "name": "Silvano Proofwright",
+        "focused": false,
+        "icons": 14,
+        "open": 11,
+        "line": null,
+        "barLine": null
+      },
+      {
+        "name": "Benita Proofwright",
+        "focused": false,
+        "icons": 14,
+        "open": 11,
+        "line": null,
+        "barLine": null
+      },
+      {
+        "name": "Prudence Proofwright",
         "focused": false,
         "icons": 5,
         "open": 5,
@@ -41,7 +89,23 @@
         "barLine": null
       },
       {
-        "name": "Obed Proofwright",
+        "name": "Basilio Proofwright",
+        "focused": false,
+        "icons": 5,
+        "open": 5,
+        "line": null,
+        "barLine": null
+      },
+      {
+        "name": "Effie Proofwright",
+        "focused": false,
+        "icons": 3,
+        "open": 3,
+        "line": null,
+        "barLine": null
+      },
+      {
+        "name": "Pablo Proofwright",
         "focused": false,
         "icons": 1,
         "open": 1,
@@ -49,12 +113,20 @@
         "barLine": null
       },
       {
-        "name": "Delia Proofwright",
+        "name": "Jonas Proofwright",
+        "focused": false,
+        "icons": 1,
+        "open": 1,
+        "line": null,
+        "barLine": null
+      },
+      {
+        "name": "Paulita Proofwright",
         "focused": false,
         "icons": 0,
         "open": 0,
-        "line": "Delia Proofwright is too young to be sent.",
-        "barLine": "Delia Proofwright is too young to be sent."
+        "line": "Paulita Proofwright is too young to be sent.",
+        "barLine": "Paulita Proofwright is too young to be sent."
       }
     ],
     "captured": {
@@ -73,12 +145,12 @@
     },
     "away": {
       "name": "Barnabas Proofwright",
-      "barLine": "Barnabas Proofwright is on the road.",
+      "barLine": "Travelling",
       "barBox": {
-        "left": 580,
-        "top": 665,
-        "right": 786,
-        "bottom": 694
+        "left": 649,
+        "top": 667,
+        "right": 717,
+        "bottom": 696
       },
       "line": null,
       "icons": 0

@@ -9,10 +9,11 @@
 //     last two and a half miles still were - and at four or twelve hours a tick a single tick is longer than that window,
 //     so what a student actually saw was the figure appear, jump the whole window in one step, and vanish. The page also
 //     decided it for itself, from a position the server had already sent: a client-side fudge, against VISION.md §4.
-//   - 2026-09-18, the marker in public/motion.js: past `MARKER_ABOVE` drawn heights a second a traveller is a token on a
-//     dotted route instead of a running figure. That is right, and it stays; it is about how *close the camera is*, and it
-//     cannot help when the ground itself runs out - a token that crosses the country in four ticks is no more followable
-//     than a skating man.
+//   - 2026-09-18, the marker in public/motion.js: past `MARKER_ABOVE` drawn heights a second a traveller was a token on a
+//     dotted route instead of a running figure. It was about how *close the camera is*, and it could not help when the
+//     ground itself runs out - a token that crosses the country in four ticks is no more followable than a skating man.
+//     The marker itself went on 2026-09-22 (the owner: "i don't want to see icons"); what a traveller a student *may*
+//     watch is drawn as now is public/motion.js `travelSight` and docs/MAP_ACCURACY.md §12a. This rule is untouched by it.
 //
 // So the rule moves to the server, where what a family may see has always been decided, and it covers the whole journey
 // rather than its middle. `FIC-GONZ-230`, `FIC-GONZ-231`; docs/MAP_ACCURACY.md §12.

@@ -1,6 +1,6 @@
 {
   "record": "travel-sight-browser",
-  "date": "2026-09-21",
+  "date": "2026-09-22",
   "ownerDirection": "Owner, 2026-09-21, after a real class on Chromebooks: \"students saw characters moving too fast. i thought we were going to use fog of war for that? if they're moving too fast then players shouldn't be able to follow them until they arrive.\"",
   "how": "node scripts/travel-sight-proof.mjs: two classes on the real land, five families, a student page and the teacher's page open on each, both sending the same person on foot from their own land to Gonzales. The first runs the farming day (twenty minutes a tick); the second is played in process to October 3 first, so it runs the gathering (four hours a tick). Headless Chrome 1280x850 on this computer.",
   "threshold": {
@@ -26,11 +26,11 @@
         "points": 273
       },
       "drawn": {
-        "x": 640,
-        "y": 395
+        "x": 2467,
+        "y": -103
       },
       "card": "On the road to Gonzales · 0%",
-      "row": "Nicolás is on the road.",
+      "row": "Travelling",
       "spoken": "At Family 1 home: Drusilla (work), Benita (rest), Ruperto (rest), Juniper the ox (animal), Bess the mare (animal), Family wagon (wagon). Nicolás is on the road to Gonzales, about 0% of the way."
     },
     "teacher": {

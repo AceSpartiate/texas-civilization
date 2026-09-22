@@ -1,9 +1,9 @@
 // Renderers consume the server's permitted projection. They never advance simulation state.
 import { drawSprite, drawClip, clipInfo, clipReady, hasSprite, loadArt, onArtReady, pickSprite, spriteFrame } from '/art.js';
 import { drawArmy } from '/army-view.js';
-import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, seatedClip, seatLayout, mounted, MOUNTED_HEIGHT, castVariant, childFigure, MarkerFade, travellerSpeed, routeIndexAfter, sameJourney } from '/motion.js';
+import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, seatedClip, seatLayout, mounted, MOUNTED_HEIGHT, castVariant, childFigure, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, gaitMilesASecond, landRuns, travelMilesATick, travelSight, routeIndexAfter, sameJourney } from '/motion.js';
 import { familyRows, PRESENCE_LABELS, storyView, spotlightBanner } from '/live-page.js';
-import { autoLabel, callMenu, callPlan, drawIcon, drawMark, drawPortrait, focusFor, isIdle, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, standing, RENAME_PAUSE_MS } from '/family-panel.js';
+import { autoLabel, callMenu, callPlan, drawIcon, drawMark, drawPortrait, focusFor, isIdle, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, standing, travellingLine, RENAME_PAUSE_MS } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
 import {drawBexarGround,bexarDrawables} from '/bexar-art.js';
 import {alamoOnMap,bexarToSite} from '/bexar-layout.js';
@@ -41,20 +41,29 @@ const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 let animationTime = 0, previousFrame = 0, paintedFrame = 0, animationDrawMs = 0;
 // A traveller's cycle is played from their own place in their stride rather than the shared clock (public/motion.js `GaitClock`).
 const gaitClock = new GaitClock(), gaits = new Map();
-// How much of each traveller is drawn as a marker rather than a figure, eased (public/motion.js `MarkerFade`). Presentation
-// evidence too, read by proofs as `window.__travelMarkers` and by nothing in the application: each traveller's drawn speed in
-// their own heights a second, the marker's weight, and where it was drawn.
-const markerFade = new MarkerFade();
-window.__travelMarkers = markerFade.travellers;
+/**
+ * What was drawn of each traveller this frame (public/motion.js `travelSight`): how much of them was drawn (1 in view, 0
+ * away), where along the road they were drawn, how fast they were drawn going in their own heights a second and what the
+ * gait allows. It replaced the marker's weights on 2026-09-22.
+ *
+ * Presentation evidence, read by proofs as `window.__travelSight` and **by nothing in the application** - the same contract
+ * as `__viewEntities` and `__drawnAt`. "Is the figure actually invisible in the middle, and is it actually walking at the
+ * ends" is not a question a projection can answer.
+ * ceiling: one entry per traveller ever drawn in this page, never pruned, as `GaitClock` keeps; prune by age if a class ever
+ * draws thousands.
+ */
+const travelSeen = new Map();
+window.__travelSight = travelSeen;
+// The family's own land, read once a frame: the road inside it is never sped up and never faded (owner, 2026-09-22).
+let ownGrant = null;
+// Where each journey leaves that land and comes back onto it, worked out once a journey rather than once a frame.
+const landRunCache = new Map();
 function gaitTime(clip, gait) {
   const key = `${clip}|${gait.stride}`;
   if (!gaits.has(key)) { const found = clipGait(clipInfo(clip), gait.stride); if (!found) return undefined; gaits.set(key, found); }
   return gaitClock.time(gait.id, { clockMs: animationTime, at: gait.at, bodyMiles: gait.bodyMiles, gait: gaits.get(key) });
 }
-// True while a figure fading to or from a travel marker is drawn: its walking or trotting cycle holds still (`drawEntity`).
-let cyclesHeld = false;
 function animated(ctx, clip, x, y, size, seed = 0, { gait, ...options } = {}) {
-  if (cyclesHeld) options.paused = true;
   const own = gait && !options.paused && !('timeMs' in options) ? gaitTime(clip, gait) : undefined;
   const width = drawClip(ctx, clip, x, y, size, { timeMs: own ?? animationTime, seed, reducedMotion: reducedMotion.matches, ...options });
   if (width) window.__animationClips?.add(clip);
@@ -552,6 +561,17 @@ function drawSeated(ctx, x, y, size, entity, seat, entities, flip, gait) {
   // proof needs to tell "Astra's painted rider" from "a cropped figure over a horse" without reading pixels.
   seatedDrawn.set(entity.id, { seat, direction, art: ready ? delivered.id : null, parts: drawn });
 }
+/**
+ * How tall somebody is drawn, in pixels, from the camera's figure size: everything is drawn standing on its point, so this
+ * is a height and not a radius. Somebody on a horse is drawn the height of a horse with a rider on it - at a person's height
+ * the horse under them was a toy, smaller than the family's own horse standing in the yard (found in play 2026-09-14).
+ * Read by `drawEntity` and, a frame earlier, by `sightOf`, which needs it to know what pace this figure may be drawn at.
+ */
+function drawnHeightOf(entity, size, seat) {
+  if (entity.kind === 'animal') return size * (entity.species === 'horse' ? SIZE.horse : SIZE.ox);
+  if (entity.kind === 'wagon' || seat === 'wagon') return size * SIZE.wagon;
+  return size * (mounted(entity) ? MOUNTED_HEIGHT : 1);
+}
 function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
   // The horse is under its rider, and the ox and wagon under their driver, drawn with them (public/motion.js `seatOf`).
   if (!marks.observed && carriedWithRider(entity, marks.entities || [])) return;
@@ -568,24 +588,24 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
   const x = point.x + offset.x * spread, y = point.y + offset.y * spread * .8;
   // Everything is drawn standing on (x, y), so `size` is a height and the click target
   // is the body above that point, not a circle centred on the feet.
-  // Somebody on a horse is drawn the height of a horse with a rider on it: at a person's height the horse under them was a
-  // toy, smaller than the family's own horse standing in the yard (found in play 2026-09-14).
-  const height = size * (entity.kind === 'animal' ? (entity.species === 'horse' ? SIZE.horse : SIZE.ox) : entity.kind === 'wagon' ? SIZE.wagon : seat === 'wagon' ? SIZE.wagon : mounted(entity) ? MOUNTED_HEIGHT : 1);
-  // Faster than a walk can be drawn, somebody is a marker on the road instead (`travelMarker`): drawn after everybody standing,
-  // and in the figure's place, fading between the two. Nothing of the figure is drawn once the marker is whole.
-  const marker = travelMarker(entity, point, height, marks);
-  const figure = 1 - marker;
-  if (figure > 0 && marker < .5) drawnAt.set(entity.id, { x, y: y - height * .45, size: height });
-  if (figure > 0) drawFigure(ctx, entity, x, y, size, height, seat, figure, marks);
+  const height = drawnHeightOf(entity, size, seat);
+  // How much of this figure is drawn at all: 1 in view, 0 while the middle of a long journey is being crossed with nobody
+  // watching (public/motion.js `travelSight`, worked out for the frame in `sightOf`). Nothing stands in for them - the road
+  // they are on is all that is drawn, by `drawTravelRoads`.
+  const figure = marks.sight ? marks.sight.alpha : 1;
+  if (figure > 0) {
+    drawnAt.set(entity.id, { x, y: y - height * .45, size: height });
+    drawFigure(ctx, entity, x, y, size, height, seat, figure, marks);
+  }
   // Something is being asked of this person. The mark is the invitation; clicking is the
   // answer, so it is collected and drawn last: a cabin roof standing between the camera
-  // and a person must never hide the one thing on screen asking to be pressed. Over the marker while it stands for them.
-  if (marks.mark && marker < .5) marks.mark.list.push({ id: entity.id, kind: marks.mark.kind || 'task', x, y: y - height, size, glyph: marks.mark.glyph, tone: marks.mark.tone });
+  // and a person must never hide the one thing on screen asking to be pressed. Nobody away on the road is asked anything.
+  if (marks.mark && figure > 0) marks.mark.list.push({ id: entity.id, kind: marks.mark.kind || 'task', x, y: y - height, size, glyph: marks.mark.glyph, tone: marks.mark.tone });
   // The label sits just under the feet whatever the zoom - scaling the offset with the
   // sprite would fling a name a screen's width below a close-up figure - and it is
   // handed back rather than drawn, because the ox drawn after this person would
   // otherwise stand on their name.
-  if (named || entity.principal) {
+  if ((named || entity.principal) && figure > 0) {
     marks.labels?.push({
       name: entity.name || entity.id, x, y: y + Math.max(13, Math.min(26, size * .22)),
       font: `${Math.round(Math.max(11, Math.min(16, size * .26)))}px system-ui`,
@@ -593,44 +613,82 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
   }
 }
 /**
- * How much of a traveller is drawn as a marker, 0 to 1, and the marker handed to `drawTravelMarkers` if any of it is.
+ * Where a traveller is drawn along their road this frame and how much of them is drawn, or null for anybody standing still.
  *
- * Owner, 2026-09-19, by multiple choice: "Marker when fast" (public/motion.js `MARKER_ABOVE`). The drawn speed is the miles the
- * server says a tick carries them, at this camera, over the real length of a tick, in their own drawn height: a person's,
- * a rider's with the horse (`MOUNTED_HEIGHT`), a driver's with the wagon, a beast's or a wagon's own. It is measured only
- * while the server has them on the road: the tick they arrive, they fade to their figure at whatever they went to do. A
- * rider reined in to talk is a figure, and so is everybody while the class is paused, when nobody moves.
+ * Owner, 2026-09-22: "i want to see them walk at a normal pace, then when they've walked a ways... they should fade out...
+ * then after they travel extra fast, they fade back in... that way they arrive at the correct time, but no one sees them
+ * move unnaturally", and "everyone should move at normal speed at all times (unless on horseback or wagon) on their land."
+ * The schedule is public/motion.js `travelSight`; this is the frame it is asked about.
  *
- * Beasts and a wagon going with their family are not a marker of their own: the family's marker stands for them, as the
- * rider's does for the horse under them and the driver's for the ox and wagon. Only a beast or wagon with none of its
- * family on the same road gets a plain token of its own.
- * ceiling: a person's speed is measured against a grown figure's height, so a child walking beside a parent changes with
- * them; measured against the child's own smaller height the child would become a marker first and the family split.
+ * The gait it is held to is measured in this figure's own drawn height - a person's, a rider's with the horse
+ * (`MOUNTED_HEIGHT`), a driver's with the wagon, a beast's or a wagon's own - so the pace it is capped at is the pace of
+ * whatever they are on. `ownGrant` is the family's own land, and the road inside it is walked in view whatever it costs.
+ *
+ * Beasts and a wagon going with their family are drawn with the person on them (`carriedWithRider`), so they are asked
+ * about anyway and answer the same, and only their road is drawn once (`drawTravelRoads`).
+ * ceiling: the Host is sent only the three miles of road round each traveller (sim/overview.mjs `roadWindow`), and the
+ * schedule walks a figure well behind where the server has them. Where that falls outside the window, `alongRoute` clamps
+ * it to the window's end, so on the teacher's page a figure fading out can sit a moment at the edge of its own stretch of
+ * road rather than on it. It lasts one fade and only on the Host page; the way out is a window round the drawn place
+ * rather than the true one, which is a server change.
+ * ceiling: a person's pace is measured against a grown figure's height, so a child walking beside a parent fades with them;
+ * measured against the child's own smaller height the child would fade first and the family would split on the road.
  */
-function travelMarker(entity, point, height, marks) {
-  // Only somebody the server has on the road is measured (`travellerSpeed`); on the tick they arrive they fade to their figure
-  // at whatever they went to do, while the marker, as long as it is still drawn, walks the last of the road in with them.
-  const heightsPerSecond = travellerSpeed(entity, motionProjection, { frozen: marks.frozen, running: marks.running, tickMs: marks.tickMs, scale: marks.scale, heightPx: height, minutesATick });
-  if (!(heightsPerSecond > 0) && !markerFade.fading(entity.id)) return 0;
+function sightOf(entity, height, marks) {
+  const seen = travelSeen.get(entity.id) || { alpha: 1 };
+  const since = marks.now - (seen.shownAt ?? marks.now), wasAt = seen.miles;
+  seen.heightsPerSecond = 0; seen.journey = null; seen.drawn = false; seen.shownAt = marks.now;
+  travelSeen.set(entity.id, seen);
+  // Only somebody the server has on the road now is scheduled. On the tick they arrive they are still drawn walking the last
+  // of the road in, at the pace the schedule left them at, and whole - which is how a hunter is drawn reading the ground.
   const journey = entity.facing || entity.speaking ? null : motionProjection.journey(entity, marks.frozen);
-  // At once where the page has no earlier tick of them (just opened, or a jump in time); a fade for a change a student watches.
-  const weight = markerFade.weight(entity.id, { heightsPerSecond, now: marks.now, instant: reducedMotion.matches || !motionProjection.records.get(entity.id)?.previous });
-  const shown = markerFade.travellers.get(entity.id);
-  shown.heightsPerSecond = heightsPerSecond; shown.drawn = false;
-  if (!(weight > 0) || !journey && !shown.journey) return weight;
-  if (journey) { shown.journey = journey; shown.miles = motionProjection.drawnMiles(entity, marks.now, marks.frozen); }
-  // With their family: folded into the family's marker, and not drawn at all while the marker stands.
-  const party = marks.entities || marks.party || [];
-  if (entity.kind !== 'person' && party.some(other => other.kind === 'person' && other.householdId === entity.householdId
-    && sameJourney(other.travel || markerFade.travellers.get(other.id)?.journey, entity.travel || shown.journey))) return weight;
-  shown.x = point.x; shown.y = point.y;
-  marks.markers?.push({ entity, shown, weight, observed: Boolean(marks.observed), selected: Boolean(marks.selected), mark: marks.mark });
-  return weight;
+  if (!journey?.points?.length || !marks.running || reducedMotion.matches) { seen.alpha = 1; return null; }
+  const miles = motionProjection.drawnMiles(entity, marks.now, marks.frozen);
+  const milesATick = travelMilesATick(journey, minutesATick);
+  const gait = gaitMilesASecond({ scale: marks.scale, heightPx: height });
+  // The family's own land under this road, once a journey rather than once a frame: a road is a few hundred points and this
+  // is asked of every traveller on every painted frame.
+  const key = `${entity.id}|${journey.from}|${journey.to}|${journey.points.length}|${journey.base || 0}|${Boolean(ownGrant)}`;
+  let runs = landRunCache.get(key);
+  if (!runs) {
+    if (landRunCache.size > 200) landRunCache.clear();
+    runs = landRuns(journey.points, marks.observed ? null : ownGrant, journey.distance, journey.base || 0);
+    landRunCache.set(key, runs);
+  }
+  const sight = travelSight({ distance: journey.distance, miles, milesASecond: drawnMilesASecond({ milesATick, tickMs: marks.tickMs }), gait, ...runs });
+  // Eased toward what the schedule asks for rather than taken from it, so the schedule changing under a student's hand -
+  // rolling the zoom wheel in on somebody halfway across the country moves the gait past the server's pace in one frame -
+  // is a short fade and not a figure vanishing between two frames (public/motion.js `fadeToward`). At once for a page with
+  // no earlier tick of them: it has just opened, or the Host jumped time, and a fade is for a change a student watches.
+  //
+  // **And never eased across a leap.** Between two frames the figure must actually have walked, or the ease would keep a
+  // half-drawn figure on screen while the schedule carries it across the country - which is the one thing this whole
+  // schedule exists to prevent. A leap happens whenever the schedule itself moves: the teacher changes the class pace, the
+  // calendar turns over to longer ticks, or the camera zooms while somebody is out in the middle. Then the figure takes the
+  // schedule's answer at once, which is nothing at all, and only the road is left.
+  const leapt = !Number.isFinite(wasAt) || !(since > 0)
+    || Math.abs(sight.miles - wasAt) * marks.scale / height / (since / 1000) > GAIT_CEILING * 1.05;
+  const instant = leapt || since > FADE_STALE_MS || !motionProjection.records.get(entity.id)?.previous;
+  // Presentation evidence: the frames on which the schedule itself moved, which a proof measuring a drawn speed has to
+  // leave out - the ground between two such frames is the schedule, not a walk.
+  seen.leapt = leapt;
+  seen.alpha = instant ? sight.alpha : fadeToward(seen.alpha ?? 1, sight.alpha, since);
+  seen.wanted = sight.alpha; seen.miles = sight.miles; seen.serverMiles = miles; seen.journey = journey;
+  // How fast the server is carrying them across this screen, in their own drawn heights a second, and how fast they are
+  // actually drawn going while any of them is in view: the second is what `GAIT_CEILING` is a ceiling on, and what a proof
+  // measures frame by frame.
+  seen.heightsPerSecond = drawnHeightsPerSecond({ milesATick, tickMs: marks.tickMs, scale: marks.scale, heightPx: height });
+  seen.shownHeightsPerSecond = sight.rate * seen.heightsPerSecond;
+  seen.faded = sight.faded; seen.lead = sight.lead; seen.tail = sight.tail;
+  seen.at = alongRoute(journey.points, sight.miles - (journey.base || 0)) || null;
+  return seen;
 }
-/** The figure itself, at `alpha` of itself: the whole of it, or fading while its marker comes or goes. */
+/** The figure itself, at `alpha` of itself: the whole of it, or fading out of view and back on a long journey (`sightOf`). */
 function drawFigure(ctx, entity, x, y, size, height, seat, alpha, marks) {
   const alphaWas = ctx.globalAlpha;
-  if (alpha < 1) { ctx.globalAlpha = alphaWas * alpha; cyclesHeld = true; }
+  // A figure fading out keeps walking while it fades: it is going somewhere, and a figure that freezes and then dissolves
+  // reads as a bug. Only how much of it is drawn changes.
+  if (alpha < 1) ctx.globalAlpha = alphaWas * alpha;
   if (marks.selected) {
     ctx.strokeStyle = marks.observed ? '#cfd6c2' : '#f0d38a';
     ctx.lineWidth = Math.max(2, size * .11);
@@ -662,7 +720,7 @@ function drawFigure(ctx, entity, x, y, size, height, seat, alpha, marks) {
     animated(ctx, 'musket-smoke', x + size * .38 * (flip ? -1 : 1), y - size * .56, size * .85, 0,
       { timeMs: performance.now() - shotSince.get(entity.id) });
   } else if (shotSince.has(entity.id)) shotSince.delete(entity.id);
-  ctx.globalAlpha = alphaWas; cyclesHeld = false;
+  ctx.globalAlpha = alphaWas;
 }
 // Names are read against an illustration now, not a flat wash: dark green on a dark
 // tree canopy is unreadable. A pale halo carries the text over whatever is behind it
@@ -718,101 +776,51 @@ function drawTaskMark(ctx, { x, y, size, glyph = '!', tone = '#c2582c' }) {
   ctx.textBaseline = 'alphabetic';
 }
 /**
- * The travellers drawn as markers this frame (`travelMarker`): the road still ahead of each as a dotted line to where they
- * are going, then each as a pin standing on the point the server's journey has them at - their portrait on a disc, ringed in
- * the principal's rust for the one person a student directs, ink for the rest of the family, grey for somebody else's,
- * slate for a rider carrying news. Drawn over everybody standing, like the marks asking to be pressed, since a marker is a
- * thing to find and tap. A tap on the disc chooses them, as a tap on the figure does (`drawnAt`).
+ * The road each fading or invisible traveller is on, and nothing else.
  *
- * The road behind them is not drawn: the road itself is on the ground, and a line behind as well as ahead was two lines
- * to read on a small screen. A family going together stands on one point, so their pins fan out from it, the principal's on
- * top, and their road is drawn once.
+ * Owner, 2026-09-22, by multiple choice - what a student sees of somebody crossing the country out of view: **"The road
+ * only"**, no figure and no marker, but a faint line showing the road they are on. So this draws the road still ahead of
+ * them as the same dotted line the marker's road was, coming up as the figure fades out and going as it fades back in, and
+ * draws nothing else at all: no disc, no pin, no portrait, no destination ring. Those were the marker
+ * (docs/ART_REQUESTS.md, request 2026-09-19, withdrawn 2026-09-22 with its stand-in), and the owner's words for them were
+ * "i don't want to see icons."
  *
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-19 - the traveller's marker. The disc, the pin and the dots are drawn in
- * canvas strokes, the face on it is the family panel's `portrait-<figure>` (itself a Claude-drawn stand-in), and a beast or
- * wagon on the road by itself is its own standing sprite on a smaller disc.
- * Nothing here allocates per marker beyond the one entry `travelMarker` hands over and the hit spot: the route is walked in
- * place (`routeIndexAfter`) and projected by hand rather than through `camera.toScreen`.
+ * Drawn over everybody standing, so a road crossing a settlement is not lost under its roofs. A family going together is
+ * one journey and its road is drawn once.
+ *
+ * The road *behind* them is not drawn: the road itself is on the ground, and a line behind as well as ahead was two lines
+ * to read on a small screen. That rule the marker proved, and it is kept.
+ * Nothing here allocates per traveller: the route is walked in place (`routeIndexAfter`) and projected by hand rather than
+ * through `camera.toScreen`.
  */
-const ROUTE_DASH = [0, 0], NO_DASH = [], PORTRAIT_OF = new Map();
-const BEAST_SPRITE = { horse: 'horse-chestnut', ox: 'ox-brown', wagon: 'wagon-covered' };
-const markerRing = marker => marker.observed ? (marker.entity.carrier ? '#41556b' : '#7b8676') : marker.entity.principal ? '#a9512d' : '#3b3221';
-function drawTravelMarkers(ctx, list, camera, canvas) {
+const ROUTE_DASH = [0, 0], NO_DASH = [];
+// Faint, because it is scenery for an absence and not a thing to press: a traveller's road never asks to be tapped.
+const ROAD_INK = 'rgba(59,50,33,.55)', ROAD_HALO = 'rgba(252,249,238,.65)';
+function drawTravelRoads(ctx, list, camera, canvas) {
   if (!list.length) return;
   const alphaWas = ctx.globalAlpha, halfW = canvas.width / 2, halfH = canvas.height / 2, { cx, cy, scale } = camera;
-  // The principal's pin last, so on top; otherwise back to front like everything standing.
-  list.sort((a, b) => (Number(a.entity.principal && !a.observed) - Number(b.entity.principal && !b.observed)) || a.shown.y - b.shown.y);
-  for (let i = 0; i < list.length; i++) {
-    const at = list[i].shown;
-    let slot = 0;
-    for (let j = 0; j < i; j++) if (Math.abs(list[j].shown.x - at.x) < 3 && Math.abs(list[j].shown.y - at.y) < 3) slot++;
-    list[i].slot = slot;
-  }
   const dot = Math.max(2.5, Math.min(5, camera.figure * .09));
   ctx.lineCap = 'round'; ctx.lineJoin = 'round';
   for (let i = 0; i < list.length; i++) {
-    const marker = list[i], travel = marker.shown.journey, points = travel?.points;
+    const seen = list[i].seen, travel = seen.journey, points = travel?.points;
     if (!points?.length) continue;
-    let drawn = false;
-    for (let j = 0; j < i && !drawn; j++) drawn = list[j].shown.journey === travel || (sameJourney(list[j].shown.journey, travel) && Math.abs(list[j].shown.miles - marker.shown.miles) < .05);
-    if (drawn) continue;
-    const start = routeIndexAfter(points, marker.shown.miles - (travel.base || 0));
+    let already = false;
+    for (let j = 0; j < i && !already; j++) {
+      already = list[j].seen.journey === travel || (sameJourney(list[j].seen.journey, travel) && Math.abs(list[j].seen.miles - seen.miles) < .05);
+    }
+    if (already) continue;
+    const start = routeIndexAfter(points, seen.miles - (travel.base || 0));
     if (start >= points.length) continue;
-    ctx.globalAlpha = alphaWas * marker.weight;
-    ctx.beginPath(); ctx.moveTo(marker.shown.x, marker.shown.y);
+    // The road comes up as the figure goes and goes as the figure comes back: the two always add to one.
+    ctx.globalAlpha = alphaWas * (1 - seen.alpha);
+    const at = camera.toScreen(seen.at || points[0]);
+    ctx.beginPath(); ctx.moveTo(at.x, at.y);
     for (let k = start; k < points.length; k++) ctx.lineTo(halfW + (points[k].x - cx) * scale, halfH + (points[k].y - cy) * scale);
     ROUTE_DASH[1] = dot * 2.6; ctx.setLineDash(ROUTE_DASH);
-    ctx.strokeStyle = 'rgba(252,249,238,.9)'; ctx.lineWidth = dot + 2.5; ctx.stroke();
-    ctx.strokeStyle = markerRing(marker); ctx.lineWidth = dot; ctx.stroke();
+    ctx.strokeStyle = ROAD_HALO; ctx.lineWidth = dot + 2.5; ctx.stroke();
+    ctx.strokeStyle = ROAD_INK; ctx.lineWidth = dot; ctx.stroke();
     ctx.setLineDash(NO_DASH);
-    // Where they are going, as a ring on the place: only on a road that runs to its end (the Host is sent a stretch of it).
-    if (!travel.base) {
-      const end = points[points.length - 1], ex = halfW + (end.x - cx) * scale, ey = halfH + (end.y - cy) * scale;
-      ctx.beginPath(); ctx.arc(ex, ey, dot * 1.8, 0, Math.PI * 2); ctx.lineWidth = dot * .8; ctx.stroke();
-    }
-  }
-  for (const marker of list) {
-    const { entity, shown, weight } = marker, person = entity.kind === 'person';
-    const r = Math.max(11, Math.min(17, camera.figure * .31)) * (person ? (entity.principal && !marker.observed ? 1.12 : 1) : .72);
-    const tail = Math.max(6, r * .75);
-    const x = shown.x + (marker.slot ? (marker.slot % 2 ? -1 : 1) * Math.ceil(marker.slot / 2) * r * 1.3 : 0), y = shown.y - tail - r;
-    const ring = markerRing(marker);
-    ctx.globalAlpha = alphaWas * weight;
-    ctx.fillStyle = 'rgba(52,45,30,.25)';
-    ctx.beginPath(); ctx.ellipse(shown.x, shown.y, r * .5, r * .18, 0, 0, Math.PI * 2); ctx.fill();
-    // The pin's point, on the place the journey has them at.
-    ctx.fillStyle = ring;
-    ctx.beginPath(); ctx.moveTo(x - r * .5, y + r * .7); ctx.lineTo(shown.x, shown.y); ctx.lineTo(x + r * .5, y + r * .7); ctx.closePath(); ctx.fill();
-    ctx.fillStyle = '#e9dcb8';
-    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
-    ctx.save();
-    ctx.beginPath(); ctx.arc(x, y, r * .9, 0, Math.PI * 2); ctx.clip();
-    let face = 0;
-    if (person) {
-      const figure = childFigure(entity) || castVariant(entity, marker.observed);
-      let name = PORTRAIT_OF.get(figure);
-      if (!name) PORTRAIT_OF.set(figure, name = `portrait-${figure}`);
-      face = drawSprite(ctx, name, x, y + r * .95, r * 1.9);
-    } else face = drawSprite(ctx, BEAST_SPRITE[entity.kind === 'wagon' ? 'wagon' : entity.species === 'horse' ? 'horse' : 'ox'], x, y + r * .55, r * 1.25);
-    ctx.restore();
-    if (!face) {
-      // The sheet has not arrived: their initial.
-      ctx.fillStyle = ring; ctx.font = `bold ${Math.round(r * 1.1)}px system-ui`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      ctx.fillText((entity.given || entity.name || entity.species || entity.kind || '?').charAt(0).toUpperCase(), x, y + r * .05);
-      ctx.textBaseline = 'alphabetic';
-    }
-    ctx.strokeStyle = ring; ctx.lineWidth = Math.max(2, r * .2);
-    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.stroke();
-    if (marker.selected) {
-      ctx.strokeStyle = marker.observed ? '#cfd6c2' : '#f0d38a'; ctx.lineWidth = Math.max(2.5, r * .2);
-      ctx.beginPath(); ctx.arc(x, y, r + ctx.lineWidth * 1.4, 0, Math.PI * 2); ctx.stroke();
-    }
-    shown.discX = x; shown.discY = y; shown.r = r; shown.drawn = true;
-    // Once the marker is more than half of what is drawn, it is what a tap finds and what the mark stands over.
-    if (weight >= .5) {
-      drawnAt.set(entity.id, { x, y, size: (r * 2 + tail) * 1.25 });
-      if (marker.mark) marker.mark.list.push({ id: entity.id, kind: marker.mark.kind || 'task', x, y: y - r * .6, size: r * 2.6, glyph: marker.mark.glyph, tone: marker.mark.tone });
-    }
+    seen.drawn = true;
   }
   ctx.globalAlpha = alphaWas;
 }
@@ -849,8 +857,8 @@ function drawnNow(spots) {
   const now = cameraFor(world, canvas), size = { width: canvas.width, height: canvas.height };
   if (now.cx === drawnCamera.cx && now.cy === drawnCamera.cy && now.scale === drawnCamera.scale) return spots;
   // Except the person being watched: the camera moved because they walked on, and they with it. Moved as ground would be,
-  // somebody watched pressed close in - drawn as a marker, 270 pixels a second at the Study pace - would be carried off
-  // their own spot by however long ago the last frame was drawn, a fingertip after about a tenth of a second (reasoned
+  // somebody watched pressed close in - 270 pixels a second at the Study pace before the gait was capped - would be carried
+  // off their own spot by however long ago the last frame was drawn, a fingertip after about a tenth of a second (reasoned
   // 2026-09-19 with the travel marker, not seen to fail). They stay where they stood on the screen, scaled about its middle.
   const ratio = now.scale / drawnCamera.scale, half = { x: size.width / 2, y: size.height / 2 };
   return new Map([...spots].map(([id, spot]) => [id, id === watchedId && !now.following
@@ -2316,7 +2324,7 @@ function weatherCourses(world, camera, canvas) {
 const fogBase = { canvas: null, shapes: 0 };
 /**
  * How many minutes of 1835 the last tick stood for, read from two snapshots in a row (sim/clock.mjs runs two clocks on the
- * real land). It scales a traveller's drawn speed for the marker (public/motion.js `travellerSpeed`) for a class saved and
+ * real land). It scales a traveller's drawn speed (public/motion.js `travelMilesATick`) for a class saved and
  * served before the server sent `step`. Whether a journey may be watched at all is no longer asked here: the server sends
  * somebody away on the road with no position (sim/sight.mjs).
  */
@@ -2331,7 +2339,7 @@ export function drawWorld(world) {
   window.__animationClips = new Set();
   const canvas = $('#world-map'), main = canvas.getContext('2d');
   fitCanvas();
-  // One moment for the frame: the camera and everybody drawn in it (`travelMarker` too).
+  // One moment for the frame: the camera and everybody drawn in it (`sightOf` too).
   const frameNow = performance.now();
   const camera = cameraFor(world, canvas, frameNow);
   drawnCamera = { cx: camera.cx, cy: camera.cy, scale: camera.scale, width: canvas.width, height: canvas.height };
@@ -2591,11 +2599,27 @@ export function drawWorld(world) {
   // phone at the default framing is - only the principal is named; the rest are reached
   // by clicking them, and the hidden roster still lists every one of them by name.
   const roomForNames = camera.named && camera.figure > 34;
-  // What a marker needs to know of the frame (`travelMarker`).
+  // What a traveller's schedule needs to know of the frame (`sightOf`).
   const running = world.status === 'running', frozen = reducedMotion.matches || !running;
-  const tickMs = window.__snapshot?.tickMs ?? 1000, markers = [];
+  const tickMs = window.__snapshot?.tickMs ?? 1000, roads = [];
+  // The family's own land, for the stretch of every road that is never sped up and never faded (owner, 2026-09-22). The
+  // rectangle the server already sends as the grant's bounds (sim/grants.mjs `landProjection`); the Host and an observed
+  // person have none and get none, and a class still on its way in simply has no land to be on yet.
+  const bounds = host ? null : world.land?.grant?.bounds;
+  ownGrant = bounds && Number.isFinite(bounds.minX)
+    ? at => at.x >= bounds.minX && at.x <= bounds.maxX && at.y >= bounds.minY && at.y <= bounds.maxY
+    : null;
+  const travelMarks = { frozen, running, tickMs, scale: camera.scale, now: frameNow };
   for (const entity of entities) {
-    const ground = motionProjection.position(entity, frameNow, frozen), point = camera.toScreen(ground);
+    // Where along the road this traveller is *drawn*, which is not where the server has them while the middle of a long
+    // journey is being crossed out of sight (`sightOf`). Worked out before the point, because it is the point.
+    const sight = sightOf(entity, drawnHeightOf(entity, camera.figure, seatOf(entity, entities)), travelMarks);
+    if (sight && sight.alpha < 1) roads.push({ entity, seen: sight });
+    const ground = sight?.at || motionProjection.position(entity, frameNow, frozen), point = camera.toScreen(ground);
+    // The place the figure was really put, beside the place the schedule asked for. Presentation evidence, read by
+    // proofs and by nothing in the application: "the schedule says the right thing" and "the page drew the right thing"
+    // are two questions, and a proof reading only the first passes a page that draws the figure somewhere else.
+    if (sight) sight.painted = ground;
     // Which way someone is facing comes from where they are actually going, so a mirrored
     // ox is reporting the journey the server gave it rather than decorating the scene.
     const destination = entity.travel && world.map?.sites?.[entity.travel.to];
@@ -2623,12 +2647,18 @@ export function drawWorld(world) {
     standing.push({ y: point.y, draw: () => drawEntity(ctx, entity, point, roomForNames, camera.figure, {
       selected: entity.id === chosen?.id, mark, entities,
       labels, heading: destination ? destination.x - entity.location.x : 0, ground, scale: camera.scale,
-      now: frameNow, frozen, running, tickMs, markers,
+      now: frameNow, frozen, running, tickMs, sight,
     }) });
   }
   const margin = camera.figure * 4, shownObserved = [];
   for (const entity of observed) {
-    const ground = motionProjection.position(entity, frameNow, frozen), point = camera.toScreen(ground);
+    // Everyone on the map, not only the student's own family (owner, 2026-09-22, by multiple choice: "Everyone on the
+    // map"): other families' people, riders, couriers and armies' men alike. Somebody else's land is not this family's, so
+    // an observed person is scheduled with no land under them (`sightOf` passes none).
+    const sight = sightOf(entity, drawnHeightOf(entity, camera.figure, host ? seatOf(entity, []) : null), { ...travelMarks, observed: !host });
+    if (sight && sight.alpha < 1) roads.push({ entity, seen: sight });
+    const ground = sight?.at || motionProjection.position(entity, frameNow, frozen), point = camera.toScreen(ground);
+    if (sight) sight.painted = ground;
     // The Host's whole class: only who is on screen is drawn, and each as they truly are - at their own work, the principal
     // in their own coat, the deer they are hunting beside them - because the teacher is not somebody glimpsing a stranger.
     if (host && (point.x < -margin || point.y < -margin || point.x > canvas.width + margin || point.y > canvas.height + margin)) continue;
@@ -2639,7 +2669,7 @@ export function drawWorld(world) {
     }
     standing.push({ y: point.y, draw: () => drawEntity(ctx, { ...entity, health: { condition: entity.condition } }, point, roomForNames, camera.figure, {
       selected: entity.id === chosen?.id, mark: null, labels, observed: !host, ground, scale: camera.scale,
-      now: frameNow, frozen, running, tickMs, markers, party: observed,
+      now: frameNow, frozen, running, tickMs, sight,
     }) });
     shownObserved.push(entity.id);
   }
@@ -2687,7 +2717,7 @@ export function drawWorld(world) {
   applyDrawState(main, mapBase.state);
   standing.sort((a, b) => a.y - b.y);
   for (const item of standing) item.draw();
-  drawTravelMarkers(ctx, markers, camera, canvas);
+  drawTravelRoads(ctx, roads, camera, canvas);
   const placeFont = `${Math.round(Math.max(11, Math.min(16, camera.scale * 1.1)))}px system-ui`;
   window.__labelsDrawn = layOutCaptions(ctx, labels, placeFont);
   for (const mark of pending) drawTaskMark(ctx, mark);
@@ -3472,10 +3502,14 @@ function renderFamilyPanel(world) {
     // `offered` and `entity` are read for the row `panelActions` empties outright - somebody dead or captured - which has
     // no icon left to carry a reason. A bar the guided start has shut is not this: those icons are still `can`.
     const reason = rowReason(icons, { offered, entity });
+    // On a journey the row says Travelling (owner, 2026-09-22: "their icon should say 'Travelling' next to it"). It goes
+    // where a reason goes, by §14.1's rule, and it outranks the server's "... is on the road." because it is the same fact
+    // in the owner's own word. Somebody carried away out of sight keeps the server's fuller sentence (`travellingLine`).
+    const travelling = travellingLine(entity);
     // The main person's icon group *is* the bar at the bottom of the screen, and it shows the line there. Everybody else's
     // group is not drawn at all (public/style.css), so their line goes on the row, which is where a student looks for them.
     // This is the way out the stylesheet's ceiling named, asked for by a class on 2026-09-21.
-    const silence = focused ? '' : reason || '';
+    const silence = focused ? '' : travelling || reason || '';
     if (row.why.textContent !== silence) row.why.textContent = silence;
     if (row.why.hidden !== !silence) row.why.hidden = !silence;
     // No switch on a child too young to be sent, who has nothing for auto to repeat or answer. Only that case: somebody on
@@ -3486,22 +3520,29 @@ function renderFamilyPanel(world) {
     const idle = isIdle(entity, icons, { withArmy: army.has(id) });
     setData(row.item, 'idle', String(idle));
     if (row.idle.hidden !== !idle) row.idle.hidden = !idle;
-    seen.push({ id, need: need?.kind || null, needs: needs.map(one => one.kind), idle, focused, auto: onAuto, reason: reason || null, why: silence || null });
-    const key = JSON.stringify([reason, icons, shutting ? [lesson.step, lesson.allow, pointed] : null]);
+    seen.push({ id, need: need?.kind || null, needs: needs.map(one => one.kind), idle, focused, auto: onAuto, reason: reason || null, why: silence || null, travelling: travelling || null });
+    const key = JSON.stringify([reason, travelling, icons, shutting ? [lesson.step, lesson.allow, pointed] : null]);
     if (row.iconsKey !== key) {
       row.iconsKey = key;
       row.icons.setAttribute('aria-label', `What ${entity.name} can do`);
       // Changed in place, icon by icon: the button a student has focused or is pointing at stays the same button while what
       // it says changes around it, so keyboard focus and the popup survive every tick.
       const kept = new Map([...row.icons.querySelectorAll('.panel-icon')].map(button => [button.dataset.key, button]));
-      const wanted = reason ? [row.icons.querySelector('.panel-reason') || element('span', '', 'panel-reason')] : icons.map(icon => {
+      const wanted = reason ? [row.icons.querySelector('.panel-reason:not(.panel-travelling)') || element('span', '', 'panel-reason')] : icons.map(icon => {
         const button = kept.get(icon.key) || panelIcon(id, icon);
         kept.delete(icon.key);
         describeIcon(button, icon, lessonFor(icon.key));
         return button;
       });
-      if (reason) wanted[0].textContent = reason;
-      for (const leftover of [...kept.values(), ...(reason ? [] : row.icons.querySelectorAll('.panel-reason'))]) leftover.remove();
+      // Travelling stands in the bar as a reason does when the bar is empty, and beside the icons when it is not: somebody
+      // walking out to a chore can still be called off while they walk, so their icons stay and the word joins them.
+      if (reason) wanted[0].textContent = travelling || reason;
+      else if (travelling) {
+        const word = row.icons.querySelector('.panel-travelling') || element('span', '', 'panel-reason panel-travelling');
+        word.textContent = travelling;
+        wanted.push(word);
+      }
+      for (const leftover of [...kept.values(), ...[...row.icons.querySelectorAll('.panel-reason')].filter(node => !wanted.includes(node))]) leftover.remove();
       wanted.forEach((node, at) => { if (row.icons.children[at] !== node) row.icons.insertBefore(node, row.icons.children[at] || null); });
       if (panelTipFor?.entityId === id) showPanelTip(row.icons.querySelector(`[data-key="${panelTipFor.key}"]`));
     }

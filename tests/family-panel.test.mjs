@@ -15,8 +15,8 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectFamily, projectWorld, rollFamily, stepWorld } from '../sim/world.mjs';
 import { CHORES, choreCatalogue } from '../sim/chores.mjs';
 import {
-  DRILLED_ROW, ORDER_NAMES, PANEL_ICONS, PANEL_SUMMARIES, activeKey, isIdle, nameToSave, panelActions, panelOrder, rowReason,
-  standing,
+  DRILLED_ROW, ORDER_NAMES, PANEL_ICONS, PANEL_SUMMARIES, TRAVELLING_WORD, activeKey, isIdle, nameToSave, panelActions,
+  panelOrder, rowReason, standing, travellingLine,
 } from '../public/family-panel.js';
 import { DRILL_TO_STEADY } from '../sim/houston.mjs';
 import { PRACTICE_COST } from '../sim/chores.mjs';
@@ -185,6 +185,21 @@ test('the panel sends only what the server already accepts, and only the princip
   // A dimmed icon carries the server's reason, word for word.
   const refused = iconsOf(other).find(icon => !icon.can && icon.why);
   if (refused) assert.equal(refused.why, view.work[other].find(entry => entry.id === refused.key).why);
+});
+
+test('a person on a journey says Travelling, and a person carried out of sight keeps the server\'s fuller sentence', () => {
+  // Owner, 2026-09-22: "their icon should say 'Travelling' next to it." docs/FAMILY_PANEL.md §14.4.
+  assert.equal(TRAVELLING_WORD, 'Travelling');
+  assert.equal(travellingLine({ id: 'p', travel: { to: 'gonzales', progress: 2, points: [{ x: 0, y: 0 }, { x: 3, y: 0 }] } }), 'Travelling');
+  // Walking out to a chore is a journey too, and that row keeps its icons - the word stands beside them, not instead.
+  const busy = panelActions({ entity: { id: 'p', chore: { id: 'hunt-timber' }, travel: { to: 'hunt-hh-1' } }, offered: [{ id: 'hunt-timber', can: false, why: 'P is on the road.' }], catalogue });
+  assert.equal(travellingLine({ id: 'p', chore: { id: 'hunt-timber' }, travel: { to: 'hunt-hh-1' } }), 'Travelling');
+  assert.equal(rowReason(busy), null, 'a row that can still call off the work was collapsed into one line');
+  assert.equal(busy.at(-1).key, 'stop-chore');
+  // Somebody the class's clock carries faster than a student may follow (sim/sight.mjs): not this, and their row keeps the
+  // server's own words - where they went, how far off, and when they should be there.
+  assert.equal(travellingLine({ id: 'p', travel: { to: 'gonzales', away: true, miles: 188 } }), null);
+  for (const standingStill of [{ id: 'p' }, { id: 'p', travel: null }, null, undefined]) assert.equal(travellingLine(standingStill), null);
 });
 
 test('a row of one refusal says it once; a busy row keeps its glowing icon and its way to call off the work', () => {

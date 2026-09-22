@@ -361,6 +361,8 @@ function grownClip(entity, observed) {
   if (entity.task === 'rest') return { id: `${variant}-rest`, upright: true };
   return { id: `${variant}-idle-s` };
 }
+/** The point `miles` along a road, for a caller drawing somebody somewhere other than where `position` puts them. */
+export const alongRoute = (points, miles) => along(points, miles);
 function along(points, distance) {
   for (let i = 1; i < points.length; i++) {
     const a = points[i - 1], b = points[i], length = Math.hypot(b.x - a.x, b.y - a.y);
@@ -458,7 +460,7 @@ export class ProjectionMotion {
   /**
    * How far along that journey they are drawn, in the miles its `progress` counts: where `position` puts them. Between two
    * ticks it runs from where they were drawn toward the server's progress and stops there - never beyond it
-   * (tests/travel-marker.test.mjs), so nothing drawn from it can arrive before the server says so.
+   * (tests/travel-drawn.test.mjs), so nothing drawn from it can arrive before the server says so.
    */
   drawnMiles(entity, now, reducedMotion = false) {
     const record = this.records.get(entity.id), travel = entity.travel;
@@ -468,35 +470,76 @@ export class ProjectionMotion {
   }
 }
 /**
- * A traveller drawn as a marker on the road instead of a walking figure, once they would cross the screen faster than a
- * walk can be drawn.
+ * How a journey is drawn, so nobody is ever seen moving faster than they could move.
  *
- * Owner, 2026-09-18, playtesting Solo: "when i sent my main character to gonzales on foot he ran inhumanly fast". The pace
- * is right (3 mph on foot, 5 on the horse, 1.95 with the ox wagon) and the clock and `PERSON_MILES` stay as they are: a tick
- * is 20 to 720 minutes of 1835 played in 9.5 real seconds, and a person is drawn a hundred feet tall against the land. With
- * the portrait pressed a walker covered 4.3 of their own heights a real second (docs/evidence/travel-speed-screen.json). The
- * owner chose, by multiple choice, "Marker when fast": past a walk, a token moving along a dotted route.
+ * Owner, 2026-09-18, playtesting Solo: "when i sent my main character to gonzales on foot he ran inhumanly fast". A marker
+ * on a dotted road was built for that, and on 2026-09-22 the owner threw it out: "characters are still seen zipping around.
+ * i don't want to see icons. i want to see them walk at a normal pace, then when they've walked a ways (say if they're
+ * going somewhere that isn't their farm) they should fade out. then after they travel extra fast, they fade back in after
+ * arriving close enough to when normally the rest of the way. that way they arrive at the correct time, but no one sees
+ * them move unnaturally."
  *
- * MARKER_ABOVE is in the figure's own drawn heights a real second. 1.2 is how much ground the library's travel cycles
- * cover at the rate they were drawn: a person's walk is one stride of 0.86 of a height in 720 ms (1.19 a second), the
- * horse's and the ox's walk a body in 840 ms (1.19), the wagon's wheel 1.23 bodies a turn at 1.1 turns a second (1.35).
- * `gaitStep` never plays a cycle faster than it was drawn, so above this the ground runs out from under the feet and the
- * figure skates - which reads as running. It sits in the 1 to 1.5 a walk looks natural at: a real walker covers about 0.8 of
- * their height a second, a brisk one 1.1. In the family's own view in the farming day a walker covers 0.1 and stays a
- * figure; pressed close in, or in the long ticks, they become a marker.
+ * And the correction the same day, which the land test below is: "this shouldn't be a thing on their land. everyone should
+ * move at normal speed at all times (unless on horseback or wagon) on their land."
+ *
+ * **Nothing here touches the simulation.** The server owns every journey, every pace (sim/travel.mjs) and every arrival
+ * minute; this decides only where along the road a figure is *drawn* and how much of it is drawn at all. `travelSight` maps
+ * the journey's end to the journey's end, so the drawn arrival is the server's arrival and nothing else could make it not
+ * be. docs/MAP_ACCURACY.md §12a says the same in words.
+ */
+/**
+ * The fastest a figure may be drawn crossing the ground, in its own drawn heights a real second.
+ *
+ * 1.2 is how much ground the library's travel cycles cover at the rate they were drawn: a person's walk is one stride of
+ * 0.86 of a height in 720 ms (1.19 a second), the horse's and the ox's walk a body in 840 ms (1.19), the wagon's wheel 1.23
+ * bodies a turn at 1.1 turns a second (1.35). `gaitStep` never plays a cycle faster than it was drawn, so above this the
+ * ground runs out from under the feet and the figure skates - which reads as running. It sits in the 1 to 1.5 a walk looks
+ * natural at: a real walker covers about 0.8 of their height a second, a brisk one 1.1.
+ *
+ * Because it is counted in the figure's *own* drawn height it is already the pace of whatever somebody is on: a rider and
+ * horse are drawn 1.8 of a person (`MOUNTED_HEIGHT`) and so may cross 1.8 times the ground a walker may, and a driver the
+ * wagon's own height. That is the owner's "unless on horseback or wagon" (2026-09-22), and it needs no second number.
  * ceiling: one number for people, riders, beasts and the wagon, from cycles that happen to agree within a tenth; a cycle
  * drawn much slower or faster (a trot, a gallop) would want its own, from its own stride.
  */
-export const MARKER_ABOVE = 1.2;
-/** A marker becomes a figure again only below this, so a traveller at the edge does not flicker as the zoom wheel turns. */
-export const MARKER_BELOW = 1.0;
+export const GAIT_CEILING = 1.2;
 /**
- * How long a traveller takes to fade between the figure and the marker, either way: no pop. Long enough to be seen as a fade
- * at the five frames a second a close-in view of a town makes on a slow computer, where 400 ms was a single step between.
+ * The stretch walked in view at each end of a journey before the figure fades, in yards and in miles of ground.
+ *
+ * The owner chose "a short fixed stretch" by multiple choice (2026-09-22): about a hundred yards of ordinary walking, the
+ * same everywhere, whatever the land looks like. A hundred yards is two or three seconds of walking on screen - long enough
+ * to read as setting out and as coming in, short enough that the middle still has room to be crossed invisibly. A bigger
+ * number costs the fade itself: past what the journey can spare (`room` in `travelSight`) there is no fade at all and the
+ * whole thing is drawn at the server's pace, which is the zipping. A smaller one reads as a figure appearing at the gate.
  */
-export const MARKER_FADE_MS = 600;
-/** Longer than this since a traveller's marker was last weighed, and the time between is not counted into its fade. */
-export const MARKER_STALE_MS = 250;
+export const SEEN_YARDS = 100, YARDS_A_MILE = 1760, SEEN_MILES = SEEN_YARDS / YARDS_A_MILE;
+/**
+ * How long a figure takes to fade out, and to fade back in, in real milliseconds.
+ *
+ * 700 ms reads as a fade and not a blink at the five frames a second a close-in view of a town makes on a slow computer,
+ * where 400 ms was a single step between. Longer, and the fade itself eats the middle of a short journey and the fade is
+ * given up; shorter, and it pops, which is the one thing the owner asked not to see.
+ */
+export const TRAVEL_FADE_MS = 700;
+/**
+ * The most the drawn share of a figure may change in one painted frame, as a share of `TRAVEL_FADE_MS`, and how long a gap
+ * between two frames is still eased across rather than taken at once.
+ *
+ * The schedule's own fade is a ramp in the server's progress, and left to itself it never pops. What pops is the schedule
+ * *changing under it*: a student rolling the zoom wheel in on somebody already halfway across the country moves the gait
+ * (which is measured in the figure's drawn height) past the server's pace in one frame, and the figure they were watching
+ * would vanish between two frames. So the drawn share is eased toward whatever the schedule asks for, at twice the fade's
+ * own rate - fast enough never to slow the schedule's own ramp down, slow enough that the worst jump takes half a fade
+ * rather than a frame. Longer than `FADE_STALE_MS` since this traveller was last drawn and the time between is not counted:
+ * somebody standing is never asked, so the last their entry heard of them may be their last journey.
+ */
+export const FADE_RATE = 2, FADE_STALE_MS = 250;
+/** A drawn share moved toward `target` for `elapsedMs`, a whole fade taking `fadeMs`. */
+export function fadeToward(alpha, target, elapsedMs, fadeMs = TRAVEL_FADE_MS / FADE_RATE) {
+  if (!(fadeMs > 0)) return target;
+  const step = Math.max(0, elapsedMs || 0) / fadeMs;
+  return target > alpha ? Math.min(target, alpha + step) : Math.max(target, alpha - step);
+}
 /**
  * The miles the server says a tick carries this journey (sim/world.mjs `milesATick`, sent as `step`); without it (a class
  * saved before it was sent) a speed is miles a farming tick, carried as many times over as the last tick was longer
@@ -512,37 +555,23 @@ export function travelMilesATick(travel, minutesATick = 0) {
 /**
  * How fast somebody is drawn crossing the screen, in their own drawn heights a real second: the miles a tick carries them,
  * at the camera's pixels a mile, over the real milliseconds a tick is drawn in, against how tall they are drawn in pixels.
+ * This is the number the evidence quotes (docs/evidence/travel-speed-screen.json), and what `GAIT_CEILING` is a ceiling on.
  */
 export function drawnHeightsPerSecond({ milesATick, tickMs, scale, heightPx }) {
   if (!(milesATick > 0) || !(tickMs > 0) || !(scale > 0) || !(heightPx > 0)) return 0;
   return milesATick * scale / heightPx / (tickMs / 1000);
 }
-/**
- * How fast somebody is drawn going, in their own heights a real second, for the marker: 0 unless the server has them on the
- * road now. On the tick they arrive they are still drawn walking the last of the road in (`journey`), but they are at their
- * place and at whatever they went to do - a hunter reading the ground at the edge of the timber - and are drawn doing it,
- * fading from the marker. Found 2026-09-19: measured along the journey just finished, a hunter whose first stage in the
- * timber lasts one tick stayed a marker through all of it and was never drawn reading the ground (`npm run test:hunt`).
- * A rider reined in to talk is not going anywhere, nor is anybody while the class is paused.
- */
-export function travellerSpeed(entity, motion, { frozen = false, running = true, tickMs, scale, heightPx, minutesATick = 0 }) {
-  if (!running || !entity?.travel || entity.facing || entity.speaking) return 0;
-  const journey = motion.journey(entity, frozen);
-  return journey ? drawnHeightsPerSecond({ milesATick: travelMilesATick(journey, minutesATick), tickMs, scale, heightPx }) : 0;
+/** The same speed in ground rather than heights: miles of the world a real second, which is what `travelSight` schedules. */
+export function drawnMilesASecond({ milesATick, tickMs }) {
+  return !(milesATick > 0) || !(tickMs > 0) ? 0 : milesATick / (tickMs / 1000);
 }
-/** Whether a traveller should be drawn as a marker: above MARKER_ABOVE, and a marker stays one down to MARKER_BELOW. */
-export function wantsMarker(heightsPerSecond, wasMarker = false) {
-  return heightsPerSecond > (wasMarker ? MARKER_BELOW : MARKER_ABOVE);
-}
-/** A marker's weight (0 the figure, 1 the marker) moved toward `target` for `elapsedMs`, a whole fade taking `fadeMs`. */
-export function fadeToward(weight, target, elapsedMs, fadeMs = MARKER_FADE_MS) {
-  if (!(fadeMs > 0)) return target;
-  const step = Math.max(0, elapsedMs || 0) / fadeMs;
-  return target > weight ? Math.min(target, weight + step) : Math.max(target, weight - step);
+/** How much ground this figure may cross a real second and still be walking: `GAIT_CEILING` of its own drawn height. */
+export function gaitMilesASecond({ scale, heightPx, ceiling = GAIT_CEILING }) {
+  return !(scale > 0) || !(heightPx > 0) ? 0 : ceiling * heightPx / scale;
 }
 /**
- * The first point of `points` lying beyond `miles` along them, or `points.length` when none does: where the route still
- * ahead of a traveller begins. Allocates nothing, since it runs for every marker on every frame.
+ * The first point of `points` lying beyond `miles` along them, or `points.length` when none does: where the road still ahead
+ * of a traveller begins. Allocates nothing, since it runs for every road drawn on every frame.
  */
 export function routeIndexAfter(points, miles) {
   let gone = 0;
@@ -554,31 +583,101 @@ export function routeIndexAfter(points, miles) {
   return points.length;
 }
 /**
- * How much the marker is drawn, from 0 (the figure) to 1 (the marker), eased over MARKER_FADE_MS of real time.
+ * Where a journey leaves the family's own land and where it last comes back onto it, in miles along the road.
  *
- * ceiling: one entry per traveller ever drawn in this page, never pruned, as `GaitClock` keeps; prune by age if a class ever
- * draws thousands.
+ * Owner, 2026-09-22: "this shouldn't be a thing on their land. everyone should move at normal speed at all times (unless on
+ * horseback or wagon) on their land." So the land, not a distance, decides where the fade may begin: a journey that starts
+ * at the house walks its whole on-land stretch in view whatever its length, and one that ends at the house is back in view
+ * before it crosses the line. `inside` is the caller's test of one point - the family's own grant - and a caller with no
+ * land to test (the Host, somebody else's family) passes none, which reads as off-land the whole way.
+ *
+ * `base` is how far along the road `points` begins: the Host is sent only the stretch round each traveller (sim/overview.mjs
+ * `roadWindow`). `enters` is backed off one sample, so the fade-in is finished *before* the line rather than on it.
+ * ceiling: only the run at the start and the run at the end are found. A journey that crosses its own land in the middle -
+ * which no road on this map does - is drawn crossing it invisibly; the way out is a run-by-run schedule instead of two ends.
  */
-export class MarkerFade {
-  constructor() { this.travellers = new Map(); }
-  /** Whether somebody is still being drawn as a marker, or fading from one: a traveller who has just arrived still is. */
-  fading(id) { return (this.travellers.get(id)?.weight || 0) > 0; }
-  /**
-   * `instant`: where they belong at once, for reduced motion and for somebody the page has no earlier tick of (it has just
-   * opened, or the Host jumped time), since a fade is for a change a student watches. Anybody else starts as a figure and
-   * fades. An entry not touched for a while - somebody standing is not asked, so the last a figure's entry heard of them may
-   * be their last journey - takes the fade up from where it stood rather than jumping the time between: every departure
-   * after a person's first used to go from figure to marker in one frame (found 2026-09-19 with the hunt).
-   */
-  weight(id, { heightsPerSecond, now, instant = false }) {
-    let traveller = this.travellers.get(id);
-    if (!traveller) { traveller = { weight: 0, marker: false, at: now }; this.travellers.set(id, traveller); }
-    traveller.marker = wantsMarker(heightsPerSecond, traveller.marker);
-    const target = traveller.marker ? 1 : 0, elapsed = now - traveller.at;
-    traveller.weight = instant ? target : fadeToward(traveller.weight, target, elapsed > MARKER_STALE_MS ? 0 : elapsed);
-    traveller.at = now;
-    return traveller.weight;
+export function landRuns(points, inside, distance, base = 0, step = SEEN_MILES / 2) {
+  const far = Number.isFinite(distance) && distance > 0 ? distance : 0;
+  if (typeof inside !== 'function' || !Array.isArray(points) || points.length < 2 || !far) return { leaves: 0, enters: far };
+  let leaves = null, lastOnFrom = null, gone = base;
+  for (let index = 1; index < points.length; index++) {
+    const a = points[index - 1], b = points[index], length = Math.hypot(b.x - a.x, b.y - a.y);
+    const steps = Math.max(1, Math.ceil(length / step));
+    for (let k = index === 1 ? 0 : 1; k <= steps; k++) {
+      const f = k / steps, at = gone + length * f;
+      if (inside({ x: a.x + (b.x - a.x) * f, y: a.y + (b.y - a.y) * f })) { if (lastOnFrom === null) lastOnFrom = at; }
+      else { if (leaves === null) leaves = at; lastOnFrom = null; }
+    }
+    gone += length;
   }
+  return { leaves: leaves === null ? far : leaves, enters: lastOnFrom === null ? far : Math.max(0, lastOnFrom - step) };
+}
+/**
+ * Where along the road a traveller is drawn, and how much of them is drawn at all.
+ *
+ * Walk, fade, cross, fade, walk. `miles` is where the server's own progress has them (`ProjectionMotion.drawnMiles`), and
+ * everything here is a function of it, so the schedule cannot drift and cannot outlive its journey: at `miles === distance`
+ * it returns `distance` at full strength, which is the arrival the server decided.
+ *
+ *   - the road up to `leaves` is the family's own land and is walked in view at the figure's own gait, however long it is;
+ *   - a hundred yards past the line (`SEEN_MILES`) is walked too, and then the figure fades out over `TRAVEL_FADE_MS`;
+ *   - the middle is crossed with nobody watching, at whatever speed the server's arrival needs;
+ *   - the figure fades back in a hundred yards short of the end - or short of its own land, whichever comes first - and
+ *     walks the rest at its own gait.
+ *
+ * `gait` is the ground this figure may cross a real second and still be walking (`gaitMilesASecond`) and `milesASecond` the
+ * ground the server is actually carrying them over. Below the gait there is nothing to hide, and the journey is drawn exactly
+ * where the server has it. `rate` is the one over the other: how much drawn road a mile of the server's progress buys while
+ * the figure is in view.
+ *
+ * ceiling: a journey that never leaves the family's own land is drawn at the server's pace, in view, and a farm crossing
+ * pressed close in can still outrun the gait. Nothing else is possible: on their own land nobody may be faded, and the
+ * arrival is the server's. The ways out are the class clock (docs/evidence/pace.json) or fading on the farm too, which the
+ * owner refused.
+ */
+export function travelSight({ distance, miles, milesASecond, gait, leaves = 0, enters = null, fadeMs = TRAVEL_FADE_MS, seen = SEEN_MILES }) {
+  const far = Number.isFinite(distance) && distance > 0 ? distance : 0;
+  const at = Math.min(Math.max(0, miles || 0), far);
+  const whole = { miles: at, alpha: 1, rate: 1, lead: far, tail: far, faded: false };
+  if (!far || !(milesASecond > 0) || !(gait > 0) || milesASecond <= gait) return whole;
+  const rate = gait / milesASecond;
+  // One fade, counted in the server's own miles, because that is the clock everything here is a function of.
+  const fade = Math.max(0, fadeMs) / 1000 * milesASecond;
+  const onLead = Math.min(Math.max(0, leaves), far);
+  const onTail = Math.min(Math.max(0, far - (Number.isFinite(enters) ? enters : far)), far);
+  // All the drawn road the two walked ends may share, which is what the two fades leave of the journey at the gait's pace.
+  // What is spent out of it is decided in order, because it will not always stretch to everything:
+  //
+  //   1. **the hundred yards at each end**, without which there is nothing to fade *from* and the figure blinks;
+  //   2. **then as much of the family's own land at each end as is left**, its own end's first.
+  //
+  // That order is the one place the owner's two answers of 2026-09-22 can pull apart. Walking a farm's own half mile at the
+  // gait costs about thirteen real seconds, and a journey has only `rate` of its length to spend, so at a hurried class pace
+  // pressed right in a five-mile errand cannot pay for both. Giving the hundred yards first means a short errand still fades
+  // instead of zipping, which is the complaint that started all this; giving the land first would mean it zipped end to end.
+  // In the farming day - the pace a class actually plays at - there is room for both from about two and a half miles up, so
+  // the land is walked whole wherever a student is likely to be looking.
+  // ceiling: past that, a figure can begin to fade while still inside its own land, which is what the owner said should
+  // never happen. The other way is to let the on-land stretch be drawn at the server's own pace, in view and too fast. This
+  // is in HANDOFF.md as a question for the owner.
+  const roomAll = rate * (far - 2 * fade);
+  const give = Math.min(seen, roomAll / 2);
+  // Under about half the hundred yards the walked ends stop reading as walking - fifty yards is a second and a bit of it -
+  // and what is left is a figure that blinks out and back. Better drawn whole and brisk than blinking, so there is no fade
+  // at all: that is the owner's "a journey shorter than about 200 yards is simply walked the whole way", arrived at from the
+  // road left rather than from a second constant. Pressed close in at a farming tick it falls at about seven hundred yards.
+  if (!(give >= seen / 2)) return whole;
+  const left = Math.max(0, roomAll - 2 * give), land = onLead + onTail;
+  const landLead = land > 0 ? Math.min(onLead, left * onLead / land) : 0;
+  const landTail = land > 0 ? Math.min(onTail, left - landLead) : 0;
+  const lead = landLead + give, tail = landTail + give;
+  const out = lead / rate, back = far - tail / rate - fade;
+  const alpha = Math.max(0, Math.min(1, Math.max((out + fade - at) / fade, (at - back) / fade)));
+  const held = rate * (out + fade), rejoin = far - rate * (far - back);
+  const drawn = at <= out + fade ? rate * at
+    : at >= back ? far - rate * (far - at)
+    : held + (rejoin - held) * (at - out - fade) / Math.max(1e-9, back - out - fade);
+  return { miles: Math.min(far, Math.max(0, drawn)), alpha, rate, lead, tail, faded: true };
 }
 /**
  * How much ground one loop of a travel cycle covers, in the drawn height of whoever is doing it.

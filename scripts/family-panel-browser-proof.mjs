@@ -111,16 +111,21 @@ try {
 
   // -------------------------------------------------------------------------------- in the lobby, the bar says why
   // The whole family is still driving in here (docs/SETTLING_IN.md step 2), so nobody can be given an order and there is
-  // no icon on the screen to hover. Since 2026-09-21 that is not an empty bar: it carries the server's own sentence
-  // (§14). The hover section that used to stand here ran in this state and waited thirty seconds for a button that
-  // cannot exist; it now runs after the class has started and the family is home, below.
+  // no icon on the screen to hover. Since 2026-09-21 that is not an empty bar: it carries a line (§14). The hover section
+  // that used to stand here ran in this state and waited thirty seconds for a button that cannot exist; it now runs after
+  // the class has started and the family is home, below.
+  //
+  // **Since 2026-09-22 that line is "Travelling"** (§14.7, owner: "their icon should say 'Travelling' next to it"). The
+  // family driving in is on a journey like any other, so it outranks the server's "... is on the road." here as it does
+  // everywhere. Somebody carried out of sight still keeps the server's fuller sentence, which `npm run test:travel-sight`
+  // holds.
   const lobbyBar = await page.evaluate(() => {
     const row = document.querySelector('.panel-row[data-focused=true]');
     return { icons: row.querySelectorAll('.panel-icon').length, line: row.querySelector('.panel-icons .panel-reason')?.textContent || '' };
   });
   assert.equal(lobbyBar.icons, 0, 'somebody could be given an order while the family is still on the road in');
-  assert.match(lobbyBar.line, /is on the road\.$/, `the bar of a family still driving in says "${lobbyBar.line}"`);
-  ok(`in the lobby the bar is not empty, it says why: "${lobbyBar.line}"`);
+  assert.equal(lobbyBar.line, 'Travelling', `the bar of a family still driving in says "${lobbyBar.line}"`);
+  ok(`in the lobby the bar is not empty, it says what they are doing: "${lobbyBar.line}"`);
 
   // ------------------------------------------------------------------------------------- press an icon; glow; stop glowing
   await post('/api/command', { id: `proof-start-${crypto.randomUUID()}`, action: 'start' }, hostCookie);

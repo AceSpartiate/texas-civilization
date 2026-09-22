@@ -6,6 +6,138 @@
 
 **Astra’s draft release v2026.09.22.3 carries that start-up fault and was never published.** It is the owner’s to delete.
 
+## Nobody is seen moving unnaturally: walk, fade, cross, fade, walk — 2026-09-22 (not released)
+
+Read [MAP_ACCURACY.md](docs/MAP_ACCURACY.md) §12a first, and §14.7 of [FAMILY_PANEL.md](docs/FAMILY_PANEL.md) for the word on
+the panel. **Presentation only.** The server still owns every journey, every pace (`sim/travel.mjs`) and every arrival
+minute; nothing is stored, `saveVersion` did not move, and a class saved before today opens unchanged.
+
+The owner, verbatim, after playing the day the travel marker shipped:
+
+> "characters are still seen zipping around. i don't want to see icons. i want to see them walk at a normal pace, then
+> when they've walked a ways (say if they're going somewhere that isn't their farm) they should fade out. then after they
+> travel extra fast, they fade back in after arriving close enough to when normally the rest of the way. that way they
+> arrive at the correct time, but no one sees them move unnaturally. their icon should say 'Travelling' next to it."
+
+Asked by multiple choice, they chose **"A short fixed stretch"** of normal walking before the fade (about a hundred yards,
+the same everywhere); **"The road only"** while away (no figure and no marker, but a faint line showing the road they are
+on); and **"Everyone on the map"** (your family, other families, riders, couriers and armies alike). Then, the same day:
+
+> "this shouldn't be a thing on their land. everyone should move at normal speed at all times (unless on horseback or
+> wagon) on their land."
+
+What was built:
+
+- **A pace nobody exceeds** (`GAIT_CEILING`, `public/motion.js`). A figure is never drawn crossing more ground than its own
+  travel cycle covers at the rate it was drawn: 1.2 of its **own drawn height** a real second, which is the marker's old
+  threshold kept and renamed. Counted in the figure's own height it is already the pace of what they are on — a rider and
+  horse are drawn 1.8 of a person (`MOUNTED_HEIGHT`) and may cross 1.8 times the ground, a driver the wagon's — which is
+  the owner's "unless on horseback or wagon" with no second number.
+- **The schedule** (`travelSight`, asked once a frame by `sightOf` in `public/app.js`). Below the gait nothing happens and
+  the journey is drawn exactly where the server has it. Above it: the family's own land and a hundred yards past it walked
+  at the gait; a 700 ms fade out; the middle crossed with nobody watching at whatever speed the arrival needs; a fade back
+  in a hundred yards short of the end (or short of their own land, whichever comes first); the rest walked at the gait.
+  Everything is a function of the server's own progress and it maps the journey's end to the journey's end, so **the drawn
+  arrival is the server's arrival** and nothing else could make it not be.
+- **The family's own land, by the land and not by a distance** (`landRuns`, read from the grant bounds the server already
+  sends). The road inside the family's own grant is walked in view however long it is; the fade may begin only off it, and
+  the fade-in is finished before the line coming home. A journey that never leaves their land is never faded at all.
+- **And an order for spending the road when it will not pay for everything.** A journey has only its `rate` of length to
+  spend on being watched, and walking half a mile of farm at a walk costs thirteen real seconds. The hundred yards at each
+  end are paid for first (without them there is nothing to fade *from*), then as much of the on-land stretch as is left,
+  the two ends sharing it. In the farming day there is room for both from about two and a half miles up.
+- **The road, and nothing else, while they are away** (`drawTravelRoads`). The road still ahead as the same faint dotted
+  line the marker drew, coming up as the figure goes. No disc, no pin, no portrait, no destination ring.
+- **The marker deleted**, with `MarkerFade`, `wantsMarker`, `MARKER_ABOVE`/`_BELOW`, `drawTravelMarkers`, its stand-in row
+  and its request (now *WITHDRAWN 2026-09-22* in [ART_REQUESTS.md](docs/ART_REQUESTS.md)). Astra's delivered
+  `travel-markers.png` stays in the library, registered and unused. The one rule it proved is kept and said in code: **the
+  road behind a traveller is not drawn** — the road itself is already on the ground, and two lines is two things to read
+  on a small screen.
+- **Travelling on the panel** (`travellingLine`, `.panel-travelling`). While the server has somebody on a journey their row
+  says **Travelling**, where §14.1 puts a line and by §14.1's rule; beside the icons when the bar still has open ones (a
+  person walking out to a chore can be called off while they walk), in place of them when it does not. Somebody carried out
+  of sight (`travel.away`, §12) keeps the server's fuller sentence — where they went, how far off, when they are back.
+- **Everyone on the map**: other families' people, riders, couriers and the Host's whole class go through the same
+  schedule. Only the student's own grant counts as own land; an observed person and the Host are given none.
+
+**Evidence.** `tests/travel-drawn.test.mjs` (13, replacing `tests/travel-marker.test.mjs`) and one new case in
+`tests/family-panel.test.mjs`. **Every one was made to fail first**: `node scripts/travel-drawn-injections.mjs`,
+**22 of 22 caught** — 16 unit injections and, with `PROOF_BROWSER=1`, 6 that only a real browser can answer
+([record](docs/evidence/travel-drawn-injections.json)).
+
+**Two of them missed on the first attempt, and both times the test was wrong, not the code.** The pop-guard test stated
+its numbers *against* `FADE_RATE`, so it moved with whatever it was guarding; it now holds the eased jump to at least
+250 ms and at least twelve painted frames, absolutely. And the browser proof read the page's own **schedule** rather than
+where the figure was **painted**, so drawing it at the server's place instead of the scheduled one passed every check in
+the file; the page now publishes the point it really put the figure at beside the one the schedule asked for, and the
+injection lands 22,662 px off.
+
+**The browser proof found a real bug the unit tests could not**, and it is kept as an injection: the grant the server
+sends is `{ kind, acres, bounds }`, and read a level too high it is never a rectangle, so **no road was ever on the
+family's own land** and every fade began a hundred yards from the house. Nothing threw and every unit test passed. The
+proof now reads the schedule's own walked lead off the page and fails unless it is well past a hundred yards.
+
+`npm run test:travel-drawn` (replacing `test:travel-marker`, [record](docs/evidence/travel-drawn.json),
+[screenshots](docs/evidence/travel-drawn/)) plays a Solo game on the real land, sends the main person to Gonzales on foot
+and reads **every painted frame** of the whole journey — seventeen checks. On the run recorded, a road of 115.9 miles:
+the server would carry them 157.9 of their own heights a second pressed close in and they are drawn at **1.209**, the
+gait, measured frame to frame from where they were actually drawn over 487 pairs of frames at one camera; painted where
+the schedule walked them and not where the server has them, the farthest 0 px off over 2,102 frames; a walked lead of
+0.453 miles, which is 0.396 of their own land and then the hundred yards off it; 2,927 frames with nothing of them on the
+map and the road drawn on every one of them; 126 frames part drawn and no frame changing by more than 0.14, so it fades
+rather than blinking; no marker on any frame and no marker hook in the page; back and walking for the last 1,827 frames;
+**not one frame drawn at Gonzales before the server put them there**, and the walk in finished inside the tick the server
+called the arrival. `docs/evidence/travel-drawn/road-only.png` is the owner's "the road only": a dotted line across the
+timber, nobody on it, and *Travelling* in the bar.
+
+**A Solo game deals a new world every run**, so this family's road to Gonzales has been anywhere from five to two hundred
+miles. The proof plays a long road at the quick pace and a short one at the Study pace a class really uses, so the
+schedule fades either way, and it says plainly when a family is dealt too near Gonzales to have a road at all. Run four
+times over in a row without a change, after two flakes that were the proof's own and are now written into it.
+
+**Two measuring traps, written down so nobody pays for them twice.** First, the map is not redrawn on every animation
+frame, so two samples 27 ms apart can hold 66 ms of drawn movement; timed by the sampler's own clock a figure walking at
+1.2 reads as 4.4. The proof times the measurement by the **renderer's** clock (`frameMs`, the moment `drawWorld` ran).
+Second, a frame on which the schedule itself moved - a zoom, the teacher changing the class pace, the calendar turning over
+to longer ticks - is not a speed and not a fade: the page snaps the figure to the schedule on exactly those frames rather
+than easing a half-drawn figure across a leap (`leapt` in `sightOf`, which the page publishes for this), so both the speed
+and the fade measurements leave them out and say how many there were.
+
+`npm test` 992, and `test:panels`, `test:family-panel`, `test:lesson`, `test:alamo-siege` and `test:travel-sight` — the
+Alamo one watches a runner walk across the compound step by step and would notice a pace change. Same computer, headless
+Chrome: nothing here is a Chromebook, a classroom projector or a physical LAN.
+
+**Three things the owner may want to change.**
+
+1. **"(unless on horseback or wagon)" was read as the narrower of its two readings.** It is built as *the pace you hold
+   somebody to on their own land is the pace of what they are on* — so a rider crosses their own farm at a horse's gait and
+   a walker at a walk, and **nothing on their own land is ever sped up or faded, on foot or otherwise**. The other reading
+   is *a horse or wagon on their own land may still be sped up and faded*. It is marked `ceiling:` in
+   [MAP_ACCURACY.md](docs/MAP_ACCURACY.md) §12a.3 and is a question for the owner.
+2. **A journey that lies wholly on the family's own land and still outruns the gait is drawn at the server's pace, in
+   view.** Nothing else is possible at once: on their own land nobody may be faded, and the arrival is the server's. In
+   practice that is a farm crossing pressed right in, a second or two of brisk walking; the ways out are the class clock or
+   fading on the farm too, which the owner refused.
+3. **And where a journey cannot pay for both, the hundred yards win and the land gives way** — so a figure can begin to
+   fade while still inside its own land, which the correction said should never happen. It takes a short errand at a
+   hurried class pace pressed right in, where walking the farm at a walk would cost more real time than the whole journey
+   has. The other order would mean that errand zipped end to end, which is the complaint that started this. Say which you
+   would rather have.
+
+**Two proofs had to be told the new word**, and both were checked to make sure that was all that changed:
+`npm run test:family-panel` (the family driving in, in the lobby, is on a journey like any other, so its bar now reads
+*Travelling* where it read "… is on the road.") and `npm run test:panel-silence` (the main person sent to Gonzales, the
+same line in the same place). §14.2 of [FAMILY_PANEL.md](docs/FAMILY_PANEL.md) is untouched: every line about *why*
+somebody may not be given an order is still the server's own, word for word, and every other check in that proof holds it.
+
+**Found, not caused, and not fixed here:** `npm run test:panel-silence` fails one check — *"Paulita Proofwright: the line
+is on the screen", a child's too-young line measured outside the 1366x768 screen. It fails identically with the
+Travelling line switched off, so it is not this work; its other twenty-odd checks pass.
+
+Also worth knowing: **`scripts/travel-marker-proof.mjs` was already broken on `main` before this work**, and its replacement
+fixes the cause. A Solo game's class now has to be started by the student's own *Done packing* (`server/app.mjs`, owner
+2026-09-21), and the old proof pressed it only after waiting for the family to reach its land — which never happened,
+because the class was still in the lobby. The new proof presses it first.
 ## Travis's runner, the 90-second budget and the Alamo's fates by role — 2026-09-22 (released in v2026.09.22.4)
 
 Read [ALAMO_FATES.md](docs/ALAMO_FATES.md) (the historical review and what the game allows) and the new last section of
@@ -1553,7 +1685,7 @@ before/after pairs in `docs/evidence/biomes/`; test:farm (audit on), navigation,
 plot pass; speed unchanged on a quiet machine. Not done: the acequias drawn, plantation fields past the towns' rings, the
 province's cover belts (drawn only while the land loads). Next: the balance session. Same computer only.
 
-**A traveller faster than a walk is drawn as a marker, 2026-09-19:** Owner, by multiple choice: "Marker when fast". Past
+**A traveller faster than a walk is drawn as a marker, 2026-09-19 — SUPERSEDED 2026-09-22, the marker is gone:** Owner, by multiple choice: "Marker when fast". Past
 `MARKER_ABOVE` (1.2 of their own drawn heights a real second - the ground the library's walk, horse, ox and wagon cycles
 cover at their authored rate; `public/motion.js`) a traveller is a pin with their panel portrait (rust for the principal,
 ink for the family, grey for others, slate for a courier), at the server's progress and never beyond it, the road ahead
