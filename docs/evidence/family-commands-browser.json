@@ -15,7 +15,7 @@
     "letting the rider ride on clears the \"!\"",
     "a call to the family marks the 4 people the server lets answer it; pressing hh-1-child-2's \"!\" opened the one menu for it (\"A neighbour is at the door. They are carrying food to the people gathering near Gonzales, and ask whether somebody from your family can help take it.\") with a row each, the keyboard on hh-1-parent-1's",
     "answering from the menu (nobody goes) clears the \"!\" from everybody who could have answered, and the menu goes",
-    "10 presses (0 refused in the server's words and another tried) set 10 of 20 people to work without finding anybody on the map; each icon glowed when the server took it, and the 3 still at it are not idle (1: work, 2: visit-shop, 1: make-furniture, 2: make-furniture, 3: make-furniture, 4: make-furniture, 5: make-furniture, 6: make-furniture, 7: make-furniture, 8: make-furniture)",
+    "10 presses (0 refused in the server's words and another tried) set 10 of 20 people to work without finding anybody on the map; each icon glowed when the server took it, and the 4 still at it are not idle (1: work, 2: visit-shop, 1: make-furniture, 2: make-furniture, 3: make-furniture, 4: make-furniture, 5: make-furniture, 6: make-furniture, 7: make-furniture, 8: make-furniture)",
     "of the 10 not given work, 8 are shown idle (something is open to them) and 2 are not (too young to be sent)",
     "a stale \"harvest-field\" pressed for hh-1-parent-1 is refused by the server, in its words: \"The field is not ready.\"",
     "hh-1-child-1 is left standing about (their work finished), and the row says \"Idle\" and marks the portrait",
@@ -27,7 +27,7 @@
     "hh-1-parent-2's row alone has House, which opens the rooms",
     "after a reload the same person is starred, and the card that opens with nobody chosen is theirs",
     "pressing the main person's star from Gonzales brings the camera back to them (0.000 mi); a double-click on a portrait chooses another",
-    "over 11 ticks the panel added 0 nodes and changed 340 attributes across 20 rows: kept, not rebuilt",
+    "over 12 ticks the panel added 0 nodes and changed 360 attributes across 20 rows: kept, not rebuilt",
     "at 400 px the page does not scroll sideways, the \"!\" is on screen and big enough to press, and pressing it opens the offer on the docked card",
     "the settlement's call marks 2 people (hh-1-thomas, hh-1-elena), and 2 of them may turn out",
     "at 400 px the call's menu opens from an \"!\" on screen with 2 rows and its confirm within reach, and closes",
@@ -177,7 +177,8 @@
       "stillAtIt": [
         "hh-1-parent-1",
         "hh-1-parent-2",
-        "hh-1-child-7"
+        "hh-1-child-7",
+        "hh-1-child-8"
       ],
       "rows": [
         {
@@ -252,8 +253,10 @@
         {
           "id": "hh-1-child-8",
           "role": "daughter",
-          "active": [],
-          "idle": true,
+          "active": [
+            "make-furniture"
+          ],
+          "idle": false,
           "need": null
         },
         {
@@ -384,9 +387,9 @@
       "refused": "Only your main person can be asked that. Choose them with the star on their row."
     },
     "churn": {
-      "ticks": 11,
+      "ticks": 12,
       "nodesAdded": 0,
-      "attributeChanges": 340,
+      "attributeChanges": 360,
       "rows": 20
     },
     "phone": {

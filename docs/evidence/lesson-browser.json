@@ -251,7 +251,7 @@
     },
     "folded": {
       "bodiesOnScreen": 0,
-      "facesOnScreen": 6,
+      "facesOnScreen": 14,
       "column": 102,
       "barIcons": 21,
       "columnBefore": 312
@@ -263,14 +263,14 @@
           "x": 810,
           "y": 10,
           "width": 544,
-          "height": 193.109375,
+          "height": 212.703125,
           "top": 10,
           "right": 1354,
-          "bottom": 203.109375,
+          "bottom": 222.703125,
           "left": 810
         },
         "overlapWidth": -494,
-        "overlapHeight": 191
+        "overlapHeight": 211
       },
       {
         "where": "1024x768",
@@ -278,14 +278,14 @@
           "x": 468,
           "y": 10,
           "width": 544,
-          "height": 193.109375,
+          "height": 212.703125,
           "top": 10,
           "right": 1012,
-          "bottom": 203.109375,
+          "bottom": 222.703125,
           "left": 468
         },
         "overlapWidth": -152,
-        "overlapHeight": 191
+        "overlapHeight": 211
       }
     ],
     "names": [

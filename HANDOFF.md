@@ -53,7 +53,7 @@ Chromebook or real phone.
 **For the owner to decide:** whether a child should eat less than a grown person (today a family of twenty eats 7 a day);
 whether twins should be dealt so a big family is not one child a year; whether the set houses need a larger one.
 
-## The X on the guided start — 2026-09-22 (unreleased)
+## The X on the guided start — 2026-09-22 (released in v2026.09.22.1)
 
 The owner: *"i should be able to X off the tutorial to stop it and just do what i want."* Asked by multiple choice who
 gets the X, the owner chose **"Everyone, always"**. This amends the "unavoidable" of 2026-09-21; recorded verbatim in
@@ -86,7 +86,7 @@ Evidence (same computer, headless Chrome): full `npm test` **937 passed, 0 faile
 student presses it — an event and a line on the class panel would be the way; (3) `CLAUDE.md` item 15 still describes the
 guided start as "forced"; it was left for the owner to reword.
 
-## Military pacing and continuity — 2026-09-22 (unreleased)
+## Military pacing and continuity — 2026-09-22 (released in v2026.09.22.1)
 
 Read [MILITARY_EXPERIENCE.md](docs/MILITARY_EXPERIENCE.md) next. It separates the implemented military pacing/message safeguards from the remaining local messenger, staged battle, survival/role and seamless-continuity work. The owner requires smooth uninterrupted play: no visible fast-forward, dated transition screens or forced camera cuts. Hard tick caps alone do not satisfy that requirement.
 
