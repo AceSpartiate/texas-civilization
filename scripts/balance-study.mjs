@@ -14,6 +14,7 @@ import { applyAction, projectWorld, stepWorld } from '../sim/world.mjs';
 import { beginSecondPeriod, beginThirdPeriod } from '../sim/periods.mjs';
 import { hostEnding } from '../sim/ending.mjs';
 import { thinkFor } from '../sim/neighbours.mjs';
+import { eatenADay } from '../sim/family.mjs';
 
 const seeds = Number(process.argv[2] || 6), families = Number(process.argv[3] || 15);
 const view = (world, id) => projectWorld(world, id, 'student', { includeMap: false });
@@ -28,7 +29,7 @@ const WAR_CHORES = new Set(['enlist-regular', 'enlist-auxiliary', 'join-garrison
 function stayHome(world, household) {
   // What a student keeping the family home would also do: sell the food the family can spare for coin, three weeks kept back.
   const projected = view(world, household.id);
-  const kept = 0.35 * household.members.length * 21 + 6;
+  const kept = eatenADay(world, household.members.map(id => world.entities[id])) * 21 + 6;
   if ((household.resources.food ?? 0) > kept + 6) {
     for (const person of projected.entities.filter(e => e.kind === 'person' && e.householdId === household.id && !e.chore && !e.travel)) {
       if (!(projected.work?.[person.id] || []).some(entry => entry.id === 'sell-food' && entry.can)) continue;

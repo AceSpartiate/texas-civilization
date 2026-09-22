@@ -20,7 +20,7 @@ import { findWay } from './ways.mjs';
 import { share } from './shares.mjs';
 import { WAGON_SPEED, WALK_SPEED, propertyId } from './travel.mjs';
 import { frailty } from './army.mjs';
-import { canAnswerCalls, householdName } from './family.mjs';
+import { canAnswerCalls, eatenADay, householdName } from './family.mjs';
 import { spotlight } from './host.mjs';
 // The road's own doings - the rain and the bog, the camp, the pursuit - live in sim/road.mjs (docs/ROAD_EAST.md) and write
 // their fields onto `household.flight` beside these; a cycle, safe because each side uses the other only inside functions.
@@ -276,9 +276,10 @@ export function advanceFlight(world, minutes) {
       const halt = Boolean(flight.crossing) || heldOnRoad;
       for (const entity of travellers) if (entity.travel) { if (halt) entity.travel.halted = true; else delete entity.travel.halted; }
     }
-    // On the road the family eats what it carries, and goes hungry when that is gone.
+    // On the road the family eats what it carries, and goes hungry when that is gone. Each by their age (sim/family.mjs
+    // `eatenADay`, FIC-GONZ-360): a small child a quarter or half of a grown share.
     const alive = people(world, household).filter(person => !GONE.includes(person.health?.condition) && (person.travel?.purpose === 'flee' || person.travel?.purpose === 'return' || person.location?.siteId === flight.refuge));
-    if (flight.status !== 'returning' && household.resources) household.resources.food = Math.max(0, Math.round((household.resources.food - alive.length * 0.35 * days) * 10000) / 10000);
+    if (flight.status !== 'returning' && household.resources) household.resources.food = Math.max(0, Math.round((household.resources.food - eatenADay(world, alive) * days) * 10000) / 10000);
     const hungry = (household.resources?.food ?? 0) <= 0;
     // Sickness, and the rare death, rolled by the day.
     const day = Math.floor(world.minute / DAY);

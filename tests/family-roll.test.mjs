@@ -19,7 +19,7 @@ import { choresFor } from '../sim/chores.mjs';
 import { observedBy } from '../sim/town.mjs';
 import { readSave, writeSave } from '../server/storage.mjs';
 import {
-  ADULT_AT, CHILD_MAX_AGE, MOTHER_AT_BIRTH, FATHER_AT_BIRTH, SENT_FROM_AGE, FIGHTS_FROM_AGE, NAME_POOLS,
+  ADULT_AT, CHILD_MAX_AGE, GROWN_AT_HOME, MOTHER_AT_BIRTH, FATHER_AT_BIRTH, SENT_FROM_AGE, FIGHTS_FROM_AGE, NAME_POOLS, ageOnDay, canFight,
   FAMILY_DIE, FAMILY_FACES, FAMILY_TABLE, compositionFor, tableOf, listWords, rolledWords, dealTraits, familyRoll, rolledPeople,
 } from '../sim/family.mjs';
 
@@ -120,7 +120,10 @@ test('a class rolled on an earlier table keeps its own: the 2026-09-14 faces, an
   assert.throws(() => validateWorld(six), /rolled family/i, 'the same six read on the 2026-09-14 faces is two parents alone, not this family');
 });
 
-test('every family could exist: children fit their mother and father, and no two share an age', () => {
+// Changed 2026-09-22 (FIC-GONZ-361): this test held that no two children in a family share an age, which is the one-a-year
+// spacing the owner had removed; twins now share a birth date. What it holds now is the birth dates themselves - each child
+// born when the mother was 17 to 42 and the father 18 or more, reckoned date to date rather than from whole-year ages.
+test('every family could exist: every child born to a mother of 17 to 42 and a father of 18 or more, eldest first', () => {
   let checked = 0, lone = { male: 0, female: 0 };
   for (let n = 0; n < 800; n++) {
     const roll = 1 + (n % 20);
@@ -131,16 +134,17 @@ test('every family could exist: children fit their mother and father, and no two
     for (const parent of parents) assert.ok(parent.age >= 18 && parent.age <= 70, `a parent aged ${parent.age}`);
     if (parents.length === 2) assert.ok(Math.abs(parents[0].age - parents[1].age) <= 8, 'two parents within eight years of each other');
     else lone[parents[0].sex]++;
-    const mother = parents.length === 2 ? parents[1].age : parents[0].sex === 'female' ? parents[0].age : parents[0].age - 2;
     const father = parents.find(parent => parent.role === 'father');
+    // A lone father's children's mother was two years younger than him.
+    const motherAt = born => parents.length === 2 ? ageOnDay(parents[1].born, born) : parents[0].sex === 'female' ? ageOnDay(parents[0].born, born) : ageOnDay(parents[0].born, born) - 2;
     for (const child of children) {
-      assert.ok(child.age >= 0 && child.age <= CHILD_MAX_AGE, `a child aged ${child.age}`);
-      const motherThen = mother - child.age;
-      assert.ok(motherThen >= MOTHER_AT_BIRTH[0] && motherThen <= MOTHER_AT_BIRTH[1], `a mother of ${mother} with a child of ${child.age} was ${motherThen} at the birth`);
-      if (father) assert.ok(father.age - child.age >= FATHER_AT_BIRTH, `a father of ${father.age} with a child of ${child.age} was ${father.age - child.age} at the birth (roll ${roll})`);
+      // Under eighteen in every family of seven children or fewer; grown and at home, to 22, only in a larger one.
+      assert.ok(child.age >= 0 && child.age <= (children.length <= 7 ? CHILD_MAX_AGE : GROWN_AT_HOME), `a child aged ${child.age} in a family of ${children.length} children`);
+      const motherThen = motherAt(Date.parse(child.born));
+      assert.ok(motherThen >= MOTHER_AT_BIRTH[0] && motherThen <= MOTHER_AT_BIRTH[1], `a mother born ${parents.at(-1).born} was ${motherThen} at a birth on ${child.born}`);
+      if (father) assert.ok(ageOnDay(father.born, Date.parse(child.born)) >= FATHER_AT_BIRTH, `a father born ${father.born} was ${ageOnDay(father.born, Date.parse(child.born))} at a birth on ${child.born} (roll ${roll})`);
     }
-    assert.equal(new Set(children.map(child => child.age)).size, children.length, 'two children in one family share an age');
-    assert.deepEqual(children.map(child => child.age), [...children.map(child => child.age)].sort((a, b) => b - a), 'eldest first');
+    assert.deepEqual(children.map(child => child.born), [...children.map(child => child.born)].sort(), 'eldest first');
     checked++;
   }
   assert.equal(checked, 800);
@@ -159,17 +163,23 @@ test('a 20 is two parents and eighteen children with their own names and ages, a
   // Twenty different first names: the son and daughter pools hold twenty each, and each child takes the next card.
   assert.equal(new Set(people.map(person => person.name)).size, 20, `names repeat: ${people.map(person => person.name)}`);
   assert.ok(Math.max(NAME_POOLS.son.length, NAME_POOLS.daughter.length) >= 18, 'a pool too small for eighteen of one sex');
-  // Eighteen different ages from 0 to 17 fit only a mother of 34 to 42 - one child a year - and a father grown at the first.
-  assert.deepEqual(children.map(child => child.age), Array.from({ length: 18 }, (_, i) => 17 - i));
+  // Changed 2026-09-22 (FIC-GONZ-361, -363): this was eighteen ages 17 down to 0, one a year, to a mother of 34 to 42. Births
+  // now come at their own spacing, so eighteen of them take about twenty years: the eldest grown and still at home, 18 to 22,
+  // to a mother of 37 to 42 and a father of 41 to 45 (measured over 40,000 rolls), and never a stair of one a year.
+  const ages = children.map(child => child.age);
+  assert.ok(ages[0] >= 18 && ages[0] <= GROWN_AT_HOME, `the eldest of eighteen is ${ages[0]}`);
+  assert.ok(ages.at(-1) <= 4, `the youngest of eighteen is ${ages.at(-1)}`);
+  assert.ok(!(new Set(ages).size === 18 && ages[0] - ages.at(-1) === 17), `a stair of one a year: ${ages}`);
   const [father, mother] = parents;
-  assert.ok(mother.age >= 34 && mother.age <= 42, `a mother of ${mother.age}`);
-  assert.ok(father.age - 17 >= FATHER_AT_BIRTH, `a father of ${father.age} with a child of seventeen`);
+  assert.ok(mother.age >= 37 && mother.age <= 45, `a mother of ${mother.age}`);
+  assert.ok(ageOnDay(father.born, Date.parse(children[0].born)) >= FATHER_AT_BIRTH, `a father of ${father.age} with a child of ${ages[0]}`);
   // Every parent is the parent of all eighteen, and every child names both.
   for (const parent of parents) assert.equal(parent.kin.children.length, 18);
   for (const child of children) assert.deepEqual(child.kin.parents, [father.id, mother.id]);
-  // The consequence stated plainly: the sons of sixteen and seventeen may be sent to fight.
+  // The consequence stated plainly: every son of sixteen or more - grown ones too - may be sent to fight, and no daughter.
   const old = children.filter(child => child.age >= FIGHTS_FROM_AGE);
-  assert.equal(old.length, 2);
+  assert.ok(old.length >= 3, `only ${old.length} of eighteen children are sixteen or more`);
+  for (const child of old) assert.equal(canFight({ ...child, kind: 'person' }), child.sex === 'male', `${child.name}, ${child.age}`);
   // Validated, saved and read back exactly.
   validateWorld(world);
   const dir = mkdtempSync(join(tmpdir(), 'texas-twenty-'));

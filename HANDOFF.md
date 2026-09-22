@@ -1,5 +1,38 @@
 # Claude handoff — Astra foundation
 
+## Food by age, birth dates and twins — 2026-09-22 (unreleased)
+
+**Owner:** *"Children's food consumption: ages 0–2 use 25% of an adult portion, 3–9 use 50%, 10–15 use 75%, and 16+ use
+100%. Preserve fractional totals. Allow seed-deterministic twins at approximately 1% of births."* Astra's handoff
+(`docs/HOUSE_SELECTION_HANDOFF.md`) adds quarters summed before rounding, twins with their own identities and one birth date,
+and no artificial one-a-year spacing. Read the amendment of 2026-09-22 at the foot of
+[FAMILY_CREATION.md](docs/FAMILY_CREATION.md) first.
+
+- **Eating by age** (`quartersFor`, `quartersEaten`, `mouthsOf`, `eatenADay` in `sim/family.mjs`, `FIC-GONZ-360`): a quarter,
+  half, three quarters or all of the 0.35 a day, by age on the world's date. Quarters are summed as integers and turned into
+  food once: four babies eat exactly one grown share. Every place a family eats uses it — the day at home, the winter, the
+  road east, and the neighbours' director (`mouthsAt`, `FIC-GONZ-364`). The Alamo, the army and the camps never ate from the
+  family's store, and no screen shows days of food left, so nothing else changed. Nobody with no stated age changes.
+- **Birth dates** (`born`, `bornOf`, `ageNow`, `ageOnDay`, `FIC-GONZ-361`): stored on everybody rolled from now; a person rolled
+  before gets a date worked out from their age and a hashed day, never written back. `validateWorld` accepts `born` only as
+  `YYYY-MM-DD` beside an age. **No save version moved; nobody is re-dealt.** ceiling: in the winter's skipped weeks ages are
+  read on the evening the first period ends (`sim/periods.mjs`).
+- **Births** (`birthsFor`, `BIRTH_GAP`, `SHORTEST_GAP`, `TWIN_SHARE`, `GROWN_AT_HOME`, `FIC-GONZ-361` to `-363`): 1.4 to 3
+  years apart, never under ten months; twins by `share(seed, id, 'twin')` at one birth in a hundred (measured 0.95 in 100);
+  in a family too large for eighteen years of childhood, the eldest grown and at home to 22. **A 20 is now a father of 41–45,
+  a mother of 37–42, the eldest 18–22, births about 14–16 months apart and uneven, twins in about one family in six, and
+  about two and a half sons of fighting age (none to six) where it had exactly two sixteen- and seventeen-year-olds.**
+- **Tests changed, each with its reason beside it:** `tests/family-roll.test.mjs` (birth-date checks replace "no two share an
+  age" and the 17-to-0 stair), `tests/periods.test.mjs` (the winter eaten by age), and three seeded fixtures whose class
+  history moved with its families — `tests/camp.test.mjs` (a skilled man's one-tick guard: "never idle a whole think"
+  replaces "at work 7 of 12"; the scouts' loop stops at the army's march; the family's other waiting questions are its own),
+  `tests/houston.test.mjs` (two men of two families), `tests/winter.test.mjs` (a son of ten to fifteen, not a daughter).
+- **New:** `tests/rations.test.mjs` (nine tests). **Injections:** `node scripts/family-roll-injections.mjs`, **24 of 24 caught** (the eleven kept from the roll, three rewritten for birth dates, ten new); each new one fails only its own test except four that fail two tests guarding the same rule (a birthday a day late; twins three times as often, which also moves the 20's tick size; and the two spacing injections, caught by both the 20's test and the spacing test)
+  ([record](docs/evidence/family-roll-injections.json)).
+- **Suite:** `npm test` **949 passed, 0 failed** (940 before; nine new), same computer. **Browser:** `npm run test:family-panel` 17 checks passed and `npm run test:family-twenty` 9 passed ([panel](docs/evidence/family-panel-browser.json), [twenty](docs/evidence/family-twenty-browser.json)), desktop sizes and the 400 px phone, same computer only; no LAN or district claim.
+- **For the owner:** a birthday changes only eating, not the shown age or the rules of ten and sixteen; grown children at home
+  give large families more fighting sons; a one-child family can never have twins. FAMILY_CREATION's amendment lists them.
+
 ## The roll is the family — 2026-09-22 (released in v2026.09.22.2)
 
 **Released as [v2026.09.22.2](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.22.2)** on 2026-09-22, from `c25414f`.
@@ -18,7 +51,8 @@ there are. Read [FAMILY_CREATION.md §2 and §3](docs/FAMILY_CREATION.md) first.
   42, so a 20 is always children aged 17 down to 0, one a year. Parents too old for the window are made younger; a father
   is at least 18 at every birth, made older where he is not (he was checked for nothing before, and a big family made him
   nine at his eldest's birth). No twins; no two children share an age.
-- **What was measured and left alone:** everybody eats 0.35 a day, a newborn as much as the father; the same wagon and stock
+- **What was measured and left alone:** everybody eats 0.35 a day, a newborn as much as the father (superseded the same day
+  by *Food by age* above, as were the ages of the bullet before); the same wagon and stock
   for any size; the four set houses hold at most eight, so nine or more are crowded (rest at 80 in 100) unless the class
   builds from pieces, where three pens with lofts and a shed room hold twenty. Names: the son and daughter pools hold twenty
   each, so a family never repeats a first name. `sim/children.mjs`, hidden stats, kin labels and the director scale by the

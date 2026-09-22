@@ -63,17 +63,19 @@ two parents and 2 kids. each number over 4 is another kid."* Asked by multiple c
   every year for eighteen years and no child lost. The table is the owner's, for play, and is registered as invented
   (`FIC-GONZ-350`); nothing in the game presents it as what Texas families were. No count of Texas colonists' children by
   family was found.
-- **Ages for a large family (§3, amended the same day).** Eighteen different ages from 0 to 17, each born when the mother was
-  17 to 42, fit only a mother of 34 to 42 — one child a year, the eldest born when she was seventeen. So a 20 always makes
-  children of every age from newborn to seventeen, a mother of 34 to 42, and a father who was at least eighteen at the eldest's
-  birth. No rule was loosened to fit it: children still never share an age, and no twins are dealt (`FIC-GONZ-351`).
+- **Ages for a large family (§3, amended twice the same day).** *First:* eighteen different ages from 0 to 17, one child a
+  year, to a mother of 34 to 42 (`FIC-GONZ-351`). *Then, on the owner's decisions of the same day* (the amendment of
+  2026-09-22 at the foot of this file): births come at their own spacing and twins are possible, so eighteen births take
+  about twenty years. **A 20 now makes the eldest 18 to 22, grown and still at home, the youngest a baby or small child,
+  births fourteen to sixteen months apart on average and never evenly, a mother of 37 to 42 and a father of 41 to 45**, and
+  twins in about one family in six (`FIC-GONZ-361` to `-363`).
 - **Consequences that follow without new rules, stated rather than hidden:**
   - *More people who can be sent to fight.* Every child of sixteen or more may answer a call, and a son of sixteen or more may
-    be sent to the fighting (§5). A 20 always has a sixteen- and a seventeen-year-old, so a large family often has one or two
-    sons who can be sent, and the father.
-  - *More hands, and more mouths.* Everybody eats the same share, a newborn as much as the father (`sim/routines.mjs`,
-    unchanged); everybody of ten or more can be given the family's whole work, and eight of a 20's eighteen children are ten or
-    more. Nothing was retuned for it.
+    be sent to the fighting (§5). Since the second amendment a 20 has five to eight children of sixteen or more — about two
+    and a half sons on average, from none to six — where it had exactly two (a sixteen- and a seventeen-year-old).
+  - *More hands, and more mouths.* **Since 2026-09-22 a child eats by age** — a quarter, a half or three quarters of a grown
+    share (the amendment at the foot of this file) — so a large family of young children eats well under its head count.
+    Everybody of ten or more can be given the family's whole work.
   - *The same wagon.* A large family packs the same wagon and brings the same stock (`docs/STOCK.md`) as a family of one.
   - *Crowded houses.* The four set houses hold three (jacal), four (the cabins) and eight (the dog-run), so a family of nine or
     more is crowded in every one of them, and sleeps at 80 in 100 of the rest a house gives (`CROWDED_SHARE`). A class that
@@ -83,7 +85,7 @@ two parents and 2 kids. each number over 4 is another kid."* Asked by multiple c
     family of twenty is about three times a family of four's (measured in `tests/family-roll.test.mjs`). `npm run
     test:family-twenty` ([record](evidence/family-twenty-browser.json)) shows the names card's twenty boxes and its Continue,
     and the panel scrolling to the youngest child with the map still on top, at 1366×768 and at a 400 px phone.
-- **Evidence.** `node scripts/family-roll-injections.mjs`: 12 of 12 caught ([record](evidence/family-roll-injections.json)).
+- **Evidence.** `node scripts/family-roll-injections.mjs`: 12 of 12 caught (24 of 24 since the amendment of 2026-09-22 at the foot) ([record](evidence/family-roll-injections.json)).
 - A roll on the server, shown as a twenty-sided die with its number. `household.die` is 20 and `household.rollTable` is
   `'d20-size'`. A class rolled on the 2026-09-14 table below has `die` 20 and no `rollTable`, and a class rolled on six sides
   has neither; each is read on its own table (`tableOf` in `sim/family.mjs`), so every saved class opens as it was and no save
@@ -162,6 +164,12 @@ Visible, in the family book beside each name. Invented (`FIC-GONZ-021`), and req
   too young, he alone is made older, to a year older than the mother at most, so the two stay within eight years. A 20 is
   therefore always children aged 17 down to 0, one a year, to a mother of 34 to 42. Twins were considered and not used:
   the rule that no two children share an age holds for every roll.
+- **Amended again 2026-09-22, on the owner's decisions** (`FIC-GONZ-361` to `-363`; the amendment at the foot of this file
+  says it in full). *Superseding the bullet above and "children in one family have different ages" for every new roll:*
+  everybody has a birth date; births follow each other by 1.4 to 3 years, never closer than about ten months; one birth in a
+  hundred is twins; and in a family whose births will not fit in eighteen years at that spacing, the eldest may be grown,
+  18 to 22, and still at home. The mother's 17 to 42 and the father's 18 or more hold at every birth, reckoned date to date.
+  A family rolled before keeps the ages it was dealt.
 
 **Under ten is too young to be sent anywhere.** A person under ten cannot be given work, answer a
 call or be sent on a journey, and the control says so. Every other rule about age waits on the
@@ -516,3 +524,108 @@ so a work that told the family nothing still looked told; and the replay check c
 ([ART_REQUESTS.md](ART_REQUESTS.md), request 2026-09-21) and nothing about the panel's layout changed, but *that a real
 child's row renders its six icons on a 1366×768 Chromebook has not been seen*. Same computer only in any case; no LAN and
 no district claim.
+
+---
+
+## Amendment, 2026-09-22 — what a family eats by age, birth dates and twins
+
+### What the owner decided
+
+> "Children's food consumption: ages 0–2 use 25% of an adult portion, 3–9 use 50%, 10–15 use 75%, and 16+ use 100%.
+> Preserve fractional totals. Allow seed-deterministic twins at approximately 1% of births."
+>
+> — the owner, 2026-09-22
+
+Astra's handoff of the same day (`docs/HOUSE_SELECTION_HANDOFF.md`) adds: *"Food is game balance in adult-equivalent units
+... Preserve fractional consumption; aggregate before rounding, preferably using fixed-point quarters. These are tuning
+values, not nutritional advice"*; *"Permit twins at a proposed 1% of births, seed-deterministic; give both their own
+identities and the same birth date. Remove artificial one-child-per-year spacing in generated histories without requiring
+twins."*
+
+### Food by age (`FIC-GONZ-360`)
+
+| Age on the world's date | Share of a grown person's food | Quarters | Food a day |
+| --- | --- | --- | --- |
+| 0–2 | a quarter | 1 | 0.0875 |
+| 3–9 | a half | 2 | 0.175 |
+| 10–15 | three quarters | 3 | 0.2625 |
+| 16 and over | all of it | 4 | 0.35 |
+| no stated age (the founding four, townspeople) | all of it, as before | 4 | 0.35 |
+
+- **Quarters, summed first.** A household's quarters are added as whole numbers and turned into food once
+  (`quartersEaten`, `mouthsOf`, `eatenADay` in `sim/family.mjs`): four babies are exactly one grown share, and a baby, a
+  child of five and a youth of twelve are exactly one and a half. The best housekeeper's saving and the table's twentieth
+  come after, as they always did; the store is rounded to four places once a tick, as it always was.
+- **One function, everywhere a family eats:** the day at home (`sim/routines.mjs`), the winter nobody plays
+  (`sim/periods.mjs`), the road east (`sim/scrape.mjs`), and the neighbours' director deciding what it keeps back and when it
+  is down to its last day or two (`mouthsAt` in `sim/neighbours.mjs`, `FIC-GONZ-364`). **Nothing else eats**: the Alamo, the
+  army and Houston's camp feed their men without touching the family's store, and no screen shows a student or the Host
+  "days of food left" — so there was nothing else to change.
+- **Age is the age today.** Everybody rolled since 2026-09-22 has a birth date (`born`), and a child moves up a band on the
+  birthday (`ageNow`). A person rolled before has an age and no date; the date is worked out from that age on the class's
+  first day and a hashed day of the year, and never written back (`bornOf`). No per-person cost is stored, and no save
+  version moved.
+- **What a birthday does not yet change.** The age *shown* in the family panel and the ages that decide who may be sent
+  (ten) and who may fight (sixteen) are still the age the person was dealt. Only eating reads the birthday. See *What the
+  owner may want to decide*.
+- **These are the owner's tuning values for play, not nutritional advice**, and nothing in the game presents them as what
+  children ate in 1835.
+
+### Birth dates, natural spacing and twins (`FIC-GONZ-361` to `-363`)
+
+- **Each birth follows the one before by 1.4 to 3 years**, never closer than about ten months. The mother's 17 to 42 and the
+  father's 18 or more hold at every birth, reckoned from the dates. The old rule that no two children share an age is gone.
+- **Twins at one birth in a hundred.** Whether a child is the twin of the one before is `share(seed, child's id, 'twin')`
+  — the seed and nothing else, never a random stream (`FIC-GONZ-008`) — taken at 1% × n/(n−1) in a family of n children, so
+  that one delivery in a hundred is twins whatever the family's size (measured: 0.95 in 100 over about 170,000 births, in
+  `tests/rations.test.mjs`, with bounds of 0.85 to 1.15). Each twin is their own person: their own id, their own name (the
+  next card, so no two in a family share a first name), their own hidden stats, and the same birth date. Never three at once.
+- **Fitting eighteen children honestly.** In order, least surprising first: the parents made older (up to 45); made younger if
+  the mother is too old for her youngest to be under eighteen; **the eldest grown and still at home, 18 to 22**
+  (`GROWN_AT_HOME`); closer births; and only if nothing else fits, parents past 45. Measured over 40,000 rolls: every family of
+  seven children or fewer is under eighteen as before; one family of eight in a hundred has a grown eldest; a third of
+  families of nine; most of ten; nearly all larger.
+
+### What a roll of 20 looks like now
+
+Two parents and eighteen children: **a father of 41 to 45 and a mother of 37 to 42; the eldest 18 to 22, grown and still at
+home, the youngest a baby or a small child; births about fourteen to sixteen months apart on average and never evenly**, so
+the ages skip a year here and there; **twins in about one family in six.** It is never again the stair of seventeen down to
+nought. Five to eight of the eighteen are sixteen or more — **about two and a half sons of fighting age on average (none to
+six), where it had exactly two sixteen- and seventeen-year-olds before.** An example, seed `a`: father 42, mother 40,
+children 22, 21, 20, 18, 17, 16, 15, 14, 12, 11, 10, 9, 7, 6, 5, 4, 3, 1.
+
+It is still the edge of what a mother could bear, and far past what the record describes (§2); it is what the owner's roll
+makes.
+
+### What changed in play, and which tests moved
+
+- A family of young children eats well under its head count: two parents and four children under three eat as three grown
+  people, not six.
+- The director keeps back food and kills stock by grown shares, so a family nobody plays with small children trades food
+  away sooner and butchers later.
+- Tests changed because their expectation genuinely changed (each says so beside it): `tests/family-roll.test.mjs` (the
+  stair of ages and "no two share an age" replaced by birth-date checks; the 20's shape); `tests/periods.test.mjs` (the
+  winter eaten by age); and three fixtures whose seeded class's history moved when its families did —
+  `tests/camp.test.mjs` (a skilled man stands a one-tick guard, so "at work 7 of 12" became "never idle a whole think"; the
+  scouts' loop stops when the army marches; what else a family has waiting is its own), `tests/houston.test.mjs` (two men of
+  two families, since a big family now has grown sons), `tests/winter.test.mjs` (a son of ten to fifteen, since a daughter is
+  refused for the other rule).
+
+### Evidence
+
+`npm test`: **949 passed, 0 failed** (940 before; nine new in `tests/rations.test.mjs`). Injections: `node
+scripts/family-roll-injections.mjs`, **24 of 24 caught** ([record](evidence/family-roll-injections.json)); the tolerance of
+the twin-rate test is stated in the test (0.85 to 1.15 in 100 over about 170,000 births). Browser: `npm run
+test:family-panel` (17 checks) and `npm run test:family-twenty` (9 checks) pass at desktop sizes and a 400 px phone. Same
+computer only; no LAN and no district claim.
+
+### What the owner may want to decide
+
+1. **Should a birthday change the shown age and the rules of ten and sixteen too?** Now only eating reads it; a child who
+   turns ten in the game still may not be sent until the next class.
+2. **Grown children at home, to 22,** was the least surprising honest way to give eighteen children natural spacing. It
+   gives large families more sons who can be sent to fight. The other honest choices were eighteen births in eighteen years
+   (a birth every twelve months, which reads as the old stair) or more twins than the owner's one in a hundred.
+3. **The twin rate** is per delivery. A family whose roll gives it one child can never have twins.
+

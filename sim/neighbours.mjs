@@ -12,7 +12,7 @@
 //   - It runs only in a class that asked for it (`world.neighbours`), so every class and save made before is unchanged.
 //
 // Every threshold and valuation below is invented (`FIC-GONZ-028`).
-import { tooYoung } from './family.mjs';
+import { ADULT_RATION, mouthsOf, tooYoung } from './family.mjs';
 import { siteFacts } from './ground.mjs';
 import { overlaps, squareOf } from './fields.mjs';
 import { CHORES, logwoodGround } from './chores.mjs';
@@ -32,10 +32,10 @@ import { landAround } from './ground.mjs';
 export const THINK_EVERY = 3;
 /** What a family values a unit of each good at, when weighing a trade. Seed and powder are dear; coin is scarce. */
 export const TRADE_VALUE = Object.freeze({ food: 1, cotton: 1, seed: 2, powder: 3, money: 3 });
-/** Food per person the family keeps back before it will trade food away or stop hunting. */
+/** Food the family keeps back for each grown person's share it eats (`mouthsOf`) before it will trade food away or stop hunting. */
 export const FOOD_KEPT_PER_PERSON = 3;
-/** What one person eats in a day (sim/routines.mjs), and how few days' food left is worth killing a beast over. */
-export const EATEN_A_DAY = 0.35, KILL_WITHIN_DAYS = 2;
+/** What one grown person eats in a day (sim/family.mjs `ADULT_RATION`), and how few days' food left is worth killing a beast over. */
+export const EATEN_A_DAY = ADULT_RATION, KILL_WITHIN_DAYS = 2;
 /** The breeding herd a family nobody plays will not eat into, whatever else happens (`FIC-GONZ-185`). */
 export const KEEP_CATTLE = 4, KEEP_HOGS = 6;
 /** Shots the family keeps in the house: with fewer, somebody goes to town for powder and lead. */
@@ -98,6 +98,13 @@ export function shareOf(world, personId, question) {
 
 const worth = goods => Object.entries(goods || {}).reduce((sum, [good, amount]) => sum + (TRADE_VALUE[good] ?? 1) * amount, 0);
 
+/**
+ * How many grown people's food the family eats, each by their age today (sim/family.mjs `mouthsOf`, FIC-GONZ-360): what it
+ * keeps back (`FOOD_KEPT_PER_PERSON`) and what it counts as its last day or two (`EATEN_A_DAY`) are reckoned in these, as its
+ * eating is. Until 2026-09-22 they were reckoned by head, a baby as a grown man (`FIC-GONZ-364`).
+ */
+export const mouthsAt = (world, household) => mouthsOf(world, household.members.map(id => world.entities[id]).filter(Boolean));
+
 /** Whether this family is one the director runs. */
 /** A family nobody plays, or one whose student has gone (sim/absence.mjs): the director gives its orders. */
 export const automatic = (world, household) => Boolean(world.neighbours && household && (!household.played || household.absent));
@@ -111,11 +118,10 @@ export function markPlayed(world, householdId) {
  * Whether to take a trade, and if not, why - in the family's own words. Weighs what it gets against what it gives,
  * and never gives away what it needs: its food below what its people need, its seed before planting, its last shot.
  */
-export function judgeOffer(view, offer) {
+export function judgeOffer(view, offer, mouths = view.household.members.length) {
   const resources = view.household.resources;
-  const people = view.household.members.length;
   const after = good => (resources[good] || 0) - (offer.weGive[good] || 0) + (offer.weGet[good] || 0);
-  if (offer.weGive.food && after('food') < people * FOOD_KEPT_PER_PERSON) return { take: false, why: "We can't spare the food; there are too many of us to feed." };
+  if (offer.weGive.food && after('food') < mouths * FOOD_KEPT_PER_PERSON) return { take: false, why: "We can't spare the food; there are too many of us to feed." };
   if (offer.weGive.seed && view.household.field?.state === 'bare' && after('seed') < 2) return { take: false, why: "We can't spare seed before the field is in." };
   if (offer.weGive.powder && after('powder') < 1) return { take: false, why: "That's the last powder in the house." };
   if (worth(offer.weGet) < worth(offer.weGive)) return { take: false, why: "That's not a fair trade for us." };
@@ -135,12 +141,13 @@ export function thinkFor(world, household, { project, act }) {
   const ride = input => attempt({ ...input, mode: 'horse' }) || attempt(input);
   // Its own people, as its own projection shows them.
   const people = (view.entities || []).filter(entity => entity.kind === 'person' && entity.householdId === household.id);
+  const mouths = mouthsAt(world, household);
   const available = work => (view.work?.[work.person] || []).find(entry => entry.id === work.chore && entry.can);
 
   // Offers made to this family: answered by the person they were made to.
   for (const offer of view.offers || []) {
     if (offer.direction !== 'received') continue;
-    const verdict = judgeOffer(view, offer);
+    const verdict = judgeOffer(view, offer, mouths);
     attempt(verdict.take
       ? { action: 'accept-offer', entityId: offer.ourEntityId, offerId: offer.id }
       : { action: 'decline-offer', entityId: offer.ourEntityId, offerId: offer.id, reason: verdict.why });
@@ -195,7 +202,7 @@ export function thinkFor(world, household, { project, act }) {
     }
     if (!flight.danger && !flight.bogged) {
       const resources = view.household.resources || {};
-      const short = (resources.food || 0) < people.length * FOOD_KEPT_PER_PERSON;
+      const short = (resources.food || 0) < mouths * FOOD_KEPT_PER_PERSON;
       const free = people.filter(person => !tooYoung(person) && !person.chore && person.health?.condition !== 'dead' && person.health?.condition !== 'captured' && person.health?.condition !== 'sick');
       const busy = id => people.some(person => person.chore?.id === id);
       const offer = (person, chore) => (view.work?.[person.id] || []).find(entry => entry.id === chore && entry.can);
@@ -302,16 +309,16 @@ export function thinkFor(world, household, { project, act }) {
     const resources = view.household.resources;
     // Short of food is one thing; **down to the last day or two** is another, and only the second is worth killing a
     // beast for. `EATEN_A_DAY` is `advanceRoutine`'s own figure.
-    const hungry = food < people.length * EATEN_A_DAY * KILL_WITHIN_DAYS;
+    const hungry = food < mouths * EATEN_A_DAY * KILL_WITHIN_DAYS;
     const plan = [
       // Food first when the family is short, then the crop, the house, the tools, the fence, and the trips to town
       // a farm needs: seed when there is none to plant, cotton to the store once there is some.
-      food < people.length * FOOD_KEPT_PER_PERSON && hunters === 0 && (resources.powder || 0) >= 1 && huntChore,
+      food < mouths * FOOD_KEPT_PER_PERSON && hunters === 0 && (resources.powder || 0) >= 1 && huntChore,
       // And when the house is short and there is no shot in it - or the one hunter is already out - the four works that
       // cost no powder and cannot fail (sim/gathering.mjs, `FIC-GONZ-173` to `-176`). This is the answer to the fault
       // §5.2 of docs/BIOME_GAMEPLAY.md measured on 2026-09-19: a family that fired its last shot in November "sat at no
       // food for the rest of the class". A line in the creek and a walk to the oyster beds were always there.
-      ...(food < people.length * FOOD_KEPT_PER_PERSON && hunters === 0 && foraging === 0
+      ...(food < mouths * FOOD_KEPT_PER_PERSON && hunters === 0 && foraging === 0
         ? ['fish-the-water', 'gather-oysters', (resources.powder || 0) >= POWDER_KEPT && 'take-small-game', 'cut-bee-tree']
         : []),
       // **The family's own stock last, and only down to a breeding herd.** A herd is capital: it feeds a family off its
