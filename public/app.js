@@ -3483,21 +3483,24 @@ function renderFamilyPanel(world) {
     setData(row.item, 'idle', String(idle));
     if (row.idle.hidden !== !idle) row.idle.hidden = !idle;
     seen.push({ id, need: need?.kind || null, needs: needs.map(one => one.kind), idle, focused, auto: onAuto, reason: reason || null, why: silence || null });
-    const key = JSON.stringify([reason, icons, shutting ? [lesson.step, lesson.allow, pointed] : null]);
+    const visibleIcons = icons.filter(icon => icon.active || (icon.can && (!shutting || allowsIcon(lesson, icon))));
+    const visibleReason = visibleIcons.length ? reason : reason || 'No actions available right now.';
+    const key = JSON.stringify([visibleReason, visibleIcons, shutting ? [lesson.step, lesson.allow, pointed] : null]);
     if (row.iconsKey !== key) {
       row.iconsKey = key;
       row.icons.setAttribute('aria-label', `What ${entity.name} can do`);
       // Changed in place, icon by icon: the button a student has focused or is pointing at stays the same button while what
       // it says changes around it, so keyboard focus and the popup survive every tick.
       const kept = new Map([...row.icons.querySelectorAll('.panel-icon')].map(button => [button.dataset.key, button]));
-      const wanted = reason ? [row.icons.querySelector('.panel-reason') || element('span', '', 'panel-reason')] : icons.map(icon => {
+      row.icons.style.setProperty('--action-columns', Math.max(1, Math.ceil(visibleIcons.length / 2)));
+      const wanted = visibleIcons.length ? visibleIcons.map(icon => {
         const button = kept.get(icon.key) || panelIcon(id, icon);
         kept.delete(icon.key);
         describeIcon(button, icon, lessonFor(icon.key));
         return button;
-      });
-      if (reason) wanted[0].textContent = reason;
-      for (const leftover of [...kept.values(), ...(reason ? [] : row.icons.querySelectorAll('.panel-reason'))]) leftover.remove();
+      }) : [row.icons.querySelector('.panel-reason') || element('span', '', 'panel-reason')];
+      if (!visibleIcons.length) wanted[0].textContent = visibleReason;
+      for (const leftover of [...kept.values(), ...(visibleIcons.length ? row.icons.querySelectorAll('.panel-reason') : [])]) leftover.remove();
       wanted.forEach((node, at) => { if (row.icons.children[at] !== node) row.icons.insertBefore(node, row.icons.children[at] || null); });
       if (panelTipFor?.entityId === id) showPanelTip(row.icons.querySelector(`[data-key="${panelTipFor.key}"]`));
     }

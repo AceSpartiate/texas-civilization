@@ -818,16 +818,14 @@ body[data-creating=true] #family-roll,body[data-creating=true] #surname,body[dat
 }
 
 
-/* Usability, 2026-09-21: readable actions on mouse, keyboard and touch. Keep one
-   bounded row; never shrink pictures into anonymous targets. Overflow is scrollable
-   from its first item, and focus/lesson navigation can reveal any later item. */
-.panel-row[data-focused=true] .panel-icons{justify-content:flex-start;align-items:stretch;overflow-x:auto;overflow-y:hidden;pointer-events:auto;padding:17px 5px 8px;scrollbar-width:thin;scrollbar-color:#b09a6d #30291f;bottom:64px;margin-bottom:0}
-.panel-icons .panel-icon{flex:0 0 76px;width:76px;min-width:76px;aspect-ratio:auto;display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px;min-height:98px}
-.panel-icons .panel-icon canvas{width:38px;height:38px;flex:none}
-.panel-action-name{display:block;font-size:11px;line-height:1.2;text-align:center;color:#362d20;overflow-wrap:anywhere;pointer-events:none}
+/* Only available orders are rendered. A compact two-row grid keeps every action in sight. */
+.panel-row[data-focused=true] .panel-icons{display:grid;grid-template-columns:repeat(var(--action-columns,1),minmax(0,1fr));justify-content:center;align-items:stretch;gap:4px;width:min(calc(var(--action-columns,1) * 62px),calc(100vw - 220px));max-width:calc(100vw - 24px);overflow:visible;pointer-events:auto;padding:12px 4px 4px;bottom:64px;margin-bottom:0}
+.panel-icons .panel-icon{width:100%;min-width:0;aspect-ratio:auto;display:flex;flex-direction:column;align-items:center;gap:1px;padding:2px;min-height:70px;box-sizing:border-box}
+.panel-icons .panel-icon canvas{width:32px;height:32px;flex:none}
+.panel-action-name{display:block;font-size:10px;line-height:1.1;text-align:center;color:#362d20;overflow-wrap:anywhere;pointer-events:none}
 .panel-icon[aria-disabled=true]{opacity:.65}
 .panel-icon[data-shut=true]{opacity:.45}
-@media(max-width:760px){.panel-row[data-focused=true] .panel-icons{bottom:43px;padding-bottom:8px;margin-bottom:0}}
+@media(max-width:760px){.panel-row[data-focused=true] .panel-icons{bottom:43px;width:min(calc(var(--action-columns,1) * 62px),calc(100vw - 16px));padding-bottom:8px;margin-bottom:0}}
 /* Refused work keeps readable lettering; the picture and border show its state. */
 .panel-icon[aria-disabled=true],.panel-icon[data-shut=true]{opacity:1;filter:none;background:#d8d0b8;border-color:#93886d;box-shadow:none}
 .panel-icon[aria-disabled=true] canvas{opacity:.4;filter:grayscale(.7)}

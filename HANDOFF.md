@@ -1,5 +1,9 @@
 # Claude handoff — Astra foundation
 
+## Action bar update — 2026-09-22
+
+The selected person's bar now renders only actions currently allowed by the server and guided lesson; an active task remains visible as status. Available actions use a compact grid of at most two rows with no horizontal scrolling on the supported desktop layout. The action names remain inside their buttons. When nothing is available, the bar shows the server's reason where possible. Keep this behavior when adding new orders: `panelActions` still returns the full action set for game logic, while `public/app.js` filters only its presentation. The lesson and family-panel browser proofs cover the revised behavior.
+
 ## Release integration: v2026.09.22.3
 
 House placement, additional homes, the compact builder, biome art, children’s icons and the launcher delete emblem are committed release work. Preserve them in subsequent builds. This integrates origin/main through v2026.09.22.2, including Claude’s tutorial dismissal and family-roll updates.

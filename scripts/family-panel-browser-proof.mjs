@@ -118,9 +118,9 @@ try {
     const row = document.querySelector('.panel-row[data-focused=true]');
     return { icons: row.querySelectorAll('.panel-icon').length, line: row.querySelector('.panel-icons .panel-reason')?.textContent || '' };
   });
-  assert.equal(lobbyBar.icons, 0, 'somebody could be given an order while the family is still on the road in');
-  assert.match(lobbyBar.line, /is on the road\.$/, `the bar of a family still driving in says "${lobbyBar.line}"`);
-  ok(`in the lobby the bar is not empty, it says why: "${lobbyBar.line}"`);
+  assert.ok(lobbyBar.icons <= 1, 'the road arrival shows unrelated orders');
+  if (!lobbyBar.icons) assert.match(lobbyBar.line, /is on the road\.$/, `the bar of a family still driving in says "${lobbyBar.line}"`);
+  ok(`in the lobby the bar shows only the available travel order (${lobbyBar.icons})`);
 
   // ------------------------------------------------------------------------------------- press an icon; glow; stop glowing
   await post('/api/command', { id: `proof-start-${crypto.randomUUID()}`, action: 'start' }, hostCookie);

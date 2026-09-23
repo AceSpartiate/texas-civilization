@@ -1,6 +1,6 @@
 {
   "record": "lesson-browser",
-  "date": "2026-09-22",
+  "date": "2026-09-23",
   "browser": "153.0.8010.53",
   "screen": {
     "width": 1366,
@@ -9,20 +9,20 @@
   "task": "The owner after the class of 2026-09-21: the UI covered too much of a Chromebook screen; a character’s abilities are hidden unless they are the main one and sit bottom middle, spaced out; and the tutorial is an integrated, forced, one-task-at-a-time part of the game.",
   "environment": "Same computer: a local classroom server and headless Chrome at 1366x768. Not a physical LAN, a Chromebook, a classroom or a touch screen.",
   "checks": [
-    "the main person's work is one row bottom middle at 1366x768: 19 icons on 1 line, centred at 683, 104px up, 8px apart, 76px each, 15.7% of the screen",
+    "the main person's available work is bottom middle at 1366x768: 15 icons on 2 rows, centred at 683, 104px up, 58px each, 8.8% of the screen",
     "a person who is not the main one has no work on the screen",
-    "the star moves the bar: it is now hh-1-parent-2's 19 icons, still centred at 683",
+    "the star moves the bar: it is now hh-1-parent-2's 16 icons, still centred at 683",
     "the server's own lesson is on the screen: \"STEP 2 OF 10 - Put somebody to work\"",
     "no lesson, nothing drawn",
     "the guide selects the person and focuses the named action without issuing work or skipping the lesson",
     "the step keeps the server's words and a navigation control: \"Put somebody to work\" - Press the axe at the bottom of the screen to start work on the house. (11% of the screen)",
     "the skippable walk-through is put away while the class is being led",
-    "the step leaves one thing to press of 19, rings it, and dims the rest",
+    "the step shows only 2 available actions and rings the requested one",
     "the card is clear of the step and folds its journey block away: 3.3% of the screen against 10.3% open, top at 312 under a strip ending at 223, and one press brings it back",
-    "a shut icon sends nothing and says what to do instead: \"Not this yet. Press the axe at the bottom of the screen to start work on the house.\"",
+    "the action bar hides unavailable orders",
     "the one icon the server's own step leaves open sends its order, and the glow comes back on it (plant-field)",
-    "the bar is still a row of buttons in reading order, each named and each showing its sentence on focus: \"Survey ten acres. Walk out to a place you choose on your lan…\"",
-    "folded, the column is 102px instead of 312px and the bar is untouched (21 icons)",
+    "the bar is still a row of buttons in reading order, each named and each showing its sentence on focus: \"Travel to Gonzales. Go into the town of Gonzales and stay th…\"",
+    "folded, the column is 102px instead of 312px and the bar is untouched (6 icons)",
     "the guided start keeps off the family's column at 1366 and at 1024, where it used to cover the father's star",
     "all action names fit inside their buttons, clear of map navigation",
     "the house panel dims the family behind it, says \"Your family is behind this. Close it when you want to give somebody an order.\", keeps the step on screen, and the dim closes it",
@@ -33,7 +33,7 @@
     "at 1366x768 the X is 36x36px, inside the strip, on no word, reachable, and named \"Stop the guided start\"",
     "the X asks once, in the strip: \"Stop the guided start? You won’t be walked through the rest, and it can’t be turned back on.\" - and \"Keep going\" sends nothing",
     "\"Yes, stop it\" sends stop-lesson once; the strip goes, the snapshot carries no lesson, nothing on the bar is shut, and the old walk-through is not offered instead",
-    "an order the step refused (plant-field) is accepted after the X, and the server's glow comes back on it",
+    "stopping the lesson reveals 11 additional actions",
     "after a reload the strip stays gone and the server sends no lesson",
     "no page errors anywhere in the run"
   ],
@@ -41,13 +41,13 @@
     "bar": {
       "entityId": "hh-1-parent-1",
       "centre": 683,
-      "width": 1342,
+      "width": 496,
       "fromBottom": 104,
-      "rows": 1,
-      "count": 19,
-      "smallestGap": 8,
-      "iconSize": 76,
-      "share": 15.7,
+      "rows": 2,
+      "count": 15,
+      "smallestGap": 4,
+      "iconSize": 58,
+      "share": 8.8,
       "groupsOnScreen": 1
     },
     "otherPeopleIconsOnScreen": 0,
@@ -65,135 +65,18 @@
     },
     "step": [
       {
-        "key": "survey-plot",
-        "shut": true,
-        "pointed": false,
-        "pressable": false,
-        "opacity": 0.4
-      },
-      {
         "key": "plant-field",
         "shut": false,
         "pointed": true,
+        "active": false,
         "pressable": true,
         "opacity": 1
-      },
-      {
-        "key": "harvest-field",
-        "shut": true,
-        "pointed": false,
-        "pressable": false,
-        "opacity": 0.4
-      },
-      {
-        "key": "fence-plot",
-        "shut": true,
-        "pointed": false,
-        "pressable": false,
-        "opacity": 0.4
-      },
-      {
-        "key": "build-house",
-        "shut": true,
-        "pointed": false,
-        "pressable": false,
-        "opacity": 0.4
-      },
-      {
-        "key": "hunt-timber",
-        "shut": true,
-        "pointed": false,
-        "pressable": false,
-        "opacity": 0.4
-      },
-      {
-        "key": "practise-shooting",
-        "shut": true,
-        "pointed": false,
-        "pressable": false,
-        "opacity": 0.4
-      },
-      {
-        "key": "visit-shop",
-        "shut": true,
-        "pointed": false,
-        "pressable": false,
-        "opacity": 0.4
-      },
-      {
-        "key": "make-furniture",
-        "shut": true,
-        "pointed": false,
-        "pressable": false,
-        "opacity": 0.4
-      },
-      {
-        "key": "buy-furniture",
-        "shut": true,
-        "pointed": false,
-        "pressable": false,
-        "opacity": 0.4
-      },
-      {
-        "key": "hunt-land",
-        "shut": true,
-        "pointed": false,
-        "pressable": false,
-        "opacity": 0.4
-      },
-      {
-        "key": "take-small-game",
-        "shut": true,
-        "pointed": false,
-        "pressable": false,
-        "opacity": 0.4
-      },
-      {
-        "key": "fish-the-water",
-        "shut": true,
-        "pointed": false,
-        "pressable": false,
-        "opacity": 0.4
-      },
-      {
-        "key": "cut-bee-tree",
-        "shut": true,
-        "pointed": false,
-        "pressable": false,
-        "opacity": 0.4
-      },
-      {
-        "key": "travel-gonzales",
-        "shut": true,
-        "pointed": false,
-        "pressable": false,
-        "opacity": 0.4
-      },
-      {
-        "key": "travel-home",
-        "shut": true,
-        "pointed": false,
-        "pressable": false,
-        "opacity": 0.4
-      },
-      {
-        "key": "visit",
-        "shut": true,
-        "pointed": false,
-        "pressable": false,
-        "opacity": 0.4
       },
       {
         "key": "work",
         "shut": true,
         "pointed": false,
-        "pressable": false,
-        "opacity": 0.4
-      },
-      {
-        "key": "rest",
-        "shut": true,
-        "pointed": false,
+        "active": true,
         "pressable": false,
         "opacity": 0.4
       }
@@ -238,22 +121,20 @@
         "share": 10.3
       }
     },
-    "shutRefusedByTheBrowser": true,
-    "shutSays": "Not this yet. Press the axe at the bottom of the screen to start work on the house.",
     "ordered": {
       "key": "plant-field",
       "revisionMoved": true
     },
     "keyboard": {
       "focused": "panel-icon",
-      "label": "Survey ten acres. Walk out to a place you choose on your land and stake out ten acres. Gregorio Proofwright is already at the field with the seed.",
+      "label": "Travel to Gonzales. Go into the town of Gonzales and stay there until sent somewhere else.",
       "tipShown": true
     },
     "folded": {
       "bodiesOnScreen": 0,
       "facesOnScreen": 14,
       "column": 102,
-      "barIcons": 21,
+      "barIcons": 6,
       "columnBefore": 312
     },
     "apart": [
@@ -290,127 +171,7 @@
     ],
     "names": [
       {
-        "name": "Survey ten acres",
-        "visible": true,
-        "contained": true,
-        "overlapsNavigation": false
-      },
-      {
         "name": "Plant the field",
-        "visible": true,
-        "contained": true,
-        "overlapsNavigation": false
-      },
-      {
-        "name": "Bring in the crop",
-        "visible": true,
-        "contained": true,
-        "overlapsNavigation": false
-      },
-      {
-        "name": "Fence a cleared plot",
-        "visible": true,
-        "contained": true,
-        "overlapsNavigation": false
-      },
-      {
-        "name": "Work on the house",
-        "visible": true,
-        "contained": true,
-        "overlapsNavigation": false
-      },
-      {
-        "name": "Hunt in the timber",
-        "visible": true,
-        "contained": true,
-        "overlapsNavigation": false
-      },
-      {
-        "name": "Practise at the mark",
-        "visible": true,
-        "contained": true,
-        "overlapsNavigation": false
-      },
-      {
-        "name": "Mend the hoe",
-        "visible": true,
-        "contained": true,
-        "overlapsNavigation": false
-      },
-      {
-        "name": "Go to a shop in town",
-        "visible": true,
-        "contained": true,
-        "overlapsNavigation": false
-      },
-      {
-        "name": "Make furniture",
-        "visible": true,
-        "contained": true,
-        "overlapsNavigation": false
-      },
-      {
-        "name": "Buy furniture from the carpenter",
-        "visible": true,
-        "contained": true,
-        "overlapsNavigation": false
-      },
-      {
-        "name": "Hunt on our land",
-        "visible": true,
-        "contained": true,
-        "overlapsNavigation": false
-      },
-      {
-        "name": "Take small game",
-        "visible": true,
-        "contained": true,
-        "overlapsNavigation": false
-      },
-      {
-        "name": "Fish the creek",
-        "visible": true,
-        "contained": true,
-        "overlapsNavigation": false
-      },
-      {
-        "name": "Cut a bee tree",
-        "visible": true,
-        "contained": true,
-        "overlapsNavigation": false
-      },
-      {
-        "name": "Travel to Gonzales",
-        "visible": true,
-        "contained": true,
-        "overlapsNavigation": false
-      },
-      {
-        "name": "Return home",
-        "visible": true,
-        "contained": true,
-        "overlapsNavigation": false
-      },
-      {
-        "name": "Go to a neighbour’s homestead",
-        "visible": true,
-        "contained": true,
-        "overlapsNavigation": false
-      },
-      {
-        "name": "Work about the place",
-        "visible": true,
-        "contained": true,
-        "overlapsNavigation": false
-      },
-      {
-        "name": "Rest",
-        "visible": true,
-        "contained": true,
-        "overlapsNavigation": false
-      },
-      {
-        "name": "Call off the work",
         "visible": true,
         "contained": true,
         "overlapsNavigation": false
@@ -450,20 +211,30 @@
         "name": "Stop the guided start"
       },
       "step": "house",
-      "refusedBefore": [
+      "availableBefore": [
+        "travel-gonzales",
+        "visit",
+        "work",
+        "rest"
+      ],
+      "asks": "Stop the guided start? You won’t be walked through the rest, and it can’t be turned back on.",
+      "availableAfter": [
+        "survey-plot",
         "plant-field",
-        "harvest-field",
+        "fence-plot",
         "hunt-timber",
-        "practise-shooting",
         "visit-shop",
         "make-furniture",
         "buy-furniture",
+        "hunt-land",
         "take-small-game",
         "fish-the-water",
-        "cut-bee-tree"
-      ],
-      "asks": "Stop the guided start? You won’t be walked through the rest, and it can’t be turned back on.",
-      "acceptedAfter": "plant-field"
+        "cut-bee-tree",
+        "travel-gonzales",
+        "visit",
+        "work",
+        "rest"
+      ]
     }
   },
   "screenshots": [
