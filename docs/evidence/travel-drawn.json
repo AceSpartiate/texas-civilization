@@ -1,6 +1,6 @@
 {
   "record": "travel-drawn-browser",
-  "date": "2026-09-22",
+  "date": "2026-09-23",
   "ownerDirection": "Owner, 2026-09-22: \"characters are still seen zipping around. i don't want to see icons. i want to see them walk at a normal pace, then when they've walked a ways (say if they're going somewhere that isn't their farm) they should fade out. then after they travel extra fast, they fade back in after arriving close enough to when normally the rest of the way. that way they arrive at the correct time, but no one sees them move unnaturally. their icon should say 'Travelling' next to it.\" By multiple choice: a short fixed stretch of walking (about a hundred yards), the road only while away, and everyone on the map. And: \"this shouldn't be a thing on their land. everyone should move at normal speed at all times (unless on horseback or wagon) on their land.\"",
   "how": "node scripts/travel-drawn-proof.mjs: a Solo game on the real land, the family made as a student makes it, the main person sent to Gonzales on foot; the family's own view sampled at the Study pace, then the portrait pressed (the camera goes close in and follows) and EVERY painted frame kept from there to two and a half seconds past the arrival, the rest of the road played at the quick pace. Headless Chrome 1280x850 on this computer.",
   "schedule": {
@@ -11,64 +11,64 @@
   },
   "person": "hh-1-parent-1",
   "road": {
-    "distance": 141.156,
+    "distance": 206.856,
     "step": 1,
     "speed": 1,
     "to": "gonzales"
   },
   "follow": {
     "frames": 170,
-    "serverHeightsPerSecond": 0.137,
-    "scale": 9.1,
+    "serverHeightsPerSecond": 0.085,
+    "scale": 5.6,
     "figurePx": 7,
     "leastAlpha": 1,
     "walkingFrames": 170,
-    "drawnHeightsPerSecond": 0.137
+    "drawnHeightsPerSecond": 0.085
   },
   "pace": {
-    "framesOnTheRoad": 5344,
+    "framesOnTheRoad": 6667,
     "framesAfter": 143,
     "tickMs": 1000,
     "serverHeightsPerSecond": 157.89,
     "drawnHeightsPerSecond": 1.2,
-    "measuredHeightsPerSecond": 1.24,
-    "measuredFramePairs": 166,
-    "leaptFrames": 4746,
+    "measuredHeightsPerSecond": 1.23,
+    "measuredFramePairs": 173,
+    "leaptFrames": 5883,
     "ceiling": 1.2,
     "scale": 2605,
     "figurePx": 49.50000000000001,
-    "framesPlaced": 721,
+    "framesPlaced": 746,
     "farthestFromTheSchedulePx": 0
   },
   "fade": {
-    "walkedFrames": 598,
-    "fadingFrames": 123,
-    "blindFrames": 4766,
-    "biggestStep": 0.138,
-    "snappedFrames": 4754,
+    "walkedFrames": 615,
+    "fadingFrames": 131,
+    "blindFrames": 6064,
+    "biggestStep": 0.127,
+    "snappedFrames": 5891,
     "fadeMs": 700,
     "seenYards": 100,
-    "walkedOutTo": 0.136,
-    "backInAt": 141.099,
-    "walkedLeadMiles": 0.137,
-    "ownLandMiles": 0.08
+    "walkedOutTo": 0.139,
+    "backInAt": 206.8,
+    "walkedLeadMiles": 0.14,
+    "ownLandMiles": 0.083
   },
   "marker": {
     "hook": "undefined",
     "framesWithAnythingDrawnWhileGone": 0
   },
   "comingIn": {
-    "framesWalkingInView": 450,
-    "lastMiles": 141.148
+    "framesWalkingInView": 467,
+    "lastMiles": 206.849
   },
   "arrival": {
     "siteId": "gonzales",
-    "serverTick": 112,
-    "serverMinute": 3360,
+    "serverTick": 140,
+    "serverMinute": 5040,
     "tickMs": 1000,
     "framesDrawnAtTheEndEarly": 0,
-    "drawnThereOnTick": 113,
-    "drawnThereOnMinute": 3420,
+    "drawnThereOnTick": 141,
+    "drawnThereOnMinute": 5100,
     "drawnThereMsAfterTheServer": 995,
     "finalAlpha": 1,
     "finalDrawn": 1
@@ -77,8 +77,8 @@
     "words": [
       "Travelling"
     ],
-    "framesSaying": 5344,
-    "framesOnTheRoad": 5344
+    "framesSaying": 6667,
+    "framesOnTheRoad": 6667
   },
   "screenshots": [
     "docs/evidence/travel-drawn/follow-figure.png",
@@ -86,20 +86,20 @@
     "docs/evidence/travel-drawn/arrived-figure.png"
   ],
   "pass": [
-    "in the family's own view the server carries them 0.137 of their own heights a second, under the gait's 1.2",
+    "in the family's own view the server carries them 0.085 of their own heights a second, under the gait's 1.2",
     "so nothing fades: they are a whole figure on every frame, walking",
     "pressed close in the server would carry them 157.89 of their heights a second; drawn, they never pass 1.2, inside the gait's 1.2",
-    "and measured frame to frame from where they were actually drawn, over 166 pairs of frames at one camera, they cross 1.24 of their heights a second",
-    "and the figure is painted where the schedule walked it, never where the server has them: 721 frames, the farthest 0 px off",
-    "they walk in view at the start (out to 0.136 miles) and again at the end (from 141.099 of 141.156)",
-    "and the family's own land under that road is walked in view with it: a lead of 0.137 miles, which is 0.08 of their own land and then the 100 yards off it",
-    "the middle is crossed wholly out of sight: 4766 painted frames with nothing of them drawn",
-    "and only the road is drawn while they are gone (4766 of 4766 frames)",
-    "it fades rather than blinking: 123 frames part drawn, no frame changing by more than 0.138 (4754 frames where the schedule itself moved are left out)",
+    "and measured frame to frame from where they were actually drawn, over 173 pairs of frames at one camera, they cross 1.23 of their heights a second",
+    "and the figure is painted where the schedule walked it, never where the server has them: 746 frames, the farthest 0 px off",
+    "they walk in view at the start (out to 0.139 miles) and again at the end (from 206.8 of 206.856)",
+    "and the family's own land under that road is walked in view with it: a lead of 0.14 miles, which is 0.083 of their own land and then the 100 yards off it",
+    "the middle is crossed wholly out of sight: 6064 painted frames with nothing of them drawn",
+    "and only the road is drawn while they are gone (6064 of 6064 frames)",
+    "it fades rather than blinking: 131 frames part drawn, no frame changing by more than 0.127 (5891 frames where the schedule itself moved are left out)",
     "no marker is drawn on any frame, and the page has none to draw",
-    "they are back and walking before they are drawn at Gonzales: 450 frames of it, the last at 141.148 of 141.156 miles",
+    "they are back and walking before they are drawn at Gonzales: 467 frames of it, the last at 206.849 of 206.856 miles",
     "nobody is drawn at Gonzales before the server puts them there (0 frames)",
-    "and the walk in finishes inside the tick the server calls the arrival: tick 113 against the server's 112, 995 ms after it",
+    "and the walk in finishes inside the tick the server calls the arrival: tick 141 against the server's 140, 995 ms after it",
     "they end at gonzales, a whole figure again",
     "their row says Travelling the whole way: [\"Travelling\"]",
     "the page raised no errors"
