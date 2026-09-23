@@ -43,6 +43,10 @@ server's words when *Build here* is pressed. Ground refusals still come from the
   gate), `family-commands-browser-proof` (*"the principal ... has no journey icon"*), `field-art-browser-proof` (no *Roll the
   die* button).
 
+## Released as v2026.09.23.2 — 2026-09-23
+
+**[v2026.09.23.2](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.23.2)**, from `e1c4a60`: houses are spaced, and kept off water, the land line and fields, by their drawn footprint (`sim/house-footprint.mjs`, shared by server and page); the preview tints red over another house; old saves keep their houses where they stood. 1053 tests; house-plot proof covers a refused and an accepted second house. Already failing before this change, on a clean `cf32263` too: `house-plot-regression-proof`, `biome-game-browser-proof`, `family-commands-browser-proof`, `field-art-browser-proof`.
+
 ## Released as v2026.09.23.1 — 2026-09-23
 
 **[v2026.09.23.1](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.23.1)**, from `c3b5ddb`: "Build here" builds again (the house command's id carried a `.` from `Math.random()` and failed the server's `^[\w-]{8,80}$`); preview and built house at symbol size (`cabinSize`); roof seated on the walls from measured seat points; turned houses stay upright, mirrored at quarter turns (`stand-in:`, art requested); tapping a placed house opens it where drawn. 1044 tests; house-plot browser proof rewritten through placement.
