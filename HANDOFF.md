@@ -1,5 +1,9 @@
 # Claude handoff — Astra foundation
 
+## Released as v2026.09.23.1 — 2026-09-23
+
+**[v2026.09.23.1](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.23.1)**, from `c3b5ddb`: "Build here" builds again (the house command's id carried a `.` from `Math.random()` and failed the server's `^[\w-]{8,80}$`); preview and built house at symbol size (`cabinSize`); roof seated on the walls from measured seat points; turned houses stay upright, mirrored at quarter turns (`stand-in:`, art requested); tapping a placed house opens it where drawn. 1044 tests; house-plot browser proof rewritten through placement.
+
 ## Released as v2026.09.22.6 — action bar update
 
 The selected person's bar now renders only actions currently allowed by the server and guided lesson; an active task remains visible as status. Available actions use a compact grid of at most two rows with no horizontal scrolling on the supported desktop layout. The action names remain inside their buttons. When nothing is available, the bar shows the server's reason where possible. Keep this behavior when adding new orders: `panelActions` still returns the full action set for game logic, while `public/app.js` filters only its presentation. The lesson and family-panel browser proofs cover the revised behavior. The merged simulation suite passed all 992 tests. The panel proof is scoped to 1366×768 and 1024×768, the supported desktop sizes; phones remain unsupported by the owner's explicit decision.
