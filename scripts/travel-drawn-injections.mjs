@@ -46,8 +46,8 @@ const INJECTIONS = [
   },
   {
     name: 'a journey too short for the walked ends fades anyway, so a short errand is a blink',
-    from: '  if (!(give >= seen / 2)) return whole;',
-    to: '  if (!(give > 0)) return whole;',
+    from: '  if (!(lead >= seen / 2) || !(tail >= seen / 2)) return whole;',
+    to: '  if (!(lead > 0) || !(tail > 0)) return whole;',
   },
   {
     name: 'the drawn place creeps a fraction ahead of the road, so somebody reaches the far end before the server does',
@@ -66,14 +66,24 @@ const INJECTIONS = [
     to: '  return { leaves: leaves === null ? far : leaves, enters: lastOnFrom === null ? far : lastOnFrom };',
   },
   {
-    name: 'the road is spent on the land first, so an errand that cannot pay for both zips end to end instead of fading',
-    from: '  const give = Math.min(seen, roomAll / 2);',
-    to: '  const give = Math.min(seen, (roomAll - onLead - onTail) / 2);',
+    // The ordering this work shipped with first, and which the owner overruled the same day: the hundred yards paid for
+    // before the land, and the land given only what was left. On a hurried short errand it starts the fade a long way
+    // inside the family's own farm, which is the one thing the correction says may never happen.
+    name: 'the hundred yards are paid for before the land, so a figure begins to fade while still on its own farm',
+    from: '  if (!(room >= land)) return whole;',
+    to: '  if (!(room >= 0)) return whole;',
   },
   {
-    name: 'one end takes all the road that is left, and the other is given none of its own land',
-    from: '  const landTail = land > 0 ? Math.min(onTail, left - landLead) : 0;',
-    to: '  const landTail = 0;',
+    // …and the land capped at the hundred yards rather than paid in full, which puts the fade inside any farm wider
+    // than a hundred yards - which every league-and-labor grant is.
+    name: 'the land is capped at the hundred yards instead of paid in full, so the fade begins inside the farm',
+    from: '  const lead = onLead + give, tail = onTail + give;',
+    to: '  const lead = Math.min(onLead, seen) + give, tail = Math.min(onTail, seen) + give;',
+  },
+  {
+    name: 'one end is given its own land and the other is not',
+    from: '  const lead = onLead + give, tail = onTail + give;',
+    to: '  const lead = onLead + give, tail = give;',
   },
   {
     name: 'a caller with no land to test - the Host, somebody else\'s family - is treated as being on its own land all the way',

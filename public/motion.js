@@ -630,10 +630,11 @@ export function landRuns(points, inside, distance, base = 0, step = SEEN_MILES /
  * where the server has it. `rate` is the one over the other: how much drawn road a mile of the server's progress buys while
  * the figure is in view.
  *
- * ceiling: a journey that never leaves the family's own land is drawn at the server's pace, in view, and a farm crossing
- * pressed close in can still outrun the gait. Nothing else is possible: on their own land nobody may be faded, and the
- * arrival is the server's. The ways out are the class clock (docs/evidence/pace.json) or fading on the farm too, which the
- * owner refused.
+ * ceiling: **a journey whose own-land stretches the road cannot pay for is drawn at the server's pace, in view, from end to
+ * end** - a farm crossing pressed close in, and a hurried short errand that begins on the farm, can both still outrun the
+ * gait. That is one rule and not two, and nothing else is possible: on their own land nobody may be faded (owner,
+ * 2026-09-22), and the arrival is the server's. The ways out are the class clock (docs/evidence/pace.json) or fading on the
+ * farm too, which the owner refused.
  */
 export function travelSight({ distance, miles, milesASecond, gait, leaves = 0, enters = null, fadeMs = TRAVEL_FADE_MS, seen = SEEN_MILES }) {
   const far = Number.isFinite(distance) && distance > 0 ? distance : 0;
@@ -645,32 +646,27 @@ export function travelSight({ distance, miles, milesASecond, gait, leaves = 0, e
   const fade = Math.max(0, fadeMs) / 1000 * milesASecond;
   const onLead = Math.min(Math.max(0, leaves), far);
   const onTail = Math.min(Math.max(0, far - (Number.isFinite(enters) ? enters : far)), far);
-  // All the drawn road the two walked ends may share, which is what the two fades leave of the journey at the gait's pace.
-  // What is spent out of it is decided in order, because it will not always stretch to everything:
+  // `room` is all the drawn road the two walked ends may share: what the two fades leave of the journey at the gait's pace.
+  // It will not always stretch to everything, and **the family's own land is paid for first and in full**.
   //
-  //   1. **the hundred yards at each end**, without which there is nothing to fade *from* and the figure blinks;
-  //   2. **then as much of the family's own land at each end as is left**, its own end's first.
-  //
-  // That order is the one place the owner's two answers of 2026-09-22 can pull apart. Walking a farm's own half mile at the
-  // gait costs about thirteen real seconds, and a journey has only `rate` of its length to spend, so at a hurried class pace
-  // pressed right in a five-mile errand cannot pay for both. Giving the hundred yards first means a short errand still fades
-  // instead of zipping, which is the complaint that started all this; giving the land first would mean it zipped end to end.
-  // In the farming day - the pace a class actually plays at - there is room for both from about two and a half miles up, so
-  // the land is walked whole wherever a student is likely to be looking.
-  // ceiling: past that, a figure can begin to fade while still inside its own land, which is what the owner said should
-  // never happen. The other way is to let the on-land stretch be drawn at the server's own pace, in view and too fast. This
-  // is in HANDOFF.md as a question for the owner.
-  const roomAll = rate * (far - 2 * fade);
-  const give = Math.min(seen, roomAll / 2);
-  // Under about half the hundred yards the walked ends stop reading as walking - fifty yards is a second and a bit of it -
+  // The owner's correction of 2026-09-22 is absolute - "everyone should move at normal speed at all times ... on their
+  // land" - so a figure may never *begin* to fade while it is still on its own land, whatever that costs. Walking a farm's
+  // own half mile at the gait costs about thirteen real seconds, and a journey has only `rate` of its length to spend, so
+  // at a hurried class pace pressed right in a five-mile errand cannot pay for it. Then there is no fade at all and the
+  // whole journey is drawn where the server has it, in view: the same answer a journey that never leaves their land gets,
+  // and the price of it is that a hurried short errand is visibly quick.
+  const room = rate * (far - 2 * fade), land = onLead + onTail;
+  if (!(room >= land)) return whole;
+  // The hundred yards off the land at each end, out of whatever is left. Off their land it is a target and not a promise:
+  // it shortens, and goes to nothing, rather than start a fade a foot inside the family's own line.
+  const give = Math.min(seen, (room - land) / 2);
+  const lead = onLead + give, tail = onTail + give;
+  // Under about half the hundred yards a walked end stops reading as walking - fifty yards is a second and a bit of it -
   // and what is left is a figure that blinks out and back. Better drawn whole and brisk than blinking, so there is no fade
   // at all: that is the owner's "a journey shorter than about 200 yards is simply walked the whole way", arrived at from the
   // road left rather than from a second constant. Pressed close in at a farming tick it falls at about seven hundred yards.
-  if (!(give >= seen / 2)) return whole;
-  const left = Math.max(0, roomAll - 2 * give), land = onLead + onTail;
-  const landLead = land > 0 ? Math.min(onLead, left * onLead / land) : 0;
-  const landTail = land > 0 ? Math.min(onTail, left - landLead) : 0;
-  const lead = landLead + give, tail = landTail + give;
+  // A journey that carries its own land at an end has already paid for a walk there, so the land counts toward this.
+  if (!(lead >= seen / 2) || !(tail >= seen / 2)) return whole;
   const out = lead / rate, back = far - tail / rate - fade;
   const alpha = Math.max(0, Math.min(1, Math.max((out + fade - at) / fade, (at - back) / fade)));
   const held = rate * (out + fade), rejoin = far - rate * (far - back);

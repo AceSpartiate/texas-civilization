@@ -42,10 +42,12 @@ What was built:
 - **The family's own land, by the land and not by a distance** (`landRuns`, read from the grant bounds the server already
   sends). The road inside the family's own grant is walked in view however long it is; the fade may begin only off it, and
   the fade-in is finished before the line coming home. A journey that never leaves their land is never faded at all.
-- **And an order for spending the road when it will not pay for everything.** A journey has only its `rate` of length to
-  spend on being watched, and walking half a mile of farm at a walk costs thirteen real seconds. The hundred yards at each
-  end are paid for first (without them there is nothing to fade *from*), then as much of the on-land stretch as is left,
-  the two ends sharing it. In the farming day there is room for both from about two and a half miles up.
+- **And an order for spending the road when it will not pay for everything: the land first, and in full.** A journey has
+  only its `rate` of length to spend on being watched, and walking half a mile of farm at a walk costs thirteen real
+  seconds. The owner's correction is absolute, so the land comes first; the hundred yards off it are a target and not a
+  promise, and shorten to nothing rather than start a fade a foot inside the line. Where the road cannot pay even for the
+  land there is no fade at all and the whole journey is drawn where the server has it, in view. In the farming day there
+  is room for the land *and* the hundred yards from about two and a half miles up.
 - **The road, and nothing else, while they are away** (`drawTravelRoads`). The road still ahead as the same faint dotted
   line the marker drew, coming up as the figure goes. No disc, no pin, no portrait, no destination ring.
 - **The marker deleted**, with `MarkerFade`, `wantsMarker`, `MARKER_ABOVE`/`_BELOW`, `drawTravelMarkers`, its stand-in row
@@ -62,7 +64,7 @@ What was built:
 
 **Evidence.** `tests/travel-drawn.test.mjs` (13, replacing `tests/travel-marker.test.mjs`) and one new case in
 `tests/family-panel.test.mjs`. **Every one was made to fail first**: `node scripts/travel-drawn-injections.mjs`,
-**22 of 22 caught** — 16 unit injections and, with `PROOF_BROWSER=1`, 6 that only a real browser can answer
+**23 of 23 caught** — 17 unit injections and, with `PROOF_BROWSER=1`, 6 that only a real browser can answer
 ([record](docs/evidence/travel-drawn-injections.json)).
 
 **Two of them missed on the first attempt, and both times the test was wrong, not the code.** The pop-guard test stated
@@ -107,22 +109,24 @@ and the fade measurements leave them out and say how many there were.
 Alamo one watches a runner walk across the compound step by step and would notice a pace change. Same computer, headless
 Chrome: nothing here is a Chromebook, a classroom projector or a physical LAN.
 
-**Three things the owner may want to change.**
+**One thing the owner may want to change, and one price it costs.**
 
 1. **"(unless on horseback or wagon)" was read as the narrower of its two readings.** It is built as *the pace you hold
    somebody to on their own land is the pace of what they are on* — so a rider crosses their own farm at a horse's gait and
    a walker at a walk, and **nothing on their own land is ever sped up or faded, on foot or otherwise**. The other reading
    is *a horse or wagon on their own land may still be sped up and faded*. It is marked `ceiling:` in
    [MAP_ACCURACY.md](docs/MAP_ACCURACY.md) §12a.3 and is a question for the owner.
-2. **A journey that lies wholly on the family's own land and still outruns the gait is drawn at the server's pace, in
-   view.** Nothing else is possible at once: on their own land nobody may be faded, and the arrival is the server's. In
-   practice that is a farm crossing pressed right in, a second or two of brisk walking; the ways out are the class clock or
-   fading on the farm too, which the owner refused.
-3. **And where a journey cannot pay for both, the hundred yards win and the land gives way** — so a figure can begin to
-   fade while still inside its own land, which the correction said should never happen. It takes a short errand at a
-   hurried class pace pressed right in, where walking the farm at a walk would cost more real time than the whole journey
-   has. The other order would mean that errand zipped end to end, which is the complaint that started this. Say which you
-   would rather have.
+2. **The price, and it is not a choice: a journey whose own-land stretches the road cannot pay for is drawn at the server's
+   pace, in view, from end to end.** That is one rule covering two cases — a crossing of the farm itself, and a short
+   errand at a hurried class pace that begins at the house, where walking the farm at a walk would cost more real time
+   than the whole journey has. Either can still outrun the gait, and nothing else is possible at once: **on their own land
+   nobody may be faded**, and the arrival is the server's. So the land is always shown honestly and a hurried short errand
+   is visibly quick. The ways out are the class clock or fading on the farm too, which the owner refused.
+
+   `tests/travel-drawn.test.mjs` pins it: **not one frame of any journey is faded, or part faded, while the figure is still
+   on its own land** — swept frame by frame over three class paces, four road lengths and four ways the land can lie under
+   a road, the hurried errand included. The ordering this shipped with first, which paid the hundred yards before the
+   land, is an injection, and it fails that test alone.
 
 **Two proofs had to be told the new word**, and both were checked to make sure that was all that changed:
 `npm run test:family-panel` (the family driving in, in the lobby, is on a journey like any other, so its bar now reads

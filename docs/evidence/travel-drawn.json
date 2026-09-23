@@ -11,65 +11,65 @@
   },
   "person": "hh-1-parent-1",
   "road": {
-    "distance": 115.856,
+    "distance": 141.156,
     "step": 1,
     "speed": 1,
     "to": "gonzales"
   },
   "follow": {
     "frames": 170,
-    "serverHeightsPerSecond": 0.172,
-    "scale": 11.4,
+    "serverHeightsPerSecond": 0.137,
+    "scale": 9.1,
     "figurePx": 7,
     "leastAlpha": 1,
     "walkingFrames": 170,
-    "drawnHeightsPerSecond": 0.172
+    "drawnHeightsPerSecond": 0.137
   },
   "pace": {
-    "framesOnTheRoad": 4885,
-    "framesAfter": 144,
+    "framesOnTheRoad": 5344,
+    "framesAfter": 143,
     "tickMs": 1000,
     "serverHeightsPerSecond": 157.89,
     "drawnHeightsPerSecond": 1.2,
-    "measuredHeightsPerSecond": 1.209,
-    "measuredFramePairs": 487,
-    "leaptFrames": 2762,
+    "measuredHeightsPerSecond": 1.24,
+    "measuredFramePairs": 166,
+    "leaptFrames": 4746,
     "ceiling": 1.2,
     "scale": 2605,
     "figurePx": 49.50000000000001,
-    "framesPlaced": 2102,
+    "framesPlaced": 721,
     "farthestFromTheSchedulePx": 0
   },
   "fade": {
-    "walkedFrames": 1832,
-    "fadingFrames": 126,
-    "blindFrames": 2927,
-    "biggestStep": 0.144,
-    "snappedFrames": 2767,
+    "walkedFrames": 598,
+    "fadingFrames": 123,
+    "blindFrames": 4766,
+    "biggestStep": 0.138,
+    "snappedFrames": 4754,
     "fadeMs": 700,
     "seenYards": 100,
-    "walkedOutTo": 0.453,
-    "backInAt": 115.799,
-    "walkedLeadMiles": 0.453,
-    "ownLandMiles": 0.396
+    "walkedOutTo": 0.136,
+    "backInAt": 141.099,
+    "walkedLeadMiles": 0.137,
+    "ownLandMiles": 0.08
   },
   "marker": {
     "hook": "undefined",
     "framesWithAnythingDrawnWhileGone": 0
   },
   "comingIn": {
-    "framesWalkingInView": 1827,
-    "lastMiles": 115.855
+    "framesWalkingInView": 450,
+    "lastMiles": 141.148
   },
   "arrival": {
     "siteId": "gonzales",
-    "serverTick": 108,
-    "serverMinute": 3120,
+    "serverTick": 112,
+    "serverMinute": 3360,
     "tickMs": 1000,
     "framesDrawnAtTheEndEarly": 0,
-    "drawnThereOnTick": 109,
-    "drawnThereOnMinute": 3180,
-    "drawnThereMsAfterTheServer": 984,
+    "drawnThereOnTick": 113,
+    "drawnThereOnMinute": 3420,
+    "drawnThereMsAfterTheServer": 995,
     "finalAlpha": 1,
     "finalDrawn": 1
   },
@@ -77,8 +77,8 @@
     "words": [
       "Travelling"
     ],
-    "framesSaying": 4885,
-    "framesOnTheRoad": 4885
+    "framesSaying": 5344,
+    "framesOnTheRoad": 5344
   },
   "screenshots": [
     "docs/evidence/travel-drawn/follow-figure.png",
@@ -86,20 +86,20 @@
     "docs/evidence/travel-drawn/arrived-figure.png"
   ],
   "pass": [
-    "in the family's own view the server carries them 0.172 of their own heights a second, under the gait's 1.2",
+    "in the family's own view the server carries them 0.137 of their own heights a second, under the gait's 1.2",
     "so nothing fades: they are a whole figure on every frame, walking",
     "pressed close in the server would carry them 157.89 of their heights a second; drawn, they never pass 1.2, inside the gait's 1.2",
-    "and measured frame to frame from where they were actually drawn, over 487 pairs of frames at one camera, they cross 1.209 of their heights a second",
-    "and the figure is painted where the schedule walked it, never where the server has them: 2102 frames, the farthest 0 px off",
-    "they walk in view at the start (out to 0.453 miles) and again at the end (from 115.799 of 115.856)",
-    "and the family's own land under that road is walked in view with it: a lead of 0.453 miles, which is 0.396 of their own land and then the 100 yards off it",
-    "the middle is crossed wholly out of sight: 2927 painted frames with nothing of them drawn",
-    "and only the road is drawn while they are gone (2927 of 2927 frames)",
-    "it fades rather than blinking: 126 frames part drawn, no frame changing by more than 0.144 (2767 frames where the schedule itself moved are left out)",
+    "and measured frame to frame from where they were actually drawn, over 166 pairs of frames at one camera, they cross 1.24 of their heights a second",
+    "and the figure is painted where the schedule walked it, never where the server has them: 721 frames, the farthest 0 px off",
+    "they walk in view at the start (out to 0.136 miles) and again at the end (from 141.099 of 141.156)",
+    "and the family's own land under that road is walked in view with it: a lead of 0.137 miles, which is 0.08 of their own land and then the 100 yards off it",
+    "the middle is crossed wholly out of sight: 4766 painted frames with nothing of them drawn",
+    "and only the road is drawn while they are gone (4766 of 4766 frames)",
+    "it fades rather than blinking: 123 frames part drawn, no frame changing by more than 0.138 (4754 frames where the schedule itself moved are left out)",
     "no marker is drawn on any frame, and the page has none to draw",
-    "they are back and walking before they arrive: 1827 frames of it, the last at 115.855 of 115.856 miles",
+    "they are back and walking before they are drawn at Gonzales: 450 frames of it, the last at 141.148 of 141.156 miles",
     "nobody is drawn at Gonzales before the server puts them there (0 frames)",
-    "and the walk in finishes inside the tick the server calls the arrival: tick 109 against the server's 108, 984 ms after it",
+    "and the walk in finishes inside the tick the server calls the arrival: tick 113 against the server's 112, 995 ms after it",
     "they end at gonzales, a whole figure again",
     "their row says Travelling the whole way: [\"Travelling\"]",
     "the page raised no errors"

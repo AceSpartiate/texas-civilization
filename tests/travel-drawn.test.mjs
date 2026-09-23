@@ -172,23 +172,53 @@ test('the family\'s own land is never sped up and never faded, however long the 
   assert.equal(home.miles, 0.2, 'a journey wholly on own land was drawn somewhere other than where the server has it');
 });
 
-test('when the road will not pay for both, the hundred yards are kept and the land gives way - never the other way round', () => {
-  // The one place the owner's two answers of 2026-09-22 pull apart, and the order `travelSight` spends the road in. A class
-  // hurried to a short tick, pressed right in, on a five-mile errand: walking half a mile of farm at the gait would cost
-  // more real time than the whole journey has.
-  const hurried = { milesASecond: drawnMilesASecond({ milesATick: 1, tickMs: 1000 }), gait: gaitMilesASecond(CLOSE) };
-  const leaves = 0.5, distance = 5;
-  const tight = travelSight({ distance, miles: 0.01, milesASecond: hurried.milesASecond, gait: hurried.gait, leaves, enters: distance });
-  assert.equal(tight.faded, true, 'a five-mile errand it could not pay for was drawn at the server\'s pace end to end');
-  assert.ok(tight.lead < leaves, `the land was paid for first (a lead of ${tight.lead}) and the errand had nothing left to fade with`);
-  assert.ok(tight.lead >= SEEN_MILES / 2, `the walked lead is ${tight.lead * YARDS_A_MILE} yards, under the fifty that still read as walking`);
-  // Given room, the land is paid for too: the same errand in the farming day, where a tick is nine and a half seconds.
-  const room = view(1, CLOSE);
-  const easy = travelSight({ distance, miles: 0.01, ...room, leaves, enters: distance });
-  assert.ok(Math.abs(easy.lead - (leaves + SEEN_MILES)) < 1e-9, `with room the lead is ${easy.lead}, not the land plus the hundred yards`);
-  // And the two ends share what is left rather than one end taking it: a road that both leaves and re-enters their land.
-  const both = travelSight({ distance, miles: 0.01, milesASecond: hurried.milesASecond, gait: hurried.gait, leaves: 0.25, enters: distance - 0.25 });
-  assert.ok(Math.abs(both.lead - both.tail) < 1e-9, `the ends were given ${both.lead} and ${both.tail}`);
+test('not one frame of any journey is faded, or part faded, while the figure is still on its own land', () => {
+  // Owner, 2026-09-22, and it is absolute: "everyone should move at normal speed at all times (unless on horseback or
+  // wagon) on their land." So the family's own land is paid for first and in full, and the hundred yards off it give way -
+  // never the other way round. Where the road cannot pay even for the land, there is no fade at all and the whole journey
+  // is drawn where the server has it, in view, which is the same answer a journey that never leaves their land gets.
+  //
+  // Every combination below is swept frame by frame, and the one thing asserted of every sample is the owner's sentence:
+  // while the drawn figure is on its own land, all of it is drawn.
+  const hurried = drawnMilesASecond({ milesATick: 1, tickMs: 1000 }), farming = drawnMilesASecond({ milesATick: 1, tickMs: 9500 });
+  const long = drawnMilesASecond({ milesATick: 10.5, tickMs: 9500 });
+  const gait = gaitMilesASecond(CLOSE);
+  let sawFade = false, sawWhole = false;
+  for (const milesASecond of [farming, hurried, long]) {
+    for (const distance of [3, 5, 40, 188]) {
+      // Land at the start only (setting out from the house), at the end only (coming home), and at both.
+      for (const [leaves, enters] of [[0.5, distance], [0, distance - 0.5], [0.25, distance - 0.25], [0.5, distance - 0.5]]) {
+        const where = `${Math.round(milesASecond * 1000) / 1000} mi/s, ${distance} miles, land ${leaves}..${enters}`;
+        let least = 1;
+        for (let miles = 0; miles <= distance; miles += distance / 800) {
+          const sight = travelSight({ distance, miles, milesASecond, gait, leaves, enters });
+          if (sight.faded) sawFade = true; else sawWhole = true;
+          least = Math.min(least, sight.alpha);
+          // The figure's *drawn* place is what matters, not the server's: `sight.miles` is where it was put on the road.
+          const onOwnLand = sight.miles <= leaves || sight.miles >= enters;
+          if (onOwnLand) assert.equal(sight.alpha, 1, `at ${sight.miles.toFixed(3)} miles the figure was ${sight.alpha} drawn while on its own land (${where})`);
+        }
+        // And a journey that could not pay for its own land is not half-faded, it is not faded at all.
+        const sight = travelSight({ distance, miles: 0.01, milesASecond, gait, leaves, enters });
+        if (!sight.faded) assert.equal(least, 1, `an unfaded journey faded somewhere (${where})`);
+        if (sight.faded) assert.ok(sight.lead >= leaves - 1e-9 && sight.tail >= distance - enters - 1e-9, `the land was not paid for in full (${where}): lead ${sight.lead}, tail ${sight.tail}`);
+      }
+    }
+  }
+  assert.ok(sawFade && sawWhole, 'the sweep never reached both sides of the rule, so it is not measuring the squeeze');
+  // The squeeze itself, named: a class hurried to a one-second tick, pressed right in, on a five-mile errand that starts at
+  // the house. Walking half a mile of farm at the gait costs more real time than the whole journey has, so nothing fades.
+  const tight = travelSight({ distance: 5, miles: 0.01, milesASecond: hurried, gait, leaves: 0.5, enters: 5 });
+  assert.equal(tight.faded, false, 'an errand that could not pay for its own land faded anyway');
+  assert.equal(tight.alpha, 1);
+  assert.equal(tight.miles, 0.01, 'and it is drawn where the server has it, in view, end to end');
+  // Given room, the land is paid for *and* the hundred yards: the same errand in the farming day.
+  const easy = travelSight({ distance: 5, miles: 0.01, milesASecond: farming, gait, leaves: 0.5, enters: 5 });
+  assert.equal(easy.faded, true);
+  assert.ok(Math.abs(easy.lead - (0.5 + SEEN_MILES)) < 1e-9, `with room the lead is ${easy.lead}, not the land plus the hundred yards`);
+  // And the two ends share what is left rather than one end taking it.
+  const both = travelSight({ distance: 5, miles: 0.01, milesASecond: farming, gait, leaves: 0.25, enters: 4.75 });
+  assert.ok(Math.abs((both.lead - 0.25) - (both.tail - 0.25)) < 1e-9, `the ends were given ${both.lead} and ${both.tail}`);
 });
 
 test('a journey too short to hold two walked ends and two fades is simply walked, and never blinks', () => {

@@ -1010,11 +1010,14 @@ journey's end to the journey's end: at the mile the server calls arrival, the fi
 5. **Too short to hold all that, and it is simply walked.** When the two walked ends and the two fades will not fit in the
    journey, there is no fade at all. Pressed close in at a farming tick that falls at about seven hundred yards; the owner's
    own figure for it was "shorter than about 200 yards".
-6. **When the road will not pay for everything, it is spent in this order.** A journey has only `rate` of its own length to
-   spend on being watched, and walking half a mile of farm at a walk costs about thirteen real seconds. So: the hundred
-   yards at each end are paid for first, because without them there is nothing to fade *from* and the figure blinks; then as
-   much of the family's own land at each end as is left, the two ends sharing it. In the farming day there is room for both
-   from about two and a half miles up, which is where a student is looking.
+6. **When the road will not pay for everything, the family's own land is paid for first and in full.** A journey has only
+   `rate` of its own length to spend on being watched, and walking half a mile of farm at a walk costs about thirteen real
+   seconds. The owner's correction is absolute, so the land comes first: a figure may never *begin* to fade while it is
+   still on its own land, whatever that costs. The hundred yards off the land are a target and not a promise — they shorten,
+   and go to nothing, rather than start a fade a foot inside the family's own line. And where the road cannot pay even for
+   the land, **there is no fade at all**: the whole journey is drawn where the server has it, in view, which is the same
+   answer §12a.3 gives a journey that never leaves their land. In the farming day there is room for the land *and* the
+   hundred yards from about two and a half miles up, which is where a student is looking.
 
 ### 12a.3 The family's own land is never sped up and never faded
 
@@ -1024,13 +1027,11 @@ comes back onto it. The walked stretch at the start is *all* of the on-land road
 however long that is; the fade-in at the end is finished before the line rather than on it. A journey that never leaves
 their own land is never faded at all.
 
-- `ceiling:` a journey that lies **wholly** on the family's own land and still outruns the gait is drawn at the server's
-  pace, in view. Nothing else is possible: on their own land nobody may be faded, and the arrival is the server's. The ways
-  out are the class clock ([evidence/pace.json](evidence/pace.json)) or fading on the farm too, which the owner refused.
-- `ceiling:` **and where the road will not pay for both** (§12a.2 item 6), the hundred yards win and a figure can begin to
-  fade while still inside its own land — which is the thing the owner's correction said should never happen. It takes a
-  short errand at a hurried class pace pressed right in; the other way out is to draw the on-land stretch at the server's
-  own pace, in view and too fast, which is the complaint that started this. It is in `HANDOFF.md` as a question.
+- `ceiling:` **a journey whose own-land stretches the road cannot pay for is drawn at the server's pace, in view, from end
+  to end.** That covers both a journey that lies wholly on the family's own land and a short errand at a hurried class pace
+  that begins at the house: either can still outrun the gait. It is one rule and not two, and nothing else is possible — on
+  their own land nobody may be faded, and the arrival is the server's. The ways out are the class clock
+  ([evidence/pace.json](evidence/pace.json)) or fading on the farm too, which the owner refused.
 - `ceiling:` only the run at the start and the run at the end are found. A journey that crosses its own land in the
   **middle** - which no road on this map does - is drawn crossing it invisibly.
 - `ceiling:` the owner's "(unless on horseback or wagon)" is read here as *the pace you hold them to on their own land is
@@ -1058,5 +1059,5 @@ arrival, the own-land case, the too-short case, `landRuns`, and that nothing of 
 `tests/family-panel.test.mjs` holds the Travelling line, and the order the road is spent in when it will not pay for everything. The browser proof is `npm run test:travel-drawn`
 ([record](evidence/travel-drawn.json), [screenshots](evidence/travel-drawn/)): one person walking to Gonzales, every painted
 frame read off, the drawn speed never past the gait, the figure invisible through the middle, no marker drawn at any frame,
-and the drawn arrival on the server's own minute. It is also held to being painted where the schedule walked it and not where the server has it. **Every test was made to fail first, 22 of 22 caught:**
+and the drawn arrival on the server's own minute. It is also held to being painted where the schedule walked it and not where the server has it. **Every test was made to fail first, 23 of 23 caught:**
 [docs/evidence/travel-drawn-injections.json](evidence/travel-drawn-injections.json).
