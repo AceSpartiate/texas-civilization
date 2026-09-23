@@ -16,7 +16,7 @@ import {drawWater,drawRoad,drawCrossing,drawFerry,crossingAngle} from '/landscap
 import { GALE_POSES, GALE_SMOKE, drawFogShape, drawHighWater, drawWeatherAir, drawWeatherVeil, drawWetGround, farEmphasis, inGale, weatherGroundKey, weatherMix, weatherShown, weatherSpans, windLean } from '/weather-art.js';
 /** The weather with the day fully up, for everything drawn into the kept ground (public/weather-art.js `weatherMix`). */
 const STEADY = Object.freeze({ fade: false });
-import { drawHousePlot, plotted, renderHousePlot } from '/house-plot.js';
+import { drawHousePlot, houseFootprint, plotCell, plotted, renderHousePlot } from '/house-plot.js';
 import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesVisible, woodsLayersFor, woodsShown } from '/woods-view.js';
 import { bindEnding, renderEnding } from '/ending.js';
 import { bindLooks, renderLooks } from '/appearance.js';
@@ -838,12 +838,42 @@ export function selectedEntity(world) {
     || own.find(entity => entity.id === focusedId)
     || own.find(entity => entity.id === world.household?.principalId) || null;
 }
-/** Houses drawn this frame, by site: where a tap opens the interior (public/interior.js). */
+/**
+ * Houses drawn this frame: where a tap opens the interior (public/interior.js). A house drawn at its site is keyed by the
+ * site and reached `.7` and `.6` of its size either side of its middle; a house placed on the land (`drawPlacedHouse`) is
+ * wherever it was drawn, keyed `<site>:placed:<n>` with its `siteId`, reached over the box its pictures cover. Until
+ * 2026-09-23 a placed house was only reachable at the site point, where nothing of it was drawn (`notePlacedHouse`).
+ */
 const housesDrawn = new Map();
 let interiorSiteId = null;
 function houseAt(point) {
-  for (const [siteId, spot] of drawnNow(housesDrawn)) if (Math.abs(point.x - spot.x) < Math.max(18, spot.size * .7) && Math.abs(point.y - spot.y) < Math.max(18, spot.size * .6)) return siteId;
+  for (const [key, spot] of drawnNow(housesDrawn)) if (Math.abs(point.x - spot.x) < Math.max(18, spot.size * (spot.reachX ?? .7)) && Math.abs(point.y - spot.y) < Math.max(18, spot.size * (spot.reachY ?? .6))) return spot.siteId || key;
   return null;
+}
+/**
+ * The houses of one family's land: the one being raised and those it has finished, each at its own placement or, placed
+ * nowhere (an old save, a house planned before placement), at the site `q`. Returns how many pieces of the one being
+ * raised were drawn at the site. Where a tap opens the rooms follows what was drawn: each placed house where it stands
+ * (`notePlacedHouse`), and the site only while a house stands at it - on the family's own map and the Host's, the lands
+ * whose site `drawWorld` noted in `housesDrawn`.
+ * ceiling: every house of the land is drawn as one standing item at the site's y (drawWorld), so a person just behind a
+ * placed house can be drawn over its near side; a standing item per placed house, at its own y, is the way out.
+ */
+function drawLandHouses(ctx, camera, siteId, q, size, current, completed = []) {
+  const tappable = housesDrawn.has(siteId), placed = Boolean(current?.placement);
+  const pieces = drawHousePlot(ctx, q.x, q.y, size, { house: placed ? { pieces: [] } : current }, plotCatalogue, drawSprite, spriteFrame);
+  let atSite = !placed;
+  for (const home of [...(completed || []), ...(placed ? [current] : [])]) {
+    if (home.placement) { const box = drawPlacedHouse(ctx, camera, home); if (tappable) notePlacedHouse(siteId, box, size); }
+    else { drawHousePlot(ctx, q.x, q.y, size, { house: home }, plotCatalogue, drawSprite, spriteFrame); atSite = true; }
+  }
+  if (tappable && !atSite) housesDrawn.delete(siteId);
+  return pieces;
+}
+/** A placed house drawn in `box` (screen pixels) opens its site's rooms, kept in sizes so a moved camera carries it. */
+function notePlacedHouse(siteId, box, size) {
+  if (!box || !(size > 0)) return;
+  housesDrawn.set(`${siteId}:placed:${housesDrawn.size}`, { siteId, x: (box.left + box.right) / 2, y: (box.top + box.bottom) / 2, size, reachX: (box.right - box.left) / 2 / size, reachY: (box.bottom - box.top) / 2 / size });
 }
 /** The view the figures in `drawnAt` and the houses in `housesDrawn` were last drawn under (set in drawWorld). */
 let drawnCamera = null;
@@ -977,6 +1007,18 @@ const SIZE = {
   steamboat: 4.2,
   // The quarry's own sizes are `QUARRY_SIZE`, which is by species: a turkey is not a deer's height.
 };
+/**
+ * How big a house is drawn on the map, in the same yardstick as the people beside it (TECH.md: "the same yardstick every
+ * tree, cabin and ox is drawn in"). One number for a house at its site, a house placed on the land and the translucent
+ * house a student is still placing, so the preview is the house they get. The placed house and its preview were drawn
+ * in true feet - eight-foot cells, a pen seventeen feet high - beside people drawn a hundred feet tall, so a student saw
+ * a house a sixth of a person's height and said the preview was too small (2026-09-23; tests/house-preview.test.mjs).
+ * ceiling: the house is drawn at the map's symbol size while the server places and checks it in true feet (an 80 by 64
+ * foot envelope, sim/house-placement.mjs), so two houses the server lets stand a hundred feet apart are drawn
+ * overlapping, and a house on dry ground beside a creek can be drawn over the water. Checking the envelope at the drawn
+ * size, or drawing the land to scale, is the way out if it misleads.
+ */
+const cabinSize = (camera, settlement = false) => Math.max(5, camera.figure * (settlement ? SIZE.settlementCabin : SIZE.cabin));
 // null means the camera follows the family. Dragging or zooming takes manual control
 // until the player presses Follow, so the view is never yanked away mid-gesture.
 let manualView = null;
@@ -1308,7 +1350,10 @@ function installMapNavigation() {
     beginGesture();
   });
   canvas.addEventListener('pointermove', event => {
-    if (housePlacement && !housePlacement.locked) { const view = currentView(); if (view) housePlacement.point = worldAt(view, localPoint(event), size()); requestMapDraw(); }
+    // Measured here too, as a wheel is: a pointer that has only hovered since the page opened is read against the canvas as
+    // it was at start-up, hidden behind the title screen with no size, and put the preview at no number at all - nothing was
+    // drawn until the first press on the map (2026-09-23, scripts/house-plot-browser-proof.mjs).
+    if (housePlacement && !housePlacement.locked) { if (performance.now() - measuredAt > 500) measure(); const view = currentView(); if (view) housePlacement.point = worldAt(view, localPoint(event), size()); requestMapDraw(); }
     if (!active.has(event.pointerId)) return;
     // A mouse let go somewhere this page never heard about.
     if (event.pointerType === 'mouse' && event.buttons === 0) { release(event, false); return; }
@@ -2449,6 +2494,8 @@ export function drawWorld(world) {
   const hostLandsDrawn = {};
   window.__hostLandsDrawn = hostLandsDrawn;
   housesDrawn.clear();
+  // Presentation evidence for proofs: each placed house and each placement preview drawn this frame, where and how big.
+  window.__placedHousesDrawn = [];
   // Presentation evidence for proofs: where each house a tap can open was drawn this frame.
   window.__housesDrawn = housesDrawn;
   // Presentation evidence for proofs: each crossing drawn into the ground when it was last drawn, its kind and where
@@ -2470,7 +2517,7 @@ export function drawWorld(world) {
     const ownLand = site.id === homeId;
     if (site.kind === 'homestead' && !ownLand && camera.scale < HOMESTEAD_LEGIBLE) continue;
     if (settlement || site.kind === 'homestead' || !site.kind) {
-      const size = Math.max(5, camera.figure * (settlement ? SIZE.settlementCabin : SIZE.cabin));
+      const size = cabinSize(camera, settlement);
       // Where the family's own house is drawn, and on the Host's map every family's, so a tap on it can open the rooms inside.
       if (!settlement && (ownLand || host)) housesDrawn.set(site.id, { x: q.x, y: q.y - size * .35, size });
       // What is on this land, as this family knows it: its own as it is, a neighbour's as it was
@@ -2498,10 +2545,10 @@ export function drawWorld(world) {
         standing.push(...bexarDrawables(ctx,project,camera.scale/5280,{alamoProject:p=>{const o=alamoOnMap(p);return camera.toScreen({x:site.x+o.x,y:site.y+o.y});}}));
       }else if (ownLand && world.land?.house?.pieces && plotCatalogue) {
         // The family's house plot, piece by piece at its stage (public/house-plot.js); the camp beside it until a pen stands.
-        standing.push({ y: q.y, draw: () => { if (world.land.shelter === 'camp') homesteadCamp(ctx, q.x - size * .9, q.y + size * .35, size * .7, site.id); window.__plotPiecesDrawn = drawHousePlot(ctx, q.x, q.y, size, { ...world.land, completedHouses: [], house: world.land.house.placement ? { pieces: [] } : world.land.house }, plotCatalogue, drawSprite); for (const home of [...(world.land.completedHouses || []), ...(world.land.house.placement ? [world.land.house] : [])]) { if (home.placement) drawPlacedHouse(ctx, camera, home); else drawHousePlot(ctx, q.x, q.y, size, { house: home }, plotCatalogue, drawSprite); } } });
+        standing.push({ y: q.y, draw: () => { if (world.land.shelter === 'camp') homesteadCamp(ctx, q.x - size * .9, q.y + size * .35, size * .7, site.id); window.__plotPiecesDrawn = drawLandHouses(ctx, camera, site.id, q, size, world.land.house, world.land.completedHouses); } });
       }else if (theirs?.pieces && plotCatalogue) {
         // The same house plot, for any family, on the Host's map.
-        standing.push({ y: q.y, draw: () => { if (theirs.view.shelter !== 'house') homesteadCamp(ctx, q.x - size * .9, q.y + size * .35, size * .7, site.id); hostLandsDrawn[site.id].pieces = theirs.pieces.length; if (theirs.housePlacement) drawPlacedHouse(ctx, camera, { pieces: theirs.pieces, placement: theirs.housePlacement }); else drawHousePlot(ctx, q.x, q.y, size, { house: { pieces: theirs.pieces } }, plotCatalogue, drawSprite); for (const home of theirs.completedHouses || []) { if (home.placement) drawPlacedHouse(ctx, camera, home); else drawHousePlot(ctx, q.x, q.y, size, { house: home }, plotCatalogue, drawSprite); } } });
+        standing.push({ y: q.y, draw: () => { if (theirs.view.shelter !== 'house') homesteadCamp(ctx, q.x - size * .9, q.y + size * .35, size * .7, site.id); hostLandsDrawn[site.id].pieces = theirs.pieces.length; drawLandHouses(ctx, camera, site.id, q, size, { pieces: theirs.pieces, placement: theirs.housePlacement }, theirs.completedHouses); } });
       }else standing.push({ y: q.y, draw: () => view ? homesteadHouse(ctx, q.x, q.y, size, site.id, view) : miniBuilding(ctx, q.x, q.y, size, true, site.id) });
       // A new town's shops, each keeper's own building at its place (sim/shops.mjs, docs/TOWNS.md). Drawn for anybody, as
       // a town's buildings are; who is standing in them is still only seen by somebody who is there.
@@ -4568,7 +4615,7 @@ function renderHousePlan(world) {
     const available = !familyCache?.canRoll && !['rolling', 'rolled'].includes(rollState) && !wagonOpen;
     open.hidden = !available || housePlanOpen;
     open.textContent = world.land.house ? 'Your house' : 'Choose a house';
-    renderHousePlot(world, plotCatalogue, { open: available && housePlanOpen, drawSprite, place: beginHousePlacement, send: command => api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, ...command }), rerender: () => window.__snapshot && render(window.__snapshot) });
+    renderHousePlot(world, plotCatalogue, { open: available && housePlanOpen, drawSprite, spriteFrame, place: beginHousePlacement, send: command => api('/api/command', { ...command, id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}` }), rerender: () => window.__snapshot && render(window.__snapshot) });
     return;
   }
   renderHousePlot(world, plotCatalogue || { pieces: [], plans: [] }, { open: false });
@@ -5147,12 +5194,12 @@ document.addEventListener('click', event => {
 });
 bindEnding();
 bindCreation({
-  command: order => api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, ...order }),
+  command: order => api('/api/command', { ...order, id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}` }),
   refresh: () => { forgetFamily(); if (window.__snapshot) render(window.__snapshot); },
   family: () => familyCache,
 });
 bindLooks({
-  command: order => api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, ...order }),
+  command: order => api('/api/command', { ...order, id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}` }),
   refresh: () => { forgetFamily(); if (window.__snapshot) render(window.__snapshot); },
   family: () => familyCache,
 });
@@ -5737,13 +5784,26 @@ function beginHousePlacement(command) {
   document.querySelector('#house-placement-note').textContent = 'Move over your land; click to hold the preview in place.';
   if (window.__snapshot) render(window.__snapshot);
 }
+/**
+ * A house at its own placement, turned by its quarter turn. The built house (alpha 1) and the translucent one a student is
+ * placing (alpha under 1) are this one draw at `cabinSize`, so the preview is the house that will stand. The preview also
+ * outlines on the ground the footprint its pieces make (`houseFootprint`), in the same cells the pieces are drawn in.
+ * The turn turns the house on the ground - its footprint, which way its long side runs, the order its pieces stand in -
+ * and never its pictures, which stand upright like everything else on the map (2026-09-23: turned by the canvas, a house
+ * at 90 degrees lay on its side and one at 180 stood on its roof; `drawHousePlot` in public/house-plot.js). Returns the
+ * screen box its pictures cover, or null when nothing was drawn: where a tap opens its rooms (`houseAt`).
+ */
 function drawPlacedHouse(ctx, camera, house, alpha = 1) {
-  const at = camera.toScreen(house.placement);
-  const cell = camera.scale * 8 / 5280;
-  ctx.save(); ctx.translate(at.x, at.y); ctx.rotate(house.placement.rotation * Math.PI / 180); ctx.globalAlpha *= alpha;
-  if (alpha < 1) { ctx.fillStyle = '#65e3dc'; ctx.strokeStyle = '#8ffff4'; ctx.lineWidth = 2; ctx.fillRect(-cell*5,-cell*4,cell*10,cell*8); ctx.strokeRect(-cell*5,-cell*4,cell*10,cell*8); }
-  drawHousePlot(ctx, 0, cell, cell / .45, { house }, plotCatalogue, drawSprite);
-  ctx.restore();
+  const at = camera.toScreen(house.placement), rotation = house.placement.rotation || 0;
+  const size = cabinSize(camera), cell = plotCell(size), preview = alpha < 1, foot = houseFootprint(house, plotCatalogue, rotation);
+  const was = ctx.globalAlpha, drawn = [];
+  ctx.globalAlpha = was * alpha;
+  if (preview && foot) { ctx.save(); ctx.fillStyle = '#65e3dc'; ctx.strokeStyle = '#8ffff4'; ctx.lineWidth = 2; ctx.fillRect(at.x + foot.x * cell, at.y + foot.y * cell, foot.w * cell, foot.h * cell); ctx.strokeRect(at.x + foot.x * cell, at.y + foot.y * cell, foot.w * cell, foot.h * cell); ctx.restore(); }
+  const pieces = drawHousePlot(ctx, at.x, at.y + cell, size, { house }, plotCatalogue, drawSprite, spriteFrame, { rotation, drawn });
+  ctx.globalAlpha = was;
+  const box = drawn.length ? { left: Math.min(...drawn.map(b => b.left)), top: Math.min(...drawn.map(b => b.top)), right: Math.max(...drawn.map(b => b.right)), bottom: Math.max(...drawn.map(b => b.bottom)) } : null;
+  window.__placedHousesDrawn?.push({ preview, x: at.x, y: at.y, rotation, size, cell, footprint: foot && { x: foot.x * cell, y: foot.y * cell, w: foot.w * cell, h: foot.h * cell }, pieces, box });
+  return box;
 }
 document.querySelector('#house-rotate').addEventListener('click', () => { if (housePlacement) { housePlacement.rotation = (housePlacement.rotation + 90) % 360; document.querySelector('#house-rotate').textContent = `Rotate: ${housePlacement.rotation}°`; requestMapDraw(); } });
 document.querySelector('#house-move').addEventListener('click', () => { if (housePlacement) housePlacement.locked = false; });
@@ -5753,7 +5813,7 @@ document.querySelector('#house-placement-confirm').addEventListener('click', asy
   const draft = housePlacement;
   event.currentTarget.disabled = true;
   try {
-    await api('/api/command', { id: `house-${Date.now()}-${Math.random()}`, ...draft.command, placement: { ...draft.point, rotation: draft.rotation } });
+    await api('/api/command', { ...draft.command, placement: { ...draft.point, rotation: draft.rotation }, id: crypto.randomUUID?.() || `cmd-${Date.now()}-${Math.random().toString(36).slice(2)}` });
     housePlacement = null; document.querySelector('#house-placement').hidden = true;
   } catch (error) { document.querySelector('#house-placement-note').textContent = error.message; }
   finally { document.querySelector('#house-placement-confirm').disabled = false; if (window.__snapshot) render(window.__snapshot); }

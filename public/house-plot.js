@@ -35,7 +35,7 @@ export const plotted = (world, catalogue) => Boolean(catalogue && world.role !==
  * Draw the plot panel. `send(command)` posts an order and resolves or throws with the server's sentence; `rerender` asks
  * for the page to be drawn again.
  */
-export function renderHousePlot(world, catalogue, { open, send, rerender, drawSprite, place }) {
+export function renderHousePlot(world, catalogue, { open, send, rerender, drawSprite, spriteFrame, place }) {
   const panel = document.querySelector('#house-plot');
   if (!panel) return;
   panel.hidden = !open;
@@ -62,7 +62,7 @@ export function renderHousePlot(world, catalogue, { open, send, rerender, drawSp
     preview.width = 280; preview.height = 130;
     preview.setAttribute('aria-hidden', 'true');
     const finished = (plan?.pieces || []).map(([type, x, y]) => [type, x, y, catalogue.pieces.find(piece => piece.id === type)?.stageCount || 1, 0]);
-    if (drawSprite) drawHousePlot(preview.getContext('2d'), 140, 100, 65, { house: { pieces: finished } }, catalogue, drawSprite);
+    if (drawSprite) drawHousePlot(preview.getContext('2d'), 140, 100, 65, { house: { pieces: finished } }, catalogue, drawSprite, spriteFrame);
     button.append(preview, el('strong', plan?.name || choice.id), el('span', land.canAddHouse ? 'Build another' : house?.plan === choice.id ? 'Selected' : 'Choose this house'));
 
     button.type = 'button'; button.dataset.plan = choice.id; button.disabled = !choice.can || pending;
@@ -104,56 +104,159 @@ function penPicture(p) {
   return `house-${kind}-${p.stage < 1 ? 'site' : p.stage <= lastWall ? 'walls' : 'roofing'}`;
 }
 
-function drawLogPen(ctx, p, x, y, height, drawSprite) {
-  if (p.type === 'pen-jacal') return 0;
+/**
+ * Where a roof goes on its walls, when the walls are drawn standing at (x, y) `height` high: the point to draw it at, the
+ * height to draw it and the point of its own frame to put there. The house-modules sheet draws each piece of a pen alone
+ * in its cell, and a frame's ground anchor is where it meets the ground - which for a roof is the low front tip of its
+ * eaves. Drawn at the walls' ground anchor, the roof came down in front of the walls to the ground (student, 2026-09-23:
+ * "the roof doesn't seem to stay where it's supposed to be. It slides forward."). The atlas measures a seat on the full
+ * walls and on each roof (`seatX`, `seatY`: the middle of the wall tops, the middle of the eaves; scripts/
+ * build-atlas-manifest.mjs `seatOf`), and the roof is drawn with the one on the other, at the walls' own pixel scale.
+ * null when either frame has no seat, and then no roof is seated at all.
+ */
+export function roofSeat(walls, roof, x, y, height, flip = false) {
+  if (!Number.isFinite(walls?.seatX) || !Number.isFinite(roof?.seatX)) return null;
+  const scale = height / (walls.logicalHeight || walls.h);
+  return {
+    // Mirrored (a pen at a quarter turn, `drawHousePlot`), the walls' seat is as far the other side of their anchor.
+    x: x + (flip ? -1 : 1) * (walls.seatX - walls.anchorX) * walls.w * scale,
+    y: y + (walls.seatY - walls.anchorY) * walls.h * scale,
+    height: (roof.logicalHeight || roof.h) * scale,
+    anchor: [roof.seatX, roof.seatY],
+  };
+}
+
+/**
+ * A round- or hewn-log pen from the modular pieces, at its stage: sills, low walls, full walls, then its roof on them.
+ * Every stage is drawn at the full walls' pixel scale, `height` being the height the full walls stand, so the pen does
+ * not grow or shrink as it goes up: drawn each to `height`, the sill frame (198 pixels) came out 28% bigger than the walls
+ * (253) that replaced it. The roof is clapboard whatever the logs are, so both pens take the sheet's two roofs, which are
+ * named for the row they were drawn in: `house-round-roof-partial` once the roof stage is done and the pen is still to be
+ * chinked, `house-hewn-roof-finished` when it is. Returns the width drawn, or 0 when the modular art cannot be drawn and
+ * seated - no sheet, no frames, no seats - so the caller draws the pen's whole picture instead (`penPicture`). `flip`
+ * says the `drawSprite` given mirrors every picture about its foot, so the roof's seat is mirrored with the walls.
+ */
+function drawLogPen(ctx, p, x, y, height, drawSprite, spriteFrame, flip = false) {
+  if (p.type === 'pen-jacal' || !spriteFrame) return 0;
   const material = p.type === 'pen-hewn' ? 'hewn' : 'round';
   const course = Math.max(0, p.stage - 1);
   const base = course === 0 ? `house-${material}-sill` : course <= 4 ? `house-${material}-low-walls` : `house-${material}-full-walls`;
-  const drawn = drawSprite(ctx, base, x, y, height);
+  const walls = spriteFrame(`house-${material}-full-walls`), frame = spriteFrame(base);
+  const roofName = p.stage >= p.kind.stageCount ? 'house-hewn-roof-finished' : 'house-round-roof-partial';
+  const seat = p.stage >= 12 ? roofSeat(walls, spriteFrame(roofName), x, y, height, flip) : null;
+  if (!walls || !frame || (p.stage >= 12 && !seat)) return 0;
+  const drawn = drawSprite(ctx, base, x, y, height * (frame.logicalHeight || frame.h) / (walls.logicalHeight || walls.h));
   if (!drawn) return 0;
-  if (p.stage >= 12) drawSprite(ctx, p.stage >= p.kind.stageCount ? 'house-hewn-roof-finished' : 'house-round-roof-partial', x, y, height);
+  if (seat) drawSprite(ctx, roofName, seat.x, seat.y, seat.height, { anchor: seat.anchor });
   return drawn;
+}
+
+/** How wide one eight-foot cell of the plot is drawn, for a house drawn `size` high: the one rule both draws below use. */
+export const plotCell = size => size * 0.45;
+
+/**
+ * A point on the ground `(x, y)` from the middle of the plot, turned by a quarter turn `rotation` (0, 90, 180 or 270) the
+ * way a canvas turns: clockwise on the screen, east to south. The house is turned on the ground by this and nothing
+ * else - its pictures are never rotated (`drawHousePlot`).
+ */
+export function turned(x, y, rotation = 0) {
+  const turn = ((Math.round(rotation / 90) % 4) + 4) % 4;
+  return turn === 1 ? [-y, x] : turn === 2 ? [-x, -y] : turn === 3 ? [y, -x] : [x, y];
+}
+
+/**
+ * Where a house's pieces stand, in cells from the middle of its plot - the point it is placed at, which `drawHousePlot`
+ * called with `y` one cell down centres its grid on - turned on the ground by the house's quarter turn. What a preview
+ * outlines on the ground is this: the house the pieces make, not the whole grid; at 90 or 270 degrees a dog-run's is two
+ * cells wide and seven deep. It is the box the outline used to draw under a turned canvas, turned instead by `turned`, so
+ * nothing is drawn rotated. null for a house with nothing on the ground.
+ */
+export function houseFootprint(house, catalogue, rotation = 0) {
+  let box = null;
+  for (const [type, x, y] of house?.pieces || []) {
+    const kind = catalogue.pieces.find(each => each.id === type);
+    if (!kind || kind.place === 'in') continue;
+    const left = x - catalogue.columns / 2, top = y - catalogue.rows / 2;
+    const [[ax, ay], [bx, by]] = [turned(left, top, rotation), turned(left + kind.w, top + kind.h, rotation)];
+    const each = { left: Math.min(ax, bx), top: Math.min(ay, by), right: Math.max(ax, bx), bottom: Math.max(ay, by) };
+    box = box ? { left: Math.min(box.left, each.left), top: Math.min(box.top, each.top), right: Math.max(box.right, each.right), bottom: Math.max(box.bottom, each.bottom) } : each;
+  }
+  return box && { x: box.left, y: box.top, w: box.right - box.left, h: box.bottom - box.top };
 }
 
 /**
  * The house plot drawn on the family's own land, piece by piece at its stage, round the house's point. Returns how many
- * pieces were drawn. Delivered modular art covers round/hewn pens, passage, porch, finished shed room, and single
- * chimneys. stand-in: jacal stages, the shed frame, double chimney and independent interior floor/loft layers still use
- * earlier pictures or shapes. Requested in docs/ART_REQUESTS.md 2026-09-15 (the house plot's pieces).
+ * pieces were drawn. `spriteFrame(name)` gives a frame's measurements (public/art.js); without it a pen is drawn as its
+ * whole picture, since the modular pieces cannot be seated on one another. Delivered modular art covers round/hewn pens,
+ * passage, porch, finished shed room, and single chimneys. stand-in: jacal stages, the shed frame, double chimney and
+ * independent interior floor/loft layers still use earlier pictures or shapes. Requested in docs/ART_REQUESTS.md
+ * 2026-09-15 (the house plot's pieces).
+ *
+ * `rotation` turns the house on the ground and never its pictures (2026-09-23: a house turned 90 degrees lay on its side,
+ * and one at 180 stood on its roof, chimney and all). Everything on the map - tree, person, ox, house - is drawn upright
+ * in the one fixed three-quarter view, so a turn moves each piece to its turned cells (`turned`) and draws it upright
+ * there, back to front by its turned front edge: a dog-run at 90 degrees runs into the screen, its far chimney and pen
+ * behind the passage, its near pen and chimney in front. The sheet draws a pen corner-on, the gable and door on the face
+ * to the left and the ridge running back to the right. A quarter turn brings the gable round to the other face and lays
+ * the ridge along the other diagonal, which is the picture mirrored; a half turn leaves the silhouette as it was. So at
+ * 90 and 270 degrees every piece is mirrored about its own foot, and at 0 and 180 it is not.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-23 - the house from its other sides. At 0 and 270 degrees the gable
+ * that faces the viewer is the door's; at 90 and 180 it is the pen's back gable, which should have no door, and the porch,
+ * shed room and passage are their one picture (mirrored at a quarter turn) whichever way they run.
+ *
+ * `drawn`, when given, collects the screen box of every picture drawn, `{ left, top, right, bottom }`: where a tap on
+ * the house lands (public/app.js `houseAt`).
  */
-export function drawHousePlot(ctx, x, y, size, land, catalogue, drawSprite) {
+export function drawHousePlot(ctx, x, y, size, land, catalogue, drawSprite, spriteFrame, { rotation = 0, drawn } = {}) {
   for (const [index, house] of (land.completedHouses || []).entries()) {
-    drawHousePlot(ctx, x - (index + 1) * size * 2.2, y, size, { house }, catalogue, drawSprite);
+    drawHousePlot(ctx, x - (index + 1) * size * 2.2, y, size, { house }, catalogue, drawSprite, spriteFrame, { rotation, drawn });
   }
   const pieces = (land.house?.pieces || []).map(([type, px, py, stage, progress]) => ({ type, x: px, y: py, stage, progress, kind: catalogue.pieces.find(each => each.id === type) }))
     .filter(p => p.kind && (p.stage > 0 || p.progress > 0));
-  const cell = size * 0.45;
-  const left = x - (catalogue.columns / 2) * cell, top = y - (catalogue.rows / 2 + 1) * cell;
-  // Back to front, so a porch stands in front of its pen and a shed room behind it.
-  for (const p of pieces.filter(each => each.kind.place !== 'in').sort((a, b) => (a.y + a.kind.h) - (b.y + b.kind.h))) {
-    const footX = left + (p.x + p.kind.w / 2) * cell, footY = top + (p.y + p.kind.h) * cell;
+  const cell = plotCell(size), flip = Math.round(rotation / 90) % 2 !== 0;
+  // Every picture upright - mirrored at a quarter turn - and where it was drawn noted.
+  const sprite = (c, name, sx, sy, height, options) => {
+    const width = drawSprite(c, name, sx, sy, height, flip ? { ...options, flip } : options);
+    const frame = width && drawn && spriteFrame?.(name);
+    if (frame) {
+      const scale = height / (frame.logicalHeight || frame.h), w = frame.w * scale, h = frame.h * scale;
+      const ax = options?.anchor?.[0] ?? frame.anchorX, ay = options?.anchor?.[1] ?? frame.anchorY;
+      const left = flip ? sx - w * (1 - ax) : sx - w * ax, top = sy - h * ay;
+      drawn.push({ left, top, right: left + w, bottom: top + h });
+    }
+    return width;
+  };
+  // Each piece's foot - the middle of its front edge on the ground - in its turned cells, round the plot's middle one cell
+  // above (x, y). Unturned, this is where the pieces have always stood.
+  const placed = pieces.filter(each => each.kind.place !== 'in').map(p => {
+    const [cx, cy] = turned(p.x + p.kind.w / 2 - catalogue.columns / 2, p.y + p.kind.h / 2 - catalogue.rows / 2, rotation);
+    const [w, h] = flip ? [p.kind.h, p.kind.w] : [p.kind.w, p.kind.h];
+    return { p, w, h, front: cy + h / 2, footX: x + cx * cell, footY: y - cell + (cy + h / 2) * cell };
+  });
+  // Back to front by the turned front edge, so a piece nearer the viewer is drawn over one further off.
+  for (const { p, w, h, footX, footY } of placed.sort((a, b) => a.front - b.front)) {
     if (p.kind.pen) {
-      if (!drawLogPen(ctx, p, footX, footY, cell * 2.2, drawSprite)) drawSprite(ctx, penPicture(p), footX, footY, cell * 2.2);
+      if (!drawLogPen(ctx, p, footX, footY, cell * 2.2, sprite, spriteFrame, flip)) sprite(ctx, penPicture(p), footX, footY, cell * 2.2);
       continue;
     }
     if (p.type === 'shed') {
-      const sprite = p.stage >= p.kind.stageCount ? 'house-shed-room' : 'lean-to';
-      if (!drawSprite(ctx, sprite, footX, footY, cell * 1.1) && sprite !== 'lean-to') drawSprite(ctx, 'lean-to', footX, footY, cell * 1.1);
+      const name = p.stage >= p.kind.stageCount ? 'house-shed-room' : 'lean-to';
+      if (!sprite(ctx, name, footX, footY, cell * 1.1) && name !== 'lean-to') sprite(ctx, 'lean-to', footX, footY, cell * 1.1);
       continue;
     }
-    if (p.type === 'porch') { if (!drawSprite(ctx, 'house-porch', footX, footY, cell * 0.9)) drawSprite(ctx, 'shed-open', footX, footY, cell * 0.9); continue; }
+    if (p.type === 'porch') { if (!sprite(ctx, 'house-porch', footX, footY, cell * 0.9)) sprite(ctx, 'shed-open', footX, footY, cell * 0.9); continue; }
     ctx.save();
     if (p.type === 'passage') {
-      const floor = drawSprite(ctx, 'house-passage-floor', footX, footY, cell * .72);
+      const floor = sprite(ctx, 'house-passage-floor', footX, footY, cell * .72);
       if (!floor) {
         ctx.fillStyle = '#7b6a52';
-        ctx.fillRect(left + p.x * cell, top + (p.y + .4) * cell, cell, cell * .35);
+        ctx.fillRect(footX - w * cell / 2, footY - (h - .4) * cell, w * cell, cell * .35);
       }
-      if (p.stage >= p.kind.stageCount) drawSprite(ctx, 'house-passage-roof', footX, footY, cell * 1.35);
+      if (p.stage >= p.kind.stageCount) sprite(ctx, 'house-passage-roof', footX, footY, cell * 1.35);
     } else if (p.type === 'chimney' || p.type === 'chimney-stone') {
       const complete = p.stage >= p.kind.stageCount;
-      const sprite = p.type === 'chimney-stone' ? 'house-chimney-stone' : complete ? 'house-chimney-stick' : 'house-chimney-stick-building';
-      if (!drawSprite(ctx, sprite, footX, footY, cell * 1.55)) {
+      const name = p.type === 'chimney-stone' ? 'house-chimney-stone' : complete ? 'house-chimney-stick' : 'house-chimney-stick-building';
+      if (!sprite(ctx, name, footX, footY, cell * 1.55)) {
         ctx.fillStyle = p.type === 'chimney-stone' ? '#9b968a' : '#9a6b43';
         const wide = cell * .45, tall = cell * (p.kind.h + .9) * Math.min(1, (p.stage + .3) / p.kind.stageCount);
         ctx.fillRect(footX - wide / 2, footY - tall, wide, tall);
@@ -163,6 +266,7 @@ export function drawHousePlot(ctx, x, y, size, land, catalogue, drawSprite) {
       ctx.fillStyle = p.type === 'chimney-stone' ? '#9b968a' : '#9a6b43';
       const wide = cell * 0.45, tall = cell * (p.kind.h + 0.9) * Math.min(1, (p.stage + 0.3) / p.kind.stageCount);
       ctx.fillRect(footX - wide / 2, footY - tall, wide, tall);
+      drawn?.push({ left: footX - wide / 2, top: footY - tall, right: footX + wide / 2, bottom: footY });
     }
     ctx.restore();
   }

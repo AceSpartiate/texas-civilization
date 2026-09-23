@@ -1,16 +1,104 @@
 {
-  "date": "2026-09-19T13:35:47.494Z",
+  "date": "2026-09-23T19:32:12.585Z",
   "result": "PASS",
   "scope": "Same-computer student integration",
   "checks": [
-    "preset through command",
-    "loft added inside occupied pen",
-    "unstarted loft removed",
-    "invalid porch refused without mutation",
+    "plan opens placement without planning",
+    "preview drawn a house high in the people’s yardstick",
+    "preview turned a quarter",
+    "Build here places at the preview’s turn",
+    "the next stage says what it wants: Next: laying the sills on the round-log pen. It wants 4 sill logs and about 2 hours’ work; 132 sound and 12 poor at the house.",
     "phone fits",
     "stage construction consumes 50 logs",
+    "built house the preview’s size, turn and footprint",
     "finished shelter displayed",
-    "the next stage says what it wants: Next: laying the sills on the round-log pen. It wants 4 sill logs and about 2 hours’ work; 132 sound and 12 poor at the house."
+    "the built house at 0/90/180/270 degrees: every picture upright (no rotation or shear), mirrored at 90 and 270",
+    "a tap on the placed house where it is drawn opens its rooms; the site point is no longer a house",
+    "pictures: every plan in the chooser, the preview at 0/90/180/270 degrees, the built house at three zooms (roof seated: tests/house-roof.test.mjs)"
   ],
+  "pictures": [
+    "house-plans.png",
+    "house-preview-0.png",
+    "house-preview-90.png",
+    "house-preview-180.png",
+    "house-preview-270.png",
+    "house-built.png",
+    "house-built-0.png",
+    "house-built-90.png",
+    "house-built-180.png",
+    "house-built-270.png",
+    "house-rooms-opened.png",
+    "house-built-zoom-in.png",
+    "house-built-zoom-out.png"
+  ],
+  "size": {
+    "previewPixels": 163.4,
+    "builtPixels": 163.4,
+    "figurePixels": {
+      "preview": 49.5,
+      "built": 49.5
+    },
+    "housePeopleHigh": {
+      "preview": 3.3,
+      "built": 3.3
+    },
+    "footprintCells": {
+      "w": 2,
+      "h": 3
+    },
+    "rotation": 90,
+    "wasPixelsInTrueFeet": 8.77
+  },
+  "turns": {
+    "0": {
+      "pictures": 33,
+      "housePicturesOnTheMap": 1518,
+      "turned": 0,
+      "mirrored": 0,
+      "footprintCells": {
+        "w": 3,
+        "h": 2
+      }
+    },
+    "90": {
+      "pictures": 39,
+      "housePicturesOnTheMap": 1794,
+      "turned": 0,
+      "mirrored": 39,
+      "footprintCells": {
+        "w": 2,
+        "h": 3
+      }
+    },
+    "180": {
+      "pictures": 39,
+      "housePicturesOnTheMap": 1794,
+      "turned": 0,
+      "mirrored": 0,
+      "footprintCells": {
+        "w": 3,
+        "h": 2
+      }
+    },
+    "270": {
+      "pictures": 39,
+      "housePicturesOnTheMap": 1794,
+      "turned": 0,
+      "mirrored": 39,
+      "footprintCells": {
+        "w": 2,
+        "h": 3
+      }
+    }
+  },
+  "roomsOpenedAt": {
+    "x": 800.5,
+    "y": 337
+  },
+  "placement": {
+    "x": 108.56,
+    "y": 20.93,
+    "rotation": 90
+  },
   "errors": []
 }

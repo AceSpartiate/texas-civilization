@@ -41,6 +41,7 @@ does not have:
 | The panel icon for fetching logs from the timber is a canvas glyph: three logs laid across a wagon bed on two wheels, in the panel's brown | `PANEL_ICONS` (`glyph`) and `drawGlyph` in `public/family-panel.js` | Request 2026-09-19 — the logs fetched from the timber | `icon-fetch-logs` |
 | In a **hard** norther the broad oak, the spreading oak, the pecan and the grass tuft now take Astra's painted gale poses, and a camp fire's smoke streams (delivered 2026-09-21). Everything else still standing in that wind — pine, cedar, mesquite, live oak, elm, scrub, reeds, prickly pear, and every sized tree of `trees-colonies-1` and `-2` — is the library's own upright sprite sheared about its foot | `GALE_POSES` and `windLean` in `public/weather-art.js`, applied by `postOak`, `plain` and `drawGroundDetail` in `public/app.js` | Request 2026-09-20 — the country in a norther | A gale silhouette for each remaining tree kind and ground mark, at the same one strength as the five delivered |
 
+| A house placed at a quarter or half turn is drawn from the one front view the house-modules sheet has: each piece stands upright in its turned cells, and at 90 and 270 degrees every piece is that picture mirrored (the gable brought round to the other face, the ridge on the other diagonal). At 0 and 270 the gable facing the viewer is the door's; at 90 and 180 it is really the pen's back gable, yet shows the door. The porch, shed room and passage are their one picture whichever way they run | `drawHousePlot` (`rotation`, `turned`) in `public/house-plot.js`, called by `drawPlacedHouse` in `public/app.js` | Request 2026-09-23 — the house from its other sides | The pen's back gable (no door) for full walls, low walls and sill, and each piece's end-on view: passage, porch and shed room running into the screen |
 | The mark that leads a student to the one thing to press is CSS: a triangular caret over the icon, a rust box-shadow ring round it, and ten coloured bars for the lesson’s steps | `.panel-icon[data-pointed=true]` and `.lesson-pip` in `public/style.css`; the pips built by `renderLesson` in `public/app.js` | Request 2026-09-21 — the guided start’s marks | `lesson-point`, `lesson-ring`, `lesson-pip`, `lesson-pip-done` |
 
 
@@ -87,6 +88,41 @@ Open requests, newest first. Each one says why it is needed, what exactly to del
 into the existing pipeline, and how it will be checked. When a request is delivered, mark it
 **Delivered** with the date and move the details into [ART_MANIFEST.md](ART_MANIFEST.md) by running
 `npm run build:art`; do not delete it from here.
+
+---
+
+## Request 2026-09-23 — the house from its other sides
+
+**Status: open; the front view, mirrored at a quarter turn, in use (see *Stand-ins in use* above).** A student places a house
+on the family's land and turns it a quarter at a time (HANDOFF.md *House placement preview*). Until 2026-09-23 the page turned
+the pictures with it, so a house at 90 degrees lay on its side and one at 180 stood on its roof, chimney pointing at the
+ground. Now a turn turns the house on the ground - its footprint, which way the long side runs, which piece stands in front
+of which - and every piece stays upright, as every tree, person and ox on the map does. The house-modules sheet draws each
+pen corner-on from one side only: the gable and door on the face to the left, a window on the face to the right, the ridge
+running back to the right. Mirrored, that picture is honestly the pen turned a quarter (gable on the other face, ridge on the
+other diagonal); a half turn has the same silhouette. What the sheet cannot show is the back of the pen.
+
+- **Why.** At 90 and 180 degrees the gable end facing the viewer is the pen's back wall, which on a single-door pen has no
+  door - and the page draws the door there anyway. A dog-run or saddlebag turned 90 degrees runs into the screen, where its
+  passage, porch and shed room are still drawn broadside.
+- **What.** In the house-modules style, at the same scale, cell size and corner-on view as the delivered pieces:
+  - `house-round-back-sill`, `-back-low-walls`, `-back-full-walls` and the same three for `hewn`: the pen with the gable
+    face to the left **without** its door (a window or blank logs), so the pen seen from behind. The roof needs no new
+    frame: the delivered roofs, mirrored or not, already lie along either diagonal.
+  - `house-passage-floor-end`, `house-passage-roof-end`: the open passage seen end-on, running away from the viewer
+    between two pens that stand one behind the other.
+  - `house-porch-end`, `house-shed-room-end`: the porch and the shed room seen from their narrow ends, their long side
+    running into the screen.
+- **Seats and anchors.** Every full-walls frame carries its wall-top seat as `house-*-full-walls` does (the atlas measures
+  one from the silhouette, `seatOf` in `scripts/build-atlas-manifest.mjs`); every frame's ground anchor the middle of its
+  front edge, as now.
+- **How it plugs in.** Add the frames to the house-modules registration in `scripts/build-atlas-manifest.mjs` and
+  `npm run build:art`. In `drawHousePlot` (`public/house-plot.js`) a pen at 90 or 180 degrees takes the `back` frames in
+  `drawLogPen` (still mirrored at 90), and a passage, porch or shed room at 90 or 270 takes its `-end` frame, unmirrored;
+  delete the stand-in row. Nothing in the server changes: the turn, footprint and envelope are already the server's.
+- **Check.** `tests/house-turn.test.mjs` and `tests/house-roof.test.mjs` still pass (upright, back to front, roof seated at
+  every turn); in `scripts/house-plot-browser-proof.mjs`'s pictures of the built house at 0/90/180/270 the door shows only
+  at 0 and 270, and a dog-run at 90 reads as one house running away from the viewer.
 
 ---
 
@@ -574,7 +610,7 @@ so several read poorly at 38 pixels (a barrel, a crate and sacks look alike) and
 
 ## Request 2026-09-15 — the house plot's pieces
 
-**Status: partially delivered 2026-09-15.** `house-modules.png` supplies registered round/hewn sills, low and full walls, partial and finished roofs, passage floor/roof, porch, finished shed room, building/finished stick-and-mud chimneys and a stone chimney. The live plot uses those pieces without changing server stages. Jacal modules, a shed frame, a two-sided double chimney, and separate floor and loft overlays remain open; the combined floor/loft plate is library-only.
+**Status: partially delivered 2026-09-15.** `house-modules.png` supplies registered round/hewn sills, low and full walls, partial and finished roofs, passage floor/roof, porch, finished shed room, building/finished stick-and-mud chimneys and a stone chimney. The live plot uses those pieces without changing server stages. Jacal modules, a shed frame, a two-sided double chimney, and separate floor and loft overlays remain open; the combined floor/loft plate is library-only. **Registration, 2026-09-23:** the sheet draws every piece alone in its cell and the delivery carries no footprints or seat points, so nothing said where a roof goes on its walls; drawn at the walls' ground anchor (for a roof, the tip of its eaves) it came down in front of them (student: *"the roof ... slides forward"*). The atlas now measures a seat on the full walls and each roof from the silhouette (`seatOf` in `scripts/build-atlas-manifest.mjs`, a `ceiling:` within about 6% of the walls' width of the seat read by eye). A later delivery that marks each pen piece's wall-top and eave points would replace the measure; the art itself is not wrong.
 
 - **Why:** a pen currently repeats a whole-house silhouette, so additions cannot read as one coherent building.
 - **What:** round/hewn 16-foot pen sills and ten stackable wall courses, door/window faces, separate rafters/clapboard roof and chinking overlays; jacal post/wattle/thatch stages; an eight-foot passage roof; stick-and-mud, stone and double chimneys; 16-by-8-foot shed and porch; floor and loft overlays. Match existing illustrated art. Supply grounded anchors, footprints and occlusion masks, with transparent PNGs and manifest entries. Roof and wall layers must support cutaways; construction stages must be independently addressable rather than baked into a single image.

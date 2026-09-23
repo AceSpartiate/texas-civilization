@@ -241,6 +241,29 @@ function anchorOf(image, frame) {
   };
 }
 
+// Where a roof sits on its walls (public/house-plot.js `drawLogPen`). The house-modules sheet draws every piece of a pen
+// alone in its own cell, with nothing to say how they register on one another. The ground anchor above says where the
+// walls stand, but a roof measured the same way is anchored at the low front tip of its eaves, and a roof drawn at the
+// walls' ground anchor came down in front of them to the ground (student, 2026-09-23: "the roof doesn't seem to stay
+// where it's supposed to be. It slides forward."). So both are measured one more way, from the silhouette: the middle of
+// the line between the tops of the frame's leftmost and rightmost columns. On full walls those are the tops of the left
+// and right corner posts, whose middle is the middle of the wall tops a roof rests on; on a roof they are the two outer
+// ends of its eaves, whose middle is the middle of the eaves. The roof is drawn with that point on that point.
+// ceiling: read off a silhouette - a round log end or a pole standing past the eave moves it - so each lands within about
+// 3% of its frame's width of the middle read by eye on a ten-pixel grid, and a roof within 6% of the walls' width of
+// where the eye puts it (tests/house-roof.test.mjs holds it to that; drawn at the walls' ground anchor it was 33%).
+// A seat point drawn with the art (docs/ART_REQUESTS.md, 2026-09-15 house plot's pieces) would replace the measure.
+const SEATED = /^house-(round|hewn)-(full-walls|roof-partial|roof-finished)$/;
+function seatOf(image, frame) {
+  const { width, data } = image, w = frame.maxX - frame.minX + 1, h = frame.maxY - frame.minY + 1;
+  const band = Math.max(2, Math.round(w * 0.01)), seen = (x, y) => data[(y * width + x) * 4 + 3] > 40;
+  let left = frame.maxX, right = frame.minX;
+  for (let y = frame.minY; y <= frame.maxY; y++) for (let x = frame.minX; x <= frame.maxX; x++) if (seen(x, y)) { left = Math.min(left, x); right = Math.max(right, x); }
+  const topOf = (from, to) => { for (let y = frame.minY; y <= frame.maxY; y++) for (let x = from; x <= to; x++) if (seen(x, y)) return y; return frame.maxY; };
+  const top = (topOf(left, left + band) + topOf(right - band, right)) / 2;
+  return { seatX: +(((left + right) / 2 - frame.minX) / w).toFixed(4), seatY: +((top - frame.minY) / h).toFixed(4) };
+}
+
 export function buildManifest() {
 const sheets = {}, frames = {};
 for (const [sheet, names] of Object.entries(SHEETS)) {
@@ -307,6 +330,7 @@ for (const [sheet, names] of Object.entries(SHEETS)) {
       sheet, x: frame.minX, y: frame.minY,
       w: frame.maxX - frame.minX + 1, h: frame.maxY - frame.minY + 1,
       ...anchorOf(image, frame),
+      ...(sheet === 'house-modules' && SEATED.test(names[index]) ? seatOf(image, frame) : {}),
       ...(/^(people-|animal-|military-|courier-)/.test(sheet) ? { logicalHeight: Math.max(...placed.filter(p => p.row === frame.row).map(p => p.maxY - p.minY + 1)) } : {}),
       ...(sheet==='wagon-rig' && names[index]!=='wagon-wheel' ? {logicalHeight:placed[0].maxY-placed[0].minY+1} : {}),
       ...(sheet==='joe-poses' ? {logicalHeight:Math.max(...placed.map(p=>p.maxY-p.minY+1))} : {}),
