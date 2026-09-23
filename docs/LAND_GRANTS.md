@@ -102,10 +102,11 @@ Built on both maps, in `sim/survey.mjs`; tests `tests/survey.test.mjs`, evidence
   and a tap on the map asks the server (`GET /api/plot`) what ten acres there would be: *"Ten acres of timber a quarter
   mile south-west of the house."*, or why not. *Survey it* sends `survey-plot { entityId, x, y }`; the server checks again.
 - **Refusals**, each a sentence: not your land; would run over the line of your land; runs over ground already staked;
-  somebody is already surveying there; would take in the house yard (within 0.04 miles of the house); ground the field
-  already has (the old forty-acre field block, until §5 turns the field into plots); runs into a river or creek, **named, and
-  only water the class's own map draws** — the first version used every branch in the USGS data and refused ground that
-  looked dry on the map; before the class has begun; before the house site is chosen. Survey is never sent without a place.
+  somebody is already surveying there; would take in the house yard (within 0.04 miles of the house, or, since 2026-09-23,
+  over any house of the land as the map draws it: `WOODS_AND_BUILDING.md` §6.5); ground the field already has (the old
+  forty-acre field block, until §5 turns the field into plots); runs into a river or creek, **named, and only water the
+  class's own map draws** — the first version used every branch in the USGS data and refused ground that looked dry on
+  the map; before the class has begun; before the house site is chosen. Survey is never sent without a place.
 - **The walk.** The person walks out over the family's own land a tick at a time at walking pace, slower through timber
   and brush on the real land, never leaving home; paces and stakes the ground (two ticks); walks back to the yard. If the
   ground was taken while they walked, the story says so and nothing is staked.

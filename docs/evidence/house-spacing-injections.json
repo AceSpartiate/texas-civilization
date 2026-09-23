@@ -1,0 +1,78 @@
+{
+  "date": "2026-09-23T20:14:09.141Z",
+  "isolation": "node load hooks and a patched read of public/app.js; no file edited",
+  "test": "tests/house-spacing.test.mjs",
+  "result": [
+    {
+      "injection": "the server reads the house in true feet again (an eight-foot cell eight feet of the map)",
+      "in": "sim/house-footprint.mjs",
+      "failed": [
+        "a house is not set on the family's field, and the field is not staked over a house",
+        "a house whose drawn footprint lies over another house is refused, and one just clear of it is not",
+        "a house whose drawn footprint lies over the water is refused, though every point it is read at is dry",
+        "a house whose picture would stand over another house's ground is refused, beside it or behind it",
+        "every picture of a house stands on the ground it claims, every plan at every quarter turn",
+        "the ground the server checks is the footprint the page draws, every plan at every quarter turn"
+      ],
+      "passed": 3
+    },
+    {
+      "injection": "no spacing between houses",
+      "in": "sim/house-placement.mjs",
+      "failed": [
+        "a house whose drawn footprint lies over another house is refused, and one just clear of it is not",
+        "a house whose picture would stand over another house's ground is refused, beside it or behind it"
+      ],
+      "passed": 7
+    },
+    {
+      "injection": "spacing on the ground footprint alone, the pictures not counted",
+      "in": "sim/house-footprint.mjs",
+      "failed": [
+        "a house whose picture would stand over another house's ground is refused, beside it or behind it",
+        "every picture of a house stands on the ground it claims, every plan at every quarter turn"
+      ],
+      "passed": 7
+    },
+    {
+      "injection": "water read at nine points of the footprint only",
+      "in": "sim/house-placement.mjs",
+      "failed": [
+        "a house whose drawn footprint lies over the water is refused, though every point it is read at is dry"
+      ],
+      "passed": 8
+    },
+    {
+      "injection": "a house may be set on the field",
+      "in": "sim/house-placement.mjs",
+      "failed": [
+        "a house is not set on the family's field, and the field is not staked over a house"
+      ],
+      "passed": 8
+    },
+    {
+      "injection": "the field may be staked over a house placed away from the site",
+      "in": "sim/survey.mjs",
+      "failed": [
+        "a house is not set on the family's field, and the field is not staked over a house"
+      ],
+      "passed": 8
+    },
+    {
+      "injection": "a saved class with houses drawn over one another is refused as invalid",
+      "in": "sim/houses.mjs",
+      "failed": [
+        "a class saved with two houses now drawn over one another opens with both where they stood"
+      ],
+      "passed": 8
+    },
+    {
+      "injection": "the preview predicts nothing",
+      "in": "public/app.js",
+      "failed": [
+        "the preview is refused for spacing exactly where the server refuses it"
+      ],
+      "passed": 8
+    }
+  ]
+}

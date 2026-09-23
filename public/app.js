@@ -17,6 +17,7 @@ import { GALE_POSES, GALE_SMOKE, drawFogShape, drawHighWater, drawWeatherAir, dr
 /** The weather with the day fully up, for everything drawn into the kept ground (public/weather-art.js `weatherMix`). */
 const STEADY = Object.freeze({ fade: false });
 import { drawHousePlot, houseFootprint, plotCell, plotted, renderHousePlot } from '/house-plot.js';
+import { CABIN_PEOPLE, PERSON_MILES, houseOnGround, spacingRefusal, standingAt } from '/sim/house-footprint.mjs';
 import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesVisible, woodsLayersFor, woodsShown } from '/woods-view.js';
 import { bindEnding, renderEnding } from '/ending.js';
 import { bindLooks, renderLooks } from '/appearance.js';
@@ -974,13 +975,8 @@ export function visibleEntityIds(world, siteId = null) {
 // they are allowed to see: the camera moves over a projection the server already decided,
 // so looking somewhere is never a way of learning something.
 const MIN_EXTENT = 3.4;
-// See `figure` in cameraFor: the symbolic size of a person, in miles of ground.
-//
-// It was 0.115 - a person drawn six hundred feet tall - and a labor of 177 acres, half a mile a side, read as five people
-// wide at every zoom, so a family's land looked like a yard (owner, 2026-09-14: "it's not communicating how large the land
-// tracts were"). A sixth of that, and the camera zooms far enough in to keep a person readable, makes a labor about
-// thirty people across and a league a hundred and fifty. Still a symbol: a real person would be a hundredth of this.
-const PERSON_MILES = 0.019;
+// `PERSON_MILES`, the symbolic size of a person in miles of ground (see `figure` in cameraFor), is imported from
+// sim/house-footprint.mjs, where the server works out from it the ground a house is drawn over.
 // How tall a person may be drawn at the closest zoom, in screen pixels: the camera must be able to get this close.
 const CLOSEST_FIGURE = 90;
 // Below this many screen pixels per world mile, a neighbour's homestead is smaller than
@@ -999,7 +995,8 @@ const FORD_LEGIBLE = 150;
 /** A pole, a log tree and a large tree, as shares of a timber tree's drawn height (sim/woods.mjs `SIZES`). */
 const TREE_SIZES = [0.55, 0.7, 0.85];
 const SIZE = {
-  cabin: 3.3, settlementCabin: 2.5, camp: 2.1,
+  // A house: sim/house-footprint.mjs, where the server works out the ground it is drawn over from this number.
+  cabin: CABIN_PEOPLE, settlementCabin: 2.5, camp: 2.1,
   timberTree: 1.95, loneTree: 2.05, sapling: 1.15, scrub: 1.0, stump: 1.0, logPile: 1.2,
   tuft: .6, rock: .5, crop: .95,
   ox: 1.45, horse: 1.5, wagon: 1.55,
@@ -1013,10 +1010,9 @@ const SIZE = {
  * house a student is still placing, so the preview is the house they get. The placed house and its preview were drawn
  * in true feet - eight-foot cells, a pen seventeen feet high - beside people drawn a hundred feet tall, so a student saw
  * a house a sixth of a person's height and said the preview was too small (2026-09-23; tests/house-preview.test.mjs).
- * ceiling: the house is drawn at the map's symbol size while the server places and checks it in true feet (an 80 by 64
- * foot envelope, sim/house-placement.mjs), so two houses the server lets stand a hundred feet apart are drawn
- * overlapping, and a house on dry ground beside a creek can be drawn over the water. Checking the envelope at the drawn
- * size, or drawing the land to scale, is the way out if it misleads.
+ * The server checks where a house may stand at this same size (sim/house-footprint.mjs `CELL_MILES`, from `CABIN_PEOPLE`
+ * and `PERSON_MILES`): until 2026-09-23 it checked an 80 by 64 foot envelope, so two houses it let stand a hundred feet
+ * apart were drawn one over the other, and a house on dry ground beside a creek was drawn over the water.
  */
 const cabinSize = (camera, settlement = false) => Math.max(5, camera.figure * (settlement ? SIZE.settlementCabin : SIZE.cabin));
 // null means the camera follows the family. Dragging or zooming takes manual control
@@ -2253,11 +2249,32 @@ function splitAlong(points, miles) {
   }
   return [before, []];
 }
+/**
+ * Whether the house being placed would stand too close to one of the family's own, as the server judges it: the same
+ * rule on the same ground (sim/house-footprint.mjs `spacingRefusal`, sim/house-placement.mjs), so the preview is refused
+ * where "Build here" would be. A second house is judged against every house of the land, a first house changed before
+ * work against the finished ones. The ground itself - water, the land's line, the slope, the field - is the server's to
+ * read, and its refusal is said in `#house-placement-note` when "Build here" is pressed.
+ */
+function placementRefusal(world, placement) {
+  const land = world.land, site = sitesOf(world).find(each => each.id === world.household?.homeSiteId);
+  if (!land || !plotCatalogue) return null;
+  const standing = [...(housePlacement.command.additional ? [land.house] : []), ...(land.completedHouses || [])].filter(Boolean)
+    .map(house => ({ house, at: standingAt(house, site) })).filter(each => each.at).map(({ house, at }) => houseOnGround(house, plotCatalogue, at));
+  return spacingRefusal(houseOnGround({ plan: housePlacement.command.layout }, plotCatalogue, placement), standing);
+}
+/** Said in the placement panel while the preview is where the student may build. */
+const PLACING_NOTE = 'Move over your land; click to hold the preview in place.';
 /** The place the family is looking over for its house, as a stake on its own land. */
 function drawSitePick(ctx, world, camera) {
   if (housePlacement?.point && plotCatalogue) {
     const plan = plotCatalogue.plans.find(p => p.id === housePlacement.command.layout);
-    if (plan) drawPlacedHouse(ctx, camera, { placement: { ...housePlacement.point, rotation: housePlacement.rotation }, pieces: plan.pieces.map(([type,x,y]) => [type,x,y,plotCatalogue.pieces.find(p => p.id === type).stageCount,0]) }, .5);
+    const placement = { ...housePlacement.point, rotation: housePlacement.rotation }, refused = placementRefusal(world, placement);
+    // The server's words for the spot while the preview is over it, tinting the preview; the placing words once it is clear.
+    const note = document.querySelector('#house-placement-note');
+    if (refused) { note.textContent = refused; housePlacement.refused = refused; }
+    else if (housePlacement.refused) { if (note.textContent === housePlacement.refused) note.textContent = PLACING_NOTE; housePlacement.refused = null; }
+    if (plan) drawPlacedHouse(ctx, camera, { placement, pieces: plan.pieces.map(([type,x,y]) => [type,x,y,plotCatalogue.pieces.find(p => p.id === type).stageCount,0]) }, .5, refused);
   }
   if (!world.land?.choosingSite || !sitePick) { window.__sitePick = null; return; }
   const at = camera.toScreen(sitePick.point), size = Math.max(8, Math.min(22, camera.figure * .45));
@@ -5781,7 +5798,7 @@ function beginHousePlacement(command) {
   housePlacement = { command, point: null, rotation: 0, locked: false };
   housePlanOpen = false;
   document.querySelector('#house-placement').hidden = false;
-  document.querySelector('#house-placement-note').textContent = 'Move over your land; click to hold the preview in place.';
+  document.querySelector('#house-placement-note').textContent = PLACING_NOTE;
   if (window.__snapshot) render(window.__snapshot);
 }
 /**
@@ -5793,16 +5810,16 @@ function beginHousePlacement(command) {
  * at 90 degrees lay on its side and one at 180 stood on its roof; `drawHousePlot` in public/house-plot.js). Returns the
  * screen box its pictures cover, or null when nothing was drawn: where a tap opens its rooms (`houseAt`).
  */
-function drawPlacedHouse(ctx, camera, house, alpha = 1) {
+function drawPlacedHouse(ctx, camera, house, alpha = 1, refused = null) {
   const at = camera.toScreen(house.placement), rotation = house.placement.rotation || 0;
   const size = cabinSize(camera), cell = plotCell(size), preview = alpha < 1, foot = houseFootprint(house, plotCatalogue, rotation);
   const was = ctx.globalAlpha, drawn = [];
   ctx.globalAlpha = was * alpha;
-  if (preview && foot) { ctx.save(); ctx.fillStyle = '#65e3dc'; ctx.strokeStyle = '#8ffff4'; ctx.lineWidth = 2; ctx.fillRect(at.x + foot.x * cell, at.y + foot.y * cell, foot.w * cell, foot.h * cell); ctx.strokeRect(at.x + foot.x * cell, at.y + foot.y * cell, foot.w * cell, foot.h * cell); ctx.restore(); }
+  if (preview && foot) { ctx.save(); ctx.fillStyle = refused ? '#e0735a' : '#65e3dc'; ctx.strokeStyle = refused ? '#ffb4a2' : '#8ffff4'; ctx.lineWidth = 2; ctx.fillRect(at.x + foot.x * cell, at.y + foot.y * cell, foot.w * cell, foot.h * cell); ctx.strokeRect(at.x + foot.x * cell, at.y + foot.y * cell, foot.w * cell, foot.h * cell); ctx.restore(); }
   const pieces = drawHousePlot(ctx, at.x, at.y + cell, size, { house }, plotCatalogue, drawSprite, spriteFrame, { rotation, drawn });
   ctx.globalAlpha = was;
   const box = drawn.length ? { left: Math.min(...drawn.map(b => b.left)), top: Math.min(...drawn.map(b => b.top)), right: Math.max(...drawn.map(b => b.right)), bottom: Math.max(...drawn.map(b => b.bottom)) } : null;
-  window.__placedHousesDrawn?.push({ preview, x: at.x, y: at.y, rotation, size, cell, footprint: foot && { x: foot.x * cell, y: foot.y * cell, w: foot.w * cell, h: foot.h * cell }, pieces, box });
+  window.__placedHousesDrawn?.push({ preview, refused, x: at.x, y: at.y, rotation, size, cell, footprint: foot && { x: foot.x * cell, y: foot.y * cell, w: foot.w * cell, h: foot.h * cell }, pieces, box });
   return box;
 }
 document.querySelector('#house-rotate').addEventListener('click', () => { if (housePlacement) { housePlacement.rotation = (housePlacement.rotation + 90) % 360; document.querySelector('#house-rotate').textContent = `Rotate: ${housePlacement.rotation}°`; requestMapDraw(); } });

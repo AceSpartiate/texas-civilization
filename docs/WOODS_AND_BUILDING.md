@@ -296,6 +296,85 @@ done — roofing, finished); a passage is the gap between; chimneys, shed rooms,
 (round and hewn, both faces), the passage roof, stick-and-mud, stone and double chimneys, a shed room, a porch, a
 puncheon floor, felled logs and a log pile, stumps of pine and pecan.
 
+### 6.5 Where a house may stand, at the size it is drawn (2026-09-23)
+
+Owner: *"fix the overlapping houses so spacing matches the drawings."* A house is drawn at the map's symbol size —
+`CABIN_PEOPLE` (3.3) people high, a person `PERSON_MILES` (0.019 miles) of ground, an eight-foot cell of the plot drawn
+0.45 of the house's height — and until this date the server placed and checked it in true feet, an 80 by 64 foot envelope.
+An eight-foot cell is drawn about **149 feet** of the map (`CELL_MILES`, 18.6 times true), so two houses the server let
+stand a hundred feet apart were drawn one over the other, and a house on dry ground beside a creek was drawn over the water.
+
+**One source.** `sim/house-footprint.mjs` (no imports) holds the numbers — `PERSON_MILES`, `CABIN_PEOPLE`, `CELL_SHARE`,
+`CELL_MILES`, `PICTURE_REACH` — and the footprint: `turned`, `houseFootprint` (moved from `public/house-plot.js`, which
+re-exports them), `houseCells`, `standingAt`, `houseOnGround`, `spacingRefusal`. The page imports the same file
+(`public/app.js` from `/sim/house-footprint.mjs`, `public/house-plot.js` as `../sim/house-footprint.mjs`, which is the same
+file from node; `server/app.mjs` serves it at that path). `SIZE.cabin` is `CABIN_PEOPLE` and `plotCell` is `CELL_SHARE`, so
+the drawing and the check cannot drift.
+
+**The rule** (`sim/house-placement.mjs` `checkHousePlacement(world, household, placement, layout)`), on the plan's drawn
+footprint at its quarter turn:
+- *The ground* — every rule a house's point had (on the family's land and set back `SITE_MARGIN` from its line, not in the
+  water, not steeper than `STEEPEST_SITE`), read at nine points of the footprint (`siteFacts`); **and** no watercourse within
+  `IN_THE_WATER` (0.03 miles) of any part of it, exactly (`landAround().waterNear(box, reach)`, sim/ground.mjs), so a creek
+  cannot run between the nine points.
+- *Not on the field* — the footprint over a staked or cleared plot is refused, *"That would stand on your field."* The other
+  way round, Survey refuses ten acres over any house's drawn footprint as it did the yard round the site, *"That would take in
+  the house yard."* (sim/survey.mjs `plotRefusal`).
+- *Spacing* — a house **claims** its footprint grown by `PICTURE_REACH`: 1 cell up the screen (north) for the roofs and
+  chimneys of the three-quarter view that stand above their ground, 0.9 either side for pictures wider than their cells, 0.2
+  down the screen. **No two claims may overlap**, *"Leave space between this house and the existing house."* So neither
+  house's ground nor its pictures covers the other's: a cabin just south of another is not drawn under that one's roof, and
+  two side by side never share a picture's width. It is judged on the ground the pictures stand over, not on the screen, so
+  it is the same at every zoom. The reach was measured on every plan at every turn from the house sheets (the saddlebag's
+  roofs rise 0.9 of a cell above its back wall, the jacal's picture is 0.86 wider each side than its pen, every foot 0.16
+  below); `tests/house-spacing.test.mjs` holds every picture inside the claim.
+- *Neighbours* — the claim must lie inside the family's own land. `PICTURE_REACH` × `CELL_MILES` (at most 0.028 miles) is
+  less than `SITE_MARGIN` (0.05), so a house set back from its line never stands over a neighbour's ground; holdings do not
+  overlap (sim/grants.mjs), so no two families' houses can be drawn over one another.
+
+A second house is judged against every house of the land (the one just finished and the finished ones before it); a first
+house changed before work against the finished ones. A house placed nowhere — an old save, a house planned before
+placement — is judged where it is drawn: at the site, one cell above the site point (`standingAt`, as `drawLandHouses`
+draws it).
+
+**The preview says so.** `placementRefusal` in `public/app.js` runs the same `spacingRefusal` on the same houses while the
+student moves the preview: over another house the preview's footprint is tinted red and `#house-placement-note` says the
+server's sentence; moved clear, the placing words come back. The ground — water, the line, the slope, the field — is the
+server's to read, and its refusal shows in `#house-placement-note` when *Build here* is pressed.
+
+**Is the land still big enough?** Yes, at the drawn size. A round-log cabin (3 × 2 cells) is drawn over about 447 × 298 feet,
+3.1 acres, and claims 7.8; a dog-run (7 × 2) about 1,043 × 298 feet, 7.1 acres, and claims 14.3. A labor is 177 acres,
+2,777 feet a side, and 116 of them lie set back from its line. Laid out by the rule, a labor holds a dog-run, two round-log
+cabins and **eight** ten-acre plots below them (`tests/house-spacing.test.mjs`); the docs promise a house, more houses after
+it, and a field of at least the three plots automatic families keep (§5.1 of `LAND_GRANTS.md`). A league and a labor is
+2.68 miles a side. On the real land the water, the slope and the family's own field take more of it: on one labor of the
+`spacing` seed 35 of 400 evenly spread dog-run sites were taken. Worth knowing: a dog-run's drawn footprint is wider than a
+ten-acre field (660 feet a side).
+
+**Old saves.** No `saveVersion` moved. Houses already placed stand where they were, even two now drawn one over the other:
+nothing moves them and validation does not judge spacing, so every class saved with houses placed under the old envelope
+opens as it was. Only a house still to be placed is held to the rule.
+
+`ceiling:` (in the code) — the ground a house is drawn over is exact while the camera draws a person `PERSON_MILES` high,
+every zoom from about 370 pixels a mile in; further out every symbol grows past its ground and houses as close as allowed are
+drawn touching (`CELL_MILES`). One `PICTURE_REACH` for every plan and turn, the widest, measured on whole frames with their
+clear edges, so houses as close as allowed show a gap — a round-log cabin east of another could stand about a cell closer
+(`PICTURE_REACH`). A house chosen whole (`{ layout, work }`) claims its plan's pieces, and one with neither pieces nor a known
+plan claims the whole plot (`houseCells`).
+
+**Evidence.** `tests/house-spacing.test.mjs` (9 tests): the server's footprint is the page's drawn footprint for all five
+plans at 0/90/180/270; every picture inside its claim; a house over another refused and one just clear (east, and north
+under the roof) taken and drawn clear; a picture over the other's ground refused; the page's preview refused exactly where
+the server's spacing is; a creek running under a dog-run between its nine dry points refused (dry under the old envelope);
+house and field kept off each other; a class saved with two houses drawn over one another opens with both where they stood;
+the labor's layout. `scripts/house-spacing-injections.mjs` puts back each old behaviour or takes out each rule through node
+load hooks, no file edited — true feet, no spacing, pictures not counted, water at nine points only, house on the field,
+field over a house, overlapping houses refused as invalid, the preview predicting nothing — and each fails exactly the tests
+written for it ([record](evidence/house-spacing-injections.json)). Browser: `scripts/house-plot-browser-proof.mjs` places a
+second house over the first (preview tinted, the note says why, and "Build here" is refused by the server in the same words)
+and then just clear of it (built, 5 feet of the map clear in the rule's terms), and shoots the two as close as allowed
+([record](evidence/house-plot-browser.json)).
+
 ---
 
 ## 7. Old saves

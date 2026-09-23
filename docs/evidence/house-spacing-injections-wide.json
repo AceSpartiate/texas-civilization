@@ -1,0 +1,60 @@
+{
+  "date": "2026-09-23T21:22:06.034Z",
+  "isolation": "node load hooks and a patched read of public/app.js; no file edited",
+  "test": "tests/house-spacing.test.mjs",
+  "result": [
+    {
+      "injection": "the server reads the house in true feet again (an eight-foot cell eight feet of the map)",
+      "failed": 6,
+      "alsoFailed": [],
+      "passed": 1047
+    },
+    {
+      "injection": "no spacing between houses",
+      "failed": 3,
+      "alsoFailed": [
+        "house placement persists orientation and rejects overlaps and off-holding footprints"
+      ],
+      "passed": 1050
+    },
+    {
+      "injection": "spacing on the ground footprint alone, the pictures not counted",
+      "failed": 2,
+      "alsoFailed": [],
+      "passed": 1051
+    },
+    {
+      "injection": "water read at nine points of the footprint only",
+      "failed": 1,
+      "alsoFailed": [],
+      "passed": 1052
+    },
+    {
+      "injection": "a house may be set on the field",
+      "failed": 1,
+      "alsoFailed": [],
+      "passed": 1052
+    },
+    {
+      "injection": "the field may be staked over a house placed away from the site",
+      "failed": 1,
+      "alsoFailed": [],
+      "passed": 1052
+    },
+    {
+      "injection": "a saved class with houses drawn over one another is refused as invalid",
+      "failed": 1,
+      "alsoFailed": [],
+      "passed": 1052
+    },
+    {
+      "injection": "the preview predicts nothing",
+      "failed": 3,
+      "alsoFailed": [
+        "art routes serve public modules and atlas bytes without exposing private files",
+        "the page's scripts go gzipped to a browser that takes gzip, and a reload is answered 304"
+      ],
+      "passed": 1045
+    }
+  ]
+}

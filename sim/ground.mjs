@@ -163,6 +163,25 @@ export function landAround(box) { // eslint-disable-line no-unused-vars
     }
     return { creeks: creeks.size, rivers: rivers.size, barrier };
   };
+  /**
+   * The nearest water within `reach` miles of any part of a box `{ minX, minY, maxX, maxY }` - a house's footprint - as
+   * `{ distance, ...info }`, 0 where a watercourse runs over it; null when there is none. Exact, where a few points of the
+   * box looked at with `nearestWater` let a creek run between them.
+   */
+  const waterNear = (box, reach) => {
+    const inside = p => p.x >= box.minX && p.x <= box.maxX && p.y >= box.minY && p.y <= box.maxY;
+    const corners = [{ x: box.minX, y: box.minY }, { x: box.maxX, y: box.minY }, { x: box.maxX, y: box.maxY }, { x: box.minX, y: box.maxY }];
+    const toBox = p => Math.hypot(Math.max(box.minX - p.x, 0, p.x - box.maxX), Math.max(box.minY - p.y, 0, p.y - box.maxY));
+    const middle = { x: (box.minX + box.maxX) / 2, y: (box.minY + box.maxY) / 2 };
+    let best = null;
+    for (const segment of segmentsNear(middle, Math.hypot(box.maxX - box.minX, box.maxY - box.minY) / 2 + reach)) {
+      const { a, b } = segment;
+      const across = inside(a) || inside(b) || corners.some((c, i) => cross(a, b, c, corners[(i + 1) % 4]));
+      const d = across ? 0 : Math.min(toBox(a), toBox(b), ...corners.map(c => distance(c, closest(c, a, b))));
+      if (d <= reach && (!best || d < best.distance)) best = { distance: d, ...segment.info };
+    }
+    return best;
+  };
   const grade = point => {
     const step = 0.0625, run = 2 * step * METRES_PER_MILE;
     const dx = terrain.heightAt(point.x + step, point.y) - terrain.heightAt(point.x - step, point.y);
@@ -196,7 +215,7 @@ export function landAround(box) { // eslint-disable-line no-unused-vars
     if (nearestWater(point, info => info.kind === 'creek', TIMBER_FROM_CREEK)) return 'timber';
     return grade(point) > BRUSH_GRADE ? 'brush' : 'open';
   };
-  land = { heightAt: terrain.heightAt, nearestWater, crossings, grade, coverAt, nearCreek };
+  land = { heightAt: terrain.heightAt, nearestWater, waterNear, crossings, grade, coverAt, nearCreek };
   return land;
 }
 
@@ -359,8 +378,8 @@ export const WATER_CARRY_MILES = 0.25;
 export const SITE_MARGIN = 0.05;
 /** The steepest ground a house is set on, rise over run (FIC-GONZ-026; the land dealt to families is no steeper than 0.06). */
 export const STEEPEST_SITE = 0.08;
-/** Closer than this to a watercourse is in it. */
-const IN_THE_WATER = 0.03;
+/** Closer than this to a watercourse is in it: a house's point, and since 2026-09-23 any of its footprint (sim/house-placement.mjs). */
+export const IN_THE_WATER = 0.03;
 /** Lower than this above a river, and near it, is bottom land that floods (FIC-GONZ-026). */
 export const FLOOD_FEET = 20;
 const FLOOD_REACH = 1.5;

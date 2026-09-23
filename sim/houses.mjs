@@ -277,7 +277,7 @@ export function planRefusal(world, household, layout) {
  * be noise - and, in the lobby, would stop the family being rolled (`rollRefusal`).
  */
 export function planHouse(world, household, layout, additional = false, placement = null) {
-  const position = placement ? checkHousePlacement(world, additional ? { ...household, completedHouses: [...(household.completedHouses || []), household.house].filter(Boolean) } : household, placement) : null;
+  const position = placement ? checkHousePlacement(world, additional ? { ...household, completedHouses: [...(household.completedHouses || []), household.house].filter(Boolean) } : household, placement, layout) : null;
   if (additional) {
     if (!houseBuilt(household)) throw new Error('Finish your current house before starting another.');
     const next = { ...household, house: undefined, improvements: { ...household.improvements, cabin: 'none' } };

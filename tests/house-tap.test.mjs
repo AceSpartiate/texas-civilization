@@ -10,6 +10,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { drawHousePlot, houseFootprint, plotCell } from '../public/house-plot.js';
+import { CABIN_PEOPLE } from '../sim/house-footprint.mjs';
 import { plotCatalogue } from '../sim/houseplot.mjs';
 
 const atlas = JSON.parse(readFileSync(new URL('../public/assets/frontier-v1/atlas.json', import.meta.url), 'utf8'));
@@ -33,7 +34,8 @@ function declaration(start, end) {
 // The line of drawWorld that notes where a family's house at its site can be tapped.
 const siteLine = page.match(/^\s*if \(!settlement && \(ownLand \|\| host\)\) housesDrawn\.set\(site\.id, [^\n]*$/m);
 assert.ok(siteLine, 'the line of drawWorld that notes a house at its site was not found, so this test checks nothing');
-const SIZE = new Function(`${declaration('const SIZE = {', '\n};')} return SIZE;`)();
+// SIZE.cabin is the server's number for how tall a house is drawn (sim/house-footprint.mjs), which the page imports.
+const SIZE = new Function('CABIN_PEOPLE', `${declaration('const SIZE = {', '\n};')} return SIZE;`)(CABIN_PEOPLE);
 const page_ = new Function('SIZE', 'plotCatalogue', 'drawSprite', 'spriteFrame', 'drawHousePlot', 'houseFootprint', 'plotCell', 'window', 'drawnNow',
   [declaration('const cabinSize = ', ';\n'), declaration('const housesDrawn = new Map();', ';\n'), declaration('function houseAt(', '\n}\n'),
     declaration('function drawLandHouses(', '\n}\n'), declaration('function notePlacedHouse(', '\n}\n'), declaration('function drawPlacedHouse(', '\n}\n'),

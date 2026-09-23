@@ -4,6 +4,11 @@
 // what the whole plan would give and still wants, and how far each piece has got all come from the server (the catalogue
 // once, the family's land line on the tick); the page only lays them out and sends what the student chooses. The server
 // decides where a piece may go.
+import { CELL_SHARE, houseFootprint, turned } from '../sim/house-footprint.mjs';
+// A house's cells turned on the ground, and the footprint they make, are the server's own (sim/house-footprint.mjs): the
+// house drawn here is the house sim/house-placement.mjs checks.
+export { houseFootprint, turned };
+
 const PHASES = { site: 'the site laid out', walls: 'walls going up', roofing: 'roof going on', finished: 'standing' };
 
 let selected = null, shown = '', pending = false;
@@ -152,37 +157,7 @@ function drawLogPen(ctx, p, x, y, height, drawSprite, spriteFrame, flip = false)
 }
 
 /** How wide one eight-foot cell of the plot is drawn, for a house drawn `size` high: the one rule both draws below use. */
-export const plotCell = size => size * 0.45;
-
-/**
- * A point on the ground `(x, y)` from the middle of the plot, turned by a quarter turn `rotation` (0, 90, 180 or 270) the
- * way a canvas turns: clockwise on the screen, east to south. The house is turned on the ground by this and nothing
- * else - its pictures are never rotated (`drawHousePlot`).
- */
-export function turned(x, y, rotation = 0) {
-  const turn = ((Math.round(rotation / 90) % 4) + 4) % 4;
-  return turn === 1 ? [-y, x] : turn === 2 ? [-x, -y] : turn === 3 ? [y, -x] : [x, y];
-}
-
-/**
- * Where a house's pieces stand, in cells from the middle of its plot - the point it is placed at, which `drawHousePlot`
- * called with `y` one cell down centres its grid on - turned on the ground by the house's quarter turn. What a preview
- * outlines on the ground is this: the house the pieces make, not the whole grid; at 90 or 270 degrees a dog-run's is two
- * cells wide and seven deep. It is the box the outline used to draw under a turned canvas, turned instead by `turned`, so
- * nothing is drawn rotated. null for a house with nothing on the ground.
- */
-export function houseFootprint(house, catalogue, rotation = 0) {
-  let box = null;
-  for (const [type, x, y] of house?.pieces || []) {
-    const kind = catalogue.pieces.find(each => each.id === type);
-    if (!kind || kind.place === 'in') continue;
-    const left = x - catalogue.columns / 2, top = y - catalogue.rows / 2;
-    const [[ax, ay], [bx, by]] = [turned(left, top, rotation), turned(left + kind.w, top + kind.h, rotation)];
-    const each = { left: Math.min(ax, bx), top: Math.min(ay, by), right: Math.max(ax, bx), bottom: Math.max(ay, by) };
-    box = box ? { left: Math.min(box.left, each.left), top: Math.min(box.top, each.top), right: Math.max(box.right, each.right), bottom: Math.max(box.bottom, each.bottom) } : each;
-  }
-  return box && { x: box.left, y: box.top, w: box.right - box.left, h: box.bottom - box.top };
-}
+export const plotCell = size => size * CELL_SHARE;
 
 /**
  * The house plot drawn on the family's own land, piece by piece at its stage, round the house's point. Returns how many

@@ -8,12 +8,17 @@ import {holdingOf} from '../sim/grants.mjs';
 import {siteFactsFor} from '../sim/homesite.mjs';
 import {keepFoundingFamilies} from '../tests/support/settled.mjs';
 import {meetFamily} from './support/meet-family.mjs';
+import {checkHousePlacement} from '../sim/house-placement.mjs';
+import {PIECES,plotCatalogue} from '../sim/houseplot.mjs';
+import {SPACE_REFUSAL,houseOnGround,overlaps} from '../sim/house-footprint.mjs';
 // The student's house, end to end on one computer: pick a plan, move its preview over the land, turn it, press "Build
 // here", raise it from the pile, live in it. Since 2026-09-22 a plan opens a placement step before anything is built
 // (HANDOFF.md "House placement preview"); since 2026-09-23 the preview is held to the house it becomes - the same size
 // in the people's yardstick, the same turn and the same footprint (tests/house-preview.test.mjs holds the drawing). Since
 // 2026-09-23 a turn turns the house on the ground and never its pictures (tests/house-turn.test.mjs), and a tap on a placed
-// house opens its rooms where it is drawn, not at the family's site point (tests/house-tap.test.mjs).
+// house opens its rooms where it is drawn, not at the family's site point (tests/house-tap.test.mjs). Since 2026-09-23 the
+// server keeps houses as far apart as they are drawn (tests/house-spacing.test.mjs): a second house placed over the first is
+// refused, in the preview and by the server, and one just clear of it is built; the two are shot as close as allowed.
 const require=createRequire(import.meta.url),{chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
 // The world the server runs, held here: `app.state` is a copy, and the house's saved turn is set on the world itself below.
 let liveWorld=null;
@@ -174,9 +179,92 @@ try{
  // The family lives in it, and the panel offers another house (“Living in it now” went with the component editor, e9a0974).
  assert.notEqual(await page.evaluate(()=>window.__snapshot.world.land.shelter),'camp','the family is still in its camp');
  await press('#house-open');await page.waitForFunction(()=>document.querySelector('#plot-summary').textContent.startsWith('House 1: ')&&[...document.querySelectorAll('#plot-plans button')].some(b=>b.textContent.includes('Build another')));
+ // A second house, over the first as drawn: the preview says so and is tinted, and "Build here" is refused in the same
+ // words; then just clear of it, where it stands (owner, 2026-09-23: "fix the overlapping houses so spacing matches the
+ // drawings"). Where those are is worked out here with the server's own check, on ground the server takes.
+ const hh=liveWorld.households['hh-1'],cat=plotCatalogue(),firstAt=hh.house.placement,firstGround=houseOnGround(hh.house,cat,firstAt);
+ const withFirst={...hh,completedHouses:[...(hh.completedHouses||[]),hh.house]},alone={...hh,completedHouses:[]};
+ const takes=(who,at)=>{try{checkHousePlacement(liveWorld,who,at,'round-log');return null;}catch(error){return error.message;}};
+ const EPS=0.001,ways=[];
+ // Just clear each way round, at either turn and slid along that side: its claim (ground and pictures) an EPS of a mile off
+ // the first's. Over: moved half way back to the first house.
+ for(const rotation of [0,90]){
+   const unit=houseOnGround({plan:'round-log'},cat,{x:0,y:0,rotation}),w=firstGround.claim.maxX-firstGround.claim.minX,h=firstGround.claim.maxY-firstGround.claim.minY;
+   for(const slide of [0,-.25,.25,-.5,.5])for(const [way,at] of [['east',{x:firstGround.claim.maxX-unit.claim.minX+EPS,y:firstAt.y+slide*h}],['west',{x:firstGround.claim.minX-unit.claim.maxX-EPS,y:firstAt.y+slide*h}],['south',{x:firstAt.x+slide*w,y:firstGround.claim.maxY-unit.claim.minY+EPS}],['north',{x:firstAt.x+slide*w,y:firstGround.claim.minY-unit.claim.maxY-EPS}]])
+     ways.push({way:`${way}, turned ${rotation}, slid ${slide}`,clear:{...at,rotation},over:{x:(at.x+firstAt.x)/2,y:(at.y+firstAt.y)/2,rotation}});
+ }
+ const pair=ways.find(w=>!takes(withFirst,w.clear)&&!takes(alone,w.over)&&takes(withFirst,w.over)===SPACE_REFUSAL);
+ assert.ok(pair,`no way round the first house has ground for a second: ${JSON.stringify(ways.map(w=>[w.way,takes(withFirst,w.clear),takes(alone,w.over)]))}`);
+ assert.equal(overlaps(houseOnGround({plan:'round-log'},cat,pair.clear).claim,firstGround.claim),false);
+ assert.equal(overlaps(houseOnGround({plan:'round-log'},cat,pair.over).footprint,firstGround.footprint),true,'the refused spot is not over the first house as drawn');
+ await press('[data-plan="round-log"]');
+ await page.waitForFunction(()=>!document.querySelector('#house-placement').hidden);
+ if(pair.clear.rotation)await press('#house-rotate');
+ // Close enough in that a person is drawn his PERSON_MILES high, where the houses are drawn over the ground they stand on.
+ for(let i=0;i<6&&(await page.evaluate(()=>window.__camera.scale))<2400;i++){const at=await builtNow();await page.mouse.move(box.x+at.x/k,box.y+at.y/k);await page.mouse.wheel(0,-360);await page.waitForTimeout(700);}
+ const cameraNow=await page.evaluate(()=>window.__camera);
+ assert.ok(Math.abs(cameraNow.figure-cameraNow.scale*0.019)<1e-6,`the camera draws a person ${cameraNow.figure} pixels, not his size on the ground at ${cameraNow.scale} pixels a mile`);
+ const clientOf=async p=>{const c=await page.evaluate(()=>({...window.__camera,w:document.querySelector('#world-map').width,h:document.querySelector('#world-map').height}));return {x:box.x+(c.w/2+(p.x-c.cx)*c.scale)/k,y:box.y+(c.h/2+(p.y-c.cy)*c.scale)/k};};
+ const hold=async p=>{const at=await clientOf(p);await pointer('pointerdown',at);await pointer('pointerup',at);await page.waitForTimeout(400);return page.evaluate(()=>({note:document.querySelector('#house-placement-note').textContent,preview:(window.__placedHousesDrawn||[]).find(h=>h.preview)}));};
+ const housesNow=()=>page.evaluate(()=>window.__snapshot.world.land);
+ const overHeld=await hold(pair.over);
+ assert.equal(overHeld.preview?.refused,SPACE_REFUSAL,`the preview over the first house is not refused: ${JSON.stringify(overHeld)}`);
+ assert.equal(overHeld.note,SPACE_REFUSAL,'the placement panel does not say why');
+ await page.screenshot({path:`${SHOTS}/house-second-refused.png`});
+ const clearHeld=await hold(pair.clear);
+ assert.equal(clearHeld.preview?.refused,null,`the preview just clear of the first house is refused: ${JSON.stringify(clearHeld)}`);
+ await press('#house-placement-confirm');
+ await page.waitForFunction(()=>document.querySelector('#house-placement').hidden,null,{timeout:10000});
+ const second=app.state.world.households['hh-1'];
+ assert.equal(second.completedHouses.length,1,'the house just clear of the first was not built');
+ // What the server stood it at, from a pointer on the page: how close that is to the first, in the rule's terms.
+ const secondAt=second.house.placement,secondGround=houseOnGround(second.house,cat,secondAt);
+ const gap=Math.max(secondGround.claim.minX-firstGround.claim.maxX,firstGround.claim.minX-secondGround.claim.maxX,secondGround.claim.minY-firstGround.claim.maxY,firstGround.claim.minY-secondGround.claim.maxY);
+ assert.ok(gap>=0&&gap<0.004,`the second house stands ${gap} miles clear of the first, not just clear`);
+ // Both standing, for looking at: the second finished as a later class would find it. `liveWorld` is the class's world
+ // until an order is refused, which puts the class back from its save text; then the second is raised from the pile.
+ const live=liveWorld.households['hh-1'].house?.placement?.y===secondAt.y&&liveWorld.households['hh-1'].completedHouses?.length===1;
+ if(live)for(const piece of liveWorld.households['hh-1'].house.pieces){piece.stage=PIECES[piece.type].stages.length;piece.progress=0;}
+ else{
+   await build(100);
+   for(let tries=101,began=Date.now(),land;(land=await page.evaluate(()=>window.__snapshot.world.land.house))?.stage!=='finished';){
+     const chore=app.state.world.entities[principal].chore;
+     assert.ok(Date.now()-began<300000,`the second house never stood: ${JSON.stringify({stage:land?.stage,why:land?.why,chore,status:app.state.world.status})}`);
+     if(!land?.why&&!chore)await build(tries++);
+     await page.waitForTimeout(1000);
+   }
+ }
+ await page.waitForFunction(()=>(window.__placedHousesDrawn||[]).filter(h=>!h.preview&&h.pieces>=2).length>=2,null,{timeout:15000}).catch(async()=>{throw new Error(`both houses were not drawn: ${JSON.stringify(await page.evaluate(()=>({drawn:(window.__placedHousesDrawn||[]).map(h=>[h.preview,h.pieces,Math.round(h.x),Math.round(h.y)]),land:{house:window.__snapshot.world.land.house,completed:window.__snapshot.world.land.completedHouses},camera:window.__camera})))}`);});
+ // Framed for looking at, clear of the panels: out a step (still close enough that a person is drawn his size on the ground)
+ // and the pair dragged up into the open map above the action bar.
+ const pairNow=async()=>(await page.evaluate(()=>window.__placedHousesDrawn)).filter(h=>!h.preview&&h.pieces>=2);
+ const middleOf=hs=>({x:box.x+(Math.min(...hs.map(h=>h.box.left))+Math.max(...hs.map(h=>h.box.right)))/2/k,y:box.y+(Math.min(...hs.map(h=>h.box.top))+Math.max(...hs.map(h=>h.box.bottom)))/2/k});
+ for(let i=0;i<4&&(await page.evaluate(()=>window.__camera.scale))>3000;i++){const m=middleOf(await pairNow());await page.mouse.move(m.x,m.y);await page.mouse.wheel(0,240);await page.waitForTimeout(700);}
+ {const m=middleOf(await pairNow()),to={x:box.x+box.width*.45,y:box.y+box.height*.36};await page.mouse.move(m.x,m.y);await page.mouse.down();for(let t=1;t<=12;t++){await page.mouse.move(m.x+(to.x-m.x)*t/12,m.y+(to.y-m.y)*t/12);await page.waitForTimeout(30);}await page.mouse.up();}
+ await page.waitForTimeout(1200);
+ const shotCamera=await page.evaluate(()=>window.__camera);
+ assert.ok(Math.abs(shotCamera.figure-shotCamera.scale*0.019)<1e-6,`the pair is shot where a person is drawn ${shotCamera.figure} pixels, not his size on the ground`);
+ const both=await pairNow();
+ const screenBox=h=>({minX:h.box.left,minY:h.box.top,maxX:h.box.right,maxY:h.box.bottom}),screenFoot=h=>({minX:h.x+h.footprint.x,minY:h.y+h.footprint.y,maxX:h.x+h.footprint.x+h.footprint.w,maxY:h.y+h.footprint.y+h.footprint.h});
+ const [a,b]=both;
+ for(const [one,other] of [[screenBox(a),screenBox(b)],[screenBox(a),screenFoot(b)],[screenFoot(a),screenBox(b)]])assert.equal(overlaps(one,other),false,`the two houses are drawn over one another: ${JSON.stringify(both.map(h=>h.box))}`);
+ const around={left:Math.min(a.box.left,b.box.left),top:Math.min(a.box.top,b.box.top),right:Math.max(a.box.right,b.box.right),bottom:Math.max(a.box.bottom,b.box.bottom)},pad=a.size*.35;
+ const closestShot=process.env.HOUSES_CLOSEST_SHOT||`${SHOTS}/houses-closest.png`;
+ await page.screenshot({path:closestShot,clip:{x:box.x+(around.left-pad)/k,y:box.y+(around.top-pad)/k,width:(around.right-around.left+2*pad)/k,height:(around.bottom-around.top+2*pad)/k}});
+ // And sent: a house over the first, pressed "Build here" anyway, is refused by the server in the words the preview said.
+ await press('#house-open');await page.waitForFunction(()=>[...document.querySelectorAll('#plot-plans button')].some(b=>b.textContent.includes('Build another')));
+ await press('[data-plan="round-log"]');await page.waitForFunction(()=>!document.querySelector('#house-placement').hidden);
+ const againHeld=await hold(pair.over);
+ assert.equal(againHeld.preview?.refused,SPACE_REFUSAL,`the preview over the first house is not refused: ${JSON.stringify(againHeld)}`);
+ await press('#house-placement-confirm');await page.waitForFunction(()=>!document.querySelector('#house-placement-confirm').disabled);await page.waitForTimeout(400);
+ const refusedSaid=await page.evaluate(()=>document.querySelector('#house-placement-note').textContent);
+ assert.equal(refusedSaid,SPACE_REFUSAL,'the server\'s refusal is not what the panel says');
+ assert.equal(app.state.world.households['hh-1'].completedHouses.length,1,'the house over the first was planned');
+ await page.locator('#house-placement-cancel').click();
+ const spacingEvidence={way:pair.way,refusedAt:pair.over,refusedPreview:overHeld.preview.refused,refusedByServer:refusedSaid,secondFinished:live?'set on the class, as a later class would find it':'raised from the pile',builtAt:secondAt,claimGapMiles:+gap.toFixed(5),claimGapFeet:+(gap*5280).toFixed(1),figure:shotCamera.figure,scale:shotCamera.scale,drawnBoxes:both.map(h=>h.box),shot:closestShot};
  assert.deepEqual(errors,[]);validateWorld(app.state.world);
  const inPeople=frame=>+(frame.houses.find(h=>h.preview===(frame===previewFrame))?.size/frame.figure).toFixed(3);
  const size={previewPixels:+preview.size.toFixed(1),builtPixels:+built.size.toFixed(1),figurePixels:{preview:+previewFrame.figure.toFixed(2),built:+builtFrame.figure.toFixed(2)},housePeopleHigh:{preview:inPeople(previewFrame),built:inPeople(builtFrame)},footprintCells:{w:preview.footprint.w/preview.cell,h:preview.footprint.h/preview.cell},rotation:preview.rotation,wasPixelsInTrueFeet:+(previewFrame.scale*8/5280/.45).toFixed(2)};
- writeFileSync('docs/evidence/house-plot-browser.json',JSON.stringify({date:new Date().toISOString(),result:'PASS',scope:'Same-computer student integration',checks:['plan opens placement without planning','preview drawn a house high in the people’s yardstick','preview turned a quarter','Build here places at the preview’s turn','the next stage says what it wants: '+nextSaid,'phone fits','stage construction consumes 50 logs','built house the preview’s size, turn and footprint','finished shelter displayed','the built house at 0/90/180/270 degrees: every picture upright (no rotation or shear), mirrored at 90 and 270','a tap on the placed house where it is drawn opens its rooms; the site point is no longer a house','pictures: every plan in the chooser, the preview at 0/90/180/270 degrees, the built house at three zooms (roof seated: tests/house-roof.test.mjs)'],pictures:['house-plans','house-preview-0','house-preview-90','house-preview-180','house-preview-270','house-built','house-built-0','house-built-90','house-built-180','house-built-270','house-rooms-opened','house-built-zoom-in','house-built-zoom-out'].map(name=>`${name}.png`),size,turns,roomsOpenedAt:tappedAt&&{x:+tappedAt.x.toFixed(1),y:+tappedAt.y.toFixed(1)},placement:serverPlacement,errors},null,2));
- console.log('PASS: student picks a plan, places and turns its preview, builds here from logs, and the house that stands is the preview’s size, turn and footprint, upright at every turn, and opens where it stands.',JSON.stringify({size,turns}));
+ writeFileSync('docs/evidence/house-plot-browser.json',JSON.stringify({date:new Date().toISOString(),result:'PASS',scope:'Same-computer student integration',checks:['plan opens placement without planning','preview drawn a house high in the people’s yardstick','preview turned a quarter','Build here places at the preview’s turn','the next stage says what it wants: '+nextSaid,'phone fits','stage construction consumes 50 logs','built house the preview’s size, turn and footprint','finished shelter displayed','the built house at 0/90/180/270 degrees: every picture upright (no rotation or shear), mirrored at 90 and 270','a tap on the placed house where it is drawn opens its rooms; the site point is no longer a house','pictures: every plan in the chooser, the preview at 0/90/180/270 degrees, the built house at three zooms (roof seated: tests/house-roof.test.mjs)','a second house over the first as drawn: preview tinted and refused, the server refuses it in the same words','a second house just clear of the first: built, and the two drawn clear of each other'],pictures:['house-plans','house-preview-0','house-preview-90','house-preview-180','house-preview-270','house-built','house-built-0','house-built-90','house-built-180','house-built-270','house-rooms-opened','house-built-zoom-in','house-built-zoom-out','house-second-refused','houses-closest'].map(name=>`${name}.png`),size,turns,spacing:spacingEvidence,roomsOpenedAt:tappedAt&&{x:+tappedAt.x.toFixed(1),y:+tappedAt.y.toFixed(1)},placement:serverPlacement,errors},null,2));
+ console.log('PASS: student picks a plan, places and turns its preview, builds here from logs, and the house that stands is the preview’s size, turn and footprint, upright at every turn, and opens where it stands; a second house over it is refused and one just clear of it stands.',JSON.stringify({size,turns,spacing:spacingEvidence}));
 }finally{await browser.close();await app.close();}

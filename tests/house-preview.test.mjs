@@ -9,8 +9,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { drawHousePlot, houseFootprint, plotCell } from '../public/house-plot.js';
+import { CABIN_PEOPLE, houseOnGround } from '../sim/house-footprint.mjs';
 import { plotCatalogue } from '../sim/houseplot.mjs';
-import { placementBounds } from '../sim/house-placement.mjs';
 
 const page = readFileSync(new URL('../public/app.js', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 const catalogue = plotCatalogue();
@@ -24,7 +24,8 @@ function declaration(start, end) {
   return page.slice(from, to + end.length);
 }
 
-const SIZE = new Function(`${declaration('const SIZE = {', '\n};')} return SIZE;`)();
+// SIZE.cabin is the server's number for how tall a house is drawn (sim/house-footprint.mjs), which the page imports.
+const SIZE = new Function('CABIN_PEOPLE', `${declaration('const SIZE = {', '\n};')} return SIZE;`)(CABIN_PEOPLE);
 const window = { __placedHousesDrawn: [] };
 const drawSprite = (ctx, name, x, y, height, options) => { ctx.log.push(['sprite', name, x, y, height, Boolean(options?.flip)]); return height; };
 const { frames } = JSON.parse(readFileSync(new URL('../public/assets/frontier-v1/atlas.json', import.meta.url), 'utf8'));
@@ -72,10 +73,11 @@ for (const plan of ['round-log', 'dog-run']) {
       const foot = houseFootprint({ pieces }, catalogue, rotation);
       assert.deepEqual(shown.footprint, { x: foot.x * shown.cell, y: foot.y * shown.cell, w: foot.w * shown.cell, h: foot.h * shown.cell });
       assert.equal(built.log.some(entry => entry[0] === 'fillRect'), false, 'a standing house has no preview outline');
-      // Turned a quarter, the footprint's long side runs the way the envelope the server checks does (sim/house-placement.mjs).
-      const unturned = houseFootprint({ pieces }, catalogue), envelope = placementBounds(placement);
+      // Turned a quarter, the footprint's long side runs the way the ground the server checks does (sim/house-footprint.mjs;
+      // tests/house-spacing.test.mjs holds the two to the same ground exactly).
+      const unturned = houseFootprint({ pieces }, catalogue), ground = houseOnGround({ pieces }, catalogue, placement).footprint;
       assert.deepEqual([foot.w, foot.h], rotation % 180 ? [unturned.h, unturned.w] : [unturned.w, unturned.h]);
-      assert.equal(foot.w > foot.h, envelope.maxX - envelope.minX > envelope.maxY - envelope.minY, `at ${rotation} degrees the outline's long side runs across the server's`);
+      assert.equal(foot.w > foot.h, ground.maxX - ground.minX > ground.maxY - ground.minY, `at ${rotation} degrees the outline's long side runs across the server's`);
     });
   }
 }

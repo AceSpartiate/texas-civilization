@@ -19,6 +19,7 @@ import { distanceToPolyline } from './terrain.mjs';
 import { COVER_PACE, landAround, onRealLand } from './ground.mjs';
 import { holdingOf } from './grants.mjs';
 import { choosing } from './homesite.mjs';
+import { housesOnLand } from './house-placement.mjs';
 import { CLEARING_SPELLS, GROUNDS, PLOT_SIDE, clearingSpells, clearingTool, fenceWork, fenceWords, groundAt, keepPlots, overlaps, plotAt, plotsOf, squareOf } from './fields.mjs';
 export { PLOT_ACRES, PLOT_SIDE, groundAt, plotsOf } from './fields.mjs';
 
@@ -77,6 +78,8 @@ export function plotRefusal(world, household, point, { ignoring = null } = {}) {
   }
   const home = world.map.sites[household.homeSiteId];
   if (home.x > square.minX - YARD_MILES && home.x < square.maxX + YARD_MILES && home.y > square.minY - YARD_MILES && home.y < square.maxY + YARD_MILES) return 'That would take in the house yard.';
+  // Or a house as the map draws it, wherever it stands on the land (sim/house-placement.mjs refuses a house on the field).
+  if (housesOnLand(world, household).some(house => overlaps(house.footprint, square))) return 'That would take in the house yard.';
   const under = plotsOf(world, household).find(plot => overlaps(squareOf(plot), square));
   if (under) return under.state === 'cleared' ? 'That runs over ground the family has already cleared.' : 'That runs over ground already staked out.';
   const surveying = household.members.map(id => world.entities[id]).filter(person => person && person !== ignoring && person.chore?.id === 'survey-plot' && person.chore.plot);
