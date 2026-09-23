@@ -1,12 +1,16 @@
 # Claude handoff — Astra foundation
 
+## Released as v2026.09.22.5 — 2026-09-22
+
+**[v2026.09.22.5](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.22.5)**, from `f71f5a8`: people walk at the pace of what they are on, fade out off their own land, cross unseen and fade back in for the last hundred yards, arriving when the server says. The traveller’s marker is gone. 992 tests; travel-drawn 17, alamo-siege 8, panels 15, family-panel 17, lesson 33. Open for the owner: whether a horse or wagon may be hurried on the family’s own land (built as: nobody is).
+
 ## Released as v2026.09.22.4 — 2026-09-22
 
 **[v2026.09.22.4](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.22.4)**, from `410c98f`: Astra’s house placement, second houses and frontier art; the Resume tutorial button; food by age and twins; Travis’s runner, the Alamo’s fates by role and the 90-second decision budget; and the start-up fix below, without which the Host page froze and a reloading student was sent back to the join form. 986 tests; alamo-siege 8, panels 15, family-panel 17, lesson 33, family-twenty 9.
 
 **Astra’s draft release v2026.09.22.3 carries that start-up fault and was never published.** It is the owner’s to delete.
 
-## Nobody is seen moving unnaturally: walk, fade, cross, fade, walk — 2026-09-22 (not released)
+## Nobody is seen moving unnaturally: walk, fade, cross, fade, walk — 2026-09-22 (released in v2026.09.22.5)
 
 Read [MAP_ACCURACY.md](docs/MAP_ACCURACY.md) §12a first, and §14.7 of [FAMILY_PANEL.md](docs/FAMILY_PANEL.md) for the word on
 the panel. **Presentation only.** The server still owns every journey, every pace (`sim/travel.mjs`) and every arrival
