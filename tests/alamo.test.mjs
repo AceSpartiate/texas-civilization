@@ -3,8 +3,8 @@
 // On February 23 whoever of a family is at Béxar is shut in the Alamo and cannot be sent for; a played person inside is asked
 // on the days Travis sent riders out whether they will carry a letter, and about one volunteer in four is chosen and rides out
 // to live. Anybody who has heard Travis's letter may send a grown member to Gonzales; whoever is there by two on February 27
-// is inside the walls on March 1. On March 6 every man inside is killed and every woman spared, and no family sees it until the
-// word reaches it: a rumour at Gonzales on the 11th, confirmed on the 13th, elsewhere that evening. The Matamoros men are split
+// is inside the walls on March 1. On March 6 every man inside is killed and every woman spared (since 2026-09-22 by role and
+// place, not sex: tests/alamo-runner.test.mjs has the boy spared and the runner), and no family sees it until the word reaches it: a rumour at Gonzales on the 11th, confirmed on the 13th, elsewhere that evening. The Matamoros men are split
 // between San Patricio and Agua Dulce and rolled for killed, captured and escaped. The second period ends the night of March 13.
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -72,20 +72,23 @@ test('the siege shuts whoever is at Béxar into the Alamo, closes the garrison t
   validateWorld(world);
 });
 
-test('on the days riders went out a played person inside is asked once; about one volunteer in four is chosen and rides out to live', () => {
+test('on each day riders went out Travis\'s runner comes to every played man inside; about one volunteer in four is chosen and rides out to live', () => {
   const world = winter();
   const inside = men(world).slice(0, 8);
   for (const person of inside) { serve(world, person, 'garrison', 'bexar'); world.households[person.householdId].played = true; }
   untilMoment(world, 'alamo-siege');
   untilMoment(world, 'courier-1-opens');
   assert.equal(world.director.phase, 'news', 'the asking did not slow the calendar');
+  // The runner is on his way (sim/alamo-runner.mjs): the question is not open until he reaches them.
+  for (const person of inside) assert.equal(view(world, person.householdId).entities.find(e => e.id === person.id).service.courier, 'coming', `${person.name}'s runner was not sent`);
+  until(world, () => inside.every(person => person.service.courier === 'open'), 20);
   for (const person of inside) assert.equal(view(world, person.householdId).entities.find(e => e.id === person.id).service.courier, 'open', `${person.name} was not asked`);
   const [silent, stays, ...volunteers] = inside;
   applyAction(world, stays.householdId, { action: 'alamo-courier', entityId: stays.id, answer: 'stay' });
   for (const person of volunteers) applyAction(world, person.householdId, { action: 'alamo-courier', entityId: person.id, answer: 'volunteer' });
   assert.throws(() => applyAction(world, stays.householdId, { action: 'alamo-courier', entityId: stays.id, answer: 'volunteer' }), /not being asked/, 'somebody answered twice');
   untilMoment(world, 'courier-1');
-  // Nobody answering in time is answered as auto answers (sim/auto.mjs): an offer at auto's share, which may be chosen.
+  // Nobody answering in time is answered as auto answers (sim/auto.mjs, `FIC-GONZ-048`): an offer at auto's share, which may be chosen.
   assert.ok(['stays', 'sent', 'passed'].includes(silent.service.courier), `nobody answering left them ${silent.service.courier}`);
   assert.equal(silent.service.courier === 'stays', share(world, silent.id, 'courier-offer') >= COURIER_OFFERED, 'the decision made for them did not follow the share');
   assert.ok(world.events.some(e => e.actorId === silent.id && /Nobody answered for .* in time/.test(e.text)), 'the family was not told the choice was made for them');
@@ -98,8 +101,6 @@ test('on the days riders went out a played person inside is asked once; about on
       assert.equal(person.travel?.to, 'gonzales', 'a courier did not ride for Gonzales');
     } else assert.equal(person.service.besieged, true);
   }
-  untilMoment(world, 'courier-2-opens');
-  assert.ok([silent, stays, ...volunteers].every(person => person.service.courier !== 'open'), 'somebody was asked a second time');
   validateWorld(world);
 });
 

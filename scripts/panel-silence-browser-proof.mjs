@@ -227,6 +227,12 @@ try {
   // ----------------------------------------------------- the main person with an empty bar: the line is in the bar
   // Sent to Gonzales, they can do nothing at all until they arrive, and every icon on the bar is refused for that one
   // reason. The bar at the bottom of the screen is where a student is looking, so that is where the line goes.
+  //
+  // **Since 2026-09-22 the line for somebody on a journey is the page's own word, "Travelling"** (docs/FAMILY_PANEL.md
+  // §14.7; the owner: "their icon should say 'Travelling' next to it"). §14.2 is untouched by it - it is about *why*
+  // somebody may not be given an order, and those lines are all still the server's, which is what every other check in
+  // this file holds. This one says what they are doing, and the word outranks the server's "... is on the road." It goes
+  // in the same place, by the same rule, and everything measured about the place still applies.
   const mainId = await page.evaluate(() => window.__snapshot.world.household.mainId || window.__snapshot.world.household.principalId);
   await page.evaluate(id => fetch('/api/command', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: `cmd-${Date.now()}`, action: 'travel', entityId: id, destination: 'gonzales' }) }), mainId);
   await page.waitForFunction(id => window.__snapshot?.world.entities.find(one => one.id === id)?.travel, mainId, { timeout: 30000 });
@@ -236,7 +242,7 @@ try {
   measured.away = { name: away.name, barLine: away.barLine, barBox: away.barBox, line: away.line, icons: away.icons };
   check(away.focused, 'the person sent away is still the main person, so this is their bar');
   check(away.icons === 0 && away.barLine !== null, 'their bar is one line where a row of greyed icons used to be');
-  check(away.sent.includes(away.barLine), `the bar's line is the server's own sentence - "${away.barLine}"`);
+  check(away.barLine === 'Travelling', `the bar's line is the word for somebody on a journey - "${away.barLine}"`);
   check(away.line === null, 'and it is not said twice: their own row stays quiet while the bar carries it');
   check(away.barBox.bottom <= SCREEN.height && away.barBox.right <= SCREEN.width && away.barBox.left >= 0, 'the bar’s line is on the screen');
   check(Math.abs((away.barBox.left + away.barBox.right) / 2 - SCREEN.width / 2) <= 2, 'the bar’s line is bottom middle, where the bar is');

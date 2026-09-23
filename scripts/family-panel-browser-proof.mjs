@@ -111,16 +111,21 @@ try {
 
   // -------------------------------------------------------------------------------- in the lobby, the bar says why
   // The whole family is still driving in here (docs/SETTLING_IN.md step 2), so nobody can be given an order and there is
-  // no icon on the screen to hover. Since 2026-09-21 that is not an empty bar: it carries the server's own sentence
-  // (§14). The hover section that used to stand here ran in this state and waited thirty seconds for a button that
-  // cannot exist; it now runs after the class has started and the family is home, below.
+  // no icon on the screen to hover. Since 2026-09-21 that is not an empty bar: it carries a line (§14). The hover section
+  // that used to stand here ran in this state and waited thirty seconds for a button that cannot exist; it now runs after
+  // the class has started and the family is home, below.
+  //
+  // **Since 2026-09-22 that line is "Travelling"** (§14.7, owner: "their icon should say 'Travelling' next to it"). The
+  // family driving in is on a journey like any other, so it outranks the server's "... is on the road." here as it does
+  // everywhere. Somebody carried out of sight still keeps the server's fuller sentence, which `npm run test:travel-sight`
+  // holds.
   const lobbyBar = await page.evaluate(() => {
     const row = document.querySelector('.panel-row[data-focused=true]');
     return { icons: row.querySelectorAll('.panel-icon').length, line: row.querySelector('.panel-icons .panel-reason')?.textContent || '' };
   });
   assert.ok(lobbyBar.icons <= 1, 'the road arrival shows unrelated orders');
-  if (!lobbyBar.icons) assert.match(lobbyBar.line, /is on the road\.$/, `the bar of a family still driving in says "${lobbyBar.line}"`);
-  ok(`in the lobby the bar shows only the available travel order (${lobbyBar.icons})`);
+  assert.equal(lobbyBar.line, 'Travelling', `the bar of a family still driving in says "${lobbyBar.line}"`);
+  ok(`in the lobby the bar shows travel status and only ${lobbyBar.icons} available order`);
 
   // ------------------------------------------------------------------------------------- press an icon; glow; stop glowing
   await post('/api/command', { id: `proof-start-${crypto.randomUUID()}`, action: 'start' }, hostCookie);
@@ -141,7 +146,7 @@ try {
     return { name: button.dataset.name, text: label?.textContent, height: label?.getBoundingClientRect().height || 0 };
   }));
   assert.ok(labels.length > 0 && labels.every(label => label.text?.includes(label.name) && label.height > 0), 'every action needs a visible name without hover');
-  ok('every action has a readable name without hovering, including unavailable actions');
+  ok('every available action has a readable name without hovering');
   assert.ok(father, 'no row carries the bar, so there is no icon on this screen to hover');
   const fatherIcon = page.locator(`.panel-row[data-entity-id="${father}"] .panel-icon[data-key="rest"]`);
   const hisKeys = await page.evaluate(id => [...document.querySelectorAll(`.panel-row[data-entity-id="${id}"] .panel-icon`)].map(one => one.dataset.key), father);

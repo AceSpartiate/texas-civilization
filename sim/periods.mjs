@@ -17,6 +17,7 @@ import { record } from './events.mjs';
 import { learn } from './knowledge.mjs';
 import { expireCalls } from './calls.mjs';
 import { momentOf } from './directors.mjs';
+import { eatenADay } from './family.mjs';
 
 /** The period a class is in: absent on every class saved before there were two, which were all the first. */
 export const periodOf = world => world.period || 1;
@@ -40,8 +41,6 @@ export const interimStandings = world => Boolean(world.map?.source) && ((periodO
 
 /** How many days of what the family eats it is always left over the winter, so nobody starves over time nobody played. */
 export const WINTER_FLOOR_DAYS = 14;
-/** What one person eats in a day, the same figure as `advanceRoutine`'s. */
-const EATEN_PER_PERSON = 0.35;
 
 const GONE = ['dead', 'captured'];
 const round = value => Math.round(value * 10000) / 10000;
@@ -104,11 +103,15 @@ export function beginSecondPeriod(world) {
       if (mending) continue;
       setDown(world, entity, home);
     }
-    // An ordinary winter's eating for whoever was at home through it, and never below a fortnight's food.
-    const eaters = household.members.map(id => world.entities[id]).filter(person => person && !GONE.includes(person.health?.condition)).length;
+    // An ordinary winter's eating for whoever was at home through it, and never below a fortnight's food. Each eats by their
+    // age (sim/family.mjs `eatenADay`, FIC-GONZ-360).
+    // ceiling: ages as they are on the evening the first period ends, for all the weeks after; a child whose birthday falls
+    // in the gap eats the winter at the band below, a quarter of a share for at most seven weeks. Worth a day-by-day sum only
+    // if the winter ever has anything else happen in it.
+    const eaten = eatenADay(world, household.members.map(id => world.entities[id]).filter(person => person && !GONE.includes(person.health?.condition)));
     const food = household.resources?.food ?? 0;
-    const floor = Math.min(food, eaters * EATEN_PER_PERSON * WINTER_FLOOR_DAYS);
-    if (household.resources) household.resources.food = round(Math.max(floor, food - eaters * EATEN_PER_PERSON * days));
+    const floor = Math.min(food, eaten * WINTER_FLOOR_DAYS);
+    if (household.resources) household.resources.food = round(Math.max(floor, food - eaten * days));
   }
   // The army went home in December; nobody is in it over the winter.
   if (world.army) world.army.members = [];

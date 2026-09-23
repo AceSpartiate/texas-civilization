@@ -47,6 +47,8 @@ const app = createClassroom({
   // country and could never reach either. MAP=gonzales still starts the invented country.
   worldFactory: (seed, playerCount) => createGonzalesWorld(seed, playerCount, { map: process.env.MAP || 'colonies', neighbours: true }),
   onStopRequested: () => shutdown('Host requested a graceful stop'),
+  // Real milliseconds an unanswered military question may stay open (sim/decision-budget.mjs, 90 000 by default).
+  ...(Number(process.env.DECISION_BUDGET_MS) > 0 && { decisionBudgetMs: Number(process.env.DECISION_BUDGET_MS) }),
 });
 await app.listen(port, solo ? '127.0.0.1' : '0.0.0.0');
 const hostUrl = `http://localhost:${port}/host#${app.state.hostKey}`;

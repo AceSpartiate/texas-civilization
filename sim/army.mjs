@@ -472,15 +472,21 @@ export function answerDetachment(world, householdId, entity, go) {
 export function closeDetachment(world) {
   const detachment = world.army?.detachment;
   if (!detachment || detachment.closed) return;
-  for (const [id, answer] of Object.entries(detachment.asks)) {
-    if (answer !== 'open') continue;
-    const person = world.entities[id];
-    // Nobody answered in time: decided as auto decides (sim/auto.mjs), not by silence.
-    const go = person ? autoDetachment(world, person) : false;
-    detachment.asks[id] = go ? 'go' : 'stay';
-    if (person) record(world, 'choice', { actorId: id, householdId: person.householdId, importance: 2, decision: go ? 'detachment-go' : 'detachment-stay', text: `Nobody answered for ${person.name} in time, and it was decided for them. ${detachmentSaid(person, go)}` });
-  }
+  for (const [id, answer] of Object.entries(detachment.asks)) if (answer === 'open') decideDetachmentFor(world, id);
   detachment.closed = true;
+}
+
+/**
+ * Nobody answered for this one person in time: decided as auto decides (sim/auto.mjs), not by silence. Used when the army
+ * moves (`closeDetachment`) and when the question's real-time budget runs out (sim/decision-budget.mjs).
+ */
+export function decideDetachmentFor(world, id) {
+  const detachment = world.army?.detachment;
+  if (!detachment || detachment.closed || detachment.asks[id] !== 'open') return;
+  const person = world.entities[id];
+  const go = person ? autoDetachment(world, person) : false;
+  detachment.asks[id] = go ? 'go' : 'stay';
+  if (person) record(world, 'choice', { actorId: id, householdId: person.householdId, importance: 2, decision: go ? 'detachment-go' : 'detachment-stay', text: `Nobody answered for ${person.name} in time, and it was decided for them. ${detachmentSaid(person, go)}` });
 }
 
 /**
@@ -687,16 +693,23 @@ function settleAnswer(world, key, person, answer, { beginTravel } = {}) {
 export function closeQuestion(world, key, { beginTravel } = {}) {
   const question = world.army?.questions?.[key];
   if (!question || question.closed) return;
-  for (const [id, answer] of Object.entries(question.asks)) {
-    if (answer !== 'open') continue;
-    const person = world.entities[id];
-    const decided = person ? autoAnswer(world, key, person) : 'silent';
-    question.asks[id] = decided;
-    if (!person) continue;
-    record(world, 'choice', { actorId: id, householdId: person.householdId, importance: 2, decision: `${key}-${decided}`, text: `Nobody answered for ${person.name} in time, and it was decided for them. ${ARMY_QUESTIONS[key].said[decided](person.name)}` });
-    settleAnswer(world, key, person, decided, { beginTravel });
-  }
+  for (const [id, answer] of Object.entries(question.asks)) if (answer === 'open') decideQuestionFor(world, key, id, { beginTravel });
   question.closed = true;
+}
+
+/**
+ * Nobody answered this question for this one person in time: answered as auto answers, and what that does is done. Used when
+ * the question closes (`closeQuestion`) and when its real-time budget runs out (sim/decision-budget.mjs).
+ */
+export function decideQuestionFor(world, key, id, { beginTravel } = {}) {
+  const question = world.army?.questions?.[key];
+  if (!question || question.closed || question.asks[id] !== 'open') return;
+  const person = world.entities[id];
+  const decided = person ? autoAnswer(world, key, person) : 'silent';
+  question.asks[id] = decided;
+  if (!person) return;
+  record(world, 'choice', { actorId: id, householdId: person.householdId, importance: 2, decision: `${key}-${decided}`, text: `Nobody answered for ${person.name} in time, and it was decided for them. ${ARMY_QUESTIONS[key].said[decided](person.name)}` });
+  settleAnswer(world, key, person, decided, { beginTravel });
 }
 
 /** Somebody leaves the ranks for home: not pledging, going for winter clothing, or running from the field. */

@@ -1,6 +1,6 @@
 // Routine time cannot create death/capture/severe injury or settle loans/service.
 import { record } from './events.mjs';
-import { housekeepingSaving } from './family.mjs';
+import { eatenADay, housekeepingSaving } from './family.mjs';
 import { shelterOf } from './houses.mjs';
 import { furnitureShares } from './furniture.mjs';
 import { advanceStock } from './stock.mjs';
@@ -54,7 +54,8 @@ export function advanceRoutine(world, minutes) {
     // The best housekeeper at home makes what the family eats go further (FIC-GONZ-021).
     // Furniture under a roof does its small part (sim/furniture.mjs): a table stretches the food, shelves keep it.
     const furnished = furnitureShares(household, shelterOf(world, household).kind === 'house');
-    const eaten = present.length * .35 * (1 - housekeepingSaving(present)) * furnished.eaten;
+    // Each by their age today, in quarters of a grown share summed before anything is rounded (FIC-GONZ-360).
+    const eaten = eatenADay(world, present) * (1 - housekeepingSaving(present)) * furnished.eaten;
     const fed = Math.max(0, household.resources.food + (workers - eaten) * days);
     // A little of the food spoils in a camp or a draughty house; nothing in a tight one, or in the
     // cabin every class saved before houses always had (sim/houses.mjs, FIC-GONZ-024).

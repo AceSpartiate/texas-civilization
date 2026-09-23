@@ -10,7 +10,7 @@
 // The first thing every check does is ask whether there is a panel on the screen at all. A check that does not is the
 // fault this whole file exists to stop repeating.
 //
-// Same computer only: headless Chrome at 1366x768, 1024x768 and 390x844. Run: npm run test:panels
+// Same computer only: headless Chrome at the supported desktop sizes, 1366x768 and 1024x768. Run: npm run test:panels
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { mkdirSync, writeFileSync } from 'node:fs';
@@ -22,8 +22,8 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const pass = [];
 const ok = label => { pass.push(label); console.log('PASS', label); };
 const shots = [];
-/** The Chromebook the school buys first, then the narrower one that found the last fault, then a phone. */
-const SCREENS = [{ width: 1366, height: 768 }, { width: 1024, height: 768 }, { width: 390, height: 844 }];
+/** The Chromebook the school buys first, then the narrower supported desktop size. */
+const SCREENS = [{ width: 1366, height: 768 }, { width: 1024, height: 768 }];
 /** Smaller than any of the four really is, and larger than any of them collapsed. */
 const PANEL = { width: 120, height: 60 };
 

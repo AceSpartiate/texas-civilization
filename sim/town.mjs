@@ -235,6 +235,9 @@ export function observedBy(world, householdId) {
       // reads `courier` rather than `report` because delivering a message does not put
       // somebody off their horse - the errand ends, the horse does not.
       ...(entity.courier || entity.report ? { carrier: true, ...facingOf(world, entity) } : {}),
+      // Travis's runner, on foot inside the Alamo (sim/alamo-runner.mjs): turned to whoever he is speaking with, as a rider is.
+      // Nothing of what he says or whom he was sent to travels.
+      ...(entity.runner ? facingOf(world, entity) || {} : {}),
       // The family's own fictional name, not the student's. Every household is currently a
       // copy of the same four people, so "Thomas" alone cannot tell two families apart.
       // Which family, said the way that family is known - and a household nobody has

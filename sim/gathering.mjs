@@ -40,8 +40,8 @@ export const SALT_STANDS = Object.freeze(['salt-prairie', 'dunes']);
  * The four works, and what each one gives.
  *
  * `food` is what one person's hands bring in before their own skill is counted, in the same units as everything else a
- * family eats: one person eats 0.35 in a day (sim/periods.mjs), so a mess of perch is a day and a half for a family of
- * five and a squirrel or two is rather more than one.
+ * family eats: one grown person eats 0.35 in a day and a child less (sim/family.mjs `eatenADay`), so a mess of perch is a
+ * day and a half for five grown people and a squirrel or two is rather more than one.
  *
  * ceiling: honey is food. A settler valued it as the only sweet they had and traded it, and a `honey` resource would want
  * a price in every shop and a row in every panel; what it is worth to the family that cuts the tree is the four food it

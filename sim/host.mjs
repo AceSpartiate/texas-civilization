@@ -96,7 +96,8 @@ export function waitingOn(world, household) {
   if (world.army?.detachment && !world.army.detachment.closed) for (const id of household.members) if (world.army.detachment.asks?.[id] === 'open') count++;
   for (const id of household.members) {
     const person = world.entities[id];
-    if (person?.service?.courier === 'open') count++;
+    // Travis's runner standing with them is already counted as the meeting above (sim/alamo-runner.mjs).
+    if (person?.service?.courier === 'open' && !Object.values(world.encounters || {}).some(one => one.status === 'open' && one.listenerId === person.id)) count++;
     // The army's questions to a man with Houston (sim/camp.mjs): leaving after the word of Goliad, the fork of the road.
     if (person?.service?.leave === 'open') count++;
     if (person?.service?.road === 'open') count++;
@@ -111,7 +112,9 @@ export function waitingOn(world, household) {
 }
 
 /** Every family, in words: who plays it and whether they are here is the server's to add (presence); the rest is the world's. */
-export function familiesOverview(world) {
+// `guidedOf` is sim/lesson.mjs `lessonHostWords`, handed in by `projectWorld` rather than imported: this file importing
+// the lesson closes a loop through sim/chores.mjs that leaves `CHORES` unread when the server starts.
+export function familiesOverview(world, guidedOf = () => null) {
   return Object.values(world.households).map(household => ({
     id: household.id,
     name: householdName(world, household),
@@ -120,6 +123,9 @@ export function familiesOverview(world) {
     ...(household.played && { played: true }),
     ...(household.absent && { absent: true }),
     waiting: waitingOn(world, household),
+    // Whether the student pressed the X on the guided start, or took it back up (owner, 2026-09-22: "quietly show
+    // dismissal/resumption to the teacher"): a line of words on the row, absent for every family that did neither.
+    ...(guidedOf(household) && { guided: guidedOf(household) }),
     people: household.members.map(id => world.entities[id]).filter(person => person?.kind === 'person').map(person => ({
       name: person.name, role: person.kin?.role || (person.principal ? 'principal' : ''), where: whereWords(world, person, household),
     })),
@@ -127,6 +133,6 @@ export function familiesOverview(world) {
 }
 
 /** What the Host's live page is sent, beside the map: never a student. */
-export function hostLiveProjection(world) {
-  return { families: familiesOverview(world), story: rumourStory(world), ...(spotlightProjection(world) && { spotlight: spotlightProjection(world) }) };
+export function hostLiveProjection(world, guidedOf) {
+  return { families: familiesOverview(world, guidedOf), story: rumourStory(world), ...(spotlightProjection(world) && { spotlight: spotlightProjection(world) }) };
 }

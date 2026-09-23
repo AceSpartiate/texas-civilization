@@ -130,8 +130,10 @@ test('the garrison is joined at Béxar and the expedition at Refugio, and either
   assert.equal(two.person.travel?.to, two.household.homeSiteId);
 
   // Who may go is who may answer a call: a child of ten to fifteen may not, and a father of no stated age may vote.
-  const child = Object.values(world.entities).find(person => person.householdId && Number.isFinite(person.age) && person.age >= 10 && person.age < 16 && person.health.condition === 'well');
-  assert.ok(child, 'the class has no child of ten to fifteen');
+  // A son: a daughter is refused first for being a woman, which is the other rule (changed 2026-09-22: families dealt by
+  // birth dates made the first child of ten to fifteen in this class a girl, and the test was about age all along).
+  const child = Object.values(world.entities).find(person => person.householdId && person.sex === 'male' && Number.isFinite(person.age) && person.age >= 10 && person.age < 16 && person.health.condition === 'well');
+  assert.ok(child, 'the class has no son of ten to fifteen');
   assert.match(winterRefusal(world, world.households[child.householdId], child, 'join-garrison'), /too young to answer/);
   assert.equal(mayVote({ kind: 'person', kin: { role: 'father' } }), true, 'a father of no stated age may not vote');
   assert.equal(mayVote({ kind: 'person', kin: { role: 'son' } }), false, 'a son of no stated age may vote');

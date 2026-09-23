@@ -106,7 +106,7 @@ try {
     if (view === 'whole') { await press('follow'); for (let i = 0; i < 14; i++) await press('out'); }
     // Somebody on the road, watched close up: the main person walks to Gonzales and home again for the whole phase, and their
     // portrait is pressed, which is how a student watches somebody go (docs/FAMILY_PANEL.md). Added 2026-09-19 with the
-    // marker a fast traveller is drawn as (public/motion.js `wantsMarker`); a build without it draws the walking figure.
+    // schedule a fast traveller is drawn on (public/motion.js `travelSight`), which walks, fades and crosses out of sight.
     if (view === 'traveller') {
       await press('follow');
       const main = await page.evaluate(() => {

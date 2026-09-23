@@ -1,22 +1,38 @@
 {
-  "record": "The siege of the Alamo, in a browser: docs/COLONIES.md §7f, build step 9",
-  "date": "2026-09-22",
+  "record": "The siege of the Alamo, in a browser: Travis's runner and the real-time decision budget (docs/ALAMO_FATES.md, docs/MILITARY_EXPERIENCE.md steps 1 and 4)",
+  "date": "2026-09-23",
   "verdict": "PASS",
-  "note": "Same computer only. A real class on the colonies map with rolled families, played in process through the first period and into the winter, hh-1's father set in the garrison at Béxar in process, and run to just after February 23; then served live: a student saw the row shut, pressed the \"!\" on the day riders went out, and offered to ride. No LAN or district claim.",
+  "note": "Same computer only, headless Chrome, desktop 1440x950 and Chromebook 1366x768. A real class on the colonies map with rolled families, played in process through the first period and into the winter, hh-1's father set in the garrison at Béxar in process, run to just after February 23 and stood at the far end of the compound's plaza; then served live at 5 s a tick with a 15 s decision budget in place of 90. No LAN, Chromebook-device or classroom claim.",
   "checks": [
     "Vicente's row gives no order and says why: \"Vicente Proofwright is shut in the Alamo.\"",
-    "the siege invitation opens the right person without choosing service for them",
-    "the dispatch invitation opens the card at Travis's question: \"Vicente Proofwright is shut in the Alamo with the garrison. Travis wants riders to carry his letters out through the Mexican lines. He will choose among those who offer. Offer to ride out with the letters Stay inside the walls\"",
-    "offering to ride out is taken by the server, and the \"!\" goes",
-    "at phone width the page does not scroll sideways",
+    "the runner is seen walking to Vicente across the plaza (391 → 301 → 211 → 121 → 31 → 6 ft), and the question opens only beside them; the card said \"A runner is coming from Travis\"",
+    "the message card opens the meeting with the runner: \"A MEETING Vicente Proofwright and Asa Linthicum × From Colonel Travis’s quarters, inside the Alamo ASA LINTHICUM Colonel Travis is sending a letter out tonight to the people of Texas, and he wants riders who will carry it through the Mexica…\"",
+    "paused for 20 s, longer than the whole budget: the question is still open, 5 s spent before the pause and none during it",
+    "at a Chromebook's 1366 by 768 the meeting and both answers are on the screen, and the page does not scroll sideways",
+    "left unanswered, it ran out 14 s after Resume and was decided for them (stays); the journal says: \"Nobody answered for Vicente Proofwright in time, and it was decided for them, as a person on auto decides. Vicente Proofwright will stay inside the walls. (149.1 days into the story)\"",
+    "the runner came again on the next day Travis sent riders, and offering to ride in the meeting is the answer the server took",
     "no page errors"
   ],
   "observed": {
     "row": "Vicente Proofwright is shut in the Alamo.",
-    "card": "Vicente Proofwright is shut in the Alamo with the garrison. Travis wants riders to carry his letters out through the Mexican lines. He will choose among those who offer. Offer to ride out with the letters Stay inside the walls"
+    "comingTitle": "A runner is coming from Travis",
+    "runnerFeetFromPerson": [
+      391,
+      301,
+      211,
+      121,
+      31,
+      6
+    ],
+    "meeting": "A MEETING Vicente Proofwright and Asa Linthicum × From Colonel Travis’s quarters, inside the Alamo ASA LINTHICUM Colonel Travis is sending a letter out tonight to the people of Texas, and he wants riders who will carry it through the Mexican lines. He asks whether you will offer to go. He chooses his riders from the men who offer, and not every man who offers is sent. A man who is sent leaves the fort tonight and rides for help. A man who stays keeps his post inside the walls. Vicente Proofwright offers to ride out with the letters Vicente Proofwright stays inside the walls Asa Linthicum is waiting for an answer to take back. If nobody answers in time, it will be decided for Vicente Proofwright, as a person on auto decides.",
+    "journal": "Nobody answered for Vicente Proofwright in time, and it was decided for them, as a person on auto decides. Vicente Proofwright will stay inside the walls. (149.1 days into the story)",
+    "note": "Nobody answered Asa Linthicum in time, and it was decided for Vicente Proofwright. The journal says what.",
+    "secondDay": "asked again on the next day (courier-2); offering in the meeting was taken"
   },
   "screenshots": [
-    "docs/evidence/alamo-siege-courier.png",
-    "docs/evidence/alamo-siege-phone.png"
+    "docs/evidence/alamo-runner-coming.png",
+    "docs/evidence/alamo-runner-meeting.png",
+    "docs/evidence/alamo-runner-chromebook.png",
+    "docs/evidence/alamo-runner-expired.png"
   ]
 }

@@ -298,6 +298,27 @@ export function rowReason(icons, { offered = [], entity = null } = {}) {
 }
 
 /**
+ * The word a person's row shows while they are on a journey, or null.
+ *
+ * Owner, 2026-09-22: "their icon should say 'Travelling' next to it." It goes where §14's reason goes and by §14's rule - in
+ * the bar for the main person, on the row for everybody else (`.panel-why`) - so nothing new was invented for it; the one
+ * difference is that it is shown *beside* a bar that still has open icons rather than in place of one, because somebody
+ * walking out to a chore can still be called off while they walk.
+ *
+ * It is the page's own word, which §14.2 says of a refusal it is not. That rule is about **why somebody may not be given an
+ * order**, and every such line is still the server's, word for word. This says what they are doing, which the row has always
+ * said in the page's own terms (the glowing icon, `activeKey`); the owner asked for the word and this is it.
+ *
+ * Somebody the class's clock is carrying faster than a student may follow is not this: `travel.away` (sim/sight.mjs) has no
+ * road, no progress and no place, and their row keeps the server's fuller sentence - where they went, how far off, and when
+ * they should be there - which is all a family has of them.
+ * ceiling: somebody held on a bank while the water is up (`waitUntil`) or reined in to speak (`halted`) is standing still and
+ * still says Travelling. Their card says which; a second word on the row would be a second thing to read.
+ */
+export const TRAVELLING_WORD = 'Travelling';
+export const travellingLine = entity => (entity?.travel && !entity.travel.away ? TRAVELLING_WORD : null);
+
+/**
  * The name to send for what somebody typed, or null when there is nothing to save: blank, or what the world already holds.
  * The server cleans and has the last word; this only avoids sending a rename that changes nothing.
  */

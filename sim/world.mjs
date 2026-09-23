@@ -6,7 +6,7 @@ import { advanceNeighbours } from './neighbours.mjs';
 import { record } from './events.mjs';
 import { reportsFor, deliverReports } from './knowledge.mjs';
 import { advanceRoutine } from './routines.mjs';
-import { calendarMinutes, withCalendarStep } from './clock.mjs';
+import { calendarMinutes, dateOf, withCalendarStep } from './clock.mjs';
 import { awayProjection, milesATick, roadTicksFor, tooFastToFollow } from './sight.mjs';
 import { advanceDirectors, handleChoice, handleMarch, handleRumor, directorProjection } from './directors.mjs';
 import { abandonChore, advanceChores, answerChore, askProjection, beginChore, CHORES, choresFor, skillsFor, SKILL_CAP, toolState } from './chores.mjs';
@@ -14,12 +14,14 @@ import { GAME } from './hunting.mjs';
 import { bringAlong, hasWords, holderOf, keepWithRiders, leaveBehind, modeWith, NOUN } from './keeping.mjs';
 import { SERVING_ACTIONS, recallFromService, servingWhy, winterInvalid } from './winter.mjs';
 import { answerCourier } from './alamo.mjs';
+import { advanceRunners, runnerInvalid } from './alamo-runner.mjs';
+import { decisionClockInvalid, decisionPressing, spendDecisionBudget } from './decision-budget.mjs';
 import { advanceFlight, flee, flightProjection, scrapeInvalid, share, stayHome } from './scrape.mjs';
 import { answerRoad, registerRoadChores } from './road.mjs';
 import { WATER_HIGH, WATER_SHUT, waterAt, weatherAt, weatherOn } from './weather.mjs';
 // The road's chores join the one table here, once every module above is made (sim/road.mjs says why not at its own load).
 registerRoadChores();
-import { advanceLesson, advanceLessons, lessonInvalid, lessonProjection, lessonRefusal, stopLesson } from './lesson.mjs';
+import { advanceLesson, advanceLessons, lessonHostWords, lessonInvalid, lessonProjection, lessonRefusal, lessonResumeOffer, resumeLesson, stopLesson } from './lesson.mjs';
 import { REPEATED, advanceAuto, noteOrder, setAuto } from './auto.mjs';
 import { advanceCamp, answerCampQuestion, campInvalid } from './camp.mjs';
 // The children's own works (sim/children.mjs, docs/FAMILY_CREATION.md §3's amendment of 2026-09-21). Imported here as well
@@ -143,12 +145,12 @@ export function createWorld(seed = 'gonzales', playerCount = 15, { map = 'gonzal
  * hidden `traits` exist only on a rolled family (`docs/FAMILY_CREATION.md`); a household
  * nobody rolled, and every class saved before rolling existed, simply has none.
  */
-function addPerson(world, household, site, j, { id, name, kin, adult, sex, age, traits }) {
+function addPerson(world, household, site, j, { id, name, kin, adult, sex, age, born, traits }) {
   world.entities[id] = {
     id, name, kind: 'person', householdId: household.id, depth: j === 0 ? 'detailed' : 'moderate', principal: j === 0,
     location: { x: site.x + j * .012, y: site.y + (j % 2) * .012, siteId: site.id }, travel: null, health: { condition: 'well' },
     task: adult ? 'work' : 'rest', skills: skillsFor(id), chore: null, kin, relationships: {}, propertyRefs: [`${household.id}-wagon`], commitments: [],
-    ...(sex && { sex }), ...(Number.isFinite(age) && { age }), ...(traits && { traits }),
+    ...(sex && { sex }), ...(Number.isFinite(age) && { age }), ...(born && { born }), ...(traits && { traits }),
   };
   household.members.push(id);
 }
@@ -167,7 +169,8 @@ export function rollFamily(world, household) {
   const site = world.map.sites[household.homeSiteId];
   for (const id of household.members) delete world.entities[id];
   household.members = [];
-  rolledPeople(world.seed, household.id, index, roll).forEach((person, j) => {
+  // Born counting back from the day the die is rolled, so everybody's age is their age that day (FIC-GONZ-361).
+  rolledPeople(world.seed, household.id, index, roll, FAMILY_TABLE, dateOf(world, world.minute)).forEach((person, j) => {
     addPerson(world, household, site, j, { ...person, adult: person.age >= 16 });
   });
   household.principalId = household.members[0];
@@ -560,14 +563,21 @@ export function progressTravel(world, entity, units = 1) {
     record(world, 'arrival', { actorId: entity.id, householdId: entity.householdId, text: `${entity.name} arrived at ${world.map.sites[travel.to].name}.`, destination: travel.to, purpose: travel.purpose, causes: [travel.progressEventId || travel.causeId] });
   }
 }
-export function stepWorld(world) {
+export function stepWorld(world, { realMs = 0, decisionBudgetMs } = {}) {
   if (world.status !== 'running') return;
   // One tick of everybody's own time; on the real land the calendar it carries can be
   // longer than the twenty minutes of work in it (sim/clock.mjs, docs/COLONIES.md §5.7).
   const calendar = calendarMinutes(world);
   return withCalendarStep(world, calendar, () => {
   world.tick++; world.minute += calendar;
+  // The real seconds the server says passed since its last running tick are spent on every open military question, and a
+  // question out of time is decided by its documented fallback before anything moves (sim/decision-budget.mjs). A tick
+  // stepped in process carries none.
+  spendDecisionBudget(world, realMs, { budgetMs: decisionBudgetMs, beginTravel });
   for (const entity of Object.values(world.entities)) progressTravel(world, entity);
+  // Travis's runner crosses the Alamo's plaza (sim/alamo-runner.mjs): before the director, so one sent this tick is seen at
+  // the colonel's door before he takes a step, and no question opens and closes in the same update.
+  advanceRunners(world);
   // A family whose last wagon wheel came in off the road this tick has arrived.
   advanceArrivals(world);
   // What each family's people can see of the homesteads they are standing on (sim/houses.mjs).
@@ -749,20 +759,26 @@ export const LOBBY_ACTIONS = new Set(['survey-plot', 'hunt-land', 'fell-trees', 
  * page - is what says an order is not this step's. Then the order itself, and then the lesson moves
  * on as far as the order carried it, because a step can be finished by an order as well as by a
  * tick.
+ *
+ * `realTime` is the server's own clock, for the one thing in the world measured in the student's minutes rather than
+ * 1835's: the five minutes after the X in which the guided start can be taken back up (sim/lesson.mjs
+ * `LESSON_RESUME_MS`). `now` is real milliseconds; `resumeWindowMs` the length of that window. Nothing else reads it.
  */
-export function applyAction(world, householdId, input) {
+export function applyAction(world, householdId, input, realTime = {}) {
   const household = world.households[householdId];
   const notYet = lessonRefusal(world, household, input);
   if (notYet) throw new Error(notYet);
-  applyOneAction(world, householdId, input);
+  applyOneAction(world, householdId, input, realTime);
   advanceLesson(world, household);
 }
-function applyOneAction(world, householdId, input) {
+function applyOneAction(world, householdId, input, { now = Date.now(), resumeWindowMs } = {}) {
   const entity = world.entities[input.entityId];
   const household = world.households[householdId];
   if (input.action === 'rename' && !input.entityId) { rename(world, household, input); return; }
-  // The X on the guided start (sim/lesson.mjs `stopLesson`): the family's own, and it names nobody in it.
-  if (input.action === 'stop-lesson') { stopLesson(world, household); return; }
+  // The X on the guided start (sim/lesson.mjs `stopLesson`): the family's own, and it names nobody in it. And taking it
+  // back up inside the five real minutes after (`resumeLesson`), by the same rule.
+  if (input.action === 'stop-lesson') { stopLesson(world, household, { now, ...(resumeWindowMs !== undefined && { windowMs: resumeWindowMs }) }); return; }
+  if (input.action === 'resume-lesson') { resumeLesson(world, household, { now }); return; }
   if (input.action === 'roll-family') { rollFamily(world, household); return; }
   // Packing the wagon is the household's, like the roll, and names nobody in it.
   if (input.action === 'load-wagon') { setLoad(world, household, input.item, input.amount); return; }
@@ -951,7 +967,7 @@ function projectHousehold(world, household) {
   const main = mainPersonId(world, household);
   return { ...shown, ...(main !== household.principalId && { mainId: main }) };
 }
-export function projectWorld(world, householdId, role, { includeMap = true, copy = true } = {}) {
+export function projectWorld(world, householdId, role, { includeMap = true, copy = true, now = Date.now() } = {}) {
   const household = world.households[householdId];
   // The last few a family can see, not every one it has ever seen.
   //
@@ -976,7 +992,7 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   visibleEvents.reverse();
   const knownIds = new Set(visibleEvents.map(e => e.id));
   const events = visibleEvents.map(e => ({ id: e.id, type: e.type, minute: e.minute, text: e.text, actorId: e.actorId, householdId: e.householdId, causes: e.causes.filter(id => knownIds.has(id)) }));
-  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, ...(e.given && { given: e.given }), kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.sex && { sex: e.sex }), ...(Number.isFinite(e.age) && { age: e.age, band: ageBand(e.age) }), ...seenTravel(world, e), health: e.health, task: e.task, skills: e.skills, chore: e.chore?.ask ? { ...e.chore, ask: askProjection(world, household, e) } : e.chore, condition: e.condition, species: e.species, laden: e.laden, borrowedBy: e.borrowedBy, ...(e.marks && { marks: e.marks }), ...(e.service && { service: { kind: e.service.kind, status: e.service.status, siteId: e.service.siteId, ...(e.service.acres && { acres: e.service.acres }), ...(e.service.besieged && { besieged: true }), ...(e.service.riding && { riding: true }), ...(e.service.courier === 'open' && { courier: 'open' }), ...(e.service.drilled && { drilled: e.service.drilled }), ...(e.service.bound && { bound: true }), ...(e.service.leave === 'open' && { leave: 'open' }), ...(e.service.road === 'open' && { road: 'open' }) } }), ...(e.voted && { voted: true }), ...(e.auto && { auto: true }),
+  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, ...(e.given && { given: e.given }), kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.sex && { sex: e.sex }), ...(Number.isFinite(e.age) && { age: e.age, band: ageBand(e.age) }), ...seenTravel(world, e), health: e.health, task: e.task, skills: e.skills, chore: e.chore?.ask ? { ...e.chore, ask: askProjection(world, household, e) } : e.chore, condition: e.condition, species: e.species, laden: e.laden, borrowedBy: e.borrowedBy, ...(e.marks && { marks: e.marks }), ...(e.service && { service: { kind: e.service.kind, status: e.service.status, siteId: e.service.siteId, ...(e.service.acres && { acres: e.service.acres }), ...(e.service.besieged && { besieged: true }), ...(e.service.riding && { riding: true }), ...(['coming', 'open'].includes(e.service.courier) && { courier: e.service.courier }), ...(e.service.drilled && { drilled: e.service.drilled }), ...(e.service.bound && { bound: true }), ...(e.service.leave === 'open' && { leave: 'open' }), ...(e.service.road === 'open' && { road: 'open' }) } }), ...(e.voted && { voted: true }), ...(e.auto && { auto: true }), ...(e.kind === 'person' && decisionPressing(world, e.id) && { pressing: true }),
     // Which way somebody a rider has reined in for is turned, and whether they are the one talking (sim/encounters.mjs
     // `listeningOf`): the other half of the rider's own `facing`/`speaking`, so the page can draw the delivered speaking
     // and listening poses. Absent for everybody not in an open meeting, which is the correct empty value and why no save
@@ -1013,6 +1029,9 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   // family is on, what it is being asked to do, and every action the server will let through while it is. Absent once the
   // lesson is over, which is how the page knows the game is the student's now.
   const lesson = household && role !== 'host' ? lessonProjection(world, household) : null;
+  // And, for the five real minutes after the X, the offer to take it back up (owner, 2026-09-22): when the window shuts by
+  // the server's clock and how long that is from now. Absent the rest of the time, which is the whole of the page's cue.
+  const lessonResume = household && role !== 'host' && !lesson ? lessonResumeOffer(world, household, now) : null;
   const view = { tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: mapForPage(world.map) }), household: household && projectHousehold(world, household), entities, others, offers, encounter, events, work, travelModes, land, wagon, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role),
     // The weather, region by region (sim/weather.mjs, docs/WEATHER.md): what kind of day it is in each of the three
     // countries, how high their rivers are running, and where the wind is from. The page draws it and says nothing
@@ -1020,6 +1039,7 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
     // whole map goes to every page - the Host looks at all three countries at once, and a student's family may be in any.
     weather: weatherOn(world),
     ...(lesson && { lesson }),
+    ...(lessonResume && { lessonResume }),
     // The army, once there is one: where it is, how many went, and which of them are this family's (sim/army.mjs).
     ...(world.army && householdId ? { army: armyProjection(world, householdId) } : {}),
     // The armies standing in the country, as far as this page may know of them (sim/armies.mjs): the page draws their camps
@@ -1030,7 +1050,7 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
     // Every family's land as it truly stands, and where the army is, for the Host's map only (sim/overview.mjs).
     ...(overview && { overview: { lands: overview.lands, ...(overview.army && { army: overview.army }) } }),
     // The Host's live page (sim/host.mjs): the class in words, the Rumor Mill and the spotlight. Never a student's.
-    ...(role === 'host' && { live: hostLiveProjection(world) }),
+    ...(role === 'host' && { live: hostLiveProjection(world, lessonHostWords) }),
     // The end of the game, and only once it has ended: each family's coin and glory revealed, and the
     // Host's closing view (sim/ending.mjs, docs/MONEY_AND_GLORY.md steps 4-5).
     ...endingProjection(world, householdId, role),
@@ -1077,6 +1097,9 @@ export function validateWorld(world) {
     if (entity.purse !== undefined && (!Number.isInteger(entity.purse) || entity.purse < 0)) throw new Error('A purse holds whole reales');
     if (entity.sex !== undefined && !['male', 'female'].includes(entity.sex)) throw new Error('Invalid sex');
     if (entity.age !== undefined && (!Number.isInteger(entity.age) || entity.age < 0 || entity.age > 80)) throw new Error('Invalid age');
+    // A birth date, on everybody rolled since 2026-09-22 (sim/family.mjs `bornOf`). Absent on everybody rolled before, whose
+    // date is worked out from their age and never written back, so no save version moved.
+    if (entity.born !== undefined && (typeof entity.born !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(entity.born) || entity.age === undefined)) throw new Error('Invalid birth date');
     for (const [trait, value] of Object.entries(entity.traits || {})) {
       const range = TRAIT_RANGE[trait];
       if (!range || !Number.isInteger(value) || value < range[0] || value > range[1]) throw new Error(`Invalid hidden ${trait}`);
@@ -1209,6 +1232,8 @@ export function validateWorld(world) {
   if (badFlight) throw new Error(badFlight);
   const badCamp = campInvalid(world);
   if (badCamp) throw new Error(badCamp);
+  const badRunner = runnerInvalid(world) || decisionClockInvalid(world);
+  if (badRunner) throw new Error(badRunner);
   const badChildren = childrenInvalid(world);
   if (badChildren) throw new Error(badChildren);
   const events = new Set(world.events.map(e => e.id));

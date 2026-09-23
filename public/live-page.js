@@ -21,6 +21,9 @@ export function familyRows(live, presence) {
     settlement: family.settlement || '',
     presence: presenceWord(family, presence),
     waiting: family.waiting || 0,
+    // "stopped the guided start at step 4", "resumed the guided start: on step 4 of 10" (sim/lesson.mjs `lessonHostWords`):
+    // said quietly under the family's name, and empty for every family whose student did neither.
+    guided: family.guided || '',
     people: family.people.map(person => ({ name: person.name, role: person.role, where: person.where })),
   }));
 }

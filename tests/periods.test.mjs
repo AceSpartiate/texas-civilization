@@ -12,6 +12,7 @@ import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/worl
 import { momentOf } from '../sim/directors.mjs';
 import { WINTER_FLOOR_DAYS, beginSecondPeriod, canContinue } from '../sim/periods.mjs';
 import { createClassroom } from '../server/app.mjs';
+import { eatenADay } from '../sim/family.mjs';
 
 const view = (world, householdId, role = 'student') => projectWorld(world, householdId, role, { includeMap: false });
 const until = (world, done, limit = 8000) => { for (let t = 0; t < limit && !done() && world.status === 'running'; t++) stepWorld(world); };
@@ -66,6 +67,12 @@ test('continuing skips the winter gently: everyone home, wounds healed by the ti
   mending.location = { x: world.map.sites[bexar].x, y: world.map.sites[bexar].y, siteId: bexar };
   dead.health = { condition: 'dead' };
   a.resources.food = 500; b.resources.food = 1;
+  // Two small children in the family with plenty (2026-09-22, FIC-GONZ-360): the winter is eaten by age, a baby a quarter of
+  // a grown share and a child of five a half. Given as ages alone, as a family saved before birth dates has them.
+  world.entities[a.members[2]].age = 1; world.entities[a.members[3]].age = 5;
+  const aliveIn = household => household.members.map(id => world.entities[id]).filter(person => person.health.condition !== 'dead');
+  const winterDaily = eatenADay(world, aliveIn(a));
+  assert.equal(winterDaily, (4 + 4 + 1 + 2) / 4 * 0.35, 'two grown people, a baby and a child of five do not eat 2.75 grown shares');
   const gapDays = (momentOf(world, 'winter-opens') - world.minute) / 1440;
 
   beginSecondPeriod(world);
@@ -89,8 +96,8 @@ test('continuing skips the winter gently: everyone home, wounds healed by the ti
       assert.equal(person.location.siteId, household.homeSiteId, `${person.name} is not home`);
     }
   }
-  const eaters = household => household.members.filter(id => world.entities[id].health.condition !== 'dead').length;
-  assert.ok(Math.abs(a.resources.food - (500 - eaters(a) * 0.35 * gapDays)) < 0.01, `a family with plenty did not eat the winter: ${a.resources.food}`);
+  // Changed 2026-09-22: this was every living person at 0.35 a day; it is now each by their age, taken before the winter.
+  assert.ok(Math.abs(a.resources.food - (500 - winterDaily * gapDays)) < 0.01, `a family with plenty did not eat the winter by age: ${a.resources.food}`);
   assert.equal(b.resources.food, 1, 'a family with little starved over time nobody played');
   assert.ok(WINTER_FLOOR_DAYS > 0);
   assert.equal(view(world, 'hh-1').ending, undefined, 'the standings stayed on screen into the second period');

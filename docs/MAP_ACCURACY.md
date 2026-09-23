@@ -847,9 +847,10 @@ Two answers were already in the project:
   figure appear, jump the entire window in a single step, and vanish. Worse, the page worked it out **for itself**, out of
   a position the server had already sent it. That is the thing `VISION.md` §4 exists to forbid.
 - **2026-09-18, the marker (`MARKER_ABOVE`, `public/motion.js`).** Past 1.2 of their own drawn heights a real second a
-  traveller is a token on a dotted route instead of a running figure. That is right and it **stays**. But it is a rule
-  about how close the camera is, and it cannot help when the ground itself runs out: a token that crosses the country in
-  four ticks is no more followable than a skating man.
+  traveller was a token on a dotted route instead of a running figure. It was a rule about how close the camera is, and it
+  could not help when the ground itself runs out: a token that crosses the country in four ticks is no more followable than
+  a skating man. **The marker itself is gone since 2026-09-22** - the owner threw it out ("i don't want to see icons") and
+  what stands in its place is §12a below. The *threshold* survives it, as `GAIT_CEILING`.
 
 ### 12.2 The rule
 
@@ -953,3 +954,110 @@ both.
 - `ceiling:` nobody is drawn setting out or walking in at the far end. That is the owner's choice and the simplest thing
   that is true; a two- or three-tick window at each end, once a tick is short enough for a window to mean anything, is the
   way back if a class ever misses the departure.
+
+---
+
+## 12a. Walk, fade, cross, fade, walk — how a traveller who *is* watched is drawn (2026-09-22)
+
+§12 decides who a family may watch at all. This is what the page does with the ones it may.
+
+The owner, playing the day after the marker shipped:
+
+> "characters are still seen zipping around. i don't want to see icons. i want to see them walk at a normal pace, then when
+> they've walked a ways (say if they're going somewhere that isn't their farm) they should fade out. then after they travel
+> extra fast, they fade back in after arriving close enough to when normally the rest of the way. that way they arrive at
+> the correct time, but no one sees them move unnaturally. their icon should say 'Travelling' next to it."
+
+Asked by multiple choice, they chose:
+
+| Question | The answer |
+| --- | --- |
+| How much normal walking before the fade | **"A short fixed stretch"** — about a hundred yards, the same everywhere, whatever the land looks like |
+| What is seen while they are away | **"The road only"** — no figure and no marker, but a faint line showing the road they are on |
+| Who it applies to | **"Everyone on the map"** — your family, other families, riders, couriers and armies alike |
+
+And then, the same day, a correction that outranks the first answer wherever the two meet:
+
+> "this shouldn't be a thing on their land. everyone should move at normal speed at all times (unless on horseback or
+> wagon) on their land."
+
+### 12a.1 Nothing about when anybody arrives changes
+
+**The server stays authoritative.** The same journeys, the same paces (`sim/travel.mjs`), the same arrival minutes, the
+same `saveVersion`. Nothing here is stored and nothing here is sent. This is entirely about what is *drawn*, and the one
+thing that makes it safe is that the schedule is a function of the server's own progress along the journey which maps the
+journey's end to the journey's end: at the mile the server calls arrival, the figure is drawn at the destination, whole.
+`tests/travel-drawn.test.mjs` holds exactly that, and the browser proof measures it on a real journey in a real class.
+
+### 12a.2 The schedule
+
+`travelSight` in `public/motion.js`, asked once a frame per traveller by `sightOf` in `public/app.js`:
+
+1. **A pace nobody exceeds.** A figure is never drawn crossing more ground than its own travel cycle covers at the rate it
+   was drawn: `GAIT_CEILING`, 1.2 of its own drawn height a real second. Because it is counted in the figure's *own* height
+   it is already the pace of whatever they are on - a rider and horse are drawn 1.8 of a person and may cross 1.8 times the
+   ground, a driver the wagon's height. That is the owner's "unless on horseback or wagon", and it needs no second number.
+2. **Slow enough already, and nothing happens.** In the family's own view of its farming day a walker is drawn at 0.13 of
+   their height a second. Below the gait the journey is drawn exactly where the server has it, whole, all the way - which is
+   what a student has always seen of their own farm, and it does not change.
+3. **Faster, and the journey is walked at each end and crossed in the middle.** The figure walks the family's own land and
+   a hundred yards past it (`SEEN_MILES`) at the gait; fades out over `TRAVEL_FADE_MS` (700 ms); crosses the middle with
+   nobody watching, at whatever speed the arrival needs; fades back in a hundred yards short of the end, or short of its own
+   land, whichever comes first; and walks the rest at the gait, arriving on the server's own minute.
+4. **The road, and nothing else, while they are away.** `drawTravelRoads` draws the road still ahead of them as a faint
+   dotted line, coming up as the figure goes and going as the figure comes back. No disc, no pin, no portrait, no
+   destination ring: those were the marker, and the marker is gone.
+5. **Too short to hold all that, and it is simply walked.** When the two walked ends and the two fades will not fit in the
+   journey, there is no fade at all. Pressed close in at a farming tick that falls at about seven hundred yards; the owner's
+   own figure for it was "shorter than about 200 yards".
+6. **When the road will not pay for everything, the family's own land is paid for first and in full.** A journey has only
+   `rate` of its own length to spend on being watched, and walking half a mile of farm at a walk costs about thirteen real
+   seconds. The owner's correction is absolute, so the land comes first: a figure may never *begin* to fade while it is
+   still on its own land, whatever that costs. The hundred yards off the land are a target and not a promise — they shorten,
+   and go to nothing, rather than start a fade a foot inside the family's own line. And where the road cannot pay even for
+   the land, **there is no fade at all**: the whole journey is drawn where the server has it, in view, which is the same
+   answer §12a.3 gives a journey that never leaves their land. In the farming day there is room for the land *and* the
+   hundred yards from about two and a half miles up, which is where a student is looking.
+
+### 12a.3 The family's own land is never sped up and never faded
+
+The land, not a distance, decides where the fade may begin. `landRuns` walks the road against the family's own grant (the
+rectangle the server already sends as the grant's `bounds`) and returns where it first leaves that land and where it last
+comes back onto it. The walked stretch at the start is *all* of the on-land road plus the hundred yards past the line,
+however long that is; the fade-in at the end is finished before the line rather than on it. A journey that never leaves
+their own land is never faded at all.
+
+- `ceiling:` **a journey whose own-land stretches the road cannot pay for is drawn at the server's pace, in view, from end
+  to end.** That covers both a journey that lies wholly on the family's own land and a short errand at a hurried class pace
+  that begins at the house: either can still outrun the gait. It is one rule and not two, and nothing else is possible — on
+  their own land nobody may be faded, and the arrival is the server's. The ways out are the class clock
+  ([evidence/pace.json](evidence/pace.json)) or fading on the farm too, which the owner refused.
+- `ceiling:` only the run at the start and the run at the end are found. A journey that crosses its own land in the
+  **middle** - which no road on this map does - is drawn crossing it invisibly.
+- `ceiling:` the owner's "(unless on horseback or wagon)" is read here as *the pace you hold them to on their own land is
+  the pace of what they are on*, and **not** as *a horse or wagon may still be sped up or faded on their own land*. Nothing
+  on their own land is sped up or faded, on foot or otherwise. The other reading is a question for the owner and is in
+  `HANDOFF.md`.
+- `ceiling:` while they walk the last stretch in, the figure is drawn nearer the destination than the server has them - up
+  to about a quarter of a mile at a farming tick pressed close in. It can be no other way if the last hundred yards are to
+  be walked *and* the arrival is to be the server's. They are never drawn **at** the destination before the server puts them
+  there, which is the part that matters and which is under test.
+
+### 12a.4 Travelling, on the panel
+
+While the server has somebody on a journey their row says **Travelling**, in the same place and by the same rule a refused
+row's one line goes (docs/FAMILY_PANEL.md §14.1): in the bar for the main person, on the row for everybody else. When the
+bar still has open icons - somebody walking out to a chore can be called off while they walk - the word stands *beside*
+them rather than in place of them, which is the owner's "their icon should say 'Travelling' next to it". Somebody carried
+away out of sight (§12) is not this, and keeps the server's fuller sentence: where they went, how far off, and when they
+should be there.
+
+### 12a.5 Checks
+
+`tests/travel-drawn.test.mjs` (13) holds the pace cap against the library's own cycle rates, the fade curve, the exact
+arrival, the own-land case, the too-short case, `landRuns`, and that nothing of the marker is left in the page.
+`tests/family-panel.test.mjs` holds the Travelling line, and the order the road is spent in when it will not pay for everything. The browser proof is `npm run test:travel-drawn`
+([record](evidence/travel-drawn.json), [screenshots](evidence/travel-drawn/)): one person walking to Gonzales, every painted
+frame read off, the drawn speed never past the gait, the figure invisible through the middle, no marker drawn at any frame,
+and the drawn arrival on the server's own minute. It is also held to being painted where the schedule walked it and not where the server has it. **Every test was made to fail first, 23 of 23 caught:**
+[docs/evidence/travel-drawn-injections.json](evidence/travel-drawn-injections.json).

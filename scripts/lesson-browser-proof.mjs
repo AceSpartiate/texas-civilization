@@ -63,7 +63,37 @@ const xOnTheStrip = async where => {
   return x;
 };
 
-const app = createClassroom({ seed: 'panel-3', playerCount: 5, tickMs: 250, worldFactory: createGonzalesWorld });
+/**
+ * "Resume tutorial" (owner, 2026-09-22), measured where it stands: a Chromebook target, wholly on the screen, reachable at
+ * its centre, and drawn over no other control, card or word - nor under one.
+ */
+const resumeClear = async (page, where) => {
+  const found = await page.evaluate(() => {
+    const button = document.querySelector('#lesson-resume');
+    const r = button.getBoundingClientRect();
+    const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+    const others = [...document.querySelectorAll('button,.panel-icon,.panel-portrait,#military-notice,#map-nav,#error,#family-panel,#selection,#site-choose,#survey-choose,#house-plan,#house-plot,#encounter,#call-menu,#tutorial')]
+      .filter(one => one !== button && !button.contains(one) && !one.contains(button) && !one.closest('[hidden]'))
+      .map(one => ({ one, box: one.getBoundingClientRect() }))
+      .filter(({ box }) => box.width > 1 && box.height > 1 && box.left < r.right && r.left < box.right && box.top < r.bottom && r.top < box.bottom)
+      .map(({ one }) => one.id ? `#${one.id}` : `${one.tagName.toLowerCase()}.${[...one.classList].join('.')}`);
+    return { size: [Math.round(r.width), Math.round(r.height)], at: [Math.round(r.left), Math.round(r.top)],
+      onScreen: r.left >= 0 && r.top >= 0 && r.right <= innerWidth && r.bottom <= innerHeight,
+      reached: hit === button || button.contains(hit), shares: others, text: button.textContent.trim() };
+  });
+  assert.equal(found.text, 'Resume tutorial');
+  assert.ok(found.size[1] >= 32, `at ${where} "Resume tutorial" is ${found.size.join('x')}px, smaller than a Chromebook target`);
+  assert.equal(found.onScreen, true, `at ${where} "Resume tutorial" hangs off the screen`);
+  assert.equal(found.reached, true, `at ${where} something is drawn over "Resume tutorial"`);
+  assert.deepEqual(found.shares, [], `at ${where} "Resume tutorial" shares pixels with ${found.shares.join(', ')}`);
+  ok(`at ${where} "Resume tutorial" is ${found.size.join('x')}px at ${found.at.join(',')}, on the screen, reachable, and on nothing else`);
+  return found;
+};
+
+// The server's real clock, which the guided start's five minutes are measured on (sim/lesson.mjs `LESSON_RESUME_MS`),
+// held here so the proof can move it past the window's end rather than wait five minutes.
+let clockShift = 0;
+const app = createClassroom({ seed: 'panel-3', playerCount: 5, tickMs: 250, worldFactory: createGonzalesWorld, now: () => Date.now() + clockShift });
 const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
 const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
 const errors = [];
@@ -426,8 +456,8 @@ try {
 
   // ------------------------------------------------------------------------------------------ the X (owner, 2026-09-22)
   // "i should be able to X off the tutorial to stop it and just do what i want." Asked who gets it: "Everyone, always".
-  // Run last, because it cannot be undone for this family. The stub comes off: this is the server's own lesson being
-  // stopped, and the server's own gate being opened.
+  // Run last, because after it this family's window to take the guided start back up is spent. The stub comes off: this
+  // is the server's own lesson being stopped, and the server's own gate being opened.
   await page.setViewportSize(SCREEN);
   await holdLesson(page, null);
   await page.waitForFunction(() => window.__snapshot?.world?.lesson?.done === false && !document.querySelector('#lesson').hidden && !document.querySelector('#lesson-stop').hidden, null, { timeout: 20000 });
@@ -481,6 +511,21 @@ try {
   assert.equal(await page.locator('.panel-row[data-focused=true] .panel-icon[aria-disabled=true]').count(), 0);
   measured.stopButton.availableAfter = afterStopKeys;
   ok(`stopping the lesson reveals ${afterStopKeys.length - beforeStopKeys.length} additional actions`);
+  // "Resume tutorial" where the strip was (owner, 2026-09-22), for five real minutes from this press.
+  await page.locator('#lesson-resume').waitFor({ state: 'visible', timeout: 10000 });
+  const firstUntil = await page.evaluate(() => window.__snapshot.world.lessonResume?.until);
+  assert.ok(Number.isFinite(firstUntil), 'the snapshot carries no offer to resume');
+  measured.resume = { until: firstUntil, msWhenStopped: await page.evaluate(() => window.__snapshot.world.lessonResume.ms) };
+  assert.ok(measured.resume.msWhenStopped > 4.5 * 60_000 && measured.resume.msWhenStopped <= 5 * 60_000, `the window is ${measured.resume.msWhenStopped} ms, not five minutes`);
+  measured.resume.chromebook = await resumeClear(page, '1366x768');
+  await page.setViewportSize({ width: 1024, height: 768 });
+  await page.waitForTimeout(400);
+  measured.resume.small = await resumeClear(page, '1024x768');
+  await shoot(page, 'resume-1024');
+  await page.setViewportSize(SCREEN);
+  await page.waitForTimeout(400);
+  await shoot(page, 'resume');
+
 
   // And it stays off after a reload: the stop is the world's, not the page's.
   await page.reload();
@@ -490,6 +535,36 @@ try {
   assert.equal(await page.evaluate(() => 'lesson' in window.__snapshot.world), false, 'the lesson came back on reload');
   assert.equal(await page.locator('#lesson').isHidden(), true, 'the strip came back on reload');
   ok('after a reload the strip stays gone and the server sends no lesson');
+  await page.locator('#lesson-resume').waitFor({ state: 'visible', timeout: 10000 });
+  assert.equal(await page.evaluate(() => window.__snapshot.world.lessonResume?.until), firstUntil, 'the reload moved the window');
+  ok('after a reload "Resume tutorial" is still there, with the same window: the server holds it, not the page');
+
+  // Pressed: the strip comes back on the step it was stopped on, and the gate with it.
+  const resumeSent = [];
+  const listenResume = request => { if (request.url().endsWith('/api/command')) resumeSent.push(request.postDataJSON()?.action); };
+  page.on('request', listenResume);
+  await page.locator('#lesson-resume').click();
+  await page.waitForFunction(() => window.__snapshot?.world?.lesson?.done === false && !document.querySelector('#lesson').hidden, null, { timeout: 20000 });
+  page.off('request', listenResume);
+  assert.deepEqual(resumeSent, ['resume-lesson'], `"Resume tutorial" sent ${JSON.stringify(resumeSent)}`);
+  measured.resume.stepAfter = await page.evaluate(() => window.__snapshot.world.lesson.step);
+  assert.equal(measured.resume.stepAfter, measured.stopButton.step, `the strip came back on ${measured.resume.stepAfter}, not ${measured.stopButton.step}`);
+  assert.equal(await page.locator('#lesson-resume').isHidden(), true, '"Resume tutorial" stayed up beside the strip');
+  assert.ok(await page.locator('.panel-row[data-focused=true] .panel-icon').count() < afterStopKeys.length, 'the resumed lesson did not hide unavailable actions');
+  await shoot(page, 'resumed');
+  ok(`"Resume tutorial" sends resume-lesson once; the strip is back on the same step (${measured.resume.stepAfter}) and unavailable actions are hidden again`);
+
+  // A second X does not buy five more minutes, and when the first press's five minutes are up the button goes by itself.
+  await page.locator('#lesson-stop').click();
+  await page.locator('#lesson-stop-yes').click();
+  await page.locator('#lesson-resume').waitFor({ state: 'visible', timeout: 20000 });
+  assert.equal(await page.evaluate(() => window.__snapshot.world.lessonResume?.until), firstUntil, 'the second X opened a new window');
+  ok('a second X after the resume offers "Resume tutorial" again, inside the first press’s window, not a new one');
+  clockShift = firstUntil + 1000 - Date.now();
+  await page.waitForFunction(() => document.querySelector('#lesson-resume').hidden && !('lessonResume' in (window.__snapshot?.world || {})), null, { timeout: 20000 });
+  assert.equal(await page.locator('#lesson').isHidden(), true, 'the strip came back when the window shut');
+  measured.resume.goneWithoutReload = true;
+  ok('with the server’s clock moved past the first press’s five minutes, "Resume tutorial" goes on its own, with no reload');
 
   assert.deepEqual(errors, [], `page errors: ${errors.join(' | ')}`);
   ok('no page errors anywhere in the run');

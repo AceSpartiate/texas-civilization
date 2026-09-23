@@ -1,5 +1,7 @@
 # The family panel: managing a family's people
 
+**Current action-bar rule (owner, 2026-09-22):** Only actions the selected person can currently take are shown. Active work remains visible as status. The supported desktop bar uses a compact grid of at most two rows, with no horizontal scrolling. Earlier sections below that describe dimmed/refused icons or a single scrolling row record previous behavior; this rule supersedes them. `panelActions` still computes all candidates, while `public/app.js` filters presentation using server availability and lesson permissions.
+
 **Status: decided by the owner 2026-09-15; built 2026-09-16** ([evidence](evidence/family-panel-browser.json)). It amends
 [SETTLING_IN.md](SETTLING_IN.md) in how a family's people are managed: the person panel's list of work and its travel, work
 and rest buttons, and the family book's row of Rename buttons, are replaced by one panel on the left of the map. Read this
@@ -1001,7 +1003,7 @@ Found by sweeping a played class person by person and tick by tick, not by listi
 | A child under ten | `tooYoungWhy` | *"Simeon Proofwright is too young to be sent."* |
 | An infant | `tooYoungWhy` — the same rule, not a second one | *"Delia Proofwright is too young to be sent."* |
 | Dead, or captured | `choreAvailability` | *"This person cannot work."* |
-| On the road anywhere | `choreAvailability` | *"Barnabas Proofwright is on the road."* |
+| On the road anywhere | the page's own word since 2026-09-22 (§14.7) | *"Travelling"* |
 | Away, carried faster than a student can follow (`sim/sight.mjs`) | `choreAvailability` | *"…is away on the road to Gonzales, about 12 miles off, and should be back…"* |
 | Shut in the Alamo, or ridden for it | the serving row's own sentence (`panelActions`) | *"…is shut in the Alamo."* |
 | Serving, and marching with the camp (`sim/houston.mjs` `followCamp`) | the camp's work, refused for the road | *"…is on the road."* |
@@ -1056,6 +1058,41 @@ checks in the browser proof.
 [docs/evidence/panel-silence-screen-injections.json](evidence/panel-silence-screen-injections.json).
 Claims `FIC-GONZ-310` to `-312`.
 
+
+### 14.7 Travelling — owner 2026-09-22
+
+> "their icon should say 'Travelling' next to it."
+
+Said of somebody walking to Gonzales while the owner was watching the map, and it belongs here rather than anywhere new:
+**it goes where §14.1 puts a line, and by §14.1's rule.** In the bar for the main person; on the row, under the name
+(`.panel-why`), for everybody else; never in both at once. `travellingLine(entity)` in `public/family-panel.js` decides
+it, and it is read beside `rowReason` in `public/app.js`.
+
+Two things are different from a refusal, and both are on purpose.
+
+- **It stands beside the icons when there are icons.** Somebody walking out to a chore is on a journey *and* can still be
+  called off while they walk, so their bar keeps its pictures and the word joins them at the end
+  (`.panel-travelling`, a `.panel-reason` that does not replace anything). That is the owner's "next to it". When the bar
+  is empty anyway — the main person sent to Gonzales, who can be given no order at all until they get there — the word is
+  the whole bar, which is what the browser proof's screenshot shows.
+- **It is the page's own word, and §14.2 still holds.** §14.2 is about *why somebody may not be given an order*, and every
+  one of those lines is still the server's, word for word. This says what they are **doing**, which the row has always said
+  in the page's own terms — the glowing icon (`activeKey`) has never been a sentence from the server either. It replaces
+  the server's *"Barnabas Proofwright is on the road."* on a row a student can see moving on the map anyway.
+
+**Somebody carried out of sight is not this.** A traveller the class's clock is moving faster than a student may follow
+(`travel.away`, `sim/sight.mjs`, docs/MAP_ACCURACY.md §12) keeps the server's fuller sentence — where they went, how far
+off, and when they should be there — because that is all their family has of them, and "Travelling" would throw it away.
+
+It reads correctly with the guided start (a step that shuts the bar leaves every icon `can: true`, so the word joins the
+shut icons rather than replacing them) and with the ability bar (the word is laid out as one more item in the same flex
+row, centred with them, and never a button).
+
+`ceiling:` somebody held on a bank while the water is up (`waitUntil`) or reined in to speak to a rider (`halted`) is
+standing still and still says Travelling. Their card says which; a second word on the row would be a second thing to read.
+
+Held by `tests/family-panel.test.mjs` and by `npm run test:travel-drawn`, which reads the row on every painted frame of a
+whole journey.
 
 ## Usability amendment — 2026-09-21
 

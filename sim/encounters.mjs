@@ -454,6 +454,9 @@ export function advanceEncounters(world) {
   if (!world.encounters) { world.encounters = {}; world.nextEncounterId = world.nextEncounterId || 1; }
   for (const encounter of Object.values(world.encounters)) {
     if (encounter.status !== 'open') continue;
+    // Travis's runner in the Alamo is not a rider with word: he waits for an answer and is closed by it, or by its budget
+    // (sim/alamo-runner.mjs, sim/decision-budget.mjs), never by a rider's patience.
+    if (encounter.kind) continue;
     const carrier = world.entities[encounter.carrierId], listener = world.entities[encounter.listenerId];
     if (!carrier || !listener || !canSpeak(listener)) { finish(world, encounter, 'parted'); continue; }
     // A little hysteresis, so a listener shifting about their own yard does not end a
@@ -569,6 +572,7 @@ export function leaveRider(world, householdId, entity) {
   const encounter = openFor(world, householdId);
   if (!encounter) throw new Error('Nobody is standing with your family to be sent on.');
   if (encounter.listenerId !== entity.id) throw new Error(`${world.entities[encounter.listenerId].name} is the one standing with the rider.`);
+  if (encounter.kind === 'alamo-runner') throw new Error(`${encounter.carrierName} is waiting for an answer to take back to Colonel Travis.`);
   finish(world, encounter, 'farewell');
   return encounter;
 }
@@ -588,6 +592,22 @@ export function encounterProjection(world, householdId, role) {
   const encounter = mine.find(e => e.status === 'open') || mine.at(-1);
   if (!encounter) return null;
   const open = encounter.status === 'open';
+  // Travis's runner (sim/alamo-runner.mjs): what he said, the two answers while he waits, and what happens if nobody gives
+  // one - the documented fallback, in words, before it happens. `pressing` once most of the real-time budget is gone
+  // (sim/decision-budget.mjs). Nothing of any other family's runner, and nothing of what Travis will choose.
+  if (encounter.kind === 'alamo-runner') {
+    const listener = world.entities[encounter.listenerId];
+    const clock = world.decisionClock?.[`courier:${encounter.listenerId}`];
+    return {
+      id: encounter.id, kind: encounter.kind, status: encounter.status, reason: encounter.reason || null, topicId: encounter.topicId,
+      carrierId: encounter.carrierId, carrierName: encounter.carrierName, listenerId: encounter.listenerId,
+      origin: 'From Colonel Travis’s quarters, inside the Alamo',
+      said: encounter.said.map(({ speaker, text, minute }) => ({ speaker, text, minute })), questions: [],
+      choices: open ? [{ answer: 'volunteer', label: `${listener?.name || 'They'} offers to ride out with the letters` }, { answer: 'stay', label: `${listener?.name || 'They'} stays inside the walls` }] : [],
+      ifUnanswered: open && listener ? `If nobody answers in time, it will be decided for ${listener.name}, as a person on auto decides.` : null,
+      pressing: Boolean(open && clock && clock.spent >= clock.of * (2 / 3)),
+    };
+  }
   const said = accountOf(world, encounter);
   return {
     id: encounter.id, status: encounter.status, reason: encounter.reason || null, topicId: encounter.topicId,

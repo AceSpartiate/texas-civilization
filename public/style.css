@@ -279,6 +279,13 @@ button:hover:enabled{background:#60673e}
 #lesson-stop-ask button{min-height:36px;padding:6px 12px;border-radius:5px;margin:0 6px 0 0}
 #lesson-stop-yes{background:#8a3a1c;color:#fff9e9}
 #lesson-stop-no{background:#efe3c4;color:#3b3427;border:1px solid #9c8259}
+/* "Resume tutorial" (owner, 2026-09-22): small and quiet, where the strip was - the top right corner, clear of the family's
+   column and of the map's own buttons at the bottom right - for the five real minutes after the X. Same paper and edge as
+   the strip so a student knows what it brings back; no motion, no colour that shouts. */
+#lesson-resume{position:absolute;z-index:14;top:10px;right:12px;min-height:36px;padding:6px 12px;border-radius:6px;
+  background:#fff7e3;color:#4b3e28;border:1px solid #9c8259;border-left:4px solid #c2582c;font-size:13px;box-shadow:0 2px 8px #32291933;cursor:pointer}
+#lesson-resume:hover,#lesson-resume:focus-visible{background:#f0e4c6}
+#lesson-resume[hidden]{display:none}
 /* Teach the vocabulary without requiring a hover over unfamiliar pictures. */
 /* Action names now live inside every button, including outside the tutorial. */
 #lesson-pips{display:flex;gap:3px;margin-top:7px}
@@ -580,6 +587,7 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 .host-presence{font:600 10px/1 system-ui;letter-spacing:.06em;text-transform:uppercase;padding:3px 6px;border-radius:9px;background:#3b3427;color:#f7eed5}
 .host-presence[data-presence=here]{background:#4f7a3a}.host-presence[data-presence=away]{background:#8a6a2a}.host-presence[data-presence=absent]{background:#8a3b22}
 .host-waiting{font:800 10px/1 system-ui;padding:3px 6px;border-radius:9px;background:#c2582c;color:#fff8e6}
+.host-guided{margin:2px 0 0;font:italic 11.5px/1.35 system-ui;color:#cdbf9c}
 .host-people{margin:3px 0 0;padding:0;list-style:none;font:12px/1.4 system-ui;color:#f2e9d2}
 .host-people li span:first-child{color:#d8c9a2}
 /* The Rumor Mill as one running story (2026-09-18): prose a teacher can read aloud, the latest word set apart under it. */
@@ -696,6 +704,9 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 @keyframes panel-point{50%{box-shadow:0 0 0 4px #c2582c,0 0 22px 7px #f0b43acc}}
 @keyframes panel-caret{50%{transform:translateY(-4px)}}
 .panel-reason{font-size:11.5px;color:#f7eed5;background:var(--shade);border:1px solid #8f825b;border-radius:8px;padding:5px 9px;white-space:normal;max-width:24rem}
+/* Travelling (owner, 2026-09-22): the same line as a reason, beside the icons rather than in place of them, so the bar
+   reads "axe, call it off, Travelling" for somebody walking out to the timber. Quieter than a refusal, and never a button. */
+.panel-travelling{align-self:center;font-style:italic;opacity:.92;white-space:nowrap}
 #panel-tip{position:absolute;z-index:30;margin:0;max-width:17rem;padding:7px 10px;border-radius:6px;background:#fff7e3;border:1px solid #9c8259;box-shadow:0 6px 18px #32291955;color:#3b3427;font-size:12.5px;line-height:1.4;pointer-events:none}
 #panel-tip span{display:block}
 #panel-tip-name{font-weight:650;color:#4b3e28}

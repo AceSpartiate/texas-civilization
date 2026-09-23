@@ -1,8 +1,313 @@
 # Claude handoff — Astra foundation
 
-## Action bar update — 2026-09-22
+## Released as v2026.09.22.6 — action bar update
 
-The selected person's bar now renders only actions currently allowed by the server and guided lesson; an active task remains visible as status. Available actions use a compact grid of at most two rows with no horizontal scrolling on the supported desktop layout. The action names remain inside their buttons. When nothing is available, the bar shows the server's reason where possible. Keep this behavior when adding new orders: `panelActions` still returns the full action set for game logic, while `public/app.js` filters only its presentation. The lesson and family-panel browser proofs cover the revised behavior.
+The selected person's bar now renders only actions currently allowed by the server and guided lesson; an active task remains visible as status. Available actions use a compact grid of at most two rows with no horizontal scrolling on the supported desktop layout. The action names remain inside their buttons. When nothing is available, the bar shows the server's reason where possible. Keep this behavior when adding new orders: `panelActions` still returns the full action set for game logic, while `public/app.js` filters only its presentation. The lesson and family-panel browser proofs cover the revised behavior. The merged simulation suite passed all 992 tests. The panel proof is scoped to 1366×768 and 1024×768, the supported desktop sizes; phones remain unsupported by the owner's explicit decision.
+
+## Released as v2026.09.22.5 — 2026-09-22
+
+**[v2026.09.22.5](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.22.5)**, from `f71f5a8`: people walk at the pace of what they are on, fade out off their own land, cross unseen and fade back in for the last hundred yards, arriving when the server says. The traveller’s marker is gone. 992 tests; travel-drawn 17, alamo-siege 8, panels 15, family-panel 17, lesson 33. Open for the owner: whether a horse or wagon may be hurried on the family’s own land (built as: nobody is).
+
+## Released as v2026.09.22.4 — 2026-09-22
+
+**[v2026.09.22.4](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.22.4)**, from `410c98f`: Astra’s house placement, second houses and frontier art; the Resume tutorial button; food by age and twins; Travis’s runner, the Alamo’s fates by role and the 90-second decision budget; and the start-up fix below, without which the Host page froze and a reloading student was sent back to the join form. 986 tests; alamo-siege 8, panels 15, family-panel 17, lesson 33, family-twenty 9.
+
+**Astra’s draft release v2026.09.22.3 carries that start-up fault and was never published.** It is the owner’s to delete.
+
+## Nobody is seen moving unnaturally: walk, fade, cross, fade, walk — 2026-09-22 (released in v2026.09.22.5)
+
+Read [MAP_ACCURACY.md](docs/MAP_ACCURACY.md) §12a first, and §14.7 of [FAMILY_PANEL.md](docs/FAMILY_PANEL.md) for the word on
+the panel. **Presentation only.** The server still owns every journey, every pace (`sim/travel.mjs`) and every arrival
+minute; nothing is stored, `saveVersion` did not move, and a class saved before today opens unchanged.
+
+The owner, verbatim, after playing the day the travel marker shipped:
+
+> "characters are still seen zipping around. i don't want to see icons. i want to see them walk at a normal pace, then
+> when they've walked a ways (say if they're going somewhere that isn't their farm) they should fade out. then after they
+> travel extra fast, they fade back in after arriving close enough to when normally the rest of the way. that way they
+> arrive at the correct time, but no one sees them move unnaturally. their icon should say 'Travelling' next to it."
+
+Asked by multiple choice, they chose **"A short fixed stretch"** of normal walking before the fade (about a hundred yards,
+the same everywhere); **"The road only"** while away (no figure and no marker, but a faint line showing the road they are
+on); and **"Everyone on the map"** (your family, other families, riders, couriers and armies alike). Then, the same day:
+
+> "this shouldn't be a thing on their land. everyone should move at normal speed at all times (unless on horseback or
+> wagon) on their land."
+
+What was built:
+
+- **A pace nobody exceeds** (`GAIT_CEILING`, `public/motion.js`). A figure is never drawn crossing more ground than its own
+  travel cycle covers at the rate it was drawn: 1.2 of its **own drawn height** a real second, which is the marker's old
+  threshold kept and renamed. Counted in the figure's own height it is already the pace of what they are on — a rider and
+  horse are drawn 1.8 of a person (`MOUNTED_HEIGHT`) and may cross 1.8 times the ground, a driver the wagon's — which is
+  the owner's "unless on horseback or wagon" with no second number.
+- **The schedule** (`travelSight`, asked once a frame by `sightOf` in `public/app.js`). Below the gait nothing happens and
+  the journey is drawn exactly where the server has it. Above it: the family's own land and a hundred yards past it walked
+  at the gait; a 700 ms fade out; the middle crossed with nobody watching at whatever speed the arrival needs; a fade back
+  in a hundred yards short of the end (or short of their own land, whichever comes first); the rest walked at the gait.
+  Everything is a function of the server's own progress and it maps the journey's end to the journey's end, so **the drawn
+  arrival is the server's arrival** and nothing else could make it not be.
+- **The family's own land, by the land and not by a distance** (`landRuns`, read from the grant bounds the server already
+  sends). The road inside the family's own grant is walked in view however long it is; the fade may begin only off it, and
+  the fade-in is finished before the line coming home. A journey that never leaves their land is never faded at all.
+- **And an order for spending the road when it will not pay for everything: the land first, and in full.** A journey has
+  only its `rate` of length to spend on being watched, and walking half a mile of farm at a walk costs thirteen real
+  seconds. The owner's correction is absolute, so the land comes first; the hundred yards off it are a target and not a
+  promise, and shorten to nothing rather than start a fade a foot inside the line. Where the road cannot pay even for the
+  land there is no fade at all and the whole journey is drawn where the server has it, in view. In the farming day there
+  is room for the land *and* the hundred yards from about two and a half miles up.
+- **The road, and nothing else, while they are away** (`drawTravelRoads`). The road still ahead as the same faint dotted
+  line the marker drew, coming up as the figure goes. No disc, no pin, no portrait, no destination ring.
+- **The marker deleted**, with `MarkerFade`, `wantsMarker`, `MARKER_ABOVE`/`_BELOW`, `drawTravelMarkers`, its stand-in row
+  and its request (now *WITHDRAWN 2026-09-22* in [ART_REQUESTS.md](docs/ART_REQUESTS.md)). Astra's delivered
+  `travel-markers.png` stays in the library, registered and unused. The one rule it proved is kept and said in code: **the
+  road behind a traveller is not drawn** — the road itself is already on the ground, and two lines is two things to read
+  on a small screen.
+- **Travelling on the panel** (`travellingLine`, `.panel-travelling`). While the server has somebody on a journey their row
+  says **Travelling**, where §14.1 puts a line and by §14.1's rule; beside the icons when the bar still has open ones (a
+  person walking out to a chore can be called off while they walk), in place of them when it does not. Somebody carried out
+  of sight (`travel.away`, §12) keeps the server's fuller sentence — where they went, how far off, when they are back.
+- **Everyone on the map**: other families' people, riders, couriers and the Host's whole class go through the same
+  schedule. Only the student's own grant counts as own land; an observed person and the Host are given none.
+
+**Evidence.** `tests/travel-drawn.test.mjs` (13, replacing `tests/travel-marker.test.mjs`) and one new case in
+`tests/family-panel.test.mjs`. **Every one was made to fail first**: `node scripts/travel-drawn-injections.mjs`,
+**23 of 23 caught** — 17 unit injections and, with `PROOF_BROWSER=1`, 6 that only a real browser can answer
+([record](docs/evidence/travel-drawn-injections.json)).
+
+**Two of them missed on the first attempt, and both times the test was wrong, not the code.** The pop-guard test stated
+its numbers *against* `FADE_RATE`, so it moved with whatever it was guarding; it now holds the eased jump to at least
+250 ms and at least twelve painted frames, absolutely. And the browser proof read the page's own **schedule** rather than
+where the figure was **painted**, so drawing it at the server's place instead of the scheduled one passed every check in
+the file; the page now publishes the point it really put the figure at beside the one the schedule asked for, and the
+injection lands 22,662 px off.
+
+**The browser proof found a real bug the unit tests could not**, and it is kept as an injection: the grant the server
+sends is `{ kind, acres, bounds }`, and read a level too high it is never a rectangle, so **no road was ever on the
+family's own land** and every fade began a hundred yards from the house. Nothing threw and every unit test passed. The
+proof now reads the schedule's own walked lead off the page and fails unless it is well past a hundred yards.
+
+`npm run test:travel-drawn` (replacing `test:travel-marker`, [record](docs/evidence/travel-drawn.json),
+[screenshots](docs/evidence/travel-drawn/)) plays a Solo game on the real land, sends the main person to Gonzales on foot
+and reads **every painted frame** of the whole journey — seventeen checks. On the run recorded, a road of 115.9 miles:
+the server would carry them 157.9 of their own heights a second pressed close in and they are drawn at **1.209**, the
+gait, measured frame to frame from where they were actually drawn over 487 pairs of frames at one camera; painted where
+the schedule walked them and not where the server has them, the farthest 0 px off over 2,102 frames; a walked lead of
+0.453 miles, which is 0.396 of their own land and then the hundred yards off it; 2,927 frames with nothing of them on the
+map and the road drawn on every one of them; 126 frames part drawn and no frame changing by more than 0.14, so it fades
+rather than blinking; no marker on any frame and no marker hook in the page; back and walking for the last 1,827 frames;
+**not one frame drawn at Gonzales before the server put them there**, and the walk in finished inside the tick the server
+called the arrival. `docs/evidence/travel-drawn/road-only.png` is the owner's "the road only": a dotted line across the
+timber, nobody on it, and *Travelling* in the bar.
+
+**A Solo game deals a new world every run**, so this family's road to Gonzales has been anywhere from five to two hundred
+miles. The proof plays a long road at the quick pace and a short one at the Study pace a class really uses, so the
+schedule fades either way, and it says plainly when a family is dealt too near Gonzales to have a road at all. Run four
+times over in a row without a change, after two flakes that were the proof's own and are now written into it.
+
+**Two measuring traps, written down so nobody pays for them twice.** First, the map is not redrawn on every animation
+frame, so two samples 27 ms apart can hold 66 ms of drawn movement; timed by the sampler's own clock a figure walking at
+1.2 reads as 4.4. The proof times the measurement by the **renderer's** clock (`frameMs`, the moment `drawWorld` ran).
+Second, a frame on which the schedule itself moved - a zoom, the teacher changing the class pace, the calendar turning over
+to longer ticks - is not a speed and not a fade: the page snaps the figure to the schedule on exactly those frames rather
+than easing a half-drawn figure across a leap (`leapt` in `sightOf`, which the page publishes for this), so both the speed
+and the fade measurements leave them out and say how many there were.
+
+`npm test` 992, and `test:panels`, `test:family-panel`, `test:lesson`, `test:alamo-siege` and `test:travel-sight` — the
+Alamo one watches a runner walk across the compound step by step and would notice a pace change. Same computer, headless
+Chrome: nothing here is a Chromebook, a classroom projector or a physical LAN.
+
+**One thing the owner may want to change, and one price it costs.**
+
+1. **"(unless on horseback or wagon)" was read as the narrower of its two readings.** It is built as *the pace you hold
+   somebody to on their own land is the pace of what they are on* — so a rider crosses their own farm at a horse's gait and
+   a walker at a walk, and **nothing on their own land is ever sped up or faded, on foot or otherwise**. The other reading
+   is *a horse or wagon on their own land may still be sped up and faded*. It is marked `ceiling:` in
+   [MAP_ACCURACY.md](docs/MAP_ACCURACY.md) §12a.3 and is a question for the owner.
+2. **The price, and it is not a choice: a journey whose own-land stretches the road cannot pay for is drawn at the server's
+   pace, in view, from end to end.** That is one rule covering two cases — a crossing of the farm itself, and a short
+   errand at a hurried class pace that begins at the house, where walking the farm at a walk would cost more real time
+   than the whole journey has. Either can still outrun the gait, and nothing else is possible at once: **on their own land
+   nobody may be faded**, and the arrival is the server's. So the land is always shown honestly and a hurried short errand
+   is visibly quick. The ways out are the class clock or fading on the farm too, which the owner refused.
+
+   `tests/travel-drawn.test.mjs` pins it: **not one frame of any journey is faded, or part faded, while the figure is still
+   on its own land** — swept frame by frame over three class paces, four road lengths and four ways the land can lie under
+   a road, the hurried errand included. The ordering this shipped with first, which paid the hundred yards before the
+   land, is an injection, and it fails that test alone.
+
+**Two proofs had to be told the new word**, and both were checked to make sure that was all that changed:
+`npm run test:family-panel` (the family driving in, in the lobby, is on a journey like any other, so its bar now reads
+*Travelling* where it read "… is on the road.") and `npm run test:panel-silence` (the main person sent to Gonzales, the
+same line in the same place). §14.2 of [FAMILY_PANEL.md](docs/FAMILY_PANEL.md) is untouched: every line about *why*
+somebody may not be given an order is still the server's own, word for word, and every other check in that proof holds it.
+
+**Found, not caused, and not fixed here:** `npm run test:panel-silence` fails one check — *"Paulita Proofwright: the line
+is on the screen", a child's too-young line measured outside the 1366x768 screen. It fails identically with the
+Travelling line switched off, so it is not this work; its other twenty-odd checks pass.
+
+Also worth knowing: **`scripts/travel-marker-proof.mjs` was already broken on `main` before this work**, and its replacement
+fixes the cause. A Solo game's class now has to be started by the student's own *Done packing* (`server/app.mjs`, owner
+2026-09-21), and the old proof pressed it only after waiting for the family to reach its land — which never happened,
+because the class was still in the lobby. The new proof presses it first.
+## Travis's runner, the 90-second budget and the Alamo's fates by role — 2026-09-22 (released in v2026.09.22.4)
+
+Read [ALAMO_FATES.md](docs/ALAMO_FATES.md) (the historical review and what the game allows) and the new last section of
+[MILITARY_EXPERIENCE.md](docs/MILITARY_EXPERIENCE.md) first.
+
+**The four owner questions of the military pass below, answered by the owner on 2026-09-22** (verbatim): *"Military: build
+the real local Alamo runner encounter next. Give unanswered decisions a configurable 90-second real-time budget, suspended
+during Host pause, with a documented fallback. Reconsider eligible volunteers on later courier dates. Replace sex-only
+fictional fates with historically reviewed roles, location, choices, and plausible escape/capture outcomes. Preserve smooth
+shared-world play and delayed news."*
+
+1. *Next build step?* — The local Alamo runner encounter, now, ahead of Gonzales/core usability for this piece. **Built.**
+2. *The 20-minute cap holding the class until the dated deadline?* — A 90-second real-time budget per question. **Built.**
+3. *Ask each courier date once, or reconsider?* — Reconsider on later dates. **Built.**
+4. *The sex-decided fate?* — Replace with roles, location and choices after historical review. **Reviewed and built.**
+
+What was done:
+
+- **The historical review** ([ALAMO_FATES.md](docs/ALAMO_FATES.md); `HIST-TEX-430` to `-439`). Every fighting man still
+  inside at dawn on March 6 died, the few taken alive included; the men who ran over the walls were cut down; the people who
+  lived had left before (couriers, men cut off outside, Rose — disputed) or were noncombatants (Dickinson and her daughter,
+  the Tejana women and children, Joe), with Guerrero the one fighter who talked his way out. No courier is recorded caught
+  leaving. Sources: the TSHA Handbook (entries on the battle, the noncombatants, the Tejanos, Dickinson, Joe, each courier,
+  Rose, Crockett, de la Peña, Kimbell), the Alamo's *Joe's Account*, and Stephen L. Hardin's *Lines in the Soil; Lines on the
+  Soul* (read in full). The printed books (Todish, Lindley, Hansen, Davis, Crisp, Groneman) were cited through those, not
+  opened — say so if anybody asks.
+- **Fates by role and place** (`alamoRole`, `stormAlamo`, `tellFall` in `sim/alamo.mjs`; `FIC-GONZ-381`, `-386`). A
+  fighter (a man or boy of sixteen and up, sick or well) inside at the assault is killed; a courier chosen and gone lives; every
+  woman and child inside is spared and walks home east. A boy under sixteen is no longer killed for being male. No escape
+  over the wall, capture or disguise route is offered — the record says they failed or were not a colonist's. Delayed news
+  is unchanged: no family sees a fate before its word.
+- **Survival opportunities said before they close** (`FIC-GONZ-383`): when the rumour of Santa Anna's march comes, a family
+  with somebody in the garrison is told they can still send for them (`warnGarrison`), and the card's recall button says the
+  same; on each courier night the runner says a man sent leaves the fort, and on March 3 and 5 that the lines are closing.
+- **Travis's runner** (`sim/alamo-runner.mjs`, `FIC-GONZ-380`). The besieged stand on the compound's plaza; on each courier
+  day a runner with a stable ID walks from the reconstructed Travis quarters to each played fighter at ninety feet a tick; the
+  question opens only when he is beside them; only that family hears him (`kind: 'alamo-runner'` meeting); the answer is said
+  aloud and he walks back. The card and the "!" open the meeting, whose two buttons are the existing `alamo-courier` action.
+- **Asked again on later dates** (`courierEligible`, `FIC-GONZ-382`): once a day, every day, whatever was said before; never a
+  courier gone, the dead or captured, a woman or child, or an auto/absent family (answered at once, no runner).
+- **The 90-second budget** (`sim/decision-budget.mjs`, `FIC-GONZ-385`): for the runner, the division, the army's questions
+  and Houston's camp. Real milliseconds between the ticks the server runs (`realTimeMeter`, injectable `now`); none while
+  paused; kept in the save; `createClassroom({ decisionBudgetMs })` and `DECISION_BUDGET_MS`; "pressing" at two thirds. On
+  expiry, auto's answer at the record's share (`FIC-GONZ-048`, `FIC-GONZ-384`) with "Nobody answered for … in time, and it was
+  decided for them" in the journal; the question closes, so the class stops being slowed.
+- **No save version moved.** `decisionClock`, `courierDay`, `courierOffer`, runner entities and the `coming` state are all
+  absent on older classes, which correctly reads as nothing spent, never asked, no runner.
+
+Evidence (same computer, headless Chrome, on this branch): full `npm test` **965 passed, 0 failed** (13 new tests in
+`tests/alamo-runner.test.mjs`, 10 in `tests/decision-budget.test.mjs`, one each added to the military pacing and attention
+files; two existing Alamo/auto tests changed for the runner's `coming` step); `node scripts/military-regression-check.mjs`
+**39 of 39 mutations caught**, each failing exactly its named test in its whole file (26 new; `docs/evidence/military-injections.json`);
+`npm run test:alamo-siege` **8 checks** (runner walking in 391 → 301 → 211 → 121 → 31 → 6 ft; the meeting; a 20 s pause
+holding a 15 s budget with 5 s spent; the budget running out 14 s after Resume with its journal line; the next day's runner
+and an answer given in the meeting; 1366 × 768 layout); `npm run test:panels` **15 checks**; `npm run test:family-panel`
+**17 checks**; no page errors. The old phone check in the siege proof was replaced by the Chromebook size (phones are not supported).
+
+**Not proved:** anything on a LAN, a Chromebook device or in a classroom; whether 90 seconds is enough for a real student;
+seamless play; the runner's walk looking right at every zoom (only the server positions were measured, and one screenshot
+each at 1440 × 950 and 1366 × 768 was taken).
+
+**For the owner to decide or change:**
+
+1. **The fallback when nobody answers the runner.** Built as your standing rule `FIC-GONZ-048` — auto takes over, so about
+   one in three silent men offers and may be chosen and live. The review would equally defend **staying at one's post**
+   (Travis chose riders from men who offered; leaving would then always be the family's own act). One line in
+   `settleUnanswered` changes it. Which?
+2. **Noncombatants killed in the storming.** The record has a woman and children killed inside (`HIST-TEX-433`); the game
+   spares every woman and child. Keep the simplification?
+3. **Sixteen as the line between fighter and child** is the game's age for answering calls, not a recorded rule (boys of
+   about sixteen died with the relief; Enrique Esparza, about eight, lived). Keep?
+4. **The runner's pace** is a real-seconds jog (ninety feet a tick), which the continuity contract asks of local motion, but
+   it means the walk takes one to five ticks whatever the class's pace. Right?
+5. **Ninety seconds** is your number; nothing has measured it with students.
+
+## Food by age, birth dates and twins — 2026-09-22 (released in v2026.09.22.4)
+
+**Owner:** *"Children's food consumption: ages 0–2 use 25% of an adult portion, 3–9 use 50%, 10–15 use 75%, and 16+ use
+100%. Preserve fractional totals. Allow seed-deterministic twins at approximately 1% of births."* Astra's handoff
+(`docs/HOUSE_SELECTION_HANDOFF.md`) adds quarters summed before rounding, twins with their own identities and one birth date,
+and no artificial one-a-year spacing. Read the amendment of 2026-09-22 at the foot of
+[FAMILY_CREATION.md](docs/FAMILY_CREATION.md) first.
+
+- **Eating by age** (`quartersFor`, `quartersEaten`, `mouthsOf`, `eatenADay` in `sim/family.mjs`, `FIC-GONZ-360`): a quarter,
+  half, three quarters or all of the 0.35 a day, by age on the world's date. Quarters are summed as integers and turned into
+  food once: four babies eat exactly one grown share. Every place a family eats uses it — the day at home, the winter, the
+  road east, and the neighbours' director (`mouthsAt`, `FIC-GONZ-364`). The Alamo, the army and the camps never ate from the
+  family's store, and no screen shows days of food left, so nothing else changed. Nobody with no stated age changes.
+- **Birth dates** (`born`, `bornOf`, `ageNow`, `ageOnDay`, `FIC-GONZ-361`): stored on everybody rolled from now; a person rolled
+  before gets a date worked out from their age and a hashed day, never written back. `validateWorld` accepts `born` only as
+  `YYYY-MM-DD` beside an age. **No save version moved; nobody is re-dealt.** ceiling: in the winter's skipped weeks ages are
+  read on the evening the first period ends (`sim/periods.mjs`).
+- **Births** (`birthsFor`, `BIRTH_GAP`, `SHORTEST_GAP`, `TWIN_SHARE`, `GROWN_AT_HOME`, `FIC-GONZ-361` to `-363`): 1.4 to 3
+  years apart, never under ten months; twins by `share(seed, id, 'twin')` at one birth in a hundred (measured 0.95 in 100);
+  in a family too large for eighteen years of childhood, the eldest grown and at home to 22. **A 20 is now a father of 41–45,
+  a mother of 37–42, the eldest 18–22, births about 14–16 months apart and uneven, twins in about one family in six, and
+  about two and a half sons of fighting age (none to six) where it had exactly two sixteen- and seventeen-year-olds.**
+- **Tests changed, each with its reason beside it:** `tests/family-roll.test.mjs` (birth-date checks replace "no two share an
+  age" and the 17-to-0 stair), `tests/periods.test.mjs` (the winter eaten by age), and three seeded fixtures whose class
+  history moved with its families — `tests/camp.test.mjs` (a skilled man's one-tick guard: "never idle a whole think"
+  replaces "at work 7 of 12"; the scouts' loop stops at the army's march; the family's other waiting questions are its own),
+  `tests/houston.test.mjs` (two men of two families), `tests/winter.test.mjs` (a son of ten to fifteen, not a daughter).
+- **New:** `tests/rations.test.mjs` (nine tests). **Injections:** `node scripts/family-roll-injections.mjs`, **24 of 24 caught** (the eleven kept from the roll, three rewritten for birth dates, ten new); each new one fails only its own test except four that fail two tests guarding the same rule (a birthday a day late; twins three times as often, which also moves the 20's tick size; and the two spacing injections, caught by both the 20's test and the spacing test)
+  ([record](docs/evidence/family-roll-injections.json)).
+- **Suite:** `npm test` **949 passed, 0 failed** (940 before; nine new), same computer. **Browser:** `npm run test:family-panel` 17 checks passed and `npm run test:family-twenty` 9 passed ([panel](docs/evidence/family-panel-browser.json), [twenty](docs/evidence/family-twenty-browser.json)), desktop sizes and the 400 px phone, same computer only; no LAN or district claim.
+- **For the owner:** a birthday changes only eating, not the shown age or the rules of ten and sixteen; grown children at home
+  give large families more fighting sons; a one-child family can never have twins. FAMILY_CREATION's amendment lists them.
+
+## "Resume tutorial": five real minutes to take the X back — 2026-09-22 (released in v2026.09.22.4)
+
+**Owner:** *"After closing the tutorial, show a small 'Resume tutorial' button for five real minutes from the original
+dismissal, including across reloads. Resume existing progress; quietly show dismissal/resumption to the teacher. Phones are
+not officially supported—prioritize desktop and Chromebook."* Astra's `docs/HOUSE_SELECTION_HANDOFF.md` adds: same step,
+never reset progress or extend the original window. Recorded verbatim in [LESSON.md](docs/LESSON.md) §1, second amendment,
+which replaces yesterday's `ceiling:` that the X was for good.
+
+- **The X keeps the step.** `stopLesson` now stores `{ step: 'done', from, at, stopped: true, stoppedAt, resumeBy }` and
+  keeps every marker the steps had gathered (it used to replace the whole object). `stoppedAt` is real server
+  milliseconds; `resumeBy = stoppedAt + LESSON_RESUME_MS` (5 min, `sim/lesson.mjs`), fixed at the first press. A second X
+  after a resume keeps both, so the window is always the first press's.
+- **`resume-lesson`** (`resumeLesson`): the family's own student only (Host, another family's student and an absent,
+  director-run family are refused), only while stopped by the X, only before `resumeBy`. Restores `step: from` with every
+  marker plus `resumed: true`; the gate applies again, and `applyAction` walks it on at once if the step's work was done
+  meanwhile. On `ALWAYS` only so a wrong sender hears the true reason, not "Not yet".
+- **Real clock, injectable.** `applyAction(world, id, input, { now, resumeWindowMs })`, `projectWorld(…, { now })`, and
+  `createClassroom({ now, lessonResumeMs })` in `server/app.mjs`; a real class passes neither and gets `Date.now` and 5 min.
+- **Projection:** `world.lessonResume = { until, ms }` while the window is open, absent otherwise and never to the Host.
+- **Screen:** `#lesson-resume`, a small "Resume tutorial" button top right where the strip was (119×36 px). The page counts
+  `ms` down on its own clock from receipt (earliest deadline kept per window), so it disappears on time with no reload, even
+  in a paused class, whatever the Chromebook's clock says. The military card now stands below it too. The X's question now
+  says *"For five minutes, a “Resume tutorial” button can bring it back."*
+- **Host:** a quiet italic line on the family's class-panel row — *stopped the guided start at step 3* / *resumed the guided
+  start: on step 3 of 10* / *…, after resuming it once* (`lessonHostWords`, passed into `familiesOverview` as `guidedOf`;
+  importing the lesson into `sim/host.mjs` closed an import loop through `sim/chores.mjs` that crashed the server at start,
+  caught by `npm run test:lesson`, not by `npm test`). Events `lesson-stopped` / `lesson-resumed` are written with
+  `visibility: 'host'`, `about: <household>` and no `householdId`, so no family's journal carries them. No banner or sound.
+  [HOST_PAGE.md](docs/HOST_PAGE.md) §2.5.
+- **Saves:** no `saveVersion` change. An old stop without `from`/`stoppedAt`/`resumeBy` is "window long gone": no offer, and
+  `resume-lesson` is refused. `validateWorld` checks the new fields (from only on a stop and naming a real step; both times
+  together, finite, in order; `resumed` true or absent).
+
+Evidence (same computer, headless Chrome): `npm test` **949 passed, 0 failed** (940 before; 9 new in
+`tests/lesson.test.mjs`, and `tests/host-page.test.mjs` asserts the row's line). `node scripts/lesson-injections.mjs`
+**55 of 56 caught** — all 10 new ones caught; the one miss is the older absent-family gap already named in the record. The
+harness now checks every pattern before it runs (`--check` does only that). The host-page assertion was seen to fail with
+the line removed from `public/live-page.js`. `npm run test:lesson` **33 checks**: X, confirm, "Resume tutorial" measured at
+1366×768 and 1024×768 (on the screen, reachable, sharing pixels with nothing), a reload keeps it with the same window, the
+press brings the strip back on the same step (`house`) with the bar shut again, a second X offers it inside the first
+window, and with the test server's clock moved past the window the button goes without a reload. The proof failed when the
+button was made to send the wrong order. `npm run test:panels` **15 checks** pass. `npm run study:overlap` at 1366 and 1024
+has a new *resume-offered* state: the button covers nothing and nothing covers it (the other covered controls are the same
+family-column rows as before). **Not proved:** a Chromebook, touch, a LAN, a real five-minute wait, or the page's own
+countdown hiding the button while no snapshot arrives (the proof's expiry came through a snapshot).
+
+**For the owner:** (1) the window counts from the first X even if the student resumes and stops again — as asked; (2) the
+Host's "stopped" line stays for the rest of the class, and the line goes when a resumed family finishes; (3) there is no
+teacher control to reopen a family's guided start after the five minutes; (4) five minutes is one constant
+(`LESSON_RESUME_MS`).
 
 ## Release integration: v2026.09.22.3
 
@@ -26,21 +331,20 @@ Validation: 933 tests passed in `test-results/second-house-full.log`; after the 
 
 Read [HOUSE_SELECTION_HANDOFF.md](docs/HOUSE_SELECTION_HANDOFF.md). The desktop house chooser now presents illustrated preset plans using the world’s actual modular renderer, hiding the component grid and palette. House-site/survey prompts move right, away from the family column. The document records food weights, rare twins, the five-minute tutorial resume window, desktop support, all four military decisions, and the remaining multiple-house/youngest-first sleeping implementation. One house per holding remains a simulation limitation; this pass changes the interface.
 
-## Play Solo delete emblem — 2026-09-22 (unreleased)
+## Play Solo delete emblem — 2026-09-22 (released in v2026.09.22.4)
 
 `launcher/art/icon-delete-save.png` replaces the modern line-drawn trash can with a transparent frontier stave pail whose lid is visibly open. `SoloGameDialog` embeds, scales and tints one source for ordinary rows, selected rows and warning-red hover. The old GDI line work runs only if the resource cannot load. Exact prompt and provenance are in `docs/LAUNCHER_ART.md`.
 
-## Children’s action icons — 2026-09-22 (unreleased)
+## Children’s action icons — 2026-09-22 (released in v2026.09.22.4)
 
 `icons-children.png` replaces all six code-drawn children’s work glyphs: play, kindling, shooing birds, gathering eggs, fetching water and minding a younger child. `public/family-panel.js` binds each action directly to its sprite. The kindling icon deliberately contains no blade, and play is visually distinct from work. Generation prompt and provenance live in `scripts/art-deliveries/children-icons.mjs`. The atlas audit found 80.3% clear alpha, 100% object retention and zero overlap trimming.
 
-## Biome trees and field art — 2026-09-22 (unreleased)
+## Biome trees and field art — 2026-09-22 (released in v2026.09.22.4)
 
 `biome-trees-fields.png` adds sixteen production sprites in the established hand-painted style: three sizes each of longleaf pine, Texas sabal palm and bald cypress; medium/large southern magnolia and American beech; young/mature irrigated crop rows; and fallow ground. The unmodified generated source is registered in `scripts/art-deliveries/biome-trees-fields.mjs`; prompt and provenance records are rebuilt into `docs/art-prompts.json` and `docs/art-provenance.json`.
 
 The simulation now binds longleaf, palm and bald cypress to their own three-size art. Beech and magnolia use explicit per-size pictures so mature trees select their large frame. Palm-grove marks and town/Béxar field marks use the new sprites. `npm run build:art` passes with 1,165 measured frames across 82 sheets and 447 clips; the new sheet retained 100% of every measured object with zero overlap trimming. See `docs/ART_REQUESTS.md` for the remaining species stand-ins and the still-open researched acequia layout.
 
-## Military pacing and continuity — 2026-09-22 (unreleased)
 ## The roll is the family — 2026-09-22 (released in v2026.09.22.2)
 
 **Released as [v2026.09.22.2](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.22.2)** on 2026-09-22, from `c25414f`.
@@ -59,7 +363,8 @@ there are. Read [FAMILY_CREATION.md §2 and §3](docs/FAMILY_CREATION.md) first.
   42, so a 20 is always children aged 17 down to 0, one a year. Parents too old for the window are made younger; a father
   is at least 18 at every birth, made older where he is not (he was checked for nothing before, and a big family made him
   nine at his eldest's birth). No twins; no two children share an age.
-- **What was measured and left alone:** everybody eats 0.35 a day, a newborn as much as the father; the same wagon and stock
+- **What was measured and left alone:** everybody eats 0.35 a day, a newborn as much as the father (superseded the same day
+  by *Food by age* above, as were the ages of the bullet before); the same wagon and stock
   for any size; the four set houses hold at most eight, so nine or more are crowded (rest at 80 in 100) unless the class
   builds from pieces, where three pens with lofts and a shed room hold twenty. Names: the son and daughter pools hold twenty
   each, so a family never repeats a first name. `sim/children.mjs`, hidden stats, kin labels and the director scale by the
@@ -154,7 +459,7 @@ Evidence, on a clean verify tree holding only this work (same computer, headless
 3. Each of the four Alamo courier dates asks each person once; a volunteer not chosen is not asked again. Keep, or reconsider on the next date?
 4. The fictional player fate inside the Alamo is still decided by sex (`tellFall`). Replacing it with roles is a design decision about who in a family can survive the fall; it was left unchanged.
 
-## Current usability changes (unreleased) — 2026-09-21
+## Current usability changes (released in v2026.09.22.1) — 2026-09-21
 
 Portraits now select an eligible person and their action bar in one click. Every action has a persistent name, and phone conversations reserve space above the bar. See [the usability handoff](docs/TUTORIAL_USABILITY_HANDOFF.md#second-usability-pass--2026-09-21) for changes, evidence, and remaining work. The release record below describes the earlier shipped build.
 
@@ -1392,7 +1697,7 @@ before/after pairs in `docs/evidence/biomes/`; test:farm (audit on), navigation,
 plot pass; speed unchanged on a quiet machine. Not done: the acequias drawn, plantation fields past the towns' rings, the
 province's cover belts (drawn only while the land loads). Next: the balance session. Same computer only.
 
-**A traveller faster than a walk is drawn as a marker, 2026-09-19:** Owner, by multiple choice: "Marker when fast". Past
+**A traveller faster than a walk is drawn as a marker, 2026-09-19 — SUPERSEDED 2026-09-22, the marker is gone:** Owner, by multiple choice: "Marker when fast". Past
 `MARKER_ABOVE` (1.2 of their own drawn heights a real second - the ground the library's walk, horse, ox and wagon cycles
 cover at their authored rate; `public/motion.js`) a traveller is a pin with their panel portrait (rust for the principal,
 ink for the family, grey for others, slate for a courier), at the server's progress and never beyond it, the road ahead

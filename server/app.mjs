@@ -7,6 +7,7 @@ import { basename, dirname, isAbsolute, join, relative, resolve, sep } from 'nod
 import { fileURLToPath } from 'node:url';
 import { etagFor, fileFacts, notModified, PIN_LENGTH, PINNED_CACHE, REVALIDATE_CACHE, sendBody } from './delivery.mjs';
 import { setAbsent } from '../sim/absence.mjs';
+import { DECISION_BUDGET_MS, realTimeMeter } from '../sim/decision-budget.mjs';
 import { createWorld, stepWorld, projectWorld, projectMap, applyAction, validateWorld, projectFamily, rollFamily } from '../sim/world.mjs';
 import { familyMaking, householdName, rollRefusal } from '../sim/family.mjs';
 import { beginNextPeriod, periodOf } from '../sim/periods.mjs';
@@ -153,8 +154,17 @@ const SAVE_EVERY_TICKS = 3;
 
 /** The most woods tiles one request may ask for. */
 export const WOODS_BATCH_MAX = 64;
-export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tickMs = 200, savePath, joinUrls = [], worldFactory = createWorld, onStopRequested = null, stopDelayMs = 250, solo = false, absentMs = ABSENT_MS, soloGamesDir = null, timings = null, saveWithinMs = SAVE_WITHIN_MS } = {}) {
+/**
+ * `now` is the server's real clock and `lessonResumeMs` the window after the X on the guided start (sim/lesson.mjs
+ * `LESSON_RESUME_MS`, five minutes when not given). Both are options only so a test or a browser proof can hold the clock,
+ * jump it, or shorten the window; a real class passes neither.
+ */
+export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tickMs = 200, savePath, joinUrls = [], worldFactory = createWorld, onStopRequested = null, stopDelayMs = 250, solo = false, absentMs = ABSENT_MS, soloGamesDir = null, timings = null, saveWithinMs = SAVE_WITHIN_MS, decisionBudgetMs = DECISION_BUDGET_MS, now = Date.now, lessonResumeMs } = {}) {
   if (!Number.isInteger(playerCount) || playerCount < 5 || playerCount > 30) throw new Error('Class size must be 5–30');
+  if (!Number.isFinite(decisionBudgetMs) || decisionBudgetMs <= 0) throw new Error('A decision budget must be a positive number of milliseconds');
+  // The real seconds between running ticks, for the budget of an unanswered military question (sim/decision-budget.mjs).
+  // Forgotten whenever a tick does not run, so a Host's pause is never counted against anybody's answer.
+  const realTime = realTimeMeter({ now });
   if (!Number.isInteger(tickMs) || tickMs < 10 || tickMs > 10000) throw new Error('Tick interval must be 10–10000 milliseconds');
   /**
    * How many real milliseconds one tick takes.
@@ -279,7 +289,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     // `tickMs` rides along because the renderer has to know how long a tick lasts to
     // spread one tick's movement across it. Without it the client guesses one second and a
     // slower class walks for a second and then stands still for the rest of the tick.
-    const payload = { sessionId: state.sessionId, connected: connected(), tickMs: pace, fault: runtimeFault && structuredClone(runtimeFault), lifecycle: lifecycle && structuredClone(lifecycle), world: projectWorld(state.world, identity.householdId, identity.role, { includeMap: false, copy }), mapId: state.sessionId, ...(state.world.map.revision && { mapRevision: state.world.map.revision }), ...(state.world.woods?.revision && { woodsRevision: state.world.woods.revision }) };
+    const payload = { sessionId: state.sessionId, connected: connected(), tickMs: pace, fault: runtimeFault && structuredClone(runtimeFault), lifecycle: lifecycle && structuredClone(lifecycle), world: projectWorld(state.world, identity.householdId, identity.role, { includeMap: false, copy, now: now() }), mapId: state.sessionId, ...(state.world.map.revision && { mapRevision: state.world.map.revision }), ...(state.world.woods?.revision && { woodsRevision: state.world.woods.revision }) };
     // A page has to know it is a solo game: there is no teacher on it, so its own "Done packing" is the Start
     // (owner, 2026-09-21). One boolean rather than a role of its own - a solo player is a student in every other way.
     if (solo) payload.solo = true;
@@ -951,7 +961,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
             // the class fills up, and none of it moves until the teacher starts; which
             // actions that means is `LOBBY_ACTIONS`, beside the actions themselves.
             if (!['running', 'lobby'].includes(s.world.status)) throw new Error('Wait until the class is running.');
-            applyAction(s.world, identity.householdId, input);
+            applyAction(s.world, identity.householdId, input, { now: now(), ...(lessonResumeMs !== undefined && { resumeWindowMs: lessonResumeMs }) });
           }
           const ledger = identity.role === 'host' ? s.hostCommands : s.clients[identity.credentialHash].commands;
           ledger.push(input.id); if (ledger.length > 256) ledger.shift();
@@ -970,11 +980,14 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     } catch (error) { if (!res.headersSent) json(res, error.status || 400, { error: error.message }); else res.destroy(); }
   });
   function tick() {
-    if (state.world.status !== 'running') return;
     // Play Solo's clock waits while the player's family is being made (sim/family.mjs `familyMaking`): the whole world, the
     // neighbours too, as a class waits in its lobby. Still 'running', so the die, the name and the looks are taken.
-    if (solo && Object.values(state.clients).some(client => familyMaking(state.world, state.world.households[client.householdId]))) return;
-    try { commit(s => { markAbsences(s.world); stepWorld(s.world); }, { when: 'tick' }); }
+    const running = state.world.status === 'running'
+      && !(solo && Object.values(state.clients).some(client => familyMaking(state.world, state.world.households[client.householdId])));
+    // Measured before anything else, so a paused or waiting class is always a lap not run (`realTimeMeter`).
+    const realMs = realTime.lap(running, Math.max(3 * pace, 2000));
+    if (!running) return;
+    try { commit(s => { markAbsences(s.world); stepWorld(s.world, { realMs, decisionBudgetMs }); }, { when: 'tick' }); }
     catch (error) { if (!runtimeFault) suspend('SIMULATION_FAILED'); console.error('Simulation paused:', error.cause?.message || error.message); }
   }
   let timer = setInterval(tick, pace);

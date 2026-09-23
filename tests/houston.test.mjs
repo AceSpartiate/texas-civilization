@@ -32,6 +32,10 @@ const spring = () => structuredClone(shared ??= (() => {
   return world;
 })());
 const grownMen = world => Object.values(world.entities).filter(one => one.householdId && one.kind === 'person' && one.health.condition === 'well' && one.sex === 'male' && (one.age ?? 0) >= 16 && one.location.siteId === world.households[one.householdId].homeSiteId);
+// Two grown men of two families, since the land a family is promised is summed over its people. Added 2026-09-22: once
+// families were dealt by birth dates (FIC-GONZ-363) a large one has grown sons at home, and the first two grown men of
+// this class were of one family, whose 800 and 320 acres were counted together as 1,120.
+const twoFamilies = world => { const [first, ...rest] = grownMen(world); return [first, rest.find(one => one.householdId !== first.householdId)]; };
 const serve = (world, person, kind, siteId, extra = {}) => {
   const site = world.map.sites[siteId];
   person.travel = null; person.chore = null; person.task = 'rest';
@@ -71,7 +75,7 @@ test('somebody who serves out the war goes home after San Jacinto with the promi
   // Found by the whole-game browser run (2026-09-16): a man who enlisted in the winter, marched with Houston and came
   // through San Jacinto finished with no land, because the ending counted only those still serving and the victory releases.
   const world = spring();
-  const [regular, auxiliary] = grownMen(world);
+  const [regular, auxiliary] = twoFamilies(world);
   serve(world, regular, 'regular', 'san-felipe', { acres: 800 });
   serve(world, auxiliary, 'auxiliary-year', 'san-felipe', { acres: 320 });
   untilMoment(world, 'houston-san-felipe');
@@ -87,7 +91,7 @@ test('somebody who serves out the war goes home after San Jacinto with the promi
 
 test('the regulars at San Felipe are taken into the army as regulars still, with their land, and desert if sent for', () => {
   const world = spring();
-  const [regular, auxiliary] = grownMen(world);
+  const [regular, auxiliary] = twoFamilies(world);
   serve(world, regular, 'regular', 'san-felipe', { acres: 800 });
   serve(world, auxiliary, 'auxiliary-war', 'san-felipe', { acres: 640 });
   untilMoment(world, 'houston-san-felipe');

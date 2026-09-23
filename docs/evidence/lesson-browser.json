@@ -31,10 +31,16 @@
     "the guide fits a 390px phone viewport",
     "at 390x844 the X is 36x36px, inside the strip, on no word, reachable, and named \"Stop the guided start\"",
     "at 1366x768 the X is 36x36px, inside the strip, on no word, reachable, and named \"Stop the guided start\"",
-    "the X asks once, in the strip: \"Stop the guided start? You won’t be walked through the rest, and it can’t be turned back on.\" - and \"Keep going\" sends nothing",
+    "the X asks once, in the strip: \"Stop the guided start? You won’t be walked through the rest. For five minutes, a “Resume tutorial” button can bring it back.\" - and \"Keep going\" sends nothing",
     "\"Yes, stop it\" sends stop-lesson once; the strip goes, the snapshot carries no lesson, nothing on the bar is shut, and the old walk-through is not offered instead",
-    "stopping the lesson reveals 11 additional actions",
+    "stopping the lesson reveals 10 additional actions",
+    "at 1366x768 \"Resume tutorial\" is 119x36px at 1235,10, on the screen, reachable, and on nothing else",
+    "at 1024x768 \"Resume tutorial\" is 119x36px at 893,10, on the screen, reachable, and on nothing else",
     "after a reload the strip stays gone and the server sends no lesson",
+    "after a reload \"Resume tutorial\" is still there, with the same window: the server holds it, not the page",
+    "\"Resume tutorial\" sends resume-lesson once; the strip is back on the same step (house) and unavailable actions are hidden again",
+    "a second X after the resume offers \"Resume tutorial\" again, inside the first press’s window, not a new one",
+    "with the server’s clock moved past the first press’s five minutes, \"Resume tutorial\" goes on its own, with no reload",
     "no page errors anywhere in the run"
   ],
   "measured": {
@@ -187,7 +193,7 @@
       "x": 8,
       "y": 8,
       "width": 374,
-      "height": 218.375
+      "height": 188.375
     },
     "stopButton": {
       "phone": {
@@ -217,10 +223,9 @@
         "work",
         "rest"
       ],
-      "asks": "Stop the guided start? You won’t be walked through the rest, and it can’t be turned back on.",
+      "asks": "Stop the guided start? You won’t be walked through the rest. For five minutes, a “Resume tutorial” button can bring it back.",
       "availableAfter": [
         "survey-plot",
-        "plant-field",
         "fence-plot",
         "hunt-timber",
         "visit-shop",
@@ -235,6 +240,40 @@
         "work",
         "rest"
       ]
+    },
+    "resume": {
+      "until": 1790134144416,
+      "msWhenStopped": 299857,
+      "chromebook": {
+        "size": [
+          119,
+          36
+        ],
+        "at": [
+          1235,
+          10
+        ],
+        "onScreen": true,
+        "reached": true,
+        "shares": [],
+        "text": "Resume tutorial"
+      },
+      "small": {
+        "size": [
+          119,
+          36
+        ],
+        "at": [
+          893,
+          10
+        ],
+        "onScreen": true,
+        "reached": true,
+        "shares": [],
+        "text": "Resume tutorial"
+      },
+      "stepAfter": "house",
+      "goneWithoutReload": true
     }
   },
   "screenshots": [
@@ -243,7 +282,10 @@
     "test-results/lesson-folded.png",
     "test-results/lesson-dimmed.png",
     "test-results/lesson-phone.png",
-    "test-results/lesson-stop-ask.png"
+    "test-results/lesson-stop-ask.png",
+    "test-results/lesson-resume-1024.png",
+    "test-results/lesson-resume.png",
+    "test-results/lesson-resumed.png"
   ],
   "notProved": [
     "All ten steps through browser clicks: this proof uses the real server for opening and an order, and controlled snapshots for specific guide states. The simulation suite exercises progression separately.",

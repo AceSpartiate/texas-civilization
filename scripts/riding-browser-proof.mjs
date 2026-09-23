@@ -63,19 +63,19 @@ try {
   /**
    * Wait until the page is really drawing this person on this seat, zooming in until it is.
    *
-   * A traveller crossing the screen faster than a walk can be drawn is a **marker** and no figure at all (public/motion.js
-   * `MARKER_ABOVE`), so on a wide view `__seatedDrawn` is simply empty and every assertion below would be made about
-   * nothing. That is the shape of mistake this project keeps finding - a check run in a state where the fault cannot
-   * appear - so the wait is also the proof that the rider is on the screen before anything is measured.
+   * A traveller crossing the screen faster than their own gait can be drawn is faded out through the middle of the road
+   * (public/motion.js `travelSight`), so on a wide view `__seatedDrawn` can simply be empty and every assertion below
+   * would be made about nothing. That is the shape of mistake this project keeps finding - a check run in a state where the
+   * fault cannot appear - so the wait is also the proof that the rider is on the screen before anything is measured.
    */
   const onScreen = async (id, seat) => {
     // The class is held while the rider is looked at, which is a state a real class is in every time a teacher stops it -
-    // and the only state in which somebody crossing the country on horseback is a figure rather than a marker.
+    // and nobody moves while it is held, so somebody crossing the country on horseback is a whole figure standing on the road.
     await post('/api/command', { id: `proof-pause-${crypto.randomUUID()}`, action: 'pause' }, hostCookie);
     await page.waitForFunction(() => window.__snapshot.world.status === 'paused');
     await page.waitForFunction(who => window.__seatedDrawn?.[who.id]?.seat === who.seat, { id, seat }, { timeout: 20000 });
-    const marker = await page.evaluate(who => window.__travelMarkers?.get(who)?.heightsPerSecond ?? 0, id);
-    ok(`${id} is drawn as a figure on the map, not as a travel marker (${marker.toFixed(2)} heights a second)`, marker < 1);
+    const shown = await page.evaluate(who => window.__travelSight?.get(who)?.alpha ?? 1, id);
+    ok(`${id} is drawn whole on the map, nothing of them faded away (${shown.toFixed(2)} of them drawn)`, shown === 1);
   };
   const running = async () => {
     await post('/api/command', { id: `proof-resume-${crypto.randomUUID()}`, action: 'resume' }, hostCookie);
