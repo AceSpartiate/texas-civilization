@@ -413,6 +413,10 @@ server's words when *Build here* is pressed. Ground refusals still come from the
   failed identically on a clean checkout of `cf32263`, so not from this change; **all four are fixed in the section
   above.**
 
+## Released as v2026.09.24.3 — 2026-09-24
+
+**[v2026.09.24.3](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.24.3)**, from `ab16bf8`: the dog-run's passage is 12 ft (owner, 2026-09-24; HIST-GONZ-025), pieces placed to the half cell, `PASSAGE_FEET` in `sim/houseplot.mjs`; old saves widened in place by `widenPassages`; `PICTURE_REACH` {1.6, 1.4, 0.9}. 1081 tests; house-plot, house-plot-regression, family-panel, panels, lesson, host-view proofs pass.
+
 ## Released as v2026.09.24.2 — 2026-09-24
 
 **[v2026.09.24.2](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.24.2)**, from `f5174d7`: no chimney leaves a door showing (`4bf5ee4`; saddlebag chimney is the stick-and-mud picture, `stand-in:`); dog-run and saddlebag drawn as one building on one ridge (`housePicture`, `alongRidge`, passage roofed with the pens' roof, `stand-in:`); `PICTURE_REACH` grew to {up 1.5, side 1.3, down 0.8}, so houses are held ~120–160 ft further apart. 1077 tests. (The dog-run passage's width, left open here, was decided the same day: twelve feet, *The dog-run's passage is twelve feet*, above.)
