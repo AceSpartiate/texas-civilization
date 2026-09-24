@@ -1,5 +1,52 @@
 # Claude handoff — Astra foundation
 
+## The dog-run's passage is twelve feet — 2026-09-24 (after v2026.09.24.2; not yet committed or released)
+
+Owner decision: widen the dog-run's open passage from one 8-ft plan cell to 12 feet. `HIST-GONZ-025` gives "a ten- or
+fifteen-foot passage"; the plan's 8 ft was under the source's narrowest. **Now honoured** (HISTORY.md HIST-GONZ-025 and
+FIC-GONZ-033 rows updated). Server and page: a plan, footprint and spacing change; no projection field, command or save
+version.
+
+- **Representation.** 12 ft is a cell and a half, not rounded to 16: the plot's pieces are sized and placed to the **half
+  cell** (4 ft). `sim/houseplot.mjs`: `CELL_FEET` 8, `PASSAGE_FEET` 12, passage `w: PASSAGE_CELLS` (1.5); `cellsOf` counts
+  half cells; `placeRefusal` takes any whole number of half cells (4.5 yes, 4.25 no); `pensFor`'s `between` finds the east pen
+  at `p.x + kind.w`. Dog-run plan: chimney 0, pen 1, passage 3, pen **4.5**, chimney **6.5** — 7.5 × 2 cells, 60 ft. The
+  catalogue is the one width: server footprint, placement, spacing (`houseFootprint`, `houseOnGround`) and page drawing,
+  preview, outline and tap boxes all read `kind.w` (`public/house-plot.js` `chimneyGables` changed from `p.x + 1` to
+  `p.x + p.kind.w`; `alongRidge` needed nothing).
+- **Cost.** Passage roof 4 wall logs and 4 work a cell: **6 and 6** (was 4 and 4). A dog-run wants 2 more wall logs.
+- **As drawn.** Pens 1.75 pen depths (28 ft) apart along the ridge, was 1.5; still one building at every turn. One copy of the
+  pens' roof still spans the passage, now a quarter cell over each pen's roof (was half) — no second roof copy needed. The
+  floor's deck (~1.1 cells of ridge) no longer covers the passage, so it is laid **twice** (`PASSAGE_FLOOR_DEEP` replaces
+  `PASSAGE_FLOOR_BACK`): back edge on the far pen's front wall, and foot at the near pen's back wall. Roofs seated, chimneys
+  on their gables, upright sprites, preview == built, zoom merge unchanged. Montage `passage-12.png` (session scratchpad):
+  dog-run 0/90/180/270, before and after, finished, roofed-not-chinked, walls to course 7 — looked at: one building, the
+  passage visibly wider, floor across it, roofs joined.
+- **Spacing.** Measured on every plan and turn: the dog-run now reaches 1.57 up, 0.87 down (0°/180°), 1.36 either side
+  (90°/270°). **`PICTURE_REACH` `{ 1.5, 1.3, 0.8 }` → `{ up: 1.6, side: 1.4, down: 0.9 }`**: +0.1 cell (about 15 ft of the
+  map) each way, for every plan (`ceiling:` one reach for all). 1.6 × `CELL_MILES` = 0.045 mi < `SITE_MARGIN` 0.05. The land:
+  a dog-run is drawn over 7.6 acres (was 7.1) and claims 23.6 (was 21.0); a cabin claims 13.3 (was 12.3); a labor still holds
+  a dog-run, two cabins and **4** ten-acre plots (4 before this change too — WOODS_AND_BUILDING's "eight" was stale from the
+  first reach; now corrected), above the 3 the docs promise.
+- **Old saves.** A dog-run saved with the 8-ft passage opens **laid out at 12 ft**: `server/storage.mjs` `readSave` (the one
+  door, as for powder) runs `widenPassages` on the house and every completed house — east pen, what is east of the passage in
+  its rows, and what stands in/before/behind a moved pen go half a cell east (or, off the plot, the west side and passage half
+  a cell west). Stages, progress and placement kept; nothing refunded (a passage begun keeps its 4 logs, now wants 6 work). No
+  `saveVersion` bump: no field added or reread. `ceiling:` a free plot with no room either side stays as it was and would not
+  open — no plan is one, the grid is not offered. Other plans untouched: saddlebag, porch, shed room, cabins, jacal.
+- **Tests.** New `tests/house-passage.test.mjs` (4): 12 ft on the server and in the catalogue, pens 12 ft apart, footprint 7.5 ×
+  2 at every turn, roof 6/6, half-cell placement; nothing else moved; an old-save round trip through `writeSave`/`readSave`
+  with an 8-ft dog-run being raised and one finished — invalid without the door, opens at 12 ft with every stage kept and is
+  drawn at every turn exactly as a dog-run planned today; free-plot widening east/west/neither. Changed:
+  `tests/house-connected.test.mjs` (b) (`BETWEEN`: dog-run gables 1.5 cells apart, saddlebag 1), `tests/house-turn.test.mjs`
+  (pens 28/16 depths apart), `tests/house-spacing.test.mjs` (`CLEAR`, `CLEAR_NORTH` at the new reach),
+  `scripts/house-spacing-injections.mjs` (swap string). **Injections**, full `npm test` each, file restored: `PASSAGE_FEET` 8 —
+  exactly 5 fail: the 12-ft, old-save and free-plot tests of house-passage, the dog-run's connected (b) and turn's dog-run
+  test (the "nothing else moved" test, the saddlebag's (b) and every other test pass); the save door not widening — only the old-save test. `npm test`: **1081 pass**
+  (1077 + 4). `scripts/house-spacing-injections.mjs` PASS 8 of 8.
+- **Browser** (same computer only): house-plot and house-plot-regression (8 of 8) PASS; family-panel, panels (10 checks, 2
+  sizes), lesson (33) and host-view PASS. `node --check` on an .mjs copy of `public/house-plot.js`.
+
 ## One building: a two-pen house along one ridge — 2026-09-24 (after v2026.09.24.1; not yet committed or released)
 
 Owner: *"the angle of the houses makes it so they don't seem to be connected single buildings. fix this."* The page stood a
@@ -54,8 +101,8 @@ its own. Client drawing plus the spacing reach; no projection field, command, pl
 - **Montages** (session scratchpad): `connected-before.png`, `connected-after.png` — every plan at 0/90/180/270, finished
   and with the walls up to course 7 (the jacal with its thatch going on). Looked at closely: each dog-run and saddlebag reads
   as one building; no chimney leaves part of a door showing.
-- **Noticed, not changed.** `HIST-GONZ-025` gives a dog-run's passage as ten or fifteen feet; the plan's is one eight-foot
-  cell. Widening it is a plan and footprint change for the owner.
+- **Decided since.** `HIST-GONZ-025` gives a dog-run's passage as ten or fifteen feet; the plan's was one eight-foot cell.
+  The owner chose twelve the same day: *The dog-run's passage is twelve feet*, above.
 
 ## No chimney in front of a door — 2026-09-24 (after v2026.09.24.1; not yet committed or released)
 
@@ -368,7 +415,7 @@ server's words when *Build here* is pressed. Ground refusals still come from the
 
 ## Released as v2026.09.24.2 — 2026-09-24
 
-**[v2026.09.24.2](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.24.2)**, from `f5174d7`: no chimney leaves a door showing (`4bf5ee4`; saddlebag chimney is the stick-and-mud picture, `stand-in:`); dog-run and saddlebag drawn as one building on one ridge (`housePicture`, `alongRidge`, passage roofed with the pens' roof, `stand-in:`); `PICTURE_REACH` grew to {up 1.5, side 1.3, down 0.8}, so houses are held ~120–160 ft further apart. 1077 tests. Open for the owner: the plan's dog-run passage is one 8-ft cell where HIST-GONZ-025 gives ten or fifteen feet.
+**[v2026.09.24.2](https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.09.24.2)**, from `f5174d7`: no chimney leaves a door showing (`4bf5ee4`; saddlebag chimney is the stick-and-mud picture, `stand-in:`); dog-run and saddlebag drawn as one building on one ridge (`housePicture`, `alongRidge`, passage roofed with the pens' roof, `stand-in:`); `PICTURE_REACH` grew to {up 1.5, side 1.3, down 0.8}, so houses are held ~120–160 ft further apart. 1077 tests. (The dog-run passage's width, left open here, was decided the same day: twelve feet, *The dog-run's passage is twelve feet*, above.)
 
 ## Released as v2026.09.24.1 — 2026-09-24
 

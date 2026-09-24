@@ -1,5 +1,5 @@
 {
-  "date": "2026-09-24T13:44:37.771Z",
+  "date": "2026-09-24T16:11:57.661Z",
   "result": "PASS",
   "scope": "Same-computer student integration",
   "checks": [
@@ -58,10 +58,10 @@
   },
   "turns": {
     "0": {
-      "pictures": 30,
-      "chimneysAgainstTheirPen": 10,
+      "pictures": 39,
+      "chimneysAgainstTheirPen": 13,
       "chimneyOverDoor": false,
-      "housePicturesOnTheMap": 1380,
+      "housePicturesOnTheMap": 1794,
       "turned": 0,
       "mirrored": 0,
       "footprintCells": {
@@ -70,36 +70,36 @@
       }
     },
     "90": {
-      "pictures": 33,
-      "chimneysAgainstTheirPen": 11,
+      "pictures": 36,
+      "chimneysAgainstTheirPen": 12,
       "chimneyOverDoor": true,
-      "housePicturesOnTheMap": 1518,
+      "housePicturesOnTheMap": 1656,
       "turned": 0,
-      "mirrored": 33,
+      "mirrored": 36,
       "footprintCells": {
         "w": 2,
         "h": 3
       }
     },
     "180": {
-      "pictures": 42,
-      "chimneysAgainstTheirPen": 14,
+      "pictures": 30,
+      "chimneysAgainstTheirPen": 10,
       "chimneyOverDoor": false,
-      "housePicturesOnTheMap": 1932,
+      "housePicturesOnTheMap": 1380,
       "turned": 0,
-      "mirrored": 28,
+      "mirrored": 20,
       "footprintCells": {
         "w": 3,
         "h": 2
       }
     },
     "270": {
-      "pictures": 36,
-      "chimneysAgainstTheirPen": 12,
+      "pictures": 33,
+      "chimneysAgainstTheirPen": 11,
       "chimneyOverDoor": false,
-      "housePicturesOnTheMap": 1656,
+      "housePicturesOnTheMap": 1518,
       "turned": 0,
-      "mirrored": 36,
+      "mirrored": 33,
       "footprintCells": {
         "w": 2,
         "h": 3
@@ -110,7 +110,7 @@
     "way": "south, turned 90, slid 0",
     "refusedAt": {
       "x": 108.56,
-      "y": 21.00526975,
+      "y": 21.00809125,
       "rotation": 90
     },
     "refusedPreview": "Leave space between this house and the existing house.",
@@ -118,7 +118,7 @@
     "secondFinished": "set on the class, as a later class would find it",
     "builtAt": {
       "x": 108.56,
-      "y": 21.0805395,
+      "y": 21.0861825,
       "rotation": 90
     },
     "claimGapMiles": 0.001,
@@ -128,15 +128,15 @@
     "drawnBoxes": [
       {
         "left": 522.0907865364945,
-        "top": 24.859813386443804,
+        "top": 16.72527762367477,
         "right": 773.9091804026677,
-        "bottom": 261.12417730114703
+        "bottom": 252.989641538378
       },
       {
         "left": 522.0907865364945,
-        "top": 458.87577996061736,
+        "top": 467.0104100936942,
         "right": 773.9091804026677,
-        "bottom": 695.1401438753205
+        "bottom": 703.2747740083973
       }
     ],
     "shot": "test-results/houses-closest.png"
@@ -156,15 +156,15 @@
         "boxes": [
           {
             "left": 522.1,
-            "top": 24.9,
+            "top": 16.7,
             "right": 773.9,
-            "bottom": 261.1
+            "bottom": 253
           },
           {
             "left": 522.1,
-            "top": 458.9,
+            "top": 467,
             "right": 773.9,
-            "bottom": 695.1
+            "bottom": 703.3
           }
         ],
         "taps": 2
@@ -178,15 +178,15 @@
         "boxes": [
           {
             "left": 544.8,
-            "top": 85.2,
+            "top": 78.6,
             "right": 751.2,
-            "bottom": 278.9
+            "bottom": 272.3
           },
           {
             "left": 544.8,
-            "top": 441.1,
+            "top": 447.7,
             "right": 751.2,
-            "bottom": 634.8
+            "bottom": 641.4
           }
         ],
         "taps": 2
@@ -200,15 +200,15 @@
         "boxes": [
           {
             "left": 563.4,
-            "top": 134.7,
+            "top": 129.3,
             "right": 732.6,
-            "bottom": 293.5
+            "bottom": 288.1
           },
           {
             "left": 563.4,
-            "top": 426.5,
+            "top": 431.9,
             "right": 732.6,
-            "bottom": 585.3
+            "bottom": 590.7
           }
         ],
         "taps": 2
@@ -222,15 +222,15 @@
         "boxes": [
           {
             "left": 578.6,
-            "top": 175.3,
+            "top": 170.8,
             "right": 717.4,
-            "bottom": 305.5
+            "bottom": 301
           },
           {
             "left": 578.6,
-            "top": 414.5,
+            "top": 419,
             "right": 717.4,
-            "bottom": 544.7
+            "bottom": 549.2
           }
         ],
         "taps": 2
@@ -244,15 +244,15 @@
         "boxes": [
           {
             "left": 591.1,
-            "top": 208.6,
+            "top": 204.9,
             "right": 704.9,
-            "bottom": 315.3
+            "bottom": 311.7
           },
           {
             "left": 591.1,
-            "top": 404.7,
+            "top": 408.3,
             "right": 704.9,
-            "bottom": 511.4
+            "bottom": 515.1
           }
         ],
         "taps": 2
@@ -266,15 +266,15 @@
         "boxes": [
           {
             "left": 601.4,
-            "top": 235.9,
+            "top": 232.8,
             "right": 694.6,
-            "bottom": 323.4
+            "bottom": 320.4
           },
           {
             "left": 601.4,
-            "top": 396.6,
+            "top": 399.6,
             "right": 694.6,
-            "bottom": 484.1
+            "bottom": 487.2
           }
         ],
         "taps": 2
@@ -288,15 +288,15 @@
         "boxes": [
           {
             "left": 609.8,
-            "top": 258.2,
+            "top": 255.7,
             "right": 686.2,
-            "bottom": 330
+            "bottom": 327.5
           },
           {
             "left": 609.8,
-            "top": 390,
+            "top": 392.5,
             "right": 686.2,
-            "bottom": 461.8
+            "bottom": 464.3
           }
         ],
         "taps": 2
@@ -310,15 +310,15 @@
         "boxes": [
           {
             "left": 616.6,
-            "top": 276.6,
+            "top": 274.5,
             "right": 679.4,
-            "bottom": 335.4
+            "bottom": 333.4
           },
           {
             "left": 616.6,
-            "top": 384.6,
+            "top": 386.6,
             "right": 679.4,
-            "bottom": 443.4
+            "bottom": 445.5
           }
         ],
         "taps": 2
@@ -332,15 +332,15 @@
         "boxes": [
           {
             "left": 622.3,
-            "top": 291.6,
+            "top": 289.9,
             "right": 673.7,
-            "bottom": 339.8
+            "bottom": 338.2
           },
           {
             "left": 622.3,
-            "top": 380.2,
+            "top": 381.8,
             "right": 673.7,
-            "bottom": 428.4
+            "bottom": 430.1
           }
         ],
         "taps": 2
@@ -354,15 +354,15 @@
         "boxes": [
           {
             "left": 626.9,
-            "top": 303.9,
+            "top": 302.5,
             "right": 669.1,
-            "bottom": 343.5
+            "bottom": 342.1
           },
           {
             "left": 626.9,
-            "top": 376.5,
+            "top": 377.9,
             "right": 669.1,
-            "bottom": 416.1
+            "bottom": 417.5
           }
         ],
         "taps": 2
@@ -376,15 +376,15 @@
         "boxes": [
           {
             "left": 630.7,
-            "top": 314,
+            "top": 312.9,
             "right": 665.3,
-            "bottom": 346.4
+            "bottom": 345.3
           },
           {
             "left": 630.7,
-            "top": 373.6,
+            "top": 374.7,
             "right": 665.3,
-            "bottom": 406
+            "bottom": 407.1
           }
         ],
         "taps": 2
@@ -398,15 +398,15 @@
         "boxes": [
           {
             "left": 633.8,
-            "top": 322.3,
+            "top": 321.4,
             "right": 662.2,
-            "bottom": 348.9
+            "bottom": 348
           },
           {
             "left": 633.8,
-            "top": 371.1,
+            "top": 372,
             "right": 662.2,
-            "bottom": 397.7
+            "bottom": 398.6
           }
         ],
         "taps": 2
@@ -420,15 +420,15 @@
         "boxes": [
           {
             "left": 636.4,
-            "top": 329.1,
+            "top": 328.3,
             "right": 659.6,
-            "bottom": 350.9
+            "bottom": 350.1
           },
           {
             "left": 636.4,
-            "top": 369.1,
+            "top": 369.9,
             "right": 659.6,
-            "bottom": 390.9
+            "bottom": 391.7
           }
         ],
         "taps": 2
@@ -442,9 +442,9 @@
         "boxes": [
           {
             "left": 637.1,
-            "top": 332.8,
+            "top": 332.2,
             "right": 659.4,
-            "bottom": 353.7
+            "bottom": 353.1
           }
         ],
         "taps": 1
@@ -458,9 +458,9 @@
         "boxes": [
           {
             "left": 637.3,
-            "top": 335.5,
+            "top": 334.9,
             "right": 659.6,
-            "bottom": 356.4
+            "bottom": 355.9
           }
         ],
         "taps": 1
@@ -474,9 +474,9 @@
         "boxes": [
           {
             "left": 637.5,
-            "top": 337.6,
+            "top": 337.2,
             "right": 659.8,
-            "bottom": 358.5
+            "bottom": 358.1
           }
         ],
         "taps": 1
@@ -490,9 +490,9 @@
         "boxes": [
           {
             "left": 637.7,
-            "top": 339.4,
+            "top": 339,
             "right": 659.9,
-            "bottom": 360.3
+            "bottom": 359.9
           }
         ],
         "taps": 1
@@ -506,9 +506,9 @@
         "boxes": [
           {
             "left": 637.8,
-            "top": 340.8,
+            "top": 340.5,
             "right": 660.1,
-            "bottom": 361.7
+            "bottom": 361.5
           }
         ],
         "taps": 1
@@ -522,9 +522,9 @@
         "boxes": [
           {
             "left": 637.9,
-            "top": 342,
+            "top": 341.8,
             "right": 660.2,
-            "bottom": 362.9
+            "bottom": 362.7
           }
         ],
         "taps": 1
@@ -538,9 +538,9 @@
         "boxes": [
           {
             "left": 638,
-            "top": 343,
+            "top": 342.8,
             "right": 660.3,
-            "bottom": 363.9
+            "bottom": 363.7
           }
         ],
         "taps": 1
@@ -554,9 +554,9 @@
         "boxes": [
           {
             "left": 638,
-            "top": 343.8,
+            "top": 343.6,
             "right": 660.3,
-            "bottom": 364.7
+            "bottom": 364.5
           }
         ],
         "taps": 1
@@ -570,9 +570,9 @@
         "boxes": [
           {
             "left": 638.1,
-            "top": 344.4,
+            "top": 344.3,
             "right": 660.4,
-            "bottom": 365.3
+            "bottom": 365.2
           }
         ],
         "taps": 1
@@ -586,9 +586,9 @@
         "boxes": [
           {
             "left": 638.1,
-            "top": 345,
+            "top": 344.9,
             "right": 660.4,
-            "bottom": 365.9
+            "bottom": 365.8
           }
         ],
         "taps": 1
@@ -602,9 +602,9 @@
         "boxes": [
           {
             "left": 638.2,
-            "top": 345.4,
+            "top": 345.3,
             "right": 660.5,
-            "bottom": 366.3
+            "bottom": 366.2
           }
         ],
         "taps": 1
@@ -618,9 +618,9 @@
         "boxes": [
           {
             "left": 638.2,
-            "top": 345.8,
+            "top": 345.7,
             "right": 660.5,
-            "bottom": 366.7
+            "bottom": 366.6
           }
         ],
         "taps": 1
@@ -634,9 +634,9 @@
         "boxes": [
           {
             "left": 638.2,
-            "top": 346.1,
+            "top": 346,
             "right": 660.5,
-            "bottom": 367
+            "bottom": 366.9
           }
         ],
         "taps": 1
@@ -682,7 +682,7 @@
         "boxes": [
           {
             "left": 638.3,
-            "top": 346.7,
+            "top": 346.6,
             "right": 660.6,
             "bottom": 367.6
           }
@@ -764,7 +764,7 @@
             "left": 893.7,
             "top": 347.1,
             "right": 916,
-            "bottom": 368.1
+            "bottom": 368
           }
         ],
         "taps": 1

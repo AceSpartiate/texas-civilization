@@ -190,14 +190,17 @@ export const CHIMNEY_HIGH = 2.1, DOUBLE_RISE = 2.7;
 /**
  * The passage of a dog-run between its two pens along their ridge (`alongRidge`): its roof is the roof its pens have on -
  * the finished one, or the partial one while their walls are still to chink (`penRoof`) - seated as on a pen standing at
- * the middle of the passage, so it runs on from one pen's roof to the other's a pen's depth long, half a cell of the ridge
- * over each. Its floor (`house-passage-floor`) is drawn
- * `PASSAGE_FLOOR_HIGH` cells high - its deck as wide as a pen's gable wall, read by eye (150 pixels of the floor's frame to
- * the walls' 186) - with its foot `PASSAGE_FLOOR_BACK` cells of the ridge toward the near pen, so its back edge is on the
- * far pen's front wall and the near pen stands over its front.
+ * the middle of the passage, so it runs on from one pen's roof to the other's a pen's depth long. The passage is its
+ * catalogue width (sim/houseplot.mjs `PASSAGE_FEET`, twelve feet, a cell and a half since 2026-09-24), so that one roof,
+ * two cells of the ridge long, still lies a quarter cell over each pen's (half a cell with the one-cell passage) and no
+ * second copy is needed. Its floor (`house-passage-floor`) is drawn `PASSAGE_FLOOR_HIGH` cells high - its deck as wide as a
+ * pen's gable wall, read by eye (150 pixels of the floor's frame to the walls' 186) - and its deck runs
+ * `PASSAGE_FLOOR_DEEP` cells of the ridge from its foot: shorter than a twelve-foot passage, so it is laid twice, one with
+ * its back edge on the far pen's front wall and one with its foot at the near pen's back wall, the near pen standing over
+ * its front (with the one-cell passage it was laid once, its foot 0.6 of a cell toward the near pen).
  * ceiling: the floor's deck read by eye; the pens' roof reused because the sheet's passage roof does not meet them.
  */
-export const PASSAGE_FLOOR_HIGH = 1.5, PASSAGE_FLOOR_BACK = 0.6;
+export const PASSAGE_FLOOR_HIGH = 1.5, PASSAGE_FLOOR_DEEP = 1.1;
 
 /**
  * A gable wall of a pen as the full walls are drawn, in pixels of their frame: the middle of the wall where it meets the
@@ -239,7 +242,7 @@ function chimneyGables(order) {
   for (const chimney of order.filter(each => /^chimney/.test(each.p.type))) {
     const { p } = chimney;
     if (p.kind.place === 'between') {
-      found.push({ chimney, walls: [[pens.find(pen => pen.p.y === p.y && pen.p.x + 2 === p.x), true], [pens.find(pen => pen.p.y === p.y && pen.p.x === p.x + 1), false]] });
+      found.push({ chimney, walls: [[pens.find(pen => pen.p.y === p.y && pen.p.x + 2 === p.x), true], [pens.find(pen => pen.p.y === p.y && pen.p.x === p.x + p.kind.w), false]] });
       continue;
     }
     const east = pens.find(pen => row(pen, p) && pen.p.x + 2 === p.x && pen.p.type !== 'pen-jacal');
@@ -492,10 +495,14 @@ export function drawHousePlot(ctx, x, y, size, land, catalogue, drawSprite, spri
       // runs on from the far pen's roof to the near one's along the one ridge.
       // stand-in: docs/ART_REQUESTS.md, request 2026-09-24 - one roof over a two-pen house. The sheet's passage roof
       // (`house-passage-roof`) is drawn flatter than the pens' and nearly square, on four posts, and meets neither roof.
-      const floorAt = { x: footX - PASSAGE_FLOOR_BACK * row.along.x, y: footY - PASSAGE_FLOOR_BACK * row.along.y };
-      if (!sprite(ctx, 'house-passage-floor', floorAt.x, floorAt.y, cell * PASSAGE_FLOOR_HIGH, { flip: row.flip })) {
-        ctx.fillStyle = '#7b6a52';
-        ctx.fillRect(floorAt.x - cell / 2, floorAt.y - cell * .35, cell, cell * .35);
+      // The floor from the far pen's front wall back to the near pen's back wall, the far piece first (`PASSAGE_FLOOR_DEEP`).
+      const half = p.kind.w / 2, floors = [half - PASSAGE_FLOOR_DEEP, ...(p.kind.w > PASSAGE_FLOOR_DEEP ? [-half] : [])];
+      for (const t of floors) {
+        const floorAt = { x: footX + t * row.along.x, y: footY + t * row.along.y };
+        if (!sprite(ctx, 'house-passage-floor', floorAt.x, floorAt.y, cell * PASSAGE_FLOOR_HIGH, { flip: row.flip })) {
+          ctx.fillStyle = '#7b6a52';
+          ctx.fillRect(floorAt.x - cell / 2, floorAt.y - cell * .35, cell, cell * .35);
+        }
       }
       const walls = spriteFrame(row.walls), roofName = penRoof(row.pens), roof = spriteFrame(roofName);
       const seat = p.stage >= p.kind.stageCount ? roofSeat(walls, roof, footX, footY, cell * 2.2, row.flip) : null;

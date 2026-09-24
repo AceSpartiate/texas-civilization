@@ -232,14 +232,15 @@ because there's no woods. thats okay"*; and, by multiple choice, the woods round
 
 ### 6.2 The house plot and its pieces
 
-The house plot is a grid of **8-foot cells**, 8 wide and 6 deep, round the house site. The family places pieces on it:
+The house plot is a grid of **8-foot cells**, 8 wide and 6 deep, round the house site. The family places pieces on it,
+sized and placed to the **half cell** (four feet) since 2026-09-24, when the dog-run's passage became twelve feet (§6.4):
 
 | Piece | Cells | Needs | Logs | Work | What it does |
 | --- | --- | --- | --- | --- | --- |
 | Round-log pen | 2 × 2 (16 ft) | axe | 40 wall | 36 spells | a room for 4; rest 85 in 100; food spoils 1.5 in 100 a day (as `HOUSES` now) |
 | Hewn-log pen | 2 × 2 | axe and broadaxe | 40 wall | 58 spells | a room for 4; rest 115 in 100; food keeps |
 | Jacal pen | 2 × 2 | none | 0 (30 poles from any stand) | 22 spells | a room for 3; rest 90 in 100; food 1 in 100 |
-| Open passage | 1 × 2, between two pens in a row | the two pens | 6 wall | 8 spells | the pens share one roof; food spoils half as fast in the pens beside it (a cool place, `FIC-GONZ-033`) |
+| Open passage | 1½ × 2 (**12 ft**, `HIST-GONZ-025`; 1 × 2 until 2026-09-24), between two pens in a row | the two pens | 6 wall (as built: 4 a cell, so 6; 4 until 2026-09-24) | 8 spells (as built: 4 of work a cell, so 6) | the pens share one roof; food spoils half as fast in the pens beside it (a cool place, `FIC-GONZ-033`) |
 | Stick-and-mud chimney | 1 × 1, outside a pen's end wall | a pen | 0 (sticks and clay) | 6 spells | a fire indoors: rest +10 in 100 in that pen. Can catch fire (`HIST-GONZ-029`; weather later) |
 | Double chimney | 1 × 2, between two pens | two pens | 0 | 10 spells | both pens warmed (Smithwick's "big double chimney", `HIST-TEX-017`) |
 | Stone chimney | 1 × 1 | a pen; rock within a mile | 0 | 14 spells | as stick-and-mud, never catches fire |
@@ -435,13 +436,42 @@ the reach is one for all (`ceiling:`, below). 1.5 × `CELL_MILES` is 0.042 miles
 Tests: new `tests/house-connected.test.mjs` — for the dog-run and saddlebag, in the chooser, at the site, placed and previewed
 at every turn and three zooms: (a) both pens drawn the same way round, the far pen's ridge on the near pen's ridge line
 (within 5 frame pixels, a quarter of the ridge log) and carried on beyond it, the ridges read by eye off the roof frames;
-(b) the pens' facing gable walls the plan's one cell apart (half a pen's depth, from the corner posts read by eye) and every
+(b) the pens' facing gable walls the plan's one cell apart (half a pen's depth, from the corner posts read by eye; the
+dog-run's a cell and a half since its passage became twelve feet, below) and every
 picture between them touching both pens; (c) the passage roof on the same line, overlapping both pens' ridges; (d) back to
 front, the far pen (east at 0° and 270°, west at 90° and 180°) before what stands between and that before the near pen.
 Injections, each against the whole house suite: every pen chosen alone again (`mirrorPens`) — the (a) and (b) tests, the
 passage test and 10 changed older ones fail; the pieces left where their cells are — all 7 new tests and 2 older ones; the
 sheet's four-post passage roof back — only the passage test; the passage drawn last — the (d) test and 5 older ones; the pens
 1.4 times as far apart — the (b) and passage tests and 7 older ones.
+
+**The passage twelve feet wide (2026-09-24).** Owner decision: widen the dog-run's open passage from one eight-foot cell to
+twelve feet. `HIST-GONZ-025` gives the dog-run as two pens with *"a ten- or fifteen-foot passage"* between them under one roof;
+the plan's one cell was narrower than the source's narrowest, and the one-building work above noted it and left it to the
+owner. **Now honoured.** Twelve feet is a cell and a half, and it is not rounded to sixteen: the plot's pieces are sized and
+placed to the half cell (`sim/houseplot.mjs`: `CELL_FEET` 8, `PASSAGE_FEET` 12, the passage's `w` a cell and a half;
+occupancy counted in half cells, a place any whole number of half cells). The dog-run plan is now chimney, pen, passage, pen,
+chimney across **7.5 cells (60 feet)** of the plot's 8: the east pen at 4½, its chimney at 6½. The catalogue is the one
+width: the server's footprint, placement check and spacing, and the page's drawing, preview, footprint outline and tap boxes
+all read the piece's `w` from it.
+
+*What it costs.* The passage's roof is four wall logs and four of work for each cell it covers, so twelve feet takes **6 and
+6** where eight took 4 and 4 (`FIC-GONZ-033`, invented as every count is): a dog-run wants two more wall logs and about two
+more hours' work in all.
+
+*As drawn.* `alongRidge` needed no change: each piece is placed by its own width along the ridge, so the pens stand a pen and
+the passage apart - **1.75 pen depths (28 feet) instead of 1.5** - and the passage's middle stays at the house's middle. The
+house still reads as one building at every turn: **one copy of the pens' roof still spans the passage**, two cells of ridge
+over a gap of one and a half, a quarter cell over each pen's roof (half a cell with the one-cell passage), so the roof's
+stand-in needed no second copy. The floor did: its deck runs about 1.1 cells of the ridge (`PASSAGE_FLOOR_DEEP`, read by
+eye), shorter than the passage, so it is laid twice - one with its back edge on the far pen's front wall, one with its foot
+at the near pen's back wall, the near pen standing over its front (`PASSAGE_FLOOR_BACK`, 0.6, is gone). Roofs seated,
+chimneys against their gables (the near one still covering the door, `stand-in:`), every picture upright, the preview drawn
+as built, the zoom merge: unchanged and still tested. Montage: `passage-12.png` (session scratchpad), the dog-run at
+0/90/180/270, before and after, finished, roofed but not chinked, and with the walls to course 7.
+
+*Nothing else moved.* The saddlebag's double chimney - the other piece placed `between`, its pens still one cell apart - the
+porch, the shed room, the cabins and the jacal keep their sizes and plans (`tests/house-passage.test.mjs`).
 
 ### 6.5 Where a house may stand, at the size it is drawn (2026-09-23)
 
@@ -467,17 +497,19 @@ footprint at its quarter turn:
 - *Not on the field* — the footprint over a staked or cleared plot is refused, *"That would stand on your field."* The other
   way round, Survey refuses ten acres over any house's drawn footprint as it did the yard round the site, *"That would take in
   the house yard."* (sim/survey.mjs `plotRefusal`).
-- *Spacing* — a house **claims** its footprint grown by `PICTURE_REACH`: 1.5 cells up the screen (north) for the roofs and
-  chimneys of the three-quarter view that stand above their ground, 1.3 either side for pictures wider than their cells, 0.8
-  down the screen (1, 0.9 and 0.2 until 2026-09-24, when a two-pen house came to stand along its ridge, §6.4). **No two claims may overlap**, *"Leave space between this house and the existing house."* So neither
+- *Spacing* — a house **claims** its footprint grown by `PICTURE_REACH`: 1.6 cells up the screen (north) for the roofs and
+  chimneys of the three-quarter view that stand above their ground, 1.4 either side for pictures wider than their cells, 0.9
+  down the screen (1, 0.9 and 0.2 until 2026-09-24, when a two-pen house came to stand along its ridge, §6.4; 1.5, 1.3 and
+  0.8 until the dog-run's passage became twelve feet the same day, which stood its pens a quarter cell further out each). **No two claims may overlap**, *"Leave space between this house and the existing house."* So neither
   house's ground nor its pictures covers the other's: a cabin just south of another is not drawn under that one's roof, and
   two side by side never share a picture's width. It is judged on the ground the pictures stand over, not on the screen, so
-  it is the same at every zoom. The reach was measured on every plan at every turn from the house sheets (since 2026-09-24 the
-  dog-run's far roof rises 1.47 cells above its back wall and its near pen's foot stands 0.77 below its front one at 0° and
-  180°, and it reaches 1.25 either side at 90° and 270°; before, the saddlebag's roofs rose 0.9, the jacal's picture was 0.86
+  it is the same at every zoom. The reach was measured on every plan at every turn from the house sheets (with the
+  twelve-foot passage the dog-run's far roof rises 1.57 cells above its back wall and its near pen's foot stands 0.87 below
+  its front one at 0° and 180°, and it reaches 1.36 either side at 90° and 270° - 1.47, 0.77 and 1.25 with the one-cell
+  passage; before, the saddlebag's roofs rose 0.9, the jacal's picture was 0.86
   wider each side than its pen and every foot 0.16 below); `tests/house-spacing.test.mjs` holds every picture inside the
   claim.
-- *Neighbours* — the claim must lie inside the family's own land. `PICTURE_REACH` × `CELL_MILES` (at most 0.042 miles) is
+- *Neighbours* — the claim must lie inside the family's own land. `PICTURE_REACH` × `CELL_MILES` (at most 0.045 miles) is
   less than `SITE_MARGIN` (0.05), so a house set back from its line never stands over a neighbour's ground; holdings do not
   overlap (sim/grants.mjs), so no two families' houses can be drawn over one another.
 
@@ -492,9 +524,12 @@ server's sentence; moved clear, the placing words come back. The ground — wate
 server's to read, and its refusal shows in `#house-placement-note` when *Build here* is pressed.
 
 **Is the land still big enough?** Yes, at the drawn size. A round-log cabin (3 × 2 cells) is drawn over about 447 × 298 feet,
-3.1 acres, and claims 7.8; a dog-run (7 × 2) about 1,043 × 298 feet, 7.1 acres, and claims 14.3. A labor is 177 acres,
-2,777 feet a side, and 116 of them lie set back from its line. Laid out by the rule, a labor holds a dog-run, two round-log
-cabins and **eight** ten-acre plots below them (`tests/house-spacing.test.mjs`); the docs promise a house, more houses after
+3.1 acres, and claims 13.3; a dog-run (7.5 × 2 since its passage became twelve feet) about 1,117 × 298 feet, 7.6 acres, and
+claims 23.6. (At the first reach they claimed 7.8 and 14.3, the dog-run 7 × 2 and 7.1 acres; at the ridge's reach with the
+one-cell passage, 12.3 and 21.0.) A labor is 177 acres, 2,777 feet a side, and 116 of them lie set back from its line. Laid
+out by the rule, a labor holds a dog-run, two round-log cabins and **four** ten-acre plots below them
+(`tests/house-spacing.test.mjs`: eight at the first reach, four since the ridge's reach, and still four with the twelve-foot
+passage); the docs promise a house, more houses after
 it, and a field of at least the three plots automatic families keep (§5.1 of `LAND_GRANTS.md`). A league and a labor is
 2.68 miles a side. On the real land the water, the slope and the family's own field take more of it: on one labor of the
 `spacing` seed 35 of 400 evenly spread dog-run sites were taken. Worth knowing: a dog-run's drawn footprint is wider than a
@@ -584,6 +619,21 @@ pace, and `shelterOf` reads it as now. A class made from 2026-09-15 recorded `ma
 recorded `landfire-2016` keeps its own grid, kept beside the new one as it was (`colonies-woods-2016.*`): its felled trees,
 logs lying out, hunting ground and trees drawn are exactly what they were. The map's washes (the land's classes) are the new
 ones for every class; they are drawing only.
+
+**Amended 2026-09-24: the twelve-foot passage.** A class saved with a dog-run planned or raised while its passage was one
+eight-foot cell opens with the dog-run **laid out again at twelve feet**, not kept at eight: the old layout is not a plot
+under the new width (the passage would lie over the east pen), and a narrow passage kept for old classes would be a second
+width for the server and the page to agree on. `server/storage.mjs` `readSave` - the one door every save comes through, as
+for the powder - runs `widenPassages` (`sim/houseplot.mjs`) on the house and every finished house: the east pen, everything
+east of the passage in its rows, and whatever stands in, before or behind a pen that moves go half a cell east (the dog-run
+plan: east pen 4 → 4½, its chimney 6 → 6½); where that would run off the plot, the west side and the passage go half a cell
+west instead. **Nothing is built, pulled down, paid or refunded**: every piece keeps its stage and progress; a roofed passage
+stays roofed; one begun keeps the four logs it took and now wants six of work in all; one not begun wants six logs. The house
+stands where it was placed and is drawn half a cell longer, exactly as a dog-run planned today at those stages
+(`tests/house-passage.test.mjs`); nothing re-judges an old house's ground, water, field or spacing (§6.5), so its longer
+ground may reach about 75 feet of the map past what it was placed for. **No save version moved**: no field is added or read
+another way. `ceiling:` a free-built plot with no half cell to spare either side of an old passage is left as it was and its
+class does not open; no plan is one, and the grid has not been offered since the plans became the whole choice.
 
 ---
 

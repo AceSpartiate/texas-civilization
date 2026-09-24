@@ -141,10 +141,11 @@ test('a dog-run runs along its ridge, the east pen right of the west at 0, left 
   for (const rotation of [0, 90, 180, 270]) {
     const ctx = pens(rotation), walls = ctx.drawn.filter(each => /full-walls$/.test(each.name)), chimneys = ctx.drawn.filter(each => /chimney/.test(each.name));
     assert.equal(walls.length, 2, `${rotation}: two pens`); assert.equal(chimneys.length, 2, `${rotation}: two chimneys`);
-    // The pens stand three cells of the plan apart (a pen and the passage) along the ridge - a pen's depth and a half - the
-    // far one up the screen, to the right where the house is not mirrored (0 and 180) and to the left where it is.
+    // The pens stand a pen and the passage apart along the ridge - sixteen feet and twelve (`HIST-GONZ-025`; the passage
+    // was eight until 2026-09-24), a pen's depth and three quarters - the far one up the screen, to the right where the
+    // house is not mirrored (0 and 180) and to the left where it is.
     const [far, near] = [...walls].sort((p, q) => p.foot.y - q.foot.y).map(each => each.foot), [dx, dy] = [far.x - near.x, far.y - near.y];
-    assert.ok(Math.abs(Math.hypot(dx, dy) / (1.5 * depth) - 1) < 0.1, `${rotation}: the pens stand ${(Math.hypot(dx, dy) / depth).toFixed(2)} pen depths apart`);
+    assert.ok(Math.abs(Math.hypot(dx, dy) / ((16 + 12) / 16 * depth) - 1) < 0.1, `${rotation}: the pens stand ${(Math.hypot(dx, dy) / depth).toFixed(2)} pen depths apart`);
     assert.ok(dy < 0 && (rotation % 180 ? dx < 0 : dx > 0), `${rotation}: the far pen stands ${dx.toFixed(1)}, ${dy.toFixed(1)} from the near one`);
     // The plan's east pen is the one at the house's turned east end: right of the west pen at 0, in front of it at 90,
     // left of it at 180, behind it at 270.

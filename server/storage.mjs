@@ -1,5 +1,6 @@
 import { mkdirSync, readFileSync, writeFileSync, renameSync, existsSync, openSync, fsyncSync, closeSync, unlinkSync, realpathSync } from 'node:fs';
 import { STARTING_POWDER } from '../sim/world.mjs';
+import { widenPassages } from '../sim/houseplot.mjs';
 import { dirname, basename, join, resolve } from 'node:path';
 import { randomBytes } from 'node:crypto';
 
@@ -54,6 +55,13 @@ export function readSave(path) {
   // added, nothing is reinterpreted, and a save written back is simply complete.
   for (const household of Object.values(save.world?.households || {})) {
     if (household?.resources && household.resources.powder === undefined) household.resources.powder = STARTING_POWDER;
+    // A dog-run planned or raised while its passage was one eight-foot cell is laid out with the passage twelve feet wide
+    // (2026-09-24, `HIST-GONZ-025`; sim/houseplot.mjs `widenPassages`): its east pen and chimney half a cell further east,
+    // every piece at the stage it had reached. Here and not at every reader for the same reason as the powder: this is the
+    // one door, and a plot with a passage one cell wide is no longer a plot. No version moved: no field is added and no
+    // field is read another way; the one layout the new width refuses is laid out again before anything reads it, and the
+    // class opens with the house it had, at the width a passage has now.
+    for (const house of [household?.house, ...(Array.isArray(household?.completedHouses) ? household.completedHouses : [])]) widenPassages(house);
   }
   return save;
 }

@@ -1,5 +1,5 @@
 {
-  "date": "2026-09-24T13:53:11.932Z",
+  "date": "2026-09-24T16:10:18.980Z",
   "isolation": "node load hooks and a patched read of public/app.js; no file edited",
   "test": "tests/house-spacing.test.mjs",
   "result": [

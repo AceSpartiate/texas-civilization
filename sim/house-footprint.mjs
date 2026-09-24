@@ -25,7 +25,8 @@ export const CABIN_PEOPLE = 3.3;
 export const CELL_SHARE = 0.45;
 /**
  * One cell of the house plot, in miles of the map, as it is drawn: about 149 feet for eight. A round-log cabin (three
- * cells by two) covers about three acres of the map and a dog-run (seven by two) about seven.
+ * cells by two) covers about three acres of the map and a dog-run (seven and a half by two, since its passage is twelve
+ * feet, 2026-09-24) about seven and a half.
  *
  * Exact at every zoom the page draws a family's houses apart (public/app.js `houseScale`): a house is drawn at this size
  * whatever the people are, who are floored at seven pixels, so it is never drawn past this ground. Where that would draw it
@@ -42,16 +43,18 @@ export const CELL_MILES = PERSON_MILES * CABIN_PEOPLE * CELL_SHARE;
  * and down the screen for the foot of each picture. Measured on every plan at every quarter turn from the house sheets
  * (tests/house-spacing.test.mjs holds every picture inside it). Since 2026-09-24 a dog-run's and a saddlebag's pens stand
  * one behind the other along their roof's ridge, which the house-modules sheet draws on a diagonal (public/house-plot.js
- * `alongRidge`), so they set all three: at 0 and 180 degrees the far pen's roof rises 1.47 cells above the house's back
- * wall and the near pen's foot stands 0.77 below its front one; at 90 and 270 the house reaches 1.25 either side. Until
- * then it was `{ up: 1, side: 0.9, down: 0.2 }`, from the saddlebag's roofs (0.9 up), the jacal's picture (0.86 wider each
- * side than its pen) and every foot (0.16 below).
+ * `alongRidge`), so they set all three. Since the dog-run's passage was widened to twelve feet (2026-09-24, a cell and a
+ * half), its pens stand a quarter cell further out along the ridge each: at 0 and 180 degrees its far pen's roof rises 1.57
+ * cells above the house's back wall and its near pen's foot stands 0.87 below its front one; at 90 and 270 it reaches 1.36
+ * either side (1.47, 0.77 and 1.25 with the one-cell passage, when this was `{ up: 1.5, side: 1.3, down: 0.8 }`). Before
+ * the ridge it was `{ up: 1, side: 0.9, down: 0.2 }`, from the saddlebag's roofs (0.9 up), the jacal's picture (0.86 wider
+ * each side than its pen) and every foot (0.16 below).
  * ceiling: one reach for every plan at every turn, the widest of them, measured on each picture's whole frame, clear edges
  * and all. So two houses as close as allowed show a gap - a round-log cabin north of another could stand about a cell
  * closer, and east of it half a cell, before any picture touched. A reach per plan and turn, read from the atlas, is the
  * way out if a student finds the houses held too far apart.
  */
-export const PICTURE_REACH = Object.freeze({ up: 1.5, side: 1.3, down: 0.8 });
+export const PICTURE_REACH = Object.freeze({ up: 1.6, side: 1.4, down: 0.9 });
 
 /**
  * A point on the ground `(x, y)` from the middle of the plot, turned by a quarter turn `rotation` (0, 90, 180 or 270) the
@@ -70,7 +73,7 @@ const pieceAt = p => Array.isArray(p) ? p : [p.type, p.x, p.y];
  * Where a house's pieces stand, in cells from the middle of its plot - the point it is placed at, which `drawHousePlot`
  * called with `y` one cell down centres its grid on - turned on the ground by the house's quarter turn. What a preview
  * outlines on the ground is this: the house the pieces make, not the whole grid; at 90 or 270 degrees a dog-run's is two
- * cells wide and seven deep. null for a house with nothing on the ground. `catalogue` is the plot's (sim/houseplot.mjs
+ * cells wide and seven and a half deep. null for a house with nothing on the ground. `catalogue` is the plot's (sim/houseplot.mjs
  * `plotCatalogue`), which the page is sent.
  */
 export function houseFootprint(house, catalogue, rotation = 0) {

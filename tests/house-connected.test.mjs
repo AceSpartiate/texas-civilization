@@ -9,8 +9,8 @@
 // These tests draw with the page's own `drawSprite` (public/art.js, its sheets stubbed so nothing is fetched), its own
 // `drawHousePlot` and its own `drawPlacedHouse` (read out of public/app.js), against a context that follows the transform,
 // and hold each two-pen plan, at every turn, in the chooser, at its site, placed and previewed, to four things: every pen
-// drawn the same way round with its ridge on one line along the house (a); the pens the plan's one cell apart and the
-// pieces between touching both (b); the passage's roof on that line, running into both pens' roofs (c); and the house drawn
+// drawn the same way round with its ridge on one line along the house (a); the pens as far apart as the passage (twelve
+// feet) or the double chimney (a cell) is wide, and the pieces between touching both (b); the passage's roof on that line, running into both pens' roofs (c); and the house drawn
 // back to front, far pen, what stands between, near pen (d). The ridges and the walls' ground are read by eye off the sheet
 // below, not taken from the atlas or the code.
 import test from 'node:test';
@@ -88,8 +88,12 @@ const FAR = { 0: 'east', 90: 'west', 180: 'west', 270: 'east' };
 // A ridge on the line of another: both its ends within this many frame pixels of it - a quarter of the ridge log's
 // thickness (about twenty). Drawn where their cells are the two ridges of a dog-run were a cell and a half apart.
 const ON_LINE = 5;
-// The pens' facing gable walls stand the plan's one cell apart - half a pen's depth (eight feet of sixteen) - to within this
-// share of it. Drawn where their cells are, they were three and a half times that apart on the screen.
+// The pens' facing gable walls stand as far apart as what stands between them is wide, in cells of the plan, a cell being
+// half a pen's depth (eight feet of sixteen): the dog-run's passage twelve feet, a cell and a half (`HIST-GONZ-025`, "a ten-
+// or fifteen-foot passage"; owner, 2026-09-24 - one cell until then), the saddlebag's double chimney one cell. Written out
+// here, not read from the catalogue. To within `APART` of it: drawn where their cells are, they were three and a half
+// times that apart on the screen.
+const BETWEEN = { 'dog-run': 1.5, saddlebag: 1 };
 const APART = 0.2;
 
 const TWO_PEN = catalogue.plans.filter(plan => plan.pieces.filter(([type]) => type.startsWith('pen-')).length > 1).map(plan => plan.id);
@@ -160,14 +164,14 @@ for (const plan of TWO_PEN) {
     }
   });
 
-  test(`the ${plan}'s pens stand the plan's one cell apart along their ridge, and what stands between touches both, at every stage and turn`, () => {
+  test(`the ${plan}'s pens stand ${BETWEEN[plan]} cells of the plan apart along their ridge, and what stands between touches both, at every stage and turn`, () => {
     for (const penStage of [1, 5, 12, 13]) for (const { where, rotation, ctx } of draws(plan, penStage)) {
       const what = `${plan} at stage ${penStage}, ${where}`, { far, near, between } = house(plan, rotation, ctx);
-      // The near pen's back gable faces the far pen's door gable across the passage or the chimney: a cell of the plan, half
-      // a pen's depth, apart on the ground.
+      // The near pen's back gable faces the far pen's door gable across the passage or the chimney: twelve feet of passage
+      // or a cell of chimney, a cell being half a pen's depth, apart on the ground.
       if (/full-walls$/.test(far.walls.name) && /full-walls$/.test(near.walls.name)) {
         const [f, n] = [groundOf(far.walls), groundOf(near.walls)], gap = Math.hypot(f.door.x - n.back.x, f.door.y - n.back.y);
-        assert.ok(Math.abs(gap / (n.depth / 2) - 1) <= APART, `${what}: the pens' facing gables stand ${(gap / (n.depth / 2)).toFixed(2)} of a cell apart`);
+        assert.ok(Math.abs(gap / (n.depth / 2) / BETWEEN[plan] - 1) <= APART, `${what}: the pens' facing gables stand ${(gap / (n.depth / 2)).toFixed(2)} cells apart, not ${BETWEEN[plan]}`);
       }
       // No grass between: the pens' pictures touch, and so does what stands between them - the passage, the chimney - both.
       const box = pictures => pictures.reduce((a, b) => ({ left: Math.min(a.left, b.box.left), top: Math.min(a.top, b.box.top), right: Math.max(a.right, b.box.right), bottom: Math.max(a.bottom, b.box.bottom) }), { left: Infinity, top: Infinity, right: -Infinity, bottom: -Infinity });

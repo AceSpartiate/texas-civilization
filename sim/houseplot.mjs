@@ -34,6 +34,17 @@ import { rainHold } from './weather.mjs';
 /** The house plot is this many eight-foot cells wide and deep. */
 export const PLOT_COLUMNS = 8;
 export const PLOT_ROWS = 6;
+/** How many feet one cell of the plot is. A piece's size and place are in cells, to the half cell: four feet. */
+export const CELL_FEET = 8;
+/**
+ * How wide a dog-run's open passage is, in feet between its two pens: `HIST-GONZ-025` gives "a ten- or fifteen-foot
+ * passage", and the owner chose twelve (2026-09-24). It was one eight-foot cell until then, narrower than the source's
+ * narrowest. A cell and a half of the plot, so its pieces stand to the half cell (`HALF`) rather than round it to sixteen.
+ */
+export const PASSAGE_FEET = 12;
+const PASSAGE_CELLS = PASSAGE_FEET / CELL_FEET;
+/** Half a cell, the finest a piece's size or place on the plot is measured in. */
+const HALF = 2;
 /** A course of wall logs above this one wants two people on it at once. */
 export const TWO_HANDED_ABOVE = 6;
 /** Work is counted in thirds of a spell, so one person on a two-handed course puts in a third. */
@@ -56,9 +67,10 @@ const logPen = (courseWork) => [
 const piece = fields => Object.freeze({ ...fields, stages: Object.freeze(fields.stages.map(stage => Object.freeze(stage))) });
 
 /**
- * The pieces a house is made of. `w` and `h` are cells; `place` is the rule for where it may go (see `placeRefusal`);
- * `pen` marks a room people sleep in, with its `room`, `rest` (share of the ordinary rest) and `spoil` (share of the food
- * spoiling a day); the rest of a piece's effect is in `shelter`.
+ * The pieces a house is made of. `w` and `h` are cells, to the half cell (the passage is `PASSAGE_CELLS`, a cell and a
+ * half, wide); `place` is the rule for where it may go (see `placeRefusal`); `pen` marks a room people sleep in, with its
+ * `room`, `rest` (share of the ordinary rest) and `spoil` (share of the food spoiling a day); the rest of a piece's effect
+ * is in `shelter`.
  */
 export const PIECES = Object.freeze({
   'pen-round': piece({
@@ -83,11 +95,13 @@ export const PIECES = Object.freeze({
       { id: 'thatch', doing: 'thatching the roof', work: 5, wet: 'roof' },
     ],
   }),
+  // Its roof is four wall logs and four of work for every cell of passage it covers (it was one cell, 4 and 4, until
+  // 2026-09-24): a passage twelve feet wide takes half again the rafters and clapboards of one eight feet wide.
   passage: piece({
-    id: 'passage', name: 'Open passage', w: 1, h: 2, place: 'between', needs: ['axe'],
-    describe: 'An open breezeway between two pens in a row, under one roof with them: the dog-run.',
+    id: 'passage', name: 'Open passage', w: PASSAGE_CELLS, h: 2, place: 'between', needs: ['axe'],
+    describe: 'An open breezeway twelve feet wide between two pens in a row, under one roof with them: the dog-run.',
     does: 'A cool place to keep things: food spoils half as fast in the pens beside it.',
-    stages: [{ id: 'roof', doing: 'roofing over the passage', work: 4, logs: { wall: 4 }, wet: 'roof' }],
+    stages: [{ id: 'roof', doing: 'roofing over the passage', work: 4 * PASSAGE_CELLS, logs: { wall: 4 * PASSAGE_CELLS }, wet: 'roof' }],
   }),
   chimney: piece({
     id: 'chimney', name: 'Stick-and-mud chimney', w: 1, h: 1, place: 'end', needs: [],
@@ -141,13 +155,17 @@ export const PIECE_IDS = Object.keys(PIECES);
 export const PLANS = Object.freeze({
   'round-log': { name: 'Round-log cabin', pieces: [['pen-round', 3, 2], ['chimney', 5, 2]] },
   'hewn-log': { name: 'Hewn-log cabin', pieces: [['pen-hewn', 3, 2], ['chimney', 5, 2]] },
-  'dog-run': { name: 'Dog-run house', pieces: [['pen-round', 1, 2], ['passage', 3, 2], ['pen-round', 4, 2], ['chimney', 0, 2], ['chimney', 6, 2]] },
+  // The east pen stands the passage's width beyond the west one's east wall, and its chimney beyond it: 7.5 cells, 60 feet.
+  'dog-run': { name: 'Dog-run house', pieces: [['pen-round', 1, 2], ['passage', 3, 2], ['pen-round', 3 + PASSAGE_CELLS, 2], ['chimney', 0, 2], ['chimney', 5 + PASSAGE_CELLS, 2]] },
   saddlebag: { name: 'Saddlebag house', pieces: [['pen-round', 1, 2], ['chimney-double', 3, 2], ['pen-round', 4, 2]] },
   jacal: { name: 'Jacal', pieces: [['pen-jacal', 3, 2]] },
 });
 export const PLAN_IDS = Object.keys(PLANS);
 
-const cellsOf = p => { const kind = PIECES[p.type]; return Array.from({ length: kind.w * kind.h }, (_, i) => `${p.x + (i % kind.w)},${p.y + Math.floor(i / kind.w)}`); };
+/** The half cells a piece covers, as "column,row" in half cells: a passage a cell and a half wide covers three across. */
+const cellsOf = p => { const kind = PIECES[p.type], w = kind.w * HALF, h = kind.h * HALF; return Array.from({ length: w * h }, (_, i) => `${p.x * HALF + (i % w)},${p.y * HALF + Math.floor(i / w)}`); };
+/** Whether a place on the plot is a whole number of half cells. */
+const onPlot = n => Number.isInteger(n * HALF);
 const pensOf = pieces => pieces.filter(p => PIECES[p.type]?.pen);
 const penAt = (pieces, x, y) => pensOf(pieces).find(pen => x >= pen.x && x < pen.x + 2 && y >= pen.y && y < pen.y + 2);
 
@@ -156,7 +174,7 @@ export function pensFor(pieces, p) {
   const kind = PIECES[p.type];
   if (kind.pen) return [p];
   if (kind.place === 'in') return pensOf(pieces).filter(pen => pen.x === p.x && pen.y === p.y);
-  if (kind.place === 'between') return pensOf(pieces).filter(pen => pen.y === p.y && (pen.x + 2 === p.x || pen.x === p.x + 1));
+  if (kind.place === 'between') return pensOf(pieces).filter(pen => pen.y === p.y && (pen.x + 2 === p.x || pen.x === p.x + kind.w));
   if (kind.place === 'end') return pensOf(pieces).filter(pen => (pen.x + 2 === p.x || pen.x - 1 === p.x) && p.y >= pen.y && p.y < pen.y + 2);
   if (kind.place === 'back') return pensOf(pieces).filter(pen => pen.x === p.x && pen.y + 2 === p.y);
   if (kind.place === 'front') return pensOf(pieces).filter(pen => pen.x === p.x && pen.y - 1 === p.y);
@@ -167,7 +185,7 @@ export function pensFor(pieces, p) {
 export function placeRefusal(pieces, p) {
   const kind = PIECES[p?.type];
   if (!kind) return 'That is not a piece of any house built here.';
-  if (!Number.isInteger(p.x) || !Number.isInteger(p.y) || p.x < 0 || p.y < 0 || p.x + kind.w > PLOT_COLUMNS || p.y + kind.h > PLOT_ROWS) return 'That runs off the house plot.';
+  if (!onPlot(p.x) || !onPlot(p.y) || p.x < 0 || p.y < 0 || p.x + kind.w > PLOT_COLUMNS || p.y + kind.h > PLOT_ROWS) return 'That runs off the house plot.';
   if (kind.place === 'in') {
     const pen = pensOf(pieces).find(each => each.x === p.x && each.y === p.y);
     if (!pen || pen.type === 'pen-jacal') return `A ${kind.name.toLowerCase()} goes inside a log pen.`;
@@ -195,6 +213,56 @@ export function planInvalid(pieces) {
     if (why) return why;
   }
   return null;
+}
+
+/** Every piece on the plot and none over another: `planInvalid`'s first two rules, for a plot while it is being changed. */
+function fits(pieces) {
+  const cells = pieces.filter(p => PIECES[p.type].place !== 'in').flatMap(cellsOf);
+  return new Set(cells).size === cells.length && pieces.every(p => p.x >= 0 && p.y >= 0 && p.x + PIECES[p.type].w <= PLOT_COLUMNS && p.y + PIECES[p.type].h <= PLOT_ROWS);
+}
+
+/**
+ * A house planned or raised before 2026-09-24, when a dog-run's open passage was one eight-foot cell, laid out again with
+ * the passage `PASSAGE_FEET` wide: its east pen, and everything east of the passage in its rows, half a cell further east
+ * (with what stands in, before or behind a pen that moves) - or, where that runs off the plot, its west pen and what is
+ * west of it half a cell further west, the passage with them. Changes `house.pieces` in place and returns whether it did.
+ *
+ * Nothing is built, pulled down, paid or refunded: every piece keeps its stage and its progress. A passage already roofed
+ * stays roofed; one begun keeps the four logs it took and its work so far, and now wants six of work in all; one not begun
+ * wants the six logs a passage takes now. The house stands where it was placed and is drawn a half cell longer, and nothing
+ * judges the ground under an old house again (sim/house-placement.mjs), so it opens as it was, only wider.
+ * ceiling: a free-built plot with no half cell to spare on either side of an old passage is left as it was, and then fails
+ * `plotInvalid` and its class does not open. No plan is one (the dog-run widens east to 7.5 cells of 8), the plot's grid has
+ * not been offered to a student since the plans became the whole choice, and no save has one; the way out is to let such a
+ * plot keep a narrow passage of its own.
+ */
+export function widenPassages(house) {
+  const pieces = house?.pieces;
+  if (!Array.isArray(pieces) || !pieces.every(p => PIECES[p?.type] && Number.isFinite(p.x) && Number.isFinite(p.y))) return false;
+  const old = pieces.map(p => ({ ...p })), grow = PASSAGE_CELLS - 1;
+  const rows = (p, passage) => p.y < passage.y + 2 && p.y + PIECES[p.type].h > passage.y;
+  let changed = false;
+  for (let i = 0; i < old.length; i++) {
+    const passage = old[i];
+    if (passage.type !== 'passage') continue;
+    const pens = pensOf(old).filter(pen => pen.y === passage.y);
+    if (!pens.some(pen => pen.x + 2 === passage.x) || !pens.some(pen => pen.x === passage.x + 1)) continue;
+    // One side of the passage in its rows, and what stands in, before or behind a pen of that side.
+    const side = east => {
+      const moved = new Set(old.filter(p => p !== passage && rows(p, passage) && (east ? p.x >= passage.x + 1 : p.x + PIECES[p.type].w <= passage.x)));
+      for (const p of old) if (['in', 'front', 'back'].includes(PIECES[p.type].place) && pensFor(old, p).some(pen => moved.has(pen))) moved.add(p);
+      return moved;
+    };
+    const east = side(true), west = side(false);
+    const tried = [[east, grow], [new Set([...west, passage]), -grow]].map(([moved, by]) => old.map(p => moved.has(p) ? { ...p, x: p.x + by } : p));
+    const next = tried.find(fits);
+    if (!next) continue;
+    next.forEach((p, j) => Object.assign(old[j], p));
+    changed = true;
+  }
+  if (!changed || planInvalid(old)) return false;
+  old.forEach((p, j) => { pieces[j].x = p.x; pieces[j].y = p.y; });
+  return true;
 }
 
 /** A plan's pieces, fresh, with no work done. */

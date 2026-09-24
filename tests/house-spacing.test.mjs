@@ -141,8 +141,8 @@ function pairSite(world, household, offsets) {
 // East of the first cabin: footprints over one another; footprints clear by less than two pictures' overhang, so one's
 // picture is over the other's ground; just clear. North of it: clear of its footprint and under its roof; just clear of
 // that. The rule's numbers (sim/house-footprint.mjs `PICTURE_REACH`) written out, so a change to them is seen here.
-const OVER = [W - C / 2, 0], PICTURE_OVER = [W + 0.5 * C, 0], CLEAR = [W + 2 * 1.3 * C + 1e-6, 0];
-const UNDER_ROOF = [0, -(H + 0.5 * C)], CLEAR_NORTH = [0, -(H + (1.5 + 0.8) * C + 1e-6)];
+const OVER = [W - C / 2, 0], PICTURE_OVER = [W + 0.5 * C, 0], CLEAR = [W + 2 * 1.4 * C + 1e-6, 0];
+const UNDER_ROOF = [0, -(H + 0.5 * C)], CLEAR_NORTH = [0, -(H + (1.6 + 0.9) * C + 1e-6)];
 const spacing = onTheLand('house-spacing-pair');
 const first = pairSite(spacing.world, spacing.household, [OVER, PICTURE_OVER, CLEAR, UNDER_ROOF, CLEAR_NORTH]);
 const beside = ([dx, dy]) => ({ x: first.x + dx, y: first.y + dy, rotation: 0 });
